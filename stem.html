@@ -1,0 +1,280 @@
+<!doctype html>
+<html>
+<style>
+#theciphertext{
+	display: none;
+}
+#theplaintext{
+	width: 80%;
+	margin:auto;
+}
+html{
+	background: black;
+}
+body{
+	width: 80%;
+	margin:auto;
+	background: white;
+	padding: 20px;
+}
+button.control{
+	font-family: "Courier New", Courier, monospace;
+	font-size: 14.0pt;
+	font-weight: bold;
+}
+textarea{
+	font-family: "Courier New", Courier, monospace;
+	font-size: 14.0pt;
+	font-weight: bold;
+}
+li.ex{
+	margin-top:20px;
+	background: lightgray;
+}
+td{
+	text-align:center;
+}
+button.ex{
+	text-align: left;
+	margin: 10px;
+}
+</style>
+<script type="text/javascript">
+var aValue = "a".charCodeAt(0);
+var AValue = "A".charCodeAt(0);
+var spaceValue = " ".charCodeAt(0);
+
+function countSubstrings(a, b){
+	c=0;
+	for (i=0;i<b.length;i++)
+		if (a == b.substr(i, a.length))
+			c++;
+	return( c);
+	}
+
+function moveSpaces(form){
+	ciphertext = form.ciphertext.value;
+	plaintext = form.plaintext.value;
+	outcipher = "";
+	
+	c=0;
+	for (i=0;i<plaintext.length;i++){
+		pl=plaintext.charAt(i);
+		cl=ciphertext.charAt(c);
+		if ((pl==" ") && (pl != cl)){
+			outcipher=outcipher+" ";
+i++;
+			}
+		outcipher = outcipher + cl;
+		c++;			
+		}
+	form.ciphertext.value=outcipher;
+	}
+
+function frequencies(form){
+	
+	intext=form.ciphertext.value.toLowerCase();
+	msg="";
+
+	freqs = new Array(26);
+	sorted = new Array(26);
+
+	for (var i=0;i<26;i++){
+		s=String.fromCharCode(i+aValue)
+		freqs[i]=countSubstrings(s, intext);
+		}
+	for (var j=0;j<26;j++)
+		sorted[j]=j;
+
+	for (var i=0;i<26;i++)
+		for (var j=i+1;j<26;j++)
+			if (freqs[sorted[j]]>freqs[sorted[i]]){
+				k=sorted[i];
+				sorted[i]=sorted[j];
+				sorted[j]=k;
+				}
+	msg+='<h2>Single Letter Frequencies</h2><br><table border=1><tr>';
+	for (var i=0;i<26;i++)
+		msg+='<td>'+String.fromCharCode(sorted[i]+aValue)+'</td>';
+	msg+='</tr>';
+	for (var i=0;i<26;i++)
+		msg+='<td>'+freqs[sorted[i]]+'</td>';
+	msg+='</tr></table>';
+
+	msg+='<h2>Digram Frequencies</h2><br><table border=1><tr><td></td>';
+	for (var i=0;i<26;i++)
+		msg+='<td>'+String.fromCharCode(i+aValue)+'</td>';
+	msg+='</tr>';
+	for (var i=0;i<26;i++){
+		msg+='<tr><td>'+String.fromCharCode(i+aValue)+'</td>';
+		for (var j=0;j<26;j++)
+			msg+='<td>'+countSubstrings(String.fromCharCode(i+aValue, j+aValue), intext)+'</td>';
+		msg+='</tr>';
+		}
+	msg+='</table>';	
+
+	var d= intext.length-3;
+	var numtrigrams=0;
+	var trigrams = new Array();
+	var trigramnames = new Array(d);
+	var trigramorder = new Array(d);
+	for (var j=0;j<d;j++){
+		trigramnames[j]="";
+		trigramorder[j]=j;
+		}
+
+	for (var i=0;i<d;i++){
+		trigram=intext.substr(i, 3);
+		if (trigram.indexOf(' ') == -1){
+			trigrams[trigram]=countSubstrings(trigram, intext);
+			for (var j=0;j<numtrigrams;j++){
+				if (trigram == trigramnames[j])
+					j=d+1;
+				}
+			if (j== numtrigrams)
+				trigramnames[numtrigrams++]=trigram;
+			}
+		}
+
+	for (var i=0;i<numtrigrams;i++)
+		for (var j=i+1;j<numtrigrams;j++)
+			if (trigrams[trigramnames[trigramorder[j]]]>trigrams[trigramnames[trigramorder[i]]]){
+				k=trigramorder[i];
+				trigramorder[i]=trigramorder[j];
+				trigramorder[j]=k;
+				}
+
+
+	msg+='<h2>Trigram Frequencies</h2><table border=1>';
+	for (var i=0;i<numtrigrams;i++)
+		if (trigrams[trigramnames[trigramorder[i]]] > 1)
+			msg+='<tr><td>'+trigramnames[trigramorder[i]]+'</td><td>'+trigrams[trigramnames[trigramorder[i]]]+'</td></tr>';
+	msg+='</table>';
+	thestats.innerHTML=msg;
+	}
+function substitute(form){
+	intext=form.ciphertext.value.toUpperCase();
+	form.ciphertext.value=intext;
+	outtext="";
+	for (i=0;i<intext.length;i++){
+		C =  intext.charAt(i);
+		c=  intext.charCodeAt(i);
+		if (c==spaceValue)
+			outtext=outtext+" ";
+		else {
+			c=c-AValue;
+			if ((0<=c) && (c<=25) && (form.A[c].value != ""))
+				outtext = outtext + form.A[c].value ;
+			else
+				outtext = outtext + C;
+			}
+		}
+	form.plaintext.value=outtext;
+	}
+function clearguesses(form){
+	for (i=0;i<26;i++)
+		form.A[i].value="";
+	thestats.innerHTML="";
+	}
+function clearall(form){
+	clearguesses(form);
+	form.ciphertext.value="";
+	form.plaintext.value="";
+	}
+
+
+</script>
+<title>Frequency Analysis</title>
+<body>
+<center><h1>Frequency Analysis</h1>
+
+<FORM name="theform">
+<textarea name="ciphertext" rows=7 id="theciphertext">GL ODCCAL UDN SC DPNOSC XDOA HLSGDW CSMIO QSNSOSCM HDBSXW USOI ISN USHA NIA JFNOAG D NOLADBSCM QSGAF FH OIA MLDCGZISXGLAC MLAAOSCM OIAB UIAC OIAW DLLSQAG DO OAC HFLOW HSQA JB OIAW NODWAG FQALCSMIO</textarea><br>
+<textarea name="plaintext" rows=7 id="theplaintext">GL ODCCAL UDN SC DPNOSC XDOA HLSGDW CSMIO QSNSOSCM HDBSXW USOI ISN USHA NIA JFNOAG D NOLADBSCM QSGAF FH OIA MLDCGZISXGLAC MLAAOSCM OIAB UIAC OIAW DLLSQAG DO OAC HFLOW HSQA JB OIAW NODWAG FQALCSMIO</textarea><br><br>
+<table border=1>
+<tr>
+<td> A </td>
+<td> B </td>
+<td> C </td>
+<td> D </td>
+<td> E </td>
+<td> F </td>
+<td> G </td>
+<td> H </td>
+<td> I </td>
+<td> J </td>
+<td> K </td>
+<td> L </td>
+<td> M </td>
+</tr>
+
+<tr>
+<td> 
+	<select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select></td>	
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select></td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select></td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select></td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select></td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+</tr>
+
+<tr></tr>
+
+<tr>
+<td> N </td>
+<td> O </td>
+<td> P </td>
+<td> Q </td>
+<td> R </td>
+<td> S </td>
+<td> T </td>
+<td> U </td>
+<td> V </td>
+<td> W </td>
+<td> X </td>
+<td> Y </td>
+<td> Z </td>
+</tr>
+
+<tr>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+<td> <select onchange="substitute(theform);" name='A'><option></option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option><option>q</option><option>r</option><option>s</option><option>t</option><option>u</option><option>v</option><option>w</option><option>x</option><option>y</option><option>z</option></select> </td>
+</tr>
+</table><br>
+</FORM>
+<button  class='control' value="Clear Guesses" onclick="clearguesses(theform)">Clear Guesses</button>
+<button  class='control' value="See Stats" onclick="frequencies(theform)">See Stats</button>
+
+</center>
+
+<b>Useful information:</b>
+<ul>
+<li> Most Common Letters: E T A O N I S H R D </li>
+<li> Most Common Double Letters: LL TT EE SS OO </li>
+<li> Most Common Digrams: TH HE IN ER AN RE ES ND EN ON </li>
+<li> Most Common Trigrams: THE AND ING HER THA ERE HAT ENT ETH NTH </li>
+</ul>
+
+<div id='thestats'></div>
+
+</body>
+</html>
+
