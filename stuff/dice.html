@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+		<script type="text/javascript" src="spork.js"></script>
+		<script>
+function histo(a){
+  var i,l, w,m;
+  l=a.length;
+  w=width/l;
+  m=0;
+  for (i=0;i<l;i++)
+    if (a[i]>m)
+      m=a[i];
+  for (i=0;i<l;i++){
+    rect(i*w,height,w,-(height*a[i]/m));
+    fill();
+  }
+}
+
+var counts=[];
+var n=10;
+var s=6;
+var split=n;
+var f;
+
+function setup(){
+   f=0;
+  size(1200,200);
+  var i;
+  for (i=0;i<split*s;i++)
+    counts[i]=0;
+  loop();
+}
+
+function draw(){
+  var i;
+  var r=0;
+  f++;  
+  for (i=0;i<n;i++)
+    r+=floor(random()*s);
+  r=round(split*r/n);
+  counts[r]++;
+  clear();
+  histo(counts);
+  filltext(f,10,50)
+}
+function reset(){
+	stoploop();
+	n=eval(sampleSize.value);
+	s=eval(numberOfSides.value);
+	split=n;
+	counts=[];
+	startover();
+}
+		</script>
+	</head>
+	<body >
+		<div id='spork'></div><br>
+		number of sides: <input type='text' id='numberOfSides' value='6'><br>
+		sample size: <input type='text' id='sampleSize' value='10'><br>
+		<button onclick='reset();'>Start Over</button>
+		<button onclick='stoploop();'>Stop</button>
+		<button onclick='startloop();'>Go</button>
+</html>

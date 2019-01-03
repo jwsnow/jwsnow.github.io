@@ -1,0 +1,2097 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+<title>JWSnow Calculator</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<script>
+var epsilon=.000000001;
+
+// Adjust Input Stuff *********************************************
+function trimWhite(str){
+	str = str.replace(/\r/, '');
+	str = str.replace(/\n/, '');
+	return str.replace(/^\s+|\s+$/g, '');
+	}
+function trimEndWhite(str){
+	str = str.replace(/,/g, '\n');
+	str = str.replace(/^\r|\r$/, '');
+	str = str.replace(/^\n|\n$/, '');
+	return(str);
+	}
+function fixExponents(s){
+	var i=0;
+	var re1=/:OP(\d+):([^]*):CP\1:\s*\^\s*:OP(\d+):([^]*):CP\3:/
+	var re2=/:OP(\d+):([^]*):CP\1:\s*\^\s*(\w*)/
+	var re3=/(\w*)\s*\^\s*:OP(\d+):([^]*):CP\2:/
+	var re4=/(\w*)\s*\^\s*(\w*)/
+	while (s.search(/\(([^()]*)\)/)!=-1){
+		s=s.replace(/\(([^()]*)\)/, ':OP'+i+':$1:CP'+i+':');
+		i++;
+	}
+	while (s.search(re1) != -1)
+		s=s.replace(re1,"pow($2,$4)");
+	while (s.search(re2) != -1)
+		s=s.replace(re2,"pow($2,$3)");
+	while (s.search(re3) != -1)
+		s=s.replace(re3,"pow($1,$3)");
+	while (s.search(re4) != -1)
+		s=s.replace(re4,"pow($1,$2)");
+	while (s.search(/:OP\d+:/) != -1)
+		s=s.replace(/:OP\d+:/,'(');
+	while (s.search(/:CP\d+:/) != -1)
+		s=s.replace(/:CP\d+:/,')');
+	return(s);
+}	
+//**********************************************************
+//*DISTRIBUTIONS STUFF *********************************
+
+// Discrete distributions *************************************************************
+function factorial(n){
+	if ((n==0) || (n==1))
+		return(1);
+	else
+		return(n*factorial(n-1));
+	}
+function perm(n,k){
+	return(factorial(n)/factorial(n-k));
+	}
+function combo(n,k){
+	return(factorial(n)/(factorial(k)*factorial(n-k)));
+	}
+function binompdf(n,p,x){
+//	return(Math.pow(p,x)*Math.pow(1-p,n-x)*factorial(n)/(factorial(n-x)*factorial(x)));
+	var a, q, i, m, s, z1, z2;
+
+	if (n<=1000){
+		q=1-p;
+		a=1;
+		m=n;
+		for (i=1;i<=x;i++){
+			a=a*p*m/i;
+			m=m-1;
+			}
+		for (i=1;i<=n-x;i++)
+			a=a*q;
+		}
+	else{
+		m=n*p;
+		s=Math.sqrt(n*p*(1-p));
+		z1=((x-0.5)-m)/s;
+		z2=((x+0.5)-m)/s;
+		a=normalcdf(z1, z2);
+		}
+	return(a);
+	}
+function binomcdf(n,p,x){
+	var sum, k, m, s, z;
+
+	if (n<=1000){
+		sum=0;
+		for (k=0;k<=x;k++)
+			sum+=binompdf(n,p,k);
+		}
+	else{
+		m=n*p;
+		s=Math.sqrt(n*p*(1-p));
+		z=(x+0.5-m)/s;
+		sum=normalcdf(z);
+		}
+	return(sum);
+	}
+function logFac(x){
+	var r=0;
+	var i;
+	for (i=1;i<=x;i++)
+		r+=Math.log(i);
+	return(r);
+	}
+function poissonpdf(m,x){
+//	return(Math.pow(m,x)*Math.exp(-m)/factorial(x));
+	return(Math.exp(x*Math.log(m)-m-logFac(x)));
+	}
+function poissoncdf(m,x){
+	var sum, k;
+
+	sum=0;
+	for (k=0;k<=x;k++)
+		sum+=poissonpdf(m,k);
+	return(sum);
+	}
+
+//*************************************************************************************
+
+// Normal Distribution *******************************************
+function normalpdf(x){
+	return(Math.exp(-0.5*x*x)/Math.sqrt(2*Math.PI));
+	}
+function normalcdf(x,y,mean,stdev){
+
+	if (( mean!=undefined) && (stdev != undefined)){
+		return(normalcdf((x-mean)/stdev, (y-mean)/stdev));
+		}
+	else{
+		if (y==undefined){
+			var X;
+			if (x<-9) X=-9;
+			else if (x>9) X=9;
+			else X=x;
+			var s=X;
+			var t=0;
+			var b=X;
+			var q=X*X;
+			var i=1;
+			while(s!=t) 
+				s=(t=s)+(b*=q/(i+=2));
+			return (.5+s*Math.exp(-.5*q-.91893853320467274178));
+			}
+		else{
+			return(normalcdf(y)-normalcdf(x));
+			}
+		}
+	}
+var bisectFunction;
+function bisect(left, leftvalue, right,rightvalue){
+	var middle;
+	middle = ((left+right)/2);
+	middlevalue=bisectFunction(middle);
+	if ((Math.abs(middlevalue) < epsilon) || ((right-left)<epsilon))
+		return (middle);
+	else{
+		if (leftvalue*middlevalue <= 0)
+			return(bisect(left,leftvalue, middle,middlevalue));
+		else
+			return(bisect(middle,middlevalue, right,rightvalue));
+		}
+	}
+function invnorm(x, mean, stdev){
+	var thefun;
+	var r;
+	thefun='normalcdf(x)-'+x;
+	bisectFunction=function(x){
+		var value;
+		with(Math){
+			value = eval(thefun);				
+			}
+		return(value);
+		};
+	r=(bisect(-9,0-x,9,1-x));
+	if ((mean != undefined) && (stdev != undefined))
+		r=mean+stdev*r;
+	return(r);
+	}
+//****************************************************************
+
+function fequal(f, g, l, h, n){
+	var fDiffEpsilon=0.01;
+	var fFunction = function(x){
+		var value	
+		with (Math){
+			value=eval(f);
+			}
+		return value;
+		}
+	var gFunction = function(x){
+		var value	
+		with (Math){
+			value=eval(g);
+			}
+		return value;
+		}
+
+	var dx, sum, x, diff;
+	if ((n==undefined)||(n<=0))
+		n=100;
+	dx=(h-l)/n;
+	
+	sum=0;
+	for (x=l;x<=h;x+=dx){
+		diff=(fFunction(x)) - (gFunction(x));
+		sum+=diff*diff;
+		}
+	if (sum<fDiffEpsilon)
+		return(1);
+	else
+		return(0);
+	}
+
+// supporting functions ******************************************
+function integrate(thefun, a, b){
+	var dx,X,sum,n,k;
+
+	var integralFunction = 
+		function(x){
+			var value;
+			with(Math){
+				value = eval(thefun);				
+				}
+			return(value);
+			};
+
+	n=10000;
+	dx=(b-a)/n;
+	sum=0;
+	for (k=1;k<n;k++){
+		X=a+k*dx;
+		sum += 2*integralFunction(X);
+		}
+	sum += integralFunction(a)+integralFunction(b);
+	return (sum*(b-a)/(2*n));
+	}
+var P = new Array(7);
+P[0] = 1.000000000190015
+P[1] = 76.18009172947146
+P[2] = -86.50532032941677
+P[3] = 24.01409824083091
+P[4] =  -1.231739572450155
+P[5] = 0.001208650973866179
+P[6] = -0.000005395239384953
+function gamma(z){
+	var sum;
+	var i;
+	if (z==0)
+		return(1);
+	else if (z==0.5)
+		return(1.7724538509055931);
+	else if (z==1)
+		return(1);
+	else{
+		sum=P[0];
+		for (i=1;i<7;i++)
+			sum+=P[i]/(z+i);
+		return((Math.sqrt(2*Math.PI)*sum/z)*Math.pow(z+5.5,z+0.5)*Math.exp(-(z+5.5)));
+		}
+	}
+function logGamma(z){
+	if (z<2)
+		return(Math.log(gamma(z)));
+	else
+		return(Math.log(z-1) + logGamma(z-1));
+	}
+
+function logBeta(x,y){
+	return(logGamma(x)+logGamma(y)-logGamma(x+y));
+	}
+function beta(x,y){
+	return(Math.exp(logBeta(x,y)));
+//	return(gamma(x)*gamma(y)/gamma(x+y));
+	}
+function RIB(x,a,b){
+	var c,sum,n,term,logterm,logx;
+
+	c=Math.pow(x,a)*Math.pow(1-x,b)/(a*beta(a,b));
+	sum=0;
+	term=1;
+	n=0;
+	logx=Math.log(x);
+	while (term>epsilon){
+		sum+=term;
+//		term=Math.pow(x,n+1)*beta(a+1,n+1)/beta(a+b,n+1);
+		logterm=(n+1)*logx+logBeta(a+1,n+1)-logBeta(a+b,n+1);
+		term=Math.exp(logterm);
+		n++;
+		}
+	return(c*(sum+term));
+	}
+function LIG(s,z){
+	if (s>1){
+		return((s-1)*LIG(s-1,z)-Math.pow(z,s-1)*Math.exp(-z));
+		}
+	else{
+		var k;
+		var sum;
+		var term;
+		var n;
+		var bob;
+
+		sum=0;
+		term=1;
+		k=0;
+		while (term > epsilon){
+			sum+=term;
+			k++;
+			term=term*z/(s+k);
+			}
+		return((sum+term)*Math.pow(z,s)/(s*Math.exp(z)));	
+		}
+	}
+//****************************************************************
+
+// t Distribution ************************************************
+function logtpdf(x,df){
+	return(logGamma((df+1)/2)-0.5*Math.log(df*Math.PI)-logGamma(df/2)-((df+1)/2)*Math.log(1+x*x/df));
+	}
+function tpdf(x,df){
+	return(Math.exp(logtpdf(x,df)));
+	}
+function tIntegral(n, t){
+//Calculates int(1/((1+x^2)^n), x, 0, t) recursively	
+	if (n==1)
+		return(Math.atan(t));
+	else if (n==0.5)
+		return(Math.log(Math.sqrt(1+t*t)+t));
+	else 
+		return(tIntegral(n-1,t)*(2*n-3)/(2*(n-1)) + t/(2*(n-1)*Math.pow(1+t*t, n-1)));
+	}
+function tPDFco(df){
+//calculates coefficient for t pdf fcn
+	return(Math.exp(logGamma((df+1)/2)-0.5*Math.log(df*Math.PI)-logGamma(df/2)));
+	}
+function tcdf(t,a,b){
+	var df, Q;
+	if (b==undefined){
+		df=a;
+		Q=tPDFco(df)*Math.sqrt(df)*tIntegral((df+1)/2, Math.abs(t)/Math.sqrt(df));
+		if (t>=0)
+			return(0.5+Q);
+		else
+			return(0.5-Q);
+		}
+	else
+		return(tcdf(a,b)-tcdf(t,b));
+	}
+function oldtcdf(t,a,b){
+	if (b==undefined){
+		df=a;
+		var x = (t+Math.sqrt(t*t+df))/(2*Math.sqrt(t*t+df));
+		var df2 = df/2;
+		return(RIB(x, df2,df2));
+		}
+	else
+		return(tcdf(a,b)-tcdf(t,b));
+	}
+function invt(x,df){
+	var thefun='tcdf(x,'+df+')-'+x;
+	bisectFunction=function(x){
+		var value;
+		with(Math){
+			value = eval(thefun);				
+			}
+		return(value);
+		};
+	return(bisect(-100,tcdf(-100,df)-x,100,tcdf(100,df)-x));
+	}
+
+//****************************************************************
+
+
+// chi2 distribution *********************************************
+function chi2pdf(x, df){
+	if (df<=1){
+		var bottom = Math.sqrt(2)*gamma(0.5);
+		return(1/(bottom*Math.sqrt(x*Math.exp(x))));
+		}
+	else
+		return((Math.pow(x,df/2-1)*Math.exp(-x/2))/(Math.pow(2,df/2)*gamma(df/2)));
+	}
+function chi2cdf(x, df){
+	if (df<=1){
+		return(LIG(df/2.0, x/2.0)/gamma(df/2));
+		}
+	else
+		return(integrate('chi2pdf(x, '+df+')',0,x ));
+	}
+//****************************************************************
+
+// F distribution ************************************************
+function fcdf(x, d1, d2){
+	var z;
+	z= d1*x /(d1*x + d2);
+	return(RIB(z, d1/2, d2/2));
+	}
+//****************************************************************
+//************************************************************
+//*************************************************************
+
+var textFocus;	//the "text area" div that input is going to
+var theInputDiv;	//the main input text area
+var inputs;		//array of all text area input divs
+var dialogs;		//array of all dialog divs
+var datalist;		//guess
+
+function addText(s){
+	textFocus.innerHTML += s;
+}
+function focusOnThis(t){
+	textFocus=t;
+	for (var i=0;i<inputs.length;i++)
+		inputs[i].style.border="1px solid black";
+	textFocus.style.border="1px solid red";
+}
+function hideDialogs(){
+	for (var i =0;i<dialogs.length;i++)
+		dialogs[i].style.display='none';
+	outputDiv.scrollTop=outputDiv.scrollHeight;
+	focusOnThis(theInputDiv);
+}
+function showDialog(d){
+	hideDialogs();
+	outputDiv.scrollTop=0;
+	document.getElementById(d).style.display='block';
+}
+function showMathDialog(d){
+	//hideDialogs();
+	outputDiv.scrollTop=0;
+	document.getElementById(d).style.display='block';
+}
+function insertMathCommand(t){
+	addText(t);
+	mathDialog.style.display='none';
+}
+function insertCommand(t){
+	addText(t);
+	hideDialogs();
+}
+function deleteChar(){
+	var l = textFocus.innerHTML.length;
+	textFocus.innerHTML = textFocus.innerHTML.substring(0,l-1);
+}
+function clearIn(){
+	inputText.innerHTML='';
+	}
+function clearAll(){
+	inputText.innerHTML="";
+	outputText.innerHTML="";
+	}
+var inputNumber=1;
+function handleEnter(intext){
+	var outtext;
+	
+	if (intext==undefined)
+		var intext=fixExponents(inputText.innerHTML);
+	try{
+		outtext=eval(intext);
+	}
+	catch(err){
+		outtext='Error:&nbsp&nbsp'+trimWhite(inputText.innerHTML);
+	}
+
+	outputText.innerHTML+="IN"+inputNumber+"> "+trimWhite(inputText.innerHTML)+"<br>&nbsp OUT"+inputNumber+"> "+outtext+" &nbsp <br>";
+	inputText.innerHTML='';
+	inputNumber++;	
+	outputDiv.scrollTop=outputDiv.scrollHeight;	
+	}
+function cacheMath(){
+	var aMathFunctions = Object.getOwnPropertyNames(Math);
+
+	for (var i in aMathFunctions){
+		window[aMathFunctions[i]] = Math[aMathFunctions[i]];
+	}
+}
+
+var theCanvas, width, height;
+
+onload=function(){
+	var canvasHandle;
+	
+	cacheMath();
+	textFocus = document.getElementById('inputText');
+	theInputDiv = textFocus;
+	inputs = document.getElementsByClassName('inputArea');
+	dialogs = document.getElementsByClassName('dialog');
+	datalist = document.getElementsByClassName('datalist');
+	
+	focusOnThis(theInputDiv);
+	for (var i=0; i< inputs.length; i++)
+		inputs[i].onclick = function(){focusOnThis(this);}
+	canvasHandle= document.getElementById('plotCanvas');
+	theCanvas = canvasHandle.getContext('2d');
+	width = canvasHandle.width;
+	height = canvasHandle.height;
+}
+function outputClicked(e){
+ if (e.target==outputDiv) hideDialogs();
+}
+//*************************************************
+//* list stuff ****************************************
+function showLists(){
+	printDataListsValueOnly();
+	listDiv.style.display='block';
+	listVisible=1;
+}
+function hideLists(){
+	listDiv.style.display='none';
+	loadDataLists();
+	listVisible=0;
+}
+// List Stuff *************************************************************************
+var listVisible=0;
+var numlists = 11
+var list = new Array(numlists);
+var listn = new Array(numlists);
+var listm = new Array(numlists);
+var listsd = new Array(numlists);
+var listmax = new Array(numlists);
+var listmin = new Array(numlists);
+var listmed = new Array(numlists);
+var listrange = new Array(numlists);
+var listsum = new Array(numlists);
+var listq1 = new Array(numlists);
+var listq3 = new Array(numlists);
+
+function printDataListsValueOnly(){
+	var i,j,sum, sumx2,max,min,med,half;
+	try{
+		for (i=0;i<10;i++)
+			datalist[i].value=list[i].join('\r');
+		}
+	catch(err){}
+	}
+
+function findListStats(i){
+	var i,j,sum, sumx2,max,min,med,half;
+		listn[i]=list[i].length;
+		for (j=0;j<listn[i];j++)
+			list[i][j]=eval(list[i][j]);
+		listn[i]=list[i].length
+		if ((listn[i]==1) && (list[i]==''))
+			listn[i]=0;
+		if (listn[i] > 1){
+			sum=0;
+			sumx2=0;
+			for (j=0;j<listn[i];j++){
+				sum+=list[i][j];
+				sumx2+=list[i][j]*list[i][j];
+				}
+			listm[i]=sum/listn[i];
+			listsd[i]=Math.sqrt((listn[i]*sumx2-sum*sum)/(listn[i]*(listn[i]-1)));
+			listsum[i]=sum;
+			}
+		else{
+			listm[i]=0;
+			listsd[i]=0;
+			}
+		if (listn[i]>0){
+			listmax[i]=list[i][0];
+			for (j=0;j<listn[i];j++)
+				if (list[i][j] > listmax[i])
+					listmax[i]=list[i][j];
+			}
+		else
+			listmax[i]=0;
+		if (listn[i]>0){
+			listmin[i]=list[i][0];
+			for (j=0;j<listn[i];j++)
+				if (list[i][j] < listmin[i])
+					listmin[i]=list[i][j];
+			}
+		else
+			listmin[i]=0;
+		listrange[i]=listmax[i]-listmin[i];
+		if (listn[i]>0){
+		var temp;
+		var sortedlist=new Array(listn[i]);
+		for (j=0;j<listn[i];j++)
+			sortedlist[j]=list[i][j];
+		for (j=0;j<listn[i];j++)
+			for (k=j+1;k<listn[i];k++)
+				if (sortedlist[k]<sortedlist[j]){
+					temp=sortedlist[k];
+					sortedlist[k]=sortedlist[j];
+					sortedlist[j]=temp;
+					}
+			half=Math.floor(listn[i]/2);
+			if (2*half == listn[i]){
+				listmed[i]=(sortedlist[half]+sortedlist[half-1])/2;
+				}
+			else{
+				listmed[i]=sortedlist[half];
+				}
+			quarter=Math.floor(listn[i]/4);
+			threequarter=Math.floor(3*listn[i]/4);
+			if (4*quarter == listn[i]){
+				listq1[i]=(sortedlist[quarter]+sortedlist[quarter-1])/2;
+				listq3[i]=(sortedlist[threequarter]+sortedlist[threequarter-1])/2;
+				}
+			else{
+				listq1[i]=sortedlist[quarter];
+				listq3[i]=sortedlist[threequarter];
+				}
+			}
+	}
+function findVarStats(i,p){
+	var x,j,sum, sumx2,max,min,med,half;
+		listn[i]=list[i].length;
+		for (j=0;j<listn[i];j++){
+			list[i][j]=eval(list[i][j]);
+			list[p][j]=eval(list[p][j]);
+			}
+		listn[i]=list[i].length
+		if ((listn[i]==1) && (list[i]==''))
+			listn[i]=0;
+		listm[i]=0;
+		listsd[i]=0;
+		if (listn[i] > 1){
+			for (j=0;j<listn[i];j++){
+				listm[i]+=list[i][j]*list[p][j];
+				}
+			for (j=0;j<listn[i];j++){
+				x=list[i][j]-listm[i];
+				listsd[i]+=x*x*list[p][j];
+				}
+			listsd[i]=Math.sqrt(listsd[i]);
+			}
+		if (listn[i]>0){
+			listmax[i]=list[i][0];
+			for (j=0;j<listn[i];j++)
+				if (list[i][j] > listmax[i])
+					listmax[i]=list[i][j];
+			}
+		else
+			listmax[i]=0;
+		if (listn[i]>0){
+			listmin[i]=list[i][0];
+			for (j=0;j<listn[i];j++)
+				if (list[i][j] < listmin[i])
+					listmin[i]=list[i][j];
+			}
+		else
+			listmin[i]=0;
+		listrange[i]=listmax[i]-listmin[i];
+	}
+function loadDataListsValueOnly(){
+	var i,j,sum, sumx2,max,min,med,half;
+	for (i=0;i<10;i++)
+		list[i]=trimWhite(datalist[i].value).split('\n');
+	}
+function loadDataLists(){
+	var i,j,sum, sumx2,max,min,med,half;
+	for (i=0;i<10;i++)
+		list[i]= trimEndWhite(datalist[i].value).split('\n');
+	for (i=0;i<10;i++)
+		findListStats(i);
+	}
+function sumstat(l){
+	if (l==undefined)
+		var l=0;
+	loadDataLists();
+	findListStats(l);
+	return("<br>&nbsp n="+listn[l]+"<br>&nbsp mean="+listm[l]+"<br>&nbsp st. dev.="+listsd[l]+"<br>&nbsp min="+listmin[l]+"<br>&nbsp Q1="+listq1[l]+"<br>&nbsp med="+listmed[l]+"<br>&nbsp Q3="+listq3[l]+"<br>&nbsp max="+listmax[l]+"<br>&nbsp range="+listrange[l]+"<br>&nbsp sum="+listsum[l]);
+	}
+
+function varstat(l,m){
+	if (m==undefined){
+		var l=0;
+		var m=1;
+		}
+	loadDataLists();
+	findVarStats(l,m);
+	return("<br>&nbsp n="+listn[l]+"<br>&nbsp mean="+listm[l]+"<br>&nbsp st. dev.="+listsd[l]+"<br>&nbsp min="+listmin[l]+"<br>&nbsp max="+listmax[l]+"<br>&nbsp range="+listrange[l]);
+	}
+function sort(l){
+	var i,j,t;
+	loadDataLists();
+	for (i=0;i<listn[l];i++)
+		for (j=i+1;j<listn[l];j++)
+			if (list[l][i]>list[l][j]){
+				t=list[l][i];
+				list[l][i]=list[l][j];
+				list[l][j]=t;
+				}	
+	datalist[l].value = list[l].join('\r');
+	return('Sort list '+l);
+	}
+//*************************************************************************
+//*****************************************************
+//****************************************************
+
+//BINOM DIALOG ***************************************
+//********************************************************
+function copyBinomDistData(){
+	var i,x,p,phat,n;
+	n=eval(binomdogn.innerHTML);
+	x=eval(binomdogx.innerHTML);
+	p=eval(binomdogp.innerHTML);
+
+	if (binomradio.h1[0].checked)
+		inputText.innerHTML="binompdf("+n+","+p+","+x+")";
+	else if (binomradio.h1[1].checked)
+		inputText.innerHTML="binomcdf("+n+","+p+","+x+")";
+	else if (binomradio.h1[2].checked)
+		inputText.innerHTML="binomcdf("+n+","+p+","+x+"-1)";
+	else if (binomradio.h1[3].checked)
+		inputText.innerHTML="1-binomcdf("+n+","+p+","+x+"-1)";
+	else if (binomradio.h1[4].checked)
+		inputText.innerHTML="1-binomcdf("+n+","+p+","+x+")";
+	handleEnter();
+	}
+//********************************************************
+//********************************************************
+
+//POISSON DIALOG **************************************
+//**********************************************************
+function copyPoissonDistData(){
+	var i,x,p,phat,n;
+	n=eval(poissondogm.innerHTML);
+	x=eval(poissondogx.innerHTML);
+
+	if (poissonradio.h1[0].checked)
+		inputText.innerHTML="poissonpdf("+n+","+x+")";
+	else if (poissonradio.h1[1].checked)
+		inputText.innerHTML="poissoncdf("+n+","+x+")";
+	else if (poissonradio.h1[2].checked)
+		inputText.innerHTML="poissoncdf("+n+","+x+"-1)";
+	else if (poissonradio.h1[3].checked)
+		inputText.innerHTML="1-poissoncdf("+n+","+x+"-1)";
+	else if (poissonradio.h1[4].checked)
+		inputText.innerHTML="1-poissoncdf("+n+","+x+")";
+	handleEnter();
+	}
+//**********************************************************
+//**********************************************************
+
+//NORMAL DIALOG************************************
+//**********************************************************
+function copyNormalDistData(){
+	var m,s,a,b;
+	m=eval(normaldogm.innerHTML);
+	s=eval(normaldogs.innerHTML);
+	a=eval(normaldoga.innerHTML);
+	b=eval(normaldogb.innerHTML);
+
+	inputText.innerHTML="normalcdf(("+a+"-"+m+")/"+s+",("+b+"-"+m+")/"+s+")";
+	handleEnter();
+	}
+function copyInvNormalDistData(){
+	var m,s,a,b;
+	m=eval(invnormaldogm.innerHTML);
+	s=eval(invnormaldogs.innerHTML);
+	a=eval(invnormaldoga.innerHTML);
+
+	inputText.innerHTML="invnorm("+a+","+m+","+s+")";
+	handleEnter();
+	}//**********************************************************
+//**********************************************************
+
+//CONFIDENCE INTERVALS--------------------------------------
+var CIm,CIe,CIx,CIsd,CIn;
+//MEAN INTERVAL*****************************************
+function calculateTInterval(){
+	var low,high;
+	low=CIm-CIe;
+	high=CIm+CIe;
+	return("<br>&nbsp sample mean="+CIm.toFixed(6)+"<br>&nbsp st dev="+CIsd.toFixed(6)+"<br>&nbsp E="+CIe.toFixed(6)+"<br>&nbsp "+low.toFixed(6)+" < &#956 < "+high.toFixed(6));
+	}
+function copycimeantData(){
+	var i;
+
+	if (tintervalradio.dl[0].checked){
+		x1=eval(tintmean.innerHTML);
+		s1=eval(tintstdev.innerHTML);
+		n1=eval(tintn.innerHTML);
+		}
+	else{
+		var l = eval(tintl.innerHTML);
+		n1=listn[l];
+		x1=listm[l];
+		s1=listsd[l];
+		}
+	cl=eval(tintcl.innerHTML);
+	t=Math.abs(invt(0.5*(1-cl),n1-1));
+
+	E=t*s1/Math.sqrt(n1);
+	CIe=E;
+	CIm=x1;
+	CIsd=s1;
+	inputText.innerHTML="calculateTInterval()";
+	handleEnter();
+	}
+//**********************************************************
+//PROPORTION INTERVAL*********************************
+function calculatePInterval(){
+	var low,high;
+	low=CIp-CIe;
+	high=CIp+CIe;
+	return("<br>&nbsp <font style='text-decoration: overline;'>p</font>="+CIp.toFixed(6)+"<br>&nbsp E="+CIe.toFixed(6)+"<br>&nbsp "+low.toFixed(6)+" < p < "+high.toFixed(6));
+	}
+function ciprop(n1,x1,cl){
+	var E, z, p;
+
+	z=Math.abs(invnorm(0.5*(1-cl)));
+	p=x1/n1;
+	E=z*Math.sqrt(p*(1-p)/n1);
+	CIe=E;
+	CIp=p;
+	inputText.innerHTML="calculatePInterval()";
+	handleEnter();
+	}
+function copycipropData(){
+	var i,x,p,phat,n,cl;
+
+	n=eval(pintn.innerHTML);
+	x=eval(pintx.innerHTML);
+	CIx=x;
+	CIn=n;
+	cl=eval(pintcl.innerHTML);
+	ciprop(n, Math.round(x), cl);
+	}
+//**********************************************************
+
+//HYPOTHESIS TESTING STUFF ***************************
+var HTstdev, HTn, HTclaimedmean, HTh1;
+// Z Test ********************************************************
+function calculateZTest(){
+	var z;
+	var p;
+if ((HTstdev!=0)&&(HTn!=0)){
+	z=(HTmean-HTclaimedmean)/(HTstdev/Math.sqrt(HTn));
+	if (HTh1==0)
+		p=2*normalcdf(-Math.abs(z));
+	else if (HTh1==1)
+		p=normalcdf(z);
+	else	
+		p=1-normalcdf(z);
+	return("<br>&nbsp Z="+z.toFixed(6)+"<br>&nbsp P="+p.toFixed(6));
+}
+else
+	return("Error.");
+	}
+function copyZTestData(){
+	var i;
+	if (zradio.dl[0].checked){
+		HTmean=eval(zmean.innerHTML);
+		HTn=eval(zn.innerHTML);
+		}
+	else{
+		var l = eval(zl.innerHTML);
+		HTn=listn[l];
+		HTmean=listm[l];
+		}
+	HTstdev=eval(zstdev.innerHTML);
+	HTclaimedmean=eval(zclaimedmean.innerHTML);
+	for (i=0;i<3;i++)
+		if (zh1.h1[i].checked)
+			HTh1=i;
+	inputText.innerHTML="calculateZTest()";
+	handleEnter();
+	}
+//****************************************************************
+
+// T Test *******************************************************
+function calculateTTest(){
+	var z;
+	var p;
+
+if ((HTstdev!=0)&&(HTn!=0)){
+	z=(HTmean-HTclaimedmean)/(HTstdev/Math.sqrt(HTn));
+	if (HTh1==0)
+		p=2*tcdf(-Math.abs(z),HTn-1);
+	else if (HTh1==1)
+		p=tcdf(z,HTn-1);
+	else	
+		p=1-tcdf(z,HTn-1);
+	return("<br>&nbsp T="+z.toFixed(6)+"<br>&nbsp P="+p.toFixed(6));
+	}
+else
+	return("Error.");
+	}
+function copyTTestData(){
+	var i;
+
+	if (tradio.dl[0].checked){
+		HTmean=eval(tmean.innerHTML);
+		HTstdev=eval(tstdev.innerHTML);
+		HTn=eval(tn.innerHTML);
+		}
+	else{
+		var l = eval(tl.innerHTML);
+		HTn=listn[l];
+		HTmean=listm[l];
+		HTstdev=listsd[l];
+		}
+	HTclaimedmean=eval(tclaimedmean.innerHTML);
+	for (i=0;i<3;i++)
+		if (th1.h1[i].checked)
+			HTh1=i;
+	inputText.innerHTML="calculateTTest()";
+	handleEnter();
+	}
+//****************************************************************
+// Binomial Test ***********************************************
+function calculateBinomTest(n, p, x, tail){
+	var P, m,l,g;
+
+	if (tail==0){				//two tail
+		m=n*p;
+		if (x <= m){
+			l=x;
+			g=Math.ceil(m+(m-x));
+			//P=2*binomcdf(n,p,x);
+			}
+		else{
+			g=x;
+			l=Math.floor(m-(x-m));
+			//P=2*(1-binomcdf(n, p, x-1));
+			}
+		P=binomcdf(n,p,l)+(1-binomcdf(n,p,g-1));
+		}
+	else if (tail==1) 			//left tail
+		P=binomcdf(n,p,x);
+	else					//right tail
+		P=1-binomcdf(n,p,x-1);
+	if (P>1)
+		P=1;
+	if(P<0)
+		P=0;
+	return("<br>&nbsp P="+P.toFixed(6));
+	}
+function copyBinomData(){
+	var i,x,p,phat,n;
+
+	for (i=0;i<3;i++)
+		if (bth1.h1[i].checked)
+			HTh1=i;
+	n=eval(btn.innerHTML);
+	x=Math.round(eval(btmean.innerHTML));
+	p=eval(btclaimedmean.innerHTML);
+
+	if ((p>=0)&&(p<=1))
+		inputText.innerHTML="calculateBinomTest("+n+","+p+","+x+","+HTh1+")";
+	else
+		inputText.innerHTML="p must be between 0 and 1.";
+	handleEnter();
+	}
+//****************************************************************
+
+//*One Prop Z test ***********************************************
+function copyonepropzData(){
+	var i,x,p,phat,n;
+
+	for (i=0;i<3;i++)
+		if (opzh1.h1[i].checked)
+			HTh1=i;
+	n=eval(opzn.innerHTML);
+	HTn=n;
+	x=Math.round(eval(opzmean.innerHTML));
+	phat=x/n;
+	HTmean=phat;
+	p=eval(opzclaimedmean.innerHTML);
+	HTclaimedmean=p;
+	HTstdev=Math.sqrt(p*(1-p));
+
+	if ((p>=0)&&(p<=1))
+		inputText.innerHTML="calculateZTest()";
+	else
+		inputText.innerHTML="p must be between 0 and 1";
+	handleEnter();
+	}
+
+//****************************************************************
+
+//*Two Prop Z ***************************************************
+function copytwopropzData(){
+	var i,n1,p,p1hat,x1,n2,p2hat,x2;
+
+	for (i=0;i<3;i++)
+		if (tpzh1.h1[i].checked)
+			HTh1=i;
+	n1=eval(tpzn.innerHTML);
+	x1=Math.round(eval(tpzmean.innerHTML));
+	p1hat=x1/n1;
+	n2=eval(tpzn2.innerHTML);
+	x2=Math.round(eval(tpzmean2.innerHTML));
+	p2hat=x2/n2;
+
+	p=(x1+x2)/(n1+n2);
+
+	HTmean=p1hat-p2hat;
+	HTclaimedmean=0;
+	HTstdev=Math.sqrt(p*(1-p));
+	HTn=n1*n2/(n1+n2);
+
+	inputText.innerHTML="calculateZTest()";
+	handleEnter();
+	}
+//***************************************************************
+
+//* Matched Pairs ************************************************
+function copyPairsData(){
+	var i,j;
+
+	for (i=0;i<3;i++)
+		if (mph1.h1[i].checked)
+			HTh1=i;
+	i=eval(mpl1.innerHTML);
+	j=eval(mpl2.innerHTML);
+
+	if (listn[i] != listn[j])
+		inputText.innerHTML="The lists are not the same length.";
+	else{
+		list[10]=new Array(listn[i]);
+		for (k=0;k<listn[i];k++)
+			list[10][k]=list[i][k]-list[j][k];
+		findListStats(10);
+		HTn=listn[10];
+		HTmean=listm[10];
+		HTstdev=listsd[10];
+		HTclaimedmean=0;
+		inputText.innerHTML="calculateTTest()";
+		}
+	handleEnter();
+	}
+//****************************************************************
+
+//*Two Mean T****************************************************
+function copytwomeanData(){
+	var n1,x1,s1,n2,s2,x2,s,n,a,b,i,j;
+
+	for (i=0;i<3;i++)
+		if (tmth1.h1[i].checked)
+			HTh1=i;
+	if (tmtradio.dl[1].checked){
+		i=eval(tmtl1.innerHTML);
+		j=eval(tmtl2.innerHTML);
+		n1=listn[i];
+		x1=listm[i];
+		s1=listsd[i];		
+		n2=listn[j];
+		x2=listm[j];
+		s2=listsd[j];
+		}
+	else{
+		n1=eval(tmtn.innerHTML);
+		x1=eval(tmtmean.innerHTML);
+		s1=eval(tmtstdev.innerHTML);		
+		n2=eval(tmtn2.innerHTML);
+		x2=eval(tmtmean2.innerHTML);
+		s2=eval(tmtstdev2.innerHTML);		
+		}
+	HTmean=x1-x2;
+	HTclaimedmean=0;
+	a=s1*s1/n1;
+	b=s2*s2/n2;
+	n=((a+b)*(a+b)/((a*a/(n1-1))+(b*b/(n2-1))))+1;
+	HTn=Math.round(n);
+	HTstdev=Math.sqrt(HTn*((s1*s1/n1)+(s2*s2/n2)));
+
+	inputText.innerHTML="calculateTTest()";
+	handleEnter();
+	}
+//****************************************************************
+
+//*Chi-Squared ***************************************************
+function chi2gof(i,j){
+
+	loadDataLists();
+
+	var k;
+	var chi2,P;
+	if (j==undefined){
+		list[11]=new Array(listn[i]);
+		for (k=0;k<listn[i];k++)
+			list[11][k]=listsum[i]/listn[i];
+		findListStats(11);
+		return(chi2gof(i,11));
+		}
+	else{
+		if (listn[i] != listn[j])
+			return("Lists are not same length.");
+		else{
+			list[10]=new Array(listn[i]);
+			for (k=0;k<listn[i];k++)
+				list[10][k]=(list[i][k]-list[j][k])*(list[i][k]-list[j][k])/list[j][k];
+			findListStats(10);
+			chi2=listsum[10];
+			P=1-chi2cdf(chi2,listn[i]-1);
+			return("<br>&nbsp; &chi;<sup>2</sup>="+chi2.toFixed(6)+"<br>&nbsp P="+P.toFixed(6));
+			}
+		}
+	}
+function copychi2gofdata(){
+	startlist=eval(x2l1.innerHTML);
+	stoplist=eval(x2l2.innerHTML);
+	inputText.innerHTML='chi2gof('+startlist+','+stoplist+')';
+	handleEnter();
+	}
+//****************************************************************
+
+//* Contingency Table *********************************************
+function contingency(i,j){
+	var r, c, ct, rt, tt,nr,nc,P;
+	var x,y,k;
+
+	loadDataLists();
+	nr=listn[i];
+	list[10]=new Array(nr);
+	list[11]=new Array(nr);
+	list[12]=new Array(nr);
+	nc=j-i+1;
+	tt=0;
+	for (x=i;x<=j;x++)
+		for (y=0;y<nr;y++)
+			tt+=list[x][y];
+	for (x=0;x<nc;x++)
+		for (y=0;y<nr;y++)
+			list[11][x*nr+y]=list[i+x][y];
+	for (y=0;y<nr;y++){
+		rt=0;
+		for (k=i;k<=j;k++)
+			rt+=list[k][y];
+		for (x=0;x<nc;x++){
+			ct=listsum[i+x];
+			list[12][x*nr+y]=rt*ct/tt;
+			}
+		}
+	for (k=0;k<nr*nc;k++){
+		list[10][k]=(list[11][k]-list[12][k])*(list[11][k]-list[12][k])/list[12][k];
+		}
+	findListStats(10);
+	chi2=listsum[10];
+
+	P=1-chi2cdf(chi2,(nr-1)*(nc-1));
+	return("<br>&nbsp chi2="+chi2.toFixed(6)+"<br>&nbsp P="+P.toFixed(6));
+	}
+function copycontingencydata(){
+	startlist=eval(contl1.innerHTML);
+	stoplist=eval(contl2.innerHTML);
+	inputText.innerHTML='contingency('+startlist+','+stoplist+')';
+	handleEnter();
+	}
+//***************************************************************
+
+//*Anova *********************************************************
+function anova(l1,l2){
+	var xbb, k, sstreatment, sserror,N,mstreatment,mserror,F,P;
+	var i,j;
+	loadDataLists();
+	k=l2-l1+1;
+	xbb=0;
+	N=0;
+	for (i=l1;i<=l2;i++){
+		N+=listn[i];
+		xbb+=listm[i]*listn[i];
+		}
+	xbb=xbb/N;
+	sstreatment=0;
+	for (i=l1;i<=l2;i++)
+		sstreatment+=listn[i]*(listm[i]-xbb)*(listm[i]-xbb);
+	sserror=0;
+	for (i=l1;i<=l2;i++)
+		sserror+=(listn[i]-1)*listsd[i]*listsd[i];
+	mstreatment=sstreatment/(k-1);
+	mserror=sserror/(N-k);
+	F=mstreatment/mserror;
+	P=1-fcdf(F,k-1,N-k);
+	return('<br>&nbsp F='+F.toFixed(6)+'<br>&nbsp P='+P.toFixed(6));
+	}
+function copyanovadata(){
+	startlist=eval(anoval1.innerHTML);
+	stoplist=eval(anoval2.innerHTML);
+	inputText.innerHTML='anova('+startlist+','+stoplist+')';
+	handleEnter();
+	}
+//****************************************************************
+
+//*Correlation ****************************************************
+function correlation(l1,l2){
+	var sumprod, sumx, sumy, sumx2,r, P, t,i,j,n,m,b;
+
+	n=listn[l1];
+	sumx=listsum[l1];
+	sumy=listsum[l2];
+	sumprod=0;
+	sumx2=0;
+	for (i=0;i<n;i++){
+		sumprod+=list[l1][i]*list[l2][i];
+		sumx2+=list[l1][i]*list[l1][i];
+		}
+	m=(n*sumprod-sumx*sumy)/(n*sumx2-sumx*sumx);
+	b=(sumy*sumx2-sumx*sumprod)/(n*sumx2-sumx*sumx);
+
+	r=m*listsd[l1]/listsd[l2];
+	t=r/Math.sqrt((1-r*r)/(n-2));
+	P=2*(1-tcdf(Math.abs(t),n-2));
+	return('<br>&nbsp y=mx+b<br>&nbsp m='+m.toFixed(6)+'<br>&nbsp b='+b.toFixed(6)+'<br>&nbsp r='+r.toFixed(6)+'<br>&nbsp t='+t.toFixed(6)+'<br>&nbsp P='+P.toFixed(6));
+	}
+function copycorrelationdata(){
+	startlist=eval(corl1.innerHTML);
+	stoplist=eval(corl2.innerHTML);
+	inputText.innerHTML='correlation('+startlist+','+stoplist+')';
+	handleEnter();
+	}
+function copysumstatdata(){
+	inputText.innerHTML='sumstat('+eval(sumstatlist.innerHTML)+')';
+	hideDialogs();
+	handleEnter();
+}
+function copyvarstatdata(){
+	inputText.innerHTML='varstat('+eval(varstatvaluelist.innerHTML)+','+eval(varstatfreqlist.innerHTML)+')';
+	hideDialogs();
+	handleEnter();
+}
+//****************************************************************
+
+//STATPLOTSTUFF++++++++++++++++++++++++++++++++++++++++++++++++
+
+//hbar************************************************************
+var hdata=[];
+var hstart;
+var hstep;
+
+var hclasses;
+
+function drawBars(){
+	var hlabels=[];
+	var hcounts=[];
+	var graphStep;
+	var graphOne;
+	var left=20;
+	var i,j,t,MAX,n,c;
+	n=hdata.length;
+	for (i=0;i<n;i++)
+		for (j=i+1;j<n;j++)
+			if (hdata[i]>hdata[j]){
+				t=hdata[i];
+				hdata[i]=hdata[j];
+				hdata[j]=t;
+			}
+		
+	MAX = hdata[n-1];
+	hlabels[0]=hstart;
+	for (i=0;hlabels[i]<=MAX;i++)
+		hlabels[i+1]=hlabels[i]+hstep;
+	c=hlabels.length-1;
+	for (i=0;i<c;i++){
+		hcounts[i]=0;
+		for (j=0;j<n;j++)
+			if ((hlabels[i] <= hdata[j]) && (hdata[j]<hlabels[i+1]))
+				hcounts[i]++;
+		}
+	MAX=0;
+	for (i=0;i<c;i++)
+		if (MAX < hcounts[i])
+			MAX = hcounts[i];
+	graphStep=(width-2*left)/c;
+	graphOne=(height-20)/MAX;
+	theCanvas.fillStyle='white';
+	theCanvas.strokeStyle='black';
+	theCanvas.fillRect(0,0,width,height);
+	theCanvas.beginPath();
+	theCanvas.moveTo(0,height-20);
+	theCanvas.lineTo(width, height-20);
+	theCanvas.stroke();
+	for (i=0;i<c;i++){
+		theCanvas.beginPath();
+		theCanvas.rect(left+i*graphStep, height-20-hcounts[i]*graphOne, graphStep, hcounts[i]*graphOne);
+		theCanvas.stroke();
+		}
+	theCanvas.font='12px Helvetica';
+	theCanvas.fillStyle='black';
+	theCanvas.textAlign = 'center';
+	for (i=0;i<=c;i++)
+		theCanvas.fillText(hlabels[i], left+i*graphStep, height-5);
+	showDialog('plotDiv');	
+}
+
+function copyhbardata(){
+	hdata=[];
+	var l = eval(hbarlist.innerHTML);
+	var n = listn[l];
+	var i,j;
+	for (i=0;i<n;i++)
+		hdata[i]=list[l][i];
+	hstart=eval(hbarstart.innerHTML);
+	hstep=eval(hbarwidth.innerHTML);
+	drawBars();
+}
+//****************************************************************
+
+//vbar************************************************************
+function copyvbardata(){
+	var i,j,k,c;
+	var l,p;
+	hdata=[];
+	hstart=eval(vbarstart.innerHTML);
+	hstep=eval(vbarwidth.innerHTML);
+	l=eval(vbarlist.innerHTML);
+	p=eval(vbarproblist.innerHTML);
+	k=0;
+	for (j=0;j<listn[p];j++){
+		c=100*list[p][j];
+		for (i=0;i<c;i++)
+			hdata[k++]=list[l][j];
+	}
+	drawBars();
+}
+//****************************************************************
+
+//scatter************************************************************
+function copyscatterdata(){
+	var xlist = eval(scatterx.innerHTML);
+	var ylist = eval(scattery.innerHTML);
+	var xmin=listmin[xlist];
+	var xmax=listmax[xlist];
+	var ymin=listmin[ylist];
+	var ymax=listmax[ylist];
+	var n = listn[xlist];
+	var W=width-20;
+	var H=height-20;
+	var wx=xmax-xmin;
+	var wy=ymax-ymin;
+	var i;
+	theCanvas.fillStyle='white';
+	theCanvas.strokeStyle='black';
+	theCanvas.fillRect(0,0,width,height);
+	for (i=0;i<n;i++){
+		theCanvas.beginPath();
+		theCanvas.arc(10+W*(list[xlist][i]-xmin)/wx, height-(10+H*(list[ylist][i]-ymin)/wy), 1,0,2*Math.PI);
+		theCanvas.stroke();
+	}
+	theCanvas.beginPath();
+	theCanvas.moveTo(10+W*(xmin-xmin)/wx, height-(10+H*(0-ymin)/wy));
+	theCanvas.lineTo(10+W*(xmax-xmin)/wx, height-(10+H*(0-ymin)/wy));
+	theCanvas.stroke();
+	theCanvas.beginPath();
+	theCanvas.moveTo(10+W*(0-xmin)/wx, height-(10+H*(ymin-ymin)/wy));
+	theCanvas.lineTo(10+W*(0-xmin)/wx, height-(10+H*(ymax-ymin)/wy));
+	theCanvas.stroke();
+	showDialog('plotDiv');
+}
+//****************************************************************
+
+//box************************************************************
+function copyboxdata(){
+	var l=boxlists.innerHTML.split(',');
+	var n = l.length;
+	var i,j;
+	var MAX, MIN, W;
+	var vspace = (height-40)/(n+1);
+	var y;
+	for (i=0;i<n;i++)
+		l[i]=eval(l[i]);
+	MAX=list[l[0]][0];
+	MIN=list[l[0]][0];
+	for (i=0;i<n;i++){
+		if (MAX < listmax[l[i]])
+			MAX=listmax[l[i]];
+		if (MIN > listmin[l[i]])
+			MIN=listmin[l[i]];
+	}
+	W=MAX-MIN;
+	theCanvas.fillStyle='white';
+	theCanvas.strokeStyle='black';
+	theCanvas.fillRect(0,0,width,height);	
+	y=20+vspace/2;
+	for (i=0;i<n;i++){
+		theCanvas.beginPath();
+		theCanvas.moveTo(20+(width-40)*(listmin[l[i]]-MIN)/W,y);
+		theCanvas.lineTo(20+(width-40)*(listmax[l[i]]-MIN)/W,y);
+		theCanvas.moveTo(20+(width-40)*(listmin[l[i]]-MIN)/W,y-vspace/4)
+		theCanvas.lineTo(20+(width-40)*(listmin[l[i]]-MIN)/W,y+vspace/4);
+		theCanvas.moveTo(20+(width-40)*(listmax[l[i]]-MIN)/W,y-vspace/4)
+		theCanvas.lineTo(20+(width-40)*(listmax[l[i]]-MIN)/W,y+vspace/4);
+		theCanvas.moveTo(20+(width-40)*(listmed[l[i]]-MIN)/W,y-vspace/4)
+		theCanvas.lineTo(20+(width-40)*(listmed[l[i]]-MIN)/W,y+vspace/4);
+		theCanvas.rect(20+(width-40)*(listq1[l[i]]-MIN)/W,y-vspace/4, (width-40)*(listq3[l[i]]-listq1[l[i]])/W, vspace/2);
+		theCanvas.stroke();
+		y+=vspace;
+	}
+	showDialog('plotDiv');
+}
+//****************************************************************
+
+
+//Graphing********************************************************
+var y1='';
+var y2='';
+var y3='';
+var y4='';
+var y5='';
+function showFunctions(){
+	y1Div.innerHTML=y1;
+	y2Div.innerHTML=y2;
+	y3Div.innerHTML=y3;
+	y4Div.innerHTML=y4;
+	y5Div.innerHTML=y5;
+	showDialog('functionDialog');
+}
+function editFunction(i){
+	hideDialogs();
+	outputText.innerHTML+='<br><b>Enter an expression such as:</b><br>&nbsp;y1="sin(x)"<br>';
+	inputText.innerHTML='y'+i+'="';
+	outputDiv.scrollTop=outputDiv.scrollHeight;	
+}
+function graphit(){
+	var MINX = eval(graphMinX.innerHTML);
+	var MAXX = eval(graphMaxX.innerHTML);
+	var MINY = eval(graphMinY.innerHTML);
+	var MAXY = eval(graphMaxY.innerHTML);
+	var W=MAXX-MINX;
+	var H=MAXY-MINY;
+	var j;
+	var x,y,dx;
+	
+	theCanvas.fillStyle='white';
+	theCanvas.strokeStyle='black';
+	theCanvas.fillRect(0,0,width,height);	
+	dx=W/width;
+
+	theCanvas.beginPath();
+	theCanvas.moveTo(width*(MINX-MINX)/W,height-height*(0-MINY)/H);
+	theCanvas.lineTo(width*(MAXX-MINX)/W,height-height*(0-MINY)/H);
+	theCanvas.moveTo(width*(0-MINX)/W,height-height*(MINY-MINY)/H);
+	theCanvas.lineTo(width*(0-MINX)/W,height-height*(MAXY-MINY)/H);
+	theCanvas.stroke();
+
+	for (j=1;j<=5;j++)
+	if (eval('y'+j) != ''){
+		eval('var f = function(x){ return(eval(y'+j+'));}')
+		theCanvas.beginPath();
+		x=MINX;
+		y=f(x);
+		theCanvas.moveTo(x,y);
+		for (x=MINX; x<=MAXX; x+=dx){
+			y=f(x);
+			theCanvas.lineTo(width*(x-MINX)/W,height-height*(y-MINY)/H);
+		}
+		theCanvas.stroke();
+	}
+	showDialog('plotDiv');
+}
+//****************************************************************
+
+//Allow key input *************************************************
+document.onkeypress = function(){
+//	var e=event||window.event;
+	if (listVisible==0){
+	var e= event || window.event;
+	var legalChar='0123456789+-*/^().,';
+	var code = e.keyCode;
+	var keyASCII = parseInt(e.keyCode, 10);
+	var theChar = String.fromCharCode(code);
+	if (code == 8){
+		deleteChar();
+		return false;
+		}
+	else if (code == 13)
+		handleEnter();
+	else if (legalChar.indexOf(theChar) != -1) 
+		addText(theChar);
+	else if( code == 190)
+		addText('.');
+	}
+}
+document.onkeydown = function(){
+//	var e=event||window.event;
+	if (listVisible==0){
+	var e= event || window.event;
+	var legalChar='0123456789+-*/^().,';
+	var code = e.keyCode;
+	var keyASCII = parseInt(e.keyCode, 10);
+	var theChar = String.fromCharCode(code);
+	if (code == 8){
+		deleteChar();
+		return false;
+		}
+	}
+}
+//****************************************************************
+function playClick(e){
+	if (e.target.tagName=='BUTTON')
+		theSound.play();
+	console.log(e.target.tagName);
+}
+</script>
+
+</head>
+<body  onclick='playClick(event);'>
+<div id='mainDiv'>
+<div id='outputDiv'>  
+	<div class='dialog' id='invnormaldog'> Normal Distribution Dialog<br>
+		mean=<div class='inputArea short' id='invnormaldogm'>0</div><br>
+		st. dev=<div class='inputArea short' id='invnormaldogs'>1</div><br>
+		area=<div class='inputArea short' id='invnormaldoga'>0.05</div><br>
+		<button onClick="copyInvNormalDistData();">Calculate</button>
+	</div>
+
+	<div class='dialog' id='normaldog'> Normal Distribution Dialog<br>
+		mean=<div class='inputArea short' id='normaldogm'>0</div><br>
+		st. dev=<div class='inputArea short' id='normaldogs'>1</div><br>
+		P(<div class='inputArea short' id='normaldoga'>90</div> &lt; x &lt; <div class='inputArea short' id='normaldogb'>110</div>)<br>
+		<button onClick="copyNormalDistData();">Calculate</button>
+	</div>
+
+	<div class='dialog' id='binomdog'> Binomial Distribution Dialog<br>
+		n=<div class='inputArea short' id='binomdogn'>100</div><br>
+		p=<div class='inputArea short' id='binomdogp'>0.5</div><br>
+		<table>
+		<tr><td>P(x </td><td>
+		<form id='binomradio'>
+		<input name="h1" type="radio" checked=yes> = <br>
+		<input name="h1" type="radio" > &#8804; <br>
+		<input name="h1" type="radio" > < <br>
+		<input name="h1" type="radio" > &#8805; <br>
+		<input name="h1" type="radio" > >
+		</form>
+		</td><td>
+		<div class='inputArea short' id='binomdogx'>50</div>)</td></tr></table>
+		<button onClick="copyBinomDistData();">Calculate</button>
+	</div>
+	
+	<div class='dialog' id='poissondog'> Poisson Distribution Dialog<br>
+		m=<div class='inputArea short' id='poissondogm'>100</div><br>
+		<table>
+		<tr><td>P(x </td><td>
+		<form id='poissonradio'>
+		<input name="h1" type="radio" checked=yes> = <br>
+		<input name="h1" type="radio" > &#8804; <br>
+		<input name="h1" type="radio" > < <br>
+		<input name="h1" type="radio" > &#8805; <br>
+		<input name="h1" type="radio" > >
+		</form>
+		</td><td>
+		<div class='inputArea short' id='poissondogx'>50</div>)</td></tr></table>
+		<button onClick="copyPoissonDistData();">Calculate</button>
+	</div>
+	<div class='dialog' id='cimeandog'> Mean T-Interval<br>
+		<form id='tintervalradio'>
+		<input name='dl' type='radio' checked=yes> Stats, 
+		<input name='dl' type='radio'> List 
+		</form><br>
+		<table>
+		<tr><td class='right'>List: </td><td> <div class='inputArea short' id='tintl'>0</div></td></tr>
+		<tr><td class='right'><font style='text-decoration: overline;'>X</font>=</td><td> <div class='inputArea short' id='tintmean'>50</div></td></tr>
+		<tr><td class='right'>s=</td><td> <div class='inputArea short' id='tintstdev'>10</div></td></tr>
+		<tr><td class='right'>n=</td><td> <div class='inputArea short' id='tintn'>100</div></td></tr>
+		<tr><td class='right'>cl=</td><td> <div class='inputArea short' id='tintcl'>0.95</div></td></tr>
+		</table>
+		<button onClick="copycimeantData();">Calculate</button>
+	</div>
+	<div class='dialog' id='cipropdog'> Proportion Z-Interval<br>
+		<table>
+		<tr><td class='right'>x=</td><td> <div class='inputArea short' id='pintx'>50</div></td></tr>
+		<tr><td class='right'>n=</td><td> <div class='inputArea short' id='pintn'>100</div></td></tr>
+		<tr><td class='right'>cl=</td><td> <div class='inputArea short' id='pintcl'>0.95</div></td></tr>
+		</table>
+		<button onClick="copycipropData();">Calculate</button>
+	</div>
+	<div class='dialog' id='ztestdog'> Z-Test<br>
+		<form id='zradio'>
+		<input name='dl' type='radio' checked=yes> Stats, 
+		<input name='dl' type='radio'> List 
+		</form><br>
+		<table>
+		<tr><td class='right'>List: </td><td> <div class='inputArea short' id='zl'>0</div></td></tr>
+		
+			<tr><td class='right'>H<sub>0</sub>:</td>
+			<td rowspan=3>
+				<form id='zh1'>
+				<table>
+					<tr class='center'><td> &mu;</td><td>=</td><td>&geq;</td><td>&leq;</td></tr>
+					<tr class='center'>
+						<td></td>
+						<td><input name='h1' type='radio' checked=yes></td>
+						<td><input name='h1' type='radio'></td>
+						<td><input name='h1' type='radio'></td>
+						<td><div class='inputArea short' id='zclaimedmean'>50</div></td>
+
+					</tr>
+					<tr class='center'><td> &mu;</td><td>&ne;</td><td>&lt;</td><td>&gt;</td></tr>
+				</table>
+				</form>
+			</td>
+			</tr>
+			<tr></tr>
+			<tr><td class='right'>H<sub>1</sub>:</td></tr>
+
+		<tr><td class='right'>&#963; =</td><td> <div class='inputArea short' id='zstdev'>10</div></td></tr>
+		<tr><td class='right'><font style='text-decoration: overline;'>X</font>=</td><td> <div class='inputArea short' id='zmean'>50</div></td></tr>
+		<tr><td class='right'>n=</td><td> <div class='inputArea short' id='zn'>100</div></td></tr>
+		</table>
+		<button onClick="copyZTestData();">Calculate</button>
+	</div>
+	<div class='dialog' id='ttestdog'> T-Test<br>
+		<form id='tradio'>
+		<input name='dl' type='radio' checked=yes> Stats, 
+		<input name='dl' type='radio'> List 
+		</form><br>
+		<table>
+		<tr><td class='right'>List: </td><td> <div class='inputArea short' id='tl'>0</div></td></tr>
+			<tr><td class='right'>H<sub>0</sub>:</td>
+			<td rowspan=3>
+				<form id='th1'>
+				<table>
+					<tr class='center'><td>&mu;</td><td>=</td><td>&geq;</td><td>&leq;</td></tr>
+					<tr class='center'>
+						<td></td>
+						<td><input name='h1' type='radio' checked=yes></td>
+						<td><input name='h1' type='radio'></td>
+						<td><input name='h1' type='radio'></td>
+						<td><div class='inputArea short' id='tclaimedmean'>50</div></td>
+
+					</tr>
+					<tr class='center'><td>&mu;</td><td>&ne;</td><td>&lt;</td><td>&gt;</td></tr>
+				</table>
+				</form>
+			</td>
+			</tr>
+			<tr></tr>
+			<tr><td class='right'>H<sub>1</sub>:</td></tr>
+
+
+		<tr><td class='right'>s =</td><td> <div class='inputArea short' id='tstdev'>10</div></td></tr>
+		<tr><td class='right'><font style='text-decoration: overline;'>X</font>=</td><td> <div class='inputArea short' id='tmean'>50</div></td></tr>
+		<tr><td class='right'>n=</td><td> <div class='inputArea short' id='tn'>100</div></td></tr>
+		</table>
+		<button onClick="copyTTestData();">Calculate</button>
+	</div>
+<!---	
+	<div class='dialog' id='binomtestdog'> One Proportion Binomial Test<br>
+		<table>
+			<tr><td class='right'>H<sub>0</sub>:</td>
+			<td rowspan=3>
+				<form id='bth1'>
+				<table>
+					<tr class='center'><td>p</td><td>=</td><td>&geq;</td><td>&leq;</td></tr>
+					<tr class='center'>
+						<td></td>
+						<td><input name='h1' type='radio' checked=yes></td>
+						<td><input name='h1' type='radio'></td>
+						<td><input name='h1' type='radio'></td>
+						<td><div class='inputArea short' id='btclaimedmean'>.5</div></td>
+
+					</tr>
+					<tr class='center'><td>p</td><td>&ne;</td><td>&lt;</td><td>&gt;</td></tr>
+				</table>
+				</form>
+			</td>
+			</tr>
+			<tr></tr>
+			<tr><td class='right'>H<sub>1</sub>:</td></tr>
+
+		<tr><td class='right'>x =</td><td> <div class='inputArea short' id='btmean'>50</div></td></tr>
+		<tr><td class='right'>n=</td><td> <div class='inputArea short' id='btn'>100</div></td></tr>
+		</table>
+		<button onClick="copyBinomData();">Calculate</button>
+	
+	</div>
+-->	
+	<div class='dialog' id='onepropzdog'> One Proportion Z-Test<br>
+		<table>
+			<tr><td class='right'>H<sub>0</sub>:</td>
+			<td rowspan=3>
+				<form id='opzh1'>
+				<table>
+					<tr class='center'><td>p</td><td>=</td><td>&geq;</td><td>&leq;</td></tr>
+					<tr class='center'>
+						<td></td>
+						<td><input name='h1' type='radio' checked=yes></td>
+						<td><input name='h1' type='radio'></td>
+						<td><input name='h1' type='radio'></td>
+						<td><div class='inputArea short' id='opzclaimedmean'>.5</div></td>
+
+					</tr>
+					<tr class='center'><td>p</td><td>&ne;</td><td>&lt;</td><td>&gt;</td></tr>
+				</table>
+				</form>
+			</td>
+			</tr>
+			<tr></tr>
+			<tr><td class='right'>H<sub>1</sub>:</td></tr>
+
+		<tr><td class='right'>x =</td><td> <div class='inputArea short' id='opzmean'>50</div></td></tr>
+		<tr><td class='right'>n=</td><td> <div class='inputArea short' id='opzn'>100</div></td></tr>
+		</table>
+		<button onClick="copyonepropzData();">Calculate</button>
+	</div>
+	<div class='dialog' id='twopropzdog'> Two Proportion Z-Test<br>
+		<table>
+			<tr><td class='right'>H<sub>0</sub>: </td>
+			<td rowspan=3>
+				<form id='tpzh1'>
+				<table>
+					<tr class='center'>
+					<td>p<sub>1</sub></td>
+					<td>=</td><td>&geq;</td><td>&leq;</td>
+					<td>p<sub>2</sub></td>
+					</tr>
+					<tr class='center'>
+						<td></td>
+						<td><input name='h1' type='radio' checked=yes></td>
+						<td><input name='h1' type='radio'></td>
+						<td><input name='h1' type='radio'></td>
+					</tr>
+					<tr class='center'><td>p<sub>1</sub></td><td>&ne;</td><td>&lt;</td><td>&gt;</td><td>p<sub>2</sub></td></tr>
+				</table>
+				</form>
+			</td>
+			<td>
+			</tr>
+			<tr></tr>
+			<tr><td class='right'>H<sub>1</sub>:</td></tr>
+
+		<tr><td class='right'>x<sub>1</sub> =</td><td> <div class='inputArea short' id='tpzmean'>50</div></td><td class='right'>x<sub>2</sub> =</td><td> <div class='inputArea short' id='tpzmean2'>50</div></td></tr>
+		<tr><td class='right'>n<sub>1</sub>=</td><td> <div class='inputArea short' id='tpzn'>100</div></td><td class='right'>n<sub>2</sub>=</td><td> <div class='inputArea short' id='tpzn2'>100</div></td></tr>
+		</table>
+		<button onClick="copytwopropzData();">Calculate</button>
+
+	</div>
+	<div class='dialog' id='matchedpairsdog'>Matched Pairs<br>
+		<table>
+			<tr><td class='right'>H<sub>0</sub>: </td>
+			<td rowspan=3>
+				<form id='mph1'>
+				<table>
+					<tr class='center'>
+					<td>&mu;<sub>1</sub></td>
+					<td>=</td><td>&geq;</td><td>&leq;</td>
+					<td>&mu;<sub>2</sub></td>
+					</tr>
+					<tr class='center'>
+						<td></td>
+						<td><input name='h1' type='radio' checked=yes></td>
+						<td><input name='h1' type='radio'></td>
+						<td><input name='h1' type='radio'></td>
+					</tr>
+					<tr class='center'><td>&mu;<sub>1</sub></td><td>&ne;</td><td>&lt;</td><td>&gt;</td><td>&mu;<sub>2</sub></td></tr>
+				</table>
+				</form>
+			</td>
+			<td>
+			</tr>
+			<tr></tr>
+			<tr><td class='right'>H<sub>1</sub>:</td></tr>
+
+		<tr><td class='right'>List 1:</td><td> <div class='inputArea short' id='mpl1'>0</div></td></tr>
+		<tr><td class='right'>List 2:</td><td> <div class='inputArea short' id='mpl2'>1</div></td></tr>
+		</table>
+		<button onClick="copyPairsData();">Calculate</button>
+	</div>
+	<div class='dialog' id='twomeantdog'>Two Mean T-Test<br>
+		<form id='tmtradio'>
+		<input name='dl' type='radio' checked=yes> Stats, 
+		<input name='dl' type='radio'> List 
+		</form><br>
+		<table>
+			<tr><td class='right'>H<sub>0</sub>:</td>
+			<td rowspan=3>
+				<form id='tmth1'>
+				<table>
+					<tr class='center'><td>&mu;<sub>1</sub></td><td>=</td><td>&geq;</td><td>&leq;</td><td>&mu;<sub>2</sub></td></tr>
+					<tr class='center'><td></td>
+						<td><input name='h1' type='radio' checked=yes></td>
+						<td><input name='h1' type='radio'></td>
+						<td><input name='h1' type='radio'></td>
+					</tr>
+					<tr class='center'><td>&mu;<sub>1</sub></td><td>&ne;</td><td>&lt;</td><td>&gt;</td><td>&mu;<sub>2</sub></td></tr>
+				</table>
+				</form>
+			</td>
+			</tr>
+			<tr></tr>
+			<tr><td class='right'>H<sub>1</sub>:</td></tr>
+
+
+		<tr><td class='right'>List 1</td><td> <div class='inputArea short' id='tmtl1'>0</div></td><td class='right'>List 2</td><td> <div class='inputArea short' id='tmtl2'>1</div></td></tr>
+		<tr><td class='right'>n<sub>1</sub>=</td><td> <div class='inputArea short' id='tmtn'>50</div></td><td class='right'>n<sub>2</sub>=</td><td> <div class='inputArea short' id='tmtn2'>50</div></td></tr>
+		<tr><td class='right'><font style='text-decoration: overline;'>X</font><sub>1</sub>=</td><td> <div class='inputArea short' id='tmtmean'>100</div></td><td class='right'><font style='text-decoration: overline;'>X</font><sub>2</sub>=</td><td> <div class='inputArea short' id='tmtmean2'>101</div></td></tr>
+		<tr><td class='right'>s<sub>1</sub> =</td><td> <div class='inputArea short' id='tmtstdev'>1</div></td><td class='right'>s<sub>2</sub> =</td><td> <div class='inputArea short' id='tmtstdev2'>1</div></td></tr>
+		</table>
+		<button onClick="copytwomeanData();">Calculate</button>
+	</div>
+	<div class='dialog' id='chi2gofdog'>&chi;<sup>2</sup> GOF<br>
+		H<sub>0</sub>: O match E <br>
+		H<sub>1</sub>: O do not match E <br>
+		
+		<table>
+		<tr><td class='right'>Observations: </td><td> <div class='inputArea short' id='x2l1'>0</div></td></tr>
+		<tr><td class='right'>Expectations: </td><td> <div class='inputArea short' id='x2l2'>1</div></td></tr>
+		</table>
+		<button onClick="copychi2gofdata();">Calculate</button>
+	</div>
+	<div class='dialog' id='contingencydog'>Contingency Table<br>
+		H<sub>0</sub>: Independence<br>
+		H<sub>1</sub>: Dependence <br>
+		
+		<table>
+		<tr><td class='right'>First List: </td><td> <div class='inputArea short' id='contl1'>0</div></td></tr>
+		<tr><td class='right'>Last List: </td><td> <div class='inputArea short' id='contl2'>1</div></td></tr>
+		</table>
+		<button onClick="copycontingencydata();">Calculate</button>
+	</div>
+	<div class='dialog' id='anovadog'> ANOVA<br>
+		H<sub>0</sub>: All means are equal<br>
+		H<sub>1</sub>: Not all means are equal <br>
+		
+		<table>
+		<tr><td class='right'>First List: </td><td> <div class='inputArea short' id='anoval1'>0</div></td></tr>
+		<tr><td class='right'>Last List: </td><td> <div class='inputArea short' id='anoval2'>2</div></td></tr>
+		</table>
+		<button onClick="copyanovadata();">Calculate</button>
+	</div>
+	<div class='dialog' id='correlationdog'>Correlation<br>
+		H<sub>0</sub>: No linear correlation<br>
+		H<sub>1</sub>: Linear correlation <br>
+		
+		<table>
+		<tr><td class='right'>First List: </td><td> <div class='inputArea short' id='corl1'>0</div></td></tr>
+		<tr><td class='right'>Second List: </td><td> <div class='inputArea short' id='corl2'>1</div></td></tr>
+		</table>
+		<button onClick="copycorrelationdata();">Calculate</button>
+	</div>
+	<div class='dialog' id='hbardog'>Histogram<br>
+		<table>
+		<tr><td class='right'>Data List:</td><td> <div class='inputArea short' id='hbarlist'>0</div></td></tr>
+		<tr><td class='right'>Start Value: </td><td> <div class='inputArea short' id='hbarstart'>0</div></td></tr>
+		<tr><td class='right'>Class Width: </td><td> <div class='inputArea short' id='hbarwidth'>1</div></td></tr>
+		</table>
+		<button onClick="copyhbardata();">Calculate</button>
+	</div>
+	<div class='dialog' id='vbardog'>Probability Distribution Histogram<br>
+		<table>
+		<tr><td class='right'>Value List:</td><td> <div class='inputArea short' id='vbarlist'>0</div></td></tr>
+		<tr><td class='right'>Probability List:</td><td> <div class='inputArea short' id='vbarproblist'>0</div></td></tr>
+		<tr><td class='right'>Start Value: </td><td> <div class='inputArea short' id='vbarstart'>0</div></td></tr>
+		<tr><td class='right'>Class Width: </td><td> <div class='inputArea short' id='vbarwidth'>1</div></td></tr>
+		</table>
+		<button onClick="copyvbardata();">Calculate</button>
+	</div>
+	<div class='dialog' id='scatterdog'>Scatter Plot<br>
+		<table>
+		<tr><td class='right'>X Values:</td><td> <div class='inputArea short' id='scatterx'>0</div></td></tr>
+		<tr><td class='right'>Y Values:</td><td> <div class='inputArea short' id='scattery'>1</div></td></tr>
+		</table>
+		<button onClick="copyscatterdata();">Calculate</button>
+	</div>
+	<div class='dialog' id='boxdog'>Box Plot<br>
+		Enter list numbers separated by commas:<br>
+		<div class='inputArea long' id='boxlists'>0</div>
+		<button onClick="copyboxdata();">Calculate</button>
+	</div>
+	<div class='dialog' id='sumstatdog'>Summary Statistics<br>
+		<table>
+		<tr><td class='right'>List Number:</td><td> <div class='inputArea short' id='sumstatlist'>0</div></td></tr>
+		</table>
+		<button onClick="copysumstatdata();">Calculate</button>
+	</div>
+	<div class='dialog' id='varstatdog'>Random Variable Statistics<br>
+		<table>
+		<tr><td class='right'>Value List:</td><td> <div class='inputArea short' id='varstatvaluelist'>0</div></td></tr>
+		<tr><td class='right'>Frequency List:</td><td> <div class='inputArea short' id='varstatfreqlist'>1</div></td></tr>
+		</table>
+		<button onClick="copyvarstatdata();">Calculate</button>
+	</div>
+	<div class='dialog' id='statDialog'> 
+		<button class='dog' onclick='showDialog("sumstatdog");'>summary statistics</button>
+		<button class='dog' onclick='showDialog("varstatdog");'>random variable stats</button>
+		<button class='dog' onclick='insertCommand("binompdf(");'>binompdf</button>	
+		<button class='dog' onclick='insertCommand("binomcdf(");'>binomcdf</button>	
+		<button class='dog' onclick='insertCommand("poissonpdf(");'>poissonpdf</button>	
+		<button class='dog' onclick='insertCommand("poissoncdf(");'>poissoncdf</button>	
+		<button class='dog' onclick='insertCommand("normalcdf(");'>normalcdf</button>	
+		<button class='dog' onclick='insertCommand("invnorm(");'>invnorm</button>	
+		<button class='dog' onclick='insertCommand("tcdf(");'>tcdf</button>	
+		<button class='dog' onclick='insertCommand("invt(");'>invt</button>	
+		<button class='dog' onclick='showDialog("normaldog");'>normal dialog</button>	
+		<button class='dog' onclick='showDialog("invnormaldog");'>invnorm dialog</button>	
+		<button class='dog' onclick='showDialog("binomdog");'>binomial dialog</button>	
+		<button class='dog' onclick='showDialog("poissondog");'>poisson dialog</button>	
+	</div>
+	<div class='dialog' id='testDialog'>
+		<button class='dog' onclick='showDialog("cimeandog");'>mean interval</button>	
+		<button class='dog' onclick='showDialog("cipropdog");'>proportion interval</button>	
+		<!--	<button class='dog' onclick='showDialog("binomtestdog");'>binomial test</button>	-->
+			<button class='dog' onclick='showDialog("ztestdog");'>z-test</button>	
+			<button class='dog' onclick='showDialog("ttestdog");'>t-test</button>	
+			<button class='dog' onclick='showDialog("onepropzdog");'>one proportion z-test</button>	
+			<button class='dog' onclick='showDialog("twopropzdog");'>two proportion z-test</button>	
+			<button class='dog' onclick='showDialog("matchedpairsdog");'>matched pairs</button>	
+			<button class='dog' onclick='showDialog("twomeantdog");'>two mean t-test</button>	
+			<button class='dog' onclick='showDialog("chi2gofdog");'>&chi;<sup>2</sup> GOF</button>	
+			<button class='dog' onclick='showDialog("contingencydog");'>contingency table</button>	
+			<button class='dog' onclick='showDialog("anovadog");'>ANOVA</button>	
+			<button class='dog' onclick='showDialog("correlationdog");'>correlation</button>	
+	</div>
+	<div class='dialog' id='mathDialog'> 
+		<button class='dog' onclick='insertMathCommand("sqrt(");'>sqrt</button>
+		<button class='dog' onclick='insertMathCommand("factorial(");'>factorial</button>
+		<button class='dog' onclick='insertMathCommand("log(");'>log</button>
+		<button class='dog' onclick='insertMathCommand("exp(");'>exp</button>
+		<button class='dog' onclick='insertMathCommand("sin(");'>sin</button>
+		<button class='dog' onclick='insertMathCommand("cos(");'>cos</button>
+		<button class='dog' onclick='insertMathCommand("tan(");'>tan</button>
+		<button class='dog' onclick='insertMathCommand("pow(");'>pow</button>
+		<button class='dog' onclick='insertMathCommand("perm(");'>permutations</button>
+		<button class='dog' onclick='insertMathCommand("combo(");'>combinations</button>
+		<button class='dog' onclick='insertMathCommand("E");'>E</button>
+		<button class='dog' onclick='insertMathCommand("PI");'>PI</button>
+	</div>
+	<div class='dialog' id='statPlotDialog'>
+		<button class='dog' onclick='showDialog("hbardog");'>bar chart</button>
+		<button class='dog' onclick='showDialog("vbardog");'>random variable bar chart</button>
+		<button class='dog' onclick='showDialog("scatterdog");'>scatter plot</button>
+		<button class='dog' onclick='showDialog("boxdog");'>box plot</button>	
+	</div>
+	<div class='dialog' id='functionDialog'>
+		<table>
+			<tr><td class='right'>y1=</td><td><div class='function' id='y1Div'></div></td><td><button class='dog' onclick='editFunction(1);'>edit</button></td></tr>
+			<tr><td class='right'>y2=</td><td><div class='function' id='y2Div'></div></td><td><button class='dog' onclick='editFunction(2);'>edit</button></td></tr>
+			<tr><td class='right'>y3=</td><td><div class='function' id='y3Div'></div></td><td><button class='dog' onclick='editFunction(3);'>edit</button></td></tr>
+			<tr><td class='right'>y4=</td><td><div class='function' id='y4Div'></div></td><td><button class='dog' onclick='editFunction(4);'>edit</button></td></tr>
+			<tr><td class='right'>y5=</td><td><div class='function' id='y5Div'></div></td><td><button class='dog' onclick='editFunction(5);'>edit</button></td></tr>
+		</table>
+		<button onClick="graphit();">Graph</button>
+	</div>
+	<div class='dialog' id='graphDialog'>Graphing Window<br>
+		<table>
+		<tr><td class='right'>Minimum x:</td><td> <div class='inputArea short' id='graphMinX'>-5</div></td></tr>
+		<tr><td class='right'>Maximum x:</td><td> <div class='inputArea short' id='graphMaxX'>5</div></td></tr>
+		<tr><td class='right'>Minimum y:</td><td> <div class='inputArea short' id='graphMinY'>-5</div></td></tr>
+		<tr><td class='right'>Maximum y:</td><td> <div class='inputArea short' id='graphMaxY'>5</div></td></tr>
+		</table>
+		<button onClick="graphit();">Graph</button>
+	</div>
+
+	<div class='dialog' id='helpDiv'>
+		<b> Calculator Help </b>
+	<ul>
+	<li> <b>Input Boxes</b>
+		<ul>
+		<li> There are a variety of input boxes in different dialogs of the calculator. The active entry box is the one outlined in red. When a key is pressed, the result is entered in the active entry box. To activate a box, click on it or touch it.
+		</ul>
+	<li> <b>Arithmetic</b>
+		<ul>
+		<li> Arithemtic Operations: +, *, -, /
+		<li> Exponents: x^y use a carrot for simple exponents like 3^2 or 2^0.5 for more complicated exponents, use pow(x,y)
+		<li> Other Functions: abs(x), acos(x), asin(x), atan(x), ceil(x), cos(x), exp(x), floor(x), log(x), max(x,y), min(x,y), random(), sin(x), sqrt(x), tan(x)
+		<li> Constants: E, PI
+		</ul>
+	<li> <b> Math Button</b>
+		<ul>
+		<li> This gives a list of standard mathematical functions such as sqare root, factorial, log, exponential, sin, cos, tan, pow (exponents), permutations, combinations.
+		<li> This also gives the constants E and PI.
+		</ul>
+	<li> <b>Stat Button</b>
+		<ul>
+		<li> sumstat(i) will give the summary statistics for data listed in List #i.
+		<li> varstat(i,j) will give the parameters for a random variable whose values are in list #i and whose probabilities are in list #j.
+		<li> binompdf(n,p,b) will calculate P(x = b) where x is a random variable with a binomial distribution with n trials and probability of success p.
+		<li> binomcdf(n,p,b) will calculate P(x &#8804; b) where x is a random variable with a binomial distribution with n trials and probability of success p.
+		<li> poissonpdf(m,b) will calculate P(x = b) where x is a random variable with a Poisson distribution with mean m.
+		<li> poissoncdf(m,b) will calculate P(x &#8804; b) where x is a random variable with a Poisson distribution with mean m.
+		<li> normalcdf(a,b) will calculate P(a &lt; z &lt; b) where z is a random variable with a standard normal distribution.
+		<li> normalcdf(a,b,m,s) will calculate P(a &lt; x &lt; b) where x is a random variable with a normal distribution with mean m and standard deviation s.
+		<li> normalcdf(a) will calculate P(z &lt; a) where z is a random variable with a standard normal distribution.
+		<li> invnorm(p) will calculate a number a so that P(z &lt; a)=p where z is a random variable with a standard normal distribution.	
+		<li> tcdf(a,b,df) will calculate P(a &lt; t &lt; b) where t is a random variable with a Student-t distribution with df degrees of freedom.
+		<li> tcdf(a,df) will calculate P(t &lt; a) where t is a random variable with a Student-t distribution with df degrees of freedom.
+		<li> invt(p,df) will calculate a number a so that P(t &lt; a)=p where t is a random variable with a Student-t distribution with df degrees of freedom.
+		<li> <b>Dialogs</b> The normal, binomial, and poisson dialogs will open dialogs to make it easier to enter commands related to calculating probabilities for these distributions.
+		</ul>
+	<li> <b>StatPlot Button</b> Open dialogues to draw rough statistical plots.
+	<li> <b>Test Button</b>
+		<ul>
+		<li> <b> Note: </b> The buttons activate dialogues.  They do not insert editable commands.
+		<li> cimeant will open a dialogue to calculate a confidence interval for a mean using a Student-t distribution.
+		<li> ciprop will open a dialogue to calculate a confidence interval for a proportion.
+		<li> ztest -- tests about one mean knowing the population standard deviation
+		<li> ttest -- tests about one mean <b> not </b> knowing the population standard deviation
+		<li> onepropz -- tests about one proportion using a normal approximation to the binomial distribution
+		<li> twopropz -- tests about two proportions using a normal approximation to the binomial distribution
+		<li> matchedpairs -- tests for pairs of dependent data entered in two lists
+		<li> twomeant -- tests about two independent means
+		<li> chi2GOF -- goodness of fit test.  Expected and observed frequencies must be entered in lists.
+		<li> contingency -- contingency table.  The table must be entered in adjacent lists beginning with "First List" through "Last List."
+		<li> anova -- ANOVA test.  The samples must be listed in adjacent lists beginning with "First List" through "Last List."
+		<li> correlation -- test for linear correlation in pairs of data entered in lists.
+		<li> binomialtest -- tests about one proportion using a binomial distribution rather than a normal approximation to the binomial.
+		</ul>
+	<li> <b>List Button</b>
+		<ul>
+		<li> This button opens the lists for editing.  Most applications of the lists need one number (or arithmetic) expression on each line.  Blank lines and extraneous text may wreak havoc.
+		</ul>
+	</ul>
+	</div>
+	<div class='dialog' id='plotDiv'>
+		<canvas id='plotCanvas' width=350px height=250px></canvas>
+	</div>
+	<div id='outputText'></div>
+</div>
+<div id='inputText' class='inputArea'></div>
+<div id='buttonDiv'>
+<table class='buttonTable'>
+<tr class='wide'>
+	<td class='key'><button class='key' onclick='addText("7");'>7</button></td>
+	<td class='key'><button class='key' onclick='addText("8");'>8</button></td>
+	<td class='key'><button class='key' onclick='addText("9");'>9</button></td>
+	<td class='key'><button class='key' onclick='addText("+");'>+</button></td>
+	<td class='key'><button class='key' onclick='addText("-");'>-</button></td>
+</tr>
+<tr class='wide'>
+	<td class='key'><button class='key' onclick='addText("4");'>4</button></td>
+	<td class='key'><button class='key' onclick='addText("5");'>5</button></td>
+	<td class='key'><button class='key' onclick='addText("6");'>6</button></td>
+	<td class='key'><button class='key' onclick='addText("*");'>*</button></td>
+	<td class='key'><button class='key' onclick='addText("/");'>/</button></td>
+</tr>
+<tr class='wide'>
+	<td class='key'><button class='key' onclick='addText("1");'>1</button></td>
+	<td class='key'><button class='key' onclick='addText("2");'>2</button></td>
+	<td class='key'><button class='key' onclick='addText("3");'>3</button></td>
+	<td class='key'><button class='key' onclick='addText("^");'>^</button></td>
+	<td class='key'><button class='key' onclick='addText("factorial(");'>!</button></td>
+</tr>
+<tr class='wide'>
+	<td class='key'><button class='key' onclick='addText("0");'>0</button></td>
+	<td class='key'><button class='key' onclick='addText(".");'>.</button></td>
+	<td class='key'><button class='key' onclick='addText(",");'>,</button></td>
+	<td class='key'><button class='key' onclick='addText("(");'>(</button></td>
+	<td class='key'><button class='key' onclick='addText(")");'>)</button></td>
+</tr>
+<tr class='wide'>
+	<td class='key'><button class='key' onclick='showDialog("statDialog");'>Stat</button></td>
+	<td class='key'><button class='key' onclick='showDialog("statPlotDialog");'>StatPlot</button></td>
+	<td class='key'><button class='key' onclick='showDialog("testDialog");'>Test</button></td>
+	<td class='key'><button class='key' onclick='showLists();'>List</button></td>
+	<td class='key'><button class='key' onclick='showMathDialog("mathDialog");'>Math</button></td>
+</tr>
+<tr class='wide'>
+	<td class='key'><button class='key' onclick='deleteChar();'>Del</button></td>
+	<td class='key'><button class='key' onclick='clearIn();'>Clear In</button></td>
+	<td class='key'><button class='key' onclick='clearAll();'>Clear All</button></td>
+	<td class='key'><button class='key' onclick='showDialog("helpDiv");'>Help</button></td>
+	<td class='key' colspan=2><button class='key' onclick='hideDialogs();'>Escape</button></td>
+</tr>
+<tr class='wide'>
+	<td class='key'><button class='key' onclick='showFunctions();'>y=</button></td>
+	<td class='key'><button class='key' onclick='addText("\"");'>"</button></td>
+	<td class='key'><button class='key' onclick='addText("x");'>x</button></td>
+	<td class='key'><button class='key' onclick='showDialog("graphDialog");'>Window</button></td>
+	<td class='key' colspan=1><button class='key' onclick='handleEnter();'>Enter</button></td>
+</tr>
+
+</table>
+</div>
+<div id="listDiv">
+<button onclick='hideLists();'>Hide Lists</button>
+<table>
+<tr class='wide'>
+<th>List 0</th>
+<th>List 1</th>
+<th>List 2</th>
+<th>List 3</th>
+<th>List 4</th>
+<th>List 5</th>
+<th>List 6</th>
+<th>List 7</th>
+<th>List 8</th>
+<th>List 9</th>
+</tr>
+<tr class='wide'>
+<td><textarea class="datalist"  rows=35 cols=10 wrap=off></textarea>
+</td><td><textarea class="datalist"  rows=35 cols=10 wrap=off></textarea>
+</td><td><textarea class="datalist"  rows=35 cols=10 wrap=off></textarea>
+</td><td><textarea class="datalist"  rows=35 cols=10 wrap=off></textarea>
+</td><td><textarea class="datalist"  rows=35 cols=10 wrap=off></textarea>
+</td><td><textarea class="datalist"  rows=35 cols=10 wrap=off></textarea>
+</td><td><textarea class="datalist"  rows=35 cols=10 wrap=off></textarea>
+</td><td><textarea class="datalist"  rows=35 cols=10 wrap=off></textarea>
+</td><td><textarea class="datalist"  rows=35 cols=10 wrap=off></textarea>
+</td><td><textarea class="datalist"  rows=35 cols=10 wrap=off></textarea>
+</tr>
+</div>
+</div>
+<audio id='theSound' src='click.mp3' type='audio/mpeg'></audio>
+</body>
+</html>

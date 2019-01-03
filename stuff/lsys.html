@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+<script type="text/javascript" src="spork.js"></script>
+<script>
+// Paste Spork code below this line ----------------------------------------------------------------
+var colorArray=new Array(9);
+colorArray[0]='black';
+colorArray[1]='#FF0000';
+colorArray[2]='#FF9900';
+colorArray[3]='#FFFF00';
+colorArray[4]='#00FF00';
+colorArray[5]='#0000FF';
+colorArray[6]='#660066';
+colorArray[7]='#EE82EE';
+colorArray[8]='white';
+
+var theAngle=90;
+var theColor=0;
+
+var minX=-10;
+var minY=-10;
+var maxX=10;
+var maxY=10;
+
+var eminX=0;
+var eminY=0;
+var emaxX=0;
+var emaxY=0;
+
+var theStack = new Array();
+var stackTop = -1;
+
+function scaleX(x){
+	return ((width*(x-minX)/(maxX-minX)));
+	}
+function scaleY(y){
+	return ((height-height*(y-minY)/(maxY-minY)));
+	}
+function drawLine(x1,y1,x2,y2){
+	line(scaleX(x1), scaleY(y1),scaleX(x2), scaleY(y2));
+	}
+	
+	function 	resetTurtle(){
+		degreeBearing = 90;
+		radianBearing = Math.PI/2;
+		penDown=1;
+		turtleX=0;
+		turtleY=0;
+		}
+	function	clearGraphics(){
+		clear();
+		}
+	function	clearInput(){
+		ioform.inputText.value="";
+		}
+	function	clearAll(){
+		clearGraphics();
+		ioform.inputText.value="";
+		turtleX=0;
+		turtleY=0;
+		degreeBearing = 90;
+		drawTurtle();
+		}
+	function	left(n){
+		degreeBearing -= n;
+		radianBearing = Math.PI * (degreeBearing/180);
+		}
+	function	right(n){
+		degreeBearing += n;
+		radianBearing = Math.PI * (degreeBearing/180);
+		}
+	function	penup(){
+		penDown=0;
+		}
+	function	pd(){
+		penDown=1;
+		}
+	function	drawmovetoL(x,y){
+		if (penDown == 0){
+			moveto(scaleX(x),scaleY(y));
+			}
+		else{
+			color(colorArray[theColor]);
+			line(scaleX(turtleX),scaleY(turtleY), scaleX(x),scaleY(y));
+			}
+		turtleX=x;
+		turtleY=y;
+		}
+function measuremovetoL(x,y){
+	if (x<eminX)
+		eminX=x;
+	else if (x>emaxX)
+		emaxX=x;
+	if (y<eminY)
+		eminY=y;
+	else if (y>emaxY)
+		emaxY=y;
+	turtleX=x;
+	turtleY=y;
+	}
+	function	forward(n){
+		movetoL(turtleX+n*Math.cos(radianBearing), turtleY+n*Math.sin(radianBearing));
+		}
+	function	backward(n){
+		movetoL(turtleX-n*Math.cos(radianBearing), turtleY-n*Math.sin(radianBearing));
+		}
+	function 	face(n){
+		degreeBearing = -n;
+		radianBearing = Math.PI * (degreeBearing/180);
+		}
+	function drawTurtle(){
+		}
+
+function pushTurtle(){
+	stackTop++;
+	theStack[stackTop]=new Array();
+	theStack[stackTop][0]=turtleX;
+	theStack[stackTop][1]=turtleY;
+	theStack[stackTop][2]=degreeBearing;
+	theStack[stackTop][3]=theColor;
+	}
+function popTurtle(){
+if (stackTop >= 0){
+	turtleX=theStack[stackTop][0];
+	turtleY=theStack[stackTop][1];
+	degreeBearing=theStack[stackTop][2];
+	radianBearing = Math.PI * (degreeBearing/180);
+	theColor=theStack[stackTop][3];
+	stackTop--;
+	}
+	}
+function	run(){
+		theAngle = eval(theform.angle.value);
+		var theCommands = '';
+		var instring = theform.thestring.value;
+		var num = instring.length;
+
+		clearGraphics();
+		resetTurtle();
+		theColor=eval(theform.color.value);
+		movetoL=measuremovetoL;
+		eminX=0;
+		eminY=0;
+		emaxX=0;
+		emaxY=0;
+//--------------------------------------------------------------------------
+		for (i=0;i<num;i++)
+			if (instring.charAt(i) == 'F') 	forward(1);
+			else if (instring.charAt(i) == '+') 	right(theAngle);
+			else if (instring.charAt(i) == '-') 	left(theAngle);
+			else if (instring.charAt(i) == '[') 	pushTurtle();
+			else if (instring.charAt(i) == ']') 	popTurtle();
+			else if (instring.charAt(i) == '^')	theColor=((((theColor+1)%9)+9)%9);
+			else if (instring.charAt(i) == 'V')	theColor=((((theColor-1)%9)+9)%9);
+			else forward(1);
+		var exwidth=emaxX-eminX+2;
+		var eywidth=emaxY-eminY+2;
+		var ewidth=exwidth;
+		if (eywidth > exwidth)
+			ewidth=eywidth;
+		var emidX=(emaxX+eminX)/2;
+		var emidY=(emaxY+eminY)/2;
+		minX=emidX-ewidth/2;
+		maxX=emidX+ewidth/2;
+		minY=emidY-ewidth/2;
+		maxY=emidY+ewidth/2;
+		
+		movetoL=drawmovetoL;
+		clearGraphics();
+		resetTurtle();
+		theColor=eval(theform.color.value);
+//---------------------------------------------------------------------------------
+		for (i=0;i<num;i++)
+			if (instring.charAt(i) == 'F') 	forward(1);
+			else if (instring.charAt(i) == '+') 	right(theAngle);
+			else if (instring.charAt(i) == '-') 	left(theAngle);
+			else if (instring.charAt(i) == '[') 	pushTurtle();
+			else if (instring.charAt(i) == ']') 	popTurtle();
+			else if (instring.charAt(i) == '^')	theColor=((((theColor+1)%9)+9)%9);
+			else if (instring.charAt(i) == 'V')	theColor=((((theColor-1)%9)+9)%9);
+			else forward(1);
+		}
+function	setup(){
+		movetoL=drawmovetoL;
+		ioform = document.getElementById("theform");
+		degreeBearing = 90;
+		radianBearing = Math.PI/2;
+		penDown=1;
+		turtleX=0;
+		turtleY=0;
+		drawTurtle();
+		}
+		
+function grow(){
+	theColor=eval(theform.color.value);
+	var max=eval(theform.iterations.value);
+	var instring = theform.axiom.value.toUpperCase();
+	var substring = theform.replacements.value.toUpperCase();
+	substring = substring.replace(/ /g, '');
+	var subarray = substring.split('\n');
+	var num = subarray.length;
+	for (i=0;i<num;i++){
+		subarray[i]=subarray[i].split('=');
+		if (subarray[i].length == 2){
+			subarray[i][0]= new RegExp(subarray[i][0], "g");
+			subarray[i][1]=subarray[i][1].toLowerCase();
+			}
+		}
+	for (i=0;i<max;i++){
+		for (j=0;j<num;j++)
+			if (subarray[j].length ==2)
+				instring = instring.replace(subarray[j][0], subarray[j][1]);
+		instring=instring.toUpperCase();
+		}
+	theform.thestring.value = instring;
+	theform.length.value=instring.length;
+	run();
+	}
+
+function nextgen(){
+	theform.iterations.value=eval(theform.iterations.value)+1;
+	grow();
+	}
+
+
+// Paste Spork code above this line------------------------------------------------------------------
+//runAlone();
+</script>
+</head>
+<body>
+
+<table><tr><td>
+<form id='theform' >
+Axiom:
+<input type='text' name='axiom' value='F'><br>
+Angle:
+<input type='text' name='angle' value='90'><br>
+Start Color:
+<input type='text' name='color' value='0'><br>
+Replacements:<br> <textarea type='text' name='replacements' value='' rows=10 cols=50>F=F[+F][-F]F[+F][-F]F</textarea><br>
+Iterations:<br>
+<input type='text' name='iterations' value='0'><br>
+Current String:<br>
+<textarea type='text' name='thestring' value='' rows=10 cols=50>F</textarea><div id='progress'></div><br>
+<input type='text' name='length' value='1'><br>
+<input type='button' onClick="grow();" value='Draw'> 
+<input type='button' onClick="nextgen();" value='Next'> <br>
+</form><br>
+Colors: 0=black, 1=red, 2=orange, 3=yellow, 4=green, 5=blue, 6=indigo, 7=violet, 8=white<br>
+Commands: +=turn left, -=turn right, [=save state, ]=restore state, ^=increase color, v=decrease color, anything else = forward
+</td><td><div id='spork'></div><br>
+</td></tr></table>
+
+
+</html>

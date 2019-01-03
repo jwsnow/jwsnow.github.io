@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+<script type="text/javascript">
+//* Point Stuff **********************************************/
+function dot(p){
+	return (this.x*p.x+this.y*p.y+this.z*p.z);
+	}
+function norm(){
+	return Math.sqrt(this.dot(this));
+	}
+function plus(b){
+	c=new point(this.x+b.x, this.y+b.y, this.z+b.z);
+	return(c);
+	}
+function sub(b){
+	c=new point(this.x-b.x, this.y-b.y, this.z-b.z);
+	return(c);
+	}
+function scale(s){
+	c=new point(s*this.x, s*this.y, s*this.z);
+	return(c);
+	}
+function zero(){
+	this.x=0;
+	this.y=0;
+	this.z=0;
+	}
+function rand(n){
+	this.x=Math.random() % n;
+	this.y=Math.random() % n;
+	this.z=Math.random() % n;
+
+	}
+function printInfo(){
+	return("("+this.x+", "+this.y+", "+this.z+")");
+	}
+function point(x,y,z){
+	this.x=x;
+	this.y=y;
+	this.z=z;
+	this.dot=dot;
+	this.norm=norm;
+	this.plus=plus;
+	this.sub=sub;
+	this.scale=scale;
+	this.zero=zero;
+	this.rand=rand;
+	this.printInfo=printInfo;
+	}
+//**************************************************************/
+//* 3D drawing stuff *******************************************/
+var theCanvas;
+var theContext;
+var theForm;
+var width;
+var height;
+var reach=10;			//maximum coordinate in DRAWING plane
+var reachScale=0.9;		//zooming factor
+var Pi=Math.PI;
+var angleSteps=20;		//half number of rotation steps in 
+					//one full revolution
+var aStep=Pi/angleSteps;	//added to angle for rotation
+var theta=0; 			//angle to eye from positive x-axis
+var phi=0; 			//angle to eye from xy-plane
+var projX;			//basis vectors for drawing plane
+var projY;
+var changed=0;			//flag to indicate if need redraw
+
+function setProjectionMatrix(){
+//set up basis for drawing plane
+	projX.x=-Math.sin(theta);
+	projX.y=Math.cos(theta);
+	projX.z=0;
+	projY.x=-Math.cos(theta)*Math.sin(phi);
+	projY.y=-Math.sin(theta)*Math.sin(phi);
+	projY.z= Math.cos(phi);
+	}
+function initProjectionMatrix(){
+//begin with eye on positive x-axis
+	projX=new point(0,0,0);
+	projY=new point(0,0,0);
+	theta=0;
+	phi=0;
+	setProjectionMatrix();
+	}
+function projectAndScaleX(p){
+//find x-component of point on drawing plane
+	return (width*(projX.dot(p)+reach)/(2*reach));
+	}
+function projectAndScaleY(p){
+//find y-component of point on drawing plane
+	return height-(height*(projY.dot(p)+reach)/(2*reach));
+	}
+function drawLine(p,q){
+	theContext.beginPath();
+	theContext.moveTo(projectAndScaleX(p), projectAndScaleY(p));
+	theContext.lineTo(projectAndScaleX(q), projectAndScaleY(q));
+	theContext.stroke();
+	}
+function drawSphere(p, r){
+	theContext.beginPath();
+	theContext.arc(projectAndScaleX(p), projectAndScaleY(p), width*(r/(2*reach)), 0, 2*Pi, false);
+	theContext.fill();
+	}
+function drawAxis(){
+	var p,q;
+	p=new point(-reach,0,0)
+	q=new point(reach,0,0);
+	drawLine(p,q);
+
+	p.x=0;p.y=-reach;p.z=0;
+	q.x=0;q.y=reach;q.z=0;
+	drawLine(p,q);
+
+	p.x=0;p.y=0;p.z=-reach;
+	q.x=0;q.y=0;q.z=reach;
+	drawLine(p,q);
+	}
+//*****************************************************************/
+//* Controls ******************************************************/
+function rotateLeft(){
+	theta+=aStep;
+	setProjectionMatrix();
+	changed=1;
+	}
+function zoomIn(){
+	reach=reach*reachScale;
+	changed=1;
+	}
+function zoomOut(){
+	reach=reach/reachScale;
+	changed=1;
+	}
+function rotateRight(){
+	theta-=aStep;
+	setProjectionMatrix();
+	changed=1;
+	}
+function rotateUp(){
+	if (phi<Pi/4){
+		phi+=aStep;
+		setProjectionMatrix();
+		changed=1;
+		}
+	}
+function rotateDown(){
+	if (phi>-Pi/4){
+		phi-=aStep;
+		setProjectionMatrix();
+		changed=1;
+		}
+	}
+function handleKeyDown(event){
+	var k=event.keyCode;
+
+	if	(k==39)
+		rotateRight();
+	else if	(k==79)
+		zoomOut();
+	else if	(k==73)
+		zoomIn();
+	else if	(k==37)
+		rotateLeft();
+//uncomment the next 4 lines if you want to be able to rotate
+	//up and down.  This is dangerous for ordered sets
+	//because the maximal and minimal elements may rotate out
+	//of those positions.
+//	else if	(k==38)
+//		rotateUp();
+//	else if (k==40)
+//		rotateDown();
+	drawScene();
+	}
+function handleMouseClick(x,y){
+	if (x<50)
+		rotateLeft();
+	else if (width-50<x)
+		rotateRight();
+	else if (y<50)
+		rotateUp();
+	else if (height-50<y)
+		rotateDown();
+	drawScene();
+	}
+//* drawLat Stuff ********************************************/
+
+var tStep=0.01;		//time step
+var N;				//number of elements in ordered set
+var thePoints; 			//arrays for points, velocities, forces
+var theVelocities
+var theForces;
+var theGraph;			//graph of covering relation
+var theOrder;			//order relation
+var theHeights; 		//height
+var theDepths;			//max height - depth
+var sorted;			//elements are bubble sorted to find height
+var radius=0.1;			//radius of ball drawn for each point
+var improve=0;			//flag to indicate when forces applied
+var repulsion=1;		//constants for proportional forces
+var attraction=1;
+var coverAttraction=1;
+
+function drawGraph(){
+	var x,y,i;
+
+	theContext.fillStyle="gray";
+	theContext.fillRect(0,0,width,height);
+	theContext.fillStyle="black";
+
+	for (x=0;x<N;x++)
+		for (y=0;y<N;y++)
+			if (theGraph[x][y])
+				drawLine(thePoints[x], thePoints[y]);
+	for (x=0;x<N;x++)
+		drawSphere(thePoints[x], radius);
+	changed=0;
+	}
+function findForces(){
+	var i,j,d,l,r,a,one;
+	r=2;
+	a=1;
+	one = new point(1,1,0);
+	for (i=0;i<N;i++)
+		theForces[i].zero();
+	for (i=0;i<N;i++)
+		for (j=0;j<N;j++)
+			if (i != j) {
+			d=thePoints[j].sub(thePoints[i]);
+			l=d.dot(d);
+			//Attraction for comparables
+			if ((theGraph[i][j])){
+				theForces[j].x-=((coverAttraction)*d.x);
+				theForces[j].y-=((coverAttraction)*d.y);
+				theForces[i].x+=((coverAttraction)*d.x);
+				theForces[i].y+=((coverAttraction)*d.y);
+				}
+			//Attraction for covers
+			if ((theOrder[i][j])){
+				theForces[j].x-=((attraction/l)*d.x);
+				theForces[j].y-=((attraction/l)*d.y);
+				theForces[i].x+=((attraction/l)*d.x);
+				theForces[i].y+=((attraction/l)*d.y);
+				}
+			//Repulsion for incomparables
+			else if (!(theOrder[i][j] || theOrder[i][j]) ){
+				theForces[j].x+=((repulsion/l)*d.x);
+				theForces[j].y+=((repulsion/l)*d.y);
+				theForces[i].x-=((repulsion/l)*d.x);
+				theForces[i].y-=((repulsion/l)*d.y);
+				}
+			}
+	}
+function findVelocities(){
+// Used F=MV rather than F=MA.  Assume all M are 1, so F=V.
+	var i;
+	for (i=0;i<N;i++){
+		theVelocities[i].x=theForces[i].x;
+		theVelocities[i].y=theForces[i].y;
+		}
+	}
+function updatePositions(){
+//new position = old position + velocity * tStep
+	var i;
+	for (i=0;i<N;i++){
+		thePoints[i].x+=tStep*theVelocities[i].x;
+		thePoints[i].y+=tStep*theVelocities[i].y;
+		}	
+	}
+
+function recenter(){
+//translate points so CM is at orgin for zooming and rotation
+	var i,j, c;
+	c=new point(0,0,0);
+	for (i=0;i<N;i++)
+		c=c.plus(thePoints[i]);
+	c=c.scale(1/N);
+	for (i=0;i<N;i++)
+		thePoints[i]=thePoints[i].sub(c);
+	}
+function updatePoints(){
+	findForces();
+	findVelocities();
+	updatePositions();
+	recenter();
+	changed=1;
+	}
+function transitiveClosure(){
+	var i, x,y,z;
+	for (i=0;i<N+1;i++)
+	for (x=0;x<N;x++)
+	for (y=0;y<N;y++)
+	for (z=0;z<N;z++)
+		theOrder[x][z]=theOrder[x][z] || (theOrder[x][y] && theOrder[y][z]);
+	}
+function bubbleSort(){
+//bubble sort elements to find heights
+	var x,y,t;
+	for (x=0;x<N;x++)
+		sorted[x]=x;
+	for (x=0;x<N;x++)
+		for (y=x+1;y<N;y++)
+			if (theOrder[sorted[y]][sorted[x]]){
+				t=sorted[y];
+				sorted[y]=sorted[x];
+				sorted[x]=t;
+				}
+	}
+function findHeights(){
+	var x,y;
+	for (x=0;x<N;x++)
+		theHeights[x]=0;
+	for (x=0;x<N;x++)
+		for (y=x+1;y<N;y++)
+			if (theGraph[sorted[x]][sorted[y]] && 
+			theHeights[sorted[y]]<theHeights[sorted[x]]+1)
+				theHeights[sorted[y]]=theHeights[sorted[x]]+1;
+	}
+function findDepths(){
+	var m, x, y;
+	m=0;
+	for (x=0;x<N;x++)
+		if (m<theHeights[x])
+			m=theHeights[x];
+	reach=Math.max(m, N/m);
+	for (x=0;x<N;x++)
+		theDepths[x]=m;
+	for (y=N-1;y>=0;y--)
+		for (x=y-1;x>=0;x--)
+			if (theGraph[sorted[x]][sorted[y]] && 
+			theDepths[sorted[x]]>theDepths[sorted[y]]-1)
+				theDepths[sorted[x]]=theDepths[sorted[y]]-1;
+	}
+function findZs(){
+	var x;
+	for (x=0;x<N;x++)
+		thePoints[x].z=(theHeights[x]+theDepths[x])/2;
+	}
+function centerSingles(){
+//if there is exactly on maximal (minimal) element then
+//its initial position is on the z-axis to help symmetry
+	var i,j,h,n,max, min;
+
+	for (i=0;i<N;i++){
+		h=thePoints[i].z;
+		n=0;
+		max=1;
+		min=1;
+		for (j=0;j<N;j++){
+			if (thePoints[j].z == h)
+				n++;
+			else if ((thePoints[j].z>h))
+				max=0;
+			else if ((thePoints[j].z<h))
+				min=0;
+			}
+		if ((n==1) && ((max) || (min))){
+			thePoints[i].x=0;
+			thePoints[i].y=0;
+			}
+		}
+	}
+function initializeArrays(){
+	var i,j,x,y;
+	initProjectionMatrix();
+	thePoints=new Array(N);
+	theVelocities=new Array(N);
+	theForces=new Array(N);
+	theHeights=new Array(N);
+	theDepths=new Array(N);
+	sorted = new Array(N);
+	for(i=0;i<N;i++){
+		thePoints[i]=new point(0,0,0);
+		theVelocities[i]=new point(0,0,0);
+		theForces[i]=new point(0,0,0);
+		}
+	theGraph=new Array(N);
+	for (i=0;i<N;i++)
+		theGraph[i]=new Array(N);
+
+	theOrder=new Array(N);
+	for (i=0;i<N;i++)
+		theOrder[i]=new Array(N);
+
+	for (i=0;i<N;i++)
+		for (j=0;j<N;j++){
+			theGraph[i][j]=0;
+			theOrder[i][j]=0;
+			theOrder[i][i]=1;
+			}
+	}
+function loadGraph(){
+	var i,j, x,y;
+
+	//get size
+	N=parseInt(theForm.nElements.value);
+	initializeArrays();
+	//get cover pairs
+	var coverText=theForm.covers.value;
+
+	//strip all non-digit characters and convert to an array
+	coverText=coverText.replace(new RegExp(/\D/g)," ");
+	coverText=coverText.replace(new RegExp(/^\s+/),"");
+	coverText=coverText.replace(new RegExp(/\s+$/),"");
+	a=coverText.split(/\s+/);
+	var l=a.length/2;
+
+	//load cover graph
+	for (i=0;i<l;i++){
+		x=2*i;
+		y=2*i+1;
+		theGraph[parseInt(a[x])][parseInt(a[y])]=1;
+		theOrder[parseInt(a[x])][parseInt(a[y])]=1;
+		}
+
+	//initial positions are random
+	for (i=0;i<N;i++)
+		thePoints[i].rand(N);
+
+	transitiveClosure();
+	bubbleSort();
+	findHeights();
+	findDepths();
+	findZs();
+	centerSingles();
+	improve=0;
+	}
+function reload(){
+	loadGraph();
+	recenter();
+	drawGraph();
+	go();
+	}
+function drawScene(){
+	//update if improve button clicked
+	if (improve)
+		updatePoints();
+	//draw only if a change has happened
+	if (changed)	
+		drawGraph();
+	}
+function printTex(){
+//xypic code
+	var i,j, x, y;
+	var latexString = "";
+	latexString += "\u005Cdocumentclass[]{article}<br>\u005Cusepackage[all]{xy}<br>\u005Cbegin{document}<br><br>";
+	latexString += "\u005C[\u005Cxygraph{!{<0mm,0mm>;<1mm,0mm>:<0mm,1mm>::}<br>";
+	for (i=0;i<N;i++){
+		x=100*(projectAndScaleX(thePoints[i]))/width;
+		y=100*(width-projectAndScaleY(thePoints[i]))/width;
+		latexString += "!{(" + x + "," + y + ")*{\u005Cbullet}}=\u0022" + i + "\u0022<br>";
+		}
+	for (i=0;i<N;i++)
+		for (j=0;j<N;j++)
+			if (theGraph[i][j])
+				latexString += "\u0022" + i + "\u0022-\u0022" + j + "\u0022<br>";
+	latexString += "}\u005C]<br><br>\u005Cend{document}<p>";	
+
+	msg=open("","DisplayWindow","toolbar=no,directories=no,menubar=no,width=700,height=400,scrollbars=yes,resizable=yes");
+	msg.document.close();
+	msg.document.open();
+	msg.document.write(latexString);
+	}
+
+//************************************************************/
+//
+function go(){
+	drawScene();
+	setTimeout('go()', 0);
+	}
+//* examples *************************************************
+var firstExample = 0;
+var exampleSize = new Array(20);
+var exampleText = new Array(20);
+var exampleForm;
+exampleSize[0]=8;
+exampleText[0]="(0, 1) \n(0, 2) \n(0, 3) \n(1, 4) \n(1, 5) \n(2, 4) \n(2, 6) \n(3, 5) \n(3, 6) \n(4, 7) \n (5, 7) \n (6, 7)";
+exampleSize[1]=16;
+exampleText[1]="0 1 0 2 0 4 0 8 1 3 1 5 1 9 2 3 2 6 2 10 4 5 4 6 4 12 8 9 8 10 8 12 3 7 3 11 5 7 5 13 9 11 9 13 6 7 6 14 10 11 10 14 12 13 12 14 7 15 11 15 13 15 14 15 ";
+exampleSize[2]=5;
+exampleText[2]="0 1 0 2 0 3 1 4 2 4 3 4";
+exampleSize[3]=5;
+exampleText[3]="0 1 0 2 2 3 1 4 3 4";
+exampleSize[4]=7;
+exampleText[4]="0 1 0 2 0 3 1 4 2 4 2 5 3 5 4 6 5 6";
+exampleSize[5]=9;
+exampleText[5]="0 1 0 2 1 3 1 4 2 4 2 6 3 5 4 5 5 7 7 8 6 8";
+exampleSize[6]=10;
+exampleText[6]="0 1 0 2 0 3 0 4 0 5 0 6 0 7 1 8 2 8 3 8 8 9 4 9 5 9 6 9 7 9";
+exampleSize[7]=9;
+exampleText[7]="0 1 0 2  1 3 1 4 2 4 2 5 3 6 4 6 4 7 5 7 6 8 7 8";
+exampleSize[8]=8;
+exampleText[8]="0 1 0 7 2 1 2 3 4 3 4 5 6 5 6 7";
+exampleSize[9]=15;
+exampleText[9]="0 1 0 2 0 3 0 4 0 5 0 6 7 14 8 14 9 14 10 14 11 14 12 14 13 14 1 7 1 8 1 9 2 8 2 9 2 10 3 9 3 10 3 11 4 10 4 11 4 12 5 11 5 12 5 13  6 12 6 13 6 7";
+exampleSize[10]=10;
+exampleText[10]="0 1 0 2 0 3 1 4 2 5 2 6 2 7 3 9 4 9 5 8 6 8 7 8 8 9";
+exampleSize[11]=18;
+exampleText[11]="0 1 0 2 0 3 1 4 1 5 2 4 2 6 3 5 3 6 4 7 4 9 5 8 5 9 6 9 6 10 7 11 8 12 9 11 9 12 9 13 10 13 11 14 11 15 12 14 12 16 13 15 13 16 14 17 15 17 16 17";
+exampleSize[12]=20;
+exampleText[12]="0 1 0 2 1 3 1 4 2 4 3 5 3 7 4 6 5 15 6 7 6 8 7 9 8 10 9 11 10 12 11 12 11 13 12 14 13 14 13 15 14 16 15 17 16 17 16 18 17 19 18 19 8 9";
+exampleSize[13]=32;
+exampleText[13]="0 1 0 2 0 4 0 8 0 16 1 3 1 5 1 9 1 17 2 3 2 6 2 10 2 18 3 7 3 11 3 19 4 5 4 6 4 12 4 20 5 7 5 13 5 21 6 7 6 14 6 22 7 15 7 23 8 9 8 10 8 12 8 24 9 11 9 13 9 25 10 11 10 14 10 26 11 15 11 27 12 13 12 14 12 28 13 15 13 29 14 15 14 30 15 31 16 17 16 18 16 20 16 24 17 19 17 21 17 25 18 19 18 22 18 26 19 23 19 27 20 21 20 22 20 28 21 23 21 29 22 23 22 30 23 31 24 25 24 26 24 28 25 27 25 29 26 27 26 30 27 31 28 29 28 30 29 31 30 31 ";
+exampleSize[14]=64;
+exampleText[14]="0 1 0 2 0 4 0 8 0 16 0 32 1 3 1 5 1 9 1 17 1 33 2 3 2 6 2 10 2 18 2 34 3 7 3 11 3 19 3 35 4 5 4 6 4 12 4 20 4 36 5 7 5 13 5 21 5 37 6 7 6 14 6 22 6 38 7 15 7 23 7 39 8 9 8 10 8 12 8 24 8 40 9 11 9 13 9 25 9 41 10 11 10 14 10 26 10 42 11 15 11 27 11 43 12 13 12 14 12 28 12 44 13 15 13 29 13 45 14 15 14 30 14 46 15 31 15 47 16 17 16 18 16 20 16 24 16 48 17 19 17 21 17 25 17 49 18 19 18 22 18 26 18 50 19 23 19 27 19 51 20 21 20 22 20 28 20 52 21 23 21 29 21 53 22 23 22 30 22 54 23 31 23 55 24 25 24 26 24 28 24 56 25 27 25 29 25 57 26 27 26 30 26 58 27 31 27 59 28 29 28 30 28 60 29 31 29 61 30 31 30 62 31 63 32 33 32 34 32 36 32 40 32 48 33 35 33 37 33 41 33 49 34 35 34 38 34 42 34 50 35 39 35 43 35 51 36 37 36 38 36 44 36 52 37 39 37 45 37 53 38 39 38 46 38 54 39 47 39 55 40 41 40 42 40 44 40 56 41 43 41 45 41 57 42 43 42 46 42 58 43 47 43 59 44 45 44 46 44 60 45 47 45 61 46 47 46 62 47 63 48 49 48 50 48 52 48 56 49 51 49 53 49 57 50 51 50 54 50 58 51 55 51 59 52 53 52 54 52 60 53 55 53 61 54 55 54 62 55 63 56 57 56 58 56 60 57 59 57 61 58 59 58 62 59 63 60 61 60 62 61 63 62 63 ";
+
+function	exampleValue(form){
+//see which example is clicked
+	r=0;
+	while ((exampleForm.example[r].checked)==false)
+		r++;
+	return r;
+	}
+function loadExample(n){
+	theForm.nElements.value=exampleSize[n];
+	theForm.covers.value=exampleText[n];
+	reload();
+	}
+//**********************************************************
+function bodyInit(){
+	        canvas = document.getElementById("pageCanvas");
+		if (canvas.getContext) {
+			theForm=document.getElementById("graphInputForm");
+			exampleForm=document.getElementById("exampleForm");
+	        	theContext = canvas.getContext("2d");
+			width=canvas.width;
+			height=canvas.height;
+			initProjectionMatrix();
+			loadExample(firstExample);
+			}
+	}
+//***************************************************************/
+</script>
+<body onload="bodyInit()" onkeydown="handleKeyDown(event)">
+<h1> JavaScript Lattice Drawing Program </h1>
+<canvas id="pageCanvas" width="500" height="500"></canvas>
+<ul> <li> i zooms in <li> o zooms out <li> arrows rotate</ul>
+<form id="graphInputForm">
+<input type=button value="Reload" onclick="reload()">
+<input type=button value="Improve" onclick="improve=1">
+<input type=button value="Stop Improving" onclick="improve=0">
+<input type=button value="Latex Code" onclick="printTex()"><p>
+Number of Elements: <input name="nElements" size=1 type="text"> <p>
+Covers: <br> <textarea name="covers" rows=10 cols=10 ></textarea><p>
+</form>
+<form id="exampleForm">
+<table border=1>
+<tr>
+<td><INPUT NAME="example" TYPE="RADIO" VALUE="0" CHECKED>B3</td>
+<td><INPUT NAME="example" TYPE="RADIO" VALUE="1">B4</td>
+<td><INPUT NAME="example" TYPE="RADIO" VALUE="2">M3</td>
+<td><INPUT NAME="example" TYPE="RADIO" VALUE="3">N5</td>
+</tr>
+<tr>
+<td><INPUT NAME="example" TYPE="RADIO" VALUE="4">D1</td>
+<td><INPUT NAME="example" TYPE="RADIO" VALUE="5">EX</td>
+<td><INPUT NAME="example" TYPE="RADIO" VALUE="6">SubA4</td>
+<td><INPUT NAME="example" TYPE="RADIO" VALUE="7">Grid</td>
+</tr>
+<tr>
+<td><INPUT NAME="example" TYPE="RADIO" VALUE="8">Crown</td>
+<td><INPUT NAME="example" TYPE="RADIO" VALUE="9">P</td>
+<td><INPUT NAME="example" TYPE="RADIO" VALUE="10">Q</td>
+<td><INPUT NAME="example" TYPE="RADIO" VALUE="11">FD3</td>
+</tr>
+<td><INPUT NAME="example" TYPE="RADIO" VALUE="12">FL(3+1)</td>
+<td><INPUT NAME="example" TYPE="RADIO" VALUE="13">BA5</td>
+<td><INPUT NAME="example" TYPE="RADIO" VALUE="14">BA6</td>
+</table>
+<input type=button value="Load Example" onclick="loadExample(exampleValue())"><p>
+</form>
+
+<h2>Directions</h2>
+
+This is a JavaScript program for drawing ordered sets (including
+lattices).  The idea for the program is based on Ralph Freese's much
+more sophisticated program at www.math.hawaii.edu/~ralph.<p>
+
+If you have no idea what an ordered set is, or if you just want to play
+and see what happens, press the "Improve" button above and play with the
+arrows.<p>
+
+"Reload" will start the drawing process over.  This is sometimes necessary 
+if the initial (random) positions are just "bad."<p>
+
+"Stop Improving" stops
+the drawing process.  "Latex Code" will give code for drawing the
+lattice with Latex and xypic.<p>
+
+To see a different example, select an example from the list and press
+"Load Example."  You can also enter you own example by typing cover
+pairs in the provided space.  Parenthesis, commas, braces, etc. are
+irrelevant and ignored by the program -- but they may help you to keep
+the pairs straight. <p>
+
+<h2>Explanation</h2>
+
+Elements of the ordered set are viewed as point masses in space.
+The z-values of the points are determined by their height and depth in the ordered
+set.  These values remain constant throughout the drawing process.
+Initial x-values and y-values are random.  Forces are applied to the
+points, and the points are allowed to move to try to find some sort of
+minimum energy position.<p>
+
+When improving
+the diagram, three types of forces are applied to the masses.
+<ul>
+<li> If two points are COMPARABLE, then an ATTRACTION force is applied between them
+which is inversely proportional to  the distance between
+the points.
+<li> If two points are NOT COMPARABLE, then a REPULSION force is applied between them
+which is inversely proportional to  the distance between
+the points.
+<li> If one point COVERS another, then an ATTRACTION force is applied
+between them which is directly proportional to the
+distance betweent the points.
+</ul>
+
+</body>
+</html>

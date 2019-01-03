@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+<head>
+<style>
+img.hidden{display: none;}
+canvas{
+	background: url('png/lightwood.jpg');
+	}
+#spork{
+	float: left;
+}
+#info{
+	float: left;
+	width: 400px;
+}
+div{
+	margin: 10px;
+}
+div.title{
+	font-size: 30px;
+	margin-left:0px;
+}
+div.foot{
+	clear: both;
+	font-size: 10px;
+}
+</style>
+<script src='spork.js'></script>
+<script>
+var numPegLevels=11;
+var numPegs;
+var pegRadius=5;
+var ballRadius=5;
+var eps=0.5;
+var pegSpace=(2*pegRadius+2*ballRadius);
+var N=20;	//num balls
+var highest=N-1;
+var through=0;
+var maxCount=0;
+var marbles=[]
+var theMarble;
+var pX=[];
+var pY=[];
+var X=[];
+var Y=[];
+var vX=[];
+var vY=[];
+var aX=[];
+var aY=[];
+var counts=[];
+function setupPegCoords(){
+	var i,j,k;
+	var n = width/pegSpace;
+	k=0;
+	for (i=0;i<numPegLevels;i++){
+		for (j=-width/2+pegSpace/2 + (i%2)/2*pegSpace;j<width/2;j+=pegSpace){
+			pX[k]= j;
+			pY[k]=i*pegSpace;	
+			k++;
+		}	
+	}
+	numPegs=k;
+	for (i=0;i<=width/pegSpace;i++)
+		counts[i]=0;
+}
+function setupBalls(){
+	var i;
+	marbles=[marble1, marble2, marble3, marble4, marble5, marble6, marble7];
+	theMarble=floor(random()*marbles.length);
+	for (i=0;i<N;i++){
+		X[i]=pegRadius*(random()-0.5);
+		Y[i]=-4*i*pegSpace;
+		vX[i]=0;//random();
+		vY[i]=1;
+		aX[i]=0;
+		aY[i]=0;
+	}
+	maxCount=0;
+	highest=N-1;
+}
+function showPegs(){
+	var i;
+//	color('black');
+//	fillcolor('black');
+	for (i=0;i<numPegs;i++){
+//		circle(pX[i],pY[i],pegRadius);
+//		fill();
+		drawImage(tack,pX[i],pY[i],2*pegRadius,2*pegRadius);
+	}
+}
+function showBalls(){
+	var i;
+//	color('red');
+//	fillcolor('red');
+	for (i=0;i<N;i++){
+//		circle(X[i], Y[i], ballRadius);
+//		fill();
+		drawImage(marbles[theMarble],X[i], Y[i], 2*ballRadius,2*ballRadius);
+	}
+}
+function drawCups(){
+	var i,x,j;
+	color('black');
+	for (i=-width/2+(numPegLevels%2)/2*pegSpace;i<width/2;i+=pegSpace){
+		line(i,numPegLevels*pegSpace,i,height);
+	}
+//	color('red');
+//	fillcolor('red');
+	for (i=0;i<=width/pegSpace;i++){
+		x=-width/2+(numPegLevels%2+1)/2*pegSpace+i*pegSpace;
+		for (j=0;j<counts[i];j++){
+//			circle(x, height-pegSpace-(j*ballRadius),ballRadius);
+			drawImage(marbles[theMarble],x, height-pegSpace-(j*ballRadius)*scale, 2*ballRadius,2*ballRadius);
+//			fill();
+		}
+	}
+}
+var rest=0.4;
+function bounce(){
+	var i,j;
+	var dx,dy,d,nx,ny,dot,vx,vy,ax,ay,bx,by;
+	for (i=0;i<N;i++){
+		//bounce off pegs
+		for (j=0;j<numPegs;j++){
+			dx=pX[j]-X[i];
+			dy=pY[j]-Y[i];
+			d=sqrt(dx*dx+dy*dy);
+			if (d < ballRadius+pegRadius){
+				dx=dx/d;		//d points from ball to peg
+				dy=dy/d;
+				nx=dy;		//n is perpendicular to d
+				ny=-dx;
+				X[i]=pX[j]-(ballRadius+pegRadius)*dx;
+				Y[i]=pY[j]-(ballRadius+pegRadius)*dy;
+				vx=vX[i];		//velocity
+				vy=vY[i];
+				dot=vx*nx+vy*ny;
+				ax=dot*nx;	//a is component of v parallel to n
+				ay=dot*ny;
+				bx=vx-ax		//b is component of b parallel to d
+				by=vy-ay;
+				vX[i]=ax-rest*(bx);	//negate component parallel to d
+				vY[i]=ay-rest*(by);
+			}
+		}
+		if (vX[i]*vX[i]+vY[i]*vY[i]<0.01) vX[i]=random()-0.5;
+	}
+}
+function updatePosition(){
+	var i,j;
+	for (i=0;i<N;i++){
+		if ((Y[i]>0)) aY[i]=.1;
+		//vX[i]=vX[i]+aX[i];
+		vY[i]=vY[i]+aY[i];
+		if (Y[i]>0) X[i]=X[i]+vX[i];
+		Y[i]=Y[i]+vY[i];
+	}
+	for (i=0;i<=width/pegSpace;i++){
+		x=-width/2+(numPegLevels%2+1)/2*pegSpace+i*pegSpace;
+		for (j=0;j<N;j++)
+			if ((Y[j]>numPegLevels*pegSpace) && (abs(X[j]-x)<pegSpace/2)){
+				X[j]=x;
+			}
+	}
+	bounce();
+}
+var scale=1;
+function count(){
+	var i,j,x;
+	var h=(height-pegSpace)-(numPegLevels*pegSpace);
+	for (i=0;i<=width/pegSpace;i++)
+		if (counts[i]>maxCount)
+			maxCount=counts[i];
+	if (maxCount*ballRadius > h)
+		scale=h/(maxCount*ballRadius);
+	else
+		scale=1;
+	for (i=0;i<=width/pegSpace;i++){
+		x=-width/2+(numPegLevels%2+1)/2*pegSpace+i*pegSpace;
+		for (j=0;j<N;j++)
+//			if ((Y[j]>numPegLevels*pegSpace) && (abs(X[j]-x)<pegSpace/2)){
+			if ((Y[j]>height-pegSpace-(counts[i]*ballRadius)*scale) && (abs(X[j]-x)<pegSpace/2)){
+				counts[i]++;
+				//through++;
+				//output.innerHTML=through;
+				X[j]=pegRadius*(random()-0.5);
+				Y[j]=Y[highest]-4*pegSpace;
+				highest=j;
+				vX[j]=0;//random();
+				vY[j]=1;
+				aX[j]=0;
+				aY[j]=0;
+			}
+	}
+}
+function setup(){
+	size(400,400);
+	translate(width/2,pegSpace);
+	linewidth(0);
+	setupPegCoords();
+	setupBalls();
+	loop();
+}
+function draw(){
+	clear();
+	showPegs();
+	showBalls();
+	count();
+	drawCups();
+	updatePosition();
+}
+</script>
+</head>
+<body>
+<div id='info'>
+<div class='title'>Galton's Pegboard</div>
+When a marble is dropped into the pegboard, it will bounce through 10 rows of
+pegs. (For those that are counting, there are 11 rows, but the top row does not 
+affect the path of the marble.) When a marble bounces on a peg, it will fall left 50% of the 
+time and right 50% of the time. The path of the marble represents 10 trials which each
+end in an outcome of left or right, with left and right being equally likely. The final column
+that a marble lands in represents how many left (or right) turns the marble took.
+If the outcomes of the bounces on each level of the pegboard are independent<sup>*</sup>
+then the path of each marble represents a sampling instance of a binomial random
+variable with 10 trials and probability of success 50%. The column that the marble lands in
+represents a value of the random variable. As the number of marbles dropped increases,
+the counts of marbles in the individual columns will begin to approximate a binomial
+distribution.
+<br><br>
+<button onclick='stoploop();' style='width: 100%;'>Stop</button><br><br>
+<button onclick='startover();' style='width: 100%;'>Start Over</button>
+</div>
+<div id='spork'></div>
+<!--
+<button onclick='stoploop();'>Stop</button>
+<div id='output'></div>
+-->
+<div class='foot'>
+<sup>*</sup>The bounces of the marbles are not technically independent.
+If the spaces between the pegs are large enough, and if the coefficient of restitution of the
+bouncing is high enough, the result of one bounce can dramatically affect the next. With
+narrow gaps between the pegs and a lower coefficient of restitution, this dependency can 
+be diminished somewhat.</div>
+<img src='png/tack.png' id='tack' class='hidden'>
+<img src='png/marble1.png' id='marble1' class='hidden'>
+<img src='png/marble2.png' id='marble2' class='hidden'>
+<img src='png/marble3.png' id='marble3' class='hidden'>
+<img src='png/marble4.png' id='marble4' class='hidden'>
+<img src='png/marble5.png' id='marble5' class='hidden'>
+<img src='png/marble6.png' id='marble6' class='hidden'>
+<img src='png/marble7.png' id='marble7' class='hidden'>
+</body>
+</html>

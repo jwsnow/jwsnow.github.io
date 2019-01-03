@@ -1,0 +1,244 @@
+<!doctype html>
+<html>
+<head>
+<style></style>
+<script src='spork.js'></script>
+<script>
+var minX=-10;
+var maxX=10;
+var minY=-10;
+var maxY=10;
+var f,F;
+var h;
+var tx,ty;
+var sx,sy;
+var DELTA = "\u0394";
+function fixExponentsOld(s){
+	var a=s;
+	var re=/\w\^[0-9]*/;
+	var re2=/\(\S*\)\^[0-9]/;
+	var re3=/\(\S*\)\^\(\S*\)/;
+	var re4=/\w\^\(\S*\)/;
+	while(re4.test(a)){
+		a=a.replace(/(\w*\.?\w*)\^\((\S*)\)/, "Math.pow($1, $2)");
+	}
+	while(re3.test(a)){
+		a=a.replace(/\((\S*)\)\^\((\S*)\)/, "Math.pow($1, $2)");
+	}
+	while (re2.test(a)){
+		a=a.replace(/\((\S*)\)\^([0-9]*\.?[0-9]*)/, "Math.pow($1, $2)");
+		}
+	while (re.test(a)){
+		a=a.replace(/(\w*\.?\w*)\^([0-9]*\.?[0-9]*)/, "Math.pow($1, $2)");
+		}
+
+	return a;
+	}
+function fixExponents(s){
+	var i=0;
+	var re1=/:OP(\d+):([^]*):CP\1:\s*\^\s*:OP(\d+):([^]*):CP\3:/
+	var re2=/:OP(\d+):([^]*):CP\1:\s*\^\s*(\w*)/
+	var re3=/(\w*)\s*\^\s*:OP(\d+):([^]*):CP\2:/
+	var re4=/(\w*)\s*\^\s*(\w*)/
+	while (s.search(/\(([^()]*)\)/)!=-1){
+		s=s.replace(/\(([^()]*)\)/, ':OP'+i+':$1:CP'+i+':');
+		i++;
+	}
+	while (s.search(re1) != -1)
+		s=s.replace(re1,"pow($2,$4)");
+	while (s.search(re2) != -1)
+		s=s.replace(re2,"pow($2,$3)");
+	while (s.search(re3) != -1)
+		s=s.replace(re3,"pow($1,$3)");
+	while (s.search(re4) != -1)
+		s=s.replace(re4,"pow($1,$2)");
+	while (s.search(/:OP\d+:/) != -1)
+		s=s.replace(/:OP\d+:/,'(');
+	while (s.search(/:CP\d+:/) != -1)
+		s=s.replace(/:CP\d+:/,')');
+	return(s);
+}	
+function smash(a, themin, themax){
+/*	if (a<themin)
+		return(themin-1);
+	else if (a>themax)
+		return(themax+1);
+	else 
+*/		return(a);
+	}
+function scaleX(x){
+	return (smash(width*(x-minX)/(maxX-minX),0,width));
+	}
+function scaleY(y){
+	return (smash(height-height*(y-minY)/(maxY-minY),0,height));
+	}
+function unscaleX(x){
+	return  ((Math.round(100*(minX+(maxX-minX)*(x/width))))/100);
+	}
+function unscaleY(y){
+	return  ((Math.round(100*(minY+(maxY-minY)*((height-y)/height))))/100);
+	}
+function plotFunction(){
+	var startx = scaleX(minX);
+	var stopx= scaleX(maxX);
+	var X,x,y,x1,y1,x2,y2;
+	x=minX;
+	y=eval(f);
+	x1=scaleX(x);
+	y1=scaleY(y);
+	for (X=startx;X<=stopx;X++){
+		x=unscaleX(X);
+		y=eval(f);
+		x2=scaleX(x);
+		y2=scaleY(y);
+		line(x1,y1,x2,y2);
+		x1=x2;
+		y1=y2;
+	}
+}
+function drawAxis(){
+	save();
+	color('lightgray');
+	line(0,scaleY(0),width,scaleY(0));
+	line(scaleX(0), 0, scaleX(0), height);
+	restore();
+}
+function drawTicks(){
+	var x,y;
+	save();
+	color('lightgray');
+	fillcolor('lightgray');
+	font('12pt times');
+	aligntext('center');
+	for (x=width/10;x<width;x+=width/10)
+		line(x,scaleY(0)-3, x, scaleY(0)+3);
+	for (y=height/10;y<height;y+=height/10)
+		line(scaleX(0)-3, y, scaleX(0)+3,y);
+	for (x=width/10;x<width;x+=width/10)
+		filltext(unscaleX(x), x, scaleY(0)+15);
+	for (y=height/10;y<height;y+=height/10)
+		filltext(unscaleY(y), scaleX(0)+10,y+5);
+	restore();
+}
+function plotSecant(){
+	var m;
+	save();
+	f=F;
+	var x,y;
+	x=tx;
+	ty=eval(f);
+	x=sx;
+	sy=eval(f);
+	y=ty;
+	restore();
+	if (tx != sx){
+		m=(sy-ty)/(sx-tx);
+		f=m+'*(x-('+tx+'))+'+ty;
+		color('red');
+		if (secantbox.checked) plotFunction();
+	}
+	restore();
+}
+function plotPoints(){
+	save();
+	var x,y;
+	x=tx;
+	y=ty;
+	color('green');
+	linewidth(1);
+	line(scaleX(x),scaleY(0)+5,scaleX(x),scaleY(0)-5)
+	linewidth(3);
+	point(scaleX(x),scaleY(y));
+	x=sx;
+	y=sy;
+	color('red');
+	linewidth(1);
+	line(scaleX(x),scaleY(0)+5,scaleX(x),scaleY(0)-5)
+	linewidth(3);
+	point(scaleX(x),scaleY(y));
+	line(scaleX(tx),scaleY(0), scaleX(sx), scaleY(0));
+	restore();
+}
+function plotTangent(){
+	var d=0.00001;
+	save();
+	color('green');
+	var x=tx+d;
+	f=F;
+	var y=eval(f);
+	var m=(y-ty)/d;
+	f=m+'*(x-('+tx+'))+'+ty;
+	color('green');
+	if (tangentbox.checked) plotFunction();	
+	restore();
+}
+function drawTriangle(){
+	if (trianglebox.checked){
+		save();
+		color('red');
+		fillcolor(255,0,0,0.5);
+		font('12pt times');
+		aligntext('center');
+		triangle(scaleX(tx),scaleY(ty),scaleX(sx),scaleY(ty),scaleX(sx),scaleY(sy));
+		fill();
+		fillcolor('black');
+		filltext(DELTA+'y', scaleX(sx)+10, scaleY((sy+ty)/2));
+		filltext(DELTA+'x=h', scaleX((sx+tx)/2)+10, scaleY((ty))+12);
+		restore();
+	}
+}
+function drawEverything(){
+	minX=eval(xmininput.value);
+	maxX=eval(xmaxinput.value);
+	minY=eval(ymininput.value);
+	maxY=eval(ymaxinput.value);
+	f=fixExponents(finput.value);
+	F=f;
+	h=eval(deltaxinput.value);
+	tx=eval(txinput.value);
+	sx=tx+h;
+	clear();
+	drawAxis();
+	drawTicks();
+	plotFunction();
+	save();
+	plotSecant();
+	plotTangent();
+	drawTriangle();
+	plotPoints();
+	restore();
+}
+function onmousemove(){
+	if (mouseDown){
+		if (abs(mouseX-scaleX(sx))<20){ 
+			deltaxinput.value=(unscaleX(mouseX)-tx).toFixed(3);
+			drawEverything();
+		}
+//		else if (abs(mouseX-scaleX(tx))<20){
+//			txinput.value=unscaleX(mouseX).toFixed(3);
+//			drawEverything();
+//		}
+	}
+}
+function setup(){}
+function draw(){
+	drawEverything();
+}
+
+</script>
+</head>
+<body>
+<div id='spork'></div>
+<div id='control'>
+<i>f(x)=</i><input type='text' id='finput' value='x^2'> <br>
+Tangent at <i>x=</i><input type='text' id='txinput' value='1' size='5'> <br>
+<i>&Delta;x=</i><input type='text' id='deltaxinput' value='1'>  <br>
+<input type='text' id='xmininput' value='-3' size='5'> &le; <i>x</i> &le; <input type='text' id='xmaxinput' value='3' size='5'> <br>
+<input type='text' id='ymininput' value='-1' size='5'> &le; <i>y</i> &le; <input type='text' id='ymaxinput' value='9' size='5'> <br>
+Draw Tangent <input type='checkbox' id='tangentbox' checked='true' onchange='drawEverything();'><br>
+Draw Secant <input type='checkbox' id='secantbox' checked='true' onchange='drawEverything();'><br>
+Draw Triangle <input type='checkbox' id='trianglebox' checked='true' onchange='drawEverything();'><br>
+<button onclick='drawEverything();'>Redraw</button>
+</div>
+</body>
+</html>

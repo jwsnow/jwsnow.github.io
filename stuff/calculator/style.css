@@ -1,0 +1,121 @@
+#mainDiv{
+	position: relative;
+	width:400px;
+	height:600px;
+	border: 1px solid black;
+	background-color: lightgray;
+	overflow:hidden;
+}
+#inputText{
+	margin: 2px;
+	height: 5%;
+	font-size:14px;
+	background-color: white;
+	border: 1px solid black;
+	overflow-y: auto;
+}
+#outputDiv{
+	margin: 2px;
+	height: 48%;
+	background-color: white;
+	border: 1px solid black;	
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+#buttonDiv{
+	margin: 2px;
+	height: 45%;
+}
+#buttonTable{
+	height:100%;
+}
+#listDiv{
+	display:none;
+	position:absolute;
+	top:0px;
+	width:100%;
+	height:100%;
+	background-color: white;
+	overflow:auto;
+	white-space: nowrap;
+}
+#plotDiv{
+	text-align:center;
+}
+#plotCanvas{
+		border:1px solid black;
+}
+textarea.datalist{
+	overflow:auto;
+	wrap=off;
+}
+button.key {
+	height: 30px;
+	margin:2px;
+	padding:2px;
+	background-color:black;
+	color: white;
+	font-size:14px;
+	border-radius: 4px;
+	width:100%;
+}
+button.dog{
+	height: 35px;
+	margin:2px;
+	padding:2px;
+	background-color:black;
+	color: white;
+	font-size:14px;
+	border-radius: 4px;
+	width:100%;
+}
+table{
+	width:100%;
+}
+table.hypo{
+	width: 200px;
+}
+td.right{
+	text-align: right;
+}
+tr.center{
+	text-align: center;
+}
+tr.wide{
+	width:100%;
+	height: 100%;
+}
+
+td.key{
+	width:18%;
+	height: 100%;
+}
+
+div.dialog{
+	display: none;
+	background-color: lightgray;
+	z-index: 10;
+	border: 1px solid black;
+	margin: 2px;
+}
+div.short{
+	display: inline-block;
+	width:100px;
+	height: 20px;
+	margin:2px;
+	background-color:white;
+	text-align: left;
+}
+div.long{
+	display: inline-block;
+	width:300px;
+	height: 20px;
+	margin:2px;
+	background-color:white;
+	text-align: left;
+}
+div.function{
+	display: inline-block;
+	overflow-x: auto;
+	width: 300px;
+}

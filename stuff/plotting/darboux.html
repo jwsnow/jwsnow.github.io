@@ -1,0 +1,271 @@
+<html>
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+<script type="text/javascript" src="canvastext.js"></script>
+<script type="text/javascript">
+
+	var canvas;
+	var BOB;
+	var ctx;
+	var minX=-5;
+	var minY=-5;
+	var maxX=5;
+	var maxY=5;
+	var dX;
+	var focusX=0;
+	var focusY=0;
+	var zoomFactor=0.75;
+	var width=600;
+	var height=600;
+	var Pi=Math.PI;
+	var limitChanged=0;
+	var theColors=new Array(5);
+
+	theColors[0]='black';
+	theColors[1]='red';
+	theColors[2]='blue';
+	theColors[3]='green';
+	theColors[4]='yellow';
+
+	function smash(a, themin, themax){
+		if (a<themin)
+			return(themin-1);
+		else if (a>themax)
+			return(themax+1);
+		else 
+			return(a);
+		}
+	function scaleX(x){
+		return (smash(width*(x-minX)/(maxX-minX),0,width));
+		}
+	function scaleY(y){
+		return (smash(height-height*(y-minY)/(maxY-minY),0,height));
+		}
+	function unscaleX(x){
+		return  ((Math.round(100*(minX+(maxX-minX)*(x/width))))/100);
+		}
+	function unscaleY(y){
+		return  ((Math.round(100*(minY+(maxY-minY)*((height-y)/height))))/100);
+		}
+	function drawticks(){
+		ctx.beginPath();
+		for (x=width/10.0;x<width;x+=width/10.0){
+			ctx.moveTo(x, scaleY(0)-3);
+			ctx.lineTo(x, scaleY(0)+3);
+			}
+		for (x=height/10.0;x<height;x+=height/10.0){
+			ctx.moveTo(scaleX(0)-3,x);
+			ctx.lineTo(scaleX(0)+3,x);
+			}
+		ctx.stroke();
+		for (x=width/10.0;x<width;x+=width/10.0){
+			ctx.drawTextCenter( "sans", 12, x,scaleY(0)+15,""+unscaleX(x));
+			}
+		for (x=height/10.0;x<height;x+=height/10.0){
+			ctx.drawText( "sans", 12, scaleX(0)+10,x,""+unscaleY(x));
+			}
+
+		}
+	function drawaxis(){
+		ctx.beginPath();
+ctx.strokeStyle='black';
+		ctx.moveTo(scaleX(minX), scaleY(0));
+		ctx.lineTo(scaleX(maxX), scaleY(0));
+		ctx.moveTo(scaleX(0), scaleY(minY));
+		ctx.lineTo(scaleX(0), scaleY(maxY));
+		ctx.stroke();
+		drawticks();
+		}
+	function resetAxis(){
+		minX=-5;
+		maxX=5;
+		minY=-5;
+		maxY=5;
+		document.theform.minx.value=minX;
+		document.theform.maxx.value=maxX;
+		document.theform.miny.value=minY;
+		document.theform.maxy.value=maxY;
+		limitChanged=0;
+		dX=(maxX-minX)/width;
+		}
+	function clearit(){
+		ctx.fillStyle="silver";
+		ctx.fillRect(0,0,width,height);
+		}
+	function changeAxis(){
+		with(Math){
+			minX=eval(document.theform.minx.value);
+			maxX=eval(document.theform.maxx.value);
+			minY=eval(document.theform.miny.value);
+			maxY=eval(document.theform.maxy.value);
+			}
+		limitChanged=0;
+		dX=(maxX-minX)/width;
+		}
+	function init() {
+	        canvas = document.getElementById("mycanvas");
+		BOB=document.getElementById("bob");
+		if (canvas.getContext) {
+	        	ctx = canvas.getContext("2d");
+			ctx.fillStyle="silver";
+			width=canvas.width;
+			height=canvas.height;
+			CanvasTextFunctions.enable(ctx);
+			dX=(maxX-minX)/width;
+			clearit();
+			drawaxis();
+			graphit();
+			}
+		}
+	function fixExponents(s){
+		var a=s;
+		var re=/\w\^[0-9]*/;
+		var re2=/\(\S*\)\^[0-9]/;
+		while (re2.test(a)){
+			a=a.replace(/\((\S*)\)\^([0-9]*)/, "pow($1, $2)");
+			}
+		while (re.test(a)){
+			a=a.replace(/(\w)\^([0-9]*)/, "pow($1, $2)");
+			}
+		return a;
+		}
+
+	function graphit(){
+
+		var i,n,delta,temp,y2,area,U,L;
+
+			changeAxis();
+			clearit();
+			drawaxis();			
+with(Math){
+		area=0;
+		n=eval(document.theform.numRect.value);
+		delta=(maxX-minX)/n;
+		thetext=fixExponents(document.theform.theFun.value);
+
+		ctx.strokeStyle='black';
+		ctx.fillStyle='red';
+		for(x=minX;x<maxX;x+=delta){
+			temp=x;
+			y=eval(thetext);
+			for(x=temp;x<=temp+delta;x+=delta/100.0){
+				maxy=eval(thetext);
+				if (y<maxy)
+					y=maxy;
+				}
+			area+=y;
+			x=temp;
+			ctx.beginPath();
+			ctx.moveTo(scaleX(x), scaleY(0));
+			ctx.lineTo(scaleX(x), scaleY(y));
+			ctx.lineTo(scaleX(x+delta), scaleY(y));
+			ctx.lineTo(scaleX(x+delta), scaleY(0));
+			ctx.lineTo(scaleX(x), scaleY(0));
+			ctx.fill();
+			ctx.beginPath();
+			ctx.moveTo(scaleX(x), scaleY(0));
+			ctx.lineTo(scaleX(x), scaleY(y));
+			ctx.lineTo(scaleX(x+delta), scaleY(y));
+			ctx.lineTo(scaleX(x+delta), scaleY(0));
+			ctx.lineTo(scaleX(x), scaleY(0));
+			ctx.stroke();
+			}
+		U=area*delta;
+		area=0;
+		ctx.strokeStyle='black';
+		ctx.fillStyle='yellow';
+		for(x=minX;x<maxX;x+=delta){
+			temp=x;
+			y=eval(thetext);
+			for(x=temp;x<=temp+delta;x+=delta/100.0){
+				maxy=eval(thetext);
+				if (y>maxy)
+					y=maxy;
+				}
+			area+=y;
+			x=temp;
+			ctx.beginPath();
+			ctx.moveTo(scaleX(x), scaleY(0));
+			ctx.lineTo(scaleX(x), scaleY(y));
+			ctx.lineTo(scaleX(x+delta), scaleY(y));
+			ctx.lineTo(scaleX(x+delta), scaleY(0));
+			ctx.lineTo(scaleX(x), scaleY(0));
+			ctx.fill();
+			ctx.beginPath();
+			ctx.moveTo(scaleX(x), scaleY(0));
+			ctx.lineTo(scaleX(x), scaleY(y));
+			ctx.lineTo(scaleX(x+delta), scaleY(y));
+			ctx.lineTo(scaleX(x+delta), scaleY(0));
+			ctx.lineTo(scaleX(x), scaleY(0));
+			ctx.stroke();
+			}
+		L=area*delta;
+		ctx.strokeStyle='black';
+		thetext=fixExponents(document.theform.theFun.value);
+		ctx.beginPath();
+		x=minX;
+		ctx.moveTo(scaleX(x), scaleY(eval(thetext)));
+			for (x=minX;x<maxX;x+=dX){
+				ctx.lineTo(scaleX(x), scaleY(eval(thetext)));
+				}
+}		ctx.stroke();
+
+bob.innerHTML="<table><tr><td>Upper Sum: </td><td>"+U+"</td></tr><tr><td>Lower Sum: </td><td>"+L+"</td></tr><tr><td>Difference:</td><td>"+(U-L)+"</td></tr></table>";
+//alert("Approximate Area: "+area*delta);
+		}
+	function zoom(){
+		ctx.fillStyle="silver";
+		ctx.fillRect(0,0,width,height);
+		zoomFactor=eval(document.theform.zoom.value)
+		xwidth=0.5*zoomFactor*(maxX-minX);
+		ywidth=0.5*zoomFactor*(maxY-minY);
+		minX=focusX-xwidth;
+		document.theform.minx.value=minX;
+		maxX=focusX+xwidth;
+		document.theform.maxx.value=maxX;
+		minY=focusY-ywidth;
+		document.theform.miny.value=minY;
+		maxY=focusY+ywidth;
+		document.theform.maxy.value=maxY;
+		dX=(maxX-minX)/width;
+		drawaxis();
+		graphit();
+		}
+	function changeFocus(x, y){
+		focusX=unscaleX(x);
+		focusY=unscaleY(y);
+		}
+	function doubleIt(){
+		var n;
+		n=eval(document.theform.numRect.value);
+		document.theform.numRect.value=2*n;
+		}
+</script>
+
+<body onload="init()">
+<table><tr><td>
+<canvas id="mycanvas" width="600" height="600" ></canvas>
+</td><td>
+<FORM name="theform">
+Minimum x =<input name="minx" type="text" value="-5" onkeyup="limitChanged=1" size='5'> 
+Maximum x =<input name="maxx" type="text" value="5" onkeyup="limitChanged=1" size='5'> <p>
+Minimum y =<input name="miny" type="text" value="-5" onkeyup="limitChanged=1" size='-0.1'> 
+Maximum y =<input name="maxy" type="text" value="5" onkeyup="limitChanged=1" size='1.1'> <p>
+<table><tr>
+<td>
+f(x)=<input name="theFun" type="text" onkeyup="limitChanged=1" value="1/(1+x^2)"> <p>
+number of rectangles: <input name="numRect" type="text" value='16'> <p>
+<INPUT NAME="graph" TYPE=Button VALUE="Graph It" onClick="graphit()"><p>
+<INPUT NAME="clear" TYPE=Button VALUE="Clear" onClick="clearit();drawaxis()"> <p>
+<INPUT NAME="changeaxis" TYPE=Button VALUE="Change Axis" onClick="changeAxis();clearit();drawaxis()"> <p>
+<INPUT NAME="reset" TYPE=Button VALUE="Reset Axis" onClick="resetAxis();clearit();drawaxis()"> <p>
+<INPUT NAME="doubled" TYPE=Button VALUE="Double Number of Rectangles" onClick="doubleIt();clearit();drawaxis();graphit()"> <p>
+</td>
+</tr>
+</table>
+<div id="bob" name="bob"></div>
+</FORM>
+</td></tr></table>
+</body>
+</html>
+

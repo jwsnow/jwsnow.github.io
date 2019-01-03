@@ -1,0 +1,153 @@
+div.example {position:relative; width: 90%; background-color: white; border: 1px solid black; border-radius: 10px; padding: 10px; margin: 20px;}
+div.code {position:relative; width: 90%; background-color: white; border: 1px dashed grey; border-radius: 10px; padding: 10px; margin:auto;}
+div.codeblock{position:relative; background-color: lightgray;}
+div.exampledisplay{}
+pre.codeblock{position:relative; width: 100%;background-color:lightgray;}
+div.inlinecodeexample{position:relative; display: inline-block; margin: auto; border: 1px solid grey; padding: 10px; margin: 10px;}
+img.example{position:relative; border: 1px solid black}
+button {
+	-webkit-appearance: none;
+}
+
+li.inline{
+	display:inline-block;
+	border: 2px solid black;
+	vertical-align:top;
+}
+span.done{
+	font-weight: bold;
+}
+body {
+	background-color: rgb(36, 56, 65);
+}
+body {
+	background-color: rgb(15,25,42);
+}
+#masterDiv{
+	width: 90%;
+	margin:auto;
+	position: relative;
+}
+#topNavDiv {
+	height: 50px;
+	margin: auto;
+	border:none;
+	border-bottom: 1px solid rgb(209,237,255);
+	color: white;
+	position: relative;
+}
+#topNavDiv {
+	height: 50px;
+	margin: auto;
+	border:none;
+	border-bottom: 1px solid white;
+	color: white;
+	position: relative;
+}
+#topNavDivContent {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	text-align: right;
+}
+#bottomNavDiv {
+	margin: auto;
+	border:none;
+	border-top: 1px solid white;
+	text-align: right;
+	font-size: 50%;
+	color: white;
+}
+#mainContentDiv {
+	position: relative;
+	min-height: 400px;
+	border: 5px solid lightgray;
+	margin: 15px;
+	background: white;
+	padding:20px;
+	overflow:hidden;
+}
+button.navButton {
+	-webkit-appearance: none;
+	background: none;
+	border: none;
+	color: white;
+}
+table.schedule{
+	//width: 6in;
+	text-align: center;
+}
+td.red{
+	color:red;
+}
+
+div.contentBlock{
+	display: none;
+}
+#homeDiv{
+	display: block;
+}
+
+#banner {
+position: absolute;
+	top:0px;
+	bottom:0px;
+	left: 40px;
+	width: 80px;
+	background-color: white;
+	box-shadow: 0px 0px 50px black;
+}
+#bannerImg{
+	width: 80px;
+	height:400px;
+}
+
+#cmDiv{
+	display: inline-block;
+}
+.CodeMirror {
+	border-top: 1px solid black; 
+	border-bottom: 1px solid black;
+	display:inline-block;
+	width:600px;
+	height:500px;
+//	position: absolute;
+//	left:10px;
+//	top:0px;
+	}
+#spork{
+	display:inline-block;
+//	position: absolute;
+//	top:0px;
+//	right:10px;
+}
+#buttonDiv{
+	width:600px;
+	text-align:right;
+}
+div.popup{
+	position:fixed;
+	top:20px;
+	bottom:20px;
+	left:20px;
+	right:20px;
+	background-color: rgba(0,0,0,0.9);
+	z-index: 20;
+	display:none;
+	border: 1px solid black;
+	border-radius: 20px;
+	padding: 10px;
+	overflow: auto;
+	color: white;
+}
+#bannerImage{
+	position:absolute;
+	left:0px;
+	top:0px;
+	height:50px;
+}
+
+#topNavDivContent a{
+	color: white;
+	text-decoration: none;
+}
