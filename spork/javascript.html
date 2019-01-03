@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Math 142/242</title>
+<link rel="stylesheet" type="text/css" href="quick.css">
+<script type='text/javascript' src='header.js'></script>
+</head>
+<body>
+<html>
+<script> showHeader(); </script>
+
+<h1>Javascript Essentials</h1>
+
+<div class='example'>
+	<h2>Comments</h2> Comments in your programs can be useful to remind you and whoever else might be reading your code what your code is supposed to do. In any line of JavaScript code, any characters after a double slash <b>//</b> are ignored.
+	<div class='code'>
+		<pre class='codeblock'>
+circle(200,200,20);     //Draw a circle of radius 20 at (200,200)
+point(200,200);         //Draw a point at (200,200)</pre>
+	</div>
+	Comments can be used to make sections of a program easier to locate.
+	<div class='code'>
+		<pre class='codeblock'>
+// Initialization **********************************
+<i>...INITIALIZE STUFF...</i>
+
+// Drawing *************************************
+<i>...DRAWING STUFF...</i>
+</pre>
+	</div>
+	Comments which span multiple lines should be placed within <b>/*...*/</b> like so:
+	<div class='code'>
+			<pre class='codeblock'>
+/* John W. Smith
+Creature Assignment
+July 9, 2012 */</pre>
+	</div>
+</div>
+
+<div class='example'>
+	<h2>Semicolons</h2> Aside from comments, a JavaScript program consiste of <b>statements</b> or <b>commands</b> which tell the computer what to do.  Each statement should end with a semicolon (to tell the computer when the statement ends). Generally, we will place one statement per line.
+	<div class='code'>
+		<pre class='codeblock'>
+circle(200,200,20);
+line(10,10,90,90);</pre>
+	</div>
+</div>
+
+<div class='example'>
+	<h2>Case</h2> JavaScript is case sensitive. <b>alert</b> is different from <b>Alert</b>.
+</div>
+
+<div class='example'>
+	<h2>White Space</h2> All white space (spaces, tabs, carriage returns, etc.) in JavaScript are treated as single spaces. Extra spaces, tabs, and carriage returns are often inserted to make code more readable.
+</div>
+
+<div class='example'>
+	<h2>Alert</h2> The command <b>alert(<i>someString</i>)</b> will place <i>someString</i> in an alert box for the user to read. Alerts are not used much in JavaScript programming, but they can be useful when programming to get quick feedback to see how your programming is coming together.
+	<div class='code'>
+		<div class='exampledisplay'>
+			<button onclick='alert("This is some text.");'>Click to run</button>
+		</div>
+		<pre class='codeblock'>
+alert("This is some text.");</pre>
+	</div>
+</div>
+
+<div class='example'>
+	<h2>Variables</h2> A <b>variable</b> in JavaScript is a container or box in which you can place information or data. <b>For us</b>, names of variables consist of characters which should be letters, numbers, or underlines. The first character should be a letter.
+	JavaScript is case sensitive so firstName and firstname would be different variable names.
+	Some valid variable names are:
+	<div class='code'>
+		<pre class='codeblock'>x
+i
+x2
+firstName
+last_name
+phone2</pre>
+	</div>
+	Variable names should generally be descriptive.  This means the variable name might be constructed from more than one word. To make the name readable, the words might be divided using either under_lines or camelCase.  The most popular option these days seems to be camelCase, but you can use whichever you are more comfortable with. Data values are placed in (or assigned to) variables using an equal sign =.
+	<div class='code'>
+		<pre class='codeblock'>x=2;     //place the value 2 in the variable x</pre>
+	</div>
+	Before a variable is used, it should be <b>declared</b> or created. (Before anything can be placed in a box, the box must exist.)  This is done with <b>var</b>.
+	<div class='code'>
+		<pre class='codeblock'>
+var x;                   //declare the variable x
+var firstName;      //declare the variable firstName
+var age=32;          //declare the variable age and assign the value 32 at the same time!</pre>
+	</div>
+
+	Data in JavaScript comes in a variety of types.  We will be concerned with numbers, strings, and Boolean. Numbers look like:
+	<div class='code'>
+		<pre class='codeblock'>
+var age=32;
+var pi=3.14159;</pre>
+	</div>
+	
+		A string is a list of symbols inside of quotation marks.  You can use double or single quotation marks.
+	<div class='code'>
+		<pre class='codeblock'>
+var teacherName = "John Snow";	
+var college = 'Concordia University';
+</pre>
+	</div>
+		If you want a string to contain a single quote, you should enclose the string in double quotes.  If you want a string to contain a double quote, you should enclose the string in single quotes.
+		<div class='code'><pre class='codeblock'>
+var aString = "Bob's brother is 19 years old";
+var quoteInQuote = 'This contains "double" quotes';
+</pre>
+	</div>
+ A Boolean data type holds either the value <b>true</b> or <b>false</b>.
+ <div class='code'><pre class='codeblock'>
+ lightsAreOn=true;
+ grassIsGreen=false;</pre></div>
+ </div>
+
+<div class='example'>
+	<h2>prompt</h2> A <b>prompt</b> can be used to get data from the user. Prompts are not used all that often in JavaScript, but they can be useful when writing and testing code.
+	<div class='code'>
+		<div class='exampledisplay'>
+<button onclick="x=prompt('Enter your first name');">Click to Run</button>
+		</div>
+		<pre class='codeblock'>
+var x=prompt("Enter your first name:");</pre>
+	</div>
+Prompts gather strings from the user.  If you want a number input, you need to convert the string to a number. A simple way to do this is with the <b>eval</b> command.
+	<div class='code'>
+		<pre class='codeblock'>
+var stringInput;
+var numberInput;
+stringInput=prompt("Enter a number between 1 and 10:");	//Input is string
+numberInput=eval(stringInput);				//Convert string to number</pre>
+	</div>
+Note: The <b>eval</b> command can be used to evaluate or execute any piece of JavaScript code.
+</div>
+
+<div class='example'>
+	<h2>Arithmetic Operators</h2>  Arithmetic operators are used to perform arithmetic with numerical values and variables. Assuming that <b>x=7</b>, here are some examples
+	<div class='code'>
+		<div class='exampledisplay'>
+			<table border='1'>
+			<tr><th>Name</th><th>Example</th><th>Value of y</th></tr>
+			<tr><td>Addition</td><td>y=x+5;</td><td>12</td></tr>
+			<tr><td>Subtraction</td><td>y=x-5;</td><td>2</td></tr>
+			<tr><td>Multiplication</td><td>y=x*5;</td><td>35</td></tr>
+			<tr><td>Division</td><td>y=x/5;</td><td>1.4</td></tr>
+			<tr><td>Modulus (remainder)</td><td>y=x%5;</td><td>2</td></tr>
+			<tr><td>Mixed</td><td>y=((x*5)-3)/8;</td><td>4</td></tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class='example'>
+	<h2>String Operators</h2> JavaScript provides very powerful means for manipulating strings.  We will simply be <b>concatenating</b> or <b>adding</b> strings for now. When the addition sign + is placed between two strings, the result is to <i>glue</i> the two strings together end to end.  For these examples,
+	assume that x="How now" and y="brown cow".
+	<div class='code'>
+		<div class='exampledisplay'>
+			<table border='1'>
+			<tr><th>Example</th><th>Value of z</th></tr>
+			<tr><td>z=x+y;</td><td>"How nowbrown cow"</td></tr>
+			<tr><td>z=x+" "+y;</td><td>"How now brown cow"</td></tr>
+			<tr><td>z=x+" is the "+y</td><td>"How now is the brown cow"</td></tr>
+			<tr><td>z=x+5</td><td>"How now5"</td></tr>
+			<tr><td>z="51"+50</td><td>"5150"</td></tr>
+			</table>
+		</div>
+	</div>
+	Notice in the last two examples how when addition, numbers, and strings are combined everything is treated like a string.
+</div>
+
+<div class='example'>
+	<h2>Boolean Operators</h2> The basic operators that can be applied to Boolean data types are <b>and</b> &&, <b>or</b> ||, and <b>not</b>. 
+	<div class='code'>
+		<div class='exampledisplay'>
+			<p>If a=true and b= true, then a&&b=true. If either a or b is false, a&&b=false.</p>
+			<p>If a=false and b= false, then a||b=false. If either a or b is true, a||b=true.</p>
+			<p> if a=true, then !a=false.  If a=false, then !a=true.</p>
+		</div>
+	</div>
+</div>
+
+<div class='example'>
+	<h2>Comparisons</h2> JavaScript provides these comparison operators (among some others) which will always return either a Boolean true or a Boolean false.
+	<div class='code'>
+		<div class='exampledisplay'>
+			<table border=1>
+			<tr><th>Name</th><th>Symbols</th></tr>
+			<tr><td>Is equal to</td><td>==</td><tr>
+			<tr><td>Is not equal to</td><td>!=</td><tr>
+			<tr><td>Is greater than</td><td>&gt;</td><tr>
+			<tr><td>Is less than</td><td>&lt;</td><tr>
+			<tr><td>Is greater than or equal to</td><td>&gt;=</td><tr>
+			<tr><td>Is less than or equal to</td><td>&lt;=</td><tr>
+			</table>
+		</div>
+	</div>
+	Note that = is used for variable assignment and == is used for testing equality.
+</div>
+
+<div class='example'>
+	<h2>Functions</h2> When a piece of code might be used repeatedly or might be needed in a variety of environments we can use that code to define a function.  Here is a function which computes the average of two numbers a and b.
+	<div class='code'>
+		<pre class='codeblock'>
+function average(a,b){
+	var r;                  
+	r=(a+b)/2;
+	return(r);
+}</pre>
+	</div>
+The function definition begins with the word <b>function</b> which tells the computer a function is being defined.
+The word <b>average</b> is the name of the function.
+Following the name of the function are variables a and b in parenthesis.  These are the <b>arguments</b> of the function.  When the function is called, values will be substituted for a and b.
+After the arguments of the function comes a code block separated off by braces {...}.  Comments about braces are below.  For now, just note that the entire code of the function needs to be within braces.
+Note also that we indented all of the function code so that it is clear where the function begins and ends.
+The variable r is defined inside the function.  This makes r a <b>local variable</b>. It is only accessible from within the function. Variables defined outside of any function are <b>global variables</b>.  These are accessible anywhere.
+The last line of the function uses the command <b>return</b>. This means that the function returns the value calculated and stored in r to whoever called the function.  The function may be <b>called</b> or used in this manner:
+	<div class='code'>
+		<pre class='codeblock'>y=average(10,20);</pre>
+	</div>
+This line asks the computer to run the code inside of the average function substituting 10 for the first variable (a) and 20 for the second variable (b).  At the end of the function code, the value 15 will be returned and placed in the variable y.<br><br>
+
+Not all functions require arguments.
+	<div class='code'>
+		<pre class='codeblock'>
+function getBackgroundColor(){
+	return(document.body.style.backgroundColor);
+}</pre>
+	</div>
+This function would be called with something like:
+	<div class='code'>
+		<pre class='codeblock'>y=getBackgroundColor();</pre>
+	</div>
+Note the use of parenthesis even though there are no arguments. Some functions may not take arguments or return values:
+	<div class='code'>
+		<pre class='codeblock'>
+function setBackgroundColor(){
+	document.body.style.background='red';
+}</pre>
+	</div>
+This would be called with :
+	<div class='code'>
+		<pre class='codeblock'>setBackgroundColor();</pre>
+	</div>
+
+</div>
+
+<div class='example'>
+	<h2>Braces</h2> Many a computer programmer has spent many a late night arguing with other programmers about how to indent and place braces around code blocks.  
+	If you have never programmed before, this should seem silly and trifle. If you have written a lot of programs with one style and then tried to read a program with another style, you will understand the controversy.
+	Most methods of indenting present positives and negatives.
+	The truth is that the overall goal is usually readability, and you will find that whatever you practice the most is going to be most readable to you. If you are working with colleagues, you should try to indent the same way they do.
+	If you are in a class, you should indent however your instructor tells you to.  Here are thee common ways that the function above might be indented and braced.<br><br>
+	Initial brace on first line of function, code block indented, final brace on own line not indented:
+	<div class='code'>
+		<pre class='codeblock'>function average(a,b){
+	var r;                  
+	r=(a+b)/2;
+	return(r);
+}</pre>
+	</div>
+	Initial brace on first line of function, code block indented, final brace  on own line indented:
+	<div class='code'>
+		<pre class='codeblock'>function average(a,b){
+	var r;                  
+	r=(a+b)/2;
+	return(r);
+	}</pre>
+	</div>
+		Initial brace on own line not indented, code block indented, final brace on own line not indented:
+	<div class='code'>
+		<pre class='codeblock'>function average(a,b)
+{
+	var r;                  
+	r=(a+b)/2;
+	return(r);
+}</pre>
+	</div>
+
+</div>
+
+<h1>Control Structures</h1>
+<div class='example'>
+	<h2>if...else</h2> JavaScript provides conditional statements so that whether or not a statement is executed depends on whether or not a condition is true. The structure of an <b>if</b> is
+	<div class='code'><pre class='codeblock'>
+if (<i>condition</i>){
+	<i>code to execute if condition is true</i>
+}</pre></div>
+In the following example, a circle is drawn and the value of x is modified if x &lt; width.
+	<div class='code'><pre class='codeblock'>
+if (x &lt; width){
+	circle(x,y,10);
+	x=x+dx;
+}</pre></div>
+If the code block for an if statement only includes one statement, the braces can be omitted.
+	<div class='code'><pre class='codeblock'>
+if (x &lt; width)
+	circle(x,y,10);
+</pre></div>
+Conditions of if statements can be combined with <b>and</b> and <b>or</b> as in:
+	<div class='code'><pre class='codeblock'>
+if ((x &lt; width) && (y &lt; height)){
+	circle(x,y,10);
+	x=x+dx;
+	y=y+dy;
+}</pre></div>
+Here the condition on x and the condition on y must both be met for the code to be executed. Note how each small condition is in parenthesis and how the entire condition is in parenthesis.
+Sometimes we want to execute one code block if a condition is true and another if a condition is false. This is accomplished through the <b>if...else</b> statement.
+	<div class='code'><pre class='codeblock'>
+if (<i>condition</i>){
+	<i>code to execute if condition is true</i>
+}
+else{
+	<i>code to execute if condition is false</i>
+}</pre></div>
+In the following example, dx is added to x if x &lt; width. Otherwise (when x &gt;= width), dx is subtracted from x.
+	<div class='code'><pre class='codeblock'>
+if (x &lt; width)
+	x=x+dx;
+else
+	x=x-dx;</pre></div>
+</div>
+
+<div class='example'>
+	<h2>while</h2> Sometimes it is necessary to repeatedly execute some code until a particular condition is met.  This is accomplished with the <b>while</b> statement.
+	<div class='code'><pre class='codeblock'>
+while(condition){
+	<i>code to execute as long as condition is true</i>
+}</pre></div>
+For example, the following code will repeated draw points and add 1 to x until x reaches the value width. Because x is initially set to 0, points will be drawn at (0,100), (1,100), (2,100), all the way to (width,100).
+	<div class='code'><pre class='codeblock'>
+x=0;
+while (x &lt=; width){
+	point(x,100);
+	x=x+1;
+}</pre></div>
+</div>
+
+<div class='example'>
+	<h2>for</h2> The structure of a <b>while</b> statement frequently looks like this:
+	<div class='code'><pre class='codeblock'>
+<i>initialize a variable i</i>
+while(condition){
+	<i>code to execute as long as condition is true</i>
+	<i>modify the variable i</i>
+}</pre></div>
+The <b>for</b> statement or <b>for</b> loop is short hand for this type of arrangment.
+	<div class='code'><pre class='codeblock'>
+for (<i>initialization</i>; <i>condition</i>; <i>modification</i>){
+	<i>code to execute as long as condition is true</i>
+}</pre></div>
+In this example, first the <i>initialization</i> code is executed. Then the <i>condition</i> is checked. If it is true, the code is executed. After the code is executed, the <i>modification</i> code is executed.
+Then the <i>condition</i> is checked again and the process continues until the <i>condition</i> is no longer true.  The <b>while</b> statement
+	<div class='code'><pre class='codeblock'>
+x=0;
+while (x &lt=; width){
+	point(x,100);
+	x=x+1;
+}</pre></div>
+can be expressed with a <b>for</b> loop more succinctly as
+	<div class='code'><pre class='codeblock'>
+for (x=0; x &lt;= width; x=x+1)
+	point(x,100);
+</pre></div>
+Notice how the statements inside the parenthesis defining the for loop are separated with semicolons.
+</div>
+
+<div class='example'>
+	<h2>document.getElementById</h2> JavaScript can be used to modify HTML elements on a web page. This is most easily done for elements that have IDs. Until recently, to access the <b>value</b> attribute of an element with id "elementID" you had to use the function
+	document.getElementById like so: 
+	<div class='code'>
+		<pre class='codeblock'>document.getElementById("elementID").value="something";</pre>
+	</div>
+	However, according to the latest standard, elements can be accessed directly with their IDs without using document.getElementById.  The previous like of code can now be written much more simply as
+	<div class='code'>
+		<pre class='codeblock'>elementID.value="something";</pre>
+	</div>	
+</div>
+
+<div class='example'>
+	<h2>Manipulating HTML Elements</h2> JavaScript can be used to modify HTML elements.  This can most easily be done with elements that have IDs. Suppose we have this div in our HTML:
+	<div class='code'><pre class='codeblock'>&lt;div id="myDiv"&gt;&lt;/div&gt;</pre></div>
+	We can change style attributes of this div with code such as:
+	<div class='code'><pre class='codeblock'>
+myDiv.style.width="100px";
+myDiv.style.color="blue";
+myDiv.style.backgroundColor="green";</pre></div>
+HTML elements also have an attribute named innerHTML that can be used to write HTML directly into the element.  Modifying this attribute completely changes all of the HTML in the element. Here we place a table in myDiv:
+	<div class='code'><pre class='codeblock'>
+myDiv.innerHTML="&lt;table&gt;&lt;tr&gt;&lt;td&gt;a&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;b&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;";</pre></div>
+Suppose that we have a textarea defined this way:
+	<div class='code'><pre class='codeblock'>
+&lt;textarea id="myText"&gt;&lt;/textarea&gt;</pre></div>
+To modify the value (contents) of the textarea we can use
+	<div class='code'><pre class='codeblock'>
+myText.value="some text";</pre></div>
+We can get the value of the textarea and store it in a string this way
+	<div class='code'><pre class='codeblock'>
+s=myText.value;</pre></div>
+Suppose that we have this image:
+	<div class='code'><pre class='codeblock'>
+&lt;img id="myImg" src="image1.png"&gt;</pre></div>
+If we want to change what picture is displayed in the image (say, for an image slider) we can use this code
+	<div class='code'><pre class='codeblock'>
+myImg.src="image2.png";</pre></div>
+</div>
+
+
+<div class='example'>
+<h2>Buttons</h2>
+
+The JavaScript in the head section of our HTML does not have to be Spork code.  The code there can be executed when a page loads to initialize content on the page, or it can run when triggered by certain events on the page.
+An example of one such event is the click of a button.  First, buttons are created this way:
+
+<div class='code'>
+<div class='exampledisplay'><button>Click Me</button></div>
+<pre class='codeblock'>&lt;button&gt;Click Me&lt;/button&gt;</pre>
+</div>
+To add functionality to the button, you define the <b>onclick</b> for the button like so:
+<div class='code'>
+<div class='exampledisplay'><button onclick='alert("Ouch!");'>Click Me</button></div>
+<pre class='codeblock'>&lt;button onclick='alert("Ouch!");'&gt;Click Me&lt;/button&gt;</pre>
+</div>
+The text in quotes after <b>onclick=</b> must be properly formed JavaScript ending with a semi-colon.  
+It will be executed when the button is clicked. If you want to execute a substantial amount of 
+JavaScript, you should place that code in a function (in the head section) and call the function when the button is clicked.
+Buttons can be styled, and any HTML can be placed between the button tags. This way you can turn images or tables or whatever into buttons.
+We will see later that the onclick event can also be defined for most HTML elements.
+</div>
+
+<div class='example'>
+<h2>Scripting HTML</h2>
+
+Of course, the JavaScript included in a web page can do more than just drive Spork programs.  
+HTML elements can be added, deleted, and modified with JavaScript.  This is most easily done 
+by referring to the element by ID.
+
+Consider this code:
+<div class='code'>
+<div class='exampledisplay'>
+<div id='myDiv'>This is an unstyled div.</div>
+<button onclick="myDiv.style.width='200px';myDiv.style.background='yellow';myDiv.style.margin='auto';myDiv.style.border='2px solid black';">Style the Div</button>
+</div>
+<pre class='codeblock'><i>IN A SCRIPT IN THE HEAD</i>
+function changeStyle(){
+	myDiv.style.width='200px';
+	myDiv.style.background='yellow';
+	myDiv.style.margin='auto';
+	myDiv.style.border='2px solid black';
+}
+<i>...IN THE BODY</i>
+&lt;div id='myDiv'&gt;This is an unstyled div.&lt;/div&gt;
+&lt;button onclick='changeStyle'&gt;Style the Div&lt;/button&gt;
+</pre>
+</div>
+When the button is clicked, the function changeStyle() is called.  The function changes style attributes of the div.  The div is accessed through its ID <i>myDiv</i>.  Style attributes are accessed
+through <i>myDiv.style.attributeName</i>.
+</div>
+
+<div class='example'>
+<h2>innerHTML</h2>
+
+Divs (and other HTML elements) have a property called <b>innerHTML</b> which is a string that contains the HTML in the div.
+JavaScript can take complete control over what is in a div by changing this value.
+
+Consider this code:
+<div class='code'>
+<div class='exampledisplay'>
+<div id='myDiv2'>This is an unstyled div.</div>
+<button onclick="myDiv2.innerHTML='This is now a styled div.';myDiv2.style.width='200px';myDiv2.style.background='yellow';myDiv2.style.margin='auto';myDiv2.style.border='2px solid black';">Style the Div</button>
+</div>
+<pre class='codeblock'><i>IN A SCRIPT IN THE HEAD</i>
+function changeStyle(){
+	myDiv2.style.width='200px';
+	myDiv2.style.background='yellow';
+	myDiv2.style.margin='auto';
+	myDiv2.style.border='2px solid black';
+	myDiv2.innerHTML='This is now a styled div.';
+}
+<i>...IN THE BODY</i>
+&lt;div id='myDiv2'&gt;This is an unstyled div.&lt;/div&gt;
+&lt;button onclick='changeStyle'&gt;Style the Div&lt;/button&gt;
+</pre>
+</div>
+Now when the button is clicked, the contents of the div change with the style.
+</div>
+
+<div class='example'>
+<h2>document.write</h2>
+
+The command <b>document.write('<i>string</i>')</b> will write <i>string</i> in the web page.  If this is called in the head section, the entire contents of the web page will be over written with <i>string</i>.
+This could allow you to use JavaScript to generate all of the HTML for a page and then display the page.  If  document.write('<i>string</i>') is called in the body of an HTML page, then the <i>string</i> is written at 
+that location in the web page.  This can be useful if you have a complicated menu system or such that you want included in several web pages. You could make a file <b>menu.js</b> with a function like this in it:
+<div class='code'>
+<pre class='codeblock'><i>IN menu.js</i>
+function writeMenu(){
+	document.write('<i>Complicated menu HTML.</i>');
+}
+</pre></div>
+Then, in each web page in wich you want to use the menu, you need this line in the head so that the function will be available.
+<div class='code'>
+<pre class='codeblock'><i>IN HEAD SECTION</i>
+&lt;script src='menu.js'&gt;&lt;/script&gt;
+</pre></div>
+If you place this line
+<div class='code'>
+<pre class='codeblock'><i>IN BODY SECTION</i>
+&lt;script&gt;writeMenu();&lt;/script&gt;
+</pre></div>
+in the body of your HTML, then the menu will be placed in the web page (at that location).  Of course, your complicated menu might have many lines.  To have a multi-line string in JavaScript, you need to end each line between the
+quotation marks with a \ like so
+<div class='code'>
+<pre class='codeblock'>function writeMenu(){
+	document.write('&lt;img src="logo.png"&gt;;\
+				&lt;a href="page1.html"&gt;Page One&lt;/a&gt;\
+				&lt;a href="page2.html"&gt;Page Two&lt;/a&gt;');
+}
+</pre></div>
+</div>
+
+
+<h1>Randomization</h1>
+
+Two advantages of drawing with a machine are the ability to perform tasks repeatedly (which we will explore later) and the ability to
+introduce randomness.
+
+<div class='example'>
+<h2>random</h2>
+The JavaScript function <b>random();</b> returns a random number between 0 (might be 0) and 1 (but not equal to 1). This function can be used to generate
+random numbers in any range.  To assign a variable x to a random number between 0 (may be 0) and 255 (will not be 255), you can use
+<div class='code'><div class='codeblock'>x=255*random();</div></div>
+This might have the result of x=0 or x=38 or or x=100.5 or x=254.9976. To leave off the decimal part of the random number (in case you want a "whole number")
+you can use <b>floor</b>.  
+</div>
+
+<div class='example'>
+<h2>floor</h2>
+The command <b>floor(x)</b> will remove the decimal part of x.  So floor(1.234)=1 and floor(1.999)=1. 
+The command
+<div class='code'><div class='codeblock'>x=floor(255*random());</div></div>
+will give a random whole number between 0 (might be 0) and 254 (might be 254, not 255).
+The command
+<div class='code'><div class='codeblock'>x=floor(255*random())<b>+1</b>;</div></div>
+will give a random whole number between 1 (might be 1) and 255 (might be 255).
+</div>
+
+<div class='example'>
+<h2>Random Coordinates</h2>
+Canvas coordinates do not need to be whole numbers.  Recall that the canvas width and height are stored in the variables <b>width</b> and <b>height</b>.  If no transforms
+have been applied to the canvas then this code will draw a circle of radius 10 at a random location on the canvas:
+<div class='code'><div class='codeblock'>circle(width*random(), height*random(),10);</div></div>
+Notice that this works no matter what the size of the canvas is.
+</div>
+
+<div class='example'>
+<h2>Random Colors</h2>
+The first three numerical arguments to the <b>color</b> function need to be whole numbers. We could use the floor function to get random colors.
+This would give a random color:
+<div class='code'><div class='codeblock'>color(floor(256*random()),floor(256*random()),floor(256*random()));</div></div>
+This would give a random color with a random alpha (transparency) value:
+<div class='code'><div class='codeblock'>color(floor(256*random()),floor(256*random()),floor(256*random()),random());</div></div>
+</div>
+
+The problem with this approach to random colors is that the colors really are random - they have no relationship to each other.  There is no coordination, complementation or anything.
+We can be more deliberate with randomly selecting colors by using an <b>array</b>.
+
+<div class='example'>
+<h2>Arrays</h2>
+We introduce arrays with an example.  Suppose we declare the variable colorArray this way:
+<div class='code'><pre class='codeblock'>var colorArray = ['blue', 'lightblue', 'steelblue', 'gray', 'lightgray'];</pre></div>
+The variable colorArray now contains 5 distinct values or entries which are numbered 0 through 4.  To get the first value we can use
+colorArray[0].  The value of colorArray[0] is 'blue'.  The value of colorArray[1] is 'lightblue'.  The value of colorArray[2] is 'steelblue', and so on.<br><br>
+Now, to generate a random color from among these 5, we can randomly select an entry in the array colorArray.  We first select a random integer from 0 to 4 and then get that 
+entry in colorArray.
+<div class='code'><pre class='codeblock'>
+var colorArray = ['blue', 'lightblue', 'steelblue', 'gray', 'lightgray'];  //define colorArray
+i = floor(5*random());                                                     //select random integer
+randomColor=colorArray[i];                                                 //get random entry
+</pre></div>
+</div>
+
+<div class='example'>
+<h2>Random Function</h2>
+We can also use arrays to call random functions.  Suppose that we have three functions 
+drawCircle(x,y), drawSquare(x,y), drawTriangle(x,y).  If we define this array
+<div class='code'><pre class='codeblock'>var functionArray = [drawCircle,drawSquare,drawTriangle];</pre></div>
+We can now call our three functions as functionArray[0](x,y) or functionArray[1](x,y) or functionArray[2](x,y).
+Now the following code will randomly draw a circle or a square or a triangle:
+<div class='code'><pre class='codeblock'>
+var functionArray = [drawCircle,drawSquare,drawTriangle];  //define array of functions
+i = floor(3*random());                                     //select random integer
+functionArray[i](x,y);                                     //draw shape at (x,y)
+</pre></div>
+
+</div>
+
+
+
+<script> showFooter(); </script>
+
+</html>
+</body>

@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+<head>
+<title>Spork  Editor</title>
+
+<style>
+#editorButton{
+	text-decoration:underline;
+}
+</style>
+
+<link rel="stylesheet" href="cm.css">
+<link rel="stylesheet" href="allThemes.css">
+
+<script src="cmSporkEditor.js"></script>
+
+<link rel="stylesheet" type="text/css" href="quick.css">
+<script type="text/javascript">var EDITOR = 1;</script>
+<script type="text/javascript" src="spork.js"></script>
+<script type="text/javascript" src="sporkEditor.js"></script>
+<script type="text/javascript" src="header.js"></script>
+
+</head>
+<body>
+<script>showHeader();</script>
+
+<div id='buttonDiv'> 
+<button onclick='stoploop();'>Stop</button> <button onclick='startloop();'>Continue</button> <button onclick='runCode();'>Go</button>
+</div>
+<div>
+<div id='cmDiv'><textarea id="code" name="code">
+/*
+Animation Loop
+This code demonstrates using the animation loop
+to draw a moving circle. In this example, we do 
+not clear the canvas between frames. The result
+is a geometric pattern.
+*/
+
+var x,y; 	//Circle coordinates
+var vx, vy; //Circle velocity
+var r;		//radius of circle
+
+/*
+The function which makes the circle bounce
+off the sides. We check if the circle is too
+close to the edge of the canvas and then set
+the velocity to move away from the side.
+*/
+function bounce(){
+  //see if x is within r of left side
+  if (x<r) 
+    vx=abs(vx); //make vx positive
+  //see if x is within r of right
+  else if (x>width-r)
+    vx=-abs(vx); //make vx negative
+  //see if too close to top
+  if (y<r)
+    vy=abs(vy);	//make vy positive
+  //see if too close to bottom
+  else if (y>height-r)
+    vy=-abs(vy); //make vy negative
+}
+
+function setup(){
+  //Set the initial position and velocity
+  x=random()*width;
+  y=random()*height;
+  //velocity will be between -1 and 1
+  vx=2*(random()-0.5);
+  vy=2*(random()-0.5);
+  //circle radius
+  r=1;
+  
+  
+  timestep(1); //timestep
+
+  loop();		//animation loop
+}
+function draw(){
+  //Note we do not clear
+  
+  //draw filled circle
+  circle(x,y,r);
+  fill();
+  
+  //update x coordinate to move the circle
+  x=x+vx;
+  y=y+vy;
+  bounce();
+}
+</textarea></div> <div id='spork'></div>
+
+
+
+<br>
+<select onchange="selectTheme()" id='themeSelect'>
+    <option>default</option>
+    <option>3024-day</option>
+    <option>3024-night</option>
+    <option>ambiance</option>
+    <option>base16-dark</option>
+    <option>base16-light</option>
+    <option>blackboard</option>
+    <option>cobalt</option>
+    <option>eclipse</option>
+    <option>elegant</option>
+    <option>erlang-dark</option>
+    <option>lesser-dark</option>
+    <option>mbo</option>
+    <option>mdn-like</option>
+    <option selected>midnight</option>
+    <option>monokai</option>
+    <option >neat</option>
+    <option>night</option>
+    <option>paraiso-dark</option>
+    <option>paraiso-light</option>
+    <option>pastel-on-dark</option>
+    <option>rubyblue</option>
+    <option>solarized dark</option>
+    <option>solarized light</option>
+    <option>the-matrix</option>
+    <option>tomorrow-night-eighties</option>
+    <option>twilight</option>
+    <option>vibrant-ink</option>
+    <option>xq-dark</option>
+    <option>xq-light</option>
+</select>
+
+
+<script>
+       var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+      mode: {name: "javascript", globalVars: true},
+       styleActiveLine: true,
+	lineNumbers: true,
+	lineWrapping: true,
+	autoCloseBrackets: true,
+        extraKeys: {"Ctrl-Space": "autocomplete"} ,
+	});
+	editor.setOption("theme", "midnight");
+	
+ function selectTheme() {
+	  var input = document.getElementById("themeSelect");
+     var theme = input.options[input.selectedIndex].innerHTML;
+    editor.setOption("theme", theme);
+  }	
+</script>
+
+<script>showFooter();</script>
+
+</body>
+ </html>

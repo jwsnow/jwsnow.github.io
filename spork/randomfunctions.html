@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+<title>Spork  Editor</title>
+
+<style>
+#editorButton{
+	text-decoration:underline;
+}
+</style>
+
+<link rel="stylesheet" href="cm.css">
+<link rel="stylesheet" href="allThemes.css">
+
+<script src="cmSporkEditor.js"></script>
+
+<link rel="stylesheet" type="text/css" href="quick.css">
+<script type="text/javascript">var EDITOR = 1;</script>
+<script type="text/javascript" src="spork.js"></script>
+<script type="text/javascript" src="sporkEditor.js"></script>
+<script type="text/javascript" src="header.js"></script>
+
+</head>
+<body>
+<script>showHeader();</script>
+
+<div id='buttonDiv'> 
+<button onclick='stoploop();'>Stop</button> <button onclick='startloop();'>Continue</button> <button onclick='runCode();'>Go</button>
+</div>
+<div>
+<div id='cmDiv'><textarea id="code" name="code">
+/*
+Random Functions
+This example demonstrates how to use an array
+to call random functions. The array theFunctions will
+hold the names of two functions which will be called 
+randomly to place objects at random locations on the 
+canvas. We use the animation loop to draw many shapes
+*/
+
+function drawCircle(x,y){
+  //Draw a circle with radius 10 at (x,y)
+  fillcolor('red');
+  circle(x,y,10);
+  fill();
+}
+function drawSquare(x,y){
+  //Draw a 20x20 square at (x,y)
+  fillcolor('blue');
+  rect(x-10,y-10,20,20);
+  fill();
+}
+
+//An array with the function names
+var theFunctions=[drawCircle, drawSquare];
+
+function setup(){
+  loop();  //start the animation loop
+}
+function draw(){
+  //variables for center of shape
+  var x,y;
+  
+  /*
+  A variable for the name of a random function.
+  This is not necessary, but it saves some awkward
+  parentheses.
+  */
+  var f;
+  
+  //get random coordinates
+  x=width*random();
+  y=height*random();
+  
+  //call random function
+  f=theFunctions.random();
+  f(x,y);
+  
+}
+</textarea></div> <div id='spork'></div>
+
+
+
+<br>
+<select onchange="selectTheme()" id='themeSelect'>
+    <option>default</option>
+    <option>3024-day</option>
+    <option>3024-night</option>
+    <option>ambiance</option>
+    <option>base16-dark</option>
+    <option>base16-light</option>
+    <option>blackboard</option>
+    <option>cobalt</option>
+    <option>eclipse</option>
+    <option>elegant</option>
+    <option>erlang-dark</option>
+    <option>lesser-dark</option>
+    <option>mbo</option>
+    <option>mdn-like</option>
+    <option selected>midnight</option>
+    <option>monokai</option>
+    <option >neat</option>
+    <option>night</option>
+    <option>paraiso-dark</option>
+    <option>paraiso-light</option>
+    <option>pastel-on-dark</option>
+    <option>rubyblue</option>
+    <option>solarized dark</option>
+    <option>solarized light</option>
+    <option>the-matrix</option>
+    <option>tomorrow-night-eighties</option>
+    <option>twilight</option>
+    <option>vibrant-ink</option>
+    <option>xq-dark</option>
+    <option>xq-light</option>
+</select>
+
+
+<script>
+       var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+      mode: {name: "javascript", globalVars: true},
+       styleActiveLine: true,
+	lineNumbers: true,
+	lineWrapping: true,
+	autoCloseBrackets: true,
+        extraKeys: {"Ctrl-Space": "autocomplete"} ,
+	});
+	editor.setOption("theme", "midnight");
+	
+ function selectTheme() {
+	  var input = document.getElementById("themeSelect");
+     var theme = input.options[input.selectedIndex].innerHTML;
+    editor.setOption("theme", theme);
+  }	
+</script>
+
+<script>showFooter();</script>
+
+</body>
+ </html>

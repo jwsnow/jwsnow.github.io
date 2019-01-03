@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+<head>
+<title>Spork  Editor</title>
+
+<style>
+#editorButton{
+	text-decoration:underline;
+}
+</style>
+
+<link rel="stylesheet" href="cm.css">
+<link rel="stylesheet" href="allThemes.css">
+
+<script src="cmSporkEditor.js"></script>
+
+<link rel="stylesheet" type="text/css" href="quick.css">
+<script type="text/javascript">var EDITOR = 1;</script>
+<script type="text/javascript" src="spork.js"></script>
+<script type="text/javascript" src="sporkEditor.js"></script>
+<script type="text/javascript" src="header.js"></script>
+
+</head>
+<body>
+<script>showHeader();</script>
+
+<div id='buttonDiv'> 
+<button onclick='stoploop();'>Stop</button> <button onclick='startloop();'>Continue</button> <button onclick='runCode();'>Go</button>
+</div>
+<div>
+<div id='cmDiv'><textarea id="code" name="code">
+/*
+Mondrian Grid
+This example uses recursion to draw a Mondrian style
+grid. When the mondrianSplit function is called on 
+a rectangle with corder at (x,y), width w, and height h,
+one of three things happens:
+
+1) If both w and h are small, a rectangle is drawn.
+2) If the rectangle is taller than it is wide, the
+rectangle is split into two vertical components. 
+The function mondrianSplit is called on each of these.
+3) If the rectangle is wider than it is tall, it is
+split into two horizontal components.
+*/
+
+function mondrianSplit(x,y,w,h){
+  var tolerance=20;		//defines "small"
+  var W, H;				//new Width and Height
+  						//for recursive call
+  
+  //draw rectangle if w and h are both small
+  if ((w<tolerance) && (h<tolerance)){
+    rect(x,y,w,h);
+  }
+  //if tall, divide height
+  else if (w<h){
+    H=random()*h;					//new height
+    mondrianSplit(x,y,w,H);			//top rect
+    mondrianSplit(x,y+H, w, h-H);	//bottom rect
+  }
+  //if short, divide width
+  else{
+    W=random()*w;					//new width
+    mondrianSplit(x,y,W,h);			//left rect
+    mondrianSplit(x+W,y,w-W,h);		//right rect
+  }
+}
+function setup(){
+  //no special setup needed
+}
+function draw(){
+  //split entire canvas
+  mondrianSplit(0,0,width,height);
+}
+</textarea></div> <div id='spork'></div>
+
+
+
+<br>
+<select onchange="selectTheme()" id='themeSelect'>
+    <option>default</option>
+    <option>3024-day</option>
+    <option>3024-night</option>
+    <option>ambiance</option>
+    <option>base16-dark</option>
+    <option>base16-light</option>
+    <option>blackboard</option>
+    <option>cobalt</option>
+    <option>eclipse</option>
+    <option>elegant</option>
+    <option>erlang-dark</option>
+    <option>lesser-dark</option>
+    <option>mbo</option>
+    <option>mdn-like</option>
+    <option selected>midnight</option>
+    <option>monokai</option>
+    <option >neat</option>
+    <option>night</option>
+    <option>paraiso-dark</option>
+    <option>paraiso-light</option>
+    <option>pastel-on-dark</option>
+    <option>rubyblue</option>
+    <option>solarized dark</option>
+    <option>solarized light</option>
+    <option>the-matrix</option>
+    <option>tomorrow-night-eighties</option>
+    <option>twilight</option>
+    <option>vibrant-ink</option>
+    <option>xq-dark</option>
+    <option>xq-light</option>
+</select>
+
+
+<script>
+       var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+      mode: {name: "javascript", globalVars: true},
+       styleActiveLine: true,
+	lineNumbers: true,
+	lineWrapping: true,
+	autoCloseBrackets: true,
+        extraKeys: {"Ctrl-Space": "autocomplete"} ,
+	});
+	editor.setOption("theme", "midnight");
+	
+ function selectTheme() {
+	  var input = document.getElementById("themeSelect");
+     var theme = input.options[input.selectedIndex].innerHTML;
+    editor.setOption("theme", theme);
+  }	
+</script>
+
+<script>showFooter();</script>
+
+</body>
+ </html>

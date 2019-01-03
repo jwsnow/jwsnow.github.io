@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Math 142/242</title>
+<link rel="stylesheet" type="text/css" href="quick.css">
+<script type='text/javascript' src='header.js'></script>
+<script type="text/javascript" src="spork.js"></script>
+<script>
+function onclick(){
+	circle(mouseX, mouseY, 20);
+}
+</script>
+</head>
+<body>
+<script> showHeader(); </script>
+<h1>Spork Mouse Events</h1>
+<div class='example'>
+<h2>onclick</h2>
+The <b>onclick()</b> function is executed every time the mouse is clicked inside the Spork canvas.  At each click, the <b>mouseX</b> and <b>mouseY</b> variables are set to the coordinates of the click.
+In the example below, a circle is draw around the location of each mouse click.
+<div class='code'>
+
+<div class='exampledisplay' id='spork'></div>
+<pre class='codeblock'>
+function onclick(){
+  circle(mouseX,mouseY,20);
+}
+</pre>
+</div>
+</div>
+<script> showFooter(); </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Math 142/242</title>
+<link rel="stylesheet" type="text/css" href="quick.css">
+<script type='text/javascript' src='header.js'></script>
+<script type="text/javascript" src="spork.js"></script>
+<script>
+function onmousemove(){
+	circle(mouseX, mouseY, 20);
+}
+</script>
+</head>
+<body>
+<script> showHeader(); </script>
+<h1>Spork Mouse Events</h1>
+<div class='example'>
+<h2>onmousemove</h2>
+Whenever the mouse mouse moves while inside of the Spork canvas the functio <b>onmousemove()</b> is executed. At each motion, the <b>mouseX</b> and <b>mouseY</b> variables are set to the coordinates of the mouse.
+In the example below, a circle is draw around the location of the mouse each time the mouse is moved.
+<div class='code'>
+
+<div class='exampledisplay' id='spork'></div>
+<pre class='codeblock'>
+function onmousemove(){
+  circle(mouseX,mouseY,20);
+}
+</pre>
+</div>
+</div>
+<script> showFooter(); </script>
+</body>
+</html>

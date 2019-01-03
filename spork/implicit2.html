@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+<title>Spork  Editor</title>
+
+<style>
+#editorButton{
+	text-decoration:underline;
+}
+</style>
+
+<link rel="stylesheet" href="cm.css">
+<link rel="stylesheet" href="allThemes.css">
+
+<script src="cmSporkEditor.js"></script>
+
+<link rel="stylesheet" type="text/css" href="quick.css">
+<script type="text/javascript">var EDITOR = 1;</script>
+<script type="text/javascript" src="spork.js"></script>
+<script type="text/javascript" src="sporkEditor.js"></script>
+<script type="text/javascript" src="header.js"></script>
+
+</head>
+<body>
+<script>showHeader();</script>
+
+<div id='buttonDiv'> 
+<button onclick='stoploop();'>Stop</button> <button onclick='startloop();'>Continue</button> <button onclick='runCode();'>Go</button>
+</div>
+<div>
+<div id='cmDiv'><textarea id="code" name="code">
+/*
+Implicit Line
+This example uses an implicit representation of
+a line to draw a picture. 5000 circles are placed
+at random locations. Circles above the line are 
+filled red. Circles below the line are filled blue.
+
+Colors include transparency to give a blending effect.
+*/
+
+
+/*
+This function uses the imlicit definition of a line
+(y-y1)*(x2-x1)-(x-x1)*(y2-y1)=0
+connecting (x1,y1) and (x2,y2). A positive return 
+value puts (x,y) on one side of the line. A negative
+value puts it on the other.
+*/
+function impLine(x,y,x1,y1,x2,y2){
+  return((y-y1)*(x2-x1)-(x-x1)*(y2-y1));
+}
+
+function setup(){
+  color(0,0,0,0);	//this makes the outline of the
+  					//circles invisible
+}
+function draw(){
+  var x,y;		//coordinates of circle
+  var d;		//value from implicit function
+  var i;		//index for for loop
+  
+  //repeat 5000 times
+  for (i=0;i<5000;i=i+1){
+    //random point
+    x=width*random();
+    y=height*random();
+    
+    //we call impLine with the line 
+    //connecting (0,300) and (400,100)
+    d=impLine(x,y,0,300,400,100);
+    if (d<0)				//above the line
+      fillcolor(255,0,0,0.1);
+    else 					//below or on the line
+      fillcolor(0,0,255,0.1);
+    circle(x,y,10);
+    fill();
+   }
+}
+</textarea></div> <div id='spork'></div>
+
+
+
+<br>
+<select onchange="selectTheme()" id='themeSelect'>
+    <option>default</option>
+    <option>3024-day</option>
+    <option>3024-night</option>
+    <option>ambiance</option>
+    <option>base16-dark</option>
+    <option>base16-light</option>
+    <option>blackboard</option>
+    <option>cobalt</option>
+    <option>eclipse</option>
+    <option>elegant</option>
+    <option>erlang-dark</option>
+    <option>lesser-dark</option>
+    <option>mbo</option>
+    <option>mdn-like</option>
+    <option selected>midnight</option>
+    <option>monokai</option>
+    <option >neat</option>
+    <option>night</option>
+    <option>paraiso-dark</option>
+    <option>paraiso-light</option>
+    <option>pastel-on-dark</option>
+    <option>rubyblue</option>
+    <option>solarized dark</option>
+    <option>solarized light</option>
+    <option>the-matrix</option>
+    <option>tomorrow-night-eighties</option>
+    <option>twilight</option>
+    <option>vibrant-ink</option>
+    <option>xq-dark</option>
+    <option>xq-light</option>
+</select>
+
+
+<script>
+       var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+      mode: {name: "javascript", globalVars: true},
+       styleActiveLine: true,
+	lineNumbers: true,
+	lineWrapping: true,
+	autoCloseBrackets: true,
+        extraKeys: {"Ctrl-Space": "autocomplete"} ,
+	});
+	editor.setOption("theme", "midnight");
+	
+ function selectTheme() {
+	  var input = document.getElementById("themeSelect");
+     var theme = input.options[input.selectedIndex].innerHTML;
+    editor.setOption("theme", theme);
+  }	
+</script>
+
+<script>showFooter();</script>
+
+</body>
+ </html>

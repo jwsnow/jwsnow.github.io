@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+<link rel="stylesheet" type="text/css" href="quick.css">
+<script type='text/javascript' src='header.js'></script>
+<script type="text/javascript" src="spork.js"></script>
+<script>
+function setup(){
+	size(100,100);	//size canvas
+	translate(50,50);	//move origin to center
+	loop();			//tell Spork to loop
+}
+function draw(){
+	clear();	//clear the canvas for new drawing
+	rotate(1);	//rotate 1 degree
+	point(50,0);	//draw point
+}
+</script>
+</head>
+<body>
+<html>
+<script> showHeader(); </script>
+
+
+<h1>Spork</h1>
+<p>
+To give students quick access to the ability to write JavaScript programs which draw pictures, interact with the mouse (or touchscreen), and use animation, we will use a library called <b>Spork</b>.
+A <b>library</b> is a special type of program intended to be used to simplify writing other programs.  Spork is intended to remove some of the hurdles a beginning programmer might encounter 
+when trying to perform certain tasks relate related to drawing.  It is simple enough to allow for "spoon feeding" beginners, but it also has enough teeth to handle meatier, more complex tasks.
+</p>
+
+<p>
+When we first begin programming, we will use the Spork Editor, pictured here embedded in the course web page. <img src="png/sporkEditor.png" width="50%" style='float:right;'>
+On the left side of the editor is a box in which you can type text (JavaScript code).  On the right side of the editor is a rectangle called the canvas.  Much of your code will include commands for drawing on the canvas.
+You will type code in the text area, click the "Go" button between the text area and the canvas, and then view the result that your code draws on the canvas.
+</p>
+
+<p>
+At the bottom of the editor are a text box and several buttons.  
+<ul>
+<li> <b>Save</b> You can type a name in the text box and click "Save" to save a draft of your code within your Browse.  Note: The save button is for temporary storage. It 
+saves code within the browser.  It is not secure. It should remain under normal shut downs and restarts, but it will vanish when the browser's memory is cleared. On campus machines, programs saved in this way will
+probably disappear every night. For more permanent storage, you should copy and paste your code into a text editor.</li>
+<li> <b>Load</b>
+Press "Load" to retreive programs that you have saved. </li>
+<li> <b>Get Image</b> If you have drawn a nice picture with Spork that you want to save, click "Get Image."  This will display a savable copy of the drawing canvas. Right click on the image to save it.</li>
+</ul>
+</p>
+
+<h1>Comments</h1>
+<p>
+A bunch of JavaScript commands written together can be pretty unreadable without a good deal of concentration. For example, it is difficult to tell what this code does by just looking:
+<pre class='codeblock'>circle(200,200,100);
+triangle(210,190,200,210,190,190);
+circle(230,150,10);
+circle(170,150,10);
+arc(200,200,50,45,135);
+</pre><br>
+We can make code more readable (to ourselves and others) with comments.  Anything on a line of code following a double slash // is ignored. Text written after // 
+is called a comment.  Our code is much more meaningful with comments.
+<pre class='codeblock'>//Smiley Face
+
+circle(200,200,100);                //outline of face
+triangle(210,190,200,210,190,190);  //nose
+circle(230,150,10);                 //right eye
+circle(170,150,10);                 //left eye
+arc(200,200,50,45,135);             //mouth
+</pre><br>
+At least the intent of the code is more clear here. Notice how we also included an empty line to make the title stand out.  Blank likes like this are also ignored.
+To have comments such as this span more than one like, we can start the comment off with /* and finish it with */
+<pre class='codeblock'>/*
+Jane D. Smith
+Math 142
+Assignment 1
+Simple Smiley Face
+*/
+
+circle(200,200,100);                //outline of face
+triangle(210,190,200,210,190,190);  //nose
+circle(230,150,10);                 //right eye
+circle(170,150,10);                 //left eye
+arc(200,200,50,45,135);             //mouth
+</pre><br>
+The output of this code is pictured below. <center><img src='png/simplesmile.png'></center>
+</p>
+
+
+<h1>Lines and Shapes</h1>
+<div class='example'>
+<h2>point</h2>
+The command <b>point(x,y)</b> draws a point at (x,y).  This is a circle whose radius is the current line width.
+<div class='code'>
+	<img class='example' src='png/point.png'>
+	<div class='codeblock'> point(50,50); </div>
+</div>
+</div>
+
+<div class='example'>
+<h2>line</h2>
+The command <b>line(x1,y1,x2,y2)</b> draws a line segment from the point (x1,y1) to the point (x2,y2).
+<div class='code'>
+	<img class='example' src='png/line.png'>
+	<div class='codeblock'> line(25,25,50,75); </div>
+</div>
+The <b>line</b> command can also be used to link several line segments together. The command <b>line(x1,y1,x2,y2,x3,y3,...,xn,yn)</b> draws a sequence of line segments from the point (x1,y1) to the point (x2,y2) and then from (x2,y2) to (x3,y3) and so on.
+<div class='code'>
+	<img class='example' src='png/lines.png'>
+	<div class='codeblock'> line(25,25,50,75,50,10,75,75,90,50); </div>
+</div>
+</div>
+
+<div class='example'>
+<h2>rect</h2>
+The command <b>rect(x,y,w,h)</b> draws a rectangle with upper left corner at (x,y) with width w and height h.
+<div class='code'>
+	<img class='example' src='png/rect.png'>
+	<div class='codeblock'> rect(10,10,80,30); </div>
+</div>
+</div>
+
+<div class='example'>
+<h2>triangle</h2>
+The command <b>triangle(x1,y1,x2,y2,x3,y3)</b>: draws a triangle with vertices (x1,y1), (x2,y2), and (x3,y3).
+<div class='code'>
+	<img class='example' src='png/triangle.png'>
+	<div class='codeblock'> triangle(10,10,80,30,50,80); </div>
+</div>
+</div>
+
+<div class='example'>
+<h2>quad</h2>
+The command <b>quad(x1,y1,x2,y2,x3,y3,x4,y4)</b> draws a quadrilateral with vertices (x1,y1), (x2,y2), (x3,y3), and (x4,y4).
+<div class='code'>
+	<img class='example' src='png/quad.png'>
+	<div class='codeblock'> quad(10,10,80,20,70,60,20,80); </div>
+</div>
+</div>
+
+<div class='example'>
+<h2>circle</h2>
+The command <b>circle(x,y,r)</b> draws a circle of radius r centered at (x,y).
+<div class='code'>
+	<img class='example' src='png/circle.png'>
+	<div class='codeblock'> circle(50,50,30); </div>
+</div>
+</div>
+
+<div class='example'>
+<h2>ellipse</h2>
+The command <b>ellipse(x,y,rx, ry)</b> draws an ellipse centered at (x,y) whose with a horizontal radius of rx and a vertical radius of ry.
+<div class='code'>
+	<img class='example' src='png/ellipse.png'>
+	<div class='codeblock'> ellipse(50,50,40,20); </div>
+</div>
+</div>
+
+<div class='example'>
+<h2>arc</h2>
+The command <b>arc(x,y,r,a,b)</b> draws an arc of a circle centered at (x,y) with radius r from the angle a clockwise through the angle b.
+<div class='code'>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/arc.png'>
+	<div class='codeblock'> arc(50,50,25,45,215); </div>
+	</div>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/arcfill.png'>
+	<div class='codeblock'> arc(50,50,25,45,215); <br> fill(); </div>
+	</div>
+</div>
+Adding angles to the <b>ellipse</b> command such as <b>ellipse(x,y,rx, ry,a,b)</b> will similarly draw an arc of an ellipse.
+<div class='code'>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/elarc.png'>
+	<div class='codeblock'> ellipse(50,50,40,20,45,215); </div>
+	</div>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/elarcfill.png'>
+	<div class='codeblock'> ellipse(50,50,40,20,45,215); <br> fill(); </div>
+	</div>
+</div>
+
+</div>
+
+<div class='example'>
+<h2>linewidth</h2>
+The command <b>linewidth(n)</b> changes the width of any drawing stroke (lines, rectangles, triangles, circles, ellipses) to n pixels.
+<div class='code'>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/thickline.png'>
+	<div class='codeblock'> linewidth(5); <br> line(25,25,50,75);  </div>
+	</div>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/thicklines.png'>
+	<div class='codeblock'> linewidth(5); <br> line(25,25,50,75,50,10,75,75,90,50);  </div>
+	</div>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/thickrect.png'>
+	<div class='codeblock'> linewidth(5); <br> rect(10,10,80,30);  </div>
+	</div>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/thickcircle.png'>
+	<div class='codeblock'> linewidth(5); <br> circle(50,50,30);  </div>
+	</div>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/thickpoint.png'>
+	<div class='codeblock'> linewidth(5); <br> point(50,50);  </div>
+	</div>
+</div>
+</div>
+
+<div class='example'>
+<h2>color</h2>
+The <b>color</b> command is used to change the color of the drawing stroke. Colors may be specified by name, by RGB value, or by RGBA value. To specify a color by name, use a command of the form <b>color('red')</b>. 
+Note how the name of the color is enclosed in quotation marks (you may use single or double quotes).  These can be single or double quotation marks.
+<div class='code'>
+	<img class='example' src='png/colorname.png'>
+	<div class='codeblock'>  linewidth(5); <br> color('red'); <br> line(5,5,95,95); <br> color('blue'); <br> circle(50,50,25); </div>
+</div>
+To specify a color by RGB value use a command of the form <b>color(r,g,b)</b>.  Here r, g, and b are numbers from 0 to 255 which specify the intensity of the red, blue, and green components of a color. A value of 0 means that none of that color component is present.  A value of 255 means that the maximum amount of that color is present. The color <b>color(0,0,0)</b> is black.  The color <b>color(255,255,255)</b> is white. If the same value is used for r, g, and b, then the color is a shade of grey.
+<div class='code'>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/colorrgb.png'>
+	<div class='codeblock'> linewidth(5); <br> color(165,42,42); <br> line(5,5,95,95); <br> color(100,149,237); <br> circle(50,50,25); </div>
+	</div>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/colorrgb2.png'>
+	<div class='codeblock'> linewidth(5); <br> color(0,0,0); <br> line(5,5,95,95); <br> color(100,100,100); <br> circle(50,50,25); </div>
+	</div>
+</div>
+RGBA colors include three RGB values along with an <i>alpha channel</i> value.  This is a number between 0 and 1 which specifies the transparency of the color. A value of 0 is completely transparent. A value of 1 is completely opaque.  Values in between are semi-transparent.
+<div class='code'>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/colorrgba1.png'>
+	<div class='codeblock'> linewidth(25); <br> color(165,42,42); <br> line(5,50,95,50);  <br> color(100,149,237,<b>0.25</b>); <br> circle(50,50,25); </div>
+	</div>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/colorrgba2.png'>
+	<div class='codeblock'> linewidth(25); <br> color(165,42,42); <br> line(5,50,95,50);  <br> color(100,149,237,<b>0.5</b>); <br> circle(50,50,25); </div>
+	</div>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/colorrgba3.png'>
+	<div class='codeblock'> linewidth(25); <br> color(165,42,42); <br> line(5,50,95,50);  <br> color(100,149,237,<b>0.75</b>); <br> circle(50,50,25); </div>
+	</div>
+</div>
+Some common colors and their RGB values can be seen <a href='rgbcolors.html'>here</a>.
+</div>
+
+
+<div class='example'>
+<h2>fill</h2>
+The command <b>fill()</b> fills the last shape drawn with the color specified by <b>fillcolor(c)</b>. The arguments to fill color should follow the conventions discussed above about colors.
+<div class='code'>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/fillcircle.png'>
+	<div class='codeblock'> circle(40,50,25); <br> fillcolor(255,0,0,0.5);  <br> fill(); <br> circle(60,50,25); <br> fillcolor(0,255,0,0.5); <br> fill(); </div>
+	</div>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/fillline.png'>
+	<div class='codeblock'>  fillcolor('yellow'); <br> line(10,10,90,90,90,10,10,90,10,10); <br> fill(); <br></div>
+	</div>
+</div>
+</div>
+
+
+
+<h1>Transformations</h1>
+<div class='example'>
+<h2>translate</h2>
+The command <b>translate(x,y)</b> moves (slides or translates) the canvas horizontally x pixels and vertically y pixels.  If the origin is at the upper left corner, this moves the origin to the point (x,y).
+<div class='code'>
+	<div class='inlinecodeexample'>
+		<img class='example' src='png/circlenotranslate.png'>
+		<div class='codeblock'> circle(0,0,50); <br> When this circle is drawn at (0,0) without a translation, <br> only a quarter of the circle is seen in the upper left hand corner.</div>
+	</div>
+	<div class='inlinecodeexample'>
+		<img class='example' src='png/circletranslate.png'>
+		<div class='codeblock'>  transform(50,50); <br> circle(0,0,50); <br> When the circle is drawn after the translation, <br> the origin is now in the center of the canvas, and the entire circle is seen.</div>
+	</div>
+</div>
+</div>
+
+<div class='example'>
+<h2>rotate</h2>
+The command <b>rotate(n)</b>: Rotates the canvase n degrees clockwise around the origin.
+<div class='code'>
+	<div class='inlinecodeexample'>
+		<img class='example' src='png/arrownorotate.png'>
+		<div class='codeblock'> translate(50,50); <br> line(0,0,25,0); <br> triangle(25,5,25,-5,30,0);</div>
+	</div>
+	<div class='inlinecodeexample'>
+		<img class='example' src='png/arrowrotate45.png'>
+		<div class='codeblock'> translate(50,50); <br> <b>rotate(45);</b> <br> line(0,0,25,0); <br> triangle(25,5,25,-5,30,0);</div>
+	</div>
+	<div class='inlinecodeexample'>
+		<img class='example' src='png/arrowrotate90.png'>
+		<div class='codeblock'> translate(50,50); <br> <b>rotate(90);</b> <br> line(0,0,25,0); <br> triangle(25,5,25,-5,30,0);</div>
+	</div>
+	<div class='inlinecodeexample'>
+		<img class='example' src='png/arrowrotate180.png'>
+		<div class='codeblock'> translate(50,50); <br> <b>rotate(180);</b> <br> line(0,0,25,0); <br> triangle(25,5,25,-5,30,0);</div>
+	</div>
+	<div class='inlinecodeexample'>
+		<img class='example' src='png/arrowrotate270.png'>
+		<div class='codeblock'> translate(50,50); <br> <b>rotate(270);</b> <br> line(0,0,25,0); <br> triangle(25,5,25,-5,30,0);</div>
+	</div>
+</div>
+</div>
+
+<div class='example'>
+<h2>scale</h2>
+The command <b>scale(sx,sy)</b> scales all all further drawing. Horizontal distances are scaled by sx, and vertical distances are scaled by sy. The command <b>scale(s)</b> is short for <b>scale(b,b)</b>. Scaling is accomplished by multiplying x values by sx and y values by sy.
+<div class='code'>
+	<div class='inlinecodeexample'>
+		<img class='example' src='png/rectnoscale.png'>
+		<div class='codeblock'> translate(50,50); <br> rect(-10,-10,20,20);</div>
+	</div>
+	<div class='inlinecodeexample'>
+		<img class='example' src='png/rectscale1.png'>
+		<div class='codeblock'> translate(50,50); <br> scale(2,3); <br> rect(-10,-10,20,20);</div>
+	</div>
+	<div class='inlinecodeexample'>
+		<img class='example' src='png/rectscale2.png'>
+		<div class='codeblock'> translate(50,50); <br> scale(3,0.5); <br> rect(-10,-10,20,20);</div>
+	</div>
+</div>
+</div>
+
+<div class='example'>
+<h2>save</h2>
+The command <b>save()</b> will save the current state (translation, scale, rotation) of the drawing canvas.  Once other transformations have been performed, this state can be restored with the command <b>restore()</b>.
+<div class='code'>
+	<div class='codeblock'> save(); <br> //perform drawing commands here <br> restore(); </div>
+</div>
+</div>
+
+<h1>Text</h1>
+<div class='example'>
+<h2>filltext</h2>
+The command <b>filltext(s,x,y)</b>: Writes the string s with the current font beginning at the point (x,y). The color used to write is the same as the current fill color.
+<div class='code'>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/filltext.png'>
+	<div class='codeblock'> filltext('hello there', 10,50); </div>
+	</div>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/filltextcolor.png'>
+	<div class='codeblock'> fillcolor('green'); <br> filltext('hello there', 10,50); </div>
+	</div>
+</div>
+The command <b>filltext(s,x,y)</b> can also be written as <b>fillText(s,x,y)</b> or simply <b>print(s,x,y)</b>.
+</div>
+
+<div class='example'>
+<h2>stroketext</h2>
+The command <b>stroketext(s,x,y)</b>: Writes the string s with the current font beginning at the point (x,y) but only outlines the letters using the current color.
+<div class='code'>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/stroketext.png'>
+	<div class='codeblock'> stroketext('hello there', 10,50); </div>
+	</div>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/stroketextcolor.png'>
+	<div class='codeblock'> color('green'); <br> stroketext('hello there', 10,50); </div>
+	</div>
+</div>
+The command <b>stroketext(s,x,y)</b> can also be written as <b>strokeText(s,x,y)</b>.
+</div>
+
+<div class='example'>
+<h2>font</h2>
+The <b>font</b> command is used to change the font used to print. Calls to this command must look something like
+<b>font('italic 30px Helvetica')</b> or
+<b>font('bold 40px Courier')</b> or
+<b>font('20px sans-serif')</b> or
+<b>font('30px times')</b>.
+<div class='code'>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/font1.png'>
+	<div class='codeblock'> font('italic 30px Helvetica'); <br> filltext('hello there', 10,50); </div>
+	</div>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/font2.png'>
+	<div class='codeblock'> font('bold 40px Courier'); <br> filltext('hello there', 10,50); </div>
+	</div>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/font3.png'>
+	<div class='codeblock'> font('20px sans-serif'); <br> filltext('hello there', 10,50); </div>
+	</div>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/font4.png'>
+	<div class='codeblock'> font('30px times'); <br> filltext('hello there', 10,50); </div>
+	</div>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/font5.png'>
+	<div class='codeblock'> font('30px comic sans ms'); <br> filltext('hello there', 10,50); </div>
+	</div>
+</div>
+</div>
+
+<h1>Other</h1>
+<div class='example'>
+<h2>clear</h2>
+The command <b>clear()</b> clears (erases) the drawing canvas without making any other changes.
+<div class='code'>
+	<div class='codeblock'> clear(); </div>
+</div>
+</div>
+
+<div class='example'>
+<h2>size</h2>
+The command <b>size(x,y)</b> sets the drawing canvas size to be x pixels wide and y pixels high. This resets most properties of the canvas (translation, scale, font, colors, etc.).
+<div class='code'>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/size100_100.png'>
+	<div class='codeblock'> size(100,100); </div>
+	</div>
+	<div class='inlinecodeexample'>
+	<img class='example' src='png/size200_50.png'>
+	<div class='codeblock'> size(200,50); </div>
+	</div>
+</div>
+At any time the current width and height of the drawing canvas are stored in the variables <b>width</b> and <b>height</b>.
+<div class='code'>
+	<div class='codeblock'> theWidth=width;<br>theHeight=height; </div>
+</div>
+</div>
+
+<div class='example'>
+<h2>Time</h2>
+The commands <b>year()</b>,<b>month()</b>,<b>date()</b>,<b>day()</b>, <b>hour()</b>, <b>minute()</b>, and <b>second()</b> return the  year, month, day of the month, day of the week, hour, minute, and second of the current time.
+<div class='code'>
+	<div class='codeblock'> 
+	theYear=year();<br>
+	theMonth=month();<br>
+	theDate=date();<br>
+	theDay=day();<br>
+	theHour=hour();<br>theMinute=minute();<br>theSecond=second(); </div>
+</div>
+</div>
+
+
+<h1>Spork Program Structure</h1>
+<div class='example'>
+	<h2>Basic Program Structure</h2>
+	<p>A stand-alone Spork program should define a function named <b>setup()</b> and a function named <b>draw()</b>.
+	Outside of these functions, nothing should be done except defining other functions and declaring global variables. Arranging the 
+	program this way makes it easier for programs to be portable and it satisfies some technical requirements (which are explained <a href="#technical">here</a> if you care).
+	When a Spork program is run, the function <b>setup()</b> is first executed followed by the function <b>draw()</b>.</p>
+	
+	<p>The <b>setup()</b> function should initialize variables, set the canvas size, and set up colors, background, fonts and the like.  
+	Most drawing and calculations should be done in the <b>draw()</b> function. This function is also used to facilitate animations (which is discussed <a href="#looping">below</a>).
+	<div class='code'>
+		<pre class='codeblock'>
+<i>...DECLARE GLOBAL VARIABLES...</i>
+
+<i>...DEFINE FUNCTIONS...</i>
+
+function setup(){
+	<i>...INITIALIZE VARIABLES...</i>
+	<i>...RESIZE CANVAS...</i>
+	<i>...SET COLORS, BACKGROUND, FONTS, ETC...</i>
+}
+function draw(){
+	<i>...EXECUTE MAIN DRAWING PROCEDURES...</i>
+}
+		</pre>
+	</div>
+</div>
+
+<div class='example'>
+	<h2 id="looping">Looping and Animation</h2>
+	Spork is designed to make animations easy by executing the <b>draw()</b> function repeatedly.  Each time the function is executed variables can be updated, and the canvas can be redrawn.
+	To cause this action to begin, call the <b>loop()</b> function from within the <b>setup()</b> function.
+	<div class='code'>
+		<div style='display:inline-block'><pre class='codeblock'>
+function setup(){
+	size(100,100);		//size canvas
+	translate(50,50);	//move origin to center
+	<b>loop();</b>			//tell Spork to loop
+}
+function draw(){
+	clear();		//clear the canvas for new drawing
+	rotate(1);		//rotate 1 degree
+	point(50,0);		//draw point
+}	
+		</pre></div>
+		<div class='exampledisplay' id='spork' style='display: inline-block'></div>
+	</div>
+	<h2>Starting and Stopping the Loop</h2>
+	At any point the Spork animation loop can be stopped with the command <b>stoploop()</b>. The animation loop can be restarted with the command <b>startloop()</b>. This is demonstated with the two buttons below.
+	<div class='code'>	
+		<button onclick="stoploop();">stoploop();</button>
+		<button onclick="startloop();">startloop();</button>
+	</div>
+	<h2>Animation Speed</h2>
+	Animations can be sped up or slowed down with the <b>timestep</b> function.  The command <b>timestep(n)</b> sets the amount of time between calls to the <b>draw()</b> function to be <b>n</b> milliseconds (a millisecond is one one-thousandth of a second). Initially,
+	the time step is 1 millisecond. The time step would usually be set in the <b>setup()</b> function, but it can also be called at any point in time.  The buttons below can be used to speed up and slow down the animation.
+	<div class='code'>	
+		<button onclick="timestep(1);">timestep(1);</button>
+		<button onclick="timestep(10);">timestep(10);</button>
+		<button onclick="timestep(100);">timestep(100);</button>
+		<button onclick="timestep(1000);">timestep(500);</button>
+	</div>
+	Note that not all browsers were created equal.  Some browsers will be able to draw and redraw the canvas faster than others. If the time step is too small, some browsers might not be able to redraw the canvas fast enough.  In this case the animation will run more slowly.
+</div>
+
+<div class='example'>
+	<h2 id="technical">Technical</h2>
+	<p>The Spork library uses a <b>window.onload</b> function to initialize the Spork div and canvas. This function is not executed until after all of the JavaScript code has been loaded. 
+	Any drawing functions at the global level outside of the <b>setup()</b> and <b>draw()</b> functions would be executed before the canvas even existed to draw on.</p>
+	
+	<p> If you plan on having your own <b>window.onload</b> function, this code should go inside of the <b>setup()</b> function so as not to conflict with Spork's <b>window.onload</b>.
+</div>
+<script> showFooter(); </script>
+
+</html>
+</body>

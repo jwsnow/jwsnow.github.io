@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"> 
+<title>Math 142/242</title>
+<link rel="stylesheet" type="text/css" href="quick.css">
+<script type='text/javascript' src='header.js'></script>
+</head>
+<body>
+<html>
+<script> showHeader(); </script>
+
+<div class='example'>
+<h2>Full Skeleton</h2>
+The full skeleton of an html file that includes 
+a title,
+an external style sheet,
+internal styles,
+an external JavaScript file, and
+internal JavaScript code would look like this.
+<div class='code'>
+<div class='exampledisplay'></div>
+<pre class='codeblock'>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;<i>TITLE OF WEB PAGE</i>&lt;/title&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+    &lt;style&gt;<i>INTERNAL STYLE INFORMATION</i>&lt;/style&gt;
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+    &lt;script&gt;<i>INTERNAL JAVACRIPT CODE</i>&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    <i>PAGE CONTENT</i>
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+</div>
+</div>
+
+
+<div class='example'>
+<h2>Headings</h2> You can use headings to divide your web page in a way that will make it easier for readers to skim.
+<div class='code'>
+<div class='exampledisplay'><h1> Heading 1 </h1>
+<h2> Heading 2 </h1>
+<h3> Heading 3 </h1>
+<h4> Heading 4 </h1>
+<h5> Heading 5 </h1>
+<h6> Heading 6 </h1></div>
+<pre class='codeblock'>&lt;h1&gt; Heading 1 &lt;/h1&gt;
+&lt;h2&gt; Heading 2 &lt;/h1&gt;
+&lt;h3&gt; Heading 3 &lt;/h1&gt;
+&lt;h4&gt; Heading 4 &lt;/h1&gt;
+&lt;h5&gt; Heading 5 &lt;/h1&gt;
+&lt;h6&gt; Heading 6 &lt;/h1&gt;
+</pre>
+</div>
+</div>
+
+<div class='example'>
+<h2>Paragraphs</h2>
+All paragraphs should be contained within paragraph tags <b>&lt;p&gt;...&lt;/p&gt;</b>. This allows each paragraph to be styled (if so desired) later with indentation, margins, padding, etc.
+<div class='code'>
+<div class='exampledisplay'>
+<p>
+This is a paragraph. This is a paragraph. This is a paragraph. This is a paragraph. 
+This is a paragraph. This is a paragraph. This is a paragraph. This is a paragraph. 
+This is a paragraph. This is a paragraph. This is a paragraph. This is a paragraph. 
+This is a paragraph. This is a paragraph. This is a paragraph. This is a paragraph. 
+This is a paragraph. 
+</p>
+
+<p>
+Ceci est un paragraphe. Ceci est un paragraphe. Ceci est un paragraphe. 
+Ceci est un paragraphe. Ceci est un paragraphe. Ceci est un paragraphe. 
+Ceci est un paragraphe. Ceci est un paragraphe. Ceci est un paragraphe. 
+Ceci est un paragraphe. Ceci est un paragraphe. Ceci est un paragraphe. 
+Ceci est un paragraphe. Ceci est un paragraphe. Ceci est un paragraphe. 
+Ceci est un paragraphe. Ceci est un paragraphe.
+</p>
+
+<p>
+Este es un parrafo. Este es un parrafo. Este es un parrafo. 
+Este es un parrafo. Este es un parrafo. Este es un parrafo. 
+Este es un parrafo. Este es un parrafo. Este es un parrafo. 
+Este es un parrafo. Este es un parrafo. Este es un parrafo. 
+Este es un parrafo. Este es un parrafo. Este es un parrafo. 
+Este es un parrafo. Este es un parrafo.
+</p></div>
+<pre class='codeblock'>&lt;p&gt;
+This is a paragraph. This is a paragraph. This is a paragraph. This is a paragraph. 
+This is a paragraph. This is a paragraph. This is a paragraph. This is a paragraph. 
+This is a paragraph. This is a paragraph. This is a paragraph. This is a paragraph. 
+This is a paragraph. This is a paragraph. This is a paragraph. This is a paragraph. 
+This is a paragraph. 
+&lt;/p&gt;
+
+&lt;p&gt;
+Ceci est un paragraphe. Ceci est un paragraphe. Ceci est un paragraphe. 
+Ceci est un paragraphe. Ceci est un paragraphe. Ceci est un paragraphe. 
+Ceci est un paragraphe. Ceci est un paragraphe. Ceci est un paragraphe. 
+Ceci est un paragraphe. Ceci est un paragraphe. Ceci est un paragraphe. 
+Ceci est un paragraphe. Ceci est un paragraphe. Ceci est un paragraphe. 
+Ceci est un paragraphe. Ceci est un paragraphe.
+&lt;/p&gt;
+
+&lt;p&gt;
+Este es un parrafo. Este es un parrafo. Este es un parrafo. Este es un parrafo. 
+Este es un parrafo. Este es un parrafo. Este es un parrafo. Este es un parrafo. 
+Este es un parrafo. Este es un parrafo. Este es un parrafo. Este es un parrafo. 
+Este es un parrafo. Este es un parrafo. Este es un parrafo. Este es un parrafo. 
+Este es un parrafo.
+&lt;/p&gt;
+</pre>
+</div>
+</div>
+
+<div class='example'>
+<h2>Breaking Lines</h2>
+HTML ignores most new lines or carriage returns.  To force a new line (within a paragraph) use the <b>&lt;br&gt;</b> tag.
+<div class='code'>
+<div class='exampledisplay'>
+This is some text. This is some text. This is some text. <br>
+This is some text. This is some text. This is some text. 
+</div>
+<pre class='codeblock'>This is some text. This is some text. This is some text. &lt;br&gt;
+This is some text. This is some text. This is some text. 
+</pre>
+</div>
+The <b>&lt;hr&gt;</b> tag will break a line and place a horizontal rule across the page between lines.  The size of this rule can be adjusted later with css.
+<div class='code'>
+<div class='exampledisplay'>
+This is some text. This is some text. This is some text. <hr>
+This is some text. This is some text. This is some text. 
+</div>
+<pre class='codeblock'>This is some text. This is some text. This is some text. &lt;hr&gt;
+This is some text. This is some text. This is some text. 
+</pre>
+</div>
+</div>
+
+<div class='example'>
+<h2>Formatting Text</h2>
+Basic text formatting can be accomplished with tags. For anything fancier, we will use css later.
+Italic text can be created with the <b>&lt;i&gt;...&lt;/i&gt;</b> tag.  Text can be made bold with the <b>&lt;b&gt;...&lt;/b&gt;</b> tag.
+<div class='code'>
+<div class='exampledisplay'>This is <i>italics</i>, and this is <b>bold</b>.
+</div>
+<pre class='codeblock'>This is &lt;i&gt;italics&lt;/i&gt;, and this is &lt;b&gt;bold&lt;/b&gt;.
+</pre>
+</div>
+</div>
+
+<div class='example'>
+<h2>Pre-Formatted Text</h2>
+HTML ignores most white space.  Most linefeeds and tabs have to be performed with tags.  This can make displaying code difficult.  Inside the <b>&lt;pre&gt;...&lt;/pre&gt;</b>  tag,
+HTML honors all white space.  Here is some text displayed without the pre tag. Notice how you do not see the formatting.
+<div class='code'>
+<div class='exampledisplay'>
+This text
+     is 
+          preformatted.
+</div>
+<pre class='codeblock'>This text
+     is 
+          preformatted.
+
+</pre>
+</div>
+Here is the same text displayed with the pre tag. Notice how you do  see the formatting.
+<div class='code'>
+<div class='exampledisplay'>
+<pre>This text
+     is 
+          preformatted.</pre>
+</div>
+<pre class='codeblock'>&lt;pre&gt;This text
+     is 
+          preformatted.&lt;/pre&gt;
+</pre>
+</div>
+</div>
+
+<div class='example'>
+<h2>Lists</h2>
+HTML supports numbered lists and bulleted lists. 
+<div class='code'>
+<div class='inlinecodeexample'>
+<div class='exampledisplay'><ol>
+  <li>One</li>
+  <li>Two</li>
+  <li>Three</li>
+</ol>
+</div>
+<pre class='codeblock'>&lt;ol&gt;
+  &lt;li&gt;One&lt;/li&gt;
+  &lt;li&gt;Two&lt;/li&gt;
+  &lt;li&gt;Three&lt;/li&gt;
+&lt;/ol&gt;
+</pre>
+</div>
+<div class='inlinecodeexample'>
+<div class='exampledisplay'><ul>
+  <li>One</li>
+  <li>Two</li>
+  <li>Three</li>
+</ul>
+</div>
+<pre class='codeblock'>&lt;ul&gt;
+  &lt;li&gt;One&lt;/li&gt;
+  &lt;li&gt;Two&lt;/li&gt;
+  &lt;li&gt;Three&lt;/li&gt;
+&lt;/ul&gt;
+</pre>
+</div>
+</div>
+Notice how each entry in a list is enclosed in <b>&lt;li&gt;...&lt;/li&gt;</b> tags. The method of numbering (or lettering) and the shape of the bullet can be changed with css.
+</div>
+
+<div class='example'>
+<h2>Images</h2>
+Images can be included with the <b>&lt;img src="</b><i>URL OR PATH TO IMAGE</i><b>" height="</b><i>NUMBER</i><b>px" width="</b><i>NUMBER</i><b>px"&gt;</b> tag.
+<div class='code'>
+<div class='exampledisplay'>
+<img src="png/wombat.png" width="150px">
+</div>
+<pre class='codeblock'>&lt;img src="png/wombat.png" width="150px"&gt;
+</pre>
+</div>
+Notice here how we only specified the width of the image.  We could specify one, both, or none of width and height. Also, the image is apparently in a directory called "png" wherever the web page lives.
+</div>
+
+<div class='example'>
+<h2>ID</h2>
+For the sake of JavaScript, links, and styles, an element in a web page can be "named" with an id.
+<div class='code'>
+<div class='exampledisplay'></div>
+<pre class='codeblock'>&lt;h1 id="chapter1"&gt;Chapter One&lt;/h1&gt;
+&lt;ol id="theList'&gt;...&lt;/ol&gt;
+&lt;p id="aParagraph"&gt;...&lt;/p&gt;
+</pre>
+</div>
+</div>
+
+<div class='example'>
+<h2>Links</h2>
+To create a link, use the <b>&lt;a href="</b><i>URL</i><b>"&gt;...&lt;/a&gt;</b> tag. Any text or html can go inside the tag. The URL in the href attribute is the address of the web page you are linking.  That url can be a directory path to file that lives on the same server as the current web page, or it can be a full url "http://..." to another web page.
+<div class='code'>
+<div class='exampledisplay'></div>This is a link to the <a href="http://www.cune.edu">CUNE website</a>.
+<pre class='codeblock'>This is a link to the &lt;a href="http://www.cune.edu"&gt;CUNE website&lt;/a&gt;.
+</pre>
+</div>
+The <b>&lt;a..."&gt;...&lt;/a&gt;</b> tag can also be used to creat "anchors" in a web page so that links can be made from one section of a web page to another.
+<div class='code'>
+<div class='exampledisplay'>
+This is an <a id="theAnchor">anchor</a> in a web page.
+<hr>
+This is a <a href="#theAnchor">link</a> to that anchor.</div>
+<pre class='codeblock'>This is an &lt;a id="theAnchor"&gt;anchor&lt;/a&gt; in a web page.
+&lt;hr&gt;
+This is a &lt;a href="#theAnchor"&gt;link&lt;/a&gt; to that anchor.
+</pre>
+</div>
+Any HTML element that has an id can be linked in this manner.
+</div>
+
+<div class='example'>
+<h2>Tables</h2>
+Tables can be displayed with the &lt;table&gt;...&lt;/table&gt; tag.
+<div class='code'>
+
+<div class='inlinecodeexample'>
+<div class='exampledisplay'><table>
+<tr>
+<td>row 1, cell 1</td>
+<td>row 1, cell 2</td>
+</tr>
+<tr>
+<td>row 2, cell 1</td>
+<td>row 2, cell 2</td>
+</tr>
+</table></div>
+<pre class='codeblock'>&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td&gt;row 1, cell 1&lt;/td&gt;
+    &lt;td&gt;row 1, cell 2&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;row 2, cell 1&lt;/td&gt;
+    &lt;td&gt;row 2, cell 2&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+</pre>
+</div>
+
+
+<div class='inlinecodeexample'>
+<div class='exampledisplay'><table border="1">
+<tr>
+<td>row 1, cell 1</td>
+<td>row 1, cell 2</td>
+</tr>
+<tr>
+<td>row 2, cell 1</td>
+<td>row 2, cell 2</td>
+</tr>
+</table></div>
+<pre class='codeblock'>&lt;table border="1"&gt;
+  &lt;tr&gt;
+    &lt;td&gt;row 1, cell 1&lt;/td&gt;
+    &lt;td&gt;row 1, cell 2&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;row 2, cell 1&lt;/td&gt;
+    &lt;td&gt;row 2, cell 2&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+</pre>
+</div>
+
+<div class='inlinecodeexample'>
+<div class='exampledisplay'><table border="1">
+<tr>
+<tr>
+<th>Header 1</th>
+<th>Header 2</th>
+</tr>
+<td>row 1, cell 1</td>
+<td>row 1, cell 2</td>
+</tr>
+<tr>
+<td>row 2, cell 1</td>
+<td>row 2, cell 2</td>
+</tr>
+</table></div>
+<pre class='codeblock'>&lt;table border="1"&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Header 1&lt;/th&gt;
+    &lt;th&gt;Header 2&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;row 1, cell 1&lt;/td&gt;
+    &lt;td&gt;row 1, cell 2&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;row 2, cell 1&lt;/td&gt;
+    &lt;td&gt;row 2, cell 2&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+</pre>
+</div>
+</div>
+Note that &lt;tr&gt;...&lt;/tr&gt; delineates a table row and &lt;td&gt;...&lt;/td&gt; a table cell. The border attribute can be used to specify borders between cells.  Column headers are given by &lt;th&gt;...&lt;/th&gt;.
+</div>
+
+<div class='example'>
+<h2>SPAN</h2>
+A span is a container like a div, except it is intended to display content inline with elements around it.
+<div class='code'>
+<div class='exampledisplay'>This text is not in the span.
+<span style="color:red;">
+ All of the text in this span is red.
+</span>
+This text is not in the span.
+</div>
+<pre class='codeblock'>
+This text is not in the span.
+&lt;span style="color:red;"&gt;
+ All of the text in this span is red.
+&lt;/span&gt;
+This text is not in the span.
+</pre>
+</div>
+</div>
+
+<div class='example'>
+	<h2>Box Model</h2> All HTML elements can be thought of as boxes or containers with special wrappers.
+	<div class='code'>
+	<center><img src="png/box.png" style="width:50%;"></center>
+	</div>
+	<ul>
+	<li>The margin of an element is transparent space placed between the element and any adjacent objects.  The margin is not affected by the elements background color and does not affect the elements width or height style properties.</li>
+	<li>The border of an element is determined by the element's style and is affected by the background color.  The border does not affect the elements width or height style properties.</li>
+	<li>The padding of an element space between the content and the border. Padding is affected by the background color but does not affect the elements width or height style properties.</li>
+	<li>The size of the content of an element is determined by the width and height style properties of the element.</li>
+	</ul>
+</div>
+
+<script> showFooter(); </script>
+
+</html>
+</body>

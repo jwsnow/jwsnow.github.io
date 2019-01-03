@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+<title>Spork  Editor</title>
+
+<style>
+#editorButton{
+	text-decoration:underline;
+}
+</style>
+
+<link rel="stylesheet" href="cm.css">
+<link rel="stylesheet" href="allThemes.css">
+
+<script src="cmSporkEditor.js"></script>
+
+<link rel="stylesheet" type="text/css" href="quick.css">
+<script type="text/javascript">var EDITOR = 1;</script>
+<script type="text/javascript" src="spork.js"></script>
+<script type="text/javascript" src="sporkEditor.js"></script>
+<script type="text/javascript" src="header.js"></script>
+
+</head>
+<body>
+<script>showHeader();</script>
+
+<div id='buttonDiv'> 
+<button onclick='stoploop();'>Stop</button> <button onclick='startloop();'>Continue</button> <button onclick='runCode();'>Go</button>
+</div>
+<div>
+<div id='cmDiv'><textarea id="code" name="code">
+/*
+Noise Static
+This example fills each pixel on the
+canvas with a gray color determined by
+the noise function.
+*/
+
+function setup(){
+  //setup noise function
+  setupNoise(5);
+}
+
+function draw(){
+  var x,y;		//for coordinates
+  var c;		//for color
+  
+  //nested loop to visit each pixel
+  for (x=0;x<width;x=x+1)
+    for (y=0;y<height;y=y+1){
+      
+      /*
+      Select a random integer in range 0-255.
+      Since noise() returns a number between 
+      -1 and 1, we first add 1 to get a number
+      between 0 and 2. Then we multiply by 128
+      to get between 0 and 256. Then we floor.
+      */
+      c=floor(128*(noise(x/width, y/height)+1));
+      
+      //set color to gray
+      fillcolor(c,c,c);
+      
+      //draw pixel
+      fillrect(x,y,1,1);
+    }
+}
+</textarea></div> <div id='spork'></div>
+
+
+
+<br>
+<select onchange="selectTheme()" id='themeSelect'>
+    <option>default</option>
+    <option>3024-day</option>
+    <option>3024-night</option>
+    <option>ambiance</option>
+    <option>base16-dark</option>
+    <option>base16-light</option>
+    <option>blackboard</option>
+    <option>cobalt</option>
+    <option>eclipse</option>
+    <option>elegant</option>
+    <option>erlang-dark</option>
+    <option>lesser-dark</option>
+    <option>mbo</option>
+    <option>mdn-like</option>
+    <option selected>midnight</option>
+    <option>monokai</option>
+    <option >neat</option>
+    <option>night</option>
+    <option>paraiso-dark</option>
+    <option>paraiso-light</option>
+    <option>pastel-on-dark</option>
+    <option>rubyblue</option>
+    <option>solarized dark</option>
+    <option>solarized light</option>
+    <option>the-matrix</option>
+    <option>tomorrow-night-eighties</option>
+    <option>twilight</option>
+    <option>vibrant-ink</option>
+    <option>xq-dark</option>
+    <option>xq-light</option>
+</select>
+
+
+<script>
+       var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+      mode: {name: "javascript", globalVars: true},
+       styleActiveLine: true,
+	lineNumbers: true,
+	lineWrapping: true,
+	autoCloseBrackets: true,
+        extraKeys: {"Ctrl-Space": "autocomplete"} ,
+	});
+	editor.setOption("theme", "midnight");
+	
+ function selectTheme() {
+	  var input = document.getElementById("themeSelect");
+     var theme = input.options[input.selectedIndex].innerHTML;
+    editor.setOption("theme", theme);
+  }	
+</script>
+
+<script>showFooter();</script>
+
+</body>
+ </html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+<link rel="stylesheet" type="text/css" href="quick.css">
+<script type='text/javascript' src='header.js'></script>
+
+</head>
+<body>
+<html>
+<script> showHeader(); </script>
+
+
+<b>Basic Drawing Commands</b>
+<ul>				
+<li><b>	circle(x, y, r)	</b> -- 	Draw the circle centered at (x,y) with radius r.	</li>
+<li><b>	line(x1,y1,x2,y2)	</b> -- 	Draw a line from point (x1,y1) to (x2,y2).	</li>
+<li><b>	line(x1,y1,x2,y2,x3,y3,...)	</b> -- 	Draw line segments from (x1,y1) to (x2,y2), and then from (x2,y2) to (x3,y3), and so on.	</li>
+<li><b>	linewidth(n)	</b> -- 	Set the line width to n pixels.	</li>
+<li><b>	rect(x1,y1,w,h)	</b> -- 	Draw rectangle with upper left corner at (x,y) with width w and height h.	</li>
+<li><b>	fillrect(x1,y1,x2,y2)	</b> -- 	Fill rectangle with upper left corner at (x,y) with width w and height h.	</li>
+<li><b>	ellipse(x, y, rx, ry)	</b> -- 	Draw an ellipse with center (x,y), horizontal radius rx, and vertical radius ry.	</li>
+<li><b>	point(x,y)	</b> -- 	Draw a circle at (x,y) whose radius is the linewidth.	</li>
+<li><b>	arc(x, y, r, a, b)	</b> -- 	Draw the arc of the circle centered at (x,y) with radius r starting at angle a and continuing to angle b in a clockwise direction.	</li>
+<li><b>	triangle(x1,y1,x2,y2,x3,y3)	</b> -- 	Draw triangle with vertices (x1,y1), (x2,y2), and (x3,y3).	</li>
+<li><b>	quad(x1,y1,x2,y2,x3,y3,x4,y4)	</b> -- 	Draw quadrilateral with vertices (x1,y1), (x2,y2), (x3,y3), and (x4,y4).	</li>
+<li><b>	fill()	</b> -- 	Fill the last drawn shape.	</li>
+</ul>				
+				
+<b>Basic Color Commands</b>				
+<ul>				
+<li><b>	color(c)	</b> -- 	Set the line color to c.	</li>
+<li><b>	color(r,g,b)	</b> -- 	Set the line color to have RGB values of r, g, and b.	</li>
+<li><b>	color(r,g,b,a)	</b> -- 	Set the line color to have RGB values of r, g, and b, and alpha value of a.	</li>
+<li><b>	fillcolor(c)	</b> -- 	Set the fill color to c.	</li>
+<li><b>	fillcolor(r,g,b)	</b> -- 	Set the fill color to have RGB values of r, g, and b.	</li>
+<li><b>	fillcolor(r,g,b,a)	</b> -- 	Set the fill color to have RGB values of r, g, and b, and alpha value of a.	</li>
+</ul>				
+				
+<b>Canvas Commands</b>				
+<ul>				
+<li><b>	size(w,h)	</b> -- 	Set the canvas width to w pixels and the height to h pixels.	</li>
+<li><b>	clear()	</b> -- 	Clear the canvas.	</li>
+</ul>				
+				
+<b>Transformations and Such</b>				
+<ul>				
+<li><b>	clip()	</b> -- 	Causes all subsequent drawing to be clipped inside the last figure drawn.	</li>
+<li><b>	translate(x,y)	</b> -- 	Move the origin of the drawing canvas to the point (x,y) relative to the current origin.	</li>
+<li><b>	scale(s)	</b> -- 	Cause all drawing to be scaled by s from the point of the call forward.	</li>
+<li><b>	scale(x,y)	</b> -- 	Cause all drawing to be scaled by x horizontally and y vertically from the point of the call forward.	</li>
+<li><b>	rotate(n)	</b> -- 	Rotate the axis by n degrees clockwise.	</li>
+<li><b>	save()	</b> -- 	Save the state of the drawing canvas to be restored at a later time.	</li>
+<li><b>	restore()	</b> -- 	Undo all of the changes in scale, rotation, color, etc. to the drawing canvas back to the last save.	</li>
+</ul>				
+				
+<b>Text Stuff</b>				
+<ul>				
+<li><b>	font(x)	</b> -- 	Set the font of the canvas to x. The variable x should be something like, "20px" or  "20px times" or "bold 20px times".	</li>
+<li><b>	filltext(t, x, y)	</b> -- 	Write the text t at the point (x,y) filling in the characters.	</li>
+<li><b>	stroketext(t, x, y)	</b> -- 	Write the text t at the point (x,y) outlining the characters.	</li>
+<li><b>	aligntext(s)	</b> -- 	Specify how text is aligned with the point (x,y) in a command such as "filltext(t,x,y)". The argument s should be "left", "right", "center", "start", or "end".	</li>
+<li><b>	valigntext(x)	</b> -- 	Specify how text is aligned vertically with the point (x,y) in a command such as "filltext(t,x,y)". The argument s should be "top", "bottom", "middle", "alphabetic", or "hanging".	</li>
+</ul>				
+				
+<b>Image Stuff</b>				
+<ul>				
+<li><b>	copyImageData(R,G,B,A)	</b> -- 	This copies the canvas RGB and alpha values to arrays R, G, B, and A. R, G, B, and A should be arrays.	</li>
+<li><b>	drawImage(i, x, y, w, h, r)	</b> -- 	Places the image i on the canvas centered at (x,y) with width w and height h. If r is included, the image will be rotated by r degrees. 	</li>
+</ul>				
+				
+<b>Other</b>				
+<ul>				
+<li><b>	measuretext(t)	</b> -- 	This will return the length of the text t if it were printed on the canvas.	</li>
+<li><b>	floodfill(x,y)	</b> -- 	Fills the region of the canvas containing the point (x,y) with the current fill color.	</li>
+<li><b>	shadowblur(n)	</b> -- 	Causes a shadow of width n pixels to be drawn around all subsequent figures.	</li>
+<li><b>	shadowcolor(s)	</b> -- 	Sets the color of the shadow for shadow blur to s.	</li>
+<li><b>	rgb(r,g,b)	</b> -- 	Returns the color with RGB values r, g, and b.	</li>
+<li><b>	rgba(r,g,b,a)	</b> -- 	Returns the color with RGB values r, g, and b and alpha value a.	</li>
+</ul>				
+			
+
+<script> showFooter(); </script>
+
+</html>
+</body>

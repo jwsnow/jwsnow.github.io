@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Math 142/242</title>
+<link rel="stylesheet" type="text/css" href="quick.css">
+<script type='text/javascript' src='header.js'></script>
+<script type="text/javascript" src="spork.js"></script>
+<script>
+function onmousemove(){
+	if (mouseDown)
+		circle(mouseX, mouseY, 20);
+}
+</script>
+</head>
+<body>
+<script> showHeader(); </script>
+<h1>Spork Mouse Events</h1>
+<div class='example'>
+<h2>mouseDown</h2>
+Whenever the mouse button is down, the variable <b>mouseDown</b> is set to <b>true</b>.  When the mouse button is released, the variable is set to <b>false</b>.
+The example below is the same as the <b>onmousemove()</b> example, except a circle is only drawn if the mouse is down.
+<div class='code'>
+
+<div class='exampledisplay' id='spork'></div>
+<pre class='codeblock'>
+function onmousemove(){
+  if (mouseDown)
+    circle(mouseX,mouseY,20);
+}
+</pre>
+</div>
+</div>
+<script> showFooter(); </script>
+</body>
+</html>

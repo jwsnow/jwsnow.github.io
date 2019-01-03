@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Math 142/242</title>
+<link rel="stylesheet" type="text/css" href="quick.css">
+<script type='text/javascript' src='header.js'></script>
+</head>
+<body>
+<html>
+<script> showHeader(); </script>
+
+<h1>Basic CSS</h1>
+
+<div class='example'>
+	<h2>Styles</h2> 
+	<p>The appearance (color, size, and position among other things) of HTML elements can be styled through
+	<i>Cascading Style Sheets</i> or <i>CSS</i>. Style sheets are lists of rules which tell the browser how to display certain elements of
+	a web page. The idea behind CSS is to separate the content of a web page from the presentation. If the appearance of a web page is formatted
+	with CSS, then the entire web page can be reformatted easily without having to modify the content. This allows content to be reused and redisplayed
+	on different devices.</p>
+	
+	<p> CSS can be included in a web page in three different ways.  First, the CSS can be placed in an external file separate from the HTML file. To include a 
+	style file <b>style.css</b> in an HTML file, include this line in the head section of the HTML file:
+	<div class='code'>
+		<pre class='codeblock'>
+&lt;link rel="stylesheet" type="text/css" href="quick.css"&gt;</pre>
+	</div>
+	</p>
+	
+	<p> CSS can also be included in the head section of an HTML file. Doing so would involve using code such as this in the head section:
+	<div class='code'>
+		<pre class='codeblock'>
+&lt;style type="text/css"&gt;
+<i>...STYLE RULES...</i>
+&lt;/style&gt;</pre>
+	</div>
+	</p>
+
+	<p> Finally, CSS can be included inline within the HTML content of a web page.  This defeats the purpose of separating content and presentation.  It also prevents the ability of using the same CSS to 
+	style multiple HTML elements, but sometimes it is a quick means to an end. Styling a div with inline CSS would look something like:
+	<div class='code'>
+		<pre class='codeblock'>
+&lt;div style="<i>...STYLE RULES...</i>"&gt; <i>DIV CONTENTS</i> &lt;/div&gt;</pre>
+	</div>
+	</p>
+
+</div>
+
+<div class='example'>
+	<h2>Selectors</h2> Selectors are used to declare which HTML elements a style affects. Selectors are most often an element's type, id, or class. This example shows how to use types of HTML elements as selectors:
+	<div class='code'>
+		<pre class='codeblock'>table {
+	<i>...STYLE RULES HERE WILL APPLY TO ALL TABLES...</i>
+}
+p {
+	<i>...STYLE RULES HERE WILL APPLY TO ALL PARAGRAPHS...</i>
+}
+h1 {
+	<i>...STYLE RULES HERE WILL APPLY TO ALL H1 HEADERS...</i>
+}</pre>
+	</div>
+	Note how the style rules for each type of element are included within braces.  This next example shows how to use an element's id as a selector:
+		<div class='code'>
+		<pre class='codeblock'>#titlebar {
+	<i>...STYLE RULES HERE WILL APPLY TO THE ELEMENTS WITH ID titlebar...</i>
+}
+#menubar {
+	<i>...STYLE RULES HERE WILL APPLY TO THE ELEMENTS WITH ID menubar...</i>
+}</pre>
+	</div>
+	Notice how the id is preceded by a number sign # when used as a selector. Also notice how the blocks of rules for each id are grouped with braces. The next example show how to use a class as a selector.
+		<div class='code'>
+		<pre class='codeblock'>div.urgent {
+	<i>...RULES FOR DIVS WITH CLASS urgent...</i>
+}
+p.indented {
+	<i>...RULES FOR PARAGRAPHS WITH CLASS indented...</i>
+}
+...INSIDE THE HTML...
+&lt;div class="urgent"&gt; <i>DIV CONTENT</i> &lt;/div&gt;
+...
+&lt;p class="indented"&gt; <i>P CONTENT</i> &lt;/div&gt;
+</pre>
+	</div>
+	Note that individual HTML elements must use the appropriate <b>class</b> attribute to have the style apply to them.
+</div>
+
+<div class='example'>
+	<h2>Unstyled</h2> Most CSS styles can be applied to most types of HTML elements.  In the next few examples, we will will demonstrate some simple styles by modifying a single unexciting div. Here is the unstyled div.
+	<div class='code'>
+		<div class='exampledisplay'>
+			 <div class="style1"> I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. </div>
+		</div>
+		<pre class='codeblock'>&lt;div class="style1"&gt; I am a div. I am a div. I am a div. I am a div. 
+I am a div. I am a div. I am a div. I am a div. 
+I am a div. I am a div. &lt;/div&gt;</pre>
+	</div>
+</div>
+
+<div class='example'>
+	<h2>Background</h2> We start with the background color so that we can see the shape of our div. The background color can be specified by one of the color names, by hex value, or by rgb(a,b,c) value.
+	<div class='code'>
+		<div class='exampledisplay'><div style="background: steelblue; "> I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. </div></div>
+		<pre class='codeblock'><i>IN THE HEAD...</i>
+&lt;style type="text/css"&gt;
+     div.style1 {
+          background: steelblue;
+     }
+&lt;/style&gt;</pre>
+	</div>
+When we add this code to the head of the HTML file, all divs with class <b>style1</b> will be automatically styled. Notice how the background property is specified -- <b> property: value; </b>. All property values will be set in this way. 
+Notice also how now we can see that the div extends all the way across the page (or across the div that we have containing it) by default.
+</div>
+
+<div class='example'>
+	<h2>Color</h2> Text color can be set with the <b>color:</b> property.
+	<div class='code'>
+			<div class='exampledisplay'><div style="background: steelblue; color: white; "> I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. </div></div>
+		<pre class='codeblock'>IN THE HEAD...
+&lt;style type="text/css"&gt;
+     div.style1 {
+          background: steelblue;
+          color: white;
+     }
+&lt;/style&gt;
+</pre>
+	</div>
+</div>
+
+<div class='example'>
+	<h2>Font</h2> CSS can be used to specify the font used inside an element.
+	<div class='code'>
+			<div class='exampledisplay'><div style="background: steelblue; color: white; font: italic 20px times new roman"> I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. </div></div>
+		<pre class='codeblock'>IN THE HEAD...
+&lt;style type="text/css"&gt;
+     div.style1 {
+          background: steelblue;
+          color: white;
+          font: italic 20px "Times New Roman";
+     }
+&lt;/style&gt;
+</pre>
+	</div>
+We specified the font type (italic or normal), size, and family (Times New Roman) all at once.  We could also specify them separately:
+	<div class='code'>
+		<pre class='codeblock'>IN THE HEAD...
+&lt;style type="text/css"&gt;
+     div.style1 {
+          background: steelblue;
+          color: white;
+          font-family: "Times New Roman";
+          font-type: italic; 
+          font-size: 20px;
+     }
+&lt;/style&gt;
+</pre>
+	</div>
+
+</div>
+
+<div class='example'>
+	<h2>Dimensions</h2> We can specify the dimensions of an element with the <b>width</b> and <b>height</b> attributes. This can also be done in a more dynamic way to fit elements on a page to different devices.
+	<div class='code'>
+			<div class='exampledisplay'><div style="background: steelblue; color: white; font: italic 20px times new roman; width: 200px; height: 100px;"> I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. </div></div>
+		<pre class='codeblock'>IN THE HEAD...
+&lt;style type="text/css"&gt;
+     div.style1 {
+          background: steelblue;
+          color: white;
+          font: italic 20px times new roman;
+          width: 200px;
+          height: 100px;
+     }
+&lt;/style&gt;</pre>
+	</div>
+We can also specify the dimensions as a percentage of the element which contains the div:
+	<div class='code'>
+			<div class='exampledisplay'><div style="background: steelblue; color: white; font: italic 20px times new roman; width: 25%; height: 100px;"> I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. </div></div>
+		<pre class='codeblock'>IN THE HEAD...
+&lt;style type="text/css"&gt;
+     div.style1 {
+          background: steelblue;
+          color: white;
+          font: italic 20px times new roman;
+          width: 25%;
+          height: 100px;
+     }
+&lt;/style&gt;</pre>
+	</div>
+
+</div>
+
+<div class='example'>
+	<h2>Scrolling</h2> The first example above for resizing the div is less than acceptable because our content does not fit in the div.  We can allow scrolling with the <b>overflow</b> property. The value of <b>auto</b> tells the browser to add
+	scrollbars when necessary.
+	<div class='code'>
+			<div class='exampledisplay'><div style="background: steelblue; color: white; font: italic 20px times new roman; width: 200px; height: 100px; overflow: auto;"> I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. </div></div>
+		<pre class='codeblock'>IN THE HEAD...
+&lt;style type="text/css"&gt;
+     div.style1 {
+          background: steelblue;
+          color: white;
+          font: italic 20px times new roman;
+          width: 200px;
+          height: 100px;
+          overflow: auto;
+     }
+&lt;/style&gt;</pre>
+	</div>
+</div>
+
+<div class='example'>
+	<h2>Borders</h2> Elements can be given borders with the <b>border</b> property.
+	<div class='code'>
+			<div class='exampledisplay'><div style="background: steelblue; color: white; font: italic 20px times new roman; width: 200px; height: 130px; border: solid lightblue"> I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. </div></div>
+		<pre class='codeblock'>IN THE HEAD...
+&lt;style type="text/css"&gt;
+     div.style1 {
+          background: steelblue;
+          color: white;
+          font: italic 20px times new roman;
+          width: 200px;
+          height: 130px;
+          border-style: solid;
+          border-color: lightblue;
+          border-width: 5px;
+     }
+&lt;/style&gt;</pre>
+	</div>
+Border style, color, and width can be set all at once like fonts:
+	<div class='code'>
+		<pre class='codeblock'>IN THE HEAD...
+&lt;style type="text/css"&gt;
+     div.style1 {
+          background: steelblue;
+          color: white;
+          font: italic 20px times new roman;
+          width: 200px;
+          height: 130px;
+          border: 5px solid lightblue;
+     }
+&lt;/style&gt;</pre>
+	</div>
+Here are some other border styles:
+<div class="code">
+<div style="border: none lightblue; margin: 10px;">none</div>
+<div style="border: dotted lightblue; margin: 10px;">dotted</div>
+<div style="border: dashed lightblue; margin: 10px;">dashed</div>
+<div style="border: solid lightblue; margin: 10px;">solid</div>
+<div style="border: double lightblue; margin: 10px;">double</div>
+<div style="border: groove lightblue; margin: 10px;">groove</div>
+<div style="border: ridge lightblue; margin: 10px;">ridge</div>
+<div style="border: inset lightblue; margin: 10px;">inset</div>
+<div style="border: outset lightblue; margin: 10px;">outset</div>
+<div style="border: hidden lightblue; margin: 10px;">hidden</div>
+</div>
+</div>
+
+<div class='example'>
+	<h2>Corners</h2> Corners of elements can be rounded with the <b>border-radius</b> property. This property replaces each corner of an element with a quarter circle of radius border-radius.  The larger the border radius, the smoother the corner will be.
+	<div class='code'>
+			<div class='exampledisplay'><div style="background: steelblue; color: white; font: italic 20px times new roman; width: 200px; height: 130px; border: solid lightblue; border-radius: 20px;"> I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. </div></div>
+		<pre class='codeblock'>IN THE HEAD...
+&lt;style type="text/css"&gt;
+     div.style1 {
+          background: steelblue;
+          color: white;
+          font: italic 20px times new roman;
+          width: 200px;
+          height: 130px;
+          border: 5px solid lightblue;
+          border-radius: 20px;
+     }
+&lt;/style&gt;</pre>
+	</div>
+</div>
+
+<div class='example'>
+	<h2>Padding</h2> The rounded corner example is not appealing because the content of the div is too close to the edge. To fix this, we can add some <b>padding</b> around the content of the div.
+	<div class='code'>
+			<div class='exampledisplay'><div style="background: steelblue; color: white; font: italic 20px times new roman; width: 200px; height: 130px; border: solid lightblue; border-radius: 20px; padding: 10px;"> I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. </div></div>
+		<pre class='codeblock'>IN THE HEAD...
+&lt;style type="text/css"&gt;
+     div.style1 {
+          background: steelblue;
+          color: white;
+          font: italic 20px times new roman;
+          width: 200px;
+          height: 130px;
+          border: 5px solid lightblue;
+          border-radius: 20px;
+          padding: 10px;
+     }
+&lt;/style&gt;</pre>
+	</div>
+</div>
+
+<div class='example'>
+	<h2>Margin</h2> If we place two copies of the div we have created above together, the result is less than pleasing for a couple of reasons.  First, the divs are too close together.  
+	<div class='code'>
+			<div class='exampledisplay'><div style="background: steelblue; color: white; font: italic 20px times new roman; width: 200px; height: 130px; border: solid lightblue; border-radius: 20px; padding: 10px;"> I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. </div></div>
+			<div class='exampledisplay'><div style="background: steelblue; color: white; font: italic 20px times new roman; width: 200px; height: 130px; border: solid lightblue; border-radius: 20px; padding: 10px;"> I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. </div></div>
+	</div>
+This can be fixed with the <b>margin</b> property.  This property places a specified distance of blank space around an element.
+	<div class='code'>
+			<div class='exampledisplay'><div style="background: steelblue; color: white; font: italic 20px times new roman; width: 200px; height: 130px; border: solid lightblue; border-radius: 20px; padding: 10px; margin: 10px;"> I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. </div></div>
+			<div class='exampledisplay'><div style="background: steelblue; color: white; font: italic 20px times new roman; width: 200px; height: 130px; border: solid lightblue; border-radius: 20px; padding: 10px; margin:10px;"> I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. </div></div>
+		<pre class='codeblock'>IN THE HEAD...
+&lt;style type="text/css"&gt;
+     div.style1 {
+          background: steelblue;
+          color: white;
+          font: italic 20px times new roman;
+          width: 200px;
+          height: 130px;
+          border: 5px solid lightblue;
+          border-radius: 20px;
+          padding: 10px;
+          margin: 10px;
+     }
+&lt;/style&gt;</pre>
+	</div>
+Using <b>margin: auto;</b> is a shortcut for centering an element.
+	<div class='code'>
+			<div class='exampledisplay'><div style="background: steelblue; color: white; font: italic 20px times new roman; width: 200px; height: 130px; border: solid lightblue; border-radius: 20px; padding: 10px;margin: auto; "> I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. I am a div. </div></div>
+	</div>
+The properties <b>margin-top</b>, <b>margin-bottom</b>, <b>margin-left</b>, <b>margin-right</b> can be used to set different margins on the top, bottom, left, and right sides of an element. 
+</div>
+
+<div class='example'>
+	<h2>Box Model</h2> All HTML elements can be thought of as boxes or containers with special wrappers.
+	<div class='code'>
+	<center><img src="png/box.png" style="width:50%;"></center>
+	</div>
+	<ul>
+	<li>The margin of an element is transparent space placed between the element and any adjacent objects.  The margin is not affected by the elements background color and does not affect the elements width or height style properties.</li>
+	<li>The border of an element is determined by the element's style and is affected by the background color.  The border does not affect the elements width or height style properties.</li>
+	<li>The padding of an element space between the content and the border. Padding is affected by the background color but does not affect the elements width or height style properties.</li>
+	<li>The size of the content of an element is determined by the width and height style properties of the element.</li>
+	</ul>
+</div>
+
+
+<div class='example'>
+	<h2>Display</h2> In the previous example, the two divs are displayed one above the other. What if we want them side-by-side?  This can be accomplished with the <b>display</b> property.
+	The <b>display</b> property can have four values: block, inline, inline-block, and none. To give examples of each of these, we start over with two simple styles applied to two divs with just enough color to tell them apart.
+	In this first example, both divs have a display style of block.  This is the default for divs.  The two divs are stacked on top of each other - there is a line break inserted between the divs.
+	<div class='code'>
+		<div class='exampledisplay'>
+		<div style="width: 100px;height: 100px; background-color: lightblue; border: solid;"> Blue div. Blue div. Blue div. Blue div. Blue div.  Blue div. </div>
+		<div style="width: 100px;height: 100px; background-color: red; border: solid;"> Red div. Red div. Red div. Red div. Red div.  Red div. </div>
+		</div>
+		<pre class='codeblock'>
+<i>IN HEAD...</i>
+&lt;style type="text/css"&gt;
+     div.blue {
+          background: lightblue;
+          width: 200px;
+          height: 200px;
+          display: block;
+     }
+     div.red {
+          background: red;
+          width: 200px;
+          height: 200px;
+          display: block;
+     }
+&lt;/style&gt;
+...<i>IN BODY...</i>
+&lt;div class="blue"&gt; Blue div. Blue div. Blue div. Blue div. Blue div.  Blue div. &lt;/div&gt;
+&lt;div class="red"&gt; Red div. Red div. Red div. Red div. Red div.  Red div. &lt;/div&gt;</pre>
+	</div>
+
+In this second example, the two divs have display style inline-block. Here, the divs are side by side in the horizontal flow of content without a line break between them.
+	<div class='code'>
+		<div class='exampledisplay'>
+		<div style="width: 100px;height: 100px; background-color: lightblue; border: solid;display: inline-block"> Blue div. Blue div. Blue div. Blue div. Blue div.  Blue div. </div>
+		<div style="width: 100px;height: 100px; background-color: red; border: solid;display: inline-block"> Red div. Red div. Red div. Red div. Red div.  Red div. </div>
+		</div>
+		<pre class='codeblock'>
+<i>IN HEAD...</i>
+&lt;style type="text/css"&gt;
+     div.blue {
+          background: lightblue;
+          width: 200px;
+          height: 200px;
+          display: inline-block;
+     }
+     div.red {
+          background: red;
+          width: 200px;
+          height: 200px;
+          display: inline-block;
+     }
+&lt;/style&gt;
+...<i>IN BODY...</i>
+&lt;div class="blue"&gt; Blue div. Blue div. Blue div. Blue div. Blue div.  Blue div. &lt;/div&gt;
+&lt;div class="red"&gt; Red div. Red div. Red div. Red div. Red div.  Red div. &lt;/div&gt;</pre>
+	</div>
+In this example, both divs have a display style of inline. The content of the blocks is run together in line with other text and such.  Notice how the width and height properties now do not matter.
+	<div class='code'>
+		<div class='exampledisplay'>
+		<div style="width: 100px;height: 100px; background-color: lightblue; border: solid;display: inline"> Blue div. Blue div. Blue div. Blue div. Blue div.  Blue div. </div>
+		<div style="width: 100px;height: 100px; background-color: red; border: solid;display: inline"> Red div. Red div. Red div. Red div. Red div.  Red div. </div>
+		</div>
+		<pre class='codeblock'>
+<i>IN HEAD...</i>
+&lt;style type="text/css"&gt;
+     div.blue {
+          background: lightblue;
+          width: 200px;
+          height: 200px;
+          display: inline;
+     }
+     div.red {
+          background: red;
+          width: 200px;
+          height: 200px;
+          display: inline;
+     }
+&lt;/style&gt;
+...<i>IN BODY...</i>
+&lt;div class="blue"&gt; Blue div. Blue div. Blue div. Blue div. Blue div.  Blue div. &lt;/div&gt;
+&lt;div class="red"&gt; Red div. Red div. Red div. Red div. Red div.  Red div. &lt;/div&gt;</pre>
+	</div>
+	
+Here is an example mixing inline and inline-block
+<div class='code'>
+		<div class='exampledisplay'>
+		<div style="width: 100px;height: 100px; background-color: lightblue; border: solid;display: inline"> Blue div. Blue div. Blue div. Blue div. Blue div.  Blue div. </div>
+		<div style="width: 100px;height: 100px; background-color: red; border: solid;display: inline-block"> Red div. Red div. Red div. Red div. Red div.  Red div. </div>
+		</div>
+		<pre class='codeblock'>
+<i>IN HEAD...</i>
+&lt;style type="text/css"&gt;
+     div.blue {
+          background: lightblue;
+          width: 200px;
+          height: 200px;
+          display: inline;
+     }
+     div.red {
+          background: red;
+          width: 200px;
+          height: 200px;
+          display: inline-block;
+     }
+&lt;/style&gt;
+...<i>IN BODY...</i>
+&lt;div class="blue"&gt; Blue div. Blue div. Blue div. Blue div. Blue div.  Blue div. &lt;/div&gt;
+&lt;div class="red"&gt; Red div. Red div. Red div. Red div. Red div.  Red div. &lt;/div&gt;</pre>
+	</div>
+	An element with a display style of none will not appear. This is a good way to "hide" elements until you want them seen. The default display style for divs is block.  The default for spans is inline.
+</div>
+
+
+
+
+<script> showFooter(); </script>
+
+</html>
+</body>

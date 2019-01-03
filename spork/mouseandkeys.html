@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Math 142/242</title>
+<link rel="stylesheet" type="text/css" href="quick.css">
+<script type='text/javascript' src='header.js'></script>
+</head>
+<body>
+<script> showHeader(); </script>
+<h1>Spork Mouse Events</h1>
+<div class='example'>
+Spork provides easy access to handling mouse and touch events. Whenever the mouse interacts with the Spork canvas or when the canvas is touched, the functions below are executed.  To handle mouse and touch events, we need only define these functions in our programs. When each of these functions is executed, the variables <b>mouseX</b> and <b>mouseY</b> are set to the canvas coordinates of the mouse (or touch). When the mouse button is pressed (or the canvas is touched), the variable <b>mouseDown</b> is set to <b>true</b>.  When the button is released (or the touch ends) this variable is set to false. Follow the links to see simple examples of each function in action.
+<ol>
+<li> <a href="onclick.html">onclick()</a> This function is executed whenever a mouse button is clicked in the canvas or the canvas is tapped.</li>
+<li> <a href="onmousemove.html">onmousemove()</a> This function is executed when the mouse or a touch is moved while above the canvas.</li> 
+<li> <a href="mousedown.html">mouseDown</a> This variable is <b>true</b> when a mouse button is pressed or when the canvas is being touched. Otherwise it is false. </li>
+</ol>
+</div>
+
+
+<h1>Key Events</h1>
+
+
+<div class='example'>
+<h2>Spork Key Events</h2>
+Spork provides easy access to handling key events. 
+Whenever a key is pressed three events are "fired."
+<ol>
+<li> As the key goes down, a "keydown" event happens. This event fires repeatedly as long as the key is down.</li>
+<li> When the key is down, a "keypress" event happens.</li>
+<li> When the key is released, a "keyup" event happens.</li>
+</ol>
+
+When a key is pressed, several variables are set.
+
+<ul>
+<li> <b>keyDown</b> is set to true and remains true as long as the key is down.</li>
+<li> If a character key is pressed<b>keyChar</b> is set to that character. </li>
+<li> For any key pressed, <b>keyCode</b> is set to a numeric value representing that key.</li>
+<li> If the ALT key is pressed, <b>altKey</b> is set to true. Otherwise, it is set to false.</li>
+<li> If the CTRL key is pressed, <b>ctrlKey</b> is set to true. Otherwise, it is set to false.</li>
+<li> If the shift key is pressed, <b>shiftKey</b> is set to true. Otherwise, it is set to false.</li>
+</ul>
+
+After these variables are set, the function <b>onkeydown()</b> is called.  To have spork respond to key presses, you should define this function.
+Spork also provides <b>onkeypress()</b> and <b>onkeyup</b>, but we will have little use for them.
+
+</div>
+
+<div class='example'>
+<h2>Key Codes</h2>
+The following spork code will alert the value of keyCode when different keys are pressed.
+
+	<div class='code'>
+		<pre class='codeblock'>function onkeydown(){
+	alert(keyCode);
+}
+</pre>
+	</div>
+You should run this in the spork editor to see some different values. For your convenience, the variables 
+<b>leftArrow</b>,
+<b>rightArrow</b>,
+<b>upArrow</b>, and
+<b>downArrow</b> have been defined so that you can easily check to see if an arrow has been pressed.
+</div>
+
+
+
+<script> showFooter(); </script>
+</body>
+</html>
