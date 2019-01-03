@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+<style>
+body{
+	background:black;
+	text-align:center;
+	color:white;
+}
+</style>
+<script src='spork.js'></script>
+<script>
+function drawString(m){
+  var i,x1,x2,y1,y2;
+  var n=eval(modulus.value);
+  var r=0.95*width/2;
+  circle(0,0,r);
+  for (i=0;i<360;i+=360/n)
+    line(r*COS(i), r*SIN(i), r*COS((i*m)%360), r*SIN((i*m)%360));
+thenumber.innerHTML=c.toFixed(1);
+}
+var c=2;
+function setup(){
+  translate(width/2, height/2);
+  c=2;
+  timestep(50);
+}
+function draw(){
+  clear();
+	color('white');
+  drawString(c);
+  c+=0.1;
+}
+function discreteStep(){
+	stoploop();
+	c=floor(c+1);
+	clear();
+	drawString(c);
+}
+function discreteStepDown(){
+	stoploop();
+	c=floor(c-1);
+	clear();
+	drawString(c);
+}
+</script>
+</head>
+<body>
+<div id='spork'></div>
+<button onclick='stoploop();'>Stop</button>
+<button onclick='startloop();'>Go</button>
+<button onclick='discreteStep();'>Up</button>
+<button onclick='discreteStepDown();'>Down</button>
+<div id='thenumber'></div>
+<div><input type='text' value='360' onkeydown='stoploop();' id='modulus' size=3></input></div>
+<a href='https://youtu.be/qhbuKbxJsk8' target='NEW'>Based on this video from Mathology</a>
+</body>
+</html>

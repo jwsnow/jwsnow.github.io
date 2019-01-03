@@ -1,0 +1,299 @@
+<!doctype html>
+<html>
+<head>
+<style>
+canvas{
+	width: 600px;
+}
+</style>
+<script src='spork.js'></script>
+<script>
+
+var diskRadius=5;			//radius of each point
+var dt=0.02;				//time step
+var maxProjections=10;		//number of projections to do to improve constraints
+var N=4000+6;				//number of objects
+var FUDGEFRAME=10;		//fix crossovers and dampen velocity after this many frames
+var MAXRADIUS=Math.round(Math.sqrt(64*N));		//keeps points inside circle this radius
+var COUNTER=0;			//frame counter
+var X, Y, GX, GY, Xold, Yold;
+//These two arrays are used if there is a region to be avoided. 
+voidX=[];					//array of points to avoid
+voidY=[];					//array of points to avoid
+
+function drawIt(){
+	//Draw the points in the chain and connect them.
+	var i;
+	clear();
+	for (i=0;i<N;i++){
+		line(X[(i+1)%N],Y[(i+1)%N],X[i],Y[i]);
+		point(X[i],Y[i]);
+	}
+}
+//*****************************************************************************************
+//The next few functions are used to impose individual constraints. 
+//Each function calculates and returns a constraint value, and each
+//also updates the gradient arrays.
+function linearConstraint(i, a, b, d){
+	//aX+bY+cZ+d>=0
+	var B, D;
+	D=0;
+	B=a*X[i]+b*Y[i]+d;
+	if (B<0){ 
+		D=B*B;
+		GX[i]+=2*B*a;
+		GY[i]+=2*B*b;
+		}
+	return(D);
+	}
+function minimumDistanceConstraint(i, j, l){
+	//fix the distance between points i and j to be AT LEAST l
+	var dx,dy,dz,b,D;
+	D=0;
+	dx=X[i]-X[j];
+	dy=Y[i]-Y[j];
+	b=dx*dx+dy*dy - l*l;
+	if (b<0){
+		D=b*b;
+		GX[i]+=4*b*dx;
+		GY[i]+=4*b*dy;
+		GX[j]-=4*b*dx;
+		GY[j]-=4*b*dy;
+		}
+	return D;
+	}
+function maximumDistanceConstraint(i, j, l){
+	//fix the distance between points i and j to be AT MOST l
+	var dx,dy,dz,b,D;
+	D=0;
+	dx=X[i]-X[j];
+	dy=Y[i]-Y[j];
+	b=dx*dx+dy*dy - l*l;
+	if (b>0){
+		D=b*b;
+		GX[i]+=4*b*dx;
+		GY[i]+=4*b*dy;
+		GX[j]-=4*b*dx;
+		GY[j]-=4*b*dy;
+		}
+	return D;
+	}	
+function fixedDistanceConstraint(i, j, l){
+	//fix the distance between points i and j to be EQUAL TO l
+	var dx,dy,dz,b,D;
+	D=0;
+	dx=X[i]-X[j];
+	dy=Y[i]-Y[j];
+	b=dx*dx+dy*dy - l*l;
+	D=b*b;
+	GX[i]+=4*b*dx;
+	GY[i]+=4*b*dy;
+	GX[j]-=4*b*dx;
+	GY[j]-=4*b*dy;
+	return D;
+	}
+//*****************************************************************************************
+//The next two functions use a multivariate Newton-like method to project the current
+//position to a legal position. If the points have different masses, then the projection vector
+//is weighted appropriately.
+function findConstraintAndGradient(){
+	//Call functions to fill the gradient arrays. Calculate the constraint function Con. 
+	//Use the gradient arrays and Con to calculate the Lagrange Multiplier to adjust positions.
+	var i,j;
+	var Sum,Con,Lag;
+	//Zero gradient
+	for (i=0;i<N;i++){
+		GX[i]=0;
+		GY[i]=0;
+		}
+	Con=0;
+	//set up gradient here by calling individual constraint functions
+	//should be of the form Con+=minimumDistanceConstraint(i,j,d);	
+	for (i=0;i<N;i++){
+		//Connect adjacent points in chain
+		Con+=fixedDistanceConstraint(i,(i+1)%N,2*diskRadius);
+		//Keep points inside MAXRADIUS circle
+		Con+=maximumDistanceConstraint(i,N,MAXRADIUS);
+		//Avoid the void arrays
+		for (j=0;j<voidX.length;j++)
+			Con+=minimumDistanceConstraint(i,N+j+1,4*diskRadius);
+		//Keep non-adjacent points from getting too close together to keep curve smooth
+		for (j=i+2;j<N;j++)
+			if ((i!=0) || (j!= N-1))
+				Con+=minimumDistanceConstraint(i, j, 4*diskRadius);
+		}
+	//weighted norm of gradient
+	Sum=0;
+	for (i=0;i<N;i++)
+		Sum += (GX[i]*GX[i]+GY[i]*GY[i]);
+	//multiplier
+	if ((Sum != 0) && (Con != 0))
+		Lag = Con/Sum;
+	else
+		Lag =0;
+	return(Lag);
+	}
+function improveConstraints(){
+	//Attempt to project current position to legal position using multivariate Newton's Method
+	var p,i,j;
+	var l;
+	for (p=0;p<maxProjections;p++){
+		l=findConstraintAndGradient();
+		if (l!=0)
+			for (i=0;i<N;i++){
+				X[i]=X[i]-l*GX[i];
+				Y[i]=Y[i]-l*GY[i];
+				}
+			}
+	}
+//*****************************************************************************************
+//The next few functions calculate forces, accelerations, velocities, new positions, etc for physics loop
+function updateVelocities(){
+	//Calculate velocity by using the average change over the previous time interval
+	var i;
+	for (i=0;i<N;i++){
+		VX[i]=(X[i]-Xold[i])/dt;
+		VY[i]=(Y[i]-Yold[i])/dt;
+		}
+	}
+function updatePositions(){
+	//First use projectile motion to calculate new positions
+	//Then project these new positions to legal positions
+	var i,j;
+	var Xnew, Ynew;
+	//Projectile motion
+	for (i=0;i<N;i++){
+		Xnew=X[i]+VX[i]*dt;
+		Ynew=Y[i]+VY[i]*dt;
+		Xold[i]=X[i];
+		Yold[i]=Y[i];
+		X[i]=Xnew;
+		Y[i]=Ynew;
+		}	
+	//Project to legal positions
+	improveConstraints();	
+	}
+function updatePoints(){
+	//calculations for main simulation loop
+	updatePositions();
+	updateVelocities();
+	}	
+//*****************************************************************************************
+//Setup the arrays at the beginning of the calculations. 
+function initializeArrays(){
+	var i,j;
+	var a,r;
+	var c;
+	//Initialize arrays for coordinates, gradient, velocity, etc.
+	X=[];
+	Y=[];
+	Xold=[];
+	Yold=[];
+	GX=[];
+	GY=[];
+	VX=[];
+	VY=[];
+	//select N random points within MAXRADIUS of origin
+	for (i=0;i<N;i++){
+		a=random()*360;
+		r=random()*MAXRADIUS;
+		X[i]=r*COS(a);
+		Y[i]=r*SIN(a);
+	}
+	//(N+1)st point at origin for anchor
+	X[N]=0;
+	Y[N]=0;
+	//Remove all segment crossings
+	c=1;
+	while (c>0) c=detectIntersection();
+	//Copy points to avoid if any
+	for (i=0;i<voidX.length;i++){
+		X[N+i+1]=voidX[i];
+		Y[N+i+1]=voidY[i];
+	}
+	//setup mass, velocity, and old arrays
+	for (i=0;i<X.length;i++){
+		VX[i]=0;
+		VY[i]=0;
+		Xold[i]=X[i];
+		Yold[i]=Y[i];
+		}		
+	}
+//*****************************************************************************************
+//The next few functions detect and remove intersecting segments
+function dih(ax,ay,bx,by,cx,cy){
+	//Use determinants to check which side of ab point c is
+	var r= (((cy-ay)*(bx-ax))>((by-ay)*(cx-ax)));
+	return(r);
+}
+function intersect(i,j){
+	//call dih to see if segments i and j intersect.
+	var ax, ay, bx, by, cx, cy, dx, dy;
+	var r=false;
+	ax=X[i];
+	ay=Y[i];
+	bx=X[(i+1)%N]
+	by=Y[(i+1)%N];
+	cx=X[j];
+	cy=Y[j];
+	dx=X[(j+1)%N];
+	dy=Y[(j+1)%N];
+	r=(dih(ax, ay, cx, cy,dx,dy) !=dih(bx,by,cx,cy,dx,dy)) && (dih(ax, ay, bx, by, cx, cy) != dih(ax, ay, bx, by, dx, dy));
+	return(r);
+}
+function swapSegment(a,b){
+	//reverse the sequence of segments from a to b
+	var n=(b-a)/2;
+	var i,t;
+	for (i=0;i<=n;i++){
+		t=X[a+i];
+		X[a+i]=X[b-i];
+		X[b-i]=t;
+		t=Y[a+i];
+		Y[a+i]=Y[b-i];
+		Y[b-i]=t;
+	}
+}
+function detectIntersection(){
+	//pass through points checking for segment intersections and reversing segments 
+	//to eliminate them
+	var i,j;
+	var c=0;
+	for (i=0;i<N;i++)
+		for (j=i+2;j<N;j++){
+			if (intersect(i,j)){
+				c++;
+				swapSegment(i+1,j);
+			}
+		}
+	return(c);
+}
+//*****************************************************************************************
+//The main Spork setup and draw functions. Setup is called at the beginning. Then draw is called 
+//at each step of the animation loop. 
+function setup(){
+	initializeArrays();
+	loop();
+}
+function draw(){ 
+	//Since MAXRADIUS can change, reset axes each frame
+	size(2*MAXRADIUS+50,2*MAXRADIUS+50);
+	translate(width/2,height/2);
+	//simulation loop
+	updatePoints();
+	drawIt();
+	COUNTER++;
+	//Fix crossings every few frames
+	if (COUNTER%FUDGEFRAME==0) 
+		detectIntersection();
+}
+//*****************************************************************************************
+
+</script>
+</head>
+<body>
+<div id='spork'></div>
+<div id='out'></div>
+
+</body>
+</html>

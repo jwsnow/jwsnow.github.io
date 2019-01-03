@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+<head>
+<style>
+body{
+	text-align: center;
+	background: black;
+	}
+	canvas{
+		max-width:800px;
+	}
+</style>
+<script src='spork.js'></script>
+<script>
+var counter=0;
+var ang=90;
+var D;
+var N;
+var W=1000;
+var R=3;
+var M;
+var filled=[];
+var k=50;
+var active=[];
+var points=[];
+function onclick(){
+  draw();
+}
+function dist(a,b,c,d){
+  var dx=a-c;
+  var dy=b-d;
+  return(sqrt(dx*dx+dy*dy));
+}
+function setup(){
+counter=0;
+filled=[];
+active=[];
+points=[];
+  size(W,W);
+  color('white');
+  D=R/sqrt(2);
+  N=floor(W/D);
+  var i,j;
+  for (i=0;i<=N;i++){
+    filled[i]=[];
+    for (j=0;j<=N;j++)
+      filled[i][j]=-1;
+  }
+  M=floor(N/2);
+  filled[M][M]=0;
+  points[0]={x: 0, y:0};
+  active[0]=0;
+  filled[M][M]=0;
+  translate(width/2, height/2);
+  loop();
+}
+
+function draw(){
+var s;
+for (s=0;s<100;s++){
+if ((active.length>0) && (counter<40000)){
+  var x,y,X,Y;
+  var i,a,r,j,l,u,v,fx,fy;
+  var addon=true;
+  var removefromactive=true;
+  j=floor(random()*active.length);
+  X=points[active[j]].x;
+  Y=points[active[j]].y;
+  
+  for (i=0;i<k;i++){
+    if ((X==0) && (Y==0))
+	    a=random()*360;
+    else
+      a=180*atan2(Y,X)/pi-(ang/2)+random()*ang;
+    r=R+random()*R;
+    x=X+r*COS(a);
+    y=Y+r*SIN(a);
+    if (dist(x,y,0,0)<0.9*W/2){
+    addon=true;
+ //   point(x,y);
+	 fx=floor((x+width/2)/D);
+	 fy=floor((y+width/2)/D);
+	 for (u=fx-1;u<fx+2;u++)
+		 for (v=fy-1;v<fy+2;v++)
+			 if ((u>=0) && (u<N) && (v>=0) && (v<N) && (filled[u][v]>=0)){
+				l=filled[u][v];  
+				if ((dist(points[l].x, points[l].y,x,y)<R))
+					  addon=false; 
+			}
+//    for (l=0;l<points.length;l++)
+ //   	if ((dist(points[l].x, points[l].y,x,y)<R) || (dist(0,0,x,y)>50)){
+//	addon=false; 
+ //         l=points.length+1;
+ //   	}
+    if (addon){
+      points[points.length]={x: x, y: y}; 
+      active[active.length]=points.length-1;
+      filled[fx][fy]=points.length-1;
+      removefromactive=false;
+      line(x,y,X,Y);
+      counter++;
+    }
+    }
+  }
+  
+  if (removefromactive)
+    active.splice(j,1);
+}
+  else stoploop();
+}
+}
+</script>
+</head>
+<body>
+<div id='spork'></div>
+<button onclick='startover();'>Again</button>
+</body>
+</html>

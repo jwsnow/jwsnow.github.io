@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+<style>
+body{
+	background: black;
+	text-align:center;
+	color: white;
+}
+a {
+	color:white;
+}
+</style>
+<script src='spork.js'></script>
+<script src='colors.js'></script>
+<script>
+var p=[];
+var q=[];
+var theColors=[];
+
+var W=401;
+var H=401;
+function paint(){
+  var x,y;
+  for (x=0;x<width;x++)
+    for (y=0;y<height;y++){
+      fillcolor(theColors[p[x][y]%theColors.length]);
+      //fillcolor(32*p[x][y],32*p[x][y],32*p[x][y]);
+      fillrect(x,y,1,1);
+    }
+      
+}
+
+function setup(){
+  size(W,H);
+  tetraColors(theColors);
+  var x,y;
+  for (x=0;x<width;x++){
+    p[x]=[];
+    q[x]=[];
+    for (y=0;y<height;y++){
+      p[x][y]=0;
+      q[x][y]=0;
+    }
+  }
+  var dx,dy;
+  for (x=1;x<width-1;x++)
+    for (y=1;y<height-1;y++){
+    dx=x-floor(width/2);
+    dy=y-floor(height/2);
+//if (sqrt(dx*dx+dy*dy)<(width+height)/4)
+      p[x][y]=theColors.length-1;
+//else 
+//      p[x][y]=0;
+      }
+  p[floor(width/2)][floor(height/2)]=floor((width-2)*(height-2));
+  loop();
+}
+
+function draw(){
+  var x,y,i,X,Y;
+  var n=theColors.length;
+for (i=0;i<10;i++){  
+  for (x=0;x<width;x++)
+    for (y=0;y<height;y++)
+     q[x][y]=0;
+
+for (x=1;x<width-1;x++)
+      for (y=1;y<height-1;y++){
+	      if (p[x][y]>=n){
+		q[x][y-1]++;
+		q[x+1][y]++;
+		q[x][y+1]++;
+		q[x-1][y]++;
+		p[x][y]-=4;
+	      }
+	}
+  for (x=0;x<width;x++)
+    for (y=0;y<height;y++)
+      p[x][y]+=q[x][y];
+}
+paint();
+  
+}
+</script>
+</head>
+<body>
+<div id='spork'></div>
+<button onclick='W=201;H=201;startover();'>Small</button>
+<button onclick='W=401;H=401;startover();'>Medium</button>
+<button onclick='W=401;H=201;startover();'>Oblong</button> <br>
+<a target='new' href='http://gallery.bridgesmathart.org/exhibitions/2018-bridges-conference/bruce'>Based on Bruce Torrence's Sand Toppling Algorithm</a>
+</body>
+</html>
