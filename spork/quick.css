@@ -122,8 +122,8 @@ position: absolute;
 //	right:10px;
 }
 #buttonDiv{
-	width:600px;
-	text-align:right;
+//	width:600px;
+//	text-align:right;
 }
 div.popup{
 	position:fixed;

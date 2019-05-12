@@ -4,81 +4,166 @@
 <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
 <link rel="stylesheet" type="text/css" href="quick.css">
 <script type='text/javascript' src='header.js'></script>
+<style>
+button{
+	width: 10em;
+}
+</style>
+<script>
+function hide(c){
+	var theDivs=document.getElementsByClassName(c);
+	var i;
+	var l=theDivs.length;
+	for (i=0;i<l;i++)
+		theDivs[i].style.display='none';
+}
+function show(c){
+	var theDivs=document.getElementsByClassName(c);
+	var i;
+	var l=theDivs.length;
+	
+	hide('code');
 
+	for (i=0;i<l;i++)
+			theDivs[i].style.display='list-item';
+}
+function showAll(){
+	var theDivs=document.getElementsByClassName('chapter');
+	var i;
+	var l=theDivs.length;
+	
+	hide('region');
+
+	for (i=0;i<l;i++)
+		theDivs[i].style.display='inline-block';
+	theDivs=document.getElementsByClassName('state');	
+	l=theDivs.length;
+	for (i=0;i<l;i++)
+		theDivs[i].style.display='block';	
+}
+</script>
 </head>
 <body>
 <html>
 <script> showHeader(); </script>
+<h3> Quick Reference </h3>
 
+<button onclick='show("shape")'>Shapes</button>
+<button onclick='show("color")'>Colors</button>
+<button onclick='show("canvas")'>Canvas</button>
+<br>
+<button onclick='show("transform")'>Transformations</button>
+<button onclick='show("loop")'>Spork Loop</button>
+<button onclick='show("text")'>Text</button>
+<br>
+<button onclick='show("time")'>Time</button>
+<button onclick='show("mouse")'>Mouse</button>
+<button onclick='show("keys")'>Keys</button>
+<br>
+<button onclick='show("javascript")'>Javascript</button>
+<button onclick='show("control")'>Javascript Control</button>
+<button onclick='show("alert")'>Alert</button>
+<br>
+<button onclick='show("code")'>All Commands</button>
+<button onclick='show("spork")'>All Spork</button>
+<button onclick='show("drawing")'>All Drawing</button>
 
-<b>Basic Drawing Commands</b>
-<ul>				
-<li><b>	circle(x, y, r)	</b> -- 	Draw the circle centered at (x,y) with radius r.	</li>
-<li><b>	line(x1,y1,x2,y2)	</b> -- 	Draw a line from point (x1,y1) to (x2,y2).	</li>
-<li><b>	line(x1,y1,x2,y2,x3,y3,...)	</b> -- 	Draw line segments from (x1,y1) to (x2,y2), and then from (x2,y2) to (x3,y3), and so on.	</li>
-<li><b>	linewidth(n)	</b> -- 	Set the line width to n pixels.	</li>
-<li><b>	rect(x1,y1,w,h)	</b> -- 	Draw rectangle with upper left corner at (x,y) with width w and height h.	</li>
-<li><b>	fillrect(x1,y1,x2,y2)	</b> -- 	Fill rectangle with upper left corner at (x,y) with width w and height h.	</li>
-<li><b>	ellipse(x, y, rx, ry)	</b> -- 	Draw an ellipse with center (x,y), horizontal radius rx, and vertical radius ry.	</li>
-<li><b>	point(x,y)	</b> -- 	Draw a circle at (x,y) whose radius is the linewidth.	</li>
-<li><b>	arc(x, y, r, a, b)	</b> -- 	Draw the arc of the circle centered at (x,y) with radius r starting at angle a and continuing to angle b in a clockwise direction.	</li>
-<li><b>	triangle(x1,y1,x2,y2,x3,y3)	</b> -- 	Draw triangle with vertices (x1,y1), (x2,y2), and (x3,y3).	</li>
-<li><b>	quad(x1,y1,x2,y2,x3,y3,x4,y4)	</b> -- 	Draw quadrilateral with vertices (x1,y1), (x2,y2), (x3,y3), and (x4,y4).	</li>
-<li><b>	fill()	</b> -- 	Fill the last drawn shape.	</li>
-</ul>				
-				
-<b>Basic Color Commands</b>				
-<ul>				
-<li><b>	color(c)	</b> -- 	Set the line color to c.	</li>
-<li><b>	color(r,g,b)	</b> -- 	Set the line color to have RGB values of r, g, and b.	</li>
-<li><b>	color(r,g,b,a)	</b> -- 	Set the line color to have RGB values of r, g, and b, and alpha value of a.	</li>
-<li><b>	fillcolor(c)	</b> -- 	Set the fill color to c.	</li>
-<li><b>	fillcolor(r,g,b)	</b> -- 	Set the fill color to have RGB values of r, g, and b.	</li>
-<li><b>	fillcolor(r,g,b,a)	</b> -- 	Set the fill color to have RGB values of r, g, and b, and alpha value of a.	</li>
-</ul>				
-				
-<b>Canvas Commands</b>				
-<ul>				
-<li><b>	size(w,h)	</b> -- 	Set the canvas width to w pixels and the height to h pixels.	</li>
-<li><b>	clear()	</b> -- 	Clear the canvas.	</li>
-</ul>				
-				
-<b>Transformations and Such</b>				
-<ul>				
-<li><b>	clip()	</b> -- 	Causes all subsequent drawing to be clipped inside the last figure drawn.	</li>
-<li><b>	translate(x,y)	</b> -- 	Move the origin of the drawing canvas to the point (x,y) relative to the current origin.	</li>
-<li><b>	scale(s)	</b> -- 	Cause all drawing to be scaled by s from the point of the call forward.	</li>
-<li><b>	scale(x,y)	</b> -- 	Cause all drawing to be scaled by x horizontally and y vertically from the point of the call forward.	</li>
-<li><b>	rotate(n)	</b> -- 	Rotate the axis by n degrees clockwise.	</li>
-<li><b>	save()	</b> -- 	Save the state of the drawing canvas to be restored at a later time.	</li>
-<li><b>	restore()	</b> -- 	Undo all of the changes in scale, rotation, color, etc. to the drawing canvas back to the last save.	</li>
-</ul>				
-				
-<b>Text Stuff</b>				
-<ul>				
-<li><b>	font(x)	</b> -- 	Set the font of the canvas to x. The variable x should be something like, "20px" or  "20px times" or "bold 20px times".	</li>
-<li><b>	filltext(t, x, y)	</b> -- 	Write the text t at the point (x,y) filling in the characters.	</li>
-<li><b>	stroketext(t, x, y)	</b> -- 	Write the text t at the point (x,y) outlining the characters.	</li>
-<li><b>	aligntext(s)	</b> -- 	Specify how text is aligned with the point (x,y) in a command such as "filltext(t,x,y)". The argument s should be "left", "right", "center", "start", or "end".	</li>
-<li><b>	valigntext(x)	</b> -- 	Specify how text is aligned vertically with the point (x,y) in a command such as "filltext(t,x,y)". The argument s should be "top", "bottom", "middle", "alphabetic", or "hanging".	</li>
-</ul>				
-				
-<b>Image Stuff</b>				
-<ul>				
-<li><b>	copyImageData(R,G,B,A)	</b> -- 	This copies the canvas RGB and alpha values to arrays R, G, B, and A. R, G, B, and A should be arrays.	</li>
-<li><b>	drawImage(i, x, y, w, h, r)	</b> -- 	Places the image i on the canvas centered at (x,y) with width w and height h. If r is included, the image will be rotated by r degrees. 	</li>
-</ul>				
-				
-<b>Other</b>				
-<ul>				
-<li><b>	measuretext(t)	</b> -- 	This will return the length of the text t if it were printed on the canvas.	</li>
-<li><b>	floodfill(x,y)	</b> -- 	Fills the region of the canvas containing the point (x,y) with the current fill color.	</li>
-<li><b>	shadowblur(n)	</b> -- 	Causes a shadow of width n pixels to be drawn around all subsequent figures.	</li>
-<li><b>	shadowcolor(s)	</b> -- 	Sets the color of the shadow for shadow blur to s.	</li>
-<li><b>	rgb(r,g,b)	</b> -- 	Returns the color with RGB values r, g, and b.	</li>
-<li><b>	rgba(r,g,b,a)	</b> -- 	Returns the color with RGB values r, g, and b and alpha value a.	</li>
-</ul>				
-			
+<ul>
+
+<li class="	code	javascript 	"><b>	/*comment*/	</b> -- 	Used for multiline comments.	</li>
+<li class="	code	javascript 	"><b>	//comment	</b> -- 	One line comments.	</li>
+<li class="	code	javascript 	"><b>	{braces}	</b> -- 	Used to block code togethr for loops, conditionals, and functions.	</li>
+<li class="	code	javascript math	"><b>	abs(x)	</b> -- 	Returns the absolute value of x.	</li>
+<li class="	code	javascript alert	"><b>	alert(s)	</b> -- 	Opens alert box containing string s.	</li>
+<li class="	code	drawing text spork	"><b>	aligntext(s)	</b> -- 	Specify how text is aligned with the point (x,y) in a command such as "filltext(t,x,y)". The argument s should be "left", "right", "center", "start", or "end".	</li>
+<li class="	code	spork keys	"><b>	altKey	</b> -- 	A constant set to the code for the alt key.	</li>
+<li class="	code	drawing shape spork	"><b>	arc(x, y, r, a, b)	</b> -- 	Draw the arc of the circle centered at (x,y) with radius r starting at angle a and continuing to angle b in a clockwise direction.	</li>
+<li class="	code	spork random	"><b>	array.random()	</b> -- 	Selects a random entry from the array.	</li>
+<li class="	code	spork random	"><b>	array.zipf()	</b> -- 	Selects a random entry from the array with the first entry twice as likely as the second, three times as likely as the third, four times as likely as the fourth, and so on.	</li>
+<li class="	code	drawing shape spork	"><b>	circle(x, y, r)	</b> -- 	Draw the circle centered at (x,y) with radius r.	</li>
+<li class="	code	drawing canvas spork	"><b>	clear()	</b> -- 	Clear the canvas.	</li>
+<li class="	code	drawing transform spork	"><b>	clip()	</b> -- 	Causes all subsequent drawing to be clipped inside the last figure drawn.	</li>
+<li class="	code	drawing color  spork	"><b>	color(c)	</b> -- 	Set the line color to c.	</li>
+<li class="	code	drawing color  spork	"><b>	color(r,g,b)	</b> -- 	Set the line color to have RGB values of r, g, and b.	</li>
+<li class="	code	drawing color  spork	"><b>	color(r,g,b,a)	</b> -- 	Set the line color to have RGB values of r, g, and b, and alpha value of a.	</li>
+<li class="	code	javascript alert	"><b>	confirm(s)	</b> -- 	Opens a dialog box with message s and buttons for OK or CANCEL. Returns true if OK is clicked and false otherwise.	</li>
+<li class="	code	drawing canvas spork	"><b>	copyImageData(R,G,B,A)	</b> -- 	This copies the canvas RGB and alpha values to arrays R, G, B, and A. R, G, B, and A should be arrays.	</li>
+<li class="	code	spork keys	"><b>	ctrlKey	</b> -- 	A constant set to the code for the control key.	</li>
+<li class="	code	spork time	"><b>	date()	</b> -- 	Returns day of the month.	</li>
+<li class="	code	spork time	"><b>	day()	</b> -- 	Returns day of the weeek.	</li>
+<li class="	code	spork keys	"><b>	downArrow	</b> -- 	A constant set to the code for the down arrow key.	</li>
+<li class="	code	spork time	"><b>	draw()	</b> -- 	Main spork drawing function executed every pass through the animation loop.	</li>
+<li class="	code	drawing shape spork	"><b>	ellipse(x, y, rx, ry)	</b> -- 	Draw an ellipse with center (x,y), horizontal radius rx, and vertical radius ry.	</li>
+<li class="	code	drawing color spork	"><b>	fill()	</b> -- 	Fill the last drawn shape.	</li>
+<li class="	code	drawing color  spork	"><b>	fillcolor(c)	</b> -- 	Set the fill color to c.	</li>
+<li class="	code	drawing color  spork	"><b>	fillcolor(r,g,b)	</b> -- 	Set the fill color to have RGB values of r, g, and b.	</li>
+<li class="	code	drawing color  spork	"><b>	fillcolor(r,g,b,a)	</b> -- 	Set the fill color to have RGB values of r, g, and b, and alpha value of a.	</li>
+<li class="	code	drawing shape spork	"><b>	fillrect(x1,y1,x2,y2)	</b> -- 	Fill rectangle with upper left corner at (x,y) with width w and height h.	</li>
+<li class="	code	drawing text spork	"><b>	filltext(t, x, y)	</b> -- 	Write the text t at the point (x,y) filling in the characters.	</li>
+<li class="	code	drawing color spork	"><b>	floodfill(x,y)	</b> -- 	Fills the region of the canvas containing the point (x,y) with the current fill color.	</li>
+<li class="	code	drawing text spork	"><b>	font(x)	</b> -- 	Set the font of the canvas to x. The variable x should be something like, "20px" or  "20px times" or "bold 20px times".	</li>
+<li class="	code	javascript	"><b>	for{START; CONDITION; STEP} {BLOCK}	</b> -- 	The code START is executed. Then, as long as CONDITION is true, BLOCK is executed followed by STEP.	</li>
+<li class="	code	javascript control	"><b>	function name(arguments){BLOCK}	</b> -- 	Defines a function called name which accepts arguments and runs the code BLOCK.	</li>
+<li class="	code	spork drawing canvas	"><b>	height	</b> -- 	Variable equal to height of canvas.	</li>
+<li class="	code	spork time	"><b>	hour()	</b> -- 	Returns the current hour.	</li>
+<li class="	code	javascript control	"><b>	if (CONDITION) {BLOCK}	</b> -- 	If the CONDITION is true, then the BLOCK of code is executed.	</li>
+<li class="	code	javascript control	"><b>	if (CONDITION) {BLOCK1} else {BLOCK2}	</b> -- 	If the CONDITION is true, then BLOCK1 is executed. If condition is false, BLOCK2 is executed.	</li>
+<li class="	code	spork keys	"><b>	keyChar	</b> -- 	A variable set to the uppercase version of a key when an alphanumeric key is pressed.	</li>
+<li class="	code	spork keys	"><b>	keyCode	</b> -- 	A variable set to the ascii code for a key when it is pressed	</li>
+<li class="	code	spork keys	"><b>	keyDown	</b> -- 	A variable which is true when a key is pressed down.	</li>
+<li class="	code	spork keys	"><b>	leftArrow	</b> -- 	A constant set to the code for the left arrow key.	</li>
+<li class="	code	drawing shape spork	"><b>	line(x1,y1,x2,y2)	</b> -- 	Draw a line from point (x1,y1) to (x2,y2).	</li>
+<li class="	code	drawing shape spork	"><b>	line(x1,y1,x2,y2,x3,y3,...)	</b> -- 	Draw line segments from (x1,y1) to (x2,y2), and then from (x2,y2) to (x3,y3), and so on.	</li>
+<li class="	code	drawing shape spork	"><b>	linewidth(n)	</b> -- 	Set the line width to n pixels.	</li>
+<li class="	code	spork loop	"><b>	loop()	</b> -- 	Causes the draw() function to be called every timestep milliseconds.	</li>
+<li class="	code	javascript	"><b>	max(x1,x2,x3…)	</b> -- 	Returns the maximum of the arguments.	</li>
+<li class="	code	drawing text spork	"><b>	measuretext(t)	</b> -- 	This will return the length of the text t if it were printed on the canvas.	</li>
+<li class="	code	spork time	"><b>	millisecond()	</b> -- 	Returns the millisecond of the current time.	</li>
+<li class="	code	javascript	"><b>	min(x1,x2,x3…)	</b> -- 	Returns the minimum of the arguments.	</li>
+<li class="	code	spork time	"><b>	minute()	</b> -- 	Returns the minute of the current time.	</li>
+<li class="	code	spork time	"><b>	month()	</b> -- 	Returns the current month.	</li>
+<li class="	code	spork mouse	"><b>	mouseDown	</b> -- 	A variable that is true if the mouse is pressed down.	</li>
+<li class="	code	spork mouse	"><b>	mouseX	</b> -- 	A variable set to the x coordinate of the mouse.	</li>
+<li class="	code	spork mouse	"><b>	mouseY	</b> -- 	A variable set to the y coordinate of the mouse.	</li>
+<li class="	code	spork random	"><b>	noise(x,y)	</b> -- 	Returns a random number between -1 and 1 that varies continuously with x and y. The arguments x and y must be between 0 and 1.	</li>
+<li class="	code	spork mouse	"><b>	onclick()	</b> -- 	A function which is called whenever the mouse button is clicked over the canvas.	</li>
+<li class="	code	spork keys	"><b>	onkeydown()	</b> -- 	A function called when a key is pressed down.	</li>
+<li class="	code	spork mouse	"><b>	onmousedown()	</b> -- 	A function which is called whenever a mouse button is pressed.	</li>
+<li class="	code	spork mouse	"><b>	onmousemove()	</b> -- 	A function which is called whenever the mouse is moved over the canvas.	</li>
+<li class="	code	drawing shape spork	"><b>	point(x,y)	</b> -- 	Draw a circle at (x,y) whose radius is the linewidth.	</li>
+<li class="	code	javascript alert	"><b>	prompt(q,d)	</b> -- 	Opens dialog box with question q and default answer d.	</li>
+<li class="	code	drawing shape spork	"><b>	quad(x1,y1,x2,y2,x3,y3,x4,y4)	</b> -- 	Draw quadrilateral with vertices (x1,y1), (x2,y2), (x3,y3), and (x4,y4).	</li>
+<li class="	code	javascript random	"><b>	random()	</b> -- 	Returns a random number greater than or equal to 0 and less than 1.	</li>
+<li class="	code	drawing shape spork	"><b>	rect(x1,y1,w,h)	</b> -- 	Draw rectangle with upper left corner at (x,y) with width w and height h.	</li>
+<li class="	code	drawing transform spork	"><b>	restore()	</b> -- 	Undo all of the changes in scale, rotation, color, etc. to the drawing canvas back to the last save.	</li>
+<li class="	code	drawing color spork	"><b>	rgb(r,g,b)	</b> -- 	Returns the color with RGB values r, g, and b.	</li>
+<li class="	code	drawing color spork	"><b>	rgba(r,g,b,a)	</b> -- 	Returns the color with RGB values r, g, and b and alpha value a.	</li>
+<li class="	code	spork keys	"><b>	rightArrow	</b> -- 	A constant set to the code for the right arrow key.	</li>
+<li class="	code	drawing transform spork	"><b>	rotate(n)	</b> -- 	Rotate the axis by n degrees clockwise.	</li>
+<li class="	code	drawing transform spork	"><b>	save()	</b> -- 	Save the state of the drawing canvas to be restored at a later time.	</li>
+<li class="	code	drawing transform spork	"><b>	scale(s)	</b> -- 	Cause all drawing to be scaled by s from the point of the call forward.	</li>
+<li class="	code	drawing transform spork	"><b>	scale(x,y)	</b> -- 	Cause all drawing to be scaled by x horizontally and y vertically from the point of the call forward.	</li>
+<li class="	code	spork time	"><b>	second()	</b> -- 	Returns the second of the current time.	</li>
+<li class="	code	spork	"><b>	setup()	</b> -- 	The first function called when a spork program is run.	</li>
+<li class="	code	drawing color spork	"><b>	shadowblur(n)	</b> -- 	Causes a shadow of width n pixels to be drawn around all subsequent figures.	</li>
+<li class="	code	drawing color spork	"><b>	shadowcolor(s)	</b> -- 	Sets the color of the shadow for shadow blur to s.	</li>
+<li class="	code	spork keys	"><b>	shiftKey	</b> -- 	A constant set to the code for the shift key.	</li>
+<li class="	code	drawing canvas spork	"><b>	size(w,h)	</b> -- 	Set the canvas width to w pixels and the height to h pixels.	</li>
+<li class="	code	spork loop	"><b>	startloop()	</b> -- 	Calls draw() and starts the spork animation loop.	</li>
+<li class="	code	spork loop	"><b>	startover()	</b> -- 	Stops the spork loop and starts a spork program over with setup.	</li>
+<li class="	code	spork loop	"><b>	stoploop()	</b> -- 	Pauses the spork animation loop.	</li>
+<li class="	code	drawing text spork	"><b>	stroketext(t, x, y)	</b> -- 	Write the text t at the point (x,y) outlining the characters.	</li>
+<li class="	code	spork loop	"><b>	timestep(n)	</b> -- 	Sets the spork animation time step to n milliseconds between calls to 	</li>
+<li class="	code	drawing transform spork	"><b>	translate(x,y)	</b> -- 	Move the origin of the drawing canvas to the point (x,y) relative to the current origin.	</li>
+<li class="	code	drawing shape spork	"><b>	triangle(x1,y1,x2,y2,x3,y3)	</b> -- 	Draw triangle with vertices (x1,y1), (x2,y2), and (x3,y3).	</li>
+<li class="	code	spork keys	"><b>	upArrow	</b> -- 	A constant set to the code for the up arrow key.	</li>
+<li class="	code	drawing text spork	"><b>	valigntext(x)	</b> -- 	Specify how text is aligned vertically with the point (x,y) in a command such as "filltext(t,x,y)". The argument s should be "top", "bottom", "middle", "alphabetic", or "hanging".	</li>
+<li class="	code	javascript	"><b>	var x;	</b> -- 	Declares the variable x.	</li>
+<li class="	code	javascript control	"><b>	while(CONDITION) {BLOCK}	</b> -- 	The code BLOCK is executed as long as CONDITION is true.	</li>
+<li class="	code	spork drawing canvas	"><b>	width	</b> -- 	A variable equal to the width of the canvas.	</li>
+<li class="	code	spork time	"><b>	year()	</b> -- 	Returns the current year.	</li>
+
+							</ul>
 
 <script> showFooter(); </script>
 

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+img{
+	//width:500px;
+	display:block;
+	margin:auto;
+}
+</style>
+<title>Math 142/242</title>
+<link rel="stylesheet" type="text/css" href="quick.css">
+<script type='text/javascript' src='header.js'></script>
+</head>
+<body>
+<html>
+<script> showHeader(); </script>
+<h3>Assignments</h3>
+
+<ol>
+<li>
+<h3>Creature Assignment</h3>
+
+Use the Spork drawing commands to draw a creature. This creature will serve to identify you on course web pages, 
+so take some time to personalize it. Save the code from this assignment because you will need it later.<br><br>
+
+<b>Turning it:</b> To turn in this project, email me your Spork code.<br><br>
+
+<b>Requirements:</b>
+<ul>
+<li>Use the standard 400x400 Spork canvas.</li>
+<li>Your first command MUST BE <b>translate(200,200);</b>. This is very important for how we will use this code later.</li>
+<li>Try to fill the entire canvas (with x and y values close to 0 and close to 400).</li>
+<li>Do not color the background.</li>
+<li>Use at least three drawing shapes.</li>
+<li>Use at least three colors.</li>
+</ul>
+</li>
+
+<li>
+<h3>Fun With For Loops</h3>
+
+Create a website that illustrates the use of For Loops in drawing on the HTML canvas as outlined below.<br><br>
+
+<b>Turning it:</b> To turn in this project, you should place the website in a folder called <b>forloops</b> inside of your class website and link the site from your main class homepage.<br><br>
+
+<b>Requirements:</b>
+The site should contain at least these pages:
+<ul>
+<li> (1 page) A home page with a title and links to the pages listed below. Each page below should include a Spork canvas on which your image is drawn.</li>
+<li> (1 page) Convert your creature code to a function <b>creature(x,y,r)</b> which draws your creature centered at the point (x,y) with radius r. Then use this function to draw a grid with repetetive copies of your creature.
+<img src="images/creatureGrid.png">
+</li>
+<li> (1 page) Draw a circle pattern such as this. I suggest you follow these directions to make a function which draws the circle pattern.
+	<ul>
+	<li>Use the standard 400x400 Spork canvas initially.</li>
+	<li>First translate to (200,200) like we did with the creature code.</li>
+	<li>Use For Loops to draw a circle pattern centered at (0,0).</li>
+	<li>Make sure the radius of the outside circle is close to 200.</li>
+	<li>After your translation, but before you begin drawing, draw a filled white circle whose radius is the same as your largest intended radius in the pattern. We are doing this because later we do not want the patterns to be transparent.</li>
+	<li>Convert your code to a function <b>circlePattern(x,y,r)</b> which draws your pattern centered at (x,y) with radius r like we did the creature function.</li>
+	<li>For now, use your code to draw your pattern in the center of the Spork canvas.</li>
+	<li>We will use this pattern again later.</li>
+	</ul>
+	<img src="images/circlepattern.png">
+	The inspiration for this assignment is this piece of carpet:
+	<img src="images/carpet.jpg">
+</li>
+<li> (1 page) Use For Loops and clipping to draw a picture like one of those below by Sol Lewitt (which are composed of sets of parallel lines).
+<img src="images/sollewitt1.jpg">
+<img src="images/sollewitt2.jpg">
+<img src="images/sollewitt3.jpg">
+</li>
+</ul>
+</li>
+
+<li>
+<h3>More Fun With For Loops</h3>
+
+Create a website that illustrates the use of For Loops, Randomness, and Arrays in drawing on the HTML canvas as outlined below.<br><br>
+
+<b>Turning it:</b> To turn in this project, you should place the website in a folder called <b>randomloops</b> inside of your class website and link the site from your main class homepage.<br><br>
+
+<b>Requirements:</b>
+The site should contain at least these pages:
+<ul>
+<li> (1 page) A home page with a title and links to the pages listed below. Each page below should include a Spork canvas on which your image is drawn.</li>
+<li> (1 page) Draw a grid of circles so that the radius of each circle is random.
+<li> (1 page) Use your creature function to draw copies of your creature on a grid so that every version of the creature is a random size.
+<li> (1 page) Create a new <b>randomCreature(x,y,r)</b> function that draws a copy of your creature with random colors at (x,y) with radius r. Use this function to draw a grid of random creatures. This may involve these steps:
+	<ul>
+	<li>Select at least two different regions of your creature that are different colors.</li>
+	<li>Rewrite the color declarations for those regions using variables. For example, if my creature has blue eyes, instead of <b>color('blue');</b> I might use the following steps to get a random eye color:
+		<ul>
+		<li>At the top of your function, construct an array with possible colors. This might look like <b>var possibleEyeColors=['blue','green','orange'];</b></li>
+		<li>Use the array to select a random color at the top of your function. This might look like <b>var eyeColor=possibleEyeColors.random();</b></li>
+		<li>Now replace <b>color('blue');</b> when you draw the eyes with	<b>color(eyeColor);</b></li>
+		</ul>
+	</li>
+	
+	</ul>
+<li> (1 page) Use your <b>randomCreature(x,y,r)</b> function to draw at least 10 random creatures at random locations on the canvas. </li>
+</li>
+<li> (1 page) Get copies of circle pattern functions from the Fun with For Loops assignments from at least two of your classmates. 
+<a href='circles.html'>HERE</a> is a link to a page with all of the circle pattern images from class along with the code for the patterns.
+Use arrays to randomly draw circle patterns at random locations with random sizes.
+	The inspiration for this assignment is this piece of carpet:
+	<img src="images/carpet.jpg"></li>
+<li> (1 page) On this page, you will draw a grid picture with geometric shapes. You should follow these steps:
+	<ul>
+	<li>Create a function <b>pattern(x,y,r)</b> which draws a geometric pattern at (x,y) with radius r. To do so, you should follow steps like we did for the creature and circle functions. Here is an example: <img src='images/geometric.png'>.
+	<li>Do at least one of these two things:
+		<ul>
+		<li> Add a random rotation by a multiple of 90 degrees to your function. To do so, you would add a line such as <b>rotate(floor(random()*4)*90);</b> after the translate command at the top of your pattern function.</li>
+		<li>Make at least one of the colors in your pattern random.</li>
+		</ul>
+	</li>
+	<li>Make a grid drawing using this new random pattern function. Here is an example using the geometric pattern above: <img src='images/geogrid.png'></li>
+	</ul>
+	Here is an example of a geometric drawing on a grid from Sol Lewitt: <img src="images/sollewitt4.jpg"> Each pattern is a vertical line or a line slanting up or a line slanting down. 
+	Here is an example using a pattern made from arcs of circles: <img src="images/tiles.png">
+</li>
+</ul>
+</li>
+
+<li>
+<h3>Motion</h3>
+
+Create a website that illustrates  the use of the animation loop to model motion.<br><br>
+
+<b>Turning it:</b> To turn in this project, you should place the website in a folder called <b>motion</b> inside of your class website and link the site from your main class homepage.<br><br>
+
+<b>Requirements:</b>
+The site should contain at least these pages:
+<ul>
+<li> (1 page) A home page with a title and links to the pages listed below. Each page below should include a Spork canvas on which your image is drawn.</li>
+<li>
+(1 page) On this page, you will draw a fuzz ball by modifying the <a href="../examplecode/motion9.html">Random Acceleration</a> example. To do so, you will need to:
+	<ul>
+	<li>Add a <b>loop();</b> command to your <b>setup()</b> function. </li>
+	<li>In your <b>draw()</b> function, add a small rotation before you start drawing. Do not save or restore.</li>
+	<li>In your <b>setup()</b> function, you might want to set the color to have some transparency so that you can see more "fuzziness."</li>
+	<li>Experiment with rotation amounts, accelerations, transparencies, colors, and the number of steps in the path.</li>
+	<li>Place the resulting code in a web page that includes buttons to Stop, Go, and Start Over.</li>
+	</ul>
+</li>
+<li> (1 page) Make a page that has your creature bouncing with gravity in the Spork canvas. Include buttons for Stop, Go, and Start Over.</li>
+<li> (1 page) Modify the <a href="../examplecode/motion1.html">Spots</a> example so that at each random point (x,y) you draw the largest circle centered at that point that lies entirely on the canvas.
+The radius of this circle should be <b>min(x, y, width-x, height-y);</b>. Include buttons for Stop, Go, and Start Over.</li>
+<li> (1 page) Convert the <a href='../examplecode/motion8.html'>Brownian Motion</a> example to a function <b>brownian(x,y)</b> which places a Brownian motion path at (x,y). Create a page that repeatedly calls <b>brownian(x,y);</b> with random x and y. If you like, you can include random colors. As usual, include buttons for Stop, Go, and Start Over.</li>
+<li> (1 page) Convert the <a href='../examplecode/motion7.html'>Random Mark</a> example to a function <b>mark(x,y)</b> which places a random mark at (x,y). Create a page that repeatedly calls <b>mark(x,y);</b> with random x and y. If you like, you can include random colors. As usual, include buttons for Stop, Go, and Start Over.</li>
+</ul>
+</li>
+
+<li>
+<h3>Noise Gallery</h3>
+
+Create a website that illustrates  the use of the noise function to draw shapes and patterns.<br><br>
+
+<b>Turning it:</b> To turn in this project, you should place the website in a folder called <b>noise</b> inside of your class website and link the site from your main class homepage.<br><br>
+
+<b>Requirements:</b>
+The site should contain at least these pages:
+<ul>
+<li> (1 page) A home page with a title and links to the pages listed below. Each page below should include a Spork canvas on which your image is drawn.</li>
+<li> (7 pages)  Include a page for each of these exercises from the in-class activity with noise: random static, smooth static, funky lines, cow spots, hair, wavy lines, circle grid.
+</li>
+</ul>
+</li>
+
+<li>
+<h3>Implicit Functions</h3>
+
+Create a website that illustrates the use of implicit lines and circles to draw an image.<br><br>
+
+<b>Turning it:</b> To turn in this project, you should place the website in a folder called <b>implicit</b> inside of your class website and link the site from your main class homepage.<br><br>
+
+<b>Requirements:</b>
+<ul>
+<li>Each of the main pages below can be based on the same underling image. Your base image should use at least three implicit curves. This should include at least one line and at least one circle.</li>
+	<li>The site should contain at least these pages:
+		<ul>
+		<li> (1 page) A home page with a title and links to the pages listed below. Each page below should include a Spork canvas on which your image is drawn.</li>
+		<li> (1 page) A page with your image drawn with regular geometric figures placed on a grid.</li>
+		<li> (1 page) A page with your image drawn with regular geometric figures placed randomly.</li>
+		<li> (1 page) A page with your image drawn with blotches placed on a grid. For blotches, you can use blotches like we did in class, or you can use your Brownian motion or mark functions from the motion assignment.</li>
+		</ul>
+	<li>For the randomly placed marks, you can use a for loop with a set number of shapes, or you can use the animation loop. If you use the animation loop, be sure to include a buttons to Stop, Go, and Start Over.</li>	
+	</li>
+</ul>
+</li>
+
+<li>
+<h3>Symmetric Noise Gallery</h3>
+
+Create a website that illustrates  the use of the noise function to draw shapes and patterns.<br><br>
+
+<b>Turning it:</b> To turn in this project, you should place the website in a folder called <b>symmetry</b> inside of your class website and link the site from your main class homepage.<br><br>
+
+<b>Requirements:</b>
+The site should contain at least these pages:
+<ul>
+<li> (1 page) A home page with a title and links to the pages listed below. Each page below should include a Spork canvas on which your image is drawn.</li>
+<li> (1 page) Symmetric Cow Spots as done in the class activity.</li>
+<li> (1 page) Symmetric Hair as done in the class activity.</li>
+<li> (3 pages) Select 3 examples from the motion and noise assignments and impose symmetry on them as we did with the Cow Spots and Hair.</li>
+</ul>
+</li>
+
+<li>
+<h3>Mondrian Grid</h3>
+
+Create a website that illustrates  the use of the noise function to draw shapes and patterns.<br><br>
+
+<b>Turning it:</b> To turn in this project, you should place the website in a folder called <b>mondrian</b> inside of your class website and link the site from your main class homepage.<br><br>
+
+<b>Requirements:</b>
+The site should contain at least these pages:
+<ul>
+<li> (1 page) A home page with a title and links to the pages listed below. Each page below should include a Spork canvas on which your image is drawn.</li>
+<li> (1 page) Draw a Mondrian grid in which every rectangle is filled with a random color.</li>
+<li> (1 page) Draw a Mondrian grid in which every rectangle is filled with a color determined by an image as you did in the Impressionism assignment.</li>
+<li> (1 page) Draw a Mondrian grid; however, instead of drawing rectangles draw some other geometric shape. Use your imagination.</li>
+</ul>
+</li>
+
+<li>
+<h3>Rose Garden</h3>
+
+Create a website that illustrates  the use of parametric equations to draw curves.<br><br>
+
+<b>Turning it in:</b> To turn in this project, you should place the website in a folder called <b>parametric</b> inside of your class website and link the site from your main class homepage.<br><br>
+
+<b>Requirements:</b>
+The site should contain at least these pages:
+<ul>
+<li> (1 page) A home page with a title and links to the pages listed below. Each page below should include a Spork canvas on which your image is drawn.</li>
+<li> (1 page) Make a function <b>rose(x,y,r)</b> that draws a rose centered at the point (x,y) with radius r. Modify one of your impressionism assignments to use your rose function.</li>
+<li> (1 page) Make a grid of parametric curves such as this: <img src='images/roses.png'>
+I suggest you modify your <b>rose(x,y,r)</b> function to become a new function <b>rose(x,y,r,n,m)</b> that draws the rose defined by <i>x=r*COS(n*t)</i> and <i>y=r*SIN(m*t)</i>. You can then vary values of n and m in your grid.
+</li>
+</ul>
+</li>
+
+
+
+</ol>
+<script> showFooter(); </script>
+</html>
+</body>

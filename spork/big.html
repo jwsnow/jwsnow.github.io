@@ -1,17 +1,16 @@
 <!doctype html>
 <html>
 <head>
-<title>Spork  Editor</title>
 
+<title>Spork  Editor</title>
 <style>
 	#editorButton {
 		text-decoration: underline;
 	}
 </style>
-
 <link rel="stylesheet" href="cm.css">
-<link rel="stylesheet" href="allThemes.css">
 
+<style> .CodeMirror{font-size:25px} </style>
 <script src="cmSporkEditor.js"></script>
 
 <link rel="stylesheet" type="text/css" href="quick.css">
@@ -24,20 +23,11 @@
 <body>
 <script>showHeader();</script>
 
-<div id='buttonDiv'> 
-	Code Name:<input type='text' id='name' value='draft'> 
-	<button onclick='saveCode();'>Save</button>  
-	<button onclick='loadCode();'>Load</button> | 
-	<button onclick='stoploop();'>Stop</button> 
-	<button onclick='startloop();'>Start</button> 
-	<button onclick='runCode();'>Go</button></div>
-<div>
-<div id='cmDiv'><textarea id="code" name="code"></textarea>
-</div> <div id='spork'></div>
-</div>
+<div id='buttonDiv'> Code Name:<input type='text' id='name' value='draft'> <button onclick='saveCode();'>Save</button>  <button onclick='loadCode();'>Load</button>   <button onclick='stoploop();'>Stop</button> <button onclick='startloop();'>Start</button> <button onclick='runCode();'>Go</button></div>
+<div id='cmDiv'><textarea id="code" name="code"></textarea></div> <div id='spork'></div>
+
 <div id='loadDiv' class='popup'></div>
 <br>
-
 <select onchange="selectTheme()" id='themeSelect'>
     <option>default</option>
     <option>3024-day</option>
@@ -70,6 +60,8 @@
     <option>xq-dark</option>
     <option>xq-light</option>
 </select>
+
+
 <script>
        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
       mode: {name: "javascript", globalVars: true},
@@ -85,11 +77,10 @@
 	  var input = document.getElementById("themeSelect");
      var theme = input.options[input.selectedIndex].innerHTML;
     editor.setOption("theme", theme);
-  }
-
-
+  }	
 </script>
 
 <script>showFooter();</script>
+
 </body>
  </html>

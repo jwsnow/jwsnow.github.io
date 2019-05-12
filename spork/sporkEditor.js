@@ -13,7 +13,7 @@
 
 //IN EDITOR ONLY
 function runCode(){
-
+backup();
 	setup=function(){};
 	draw=function(){};
 	redraw=function(){};
@@ -82,7 +82,7 @@ function toim(){
 
 // storage --------------------------------------------------------------------------------------------------------------------------------
 function backup(){
-	var fileName = 'SPORK|backup';
+	var fileName = 'SPORK|autosave';
 	localStorage[fileName]=editor.getValue();	
 }
 function saveCode(){
