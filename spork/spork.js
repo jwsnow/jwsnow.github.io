@@ -151,11 +151,12 @@ function ellipse(x, y, rx, ry, a, b){
 	var arad = a*pi/180;
 	var brad = b*pi/180;
 	var t;
-	var dt = (brad-arad)/1000;
+	var dt = (brad-arad)/10000;
 	theCanvas.beginPath();
 	theCanvas.moveTo(x+rx*Math.cos(arad), y+ry*Math.sin(arad));
 	for (t=arad;t<=brad;t+=dt)
 		theCanvas.lineTo(x+rx*Math.cos(t), y+ry*Math.sin(t));
+	theCanvas.closePath();
 	theCanvas.stroke();
 }
 function translate(x,y){
