@@ -23,8 +23,16 @@
 <body>
 <script>showHeader();</script>
 
-<div id='buttonDiv'> Code Name:<input type='text' id='name' value='draft'> <button onclick='saveCode();'>Save</button>  <button onclick='loadCode();'>Load</button>   <button onclick='stoploop();'>Stop</button> <button onclick='startloop();'>Start</button> <button onclick='runCode();'>Go</button></div>
-<div id='cmDiv'><textarea id="code" name="code"></textarea></div> <div id='spork'></div>
+<div id='buttonDiv'> 
+	Code Name:<input type='text' id='name' value='draft'> 
+	<button onclick='saveCode();'>Save</button>  
+	<button onclick='loadCode();'>Load</button>
+	<button onclick='skeleton();'>Blank</button> | 
+	<button onclick='stoploop();'>Stop</button> 
+	<button onclick='startloop();'>Start</button> 
+	<button onclick='runCode();'>Go</button></div>
+<div><div id='cmDiv'><textarea id="code" name="code"></textarea></div> 
+<div id='spork'></div>
 
 <div id='loadDiv' class='popup'></div>
 <br>

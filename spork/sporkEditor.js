@@ -271,3 +271,8 @@ function loadFileAsText()
 	};
 	fileReader.readAsText(fileToLoad, "UTF-8");
 }
+function skeleton(){
+	
+	editor.setValue('function setup(){\r}\r\rfunction draw(){\r}');
+	
+}
