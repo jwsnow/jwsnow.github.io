@@ -81,8 +81,8 @@ function trace(){
 	var q=6;
 	save();
 	copyImageData(R,G,B,A);
-	for (x=1;x<width-1;x++)
-		for (y=1;y<height-1;y++){
+	for (x=q;x<width-q-1;x++)
+		for (y=q;y<height-q-1;y++){
 			if ((R[x][y]<128))
 			{
 				X[X.length]=x;
