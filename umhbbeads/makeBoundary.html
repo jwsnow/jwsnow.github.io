@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+<head>
+<script src='spork.js'></script>
+<script>
+var diskRadius=5;
+var X=[];
+var Y=[];
+var R=[];
+var G=[];
+var B=[];
+var A=[];
+function onmousemove(){
+	if (mouseDown) point(mouseX,mouseY);
+}
+function onclick(){
+	X[X.length]=mouseX;
+	Y[Y.length]=mouseY;
+	circle(mouseX,mouseY,diskRadius);
+	dbug.innerHTML='voidX=[';
+	for (i=0;i<X.length;i++)
+		dbug.innerHTML+=((X[i]-width/2)+',');
+	dbug.innerHTML+='];<br>';
+	dbug.innerHTML+='voidY=[';
+	for (i=0;i<X.length;i++)
+		dbug.innerHTML+=((Y[i]-height/2)+',');
+	dbug.innerHTML+='];<br>//hello';
+}
+function setup(){
+	size(floor(theImage.width),floor(theImage.height));
+background('white');
+	drawImage(theImage, width/2, height/2, width, height);
+}
+function draw(){
+}
+
+function discretize(){
+	var i,j;
+	var dx,dy;
+
+	background('white');
+	drawImage(theImage, width/2, height/2, width, height);
+
+save();
+color('red');
+	for (i=0;i<X.length;i++)
+		for (j=i+1;j<X.length;j++){
+			dx=X[i]-X[j];
+			dy=Y[i]-Y[j];
+			if (dx*dx+dy*dy<4*diskRadius*diskRadius){
+				X.splice(j,1);
+				Y.splice(j,1);
+				i=0;
+				j=1;
+			}
+		}
+	j=X.length;
+	for (i=0;i<j;i++)
+		circle(X[i],Y[i],diskRadius);
+restore();
+
+	j=X.length;
+	for (i=0;i<j;i++)
+		circle(X[i],Y[i],diskRadius);
+	restore();
+	dbug.innerHTML='voidX=[';
+	for (i=0;i<X.length;i++)
+		dbug.innerHTML+=((X[i]-width/2)+',');
+	dbug.innerHTML+='];<br>';
+	dbug.innerHTML+='voidY=[';
+	for (i=0;i<X.length;i++)
+		dbug.innerHTML+=((Y[i]-height/2)+',');
+	dbug.innerHTML+='];<br>//hello';
+
+
+}
+function trace(){
+	var x,y;
+	var i,j,k,l;
+	var b;
+	var q=6;
+	save();
+	copyImageData(R,G,B,A);
+	for (x=1;x<width-1;x++)
+		for (y=1;y<height-1;y++){
+			if ((R[x][y]<128))
+			{
+				X[X.length]=x;
+				Y[Y.length]=y;
+				for (k=-q;k<=q;k++)
+				 for (j=-q;j<=q;j++)
+					R[x+k][y+j]=255;
+			}
+		}
+	j=X.length;
+	color('red');
+	for (i=0;i<j;i++)
+		circle(X[i],Y[i],diskRadius);
+	restore();
+	dbug.innerHTML='voidX=[';
+	for (i=0;i<X.length;i++)
+		dbug.innerHTML+=((X[i]-width/2)+',');
+	dbug.innerHTML+='];<br>';
+	dbug.innerHTML+='voidY=[';
+	for (i=0;i<X.length;i++)
+		dbug.innerHTML+=((Y[i]-height/2)+',');
+	dbug.innerHTML+='];<br>//hello';
+alert('hey');
+}
+</script>
+</head>
+<body>
+<div id='spork'></div>
+<button onclick='trace();'>Trace</button>
+<button onclick='discretize();'>Discretize</button>
+<div id='dbug'></div>
+<img src='x.png' id='theImage'>
+</body>
+</html>
