@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+<style>
+img{
+display: none;
+}
+</style>
+<script src='spork.js'></script>
+<script>
+var r=450;
+var R=[], G=[], B=[], A=[];
+var current=0;
+
+
+
+function lineDensity(i,j){
+  var c=0;
+var   m=0;
+var rv;
+  var dx=r*(COS(j)-COS(i));
+  var dy=r*(SIN(j)-SIN(i));
+  var d=sqrt(dx*dx+dy*dy);
+  if (d>0){
+    dx=dx/d;
+    dy=dy/d;
+    var x= COS(i)*r+width/2;
+    var y= SIN(i)*r+height/2;
+    var k;
+    for (k=0;k<=d;k++){
+      m=max(m,R[round(x)][round(y)]);
+     c+=(R[round(x)][round(y)]);
+      x+=dx;
+      y+=dy;
+    }
+    rv={a: (c/d), m: m};
+  }
+  else rv={a: 0, m: 0};
+  return(rv);
+}
+
+function zapLine(i,j,c){
+  var dx=r*(COS(j)-COS(i));
+  var dy=r*(SIN(j)-SIN(i));
+  var d=sqrt(dx*dx+dy*dy);
+  if (d>0){
+    dx=dx/d;
+    dy=dy/d;
+    var x= COS(i)*r+width/2;
+    var y= SIN(i)*r+height/2;
+    var k;
+    for (k=0;k<=d;k++){
+      R[round(x)][round(y)]-=c;
+      x+=dx;
+      y+=dy;
+    }
+  }
+
+}
+function drawLine(i,j){
+  line(r*COS(i), r*SIN(i), r*COS(j), r*SIN(j));
+}
+
+function setup(){
+size(1000,1000);
+  translate(width/2, height/2);
+  /*
+ fillcolor('white');
+  fillrect(-width/2, -height/2, width,height);
+  circle(0,0,100)
+  circle(0,0,20);
+  circle(0,0,60);
+  rect(-100,-100,200,200);
+  fillcolor('black');
+  */
+// drawImage(theimage, 0, 0, 800,800);
+font('250px times');
+fillcolor('white');
+fillrect(-width/2, -height/2, width,height);
+fillcolor('black');
+filltext('SNOW', -365,100);
+ copyImageData(R,G,B,A);
+  for (i=0;i<width;i++)
+    for (j=0;j<height;j++)
+      R[i][j]=(255-R[i][j])/255;  
+  clear();
+// linewidth(0.5);
+  color(0,0,0,0.25);
+  loop();
+}
+var counter=0;
+function draw(){
+  var i,j,n,k,rv;
+  n=360/200;
+  var maxi,maxj,maxD,maxM;
+ 
+  maxj=(current+1)%360;
+ rv=lineDensity(current,maxj);
+ maxM=rv.m;
+ maxD=rv.a;
+ 
+    for (j=1;j<360;j+=1){
+    rv=lineDensity(current,(current+j)%360);
+      if (rv.a >maxD){
+        maxj=(current+j)%360;
+        maxD=rv.a;
+	maxM=rv.m;
+      }
+  }
+  zapLine(current,maxj,maxD);
+  drawLine(current,maxj);
+  current=maxj;
+  counter++;
+ // output.innerHTML=counter;
+if (counter>1600) stoploop();
+}
+</script>
+</head>
+<body>
+<div id='spork'></div>
+<!--div id='output'></div>
+<button onclick='stoploop();'>Stop</button>
+<img id='theimage' src='granny.jpg'-->
+</body>
+</html>
