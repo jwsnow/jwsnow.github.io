@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body{
+	text-align: center;
+}
+</style>
+<script src='spork.js'></script>
+<script>
+
+function man(x,y, a, b, c, d, e, f, g, h, i){
+	
+	this.randomize=function(){
+		var a=-20+random()*40;
+		var b=-30+random()*60;
+		var f=-30+random()*60;
+		var g=-45+random()*90;
+		var c=-45+random()*90;
+		var d=random()*60;
+		var h=random()*60;
+		var e=random()*45;
+		var i=random()*45;
+		this.init(this.cX,this.cY, a,b, c, d, e, f, g, h, i);
+	}
+	this.init=function(x,y, a, b, c, d, e, f, g, h, i){
+		this.trunkAngle=a;
+		this.cX=x;
+		this.cY=y;
+		this.neckX=0;
+		this.neckY=-100;
+		this.elbowX=this.neckX+100*COS(b);
+		this.elbowY=this.neckY+100*SIN(b);
+		this.handX=this.elbowX+100*COS(b+c);
+		this.handY=this.elbowY+100*SIN(b+c);
+		this.kneeX=0-100*COS(d);
+		this.kneeY=0+100*SIN(d);
+		this.footX=this.kneeX-100*COS(d+e);
+		this.footY=this.kneeY+100*SIN(d+e);
+		this.otherElbowX=this.neckX-100*COS(f);
+		this.otherElbowY=this.neckY+100*SIN(f);
+		this.otherHandX=this.otherElbowX-100*COS(f+g);
+		this.otherHandY=this.otherElbowY+100*SIN(f+g);
+		this.otherKneeX=0+100*COS(h);
+		this.otherKneeY=0+100*SIN(h);
+		this.otherFootX=this.otherKneeX+100*COS(h+i);
+		this.otherFootY=this.otherKneeY+100*SIN(h+i);
+
+		this.headX=[-25,25,25,0,-25,-25];
+		this.headY=[-200,-200,-150,-125,-150,-200];
+		this.diagonalX=[this.handX,this.elbowX,this.neckX,0,this.kneeX,this.footX];
+		this.diagonalY=[this.handY,this.elbowY,this.neckY,0,this.kneeY,this.footY];
+		this.armX=[this.otherHandX, this.otherElbowX, this.neckX];
+		this.armY=[this.otherHandY, this.otherElbowY, this.neckY];
+		this.legX=[0,this.otherKneeX,this.otherFootX];
+		this.legY=[0,this.otherKneeY,this.otherFootY];
+	}
+	
+	this.draw=function(){
+		save();
+		if (random()<0.5) scale(-1,1);
+		translate(this.cX, this.cY);
+		rotate(this.trunkAngle);
+		brush(this.diagonalX,this.diagonalY,10,5);
+		brush(this.headX,this.headY,10,5);
+		brush(this.armX,this.armY,10,5);
+		brush(this.legX,this.legY,10,5);
+		restore();
+	}
+	
+	this.init(x,y, a, b, c, d, e, f, g, h, i);
+}
+function squiggle(xcoords, ycoords){
+	  var xy=[];
+	  var xz=[];
+	  var yy=[];
+	  var yz=[];
+	  var N=xcoords.length;
+	  var i;
+	for (i=0;i<N;i++){
+		xy[i]=xcoords[i];
+		yy[i]=ycoords[i];
+	  }	
+	 
+	  for (i=0;i<N;i++){
+		xz[i]=(xy[(i+1)%N]-xy[(i-1+N)%N])/2;
+		yz[i]=(yy[(i+1)%N]-yy[(i-1+N)%N])/2;
+	  }
+	  xz[0]=xy[1]-xy[0];
+	  yz[0]=yy[1]-yy[0];
+	  xz[N-1]=xy[N-1]-xy[N-2];
+	 yz[N-1]=yy[N-1]-yy[N-2];
+  
+	  
+
+	  var xa=[], xb=[], xc=[], xd=[];
+	  var ya=[], yb=[], yc=[], yd=[];
+
+	  for (i=1;i<=N;i++){
+		    xa[i]=xz[i%N]-2*xy[i%N]+xz[i-1]+2*xy[i-1];
+		    xb[i]=3*xy[i%N]-xz[i%N]-2*xz[i-1]-3*xy[i-1];
+		    xc[i]=xz[i-1];
+		    xd[i]=xy[i-1];
+
+		    ya[i]=yz[i%N]-2*yy[i%N]+yz[i-1]+2*yy[i-1];
+		    yb[i]=3*yy[i%N]-yz[i%N]-2*yz[i-1]-3*yy[i-1];
+		    yc[i]=yz[i-1];
+		    yd[i]=yy[i-1];
+	  }
+
+	  function xf(t,i){
+		return(xa[i]*t*t*t+xb[i]*t*t+xc[i]*t+xd[i]);
+	  }
+
+	  function yf(t,i){
+		return(ya[i]*t*t*t+yb[i]*t*t+yc[i]*t+yd[i]);
+	  }
+
+	beginpath();
+	moveto(xf(0,1),yf(0,1));
+	  for (i=1;i<N;i++){
+		    lastx=xf(0,i);
+		    lasty=yf(0,i);
+		    for (t=0;t<=1;t+=0.01){
+		      x=xf(t,i)
+		      y=yf(t,i);
+		      lineto(x,y);
+		      lastx=x;
+		      lasty=y;
+		    }
+	  }
+	  stroke();
+}
+
+
+//********************
+
+
+function brush(xcoords,ycoords,r,s){
+	var X=[], Y=[];
+	var i;
+	var j;
+	var M=4*r;
+	var N=xcoords.length;
+	for (j=0;j<M;j++){
+		for (i=0;i<N;i++){
+			X[i]=xcoords[i]+(random()-0.5)*(r*(N-1-i)+s*i)/(N-1);
+			Y[i]=ycoords[i]+(random()-0.5)*(r*(N-1-i)+s*i)/(N-1);
+		}
+		squiggle(X,Y);
+	}
+}
+function dist(x,y,x2,y2){
+	var dx=x-x2;
+	var dy=y-y2;
+	return(sqrt(dx*dx+dy*dy))
+}
+function markup(X,Y){
+	var x=[], y=[];
+	var px=[], py=[];
+	var i,j;
+	var mindist,d;
+	var pathlength;
+	var maxjump=50;
+	var maxlength=500;
+	var N=X.length;
+	var keepgoing;
+	for (i=0;i<N;i++){
+		x[i]=X[i];
+		y[i]=Y[i];
+	}
+	while (x.length>1){ 
+		px=[];
+		py=[];
+		px[0]=x[0];
+		py[0]=y[0];
+		x.splice(0,1);
+		y.splice(0,1);
+		pathlength=0;
+		keepgoing=true;
+		while ((pathlength<maxlength) && (x.length>0) &&(keepgoing)){
+			N=px.length-1;
+			j=0;
+			mindist=dist(px[N], py[N], x[0],y[0]);
+			for (i=1;i<x.length;i++){ 
+				d=dist(px[N], py[N], x[i],y[i]);
+				if (d<mindist){
+					mindist=d;
+					j=i;
+				}
+			}
+			if (mindist<maxjump){
+				px.push(x[j]);
+				py.push(y[j]);
+				x.splice(j,1);
+				y.splice(j,1);
+				pathlength+=mindist;
+			}
+			else keepgoing=false;
+		}
+		if (px.length>1)
+			brush(px,py,1,1);
+	}
+}
+
+
+//*******************
+
+function setup(){
+	size(600,600);
+	translate(width/2, height/2);
+}
+
+function draw(){
+	clear();
+	bob=new man(0,0, //xy
+				0, //a trunk angle
+				30, 45, //b,c arm angles
+				45,45, //d,e leg angles
+				30,45, //f,g other arm angles
+				45,45, //h,i other leg
+				);
+	bob.randomize();
+	bob.draw();
+}
+</script>
+</head>
+<body>
+<div id='spork'></div>
+<div id='out'></div>
+<button onclick='draw();'>Another</button>
+</body>
+</html>
