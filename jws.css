@@ -1,70 +1,93 @@
-
-body {
-	background-color: rgb(36, 56, 65);
+html{
+	width: 100%;
 }
-#masterDiv{
-	width: 90%;
-	margin:auto;
-	position: relative;
+body{
+	width: 100%;
+	font-size: 14px;
+	padding: 0px;
+	margin:0px;
+	font-family: Helvetica,Arial,sans-serif;
 }
-#topNavDiv {
+div.topnav{
 	height: 50px;
-	margin: auto;
-	border:none;
-	border-bottom: 1px solid rgb(114, 162, 64);
+	line-height: 50px;
+	background: black;
+	margin: 0px;
+	padding-left:20px;
+	padding-right:20px;
 	color: white;
-	position: relative;
+	font-size:18px;
 }
-#topNavDivContent {
-	position: absolute;
-	bottom: 0px;
-	right: 0px;
-	text-align: right;
+div.topnav a{
+	color:white;
+	text-decoration:none;
 }
-#bottomNavDiv {
-	height: 50px;
-	margin: auto;
-	border:none;
-	border-top: 1px solid rgb(114, 162, 64);
+button.bars{
+	float: right;
+	height:50px;
+	width:50px;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 1px;
+	outline: none;
+}
+img.navimg{
+	height: 40px;
+	vertical-align:middle;
+}
+div.links{
+	background: black;
 	text-align: right;
+	padding-right: 30px;
+	border-top:1px solid white;
+	border-bottom: 1px solid white;
 	color: white;
+	display: none;
 }
-#mainContentDiv {
-	position: relative;
-	//min-height: 400px;
-	border: 5px solid white;
-	margin: 15px;
-	background: rgb(240, 240, 240);
-	padding:20px;
+ul.linklist{
+	list-style-type: none;
 }
-#homeContentDiv {
-	position: relative;
-	//min-height: 400px;
-	border: 5px solid white;
-	margin: 15px;
-	background: rgb(240, 240, 240);
-	padding:20px;
-	padding-left:120px;	
-}
-
-#banner {
-position: absolute;
-	top:0px;
-	bottom:0px;
-	left: 40px;
-	width: 80px;
-	background-color: white;
-	box-shadow: 0px 0px 50px black;
-	overflow:hidden;
-}
-#bannerImg{
-	width: 80px;
-	height:400px;
-}
-a{
-	color:black;
-}
-a.plain{
+div.links a{
+	color: white;
 	text-decoration: none;
+}
+div.main{
+	padding-left: 30px;
+	padding-right:30px;
+	padding-top: 10px;
+}
+div.center{
+	text-align: center;
+}
+div.imglink{
+	width:200px;
+	height:220px;
+	border: 1px solid black;
+	display: inline-block;
+	margin: 20px;
+}
+img.imglink{
+	width:190px;
+	height:190px;
+	margin: 5px;
+}
+div.imglinktitle{
+	text-align: center;
+	border-bottom:1px solid black;
+	background: black;
+	height:20px;
+	line-height: 20px;
+	font-size: 18px;
 	color: white;
+}
+a.imglink{
+	text-decoration: none;
+}
+
+img.art{
+	max-width:75%;
+	display: block;
+	margin: auto;
+	margin-top:20px;
+	margin-bottom: 20px;
 }

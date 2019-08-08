@@ -1,13 +1,16 @@
 <!doctype html>
 <html>
 <head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>J.W. Snow</title>
+<link rel='stylesheet' type='text/css' href='../jws.css'>
 <style>
 body{
-	background:black;
-	text-align:center;
-	color:white;
+background: black;
 }
 </style>
+<script src='jws.js'></script>
 <script src='spork.js'></script>
 <script>
 function drawString(m){
@@ -46,6 +49,8 @@ function discreteStepDown(){
 </script>
 </head>
 <body>
+<script>writeHeader();</script>
+<div class='main center'>
 <div id='spork'></div>
 <button onclick='stoploop();'>Stop</button>
 <button onclick='startloop();'>Go</button>
@@ -53,6 +58,6 @@ function discreteStepDown(){
 <button onclick='discreteStepDown();'>Down</button>
 <div id='thenumber'></div>
 <div><input type='text' value='360' onkeydown='stoploop();' id='modulus' size=3></input></div>
-<a href='https://youtu.be/qhbuKbxJsk8' target='NEW'>Based on this video from Mathology</a>
+</div>
 </body>
 </html>

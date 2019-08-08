@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>J.W. Snow</title>
+<link rel='stylesheet' type='text/css' href='../jws.css'>
+<script src='jws.js'></script>
+<script src='spork.js'></script>
+<script>function COS(x){
+  return(cos(x*pi/180));
+}
+function SIN(x){
+  return(sin(x*pi/180));
+}
+function pixel(x,y){
+  rect(x,y,1,1);
+}
+function pixel4(x,y){
+  rect(x,y,1,1);
+  rect(-x,y,1,1);
+  rect(x,-y,1,1);
+  rect(-x,-y,1,1);
+}
+function pixel8(x,y){
+  save();
+  pixel4(x,y);
+  rotate(90);
+  pixel4(x,y);
+  restore();
+}
+function pixel16(x,y){
+  save();
+  pixel4(x,y);
+  rotate(90);
+  pixel4(x,y);
+  restore();
+  save();
+  translate(-2*tWidth,0);
+  pixel(x,y);
+  pixel(x,-y);
+  restore();
+  save();
+  translate(2*tWidth,0);
+  pixel(-x,y);
+  pixel(-x,-y);
+  restore();
+}
+var tWidth=200;
+function setup(){
+  size(6*tWidth, 4*tWidth);
+  translate(width/2, height/2);
+  setupNoise(7);
+  timestep(2000);
+  color('white');
+  drawing.style.borderColor='white';
+  
+  loop();
+}
+function draw(){
+  clear();
+  setupNoise(floor(random()*5+5));
+  for (j=0;j<15;j=j+1){
+    var x=random()*tWidth;
+    var y=random()*x;
+    var i,angle;
+    for(i=0;i<tWidth;i=i+1){
+      pixel16(x,y);
+      angle=360*noise(
+        abs(x/width), abs(y/height));
+      x=x+COS(angle);
+      y=y+SIN(angle);
+    }
+  }
+}
+
+function onclick(){
+	openFullscreen();
+	spork.style.cursor='none';
+}
+/* Get the documentElement (<html>) to display the page in fullscreen */
+var elem = document.documentElement;
+
+/* View in fullscreen */
+function openFullscreen() {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.mozRequestFullScreen) { /* Firefox */
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE/Edge */
+    elem.msRequestFullscreen();
+  }
+}
+
+/* Close fullscreen */
+function closeFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.mozCancelFullScreen) { /* Firefox */
+    document.mozCancelFullScreen();
+  } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) { /* IE/Edge */
+    document.msExitFullscreen();
+  }
+}
+
+</script>
+<style>
+body{
+	background: black;
+}
+canvas{
+	max-width: 75%;
+}
+
+</style>
+</head>
+<body>
+<script>writeHeader();</script>
+<div class='main center'>
+<div id='spork'></div><br>
+</div>
+</body>
+
+</html>
