@@ -62,14 +62,15 @@ div.center{
 div.imglink{
 	width:200px;
 	height:220px;
+	max-width: 40%;
 	border: 1px solid black;
 	display: inline-block;
 	margin: 20px;
 }
 img.imglink{
-	width:190px;
-	height:190px;
-	margin: 5px;
+	max-width:90%;
+	max-height:90%;
+	margin: auto;
 }
 div.imglinktitle{
 	text-align: center;
