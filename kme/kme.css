@@ -16,13 +16,13 @@ div.header{
 	padding-left:20px;
 	padding-right:20px;
 	color: white;
-	font-size:18px;
+	font-size:1.125em;
 	font-weight: bold;
 }
 div.subheader{
 	padding-left:30px;
 	font-style: italic;
-	font-size: 14px;
+	font-size: 0.875em;
 }
 div.footer{
 	height: 50px;
@@ -36,7 +36,7 @@ div.footer{
 div.footerblock{
 	display:inline-block;
 	line-height:14px;
-	font-size: 12px;
+	font-size: 0.75em;
 	max-width: 50%;
 	vertical-align:middle;
 }
@@ -79,7 +79,7 @@ div.links{
 }
 ul.linklist{
 	list-style-type: none;
-	line-height: 28px;
+	line-height: 2em;
 }
 div.links a{
 	color: white;
@@ -93,6 +93,50 @@ div.main{
 div.center{
 	text-align: center;
 }
+img.about{	
+	display: block;	
+	margin: auto;	
+	height: 200px;
+}
+
+
+
+div.inactive{
+	font-style: italic;
+}
+div.inactive:before{
+ content: "* ";
+}
+div.chapter{
+	display:inline-block;
+	padding:20px;
+	width:30%;
+	font-size:1em;
+	vertical-align: top;
+}
+div.state{
+	display:block;
+	padding: 20px;
+	font-weight:bold;
+	font-size: 1.125em;
+}
+div.region{
+	display:none;
+	padding: 20px;
+	font-weight:bold;
+	font-size: 1.125em;
+	text-decoration: underline;
+}
+button.chapterButton{
+	margin:2px;
+	border-radius: 2px;
+}
+
+#regionmap{
+	width:50%;
+max-width: 400px;
+}
+
 
 .news img{
 	max-width: 75%;
@@ -102,11 +146,11 @@ div.center{
 }
 div.newsheader{
 	font-weight: bold;
-	font-size: 18px;
+	font-size: 1.125em;
 }
 div.headline{
 	font-weight:bold;
-	font-size:16px;
+	font-size:1em;
 }
 
 
