@@ -1,0 +1,132 @@
+html{
+	width: 100%;
+}
+body{
+	width: 100%;
+	font-size: 16px;
+	padding: 0px;
+	margin:0px;
+	font-family: Helvetica,Arial,sans-serif;
+}
+div.header{
+	height: 50px;
+	line-height: 50px;
+	background: black;
+	margin: 0px;
+	padding-left:20px;
+	padding-right:20px;
+	color: white;
+	font-size:18px;
+	font-weight: bold;
+}
+div.subheader{
+	padding-left:30px;
+}
+div.footer{
+	height: 50px;
+	line-height: 50px;
+	background: black;
+	margin: 0px;
+	padding-left:20px;
+	padding-right:20px;
+	color: white;
+	font-size:12px;
+}
+.silver{
+	color:silver;
+}
+.pink{
+	color:pink;
+}
+div.header img{
+	height:40px;
+	vertical-align: middle;
+}
+div.footer img{
+	height:40px;
+	vertical-align: middle;
+}
+div.header a{
+	color:white;
+	text-decoration:none;
+}
+button.bars{
+	float: right;
+	height:50px;
+	width:50px;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 1px;
+	outline: none;
+}
+
+div.links{
+	background: black;
+	text-align: right;
+	padding-right: 30px;
+	border-top:1px solid white;
+	border-bottom: 1px solid white;
+	color: white;
+	display: none;
+}
+ul.linklist{
+	list-style-type: none;
+	line-height: 28px;
+}
+div.links a{
+	color: white;
+	text-decoration: none;
+}
+div.main{
+	padding-left: 30px;
+	padding-right:30px;
+	padding-top: 20px;
+}
+div.center{
+	text-align: center;
+}
+
+.news img{
+	max-width: 75%;
+	max-height: 200px;
+	display: block;
+	margin: auto;
+}
+div.newsheader{
+	font-weight: bold;
+	font-size: 18px;
+}
+
+
+
+
+
+@keyframes ticker {
+	0%   {margin-top: 0}
+	25%  {margin-top: -400px}
+	50%  {margin-top: -800px}
+	75%  {margin-top: -1200px}
+	100% {margin-top: 0}
+}
+
+.news {
+  max-width: 80%;
+  height: 400px;
+  margin: auto;
+  overflow: hidden;
+  -webkit-user-select: none;
+} 
+
+.news ul {
+  padding-left: 20px;
+  animation: ticker 20s cubic-bezier(1, 0, .5, 0) infinite;
+  -webkit-user-select: none;
+}
+
+.news ul li {
+	height: 400px; 
+	list-style: none ;
+	overflow:hidden;
+	}
+
+.news ul:hover { animation-play-state: paused }
