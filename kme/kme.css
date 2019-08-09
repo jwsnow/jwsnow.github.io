@@ -103,28 +103,26 @@ div.newsheader{
 
 @keyframes ticker {
 	0%   {margin-top: 0}
-	25%  {margin-top: -400px}
-	50%  {margin-top: -800px}
-	75%  {margin-top: -1200px}
+	25%  {margin-top: -300px}
+	50%  {margin-top: -600px}
+	75%  {margin-top: -900px}
 	100% {margin-top: 0}
 }
 
 .news {
-  max-width: 80%;
-  height: 400px;
+  max-width: 90%;
+  height: 300px;
   margin: auto;
   overflow: hidden;
   -webkit-user-select: none;
 } 
 
 .news ul {
-  padding-left: 20px;
   animation: ticker 20s cubic-bezier(1, 0, .5, 0) infinite;
   -webkit-user-select: none;
 }
 
 .news ul li {
-	height: 400px; 
 	list-style: none ;
 	overflow:hidden;
 	}
