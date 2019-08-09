@@ -32,10 +32,13 @@ div.footer{
 	padding-left:20px;
 	padding-right:20px;
 	color: white;
-	font-size:12px;
 }
 div.footerblock{
 	display:inline-block;
+	line-height:14px;
+	font-size: 12px;
+	max-width: 50%;
+	vertical-align:middle;
 }
 .silver{
 	color:silver;
