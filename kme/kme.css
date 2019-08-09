@@ -21,6 +21,8 @@ div.header{
 }
 div.subheader{
 	padding-left:30px;
+	font-style: italic;
+	font-size: 14px;
 }
 div.footer{
 	height: 50px;
@@ -124,6 +126,7 @@ div.newsheader{
 
 .news ul li {
 	list-style: none ;
+  height: 300px;
 	overflow:hidden;
 	}
 
