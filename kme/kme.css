@@ -34,6 +34,9 @@ div.footer{
 	color: white;
 	font-size:12px;
 }
+div.footerblock{
+	display:inline-block;
+}
 .silver{
 	color:silver;
 }
@@ -90,7 +93,7 @@ div.center{
 
 .news img{
 	max-width: 75%;
-	max-height: 200px;
+	max-height: 175px;
 	display: block;
 	margin: auto;
 }
@@ -98,7 +101,10 @@ div.newsheader{
 	font-weight: bold;
 	font-size: 18px;
 }
-
+div.headline{
+	font-weight:bold;
+	font-size:16px;
+}
 
 
 
