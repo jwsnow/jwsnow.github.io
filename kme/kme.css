@@ -99,6 +99,30 @@ img.about{
 	height: 200px;
 }
 
+div.news{
+	margin: 20px;
+	margin-bottom:40px;
+}
+.news img{
+	max-width: 75%;
+	max-height: 300px;
+	display: block;
+	margin: auto;
+}
+img.small{
+		max-width: 75%;
+	max-height: 200px;
+
+}
+div.newsheader{
+	font-weight: bold;
+	font-size: 1.125em;
+}
+div.headline{
+	font-weight:bold;
+	font-size:1.125em;
+	text-align: center;
+}
 
 
 div.inactive{
@@ -138,49 +162,29 @@ max-width: 400px;
 }
 
 
-.news img{
-	max-width: 75%;
-	max-height: 175px;
-	display: block;
-	margin: auto;
+
+
+div.imglink{
+	width:200px;
+	height:220px;
+	border: 1px solid black;
+	display: inline-block;
+	margin: 20px;
 }
-div.newsheader{
-	font-weight: bold;
-	font-size: 1.125em;
+img.imglink{
+	width:190px;
+	height:190px;
+	margin: 5px;
 }
-div.headline{
-	font-weight:bold;
-	font-size:1em;
+div.imglinktitle{
+	text-align: center;
+	border-bottom:1px solid black;
+	background: black;
+	height:20px;
+	line-height: 20px;
+	font-size: 18px;
+	color: white;
 }
-
-
-
-
-@keyframes ticker {
-	0%   {margin-top: 0}
-	25%  {margin-top: -300px}
-	50%  {margin-top: -600px}
-	75%  {margin-top: -900px}
-	100% {margin-top: 0}
+a.imglink{
+	text-decoration: none;
 }
-
-.news {
-  max-width: 90%;
-  height: 300px;
-  margin: auto;
-  overflow: hidden;
-  -webkit-user-select: none;
-} 
-
-.news ul {
-  animation: ticker 20s cubic-bezier(1, 0, .5, 0) infinite;
-  -webkit-user-select: none;
-}
-
-.news ul li {
-	list-style: none ;
-  height: 300px;
-	overflow:hidden;
-	}
-
-.news ul:hover { animation-play-state: paused }
