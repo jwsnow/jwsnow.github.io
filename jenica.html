@@ -51,7 +51,7 @@ function drawICON(){
 		}
 	findMeasures();	
 }
-function countBlack(){
+function countBlack(ICON){ 
 	var r,c;
 	var n=0;
 	for (r=0;r<5;r++)
@@ -59,7 +59,7 @@ function countBlack(){
 			n+=ICON[r][c];
 	return n;
 }
-function countCorners(){
+function countCorners(ICON){
 	var r,c;
 	var n=0,m;
 	for (r=0;r<4;r++)
@@ -70,17 +70,9 @@ function countCorners(){
 		}
 	return(n)
 }
-function findVsym(){
-	var r,c;
-	var n=0;
-	for (r=0;r<5;r++)
-		for (c=0;c<2;c++)
-			if ((ICON[r][c]==ICON[r][4-c]))
-				n++;
-	return(n/10);
-}
-function findEntropy(){
-	var b=countBlack()/25;
+
+function findEntropy(ICON){
+	var b=countBlack(ICON)/25;
 	var w=1-b;
 	var h;
 	if ((b==0) || (w==0))
@@ -89,7 +81,7 @@ function findEntropy(){
 		h=-(b*Math.log2(b)+w*Math.log2(w));
 	return(h);
 }
-function findBlockE(){
+function findBlockE(ICON){
 	var C=[];
 	var r,c;	
 	var n=0,p;
@@ -105,25 +97,39 @@ function findBlockE(){
 		n+=p*Math.log(p)/Math.log(16);
 	}
 	return(-n);
+}function vsymm(ICON){
+	var r,c;
+	var n=0;
+	for (r=0;r<5;r++)
+		for (c=0;c<2;c++)
+			if ((ICON[r][c]==ICON[r][4-c]))
+				n++;
+	return(n/10);
 }
-function findMeasures(){
-	var b=countBlack();
+function equilibrium(ICON){ 
+	var b=countBlack(ICON);
 	var w=25-b;
 	var crat;
-	if (b<w) crat=b/w;
-	else crat=w/b;
-	var corn=countCorners();
-	var verticalsymmetry=findVsym();
-	var e=findEntropy();
-	var be=findBlockE();
+	if (b<w)  return(b/w);
+	else return(w/b);
+}
+function rotsym(ICON){
+	var x,y,r=0;
+	for (x=0;x<5;x++)
+		for (y=0;y<5;y++)
+			r+=Math.abs(ICON[x][y]-ICON[4-x][4-y]);
+	return(1-r/25);		
+}
+function findMeasures(){
+
+	var crat=equilibrium(ICON);
+	var verticalsymmetry=vsymm(ICON);
+	var be=findBlockE(ICON);
 	
-	black.innerHTML=(b/25).toFixed(3);
-	white.innerHTML=(w/25).toFixed(3);
 	colorratio.innerHTML=(crat).toFixed(3);
-	numcorners.innerHTML=(corn).toFixed(3);
 	vsym.innerHTML=(verticalsymmetry).toFixed(3);
-	entropy.innerHTML=(e).toFixed(3);
 	blockentropy.innerHTML=(be).toFixed(3);
+	rot.innerHTML=(rotsym(ICON)).toFixed(3);
 }
 </script>
 </head>
@@ -138,16 +144,16 @@ function findMeasures(){
 </table>
 <br>
 <button onclick='randomICON();'>randomize</button><br>
+Jenica's Measures
+<br>
 <table id='measures'>
-<tr><td>Proportion White</td><td id='white'></td></tr>
-<tr><td>Proportion Black</td><td id='black'></td></tr>
-<tr><td>Color Balance</td><td id='colorratio'></td></tr>
-<tr><td>Corners</td><td id='numcorners'></td></tr>
 <tr><td>Vertical Symmetry</td><td id='vsym'></td></tr>
-<tr><td>Shannon Entropy</td><td id='entropy'></td></tr>
-<tr><td>Block Entropy</td><td id='blockentropy'></td></tr>
+<tr><td>Equilibrium</td><td id='colorratio'></td></tr>
+<tr><td>Rotational Symmetry</td><td id='rot'></td></tr>
+<tr><td>Complexity</td><td id='blockentropy'></td></tr>
 <tr><td></td><td></td></tr>
 <tr><td></td><td></td></tr>
 </table>
+
 </body>
 </html>
