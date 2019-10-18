@@ -148,6 +148,15 @@ function rot90sym(ICON){
 			r+=Math.abs(ICON[x][y]-ICON[4-y][x]);
 	return(1-r/25);		
 }
+function hsymm(ICON){
+	var r,c;
+	var n=0;
+	for (r=0;r<2;r++)
+		for (c=0;c<5;c++)
+			if ((ICON[r][c]==ICON[4-r][c]))
+				n++;
+	return(n/10);
+}
 function findMeasures(){
 
 	var crat=equilibrium(ICON);
@@ -156,6 +165,7 @@ function findMeasures(){
 	
 	colorratio.innerHTML=(crat).toFixed(3);
 	vsym.innerHTML=(verticalsymmetry).toFixed(3);
+	hsym.innerHTML=(hsymm(ICON)).toFixed(3);
 	blockentropy.innerHTML=(be).toFixed(3);
 	rot180.innerHTML=(rotsym(ICON)).toFixed(3);
 	rot90.innerHTML=(rot90sym(ICON)).toFixed(3);
@@ -179,6 +189,7 @@ Jenica's Measures
 <br>
 <table id='measures'>
 <tr><td>Vertical Symmetry</td><td id='vsym'></td></tr>
+<tr><td>Horizontal Symmetry</td><td id='hsym'></td></tr>
 <tr><td>Diagonal Symmetry</td><td id='diag'></td></tr>
 <tr><td>Off-Diagonal Symmetry</td><td id='odiag'></td></tr>
 <tr><td>Equilibrium</td><td id='colorratio'></td></tr>
