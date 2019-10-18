@@ -120,6 +120,34 @@ function rotsym(ICON){
 			r+=Math.abs(ICON[x][y]-ICON[4-x][4-y]);
 	return(1-r/25);		
 }
+function rot90sym(ICON){
+	var x,y,r=0;
+	for (x=0;x<5;x++)
+		for (y=0;y<5;y++)
+			r+=Math.abs(ICON[x][y]-ICON[4-y][x]);
+	return(1-r/25);		
+}
+function diagsym(ICON){
+	var x,y,r=0;
+	for (x=0;x<5;x++)
+		for (y=0;y<5;y++)
+			r+=Math.abs(ICON[x][y]-ICON[y][x]);
+	return(1-r/25);		
+}
+function odiagsym(ICON){
+	var x,y,r=0;
+	for (x=0;x<5;x++)
+		for (y=0;y<5;y++)
+			r+=Math.abs(ICON[x][y]-ICON[4-y][4-x]);
+	return(1-r/25);		
+}
+function rot90sym(ICON){
+	var x,y,r=0;
+	for (x=0;x<5;x++)
+		for (y=0;y<5;y++)
+			r+=Math.abs(ICON[x][y]-ICON[4-y][x]);
+	return(1-r/25);		
+}
 function findMeasures(){
 
 	var crat=equilibrium(ICON);
@@ -129,7 +157,10 @@ function findMeasures(){
 	colorratio.innerHTML=(crat).toFixed(3);
 	vsym.innerHTML=(verticalsymmetry).toFixed(3);
 	blockentropy.innerHTML=(be).toFixed(3);
-	rot.innerHTML=(rotsym(ICON)).toFixed(3);
+	rot180.innerHTML=(rotsym(ICON)).toFixed(3);
+	rot90.innerHTML=(rot90sym(ICON)).toFixed(3);
+	diag.innerHTML=(diagsym(ICON)).toFixed(3);
+	odiag.innerHTML=(odiagsym(ICON)).toFixed(3);
 }
 </script>
 </head>
@@ -148,8 +179,11 @@ Jenica's Measures
 <br>
 <table id='measures'>
 <tr><td>Vertical Symmetry</td><td id='vsym'></td></tr>
+<tr><td>Diagonal Symmetry</td><td id='diag'></td></tr>
+<tr><td>Off-Diagonal Symmetry</td><td id='odiag'></td></tr>
 <tr><td>Equilibrium</td><td id='colorratio'></td></tr>
-<tr><td>Rotational Symmetry</td><td id='rot'></td></tr>
+<tr><td>Rotational Symmetry 180</td><td id='rot180'></td></tr>
+<tr><td>Rotational Symmetry 90</td><td id='rot90'></td></tr>
 <tr><td>Complexity</td><td id='blockentropy'></td></tr>
 <tr><td></td><td></td></tr>
 <tr><td></td><td></td></tr>
