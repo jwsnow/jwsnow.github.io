@@ -97,7 +97,8 @@ function findBlockE(ICON){
 		n+=p*Math.log(p)/Math.log(16);
 	}
 	return(-n);
-}function vsymm(ICON){
+}
+function vsymm(ICON){
 	var r,c;
 	var n=0;
 	for (r=0;r<5;r++)
@@ -157,6 +158,95 @@ function hsymm(ICON){
 				n++;
 	return(n/10);
 }
+
+function blackrot90sym(ICON){
+	var x,y,r=0;
+	var n=0;
+	for (x=0;x<5;x++)
+		for (y=0;y<5;y++)
+			if (ICON[x][y]==1){
+				n++;
+				r+=Math.abs(ICON[x][y]-ICON[4-y][x]);
+			}
+	if (n==0)
+		return(0);
+	else
+		return(1-r/n);		
+}
+function countlines(i){
+	var h=[];
+	var v=[];
+	var n,x,y,r;
+	
+	for (n=0;n<=6;n++){
+		h[n]=0;
+		v[n]=0;
+	}
+	for (n=0;n<5;n++){
+		if (i[0][n]==1) h[0]=1;
+		if (i[4][n]==1) h[5]=1;
+		if (i[n][0]==1) v[0]=1;
+		if (i[n][4]==1) v[5]=1;
+	}
+	r=0;
+	for (x=0;x<4;x++){
+		for (y=0;y<5;y++)
+			if (i[x][y]!=i[x+1][y])
+				h[x+1]=1;
+	}
+	for (y=0;y<4;y++){
+		for (x=0;x<5;x++)
+			if (i[x][y]!=i[x][y+1])
+				v[y+1]=1;
+	}
+	for (n=0;n<=5;n++){
+		r+=h[n];
+		r+=v[n];
+	}
+	return(r/12);
+}
+
+function cm(i){
+	var numblack=0;
+	var d=0;
+	var cx,cy,dx,dy;
+	var x,y;
+	cx=0;
+	cy=0;
+	
+	for (x=0;x<5;x++)
+		for (y=0;y<5;y++)
+			if (i[x][y]==1){
+				numblack++;
+				cx+=x;
+				cy+=y;
+			}
+	if (numblack==0)
+		return(0);
+	else{
+		cx=cx/numblack;
+		cy=cy/numblack;
+		dx=cx-2;
+		dy=cy-2;
+		d=Math.sqrt(dx*dx+dy*dy);
+		return(1-d/(2*Math.sqrt(2)));
+	}
+}
+function blackvsymm(ICON){
+	var r,c;
+	var n=0;
+	var m=0;
+	for (r=0;r<5;r++)
+		for (c=0;c<5;c++)
+			if (ICON[r][c]==1){
+				m+=Math.abs((ICON[r][c]-ICON[r][4-c]))
+				n++;
+			}	
+	if (n==0)
+		return(0);
+	else 
+		return(1-m/n);
+}
 function findMeasures(){
 
 	var crat=equilibrium(ICON);
@@ -171,6 +261,10 @@ function findMeasures(){
 	rot90.innerHTML=(rot90sym(ICON)).toFixed(3);
 	diag.innerHTML=(diagsym(ICON)).toFixed(3);
 	odiag.innerHTML=(odiagsym(ICON)).toFixed(3);
+	lines.innerHTML=(countlines(ICON)).toFixed(3);
+	cmbox.innerHTML=(cm(ICON)).toFixed(3);
+	brot.innerHTML=(blackrot90sym(ICON)).toFixed(3);
+	bsym.innerHTML=(blackvsymm(ICON)).toFixed(3);
 }
 </script>
 </head>
@@ -196,6 +290,11 @@ Jenica's Measures
 <tr><td>Rotational Symmetry 180</td><td id='rot180'></td></tr>
 <tr><td>Rotational Symmetry 90</td><td id='rot90'></td></tr>
 <tr><td>Complexity</td><td id='blockentropy'></td></tr>
+<tr><td>Number Lines</td><td id='lines'></td></tr>
+<tr><td>CM Equilibrium</td><td id='cmbox'></td></tr>
+<tr><td>Black Rotational Symmetry</td><td id='brot'></td></tr>
+<tr><td>Black Vertical Symmetry</td><td id='bsym'></td></tr>
+
 <tr><td></td><td></td></tr>
 <tr><td></td><td></td></tr>
 </table>
