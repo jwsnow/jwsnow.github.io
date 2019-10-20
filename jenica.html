@@ -265,7 +265,8 @@ function findMeasures(){
 	cmbox.innerHTML=(cm(ICON)).toFixed(3);
 	brot.innerHTML=(blackrot90sym(ICON)).toFixed(3);
 	bsym.innerHTML=(blackvsymm(ICON)).toFixed(3);
-	
+		m3.innerHTML=((vsymm(ICON)+cm(ICON)+rot90sym(ICON))/3).toFixed(3);
+		m4.innerHTML=(((vsymm(ICON)+cm(ICON)+rot90sym(ICON))/3)/countlines(ICON)).toFixed(3);
 	m1.innerHTML=((vsymm(ICON)+cm(ICON)+rot90sym(ICON)+equilibrium(ICON))/4).toFixed(3);
 	m2.innerHTML=((vsymm(ICON)+cm(ICON)+rot90sym(ICON)+equilibrium(ICON)+findBlockE(ICON))/5).toFixed(3);
 }
@@ -297,8 +298,11 @@ Jenica's Measures
 <tr><td>CM Equilibrium</td><td id='cmbox'></td></tr>
 <tr><td>Black Rotational Symmetry</td><td id='brot'></td></tr>
 <tr><td>Black Vertical Symmetry</td><td id='bsym'></td></tr>
+
+<tr><td>Vertical Sym + CM + Rot90 </td><td id='m3'></td></tr>
 <tr><td>Vertical Sym + CM + Rot90 + Equilibrium</td><td id='m1'></td></tr>
 <tr><td>Vertical Sym + CM + Rot90 + Equilibrium+Block Diversity</td><td id='m2'></td></tr>
+<tr><td>Birkhoff</td><td id='m4'></td></tr>
 
 <tr><td></td><td></td></tr>
 <tr><td></td><td></td></tr>
