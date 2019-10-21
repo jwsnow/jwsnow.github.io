@@ -269,6 +269,7 @@ function findMeasures(){
 		m4.innerHTML=(((vsymm(ICON)+cm(ICON)+rot90sym(ICON))/3)/countlines(ICON)).toFixed(3);
 	m1.innerHTML=((vsymm(ICON)+cm(ICON)+rot90sym(ICON)+equilibrium(ICON))/4).toFixed(3);
 	m2.innerHTML=((vsymm(ICON)+cm(ICON)+rot90sym(ICON)+equilibrium(ICON)+findBlockE(ICON))/5).toFixed(3);
+	m5.innerHTML=(countlines(ICON)*(vsymm(ICON)+cm(ICON)+rot90sym(ICON)+equilibrium(ICON))/4).toFixed(3);
 }
 </script>
 </head>
@@ -303,6 +304,7 @@ Jenica's Measures
 <tr><td>Vertical Sym + CM + Rot90 + Equilibrium</td><td id='m1'></td></tr>
 <tr><td>Vertical Sym + CM + Rot90 + Equilibrium+Block Diversity</td><td id='m2'></td></tr>
 <tr><td>Birkhoff</td><td id='m4'></td></tr>
+<tr><td>O*C</td><td id='m5'></td></tr>
 
 <tr><td></td><td></td></tr>
 <tr><td></td><td></td></tr>
