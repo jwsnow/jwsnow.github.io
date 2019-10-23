@@ -45,6 +45,7 @@ var C=[];					//Array of colors for display and attractions
 var TRAP=[];				//Keeps track of which points should be constrained
 var theColors=[];			//Array of colors to select for each point
 var PLOTX=X, PLOTY=Z, PLOTSORT=Y;	//When 3D, keeps track of which plane we are projecting to
+var LOST=[];				//Keeps those points that escape the canvas
 
 
 
@@ -191,12 +192,48 @@ function singleBoxConstraint(i,D, k, e, f){
 	}	
 }
 function boxConstraint(D, k, e, f){
-	//This function loops through all points and applies the singleBoxConstraint to the TRAPPED points.
-	var i;
-	for (i=0;i<N;i++){
-		if (TRAP[i])
-			singleBoxConstraint(i,D, k, e, f);
+	//This function loops through all points close to boundary of canvas and applies the singleBoxConstraint.
+	var i,x,y,z,L;
+	var w=1
+	for (x=0;x<GX;x++){
+		y=0;
+		z=GZ-1;
+		{
+			L=PROXLENGTHS[x][y][z];
+			for (i=0;i<L;i++)
+				singleBoxConstraint(PROX[x][y][z][i],D, k, e, f);
+		}
 	}
+	for (x=0;x<GX;x++){
+		y=0;
+		z=0;
+		{
+			L=PROXLENGTHS[x][y][z];
+			for (i=0;i<L;i++)
+				singleBoxConstraint(PROX[x][y][z][i],D, k, e, f);
+		}
+	}	
+	for (z=0;z<GZ;z++){
+		y=0;
+		x=GX-1;
+		{
+			L=PROXLENGTHS[x][y][z];
+			for (i=0;i<L;i++)
+				singleBoxConstraint(PROX[x][y][z][i],D, k, e, f);
+		}
+	}	
+	for (z=0;z<GZ;z++){
+		y=0;
+		x=0;
+		{
+			L=PROXLENGTHS[x][y][z];
+			for (i=0;i<L;i++)
+				singleBoxConstraint(PROX[x][y][z][i],D, k, e, f);
+		}
+	}	
+	L=LOST.length;
+	for (i=0;i<L;i++)
+		singleBoxConstraint(LOST[i],D, k, e, f);
 }
 //end of constraint section ===============================================================
 
@@ -210,7 +247,8 @@ function findProx(){
 		for (y=0;y<GY;y++)
 			for (z=0;z<GZ;z++)
 				PROXLENGTHS[x][y][z]=0;
-				
+	
+	LOST=[];
 	for (i=0;i<N;i++){
 		if (Z[i]>=0) TRAP[i]=true;				//Once a point enters the visible canvas, it is TRAPPED.
 		if (TRAP[i]){
@@ -221,6 +259,8 @@ function findProx(){
 					 j=(PROXLENGTHS[x][y][z]++);
 					PROX[x][y][z][j]=i;
 				}
+				else
+					LOST.push(i); 			//i somehow escaped the canvas
 		}		
 	}
 }
@@ -308,6 +348,9 @@ function onkeydown(){
 	else if (keyChar=='A')
 		startover();
 }
+function onclick(){
+	startloop();
+}
 function drawScene(){
 	var i;
 	background('black');
@@ -318,9 +361,7 @@ function drawScene(){
 		fill();
 	}
 }
-function onclick(){
-	startloop();	
-}
+
 //Setup and Spork Section ================================================================
 function setupArrays(){
 	//This function sets up initial conditions for particles and sets up the proximity array
