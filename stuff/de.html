@@ -224,6 +224,14 @@ function drawticks(){
 	*/
 	}	
 function drawAxis(){
+if (minY==maxY){
+	minY=maxY-1;
+	maxY++;
+}
+if (minX==maxX){
+	minX=maxX-1;
+	maxX++;
+}
 	var dx=(maxX-minX)/10;
 	var dy=(maxY-minY)/10;
 	var x,y;
