@@ -1,0 +1,434 @@
+<!doctype html>
+<html>
+<head>
+<style>
+body{
+	text-align:center;
+}
+canvas{
+	width:800px;
+	max-width: 90%;
+}
+</style>
+<script src='spork.js'>
+//This is a library I wrote to handle the graphics, animation, and input. 
+//After setting up the canvas, the function setup() is executed and then the function draw(). 
+//The function draw() is then executed every animation loop.
+//These functions are at the bottom of the code.
+</script>
+<script src='colors.js'>
+//This library has functions to generate colors scattered evenly around a sphere in RGB space based on the Platonic solids.
+</script>
+<script>
+var N=4000;				//Number of particles
+var WIDTH=1000;			//Width and height of canvas
+var FRAMESKIP=20;			//Number of time steps between displays and proximity check
+var dt=0.01;				//Change in time each cycle
+var dt2over2=dt*dt/2;			//Avoid squaring and dividing every time step
+var dtover2=dt/2;				//Avoid dividing every time step
+var diskRadius=5;			//Particle radius
+var DR2=2*diskRadius;		//Twice partical radius
+var VCAP=200;				//Maximum velocity
+var VCAP2=VCAP*VCAP;		//Square of max velocity for comparing
+var X=[], Y=[], Z=[];			//coordinates of points
+var XO=[]; YO=[]; ZO=[];		//previous coordinates
+var VX=[], VY=[], VZ=[];		//velocities
+var AX=[], AY=[], AZ=[];		//accelerations
+var AXO=[], AYO=[], AZO=[];	//previous accelerations needed for leapfrog
+var FX=[], FY=[], FZ=[];		//forces
+var M=[],W=[];				//masses and 1/masses
+var PROX=[];				//Proximity array. P[x][y] is a list of points in grid box (x,y)
+var PROXLENGTHS=[];		//Lengths of lists in proximity array
+var GR=20;				//Width of each box in the proximity grid
+var GX, GY, GZ;				//Dimensions of proximity array
+var C=[];					//Array of colors for display and attractions
+var TRAP=[];				//Keeps track of which points should be constrained
+var theColors=[];			//Array of colors to select for each point
+var PLOTX=X, PLOTY=Z, PLOTSORT=Y;	//When 3D, keeps track of which plane we are projecting to
+var LOST=[];				//Keeps those points that escape the canvas
+
+
+
+//Constraint Section ==============================================================
+//This section contains functions to impose constraints.  All constraints are imposed by applying forces to one or two points.
+//Most of the forces are spring forces with constant k.
+//Most of the constraints check to see if points are moving toward satisfying the constraint. When they are, damping can be applied with variable e.
+
+function collisionConstraint(i,j,minD,maxD,k,e,a){
+	//Handles the interaction of points i and j
+	//collisionConstraint(i,j,minDistance,maxDistance,springConstant,restitution,attraction)
+	//If i and j are less than minD apart, a spring force with constant k is applied to both points to push them apart.
+	//	If the points are moving apart, this force is damped by multiplying by e.
+	//If i and j are more than maxD apart, a spring force with constant k is applied to both points to bring them together.
+	//Otherwise, if i and j are the same color, an attractive force inversely proportional to the square of the distance between them with constant a is applied.
+	var dx=X[i]-X[j];
+	var dy=Y[i]-Y[j];
+	var dz=Z[i]-Z[j];
+	var vx=VX[i]-VX[j];
+	var vy=VY[i]-VY[j];
+	var vz=VZ[i]-VZ[j];
+	var V;
+	var r;
+	var d2=dx*dx+dy*dy+dz*dz;
+	var d=sqrt(d2); 
+	
+	//Too close together
+	if (d<minD){
+		V=dx*vx+dy*vy+dz*vz;		//use dot product to see if points are moving together or apart
+		if (V<0)
+			r=k*(minD-d); 
+		else
+			r=e*k*(minD-d); 
+		dx=r*dx/d;
+		dy=r*dy/d;
+		dz=r*dz/d;	
+		FX[i]+=dx; FX[j]-=dx;
+		FY[i]+=dy; FY[j]-=dy;
+		FZ[i]+=dz; FZ[j]-=dz;
+	}
+	
+	//Too far apart
+	else if (d>maxD){ 
+		V=dx*vx+dy*vy+dz*vz;
+		if (V>0)
+			r=e*k*(maxD-d); 
+		else
+			r=k*(maxD-d); 
+		dx=r*dx/d;
+		dy=r*dy/d;
+		dz=r*dz/d;	
+		FX[i]+=dx; FX[j]-=dx;
+		FY[i]+=dy; FY[j]-=dy;
+		FZ[i]+=dz; FZ[j]-=dz;
+	}
+	
+	//same color attraction
+	else  if (C[i]==C[j])
+	{
+		dx=a*dx/d2;
+		dy=a*dy/d2;
+		dz=a*dz/d2;	
+		FX[i]-=dx; FX[j]+=dx;
+		FY[i]-=dy; FY[j]+=dy;
+		FZ[i]-=dz; FZ[j]+=dz;	
+	}	
+} //end collisionConstraint
+function allCollisions(minD,maxD,k,e,A){
+	//This function goes through the proximity array and applies a collision constraint to all points that are in the same cell or adjacent cells.
+	//If a point is in a particular cell, it risks collision with the 27 cells in a 3x3x3 box around that cell.
+	//We compare each point only to half of that 3x3x3 box to avoid applying the collision constraints twice.
+	var i,j,k,L,I,L2;
+	var x,y,z,a,b,c;
+	for (x=0;x<GX;x++)
+	for (y=0;y<GY;y++)
+	for (z=0;z<GZ;z++){
+		L=PROXLENGTHS[x][y][z];
+		for (i=0;i<L;i++){
+			I=PROX[x][y][z][i];
+			//center cell
+			for (j=i+1;j<L;j++)
+				collisionConstraint(I, PROX[x][y][z][j], minD,maxD,k,e,A);
+			
+			//topcell
+			a=x; b=y; c=z-1;
+			if (c>=0){
+				L2=PROXLENGTHS[a][b][c];
+				for (j=0;j<L2;j++)
+					collisionConstraint(I, PROX[a][b][c][j], minD,maxD,k,e,A);
+			}
+			//backstack
+			a=x; b=y-1;
+			if (b>=0)
+				for (c=z-1;c<=z+1;c++)
+					if ((c>=0) && (c<GZ)){
+						L2=PROXLENGTHS[a][b][c];
+						for (j=0;j<L2;j++)
+							collisionConstraint(I, PROX[a][b][c][j], minD,maxD,k,e,A);
+					}
+			//side
+			a=x-1;
+			if (a>=0)
+				for (b=y-1;b<=y+1;b++)
+					if ((b>=0) && (b<GY))
+						for (c=z-1;c<=z+1;c++)
+							if ((c>=0) && (c<GZ)){
+								L2=PROXLENGTHS[a][b][c];
+								for (j=0;j<L2;j++)
+									collisionConstraint(I, PROX[a][b][c][j], minD,maxD,k,e,A);
+							}
+		}
+	}	
+}
+function singleBoxConstraint(i,D, k, e, f){
+	//This function applies forces in the X and Z directions to keep point i in the visible canvas.
+	var dx,r;
+	if (Z[i]>WIDTH-D){
+		dx=(Z[i]-WIDTH+D);
+		r=k*dx;
+		if (VZ[i]<=0)
+			r*=e;
+		FZ[i]-=r;	
+	}
+	else if (Z[i]<D){
+		dx=(D-Z[i]);
+		r=k*dx;
+		if (VZ[i]>=0)
+			r*=e;
+		FZ[i]+=r;	
+	}	
+	if (X[i]>width-D){
+		dx=(X[i]-width+D);
+		r=k*dx;
+		if (VX[i]<=0)
+			r*=e;
+		FX[i]-=r;	
+	}
+	else if (X[i]<D){
+		dx=(D-X[i]);
+		r=k*dx;
+		if (VX[i]>=0)
+			r*=e;
+		FX[i]+=r;	
+	}	
+}
+function boxConstraint(D, k, e, f){
+	//This function loops through all points close to boundary of canvas and applies the singleBoxConstraint.
+	var i,x,y,z,L;
+	var w=1
+	for (x=0;x<GX;x++){
+		y=0;
+		z=GZ-1;
+		{
+			L=PROXLENGTHS[x][y][z];
+			for (i=0;i<L;i++)
+				singleBoxConstraint(PROX[x][y][z][i],D, k, e, f);
+		}
+	}
+	for (x=0;x<GX;x++){
+		y=0;
+		z=0;
+		{
+			L=PROXLENGTHS[x][y][z];
+			for (i=0;i<L;i++)
+				singleBoxConstraint(PROX[x][y][z][i],D, k, e, f);
+		}
+	}	
+	for (z=0;z<GZ;z++){
+		y=0;
+		x=GX-1;
+		{
+			L=PROXLENGTHS[x][y][z];
+			for (i=0;i<L;i++)
+				singleBoxConstraint(PROX[x][y][z][i],D, k, e, f);
+		}
+	}	
+	for (z=0;z<GZ;z++){
+		y=0;
+		x=0;
+		{
+			L=PROXLENGTHS[x][y][z];
+			for (i=0;i<L;i++)
+				singleBoxConstraint(PROX[x][y][z][i],D, k, e, f);
+		}
+	}	
+	L=LOST.length;
+	for (i=0;i<L;i++)
+		singleBoxConstraint(LOST[i],D, k, e, f);
+}
+//end of constraint section ===============================================================
+
+//Simulation section ===================================================================
+//These functions drive the actual simulation. 
+//The functions here populate the proximity array, calculate forces and accelerations, and then update velocities and positions.
+function findProx(){
+	var i,j,k;
+	var x,y,z;
+	for (x=0;x<GX;x++)
+		for (y=0;y<GY;y++)
+			for (z=0;z<GZ;z++)
+				PROXLENGTHS[x][y][z]=0;
+	
+	LOST=[];
+	for (i=0;i<N;i++){
+		if (Z[i]>=0) TRAP[i]=true;				//Once a point enters the visible canvas, it is TRAPPED.
+		if (TRAP[i]){
+				x=floor (X[i]/GR);
+				y=floor(Y[i]/GR);
+				z=floor(Z[i]/GR);
+				if ((0<=x) && (0<=y) && (0<=z) && (x<GX) && (y<GY) && (z<GZ)){
+					 j=(PROXLENGTHS[x][y][z]++);
+					PROX[x][y][z][j]=i;
+				}
+				else
+					LOST.push(i); 			//i somehow escaped the canvas
+		}		
+	}
+}
+function findForces(){
+	var i,j,k,L,I,L2;
+	var x,y,z,a,b,c;
+	for (i=0;i<N;i++){
+		FX[i]=0;
+		FY[i]=0;
+		FZ[i]=10;							//Since positive is down in the Spork canvas, gravity is positive.
+	}
+	boxConstraint(diskRadius, 1000, 0.01,0);		//Keep points in visible box
+	allCollisions(DR2,1000000,2000,.01,20);		//Collisions
+}
+
+function findAccelerations(){
+	var i;
+	for (i=0;i<N;i++){
+		AXO[i]=AX[i];						//We keep track of the old acceleration because our integration scheme updates velocity with the average of the previous and current.
+		AYO[i]=AY[i];
+		AZO[i]=AZ[i];
+		AX[i]=FX[i]*W[i];
+		AY[i]=FY[i]*W[i];
+		AZ[i]=FZ[i]*W[i];
+	}
+}
+function updatePositions(){
+	//Positions are updated with projectile motion.
+	var i,x,y,z;
+	for (i=0;i<N;i++){
+		X[i]+=VX[i]*dt+AX[i]*dt2over2;
+		Y[i]+=VY[i]*dt+AY[i]*dt2over2;
+		Z[i]+=VZ[i]*dt+AZ[i]*dt2over2;
+	}
+}
+function updateVelocities(){
+	//We update velocities with the average of the current and previous accelerations. This makes the integration scheme essentially equivalent to leapfrog.
+	var i;
+	for (i=0;i<N;i++){
+		VX[i]=VX[i]+(AX[i]+AXO[i])*dtover2;
+		VY[i]=VY[i]+(AY[i]+AYO[i])*dtover2;
+		VZ[i]=VZ[i]+(AZ[i]+AZO[i])*dtover2;
+	}
+}
+function capVelocities(m){
+	var i,dx,dy,dz,d;
+	
+	for (i=0;i<N;i++){
+		dx=VX[i];
+		dy=VY[i];
+		dz=VZ[i];i
+		d=sqrt(dx*dx+dy*dy+dz*dz);
+		if (d>m){
+			VX[i]=m*dx/d;
+			VY[i]=m*dy/d;
+			VZ[i]=m*dz/d;
+		}
+	}
+}
+function updatePoints(){
+	var i;
+	
+	findProx(); 					//Note that we set up the proximity array every FRAMESKIP frames.
+								//FRAMESKIP is dependent on VCAP to make this work.
+	for (i=0;i<FRAMESKIP;i++) {
+		findForces(); 
+		findAccelerations();
+		updateVelocities();
+		capVelocities(VCAP);
+		updatePositions();
+		}
+}
+//End of simluation section =========================================================
+
+//Control and Display ============================================================
+function onkeydown(){
+	//G and S are go and stop
+	//A to do it again.
+	if(keyChar=='G'){
+		startloop();
+	}
+	else if (keyChar=='S'){
+		stoploop();
+	}
+	else if (keyChar=='A')
+		startover();
+}
+function onclick(){
+	startloop();
+}
+function drawScene(){
+	var i;
+	background('black');
+	for (i=0;i<N;i++)
+	if (TRAP[i]){
+		circle(PLOTX[i], PLOTY[i], diskRadius);
+		fillcolor(C[i]);
+		fill();
+	}
+}
+
+//Setup and Spork Section ================================================================
+function setupArrays(){
+	//This function sets up initial conditions for particles and sets up the proximity array
+	var i,j,k,c,w;
+
+	//Select 8 colors that are the corners of a cube inscribed in a sphere inscribed in RGB space
+	cubeColors(theColors);
+	
+	//Initially the particles are a stack which is w particles wide starting in the center of the canvas.
+	w=30;
+	for (i=0;i<N/w;i++)
+		for (j=0;j<w;j++){
+			X[w*i+j]= j*2.5*diskRadius+2*random()+WIDTH/2-(w/2)*2.5*diskRadius-1;
+			Y[w*i+j]=0;//WIDTH/2;//+random();
+			Z[w*i+j]=height/2-2.5*i*diskRadius;
+		}		
+
+	//Zero out velocities and accelerations
+	for (i=0;i<N;i++){
+		TRAP[i]=false;
+		VX[i]=0; VY[i]=0; VZ[i]=0; 
+		AX[i]=0; AY[i]=0; AZ[i]=0;
+		AXO[i]=0; AYO[i]=0; AZO[i]=0;
+		M[i]=1; W[i]=1;
+		c=floor(i/(N/3))%4;	//select colors so that three colors are used
+		C[i]=theColors[c];
+	}	
+
+	//By setting W=0, we make the first 2w points have infinite mass and be immovable.
+	//This gives a "platform" for the other points to bounce off of.
+	for (i=0;i<2*w;i++){
+		W[i]=0;
+		VZ[i]=0;
+	}
+
+	//Set up proximity array
+	GX=floor(WIDTH/GR);
+	GY=1;//floor(WIDTH/GR);		//This example is 2d with everything trapped inthe XZ plane, so the proximity array is only one block in the Y direction
+	GZ=floor(WIDTH/GR);
+	for (i=0;i<GX;i++){
+		PROX[i]=[];
+		PROXLENGTHS[i]=[];
+		for (j=0;j<GY;j++){
+			PROX[i][j]=[];
+			PROXLENGTHS[i][j]=[];
+			for (k=0;k<GZ;k++){
+				PROX[i][j][k]=[];
+				PROXLENGTHS[i][j][k]=0;
+			}
+		}
+	}
+}
+function setup(){
+	size(WIDTH,WIDTH);
+	setupArrays();
+}
+
+function draw(){
+	updatePoints();
+	updatePoints();
+	drawScene();
+}
+</script>
+</head>
+<body>
+<div id='spork'></div>
+Press "G" to go. Press "A" to do it again.
+<div id='out'></div>
+</body>
+</html>
