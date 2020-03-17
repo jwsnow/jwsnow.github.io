@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Slow Fade</title>
+  <style>
+  body{
+	text-align:center;
+	background: black;
+  }
+  canvas{
+	width:600px;
+	max-width:90%;
+	margin: 20px;
+  }
+    img{
+	max-width:600px;
+	margin: 20px;
+  }
+  </style>
+</head>
+<body>
+  <div>
+    <canvas id="c"></canvas>
+  </div>
+</body>
+<script src="gpu-browser.js"></script>
+<script>
+//random function stuff
+function MUL(x,y){
+	return(x*y);
+}
+function P1(x,y){
+	return(x);
+}
+function P2(x,y){
+	return(y)
+}
+function SINPI(x,y){
+	return(Math.sin(x*Math.PI));
+}
+function COSPI(x,y){
+	return(Math.cos(x*Math.PI));
+}
+function SIN2PI(x,y){
+	return(Math.sin(2*x*Math.PI));
+}
+function COS2PI(x,y){
+	return(Math.cos(2*x*Math.PI));
+}
+function SIN3PI(x,y){
+	return(Math.sin(3*x*Math.PI));
+}
+function COS3PI(x,y){
+	return(Math.cos(3*x*Math.PI));
+}
+function CUBE(x,y){
+	return(x*x*x);
+}
+function SINXXYY(x,y){
+	return(Math.sin(Math.PI*(x*x+y*y)));
+}
+function SINXXXYYY(x,y){
+	return(Math.sin(Math.PI*(x*x*x+y*y*y)));
+}
+function SQUARE(x,y){
+	return(x*x);
+}
+function AVG(x,y){
+	return((x+y)/2);
+}
+function MIN(x,y){
+	if (x<y) return(x);
+	else return(y);
+}
+function MAX(x,y){
+	if (x>y) return(x);
+	else return(y);
+}
+
+
+var theFunctions=['P1','P2','MUL', 'SINPI', 'COSPI','CUBE','SINXXYY','MAX','MIN','SIN2PI','COS2PI','AVG'];
+
+function randomFunction(n){
+	var r,s,t,u;
+	if (n==1){
+		if (Math.random()<0.5)
+			r='x';//r='P1(x,y)'
+		else
+			r='y';//r='P2(x,y)';
+	}
+	else{
+		s=randomFunction(n-1);
+		t=randomFunction(n-1);
+		u=theFunctions[Math.floor(theFunctions.length*Math.random())];
+		if (u=='P1')
+			r=s;
+		else if (u=='P2')
+			r=t;
+		else	
+			r=u+'('+s+','+t+')';
+	}
+	return(r);
+}
+//end random function stuff
+
+  const canvas = document.getElementById('c');
+  const gpu = new GPU({
+    canvas: canvas,
+    mode: 'gpu'
+  });
+  
+ gpu.addFunction(MUL);
+gpu.addFunction(SINPI);
+gpu.addFunction(COSPI);
+gpu.addFunction(CUBE);
+gpu.addFunction(SINXXYY);
+gpu.addFunction(MAX);
+gpu.addFunction(MIN);
+gpu.addFunction(SIN2PI);
+gpu.addFunction(COS2PI);
+gpu.addFunction(AVG);
+
+var theString;
+
+function kernelFunction(obligatoryArgument){
+    var a=frf(this.thread.x/2000-1, this.thread.y/2000-1);
+    var R=a;
+    var G=a;
+    var B=a;
+      this.color( R,G,B);
+    }
+
+function canvasToImg(imageID){
+	var image=canvas.toDataURL("image/png");
+	imageID.src=image;
+}    
+function canvasToNewImg(){
+	var newImage = document.createElement('img');
+	canvasToImg(newImage);
+	document.body.appendChild(newImage);
+}
+
+  function draw(){
+  theString='function frf(x,y){return('+randomFunction(8)+'); }'
+ //theString='function frf(x,y){return('+'SINXXYY(x,y)'+'); }'
+//bug.innerHTML=theString;
+  eval(theString);
+   gpu.addFunction(frf);
+  const dim = 4000;
+  const kernel = gpu.createKernel(
+    kernelFunction,
+    {
+      output: [dim, dim],
+      graphical: true
+    }
+  ); 
+    kernel(0.5);
+    window.setTimeout(draw,1000);
+  }
+
+draw();
+</script>
+</html>
