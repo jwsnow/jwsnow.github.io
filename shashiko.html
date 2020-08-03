@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+<style>
+body{
+	background: rgb(0,0,50);
+	color: white;
+	text-align: center;
+}
+canvas{
+	max-height:800px;
+	max-width: 50%;
+}
+table{
+	margin: auto;
+	text-align: left;
+}
+</style>
+<script src='spork.js'></script>
+<script>
+function setup(){
+	drawing.style.border='none';
+}
+
+function draw(){
+	var htext=horizontal.value;
+	var vtext=vertical.value;
+	var hcodes=[];
+	var vcodes=[];
+	var skip=10;
+	var i,j,t;
+	var start,stop;
+	var correctSelection=true;
+	if (binary.checked){
+		correctSelection=true;
+		hcodes=horizontal.value.split('');
+		vcodes=vertical.value.split('');
+		for (i=0;i<vcodes.length;i++)
+			if ((vcodes[i]!=0) && (vcodes[i]!=1))
+				correctSelection=false;
+		for (i=0;i<hcodes.length;i++)
+			if ((hcodes[i]!=0) && (hcodes[i]!=1))
+				correctSelection=false;
+		if (!correctSelection)
+			alert('Check to see if you have the correct text/binary selection.');
+	}
+	else{
+	for (i=0;i<htext.length;i++)
+		hcodes=hcodes.concat(htext.charCodeAt(i).toString(2).split(''));
+	for (i=0;i<vtext.length;i++)
+		vcodes=vcodes.concat(vtext.charCodeAt(i).toString(2).split(''));	
+	}
+	size((vcodes.length+2)*skip, (hcodes.length+2)*skip);
+	translate(skip,skip);
+	color('white');
+	linewidth(2);
+	for (i=0;i<hcodes.length;i++){
+		save();
+		t=0
+		if (hcodes[i]==0) {
+			translate(skip, 0);
+			t=2;
+		}
+		for (j=0;j<vcodes.length-t-1;j+=2)
+			line(j*skip, i*skip, (j+1)*skip, i*skip);
+		restore();
+	}
+	for (i=0;i<vcodes.length;i++){
+		save();
+		t=0;
+		if (vcodes[i]==0){
+			translate(0,skip);
+			t=2;
+		}
+		for (j=0;j<hcodes.length-t-1;j+=2)
+			line(i*skip, j*skip, i*skip, (j+1)*skip);
+		restore();
+	}
+	
+}
+</script>
+</head>
+<body>
+<div id='spork'></div><br>
+<table>
+<tr><td colspan='2'>Type something in the boxes. Then press the button.</td></tr>
+<tr><td>Horizontal:</td><td> <input type='text' value='101010010101' id='horizontal'></td></tr>
+<tr><td>Vertical: </td><td><input type='text' value='11001100110011' id='vertical'></td></tr>
+<tr><td></td><td><input type='radio' id='text' name='inputtype'> <label for='text'>Text </label></td></tr>
+<tr><td></td><td><input type='radio' id='binary' name='inputtype' checked='true'> <label for='binary'>Binary </label></td></tr>
+</table>
+<button id='go' onclick='draw();'>DRAW IT</button>
+</body>
+</html>
