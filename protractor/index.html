@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+<style>
+#controldiv{
+	position: fixed;
+	top:10px;
+}
+#pro{
+	position: fixed;
+	width: 300px;
+	top:100px;
+	left:100px;
+	transform:   rotate(0deg);
+	z-index:1;
+}
+.slider{
+	width: 300px;
+	z-index:2;
+}	
+#anglestomeasure{
+	margin-top:100px;
+	max-width:90%;
+}
+</style>
+<script>
+var mouseX=0;
+var mouseY=0;
+var offsetX=0;
+var offsetY=0;
+var mouseDown=false;
+var dragging=false;
+
+		function getCoords(e){
+			mouseX=e.clientX;
+			mouseY=e.clientY;
+		}
+
+		function mouseDownFunction (e){ 
+			e.preventDefault();
+			t=e.target;
+			mouseDown=true;
+			if (e.touches)
+				getCoords(e.touches[0]);
+			else
+				getCoords(e);
+			var brect =  pro.getBoundingClientRect();
+			offsetX=mouseX-brect.left;
+			offsetY=mouseY-brect.top;
+			dragging=true;
+		}
+		function mouseUpFunction(e){
+			mouseDown=false;
+			dragging=false;
+		}
+		
+		function movingFunction(e){
+			var brect;
+			if (mouseDown){
+				if (e.touches)
+					getCoords(e.touches[0]);
+				else
+					getCoords(e);
+				if (dragging){
+							pro.style.top=(mouseY-offsetY)+'px';
+							pro.style.left=(mouseX-offsetX)+'px';
+				}
+			}
+		}
+		window.onload = function(){
+			document.onmouseup = mouseUpFunction;
+			document.ontouchend =mouseUpFunction;
+			document.onmousemove=movingFunction;
+			document.ontouchmove=movingFunction;
+			pro.onmousedown=mouseDownFunction;
+			pro.ontouchstart=mouseDownFunction;
+	pro.addEventListener('touchstart', mouseDownFunction, false);
+	pro.addEventListener('touchend', mouseUpFunction, false);			
+	pro.addEventListener('touchmove', movingFunction, false);
+		}
+
+var theSize=300;
+
+function rotateSlider(){
+	pro.style.transform='rotate('+rotationSlider.value+'deg)';
+}
+function scaleSlider(){
+	pro.style.width=theSize*scalingSlider.value/100+'px';
+}
+</script>
+</head>
+<body>
+<div id='controldiv'>
+Rotate: <input type='range' min="0" max="360" value="0" class='slider' id='rotationSlider' onInput="rotateSlider();"> <br>
+Scale: <input type='range' min="0" max="200" value="100"  class='slider' id='scalingSlider' onInput="scaleSlider();"> <br>
+</div>
+<img src='angles.png' id='anglestomeasure'>
+<img src='protractorSquare.png' id='pro'>
+</body>
+</html>
