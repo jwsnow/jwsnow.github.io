@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+<style>
+#controldiv{
+	position: fixed;
+	top:10px;
+}
+#pro{
+	position: fixed;
+	width: 600px;
+	top:100px;
+	left:100px;
+	transform:   rotate(0deg);
+	z-index:1;
+}
+.slider{
+	width: 300px;
+	z-index:2;
+}	
+#anglestomeasure{
+	width:800px;
+	margin-top:100px;
+	width: 800px;
+}
+</style>
+<script>
+var mouseX=0;
+var mouseY=0;
+var offsetX=0;
+var offsetY=0;
+var mouseDown=false;
+var dragging=false;
+
+		function getCoords(e){
+			mouseX=e.clientX;
+			mouseY=e.clientY;
+		}
+
+		function mouseDownFunction (e){ 
+			e.preventDefault();
+			t=e.target;
+			mouseDown=true;
+			if (e.touches)
+				getCoords(e.touches[0]);
+			else
+				getCoords(e);
+			var brect =  pro.getBoundingClientRect();
+			offsetX=mouseX-brect.left;
+			offsetY=mouseY-brect.top;
+			dragging=true;
+		}
+		function mouseUpFunction(e){
+			mouseDown=false;
+			dragging=false;
+		}
+		
+		function movingFunction(e){
+			var brect;
+			if (mouseDown){
+				if (e.touches)
+					getCoords(e.touches[0]);
+				else
+					getCoords(e);
+				if (dragging){
+							pro.style.top=(mouseY-offsetY)+'px';
+							pro.style.left=(mouseX-offsetX)+'px';
+				}
+			}
+		}
+		window.onload = function(){
+			document.onmouseup = mouseUpFunction;
+			document.ontouchend =mouseUpFunction;
+			document.onmousemove=movingFunction;
+			document.ontouchmove=movingFunction;
+			pro.onmousedown=mouseDownFunction;
+			pro.ontouchstart=mouseDownFunction;
+	pro.addEventListener('touchstart', mouseDownFunction, false);
+	pro.addEventListener('touchend', mouseUpFunction, false);			
+	pro.addEventListener('touchmove', movingFunction, false);
+		}
+
+var theSize=600;
+
+function rotateSlider(){
+	pro.style.transform='rotate('+rotationSlider.value+'deg)';
+}
+function scaleSlider(){
+	pro.style.width=theSize*scalingSlider.value/100+'px';
+}
+</script>
+</head>
+<body>
+
+<img src='segments.png' id='anglestomeasure'>
+<img src='ruler.png' id='pro'>
+</body>
+</html>
