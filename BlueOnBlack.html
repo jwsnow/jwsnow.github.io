@@ -48,8 +48,14 @@ Two or three may be really neat.<br>
 If you are on a phone, this might crash your browser after a few images.
 </div>
 <canvas id="c"></canvas>
+<br>
+<div id='caption'></div>
 </div>
 </body>
+<script src='nouns.js'></script>
+<script src='adjectives.js'></script>
+<script src='animals.js'></script>
+
 <script src="gpu-browser.js"></script>
 <script>
 function go(){
@@ -279,6 +285,9 @@ var THESEED=Math.random()*Math.pow(2,16);
 	); 
 
 	kernel(theColors[Math.floor(Math.random()*theColors.length)]);
+caption.innerHTML=adjectives[Math.floor(Math.random()*adjectives.length)]+' '+
+animals[Math.floor(Math.random()*animals.length)]+'\'s '+
+nouns[Math.floor(Math.random()*nouns.length)];
 //	canvasToNewImg();
 //	if (counter++ < 100) window.requestAnimationFrame(draw);
 if (counter++ < 100) setTimeout(draw, 5000);
