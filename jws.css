@@ -91,3 +91,7 @@ img.art{
 	margin-top:20px;
 	margin-bottom: 20px;
 }
+div.imgtitle{
+	text-align: center;
+	font-weight: bold;
+}
