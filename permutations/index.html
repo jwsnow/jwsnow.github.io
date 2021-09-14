@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+<style></style>
+<script src='spork.js'></script>
+<script>
+
+function star(m,n){
+    k=m%(2*n)
+    if (k<n)
+        r=k
+    else
+        r=2*n-k-1
+    return r
+}
+
+function perm(m,n,o){
+	var i;
+	var p=[];
+    if (n==1)
+        o[0]=0;
+    else{
+	for (i=0;i<n;i++) p[i]=0;
+        perm(floor(m/n), n-1, p)
+        k=star(m,n)
+        for (i=0;i<k;i++)
+            o[i]=p[i]
+        o[k]=n-1
+        for (i=k+1;i<n;i++)
+            o[i]=p[i-1]       
+	}	    
+}
+function printPerm(p){
+	var l=p.length;
+	var i;
+	var s=p[0];
+	for (i=1;i<l;i++)
+		s+=', '+p[i];
+	return(s)	
+}
+function drawPerm(p, x, y, w){
+	var n=p.length;
+	var R=w/n; 
+	var i,j;
+	color('black');
+	linewidth(20)
+	rect(x,y,w,w);
+	linewidth(10);
+	color('red');
+	for (i=0;i<w;i+=R){
+		line(x,y+i,x+w,y+i);
+		line(x+i, y, x+i, y+w);
+	}
+	linewidth(20);
+	for (i=0;i<n;i++){
+		circle(x+p[i]*R+R/2, y+i*R+R/2,0.2*R);
+		fill();
+	}
+	for (i=0;i<n;i++)
+	for (j=0;j<n;j++){
+		circle(x+i*R+R/2, y+j*R+R/2, 0.2*R)
+		if (i==p[j]) fillcolor('blue');
+		else fillcolor('white');
+		fill();
+		fillrect(x+i*R, y+j*R, R, R);
+	}
+	
+	for (i=0;i<w;i+=R){
+		line(x,y+i,x+w,y+i);
+		line(x+i, y, x+i, y+w);
+	}
+	color('black');
+	linewidth(40)
+	rect(x,y,w,w);	
+}
+var theGrid=[
+[20,1,11,5,3,2],
+[23,12,0,17,16,13],
+[4,7,19,6,10,22],
+[15,18,8,14,21,9]
+];
+function setup(){
+	size(4000,4000);
+	background(rgb(184,172,142));
+	background('white');
+}
+function draw(){
+	var x,y;
+	var r=floor(width/max(theGrid.length,theGrid[0].length)); 
+	var p=[];
+	var s;
+	for (y=0;y<theGrid.length;y++)
+	for (x=0;x<theGrid[0].length;x++)
+	{
+		perm(theGrid[y][x],4,p); 
+		drawPerm(p,x*r,y*r,r);
+	}
+/*
+var i;
+	for (i=0;i<24;i++){
+		perm(i,4,o);
+		out.innerHTML+=i+' -- '+printPerm(o)+'<br>';
+	}
+*/	
+}
+
+</script>
+</head>
+<body>
+<div id='spork'></div>
+<div id='out'></div>
+</body>
+</html>
