@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+<head>
+<style>
+html{
+	height:100%;
+	width:100%;
+}
+body{
+  width: 100%;
+  height: 100%;
+  display:table;
+  margin:0px;
+  text-align: center;
+}
+div.content{
+  width: 100%;
+  height: 100%;
+	display:table-cell;
+	background:black;
+	color: white;
+	font-size: 18px;
+	vertical-align: middle;
+	text-align: center;
+}
+canvas{
+max-width:75%;max-height: 800px;
+margin: auto;
+}
+img{
+	display: none;
+}
+</style>
+<script src='spork.js'></script>
+<script src='rancomp.js'></script>
+<script>
+var WIDTH=1000;
+var IMAGEWIDTH=Math.max(WIDTH,1000);
+var NUMIMAGES=10000;
+var R=[], G=[], B=[],A=[];
+var theFunctions=['P1','P2','MUL', 'SINPI', 'COSPI','CUBE','SINXXYY','max','min','SIN2PI','COS2PI','AVG','NOISE'];
+
+function NOISEx(x,y){
+	return(random());
+}
+function getColors(P){
+	var i,x,y;
+	size(IMAGEWIDTH,IMAGEWIDTH);
+	drawImage(P, width/2, height/2, width, height); 
+	copyImageData(R,G,B,A);
+	for (x=0;x<IMAGEWIDTH;x++)
+	for (y=0;y<IMAGEWIDTH;y++){
+		R[x][y]=R[x][y]/128-1;
+		G[x][y]=G[x][y]/128-1;
+		B[x][y]=B[x][y]/128-1;
+	}
+	size(WIDTH,WIDTH);
+}
+
+
+function lerp(a,b,t){
+	return(t*b+(1-t)*a);
+}
+function lerpArray(a,x,y){
+var ox=x;
+var oy=y;
+	var width=a.length;
+	var height=a[0].length;
+	var X, Y, X1, Y1;
+	var a1, a2,r;
+	if (x<0) x=0;
+	else if (x>=width-1){
+		x=width-1;
+		X=width-1;
+		X1=width-1;
+	}
+	else{
+		X=floor(x);
+		X1=X+1
+	}
+	if (y<0) y=0;
+	else if (y>=height-1){
+		y=height-1;
+		Y=height-1;
+		Y1=height-1;
+	}
+	else{
+		Y=floor(y);
+		Y1=Y+1;
+	}
+	x=x-X;
+	y=y-Y	
+
+	a1=lerp(a[X][Y],a[X1][Y],x);
+	a2=lerp(a[X][Y1], a[X1][Y1],x);
+
+	r=(lerp(a1,a2,y));
+//	console.log('=='+ox.toFixed(4)+' '+oy.toFixed(4)+' '+X+' '+X1+' '+Y+' '+Y1+' '+a1.toFixed(4)+' '+a2.toFixed(4)+' '+r.toFixed(4));
+	return(r);
+}
+
+function IMAGER(x,y){
+	var X=((x+1)/2)*IMAGEWIDTH;
+	var Y=((y+1)/2)*IMAGEWIDTH;
+	return(lerpArray(R, X,Y));
+}
+function IMAGEG(x,y){
+	var X=((x+1)/2)*IMAGEWIDTH;
+	var Y=((y+1)/2)*IMAGEWIDTH;
+	return(lerpArray(G, X,Y));
+}
+function IMAGEB(x,y){
+	var X=((x+1)/2)*IMAGEWIDTH;
+	var Y=((y+1)/2)*IMAGEWIDTH;
+	return(lerpArray(B, X,Y));
+}
+
+
+var counter=0;
+var ALLOFTHEIMAGES;
+function setup(){
+	ALLOFTHEIMAGES=document.getElementsByTagName('img');
+	getColors(ALLOFTHEIMAGES[0]);
+	size(WIDTH,WIDTH);
+	RNGSEED=floor(random()*1000000);
+//	RNGSEED=1;
+	random=RNG;
+	timestep(2000);
+	loop();
+  }
+function cfr(){};
+function cfg(){};
+function cfb(){};
+function xfn(){};
+function yfn(){};
+function draw(){
+//var imagetouse=ALLOFTHEIMAGES[floor(random()*ALLOFTHEIMAGES.length)];
+//getColors(imagetouse);
+//	clear();
+
+//document.body.innerHTML+='<hr>'+RNGSEED+'<br>';
+	var x,y,a,b,c,d,cr,cg,cb,X,Y;
+	var depth=3+floor(random()*5);
+	var depth=3+floor(random()*5);
+	var fr1=randomFunction(depth-1);
+	var fr2=randomFunction(depth-1);
+	var fr='Z('+fr1+','+fr2+')';
+if ((fr1.length>20) && (fr2.length>20)){
+	eval('xfn=function(x,y){ var c='+fr1+'; return(c);}');	
+	eval('yfn=function(x,y){ var c='+fr2+'; return(c);}');	
+//	setupNoise(2+floor(random()*3));
+	setupNoise(2+floor(random()*10));
+	for (a=0;a<width;a++)
+		for (b=0;b<height;b++){
+			x=2*a/width-1;
+			y=2*b/height-1;
+			X=xfn(x,y);
+			Y=yfn(x,y);
+			cr=floor(255*(IMAGER(X,Y)+1)/2);
+			cg=floor(255*(IMAGEG(X,Y)+1)/2);
+			cb=floor(255*(IMAGEB(X,Y)+1)/2);
+			fillcolor(cr,cg,cb);
+			fillrect(a,b,1,1);
+		}
+	if (counter++>=NUMIMAGES) stoploop();
+}	
+}
+</script>
+</head>
+<body>
+<div class='content'>
+<div id='spork'></div> 
+</div>
+
+<!--
+
+-->
+<img src='dante.jpg' class='baseimage'>
+
+<!--
+<img src='JB2.jpg' class='baseimage'>
+
+<img src='styledstroke.png' class='baseimage'>
+<img src='tut.png' class='baseimage'>
+<img src='robson.jpg' class='baseimage'>
+
+<img src='nature2.jpg' class='baseimage'>
+<img src='seals4.jpg' class='baseimage'>
+
+<img src='DR3.jpg' class='baseimage'>
+<img src='DR7.jpg' class='baseimage'>
+<img src='tangle.jpg' class='baseimage'>
+
+<img src='nature3.jpg' class='baseimage'>
+<img src='nature1.jpg' class='baseimage'>
+
+<img src='seals1.jpg' class='baseimage'>
+<img src='seals3.jpg' class='baseimage'>
+<img src='seals2.jpg' class='baseimage'>
+<img src='roots.jpg' class='baseimage' id='colorImage'>
+<img src='blueflower.jpg' class='baseimage'>
+<img src='cactus.jpg' class='baseimage'>
+<img src='redflower.jpg' class='baseimage'>
+<img src='genesis.png' class='baseimage'>
+<img src='jupiter.png' class='baseimage'>
+<img src='ice.jpg' class='baseimage'>
+<img src='checker.jpg' class='baseimage'>
+<img src='redtree.jpg' class='baseimage'>
+<img src='matisse.png' class='baseimage'>
+<img src='waves.png' class='baseimage'>
+<img src='pollock.png' class='baseimage'>
+<img src='tree.png' class='baseimage'>
+<img src='scream.jpg' class='baseimage'>
+<img src='starry.png' class='baseimage'>
+<img src='monet.png' class='baseimage'>
+<img src='canvas.png' class='baseimage'>
+<img src='redandyellow.jpg' class='baseimage'>
+<img src='roots.jpg' class='baseimage'>
+-->
+
+</body>
+</html>
