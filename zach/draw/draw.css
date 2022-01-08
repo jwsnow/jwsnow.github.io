@@ -1,0 +1,104 @@
+body{
+  background-color: white;
+}
+#wrapper{
+  background-color: white;
+  width:80%;
+  margin:auto;
+  border-radius: 10px;
+  overflow: hidden;
+}
+#titleDiv{
+  text-align: center;
+  background-color: white;
+  color: black;
+  font-family: helvetica;
+  font-size: 40px;
+  text-shadow: ;
+  padding: 10px;
+}
+#primaryNavigation{
+  text-align: center;
+  border-bottom: 1px solid lightgray;
+}
+#content{
+  padding: 10px;
+  text-align: center;
+}
+#secondaryNavigation{
+
+  text-align: right;
+  border-top: 1px solid lightgray;
+  font-size: 12px;
+  padding-right: 10px;
+  clear:both;
+}
+p{text-indent: 30px;
+}
+#titleImage{
+  height: 80px;
+  vertical-align: middle;
+}
+img.smallRight{
+  height: 200px;
+  float: right;
+  margin: 10px;
+}
+img.smallLeft{
+  height: 200px;
+  float: left;
+  margin: 10px;
+}
+img.smallCenter{
+  height:200px;
+  display:block;
+  margin:auto;
+}
+div.tab{
+  display:inline-block;
+  width: 12%;
+}
+p.ref{
+  margin:30px;
+  text-indent: -30px;
+}
+div.pensize{
+  width:20px;
+  background:black;
+  padding:0px;
+  border:none;
+  display: inline-block;
+}
+div.one{
+  height:1px;
+}
+div.five{
+  height:5px;
+}
+div.ten{
+  height:10px;
+}
+div.fifteen{
+  height:15px;
+}
+div.twenty{
+  height:20px;
+}
+div.twentyfive{
+  height:25px;
+}
+div.red{
+  background: red;
+}
+div.orange{
+  background: orange;
+}
+div.yellow{
+  background: yellow;
+}
+div.blue{
+  background: blue;
+}
+div.green{
+  background: green;
+}

@@ -1,0 +1,13 @@
+function setup(){
+  
+}
+function draw(){
+  var x,y,i,r;
+  
+  for (i=0; i<20; i=1+i){
+  x = width*random();
+  y = height*random();
+  r = min(x,y,width-x,height-y);
+  circle(x,y,r);
+  }
+}

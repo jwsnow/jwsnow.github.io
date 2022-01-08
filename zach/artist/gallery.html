@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+  <title>Photo Gallery</title>
+  <link rel="stylesheet" href="gallery.css">
+  <style>
+  #galleryTab{
+    background: lightgray;
+  }
+  </style>
+
+  <script>
+  theCaptions=[	"<i>Wall Drawing No. 821</i> A square is divided horizontally and vertically into four equal parts, each with a different direction of alternating flat black and glossy black bands, 1997",
+  			"<i>Geometric Structures</i>, 1979",
+  			"<i>Incomplete Open Cube No.5-6</i>",
+  			"<i>Pyramid (Ref 5)</i>, 1985",
+  			"<i>Scribbles (Lisson)</i>, 2006",
+  			"<i>Wall Drawings, 2006</i>",
+  			"<i>Wall Drawings, 2006</i>",
+  			"<i>Wall Drawings, 2006</i>",
+  ];
+
+  theImages=[	"images/821.jpg",
+  			"images/geostructures.jpg",
+  			"images/opencube.jpg",
+  			"images/pyramid5.jpg",
+  			"images/scribbles.jpg",
+  			"images/walldrawings1.jpg",
+  			"images/walldrawings2.jpg",
+  			"images/walldrawings3.jpg",
+  ];
+  var currentImage=0;
+  var lastImage=theImages.length-1;
+    function closeGallery(){
+      gallery.style.display='none';
+    }
+    function showGallery(n){
+      photo.src=theImages[n];
+      currentImage=n;
+      caption.innerHTML=theCaptions[n];
+      if (currentImage==0)
+      leftArrow.style.display='none';
+      else
+      leftArrow.style.display='block';
+      if (currentImage==lastImage)
+      rightArrow.style.display='none';
+      else
+      rightArrow.style.display='block';
+      gallery.style.display='table'; //will change tuesday
+    }
+  </script>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleBar">SOL LEWITT <b>//</b> LISSON GALLERY</div>
+    <div id="mainNavigation">A selection of gallery works by Sol Lewitt.</div>
+    <div id="primaryNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+    </div>
+    <div id="content">
+      <button class='thumb' onclick='showGallery(0);'><img class='thumb' src='thumbnails/821.png' /></button>
+      <button class='thumb' onclick='showGallery(1);'><img class='thumb' src='thumbnails/geostructures.png' /></button>
+      <button class='thumb' onclick='showGallery(2);'><img class='thumb' src='thumbnails/opencube.png' /></button>
+      <button class='thumb' onclick='showGallery(3);'><img class='thumb' src='thumbnails/pyramid5.png' /></button>
+      <button class='thumb' onclick='showGallery(4);'><img class='thumb' src='thumbnails/scribbles.png' /></button>
+      <button class='thumb' onclick='showGallery(5);'><img class='thumb' src='thumbnails/walldrawings1.png' /></button>
+      <button class='thumb' onclick='showGallery(6);'><img class='thumb' src='thumbnails/walldrawings2.png' /></button>
+      <button class='thumb' onclick='showGallery(7);'><img class='thumb' src='thumbnails/walldrawings3.png' /></button>
+
+    <div id="secondaryNavigation">Zach Moll</div>
+  </div>
+  <div id='gallery'>
+    <div id='photoDiv'>
+      <img id='photo' />
+      <div id='caption'></div>
+    </div>
+    <button id='rightArrow' onclick='showGallery(currentImage+1);'>&rightarrow;</button>
+    <button id='leftArrow' onclick='showGallery(currentImage-1);'>&leftarrow;</button>
+    <button id='close' onclick='closeGallery();'>X</button>
+  </div>
+</body>
+</html>

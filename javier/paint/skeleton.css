@@ -1,0 +1,79 @@
+fieldset{
+  vertical-align: middle;
+  display: inline-block;
+  color: white;
+  font-family: "Impact";
+  text-align: center;
+  font-size: 20px;
+  padding: 10px;
+  text-shadow: 1px 1px gray;
+  height: 70px;
+}
+div{
+  padding: 10px;
+  margin:  10px;
+}
+#wrapper{
+  background-color: midnightblue;
+  text-align: center;
+  width: 95%;
+  margin: auto;
+  border-radius: 0px;
+  overflow: hidden;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+#content{
+
+}
+#titleBar{
+  color: white;
+  font-family: "Impact";
+  text-align: center;
+  font-size: 70px;
+  padding: 10px;
+  text-shadow: 3px 3px gray;
+}
+div.pensize{
+  width: 20px;
+  background: black;
+  padding: 0px;
+  border: none;
+  display: inline-block;
+}
+div.one{
+  height: 1px;
+}
+div.two{
+  height: 2px;
+}
+div.five{
+  height: 5px;
+}
+div.ten{
+  height: 10px;
+}
+div.twenty{
+  height: 20px;
+}
+div.chartreuse{
+  background: chartreuse;
+}
+div.orangered{
+  background: rgb(255,128,0);
+}
+div.yellow{
+  background: yellow;
+}
+div.cyan{
+  background: cyan;
+}
+div.deeppink{
+  background: deeppink;
+}
+div.deepskyblue{
+  background: deepskyblue;
+}
+div.lightseagreen{
+  background: lightseagreen;
+}

@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+  <script src='spork.js'></script>
+  <script>
+  //paste mark functions above here
+//var f=randomLine;
+var R=[];
+var G=[];
+var B=[];
+var A=[];
+  function setup(){
+
+    size(theImage.width,theImage.height);
+    drawImage(theImage,width/2,height/2,width,height);
+    copyImageData(R,G,B,A);
+    clear();
+    //setupNoise(5);
+    loop();
+  }
+  function draw(){
+  save()
+  var x,y
+  var x1,y1,x2,y2,x3,y3,x4,y4
+  var cx,cy
+  var r
+
+  x=random()*width
+  y=random()*height
+  x1=x+floor(random()*100)
+  y1=y+floor(random()*100)
+  x2=x-floor(random()*100)
+  y2=y+floor(random()*100)
+  x3=x-floor(random()*100)
+  y3=y-floor(random()*100)
+  x4=x+floor(random()*100)
+  y4=y-floor(random()*100)
+  cx=x+floor(random()*100)
+  cy=y+floor(random()*100)
+  r=floor(random()*360)
+
+color(0,0,0,0)
+  quad(x1,y1,x2,y2,x3,y3,x4,y4);
+  clip(theImage.width,theImage.height);
+  drawImage(theImage,cx,cy,width,height,r)
+  restore()
+  }
+
+
+
+  </script>
+</head>
+<body>
+  <div id='spork'></div>
+  <button onclick='stoploop();'>Stop</button>
+  <button onclick='startloop();'>Start</button>
+  <button onclick='startover();'>Start Over</button>
+  <button onclick='canvasToNewImg();'>Make Image</button>
+<br />
+  <img src='jack6.jpg' id='theImage' />
+</body>
+</html>

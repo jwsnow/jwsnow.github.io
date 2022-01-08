@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+  <title>Photo Gallery</title>
+  <link rel="stylesheet" href="gallery.css">
+  <script>
+  theCaptions=[	"A stone etched with a pattern of triangles from the Blombos Cave in South Africa. Some identify this as the oldest example of art.",
+  			"A coin from Knossos in the first century B.C. featuring a labyrinth.",
+  			"The Labyrinth in the Chartres Cathedral in France.",
+  			"A labyrinth by Hans Pedersen featuring in the shape of a face.",
+  			"A labyrinth by Hans Pedersen in the shape of a hand.",
+  			"A sculpture based on a labyrinth pattern in stainless steel by Robert Bosch.",
+  			"A drawing by Robert Bosch based on a cellular automaton.",
+  			"A painting by Cenedra White based on polygonal dissection.",
+  			"A painting by Cenedra White based on polygonal dissection.",
+  			"A painting by Richard Diebenkorn. In 1985, Kirsch and Kirsch developed a phrase structure grammar to mimic the painting style of Richard Diebenkorn.",
+  			"A painting by Joan Miro. In 1985, Kirsch and Kirsch developed a phrase structure grammar to mimic the painting style of Joan Miro.",
+  			"A painting by Piet Mondrian. Paintings of this style can be mimiced with phrase structure grammars.",
+  			"<i>Fifteen Etchings</i> by Sol Lewitt. This piece demonstrates a combinatorial enumeration more or less equivalent to the set of subsets of a four element set."
+  ];
+
+  theImages=[	"images/blombos.png",
+  			"images/knossos.png",
+  			"images/chartreslabyrinth.png",
+  			"images/hanspedersen.png",
+  			"images/hanspedersen2.png",
+  			"images/bosch.png",
+  			"images/boschgameoflife.png",
+  			"images/cenedra1.png",
+  			"images/cenedra2.png",
+  			"images/diebenkorn.png",
+  			"images/miro.png",
+  			"images/mondrian.png",
+  			"images/sollewitt.png"
+  ];
+  var currentImage=0;
+  var lastImage=theImages.length-1;
+    function closeGallery(){
+      gallery.style.display='none';
+    }
+    function showGallery(n){
+      photo.src=theImages[n];
+      currentImage=n;
+      caption.innerHTML=theCaptions[n];
+      if (currentImage==0)
+      leftArrow.style.display='none';
+      else
+      leftArrow.style.display='block';
+      if (currentImage==lastImage)
+      rightArrow.style.display='none';
+      else
+      rightArrow.style.display='block';
+      gallery.style.display='table'; //will change tuesday
+    }
+  </script>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleBar">My Photo Gallery</div>
+    <div id="mainNavigation">some small words by Zachary Moll</div>
+    <div id="content">
+      <button class='thumb' onclick='showGallery(0);'><img class='thumb' src='thumbnails/blombos.png' /></button>
+      <button class='thumb' onclick='showGallery(1);'><img class='thumb' src='thumbnails/knossos.png' /></button>
+      <button class='thumb' onclick='showGallery(2);'><img class='thumb' src='thumbnails/chartreslabyrinth.png' /></button>
+      <button class='thumb' onclick='showGallery(3);'><img class='thumb' src='thumbnails/hanspedersen.png' /></button>
+      <button class='thumb' onclick='showGallery(4);'><img class='thumb' src='thumbnails/hanspedersen2.png' /></button>
+      <button class='thumb' onclick='showGallery(5);'><img class='thumb' src='thumbnails/bosch.png' /></button>
+      <button class='thumb' onclick='showGallery(6);'><img class='thumb' src='thumbnails/boschgameoflife.png' /></button>
+      <button class='thumb' onclick='showGallery(7);'><img class='thumb' src='thumbnails/cenedra1.png' /></button>
+      <button class='thumb' onclick='showGallery(8);'><img class='thumb' src='thumbnails/cenedra2.png' /></button>
+      <button class='thumb' onclick='showGallery(9);'><img class='thumb' src='thumbnails/diebenkorn.png' /></button>
+      <button class='thumb' onclick='showGallery(10);'><img class='thumb' src='thumbnails/miro.png' /></button>
+      <button class='thumb' onclick='showGallery(11);'><img class='thumb' src='thumbnails/mondrian.png' /></button>
+      <button class='thumb' onclick='showGallery(12);'><img class='thumb' src='thumbnails/sollewitt.png' /></button>
+    </div>
+    <div id="secondaryNavigation">Zach Moll</div>
+  </div>
+  <div id='gallery'>
+    <div id='photoDiv'>
+      <img id='photo' />
+      <div id='caption'></div>
+    </div>
+    <button id='rightArrow' onclick='showGallery(currentImage+1);'>&rightarrow;</button>
+    <button id='leftArrow' onclick='showGallery(currentImage-1);'>&leftarrow;</button>
+    <button id='close' onclick='closeGallery();'>X</button>
+  </div>
+</body>
+</html>

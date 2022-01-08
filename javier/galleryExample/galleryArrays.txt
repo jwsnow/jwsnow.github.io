@@ -1,0 +1,29 @@
+theCaptions=[	"A stone etched with a pattern of triangles from the Blombos Cave in South Africa. Some identify this as the oldest example of art.",
+			"A coin from Knossos in the first century B.C. featuring a labyrinth.",
+			"The Labyrinth in the Chartres Cathedral in France.",
+			"A labyrinth by Hans Pedersen featuring in the shape of a face.",
+			"A labyrinth by Hans Pedersen in the shape of a hand.",
+			"A sculpture based on a labyrinth pattern in stainless steel by Robert Bosch.",
+			"A drawing by Robert Bosch based on a cellular automaton.",
+			"A painting by Cenedra White based on polygonal dissection.",
+			"A painting by Cenedra White based on polygonal dissection.",
+			"A painting by Richard Diebenkorn. In 1985, Kirsch and Kirsch developed a phrase structure grammar to mimic the painting style of Richard Diebenkorn.",
+			"A painting by Joan Miro. In 1985, Kirsch and Kirsch developed a phrase structure grammar to mimic the painting style of Joan Miro.",
+			"A painting by Piet Mondrian. Paintings of this style can be mimiced with phrase structure grammars.",
+			"<i>Fifteen Etchings</i> by Sol Lewitt. This piece demonstrates a combinatorial enumeration more or less equivalent to the set of subsets of a four element set."
+];
+
+theImages=[	"images/blombos.png",
+			"images/knossos.png",
+			"images/chartreslabyrinth.png",
+			"images/hanspedersen.png",
+			"images/hanspedersen2.png",
+			"images/bosch.png",
+			"images/boschgameoflife.png",
+			"images/cenedra1.png",
+			"images/cenedra2.png",
+			"images/diebenkorn.png",
+			"images/miro.png",
+			"images/mondrian.png",
+			"images/sollewitt.png"
+];

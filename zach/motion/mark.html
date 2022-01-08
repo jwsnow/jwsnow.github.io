@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+  <title>
+    Motion
+  </title>
+  <link rel="stylesheet" href="motion.css"/>
+  <style>
+  #markTab{
+    background: lightgray;
+  }
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleDiv">
+      <b>MOTION</b>
+    </div>
+    <div id="primaryNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+      <div class="tab" id="fuzzballTab"><a href="fuzzball.html">Fuzz Ball</a></div>
+      <div class="tab" id="creatureTab"><a href="creature.html">Creature</a></div>
+      <div class="tab" id="circlesTab"><a href="circles.html">Circles</a></div>
+      <div class="tab" id="brownianTab"><a href="brownian.html">Brownian</a></div>
+      <div class="tab" id="markTab"><a href="mark.html">Marks</a></div>
+    </div>
+    <div id="content">
+
+            <script src="spork.js"></script>
+            <script>
+            function mark(x,y){
+               //var x,y;
+            var vx,vy;
+            var ax,ay;
+            var r;
+              var i;
+
+              // x=width*random();
+              //y=height*random();
+              vx=2*(random()-0.5);
+              vy=2*(random()-0.5);
+              ax=0;
+              ay=0.01;
+              r=random()*200;
+
+              //clear();
+              for(i=0;i<r;i=i+1){
+              line(x,y,x+vx,y+vy);
+
+              x=x+vx;
+              y=y+vy;
+
+              vx=vx+ax;
+              vy=vy+ay;
+              }
+            }
+
+            function setup(){
+              clear();
+             loop();
+            }
+            function draw(){
+              var x,y;
+              color(0,0,0,0.2);
+              x=width*random();
+              y=height*random();
+              mark(x,y);
+
+            }
+            </script>
+            <div id="spork"></div>
+              <button onclick='stoploop();'>Stop</button>
+              <button onclick='startloop();'>Start</button>
+              <button onclick='startover();'>Start Over</button>
+            </div>
+    </div>
+
+    <div id="secondaryNavigation">
+      Zachary Moll | Math 142 | <a href="http://www.cune.edu" target="NEW">CUNE</a>
+    </div>
+  </div>
+</body>
+</html>

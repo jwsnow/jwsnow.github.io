@@ -1,0 +1,104 @@
+body{
+  background-color: lightgray;
+}
+#wrapper{
+  background-color: rgb(62,64,66);
+  width: 95%;
+  margin: auto;
+  border-radius: 10px;
+  overflow: hidden;
+}
+#titleBar{
+  background-color: rgb(22,86,117);
+  color: white;
+  font-family: courier;
+  text-align: center;
+  font-size: 70px;
+  padding: 10px;
+  text-shadow: 3px 3px darkgray;
+}
+#primaryNavigation{
+  background-color: rgb(22,117,86);
+  font-size: 35px;
+  font-family: courier;
+  text-align: center;
+  padding: 20px;
+  border-top: 10px dotted rgb(22,86,117);
+  border-bottom: 10px dotted rgb(62,64,66);
+}
+#content{
+  font-family: courier;
+  padding: 20px;
+  color: white;
+}
+#secondaryNavigation{
+  clear: both;
+  background-color: rgb(22,86,117);
+  color: white;
+  text-align: center;
+  font-family: courier;
+  font-size: 15px;
+  padding: 10px;
+  border-top: 10px dotted rgb(62,64,66);
+}
+p{
+  text-indent: 30px;
+}
+#titleBarImage{
+  height: 120px;
+  border-radius: 20px;
+  padding: 10px;
+  vertical-align: middle;
+}
+img.mediumLeft{
+  height: 280px;
+  float: left;
+  border-radius: 20px;
+  padding-top: 1px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 1px;
+}
+img.mediumRight{
+  height: 280px;
+  float: right;
+  border-radius: 20px;
+  padding-top: 1px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+img.mediumRightdist{
+  height: 280px;
+  float: right;
+  border-radius: 30px;
+  padding-top: 20px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+img.mediumCenter{
+  height: 280px;
+  border-radius: 20px;
+  display: block;
+  margin: auto;
+  padding: 10px;
+}
+div.tab{
+  display: inline-block;
+  width: 23%;
+}
+div.tab a{
+  text-decoration: none;
+}
+p.ref{
+  margin-left: 60px;
+  margin-right: 60px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-indent: -30px;
+}
+a:link{
+  color: white;
+}
+a:visited{
+  color: white;
+}

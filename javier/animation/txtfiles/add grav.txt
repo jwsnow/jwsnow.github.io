@@ -1,0 +1,31 @@
+var x,y;
+var vx,vy;
+var ax,ay;
+var r;
+var speed = 5;
+
+function bounce(){
+  var e=0.5;
+  
+  if (x>width-r)
+    vx=-e*abs(vx);
+  else if (x<r)
+    vx=e*abs(vx);
+  
+  if (y>height-r)
+    vy=-e*abs(vy);
+  else if (y<r)
+    vy=e*abs(vy);
+}
+
+function setup(){
+  x=random()*width;
+  y=random()*height;
+  vx=speed*(random()-0.5);
+  vy=speed*(random()-0.5);
+  ax=0;
+  ay=0.01;
+  r=5;
+  
+  loop();
+}

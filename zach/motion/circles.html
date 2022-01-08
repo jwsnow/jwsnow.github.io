@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+  <title>
+    Motion
+  </title>
+  <link rel="stylesheet" href="motion.css"/>
+  <style>
+  #circlesTab{
+    background: lightgray;
+  }
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleDiv">
+      <b>MOTION</b>
+    </div>
+    <div id="primaryNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+      <div class="tab" id="fuzzballTab"><a href="fuzzball.html">Fuzz Ball</a></div>
+      <div class="tab" id="creatureTab"><a href="creature.html">Creature</a></div>
+      <div class="tab" id="circlesTab"><a href="circles.html">Circles</a></div>
+      <div class="tab" id="brownianTab"><a href="brownian.html">Brownian</a></div>
+      <div class="tab" id="markTab"><a href="mark.html">Marks</a></div>
+    </div>
+    <div id="content">
+
+            <script src="spork.js"></script>
+            <script>
+            function setup(){
+              /*
+              Set the number of miliseconds to wait
+              between drawing. The larger this number is,
+              the slower the animation will be.
+              */
+              timestep(100);
+              //call loop to make the draw function be
+              //called repeatedly.
+              loop();
+              clear();
+            }
+            function draw(){
+              //random coordinates
+              var x=random()*width;
+              var y=random()*height;
+              var r=min(x, y, width-x, height-y);
+
+              //draw filled circle
+              circle(x,y,r);
+              color(0,0,0,.4);
+              fill();
+              fillcolor(0,0,0,.4);
+            }
+
+            </script>
+            <div id="spork"></div>
+              <button onclick='stoploop();'>Stop</button>
+              <button onclick='startloop();'>Start</button>
+              <button onclick='startover();'>Start Over</button>
+            </div>
+    </div>
+    <div id="secondaryNavigation">
+      Zachary Moll | Math 142 | <a href="http://www.cune.edu" target="NEW">CUNE</a>
+    </div>
+  </div>
+</body>
+</html>

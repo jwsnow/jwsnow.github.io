@@ -1,0 +1,91 @@
+* {
+  margin:0px;
+  padding:0px;
+}
+.but{
+  border: none;
+  text-shadow: 3px 3px gray;
+  background-color: rgb(32,178,170);
+  color: white;
+  font-family:"Impact";
+  font-size: 20px;
+  height: 25px;
+  width: 100px;
+}
+.but:hover{
+  background-color: rgb(8,141,165);
+}
+ul, ol {
+  list-style:none;
+}
+.nav > li {
+  float: none;
+  display:inline-block;
+}
+.nav li a {
+  margin-bottom: 1px;
+  margin-right: 10px;
+  background-color: rgb(32,178,170);
+  color: white;
+  text-decoration:none;
+  padding:10px 12px;
+  display:inline-block;
+  width: 200px;
+}
+.nav li a:hover {
+  background-color: rgb(8,141,165);
+}
+.nav li ul {
+  position: absolute;
+  z-index: 100;
+  display: none;
+  min-width:140px;
+}
+.nav li:hover > ul {
+  display:block;
+}
+.nav li ul li {
+  position:relative;
+}
+.nav li ul li ul {
+  right:-140px;
+  top:0px;
+}
+div{
+  padding: 0px;
+  margin:  0px;
+}
+#header {
+  text-shadow: 3px 3px gray;
+  text-align: center;
+  margin:auto;
+  width:100%;
+  font-family:"Impact";
+  font-size: 20px;
+  padding: 4px;
+}
+#wrapper{
+  background-color: rgb(32,178,170);
+  text-align: center;
+  width: 95%;
+  margin: auto;
+  border-radius: 0px;
+  overflow: hidden;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+#titleBar{
+  color: white;
+  font-family: "Impact";
+  text-align: center;
+  font-size: 70px;
+  padding: 10px;
+  text-shadow: 3px 3px gray;
+}
+#content{
+  padding: 50px;
+  align-items: center;
+}
+canvas{
+  max-width: 90%;
+}

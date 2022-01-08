@@ -1,0 +1,33 @@
+function symmetricPoint(x,y){
+  save();
+  for (i=0;i<=3;i=i+1){
+    fillrect(y,x,1,1);
+    fillrect(x,y,1,1);
+    rotate(90);
+  }
+  restore();
+}
+
+function setup(){
+  //size(200,200);
+  translate(width/2, height/2);
+  setupNoise(100);
+}
+
+function draw(){
+  var c;
+  
+  circle(0,0,100);
+  clip();
+  for (x=0; x<=width; x=x+1){
+    for (y=0; y<=width/2; y=y+1){
+      c=noise(x/width,y/height);
+      if (c>0){
+        fillcolor('black');
+      }
+      else
+        fillcolor('white');
+        symmetricPoint(x,y);
+    }
+  }
+}

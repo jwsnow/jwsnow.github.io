@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+<head>
+  <title>FOR LOOPS</title>
+  <link rel="stylesheet" href="skeleton.css">
+  <style>
+#homeTab{
+  text-decoration: underline;
+}
+</style>
+  <script src="spork.js"></script>
+  <script>
+    function creature(x,y,r){
+  	   save();
+       translate(x,y);
+       scale(r/200);
+       translate(200,200);
+       color("darkcyan");
+       fillcolor("darkcyan");
+
+       //Arms------------------------
+
+       //Right Arm
+       save();
+       translate(0,-10);
+       linewidth(15);
+       line(0,0,90,25,120,-10);
+       translate(120,-22)
+       circle(0,0,20);
+       fill();
+       translate(10,-10);
+       color("white");
+       fillcolor("white");
+       circle(0,0,10);
+       fill();
+       restore();
+
+       //Left Arm
+       save();
+       translate(0,-10);
+       linewidth(15);
+       line(0,0,-90,25,-120,-10);
+       translate(-120,-22)
+       circle(0,0,20);
+       fill();
+       translate(-10,-10);
+       color("white");
+       fillcolor("white");
+       circle(0,0,10);
+       fill();
+       restore();
+
+       //Legs-----------------------
+       save();
+       color("darkcyan");
+
+       //Left Leg 1
+       save();
+       translate(-62,100);
+       linewidth(15);
+       line(0,-5,-10,40,10,80,-15,80);
+       restore();
+
+       //Left Leg 2
+       save();
+       translate(-20,100);
+       linewidth(15);
+       line(0,-5,-10,40,10,80,-15,80);
+       restore();
+
+       //Right Leg 1
+       save();
+       translate(62,100);
+       linewidth(15);
+       line(0,-5,10,40,-10,80,15,80);
+       restore();
+
+       //Right Leg 2
+       save();
+       translate(20,100);
+       linewidth(15);
+       line(0,0,10,40,-10,80,15,80);
+       restore();
+       restore();
+
+       //Body------------------------
+
+       //Main ellipse
+       color('darkcyan');
+       fillcolor('darkcyan');
+       ellipse(0,0,35,90);
+       fill();
+
+       //Short ellipse
+       save();
+       color("midnightblue");
+       fillcolor("midnightblue");
+       translate(0,92);
+       ellipse(0,-20,77,40);
+       fill();
+       restore();
+
+       //Middle shirt ellipse
+       save();
+       color("darkslateblue");
+       fillcolor("darkslateblue");
+       ellipse(0,10,40,70);
+       fill();
+       restore();
+
+       //Left shirt ellipse
+       save();
+       color("darkslateblue");
+       fillcolor("darkslateblue");
+       translate(-27,0);
+       rotate(30);
+       ellipse(0,0,25,90);
+       fill();
+       restore();
+
+       //Right shirt ellipse
+       save();
+       color("darkslateblue");
+       fillcolor("darkslateblue");
+       translate(27,0);
+       rotate(-30);
+       ellipse(0,0,25,90);
+       fill();
+       restore();
+
+       //Horns-----------------------
+
+       //Color ellipse
+       save();
+       color('darkorange');
+       fillcolor('darkorange');
+       translate(0,-150);
+       ellipse(0,0,130,60);
+       fill();
+
+       //White ellipse
+       color('white');
+       fillcolor('white');
+       translate(0,-25);
+       ellipse(0,0,130,60);
+       fill();
+       restore();
+
+
+       //Head------------------------
+       save();
+       translate(0,-90);
+       ellipse(0,0,100,60);
+       fill();
+       restore();
+
+       //Eyes------------------------
+
+       //Eyelids
+       save();
+       translate(0,-140);
+       circle(-40,0,40);
+       fill();
+       circle(40,0,40);
+       fill();
+
+       //Limbus
+       linewidth(3);
+       color('lightgrey');
+       fillcolor('white');
+       circle(-50,0,35);
+       fill();
+       circle(50,0,35);
+       fill();
+
+       //Pupil
+       color('black');
+       fillcolor('black');
+       circle(-60,-10,20);
+       fill();
+       circle(60,10,20);
+       fill();
+
+       //Iris
+       color('white');
+       fillcolor('white');
+       circle(-60,-10,5);
+       fill();
+       circle(60,10,5);
+       fill();
+       restore();
+
+       //Mouth-----------------------
+
+       //Mouth hole
+       save()
+       color('black');
+       fillcolor('black');
+       translate(30,-75);
+       rotate(-10);
+       ellipse(0,0,55,30,-10,180);
+       fill();
+       restore();
+
+       //Teeth
+       save();
+       color('white');
+       fillcolor('white');
+       translate(62.5,-81.5);
+       triangle(0,-3,7.5,5,15,-7);
+       fill();
+       translate(-16,3.5);
+       triangle(0,-3,7.5,5,15,-7);
+       fill();
+       translate(-16,3.5);
+       triangle(0,-3,7.5,5,15,-7);
+       fill();
+       translate(-16,3.5);
+       triangle(0,-3,7.5,5,15,-7);
+       fill();
+       translate(-16,3.5);
+       triangle(0,-3,7.5,5,15,-7);
+       fill();
+       translate(-16,4);
+       triangle(0,-3,7.5,5,15,-7);
+       fill();
+       restore();
+       restore();
+         }
+
+     function setup(){}
+     function draw(){
+       creature(0,0,200);
+        }
+    </script>
+  </head>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleBar">Fun With For Loops</div>
+    <div id="mainNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+        <div class="tab" id="clipTab"><a href="clip.html">Clipped Art</a></div>
+        <div class="tab" id="creatureTab"><a href="creature.html">Creature Grid</a></div>
+        <div class="tab" id="circleTab"><a href="circle.html">Circle Pattern</a></div>
+      </div>
+    <div id="content">
+      <div id="spork"></div>
+    </div>
+    <div id="secondaryNavigation"></div>
+  </div>
+</body>
+</html>

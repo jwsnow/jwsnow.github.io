@@ -1,0 +1,84 @@
+  small=25;
+
+  function randomColor(){
+    var lineColors =['rgba(173,0,102,0.8)',
+             'rgba(209,61,148,0.8)',
+             'rgba(245,133,31,0.8)',
+             'rgba(202,218,42,0.8)',
+             'rgba(129,164,185,0.8)',
+             'rgba(207,232,246,0.8)'];
+
+    c=lineColors.random();
+    fillcolor(c);
+    color(c);
+  }
+
+  function myF1(x,y,w,h){
+    //rect(x,y,w,h);
+    save();
+    randomColor();
+    circle(x+(w/4),y+(h/2),min(w,h)/4);
+    fill();
+    circle(x+(3*w/4),y+(h/2),min(w,h)/4);
+    fill();
+    restore();
+  }
+
+  function myF2(x,y,w,h){
+    //rect(x,y,w,h);
+    save();
+    randomColor();
+    circle(x+w/2,y+h/2,min(w,h)/2);
+    fill();
+    restore();
+  }
+
+  function myF3(x,y,w,h){
+	//rect(x,y,w,h);
+    save();
+    linewidth(2);
+    randomColor();
+    line(x+w/2,y,
+         x+w/4,y+h/4,
+         x+3*w/4,y+3*h/4,
+        x+w/2,y+h);
+    restore();
+  }
+
+  function myF4(x,y,w,h){
+	//rect(x,y,w,h);
+    save();
+    linewidth(2);
+    randomColor();
+    arc(x+w/4,y+h/2,min(w,h)/4,0,180);
+    arc(x+3*w/4,y+h/2,min(w,h)/4,180,0);
+    restore();
+  }
+
+  function mgrid(x,y,w,h){
+    var l,k;
+    var funcs=[myF1,
+               myF2,
+               myF3,
+               myF4];
+    
+    if ((w<small)||(h<small)||(random()<0.005)){
+      z=funcs.random()(x,y,w,h);
+    }
+    else if(w>h){         //WIDE
+      l=random()*w;
+      mgrid(x,y,l,h);     //LEFT
+      mgrid(x+l,y,w-l,h); //RIGHT
+    }
+    else{                 //TALL
+      k=random()*h;
+      mgrid(x,y,w,k);     //TOP
+      mgrid(x,y+k,w,h-k); //BOTTOM
+    }
+  }
+  function setup(){
+    size(600,400);
+  }
+  function draw(){
+    mgrid(0,0,width,height);
+  }

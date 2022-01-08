@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+  <title>
+    More Fun With For Loops
+  </title>
+  <link rel="stylesheet" href="morefunwithforloops.css"/>
+  <style>
+  #creatureTab{
+    background: lightgray;
+  }
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleDiv">
+      <b>MORE FUN WITH FOR LOOPS</b>
+    </div>
+    <div id="primaryNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+      <div class="tab" id="circlegridTab"><a href="circlegrid.html">Circle Grid</a></div>
+      <div class="tab" id="creaturegridTab"><a href="creaturegrid.html">Creature Grid</a></div>
+      <div class="tab" id="colorgridTab"><a href="colorgrid.html">Random Color</a></div>
+      <div class="tab" id="creaturerandomTab"><a href="creaturerandom.html">Random Creature</a></div>
+      <div class="tab" id="quiltTab"><a href="quilt.html">Class Design</a></div>
+      <div class="tab" id="sol2Tab"><a href="sol2.html">Sol Lewitt</a></div>
+    </div>
+    <div id="content">
+
+
+      <script src="spork.js"></script>
+      <script>
+
+
+      function f1(x,y,r){
+      save();
+      translate(x,y);
+      scale(r/200);
+      //draw below this line
+      	linewidth(20);
+      	color('black');
+    	line(-200,0,0,-200);
+      	line(0,-200,-200,0);
+     	line(0,200,200,0);
+      	circle(-100,100,30);
+
+      //draw above this line
+      restore();
+    }
+
+    function f2(x,y,r){
+      save();
+      translate(x,y);
+      scale(r/200);
+      //draw below this line
+     	linewidth(20);
+      	line(-200,0,200,0);
+      	line(-200,100,200,100);
+      	line(0,-200,0,200);
+      color('darkblue');
+      	circle(100,-100,40);
+      //draw above this line
+      restore();
+    }
+
+    function f3(x,y,r){
+      save();
+      translate(x,y);
+      scale(r/200);
+      //draw below this line
+      color('darkblue');
+     	linewidth(20);
+      	circle(0,0,100)
+
+      //draw above this line
+      restore();
+    }
+    function f4(x,y,r){
+      save();
+      translate(x,y);
+      scale(r/200);
+      //draw below this line
+      color('black');
+     	linewidth(20);
+      	line()
+
+      //draw above this line
+      restore();
+    }
+    function setup(){
+
+    }
+    function draw(){
+      var x,y;
+      var r=20;
+      var theFunctions=[f1,f2];
+      var f;
+      for(x=r;x<width;x=x+2*r){
+        for(y=r;y<height;y=y+2*r){
+          f=theFunctions.random();
+          f(x,y,r);
+        }
+      }
+    }
+      </script>
+    </head>
+    <body>
+      <div id="wrapper">
+        <div id="titleBar"></div>
+        <div id="mainNavigation"></div>
+        <div id="content">
+          <div id="spork"></div>
+        </div>
+
+    </div>
+    <div id="secondaryNavigation">
+      Zachary Moll | Math 142 | <a href="http://www.cune.edu" target="NEW">CUNE</a>
+    </div>
+  </div>
+</body>
+</html>

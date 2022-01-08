@@ -1,0 +1,94 @@
+div{
+  padding: 0px;
+  margin:  0px;
+}
+#wrapper{
+  width:80%;
+  margin:auto;
+}
+#titleBar{
+  border-bottom: 2px solid black;
+  font-size:50px;
+}
+#mainNavigation{
+  font-size:12px;
+}
+#content{
+ width:50%;
+}
+#secondaryNavigation{
+
+}
+#primaryNavigation{
+  text-align: center;
+  border-bottom: 1px solid lightgray;
+}
+button.thumb{
+width:120px;
+height:120px;
+border: 1px solid black;
+border-radius:0px;
+background: lightgray;
+margin:3px;
+}
+img.thumb{
+width:100px;
+height:100px;
+}
+#gallery{
+  position:fixed;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.85);
+  display: none;
+}
+#close{
+  position:fixed;
+  top:0px;
+  right:0px;
+  font-size:40px;
+  color:white;
+  background:none;
+  border:none;
+  outline:none;
+}
+#caption{
+  color:white;
+}
+#photoDiv{
+  display: table-cell;
+  vertical-align:middle;
+  text-align:center;
+}
+#photo{
+  max-width:600px;
+  max-height:600px;
+}
+#leftArrow{
+  position:fixed;
+  left:0px;
+  top:0px;
+  height:100%;
+  width:40%;
+  background: none;
+  border:none;
+  outline:none;
+  font-size:40px;
+  color:white;
+  text-align: left;
+}
+#rightArrow{
+  position:fixed;
+  right:0px;
+  top:0px;
+  height:100%;
+  width:40%;
+  background: none;
+  border:none;
+  outline:none;
+  font-size:40px;
+  color:white;
+  text-align: right;
+}

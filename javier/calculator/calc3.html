@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+<style>
+table{
+  border-collapse:collapse;
+  }
+button{
+  padding:0px;
+  margin:0px;
+  }
+td{
+  padding:0px;
+  margin:0px;
+  }
+button.number{
+  width:105px;
+  height: 85px;
+  font-family: "Comic Sans MS";
+  border-radius: 0px;
+  font-size: 50px;
+  }
+button.clear{
+  width:105px;
+  height: 85px;
+  font-family: "Comic Sans MS";
+  border-radius: 0px;
+  font-size: 50px;
+  }
+button.plus{
+  width:105px;
+  height: 85px;
+  font-family: "Comic Sans MS";
+  border-radius: 0px;
+  font-size: 50px;
+  }
+button.minus{
+  width:105px;
+  height: 85px;
+  font-family: "Comic Sans MS";
+  border-radius: 0px;
+  font-size: 50px;
+  }
+button.mult{
+  width:105px;
+  height: 85px;
+  font-family: "Comic Sans MS";
+  border-radius: 0px;
+  font-size: 50px;
+  }
+button.division{
+  width:105px;
+  height: 85px;
+  font-family: "Comic Sans MS";
+  border-radius: 0px;
+  font-size: 50px;
+  }
+button.leftp{
+  width:105px;
+  height: 85px;
+  font-family: "Comic Sans MS";
+  border-radius: 0px;
+  font-size: 50px;
+  }
+button.rightp{
+  width:105px;
+  height: 85px;
+  font-family: "Comic Sans MS";
+  border-radius: 0px;
+  font-size: 50px;
+  }
+button.point{
+  width:105px;
+  height: 85px;
+  font-family: "Comic Sans MS";
+  border-radius: 0px;
+  font-size: 50px;
+  }
+button.equal{
+  width:105px;
+  height: 170px;
+  font-family: "Comic Sans MS";
+  border-radius: 0px;
+  font-size: 50px;
+  }
+#display{
+  width:420px;
+  height:85px;
+  background: darkgray;
+  font-family: "Comic Sans MS";
+  color: white;
+  font-size:50px;
+  text-align: right;;
+  line-height: 85px;
+  vertical-align: middle;
+  overflow: hidden;
+  }
+</style>
+<script>
+function clearDisplay(){
+  display.innerHTML="";
+}
+function insertCharacter(x){
+  display.innerHTML=display.innerHTML+x;
+}
+function equals(){
+  var input=display.innerHTML;
+  display.innerHTML=eval(input);
+}
+</script>
+</head>
+<body>
+  <table>
+    <tr>
+      <td colspan="4">
+        <div id="display"></div>
+      </td>
+    </tr>
+    <tr>
+      <td><button class="number" onclick="insertCharacter('1');">1</button></td>
+      <td><button class="number" onclick="insertCharacter('2');">2</button></td>
+      <td><button class="number" onclick="insertCharacter('3');">3</button></td>
+      <td><button class="clear" onclick="clearDisplay();">C</button></td>
+    </tr>
+    <tr>
+      <td><button class="number" onclick="insertCharacter('4');">4</button></td>
+      <td><button class="number" onclick="insertCharacter('5');">5</button></td>
+      <td><button class="number" onclick="insertCharacter('6');">6</button></td>
+      <td rowspan="2"><button class="equal" onclick="equals();">=</button></td>
+    </tr>
+    <tr>
+      <td><button class="number" onclick="insertCharacter('7');">7</button></td>
+      <td><button class="number" onclick="insertCharacter('8');">8</button></td>
+      <td><button class="number" onclick="insertCharacter('9');">9</button></td>
+    </tr>
+    <tr>
+      <td><button class="point" onclick="insertCharacter('.');">.</button></td>
+      <td><button class="number" onclick="insertCharacter('0');">0</button></td>
+      <td><button class="plus" onclick="insertCharacter('+');">+</button></td>
+      <td><button class="minus" onclick="insertCharacter('-');">-</button></td>
+    </tr>
+    <tr>
+      <td><button class="leftp" onclick="insertCharacter('(');">(</button></td>
+      <td><button class="rightp" onclick="insertCharacter(')');">)</button></td>
+      <td><button class="division" onclick="insertCharacter('/');">&divide;</button></td>
+      <td><button class="mult" onclick="insertCharacter('*');">&times;</button></td>
+    </tr>
+  </table>
+</body>
+</html>

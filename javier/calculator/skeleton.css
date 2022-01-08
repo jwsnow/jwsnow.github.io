@@ -1,0 +1,27 @@
+div{
+  padding: 10px;
+  margin:  10px;
+}
+#wrapper{
+  text-align: center;
+
+}
+#titleBar{
+  background-color: rgb(220,86,117);
+  color: white;
+  font-family: "Comic Sans MS";
+  text-align: center;
+  font-size: 70px;
+  padding: 10px;
+  text-shadow: 3px 3px gray;
+  border-radius: 20px;
+}
+#mainNavigation{
+
+}
+#content{
+
+}
+#secondaryNavigation{
+
+}

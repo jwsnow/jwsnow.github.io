@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+  <title>Symmetry</title>
+  <link rel="stylesheet" href="skeleton.css">
+  <style>
+#homeTab{
+  text-decoration: underline;
+}
+</style>
+  <script src="spork.js"></script>
+  <script>
+    var R=[];
+    var G=[];
+    var B=[];
+    var A=[];
+    function setup(){
+      size(theImage.width,theImage.height);
+      drawImage(theImage,width/2,height/2,width,height);
+      copyImageData(R,G,B,A);
+      clear();
+      setupNoise(5);
+      loop();
+      color(0,0,0,0);
+    }
+    function draw(){
+      save();
+
+      var x1,y1,x2,y2,x3,y3,x4,y4,c1,c2;
+
+      cx = random()*width;
+      cy = random()*height;
+      bx = 50;
+      by = 50;
+
+      x1 = cx - random()*bx;
+      y1 = cy - random()*by;
+      x2 = cx + random()*bx;
+      y2 = cy - random()*by;
+      x3 = cx + random()*bx;
+      y3 = cy + random()*by;
+      x4 = cx - random()*bx;
+      y4 = cy + random()*by;
+
+      quad(x1,y1,x2,y2,x3,y3,x4,y4);
+      clip();
+      cx = random()*width;
+      cy = random()*height;
+      r = random()*360;
+      drawImage(theImage,cx,cy,width,height,r);
+      restore();
+    }
+
+    </script>
+  </head>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleBar">Symmetry</div>
+    <div id="mainNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+        <div class="tab" id="cowTab"><a href="cowspots.html">Cow Spots</a></div>
+        <div class="tab" id="hairTab"><a href="hair.html">Symmetric Hair</a></div>
+        <div class="tab" id="sym1Tab"><a href="sym1.html">Symmetric Circles</a></div>
+        <div class="tab" id="sym2Tab"><a href="sym2.html">Symmetric Quads</a></div>
+        <div class="tab" id="sym3Tab"><a href="sym3.html">Symmetric Squares</a></div>
+      </div>
+    <div id="content">
+      <div id="spork"></div>
+      <button onclick='stoploop();'>Stop</button>
+      <button onclick='startloop();'>Start</button>
+      <button onclick='startover();'>Start Over</button>
+    </div>
+    <img src='2.JPG' id='theImage' />
+    <div id="secondaryNavigation"></div>
+  </div>
+</body>
+</html>

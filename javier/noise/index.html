@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+  <title>Noise</title>
+  <link rel="stylesheet" href="skeleton.css">
+  <style>
+#homeTab{
+  text-decoration: underline;
+}
+</style>
+  <script src="spork.js"></script>
+  <script>
+  function randomColor(){
+  var tr=1;
+
+  var Colors_1 = [rgba(127,255,0,tr),
+                 rgba(255,20,147,tr),
+                 rgba(30,144,255,tr)
+                ];
+
+  var Colors_2 = [rgba(148,0,211,tr),
+                 rgba(0,191,255,tr),
+                 rgba(173,255,47,tr)
+                ];
+
+  var Colors_3 = [rgba(75,0,130,tr),
+                 rgba(124,252,0,tr),
+                 rgba(255,255,0,tr)
+                ];
+
+  var ArrayColor = [Colors_1,
+                    Colors_2,
+                    Colors_3
+                   ];
+
+  q=ArrayColor.random();
+  c=q.random();
+  color(c);
+  fillcolor(c);
+  }
+
+
+function squares(x,y,r){
+  save();
+  translate(x,y);
+  scale(r/200);
+  color(0,0,0);
+  fillcolor(255,255,255);
+  rect(0,0,400,400);
+  fill();
+  h=0;
+  for (w=400;w>10;w=w-10*random()){
+    randomColor();
+    rect(h,h,w,w);
+    fill();
+    h=h+5*random();
+  };
+  restore();
+}
+
+function setup(){
+  size(600,400);
+  timestep(300);
+  loop();
+}
+
+function draw(){
+    x=random()*width-30;
+    y=random()*height-30;
+    r=(random()*110)+20;
+    squares(x,y,r);
+}
+    </script>
+  </head>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleBar">Noise</div>
+    <div id="mainNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+        <div class="tab" id="static"><a href="static.html">Random Static</a></div>
+        <div class="tab" id="smoothTab"><a href="smooth.html">Smooth Static</a></div>
+        <div class="tab" id="funkyTab"><a href="funky.html">Funky Lines</a></div>
+        <div class="tab" id="cowTab"><a href="cow.html">Cow Spots</a></div>
+        <div class="tab" id="hairTab"><a href="hair.html">Hair Motion</a></div>
+        <div class="tab" id="wavyTab"><a href="wavy.html">Wavy Lines</a></div>
+        <div class="tab" id="circleTab"><a href="circle.html">Circle Grid</a></div>
+      </div>
+    <div id="content">
+      <div id="spork"></div>
+      <button onclick='stoploop();'>Stop</button>
+      <button onclick='startloop();'>Start</button>
+      <button onclick='startover();'>Start Over</button>
+    </div>
+    <div id="secondaryNavigation"></div>
+  </div>
+</body>
+</html>

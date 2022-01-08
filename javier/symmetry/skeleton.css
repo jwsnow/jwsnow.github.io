@@ -1,0 +1,53 @@
+div{
+  padding: 0px;
+  margin:  0px;
+}
+#wrapper{
+  text-align: center;
+  width: 95%;
+  margin: auto;
+  border-radius: 0px;
+  overflow: hidden;
+}
+#titleBar{
+  background-color: rgb(119,136,153);
+  color: white;
+  font-family: "Comic Sans MS";
+  text-align: center;
+  font-size: 70px;
+  padding: 10px;
+  text-shadow: 3px 3px gray;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+#mainNavigation{
+  background-color: rgb(119,136,153);
+  color: white;
+  text-shadow: 1px 1px gray;
+  font-size: 22px;
+  font-family: "Comic Sans MS";
+  text-align: center;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  padding: 20px;
+}
+#content{
+  padding: 40px;
+  align-items: center;
+}
+#theImage{
+  display: none;
+}
+div.tab{
+  display: inline-block;
+  width: 16%;
+}
+a:link{
+  color: white;
+}
+a:visited{
+  color: white;
+}
+div.tab a{
+  text-decoration: none;
+}

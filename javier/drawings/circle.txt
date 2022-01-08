@@ -1,0 +1,11 @@
+function setup(){
+  
+}
+function draw(){
+  var x; //variable for x coordinate
+  
+  for (x=40;x<width;x=x+40){
+    //for each value of x 40,80,120,...
+      circle(x,40,10);
+    }
+}

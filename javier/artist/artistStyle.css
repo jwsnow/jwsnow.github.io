@@ -1,0 +1,179 @@
+body{
+  background-color: white;
+}
+#wrapper{
+  background-color: rgb(169,161,122);
+  width: 95%;
+  margin: auto;
+  border-radius: 10px;
+  overflow: hidden;
+}
+#titleBar{
+  background-color: rgb(48,59,65);
+  color: white;
+  font-family: verdana;
+  text-align: center;
+  font-size: 70px;
+  padding: 10px;
+  text-shadow: 3px 3px darkgray;
+}
+#primaryNavigation{
+  background-color: rgb(178,34,34);
+  font-size: 35px;
+  font-family: verdana;
+  text-align: center;
+  padding: 20px;
+  border-top: 10px dotted rgb(48,59,65);
+  border-bottom: 10px dotted rgb(169,161,122);
+}
+#content{
+  font-family: verdana;
+  padding: 20px;
+  color: white;
+  width: 85%;
+  margin: auto;
+}
+#secondaryNavigation{
+  clear: both;
+  background-color: rgb(178,34,34);
+  color: white;
+  text-align: center;
+  font-family: verdana;
+  font-size: 15px;
+  padding: 10px;
+  border-top: 10px dotted rgb(169,161,122);
+}
+p{
+  text-indent: 30px;
+}
+#titleBarImage{
+  height: 120px;
+  border-radius: 20px;
+  padding: 10px;
+  vertical-align: middle;
+}
+img.mediumLeft{
+  height: 280px;
+  float: left;
+  border-radius: 20px;
+  padding-top: 1px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 1px;
+}
+img.mediumRight{
+  height: 280px;
+  float: right;
+  border-radius: 20px;
+  padding-top: 1px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+img.mediumRightdist{
+  height: 280px;
+  float: right;
+  border-radius: 30px;
+  padding-top: 20px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+img.mediumCenter{
+  height: 280px;
+  border-radius: 20px;
+  display: block;
+  margin: auto;
+  padding: 10px;
+}
+div.tab{
+  display: inline-block;
+  width: 23%;
+}
+div.tab a{
+  text-decoration: none;
+}
+p.ref{
+  margin-left: 60px;
+  margin-right: 60px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-indent: -30px;
+}
+a:link{
+  color: white;
+}
+a:visited{
+  color: white;
+}
+button.thumb{
+  width: 150px;
+  height: 150px;
+  border: 1px solid rgb(178,34,34);
+  border-radius: 100px;
+  background: rgb(178,34,34);
+  margin: 5px;
+}
+img.thumb{
+  border-radius: 150px;
+  width: 125px;
+  height: 125px;
+}
+#gallery{
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: none;
+}
+#close{
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  font-size: 40px;
+  border: none;
+  background: none;
+  color: white;
+  outline: none;
+}
+#caption{
+  font-family: "Comic Sans MS";
+  font-size: 20px;
+  color: white;
+}
+#photoDiv{
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+#photo{
+  max-width: 500px;
+  max-height: 500px;
+  background: white;
+}
+#leftButton{
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 40%;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 200px;
+  color: white;
+  text-align: left;
+}
+#rightButton{
+  position: fixed;
+  right: 0px;
+  top: 0px;
+  height: 100%;
+  width: 40%;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 200px;
+  color: white;
+  text-align: right;
+}

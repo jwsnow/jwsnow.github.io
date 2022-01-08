@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+  <title>
+    Noise
+  </title>
+  <link rel="stylesheet" href="noise.css"/>
+  <style>
+  #circlegridTab{
+    background: lightgray;
+  }
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleDiv">
+      <b>NOISE</b>
+    </div>
+    <div id="primaryNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+      <div class="tab" id="randomstaticTab"><a href="randomstatic.html">Random Static</a></div>
+      <div class="tab" id="smoothstaticTab"><a href="smoothstatic.html">Smooth Static</a></div>
+      <div class="tab" id="funkylinesTab"><a href="funkylines.html">Funky Lines</a></div>
+      <div class="tab" id="cowspotsTab"><a href="cowspots.html">Cow Spots</a></div>
+      <div class="tab" id="hairTab"><a href="hair.html">Hair</a></div>
+      <div class="tab" id="wavylinesTab"><a href="wavylines.html">Wavy Lines</a></div>
+      <div class="tab" id="circlegridTab"><a href="circlegrid.html">Circle Grid</a></div>
+    </div>
+    <div id="content">
+
+            <script src="spork.js"></script>
+            <script>
+            function setup(){
+              setupNoise(10);
+            }
+            function draw(){
+              var x,y;
+              var r=5;
+              for(x=r;x<width;x=x+2*r)
+                for(y=r;y<height;y=y+2*r){
+                  circle(x,y,abs(noise(x/width,y/height)));
+                }
+            }
+            </script>
+
+            <div id="spork"></div>
+      <button onclick='stoploop();'>Stop</button>
+      <button onclick='startloop();'>Start</button>
+      <button onclick='startover();'>Start Over</button>
+    </div>
+
+    </div>
+    <div id="secondaryNavigation">
+      Zachary Moll | Math 142 | <a href="http://www.cune.edu" target="NEW">CUNE</a>
+    </div>
+  </div>
+</body>
+</html>

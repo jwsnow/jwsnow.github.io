@@ -1,0 +1,23 @@
+var lineColors = ['teal',
+                   'turquoise',
+                   'yellow',
+                   'skyblue',
+                   'violet'];
+
+function randomLines(x,y,r){
+  save();
+  translate(x,y);
+  rotate(random()*360);
+  line(-r,0,r,0);
+  restore();
+}
+
+function setup(){
+  loop();
+}
+function draw(){
+  var x,y;
+  
+  color(lineColors.random());
+  randomLines(random()*400,random()*400,20);
+}

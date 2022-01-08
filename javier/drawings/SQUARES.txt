@@ -1,0 +1,38 @@
+function randomColor(){
+  var lineColors = [rgba(127,255,0,0.5),
+                    rgba(255,20,147,0.5),
+                    rgba(30,144,255,0.5),
+                     ];
+  c=lineColors.random();
+  color(c);
+  fillcolor(c);
+  }
+
+
+function squares(x,y,r){
+  save();
+  translate(x,y);
+  scale(r/200);
+  color(0,0,0);
+  fillcolor(255,255,255);
+  rect(0,0,400,400);
+  fill();
+  clip();
+  h=0
+  for (w=400;w>10;w=w-10*random()){
+    randomColor();
+    rect(h,h,w,w);
+    fill();
+    clip();
+    h=h+5*random();
+  }
+}
+
+function setup(){
+  loop();
+}
+
+function draw(){
+  clear();
+  squares(0,0,200);
+}

@@ -1,0 +1,67 @@
+var r;
+
+function setup(){
+  setupNoise(400);
+  translate(width/2,height/2);
+  r=width/3;
+  timestep(2000);
+  loop();
+}
+
+var r;
+
+function setup(){
+  setupNoise(200);
+  translate(width/2,height/2);
+  r=width/3;
+  timestep(2000);
+  loop();
+}
+
+function draw(){
+  var x,y,k,j;
+  var i;
+  
+  clear();
+  color('black');
+  fillcolor('black');
+  rect(-width/2,-height/2,width,height);
+  fill();
+  clip();
+  k=floor(random()*8)+2;
+  j=floor(random()*8)+2
+  
+  for (i=0;i<=j;i=i+1){
+    x=random()*r;
+    y=random()*r;
+    randomColor();
+    symmetricCircle(x,y,10,k);
+  }
+}
+
+function randomColor(){
+  var lineColors = ['rgba(173,0,102,0.5)',
+                    'rgba(209,61,148,0.5)',
+                    'rgba(245,133,31,0.5)',
+                    'rgba(202,218,42,0.5)',
+                    'rgba(129,164,185,0.5)',
+                    'rgba(207,232,246,0.5)'];
+  c=lineColors.random();
+  color('black');
+  fillcolor(c);
+}
+
+function symmetricCircle(x1,y1,rad,k){
+  var i;
+  
+  save();
+  for (i=0;i<=k;i=i+1){
+    circle(x1,y1,rad);
+    fill();
+    circle(y1,x1,rad);
+    fill();
+    rotate(360/k);
+  }
+  restore();
+}
+

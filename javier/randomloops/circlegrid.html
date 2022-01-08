@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+  <title>RANDOM FOR LOOPS</title>
+  <link rel="stylesheet" href="skeleton.css">
+  <style>
+#circlegridTab{
+  text-decoration: underline;
+}
+</style>
+  <script src="spork.js"></script>
+  <script>
+  function setup(){
+    background('white');
+  }
+
+  function draw(){
+    //variables for the centers of our circles
+    var x,y;
+    for (x=35;x<width;x=x+65){
+      for (y=35;y<height;y=y+65){
+        circle(x,y,random()*32)
+      }
+    }
+  }
+    </script>
+  </head>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleBar">Randomized Loops</div>
+    <div id="mainNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+        <div class="tab" id="circlegridTab"><a href="circlegrid.html">Circle Grid</a></div>
+        <div class="tab" id="randomsgridTab"><a href="gridrandomradius.html">Random Size Creature</a></div>
+        <div class="tab" id="randomcolorcreatureTab"><a href="gridcolorcreature.html">Random Color Creature</a></div>
+        <div class="tab" id="randomlocationcreatureTab"><a href="randomlocationcreature.html">Random Location Creature</a></div>
+        <div class="tab" id="circlepatternTab"><a href="circlepattern.html">Circle Pattern</a></div>
+        <div class="tab" id="gridshapesTab"><a href="gridshapes.html">Random Grid Shapes</a></div>
+      </div>
+    <div id="content">
+      <div id="spork"></div>
+    </div>
+    <div id="secondaryNavigation"></div>
+  </div>
+</body>
+</html>

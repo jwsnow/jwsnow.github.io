@@ -1,0 +1,34 @@
+function flower(x,y,r,c){
+	save();
+	translate(x,y);
+	scale(r/200);
+	// draw below this line
+	for(d=180;d>0;d=d-20){
+    	rotate(5);
+  		for(x=0;x<360;x=x+20){
+    		save();
+    		rotate(x);
+    		circle(d,0,15*d/150);
+      		fillcolor(c);
+      		fill();
+    		restore();
+  		}
+  	}
+  circle(0,0,25);
+  fill();
+//draw above this line
+restore();
+}
+
+function setup(){
+    size(400,400);
+    }
+
+function draw(){
+    flower(200,200,8,'red');
+    flower(10,100,45,'blue');
+    flower(100,100,25,'yellow');
+    flower(200,100,70,'purple');
+    flower(150,10,25,'orange');
+    flower(300,300,45,'olive');
+    }

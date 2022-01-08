@@ -1,0 +1,51 @@
+function randomLines(x,y,r){
+  save();
+  translate(x,y);
+  rotate(random()*360);
+  line(-r,0,r,0);
+  restore();
+}
+
+function setup(){
+  loop();
+}
+function draw(){
+  var x,y;
+  
+  x = random()*400;
+  y = random()*400;
+  
+  if (x > width-35){
+    x = x-20;
+  }
+                          // Check if x values exceed the square
+  else if (x < 35){
+    x = x + 20;
+  }
+  
+  if (y > height-35){
+    y = y-20
+  }
+                            // Check if y values exceed the square
+  else if (y < 35){
+    y = y + 20;
+  }
+                                              // Quadrant 1
+  if (x < width/2 && y < height/2){
+    color(rgba(255,255,0,0.2));
+  } 
+                                              // Quadrant 2
+  else if (x > width/2 && y < height/2){
+    color(rgba(0,128,128,0.2));
+  }
+                                              // Quadrant 3
+  else if (x < width/2 && y > height/2) {
+    color(rgba(154,205,50,0.2));
+  }
+                                              // Quadrant 4
+  else {
+    color(rgba(199,21,133,0.2));
+  }
+  
+  randomLines(x,y,20);
+}

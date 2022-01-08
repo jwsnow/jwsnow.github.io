@@ -1,0 +1,15 @@
+function setup(){
+  setupNoise(10);
+}
+
+function draw(){
+  var c;
+  
+  for (x=0; x<=width; x=x+1){
+    for (y=0; y<=height; y=y+1){
+      c=floor(128*(noise(x/width,y/height)+1));
+      fillcolor(c,255-c,c);
+      fillrect(x,y,1,1);      
+    }
+  }
+}

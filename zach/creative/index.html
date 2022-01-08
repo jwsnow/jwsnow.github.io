@@ -1,0 +1,204 @@
+<!doctype html>
+<html>
+<head>
+  <title>
+    Creative
+  </title>
+  <link rel="stylesheet" href="creative.css"/>
+  <style>
+  #homeTab{
+    background: lightgray;
+  }
+  canvas{
+  max-height: 90%;
+  }
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleDiv">
+      <b>CREATIVE</b>
+    </div>
+    <div id="primaryNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+      <div class="tab" id="photoshopTab"><a href="photoshop.html">Photoshop</a></div>
+
+    </div>
+    <div id="content">
+            <script src="spork.js"></script>
+            <script>
+            var R
+
+            function randomFillColor(){
+
+            var k;
+
+            k=random()*1;
+
+              //fillcolor(0,0,0,k);
+              color(0,0,0,k);
+
+            }
+
+            function setup(){
+
+              size(1000,1000);
+              R=width/4
+              translate(500,500);
+              setupNoise(5);
+              //color(0,0,0);
+              //loop();
+            }
+            function draw(){
+              var x,y,k,r;
+              var x2,y2;
+              k=4
+              save();
+              for(i=0;i<10;i=i+1){
+                randomFillColor();
+              x=random()*R;
+              y=random()*R;
+               angle=(noise(abs(x/width),abs(y/height))*360);
+              x2=100*COS(angle)+x;
+              y2=100*SIN(angle)+y;
+                linewidth (random()*5);
+              symmetricLine(x,y,x2,y2,4)
+              restore();
+              save();
+              for(i=0;i<50;i=i+1){
+                color(0,0,0,.2)
+              x=random()*R;
+              y=random()*R;
+              smudge(x,y,k);
+              }
+              restore();
+
+              }
+              save();
+              for(i=0;i<10;i=i+1){
+                randomFillColor();
+              x=random()*R;
+              y=random()*R;
+                linewidth (random()*5);
+              hair(x,y);
+              }
+              restore();
+            }
+
+            function mark(x,y,r,k){
+            var vx,vy
+            save();
+            translate (x,y);
+            rotate(noise(abs(x/width),abs(y/height))*360);
+            line(-r,0,r,0);
+
+              symmetricLine(x,y,(x+vx),(y+vy),k);
+
+            restore();
+
+            }
+
+            function hair(x,y){
+              var vx,vy;
+              var i,j;
+              var ang;
+
+              for (i=0;i<R;i=i+1){
+                ang=noise(abs(x/width),abs(y/height))*360;
+                vx=COS(ang);
+                vy=SIN(ang);
+                symmetricLine2(x,y,(x+vx),(y+vy));
+                x=x+vx;
+                y=y+vy;
+              }
+            }
+
+            function symmetricLine(x1,y1,x2,y2,k){
+
+              var x1,y1,x2,y2
+              var i
+              var k
+
+              save();
+              for (i=0;i<k;i=i+1){
+              line(x1,y1,x2,y2);
+              line(y1,x1,y2,x2);
+               rotate(360/k);
+            }
+              restore();
+            }
+
+            function symmetricLine2(x1,y1,x2,y2){
+
+              var x1,y1,x2,y2
+              var i
+              save();
+              for (i=0;i<4;i=i+1){
+              line(x1,y1,x2,y2);
+              line(y1,x1,y2,x2);
+               rotate(90);
+            }
+              restore();
+            }
+
+            function smudge(x,y,k){
+               //var x,y;
+            var vx,vy;
+            //var ax,ay;
+            var r;
+              var i;
+              var a;
+
+
+              // x=width*random();
+              //y=height*random();
+              vx=2*(random()-0.5);
+              vy=2*(random()-0.5);
+              //ax=0;
+              //ay=0.01;
+              r=random()*200;
+
+              //clear();
+              for(i=0;i<500;i=i+1){
+                a=random()*360;
+                vx=2*COS(a)
+                vy=2*SIN(a)
+              line(x,y,x+vx,y+vy);
+
+              x=x+vx;
+              y=y+vy;
+
+              //vx=vx+ax;
+              //vy=vy+ay;
+
+             symmetricLine3(x,y,(x+vx),(y+vy),k);
+              }
+            }
+
+
+            function symmetricLine3(x1,y1,x2,y2,k){
+
+              var x1,y1,x2,y2
+              var i
+              var k
+
+              save();
+              for (i=0;i<k;i=i+1){
+              line(x1,y1,x2,y2);
+              line(y1,x1,y2,x2);
+               rotate(360/k);
+            }
+              restore();
+            }
+            </script>
+
+    </div>
+
+    <div id='spork'></div>
+    <button onclick='startover();'>Start Over</button>
+    <div id="secondaryNavigation">
+      Zachary Moll | Math 142 | <a href="http://www.cune.edu" target="NEW">CUNE</a>
+    </div>
+  </div>
+</body>
+</html>

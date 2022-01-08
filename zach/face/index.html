@@ -1,0 +1,46 @@
+<!doctype html>
+<hmtl>
+<head>
+  <script src="spork.js"></script>
+  <script>
+  function face(x,y,r){
+    save();
+  //set center and radius
+    translate(x,y);
+    scale(r/200);
+
+    //Face
+    color('tan');
+    fillcolor('tan');
+    circle(0,0,190,190);
+    fill();
+
+    //Eyes
+    color('blue');
+    fillcolor('blue');
+    circle(70,-50,20);
+    fill();
+    circle(-70,-50,20);
+    fill();
+
+    //Mouth
+    color('red');
+    linewidth(30);
+    line(-20,50,20,50);
+    restore();
+  }
+
+  function setup(){
+    size(600,400)
+  }
+  function draw(){
+    face(300,200,20);
+    face(400,100,50);
+    face(50,50,20);
+  }
+  </script>
+</head>
+<body>
+  <div id="spork"> </div>
+</body>
+</hmtl>

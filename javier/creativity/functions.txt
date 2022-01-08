@@ -1,0 +1,99 @@
+function setup(){
+  size(1000,1000);
+  timestep(300);
+  loop();
+}
+
+function draw(){
+  
+  var funcs=[circles,
+             squares,
+             triangles];
+  
+  x=random()*width-50;
+  y=random()*height-50;
+  r=(random()*100)+50;
+  z=funcs.random()(x,y,r);
+}
+
+function randomColor(){
+  var tr=1;
+  
+  var Colors_1 = [rgba(127,255,0,tr),
+                 rgba(255,20,147,tr),
+                 rgba(30,144,255,tr)
+                ];
+  
+  var Colors_2 = [rgba(148,0,211,tr),
+                 rgba(0,191,255,tr),
+                 rgba(173,255,47,tr)
+                ];
+  
+  var Colors_3 = [rgba(75,0,130,tr),
+                 rgba(124,252,0,tr),
+                 rgba(255,255,0,tr)
+                ];
+  
+  var ArrayColor = [Colors_1,
+                    Colors_2,
+                    Colors_3
+                   ];
+  
+  q=ArrayColor.random();
+  c=q.random();
+  color(c);
+  fillcolor(c);
+  }
+
+
+function squares(x,y,r){
+  save();
+  translate(x,y);
+  scale(r/200);
+  color(0,0,0);
+  fillcolor(255,255,255);
+  rotate(45*((2*floor(4*random()))+1));
+  rect(0,0,400,400);
+  fill();
+  h=0;
+  for (w=400;w>10;w=w-10*random()){
+    randomColor();
+    rect(h,h,w,w);
+    fill();
+    rotate(2);
+    h=h+5*random();
+  };
+  restore();
+}
+
+function circles(x,y,r){
+  save();
+  translate(x,y);
+  scale(r/600);
+  h=0;
+  rotate(floor(4*random())*90);
+  for (w=400;w>10;w=w-10*random()){
+    randomColor();
+    circle(h,h,w);
+    fill();
+    rotate(2);
+    h=h+5*random();
+  };
+  restore();
+}
+
+function triangles(x,y,r){
+  save();
+  translate(x,y);
+  scale(r/200);
+  h=0;
+  rotate(floor(4*random())*90);
+  for (w=400;w>10;w=w-10*random()){
+    randomColor();
+    ellipse(h,h,w/2,w/4);
+    fill();
+    rotate(2);
+    h=h+5*random();
+  };
+  restore();
+}

@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+  <title>Walsh's Photo Gallery</title>
+  <link rel="stylesheet" href="gallery.css">
+  <script>
+  theCaptions=[	"One of Dan Walsh's painting exhibited in Paula Cooper Gallery in New York.",
+        "Dan Walsh's Stockade exhibited at Elvira Gonzales in Madrid.",
+        "Press by Dan Walsh using pencil and acrylic on canvas.",
+        "Antique white referring to the patters used in Greek pottery.",
+        "Another Dan Walsh'sartwork exhibited in Paula Cooper Gallery.",
+        "Art piece from Walsh's exhibition 'Prints and Multipes' in New York.",
+        "Water color on Arches, where Walsh used heat to capture rhis piece.",
+        "Another art piece from Walsh's exhibition 'Prints and Multipes' in New York.",
+        "Art piece from Walsh's 'Days and Nights' exhibit in Paula Cooper Gallery"
+      ];
+  theImages=["images/1.jpg",
+             "images/2.jpg",
+             "images/3.png",
+             "images/4.jpg",
+             "images/5.jpg",
+             "images/6.jpg",
+             "images/7.jpg",
+             "images/8.jpg",
+             "images/9.jpg",
+        ];
+    var currentImage=0;
+    var lastImage=theImages.length-1;
+
+    function closeGallery(){
+      gallery.style.display='none';
+    }
+    function showGallery(n){
+      photo.src=theImages[n];
+      currentImage=n;
+      caption.innerHTML=theCaptions[n];
+      if (currentImage==0)
+        leftButton.style.display='none';
+      else
+        leftButton.style.display='block';
+      if (currentImage==lastImage)
+        rightButton.style.display='none';
+      else
+        rightButton.style.display='block';
+      gallery.style.display='table';
+    }
+
+  </script>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleBar">Dan Walsh's Photo Gallery</div>
+    <div id="mainNavigation">Photo Gallery by Javier Moreno Silva</div>
+    <div id="content">
+      <button class='thumb' onclick="showGallery(0);"><img class='thumb' src='thumbnails/1.jpg' /></button>
+      <button class='thumb' onclick="showGallery(1);"><img class='thumb' src='thumbnails/2.jpg' /></button>
+      <button class='thumb' onclick="showGallery(2);"><img class='thumb' src='thumbnails/3.png' /></button>
+      <button class='thumb' onclick="showGallery(3);"><img class='thumb' src='thumbnails/4.jpg' /></button>
+      <button class='thumb' onclick="showGallery(4);"><img class='thumb' src='thumbnails/5.jpg' /></button>
+      <button class='thumb' onclick="showGallery(5);"><img class='thumb' src='thumbnails/6.jpg' /></button>
+      <button class='thumb' onclick="showGallery(6);"><img class='thumb' src='thumbnails/7.jpg' /></button>
+      <button class='thumb' onclick="showGallery(7);"><img class='thumb' src='thumbnails/8.jpg' /></button>
+      <button class='thumb' onclick="showGallery(8);"><img class='thumb' src='thumbnails/9.jpg' /></button>
+    </div>
+  </div>
+  <div id='gallery'>
+    <div id='photoDiv'>
+      <img id='photo'  />
+      <div id='caption'></div>
+    </div>
+    <button id='leftButton' onclick="showGallery(currentImage-1)">&leftarrow;</button>
+    <button id='rightButton'onclick="showGallery(currentImage+1)">&rightarrow;</button>
+    <button id='close' onclick="closeGallery();">X</button>
+  </div>
+</body>
+</html>

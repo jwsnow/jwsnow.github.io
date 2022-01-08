@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+  <title>Mondrian</title>
+  <link rel="stylesheet" href="skeleton.css">
+  <style>
+#colorsTab{
+  text-decoration: underline;
+}
+</style>
+  <script src="spork.js"></script>
+  <script>
+  var R=[];
+  var G=[];
+  var B=[];
+  var A=[];
+  function setup(){
+    size(theImage.width,theImage.height);
+    drawImage(theImage,width/2,height/2,width,height);
+    copyImageData(R,G,B,A);
+    clear();
+  }
+small=10;
+
+function myRect(x,y,w,h){
+  x=floor(x);
+  y=floor(y);
+  fillcolor(R[x][y],G[x][y],B[x][y],A[x][y]);
+  rect(x,y,w,h);
+  fill();
+}
+
+function mgrid(x,y,w,h){
+  var l,k;
+
+  if ((w<small)&&(h<small)){
+    myRect(x,y,w,h);
+  }
+  else if(w>h){         //WIDE
+    l=random()*w;
+    mgrid(x,y,l,h);     //LEFT
+    mgrid(x+l,y,w-l,h); //RIGHT
+  }
+  else{                 //TALL
+    k=random()*h;
+    mgrid(x,y,w,k);     //TOP
+    mgrid(x,y+k,w,h-k); //BOTTOM
+  }
+}
+function draw(){
+  mgrid(0,0,width,height);
+}
+    </script>
+  </head>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleBar">Mondrian</div>
+    <div id="mainNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+        <div class="tab" id="rectTab"><a href="rect.html">Rectangles</a></div>
+        <div class="tab" id="ellipseTab"><a href="ellipse.html">Ellipses</a></div>
+        <div class="tab" id="colorsTab"><a href="colors.html">Colors</a></div>
+      </div>
+    <div id="content">
+      <div id="spork"></div>
+      <button onclick="startover();">Start Over</button>
+      <br />
+      <img src='1.jpg' id='theImage'/>
+    </div>
+    <div id="secondaryNavigation"></div>
+  </div>
+</body>
+</html>

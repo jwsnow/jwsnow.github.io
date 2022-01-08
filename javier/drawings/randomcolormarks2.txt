@@ -1,0 +1,39 @@
+function randomColor(){
+  var lineColors = ['teal',
+                   'turquoise',
+                   'yellow',
+                   'skyblue'];
+  
+  color(lineColors.random());
+}
+
+function randomMark(x,y){
+  var vx,vy;
+  var i;
+  var ang;
+  
+
+
+  
+  for (i=0;i<50;i=i+1){
+    ang=random()*360; 
+    vx=1*COS(ang);
+    vy=1*SIN(ang);
+    line(x,y,x+vx,y+vy);
+    x=x+vx;
+    y=y+vy;
+  }
+}
+
+
+function setup(){
+  loop();
+}
+function draw(){
+  var x,y;
+  
+  x=random()*width;
+  y=random()*height;
+  randomColor();
+  randomMark(x,y);
+}

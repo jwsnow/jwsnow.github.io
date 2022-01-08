@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+  <title>Animation</title>
+  <link rel="stylesheet" href="skeleton.css">
+  <style>
+#brownianTab{
+  text-decoration: underline;
+}
+</style>
+  <script src="spork.js"></script>
+  <script>
+  function randomColor(){
+  var lineColors = ['teal',
+                   'turquoise',
+                   'yellow',
+                   'skyblue',
+                   'violet'];
+
+  color(lineColors.random());
+}
+
+function brownian(x,y){
+  var vx,vy;
+  var i;
+  var ang;
+
+  for (i=0;i<100;i=i+1){
+    ang=random()*360;
+    vx=2*COS(ang);
+    vy=2*SIN(ang);
+    line(x,y,x+vx,y+vy);
+    x=x+vx;
+    y=y+vy;
+  }
+}
+
+function setup(){
+  size(400,400);
+  loop();
+}
+
+function draw(){
+  var x,y;
+
+  randomColor();
+  brownian(random()*width,random()*height);
+}
+    </script>
+  </head>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleBar">Animation</div>
+    <div id="mainNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+        <div class="tab" id="fuzzballTab"><a href="fuzzball.html">Fuzz Ball</a></div>
+        <div class="tab" id="bounce_creatureTab"><a href="bounce_creature.html">Bouncing Creature</a></div>
+        <div class="tab" id="spotsTab"><a href="spots.html">Spots</a></div>
+        <div class="tab" id="brownianTab"><a href="brownian.html">Brownian</a></div>
+        <div class="tab" id="randommarkTab"><a href="randommark.html">Random Mark</a></div>
+      </div>
+    <div id="content">
+      <div id="spork"></div>
+      <button onclick='stoploop();'>Stop</button>
+      <button onclick='startloop();'>Start</button>
+      <button onclick='startover();'>Start Over</button>
+    </div>
+    <div id="secondaryNavigation"></div>
+  </div>
+</body>
+</html>

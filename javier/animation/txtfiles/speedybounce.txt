@@ -1,0 +1,36 @@
+var x,y;
+var vx,vy;
+var r;
+var speed = 50;
+
+function bounce(){
+  if (x>width-r)
+    vx=-abs(vx);
+  else if (x<r)
+    vx=abs(vx);
+  
+  if (y>height-r)
+    vy=-abs(vy);
+  else if (y<r)
+    vy=abs(vy);
+}
+
+function setup(){
+  x=random()*width;
+  y=random()*height;
+  vx=speed*(random()-0.5);
+  vy=speed*(random()-0.5);
+  r=2;
+  
+  loop();
+}
+
+function draw(){
+  //clear();
+  circle(x,y,r);
+ 
+  x=x+vx;
+  y=y+vy;
+  
+  bounce();
+}

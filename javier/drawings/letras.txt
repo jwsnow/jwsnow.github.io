@@ -1,0 +1,26 @@
+
+
+function setup(){
+  //translate to the center of the canvas
+  translate(200,200);
+}
+
+function draw(){
+  
+  var angle,color_1,color_2;
+  
+  color_1 = "rgb(155,0,0)";
+  color_2 = "rgb(0,0,155)";
+  
+  for (angle=0;angle<360;angle=angle+20){
+    save();
+    rotate(angle);
+    font('30px comic sans ms');
+    fillcolor(color_2);
+	filltext('8', 100,100); 
+  	filltext('8', 0,100); 
+    filltext('8', 100,0); 
+    restore();
+  }
+
+}

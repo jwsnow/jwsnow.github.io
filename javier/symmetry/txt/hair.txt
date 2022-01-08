@@ -1,0 +1,67 @@
+var r;
+
+function setup(){
+  setupNoise(5);
+  translate(width/2,height/2);
+  r=width/4;
+  timestep(5000);
+  loop();
+}
+
+function draw(){
+  var x,y,k,j;
+  var i;
+  clear();
+  color('black');
+  fillcolor('black');
+  rect(-width/2,-height/2,width,height);
+  fill();
+  clip();
+  k=floor(random()*35)+2;
+  j=floor(random()*99)+2
+  
+  for (i=0;i<=j;i=i+1){
+    x=random()*r;
+    y=random()*r;
+    randomColor();
+    hair(x,y,k);
+  }
+}
+
+function randomColor(){
+  var lineColors = ['teal',
+                   'turquoise',
+                   'yellow',
+                   'skyblue',
+                   'violet',
+                   'hotpink'];
+
+  color(lineColors.random());
+}
+
+function symmetricLine (x1,y1,x2,y2,k){
+  var i;
+  
+  save();
+  for (i=0;i<=k;i=i+1){
+    line(x1,y1,x2,y2);
+    line(y1,x1,y2,x2);
+    rotate(360/k);
+  }
+  restore();
+}
+
+function hair(x,y,k){
+  var vx,vy;
+  var i,j;
+  var ang;
+ 
+  for (i=0;i<r;i=i+1){
+    ang=noise(abs(x/width),abs(y/height))*360;
+    vx=COS(ang);
+    vy=SIN(ang);
+    symmetricLine(x,y,(x+vx),(y+vy),k);
+    x=x+vx;
+    y=y+vy;
+  }
+}

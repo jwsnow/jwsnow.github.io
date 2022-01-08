@@ -1,0 +1,23 @@
+function randomLines(x,y,r){
+  save();
+  translate(x,y);
+  rotate(random()*360);
+  line(-r,0,r,0);
+  restore();
+}
+
+function setup(){
+  loop();
+}
+function draw(){
+  var x,y;
+  
+  x = random()*400;
+  y = random()*400
+  if (x < width/2)
+    color(rgba(255,255,0,0.5));
+  else
+    color(rgba(0,128,128,0.2));
+  
+  randomLines(x,y,20);
+}

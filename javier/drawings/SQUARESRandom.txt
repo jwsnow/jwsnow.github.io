@@ -1,0 +1,62 @@
+function randomColor(){
+  var tr=1;
+  
+  var Colors_1 = [rgba(127,255,0,tr),
+                 rgba(255,20,147,tr),
+                 rgba(30,144,255,tr)
+                ];
+  
+  var Colors_2 = [rgba(148,0,211,tr),
+                 rgba(0,191,255,tr),
+                 rgba(173,255,47,tr)
+                ];
+  
+  var Colors_3 = [rgba(75,0,130,tr),
+                 rgba(124,252,0,tr),
+                 rgba(255,255,0,tr)
+                ];
+  
+  var ArrayColor = [Colors_1,
+                    Colors_2,
+                    Colors_3
+                   ];
+  
+  q=ArrayColor.random();
+  c=q.random();
+  color(c);
+  fillcolor(c);
+  }
+
+
+function squares(x,y,r){
+  save();
+  translate(x,y);
+  scale(r/200);
+  color(0,0,0);
+  fillcolor(255,255,255);
+  rect(0,0,400,400);
+  fill();
+  h=0;
+  for (w=400;w>10;w=w-10*random()){
+    randomColor();
+    rect(h,h,w,w);
+    fill();
+    h=h+5*random();
+  };
+  restore();
+}
+
+function setup(){
+  size(1000,500);
+  timestep(300);
+  loop();
+}
+
+function draw(){
+  //for (i=0;i<5;i=i+1){
+    x=random()*width-50;
+    y=random()*height-50;
+    r=(random()*150)+50;
+    squares(x,y,r);
+  //}
+}

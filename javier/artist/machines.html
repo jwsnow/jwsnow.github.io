@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+  <title>Desmond Paul Henry</title>
+  <link rel="stylesheet" href="artistStyle.css">
+  <script>
+  theImages=["images/m1.jpg",
+             "images/m2.jpg",
+             "images/m3.jpg",
+             "images/m4.jpg",
+             "images/m6.jpg",
+             "images/m7.jpg",
+             "images/m8.jpg",
+             "images/m9.jpg",
+             "images/m10.jpg",
+             "images/m11.jpg",
+             "images/m12.jpg",
+        ];
+    var currentImage=0;
+    var lastImage=theImages.length-1;
+
+    function closeGallery(){
+      gallery.style.display='none';
+    }
+    function showGallery(n){
+      photo.src=theImages[n];
+      currentImage=n;
+      if (currentImage==0)
+        leftButton.style.display='none';
+      else
+        leftButton.style.display='block';
+      if (currentImage==lastImage)
+        rightButton.style.display='none';
+      else
+        rightButton.style.display='block';
+      gallery.style.display='table';
+    }
+  </script>
+  <style>
+  #machinesTab{
+    background-color: rgb(48,59,65);
+    border-radius: 10px;
+  }
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleBar">Desmond Paul Henry</div>
+    <div id="primaryNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+      <div class="tab" id="machinesTab"><a href="machines.html">Machines</a></div>
+      <div class="tab" id="cameralessTab"><a href="cameraless.html">Cameraless</a></div>
+      <div class="tab" id="referencesTab"><a href="references.html">References</a></div>
+    </div>
+    <div id="content">
+      <button class='thumb' onclick="showGallery(0);"><img class='thumb' src='thumbnails/m1.jpg' /></button>
+      <button class='thumb' onclick="showGallery(1);"><img class='thumb' src='thumbnails/m2.jpg' /></button>
+      <button class='thumb' onclick="showGallery(2);"><img class='thumb' src='thumbnails/m3.jpg' /></button>
+      <button class='thumb' onclick="showGallery(3);"><img class='thumb' src='thumbnails/m4.jpg' /></button>
+      <button class='thumb' onclick="showGallery(5);"><img class='thumb' src='thumbnails/m6.jpg' /></button>
+      <button class='thumb' onclick="showGallery(6);"><img class='thumb' src='thumbnails/m7.jpg' /></button>
+      <button class='thumb' onclick="showGallery(7);"><img class='thumb' src='thumbnails/m8.jpg' /></button>
+      <button class='thumb' onclick="showGallery(8);"><img class='thumb' src='thumbnails/m9.jpg' /></button>
+      <button class='thumb' onclick="showGallery(8);"><img class='thumb' src='thumbnails/m10.jpg' /></button>
+      <button class='thumb' onclick="showGallery(8);"><img class='thumb' src='thumbnails/m11.jpg' /></button>
+      <button class='thumb' onclick="showGallery(8);"><img class='thumb' src='thumbnails/m12.jpg' /></button>
+    </div>
+    <div id="secondaryNavigation"><a href="http://jwsnow.com/">John Snow</a> | <a href="http://jwsnow.com/m142">Math 142</a> | <a href="http://www.cune.edu">CUNE</a></div>
+  </div>
+  <div id='gallery'>
+    <div id='photoDiv'>
+      <img id='photo'  />
+    </div>
+    <button id='leftButton' onclick="showGallery(currentImage-1)">&leftarrow;</button>
+    <button id='rightButton'onclick="showGallery(currentImage+1)">&rightarrow;</button>
+    <button id='close' onclick="closeGallery();">X</button>
+  </div>
+</body>
+</html>

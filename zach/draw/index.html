@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+<head>
+  <title>
+    Draw
+  </title>
+  <link rel="stylesheet" href="draw.css"/>
+  <style>
+  #homeTab{
+    background: lightgray;
+  }
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleDiv">
+      <b>DRAW</b>
+    </div>
+    <div id="primaryNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+
+    </div>
+    <div id="content">
+
+            <script src="spork.js"></script>
+            <script>
+var theLineWidth;
+function setup(){
+background('white');
+theLineWidth=1;
+onmousemove=pencil;
+}
+function draw(){
+
+}
+function setPenType(x){
+  onmousemove=x;
+}
+function setLineWidth(x){
+  linewidth(x);
+  theLineWidth=x;
+}
+var lastX, lastY;
+
+// Mouse Down
+function onmousedown(){
+  lastX=mouseX
+  lastY=mouseY
+}
+
+//Mouse drag
+function pencil(){
+  if (mouseDown){
+line(lastX,lastY,mouseX,mouseY);
+  lastX=mouseX
+  lastY=mouseY
+  }
+}
+function fuzz(){
+  if (mouseDown){
+    save();
+      linewidth(1);
+      translate(mouseX,mouseY);
+      rotate(random()*360);
+      line(-theLineWidth,0,theLineWidth,0);
+    restore();
+  }
+}
+function rectangle(){
+  if (mouseDown){
+    save();
+      linewidth(1);
+      //translate(mouseX,mouseY);
+      //rotate(random()*360);
+      rect(mouseX,mouseY,theLineWidth,theLineWidth);
+    restore();
+  }
+}
+function selectEraser(){
+  eraserWidth.checked=true;
+  eraserColor.checked=true;
+  color('white');
+  linewidth(25);
+  onmousemove=pencil;
+
+}
+            </script>
+            <div id="spork"></div>
+
+            <button onclick="background('yellow');">Clear</button>
+            <fieldset>
+              <legend>
+                Pen Type
+              </legend>
+              <input type="radio" name="penType" checked onclick="setPenType(pencil);" /> Pencil
+              <input type="radio" name="penType" onclick="setPenType(fuzz);" /> Fuzz
+              <input type="radio" name="penType" onclick="setPenType(rectangle);" /> Rectangle
+              <input type="radio" name="penType" onclick="selectEraser(fuzz);" /> Eraser
+
+            </fieldset>
+
+            <fieldset>
+              <legend>
+                Pen Size
+              </legend>
+              <input type="radio" name="penSize" checked onclick="setLineWidth(1);" /> <div class='pensize one'></div>
+              <input type="radio" name="penSize" onclick="setLineWidth(5);" /> <div class='pensize five'></div>
+              <input type="radio" name="penSize" onclick="setLineWidth(10);" /> <div class='pensize ten'></div>
+              <input type="radio" name="penSize" onclick="setLineWidth(15);" /> <div class='pensize fifteen'></div>
+              <input type="radio" name="penSize" onclick="setLineWidth(20);" /> <div class='pensize twenty'></div>
+              <input type="radio" name="penSize" onclick="setLineWidth(25);" id='eraserWidth'/> <div class='pensize twentyfive'></div>
+            </fieldset>
+            <fieldset>
+              <legend>
+                Pen Color
+              </legend>
+              <input type="radio" name="penColor" checked onclick="color('black')" /> <div class='pensize five'></div>
+              <input type="radio" name="penColor"  onclick="color('red')" /> red <div class='pensize five red'></div>
+              <input type="radio" name="penColor"  onclick="color('orange')" /> orange <div class='pensize five orange'></div>
+              <input type="radio" name="penColor"  onclick="color('yellow')" /> yellow <div class='pensize five yellow'></div>
+              <input type="radio" name="penColor"  onclick="color('blue')" /> blue <div class='pensize five blue'></div>
+              <input type="radio" name="penColor"  onclick="color('green')" /> green <div class='pensize five green'></div>
+              <input type="radio" name="penColor"  onclick="color('white')" id='eraserColor'/> white <div class='pensize five white'></div>
+            </fieldset>
+
+    </div>
+    <div id="secondaryNavigation">
+      Zachary Moll | Math 142 | <a href="http://www.cune.edu" target="NEW">CUNE</a>
+    </div>
+  </div>
+</body>
+</html>

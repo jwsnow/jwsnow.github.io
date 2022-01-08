@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+<head>
+  <title>
+    Motion
+  </title>
+  <link rel="stylesheet" href="motion.css"/>
+  <style>
+  #creatureTab{
+    background: lightgray;
+  }
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleDiv">
+      <b>MOTION</b>
+    </div>
+    <div id="primaryNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+      <div class="tab" id="fuzzballTab"><a href="fuzzball.html">Fuzz Ball</a></div>
+      <div class="tab" id="creatureTab"><a href="creature.html">Creature</a></div>
+      <div class="tab" id="circlesTab"><a href="circles.html">Circles</a></div>
+      <div class="tab" id="brownianTab"><a href="brownian.html">Brownian</a></div>
+      <div class="tab" id="markTab"><a href="mark.html">Marks</a></div>
+    </div>
+    <div id="content">
+
+            <script src="spork.js"></script>
+            <script>
+            var x,y,r;
+            var vx, vy;
+            var ax, ay;
+            var r;
+
+            function bounce(){
+              var e=0.95;
+
+              if (x>width-r)
+                vx=-e*abs(vx);
+              if (x<r)
+                vx=e*abs(vx);
+              if (y>height-r)
+              vy=-e*abs(vy);
+              if(y<r)
+                vy=e*abs(vy);
+            }
+            function setup(){
+              x=width*random();
+              y=height*random();
+              vx=2*(random()-0.5);
+              vy=2*(random()-0.5);
+              ax=0;
+              ay=0.01;
+              r=40;
+
+              loop();
+            }
+            function draw(){
+              clear();
+
+              dragon(x,y,r);
+
+              //veloctiy
+              x=x+vx;
+              y=y+vy;
+
+              //gravity
+              vx=vx+ax;
+              vy=vy+ay;
+
+              bounce();
+            }
+
+            function dragon(x,y,r){
+            save();
+            translate(x,y);
+              scale(r/200);
+
+            //Face--------------------------------------
+            color(85,107,47);
+            fillcolor(85,107,47);
+            triangle(0,150,-150,-150,150,-150);
+            fill();
+
+            //Spikes------------------------------------
+            //Left Spike A--------------
+            color(0,100,0);
+            fillcolor(0,100,0);
+            triangle(-185,-125,-150,-150,-112,-75);
+            fill();
+
+            //Right Spike A
+            triangle(185,-125,150,-150,112,-75);
+            fill();
+
+            //Left Spike B--------------
+            color(143,188,143);
+            fillcolor(143,188,143);
+            triangle(-165,-75,-112,-75,-75,0);
+            fill();
+
+            //Right Spike B
+            triangle(165,-75,112,-75,75,0);
+            fill();
+
+            //Left Spike C---------------
+            color(173,216,230);
+            fillcolor(173,216,230);
+            triangle(-135,5,-75,0,-26,100);
+            fill();
+
+            //Right Spike C
+            triangle(135,5,75,0,26,100);
+            fill();
+
+            //Eyes----------------------------------
+            color(245,245,220);
+            fillcolor(245,245,220);
+
+            //Left Eye
+            save();
+            translate(50,-65);
+            rotate(-40);
+            ellipse(-80,-75,20,60);
+            fill();
+            restore();
+
+            //Right Eye
+            save();
+            translate(-50,-65);
+            rotate(40);
+            ellipse(80,-75,20,60);
+            fill();
+            restore();
+
+            //Left Iris
+            color('darkblue');
+            fillcolor('darkblue');
+            circle(-65,-75,17)
+            fill();
+
+            //Right Iris
+            color('darkblue');
+            fillcolor('darkblue');
+            circle(65,-75,17)
+            fill();
+
+            //Left Pupil
+            color('black');
+            fillcolor('black');
+            circle(-65,-75,8);
+            fill();
+
+            //Right Pupil
+            circle(65,-75,8);
+            fill();
+
+            //Nose----------------------------------
+            //Left Nose
+            color(85,107,47);
+            fillcolor(85,107,47);
+            circle(-15,130,25);
+            fill();
+
+            //Right Nose
+            circle(15,130,25);
+            fill();
+
+            //Left hole
+            color('black');
+            fillcolor('black')
+            circle(-15,132,9)
+            fill();
+
+            //Right hole
+            circle(15,132,9)
+            fill();
+
+            //Crest---------------------------------
+            color(143,188,143);
+            fillcolor(143,188,143);
+            triangle(-95,-160,95,-160,0,-60);
+            fill();
+
+            //Crest 2
+            color(0,100,0);
+            fillcolor(0,100,0);
+            triangle(-50,-170,50,-170,0,-80);
+            fill();
+              restore();
+
+            }
+            </script>
+            <div id="spork"></div>
+              <button onclick='stoploop();'>Stop</button>
+              <button onclick='startloop();'>Start</button>
+              <button onclick='startover();'>Start Over</button>
+            </div>
+    </div>
+    <div id="secondaryNavigation">
+      Zachary Moll | Math 142 | <a href="http://www.cune.edu" target="NEW">CUNE</a>
+    </div>
+  </div>
+</body>
+</html>

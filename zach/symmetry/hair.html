@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+  <title>
+    Symmetry
+  </title>
+  <link rel="stylesheet" href="symmetry.css"/>
+  <style>
+  #hairTab{
+    background: lightgray;
+  }
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleDiv">
+      <b>SYMMETRY</b>
+    </div>
+    <div id="primaryNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+      <div class="tab" id="cowspotsTab"><a href="cowspots.html">Cow Spots</a></div>
+      <div class="tab" id="hairTab"><a href="hair.html">Hair</a></div>
+      <div class="tab" id="curvesTab"><a href="curves.html">Curves</a></div>
+      <div class="tab" id="linesTab"><a href="lines.html">Lines</a></div>
+      <div class="tab" id="brownianTab"><a href="brownian.html">Brownian</a></div>
+    </div>
+    <div id="content">
+
+            <script src="spork.js"></script>
+            <script>
+            //NOISY HAIR
+
+            var R
+
+            function setup(){
+              R=width/4
+              translate(200,200);
+              setupNoise(5);
+              color(0,0,0,.4);
+              //loop();
+            }
+            function draw(){
+              var x,y,k;
+              k=floor(random()*10)+2;
+              for(i=0;i<10;i=i+1){
+              x=random()*R;
+              y=random()*R;
+              hair(x,y,k);
+              }
+            }
+            function hair(x,y,k){
+              var vx,vy;
+              var i,j;
+              var ang;
+              var k
+
+              for (i=0;i<R;i=i+1){
+                ang=noise(abs(x/width),abs(y/height))*360;
+                vx=COS(ang);
+                vy=SIN(ang);
+                symmetricLine(x,y,(x+vx),(y+vy),k);
+                x=x+vx;
+                y=y+vy;
+              }
+            }
+
+
+            function symmetricLine(x1,y1,x2,y2,k){
+
+              var x1,y1,x2,y2
+              var i
+              var k
+
+              save();
+              for (i=0;i<k;i=i+1){
+              line(x1,y1,x2,y2);
+              line(y1,x1,y2,x2);
+               rotate(360/k);
+            }
+              restore();
+            }
+
+            </script>
+            <div id=spork></div>
+    </div>
+    <div id="secondaryNavigation">
+      Zachary Moll | Math 142 | <a href="http://www.cune.edu" target="NEW">CUNE</a>
+    </div>
+  </div>
+</body>
+</html>

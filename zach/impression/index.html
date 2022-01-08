@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+<link rel="stylesheet" href="impression.css"/>
+
+<head>
+  <title>
+    Impression
+  </title>
+  </head>
+  <script src='spork.js'></script>
+  <script>
+  //paste mark functions below here
+
+  //HAIR
+
+  function hair(x,y,r){
+     //var x,y;
+  var vx,vy;
+  //var ax,ay;
+  var r;
+    var i;
+    var a;
+
+    // x=width*random();
+    //y=height*random();
+    vx=2*(random()-0.5);
+    vy=2*(random()-0.5);
+    //ax=0;
+    //ay=0.01;
+    r=random()*200;
+
+    //clear();
+    for(i=0;i<500;i=i+1){
+      a=noise(abs(x/width),abs(y/height))*360
+      vx=2*COS(a)
+      vy=2*SIN(a)
+    line(x,y,x+vx,y+vy);
+
+    x=x+vx;
+    y=y+vy;
+
+    //vx=vx+ax;
+    //vy=vy+ay;
+    }
+  }
+
+
+  //WAVY LINES
+
+  function randomLine(x,y,r){
+
+  save();
+  translate (x,y);
+  rotate(random(abs(x/width),abs(y/height))*360);
+  line(-r,0,r,0);
+
+  restore();
+
+  }
+
+//WAVY CIRCLE
+
+function wavyCircle(){
+
+    setupNoise(5);
+
+    var x,y;
+    var r=5;
+    for(x=r;x<width;x=x+2*r)
+      for(y=r;y<height;y=y+2*r){
+        circle(x,y,r*abs(noise(x/width,y/height)));
+      }
+  }
+
+
+  //SMUDGE
+
+  function brownian(x,y,r){
+
+  var vx,vy;
+
+  var r;
+    var i;
+    var a;
+
+    vx=2*(random()-0.5);
+    vy=2*(random()-0.5);
+
+    r=random()*200;
+
+    for(i=0;i<500;i=i+1){
+      a=random()*360;
+      vx=2*COS(a)
+      vy=2*SIN(a)
+    line(x,y,x+vx,y+vy);
+
+    x=x+vx;
+    y=y+vy;
+    }
+  }
+
+
+  //RANDOM CURVE
+
+  function randomCurve(x,y,r){
+     //var x,y;
+  var vx,vy;
+  var ax,ay;
+  var r;
+    var i;
+
+    // x=width*random();
+    //y=height*random();
+    vx=2*(random()-0.5);
+    vy=2*(random()-0.5);
+    ax=0;
+    ay=0.01;
+    r=random()*50;
+
+    //clear();
+    for(i=0;i<r;i=i+1){
+    line(x,y,x+vx,y+vy);
+
+    x=x+vx;
+    y=y+vy;
+
+    vx=vx+ax;
+    vy=vy+ay;
+    }
+  }
+
+
+//WAVY LINES
+
+function wavyLines(x,y,r){
+
+save();
+translate (x,y);
+rotate(noise(abs(x/width),abs(y/height))*360);
+line(-r,0,r,0);
+
+restore();
+}
+  //paste mark functions above here
+var f=randomLine;
+var R=[];
+var G=[];
+var B=[];
+var A=[];
+  function setup(){
+    size(theImage.width,theImage.height);
+    drawImage(theImage,width/2,height/2,width,height);
+    copyImageData(R,G,B,A);
+    clear();
+    setupNoise(5);
+    loop();
+  }
+  function draw(){
+    var x=floor(random()*width);
+    var y=floor(random()*height);
+    color(R[x][y],G[x][y],B[x][y],A[x][y]);
+
+    f(x,y,20);
+  }
+
+
+
+  </script>
+
+<body>
+  <div id='spork'></div>
+  <button onclick='stoploop();'>Stop</button>
+  <button onclick='startloop();'>Start</button>
+  <button onclick='startover();'>Start Over</button>
+  <button onclick='canvasToNewImg();'>Make Image</button>
+  <br />
+  <button onclick='f=randomLine;startover();'>Lines</button>
+  <button onclick='f=brownian;startover();'>Brownian</button>
+  <button onclick='f=randomCurve;startover();'>Curve</button>
+  <button onclick='f=wavyCircle;startover();'>Circle</button>
+  <button onclick='f=hair;startover();'>Hair</button>
+  <button onclick='f=wavyLines;startover();'>Wavy Lines</button>
+  <br />
+  <img src='jackvanzet10.jpg' id='theImage' />
+</body>
+</html>

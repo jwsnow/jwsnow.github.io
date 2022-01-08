@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+  <title>FOR LOOPS</title>
+  <link rel="stylesheet" href="skeleton.css">
+  <style>
+#circleTab{
+  text-decoration: underline;
+}
+</style>
+  <script src="spork.js"></script>
+  <script>
+    function circlePattern(x,y,r){
+      save();
+      translate(x,y);
+      scale(r/200);
+
+      var angle,color_1,color_2, color_3, color_4;
+
+      color_1 = "rgb(70,32,102)";
+      color_2 = "rgb(255,184,95)";
+      color_3 = "rgb(255,122,90)";
+      color_4 = "rgb(0,170,160)";
+
+      linewidth(2);
+      color(color_1);
+      fillcolor(color_1);
+      circle(0,0,10);
+      fill();
+
+      for (angle=0;angle<360;angle=angle+10){
+        save();
+        rotate(angle);
+        color(color_1);
+        fillcolor(color_1);
+        arc(100,0,10,0,180)
+        fill();
+        ellipse(150,70,20,5);
+        fill();
+        restore();
+      }
+
+      for (angle=0;angle<360;angle=angle+20){
+        save();
+        linewidth(2);
+        rotate(angle);
+        color(color_2);
+        fillcolor(color_2);
+        line(8,8,15,35,15,10);
+        linewidth(5);
+        circle(55,53,10);
+        circle(0,0,147);
+        restore();
+      }
+
+      for (angle=0;angle<360;angle=angle+10){
+        save();
+        linewidth(2);
+        rotate(angle);
+        color(color_3);
+        fillcolor(color_3);
+        circle(0,0,90);
+        rotate(5);
+        linewidth(4);
+        line(10,90,10,120);
+        linewidth(5);
+        circle(0,0,183);
+        line(20,183,5,195);
+        line(5,183,-10,195);
+        restore();
+      }
+
+      for (angle=0;angle<360;angle=angle+10){
+        save();
+        rotate(angle);
+        color(color_4);
+        fillcolor(color_4);
+        line(35,55,10,50);
+        circle(30,30,10);
+        triangle(10,120,30,140,50,120);
+        fill();
+        restore();
+      }
+      restore();
+    }
+    function setup(){
+      size(400,400);
+    }
+    function draw(){
+      translate(200,200);
+      circlePattern(0,0,200);
+    }
+    </script>
+  </head>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleBar">Fun With For Loops</div>
+    <div id="mainNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+        <div class="tab" id="clipTab"><a href="clip.html">Clipped Art</a></div>
+        <div class="tab" id="creatureTab"><a href="creature.html">Creature Grid</a></div>
+        <div class="tab" id="circleTab"><a href="circle.html">Circle Pattern</a></div>
+      </div>
+    <div id="content">
+      <div id="spork"></div>
+    </div>
+    <div id="secondaryNavigation"></div>
+  </div>
+</body>
+</html>

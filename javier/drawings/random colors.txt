@@ -1,0 +1,23 @@
+function randomFillColor(){
+  var r,g,b;
+  
+  r = floor(255*random());
+  g = floor(255*random());
+  b = floor(255*random());
+  fillcolor(r,g,b);
+}
+
+function setup(){
+  
+}
+function draw(){
+  var x,y,i,r;
+  
+  for (i=0; i<100; i=1+i){
+  	x = width*random();
+  	y = height*random();
+  	circle(x,y,20);
+    randomFillColor();
+    fill();
+  }
+}

@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+<head>
+  <title>My paint Program</title>
+  <link rel="stylesheet" href="skeleton.css">
+  <script src="spork.js"></script>
+  <script>
+  var lastX,lastY;
+  var theLineWidth;
+  function pencil(){
+    if (mouseDown){
+      line(lastX,lastY,mouseX,mouseY);
+      lastX=mouseX;
+      lastY=mouseY;
+    }
+  }
+  function fuzz(){
+    if (mouseDown){
+      save();
+      linewidth(1);
+      translate(mouseX,mouseY);
+      rotate(random()*360);
+      line(-theLineWidth,0,theLineWidth,0);
+      restore();
+    }
+  }
+  function Dots(){
+    if (mouseDown){
+      save();
+      translate(mouseX,mouseY);
+      rotate(random()*360);
+      linewidth(2);
+      circle(-theLineWidth,-theLineWidth,theLineWidth/20);
+      circle(theLineWidth,theLineWidth,theLineWidth/20);
+      circle(-theLineWidth,theLineWidth,theLineWidth/20);
+      circle(theLineWidth,-theLineWidth,theLineWidth/20);
+      restore();
+    }
+  }
+  function onmousedown(){
+  lastX=mouseX;
+  lastY=mouseY;
+  }
+  function setup(){
+    size(800,400);
+    background('black');
+    theLineWidth=1;
+    onmousemove=pencil;
+  }
+  function draw(){
+
+  }
+  function setLineWidth(x){
+    linewidth(x);
+    theLineWidth=x;
+  }
+  function setPenType(x){
+    onmousemove=x;
+  }
+  function selectEraser(){
+    eraserWidth.checked=true;
+    eraserColor.checked=true;
+    onmousemove=pencil;
+    color('black');
+    linewidth(20);
+  }
+  </script>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleBar">My Paint Program</div>
+    <div id="content">
+      <div id="spork"></div>
+
+      <button onclick="background('black');">Clear</button>
+
+      <br />
+      <fieldset>
+        <legend>
+          Pen Type
+        </legend>
+        <input type="radio" name="penType" checked onclick="setPenType(pencil);"/> Pencil
+        <input type="radio" name="penType" onclick="setPenType(fuzz);"/> Fuzz
+        <input type="radio" name="penType" onclick="setPenType(Dots);"/> Dots
+        <input type="radio" name="penType" onclick="selectEraser();"/> Eraser
+      </fieldset>
+
+      <fieldset>
+        <legend>
+          Pen Size
+        </legend>
+        <input type="radio" name="penSize" checked onclick="setLineWidth(1);"/> <div class="pensize one"></div>
+        <input type="radio" name="penSize" onclick="setLineWidth(2);"/> <div class="pensize two"></div>
+        <input type="radio" name="penSize" onclick="setLineWidth(5);"/> <div class="pensize five"></div>
+        <input type="radio" name="penSize" onclick="setLineWidth(10);"/> <div class="pensize ten"></div>
+        <input type="radio" name="penSize" onclick="setLineWidth(20);" id="eraserWidth"/> <div class="pensize twenty"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>
+          Pen Color
+        </legend>
+        <input type="radio" name="penColor" checked onclick="color('black')" id="eraserColor"/> <div class="pensize twenty"></div>
+        <input type="radio" name="penColor" onclick="color('chartreuse')" /> <div class="pensize twenty chartreuse"></div>
+        <input type="radio" name="penColor" onclick="color(rgb(255,128,0))" /> <div class="pensize twenty orangered"></div>
+        <input type="radio" name="penColor" onclick="color('yellow')" /> <div class="pensize twenty yellow"></div>
+        <input type="radio" name="penColor" onclick="color('cyan')" /> <div class="pensize twenty cyan"></div>
+        <input type="radio" name="penColor" onclick="color('deeppink')" /> <div class="pensize twenty deeppink"></div>
+        <input type="radio" name="penColor" onclick="color('deepskyblue')" /> <div class="pensize twenty deepskyblue"></div>
+        <input type="radio" name="penColor" onclick="color('lightseagreen')" /> <div class="pensize twenty lightseagreen"></div>
+      </fieldset>
+    </div>
+  </div>
+</body>
+</html>

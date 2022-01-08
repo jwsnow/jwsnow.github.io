@@ -1,0 +1,35 @@
+function pattern(x,y,r){
+  save();
+  translate(x,y);
+  scale(r/200);
+  translate(200,200);
+  color(0,0,0,0);
+  rect(-200,-200,400,400);
+  clip();
+  
+  save();
+  color('black');
+  rotate(90*(floor(random()*4)));
+  linewidth(5);
+  line(0,0,50,-50,100,-50,100,-150,150,-150,200,-200);
+  line(0,0,-50,50,-100,50,-100,150,-150,150,-200,200);
+  circle(200,200,200);
+  circle(-200,-200,200);
+  restore();
+  restore(); 
+  }
+
+function setup(){
+  
+}
+function draw(){
+  var y,x; //variable for y coordinate
+  
+  for (x=0;x<width;x=x+80){
+    for (y=0;y<height;y=y+80){
+      save();
+      pattern(x,y,40);
+      restore();
+        }
+      }
+}

@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+  <script src='spork.js'></script>
+  <script>
+  var R=[];
+  var G=[];
+  var B=[];
+  var A=[];
+  function setup(){
+    size(theImage.width,theImage.height);
+    drawImage(theImage,width/2,height/2,width,height);
+    copyImageData(R,G,B,A);
+    clear();
+  }
+small=10;
+
+function myRect(x,y,w,h){
+  x=floor(x);
+  y=floor(y);
+  fillcolor(R[x][y],G[x][y],B[x][y],A[x][y]);
+  rect(x,y,w,h);
+  fill();
+}
+
+function mgrid(x,y,w,h){
+  var l,k;
+
+  if ((w<small)||(h<small)){
+    myRect(x,y,w,h);
+  }
+  else if(w>h){         //WIDE
+    l=random()*w;
+    mgrid(x,y,l,h);     //LEFT
+    mgrid(x+l,y,w-l,h); //RIGHT
+  }
+  else{                 //TALL
+    k=random()*h;
+    mgrid(x,y,w,k);     //TOP
+    mgrid(x,y+k,w,h-k); //BOTTOM
+  }
+}
+function draw(){
+  mgrid(0,0,width,height);
+}
+  </script>
+</head>
+<body>
+  <div id='spork'></div>
+  <button onclick="startover();">Start Over</button>
+  <br />
+  <img src='1.jpg' id='theImage'/>
+</body>
+</html>

@@ -1,0 +1,36 @@
+
+function face(x,y,r){
+  save()
+  translate(x,y);
+  scale(r/200);
+  //Face
+  color('tan');
+  fillcolor('tan');
+  circle(0,0,190,190);
+  fill();
+ 
+  //Eyes
+  color('blue');
+  fillcolor('blue');
+  circle(70,-50,20);
+  fill();
+  circle(-70,-50,20);
+  fill();
+ 
+  //Mouth
+  color('red');
+  linewidth(30);
+  line(-20,50,20,50);
+  restore();
+}
+ 
+ 
+function genericPatternFunction(x,y,r){
+  save();
+  translate(x,y);
+  scale(r/200);
+  //draw below this line
+  
+  //draw above this line
+  restore();
+}

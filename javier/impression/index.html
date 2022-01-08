@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+  <script src='spork.js'></script>
+  <script>
+  //paste mark functions below here
+  function randomLines(x,y,r){
+    save();
+    translate(x,y);
+    rotate(random()*360);
+    line(-r,0,r,0);
+    restore();
+  }
+  function randomMark(x,y){
+    var vx,vy;
+    var ax,ay;
+    var i;
+
+    vx=2*(random()-0.5);
+    vy=2*(random()-0.5);
+    ax=0;
+    ay=0.01;
+    for (i=0;i<25;i=i+1){
+      line(x,y,x+vx,y+vy);
+      x=x+vx;
+      y=y+vy;
+      vx=vx+ax;
+      vy=vy+ay;
+    }
+  }
+  function brownian(x,y){
+    var vx,vy;
+    var i;
+    var ang;
+
+    for (i=0;i<100;i=i+1){
+      ang=random()*360;
+      vx=2*COS(ang);
+      vy=2*SIN(ang);
+      line(x,y,x+vx,y+vy);
+      x=x+vx;
+      y=y+vy;
+    }
+  }
+  function hair(x,y){
+    var vx,vy;
+    var i;
+    var ang;
+
+    for (i=0;i<200;i=i+1){
+      ang=noise(abs(x/width),abs(y/height))*360;
+      vx=2*COS(ang);
+      vy=2*SIN(ang);
+      line(x,y,x+vx,y+vy);
+      x=x+vx;
+      y=y+vy;
+    }
+  }
+  function wavyLines(x,y,r){
+    save();
+    translate(x,y);
+    rotate(noise(abs(x/width),abs(y/height))*360);
+    line(-r,0,r,0);
+    restore();
+  }
+  //paste mark functions above here
+  var f=randomLines;
+  var R=[];
+  var G=[];
+  var B=[];
+  var A=[];
+  function setup(){
+    size(theImage.width,theImage.height);
+    drawImage(theImage,width/2,height/2,width,height);
+    copyImageData(R,G,B,A);
+    clear();
+    setupNoise(5);
+    loop();
+  }
+  function draw(){
+    //for (i=0; i<=1000;i=i+1){
+    var x=floor(random()*width);
+    var y=floor(random()*height);
+    color(R[x][y],G[x][y],B[x][y],A[x][y]);
+    f(x,y,10);
+  //}
+  }
+  </script>
+</head>
+<body>
+  <div id='spork'></div>
+  <button onclick="stoploop();">Stop</button>
+  <button onclick="startloop();">Start</button>
+  <button onclick="startover();">Start Over</button>
+  <button onclick="canvasToNewImg();">Make Image</button>
+  <br />
+  <button onclick="f=randomLines;startover();">Lines</button>
+  <button onclick="f=brownian;startover();">Brownian</button>
+  <button onclick="f=randomMark;startover();">Projectile</button>
+  <button onclick="f=hair;startover();">Hair</button>
+  <button onclick="f=wavyLines;startover();">Noise Line</button>
+  <br />
+  <img src='5.jpg' id='theImage' />
+</body>
+</html>

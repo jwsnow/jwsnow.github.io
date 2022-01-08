@@ -1,0 +1,55 @@
+function setup(){
+  size(400,400);
+}
+function draw(){
+  
+  //variables for grid placement
+  var x,y;
+  
+  //make the background white
+  fillcolor('white');
+  rect(0,0,width,height);
+  fill();
+  //change fill color back to black for lines
+  fillcolor('black');
+  for (y=0;y<=width;y=y+5){
+	line(0,y,width,y);
+    }
+  
+  //draw circle for clipping
+  color(0,0,0,0);	//transparent boundary
+  fillcolor('white')	//white background
+  circle(200,200,170);
+  fill();
+  
+  //keep the rest of the drawing in the circle
+  clip();
+  //change fill color back to black for squares
+  color('black');
+  for (x=0;x<=width;x=x+5){
+    line(x,0,x,height);
+    }
+  
+  //draw square for clipping
+  color(0,0,0,0);	//transparent boundary
+  fillcolor('white');	//white background
+  circle(200,200,130);
+  fill(); 
+  clip();
+  color('black');
+  for (y=0;y<=width;y=y+5){
+	line(0,y,width,y);
+    }
+  
+  translate(200,200);
+  color(0,0,0,0);	//transparent boundary
+  fillcolor('white');	//white background
+  quad(-100,0,0,100,100,0,0,-100);
+  fill(); 
+  clip();
+  color('black');
+  
+  for (x=-200;x<=width;x=x+5){
+    line(x,-200,x,width);
+    }
+}

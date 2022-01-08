@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+  <title>
+    More Fun With For Loops
+  </title>
+  <link rel="stylesheet" href="morefunwithforloops.css"/>
+  <style>
+  #homeTab{
+    background: lightgray;
+  }
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleDiv">
+      <b>MORE FUN WITH FOR LOOPS</b>
+    </div>
+    <div id="primaryNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+      <div class="tab" id="circlegridTab"><a href="circlegrid.html">Circle Grid</a></div>
+      <div class="tab" id="creaturegridTab"><a href="creaturegrid.html">Creature Grid</a></div>
+      <div class="tab" id="colorgridTab"><a href="colorgrid.html">Random Color</a></div>
+      <div class="tab" id="creaturerandomTab"><a href="creaturerandom.html">Random Creature</a></div>
+      <div class="tab" id="quiltTab"><a href="quilt.html">Class Design</a></div>
+      <div class="tab" id="sol2Tab"><a href="sol2.html">Sol Lewitt</a></div>
+    </div>
+    <div id="content">
+
+            <script src="spork.js"></script>
+            <script>
+
+            function setup(){
+              translate(200,200);
+            }
+
+            function draw(){
+
+
+    //Face--------------------------------------
+    color(85,107,47);
+    fillcolor(85,107,47);
+    triangle(0,150,-150,-150,150,-150);
+    fill();
+
+    //Spikes------------------------------------
+    //Left Spike A--------------
+    color(0,100,0);
+    fillcolor(0,100,0);
+    triangle(-185,-125,-150,-150,-112,-75);
+    fill();
+
+    //Right Spike A
+    triangle(185,-125,150,-150,112,-75);
+    fill();
+
+    //Left Spike B--------------
+    color(143,188,143);
+    fillcolor(143,188,143);
+    triangle(-165,-75,-112,-75,-75,0);
+    fill();
+
+    //Right Spike B
+    triangle(165,-75,112,-75,75,0);
+    fill();
+
+    //Left Spike C---------------
+    color(173,216,230);
+    fillcolor(173,216,230);
+    triangle(-135,5,-75,0,-26,100);
+    fill();
+
+    //Right Spike C
+    triangle(135,5,75,0,26,100);
+    fill();
+
+    //Eyes----------------------------------
+    color(245,245,220);
+    fillcolor(245,245,220);
+
+    //Left Eye
+    save();
+    translate(50,-65);
+    rotate(-40);
+    ellipse(-80,-75,20,60);
+    fill();
+    restore();
+
+    //Right Eye
+    save();
+    translate(-50,-65);
+    rotate(40);
+    ellipse(80,-75,20,60);
+    fill();
+    restore();
+
+    //Left Iris
+    color('darkblue');
+    fillcolor('darkblue');
+    circle(-65,-75,17)
+    fill();
+
+    //Right Iris
+    color('darkblue');
+    fillcolor('darkblue');
+    circle(65,-75,17)
+    fill();
+
+    //Left Pupil
+    color('black');
+    fillcolor('black');
+    circle(-65,-75,8);
+    fill();
+
+    //Right Pupil
+    circle(65,-75,8);
+    fill();
+
+    //Nose----------------------------------
+    //Left Nose
+    color(85,107,47);
+    fillcolor(85,107,47);
+    circle(-15,130,25);
+    fill();
+
+    //Right Nose
+    circle(15,130,25);
+    fill();
+
+    //Left hole
+    color('black');
+    fillcolor('black')
+    circle(-15,132,9)
+    fill();
+
+    //Right hole
+    circle(15,132,9)
+    fill();
+
+    //Crest---------------------------------
+    color(143,188,143);
+    fillcolor(143,188,143);
+    triangle(-95,-160,95,-160,0,-60);
+    fill();
+
+    //Crest 2
+    color(0,100,0);
+    fillcolor(0,100,0);
+    triangle(-50,-170,50,-170,0,-80);
+    fill();
+
+                }
+            </script>
+    </div>
+    <div id="secondaryNavigation">
+      Zachary Moll | Math 142 | <a href="http://www.cune.edu" target="NEW">CUNE</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+  <title>
+    Fun With For Loops
+  </title>
+  <link rel="stylesheet" href="funwithloops.css"/>
+  <style>
+  #solTab{
+    background: lightgray;
+  }
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleDiv">
+      <b>FUN WITH FOR LOOPS</b>
+    </div>
+    <div id="primaryNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+      <div class="tab" id="creatureTab"><a href="creature.html">Creature</a></div>
+      <div class="tab" id="circleTab"><a href="circle.html">Circle</a></div>
+      <div class="tab" id="solTab"><a href="sol.html">Sol Lewitt</a></div>
+    </div>
+    <div id="content">
+
+      <script src="spork.js"></script>
+      <script>
+      function setup(){
+  //No special setup needed
+  translate(200,200);
+}
+function draw(){
+  //y value for the line
+  var y;
+
+
+
+  for (y=-200;y<height;y=y+3){
+    //draw a line from x=0 to x=width
+    line(y,width,y,-200);
+  }
+
+
+  triangle(-150,-150,150,-150,0,150);
+  fillcolor("white");
+  fill();
+
+  triangle(-150,-150,150,-150,0,150);
+  clip();
+
+
+  //y takes on the values 3, 6, 9...
+  for (y=-200;y<height;y=y+3){
+    //draw a line from x=0 to x=width
+    line(-200,y,width,y);
+  }
+  circle(0,50,30);
+  fillcolor("white");
+  fill();
+
+  circle(0,50,30);
+  clip();
+
+  for (y=-200;y<height;y=y+3){
+    //draw a line from x=0 to x=width
+    line(y,width,y,-200);
+  }
+}
+
+
+      </script>
+      </head>
+      <body>
+      <div id="wrapper">
+        <div id="titleBar"></div>
+        <div id="mainNavigation"></div>
+        <div id="content">
+          <div id="spork"></div>
+        </div>
+
+    </div>
+    <div id="secondaryNavigation">
+      Zachary Moll | Math 142 | <a href="http://www.cune.edu" target="NEW">CUNE</a>
+    </div>
+  </div>
+</body>
+</html>

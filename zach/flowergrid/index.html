@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+  <title>FLower Grid</title>
+  <link rel="stylesheet" href="skeleton.css">
+  <script src="spork.js"></script>
+  <script>
+  function  flower(x,y,r,c){
+    save();
+    translate(x,y);
+    scale(r/200);
+    var x
+    var d
+    for(d=180;d>0;d=d-20){
+      rotate(10);
+    for (x=50;x<width;x=x+15){
+    save();
+    rotate(x);
+      circle(d,0,10*d/125);
+      fillcolor(c);
+      fill();
+    restore();
+    }
+      circle(0,0,30);
+      fillcolor(0,0,128);
+      fill();
+    }
+    restore();
+  }
+  /*Circle Grid Example
+  This example will draw circles even spaced
+  on a rectangular grid.
+  */
+
+  function setup(){
+    /*
+    Since this example is just demonstrating a grid,
+    we do not need to do any special setup.
+    */
+  }
+  function draw(){
+
+    //variables for the centers of our circles
+    var x,y;
+
+    //x will take on values 20, 60, 100...
+    for (x=20;x<width;x=x+40)
+      //for each value of x, y takes on 20, 60...
+      for (y=20;y<height;y=y+40){
+        flower(x,y,20,"gold");
+        /*
+        Play with the value 20 in this last line.
+        Larger values make the circles overlap.
+        Smaller values adds space between them.
+        */
+      }
+  }
+
+  </script>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleBar">Flower Grid</div>
+    <div id="mainNavigation"></div>
+    <div id="content">
+      <div id="spork"></div>
+    </div>
+    <div id="secondaryNavigation"></div>
+  </div>
+</body>
+</html>

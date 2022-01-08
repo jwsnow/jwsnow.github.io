@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+  <title>Noise</title>
+  <link rel="stylesheet" href="skeleton.css">
+  <style>
+#circleTab{
+  text-decoration: underline;
+}
+</style>
+  <script src="spork.js"></script>
+  <script>
+  function randomColor(){
+  var lineColors = ['teal',
+                   'turquoise',
+                   'yellow',
+                   'skyblue',
+                   'violet'];
+
+  fillcolor(lineColors.random());
+}
+  function setup(){
+    size(600,400);
+    background('black');
+    setupNoise(5);
+  }
+
+  function draw(){
+    //variables for the centers of our circles
+    var x,y;
+    for (x=30;x<width;x=x+30){
+      for (y=20;y<height;y=y+20){
+        randomColor();
+        circle(x,y,abs(noise(x/width,y/height)*15));
+        fill();
+      }
+    }
+  }
+    </script>
+  </head>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="titleBar">Noise</div>
+    <div id="mainNavigation">
+      <div class="tab" id="homeTab"><a href="index.html">Home</a></div>
+        <div class="tab" id="static"><a href="static.html">Random Static</a></div>
+        <div class="tab" id="smoothTab"><a href="smooth.html">Smooth Static</a></div>
+        <div class="tab" id="funkyTab"><a href="funky.html">Funky Lines</a></div>
+        <div class="tab" id="cowTab"><a href="cow.html">Cow Spots</a></div>
+        <div class="tab" id="hairTab"><a href="hair.html">Hair Motion</a></div>
+        <div class="tab" id="wavyTab"><a href="wavy.html">Wavy Lines</a></div>
+        <div class="tab" id="circleTab"><a href="circle.html">Circle Grid</a></div>
+      </div>
+    <div id="content">
+      <div id="spork"></div>
+    </div>
+    <div id="secondaryNavigation"></div>
+  </div>
+</body>
+</html>

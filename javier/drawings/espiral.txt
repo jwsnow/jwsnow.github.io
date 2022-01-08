@@ -1,0 +1,75 @@
+function setup(){
+  //translate to the center of the canvas
+  translate(200,200);
+}
+
+function draw(){
+  
+  var angle,color_1,color_2;
+  
+  color_1 = "rgb(70,32,102)";
+  color_2 = "rgb(255,184,95)";
+  color_3 = "rgb(255,122,90)";
+  color_4 = "rgb(0,170,160)";
+  
+  linewidth(2);
+  color(color_1);
+  fillcolor(color_1);
+  circle(0,0,10);
+  fill();
+
+  
+  for (angle=0;angle<360;angle=angle+10){
+    save();
+    rotate(angle);
+    color(color_1);
+    fillcolor(color_1);
+    arc(100,0,10,0,180)
+    fill();
+    ellipse(150,70,20,5);
+    fill();
+    restore();
+  }
+  
+  for (angle=0;angle<360;angle=angle+20){
+    save();
+    linewidth(2);
+    rotate(angle);
+    color(color_2);
+    fillcolor(color_2);
+    line(8,8,15,35,15,10);
+    linewidth(5);
+    circle(55,53,10);
+    circle(0,0,147);
+    restore();
+  }
+  
+  for (angle=0;angle<360;angle=angle+10){
+    save();
+    linewidth(2);
+    rotate(angle);
+    color(color_3);
+    fillcolor(color_3);
+    circle(0,0,90);
+    rotate(5);
+    linewidth(4);
+    line(10,90,10,120);
+    linewidth(5);
+    circle(0,0,183);
+    line(20,183,5,195);
+    line(5,183,-10,195);
+    restore();
+  }
+
+  for (angle=0;angle<360;angle=angle+10){
+    save();
+    rotate(angle);
+    color(color_4);
+    fillcolor(color_4);
+    line(35,55,10,50);
+	circle(30,30,10);
+    triangle(10,120,30,140,50,120);
+    fill();
+    restore();
+  }
+}

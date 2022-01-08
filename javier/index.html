@@ -1,0 +1,157 @@
+﻿<!doctype html>
+<meta charset="UTF-8">
+<html>
+<head>
+<title>Math142Webpage</title>
+<link rel="stylesheet" href="skeleton.css">
+<script src="spork.js"></script>
+<script>
+var words=['ongietorri','benvinguda','velkommen',
+           'welkom','bienvenue','bienvenido','欢迎',
+           '歡迎','добродошао', 'أهلا بك', 'welcome',
+           'bonvena','amohela', 'maraba'];
+
+var colors=['rgba(173,0,102,0.8)',
+           'rgba(209,61,148,0.8)',
+           'rgba(245,133,31,0.8)',
+           'rgba(202,218,42,0.8)',
+           'rgba(129,164,185,0.8)',
+           'rgba(207,232,246,0.8)'];
+
+var specs=['bold 30px Courier',
+           'bold 30px Courier',
+           'bold 30px Courier',
+           'bold 30px Courier',
+           'bold 40px Courier',
+           'bold 40px Courier',
+           'bold 40px Courier',
+           'bold 40px Courier',
+           'bold 50px Courier',
+           'bold 50px Courier',
+           'bold 50px Courier',
+           'bold 60px Courier',
+           'bold 60px Courier',
+           'bold 60px Courier',
+           'bold 70px Courier',
+           'bold 70px Courier',
+           'bold 80px Courier',
+           'bold 80px Courier',
+           'bold 90px Courier',
+           'bold 100px Courier'];
+
+function setup(){
+  size(1000,450);
+  background('white');
+  timestep(200);
+  loop();
+}
+
+function draw(){
+    fillcolor(colors.random());
+    font(specs.random());
+    filltext(words.random(), random()*width-80,random()*height+10);
+
+  }
+</script>
+</head>
+<body>
+  <div id="wrapper">
+  <div id="titleBar">Javier Moreno Math 142</div>
+  <div id="header">
+  <ul class="nav">
+
+  <li><a href="index.html">Home</a></li>
+  <li><a href="face/index.html">FaceExample</a></li>
+  <li><a href="history/index.html">History</a>
+    <ul>
+			<li><a href="history/mathematics.html">Mathematics</a></li>
+			<li><a href="history/astronomy.html">Astronomy</a></li>
+			<li><a href="history/references.html">References</a></li>
+    </ul>
+  </li>
+
+  <li><a href="flowergrid/index.html">FlowerGrid</a></li>
+
+  <li><a href="forloops/index.html">FunWithForLoops</a>
+    <ul>
+      <li><a href="forloops/clip.html">ClippedArt</a></li>
+      <li><a href="forloops/creature.html">CreatureGrid</a></li>
+      <li><a href="forloops/circle.html">CirclePattern</a></li>
+    </ul>
+  </li>
+
+  <li><a href="calculator/calc3.html">Calculator</a></li>
+
+  <li><a href="randomloops/index.html">RandomizedLoops</a>
+    <ul>
+      <li><a href="randomloops/circlegrid.html">CircleGrid</a></li>
+      <li><a href="randomloops/gridrandomradius.html">RandomSizeCreature</a></li>
+      <li><a href="randomloops/gridcolorcreature.html">RandomColorCreature</a></li>
+      <li><a href="randomloops/randomlocationcreature.html">RandomLocationCreature</a></li>
+      <li><a href="randomloops/circlepattern.html">CirclePattern</a></li>
+      <li><a href="randomloops/gridshapes.html">RandomGridShapes</a></li>
+    </ul>
+  </li>
+
+  <li><a href="gallery/index.html">Gallery</a></li>
+
+  <li><a href="animation/index.html">Animation</a>
+    <ul>
+      <li><a href="animation/fuzzball.html">FuzzBall</a></li>
+      <li><a href="animation/bounce_creature.html">BouncingCreature</a></li>
+      <li><a href="animation/spots.html">Spots</a></li>
+      <li><a href="animation/brownian.html">Brownian</a></li>
+      <li><a href="animation/randommark.html">RandomMark</a></li>
+    </ul>
+  </li>
+
+  <li><a href="noise/index.html">Noise</a>
+    <ul>
+      <li><a href="noise/static.html">RandomStatic</a></li>
+      <li><a href="noise/smooth.html">SmoothStatic</a></li>
+      <li><a href="noise/funky.html">FunkyLines</a></li>
+      <li><a href="noise/cow.html">CowSpots</a></li>
+      <li><a href="noise/hair.html">HairMotion</a></li>
+      <li><a href="noise/wavy.html">WavyLines</a></li>
+      <li><a href="noise/circle.html">CircleGrid</a></li>
+    </ul>
+  </li>
+
+  <li><a href="impression/homework.html">Impressionism</a></li>
+
+  <li><a href="symmetry/index.html">Symmetry</a>
+    <ul>
+      <li><a href="symmetry/cowspots.html">Cow Spots</a></li>
+      <li><a href="symmetry/hair.html">Symmetric Hair</a></li>
+      <li><a href="symmetry/sym1.html">Symmetric Circles</a></li>
+      <li><a href="symmetry/sym2.html">Symmetric Quads</a></li>
+      <li><a href="symmetry/sym3.html">Symmetric Squares</a></li>
+    </ul>
+  </li>
+
+  <li><a href="paint/simple.html">My Paint</a></li>
+
+  <li><a href="mondrian/index.html">Mondrian</a>
+    <ul>
+      <li><a href="mondrian/rect.html">Rectangles</a></li>
+      <li><a href="mondrian/ellipse.html">Ellipses</a></li>
+      <li><a href="mondrian/colors.html">Colors</a></li>
+    </ul>
+  </li>
+
+  <li><a href="creativity/index.html">Creativity</a></li>
+
+  <li><a href="artist/index.html">Artist</a></li>
+</ul>
+<br />
+</div>
+<div id="content">
+<div id="spork"></div>
+<button class="but"onclick='stoploop();'>Stop</button>
+<button class="but"onclick='startloop();'>Start</button>
+<button class="but"onclick='startover();'>StartOver</button>
+</div>
+<div id="secondaryNavigation">
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+var theColors=[rgb(255,255,255),'turquoise','red','green','black'];
+
+
+function setup(){
+  
+}
+function draw(){
+  var x,y,i,r;
+  
+  for (i=0; i<100; i=1+i){
+  	x = width*random();
+  	y = height*random();
+  	circle(x,y,20);
+    fillcolor(theColors.random());
+    fill();
+  }
+}
