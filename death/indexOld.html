@@ -35,36 +35,10 @@ img{
 <script src='rancomp.js'></script>
 <script>
 var WIDTH=1000;
-var IMAGEWIDTH=WIDTH;//1024;//4096;//1024;//Math.max(WIDTH,1024);
+var IMAGEWIDTH=Math.max(WIDTH,1000);
 var NUMIMAGES=10000;
-var R=[], G=[], B=[],A=[],T=[];
+var R=[], G=[], B=[],A=[];
 var theFunctions=['P1','P2','MUL', 'SINPI', 'COSPI','CUBE','SINXXYY','max','min','SIN2PI','COS2PI','AVG','NOISE'];
-
-function setupParameterMatrix(){
-console.log('in setupParameterMatrix');
-	var x,y,dx,dy,r;
-	var d=5;
-	var h=IMAGEWIDTH/2;
-	var q=h/2;
-	var q2=q*q;
-	var s= 1/(0.2*IMAGEWIDTH);
-	var s= 1/(0.2*IMAGEWIDTH);
-	for (x=0;x<IMAGEWIDTH;x++){
-		T[x]=[];
-console.log(x);		
-		for (y=0;y<IMAGEWIDTH;y++){	
-			dx=x-h;
-			dy=y-h;
-			r=sqrt(dx*dx+dy*dy);
-			if (r>q+d)
-				T[x][y]=min(1,(r-(q+d))*s);
-			else if (r<q-d)
-				T[x][y]=min(1,((q-d)-r)*s);
-			else
-				T[x][y]=0;				
-		}
-	}
-}
 
 function NOISEx(x,y){
 	return(random());
@@ -148,7 +122,6 @@ function setup(){
 	ALLOFTHEIMAGES=document.getElementsByTagName('img');
 	getColors(ALLOFTHEIMAGES[0]);
 	size(WIDTH,WIDTH);
-	setupParameterMatrix();
 	RNGSEED=floor(random()*1000000);
 //	RNGSEED=1;
 	random=RNG;
@@ -181,9 +154,8 @@ if ((fr1.length>20) && (fr2.length>20)){
 		for (b=0;b<height;b++){
 			x=2*a/width-1;
 			y=2*b/height-1;
-			t=T[a][b];
-			X=t*(xfn(x,y))+(1-t)*x;
-			Y=t*(yfn(x,y))+(1-t)*y;
+			X=xfn(x,y);
+			Y=yfn(x,y);
 			cr=floor(255*(IMAGER(X,Y)+1)/2);
 			cg=floor(255*(IMAGEG(X,Y)+1)/2);
 			cb=floor(255*(IMAGEB(X,Y)+1)/2);
