@@ -1,0 +1,337 @@
+<!doctype html>
+<html>
+<head>
+<style>
+.hidden{
+display: none;
+}
+html{
+	height:100%;
+	width:100%;
+}
+body{
+  width: 100%;
+  height: 100%;
+  display:table;
+  margin:0px;
+  text-align: center;
+}
+div.content{
+  width: 100%;
+  height: 100%;
+	display:table-cell;
+	background:black;
+	color: white;
+	font-size: 18px;
+	vertical-align: middle;
+	text-align: center;
+}
+</style>
+<script src='spork.js'></script>
+<script>
+
+//Gaussian Blur code
+var blurSD=5;
+var blurR=3*blurSD;
+var blurN=2*blurR+1;
+var blurMask=[];
+function setupBlur(s){
+	blurSD=s;
+	blurR=3*blurSD;
+	blurN=2*blurR+1;
+	blurMask=[];
+	
+	var i;
+	var c=0;
+	var f=1/sqrt(2*pi*s*s);
+	var exponentCoef=-1/(2*s*s);
+	for (i=-blurR;i<=blurR;i++){
+		blurMask[i+blurR]=(f*exp(exponentCoef*i*i));
+		c+=blurMask[i+blurR];
+	}
+//removed cause done in gBlur	
+//	for (i=-blurR;i<=blurR;i++)
+//		blurMask[i+blurR]*=c;
+}
+function gBlur(A){
+	var w=A.length;
+	var h=A[0].length;
+	var T=[];
+	var x,y,i,j,a,X,Y,t;
+	
+	for (x=0;x<w;x++){
+		T[x]=[];
+		for (y=0;y<h;y++){
+			T[x][y]=0;
+			a=0;
+			for (i=-blurR;i<=blurR;i++){
+				X=x+i;
+				if ((0<=X) && (X<w)){
+					t=blurMask[i+blurR];
+					a+=t;
+					T[x][y]+=t*A[X][y];
+				}
+			}
+			T[x][y]=T[x][y]/a;
+		}
+	}
+	for (x=0;x<w;x++){
+		for (y=0;y<h;y++){
+			A[x][y]=0;
+			a=0;
+			for (i=-blurR;i<=blurR;i++){
+				Y=y+i;
+				if ((0<=Y) && (Y<h)){
+					t=blurMask[i+blurR];
+					a+=t;
+					A[x][y]+=t*T[x][Y];
+				}
+			}
+			A[x][y]=A[x][y]/a;
+		}
+	}	
+}
+//end Gaussian Blur Code
+
+
+
+//GRADIENT CODE
+function setupGradient(G, VX, VY, V){
+	//input an image G and calculate gradient or tangent vectors
+	//VX and VY are unit vectors
+	//magnitude is in V
+	
+	//setup vectors
+	var w=G.length;
+	var h=G[0].length;
+	var x,y,dx,dy,mind,d,mini;
+	for (x=0;x<w;x++){
+		V[x]=[];
+		VX[x]=[];
+		VY[x]=[];
+		for (y=0;y<h;y++){
+			VX[x][y]=0;
+			VY[x][y]=0;
+			V[x][y]=0;
+		}
+	}
+	//find gradient
+	for (x=1;x<w-1;x++)
+	for (y=1;y<h-1;y++){
+			VX[x][y]=-G[x-1][y-1]-2*G[x-1][y]-G[x-1][y+1]+G[x+1][y-1]+2*G[x+1][y]+G[x+1][y+1];
+			VY[x][y]=-G[x-1][y-1]-2*G[x][y-1]-G[x+1][y-1]+G[x-1][y+1]+2*G[x][y+1]+G[x+1][y+1];
+			V[x][y]=sqrt(VX[x][y]*VX[x][y]+VY[x][y]*VY[x][y]);
+			//convert to tangent	
+			dx=VX[x][y];
+			VX[x][y]=-VY[x][y];
+			VY[x][y]=dx;
+			//normalize
+			d=V[x][y];
+			if (d!=0){
+				VX[x][y]=VX[x][y]/d;
+				VY[x][y]=VY[x][y]/d;
+			}
+	}	
+}
+//end gradient code
+
+//lerp stuff
+
+function lerp(a,b,t){
+	return(t*b+(1-t)*a);
+}
+function lerpArray(a,x,y){
+var ox=x;
+var oy=y;
+	var width=a.length;
+	var height=a[0].length;
+	var X, Y, X1, Y1;
+	var a1, a2,r;
+	if (x<0) x=0;
+	else if (x>=width-1){
+		x=width-1;
+		X=width-1;
+		X1=width-1;
+	}
+	else{
+		X=floor(x);
+		X1=X+1
+	}
+	if (y<0) y=0;
+	else if (y>=height-1){
+		y=height-1;
+		Y=height-1;
+		Y1=height-1;
+	}
+	else{
+		Y=floor(y);
+		Y1=Y+1;
+	}
+	x=x-X;
+	y=y-Y	
+
+	a1=lerp(a[X][Y],a[X1][Y],x);
+	a2=lerp(a[X][Y1], a[X1][Y1],x);
+
+	r=(lerp(a1,a2,y));
+	return(r);
+}
+//end lerp stuff
+
+//hsv stuff
+
+function rgb2hsv(r,g,b){
+	r=r/255;
+	g=g/255;
+	b=b/255;
+	var cmax=max(r,g,b);
+	var cmin=min(r,g,b);
+	var diff=cmax-cmin;
+	var h,s,v;
+	
+	if (cmax==r)
+		h=(60*((g-b)/diff)+360)%360;
+	else if (cmax==g)
+		h=(60*((b-r)/diff)+120)%360;
+	else
+		h=(60*((r-g)/diff)+240)%360;
+	
+	if (cmax==0)
+		s=0;
+	else
+		s = (diff/cmax)*100;
+	
+	v=cmax*100;
+	
+	return({
+		h: h,
+		s: s,
+		v: v
+	});
+}
+
+function hsv2rgb(h,s,v){ 
+	s=s/100;
+	v=v/100;
+	function f(n){
+		var k=(n+h/60)%6;
+		return(v-v*s*max(0, min(k, 4-k, 1)));
+	}
+	return({
+	r: floor(255*f(5)),
+	g: floor(255*f(3)),
+	b: floor(255*f(1))
+	});
+}
+
+//end hsv stuff
+function randomFillColor(){
+	fillcolor(
+		floor(random()*255),
+		floor(random()*255),
+		floor(random()*255)
+	)
+}
+function randomColors(n,c){
+	var b=floor(random()*360);
+	var dx=floor(360/n);
+	var i,h,s,v,d,h2;
+	for (i=0;i<n;i++){
+		s=(0.25+random()*0.5)*100;
+		v=(0.25+random()*0.5)*100;
+		h2=(b+i*dx)%360;
+		d=hsv2rgb(h2,s,v);
+		c.push(rgb(d.r, d.g, d.b));
+	}
+}
+function randomCheckers(){
+	var x, y;
+	var dx=width/8;
+	for (x=0;x<width;x+=dx)
+		for (y=0;y<height;y+=dx){
+			fillcolor(theColors.random());
+			fillrect(x,y,dx,dx);
+		}
+}
+
+	var R=[], G=[], B=[], A=[], GRAY=[];
+	var VX=[], VY=[], VEL=[];
+	var H=[], S=[], V=[];
+var X=[], Y=[];
+var T=0;
+var counter=0;
+var imageData;
+var theColors=[];
+function setup(){
+	drawImage(shadowImage, width/2, height/2, width, height);
+	copyImageData(R, G, B, A);
+	var x,y,c,d,r,g,b;
+	for (x=0;x<width;x++){
+		H[x]=[];
+		S[x]=[];
+		V[x]=[];
+		GRAY[x]=[];
+		X[x]=[];
+		Y[x]=[];
+		for (y=0;y<height;y++){
+			c=rgb2hsv(R[x][y], G[x][y], B[x][y]);
+			H[x][y]=c.h;
+			S[x][y]=c.s;
+			V[x][y]=c.v;
+			GRAY[x][y]=max(R[x][y],G[x][y],B[x][y]);
+			X[x][y]=x;
+			Y[x][y]=y;
+		}
+	}	
+	console.log('gray set');
+	setupBlur(2);
+	gBlur(GRAY);
+	console.log('gray blurred');
+	setupGradient(GRAY, VX, VY, VEL);
+	console.log('gradient set');
+	randomColors(5,theColors);
+	randomCheckers();
+	drawImage(colorImage, width/2, height/2, width, height);
+	copyImageData(R, G, B, A);
+	imageData=theCanvas.getImageData( 0,0,width,height);
+	timestep(0);
+//	loop();
+}
+function draw(){
+	var x,y,u,v,c,d;
+	for (x=0;x<width;x++)
+	for (y=0;y<height;y++){
+		u=X[x][y];
+		v=Y[x][y];
+		r=lerpArray(R,u,v);
+		g=lerpArray(G, u,v);
+		b=lerpArray(B, u,v);
+		d=rgb2hsv(r, g, b);
+		c=hsv2rgb(d.h, d.s, (1-T)*d.v+T*V[x][y]);
+		imageData.data[(x+width*y)*4]=r;
+		imageData.data[(x+width*y)*4+1]=g;
+		imageData.data[(x+width*y)*4+2]=b
+		X[x][y]=(u+lerpArray(VX, u,v)+width)%width;
+		Y[x][y]=(v+lerpArray(VY, u,v)+height)%height;		
+	}
+	theCanvas.putImageData(imageData, 0, 0);
+//	out.innerHTML=counter++;
+}
+function onclick(){
+	startloop();
+}
+</script>
+</head>
+<body>
+<div class='content'>
+<div class='hidden'>
+<button onclick='stoploop();'>Stop</button>
+<button onclick='startloop();'>Start</button>
+</div>
+<div id='spork'></div>
+<div id='out'>Click the image to start.</div>
+<img id='colorImage' src='png/blurdog.png' class='hidden'>
+<img id='shadowImage' src='png/dad.jpg' class='hidden'>
+</div>
+</body>
+</html>
