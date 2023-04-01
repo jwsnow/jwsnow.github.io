@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+<head>
+<style></style>
+<script src='spork.js'></script>
+<script>
+var R;
+var r=0.25;
+var PX=[],PY=[];
+var QX=[], QY=[];
+function drawPolygon(){
+save();
+color('green');
+	var i;
+	for (i=0;i<PX.length;i++)
+		line(PX[i], PY[i], PX[(i+1)%PX.length], PY[(i+1)%PX.length]);
+	save();
+//	color('red');
+//	for (i=0;i<PX.length;i++)
+//		point(PX[i], PY[i]);
+	restore();
+	//circle(0,0,width/4);
+//	out.innerHTML=PX+'<br>'+PY;
+	restore();
+}
+function splitPolygon(){
+	QX=PX;
+	QY=PY;
+	PX=[];
+	PY=[];
+	var N=QX.length;
+	var i;
+	for (i=0;i<N;i++){
+		PX.push((1-r)*QX[i]+r*QX[(i-1+N)%N]);
+		PY.push((1-r)*QY[i]+r*QY[(i-1+N)%N]);
+		PX.push((1-r)*QX[i]+r*QX[(i+1+N)%N]);
+		PY.push((1-r)*QY[i]+r*QY[(i+1+N)%N]);
+	}
+	clear();
+	drawPolygon();
+	drawSquircle2();
+}
+function drawSquircle(){
+	var x,y;
+	var k=R;
+	x=R*3/4;
+	y=R*3/4;
+	var s=sqrt((x*x+y*y-R*R)*R*R/(x*x*y*y));
+	//alert(s);
+	for (x=-k;x<=k;x+=2){
+		y=sqrt((k*k-x*x)/(1-s*s*x*x/(k*k)));
+		fillrect(x, y,1,1);
+		fillrect(x, -y,1,1);
+	}
+}
+function drawSquircle2(){
+	var x,y;
+	var k=R;
+	x=3/4;
+	y=3/4;
+	var n=log(1/2)/log(3/4);
+	for (x=-k;x<=k;x++){
+		y=pow((pow(k,n)-(pow(abs(x),n))), 1/n);
+		fillrect(x, y,1,1);
+		fillrect(x, -y,1,1);
+	}
+}
+function setup(){
+	size(1000,1000);
+	translate(width/2, height/2);
+	R=0.9*width/2;
+	PX=[-R, R, R, -R];
+	PY=[-R, -R, R, R];
+}
+function draw(){
+	drawPolygon();
+	drawSquircle2();
+}
+function test(){
+	var N=PX.length;
+	var i, x, y;
+	var k=width/4;
+	var t=''+N+'<br>';
+	var s;
+	var M=0;
+	var m=1;
+	for (i=0;i<N;i++){
+		x=PX[i];
+		y=PY[i];
+		if ((abs(x)!=k) && (abs(y)!=k)){
+			s=sqrt((k*k*(x*x+y*y-k*k))/(x*x*y*y));
+			t+=s+'<br>';
+			if (s>M) M=s;
+			if (s<m) m=s;
+		}	
+	}
+	out.innerHTML='min: '+m+'<br>max: '+M+'<br>'+t;
+}
+function test(){
+//midpoints
+	var N=PX.length-1;
+	var i, x, y;
+	var k=width/4;
+	var t=''+N+'<br>';
+	var s;
+	var M=0;
+	var m=1;
+	for (i=0;i<N;i++){
+		x=(PX[i]+PX[i+1])/2;
+		y=(PY[i]+PY[i+1])/2;;
+		if ((abs(x)!=k) && (abs(y)!=k)){
+			s=sqrt((k*k*(x*x+y*y-k*k))/(x*x*y*y));
+			t+=s+'<br>';
+			if (s>M) M=s;
+			if (s<m) m=s;
+		}	
+	}
+	out.innerHTML='min: '+m+'<br>max: '+M+'<br>'+t;
+}
+function findPower(x,y,k){
+	x=abs(x);
+	y=abs(y);
+	var n=2;
+	while (pow(x,n)+pow(y,n)>pow(k,n)) n+=0.01;
+	return(n);
+}
+function test(){
+	var N=PX.length;
+	var i, x, y;
+	var k=width/4;
+	var t=''+N+'<br>';
+	var n;
+	var M=0;
+	var m=5;
+	for (i=0;i<N;i++){
+		x=(PX[i]+PX[i+1])/2;
+		y=(PY[i]+PY[i+1])/2;;
+		n=findPower(x,y,k);
+		t+=n+'<br>';
+		if (n>M) M=n;
+		if (n<m) m=n;
+	}
+	out.innerHTML='min: '+m+'<br>max: '+M+'<br>'+t;
+}
+</script>
+</head>
+<body>
+<div id='spork'></div>
+<button onclick='splitPolygon();'>Go</button>
+<div id='out'></div>
+</body>
+</html>
