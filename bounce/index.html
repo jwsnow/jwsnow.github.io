@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+<style></style>
+<script src='spork.js'></script>
+<script>
+var N=2000;
+var WIDTH=400;
+var r2=(WIDTH/2)*(WIDTH/2);
+var X=[];
+var Y=[];
+var VX=[];
+var VY=[];
+var C=[];
+var dt=0.01;
+var dt2=dt*dt;
+var a=10;
+
+function bounce(){
+	var i;
+	var x,y,dx,dy,r,px,py,vx,vy,m;
+	for (i=0;i<N;i++){
+		x=X[i];
+		y=Y[i];
+		r=(x*x+y*y);
+		if (r>=r2){
+			r=sqrt(r);
+			x=x/r;
+			y=y/r;
+			vx=VX[i];
+			vy=VY[i];
+			m=x*vx+y*vy;
+			px=m*x;
+			py=m*y;
+			VX[i]=vx-2*px;
+			VY[i]=vy-2*py;
+		}
+	}
+}
+
+function updatePoints(){
+	var i;
+	for (i=0;i<N;i++){
+		X[i]+=VX[i]*dt;
+		Y[i]+=VY[i]*dt;
+		VY[i]+=a*dt;
+	}
+}
+
+function drawPoints(){
+	var i;
+	for (i=0;i<N;i++){
+		fillcolor(C[i]);
+		fillrect(X[i], Y[i], 1,1);
+	}
+}
+
+function setupArrays(){
+	var i;
+	for (i=0;i<N;i++){
+		VX[i]=0;
+		VY[i]=0;
+		X[i]=-0.5+random();
+		Y[i]=-0.5+random();
+		C[i]=rgb(
+			round(X[i]*128+128),
+			128,
+			round(Y[i]*128+128)
+		);
+	}
+}
+
+function setup(){
+	size(WIDTH, WIDTH);
+	translate(width/2, height/2);
+	setupArrays();
+	loop();
+}
+
+function draw(){
+	var i;
+	clear();
+	for (i=0;i<2;i++){
+		drawPoints();
+		updatePoints();
+		bounce();
+	}	
+}
+</script>
+</head>
+<body>
+<div id='spork'></div>
+</body>
+</html>
