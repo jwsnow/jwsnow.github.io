@@ -15,6 +15,7 @@ var C=[];
 var dt=0.01;
 var dt2=dt*dt;
 var a=10;
+var aterm=a*dt*dt/2;
 
 function bounce(){
 	var i;
@@ -60,8 +61,8 @@ function setupArrays(){
 	for (i=0;i<N;i++){
 		VX[i]=0;
 		VY[i]=0;
-		X[i]=-0.5+random();
-		Y[i]=-0.5+random();
+		X[i]=-1+2*random();
+		Y[i]=-1+2*random();
 		C[i]=rgb(
 			round(X[i]*128+128),
 			128,
@@ -80,7 +81,7 @@ function setup(){
 function draw(){
 	var i;
 	clear();
-	for (i=0;i<2;i++){
+	for (i=0;i<4;i++){
 		drawPoints();
 		updatePoints();
 		bounce();
