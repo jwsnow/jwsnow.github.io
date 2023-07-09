@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<head>
+<style>
+html{
+	height:100%;
+	width:100%;
+}
+body{
+  width: 100%;
+  height: 100%;
+  display:table;
+  margin:0px;
+  text-align: center;
+}
+div.content{
+  width: 100%;
+  height: 100%;
+	display:table-cell;
+	background:black;
+	color: white;
+	font-size: 18px;
+	vertical-align: middle;
+	text-align: center;
+}
+canvas{
+max-height: 75%;
+max-width:75%;
+margin: auto;
+}
+img{
+	display: none;
+}
+</style>
+<script src='spork.js'></script>
+<script>
+var F;
+var c=[];
+var C=[];
+var S=[];
+var R=[], G=[], B=[], A=[];
+function bump(x,y){
+	var r=max(0,2/(1+pow(x,8)+pow(y,8))-1);
+	return(r);
+}
+function setupArrays(){
+	F=floor(random()*8+2);
+	var m,n;
+	//select colors
+	//R=random()*255;
+	//G=random()*255;
+	//B=random()*255;
+	drawImage(theImage, width/2, height/2, width, height);
+	copyImageData(R, G, B, A);
+	//select coefficients
+	for (m=0;m<F;m++){
+		c[m]=[];
+		for (n=0;n<F;n++)
+			c[m][n]=2*random()-1;
+			//c[m][n]=1/(m+n);
+	}
+	//get values of cosine series
+	var X, Y, x, y,MIN,MAX,SMIN,SMAX;
+	var k;
+	MIN=Infinity;
+	MAX=-Infinity;
+	SMIN=Infinity;
+	SMAX=-Infinity;
+	for (X=0;X<width;X++){
+		C[X]=[];
+		S[X]=[];
+		x=2*X/width-1;
+		for (Y=0;Y<height;Y++){
+			y=2*Y/height-1;
+			k=bump(x,y);
+			C[X][Y]=0;
+			S[X][Y]=0;
+			for (m=0;m<F;m++)
+				for (n=0;n<F;n++){
+					C[X][Y]+=c[m][n]*cos(1*k*m*x*pi)*cos(1*k*n*y*pi);
+					S[X][Y]+=c[m][n]*sin(1*k*m*x*pi)*sin(1*k*n*y*pi);
+				}
+			if (C[X][Y]<MIN) MIN=C[X][Y];
+			if (C[X][Y]>MAX) MAX=C[X][Y];
+			if (S[X][Y]<SMIN) SMIN=S[X][Y];
+			if (S[X][Y]>SMAX) SMAX=S[X][Y];
+		}
+	}
+	//scale to [-1,1]
+	var M=2/(MAX-MIN);
+	var SM=2/(SMAX-SMIN);
+	for (x=0;x<width;x++)
+		for (y=0;y<height;y++){
+			C[x][y]=M*(C[x][y]-MIN)-1;
+			S[x][y]=SM*(S[x][y]-SMIN)-1;
+		}	
+}
+var I;
+function makeImage(){ 
+	var x, y,i,r,g,b,t,u,dx,dy;
+	var X, Y;
+	for (x=0;x<width;x++)
+		for (y=0;y<height;y++){
+			i=x+width*y;
+			//t=abs(cos(4*pi*(C[x][y])));
+			//u=abs(cos(4*pi*(S[x][y])));
+			X=floor((width-1)*(C[x][y]+1)/2)
+			Y=floor((width-1)*(S[x][y]+1)/2)
+			//console.log(X+' '+Y);
+			r=R[X][Y];
+			g=G[X][Y];
+			b=B[X][Y];
+			I.data[4*i]=r;
+			I.data[4*i+1]=g;
+			I.data[4*i+2]=b;
+			I.data[4*i+3]=255;
+		}
+}
+function setup(){
+	size(800,800);
+	background('red');
+	timestep(5000);
+	loop();
+}
+
+function draw(){
+	setupArrays();
+	I=theCanvas.getImageData(0,0,width,height);
+	makeImage();
+	theCanvas.putImageData(I, 0, 0);	
+	//out.innerHTML=F;
+}
+</script>
+</head>
+<body>
+<div class='content'>
+<div id='spork'></div>
+<div id='out'></div>
+<img src='png/JB2.jpg' id='theImage'>
+</div>
+</body>
+</html>
