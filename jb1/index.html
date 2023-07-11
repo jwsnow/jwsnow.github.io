@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+<style>
+html{
+	height:100%;
+	width:100%;
+}
+body{
+  width: 100%;
+  height: 100%;
+  display:table;
+  margin:0px;
+  text-align: center;
+}
+div.content{
+  width: 100%;
+  height: 100%;
+	display:table-cell;
+	background:black;
+	color: white;
+	font-size: 18px;
+	vertical-align: middle;
+	text-align: center;
+}
+canvas{
+max-height: 75%;
+max-width:75%;
+margin: auto;
+}
+img{
+	display: none;
+}
+</style>
+<script src='spork.js'></script>
+<script src='rancomp.js'></script>
+<script src='reflection.js'></script>
+<script>
+function bump(x,y){
+	var r=max(0,2/(1+pow(x,8)+pow(y,8))-1);
+	return(r);
+}
+var NUMIMAGES=10;
+var counter=0;
+WIDTH=800;
+function setup(){
+	getColors(sourceImage); console.log('got source colors');	
+	size(WIDTH,WIDTH);
+	RNGSEED=floor(random()*1000000);
+	random=RNG;
+	timestep(5000);
+	loop();
+  }
+function onclick(){draw()};
+
+function draw(){
+	var r=generateImage();
+	//if (counter++>=NUMIMAGES) stoploop();
+}
+</script>
+</head>
+<body>
+<div class='content'>
+<div id='spork'></div> 
+</div>
+<img src='png/JB2.jpg' id='sourceImage'>
+<hr>
+</body>
+</html>
