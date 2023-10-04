@@ -1,0 +1,9 @@
+questionID[currentProblem]='iddistro9';
+question[currentProblem]='Use your calculator to draw a histogram of this data: <br> 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 1 <br> Is the data (approximately) <ol type="A"> <li> Bell Shaped or Normal, <li> Skewed Left, <li> Skewed Right, or <li> Uniform? </ol>';
+type[currentProblem]='T';
+answer[currentProblem]='B';
+hint[currentProblem]='See the notes for this section.';
+epsilon[currentProblem]=0.0001;
+notes[currentProblem]='notes/L03-graphing.pdf';
+currentProblem++;
+

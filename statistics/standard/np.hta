@@ -1,0 +1,108 @@
+<html>
+<head>
+<HTA:APPLICATION ID="oHTA"
+      VERSION="1.0"
+     APPLICATIONNAME="AmPost"
+     BORDER="thin"
+     BORDERSTYLE="normal"
+     CAPTION="yes"
+     CONTEXTMENU="no"
+     ICON=""
+     INNERBORDER="yes"
+     MAXIMIZEBUTTON="yes"
+     MINIMIZEBUTTON="yes"
+     NAVIGABLE="no"
+     SCROLL="yes"
+     SCROLLFLAT="yes"
+     SELECTION="yes"
+     SHOWINTASKBAR="yes"
+     SINGLEINSTANCE="yes"
+     SYSMENU="yes"
+     WINDOWSTATE="normal"
+/>
+
+<script language="javascript">
+
+var currentProblem = 1;
+var assignmentID;
+var questionID	= new Array();
+var question	= new Array();
+var type	= new Array();
+var response	= new Array();
+var answer 	= new Array();
+var hint 	= new Array();
+var epsilon	= new Array();
+var notes	= new Array();
+var grade	= new Array();
+var GRADE;
+
+function addJavascript(jsname,pos) {
+	var th = document.getElementsByTagName(pos)[0];
+	var s = document.createElement('script');
+	s.setAttribute('type','text/javascript');
+	s.setAttribute('src',jsname);
+	th.appendChild(s);
+	}
+
+
+function loadfile(form){
+	var jsname=form.filename.value+'.js';
+	addJavascript(jsname, 'head');
+	currentProblem--;
+	form.questionID.value=questionID[currentProblem];
+	form.question.value=question[currentProblem];
+	form.type.value=type[currentProblem];
+	form.answer.value=answer[currentProblem];
+	form.hint.value=hint[currentProblem];
+	form.epsilon.value=epsilon[currentProblem];
+	form.notes.value=notes[currentProblem];
+	}
+
+function jrun(name) {
+	var shell=new ActiveXObject("WScript.Shell");
+	shell.Run(name); 
+	}
+function WriteFile(name, theText) {
+   var fso  = new ActiveXObject("Scripting.FileSystemObject"); 
+   var fh = fso.CreateTextFile(name, true, 0); 
+   var theArray = theText.split('\n');
+   for (x in theArray)
+      fh.WriteLine(theArray[x]); 
+   fh.Close(); 
+	}
+function graphit(form){
+	var stuffToWrite="";
+	var jsname=form.filename.value+'.js';
+	var htmlname=form.filename.value+'.html';
+	stuffToWrite+="questionID[currentProblem]='"+form.filename.value+"';\n";
+	stuffToWrite+="question[currentProblem]='"+form.question.value.replace(/\r/g, ' \\')+"';\n";
+	stuffToWrite+="type[currentProblem]='"+form.type.value+"';\n";
+	stuffToWrite+="answer[currentProblem]='"+form.answer.value+"';\n";
+	stuffToWrite+="hint[currentProblem]='"+form.hint.value.replace(/\r/g, ' \\')+"';\n";
+	stuffToWrite+="epsilon[currentProblem]="+form.epsilon.value+";\n";
+	stuffToWrite+="notes[currentProblem]='"+form.notes.value+"';\n";
+	stuffToWrite+="currentProblem++;\n"
+	WriteFile(jsname, stuffToWrite);
+	stuffToWrite="<html>\n<head><script type=\'text/javascript\' src='../quizfunctions.js'></scr"+"ipt>\n<script type=\'text/javascript\'>TEST=0;SURVEY=0;QUIZ=0;directions=\'\';\nquizId=\'"+form.filename.value+"\';\naddProblem(\'"+jsname+"\');\n</scri"+"pt></head><body id='theBody' onload='fillBody()'></body></html>";
+	WriteFile(htmlname, stuffToWrite);
+	}
+</script>
+
+</head>
+<body>
+
+<FORM name="inputForm">
+filename: <input name="filename" type="text" value=""> <p>
+questionID: <input name="questionID" type="text" value=""> <p>
+question: <textarea name="question" value="" rows=15 cols=50></textarea> <p>
+type: <input name="type" type="text" value="T"> <p>
+answer: <input name="answer" type="text" value=""> <p>
+hint: <textarea name="hint" type="text" rows=15 cols=50></textarea> <p>
+epsilon: <input name="epsilon" type="text" value=".0001"> <p>
+notes: <input name="notes" type="text" value="notes/L13-standard.pdf" size=100> <p>
+
+<INPUT NAME="writeFiles" TYPE=Button VALUE="save" onClick="graphit(inputForm)">
+<INPUT NAME="writeFiles" TYPE=Button VALUE="open" onClick="loadfile(inputForm)"><p>
+</FORM>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype HTML>
+<html>
+<head>
+<title>J.W. Snow -- Statistics</title>
+<script type="text/javascript" src="pass.js"></script>
+<script type='text/javascript'>
+
+function login(){
+	var d = new Date();
+	var e = d.toString();
+	var pass = loginForm.passw.value.toLowerCase();
+	var address = loginForm.email.value.toLowerCase();
+	
+	if (getPassword(address) == pass)
+		this.location="course.html?"+address;
+	else
+		alert('Please Enter a Legal Email Address and Password Combination.');
+	}
+function forgot(){
+	var address = loginForm.email.value.toLowerCase();
+	this.location="forgotpassword.html?"+address;
+	}
+function allowGuest(){
+	loginForm.email.value='no.body@cune.org';
+	loginForm.passw.value='';
+	this.location="course.html?"+loginForm.email.value;
+	}
+onload = function(){
+	loginForm.passw.value = '';
+	loginForm.email.value='@cune.org';
+	}
+</script>
+</head>
+<body>
+<table><tr><td>
+<h1>Math 122 Course Log In</h2>
+This page provides students in J.W. Snow's Math 122-Statistics class access to notes, homework, tests, and quizzes.
+</td><td><img src="mcross.png" height="100px"></td></tr></table>
+<hr>
+<h2> Current Students </h2>
+Current students should log in to get credit for tests and quizzes.
+<form id='loginForm'>
+<table>
+<tr><td>EMAIL ADDRESS:</td><td> <input type='text' name='email' value='@cune.org'><br></td></tr>
+<tr><td>PASSWORD:</td><td> <input type='password' name='passw' value=''><br></td></tr>
+<tr><td></td><td><input type='button' onClick="login();" value='Log In'> </td></tr>
+</table>
+</form>
+<a href='javascript: forgot()'>Forgot your password?</a> <br>
+<hr>
+<h2> Guests </h2>
+For guest access click <a href='javascript: allowGuest();'>here</a>.  Guests are allowed to view all course material except tests.
+<hr>
+<h2> Calculator </h2>
+If you just want to use the online calculator, click here: <a href='calc.html'>small buttons</a> or <a href='bigButtons.html'>big buttons</a>. <p>
+<a href='survey.html?no.body@cune.org'> Anonymous Survey </a>
+<hr>
+Return to J.W. Snow's <a href="../index.html">homepage</a>.
+
+
+
+</body>
+</html>
+
+
+

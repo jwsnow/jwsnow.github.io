@@ -1,0 +1,32 @@
+<html>
+<head>
+<script type='text/javascript' src='pass.js'></script>
+<script type='text/javascript'>
+
+var url = window.location.href;
+var urlParts=url.split("?");
+var inAddress;
+
+if (urlParts.length < 2){
+	inAddress = "";
+//	this.location='index.html';
+	}
+else
+	inAddress = urlParts[1];
+
+function showpassword(){
+	inAddress=loginForm.email.value;
+	alert(getPassword(inAddress));
+	}
+</script>
+</head>
+<body>
+<h1> Math 122  Student Passwords</h1>
+<form id='testAccessForm' >
+Email Address: <input type='text' name='passw' value=''><input type='text' name='loc' value=''><input type='button' onClick="loc.value=getPassword(passw.value);" value='Get Password'> <br>
+</form>
+</body>
+</html>
+
+
+

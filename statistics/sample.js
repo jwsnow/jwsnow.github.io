@@ -1,0 +1,30 @@
+questionID[currentProblem]='Sample1';
+question[currentProblem]='Problems can be typeset in HTML, so anything that can be done on a web page can be done in the problem area.  This may include pictures such as <br> <img src= "gracie.jpg" width=100> <br> or even $\\LaTeX$ such as $$x=\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$$ <br> Below the question area are up to six buttons.  <ul> <li> Click the CHECK button to submit an answer.  You will be told if the answer you have entered is correct or not.  On homework and quizzes, you get another chance.  <li> Click the UNCLE button to consciously give up on a problem. <li> Click the HINT button, and a hint will appear to the right of the problem area. <li> The NOTES button will bring up notes in another window or tab.  Notes can be specified for each problem.  <li> The EMAIL button will open a dialog to send email to the instructor.  <li>  The CALCULATOR button will show a calculator which is capable of performing all of the function necessary for Math 122.  It actually does much more, but that is not documented (or debugged).  </ul> Answers to questions at this time can be text, a number (within specified epsilon), or a function.  <hr>  Here is a question: <br>  What is the capital of Texas?';
+type[currentProblem]='T';
+answer[currentProblem]='Austin';
+hint[currentProblem]='Hints can include any HTML just like the problem area.  For example, here is some math $$x^2+y^2=1.$$  Hints are problem specific.<hr> The hint for the question asked here is:  The capital of Texas is not Houston or Dallas.';
+epsilon[currentProblem]=.0001;
+notes[currentProblem]='notes.html';
+currentProblem++;
+
+questionID[currentProblem]="Sample2";
+question[currentProblem]="You should have noticed the progress bar to the right change when you submitted your answer. <br> This next question asks for a numeric answer.  Any answer within .011 will be accepted. If you cannot find the square root function of the calculator, ask for a hint.<hr> Use the calculator to find $\\sqrt{13}$.  Enter an answer rounded to two decimal places.";
+type[currentProblem]="N";
+answer[currentProblem]=3.61;
+hint[currentProblem]="The square root function can be found by pressing the MATH button on the calculator...or just use sqrt(13).";
+epsilon[currentProblem]=0.011;
+notes[currentProblem]="";
+lowLimit[currentProblem]=0;
+highLimit[currentProblem]=1;
+currentProblem++;
+
+questionID[currentProblem]="Sample3";
+question[currentProblem]="This next question asks for a function answer.  Use a caret for exponents.  Use * for multiplication.  Be sure to show multiplication for coefficients (3*x rather than 3x).  <br> Just enter the derivative without $y'=$ or $\\frac{dy}{dx}=$.<hr> Find the derivative of $$y=3x^2+\\sin (x)$$";
+type[currentProblem]="F";
+answer[currentProblem]="6*x+cos(x)";
+hint[currentProblem]="You should know how to find a derivative.";
+epsilon[currentProblem]=0.011;
+notes[currentProblem]="";
+lowLimit[currentProblem]=0;
+highLimit[currentProblem]=6;
+currentProblem++;

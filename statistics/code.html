@@ -1,0 +1,21 @@
+<html>
+<head>
+<script src='pass.js'></script>
+<script>
+function encrypt(){
+	d = new Date();
+	theOutput.value=toAlpha(theInput.value+' '+d.toDateString());
+}
+function uncrypt(){
+	theInput.value=fromAlpha(theOutput.value);
+}
+</script>
+</head>
+<body>
+<textarea id='theInput' style='width: 40%;height:500px;'></textarea>
+<textarea id='theOutput' style='width: 40%;height: 500px;'></textarea><br>
+<button onclick='encrypt();'>Go</button>
+<button onclick='uncrypt();'>Back</button>
+
+</body>
+</html>

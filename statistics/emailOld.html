@@ -1,0 +1,40 @@
+<html>
+<script type="text/javascript">
+			var url = unescape(window.location.href);
+
+			var urlParts=url.split("?");
+			var inAddress = '';
+			var quizId = '';
+			var testText = '';
+			
+			if (urlParts.length>=2)
+				inAddress = unescape(urlParts[1]);
+			if (urlParts.length>=3)
+				quizId = unescape(urlParts[2]);
+			var storage;
+			if('localStorage' in window && window['localStorage'] !== null)
+				storage = 1;
+			else
+				storage=0;
+			if (storage==1)
+				testText=localStorage['SNOWSTATTEST|'+inAddress+'|'+quizId];
+			window.onload=function(){
+				emailForm.email.value=inAddress;
+				emailForm.problem.value=quizId;
+				emailForm.responsestring.value = testText;
+				}
+		</script>
+
+<body>
+<h2> Email Instructor:</h2>	
+<form id='emailForm' method='post' action='/cgi/FormMail.pl'>	
+<input type='hidden' name='recipient' value='John.Snow@cune.edu'>	
+<input type='hidden' name='redirect' value='http://www.cune.edu/facweb/john.snow/stat/ok.html'>	
+EMAIL ADDRESS: <input type='text' name='email' readOnly='readonly' value='no.body@cune.org'><br>	
+<textarea name='question' rows=15 cols=55>	
+</textarea><br>	
+<input type='text' name='problem' readOnly='readonly' value=''>	
+<input type='hidden' name='responsestring' id='responsestring' value=''>	
+<input type='submit' value='Send'>	</form>	
+</body>
+</html>

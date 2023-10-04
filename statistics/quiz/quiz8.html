@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type='text/javascript' src='../setbase.js'></script>
+<script type='text/javascript' src='../restrictaccess.js'></script>
+<script type='text/javascript' src='../quizfunctions.js'></script>
+<script type='text/javascript'>
+RESTRICTED=1;
+SUBMITTABLE=1;
+directions='';
+quizId='Final Exam Practice';
+
+addRandomBlock(1, '../terminology/expvsobs1.js', '../terminology/expvsobs2.js', '../terminology/expvsobs3.js', '../terminology/expvsobs4.js', '../terminology/expvsobs5.js', '../terminology/expvsobs6.js', '../terminology/expvsobs7.js', '../terminology/expvsobs8.js');
+addRandomBlock(1, '../terminology/catvsq1.js', '../terminology/catvsq2.js', '../terminology/catvsq3.js', '../terminology/catvsq4.js', '../terminology/catvsq5.js', '../terminology/catvsq6.js', '../terminology/catvsq7.js', '../terminology/catvsq8.js', '../terminology/catvsq9.js');
+addRandomBlock(1, '../terminology/contvsdisc1.js', '../terminology/contvsdisc2.js', '../terminology/contvsdisc3.js', '../terminology/contvsdisc4.js', '../terminology/contvsdisc5.js', '../terminology/contvsdisc6.js', '../terminology/contvsdisc7.js', '../terminology/contvsdisc8.js');
+addRandomBlock(1, '../terminology/parvsstat1.js', '../terminology/parvsstat2.js', '../terminology/census.js');
+addRandomBlock(2, '../graphing/charttypes1.js', '../graphing/charttypes2.js', '../graphing/charttypes3.js', '../graphing/charttypes4.js', '../graphing/charttypes5.js', '../graphing/charttypes6.js');
+addRandomBlock(1, '../graphing/iddistro1.js', '../graphing/iddistro2.js', '../graphing/iddistro3.js', '../graphing/iddistro4.js', '../graphing/iddistro5.js', '../graphing/iddistro6.js', '../graphing/iddistro7.js', '../graphing/iddistro8.js', '../graphing/iddistro9.js', '../graphing/iddistro10.js', '../graphing/iddistro11.js', '../graphing/iddistro12.js');
+addProblems( '../variation/varnotation1.js', '../variation/varnotation2.js', '../variation/varnotation3.js', '../variation/varnotation4.js');
+addRandomBlock(2, '../center/histomode1.js', '../variation/histosd1.js','center/centerconcepts1.js', '../center/centerconcepts2.js', '../center/centerconcepts3.js');
+addRandomBlock(1, '../center/findcenters1.js', '../center/findcenters2.js', '../center/findcenters3.js', '../center/findcenters4.js', '../center/findcenters5.js');
+addRandomBlock(1, '../variation/findsd1.js', '../variation/findsd2.js', '../variation/findsd3.js', '../variation/findsd4.js', '../variation/findsd5.js');
+addRandomBlock(2, '../variation/rrt1.js', '../variation/rrt2.js', '../variation/rrt3.js', '../variation/rrt4.js', '../variation/rrt5.js', '../variation/rrt6.js', '../variation/rrt7.js', '../variation/rrt8.js', '../variation/rrt9.js');
+addRandomBlock(2, '../standing/findz1.js', '../standing/findz2.js', '../standing/findz3.js', '../standing/findz4.js','standing/zrrt1.js', '../standing/zrrt2.js', '../standing/zrrt3.js', '../standing/zrrt4.js', '../standing/compz1.js', '../standing/compz2.js', '../standing/compz3.js', '../standing/compz4.js');
+addRandomBlock(2, '../probability/probconcepts1.js', '../probability/probconcepts2.js', '../probability/probconcepts3.js', '../probability/probconcepts4.js', '../probability/probconcepts5.js', '../probability/probconcepts6.js', '../probability/probconcepts7.js', '../probability/probconcepts8.js', '../probability/probconcepts9.js', '../probability/probconcepts10.js', '../probability/probconcepts11.js', '../probability/probconcepts12.js');
+addRandomBlock(2, '../probability/flips1.js', '../probability/flips2.js', '../probability/flips3.js', '../probability/flips4.js', '../probability/flips5.js', '../probability/flips6.js', '../probability/flips7.js', '../probability/bowl1.js', '../probability/bowl2.js', '../probability/bowl3.js', '../probability/bowl4.js', '../probability/bowl5.js', '../probability/bowl6.js', '../probability/bowl7.js', '../probability/bowl8.js', '../probability/bowl9.js', '../probability/bowl10.js', '../probability/bowl11.js','probability/survey1.js', '../probability/survey2.js', '../probability/survey3.js', '../probability/survey4.js', '../probability/survey5.js');
+addRandomBlock(2, '../ranvar/varstat1.js', '../ranvar/varstat2.js', '../ranvar/varstat3.js', '../ranvar/lottery1.js', '../ranvar/lottery2.js', '../ranvar/lottery3.js', '../ranvar/insurance1.js', '../ranvar/insurance2.js');
+addRandomBlock(2, '../binomial/mc1.js', '../binomial/mc2.js', '../binomial/mc3.js', '../binomial/mc4.js', '../binomial/mc5.js', '../binomial/mc6.js', '../binomial/mc7.js', '../binomial/mc8.js', '../binomial/bi1.js', '../binomial/bi2.js', '../binomial/bi3.js', '../binomial/bi4.js', '../binomial/bi5.js', '../binomial/bi6.js', '../binomial/bi7.js', '../binomial/five1.js', '../binomial/five2.js', '../binomial/five3.js', '../binomial/five4.js', '../binomial/rrt1.js', '../binomial/rrt2.js', '../binomial/rrt3.js');
+addRandomBlock(2, '../poisson/pb1.js', '../poisson/pb2.js', '../poisson/pb3.js', '../poisson/choc1.js', '../poisson/choc2.js', '../poisson/raisins1.js', '../poisson/raisins2.js', '../poisson/hom1.js', '../poisson/hom2.js', '../poisson/births1.js', '../poisson/births2.js', '../poisson/births3.js');
+addRandomBlock(2, '../uniform/uni1.js', '../uniform/uni2.js', '../uniform/uni3.js', '../uniform/uni4.js', '../uniform/uni5.js', '../uniform/uni6.js', '../uniform/cam1.js', '../uniform/cam2.js', '../uniform/cam3.js', '../uniform/cam4.js', '../uniform/cam5.js', '../uniform/cam6.js');
+addRandomBlock(2, '../standard/area1.js', '../standard/area2.js', '../standard/area3.js', '../standard/area4.js', '../standard/area5.js', '../standard/area6.js', '../standard/area7.js', '../standard/area8.js', '../standard/area9.js', '../standard/inv1.js', '../standard/inv2.js', '../standard/inv3.js', '../standard/inv4.js', '../standard/inv5.js', '../standard/inv6.js', '../standard/inv7.js');
+addRandomBlock(2, '../normal/height1.js', '../normal/height2.js', '../normal/height3.js', '../normal/height4.js', '../normal/height5.js', '../normal/height6.js', '../normal/height7.js', '../normal/height8.js', '../normal/height9.js', '../normal/snow1.js', '../normal/snow2.js', '../normal/snow3.js', '../normal/snow4.js', '../normal/birth1.js', '../normal/birth2.js', '../normal/birth3.js', '../normal/birth4.js', '../normal/birth5.js', '../normal/birth6.js');
+addRandomBlock(2, '../clt/height1.js', '../clt/height2.js', '../clt/height3.js', '../clt/height4.js', '../clt/height5.js', '../clt/height6.js', '../clt/weight1.js', '../clt/weight2.js', '../clt/weight3.js');
+addRandomBlock(1, '../ci/mean2.js', '../ci/mean3.js', '../ci/mean4.js', '../ci/prop1.js', '../ci/prop2.js');
+addRandomBlock(1, '../onemean/omt1.js', '../onemean/omt2.js', '../onemean/omt3.js', '../onemean/omt4.js', '../onemean/omt5.js', '../onemean/omt6.js', '../onemean/omt7.js', '../onemean/omt8.js', '../onemean/omt9.js', '../onemean/omt10.js', '../onemean/omt11.js', '../onemean/omt12.js', '../onemean/omt13.js', '../onemean/omt14.js')
+addRandomBlock(1, '../onepropz/opz1.js', '../onepropz/opz2.js', '../onepropz/opz3.js', '../onepropz/opz4.js', '../onepropz/opz5.js', '../onepropz/opz6.js', '../onepropz/opz7.js', '../onepropz/opz8.js', '../onepropz/opz9.js', '../onepropz/opz10.js')
+addRandomBlock(1,'../twoprop/tpz1.js', '../twoprop/tpz2.js', '../twoprop/tpz3.js', '../twoprop/tpz4.js', '../twoprop/tpz5.js', '../twoprop/tpz6.js', '../twoprop/tpz7.js');
+addRandomBlock(1,'../twomean/freund-tmt1.js', '../twomean/freund-tmt10.js',  'twomean/freund-tmt2.js', '../twomean/freund-tmt3.js', '../twomean/freund-tmt4.js', '../twomean/freund-tmt6.js', '../twomean/freund-tmt7.js', '../twomean/freund-tmt8.js', '../twomean/freund-tmt9.js');
+addRandomBlock(1, '../matched/mp1.js', '../matched/mp2.js', '../matched/mp3.js', '../matched/mp4.js', '../matched/mp5.js', '../matched/mp6.js', '../matched/mp7.js');
+addRandomBlock(1, '../correlation/cor1.js', '../correlation/cor2.js', '../correlation/cor3.js', '../correlation/cor4.js', '../correlation/cor5.js'); 
+addRandomBlock(1, '../correlation/regress1.js', '../correlation/regress2.js', '../correlation/regress3.js', '../correlation/regress4.js'); 
+addRandomBlock(1, '../correlation/scatter1.js', '../correlation/scatter2.js', '../correlation/scatter3.js', '../correlation/scatter4.js'); 
+addRandomBlock(1, '../gof/gof1.js',  'gof/gof2.js', '../gof/gof3.js', '../gof/gof4.js', '../gof/gof5.js', '../gof/gof6.js');
+addRandomBlock(1,'../contingency/con1.js',  '../contingency/con2.js', '../contingency/con3.js', '../contingency/con4.js', '../contingency/con5.js');
+addRandomBlock(1,'../anova/nova1.js',  'anova/nova2.js', '../anova/nova3.js', '../anova/nova4.js', '../anova/nova5.js');
+addRandomBlock(5, '../choice/choice1.js', '../choice/choice2.js', '../choice/choice3.js', '../choice/choice4.js', '../choice/choice5.js', '../choice/choice6.js', '../choice/choice7.js', '../choice/choice8.js', '../choice/choice9.js', '../choice/choice10.js', '../choice/choice11.js', '../choice/choice12.js', '../choice/choice13.js', '../choice/choice14.js', '../choice/choice15.js', '../choice/choice16.js');
+
+
+</script></head><body id='theBody' onload='fillBody()'></body></html>
