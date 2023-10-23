@@ -1,0 +1,301 @@
+<!doctype html>
+<html>
+<head>
+<style></style>
+<script src='spork.js'></script>
+<script>
+var N=100;
+var X=[]; var Y=[];
+var VX=[]; var VY=[]; var V=[];
+var FX=[]; var FY=[];
+var AX=[]; var AY=[];
+var ENV=[];
+
+var NN=[];
+var NX=[]; var NY=[];
+var NVX=[]; var NVY=[];
+var NFX=[]; var NFY=[];
+var NR=100;
+var R=30;
+
+var DT=0.01;
+var safeDistance=10;
+var fovAngle=10;
+var repCon=5;
+var attCon=0.5;
+var gravity=0
+var vCap=2;
+var followCon=2;
+
+function displayBoids(){
+	var i;
+	var dx,dy,v,x,y;
+	for (i=0;i<N;i++){
+		x=X[i]; y=Y[i];
+		point(x,y);
+		v=V[i];
+		if (v!=0){
+			dx=VX[i]/v;
+			dy=VY[i]/v;
+			line(x,y,x-10*dx, y-10*dy);
+		}
+	}	
+}
+function displayEnvironment(){
+var x,y,dx=100;
+	save();
+	background('gray');
+	fillcolor('white');
+	fillrect(20,20,width-40, height-40);
+	fillcolor('gray');
+	color('gray');
+		linewidth(20);
+	for (x=dx;x<=width-dx;x+=dx)
+	for (y=dx;y<=height-dx;y+=dx){
+		circle(x,y, 10);
+		fill();
+	}	
+
+	//color('gray');
+	//line(0,height/2, width/4, height/2);
+	//line(width, height/2, 0.75*width, 0.5*height);
+	restore();
+}
+function setupEnvironment(){
+	var G=[], B=[], A=[];
+
+	clear();
+	displayEnvironment();
+	copyImageData(ENV, G, B, A);
+}
+function setupArrays(){
+	var i,x,y;
+	var V0=vCap;
+
+	for (i=0;i<N;i++){
+		x=floor(random()*width);
+		y=floor(random()*height);
+		while (ENV[x][y]<255){
+			x=floor(random()*width);
+			y=floor(random()*height);		
+		}
+		X[i]=x; Y[i]=y;
+		VX[i]=V0*(random()-0.5); VY[i]=V0*(random()-0.5);
+	}
+	findVelocities();
+}
+
+
+
+function avoidEnvironment(){
+	var i;
+	var x,y,tx,ty,dx,dy,v;
+	var h, a,v,b,dt;
+	var lx, ly, rx, ry, cx, cy;
+	var lt, ct, rt
+	for (i=0;i<N;i++){
+		v=V[i];
+		if (v>0){
+			x=X[i];
+			y=Y[i];;
+			dx=VX[i];
+			dy=VY[i];			
+			dx=dx/v;
+			dy=dy/v;
+			h=round(atan2(dy, dx)*180/pi);
+			lx=round(x+COS(h-fovAngle)*safeDistance);
+			ly=round(y+SIN(h-fovAngle)*safeDistance);
+			cx=round(x+COS(h)*safeDistance);
+			cy=round(y+SIN(h)*safeDistance);
+			rx=round(x+COS(h+fovAngle)*safeDistance);
+			ry=round(y+SIN(h+fovAngle)*safeDistance);
+//			console.log(i,x.toFixed(2),y.toFixed(2),dx.toFixed(2),dy.toFixed(2),v.toFixed(2));
+//			console.log(lx.toFixed(2),ly.toFixed(2),cx.toFixed(2),cy.toFixed(2),rx.toFixed(2),ry.toFixed(2));
+			lt=((lx<0)||(lx>=width)||(ly<0)||(ly>=height)||(ENV[lx][ly]<255));
+			rt=((rx<0)||(rx>=width)||(ry<0)||(ry>=height)||(ENV[rx][ry]<255));
+			ct=((cx<0)||(cx>=width)||(cy<0)||(cy>=height)||(ENV[cx][cy]<255));
+			tx=(ENV[round(x)][round(y)]<255)
+			if ((lt)||(ct)||(rt)){
+					{
+					a=fovAngle;
+					xt=round(x+COS(a+h)*safeDistance);
+					yt=round(y+SIN(a+h)*safeDistance);
+					while((xt<0)||(xt>=width)||(yt<0)||(yt>=height)||(ENV[xt][yt]<255)){
+						a++;
+						xt=round(x+COS(a+h)*safeDistance);
+						yt=round(y+SIN(a+h)*safeDistance)	;			
+					}				
+					b=-fovAngle;
+					xt=round(x+COS(b+h)*safeDistance);
+					yt=round(y+SIN(b+h)*safeDistance);
+					while((xt<0)||(xt>=width)||(yt<0)||(yt>=height)||(ENV[xt][yt]<255)){
+						b--;
+						xt=round(x+COS(b+h)*safeDistance);
+						yt=round(y+SIN(b+h)*safeDistance);			
+					}				
+					if (a<abs(b)) 
+						dt=a;
+					else dt=b;
+				}
+			
+				VX[i]=v*COS(h+dt);
+				VY[i]=v*SIN(h+dt);
+			}
+		}
+	}	
+}
+
+function forceGradient(d, R){
+	var x=(R-d)/R;
+	return(3*x*x-2*x*x*x);
+}
+function neighborInfluence(){
+	 var i,j,n;
+	 var dx,dy,d,dot;
+	 
+	 for (i=0;i<N;i++){
+		NN[i]=1;
+		NX[i]=X[i];
+		NY[i]=Y[i];
+		NVX[i]=VX[i];
+		NVY[i]=VY[i];
+		NFX[i]=0;
+		NFY[i]=0;
+	 }
+	 
+	 for (i=0;i<N;i++){
+		//if ((i%10)!=0)
+		for (j=0;j<N;j++){
+			dx=X[j]-X[i];
+			dy=Y[j]-Y[i];
+			d=sqrt(dx*dx+dy*dy);
+			dot=dx*VX[i]+dy*VY[i];
+			if ((d<NR) && (dot/(V[i]*d)>0.5)){
+				NN[i]++;
+				//NN[j]++;
+				NX[i]+=X[j];
+				NY[i]+=Y[j];
+				//NX[j]+=X[i];
+				//NY[j]+=Y[i];
+				NVX[i]+=VX[j];
+				NVY[i]+=VY[j];
+				//NVX[j]+=VX[i];
+				//NVY[j]+=VY[i];
+			}
+		}
+	 }
+	 for (i=0;i<N;i++){
+		for (j=i+1;j<N;j++){
+			dx=X[j]-X[i];
+			dy=Y[j]-Y[i];
+			d=sqrt(dx*dx+dy*dy);
+				if ((d>0) && (d<R)){
+					dx=dx/d;
+					dy=dy/d;
+					NFX[i]+=-forceGradient(d,R)*dx;
+					NFY[i]+=-forceGradient(d,R)*dy;
+					NFX[j]+=forceGradient(d,R)*dx;
+					NFY[j]+=forceGradient(d,R)*dy;
+				}
+		}
+	 }
+	 for (i=0;i<N;i++){
+		n=NN[i];
+		if (n>0){
+			NX[i]=NX[i]/n;
+			NY[i]=NY[i]/n;
+			NVX[i]=NVX[i]/n;
+			NVY[i]=NVY[i]/n;
+		}
+	 }
+	 
+}
+
+function updatePositions(){
+	var i;
+	for (i=0;i<N;i++){
+		X[i]+=DT*VX[i];
+		Y[i]+=DT*VY[i];
+	}
+}
+function findVelocities(){
+	var i,dx,dy;
+	for (i=0;i<N;i++){
+		dx=VX[i];
+		dy=VY[i];
+		V[i]=sqrt(dx*dx+dy*dy);
+	}
+}
+function updateForces(){
+	var i;
+	var dx,dy,d,k;
+	for (i=0;i<N;i++){
+		FX[i]=NFX[i];
+		FY[i]=repCon*NFY[i]+gravity;
+	}
+	for (i=0;i<N;i++){
+		dx=NX[i]-X[i];
+		dy=NY[i]-Y[i];
+		d=sqrt(dx*dx+dy*dy);
+		k=attCon*forceGradient(d,NR);
+		FX[i]+=k*dx+followCon*(NVX[i]-VX[i]);
+		FY[i]+=k*dy+followCon*(NVY[i]-VY[i]);
+	}
+}
+function updateAccelerations(){
+	var i;
+	for (i=0;i<N;i++){
+		AX[i]=FX[i];
+		AY[i]=FY[i];
+	}
+}
+function updateVelocities(){
+	var i;
+	for (i=0;i<N;i++){
+		VX[i]=VX[i]+DT*AX[i];
+		VY[i]=VY[i]+DT*AY[i];
+	}
+	findVelocities();
+}
+function capVelocities(){
+	var i,v,dx,dy;
+	for (i=0;i<N;i++){
+		v=V[i];
+		//if (v>vCap)
+		{
+			dx=VX[i]/v;
+			dy=VY[i]/v;
+			VX[i]=dx*vCap;
+			VY[i]=dy*vCap;
+		}
+	}
+}
+function updateBoids(){
+	neighborInfluence();
+	updateForces();
+	updateAccelerations();
+	updateVelocities();
+	capVelocities();
+	avoidEnvironment();
+	updatePositions();
+}
+function setup(){
+	size(600,600);
+	setupEnvironment();
+	setupArrays();
+	avoidEnvironment();
+	loop();
+}
+function draw(){
+	var i;
+	for (i=0;i<15;i++)
+		updateBoids();
+	displayEnvironment();
+	displayBoids();
+}
+</script>
+</head>
+<body>
+<div id='spork'></div>
+</body>
+</html>
