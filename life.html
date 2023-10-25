@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+<head>
+<style></style>
+<script src='spork.js'></script>
+<script>
+var N=1000;
+var DT=0.01;
+
+var X=[]; var Y=[];
+var VX=[]; var VY=[]; 
+var FX=[]; var FY=[];
+var AX=[]; var AY=[];
+var numTypes=5;
+var TYPES=[];
+var colors=[];
+var R=100;
+var F=10;
+var VCAP=10;
+
+function displayPoints(){
+	var i
+	for (i=0;i<N;i++){
+		fillcolor(colors[TYPES[i]]);
+		fillrect(X[i], Y[i],2,2);
+	}	
+}
+
+function setupArrays(){
+	var i,x,y;
+
+	for (i=0;i<N;i++){
+		X[i]=floor(random()*width);
+		Y[i]=floor(random()*height);
+		VX[i]=0; VY[i]=0;
+		TYPES[i]=floor(random()*numTypes);
+	}
+	colors=['red', 'green', 'blue', 'white','black'];
+}
+
+function forceGradient(d, R){
+	var x=(R-d)/R;
+	return(3*x*x-2*x*x*x);
+}
+function attractionForce(d, f, r){
+	if (d<r) return(f*(r-d)/r);
+	else return(0);
+}
+function repulsionForce(d, f, r){
+	return(attractingForce(d, -f, r));
+}
+function updateForces(){
+	var i,j,dx,dy,d,f=0;
+	for (i=0;i<N;i++){
+		FX[i]=0;
+		FY[i]=0;
+	}
+	for (i=0;i<N;i++)
+	for (j=0;j<N;j++){
+		f=0;
+		dx=X[j]-X[i];
+		dy=Y[j]-Y[i];
+		d=sqrt(dx*dx+dy*dy);
+		if ((d!=0) && (d<R)){
+			if (TYPES[i]==TYPES[j]){
+				f+=attractionForce(d, 10, 30);
+				f+=attractionForce(d, -30, 20);
+			}
+			else if ((TYPES[i]+TYPES[j])%2==0){
+				f+=attractionForce(d, 5, 30);
+				f+=attractionForce(d, -10, 20);			
+			}
+			else
+			{
+				f+=attractionForce(d, 10, 300); 
+				f+=attractionForce(d, -30, 20); 
+			}
+			FX[i]+=(f)*(dx/d);
+			FY[i]+=(f)*(dy/d);			
+		}	
+	}
+}
+function updateAccelerations(){
+	var i;
+	for (i=0;i<N;i++){
+		AX[i]=FX[i];
+		AY[i]=FY[i];
+	}
+}
+function updateVelocities(){
+	var i;
+	for (i=0;i<N;i++){
+		VX[i]=VX[i]+DT*AX[i];
+		VY[i]=VY[i]+DT*AY[i];
+	}
+}
+function updatePositions(){
+	var i;
+	for (i=0;i<N;i++){
+		X[i]+=DT*VX[i];
+		Y[i]+=DT*VY[i];
+	}
+}
+function bounce(){
+	var i;
+	for (i=0;i<N;i++){
+		if (X[i]<10){
+			FX[i]+=100;
+		}
+		else if (X[i]>width-10){
+			FX[i]-=100;
+		}
+		if (Y[i]<10){
+			FY[i]+=100;
+		}
+		else if (Y[i]>height-10){
+			FY[i]-=100;
+		}
+	}
+}
+function capVelocities(){
+	var i, dx, dy, d;
+	for (i=0;i<N;i++){
+		dx=VX[i];
+		dy=VY[i];
+		d=sqrt(dx*dx+dy*dy);
+		if (d>VCAP){
+			VX[i]=VCAP*dx/d;
+			VY[i]=VCAP*dy/d;
+		}
+	}
+}
+function updatePoints(){
+	updateForces();
+	bounce();
+	updateAccelerations();
+	updateVelocities();
+	updatePositions();
+	capVelocities();
+}
+function setup(){ 
+	size(200,350);
+	setupArrays();
+	background('gray');
+	loop();
+}
+function draw(){
+	var i;
+	background('gray');
+	updatePoints();
+	displayPoints();
+}
+</script>
+</head>
+<body>
+<div id='spork'></div>
+<!--button onclick='stoploop();'>Pause</button> <button onclick='startloop();'>Go</button-->
+</body>
+</html>
