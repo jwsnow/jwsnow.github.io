@@ -1,0 +1,335 @@
+<!doctype html>
+<html>
+<head>
+<title>J.W. Snow</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' type='text/css' href='jws.css'>
+<script src='jws.js'></script>
+
+<style>
+#editorWrapper{
+  border: 2px solid #ccc;
+  background: rgb(248, 248, 248);
+  display: inline-block;
+  margin: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+#codeArea{
+	height: 400px;
+	resize: none;
+	margin: 0px;
+	padding: 0px;
+	border: none;
+	vertical-align: top;
+	background: none;
+	font-family: monospace, monospace;
+}
+#codeArea:focus{
+	outline: none;
+}
+#numberArea{
+	width: 30px;
+	height: 400px;
+	resize:none;
+	text-align: right;
+	border: none;
+	background: rgb(200, 200, 200);
+	margin: 0px;
+	padding: 0px;
+	vertical-align: top;
+	font-family: monospace, monospace;
+}
+#controlPanel{
+	margin: 10px;
+}
+#out{
+	margin: 10px;
+}
+#reference{
+	margin: 10px;
+}
+li{
+	margin-bottom: 10px;
+}
+pre{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+#reference{
+	display: none;
+}
+</style>
+<script>
+function catchTab(e){
+	var s;
+	e=e||window.event;
+	if (e.key=='Tab'){
+		e.preventDefault();
+		s = codeArea.selectionStart;
+		codeArea.value = codeArea.value.substring(0,codeArea.selectionStart) + "  " + codeArea.value.substring(codeArea.selectionEnd);
+		codeArea.selectionEnd = s+2; 
+	}
+}
+function alignAreas(){ 
+	var lines=codeArea.value.split('\n'); 
+	var n=lines.length;
+	var i;
+	var s='';
+	for (i=0;i<n;i++){
+		s+=(i+1)+'\n'; 
+	}	
+	numberArea.value=s;
+	numberArea.scrollTop=codeArea.scrollTop;
+}
+function alignAreas(){ 
+	var lines=codeArea.value.split('\n');
+	var n=lines.length;
+	var D=63;
+	var N;
+	var i,j;
+	var s='';
+	for (i=0;i<n;i++){
+		s+=(i+1);
+		N=max(1,ceil(lines[i].length/D));
+		for (j=0;j<N;j++)
+			s+='\n';
+	}	
+	numberArea.value=s;
+	numberArea.scrollTop=codeArea.scrollTop;
+}
+function resizeAreas(){ 
+	numberArea.style.height=codeArea.style.height;
+	alignAreas();
+}
+function backup(){
+	var fileName='jwsnowcodeeditorautosave'
+	localStorage[fileName]=codeArea.value;
+}
+function loadCode(){
+	var fileName='jwsnowcodeeditorautosave'
+	if (localStorage[fileName])
+		codeArea.value=localStorage[fileName];
+}
+function runCode(){
+	backup();
+	try{
+		eval(codeArea.value);
+	}
+	catch(err){
+		alert('Your code seems to have an error: '+err.message);
+	}
+}
+function clearOutput(){
+	out.innerHTML='';
+}
+function clearCode(){
+	codeArea.value='';
+	alignAreas();
+}
+function print(s){
+	out.innerHTML+='<br>'+s;
+}
+function showHideReference(){
+	if (reference.style.display!='block') reference.style.display='block';
+	else reference.style.display='none';
+}
+function printMatrix(a){
+	var s='<table>';
+	var i,j;
+	if (!(a.length))
+		print(a);
+	else if (a[0].length){
+		var r=a.length;
+		var c=a[0].length;
+		for (i=0;i<r;i++){
+			s+='<tr>';
+			for (j=0;j<c;j++)
+				s+='<td>'+a[i][j]+'</td>';
+			s+='</tr>';	
+		}
+	}	
+	else{
+		var c=a.length;
+		s+='<tr>';
+		for (j=0;j<c;j++)
+			s+='<td>'+a[j]+'</td>';
+		s+='</td>';	
+	}
+	s+='</table>';
+	print(s);
+}
+function zeroMatrix(r,c){
+	var a=[];
+	var i,j;
+	for (i=0;i<r;i++){
+		a[i]=[];
+		for (j=0;j<c;j++)
+			a[i][j]=0;
+	}
+	return(a);
+}
+function drawBarChart(labels, counts){
+	var M=counts[0];
+	var i;
+	for (i=0;i<counts.length;i++)
+		if (counts[i]>M) M=counts[i];
+	var s='<table>';
+	for (i=0;i<counts.length;i++)
+		s+='<tr><td>'+labels[i]+'</td><td><span style="display: inline-block; vertical-align: sub; height: 1em; width: '+(300*counts[i]/M)+'px; background: red;"></span></td></tr>'
+	s+='</table>';
+	print(s);
+}
+//Cache Math functions for easy access
+var allMathFunctions = Object.getOwnPropertyNames(Math);
+for (var oneMathFunction in allMathFunctions){
+	window[allMathFunctions[oneMathFunction]] = Math[allMathFunctions[oneMathFunction]];
+}
+</script>
+</head>
+<body>
+<script>writeHeader();</script>
+<div id='editorWrapper'>
+	<textarea id='numberArea' disabled>1</textarea>
+	<textarea id='codeArea' cols='60' onkeydown='catchTab(event);' onkeyup='alignAreas();' onscroll='alignAreas();' onresize='resizeAreas();' autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+</div>
+<div id='controlPanel'>
+	<button onclick='runCode();' style='width: 100px;'>Go</button>
+	<button onclick='loadCode();'>Recover</button>
+	<button onclick='clearCode();'>Clear Code</button>
+	<button onclick='clearOutput();'>Clear Output</button>
+	<button onclick='showHideReference();'>Quick Reference</button>
+</div>
+<div id='reference'>
+	<h3>Javascript Quick Reference</h3>
+	<ul class='quickref'>
+	<li> 
+		<b> Comments: </b> One-line comments are delineated by two slashes.
+		<pre>//The entire rest of this line is a comment.</pre>
+		Multiline comments are set off with /*...*/
+		<pre>/*Anything between the slash-stars is a comment.*/</pre>
+	</li>
+	<li> 
+		<b>Semicolons: </b> Every command line should end with a semicolon. However, most browsers are good at recovering from most forgotten semicolons.
+	</li>
+	<li>
+		<b>Declaring a variable:</b> <pre>var x;</pre>
+	</li>
+	<li>
+		<b>Declaring and initializing a variable:</b> <pre>var x=2;</pre>
+	</li>
+	<li>
+		<b>Declaring an array:</b> <pre>var a=[];</pre>
+	</li>
+	<li>
+		<b>Declaring and initializing an array:</b> Notice that an array can contain different types of objects. This one contains a number, a string, a boolean, and a variable.
+<pre>var a=[1,'a', true,x];</pre>
+	</li>
+	<li>
+		<b>Defining a function:</b> The code below will define a new function <code>average(x,y)</code> which will return the average of the variables <code>x</code> and <code>y</code>. Note that functions do not have to return values. 
+<pre>function average(x,y){
+     var r;
+     r=(x+y)/2;
+     return(r);
+}</pre>     Here is a shorter version of the same function:
+<pre>function average(x,y){
+     return((x+y)/2);
+}</pre>
+	</li>	
+	<li>
+		<b>For-loops:</b> Here is a basic for-loop that loops through the numbers 0,1, 2,..., 9 and places them in an array.
+<pre>var i;
+var a=[];
+for (i=0;i<10;i++){
+     a[i]=i;
+}</pre>
+		Here, <code>i++</code> is short for <code>i=i+1</code>. The braces here are optional because there is only one line of code in the loop.  Also, it is probably better to declare the looping variable within the loop to limit its scope. Here is a more concise version:
+<pre>var a=[];
+for (var i=0;i<10;i++)
+     a[i]=i;</pre>
+		We could also use <code>push</code> to add elements to the end of the array (see below).
+	</li>	
+	<li>
+		<b>Conditionals:</b> The code below increases <code>x</code> if it is positive and decreases it otherwise. The braces here are optional since there is only one line of code in each block of the conditional.
+<pre> if (x>0){
+     x=x+1;
+}
+else{
+     x=x-1;
+}</pre>
+	</li>	
+	<li>
+		<b>Push/pop:</b> Add 27 as an element to the end of an array <code>a</code>.<pre>a.push(27)</pre>
+		Remove the last element from an array <code>a</code> and place it in a variable <code>x</code>. <pre>x=a.pop()</pre>
+	</li>
+	<li>
+		<b>Shift/unshift:</b> Add 27 an element to the beginning of an array <code>a</code>.<pre>a.unshift(27)</pre>
+		Remove the first element from an array <code>a</code> and place it in a variable <code>x</code>. <pre>x=a.shift()</pre>
+	</li>
+	<li>
+		<b>Alert with popup message:</b><pre>alert('Hello there!');</pre>
+	</li>
+	<li>
+		<b>Prompt the user for input:</b> Note that inputs from prompts are technically strings and <i>should be</i> converted to numbers if that is what you want.
+		<pre>x=prompt('What is your age?');</pre>
+	</li>
+	<li>
+		<b>Arithmetic operations:</b>
+		<table>
+		<tr><td>Addition:</td><td><code>x+y</code></td></tr>
+		<tr><td>Subtraction:</td><td><code>x-y</code></td></tr>
+		<tr><td>Multiplication:</td><td><code>x*y</code></td></tr>
+		<tr><td>Division:</td><td><code>x/y</code></td></tr>
+		<tr><td>Modulus:</td><td><code>x%y</code></td></tr>
+		</table>
+	</li>
+	<li>
+		<b>Boolean operations:</b>
+		<table>
+		<tr><td>And:</td><td><code>x &amp;&amp; y</code></td></tr>
+		<tr><td>Or:</td><td><code>x || y</code></td></tr>
+		<tr><td>Not:</td><td><code>!x</code></td></tr>
+		</table>
+	</li>	
+	<li>
+		<b>String concatenation:</b> The code below will assign the string 'The end.' to the variable <code>s</code>. 
+<pre>var a='The';
+var b='end.';
+var s=a+' '+b;
+	</li>
+	<li>
+		<b>Boolean comparisons:</b>
+		<table>
+		<tr><td>Equal:</td><td><code>x == y (double equal)</code></td></tr>
+		<tr><td>Not equal:</td><td><code>x!=y</code></td></tr>
+		<tr><td>Less than:</td><td><code>x&lt;y</code></td></tr>
+		<tr><td>Less than or equal:</td><td><code>x&lt;=y</code></td></tr>
+		<tr><td>Greater than:</td><td><code>x&gt;y</code></td></tr>
+		<tr><td>Greater than or equal:</td><td><code>x&gt;=y</code></td></tr>
+		</table>
+	</li>	
+	<li>
+		<b>Math functions: </b>  Here is a list of all JavaScript math functions. These are usually accessed through the Math object with a call such as <code>Math.sqrt(16)</code>. However, the editor provides quick access to these functions with calls such as <code>sqrt(16)</code>.
+		The list: abs, acos, acosh, asin, asinh, atan, atanh, atan2, ceil, cbrt, expm1, clz32, cos, cosh, exp, floor, fround, hypot, imul, log, log1p, log2, log10, max, min, pow, random, round, sign, sin, sinh, sqrt, tan, tanh, trunc, E, LN10, LN2, LOG10E, LOG2E, PI, SQRT1_2, SQRT2.
+	</li>
+	<li>
+		<b>*Print:</b> (This is a special helper function for this editor and not a standard JavaScript function.) Print a string <code>s</code> to the output div: <pre>print(s);</pre> Each string printed to the output div begins with a new line. Note that the div is an HTML div. You can print valid HTML to it and style your output if you so like.
+	</li>	
+	<li>
+		<b>*Print a matrix:</b> (This is a special helper function for this editor and not a standard JavaScript function.) If <code>a</code> is a matrix (two-dimensional array), this code will print it in a not-too-ugly way. <pre>printMatrix(a);</pre>
+	</li>	
+	<li>
+		<b>*Create a zero matrix:</b> (This is a special helper function for this editor and not a standard JavaScript function.) Set <code>a</code> equal to a 5x6 matrix of zeros. <pre>a=zeroMatrix(5,6);</pre>
+	</li>	
+	<li>
+		<b>*Print a bar chart:</b> (This is a special helper function for this editor and not a standard JavaScript function.)
+	</li>	
+	</ul>
+</div>
+<div id='out'></div>
+</div>
+</body>
+<script>
+
+</script>
+</html>
