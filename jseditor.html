@@ -295,7 +295,7 @@ else{
 		<b>String concatenation:</b> The code below will assign the string 'The end.' to the variable <code>s</code>. 
 <pre>var a='The';
 var b='end.';
-var s=a+' '+b;
+var s=a+' '+b;</pre>
 	</li>
 	<li>
 		<b>Boolean comparisons:</b>
@@ -322,7 +322,11 @@ var s=a+' '+b;
 		<b>*Create a zero matrix:</b> (This is a special helper function for this editor and not a standard JavaScript function.) Set <code>a</code> equal to a 5x6 matrix of zeros. <pre>a=zeroMatrix(5,6);</pre>
 	</li>	
 	<li>
-		<b>*Print a bar chart:</b> (This is a special helper function for this editor and not a standard JavaScript function.)
+		<b>*Print a bar chart:</b> (This is a special helper function for this editor and not a standard JavaScript function.) Draw a bar chart with labels in an array <code>labels</code> an counts in an array <code>counts</code>.
+<pre>var labels=['red', 'blue', 'green'];
+var counts=[3,7,5];
+drawBarChart(labels, counts);</pre>
+This will output:<table><tbody><tr><td>red</td><td><span style="display: inline-block; vertical-align: sub; height: 1em; width: 128.57142857142858px; background: red;"></span></td></tr><tr><td>blue</td><td><span style="display: inline-block; vertical-align: sub; height: 1em; width: 300px; background: red;"></span></td></tr><tr><td>green</td><td><span style="display: inline-block; vertical-align: sub; height: 1em; width: 214.28571428571428px; background: red;"></span></td></tr></tbody></table>
 	</li>	
 	</ul>
 </div>
