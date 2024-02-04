@@ -70,6 +70,7 @@ function catchTab(e){
 		codeArea.value = codeArea.value.substring(0,codeArea.selectionStart) + "  " + codeArea.value.substring(codeArea.selectionEnd);
 		codeArea.selectionEnd = s+2; 
 	}
+	backup();
 }
 function alignAreas(){ 
 	var lines=codeArea.value.split('\n'); 
