@@ -2,16 +2,22 @@
 <html>
 <head><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>J.W. Snow</title>
-<link rel='stylesheet' type='text/css' href='../../jws.css'>
+<link rel='stylesheet' type='text/css' href='jws.css'>
 <script src='jws.js'></script>
 
 <style>
 img.thumb{
 	width: 50px;
+	height: 50px;
+	margin: 10px;
+}
+img.shotgunimg{
+	width: 200px;
 	margin: 10px;
 }
 canvas{
 	margin: 20px;
+	width: 500px;
 }
 button.option{
 	margin: 10px;
@@ -23,6 +29,9 @@ div.box{
 	margin-left: 20px;
 	padding: 5px;
 	max-width:500px;
+}
+#imagebox{
+	width: 500px;
 }
 </style>
 <script src='spork.js'></script>
@@ -36,15 +45,30 @@ var theImages=[];
       var output = document.getElementById('output_image');
       output.src = reader.result;
     }
-    reader.readAsDataURL(event.target.files[0]);
+    reader.readAsDataURL(event.target.files[0]);	
+  }
+   function preview_image(event) {
+    var reader = new FileReader();
+    var newimg=document.createElement('img');
+    reader.onload = function(){
+      newimg.src = reader.result;
+      newimg.className='thumb';
+      imagebox.appendChild(newimg);
+      collectImages();
+    }
+    reader.readAsDataURL(event.target.files[0]);	
+    sourceImage='';
+    clear();
   }
   function highlightImage(){
+  if (this.src){
 	var i;
 	for (i=0;i<theImages.length;i++)
 		theImages[i].style.border='none';
 	this.style.border='5px solid red';
 	sourceImage=this;
 	drawImage(sourceImage,width/2, height/2, width, height);
+}	
   }
   function collectImages(){
 	theImages=document.getElementsByTagName('img');
@@ -64,6 +88,9 @@ var bumpconstant;
 	RNGSEED=floor(random()*100000000);
 	random=RNG;
 	nextseed.value=RNGSEED;
+	defaultImage.style.border='5px solid red';
+	sourceImage=defaultImage;
+	drawImage(defaultImage,width/2, height/2, width, height);	
   }
   function realbump(x,y){
 	var r=max(0, 1-(pow(x,bumpconstant)+pow(y,bumpconstant)))
@@ -89,8 +116,8 @@ function bump(x,y){}
 	else {
 		bump=onebump;
 	}
-	getColors(sourceImage);
 	size(WIDTH, WIDTH);
+	getColors(sourceImage);
 	background('white');
 	if (symmetric.checked==true) r=generateSymmetricImage();
 	else r=generateImage();
@@ -98,17 +125,44 @@ function bump(x,y){}
 	nextseed.value=RNGSEED;
 }	
   }
-    function regenerateReflection(){
-  if (sourceImage=='') alert('Please select an image.')
-  else{	var r;
-	getColors(sourceImage);
-	size(WIDTH, WIDTH);
-	RNGSEED=lastseed.value;
-	if (symmetric.checked==true) r=generateSymmetricImage();
-	else r=generateImage();
-	nextseed.value=RNGSEED;
-}	
-  }
+function hires(){
+	var tw=WIDTH;
+	WIDTH=4000;
+	generateReflection(true);
+	WIDTH=tw;
+	alert('High resolution image generated. Save the generated image to your computer to see a larger version.');
+}
+function shotgun(){
+	var i;
+	var N=10;
+	var u;
+	var newimg;
+	if (sourceImage=='')
+		alert('Please select an image.');
+	else{
+		for (i=0;i<N;i++){
+			u=nextseed.value; console.log(u);
+			generateReflection();
+			newimg=document.createElement('img');
+			newimg.className='shotgunimg';
+			newimg.data_seed=u;
+			canvasToImg(newimg);
+			newimg.onclick=function(){
+				nextseed.value=this.data_seed;
+				generateReflection();
+				nextseed.value=this.data_seed;
+			}
+			newimg.title=u;
+			scatter.appendChild(newimg);
+		}
+		newimg=document.createElement('hr');
+		scatter.appendChild(newimg);
+	}
+}
+function clearShot(){
+	while(scatter.firstChild) 
+                scatter.removeChild(scatter.firstChild);
+}
   function randomizeSeed(){
 	RNGSEED=floor(random()*100000000);
 	nextseed.value=RNGSEED;	
@@ -125,13 +179,11 @@ function bump(x,y){}
 Select (or upload) an image before beginning. See explanation below for options.
 </div></div>
 
-<div><div class='box'>
-	 <img id="output_image" class='thumb'>
+<div><div class='box' id='imagebox'>
 	<img class='thumb' src='png/JBE.jpg' id='defaultImage'>
 	<img class='thumb' src='png/chimayo.jpg'>
 	<img class='thumb' src='png/ice.jpg'>
-	<img class='thumb' src='png/seals.jpg'><br>
-	To start, select an image to use as a base image for generating pictures.
+	<img class='thumb' src='png/checker.png'>
 </div></div>
 <div><div class='box'>
 <label for='infile'>Load your own image to use as a base image in generating pictures. After you load the image, be sure to select it above to use it in the algorithm.</label><br>
@@ -141,12 +193,12 @@ Select (or upload) an image before beginning. See explanation below for options.
 <div><div class='box'>
 	Next Seed: <input type='text' id='nextseed'><button class='option'  onclick='generateReflection()'>Generate with this seed.</button class='option' ><br>
 	The mapping from the canvas to the base image used to select colors is determined by a unique number or seed. This
-	unique number is usually determined randomly, but you can type one in here if you have already determined a mapping you like. Either way, click the button class='option'  to generate an image.
+	unique number is usually determined randomly, but you can type one in here if you have already determined a mapping you like. Either way, click the button  to generate an image.
 </div></div>
 <div><div class='box'>
 	Last Seed:<input type='text' id='lastseed' disabled='true'><button class='option'  onclick='generateReflection(true)'>Regenerate with this seed.</button class='option' ><br>
 	This is the seed that was last used to generate an image. Sometimes, you may want to generate an image using the same
-	seed or color mapping after you have changed other options. Use this button class='option'  for that.
+	seed or color mapping after you have changed other options. Use this button  for that.
 </div></div>
 <div><div class='box'>
 	<label for="symmetric"><input type="checkbox" id="symmetric">  Enforce Symmetry </label><br>
@@ -168,9 +220,20 @@ Select (or upload) an image before beginning. See explanation below for options.
 <div><div class='box'>
 	<button class='option'  onclick='randomizeSeed();'>Randomize Seed</button class='option' ><br>
 	Sometimes, it may seem like the algorithm is stuck in an unimpressive groove. This is merely psychological, but
-	if it makes you feel better, you can click this button class='option'  to restart the randomization process.
+	if it makes you feel better, you can click this button  to restart the randomization process.
+</div></div>
+<div><div class='box'>
+	<button  class='option'  onclick='shotgun()'>Shotgun</button> <button  class='option'  onclick='clearShot();'>Remove shotgun images</button><br>
+	If you are tired of clicking the generate button over and over, you can click the Shotgun button. 
+	This will generate several images at a time and add them to the bottom of the page. 
+	Click on the one you want, and the seed for that image will be copied to the Next Seed input above.
+</div></div>
+<div><div class='box'>
+<button class='option'  onclick='hires();'>Generate high resolution version of last image generated.</button><br>
+Do not do this unless you mean it. This image is slower to generate. Note, the image above will not change size. When the high resolution image is generated, you will receive a notice. When you download the image above, you will receive a larger version.
 </div></div>
 
+<div id='scatter'></div>
 </script>
 </body>
 </html>

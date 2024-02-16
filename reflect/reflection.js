@@ -12,7 +12,6 @@ function getColors(P){
 		G[x][y]=G[x][y]/128-1;
 		B[x][y]=B[x][y]/128-1;
 	}
-	size(WIDTH,WIDTH);
 }
 
 function lerp(a,b,t){
