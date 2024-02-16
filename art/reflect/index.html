@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+<head><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>J.W. Snow</title>
+<link rel='stylesheet' type='text/css' href='../jws.css'>
+<script src='jws.js'></script>
+
+<style>
+img.thumb{
+	width: 50px;
+	margin: 10px;
+}
+canvas{
+	margin: 20px;
+}
+button.option{
+	margin: 10px;
+}
+div.box{
+	display: inline-block;
+	border: 1px solid gray;
+	margin: 5px;
+	margin-left: 20px;
+	padding: 5px;
+	max-width:500px;
+}
+</style>
+<script src='spork.js'></script>
+<script src='rancomp.js'></script>
+<script src='reflection.js'></script>
+<script>
+var theImages=[];
+ function preview_image(event) {
+    var reader = new FileReader();
+    reader.onload = function(){
+      var output = document.getElementById('output_image');
+      output.src = reader.result;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+  }
+  function highlightImage(){
+	var i;
+	for (i=0;i<theImages.length;i++)
+		theImages[i].style.border='none';
+	this.style.border='5px solid red';
+	sourceImage=this;
+	drawImage(sourceImage,width/2, height/2, width, height);
+  }
+  function collectImages(){
+	theImages=document.getElementsByTagName('img');
+	var i;
+	for (i=0;i<theImages.length;i++)
+		theImages[i].style.border='none';
+	for (i=0;i<theImages.length;i++)
+		theImages[i].onclick=highlightImage;
+  }
+  var WIDTH=500;
+  var sourceImage='';
+var bumpconstant;
+  function setup(){
+	size(WIDTH, WIDTH);
+	collectImages();
+//	drawImage(sourceImage,width/2, height/2, width, height);
+	RNGSEED=floor(random()*100000000);
+	random=RNG;
+	nextseed.value=RNGSEED;
+  }
+  function realbump(x,y){
+	var r=max(0, 1-(pow(x,bumpconstant)+pow(y,bumpconstant)))
+	return(r);
+}
+function onebump(x,y){
+	return(1);
+}
+function bump(x,y){}
+
+  function generateReflection(re){
+  if (sourceImage=='') alert('Please select an image.')
+  else{
+	var r;
+	if (re==true){
+			nextseed.value=lastseed.value;
+	}
+	RNGSEED=nextseed.value;
+	if (bumpit.checked==true){
+		bump=realbump;
+		bumpconstant=bumpvalueselect.options[bumpvalueselect.selectedIndex].text;
+	}
+	else {
+		bump=onebump;
+	}
+	getColors(sourceImage);
+	size(WIDTH, WIDTH);
+	background('white');
+	if (symmetric.checked==true) r=generateSymmetricImage();
+	else r=generateImage();
+	lastseed.value=nextseed.value;
+	nextseed.value=RNGSEED;
+}	
+  }
+    function regenerateReflection(){
+  if (sourceImage=='') alert('Please select an image.')
+  else{	var r;
+	getColors(sourceImage);
+	size(WIDTH, WIDTH);
+	RNGSEED=lastseed.value;
+	if (symmetric.checked==true) r=generateSymmetricImage();
+	else r=generateImage();
+	nextseed.value=RNGSEED;
+}	
+  }
+  function randomizeSeed(){
+	RNGSEED=floor(random()*100000000);
+	nextseed.value=RNGSEED;	
+  }
+</script>
+</head>
+<body>
+<script>writeHeader();</script>
+
+<div id='spork'></div>
+<div><div class='box'>
+<button class='option'  onclick='generateReflection()'>Generate with new or typed seed.</button class='option' >
+<button class='option'  onclick='generateReflection(true)'>Generate with last used seed.</button class='option' ><br>
+Select (or upload) an image before beginning. See explanation below for options.
+</div></div>
+
+<div><div class='box'>
+	 <img id="output_image" class='thumb'>
+	<img class='thumb' src='png/JBE.jpg' id='defaultImage'>
+	<img class='thumb' src='png/chimayo.jpg'>
+	<img class='thumb' src='png/ice.jpg'>
+	<img class='thumb' src='png/seals.jpg'><br>
+	To start, select an image to use as a base image for generating pictures.
+</div></div>
+<div><div class='box'>
+<label for='infile'>Load your own image to use as a base image in generating pictures. After you load the image, be sure to select it above to use it in the algorithm.</label><br>
+<input type="file" accept="image/*" onchange="preview_image(event)" id='infile'><br>
+
+</div></div>
+<div><div class='box'>
+	Next Seed: <input type='text' id='nextseed'><button class='option'  onclick='generateReflection()'>Generate with this seed.</button class='option' ><br>
+	The mapping from the canvas to the base image used to select colors is determined by a unique number or seed. This
+	unique number is usually determined randomly, but you can type one in here if you have already determined a mapping you like. Either way, click the button class='option'  to generate an image.
+</div></div>
+<div><div class='box'>
+	Last Seed:<input type='text' id='lastseed' disabled='true'><button class='option'  onclick='generateReflection(true)'>Regenerate with this seed.</button class='option' ><br>
+	This is the seed that was last used to generate an image. Sometimes, you may want to generate an image using the same
+	seed or color mapping after you have changed other options. Use this button class='option'  for that.
+</div></div>
+<div><div class='box'>
+	<label for="symmetric"><input type="checkbox" id="symmetric">  Enforce Symmetry </label><br>
+	This option will copy one triangle of the generated image 8 times to create a highly symmetric image.  Sometimes, this is
+	a good way to turn a meh image into a decent image. Other times, it is simply too cliche.
+</div></div>
+<div><div class='box'>
+	<label for="bumpit"><input type="checkbox" id="bumpit">  Bend away from edge. </label> 
+	<select id='bumpvalueselect'>
+	<option value=2>2</option>
+	<option value=4>4</option>
+	<option value=8>8</option>
+	<option value=16>16</option>
+	</select><br>
+	The standard algorithm does not recognize the edges of the canvas, and a pattern can extend off the canvas. This option
+	will cause the image to bend away from the edges without an apparent clipping effect. A value of 2 will isolate the image 
+	to a circle. Higher values will make the image area closer to a square.
+</div></div>
+<div><div class='box'>
+	<button class='option'  onclick='randomizeSeed();'>Randomize Seed</button class='option' ><br>
+	Sometimes, it may seem like the algorithm is stuck in an unimpressive groove. This is merely psychological, but
+	if it makes you feel better, you can click this button class='option'  to restart the randomization process.
+</div></div>
+
+</script>
+</body>
+</html>
