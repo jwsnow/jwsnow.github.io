@@ -71,7 +71,7 @@ var theImages=[];
 }	
   }
   function collectImages(){
-	theImages=document.getElementsByTagName('img');
+	theImages=document.getElementsByClassName('thumb');
 	var i;
 	for (i=0;i<theImages.length;i++)
 		theImages[i].style.border='none';
@@ -116,6 +116,10 @@ function bump(x,y){}
 	else {
 		bump=onebump;
 	}
+	if (complexity.checked==true)
+		depth=3+floor(random()*5);
+	else
+		depth=complexityvalueselect.options[complexityvalueselect.selectedIndex].text;
 	size(WIDTH, WIDTH);
 	getColors(sourceImage);
 	background('white');
@@ -194,6 +198,20 @@ Select (or upload) an image before beginning. See explanation below for options.
 	Next Seed: <input type='text' id='nextseed'><button class='option'  onclick='generateReflection()'>Generate with this seed.</button class='option' ><br>
 	The mapping from the canvas to the base image used to select colors is determined by a unique number or seed. This
 	unique number is usually determined randomly, but you can type one in here if you have already determined a mapping you like. Either way, click the button  to generate an image.
+</div></div>
+<div><div class='box'>
+	<label for="complexity"><input type="checkbox" id="complexity" checked=true>  Randomize Complexity </label> or Select Complexity:
+	<select id='complexityvalueselect'>
+	<option value=3>3</option>
+	<option value=4>4</option>
+	<option value=5>5</option>
+	<option value=6>6</option>
+	<option value=7>7</option>
+	<option value=8>8</option>
+	<option value=9>9</option>
+	</select><br>
+	<br>
+	The complexity is the depth of the parse tree for the reflection functions. Higher complexity means more complicated functions. This may make the image more convoluted, and it may take longer to generate a high resolution image.
 </div></div>
 <div><div class='box'>
 	Last Seed:<input type='text' id='lastseed' disabled='true'><button class='option'  onclick='generateReflection(true)'>Regenerate with this seed.</button class='option' ><br>
