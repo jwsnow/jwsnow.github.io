@@ -113,7 +113,7 @@ function generateImage(){
 
 		}
 	}
-	return(theSeed+'<br>x='+fr1+'<br>y='+fr2);	
+	return('x='+fr1+'<br>y='+fr2);	
 }
 
 function fill8(x,y){
@@ -175,5 +175,5 @@ function generateSymmetricImage(){
 	}	
 		
 	}
-	return(theSeed+'<br>'+fr1+'<br>'+fr2);	
+	return('x='+fr1+'<br>y='+fr2);	
 }
