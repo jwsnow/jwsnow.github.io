@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>J.W. Snow</title>
+
+<style>
+html{
+	height:100%;
+	width:100%;
+}
+body{
+  width: 100%;
+  height: 100%;
+  display:table;
+  margin:0px;
+  text-align: center;
+}
+div.content{
+  width: 100%;
+  height: 100%;
+	display:table-cell;
+	background:black;
+	color: white;
+	font-size: 18px;
+	vertical-align: middle;
+	text-align: center;
+}
+canvas{
+max-height: 75%;
+max-width:75%;
+margin: auto;
+}
+img{
+	display: none;
+}
+</style>
+<script src='spork.js'></script>
+<script src='rancomp.js'></script>
+<script src='reflection.js'></script>
+<script>
+  theFunctions=['P1','P2','MUL', 'SINPI', 'COSPI','CUBE','SINXXYY','max','min','SIN2PI','COS2PI','AVG','NOISE'];
+
+  var WIDTH=500;
+  function setup(){
+	size(WIDTH, WIDTH);
+	RNGSEED=floor(random()*100000000);
+	random=RNG;	
+	timestep(1000);
+	loop();
+  }
+  
+  function s(x){
+	return(3*x*x-2*x*x*x);
+  }
+
+var thecolors=['red', 'orange', 'yellow', 'green', 'blue'];
+  function draw(){
+
+	
+	var x,y,a,b,c,d,cr,cg,cb,X,Y,theBump;
+//	var depth=0;
+	var fr1='';
+	function xfn(){};
+	var theSeed=RNGSEED;
+			
+		
+	while ((fr1.length<=10)){
+		theSeed=RNGSEED;
+		depth=3+floor(random()*5);
+		fr1=randomFunction(depth);
+	}
+//if ((fr1.length>20) && (fr2.length>20))
+	{
+	eval('xfn=function(x,y){ var c='+fr1+'; return(c);}');	
+	setupNoise(2+floor(random()*10));
+	for (a=0;a<width;a++)
+		for (b=0;b<height;b++){
+			x=2*a/width-1;
+			y=2*b/height-1;
+			X=(xfn(x,y));
+			X=(((X+1)/2));
+			cr=thecolors[floor(X*thecolors.length)]
+			fillcolor(cr);
+			fillrect(a,b,1,1);
+
+		}
+	}	
+}
+  
+</script>
+</head>
+<body>
+
+<div class='content'>
+<div id='spork'></div>
+</div>
+
+
+</script>
+</body>
+</html>
