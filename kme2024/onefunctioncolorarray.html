@@ -53,9 +53,14 @@ img{
 	return(3*x*x-2*x*x*x);
   }
 
-var thecolors=['red', 'orange', 'yellow', 'green', 'blue'];
-  function draw(){
+var mastercolorarray=[
+[rgb(66,91,129), rgb(76, 41, 36), rgb(108, 64, 57), rgb(144, 142, 125), rgb(99, 102, 73), rgb(78, 69, 63)],
+['cornflowerblue',   'dodgerblue',  'lightblue',  'lightsteelblue', 'mediumblue', 'navy', 'powderblue', 'royalblue', 'skyblue', 'slateblue', 'slategray', 'steelblue'],
+['brown', 'chocolate', 'coral']
+]
 
+  function draw(){
+var thecolors=mastercolorarray[0];
 	
 	var x,y,a,b,c,d,cr,cg,cb,X,Y,theBump;
 //	var depth=0;
