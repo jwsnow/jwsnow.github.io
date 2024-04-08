@@ -155,6 +155,7 @@ function hires(){
 	WIDTH=4000;
 	generateReflection(true);
 	WIDTH=tw;
+	prepForSubmission();
 	alert('High resolution image generated. Save the generated image to your computer to see a larger version.');
 }
 function shotgun(){
@@ -183,6 +184,18 @@ function shotgun(){
 		newimg=document.createElement('hr');
 		scatter.appendChild(newimg);
 	}
+}
+function prepForSubmission(){
+	var seedimage=document.createElement('img');
+	var generatedimage=document.createElement('img');
+	seedimage.className='shotgunimg';
+	generatedimage.className='shotgunimg';
+	canvasToImg(generatedimage);
+	seedimage.src=sourceImage.src;
+	while (submissionimages.firstChild)
+		submissionimages.removeChild(submissionimages.firstChild);
+	submissionimages.appendChild(seedimage);
+	submissionimages.appendChild(generatedimage);
 }
 function clearShot(){
 	while(scatter.firstChild) 
@@ -338,7 +351,7 @@ function clearDrawing(){
 }
 
 function startDrawing(){
-	//size(500,500);
+	size(WIDTH, WIDTH);
 	onmousemove=drawingonmousemove;
 	onmousedown=drawingonmousedown;
 	setupDrawing();
@@ -448,7 +461,7 @@ function startDrawing(){
 <button class='option'  onclick='hires();'>Generate high resolution version of last image generated.</button><br>
 Do not do this unless you mean it. This image is slower to generate. Note, the image above will not change size. When the high resolution image is generated, you will receive a notice. When you download the image above, you will receive a larger version.
 </div></div>
-
+<div><div class='box' ><a href='https://forms.gle/6HZuswTxYCHsw9YdA' target='new'>SUBMISSION FORM</a><div id='submissionimages'></div></div></div>
 <div id='scatter'></div>
 </script>
 </body>
