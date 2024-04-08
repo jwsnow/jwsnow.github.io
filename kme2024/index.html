@@ -97,6 +97,7 @@ var theImages=[];
 		theImages[i].style.border='none';
 	for (i=0;i<theImages.length;i++)
 		theImages[i].onclick=highlightImage;
+	sourceImage='';
   }
   var WIDTH=500;
   var sourceImage='';
@@ -208,6 +209,9 @@ function clearShot(){
   
   //-------------------------------------------------------------
   var strokes=[];
+  var Rs=[];
+  var Gs=[];
+  var Bs=[];
 var colors=[];
 var widths=[];
 var currentStroke=0;
@@ -220,6 +224,9 @@ var lastY;
 function beginNewStroke(){
 	strokes.push([]);
 	colors.push(currentColor);
+	Rs.push(currentR);
+	Gs.push(currentG);
+	Bs.push(currentB);
 	currentStroke=strokes.length-1;
 	widths.push(currentWidth);
 	lastX=mouseX;
@@ -241,19 +248,23 @@ function redraw(s){
 	var i,j,k;
 	var R;
 	for (i=0;i<strokes.length;i++){
-		color(colors[i]);
+		//color(colors[i]);
 		R=widths[i]*s;
 		for (j=0;j<strokes[i].length-1;j++)
-			for (k=0;k<mask.length;k++)
+			for (k=0;k<mask.length;k++){
+				color(Rs[i]+maskR[k], Gs[i]+maskG[k], Bs[i]+maskB[k]);
 				line(strokes[i][j].x+R*mask[k].x, strokes[i][j].y+R*mask[k].y, strokes[i][j+1].x+R*mask[k].x, strokes[i][j+1].y+R*mask[k].y);
+			}
 	}		
 }
 function stroketo(){
 	var k;
 	var R=currentWidth;
-	color(currentColor);
-	for (k=0;k<mask.length;k++)
+	//color(currentColor);
+	for (k=0;k<mask.length;k++){
+		color(currentR+maskR[k], currentG+maskG[k], currentB+maskB[k]);
 		line(lastX+R*mask[k].x, lastY+R*mask[k].y, mouseX+R*mask[k].x, mouseY+R*mask[k].y);	
+	}	
 }
 function drawingonmousemove(){
 	if (mouseDown){
@@ -272,10 +283,17 @@ function undo(){
 	strokes.pop();
 	colors.pop();
 	widths.pop();
+	Rs.pop();
+	Gs.pop();
+	Bs.pop();
 	redraw(1);
 }
-function selectColor(t,c){
+function selectColor(t,r, g, b){
+	c=rgb(r,g,b);
 	currentColor=c;
+	currentR=r;
+	currentG=g;
+	currentB=b;
 	currentlySelected.style.border='1px solid black';
 	t.style.border='5px solid gray';
 	currentlySelected=t;
@@ -287,20 +305,29 @@ function selectWidth(t,c){
 	t.style.background=currentColor;
 	currentlySelectedWidth=t;
 }
+var maskR=[], maskG=[], maskB=[];
+var currentR, currentG, currentB;
 function setupDrawing(){
 	currentlySelected=blackButton;
 	currentlySelectedWidth=b20;
 	currentColor=rgb(66,91,129);
+	currentR=66;
+	currentG=91;
+	currentB=129;
 	currentlySelectedWidth.style.background=currentColor;
 	currentlySelected.style.border='5px solid gray';
 	currentWidth=10;
 	color(currentColor);
 	var i;
 	var a,b;
+	var dc=10;
 	for (i=0;i<50;i++){
 		a=random()*360;
 		b=random()
 		mask.push({x: b*COS(a), y: b*SIN(a)});
+		maskR.push(floor(dc*(random()-0.5)));
+		maskG.push(floor(dc*(random()-0.5)));
+		maskB.push(floor(dc*(random()-0.5)));
 	}
 	//size(400,400);
 	background('black');
@@ -348,6 +375,9 @@ function clearDrawing(){
 	strokes=[];
 	colors=[];
 	widths=[];	
+	Rs=[];
+	Gs=[];
+	Bs=[];
 }
 
 function startDrawing(){
@@ -370,12 +400,12 @@ function startDrawing(){
 <div id='drawingcontrols'>
 <div class='box'>
 <div >
-<button onclick='selectColor(this,rgb(66,91,129));' id='blackButton' class='colorButton' style='border: 5px solid gray; background: rgb(66,91,129);'>&nbsp;</button>
-<button onclick='selectColor(this,rgb(76, 41, 36));' class='colorButton'  style='background: rgb(76, 41, 36);'>&nbsp;</button>
-<button onclick='selectColor(this,rgb(108, 64, 57));' class='colorButton'  style='background: rgb(108, 64, 57);'>&nbsp;</button>
-<button onclick='selectColor(this,rgb(144, 142, 125));' class='colorButton'  style='background: rgb(144, 142, 125);'>&nbsp;</button>
-<button onclick='selectColor(this,rgb(99, 102, 73));' class='colorButton'  style='background: rgb(99, 102, 73);'>&nbsp;</button>
-<button onclick='selectColor(this,rgb(78, 69, 63));' class='colorButton'  style='background: rgb(78, 69, 63);'>&nbsp;</button>
+<button onclick='selectColor(this,66,91,129);' id='blackButton' class='colorButton' style='border: 5px solid gray; background: rgb(66,91,129);'>&nbsp;</button>
+<button onclick='selectColor(this,76, 41, 36);' class='colorButton'  style='background: rgb(76, 41, 36);'>&nbsp;</button>
+<button onclick='selectColor(this,108, 64, 57);' class='colorButton'  style='background: rgb(108, 64, 57);'>&nbsp;</button>
+<button onclick='selectColor(this,144, 142, 125);' class='colorButton'  style='background: rgb(144, 142, 125);'>&nbsp;</button>
+<button onclick='selectColor(this,99, 102, 73);' class='colorButton'  style='background: rgb(99, 102, 73);'>&nbsp;</button>
+<button onclick='selectColor(this,78, 69, 63);' class='colorButton'  style='background: rgb(78, 69, 63);'>&nbsp;</button>
 <br>
 <button onclick='undo();' class='colorButton'>Undo</button>
 <button onclick='saveDrawing();' class='colorButton'>Save</button>
