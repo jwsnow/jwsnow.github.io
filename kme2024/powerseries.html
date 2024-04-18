@@ -75,7 +75,7 @@ function evaluateSeries(x,y){
 }
 var I;
   function bump(x,y){
-  var bumpconstant=16;
+  var bumpconstant=8;
 	var r=max(0, 1-(pow(x,bumpconstant)+pow(y,bumpconstant)))
 	return(r);
 }
@@ -86,7 +86,7 @@ function makeImage(){
 		for (y=0;y<height;y++){
 			a=2*x/width-1
 			b=2*y/height-1
-			k=1;//bump(a,b)
+			k=bump(a,b)
 			P=evaluateSeries(k*a, k*b)
 			X=floor((P.x+1)/2*width);
 			Y=floor((P.y+1)/2*height);
