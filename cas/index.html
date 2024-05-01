@@ -1,0 +1,1031 @@
+<!doctype html>
+<html>
+<head>
+
+<script type="text/javascript" id="MathJax-script"  async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>J.W. Snow</title>
+<link rel='stylesheet' type='text/css' href='jws.css'>
+<script src='jws.js'></script>
+<style>
+#wrapper{
+margin:5px;
+}
+html{
+	height:100%;
+	width:100%;
+}
+body{
+  width: 100%;
+  height: 100%;
+}
+table.controls{
+	margin-left: auto;
+	margin-right: auto;
+}
+table.controls button{
+	width: 50px;
+}
+#closeButton{
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	color: lightgray;
+	background: none;
+	border: none;
+	font-size: 20px;
+      }
+#graphdiv{
+	position:absolute;
+	top:0px;
+	left:0px;
+	width: 100%;
+	height: 100%;
+	background: black;
+	color: white;
+	display: none;
+	vertical-align: middle;
+	text-align: center;
+	z-index: 3;
+}
+#graphwrapper{
+	width: 100%;
+	height: 100%;
+	display:table-cell;
+	vertical-align: middle;
+	text-align: center;
+	z-index: 3;
+}
+#inputArea{
+	resize: none;
+	width: 90%;
+}
+#outputdiv{
+	width:90%;
+	border: 2px solid gray;
+	height: 400px;
+	overflow-y: scroll;
+}
+p.input{
+	width:100%;
+//	background: lightgray;
+	margin:0px;
+	margin-bottom: 5px;
+}
+p.input:hover{
+	cursor: pointer;
+}
+p.output{
+//	background: white;
+	margin:0px;
+	margin-left: 20px;
+}
+
+
+.border-brackets {
+  background: white;
+  padding: 2px;
+  margin: 2px;
+  border: 1px solid black;
+  position: relative;
+}
+
+.border-brackets:before {
+  content: '';
+  position: absolute;
+  display: block;
+  background: white;
+  z-index: 1;
+  width: calc(100% - 10px);
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: calc(100% + 2px);
+  margin: auto;
+}
+
+.border-brackets p {
+  position: relative;
+  z-index: 2;
+}
+.hidden{
+	display: none;
+}
+#xplot3dcontrols{
+	display: none;
+}
+#xparametricplotcontrols{
+	display: none;
+}
+#xcontrols3d{
+	display: none;
+}
+#xcontrols2d{
+	display: none;
+}
+#xwindowedit3d{
+	display: none;
+}
+#xwindowedit2d{
+	display: none;
+}
+#xparameteredit{
+	display:none;
+}
+#xparameterbutton{
+	display: none;
+}
+</style>
+<script src='spork.js'></script>
+<script src='algebrite.bundle-for-browser-min.js'></script>
+
+<script>
+var theColors=[
+'blue', 'red', 'green', 'purple', 'orange', 'orchid', 'mediumpurple', 'black'
+]
+function setup(){
+	background('white');
+}
+function sec(x){
+	return(1/cos(x));
+}
+function cot(x){
+	return(cos(x)/sin(x));
+}
+function csc(x){
+	return(1/sin(x));
+}
+//Surface as a function of 2 variables-----------------------------------------
+var pMINX=-5;
+var pMINY=-5;
+var pMAXX=5;
+var pMAXY=5;
+var pMINZ=-5;
+var pMAXZ=5;
+
+function gx(x){
+	return((x-pMINX)*width/(pMAXX-pMINX));
+}
+function gy(x){
+	return((x-pMINY)*height/(pMAXY-pMINY));
+}
+function gz(x){
+	return((x-pMINZ)*height/(pMAXZ-pMINZ));
+}
+
+var triangles=[];
+var theta =Math.PI/4;
+var phi=Math.PI/4;
+var PX=[], PY=[], PZ=[];
+function resetView3d(){
+	theta=Math.PI/4;
+	phi=Math.PI/4;
+	pMINX=-5;
+	pMINY=-5;
+	pMAXX=5;
+	pMAXY=5;
+	pMINZ=-5;
+	pMAXZ=5;	
+	currentFunction(currentArgumentString);
+}
+//---------------------------------------------------------
+function dot(a,b,c,x,y,z){
+	return(a*x+b*y+c*z);
+}
+function setProjectionMatrix(){
+	PX=[cos(theta)*cos(phi), sin(theta)*cos(phi), sin(phi)];
+	PY=[-sin(theta), cos(theta),0];
+	PZ=[-cos(theta)*sin(phi), -sin(theta)*sin(phi), cos(phi)];	
+}
+function pX(x,y,z){ 
+	return((dot(x,y,z,PX[0], PX[1], PX[2])));
+}
+function pY(x,y,z){ 
+	return((dot(x,y,z,PY[0], PY[1], PY[2])));
+}
+function pZ(x,y,z){ 
+	return((dot(x,y,z,PZ[0], PZ[1], PZ[2])));
+}
+function LINE3d(x,y,z,x2,y2,z2){
+	line(gx(pY(x,y,z)),gy(pZ(x,y,z)), gx(pY(x2,y2,z2)),gy(pZ(x2,y2,z2)));
+}
+
+function drawAxis3d(){
+save();
+color('red');
+line(gy(pY(0,0,0)),gz(-pZ(0,0,0)),gy(pY(pMAXX,0,0)),gz(-pZ(pMAXX,0,0)));
+color('blue');
+line(gy(pY(0,0,0)),gz(-pZ(0,0,0)),gy(pY(0,pMAXY,0)),gz(-pZ(0,pMAXY,0)));
+color('green');
+line(gy(pY(0,0,0)),gz(-pZ(0,0,0)),gy(pY(0,0,pMAXZ)),gz(-pZ(0,0,pMAXZ)));
+color('black');
+line(gy(pY(pMINX,0,0)),gz(-pZ(pMINX,0,0)),gy(pY(0,0,0)),gz(-pZ(0,0,0)));
+line(gy(pY(0,pMINY,0)),gz(-pZ(0,pMINY,0)),gy(pY(0,0,0)),gz(-pZ(0,0,0)));
+line(gy(pY(0,0,pMINZ)),gz(-pZ(0,0,pMINZ)),gy(pY(0,0,0)),gz(-pZ(0,0,0)));
+restore();
+}
+var aStep=Math.PI/16;
+function rotateLeft(){
+	theta+=aStep;
+	if (currentFunction==parametricplot3d)
+		currentFunction(currentArgumentString);
+	else	
+		drawtriangles();
+}
+function rotateRight(){
+	theta-=aStep;
+	if (currentFunction==parametricplot3d)
+		currentFunction(currentArgumentString);
+	else	
+		drawtriangles();
+}
+function rotateUp(){
+	phi-=aStep;
+	if (currentFunction==parametricplot3d)
+		currentFunction(currentArgumentString);
+	else	
+		drawtriangles();
+}
+function rotateDown(){
+	phi+=aStep;
+	if (currentFunction==parametricplot3d)
+		currentFunction(currentArgumentString);
+	else	
+		drawtriangles();
+}
+function zoomin3d(){
+	pMINX=pMINX*0.9;
+	pMINY=pMINY*0.9;
+	pMINZ=pMINZ*0.9;
+	pMAXX=pMAXX*0.9;
+	pMAXY=pMAXY*0.9;
+	pMAXZ=pMAXZ*0.9;
+	currentFunction(currentArgumentString);
+}
+function zoomout3d(){
+	pMINX=pMINX/0.9;
+	pMINY=pMINY/0.9;
+	pMINZ=pMINZ/0.9;
+	pMAXX=pMAXX/0.9;
+	pMAXY=pMAXY/0.9;
+	pMAXZ=pMAXZ/0.9;
+	currentFunction(currentArgumentString);
+}
+//----------------------------------------------------------
+
+
+function drawtriangles(){
+background('white');
+setProjectionMatrix();
+var k=0.5;
+	var i,j;
+	var p,q;
+	for (i=0;i<triangles.length;i++){
+		p=triangles[i];
+		p.qx=dot(PX[0],PX[1], PX[2], p.cx, p.cy, p.cz);
+	}
+	for (i=0;i<triangles.length;i++){
+		p=triangles[i];
+		for (j=i+1;j<triangles.length;j++){
+			q=triangles[j];
+			if (q.qx<p.qx){
+				triangles[i]=q;
+				triangles[j]=p;
+				p=q;
+			}
+		}
+	}	
+	var c;
+	for (i=0;i<triangles.length;i++){
+		p=triangles[i];
+		//if ((p.cz>=pMINZ) && (p.cz<=pMAXZ))
+		{
+		triangle(
+			gy(k*dot(p.x1, p.y1, p.z1, PY[0], PY[1], PY[2])), gz(-k*dot(p.x1, p.y1, p.z1, PZ[0], PZ[1], PZ[2])),
+			gy(k*dot(p.x2, p.y2, p.z2, PY[0], PY[1], PY[2])), gz(-k*dot(p.x2, p.y2, p.z2, PZ[0], PZ[1], PZ[2])),
+			gy(k*dot(p.x3, p.y3, p.z3, PY[0], PY[1], PY[2])), gz(-k*dot(p.x3, p.y3, p.z3, PZ[0], PZ[1], PZ[2])),
+		);
+		c=floor(255*(p.cz-pMINZ)/(pMAXZ-pMINZ));
+		fillcolor(c, 128, 255-c);
+		fill();
+		}
+	}
+	drawAxis3d();
+	controls3d.style.display='block';
+	graphdiv.style.display='table';
+}
+function plot3d(argumentString){
+	var X=[]; var Y=[]; var Z=[];
+	var dx,dy;
+	var i,j;
+	//var tf=Algebrite.run(argumentString);
+	//Algebrite.run('plotFunction(x)='+tf);
+	//console.log(tf);	
+	Algebrite.run('plotFunction(x,y)='+argumentString);
+	function f(x,y){
+		return(eval(Algebrite.run('plotFunction('+x+','+y+')').replaceAll("...", "")));
+	}
+	var numIntervals=50;
+	dx=(pMAXX-pMINX)/numIntervals;
+	dy=(pMAXY-pMINY)/numIntervals;
+	for (x=pMINX;x<=pMAXX;x+=dx)
+		X.push(x);
+	for (y=pMINY;y<=pMAXY;y+=dy)
+		Y.push(y);
+	for (i=0;i<X.length;i++){
+		Z[i]=[];
+		for (j=0;j<Y.length;j++)
+			Z[i][j]=f(X[i], Y[j]);
+	}
+	triangles=[];
+	for (i=0;i<X.length-1;i++)
+	for (j=0;j<Y.length-1;j++){
+		triangles.push({
+			x1: X[i],
+			y1: Y[j],
+			z1: Z[i][j],
+			x2: X[i+1],
+			y2: Y[j],
+			z2:  Z[i+1][j],
+			x3: X[i],
+			y3: Y[j+1],
+			z3: Z[i][j+1],
+			cx: (X[i]+X[i+1]+X[i])/3,
+			cy: (Y[j]+Y[j]+Y[j+1])/3,
+			cz: (Z[i][j]+Z[i+1][j]+Z[i][j+1])/3,
+			qx: 0, qy:0, qz:0
+		});
+		triangles.push({
+			x1: X[i+1],
+			y1: Y[j+1],
+			z1: Z[i+1][j+1],
+			x2: X[i+1],
+			y2: Y[j],
+			z2:  Z[i+1][j],
+			x3: X[i],
+			y3: Y[j+1],
+			z3: Z[i][j+1],
+			cx: (X[i+1]+X[i+1]+X[i])/3,
+			cy: (Y[j+1]+Y[j]+Y[j+1])/3,
+			cz: (Z[i+1][j+1]+Z[i+1][j]+Z[i][j+1])/3,
+			qx:0, qy:0, qz:0
+		});			
+	}
+	drawtriangles();
+}
+function editWindow3d(){
+	maxx.value=pMAXX;
+	maxy.value=pMAXY;
+	maxz.value=pMAXZ;
+	controls3d.style.display='none'
+	windowedit3d.style.display='block';
+}
+function updateWindow3d(){
+	pMAXX=eval(maxx.value);
+	pMAXY=eval(maxy.value);
+	pMAXZ=eval(maxz.value);
+	pMINX=-pMAXX;
+	pMINY=-pMAXY;
+	pMINZ=-pMAXZ;
+	currentFunction(currentArgumentString);
+	windowedit3d.style.display='none';
+	//controls3d.style.display='block'
+}
+//Function of one variable plotting------------------------------------------------------------
+var pMINX2=-5;
+var pMINY2=-5;
+var pMAXX2=5;
+var pMAXY2=5;
+
+function editWindow2d(){
+	maxx2d.value=pMAXX2;
+	maxy2d.value=pMAXY2;
+	minx2d.value=pMINX2;
+	miny2d.value=pMINY2;
+	
+	controls2d.style.display='none'
+	windowedit2d.style.display='block';
+}
+function updateWindow2d(){
+	pMAXX2=eval(maxx2d.value);
+	pMAXY2=eval(maxy2d.value);
+	pMINX2=eval(minx2d.value);
+	pMINY2=eval(miny2d.value);
+	currentFunction(currentArgumentString);
+	windowedit2d.style.display='none';
+	//controls2d.style.display='block'
+}
+
+function gx2(x){
+	return((x-pMINX2)*width/(pMAXX2-pMINX2));
+}
+function gy2(x){
+	return(height-(x-pMINY2)*height/(pMAXY2-pMINY2));
+}
+function plotAxis(){
+	var x, y,dx,dy;
+	save();
+	color('gray');
+	fillcolor('gray');
+	font('10px times');
+	line(gx2(pMINX2), gy2(0), gx2(pMAXX2), gy2(0));
+	line(gx2(0), gy2(pMINY2), gx2(0), gy2(pMAXY2));
+	dx=(pMAXX2-pMINX2)/10;
+	dy=(pMAXY2-pMINY2)/10;
+	for (x=pMINX2;x<=pMAXX2;x+=dx){
+		line(gx2(x), gy2(0)-5, gx2(x), gy2(0)+5);
+		filltext(x.toFixed(1), gx2(x), gy2(0)+10);
+	}
+	for (y=pMINY2;y<=pMAXY2;y+=dy){
+		line(gx2(0)+5, gy2(y), gx2(0)-5, gy2(y));
+		filltext(y.toFixed(1), gx2(0)+10, gy2(y));
+	}	
+	restore();
+}
+function right2d(){
+	var dx=0.1*(pMAXX2-pMINX2);
+	pMAXX2-=dx;
+	pMINX2-=dx;
+	currentFunction(currentArgumentString);
+}
+function left2d(){
+	var dx=0.1*(pMAXX2-pMINX2);
+	pMAXX2+=dx;
+	pMINX2+=dx;
+	currentFunction(currentArgumentString);
+}
+function up2d(){
+	var dx=0.1*(pMAXY2-pMINY2);
+	pMAXY2-=dx;
+	pMINY2-=dx;
+	currentFunction(currentArgumentString);
+}
+function down2d(){
+	var dx=0.1*(pMAXY2-pMINY2);
+	pMAXY2+=dx;
+	pMINY2+=dx;
+	currentFunction(currentArgumentString);
+}
+function resetView2d(){
+	pMINX2=-5;
+	pMINY2=-5;
+	pMAXX2=5;
+	pMAXY2=5;
+	currentFunction(currentArgumentString);
+}
+function zoomin2d(){
+	var dx=(pMAXX2-pMINX2)/2*0.9;
+	var mx=(pMINX2+pMAXX2)/2;
+	var dy=(pMAXY2-pMINY2)/2*0.9;
+	var my=(pMINY2+pMAXY2)/2;
+	pMINX2=mx-dx;
+	pMAXX2=mx+dx;
+	pMINY2=my-dy;
+	pMAXY2=my+dy;
+	currentFunction(currentArgumentString);
+}
+function zoomout2d(){
+	var dx=(pMAXX2-pMINX2)/2/0.9;
+	var mx=(pMINX2+pMAXX2)/2;
+	var dy=(pMAXY2-pMINY2)/2/0.9;
+	var my=(pMINY2+pMAXY2)/2;
+	pMINX2=mx-dx;
+	pMAXX2=mx+dx;
+	pMINY2=my-dy;
+	pMAXY2=my+dy;
+	currentFunction(currentArgumentString);
+}
+function plot(argumentString){
+	save()
+	var N=eval(Algebrite.run('shape(['+argumentString+'])[1]'));
+	var X=[], Y=[];
+//	var argumentArray=argumentString.split(",");
+	var i;
+	var X=[]; var Y=[];
+	var x;
+	var dx
+	var a, b, c, d;
+	var tf;
+	clear();
+	background('white');
+	plotAxis();	
+for (i=1;i<=N;i++){
+	tf=Algebrite.run('['+argumentString+']['+i+']');
+	Algebrite.run('plotFunction(x)='+tf);
+	function f(x){
+		return(eval(Algebrite.run('plotFunction('+x+')').replaceAll("...", "")));
+	}
+	X=[];  Y=[];
+	dx=(pMAXX2-pMINX2)/1000;
+	for (x=pMINX2; x<=pMAXX2;x+=dx){
+		X.push(gx2(x));
+		Y.push(gy2(f(x)));
+	}
+	color(theColors[i]);
+	for (x=0;x<X.length-1;x++){
+		a=X[x];
+		b=Y[x];
+		c=X[x+1];
+		d=Y[x+1];
+		if (((0<=a) &&  (a<=width) &&
+		(0<=b) && (b<=height)) ||
+		((0<=c) && (c<=width) &&
+		(0<=d) && (d<=height) ))
+		line(a, b, c, d);
+	}
+}	
+	graphdiv.style.display='table';
+	controls2d.style.display='block';
+	restore();
+}
+function closegraph(){
+	graphdiv.style.display='none';
+	controls3d.style.display='none';
+	controls2d.style.display='none';
+	windowedit3d.style.display='none';
+	windowedit2d.style.display='none';
+	parameterbutton.style.display='none';
+	parameterbuttonS.style.display='none';
+	parameteredit.style.display='none';
+	parametereditS.style.display='none';
+	inputArea.focus();
+}
+//vector field plotting ---------------------------------------------
+function isNumeric(str) {
+  if (typeof str != "string") return false // we only process strings!  
+  return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+         !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+}
+function vectorfield(argumentString){
+	save();
+	background('white');
+	plotAxis();	
+	var xstring=Algebrite.run('['+argumentString+'][1]');
+	var ystring=Algebrite.run('['+argumentString+'][2]');
+	var X=[], Y=[];
+	var VX=[], VY=[];
+	var x,y, vx, vy, i, j;
+	var MAXV=0;
+	var V;
+	Algebrite.run('xFunction(x,y)='+xstring);
+	function f(x,y){
+		var s=Algebrite.run('xFunction('+x+','+y+')').replaceAll("...", "");
+		var r;
+		try{ r=eval(s);}
+		catch{r=null;}
+		return(r);
+	}	
+	Algebrite.run('yFunction(x,y)='+ystring);
+	function g(x,y){
+		var s=Algebrite.run('yFunction('+x+','+y+')').replaceAll("...", "");
+		var r;
+		try{ r=eval(s);}
+		catch{r=null;}
+		return(r);
+	}
+	var numIntervals=20;
+	dx=(pMAXX2-pMINX2)/numIntervals;
+	dy=(pMAXY2-pMINY2)/numIntervals;
+	for (x=pMINX2;x<=pMAXX2;x+=dx)
+		X.push(x);
+	for (y=pMINY2;y<=pMAXY2;y+=dy)
+		Y.push(y);
+	for (i=0;i<X.length;i++){
+		VX[i]=[];
+		VY[i]=[];
+		for (j=0;j<Y.length;j++){
+			x=X[i];
+			y=Y[j];
+			VX[i][j]=f(x,y); 
+			VY[i][j]=g(x,y);		
+			V=sqrt(VX[i][j]*VX[i][j]+VY[i][j]*VY[i][j]);
+			if (V>MAXV) MAXV=V;
+		}
+	}
+	for (i=0;i<X.length;i++)
+		for (j=0;j<Y.length;j++){
+			x=X[i];
+			y=Y[j];
+			vx=VX[i][j]/MAXV;
+			vy=VY[i][j]/MAXV;
+			line(gx2(x-vx/2), gy2((y-vy/2)), gx2(x+vx/2), gy2((y+vy/2)));
+			point(gx2(x+vx/2), gy2((y+vy/2)));
+		}
+
+	graphdiv.style.display='table';
+	controls2d.style.display='block';
+	restore();
+}
+
+var MINT=0;
+var MAXT=1;
+function parametricplot(argumentString){
+	save();
+	background('white');
+	plotAxis();	
+	var xstring=Algebrite.run('['+argumentString+'][1]');
+	var ystring=Algebrite.run('['+argumentString+'][2]');
+	var X=[], Y=[];
+	var x,y, i, j;
+	var dt,t;
+	var a, b, c, d;
+	Algebrite.run('xFunction(t)='+xstring);
+	function f(t){
+		var s=Algebrite.run('xFunction('+t+')').replaceAll("...", "");
+		return(eval(s));
+	}	
+	Algebrite.run('yFunction(t)='+ystring);
+	function g(t){
+		var s=Algebrite.run('yFunction('+t+')').replaceAll("...", "");
+		return(eval(s));
+	}
+	var numIntervals=1000;
+	dt=(MAXT-MINT)/numIntervals;
+	for (t=MINT;t<=MAXT;t+=dt){
+		X.push(gx2(f(t)));
+		Y.push(gy2(g(t)));
+	}
+	
+	for (x=0;x<X.length-1;x++){
+		a=X[x];
+		b=Y[x];
+		c=X[x+1];
+		d=Y[x+1];
+		if (((0<=a) &&  (a<=width) &&
+		(0<=b) && (b<=height)) ||
+		((0<=c) && (c<=width) &&
+		(0<=d) && (d<=height) ))
+		line(a, b, c, d);
+	}
+
+	graphdiv.style.display='table';
+	parameterbutton.style.display='inline';
+	controls2d.style.display='block';
+	restore();
+}
+
+
+function parametricplot3d(argumentString){
+	save();
+	background('white');
+	setProjectionMatrix();
+	drawAxis3d();	
+	var xstring=Algebrite.run('['+argumentString+'][1]');
+	var ystring=Algebrite.run('['+argumentString+'][2]');
+	var zstring=Algebrite.run('['+argumentString+'][3]');
+	
+	var X=[], Y=[], Z=[];
+	var x,y, z,i, j;
+	var a, b, c, d;
+	var dt,t;
+	Algebrite.run('xFunction(t)='+xstring);
+	function f(t){
+		var s=Algebrite.run('xFunction('+t+')').replaceAll("...", "");
+		return(eval(s));
+	}	
+	Algebrite.run('yFunction(t)='+ystring);
+	function g(t){
+		var s=Algebrite.run('yFunction('+t+')').replaceAll("...", "");
+		return(eval(s));
+	}
+	Algebrite.run('zFunction(t)='+zstring);
+	function h(t){
+		var s=Algebrite.run('zFunction('+t+')').replaceAll("...", "");
+		return(eval(s));
+	}
+	var numIntervals=1000;
+	dt=(MAXT-MINT)/numIntervals;
+	for (t=MINT;t<=MAXT;t+=dt){
+		X.push((f(t)));
+		Y.push((g(t)));
+		Z.push((h(t)));
+	}
+
+	var x1, y1, z1, x2, y2, z2;
+	var k=0.5;
+	for (x=0;x<X.length-1;x++){
+		x1=X[x];
+		y1=Y[x];
+		z1=Z[x];
+		x2=X[x+1];
+		y2=Y[x+1];
+		z2=Z[x+1];
+		line(gy(k*dot(x1,y1,z1,PY[0],PY[1],PY[2])), gz(-k*dot(x1,y1,z1,PZ[0],PZ[1],PZ[2])),
+		gy(k*dot(x2,y2,z2,PY[0],PY[1],PY[2])), gz(-k*dot(x2,y2,z2,PZ[0],PZ[1],PZ[2]))
+		);
+		//console.log(gy(k*dot(x1,y1,z1,PY[0],PY[1],PY[2])), gz(-k*dot(x1,y1,z1,PZ[0],PZ[1],PZ[2])));
+		//gy(k*dot(p.x1, p.y1, p.z1, PY[0], PY[1], PY[2])), gz(-k*dot(p.x1, p.y1, p.z1, PZ[0], PZ[1], PZ[2])),
+	}
+
+	graphdiv.style.display='table';
+	parameterbutton.style.display='inline';
+	controls3d.style.display='block';
+	restore();
+}
+
+//-parametric surface--------------------------------------------------------------------------------
+var MINU=0;
+var MAXU=1;
+var MINV=0;
+var MAXV=1;
+function parametricsurface(argumentString){
+	save();
+	background('white');
+	setProjectionMatrix();
+	drawAxis3d();	
+	var xstring=Algebrite.run('['+argumentString+'][1]');
+	var ystring=Algebrite.run('['+argumentString+'][2]');
+	var zstring=Algebrite.run('['+argumentString+'][3]');
+console.log(xstring);
+console.log(ystring);
+console.log(zstring);
+	var X=[], Y=[], Z=[],U=[],V=[];
+	var x,y, z,i, j;
+	var a, b, c, d;
+	var dt,t;
+	var u,v;
+	Algebrite.run('xFunction(u,v)='+xstring);
+	function f(u,v){
+		var s=Algebrite.run('xFunction('+u+','+v+')').replaceAll("...", "");
+		return(eval(s));
+	}	
+	Algebrite.run('yFunction(u,v)='+ystring);
+	function g(u,v){
+		var s=Algebrite.run('yFunction('+u+','+v+')').replaceAll("...", "");
+		return(eval(s));
+	}
+	Algebrite.run('zFunction(u,v)='+zstring);
+	function h(u,v){
+		var s=Algebrite.run('zFunction('+u+','+v+')').replaceAll("...", "");
+		return(eval(s));
+	}
+
+/*	Algebrite.run('xFunction(x,y)='+xstring);
+	function f(u,v){
+		return(eval(Algebrite.run('xFunction('+u+','+v+')').replaceAll("...", "")));
+	}
+	Algebrite.run('yFunction(x,y)='+ystring);
+	function g(u,v){
+		return(eval(Algebrite.run('yFunction('+u+','+v+')').replaceAll("...", "")));
+	}
+	Algebrite.run('zFunction(x,y)='+zstring);
+	function h(u,v){
+		return(eval(Algebrite.run('zFunction('+u+','+v+')').replaceAll("...", "")));
+	}	
+*/	var numIntervals=20;
+	var du=(MAXU-MINU)/numIntervals;
+	var dv=(MAXV-MINV)/numIntervals;
+	for (u=MINU;u<=MAXU;u+=du)
+		U.push(u);
+	for (v=MINV;v<=MAXV;v+=dv)
+		V.push(v);
+	for (i=0;i<U.length;i++){
+		X[i]=[];
+		Y[i]=[];
+		Z[i]=[];
+		for (j=0;j<V.length;j++){
+			X[i][j]=f(U[i], V[j]);
+			Y[i][j]=g(U[i], V[j]);
+			Z[i][j]=h(U[i], V[j]);
+		}
+	}
+	
+	triangles=[];
+	for (i=0;i<U.length-1;i++)
+	for (j=0;j<V.length-1;j++){
+		triangles.push({
+			x1: X[i][j],
+			y1: Y[i][j],
+			z1: Z[i][j],
+			x2: X[i][j+1],
+			y2: Y[i][j+1],
+			z2:  Z[i][j+1],
+			x3: X[i+1][j],
+			y3: Y[i+1][j],
+			z3: Z[i+1][j],
+			cx: (X[i][j]+X[i+1][j]+X[i][j+1])/3,
+			cy: (Y[i][j]+Y[i+1][j]+Y[i][j+1])/3,
+			cz: (Z[i][j]+Z[i+1][j]+Z[i][j+1])/3,
+			qx: 0, qy:0, qz:0
+		});
+		triangles.push({
+			x1: X[i+1][j+1],
+			y1: Y[i+1][j+1],
+			z1: Z[i+1][j+1],
+			x2: X[i][j+1],
+			y2: Y[i][j+1],
+			z2:  Z[i][j+1],
+			x3: X[i+1][j],
+			y3: Y[i+1][j],
+			z3: Z[i+1][j],
+			cx: (X[i+1][j+1]+X[i+1][j]+X[i][j+1])/3,
+			cy: (Y[i+1][j+1]+Y[i+1][j]+Y[i][j+1])/3,
+			cz: (Z[i+1][j+1]+Z[i+1][j]+Z[i][j+1])/3,
+			qx:0, qy:0, qz:0
+		});			
+	}
+	
+	drawtriangles();
+
+	graphdiv.style.display='table';
+	parameterbuttonS.style.display='inline';
+	controls3d.style.display='block';
+	restore();
+}
+
+//------------------------------------------------------------------------------------------------------
+
+function editParameter(){
+	mint.value=MINT;
+	maxt.value=MAXT;
+	controls2d.style.display='none';
+	controls3d.style.display='none';
+	parameterbutton.style.display='none';
+	parameteredit.style.display='block';
+}
+function editParameterS(){
+	minu.value=MINU;
+	maxu.value=MAXU;
+	minv.value=MINV;
+	maxv.value=MAXV;
+	controls2d.style.display='none';
+	controls3d.style.display='none';
+	parameterbuttonS.style.display='none';
+	parametereditS.style.display='block';
+}
+function updateParameter(){
+	MINT=eval(mint.value);
+	MAXT=eval(maxt.value);
+	currentFunction(currentArgumentString);
+	parameteredit.style.display='none';
+	//controls2d.style.display='block';
+}
+function updateParameterS(){
+	MINU=eval(minu.value);
+	MAXU=eval(maxu.value);
+	MINV=eval(minv.value);
+	MAXV=eval(maxv.value);
+	currentFunction(currentArgumentString);
+	parametereditS.style.display='none';
+	//controls2d.style.display='block';
+}
+//Process input------------------------------------------------------
+var currentArgumentString;
+var currentFunction;
+function processInput(e){
+	var outputString;
+	var inputString=inputArea.value
+	var start=inputString.indexOf("(")+1;
+	var stop=inputString.lastIndexOf(")");
+	var argumentString;
+	e=e||window.event;
+	if (e.key=='Enter'){
+		e.preventDefault();
+		if (inputString.startsWith("plot3d")){
+			argumentString=inputString.substring(start, stop);
+			currentArgumentString=argumentString;
+			currentFunction=plot3d;
+			outputString=plot3d(argumentString);
+		}		
+		else if (inputString.startsWith("plot")){
+			argumentString=inputString.substring(start, stop);
+			currentArgumentString=argumentString;
+			currentFunction=plot;
+			outputString=plot(argumentString);
+		}
+		else if(inputString.startsWith("vectorfield")){
+			argumentString=inputString.substring(start, stop);
+			currentArgumentString=argumentString;
+			currentFunction=vectorfield;
+			outputString=vectorfield(argumentString);
+		}
+		else if(inputString.startsWith("parametricplot3d")){
+			argumentString=inputString.substring(start, stop);
+			currentArgumentString=argumentString;
+			currentFunction=parametricplot3d;
+			outputString=parametricplot3d(argumentString);
+		}
+		else if(inputString.startsWith("parametricplot")){
+			argumentString=inputString.substring(start, stop);
+			currentArgumentString=argumentString;
+			currentFunction=parametricplot;
+			outputString=parametricplot(argumentString);
+		}
+		else if(inputString.startsWith("parametricsurface")){
+			argumentString=inputString.substring(start, stop);
+			currentArgumentString=argumentString;
+			currentFunction=parametricsurface;
+			outputString=parametricsurface(argumentString);
+		}		
+		else{
+			outputString=Algebrite.run('printlatex('+inputString+')');
+		}
+		if ((!outputString)  || (outputString=='nil')) outputString='';
+		else outputString='\\('+outputString+'\\)'
+//		outputdiv.innerHTML='<div class="border-brackets"><p class="input"  onclick="inputArea.value=\''+inputString.slice(0,-1)+'\';inputArea.focus(); ">>'+inputString+'</p><p class="output">'+outputString+'</p></div>' + outputdiv.innerHTML;
+		outputdiv.innerHTML='<div class="border-brackets"><p class="input"  onclick="inputArea.value=\''+inputString.replaceAll('\n','')+'\';inputArea.focus(); ">>'+inputString+'</p><p class="output">'+outputString+'</p></div>' + outputdiv.innerHTML;
+		inputArea.value='';
+		outputdiv.scrollTop=0;//outputdiv.scrollHeight;
+		MathJax.typeset();
+	}
+}
+</script>
+</head>
+<body>
+<script>writeHeader();</script>
+
+<div id='wrapper'>
+
+<div id='graphdiv'><button onclick="closegraph();" id="closeButton">X</button>
+	<div id='graphwrapper'>
+		<div id='spork'></div>
+		<div id='controls3d' class='hidden'>
+			<table class='controls'>
+			<tr><td></td><td><button onclick='rotateUp()'>up</button></td><td></td></tr>
+			<tr><td><button onclick='rotateLeft()'>left</button></td><td></td><td><button onclick='rotateRight()'>right</button></td></tr>
+			<tr><td></td><td><button onclick='rotateDown()'>down</button></td><td></td></tr>
+			</table>
+
+			<button onclick='zoomin3d();'>in</button>
+			<button onclick='zoomout3d();'>out</button>
+			<button onclick='resetView3d();'>reset view</button>
+			<button onclick='editWindow3d();'>edit window</button>
+		</div>
+		<div id='windowedit3d' class='hidden'>
+			<table class='controls'>
+			<tr><td>max x: <input type='text' size=5 id='maxx'></td>
+			<td>max y: <input type='text' size=5 id='maxy'></td>
+			<td>max z: <input type='text' size=5 id='maxz'></td></tr>
+			</table>
+			<button onclick='updateWindow3d()'>update window</button>
+		</div>
+		<div id='controls2d' class='hidden'>
+			<table class='controls'>
+			<tr><td></td><td><button onclick='up2d()'>up</button></td><td></td></tr>
+			<tr><td><button onclick='left2d()'>left</button></td><td></td><td><button onclick='right2d()'>right</button></td></tr>
+			<tr><td></td><td><button onclick='down2d()'>down</button></td><td></td></tr>
+			</table>
+
+			<button onclick='zoomin2d();'>in</button>
+			<button onclick='zoomout2d();'>out</button>
+			<button onclick='resetView2d();'>reset view</button>
+			<button onclick='editWindow2d();'>edit window</button>		
+		</div>
+		<button onclick='editParameter();' id='parameterbutton' class='hidden'>edit parameter</button>
+		<button onclick='editParameterS();' id='parameterbuttonS' class='hidden'>edit parameters</button>
+		<div id='windowedit2d' class='hidden'>
+			<table class='controls'>
+			<tr><td>min x: <input type='text' size=5 id='minx2d'></td><td>max x: <input type='text' size=5 id='maxx2d'></td></tr>
+			<tr><td>min y: <input type='text' size=5 id='miny2d'><td>max y: <input type='text' size=5 id='maxy2d'></td>
+			</table>
+			<button onclick='updateWindow2d()'>update window</button>
+		</div>
+		<div id='parameteredit' class='hidden'>
+			<table class='controls'>
+			<tr><td>min t: <input type='text' size=5 id='mint'></td><td>max t: <input type='text' size=5 id='maxt'></td></tr>
+			</table>
+			<button onclick='updateParameter();'>update parameter</button>
+		</div>
+		<div id='parametereditS' class='hidden'>
+			<table class='controls'>
+			<tr><td>min u: <input type='text' size=5 id='minu'></td><td>max u: <input type='text' size=5 id='maxu'></td></tr>
+			<tr><td>min v: <input type='text' size=5 id='minv'></td><td>max v: <input type='text' size=5 id='maxv'></td></tr>
+			</table>
+			<button onclick='updateParameterS();'>update parameters</button>
+		</div>		
+	</div>
+</div>
+<textarea id='inputArea' onkeyup="processInput(event);" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+<div id='outputdiv'></div>
+<div id='attribution'>
+<ul>
+<li>This page employs the very nice <a href='http://algebrite.org'>Algebrite</a> CAS for JS for all symbolic manipulations. </li>
+<li>My only contributions are the interface and graphing commands.</li>
+</ul>
+</div>
+<div id='plotreference'>
+<h3>
+Examples
+</h3>
+
+</div>
+</div>
+<script>inputArea.focus();</script>
+
+<script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        chtml: {
+            scale: 1.3
+        },
+        svg: {
+            scale: 1.3
+        }
+    };
+</script>
+
+</body>
+</html>
