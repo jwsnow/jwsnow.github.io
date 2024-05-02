@@ -8,6 +8,9 @@
 <title>J.W. Snow</title>
 <link rel='stylesheet' type='text/css' href='jws.css'>
 <script src='jws.js'></script>
+<link rel="stylesheet" type="text/css" href="expandable.css">
+<script src='expandable.js'></script>
+
 <style>
 #wrapper{
 margin:5px;
@@ -66,6 +69,9 @@ table.controls button{
 	border: 2px solid gray;
 	height: 400px;
 	overflow-y: scroll;
+}
+#outputdiv img{
+	height: 100px;
 }
 p.input{
 	width:100%;
@@ -136,6 +142,9 @@ p.output{
 #xparameterbutton{
 	display: none;
 }
+#reference p.input{
+	font-style: italic;
+}
 </style>
 <script src='spork.js'></script>
 <script src='algebrite.bundle-for-browser-min.js'></script>
@@ -144,8 +153,10 @@ p.output{
 var theColors=[
 'blue', 'red', 'green', 'purple', 'orange', 'orchid', 'mediumpurple', 'black'
 ]
+var plotnumber=0;
 function setup(){
 	background('white');
+	setupAll();
 }
 function sec(x){
 	return(1/cos(x));
@@ -157,21 +168,29 @@ function csc(x){
 	return(1/sin(x));
 }
 //Surface as a function of 2 variables-----------------------------------------
-var pMINX=-5;
-var pMINY=-5;
-var pMAXX=5;
-var pMAXY=5;
-var pMINZ=-5;
-var pMAXZ=5;
-
+var MINX=-5;
+var MINY=-5;
+var MAXX=5;
+var MAXY=5;
+var MINZ=-5;
+var MAXZ=5;
+function fix3dcoords(){
+	if (MAXX>0) MINX=-MAXX;
+	else{MAXX=5; MINX=-5}
+	if (MAXY>0) MINY=-MAXY;
+	else{MAXY=5; MINY=-5}
+	if (MAXZ>0) MINZ=-MAXZ;
+	else{MAXZ=5; MINZ=-5}
+	
+}
 function gx(x){
-	return((x-pMINX)*width/(pMAXX-pMINX));
+	return((x-MINX)*width/(MAXX-MINX));
 }
 function gy(x){
-	return((x-pMINY)*height/(pMAXY-pMINY));
+	return((x-MINY)*height/(MAXY-MINY));
 }
 function gz(x){
-	return((x-pMINZ)*height/(pMAXZ-pMINZ));
+	return((x-MINZ)*height/(MAXZ-MINZ));
 }
 
 var triangles=[];
@@ -181,12 +200,12 @@ var PX=[], PY=[], PZ=[];
 function resetView3d(){
 	theta=Math.PI/4;
 	phi=Math.PI/4;
-	pMINX=-5;
-	pMINY=-5;
-	pMAXX=5;
-	pMAXY=5;
-	pMINZ=-5;
-	pMAXZ=5;	
+	MINX=-5;
+	MINY=-5;
+	MAXX=5;
+	MAXY=5;
+	MINZ=-5;
+	MAXZ=5;	
 	currentFunction(currentArgumentString);
 }
 //---------------------------------------------------------
@@ -214,15 +233,15 @@ function LINE3d(x,y,z,x2,y2,z2){
 function drawAxis3d(){
 save();
 color('red');
-line(gy(pY(0,0,0)),gz(-pZ(0,0,0)),gy(pY(pMAXX,0,0)),gz(-pZ(pMAXX,0,0)));
+line(gy(pY(0,0,0)),gz(-pZ(0,0,0)),gy(pY(MAXX,0,0)),gz(-pZ(MAXX,0,0)));
 color('blue');
-line(gy(pY(0,0,0)),gz(-pZ(0,0,0)),gy(pY(0,pMAXY,0)),gz(-pZ(0,pMAXY,0)));
+line(gy(pY(0,0,0)),gz(-pZ(0,0,0)),gy(pY(0,MAXY,0)),gz(-pZ(0,MAXY,0)));
 color('green');
-line(gy(pY(0,0,0)),gz(-pZ(0,0,0)),gy(pY(0,0,pMAXZ)),gz(-pZ(0,0,pMAXZ)));
+line(gy(pY(0,0,0)),gz(-pZ(0,0,0)),gy(pY(0,0,MAXZ)),gz(-pZ(0,0,MAXZ)));
 color('black');
-line(gy(pY(pMINX,0,0)),gz(-pZ(pMINX,0,0)),gy(pY(0,0,0)),gz(-pZ(0,0,0)));
-line(gy(pY(0,pMINY,0)),gz(-pZ(0,pMINY,0)),gy(pY(0,0,0)),gz(-pZ(0,0,0)));
-line(gy(pY(0,0,pMINZ)),gz(-pZ(0,0,pMINZ)),gy(pY(0,0,0)),gz(-pZ(0,0,0)));
+line(gy(pY(MINX,0,0)),gz(-pZ(MINX,0,0)),gy(pY(0,0,0)),gz(-pZ(0,0,0)));
+line(gy(pY(0,MINY,0)),gz(-pZ(0,MINY,0)),gy(pY(0,0,0)),gz(-pZ(0,0,0)));
+line(gy(pY(0,0,MINZ)),gz(-pZ(0,0,MINZ)),gy(pY(0,0,0)),gz(-pZ(0,0,0)));
 restore();
 }
 var aStep=Math.PI/16;
@@ -255,21 +274,21 @@ function rotateDown(){
 		drawtriangles();
 }
 function zoomin3d(){
-	pMINX=pMINX*0.9;
-	pMINY=pMINY*0.9;
-	pMINZ=pMINZ*0.9;
-	pMAXX=pMAXX*0.9;
-	pMAXY=pMAXY*0.9;
-	pMAXZ=pMAXZ*0.9;
+	MINX=MINX*0.9;
+	MINY=MINY*0.9;
+	MINZ=MINZ*0.9;
+	MAXX=MAXX*0.9;
+	MAXY=MAXY*0.9;
+	MAXZ=MAXZ*0.9;
 	currentFunction(currentArgumentString);
 }
 function zoomout3d(){
-	pMINX=pMINX/0.9;
-	pMINY=pMINY/0.9;
-	pMINZ=pMINZ/0.9;
-	pMAXX=pMAXX/0.9;
-	pMAXY=pMAXY/0.9;
-	pMAXZ=pMAXZ/0.9;
+	MINX=MINX/0.9;
+	MINY=MINY/0.9;
+	MINZ=MINZ/0.9;
+	MAXX=MAXX/0.9;
+	MAXY=MAXY/0.9;
+	MAXZ=MAXZ/0.9;
 	currentFunction(currentArgumentString);
 }
 //----------------------------------------------------------
@@ -299,14 +318,14 @@ var k=0.5;
 	var c;
 	for (i=0;i<triangles.length;i++){
 		p=triangles[i];
-		//if ((p.cz>=pMINZ) && (p.cz<=pMAXZ))
+		//if ((p.cz>=MINZ) && (p.cz<=MAXZ))
 		{
 		triangle(
 			gy(k*dot(p.x1, p.y1, p.z1, PY[0], PY[1], PY[2])), gz(-k*dot(p.x1, p.y1, p.z1, PZ[0], PZ[1], PZ[2])),
 			gy(k*dot(p.x2, p.y2, p.z2, PY[0], PY[1], PY[2])), gz(-k*dot(p.x2, p.y2, p.z2, PZ[0], PZ[1], PZ[2])),
 			gy(k*dot(p.x3, p.y3, p.z3, PY[0], PY[1], PY[2])), gz(-k*dot(p.x3, p.y3, p.z3, PZ[0], PZ[1], PZ[2])),
 		);
-		c=floor(255*(p.cz-pMINZ)/(pMAXZ-pMINZ));
+		c=floor(255*(p.cz-MINZ)/(MAXZ-MINZ));
 		fillcolor(c, 128, 255-c);
 		fill();
 		}
@@ -316,6 +335,7 @@ var k=0.5;
 	graphdiv.style.display='table';
 }
 function plot3d(argumentString){
+fix3dcoords();
 	var X=[]; var Y=[]; var Z=[];
 	var dx,dy;
 	var i,j;
@@ -327,11 +347,11 @@ function plot3d(argumentString){
 		return(eval(Algebrite.run('plotFunction('+x+','+y+')').replaceAll("...", "")));
 	}
 	var numIntervals=50;
-	dx=(pMAXX-pMINX)/numIntervals;
-	dy=(pMAXY-pMINY)/numIntervals;
-	for (x=pMINX;x<=pMAXX;x+=dx)
+	dx=(MAXX-MINX)/numIntervals;
+	dy=(MAXY-MINY)/numIntervals;
+	for (x=MINX;x<=MAXX;x+=dx)
 		X.push(x);
-	for (y=pMINY;y<=pMAXY;y+=dy)
+	for (y=MINY;y<=MAXY;y+=dy)
 		Y.push(y);
 	for (i=0;i<X.length;i++){
 		Z[i]=[];
@@ -373,55 +393,56 @@ function plot3d(argumentString){
 		});			
 	}
 	drawtriangles();
+	return('<img id="plot'+(plotnumber)+'">');
 }
 function editWindow3d(){
-	maxx.value=pMAXX;
-	maxy.value=pMAXY;
-	maxz.value=pMAXZ;
+	maxx.value=MAXX;
+	maxy.value=MAXY;
+	maxz.value=MAXZ;
 	controls3d.style.display='none'
 	windowedit3d.style.display='block';
 }
 function updateWindow3d(){
-	pMAXX=eval(maxx.value);
-	pMAXY=eval(maxy.value);
-	pMAXZ=eval(maxz.value);
-	pMINX=-pMAXX;
-	pMINY=-pMAXY;
-	pMINZ=-pMAXZ;
+	MAXX=eval(maxx.value);
+	MAXY=eval(maxy.value);
+	MAXZ=eval(maxz.value);
+	MINX=-MAXX;
+	MINY=-MAXY;
+	MINZ=-MAXZ;
 	currentFunction(currentArgumentString);
 	windowedit3d.style.display='none';
 	//controls3d.style.display='block'
 }
 //Function of one variable plotting------------------------------------------------------------
-var pMINX2=-5;
-var pMINY2=-5;
-var pMAXX2=5;
-var pMAXY2=5;
+var MINX=-5;
+var MINY=-5;
+var MAXX=5;
+var MAXY=5;
 
 function editWindow2d(){
-	maxx2d.value=pMAXX2;
-	maxy2d.value=pMAXY2;
-	minx2d.value=pMINX2;
-	miny2d.value=pMINY2;
+	maxx2d.value=MAXX;
+	maxy2d.value=MAXY;
+	minx2d.value=MINX;
+	miny2d.value=MINY;
 	
 	controls2d.style.display='none'
 	windowedit2d.style.display='block';
 }
 function updateWindow2d(){
-	pMAXX2=eval(maxx2d.value);
-	pMAXY2=eval(maxy2d.value);
-	pMINX2=eval(minx2d.value);
-	pMINY2=eval(miny2d.value);
+	MAXX=eval(maxx2d.value);
+	MAXY=eval(maxy2d.value);
+	MINX=eval(minx2d.value);
+	MINY=eval(miny2d.value);
 	currentFunction(currentArgumentString);
 	windowedit2d.style.display='none';
 	//controls2d.style.display='block'
 }
 
 function gx2(x){
-	return((x-pMINX2)*width/(pMAXX2-pMINX2));
+	return((x-MINX)*width/(MAXX-MINX));
 }
 function gy2(x){
-	return(height-(x-pMINY2)*height/(pMAXY2-pMINY2));
+	return(height-(x-MINY)*height/(MAXY-MINY));
 }
 function plotAxis(){
 	var x, y,dx,dy;
@@ -429,71 +450,71 @@ function plotAxis(){
 	color('gray');
 	fillcolor('gray');
 	font('10px times');
-	line(gx2(pMINX2), gy2(0), gx2(pMAXX2), gy2(0));
-	line(gx2(0), gy2(pMINY2), gx2(0), gy2(pMAXY2));
-	dx=(pMAXX2-pMINX2)/10;
-	dy=(pMAXY2-pMINY2)/10;
-	for (x=pMINX2;x<=pMAXX2;x+=dx){
+	line(gx2(MINX), gy2(0), gx2(MAXX), gy2(0));
+	line(gx2(0), gy2(MINY), gx2(0), gy2(MAXY));
+	dx=(MAXX-MINX)/10;
+	dy=(MAXY-MINY)/10;
+	for (x=MINX;x<=MAXX;x+=dx){
 		line(gx2(x), gy2(0)-5, gx2(x), gy2(0)+5);
 		filltext(x.toFixed(1), gx2(x), gy2(0)+10);
 	}
-	for (y=pMINY2;y<=pMAXY2;y+=dy){
+	for (y=MINY;y<=MAXY;y+=dy){
 		line(gx2(0)+5, gy2(y), gx2(0)-5, gy2(y));
 		filltext(y.toFixed(1), gx2(0)+10, gy2(y));
 	}	
 	restore();
 }
 function right2d(){
-	var dx=0.1*(pMAXX2-pMINX2);
-	pMAXX2-=dx;
-	pMINX2-=dx;
+	var dx=0.1*(MAXX-MINX);
+	MAXX-=dx;
+	MINX-=dx;
 	currentFunction(currentArgumentString);
 }
 function left2d(){
-	var dx=0.1*(pMAXX2-pMINX2);
-	pMAXX2+=dx;
-	pMINX2+=dx;
+	var dx=0.1*(MAXX-MINX);
+	MAXX+=dx;
+	MINX+=dx;
 	currentFunction(currentArgumentString);
 }
 function up2d(){
-	var dx=0.1*(pMAXY2-pMINY2);
-	pMAXY2-=dx;
-	pMINY2-=dx;
+	var dx=0.1*(MAXY-MINY);
+	MAXY-=dx;
+	MINY-=dx;
 	currentFunction(currentArgumentString);
 }
 function down2d(){
-	var dx=0.1*(pMAXY2-pMINY2);
-	pMAXY2+=dx;
-	pMINY2+=dx;
+	var dx=0.1*(MAXY-MINY);
+	MAXY+=dx;
+	MINY+=dx;
 	currentFunction(currentArgumentString);
 }
 function resetView2d(){
-	pMINX2=-5;
-	pMINY2=-5;
-	pMAXX2=5;
-	pMAXY2=5;
+	MINX=-5;
+	MINY=-5;
+	MAXX=5;
+	MAXY=5;
 	currentFunction(currentArgumentString);
 }
 function zoomin2d(){
-	var dx=(pMAXX2-pMINX2)/2*0.9;
-	var mx=(pMINX2+pMAXX2)/2;
-	var dy=(pMAXY2-pMINY2)/2*0.9;
-	var my=(pMINY2+pMAXY2)/2;
-	pMINX2=mx-dx;
-	pMAXX2=mx+dx;
-	pMINY2=my-dy;
-	pMAXY2=my+dy;
+	var dx=(MAXX-MINX)/2*0.9;
+	var mx=(MINX+MAXX)/2;
+	var dy=(MAXY-MINY)/2*0.9;
+	var my=(MINY+MAXY)/2;
+	MINX=mx-dx;
+	MAXX=mx+dx;
+	MINY=my-dy;
+	MAXY=my+dy;
 	currentFunction(currentArgumentString);
 }
 function zoomout2d(){
-	var dx=(pMAXX2-pMINX2)/2/0.9;
-	var mx=(pMINX2+pMAXX2)/2;
-	var dy=(pMAXY2-pMINY2)/2/0.9;
-	var my=(pMINY2+pMAXY2)/2;
-	pMINX2=mx-dx;
-	pMAXX2=mx+dx;
-	pMINY2=my-dy;
-	pMAXY2=my+dy;
+	var dx=(MAXX-MINX)/2/0.9;
+	var mx=(MINX+MAXX)/2;
+	var dy=(MAXY-MINY)/2/0.9;
+	var my=(MINY+MAXY)/2;
+	MINX=mx-dx;
+	MAXX=mx+dx;
+	MINY=my-dy;
+	MAXY=my+dy;
 	currentFunction(currentArgumentString);
 }
 function plot(argumentString){
@@ -517,8 +538,8 @@ for (i=1;i<=N;i++){
 		return(eval(Algebrite.run('plotFunction('+x+')').replaceAll("...", "")));
 	}
 	X=[];  Y=[];
-	dx=(pMAXX2-pMINX2)/1000;
-	for (x=pMINX2; x<=pMAXX2;x+=dx){
+	dx=(MAXX-MINX)/1000;
+	for (x=MINX; x<=MAXX;x+=dx){
 		X.push(gx2(x));
 		Y.push(gy2(f(x)));
 	}
@@ -538,6 +559,7 @@ for (i=1;i<=N;i++){
 	graphdiv.style.display='table';
 	controls2d.style.display='block';
 	restore();
+	return('<img id="plot'+(plotnumber)+'">');
 }
 function closegraph(){
 	graphdiv.style.display='none';
@@ -549,6 +571,8 @@ function closegraph(){
 	parameterbuttonS.style.display='none';
 	parameteredit.style.display='none';
 	parametereditS.style.display='none';
+var P=document.getElementById('plot'+(plotnumber++));
+canvasToImg(P);
 	inputArea.focus();
 }
 //vector field plotting ---------------------------------------------
@@ -585,11 +609,11 @@ function vectorfield(argumentString){
 		return(r);
 	}
 	var numIntervals=20;
-	dx=(pMAXX2-pMINX2)/numIntervals;
-	dy=(pMAXY2-pMINY2)/numIntervals;
-	for (x=pMINX2;x<=pMAXX2;x+=dx)
+	dx=(MAXX-MINX)/numIntervals;
+	dy=(MAXY-MINY)/numIntervals;
+	for (x=MINX;x<=MAXX;x+=dx)
 		X.push(x);
-	for (y=pMINY2;y<=pMAXY2;y+=dy)
+	for (y=MINY;y<=MAXY;y+=dy)
 		Y.push(y);
 	for (i=0;i<X.length;i++){
 		VX[i]=[];
@@ -616,6 +640,7 @@ function vectorfield(argumentString){
 	graphdiv.style.display='table';
 	controls2d.style.display='block';
 	restore();
+	return('<img id="plot'+(plotnumber)+'">');
 }
 
 var MINT=0;
@@ -663,10 +688,12 @@ function parametricplot(argumentString){
 	parameterbutton.style.display='inline';
 	controls2d.style.display='block';
 	restore();
+	return('<img id="plot'+(plotnumber)+'">');
 }
 
 
 function parametricplot3d(argumentString){
+fix3dcoords();
 	save();
 	background('white');
 	setProjectionMatrix();
@@ -722,6 +749,7 @@ function parametricplot3d(argumentString){
 	parameterbutton.style.display='inline';
 	controls3d.style.display='block';
 	restore();
+	return('<img id="plot'+(plotnumber)+'">');
 }
 
 //-parametric surface--------------------------------------------------------------------------------
@@ -730,6 +758,7 @@ var MAXU=1;
 var MINV=0;
 var MAXV=1;
 function parametricsurface(argumentString){
+fix3dcoords();
 	save();
 	background('white');
 	setProjectionMatrix();
@@ -737,9 +766,7 @@ function parametricsurface(argumentString){
 	var xstring=Algebrite.run('['+argumentString+'][1]');
 	var ystring=Algebrite.run('['+argumentString+'][2]');
 	var zstring=Algebrite.run('['+argumentString+'][3]');
-console.log(xstring);
-console.log(ystring);
-console.log(zstring);
+	
 	var X=[], Y=[], Z=[],U=[],V=[];
 	var x,y, z,i, j;
 	var a, b, c, d;
@@ -761,19 +788,7 @@ console.log(zstring);
 		return(eval(s));
 	}
 
-/*	Algebrite.run('xFunction(x,y)='+xstring);
-	function f(u,v){
-		return(eval(Algebrite.run('xFunction('+u+','+v+')').replaceAll("...", "")));
-	}
-	Algebrite.run('yFunction(x,y)='+ystring);
-	function g(u,v){
-		return(eval(Algebrite.run('yFunction('+u+','+v+')').replaceAll("...", "")));
-	}
-	Algebrite.run('zFunction(x,y)='+zstring);
-	function h(u,v){
-		return(eval(Algebrite.run('zFunction('+u+','+v+')').replaceAll("...", "")));
-	}	
-*/	var numIntervals=20;
+	var numIntervals=20;
 	var du=(MAXU-MINU)/numIntervals;
 	var dv=(MAXV-MINV)/numIntervals;
 	for (u=MINU;u<=MAXU;u+=du)
@@ -832,6 +847,7 @@ console.log(zstring);
 	parameterbuttonS.style.display='inline';
 	controls3d.style.display='block';
 	restore();
+	return('<img id="plot'+(plotnumber)+'">');
 }
 
 //------------------------------------------------------------------------------------------------------
@@ -870,6 +886,15 @@ function updateParameterS(){
 	parametereditS.style.display='none';
 	//controls2d.style.display='block';
 }
+
+function parameters(argumentString){
+	var argumentArray=argumentString.split(',');
+	var i;
+	for (i=0;i<argumentArray.length;i++){
+		eval(argumentArray[i]);
+	}
+
+}
 //Process input------------------------------------------------------
 var currentArgumentString;
 var currentFunction;
@@ -878,57 +903,73 @@ function processInput(e){
 	var inputString=inputArea.value
 	var start=inputString.indexOf("(")+1;
 	var stop=inputString.lastIndexOf(")");
-	var argumentString;
+	var argumentString=inputString.substring(start, stop);
+	currentArgumentString=argumentString;
 	e=e||window.event;
+	currentFunction=false;
 	if (e.key=='Enter'){
 		e.preventDefault();
 		if (inputString.startsWith("plot3d")){
-			argumentString=inputString.substring(start, stop);
-			currentArgumentString=argumentString;
+			//argumentString=inputString.substring(start, stop);
+			//currentArgumentString=argumentString;
 			currentFunction=plot3d;
-			outputString=plot3d(argumentString);
+			//outputString=currentFunction(currentArgumentString);
 		}		
 		else if (inputString.startsWith("plot")){
-			argumentString=inputString.substring(start, stop);
-			currentArgumentString=argumentString;
+			//argumentString=inputString.substring(start, stop);
+			//currentArgumentString=argumentString;
 			currentFunction=plot;
-			outputString=plot(argumentString);
+			//outputString=currentFunction(currentArgumentString);
 		}
 		else if(inputString.startsWith("vectorfield")){
-			argumentString=inputString.substring(start, stop);
-			currentArgumentString=argumentString;
+			//argumentString=inputString.substring(start, stop);
+			//currentArgumentString=argumentString;
 			currentFunction=vectorfield;
-			outputString=vectorfield(argumentString);
+			//outputString=currentFunction(currentArgumentString);
 		}
 		else if(inputString.startsWith("parametricplot3d")){
-			argumentString=inputString.substring(start, stop);
-			currentArgumentString=argumentString;
+			//argumentString=inputString.substring(start, stop);
+			//currentArgumentString=argumentString;
 			currentFunction=parametricplot3d;
-			outputString=parametricplot3d(argumentString);
+			//outputString=currentFunction(currentArgumentString);
 		}
 		else if(inputString.startsWith("parametricplot")){
-			argumentString=inputString.substring(start, stop);
-			currentArgumentString=argumentString;
+			//argumentString=inputString.substring(start, stop);
+			//currentArgumentString=argumentString;
 			currentFunction=parametricplot;
-			outputString=parametricplot(argumentString);
+			//outputString=currentFunction(currentArgumentString);
 		}
 		else if(inputString.startsWith("parametricsurface")){
-			argumentString=inputString.substring(start, stop);
-			currentArgumentString=argumentString;
+			//argumentString=inputString.substring(start, stop);
+			//currentArgumentString=argumentString;
 			currentFunction=parametricsurface;
-			outputString=parametricsurface(argumentString);
+			//outputString=currentFunction(currentArgumentString);
 		}		
-		else{
-			outputString=Algebrite.run('printlatex('+inputString+')');
+		else if(inputString.startsWith("parameters")){
+			//argumentString=inputString.substring(start, stop);
+			//currentArgumentString=argumentString;
+			currentFunction=parameters;
+			//outputString=currentFunction(currentArgumentString);
+		}	
+		if (currentFunction){
+			outputString=currentFunction(currentArgumentString);
 		}
-		if ((!outputString)  || (outputString=='nil')) outputString='';
-		else outputString='\\('+outputString+'\\)'
-//		outputdiv.innerHTML='<div class="border-brackets"><p class="input"  onclick="inputArea.value=\''+inputString.slice(0,-1)+'\';inputArea.focus(); ">>'+inputString+'</p><p class="output">'+outputString+'</p></div>' + outputdiv.innerHTML;
+		else{
+			outputString='\\('+Algebrite.run('printlatex('+inputString+')')+'\\)';
+		}
+		if ((!outputString)  || (outputString=='nil')||outputString=='\\(nil\\)') outputString='--';
+		//else outputString='\\('+outputString+'\\)'
 		outputdiv.innerHTML='<div class="border-brackets"><p class="input"  onclick="inputArea.value=\''+inputString.replaceAll('\n','')+'\';inputArea.focus(); ">>'+inputString+'</p><p class="output">'+outputString+'</p></div>' + outputdiv.innerHTML;
 		inputArea.value='';
-		outputdiv.scrollTop=0;//outputdiv.scrollHeight;
+		outputdiv.scrollTop=0;
 		MathJax.typeset();
 	}
+}
+
+function showMe(t){
+	inputArea.value=t.innerText;
+	inputArea.focus();
+	document.scrollTop=0;
 }
 </script>
 </head>
@@ -1001,19 +1042,111 @@ function processInput(e){
 <div id='attribution'>
 <ul>
 <li>This page employs the very nice <a href='http://algebrite.org'>Algebrite</a> CAS for JS for all symbolic manipulations. </li>
+<li>Mathematical output is typset using <a href='https://mathjax.org'>MathJax</a>. If you do not get pretty output, reload. Sometimes the script is not served.
 <li>My only contributions are the interface and graphing commands.</li>
 </ul>
 </div>
-<div id='plotreference'>
+<div id='reference'>
 <h3>
 Examples
 </h3>
+
+<p>Type code in the smaller input box at the top of the page and press enter. 
+Output should appear in the large box along with a copy of the input you type. 
+If you click on the copy of your input in the output box, it will be copied back
+to the input box.<p>
+
+<p>Clicking on the code examples below will copy them to the input box.</p>
+
+<ul>
+<li> <button class='expander '>Functions</button>
+	<div class='expandable'>
+	<ul>
+	<li>Define a new function of one variable.<p onclick='showMe(this);' class='input'>f(x)=x^2+sin(x)</p></li>
+	<li>Evaluate a function.<p onclick='showMe(this);' class='input'>f(2)</p></li>
+	<li>Evaluate a function and force an approximate result.<p onclick='showMe(this);' class='input'>f(2.0)</p></li>
+	<li>Evaluate a function using a built in constant.<p onclick='showMe(this);' class='input'>f(pi)</p></li>
+	<li>Define a function of two variables.<p onclick='showMe(this);' class='input'>f(x,y)=sin(x^2+y^2)</p></li>
+	</ul>
+	</div>
+</li>
+<li><button class='expander '>Graphing functions</button>
+	<div class='expandable'>
+	<ul>
+	<li>Graph a function of one variable. That variable is assumed to be <i>x</i><p onclick='showMe(this);' class='input'>plot(x*(x-1)*(x+1))</p></li>
+	<li>You can modify plotting parameters using the gui once you have graphed a functions. However, you can also modify them with the command below. 
+	The parameters that can be modified this way are MINX, MAXX, MINY, MAXY, MINZ, MAXZ and, for parametric plots, MINT, MAXT, MINU, MAXU, MINV, MAXV.
+	<p onclick='showMe(this);' class='input'>parameters(MINX=-1, MAXX=1, MINY=-0.5, MAXY=1.5)</p></li>
+	<li>Graph multiple functions at once.<p onclick='showMe(this);' class='input'>plot(sin(x), cos(x), tan(x))</p></li>
+	<li>Graph a function of two variables.<p onclick='showMe(this);' class='input'>plot3d(x*sin(y))</p></li>
+	<li>Graph a function of two variables with a custom window. The viewing window for 3d plots is forced to be
+	symmetric, so we only set the maximum values of the variables.
+	(This example requires you to enter two lines separately.)
+	<p onclick='showMe(this);' class='input'>parameters(MAXX=2, MAXY=2, MAXZ=2)</p>
+	<p onclick='showMe(this);' class='input'>plot3d(10*x*y*exp(-(x^2+y^2)))</p></li>
+	</ul>
+	</div>
+</li>
+<li><button class='expander '>Parametric Equations</button>
+	<div class='expandable'>
+	<ul>
+	<li>Graph a parametric curve in two dimensions. Variable is assumed to be <i>t</i>.   (This example requires you to enter two lines separately.)
+	<p onclick='showMe(this);' class='input'>parameters(MINT=0, MAXT=20)</p>
+	<p onclick='showMe(this);' class='input'>parametricplot(t/5*cos(t), t/5*sin(t))</p></li>
+	<li>Graph a parametric curve in three dimensions. Variable is assumed to be <i>t</i>.   (This example requires you to enter two lines separately.)
+	<p onclick='showMe(this);' class='input'>parameters(MINT=-5, MAXT=5)</p>
+	<p onclick='showMe(this);' class='input'>parametricplot3d(3*cos(t), 3*sin(t), t)</p></li>
+	<li>Graph a parametric surface. Variables are assumed to be <i>u</i> and <i>v</i>. (This example requires you to enter two lines separately.)
+	<p onclick='showMe(this);' class='input'>parameters(MINU=0, MAXU=6.28, MINV=0, MAXV=6.28)</p>
+	<p onclick='showMe(this);' class='input'>parametricsurface(3*(1+cos(v)) cos(u), 3*(1+cos(v)) sin(u), 3*sin(v))</p></li>
+	</ul>
+	</div>
+</li>
+<li><button class='expander '>Derivatives</button>
+	<div class='expandable'>
+	<ul>
+	<li>Find a derivative.<p onclick='showMe(this);' class='input'>d(x*sin(x), x)</p></li>
+	<li>Graph a function and its derivative. (This example requires you to enter two lines separately.)<p onclick='showMe(this);' class='input'>f(x)=x*(x-1)*(x+1)</p><p onclick='showMe(this);' class='input'>plot(f(x), d(f(x), x))</p></li>
+	<li>Find a derivative with respect to a different variable.<p onclick='showMe(this);' class='input'>d((t-1)/(t+1), t)</p></li>
+	<li>Find a second derivative. <p onclick='showMe(this);' class='input'>d(x^3+x^2+x+1, x, x)</p></li>
+	<li>Find a partial derivative.<p onclick='showMe(this);' class='input'>d(x^2*y+x*y^2, x)</p></li>
+	<li>Find a mixed partial derivative.<p onclick='showMe(this);' class='input'>d(x^2*y+x*y^2, x, y)</p></li>
+	<li>Find a gradient<p onclick='showMe(this);' class='input'>d(x^2+x*y+y^2,[x,y])</p></li>
+	</ul>
+	</div>
+</li>
+<li> <button class='expander '>Vector fields</button>
+	<div class='expandable'>
+	<ul>
+	<li>Graph a vector field. Variables are assumed to be <i>x</i> and <i>y</i><p onclick='showMe(this);' class='input'>vectorfield(x*y^2, x^2*y)</p></li>
+	<li>Graph a gradient. (This example requires you to enter two lines separately.)<p onclick='showMe(this);' class='input'>G=d(x*sin(y),[x,y])</p><p onclick='showMe(this);' class='input'>vectorfield(G[1], G[2])</p></li>
+	</ul>
+	</div>
+</li>
+<li><button class='expander '>Integrals</button>
+	<div class='expandable'>
+	<ul>
+	<li>Evaluate an antiderivative. Note that you can specify the variable.<p onclick='showMe(this);' class='input'>integral(x*ln(x), x)</p></li>
+	<li>Evaluate a definite integral. <p onclick='showMe(this);' class='input'>defint(1/sqrt(1-t^2), t, 0, 1)</p></li>
+	<li>Evaluate an indefinite multiple integral. <p onclick='showMe(this);' class='input'>integral(x^2*y+x*y^2, x, y)</p></li>
+	<li>Evaluate a definite multiple integral. Note that limits on the inside variable can be functions.
+	<p onclick='showMe(this);' class='input'></p></li>
+	<li><p onclick='showMe(this);' class='input'>defint(3-x-y, y, 0, x, x, 0, 1)</p></li>
+	</ul>
+	</div>
+</li>	
+<!--li><p onclick='showMe(this);' class='input'></p></li-->
+</ul>
+
+<br>
+&nbsp;
+<br>
 
 </div>
 </div>
 <script>inputArea.focus();</script>
 
-<script>
+<!--script>
     MathJax = {
         tex: {
             inlineMath: [['$', '$'], ['\\(', '\\)']]
@@ -1025,7 +1158,7 @@ Examples
             scale: 1.3
         }
     };
-</script>
+</script-->
 
 </body>
 </html>

@@ -1,0 +1,49 @@
+button.expander{
+	//font-size: 110%;
+	text-decoration: underline;
+	//font-weight: bold;
+	border:none;
+	background:none;
+	margin-left:0px;
+	padding:0px;
+	margin: 0px;
+}
+button.expander:hover{
+	cursor: pointer;
+}
+button.fakeExpander{
+	font-size: 110%;
+	text-decoration: underline;
+	font-weight: bold;
+	border:none;
+	background:none;
+	margin-left:0px;
+	padding:0px;
+	margin: 0px;
+}
+button.shrinker{
+	font-weight: bold;
+	border:none;
+	background:none;
+	position:absolute;
+	right:0px;
+//	bottom:0px;
+}
+button.shrinker2{
+	font-weight: bold;
+	border:none;
+	background:none;
+	position:absolute;
+	right:0px;
+	top:0px;
+}
+div.expandable{
+	position:relative;
+	height:0px;
+	margin-left:20px;
+//	margin-bottom: 20px;
+	overflow:hidden;
+}
+h3{
+	margin:5px;
+}
