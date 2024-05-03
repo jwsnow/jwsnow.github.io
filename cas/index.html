@@ -145,6 +145,9 @@ p.output{
 #reference p.input{
 	font-style: italic;
 }
+button.lrbutton{
+	height: 100%;
+}
 </style>
 <script src='spork.js'></script>
 <script src='algebrite.bundle-for-browser-min.js'></script>
@@ -517,6 +520,12 @@ function zoomout2d(){
 	MAXY=my+dy;
 	currentFunction(currentArgumentString);
 }
+
+function polarplot(argumentString){
+	var s='('+argumentString+')*cos(t), ('+argumentString+')*sin(t)';
+	return(parametricplot(s));
+}
+
 function plot(argumentString){
 	save()
 	var N=eval(Algebrite.run('shape(['+argumentString+'])[1]'));
@@ -951,6 +960,12 @@ function processInput(e){
 			currentFunction=parameters;
 			//outputString=currentFunction(currentArgumentString);
 		}	
+		else if(inputString.startsWith("polarplot")){
+			//argumentString=inputString.substring(start, stop);
+			//currentArgumentString=argumentString;
+			currentFunction=polarplot;
+			//outputString=currentFunction(currentArgumentString);
+		}
 		if (currentFunction){
 			outputString=currentFunction(currentArgumentString);
 		}
@@ -982,14 +997,12 @@ function showMe(t){
 	<div id='graphwrapper'>
 		<div id='spork'></div>
 		<div id='controls3d' class='hidden'>
+	
 			<table class='controls'>
-			<tr><td></td><td><button onclick='rotateUp()'>up</button></td><td></td></tr>
-			<tr><td><button onclick='rotateLeft()'>left</button></td><td></td><td><button onclick='rotateRight()'>right</button></td></tr>
-			<tr><td></td><td><button onclick='rotateDown()'>down</button></td><td></td></tr>
+			<tr><td><button onclick='rotateLeft()'>&larr;</button></td><td><button onclick='rotateUp()'>&uarr;</button></td><td><button onclick='rotateRight()'>&rarr;</button></td></tr>
+			<tr><td><button onclick='zoomin3d();'>+</button></td><td><button onclick='rotateDown()'>&darr;</button></td><td><button onclick='zoomout3d();'>-</button></td></tr>
 			</table>
-
-			<button onclick='zoomin3d();'>in</button>
-			<button onclick='zoomout3d();'>out</button>
+			
 			<button onclick='resetView3d();'>reset view</button>
 			<button onclick='editWindow3d();'>edit window</button>
 		</div>
@@ -1002,14 +1015,12 @@ function showMe(t){
 			<button onclick='updateWindow3d()'>update window</button>
 		</div>
 		<div id='controls2d' class='hidden'>
+			
 			<table class='controls'>
-			<tr><td></td><td><button onclick='up2d()'>up</button></td><td></td></tr>
-			<tr><td><button onclick='left2d()'>left</button></td><td></td><td><button onclick='right2d()'>right</button></td></tr>
-			<tr><td></td><td><button onclick='down2d()'>down</button></td><td></td></tr>
+			<tr><td><button onclick='left2d()' class='lrbutton'>&larr;</button></td><td><button onclick='up2d()'>&uarr;</button></td><td><button onclick='right2d()'>&rarr;</button></td></tr>
+			<tr><td><button onclick='zoomin2d();'>+</button></td><td><button onclick='down2d()'>&darr;</button></td><td><button onclick='zoomout2d();'>-</button></td></tr>
 			</table>
-
-			<button onclick='zoomin2d();'>in</button>
-			<button onclick='zoomout2d();'>out</button>
+			
 			<button onclick='resetView2d();'>reset view</button>
 			<button onclick='editWindow2d();'>edit window</button>		
 		</div>
@@ -1087,7 +1098,7 @@ to the input box.<p>
 	</ul>
 	</div>
 </li>
-<li><button class='expander '>Parametric Equations</button>
+<li><button class='expander '>Parametric Equations and Polar Coordinates</button>
 	<div class='expandable'>
 	<ul>
 	<li>Graph a parametric curve in two dimensions. Variable is assumed to be <i>t</i>.   (This example requires you to enter two lines separately.)
@@ -1099,6 +1110,9 @@ to the input box.<p>
 	<li>Graph a parametric surface. Variables are assumed to be <i>u</i> and <i>v</i>. (This example requires you to enter two lines separately.)
 	<p onclick='showMe(this);' class='input'>parameters(MINU=0, MAXU=6.28, MINV=0, MAXV=6.28)</p>
 	<p onclick='showMe(this);' class='input'>parametricsurface(3*(1+cos(v)) cos(u), 3*(1+cos(v)) sin(u), 3*sin(v))</p></li>
+	<li>Graph a polar curve. The variable is assumed to be <i>t</i>
+	<p onclick='showMe(this);' class='input'>parameters(MINT=0, MAXT=6.28,MINX=-2.1, MAXX=2.1, MINY=-2.1, MAXY=2.1)</p>
+	<p onclick='showMe(this);' class='input'>polarplot(1+cos(t))</p></li>
 	</ul>
 	</div>
 </li>
