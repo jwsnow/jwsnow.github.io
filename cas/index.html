@@ -198,11 +198,11 @@ function gz(x){
 
 var triangles=[];
 var theta =Math.PI/4;
-var phi=Math.PI/4;
+var phi=Math.PI/16;
 var PX=[], PY=[], PZ=[];
 function resetView3d(){
 	theta=Math.PI/4;
-	phi=Math.PI/4;
+	phi=Math.PI/16;
 	MINX=-5;
 	MINY=-5;
 	MAXX=5;
@@ -337,6 +337,190 @@ var k=0.5;
 	controls3d.style.display='block';
 	graphdiv.style.display='table';
 }
+
+function pushTriangle(x1, y1, z1, x2, y2, z2, x3, y3, z3){
+	triangles.push({
+		x1: x1,
+		y1: y1,
+		z1: z1,
+		x2: x2,
+		y2: y2,
+		z2:  z2,
+		x3: x3,
+		y3: y3,
+		z3: z3,
+		cx: (x1+x2+x3)/3,
+		cy: (y1+y2+y3)/3,
+		cz: (z1+z2+z3)/3,
+		qx: 0, qy:0, qz:0
+	});
+}
+
+function clipTop(x1,y1,z1,x2,y2,z2,x3,y3,z3,M){ 
+	var i,j;
+	var a, b, c;
+	var P=[];
+	var t;
+	var dx, dy, dt;
+	var ax, ay, az, bx, vy, bz;
+	P[0]=[x1,y1,z1];
+	P[1]=[x2,y2,z2];
+	P[2]=[x3,y3,z3];
+	//sort by z-value low to high
+	for (i=0;i<3;i++)
+		for (j=i+1;j<3;j++)
+			if (P[j][2]<P[i][2]){
+				a=P[j][0];
+				b=P[j][1];
+				c=P[j][2]
+				P[j][0]=P[i][0];
+				P[j][1]=P[i][1];
+				P[j][2]=P[i][2];
+				P[i][0]=a;
+				P[i][1]=b;
+				P[i][2]=c;
+			}	
+	if (P[2][2]<=M) {
+		return([[x1,y1,z1,x2,y2,z2,x3,y3,z3]]);
+	}	
+	if (P[1][2]<=M){
+		dx=P[2][0]-P[0][0];
+		dy=P[2][1]-P[0][1];
+		dz=P[2][2]-P[0][2];
+		t=(M-P[0][2])/dz;
+		ax=P[0][0]+t*dx;
+		ay=P[0][1]+t*dy;
+		az=M;
+		dx=P[2][0]-P[1][0];
+		dy=P[2][1]-P[1][1];
+		dz=P[2][2]-P[1][2];
+		t=(M-P[1][2])/dz;
+		bx=P[1][0]+t*dx;
+		by=P[1][1]+t*dy;
+		bz=M;
+		return([[P[0][0], P[0][1], P[0][2], P[1][0], P[1][1], P[1][2], ax,ay,az],
+				[P[1][0], P[1][1], P[1][2], ax, ay, az, bx, by, bz]]);
+	}
+	if (P[0][2]<=M){
+		dx=P[2][0]-P[0][0];
+		dy=P[2][1]-P[0][1];
+		dz=P[2][2]-P[0][2];
+		t=(M-P[0][2])/dz;
+		ax=P[0][0]+t*dx;
+		ay=P[0][1]+t*dy;
+		az=M;
+		dx=P[1][0]-P[0][0];
+		dy=P[1][1]-P[0][1];
+		dz=P[1][2]-P[0][2];
+		t=(M-P[0][2])/dz;
+		bx=P[0][0]+t*dx;
+		by=P[0][1]+t*dy;
+		bz=M;
+		return([[P[0][0], P[0][1], P[0][2], ax,ay,az, bx, by, bz]]);
+	}
+	return([])
+}
+function filterTop(){
+	var i,t,j;
+	var wt=triangles;
+	var L=triangles.length;
+	var toPush;
+	triangles=[];
+	
+	for (i=0;i<L;i++){
+		t=wt[i];
+		toPush=clipTop(t.x1, t.y1, t.z1, t.x2, t.y2, t.z2, t.x3, t.y3, t.z3, MAXZ);
+		for (j=0;j<toPush.length;j++)
+			pushTriangle(	toPush[j][0],toPush[j][1],toPush[j][2],
+						toPush[j][3],toPush[j][4],toPush[j][5],
+						toPush[j][6],toPush[j][7],toPush[j][8])
+	}
+}
+function filterBottom(){ 
+	var i,t,j;
+	var wt=triangles;
+	var L=triangles.length;
+	var toPush;
+	triangles=[];
+	
+	for (i=0;i<L;i++){ 
+		t=wt[i];
+		toPush=clipTop(t.x1, t.y1, -t.z1, t.x2, t.y2, -t.z2, t.x3, t.y3, -t.z3, -MINZ);
+		for (j=0;j<toPush.length;j++)
+			pushTriangle(	toPush[j][0],toPush[j][1],-toPush[j][2],
+						toPush[j][3],toPush[j][4],-toPush[j][5],
+						toPush[j][6],toPush[j][7],-toPush[j][8])
+	}
+}
+
+function filterRight(){
+	var i,t,j;
+	var wt=triangles;
+	var L=triangles.length;
+	var toPush;
+	triangles=[];
+	
+	for (i=0;i<L;i++){
+		t=wt[i];
+		toPush=clipTop(t.x1, t.z1, t.y1, t.x2, t.z2, t.y2, t.x3, t.z3, t.y3, MAXY);
+		for (j=0;j<toPush.length;j++)
+			pushTriangle(	toPush[j][0],toPush[j][2],toPush[j][1],
+						toPush[j][3],toPush[j][5],toPush[j][4],
+						toPush[j][6],toPush[j][8],toPush[j][7])
+	}
+}
+
+function filterLeft(){
+	var i,t,j;
+	var wt=triangles;
+	var L=triangles.length;
+	var toPush;
+	triangles=[];
+	
+	for (i=0;i<L;i++){
+		t=wt[i];
+		toPush=clipTop(t.x1, t.z1, -t.y1, t.x2, t.z2, -t.y2, t.x3, t.z3, -t.y3, -MINY);
+		for (j=0;j<toPush.length;j++)
+			pushTriangle(	toPush[j][0],-toPush[j][2],toPush[j][1],
+						toPush[j][3],-toPush[j][5],toPush[j][4],
+						toPush[j][6],-toPush[j][8],toPush[j][7])
+	}
+}
+
+function filterFront(){
+	var i,t,j;
+	var wt=triangles;
+	var L=triangles.length;
+	var toPush;
+	triangles=[];
+	
+	for (i=0;i<L;i++){
+		t=wt[i];
+		toPush=clipTop(t.z1, t.y1, t.x1, t.z2, t.y2, t.x2, t.z3, t.y3, t.x3, MAXX);
+		for (j=0;j<toPush.length;j++)
+			pushTriangle(	toPush[j][2],toPush[j][1],toPush[j][0],
+						toPush[j][5],toPush[j][4],toPush[j][3],
+						toPush[j][8],toPush[j][7],toPush[j][6])
+	}
+}
+
+function filterBack(){
+	var i,t,j;
+	var wt=triangles;
+	var L=triangles.length;
+	var toPush;
+	triangles=[];
+	
+	for (i=0;i<L;i++){
+		t=wt[i];
+		toPush=clipTop(t.z1, t.y1, -t.x1, t.z2, t.y2, -t.x2, t.z3, t.y3, -t.x3, -MINX);
+		for (j=0;j<toPush.length;j++)
+			pushTriangle(	-toPush[j][2],toPush[j][1],toPush[j][0],
+						-toPush[j][5],toPush[j][4],toPush[j][3],
+						-toPush[j][8],toPush[j][7],toPush[j][6])
+	}
+}
+
 function plot3d(argumentString){
 fix3dcoords();
 	var X=[]; var Y=[]; var Z=[];
@@ -364,37 +548,11 @@ fix3dcoords();
 	triangles=[];
 	for (i=0;i<X.length-1;i++)
 	for (j=0;j<Y.length-1;j++){
-		triangles.push({
-			x1: X[i],
-			y1: Y[j],
-			z1: Z[i][j],
-			x2: X[i+1],
-			y2: Y[j],
-			z2:  Z[i+1][j],
-			x3: X[i],
-			y3: Y[j+1],
-			z3: Z[i][j+1],
-			cx: (X[i]+X[i+1]+X[i])/3,
-			cy: (Y[j]+Y[j]+Y[j+1])/3,
-			cz: (Z[i][j]+Z[i+1][j]+Z[i][j+1])/3,
-			qx: 0, qy:0, qz:0
-		});
-		triangles.push({
-			x1: X[i+1],
-			y1: Y[j+1],
-			z1: Z[i+1][j+1],
-			x2: X[i+1],
-			y2: Y[j],
-			z2:  Z[i+1][j],
-			x3: X[i],
-			y3: Y[j+1],
-			z3: Z[i][j+1],
-			cx: (X[i+1]+X[i+1]+X[i])/3,
-			cy: (Y[j+1]+Y[j]+Y[j+1])/3,
-			cz: (Z[i+1][j+1]+Z[i+1][j]+Z[i][j+1])/3,
-			qx:0, qy:0, qz:0
-		});			
+		pushTriangle(X[i], Y[j], Z[i][j], X[i+1], Y[j], Z[i+1][j], X[i], Y[j+1], Z[i][j+1]);
+		pushTriangle(X[i+1], Y[j+1], Z[i+1][j+1], X[i+1], Y[j], Z[i+1][j], X[i], Y[j+1], Z[i][j+1]);			
 	}
+	filterTop();
+	filterBottom();
 	drawtriangles();
 	return('<img id="plot'+(plotnumber)+'">');
 }
@@ -818,38 +976,15 @@ fix3dcoords();
 	triangles=[];
 	for (i=0;i<U.length-1;i++)
 	for (j=0;j<V.length-1;j++){
-		triangles.push({
-			x1: X[i][j],
-			y1: Y[i][j],
-			z1: Z[i][j],
-			x2: X[i][j+1],
-			y2: Y[i][j+1],
-			z2:  Z[i][j+1],
-			x3: X[i+1][j],
-			y3: Y[i+1][j],
-			z3: Z[i+1][j],
-			cx: (X[i][j]+X[i+1][j]+X[i][j+1])/3,
-			cy: (Y[i][j]+Y[i+1][j]+Y[i][j+1])/3,
-			cz: (Z[i][j]+Z[i+1][j]+Z[i][j+1])/3,
-			qx: 0, qy:0, qz:0
-		});
-		triangles.push({
-			x1: X[i+1][j+1],
-			y1: Y[i+1][j+1],
-			z1: Z[i+1][j+1],
-			x2: X[i][j+1],
-			y2: Y[i][j+1],
-			z2:  Z[i][j+1],
-			x3: X[i+1][j],
-			y3: Y[i+1][j],
-			z3: Z[i+1][j],
-			cx: (X[i+1][j+1]+X[i+1][j]+X[i][j+1])/3,
-			cy: (Y[i+1][j+1]+Y[i+1][j]+Y[i][j+1])/3,
-			cz: (Z[i+1][j+1]+Z[i+1][j]+Z[i][j+1])/3,
-			qx:0, qy:0, qz:0
-		});			
+		pushTriangle(X[i][j],Y[i][j],Z[i][j],X[i][j+1],Y[i][j+1],Z[i][j+1],X[i+1][j],Y[i+1][j],Z[i+1][j]);
+		pushTriangle(X[i+1][j+1],Y[i+1][j+1],Z[i+1][j+1],X[i][j+1],Y[i][j+1],Z[i][j+1],X[i+1][j],Y[i+1][j],Z[i+1][j]);			
 	}
-	
+	filterTop();
+	filterBottom();
+	filterRight();
+	filterLeft();
+	filterFront();
+	filterBack();
 	drawtriangles();
 
 	graphdiv.style.display='table';
@@ -909,7 +1044,7 @@ var currentArgumentString;
 var currentFunction;
 function processInput(e){
 	var outputString;
-	var inputString=inputArea.value
+	var inputString=inputArea.value.replace('\n', '');
 	var start=inputString.indexOf("(")+1;
 	var stop=inputString.lastIndexOf(")");
 	var argumentString=inputString.substring(start, stop);
@@ -1109,7 +1244,7 @@ to the input box.<p>
 	<p onclick='showMe(this);' class='input'>parametricplot3d(3*cos(t), 3*sin(t), t)</p></li>
 	<li>Graph a parametric surface. Variables are assumed to be <i>u</i> and <i>v</i>. (This example requires you to enter two lines separately.)
 	<p onclick='showMe(this);' class='input'>parameters(MINU=0, MAXU=6.28, MINV=0, MAXV=6.28)</p>
-	<p onclick='showMe(this);' class='input'>parametricsurface(3*(1+cos(v)) cos(u), 3*(1+cos(v)) sin(u), 3*sin(v))</p></li>
+	<p onclick='showMe(this);' class='input'>parametricsurface(2.5*(1+cos(v)) cos(u), 2.5*(1+cos(v)) sin(u), 2.5*sin(v))</p></li>
 	<li>Graph a polar curve. The variable is assumed to be <i>t</i>
 	<p onclick='showMe(this);' class='input'>parameters(MINT=0, MAXT=6.28,MINX=-2.1, MAXX=2.1, MINY=-2.1, MAXY=2.1)</p>
 	<p onclick='showMe(this);' class='input'>polarplot(1+cos(t))</p></li>
