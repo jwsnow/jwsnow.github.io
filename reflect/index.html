@@ -6,6 +6,9 @@
 <script src='jws.js'></script>
 
 <style>
+#wrapper{
+margin: 5px;
+}
 img.thumb{
 	width: 50px;
 	height: 50px;
@@ -28,70 +31,332 @@ div.box{
 	margin: 5px;
 	margin-left: 20px;
 	padding: 5px;
-	max-width:500px;
+	width:500px;
 }
 #imagebox{
 	width: 500px;
 }
+.hidden{
+	display: none;
+}
+
+button.colorButton{
+	width: 50px;
+	height: 50px;
+	padding: 0px;
+	margin: 5px;
+	border: 1px solid gray;
+	border-radius: 10px;
+	display: inline-block;
+}
+#drawingcontrols{
+	display: none;
+	text-align: center;
+}
 </style>
 <script src='spork.js'></script>
-<script src='rancomp.js'></script>
-<script src='reflection.js'></script>
 <script>
-var theImages=[];
- function preview_image(event) {
-    var reader = new FileReader();
-    reader.onload = function(){
-      var output = document.getElementById('output_image');
-      output.src = reader.result;
-    }
-    reader.readAsDataURL(event.target.files[0]);	
-  }
-   function preview_image(event) {
-    var reader = new FileReader();
-    var newimg=document.createElement('img');
-    reader.onload = function(){
-      newimg.src = reader.result;
-      newimg.className='thumb';
-      imagebox.appendChild(newimg);
-      collectImages();
-    }
-    reader.readAsDataURL(event.target.files[0]);	
-    sourceImage='';
-    clear();
-  }
-  function highlightImage(){
-  if (this.src){
-	var i;
-	for (i=0;i<theImages.length;i++)
-		theImages[i].style.border='none';
-	this.style.border='5px solid red';
-	sourceImage=this;
-	drawImage(sourceImage,width/2, height/2, width, height);
-}	
-  }
-  function collectImages(){
-	theImages=document.getElementsByClassName('thumb');
-	var i;
-	for (i=0;i<theImages.length;i++)
-		theImages[i].style.border='none';
-	for (i=0;i<theImages.length;i++)
-		theImages[i].onclick=highlightImage;
-  }
-  var WIDTH=500;
-  var sourceImage='';
-var bumpconstant;
-  function setup(){
-	size(WIDTH, WIDTH);
-	collectImages();
-//	drawImage(sourceImage,width/2, height/2, width, height);
-	RNGSEED=floor(random()*100000000);
-	random=RNG;
-	nextseed.value=RNGSEED;
-	defaultImage.style.border='5px solid red';
-	sourceImage=defaultImage;
-	drawImage(defaultImage,width/2, height/2, width, height);	
-  }
+//rancomp below
+function MUL(x,y){
+	return(x*y);
+}
+function P1(x,y){
+	return(x);
+}
+function P2(x,y){
+	return(y)
+}
+function SINPI(x,y){
+	return(sin(x*pi));
+}
+function COSPI(x,y){
+	return(cos(x*pi));
+}
+function SIN2PI(x,y){
+	return(sin(2*x*pi));
+}
+function COS2PI(x,y){
+	return(cos(2*x*pi));
+}
+function SINPIY(x,y){
+	return(sin(y*pi));
+}
+function COSPIY(x,y){
+	return(cos(y*pi));
+}
+function SIN2PIY(x,y){
+	return(sin(2*y*pi));
+}
+function COS2PIY(x,y){
+	return(cos(2*y*pi));
+}
+ function CUBE(x,y){
+	return(x*x*x);
+}
+function SINXXYY(x,y){
+	return(sin(pi*(x*x+y*y)));
+}
+function AVG(x,y){
+	return((x+y)/2);
+}
+function NOISE(x,y){
+	 var r;
+	r=noise((x+1)/2,(y+1)/2);
+	return(r);
+}
+var theFunctions=['P1','P2','MUL', 'SINPI', 'COSPI','CUBE','SINXXYY','max','min','SIN2PI','COS2PI','AVG','NOISE'];
+function randomFunction(n){
+	var r,s,t,u;
+	if (n==1){
+		if (random()<0.5)
+			r='x';
+		else
+			r='y';
+	}
+	else{
+		s=randomFunction(n-1);
+		t=randomFunction(n-1);
+		u=theFunctions.random();
+		if (u=='P1')
+			r=s;
+		else if (u=='P2')
+			r=t;
+		else	
+			r=u+'('+s+','+t+')';
+	}
+	return(r);
+}
+//rancomp above
+
+//reflection below
+function IDX(x,y){
+	return(x);
+}
+function IDY(x,y){
+	return(y);
+}
+function RX(x,y){
+	return(abs(x));
+}
+function RY(x,y){
+	return(y)
+}
+function LX(x,y){
+	return(-abs(x));
+}
+function LY(x,y){
+	return(y)
+}
+function TX(x,y){
+	return(x);
+}
+function TY(x,y){
+	return(abs(y));
+}
+function BX(x,y){
+	return(x);
+}
+function BY(x,y){
+	return(-abs(y));
+}
+function TLX(x,y){
+	return(abs(x));
+}
+function TLY(x,y){
+	return(abs(y));
+}
+function BLX(x,y){
+	return(abs(x));
+}
+function BLY(x,y){
+	return(-abs(y));
+}
+function TRX(x,y){
+	return(-abs(x));
+}
+function TRY(x,y){
+	return(abs(y));
+}
+function BLX(x,y){
+	return(-abs(x));
+}
+function BLY(x,y){
+	return(-abs(y));
+}
+function NEX(x,y){
+	if (y>-x)
+		return(x);
+	else
+		return(-y);
+}
+function NEY(x,y){
+	if (y>-x)
+		return(y);
+	else
+		return(-x);
+}
+function NWX(x,y){
+	if (y>x)
+		return(x);
+	else 
+		return(y)
+}
+function NWY(x,y){
+	if (y>x)
+		return(y);
+	else
+		return(x);
+}
+function SEX(x,y){
+	if (y<x)
+		return(x);
+	else
+		return(y);
+}
+function SEY(x,y){
+	if (y<x)
+		return(y);
+	else
+		return(x);
+}
+function SWX(x,y){
+	if (y<-x)
+		return(x);
+	else
+		return(-y);
+}
+function SWY(x,y){
+	if (y<-x)
+		return(y);
+	else
+		return(-x);
+}
+function T1X(x,y){
+	x=abs(x);
+	y=abs(y);
+	if (y<x)
+		return(x);
+	else
+		return(y);
+}
+function T1Y(x,y){
+	x=abs(x);
+	y=abs(y);
+	if (y<x)
+		return(y);
+	else
+		return(x);
+}
+function T2X(x,y){
+	x=abs(x);
+	y=abs(y);
+	if (y>x)
+		return(x);
+	else
+		return(y);
+}
+function T2Y(x,y){
+	x=abs(x);
+	y=abs(y);
+	if (y>x)
+		return(y);
+	else
+		return(x);
+}
+function T3X(x,y){
+	return(-T2X(x,y));
+}
+function T3Y(x,y){
+	return(T2Y(x,y));
+}
+function T4X(x,y){
+	return(-T1X(x,y));
+}
+function T4Y(x,y){
+	return(T1Y(x,y));
+}
+//reflection above
+
+var R=[], G=[], B=[],A=[];
+var depth=3;
+function getColors(P){
+	var i,x,y;
+	drawImage(P, width/2, height/2, width, height); 
+	copyImageData(R,G,B,A);
+	for (x=0;x<WIDTH;x++)
+	for (y=0;y<WIDTH;y++){
+		R[x][y]=R[x][y]/128-1;
+		G[x][y]=G[x][y]/128-1;
+		B[x][y]=B[x][y]/128-1;
+	}
+}
+
+function lerp(a,b,t){
+	return(t*b+(1-t)*a);
+}
+function lerpArray(a,x,y){
+var ox=x;
+var oy=y;
+	var width=a.length;
+	var height=a[0].length;
+	var X, Y, X1, Y1;
+	var a1, a2,r;
+	if (x<0) x=0;
+	else if (x>=width-1){
+		x=width-1;
+		X=width-1;
+		X1=width-1;
+	}
+	else{
+		X=floor(x);
+		X1=X+1
+	}
+	if (y<0) y=0;
+	else if (y>=height-1){
+		y=height-1;
+		Y=height-1;
+		Y1=height-1;
+	}
+	else{
+		Y=floor(y);
+		Y1=Y+1;
+	}
+	x=x-X;
+	y=y-Y	
+
+	a1=lerp(a[X][Y],a[X1][Y],x);
+	a2=lerp(a[X][Y1], a[X1][Y1],x);
+
+	r=(lerp(a1,a2,y));
+	return(r);
+}
+
+function IMAGER(x,y){
+	var X=((x+1)/2)*WIDTH;
+	var Y=((y+1)/2)*WIDTH;
+	return(lerpArray(R, X,Y));
+}
+function IMAGEG(x,y){
+	var X=((x+1)/2)*WIDTH;
+	var Y=((y+1)/2)*WIDTH;
+	return(lerpArray(G, X,Y));
+}
+function IMAGEB(x,y){
+	var X=((x+1)/2)*WIDTH;
+	var Y=((y+1)/2)*WIDTH;
+	return(lerpArray(B, X,Y));
+}
+
+function PREX(x,y){
+	return(x);
+}
+function PREY(x,y){
+	return(y);
+}
+
+function bump(x,y){
+	return(1);
+}
   function realbump(x,y){
 	var r=max(0, 1-(pow(x,bumpconstant)+pow(y,bumpconstant)))
 	return(r);
@@ -99,36 +364,140 @@ var bumpconstant;
 function onebump(x,y){
 	return(1);
 }
-function bump(x,y){}
 
-  function generateReflection(re){
-  if (sourceImage=='') alert('Please select an image.')
-  else{
-	var r;
-	if (re==true){
-			nextseed.value=lastseed.value;
+function generateImage(){
+	
+	var x,y,a,b,c,d,cr,cg,cb,X,Y,theBump, xw, yw;
+	var fr1='';
+	var fr2='';
+	var fr='';
+	function xfn(){};
+	function yfn(){};	
+	var theSeed=RNGSEED;
+	
+	fr1=randomFunction(depth-1);
+	fr2=randomFunction(depth-1);	
+
+	eval('xfn=function(x,y){ var c='+fr1+'; return(c);}');	
+	eval('yfn=function(x,y){ var c='+fr2+'; return(c);}');
+
+	setupNoise(2+floor(random()*10));
+	for (a=0;a<width;a++)
+		for (b=0;b<height;b++){
+			x=2*a/width-1;
+			y=2*b/height-1;
+			theBump=bump(x,y);
+			xw=x*theBump;
+			yw=y*theBump;
+			x=PREX(xw,yw);
+			y=PREY(xw,yw);
+			X=xfn(x,y);
+			Y=yfn(x,y);
+			cr=floor(255*(IMAGER(X,Y)+1)/2);
+			cg=floor(255*(IMAGEG(X,Y)+1)/2);
+			cb=floor(255*(IMAGEB(X,Y)+1)/2);
+
+			fillcolor(cr,cg,cb);
+			fillrect(a,b,1,1);
+
+		}
+	return('x='+fr1+'<br>y='+fr2);	
+}
+
+ // REVISED ABOVE HERE
+ 
+ //image upload and selection below
+var theImages=[];
+function preview_image(event) {
+	var reader = new FileReader();
+	var newimg=document.createElement('img');
+	reader.onload = function(){
+		newimg.src = reader.result;
+		newimg.className='thumb';
+		imagebox.appendChild(newimg);
+		collectImages();
 	}
-	RNGSEED=nextseed.value;
-	if (bumpit.checked==true){
-		bump=realbump;
-		bumpconstant=bumpvalueselect.options[bumpvalueselect.selectedIndex].text;
+	reader.readAsDataURL(event.target.files[0]);	
+	sourceImage='';
+	clear();
 	}
-	else {
-		bump=onebump;
-	}
-	if (complexity.checked==true)
-		depth=3+floor(random()*5);
-	else
-		depth=complexityvalueselect.options[complexityvalueselect.selectedIndex].text;
+function highlightImage(){
+	if (this.src){
+		var i;
+		for (i=0;i<theImages.length;i++)
+		theImages[i].style.border='none';
+		this.style.border='5px solid red';
+		sourceImage=this;
+		drawImage(sourceImage,width/2, height/2, width, height);
+	}	
+}
+function collectImages(){
+	theImages=document.getElementsByClassName('thumb');
+	var i;
+	for (i=0;i<theImages.length;i++)
+		theImages[i].style.border='none';
+	for (i=0;i<theImages.length;i++)
+		theImages[i].onclick=highlightImage;
+	sourceImage='';
+}
+//image upload and selction above
+
+var WIDTH=500;
+var sourceImage='';
+var bumpconstant;
+function setup(){
 	size(WIDTH, WIDTH);
-	getColors(sourceImage);
-	background('white');
-	if (symmetric.checked==true) r=generateSymmetricImage();
-	else r=generateImage();
-	lastseed.value=nextseed.value;
-	nextseed.value=RNGSEED;
-}	
-  }
+	collectImages();
+	RNGSEED=floor(random()*100000000);
+	random=RNG;
+	nextseed.value=RNGSEED;	
+}
+
+
+function generateReflection(re){
+	if (sourceImage=='') alert('Please select an image.')
+	else{
+		var r;
+		if (re==true){
+				nextseed.value=lastseed.value;
+		}
+		RNGSEED=nextseed.value; 
+		bumpconstant=bumpvalueselect.options[bumpvalueselect.selectedIndex].text;
+		if (bumpconstant=='None') 
+			bump=onebump;
+		else
+			bump=realbump;
+		depth=complexityvalueselect.options[complexityvalueselect.selectedIndex].text;
+		if (depth=='Random') depth=3+floor(random()*5);
+		var symmetryType=symmetry.options[symmetry.selectedIndex].value;
+		if (symmetryType=='Random') symmetryType=(["Triangle", "Square", "Half"]).random();
+		switch(symmetryType){
+			case 'Triangle':
+				PREX=T1X;
+				PREY=T1Y;
+				break;
+			case 'Square':
+				PREX=TRX;
+				PREY=TRY;
+				break;
+			case 'Half':
+				PREX=RX;
+				PREY=RY;
+				break;
+			default:
+				PREX=IDX;
+				PREY=IDY;
+		}
+		//console.log(depth);
+		size(WIDTH, WIDTH);
+		getColors(sourceImage);
+		background('white');
+		r=generateImage();
+		lastseed.value=nextseed.value;
+		nextseed.value=RNGSEED;
+		//console.log(r.replaceAll('<br>', '\n'));
+	}	
+}
 function hires(){
 	var tw=WIDTH;
 	WIDTH=4000;
@@ -145,7 +514,7 @@ function shotgun(){
 		alert('Please select an image.');
 	else{
 		for (i=0;i<N;i++){
-			u=nextseed.value; console.log(u);
+			u=nextseed.value; //console.log(u);
 			generateReflection();
 			newimg=document.createElement('img');
 			newimg.className='shotgunimg';
@@ -163,6 +532,8 @@ function shotgun(){
 		scatter.appendChild(newimg);
 	}
 }
+
+
 function clearShot(){
 	while(scatter.firstChild) 
                 scatter.removeChild(scatter.firstChild);
@@ -171,37 +542,240 @@ function clearShot(){
 	RNGSEED=floor(random()*100000000);
 	nextseed.value=RNGSEED;	
   }
+  
+  //-------------------------------------------------------------
+var strokes=[];
+var Rs=[];
+var Gs=[];
+var Bs=[];
+var colors=[];
+var widths=[];
+var currentStroke=0;
+var currentColor;
+var currentlySelected;
+var currentlySelectedWidth;
+var currentWidth=10;
+var lastX;
+var lastY;
+function beginNewStroke(){
+	strokes.push([]);
+	colors.push(currentColor);
+	Rs.push(currentR);
+	Gs.push(currentG);
+	Bs.push(currentB);
+	currentStroke=strokes.length-1;
+	widths.push(currentWidth);
+	lastX=mouseX;
+	lastY=mouseY;
+}
+
+var mask=[];
+function redraw(){
+	clear();
+	var i,j;
+	for (i=0;i<strokes.length;i++){
+		color(colors[i]);
+		for (j=0;j<strokes[i].length-1;j++)
+			line(strokes[i][j].x, strokes[i][j].y, strokes[i][j+1].x, strokes[i][j+1].y);
+	}		
+}
+function redraw(s){
+	background('black');
+	var i,j,k;
+	var R;
+	for (i=0;i<strokes.length;i++){
+		//color(colors[i]);
+		R=widths[i]*s;
+		for (j=0;j<strokes[i].length-1;j++)
+			for (k=0;k<mask.length;k++){
+				color(Rs[i]+maskR[k], Gs[i]+maskG[k], Bs[i]+maskB[k]);
+				line(strokes[i][j].x+R*mask[k].x, strokes[i][j].y+R*mask[k].y, strokes[i][j+1].x+R*mask[k].x, strokes[i][j+1].y+R*mask[k].y);
+			}
+	}		
+}
+function stroketo(){
+	var k;
+	var R=currentWidth;
+	//color(currentColor);
+	for (k=0;k<mask.length;k++){
+		color(currentR+maskR[k], currentG+maskG[k], currentB+maskB[k]);
+		line(lastX+R*mask[k].x, lastY+R*mask[k].y, mouseX+R*mask[k].x, mouseY+R*mask[k].y);	
+	}	
+}
+function drawingonmousemove(){
+	if (mouseDown){
+		strokes[currentStroke].push({x: mouseX, y: mouseY});
+		//redraw(1);
+		stroketo();
+		lastX=mouseX;
+		lastY=mouseY;
+	}
+}
+function drawingonmousedown(){
+	beginNewStroke();
+}
+function dummy(){}
+function undo(){
+	strokes.pop();
+	colors.pop();
+	widths.pop();
+	Rs.pop();
+	Gs.pop();
+	Bs.pop();
+	redraw(1);
+}
+function selectColor(t,r, g, b){
+	c=rgb(r,g,b);
+	currentColor=c;
+	currentR=r;
+	currentG=g;
+	currentB=b;
+	currentlySelected.style.border='1px solid black';
+	t.style.border='5px solid gray';
+	currentlySelected=t;
+	currentlySelectedWidth.style.background=c;
+}
+function selectWidth(t,c){ 
+	currentWidth=c;
+	currentlySelectedWidth.style.background='black';
+	t.style.background=currentColor;
+	currentlySelectedWidth=t;
+}
+var maskR=[], maskG=[], maskB=[];
+var currentR, currentG, currentB;
+function setupDrawing(){
+	currentlySelected=blackButton;
+	currentlySelectedWidth=b20;
+	currentColor=rgb(66,91,129);
+	currentR=66;
+	currentG=91;
+	currentB=129;
+	currentlySelectedWidth.style.background=currentColor;
+	currentlySelected.style.border='5px solid gray';
+	currentWidth=10;
+	color(currentColor);
+	var i;
+	var a,b;
+	var dc=10;
+	for (i=0;i<50;i++){
+		a=random()*360;
+		b=random()
+		mask.push({x: b*COS(a), y: b*SIN(a)});
+		maskR.push(floor(dc*(random()-0.5)));
+		maskG.push(floor(dc*(random()-0.5)));
+		maskB.push(floor(dc*(random()-0.5)));
+	}
+	//size(400,400);
+	background('black');
+}
+
+function saveDrawing(){
+	var w=width;
+	var h=height;
+	var s=5;
+	size(s*w, s*h);
+	var i;
+	for (i=0;i<strokes.length;i++)
+	for (j=0;j<strokes[i].length;j++){
+		strokes[i][j].x*=s;
+		strokes[i][j].y*=s;
+	}
+	linewidth(s);
+	redraw(s);
+	var newimage=document.createElement('img');
+	canvasToImg(newimage);
+	newimage.className='thumb';
+	imagebox.appendChild(newimage);
+	for (i=0;i<strokes.length;i++)
+	for (j=0;j<strokes[i].length;j++){
+		strokes[i][j].x/=s;
+		strokes[i][j].y/=s;
+	}	
+	size(w,h);
+	linewidth(1);
+	//size(WIDTH,WIDTH);
+	closeDrawing();
+}
+function closeDrawing(){
+	clearDrawing();
+	clear();
+	currentlySelectedWidth.style.background='black';
+	currentlySelected.style.border='1px solid black';
+	drawingcontrols.style.display='none';
+	onmousedown=dummy;
+	onmousemove=dummy;
+	collectImages();
+}
+function clearDrawing(){
+	background('black');
+	strokes=[];
+	colors=[];
+	widths=[];	
+	Rs=[];
+	Gs=[];
+	Bs=[];
+}
+
+function startDrawing(){
+	size(WIDTH, WIDTH);
+	onmousemove=drawingonmousemove;
+	onmousedown=drawingonmousedown;
+	setupDrawing();
+	clearDrawing();
+	drawingcontrols.style.display='inline-block';
+}
+  //-----------------------------------------------------------
 </script>
 </head>
 <body>
 <script>writeHeader();</script>
-
 <div id='spork'></div>
+
+
+<div id='drawingcontrols'>
+<div class='box'>
+<div >
+<button onclick='selectColor(this,66,91,129);' id='blackButton' class='colorButton' style='border: 5px solid gray; background: rgb(66,91,129);'>&nbsp;</button>
+<button onclick='selectColor(this,76, 41, 36);' class='colorButton'  style='background: rgb(76, 41, 36);'>&nbsp;</button>
+<button onclick='selectColor(this,108, 64, 57);' class='colorButton'  style='background: rgb(108, 64, 57);'>&nbsp;</button>
+<button onclick='selectColor(this,144, 142, 125);' class='colorButton'  style='background: rgb(144, 142, 125);'>&nbsp;</button>
+<button onclick='selectColor(this,99, 102, 73);' class='colorButton'  style='background: rgb(99, 102, 73);'>&nbsp;</button>
+<button onclick='selectColor(this,78, 69, 63);' class='colorButton'  style='background: rgb(78, 69, 63);'>&nbsp;</button>
+<br>
+<button onclick='undo();' class='colorButton'>Undo</button>
+<button onclick='saveDrawing();' class='colorButton'>Save</button>
+<button onclick='clearDrawing();' class='colorButton'>Clear</button>
+<button onclick='closeDrawing();' class='colorButton'>Discard</button>
+<button onclick='selectWidth(this,10);' class='colorButton'  style='background: rgb(66,91,129); width: 20px;' id='b20'>&nbsp;</button>
+<button onclick='selectWidth(this,15);' class='colorButton'  style='background: black; width: 30px;'>&nbsp;</button>
+<button onclick='selectWidth(this,20);' class='colorButton'  style='background: black; width: 40px;'>&nbsp;</button>
+</div></div></div>
+
+
 <div><div class='box'>
-<button class='option'  onclick='generateReflection()'>Generate with new or typed seed.</button class='option' >
-<button class='option'  onclick='generateReflection(true)'>Generate with last used seed.</button class='option' ><br>
-Select (or upload) an image before beginning. See explanation below for options.
+<button class='option'  onclick='generateReflection()'>Generate with new function.</button class='option' >
+<button class='option'  onclick='generateReflection(true)'>Generate with last function.</button class='option' >
 </div></div>
 
 <div><div class='box' id='imagebox'>
 	<img class='thumb' src='png/JBE.jpg' id='defaultImage'>
 	<img class='thumb' src='png/chimayo.jpg'>
 	<img class='thumb' src='png/ice.jpg'>
-	<img class='thumb' src='png/checker.png'>
+	<img class='thumb' src='png/checker.png'>	
 </div></div>
 <div><div class='box'>
-<label for='infile'>Load your own image to use as a base image in generating pictures. After you load the image, be sure to select it above to use it in the algorithm.</label><br>
+<button class='option' onclick='startDrawing();'>Draw Something</button>
+</div></div>
+<div><div class='box'>
+<label for='infile'>Load your own image to use as a seed image in generating pictures. After you load the image, be sure to select it above to use it in the algorithm.</label><br>
 <input type="file" accept="image/*" onchange="preview_image(event)" id='infile'><br>
+</div></div>
 
-</div></div>
 <div><div class='box'>
-	Next Seed: <input type='text' id='nextseed'><button class='option'  onclick='generateReflection()'>Generate with this seed.</button class='option' ><br>
-	The mapping from the canvas to the base image used to select colors is determined by a unique number or seed. This
-	unique number is usually determined randomly, but you can type one in here if you have already determined a mapping you like. Either way, click the button  to generate an image.
-</div></div>
-<div><div class='box'>
-	<label for="complexity"><input type="checkbox" id="complexity" checked=true>  Randomize Complexity </label> or <br> Select Complexity:
+<b>Options:</b><br><br>
+	Complexity:
 	<select id='complexityvalueselect'>
+	<option value='Random'>Random</option>
 	<option value=3>3</option>
 	<option value=4>4</option>
 	<option value=5>5</option>
@@ -211,32 +785,45 @@ Select (or upload) an image before beginning. See explanation below for options.
 	<option value=9>9</option>
 	</select><br>
 	<br>
-	The complexity is the depth of the parse tree for the reflection functions. Higher complexity means more complicated functions. This may make the image more convoluted, and it may take longer to generate a high resolution image.
-</div></div>
-<div><div class='box'>
-	Last Seed:<input type='text' id='lastseed' disabled='true'><button class='option'  onclick='generateReflection(true)'>Regenerate with this seed.</button class='option' ><br>
-	This is the seed that was last used to generate an image. Sometimes, you may want to generate an image using the same
-	seed or color mapping after you have changed other options. Use this button  for that.
-</div></div>
-<div><div class='box'>
-	<label for="symmetric"><input type="checkbox" id="symmetric">  Enforce Symmetry </label><br>
-	This option will copy one triangle of the generated image 8 times to create a highly symmetric image.  Sometimes, this is
-	a good way to turn a meh image into a decent image. Other times, it is simply too cliche.
-</div></div>
-<div><div class='box'>
-	<label for="bumpit"><input type="checkbox" id="bumpit">  Bend away from edge. </label> 
+Enforced Symmetry:
+	<select id='symmetry'>
+	<option value="None">None</option>
+	<option value='Random'>Random</option>
+	<option value='Half'>A little</option>
+	<option value='Square'>More</option>
+	<option value='Triangle'>A lot</option>
+	</select>
+	<br><br>
+Edge avoidance:
 	<select id='bumpvalueselect'>
+	<option value='None'>None</option>
 	<option value=2>2</option>
 	<option value=4>4</option>
 	<option value=8>8</option>
 	<option value=16>16</option>
-	</select><br>
-	The standard algorithm does not recognize the edges of the canvas, and a pattern can extend off the canvas. This option
-	will cause the image to bend away from the edges without an apparent clipping effect. A value of 2 will isolate the image 
-	to a circle. Higher values will make the image area closer to a square.
+	</select>
 </div></div>
+
+
+<div ><div class='box'>
+<b>Explanation of Options:</b><br><br>
+
+<b>Complexity:</b>	
+A higher complexity give the chance that the function used to generate the image is more complicated and will have more and smaller details.<br><br>
+
+<b>Symmetry:</b> A choice of "None" on symmetry will not force the image to be symmetric; however, it may still end up with some symmetry because of the underlying functions.
+A choice of "A little" will generate a picture so that the left and right halves are mirror images of each other.
+A choice of  "More" will generate an image which is composed of one square (corner) repeated four times.
+A choice of "A lot" will generate an image which is composed of one triangle repeated eight times.<br><br>
+
+<b>Edge avoidance:</b>  With "None" the image will be generated with no consideration of the edge of the canvas.
+Patterns may extend off of the canvas. A choice of 2 will restrict most of the interesting portions of the image to a circle. Higher 
+numbers will generate "squircles" which get closer and closer to a square.
+
+</div></div>
+
 <div><div class='box'>
-	<button class='option'  onclick='randomizeSeed();'>Randomize Seed</button class='option' ><br>
+	<button class='option'  onclick='randomizeSeed();'>Randomize</button class='option' ><br>
 	Sometimes, it may seem like the algorithm is stuck in an unimpressive groove. This is merely psychological, but
 	if it makes you feel better, you can click this button  to restart the randomization process.
 </div></div>
@@ -250,8 +837,17 @@ Select (or upload) an image before beginning. See explanation below for options.
 <button class='option'  onclick='hires();'>Generate high resolution version of last image generated.</button><br>
 Do not do this unless you mean it. This image is slower to generate. Note, the image above will not change size. When the high resolution image is generated, you will receive a notice. When you download the image above, you will receive a larger version.
 </div></div>
-
 <div id='scatter'></div>
-</script>
+<div class='hidden'><div class='box'>
+	Next Seed: <input type='text' id='nextseed'><button class='option'  onclick='generateReflection()'>Generate with this seed.</button class='option' ><br>
+	The mapping from the canvas to the seed image used to select colors is determined by a unique number. This
+	unique number is usually determined randomly, but you can type one in here if you have already determined a mapping you like. Either way, click the button  to generate an image.
+</div></div>
+
+<div class='hidden'><div class='box'>
+	Last Seed:<input type='text' id='lastseed' disabled='true'><button class='option'  onclick='generateReflection(true)'>Regenerate with this seed.</button class='option' ><br>
+	This is the seed that was last used to generate an image. Sometimes, you may want to generate an image using the same
+	seed or color mapping after you have changed other options. Use this button  for that.
+</div></div>
 </body>
 </html>
