@@ -364,7 +364,21 @@ function bump(x,y){
 function onebump(x,y){
 	return(1);
 }
-
+function focus3(x){
+	return(-x*x/3+x+1/3)
+}
+function focus3n(x){
+	return(x*x/3+x-1/3)
+}
+function ID(x){
+	return(x);
+}
+function focusX(x){
+	return(x);
+}
+function focusY(x){
+	return(x);
+}
 function generateImage(){
 	
 	var x,y,a,b,c,d,cr,cg,cb,X,Y,theBump, xw, yw;
@@ -387,10 +401,10 @@ function generateImage(){
 			x=2*a/width-1;
 			y=2*b/height-1;
 			theBump=bump(x,y);
-			xw=x*theBump;
-			yw=y*theBump;
-			x=PREX(xw,yw);
-			y=PREY(xw,yw);
+			xw=focusX(x*theBump);
+			yw=focusY(y*theBump);
+			x=(PREX(xw,yw));
+			y=(PREY(xw,yw));
 			X=xfn(x,y);
 			Y=yfn(x,y);
 			cr=floor(255*(IMAGER(X,Y)+1)/2);
@@ -488,6 +502,28 @@ function generateReflection(re){
 				PREX=IDX;
 				PREY=IDY;
 		}
+		var focusXtype=focusx.options[focusx.selectedIndex].value;
+		switch(focusXtype){
+			case 'Left':
+				focusX=focus3;
+				break;
+			case 'Right':
+				focusX=focus3n;
+				break;
+			default:
+				focusX=ID;
+		}
+		var focusYtype=focusy.options[focusy.selectedIndex].value;
+		switch(focusYtype){
+			case 'Top':
+				focusY=focus3;
+				break;
+			case 'Bottom':
+				focusY=focus3n;
+				break;
+			default:
+				focusY=ID;
+		}		
 		//console.log(depth);
 		size(WIDTH, WIDTH);
 		getColors(sourceImage);
@@ -802,6 +838,20 @@ Edge avoidance:
 	<option value=8>8</option>
 	<option value=16>16</option>
 	</select>
+	<br><br>
+Focus X:
+	<select id='focusx'>
+	<option value='Middle'>Middle</option>
+	<option value='Left'>Left</option>
+	<option value='Right'>Right</option>
+	</select>
+	<br><br>
+Focus Y:
+	<select id='focusy'>
+	<option value='Middle'>Middle</option>
+	<option value='Top'>Top</option>
+	<option value='Bottom'>Bottom</option>
+	</select>	
 </div></div>
 
 
@@ -818,7 +868,9 @@ A choice of "A lot" will generate an image which is composed of one triangle rep
 
 <b>Edge avoidance:</b>  With "None" the image will be generated with no consideration of the edge of the canvas.
 Patterns may extend off of the canvas. A choice of 2 will restrict most of the interesting portions of the image to a circle. Higher 
-numbers will generate "squircles" which get closer and closer to a square.
+numbers will generate "squircles" which get closer and closer to a square.<br><br>
+
+<b>Focus:</b> The focus options will move the center of the image up/down and left/right. This has the most visible effect when there is some imposed symmetry.
 
 </div></div>
 
