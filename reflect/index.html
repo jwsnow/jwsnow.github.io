@@ -476,11 +476,16 @@ function generateReflection(re){
 				nextseed.value=lastseed.value;
 		}
 		RNGSEED=nextseed.value; 
+		
+		
 		bumpconstant=bumpvalueselect.options[bumpvalueselect.selectedIndex].text;
+		if (bumpconstant=='Random')
+			bumpconstant=['None', 2, 4, 8, 16].random();	
 		if (bumpconstant=='None') 
 			bump=onebump;
 		else
 			bump=realbump;
+
 		depth=complexityvalueselect.options[complexityvalueselect.selectedIndex].text;
 		if (depth=='Random') depth=3+floor(random()*5);
 		var symmetryType=symmetry.options[symmetry.selectedIndex].value;
@@ -503,6 +508,7 @@ function generateReflection(re){
 				PREY=IDY;
 		}
 		var focusXtype=focusx.options[focusx.selectedIndex].value;
+		if (focusXtype=='Random') focusXtype=['Left', 'Right', 'Middle'].random(); 
 		switch(focusXtype){
 			case 'Left':
 				focusX=focus3;
@@ -510,16 +516,23 @@ function generateReflection(re){
 			case 'Right':
 				focusX=focus3n;
 				break;
+			case 'Middle':
+				focusX=ID;
+				break;
 			default:
 				focusX=ID;
 		}
 		var focusYtype=focusy.options[focusy.selectedIndex].value;
+		if (focusYtype=='Random') focusYtype=['Top', 'Bottom', 'Middle'].random();
 		switch(focusYtype){
 			case 'Top':
 				focusY=focus3;
 				break;
 			case 'Bottom':
 				focusY=focus3n;
+				break;
+			case 'Middle':
+				focusY=ID;
 				break;
 			default:
 				focusY=ID;
@@ -833,6 +846,7 @@ Enforced Symmetry:
 Edge avoidance:
 	<select id='bumpvalueselect'>
 	<option value='None'>None</option>
+	<option value='Random'>Random</option>
 	<option value=2>2</option>
 	<option value=4>4</option>
 	<option value=8>8</option>
@@ -844,6 +858,7 @@ Focus X:
 	<option value='Middle'>Middle</option>
 	<option value='Left'>Left</option>
 	<option value='Right'>Right</option>
+	<option value='Random'>Random</option>
 	</select>
 	<br><br>
 Focus Y:
@@ -851,6 +866,7 @@ Focus Y:
 	<option value='Middle'>Middle</option>
 	<option value='Top'>Top</option>
 	<option value='Bottom'>Bottom</option>
+	<option value='Random'>Random</option>
 	</select>	
 </div></div>
 
