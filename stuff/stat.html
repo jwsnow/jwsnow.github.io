@@ -2,118 +2,423 @@
 <html>
 <head>
 <style>
-button.expander{
-	font-size: 110%;
-	text-decoration: underline;
-	font-weight: bold;
-	border:none;
-	background:none;
-	margin-left:0px;
-	padding:10px;
+body{
 	margin: 0px;
 }
-button.shrinker{
-	font-weight: bold;
-	border:none;
-	background:none;
-	position:absolute;
-	right:0px;
+div.pad{
+	height: 50px;
+	background: lightgray;
 }
-button.shrinker2{
-	font-weight: bold;
-	border:none;
-	background:none;
-	position:absolute;
-	right:0px;
-	top:0px;
-}
-div.expandable{
-	position:relative;
-	height:0px;
-	overflow:hidden;
-}
-
 div.tabbar{
 	position:fixed;
 	top:0px;
 	left:0px;
 	right:0px;
-	background: lightgray;
+	background: gray;
 	border-bottom: 1px solid black;
-	padding:0px;
+	//padding:0px;
 	height: 40px;
 	line-height:40px;
-	padding: 2px;
+	padding-left: 20px;
 	z-index: 20;
 }
-button.tab{
-	background:white;
+div.pageMenu{
+	background: lightgray;
+	border-bottom: 1px solid black;
+	//padding-top: 50px;
+	padding-top: 10px;
+	padding-left: 40px;
+	padding-bottom: 10px;
 }
-div.logo{
-	position: absolute;
-	right:5px;
-	top:0px;
-	color: white;
+div.subPage{
+	padding-left:20px;
 }
 div.content{
-	position:relative;
-	margin-top: 45px;
+		//padding-top: 50px;
+}	
+textarea.datalist{
+	resize: none;
+	wrap: off;
+	  line-height: 25px;
+	  background-image: linear-gradient(transparent, transparent 24px, #000000 0px);
+	  background-size: 100% 25px;
+  }
+textarea.datalabel{
+	resize: none;
+	font-weight: bold;
+	scroll: none;
+	overflow: hidden;
+	width: 12ch;
 }
 div.pageDiv{
 	display: none;
 }
-#dataSetControl{
-	position:absolute;
-	top:0px;
-	z-index: 10;
-	background: white;
-}
-#dataListDiv{
-	position:absolute;
-	top:0px;
-	margin-top:50px;
-}
-div.ib{
-	display: inline-block;
-	vertical-align: middle;
-}
-textarea.datalist{
-	resize: none;
-	wrap: off;
-  line-height: 25px;
-  background-image: linear-gradient(transparent, transparent 24px, #000000 0px);
-  background-size: 100% 25px;
-  }
-  #welcomDiv{
-	position:absolute;
-	top:200px;
-	left:0px;
-	right:0px;
-	text-align: center;
-	display:block;
-  }
-  #calculatorInput{
-	width:100%;
-	display:block;
-  }
-  #calcInputDiv{
-	padding: 10px;
-  }
-  div.answerDiv{
+div.expandable{
 	display: none;
-  }
+}	
+table.summaryTable td{
+	width: 10ch;
+}
+button.expander{
+	cursor: pointer;
+}
+div.histoDiv{
+	display: none;
+}
+table.summaryTable{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+li button.expander{
+	background: none;
+	border: none;
+	font-weight: bold;
+	font-size: 1em;
+}
+button{
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+div.answerDiv{
+	display: none;
+}
 </style>
 <script>
-var precision=4;
+var numLists=10;
+var list=[];
+var listLabel=['List 0', 'List 1', 'List 2', 'List 3', 'List 4', 'List 5', 'List 6', 'List 7', 'List 8', 'List 9' ];
+var listLabelTextArea, listTextArea;
+var sumRow, sumList, sumN, sumMean, sumS, sumS2;
+var sumMin, sumQ1, sumQ2, sumQ3, sumMax, sumSum, sumRange;
+var listN=[], listM=[], listS=[], listS2=[], listMin=[], listQ1=[], listQ2=[], listQ3=[], listMax=[], listSum=[], listRange=[];
+var histoDivs, histoLabels, histoCanvases;
+var geninputradios, geninputlabels;
+var genoutputradios, genoutputlabels;
+var canoutputradios, canoutputlabels;
+var boxcheckboxes, boxlabels;
+var scatterxradios, scatterxlabels;
+var scatteryradios, scatterylabels;
+var intervalradios, intervallabels;
+var meantestradios, meantestlabels;
 
-// data----------------------------------------------------------------------
-cannedData=[
-	[130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,1190,1200,1210,1220,1230,1240,1250,1260,1270,1280,1290,1300,1310,1320,1330,1340,1350,1360,1370,1380,1390,1400,1410,1420,1430,1440,1450,1460,1470,1480,1490,1500,1510,1520,1530,1540,1550,1560,1570,1580,1590,1600,1610,1620,1630,1640,1650,1660,1670,1680,1690,1700,1710,1720,1730,1740,1750,1760,1770,1780,1790,1800,1810,1820,1830,1840,1850,1860,1870,1880,1890,1900,1910,1920,1930,1940,1950,1960,1970,1980,1990,2000,2010,2020,2030,2040,2050,2060],
-	[274,273.07,272.14,271.22,270.29,268.39,266.06,263.73,261.4,259.06,256.73,254.4,252.07,255.09,257.22,257.77,258.31,258.86,257.58,255.66,253.75,251.83,249.91,247.99,246.07,240.5,230.26,220.02,209.79,199.55,193.11,193.43,193.74,194.05,194.37,195.13,196.21,197.29,198.37,199.45,199.81,199.41,199.02,198.63,198.24,201.8,211.31,220.81,217.71,210.85,207.51,208.66,209.82,209.48,208.87,208.25,207.63,207.02,201.24,195.3,189.37,183.43,179.86,187.85,195.84,201.49,204.6,207.7,206.42,205.15,203.87,202.6,201.32,201,201,204.78,211.41,218.04,217.91,215.88,213.48,210.29,207.11,204.63,202.32,199.56,196.2,192.84,192.36,192.83,195.81,200.14,204.46,212.63,222,229.73,235.93,242.13,239.98,236.47,233.93,232.1,229.95,225.77,221.59,219.8,220.39,220.98,221.57,222.16,224.42,228.88,233.33,228.31,221.61,216.76,213.26,210.35,215.3,220.26,222.77,224.47,226.31,229.41,232.51,232.59,229.88,227.18,229.6,233.73,234.1,229.87,225.63,226.38,228.01,230.58,234.62,238.44,236.94,235.44,236.2,240.79,242.88,239.16,235.43,234.87,237.72,242.53,255.16,267.79,275.36,273.52,271.68,274.51,277.86,278.75,275.28,271.81,269.32,266.93,265.96,268.01,270.06,272.11,274.16,273.23,270.22,267.22,269.27,272.92,273.44,269.81,266.18,277.41,289.42,291.71,280.02,268.34,260,252.5,245,237.51,230.31,225.05,219.79,211.62,200.16,191.69,195.12,198.55,198.89,195.15,191.41,192.8],
-	[-55.32903226,-54.84516129,-55.45483871,-55.80322581,-54.65645161,-55.55806452,-55.70322581,-52.89516129,-55.30483871,-55.32903226,-54.80645161,-54.58387097,-55.4,-54.79677419,-56.02419355,-57.77580645,-58.77096774,-58.49354839,-57.31129032,-59.03870968,-60.48064516,-61.43870968,-62.59516129,-63.49516129,-64.36129032,-63.39677419,-64.62741935,-64.12258065,-64.08064516,-64.95645161,-64.32580645,-64.46612903,-63.15967742,-63.62903226,-63.85645161,-64.68387097,-63.48870968,-62.70806452,-64.26451613,-63.32580645,-63.95806452,-62.77580645,-63.42741935,-62.52096774,-61.0016129,-61.40483871,-63.01451613,-62.61451613,-62.17903226,-62.52741935,-61.91935484,-62.12258065,-62.09193548,-60.59032258,-61.54354839,-61.25645161,-62.71935484,-62.47258065,-62.80322581,-62.50806452,-62.26774194,-61.74677419,-61.58064516,-61.30806452,-61.67096774,-61.20967742,-61.83225806,-61.12258065,-62.52903226,-62.08548387,-60.78548387,-60.03548387,-59.39677419,-60.5516129,-61.30322581,-61.18870968,-62.1,-62.74032258,-63.32741935,-62.10806452,-63.58709677,-63.82419355,-64.13387097,-63.1983871,-63.48548387,-61.89193548,-62.59354839,-62.5,-61.62258065,-62.53709677,-62.86290323,-62.71935484,-61.50483871,-60.2016129,-61.37258065,-62.98709677,-61.52258065,-62.23548387,-61.34193548,-59.91612903,-59.64516129,-59.00645161,-59.83225806,-59.07580645,-59.83548387,-59.12096774,-58.05483871,-58.94032258,-59.63064516,-60.08064516,-60.14354839,-59.71774194,-60.97741935,-61.90806452,-61.62096774,-60.38387097,-61.20806452,-60.52741935,-59.49516129,-60.56451613,-60.31290323,-59.78548387,-60.09193548,-60.66129032,-60.40645161,-59.48225806,-59.66612903,-59.60967742,-59.23709677,-58.67580645,-58.28064516,-58.86935484,-60.03225806,-59.76612903,-60.24677419,-59.84354839,-60.13548387,-60.19516129,-62.62419355,-62.1983871,-61.89193548,-61.37096774,-61.75483871,-62.07903226,-61.89354839,-60.97419355,-60.06451613,-60.02741935,-58.78387097,-58.45,-57.37258065,-57.43870968,-56.93548387,-56.75967742,-56.80645161,-56.65645161,-55.80806452,-55.95645161,-54.9516129,-55.26935484,-56.03064516,-55.39193548,-54.64677419,-54.94354839,-54.70483871,-55.02741935,-54.74677419,-53.89677419,-53.16774194,-53.42741935,-52.43225806,-53.64677419,-55.64354839,-53.95806452,-55.05,-55.92903226,-57.84677419,-58.2,-59.37741935,-60.93225806,-62.60806452,-63.05483871,-62.81129032,-64.64516129,-64.59516129,-63.64354839,-63.88709677,-63.64677419,-64.48870968,-63.69354839,-64.38225806,-63.9,-64.61935484,-63.92741935]
-]
+var theColors=[
+'rgba(0,0,0)',
+'rgba(255,0,0)',
+'rgba(0,255,0)',
+'rgba(0,0,255)',
+'rgba(128,128,0)',
+'rgba(255,0,255)',
+'rgba(0,255,255)',
+'rgba(255,128,0)',
+'rgba(255,0,128)',
+'rgba(128,255,0)',
+'rgba(0,255,128)',
+];
 
-// stat library-----------------------------------------------------------------
+var allRadioNames=[];
+var allLabelNames=[];
+var allExpandables;
+var printPrecision=6;
+//Random stuff-------------------------------------------------------
+var RNGMOD=Math.pow(2,32);
+var RNGSEED=0;
+
+function RNG(){
+	RNGSEED=(RNGSEED*1664525 + 1013904223)%RNGMOD;
+  	return(RNGSEED/RNGMOD);
+}
+//----------------------------------------------------------------------------
+function cacheMath(){
+	var aMathFunctions = Object.getOwnPropertyNames(Math);
+
+	for (var i in aMathFunctions){
+		window[aMathFunctions[i]] = Math[aMathFunctions[i]];
+	}
+	Number.prototype.TOFIXED=function(n){
+		var z=Number('1e-'+(n+1));
+		if (abs(this)<z)
+			return(0);
+		else
+			return(Number(Math.round(this+'e'+n)+'e-'+n));
+	}	
+	random=RNG;
+}	
+function expand(t){ 
+	var toToggle=[], toClose=[];
+	processLists();
+	if (t.hasAttribute('data-open'))
+		toToggle=t.getAttribute('data-open').split(',');
+	if (t.hasAttribute('data-close')) 
+		toClose=t.getAttribute('data-close').split(',');
+	var i,n;
+	
+	if (toToggle.length>0){
+		n=document.getElementById(toToggle[0]);
+		if (n.style.display != 'block'){
+			for (i=0;i<toToggle.length;i++)
+				document.getElementById(toToggle[i]).style.display='block';
+		}
+		else{
+			for (i=0;i<toToggle.length;i++)
+				document.getElementById(toToggle[i]).style.display='none';		
+		}
+	}
+	if (toClose.length>0){ 
+		for (i=0;i<toClose.length;i++)
+			document.getElementById(toClose[i]).style.display='none';
+	}
+}
+
+function setupExpanders(){
+	var e=document.getElementsByClassName('expander');
+	var i;
+	for (i =0; i<e.length; i++){
+		e[i].onclick=function(){expand(this);}
+	}
+}
+function setupAll(){
+	cacheMath();
+	setupExpanders();
+	allExpandables=document.getElementsByClassName('expandable');
+	listTextArea=document.getElementsByClassName('datalist');
+	listLabelTextArea=document.getElementsByClassName('datalabel');
+	sumRow=document.getElementsByClassName('rowSum');
+	sumList=document.getElementsByClassName('listAreaSum');
+	sumN=document.getElementsByClassName('nAreaSum');
+	sumMean=document.getElementsByClassName('meanAreaSum');
+	sumS=document.getElementsByClassName('sAreaSum');
+	sumS2=document.getElementsByClassName('s2AreaSum');
+	sumMin=document.getElementsByClassName('minAreaSum');
+	sumQ1=document.getElementsByClassName('q1AreaSum');
+	sumQ2=document.getElementsByClassName('q2AreaSum');
+	sumQ3=document.getElementsByClassName('q3AreaSum');
+	sumMax=document.getElementsByClassName('maxAreaSum');
+	sumSum=document.getElementsByClassName('sumAreaSum');
+	sumRange=document.getElementsByClassName('rangeAreaSum');
+	histoDivs=document.getElementsByClassName('histoDiv');
+	histoLabels=document.getElementsByClassName('histoLabel');
+	histoCanvases=document.getElementsByClassName('histoCanvas');
+	boxlabels=document.getElementsByClassName('boxlabel');
+	boxcheckboxes=document.getElementsByClassName('boxcheckbox');
+	scatterxlabels=document.getElementsByClassName('scatterxlabel');
+	scatterxradios=document.getElementsByClassName('scatterxradio');
+	scatterylabels=document.getElementsByClassName('scatterylabel');
+	scatteryradios=document.getElementsByClassName('scatteryradio');
+	
+/*	geninputlabels=document.getElementsByClassName('geninputlabel');
+	geninputradios=document.getElementsByClassName('geninputradio');
+	genoutputlabels=document.getElementsByClassName('genoutputlabel');
+	genoutputradios=document.getElementsByClassName('genoutputradio');
+	canoutputlabels=document.getElementsByClassName('canoutputlabel');
+	canoutputradios=document.getElementsByClassName('canoutputradio');
+	intervallabels=document.getElementsByClassName('intervallabel');
+	intervalradios=document.getElementsByClassName('intervalradio');
+	meantestlabels=document.getElementsByClassName('meantestlabel');
+	meantestradios=document.getElementsByClassName('meantestradio');
+*/
+
+	for (let i=0;i<numLists;i++){
+		listTextArea[i].onkeyup=function(e){handleEnter(e);};
+		listLabel[i]='List '+i;
+	}	
+	processLists();
+}
+
+function printRadioList(x){
+		for (let i=0;i<numLists;i++)
+			document.write("<label><input type='radio' name='"+x+"radio' class='"+x+"radio'><span class='"+x+"label'>"+listLabel[i]+"</span></label>&nbsp;");	
+		allRadioNames.push(x+'radio');
+		allLabelNames.push(x+'label');
+}
+function getChecked(x){
+	var a=document.getElementsByClassName(x+'radio');
+	var r=0;
+	for (i=0;i<a.length;i++)
+		if (a[i].checked)
+			r=i;
+	return(r);		
+}
+
+function closeAll(){
+	var i;
+	for (i=0;i<allExpandables.length;i++)
+		allExpandables[i].style.display='none';
+}
+function openDiv(t){
+	t.style.display='block';
+}
+function purge(x){
+	x.style.display='none';
+}
+function showListLabels(){
+	var i;
+	for (i=0;i<numLists;i++){
+		if (!listLabel[i])
+			listLabel[i]='List '+i;
+			listLabelTextArea[i].value=listLabel[i];
+//			geninputlabels[i].innerHTML=listLabel[i];
+//			genoutputlabels[i].innerHTML=listLabel[i];
+//			canoutputlabels[i].innerHTML=listLabel[i];
+//			boxlabels[i].innerHTML=listLabel[i];
+//			scatterxlabels[i].innerHTML=listLabel[i];
+//			scatterylabels[i].innerHTML=listLabel[i];
+//			intervallabels[i].innerHTML=listLabel[i];
+//			meantestlabels[i].innerHTML=listLabel[i];
+		}
+}
+
+function getLists(){ 
+	var i,j;
+	for (i=0;i<numLists;i++){
+		listLabel[i]=listLabelTextArea[i].value;
+		list[i]=listTextArea[i].value.split('\n');
+	}
+	for (i=0;i<numLists;i++)
+	for (j=0;j<list[i].length;j++){ 
+		try{
+			list[i][j]=eval(list[i][j]);
+		}
+		catch{
+			console.log('error processing: '+list[i][j]);
+		}
+	}	
+}
+
+function printLists(){ 
+	var i;
+	for (i=0;i<numLists;i++){
+		listLabelTextArea[i].value=listLabel[i];
+		listTextArea[i].value=list[i].join('\n');
+	}
+}
+function handleEnter(e){
+	if (e.key=='Enter')
+		processLists();
+}
+function processLists(e){ 
+		getLists(); 
+		printLists();
+		showListLabels();
+		summarize();
+		showSummaryStats();
+}
+function trimNulls(a){
+	while ((a.length>0) && (a[a.length-1]==undefined))
+		a.pop();
+}
+function sumArray(a){
+	var i;
+	var r=0;
+	for (i=0;i<a.length;i++)
+		r+=a[i];
+	return(r);
+}
+function percentileSorted(a,p){
+	
+	var i=p*a.length-1;
+	var r;
+	if (i==floor(i)){
+		if (i==a.length-1)
+			r=a[i];
+		else
+			r=(a[i]+a[i+1])/2;
+	}
+	else{
+		r=a[ceil(i)];
+	}
+	return(r);
+}
+function percentile(a,p){
+	var b=a.toSorted(function(a, b){return a - b});
+	return(percentileSorted(b, p));
+}
+function squareArray(a){
+	var b=[];
+	var i;
+	for (i=0;i<a.length;i++)
+		b[i]=a[i]*a[i];
+	return(b);	
+}
+function summarizeArray(a){
+	var r={n:0, m:0, s:0, s2:0, min:0, q1:0, q2:0, q3:0, max:0, sum:0, range:0};
+	var sortedArray
+	var squaredArray
+	var sumOfSquares;
+	trimNulls(a);
+	r.n=a.length;
+	if (r.n == 0)
+		return(r);
+	else if (r.n==1){
+		r.m=a[0]; r.min=a[0]; r.q1=a[0]; r.q2=a[0]; r.q3=a[0]; r.max=a[0]; r.sum=a[0];
+	}
+	else{
+		sortedArray=a.toSorted(function(a, b){return a - b});
+		r.sum=sumArray(a);
+		r.m=r.sum/r.n;
+		r.min=sortedArray[0];
+		r.max=sortedArray[a.length-1];
+		r.range=r.max-r.min;
+		r.q1=percentileSorted(sortedArray, 0.25);
+		r.q2=percentileSorted(sortedArray, 0.5);
+		r.q3=percentileSorted(sortedArray, 0.75);
+		squaredArray=squareArray(a);
+		sumOfSquares=sumArray(squaredArray);
+		r.s2=(r.n*sumOfSquares-r.sum*r.sum)/(r.n*(r.n-1));
+		r.s=sqrt(r.s2);
+	}
+	return(r);
+}
+function summarize(){ 
+	var i;
+	var r;
+	for (i=0;i<numLists;i++){
+		r=summarizeArray(list[i]);
+		listN[i]	=r.n;
+		listM[i] 	=r.m;
+		listS[i] 	=r.s;
+		listS2[i] 	=r.s2;
+		listMin[i] 	=r.min;
+		listQ1[i]	=r.q1;
+		listQ2[i] 	=r.q2;
+		listQ3[i] 	=r.q3;
+		listMax[i] 	=r.max;
+		listSum[i] 	=r.sum;
+		listRange[i]=r.range;
+	}
+}
+function showSummaryStats(){
+	var i;
+	
+	for (i=0;i<numLists;i++){
+		sumList[i].innerHTML=listLabel[i];
+		sumN[i].innerHTML=listN[i];
+		sumMean[i].innerHTML=listM[i].TOFIXED(printPrecision);
+		sumS[i].innerHTML=listS[i].TOFIXED(printPrecision);
+		sumS2[i].innerHTML=listS2[i].TOFIXED(printPrecision);
+		sumMin[i].innerHTML=listMin[i].TOFIXED(printPrecision);
+		sumQ1[i].innerHTML=listQ1[i].TOFIXED(printPrecision);
+		sumQ2[i].innerHTML=listQ2[i].TOFIXED(printPrecision);
+		sumQ3[i].innerHTML=listQ3[i].TOFIXED(printPrecision);
+		sumMax[i].innerHTML=listMax[i].TOFIXED(printPrecision);
+		sumSum[i].innerHTML=listSum[i].TOFIXED(printPrecision);
+		sumRange[i].innerHTML=listRange[i].TOFIXED(printPrecision);
+		
+		if (listN[i]>0) sumRow[i].style.display='table-row';
+		else sumRow[i].style.display='none';
+	}
+}
+
+//chart stuff -------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//stat library 
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 var epsilon=.000000001;
 //*DISTRIBUTIONS STUFF *********************************
@@ -463,6 +768,17 @@ function chi2cdf(x, df){
 	else
 		return(integrate('chi2pdf(x, '+df+')',0,x ));
 	}
+function invchi2(x,df){
+	var thefun='chi2cdf(x,'+df+')-'+x;
+	bisectFunction=function(x){
+		var value;
+		with(Math){
+			value = eval(thefun);
+			}
+		return(value);
+		};
+	return(bisect(0,chi2cdf(0,df)-x,100,chi2cdf(100,df)-x));
+	}	
 //****************************************************************
 
 // F distribution ************************************************
@@ -472,554 +788,380 @@ function fcdf(x, d1, d2){
 	return(RIB(z, d1/2, d2/2));
 	}
 //****************************************************************
-//end stat library-------------------------------------------------------------
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//END stat library 
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-// Adjust Input Stuff *********************************************
-function trimWhite(str){
-	str = str.replace(/\r/, '');
-	str = str.replace(/\n/, '');
-	return str.replace(/^\s+|\s+$/g, '');
-	}
-function trimEndWhite(str){
-	str = str.replace(/,/g, '\n');
-	str = str.replace(/^\r|\r$/, '');
-	str = str.replace(/^\n|\n$/, '');
-	while (str.search(/\n\n/)!=-1)
-		str=str.replace(/\n\n/,'\n');
-	return(str);
-	}
-function fixExponents(s){
-s=s.replace(/(\d+)\.(\d+)/g,'($1.$2)');
-	var i=0;
-	var re1=/:OP(\d+):([^]*):CP\1:\s*\^\s*:OP(\d+):([^]*):CP\3:/
-	var re2=/:OP(\d+):([^]*):CP\1:\s*\^\s*(\w*)/
-	var re3=/(\w*)\s*\^\s*:OP(\d+):([^]*):CP\2:/
-	var re4=/(\w*)\s*\^\s*(\w*)/
-	while (s.search(/\(([^()]*)\)/)!=-1){
-		s=s.replace(/\(([^()]*)\)/, ':OP'+i+':$1:CP'+i+':');
-		i++;
-	}
-	while (s.search(re1) != -1)
-		s=s.replace(re1,"pow($2,$4)");
-	while (s.search(re2) != -1)
-		s=s.replace(re2,"pow($2,$3)");
-	while (s.search(re3) != -1)
-		s=s.replace(re3,"pow($1,$3)");
-	while (s.search(re4) != -1)
-		s=s.replace(re4,"pow($1,$2)");
-	while (s.search(/:OP\d+:/) != -1)
-		s=s.replace(/:OP\d+:/,'(');
-	while (s.search(/:CP\d+:/) != -1)
-		s=s.replace(/:CP\d+:/,')');
-	return(s);
-}
-//**********************************************************
-//LIST STUFF---------------------------------------------------------------------------------------------------
-var numlists = 10
-var datalist;
-var list =[];
-var listn =[];
-var listm =[];
-var listsd =[];
-var listmax =[];
-var listmin =[];
-var listmed =[];
-var listrange =[];
-var listsum =[];
-var listq1 =[];
-var listq3 =[];
 
-function printDataListsValueOnly(){
-	var i;
-	for (i=0;i<numlists;i++)
-		datalist[i].value=list[i].join('\r');
+</script>
+<body>
+<div class='tabbar'>
+<button class='expander' data-open='dataListDiv' data-close='generatedDiv,summaryDiv,chartDiv,distributionDiv,intervalsDiv,testsDiv'>Data</button>
+<button class='expander' data-open='summaryDiv'  data-close='dataListDiv,distributionDiv,intervalsDiv,testsDiv'>Summary</button>
+<button class='expander' data-open='chartDiv'  data-close='dataListDiv,distributionDiv,intervalsDiv,testsDiv'>Plots</button>
+<button class='expander' data-open='distributionDiv'  data-close='dataListDiv,generatedDiv,summaryDiv,chartDiv,intervalsDiv,testsDiv'>Calculators</button>
+<button class='expander' data-open='intervalsDiv'  data-close='intervalCLDiv,dataListDiv,generatedDiv,summaryDiv,chartDiv,distributionDiv,testsDiv'>Intervals</button>
+<button class='expander' data-open='testsDiv'  data-close='dataListDiv,generatedDiv,summaryDiv,chartDiv,distributionDiv,intervalsDiv'>Tests</button>
+
+</div>
+<div class='content'><div class='pad'></div>
+
+
+<!---- Data Lists ---------------------------------------------->
+<div id='dataListDiv' class='pageDiv expandable'>
+<div class='pageMenu'>
+<button class='expander' data-open='generatedDiv' data-close='cannedDiv,normalGenDiv,uniformGenDiv,binomialGenDiv,sampleGenDiv,genIntegerDiv'>Generate Data</button>
+<button class='expander' data-open='cannedDiv' data-close='generatedDiv,normalGenDiv,uniformGenDiv,binomialGenDiv,sampleGenDiv,genIntegerDiv'>Canned Data</button>
+</div>
+
+<!--generated data ---------------------------------------------->
+<div id='generatedDiv' class='pageDiv expandable'>
+<div class='pageMenu' id='generateMenu'>
+	<button class='expander' data-open='uniformGenDiv,genIntegerDiv' data-close='normalGenDiv,binomialGenDiv,sampleGenDiv,resampleGenDiv'>Uniform</button>
+	<button class='expander' data-open='normalGenDiv,genIntegerDiv' data-close='uniformGenDiv,binomialGenDiv,sampleGenDiv,resampleGenDiv'>Normal</button>
+	<button class='expander' data-open='binomialGenDiv' data-close='normalGenDiv,uniformGenDiv,sampleGenDiv,resampleGenDiv,genIntegerDiv'>Binomial</button>
+	<button class='expander' data-open='sampleGenDiv' data-close='normalGenDiv,uniformGenDiv,binomialGenDiv,resampleGenDiv,genIntegerDiv'>Sample</button>
+	<button class='expander' data-open='resampleGenDiv' data-close='normalGenDiv,uniformGenDiv,binomialGenDiv,sampleGenDiv,genIntegerDiv'>Sample Means</button>
+</div>
+<div class='subPage'>
+	
+<div id='genIntegerDiv'>
+		Integer? <label><input type="radio" name='geninteger' id="genintegeryes">yes</label>&nbsp; <label><input type="radio" name='geninteger' checked=true>no</label>
+</div>
+		
+<ul>
+<!---------------------------------------------------------------------------------------------------------------------------->
+	<div id='uniformGenDiv' class='expandable generator'>
+	Output List:<br><script>printRadioList('ugenoutput');</script>
+		<table>
+		<tr><td>Minimum:</td><td> <input type="text" id="uniformminimum" value='0'></td></tr>
+		<tr><td>Maximum:</td><td> <input type="text" id="uniformmaximum" value='100'></td></tr>
+		<tr><td>Size:</td><td> <input type="text" id="uniformn" value='100'></td></tr>
+		</table>
+		<button onclick="generateUniformDataSet();">Generate Data Set</button>
+	</div>
+	<script>
+	function generateUniformDataSet(){
+		var i,l;
+		l=getChecked('ugenoutput');//getOutputList();
+
+		var a=eval(uniformminimum.value);
+		var b=eval(uniformmaximum.value);
+		var n=eval(uniformn.value);
+		list[l]=[];
+		for (i=0;i<n;i++)
+			list[l][i]=(a+(random()*(b-a))).TOFIXED(printPrecision);
+		if (genintegeryes.checked)
+			for (i=0;i<n;i++)
+				list[l][i]=round(list[l][i]);
+		printLists();
+		processLists();
+		closeAll();
+		openDiv(dataListDiv);	
 	}
-function findListStats(i){
-	var i,j,sum, sumx2,max,min,med,half;
-		listn[i]=list[i].length;
-		for (j=0;j<listn[i];j++)
-			list[i][j]=eval((list[i][j]));
-		listn[i]=list[i].length
-		if ((listn[i]==1) && (list[i]==''))
-			listn[i]=0;
-		if (listn[i] > 1){
-			sum=0;
-			sumx2=0;
-			for (j=0;j<listn[i];j++){
-				sum+=list[i][j];
-				sumx2+=list[i][j]*list[i][j];
-				}
-			listm[i]=sum/listn[i];
-			listsd[i]=Math.sqrt((listn[i]*sumx2-sum*sum)/(listn[i]*(listn[i]-1)));
-			listsum[i]=sum;
-			}
-		else{
-			listm[i]=list[i][0];
-			listsd[i]=0;
-			listsum[i]=list[i][0];
-			}
-		if (listn[i]>0){
-			listmax[i]=list[i][0];
-			for (j=0;j<listn[i];j++)
-				if (list[i][j] > listmax[i])
-					listmax[i]=list[i][j];
-			}
-		else
-			listmax[i]=0;
-		if (listn[i]>0){
-			listmin[i]=list[i][0];
-			for (j=0;j<listn[i];j++)
-				if (list[i][j] < listmin[i])
-					listmin[i]=list[i][j];
-			}
-		else
-			listmin[i]=0;
-		listrange[i]=listmax[i]-listmin[i];
-		if (listn[i]>0){
-		var temp;
-		var sortedlist=new Array(listn[i]);
-		for (j=0;j<listn[i];j++)
-			sortedlist[j]=list[i][j];
-		for (j=0;j<listn[i];j++)
-			for (k=j+1;k<listn[i];k++)
-				if (sortedlist[k]<sortedlist[j]){
-					temp=sortedlist[k];
-					sortedlist[k]=sortedlist[j];
-					sortedlist[j]=temp;
-					}
-			half=Math.floor(listn[i]/2);
-			if (2*half == listn[i]){
-				listmed[i]=(sortedlist[half]+sortedlist[half-1])/2;
-				}
-			else{
-				listmed[i]=sortedlist[half];
-				}
-			quarter=Math.floor(listn[i]/4);
-			threequarter=Math.floor(3*listn[i]/4);
-			if (4*quarter == listn[i]){
-				listq1[i]=(sortedlist[quarter]+sortedlist[quarter-1])/2;
-				listq3[i]=(sortedlist[threequarter]+sortedlist[threequarter-1])/2;
-				}
-			else{
-				listq1[i]=sortedlist[quarter];
-				listq3[i]=sortedlist[threequarter];
-				}
-			}
+	</script>
+<!------------------------------------------------------------------------------------------------------------------------------------>
+	<div id='normalGenDiv' class='expandable generator'>
+	Output List:<br><script>printRadioList('ngenoutput');</script>
+		<table>
+		<tr><td>Mean:</td><td> <input type="text" id="normalmean" value='0'></td></tr>
+		<tr><td>Standard Deviation:</td><td> <input type="text" id="normalsd" value='1'></td></tr>
+		<tr><td>Size:</td><td> <input type="text" id="normaln" value='100'></td></tr>
+		</table>
+		<button onclick="generateNormalDataSet();">Generate Data Set</button>
+	</div>
+	<script>
+	function boxMuller(){
+		var u1=random();
+		var u2=random();
+		var z=sqrt(-2*log(u1))*cos(2*PI*u2);
+		return(z);
 	}
-function findVarStats(i,p){
-	var x,j,sum, sumx2,max,min,med,half;
-		listn[i]=list[i].length;
-		for (j=0;j<listn[i];j++){
-			list[i][j]=eval(list[i][j]);
-			list[p][j]=eval(list[p][j]);
-			}
-		listn[i]=list[i].length
-		if ((listn[i]==1) && (list[i]==''))
-			listn[i]=0;
-		listm[i]=0;
-		listsd[i]=0;
-		if (listn[i] > 1){
-			for (j=0;j<listn[i];j++){
-				listm[i]+=list[i][j]*list[p][j];
-				}
-			for (j=0;j<listn[i];j++){
-				x=list[i][j]-listm[i];
-				listsd[i]+=x*x*list[p][j];
-				}
-			listsd[i]=Math.sqrt(listsd[i]);
-			}
-		if (listn[i]>0){
-			listmax[i]=list[i][0];
-			for (j=0;j<listn[i];j++)
-				if (list[i][j] > listmax[i])
-					listmax[i]=list[i][j];
-			}
-		else
-			listmax[i]=0;
-		if (listn[i]>0){
-			listmin[i]=list[i][0];
-			for (j=0;j<listn[i];j++)
-				if (list[i][j] < listmin[i])
-					listmin[i]=list[i][j];
-			}
-		else
-			listmin[i]=0;
-		listrange[i]=listmax[i]-listmin[i];
+	function generateNormalDataSet(){
+		var i,l;
+
+		l=getChecked('ngenoutput');//getOutputList();		
+		var m=eval(normalmean.value);
+		var s=eval(normalsd.value);
+		var n=eval(normaln.value);
+		list[l]=[];
+		for (i=0;i<n;i++)
+			list[l][i]=(m+s*boxMuller()).TOFIXED(printPrecision);
+		if (genintegeryes.checked)
+			for (i=0;i<n;i++)
+				list[l][i]=round(list[l][i]);
+
+		printLists();
+		processLists();
+		closeAll();
+		openDiv(dataListDiv);
 	}
-function loadDataListsValueOnly(){
-	var i,j,sum, sumx2,max,min,med,half;
-	for (i=0;i<numlists;i++)
-		list[i]=trimWhite(datalist[i].value).split('\n');
-	}
-function printListSummaries(){
-	var i;
-	var d;
-	var s;
-	for (i=0;i<numlists;i++){
-		d=document.getElementById('summary'+i);
-		if (listn[i]>0){
-			s="<table border=1><tr><th>n</th><th><font style='text-decoration: overline;'>X</font></th><th>s</th><th>Var</th><th>Min</th><th>Q1</th><th>Med</th><th>Q3</th><th>Max</th><th>Sum</th><th>Range</th></tr><tr>";
-			s=s+'<td>'+listn[i]+'</td>';
-			s=s+'<td>'+listm[i].TOFIXED(precision)+'</td>';
-			s=s+'<td>'+listsd[i].TOFIXED(precision)+'</td>';
-			s=s+'<td>'+(listsd[i]*listsd[i]).TOFIXED(precision)+'</td>';
-			s=s+'<td>'+listmin[i].TOFIXED(precision)+'</td>';
-			s=s+'<td>'+listq1[i].TOFIXED(precision)+'</td>';
-			s=s+'<td>'+listmed[i].TOFIXED(precision)+'</td>';
-			s=s+'<td>'+listq3[i].TOFIXED(precision)+'</td>';
-			s=s+'<td>'+listmax[i].TOFIXED(precision)+'</td>';
-			s=s+'<td>'+listsum[i].TOFIXED(precision)+'</td>';
-			s=s+'<td>'+listrange[i].TOFIXED(precision)+'</td>';
-			s=s+'</tr></table>';
-			d.innerHTML=s;
+	</script>
+<!---------------------------------------------------------------------------------------------------------------------------------->	
+	<div id='binomialGenDiv' class='expandable generator'>
+	Output List:<br><script>printRadioList('bgenoutput');</script>
+		<table>
+		<tr><td>Probability of Success:</td><td> <input type="text" id="binomGenP" value='0.25'></td></tr>
+		<tr><td>Sample Size:</td><td> <input type="text" id="binomGenN" value='31'></td></tr>
+		</table>
+		<button onclick="generateBinomialDataSet();">Generate Data Set</button>
+	</div>
+	<script>
+	function generateBinomialDataSet(){
+		var outlist=getChecked('bgenoutput');//getOutputList();
+		var n= eval(binomGenN.value);
+		var p= eval(binomGenP.value);
+		var i;
+		
+		list[outlist]=[];
+		for (i=0;i<p*n;i++){
+			list[outlist].push(1);
 		}
-		else
-			d.innerHTML='';
+		for (;i<n;i++){
+			list[outlist].push(0);
+		}
+		printLists();
+		processLists();
+		closeAll();
+		openDiv(dataListDiv);	
 	}
+	</script>
+<!----------------------------------------------------------------------------------------------------------------------------------->	
+	<div id='sampleGenDiv' class='expandable generator'>
+	Input List:<br><script>printRadioList('sgeninput');	</script><br>
+	Output List:<br><script>printRadioList('sgenoutput');</script>
+		<table>
+		<tr><td>Sample Size:</td><td> <input type="text" id="samplesize" value='31'></td></tr>
+		</table>
+		<button onclick="generateSample();">Generate Data Set</button>
+	</div>
+	<script>
+	function generateSample(){
+		var inlist=0;
+		var outlist=1;
+		var i,j;
+		var c;
+				
+		outlist=getChecked('sgenoutput');
+		inlist=getChecked('sgeninput');		
+
+		if (inlist==outlist)
+			alert("Lists must be different.");
+		else if (listN[inlist]==0)
+			alert('The population list is empty.');
+		else{
+			list[outlist]=[];
+			var n=eval(samplesize.value);
+			for (i=0;i<n;i++){
+				list[outlist].push(list[inlist][floor(random()*listN[inlist])]);
+			}
+			printLists();
+			processLists();
+			closeAll();
+			openDiv(dataListDiv);
+		}
+	}
+	</script>
+<!------------------------------------------------------------------------------------------------------------------------------------>
+	<div id='resampleGenDiv' class='expandable generator'>
+	Input List:<br><script>printRadioList('rgeninput');	</script><br>
+	Output List:<br><script>printRadioList('rgenoutput');</script>
+		<table>
+		<tr><td>Sample Size:</td><td> <input type="text" id="samplemeansize" value='31'></td></tr>
+		<tr><td>Number of Samples:</td><td> <input type="text" id="samplemeannumsamples" value='100'></td></tr>
+		</table>
+		<button onclick="generateSampleMeans();">Generate Data Set</button>
+	</div>
+</div>
+	<script>
+	function generateSampleMeans(){
+		var inlist=0;
+		var outlist=1;
+		var i,j;
+		var c;
+		
+		outlist=getChecked('rgenoutput');
+		inlist=getChecked('rgeninput');	
+
+		if (inlist==outlist)
+			alert("Lists must be different.");
+		else if (listN[inlist]==0)
+			alert('The population list is empty.');
+		else{
+			list[outlist]=[];
+			var n=eval(samplemeansize.value);
+			var N=eval(samplemeannumsamples.value);
+			for (i=0;i<N;i++){
+				c=0;
+				for (j=0;j<n;j++)
+					c+=list[inlist][floor(random()*listN[inlist])];
+				c=c/n;
+				list[outlist].push(c.TOFIXED(printPrecision));
+			}
+			printLists();
+			processLists();
+			closeAll();
+			openDiv(dataListDiv);
+		}
+	}
+	</script>
+<!------------------------------------------------------------------------------------------------------------------------------------>
+</ul>
+</div><!--generatedDiv-->
+<!--generated data ---------------------------------------------->
+
+<!----------------------------------------------------------------------------------------------------------------------------------->
+<!-- canned dat-->
+<div id='cannedDiv' class='pageDiv expandable'>
+<div class='subPage'>
+		Output List:<br><script>printRadioList('canoutput');</script><br>
+canned data not yet implemented
+</div>
+</div>
+<!-- canned data--->
+<!---------------------------------------------------------------------------------------------------------------------------------->
+<div id='dataTableDiv'>
+	<table>
+	
+			<script>
+			document.write('<tr>');
+			for (let i=0;i<numLists;i++)
+				document.write('<th>'+i+'</th>')
+			document.write('</tr><tr>');
+			for (let i=0;i<numLists;i++)
+				document.write('<td><textarea class="datalabel" rows=1 cols=10 wrap="off"></textarea></td>');
+			document.write('</tr><tr>');
+			for (let i=0;i<numLists;i++)
+				document.write('<td ><textarea class="datalist"  rows=1000 cols=10 wrap="off"></textarea></td>');
+			document.write('</tr>');
+			</script>
+	</table>
+</div>	
+</div><!--dataListDiv-->
+<!---- Data Lists ---------------------------------------------->
+
+
+<!---- Summary Statistics ------------------------------------>
+<div id='summaryDiv' class='pageDiv expandable'>
+
+<div class='subPage'>
+<table border=1 class='summaryTable'>
+<tr><th>List</th><th>n</th><th>x&#772;</th><th>s</th><th>s<sup>2</sup></th><th>Min</th><th>Q<sub>1</sub></th><th>Q<sub>2</sub></th><th>Q<sub>3</sub></th><th>Max</th><th>Sum</th><th>Range</th></tr>
+<script>
+for (let i=0;i<numLists;i++){
+	document.write('<tr class="rowSum"><td class="listAreaSum"><td class="nAreaSum"><td class="meanAreaSum"><td class="sAreaSum"><td class="s2AreaSum"><td class="minAreaSum"><td class="q1AreaSum"><td class="q2AreaSum"><td class="q3AreaSum"><td class="maxAreaSum"><td class="sumAreaSum"><td class="rangeAreaSum"></td></tr>');
 }
-function findHistograms(){
+</script>
+
+</table>
+</div>
+</div> <!--- summaryDiv--->
+<!---- Summary Statistics ------------------------------------>
+
+
+<!--charts------------------------------------------------------>
+<div id='chartDiv' class='pageDiv expandable'>
+<div class='pageMenu'>
+<button class='expander' data-open='histoDiv' data-close='boxDiv,scatterDiv,quantileDiv,insideHistoDiv'>Histograms</button>
+<button class='expander' data-open='boxDiv' data-close='histoDiv,scatterDiv,quantileDiv,boxplotCanvasDiv'>Box Plots</button>
+<button class='expander' data-open='scatterDiv' data-close='histoDiv,boxDiv,quantileDiv,scatterPlotDiv'>Scatter Plots</button>
+<button class='expander' data-open='quantileDiv'  data-close='histoDiv,boxDiv,scatterDiv,quantilePlotDiv'>Quantile Plots</button>
+</div>
+
+<div class='subPage'>
+<!------------------------------------------------------------------------------------------------------------------------------->
+	<div id='histoDiv' class='expandable'>
+	<table>
+	<tr><td>Minimum value: </td><td><textarea id='histoMin' rows=1 cols=10>0</textarea></td></tr>
+	<tr><td>Maximum value: </td><td><textarea id='histoMax' rows=1 cols=10>100</textarea></td></tr>
+	<tr><td>Number of Bins: </td><td><textarea id='histoBins' rows=1 cols=10>10</textarea></td></tr>
+	</table>
+	<button onclick="drawHistograms();">Redraw</button><br>
+	Lists: <br><script>
+	for (let i=0;i<numLists;i++)
+		document.write("<label><input type='checkbox'  class='histocheckbox' onclick='drawHistograms();'><span class='histolabel'  style='color:"+theColors[i]+";'>"+listLabel[i]+"</span></label>&nbsp;");
+	</script>
+	<div id="insideHistoDiv"><canvas id="histoCanvas" width=400 height=200></canvas><hr></div>
+	</div>
+<script>
+
+function drawHistograms(){ 
 	var i,bin,j;
 	var n,dx,d;
 	var c,H;
-
-	for (i=0;i<numlists;i++){
-		var can=document.getElementById('histogram'+i);
-		var ctx=can.getContext('2d');
-		var w=can.width;
-		var h=can.height;
-		ctx.strokeStyle='black';
-		ctx.fillStyle='white';
-		ctx.fillRect(0,0,w,h);
-		if ((listn[i]>0) && (listrange[i]>0)){
-			n=eval(document.getElementById('numbins'+i).value);
-			if ((n==undefined) || (n==0))
-				n=2;
-			d=(listrange[i]*1.1)/(n);
+	var Min;
+	processLists();
+	n=eval(histoBins.value);
+	d=(eval(histoMax.value)-eval(histoMin.value))/n;
+	Min=eval(histoMin.value);
+	var can=histoCanvas;
+	var ctx=can.getContext('2d');
+	var w=can.width;
+	var h=can.height;	
+	ctx.fillStyle='white';
+	ctx.fillRect(0,0,w,h);	
+	var boxes=document.getElementsByClassName('histocheckbox');
+var numChecks=0;
+for (i=0;i<numLists;i++)
+	if ((boxes[i].checked) && listN[i]>0)
+		numChecks++;
+	else
+		boxes[i].checked=false;
+if (numChecks>0){	
+			ctx.font='12px Helvetica';
+			ctx.fillStyle='black';
+			dx=w/(n+2);
+			for (j=0;j<=n;j++){
+				ctx.save();
+				ctx.translate(j*dx, h-40);
+				ctx.rotate(PI/2);
+				ctx.fillText((Min+j*d).TOFIXED(2),0,0);
+				ctx.restore();
+			}
+	var listsDrawn=0;
+	for (i=0;i<numLists;i++)
+	if ((listN[i]>1) && (boxes[i].checked)){
+		//histoDiv.style.display='block';
+		ctx.strokeStyle=theColors[i];
 			c=[];
 			for (bin=0;bin<n;bin++)
 				c[bin]=0;
-			for (j=0;j<listn[i];j++)
-				c[ floor((list[i][j]-listmin[i])/d)  ]++;
+			for (j=0;j<listN[i];j++)
+				c[ floor((list[i][j]-Min)/d)  ]++;
 			H=1;
 			for (j=0;j<n;j++)
 				if (c[j]>H)
 					H=c[j];
-			dx=w/n;
-			ctx.lineWidth=0.95*dx;
+
+			ctx.lineWidth=0.95*dx/numChecks;
 			ctx.beginPath();
 			for (j=0;j<n;j++){
-				ctx.moveTo(j*dx+dx/2, h-50);
-				ctx.lineTo(j*dx+dx/2, h-(h-60)*c[j]/H-50);
+				ctx.moveTo(j*dx+dx/2+listsDrawn*dx/numChecks, h-50);
+				ctx.lineTo(j*dx+dx/2+listsDrawn*dx/numChecks, h-(h-60)*c[j]/H-50);
 			}
+			listsDrawn++;
 			ctx.stroke();
-			ctx.font='12px Helvetica';
-			ctx.fillStyle='black';
-			for (j=0;j<n;j++){
-				ctx.save();
-				ctx.translate(j*dx, h-40);
-				ctx.rotate(PI/2);
-				ctx.fillText((listmin[i]+j*d).TOFIXED(2),0,0);
-				ctx.restore();
-			}
-		}
+			insideHistoDiv.style.display='block';
 	}
+	else boxes[i].checked=false;
+}	
 }
-function loadDataLists(){
-	var i,j,sum, sumx2,max,min,med,half;
-	for (i=0;i<numlists;i++)
-		list[i]= trimEndWhite(datalist[i].value).split('\n');
-	for (i=0;i<numlists;i++)
-		findListStats(i);
-	printDataListsValueOnly();
-	findHistograms();
-	printListSummaries();
-	drawBoxPlots();
-	drawScatterPlot();
-	drawPolygons();
-	}
-function sortList(l){
-	var i,j,t;
-	loadDataLists();
-	for (i=0;i<listn[l];i++)
-		for (j=i+1;j<listn[l];j++)
-			if (list[l][i]>list[l][j]){
-				t=list[l][i];
-				list[l][i]=list[l][j];
-				list[l][j]=t;
-				}
-	datalist[l].value = list[l].join('\r');
-	}//-----------------------------------------------------------------------------------------------------------------
+</script>
+<!------------------------------------------------------------------------------------------------------------------------------->
 
-//Expanders and Shrinkers------------------------------------------------------------------------------------
-function expandWith(t){
-	var n=t.nextElementSibling;
-
-	if (n.style.height=='auto'){
-		n.style.height='0px';
-		n.style.overflow='hidden';
-	}
-	else{
-		n.style.height='auto';
-		n.style.overflow='auto';
-	}
-}
-function setupExpanders(){
-	var e=document.getElementsByClassName('expander');
-	var i;
-	for (i =0; i<e.length; i++){
-		e[i].onclick=function(){expandWith(this);}
-	}
-}
-function shrinkWith(t){
-	var p=t.parentElement;
-	p.style.height='0px';
-	p.style.overflow='hidden';
-}
-function setupShrinkers(){
-	var e=document.getElementsByClassName('expandable');
-	var i;
-	for (i =0; i<e.length; i++){
-//		e[i].innerHTML ="<hr><button class='shrinker' onclick='shrinkWith(this);'>&darr; click to collapse &darr;</button><br>" + e[i].innerHTML + "<br><button class='shrinker' onclick='shrinkWith(this);'>&uarr; click to collapse &uarr;</button><br><hr>";
-		e[i].innerHTML ="<hr><button class='shrinker' onclick='shrinkWith(this);'>&darr;</button><br>" + e[i].innerHTML + "<br><button class='shrinker' onclick='shrinkWith(this);'>&uarr;</button><br><hr>";
-	}
-}
-var allPageDivs;
-function setupPageDivs(){
-	allPageDivs = document.getElementsByClassName('classPage');
-}
-function cacheMath(){
-	var aMathFunctions = Object.getOwnPropertyNames(Math);
-	for (var i in aMathFunctions){
-		window[aMathFunctions[i]] = Math[aMathFunctions[i]];
-	}
-	Number.prototype.TOFIXED=function(n){
-		var z=Number('1e-'+(n+1));
-		if (abs(this)<z)
-			return(0);
-		else
-			return(Number(Math.round(this+'e'+n)+'e-'+n));
-		}
-}
-function setupAll(){
-	setupPageDivs();
-	setupShrinkers();
-	setupExpanders();
-	cacheMath();
-	datalist = document.getElementsByClassName('datalist');
-	uniformdata0.checked=true;
-	normaldata0.checked=true;
-	samplemeaninput0.checked=true;
-	samplemeanoutput1.checked=true;
-	boxplot0.checked=true;
-	tintervallist0.checked=true;
-	ttestlist0.checked=true;
-	t2testlist10.checked=true;
-	t2testlist21.checked=true;
-	mplist10.checked=true;
-	mplist21.checked=true;
-	anovalist0.checked=true;
-	anovalist1.checked=true;
-	anovalist2.checked=true;
-	chio0.checked=true;
-	chie1.checked=true;
-	conlist0.checked=true;
-	conlist1.checked=true;
-	corx0.checked=true;
-	cory1.checked=true;
-	canneddata0.checked=true;
-	scatterplotx0.checked=true;
-	scatterploty1.checked=true;
-	freq0.checked=true;
-	calculated0.checked=true;
-	//HEREHERE
-}
-//--------------------------------------------------------------------------------------------------------------------
-function hideAllDivs(){
-	var i
-	var d=document.getElementsByClassName('pageDiv');
-	var t=document.getElementsByClassName('tab');
-	for (i=0;i<d.length;i++)
-		d[i].style.display='none';
-	for (i=0;i<t.length;i++)
-		t[i].style.background='white';
-}
-function showDiv(x){
-try{
-	loadDataLists();
-	loadDataLists();
-	hideAllDivs();
-	var a = document.getElementById(x+'Tab');
-	a.style.background='lightgray';
-	a = document.getElementById(x+'Div');
-	a.style.display='block';
-}
-catch(err){
-	alert('Data list input error.');
-}
-}
-//Data List Generation Stuff----------------------------------------------------------------------------------------------
-function calculateList(){
-try{
-	loadDataLists();
-
-	var i,l,g,f,m,j;
-	for (i=0;i<numlists;i++)
-		if (document.getElementById('calculated'+i).checked)
-			l=i;
-	f=calculatedformula.value;
-	g=f;
-	for (i=0;i<numlists;i++)
-		g=g.replace(RegExp('l'+i, 'g'),'L'+i);
-	m=2000000000;
-	for (i=0;i<numlists;i++)
-		if (g.search('L'+i)!=-1)
-			m=min(m,listn[i]);
-	f=g;
-	if ((m<2000000000) ){
-		for (j=0;j<m;j++){
-			for (i=0;i<numlists;i++)
-				if (g.search('L'+i)!=-1)
-					g=g.replace(RegExp('L'+i, 'g'),list[i][j]);
-			list[l][j]=eval(g);
-			g=f;
-		}
-		printDataListsValueOnly();
-		loadDataLists();
-	}
-}catch(err){alert('Input Error');}
-}
-function generateUniformDataSet(){
-	var i,l;
-	l=0;
-	for (i=0;i<numlists;i++)
-		if (document.getElementById('uniformdata'+i).checked)
-			l=i;
-	var a=eval(uniformminimum.value);
-	var b=eval(uniformmaximum.value);
-	var n=eval(uniformn.value);
-	list[l]=[];
-	for (i=0;i<n;i++)
-		list[l][i]=(a+(random()*(b-a))).TOFIXED(precision);
-	if (uniformintegeryes.checked)
-		for (i=0;i<n;i++)
-			list[l][i]=round(list[l][i]);
-
-	printDataListsValueOnly();
-	loadDataLists();
-}
-function boxMuller(){
-	var u1=random();
-	var u2=random();
-	var z=sqrt(-2*log(u1))*cos(2*PI*u2);
-	return(z);
-}
-function generateNormalDataSet(){
-	var i,l;
-	l=0;
-	for (i=0;i<numlists;i++)
-		if (document.getElementById('normaldata'+i).checked)
-			l=i;
-	var m=eval(normalmean.value);
-	var s=eval(normalsd.value);
-	var n=eval(normaln.value);
-	list[l]=[];
-	for (i=0;i<n;i++)
-		list[l][i]=(m+s*boxMuller()).TOFIXED(precision);
-	if (normalintegeryes.checked)
-		for (i=0;i<n;i++)
-			list[l][i]=round(list[l][i]);
-
-	printDataListsValueOnly();
-	loadDataLists();
-}
-function generateSampleMeans(){
-	var inlist=0;
-	var outlist=1;
-	var i,j;
-	var c;
-	loadDataLists();
-	for (i=0;i<numlists;i++){
-		if (document.getElementById('samplemeaninput'+i).checked) inlist=i;
-		else if (document.getElementById('samplemeanoutput'+i).checked) outlist=i;
-	}
-	if (listn[inlist]==0)
-		alert('The population list is empty.');
-	else{
-		list[outlist]=[];
-		var n=eval(samplemeansize.value);
-		var N=eval(samplemeannumsamples.value);
-		for (i=0;i<N;i++){
-			c=0;
-			for (j=0;j<n;j++)
-				c+=list[inlist][floor(random()*listn[inlist])];
-			c=c/n;
-			list[outlist].push(c.TOFIXED(precision));
-		}
-		printDataListsValueOnly();
-		loadDataLists();
-	}
-}
-function drawPolygons(){
-	var i,j,m,M,n,d,c,bin,H,last;
-	var can=freqcanvas;
-	var ctx=can.getContext('2d');
-	var w=can.width;
-	var h=can.height;
-
-	ctx.strokeStyle='black';
-	ctx.fillStyle='white';
-	ctx.lineWidth=1;
-	ctx.fillRect(0,0,w,h);
-	i=0;
-	n=eval(freqbins.value);
-	if ((n==undefined) || (n==0))
-		n=2;
-	while ((i<numlists) && ((listn[i]==0) || (!document.getElementById('freq'+i).checked))) i++;
-	if (i<numlists){
-		m=listmin[i];
-		M=listmax[i];
-		for (j=i+1;j<numlists;j++) if (document.getElementById('freq'+j).checked && (listn[j]>0)){
-			if (listmin[j]<m) m=listmin[j];
-			if (listmax[j]>M) M=listmax[j];
-		}
-		d=((M-m)*1.1)/(n);		
-		c=[];
-		for (i=0;i<numlists;i++) c[i]=[];
-		for (i=0;i<numlists;i++) if (document.getElementById('freq'+i).checked && (listn[i]>0)){
-			for (bin=0;bin<n;bin++)
-				c[i][bin]=0;
-			for (j=0;j<listn[i];j++)
-				c[i][ floor((list[i][j]-m)/d)  ]++;
-		}		
-		H=1;
-		for (i=0;i<numlists;i++)
-			for (j=0;j<c[i].length;j++)
-					if (c[i][j]>H)
-						H=c[i][j];
-		dx=w/n;
-		for (i=0;i<numlists;i++) if (document.getElementById('freq'+i).checked && (listn[i]>0)){
-			ctx.strokeStyle="rgb("+Math.floor(255*i/numlists)+","+((i%2)*255)+","+(255-Math.floor(255*i/numlists))+")";
-			ctx.beginPath();
-			ctx.moveTo(0*dx+dx/2,  h-(h-60)*c[i][0]/H-50);
-			for (j=1;j<n;j++){
-				ctx.lineTo(j*dx+dx/2, h-(h-60)*c[i][j]/H-50);
-			}
-			ctx.stroke();
-		}
-		ctx.font='12px Helvetica';
-		ctx.fillStyle='black';
-		for (j=0;j<=n;j++){
-			ctx.save();
-			ctx.translate(j*dx, h-40);
-			ctx.rotate(PI/2);
-			ctx.fillText((m+j*d).TOFIXED(2),0,0);
-			ctx.restore();
-		}
-		
-	}
-}
-
+	<div id='boxDiv' class='expandable'>
+	Lists: <br><script>
+	for (let i=0;i<numLists;i++)
+		document.write("<label><input type='checkbox'  class='boxcheckbox' onclick='drawBoxPlots();'><span class='boxlabel' style='color:"+theColors[i]+";'>"+listLabel[i]+"</span></label>&nbsp;");
+	</script>
+	<br>
+	<div id='boxplotCanvasDiv' class='expandable'>
+	<canvas id='boxplot' width=400 height=400></canvas>
+	</div>
+	</div>
+<script>
 function drawBoxPlots(){
 	var i,j,m,M,x1,x2,x3,x4,x5;
 	var y;
@@ -1028,70 +1170,112 @@ function drawBoxPlots(){
 	var ctx=can.getContext('2d');
 	var w=can.width;
 	var h=can.height;
-
+	var plotted=false;
+	
 	ctx.strokeStyle='black';
 	ctx.fillStyle='white';
 	ctx.lineWidth=1;
 	ctx.fillRect(0,0,w,h);
 
 	i=0;
-	while ((i<numlists) && ((listn[i]==0) || (!document.getElementById('boxplot'+i).checked))) i++;
-	if (i<numlists){
-		m=listmin[i];
-		M=listmax[i];
-		for (j=i+1;j<numlists;j++) if (document.getElementById('boxplot'+j).checked){
-			if (listmin[j]<m) m=listmin[j];
-			if (listmax[j]>M) M=listmax[j];
+	while ((i<numLists) && ((listN[i]==0) || (!boxcheckboxes[i].checked))) i++;
+	if (i<numLists){
+		m=listMin[i];
+		M=listMax[i];
+		for (j=i+1;j<numLists;j++) if (boxcheckboxes[i].checked){
+			if (listMin[j]<m) m=listMin[j];
+			if (listMax[j]>M) M=listMax[j];
 		}
-		d=h/numlists;
-		y=d;
+		d=h/(numLists+3);
+		y=d+30;
 		ctx.font='12px Helvetica';
-		ctx.fillStyle='black';
-		for (i=0;i<numlists;i++)
-			if ((document.getElementById('boxplot'+i).checked) && (listn[i]>0)){
+		var bw=5;
+		for (i=0;i<numLists;i++)
+			if ((boxcheckboxes[i].checked) && (listN[i]>0)){
+			plotted=true;
+				ctx.fillStyle='black';
+				ctx.strokeStyle=theColors[i];
 				ctx.beginPath();
-				x1=(listmin[i]-m)*(w-2*d)/(M-m)+d;
-				x2=(listq1[i]-m)*(w-2*d)/(M-m)+d;
-				x3=(listmed[i]-m)*(w-2*d)/(M-m)+d;
-				x4=(listq3[i]-m)*(w-2*d)/(M-m)+d;
-				x5=(listmax[i]-m)*(w-2*d)/(M-m)+d;
-				ctx.moveTo(x1,y-d/2);
-				ctx.lineTo(x1,y+d/2);
-				ctx.moveTo(x3,y-d/2)
-				ctx.lineTo(x3,y+d/2);
-				ctx.moveTo(x5,y-d/2)
-				ctx.lineTo(x5,y+d/2);
-				ctx.rect(x2,y-d/2, x4-x2,d);
+				x1=(listMin[i]-m)*(w-2*d)/(M-m)+1.5*d;
+				x2=(listQ1[i]-m)*(w-2*d)/(M-m)+1.5*d;
+				x3=(listQ2[i]-m)*(w-2*d)/(M-m)+1.5*d;
+				x4=(listQ3[i]-m)*(w-2*d)/(M-m)+1.5*d;
+				x5=(listMax[i]-m)*(w-2*d)/(M-m)+1.5*d;
+				ctx.moveTo(x1,y-(d/2-bw));
+				ctx.lineTo(x1,y+(d/2-bw));
+				ctx.moveTo(x3,y-(d/2-bw))
+				ctx.lineTo(x3,y+(d/2-bw));
+				ctx.moveTo(x5,y-(d/2-bw))
+				ctx.lineTo(x5,y+(d/2-bw));
+				ctx.rect(x2,y-(d/2-bw), x4-x2,d-2*bw);
 				ctx.moveTo(x1,y);
 				ctx.lineTo(x5,y);
 				ctx.stroke();
-				ctx.fillText(i,2,y);
+				ctx.fillStyle=theColors[i];
+				ctx.fillText(listLabel[i],2,y);
 				y+=d+2;
 			}
-
 	}
-
+	if (plotted){
+			ctx.font='12px Helvetica';
+			ctx.fillStyle='black';
+			var daxis=(M-m)/10;
+			var dx=(w-2*d)/10;
+			for (j=0;j<11;j++){
+				ctx.save();
+				ctx.translate(1.5*d+j*dx, 5);
+				ctx.rotate(PI/2);
+				ctx.fillText((m+j*daxis).TOFIXED(2),0,0);
+				ctx.restore();
+			}	
+	boxplotCanvasDiv.style.display='block';	
+	}
 }
+</script>
+<!------------------------------------------------------------------------------------------------------------------------------->
+
+	<div id='scatterDiv' class='expandable'>
+X List: <br>
+<script>
+	for (let i=0;i<numLists;i++)
+		document.write("<label><input type='radio'  name='scatterxradio'  class='scatterxradio' onclick='drawScatterPlot();'><span class='scatterxlabel'>"+listLabel[i]+"</span></label>&nbsp;");
+</script>
+<br>
+Y List: <br><script>
+	for (let i=0;i<numLists;i++)
+		document.write("<label><input type='radio'  name='scatteryradio'  class='scatteryradio' onclick='drawScatterPlot();'><span class='scatterylabel'>"+listLabel[i]+"</span></label>&nbsp;");
+</script>
+<br>
+<div id='scatterPlotDiv' class='expandable'>
+<canvas id='scatterplotcanvas' width=400 height=400></canvas>	
+</div>
+</div>
+
+<script>
 function drawScatterPlot(){
-	var l1, l2;
-	try{
-		for (i=0;i<numlists;i++){
-			if (document.getElementById('scatterplotx'+i).checked) l1=i;
-			if (document.getElementById('scatterploty'+i).checked) l2=i;
-		}
+	var l1=-1, l2=-1;
+	var D=40;
+	var i,j;
+
+	for (i=0;i<numLists;i++){
+		if (scatterxradios[i].checked) l1=i;
+		if (scatteryradios[i].checked) l2=i;
+	}
+	if ((l1!=-1) && (l2!=-1)&&(listN[l1]*listN[l2]!==0) && (listN[l1]==listN[l2]))
+	{
 		var xlist=l1;
 		var ylist=l2;
 		var can=scatterplotcanvas;
 		var ctx=can.getContext('2d');
 		var w=can.width;
 		var h=can.height;
-		var xmin=listmin[xlist];
-		var xmax=listmax[xlist];
-		var ymin=listmin[ylist];
-		var ymax=listmax[ylist];
-		var n = listn[xlist];
-		var W=w-20;
-		var H=h-20;
+		var xmin=listMin[xlist];
+		var xmax=listMax[xlist];
+		var ymin=listMin[ylist];
+		var ymax=listMax[ylist];
+		var n = listN[xlist];
+		var W=w-2*D;
+		var H=h-2*D;
 		var wx=xmax-xmin;
 		var wy=ymax-ymin;
 
@@ -1101,491 +1285,371 @@ function drawScatterPlot(){
 		ctx.fillRect(0,0,w,h);
 		ctx.beginPath();
 		ctx.rect(0,0,w,h);
+		ctx.rect(D,D,W,H);
 		ctx.stroke();
-		if((listn[l1]*listn[l2]!==0) && (listn[l1]==listn[l2]))
-		{
-			for (i=0;i<n;i++){
-				ctx.beginPath();
-				ctx.arc(10+W*(list[xlist][i]-xmin)/wx, h-(10+H*(list[ylist][i]-ymin)/wy), 1,0,2*Math.PI);
-				ctx.stroke();
-			}
+		for (i=0;i<n;i++){
 			ctx.beginPath();
-			ctx.moveTo(10+W*(xmin-xmin)/wx, h-(10+H*(0-ymin)/wy));
-			ctx.lineTo(10+W*(xmax-xmin)/wx, h-(10+H*(0-ymin)/wy));
+			ctx.arc(D+W*(list[xlist][i]-xmin)/wx, h-(D+H*(list[ylist][i]-ymin)/wy), 1,0,2*Math.PI);
 			ctx.stroke();
-			ctx.beginPath();
-			ctx.moveTo(10+W*(0-xmin)/wx, h-(10+H*(ymin-ymin)/wy));
-			ctx.lineTo(10+W*(0-xmin)/wx, h-(10+H*(ymax-ymin)/wy));
-			ctx.stroke();		
 		}
+		ctx.font='12px Helvetica';
+		ctx.fillStyle='black';
+		var dx=(xmax-xmin)/10;
+		for (j=0;j<11;j++){
+			ctx.save();
+			ctx.translate(D-6+W*(j*dx)/wx, h-D+6); 
+			ctx.rotate(PI/2);
+			ctx.fillText((xmin+j*dx).TOFIXED(2),0,0);
+			ctx.restore();
+		}		
+		var dy=(ymax-ymin)/10;
+		for (j=0;j<11;j++){
+			ctx.save();
+			ctx.translate(D-6,h-(D-6+H*(j*dy)/wy)); 
+			ctx.textAlign='end';
+			ctx.fillText((xmin+j*dy).TOFIXED(2),0,0);
+			ctx.restore();
+		}		
+scatterPlotDiv.style.display='block';
+	}	
+	else
+		scatterPlotDiv.style.display='none';
+	
+}
+</script>
+<!------------------------------------------------------------------------------------------------------------------------------->
+
+	<div id='quantileDiv' class='expandable'>
+	Data List: <br><script>
+	for (let i=0;i<numLists;i++)
+		document.write("<label><input type='radio'  name='quantileradio'  class='quantileradio' onclick='drawQuantilePlot();'><span class='quantilelabel'>"+listLabel[i]+"</span></label>&nbsp;");
+</script><br>
+<div id='quantilePlotDiv' class='expandable'>
+<canvas id='quantileplotcanvas' width=400 height=400></canvas>
+</div>
+	</div>
+<script>
+function drawQuantilePlot(){
+	var i;
+	var inlist=0;
+	var radiolist=document.getElementsByClassName('quantileradio');
+	for (i=0;i<numLists;i++)
+		if (radiolist[i].checked) inlist=i;
+	if (listN[inlist]==0){
+		radiolist[inlist].checked=false;
+		quantilePlotDiv.style.display='none';
 	}
-	catch(err){
-		alert('Plot Error.');
+	else{
+		var a=list[inlist].toSorted(function(a, b){return a - b});
+		var b=[];
+		for (i=0;i<a.length;i++){
+			b[i]=invnorm((2*i+1)/(2*a.length));
+		}
+		var minData=listMin[inlist];
+		var maxData=listMax[inlist];
+		var minZ=b[0];
+		var maxZ=b[b.length-1];
+		
+		var can=quantileplotcanvas;
+		var ctx=can.getContext('2d');
+		var w=can.width;
+		var h=can.height;
+		var D=40;
+		ctx.strokeStyle='black';
+		ctx.fillStyle='white';
+		ctx.lineWidth=1;
+		ctx.fillRect(0,0,w,h);
+		ctx.beginPath();
+		ctx.rect(D,D,w-2*D,h-2*D);
+		ctx.stroke();
+		var wx=w-2*D;
+		var wy=h-2*D;
+		for (i=0;i<a.length;i++){
+			a[i]=  D+wx*(a[i]-minData)/(maxData-minData);
+			b[i]= D+wy*(b[i]-minZ)/(maxZ-minZ);
+		}
+		for (i=0;i<a.length;i++){
+			ctx.beginPath();
+			ctx.arc(a[i], h-b[i], 1,0,2*Math.PI);
+			ctx.stroke();
+		}
+		var j
+		ctx.font='12px Helvetica';
+		ctx.fillStyle='black';
+		var dx=(maxData-minData)/10;
+		for (j=0;j<11;j++){
+			ctx.save();
+			ctx.translate(D-6+wx*(j*dx)/(maxData-minData), h-D+6); 
+			ctx.rotate(PI/2);
+			ctx.fillText((minData+j*dx).TOFIXED(2),0,0);
+			ctx.restore();
+		}
+		
+		var dy=(maxZ-minZ)/10;
+		for (j=0;j<11;j++){
+			ctx.save();
+			ctx.translate(D-6,h-(D-6+wy*(j*dy)/(maxZ-minZ))); 
+			ctx.textAlign='end';
+			ctx.fillText((minZ+j*dy).TOFIXED(2),0,0);
+			ctx.restore();
+		}	
+		
+		
+		quantilePlotDiv.style.display='block';
 	}
 }
-//calculator stuff-------------------------------------------------------------------------------------------------
-function checkForEnter(e){
-	if (event.keyCode==13){
+</script>
+<!------------------------------------------------------------------------------------------------------------------------------->
+
+</div>
+</div> <!--chartDiv-->	
+<!--charts------------------------------------------------------>
+
+<!--distribution calculators--------------------------------------->
+<div id='distributionDiv' class='pageDiv'>
+<div class='pageMenu expandable'>
+<button class='expander' data-open='binomialCalcDiv' data-close='poissonCalcDiv,normalCalcDiv,invnormalCalcDiv,tCalcDiv,invtCalcDiv,chi2CalcDiv,invchi2CalcDiv'>Binomial</button>
+<button class='expander' data-open='poissonCalcDiv' data-close='binomialCalcDiv,normalCalcDiv,invnormalCalcDiv,tCalcDiv,invtCalcDiv,chi2CalcDiv,invchi2CalcDiv'>Poisson</button>
+<button class='expander' data-open='normalCalcDiv' data-close='binomialCalcDiv,poissonCalcDiv,invnormalCalcDiv,tCalcDiv,invtCalcDiv,chi2CalcDiv,invchi2CalcDiv'>Normal</button>
+<button class='expander' data-open='invnormalCalcDiv' data-close='binomialCalcDiv,poissonCalcDiv,normalCalcDiv,tCalcDiv,invtCalcDiv,chi2CalcDiv,invchi2CalcDiv'>Inverse Normal</button>
+<button class='expander' data-open='tCalcDiv' data-close='binomialCalcDiv,poissonCalcDiv,normalCalcDiv,invnormalCalcDiv,invtCalcDiv,chi2CalcDiv,invchi2CalcDiv'>t</button>
+<button class='expander' data-open='invtCalcDiv' data-close='binomialCalcDiv,poissonCalcDiv,normalCalcDiv,invnormalCalcDiv,tCalcDiv,chi2CalcDiv,invchi2CalcDiv'>Inverse t</button>
+<button class='expander' data-open='chi2CalcDiv' data-close='binomialCalcDiv,poissonCalcDiv,normalCalcDiv,invnormalCalcDiv,tCalcDiv,invtCalcDiv,invchi2CalcDiv'>&chi;<sup>2</sup></button>
+<button class='expander' data-open='invchi2CalcDiv' data-close='binomialCalcDiv,poissonCalcDiv,normalCalcDiv,invnormalCalcDiv,tCalcDiv,invtCalcDiv,chi2CalcDiv'>Inverse &chi;<sup>2</sup></button>
+</div>
+<div class='subPage'>
+<ul>
+<!--------------------------------------------------------------------------------------------------------------------------------------------->
+<li><button class='expander' data-open='binomialCalcDiv' data-close='poissonCalcDiv,normalCalcDiv,invnormalCalcDiv,tCalcDiv,invtCalcDiv,chi2CalcDiv,invchi2CalcDiv'>Binomial</button></li>
+	<div id='binomialCalcDiv' class='expandable'>
+	<table>
+	<tr><td>Number of Trials: 		</td> <td><b>n=</b> </td><td><input type='text' id='binomialn' value="100" onkeydown='purge(binomialAnswerDiv);'></td></tr>
+	<tr><td>Probability of Success:  	</td> <td><b>p=</b></td><td><input type='text' id='binomialp' value="0.5" onkeydown='purge(binomialAnswerDiv);'></td></tr>
+	<tr><td><b>P(x </b>
+	<input name='bequal' id='binomialequal' type='radio' checked=true onclick='purge(binomialAnswerDiv);'><label for='binomialequal'>=</label>
+	<input name='bequal' id='binomiallt' type='radio' onclick='purge(binomialAnswerDiv);'><label for='binomiallt'>&lt;</label>
+	<input name='bequal' id='binomialleq' type='radio' onclick='purge(binomialAnswerDiv);'><label for='binomialleq'>&leq;</label>
+	<input name='bequal' id='binomialgt' type='radio' onclick='purge(binomialAnswerDiv);'><label for='binomialgt'>&gt;</label>
+	<input name='bequal' id='binomialgeq' type='radio' onclick='purge(binomialAnswerDiv);'><label for='binomialgeq'>&geq;</label>
+	</td><td></td><td><input type='text' id='binomialx' value="50" onkeydown='purge(binomialAnswerDiv);'> <b>)</b></td></tr>
+	</table>
+	<button onclick="calculateBinomialDistribution();">Calculate</button><br>
+	<div id='binomialAnswerDiv' class='answerDiv'>
+	<span id="binomialanswer"></span><br>
+	<canvas id='binomialcanvas' width="400" height="200"></canvas>
+	</div>
+	</div>
+	<script>
+	//binomial distribution ---------------------------------------------------------------------
+	function calculateBinomialDistribution(){
 	try{
-		calculatorOutput.innerHTML='&gt;&nbsp;'+calculatorInput.value+'<br>--&gt;&nbsp;'+eval(fixExponents(calculatorInput.value))+'<br>'+calculatorOutput.innerHTML;
-		calculatorInput.value='';
+		var n=eval(binomialn.value);
+		var p=eval(binomialp.value);
+		var x=eval(binomialx.value);
+		
+		var a,b;
+		if (!(n>0))
+			alert('The number of trials should be greater than 0.');
+		else if (!((0<p) && (p<1)))
+			alert('The probability of success should be between 0 and 1.');
+		else if (!((0<=x) && (x<=n)))
+			alert('The target value should be between 0 and n.');
+		else{
+			if (binomialequal.checked){
+				binomialanswer.innerHTML='Probability='+binompdf(n,p,x).TOFIXED(printPrecision);
+				a=x;
+				b=x;
+				}
+			else if (binomiallt.checked){
+				binomialanswer.innerHTML='Probability='+binomcdf(n,p,x-1).TOFIXED(printPrecision);
+				a=0;
+				b=x-1;
+				}
+			else if (binomialleq.checked){
+				binomialanswer.innerHTML='Probability='+binomcdf(n,p,x).TOFIXED(printPrecision);
+				a=0;
+				b=x;
+				}
+			else if (binomialgt.checked){
+				binomialanswer.innerHTML='Probability='+(1-binomcdf(n,p,x)).TOFIXED(printPrecision);
+				a=x+1;
+				b=n;
+				}
+			else if (binomialgeq.checked){
+				binomialanswer.innerHTML='Probability='+(1-binomcdf(n,p,x-1)).TOFIXED(printPrecision);
+				a=x;
+				b=n;
+				}
+
+			var ctx=binomialcanvas.getContext('2d');
+			var w=binomialcanvas.width;
+			var h=binomialcanvas.height;
+			var i;
+			var m=0;
+			for (i=0;i<=n;i++)
+				if (binompdf(n,p,m)<binompdf(n,p,i))
+					m=i;
+			m=binompdf(n,p,m);
+			ctx.strokeStyle='gray';
+			ctx.fillStyle='white';
+			ctx.lineWidth=w/n;
+			ctx.fillRect(0,0,w,h);
+			ctx.beginPath();
+			for (i=0;i<=n;i++){
+				ctx.moveTo(i*w/n,h);
+				ctx.lineTo(i*w/n,h-Math.ceil(binompdf(n,p,i)*h/(2*m)));
+			}
+			ctx.stroke();
+
+			ctx.strokeStyle='black';
+			ctx.beginPath();
+			for (i=a;i<=b;i++){
+				ctx.moveTo(i*w/n,h);
+				ctx.lineTo(i*w/n,h-Math.ceil(binompdf(n,p,i)*h/(2*m)));
+			}
+			ctx.stroke();
+			binomialAnswerDiv.style.display='block';
+		}
+		
 	}
 	catch(err){
 		alert('Input Error.');
 	}
 	}
-}
-//-------------------------------------------------------------------------------------------------------------------
-function calculateBinomialDistribution(){
-try{
-	var n=eval(binomialn.value);
-	var p=eval(binomialp.value);
-	var x=eval(binomialx.value);
+	//end binomial distribution------------------------------------------------------------
 
-	var a,b;
-	if (!(n>0))
-		alert('The number of trials should be greater than 0.');
-	else if (!((0<p) && (p<1)))
-		alert('The probability of success should be between 0 and 1.');
-	else if (!((0<=x) && (x<=n)))
-		alert('The target value should be between 0 and n.');
-	else{
-		if (binomialequal.checked){
-			binomialanswer.innerHTML='Probability='+binompdf(n,p,x).TOFIXED(precision);
-			a=x;
-			b=x;
-			}
-		else if (binomiallt.checked){
-			binomialanswer.innerHTML='Probability='+binomcdf(n,p,x-1).TOFIXED(precision);
-			a=0;
-			b=x-1;
-			}
-		else if (binomialleq.checked){
-			binomialanswer.innerHTML='Probability='+binomcdf(n,p,x).TOFIXED(precision);
-			a=0;
-			b=x;
-			}
-		else if (binomialgt.checked){
-			binomialanswer.innerHTML='Probability='+(1-binomcdf(n,p,x)).TOFIXED(precision);
-			a=x+1;
-			b=n;
-			}
-		else if (binomialgeq.checked){
-			binomialanswer.innerHTML='Probability='+(1-binomcdf(n,p,x-1)).TOFIXED(precision);
-			a=x;
-			b=n;
-			}
-
-		var ctx=binomialcanvas.getContext('2d');
-		var w=binomialcanvas.width;
-		var h=binomialcanvas.height;
-		var i;
-		var m=0;
-		for (i=0;i<=n;i++)
-			if (binompdf(n,p,m)<binompdf(n,p,i))
-				m=i;
-		m=binompdf(n,p,m);
-		ctx.strokeStyle='gray';
-		ctx.fillStyle='white';
-		ctx.lineWidth=w/n;
-		ctx.fillRect(0,0,w,h);
-		ctx.beginPath();
-		for (i=0;i<=n;i++){
-			ctx.moveTo(i*w/n,h);
-			ctx.lineTo(i*w/n,h-Math.ceil(binompdf(n,p,i)*h/(2*m)));
-		}
-		ctx.stroke();
-
-		ctx.strokeStyle='black';
-		ctx.beginPath();
-		for (i=a;i<=b;i++){
-			ctx.moveTo(i*w/n,h);
-			ctx.lineTo(i*w/n,h-Math.ceil(binompdf(n,p,i)*h/(2*m)));
-		}
-		ctx.stroke();
-		binomialAnswerDiv.style.display='block';
-	}
-	
-}
-catch(err){
-	alert('Input Error.');
-}
-}
-function calculatePoissonDistribution(){
-try{
-	var m=eval(poissonm.value);
-	var x=eval(poissonx.value);
-	var n=2*m;
-	var a,b;
-	if (!(m>0))
-		alert('The mean should be greater than 0.');
-	else if (!(x>=0))
-		alert('The target value of x should be greater than or equal to 0.');
-	else{
-		if (poissonequal.checked){
-			poissonanswer.innerHTML='Probability='+poissonpdf(m,x).TOFIXED(precision);
-			a=x;
-			b=x;
-			}
-		else if (poissonlt.checked){
-			poissonanswer.innerHTML='Probability='+poissoncdf(m,x-1).TOFIXED(precision);
-			a=0;
-			b=x-1;
-			}
-		else if (poissonleq.checked){
-			poissonanswer.innerHTML='Probability='+poissoncdf(m,x).TOFIXED(precision);
-			a=0;
-			b=x;
-			}
-		else if (poissongt.checked){
-			poissonanswer.innerHTML='Probability='+(1-poissoncdf(m,x)).TOFIXED(precision);
-			a=x+1;
-			b=n;
-			}
-		else if (poissongeq.checked){
-			poissonanswer.innerHTML='Probability='+(1-poissoncdf(m,x-1)).TOFIXED(precision);
-			a=x;
-			b=n;
-			}
-
-		var ctx=poissoncanvas.getContext('2d');
-		var w=poissoncanvas.width;
-		var h=poissoncanvas.height;
-		var i;
-		var M=0;
-		for (i=0;i<=n;i++)
-			if (poissonpdf(m,M)<poissonpdf(m,i))
-				M=i;
-		M=poissonpdf(m,M);
-		ctx.strokeStyle='gray';
-		ctx.fillStyle='white';
-		ctx.lineWidth=w/n;
-		ctx.fillRect(0,0,w,h);
-		ctx.beginPath();
-		for (i=0;i<=n;i++){
-			ctx.moveTo(i*w/n,h);
-			ctx.lineTo(i*w/n,h-Math.ceil(poissonpdf(m,i)*h/(2*M)));
-		}
-		ctx.stroke();
-
-		ctx.strokeStyle='black';
-		ctx.beginPath();
-		for (i=a;i<=b;i++){
-			ctx.moveTo(i*w/n,h);
-			ctx.lineTo(i*w/n,h-Math.ceil(poissonpdf(m,i)*h/(2*M)));
-		}
-		ctx.stroke();
-		poissonAnswerDiv.style.display='block';
-	}
-	
-}
-catch(err){
-	alert('Input Error.');
-}
-}
-function calculateNormalDistribution(){
-try{
-	var m=eval(normalm.value);
-	var s=eval(normals.value);
-	var a=eval(normala.value);
-	var b=eval(normalb.value);
-
-	if (!(s>0))
-		alert('The standard deviation should be greater than 0.');
-	else{
-		var z1=(a-m)/s;
-		var z2=(b-m)/s;
-		normalanswer.innerHTML='Probability='+normalcdf(z1,z2).TOFIXED(precision);
-
-		var ctx=normalcanvas.getContext('2d');
-		var w=normalcanvas.width;
-		var h=normalcanvas.height;
-		var i,z;
-
-		ctx.strokeStyle='gray';
-		ctx.fillStyle='white';
-		ctx.lineWidth=1;
-		ctx.fillRect(0,0,w,h);
-		ctx.beginPath();
-		for (i=0;i<=w;i++){
-			ctx.moveTo(i,h);
-			z=(i-w/2)/(w/6);
-			ctx.lineTo(i,h-Math.ceil(h*normalpdf(z)));
-		}
-		ctx.stroke();
-
-		ctx.strokeStyle='black';
-		ctx.beginPath();
-		for (i=0;i<=w;i++){
-			ctx.moveTo(i,h);
-			z=(i-w/2)/(w/6);
-			if ((z1<=z) && (z<=z2))
-				ctx.lineTo(i,h-Math.ceil(h*normalpdf(z)));
-		}
-		ctx.stroke();
-		normalAnswerDiv.style.display='block';
-	}
-	
-}
-catch(err){
-	alert('Input Error.');
-}	
-	}
-function calculateInverseNormalDistribution(){
-try{
-	var m=eval(invnormalm.value);
-	var s=eval(invnormals.value);
-	var a=eval(invnormarea.value);
-	var i,z1,z2;
-
-	if (!(s>0))
-		alert('The standard deviation should be greater than 0;');
-	else if (!((0<a) && (a<1)))
-		alert('The area should be between 0 and 1.');
-	else{
-		if (invnormright.checked)
-			a=1-a;
-		else if (invnormmiddle.checked)
-			a=(1-a)/2;
-		var z=invnorm(a);
-		if  (invnormmiddle.checked)
-			invnormanswer.innerHTML=''+(m-s*abs(z)).TOFIXED(precision)+' to '+(m+s*abs(z)).TOFIXED(precision);
-		else
-			invnormanswer.innerHTML=''+(m+s*z).TOFIXED(precision);
-		var ctx=invnormalcanvas.getContext('2d');
-		var w=invnormalcanvas.width;
-		var h=invnormalcanvas.height;
-
-		if (invnormleft.checked){
-			z1=-9;
-			z2=z;
-		}
-		else if (invnormright.checked){
-			z1=z;
-			z2=9;
-		}
+	</script>
+<!--------------------------------------------------------------------------------------------------------------------------------------------->
+<li><button class='expander' data-open='poissonCalcDiv' data-close='binomialCalcDiv,normalCalcDiv,invnormalCalcDiv,tCalcDiv,invtCalcDiv,chi2CalcDiv,invchi2CalcDiv'>Poisson</button></li>
+	<div id='poissonCalcDiv' class='expandable'>
+	<table>
+	<tr><td>Mean: 		</td> <td><b>&mu;=</b> </td><td><input type='text' id='poissonm' value="55" onkeydown='purge(poissonAnswerDiv);'></td></tr>
+	<tr><td><b>P(x </b>
+	<input name='pequal' id='poissonequal' type='radio' checked=true onclick='purge(poissonAnswerDiv);'><label for='poissonequal'>=</label>
+	<input name='pequal' id='poissonlt' type='radio' onclick='purge(poissonAnswerDiv);'><label for='poissonlt'>&lt;</label>
+	<input name='pequal' id='poissonleq' type='radio' onclick='purge(poissonAnswerDiv);'><label for='poissonleq'>&leq;</label>
+	<input name='pequal' id='poissongt' type='radio' onclick='purge(poissonAnswerDiv);'><label for='poissongt'>&gt;</label>
+	<input name='pequal' id='poissongeq' type='radio' onclick='purge(poissonAnswerDiv);'><label for='poissongeq'>&geq;</label>
+	</td><td></td><td><input type='text' id='poissonx' value="50" onkeydown='purge(poissonAnswerDiv);'> <b>)</b></td></tr>
+	</table>
+	<button onclick="calculatePoissonDistribution();">Calculate</button><br>
+	<div id='poissonAnswerDiv' class='answerDiv'>
+	<span id="poissonanswer"></span><br>
+	<canvas id='poissoncanvas' width="400" height="200"></canvas>
+	</div>
+	</div>
+	<script>
+	//poisson distribtuion ------------------------------------------------------------------
+	function calculatePoissonDistribution(){
+	try{
+		var m=eval(poissonm.value);
+		var x=eval(poissonx.value);
+		var n=2*m;
+		var a,b;
+		if (!(m>0))
+			alert('The mean should be greater than 0.');
+		else if (!(x>=0))
+			alert('The target value of x should be greater than or equal to 0.');
 		else{
-			z1=-abs(z);
-			z2=abs(z);
-		}
+			if (poissonequal.checked){
+				poissonanswer.innerHTML='Probability='+poissonpdf(m,x).TOFIXED(printPrecision);
+				a=x;
+				b=x;
+				}
+			else if (poissonlt.checked){
+				poissonanswer.innerHTML='Probability='+poissoncdf(m,x-1).TOFIXED(printPrecision);
+				a=0;
+				b=x-1;
+				}
+			else if (poissonleq.checked){
+				poissonanswer.innerHTML='Probability='+poissoncdf(m,x).TOFIXED(printPrecision);
+				a=0;
+				b=x;
+				}
+			else if (poissongt.checked){
+				poissonanswer.innerHTML='Probability='+(1-poissoncdf(m,x)).TOFIXED(printPrecision);
+				a=x+1;
+				b=n;
+				}
+			else if (poissongeq.checked){
+				poissonanswer.innerHTML='Probability='+(1-poissoncdf(m,x-1)).TOFIXED(printPrecision);
+				a=x;
+				b=n;
+				}
 
-		ctx.strokeStyle='gray';
-		ctx.fillStyle='white';
-		ctx.lineWidth=1;
-		ctx.fillRect(0,0,w,h);
-		ctx.beginPath();
-		for (i=0;i<=w;i++){
-			ctx.moveTo(i,h);
-			z=(i-w/2)/(w/6);
-			ctx.lineTo(i,h-Math.ceil(h*normalpdf(z)));
-		}
-		ctx.stroke();
-
-		ctx.strokeStyle='black';
-		ctx.beginPath();
-		for (i=0;i<=w;i++){
-			ctx.moveTo(i,h);
-			z=(i-w/2)/(w/6);
-			if ((z1<=z) && (z<=z2))
-				ctx.lineTo(i,h-Math.ceil(h*normalpdf(z)));
-		}
-		ctx.stroke();
-			invnormAnswerDiv.style.display='block';
-		}
-	}
-
-catch(err){
-	alert('Input Error.');
-}	
-	}
-function CalculateTIntervalFromData(){
-try{
-	var i;
-	var thelist;
-	var cl=eval(tintervaldcl.value);
-	for (i=0;i<numlists;i++)
-		if (document.getElementById('tintervallist'+i).checked)
-			thelist=i;
-	if (listn[thelist]==0)
-		alert('The data list is empty.');
-	else if (!((0<cl) && (cl<1)))
-		alert('The confidence level should be between 0 and 1.');
-	else{
-		var m=listm[thelist];
-		var s=listsd[thelist];
-		var n=listn[thelist];
-		var t=abs(invt(0.5*(1-cl), n-1));
-		var e=t*s/sqrt(n);
-		tintervaldanswer.innerHTML=(m-e).TOFIXED(precision)+' &lt; &mu; &lt; '+(m+e).TOFIXED(precision)+'<br><font style="text-decoration: overline;">X</font>='+m.TOFIXED(precision)+'<br>E='+e.TOFIXED(precision);
-	tintervaldanswer.style.display='block';
-	}
-}
-catch(err){
-	alert('Input Error.');
-}	
-}
-function CalculatePInterval(){
-try{
-	var x=eval(pintervalx.value);
-	var n=eval(pintervaln.value);
-	var cl=eval(pintervalcl.value);
-
-	if (!(n>0))
-		alert('The sample size should be greater than 0.');
-	else if(!(x>0))
-		alert('The number of successes should be greater than 0.');
-	else if (!(x<n))
-		alert('The number of successes should be less than the sample size.');
-	else if (!((0<cl) && (cl<1)))
-		alert('The confidence level should be between 0 and 1.');
-	else {
-		var z=abs(invnorm((1-cl)/2));
-		var p=x/n;
-		var e=z*sqrt(p*(1-p)/n);
-		pintervalanswer.innerHTML=(p-e).TOFIXED(precision)+' &lt; p &lt; '+(p+e).TOFIXED(precision)+'<br>E='+e.TOFIXED(precision);
-		pintervalanswer.style.display='block';
-	}
-}
-catch(err){
-	alert('Input Error.');
-}	
-}
-function CalculateTIntervalFromSummaryStatistics(){
-try{
-	var m=eval(tintervalssm.value);
-	var s=eval(tintervalsss.value);
-	var n=eval(tintervalssn.value);
-	var cl=eval(tintervalsscl.value);
-	if (isNaN(m*s*n*cl)) alert('Input Error.');
-	else if (!(n>0))
-		alert('The sample size should be greater than 0.');
-	else if (!(s>0))
-		alert('The standard deviation should be greater than 0.');
-	else if (!((0<cl) && (cl<1)))
-		alert('The confidence level should be between 0 and 1.');
-	else{
-		var t=abs(invt(0.5*(1-cl), n-1));
-		var e=t*s/sqrt(n);
-		tintervalssanswer.innerHTML=(m-e).TOFIXED(precision)+' &lt; &mu; &lt; '+(m+e).TOFIXED(precision)+'<br>E='+e.TOFIXED(precision);
-		tintervalssanswer.style.display='block';
-	}
-}
-catch(err){
-	alert('Input Error.');
-}	
-}
-
-
-function CalculateTTestFromSummaryStatistics(){
-try{
-	var m=eval(ttestssm.value);
-	var hm=eval(ttestssclaimedm.value);
-	var s=eval(ttestsss.value);
-	var n=eval(ttestssn.value);
-	var z,p,z1,z2;
-	
-	if (isNaN(m*hm*s*n)) alert('Input Error.');
-	else if (!(n>0)) alert('The sample size should be a positive number.');
-	else if (!(s>0)) alert('The standard deviation should be a positive number.');
-	else{
-		z=(m-hm)/(s/sqrt(n));
-		if (ttestsslt.checked){
-			p=tcdf(z,n-1);
-			z1=-9;
-			z2=z;
+			var ctx=poissoncanvas.getContext('2d');
+			var w=poissoncanvas.width;
+			var h=poissoncanvas.height;
+			var i;
+			var M=0;
+			for (i=0;i<=n;i++)
+				if (poissonpdf(m,M)<poissonpdf(m,i))
+					M=i;
+			M=poissonpdf(m,M);
+			ctx.strokeStyle='gray';
+			ctx.fillStyle='white';
+			ctx.lineWidth=w/n;
+			ctx.fillRect(0,0,w,h);
+			ctx.beginPath();
+			for (i=0;i<=n;i++){
+				ctx.moveTo(i*w/n,h);
+				ctx.lineTo(i*w/n,h-Math.ceil(poissonpdf(m,i)*h/(2*M)));
 			}
-		else if (ttestssgt.checked){
-			p=1-tcdf(z,n-1);
-			z1=z;
-			z2=9;
+			ctx.stroke();
+
+			ctx.strokeStyle='black';
+			ctx.beginPath();
+			for (i=a;i<=b;i++){
+				ctx.moveTo(i*w/n,h);
+				ctx.lineTo(i*w/n,h-Math.ceil(poissonpdf(m,i)*h/(2*M)));
 			}
+			ctx.stroke();
+			poissonAnswerDiv.style.display='block';
+		}
+		
+	}
+	catch(err){
+		alert('Input Error.');
+	}
+	}
+	//end poisson distribution ----------------------------------------------------------
+
+	</script>
+<!--------------------------------------------------------------------------------------------------------------------------------------------->
+<li><button class='expander' data-open='normalCalcDiv' data-close='binomialCalcDiv,poissonCalcDiv,invnormalCalcDiv,tCalcDiv,invtCalcDiv,chi2CalcDiv,invchi2CalcDiv'>Normal</button></li>
+	<div id='normalCalcDiv' class='expandable'>
+	<table>
+	<tr><td>Mean: 			</td> <td><b>&mu;=</b> </td><td><input type='text' id='normalm' value="0" onkeydown='purge(normalAnswerDiv);'></td></tr>
+	<tr><td>Standard Deviation:  	</td> <td><b>&sigma;=</b></td><td><input type='text' id='normals' value="1" onkeydown='purge(normalAnswerDiv);'></td></tr>
+	<tr><td><b>P(</b> <input type='text' id='normala' value="-1" onkeydown='purge(normalAnswerDiv);'> </td><td>&lt; x &lt; </td><td><input type='text' id='normalb' value="1" onkeydown='purge(normalAnswerDiv);'><b>)</b></td>
+	</tr>
+	</table>
+	<button onclick="calculateNormalDistribution();">Calculate</button><br>
+	<div id='normalAnswerDiv' class='answerDiv'>
+	<span id="normalanswer"></span><br>
+	<canvas id='normalcanvas' width="400" height="200"></canvas>
+	</div>
+	</div>
+	<script>
+
+	function calculateNormalDistribution(){
+	try{
+		var m=eval(normalm.value);
+		var s=eval(normals.value);
+		var a=eval(normala.value);
+		var b=eval(normalb.value);
+
+		if (!(s>0))
+			alert('The standard deviation should be greater than 0.');
 		else{
-			p=2*tcdf(-abs(z),n-1);
-			z1=-9;
-			z2=-abs(z);
-			}
-		ttestssanswer.innerHTML='P='+p.TOFIXED(precision)+'<br>t='+z.TOFIXED(precision);
+			var z1=(a-m)/s;
+			var z2=(b-m)/s;
+			normalanswer.innerHTML='Probability='+normalcdf(z1,z2).TOFIXED(printPrecision);
 
-		var i;
-		var ctx=ttestsscanvas.getContext('2d');
-		var w=ttestsscanvas.width;
-		var h=ttestsscanvas.height;
-
-		ctx.strokeStyle='gray';
-		ctx.fillStyle='white';
-		ctx.lineWidth=1;
-		ctx.fillRect(0,0,w,h);
-		ctx.beginPath();
-		for (i=0;i<=w;i++){
-			ctx.moveTo(i,h);
-			z=(i-w/2)/(w/6);
-			ctx.lineTo(i,h-Math.ceil(h*normalpdf(z)));
-		}
-		ctx.stroke();
-
-		ctx.strokeStyle='black';
-		ctx.beginPath();
-		for (i=0;i<=w;i++){
-			ctx.moveTo(i,h);
-			z=(i-w/2)/(w/6);
-			if ((z1<=z) && (z<=z2))
-				ctx.lineTo(i,h-Math.ceil(h*normalpdf(z)));
-		}
-		if (ttestssne.checked){
-			z1=abs(z2);
-			z2=9;
-			for (i=0;i<=w;i++){
-				ctx.moveTo(i,h);
-				z=(i-w/2)/(w/6);
-				if ((z1<=z) && (z<=z2))
-					ctx.lineTo(i,h-Math.ceil(h*normalpdf(z)));
-			}
-		}
-		ctx.stroke();
-		ttestssAnswerDiv.style.display='block';
-	}
-}
-catch(err){
-	alert('Input Error.');
-}	
-}
-
-function CalculateTTestFromData(){
-try{
-	var thelist=0;
-	var i;
-	for (i=0;i<numlists;i++)
-		if (document.getElementById('ttestlist'+i).checked) thelist=i;
-	if (listn[thelist]==0) alert('The selected list is empty.');	
-	else{
-		var m=listm[thelist];
-		var hm=eval(ttestdclaimedm.value);
-		if (isNaN(hm)) alert('Input Error.');
-		else{
-			var s=listsd[thelist];
-			var n=listn[thelist];
-			var z,p,z1,z2;
-			z=(m-hm)/(s/sqrt(n));
-			if (ttestdlt.checked){
-				p=tcdf(z,n-1);
-				z1=-9;
-				z2=z;
-				}
-			else if (ttestdgt.checked){
-				p=1-tcdf(z,n-1);
-				z1=z;
-				z2=9;
-				}
-			else{
-				p=2*tcdf(-abs(z),n-1);
-				z1=-9;
-				z2=-abs(z);
-				}
-			ttestdanswer.innerHTML='P='+p.TOFIXED(precision)+'<br>t='+z.TOFIXED(precision);
-			var can=ttestdcanvas;
-			var ctx=can.getContext('2d');
-			var w=can.width;
-			var h=can.height;
+			var ctx=normalcanvas.getContext('2d');
+			var w=normalcanvas.width;
+			var h=normalcanvas.height;
+			var i,z;
 
 			ctx.strokeStyle='gray';
 			ctx.fillStyle='white';
@@ -1607,25 +1671,968 @@ try{
 				if ((z1<=z) && (z<=z2))
 					ctx.lineTo(i,h-Math.ceil(h*normalpdf(z)));
 			}
-			if (ttestdne.checked){
+			ctx.stroke();
+			normalAnswerDiv.style.display='block';
+		}
+		
+	}
+	catch(err){
+		alert('Input Error.');
+	}	
+		}
+	</script>
+<!--------------------------------------------------------------------------------------------------------------------------------------------->
+<li><button class='expander' data-open='invnormalCalcDiv' data-close='binomialCalcDiv,poissonCalcDiv,normalCalcDiv,tCalcDiv,invtCalcDiv,chi2CalcDiv,invchi2CalcDiv'>Inverse Normal</button></li>
+	<div id='invnormalCalcDiv' class='expandable'>
+	<table>
+	<tr><td>Mean: 			</td> <td><b>&mu;=</b> </td><td><input type='text' id='invnormalm' value="0" onkeydown='purge(invnormAnswerDiv);'></td></tr>
+	<tr><td>Standard Deviation:  	</td> <td><b>&sigma;=</b></td><td><input type='text' id='invnormals' value="1" onkeydown='purge(invnormAnswerDiv);'></td></tr>
+	<tr><td>
+	<input type='radio' name='invnormtype' id='invnormleft' checked=true onclick='purge(invnormAnswerDiv);'><label for='invnormleft'>Left Tail</label>
+	<input type='radio' name='invnormtype' id='invnormmiddle' onclick='purge(invnormAnswerDiv);'><label for='invnormmiddle'>Middle</label>
+	<input type='radio' name='invnormtype' id='invnormright' onclick='purge(invnormAnswerDiv);'><label for='invnormright'>Right Tail</label>
+	</td></tr>
+	<tr><td><b></td><td>Area: </td><td><input type='text' id='invnormarea' value=".05" onkeydown='purge(invnormAnswerDiv);'></td></tr>
+	</tr></table>
+	<button onclick="calculateInverseNormalDistribution();">Calculate</button><br>
+	<div id='invnormAnswerDiv' class='answerDiv'>
+	<span id="invnormanswer"></span><br><canvas id='invnormalcanvas' width="400" height="200"></canvas>
+	</div>
+	</div>
+	<script>
+
+	function calculateInverseNormalDistribution(){
+	try{
+		var m=eval(invnormalm.value);
+		var s=eval(invnormals.value);
+		var a=eval(invnormarea.value);
+		var i,z1,z2;
+
+		if (!(s>0))
+			alert('The standard deviation should be greater than 0;');
+		else if (!((0<a) && (a<1)))
+			alert('The area should be between 0 and 1.');
+		else{
+			if (invnormright.checked)
+				a=1-a;
+			else if (invnormmiddle.checked)
+				a=(1-a)/2;
+			var z=invnorm(a);
+			if  (invnormmiddle.checked)
+				invnormanswer.innerHTML=''+(m-s*abs(z)).TOFIXED(printPrecision)+' to '+(m+s*abs(z)).TOFIXED(printPrecision);
+			else
+				invnormanswer.innerHTML=''+(m+s*z).TOFIXED(printPrecision);
+			var ctx=invnormalcanvas.getContext('2d');
+			var w=invnormalcanvas.width;
+			var h=invnormalcanvas.height;
+
+			if (invnormleft.checked){
+				z1=-9;
+				z2=z;
+			}
+			else if (invnormright.checked){
+				z1=z;
+				z2=9;
+			}
+			else{
+				z1=-abs(z);
+				z2=abs(z);
+			}
+
+			ctx.strokeStyle='gray';
+			ctx.fillStyle='white';
+			ctx.lineWidth=1;
+			ctx.fillRect(0,0,w,h);
+			ctx.beginPath();
+			for (i=0;i<=w;i++){
+				ctx.moveTo(i,h);
+				z=(i-w/2)/(w/6);
+				ctx.lineTo(i,h-Math.ceil(h*normalpdf(z)));
+			}
+			ctx.stroke();
+
+			ctx.strokeStyle='black';
+			ctx.beginPath();
+			for (i=0;i<=w;i++){
+				ctx.moveTo(i,h);
+				z=(i-w/2)/(w/6);
+				if ((z1<=z) && (z<=z2))
+					ctx.lineTo(i,h-Math.ceil(h*normalpdf(z)));
+			}
+			ctx.stroke();
+				invnormAnswerDiv.style.display='block';
+			}
+		}
+
+	catch(err){
+		alert('Input Error.');
+	}	
+		}
+	</script>
+<!--------------------------------------------------------------------------------------------------------------------------------------------->
+<li><button class='expander' data-open='tCalcDiv' data-close='binomialCalcDiv,poissonCalcDiv,normalCalcDiv,invnormalCalcDiv,invtCalcDiv,chi2CalcDiv,invchi2CalcDiv'>t</button></li>
+	<div id='tCalcDiv' class='expandable'>
+	<table>
+	<tr><td>Mean: 			</td> <td><b>&mu;=</b> </td><td><input type='text' id='tm' value="0" onkeydown='purge(tAnswerDiv);'></td></tr>
+	<tr><td>Standard Deviation:  	</td> <td><b>&sigma;=</b></td><td><input type='text' id='ts' value="1" onkeydown='purge(tAnswerDiv);'></td></tr>
+	<tr><td>Degrees of Freedom:  	</td> <td><b>df=</b></td><td><input type='text' id='tdf' value="10" onkeydown='purge(tAnswerDiv);'></td></tr>
+	<tr><td><b>P(</b> <input type='text' id='ta' value="-1" onkeydown='purge(tAnswerDiv);'> </td><td>&lt; x &lt; </td><td><input type='text' id='tb' value="1" onkeydown='purge(tAnswerDiv);'><b>)</b></td>
+	</tr>
+	</table>
+	<button onclick="calculateTDistribution();">Calculate</button><br>
+	<div id='tAnswerDiv' class='answerDiv'>
+	<span id="tanswer"></span><br>
+	<canvas id='tcanvas' width="400" height="200"></canvas>
+	</div>
+	</div>
+<script>
+
+	function calculateTDistribution(){
+	try{
+		var m=eval(tm.value);
+		var s=eval(ts.value);
+		var a=eval(ta.value);
+		var df=eval(tdf.value);
+		var b=eval(tb.value);
+
+		if (!(s>0))
+			alert('The standard deviation should be greater than 0.');
+		else{
+			var z1=(a-m)/s;
+			var z2=(b-m)/s;
+			tanswer.innerHTML='Probability='+tcdf(z1,z2,df).TOFIXED(printPrecision);
+			tAnswerDiv.style.display='block';
+			}
+//==========================
+			var ctx=tcanvas.getContext('2d');
+			var w=tcanvas.width;
+			var h=tcanvas.height;
+			var i,z;
+
+			ctx.strokeStyle='gray';
+			ctx.fillStyle='white';
+			ctx.lineWidth=1;
+			ctx.fillRect(0,0,w,h);
+			ctx.beginPath();
+			for (i=0;i<=w;i++){
+				ctx.moveTo(i,h);
+				z=(i-w/2)/(w/6);
+				ctx.lineTo(i,h-Math.ceil(h*tpdf(z,df)));
+			}
+			ctx.stroke();
+
+			ctx.strokeStyle='black';
+			ctx.beginPath();
+			for (i=0;i<=w;i++){
+				ctx.moveTo(i,h);
+				z=(i-w/2)/(w/6);
+				if ((z1<=z) && (z<=z2))
+					ctx.lineTo(i,h-Math.ceil(h*tpdf(z,df)));
+			}
+			ctx.stroke();
+			tAnswerDiv.style.display='block';
+//=========================
+
+	}
+	
+	catch(err){
+		alert('Input Error.');
+	}	
+		}
+</script>
+
+<!--------------------------------------------------------------------------------------------------------------------------------------------->
+<li><button class='expander' data-open='invtCalcDiv' data-close='binomialCalcDiv,poissonCalcDiv,normalCalcDiv,invnormalCalcDiv,tCalcDiv,chi2CalcDiv,invchi2CalcDiv'>Inverse t</button></li>
+	<div id='invtCalcDiv' class='expandable'>
+	<table>
+	<tr><td>Mean: 			</td> <td><b>&mu;=</b> </td><td><input type='text' id='invtm' value="0" onkeydown='purge(invtAnswerDiv);'></td></tr>
+	<tr><td>Standard Deviation:  	</td> <td><b>&sigma;=</b></td><td><input type='text' id='invts' value="1" onkeydown='purge(invtAnswerDiv);'></td></tr>
+	<tr><td>Degrees of Freedom:  	</td> <td><b>df=</b></td><td><input type='text' id='invtdf' value="10" onkeydown='purge(invtAnswerDiv);'></td></tr>
+	<tr><td>
+	<input type='radio' name='invttype' id='invtleft' checked=true onclick='purge(invtAnswerDiv);'><label for='invtleft'>Left Tail</label>
+	<input type='radio' name='invttype' id='invtmiddle' onclick='purge(invtAnswerDiv);'><label for='invtmiddle'>Middle</label>
+	<input type='radio' name='invttype' id='invtright' onclick='purge(invtAnswerDiv);'><label for='invtright'>Right Tail</label>
+	</td></tr>
+	<tr><td><b></td><td>Area: </td><td><input type='text' id='invtarea' value=".05" onkeydown='purge(invtAnswerDiv);'></td></tr>
+	</tr></table>
+	<button onclick="calculateInverseTDistribution();">Calculate</button><br>
+	<div id='invtAnswerDiv' class='answerDiv'>
+	<span id="invtanswer"></span><br><canvas id='invtcanvas' width="400" height="200"></canvas>
+	</div>
+	</div>
+
+	<script>
+
+	function calculateInverseTDistribution(){
+	try{
+		var m=eval(invtm.value);
+		var s=eval(invts.value);
+		var df=eval(invtdf.value);
+		var a=eval(invtarea.value);
+		var i,z1,z2;
+
+		if (!(s>0))
+			alert('The standard deviation should be greater than 0;');
+		else if (!((0<a) && (a<1)))
+			alert('The area should be between 0 and 1.');
+		else{
+			if (invtright.checked)
+				a=1-a;
+			else if (invtmiddle.checked)
+				a=(1-a)/2;
+			var z=invt(a,df); console.log('back from invt');
+			if  (invnormmiddle.checked)
+				invtanswer.innerHTML=''+(m-s*abs(z)).TOFIXED(printPrecision)+' to '+(m+s*abs(z)).TOFIXED(printPrecision);
+			else
+				invtanswer.innerHTML=''+(m+s*z).TOFIXED(printPrecision);
+			var ctx=invtcanvas.getContext('2d');
+			var w=invtcanvas.width;
+			var h=invtcanvas.height;
+
+			if (invtleft.checked){
+				z1=-9;
+				z2=z;
+			}
+			else if (invtright.checked){
+				z1=z;
+				z2=9;
+			}
+			else{
+				z1=-abs(z);
+				z2=abs(z);
+			}
+
+			ctx.strokeStyle='gray';
+			ctx.fillStyle='white';
+			ctx.lineWidth=1;
+			ctx.fillRect(0,0,w,h);
+			ctx.beginPath();
+			for (i=0;i<=w;i++){
+				ctx.moveTo(i,h);
+				z=(i-w/2)/(w/6);
+				ctx.lineTo(i,h-Math.ceil(h*tpdf(z,df)));
+			}
+			ctx.stroke();
+
+			ctx.strokeStyle='black';
+			ctx.beginPath();
+			for (i=0;i<=w;i++){
+				ctx.moveTo(i,h);
+				z=(i-w/2)/(w/6);
+				if ((z1<=z) && (z<=z2))
+					ctx.lineTo(i,h-Math.ceil(h*tpdf(z,df)));
+			}
+			ctx.stroke();
+				invtAnswerDiv.style.display='block';
+			}
+		}
+
+	catch(err){
+		alert('Input Error.');
+	}	
+		}
+	</script>
+<!--------------------------------------------------------------------------------------------------------------------------------------------->
+<li><button class='expander' data-open='chi2CalcDiv' data-close='binomialCalcDiv,poissonCalcDiv,normalCalcDiv,invnormalCalcDiv,tCalcDiv,invtCalcDiv,invchi2CalcDiv'>&chi;<sup>2</sup></button></li>
+	<div id='chi2CalcDiv' class='expandable'>
+	<table>
+	<tr><td>Degrees of Freedom:  	</td> <td><b>df=</b></td><td><input type='text' id='chi2df' value="10" onkeydown='purge(chi2AnswerDiv);'></td></tr>
+	<tr><td><b>P(</b> <input type='text' id='chi2a' value="0" onkeydown='purge(chi2AnswerDiv);'> </td><td>&lt; x &lt; </td><td><input type='text' id='chi2b' value="10" onkeydown='purge(chi2AnswerDiv);'><b>)</b></td>
+	</tr>
+	</table>
+	<button onclick="calculateChi2Distribution();">Calculate</button><br>
+	<div id='chi2AnswerDiv' class='answerDiv'>
+	<span id="chi2answer"></span><br>
+	<canvas id='chi2canvas' width="400" height="200"></canvas>
+	</div>
+	</div>
+<script>
+
+	function calculateChi2Distribution(){
+	try{
+		var a=eval(chi2a.value);
+		var df=eval(chi2df.value);
+		var b=eval(chi2b.value);
+			{
+			chi2answer.innerHTML='Probability='+(chi2cdf(b,df)-chi2cdf(a,df)).TOFIXED(printPrecision);
+			chi2AnswerDiv.style.display='block';
+			}
+//==========================
+			var ctx=chi2canvas.getContext('2d');
+			var w=chi2canvas.width;
+			var h=chi2canvas.height;
+			var i,z;
+			var M;
+			if (df>2) M=chi2pdf(df-2, df);
+			else M=0.5;
+			ctx.strokeStyle='gray';
+			ctx.fillStyle='white';
+			ctx.lineWidth=1;
+			ctx.fillRect(0,0,w,h);
+			ctx.beginPath();
+			for (i=0;i<=w;i++){
+				ctx.moveTo(i,h);
+				z=(i)*(3*df)/w;
+				ctx.lineTo(i,h-Math.ceil(h*chi2pdf(z,df)/M));
+			}
+			ctx.stroke();
+
+			ctx.strokeStyle='black';
+			ctx.beginPath();
+			for (i=0;i<=w;i++){
+				ctx.moveTo(i,h);
+				z=(i)*(3*df)/w;
+				if ((a<=z) && (z<=b))
+					ctx.lineTo(i,h-Math.ceil(h*chi2pdf(z,df)/M));
+			}
+			ctx.stroke();
+			chi2AnswerDiv.style.display='block';
+//=========================
+
+	}
+	
+	catch(err){
+		alert('Input Error.');
+	}	
+		}
+</script>
+
+<!--------------------------------------------------------------------------------------------------------------------------------------------->
+<li><button class='expander' data-open='invchi2CalcDiv' data-close='binomialCalcDiv,poissonCalcDiv,normalCalcDiv,invnormalCalcDiv,tCalcDiv,invtCalcDiv,chi2CalcDiv'>Inverse &chi;<sup>2</sup></button></li>
+	<div id='invchi2CalcDiv' class='expandable'>
+	<table>
+	<tr><td>Degrees of Freedom:  	</td> <td><b>df=</b></td><td><input type='text' id='invchi2df' value="10" onkeydown='purge(invchi2AnswerDiv);'></td></tr>
+	<tr><td>
+	<input type='radio' name='invttype' id='invchi2left' checked=true onclick='purge(invchi2AnswerDiv);'><label for='invchi2left'>Left Tail</label>
+	<input type='radio' name='invttype' id='invchi2middle' onclick='purge(invchi2AnswerDiv);'><label for='invchi2middle'>Middle</label>
+	<input type='radio' name='invttype' id='invchi2right' onclick='purge(invchi2AnswerDiv);'><label for='invchi2right'>Right Tail</label>
+	</td></tr>
+	<tr><td><b></td><td>Area: </td><td><input type='text' id='invchi2area' value=".05" onkeydown='purge(invchi2AnswerDiv);'></td></tr>
+	</tr></table>
+	<button onclick="calculateInverseChi2Distribution();">Calculate</button><br>
+	<div id='invchi2AnswerDiv' class='answerDiv'>
+	<span id="invchi2answer"></span><br><canvas id='invchi2canvas' width="400" height="200"></canvas>
+	</div>
+	</div>
+
+	<script>
+
+	function calculateInverseChi2Distribution(){
+	try{
+		var df=eval(invchi2df.value);
+		var a=eval(invchi2area.value);
+		var i,z1,z2;
+		var left, right;
+
+		if (!((0<a) && (a<1)))
+			alert('The area should be between 0 and 1.');
+		else{
+			if (invchi2right.checked){
+				a=1-a;
+				left=invchi2(a, df);
+				right=Infinity;
+			}	
+			else if (invchi2middle.checked){
+				a=(1-a)/2;
+				left=invchi2(a, df);
+				right=invchi2(1-a, df);
+			}	
+			else{
+				left=0;
+				right=invchi2(a, df);
+			}
+			invchi2answer.innerHTML=''+(left).TOFIXED(printPrecision)+' to '+(right).TOFIXED(printPrecision);
+
+//==========================
+			var ctx=invchi2canvas.getContext('2d');
+			var w=invchi2canvas.width;
+			var h=invchi2canvas.height;
+			var i,z;
+			var M;
+			if (df>2) M=chi2pdf(df-2, df);
+			else M=0.5;
+			ctx.strokeStyle='gray';
+			ctx.fillStyle='white';
+			ctx.lineWidth=1;
+			ctx.fillRect(0,0,w,h);
+			ctx.beginPath();
+			for (i=0;i<=w;i++){
+				ctx.moveTo(i,h);
+				z=(i)*(3*df)/w;
+				ctx.lineTo(i,h-Math.ceil(h*chi2pdf(z,df)/M));
+			}
+			ctx.stroke();
+
+			ctx.strokeStyle='black';
+			ctx.beginPath();
+			for (i=0;i<=w;i++){
+				ctx.moveTo(i,h);
+				z=(i)*(3*df)/w;
+				if ((left<=z) && (z<=right))
+					ctx.lineTo(i,h-Math.ceil(h*chi2pdf(z,df)/M));
+			}
+			ctx.stroke();
+			invchi2AnswerDiv.style.display='block';
+		}	
+//=========================
+		}
+
+	catch(err){
+		alert('Input Error.');
+	}	
+		}
+	</script>
+<!--------------------------------------------------------------------------------------------------------------------------------------------->
+</ul>
+</div>
+</div> <!--distribution div--> 
+<!--distribution calculators--------------------------------------->
+
+
+<!--intervals-------------------------------------------------------->
+<div id='intervalsDiv' class='pageDiv expandable'>
+<div class='pageMenu'>
+<button class='expander' data-open='propIntervalDiv,intervalCLDiv' data-close='meanIntervalDiv,bootIntervalDiv'>Proportion</button>
+<button class='expander' data-open='meanIntervalDiv,intervalCLDiv' data-close='propIntervalDiv,bootIntervalDiv'>Mean</button>
+<button class='expander' data-open='bootIntervalDiv,intervalCLDiv' data-close='meanIntervalDiv,propIntervalDiv'>Bootstrap</button>
+</div>
+<div class='subPage'>
+
+
+<div id='intervalCLDiv'>
+	Confidence Level: <input type='text' id='intervalcl' value="0.95" onclick='purge(pintervalanswer);purge(tintervalssanswer);purge(bootintervalssanswer);'>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+	<div id='propIntervalDiv' class='expandable'>
+	<table>
+	<tr><td>Successes:</td> <td>x=</td><td><input type='text' id='pintervalx' value="10" onkeydown='purge(pintervalanswer);'></td></tr>
+	<tr><td>Sample Size:</td><td>n=</td><td><input type='text' id='pintervaln' value="100" onkeydown='purge(pintervalanswer);'></td></tr>
+	</table>
+	<button onclick='CalculatePInterval();'>Calculate</button>
+	<div id='pintervalanswer' class='answerDiv'></div>
+		</div>
+	<script>
+	function CalculatePInterval(){
+	try{
+		var x=eval(pintervalx.value);
+		var n=eval(pintervaln.value);
+		var cl=eval(intervalcl.value);
+
+		if (!(n>0))
+			alert('The sample size should be greater than 0.');
+		else if(!(x>0))
+			alert('The number of successes should be greater than 0.');
+		else if (!(x<n))
+			alert('The number of successes should be less than the sample size.');
+		else if (!((0<cl) && (cl<1)))
+			alert('The confidence level should be between 0 and 1.');
+		else {
+			var z=abs(invnorm((1-cl)/2));
+			var p=x/n;
+			var e=z*sqrt(p*(1-p)/n);
+			pintervalanswer.innerHTML=(p-e).TOFIXED(printPrecision)+' &lt; p &lt; '+(p+e).TOFIXED(printPrecision)+'<br>E='+e.TOFIXED(printPrecision);
+			pintervalanswer.style.display='block';
+		}
+	}
+	catch(err){
+		alert('Input Error.');
+	}	
+	}
+	</script>		
+<!------------------------------------------------------------------------------------------------------------------------>
+
+	<div id='meanIntervalDiv' class='expandable'>
+	<table>
+	<tr><td>Sample Mean:</td><td>x&#772;=</td><td><input type='text' id='tintervalssm' value="100" onkeydown='purge(tintervalssanswer);'></td></tr>
+	<tr><td>Standard Deviation:</td> <td>s=</td><td><input type='text' id='tintervalsss' value="10" onkeydown='purge(tintervalssanswer);'></td></tr>
+	<tr><td>Sample Size:</td><td>n=</td><td><input type='text' id='tintervalssn' value="100" onkeydown='purge(tintervalssanswer);'></td></tr>
+	</table>
+	
+	<button class='expander' data-open='populateTIntervalStatsDiv'>Select Data List</button><br>
+	<div id='populateTIntervalStatsDiv' class='expandable'> 
+		Data List: <br><script>printRadioList('interval')</script><br>
+		<button onclick='populateTIntervalStats();' >Populate Summary Stats</button><br>
+	</div>
+	<button onclick='CalculateTIntervalFromSummaryStatistics();' >Calculate</button>
+	<div id='tintervalssanswer' class='answerDiv'></div>
+	</div>
+	<script>
+	function CalculateTIntervalFromSummaryStatistics(){
+	try{
+		var m=eval(tintervalssm.value); 
+		var s=eval(tintervalsss.value);
+		var n=eval(tintervalssn.value);
+		var cl=eval(intervalcl.value);
+		if (isNaN(m*s*n*cl)) alert('Input Error.');
+		else if (!(n>0))
+			alert('The sample size should be greater than 0.');
+		else if (!(s>0))
+			alert('The standard deviation should be greater than 0.');
+		else if (!((0<cl) && (cl<1)))
+			alert('The confidence level should be between 0 and 1.');
+		else{
+			var t=abs(invt(0.5*(1-cl), n-1));
+			var e=t*s/sqrt(n);
+			tintervalssanswer.innerHTML=(m-e).TOFIXED(printPrecision)+' &lt; &mu; &lt; '+(m+e).TOFIXED(printPrecision)+'<br>E='+e.TOFIXED(printPrecision);
+			tintervalssanswer.style.display='block';
+		}
+	}
+	catch(err){
+		alert('Input Error.');
+	}	
+	}
+
+	function populateTIntervalStats(){
+		var inlist=0;
+		var i;
+		i=getChecked('interval');
+//		for (i=0;i<intervalradios.length;i++)
+//			if (intervalradios[i].checked) inlist=i;
+		if (listN[inlist]>0){
+			tintervalssm.value=listM[inlist];
+			tintervalsss.value=listS[inlist];
+			tintervalssn.value=listN[inlist];
+			populateTIntervalStatsDiv.style.display='none';
+		}
+		else alert('That list is empty.');
+	}
+	</script>
+<!------------------------------------------------------------------------------------------------------------------------>
+	<div id='bootIntervalDiv' class='expandable'>
+	Data List: <br><script>printRadioList('bootinterval')</script><br>
+	<button onclick='calculateBootInterval();' >Calculate</button>
+	<div id='bootintervalssanswer' class='answerDiv'></div>
+	</div>
+	<script>
+	function calculateBootInterval(){
+	try{
+		var inlist=0;
+		var i,j,r;
+		var numSamples=1000;
+		var sortedArray;
+		var lowerLimit, uperLimit, margin;
+		var cl=eval(intervalcl.value);
+		var left=(1-cl)/2;
+		var right=1-left;
+		//for (i=0;i<intervalradios.length;i++)
+		//	if (intervalradios[i].checked) inlist=i;
+		inlist=getChecked('bootinterval');
+		if (listN[inlist]>0){
+			var n=listN[inlist];
+			var sampleMeans=[];
+			var sample=[];
+			for (i=0;i<numSamples;i++){
+				sample=[];
+				for (j=0;j<n;j++)
+					sample.push(list[inlist][floor(random()*n)]);
+				r=summarizeArray(sample);
+				sampleMeans.push(r.m);
+			}
+			sortedArray=sampleMeans.toSorted(function(a, b){return a - b});
+			lowerLimit=percentileSorted(sortedArray, left);
+			upperLimit=percentileSorted(sortedArray, right);
+			margin=(upperLimit-lowerLimit)/2;
+			bootintervalssanswer.innerHTML=(lowerLimit).TOFIXED(printPrecision)+' &lt; &mu; &lt; '+(upperLimit).TOFIXED(printPrecision)+'<br>E='+margin.TOFIXED(printPrecision);
+			bootintervalssanswer.style.display='block';
+		}
+		else alert('That list is empty.');
+		}
+
+	catch(err){
+		alert('Input Error.');
+	}	
+	}	
+	</script>
+<!------------------------------------------------------------------------------------------------------------------------>
+	
+</div>
+</div> <!-- intervalsdiv -->
+<!--intervals-------------------------------------------------------->
+
+
+<!--tests------------------------------------------------------------->
+<div id='testsDiv' class='pageDiv expandable'>
+<div class='pageMenu expandable'>
+<table>
+<tr>
+<td><button class='expander' data-open='onepropDiv' data-close='twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>One Proportion</button></td>
+<td><button class='expander' data-open='twopropDiv' data-close='onepropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>Two Proportions</button> </td>
+</tr><tr>
+<td><button class='expander' data-open='onemeanDiv' data-close='onepropDiv,twopropDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>One Mean</button></td>
+<td><button class='expander' data-open='twomeanDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>Two Independent Means</button></td>
+<td><button class='expander' data-open='matchedDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>Matched Pairs</button></td>
+</tr><tr>
+<td><button class='expander' data-open='anovaDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>ANOVA</button> </td>
+<td><button class='expander' data-open='bootTestDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,gofDiv,contingencyDiv,correlationDiv'>Bootstrap</button></td>
+</tr><tr>
+<td><button class='expander' data-open='gofDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,contingencyDiv,correlationDiv'>Goodness of Fit</button></td>
+<td><button class='expander' data-open='contingencyDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,correlationDiv'>Contingency</button></td>
+</tr><tr>
+<td><button class='expander' data-open='correlationDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv'>Correlation</button></td>
+</tr>
+</table>
+</div>
+
+<ul>
+<!------------------------------------------------------------------------------------------------------------------------------------>
+<li><button class='expander' data-open='onepropDiv' data-close='twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>One Proportion</button></li>
+
+	<div id='onepropDiv' class='expandable'>
+	<table>
+	<tr><td>Successes:</td> <td>x=</td>									<td><input type='text' id='propx' value="50" onkeydown='purge(propAnswerDiv);'></td></tr>
+	<tr><td>Sample Size:</td><td>n=</td>									<td><input type='text' id='propn' value="100" onkeydown='purge(propAnswerDiv);'></td></tr>
+	</table>
+	<table>
+	<tr><td>H<sub>0</sub>:</td>	<td></td><td>&nbsp;&leq;&nbsp;</td><td>&nbsp;=&nbsp;</td><td>&nbsp;&geq;&nbsp;</td></tr>
+	<tr><td></td>	<td>p</td>
+	<td><input type='radio' name='proptype' id='propgt' checked=true onclick='purge(propAnswerDiv);'></td>
+	<td><input type='radio' name='proptype' id='propne' onclick='purge(propAnswerDiv);'></td>
+	<td><input type='radio' name='proptype' id='proplt' onclick='purge(propAnswerDiv);'></td>
+	<td><input type='text' id='propcp' value='0.5' onkeydown='purge(propAnswerDiv);'></td>
+	</tr>
+	<tr><td>H<sub>1:</sub></td><td></td>	<td>&nbsp;&gt;&nbsp;</td><td>&nbsp;&ne;&nbsp;</td><td>&nbsp;&lt;&nbsp;</td></tr>
+	</table>
+	<button onclick='CalculateOneProp();'>Calculate</button><br>
+	<div id='propAnswerDiv' class='answerDiv expandable'>
+	<div id='propanswer'></div>
+	<canvas id='propcanvas' width="400" height="100"></canvas>
+	</div>
+	</div>
+	<script>
+	function CalculateOneProp(){
+	try{
+		var n=eval(propn.value);
+		var x=round(eval(propx.value));
+		if (!(n>0)) alert ('The sample size should be a positive integer.');
+	//	else if (!(x>0)) alert('The number of successes should be a positive integer.');
+		else{
+			var phat=x/n;
+
+			var m=phat;
+			var hm=eval(propcp.value);
+			if (!((hm>0)&&(hm<1))) alert('The claimed proportion should be between 0 and 1.');
+			else{
+				var p=hm;
+				var s=sqrt(p*(1-p));
+
+				var z,z1,z2;
+				z=(m-hm)/(s/sqrt(n));
+				if (proplt.checked){
+					p=normalcdf(z);
+					z1=-9;
+					z2=z;
+					}
+				else if (propgt.checked){
+					p=1-normalcdf(z);
+					z1=z;
+					z2=9;
+					}
+				else{
+					p=2*normalcdf(-abs(z));
+					z1=-9;
+					z2=-abs(z);
+					}
+				propanswer.innerHTML='P='+p.TOFIXED(printPrecision)+'<br>z='+z.TOFIXED(printPrecision);
+				var i;
+				var can=propcanvas;
+				var ctx=can.getContext('2d');
+				var w=can.width;
+				var h=can.height;
+
+				ctx.strokeStyle='gray';
+				ctx.fillStyle='white';
+				ctx.lineWidth=1;
+				ctx.fillRect(0,0,w,h);
+				ctx.beginPath();
+				for (i=0;i<=w;i++){
+					ctx.moveTo(i,h);
+					z=(i-w/2)/(w/6);
+					ctx.lineTo(i,h-Math.ceil(200*normalpdf(z)));
+				}
+				ctx.stroke();
+
+				ctx.strokeStyle='black';
+				ctx.beginPath();
+				for (i=0;i<=w;i++){
+					ctx.moveTo(i,h);
+					z=(i-w/2)/(w/6);
+					if ((z1<=z) && (z<=z2))
+						ctx.lineTo(i,h-Math.ceil(200*normalpdf(z)));
+				}
+				if (propne.checked){
+					z1=abs(z2);
+					z2=9;
+					for (i=0;i<=w;i++){
+						ctx.moveTo(i,h);
+						z=(i-w/2)/(w/6);
+						if ((z1<=z) && (z<=z2))
+							ctx.lineTo(i,h-Math.ceil(200*normalpdf(z)));
+					}
+					
+				}
+				ctx.stroke();
+				propAnswerDiv.style.display='block';
+			}
+		}
+	}
+	catch(err){
+		alert('Input Error.');
+	}		
+	}
+	</script>
+<!------------------------------------------------------------------------------------------------------------------------------------>
+
+<li><button class='expander' data-open='onemeanDiv' data-close='meanTestDataListDiv,onepropDiv,twopropDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>One Mean</button></li>
+
+	<div id='onemeanDiv' class='expandable'>
+	<table>
+	<tr><td>Sample Mean:</td><td>x&#772;=</td><td><input type='text' id='ttestssm' value="100" onkeydown='purge(ttestssAnswerDiv);'></td></tr>
+	<tr><td>Standard Deviation:</td> <td>s=</td><td><input type='text' id='ttestsss' value="10" onkeydown='purge(ttestssAnswerDiv);'></td></tr>
+	<tr><td>Sample Size:</td><td>n=</td><td><input type='text' id='ttestssn' value="100" onkeydown='purge(ttestssAnswerDiv);'></td></tr>
+	</table>
+	<table>
+	<tr><td>H<sub>0</sub>:</td>	<td></td><td>&nbsp;&leq;&nbsp;</td><td>&nbsp;=&nbsp;</td><td>&nbsp;&geq;&nbsp;</td></tr>
+	<tr><td></td>	<td>&mu;</td>
+	<td><input type='radio' name='ttestsstype' id='ttestssgt' checked=true onclick='purge(ttestssAnswerDiv);'></td>
+	<td><input type='radio' name='ttestsstype' id='ttestssne' onclick='purge(ttestssAnswerDiv);'></td>
+	<td><input type='radio' name='ttestsstype' id='ttestsslt' onclick='purge(ttestssAnswerDiv);'></td>
+	<td><input type='text' id='ttestssclaimedm' value='100' onkeydown='purge(ttestssAnswerDiv);'></td>
+	</tr>
+	<tr><td>H<sub>1:</sub></td><td></td>	<td>&nbsp;&gt;&nbsp;</td><td>&nbsp;&ne;&nbsp;</td><td>&nbsp;&lt;&nbsp;</td></tr>
+	</table>
+	<button class='expander' data-open='meanTestDataListDiv' >Select Data List</button><br>
+	<div id='meanTestDataListDiv' class='expandable'>
+	Data List: <br>
+	<script>printRadioList('meantest');</script>
+	<button onclick='populateMeanTestStats();' >Populate Summary Stats</button><br>
+	</div>		
+	<button onclick='CalculateTTestFromSummaryStatistics();'>Calculate</button>
+	<div id='ttestssAnswerDiv' class='answerDiv expandable'>
+	<div id='ttestssanswer'></div>
+	<canvas id='ttestsscanvas' width="400" height="100"></canvas>
+	</div>
+	</div>
+	<script>
+	function CalculateTTestFromSummaryStatistics(){
+	try{
+		var m=eval(ttestssm.value);
+		var hm=eval(ttestssclaimedm.value);
+		var s=eval(ttestsss.value);
+		var n=eval(ttestssn.value);
+		var z,p,z1,z2;
+		
+		if (isNaN(m*hm*s*n)) alert('Input Error.');
+		else if (!(n>0)) alert('The sample size should be a positive number.');
+		else if (!(s>0)) alert('The standard deviation should be a positive number.');
+		else{
+			z=(m-hm)/(s/sqrt(n));
+			if (ttestsslt.checked){
+				p=tcdf(z,n-1);
+				z1=-9;
+				z2=z;
+				}
+			else if (ttestssgt.checked){
+				p=1-tcdf(z,n-1);
+				z1=z;
+				z2=9;
+				}
+			else{
+				p=2*tcdf(-abs(z),n-1);
+				z1=-9;
+				z2=-abs(z);
+				}
+			ttestssanswer.innerHTML='P='+p.TOFIXED(printPrecision)+'<br>t='+z.TOFIXED(printPrecision);
+
+			var i;
+			var ctx=ttestsscanvas.getContext('2d');
+			var w=ttestsscanvas.width;
+			var h=ttestsscanvas.height;
+
+			ctx.strokeStyle='gray';
+			ctx.fillStyle='white';
+			ctx.lineWidth=1;
+			ctx.fillRect(0,0,w,h);
+			ctx.beginPath();
+			for (i=0;i<=w;i++){
+				ctx.moveTo(i,h);
+				z=(i-w/2)/(w/6);
+				ctx.lineTo(i,h-Math.ceil(200*normalpdf(z)));
+			}
+			ctx.stroke();
+
+			ctx.strokeStyle='black';
+			ctx.beginPath();
+			for (i=0;i<=w;i++){
+				ctx.moveTo(i,h);
+				z=(i-w/2)/(w/6);
+				if ((z1<=z) && (z<=z2))
+					ctx.lineTo(i,h-Math.ceil(200*normalpdf(z)));
+			}
+			if (ttestssne.checked){
 				z1=abs(z2);
 				z2=9;
 				for (i=0;i<=w;i++){
 					ctx.moveTo(i,h);
 					z=(i-w/2)/(w/6);
 					if ((z1<=z) && (z<=z2))
-						ctx.lineTo(i,h-Math.ceil(h*normalpdf(z)));
+						ctx.lineTo(i,h-Math.ceil(200*normalpdf(z)));
 				}
 			}
 			ctx.stroke();
-			ttestdAnswerDiv.style.display='block';
+			ttestssAnswerDiv.style.display='block';
 		}
 	}
-}
-catch(err){
-	alert('Input Error.');
-}	
-}
+	catch(err){
+		alert('Input Error.');
+	}	
+	}
+
+	function populateMeanTestStats(){
+		var inlist=0;
+		var i;
+		inlist=getChecked('meantest');
+		if (listN[inlist]==0) alert ('That list is empty.');
+		else{
+			ttestssm.value=listM[inlist];
+			ttestsss.value=listS[inlist];
+			ttestssn.value=listN[inlist];
+			meanTestDataListDiv.style.display='none';
+		}
+	}
+	</script>
+<!------------------------------------------------------------------------------------------------------------------------------------>
+
+<li><button class='expander' data-open='twopropDiv' data-close='onepropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>Two Proportions</button></li>
+
+	<div id='twopropDiv' class='expandable'>
+	<table border=1>
+	<tr><th>Sample 1</th><th>Sample 2</th></tr>
+	<tr><td>
+	<table>
+	<tr><td>Successes:</td> <td>x<sub>1</sub>=</td>									<td><input type='text' id='twopropx1' value="45" onkeydown='purge(twopropanswer);'></td></tr>
+	<tr><td>Sample Size:</td><td>n<sub>1</sub>=</td>									<td><input type='text' id='twopropn1' value="100" onkeydown='purge(twopropanswer);'></td></tr>
+	</table>
+	</td><td>
+	<table>
+	<tr><td>Successes:</td> <td>x<sub>2</sub>=</td>									<td><input type='text' id='twopropx2' value="50" onkeydown='purge(twopropanswer);'></td></tr>
+	<tr><td>Sample Size:</td><td>n<sub>2</sub>=</td>									<td><input type='text' id='twopropn2' value="100" onkeydown='purge(twopropanswer);'></td></tr>
+	</table>
+	</td><tr>
+	</table>
+
+	<table>
+	<tr><td>H<sub>0</sub>:</td>	<td></td><td>&nbsp;&leq;&nbsp;</td><td>&nbsp;=&nbsp;</td><td>&nbsp;&geq;&nbsp;</td></tr>
+	<tr><td></td>	<td>p<sub>1</sub></td>
+	<td><input type='radio' name='twoproptype' id='twopropgt' checked=true onclick='purge(twopropanswer);'></td>
+	<td><input type='radio' name='twoproptype' id='twopropne' onclick='purge(twopropanswer);'></td>
+	<td><input type='radio' name='twoproptype' id='twoproplt' onclick='purge(twopropanswer);'></td>
+	<td>p<sub>2</sub></td>
+	</tr>
+	<tr><td>H<sub>1:</sub></td><td></td>	<td>&nbsp;&gt;&nbsp;</td><td>&nbsp;&ne;&nbsp;</td><td>&nbsp;&lt;&nbsp;</td></tr>
+	</table>
+	<button onclick='CalculateTwoProp();'>Calculate</button>
+	<div id='twopropanswer' class='answerDiv expandable' ></div>
+	</div>
+	<script>
+	function CalculateTwoProp(){
+	try{
+		var i,n1,p,p1hat,x1,n2,p2hat,x2;
+
+		n1=eval(twopropn1.value);
+		x1=round(eval(twopropx1.value));
+		n2=eval(twopropn2.value);
+		x2=round(eval(twopropx2.value));
+		if (!(n1>0) || !(n2>0)) alert('The sample size should be positive.');
+		else if (!(x1>0) || !(x2>0)) alert('The number of successes should be positive.');
+		else{
+			p1hat=x1/n1;
+			p2hat=x2/n2;
+			p=(x1+x2)/(n1+n2);
+
+			var m=p1hat-p2hat;
+			var hm=0;
+			var s=sqrt(p*(1-p));
+			var n=n1*n2/(n1+n2);
+
+			var z,z1,z2;
+			z=(m-hm)/(s/sqrt(n));
+			if (twoproplt.checked){
+				p=normalcdf(z);
+				z1=-9;
+				z2=z;
+				}
+			else if (twopropgt.checked){
+				p=1-normalcdf(z);
+				z1=z;
+				z2=9;
+				}
+			else{
+				p=2*normalcdf(-abs(z));
+				z1=-9;
+				z2=-abs(z);
+				}
+			twopropanswer.innerHTML='P='+p.TOFIXED(printPrecision)+'<br>z='+z.TOFIXED(printPrecision);
+			twopropanswer.style.display='block';
+		}
+	}
+	catch(err){
+		alert('Input Error.');
+	}		
+	}
+	</script>
+<!------------------------------------------------------------------------------------------------------------------------------------>
+
+<li><button class='expander' data-open='twomeanDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>Two Independent Means</button></li>
+
+	<div id='twomeanDiv' class='expandable'>
+
+<table border=1>
+<tr><th>Sample 1</th><th>Sample 2</th></tr>
+<tr><td>
+<table>
+<tr><td>Sample Mean:</td><td><font style='text-decoration: overline;'>X</font><sub>1</sub>=</td>	<td><input type='text' id='t2testssm1' value="100" onkeydown='purge(t2testssanswer);'></td></tr>
+<tr><td>Standard Deviation:</td> <td>s<sub>1</sub>=</td>									<td><input type='text' id='t2testsss1' value="10" onkeydown='purge(t2testssanswer);'></td></tr>
+<tr><td>Sample Size:</td><td>n<sub>1</sub>=</td>										<td><input type='text' id='t2testssn1' value="100" onkeydown='purge(t2testssanswer);'></td></tr>
+</table>
+	<button class='expander' data-open='meanTest2LeftDataListDiv' >Select Data List</button><br>
+	<div id='meanTest2LeftDataListDiv' class='expandable'>
+	Data List: <br>
+	<script>printRadioList('meantest2left');</script>
+	<button onclick='populateMeanTest2Stats(1);' >Populate Summary Stats</button><br>
+	</div>		
+
+</td><td>
+<table>
+<tr><td>Sample Mean:</td><td><font style='text-decoration: overline;'>X</font><sub>2</sub>=</td>	<td><input type='text' id='t2testssm2' value="100" onkeydown='purge(t2testssanswer);'></td></tr>
+<tr><td>Standard Deviation:</td> <td>s<sub>2</sub>=</td>									<td><input type='text' id='t2testsss2' value="10" onkeydown='purge(t2testssanswer);'></td></tr>
+<tr><td>Sample Size:</td><td>n<sub>2</sub>=</td>										<td><input type='text' id='t2testssn2' value="100" onkeydown='purge(t2testssanswer);'></td></tr>
+</table>
+	<button class='expander' data-open='meanTest2RightDataListDiv' >Select Data List</button><br>
+	<div id='meanTest2RightDataListDiv' class='expandable'>
+	Data List: <br>
+	<script>printRadioList('meantest2right');</script>
+	<button onclick='populateMeanTest2Stats(2);' >Populate Summary Stats</button><br>
+	</div>
+</td><tr>
+</table>
+
+<table>
+<tr><td>H<sub>0</sub>:</td>	<td></td><td>&nbsp;&leq;&nbsp;</td><td>&nbsp;=&nbsp;</td><td>&nbsp;&geq;&nbsp;</td></tr>
+<tr><td></td>	<td>&mu;<sub>1</sub></td>
+<td><input type='radio' name='t2testsstype' id='t2testssgt' checked=true onclick='purge(t2testssanswer);'></td>
+<td><input type='radio' name='t2testsstype' id='t2testssne' onclick='purge(t2testssanswer);'></td>
+<td><input type='radio' name='t2testsstype' id='t2testsslt' onclick='purge(t2testssanswer);'></td>
+<td>&mu;<sub>2</sub></td>
+</tr>
+<tr><td>H<sub>1:</sub></td><td></td>	<td>&nbsp;&gt;&nbsp;</td><td>&nbsp;&ne;&nbsp;</td><td>&nbsp;&lt;&nbsp;</td></tr>
+</table>
+<button onclick='CalculateT2TestFromSummaryStatistics();'>Calculate</button>
+<div id='t2testssanswer' class='answerDiv'></div>
+
+	</div>
+
+<script>
 
 function CalculateT2TestFromSummaryStatistics(){
 try{
@@ -1635,6 +2642,7 @@ try{
 	var m2=eval(t2testssm2.value);
 	var s2=eval(t2testsss2.value);
 	var n2=eval(t2testssn2.value);
+	
 	if (isNaN(m1*s1*n1*m2*s2*n2)) alert('Input Error.');
 	else if (!(n1>0) || !(n2>0)) alert('The sample size should be positive');
 	else if (!(s1>0) || !(s2>0)) alert('The standard deviation should be positive');
@@ -1654,7 +2662,7 @@ try{
 			p=1-tcdf(z,n-1);
 		else
 			p=2*tcdf(-abs(z),n-1);
-		t2testssanswer.innerHTML='P='+p.TOFIXED(precision)+'<br>t='+z.TOFIXED(precision);
+		t2testssanswer.innerHTML='P='+p.TOFIXED(printPrecision)+'<br>t='+z.TOFIXED(printPrecision);
 		t2testssanswer.style.display='block';
 	}
 }
@@ -1662,71 +2670,78 @@ catch(err){
 	alert('Input Error.');
 }	
 }
-
-function CalculateT2TestFromData(){
-try{
-	var list1=0;
-	var list2=0;
-	var i;
-	for (i=0;i<numlists;i++){
-		if (document.getElementById('t2testlist1'+i).checked) list1=i;
-		if (document.getElementById('t2testlist2'+i).checked) list2=i;
+	function populateMeanTest2Stats(d){
+		var inlist=0;
+		var i;
+		if (d==1){
+		inlist=getChecked('meantest2left');
+			if (listN[inlist]==0) alert ('That list is empty.');
+			else{
+				t2testssm1.value=listM[inlist];
+				t2testsss1.value=listS[inlist];
+				t2testssn1.value=listN[inlist];
+				meanTest2LeftDataListDiv.style.display='none';
+			}		
+		}
+		else{
+			inlist=getChecked('meantest2right');
+			if (listN[inlist]==0) alert ('That list is empty.');
+			else{
+				t2testssm2.value=listM[inlist];
+				t2testsss2.value=listS[inlist];
+				t2testssn2.value=listN[inlist];
+				meanTest2RightDataListDiv.style.display='none';
+			}
+		}
 	}
-	if (list1==list2) alert('Select two different lists.');
-	else if(listn[list1]*listn[list2]==0) alert('One of your lists is empty.');
-	else{
-		var m1=listm[list1];
-		var s1=listsd[list1];
-		var n1=listn[list1];
-		var m2=listm[list2];
-		var s2=listsd[list2];
-		var n2=listn[list2];
-		var m=m1-m2;
-		var hm=0;
-		var a=s1*s1/n1;
-		var b=s2*s2/n2;
-		var n=round(((a+b)*(a+b)/((a*a/(n1-1))+(b*b/(n2-1))))+1);
-		var s=sqrt(n*((s1*s1/n1)+(s2*s2/n2)));
+</script>
 
-		var z,p;
-		z=(m-hm)/(s/sqrt(n));
-		if (t2testdlt.checked)
-			p=tcdf(z,n-1);
-		else if (t2testdgt.checked)
-			p=1-tcdf(z,n-1);
-		else
-			p=2*tcdf(-abs(z),n-1);
-		t2testdanswer.innerHTML='P='+p.TOFIXED(precision)+'<br>t='+z.TOFIXED(precision);
-		t2testdanswer.style.display='block';
-	}
-}
-catch(err){
-	alert('Input Error.');
-}	
-}
+<!------------------------------------------------------------------------------------------------------------------------------------>
+<li><button class='expander' data-open='matchedDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>Matched Pairs</button></li>
+
+	<div id='matchedDiv' class='expandable'>
+	<table>
+	<tr><td>List 1:</td>
+	<td>
+	<script>printRadioList('mpradio1');</script></td></tr>
+	<tr><td>List 2:</td>
+	<td><script>printRadioList('mpradio2');</script></td></tr>
+	</table>
+
+
+<table>
+<tr><td>H<sub>0</sub>:</td>	<td></td><td>&nbsp;&leq;&nbsp;</td><td>&nbsp;=&nbsp;</td><td>&nbsp;&geq;&nbsp;</td></tr>
+<tr><td></td>	<td>&mu;<sub>d</sub></td>
+<td><input type='radio' name='mptype' id='mpgt' checked=true onclick='purge(mpanswer);'></td>
+<td><input type='radio' name='mptype' id='mpne' onclick='purge(mpanswer);'></td>
+<td><input type='radio' name='mptype' id='mplt' onclick='purge(mpanswer);'></td>
+<td>0</td>
+</tr>
+<tr><td>H<sub>1:</sub></td><td></td>	<td>&nbsp;&gt;&nbsp;</td><td>&nbsp;&ne;&nbsp;</td><td>&nbsp;&lt;&nbsp;</td></tr>
+</table>
+<button onclick='CalculateMP();'>Calculate</button>
+<div id='mpanswer' class='answerDiv'></div>
+	</div>
+	
+<script>
 function CalculateMP(){
 try{
-	var i=0;
-	var j=0;
+	var i=getChecked('mpradio1');
+	var j=getChecked('mpradio2');;
 	var k;
-	for (k=0;k<numlists;k++){
-		if (document.getElementById('mplist1'+k).checked) i=k;
-		if (document.getElementById('mplist2'+k).checked) j=k;
-	}
 	if (i==j) alert('Select two different lists.');
-	else if(listn[i]*listn[j]==0) alert('One of your lists is empty.');
-	else if (listn[i]!=listn[j]) alert('Your lists need to be the same length.');
+	else if(listN[i]*listN[j]==0) alert('One of your lists is empty.');
+	else if (listN[i]!=listN[j]) alert('Your lists need to be the same length.');
 	else{	
-		var l=numlists;
-		list[l]=[];
-		for (k=0;k<listn[i];k++)
-			list[l][k]=list[i][k]-list[j][k];
-		findListStats(l);
+		var a=[];
+		for (k=0;k<listN[i];k++)
+			a[k]=list[i][k]-list[j][k];
+		var r=summarizeArray(a);
 
-		var m=listm[l];
+		var m=r.m;
 		var hm=0;
-		var s=listsd[l];
-		var n=listn[l];
+		var s=r.s; 
+		var n=r.n;
 		var z,p,z1,z2;
 		z=(m-hm)/(s/sqrt(n));
 		if (mplt.checked){
@@ -1744,7 +2759,7 @@ try{
 			z1=-9;
 			z2=-abs(z);
 			}
-		mpanswer.innerHTML='P='+p.TOFIXED(precision)+'<br>t='+z.TOFIXED(precision);
+		mpanswer.innerHTML='P='+p.TOFIXED(printPrecision)+'<br>t='+z.TOFIXED(printPrecision);
 		mpanswer.style.display='block';
 	}
 }
@@ -1752,294 +2767,43 @@ catch(err){
 	alert('Input Error.');
 }		
 }
+</script>
 
-function CalculateANOVA(){
-try{
-	var xbb, k, sstreatment, sserror,N,mstreatment,mserror,F,P;
-	var i,j;
-	var listempty=false;
-	//k is the number of lists
-	k=0;
-	for (i=0;i<numlists;i++)
-		if (document.getElementById('anovalist'+i).checked) k++;
-	if (k==0)
-		alert('Select three or more lists.');
-	else{
-		for (i=0;i<numlists;i++) if (document.getElementById('anovalist'+i).checked && (listn[i]==0)) listempty=true;
-		if (listempty)
-			alert('One of the lists you have chosen is empty.');
-		else{
-			xbb=0;
-			N=0;
-			for (i=0;i<numlists;i++) if (document.getElementById('anovalist'+i).checked){
-				N+=listn[i];
-				xbb+=listm[i]*listn[i];
-				}
-			xbb=xbb/N;
-			sstreatment=0;
-			for (i=0;i<numlists;i++) if (document.getElementById('anovalist'+i).checked)
-				sstreatment+=listn[i]*(listm[i]-xbb)*(listm[i]-xbb);
-			sserror=0;
-			for (i=0;i<numlists;i++) if (document.getElementById('anovalist'+i).checked)
-				sserror+=(listn[i]-1)*listsd[i]*listsd[i];
-			mstreatment=sstreatment/(k-1);
-			mserror=sserror/(N-k);
-			F=mstreatment/mserror;
-			P=1-fcdf(F,k-1,N-k);
-			anovaanswer.innerHTML='P='+P.TOFIXED(precision)+'<br>F='+F.TOFIXED(precision);
-			anovaanswer.style.display='block';
-		}
-	}
-}
-catch(err){
-	alert('Input Error.');
-}		
-	}
+<!------------------------------------------------------------------------------------------------------------------------------------>
+<li><button class='expander' data-open='correlationDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv'>Correlation</button></li>
 
-function CalculateOneProp(){
-try{
-	var n=eval(propn.value);
-	var x=round(eval(propx.value));
-	if (!(n>0)) alert ('The sample size should be a positive integer.');
-//	else if (!(x>0)) alert('The number of successes should be a positive integer.');
-	else{
-		var phat=x/n;
+	<div id='correlationDiv' class='expandable'>
+	
+	<table>
+	<tr><td>X:</td>
+	<td><script>printRadioList('corradiox');</script></td></tr>
+	<tr><td>Y:</td>
+	<td><script>printRadioList('corradioy');</script></td></tr>
+	</table>
+<br>
+<button onclick='CalculateCorrelation();'>Calculate</button>
+<div id='coranswerDiv' class='answerDiv'>
+<div id='coranswer'></div>
+<canvas id='corcanvas' width=400 height=400></canvas>
+</div>
 
-		var m=phat;
-		var hm=eval(propcp.value);
-		if (!((hm>0)&&(hm<1))) alert('The claimed proportion should be between 0 and 1.');
-		else{
-			var p=hm;
-			var s=sqrt(p*(1-p));
 
-			var z,z1,z2;
-			z=(m-hm)/(s/sqrt(n));
-			if (proplt.checked){
-				p=normalcdf(z);
-				z1=-9;
-				z2=z;
-				}
-			else if (propgt.checked){
-				p=1-normalcdf(z);
-				z1=z;
-				z2=9;
-				}
-			else{
-				p=2*normalcdf(-abs(z));
-				z1=-9;
-				z2=-abs(z);
-				}
-			propanswer.innerHTML='P='+p.TOFIXED(precision)+'<br>z='+z.TOFIXED(precision);
-			var i;
-			var can=propcanvas;
-			var ctx=can.getContext('2d');
-			var w=can.width;
-			var h=can.height;
-
-			ctx.strokeStyle='gray';
-			ctx.fillStyle='white';
-			ctx.lineWidth=1;
-			ctx.fillRect(0,0,w,h);
-			ctx.beginPath();
-			for (i=0;i<=w;i++){
-				ctx.moveTo(i,h);
-				z=(i-w/2)/(w/6);
-				ctx.lineTo(i,h-Math.ceil(h*normalpdf(z)));
-			}
-			ctx.stroke();
-
-			ctx.strokeStyle='black';
-			ctx.beginPath();
-			for (i=0;i<=w;i++){
-				ctx.moveTo(i,h);
-				z=(i-w/2)/(w/6);
-				if ((z1<=z) && (z<=z2))
-					ctx.lineTo(i,h-Math.ceil(h*normalpdf(z)));
-			}
-			if (propne.checked){
-				z1=abs(z2);
-				z2=9;
-				for (i=0;i<=w;i++){
-					ctx.moveTo(i,h);
-					z=(i-w/2)/(w/6);
-					if ((z1<=z) && (z<=z2))
-						ctx.lineTo(i,h-Math.ceil(h*normalpdf(z)));
-				}
-				
-			}
-			ctx.stroke();
-			propAnswerDiv.style.display='block';
-		}
-	}
-}
-catch(err){
-	alert('Input Error.');
-}		
-}
-
-function CalculateTwoProp(){
-try{
-	var i,n1,p,p1hat,x1,n2,p2hat,x2;
-
-	n1=eval(twopropn1.value);
-	x1=round(eval(twopropx1.value));
-	n2=eval(twopropn2.value);
-	x2=round(eval(twopropx2.value));
-	if (!(n1>0) || !(n2>0)) alert('The sample size should be positive.');
-	else if (!(x1>0) || !(x2>0)) alert('The number of successes should be positive.');
-	else{
-		p1hat=x1/n1;
-		p2hat=x2/n2;
-		p=(x1+x2)/(n1+n2);
-
-		var m=p1hat-p2hat;
-		var hm=0;
-		var s=sqrt(p*(1-p));
-		var n=n1*n2/(n1+n2);
-
-		var z,z1,z2;
-		z=(m-hm)/(s/sqrt(n));
-		if (twoproplt.checked){
-			p=normalcdf(z);
-			z1=-9;
-			z2=z;
-			}
-		else if (twopropgt.checked){
-			p=1-normalcdf(z);
-			z1=z;
-			z2=9;
-			}
-		else{
-			p=2*normalcdf(-abs(z));
-			z1=-9;
-			z2=-abs(z);
-			}
-		twopropanswer.innerHTML='P='+p.TOFIXED(precision)+'<br>z='+z.TOFIXED(precision);
-		twopropanswer.style.display='block';
-	}
-}
-catch(err){
-	alert('Input Error.');
-}		
-}
-
-function CalculateChiSquared(){
-try{
-	var i=0;
-	var j=0;
-	var k,chi2,P;
-	var notzero=true;
-	for (k=0;k<numlists;k++){
-		if (document.getElementById('chio'+k).checked) i=k;
-		if (document.getElementById('chie'+k).checked) j=k;
-	}
-	if (i==j) alert('Select two different lists.');
-	else if(listn[i]*listn[j]==0) alert('One of your lists is empty.');
-	else if (listn[i]!=listn[j]) alert('Your lists need to be the same length.');
-	else{	
-		for (k=0;k<listn[j];k++)
-			if (list[j][k]==0)
-				notzero=false;
-		if (!notzero) alert('You cannot have an expected value of 0.');
-		else{
-			var l=numlists;
-			list[l]=[];
-			for (k=0;k<listn[i];k++)
-				list[l][k]=(list[i][k]-list[j][k])*(list[i][k]-list[j][k])/list[j][k];
-			findListStats(l);
-			chi2=listsum[l];
-			P=1-chi2cdf(chi2,listn[i]-1);
-			chianswer.innerHTML='P='+P.TOFIXED(precision)+'<br>&chi;<sup>2</sup>='+chi2.TOFIXED(precision);
-			chianswer.style.display='block';
-		}
-	}
-}
-catch(err){
-	alert('Input Error.');
-}		
-}
-
-function CalculateContingency(){
-try{
-	var i=0;
-	var notempty=true;
-	var samelength=true;
-	var j=numlists-1;
-	var k;
-	while ((i<numlists) && !document.getElementById('conlist'+i).checked ) i++;
-	while (( j>=0)&&!document.getElementById('conlist'+j).checked ) j--;
-	if ((i==numlists) || (j==-1) || (i==j)) alert ('Select a range of lists.')
-	else{
-		for (k=i;k<=j;k++){
-			if (listn[k]!=listn[i]) samelength=false;
-			if (listn[k]==0) notempty=false;
-		}
-		if (!notempty) alert('One of your lists is empty.');
-		else if (!samelength) alert('Your lists need to be the same length.');
-		else{
-			var r, c, ct, rt, tt,nr,nc,P;
-			var x,y,k,i;
-			var l0=numlists;
-			var l1=l0+1;
-			var l2=l0+2;
-
-			nr=listn[i];
-			list[l0]=[];
-			list[l1]=[];
-			list[l2]=[];
-
-			nc=j-i+1;
-			tt=0;
-			for (x=i;x<=j;x++)
-				for (y=0;y<nr;y++)
-					tt+=list[x][y];
-			for (x=0;x<nc;x++)
-				for (y=0;y<nr;y++)
-					list[l1][x*nr+y]=list[i+x][y];
-			for (y=0;y<nr;y++){
-				rt=0;
-				for (k=i;k<=j;k++)
-					rt+=list[k][y];
-				for (x=0;x<nc;x++){
-					ct=listsum[i+x];
-					list[l2][x*nr+y]=rt*ct/tt;
-					}
-				}
-			for (k=0;k<nr*nc;k++){
-				list[l0][k]=(list[l1][k]-list[l2][k])*(list[l1][k]-list[l2][k])/list[l2][k];
-				}
-			findListStats(l0);
-			chi2=listsum[l0];
-
-			P=1-chi2cdf(chi2,(nr-1)*(nc-1));
-			contingencyanswer.innerHTML='P='+P.TOFIXED(precision)+'<br>&chi;<sup>2</sup>='+chi2.TOFIXED(precision);
-			contingencyanswer.style.display='block';
-		}
-	}
-}
-catch(err){
-	alert('Input Error.');
-}	
-}
+<script>
 
 function CalculateCorrelation(){
 try{
-	var l1=0;
-	var l2=0;
+	var l1=getChecked('corradiox');
+	var l2=getChecked('corradioy');
 	var i;
-	for (i=0;i<numlists;i++){
-		if (document.getElementById('corx'+i).checked) l1=i;
-		if (document.getElementById('cory'+i).checked) l2=i;
-	}
 	if (l1==l2) alert('Select two different lists.');
-	else if(listn[l1]*listn[l2]==0) alert('One of your lists is empty.');
-	else if (listn[l1]!=listn[l2]) alert('Your lists need to be the same length.');
+	else if(listN[l1]*listN[l2]==0) alert('One of your lists is empty.');
+	else if (listN[l1]!=listN[l2]) alert('Your lists need to be the same length.');
 	else{	
 		var sumprod, sumx, sumy, sumx2,r, P, t,i,j,n,m,b;
 
-		n=listn[l1];
-		sumx=listsum[l1];
-		sumy=listsum[l2];
+		n=listN[l1];
+		sumx=listSum[l1];
+		sumy=listSum[l2];
 		sumprod=0;
 		sumx2=0;
 		for (i=0;i<n;i++){
@@ -2049,26 +2813,28 @@ try{
 		m=(n*sumprod-sumx*sumy)/(n*sumx2-sumx*sumx);
 		b=(sumy*sumx2-sumx*sumprod)/(n*sumx2-sumx*sumx);
 
-		r=m*listsd[l1]/listsd[l2];
+		r=m*listS[l1]/listS[l2];
 		t=r/Math.sqrt((1-r*r)/(n-2));
 		P=2*(1-tcdf(Math.abs(t),n-2));
 		
-		coranswer.innerHTML='y=mx+b<br>m='+m.TOFIXED(precision)+'<br>b='+b.TOFIXED(precision)+'<br>t='+t.TOFIXED(precision)+'<br>P='+P.TOFIXED(precision)+'<br>r='+r.TOFIXED(precision);
+		coranswer.innerHTML='y=mx+b<br>m='+m.TOFIXED(printPrecision)+'<br>b='+b.TOFIXED(printPrecision)+'<br>t='+t.TOFIXED(printPrecision)+'<br>P='+P.TOFIXED(printPrecision)+'<br>r='+r.TOFIXED(printPrecision);
+//	var l1=-1, l2=-1;
+	var D=40;
 
+	{
 		var xlist=l1;
 		var ylist=l2;
-
 		var can=corcanvas;
 		var ctx=can.getContext('2d');
 		var w=can.width;
 		var h=can.height;
-		var xmin=listmin[xlist];
-		var xmax=listmax[xlist];
-		var ymin=listmin[ylist];
-		var ymax=listmax[ylist];
-		var n = listn[xlist];
-		var W=w-20;
-		var H=h-20;
+		var xmin=listMin[xlist];
+		var xmax=listMax[xlist];
+		var ymin=listMin[ylist];
+		var ymax=listMax[ylist];
+		var n = listN[xlist];
+		var W=w-2*D;
+		var H=h-2*D;
 		var wx=xmax-xmin;
 		var wy=ymax-ymin;
 
@@ -2078,29 +2844,41 @@ try{
 		ctx.fillRect(0,0,w,h);
 		ctx.beginPath();
 		ctx.rect(0,0,w,h);
+		ctx.rect(D,D,W,H);
 		ctx.stroke();
-
 		for (i=0;i<n;i++){
 			ctx.beginPath();
-			ctx.arc(10+W*(list[xlist][i]-xmin)/wx, h-(10+H*(list[ylist][i]-ymin)/wy), 1,0,2*Math.PI);
+			ctx.arc(D+W*(list[xlist][i]-xmin)/wx, h-(D+H*(list[ylist][i]-ymin)/wy), 1,0,2*Math.PI);
 			ctx.stroke();
 		}
-		ctx.beginPath();
-		ctx.moveTo(10+W*(xmin-xmin)/wx, h-(10+H*(0-ymin)/wy));
-		ctx.lineTo(10+W*(xmax-xmin)/wx, h-(10+H*(0-ymin)/wy));
-		ctx.stroke();
-		ctx.beginPath();
-		ctx.moveTo(10+W*(0-xmin)/wx, h-(10+H*(ymin-ymin)/wy));
-		ctx.lineTo(10+W*(0-xmin)/wx, h-(10+H*(ymax-ymin)/wy));
-		ctx.stroke();
-
+		ctx.font='12px Helvetica';
+		ctx.fillStyle='black';
+		var dx=(xmax-xmin)/10;
+		for (j=0;j<11;j++){
+			ctx.save();
+			ctx.translate(D-6+W*(j*dx)/wx, h-D+6); 
+			ctx.rotate(PI/2);
+			ctx.fillText((xmin+j*dx).TOFIXED(2),0,0);
+			ctx.restore();
+		}		
+		var dy=(ymax-ymin)/10;
+		for (j=0;j<11;j++){
+			ctx.save();
+			ctx.translate(D-6,h-(D-6+H*(j*dy)/wy)); 
+			ctx.textAlign='end';
+			ctx.fillText((xmin+j*dy).TOFIXED(2),0,0);
+			ctx.restore();
+		}		
 		ctx.strokeStyle='red';
 		ctx.beginPath()
 		var y1=m*xmin+b;
 		var y2=m*xmax+b;
-		ctx.moveTo(10+W*(xmin-xmin)/wx, h-(10+H*(y1-ymin)/wy));
-		ctx.lineTo(10+W*(xmax-xmin)/wx, h-(10+H*(y2-ymin)/wy));
+//ctx.arc(D+W*(list[xlist][i]-xmin)/wx, h-(D+H*(list[ylist][i]-ymin)/wy), 1,0,2*Math.PI);		
+		ctx.moveTo(D+W*(xmin-xmin)/wx, h-(D+H*(y1-ymin)/wy));
+		ctx.lineTo(D+W*(xmax-xmin)/wx, h-(D+H*(y2-ymin)/wy));
 		ctx.stroke();
+	}	
+		
 		coranswerDiv.style.display='block';
 	}
 }
@@ -2109,582 +2887,204 @@ catch(err){
 }		
 }
 
-function purge(x){
-	x.style.display='none';
-}
-function insertCannedData(){
-	var thelist,thedata,i;
-	thelist=0;
-	thedata=0;
-	while (!canneddataform.canneddataradio[thelist].checked) thelist++;
-	while(!canneddataform.canneddata[thedata].checked) thedata++;
-	list[thelist]=[];
-	for (i=0;i<cannedData[thedata].length;i++)
-		list[thelist][i]=cannedData[thedata][i];
-	printDataListsValueOnly();
-	loadDataLists();
-
-}
 </script>
-</head>
-<body onload='setupAll();'>
-<div class='tabbar'>
-	<button class='tab' id='dataTab' onclick='showDiv("data");'>Data</button>
-	<button class='tab' id='descriptivesTab' onclick='showDiv("descriptives");'>Descriptives</button>
-	<button class='tab' id='distributionsTab' onclick='showDiv("distributions");'>Distributions</button>
-	<button class='tab' id='intervalsTab' onclick='showDiv("intervals");'>Intervals</button>
-	<button class='tab' id='testsTab' onclick='showDiv("tests");'>Tests</button>
-	<!--button class='tab' id='calculatorTab' onclick='showDiv("calculator");'>Calculator</button-->
-	<div class='logo'>SnowStat</div>
-</div>
-<div class='content'>
-<!-------------------------------------------------------------------------->
-<div id='welcomDiv' class='pageDiv'>
-Welcome. To begin, click a tab above.
-</div>
-<!-------------------------------------------------------------------------->
-<div id='dataDiv' class='pageDiv'>
-<div id='dataSetControl'>
-	<button class='expander'>Data Sets</button>
-	<div class='expandable'>
-	<ul>
-	<li>
-	<button class='expander'>Canned Data</button>
-	<div class='expandable'>
-	<form id='canneddataform'>
-	<table border=1>
-		<tr><td>Vostok</td> 
-		<td><input type='radio' name='canneddata' id='vostokdepth' checked=true>Depth</li></td>
-		<td><input type='radio' name='canneddata' id='vostokco2'>CO<sub>2</sub> Levels  </td>
-		<td><input type='radio' name='canneddata' id='vostoktemp'>Temperatures</li></td>
-		</tr>
-	</table>	
-List:
-		<script>
-		for (dli=0;dli<numlists;dli++)
-			document.write("<input type='radio' name='canneddataradio' id='canneddata"+dli+"'>"+dli+"&nbsp;");
-		</script><br>
-		</form>
-		<button onclick='insertCannedData();'>Insert Data</button>
 	</div>
-	</li>
-	
-	<li><button class='expander'>Calculated List</button>
-	<div class='expandable'>
-		List:
-		<script>
-		for (dli=0;dli<numlists;dli++)
-			document.write("<input type='radio' name='calculatedradio' id='calculated"+dli+"'>"+dli+"&nbsp;");
-		</script>
-		<br>Formula=<input type="text" id="calculatedformula">
-		<button onclick="calculateList();">Calculate List</button>
-	</div></li>
-	
-	<li><button class='expander'>Random Uniform</button>
-	<div class='expandable'>
-		List:
-		<script>
-		for (dli=0;dli<numlists;dli++)
-			document.write("<input type='radio' name='uniformdataradio' id='uniformdata"+dli+"'>"+dli+"&nbsp;");
-		</script>
-		<table>
-		<tr><td>Minimum:</td><td> <input type="text" id="uniformminimum" value='0'></td></tr>
-		<tr><td>Maximum:</td><td> <input type="text" id="uniformmaximum" value='100'></td></tr>
-		<tr><td>Size:</td><td> <input type="text" id="uniformn" value='100'></td></tr>
-		<tr><td>Integer?</td><td> <input type="radio" name='uniforminteger' id="uniformintegeryes">yes &nbsp; <input type="radio" name='uniforminteger' checked=true>no</td></tr>
-		</table>
-		<button onclick="generateUniformDataSet();">Generate Data Set</button>
-	</div></li>
 
-	<li><button class='expander'>Random Normal</button>
-	<div class='expandable'>
-		List:
-		<script>
-		for (dli=0;dli<numlists;dli++)
-			document.write("<input type='radio' name='normaldataradio' id='normaldata"+dli+"'>"+dli+"&nbsp;");
-		</script>
-		<table>
-		<tr><td>Mean:</td><td> <input type="text" id="normalmean" value='0'></td></tr>
-		<tr><td>Standard Deviation:</td><td> <input type="text" id="normalsd" value='1'></td></tr>
-		<tr><td>Size:</td><td> <input type="text" id="normaln" value='100'></td></tr>
-		<tr><td>Integer?</td><td> <input type="radio" name='normalinteger' id="normalintegeryes">yes &nbsp; <input type="radio" name='normalinteger' checked=true>no</td></tr>
-		</table>
-		<button onclick="generateNormalDataSet();">Generate Data Set</button>
-	</div></li>
+<!------------------------------------------------------------------------------------------------------------------------------------>
+<li><button class='expander' data-open='gofDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,contingencyDiv,correlationDiv'>Goodness of Fit</button></li>
 
-	<li><button class='expander'>Sample Means</button>
-	<div class='expandable'>
-		<table>
-		<tr><td>Input List:</td><td>
-		<script>
-		for (dli=0;dli<numlists;dli++)
-			document.write("<input type='radio' name='samplemeaninputradio' id='samplemeaninput"+dli+"'>"+dli+"&nbsp;");
-		</script>
-		</td></tr>
-		<tr><td>Output List:</td><td>
-		<script>
-		for (dli=0;dli<numlists;dli++)
-			document.write("<input type='radio' name='samplemeanoutputradio' id='samplemeanoutput"+dli+"'>"+dli+"&nbsp;");
-		</script>
-		</td></tr></table>
-		<table>
-		<tr><td>Sample Size:</td><td> <input type="text" id="samplemeansize" value='31'></td></tr>
-		<tr><td>Number of Samples:</td><td> <input type="text" id="samplemeannumsamples" value='100'></td></tr>
-		</table>
-		<button onclick="generateSampleMeans();">Generate Data Set</button>
-	</div></li>
-
-	</ul>
-	</div>
-</div>
-<div id='dataListDiv'>
-	<table>
-	<tr>
-	<script>
-	for (dli=0;dli<numlists;dli++)
-		document.write("<th >List "+dli+"</th>");
-	</script>
-	</tr>
-	<tr>
-	<script>
-	for (dli=0;dli<numlists;dli++)
-		document.write('<td ><textarea class="datalist"  rows=1000 cols=10 wrap="off"></textarea></td>');
-	</script>
-	</table>
-</div>
-</div> <!--dataDiv-->
-<!-------------------------------------------------------------------------->
-<div id='descriptivesDiv' class='pageDiv'>
-
-<ul>
-<script>
-for (dli=0;dli<numlists;dli++)
-	document.write("<li><button class='expander'>List "+dli+"</button><div class='expandable'><div id='summary"+dli+"' class='ib'></div><div class='ib'><button class='expander'>Histogram</button><div class='expandable'>Number of Bins: <input type='text' id='numbins"+dli+"' value='10' onchange='findHistograms();'><br><canvas id='histogram"+dli+"' width=400 height=200></canvas></div></div></li>");
-</script>
-
-<li><button class='expander'>Box Plots</button>
-<div class='expandable'>
-Lists: <script>
-	for (dli=0;dli<numlists;dli++)
-		document.write("<input type='checkbox'  id='boxplot"+dli+"' onclick='drawBoxPlots();'>"+dli+"&nbsp;");
-</script>
-<br>
-<canvas id='boxplot' width=400 height=400></canvas>
-</div></li>
-
-<li><button class='expander'>Scatter Plot</button>
-<div class='expandable'>
-X List: <script>
-	for (dli=0;dli<numlists;dli++)
-		document.write("<input type='radio'  name='scatterradiox'  id='scatterplotx"+dli+"' onclick='drawScatterPlot();'>"+dli+"&nbsp;");
-</script>
-<br>
-Y List: <script>
-	for (dli=0;dli<numlists;dli++)
-		document.write("<input type='radio'  name='scatterradioy' id='scatterploty"+dli+"' onclick='drawScatterPlot();'>"+dli+"&nbsp;");
-</script>
-<br>
-<canvas id='scatterplotcanvas' width=400 height=400></canvas>
-</div></li>
-
-<li><button class='expander'>Frequency Polygons</button>
-<div class='expandable'>
-Lists: <script>
-	for (dli=0;dli<numlists;dli++)
-		document.write("<input type='checkbox'  id='freq"+dli+"' onclick='drawPolygons();'><span style='color:rgb("+Math.floor(255*dli/numlists)+","+((dli%2)*255)+","+(255-Math.floor(255*dli/numlists))+")'>"+dli+"&nbsp;</span>");
-</script>
-<br>
-Number of Bins: <input type='text' id='freqbins' value='10' onchange='drawPolygons();'>
-<br>
-<canvas id='freqcanvas' width=400 height=400></canvas>
-</div></li>
-
-</ul>
-</div><!-- descriptivesDiv-->
-
-<div id='distributionsDiv' class='pageDiv'>
-<ul>
-<li><button class='expander'>Binomial Distribution</button>
-	<div class='expandable'>
-	<table>
-	<tr><td>Number of Trials: 		</td> <td><b>n=</b> </td><td><input type='text' id='binomialn' value="100" onkeydown='purge(binomialAnswerDiv);'></td></tr>
-	<tr><td>Probability of Success:  	</td> <td><b>p=</b></td><td><input type='text' id='binomialp' value="0.5" onkeydown='purge(binomialAnswerDiv);'></td></tr>
-	<tr><td><b>P(x </b>
-	<input name='bequal' id='binomialequal' type='radio' checked=true onclick='purge(binomialAnswerDiv);'><label for='binomialequal'>=</label>
-	<input name='bequal' id='binomiallt' type='radio' onclick='purge(binomialAnswerDiv);'><label for='binomiallt'>&lt;</label>
-	<input name='bequal' id='binomialleq' type='radio' onclick='purge(binomialAnswerDiv);'><label for='binomialleq'>&leq;</label>
-	<input name='bequal' id='binomialgt' type='radio' onclick='purge(binomialAnswerDiv);'><label for='binomialgt'>&gt;</label>
-	<input name='bequal' id='binomialgeq' type='radio' onclick='purge(binomialAnswerDiv);'><label for='binomialgeq'>&geq;</label>
-	</td><td></td><td><input type='text' id='binomialx' value="50" onkeydown='purge(binomialAnswerDiv);'> <b>)</b></td></tr>
-	</table>
-	<button onclick="calculateBinomialDistribution();">Calculate</button><br>
-	<div id='binomialAnswerDiv' class='answerDiv'>
-	<span id="binomialanswer"></span><br>
-	<canvas id='binomialcanvas' width="400" height="200"></canvas>
-	</div>
-	</div></li>
-
-<li><button class='expander'>Poisson Distribution</button>
-	<div class='expandable'>
-	<table>
-	<tr><td>Mean: 		</td> <td><b>&mu;=</b> </td><td><input type='text' id='poissonm' value="55" onkeydown='purge(poissonAnswerDiv);'></td></tr>
-	<tr><td><b>P(x </b>
-	<input name='pequal' id='poissonequal' type='radio' checked=true onclick='purge(poissonAnswerDiv);'><label for='poissonequal'>=</label>
-	<input name='pequal' id='poissonlt' type='radio' onclick='purge(poissonAnswerDiv);'><label for='poissonlt'>&lt;</label>
-	<input name='pequal' id='poissonleq' type='radio' onclick='purge(poissonAnswerDiv);'><label for='poissonleq'>&leq;</label>
-	<input name='pequal' id='poissongt' type='radio' onclick='purge(poissonAnswerDiv);'><label for='poissongt'>&gt;</label>
-	<input name='pequal' id='poissongeq' type='radio' onclick='purge(poissonAnswerDiv);'><label for='poissongeq'>&geq;</label>
-	</td><td></td><td><input type='text' id='poissonx' value="50" onkeydown='purge(poissonAnswerDiv);'> <b>)</b></td></tr>
-	</table>
-	<button onclick="calculatePoissonDistribution();">Calculate</button><br>
-	<div id='poissonAnswerDiv' class='answerDiv'>
-	<span id="poissonanswer"></span><br>
-	<canvas id='poissoncanvas' width="400" height="200"></canvas>
-	</div>
-	</div></li>
-
-<li><button class='expander'>Normal Distribution</button>
-	<div class='expandable'>
-	<table>
-	<tr><td>Mean: 			</td> <td><b>&mu;=</b> </td><td><input type='text' id='normalm' value="0" onkeydown='purge(normalAnswerDiv);'></td></tr>
-	<tr><td>Standard Deviation:  	</td> <td><b>&sigma;=</b></td><td><input type='text' id='normals' value="1" onkeydown='purge(normalAnswerDiv);'></td></tr>
-	<tr><td><b>P(</b> <input type='text' id='normala' value="-1" onkeydown='purge(normalAnswerDiv);'> </td><td>&lt; x &lt; </td><td><input type='text' id='normalb' value="1" onkeydown='purge(normalAnswerDiv);'><b>)</b></td>
-	</tr>
-	</table>
-	<button onclick="calculateNormalDistribution();">Calculate</button><br>
-	<div id='normalAnswerDiv' class='answerDiv'>
-	<span id="normalanswer"></span><br>
-	<canvas id='normalcanvas' width="400" height="200"></canvas>
-	</div>
-	</div></li>
-
-<li><button class='expander'>Inverse Normal</button>
-	<div class='expandable'>
-	<table>
-	<tr><td>Mean: 			</td> <td><b>&mu;=</b> </td><td><input type='text' id='invnormalm' value="0" onkeydown='purge(invnormAnswerDiv);'></td></tr>
-	<tr><td>Standard Deviation:  	</td> <td><b>&sigma;=</b></td><td><input type='text' id='invnormals' value="1" onkeydown='purge(invnormAnswerDiv);'></td></tr>
-	<tr><td>
-	<input type='radio' name='invnormtype' id='invnormleft' checked=true onclick='purge(invnormAnswerDiv);'><label for='invnormleft'>Left Tail</label>
-	<input type='radio' name='invnormtype' id='invnormmiddle' onclick='purge(invnormAnswerDiv);'><label for='invnormmiddle'>Middle</label>
-	<input type='radio' name='invnormtype' id='invnormright' onclick='purge(invnormAnswerDiv);'><label for='invnormright'>Right Tail</label>
-	</td></tr>
-	<tr><td><b></td><td>Area: </td><td><input type='text' id='invnormarea' value=".05" onkeydown='purge(invnormAnswerDiv);'></td></tr>
-	</tr></table>
-	<button onclick="calculateInverseNormalDistribution();">Calculate</button><br>
-	<div id='invnormAnswerDiv' class='answerDiv'>
-	<span id="invnormanswer"></span><br><canvas id='invnormalcanvas' width="400" height="200"></canvas>
-	</div>
-	</div></li>
-
-</ul>
-</div> <!-- distributionsDiv -->
-<!-------------------------------------------------------------------------->
-<div id='intervalsDiv' class='pageDiv'>
-<ul>
-<li><button class='expander'>Mean Interval From Summary Statistics</button>
-<div class='expandable'>
-<table>
-<tr><td>Sample Mean:</td><td><font style='text-decoration: overline;'>X</font>=</td>	<td><input type='text' id='tintervalssm' value="100" onkeydown='purge(tintervalssanswer);'></td></tr>
-<tr><td>Standard Deviation:</td> <td>s=</td>									<td><input type='text' id='tintervalsss' value="10" onkeydown='purge(tintervalssanswer);'></td></tr>
-<tr><td>Sample Size:</td><td>n=</td>										<td><input type='text' id='tintervalssn' value="100" onkeydown='purge(tintervalssanswer);'></td></tr>
-<tr><td>Confidence Level:</td><td></td>									<td><input type='text' id='tintervalsscl' value="0.95" onkeydown='purge(tintervalssanswer);'></td></tr>
-</table>
-<button onclick='CalculateTIntervalFromSummaryStatistics();'>Calculate</button>
-<div id='tintervalssanswer' class='answerDiv'></div>
-</div>
-</li>
-
-<li><button class='expander'>Mean Interval From Data</button>
-<div class='expandable'>
-	List:
-	<script>
-	for (dli=0;dli<numlists;dli++)
-		document.write("<input type='radio' name='tintervaldradio' id='tintervallist"+dli+"'  onclick='purge(tintervaldanswer);'>"+dli+"&nbsp;");
-	</script><br>
-Confidence Level: <input type='text' id='tintervaldcl' value="0.95" onkeydown='purge(tintervaldanswer);'><br>
-<button onclick='CalculateTIntervalFromData();'>Calculate</button>
-<div id='tintervaldanswer' class='answerDiv'></div>
-
-</div></li>
-
-<li><button class='expander'>Proportion Interval</button>
-<div class='expandable'>
-<table>
-<tr><td>Successes:</td> <td>x=</td>										<td><input type='text' id='pintervalx' value="10" onkeydown='purge(pintervalanswer);'></td></tr>
-<tr><td>Sample Size:</td><td>n=</td>										<td><input type='text' id='pintervaln' value="100" onkeydown='purge(pintervalanswer);'></td></tr>
-<tr><td>Confidence Level:</td><td></td>									<td><input type='text' id='pintervalcl' value="0.95" onkeydown='purge(pintervalanswer);'></td></tr>
-</table>
-<button onclick='CalculatePInterval();'>Calculate</button>
-<div id='pintervalanswer' class='answerDiv'></div>
-</div></li>
-</ul>
-</div> <!-- intervalsDiv -->
-<!-------------------------------------------------------------------------->
-<div id='testsDiv' class='pageDiv'>
-<ul>
-<li><button class='expander'>T-Test From Summary Statistics</button>
-<div class='expandable'>
-<table>
-<tr><td>Sample Mean:</td><td><font style='text-decoration: overline;'>X</font>=</td>	<td><input type='text' id='ttestssm' value="100" onkeydown='purge(ttestssAnswerDiv);'></td></tr>
-<tr><td>Standard Deviation:</td> <td>s=</td>									<td><input type='text' id='ttestsss' value="10" onkeydown='purge(ttestssAnswerDiv);'></td></tr>
-<tr><td>Sample Size:</td><td>n=</td>										<td><input type='text' id='ttestssn' value="100" onkeydown='purge(ttestssAnswerDiv);'></td></tr>
-</table>
-<table>
-<tr><td>H<sub>0</sub>:</td>	<td></td><td>&nbsp;&leq;&nbsp;</td><td>&nbsp;=&nbsp;</td><td>&nbsp;&geq;&nbsp;</td></tr>
-<tr><td></td>	<td>&mu;</td>
-<td><input type='radio' name='ttestsstype' id='ttestssgt' checked=true onclick='purge(ttestssAnswerDiv);'></td>
-<td><input type='radio' name='ttestsstype' id='ttestssne' onclick='purge(ttestssAnswerDiv);'></td>
-<td><input type='radio' name='ttestsstype' id='ttestsslt' onclick='purge(ttestssAnswerDiv);'></td>
-<td><input type='text' id='ttestssclaimedm' value='100' onkeydown='purge(ttestssAnswerDiv);'></td>
-</tr>
-<tr><td>H<sub>1:</sub></td><td></td>	<td>&nbsp;&gt;&nbsp;</td><td>&nbsp;&ne;&nbsp;</td><td>&nbsp;&lt;&nbsp;</td></tr>
-</table>
-<button onclick='CalculateTTestFromSummaryStatistics();'>Calculate</button>
-<div id='ttestssAnswerDiv' class='answerDiv'>
-<div id='ttestssanswer'></div>
-<canvas id='ttestsscanvas' width="400" height="200"></canvas>
-</div></div></li>
-
-<li><button class='expander'>T-Test From Data</button>
-<div class='expandable'>
-	List:
-	<script>
-	for (dli=0;dli<numlists;dli++)
-		document.write("<input type='radio' name='ttestdradio' id='ttestlist"+dli+"' onclick='purge(ttestdAnswerDiv);'>"+dli+"&nbsp;");
-	</script>
-<table>
-<tr><td>H<sub>0</sub>:</td>	<td></td><td>&nbsp;&leq;&nbsp;</td><td>&nbsp;=&nbsp;</td><td>&nbsp;&geq;&nbsp;</td></tr>
-<tr><td></td>	<td>&mu;</td>
-<td><input type='radio' name='ttestdtype' id='ttestdgt' checked=true onclick='purge(ttestdAnswerDiv);'></td>
-<td><input type='radio' name='ttestdtype' id='ttestdne' onclick='purge(ttestdAnswerDiv);'></td>
-<td><input type='radio' name='ttestdtype' id='ttestdlt' onclick='purge(ttestdAnswerDiv);'></td>
-<td><input type='text' id='ttestdclaimedm' value='100' onkeydown='purge(ttestdAnswerDiv);'></td>
-</tr>
-<tr><td>H<sub>1:</sub></td><td></td>	<td>&nbsp;&gt;&nbsp;</td><td>&nbsp;&ne;&nbsp;</td><td>&nbsp;&lt;&nbsp;</td></tr>
-</table>
-<button onclick='CalculateTTestFromData();'>Calculate</button>
-<div id='ttestdAnswerDiv' class='answerDiv'>
-<div id='ttestdanswer'></div>
-<canvas id='ttestdcanvas' width="400" height="200"></canvas>
-</div></div></li>
-
-<li><button class='expander'>2 Sample T-Test From Summary Statistics</button>
-<div class='expandable'>
-<table border=1>
-<tr><th>Sample 1</th><th>Sample 2</th></tr>
-<tr><td>
-<table>
-<tr><td>Sample Mean:</td><td><font style='text-decoration: overline;'>X</font><sub>1</sub>=</td>	<td><input type='text' id='t2testssm1' value="100" onkeydown='purge(t2testssanswer);'></td></tr>
-<tr><td>Standard Deviation:</td> <td>s<sub>1</sub>=</td>									<td><input type='text' id='t2testsss1' value="10" onkeydown='purge(t2testssanswer);'></td></tr>
-<tr><td>Sample Size:</td><td>n<sub>1</sub>=</td>										<td><input type='text' id='t2testssn1' value="100" onkeydown='purge(t2testssanswer);'></td></tr>
-</table>
-</td><td>
-<table>
-<tr><td>Sample Mean:</td><td><font style='text-decoration: overline;'>X</font><sub>2</sub>=</td>	<td><input type='text' id='t2testssm2' value="100" onkeydown='purge(t2testssanswer);'></td></tr>
-<tr><td>Standard Deviation:</td> <td>s<sub>2</sub>=</td>									<td><input type='text' id='t2testsss2' value="10" onkeydown='purge(t2testssanswer);'></td></tr>
-<tr><td>Sample Size:</td><td>n<sub>2</sub>=</td>										<td><input type='text' id='t2testssn2' value="100" onkeydown='purge(t2testssanswer);'></td></tr>
-</table>
-</td><tr>
-</table>
-
-<table>
-<tr><td>H<sub>0</sub>:</td>	<td></td><td>&nbsp;&leq;&nbsp;</td><td>&nbsp;=&nbsp;</td><td>&nbsp;&geq;&nbsp;</td></tr>
-<tr><td></td>	<td>&mu;<sub>1</sub></td>
-<td><input type='radio' name='t2testsstype' id='t2testssgt' checked=true onclick='purge(t2testssanswer);'></td>
-<td><input type='radio' name='t2testsstype' id='t2testssne' onclick='purge(t2testssanswer);'></td>
-<td><input type='radio' name='t2testsstype' id='t2testsslt' onclick='purge(t2testssanswer);'></td>
-<td>&mu;<sub>2</sub></td>
-</tr>
-<tr><td>H<sub>1:</sub></td><td></td>	<td>&nbsp;&gt;&nbsp;</td><td>&nbsp;&ne;&nbsp;</td><td>&nbsp;&lt;&nbsp;</td></tr>
-</table>
-<button onclick='CalculateT2TestFromSummaryStatistics();'>Calculate</button>
-<div id='t2testssanswer' class='answerDiv'></div>
-</div></li>
-
-<li><button class='expander'>2 Sample T-Test From Data</button>
-<div class='expandable'>
-	<table>
-	<tr><td>List 1:</td>
-	<td><script>
-	for (dli=0;dli<numlists;dli++)
-		document.write("<input type='radio' name='t2testdradio1' id='t2testlist1"+dli+"' onclick='purge(t2testdanswer);'>"+dli+"&nbsp;");
-	</script></td></tr>
-	<tr><td>List 2:</td>
-	<td><script>
-	for (dli=0;dli<numlists;dli++)
-		document.write("<input type='radio' name='t2testdradio2' id='t2testlist2"+dli+"' onclick='purge(t2testdanswer);'>"+dli+"&nbsp;");
-	</script></td></tr>
-	</table>
-
-
-<table>
-<tr><td>H<sub>0</sub>:</td>	<td></td><td>&nbsp;&leq;&nbsp;</td><td>&nbsp;=&nbsp;</td><td>&nbsp;&geq;&nbsp;</td></tr>
-<tr><td></td>	<td>&mu;<sub>1</sub></td>
-<td><input type='radio' name='t2testdtype' id='t2testdgt' checked=true onclick='purge(t2testdanswer);'></td>
-<td><input type='radio' name='t2testdtype' id='t2testdne' onclick='purge(t2testdanswer);'></td>
-<td><input type='radio' name='t2testdtype' id='t2testdlt' onclick='purge(t2testdanswer);'></td>
-<td>&mu;<sub>2</sub></td>
-</tr>
-<tr><td>H<sub>1:</sub></td><td></td>	<td>&nbsp;&gt;&nbsp;</td><td>&nbsp;&ne;&nbsp;</td><td>&nbsp;&lt;&nbsp;</td></tr>
-</table>
-<br>
-<button onclick='CalculateT2TestFromData();'>Calculate</button>
-<div id='t2testdanswer' class='answerDiv'></div>
-</div></li>
-
-<li><button class='expander'>Matched Pairs</button>
-<div class='expandable'>
-	<table>
-	<tr><td>List 1:</td>
-	<td><script>
-	for (dli=0;dli<numlists;dli++)
-		document.write("<input type='radio' name='mpradio1' id='mplist1"+dli+"' onclick='purge(mpanswer);'>"+dli+"&nbsp;");
-	</script></td></tr>
-	<tr><td>List 2:</td>
-	<td><script>
-	for (dli=0;dli<numlists;dli++)
-		document.write("<input type='radio' name='mpradio2' id='mplist2"+dli+"' onclick='purge(mpanswer);'>"+dli+"&nbsp;");
-	</script></td></tr>
-	</table>
-
-
-<table>
-<tr><td>H<sub>0</sub>:</td>	<td></td><td>&nbsp;&leq;&nbsp;</td><td>&nbsp;=&nbsp;</td><td>&nbsp;&geq;&nbsp;</td></tr>
-<tr><td></td>	<td>&mu;<sub>d</sub></td>
-<td><input type='radio' name='mptype' id='mpgt' checked=true onclick='purge(mpanswer);'></td>
-<td><input type='radio' name='mptype' id='mpne' onclick='purge(mpanswer);'></td>
-<td><input type='radio' name='mptype' id='mplt' onclick='purge(mpanswer);'></td>
-<td>0</td>
-</tr>
-<tr><td>H<sub>1:</sub></td><td></td>	<td>&nbsp;&gt;&nbsp;</td><td>&nbsp;&ne;&nbsp;</td><td>&nbsp;&lt;&nbsp;</td></tr>
-</table>
-<button onclick='CalculateMP();'>Calculate</button>
-<div id='mpanswer' class='answerDiv'></div>
-</div></li>
-
-<li><button class='expander'>ANOVA</button>
-<div class='expandable'>
-Lists: <script>
-	for (dli=0;dli<numlists;dli++)
-		document.write("<input type='checkbox'  id='anovalist"+dli+"' onclick='purge(anovaanswer);'>"+dli+"&nbsp;");
-</script><br>
-<button onclick='CalculateANOVA();'>Calculate</button>
-<div id='anovaanswer' class='answerDiv'></div>
-</div></li>
-
-<li><button class='expander'>One Proportion Z-Test</button>
-<div class='expandable'>
-<table>
-<tr><td>Successes:</td> <td>x=</td>									<td><input type='text' id='propx' value="50" onkeydown='purge(propAnswerDiv);'></td></tr>
-<tr><td>Sample Size:</td><td>n=</td>									<td><input type='text' id='propn' value="100" onkeydown='purge(propAnswerDiv);'></td></tr>
-</table>
-<table>
-<tr><td>H<sub>0</sub>:</td>	<td></td><td>&nbsp;&leq;&nbsp;</td><td>&nbsp;=&nbsp;</td><td>&nbsp;&geq;&nbsp;</td></tr>
-<tr><td></td>	<td>p</td>
-<td><input type='radio' name='proptype' id='propgt' checked=true onclick='purge(propAnswerDiv);'></td>
-<td><input type='radio' name='proptype' id='propne' onclick='purge(propAnswerDiv);'></td>
-<td><input type='radio' name='proptype' id='proplt' onclick='purge(propAnswerDiv);'></td>
-<td><input type='text' id='propcp' value='0.5' onkeydown='purge(propAnswerDiv);'></td>
-</tr>
-<tr><td>H<sub>1:</sub></td><td></td>	<td>&nbsp;&gt;&nbsp;</td><td>&nbsp;&ne;&nbsp;</td><td>&nbsp;&lt;&nbsp;</td></tr>
-</table>
-<button onclick='CalculateOneProp();'>Calculate</button><br>
-<div id='propAnswerDiv' class='answerDiv'>
-<div id='propanswer'></div>
-<canvas id='propcanvas' width="400" height="200"></canvas>
-</div>
-</div></li>
-
-<li><button class='expander'>Two Proportion Z-Test</button>
-<div class='expandable'>
-<table border=1>
-<tr><th>Sample 1</th><th>Sample 2</th></tr>
-<tr><td>
-<table>
-<tr><td>Successes:</td> <td>x<sub>1</sub>=</td>									<td><input type='text' id='twopropx1' value="45" onkeydown='purge(twopropanswer);'></td></tr>
-<tr><td>Sample Size:</td><td>n<sub>1</sub>=</td>									<td><input type='text' id='twopropn1' value="100" onkeydown='purge(twopropanswer);'></td></tr>
-</table>
-</td><td>
-<table>
-<tr><td>Successes:</td> <td>x<sub>2</sub>=</td>									<td><input type='text' id='twopropx2' value="50" onkeydown='purge(twopropanswer);'></td></tr>
-<tr><td>Sample Size:</td><td>n<sub>2</sub>=</td>									<td><input type='text' id='twopropn2' value="100" onkeydown='purge(twopropanswer);'></td></tr>
-</table>
-</td><tr>
-</table>
-
-<table>
-<tr><td>H<sub>0</sub>:</td>	<td></td><td>&nbsp;&leq;&nbsp;</td><td>&nbsp;=&nbsp;</td><td>&nbsp;&geq;&nbsp;</td></tr>
-<tr><td></td>	<td>p<sub>1</sub></td>
-<td><input type='radio' name='twoproptype' id='twopropgt' checked=true onclick='purge(twopropanswer);'></td>
-<td><input type='radio' name='twoproptype' id='twopropne' onclick='purge(twopropanswer);'></td>
-<td><input type='radio' name='twoproptype' id='twoproplt' onclick='purge(twopropanswer);'></td>
-<td>p<sub>2</sub></td>
-</tr>
-<tr><td>H<sub>1:</sub></td><td></td>	<td>&nbsp;&gt;&nbsp;</td><td>&nbsp;&ne;&nbsp;</td><td>&nbsp;&lt;&nbsp;</td></tr>
-</table>
-<button onclick='CalculateTwoProp();'>Calculate</button>
-<div id='twopropanswer' class='answerDiv'></div>
-</div></li>
-
-<li><button class='expander'>Chi-Squared Goodness of Fit</button>
-<div class='expandable'>
+	<div id='gofDiv' class='expandable'>
 	<table>
 	<tr><td>Observed:</td>
-	<td><script>
-	for (dli=0;dli<numlists;dli++)
-		document.write("<input type='radio' name='chiradio1' id='chio"+dli+"' onclick='purge(chianswer);'>"+dli+"&nbsp;");
-	</script></td></tr>
+	<td><script>printRadioList('chi1');</script></td></tr>
 	<tr><td>Expected:</td>
-	<td><script>
-	for (dli=0;dli<numlists;dli++)
-		document.write("<input type='radio' name='chiradio2' id='chie"+dli+"' onclick='purge(chianswer);'>"+dli+"&nbsp;");
-	</script></td></tr>
+	<td><script>printRadioList('chi2');</script></td></tr>
 	</table>
 <button onclick='CalculateChiSquared();'>Calculate</button>
 <div id='chianswer' class='answerDiv'></div>
-</div></li>
 
-<li><button class='expander'>Contingency Table</button>
-<div class='expandable'>
+	</div>
+<script>
+function CalculateChiSquared(){
+try{
+	var i=getChecked('chi1');
+	var j=getChecked('chi2');;
+	var k,chi2,P;
+	var notzero=true;
+	if (i==j) alert('Select two different lists.');
+	else if(listN[i]*listN[j]==0) alert('One of your lists is empty.');
+	else if (listN[i]!=listN[j]) alert('Your lists need to be the same length.');
+	else{	
+		for (k=0;k<listN[j];k++)
+			if (list[j][k]==0)
+				notzero=false;
+		if (!notzero) alert('You cannot have an expected value of 0.');
+		else{
+			var a=[];
+			for (k=0;k<listN[i];k++)
+				a[k]=(list[i][k]-list[j][k])*(list[i][k]-list[j][k])/list[j][k];
+			var r=summarizeArray(a);
+			chi2=r.sum;
+			P=1-chi2cdf(chi2,listN[i]-1);
+			chianswer.innerHTML='P='+P.TOFIXED(printPrecision)+'<br>&chi;<sup>2</sup>='+chi2.TOFIXED(printPrecision);
+			chianswer.style.display='block';
+		}
+	}
+}
+catch(err){
+	alert('Input Error.');
+}		
+}
+</script>
+<!------------------------------------------------------------------------------------------------------------------------------------>
+<li><button class='expander' data-open='contingencyDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,correlationDiv'>Contingency</button></li>
+
+	<div id='contingencyDiv' class='expandable'>
 Select the first and last list containing your contingency table:<br>
 Lists: <script>
-	for (dli=0;dli<numlists;dli++)
-		document.write("<input type='checkbox'  id='conlist"+dli+"' onclick='purge(contingencyanswer);'>"+dli+"&nbsp;");
+	for (let i=0;i<numLists;i++)
+		document.write("<input type='checkbox'  id='conlist"+i+"' onclick='purge(contingencyanswer);'>"+i+"&nbsp;");
 </script><br>
 <button onclick='CalculateContingency();'>Calculate</button>
 <div id='contingencyanswer' class='answerDiv'></div>
-</div></li>
 
-<li><button class='expander'>Linear Correlation</button>
-<div class='expandable'>
-	<table>
-	<tr><td>X:</td>
-	<td><script>
-	for (dli=0;dli<numlists;dli++)
-		document.write("<input type='radio' name='corradiox' id='corx"+dli+"' onclick='purge(coranswerDiv);'>"+dli+"&nbsp;");
-	</script></td></tr>
-	<tr><td>Y:</td>
-	<td><script>
-	for (dli=0;dli<numlists;dli++)
-		document.write("<input type='radio' name='corradioy' id='cory"+dli+"' onclick='purge(coranswerDiv);'>"+dli+"&nbsp;");
-	</script></td></tr>
-	</table>
-<br>
-<button onclick='CalculateCorrelation();'>Calculate</button>
-<div id='coranswerDiv' class='answerDiv'>
-<div id='coranswer'></div>
-<canvas id='corcanvas' width=400 height=400></canvas>
-</div>
-</div></li>
+	</div>
+<script>
+function CalculateContingency(){
+try{
+	var i=0;
+	var notempty=true;
+	var samelength=true;
+	var j=numLists-1;
+	var k;
+	while ((i<numLists) && !document.getElementById('conlist'+i).checked ) i++;
+	while (( j>=0)&&!document.getElementById('conlist'+j).checked ) j--;
+	if ((i==numLists) || (j==-1) || (i==j)) alert ('Select a range of lists.')
+	else{ 
+		for (k=i;k<=j;k++){
+			if (listN[k]!=listN[i]) samelength=false;
+			if (listN[k]==0) notempty=false;
+		}
+		if (!notempty) alert('One of your lists is empty.');
+		else if (!samelength) alert('Your lists need to be the same length.');
+		else{ 
+			var r, c, ct, rt, tt,nr,nc,P;
+			var x,y,k,i;
+			var l0=numLists;
+
+			nr=listN[i];
+			var aa=[];
+			var a=[];
+			var b=[];
+			
+			nc=j-i+1;
+			tt=0;
+			for (x=i;x<=j;x++)
+				for (y=0;y<nr;y++)
+					tt+=list[x][y];
+			for (x=0;x<nc;x++)
+				for (y=0;y<nr;y++)
+					a[x*nr+y]=list[i+x][y]; 
+			for (y=0;y<nr;y++){
+				rt=0;
+				for (k=i;k<=j;k++)
+					rt+=list[k][y];
+				for (x=0;x<nc;x++){
+					ct=listSum[i+x];
+					b[x*nr+y]=rt*ct/tt;
+					}
+				}
+			for (k=0;k<nr*nc;k++){
+				aa[k]=(a[k]-b[k])*(a[k]-b[k])/b[k];
+				}
+			var r=summarizeArray(aa);
+			chi2=r.sum;
+
+			P=1-chi2cdf(chi2,(nr-1)*(nc-1));
+			contingencyanswer.innerHTML='P='+P.TOFIXED(printPrecision)+'<br>&chi;<sup>2</sup>='+chi2.TOFIXED(printPrecision);
+			contingencyanswer.style.display='block';
+		}
+	}
+}
+catch(err){
+	alert('Input Error.');
+}	
+}
+
+</script>
+<!------------------------------------------------------------------------------------------------------------------------------------>
+<li><button class='expander' data-open='anovaDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>ANOVA</button> </li>
+	<div id='anovaDiv' class='expandable'>
+Select at least three lists to include in the test.<br>
+Lists: <script>
+	for (let i=0;i<numLists;i++)
+		document.write("<input type='checkbox'  id='anovalist"+i+"' onclick='purge(anovaanswer);'>"+i+"&nbsp;");
+</script><br>
+<button onclick='CalculateANOVA();'>Calculate</button>
+<div id='anovaanswer' class='answerDiv'></div>
+
+	</div>
+	
+<script>
+function CalculateANOVA(){
+try{
+	var xbb, k, sstreatment, sserror,N,mstreatment,mserror,F,P;
+	var i,j;
+	var listempty=false;  
+	//k is the number of lists
+	k=0;
+	for (i=0;i<numLists;i++)
+		if (document.getElementById('anovalist'+i).checked) k++; 
+	if (k<3)
+		alert('Select three or more lists.');
+	else{ 
+		for (i=0;i<numLists;i++) if (document.getElementById('anovalist'+i).checked && (listN[i]==0)) listempty=true;
+		if (listempty)
+			alert('One of the lists you have chosen is empty.');
+		else{
+			xbb=0;
+			N=0;
+			for (i=0;i<numLists;i++) if (document.getElementById('anovalist'+i).checked){
+				N+=listN[i];
+				xbb+=listM[i]*listN[i];
+				}
+			xbb=xbb/N;
+			sstreatment=0;
+			for (i=0;i<numLists;i++) if (document.getElementById('anovalist'+i).checked)
+				sstreatment+=listN[i]*(listM[i]-xbb)*(listM[i]-xbb);
+			sserror=0;
+			for (i=0;i<numLists;i++) if (document.getElementById('anovalist'+i).checked)
+				sserror+=(listN[i]-1)*listS[i]*listS[i];
+			mstreatment=sstreatment/(k-1);
+			mserror=sserror/(N-k);
+			F=mstreatment/mserror;
+			P=1-fcdf(F,k-1,N-k);
+			anovaanswer.innerHTML='P='+P.TOFIXED(printPrecision)+'<br>F='+F.TOFIXED(printPrecision);
+			anovaanswer.style.display='block';
+		}
+	}
+}
+catch(err){
+	alert('Input Error.');
+}		
+	}
+</script>
+<!------------------------------------------------------------------------------------------------------------------------------------>
+<!--
+<li><button class='expander' data-open='bootTestDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,gofDiv,contingencyDiv,correlationDiv'>Bootstrap</button></li>
+-->
+
+	<div id='bootTestDiv' class='expandable'>
+	
+	</div>
 
 </ul>
-</div><!--testDiv -->
+</div> <!-- testsDiv-->
+<!--tests------------------------------------------------------------->
 
-	<div id='calculatorDiv' class='pageDiv'>
-		<div id='calcInputDiv'><input type='text' id='calculatorInput' onkeydown="checkForEnter(this);"></div>
-		<div id='calculatorOutput'></div>
-	</div>
-</div>
-</div>
+
+
+</div> <!--content-->
 </body>
+<script>setupAll();</script>
 </html>
