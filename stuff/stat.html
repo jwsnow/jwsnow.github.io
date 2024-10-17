@@ -2186,7 +2186,7 @@ function drawQuantilePlot(){
 	function populateTIntervalStats(){
 		var inlist=0;
 		var i;
-		i=getChecked('interval');
+		inlist=getChecked('interval');
 //		for (i=0;i<intervalradios.length;i++)
 //			if (intervalradios[i].checked) inlist=i;
 		if (listN[inlist]>0){
@@ -2404,7 +2404,7 @@ function drawQuantilePlot(){
 	<button class='expander' data-open='meanTestDataListDiv' >Select Data List</button><br>
 	<div id='meanTestDataListDiv' class='expandable'>
 	Data List: <br>
-	<script>printRadioList('meantest');</script>
+	<script>printRadioList('meantest');</script><br>
 	<button onclick='populateMeanTestStats();' >Populate Summary Stats</button><br>
 	</div>		
 	<button onclick='CalculateTTestFromSummaryStatistics();'>Calculate</button>
@@ -2598,7 +2598,7 @@ function drawQuantilePlot(){
 	<button class='expander' data-open='meanTest2LeftDataListDiv' >Select Data List</button><br>
 	<div id='meanTest2LeftDataListDiv' class='expandable'>
 	Data List: <br>
-	<script>printRadioList('meantest2left');</script>
+	<script>printRadioList('meantest2left');</script><br>
 	<button onclick='populateMeanTest2Stats(1);' >Populate Summary Stats</button><br>
 	</div>		
 
@@ -2611,7 +2611,7 @@ function drawQuantilePlot(){
 	<button class='expander' data-open='meanTest2RightDataListDiv' >Select Data List</button><br>
 	<div id='meanTest2RightDataListDiv' class='expandable'>
 	Data List: <br>
-	<script>printRadioList('meantest2right');</script>
+	<script>printRadioList('meantest2right');</script><br>
 	<button onclick='populateMeanTest2Stats(2);' >Populate Summary Stats</button><br>
 	</div>
 </td><tr>
