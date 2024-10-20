@@ -195,6 +195,7 @@ function setupAll(){
 	sumMax=document.getElementsByClassName('maxAreaSum');
 	sumSum=document.getElementsByClassName('sumAreaSum');
 	sumRange=document.getElementsByClassName('rangeAreaSum');
+/*	
 	histoDivs=document.getElementsByClassName('histoDiv');
 	histoLabels=document.getElementsByClassName('histoLabel');
 	histoCanvases=document.getElementsByClassName('histoCanvas');
@@ -204,7 +205,7 @@ function setupAll(){
 	scatterxradios=document.getElementsByClassName('scatterxradio');
 	scatterylabels=document.getElementsByClassName('scatterylabel');
 	scatteryradios=document.getElementsByClassName('scatteryradio');
-	
+*/
 /*	geninputlabels=document.getElementsByClassName('geninputlabel');
 	geninputradios=document.getElementsByClassName('geninputradio');
 	genoutputlabels=document.getElementsByClassName('genoutputlabel');
@@ -230,15 +231,27 @@ function printRadioList(x){
 		allRadioNames.push(x+'radio');
 		allLabelNames.push(x+'label');
 }
-function getChecked(x){
+function getChecked(x, mustbenonempty){
 	var a=document.getElementsByClassName(x+'radio');
-	var r=0;
+	var r=-1;
+	if (mustbenonempty){
+		for (i=0;i<a.length;i++)
+			if (listN[i]<=0) a.checked=false;
+	}
 	for (i=0;i<a.length;i++)
 		if (a[i].checked)
 			r=i;
 	return(r);		
 }
+function getChecked(x){
+	var a=document.getElementsByClassName(x+'radio');
+	var r=-1;
 
+	for (i=0;i<a.length;i++)
+		if (a[i].checked)
+			r=i;
+	return(r);		
+}
 function closeAll(){
 	var i;
 	for (i=0;i<allExpandables.length;i++)
@@ -251,20 +264,17 @@ function purge(x){
 	x.style.display='none';
 }
 function showListLabels(){
-	var i;
+	var i,j,x;
 	for (i=0;i<numLists;i++){
 		if (!listLabel[i])
 			listLabel[i]='List '+i;
 			listLabelTextArea[i].value=listLabel[i];
-//			geninputlabels[i].innerHTML=listLabel[i];
-//			genoutputlabels[i].innerHTML=listLabel[i];
-//			canoutputlabels[i].innerHTML=listLabel[i];
-//			boxlabels[i].innerHTML=listLabel[i];
-//			scatterxlabels[i].innerHTML=listLabel[i];
-//			scatterylabels[i].innerHTML=listLabel[i];
-//			intervallabels[i].innerHTML=listLabel[i];
-//			meantestlabels[i].innerHTML=listLabel[i];
 		}
+	for (j=0;j<allLabelNames.length;j++){
+		x=document.getElementsByClassName(allLabelNames[j]);
+		for (i=0;i<numLists;i++)
+			x[i].innerHTML=listLabel[i];
+	}
 }
 
 function getLists(){ 
@@ -407,14 +417,6 @@ function showSummaryStats(){
 		else sumRow[i].style.display='none';
 	}
 }
-
-//chart stuff -------------------------------------------------------------------------------------------
-
-
-
-
-
-
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //stat library 
@@ -593,7 +595,7 @@ function fequal(f, g, l, h, n){
 	}
 
 // supporting functions ******************************************
-function integrate(thefun, a, b){
+function integrate(thefun, a, b){ 
 	var dx,X,sum,n,k;
 
 	var integralFunction =
@@ -714,15 +716,18 @@ function tPDFco(df){
 //calculates coefficient for t pdf fcn
 	return(Math.exp(logGamma((df+1)/2)-0.5*Math.log(df*Math.PI)-logGamma(df/2)));
 	}
-function tcdf(t,a,b){
+function tcdf(t,a,b){ 
 	var df, Q;
 	if (b==undefined){
 		df=a;
-		Q=tPDFco(df)*Math.sqrt(df)*tIntegral((df+1)/2, Math.abs(t)/Math.sqrt(df));
-		if (t>=0)
-			return(0.5+Q);
-		else
-			return(0.5-Q);
+		if (floor(df)!=df) return tcdfintegral(t, a, b);
+		else{
+			Q=tPDFco(df)*Math.sqrt(df)*tIntegral((df+1)/2, Math.abs(t)/Math.sqrt(df));
+			if (t>=0)
+				return(0.5+Q);
+			else
+				return(0.5-Q);
+			}
 		}
 	else
 		return(tcdf(a,b)-tcdf(t,b));
@@ -737,6 +742,19 @@ function oldtcdf(t,a,b){
 	else
 		return(tcdf(a,b)-tcdf(t,b));
 	}
+function tcdfintegral(t, a, b){
+	var df,Q;
+	if (b==undefined){
+		df=a;
+		Q = integrate('tpdf(x,'+df+')',0, abs(t));
+		if (t>=0)
+			return(0.5+Q);
+		else
+			return(0.5-Q);
+	}
+	else
+		return(tcdf(a,b)-tcdf(t,b));
+}
 function invt(x,df){
 	var thefun='tcdf(x,'+df+')-'+x;
 	bisectFunction=function(x){
@@ -802,7 +820,7 @@ function fcdf(x, d1, d2){
 <button class='expander' data-open='summaryDiv'  data-close='dataListDiv,distributionDiv,intervalsDiv,testsDiv'>Summary</button>
 <button class='expander' data-open='chartDiv'  data-close='dataListDiv,distributionDiv,intervalsDiv,testsDiv'>Plots</button>
 <button class='expander' data-open='distributionDiv'  data-close='dataListDiv,generatedDiv,summaryDiv,chartDiv,intervalsDiv,testsDiv'>Calculators</button>
-<button class='expander' data-open='intervalsDiv'  data-close='intervalCLDiv,dataListDiv,generatedDiv,summaryDiv,chartDiv,distributionDiv,testsDiv'>Intervals</button>
+<button class='expander' data-open='intervalsDiv'  data-close='dataListDiv,generatedDiv,summaryDiv,chartDiv,distributionDiv,testsDiv'>Intervals</button>
 <button class='expander' data-open='testsDiv'  data-close='dataListDiv,generatedDiv,summaryDiv,chartDiv,distributionDiv,intervalsDiv'>Tests</button>
 
 </div>
@@ -834,7 +852,12 @@ function fcdf(x, d1, d2){
 <ul>
 <!---------------------------------------------------------------------------------------------------------------------------->
 	<div id='uniformGenDiv' class='expandable generator'>
-	Output List:<br><script>printRadioList('ugenoutput');</script>
+	Output List:<br>
+	<script>printRadioList('ugenoutput');
+	var a=document.getElementsByClassName('ugenoutput'+'radio');
+	a[0].checked=true;
+	</script>
+	
 		<table>
 		<tr><td>Minimum:</td><td> <input type="text" id="uniformminimum" value='0'></td></tr>
 		<tr><td>Maximum:</td><td> <input type="text" id="uniformmaximum" value='100'></td></tr>
@@ -864,7 +887,9 @@ function fcdf(x, d1, d2){
 	</script>
 <!------------------------------------------------------------------------------------------------------------------------------------>
 	<div id='normalGenDiv' class='expandable generator'>
-	Output List:<br><script>printRadioList('ngenoutput');</script>
+	Output List:<br><script>printRadioList('ngenoutput');
+	var a=document.getElementsByClassName('ngenoutput'+'radio');
+	a[0].checked=true;</script>
 		<table>
 		<tr><td>Mean:</td><td> <input type="text" id="normalmean" value='0'></td></tr>
 		<tr><td>Standard Deviation:</td><td> <input type="text" id="normalsd" value='1'></td></tr>
@@ -901,7 +926,9 @@ function fcdf(x, d1, d2){
 	</script>
 <!---------------------------------------------------------------------------------------------------------------------------------->	
 	<div id='binomialGenDiv' class='expandable generator'>
-	Output List:<br><script>printRadioList('bgenoutput');</script>
+	Output List:<br><script>printRadioList('bgenoutput');
+	var a=document.getElementsByClassName('bgenoutput'+'radio');
+	a[0].checked=true;</script>
 		<table>
 		<tr><td>Probability of Success:</td><td> <input type="text" id="binomGenP" value='0.25'></td></tr>
 		<tr><td>Sample Size:</td><td> <input type="text" id="binomGenN" value='31'></td></tr>
@@ -930,8 +957,12 @@ function fcdf(x, d1, d2){
 	</script>
 <!----------------------------------------------------------------------------------------------------------------------------------->	
 	<div id='sampleGenDiv' class='expandable generator'>
-	Input List:<br><script>printRadioList('sgeninput');	</script><br>
-	Output List:<br><script>printRadioList('sgenoutput');</script>
+	Input List:<br><script>printRadioList('sgeninput');	
+	var a=document.getElementsByClassName('sgeninput'+'radio');
+	a[0].checked=true;</script><br>
+	Output List:<br><script>printRadioList('sgenoutput');
+	var a=document.getElementsByClassName('sgenoutput'+'radio');
+	a[1].checked=true;</script>
 		<table>
 		<tr><td>Sample Size:</td><td> <input type="text" id="samplesize" value='31'></td></tr>
 		</table>
@@ -966,8 +997,12 @@ function fcdf(x, d1, d2){
 	</script>
 <!------------------------------------------------------------------------------------------------------------------------------------>
 	<div id='resampleGenDiv' class='expandable generator'>
-	Input List:<br><script>printRadioList('rgeninput');	</script><br>
-	Output List:<br><script>printRadioList('rgenoutput');</script>
+	Input List:<br><script>printRadioList('rgeninput');	
+	var a=document.getElementsByClassName('rgeninput'+'radio');
+	a[0].checked=true;</script><br>
+	Output List:<br><script>printRadioList('rgenoutput');
+	var a=document.getElementsByClassName('rgenoutput'+'radio');
+	a[1].checked=true;</script>
 		<table>
 		<tr><td>Sample Size:</td><td> <input type="text" id="samplemeansize" value='31'></td></tr>
 		<tr><td>Number of Samples:</td><td> <input type="text" id="samplemeannumsamples" value='100'></td></tr>
@@ -1016,7 +1051,9 @@ function fcdf(x, d1, d2){
 <!-- canned dat-->
 <div id='cannedDiv' class='pageDiv expandable'>
 <div class='subPage'>
-		Output List:<br><script>printRadioList('canoutput');</script><br>
+		Output List:<br><script>printRadioList('canoutput');
+	var a=document.getElementsByClassName('canoutput'+'radio');
+	a[0].checked=true;</script><br>
 canned data not yet implemented
 </div>
 </div>
@@ -1027,9 +1064,9 @@ canned data not yet implemented
 	
 			<script>
 			document.write('<tr>');
-			for (let i=0;i<numLists;i++)
-				document.write('<th>'+i+'</th>')
-			document.write('</tr><tr>');
+//			for (let i=0;i<numLists;i++)
+//				document.write('<th>'+i+'</th>')
+//			document.write('</tr><tr>');
 			for (let i=0;i<numLists;i++)
 				document.write('<td><textarea class="datalabel" rows=1 cols=10 wrap="off"></textarea></td>');
 			document.write('</tr><tr>');
@@ -1082,6 +1119,7 @@ for (let i=0;i<numLists;i++){
 	Lists: <br><script>
 	for (let i=0;i<numLists;i++)
 		document.write("<label><input type='checkbox'  class='histocheckbox' onclick='drawHistograms();'><span class='histolabel'  style='color:"+theColors[i]+";'>"+listLabel[i]+"</span></label>&nbsp;");
+	allLabelNames.push('histo'+'label');	
 	</script>
 	<div id="insideHistoDiv"><canvas id="histoCanvas" width=400 height=200></canvas><hr></div>
 	</div>
@@ -1104,6 +1142,7 @@ function drawHistograms(){
 	ctx.fillRect(0,0,w,h);	
 	var boxes=document.getElementsByClassName('histocheckbox');
 var numChecks=0;
+var lastX;
 for (i=0;i<numLists;i++)
 	if ((boxes[i].checked) && listN[i]>0)
 		numChecks++;
@@ -1113,11 +1152,14 @@ if (numChecks>0){
 			ctx.font='12px Helvetica';
 			ctx.fillStyle='black';
 			dx=w/(n+2);
-			for (j=0;j<=n;j++){
+			lastX=-20;
+			for (j=0;j<=n;j++)
+			if (j*dx-lastX>12){
 				ctx.save();
 				ctx.translate(j*dx, h-40);
 				ctx.rotate(PI/2);
 				ctx.fillText((Min+j*d).TOFIXED(2),0,0);
+				lastX=j*dx;
 				ctx.restore();
 			}
 	var listsDrawn=0;
@@ -1155,6 +1197,7 @@ if (numChecks>0){
 	Lists: <br><script>
 	for (let i=0;i<numLists;i++)
 		document.write("<label><input type='checkbox'  class='boxcheckbox' onclick='drawBoxPlots();'><span class='boxlabel' style='color:"+theColors[i]+";'>"+listLabel[i]+"</span></label>&nbsp;");
+	allLabelNames.push('box'+'label');
 	</script>
 	<br>
 	<div id='boxplotCanvasDiv' class='expandable'>
@@ -1177,6 +1220,10 @@ function drawBoxPlots(){
 	ctx.lineWidth=1;
 	ctx.fillRect(0,0,w,h);
 
+var boxcheckboxes=document.getElementsByClassName('boxcheckbox');
+for (i=0;i<numLists;i++)
+	if (listN[i]<=0) boxcheckboxes[i].checked=false;
+		
 	i=0;
 	while ((i<numLists) && ((listN[i]==0) || (!boxcheckboxes[i].checked))) i++;
 	if (i<numLists){
@@ -1239,11 +1286,13 @@ X List: <br>
 <script>
 	for (let i=0;i<numLists;i++)
 		document.write("<label><input type='radio'  name='scatterxradio'  class='scatterxradio' onclick='drawScatterPlot();'><span class='scatterxlabel'>"+listLabel[i]+"</span></label>&nbsp;");
+	allLabelNames.push('scatterx'+'label');	
 </script>
 <br>
 Y List: <br><script>
 	for (let i=0;i<numLists;i++)
 		document.write("<label><input type='radio'  name='scatteryradio'  class='scatteryradio' onclick='drawScatterPlot();'><span class='scatterylabel'>"+listLabel[i]+"</span></label>&nbsp;");
+	allLabelNames.push('scattery'+'label');	
 </script>
 <br>
 <div id='scatterPlotDiv' class='expandable'>
@@ -1256,6 +1305,13 @@ function drawScatterPlot(){
 	var l1=-1, l2=-1;
 	var D=40;
 	var i,j;
+var scatterxradios=document.getElementsByClassName('scatterxradio');
+var scatteryradios=document.getElementsByClassName('scatteryradio');
+for (i=0;i<numLists;i++){
+	if (listN[i]<=0) scatterxradios[i].checked=false;
+	if (listN[i]<=0) scatteryradios[i].checked=false;
+	}
+
 
 	for (i=0;i<numLists;i++){
 		if (scatterxradios[i].checked) l1=i;
@@ -1323,6 +1379,7 @@ scatterPlotDiv.style.display='block';
 	Data List: <br><script>
 	for (let i=0;i<numLists;i++)
 		document.write("<label><input type='radio'  name='quantileradio'  class='quantileradio' onclick='drawQuantilePlot();'><span class='quantilelabel'>"+listLabel[i]+"</span></label>&nbsp;");
+	allLabelNames.push('quantile'+'label');	
 </script><br>
 <div id='quantilePlotDiv' class='expandable'>
 <canvas id='quantileplotcanvas' width=400 height=400></canvas>
@@ -1880,7 +1937,7 @@ function drawQuantilePlot(){
 				a=1-a;
 			else if (invtmiddle.checked)
 				a=(1-a)/2;
-			var z=invt(a,df); console.log('back from invt');
+			var z=invt(a,df); 
 			if  (invnormmiddle.checked)
 				invtanswer.innerHTML=''+(m-s*abs(z)).TOFIXED(printPrecision)+' to '+(m+s*abs(z)).TOFIXED(printPrecision);
 			else
@@ -2091,24 +2148,27 @@ function drawQuantilePlot(){
 
 <!--intervals-------------------------------------------------------->
 <div id='intervalsDiv' class='pageDiv expandable'>
-<div class='pageMenu'>
-<button class='expander' data-open='propIntervalDiv,intervalCLDiv' data-close='meanIntervalDiv,bootIntervalDiv'>Proportion</button>
-<button class='expander' data-open='meanIntervalDiv,intervalCLDiv' data-close='propIntervalDiv,bootIntervalDiv'>Mean</button>
-<button class='expander' data-open='bootIntervalDiv,intervalCLDiv' data-close='meanIntervalDiv,propIntervalDiv'>Bootstrap</button>
+<div class='pageMenu expandable'>
+<button class='expander' data-open='propIntervalDiv' data-close='meanIntervalDiv,bootIntervalDiv'>Proportion</button>
+<button class='expander' data-open='meanIntervalDiv' data-close='propIntervalDiv,bootIntervalDiv'>Mean</button>
+<button class='expander' data-open='bootIntervalDiv' data-close='meanIntervalDiv,propIntervalDiv'>Bootstrap</button>
 </div>
 <div class='subPage'>
-
-
-<div id='intervalCLDiv'>
-	Confidence Level: <input type='text' id='intervalcl' value="0.95" onclick='purge(pintervalanswer);purge(tintervalssanswer);purge(bootintervalssanswer);'>
-</div>
+<ul>
 
 <!------------------------------------------------------------------------------------------------------------------------>
+<li><button class='expander' data-open='propIntervalDiv' data-close='matchedIntervalDiv,meanIntervalDiv,bootIntervalDiv,twopropIntervalDiv,twomeanIntervalDiv'>Proportion</button></li>
+
 	<div id='propIntervalDiv' class='expandable'>
 	<table>
 	<tr><td>Successes:</td> <td>x=</td><td><input type='text' id='pintervalx' value="10" onkeydown='purge(pintervalanswer);'></td></tr>
 	<tr><td>Sample Size:</td><td>n=</td><td><input type='text' id='pintervaln' value="100" onkeydown='purge(pintervalanswer);'></td></tr>
+	<tr><td>Confidence Level:</td><td>CL=</td><td><input type='text' id='pintervalcl' value="0.95" onclick='purge(pintervalanswer);'></td></tr>
 	</table>
+	<label><input type='radio' name='propinttype' id='propintlt' onclick='purge(pintervalanswer);'>Left Tail</label> 
+	<label><input type='radio' name='propinttype' id='propintne' checked=true onclick='purge(pintervalanswer);'>Two Tailed</label>
+	<label><input type='radio' name='propinttype' id='propintgt'  onclick='purge(pintervalanswer);'>Right Tail</label><br>
+	
 	<button onclick='CalculatePInterval();'>Calculate</button>
 	<div id='pintervalanswer' class='answerDiv'></div>
 		</div>
@@ -2117,8 +2177,9 @@ function drawQuantilePlot(){
 	try{
 		var x=eval(pintervalx.value);
 		var n=eval(pintervaln.value);
-		var cl=eval(intervalcl.value);
-
+		var cl=eval(pintervalcl.value);
+		var a=1-cl;
+		var z, p,e;
 		if (!(n>0))
 			alert('The sample size should be greater than 0.');
 		else if(!(x>0))
@@ -2128,10 +2189,23 @@ function drawQuantilePlot(){
 		else if (!((0<cl) && (cl<1)))
 			alert('The confidence level should be between 0 and 1.');
 		else {
-			var z=abs(invnorm((1-cl)/2));
-			var p=x/n;
-			var e=z*sqrt(p*(1-p)/n);
-			pintervalanswer.innerHTML=(p-e).TOFIXED(printPrecision)+' &lt; p &lt; '+(p+e).TOFIXED(printPrecision)+'<br>E='+e.TOFIXED(printPrecision);
+			p=x/n;
+			if (propintlt.checked){
+				z=abs(invnorm(a));
+				e=z*sqrt(p*(1-p)/n);
+				pintervalanswer.innerHTML=(p-e).TOFIXED(printPrecision)+' &lt; p &lt; Infinity';			
+			}
+			else if (propintgt.checked){
+				z=abs(invnorm(a));
+				e=z*sqrt(p*(1-p)/n);
+				pintervalanswer.innerHTML='-Infinity &lt; p &lt; '+(p+e).TOFIXED(printPrecision);						
+			}
+			else{
+				z=abs(invnorm(a/2));
+				e=z*sqrt(p*(1-p)/n);
+				pintervalanswer.innerHTML=(p-e).TOFIXED(printPrecision)+' &lt; p &lt; '+(p+e).TOFIXED(printPrecision)+'<br>E='+e.TOFIXED(printPrecision)
+				+'<br>z='+z.TOFIXED(printPrecision)+'<br>SE='+(sqrt(p*(1-p)/n)).TOFIXED(printPrecision);
+			}
 			pintervalanswer.style.display='block';
 		}
 	}
@@ -2141,17 +2215,24 @@ function drawQuantilePlot(){
 	}
 	</script>		
 <!------------------------------------------------------------------------------------------------------------------------>
+<li><button class='expander' data-open='meanIntervalDiv' data-close='matchedIntervalDiv,propIntervalDiv,bootIntervalDiv,twopropIntervalDiv,twomeanIntervalDiv'>Mean</button></li>
 
 	<div id='meanIntervalDiv' class='expandable'>
 	<table>
 	<tr><td>Sample Mean:</td><td>x&#772;=</td><td><input type='text' id='tintervalssm' value="100" onkeydown='purge(tintervalssanswer);'></td></tr>
 	<tr><td>Standard Deviation:</td> <td>s=</td><td><input type='text' id='tintervalsss' value="10" onkeydown='purge(tintervalssanswer);'></td></tr>
 	<tr><td>Sample Size:</td><td>n=</td><td><input type='text' id='tintervalssn' value="100" onkeydown='purge(tintervalssanswer);'></td></tr>
+	<tr><td>Confidence Level:</td><td>CL=</td><td><input type='text' id='mintervalcl' value="0.95" onclick='purge(tintervalssanswer);'></td></tr>
 	</table>
+	<label><input type='radio' name='tinttype' id='tintlt' onclick='purge(tintervalssanswer);'>Left Tail</label> 
+	<label><input type='radio' name='tinttype' id='tintne' checked=true onclick='purge(tintervalssanswer);'>Two Tailed</label>
+	<label><input type='radio' name='tinttype' id='tintgt'  onclick='purge(tintervalssanswer);'>Right Tail</label><br>
 	
 	<button class='expander' data-open='populateTIntervalStatsDiv'>Select Data List</button><br>
 	<div id='populateTIntervalStatsDiv' class='expandable'> 
-		Data List: <br><script>printRadioList('interval')</script><br>
+		Data List: <br><script>printRadioList('interval');
+	var a=document.getElementsByClassName('interval'+'radio');
+	a[0].checked=true;</script><br>
 		<button onclick='populateTIntervalStats();' >Populate Summary Stats</button><br>
 	</div>
 	<button onclick='CalculateTIntervalFromSummaryStatistics();' >Calculate</button>
@@ -2163,7 +2244,9 @@ function drawQuantilePlot(){
 		var m=eval(tintervalssm.value); 
 		var s=eval(tintervalsss.value);
 		var n=eval(tintervalssn.value);
-		var cl=eval(intervalcl.value);
+		var cl=eval(mintervalcl.value);
+		var a=1-cl;
+		var t, e;
 		if (isNaN(m*s*n*cl)) alert('Input Error.');
 		else if (!(n>0))
 			alert('The sample size should be greater than 0.');
@@ -2172,9 +2255,22 @@ function drawQuantilePlot(){
 		else if (!((0<cl) && (cl<1)))
 			alert('The confidence level should be between 0 and 1.');
 		else{
-			var t=abs(invt(0.5*(1-cl), n-1));
-			var e=t*s/sqrt(n);
-			tintervalssanswer.innerHTML=(m-e).TOFIXED(printPrecision)+' &lt; &mu; &lt; '+(m+e).TOFIXED(printPrecision)+'<br>E='+e.TOFIXED(printPrecision);
+			if (tintlt.checked){
+				t=abs(invt(a, n-1));
+				e=t*s/sqrt(n);
+				tintervalssanswer.innerHTML=(m-e).TOFIXED(printPrecision)+' &lt; &mu; &lt; Infinity';			
+			}
+			else if(tintgt.checked){
+				t=abs(invt(a, n-1));
+				e=t*s/sqrt(n);
+				tintervalssanswer.innerHTML='-Infinity &lt; &mu; &lt; '+(m+e).TOFIXED(printPrecision);						
+			}
+			else{
+				t=abs(invt(a/2, n-1));
+				e=t*s/sqrt(n);
+				tintervalssanswer.innerHTML=(m-e).TOFIXED(printPrecision)+' &lt; &mu; &lt; '+(m+e).TOFIXED(printPrecision)+'<br>E='+e.TOFIXED(printPrecision)
+				+'<br>df='+(n-1)+'<br>t='+t.TOFIXED(printPrecision)+'<br>SE='+(s/sqrt(n)).TOFIXED(printPrecision);
+			}
 			tintervalssanswer.style.display='block';
 		}
 	}
@@ -2199,8 +2295,292 @@ function drawQuantilePlot(){
 	}
 	</script>
 <!------------------------------------------------------------------------------------------------------------------------>
+<li><button class='expander' data-open='twopropIntervalDiv' data-close='matchedIntervalDiv,meanIntervalDiv,propIntervalDiv,bootIntervalDiv,twomeanIntervalDiv'>Two Proportions</button></li>
+
+	<div id='twopropIntervalDiv' class='expandable'>
+	<table border=1>
+	<tr><th>Sample 1</th><th>Sample 2</th></tr>
+	<tr><td>
+	<table>
+	<tr><td>Successes:</td> <td>x<sub>1</sub>=</td>									<td><input type='text' id='twopropintx1' value="45" onkeydown='purge(twopropintanswer);'></td></tr>
+	<tr><td>Sample Size:</td><td>n<sub>1</sub>=</td>									<td><input type='text' id='twopropintn1' value="100" onkeydown='purge(twopropintanswer);'></td></tr>
+	</table>
+	</td><td>
+	<table>
+	<tr><td>Successes:</td> <td>x<sub>2</sub>=</td>									<td><input type='text' id='twopropintx2' value="50" onkeydown='purge(twopropintanswer);'></td></tr>
+	<tr><td>Sample Size:</td><td>n<sub>2</sub>=</td>									<td><input type='text' id='twopropintn2' value="100" onkeydown='purge(twopropintanswer);'></td></tr>
+	</table>
+	</td><tr>
+	</table>
+	<table>
+	<tr><td>Confidence Level:</td><td>CL=</td><td><input type='text' id='twopropintervalcl' value="0.95" onclick='purge(tintervalssanswer);'></td></tr>	
+	</table>
+
+	<label><input type='radio' name='twopropinttype' id='twopropintlt' onclick='purge(twopropintanswer);'>Left Tail</label> 
+	<label><input type='radio' name='twopropinttype' id='twopropintne' checked=true onclick='purge(twopropintanswer);'>Two Tailed</label>
+	<label><input type='radio' name='twopropinttype' id='twopropintgt'  onclick='purge(twopropintanswer);'>Right Tail</label><br>
+
+	<button onclick='CalculateTwoPropInterval();'>Calculate</button>
+	<div id='twopropintanswer' class='answerDiv expandable' ></div>
+	</div>
+	<script>
+	function CalculateTwoPropInterval(){
+	try{
+		var i,n1,p,p1hat,x1,n2,p2hat,x2,q;
+		var z,z1,z2,cl,a,e,sd;
+		
+		n1=eval(twopropintn1.value);
+		x1=round(eval(twopropintx1.value));
+		n2=eval(twopropintn2.value);
+		x2=round(eval(twopropintx2.value));
+		cl=eval(twopropintervalcl.value);
+		a=1-cl;
+		
+		if (!(n1>0) || !(n2>0)) alert('The sample size should be positive.');
+		else if (!(x1>0) || !(x2>0)) alert('The number of successes should be positive.');
+		else
+		{ 
+			p1hat=x1/n1;
+			p2hat=x2/n2;
+			p=(x1+x2)/(n1+n2);
+			q=1-p;
+			sd=sqrt(p1hat*(1-p1hat)/n1+p2hat*(1-p2hat)/n2);		
+
+			if (twopropintlt.checked){ 
+				z=-invnorm(a); 
+				e=z*sd;
+				twopropintanswer.innerHTML=((p1hat-p2hat)-e).TOFIXED(printPrecision) + '&lt; p<sub>1</sub>-p<sub>2</sub>&leq; Infinity';
+				}
+
+			else if (twopropintgt.checked){
+				z=-invnorm(a); 
+				e=z*sd;
+				twopropintanswer.innerHTML='-Infinity &lt; p<sub>1</sub>-p<sub>2</sub>&leq;'+((p1hat-p2hat)+e).TOFIXED(printPrecision);
+				}
+			else{
+				z=-invnorm(a/2); 
+				e=z*sd;
+				twopropintanswer.innerHTML=((p1hat-p2hat)-e).TOFIXED(printPrecision) + '&lt; p<sub>1</sub>-p<sub>2</sub>&leq;'+((p1hat-p2hat)+e).TOFIXED(printPrecision);
+				}				
+//			twopropintanswer.innerHTML='P='+p.TOFIXED(printPrecision)+'<br>z='+z.TOFIXED(printPrecision);
+			twopropintanswer.style.display='block';
+		}
+	}
+	catch(err){
+		alert('Input Error.');
+	}		
+	}
+	</script>
+<!------------------------------------------------------------------------------------------------------------------------------------>
+<li><button class='expander' data-open='twomeanIntervalDiv' data-close='matchedIntervalDiv,meanIntervalDiv,propIntervalDiv,bootIntervalDiv,twopropIntervalDiv'>Two Independent Means</button></li>
+
+	<div id='twomeanIntervalDiv' class='expandable'>
+
+<table border=1>
+<tr><th>Sample 1</th><th>Sample 2</th></tr>
+<tr><td>
+<table>
+<tr><td>Sample Mean:</td><td><font style='text-decoration: overline;'>X</font><sub>1</sub>=</td>	<td><input type='text' id='t2intssm1' value="100" onkeydown='purge(t2intssanswer);'></td></tr>
+<tr><td>Standard Deviation:</td> <td>s<sub>1</sub>=</td>									<td><input type='text' id='t2intsss1' value="10" onkeydown='purge(t2intssanswer);'></td></tr>
+<tr><td>Sample Size:</td><td>n<sub>1</sub>=</td>										<td><input type='text' id='t2intssn1' value="100" onkeydown='purge(t2intssanswer);'></td></tr>
+</table>
+	<button class='expander' data-open='meanInterval2LeftDataListDiv' >Select Data List</button><br>
+	<div id='meanInterval2LeftDataListDiv' class='expandable'>
+	Data List: <br>
+	<script>printRadioList('meanint2left');
+	var a=document.getElementsByClassName('meanint2left'+'radio');
+	a[0].checked=true;</script><br>
+	<button onclick='populateMeanInt2Stats(1);' >Populate Summary Stats</button><br>
+	</div>		
+
+</td><td>
+<table>
+<tr><td>Sample Mean:</td><td><font style='text-decoration: overline;'>X</font><sub>2</sub>=</td>	<td><input type='text' id='t2intssm2' value="100" onkeydown='purge(t2intssanswer);'></td></tr>
+<tr><td>Standard Deviation:</td> <td>s<sub>2</sub>=</td>									<td><input type='text' id='t2intsss2' value="10" onkeydown='purge(t2intssanswer);'></td></tr>
+<tr><td>Sample Size:</td><td>n<sub>2</sub>=</td>										<td><input type='text' id='t2intssn2' value="100" onkeydown='purge(t2intssanswer);'></td></tr>
+</table>
+	<button class='expander' data-open='meanInterval2RightDataListDiv' >Select Data List</button><br>
+	<div id='meanInterval2RightDataListDiv' class='expandable'>
+	Data List: <br>
+	<script>printRadioList('meanint2right');
+	var a=document.getElementsByClassName('meanint2right'+'radio');
+	a[1].checked=true;</script><br>
+	<button onclick='populateMeanInt2Stats(2);' >Populate Summary Stats</button><br>
+	</div>
+</td><tr>
+</table>
+	<table>
+	<tr><td>Confidence Level:</td><td>CL=</td><td><input type='text' id='t2intervalcl' value="0.95" onclick='purge(tintervalssanswer);'></td></tr>	
+	</table>
+
+<label><input type='radio' name='t2intsstype' id='t2intsslt' onclick='purge(t2intssanswer);'>Left Tail</label>
+<label><input type='radio' name='t2intsstype' id='t2intssne' checked=true onclick='purge(t2intssanswer);'>Two Tails</label>
+<label><input type='radio' name='t2intsstype' id='t2intssgt' onclick='purge(t2intssanswer);'>Right Tail</label>
+<br>
+
+<button onclick='CalculateT2IntervalFromSummaryStatistics();'>Calculate</button>
+<div id='t2intssanswer' class='answerDiv'></div>
+
+	</div>
+
+<script>
+
+function CalculateT2IntervalFromSummaryStatistics(){
+try{
+	var m1=eval(t2intssm1.value);
+	var s1=eval(t2intsss1.value);
+	var n1=eval(t2intssn1.value);
+	var m2=eval(t2intssm2.value);
+	var s2=eval(t2intsss2.value);
+	var n2=eval(t2intssn2.value);
+	var cl=eval(t2intervalcl.value);
+	var alpha=1-cl;
+	
+	if (isNaN(m1*s1*n1*m2*s2*n2)) alert('Input Error.');
+	else if (!(n1>0) || !(n2>0)) alert('The sample size should be positive');
+	else if (!(s1>0) || !(s2>0)) alert('The standard deviation should be positive');
+	else{
+		var m=m1-m2;
+		var hm=0;
+		var a=s1*s1/n1;
+		var b=s2*s2/n2;
+		var n=(((a+b)*(a+b)/((a*a/(n1-1))+(b*b/(n2-1))))+1);
+		var df=n-1;
+		var s=sqrt(((s1*s1/n1)+(s2*s2/n2)));
+
+		var z,e;
+		if (t2intsslt.checked){
+			z=abs(invt(alpha, df));
+			e=z*s;
+			t2intssanswer.innerHTML=(m-e).TOFIXED(printPrecision)+'&lt; &mu;<sub>1</sub>-&mu;<sub>2</sub>&lt; Infinity';
+		}
+		else if (t2intssgt.checked){
+			z=abs(invt(alpha, df));
+			e=z*s;
+			t2intssanswer.innerHTML='-Infinity &lt; &mu;<sub>1</sub>-&mu;<sub>2</sub>&lt;'+(m+e).TOFIXED(printPrecision);		
+		}
+		else{
+			z=abs(invt(alpha/2, df));
+			e=z*s;
+			t2intssanswer.innerHTML=(m-e).TOFIXED(printPrecision)+'&lt; &mu;<sub>1</sub>-&mu;<sub>2</sub>&lt;'+(m+e).TOFIXED(printPrecision);				
+		}
+		t2intssanswer.style.display='block';
+	}
+	
+}
+catch(err){
+	alert('Input Error.');
+}	
+}
+	function populateMeanInt2Stats(d){
+		var inlist=0;
+		var i;
+		if (d==1){
+		inlist=getChecked('meanint2left');
+			if (listN[inlist]==0) alert ('That list is empty.');
+			else{
+				t2intssm1.value=listM[inlist];
+				t2intsss1.value=listS[inlist];
+				t2intssn1.value=listN[inlist];
+				meanInterval2LeftDataListDiv.style.display='none';
+			}		
+		}
+		else{
+			inlist=getChecked('meanint2right');
+			if (listN[inlist]==0) alert ('That list is empty.');
+			else{
+				t2intssm2.value=listM[inlist];
+				t2intsss2.value=listS[inlist];
+				t2intssn2.value=listN[inlist];
+				meanInterval2RightDataListDiv.style.display='none';
+			}
+		}
+	}
+</script>
+
+<!------------------------------------------------------------------------------------------------------------------------------------>
+<li><button class='expander' data-open='matchedIntervalDiv' data-close='propIntervalDiv,meanIntervalDiv,bootIntervalDiv,twopropIntervalDiv,twomeanIntervalDiv'>Matched Pairs</button></li>
+
+	<div id='matchedIntervalDiv' class='expandable'>
+	<table>
+	<tr><td>List 1:</td>
+	<td>
+	<script>printRadioList('mpintradio1');
+	var a=document.getElementsByClassName('mpintradio1'+'radio');
+	a[0].checked=true;</script></td></tr>
+	<tr><td>List 2:</td>
+	<td><script>printRadioList('mpintradio2');
+	var a=document.getElementsByClassName('mpintradio2'+'radio');
+	a[1].checked=true;</script></td></tr>
+	</table>
+
+	<table>
+	<tr><td>Confidence Level:</td><td>CL=</td><td><input type='text' id='mpintcl' value="0.95" onclick='purge(mpintanswer);'></td></tr>	
+	</table>
+
+<label><input type='radio' name='mpinttype' id='mpintlt' onclick='purge(mpintanswer);'>Left Tail</label>
+<label><input type='radio' name='mpinttype' id='mpintne' checked=true onclick='purge(mpintanswer);'>Two Tails</label>
+<label><input type='radio' name='mpinttype' id='mpintgt' onclick='purge(mpintanswer);'>Right Tail</label>
+<br>
+<button onclick='CalculateMPInterval();'>Calculate</button>
+<div id='mpintanswer' class='answerDiv'></div>
+	</div>
+	
+<script>
+function CalculateMPInterval(){
+try{
+	var i=getChecked('mpintradio1');
+	var j=getChecked('mpintradio2');;
+	var k;
+	if (i==j) alert('Select two different lists.');
+	else if(listN[i]*listN[j]==0) alert('One of your lists is empty.');
+	else if (listN[i]!=listN[j]) alert('Your lists need to be the same length.');
+	else{	
+		var a=[];
+		for (k=0;k<listN[i];k++)
+			a[k]=list[i][k]-list[j][k];
+		var r=summarizeArray(a);
+
+		var m=r.m;
+		var cl=eval(mpintcl.value)
+		var alpha=1-cl;
+		var s=r.s; 
+		var n=r.n;
+		var df=n-1;
+		var z,e;
+		
+		if (mpintlt.checked){
+			z=abs(invt(alpha,df));
+			e=z*s/sqrt(n);
+			mpintanswer.innerHTML=(m-e).TOFIXED(printPrecision) + '&lt; &mu;<sub>d</sub> &lt; Infinity';
+		}
+		else if (mpintgt.checked){
+			z=abs(invt(alpha,df));
+			e=z*s/sqrt(n);
+			mpintanswer.innerHTML='-Infinity &lt; &mu;<sub>d</sub> &lt;'+(m+e).TOFIXED(printPrecision);		
+		}
+		else{
+			z=abs(invt(alpha/2,df));
+			e=z*s/sqrt(n);
+			mpintanswer.innerHTML=(m-e).TOFIXED(printPrecision) +'&lt; &mu;<sub>d</sub> &lt;'+(m+e).TOFIXED(printPrecision);		
+		}
+		mpintanswer.style.display='block';
+	}
+}
+catch(err){
+	alert('Input Error.');
+}		
+}
+</script>
+
+<!------------------------------------------------------------------------------------------------------------------------------------>
+<li><button class='expander' data-open='bootIntervalDiv' data-close='matchedIntervalDiv,meanIntervalDiv,propIntervalDiv,twopropIntervalDiv,twomeanIntervalDiv'>Bootstrap</button></li>
+
 	<div id='bootIntervalDiv' class='expandable'>
-	Data List: <br><script>printRadioList('bootinterval')</script><br>
+	Confidence Level: <input type='text' id='bintervalcl' value="0.95" onclick='purge(bootintervalssanswer);'><br>
+	Data List: <br><script>printRadioList('bootinterval');
+	var a=document.getElementsByClassName('bootinterval'+'radio');
+	a[0].checked=true;</script><br>
 	<button onclick='calculateBootInterval();' >Calculate</button>
 	<div id='bootintervalssanswer' class='answerDiv'></div>
 	</div>
@@ -2212,7 +2592,7 @@ function drawQuantilePlot(){
 		var numSamples=1000;
 		var sortedArray;
 		var lowerLimit, uperLimit, margin;
-		var cl=eval(intervalcl.value);
+		var cl=eval(bintervalcl.value);
 		var left=(1-cl)/2;
 		var right=1-left;
 		//for (i=0;i<intervalradios.length;i++)
@@ -2245,7 +2625,7 @@ function drawQuantilePlot(){
 	}	
 	</script>
 <!------------------------------------------------------------------------------------------------------------------------>
-	
+</ul>	
 </div>
 </div> <!-- intervalsdiv -->
 <!--intervals-------------------------------------------------------->
@@ -2404,7 +2784,9 @@ function drawQuantilePlot(){
 	<button class='expander' data-open='meanTestDataListDiv' >Select Data List</button><br>
 	<div id='meanTestDataListDiv' class='expandable'>
 	Data List: <br>
-	<script>printRadioList('meantest');</script><br>
+	<script>printRadioList('meantest');
+	var a=document.getElementsByClassName('meantest'+'radio');
+	a[0].checked=true;</script><br>
 	<button onclick='populateMeanTestStats();' >Populate Summary Stats</button><br>
 	</div>		
 	<button onclick='CalculateTTestFromSummaryStatistics();'>Calculate</button>
@@ -2442,7 +2824,7 @@ function drawQuantilePlot(){
 				z1=-9;
 				z2=-abs(z);
 				}
-			ttestssanswer.innerHTML='P='+p.TOFIXED(printPrecision)+'<br>t='+z.TOFIXED(printPrecision);
+			ttestssanswer.innerHTML='P='+p.TOFIXED(printPrecision)+'<br>t='+z.TOFIXED(printPrecision)+'<br>df='+(n-1);
 
 			var i;
 			var ctx=ttestsscanvas.getContext('2d');
@@ -2598,7 +2980,9 @@ function drawQuantilePlot(){
 	<button class='expander' data-open='meanTest2LeftDataListDiv' >Select Data List</button><br>
 	<div id='meanTest2LeftDataListDiv' class='expandable'>
 	Data List: <br>
-	<script>printRadioList('meantest2left');</script><br>
+	<script>printRadioList('meantest2left');
+	var a=document.getElementsByClassName('meantest2left'+'radio');
+	a[0].checked=true;</script><br>
 	<button onclick='populateMeanTest2Stats(1);' >Populate Summary Stats</button><br>
 	</div>		
 
@@ -2611,7 +2995,9 @@ function drawQuantilePlot(){
 	<button class='expander' data-open='meanTest2RightDataListDiv' >Select Data List</button><br>
 	<div id='meanTest2RightDataListDiv' class='expandable'>
 	Data List: <br>
-	<script>printRadioList('meantest2right');</script><br>
+	<script>printRadioList('meantest2right');
+	var a=document.getElementsByClassName('meantest2right'+'radio');
+	a[1].checked=true;</script><br>
 	<button onclick='populateMeanTest2Stats(2);' >Populate Summary Stats</button><br>
 	</div>
 </td><tr>
@@ -2651,7 +3037,7 @@ try{
 		var hm=0;
 		var a=s1*s1/n1;
 		var b=s2*s2/n2;
-		var n=round(((a+b)*(a+b)/((a*a/(n1-1))+(b*b/(n2-1))))+1);
+		var n=(((a+b)*(a+b)/((a*a/(n1-1))+(b*b/(n2-1))))+1);
 		var s=sqrt(n*((s1*s1/n1)+(s2*s2/n2)));
 
 		var z,p;
@@ -2662,7 +3048,7 @@ try{
 			p=1-tcdf(z,n-1);
 		else
 			p=2*tcdf(-abs(z),n-1);
-		t2testssanswer.innerHTML='P='+p.TOFIXED(printPrecision)+'<br>t='+z.TOFIXED(printPrecision);
+		t2testssanswer.innerHTML='P='+p.TOFIXED(printPrecision)+'<br>t='+z.TOFIXED(printPrecision)+'<br>df='+(n-1);
 		t2testssanswer.style.display='block';
 	}
 }
@@ -2703,9 +3089,13 @@ catch(err){
 	<table>
 	<tr><td>List 1:</td>
 	<td>
-	<script>printRadioList('mpradio1');</script></td></tr>
+	<script>printRadioList('mpradio1');
+	var a=document.getElementsByClassName('mpradio1'+'radio');
+	a[0].checked=true;</script></td></tr>
 	<tr><td>List 2:</td>
-	<td><script>printRadioList('mpradio2');</script></td></tr>
+	<td><script>printRadioList('mpradio2');
+	var a=document.getElementsByClassName('mpradio2'+'radio');
+	a[1].checked=true;</script></td></tr>
 	</table>
 
 
@@ -2759,7 +3149,7 @@ try{
 			z1=-9;
 			z2=-abs(z);
 			}
-		mpanswer.innerHTML='P='+p.TOFIXED(printPrecision)+'<br>t='+z.TOFIXED(printPrecision);
+		mpanswer.innerHTML='P='+p.TOFIXED(printPrecision)+'<br>t='+z.TOFIXED(printPrecision)+'<br>df='+(n-1);
 		mpanswer.style.display='block';
 	}
 }
@@ -2776,9 +3166,13 @@ catch(err){
 	
 	<table>
 	<tr><td>X:</td>
-	<td><script>printRadioList('corradiox');</script></td></tr>
+	<td><script>printRadioList('corradiox');
+	var a=document.getElementsByClassName('corradiox'+'radio');
+	a[0].checked=true;</script></td></tr>
 	<tr><td>Y:</td>
-	<td><script>printRadioList('corradioy');</script></td></tr>
+	<td><script>printRadioList('corradioy');
+	var a=document.getElementsByClassName('corradioy'+'radio');
+	a[1].checked=true;</script></td></tr>
 	</table>
 <br>
 <button onclick='CalculateCorrelation();'>Calculate</button>
@@ -2817,7 +3211,7 @@ try{
 		t=r/Math.sqrt((1-r*r)/(n-2));
 		P=2*(1-tcdf(Math.abs(t),n-2));
 		
-		coranswer.innerHTML='y=mx+b<br>m='+m.TOFIXED(printPrecision)+'<br>b='+b.TOFIXED(printPrecision)+'<br>t='+t.TOFIXED(printPrecision)+'<br>P='+P.TOFIXED(printPrecision)+'<br>r='+r.TOFIXED(printPrecision);
+		coranswer.innerHTML='y=mx+b<br>m='+m.TOFIXED(printPrecision)+'<br>b='+b.TOFIXED(printPrecision)+'<br>t='+t.TOFIXED(printPrecision)+'<br>df='+(n-2)+'<br>P='+P.TOFIXED(printPrecision)+'<br>r='+r.TOFIXED(printPrecision);
 //	var l1=-1, l2=-1;
 	var D=40;
 
@@ -2891,14 +3285,18 @@ catch(err){
 	</div>
 
 <!------------------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='gofDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,contingencyDiv,correlationDiv'>Goodness of Fit</button></li>
+<li><button class='expander' data-open='gofDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,contingencyDiv,correlationDiv'>&chi;<sup>2</sup> Goodness of Fit</button></li>
 
 	<div id='gofDiv' class='expandable'>
 	<table>
 	<tr><td>Observed:</td>
-	<td><script>printRadioList('chi1');</script></td></tr>
+	<td><script>printRadioList('chi1');
+	var a=document.getElementsByClassName('chi1'+'radio');
+	a[0].checked=true;</script></td></tr>
 	<tr><td>Expected:</td>
-	<td><script>printRadioList('chi2');</script></td></tr>
+	<td><script>printRadioList('chi2');
+	var a=document.getElementsByClassName('chi2'+'radio');
+	a[1].checked=true;</script></td></tr>
 	</table>
 <button onclick='CalculateChiSquared();'>Calculate</button>
 <div id='chianswer' class='answerDiv'></div>
@@ -2926,7 +3324,7 @@ try{
 			var r=summarizeArray(a);
 			chi2=r.sum;
 			P=1-chi2cdf(chi2,listN[i]-1);
-			chianswer.innerHTML='P='+P.TOFIXED(printPrecision)+'<br>&chi;<sup>2</sup>='+chi2.TOFIXED(printPrecision);
+			chianswer.innerHTML='P='+P.TOFIXED(printPrecision)+'<br>&chi;<sup>2</sup>='+chi2.TOFIXED(printPrecision)+'<br>df='+(listN[i]-1);
 			chianswer.style.display='block';
 		}
 	}
@@ -2943,7 +3341,8 @@ catch(err){
 Select the first and last list containing your contingency table:<br>
 Lists: <script>
 	for (let i=0;i<numLists;i++)
-		document.write("<input type='checkbox'  id='conlist"+i+"' onclick='purge(contingencyanswer);'>"+i+"&nbsp;");
+		document.write("<label><input type='checkbox'  id='conlist"+i+"' onclick='purge(contingencyanswer);' class='contingencycheckbox'><span class='contingencylabel'>"+listLabel[i]+"</span></label>&nbsp;");
+	allLabelNames.push('contingency'+'label');	
 </script><br>
 <button onclick='CalculateContingency();'>Calculate</button>
 <div id='contingencyanswer' class='answerDiv'></div>
@@ -2957,9 +3356,11 @@ try{
 	var samelength=true;
 	var j=numLists-1;
 	var k;
-	while ((i<numLists) && !document.getElementById('conlist'+i).checked ) i++;
-	while (( j>=0)&&!document.getElementById('conlist'+j).checked ) j--;
-	if ((i==numLists) || (j==-1) || (i==j)) alert ('Select a range of lists.')
+	var a=document.getElementsByClassName('contingencycheckbox');
+
+	while ((i<numLists) && !a[i].checked ) i++;
+	while (( j>=0)&&!a[j].checked ) j--;
+	if ((i==numLists) || (j==-1) || (i==j)) alert ('Select a range of lists.');
 	else{ 
 		for (k=i;k<=j;k++){
 			if (listN[k]!=listN[i]) samelength=false;
@@ -3001,10 +3402,11 @@ try{
 			chi2=r.sum;
 
 			P=1-chi2cdf(chi2,(nr-1)*(nc-1));
-			contingencyanswer.innerHTML='P='+P.TOFIXED(printPrecision)+'<br>&chi;<sup>2</sup>='+chi2.TOFIXED(printPrecision);
+			contingencyanswer.innerHTML='P='+P.TOFIXED(printPrecision)+'<br>&chi;<sup>2</sup>='+chi2.TOFIXED(printPrecision)+'<br>df='+((nr-1)*(nc-1));
 			contingencyanswer.style.display='block';
 		}
 	}
+
 }
 catch(err){
 	alert('Input Error.');
@@ -3018,7 +3420,8 @@ catch(err){
 Select at least three lists to include in the test.<br>
 Lists: <script>
 	for (let i=0;i<numLists;i++)
-		document.write("<input type='checkbox'  id='anovalist"+i+"' onclick='purge(anovaanswer);'>"+i+"&nbsp;");
+		document.write("<label><input type='checkbox'  id='anovalist"+i+"' onclick='purge(anovaanswer);'  class='anovacheckbox'><span class='anovalabel'>"+listLabel[i]+"</span></label>&nbsp;");
+	allLabelNames.push('anova'+'label');	
 </script><br>
 <button onclick='CalculateANOVA();'>Calculate</button>
 <div id='anovaanswer' class='answerDiv'></div>
@@ -3033,15 +3436,15 @@ try{
 	var listempty=false;  
 	//k is the number of lists
 	k=0;
+	var a= document.getElementsByClassName('anovacheckbox');
 	for (i=0;i<numLists;i++)
-		if (document.getElementById('anovalist'+i).checked) k++; 
+		if (listN[i]==0) a[i].checked=false;
+	for (i=0;i<numLists;i++)
+		if (a[i].checked) k++; 
 	if (k<3)
-		alert('Select three or more lists.');
+		alert('Select three or more nonempty lists.');
 	else{ 
-		for (i=0;i<numLists;i++) if (document.getElementById('anovalist'+i).checked && (listN[i]==0)) listempty=true;
-		if (listempty)
-			alert('One of the lists you have chosen is empty.');
-		else{
+		{
 			xbb=0;
 			N=0;
 			for (i=0;i<numLists;i++) if (document.getElementById('anovalist'+i).checked){
@@ -3059,7 +3462,7 @@ try{
 			mserror=sserror/(N-k);
 			F=mstreatment/mserror;
 			P=1-fcdf(F,k-1,N-k);
-			anovaanswer.innerHTML='P='+P.TOFIXED(printPrecision)+'<br>F='+F.TOFIXED(printPrecision);
+			anovaanswer.innerHTML='P='+P.TOFIXED(printPrecision)+'<br>F='+F.TOFIXED(printPrecision)+'<br>Numerator df='+(k-1)+'<br>Denominator df='+(N-k);
 			anovaanswer.style.display='block';
 		}
 	}
