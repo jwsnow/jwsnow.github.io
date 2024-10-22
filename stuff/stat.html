@@ -779,8 +779,12 @@ function chi2pdf(x, df){
 	else
 		return((Math.pow(x,df/2-1)*Math.exp(-x/2))/(Math.pow(2,df/2)*gamma(df/2)));
 	}
+var chi2cutoffs=[0,26,15,11,9,8,7,7,6,6,5];	
 function chi2cdf(x, df){
-	if (df<=1){
+	var DF=floor(min(df, 10));
+	if ((df>=1) && (x>=chi2cutoffs[DF]*df))
+		return(1);
+	else if (df<=1){
 		return(LIG(df/2.0, x/2.0)/gamma(df/2));
 		}
 	else
@@ -2157,7 +2161,7 @@ function drawQuantilePlot(){
 <ul>
 
 <!------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='propIntervalDiv' data-close='matchedIntervalDiv,meanIntervalDiv,bootIntervalDiv,twopropIntervalDiv,twomeanIntervalDiv'>Proportion</button></li>
+<li><button class='expander' data-open='propIntervalDiv' data-close='matchedIntervalDiv,meanIntervalDiv,bootIntervalDiv,twopropIntervalDiv,twomeanIntervalDiv'>Z-Interval for One Proportion</button></li>
 
 	<div id='propIntervalDiv' class='expandable'>
 	<table>
@@ -2215,7 +2219,7 @@ function drawQuantilePlot(){
 	}
 	</script>		
 <!------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='meanIntervalDiv' data-close='matchedIntervalDiv,propIntervalDiv,bootIntervalDiv,twopropIntervalDiv,twomeanIntervalDiv'>Mean</button></li>
+<li><button class='expander' data-open='meanIntervalDiv' data-close='matchedIntervalDiv,propIntervalDiv,bootIntervalDiv,twopropIntervalDiv,twomeanIntervalDiv'>T-Interval for one Mean</button></li>
 
 	<div id='meanIntervalDiv' class='expandable'>
 	<table>
@@ -2295,7 +2299,7 @@ function drawQuantilePlot(){
 	}
 	</script>
 <!------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='twopropIntervalDiv' data-close='matchedIntervalDiv,meanIntervalDiv,propIntervalDiv,bootIntervalDiv,twomeanIntervalDiv'>Two Proportions</button></li>
+<li><button class='expander' data-open='twopropIntervalDiv' data-close='matchedIntervalDiv,meanIntervalDiv,propIntervalDiv,bootIntervalDiv,twomeanIntervalDiv'>Z- Interval for Two Proportions</button></li>
 
 	<div id='twopropIntervalDiv' class='expandable'>
 	<table border=1>
@@ -2372,7 +2376,7 @@ function drawQuantilePlot(){
 	}
 	</script>
 <!------------------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='twomeanIntervalDiv' data-close='matchedIntervalDiv,meanIntervalDiv,propIntervalDiv,bootIntervalDiv,twopropIntervalDiv'>Two Independent Means</button></li>
+<li><button class='expander' data-open='twomeanIntervalDiv' data-close='matchedIntervalDiv,meanIntervalDiv,propIntervalDiv,bootIntervalDiv,twopropIntervalDiv'>T-Interval for Two Independent Means</button></li>
 
 	<div id='twomeanIntervalDiv' class='expandable'>
 
@@ -2499,7 +2503,7 @@ catch(err){
 </script>
 
 <!------------------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='matchedIntervalDiv' data-close='propIntervalDiv,meanIntervalDiv,bootIntervalDiv,twopropIntervalDiv,twomeanIntervalDiv'>Matched Pairs</button></li>
+<li><button class='expander' data-open='matchedIntervalDiv' data-close='propIntervalDiv,meanIntervalDiv,bootIntervalDiv,twopropIntervalDiv,twomeanIntervalDiv'>T-Interval for Matched Pairs</button></li>
 
 	<div id='matchedIntervalDiv' class='expandable'>
 	<table>
@@ -2574,7 +2578,7 @@ catch(err){
 </script>
 
 <!------------------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='bootIntervalDiv' data-close='matchedIntervalDiv,meanIntervalDiv,propIntervalDiv,twopropIntervalDiv,twomeanIntervalDiv'>Bootstrap</button></li>
+<li><button class='expander' data-open='bootIntervalDiv' data-close='matchedIntervalDiv,meanIntervalDiv,propIntervalDiv,twopropIntervalDiv,twomeanIntervalDiv'>Bootstrap Interval for One Mean</button></li>
 
 	<div id='bootIntervalDiv' class='expandable'>
 	Confidence Level: <input type='text' id='bintervalcl' value="0.95" onclick='purge(bootintervalssanswer);'><br>
@@ -2656,7 +2660,7 @@ catch(err){
 
 <ul>
 <!------------------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='onepropDiv' data-close='twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>One Proportion</button></li>
+<li><button class='expander' data-open='onepropDiv' data-close='twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>Z-Test for One Proportion</button></li>
 
 	<div id='onepropDiv' class='expandable'>
 	<table>
@@ -2763,7 +2767,7 @@ catch(err){
 	</script>
 <!------------------------------------------------------------------------------------------------------------------------------------>
 
-<li><button class='expander' data-open='onemeanDiv' data-close='meanTestDataListDiv,onepropDiv,twopropDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>One Mean</button></li>
+<li><button class='expander' data-open='onemeanDiv' data-close='meanTestDataListDiv,onepropDiv,twopropDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>T-Test for One Mean</button></li>
 
 	<div id='onemeanDiv' class='expandable'>
 	<table>
@@ -2885,7 +2889,7 @@ catch(err){
 	</script>
 <!------------------------------------------------------------------------------------------------------------------------------------>
 
-<li><button class='expander' data-open='twopropDiv' data-close='onepropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>Two Proportions</button></li>
+<li><button class='expander' data-open='twopropDiv' data-close='onepropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>Z-Test for Two Proportions</button></li>
 
 	<div id='twopropDiv' class='expandable'>
 	<table border=1>
@@ -2965,7 +2969,7 @@ catch(err){
 	</script>
 <!------------------------------------------------------------------------------------------------------------------------------------>
 
-<li><button class='expander' data-open='twomeanDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>Two Independent Means</button></li>
+<li><button class='expander' data-open='twomeanDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>T-Test for Two Independent Means</button></li>
 
 	<div id='twomeanDiv' class='expandable'>
 
@@ -3083,7 +3087,7 @@ catch(err){
 </script>
 
 <!------------------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='matchedDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>Matched Pairs</button></li>
+<li><button class='expander' data-open='matchedDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,anovaDiv,bootTestDiv,gofDiv,contingencyDiv,correlationDiv'>T-Test for Matched Pairs</button></li>
 
 	<div id='matchedDiv' class='expandable'>
 	<table>
@@ -3285,7 +3289,7 @@ catch(err){
 	</div>
 
 <!------------------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='gofDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,contingencyDiv,correlationDiv'>&chi;<sup>2</sup> Goodness of Fit</button></li>
+<li><button class='expander' data-open='gofDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,contingencyDiv,correlationDiv'>&chi;<sup>2</sup>  Test for Goodness of Fit</button></li>
 
 	<div id='gofDiv' class='expandable'>
 	<table>
@@ -3335,7 +3339,7 @@ catch(err){
 }
 </script>
 <!------------------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='contingencyDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,correlationDiv'>Contingency</button></li>
+<li><button class='expander' data-open='contingencyDiv' data-close='onepropDiv,twopropDiv,onemeanDiv,twomeanDiv,matchedDiv,anovaDiv,bootTestDiv,gofDiv,correlationDiv'>&chi;<sup>2</sup> Contingency Table</button></li>
 
 	<div id='contingencyDiv' class='expandable'>
 Select the first and last list containing your contingency table:<br>
