@@ -896,7 +896,7 @@ function fcdf(x, d1, d2){
 				list[l][i]=round(list[l][i]);
 		printLists();
 		processLists();
-		closeAll();
+//		closeAll();
 		openDiv(dataListDiv);	
 	}
 	</script>
@@ -935,7 +935,7 @@ function fcdf(x, d1, d2){
 
 		printLists();
 		processLists();
-		closeAll();
+//		closeAll();
 		openDiv(dataListDiv);
 	}
 	</script>
@@ -966,7 +966,7 @@ function fcdf(x, d1, d2){
 		}
 		printLists();
 		processLists();
-		closeAll();
+//		closeAll();
 		openDiv(dataListDiv);	
 	}
 	</script>
@@ -1005,7 +1005,7 @@ function fcdf(x, d1, d2){
 			}
 			printLists();
 			processLists();
-			closeAll();
+//			closeAll();
 			openDiv(dataListDiv);
 		}
 	}
@@ -1063,7 +1063,7 @@ function fcdf(x, d1, d2){
 			}
 			printLists();
 			processLists();
-			closeAll();
+//			closeAll();
 			openDiv(dataListDiv);
 		}
 	}
@@ -1080,8 +1080,63 @@ function fcdf(x, d1, d2){
 		Output List:<br><script>printRadioList('canoutput');
 	var a=document.getElementsByClassName('canoutput'+'radio');
 	a[0].checked=true;</script><br>
-canned data not yet implemented
+<ul>
+<li>
+ANSUR 2012 - Anthrompmetric Survey of U.S. Army Personel - The data below represent random samples of 50 females and 50 males from the ANSUR 2012 data. The data is aligned so that corresponding entries from each list are from the same individual.
+<ul>
+<li>Female: 
+<button onclick='insertData(Fheight,FHeightLabel)'>Height</button>
+<button onclick='insertData(Fspan,FSpanLabel)'>Span</button>
+<button onclick='insertData(Fwaist,FWaistLabel)'>Waist Height</button>
+<button onclick='insertData(Ffoot,FFootLabel)'>Foot Length</button>
+<button onclick='insertData(Fweight,FWeightLabel)'>Weight</button>
+<button onclick='insertData(Fage,FAgeLabel)'>Age</button>
+</li>
+<li>Male: 
+<button onclick='insertData(Mheight, MHeightLabel)'>Height</button>
+<button onclick='insertData(Mspan, MSpanLabel)'>Span</button>
+<button onclick='insertData(Mwaist, MWaistLabel)'>Waist Height</button>
+<button onclick='insertData(Mfoot, MFootLabel)'>Foot Length</button>
+<button onclick='insertData(Mweight, MWeightLabel)'>Weight</button>
+<button onclick='insertData(Mage, MAgeLabel)'>Age</button>
+</li>
+</ul>
+</li>
+</ul>
 </div>
+<script>
+function insertData(a, b){
+
+		var i,l;
+		l=getChecked('canoutput');//
+		var n=a.length;
+		list[l]=[];
+		for (i=0;i<n;i++)
+			list[l][i]=a[i];
+		listLabel[l]=b;
+		printLists();
+		processLists();
+//		closeAll();
+		openDiv(dataListDiv);	
+
+}
+
+var FFootLabel='F Foot'; var Ffoot=[ 251,257,235,257,258,246,247,245,230,244,227,245,272,240,224,249,250,234,248,252,244,250,267,220,240,257,260,232,256,252,266,256,225,243,243,274,228,245,234,260,233,262,240,249,217,237,253,268,247,225];
+var FSpanLabel='F Span'; var Fspan=[ 1688,1669,1641,1746,1697,1619,1617,1683,1538,1605,1495,1633,1785,1578,1548,1738,1700,1560,1618,1660,1636,1698,1752,1529,1570,1719,1752,1643,1704,1639,1843,1738,1627,1613,1677,1720,1700,1631,1647,1693,1552,1662,1659,1734,1628,1521,1667,1840,1674,1511];
+var FHeightLabel='F Height'; var Fheight=[1670,1570,1592,1712,1682,1608,1603,1704,1599,1642,1500,1628,1702,1633,1588,1646,1684,1543,1623,1633,1683,1658,1729,1545,1575,1685,1708,1590,1686,1628,1732,1615,1552,1590,1619,1679,1688,1618,1688,1629,1597,1694,1584,1714,1573,1600,1603,1718,1597,1549];
+var FWaistLabel='F Waist Height'; var Fwaist=[997,970,962,1060,1042,957,974,1051,924,1000,899,979,1036,997,977,1035,954,903,955,968,986,1004,1083,900,938,996,1043,971,1007,962,1093,953,972,964,972,1018,1016,968,1005,998,939,1012,962,1061,933,978,947,1077,932,883];
+var FWeightLabel='F Weight'; var Fweight=[762,672,609,582,619,785,561,687,654,733,644,703,1019,618,582,685,819,623,590,756,870,852,749,543,598,776,663,539,611,743,678,822,431,516,660,591,686,678,735,732,548,792,712,697,589,549,663,698,631,676];
+var FAgeLabel='F Age'; var Fage=[32,18,19,25,20,27,24,44,33,38,40,23,27,20,20,36,30,27,25,18,36,26,24,40,19,33,27,23,20,21,38,52,23,23,22,19,21,21,34,39,21,25,58,39,24,20,33,20,39,45];
+
+
+var MFootLabel='M Foot'; var Mfoot=[276,264,274,271,255,271,259,275,257,259,263,263,244,270,280,273,251,272,269,278,281,282,258,267,283,274,270,264,262,263,268,255,250,249,264,279,263,261,267,273,263,254,268,253,278,274,283,260,260,257];
+var MSpanLabel='M Span'; var Mspan=[1800,1743,1877,1873,1699,1792,1694,1786,1729,1740,1748,1814,1677,1809,1916,1822,1783,1886,1739,1735,1861,1922,1834,1781,1979,1786,1829,1733,1789,1829,1775,1648,1708,1614,1766,1773,1790,1774,1834,1849,1737,1691,1790,1784,1855,1840,1878,1844,1743,1757];
+var MHeightLabel='M Height'; var Mheight=[1791,1679,1838,1772,1706,1748,1694,1689,1680,1721,1728,1746,1606,1774,1811,1738,1679,1779,1691,1673,1758,1783,1771,1753,1907,1756,1742,1644,1740,1735,1748,1640,1655,1689,1740,1733,1743,1751,1795,1820,1734,1622,1745,1739,1785,1784,1785,1710,1671,1651];
+var MWaistLabel='M Waist Height'; var Mwaist=[1061,1021,1115,1055,1006,1029,1007,1004,1006,1048,1035,1057,952,1050,1123,1041,1022,988,1024,1005,1087,1113,1075,1039,1154,1023,1010,998,1060,1063,1011,960,999,997,1018,1050,1015,1040,1086,1070,1036,978,978,1065,1087,1079,1087,1045,1019,1004];
+var MWeightLabel='M Weight'; var Mweight=[838,682,851,1001,717,869,747,685,713,951,815,696,568,905,847,927,688,1329,813,988,953,674,703,798,1140,869,920,862,735,701,1044,667,677,600,862,723,734,975,701,1138,749,717,1016,775,742,878,962,779,772,609];
+var MAgeLabel='M Age'; var Mage=[42,20,36,35,21,47,24,30,25,23,32,26,30,49,29,51,22,49,31,24,27,26,21,22,26,30,21,29,20,27,33,29,36,26,26,18,48,32,32,36,24,23,22,30,22,41,27,46,33,28]; 
+
+</script>
 </div>
 <!-- canned data--->
 <!---------------------------------------------------------------------------------------------------------------------------------->
