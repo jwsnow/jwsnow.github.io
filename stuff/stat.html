@@ -138,8 +138,10 @@ function cacheMath(){
 		var z=Number('1e-'+(n+1));
 		if (abs(this)<z)
 			return(0);
-		else
+		else {
+			return(Number(Math.round(this*pow(10,n))/pow(10,n)));
 			return(Number(Math.round(this+'e'+n)+'e-'+n));
+		}	
 	}	
 	random=RNG;
 }	
@@ -680,7 +682,7 @@ function RIB(x,a,b){
 		logterm=(n+1)*logx+logBeta(a+1,n+1)-logBeta(a+b,n+1);
 		term=Math.exp(logterm);
 		n++;
-		}
+		}	
 	return(c*(sum+term));
 	}
 function LIG(s,z){
@@ -817,7 +819,7 @@ function invchi2(x,df){
 // F distribution ************************************************
 function fcdf(x, d1, d2){
 	var z;
-	z= d1*x /(d1*x + d2);
+	z= d1*x /(d1*x + d2);	
 	return(RIB(z, d1/2, d2/2));
 	}
 //****************************************************************
@@ -1402,16 +1404,16 @@ for (i=0;i<numLists;i++)
 	i=0;
 	while ((i<numLists) && ((listN[i]==0) || (!boxcheckboxes[i].checked))) i++;
 	if (i<numLists){
-		m=listMin[i];
+		m=listMin[i]; 
 		M=listMax[i];
-		for (j=i+1;j<numLists;j++) if (boxcheckboxes[i].checked){
+		for (j=i+1;j<numLists;j++) if (boxcheckboxes[j].checked){
 			if (listMin[j]<m) m=listMin[j];
 			if (listMax[j]>M) M=listMax[j];
 		}
 		d=h/(numLists+3);
 		y=d+30;
 		ctx.font='12px Helvetica';
-		var bw=5;
+		var bw=5
 		for (i=0;i<numLists;i++)
 			if ((boxcheckboxes[i].checked) && (listN[i]>0)){
 			plotted=true;
@@ -3792,6 +3794,7 @@ try{
 			mserror=sserror/(N-k);
 			F=mstreatment/mserror;
 			P=1-fcdf(F,k-1,N-k);
+console.log(P);			
 			anovaanswer.innerHTML='<ul><li>P='+P.TOFIXED(printPrecision)+'</li><li>F='+F.TOFIXED(printPrecision)+'</li><li>Numerator df='+(k-1)+'</li><li>Denominator df='+(N-k)+'</li></ul>';
 			anovaanswer.style.display='block';
 		}
