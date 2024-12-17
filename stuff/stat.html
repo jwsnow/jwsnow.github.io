@@ -2,8 +2,44 @@
 <html>
 <head>
 <style>
+#settings{
+	position: fixed;
+	left: 50px;
+	right:50px;
+	top:50px;
+	bottom:50px;
+	background: white;
+	border: 5px solid black;
+	padding: 20px;
+	display: none;
+}
+button.closer{
+	position: absolute;
+	top:5px;
+	right:5px;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 1px;
+	outline: none;
+	cursor: pointer;
+	font-size:20px;	
+}
+button.gear{
+	height:40px;
+	width:40px;
+	float: right;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 1px;
+	outline: none;
+	cursor: pointer;
+	font-size:20px;
+}
 body{
 	margin: 0px;
+}
+div.intervalOptions{
+	display: none;
 }
 div.pad{
 	height: 50px;
@@ -59,6 +95,9 @@ div.expandable{
 table.summaryTable td{
 	width: 10ch;
 }
+button{
+	color: black;
+}
 button.expander{
 	cursor: pointer;
 }
@@ -85,6 +124,7 @@ div.answerDiv{
 </style>
 <script>
 var numLists=10;
+var globalNumSamples=10000;
 var list=[];
 var listLabel=['List 0', 'List 1', 'List 2', 'List 3', 'List 4', 'List 5', 'List 6', 'List 7', 'List 8', 'List 9' ];
 var listLabelTextArea, listTextArea;
@@ -257,12 +297,16 @@ function showListLabels(){
 	}
 }
 var numbersOnly=[];
+globalSeparationCharacter=',';
 function getLists(){ 
 	var i,j,x,y,k,l;
 	var m;
 	for (i=0;i<numLists;i++){
 		listLabel[i]=listLabelTextArea[i].value;
-		list[i]=listTextArea[i].value.replace(/,/g, '\n').split('\n'); 
+		if (globalSeparationCharacter==',')
+			list[i]=listTextArea[i].value.replace(/,/g, '\n').split('\n'); 
+		else
+			list[i]=listTextArea[i].value.replace(/;/g, '\n').split('\n'); 
 	}
 	for (i=0;i<numLists;i++){
 		numbersOnly[i]=true;
@@ -872,7 +916,7 @@ function fcdf(x, d1, d2){
 <button class='expander' data-open='distributionDiv'  data-close='dataListDiv,generatedDiv,summaryDiv,chartDiv,intervalsDiv,testsDiv'>Calculators</button>
 <button class='expander' data-open='intervalsDiv'  data-close='dataListDiv,generatedDiv,summaryDiv,chartDiv,distributionDiv,testsDiv'>Intervals</button>
 <button class='expander' data-open='testsDiv'  data-close='dataListDiv,generatedDiv,summaryDiv,chartDiv,distributionDiv,intervalsDiv'>Tests</button>
-
+<button class='gear' onclick='showSettings();'>&#9881;</button>
 </div>
 <div class='content'><div class='pad'></div>
 
@@ -963,7 +1007,8 @@ function fcdf(x, d1, d2){
 		var n=eval(normaln.value);
 		list[l]=[];
 		for (i=0;i<n;i++)
-			list[l][i]=(m+s*boxMuller()).TOFIXED(printPrecision);
+			//list[l][i]=(m+s*boxMuller()).TOFIXED(printPrecision);
+			list[l][i]=(m+s*invnorm(random())).TOFIXED(printPrecision);
 		if (genintegeryes.checked)
 			for (i=0;i<n;i++)
 				list[l][i]=round(list[l][i]);
@@ -1394,8 +1439,8 @@ d=(Max-Min)/n;
 	for (i=0;i<numLists;i++)
 	if ((listN[i]>1) && (boxes[i].checked)){
 		//histoDiv.style.display='block';
-		freqTables+='<table border=1><tr><th colspan=3>'+listLabel[i]+'</th></tr>';
-		freqTables+='<tr><th>Interval</th><th>Frequency</th><th>Relative Frequency</th></tr>';
+		freqTables+='<table border=1><tr><th colspan=4>'+listLabel[i]+'</th></tr>';
+		freqTables+='<tr><th>Interval</th><th>Frequency</th><th>Relative Frequency</th><th>Cumulative Frequency</th></tr>';
 		ctx.strokeStyle=theColors[i];
 			c=[];
 			for (bin=0;bin<=n;bin++)
@@ -1403,11 +1448,15 @@ d=(Max-Min)/n;
 			for (j=0;j<listN[i];j++)
 				c[ floor((list[i][j]-Min)/d)  ]++;
 			H=1;
+			var cum=[];
+			cum[0]=c[0];
+			for (j=1;j<n;j++)
+				cum[j]=cum[j-1]+c[j];
 			for (j=0;j<n;j++)
 				if (c[j]>H)
 					H=c[j];
-			for (j=0;j<=n;j++){
-				freqTables+='<tr><td>'+(Min+j*d).TOFIXED(2)+'&le; x &lt; '+(Min+(j+1)*d).TOFIXED(2)+'</td><td>'+c[j]+'</td><td>'+(c[j]/listN[i]).TOFIXED(4)+'</td></tr>'
+			for (j=0;j<n;j++){
+				freqTables+='<tr><td>'+(Min+j*d).TOFIXED(2)+'&le; x &lt; '+(Min+(j+1)*d).TOFIXED(2)+'</td><td>'+c[j]+'</td><td>'+(c[j]/listN[i]).TOFIXED(4)+'</td><td>'+(cum[j]/listN[i]).TOFIXED(4)+'</td></tr>'
 			}
 			ctx.lineWidth=0.95*dx/numChecks;
 			ctx.beginPath();
@@ -2421,7 +2470,9 @@ function drawChiSummary(cvs,a, b, df){ console.log(a,b,df);
 
 <div class='pageMenu'>
 <button class='expander' data-open='ParametricIntervalsDiv' data-close='BootstrapIntervalsDiv'>Parametric Intervals</button>
+<span class='special'>
 <button class='expander' data-open='BootstrapIntervalsDiv' data-close='ParametricIntervalsDiv'>Bootstrap Intervals</button>
+</span>
 </div>
 
 <div class='subPage'>
@@ -2439,11 +2490,11 @@ function drawChiSummary(cvs,a, b, df){ console.log(a,b,df);
 	<tr><td>Sample Size:</td><td>n=</td><td><input type='text' id='pintervaln' value="100" onkeydown='purge(pintervalanswerDIV);' onchange='copyThisTo(this,propn);'></td></tr>
 	<tr><td>Confidence Level:</td><td>CL=</td><td><input type='text' id='pintervalcl' value="0.95" onclick='purge(pintervalanswerDIV);'></td></tr>
 	</table>
-	
+<div class='intervalOptions'>	
 	<label><input type='radio' name='propinttype' id='propintlt' onclick='purge(pintervalanswerDIV);'>Left Tail</label> 
 	<label><input type='radio' name='propinttype' id='propintne' checked=true onclick='purge(pintervalanswerDIV);'>Two Tailed</label>
 	<label><input type='radio' name='propinttype' id='propintgt'  onclick='purge(pintervalanswerDIV);'>Right Tail</label><br>
-	
+</div>	
 	<button onclick='CalculatePInterval();'>Calculate</button>
 	<div id='pintervalanswerDIV' class='answerDiv'> 
 	<div id='pintervalanswer' ></div>
@@ -2481,8 +2532,8 @@ function drawChiSummary(cvs,a, b, df){ console.log(a,b,df);
 			else{
 				z=abs(invnorm(a/2));
 				e=z*sqrt(p*(1-p)/n);
-				pintervalanswer.innerHTML='<ul><li>'+(p-e).TOFIXED(printPrecision)+' &lt; p &lt; '+(p+e).TOFIXED(printPrecision)+'</li><li>Point Estimate: '+(x/n).TOFIXED(printPrecision)+'</li><li>E='+e.TOFIXED(printPrecision)
-				+'</li><li>z='+z.TOFIXED(printPrecision)+'</li><li>SE='+(sqrt(p*(1-p)/n)).TOFIXED(printPrecision)+'</li></ul>';
+				pintervalanswer.innerHTML='<ul><li>'+(p-e).TOFIXED(printPrecision)+' &lt; p &lt; '+(p+e).TOFIXED(printPrecision)+'</li><li>Point Estimate: '+(x/n).TOFIXED(printPrecision)+'</li><li>E: '+e.TOFIXED(printPrecision)
+				+'</li><li>z: '+z.TOFIXED(printPrecision)+'</li><li>SE: '+(sqrt(p*(1-p)/n)).TOFIXED(printPrecision)+'</li></ul>';
 				//drawBellSummary(pintervalcanvas, p, sqrt(p*(1-p)/n), p-e, p+e, null, 'lightgray', 'black', 'lightgray', null);
 			}
 			pintervalanswerDIV.style.display='block';
@@ -2503,10 +2554,11 @@ function drawChiSummary(cvs,a, b, df){ console.log(a,b,df);
 	<tr><td>Sample Size:</td><td>n=</td><td><input type='text' id='tintervalssn' value="100" onkeydown='purge(tintervalssanswer);'  onchange='copyThisTo(this, ttestssn);'></td></tr>
 	<tr><td>Confidence Level:</td><td>CL=</td><td><input type='text' id='mintervalcl' value="0.95" onclick='purge(tintervalssanswer);'></td></tr>
 	</table>
+<div class='intervalOptions'>	
 	<label><input type='radio' name='tinttype' id='tintlt' onclick='purge(tintervalssanswer);'>Left Tail</label> 
 	<label><input type='radio' name='tinttype' id='tintne' checked=true onclick='purge(tintervalssanswer);'>Two Tailed</label>
 	<label><input type='radio' name='tinttype' id='tintgt'  onclick='purge(tintervalssanswer);'>Right Tail</label><br>
-	
+</div>	
 	<button class='expander' data-open='populateTIntervalStatsDiv' data-close='tintervalssanswer'>Select Data List</button><br>
 	<div id='populateTIntervalStatsDiv' class='expandable'> 
 		Data List: <br><script>printRadioList('interval');
@@ -2550,8 +2602,8 @@ function drawChiSummary(cvs,a, b, df){ console.log(a,b,df);
 			else{
 				t=abs(invt(a/2, n-1));
 				e=t*s/sqrt(n);
-				tintervalssanswer.innerHTML='<ul><li>'+(m-e).TOFIXED(printPrecision)+' &lt; &mu; &lt; '+(m+e).TOFIXED(printPrecision)+'</li><li>Point Estimate: '+(m).TOFIXED(printPrecision)+'</li><li>E='+e.TOFIXED(printPrecision)
-				+'</li><li>df='+(n-1)+'</li><li>t='+t.TOFIXED(printPrecision)+'</li><li>SE='+(s/sqrt(n)).TOFIXED(printPrecision)+'</li></ul>';
+				tintervalssanswer.innerHTML='<ul><li>'+(m-e).TOFIXED(printPrecision)+' &lt; &mu; &lt; '+(m+e).TOFIXED(printPrecision)+'</li><li>Point Estimate: '+(m).TOFIXED(printPrecision)+'</li><li>E: '+e.TOFIXED(printPrecision)
+				+'</li><li>df: '+(n-1)+'</li><li>t: '+t.TOFIXED(printPrecision)+'</li><li>SE: '+(s/sqrt(n)).TOFIXED(printPrecision)+'</li></ul>';
 			}
 			tintervalssanswer.style.display='block';
 		}
@@ -2566,12 +2618,12 @@ function drawChiSummary(cvs,a, b, df){ console.log(a,b,df);
 		var i;
 		inlist=getChecked('interval');
 		if (listN[inlist]>0){
-			tintervalssm.value=listM[inlist];
-			tintervalsss.value=listS[inlist];
-			tintervalssn.value=listN[inlist];
-			ttestssm.value=listM[inlist];
-			ttestsss.value=listS[inlist];
-			ttestssn.value=listN[inlist];			
+			tintervalssm.value=listM[inlist].TOFIXED(printPrecision);
+			tintervalsss.value=listS[inlist].TOFIXED(printPrecision);
+			tintervalssn.value=listN[inlist].TOFIXED(printPrecision);
+			ttestssm.value=listM[inlist].TOFIXED(printPrecision);
+			ttestsss.value=listS[inlist].TOFIXED(printPrecision);
+			ttestssn.value=listN[inlist].TOFIXED(printPrecision);			
 			populateTIntervalStatsDiv.style.display='none';
 		}
 		else alert('That list is empty.');
@@ -2598,11 +2650,11 @@ function drawChiSummary(cvs,a, b, df){ console.log(a,b,df);
 	<table>
 	<tr><td>Confidence Level:</td><td>CL=</td><td><input type='text' id='twopropintervalcl' value="0.95" onclick='purge(twopropintanswer);'></td></tr>	
 	</table>
-
+<div class='intervalOptions'>
 	<label><input type='radio' name='twopropinttype' id='twopropintlt' onclick='purge(twopropintanswer);'>Left Tail</label> 
 	<label><input type='radio' name='twopropinttype' id='twopropintne' checked=true onclick='purge(twopropintanswer);'>Two Tailed</label>
 	<label><input type='radio' name='twopropinttype' id='twopropintgt'  onclick='purge(twopropintanswer);'>Right Tail</label><br>
-
+</div>
 	<button onclick='CalculateTwoPropInterval();'>Calculate</button>
 	<div id='twopropintanswer' class='answerDiv expandable' ></div>
 	</div>
@@ -2643,7 +2695,10 @@ function drawChiSummary(cvs,a, b, df){ console.log(a,b,df);
 			else{
 				z=-invnorm(a/2); 
 				e=z*sd;
-				twopropintanswer.innerHTML='<ul><li>'+((p1hat-p2hat)-e).TOFIXED(printPrecision) + '&lt; p<sub>1</sub>-p<sub>2</sub>&leq;'+((p1hat-p2hat)+e).TOFIXED(printPrecision)+'</li></ul>';
+				twopropintanswer.innerHTML='<ul><li>'+((p1hat-p2hat)-e).TOFIXED(printPrecision) + '&lt; p<sub>1</sub>-p<sub>2</sub>&leq;'+((p1hat-p2hat)+e).TOFIXED(printPrecision)+'</li>'+
+				'<li>Point Estimate: '+(p1hat-p2hat).TOFIXED(printPrecision)+'</li>'+
+				'<li> E: '+(e).TOFIXED(printPrecision)+'</li>'+
+				'<li> z: '+(z).TOFIXED(printPrecision)+'</li>'+'</ul>';
 				}				
 //			twopropintanswer.innerHTML='P='+p.TOFIXED(printPrecision)+'<br>z='+z.TOFIXED(printPrecision);
 			twopropintanswer.style.display='block';
@@ -2695,11 +2750,12 @@ function drawChiSummary(cvs,a, b, df){ console.log(a,b,df);
 	<table>
 	<tr><td>Confidence Level:</td><td>CL=</td><td><input type='text' id='t2intervalcl' value="0.95" onclick='purge(t2intssanswer);'></td></tr>	
 	</table>
-
+<div class='intervalOptions'>
 <label><input type='radio' name='t2intsstype' id='t2intsslt' onclick='purge(t2intssanswer);'>Left Tail</label>
 <label><input type='radio' name='t2intsstype' id='t2intssne' checked=true onclick='purge(t2intssanswer);'>Two Tails</label>
 <label><input type='radio' name='t2intsstype' id='t2intssgt' onclick='purge(t2intssanswer);'>Right Tail</label>
 <br>
+</div>
 
 <button onclick='CalculateT2IntervalFromSummaryStatistics();'>Calculate</button>
 <div id='t2intssanswer' class='answerDiv'></div>
@@ -2745,7 +2801,11 @@ try{
 		else{
 			z=abs(invt(alpha/2, df));
 			e=z*s;
-			t2intssanswer.innerHTML='<ul><li>'+(m-e).TOFIXED(printPrecision)+'&lt; &mu;<sub>1</sub>-&mu;<sub>2</sub>&lt;'+(m+e).TOFIXED(printPrecision)+'</li></ul>';				
+			t2intssanswer.innerHTML='<ul><li>'+(m-e).TOFIXED(printPrecision)+'&lt; &mu;<sub>1</sub>-&mu;<sub>2</sub>&lt;'+(m+e).TOFIXED(printPrecision)+'</li>'+
+				'<li>Point Estimate: '+(m).TOFIXED(printPrecision)+'</li>'+
+				'<li> E: '+(e).TOFIXED(printPrecision)+'</li>'+
+				'<li> t: '+(z).TOFIXED(printPrecision)+'</li>'+
+				'<li> df: '+(df).TOFIXED(printPrecision)+'</li>'+'</ul>';
 		}
 		t2intssanswer.style.display='block';
 	}
@@ -2762,12 +2822,12 @@ catch(err){
 		inlist=getChecked('meanint2left');
 			if (listN[inlist]==0) alert ('That list is empty.');
 			else{
-				t2intssm1.value=listM[inlist];
-				t2intsss1.value=listS[inlist];
-				t2intssn1.value=listN[inlist];
-				t2testssm1.value=listM[inlist];
-				t2testsss1.value=listS[inlist];
-				t2testssn1.value=listN[inlist];
+				t2intssm1.value=listM[inlist].TOFIXED(printPrecision);
+				t2intsss1.value=listS[inlist].TOFIXED(printPrecision);
+				t2intssn1.value=listN[inlist].TOFIXED(printPrecision);
+				t2testssm1.value=listM[inlist].TOFIXED(printPrecision);
+				t2testsss1.value=listS[inlist].TOFIXED(printPrecision);
+				t2testssn1.value=listN[inlist].TOFIXED(printPrecision);
 				meanInterval2LeftDataListDiv.style.display='none';
 			}		
 		}
@@ -2812,11 +2872,12 @@ catch(err){
 	<table>
 	<tr><td>Confidence Level:</td><td>CL=</td><td><input type='text' id='mpintcl' value="0.95" onclick='purge(mpintanswer);'></td></tr>	
 	</table>
-
+<div class='intervalOptions'>
 <label><input type='radio' name='mpinttype' id='mpintlt' onclick='purge(mpintanswer);'>Left Tail</label>
 <label><input type='radio' name='mpinttype' id='mpintne' checked=true onclick='purge(mpintanswer);'>Two Tails</label>
 <label><input type='radio' name='mpinttype' id='mpintgt' onclick='purge(mpintanswer);'>Right Tail</label>
 <br>
+</div>
 <button onclick='CalculateMPInterval();'>Calculate</button>
 <div id='mpintanswer' class='answerDiv'></div>
 	</div>
@@ -2857,7 +2918,11 @@ try{
 		else{
 			z=abs(invt(alpha/2,df));
 			e=z*s/sqrt(n);
-			mpintanswer.innerHTML='<ul><li>'+(m-e).TOFIXED(printPrecision) +'&lt; &mu;<sub>d</sub> &lt;'+(m+e).TOFIXED(printPrecision)+'</li></ul>';		
+			mpintanswer.innerHTML='<ul><li>'+(m-e).TOFIXED(printPrecision) +'&lt; &mu;<sub>d</sub> &lt;'+(m+e).TOFIXED(printPrecision)+'</li>'+
+				'<li>Point Estimate: '+(m).TOFIXED(printPrecision)+'</li>'+
+				'<li> E: '+(e).TOFIXED(printPrecision)+'</li>'+
+				'<li> t: '+(z).TOFIXED(printPrecision)+'</li>'+
+				'<li> df: '+(df).TOFIXED(printPrecision)+'</li>'+'</ul>';		
 		}
 		mpintanswer.style.display='block';
 	}
@@ -2873,9 +2938,21 @@ catch(err){
 <h4>Bootstrap Intervals</h3>
 <ul>
 <!------------------------------------------------------------------------------------------------------------------------------------>
-
+<li><button class='expander' data-open='bootAbout' data-close='bootIntervalDiv,bootMPIntervalDiv,boot2MeanIntervalDiv,boot2PropIntervalDiv,bootPropIntervalDiv'>About</button></li>
+<div id='bootAbout' class='expandable'>
+<p>
+For this approach to confidence intervals, the sample is assumed to be representative of the population. We draw 10,000 samples -- called bootstrap samples -- from the original sample with replacement. 
+This simulates sampling from a sufficiently large population which has the same characteristics as the given sample. For each bootstrap sample, we calculate a mean, proportion, or difference. 
+The bounds of the confidence interval are then found using percentiles of these 10,000 values. For each interval, we draw a histogram of the 10,000 values. In the histograms:
+<ul>
+<li>Red lines indicate the bounds of the confidence interval.</li>
+<li>Green either indicates original data values or the statistic from the original sample.</li>
+<li>For differences, a blue line indicates the location of 0.</li>
+</ul>
+</p>
+</div>
 <!------------------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='bootIntervalDiv' data-close='bootMPIntervalDiv,boot2MeanIntervalDiv,boot2PropIntervalDiv,bootPropIntervalDiv'>Bootstrap Intervals from One Sample</button></li>
+<li><button class='expander' data-open='bootIntervalDiv' data-close='bootAbout,bootMPIntervalDiv,boot2MeanIntervalDiv,boot2PropIntervalDiv,bootPropIntervalDiv'>Intervals from One Sample</button></li>
 
 	<div id='bootIntervalDiv' class='expandable'>
 	Confidence Level: <input type='text' id='bintervalcl' value="0.95" onclick='purge(bootintervalssanswer);'><br>
@@ -2887,7 +2964,7 @@ catch(err){
 	<button onclick='calculateBootInterval();' >Calculate</button>
 	<div id='bootintervalssanswer' class='answerDiv'>
 	<div id='bootintervalactualssanswer' ></div>
-	Gray denotes the distribution of bootstrap means. Green indicates the original data. Red depicts the bounds of the bootstrap interval.<br>
+	Histogram of sample means:<br>
 	<canvas id="bootMeanIntervalCanvas" width=400 height=200></canvas><br>
 	<!--canvas id="bootVarianceIntervalCanvas" width=400 height=400></canvas-->
 	</div>
@@ -3008,7 +3085,7 @@ catch(err){
 	try{
 		var inlist=0;
 		var i,j,r;
-		var numSamples=10000;
+		var numSamples=globalNumSamples;
 		var sortedArray;
 		var lowerLimit, uperLimit, margin;
 		var cl=eval(bintervalcl.value);
@@ -3042,21 +3119,24 @@ catch(err){
 			lowerLimitMean=percentileSorted(sortedArray, left);
 			upperLimitMean=percentileSorted(sortedArray, right);
 			margin=(upperLimitMean-lowerLimitMean)/2;
-			bootintervalactualssanswer.innerHTML+='<ul><li>'+(lowerLimitMean).TOFIXED(printPrecision)+' &lt; &mu; &lt; '+(upperLimitMean).TOFIXED(printPrecision)+'<br>Point Estimate: '+(r.m).TOFIXED(printPrecision)+'<br>E='+margin.TOFIXED(printPrecision)+'</li></ul>';
+			bootintervalactualssanswer.innerHTML+='<ul><li>'+(lowerLimitMean).TOFIXED(printPrecision)+' &lt; &mu; &lt; '+(upperLimitMean).TOFIXED(printPrecision)+'<br>Point Estimate: '+(r.m).TOFIXED(printPrecision)+'</li></ul>';
 	
 			sortedArray=sampleMedians.toSorted(function(a, b){return a - b});
 			lowerLimit=percentileSorted(sortedArray, left);
 			upperLimit=percentileSorted(sortedArray, right);
+			margin=(upperLimit-lowerLimit)/2;
 			bootintervalactualssanswer.innerHTML+='<ul><li>'+(lowerLimit).TOFIXED(printPrecision)+' &lt; median &lt; '+(upperLimit).TOFIXED(printPrecision)+'<br>Point Estimate: '+(r.q2).TOFIXED(printPrecision)+'</li></ul>';
 
 			sortedArray=sampleVariances.toSorted(function(a, b){return a - b});
 			lowerLimitVar=percentileSorted(sortedArray, left);
 			upperLimitVar=percentileSorted(sortedArray, right);
+			margin=(upperLimitVar-lowerLimitVar)/2;
 			bootintervalactualssanswer.innerHTML+='<ul><li>'+(lowerLimitVar).TOFIXED(printPrecision)+' &lt; &sigma;<sup>2</sup> &lt; '+(upperLimitVar).TOFIXED(printPrecision)+'<br>Point Estimate: '+(r.s2).TOFIXED(printPrecision)+'</li></ul>';
 
 			sortedArray=sampleSDs.toSorted(function(a, b){return a - b});
 			lowerLimit=percentileSorted(sortedArray, left);
 			upperLimit=percentileSorted(sortedArray, right);
+			margin=(upperLimit-lowerLimit)/2;
 			bootintervalactualssanswer.innerHTML+='<ul><li>'+(lowerLimit).TOFIXED(printPrecision)+' &lt; &sigma; &lt; '+(upperLimit).TOFIXED(printPrecision)+'<br>Point Estimate: '+(r.s).TOFIXED(printPrecision)+'</li></ul>';
 
 			//r=summarizeArray(sampleMeans);
@@ -3073,7 +3153,7 @@ catch(err){
 	}	
 	</script>
 <!------------------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='bootPropIntervalDiv' data-close='bootMPIntervalDiv,boot2MeanIntervalDiv,boot2PropIntervalDiv,bootIntervalDiv'>Bootstrap Interval for One Proportion</button></li>
+<li><button class='expander' data-open='bootPropIntervalDiv' data-close='bootAbout,bootMPIntervalDiv,boot2MeanIntervalDiv,boot2PropIntervalDiv,bootIntervalDiv'>One Proportion</button></li>
 
 	<div id='bootPropIntervalDiv' class='expandable'>
 	<table>
@@ -3084,7 +3164,6 @@ catch(err){
 	<button onclick='calculateBootPropInterval();' >Calculate</button>
 	<div id='bpintervalanswer' class='answerDiv'>
 	<div id='bpintervalactualssanswer' ></div>
-	Gray denotes the distribution of bootstrap means. Green indicates the original data. Red depicts the bounds of the bootstrap interval.<br>
 	<canvas id="bootPropIntervalCanvas" width=400 height=200></canvas><br>
 	</div>
 	</div>
@@ -3106,7 +3185,7 @@ function calculateBootPropInterval(){
 		else if (!((0<cl) && (cl<1)))
 			alert('The confidence level should be between 0 and 1.');
 		else {
-			var numSamples=10000;
+			var numSamples=globalNumSamples;
 			var pop=[];
 			var samp=[];
 			var r;
@@ -3129,7 +3208,7 @@ function calculateBootPropInterval(){
 			upperLimit=percentileSorted(sortedArray, right);
 			margin=(upperLimit-lowerLimit)/2;
 			drawBootSummary(bootPropIntervalCanvas, phats,pop, [lowerLimit, upperLimit], ['red', 'red' ]);
-			bpintervalactualssanswer.innerHTML='<ul><li>'+(lowerLimit).TOFIXED(printPrecision)+' &lt; p &lt; '+(upperLimit).TOFIXED(printPrecision)+'<br>Point Estimate: '+(x/n).TOFIXED(printPrecision)+'<br>E='+margin.TOFIXED(printPrecision)+'</li></ul>';			
+			bpintervalactualssanswer.innerHTML='<ul><li>'+(lowerLimit).TOFIXED(printPrecision)+' &lt; p &lt; '+(upperLimit).TOFIXED(printPrecision)+'</li><li>Point Estimate: '+(x/n).TOFIXED(printPrecision)+'</li></ul>';			
 			bpintervalanswer.style.display='block';
 		}
 	}	
@@ -3140,7 +3219,7 @@ function calculateBootPropInterval(){
 </script>
 <!------------------------------------------------------------------------------------------------------------------------>
 <!------------------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='boot2PropIntervalDiv' data-close='bootMPIntervalDiv,boot2MeanIntervalDiv,bootPropIntervalDiv,bootIntervalDiv'>Bootstrap Interval for Two Proportions</button></li>
+<li><button class='expander' data-open='boot2PropIntervalDiv' data-close='bootAbout,bootMPIntervalDiv,boot2MeanIntervalDiv,bootPropIntervalDiv,bootIntervalDiv'>Two Proportions</button></li>
 
 	<div id='boot2PropIntervalDiv' class='expandable'>
 	<table border=1>
@@ -3163,7 +3242,6 @@ function calculateBootPropInterval(){
 	<button onclick='calculateBoot2PropInterval();' >Calculate</button>
 	<div id='btwopropintanswer' class='answerDiv'>
 	<div id='b2propintervalactualssanswer' ></div>
-	Gray denotes the distribution of bootstrap means. Green indicates the original data. Red depicts the bounds of the bootstrap interval.<br>
 	<canvas id="boot2PropIntervalCanvas" width=400 height=200></canvas><br>
 	</div>
 	</div>
@@ -3184,7 +3262,7 @@ function calculateBoot2PropInterval(){
 		if (!(n1>0) || !(n2>0)) alert('The sample size should be positive.');
 		else if (!(x1>0) || !(x2>0)) alert('The number of successes should be positive.');
 		else{
-			var numSamples=10000;
+			var numSamples=globalNumSamples;
 			var pop1=[],pop2=[];
 			var samp1=[],samp2=[];
 			var r1,r2;
@@ -3218,7 +3296,7 @@ function calculateBoot2PropInterval(){
 			r2=summarizeArray(pop2);
 			var dummy=[r1.m-r2.m];
 			drawBootSummary(boot2PropIntervalCanvas, phats,dummy, [lowerLimit, upperLimit,0], ['red', 'red' ,'blue']);
-			b2propintervalactualssanswer.innerHTML='<ul><li>'+(lowerLimit).TOFIXED(printPrecision)+' &lt; p<sub>1</sub>-p<sub>2</sub> &lt; '+(upperLimit).TOFIXED(printPrecision)+'</li></ul>';			
+			b2propintervalactualssanswer.innerHTML='<ul><li>'+(lowerLimit).TOFIXED(printPrecision)+' &lt; p<sub>1</sub>-p<sub>2</sub> &lt; '+(upperLimit).TOFIXED(printPrecision)+'</li><li>Point Estimate: '+(r1.m-r2.m).TOFIXED(printPrecision)+'</li></ul>';	
 			btwopropintanswer.style.display='block';
 		}
 	}
@@ -3230,7 +3308,7 @@ function calculateBoot2PropInterval(){
 </script>
 <!------------------------------------------------------------------------------------------------------------------------>
 <!------------------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='boot2MeanIntervalDiv' data-close='bootMPIntervalDiv,boot2PropIntervalDiv,bootPropIntervalDiv,bootIntervalDiv'>Bootstrap Interval for Two Independent Means</button></li>
+<li><button class='expander' data-open='boot2MeanIntervalDiv' data-close='bootAbout,bootMPIntervalDiv,boot2PropIntervalDiv,bootPropIntervalDiv,bootIntervalDiv'>Two Independent Means</button></li>
 
 	<div id='boot2MeanIntervalDiv' class='expandable'>
 	<table>
@@ -3257,7 +3335,6 @@ function calculateBoot2PropInterval(){
 	<button onclick='calculateBoot2MeanInterval();' >Calculate</button>
 	<div id='b2mintanswer' class='answerDiv'>
 	<div id='b2mintactualssanswer' ></div>
-	Gray denotes the distribution of bootstrap means. Green indicates the original data. Red depicts the bounds of the bootstrap interval.<br>
 	<canvas id="boot2MeanIntervalCanvas" width=400 height=200></canvas><br>
 	</div>
 	</div>
@@ -3273,7 +3350,7 @@ try{
 	if (l1==l2) alert('Select two different lists.');
 	else if(listN[l1]*listN[l2]==0) alert('One of your lists is empty.');
 	else{	
-			var numSamples=10000;
+			var numSamples=globalNumSamples;
 			var samp1=[],samp2=[];
 			var r1,r2;
 			var phats=[];
@@ -3300,7 +3377,7 @@ try{
 			r2=summarizeArray(list[l2]);			
 			var dummy=[r1.m-r2.m];
 			drawBootSummary(boot2MeanIntervalCanvas, phats,dummy, [lowerLimit, upperLimit,0], ['red', 'red' ,'blue']);
-			b2mintactualssanswer.innerHTML='<ul><li>'+(lowerLimit).TOFIXED(printPrecision)+' &lt; &mu;<sub>1</sub>-&mu;<sub>2</sub> &lt; '+(upperLimit).TOFIXED(printPrecision)+'</li></ul>';			
+			b2mintactualssanswer.innerHTML='<ul><li>'+(lowerLimit).TOFIXED(printPrecision)+' &lt; &mu;<sub>1</sub>-&mu;<sub>2</sub> &lt; '+(upperLimit).TOFIXED(printPrecision)+'</li><li>Point Estimate: '+(r1.m-r2.m).TOFIXED(printPrecision)+'</li></ul>';	
 			b2mintanswer.style.display='block';
 //alert('ok');
 		}
@@ -3312,7 +3389,7 @@ catch{
 </script>
 <!------------------------------------------------------------------------------------------------------------------------>
 <!------------------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='bootMPIntervalDiv' data-close='boot2MeanIntervalDiv,boot2PropIntervalDiv,bootPropIntervalDiv,bootIntervalDiv'>Bootstrap Interval for Matched Pairs</button></li>
+<li><button class='expander' data-open='bootMPIntervalDiv' data-close='bootAbout,boot2MeanIntervalDiv,boot2PropIntervalDiv,bootPropIntervalDiv,bootIntervalDiv'>Matched Pairs</button></li>
 
 	<div id='bootMPIntervalDiv' class='expandable'>
 	<table>
@@ -3339,7 +3416,6 @@ catch{
 	<button onclick='calculateBootMPInterval();' >Calculate</button>
 	<div id='bmpintanswer' class='answerDiv'>
 	<div id='bmpintervalactualssanswer' ></div>
-	Gray denotes the distribution of bootstrap means. Green indicates the original data. Red depicts the bounds of the bootstrap interval.<br>
 	<canvas id="bootMPIntervalCanvas" width=400 height=200></canvas><br>
 	</div>
 	</div>
@@ -3356,7 +3432,7 @@ try{
 	else if(listN[l1]*listN[l2]==0) alert('One of your lists is empty.');
 	else if (listN[l1]!=listN[l2]) alert('Your lists need to be the same length.');
 	else{	
-			var numSamples=10000;
+			var numSamples=globalNumSamples;
 			var pop=[];
 			var samp=[];
 			var r;
@@ -3380,7 +3456,7 @@ try{
 			r=summarizeArray(pop);			
 			var dummy=[r.m];
 			drawBootSummary(bootMPIntervalCanvas, phats,dummy, [lowerLimit, upperLimit,0], ['red', 'red' ,'blue']);
-			bmpintervalactualssanswer.innerHTML='<ul><li>'+(lowerLimit).TOFIXED(printPrecision)+' &lt; &mu;<sub>1</sub>-&mu;<sub>2</sub> &lt; '+(upperLimit).TOFIXED(printPrecision)+'</li></ul>';			
+			bmpintervalactualssanswer.innerHTML='<ul><li>'+(lowerLimit).TOFIXED(printPrecision)+' &lt; &mu;<sub>1</sub>-&mu;<sub>2</sub> &lt; '+(upperLimit).TOFIXED(printPrecision)+'</li><li>Point Estimate: '+(r.m).TOFIXED(printPrecision)+'</li></ul>';		
 			bmpintanswer.style.display='block';
 	
 //	alert('ok');
@@ -3403,8 +3479,10 @@ catch{
 <div id='testsDiv' class='pageDiv expandable'>
 <div class='pageMenu'>
 <button class='expander' data-open='ParametricDiv' data-close='NonparametricDiv,ResampleDiv'>Parametric Tests</button>
+<span class='special'>
 <button class='expander' data-open='NonparametricDiv' data-close='ParametricDiv,ResampleDiv'>Nonparametric Tests</button>
 <button class='expander' data-open='ResampleDiv' data-close='ParametricDiv,NonparametricDiv'>Resampling Tests</button>
+</span>
 </div>
 <!--subpage for tests-->
 <div class='subPage'>
@@ -3545,7 +3623,7 @@ drawBellSummary(propcanvas, hm, s/sqrt(n), hm+z1*s/sqrt(n), hm+z2*s/sqrt(n), m, 
 				z1=-abs(z);
 				z2=abs(z);
 				}
-			ttestssanswer.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li><li>t='+z.TOFIXED(printPrecision)+'</li><li>df='+(n-1)+'</li></ul>';
+			ttestssanswer.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li><li>t='+z.TOFIXED(printPrecision)+'</li><li>df='+(n-1).TOFIXED(printPrecision)+'</li></ul>';
 drawBellSummary(ttestsscanvas, hm, s/sqrt(n), hm+z1*s/sqrt(n), hm+z2*s/sqrt(n), m, 'red', 'lightgray', 'red', 'blue')
 			ttestssAnswerDiv.style.display='block';
 		}
@@ -3561,12 +3639,12 @@ drawBellSummary(ttestsscanvas, hm, s/sqrt(n), hm+z1*s/sqrt(n), hm+z2*s/sqrt(n), 
 		inlist=getChecked('meantest');
 		if (listN[inlist]==0) alert ('That list is empty.');
 		else{
-			ttestssm.value=listM[inlist];
-			ttestsss.value=listS[inlist];
-			ttestssn.value=listN[inlist];
-			tintervalssm.value=listM[inlist];
-			tintervalsss.value=listS[inlist];
-			tintervalssn.value=listN[inlist];
+			ttestssm.value=listM[inlist].TOFIXED(printPrecision);
+			ttestsss.value=listS[inlist].TOFIXED(printPrecision);
+			ttestssn.value=listN[inlist].TOFIXED(printPrecision);
+			tintervalssm.value=listM[inlist].TOFIXED(printPrecision);
+			tintervalsss.value=listS[inlist].TOFIXED(printPrecision);
+			tintervalssn.value=listN[inlist].TOFIXED(printPrecision);
 			meanTestDataListDiv.style.display='none';
 		}
 	}
@@ -3753,7 +3831,7 @@ try{
 			z2=abs(z);
 			p=2*tcdf(-abs(z),n-1);
 		}
-		t2testssanswerinternal.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li><li>t='+z.TOFIXED(printPrecision)+'</li><li>df='+(n-1)+'</li></ul>';
+		t2testssanswerinternal.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li><li>t='+z.TOFIXED(printPrecision)+'</li><li>df='+(n-1).TOFIXED(printPrecision)+'</li></ul>';
 drawBellSummary(twomeancanvas, hm, s/sqrt(n), hm+z1*s/sqrt(n), hm+z2*s/sqrt(n), m, 'red', 'lightgray', 'red', 'blue')
 		t2testssanswer.style.display='block';
 	}
@@ -3769,12 +3847,12 @@ catch(err){
 		inlist=getChecked('meantest2left');
 			if (listN[inlist]==0) alert ('That list is empty.');
 			else{
-				t2testssm1.value=listM[inlist];
-				t2testsss1.value=listS[inlist];
-				t2testssn1.value=listN[inlist];
-				t2intssm1.value=listM[inlist];
-				t2intsss1.value=listS[inlist];
-				t2intssn1.value=listN[inlist];
+				t2testssm1.value=listM[inlist].TOFIXED(printPrecision);
+				t2testsss1.value=listS[inlist].TOFIXED(printPrecision);
+				t2testssn1.value=listN[inlist].TOFIXED(printPrecision);
+				t2intssm1.value=listM[inlist].TOFIXED(printPrecision);
+				t2intsss1.value=listS[inlist].TOFIXED(printPrecision);
+				t2intssn1.value=listN[inlist].TOFIXED(printPrecision);
 				
 				meanTest2LeftDataListDiv.style.display='none';
 			}		
@@ -3869,7 +3947,7 @@ try{
 			z1=-abs(z);
 			z2=abs(z);
 			}
-		mpanswerinternal.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li><li>t='+z.TOFIXED(printPrecision)+'</li><li>df='+(n-1)+'</li></ul>';
+		mpanswerinternal.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li><li>t='+z.TOFIXED(printPrecision)+'</li><li>df='+(n-1).TOFIXED(printPrecision)+'</li></ul>';
 drawBellSummary(mpcanvas, hm, s/sqrt(n), hm+z1*s/sqrt(n), hm+z2*s/sqrt(n), m, 'red', 'lightgray', 'red', 'blue')		
 		mpanswer.style.display='block';
 	}
@@ -3938,7 +4016,7 @@ else{
 		t=r/Math.sqrt((1-r*r)/(n-2));
 		P=2*(1-tcdf(Math.abs(t),n-2));
 }
-		coranswer.innerHTML='<ul><li>y=mx+b</li><li>m='+m.TOFIXED(printPrecision)+'</li><li>b='+b.TOFIXED(printPrecision)+'</li><li>t='+t.TOFIXED(printPrecision)+'</li><li>df='+(n-2)+'</li><li>P='+P.TOFIXED(printPrecision)+'</li><li>r='+r.TOFIXED(printPrecision)+'</li></ul>';
+		coranswer.innerHTML='<ul><li>y=mx+b</li><li>m='+m.TOFIXED(printPrecision)+'</li><li>b='+b.TOFIXED(printPrecision)+'</li><li>t='+t.TOFIXED(printPrecision)+'</li><li>df='+(n-2).TOFIXED(printPrecision)+'</li><li>P='+P.TOFIXED(printPrecision)+'</li><li>r='+r.TOFIXED(printPrecision)+'</li></ul>';
 //	var l1=-1, l2=-1;
 	var D=40;
 
@@ -4063,7 +4141,7 @@ try{
 			chi2=r.sum;
 			P=1-chi2cdf(chi2,listN[i]-1);
 			drawChiTail(chicanvas,chi2,listN[i]-1);
-			chianswerinternal.innerHTML='<ul><li>P='+P.TOFIXED(printPrecision)+'</li><li>&chi;<sup>2</sup>='+chi2.TOFIXED(printPrecision)+'</li><li>df='+(listN[i]-1)+'</li></ul>';
+			chianswerinternal.innerHTML='<ul><li>P='+P.TOFIXED(printPrecision)+'</li><li>&chi;<sup>2</sup>='+chi2.TOFIXED(printPrecision)+'</li><li>df='+(listN[i]-1).TOFIXED(printPrecision)+'</li></ul>';
 			chianswer.style.display='block';
 		}
 	}
@@ -4228,7 +4306,7 @@ try{
 
 			P=1-chi2cdf(chi2,(nr-1)*(nc-1));			
 			drawChiTail(contingencycanvas,chi2, (nr-1)*(nc-1));
-			contingencyanswerinternal.innerHTML='<ul><li>P='+P.TOFIXED(printPrecision)+'</li><li>&chi;<sup>2</sup>='+chi2.TOFIXED(printPrecision)+'</li><li>df='+((nr-1)*(nc-1))+'</li></ul>';
+			contingencyanswerinternal.innerHTML='<ul><li>P='+P.TOFIXED(printPrecision)+'</li><li>&chi;<sup>2</sup>='+chi2.TOFIXED(printPrecision)+'</li><li>df='+((nr-1)*(nc-1)).TOFIXED(printPrecision)+'</li></ul>';
 			contingencyanswer.style.display='block';
 		}
 	}
@@ -4361,7 +4439,7 @@ try{
 			q=1-binomcdf(n,0.5,x-1);
 			p=min(1,2*min(p, q));
 			}
-		signtestssanswer.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li></ul>';
+		signtestssanswer.innerHTML='<ul><li>P= '+p.TOFIXED(printPrecision)+'</li><li>n= '+n+'</li><li>above: '+x+'</li></ul>';
 		signtestssAnswerDiv.style.display='block';
 	}
 }
@@ -4435,7 +4513,7 @@ try{
 			q=1-binomcdf(n,0.5,x-1);
 			p=min(1,2*min(p, q));
 			}
-		signmpanswer.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li></ul>';
+		signmpanswer.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li><li>n= '+n+'</li><li>above: '+x+'</li></ul>';
 		signmpanswer.style.display='block';
 	}
 }
@@ -4558,7 +4636,7 @@ try{
 		var sums=[];
 		var probs=[];
 
-		if (n <=20){
+		if (n <=20){var method='exact';
 		WSRDIST(ranks, sums, probs);
 			p=discretePLeq(Tpos, sums, probs);
 			q=discretePGeq(Tpos, sums, probs);
@@ -4572,7 +4650,7 @@ try{
 				p=min(1,2*min(p, q));
 				}				
 		}
-		else{
+		else{var method='normal approximation'
 			var m=n*(n+1)/4;
 			var s=sqrt(n*(n+1)*(2*n+1)/24);
 			var t=(Tpos-m)/sqrt(n*(n+1)*(2*n+1)/24);
@@ -4588,7 +4666,7 @@ try{
 				p=min(1,2*min(p, 1-p));
 				}	
 		}		
-		wsrtestssanswer.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li></ul>';
+		wsrtestssanswer.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li><li>method: '+method+'</li></ul>';
 		wsrtestssAnswerDiv.style.display='block';
 	}
 }
@@ -4752,7 +4830,7 @@ try{
 		var n=diffs.length;
 		var sums=[];
 		var probs=[];
-		if (n <=20){
+		if (n <=20){var method='exact';
 		WSRDIST(ranks, sums, probs);
 			p=discretePLeq(Tpos, sums, probs);
 			q=discretePGeq(Tpos, sums, probs);
@@ -4766,7 +4844,7 @@ try{
 				p=min(1,2*min(p, q));
 				}				
 		}
-		else{
+		else{var method='normal approximation';
 			var m=n*(n+1)/4;
 			var s=sqrt(n*(n+1)*(2*n+1)/24);
 			var t=(Tpos-m)/sqrt(n*(n+1)*(2*n+1)/24);
@@ -4782,7 +4860,7 @@ try{
 				p=min(1,2*min(p, 1-p));
 				}
 		}	
-		wsrmpanswer.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li></ul>';
+		wsrmpanswer.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li><li>method: '+method+'</li></ul>';
 		wsrmpanswer.style.display='block';
 	}
 }
@@ -4904,7 +4982,7 @@ try{
 			sums[set[i]]+=ranks[i]
 
 		var n=ranks.length;
-		if (n <=20){
+		if (n <=20){var method='exact';
 			var dsums=[];
 			var probs=[];
 			RankSumDIST(ranks, dsums, probs, ni[0]);
@@ -4921,7 +4999,7 @@ try{
 				p=min(1,2*min(p, q));
 				}			
 		}
-		else{
+		else{var method='normal distribution';
 			var n1=ni[0];
 			var n2=ni[1];
 			var R=sums[0];
@@ -4942,7 +5020,7 @@ try{
 				p=min(1,2*min(p, q));
 				}
 		}		
-		RankSumanswer.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li></ul>';
+		RankSumanswer.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li><li>method: '+method+'</li></ul>';
 		RankSumanswer.style.display='block';
 	}
 }
@@ -4953,7 +5031,7 @@ catch(err){
 </script>	
 
 <!------------------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='KruskalWallisDiv' data-close='rankcorrelationDiv,anovaDiv,RankSumDiv,WSRonemeanDiv,WSRmpDiv,signtestonemeanDiv,signmatchedDiv'>Kruskal-Wallis</button> </li>
+<li><button class='expander' data-open='KruskalWallisDiv' data-close='rankcorrelationDiv,anovaDiv,RankSumDiv,WSRonemeanDiv,WSRmpDiv,signtestonemeanDiv,signmatchedDiv'>Kruskal-Wallis Test (ANOVA on ranks)</button> </li>
 	<div id='KruskalWallisDiv' class='expandable'>
 Select at least three lists to include in the test.<br>
 Lists: <script>
@@ -5021,7 +5099,7 @@ try{
 		//console.log(H);
 		var p=1-chi2cdf(H, k-1);
 		//console.log(p);
-		kwanswer.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li></ul>';
+		kwanswer.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li><li>H: '+H.TOFIXED(printPrecision)+'</li></ul>';
 		kwanswer.style.display='block';
 		
 	}
@@ -5137,7 +5215,7 @@ else{
 //	var l1=-1, l2=-1;
 	var D=40;
 
-	{
+	if (false){
 		//var xlist=l1;
 		//var ylist=l2;
 		var can=rankcorcanvas;
@@ -5206,7 +5284,7 @@ catch(err){
 
 </script>
 <!------------------------------------------------------------------------------------------------------------------------------------>
-<li><button class='expander' data-open='runstestDiv' data-close='signtestonemeanDiv,rankcorrelationDiv,KruskalWallisDiv,RankSumDiv,WSRonemeanDiv,WSRmpDiv,signmatchedDiv'>Runs Test</button></li>
+<li><button class='expander' data-open='runstestDiv' data-close='signtestonemeanDiv,rankcorrelationDiv,KruskalWallisDiv,RankSumDiv,WSRonemeanDiv,WSRmpDiv,signmatchedDiv'>Runs Test for Randomness</button></li>
 
 	<div id='runstestDiv' class='expandable'>
 	Data List: <br>
@@ -5298,18 +5376,18 @@ try{
 			if (D[i]!=D[i+1])
 				R++;		
 				
-		if (n<=20){
+		if (n<=20){var method='exact';
 			p=runcdfLTE(n0,n1,R);
 			q=runcdfGTE(n0,n1,R);
 			p=min(1,2*min(p,q));
 		}
-		else{
+		else{var method='normal approximation';
 			var m=2*n0*n1/n+1;
 			var s=sqrt(2*n0*n1*(2*n0*n1-n)/(n*n*(n-1)));
 			var z=(R-m)/s;		
 			p=2*normalcdf(-abs(z));
 		}
-		runstestanswer.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li><li>z='+z+'</li></ul>';
+		runstestanswer.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li><li>z='+z.TOFIXED(printPrecision)+'</li><li>n: '+n+'</li><li>runs: '+R+'</li><li>above: '+n0+'</li><li>below: '+n1+'</li></ul>';
 		runstestAnswerDiv.style.display='block';
 	}
 }
@@ -5328,7 +5406,29 @@ catch(err){
 <div id='ResampleDiv' class='expandable'>
 <h4>Resampling Tests</h3>
 <ul>
-<li><button class='expander' data-open='OnePropResample' data-close='OneMeanResample,TwoPropResample,TwoMeanResample,MPResample,CorrelationResample,GOFResample,CTResample,ANOVAResample'>One Proportion</button></li>
+<li><button class='expander' data-open='resampleAbout' data-close='OnePropResample,OneMeanResample,TwoPropResample,TwoMeanResample,MPResample,CorrelationResample,GOFResample,CTResample,ANOVAResample'>About</button></li>
+<div id='resampleAbout' class='expandable'>
+<p>
+In these tests, an ideal population is created satisfying the null hypothesis. Then 10,000 samples are drawn from the ideal population, and a test statistic is computed for each sample. The P-value is the proportion of the samples with test statistics as extreme as the original. 
+Each test gives a histogram indicating the test statistics for the 10,000 samples. The original test statistic is displayed in green, and the extreme test statistics are displayed in red.
+</p>
+<p>
+The test statistics used are:
+<table border=1>
+<tr><td>One Proportion</td><td>sample propotions</td></tr>
+<tr><td>One Mean</td><td>sample mean</td></tr>
+<tr><td>Two Proportions</td><td>difference of sample proportions</td></tr>
+<tr><td>Two Means</td><td>difference of sample means</td></tr>
+<tr><td>Matched Pairs</td><td>mean of paired differences</td></tr>
+<tr><td>Correlation</td><td>Pearson correlation coefficient</td></tr>
+<tr><td>Goodness of Fit</td><td>&chi;<sup>2</sup></td></tr>
+<tr><td>Contingency Table</td><td>&chi;<sup>2</sup></td></tr>
+<tr><td>ANOVA</td><td>F</td></tr>
+</table>
+</p>
+</div>
+
+<li><button class='expander' data-open='OnePropResample' data-close='resampleAbout,OneMeanResample,TwoPropResample,TwoMeanResample,MPResample,CorrelationResample,GOFResample,CTResample,ANOVAResample'>One Proportion</button></li>
 <div id='OnePropResample' class='expandable'>
 <!--Create a population of 0s and 1s to match the hypothesized proportion. Resample from this population with replacement and count how many resamples have means at least as extreme as the original data.-->
 
@@ -5360,7 +5460,7 @@ try{
 	else{
 		var phat=x/n;
 		var i,s;
-		var numSamples=10000;
+		var numSamples=globalNumSamples;
 		var population=[];
 		var sample=[];
 		var popSize=1000;
@@ -5390,7 +5490,7 @@ try{
 		var dummy=[phat];
 		
 		drawBootSummary(RSpropcanvas, sampleMeans,dummy, [], [],bounds);
-		RSpropanswer.innerHTML='P= '+p;
+		RSpropanswer.innerHTML='P= '+p.TOFIXED(printPrecision);
 		RSpropAnswerDiv.style.display='block';
 	}
 }
@@ -5401,7 +5501,7 @@ catch{
 </script>
 
 
-<li><button class='expander' data-open='OneMeanResample' data-close='OnePropResample,TwoPropResample,TwoMeanResample,MPResample,CorrelationResample,GOFResample,CTResample,ANOVAResample'>One Mean</button></li>
+<li><button class='expander' data-open='OneMeanResample' data-close='resampleAbout,OnePropResample,TwoPropResample,TwoMeanResample,MPResample,CorrelationResample,GOFResample,CTResample,ANOVAResample'>One Mean</button></li>
 <div id='OneMeanResample' class='expandable'>
 <!--Modify the original data to have the hypothesized mean. Then resample the modified data with replacement and count how many resamples have means at least as extreme as the original data.-->
 	Data List: <br>
@@ -5441,7 +5541,7 @@ try{
 			population[i]=list[l][i]-m+hm;
 		var sample=[];
 		var sampleMeans=[];
-		var numSamples=10000;
+		var numSamples=globalNumSamples;
 		var plt=0;
 		var pgt=0;
 		var r;
@@ -5465,7 +5565,7 @@ try{
 			else {p=min(1,2*min(plt, pgt)/numSamples); bounds=[lowerCutoff, upperCutoff];}
 		var dummy=[m];
 		drawBootSummary(RSmeancanvas, sampleMeans,dummy, [], [], bounds);
-		RSonemeananswer.innerHTML='P= '+p;
+		RSonemeananswer.innerHTML='P= '+p.TOFIXED(printPrecision);
 		RSonemeanAnswerDiv.style.display='block';
 	}
 }
@@ -5474,7 +5574,7 @@ catch{
 }
 }
 </script>
-<li><button class='expander' data-open='TwoPropResample' data-close='OnePropResample,OneMeanResample,TwoMeanResample,MPResample,CorrelationResample,GOFResample,CTResample,ANOVAResample'>Two Proportions</button></li>
+<li><button class='expander' data-open='TwoPropResample' data-close='resampleAbout,OnePropResample,OneMeanResample,TwoMeanResample,MPResample,CorrelationResample,GOFResample,CTResample,ANOVAResample'>Two Proportions</button></li>
 <div id='TwoPropResample' class='expandable'>
 <!--Combine the two samples of 0s and 1s into one population. Then resample WITHOUT replacement to create samples with the original sizes. Count how many have differences as extreme as the original data.-->
 	<table border=1>
@@ -5549,7 +5649,7 @@ try{
 		var sampleMeans=[];
 		var plt=0;
 		var pgt=0;
-		var numSamples=10000;
+		var numSamples=globalNumSamples;
 		for (i=0;i<x1;i++)
 			population.push(1);
 		for (;i<n1;i++)
@@ -5587,7 +5687,7 @@ try{
 			else {p=min(1,2*min(plt, pgt)/numSamples); bounds=[lowerCutoff, upperCutoff];}
 		var dummy=[firstDiff];
 		drawBootSummary(RStwopropcanvas, sampleMeans,dummy, [], [], bounds);
-		RStwoproprealanswer.innerHTML='P= '+p;
+		RStwoproprealanswer.innerHTML='P= '+p.TOFIXED(printPrecision);
 		RStwopropanswer.style.display='block';		
 	}
 	
@@ -5597,7 +5697,7 @@ catch{
 }
 }
 </script>
-<li><button class='expander' data-open='TwoMeanResample' data-close='OnePropResample,OneMeanResample,TwoPropResample,MPResample,CorrelationResample,GOFResample,CTResample,ANOVAResample'>Two Independent Means</button></li>
+<li><button class='expander' data-open='TwoMeanResample' data-close='resampleAbout,OnePropResample,OneMeanResample,TwoPropResample,MPResample,CorrelationResample,GOFResample,CTResample,ANOVAResample'>Two Independent Means</button></li>
 <div id='TwoMeanResample' class='expandable'>
 <!--Combine the two samples into one population. Then resample WITHOUT replacement to create samples with the original sizes. Count how many have differences as extreme as the original data.-->
 	<table>
@@ -5653,7 +5753,7 @@ try{
 		var sample2=[];
 		var permuted=[];
 		var sampleMeans=[];
-		var numSamples=10000;
+		var numSamples=globalNumSamples;
 		var r1, r2, d;
 		var plt=0;
 		var pgt=0;
@@ -5680,7 +5780,7 @@ try{
 			else {p=min(1,2*min(plt, pgt)/numSamples); bounds=[lowerCutoff, upperCutoff];}
 		var dummy=[firstDiff];
 		drawBootSummary(RStwomeancanvas, sampleMeans,dummy, [], [], bounds);
-		RStwomeananswer.innerHTML='P= '+p;
+		RStwomeananswer.innerHTML='P= '+p.TOFIXED(printPrecision);
 		RStwomeanAnswerDiv.style.display='block';				
 	}
 }
@@ -5691,7 +5791,7 @@ catch{
 </script>
 
 
-<li><button class='expander' data-open='MPResample' data-close='OnePropResample,OneMeanResample,TwoPropResample,TwoMeanResample,CorrelationResample,GOFResample,CTResample,ANOVAResample'>Matched Pairs</button></li>
+<li><button class='expander' data-open='MPResample' data-close='resampleAbout,OnePropResample,OneMeanResample,TwoPropResample,TwoMeanResample,CorrelationResample,GOFResample,CTResample,ANOVAResample'>Matched Pairs</button></li>
 <div id='MPResample' class='expandable'>
 <!--Calculate the absolute value of the difference of each pair. Randomly assign a positive or negative to each and average. Count how many times the result is as extreme as the original difference.-->
 
@@ -5748,7 +5848,7 @@ try{
 		for (i=0;i<n;i++)
 			diffs[i]=abs(diffs[i]);
 		var sample=[];
-		var numSamples=10000;
+		var numSamples=globalNumSamples;
 		var plt=0;
 		var pgt=0;
 		var sampleMeans=[];
@@ -5771,7 +5871,7 @@ try{
 			else {p=min(1,2*min(plt, pgt)/numSamples); bounds=[lowerCutoff, upperCutoff];}
 		var dummy=[d];
 		drawBootSummary(RSmpcanvas, sampleMeans,dummy, [], [], bounds);
-		RSmpanswer.innerHTML='P= '+p;
+		RSmpanswer.innerHTML='P= '+p.TOFIXED(printPrecision);
 		RSmpAnswerDiv.style.display='block';
 		
 	}	
@@ -5783,7 +5883,7 @@ catch{
 </script>
 
 
-<li><button class='expander' data-open='CorrelationResample' data-close='OnePropResample,OneMeanResample,TwoPropResample,TwoMeanResample,MPResample,GOFResample,CTResample,ANOVAResample'>Correlation</button></li>
+<li><button class='expander' data-open='CorrelationResample' data-close='resampleAbout,OnePropResample,OneMeanResample,TwoPropResample,TwoMeanResample,MPResample,GOFResample,CTResample,ANOVAResample'>Correlation</button></li>
 <div id='CorrelationResample' class='expandable'>
 <!--Hold the x-values fixed and shuffle the y-values. Calculate r for each shuffle and count how many times the result is as extreme as the original.-->
 
@@ -5848,7 +5948,7 @@ try{
 		var sumprod, sumx, sumy, sumx2,r, P, t,i,j,n,m,b;
 		var P=0;
 		
-		var numSamples=10000;
+		var numSamples=globalNumSamples;
 		var sampleMeans=[];
 		var permuted=[];
 		var plt=0;
@@ -5882,7 +5982,7 @@ catch(err){
 }
 </script>
 
-<li><button class='expander' data-open='GOFResample' data-close='OnePropResample,OneMeanResample,TwoPropResample,TwoMeanResample,MPResample,CorrelationResample,CTResample,ANOVAResample'>Goodness of Fit</button></li>
+<li><button class='expander' data-open='GOFResample' data-close='resampleAbout,OnePropResample,OneMeanResample,TwoPropResample,TwoMeanResample,MPResample,CorrelationResample,CTResample,ANOVAResample'>Goodness of Fit</button></li>
 <div id='GOFResample' class='expandable'>
 <!--Create a population with the expected distribution. Resample from this population WITH REPLACEMENT many times and compute a Chi-Squared stat for each resample. Compare to the original.-->
 	<table>
@@ -5931,7 +6031,7 @@ function bootstrapGOF(observed, probabilities, sampleMeans){
 	var cutoffs=[];
 	var counts=[];
 	var cumulativeProbabilities=[];
-	var numSamples=10000;
+	var numSamples=globalNumSamples;
 	var populationSize=1000;
 	var n=observed.length;
 	var r=summarizeArray(observed);
@@ -5987,7 +6087,7 @@ try{
 		var dummy=[chi.x];
 		var bounds=[null,chi.x]
 		drawBootSummary(RSGOFcanvas, sampleMeans,dummy, [], [], bounds);
-		RSGOFanswer.innerHTML='P= '+chi.p+'<br>&chi;<sup>2</sup>='+chi.x;
+		RSGOFanswer.innerHTML='<ul><li>P= '+chi.p.TOFIXED(printPrecision)+'</li><li>&chi;<sup>2</sup>='+chi.x.TOFIXED(printPrecision)+'</li></ul>';
 		RSGOFAnswerDiv.style.display='block';
 		
 	}
@@ -5999,7 +6099,7 @@ catch{
 }
 </script>
 
-<li><button class='expander' data-open='CTResample' data-close='OnePropResample,OneMeanResample,TwoPropResample,TwoMeanResample,MPResample,CorrelationResample,GOFResample,ANOVAResample'>Contingency Table</button></li>
+<li><button class='expander' data-open='CTResample' data-close='resampleAbout,OnePropResample,OneMeanResample,TwoPropResample,TwoMeanResample,MPResample,CorrelationResample,GOFResample,ANOVAResample'>Contingency Table</button></li>
 <div id='CTResample' class='expandable'>
 <!--Mimic GOF process (or just reuse it).-->
 
@@ -6104,7 +6204,7 @@ try{
 			var dummy=[chi.x];
 			var bounds=[null,chi.x]
 			drawBootSummary(RSCTcanvas, sampleMeans,dummy, [], [], bounds);
-			RSCTanswer.innerHTML='P= '+chi.p+'<br>&chi;<sup>2</sup>='+chi.x;
+			RSCTanswer.innerHTML='<ul><li>P= '+chi.p.TOFIXED(printPrecision)+'</li><li>&chi;<sup>2</sup>='+chi.x.TOFIXED(printPrecision)+'</li></ul>';
 			RSCTAnswerDiv.style.display='block';
 		}
 	}
@@ -6117,7 +6217,7 @@ catch(err){
 }
 </script>
 
-<li><button class='expander' data-open='ANOVAResample' data-close='OnePropResample,OneMeanResample,TwoPropResample,TwoMeanResample,MPResample,CorrelationResample,GOFResample,CTResample'>ANOVA</button></li>
+<li><button class='expander' data-open='ANOVAResample' data-close='resampleAbout,OnePropResample,OneMeanResample,TwoPropResample,TwoMeanResample,MPResample,CorrelationResample,GOFResample,CTResample'>ANOVA</button></li>
 <div id='ANOVAResample' class='expandable'>
 <!--Combine samples into one population. Resample WITHOUT REPLACEMENT from this population to form samples with the original sizes and calculate F for each. Compare these to the original F.-->
 
@@ -6173,7 +6273,7 @@ try{
 		for (i=0;i<k;i++)
 			n[i]=P[i].length;
 		var firstReport=anovaF(P);
-		var numSamples=10000;
+		var numSamples=globalNumSamples;
 		var samples=[];
 		var sampleMeans=[];
 		var permuted=[];
@@ -6197,7 +6297,7 @@ try{
 		bounds=[null,firstReport.F];
 		var dummy=[firstReport.F];
 		drawBootSummary(RSANOVAcanvas, sampleMeans,dummy, [], [], bounds);
-		RSANOVAanswer.innerHTML='P= '+p+'<br>F= '+firstReport.F;
+		RSANOVAanswer.innerHTML='<ul><li>P= '+p.TOFIXED(printPrecision)+'</li><li>F= '+firstReport.F.TOFIXED(printPrecision)+'</li></ul>';
 		RSANOVAAnswerDiv.style.display='block';
 	}	
 }
@@ -6243,6 +6343,45 @@ function anovaF(P){
 
 
 </div> <!--content-->
+
+<div id='settings'>
+<button class='closer' onclick='hideSettings()'>X</button>
+<h4>Settings</h4>
+<ul>
+<li> <label><input type='checkbox' id='specialBox' onclick='showhidespecials();'> Hide bootstrap, nonparametric, and resampling options.</label></li>
+<li> Data separation character: <label><input type='radio' onclick='setSeparationCharacter(",");' name='separationcharacter' checked=true> comma</label> &nbsp;
+<label><input type='radio' onclick='setSeparationCharacter(";");' name='separationcharacter'> semicolon</label></li>
+<li> Number of bootstrap samples:
+<label><input type='radio' onclick='setBootstrapSamples(10000);' name='numsamplesradio' checked=true> 10000</label>
+<label><input type='radio' onclick='setBootstrapSamples(5000);' name='numsamplesradio' > 5000</label>
+<label><input type='radio' onclick='setBootstrapSamples(1000);' name='numsamplesradio' > 1000</label>
+<label><input type='radio' onclick='setBootstrapSamples(100);' name='numsamplesradio' > 100</label>
+</li>
+</ul>
+</div>
+<script>
+function setBootstrapSamples(n){
+	globalNumSamples=n;
+}
+function setSeparationCharacter(c){
+	globalSeparationCharacter=c;
+}
+function showSettings(){
+	if (settings.style.display!='block') settings.style.display='block';
+	else settings.style.display='none';
+}
+function hideSettings(){
+	settings.style.display='none';
+}
+function showhidespecials(){
+	var a=document.getElementsByClassName('special');
+	var i;
+	for (i=0;i<a.length;i++)
+		if (a[i].style.display!='none') a[i].style.display='none';
+		else  a[i].style.display='inline';
+}
+</script>
+
 </body>
 <script>setupAll();</script>
 <script>
