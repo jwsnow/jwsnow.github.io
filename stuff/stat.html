@@ -1356,10 +1356,11 @@ ranVarCanvas.style.display='none';
 <!--charts------------------------------------------------------>
 <div id='chartDiv' class='pageDiv expandable'>
 <div class='pageMenu'>
-<button class='expander' data-open='histoDiv' data-close='boxDiv,scatterDiv,quantileDiv,insideHistoDiv'>Histograms</button>
-<button class='expander' data-open='boxDiv' data-close='histoDiv,scatterDiv,quantileDiv,boxplotCanvasDiv'>Box Plots</button>
-<button class='expander' data-open='scatterDiv' data-close='histoDiv,boxDiv,quantileDiv,scatterPlotDiv'>Scatter Plots</button>
-<button class='expander' data-open='quantileDiv'  data-close='histoDiv,boxDiv,scatterDiv,quantilePlotDiv'>Quantile Plots</button>
+<button class='expander' data-open='histoDiv' data-close='histoDiv2,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2'>Histograms</button>
+<button class='expander' data-open='histoDiv2' data-close='histoDiv,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2'>Bar Chart</button>
+<button class='expander' data-open='boxDiv' data-close='histoDiv2,histoDiv,scatterDiv,quantileDiv,boxplotCanvasDiv'>Box Plots</button>
+<button class='expander' data-open='scatterDiv' data-close='histoDiv2,histoDiv,boxDiv,quantileDiv,scatterPlotDiv'>Scatter Plots</button>
+<button class='expander' data-open='quantileDiv'  data-close='histoDiv2,histoDiv,boxDiv,scatterDiv,quantilePlotDiv'>Quantile Plots</button>
 </div>
 
 <div class='subPage'>
@@ -1474,6 +1475,109 @@ d=(Max-Min)/n;
 }	
 }
 </script>
+<!------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------->
+	<div id='histoDiv2' class='expandable'>
+	<button onclick="drawHistograms2();">Redraw</button><br>
+	Lists: <br><script>
+	for (let i=0;i<numLists;i++)
+		document.write("<label><input type='radio'  name='histo2radio'  class='histo2radio' onclick='drawHistograms2();'><span class='histo2label'>"+listLabel[i]+"</span></label>&nbsp;");
+	allLabelNames.push('histo2'+'label');	
+	</script>
+	<div id="insideHistoDiv2"><canvas id="histoCanvas2" width=400 height=200></canvas>
+	<div id='freqTableDiv2'></div>
+	</div>
+	</div>
+<script>
+
+function drawHistograms2(){ 
+	processLists();
+	var can=histoCanvas2;
+	var ctx=can.getContext('2d');
+	var w=can.width;
+	var h=can.height;	
+	ctx.fillStyle='white';
+	ctx.fillRect(0,0,w,h);	
+	freqTableDiv2.innerHTML='';	
+	insideHistoDiv2.style.display='none';
+	var i;
+	var inlist=0;
+	var radiolist=document.getElementsByClassName('histo2radio');
+	for (i=0;i<numLists;i++)
+		if (radiolist[i].checked) inlist=i;
+	if (listN[inlist]==0){
+		radiolist[inlist].checked=false;
+		quantilePlotDiv.style.display='none';
+	}
+	else{
+		var a=list[inlist].toSorted(function(a, b){return a - b}); 
+		var names=[];
+		var counts=[];
+		var t,s;
+		for (i=0;i<a.length;i++){
+			t=a[i];
+			s=names.indexOf(t);
+			if (s==-1){
+				names.push(t);
+				counts.push(1);
+			}
+			else{
+				counts[s]++;
+			}
+		} 
+		var n=counts.length;
+		var freqTables='<table border=1><tr><th colspan=3>'+listLabel[inlist]+'</th></tr>';
+		freqTables+='<tr><th>Value</th><th>Frequency</th><th>Relative Frequency</th></tr>';
+		for (j=0;j<n;j++)
+			freqTables+='<tr><td>'+names[j]+'</td><td>'+counts[j]+'</td><td>'+(counts[j]/listN[inlist]).TOFIXED(4)+'</td></tr>';
+		freqTables+='</table>';
+		freqTableDiv2.innerHTML=freqTables;
+		insideHistoDiv2.style.display='block';	
+		var dx=w/n;
+		ctx.font='12px Helvetica';
+		ctx.fillStyle='black';
+		ctx.strokeStyle='black';
+		for (j=0;j<n;j++){
+				ctx.save();
+				ctx.translate(j*dx+dx/2-6, h-40);
+				ctx.rotate(PI/2);
+				ctx.fillText(names[j],0,0);
+				ctx.restore();			
+		}
+		var Max=0;
+		for (j=0;j<n;j++)
+			if (counts[j]>Max) Max=counts[j];
+		ctx.lineWidth=0.95*dx;
+		ctx.beginPath();
+		for (j=0;j<n;j++){
+			ctx.moveTo(j*dx+dx/2, h-50);
+			ctx.lineTo(j*dx+dx/2, h-(h-60)*counts[j]/Max-50);			
+		}
+		ctx.stroke();
+	}
+
+/*
+			ctx.lineWidth=0.95*dx/numChecks;
+			ctx.beginPath();
+			for (j=0;j<=n;j++){
+				ctx.moveTo(j*dx+dx/2+listsDrawn*dx/numChecks, h-50);
+				ctx.lineTo(j*dx+dx/2+listsDrawn*dx/numChecks, h-(h-60)*c[j]/H-50);
+			}
+			listsDrawn++;
+			ctx.stroke();
+			freqTables+='</table>';
+	}
+	else boxes[i].checked=false;
+	freqTableDiv.innerHTML=freqTables;
+	insideHistoDiv.style.display='block';	
+}
+*/
+}
+</script>
+<!------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------->
 <!------------------------------------------------------------------------------------------------------------------------------->
 
 	<div id='boxDiv' class='expandable'>
@@ -1654,8 +1758,10 @@ for (i=0;i<numLists;i++){
 		}		
 scatterPlotDiv.style.display='block';
 	}	
-	else
+	else{
+		//alert('There is a problem with the lists you have selected.');
 		scatterPlotDiv.style.display='none';
+		}
 	
 }
 </script>
