@@ -1162,7 +1162,10 @@ function fcdf(x, d1, d2){
 	a[0].checked=true;</script><br>
 <ul>
 <li>
-ANSUR 2012 - Anthrompmetric Survey of U.S. Army Personel - The data below represent random samples of 50 females and 50 males from the ANSUR 2012 data. The data is aligned so that corresponding entries from each list are from the same individual.
+<button class='expander' data-open='ANSURData' data-close='dummyExpandableDiv'>ANSUR 2012 - Anthrompmetric Survey of U.S. Army Personel</button>
+</li>
+<div id='ANSURData' class='expandable'>
+The data below represent random samples of 50 females and 50 males from the ANSUR 2012 data. The data is aligned so that corresponding entries from each list are from the same individual.
 <ul>
 <li>Female: 
 <button onclick='insertData(Fheight,FHeightLabel)'>Height</button>
@@ -1181,9 +1184,13 @@ ANSUR 2012 - Anthrompmetric Survey of U.S. Army Personel - The data below repres
 <button onclick='insertData(Mage, MAgeLabel)'>Age</button>
 </li>
 </ul>
-</li>
+</div>
+
 <li>
-Class Data Spring 2025 - The data below were collected from classes during the spring of 2025.  The data is aligned so that corresponding entries from each list are from the same individual.
+<button class='expander' data-open='ClassData2025' data-close='dummyExpandableDiv'>Class Data Spring 2025</button>
+</li>
+<div class='expandable' id='ClassData2025'>
+The data below were collected from classes during the spring of 2025.  The data is aligned so that corresponding entries from each list are from the same individual.
 <ul>
 <li>
 <button onclick='insertData(ClassHeight,ClassHeightLabel)'>Height</button>
@@ -1212,9 +1219,12 @@ This data gives the number of students from each class which drew each type of l
 <button onclick='insertData(URLine, URLineLabel, 0);insertData(DRLine,DRLineLabel, 1);insertData(HLine, HLineLabel,2);insertData(VLine, VLineLabel,3); '>Line Data</button?
 </li>
 </ul>
-</li>
+</div>
 <li>
-College Data - The US government publishes comparative date for colleges and universities at collegescorecard.gov. Below is data from a recent year for all religiously affiliated institutions with enrollments of at least 1000 which reported in all of the given areas.
+<button class='expander' data-open='CollegeData' data-close='dummyExpandableDiv'>College Data </button>
+</li>
+<div class='expandable' id='CollegeData'>
+The US government publishes comparative date for colleges and universities at collegescorecard.gov. Below is data from a recent year for all religiously affiliated institutions with enrollments of at least 1000 which reported in all of the given areas.
 <ul>
 <li>
 <button onclick='insertData(CSCSize,CSCSizeLabel);'>Size</button>
@@ -1227,9 +1237,10 @@ College Data - The US government publishes comparative date for colleges and uni
 <button onclick='insertData(CSCAvgCost,CSCAvgCostLabel);'>Average Anual Cost</button>
 </li>
 </ul>
-</li>
+</div>
 <li>
-Las Angeles 2024 crime and weather data. 
+<button class='expander' data-open='LAWeather2024' data-close='dummyExpandableDiv'>Las Angeles 2024 crime and weather data</button>
+<div class='expandable' id='LAWeather2024'>
 <ul>
 <li>
 <button onclick='insertData(LACrimes, LACrimesLabel);'>Daily Number of Crimes</button>
@@ -1238,9 +1249,10 @@ Las Angeles 2024 crime and weather data.
 <button onclick='insertData(LAHumidity, LAHumidityLabel);'>Daily Humidity</button>
 </li>
 </ul>
-</li>
+</div>
 <li>
-Houston 2024 weather data. 
+<button class='expander' data-open='HouWeather2024' data-close='dummyExpandableDiv'>Houston 2024 weather data</button>
+<div class='expandable' id='HouWeather2024'>
 <ul>
 <li>
 <button onclick='insertData(HouHiTemp, HouHiTempLabel);'>Daily High Temperature</button>
@@ -1248,7 +1260,7 @@ Houston 2024 weather data.
 <button onclick='insertData(HouHumidity, HouHumidityLabel);'>Daily Humidity</button>
 </li>
 </ul>
-</li>
+</div>
 </ul>
 </div>
 <script>
@@ -6646,4 +6658,5 @@ function setuppaste(){
 setuppaste();
 
 </script>
+<div class='expandable' id='dummyExpandableDiv'></div>
 </html>
