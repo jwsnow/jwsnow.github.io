@@ -1437,7 +1437,7 @@ ranVarCanvas.style.display='none';
 				e+=list[l1][j]*list[l2][j];
 			for (j=0;j<n;j++)
 				s2+=(list[l1][j]-e)*(list[l1][j]-e)*list[l2][j];
-			r+='<ul>'+'<li>&mu;='+e.TOFIXED(printPrecision)+'</li><li>&sigma;<sup>2</sup>='+s2.TOFIXED(printPrecision)+'</li><li>s='+sqrt(s2).TOFIXED(printPrecision)+'</li></ul>';
+			r+='<ul>'+'<li>&mu;='+e.TOFIXED(printPrecision)+'</li><li>&sigma;<sup>2</sup>='+s2.TOFIXED(printPrecision)+'</li><li>&sigma;='+sqrt(s2).TOFIXED(printPrecision)+'</li></ul>';
 			ranVarInnerDiv.innerHTML=r;
 			ranVarInnerDiv.style.display='block';
 			
