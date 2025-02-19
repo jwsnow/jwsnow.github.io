@@ -1,6 +1,6 @@
 // Spork.js
-//John W. Snow (john.snow@cune.edu)
-//Version of 2015-9-21
+//John W. Snow (snowj342@gmail.com)
+//Version of 2019-11-06
 /*This is a JavaScript library that provides easy access to 
  - The HTML 5 canvas
  - Animation
@@ -55,6 +55,12 @@ function clear(){
 	theCanvas.clearRect(0,0,width,height);
 	theCanvas.restore();
 }
+function rgb(r,g,b){
+	return("rgb("+r+","+g+","+b+")");
+}
+function rgba(r,g,b,a){
+	return("rgba("+r+","+g+","+b+","+a+")");
+}
 function color(){
 	var l = arguments.length;
 	if (l==1)
@@ -90,7 +96,13 @@ function lineWidth(n){
 	theCanvas.lineWidth=n;
 }
 function linewidth(n){
-	lineWidth(n);
+	theCanvas.lineWidth=n;
+}
+function linecap(n){
+	theCanvas.lineCap=n;
+}
+function lineCap(n){
+	theCanvas.lineCap=n;
 }
 function line(){
 	var l = arguments.length/2;
@@ -105,6 +117,9 @@ function rect(x1,y1,x2,y2){
 	theCanvas.beginPath();
 	theCanvas.rect(x1,y1,x2,y2);
 	theCanvas.stroke();
+}
+function fillrect(x1,y1,x2,y2){
+	theCanvas.fillRect(x1,y1,x2,y2);
 }
 function triangle(x1,y1,x2,y2,x3,y3){
 	line(x1,y1,x2,y2,x3,y3,x1,y1);
@@ -141,6 +156,7 @@ function ellipse(x, y, rx, ry, a, b){
 	theCanvas.moveTo(x+rx*Math.cos(arad), y+ry*Math.sin(arad));
 	for (t=arad;t<=brad;t+=dt)
 		theCanvas.lineTo(x+rx*Math.cos(t), y+ry*Math.sin(t));
+	theCanvas.closePath();
 	theCanvas.stroke();
 }
 function translate(x,y){
@@ -186,6 +202,9 @@ function stroketext(t, x, y){
 function aligntext(x){
 	theCanvas.textAlign=x;
 }
+function valigntext(x){
+	theCanvas.textBaseline=x;
+}
 function measureText(t){
 	return(theCanvas.measureText(t).width);
 }
@@ -215,8 +234,10 @@ function copyImageData(R,G,B,A){
 }
 
 function floodfill(x,y){
+	x=floor(x);
+	y=floor(y);
   var R=[], G=[], B=[], A=[];
-  var r,g,b,a;
+  var r,g,b,a,i;
   var pstack=[];
   var p, X, Y, Z, left, right;
   copyImageData(R,G,B,A);
@@ -267,8 +288,7 @@ function floodfill(x,y){
   for (i=0;i<width;i++)
     for (j=0;j<height;j++)
       if (R[i][j]==-1){
-        rect(i,j,1,1);
-        fill();
+        fillrect(i,j,1,1);
       }
   restore();
 }
@@ -297,6 +317,19 @@ function lineTo(x,y){
 }
 function arcto(x1,y1,x2,y2,r){
 	theCanvas.arcTo(x1,y1,x2,y2,r);
+}
+function clip(){
+	theCanvas.clip();
+}
+function drawImage(i, x, y, w, h, r){
+	if (arguments.length<6)
+		r=0;
+	save();
+	translate(x,y);
+	rotate(r);
+	translate(-w/2, -h/2);
+	theCanvas.drawImage(i, 0,0,w,h)
+	restore();
 }
 // end of graphics functions ----------------------------------------------------------------------------------------------------------------
 
@@ -339,9 +372,11 @@ var mouseY;
 var mouseDown=false;
 
 function getCoords(e) {
-	var brect=theCanvasHandle.getBoundingClientRect();
-	mouseX=e.clientX-brect.left;
-	mouseY=e.clientY-brect.top;
+	if (e){
+		var brect=theCanvasHandle.getBoundingClientRect();
+		mouseX=e.clientX-brect.left;
+		mouseY=e.clientY-brect.top;
+	}	
 }
 function onmousedown(){}
 function mouseDownFunction(e){
@@ -477,12 +512,32 @@ function month(){
 
 
 // Initialization -------------------------------------------------------------------------------------------------------------------------------
-//Make Math object accessible without "Math."
+//Make Math object accessible without "Math." And extend Array object prototype
 function cacheMath(){
 	var aMathFunctions = Object.getOwnPropertyNames(Math);
 
 	for (var i in aMathFunctions){
 		window[aMathFunctions[i]] = Math[aMathFunctions[i]];
+	}
+	Array.prototype.random = function(){
+		return(this[floor(this.length*random())]);
+	}
+	Array.prototype.zipf = function(){
+		function invSum(n){
+		  var c=0;
+		  var i;
+		  for (i=1;i<=n;i++)
+		    c+=1/i;
+		  return(c);
+		}
+		function zipfIndex(n){
+		  var z=1/invSum(n);
+		  var r=random();
+		  var i=1;
+		  while (z*invSum(i)<r) i++;
+		  return(i-1);
+		}
+		return(this[zipfIndex(this.length)]);
 	}
 }
 function init(){
@@ -561,6 +616,7 @@ function print(s){
 //--------------------------------------------------------------------------------------------------------------------------------------
 function startover(){
 	stoploop();
+	size(width,height);
 	setup();
 	draw();
 	if (CONTINUELOOPING)
@@ -577,6 +633,15 @@ var noiseSeed;
 var noiseValues;
 var noiseGridSize;
 
+function flattenNoiseEdges(){
+	var n=noiseGridSize;
+	var x,y,z;
+	for (x=0;x<=n;x++)
+		for (y=0;y<=n;y++)
+			for (z=0;z<=n;z++)
+				if ((x==0) || (y==0) || (x==n) || (y==n))
+					noiseValues[x][y][z]=0;	
+}
 function setupNoise(n){
 	var i,j,k;
 	if (arguments.length==0)
@@ -639,3 +704,25 @@ function noise(x, y, z){
 	return(c0*(1-tz)+c1*tz);
 }
 //---------------------------------------------------------------------------------------------
+function COS(x){
+  return(cos(x*pi/180));
+}
+function SIN(x){
+  return(sin(x*pi/180));
+}
+//save canvas
+function canvasToImg(imageID){
+	var image=theCanvasHandle.toDataURL("image/png");
+	imageID.src=image;
+}    
+function canvasToNewImg(){
+	var newImage = document.createElement('img');
+	canvasToImg(newImage);
+	document.body.appendChild(newImage);
+}
+function ALERT(){
+  var s='';
+  for (var i=0;i<arguments.length;i++)
+    s+=arguments[i]+' ';
+  alert(s);
+}
