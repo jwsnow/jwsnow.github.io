@@ -1274,6 +1274,20 @@ the age of each child (in months) along with how many objects they could stack o
 </li>
 </ul>
 </div>
+</li>
+
+<li>
+<button class='expander' data-open='CricketData' data-close='dummyExpandableDiv'>Cricket Chirping Data Data</button>
+<div class='expandable' id='CricketData'>
+Crickets chirp at different speeds at different temperatures. This data from <a href='https://www.globe.gov/explore-science/scientists-blog/archived-posts/sciblog/index.html_p=45.html'>globe.gov</a> gives the number
+of chirps in 60 seconds at different temperatures Fahrenheit. Clicking the button will fill lists 0 and 1.
+<ul>
+<li>
+<button onclick='insertData(CricketChirps,CricketChirpsLabel ,0);insertData(CricketTemp,CricketTempLabel ,1);'>Cricket Data</button>
+</li>
+</ul>
+</div>
+</li>
 
 </ul>
 </div>
@@ -1357,6 +1371,9 @@ var Cube1Label='Cubes 1'; var Cube1=[11, 9, 8, 9, 10, 13, 10, 7, 6, 12, 6, 9, 8,
 var Cube2Label='Cubes 2'; var Cube2=[10, 10, 7, 11, 6, 13, 9, 6, 6, 11, 7, 9, 7, 9, 9, 11, 9, 7, 5, 9, 6, 5, 8, 8, 5];
 var Cylinder1Label='Cylinders 1'; var Cylinder1=[6, 4, 5, 4, 6, 8, 5, 6, 6, 5, 5, 7, 5, 6, 5, 6, 5, 7, 5, 4, 5, 3, 4, 6, 4];
 var Cylinder2Label='Cylinders 2'; var Cylinder2=[8, 5, 5, 6, 5, 9, 5, 4, 6, 8, 6, 5, 6, 5, 5, 5, 8, 6, 5, 5, 4, 7, 5, 5, 4];
+
+var CricketChirpsLabel='Chirps'; var CricketChirps=[176, 186, 174, 140, 140, 130, 116, 111, 102, 82, 50, 148, 150, 146, 145, 132, 172, 184, 116, 127, 124, 115, 94, 130, 124, 118, 90, 82, 140, 132, 126, 115, 85, 151, 148, 148, 145, 126, 121, 125, 104, 101, 95, 89, 70, 62, 59, 60, 56, 74, 111, 104, 87, 50, 50];
+var CricketTempLabel='Temp'; var CricketTemp=[80.5, 78.5, 78, 73.5, 70.5, 68, 66, 65, 61.5, 57, 55, 76.25, 74, 74, 72.5, 66, 77.5, 78.5, 68.5, 68.5, 68, 66, 59, 70, 69, 67, 61.25, 58.5, 72, 71, 69, 66.5, 60, 75, 73.25, 72.5, 70, 67.5, 66, 69, 63, 63, 61, 62, 56.5, 55, 52, 53, 50, 52, 65, 63, 59, 50.75, 49.25];
 
 </script>
 </div>
@@ -4382,6 +4399,7 @@ try{
 			if (listSum[i]!=listSum[j])
 				for (k=0;k<listN[j];k++)
 					list[j][k]=listSum[i]*list[j][k]/listSum[j]; console.log(list[j]);
+printLists();processLists();					
 			var a=[];
 			for (k=0;k<listN[i];k++)
 				a[k]=(list[i][k]-list[j][k])*(list[i][k]-list[j][k])/list[j][k];
