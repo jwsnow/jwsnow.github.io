@@ -297,16 +297,20 @@ function showListLabels(){
 	}
 }
 var numbersOnly=[];
-globalSeparationCharacter=',';
+globalSeparationCharacter='';
 function getLists(){ 
 	var i,j,x,y,k,l;
 	var m;
 	for (i=0;i<numLists;i++){
 		listLabel[i]=listLabelTextArea[i].value;
-		if (globalSeparationCharacter==',')
-			list[i]=listTextArea[i].value.replace(/,/g, '\n').split('\n'); 
+		if (globalSeparationCharacter!='')
+			list[i]=listTextArea[i].value.replaceAll(globalSeparationCharacter, '\n').split('\n'); 
 		else
-			list[i]=listTextArea[i].value.replace(/;/g, '\n').split('\n'); 
+			list[i]=listTextArea[i].value.split('\n'); 
+//		if (globalSeparationCharacter==',')
+//			list[i]=listTextArea[i].value.replace(/,/g, '\n').split('\n'); 
+//		else
+//			list[i]=listTextArea[i].value.replace(/;/g, '\n').split('\n'); 
 	}
 	for (i=0;i<numLists;i++){
 		numbersOnly[i]=true;
@@ -332,6 +336,7 @@ function getLists(){
 					j=Infinity;
 				}	
 				else{
+					x=x.replace(/[^\d.]/g, '');				
 					try{y=(eval(x));} catch{y=x;}
 					if (x=='')
 						list[i][j]=eval(x);
@@ -6615,8 +6620,11 @@ function anovaF(P){
 <h4>Settings</h4>
 <ul>
 <li> <label><input type='checkbox' id='specialBox' onclick='showhidespecials();'> Hide bootstrap, nonparametric, and resampling options.</label></li>
-<li> Data separation character: <label><input type='radio' onclick='setSeparationCharacter(",");' name='separationcharacter' checked=true> comma</label> &nbsp;
-<label><input type='radio' onclick='setSeparationCharacter(";");' name='separationcharacter'> semicolon</label></li>
+<li> Data separation character: 
+<label><input type='radio' onclick='setSeparationCharacter(",");' name='separationcharacter' > comma</label> &nbsp;
+<label><input type='radio' onclick='setSeparationCharacter(";");' name='separationcharacter' > semicolon</label>
+<label><input type='radio' onclick='setSeparationCharacter("");' name='separationcharacter' checked=true> none</label>
+</li>
 <li> Number of bootstrap samples:
 <label><input type='radio' onclick='setBootstrapSamples(10000);' name='numsamplesradio' checked=true> 10000</label>
 <label><input type='radio' onclick='setBootstrapSamples(5000);' name='numsamplesradio' > 5000</label>
@@ -6666,6 +6674,7 @@ function setuppaste(){
 
 	for (l=0;l<numLists;l++)
 	listTextArea[l].addEventListener('paste', (event) => { 
+		processLists();
 			// Access the pasted data
 			var i=getPasteTargetIndex(event.target.id);
 			var pastedData = event.clipboardData.getData('text/plain');
