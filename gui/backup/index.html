@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="gui.css">
+		<script src='gui.js'></script>
+<link rel="stylesheet" type="text/css" href="math.css">
+<link rel="stylesheet" type="text/css" href="latexEditor.css">
+<script type="text/javascript" src="math.js"></script>
+<script type="text/javascript" src="storage.js"></script>
+		
+	</head>
+	<body >		
+	<div class='draggable' id='algebra' data-title='Algebra'>Algebra Stuff</div>
+	<div class='draggable' id='statistics' data-title='Statistics'>Statistics Stuff</div>
+	<div class='draggable' id='math142' data-title='Math 142'>Math 142 Stuff</div>
+	<div class='draggable' id='geometry' data-title='Geometry'>Geometry Stuff</div>
+	<div class='draggable' id='calculus' data-title='Calculus'>Calculus Stuff</div>
+	<div class='draggable' id='concepts' data-title='Concepts'>Concepts Stuff</div>
+	<div class='draggable' id='numbers' data-title='Numbers'>Numbers Stuff</div>
+	<div class='draggable' id='home' data-title='Home'>Home	</div>
+	<div class='draggable' id='calculator' data-title='Calculator'><iframe src="calculator/index.html" style="border:none; background: none; width: 420px; height: 620px;"></iframe></div>
+	
+	<div class='taskBar'>
+	<img src='png/algebra.png' class='icon inTaskBar' data-target='algebra' title='Algebra'>
+	<img src='png/statistics.png'class='icon inTaskBar' data-target='statistics' title='Statistics'>
+	<img src='png/m142.png' class='icon inTaskBar' data-target='math142' title='Math 142'>
+	<img src='png/geometry.png'  class='icon inTaskBar' data-target='geometry' title='Geometry'>
+	<img src='png/calculus.png'  class='icon inTaskBar' data-target='calculus' title='Calculus'>
+	<img src='png/numbers.png'  class='icon inTaskBar' data-target='numbers' title='Number Theory'>
+	<img src='png/home.png'  class='icon inTaskBar' data-target='home' title='Home'>
+	<img src='png/calculator.png' class='icon inTaskBar' data-target='calculator' title='Calculator'>	
+	<img src='png/concepts.png'  class='icon inTaskBar' data-target='concepts' title='Concepts'>
+	<div class='icon' data-target='latexEditingDiv'>Latex</div>
+	</div>
+
+<!-- LATEX EDITOR ---------------------------------->
+<div id='latexEditingDiv' class='draggable' data-title='LaTeX Editor'>
+	<div id='buttonDiv'> 
+		File Name:<input type='text' id='theName' value='draft'> 
+		<button onclick='saveCode();'>Save</button>  <button onclick='loadCode();'>Load</button> 
+		<button onclick='dumpCode();'>Dump</button>  <button onclick='dumpCode();'>Load</button> 
+		<button onclick='latexHTMLTextArea.value=latexViewer.innerHTML;showWindowById("latexHTMLDiv");'>See HTML</button>
+		<button onclick="showWindowById('latexViewerDiv');latexViewer.innerHTML=compile(latexEditor.value);fixRoots();">Compile</button>
+	</div>
+	<textarea id="latexEditor"></textarea>
+</div>
+<div id='latexViewerDiv' class='draggable hidden'>
+	<div  id="latexViewer" ></div>
+</div>
+<div id='latexHTMLDiv' class='draggable hidden'>
+	<textarea id='latexHTMLTextArea'  style='width:100%; height: 600px;'></textarea>
+</div>
+<div id='theLoadDiv' class='popup'></div>
+<!-- LATEX EDITOR ---------------------------------->
+
+</body>
+</html>

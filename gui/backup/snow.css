@@ -1,0 +1,147 @@
+body{
+	background: rgb(240,240,250);
+	font-family: Times;
+	font-size: 22px;
+}
+div.navDiv{
+	position: fixed;
+	right:10px;
+	bottom:10px;
+	overflow:hidden;
+	width:50px;
+	height:50px;
+	transition: all 0.5s linear;
+	-webkit-transition:all 0.5s linear;
+	}
+div.innerNavDiv{
+	position: absolute;
+	height:50px;
+	width:380px;
+	right:0px;
+	margin:0px;
+	padding:0px;
+	margin-right:50px;
+	text-align:right;
+	}
+button.icon{
+	height:50px;
+	width:50px;
+	margin:0px;
+	padding:2px;
+	vertical-align:middle;
+	text-align:center;
+	background:none;
+	border:none;
+	}
+#mainNavButtonO{
+	border-radius:25px;
+	-webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+	transform: rotate(0deg);
+	transition: all 0.5s linear;
+	-webkit-transition:all 0.5s linear;	
+}
+img.icon{
+	width:40px;
+	height: 40px;
+	padding: 0px;
+	margin:0px;
+}
+#mainNavButton{
+	position:absolute;
+	right:0px;
+}
+#mainNavIcon1{
+	position:absolute;
+	right:5px;
+	top:5px;
+	-webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+	transform: rotate(0deg);
+	transition: all 0.5s linear;
+	-webkit-transition:all 0.5s linear;	
+}
+#mainNavIcon2{
+	position:absolute;
+	right:5px;
+	top:5px;
+	-webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+	transform: rotate(0deg);
+	transition: all 0.5s linear;
+	-webkit-transition:all 0.5s linear;	
+}
+div.classPage{
+	display: none;
+}
+button.expander{
+	font-size: 110%;
+	text-decoration: underline;
+	font-weight: bold;
+	border:none;
+	background:none;
+	margin-left:0px;
+	padding:0px;
+	margin: 0px;
+}
+button.fakeExpander{
+	font-size: 110%;
+	text-decoration: underline;
+	font-weight: bold;
+	border:none;
+	background:none;
+	margin-left:0px;
+	padding:0px;
+	margin: 0px;
+}
+button.shrinker{
+	font-weight: bold;
+	border:none;
+	background:none;
+	position:absolute;
+	right:0px;
+//	bottom:0px;
+}
+button.shrinker2{
+	font-weight: bold;
+	border:none;
+	background:none;
+	position:absolute;
+	right:0px;
+	top:0px;
+}
+div.expandable{
+	position:relative;
+	height:0px;
+	margin-left:20px;
+	overflow:hidden;
+}
+
+#clickToBegin{
+	position: fixed;
+	bottom:20px;
+	right: 70px;
+	color: red;
+}
+
+	div.sylP{
+		margin: 20px;
+		padding-left: 20px;
+		text-indent: -20px;
+	}
+	td{
+		text-indent: 0px;
+	}
+	
+div.titleBar{
+//	width:100%;
+	background:black;
+	color: rgb(240,240,250);
+	padding-left: 10px;
+}
+table.schedule{
+	text-align:center;
+}
+th{
+	text-align:center;
+}
+.red{
+	color: red;
+}

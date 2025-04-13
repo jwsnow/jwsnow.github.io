@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+		<style>
+		div.draggable{
+			width:100px;
+			height:100px;
+			background:lightgray;
+			border:1px solid black;
+			position:fixed;
+			overflow: hidden;
+		}
+		div.content{
+			position:absolute;
+			bottom:13px;
+			top: 25px;
+			overflow: auto;
+		}
+		div.handle{
+			height:24px;
+			background:gray;
+			vertical-align:middle;
+			padding:0px;
+			margin:0px;
+		}
+		div.resizer{
+			position:absolute;
+			right:0px;
+			bottom:0px;
+			width:12px;
+			height:12px;
+			background:gray;
+			padding:0px;
+			margin:0px;
+		}
+		div.closer{
+			display:inline-block;
+			height:90%;
+			vertical-align:middle;
+			padding:0px;
+			margin:0px;
+		}
+		button.closerButton{
+			height:100%;
+			font-size:8px;
+			vertical-align:middle;
+		}
+		#coords{
+			position: fixed;
+			bottom:0px;
+		}
+		</style>
+		<script>
+		var mouseX=0;
+		var mouseY=0;
+		var offsetX=0;
+		var offsetY=0;
+		var mouseDown=false;
+		var draggableDivs;
+		var handles;
+		var resizers;
+		var closers;
+		var dragging=false;
+		var resizing=false;
+		var divToDrag;
+		var N;
+		var maxZ=0;
+		
+		function getCoords(e){
+			mouseX=e.clientX;
+			mouseY=e.clientY;
+		}
+		function highlightHover(){
+			var brect
+			for (var i=0;i<N;i++){
+				brect=theBlahs[i].getBoundingClientRect();
+				if ((brect.left<=mouseX) && (mouseX<=brect.right) && (brect.top<=mouseY) && (mouseY<=brect.bottom))
+					theBlahs[i].style.border='1px solid red';
+				else
+					theBlahs[i].style.border='1px solid black';
+			}
+		}
+		function mouseDownFunction (e){
+			e.preventDefault();
+			t=e.target;
+			mouseDown=true;
+			if (e.touches)
+				getCoords(e.touches[0]);
+			else
+				getCoords(e);
+			divToDrag = document.getElementById(t.dataset.container);
+			var brect =  divToDrag.getBoundingClientRect();
+			offsetX=mouseX-brect.left;
+			offsetY=mouseY-brect.top;
+			dragging=true;
+		}
+		function mouseDownResizeFunction(e){
+			e.preventDefault();
+			t=e.target;
+			mouseDown=true;
+			if (e.touches)
+				getCoords(e.touches[0]);
+			else
+				getCoords(e);
+			divToDrag = document.getElementById(t.dataset.container);
+			var brect =  divToDrag.getBoundingClientRect();
+			offsetX=brect.right-mouseX;
+			offsetY=brect.bottom-mouseY;
+			resizing=true;		
+		}
+		document.onmouseup = function(e){
+			mouseDown=false;
+			dragging=false;
+			resizing=false;
+		}
+		document.ontouchend = function(e){
+			mouseDown=false;
+			dragging=false;
+			resizing=false;
+		}
+		document.onmousemove = function (e){
+			var brect;
+			if (mouseDown){
+				if (e.touches)
+					getCoords(e.touches[0]);
+				else
+					getCoords(e);
+				if (dragging){
+					divToDrag.style.top=(mouseY-offsetY)+'px';
+					divToDrag.style.left=(mouseX-offsetX)+'px';
+				}
+				else if (resizing){
+					brect =  divToDrag.getBoundingClientRect();
+					divToDrag.style.height=(mouseY-brect.top+offsetY)+'px';
+					divToDrag.style.width=(mouseX-brect.left+offsetX)+'px';
+				}
+			}
+		}
+		document.ontouchmove = function (e){
+			var brect;
+			if (mouseDown){
+				if (e.touches)
+					getCoords(e.touches[0]);
+				else
+					getCoords(e);
+				if (dragging){
+					divToDrag.style.top=(mouseY-offsetY)+'px';
+					divToDrag.style.left=(mouseX-offsetX)+'px';
+				}
+				else if (resizing){
+					brect =  divToDrag.getBoundingClientRect();
+					divToDrag.style.height=(mouseY-brect.top+offsetY)+'px';
+					divToDrag.style.width=(mouseX-brect.left+offsetX)+'px';
+				}
+			}
+		}
+		function focusOn(e){
+			var c;
+			if (e.target.dataset.container != undefined)
+				c=document.getElementById(e.target.dataset.container);
+			else
+				c=e.target;
+			c.style.zIndex=++maxZ;
+		}
+		function clickClose(e){
+			t=e.target;
+			var divToClose=document.getElementById(t.dataset.container);
+			divToClose.style.display='none';
+			mouseDown=false;
+			dragging=false;
+			resizing=false;
+		}
+		window.onload = function(){
+			var temp,l;
+			draggableDivs = document.getElementsByClassName('draggable');
+			handles = document.getElementsByClassName('handle');
+			resizers = document.getElementsByClassName('resizer');
+			closers = document.getElementsByClassName('closerButton');
+			l=draggableDivs.length;
+			for (i=0;i<l;i++){
+					draggableDivs[i].onmousedown = focusOn;
+					draggableDivs[i].ontouchstart = focusOn;
+					temp=draggableDivs[i].innerHTML;
+					draggableDivs[i].innerHTML="<div class='handle' data-container='"+draggableDivs[i].id+"'><div class='closer' data-container='"+draggableDivs[i].id+"'><button class='closerButton' data-container='"+draggableDivs[i].id+"'>X</button></div></div><div class='content'  data-container='"+draggableDivs[i].id+"'>"+temp+"</div><div class='resizer'  data-container='"+draggableDivs[i].id+"'></div>";
+			}
+			for (i in handles){
+				handles[i].onmousedown = mouseDownFunction;
+				handles[i].ontouchstart = mouseDownFunction;
+			}
+			for (i in resizers){
+				resizers[i].onmousedown = mouseDownResizeFunction;
+				resizers[i].ontouchstart = mouseDownResizeFunction;
+			}
+			for (i in closers){
+				closers[i].onclick = clickClose;
+			}
+		}
+
+		</script>
+	</head>
+	<body >		
+	<div class='draggable' id='div1'>1</div>
+	<div class='draggable' id='div2'>2</div>
+	<div class='draggable' id='div3'>3</div>
+	<div class='draggable' id='div4'>4</div>
+</body>
+</html>

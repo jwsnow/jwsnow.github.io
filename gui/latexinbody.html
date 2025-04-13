@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css" href="math.css">
+<script type="text/javascript" src="math.js"></script>
+<head>
+</head>
+<body>
+Here is some math: $$\frac{-b \pm \sqrt{b^2+4ac}}{2a}$$
+</body>
+<script>
+document.body.innerHTML=compile("$$\\frac{-b \\pm \\sqrt{b^2+4ac}}{2a}$$");
+fixRoots();
+</script>
+</html>
