@@ -459,7 +459,7 @@ function handleEnter(e){
 			targetCell--;
 		}
 	}
-	else if ((e.key=='Tab')||(e.key=='ArrowRight')){
+	else if ((e.key=='Tab')/*||(e.key=='ArrowRight')*/){
 		e.preventDefault();
 		if ((tj<numLists-1)){
 			s=processCellText(spreadSheetElements[ti][tj].value);
@@ -469,16 +469,17 @@ function handleEnter(e){
 			targetList++;
 		}
 	}	
-	else if ((e.key=='ArrowLeft')){
+/*	else if ((e.key=='ArrowLeft')){
 		e.preventDefault();
 		if ((tj>0)){
 			s=processCellText(spreadSheetElements[ti][tj].value);
-			spreadSheetElements[ti][tj-1].value=s;
+			spreadSheetElements[ti][tj].value=s;
 			list[tj-1][ti]=s;
 			spreadSheetElements[ti][tj-1].focus();
 			targetList--;
 		}
-	}		
+	}	
+*/	
 	processLists();
 }
 function processLists(e){ 
