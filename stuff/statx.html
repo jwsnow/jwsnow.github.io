@@ -11,6 +11,9 @@ input.datacell{
 	width: 10ch;
 	max-width: 10ch;
 }
+input.datacell:focus{
+	background: lightgray;
+}
 input.header{
 	font-weight: bold;
 	background: lightgray;
@@ -143,7 +146,8 @@ div.answerDiv{
 </style>
 <script>
 var numLists=10;
-var numRows=1000;
+var numRows=200;
+var maxRows=1000;
 var globalNumSamples=10000;
 var list=[];
 var isNumber=[];
@@ -325,24 +329,31 @@ function showListLabels(){
 var numbersOnly=[];
 globalSeparationCharacter='';
 
-
+function clearList(j){
+	var i;
+	for (i=0;i<numRows;i++)
+		spreadSheetElements[i][j].value='';
+}
 function addCell(){
 	var j,i;
 	var ti=targetCell-1; 
 	var tj=targetList;
 	getLists();
-console.log(list);	
+	
 	if((ti>=0) && (tj>=0)){	
+		if (numRows<maxRows) {addRowToDataList(); numRows++;}
+		//clearList(tj);
 		var l=list[tj].length; 
 		for (i=Math.min(l,numRows-1);i>ti;i--){
 				list[tj][i]=list[tj][i-1];
 		}	
-		list[tj][ti]='new cell';	
-	printLists();
-//	processLists();
+		list[tj][ti]='';	
+
+	printLists(); 
+	processLists();
 		spreadSheetElements[targetCell][targetList].focus();
 	}
-console.log(list);	
+	
 };
 function deleteCell(){
 	var j,i,t;
@@ -354,7 +365,7 @@ function deleteCell(){
 		for (i=ti;i<l-1;i++){
 				list[tj][i]=list[tj][i+1];
 		}	
-		list[tj][l-1]='';	
+		list[tj][l-1]='new cell';	
 	printLists();
 //	getLists();
 		spreadSheetElements[targetCell][targetList].focus();
@@ -369,6 +380,7 @@ function processCellText(t){
 	var y;
 	if (/^[0-9.]/.test(t)) t=t.replaceAll(',','');
 	try{y=eval(t);} catch{y=t};
+	if (typeof y != 'number') y=t;
 	if (y==undefined) y='';
 	return(y);
 }
@@ -381,6 +393,9 @@ function getLists(){
 			t=spreadSheetElements[i][j].value; 
 			if (t)	list[j][i-1]=processCellText(t);
 		}	
+		for (i=0;i<list[j].length;i++)
+			if (list[j][i]==undefined)
+				list[j][i]='';
 		listLabel[j]=spreadSheetElements[0][j].value
 	}	
 	for (j=0;j<numLists;j++){
@@ -444,7 +459,7 @@ function handleEnter(e){
 			targetCell--;
 		}
 	}
-	else if (e.key=='Tab'){
+	else if ((e.key=='Tab')||(e.key=='ArrowRight')){
 		e.preventDefault();
 		if ((tj<numLists-1)){
 			s=processCellText(spreadSheetElements[ti][tj].value);
@@ -454,6 +469,16 @@ function handleEnter(e){
 			targetList++;
 		}
 	}	
+	else if ((e.key=='ArrowLeft')){
+		e.preventDefault();
+		if ((tj>0)){
+			s=processCellText(spreadSheetElements[ti][tj].value);
+			spreadSheetElements[ti][tj-1].value=s;
+			list[tj-1][ti]=s;
+			spreadSheetElements[ti][tj-1].focus();
+			targetList--;
+		}
+	}		
 	processLists();
 }
 function processLists(e){ 
@@ -1480,12 +1505,30 @@ var CricketTempLabel='Temp'; var CricketTemp=[80.5, 78.5, 78, 73.5, 70.5, 68, 66
 <table id='dataTable'></table>
 </div>
 <script>
-
+function addRowToDataList(){
+	var i=spreadSheetElements.length;
+	spreadSheetElements[i]=[];
+	var newRow=document.createElement('tr');
+	var newCell;
+	for (j=0;j<numLists;j++){
+		newRow.insertCell(j);
+		newCell=document.createElement('input');
+		newCell.classList.add('datacell');
+		newCell.onkeydown=function(e){handleEnter(e);};
+		newCell.onclick=function(e){setTargetCell(e);};
+		newCell.setAttribute('data-list', j);
+		newCell.setAttribute('data-cell', i);
+		newRow.cells[j].appendChild(newCell);
+		spreadSheetElements[i][j]=newCell;
+		dataTable.appendChild(newRow);
+	}	
+}
 function setupDataLists(){
 	var i,j;
 	var newCell;
 	for (i=0;i<=numRows;i++){
-		dataTable.insertRow(i);
+		addRowToDataList();
+/*		dataTable.insertRow(i);
 		spreadSheetElements[i]=[];
 		for (j=0;j<numLists;j++){
 			dataTable.rows[i].insertCell(j);
@@ -1498,6 +1541,7 @@ function setupDataLists(){
 			dataTable.rows[i].cells[j].appendChild(newCell);
 			spreadSheetElements[i][j]=newCell;
 		}
+*/		
 	}
 	for (j=0;j<numLists;j++){
 		spreadSheetElements[0][j].classList.add('header');
@@ -2767,7 +2811,7 @@ drawChiSummary(chi2canvas,a, b, df);
 		alert('Input Error.');
 	}	
 		}
-function drawChiSummary(cvs,a, b, df){ console.log(a,b,df);
+function drawChiSummary(cvs,a, b, df){ 
 			var ctx=cvs.getContext('2d');
 			var w=cvs.width;
 			var h=cvs.height;
@@ -4556,7 +4600,7 @@ try{
 		else{
 			if (listSum[i]!=listSum[j])
 				for (k=0;k<listN[j];k++)
-					list[j][k]=listSum[i]*list[j][k]/listSum[j]; console.log(list[j]);
+					list[j][k]=listSum[i]*list[j][k]/listSum[j]; 
 printLists();processLists();					
 			var a=[];
 			for (k=0;k<listN[i];k++)
@@ -5026,7 +5070,7 @@ function discretePGeq(T, vals, probs){
 //-------------------------------------------------------------------------------------------
 
 //WITH EXACT CALCULATIONS
-function CalculateWSRTest(){console.log('entering wsrt');
+function CalculateWSRTest(){
 try{
 	var i=getChecked('wsrtest'); 
 	var k,d;
@@ -6773,11 +6817,11 @@ function anovaF(P){
 <h4>Settings</h4>
 <ul>
 <li> <label><input type='checkbox' id='specialBox' onclick='showhidespecials();'> Hide bootstrap, nonparametric, and resampling options.</label></li>
-<li> Data separation character: 
+<!--li> Data separation character: 
 <label><input type='radio' onclick='setSeparationCharacter(",");' name='separationcharacter' > comma</label> &nbsp;
 <label><input type='radio' onclick='setSeparationCharacter(";");' name='separationcharacter' > semicolon</label>
 <label><input type='radio' onclick='setSeparationCharacter("");' name='separationcharacter' checked=true> none</label>
-</li>
+</li-->
 <li> Number of bootstrap samples:
 <label><input type='radio' onclick='setBootstrapSamples(10000);' name='numsamplesradio' checked=true> 10000</label>
 <label><input type='radio' onclick='setBootstrapSamples(5000);' name='numsamplesradio' > 5000</label>
@@ -6811,5 +6855,8 @@ function showhidespecials(){
 
 </body>
 <script>setupAll();</script>
+<script>
+alert('This version of the Statistics Program has an updated data entry tab. Notable differences for you are:\r->When you paste data from Pearson that has column headers, click and paste in a header. Column headers and row labels will be pasted.\r->You can now use tabs, enter, and arrows to move between cells. \r->You can now type labels (plain text) in cells.\r->Columns with text labels in them cannot be included in computations.');
+</script>
 <div class='expandable' id='dummyExpandableDiv'></div>
 </html>
