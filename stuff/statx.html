@@ -448,6 +448,7 @@ function handleEnter(e){
 			spreadSheetElements[ti+1][tj].focus();
 			targetCell++;
 		}
+		processLists();
 	}	
 	else if (e.key=='ArrowUp'){
 		e.preventDefault();
@@ -458,6 +459,7 @@ function handleEnter(e){
 			spreadSheetElements[ti-1][tj].focus();
 			targetCell--;
 		}
+		processLists();
 	}
 	else if ((e.key=='Tab')||((!arrowsForEditing)&&(e.key=='ArrowRight'))){
 		e.preventDefault();
@@ -468,6 +470,7 @@ function handleEnter(e){
 			spreadSheetElements[ti][tj+1].focus();
 			targetList++;
 		}
+		processLists();
 	}	
 	else if ((!arrowsForEditing)&&(e.key=='ArrowLeft')){
 		e.preventDefault();
@@ -478,14 +481,14 @@ function handleEnter(e){
 			spreadSheetElements[ti][tj-1].focus();
 			targetList--;
 		}
+		processLists();
 	}	
 	else if ((backspaceCanDeleteCell)&&(spreadSheetElements[ti][tj].value=='')&&(e.key=='Backspace')&&(ti>0)){ console.log('something');
 		e.preventDefault();
 		deleteCell();
+		processLists();
 	}	
-	
-backspaceCanDeleteCell	
-	processLists();
+	//processLists();
 }
 function processLists(e){ 
 		getLists(); 
