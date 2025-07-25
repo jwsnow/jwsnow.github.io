@@ -365,7 +365,7 @@ function deleteCell(){
 		for (i=ti;i<l-1;i++){
 				list[tj][i]=list[tj][i+1];
 		}	
-		list[tj][l-1]='new cell';	
+		list[tj][l-1]='';	
 	printLists();
 //	getLists();
 		spreadSheetElements[targetCell][targetList].focus();
@@ -448,6 +448,7 @@ function handleEnter(e){
 			spreadSheetElements[ti+1][tj].focus();
 			targetCell++;
 		}
+		processLists();
 	}	
 	else if (e.key=='ArrowUp'){
 		e.preventDefault();
@@ -458,8 +459,9 @@ function handleEnter(e){
 			spreadSheetElements[ti-1][tj].focus();
 			targetCell--;
 		}
+		processLists();
 	}
-	else if ((e.key=='Tab')||(e.key=='ArrowRight')){
+	else if ((e.key=='Tab')||((!arrowsForEditing)&&(e.key=='ArrowRight'))){
 		e.preventDefault();
 		if ((tj<numLists-1)){
 			s=processCellText(spreadSheetElements[ti][tj].value);
@@ -468,18 +470,25 @@ function handleEnter(e){
 			spreadSheetElements[ti][tj+1].focus();
 			targetList++;
 		}
+		processLists();
 	}	
-	else if ((e.key=='ArrowLeft')){
+	else if ((!arrowsForEditing)&&(e.key=='ArrowLeft')){
 		e.preventDefault();
 		if ((tj>0)){
 			s=processCellText(spreadSheetElements[ti][tj].value);
-			spreadSheetElements[ti][tj-1].value=s;
+			spreadSheetElements[ti][tj].value=s;
 			list[tj-1][ti]=s;
 			spreadSheetElements[ti][tj-1].focus();
 			targetList--;
 		}
-	}		
-	processLists();
+		processLists();
+	}	
+	else if ((backspaceCanDeleteCell)&&(spreadSheetElements[ti][tj].value=='')&&(e.key=='Backspace')&&(ti>0)){ console.log('something');
+		e.preventDefault();
+		deleteCell();
+		processLists();
+	}	
+	//processLists();
 }
 function processLists(e){ 
 		getLists(); 
@@ -6817,6 +6826,8 @@ function anovaF(P){
 <h4>Settings</h4>
 <ul>
 <li> <label><input type='checkbox' id='specialBox' onclick='showhidespecials();'> Hide bootstrap, nonparametric, and resampling options.</label></li>
+<li> <label><input type='checkbox' id='arrowEditingBox' onclick='changeArrowEditing();' checked=true> Use arrows for editing cells.</label></li>
+<li> <label><input type='checkbox' id='backspaceBox' onclick='changeBackSpaceOption();'> Allow cell deletion with backspace.</label></li>
 <!--li> Data separation character: 
 <label><input type='radio' onclick='setSeparationCharacter(",");' name='separationcharacter' > comma</label> &nbsp;
 <label><input type='radio' onclick='setSeparationCharacter(";");' name='separationcharacter' > semicolon</label>
@@ -6831,6 +6842,14 @@ function anovaF(P){
 </ul>
 </div>
 <script>
+var arrowsForEditing=true;
+var backspaceCanDeleteCell=false;
+function changeArrowEditing(){
+	arrowsForEditing=!arrowsForEditing;
+}
+function changeBackSpaceOption(){
+	backspaceCanDeleteCell=!backspaceCanDeleteCell;
+}
 function setBootstrapSamples(n){
 	globalNumSamples=n;
 }
