@@ -2,6 +2,28 @@
 <html>
 <head>
 <style>
+#dataTable{
+	border-spacing: 0px;
+}
+td.datacell{
+}
+input.datacell{
+	width: 10ch;
+	max-width: 10ch;
+}
+input.datacell:focus{
+	background: lightgray;
+}
+input.header{
+	font-weight: bold;
+	background: lightgray;
+}
+input.number{
+	color: black;
+}
+input.string{
+	color: red;
+}
 #settings{
 	position: fixed;
 	left: 50px;
@@ -123,9 +145,16 @@ div.answerDiv{
 }
 </style>
 <script>
-var numLists=10;
+var numLists=13;
+var numRows=1000;
+var maxRows=1000;
 var globalNumSamples=10000;
 var list=[];
+var isNumber=[];
+var missing=[];
+var targetList=-1;
+var targetCell=-1;
+var spreadSheetElements=[];
 var listLabel=['List 0', 'List 1', 'List 2', 'List 3', 'List 4', 'List 5', 'List 6', 'List 7', 'List 8', 'List 9' ];
 var listLabelTextArea, listTextArea;
 var sumRow, sumList, sumN, sumMean, sumS, sumS2;
@@ -189,8 +218,20 @@ function expand(t){
 
 	var toToggle=[], toClose=[];
 	processLists();
-	removeSpaces();
+	removeSpaces(); //KEEP OR KILL
 	printLists();
+//++++++++++++++
+	var graphDivs=['histoDiv','histoDiv2','boxDiv','scatterDiv','quantileDiv','insideHistoDiv','seriesDiv'];
+	var checksToClear=['histocheckbox','boxcheckbox','scatterxradio','scatteryradio','quantileradio','histo2radio','seriesradio'];
+	var i;
+//for (i=0;i<graphDivs.length;i++)
+//		document.getElementById(graphDivs[i]).style.display='none';
+	for (j=0;j<checksToClear.length;j++){
+		s=document.getElementsByClassName(checksToClear[j]);
+		for (k=0;k<s.length;k++)
+			s[k].checked=false;
+	}		
+//+++++++++++++
 	if (t.hasAttribute('data-open'))
 		toToggle=t.getAttribute('data-open').split(',');
 	if (t.hasAttribute('data-close')) 
@@ -208,18 +249,19 @@ function expand(t){
 				document.getElementById(toToggle[i]).style.display='none';		
 		}
 	}
-	var graphDivs=['histoDiv','boxDiv','scatterDiv','quantileDiv','insideHistoDiv'];
-	var checksToClear=['histocheckbox','boxcheckbox','scatterxradio','scatteryradio','quantileradio'];
+//	var graphDivs=['histoDiv','histoDiv2','boxDiv','scatterDiv','quantileDiv','insideHistoDiv','seriesDiv'];
+//	var checksToClear=['histocheckbox','boxcheckbox','scatterxradio','scatteryradio','quantileradio','histo2radio','seriesradio'];
 	if (toClose.length>0){ 
 		for (i=0;i<toClose.length;i++){
 			document.getElementById(toClose[i]).style.display='none';
-			if (graphDivs.includes(toClose[i])){
+/*			if (graphDivs.includes(toClose[i])){
 				for (j=0;j<checksToClear.length;j++){
 					s=document.getElementsByClassName(checksToClear[j]);
 					for (k=0;k<s.length;k++)
 						s[k].checked=false;
 				}
 			}
+*/			
 		}	
 	}
 }
@@ -239,7 +281,7 @@ function setupAll(){
 	listLabelTextArea=document.getElementsByClassName('datalabel');
 
 	for (let i=0;i<numLists;i++){
-		listTextArea[i].onkeyup=function(e){handleEnter(e);};
+//Delete		listTextArea[i].onkeyup=function(e){handleEnter(e);};
 		listLabel[i]='List '+i;
 	}	
 	processLists();
@@ -247,9 +289,10 @@ function setupAll(){
 
 function printRadioList(x){
 		for (let i=0;i<numLists;i++)
-			document.write("<label><input type='radio' name='"+x+"radio' class='"+x+"radio'><span class='"+x+"label'>"+listLabel[i]+"</span></label>&nbsp;");	
+		//if (numbersOnly[i]) //INCORPORATE THIS SOMEHOW
+			document.write("<label><input type='radio' name='"+x+"radio' class='"+x+"radio' id='"+x+"radioid"+i+"'><span class='"+x+"label'>"+listLabel[i]+"</span></label>&nbsp;");	
 		allRadioNames.push(x+'radio');
-		allLabelNames.push(x+'label');
+		allLabelNames.push(x+'label');	
 }
 function getChecked(x, mustbenonempty){
 	var a=document.getElementsByClassName(x+'radio');
@@ -288,7 +331,7 @@ function showListLabels(){
 	for (i=0;i<numLists;i++){
 		if (!listLabel[i])
 			listLabel[i]='List '+i;
-			listLabelTextArea[i].value=listLabel[i];
+			spreadSheetElements[0][i].value=listLabel[i];
 		}
 	for (j=0;j<allLabelNames.length;j++){
 		x=document.getElementsByClassName(allLabelNames[j]);
@@ -298,76 +341,187 @@ function showListLabels(){
 }
 var numbersOnly=[];
 globalSeparationCharacter='';
-function getLists(){ 
-	var i,j,x,y,k,l;
-	var m;
-	for (i=0;i<numLists;i++){
-		listLabel[i]=listLabelTextArea[i].value;
-		if (globalSeparationCharacter!='')
-			list[i]=listTextArea[i].value.replaceAll(globalSeparationCharacter, '\n').split('\n'); 
-		else
-			list[i]=listTextArea[i].value.split('\n'); 
-//		if (globalSeparationCharacter==',')
-//			list[i]=listTextArea[i].value.replace(/,/g, '\n').split('\n'); 
-//		else
-//			list[i]=listTextArea[i].value.replace(/;/g, '\n').split('\n'); 
-	}
-	for (i=0;i<numLists;i++){
-		numbersOnly[i]=true;
-		for (j=0;j<list[i].length;j++){ 
-			try{
-				x=list[i][j];
-				if (x.charAt(0)=='='){ 
-					x=x.slice(1); 
-					y=x;
-					m=Infinity;
-					for (l=0;l<numLists;l++)
-						if (x.search('L'+l)!=-1)
-							m=min(m,list[l].length); 
-					if (m<Infinity){
-						for (k=0;k<m;k++){
-							for (l=0;l<numLists;l++)
-								if (x.search('L'+l)!=-1)
-									x=x.replace(RegExp('L'+l, 'g'),list[l][k]);
-							list[i][k]=eval(x);
-							x=y;
-						}
-					}
-					j=Infinity;
-				}	
-				else{
-//					x=x.replace(/[^\d.]/g, '');				
-					try{y=(eval(x));} catch{y=x;}
-					if (x=='')
-						list[i][j]=eval(x);
-//					else if (!isNaN(y))
-					else if ((typeof y == 'number')){
-						list[i][j]=y;
-					}	
-					else{
-	//					list[i][j]=x;
-						list[i][j]='';
-						numbersOnly[i]=false;
-					}
-				}
-			}
-			catch{
-				console.log('error processing: '+list[i][j]);
-			}
+
+function clearList(j){
+	var i;
+	for (i=0;i<numRows;i++)
+		spreadSheetElements[i][j].value='';
+}
+function addCell(){
+	var j,i;
+	var ti=targetCell-1; 
+	var tj=targetList;
+	getLists();
+	
+	if((ti>=0) && (tj>=0)){	
+		if (numRows<maxRows) {addRowToDataList(); numRows++;}
+		//clearList(tj);
+		var l=list[tj].length; 
+		for (i=Math.min(l,numRows-1);i>ti;i--){
+				list[tj][i]=list[tj][i-1];
 		}	
+		list[tj][ti]='';	
+
+	printLists(); 
+	processLists();
+		spreadSheetElements[targetCell][targetList].focus();
+	}
+	
+};
+function deleteCell(){
+	var j,i,t;
+	var ti=targetCell-1; 
+	var tj=targetList;
+	getLists();
+	if((ti>=0) && (tj>=0)){	
+		var l=list[tj].length; 
+			if (ti<l) {
+				for (i=ti;i<l-1;i++)
+						list[tj][i]=list[tj][i+1];
+				list[tj][l-1]='';			
+			}			
+		spreadSheetElements[targetCell][targetList].focus();
+	}	
+	printLists();
+};
+function deleteList(){ 
+	var i;
+	var tj=targetList;
+	getLists();
+	if (tj>=0){ 
+		for (i=0;i<list[tj].length;i++) list[tj][i]='';
+		listLabel[tj]='List '+tj;
+		printLists();
+	}	
+}
+function sortList(){
+	var tj=targetList;
+	getLists();
+	if ((tj>=0) && (list[tj].length>0)){
+		if (numbersOnly[tj])
+			list[tj].sort(function(a, b){return a - b});
+		else
+			list[tj].sort();
+	}
+	printLists();
+}
+function setTargetCell(e){
+	targetList=eval(e.target.getAttribute('data-list'));
+	targetCell=eval(e.target.getAttribute('data-cell'));
+}
+function processCellText(t){
+	var y;
+	if (/^[0-9.]/.test(t)) t=t.replaceAll(',','');
+	try{y=eval(t);} catch{y=t};
+	if (typeof y != 'number') y=t;
+	if (y==undefined) y='';
+	return(y);
+}
+function getLists(){
+	var i,j,k,t;
+	for (j=0;j<numLists;j++)
+		list[j]=[];
+	for (j=0;j<numLists;j++){
+		for (i=1;i<=numRows;i++){
+			t=spreadSheetElements[i][j].value; 
+			if (t)	list[j][i-1]=processCellText(t);
+		}	
+		for (i=0;i<list[j].length;i++)
+			if (list[j][i]==undefined)
+				list[j][i]='';
+		listLabel[j]=spreadSheetElements[0][j].value
+	}	
+	for (j=0;j<numLists;j++){
+		isNumber[j]=[];
+		missing[j]=0;
+		for (i=0;i<list[j].length;i++)
+			if (typeof list[j][i] == 'number'){
+				isNumber[j][i]=true;
+			}	
+			else{
+				isNumber[j][i]=false;
+				missing[j]++;
+			}
+		if (missing[j]==0)
+			numbersOnly[j]=true;
+		else
+			numbersOnly[j]=false;
 	}
 }
 
-function printLists(){ 
-	var i;
-	for (i=0;i<numLists;i++){
-		listLabelTextArea[i].value=listLabel[i];
-		listTextArea[i].value=list[i].join('\n');
+function printLists(){
+	var i,j,t;
+	for (j=0;j<numLists;j++){ 
+		spreadSheetElements[0][j].value=listLabel[j];
+		for (i=0;i<list[j].length;i++){
+			t=list[j][i];
+			spreadSheetElements[i+1][j].classList.remove('number');
+			spreadSheetElements[i+1][j].classList.remove('string');
+			if (t==undefined) t='';
+				spreadSheetElements[i+1][j].value=t;
+			if (isNumber[j][i])
+				spreadSheetElements[i+1][j].classList.add('number');
+			else
+				spreadSheetElements[i+1][j].classList.add('string');
+		}
 	}
 }
 function handleEnter(e){
-	if (e.key=='Enter')
+	var i,j,ti,tj,s;
+	
+	tj=eval(e.target.getAttribute('data-list'));
+	ti=eval(e.target.getAttribute('data-cell'));
+	
+	if ((e.key=='Enter') || (e.key=='ArrowDown')){
+		e.preventDefault();
+		if ((ti<numRows)){ 
+			s=processCellText(spreadSheetElements[ti][tj].value);
+			spreadSheetElements[ti][tj].value=s;
+			list[tj][ti]=s;
+			spreadSheetElements[ti+1][tj].focus();
+			targetCell++;
+		}
 		processLists();
+	}	
+	else if (e.key=='ArrowUp'){
+		e.preventDefault();
+		if ((ti>0)){
+			s=processCellText(spreadSheetElements[ti][tj].value);
+			spreadSheetElements[ti][tj].value=s;
+			list[tj][ti]=s;
+			spreadSheetElements[ti-1][tj].focus();
+			targetCell--;
+		}
+		processLists();
+	}
+	else if ((e.key=='Tab')||((!arrowsForEditing)&&(e.key=='ArrowRight'))){
+		e.preventDefault();
+		if ((tj<numLists-1)){
+			s=processCellText(spreadSheetElements[ti][tj].value);
+			spreadSheetElements[ti][tj].value=s;
+			list[tj][ti]=s;
+			spreadSheetElements[ti][tj+1].focus();
+			targetList++;
+		}
+		processLists();
+	}	
+	else if ((!arrowsForEditing)&&(e.key=='ArrowLeft')){
+		e.preventDefault();
+		if ((tj>0)){
+			s=processCellText(spreadSheetElements[ti][tj].value);
+			spreadSheetElements[ti][tj].value=s;
+			list[tj-1][ti]=s;
+			spreadSheetElements[ti][tj-1].focus();
+			targetList--;
+		}
+		processLists();
+	}	
+	else if ((backspaceCanDeleteCell)&&(spreadSheetElements[ti][tj].value=='')&&(e.key=='Backspace')&&(ti>0)){ console.log('something');
+		e.preventDefault();
+		deleteCell();
+		processLists();
+	}	
+	//processLists();
 }
 function processLists(e){ 
 		getLists(); 
@@ -464,6 +618,7 @@ function summarize(){
 		listRange[i]=r.range;
 	}
 }
+//KILL
 function showSummaryStats(){
 	var i;
 	
@@ -1127,7 +1282,7 @@ function fcdf(x, d1, d2){
 
 		if (inlist==outlist)
 			alert("Lists must be different.");
-		else if (listN[inlist]==0)
+		else if ((listN[inlist]==0)||(!numbersOnly[inlist]))
 			alert('The population list is empty.');
 		else{
 			list[outlist]=[];
@@ -1385,22 +1540,94 @@ var CricketTempLabel='Temp'; var CricketTemp=[80.5, 78.5, 78, 73.5, 70.5, 68, 66
 <!-- canned data--->
 <!---------------------------------------------------------------------------------------------------------------------------------->
 <div id='dataTableDiv'>
-	<table>
-	
-			<script>
-			document.write('<tr>');
-//			for (let i=0;i<numLists;i++)
-//				document.write('<th>'+i+'</th>')
-//			document.write('</tr><tr>');
-			for (let i=0;i<numLists;i++)
-				document.write('<td><textarea class="datalabel" rows=1 cols=10 wrap="off"></textarea></td>');
-			document.write('</tr><tr>');
-			for (let i=0;i<numLists;i++)
-				document.write('<td ><textarea class="datalist"  id="datalist'+i+'" rows=1000 cols=10 wrap="off"></textarea></td>');
-			document.write('</tr>');
-			</script>
-	</table>
-</div>	
+<div class='pageMenu'>
+<button onclick='deleteCell();'>Delete Cell</button>
+<button onclick='addCell();'>Add Cell</button>
+<button onclick='deleteList();'>Clear List</button>
+<button onclick='sortList();'>Sort List</button>
+</div>
+<table id='dataTable'></table>
+</div>
+<script>
+function addRowToDataList(){
+	var i=spreadSheetElements.length;
+	spreadSheetElements[i]=[];
+	var newRow=document.createElement('tr');
+	var newCell;
+	for (j=0;j<numLists;j++){
+		newRow.insertCell(j);
+		newCell=document.createElement('input');
+		newCell.classList.add('datacell');
+		newCell.onkeydown=function(e){handleEnter(e);};
+		newCell.onclick=function(e){setTargetCell(e);};
+		newCell.setAttribute('data-list', j);
+		newCell.setAttribute('data-cell', i);
+		newRow.cells[j].appendChild(newCell);
+		spreadSheetElements[i][j]=newCell;
+		dataTable.appendChild(newRow);
+	}	
+}
+function setupDataLists(){
+	var i,j;
+	var newCell;
+	for (i=0;i<=numRows;i++){
+		addRowToDataList();	
+	}
+	for (j=0;j<numLists;j++){
+		spreadSheetElements[0][j].classList.add('header');
+		spreadSheetElements[0][j].value='List '+j;
+		listLabel[j]=spreadSheetElements[0][j].value;
+	}
+	for (j=0;j<numLists;j++){
+		list[j]=[];
+		isNumber[j]=[];
+//		for (i=0; i<numRows;i++)
+//	;//		list[j][i]=j+' '+i;
+	}
+	printLists();
+}
+setupDataLists();
+
+function setuppaste(){
+
+	for (l=0;l<numLists;l++)
+	for (row=0;row<=numRows;row++)
+	spreadSheetElements[row][l].addEventListener('paste', (event) => { 
+//		processLists();
+			event.preventDefault();
+getLists();
+			// Access the pasted data
+			var tj=targetList;
+			var ti=targetCell;	
+			if ((tj>=0)&&(tj>=0)){
+				var pastedData = event.clipboardData.getData('text/plain');
+				var rows=pastedData.trimEnd().split('\n');
+				var alldata=[];
+				var maxcols=0;
+				var j,k;
+				for (j=0;j<rows.length;j++){
+					alldata[j]=rows[j].trimEnd().split('\t');
+					if (maxcols<alldata[j].length) maxcols=alldata[j].length;
+				}
+				if ((tj+maxcols>numLists)||(ti+rows.length>numRows+1))
+					alert('Sorry, that will not fit.')
+				else{
+					for (j=0;j<alldata.length;j++){
+						for (k=0;k<alldata[j].length;k++)
+							spreadSheetElements[ti+j][tj+k].value=(alldata[j][k]);
+					}
+					getLists();
+					printLists();
+	//				processLists();
+				}	
+			}	
+
+		});
+		
+}
+setuppaste();
+</script>
+</div>	<!--dataTableDiv-->
 </div><!--dataListDiv-->
 <!---- Data Lists ---------------------------------------------->
 
@@ -1520,14 +1747,75 @@ ranVarCanvas.style.display='none';
 <!--charts------------------------------------------------------>
 <div id='chartDiv' class='pageDiv expandable'>
 <div class='pageMenu'>
-<button class='expander' data-open='histoDiv' data-close='histoDiv2,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2'>Histograms</button>
-<button class='expander' data-open='histoDiv2' data-close='histoDiv,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2'>Bar Chart</button>
-<button class='expander' data-open='boxDiv' data-close='histoDiv2,histoDiv,scatterDiv,quantileDiv,boxplotCanvasDiv'>Box Plots</button>
-<button class='expander' data-open='scatterDiv' data-close='histoDiv2,histoDiv,boxDiv,quantileDiv,scatterPlotDiv'>Scatter Plots</button>
-<button class='expander' data-open='quantileDiv'  data-close='histoDiv2,histoDiv,boxDiv,scatterDiv,quantilePlotDiv'>Quantile Plots</button>
+<button class='expander' data-open='histoDiv' data-close='seriesDiv,histoDiv2,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2'>Histograms</button>
+<button class='expander' data-open='histoDiv2' data-close='seriesDiv,histoDiv,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2'>Bar Chart</button>
+<button class='expander' data-open='seriesDiv' data-close='histoDiv2,histoDiv,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2,insideSeriesDiv'>Series</button>
+<button class='expander' data-open='boxDiv' data-close='seriesDiv,histoDiv2,histoDiv,scatterDiv,quantileDiv,boxplotCanvasDiv'>Box Plots</button>
+<button class='expander' data-open='scatterDiv' data-close='seriesDiv,histoDiv2,histoDiv,boxDiv,quantileDiv,scatterPlotDiv'>Scatter Plots</button>
+<button class='expander' data-open='quantileDiv'  data-close='seriesDiv,histoDiv2,histoDiv,boxDiv,scatterDiv,quantilePlotDiv'>Quantile Plots</button>
 </div>
 
 <div class='subPage'>
+<!------------------------------------------------------------------------------------------------------------------------------->
+	<div id='seriesDiv' class='expandable'>
+	Lists: <br><script>
+	for (let i=0;i<numLists;i++)
+		document.write("<label><input type='radio'  name='seriesradio'  class='seriesradio' onclick='drawSeries();'><span class='serieslabel'>"+listLabel[i]+"</span></label>&nbsp;");
+	allLabelNames.push('series'+'label');	
+	</script>
+	<div id="insideSeriesDiv"><canvas id="seriesCanvas" width=400 height=200></canvas></div>
+	</div>
+	<script>
+function drawSeries(){
+	processLists();
+	var can=seriesCanvas;
+	var ctx=can.getContext('2d');
+	var w=can.width;
+	var h=can.height;	
+	ctx.fillStyle='white';
+	ctx.fillRect(0,0,w,h);		
+	insideSeriesDiv.style.display='none';
+	var i;
+	var inlist=0;
+	var radiolist=document.getElementsByClassName('seriesradio');
+	for (i=0;i<numLists;i++)
+		if (radiolist[i].checked) inlist=i;
+	if ((listN[inlist]==0)||(!numbersOnly[inlist])){
+		radiolist[inlist].checked=false
+	}
+	else{	
+		var names=[];
+		var counts=[];
+		var n=list[inlist].length;
+		for (i=0;i<n;i++){
+			names[i]=i;
+			counts[i]=list[inlist][i];
+		}
+		insideSeriesDiv.style.display='block';	
+		var dx=w/n;
+		ctx.font='12px Helvetica';
+		ctx.fillStyle='black';
+		ctx.strokeStyle='black';
+		for (j=0;j<n;j++){
+				ctx.save();
+				ctx.translate(j*dx+dx/2-6, h-40);
+				ctx.rotate(PI/2);
+				ctx.fillText(names[j],0,0);
+				ctx.restore();			
+		}
+		var Max=0;
+		for (j=0;j<n;j++)
+			if (counts[j]>Max) Max=counts[j];
+		ctx.lineWidth=0.95*dx;
+		ctx.beginPath();
+		for (j=0;j<n;j++){
+			ctx.moveTo(j*dx+dx/2, h-50);
+			ctx.lineTo(j*dx+dx/2, h-(h-60)*counts[j]/Max-50);			
+		}
+		ctx.stroke();		
+	}
+}	
+	</script>
 <!------------------------------------------------------------------------------------------------------------------------------->
 	<div id='histoDiv' class='expandable'>
 	<table>
@@ -1567,6 +1855,9 @@ freqTableDiv.innerHTML='';
 insideHistoDiv.style.display='none';
 var numChecks=0;
 var lastX;
+for (i=0;i<numLists;i++)
+	if ((listN[i]==0)||(!numbersOnly[i])) boxes[i].checked=false;
+	
 for (i=0;i<numLists;i++)
 	if ((boxes[i].checked) && listN[i]>0)
 		numChecks++;
@@ -1671,7 +1962,7 @@ function drawHistograms2(){
 	var radiolist=document.getElementsByClassName('histo2radio');
 	for (i=0;i<numLists;i++)
 		if (radiolist[i].checked) inlist=i;
-	if (listN[inlist]==0){
+	if ((listN[inlist]==0)){
 		radiolist[inlist].checked=false;
 		quantilePlotDiv.style.display='none';
 	}
@@ -1773,10 +2064,10 @@ function drawBoxPlots(){
 
 var boxcheckboxes=document.getElementsByClassName('boxcheckbox');
 for (i=0;i<numLists;i++)
-	if (listN[i]<=0) boxcheckboxes[i].checked=false;
+	if ((listN[i]==0)||(!numbersOnly[i])) boxcheckboxes[i].checked=false;
 		
 	i=0;
-	while ((i<numLists) && ((listN[i]==0) || (!boxcheckboxes[i].checked))) i++;
+	while ((i<numLists) && (((listN[i]==0)||(!numbersOnly[i])) || (!boxcheckboxes[i].checked))) i++;
 	if (i<numLists){
 		m=listMin[i]; 
 		M=listMax[i];
@@ -1859,9 +2150,11 @@ function drawScatterPlot(){
 var scatterxradios=document.getElementsByClassName('scatterxradio');
 var scatteryradios=document.getElementsByClassName('scatteryradio');
 for (i=0;i<numLists;i++){
-	if (listN[i]<=0) scatterxradios[i].checked=false;
-	if (listN[i]<=0) scatteryradios[i].checked=false;
+	if ((listN[i]==0)||(!numbersOnly[i])){
+		scatterxradios[i].checked=false;
+		scatteryradios[i].checked=false;
 	}
+}	
 
 
 	for (i=0;i<numLists;i++){
@@ -1948,7 +2241,7 @@ function drawQuantilePlot(){
 	var radiolist=document.getElementsByClassName('quantileradio');
 	for (i=0;i<numLists;i++)
 		if (radiolist[i].checked) inlist=i;
-	if (listN[inlist]==0){
+	if ((listN[inlist]==0)||(!numbersOnly[inlist])){
 		radiolist[inlist].checked=false;
 		quantilePlotDiv.style.display='none';
 	}
@@ -2614,7 +2907,7 @@ drawChiSummary(chi2canvas,a, b, df);
 		alert('Input Error.');
 	}	
 		}
-function drawChiSummary(cvs,a, b, df){ console.log(a,b,df);
+function drawChiSummary(cvs,a, b, df){ 
 			var ctx=cvs.getContext('2d');
 			var w=cvs.width;
 			var h=cvs.height;
@@ -2887,7 +3180,9 @@ function drawChiSummary(cvs,a, b, df){ console.log(a,b,df);
 		var inlist=0;
 		var i;
 		inlist=getChecked('interval');
-		if (listN[inlist]>0){
+		if ((listN[inlist]==0)||(!numbersOnly[inlist]))
+			alert('That list is empty.');
+		else{
 			tintervalssm.value=listM[inlist].TOFIXED(printPrecision);
 			tintervalsss.value=listS[inlist].TOFIXED(printPrecision);
 			tintervalssn.value=listN[inlist].TOFIXED(printPrecision);
@@ -2896,7 +3191,6 @@ function drawChiSummary(cvs,a, b, df){ console.log(a,b,df);
 			ttestssn.value=listN[inlist].TOFIXED(printPrecision);			
 			populateTIntervalStatsDiv.style.display='none';
 		}
-		else alert('That list is empty.');
 	}
 	</script>
 <!------------------------------------------------------------------------------------------------------------------------>
@@ -3090,7 +3384,7 @@ catch(err){
 		var i;
 		if (d==1){
 		inlist=getChecked('meanint2left');
-			if (listN[inlist]==0) alert ('That list is empty.');
+			if ((listN[inlist]==0)||(!numbersOnly[inlist])) alert ('That list is empty.');
 			else{
 				t2intssm1.value=listM[inlist].TOFIXED(printPrecision);
 				t2intsss1.value=listS[inlist].TOFIXED(printPrecision);
@@ -3103,7 +3397,7 @@ catch(err){
 		}
 		else{
 			inlist=getChecked('meanint2right');
-			if (listN[inlist]==0) alert ('That list is empty.');
+			if ((listN[inlist]==0)||(!numbersOnly[inlist])) alert ('That list is empty.');
 			else{
 				t2intssm2.value=listM[inlist];
 				t2intsss2.value=listS[inlist];
@@ -3907,7 +4201,7 @@ drawBellSummary(ttestsscanvas, hm, s/sqrt(n), hm+z1*s/sqrt(n), hm+z2*s/sqrt(n), 
 		var inlist=0;
 		var i;
 		inlist=getChecked('meantest');
-		if (listN[inlist]==0) alert ('That list is empty.');
+		if ((listN[inlist]==0)||(!numbersOnly[inlist])) alert ('That list is empty.');
 		else{
 			ttestssm.value=listM[inlist].TOFIXED(printPrecision);
 			ttestsss.value=listS[inlist].TOFIXED(printPrecision);
@@ -4115,7 +4409,7 @@ catch(err){
 		var i;
 		if (d==1){
 		inlist=getChecked('meantest2left');
-			if (listN[inlist]==0) alert ('That list is empty.');
+			if ((listN[inlist]==0)||(!numbersOnly[inlist])) alert ('That list is empty.');
 			else{
 				t2testssm1.value=listM[inlist].TOFIXED(printPrecision);
 				t2testsss1.value=listS[inlist].TOFIXED(printPrecision);
@@ -4129,7 +4423,7 @@ catch(err){
 		}
 		else{
 			inlist=getChecked('meantest2right');
-			if (listN[inlist]==0) alert ('That list is empty.');
+			if ((listN[inlist]==0)||(!numbersOnly[inlist]))alert ('That list is empty.');
 			else{
 				t2testssm2.value=listM[inlist];
 				t2testsss2.value=listS[inlist];
@@ -4403,7 +4697,7 @@ try{
 		else{
 			if (listSum[i]!=listSum[j])
 				for (k=0;k<listN[j];k++)
-					list[j][k]=listSum[i]*list[j][k]/listSum[j]; console.log(list[j]);
+					list[j][k]=listSum[i]*list[j][k]/listSum[j]; 
 printLists();processLists();					
 			var a=[];
 			for (k=0;k<listN[i];k++)
@@ -4505,6 +4799,8 @@ try{
 
 	var n=0;
 	var f,l;
+	for (i=0;i<numLists;i++)
+		if ((listN[i]==0)||(!numbersOnly[i])) abox[i].checked=false;
 	for (i=0;i<numLists;i++)
 		if (abox[i].checked){
 			if (listN[i]<2) abox[i].checked=false;
@@ -4618,7 +4914,7 @@ try{
 	var listsToInclude=[];
 	var a= document.getElementsByClassName('anovacheckbox');
 	for (i=0;i<numLists;i++)
-		if (listN[i]==0) a[i].checked=false;
+		if ((listN[i]==0)||(!numbersOnly[i])) a[i].checked=false;
 	for (i=0;i<numLists;i++)
 		if (a[i].checked) {
 			k++; 
@@ -4688,7 +4984,7 @@ try{
 	var n=0;
 	var p,q;
 	var med=eval(signtestssclaimedm.value); 
-	if(listN[i]==0) alert('Your list is empty.');
+	if((listN[i]==0)||(!numbersOnly[i]))alert('Your list is empty.');
 	else{	
 		for (k=0;k<listN[i];k++){
 			d=list[i][k]-med;
@@ -4764,6 +5060,7 @@ try{
 	if (i==j) alert('Select two different lists.');
 	else if(listN[i]*listN[j]==0) alert('One of your lists is empty.');
 	else if (listN[i]!=listN[j]) alert('Your lists need to be the same length.');
+	else if((!numbersOnly[i])||(!numbersOnly[j])) alert('Your lists contain entries that are not numbers');
 	else{	
 		for (k=0;k<listN[i];k++){
 			d=list[i][k]-list[j][k];
@@ -4873,7 +5170,7 @@ function discretePGeq(T, vals, probs){
 //-------------------------------------------------------------------------------------------
 
 //WITH EXACT CALCULATIONS
-function CalculateWSRTest(){console.log('entering wsrt');
+function CalculateWSRTest(){
 try{
 	var i=getChecked('wsrtest'); 
 	var k,d;
@@ -4886,7 +5183,7 @@ try{
 	var Tpos=0, Tneg=0;
 	var med=eval(wsrtestssclaimedm.value); 
 
-	if(listN[i]==0) alert('Your list is empty.');
+	if((listN[i]==0)||(!numbersOnly[i])) alert('Your list is empty.');
 	else{	
 		for (k=0;k<listN[i];k++){
 			d=list[i][k]-med;
@@ -5025,10 +5322,11 @@ try{
 	var diffs=[];
 	var avals=[];
 	var ranks=[];
-	var Tpos=0, Tneg=0;
+	var Tpos=0, Tneg=0;	
 	if (i==j) alert('Select two different lists.');
 	else if(listN[i]*listN[j]==0) alert('One of your lists is empty.');
-	else if (listN[i]!=listN[j]) alert('Your lists need to be the same length.');
+	else if (listN[i]!=listN[j]) alert('Your lists need to be the same length.');	
+	else if((!numbersOnly[i])||(!numbersOnly[j])) alert('Your lists contain entries that are not numbers');
 	else{	
 		for (k=0;k<listN[i];k++){
 			d=list[i][k]-list[j][k];
@@ -5083,6 +5381,7 @@ try{
 	if (i==j) alert('Select two different lists.');
 	else if(listN[i]*listN[j]==0) alert('One of your lists is empty.');
 	else if (listN[i]!=listN[j]) alert('Your lists need to be the same length.');
+	else if((!numbersOnly[i])||(!numbersOnly[j])) alert('Your lists contain entries that are not numbers');
 	else{	
 		for (k=0;k<listN[i];k++){
 			d=list[i][k]-list[j][k];
@@ -5236,6 +5535,7 @@ try{
 	var ni=[];
 	if (i==j) alert('Select two different lists.');
 	else if(listN[i]*listN[j]==0) alert('One of your lists is empty.');
+	else if((!numbersOnly[i])||(!numbersOnly[j])) alert('Your lists contain entries that are not numbers');
 	else{	
 		for (i=0;i<listsToInclude.length;i++){
 			l=listsToInclude[i];
@@ -5333,7 +5633,7 @@ try{
 	var ranks=[];
 	var sums=[];
 	for (i=0;i<numLists;i++)
-		if (listN[i]==0) a[i].checked=false;
+		if ((listN[i]==0)||(!numbersOnly[i])) a[i].checked=false;
 	for (i=0;i<numLists;i++)
 		if (a[i].checked) {
 			k++; 
@@ -5417,6 +5717,7 @@ try{
 	if (l1==l2) alert('Select two different lists.');
 	else if(listN[l1]*listN[l2]==0) alert('One of your lists is empty.');
 	else if (listN[l1]!=listN[l2]) alert('Your lists need to be the same length.');
+	else if((!numbersOnly[l1])||(!numbersOnly[l2])) alert('Your lists contain entries that are not numbers');
 	else{	
 		var sumprod, sumx, sumy, sumx2,r, P, t,i,j,n,m,b;
 		var ranksX=[], ranksY=[];
@@ -5544,7 +5845,7 @@ else{
 		ctx.lineTo(D+W*(xmax-xmin)/wx, h-(D+H*(y2-ymin)/wy));
 		ctx.stroke();
 	}	
-		
+		rankcorcanvas.style.display='none';
 		rankcoranswerDiv.style.display='block';
 	}
 }
@@ -5614,10 +5915,11 @@ function runcdfGTE(n1, n2, u){
 	}
 }
 function CalculateRunsTest(){
-try{
+try
+{
 	var l=getChecked('runstest'); 
 	var med=eval(signtestssclaimedm.value); 
-	if(listN[l]==0) alert('Your list is empty.');
+	if((listN[l]==0)||(!numbersOnly[l])) alert('Your list is empty.');
 	else{
 		var med=listQ2[l];
 		var p,q;
@@ -5658,13 +5960,14 @@ try{
 			var z=(R-m)/s;		
 			p=2*normalcdf(-abs(z));
 		}
+		if (method=='exact')
+		runstestanswer.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li><li>n: '+n+'</li><li>runs: '+R+'</li><li>above: '+n0+'</li><li>below: '+n1+'</li></ul>';
+		else
 		runstestanswer.innerHTML='<ul><li>P='+p.TOFIXED(printPrecision)+'</li><li>z='+z.TOFIXED(printPrecision)+'</li><li>n: '+n+'</li><li>runs: '+R+'</li><li>above: '+n0+'</li><li>below: '+n1+'</li></ul>';
 		runstestAnswerDiv.style.display='block';
 	}
 }
-catch(err){
-	alert('Input Error.');
-}
+catch(err){alert('Input Error.');}
 }
 </script>
 <!------------------------------------------------------------------------------------------------------------------------------------>
@@ -5802,7 +6105,7 @@ function RSCalculateMeanTest(){
 try{
 	var l=getChecked('RSonemeantest');
 	var n=listN[l];
-	if (n==0) alert('Your list is empty.');
+	if ((listN[l]==0)||(!numbersOnly[l]))alert('Your list is empty.');
 	else{
 		var hm=eval(RSonemeanssclaimedm.value)
 		var population=[];
@@ -6403,6 +6706,9 @@ try{
 	var n=0;
 	var f,l;
 	for (i=0;i<numLists;i++)
+		if ((listN[i]==0)||(!numbersOnly[i])) abox[i].checked=false;
+	
+	for (i=0;i<numLists;i++)
 		if (abox[i].checked){
 			if (listN[i]<2) abox[i].checked=false;
 			else n++;
@@ -6520,7 +6826,7 @@ try{
 	var ni=[];
 	var population=[];
 	for (i=0;i<numLists;i++)
-		if (listN[i]==0) a[i].checked=false;
+		if ((listN[i]==0)||(!numbersOnly[i])) a[i].checked=false;
 	for (i=0;i<numLists;i++)
 		if (a[i].checked) {
 			k++; 
@@ -6620,11 +6926,13 @@ function anovaF(P){
 <h4>Settings</h4>
 <ul>
 <li> <label><input type='checkbox' id='specialBox' onclick='showhidespecials();'> Hide bootstrap, nonparametric, and resampling options.</label></li>
-<li> Data separation character: 
+<li> <label><input type='checkbox' id='arrowEditingBox' onclick='changeArrowEditing();' checked=true> Use arrows for editing cells.</label></li>
+<li> <label><input type='checkbox' id='backspaceBox' onclick='changeBackSpaceOption();'> Allow cell deletion with backspace.</label></li>
+<!--li> Data separation character: 
 <label><input type='radio' onclick='setSeparationCharacter(",");' name='separationcharacter' > comma</label> &nbsp;
 <label><input type='radio' onclick='setSeparationCharacter(";");' name='separationcharacter' > semicolon</label>
 <label><input type='radio' onclick='setSeparationCharacter("");' name='separationcharacter' checked=true> none</label>
-</li>
+</li-->
 <li> Number of bootstrap samples:
 <label><input type='radio' onclick='setBootstrapSamples(10000);' name='numsamplesradio' checked=true> 10000</label>
 <label><input type='radio' onclick='setBootstrapSamples(5000);' name='numsamplesradio' > 5000</label>
@@ -6634,6 +6942,14 @@ function anovaF(P){
 </ul>
 </div>
 <script>
+var arrowsForEditing=true;
+var backspaceCanDeleteCell=false;
+function changeArrowEditing(){
+	arrowsForEditing=!arrowsForEditing;
+}
+function changeBackSpaceOption(){
+	backspaceCanDeleteCell=!backspaceCanDeleteCell;
+}
 function setBootstrapSamples(n){
 	globalNumSamples=n;
 }
@@ -6658,52 +6974,6 @@ function showhidespecials(){
 
 </body>
 <script>setupAll();</script>
-<script>
 
-function getPasteTargetIndex(ID){
-	var r=-1;
-	var i;
-	for (i=0;i<numLists;i++){
-		if (listTextArea[i].id==ID)
-			r=i;
-	}		
-	return(r);		
-}
-
-function setuppaste(){
-
-	for (l=0;l<numLists;l++)
-	listTextArea[l].addEventListener('paste', (event) => { 
-		processLists();
-			// Access the pasted data
-			var i=getPasteTargetIndex(event.target.id);
-			var pastedData = event.clipboardData.getData('text/plain');
-			var rows=pastedData.split('\n');
-			var alldata=[];
-			var maxcols=0;
-			var j,k;
-			for (j=0;j<rows.length;j++){
-				alldata[j]=rows[j].split('\t');
-				if (maxcols<alldata[j].length) maxcols=alldata[j].length;
-			}
-			if (i+maxcols>numLists)
-				alert('Sorry, that is too many columns.')
-			else{
-				for (j=0;j<maxcols;j++)
-					list[i+j]=[];
-				for (j=0;j<alldata.length;j++){
-					for (k=0;k<alldata[j].length;k++)
-						list[i+k].push(alldata[j][k]);
-				}
-				printLists();
-				processLists();
-			}	
-			event.preventDefault();
-		});
-		
-}
-setuppaste();
-
-</script>
 <div class='expandable' id='dummyExpandableDiv'></div>
 </html>
