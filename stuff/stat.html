@@ -1568,6 +1568,8 @@ var CricketTempLabel='Temp'; var CricketTemp=[80.5, 78.5, 78, 73.5, 70.5, 68, 66
 <button onclick='deleteAllLists();'>Clear All Lists</button>
 
 <button onclick='sortList();'>Sort List</button>
+<label><input type='checkbox' id='transposePaste'>Transpose</label>
+<label><input type='checkbox' id='commas'>Commas</label>
 </div>
 <table id='dataTable'></table>
 </div>
@@ -1623,7 +1625,13 @@ getLists();
 			var tj=targetList;
 			var ti=targetCell;	
 			if ((tj>=0)&&(tj>=0)){
+				//get clipboard
 				var pastedData = event.clipboardData.getData('text/plain');
+				if (commas.checked){
+					pastedData=pastedData.replaceAll(',', '\t');
+					commas.checked=false;
+				}
+				//split in rows
 				var rows=pastedData.trimEnd().split('\n');
 				var alldata=[];
 				var maxcols=0;
@@ -1632,6 +1640,7 @@ getLists();
 					alldata[j]=rows[j].trimEnd().split('\t');
 					if (maxcols<alldata[j].length) maxcols=alldata[j].length;
 				}
+			if (!transposePaste.checked){	
 				if ((tj+maxcols>numLists)||(ti+rows.length>numRows+1))
 					alert('Sorry, that will not fit.')
 				else{
@@ -1642,7 +1651,23 @@ getLists();
 					getLists();
 					printLists();
 	//				processLists();
-				}	
+				}
+			}//if not transpose
+			else{
+				if ((tj+maxcols>numRows+1)||(ti+rows.length>numLists))
+					alert('Sorry, that will not fit.')
+				else{
+					for (j=0;j<alldata.length;j++){
+						for (k=0;k<alldata[j].length;k++)
+							spreadSheetElements[ti+k][tj+j].value=(alldata[j][k]);
+					}
+					getLists();
+					printLists();
+	//				processLists();
+				transposePaste.checked=false;
+				}
+			
+			}//transpose
 			}	
 
 		});
