@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "84f0b5b2b504b8c379382e9ef1dbdd5e",
+    "title": "Question 1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p><img src=\"2.2_Shapes_of_Histograms_images/7213bc1c1fa21919bee7304f1c7b8ca9.png\" alt=\"Histogram image\" width=\"400\" height=\"300\">",
+    "choices": [
+      {
+        "id": "84f0b5b2b504b8c379382e9ef1dbdd5e_A",
+        "label": "A",
+        "html": "<p>Skew right</p>",
+        "is_correct": false
+      },
+      {
+        "id": "84f0b5b2b504b8c379382e9ef1dbdd5e_B",
+        "label": "B",
+        "html": "<p>Uniform</p>",
+        "is_correct": false
+      },
+      {
+        "id": "84f0b5b2b504b8c379382e9ef1dbdd5e_C",
+        "label": "C",
+        "html": "Normal",
+        "is_correct": true
+      },
+      {
+        "id": "84f0b5b2b504b8c379382e9ef1dbdd5e_D",
+        "label": "D",
+        "html": "Skew left",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "84f0b5b2b504b8c379382e9ef1dbdd5e_C"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "7563d45607b44002a4828172e92a137f",
+    "title": "Question 4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p><img src=\"2.2_Shapes_of_Histograms_images/66d3e1a18a02267d0ed66c4989b66338.png\" alt=\"Histogram image\" width=\"400\" height=\"300\">",
+    "choices": [
+      {
+        "id": "7563d45607b44002a4828172e92a137f_A",
+        "label": "A",
+        "html": "Approximately uniform",
+        "is_correct": true
+      },
+      {
+        "id": "7563d45607b44002a4828172e92a137f_B",
+        "label": "B",
+        "html": "<p>Skew right</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7563d45607b44002a4828172e92a137f_C",
+        "label": "C",
+        "html": "Normal",
+        "is_correct": false
+      },
+      {
+        "id": "7563d45607b44002a4828172e92a137f_D",
+        "label": "D",
+        "html": "Skew right",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7563d45607b44002a4828172e92a137f_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "3c7685fe5cc6e8f4fdf5306fe6830a8e",
+    "title": "Question 16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p><img src=\"2.2_Shapes_of_Histograms_images/47466d7d9cac8baa9e6a358450774be8.png\" alt=\"Histogram image\" width=\"400\" height=\"300\">",
+    "choices": [
+      {
+        "id": "3c7685fe5cc6e8f4fdf5306fe6830a8e_A",
+        "label": "A",
+        "html": "<p>Skew left</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3c7685fe5cc6e8f4fdf5306fe6830a8e_B",
+        "label": "B",
+        "html": "Approximately uniform",
+        "is_correct": true
+      },
+      {
+        "id": "3c7685fe5cc6e8f4fdf5306fe6830a8e_C",
+        "label": "C",
+        "html": "<p>Skew right</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3c7685fe5cc6e8f4fdf5306fe6830a8e_D",
+        "label": "D",
+        "html": "Normal",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3c7685fe5cc6e8f4fdf5306fe6830a8e_B"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "a414d9e55e3bc46dc14d9019fa9ab616",
+    "title": "Question 19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p><img src=\"2.2_Shapes_of_Histograms_images/4a4e3be6b9db19fa8958bae4704fee49.png\" alt=\"Histogram image\" width=\"400\" height=\"300\">",
+    "choices": [
+      {
+        "id": "a414d9e55e3bc46dc14d9019fa9ab616_A",
+        "label": "A",
+        "html": "<p>Uniform</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a414d9e55e3bc46dc14d9019fa9ab616_B",
+        "label": "B",
+        "html": "Skew right",
+        "is_correct": false
+      },
+      {
+        "id": "a414d9e55e3bc46dc14d9019fa9ab616_C",
+        "label": "C",
+        "html": "Normal",
+        "is_correct": true
+      },
+      {
+        "id": "a414d9e55e3bc46dc14d9019fa9ab616_D",
+        "label": "D",
+        "html": "Skew left",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a414d9e55e3bc46dc14d9019fa9ab616_C"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "8529dc2bd8b80d96e7700aa31e06db9a",
+    "title": "Question 13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p>\n<p><img src=\"2.2_Shapes_of_Histograms_images/normal.png\" alt=\"normal.png\" width=\"400\" height=\"250\" data-old-link=\"/courses/42167/files/5517791/preview?verifier=On6Xyg6f6fIofqNbPD3BLkdYJYvGLtPcMxUSWWaJ\"></p>",
+    "choices": [
+      {
+        "id": "8529dc2bd8b80d96e7700aa31e06db9a_A",
+        "label": "A",
+        "html": "Skew right",
+        "is_correct": false
+      },
+      {
+        "id": "8529dc2bd8b80d96e7700aa31e06db9a_B",
+        "label": "B",
+        "html": "Skew left",
+        "is_correct": false
+      },
+      {
+        "id": "8529dc2bd8b80d96e7700aa31e06db9a_C",
+        "label": "C",
+        "html": "Normal",
+        "is_correct": true
+      },
+      {
+        "id": "8529dc2bd8b80d96e7700aa31e06db9a_D",
+        "label": "D",
+        "html": "<p>Uniform</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8529dc2bd8b80d96e7700aa31e06db9a_C"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "7e16dea5ccc48f0428904890d9485d7f",
+    "title": "Question 10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p>\n<p><img src=\"2.2_Shapes_of_Histograms_images/uniform.png\" alt=\"uniform.png\" width=\"400\" height=\"255\" data-old-link=\"/courses/42167/files/5517794/preview?verifier=fweFcOZicUUmvK0Acwj40qMR4fOsRHBhHo8fmUdZ\"></p>",
+    "choices": [
+      {
+        "id": "7e16dea5ccc48f0428904890d9485d7f_A",
+        "label": "A",
+        "html": "Normal",
+        "is_correct": false
+      },
+      {
+        "id": "7e16dea5ccc48f0428904890d9485d7f_B",
+        "label": "B",
+        "html": "Skew right",
+        "is_correct": false
+      },
+      {
+        "id": "7e16dea5ccc48f0428904890d9485d7f_C",
+        "label": "C",
+        "html": "<p>Skew left</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7e16dea5ccc48f0428904890d9485d7f_D",
+        "label": "D",
+        "html": "Approximately uniform",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "7e16dea5ccc48f0428904890d9485d7f_D"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "9e0e63e862fd9c982328d3c81f9008c1",
+    "title": "Question 5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p><img src=\"2.2_Shapes_of_Histograms_images/3e3814723a038d9bf29fce72a78a5c2d.png\" alt=\"Histogram image\" width=\"400\" height=\"300\">",
+    "choices": [
+      {
+        "id": "9e0e63e862fd9c982328d3c81f9008c1_A",
+        "label": "A",
+        "html": "Approximately uniform",
+        "is_correct": false
+      },
+      {
+        "id": "9e0e63e862fd9c982328d3c81f9008c1_B",
+        "label": "B",
+        "html": "Multiple peaks",
+        "is_correct": true
+      },
+      {
+        "id": "9e0e63e862fd9c982328d3c81f9008c1_C",
+        "label": "C",
+        "html": "Normal",
+        "is_correct": false
+      },
+      {
+        "id": "9e0e63e862fd9c982328d3c81f9008c1_D",
+        "label": "D",
+        "html": "Skew left",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9e0e63e862fd9c982328d3c81f9008c1_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "ff2614d7c9e31db7210d8e63b0c975ea",
+    "title": "Question 6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p><img src=\"2.2_Shapes_of_Histograms_images/3cf69650a6483c6c4e1797bbfd8a64b9.png\" alt=\"Histogram image\" width=\"400\" height=\"300\">",
+    "choices": [
+      {
+        "id": "ff2614d7c9e31db7210d8e63b0c975ea_A",
+        "label": "A",
+        "html": "Symmetric",
+        "is_correct": true
+      },
+      {
+        "id": "ff2614d7c9e31db7210d8e63b0c975ea_B",
+        "label": "B",
+        "html": "Approximately uniform",
+        "is_correct": false
+      },
+      {
+        "id": "ff2614d7c9e31db7210d8e63b0c975ea_C",
+        "label": "C",
+        "html": "<p>Skew right</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ff2614d7c9e31db7210d8e63b0c975ea_D",
+        "label": "D",
+        "html": "Skew left",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ff2614d7c9e31db7210d8e63b0c975ea_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "fb656dd545e16209bd1d77050f1cffaa",
+    "title": "Question 8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p>\n<p><img src=\"2.2_Shapes_of_Histograms_images/skewleft.png\" alt=\"skewleft.png\" width=\"400\" height=\"248\" data-old-link=\"/courses/42167/files/5517796/preview?verifier=m9Eh0XLKWliLQ790LwyU2TxYAE8TSaeCD48C9yWA\"></p>",
+    "choices": [
+      {
+        "id": "fb656dd545e16209bd1d77050f1cffaa_A",
+        "label": "A",
+        "html": "Normal",
+        "is_correct": false
+      },
+      {
+        "id": "fb656dd545e16209bd1d77050f1cffaa_B",
+        "label": "B",
+        "html": "Multiple peaks",
+        "is_correct": false
+      },
+      {
+        "id": "fb656dd545e16209bd1d77050f1cffaa_C",
+        "label": "C",
+        "html": "Skew left",
+        "is_correct": true
+      },
+      {
+        "id": "fb656dd545e16209bd1d77050f1cffaa_D",
+        "label": "D",
+        "html": "Skew right",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "fb656dd545e16209bd1d77050f1cffaa_C"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "37c79bc38a9625d35d0cb22f5984ddd1",
+    "title": "Question 9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p>\n<p><img src=\"2.2_Shapes_of_Histograms_images/skewright.png\" alt=\"skewright.png\" width=\"400\" height=\"247\" data-old-link=\"/courses/42167/files/5517795/preview?verifier=VL680ghlkycFgWJzSqBaFfPL2uDtyCHHc6jv5k70\"></p>",
+    "choices": [
+      {
+        "id": "37c79bc38a9625d35d0cb22f5984ddd1_A",
+        "label": "A",
+        "html": "Skew right",
+        "is_correct": true
+      },
+      {
+        "id": "37c79bc38a9625d35d0cb22f5984ddd1_B",
+        "label": "B",
+        "html": "Symmetric",
+        "is_correct": false
+      },
+      {
+        "id": "37c79bc38a9625d35d0cb22f5984ddd1_C",
+        "label": "C",
+        "html": "Approximately uniform",
+        "is_correct": false
+      },
+      {
+        "id": "37c79bc38a9625d35d0cb22f5984ddd1_D",
+        "label": "D",
+        "html": "Normal",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "37c79bc38a9625d35d0cb22f5984ddd1_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "104bebf5cbe5b9302f60c0d4b0767332",
+    "title": "Question 11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p>\n<p><img src=\"2.2_Shapes_of_Histograms_images/symetricmultiplepeaks.png\" alt=\"symetricmultiplepeaks.png\" width=\"400\" height=\"254\" data-old-link=\"/courses/42167/files/5517793/preview?verifier=nIjLIU7bpHzP99U3Jx8EaUZOfRgF9v2WZESRZRPC\"></p>",
+    "choices": [
+      {
+        "id": "104bebf5cbe5b9302f60c0d4b0767332_A",
+        "label": "A",
+        "html": "Multiple peaks",
+        "is_correct": true
+      },
+      {
+        "id": "104bebf5cbe5b9302f60c0d4b0767332_B",
+        "label": "B",
+        "html": "Skew left",
+        "is_correct": false
+      },
+      {
+        "id": "104bebf5cbe5b9302f60c0d4b0767332_C",
+        "label": "C",
+        "html": "Skew right",
+        "is_correct": false
+      },
+      {
+        "id": "104bebf5cbe5b9302f60c0d4b0767332_D",
+        "label": "D",
+        "html": "<p>Normal</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "104bebf5cbe5b9302f60c0d4b0767332_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "4a1ce2553e79b3d034dea222ede81835",
+    "title": "Question 12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p>\n<p><img src=\"2.2_Shapes_of_Histograms_images/symetricmultiplepeaks.png\" alt=\"symetricmultiplepeaks.png\" width=\"400\" height=\"254\" data-old-link=\"/courses/42167/files/5517792/preview?verifier=XT5vmhptNjkzqAttZvxPv8qsgTVaqlQAwi8Zp0XE\"></p>",
+    "choices": [
+      {
+        "id": "4a1ce2553e79b3d034dea222ede81835_A",
+        "label": "A",
+        "html": "<p>Normal</p>",
+        "is_correct": false
+      },
+      {
+        "id": "4a1ce2553e79b3d034dea222ede81835_B",
+        "label": "B",
+        "html": "Skew right",
+        "is_correct": false
+      },
+      {
+        "id": "4a1ce2553e79b3d034dea222ede81835_C",
+        "label": "C",
+        "html": "Skew left",
+        "is_correct": false
+      },
+      {
+        "id": "4a1ce2553e79b3d034dea222ede81835_D",
+        "label": "D",
+        "html": "Symmetric",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "4a1ce2553e79b3d034dea222ede81835_D"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "10d24738a5f588fbac021ebbdc422110",
+    "title": "Question 17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p>\n<p><img src=\"2.2_Shapes_of_Histograms_images/multiplepeaks.png\" alt=\"multiplepeaks.png\" width=\"400\" height=\"254\" data-old-link=\"/courses/42167/files/5517789/preview?verifier=duWMadNLgMH6BxMKckS7xdFm9omJDUwb6afnlVuD\"></p>",
+    "choices": [
+      {
+        "id": "10d24738a5f588fbac021ebbdc422110_A",
+        "label": "A",
+        "html": "Normal",
+        "is_correct": false
+      },
+      {
+        "id": "10d24738a5f588fbac021ebbdc422110_B",
+        "label": "B",
+        "html": "Skew right",
+        "is_correct": false
+      },
+      {
+        "id": "10d24738a5f588fbac021ebbdc422110_C",
+        "label": "C",
+        "html": "Multiple peaks",
+        "is_correct": true
+      },
+      {
+        "id": "10d24738a5f588fbac021ebbdc422110_D",
+        "label": "D",
+        "html": "Skew left",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "10d24738a5f588fbac021ebbdc422110_C"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "96b1ec7fd3c0a9dc174b09eca8dda727",
+    "title": "Question 18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p>\n<p><img src=\"2.2_Shapes_of_Histograms_images/06696d992240913082768d415ae586fe.png\" alt=\"Histogram image\" width=\"400\" height=\"300\"></p>",
+    "choices": [
+      {
+        "id": "96b1ec7fd3c0a9dc174b09eca8dda727_A",
+        "label": "A",
+        "html": "Skew right",
+        "is_correct": false
+      },
+      {
+        "id": "96b1ec7fd3c0a9dc174b09eca8dda727_B",
+        "label": "B",
+        "html": "Skew left",
+        "is_correct": false
+      },
+      {
+        "id": "96b1ec7fd3c0a9dc174b09eca8dda727_C",
+        "label": "C",
+        "html": "Symmetric",
+        "is_correct": true
+      },
+      {
+        "id": "96b1ec7fd3c0a9dc174b09eca8dda727_D",
+        "label": "D",
+        "html": "Multiple peaks",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "96b1ec7fd3c0a9dc174b09eca8dda727_C"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "d8c5f9f22563c45f099c3ec15fdc1c28",
+    "title": "Question 20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p><img src=\"2.2_Shapes_of_Histograms_images/301b5b17decd1cb8096585dbfa57842f.png\" alt=\"Histogram image\" width=\"400\" height=\"300\">",
+    "choices": [
+      {
+        "id": "d8c5f9f22563c45f099c3ec15fdc1c28_A",
+        "label": "A",
+        "html": "Skew left",
+        "is_correct": false
+      },
+      {
+        "id": "d8c5f9f22563c45f099c3ec15fdc1c28_B",
+        "label": "B",
+        "html": "Symmetric",
+        "is_correct": false
+      },
+      {
+        "id": "d8c5f9f22563c45f099c3ec15fdc1c28_C",
+        "label": "C",
+        "html": "Multiple peaks",
+        "is_correct": false
+      },
+      {
+        "id": "d8c5f9f22563c45f099c3ec15fdc1c28_D",
+        "label": "D",
+        "html": "Skew right",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "d8c5f9f22563c45f099c3ec15fdc1c28_D"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "adc9063d202677a4b0598b1e0aebf6b3",
+    "title": "Question 15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p><img src=\"2.2_Shapes_of_Histograms_images/524f2d28eb08e90cad74ec5c5b06d033.png\" alt=\"Histogram image\" width=\"400\" height=\"300\">",
+    "choices": [
+      {
+        "id": "adc9063d202677a4b0598b1e0aebf6b3_A",
+        "label": "A",
+        "html": "Symmetric",
+        "is_correct": false
+      },
+      {
+        "id": "adc9063d202677a4b0598b1e0aebf6b3_B",
+        "label": "B",
+        "html": "Skew left",
+        "is_correct": true
+      },
+      {
+        "id": "adc9063d202677a4b0598b1e0aebf6b3_C",
+        "label": "C",
+        "html": "Normal",
+        "is_correct": false
+      },
+      {
+        "id": "adc9063d202677a4b0598b1e0aebf6b3_D",
+        "label": "D",
+        "html": "Skew right",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "adc9063d202677a4b0598b1e0aebf6b3_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "72ac10240de0ecd91923be2586d01095",
+    "title": "Question 14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p><img src=\"2.2_Shapes_of_Histograms_images/e69a95d9029b81ac1d8f9ea44ce330af.png\" alt=\"Histogram image\" width=\"400\" height=\"300\">",
+    "choices": [
+      {
+        "id": "72ac10240de0ecd91923be2586d01095_A",
+        "label": "A",
+        "html": "Approximately uniform",
+        "is_correct": false
+      },
+      {
+        "id": "72ac10240de0ecd91923be2586d01095_B",
+        "label": "B",
+        "html": "Skew left",
+        "is_correct": false
+      },
+      {
+        "id": "72ac10240de0ecd91923be2586d01095_C",
+        "label": "C",
+        "html": "Normal",
+        "is_correct": false
+      },
+      {
+        "id": "72ac10240de0ecd91923be2586d01095_D",
+        "label": "D",
+        "html": "Skew right",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "72ac10240de0ecd91923be2586d01095_D"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "77618626fe185c17909120eee915a962",
+    "title": "Question 7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p><img src=\"2.2_Shapes_of_Histograms_images/47bf0f2633afff74d75af1ccde4d24e9.png\" alt=\"Histogram image\" width=\"400\" height=\"300\">",
+    "choices": [
+      {
+        "id": "77618626fe185c17909120eee915a962_A",
+        "label": "A",
+        "html": "Normal",
+        "is_correct": true
+      },
+      {
+        "id": "77618626fe185c17909120eee915a962_B",
+        "label": "B",
+        "html": "Skew left",
+        "is_correct": false
+      },
+      {
+        "id": "77618626fe185c17909120eee915a962_C",
+        "label": "C",
+        "html": "Skew right",
+        "is_correct": false
+      },
+      {
+        "id": "77618626fe185c17909120eee915a962_D",
+        "label": "D",
+        "html": "Multiple peaks",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "77618626fe185c17909120eee915a962_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "8518167c42c469f5b1f1b2b5be0743fe",
+    "title": "Question 3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p><img src=\"2.2_Shapes_of_Histograms_images/51a73194a2e5b46b8f837e5db635128a.png\" alt=\"Histogram image\" width=\"400\" height=\"300\">",
+    "choices": [
+      {
+        "id": "8518167c42c469f5b1f1b2b5be0743fe_A",
+        "label": "A",
+        "html": "Normal",
+        "is_correct": false
+      },
+      {
+        "id": "8518167c42c469f5b1f1b2b5be0743fe_B",
+        "label": "B",
+        "html": "Symmetric",
+        "is_correct": false
+      },
+      {
+        "id": "8518167c42c469f5b1f1b2b5be0743fe_C",
+        "label": "C",
+        "html": "Multiple peaks",
+        "is_correct": false
+      },
+      {
+        "id": "8518167c42c469f5b1f1b2b5be0743fe_D",
+        "label": "D",
+        "html": "Skew left",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "8518167c42c469f5b1f1b2b5be0743fe_D"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "cff253f8c9231423fa3293d32f07c488",
+    "title": "Question 2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the shape of the histogram?</p><img src=\"2.2_Shapes_of_Histograms_images/04f4dbeee611b844d5cff1d2ed6ea995.png\" alt=\"Histogram image\" width=\"400\" height=\"300\">",
+    "choices": [
+      {
+        "id": "cff253f8c9231423fa3293d32f07c488_A",
+        "label": "A",
+        "html": "Normal",
+        "is_correct": false
+      },
+      {
+        "id": "cff253f8c9231423fa3293d32f07c488_B",
+        "label": "B",
+        "html": "Skew left",
+        "is_correct": false
+      },
+      {
+        "id": "cff253f8c9231423fa3293d32f07c488_C",
+        "label": "C",
+        "html": "Skew right",
+        "is_correct": true
+      },
+      {
+        "id": "cff253f8c9231423fa3293d32f07c488_D",
+        "label": "D",
+        "html": "Symmetric",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cff253f8c9231423fa3293d32f07c488_C"
+    ]
+  }
+]

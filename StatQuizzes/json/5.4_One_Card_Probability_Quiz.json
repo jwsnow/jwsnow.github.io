@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "f6ca123217722d127a68e33962f5311b",
+    "title": "Q20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability of drawing a card that is either an even number or a face card?</p>",
+    "choices": [
+      {
+        "id": "f6ca123217722d127a68e33962f5311b_A",
+        "label": "A",
+        "html": "0.5385",
+        "is_correct": false
+      },
+      {
+        "id": "f6ca123217722d127a68e33962f5311b_B",
+        "label": "B",
+        "html": "0.6923",
+        "is_correct": false
+      },
+      {
+        "id": "f6ca123217722d127a68e33962f5311b_C",
+        "label": "C",
+        "html": "0.5000",
+        "is_correct": false
+      },
+      {
+        "id": "f6ca123217722d127a68e33962f5311b_D",
+        "label": "D",
+        "html": "0.6154",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "f6ca123217722d127a68e33962f5311b_D"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "10430f88670c5e3095937c1062bd7b3c",
+    "title": "Q19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability of drawing a black queen?</p>",
+    "choices": [
+      {
+        "id": "10430f88670c5e3095937c1062bd7b3c_A",
+        "label": "A",
+        "html": "0.0385",
+        "is_correct": true
+      },
+      {
+        "id": "10430f88670c5e3095937c1062bd7b3c_B",
+        "label": "B",
+        "html": "0.0577",
+        "is_correct": false
+      },
+      {
+        "id": "10430f88670c5e3095937c1062bd7b3c_C",
+        "label": "C",
+        "html": "0.0192",
+        "is_correct": false
+      },
+      {
+        "id": "10430f88670c5e3095937c1062bd7b3c_D",
+        "label": "D",
+        "html": "0.0769",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "10430f88670c5e3095937c1062bd7b3c_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "75bcd4cf21dea2aac6f5aeb718dfecad",
+    "title": "Q18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability of drawing a face card or an ace?</p>",
+    "choices": [
+      {
+        "id": "75bcd4cf21dea2aac6f5aeb718dfecad_A",
+        "label": "A",
+        "html": "0.3462",
+        "is_correct": false
+      },
+      {
+        "id": "75bcd4cf21dea2aac6f5aeb718dfecad_B",
+        "label": "B",
+        "html": "0.2500",
+        "is_correct": false
+      },
+      {
+        "id": "75bcd4cf21dea2aac6f5aeb718dfecad_C",
+        "label": "C",
+        "html": "0.2308",
+        "is_correct": false
+      },
+      {
+        "id": "75bcd4cf21dea2aac6f5aeb718dfecad_D",
+        "label": "D",
+        "html": "0.3077",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "75bcd4cf21dea2aac6f5aeb718dfecad_D"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "12ed8279a12764d7cdb4bfe78ddf544e",
+    "title": "Q17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability of drawing a card that is not a heart?</p>",
+    "choices": [
+      {
+        "id": "12ed8279a12764d7cdb4bfe78ddf544e_A",
+        "label": "A",
+        "html": "0.7692",
+        "is_correct": false
+      },
+      {
+        "id": "12ed8279a12764d7cdb4bfe78ddf544e_B",
+        "label": "B",
+        "html": "0.6923",
+        "is_correct": false
+      },
+      {
+        "id": "12ed8279a12764d7cdb4bfe78ddf544e_C",
+        "label": "C",
+        "html": "0.7500",
+        "is_correct": true
+      },
+      {
+        "id": "12ed8279a12764d7cdb4bfe78ddf544e_D",
+        "label": "D",
+        "html": "0.8077",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "12ed8279a12764d7cdb4bfe78ddf544e_C"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "430a574d74948140fc9400bf1531b221",
+    "title": "Q16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability of drawing a red face card?</p>",
+    "choices": [
+      {
+        "id": "430a574d74948140fc9400bf1531b221_A",
+        "label": "A",
+        "html": "0.0962",
+        "is_correct": false
+      },
+      {
+        "id": "430a574d74948140fc9400bf1531b221_B",
+        "label": "B",
+        "html": "0.1154",
+        "is_correct": true
+      },
+      {
+        "id": "430a574d74948140fc9400bf1531b221_C",
+        "label": "C",
+        "html": "0.1538",
+        "is_correct": false
+      },
+      {
+        "id": "430a574d74948140fc9400bf1531b221_D",
+        "label": "D",
+        "html": "0.0769",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "430a574d74948140fc9400bf1531b221_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "84d9132fac8c99522b5c24b8d35e334a",
+    "title": "Q15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability of drawing a club that is a number card?</p>",
+    "choices": [
+      {
+        "id": "84d9132fac8c99522b5c24b8d35e334a_A",
+        "label": "A",
+        "html": "0.1731",
+        "is_correct": true
+      },
+      {
+        "id": "84d9132fac8c99522b5c24b8d35e334a_B",
+        "label": "B",
+        "html": "0.1923",
+        "is_correct": false
+      },
+      {
+        "id": "84d9132fac8c99522b5c24b8d35e334a_C",
+        "label": "C",
+        "html": "0.1538",
+        "is_correct": false
+      },
+      {
+        "id": "84d9132fac8c99522b5c24b8d35e334a_D",
+        "label": "D",
+        "html": "0.1154",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "84d9132fac8c99522b5c24b8d35e334a_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "498ef1fc4f27b74456022878c9a34f9e",
+    "title": "Q14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability of drawing a card with value greater than 10 (J, Q, K, A)?</p>",
+    "choices": [
+      {
+        "id": "498ef1fc4f27b74456022878c9a34f9e_A",
+        "label": "A",
+        "html": "0.3462",
+        "is_correct": false
+      },
+      {
+        "id": "498ef1fc4f27b74456022878c9a34f9e_B",
+        "label": "B",
+        "html": "0.2500",
+        "is_correct": false
+      },
+      {
+        "id": "498ef1fc4f27b74456022878c9a34f9e_C",
+        "label": "C",
+        "html": "0.2308",
+        "is_correct": false
+      },
+      {
+        "id": "498ef1fc4f27b74456022878c9a34f9e_D",
+        "label": "D",
+        "html": "0.3077",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "498ef1fc4f27b74456022878c9a34f9e_D"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "e12a583b064029ebb972cc5223a9a368",
+    "title": "Q13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability of drawing a red card that is also a number card (2 through 10)?</p>",
+    "choices": [
+      {
+        "id": "e12a583b064029ebb972cc5223a9a368_A",
+        "label": "A",
+        "html": "0.3846",
+        "is_correct": false
+      },
+      {
+        "id": "e12a583b064029ebb972cc5223a9a368_B",
+        "label": "B",
+        "html": "0.3077",
+        "is_correct": false
+      },
+      {
+        "id": "e12a583b064029ebb972cc5223a9a368_C",
+        "label": "C",
+        "html": "0.4231",
+        "is_correct": false
+      },
+      {
+        "id": "e12a583b064029ebb972cc5223a9a368_D",
+        "label": "D",
+        "html": "0.3462",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "e12a583b064029ebb972cc5223a9a368_D"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "1dce4d6d1c8164208893dcf87e54a88b",
+    "title": "Q12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability of drawing a card that is either a king or a heart?</p>",
+    "choices": [
+      {
+        "id": "1dce4d6d1c8164208893dcf87e54a88b_A",
+        "label": "A",
+        "html": "0.3077",
+        "is_correct": true
+      },
+      {
+        "id": "1dce4d6d1c8164208893dcf87e54a88b_B",
+        "label": "B",
+        "html": "0.3462",
+        "is_correct": false
+      },
+      {
+        "id": "1dce4d6d1c8164208893dcf87e54a88b_C",
+        "label": "C",
+        "html": "0.2500",
+        "is_correct": false
+      },
+      {
+        "id": "1dce4d6d1c8164208893dcf87e54a88b_D",
+        "label": "D",
+        "html": "0.2308",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1dce4d6d1c8164208893dcf87e54a88b_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "b188d5a932657a82010b3cfad421fd51",
+    "title": "Q11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability of drawing a black ace from a standard 52-card deck?</p>",
+    "choices": [
+      {
+        "id": "b188d5a932657a82010b3cfad421fd51_A",
+        "label": "A",
+        "html": "0.0385",
+        "is_correct": true
+      },
+      {
+        "id": "b188d5a932657a82010b3cfad421fd51_B",
+        "label": "B",
+        "html": "0.0577",
+        "is_correct": false
+      },
+      {
+        "id": "b188d5a932657a82010b3cfad421fd51_C",
+        "label": "C",
+        "html": "0.0192",
+        "is_correct": false
+      },
+      {
+        "id": "b188d5a932657a82010b3cfad421fd51_D",
+        "label": "D",
+        "html": "0.0769",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b188d5a932657a82010b3cfad421fd51_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "f8244c297ac6516a05e592a7dc3b4d3b",
+    "title": "Q10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability that it is a diamond or a face card?</p>",
+    "choices": [
+      {
+        "id": "f8244c297ac6516a05e592a7dc3b4d3b_A",
+        "label": "A",
+        "html": "0.4231",
+        "is_correct": true
+      },
+      {
+        "id": "f8244c297ac6516a05e592a7dc3b4d3b_B",
+        "label": "B",
+        "html": "0.4615",
+        "is_correct": false
+      },
+      {
+        "id": "f8244c297ac6516a05e592a7dc3b4d3b_C",
+        "label": "C",
+        "html": "0.3846",
+        "is_correct": false
+      },
+      {
+        "id": "f8244c297ac6516a05e592a7dc3b4d3b_D",
+        "label": "D",
+        "html": "0.3462",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f8244c297ac6516a05e592a7dc3b4d3b_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "bf55e034ec02835399b8e253691f839f",
+    "title": "Q9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability that it is an even number card (2, 4, 6, 8, 10)?</p>",
+    "choices": [
+      {
+        "id": "bf55e034ec02835399b8e253691f839f_A",
+        "label": "A",
+        "html": "0.3462",
+        "is_correct": false
+      },
+      {
+        "id": "bf55e034ec02835399b8e253691f839f_B",
+        "label": "B",
+        "html": "0.4231",
+        "is_correct": false
+      },
+      {
+        "id": "bf55e034ec02835399b8e253691f839f_C",
+        "label": "C",
+        "html": "0.4615",
+        "is_correct": false
+      },
+      {
+        "id": "bf55e034ec02835399b8e253691f839f_D",
+        "label": "D",
+        "html": "0.3846",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "bf55e034ec02835399b8e253691f839f_D"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "fc21d0f267083ae91aa70b37c91ec045",
+    "title": "Q8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability that it is a red queen?</p>",
+    "choices": [
+      {
+        "id": "fc21d0f267083ae91aa70b37c91ec045_A",
+        "label": "A",
+        "html": "0.0577",
+        "is_correct": false
+      },
+      {
+        "id": "fc21d0f267083ae91aa70b37c91ec045_B",
+        "label": "B",
+        "html": "0.0385",
+        "is_correct": true
+      },
+      {
+        "id": "fc21d0f267083ae91aa70b37c91ec045_C",
+        "label": "C",
+        "html": "0.0192",
+        "is_correct": false
+      },
+      {
+        "id": "fc21d0f267083ae91aa70b37c91ec045_D",
+        "label": "D",
+        "html": "0.0769",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "fc21d0f267083ae91aa70b37c91ec045_B"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "5332153f10acb0ed2a6d6400bced70c8",
+    "title": "Q7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability that it is a spade face card?</p>",
+    "choices": [
+      {
+        "id": "5332153f10acb0ed2a6d6400bced70c8_A",
+        "label": "A",
+        "html": "0.0577",
+        "is_correct": true
+      },
+      {
+        "id": "5332153f10acb0ed2a6d6400bced70c8_B",
+        "label": "B",
+        "html": "0.0385",
+        "is_correct": false
+      },
+      {
+        "id": "5332153f10acb0ed2a6d6400bced70c8_C",
+        "label": "C",
+        "html": "0.0769",
+        "is_correct": false
+      },
+      {
+        "id": "5332153f10acb0ed2a6d6400bced70c8_D",
+        "label": "D",
+        "html": "0.0192",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5332153f10acb0ed2a6d6400bced70c8_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "ede232140e6c642f83afbaaba4ecf4d3",
+    "title": "Q6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability that it is not a face card?</p>",
+    "choices": [
+      {
+        "id": "ede232140e6c642f83afbaaba4ecf4d3_A",
+        "label": "A",
+        "html": "0.7500",
+        "is_correct": false
+      },
+      {
+        "id": "ede232140e6c642f83afbaaba4ecf4d3_B",
+        "label": "B",
+        "html": "0.8077",
+        "is_correct": false
+      },
+      {
+        "id": "ede232140e6c642f83afbaaba4ecf4d3_C",
+        "label": "C",
+        "html": "0.6923",
+        "is_correct": false
+      },
+      {
+        "id": "ede232140e6c642f83afbaaba4ecf4d3_D",
+        "label": "D",
+        "html": "0.7692",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "ede232140e6c642f83afbaaba4ecf4d3_D"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "31f261af4158e12c3c887e61509b8c1d",
+    "title": "Q5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability that it is a number card (2 through 10)?</p>",
+    "choices": [
+      {
+        "id": "31f261af4158e12c3c887e61509b8c1d_A",
+        "label": "A",
+        "html": "0.7500",
+        "is_correct": false
+      },
+      {
+        "id": "31f261af4158e12c3c887e61509b8c1d_B",
+        "label": "B",
+        "html": "0.6923",
+        "is_correct": true
+      },
+      {
+        "id": "31f261af4158e12c3c887e61509b8c1d_C",
+        "label": "C",
+        "html": "0.7692",
+        "is_correct": false
+      },
+      {
+        "id": "31f261af4158e12c3c887e61509b8c1d_D",
+        "label": "D",
+        "html": "0.6154",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "31f261af4158e12c3c887e61509b8c1d_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "466146532e792168284e7e61b5fe1159",
+    "title": "Q4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability that it is a heart?</p>",
+    "choices": [
+      {
+        "id": "466146532e792168284e7e61b5fe1159_A",
+        "label": "A",
+        "html": "0.2500",
+        "is_correct": true
+      },
+      {
+        "id": "466146532e792168284e7e61b5fe1159_B",
+        "label": "B",
+        "html": "0.2308",
+        "is_correct": false
+      },
+      {
+        "id": "466146532e792168284e7e61b5fe1159_C",
+        "label": "C",
+        "html": "0.3077",
+        "is_correct": false
+      },
+      {
+        "id": "466146532e792168284e7e61b5fe1159_D",
+        "label": "D",
+        "html": "0.1923",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "466146532e792168284e7e61b5fe1159_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "02b3d3bc4778f9e0bc2b88ddd653c204",
+    "title": "Q3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability that it is red or a 2?</p>",
+    "choices": [
+      {
+        "id": "02b3d3bc4778f9e0bc2b88ddd653c204_A",
+        "label": "A",
+        "html": "0.5000",
+        "is_correct": false
+      },
+      {
+        "id": "02b3d3bc4778f9e0bc2b88ddd653c204_B",
+        "label": "B",
+        "html": "0.5385",
+        "is_correct": true
+      },
+      {
+        "id": "02b3d3bc4778f9e0bc2b88ddd653c204_C",
+        "label": "C",
+        "html": "0.6154",
+        "is_correct": false
+      },
+      {
+        "id": "02b3d3bc4778f9e0bc2b88ddd653c204_D",
+        "label": "D",
+        "html": "0.4615",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "02b3d3bc4778f9e0bc2b88ddd653c204_B"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "3d25788005e5cd9deb46cf0e8e341f53",
+    "title": "Q2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability that it is an ace?</p>",
+    "choices": [
+      {
+        "id": "3d25788005e5cd9deb46cf0e8e341f53_A",
+        "label": "A",
+        "html": "0.0577",
+        "is_correct": false
+      },
+      {
+        "id": "3d25788005e5cd9deb46cf0e8e341f53_B",
+        "label": "B",
+        "html": "0.0769",
+        "is_correct": true
+      },
+      {
+        "id": "3d25788005e5cd9deb46cf0e8e341f53_C",
+        "label": "C",
+        "html": "0.0962",
+        "is_correct": false
+      },
+      {
+        "id": "3d25788005e5cd9deb46cf0e8e341f53_D",
+        "label": "D",
+        "html": "0.0385",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3d25788005e5cd9deb46cf0e8e341f53_B"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "86421d114501d41e719120b149c11fc3",
+    "title": "Q1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw one card from a standard 52-card deck, what is the probability that it is a black face card?</p>",
+    "choices": [
+      {
+        "id": "86421d114501d41e719120b149c11fc3_A",
+        "label": "A",
+        "html": "0.1154",
+        "is_correct": true
+      },
+      {
+        "id": "86421d114501d41e719120b149c11fc3_B",
+        "label": "B",
+        "html": "0.0962",
+        "is_correct": false
+      },
+      {
+        "id": "86421d114501d41e719120b149c11fc3_C",
+        "label": "C",
+        "html": "0.1538",
+        "is_correct": false
+      },
+      {
+        "id": "86421d114501d41e719120b149c11fc3_D",
+        "label": "D",
+        "html": "0.0769",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "86421d114501d41e719120b149c11fc3_A"
+    ]
+  }
+]

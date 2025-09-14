@@ -1,0 +1,842 @@
+[
+  {
+    "index": 1,
+    "ident": "LEFN001",
+    "title": "leftQ-1",
+    "source": "generated",
+    "prompt_html": "Systolic blood pressures of adults are approximately normally distributed with a mean of 120 mmHg and a standard deviation of 15 mmHg. Find a value k such that <strong>P(X ≤ k) = 0.10</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN001_A",
+        "label": "A",
+        "html": "100.78",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN001_B",
+        "label": "B",
+        "html": "104.83",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN001_C",
+        "label": "C",
+        "html": "102.84",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN001_D",
+        "label": "D",
+        "html": "99.76",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN001_E",
+        "label": "E",
+        "html": "105.59",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN001_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "LEFN002",
+    "title": "leftQ-2",
+    "source": "generated",
+    "prompt_html": "Cholesterol levels of patients are approximately normally distributed with a mean of 200 mg/dL and a standard deviation of 25 mg/dL. Find a value k such that <strong>P(X ≤ k) = 0.90</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN002_A",
+        "label": "A",
+        "html": "227.02",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN002_B",
+        "label": "B",
+        "html": "234.97",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN002_C",
+        "label": "C",
+        "html": "232.04",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN002_D",
+        "label": "D",
+        "html": "235.30",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN002_E",
+        "label": "E",
+        "html": "224.50",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN002_C"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "LEFN003",
+    "title": "leftQ-3",
+    "source": "generated",
+    "prompt_html": "Reaction times to a visual stimulus are approximately normally distributed with a mean of 250 ms and a standard deviation of 40 ms. Find a value k such that <strong>P(X ≤ k) = 0.95</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN003_A",
+        "label": "A",
+        "html": "315.79",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN003_B",
+        "label": "B",
+        "html": "313.57",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN003_C",
+        "label": "C",
+        "html": "322.82",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN003_D",
+        "label": "D",
+        "html": "325.63",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN003_E",
+        "label": "E",
+        "html": "323.32",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN003_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "LEFN004",
+    "title": "leftQ-4",
+    "source": "generated",
+    "prompt_html": "IQ scores of college students are approximately normally distributed with a mean of 100 points and a standard deviation of 15 points. Find a value k such that <strong>P(X ≤ k) = 0.90</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN004_A",
+        "label": "A",
+        "html": "115.22",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN004_B",
+        "label": "B",
+        "html": "114.45",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN004_C",
+        "label": "C",
+        "html": "114.94",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN004_D",
+        "label": "D",
+        "html": "119.22",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN004_E",
+        "label": "E",
+        "html": "118.14",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN004_D"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "LEFN005",
+    "title": "leftQ-5",
+    "source": "generated",
+    "prompt_html": "Memory recall scores are approximately normally distributed with a mean of 50 points and a standard deviation of 10 points. Find a value k such that <strong>P(X ≤ k) = 0.05</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN005_A",
+        "label": "A",
+        "html": "33.71",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN005_B",
+        "label": "B",
+        "html": "36.90",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN005_C",
+        "label": "C",
+        "html": "33.55",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN005_D",
+        "label": "D",
+        "html": "31.02",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN005_E",
+        "label": "E",
+        "html": "31.09",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN005_C"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "LEFN006",
+    "title": "leftQ-6",
+    "source": "generated",
+    "prompt_html": "Test completion times are approximately normally distributed with a mean of 60 minutes and a standard deviation of 8 minutes. Find a value k such that <strong>P(X ≤ k) = 0.90</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN006_A",
+        "label": "A",
+        "html": "71.30",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN006_B",
+        "label": "B",
+        "html": "70.25",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN006_C",
+        "label": "C",
+        "html": "71.37",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN006_D",
+        "label": "D",
+        "html": "72.82",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN006_E",
+        "label": "E",
+        "html": "68.44",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN006_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "LEFN007",
+    "title": "leftQ-7",
+    "source": "generated",
+    "prompt_html": "Weights of lab rats are approximately normally distributed with a mean of 300 grams and a standard deviation of 20 grams. Find a value k such that <strong>P(X ≤ k) = 0.90</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN007_A",
+        "label": "A",
+        "html": "319.87",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN007_B",
+        "label": "B",
+        "html": "331.83",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN007_C",
+        "label": "C",
+        "html": "321.75",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN007_D",
+        "label": "D",
+        "html": "325.63",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN007_E",
+        "label": "E",
+        "html": "319.70",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN007_D"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "LEFN008",
+    "title": "leftQ-8",
+    "source": "generated",
+    "prompt_html": "Leaf lengths are approximately normally distributed with a mean of 12 cm and a standard deviation of 2 cm. Find a value k such that <strong>P(X ≤ k) = 0.90</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN008_A",
+        "label": "A",
+        "html": "14.97",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN008_B",
+        "label": "B",
+        "html": "13.91",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN008_C",
+        "label": "C",
+        "html": "14.79",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN008_D",
+        "label": "D",
+        "html": "14.56",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN008_E",
+        "label": "E",
+        "html": "13.98",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN008_D"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "LEFN009",
+    "title": "leftQ-9",
+    "source": "generated",
+    "prompt_html": "Incubation periods of birds are approximately normally distributed with a mean of 30 days and a standard deviation of 3 days. Find a value k such that <strong>P(X ≤ k) = 0.10</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN009_A",
+        "label": "A",
+        "html": "26.85",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN009_B",
+        "label": "B",
+        "html": "26.43",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN009_C",
+        "label": "C",
+        "html": "26.28",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN009_D",
+        "label": "D",
+        "html": "26.16",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN009_E",
+        "label": "E",
+        "html": "25.85",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN009_D"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "LEFN010",
+    "title": "leftQ-10",
+    "source": "generated",
+    "prompt_html": "Enzyme activity rates are approximately normally distributed with a mean of 100 units and a standard deviation of 12 units. Find a value k such that <strong>P(X ≤ k) = 0.05</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN010_A",
+        "label": "A",
+        "html": "78.80",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN010_B",
+        "label": "B",
+        "html": "79.92",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN010_C",
+        "label": "C",
+        "html": "80.26",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN010_D",
+        "label": "D",
+        "html": "78.16",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN010_E",
+        "label": "E",
+        "html": "76.40",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN010_C"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "LEFN011",
+    "title": "leftQ-11",
+    "source": "generated",
+    "prompt_html": "Diastolic blood pressures of adults are approximately normally distributed with a mean of 80 mmHg and a standard deviation of 10 mmHg. Find a value k such that <strong>P(X ≤ k) = 0.95</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN011_A",
+        "label": "A",
+        "html": "95.63",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN011_B",
+        "label": "B",
+        "html": "96.45",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN011_C",
+        "label": "C",
+        "html": "97.66",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN011_D",
+        "label": "D",
+        "html": "93.88",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN011_E",
+        "label": "E",
+        "html": "98.39",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN011_B"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "LEFN012",
+    "title": "leftQ-12",
+    "source": "generated",
+    "prompt_html": "Blood glucose levels are approximately normally distributed with a mean of 90 mg/dL and a standard deviation of 12 mg/dL. Find a value k such that <strong>P(X ≤ k) = 0.95</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN012_A",
+        "label": "A",
+        "html": "109.74",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN012_B",
+        "label": "B",
+        "html": "108.49",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN012_C",
+        "label": "C",
+        "html": "110.15",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN012_D",
+        "label": "D",
+        "html": "111.23",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN012_E",
+        "label": "E",
+        "html": "111.30",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN012_A"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "LEFN013",
+    "title": "leftQ-13",
+    "source": "generated",
+    "prompt_html": "Drug absorption times are approximately normally distributed with a mean of 50 minutes and a standard deviation of 7 minutes. Find a value k such that <strong>P(X ≤ k) = 0.90</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN013_A",
+        "label": "A",
+        "html": "58.18",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN013_B",
+        "label": "B",
+        "html": "61.03",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN013_C",
+        "label": "C",
+        "html": "58.97",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN013_D",
+        "label": "D",
+        "html": "59.63",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN013_E",
+        "label": "E",
+        "html": "56.92",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN013_C"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "LEFN014",
+    "title": "leftQ-14",
+    "source": "generated",
+    "prompt_html": "Stress scale scores are approximately normally distributed with a mean of 30 points and a standard deviation of 5 points. Find a value k such that <strong>P(X ≤ k) = 0.10</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN014_A",
+        "label": "A",
+        "html": "25.16",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN014_B",
+        "label": "B",
+        "html": "23.04",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN014_C",
+        "label": "C",
+        "html": "23.59",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN014_D",
+        "label": "D",
+        "html": "24.89",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN014_E",
+        "label": "E",
+        "html": "24.58",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN014_C"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "LEFN015",
+    "title": "leftQ-15",
+    "source": "generated",
+    "prompt_html": "Attention spans are approximately normally distributed with a mean of 45 minutes and a standard deviation of 6 minutes. Find a value k such that <strong>P(X ≤ k) = 0.95</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN015_A",
+        "label": "A",
+        "html": "54.75",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN015_B",
+        "label": "B",
+        "html": "54.87",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN015_C",
+        "label": "C",
+        "html": "54.58",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN015_D",
+        "label": "D",
+        "html": "53.39",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN015_E",
+        "label": "E",
+        "html": "56.70",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN015_B"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "LEFN016",
+    "title": "leftQ-16",
+    "source": "generated",
+    "prompt_html": "Visual search times are approximately normally distributed with a mean of 35 seconds and a standard deviation of 5 seconds. Find a value k such that <strong>P(X ≤ k) = 0.90</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN016_A",
+        "label": "A",
+        "html": "40.48",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN016_B",
+        "label": "B",
+        "html": "41.41",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN016_C",
+        "label": "C",
+        "html": "42.46",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN016_D",
+        "label": "D",
+        "html": "42.30",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN016_E",
+        "label": "E",
+        "html": "41.92",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN016_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "LEFN017",
+    "title": "leftQ-17",
+    "source": "generated",
+    "prompt_html": "Seed germination times are approximately normally distributed with a mean of 72 hours and a standard deviation of 9 hours. Find a value k such that <strong>P(X ≤ k) = 0.95</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN017_A",
+        "label": "A",
+        "html": "87.00",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN017_B",
+        "label": "B",
+        "html": "88.36",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN017_C",
+        "label": "C",
+        "html": "89.90",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN017_D",
+        "label": "D",
+        "html": "86.80",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN017_E",
+        "label": "E",
+        "html": "86.21",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN017_D"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "LEFN018",
+    "title": "leftQ-18",
+    "source": "generated",
+    "prompt_html": "Fish lengths are approximately normally distributed with a mean of 25 cm and a standard deviation of 4 cm. Find a value k such that <strong>P(X ≤ k) = 0.05</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN018_A",
+        "label": "A",
+        "html": "18.32",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN018_B",
+        "label": "B",
+        "html": "17.59",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN018_C",
+        "label": "C",
+        "html": "17.86",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN018_D",
+        "label": "D",
+        "html": "18.42",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN018_E",
+        "label": "E",
+        "html": "18.96",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN018_D"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "LEFN019",
+    "title": "leftQ-19",
+    "source": "generated",
+    "prompt_html": "Tree ring widths are approximately normally distributed with a mean of 5 mm and a standard deviation of 1 mm. Find a value k such that <strong>P(X ≤ k) = 0.95</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN019_A",
+        "label": "A",
+        "html": "6.50",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN019_B",
+        "label": "B",
+        "html": "6.64",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN019_C",
+        "label": "C",
+        "html": "6.31",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN019_D",
+        "label": "D",
+        "html": "6.34",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN019_E",
+        "label": "E",
+        "html": "6.86",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN019_B"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "LEFN020",
+    "title": "leftQ-20",
+    "source": "generated",
+    "prompt_html": "Cell growth times are approximately normally distributed with a mean of 20 hours and a standard deviation of 2 hours. Find a value k such that <strong>P(X ≤ k) = 0.05</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "LEFN020_A",
+        "label": "A",
+        "html": "16.15",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN020_B",
+        "label": "B",
+        "html": "16.71",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN020_C",
+        "label": "C",
+        "html": "16.13",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN020_D",
+        "label": "D",
+        "html": "17.11",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN020_E",
+        "label": "E",
+        "html": "17.03",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN020_B"
+    ]
+  }
+]

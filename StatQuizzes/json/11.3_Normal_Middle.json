@@ -1,0 +1,842 @@
+[
+  {
+    "index": 1,
+    "ident": "MIDN001",
+    "title": "middle-1",
+    "source": "regenerated-varied",
+    "prompt_html": "Systolic blood pressures of adults are approximately normally distributed with a mean of 120 mmHg and a standard deviation of 15 mmHg. What is the probability that a randomly selected individual has a value <strong>between 112.50 and 127.50 mmHg</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN001_A",
+        "label": "A",
+        "html": "0.3829",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN001_B",
+        "label": "B",
+        "html": "0.3019",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN001_C",
+        "label": "C",
+        "html": "0.2119",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN001_D",
+        "label": "D",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN001_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN001_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "MIDN002",
+    "title": "middle-2",
+    "source": "regenerated-varied",
+    "prompt_html": "Cholesterol levels of patients are approximately normally distributed with a mean of 200 mg/dL and a standard deviation of 25 mg/dL. What is the probability that a randomly selected individual has a value <strong>between 180.00 and 220.00 mg/dL</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN002_A",
+        "label": "A",
+        "html": "0.4953",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN002_B",
+        "label": "B",
+        "html": "0.4053",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN002_C",
+        "label": "C",
+        "html": "0.5763",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN002_D",
+        "label": "D",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN002_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN002_C"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "MIDN003",
+    "title": "middle-3",
+    "source": "regenerated-varied",
+    "prompt_html": "Reaction times to a visual stimulus are approximately normally distributed with a mean of 250 ms and a standard deviation of 40 ms. What is the probability that a randomly selected individual has a value <strong>between 210.00 and 290.00 ms</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN003_A",
+        "label": "A",
+        "html": "0.4332",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN003_B",
+        "label": "B",
+        "html": "0.5831",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN003_C",
+        "label": "C",
+        "html": "0.7329",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN003_D",
+        "label": "D",
+        "html": "0.6179",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN003_E",
+        "label": "E",
+        "html": "0.6827",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "MIDN003_E"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "MIDN004",
+    "title": "middle-4",
+    "source": "regenerated-varied",
+    "prompt_html": "IQ scores of college students are approximately normally distributed with a mean of 100 points and a standard deviation of 15 points. What is the probability that a randomly selected individual has a value <strong>between 82.00 and 118.00 points</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN004_A",
+        "label": "A",
+        "html": "0.6889",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN004_B",
+        "label": "B",
+        "html": "0.5989",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN004_C",
+        "label": "C",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN004_D",
+        "label": "D",
+        "html": "0.7699",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN004_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN004_D"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "MIDN005",
+    "title": "middle-5",
+    "source": "regenerated-varied",
+    "prompt_html": "Memory recall scores are approximately normally distributed with a mean of 50 points and a standard deviation of 10 points. What is the probability that a randomly selected individual has a value <strong>between 47.00 and 53.00 points</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN005_A",
+        "label": "A",
+        "html": "0.1548",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN005_B",
+        "label": "B",
+        "html": "0.2358",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN005_C",
+        "label": "C",
+        "html": "0.0648",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN005_D",
+        "label": "D",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN005_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN005_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "MIDN006",
+    "title": "middle-6",
+    "source": "regenerated-varied",
+    "prompt_html": "Test completion times are approximately normally distributed with a mean of 60 minutes and a standard deviation of 8 minutes. What is the probability that a randomly selected individual has a value <strong>between 54.40 and 65.60 minutes</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN006_A",
+        "label": "A",
+        "html": "0.4351",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN006_B",
+        "label": "B",
+        "html": "0.5161",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN006_C",
+        "label": "C",
+        "html": "0.3451",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN006_D",
+        "label": "D",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN006_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN006_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "MIDN007",
+    "title": "middle-7",
+    "source": "regenerated-varied",
+    "prompt_html": "Weights of lab rats are approximately normally distributed with a mean of 300 grams and a standard deviation of 20 grams. What is the probability that a randomly selected individual has a value <strong>between 270.00 and 330.00 grams</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN007_A",
+        "label": "A",
+        "html": "0.7854",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN007_B",
+        "label": "B",
+        "html": "0.6954",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN007_C",
+        "label": "C",
+        "html": "0.8664",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN007_D",
+        "label": "D",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN007_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN007_C"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "MIDN008",
+    "title": "middle-8",
+    "source": "regenerated-varied",
+    "prompt_html": "Leaf lengths are approximately normally distributed with a mean of 12 cm and a standard deviation of 2 cm. What is the probability that a randomly selected individual has a value <strong>between 10.20 and 13.80 cm</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN008_A",
+        "label": "A",
+        "html": "0.5509",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN008_B",
+        "label": "B",
+        "html": "0.4609",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN008_C",
+        "label": "C",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN008_D",
+        "label": "D",
+        "html": "0.6319",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN008_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN008_D"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "MIDN009",
+    "title": "middle-9",
+    "source": "regenerated-varied",
+    "prompt_html": "Incubation periods of birds are approximately normally distributed with a mean of 30 days and a standard deviation of 3 days. What is the probability that a randomly selected individual has a value <strong>between 28.80 and 31.20 days</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN009_A",
+        "label": "A",
+        "html": "0.3108",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN009_B",
+        "label": "B",
+        "html": "0.2298",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN009_C",
+        "label": "C",
+        "html": "0.1398",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN009_D",
+        "label": "D",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN009_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN009_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "MIDN010",
+    "title": "middle-10",
+    "source": "regenerated-varied",
+    "prompt_html": "Enzyme activity rates are approximately normally distributed with a mean of 100 units and a standard deviation of 12 units. What is the probability that a randomly selected individual has a value <strong>between 86.80 and 113.20 units</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN010_A",
+        "label": "A",
+        "html": "0.7287",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN010_B",
+        "label": "B",
+        "html": "0.6477",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN010_C",
+        "label": "C",
+        "html": "0.5577",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN010_D",
+        "label": "D",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN010_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN010_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "MIDN011",
+    "title": "middle-11",
+    "source": "regenerated-varied",
+    "prompt_html": "Diastolic blood pressures of adults are approximately normally distributed with a mean of 80 mmHg and a standard deviation of 10 mmHg. What is the probability that a randomly selected individual has a value <strong>between 74.00 and 86.00 mmHg</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN011_A",
+        "label": "A",
+        "html": "0.3705",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN011_B",
+        "label": "B",
+        "html": "0.4515",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN011_C",
+        "label": "C",
+        "html": "0.2805",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN011_D",
+        "label": "D",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN011_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN011_B"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "MIDN012",
+    "title": "middle-12",
+    "source": "regenerated-varied",
+    "prompt_html": "Blood glucose levels are approximately normally distributed with a mean of 90 mg/dL and a standard deviation of 12 mg/dL. What is the probability that a randomly selected individual has a value <strong>between 74.40 and 105.60 mg/dL</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN012_A",
+        "label": "A",
+        "html": "0.7254",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN012_B",
+        "label": "B",
+        "html": "0.6354",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN012_C",
+        "label": "C",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN012_D",
+        "label": "D",
+        "html": "0.8064",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN012_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN012_D"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "MIDN013",
+    "title": "middle-13",
+    "source": "regenerated-varied",
+    "prompt_html": "Drug absorption times are approximately normally distributed with a mean of 50 minutes and a standard deviation of 7 minutes. What is the probability that a randomly selected individual has a value <strong>between 48.60 and 51.40 minutes</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN013_A",
+        "label": "A",
+        "html": "0.1585",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN013_B",
+        "label": "B",
+        "html": "0.0775",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN013_C",
+        "label": "C",
+        "html": "0.0000",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN013_D",
+        "label": "D",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN013_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN013_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "MIDN014",
+    "title": "middle-14",
+    "source": "regenerated-varied",
+    "prompt_html": "Stress scale scores are approximately normally distributed with a mean of 30 points and a standard deviation of 5 points. What is the probability that a randomly selected individual has a value <strong>between 26.25 and 33.75 points</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN014_A",
+        "label": "A",
+        "html": "0.4657",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN014_B",
+        "label": "B",
+        "html": "0.3757",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN014_C",
+        "label": "C",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN014_D",
+        "label": "D",
+        "html": "0.5467",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN014_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN014_D"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "MIDN015",
+    "title": "middle-15",
+    "source": "regenerated-varied",
+    "prompt_html": "Attention spans are approximately normally distributed with a mean of 45 minutes and a standard deviation of 6 minutes. What is the probability that a randomly selected individual has a value <strong>between 34.50 and 55.50 minutes</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN015_A",
+        "label": "A",
+        "html": "0.8389",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN015_B",
+        "label": "B",
+        "html": "0.7489",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN015_C",
+        "label": "C",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN015_D",
+        "label": "D",
+        "html": "0.9199",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN015_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN015_D"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "MIDN016",
+    "title": "middle-16",
+    "source": "regenerated-varied",
+    "prompt_html": "Visual search times are approximately normally distributed with a mean of 35 seconds and a standard deviation of 5 seconds. What is the probability that a randomly selected individual has a value <strong>between 30.25 and 39.75 seconds</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN016_A",
+        "label": "A",
+        "html": "0.5769",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN016_B",
+        "label": "B",
+        "html": "0.4869",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN016_C",
+        "label": "C",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN016_D",
+        "label": "D",
+        "html": "0.6579",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN016_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN016_D"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "MIDN017",
+    "title": "middle-17",
+    "source": "regenerated-varied",
+    "prompt_html": "Seed germination times are approximately normally distributed with a mean of 72 hours and a standard deviation of 9 hours. What is the probability that a randomly selected individual has a value <strong>between 60.75 and 83.25 hours</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN017_A",
+        "label": "A",
+        "html": "0.4332",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN017_B",
+        "label": "B",
+        "html": "0.6891",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN017_C",
+        "label": "C",
+        "html": "0.8389",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN017_D",
+        "label": "D",
+        "html": "0.7887",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN017_E",
+        "label": "E",
+        "html": "0.6827",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN017_D"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "MIDN018",
+    "title": "middle-18",
+    "source": "regenerated-varied",
+    "prompt_html": "Fish lengths are approximately normally distributed with a mean of 25 cm and a standard deviation of 4 cm. What is the probability that a randomly selected individual has a value <strong>between 23.60 and 26.40 cm</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN018_A",
+        "label": "A",
+        "html": "0.1927",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN018_B",
+        "label": "B",
+        "html": "0.1027",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN018_C",
+        "label": "C",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN018_D",
+        "label": "D",
+        "html": "0.2737",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN018_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN018_D"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "MIDN019",
+    "title": "middle-19",
+    "source": "regenerated-varied",
+    "prompt_html": "Tree ring widths are approximately normally distributed with a mean of 5 mm and a standard deviation of 1 mm. What is the probability that a randomly selected individual has a value <strong>between 3.40 and 6.60 mm</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN019_A",
+        "label": "A",
+        "html": "0.8094",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN019_B",
+        "label": "B",
+        "html": "0.7194",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN019_C",
+        "label": "C",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN019_D",
+        "label": "D",
+        "html": "0.8904",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN019_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN019_D"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "MIDN020",
+    "title": "middle-20",
+    "source": "regenerated-varied",
+    "prompt_html": "Cell growth times are approximately normally distributed with a mean of 20 hours and a standard deviation of 2 hours. What is the probability that a randomly selected individual has a value <strong>between 18.90 and 21.10 hours</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "MIDN020_A",
+        "label": "A",
+        "html": "0.3367",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN020_B",
+        "label": "B",
+        "html": "0.4177",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN020_C",
+        "label": "C",
+        "html": "0.2467",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN020_D",
+        "label": "D",
+        "html": "0.7887",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN020_E",
+        "label": "E",
+        "html": "0.9545",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN020_B"
+    ]
+  }
+]

@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "1bf547d2bb5f0fd6b05426d42269d838",
+    "title": "item_20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A survey yields 'Yes' with probability 12%. Out of 18 responses, what is the probability that exactly 1 are \"Yes\" responses?</p>",
+    "choices": [
+      {
+        "id": "1bf547d2bb5f0fd6b05426d42269d838_A",
+        "label": "A",
+        "html": "<p>0.1002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1bf547d2bb5f0fd6b05426d42269d838_B",
+        "label": "B",
+        "html": "<p>0.2458</p>",
+        "is_correct": true
+      },
+      {
+        "id": "1bf547d2bb5f0fd6b05426d42269d838_C",
+        "label": "C",
+        "html": "<p>0.3669</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1bf547d2bb5f0fd6b05426d42269d838_D",
+        "label": "D",
+        "html": "<p>0.2850</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1bf547d2bb5f0fd6b05426d42269d838_B"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "7d24aafccef82306025d0717b61622d3",
+    "title": "item_19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A subject finishes in time with probability 35%. Among 10 subjects, what is the probability that at most 4 finish in time?</p>",
+    "choices": [
+      {
+        "id": "7d24aafccef82306025d0717b61622d3_A",
+        "label": "A",
+        "html": "<p>0.8497</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7d24aafccef82306025d0717b61622d3_B",
+        "label": "B",
+        "html": "<p>0.7515</p>",
+        "is_correct": true
+      },
+      {
+        "id": "7d24aafccef82306025d0717b61622d3_C",
+        "label": "C",
+        "html": "<p>0.6331</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7d24aafccef82306025d0717b61622d3_D",
+        "label": "D",
+        "html": "<p>0.9051</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7d24aafccef82306025d0717b61622d3_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "4d61a829433d9a43815218c8135c616e",
+    "title": "item_18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A survey yields 'Yes' with probability 10%. Out of 25 responses, what is the probability that exactly 23 are \"Yes\" responses?</p>",
+    "choices": [
+      {
+        "id": "4d61a829433d9a43815218c8135c616e_A",
+        "label": "A",
+        "html": "<p>0.0000</p>",
+        "is_correct": true
+      },
+      {
+        "id": "4d61a829433d9a43815218c8135c616e_B",
+        "label": "B",
+        "html": "<p>0.6811</p>",
+        "is_correct": false
+      },
+      {
+        "id": "4d61a829433d9a43815218c8135c616e_C",
+        "label": "C",
+        "html": "<p>0.2036</p>",
+        "is_correct": false
+      },
+      {
+        "id": "4d61a829433d9a43815218c8135c616e_D",
+        "label": "D",
+        "html": "<p>0.8674</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4d61a829433d9a43815218c8135c616e_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "94de08bfb8361beafd7541008deaee50",
+    "title": "item_17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A subject answers correctly with probability 50%. Across 15 questions, what is the probability that at least 13 are answered correctly?</p>",
+    "choices": [
+      {
+        "id": "94de08bfb8361beafd7541008deaee50_A",
+        "label": "A",
+        "html": "<p>0.0037</p>",
+        "is_correct": true
+      },
+      {
+        "id": "94de08bfb8361beafd7541008deaee50_B",
+        "label": "B",
+        "html": "<p>0.0057</p>",
+        "is_correct": false
+      },
+      {
+        "id": "94de08bfb8361beafd7541008deaee50_C",
+        "label": "C",
+        "html": "<p>0.0011</p>",
+        "is_correct": false
+      },
+      {
+        "id": "94de08bfb8361beafd7541008deaee50_D",
+        "label": "D",
+        "html": "<p>0.0176</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "94de08bfb8361beafd7541008deaee50_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "6d528f51b9c178e527488fb76dc8b8c5",
+    "title": "item_16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A subject recalls correctly with probability 50%. In 20 attempts, what is the probability that at most 13 are recalled successfully?</p>",
+    "choices": [
+      {
+        "id": "6d528f51b9c178e527488fb76dc8b8c5_A",
+        "label": "A",
+        "html": "<p>0.9186</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6d528f51b9c178e527488fb76dc8b8c5_B",
+        "label": "B",
+        "html": "<p>0.8701</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6d528f51b9c178e527488fb76dc8b8c5_C",
+        "label": "C",
+        "html": "<p>0.9423</p>",
+        "is_correct": true
+      },
+      {
+        "id": "6d528f51b9c178e527488fb76dc8b8c5_D",
+        "label": "D",
+        "html": "<p>0.9786</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6d528f51b9c178e527488fb76dc8b8c5_C"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "60b75c20bea0895bd90db78af0bb0da1",
+    "title": "item_15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A treatment cures with probability 25%. Among 40 patients, what is the probability that at least 27 are cured?</p>",
+    "choices": [
+      {
+        "id": "60b75c20bea0895bd90db78af0bb0da1_A",
+        "label": "A",
+        "html": "<p>0.8604</p>",
+        "is_correct": false
+      },
+      {
+        "id": "60b75c20bea0895bd90db78af0bb0da1_B",
+        "label": "B",
+        "html": "<p>0.6098</p>",
+        "is_correct": false
+      },
+      {
+        "id": "60b75c20bea0895bd90db78af0bb0da1_C",
+        "label": "C",
+        "html": "<p>0.2989</p>",
+        "is_correct": false
+      },
+      {
+        "id": "60b75c20bea0895bd90db78af0bb0da1_D",
+        "label": "D",
+        "html": "<p>0.0000</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "60b75c20bea0895bd90db78af0bb0da1_D"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "69df43087bdd56882fdac271c143bc9c",
+    "title": "item_14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A treatment cures with probability 40%. Among 8 patients, what is the probability that at least 7 are cured?</p>",
+    "choices": [
+      {
+        "id": "69df43087bdd56882fdac271c143bc9c_A",
+        "label": "A",
+        "html": "<p>0.0085</p>",
+        "is_correct": true
+      },
+      {
+        "id": "69df43087bdd56882fdac271c143bc9c_B",
+        "label": "B",
+        "html": "<p>0.0036</p>",
+        "is_correct": false
+      },
+      {
+        "id": "69df43087bdd56882fdac271c143bc9c_C",
+        "label": "C",
+        "html": "<p>0.0007</p>",
+        "is_correct": false
+      },
+      {
+        "id": "69df43087bdd56882fdac271c143bc9c_D",
+        "label": "D",
+        "html": "<p>0.0498</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "69df43087bdd56882fdac271c143bc9c_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "246260525f16f12ae4becc7f5ad7917e",
+    "title": "item_13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>An allergy reaction occurs with probability 50%. Out of 40 doses, what is the probability that at most 10 have a reaction?</p>",
+    "choices": [
+      {
+        "id": "246260525f16f12ae4becc7f5ad7917e_A",
+        "label": "A",
+        "html": "<p>0.0032</p>",
+        "is_correct": false
+      },
+      {
+        "id": "246260525f16f12ae4becc7f5ad7917e_B",
+        "label": "B",
+        "html": "<p>0.0011</p>",
+        "is_correct": true
+      },
+      {
+        "id": "246260525f16f12ae4becc7f5ad7917e_C",
+        "label": "C",
+        "html": "<p>0.0074</p>",
+        "is_correct": false
+      },
+      {
+        "id": "246260525f16f12ae4becc7f5ad7917e_D",
+        "label": "D",
+        "html": "<p>0.0003</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "246260525f16f12ae4becc7f5ad7917e_B"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "d5511fe321a1f0215329ecf566ec98e3",
+    "title": "item_12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A treatment cures with probability 40%. Among 18 patients, what is the probability that at most 6 are cured?</p>",
+    "choices": [
+      {
+        "id": "d5511fe321a1f0215329ecf566ec98e3_A",
+        "label": "A",
+        "html": "<p>0.2258</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d5511fe321a1f0215329ecf566ec98e3_B",
+        "label": "B",
+        "html": "<p>0.3743</p>",
+        "is_correct": true
+      },
+      {
+        "id": "d5511fe321a1f0215329ecf566ec98e3_C",
+        "label": "C",
+        "html": "<p>0.5491</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d5511fe321a1f0215329ecf566ec98e3_D",
+        "label": "D",
+        "html": "<p>0.5634</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d5511fe321a1f0215329ecf566ec98e3_B"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "6c2a1135cb77efbbfc2211adebd48400",
+    "title": "item_11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A treatment cures with probability 30%. Among 10 patients, what is the probability that exactly 6 are cured?</p>",
+    "choices": [
+      {
+        "id": "6c2a1135cb77efbbfc2211adebd48400_A",
+        "label": "A",
+        "html": "<p>0.1029</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6c2a1135cb77efbbfc2211adebd48400_B",
+        "label": "B",
+        "html": "<p>0.0689</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6c2a1135cb77efbbfc2211adebd48400_C",
+        "label": "C",
+        "html": "<p>0.0368</p>",
+        "is_correct": true
+      },
+      {
+        "id": "6c2a1135cb77efbbfc2211adebd48400_D",
+        "label": "D",
+        "html": "<p>0.0090</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6c2a1135cb77efbbfc2211adebd48400_C"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "eb7bee46682d9ca24882052c000dd45c",
+    "title": "item_10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>10% of plants exhibit a genetic trait. In 8 plants, what is the probability that at most 6 exhibit the trait?</p>",
+    "choices": [
+      {
+        "id": "eb7bee46682d9ca24882052c000dd45c_A",
+        "label": "A",
+        "html": "<p>0.3934</p>",
+        "is_correct": false
+      },
+      {
+        "id": "eb7bee46682d9ca24882052c000dd45c_B",
+        "label": "B",
+        "html": "<p>0.1626</p>",
+        "is_correct": false
+      },
+      {
+        "id": "eb7bee46682d9ca24882052c000dd45c_C",
+        "label": "C",
+        "html": "<p>0.2256</p>",
+        "is_correct": false
+      },
+      {
+        "id": "eb7bee46682d9ca24882052c000dd45c_D",
+        "label": "D",
+        "html": "<p>1.0000</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "eb7bee46682d9ca24882052c000dd45c_D"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "7c47dedcad06f0bf5421fbec904828a8",
+    "title": "item_09",
+    "source": "canvas_qti",
+    "prompt_html": "<p>50% of turtle eggs hatch. In a clutch of 20 eggs, what is the probability that exactly 18 hatch?</p>",
+    "choices": [
+      {
+        "id": "7c47dedcad06f0bf5421fbec904828a8_A",
+        "label": "A",
+        "html": "<p>0.0008</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7c47dedcad06f0bf5421fbec904828a8_B",
+        "label": "B",
+        "html": "<p>0.0003</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7c47dedcad06f0bf5421fbec904828a8_C",
+        "label": "C",
+        "html": "<p>0.0000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7c47dedcad06f0bf5421fbec904828a8_D",
+        "label": "D",
+        "html": "<p>0.0002</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "7c47dedcad06f0bf5421fbec904828a8_D"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "ed51697b40057def6253d8d52c36c54a",
+    "title": "item_08",
+    "source": "canvas_qti",
+    "prompt_html": "<p>20% of turtle eggs hatch. In a clutch of 40 eggs, what is the probability that at least 10 hatch?</p>",
+    "choices": [
+      {
+        "id": "ed51697b40057def6253d8d52c36c54a_A",
+        "label": "A",
+        "html": "<p>0.0672</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ed51697b40057def6253d8d52c36c54a_B",
+        "label": "B",
+        "html": "<p>0.4069</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ed51697b40057def6253d8d52c36c54a_C",
+        "label": "C",
+        "html": "<p>0.5605</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ed51697b40057def6253d8d52c36c54a_D",
+        "label": "D",
+        "html": "<p>0.2682</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "ed51697b40057def6253d8d52c36c54a_D"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "77ad78f09e471724f390acae8dc3d621",
+    "title": "item_07",
+    "source": "canvas_qti",
+    "prompt_html": "<p>30% of turtle eggs hatch. In a clutch of 50 eggs, what is the probability that exactly 23 hatch?</p>",
+    "choices": [
+      {
+        "id": "77ad78f09e471724f390acae8dc3d621_A",
+        "label": "A",
+        "html": "<p>0.0067</p>",
+        "is_correct": true
+      },
+      {
+        "id": "77ad78f09e471724f390acae8dc3d621_B",
+        "label": "B",
+        "html": "<p>0.0135</p>",
+        "is_correct": false
+      },
+      {
+        "id": "77ad78f09e471724f390acae8dc3d621_C",
+        "label": "C",
+        "html": "<p>0.0313</p>",
+        "is_correct": false
+      },
+      {
+        "id": "77ad78f09e471724f390acae8dc3d621_D",
+        "label": "D",
+        "html": "<p>0.0032</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "77ad78f09e471724f390acae8dc3d621_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "35effc0222f7b47f64a9000604c1865c",
+    "title": "item_06",
+    "source": "canvas_qti",
+    "prompt_html": "<p>30% of plants exhibit a genetic trait. In 40 plants, what is the probability that at most 33 exhibit the trait?</p>",
+    "choices": [
+      {
+        "id": "35effc0222f7b47f64a9000604c1865c_A",
+        "label": "A",
+        "html": "<p>0.0986</p>",
+        "is_correct": false
+      },
+      {
+        "id": "35effc0222f7b47f64a9000604c1865c_B",
+        "label": "B",
+        "html": "<p>0.1956</p>",
+        "is_correct": false
+      },
+      {
+        "id": "35effc0222f7b47f64a9000604c1865c_C",
+        "label": "C",
+        "html": "<p>0.1143</p>",
+        "is_correct": false
+      },
+      {
+        "id": "35effc0222f7b47f64a9000604c1865c_D",
+        "label": "D",
+        "html": "<p>1.0000</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "35effc0222f7b47f64a9000604c1865c_D"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "2afba60c7e406c29b6f918a846f27545",
+    "title": "item_05",
+    "source": "canvas_qti",
+    "prompt_html": "<p>70% of fruit flies show a certain mutation. In 18 fruit flies, what is the probability that at least 3 show the mutation?</p>",
+    "choices": [
+      {
+        "id": "2afba60c7e406c29b6f918a846f27545_A",
+        "label": "A",
+        "html": "<p>0.8143</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2afba60c7e406c29b6f918a846f27545_B",
+        "label": "B",
+        "html": "<p>1.0000</p>",
+        "is_correct": true
+      },
+      {
+        "id": "2afba60c7e406c29b6f918a846f27545_C",
+        "label": "C",
+        "html": "<p>0.4831</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2afba60c7e406c29b6f918a846f27545_D",
+        "label": "D",
+        "html": "<p>0.1776</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2afba60c7e406c29b6f918a846f27545_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "b64b55b62ba464efe6403957eff0592b",
+    "title": "item_04",
+    "source": "canvas_qti",
+    "prompt_html": "<p>60% of plants exhibit a genetic trait. In 12 plants, what is the probability that exactly 11 exhibit the trait?</p>",
+    "choices": [
+      {
+        "id": "b64b55b62ba464efe6403957eff0592b_A",
+        "label": "A",
+        "html": "<p>0.0174</p>",
+        "is_correct": true
+      },
+      {
+        "id": "b64b55b62ba464efe6403957eff0592b_B",
+        "label": "B",
+        "html": "<p>0.0639</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b64b55b62ba464efe6403957eff0592b_C",
+        "label": "C",
+        "html": "<p>0.0237</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b64b55b62ba464efe6403957eff0592b_D",
+        "label": "D",
+        "html": "<p>0.0368</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b64b55b62ba464efe6403957eff0592b_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "bd0d18d779f6c2424a6478c37b003291",
+    "title": "item_03",
+    "source": "canvas_qti",
+    "prompt_html": "<p>50% of a certain type of seed will germinate. Among 8 seeds, what is the probability that at most 6 germinate?</p>",
+    "choices": [
+      {
+        "id": "bd0d18d779f6c2424a6478c37b003291_A",
+        "label": "A",
+        "html": "<p>0.9819</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bd0d18d779f6c2424a6478c37b003291_B",
+        "label": "B",
+        "html": "<p>0.9552</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bd0d18d779f6c2424a6478c37b003291_C",
+        "label": "C",
+        "html": "<p>0.9648</p>",
+        "is_correct": true
+      },
+      {
+        "id": "bd0d18d779f6c2424a6478c37b003291_D",
+        "label": "D",
+        "html": "<p>0.9368</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "bd0d18d779f6c2424a6478c37b003291_C"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "387d00e18444f404a05719c1a0e2d9d4",
+    "title": "item_02",
+    "source": "canvas_qti",
+    "prompt_html": "<p>60% of turtle eggs hatch. In a clutch of 15 eggs, what is the probability that at least 15 hatch?</p>",
+    "choices": [
+      {
+        "id": "387d00e18444f404a05719c1a0e2d9d4_A",
+        "label": "A",
+        "html": "<p>0.0052</p>",
+        "is_correct": false
+      },
+      {
+        "id": "387d00e18444f404a05719c1a0e2d9d4_B",
+        "label": "B",
+        "html": "<p>0.0008</p>",
+        "is_correct": false
+      },
+      {
+        "id": "387d00e18444f404a05719c1a0e2d9d4_C",
+        "label": "C",
+        "html": "<p>0.0016</p>",
+        "is_correct": false
+      },
+      {
+        "id": "387d00e18444f404a05719c1a0e2d9d4_D",
+        "label": "D",
+        "html": "<p>0.0005</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "387d00e18444f404a05719c1a0e2d9d4_D"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "8fd35dc5550a7f7f9e7ab6e6baab89d5",
+    "title": "item_01",
+    "source": "canvas_qti",
+    "prompt_html": "<p>12% of a certain type of seed will germinate. Among 18 seeds, what is the probability that exactly 18 germinate?</p>",
+    "choices": [
+      {
+        "id": "8fd35dc5550a7f7f9e7ab6e6baab89d5_A",
+        "label": "A",
+        "html": "<p>0.0000</p>",
+        "is_correct": true
+      },
+      {
+        "id": "8fd35dc5550a7f7f9e7ab6e6baab89d5_B",
+        "label": "B",
+        "html": "<p>0.3792</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8fd35dc5550a7f7f9e7ab6e6baab89d5_C",
+        "label": "C",
+        "html": "<p>0.3581</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8fd35dc5550a7f7f9e7ab6e6baab89d5_D",
+        "label": "D",
+        "html": "<p>0.3067</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8fd35dc5550a7f7f9e7ab6e6baab89d5_A"
+    ]
+  }
+]

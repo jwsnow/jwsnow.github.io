@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "fa7506fbcfc11f759d7685221a6d3bd1",
+    "title": "Question 20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes monthly household electricity usage (in kilowatt-hours) in a neighborhood. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>200-249</td>\n<td>7</td>\n</tr>\n<tr>\n<td>250-299</td>\n<td>9</td>\n</tr>\n<tr>\n<td>300-349</td>\n<td>10</td>\n</tr>\n<tr>\n<td>350-399</td>\n<td>6</td>\n</tr>\n<tr>\n<td>400-449</td>\n<td>9</td>\n</tr>\n<tr>\n<td>450-499</td>\n<td>10</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "fa7506fbcfc11f759d7685221a6d3bd1_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/e6bbf5f4ab5254fbf34c2dc556f1b40f.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "fa7506fbcfc11f759d7685221a6d3bd1_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/4a47889c3a8e423c2dc7227641f614f5.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "fa7506fbcfc11f759d7685221a6d3bd1_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/70702551b403abbd0c810a05128a4f83.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "fa7506fbcfc11f759d7685221a6d3bd1_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/071ee784d55b83213d256aa26d4c6212.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "fa7506fbcfc11f759d7685221a6d3bd1_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "8917a6e53f892d8f3a9df914b5055e5a",
+    "title": "Question 19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes reaction times (in milliseconds) in a cognitive attention task. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>200-249</td>\n<td>6</td>\n</tr>\n<tr>\n<td>250-299</td>\n<td>5</td>\n</tr>\n<tr>\n<td>300-349</td>\n<td>10</td>\n</tr>\n<tr>\n<td>350-399</td>\n<td>9</td>\n</tr>\n<tr>\n<td>400-449</td>\n<td>10</td>\n</tr>\n<tr>\n<td>450-499</td>\n<td>12</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "8917a6e53f892d8f3a9df914b5055e5a_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/341c193c79bc3bea0547427ef25ac34f.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "8917a6e53f892d8f3a9df914b5055e5a_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/580d4e435dd2bc4e45d6f8b4be7daffe.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "8917a6e53f892d8f3a9df914b5055e5a_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/708dcba1aafa2b99e73feef467557426.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "8917a6e53f892d8f3a9df914b5055e5a_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/0357751063f4e5b356598f793b999f90.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8917a6e53f892d8f3a9df914b5055e5a_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "277d485aa78b8b2e6e82e7e3300163ef",
+    "title": "Question 18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes systolic blood pressure readings (in mmHg) from a clinic day. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>100-109</td>\n<td>9</td>\n</tr>\n<tr>\n<td>110-119</td>\n<td>9</td>\n</tr>\n<tr>\n<td>120-129</td>\n<td>8</td>\n</tr>\n<tr>\n<td>130-139</td>\n<td>6</td>\n</tr>\n<tr>\n<td>140-149</td>\n<td>9</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "277d485aa78b8b2e6e82e7e3300163ef_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/431b8b5a37f1af4930bbbff92b8b5b75.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "277d485aa78b8b2e6e82e7e3300163ef_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/e96fe1d00adbf9944cf2591dfbc4271c.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "277d485aa78b8b2e6e82e7e3300163ef_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/d792f71dfca320b9bd95bbb66cf4f6d8.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "277d485aa78b8b2e6e82e7e3300163ef_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/1bb4115736b5a80a18c85c84f71af97f.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "277d485aa78b8b2e6e82e7e3300163ef_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "6d01f5245729a8083967442363f2d03c",
+    "title": "Question 17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes the weights (in grams) of frogs observed in a wetland study. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>40-49</td>\n<td>6</td>\n</tr>\n<tr>\n<td>50-59</td>\n<td>2</td>\n</tr>\n<tr>\n<td>60-69</td>\n<td>9</td>\n</tr>\n<tr>\n<td>70-79</td>\n<td>4</td>\n</tr>\n<tr>\n<td>80-89</td>\n<td>8</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "6d01f5245729a8083967442363f2d03c_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/d87bdf1e91f9b90e1d4562dad049bbc3.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "6d01f5245729a8083967442363f2d03c_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/8d46d543935fe956d18ecf0439daa42d.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "6d01f5245729a8083967442363f2d03c_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/9cc840b5aa5fb19dfc3b104e7f9915e4.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "6d01f5245729a8083967442363f2d03c_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/e304a4264050daeb2dba366c0c3aa1fc.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6d01f5245729a8083967442363f2d03c_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "06be8329ccf97a9c1e6bf6af981d91da",
+    "title": "Question 16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes monthly household electricity usage (in kilowatt-hours) in a neighborhood. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>200-249</td>\n<td>8</td>\n</tr>\n<tr>\n<td>250-299</td>\n<td>2</td>\n</tr>\n<tr>\n<td>300-349</td>\n<td>2</td>\n</tr>\n<tr>\n<td>350-399</td>\n<td>7</td>\n</tr>\n<tr>\n<td>400-449</td>\n<td>9</td>\n</tr>\n<tr>\n<td>450-499</td>\n<td>7</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "06be8329ccf97a9c1e6bf6af981d91da_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/e3281f5e83ac5128d8a76057e2f7e48e.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "06be8329ccf97a9c1e6bf6af981d91da_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/bee5e9756a2241720cc17165877f94ec.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "06be8329ccf97a9c1e6bf6af981d91da_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/42f32e906e68275b7518b92e653f01ba.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "06be8329ccf97a9c1e6bf6af981d91da_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/c0a91887b090332afb86af0a5b77b68a.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "06be8329ccf97a9c1e6bf6af981d91da_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "71efc19d148e612df905836a2aa01c9a",
+    "title": "Question 15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes reaction times (in milliseconds) in a cognitive attention task. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>200-249</td>\n<td>2</td>\n</tr>\n<tr>\n<td>250-299</td>\n<td>9</td>\n</tr>\n<tr>\n<td>300-349</td>\n<td>8</td>\n</tr>\n<tr>\n<td>350-399</td>\n<td>15</td>\n</tr>\n<tr>\n<td>400-449</td>\n<td>12</td>\n</tr>\n<tr>\n<td>450-499</td>\n<td>8</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "71efc19d148e612df905836a2aa01c9a_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/b59c9dbab3f0fe70a933a95a583b038c.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "71efc19d148e612df905836a2aa01c9a_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/69bce30e6bf1642a277c5c18caa53a74.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "71efc19d148e612df905836a2aa01c9a_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/d11ecd6e68da32f3d431e1e2cc27082c.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "71efc19d148e612df905836a2aa01c9a_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/292a9713304e02f1af0f91df219030d7.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "71efc19d148e612df905836a2aa01c9a_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "1efc51052b0a0a77eb1efa164d571986",
+    "title": "Question 14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes systolic blood pressure readings (in mmHg) from a clinic day. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>100-109</td>\n<td>10</td>\n</tr>\n<tr>\n<td>110-119</td>\n<td>13</td>\n</tr>\n<tr>\n<td>120-129</td>\n<td>6</td>\n</tr>\n<tr>\n<td>130-139</td>\n<td>5</td>\n</tr>\n<tr>\n<td>140-149</td>\n<td>7</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "1efc51052b0a0a77eb1efa164d571986_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/a1fea8888d9170c2e47a7016d8202b03.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "1efc51052b0a0a77eb1efa164d571986_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/8ea20b43f664c2b6396e7296b01b9d96.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "1efc51052b0a0a77eb1efa164d571986_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/41c410890799a8782851c1899e3aae99.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "1efc51052b0a0a77eb1efa164d571986_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/d0e9c1b1c83a3b1f6183c95ee38835e9.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1efc51052b0a0a77eb1efa164d571986_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "9401d8bca4fed3d22cf12fde86933c30",
+    "title": "Question 13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes the weights (in grams) of frogs observed in a wetland study. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>40-49</td>\n<td>9</td>\n</tr>\n<tr>\n<td>50-59</td>\n<td>6</td>\n</tr>\n<tr>\n<td>60-69</td>\n<td>8</td>\n</tr>\n<tr>\n<td>70-79</td>\n<td>10</td>\n</tr>\n<tr>\n<td>80-89</td>\n<td>9</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "9401d8bca4fed3d22cf12fde86933c30_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/be9587f9a4a32ae270a8a4012c59066d.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "9401d8bca4fed3d22cf12fde86933c30_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/ae674dac818b7d3adf616a137ecd6b57.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "9401d8bca4fed3d22cf12fde86933c30_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/0bb733a8064fd7dbff205bf6361f629c.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "9401d8bca4fed3d22cf12fde86933c30_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/0637c74fd67f64ada47538988ddc2092.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9401d8bca4fed3d22cf12fde86933c30_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "94bf2f494ea286a9ff125874da02b665",
+    "title": "Question 12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes monthly household electricity usage (in kilowatt-hours) in a neighborhood. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>200-249</td>\n<td>9</td>\n</tr>\n<tr>\n<td>250-299</td>\n<td>8</td>\n</tr>\n<tr>\n<td>300-349</td>\n<td>3</td>\n</tr>\n<tr>\n<td>350-399</td>\n<td>6</td>\n</tr>\n<tr>\n<td>400-449</td>\n<td>6</td>\n</tr>\n<tr>\n<td>450-499</td>\n<td>4</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "94bf2f494ea286a9ff125874da02b665_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/85f15b14cf6fa68126a470951dbf3ef0.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "94bf2f494ea286a9ff125874da02b665_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/ff73d8f8c40b9af9a389fda93cb51de6.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "94bf2f494ea286a9ff125874da02b665_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/85b0788d9755a7bd5f722caed9f57422.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "94bf2f494ea286a9ff125874da02b665_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/41199f8cf6b7114236d910974ca0c5a1.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "94bf2f494ea286a9ff125874da02b665_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "3ed21625ba3cf1ea87e382c7a3c1c5b9",
+    "title": "Question 11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes reaction times (in milliseconds) in a cognitive attention task. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>200-249</td>\n<td>10</td>\n</tr>\n<tr>\n<td>250-299</td>\n<td>13</td>\n</tr>\n<tr>\n<td>300-349</td>\n<td>14</td>\n</tr>\n<tr>\n<td>350-399</td>\n<td>11</td>\n</tr>\n<tr>\n<td>400-449</td>\n<td>8</td>\n</tr>\n<tr>\n<td>450-499</td>\n<td>5</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "3ed21625ba3cf1ea87e382c7a3c1c5b9_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/fc763acdb1714b277bd29cf823179672.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "3ed21625ba3cf1ea87e382c7a3c1c5b9_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/9c91eb275f666cd4b0087ed34bd1ad35.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "3ed21625ba3cf1ea87e382c7a3c1c5b9_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/d7f392fa213ad83a4ce650835f02f40a.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "3ed21625ba3cf1ea87e382c7a3c1c5b9_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/f75248d10846b106181eacec9a51f422.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3ed21625ba3cf1ea87e382c7a3c1c5b9_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "78c835fc4b12897b7c670de6603df8e2",
+    "title": "Question 10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes systolic blood pressure readings (in mmHg) from a clinic day. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>100-109</td>\n<td>6</td>\n</tr>\n<tr>\n<td>110-119</td>\n<td>11</td>\n</tr>\n<tr>\n<td>120-129</td>\n<td>6</td>\n</tr>\n<tr>\n<td>130-139</td>\n<td>13</td>\n</tr>\n<tr>\n<td>140-149</td>\n<td>11</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "78c835fc4b12897b7c670de6603df8e2_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/3f98cadfb1aa6284c44fe1c08d23924e.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "78c835fc4b12897b7c670de6603df8e2_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/83651c8b5aebfc1733e8f31689600273.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "78c835fc4b12897b7c670de6603df8e2_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/f76fcd260a6db2da0d9f7be0fa887833.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "78c835fc4b12897b7c670de6603df8e2_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/9efe9cb9b94ba7c90b05c951fd8632e2.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "78c835fc4b12897b7c670de6603df8e2_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "e017c947029d82b2fbbfaf23d609b119",
+    "title": "Question 9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes the weights (in grams) of frogs observed in a wetland study. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>40-49</td>\n<td>7</td>\n</tr>\n<tr>\n<td>50-59</td>\n<td>4</td>\n</tr>\n<tr>\n<td>60-69</td>\n<td>5</td>\n</tr>\n<tr>\n<td>70-79</td>\n<td>4</td>\n</tr>\n<tr>\n<td>80-89</td>\n<td>12</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "e017c947029d82b2fbbfaf23d609b119_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/d00e3ff2bf6ab0f37f222ff2b264ce95.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "e017c947029d82b2fbbfaf23d609b119_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/deadbd203572fe23d01d32044c970675.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "e017c947029d82b2fbbfaf23d609b119_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/03ae5d14e60e7822ab2ca64d56413a2b.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "e017c947029d82b2fbbfaf23d609b119_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/68fb9a456f49183e0997c4a1d716a1c1.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e017c947029d82b2fbbfaf23d609b119_A"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "25d084ddb42b7855d7421f6953b28ce3",
+    "title": "Question 8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes monthly household electricity usage (in kilowatt-hours) in a neighborhood. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>200-249</td>\n<td>4</td>\n</tr>\n<tr>\n<td>250-299</td>\n<td>5</td>\n</tr>\n<tr>\n<td>300-349</td>\n<td>9</td>\n</tr>\n<tr>\n<td>350-399</td>\n<td>12</td>\n</tr>\n<tr>\n<td>400-449</td>\n<td>12</td>\n</tr>\n<tr>\n<td>450-499</td>\n<td>14</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "25d084ddb42b7855d7421f6953b28ce3_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/09351f285ca5be798496bdfb64662229.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "25d084ddb42b7855d7421f6953b28ce3_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/cba5c9a6c3867d12a992e46f10e5fe9a.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "25d084ddb42b7855d7421f6953b28ce3_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/d7863ef884723d252046f1dcd0629e43.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "25d084ddb42b7855d7421f6953b28ce3_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/d4e7a5d0954434c6271ec17e4de53ea1.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "25d084ddb42b7855d7421f6953b28ce3_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "864604fe96cf82211d06e2753e88d980",
+    "title": "Question 7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes reaction times (in milliseconds) in a cognitive attention task. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>200-249</td>\n<td>8</td>\n</tr>\n<tr>\n<td>250-299</td>\n<td>5</td>\n</tr>\n<tr>\n<td>300-349</td>\n<td>4</td>\n</tr>\n<tr>\n<td>350-399</td>\n<td>9</td>\n</tr>\n<tr>\n<td>400-449</td>\n<td>5</td>\n</tr>\n<tr>\n<td>450-499</td>\n<td>5</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "864604fe96cf82211d06e2753e88d980_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/18999b59fb34ff5be26dbb5c15f195e9.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "864604fe96cf82211d06e2753e88d980_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/aed00e8753e647e890ee7229b3a242a5.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "864604fe96cf82211d06e2753e88d980_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/8c2f657f3069ce9b3b01fdb0c9834d0f.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "864604fe96cf82211d06e2753e88d980_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/bec7ec459a1e1cf73f5c6b8a9279c00c.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "864604fe96cf82211d06e2753e88d980_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "46cf88a27f20eb612637bc8d419b09e5",
+    "title": "Question 6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes systolic blood pressure readings (in mmHg) from a clinic day. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>100-109</td>\n<td>9</td>\n</tr>\n<tr>\n<td>110-119</td>\n<td>6</td>\n</tr>\n<tr>\n<td>120-129</td>\n<td>12</td>\n</tr>\n<tr>\n<td>130-139</td>\n<td>7</td>\n</tr>\n<tr>\n<td>140-149</td>\n<td>13</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "46cf88a27f20eb612637bc8d419b09e5_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/7628481b04641f9488e50854c83591f3.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "46cf88a27f20eb612637bc8d419b09e5_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/159f183d39b7200635e8a6d645b48d3b.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "46cf88a27f20eb612637bc8d419b09e5_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/6234d6b7c9832e60f1545383c1db850e.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "46cf88a27f20eb612637bc8d419b09e5_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/49ca192d782e905941c7732fd07534c8.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "46cf88a27f20eb612637bc8d419b09e5_A"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "b3439e06bcc69a15e08e16a7a09ab57b",
+    "title": "Question 5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes the weights (in grams) of frogs observed in a wetland study. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>40-49</td>\n<td>8</td>\n</tr>\n<tr>\n<td>50-59</td>\n<td>13</td>\n</tr>\n<tr>\n<td>60-69</td>\n<td>15</td>\n</tr>\n<tr>\n<td>70-79</td>\n<td>10</td>\n</tr>\n<tr>\n<td>80-89</td>\n<td>4</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "b3439e06bcc69a15e08e16a7a09ab57b_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/b650bbf9893fbb7bab62ce3c9fe55069.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "b3439e06bcc69a15e08e16a7a09ab57b_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/cac93d797b286fd7a8e0b3557a5330fc.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "b3439e06bcc69a15e08e16a7a09ab57b_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/7f922649329df8ef329739a6aae9b010.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "b3439e06bcc69a15e08e16a7a09ab57b_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/790df8b28c317a9d3632561feb902441.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b3439e06bcc69a15e08e16a7a09ab57b_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "1688693fb53ce2c8008342b846f89e73",
+    "title": "Question 4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes monthly household electricity usage (in kilowatt-hours) in a neighborhood. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>200-249</td>\n<td>6</td>\n</tr>\n<tr>\n<td>250-299</td>\n<td>2</td>\n</tr>\n<tr>\n<td>300-349</td>\n<td>8</td>\n</tr>\n<tr>\n<td>350-399</td>\n<td>3</td>\n</tr>\n<tr>\n<td>400-449</td>\n<td>6</td>\n</tr>\n<tr>\n<td>450-499</td>\n<td>5</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "1688693fb53ce2c8008342b846f89e73_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/453cbee829b843cf85dd1848b2cff38d.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "1688693fb53ce2c8008342b846f89e73_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/0132816fa8f2b94e6d7ec7aa801bd4ee.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "1688693fb53ce2c8008342b846f89e73_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/d32af914e7c43df59896ac25e4729ac9.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "1688693fb53ce2c8008342b846f89e73_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/2f4e4a59cecd682490a152b7e150c3b4.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1688693fb53ce2c8008342b846f89e73_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "a85992f5f024a0bf053210042e2ca6af",
+    "title": "Question 3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes reaction times (in milliseconds) in a cognitive attention task. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>200-249</td>\n<td>6</td>\n</tr>\n<tr>\n<td>250-299</td>\n<td>5</td>\n</tr>\n<tr>\n<td>300-349</td>\n<td>7</td>\n</tr>\n<tr>\n<td>350-399</td>\n<td>11</td>\n</tr>\n<tr>\n<td>400-449</td>\n<td>11</td>\n</tr>\n<tr>\n<td>450-499</td>\n<td>11</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "a85992f5f024a0bf053210042e2ca6af_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/b3be36f45f74fabfa63fecd8ddc3994b.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "a85992f5f024a0bf053210042e2ca6af_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/9332468dd82d2575f8ea3ee8a1fe284c.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "a85992f5f024a0bf053210042e2ca6af_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/9fccc48b003fd352317390c346dc4bf0.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "a85992f5f024a0bf053210042e2ca6af_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/dc0b59be28e2e1a5f14b65504d78b441.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a85992f5f024a0bf053210042e2ca6af_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "1d2b57e6386030a6b796f641f6c1c3ac",
+    "title": "Question 2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes systolic blood pressure readings (in mmHg) from a clinic day. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse; width: 9.44386%; height: 289.556px;\" border=\"1\">\n<tbody>\n<tr style=\"height: 26.5875px;\">\n<th style=\"width: 61.3029%; height: 26.5875px;\">Class</th>\n<th style=\"width: 38.4182%; height: 26.5875px;\">Frequency</th>\n</tr>\n<tr style=\"height: 52.5937px;\">\n<td style=\"width: 61.3029%; height: 52.5937px;\">100-109</td>\n<td style=\"width: 38.4182%; height: 52.5937px;\">5</td>\n</tr>\n<tr style=\"height: 52.5937px;\">\n<td style=\"width: 61.3029%; height: 52.5937px;\">110-119</td>\n<td style=\"width: 38.4182%; height: 52.5937px;\">10</td>\n</tr>\n<tr style=\"height: 52.5937px;\">\n<td style=\"width: 61.3029%; height: 52.5937px;\">120-129</td>\n<td style=\"width: 38.4182%; height: 52.5937px;\">10</td>\n</tr>\n<tr style=\"height: 52.5937px;\">\n<td style=\"width: 61.3029%; height: 52.5937px;\">130-139</td>\n<td style=\"width: 38.4182%; height: 52.5937px;\">7</td>\n</tr>\n<tr style=\"height: 52.5937px;\">\n<td style=\"width: 61.3029%; height: 52.5937px;\">140-149</td>\n<td style=\"width: 38.4182%; height: 52.5937px;\">11</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "1d2b57e6386030a6b796f641f6c1c3ac_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/0bea4bbac524c65fa98c963793c0c755.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "1d2b57e6386030a6b796f641f6c1c3ac_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/3fb458827d3549117bb83ee1d449318a.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "1d2b57e6386030a6b796f641f6c1c3ac_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/724bd2b916b43ba39b8a204df304dfba.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "1d2b57e6386030a6b796f641f6c1c3ac_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/5e2cbda858e6d4476b2f69ac2a98d4c3.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1d2b57e6386030a6b796f641f6c1c3ac_A"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "2c3aca27fc0f57537e6111124f200f5a",
+    "title": "Question 1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following frequency table summarizes the weights (in grams) of frogs observed in a wetland study. Which histogram matches this table? Select the best answer.</p>\n<table style=\"border-collapse: collapse;\" border=\"1\">\n<tbody>\n<tr>\n<th>Class</th>\n<th>Frequency</th>\n</tr>\n<tr>\n<td>40-49</td>\n<td>7</td>\n</tr>\n<tr>\n<td>50-59</td>\n<td>8</td>\n</tr>\n<tr>\n<td>60-69</td>\n<td>9</td>\n</tr>\n<tr>\n<td>70-79</td>\n<td>4</td>\n</tr>\n<tr>\n<td>80-89</td>\n<td>10</td>\n</tr>\n</tbody>\n</table>",
+    "choices": [
+      {
+        "id": "2c3aca27fc0f57537e6111124f200f5a_A",
+        "label": "A",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/afde6fb4254aeff08e1e2a06f06f6b1d.png\" width=\"400\">",
+        "is_correct": true
+      },
+      {
+        "id": "2c3aca27fc0f57537e6111124f200f5a_B",
+        "label": "B",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/ca3ef32e417ee8675d6c062857c2cf23.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "2c3aca27fc0f57537e6111124f200f5a_C",
+        "label": "C",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/998718c3ec5b9a3b9af0730ea2e093e2.png\" width=\"400\">",
+        "is_correct": false
+      },
+      {
+        "id": "2c3aca27fc0f57537e6111124f200f5a_D",
+        "label": "D",
+        "html": "<img src=\"2.1_Frequency_Tables_and_Histograms_images/b8e23c08f955365eeb1e72abd466def7.png\" width=\"400\">",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2c3aca27fc0f57537e6111124f200f5a_A"
+    ]
+  }
+]

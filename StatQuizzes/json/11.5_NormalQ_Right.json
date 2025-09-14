@@ -1,0 +1,842 @@
+[
+  {
+    "index": 1,
+    "ident": "RIGN001",
+    "title": "rightQ-1",
+    "source": "generated",
+    "prompt_html": "Systolic blood pressures of adults are approximately normally distributed with a mean of 120 mmHg and a standard deviation of 15 mmHg. Find a value k such that <strong>P(X ≥ k) = 0.95</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN001_A",
+        "label": "A",
+        "html": "95.14",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN001_B",
+        "label": "B",
+        "html": "95.51",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN001_C",
+        "label": "C",
+        "html": "95.33",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN001_D",
+        "label": "D",
+        "html": "94.29",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN001_E",
+        "label": "E",
+        "html": "98.80",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN001_C"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "RIGN002",
+    "title": "rightQ-2",
+    "source": "generated",
+    "prompt_html": "Cholesterol levels of patients are approximately normally distributed with a mean of 200 mg/dL and a standard deviation of 25 mg/dL. Find a value k such that <strong>P(X ≥ k) = 0.95</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN002_A",
+        "label": "A",
+        "html": "158.88",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN002_B",
+        "label": "B",
+        "html": "165.53",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN002_C",
+        "label": "C",
+        "html": "166.84",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN002_D",
+        "label": "D",
+        "html": "162.32",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN002_E",
+        "label": "E",
+        "html": "156.39",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN002_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "RIGN003",
+    "title": "rightQ-3",
+    "source": "generated",
+    "prompt_html": "Reaction times to a visual stimulus are approximately normally distributed with a mean of 250 ms and a standard deviation of 40 ms. Find a value k such that <strong>P(X ≥ k) = 0.10</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN003_A",
+        "label": "A",
+        "html": "301.03",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN003_B",
+        "label": "B",
+        "html": "303.51",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN003_C",
+        "label": "C",
+        "html": "292.78",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN003_D",
+        "label": "D",
+        "html": "301.26",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN003_E",
+        "label": "E",
+        "html": "292.82",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN003_D"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "RIGN004",
+    "title": "rightQ-4",
+    "source": "generated",
+    "prompt_html": "IQ scores of college students are approximately normally distributed with a mean of 100 points and a standard deviation of 15 points. Find a value k such that <strong>P(X ≥ k) = 0.10</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN004_A",
+        "label": "A",
+        "html": "117.88",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN004_B",
+        "label": "B",
+        "html": "117.52",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN004_C",
+        "label": "C",
+        "html": "119.22",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN004_D",
+        "label": "D",
+        "html": "123.55",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN004_E",
+        "label": "E",
+        "html": "118.38",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN004_C"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "RIGN005",
+    "title": "rightQ-5",
+    "source": "generated",
+    "prompt_html": "Memory recall scores are approximately normally distributed with a mean of 50 points and a standard deviation of 10 points. Find a value k such that <strong>P(X ≥ k) = 0.10</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN005_A",
+        "label": "A",
+        "html": "62.82",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN005_B",
+        "label": "B",
+        "html": "61.23",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN005_C",
+        "label": "C",
+        "html": "63.36",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN005_D",
+        "label": "D",
+        "html": "60.88",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN005_E",
+        "label": "E",
+        "html": "66.12",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN005_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "RIGN006",
+    "title": "rightQ-6",
+    "source": "generated",
+    "prompt_html": "Test completion times are approximately normally distributed with a mean of 60 minutes and a standard deviation of 8 minutes. Find a value k such that <strong>P(X ≥ k) = 0.95</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN006_A",
+        "label": "A",
+        "html": "49.31",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN006_B",
+        "label": "B",
+        "html": "48.30",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN006_C",
+        "label": "C",
+        "html": "44.39",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN006_D",
+        "label": "D",
+        "html": "47.16",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN006_E",
+        "label": "E",
+        "html": "46.84",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "RIGN006_E"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "RIGN007",
+    "title": "rightQ-7",
+    "source": "generated",
+    "prompt_html": "Weights of lab rats are approximately normally distributed with a mean of 300 grams and a standard deviation of 20 grams. Find a value k such that <strong>P(X ≥ k) = 0.10</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN007_A",
+        "label": "A",
+        "html": "331.54",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN007_B",
+        "label": "B",
+        "html": "325.63",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN007_C",
+        "label": "C",
+        "html": "328.70",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN007_D",
+        "label": "D",
+        "html": "328.95",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN007_E",
+        "label": "E",
+        "html": "323.33",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN007_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "RIGN008",
+    "title": "rightQ-8",
+    "source": "generated",
+    "prompt_html": "Leaf lengths are approximately normally distributed with a mean of 12 cm and a standard deviation of 2 cm. Find a value k such that <strong>P(X ≥ k) = 0.95</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN008_A",
+        "label": "A",
+        "html": "8.39",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN008_B",
+        "label": "B",
+        "html": "8.71",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN008_C",
+        "label": "C",
+        "html": "8.42",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN008_D",
+        "label": "D",
+        "html": "8.34",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN008_E",
+        "label": "E",
+        "html": "8.91",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN008_B"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "RIGN009",
+    "title": "rightQ-9",
+    "source": "generated",
+    "prompt_html": "Incubation periods of birds are approximately normally distributed with a mean of 30 days and a standard deviation of 3 days. Find a value k such that <strong>P(X ≥ k) = 0.10</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN009_A",
+        "label": "A",
+        "html": "33.90",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN009_B",
+        "label": "B",
+        "html": "33.84",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN009_C",
+        "label": "C",
+        "html": "32.90",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN009_D",
+        "label": "D",
+        "html": "34.03",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN009_E",
+        "label": "E",
+        "html": "34.71",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN009_B"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "RIGN010",
+    "title": "rightQ-10",
+    "source": "generated",
+    "prompt_html": "Enzyme activity rates are approximately normally distributed with a mean of 100 units and a standard deviation of 12 units. Find a value k such that <strong>P(X ≥ k) = 0.10</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN010_A",
+        "label": "A",
+        "html": "114.75",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN010_B",
+        "label": "B",
+        "html": "115.05",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN010_C",
+        "label": "C",
+        "html": "111.78",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN010_D",
+        "label": "D",
+        "html": "112.03",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN010_E",
+        "label": "E",
+        "html": "115.38",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "RIGN010_E"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "RIGN011",
+    "title": "rightQ-11",
+    "source": "generated",
+    "prompt_html": "Diastolic blood pressures of adults are approximately normally distributed with a mean of 80 mmHg and a standard deviation of 10 mmHg. Find a value k such that <strong>P(X ≥ k) = 0.95</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN011_A",
+        "label": "A",
+        "html": "63.55",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN011_B",
+        "label": "B",
+        "html": "61.12",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN011_C",
+        "label": "C",
+        "html": "61.91",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN011_D",
+        "label": "D",
+        "html": "61.67",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN011_E",
+        "label": "E",
+        "html": "60.93",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN011_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "RIGN012",
+    "title": "rightQ-12",
+    "source": "generated",
+    "prompt_html": "Blood glucose levels are approximately normally distributed with a mean of 90 mg/dL and a standard deviation of 12 mg/dL. Find a value k such that <strong>P(X ≥ k) = 0.95</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN012_A",
+        "label": "A",
+        "html": "69.46",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN012_B",
+        "label": "B",
+        "html": "71.15",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN012_C",
+        "label": "C",
+        "html": "68.12",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN012_D",
+        "label": "D",
+        "html": "70.26",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN012_E",
+        "label": "E",
+        "html": "72.01",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN012_D"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "RIGN013",
+    "title": "rightQ-13",
+    "source": "generated",
+    "prompt_html": "Drug absorption times are approximately normally distributed with a mean of 50 minutes and a standard deviation of 7 minutes. Find a value k such that <strong>P(X ≥ k) = 0.95</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN013_A",
+        "label": "A",
+        "html": "37.98",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN013_B",
+        "label": "B",
+        "html": "36.50",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN013_C",
+        "label": "C",
+        "html": "36.96",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN013_D",
+        "label": "D",
+        "html": "38.49",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN013_E",
+        "label": "E",
+        "html": "38.68",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN013_D"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "RIGN014",
+    "title": "rightQ-14",
+    "source": "generated",
+    "prompt_html": "Stress scale scores are approximately normally distributed with a mean of 30 points and a standard deviation of 5 points. Find a value k such that <strong>P(X ≥ k) = 0.95</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN014_A",
+        "label": "A",
+        "html": "23.49",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN014_B",
+        "label": "B",
+        "html": "23.37",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN014_C",
+        "label": "C",
+        "html": "22.03",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN014_D",
+        "label": "D",
+        "html": "21.60",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN014_E",
+        "label": "E",
+        "html": "21.78",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "RIGN014_E"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "RIGN015",
+    "title": "rightQ-15",
+    "source": "generated",
+    "prompt_html": "Attention spans are approximately normally distributed with a mean of 45 minutes and a standard deviation of 6 minutes. Find a value k such that <strong>P(X ≥ k) = 0.90</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN015_A",
+        "label": "A",
+        "html": "37.63",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN015_B",
+        "label": "B",
+        "html": "37.31",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN015_C",
+        "label": "C",
+        "html": "38.61",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN015_D",
+        "label": "D",
+        "html": "36.49",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN015_E",
+        "label": "E",
+        "html": "37.66",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN015_B"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "RIGN016",
+    "title": "rightQ-16",
+    "source": "generated",
+    "prompt_html": "Visual search times are approximately normally distributed with a mean of 35 seconds and a standard deviation of 5 seconds. Find a value k such that <strong>P(X ≥ k) = 0.05</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN016_A",
+        "label": "A",
+        "html": "43.22",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN016_B",
+        "label": "B",
+        "html": "42.66",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN016_C",
+        "label": "C",
+        "html": "43.28",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN016_D",
+        "label": "D",
+        "html": "41.64",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN016_E",
+        "label": "E",
+        "html": "42.69",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN016_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "RIGN017",
+    "title": "rightQ-17",
+    "source": "generated",
+    "prompt_html": "Seed germination times are approximately normally distributed with a mean of 72 hours and a standard deviation of 9 hours. Find a value k such that <strong>P(X ≥ k) = 0.05</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN017_A",
+        "label": "A",
+        "html": "86.03",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN017_B",
+        "label": "B",
+        "html": "86.80",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN017_C",
+        "label": "C",
+        "html": "87.41",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN017_D",
+        "label": "D",
+        "html": "86.00",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN017_E",
+        "label": "E",
+        "html": "85.60",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN017_B"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "RIGN018",
+    "title": "rightQ-18",
+    "source": "generated",
+    "prompt_html": "Fish lengths are approximately normally distributed with a mean of 25 cm and a standard deviation of 4 cm. Find a value k such that <strong>P(X ≥ k) = 0.90</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN018_A",
+        "label": "A",
+        "html": "19.19",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN018_B",
+        "label": "B",
+        "html": "18.68",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN018_C",
+        "label": "C",
+        "html": "19.87",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN018_D",
+        "label": "D",
+        "html": "19.27",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN018_E",
+        "label": "E",
+        "html": "21.04",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN018_C"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "RIGN019",
+    "title": "rightQ-19",
+    "source": "generated",
+    "prompt_html": "Tree ring widths are approximately normally distributed with a mean of 5 mm and a standard deviation of 1 mm. Find a value k such that <strong>P(X ≥ k) = 0.90</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN019_A",
+        "label": "A",
+        "html": "3.95",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN019_B",
+        "label": "B",
+        "html": "3.65",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN019_C",
+        "label": "C",
+        "html": "3.72",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN019_D",
+        "label": "D",
+        "html": "3.39",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN019_E",
+        "label": "E",
+        "html": "3.64",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN019_C"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "RIGN020",
+    "title": "rightQ-20",
+    "source": "generated",
+    "prompt_html": "Cell growth times are approximately normally distributed with a mean of 20 hours and a standard deviation of 2 hours. Find a value k such that <strong>P(X ≥ k) = 0.95</strong>. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "RIGN020_A",
+        "label": "A",
+        "html": "16.46",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN020_B",
+        "label": "B",
+        "html": "17.38",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN020_C",
+        "label": "C",
+        "html": "16.23",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN020_D",
+        "label": "D",
+        "html": "16.71",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN020_E",
+        "label": "E",
+        "html": "16.18",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN020_D"
+    ]
+  }
+]

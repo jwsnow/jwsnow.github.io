@@ -1,0 +1,842 @@
+[
+  {
+    "index": 1,
+    "ident": "MIDN001",
+    "title": "middleQ-1",
+    "source": "generated",
+    "prompt_html": "Systolic blood pressures of adults are approximately normally distributed with a mean of 120 mmHg and a standard deviation of 15 mmHg. Find two values that contain the <strong>middle 95% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN001_A",
+        "label": "A",
+        "html": "86.30, 146.58",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN001_B",
+        "label": "B",
+        "html": "93.32, 151.25",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN001_C",
+        "label": "C",
+        "html": "89.10, 148.72",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN001_D",
+        "label": "D",
+        "html": "86.67, 146.75",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN001_E",
+        "label": "E",
+        "html": "90.60, 149.40",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "MIDN001_E"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "MIDN002",
+    "title": "middleQ-2",
+    "source": "generated",
+    "prompt_html": "Cholesterol levels of patients are approximately normally distributed with a mean of 200 mg/dL and a standard deviation of 25 mg/dL. Find two values that contain the <strong>middle 90% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN002_A",
+        "label": "A",
+        "html": "158.88, 241.12",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN002_B",
+        "label": "B",
+        "html": "164.23, 246.26",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN002_C",
+        "label": "C",
+        "html": "158.10, 234.07",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN002_D",
+        "label": "D",
+        "html": "166.90, 241.72",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN002_E",
+        "label": "E",
+        "html": "161.05, 232.80",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN002_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "MIDN003",
+    "title": "middleQ-3",
+    "source": "generated",
+    "prompt_html": "Reaction times to a visual stimulus are approximately normally distributed with a mean of 250 ms and a standard deviation of 40 ms. Find two values that contain the <strong>middle 95% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN003_A",
+        "label": "A",
+        "html": "165.09, 325.55",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN003_B",
+        "label": "B",
+        "html": "183.34, 324.60",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN003_C",
+        "label": "C",
+        "html": "175.80, 334.46",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN003_D",
+        "label": "D",
+        "html": "171.60, 328.40",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN003_E",
+        "label": "E",
+        "html": "181.14, 328.50",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN003_D"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "MIDN004",
+    "title": "middleQ-4",
+    "source": "generated",
+    "prompt_html": "IQ scores of college students are approximately normally distributed with a mean of 100 points and a standard deviation of 15 points. Find two values that contain the <strong>middle 95% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN004_A",
+        "label": "A",
+        "html": "69.07, 128.54",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN004_B",
+        "label": "B",
+        "html": "65.60, 133.62",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN004_C",
+        "label": "C",
+        "html": "70.60, 129.40",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN004_D",
+        "label": "D",
+        "html": "72.61, 131.23",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN004_E",
+        "label": "E",
+        "html": "67.58, 124.29",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN004_C"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "MIDN005",
+    "title": "middleQ-5",
+    "source": "generated",
+    "prompt_html": "Memory recall scores are approximately normally distributed with a mean of 50 points and a standard deviation of 10 points. Find two values that contain the <strong>middle 90% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN005_A",
+        "label": "A",
+        "html": "36.74, 65.74",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN005_B",
+        "label": "B",
+        "html": "30.93, 66.54",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN005_C",
+        "label": "C",
+        "html": "35.61, 67.37",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN005_D",
+        "label": "D",
+        "html": "33.55, 66.45",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN005_E",
+        "label": "E",
+        "html": "36.36, 64.69",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN005_D"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "MIDN006",
+    "title": "middleQ-6",
+    "source": "generated",
+    "prompt_html": "Test completion times are approximately normally distributed with a mean of 60 minutes and a standard deviation of 8 minutes. Find two values that contain the <strong>middle 95% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN006_A",
+        "label": "A",
+        "html": "43.16, 77.67",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN006_B",
+        "label": "B",
+        "html": "41.99, 77.35",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN006_C",
+        "label": "C",
+        "html": "44.32, 75.68",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN006_D",
+        "label": "D",
+        "html": "45.82, 74.99",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN006_E",
+        "label": "E",
+        "html": "43.04, 75.92",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN006_C"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "MIDN007",
+    "title": "middleQ-7",
+    "source": "generated",
+    "prompt_html": "Weights of lab rats are approximately normally distributed with a mean of 300 grams and a standard deviation of 20 grams. Find two values that contain the <strong>middle 95% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN007_A",
+        "label": "A",
+        "html": "258.27, 332.71",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN007_B",
+        "label": "B",
+        "html": "259.95, 336.98",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN007_C",
+        "label": "C",
+        "html": "260.80, 339.20",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN007_D",
+        "label": "D",
+        "html": "260.00, 336.67",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN007_E",
+        "label": "E",
+        "html": "256.41, 340.74",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN007_C"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "MIDN008",
+    "title": "middleQ-8",
+    "source": "generated",
+    "prompt_html": "Leaf lengths are approximately normally distributed with a mean of 12 cm and a standard deviation of 2 cm. Find two values that contain the <strong>middle 90% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN008_A",
+        "label": "A",
+        "html": "8.31, 15.88",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN008_B",
+        "label": "B",
+        "html": "8.48, 15.79",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN008_C",
+        "label": "C",
+        "html": "8.09, 15.02",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN008_D",
+        "label": "D",
+        "html": "9.33, 15.06",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN008_E",
+        "label": "E",
+        "html": "8.71, 15.29",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "MIDN008_E"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "MIDN009",
+    "title": "middleQ-9",
+    "source": "generated",
+    "prompt_html": "Incubation periods of birds are approximately normally distributed with a mean of 30 days and a standard deviation of 3 days. Find two values that contain the <strong>middle 90% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN009_A",
+        "label": "A",
+        "html": "25.07, 34.93",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN009_B",
+        "label": "B",
+        "html": "24.03, 35.23",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN009_C",
+        "label": "C",
+        "html": "24.90, 34.17",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN009_D",
+        "label": "D",
+        "html": "24.93, 35.45",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN009_E",
+        "label": "E",
+        "html": "24.37, 35.91",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN009_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "MIDN010",
+    "title": "middleQ-10",
+    "source": "generated",
+    "prompt_html": "Enzyme activity rates are approximately normally distributed with a mean of 100 units and a standard deviation of 12 units. Find two values that contain the <strong>middle 95% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN010_A",
+        "label": "A",
+        "html": "76.48, 123.52",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN010_B",
+        "label": "B",
+        "html": "75.31, 121.62",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN010_C",
+        "label": "C",
+        "html": "75.76, 120.03",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN010_D",
+        "label": "D",
+        "html": "75.77, 121.76",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN010_E",
+        "label": "E",
+        "html": "74.32, 125.40",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN010_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "MIDN011",
+    "title": "middleQ-11",
+    "source": "generated",
+    "prompt_html": "Diastolic blood pressures of adults are approximately normally distributed with a mean of 80 mmHg and a standard deviation of 10 mmHg. Find two values that contain the <strong>middle 95% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN011_A",
+        "label": "A",
+        "html": "61.91, 98.30",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN011_B",
+        "label": "B",
+        "html": "58.24, 96.81",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN011_C",
+        "label": "C",
+        "html": "59.09, 96.74",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN011_D",
+        "label": "D",
+        "html": "60.43, 97.68",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN011_E",
+        "label": "E",
+        "html": "60.40, 99.60",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "MIDN011_E"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "MIDN012",
+    "title": "middleQ-12",
+    "source": "generated",
+    "prompt_html": "Blood glucose levels are approximately normally distributed with a mean of 90 mg/dL and a standard deviation of 12 mg/dL. Find two values that contain the <strong>middle 95% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN012_A",
+        "label": "A",
+        "html": "68.30, 115.84",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN012_B",
+        "label": "B",
+        "html": "69.38, 110.88",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN012_C",
+        "label": "C",
+        "html": "68.15, 110.25",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN012_D",
+        "label": "D",
+        "html": "66.48, 113.52",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN012_E",
+        "label": "E",
+        "html": "66.30, 115.92",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN012_D"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "MIDN013",
+    "title": "middleQ-13",
+    "source": "generated",
+    "prompt_html": "Drug absorption times are approximately normally distributed with a mean of 50 minutes and a standard deviation of 7 minutes. Find two values that contain the <strong>middle 95% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN013_A",
+        "label": "A",
+        "html": "33.85, 62.43",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN013_B",
+        "label": "B",
+        "html": "36.28, 63.72",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN013_C",
+        "label": "C",
+        "html": "38.24, 63.86",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN013_D",
+        "label": "D",
+        "html": "36.70, 63.63",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN013_E",
+        "label": "E",
+        "html": "34.87, 65.68",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN013_B"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "MIDN014",
+    "title": "middleQ-14",
+    "source": "generated",
+    "prompt_html": "Stress scale scores are approximately normally distributed with a mean of 30 points and a standard deviation of 5 points. Find two values that contain the <strong>middle 90% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN014_A",
+        "label": "A",
+        "html": "22.03, 36.71",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN014_B",
+        "label": "B",
+        "html": "21.78, 38.22",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN014_C",
+        "label": "C",
+        "html": "21.45, 38.98",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN014_D",
+        "label": "D",
+        "html": "20.07, 37.28",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN014_E",
+        "label": "E",
+        "html": "23.24, 37.68",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN014_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "MIDN015",
+    "title": "middleQ-15",
+    "source": "generated",
+    "prompt_html": "Attention spans are approximately normally distributed with a mean of 45 minutes and a standard deviation of 6 minutes. Find two values that contain the <strong>middle 95% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN015_A",
+        "label": "A",
+        "html": "33.78, 56.85",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN015_B",
+        "label": "B",
+        "html": "32.82, 55.74",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN015_C",
+        "label": "C",
+        "html": "33.24, 56.76",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN015_D",
+        "label": "D",
+        "html": "32.78, 54.74",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN015_E",
+        "label": "E",
+        "html": "34.42, 55.39",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN015_C"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "MIDN016",
+    "title": "middleQ-16",
+    "source": "generated",
+    "prompt_html": "Visual search times are approximately normally distributed with a mean of 35 seconds and a standard deviation of 5 seconds. Find two values that contain the <strong>middle 90% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN016_A",
+        "label": "A",
+        "html": "26.86, 42.84",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN016_B",
+        "label": "B",
+        "html": "26.78, 43.22",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN016_C",
+        "label": "C",
+        "html": "28.47, 41.58",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN016_D",
+        "label": "D",
+        "html": "26.14, 44.24",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN016_E",
+        "label": "E",
+        "html": "27.05, 44.51",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN016_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "MIDN017",
+    "title": "middleQ-17",
+    "source": "generated",
+    "prompt_html": "Seed germination times are approximately normally distributed with a mean of 72 hours and a standard deviation of 9 hours. Find two values that contain the <strong>middle 95% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN017_A",
+        "label": "A",
+        "html": "56.80, 91.52",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN017_B",
+        "label": "B",
+        "html": "55.82, 92.67",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN017_C",
+        "label": "C",
+        "html": "53.15, 87.93",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN017_D",
+        "label": "D",
+        "html": "57.10, 87.20",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN017_E",
+        "label": "E",
+        "html": "54.36, 89.64",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "MIDN017_E"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "MIDN018",
+    "title": "middleQ-18",
+    "source": "generated",
+    "prompt_html": "Fish lengths are approximately normally distributed with a mean of 25 cm and a standard deviation of 4 cm. Find two values that contain the <strong>middle 90% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN018_A",
+        "label": "A",
+        "html": "17.44, 31.11",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN018_B",
+        "label": "B",
+        "html": "17.03, 32.71",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN018_C",
+        "label": "C",
+        "html": "18.42, 31.58",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN018_D",
+        "label": "D",
+        "html": "18.58, 30.37",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN018_E",
+        "label": "E",
+        "html": "19.70, 30.47",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN018_C"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "MIDN019",
+    "title": "middleQ-19",
+    "source": "generated",
+    "prompt_html": "Tree ring widths are approximately normally distributed with a mean of 5 mm and a standard deviation of 1 mm. Find two values that contain the <strong>middle 95% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN019_A",
+        "label": "A",
+        "html": "3.26, 7.04",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN019_B",
+        "label": "B",
+        "html": "2.95, 7.13",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN019_C",
+        "label": "C",
+        "html": "2.69, 7.06",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN019_D",
+        "label": "D",
+        "html": "3.04, 6.96",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN019_E",
+        "label": "E",
+        "html": "3.15, 7.11",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN019_D"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "MIDN020",
+    "title": "middleQ-20",
+    "source": "generated",
+    "prompt_html": "Cell growth times are approximately normally distributed with a mean of 20 hours and a standard deviation of 2 hours. Find two values that contain the <strong>middle 95% of observations</strong>. Round each value to two decimals.",
+    "choices": [
+      {
+        "id": "MIDN020_A",
+        "label": "A",
+        "html": "15.94, 23.59",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN020_B",
+        "label": "B",
+        "html": "16.55, 23.39",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN020_C",
+        "label": "C",
+        "html": "16.08, 23.92",
+        "is_correct": true
+      },
+      {
+        "id": "MIDN020_D",
+        "label": "D",
+        "html": "16.65, 23.22",
+        "is_correct": false
+      },
+      {
+        "id": "MIDN020_E",
+        "label": "E",
+        "html": "15.65, 24.61",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "MIDN020_C"
+    ]
+  }
+]

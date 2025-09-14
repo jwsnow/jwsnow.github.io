@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "a3fb28242be178044bbf4ef24389fbb3",
+    "title": "Q13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is either 2 or 5 and the second die is 1, 2, or 3?</p>",
+    "choices": [
+      {
+        "id": "a3fb28242be178044bbf4ef24389fbb3_A",
+        "label": "A",
+        "html": "0.1667",
+        "is_correct": true
+      },
+      {
+        "id": "a3fb28242be178044bbf4ef24389fbb3_B",
+        "label": "B",
+        "html": "0.1111",
+        "is_correct": false
+      },
+      {
+        "id": "a3fb28242be178044bbf4ef24389fbb3_C",
+        "label": "C",
+        "html": "0.0833",
+        "is_correct": false
+      },
+      {
+        "id": "a3fb28242be178044bbf4ef24389fbb3_D",
+        "label": "D",
+        "html": "0.3333",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a3fb28242be178044bbf4ef24389fbb3_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "9a39c8981bcdb21b8e97bc62b0095044",
+    "title": "Q14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is divisible by 2 or 3 and the second die is prime?</p>",
+    "choices": [
+      {
+        "id": "9a39c8981bcdb21b8e97bc62b0095044_A",
+        "label": "A",
+        "html": "0.1667",
+        "is_correct": false
+      },
+      {
+        "id": "9a39c8981bcdb21b8e97bc62b0095044_B",
+        "label": "B",
+        "html": "<p>0.3333</p>",
+        "is_correct": true
+      },
+      {
+        "id": "9a39c8981bcdb21b8e97bc62b0095044_C",
+        "label": "C",
+        "html": "0.6667",
+        "is_correct": false
+      },
+      {
+        "id": "9a39c8981bcdb21b8e97bc62b0095044_D",
+        "label": "D",
+        "html": "0.2500",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9a39c8981bcdb21b8e97bc62b0095044_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "ec7cd46b43c6be78aaea6ac2ca460381",
+    "title": "Q20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is 5 and the second die is not prime?</p>",
+    "choices": [
+      {
+        "id": "ec7cd46b43c6be78aaea6ac2ca460381_A",
+        "label": "A",
+        "html": "0.1667",
+        "is_correct": false
+      },
+      {
+        "id": "ec7cd46b43c6be78aaea6ac2ca460381_B",
+        "label": "B",
+        "html": "0.1111",
+        "is_correct": false
+      },
+      {
+        "id": "ec7cd46b43c6be78aaea6ac2ca460381_C",
+        "label": "C",
+        "html": "0.0833",
+        "is_correct": true
+      },
+      {
+        "id": "ec7cd46b43c6be78aaea6ac2ca460381_D",
+        "label": "D",
+        "html": "0.0556",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ec7cd46b43c6be78aaea6ac2ca460381_C"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "229f6e93849bd54bac7b1e1a08b17904",
+    "title": "Q19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is a multiple of 2 and the second die is a multiple of 3?</p>",
+    "choices": [
+      {
+        "id": "229f6e93849bd54bac7b1e1a08b17904_A",
+        "label": "A",
+        "html": "0.3333",
+        "is_correct": false
+      },
+      {
+        "id": "229f6e93849bd54bac7b1e1a08b17904_B",
+        "label": "B",
+        "html": "0.1667",
+        "is_correct": true
+      },
+      {
+        "id": "229f6e93849bd54bac7b1e1a08b17904_C",
+        "label": "C",
+        "html": "0.1111",
+        "is_correct": false
+      },
+      {
+        "id": "229f6e93849bd54bac7b1e1a08b17904_D",
+        "label": "D",
+        "html": "0.0833",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "229f6e93849bd54bac7b1e1a08b17904_B"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "eb1151b500c74485fb4ca271437d4926",
+    "title": "Q18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is at most 2 and the second die is odd?</p>",
+    "choices": [
+      {
+        "id": "eb1151b500c74485fb4ca271437d4926_A",
+        "label": "A",
+        "html": "0.1667",
+        "is_correct": true
+      },
+      {
+        "id": "eb1151b500c74485fb4ca271437d4926_B",
+        "label": "B",
+        "html": "0.1111",
+        "is_correct": false
+      },
+      {
+        "id": "eb1151b500c74485fb4ca271437d4926_C",
+        "label": "C",
+        "html": "0.0833",
+        "is_correct": false
+      },
+      {
+        "id": "eb1151b500c74485fb4ca271437d4926_D",
+        "label": "D",
+        "html": "0.2500",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "eb1151b500c74485fb4ca271437d4926_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "fa576a86c7785370ac03b177586e11f2",
+    "title": "Q17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is 4 or 5 and the second die is 1?</p>",
+    "choices": [
+      {
+        "id": "fa576a86c7785370ac03b177586e11f2_A",
+        "label": "A",
+        "html": "0.0833",
+        "is_correct": false
+      },
+      {
+        "id": "fa576a86c7785370ac03b177586e11f2_B",
+        "label": "B",
+        "html": "0.0556",
+        "is_correct": true
+      },
+      {
+        "id": "fa576a86c7785370ac03b177586e11f2_C",
+        "label": "C",
+        "html": "0.1111",
+        "is_correct": false
+      },
+      {
+        "id": "fa576a86c7785370ac03b177586e11f2_D",
+        "label": "D",
+        "html": "0.0278",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "fa576a86c7785370ac03b177586e11f2_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "46e763a4b31437bfa52830995a199e64",
+    "title": "Q16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is 1 or 6 and the second die is even?</p>",
+    "choices": [
+      {
+        "id": "46e763a4b31437bfa52830995a199e64_A",
+        "label": "A",
+        "html": "0.0833",
+        "is_correct": false
+      },
+      {
+        "id": "46e763a4b31437bfa52830995a199e64_B",
+        "label": "B",
+        "html": "0.1667",
+        "is_correct": true
+      },
+      {
+        "id": "46e763a4b31437bfa52830995a199e64_C",
+        "label": "C",
+        "html": "0.1111",
+        "is_correct": false
+      },
+      {
+        "id": "46e763a4b31437bfa52830995a199e64_D",
+        "label": "D",
+        "html": "0.2500",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "46e763a4b31437bfa52830995a199e64_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "6ddee3c75aa2166358841369d95ccbe6",
+    "title": "Q15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is neither 2 nor 5 and the second die is at least 3?</p>",
+    "choices": [
+      {
+        "id": "6ddee3c75aa2166358841369d95ccbe6_A",
+        "label": "A",
+        "html": "0.3333",
+        "is_correct": false
+      },
+      {
+        "id": "6ddee3c75aa2166358841369d95ccbe6_B",
+        "label": "B",
+        "html": "0.4444",
+        "is_correct": true
+      },
+      {
+        "id": "6ddee3c75aa2166358841369d95ccbe6_C",
+        "label": "C",
+        "html": "0.5000",
+        "is_correct": false
+      },
+      {
+        "id": "6ddee3c75aa2166358841369d95ccbe6_D",
+        "label": "D",
+        "html": "0.4167",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6ddee3c75aa2166358841369d95ccbe6_B"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "2df8ab796fec41b7004647a65d7b924f",
+    "title": "Q12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is not prime and the second die is even?</p>",
+    "choices": [
+      {
+        "id": "2df8ab796fec41b7004647a65d7b924f_A",
+        "label": "A",
+        "html": "0.2500",
+        "is_correct": true
+      },
+      {
+        "id": "2df8ab796fec41b7004647a65d7b924f_B",
+        "label": "B",
+        "html": "0.3333",
+        "is_correct": false
+      },
+      {
+        "id": "2df8ab796fec41b7004647a65d7b924f_C",
+        "label": "C",
+        "html": "0.1667",
+        "is_correct": false
+      },
+      {
+        "id": "2df8ab796fec41b7004647a65d7b924f_D",
+        "label": "D",
+        "html": "0.4167",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2df8ab796fec41b7004647a65d7b924f_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "32884890c32f0ddb64ca93087331acde",
+    "title": "Q11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is a square number and the second die is odd?</p>",
+    "choices": [
+      {
+        "id": "32884890c32f0ddb64ca93087331acde_A",
+        "label": "A",
+        "html": "0.0833",
+        "is_correct": false
+      },
+      {
+        "id": "32884890c32f0ddb64ca93087331acde_B",
+        "label": "B",
+        "html": "0.1667",
+        "is_correct": true
+      },
+      {
+        "id": "32884890c32f0ddb64ca93087331acde_C",
+        "label": "C",
+        "html": "0.1111",
+        "is_correct": false
+      },
+      {
+        "id": "32884890c32f0ddb64ca93087331acde_D",
+        "label": "D",
+        "html": "0.2500",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "32884890c32f0ddb64ca93087331acde_B"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "ac82c67b324336c77fb36d58cae2b27f",
+    "title": "Q10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is at most 3 and the second die is at least 4?</p>",
+    "choices": [
+      {
+        "id": "ac82c67b324336c77fb36d58cae2b27f_A",
+        "label": "A",
+        "html": "0.1667",
+        "is_correct": false
+      },
+      {
+        "id": "ac82c67b324336c77fb36d58cae2b27f_B",
+        "label": "B",
+        "html": "0.1111",
+        "is_correct": false
+      },
+      {
+        "id": "ac82c67b324336c77fb36d58cae2b27f_C",
+        "label": "C",
+        "html": "0.2500",
+        "is_correct": true
+      },
+      {
+        "id": "ac82c67b324336c77fb36d58cae2b27f_D",
+        "label": "D",
+        "html": "0.3333",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ac82c67b324336c77fb36d58cae2b27f_C"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "09367a1b878802199df63c6a1105d9e2",
+    "title": "Q9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is prime and the second die is composite?</p>",
+    "choices": [
+      {
+        "id": "09367a1b878802199df63c6a1105d9e2_A",
+        "label": "A",
+        "html": "0.0833",
+        "is_correct": false
+      },
+      {
+        "id": "09367a1b878802199df63c6a1105d9e2_B",
+        "label": "B",
+        "html": "0.1111",
+        "is_correct": false
+      },
+      {
+        "id": "09367a1b878802199df63c6a1105d9e2_C",
+        "label": "C",
+        "html": "0.1667",
+        "is_correct": true
+      },
+      {
+        "id": "09367a1b878802199df63c6a1105d9e2_D",
+        "label": "D",
+        "html": "0.2500",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "09367a1b878802199df63c6a1105d9e2_C"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "1364ea4168afec64112c11b1c71a26a1",
+    "title": "Q8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is 3 and the second die is 5?</p>",
+    "choices": [
+      {
+        "id": "1364ea4168afec64112c11b1c71a26a1_A",
+        "label": "A",
+        "html": "0.1667",
+        "is_correct": false
+      },
+      {
+        "id": "1364ea4168afec64112c11b1c71a26a1_B",
+        "label": "B",
+        "html": "0.0833",
+        "is_correct": false
+      },
+      {
+        "id": "1364ea4168afec64112c11b1c71a26a1_C",
+        "label": "C",
+        "html": "0.0556",
+        "is_correct": false
+      },
+      {
+        "id": "1364ea4168afec64112c11b1c71a26a1_D",
+        "label": "D",
+        "html": "0.0278",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "1364ea4168afec64112c11b1c71a26a1_D"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "a31dcec60bf137b8606348cff3a44998",
+    "title": "Q7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is not 1 and the second die is not 6?</p>",
+    "choices": [
+      {
+        "id": "a31dcec60bf137b8606348cff3a44998_A",
+        "label": "A",
+        "html": "0.6667",
+        "is_correct": false
+      },
+      {
+        "id": "a31dcec60bf137b8606348cff3a44998_B",
+        "label": "B",
+        "html": "0.6944",
+        "is_correct": true
+      },
+      {
+        "id": "a31dcec60bf137b8606348cff3a44998_C",
+        "label": "C",
+        "html": "0.7500",
+        "is_correct": false
+      },
+      {
+        "id": "a31dcec60bf137b8606348cff3a44998_D",
+        "label": "D",
+        "html": "0.8333",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a31dcec60bf137b8606348cff3a44998_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "1fccdc02010e1b5fe39d795add70ec2f",
+    "title": "Q6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is a multiple of 3 and the second die is a multiple of 4?</p>",
+    "choices": [
+      {
+        "id": "1fccdc02010e1b5fe39d795add70ec2f_A",
+        "label": "A",
+        "html": "0.0833",
+        "is_correct": false
+      },
+      {
+        "id": "1fccdc02010e1b5fe39d795add70ec2f_B",
+        "label": "B",
+        "html": "0.0556",
+        "is_correct": true
+      },
+      {
+        "id": "1fccdc02010e1b5fe39d795add70ec2f_C",
+        "label": "C",
+        "html": "0.1111",
+        "is_correct": false
+      },
+      {
+        "id": "1fccdc02010e1b5fe39d795add70ec2f_D",
+        "label": "D",
+        "html": "0.0417",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1fccdc02010e1b5fe39d795add70ec2f_B"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "c5a7a59b19d0b311cc258fea03a47267",
+    "title": "Q5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is at least 4 and the second die is at most 2?</p>",
+    "choices": [
+      {
+        "id": "c5a7a59b19d0b311cc258fea03a47267_A",
+        "label": "A",
+        "html": "0.3333",
+        "is_correct": false
+      },
+      {
+        "id": "c5a7a59b19d0b311cc258fea03a47267_B",
+        "label": "B",
+        "html": "0.1667",
+        "is_correct": true
+      },
+      {
+        "id": "c5a7a59b19d0b311cc258fea03a47267_C",
+        "label": "C",
+        "html": "0.2500",
+        "is_correct": false
+      },
+      {
+        "id": "c5a7a59b19d0b311cc258fea03a47267_D",
+        "label": "D",
+        "html": "0.1389",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c5a7a59b19d0b311cc258fea03a47267_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "f77feef97a529a1cf7cd1b9e9d0e82ab",
+    "title": "Q4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is 6 and the second die is 1?</p>",
+    "choices": [
+      {
+        "id": "f77feef97a529a1cf7cd1b9e9d0e82ab_A",
+        "label": "A",
+        "html": "0.0833",
+        "is_correct": false
+      },
+      {
+        "id": "f77feef97a529a1cf7cd1b9e9d0e82ab_B",
+        "label": "B",
+        "html": "0.0556",
+        "is_correct": false
+      },
+      {
+        "id": "f77feef97a529a1cf7cd1b9e9d0e82ab_C",
+        "label": "C",
+        "html": "0.0278",
+        "is_correct": true
+      },
+      {
+        "id": "f77feef97a529a1cf7cd1b9e9d0e82ab_D",
+        "label": "D",
+        "html": "0.1667",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f77feef97a529a1cf7cd1b9e9d0e82ab_C"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "27fef86f4e7eb79d5ce01e16f2ed9912",
+    "title": "Q3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is even and the second die is even?</p>",
+    "choices": [
+      {
+        "id": "27fef86f4e7eb79d5ce01e16f2ed9912_A",
+        "label": "A",
+        "html": "0.3333",
+        "is_correct": false
+      },
+      {
+        "id": "27fef86f4e7eb79d5ce01e16f2ed9912_B",
+        "label": "B",
+        "html": "0.1667",
+        "is_correct": false
+      },
+      {
+        "id": "27fef86f4e7eb79d5ce01e16f2ed9912_C",
+        "label": "C",
+        "html": "0.2500",
+        "is_correct": true
+      },
+      {
+        "id": "27fef86f4e7eb79d5ce01e16f2ed9912_D",
+        "label": "D",
+        "html": "0.4167",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "27fef86f4e7eb79d5ce01e16f2ed9912_C"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "2c2820411526d92c0700bccf79d62abc",
+    "title": "Q2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is odd and the second die is prime?</p>",
+    "choices": [
+      {
+        "id": "2c2820411526d92c0700bccf79d62abc_A",
+        "label": "A",
+        "html": "0.3333",
+        "is_correct": false
+      },
+      {
+        "id": "2c2820411526d92c0700bccf79d62abc_B",
+        "label": "B",
+        "html": "0.1667",
+        "is_correct": false
+      },
+      {
+        "id": "2c2820411526d92c0700bccf79d62abc_C",
+        "label": "C",
+        "html": "0.2500",
+        "is_correct": true
+      },
+      {
+        "id": "2c2820411526d92c0700bccf79d62abc_D",
+        "label": "D",
+        "html": "0.3750",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2c2820411526d92c0700bccf79d62abc_C"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "14510992934d4a40f7089bc8062d5d5f",
+    "title": "Q1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the first die is 2 and the second die is even?</p>",
+    "choices": [
+      {
+        "id": "14510992934d4a40f7089bc8062d5d5f_A",
+        "label": "A",
+        "html": "0.1667",
+        "is_correct": false
+      },
+      {
+        "id": "14510992934d4a40f7089bc8062d5d5f_B",
+        "label": "B",
+        "html": "0.1111",
+        "is_correct": false
+      },
+      {
+        "id": "14510992934d4a40f7089bc8062d5d5f_C",
+        "label": "C",
+        "html": "0.0833",
+        "is_correct": true
+      },
+      {
+        "id": "14510992934d4a40f7089bc8062d5d5f_D",
+        "label": "D",
+        "html": "0.2500",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "14510992934d4a40f7089bc8062d5d5f_C"
+    ]
+  }
+]

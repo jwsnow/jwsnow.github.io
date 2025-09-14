@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "50c797bffdd635008fe3b13d044e25ec",
+    "title": "Question 20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>36.2</td>\n<td>37.5</td>\n<td>36.2</td>\n<td>37.5</td>\n<td>37.5</td>\n<td>36.7</td>\n<td>38.1</td>\n<td>37.3</td>\n<td>36.2</td>\n<td>36.6</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "50c797bffdd635008fe3b13d044e25ec_A",
+        "label": "A",
+        "html": "36.2, 36.6",
+        "is_correct": false
+      },
+      {
+        "id": "50c797bffdd635008fe3b13d044e25ec_B",
+        "label": "B",
+        "html": "36.2, 37.5",
+        "is_correct": true
+      },
+      {
+        "id": "50c797bffdd635008fe3b13d044e25ec_C",
+        "label": "C",
+        "html": "37.3",
+        "is_correct": false
+      },
+      {
+        "id": "50c797bffdd635008fe3b13d044e25ec_D",
+        "label": "D",
+        "html": "37.5",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "50c797bffdd635008fe3b13d044e25ec_B"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "97dc615afa19caecc042aed1e595f556",
+    "title": "Question 19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>2.8</td>\n<td>2.8</td>\n<td>5.2</td>\n<td>3.7</td>\n<td>3.3</td>\n<td>3.5</td>\n<td>4</td>\n<td>2.8</td>\n<td>3.2</td>\n<td>5.2</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "97dc615afa19caecc042aed1e595f556_A",
+        "label": "A",
+        "html": "2.8, 3.2",
+        "is_correct": false
+      },
+      {
+        "id": "97dc615afa19caecc042aed1e595f556_B",
+        "label": "B",
+        "html": "4",
+        "is_correct": false
+      },
+      {
+        "id": "97dc615afa19caecc042aed1e595f556_C",
+        "label": "C",
+        "html": "2.8",
+        "is_correct": true
+      },
+      {
+        "id": "97dc615afa19caecc042aed1e595f556_D",
+        "label": "D",
+        "html": "3.2, 5.2",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "97dc615afa19caecc042aed1e595f556_C"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "a9354c00fbda61d7d4ea001f831f0871",
+    "title": "Question 18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>21</td>\n<td>21</td>\n<td>30</td>\n<td>21</td>\n<td>30</td>\n<td>30</td>\n<td>26</td>\n<td>41</td>\n<td>18</td>\n<td>32</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "a9354c00fbda61d7d4ea001f831f0871_A",
+        "label": "A",
+        "html": "18",
+        "is_correct": false
+      },
+      {
+        "id": "a9354c00fbda61d7d4ea001f831f0871_B",
+        "label": "B",
+        "html": "26",
+        "is_correct": false
+      },
+      {
+        "id": "a9354c00fbda61d7d4ea001f831f0871_C",
+        "label": "C",
+        "html": "18, 21",
+        "is_correct": false
+      },
+      {
+        "id": "a9354c00fbda61d7d4ea001f831f0871_D",
+        "label": "D",
+        "html": "21, 30",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "a9354c00fbda61d7d4ea001f831f0871_D"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "43d3ca008f864b5ae95ba5cd4890b4df",
+    "title": "Question 17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>38.1</td>\n<td>36.3</td>\n<td>36.3</td>\n<td>36.3</td>\n<td>38.1</td>\n<td>36.1</td>\n<td>36.8</td>\n<td>37.9</td>\n<td>36.3</td>\n<td>36.8</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "43d3ca008f864b5ae95ba5cd4890b4df_A",
+        "label": "A",
+        "html": "36.3, 37.9",
+        "is_correct": false
+      },
+      {
+        "id": "43d3ca008f864b5ae95ba5cd4890b4df_B",
+        "label": "B",
+        "html": "36.1, 36.8",
+        "is_correct": false
+      },
+      {
+        "id": "43d3ca008f864b5ae95ba5cd4890b4df_C",
+        "label": "C",
+        "html": "38.1",
+        "is_correct": false
+      },
+      {
+        "id": "43d3ca008f864b5ae95ba5cd4890b4df_D",
+        "label": "D",
+        "html": "36.3",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "43d3ca008f864b5ae95ba5cd4890b4df_D"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "7e54ef74b89d6523e71b5d320737227e",
+    "title": "Question 16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>20</td>\n<td>23</td>\n<td>23</td>\n<td>20</td>\n<td>23</td>\n<td>50</td>\n<td>20</td>\n<td>37</td>\n<td>55</td>\n<td>50</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "7e54ef74b89d6523e71b5d320737227e_A",
+        "label": "A",
+        "html": "50",
+        "is_correct": false
+      },
+      {
+        "id": "7e54ef74b89d6523e71b5d320737227e_B",
+        "label": "B",
+        "html": "55",
+        "is_correct": false
+      },
+      {
+        "id": "7e54ef74b89d6523e71b5d320737227e_C",
+        "label": "C",
+        "html": "23, 55",
+        "is_correct": false
+      },
+      {
+        "id": "7e54ef74b89d6523e71b5d320737227e_D",
+        "label": "D",
+        "html": "20, 23",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "7e54ef74b89d6523e71b5d320737227e_D"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "d80de144c0e566e13645e972eb0dfa3a",
+    "title": "Question 15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>4.8</td>\n<td>8.2</td>\n<td>3.5</td>\n<td>4.8</td>\n<td>8.8</td>\n<td>8.7</td>\n<td>8.1</td>\n<td>5.3</td>\n<td>4.8</td>\n<td>7.8</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "d80de144c0e566e13645e972eb0dfa3a_A",
+        "label": "A",
+        "html": "8.8",
+        "is_correct": false
+      },
+      {
+        "id": "d80de144c0e566e13645e972eb0dfa3a_B",
+        "label": "B",
+        "html": "3.5, 8.7",
+        "is_correct": false
+      },
+      {
+        "id": "d80de144c0e566e13645e972eb0dfa3a_C",
+        "label": "C",
+        "html": "4.8",
+        "is_correct": true
+      },
+      {
+        "id": "d80de144c0e566e13645e972eb0dfa3a_D",
+        "label": "D",
+        "html": "8.7, 8.8",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d80de144c0e566e13645e972eb0dfa3a_C"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "5b3433885aac6c880df5b7b25da394a8",
+    "title": "Question 14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>3.7</td>\n<td>5.2</td>\n<td>9.2</td>\n<td>3.6</td>\n<td>7.2</td>\n<td>6.8</td>\n<td>9.2</td>\n<td>7</td>\n<td>5.2</td>\n<td>6.4</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "5b3433885aac6c880df5b7b25da394a8_A",
+        "label": "A",
+        "html": "6.4",
+        "is_correct": false
+      },
+      {
+        "id": "5b3433885aac6c880df5b7b25da394a8_B",
+        "label": "B",
+        "html": "5.2, 9.2",
+        "is_correct": true
+      },
+      {
+        "id": "5b3433885aac6c880df5b7b25da394a8_C",
+        "label": "C",
+        "html": "3.6",
+        "is_correct": false
+      },
+      {
+        "id": "5b3433885aac6c880df5b7b25da394a8_D",
+        "label": "D",
+        "html": "3.7, 7.2",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5b3433885aac6c880df5b7b25da394a8_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "ee54d2d5684ce0e8166f278344e96344",
+    "title": "Question 13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>36.5</td>\n<td>37.9</td>\n<td>38</td>\n<td>36.5</td>\n<td>36.8</td>\n<td>36.5</td>\n<td>37.4</td>\n<td>37</td>\n<td>36.5</td>\n<td>37.4</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "ee54d2d5684ce0e8166f278344e96344_A",
+        "label": "A",
+        "html": "36.5",
+        "is_correct": true
+      },
+      {
+        "id": "ee54d2d5684ce0e8166f278344e96344_B",
+        "label": "B",
+        "html": "37.9, 38",
+        "is_correct": false
+      },
+      {
+        "id": "ee54d2d5684ce0e8166f278344e96344_C",
+        "label": "C",
+        "html": "36.5, 36.8",
+        "is_correct": false
+      },
+      {
+        "id": "ee54d2d5684ce0e8166f278344e96344_D",
+        "label": "D",
+        "html": "37.9",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ee54d2d5684ce0e8166f278344e96344_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "8720aa11396108938d0f5510133ff24b",
+    "title": "Question 12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>32</td>\n<td>40</td>\n<td>27</td>\n<td>18</td>\n<td>25</td>\n<td>40</td>\n<td>18</td>\n<td>29</td>\n<td>18</td>\n<td>40</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "8720aa11396108938d0f5510133ff24b_A",
+        "label": "A",
+        "html": "18",
+        "is_correct": false
+      },
+      {
+        "id": "8720aa11396108938d0f5510133ff24b_B",
+        "label": "B",
+        "html": "18, 40",
+        "is_correct": true
+      },
+      {
+        "id": "8720aa11396108938d0f5510133ff24b_C",
+        "label": "C",
+        "html": "25",
+        "is_correct": false
+      },
+      {
+        "id": "8720aa11396108938d0f5510133ff24b_D",
+        "label": "D",
+        "html": "29, 32",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8720aa11396108938d0f5510133ff24b_B"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "7d75bbabed4d29bd71ce0dcd5cdda1e9",
+    "title": "Question 11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>3.3</td>\n<td>3.2</td>\n<td>3</td>\n<td>4.7</td>\n<td>4.4</td>\n<td>3.5</td>\n<td>3.2</td>\n<td>4.3</td>\n<td>3</td>\n<td>3</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "7d75bbabed4d29bd71ce0dcd5cdda1e9_A",
+        "label": "A",
+        "html": "3",
+        "is_correct": true
+      },
+      {
+        "id": "7d75bbabed4d29bd71ce0dcd5cdda1e9_B",
+        "label": "B",
+        "html": "3.5, 4.7",
+        "is_correct": false
+      },
+      {
+        "id": "7d75bbabed4d29bd71ce0dcd5cdda1e9_C",
+        "label": "C",
+        "html": "4.3, 4.4",
+        "is_correct": false
+      },
+      {
+        "id": "7d75bbabed4d29bd71ce0dcd5cdda1e9_D",
+        "label": "D",
+        "html": "4.4",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7d75bbabed4d29bd71ce0dcd5cdda1e9_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "40c45b526372f5cffe2ec05e92187d06",
+    "title": "Question 10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>23</td>\n<td>23</td>\n<td>23</td>\n<td>48</td>\n<td>47</td>\n<td>31</td>\n<td>35</td>\n<td>27</td>\n<td>31</td>\n<td>31</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "40c45b526372f5cffe2ec05e92187d06_A",
+        "label": "A",
+        "html": "31",
+        "is_correct": false
+      },
+      {
+        "id": "40c45b526372f5cffe2ec05e92187d06_B",
+        "label": "B",
+        "html": "23, 31",
+        "is_correct": true
+      },
+      {
+        "id": "40c45b526372f5cffe2ec05e92187d06_C",
+        "label": "C",
+        "html": "47",
+        "is_correct": false
+      },
+      {
+        "id": "40c45b526372f5cffe2ec05e92187d06_D",
+        "label": "D",
+        "html": "27, 47",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "40c45b526372f5cffe2ec05e92187d06_B"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "c4babe5cc7625ccc2069c0077b12bfa3",
+    "title": "Question 9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>422</td>\n<td>877</td>\n<td>324</td>\n<td>430</td>\n<td>499</td>\n<td>602</td>\n<td>464.5</td>\n<td>525.6667</td>\n<td>422</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "c4babe5cc7625ccc2069c0077b12bfa3_A",
+        "label": "A",
+        "html": "422, 602",
+        "is_correct": false
+      },
+      {
+        "id": "c4babe5cc7625ccc2069c0077b12bfa3_B",
+        "label": "B",
+        "html": "422",
+        "is_correct": true
+      },
+      {
+        "id": "c4babe5cc7625ccc2069c0077b12bfa3_C",
+        "label": "C",
+        "html": "422, 430",
+        "is_correct": false
+      },
+      {
+        "id": "c4babe5cc7625ccc2069c0077b12bfa3_D",
+        "label": "D",
+        "html": "430",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c4babe5cc7625ccc2069c0077b12bfa3_B"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "7218c4440ea0d186cf974e25322acfd4",
+    "title": "Question 8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>152</td>\n<td>152</td>\n<td>150</td>\n<td>106</td>\n<td>96</td>\n<td>83</td>\n<td>106</td>\n<td>115</td>\n<td>76</td>\n<td>74</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "7218c4440ea0d186cf974e25322acfd4_A",
+        "label": "A",
+        "html": "76, 83",
+        "is_correct": false
+      },
+      {
+        "id": "7218c4440ea0d186cf974e25322acfd4_B",
+        "label": "B",
+        "html": "106, 152",
+        "is_correct": true
+      },
+      {
+        "id": "7218c4440ea0d186cf974e25322acfd4_C",
+        "label": "C",
+        "html": "96",
+        "is_correct": false
+      },
+      {
+        "id": "7218c4440ea0d186cf974e25322acfd4_D",
+        "label": "D",
+        "html": "152",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7218c4440ea0d186cf974e25322acfd4_B"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "34e1360379b9cee0dd56b059cf23c92f",
+    "title": "Question 7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>840</td>\n<td>632</td>\n<td>404</td>\n<td>836</td>\n<td>518</td>\n<td>853</td>\n<td>633</td>\n<td>527</td>\n<td>632.5</td>\n<td>840</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "34e1360379b9cee0dd56b059cf23c92f_A",
+        "label": "A",
+        "html": "632.5, 836",
+        "is_correct": false
+      },
+      {
+        "id": "34e1360379b9cee0dd56b059cf23c92f_B",
+        "label": "B",
+        "html": "632",
+        "is_correct": false
+      },
+      {
+        "id": "34e1360379b9cee0dd56b059cf23c92f_C",
+        "label": "C",
+        "html": "840",
+        "is_correct": true
+      },
+      {
+        "id": "34e1360379b9cee0dd56b059cf23c92f_D",
+        "label": "D",
+        "html": "404, 853",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "34e1360379b9cee0dd56b059cf23c92f_C"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "b8847cb0ab7efec237e3340d2c0747ab",
+    "title": "Question 6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>36</td>\n<td>23</td>\n<td>22</td>\n<td>51</td>\n<td>58</td>\n<td>52</td>\n<td>43.5</td>\n<td>23</td>\n<td>36</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "b8847cb0ab7efec237e3340d2c0747ab_A",
+        "label": "A",
+        "html": "36, 51",
+        "is_correct": false
+      },
+      {
+        "id": "b8847cb0ab7efec237e3340d2c0747ab_B",
+        "label": "B",
+        "html": "51",
+        "is_correct": false
+      },
+      {
+        "id": "b8847cb0ab7efec237e3340d2c0747ab_C",
+        "label": "C",
+        "html": "52",
+        "is_correct": false
+      },
+      {
+        "id": "b8847cb0ab7efec237e3340d2c0747ab_D",
+        "label": "D",
+        "html": "23, 36",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "b8847cb0ab7efec237e3340d2c0747ab_D"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "7cfbf2ee6fc10899a7dd053902df0af0",
+    "title": "Question 5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>143</td>\n<td>113</td>\n<td>117</td>\n<td>89</td>\n<td>83</td>\n<td>82</td>\n<td>117</td>\n<td>156</td>\n<td>117</td>\n<td>115</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "7cfbf2ee6fc10899a7dd053902df0af0_A",
+        "label": "A",
+        "html": "117",
+        "is_correct": true
+      },
+      {
+        "id": "7cfbf2ee6fc10899a7dd053902df0af0_B",
+        "label": "B",
+        "html": "82, 83",
+        "is_correct": false
+      },
+      {
+        "id": "7cfbf2ee6fc10899a7dd053902df0af0_C",
+        "label": "C",
+        "html": "83",
+        "is_correct": false
+      },
+      {
+        "id": "7cfbf2ee6fc10899a7dd053902df0af0_D",
+        "label": "D",
+        "html": "115, 156",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7cfbf2ee6fc10899a7dd053902df0af0_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "143bd88038279fd559268f6fc840e9fc",
+    "title": "Question 4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>24</td>\n<td>50</td>\n<td>24</td>\n<td>24</td>\n<td>52</td>\n<td>50</td>\n<td>50</td>\n<td>39</td>\n<td>37.1667</td>\n<td>25</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "143bd88038279fd559268f6fc840e9fc_A",
+        "label": "A",
+        "html": "37.1667",
+        "is_correct": false
+      },
+      {
+        "id": "143bd88038279fd559268f6fc840e9fc_B",
+        "label": "B",
+        "html": "24, 50",
+        "is_correct": true
+      },
+      {
+        "id": "143bd88038279fd559268f6fc840e9fc_C",
+        "label": "C",
+        "html": "50, 52",
+        "is_correct": false
+      },
+      {
+        "id": "143bd88038279fd559268f6fc840e9fc_D",
+        "label": "D",
+        "html": "25",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "143bd88038279fd559268f6fc840e9fc_B"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "4a19d39fc66209540a0588d418e77c0f",
+    "title": "Question 3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>117</td>\n<td>95</td>\n<td>120</td>\n<td>153</td>\n<td>138</td>\n<td>122</td>\n<td>116</td>\n<td>99</td>\n<td>114</td>\n<td>117</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "4a19d39fc66209540a0588d418e77c0f_A",
+        "label": "A",
+        "html": "117",
+        "is_correct": true
+      },
+      {
+        "id": "4a19d39fc66209540a0588d418e77c0f_B",
+        "label": "B",
+        "html": "116, 153",
+        "is_correct": false
+      },
+      {
+        "id": "4a19d39fc66209540a0588d418e77c0f_C",
+        "label": "C",
+        "html": "99, 116",
+        "is_correct": false
+      },
+      {
+        "id": "4a19d39fc66209540a0588d418e77c0f_D",
+        "label": "D",
+        "html": "114",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4a19d39fc66209540a0588d418e77c0f_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "f3a0d13190303ed86d970e748dd70c01",
+    "title": "Question 2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>0</td>\n<td>63</td>\n<td>60</td>\n<td>33</td>\n<td>34</td>\n<td>8</td>\n<td>18</td>\n<td>16</td>\n<td>63</td>\n<td>0</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "f3a0d13190303ed86d970e748dd70c01_A",
+        "label": "A",
+        "html": "33",
+        "is_correct": false
+      },
+      {
+        "id": "f3a0d13190303ed86d970e748dd70c01_B",
+        "label": "B",
+        "html": "18, 33",
+        "is_correct": false
+      },
+      {
+        "id": "f3a0d13190303ed86d970e748dd70c01_C",
+        "label": "C",
+        "html": "0, 63",
+        "is_correct": true
+      },
+      {
+        "id": "f3a0d13190303ed86d970e748dd70c01_D",
+        "label": "D",
+        "html": "0",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f3a0d13190303ed86d970e748dd70c01_C"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "9fd8bbb333c6cca582a7cf2c96eb7ccd",
+    "title": "Question 1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>These data are listed in a row. Determine the mode(s) and select the correct answer below.</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">\n<thead><tr><th>Data</th></tr></thead>\n<tbody><tr>\n<td>44</td>\n<td>40</td>\n<td>37</td>\n<td>38</td>\n<td>23</td>\n<td>40</td>\n<td>40</td>\n<td>39</td>\n<td>37</td>\n<td>45</td>\n</tr></tbody>\n</table><div>Select the correct mode(s) for the data.</div>",
+    "choices": [
+      {
+        "id": "9fd8bbb333c6cca582a7cf2c96eb7ccd_A",
+        "label": "A",
+        "html": "38",
+        "is_correct": false
+      },
+      {
+        "id": "9fd8bbb333c6cca582a7cf2c96eb7ccd_B",
+        "label": "B",
+        "html": "23, 45",
+        "is_correct": false
+      },
+      {
+        "id": "9fd8bbb333c6cca582a7cf2c96eb7ccd_C",
+        "label": "C",
+        "html": "39, 40",
+        "is_correct": false
+      },
+      {
+        "id": "9fd8bbb333c6cca582a7cf2c96eb7ccd_D",
+        "label": "D",
+        "html": "40",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "9fd8bbb333c6cca582a7cf2c96eb7ccd_D"
+    ]
+  }
+]

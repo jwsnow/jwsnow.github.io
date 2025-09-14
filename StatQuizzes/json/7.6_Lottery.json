@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "1bc1d773fa3101e305fc9661b525ae22",
+    "title": "Expected Profit (Rounded) - Q20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $3 to play. Players select a sequence of three digits (each 0–9) in order. Digits may not repeat.\n    There is 1 winning sequence.\n    If a player wins, they receive $120. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "1bc1d773fa3101e305fc9661b525ae22_A",
+        "label": "A",
+        "html": "$12.00",
+        "is_correct": false
+      },
+      {
+        "id": "1bc1d773fa3101e305fc9661b525ae22_B",
+        "label": "B",
+        "html": "$1197.00",
+        "is_correct": false
+      },
+      {
+        "id": "1bc1d773fa3101e305fc9661b525ae22_C",
+        "label": "C",
+        "html": "$117.00",
+        "is_correct": false
+      },
+      {
+        "id": "1bc1d773fa3101e305fc9661b525ae22_D",
+        "label": "D",
+        "html": "-$2.83",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "1bc1d773fa3101e305fc9661b525ae22_D"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "fea33d142741a28626412e43b9d33f34",
+    "title": "Expected Profit (Rounded) - Q19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $2 to play. Players select one digit (0–9).\n    There is 1 winning digit.\n    If a player wins, they receive $20. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "fea33d142741a28626412e43b9d33f34_A",
+        "label": "A",
+        "html": "$18.15",
+        "is_correct": false
+      },
+      {
+        "id": "fea33d142741a28626412e43b9d33f34_B",
+        "label": "B",
+        "html": "$0.00",
+        "is_correct": true
+      },
+      {
+        "id": "fea33d142741a28626412e43b9d33f34_C",
+        "label": "C",
+        "html": "$20.00",
+        "is_correct": false
+      },
+      {
+        "id": "fea33d142741a28626412e43b9d33f34_D",
+        "label": "D",
+        "html": "$18.10",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "fea33d142741a28626412e43b9d33f34_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "bd9997ae47b57493c4479e6abe333aeb",
+    "title": "Expected Profit (Rounded) - Q18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $1 to play. Players select a sequence of three digits (each 0–9) in order. Digits may repeat.\n    There is 1 winning sequence.\n    If a player wins, they receive $25. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "bd9997ae47b57493c4479e6abe333aeb_A",
+        "label": "A",
+        "html": "$0.62",
+        "is_correct": false
+      },
+      {
+        "id": "bd9997ae47b57493c4479e6abe333aeb_B",
+        "label": "B",
+        "html": "$61.50",
+        "is_correct": false
+      },
+      {
+        "id": "bd9997ae47b57493c4479e6abe333aeb_C",
+        "label": "C",
+        "html": "-$0.98",
+        "is_correct": true
+      },
+      {
+        "id": "bd9997ae47b57493c4479e6abe333aeb_D",
+        "label": "D",
+        "html": "$24.00",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "bd9997ae47b57493c4479e6abe333aeb_C"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "babf6bbb79ef37332ca2044265e50a83",
+    "title": "Expected Profit (Rounded) - Q17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $4 to play. Players select a sequence of two digits (each 0–9) in order. Digits may not repeat.\n    There is 1 winning sequence.\n    If a player wins, they receive $25. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "babf6bbb79ef37332ca2044265e50a83_A",
+        "label": "A",
+        "html": "$21.00",
+        "is_correct": false
+      },
+      {
+        "id": "babf6bbb79ef37332ca2044265e50a83_B",
+        "label": "B",
+        "html": "$5.00",
+        "is_correct": false
+      },
+      {
+        "id": "babf6bbb79ef37332ca2044265e50a83_C",
+        "label": "C",
+        "html": "$46.00",
+        "is_correct": false
+      },
+      {
+        "id": "babf6bbb79ef37332ca2044265e50a83_D",
+        "label": "D",
+        "html": "-$3.72",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "babf6bbb79ef37332ca2044265e50a83_D"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "e2596ae8215ad503271b7364622d2c0a",
+    "title": "Expected Profit (Rounded) - Q16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $1 to play. Players select a sequence of three digits (each 0–9) in order. Digits may repeat.\n    There is 1 winning sequence.\n    If a player wins, they receive $120. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "e2596ae8215ad503271b7364622d2c0a_A",
+        "label": "A",
+        "html": "$119.00",
+        "is_correct": false
+      },
+      {
+        "id": "e2596ae8215ad503271b7364622d2c0a_B",
+        "label": "B",
+        "html": "-$0.88",
+        "is_correct": true
+      },
+      {
+        "id": "e2596ae8215ad503271b7364622d2c0a_C",
+        "label": "C",
+        "html": "$0.35",
+        "is_correct": false
+      },
+      {
+        "id": "e2596ae8215ad503271b7364622d2c0a_D",
+        "label": "D",
+        "html": "$1.20",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e2596ae8215ad503271b7364622d2c0a_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "950768e2c52b56f50e92bbbb7b90da35",
+    "title": "Expected Profit (Rounded) - Q15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $1 to play. Players select a sequence of three digits (each 0–9) in order. Digits may not repeat.\n    There is 1 winning sequence.\n    If a player wins, they receive $15. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "950768e2c52b56f50e92bbbb7b90da35_A",
+        "label": "A",
+        "html": "$0.30",
+        "is_correct": false
+      },
+      {
+        "id": "950768e2c52b56f50e92bbbb7b90da35_B",
+        "label": "B",
+        "html": "-$0.98",
+        "is_correct": true
+      },
+      {
+        "id": "950768e2c52b56f50e92bbbb7b90da35_C",
+        "label": "C",
+        "html": "$14.00",
+        "is_correct": false
+      },
+      {
+        "id": "950768e2c52b56f50e92bbbb7b90da35_D",
+        "label": "D",
+        "html": "$29.00",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "950768e2c52b56f50e92bbbb7b90da35_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "0c7d2f4e3c7b526a6d7f36a9a506eb52",
+    "title": "Expected Profit (Rounded) - Q14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $3 to play. Players select a sequence of two digits (each 0–9) in order. Digits may repeat.\n    There is 1 winning sequence.\n    If a player wins, they receive $60. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "0c7d2f4e3c7b526a6d7f36a9a506eb52_A",
+        "label": "A",
+        "html": "$57.00",
+        "is_correct": false
+      },
+      {
+        "id": "0c7d2f4e3c7b526a6d7f36a9a506eb52_B",
+        "label": "B",
+        "html": "-$2.40",
+        "is_correct": true
+      },
+      {
+        "id": "0c7d2f4e3c7b526a6d7f36a9a506eb52_C",
+        "label": "C",
+        "html": "$117.00",
+        "is_correct": false
+      },
+      {
+        "id": "0c7d2f4e3c7b526a6d7f36a9a506eb52_D",
+        "label": "D",
+        "html": "$12.00",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0c7d2f4e3c7b526a6d7f36a9a506eb52_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "4b23d596cf93b8c1990175c1c2ae5334",
+    "title": "Expected Profit (Rounded) - Q13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $2 to play. Players select a sequence of two digits (each 0–9) in order. Digits may not repeat.\n    There is 1 winning sequence.\n    If a player wins, they receive $5. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "4b23d596cf93b8c1990175c1c2ae5334_A",
+        "label": "A",
+        "html": "$3.00",
+        "is_correct": false
+      },
+      {
+        "id": "4b23d596cf93b8c1990175c1c2ae5334_B",
+        "label": "B",
+        "html": "$0.10",
+        "is_correct": false
+      },
+      {
+        "id": "4b23d596cf93b8c1990175c1c2ae5334_C",
+        "label": "C",
+        "html": "-$1.00",
+        "is_correct": false
+      },
+      {
+        "id": "4b23d596cf93b8c1990175c1c2ae5334_D",
+        "label": "D",
+        "html": "-$1.94",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "4b23d596cf93b8c1990175c1c2ae5334_D"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "b9709a4c3b946aad4be485a5bf068cd1",
+    "title": "Expected Profit (Rounded) - Q12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $1 to play. Players select a sequence of three digits (each 0–9) in order. Digits may repeat.\n    There is 1 winning sequence.\n    If a player wins, they receive $25. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "b9709a4c3b946aad4be485a5bf068cd1_A",
+        "label": "A",
+        "html": "$4.00",
+        "is_correct": false
+      },
+      {
+        "id": "b9709a4c3b946aad4be485a5bf068cd1_B",
+        "label": "B",
+        "html": "$0.05",
+        "is_correct": false
+      },
+      {
+        "id": "b9709a4c3b946aad4be485a5bf068cd1_C",
+        "label": "C",
+        "html": "-$0.98",
+        "is_correct": true
+      },
+      {
+        "id": "b9709a4c3b946aad4be485a5bf068cd1_D",
+        "label": "D",
+        "html": "$24.00",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b9709a4c3b946aad4be485a5bf068cd1_C"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "c48b99f3240e497202532cb4b942c4ac",
+    "title": "Expected Profit (Rounded) - Q11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $2 to play. Players select a sequence of three digits (each 0–9) in order. Digits may not repeat.\n    There is 1 winning sequence.\n    If a player wins, they receive $20. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "c48b99f3240e497202532cb4b942c4ac_A",
+        "label": "A",
+        "html": "$18.00",
+        "is_correct": false
+      },
+      {
+        "id": "c48b99f3240e497202532cb4b942c4ac_B",
+        "label": "B",
+        "html": "$0.40",
+        "is_correct": false
+      },
+      {
+        "id": "c48b99f3240e497202532cb4b942c4ac_C",
+        "label": "C",
+        "html": "-$1.97",
+        "is_correct": true
+      },
+      {
+        "id": "c48b99f3240e497202532cb4b942c4ac_D",
+        "label": "D",
+        "html": "$38.00",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c48b99f3240e497202532cb4b942c4ac_C"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "9ad40f79a1d211bbc675d0ce3c4b0c43",
+    "title": "Expected Profit (Rounded) - Q10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $3 to play. Players select a sequence of three digits (each 0–9) in order. Digits may repeat.\n    There is 1 winning sequence.\n    If a player wins, they receive $4. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "9ad40f79a1d211bbc675d0ce3c4b0c43_A",
+        "label": "A",
+        "html": "$1.00",
+        "is_correct": false
+      },
+      {
+        "id": "9ad40f79a1d211bbc675d0ce3c4b0c43_B",
+        "label": "B",
+        "html": "$0.01",
+        "is_correct": false
+      },
+      {
+        "id": "9ad40f79a1d211bbc675d0ce3c4b0c43_C",
+        "label": "C",
+        "html": "-$2.20",
+        "is_correct": false
+      },
+      {
+        "id": "9ad40f79a1d211bbc675d0ce3c4b0c43_D",
+        "label": "D",
+        "html": "-$3.00",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "9ad40f79a1d211bbc675d0ce3c4b0c43_D"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "7bc43579a665f8020bc28b6bf2e098d6",
+    "title": "Expected Profit (Rounded) - Q9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $1 to play. Players select a sequence of two digits (each 0–9) in order. Digits may not repeat.\n    There is 1 winning sequence.\n    If a player wins, they receive $120. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "7bc43579a665f8020bc28b6bf2e098d6_A",
+        "label": "A",
+        "html": "$24.00",
+        "is_correct": false
+      },
+      {
+        "id": "7bc43579a665f8020bc28b6bf2e098d6_B",
+        "label": "B",
+        "html": "$0.33",
+        "is_correct": true
+      },
+      {
+        "id": "7bc43579a665f8020bc28b6bf2e098d6_C",
+        "label": "C",
+        "html": "$119.00",
+        "is_correct": false
+      },
+      {
+        "id": "7bc43579a665f8020bc28b6bf2e098d6_D",
+        "label": "D",
+        "html": "$239.00",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7bc43579a665f8020bc28b6bf2e098d6_B"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "46a77c609fa1c6c44cb53d05cc560558",
+    "title": "Expected Profit (Rounded) - Q8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $2 to play. Players select one digit (0–9).\n    There is 1 winning digit.\n    If a player wins, they receive $5. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "46a77c609fa1c6c44cb53d05cc560558_A",
+        "label": "A",
+        "html": "-$1.50",
+        "is_correct": true
+      },
+      {
+        "id": "46a77c609fa1c6c44cb53d05cc560558_B",
+        "label": "B",
+        "html": "$3.10",
+        "is_correct": false
+      },
+      {
+        "id": "46a77c609fa1c6c44cb53d05cc560558_C",
+        "label": "C",
+        "html": "$5.00",
+        "is_correct": false
+      },
+      {
+        "id": "46a77c609fa1c6c44cb53d05cc560558_D",
+        "label": "D",
+        "html": "$3.15",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "46a77c609fa1c6c44cb53d05cc560558_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "5390a12b0c8918e886dc1ba980caa86d",
+    "title": "Expected Profit (Rounded) - Q7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $2 to play. Players select a sequence of three digits (each 0–9) in order. Digits may repeat.\n    There is 1 winning sequence.\n    If a player wins, they receive $30. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "5390a12b0c8918e886dc1ba980caa86d_A",
+        "label": "A",
+        "html": "$1.50",
+        "is_correct": false
+      },
+      {
+        "id": "5390a12b0c8918e886dc1ba980caa86d_B",
+        "label": "B",
+        "html": "-$1.97",
+        "is_correct": true
+      },
+      {
+        "id": "5390a12b0c8918e886dc1ba980caa86d_C",
+        "label": "C",
+        "html": "$148.00",
+        "is_correct": false
+      },
+      {
+        "id": "5390a12b0c8918e886dc1ba980caa86d_D",
+        "label": "D",
+        "html": "$28.00",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5390a12b0c8918e886dc1ba980caa86d_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "5d706441dae884901c583b5fe00de97b",
+    "title": "Expected Profit (Rounded) - Q6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $1 to play. Players select a sequence of three digits (each 0–9) in order. Digits may not repeat.\n    There is 1 winning sequence.\n    If a player wins, they receive $15. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "5d706441dae884901c583b5fe00de97b_A",
+        "label": "A",
+        "html": "$0.30",
+        "is_correct": false
+      },
+      {
+        "id": "5d706441dae884901c583b5fe00de97b_B",
+        "label": "B",
+        "html": "$29.00",
+        "is_correct": false
+      },
+      {
+        "id": "5d706441dae884901c583b5fe00de97b_C",
+        "label": "C",
+        "html": "$14.00",
+        "is_correct": false
+      },
+      {
+        "id": "5d706441dae884901c583b5fe00de97b_D",
+        "label": "D",
+        "html": "-$0.98",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "5d706441dae884901c583b5fe00de97b_D"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "29f0a6c44953741ac7eee8d170af55d7",
+    "title": "Expected Profit (Rounded) - Q5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $2 to play. Players select a sequence of three digits (each 0–9) in order. Digits may repeat.\n    There is 1 winning sequence.\n    If a player wins, they receive $120. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "29f0a6c44953741ac7eee8d170af55d7_A",
+        "label": "A",
+        "html": "$6.00",
+        "is_correct": false
+      },
+      {
+        "id": "29f0a6c44953741ac7eee8d170af55d7_B",
+        "label": "B",
+        "html": "$598.00",
+        "is_correct": false
+      },
+      {
+        "id": "29f0a6c44953741ac7eee8d170af55d7_C",
+        "label": "C",
+        "html": "-$1.88",
+        "is_correct": true
+      },
+      {
+        "id": "29f0a6c44953741ac7eee8d170af55d7_D",
+        "label": "D",
+        "html": "$118.00",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "29f0a6c44953741ac7eee8d170af55d7_C"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "adfa9e5ca2c1ee54e60c37ea18adc8ff",
+    "title": "Expected Profit (Rounded) - Q4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $4 to play. Players select a sequence of three digits (each 0–9) in order. Digits may not repeat.\n    There is 1 winning sequence.\n    If a player wins, they receive $20. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "adfa9e5ca2c1ee54e60c37ea18adc8ff_A",
+        "label": "A",
+        "html": "$0.02",
+        "is_correct": false
+      },
+      {
+        "id": "adfa9e5ca2c1ee54e60c37ea18adc8ff_B",
+        "label": "B",
+        "html": "$16.00",
+        "is_correct": false
+      },
+      {
+        "id": "adfa9e5ca2c1ee54e60c37ea18adc8ff_C",
+        "label": "C",
+        "html": "-$3.97",
+        "is_correct": true
+      },
+      {
+        "id": "adfa9e5ca2c1ee54e60c37ea18adc8ff_D",
+        "label": "D",
+        "html": "-$2.00",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "adfa9e5ca2c1ee54e60c37ea18adc8ff_C"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "bc71c0fb99a8c248e57610383b368c37",
+    "title": "Expected Profit (Rounded) - Q3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $2 to play. Players select one digit (0–9).\n    There is 1 winning digit.\n    If a player wins, they receive $25. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "bc71c0fb99a8c248e57610383b368c37_A",
+        "label": "A",
+        "html": "$0.50",
+        "is_correct": true
+      },
+      {
+        "id": "bc71c0fb99a8c248e57610383b368c37_B",
+        "label": "B",
+        "html": "$5.00",
+        "is_correct": false
+      },
+      {
+        "id": "bc71c0fb99a8c248e57610383b368c37_C",
+        "label": "C",
+        "html": "$23.00",
+        "is_correct": false
+      },
+      {
+        "id": "bc71c0fb99a8c248e57610383b368c37_D",
+        "label": "D",
+        "html": "$3.15",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "bc71c0fb99a8c248e57610383b368c37_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "d34284e5a6790948e9fe72675228977a",
+    "title": "Expected Profit (Rounded) - Q2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $1 to play. Players select one digit (0–9).\n    There is 1 winning digit.\n    If a player wins, they receive $5. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "d34284e5a6790948e9fe72675228977a_A",
+        "label": "A",
+        "html": "-$0.50",
+        "is_correct": true
+      },
+      {
+        "id": "d34284e5a6790948e9fe72675228977a_B",
+        "label": "B",
+        "html": "$4.15",
+        "is_correct": false
+      },
+      {
+        "id": "d34284e5a6790948e9fe72675228977a_C",
+        "label": "C",
+        "html": "$4.10",
+        "is_correct": false
+      },
+      {
+        "id": "d34284e5a6790948e9fe72675228977a_D",
+        "label": "D",
+        "html": "$5.00",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d34284e5a6790948e9fe72675228977a_A"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "740e5b94900767f2631e4525637e858f",
+    "title": "Expected Profit (Rounded) - Q1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A certain lottery game costs $1 to play. Players select a sequence of three digits (each 0–9) in order. Digits may repeat.\n    There is 1 winning sequence.\n    If a player wins, they receive $30. What is the player's expected profit per play?\n    Round your answer to the nearest cent.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "740e5b94900767f2631e4525637e858f_A",
+        "label": "A",
+        "html": "$5.00",
+        "is_correct": false
+      },
+      {
+        "id": "740e5b94900767f2631e4525637e858f_B",
+        "label": "B",
+        "html": "-$0.97",
+        "is_correct": true
+      },
+      {
+        "id": "740e5b94900767f2631e4525637e858f_C",
+        "label": "C",
+        "html": "$29.00",
+        "is_correct": false
+      },
+      {
+        "id": "740e5b94900767f2631e4525637e858f_D",
+        "label": "D",
+        "html": "$0.06",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "740e5b94900767f2631e4525637e858f_B"
+    ]
+  }
+]

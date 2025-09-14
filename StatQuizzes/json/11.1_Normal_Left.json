@@ -1,0 +1,842 @@
+[
+  {
+    "index": 1,
+    "ident": "LEFN001",
+    "title": "left-1",
+    "source": "generated",
+    "prompt_html": "Systolic blood pressures of adults are approximately normally distributed with a mean of 120 mmHg and a standard deviation of 15 mmHg. What is the probability that a randomly selected individual has a value <strong>less than 101.55 mmHg</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN001_A",
+        "label": "A",
+        "html": "0.1216",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN001_B",
+        "label": "B",
+        "html": "0.1152",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN001_C",
+        "label": "C",
+        "html": "0.1093",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN001_D",
+        "label": "D",
+        "html": "0.1093",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN001_E",
+        "label": "E",
+        "html": "0.1358",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN001_D"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "LEFN002",
+    "title": "left-2",
+    "source": "generated",
+    "prompt_html": "Cholesterol levels of patients are approximately normally distributed with a mean of 200 mg/dL and a standard deviation of 25 mg/dL. What is the probability that a randomly selected individual has a value <strong>less than 178.75 mg/dL</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN002_A",
+        "label": "A",
+        "html": "0.1977",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN002_B",
+        "label": "B",
+        "html": "0.1788",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN002_C",
+        "label": "C",
+        "html": "0.1977",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN002_D",
+        "label": "D",
+        "html": "0.2131",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN002_E",
+        "label": "E",
+        "html": "0.2404",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN002_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "LEFN003",
+    "title": "left-3",
+    "source": "generated",
+    "prompt_html": "Reaction times to a visual stimulus are approximately normally distributed with a mean of 250 ms and a standard deviation of 40 ms. What is the probability that a randomly selected individual has a value <strong>less than 232.40 ms</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN003_A",
+        "label": "A",
+        "html": "0.3565",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN003_B",
+        "label": "B",
+        "html": "0.3359",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN003_C",
+        "label": "C",
+        "html": "0.3454",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN003_D",
+        "label": "D",
+        "html": "0.3727",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN003_E",
+        "label": "E",
+        "html": "0.3300",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "LEFN003_E"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "LEFN004",
+    "title": "left-4",
+    "source": "generated",
+    "prompt_html": "IQ scores of college students are approximately normally distributed with a mean of 100 points and a standard deviation of 15 points. What is the probability that a randomly selected individual has a value <strong>less than 97.30 points</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN004_A",
+        "label": "A",
+        "html": "0.4286",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN004_B",
+        "label": "B",
+        "html": "0.4286",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN004_C",
+        "label": "C",
+        "html": "0.4075",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN004_D",
+        "label": "D",
+        "html": "0.4189",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN004_E",
+        "label": "E",
+        "html": "0.4153",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN004_B"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "LEFN005",
+    "title": "left-5",
+    "source": "generated",
+    "prompt_html": "Memory recall scores are approximately normally distributed with a mean of 50 points and a standard deviation of 10 points. What is the probability that a randomly selected individual has a value <strong>less than 52.70 points</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN005_A",
+        "label": "A",
+        "html": "0.6491",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN005_B",
+        "label": "B",
+        "html": "0.6064",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN005_C",
+        "label": "C",
+        "html": "0.5931",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN005_D",
+        "label": "D",
+        "html": "0.5853",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN005_E",
+        "label": "E",
+        "html": "0.6064",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN005_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "LEFN006",
+    "title": "left-6",
+    "source": "generated",
+    "prompt_html": "Test completion times are approximately normally distributed with a mean of 60 minutes and a standard deviation of 8 minutes. What is the probability that a randomly selected individual has a value <strong>less than 64.96 minutes</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN006_A",
+        "label": "A",
+        "html": "0.7324",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN006_B",
+        "label": "B",
+        "html": "0.7113",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN006_C",
+        "label": "C",
+        "html": "0.7191",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN006_D",
+        "label": "D",
+        "html": "0.7589",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN006_E",
+        "label": "E",
+        "html": "0.7135",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN006_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "LEFN007",
+    "title": "left-7",
+    "source": "generated",
+    "prompt_html": "Weights of lab rats are approximately normally distributed with a mean of 300 grams and a standard deviation of 20 grams. What is the probability that a randomly selected individual has a value <strong>less than 265.00 grams</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN007_A",
+        "label": "A",
+        "html": "0.0304",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN007_B",
+        "label": "B",
+        "html": "0.0401",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN007_C",
+        "label": "C",
+        "html": "0.0666",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN007_D",
+        "label": "D",
+        "html": "0.0401",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN007_E",
+        "label": "E",
+        "html": "0.0460",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN007_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "LEFN008",
+    "title": "left-8",
+    "source": "generated",
+    "prompt_html": "Leaf lengths are approximately normally distributed with a mean of 12 cm and a standard deviation of 2 cm. What is the probability that a randomly selected individual has a value <strong>less than 14.10 cm</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN008_A",
+        "label": "A",
+        "html": "0.8958",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN008_B",
+        "label": "B",
+        "html": "0.8320",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN008_C",
+        "label": "C",
+        "html": "0.8796",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN008_D",
+        "label": "D",
+        "html": "0.8531",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN008_E",
+        "label": "E",
+        "html": "0.8190",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN008_D"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "LEFN009",
+    "title": "left-9",
+    "source": "generated",
+    "prompt_html": "Incubation periods of birds are approximately normally distributed with a mean of 30 days and a standard deviation of 3 days. What is the probability that a randomly selected individual has a value <strong>less than 30.42 days</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN009_A",
+        "label": "A",
+        "html": "0.5424",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN009_B",
+        "label": "B",
+        "html": "0.5557",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN009_C",
+        "label": "C",
+        "html": "0.5557",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN009_D",
+        "label": "D",
+        "html": "0.5822",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN009_E",
+        "label": "E",
+        "html": "0.5984",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN009_B"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "LEFN010",
+    "title": "left-10",
+    "source": "generated",
+    "prompt_html": "Enzyme activity rates are approximately normally distributed with a mean of 100 units and a standard deviation of 12 units. What is the probability that a randomly selected individual has a value <strong>less than 96.28 units</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN010_A",
+        "label": "A",
+        "html": "0.3783",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN010_B",
+        "label": "B",
+        "html": "0.3594",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN010_C",
+        "label": "C",
+        "html": "0.4210",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN010_D",
+        "label": "D",
+        "html": "0.3572",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN010_E",
+        "label": "E",
+        "html": "0.3783",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "LEFN010_E"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "LEFN011",
+    "title": "left-11",
+    "source": "generated",
+    "prompt_html": "Diastolic blood pressures of adults are approximately normally distributed with a mean of 80 mmHg and a standard deviation of 10 mmHg. What is the probability that a randomly selected individual has a value <strong>less than 88.80 mmHg</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN011_A",
+        "label": "A",
+        "html": "0.8106",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN011_B",
+        "label": "B",
+        "html": "0.8009",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN011_C",
+        "label": "C",
+        "html": "0.8260",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN011_D",
+        "label": "D",
+        "html": "0.8106",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN011_E",
+        "label": "E",
+        "html": "0.8229",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN011_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "LEFN012",
+    "title": "left-12",
+    "source": "generated",
+    "prompt_html": "Blood glucose levels are approximately normally distributed with a mean of 90 mg/dL and a standard deviation of 12 mg/dL. What is the probability that a randomly selected individual has a value <strong>less than 76.56 mg/dL</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN012_A",
+        "label": "A",
+        "html": "0.0973",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN012_B",
+        "label": "B",
+        "html": "0.1314",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN012_C",
+        "label": "C",
+        "html": "0.1314",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN012_D",
+        "label": "D",
+        "html": "0.1741",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN012_E",
+        "label": "E",
+        "html": "0.1217",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN012_C"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "LEFN013",
+    "title": "left-13",
+    "source": "generated",
+    "prompt_html": "Drug absorption times are approximately normally distributed with a mean of 50 minutes and a standard deviation of 7 minutes. What is the probability that a randomly selected individual has a value <strong>less than 58.96 minutes</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN013_A",
+        "label": "A",
+        "html": "0.8808",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN013_B",
+        "label": "B",
+        "html": "0.8864",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN013_C",
+        "label": "C",
+        "html": "0.9424",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN013_D",
+        "label": "D",
+        "html": "0.8997",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN013_E",
+        "label": "E",
+        "html": "0.8900",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN013_D"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "LEFN014",
+    "title": "left-14",
+    "source": "generated",
+    "prompt_html": "Stress scale scores are approximately normally distributed with a mean of 30 points and a standard deviation of 5 points. What is the probability that a randomly selected individual has a value <strong>less than 27.15 points</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN014_A",
+        "label": "A",
+        "html": "0.2746",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN014_B",
+        "label": "B",
+        "html": "0.2843",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN014_C",
+        "label": "C",
+        "html": "0.3108",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN014_D",
+        "label": "D",
+        "html": "0.2843",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN014_E",
+        "label": "E",
+        "html": "0.3270",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN014_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "LEFN015",
+    "title": "left-15",
+    "source": "generated",
+    "prompt_html": "Attention spans are approximately normally distributed with a mean of 45 minutes and a standard deviation of 6 minutes. What is the probability that a randomly selected individual has a value <strong>less than 47.94 minutes</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN015_A",
+        "label": "A",
+        "html": "0.7002",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN015_B",
+        "label": "B",
+        "html": "0.6879",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN015_C",
+        "label": "C",
+        "html": "0.6782",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN015_D",
+        "label": "D",
+        "html": "0.7033",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN015_E",
+        "label": "E",
+        "html": "0.6879",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "LEFN015_E"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "LEFN016",
+    "title": "left-16",
+    "source": "generated",
+    "prompt_html": "Visual search times are approximately normally distributed with a mean of 35 seconds and a standard deviation of 5 seconds. What is the probability that a randomly selected individual has a value <strong>less than 34.65 seconds</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN016_A",
+        "label": "A",
+        "html": "0.4875",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN016_B",
+        "label": "B",
+        "html": "0.4721",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN016_C",
+        "label": "C",
+        "html": "0.5148",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN016_D",
+        "label": "D",
+        "html": "0.4532",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN016_E",
+        "label": "E",
+        "html": "0.4721",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN016_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "LEFN017",
+    "title": "left-17",
+    "source": "generated",
+    "prompt_html": "Seed germination times are approximately normally distributed with a mean of 72 hours and a standard deviation of 9 hours. What is the probability that a randomly selected individual has a value <strong>less than 86.76 hours</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN017_A",
+        "label": "A",
+        "html": "0.9284",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN017_B",
+        "label": "B",
+        "html": "0.9760",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN017_C",
+        "label": "C",
+        "html": "0.9495",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN017_D",
+        "label": "D",
+        "html": "0.9154",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN017_E",
+        "label": "E",
+        "html": "0.9495",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "LEFN017_E"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "LEFN018",
+    "title": "left-18",
+    "source": "generated",
+    "prompt_html": "Fish lengths are approximately normally distributed with a mean of 25 cm and a standard deviation of 4 cm. What is the probability that a randomly selected individual has a value <strong>less than 21.28 cm</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN018_A",
+        "label": "A",
+        "html": "0.1762",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN018_B",
+        "label": "B",
+        "html": "0.1885",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN018_C",
+        "label": "C",
+        "html": "0.1421",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN018_D",
+        "label": "D",
+        "html": "0.1573",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN018_E",
+        "label": "E",
+        "html": "0.2027",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN018_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "LEFN019",
+    "title": "left-19",
+    "source": "generated",
+    "prompt_html": "Tree ring widths are approximately normally distributed with a mean of 5 mm and a standard deviation of 1 mm. What is the probability that a randomly selected individual has a value <strong>less than 5.36 mm</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN019_A",
+        "label": "A",
+        "html": "0.6671",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN019_B",
+        "label": "B",
+        "html": "0.6406",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN019_C",
+        "label": "C",
+        "html": "0.6195",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN019_D",
+        "label": "D",
+        "html": "0.6217",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN019_E",
+        "label": "E",
+        "html": "0.6406",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "LEFN019_E"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "LEFN020",
+    "title": "left-20",
+    "source": "generated",
+    "prompt_html": "Cell growth times are approximately normally distributed with a mean of 20 hours and a standard deviation of 2 hours. What is the probability that a randomly selected individual has a value <strong>less than 17.18 hours</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "LEFN020_A",
+        "label": "A",
+        "html": "0.0916",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN020_B",
+        "label": "B",
+        "html": "0.0793",
+        "is_correct": true
+      },
+      {
+        "id": "LEFN020_C",
+        "label": "C",
+        "html": "0.0660",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN020_D",
+        "label": "D",
+        "html": "0.1058",
+        "is_correct": false
+      },
+      {
+        "id": "LEFN020_E",
+        "label": "E",
+        "html": "0.0582",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "LEFN020_B"
+    ]
+  }
+]

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSON Quiz Viewer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>More Probability</h1>
+  <div class="toolbar">
+    <button class="primary" onclick="checkAll()">Check All</button>
+    <button onclick="cryUncleAll()">Cry Uncle</button>
+  </div>
+
+  <div id="grand-total-top" class="total" style="display:none;margin-bottom:0.75rem"></div>
+
+  <div id="blocks" class="blocks"></div>
+
+  <div class="toolbar" style="margin-top:1rem">
+    <button class="primary" onclick="checkAll()">Check All</button>
+    <button onclick="cryUncleAll()">Cry Uncle</button>
+  </div>
+
+  <div id="grand-total" class="total" style="display:none"></div>
+
+  <script src="script.js"></script>
+  <script> 
+  addQuestionBlock('json/6.1_Probability_Vocabulary_Quiz.json', '3', '');
+ addQuestionBlock('json/6.2_Contingency_Table_Probability_Quiz_(Standalone,_Compact_Tables).json', '3', '');
+ addQuestionBlock('json/6.3_Two_Dice_AND_Probabilities_Quiz_(Die-by-Die_Conditions).json', '3', '');
+ addQuestionBlock('json/6.4_Two_Cards_(With_Replacement)_AND_Probabilities_Quiz.json', '3', '');
+ addQuestionBlock('json/6.5_Two_Cards_(Without_Replacement).json', '3', '');
+ addQuestionBlock('json/6.6_Two_Marbles_(With_Replacement)_Mixed_Probability_Quiz_(Decimals).json', '3', '');
+ addQuestionBlock('json/6.7_Two_Marbles_(Without_Replacement)_Mixed_Probability_Quiz_(Decimals).json', '3', '');
+  </script>
+</body>
+</html>

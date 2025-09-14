@@ -1,0 +1,842 @@
+[
+  {
+    "index": 1,
+    "ident": "9590bdc034682404e274082cc1e94274",
+    "title": "Uniform-LT-20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In psychology, inter-trial intervals in an experiment (seconds) are modeled as uniformly distributed between 1.0 and 4.0. What is the probability that a randomly selected observation is \n      <b>less than 3.8</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "9590bdc034682404e274082cc1e94274_A",
+        "label": "A",
+        "html": "<p>1.0000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9590bdc034682404e274082cc1e94274_B",
+        "label": "B",
+        "html": "<p>0.9833</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9590bdc034682404e274082cc1e94274_C",
+        "label": "C",
+        "html": "<p>0.8833</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9590bdc034682404e274082cc1e94274_D",
+        "label": "D",
+        "html": "<p>0.8333</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9590bdc034682404e274082cc1e94274_E",
+        "label": "E",
+        "html": "<p>0.9333</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "9590bdc034682404e274082cc1e94274_E"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "c6f40987d1e2e2379c2ef3f911a04466",
+    "title": "Uniform-LT-19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In medicine, time spent in physical therapy (minutes) are modeled as uniformly distributed between 30 and 75. What is the probability that a randomly selected observation is \n      <b>less than 35</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "c6f40987d1e2e2379c2ef3f911a04466_A",
+        "label": "A",
+        "html": "<p>0.1611</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c6f40987d1e2e2379c2ef3f911a04466_B",
+        "label": "B",
+        "html": "<p>0.0611</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c6f40987d1e2e2379c2ef3f911a04466_C",
+        "label": "C",
+        "html": "<p>0.2111</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c6f40987d1e2e2379c2ef3f911a04466_D",
+        "label": "D",
+        "html": "<p>0.1111</p>",
+        "is_correct": true
+      },
+      {
+        "id": "c6f40987d1e2e2379c2ef3f911a04466_E",
+        "label": "E",
+        "html": "<p>0.0111</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c6f40987d1e2e2379c2ef3f911a04466_D"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "40cffec0aff188f2c9a2dbe8ef32cc7b",
+    "title": "Uniform-LT-18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In biology, incubation period of an insect (days) are modeled as uniformly distributed between 8 and 20. What is the probability that a randomly selected observation is \n      <b>less than 19</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "40cffec0aff188f2c9a2dbe8ef32cc7b_A",
+        "label": "A",
+        "html": "<p>0.9167</p>",
+        "is_correct": true
+      },
+      {
+        "id": "40cffec0aff188f2c9a2dbe8ef32cc7b_B",
+        "label": "B",
+        "html": "<p>0.9667</p>",
+        "is_correct": false
+      },
+      {
+        "id": "40cffec0aff188f2c9a2dbe8ef32cc7b_C",
+        "label": "C",
+        "html": "<p>1.0000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "40cffec0aff188f2c9a2dbe8ef32cc7b_D",
+        "label": "D",
+        "html": "<p>0.8167</p>",
+        "is_correct": false
+      },
+      {
+        "id": "40cffec0aff188f2c9a2dbe8ef32cc7b_E",
+        "label": "E",
+        "html": "<p>0.8667</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "40cffec0aff188f2c9a2dbe8ef32cc7b_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "aa1ee5017f0df8a66b00982a13f33bf6",
+    "title": "Uniform-LT-17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In medicine, glucose tolerance test time (minutes) are modeled as uniformly distributed between 60 and 120. What is the probability that a randomly selected observation is \n      <b>less than 92.5</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "aa1ee5017f0df8a66b00982a13f33bf6_A",
+        "label": "A",
+        "html": "<p>0.4917</p>",
+        "is_correct": false
+      },
+      {
+        "id": "aa1ee5017f0df8a66b00982a13f33bf6_B",
+        "label": "B",
+        "html": "<p>0.5917</p>",
+        "is_correct": false
+      },
+      {
+        "id": "aa1ee5017f0df8a66b00982a13f33bf6_C",
+        "label": "C",
+        "html": "<p>0.5417</p>",
+        "is_correct": true
+      },
+      {
+        "id": "aa1ee5017f0df8a66b00982a13f33bf6_D",
+        "label": "D",
+        "html": "<p>0.6417</p>",
+        "is_correct": false
+      },
+      {
+        "id": "aa1ee5017f0df8a66b00982a13f33bf6_E",
+        "label": "E",
+        "html": "<p>0.4417</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "aa1ee5017f0df8a66b00982a13f33bf6_C"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "9878f8e4c2b0759dd150927fbe7788a8",
+    "title": "Uniform-LT-16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In psychology, hours slept per night in a study (hours) are modeled as uniformly distributed between 5.0 and 9.0. What is the probability that a randomly selected observation is \n      <b>less than 8.5</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "9878f8e4c2b0759dd150927fbe7788a8_A",
+        "label": "A",
+        "html": "<p>0.9750</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9878f8e4c2b0759dd150927fbe7788a8_B",
+        "label": "B",
+        "html": "<p>0.8750</p>",
+        "is_correct": true
+      },
+      {
+        "id": "9878f8e4c2b0759dd150927fbe7788a8_C",
+        "label": "C",
+        "html": "<p>0.9250</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9878f8e4c2b0759dd150927fbe7788a8_D",
+        "label": "D",
+        "html": "<p>0.8250</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9878f8e4c2b0759dd150927fbe7788a8_E",
+        "label": "E",
+        "html": "<p>0.7750</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9878f8e4c2b0759dd150927fbe7788a8_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "ad2fdc26a3f61e95bd05f0052084b160",
+    "title": "Uniform-LT-15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In biology, shell growth per month (mm) are modeled as uniformly distributed between 1.0 and 3.5. What is the probability that a randomly selected observation is \n      <b>less than 3.2</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "ad2fdc26a3f61e95bd05f0052084b160_A",
+        "label": "A",
+        "html": "<p>0.9800</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ad2fdc26a3f61e95bd05f0052084b160_B",
+        "label": "B",
+        "html": "<p>0.7800</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ad2fdc26a3f61e95bd05f0052084b160_C",
+        "label": "C",
+        "html": "<p>0.8800</p>",
+        "is_correct": true
+      },
+      {
+        "id": "ad2fdc26a3f61e95bd05f0052084b160_D",
+        "label": "D",
+        "html": "<p>0.8300</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ad2fdc26a3f61e95bd05f0052084b160_E",
+        "label": "E",
+        "html": "<p>0.9300</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ad2fdc26a3f61e95bd05f0052084b160_C"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "f0f1ced86678e3f34325809c17bf650f",
+    "title": "Uniform-LT-14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In biology, chlorophyll concentrations (µg/mL) are modeled as uniformly distributed between 0.5 and 2.5. What is the probability that a randomly selected observation is \n      <b>less than 2.3</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "f0f1ced86678e3f34325809c17bf650f_A",
+        "label": "A",
+        "html": "<p>0.8500</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f0f1ced86678e3f34325809c17bf650f_B",
+        "label": "B",
+        "html": "<p>0.9500</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f0f1ced86678e3f34325809c17bf650f_C",
+        "label": "C",
+        "html": "<p>1.0000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f0f1ced86678e3f34325809c17bf650f_D",
+        "label": "D",
+        "html": "<p>0.8000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f0f1ced86678e3f34325809c17bf650f_E",
+        "label": "E",
+        "html": "<p>0.9000</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "f0f1ced86678e3f34325809c17bf650f_E"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "faf84984a30253caeed534939431da38",
+    "title": "Uniform-LT-13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In biology, leaf lengths in a plot (cm) are modeled as uniformly distributed between 3 and 12. What is the probability that a randomly selected observation is \n      <b>less than 7.0</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "faf84984a30253caeed534939431da38_A",
+        "label": "A",
+        "html": "<p>0.3444</p>",
+        "is_correct": false
+      },
+      {
+        "id": "faf84984a30253caeed534939431da38_B",
+        "label": "B",
+        "html": "<p>0.4944</p>",
+        "is_correct": false
+      },
+      {
+        "id": "faf84984a30253caeed534939431da38_C",
+        "label": "C",
+        "html": "<p>0.3944</p>",
+        "is_correct": false
+      },
+      {
+        "id": "faf84984a30253caeed534939431da38_D",
+        "label": "D",
+        "html": "<p>0.5444</p>",
+        "is_correct": false
+      },
+      {
+        "id": "faf84984a30253caeed534939431da38_E",
+        "label": "E",
+        "html": "<p>0.4444</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "faf84984a30253caeed534939431da38_E"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "448f2fc2f33712d91b482d0cd9233da8",
+    "title": "Uniform-LT-12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In biology, flight durations of fruit flies (seconds) are modeled as uniformly distributed between 5 and 15. What is the probability that a randomly selected observation is \n      <b>less than 10.5</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "448f2fc2f33712d91b482d0cd9233da8_A",
+        "label": "A",
+        "html": "<p>0.4500</p>",
+        "is_correct": false
+      },
+      {
+        "id": "448f2fc2f33712d91b482d0cd9233da8_B",
+        "label": "B",
+        "html": "<p>0.5500</p>",
+        "is_correct": true
+      },
+      {
+        "id": "448f2fc2f33712d91b482d0cd9233da8_C",
+        "label": "C",
+        "html": "<p>0.6000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "448f2fc2f33712d91b482d0cd9233da8_D",
+        "label": "D",
+        "html": "<p>0.5000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "448f2fc2f33712d91b482d0cd9233da8_E",
+        "label": "E",
+        "html": "<p>0.6500</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "448f2fc2f33712d91b482d0cd9233da8_B"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "a35c62bff67fd287c055bcfd5f68f30e",
+    "title": "Uniform-LT-11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In biology, weights of lab mice (grams) are modeled as uniformly distributed between 18 and 35. What is the probability that a randomly selected observation is \n      <b>less than 26.5</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "a35c62bff67fd287c055bcfd5f68f30e_A",
+        "label": "A",
+        "html": "<p>0.4500</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a35c62bff67fd287c055bcfd5f68f30e_B",
+        "label": "B",
+        "html": "<p>0.4000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a35c62bff67fd287c055bcfd5f68f30e_C",
+        "label": "C",
+        "html": "<p>0.6000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a35c62bff67fd287c055bcfd5f68f30e_D",
+        "label": "D",
+        "html": "<p>0.5500</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a35c62bff67fd287c055bcfd5f68f30e_E",
+        "label": "E",
+        "html": "<p>0.5000</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "a35c62bff67fd287c055bcfd5f68f30e_E"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "7687987d5d89de79068f75ca3a66fd1d",
+    "title": "Uniform-LT-10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In medicine, cholesterol levels (mg/dL) in a sample are modeled as uniformly distributed between 150 and 230. What is the probability that a randomly selected observation is \n      <b>less than 210</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "7687987d5d89de79068f75ca3a66fd1d_A",
+        "label": "A",
+        "html": "<p>0.8000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7687987d5d89de79068f75ca3a66fd1d_B",
+        "label": "B",
+        "html": "<p>0.6500</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7687987d5d89de79068f75ca3a66fd1d_C",
+        "label": "C",
+        "html": "<p>0.7500</p>",
+        "is_correct": true
+      },
+      {
+        "id": "7687987d5d89de79068f75ca3a66fd1d_D",
+        "label": "D",
+        "html": "<p>0.7000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7687987d5d89de79068f75ca3a66fd1d_E",
+        "label": "E",
+        "html": "<p>0.8500</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7687987d5d89de79068f75ca3a66fd1d_C"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "bf0808660e15e85fa39ba043a8832be0",
+    "title": "Uniform-LT-09",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In medicine, time to dissolve a sublingual tablet (seconds) are modeled as uniformly distributed between 30 and 90. What is the probability that a randomly selected observation is \n      <b>less than 40</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "bf0808660e15e85fa39ba043a8832be0_A",
+        "label": "A",
+        "html": "<p>0.1167</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bf0808660e15e85fa39ba043a8832be0_B",
+        "label": "B",
+        "html": "<p>0.0667</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bf0808660e15e85fa39ba043a8832be0_C",
+        "label": "C",
+        "html": "<p>0.2667</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bf0808660e15e85fa39ba043a8832be0_D",
+        "label": "D",
+        "html": "<p>0.2167</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bf0808660e15e85fa39ba043a8832be0_E",
+        "label": "E",
+        "html": "<p>0.1667</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "bf0808660e15e85fa39ba043a8832be0_E"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "ab77378b1d334eb4068767ce9ee67924",
+    "title": "Uniform-LT-08",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In medicine, post-operative heart rate (bpm) are modeled as uniformly distributed between 60 and 100. What is the probability that a randomly selected observation is \n      <b>less than 95</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "ab77378b1d334eb4068767ce9ee67924_A",
+        "label": "A",
+        "html": "<p>0.9750</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ab77378b1d334eb4068767ce9ee67924_B",
+        "label": "B",
+        "html": "<p>0.9250</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ab77378b1d334eb4068767ce9ee67924_C",
+        "label": "C",
+        "html": "<p>0.8750</p>",
+        "is_correct": true
+      },
+      {
+        "id": "ab77378b1d334eb4068767ce9ee67924_D",
+        "label": "D",
+        "html": "<p>0.7750</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ab77378b1d334eb4068767ce9ee67924_E",
+        "label": "E",
+        "html": "<p>0.8250</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ab77378b1d334eb4068767ce9ee67924_C"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "86d360df4af5c3bc681155a722442ef9",
+    "title": "Uniform-LT-07",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In medicine, time to triage in ER (minutes) are modeled as uniformly distributed between 5 and 25. What is the probability that a randomly selected observation is \n      <b>less than 15.0</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "86d360df4af5c3bc681155a722442ef9_A",
+        "label": "A",
+        "html": "<p>0.6000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "86d360df4af5c3bc681155a722442ef9_B",
+        "label": "B",
+        "html": "<p>0.4000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "86d360df4af5c3bc681155a722442ef9_C",
+        "label": "C",
+        "html": "<p>0.5500</p>",
+        "is_correct": false
+      },
+      {
+        "id": "86d360df4af5c3bc681155a722442ef9_D",
+        "label": "D",
+        "html": "<p>0.5000</p>",
+        "is_correct": true
+      },
+      {
+        "id": "86d360df4af5c3bc681155a722442ef9_E",
+        "label": "E",
+        "html": "<p>0.4500</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "86d360df4af5c3bc681155a722442ef9_D"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "52a9b1f589b4b1a215b42ad44145c62b",
+    "title": "Uniform-LT-06",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In medicine, systolic blood pressure in a trial (mmHg) are modeled as uniformly distributed between 90 and 150. What is the probability that a randomly selected observation is \n      <b>less than 115.0</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "52a9b1f589b4b1a215b42ad44145c62b_A",
+        "label": "A",
+        "html": "<p>0.3667</p>",
+        "is_correct": false
+      },
+      {
+        "id": "52a9b1f589b4b1a215b42ad44145c62b_B",
+        "label": "B",
+        "html": "<p>0.3167</p>",
+        "is_correct": false
+      },
+      {
+        "id": "52a9b1f589b4b1a215b42ad44145c62b_C",
+        "label": "C",
+        "html": "<p>0.4167</p>",
+        "is_correct": true
+      },
+      {
+        "id": "52a9b1f589b4b1a215b42ad44145c62b_D",
+        "label": "D",
+        "html": "<p>0.4667</p>",
+        "is_correct": false
+      },
+      {
+        "id": "52a9b1f589b4b1a215b42ad44145c62b_E",
+        "label": "E",
+        "html": "<p>0.5167</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "52a9b1f589b4b1a215b42ad44145c62b_C"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "a99b9abd82b99aadc917cbe9e0acb41f",
+    "title": "Uniform-LT-05",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In psychology, eye blink intervals during a task (ms) are modeled as uniformly distributed between 200 and 500. What is the probability that a randomly selected observation is \n      <b>less than 350.0</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "a99b9abd82b99aadc917cbe9e0acb41f_A",
+        "label": "A",
+        "html": "<p>0.4000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a99b9abd82b99aadc917cbe9e0acb41f_B",
+        "label": "B",
+        "html": "<p>0.5500</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a99b9abd82b99aadc917cbe9e0acb41f_C",
+        "label": "C",
+        "html": "<p>0.4500</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a99b9abd82b99aadc917cbe9e0acb41f_D",
+        "label": "D",
+        "html": "<p>0.5000</p>",
+        "is_correct": true
+      },
+      {
+        "id": "a99b9abd82b99aadc917cbe9e0acb41f_E",
+        "label": "E",
+        "html": "<p>0.6000</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a99b9abd82b99aadc917cbe9e0acb41f_D"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "83149fe8b907f6cafb81566b9df92fb2",
+    "title": "Uniform-LT-04",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In psychology, time to complete a Stroop task (seconds) are modeled as uniformly distributed between 10 and 20. What is the probability that a randomly selected observation is \n      <b>less than 12</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "83149fe8b907f6cafb81566b9df92fb2_A",
+        "label": "A",
+        "html": "<p>0.1000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "83149fe8b907f6cafb81566b9df92fb2_B",
+        "label": "B",
+        "html": "<p>0.1500</p>",
+        "is_correct": false
+      },
+      {
+        "id": "83149fe8b907f6cafb81566b9df92fb2_C",
+        "label": "C",
+        "html": "<p>0.2500</p>",
+        "is_correct": false
+      },
+      {
+        "id": "83149fe8b907f6cafb81566b9df92fb2_D",
+        "label": "D",
+        "html": "<p>0.3000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "83149fe8b907f6cafb81566b9df92fb2_E",
+        "label": "E",
+        "html": "<p>0.2000</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "83149fe8b907f6cafb81566b9df92fb2_E"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "8883c104f06fa9efdc473b507e66862e",
+    "title": "Uniform-LT-03",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In psychology, latency to recall a word (seconds) are modeled as uniformly distributed between 2.0 and 6.0. What is the probability that a randomly selected observation is \n      <b>less than 4.25</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "8883c104f06fa9efdc473b507e66862e_A",
+        "label": "A",
+        "html": "<p>0.6125</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8883c104f06fa9efdc473b507e66862e_B",
+        "label": "B",
+        "html": "<p>0.4625</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8883c104f06fa9efdc473b507e66862e_C",
+        "label": "C",
+        "html": "<p>0.5125</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8883c104f06fa9efdc473b507e66862e_D",
+        "label": "D",
+        "html": "<p>0.5625</p>",
+        "is_correct": true
+      },
+      {
+        "id": "8883c104f06fa9efdc473b507e66862e_E",
+        "label": "E",
+        "html": "<p>0.6625</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8883c104f06fa9efdc473b507e66862e_D"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "6a3349ec5ade69621476a3faa773dff8",
+    "title": "Uniform-LT-02",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In psychology, scores on a mindfulness scale (0–100) are modeled as uniformly distributed between 20 and 80. What is the probability that a randomly selected observation is \n      <b>less than 35</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "6a3349ec5ade69621476a3faa773dff8_A",
+        "label": "A",
+        "html": "<p>0.3000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6a3349ec5ade69621476a3faa773dff8_B",
+        "label": "B",
+        "html": "<p>0.2500</p>",
+        "is_correct": true
+      },
+      {
+        "id": "6a3349ec5ade69621476a3faa773dff8_C",
+        "label": "C",
+        "html": "<p>0.2000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6a3349ec5ade69621476a3faa773dff8_D",
+        "label": "D",
+        "html": "<p>0.3500</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6a3349ec5ade69621476a3faa773dff8_E",
+        "label": "E",
+        "html": "<p>0.1500</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6a3349ec5ade69621476a3faa773dff8_B"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "0e2c4cc9843f8b2f72649d5c8f9542b4",
+    "title": "Uniform-LT-01",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In psychology, reaction times to a visual stimulus (ms) are modeled as uniformly distributed between 150 and 300. What is the probability that a randomly selected observation is \n      <b>less than 220.0</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "0e2c4cc9843f8b2f72649d5c8f9542b4_A",
+        "label": "A",
+        "html": "<p>0.5167</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0e2c4cc9843f8b2f72649d5c8f9542b4_B",
+        "label": "B",
+        "html": "<p>0.3667</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0e2c4cc9843f8b2f72649d5c8f9542b4_C",
+        "label": "C",
+        "html": "<p>0.4167</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0e2c4cc9843f8b2f72649d5c8f9542b4_D",
+        "label": "D",
+        "html": "<p>0.5667</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0e2c4cc9843f8b2f72649d5c8f9542b4_E",
+        "label": "E",
+        "html": "<p>0.4667</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "0e2c4cc9843f8b2f72649d5c8f9542b4_E"
+    ]
+  }
+]

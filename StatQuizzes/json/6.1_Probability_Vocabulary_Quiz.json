@@ -1,0 +1,206 @@
+[
+  {
+    "index": 1,
+    "ident": "44d1789de41548e4e045c7e97ec17f78",
+    "title": "Complement of at least one",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the complement of the phrase “at least one”?</p>",
+    "choices": [
+      {
+        "id": "44d1789de41548e4e045c7e97ec17f78_A",
+        "label": "A",
+        "html": "At least two",
+        "is_correct": false
+      },
+      {
+        "id": "44d1789de41548e4e045c7e97ec17f78_B",
+        "label": "B",
+        "html": "At most one",
+        "is_correct": false
+      },
+      {
+        "id": "44d1789de41548e4e045c7e97ec17f78_C",
+        "label": "C",
+        "html": "None",
+        "is_correct": true
+      },
+      {
+        "id": "44d1789de41548e4e045c7e97ec17f78_D",
+        "label": "D",
+        "html": "All",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "44d1789de41548e4e045c7e97ec17f78_C"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "f3c733bad22251219621d9537ba232c4",
+    "title": "OR operation (numeric)",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What numeric operation is usually associated with the word “or” in probability calculations?</p>",
+    "choices": [
+      {
+        "id": "f3c733bad22251219621d9537ba232c4_A",
+        "label": "A",
+        "html": "Multiplication",
+        "is_correct": false
+      },
+      {
+        "id": "f3c733bad22251219621d9537ba232c4_B",
+        "label": "B",
+        "html": "Addition",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "f3c733bad22251219621d9537ba232c4_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "99c93030de584a9f666672e53302ef8f",
+    "title": "AND operation (numeric)",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What numeric operation is usually associated with the word “and” in probability calculations?</p>",
+    "choices": [
+      {
+        "id": "99c93030de584a9f666672e53302ef8f_A",
+        "label": "A",
+        "html": "Multiplication",
+        "is_correct": true
+      },
+      {
+        "id": "99c93030de584a9f666672e53302ef8f_B",
+        "label": "B",
+        "html": "Addition",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "99c93030de584a9f666672e53302ef8f_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "defb7cca9aba3997d684cdf9dab86953",
+    "title": "Without replacement",
+    "source": "canvas_qti",
+    "prompt_html": "<p>When selections are made without replacement, are the events independent or dependent?</p>",
+    "choices": [
+      {
+        "id": "defb7cca9aba3997d684cdf9dab86953_A",
+        "label": "A",
+        "html": "Independent",
+        "is_correct": false
+      },
+      {
+        "id": "defb7cca9aba3997d684cdf9dab86953_B",
+        "label": "B",
+        "html": "Dependent",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "defb7cca9aba3997d684cdf9dab86953_B"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "89736a2dbd9075ae314b73d10eb5b971",
+    "title": "With replacement",
+    "source": "canvas_qti",
+    "prompt_html": "<p>When selections are made with replacement, are the events independent or dependent?</p>",
+    "choices": [
+      {
+        "id": "89736a2dbd9075ae314b73d10eb5b971_A",
+        "label": "A",
+        "html": "Independent",
+        "is_correct": true
+      },
+      {
+        "id": "89736a2dbd9075ae314b73d10eb5b971_B",
+        "label": "B",
+        "html": "Dependent",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "89736a2dbd9075ae314b73d10eb5b971_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "ddc8d60b921e7bba028d7d4165238973",
+    "title": "Dependent events",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term describes two events where the occurrence of one changes the probability of the other?</p>",
+    "choices": [
+      {
+        "id": "ddc8d60b921e7bba028d7d4165238973_A",
+        "label": "A",
+        "html": "Independent events",
+        "is_correct": false
+      },
+      {
+        "id": "ddc8d60b921e7bba028d7d4165238973_B",
+        "label": "B",
+        "html": "Dependent events",
+        "is_correct": true
+      },
+      {
+        "id": "ddc8d60b921e7bba028d7d4165238973_C",
+        "label": "C",
+        "html": "Union",
+        "is_correct": false
+      },
+      {
+        "id": "ddc8d60b921e7bba028d7d4165238973_D",
+        "label": "D",
+        "html": "Intersection",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ddc8d60b921e7bba028d7d4165238973_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "608659e1b50c07a1c835d33bdaa7f863",
+    "title": "Independent events",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term describes two events where the occurrence of one does not affect the probability of the other?</p>",
+    "choices": [
+      {
+        "id": "608659e1b50c07a1c835d33bdaa7f863_A",
+        "label": "A",
+        "html": "Independent events",
+        "is_correct": true
+      },
+      {
+        "id": "608659e1b50c07a1c835d33bdaa7f863_B",
+        "label": "B",
+        "html": "Dependent events",
+        "is_correct": false
+      },
+      {
+        "id": "608659e1b50c07a1c835d33bdaa7f863_C",
+        "label": "C",
+        "html": "Complement",
+        "is_correct": false
+      },
+      {
+        "id": "608659e1b50c07a1c835d33bdaa7f863_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "608659e1b50c07a1c835d33bdaa7f863_A"
+    ]
+  }
+]

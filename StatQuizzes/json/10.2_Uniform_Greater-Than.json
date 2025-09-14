@@ -1,0 +1,842 @@
+[
+  {
+    "index": 1,
+    "ident": "1b1f01138201ed1cd36e3c33bfdd0acc",
+    "title": "Uniform-GT-20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In psychology, inter-trial intervals in an experiment (seconds) are modeled as uniformly distributed between 1.0 and 4.0. What is the probability that a randomly selected observation is \n      <b>greater than 3.8</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "1b1f01138201ed1cd36e3c33bfdd0acc_A",
+        "label": "A",
+        "html": "<p>0.0667</p>",
+        "is_correct": true
+      },
+      {
+        "id": "1b1f01138201ed1cd36e3c33bfdd0acc_B",
+        "label": "B",
+        "html": "<p>0.0754</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1b1f01138201ed1cd36e3c33bfdd0acc_C",
+        "label": "C",
+        "html": "<p>0.1010</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1b1f01138201ed1cd36e3c33bfdd0acc_D",
+        "label": "D",
+        "html": "<p>0.0069</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1b1f01138201ed1cd36e3c33bfdd0acc_E",
+        "label": "E",
+        "html": "<p>0.1147</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1b1f01138201ed1cd36e3c33bfdd0acc_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "67373630b9a14ad7aa2d0e3137955803",
+    "title": "Uniform-GT-19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In medicine, time spent in physical therapy (minutes) are modeled as uniformly distributed between 30 and 75. What is the probability that a randomly selected observation is \n      <b>greater than 52.5</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "67373630b9a14ad7aa2d0e3137955803_A",
+        "label": "A",
+        "html": "<p>0.5908</p>",
+        "is_correct": false
+      },
+      {
+        "id": "67373630b9a14ad7aa2d0e3137955803_B",
+        "label": "B",
+        "html": "<p>0.5323</p>",
+        "is_correct": false
+      },
+      {
+        "id": "67373630b9a14ad7aa2d0e3137955803_C",
+        "label": "C",
+        "html": "<p>0.5000</p>",
+        "is_correct": true
+      },
+      {
+        "id": "67373630b9a14ad7aa2d0e3137955803_D",
+        "label": "D",
+        "html": "<p>0.3963</p>",
+        "is_correct": false
+      },
+      {
+        "id": "67373630b9a14ad7aa2d0e3137955803_E",
+        "label": "E",
+        "html": "<p>0.3901</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "67373630b9a14ad7aa2d0e3137955803_C"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "915041ccd8487f05beaf86ed1129d243",
+    "title": "Uniform-GT-18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In biology, incubation period of an insect (days) are modeled as uniformly distributed between 8 and 20. What is the probability that a randomly selected observation is \n      <b>greater than 19</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "915041ccd8487f05beaf86ed1129d243_A",
+        "label": "A",
+        "html": "<p>0.0232</p>",
+        "is_correct": false
+      },
+      {
+        "id": "915041ccd8487f05beaf86ed1129d243_B",
+        "label": "B",
+        "html": "<p>0.0416</p>",
+        "is_correct": false
+      },
+      {
+        "id": "915041ccd8487f05beaf86ed1129d243_C",
+        "label": "C",
+        "html": "<p>0.0314</p>",
+        "is_correct": false
+      },
+      {
+        "id": "915041ccd8487f05beaf86ed1129d243_D",
+        "label": "D",
+        "html": "<p>0.0833</p>",
+        "is_correct": true
+      },
+      {
+        "id": "915041ccd8487f05beaf86ed1129d243_E",
+        "label": "E",
+        "html": "<p>0.1298</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "915041ccd8487f05beaf86ed1129d243_D"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "8820e3a167edf03c2af431e04880c86f",
+    "title": "Uniform-GT-17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In medicine, glucose tolerance test time (minutes) are modeled as uniformly distributed between 60 and 120. What is the probability that a randomly selected observation is \n      <b>greater than 70</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "8820e3a167edf03c2af431e04880c86f_A",
+        "label": "A",
+        "html": "<p>0.8333</p>",
+        "is_correct": true
+      },
+      {
+        "id": "8820e3a167edf03c2af431e04880c86f_B",
+        "label": "B",
+        "html": "<p>0.8700</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8820e3a167edf03c2af431e04880c86f_C",
+        "label": "C",
+        "html": "<p>0.7932</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8820e3a167edf03c2af431e04880c86f_D",
+        "label": "D",
+        "html": "<p>0.8774</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8820e3a167edf03c2af431e04880c86f_E",
+        "label": "E",
+        "html": "<p>0.7982</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8820e3a167edf03c2af431e04880c86f_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "223894bc1a3334b693b39e8a242a7366",
+    "title": "Uniform-GT-16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In psychology, hours slept per night in a study (hours) are modeled as uniformly distributed between 5.0 and 9.0. What is the probability that a randomly selected observation is \n      <b>greater than 8.5</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "223894bc1a3334b693b39e8a242a7366_A",
+        "label": "A",
+        "html": "<p>0.0393</p>",
+        "is_correct": false
+      },
+      {
+        "id": "223894bc1a3334b693b39e8a242a7366_B",
+        "label": "B",
+        "html": "<p>0.1250</p>",
+        "is_correct": true
+      },
+      {
+        "id": "223894bc1a3334b693b39e8a242a7366_C",
+        "label": "C",
+        "html": "<p>0.1014</p>",
+        "is_correct": false
+      },
+      {
+        "id": "223894bc1a3334b693b39e8a242a7366_D",
+        "label": "D",
+        "html": "<p>0.1839</p>",
+        "is_correct": false
+      },
+      {
+        "id": "223894bc1a3334b693b39e8a242a7366_E",
+        "label": "E",
+        "html": "<p>0.1296</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "223894bc1a3334b693b39e8a242a7366_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "7b4bf9e6518613a2be2f989c0ced5f86",
+    "title": "Uniform-GT-15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In biology, shell growth per month (mm) are modeled as uniformly distributed between 1.0 and 3.5. What is the probability that a randomly selected observation is \n      <b>greater than 1.2</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "7b4bf9e6518613a2be2f989c0ced5f86_A",
+        "label": "A",
+        "html": "<p>0.9143</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7b4bf9e6518613a2be2f989c0ced5f86_B",
+        "label": "B",
+        "html": "<p>0.9681</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7b4bf9e6518613a2be2f989c0ced5f86_C",
+        "label": "C",
+        "html": "<p>0.8069</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7b4bf9e6518613a2be2f989c0ced5f86_D",
+        "label": "D",
+        "html": "<p>0.9200</p>",
+        "is_correct": true
+      },
+      {
+        "id": "7b4bf9e6518613a2be2f989c0ced5f86_E",
+        "label": "E",
+        "html": "<p>0.8936</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7b4bf9e6518613a2be2f989c0ced5f86_D"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "c42bea98240474973705f6861113d4c1",
+    "title": "Uniform-GT-14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In biology, chlorophyll concentrations (µg/mL) are modeled as uniformly distributed between 0.5 and 2.5. What is the probability that a randomly selected observation is \n      <b>greater than 2.3</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "c42bea98240474973705f6861113d4c1_A",
+        "label": "A",
+        "html": "<p>0.1000</p>",
+        "is_correct": true
+      },
+      {
+        "id": "c42bea98240474973705f6861113d4c1_B",
+        "label": "B",
+        "html": "<p>0.2022</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c42bea98240474973705f6861113d4c1_C",
+        "label": "C",
+        "html": "<p>0.1304</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c42bea98240474973705f6861113d4c1_D",
+        "label": "D",
+        "html": "<p>0.0368</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c42bea98240474973705f6861113d4c1_E",
+        "label": "E",
+        "html": "<p>0.1870</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c42bea98240474973705f6861113d4c1_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "452893c6d54a479812f0dd6309fc8da5",
+    "title": "Uniform-GT-13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In biology, leaf lengths in a plot (cm) are modeled as uniformly distributed between 3 and 12. What is the probability that a randomly selected observation is \n      <b>greater than 10</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "452893c6d54a479812f0dd6309fc8da5_A",
+        "label": "A",
+        "html": "<p>0.3048</p>",
+        "is_correct": false
+      },
+      {
+        "id": "452893c6d54a479812f0dd6309fc8da5_B",
+        "label": "B",
+        "html": "<p>0.3250</p>",
+        "is_correct": false
+      },
+      {
+        "id": "452893c6d54a479812f0dd6309fc8da5_C",
+        "label": "C",
+        "html": "<p>0.2222</p>",
+        "is_correct": true
+      },
+      {
+        "id": "452893c6d54a479812f0dd6309fc8da5_D",
+        "label": "D",
+        "html": "<p>0.2959</p>",
+        "is_correct": false
+      },
+      {
+        "id": "452893c6d54a479812f0dd6309fc8da5_E",
+        "label": "E",
+        "html": "<p>0.2481</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "452893c6d54a479812f0dd6309fc8da5_C"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "362fdef14d5e7449407ee635380f5889",
+    "title": "Uniform-GT-12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In biology, flight durations of fruit flies (seconds) are modeled as uniformly distributed between 5 and 15. What is the probability that a randomly selected observation is \n      <b>greater than 14</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "362fdef14d5e7449407ee635380f5889_A",
+        "label": "A",
+        "html": "<p>0.1000</p>",
+        "is_correct": true
+      },
+      {
+        "id": "362fdef14d5e7449407ee635380f5889_B",
+        "label": "B",
+        "html": "<p>0.0003</p>",
+        "is_correct": false
+      },
+      {
+        "id": "362fdef14d5e7449407ee635380f5889_C",
+        "label": "C",
+        "html": "<p>0.1389</p>",
+        "is_correct": false
+      },
+      {
+        "id": "362fdef14d5e7449407ee635380f5889_D",
+        "label": "D",
+        "html": "<p>0.0647</p>",
+        "is_correct": false
+      },
+      {
+        "id": "362fdef14d5e7449407ee635380f5889_E",
+        "label": "E",
+        "html": "<p>0.0028</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "362fdef14d5e7449407ee635380f5889_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "bf3c8e5ffe48b037926d0d17a4c1578e",
+    "title": "Uniform-GT-11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In biology, weights of lab mice (grams) are modeled as uniformly distributed between 18 and 35. What is the probability that a randomly selected observation is \n      <b>greater than 33</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "bf3c8e5ffe48b037926d0d17a4c1578e_A",
+        "label": "A",
+        "html": "<p>0.2300</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bf3c8e5ffe48b037926d0d17a4c1578e_B",
+        "label": "B",
+        "html": "<p>0.1168</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bf3c8e5ffe48b037926d0d17a4c1578e_C",
+        "label": "C",
+        "html": "<p>0.2177</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bf3c8e5ffe48b037926d0d17a4c1578e_D",
+        "label": "D",
+        "html": "<p>0.1176</p>",
+        "is_correct": true
+      },
+      {
+        "id": "bf3c8e5ffe48b037926d0d17a4c1578e_E",
+        "label": "E",
+        "html": "<p>0.1670</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "bf3c8e5ffe48b037926d0d17a4c1578e_D"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "17b3d26436fa81a2868167923acfe38f",
+    "title": "Uniform-GT-10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In medicine, cholesterol levels (mg/dL) in a sample are modeled as uniformly distributed between 150 and 230. What is the probability that a randomly selected observation is \n      <b>greater than 170</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "17b3d26436fa81a2868167923acfe38f_A",
+        "label": "A",
+        "html": "<p>0.6308</p>",
+        "is_correct": false
+      },
+      {
+        "id": "17b3d26436fa81a2868167923acfe38f_B",
+        "label": "B",
+        "html": "<p>0.6486</p>",
+        "is_correct": false
+      },
+      {
+        "id": "17b3d26436fa81a2868167923acfe38f_C",
+        "label": "C",
+        "html": "<p>0.6672</p>",
+        "is_correct": false
+      },
+      {
+        "id": "17b3d26436fa81a2868167923acfe38f_D",
+        "label": "D",
+        "html": "<p>0.6997</p>",
+        "is_correct": false
+      },
+      {
+        "id": "17b3d26436fa81a2868167923acfe38f_E",
+        "label": "E",
+        "html": "<p>0.7500</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "17b3d26436fa81a2868167923acfe38f_E"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "7a1681945a6485ab154cd6418144c58f",
+    "title": "Uniform-GT-09",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In medicine, time to dissolve a sublingual tablet (seconds) are modeled as uniformly distributed between 30 and 90. What is the probability that a randomly selected observation is \n      <b>greater than 40</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "7a1681945a6485ab154cd6418144c58f_A",
+        "label": "A",
+        "html": "<p>0.9016</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7a1681945a6485ab154cd6418144c58f_B",
+        "label": "B",
+        "html": "<p>0.8304</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7a1681945a6485ab154cd6418144c58f_C",
+        "label": "C",
+        "html": "<p>0.7440</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7a1681945a6485ab154cd6418144c58f_D",
+        "label": "D",
+        "html": "<p>0.8333</p>",
+        "is_correct": true
+      },
+      {
+        "id": "7a1681945a6485ab154cd6418144c58f_E",
+        "label": "E",
+        "html": "<p>0.7674</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7a1681945a6485ab154cd6418144c58f_D"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "5729c45a26596602a35a59e9aac86c24",
+    "title": "Uniform-GT-08",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In medicine, post-operative heart rate (bpm) are modeled as uniformly distributed between 60 and 100. What is the probability that a randomly selected observation is \n      <b>greater than 82.5</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "5729c45a26596602a35a59e9aac86c24_A",
+        "label": "A",
+        "html": "<p>0.4375</p>",
+        "is_correct": true
+      },
+      {
+        "id": "5729c45a26596602a35a59e9aac86c24_B",
+        "label": "B",
+        "html": "<p>0.5248</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5729c45a26596602a35a59e9aac86c24_C",
+        "label": "C",
+        "html": "<p>0.5239</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5729c45a26596602a35a59e9aac86c24_D",
+        "label": "D",
+        "html": "<p>0.5470</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5729c45a26596602a35a59e9aac86c24_E",
+        "label": "E",
+        "html": "<p>0.5484</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5729c45a26596602a35a59e9aac86c24_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "6f14eed1ad0ee5357fa533496cbbfa28",
+    "title": "Uniform-GT-07",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In medicine, time to triage in ER (minutes) are modeled as uniformly distributed between 5 and 25. What is the probability that a randomly selected observation is \n      <b>greater than 22</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "6f14eed1ad0ee5357fa533496cbbfa28_A",
+        "label": "A",
+        "html": "<p>0.1061</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6f14eed1ad0ee5357fa533496cbbfa28_B",
+        "label": "B",
+        "html": "<p>0.2506</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6f14eed1ad0ee5357fa533496cbbfa28_C",
+        "label": "C",
+        "html": "<p>0.1627</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6f14eed1ad0ee5357fa533496cbbfa28_D",
+        "label": "D",
+        "html": "<p>0.0734</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6f14eed1ad0ee5357fa533496cbbfa28_E",
+        "label": "E",
+        "html": "<p>0.1500</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "6f14eed1ad0ee5357fa533496cbbfa28_E"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "44e3b22b57b83870f38bfe2ddf835c61",
+    "title": "Uniform-GT-06",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In medicine, systolic blood pressure in a trial (mmHg) are modeled as uniformly distributed between 90 and 150. What is the probability that a randomly selected observation is \n      <b>greater than 100</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "44e3b22b57b83870f38bfe2ddf835c61_A",
+        "label": "A",
+        "html": "<p>0.9511</p>",
+        "is_correct": false
+      },
+      {
+        "id": "44e3b22b57b83870f38bfe2ddf835c61_B",
+        "label": "B",
+        "html": "<p>0.9417</p>",
+        "is_correct": false
+      },
+      {
+        "id": "44e3b22b57b83870f38bfe2ddf835c61_C",
+        "label": "C",
+        "html": "<p>0.9090</p>",
+        "is_correct": false
+      },
+      {
+        "id": "44e3b22b57b83870f38bfe2ddf835c61_D",
+        "label": "D",
+        "html": "<p>0.7868</p>",
+        "is_correct": false
+      },
+      {
+        "id": "44e3b22b57b83870f38bfe2ddf835c61_E",
+        "label": "E",
+        "html": "<p>0.8333</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "44e3b22b57b83870f38bfe2ddf835c61_E"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "8efb8c0e178b74562e35d9d29ee3f8d5",
+    "title": "Uniform-GT-05",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In psychology, eye blink intervals during a task (ms) are modeled as uniformly distributed between 200 and 500. What is the probability that a randomly selected observation is \n      <b>greater than 450</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "8efb8c0e178b74562e35d9d29ee3f8d5_A",
+        "label": "A",
+        "html": "<p>0.1035</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8efb8c0e178b74562e35d9d29ee3f8d5_B",
+        "label": "B",
+        "html": "<p>0.1195</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8efb8c0e178b74562e35d9d29ee3f8d5_C",
+        "label": "C",
+        "html": "<p>0.0738</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8efb8c0e178b74562e35d9d29ee3f8d5_D",
+        "label": "D",
+        "html": "<p>0.2801</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8efb8c0e178b74562e35d9d29ee3f8d5_E",
+        "label": "E",
+        "html": "<p>0.1667</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "8efb8c0e178b74562e35d9d29ee3f8d5_E"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "aaeda6ba8a86cc3eb96c76159c40b4d5",
+    "title": "Uniform-GT-04",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In psychology, time to complete a Stroop task (seconds) are modeled as uniformly distributed between 10 and 20. What is the probability that a randomly selected observation is \n      <b>greater than 15.0</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "aaeda6ba8a86cc3eb96c76159c40b4d5_A",
+        "label": "A",
+        "html": "<p>0.5012</p>",
+        "is_correct": false
+      },
+      {
+        "id": "aaeda6ba8a86cc3eb96c76159c40b4d5_B",
+        "label": "B",
+        "html": "<p>0.5569</p>",
+        "is_correct": false
+      },
+      {
+        "id": "aaeda6ba8a86cc3eb96c76159c40b4d5_C",
+        "label": "C",
+        "html": "<p>0.5280</p>",
+        "is_correct": false
+      },
+      {
+        "id": "aaeda6ba8a86cc3eb96c76159c40b4d5_D",
+        "label": "D",
+        "html": "<p>0.4400</p>",
+        "is_correct": false
+      },
+      {
+        "id": "aaeda6ba8a86cc3eb96c76159c40b4d5_E",
+        "label": "E",
+        "html": "<p>0.5000</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "aaeda6ba8a86cc3eb96c76159c40b4d5_E"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "ffbf07d525ddbc1704e3ba47eb482639",
+    "title": "Uniform-GT-03",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In psychology, latency to recall a word (seconds) are modeled as uniformly distributed between 2.0 and 6.0. What is the probability that a randomly selected observation is \n      <b>greater than 5.5</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "ffbf07d525ddbc1704e3ba47eb482639_A",
+        "label": "A",
+        "html": "<p>0.1727</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ffbf07d525ddbc1704e3ba47eb482639_B",
+        "label": "B",
+        "html": "<p>0.0846</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ffbf07d525ddbc1704e3ba47eb482639_C",
+        "label": "C",
+        "html": "<p>0.0763</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ffbf07d525ddbc1704e3ba47eb482639_D",
+        "label": "D",
+        "html": "<p>0.0867</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ffbf07d525ddbc1704e3ba47eb482639_E",
+        "label": "E",
+        "html": "<p>0.1250</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "ffbf07d525ddbc1704e3ba47eb482639_E"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "16025141e55fde1cfbfa42da67cadf54",
+    "title": "Uniform-GT-02",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In psychology, scores on a mindfulness scale (0–100) are modeled as uniformly distributed between 20 and 80. What is the probability that a randomly selected observation is \n      <b>greater than 35</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "16025141e55fde1cfbfa42da67cadf54_A",
+        "label": "A",
+        "html": "<p>0.8224</p>",
+        "is_correct": false
+      },
+      {
+        "id": "16025141e55fde1cfbfa42da67cadf54_B",
+        "label": "B",
+        "html": "<p>0.6746</p>",
+        "is_correct": false
+      },
+      {
+        "id": "16025141e55fde1cfbfa42da67cadf54_C",
+        "label": "C",
+        "html": "<p>0.7717</p>",
+        "is_correct": false
+      },
+      {
+        "id": "16025141e55fde1cfbfa42da67cadf54_D",
+        "label": "D",
+        "html": "<p>0.7508</p>",
+        "is_correct": false
+      },
+      {
+        "id": "16025141e55fde1cfbfa42da67cadf54_E",
+        "label": "E",
+        "html": "<p>0.7500</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "16025141e55fde1cfbfa42da67cadf54_E"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "fbb10211056c5d73b664180ce2da9ada",
+    "title": "Uniform-GT-01",
+    "source": "canvas_qti",
+    "prompt_html": "<p>\n      In psychology, reaction times to a visual stimulus (ms) are modeled as uniformly distributed between 150 and 300. What is the probability that a randomly selected observation is \n      <b>greater than 180</b>\n      <span>? Round to four decimal places.</span>\n    </p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "fbb10211056c5d73b664180ce2da9ada_A",
+        "label": "A",
+        "html": "<p>0.8169</p>",
+        "is_correct": false
+      },
+      {
+        "id": "fbb10211056c5d73b664180ce2da9ada_B",
+        "label": "B",
+        "html": "<p>0.7037</p>",
+        "is_correct": false
+      },
+      {
+        "id": "fbb10211056c5d73b664180ce2da9ada_C",
+        "label": "C",
+        "html": "<p>0.8000</p>",
+        "is_correct": true
+      },
+      {
+        "id": "fbb10211056c5d73b664180ce2da9ada_D",
+        "label": "D",
+        "html": "<p>0.7459</p>",
+        "is_correct": false
+      },
+      {
+        "id": "fbb10211056c5d73b664180ce2da9ada_E",
+        "label": "E",
+        "html": "<p>0.8256</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "fbb10211056c5d73b664180ce2da9ada_C"
+    ]
+  }
+]

@@ -1,0 +1,842 @@
+[
+  {
+    "index": 1,
+    "ident": "b29060d92a4ae022ce53d5ec033b50bb",
+    "title": "Probability Vocabulary Q06",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term means the complete list that enumerates every outcome that could occur when a chance process is performed?</p>",
+    "choices": [
+      {
+        "id": "b29060d92a4ae022ce53d5ec033b50bb_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": false
+      },
+      {
+        "id": "b29060d92a4ae022ce53d5ec033b50bb_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": false
+      },
+      {
+        "id": "b29060d92a4ae022ce53d5ec033b50bb_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": false
+      },
+      {
+        "id": "b29060d92a4ae022ce53d5ec033b50bb_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": true
+      },
+      {
+        "id": "b29060d92a4ae022ce53d5ec033b50bb_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b29060d92a4ae022ce53d5ec033b50bb_D"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "282eebed677f03e46480364e6d390300",
+    "title": "Probability Vocabulary Q07",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term describes any subset of the sample space to which a probability can be assigned?</p>",
+    "choices": [
+      {
+        "id": "282eebed677f03e46480364e6d390300_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": true
+      },
+      {
+        "id": "282eebed677f03e46480364e6d390300_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": false
+      },
+      {
+        "id": "282eebed677f03e46480364e6d390300_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": false
+      },
+      {
+        "id": "282eebed677f03e46480364e6d390300_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": false
+      },
+      {
+        "id": "282eebed677f03e46480364e6d390300_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "282eebed677f03e46480364e6d390300_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "82b600cf8d321b41ffeccfd2bb86177a",
+    "title": "Probability Vocabulary Q08",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term means a single, indivisible outcome such as ‘rolling a 3’ on one fair die?</p>",
+    "choices": [
+      {
+        "id": "82b600cf8d321b41ffeccfd2bb86177a_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": false
+      },
+      {
+        "id": "82b600cf8d321b41ffeccfd2bb86177a_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": true
+      },
+      {
+        "id": "82b600cf8d321b41ffeccfd2bb86177a_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": false
+      },
+      {
+        "id": "82b600cf8d321b41ffeccfd2bb86177a_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": false
+      },
+      {
+        "id": "82b600cf8d321b41ffeccfd2bb86177a_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "82b600cf8d321b41ffeccfd2bb86177a_B"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "f57a388c05559c68f31de86823606f17",
+    "title": "Probability Vocabulary Q09",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term describes an event like ‘rolling an even number’ that combines several single outcomes?</p>",
+    "choices": [
+      {
+        "id": "f57a388c05559c68f31de86823606f17_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": false
+      },
+      {
+        "id": "f57a388c05559c68f31de86823606f17_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": false
+      },
+      {
+        "id": "f57a388c05559c68f31de86823606f17_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": true
+      },
+      {
+        "id": "f57a388c05559c68f31de86823606f17_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": false
+      },
+      {
+        "id": "f57a388c05559c68f31de86823606f17_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f57a388c05559c68f31de86823606f17_C"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "69f2ef9fbdf9fcc7c1de4a6f8f7de161",
+    "title": "Probability Vocabulary Q10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term describes a theorem stating that empirical probabilities stabilize near their expected values with many repetitions?</p>",
+    "choices": [
+      {
+        "id": "69f2ef9fbdf9fcc7c1de4a6f8f7de161_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": false
+      },
+      {
+        "id": "69f2ef9fbdf9fcc7c1de4a6f8f7de161_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": false
+      },
+      {
+        "id": "69f2ef9fbdf9fcc7c1de4a6f8f7de161_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": false
+      },
+      {
+        "id": "69f2ef9fbdf9fcc7c1de4a6f8f7de161_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": false
+      },
+      {
+        "id": "69f2ef9fbdf9fcc7c1de4a6f8f7de161_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "69f2ef9fbdf9fcc7c1de4a6f8f7de161_E"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "382c9a25229f65aaa230d1ee4aacb61e",
+    "title": "Probability Vocabulary Q11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term describes {Heads, Tails} for flipping a fair coin once?</p>",
+    "choices": [
+      {
+        "id": "382c9a25229f65aaa230d1ee4aacb61e_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": false
+      },
+      {
+        "id": "382c9a25229f65aaa230d1ee4aacb61e_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": false
+      },
+      {
+        "id": "382c9a25229f65aaa230d1ee4aacb61e_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": false
+      },
+      {
+        "id": "382c9a25229f65aaa230d1ee4aacb61e_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": true
+      },
+      {
+        "id": "382c9a25229f65aaa230d1ee4aacb61e_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "382c9a25229f65aaa230d1ee4aacb61e_D"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "51c2f71ffd7f38d1c76235b3dec72fa0",
+    "title": "Probability Vocabulary Q12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term means selecting ‘a red marble’ from a bowl when each distinct draw result counts as one outcome?</p>",
+    "choices": [
+      {
+        "id": "51c2f71ffd7f38d1c76235b3dec72fa0_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": false
+      },
+      {
+        "id": "51c2f71ffd7f38d1c76235b3dec72fa0_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": true
+      },
+      {
+        "id": "51c2f71ffd7f38d1c76235b3dec72fa0_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": false
+      },
+      {
+        "id": "51c2f71ffd7f38d1c76235b3dec72fa0_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": false
+      },
+      {
+        "id": "51c2f71ffd7f38d1c76235b3dec72fa0_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "51c2f71ffd7f38d1c76235b3dec72fa0_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "804e29b52e3cdcae574e3334e4af5d01",
+    "title": "Probability Vocabulary Q13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term describes selecting ‘a face card’ from a standard deck?</p>",
+    "choices": [
+      {
+        "id": "804e29b52e3cdcae574e3334e4af5d01_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": false
+      },
+      {
+        "id": "804e29b52e3cdcae574e3334e4af5d01_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": false
+      },
+      {
+        "id": "804e29b52e3cdcae574e3334e4af5d01_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": true
+      },
+      {
+        "id": "804e29b52e3cdcae574e3334e4af5d01_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": false
+      },
+      {
+        "id": "804e29b52e3cdcae574e3334e4af5d01_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "804e29b52e3cdcae574e3334e4af5d01_C"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "71cb5132a4072096f3eaa173c0ae816e",
+    "title": "Probability Vocabulary Q14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term describes the collection of all 36 ordered pairs when two fair dice are rolled?</p>",
+    "choices": [
+      {
+        "id": "71cb5132a4072096f3eaa173c0ae816e_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": false
+      },
+      {
+        "id": "71cb5132a4072096f3eaa173c0ae816e_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": false
+      },
+      {
+        "id": "71cb5132a4072096f3eaa173c0ae816e_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": false
+      },
+      {
+        "id": "71cb5132a4072096f3eaa173c0ae816e_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": true
+      },
+      {
+        "id": "71cb5132a4072096f3eaa173c0ae816e_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "71cb5132a4072096f3eaa173c0ae816e_D"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "1061b8992e88b222f2980f407d4c81d2",
+    "title": "Probability Vocabulary Q15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term describes the rule about long-run frequencies stating that with enough trials, the proportion of successes gets close to the true chance?</p>",
+    "choices": [
+      {
+        "id": "1061b8992e88b222f2980f407d4c81d2_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": false
+      },
+      {
+        "id": "1061b8992e88b222f2980f407d4c81d2_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": false
+      },
+      {
+        "id": "1061b8992e88b222f2980f407d4c81d2_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": false
+      },
+      {
+        "id": "1061b8992e88b222f2980f407d4c81d2_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": false
+      },
+      {
+        "id": "1061b8992e88b222f2980f407d4c81d2_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "1061b8992e88b222f2980f407d4c81d2_E"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "23e13b170fff50532eb7e4897949358e",
+    "title": "Probability Vocabulary Q16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term means any result that either happens or does not happen on a single performance of a random process?</p>",
+    "choices": [
+      {
+        "id": "23e13b170fff50532eb7e4897949358e_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": true
+      },
+      {
+        "id": "23e13b170fff50532eb7e4897949358e_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": false
+      },
+      {
+        "id": "23e13b170fff50532eb7e4897949358e_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": false
+      },
+      {
+        "id": "23e13b170fff50532eb7e4897949358e_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": false
+      },
+      {
+        "id": "23e13b170fff50532eb7e4897949358e_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "23e13b170fff50532eb7e4897949358e_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "0527da90db933e368666885d9258913b",
+    "title": "Probability Vocabulary Q17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term describes an event made of multiple simple outcomes grouped together by a property?</p>",
+    "choices": [
+      {
+        "id": "0527da90db933e368666885d9258913b_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": false
+      },
+      {
+        "id": "0527da90db933e368666885d9258913b_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": false
+      },
+      {
+        "id": "0527da90db933e368666885d9258913b_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": true
+      },
+      {
+        "id": "0527da90db933e368666885d9258913b_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": false
+      },
+      {
+        "id": "0527da90db933e368666885d9258913b_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0527da90db933e368666885d9258913b_C"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "29d611dff07ad653905188788aa11f64",
+    "title": "Probability Vocabulary Q18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term means an event that cannot be decomposed into smaller events because it corresponds to one and only one outcome?</p>",
+    "choices": [
+      {
+        "id": "29d611dff07ad653905188788aa11f64_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": false
+      },
+      {
+        "id": "29d611dff07ad653905188788aa11f64_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": true
+      },
+      {
+        "id": "29d611dff07ad653905188788aa11f64_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": false
+      },
+      {
+        "id": "29d611dff07ad653905188788aa11f64_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": false
+      },
+      {
+        "id": "29d611dff07ad653905188788aa11f64_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "29d611dff07ad653905188788aa11f64_B"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "d462b4987578a14195a65106a5690c94",
+    "title": "Probability Vocabulary Q19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term describes the mathematical name for the universe of outcomes that probability statements refer to?</p>",
+    "choices": [
+      {
+        "id": "d462b4987578a14195a65106a5690c94_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": false
+      },
+      {
+        "id": "d462b4987578a14195a65106a5690c94_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": false
+      },
+      {
+        "id": "d462b4987578a14195a65106a5690c94_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": false
+      },
+      {
+        "id": "d462b4987578a14195a65106a5690c94_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": true
+      },
+      {
+        "id": "d462b4987578a14195a65106a5690c94_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d462b4987578a14195a65106a5690c94_D"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "2b0fc4dc6ac8427e72f5e5a26a328f35",
+    "title": "Probability Vocabulary Q20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term describes the long-run stabilization of relative frequency around the theoretical probability?</p>",
+    "choices": [
+      {
+        "id": "2b0fc4dc6ac8427e72f5e5a26a328f35_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": false
+      },
+      {
+        "id": "2b0fc4dc6ac8427e72f5e5a26a328f35_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": false
+      },
+      {
+        "id": "2b0fc4dc6ac8427e72f5e5a26a328f35_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": false
+      },
+      {
+        "id": "2b0fc4dc6ac8427e72f5e5a26a328f35_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": false
+      },
+      {
+        "id": "2b0fc4dc6ac8427e72f5e5a26a328f35_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "2b0fc4dc6ac8427e72f5e5a26a328f35_E"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "6a54bfa618b53f3057087983f8eec2f8",
+    "title": "Probability Vocabulary Q05",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term describes the principle that, as the number of trials increases, the relative frequency of an event tends to approach its theoretical probability?</p>",
+    "choices": [
+      {
+        "id": "6a54bfa618b53f3057087983f8eec2f8_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": false
+      },
+      {
+        "id": "6a54bfa618b53f3057087983f8eec2f8_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": false
+      },
+      {
+        "id": "6a54bfa618b53f3057087983f8eec2f8_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": false
+      },
+      {
+        "id": "6a54bfa618b53f3057087983f8eec2f8_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": false
+      },
+      {
+        "id": "6a54bfa618b53f3057087983f8eec2f8_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "6a54bfa618b53f3057087983f8eec2f8_E"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "5114001a06f7ed21dec7e229acc6db2f",
+    "title": "Probability Vocabulary Q04",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term describes an event that can be written as the union of two or more simple events?</p>",
+    "choices": [
+      {
+        "id": "5114001a06f7ed21dec7e229acc6db2f_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": false
+      },
+      {
+        "id": "5114001a06f7ed21dec7e229acc6db2f_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": false
+      },
+      {
+        "id": "5114001a06f7ed21dec7e229acc6db2f_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": true
+      },
+      {
+        "id": "5114001a06f7ed21dec7e229acc6db2f_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": false
+      },
+      {
+        "id": "5114001a06f7ed21dec7e229acc6db2f_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5114001a06f7ed21dec7e229acc6db2f_C"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "5b8060d3cbefdaeda4a7318745c49532",
+    "title": "Probability Vocabulary Q03",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term means an event that consists of exactly one outcome?</p>",
+    "choices": [
+      {
+        "id": "5b8060d3cbefdaeda4a7318745c49532_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": false
+      },
+      {
+        "id": "5b8060d3cbefdaeda4a7318745c49532_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": true
+      },
+      {
+        "id": "5b8060d3cbefdaeda4a7318745c49532_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": false
+      },
+      {
+        "id": "5b8060d3cbefdaeda4a7318745c49532_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": false
+      },
+      {
+        "id": "5b8060d3cbefdaeda4a7318745c49532_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5b8060d3cbefdaeda4a7318745c49532_B"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "eb7fa50f534546c8260aeaef52bbf6e6",
+    "title": "Probability Vocabulary Q02",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term means an outcome or collection of outcomes from the sample space?</p>",
+    "choices": [
+      {
+        "id": "eb7fa50f534546c8260aeaef52bbf6e6_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": true
+      },
+      {
+        "id": "eb7fa50f534546c8260aeaef52bbf6e6_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": false
+      },
+      {
+        "id": "eb7fa50f534546c8260aeaef52bbf6e6_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": false
+      },
+      {
+        "id": "eb7fa50f534546c8260aeaef52bbf6e6_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": false
+      },
+      {
+        "id": "eb7fa50f534546c8260aeaef52bbf6e6_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "eb7fa50f534546c8260aeaef52bbf6e6_A"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "1e0927f479edcdb6c70740e8b341453e",
+    "title": "Probability Vocabulary Q01",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What term describes the set of all possible outcomes for a random experiment?</p>",
+    "choices": [
+      {
+        "id": "1e0927f479edcdb6c70740e8b341453e_A",
+        "label": "A",
+        "html": "Event",
+        "is_correct": false
+      },
+      {
+        "id": "1e0927f479edcdb6c70740e8b341453e_B",
+        "label": "B",
+        "html": "Simple event",
+        "is_correct": false
+      },
+      {
+        "id": "1e0927f479edcdb6c70740e8b341453e_C",
+        "label": "C",
+        "html": "Compound event",
+        "is_correct": false
+      },
+      {
+        "id": "1e0927f479edcdb6c70740e8b341453e_D",
+        "label": "D",
+        "html": "Sample space",
+        "is_correct": true
+      },
+      {
+        "id": "1e0927f479edcdb6c70740e8b341453e_E",
+        "label": "E",
+        "html": "Law of large numbers",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1e0927f479edcdb6c70740e8b341453e_D"
+    ]
+  }
+]

@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "119d9f9fa33d6b06c6a26e7863593b63",
+    "title": "item_20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>30% of participants succeed on a memory task. Let x be the number of participants who succeed among 75 participants. Use the Range Rule of Thumb to identify the minimum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "119d9f9fa33d6b06c6a26e7863593b63_A",
+        "label": "A",
+        "html": "<p>13.56</p>",
+        "is_correct": false
+      },
+      {
+        "id": "119d9f9fa33d6b06c6a26e7863593b63_B",
+        "label": "B",
+        "html": "<p>14.56</p>",
+        "is_correct": true
+      },
+      {
+        "id": "119d9f9fa33d6b06c6a26e7863593b63_C",
+        "label": "C",
+        "html": "<p>34.41</p>",
+        "is_correct": false
+      },
+      {
+        "id": "119d9f9fa33d6b06c6a26e7863593b63_D",
+        "label": "D",
+        "html": "<p>10.59</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "119d9f9fa33d6b06c6a26e7863593b63_B"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "7e946b611fdb63130a3c31614086b076",
+    "title": "item_19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>25% of patients test positive on a certain diagnostic test. Let x be the number of patients who test positive among 20 patients. Use the Range Rule of Thumb to identify the minimum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "7e946b611fdb63130a3c31614086b076_A",
+        "label": "A",
+        "html": "<p>1.63</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7e946b611fdb63130a3c31614086b076_B",
+        "label": "B",
+        "html": "<p>1.13</p>",
+        "is_correct": true
+      },
+      {
+        "id": "7e946b611fdb63130a3c31614086b076_C",
+        "label": "C",
+        "html": "<p>0.63</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7e946b611fdb63130a3c31614086b076_D",
+        "label": "D",
+        "html": "<p>-0.81</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7e946b611fdb63130a3c31614086b076_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "90aa9908e8dbb29bc83a724fe12d2843",
+    "title": "item_18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>50% of people experience a mild side effect. Let x be the number of people with the side effect among 20 people. Use the Range Rule of Thumb to identify the maximum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "90aa9908e8dbb29bc83a724fe12d2843_A",
+        "label": "A",
+        "html": "<p>12.24</p>",
+        "is_correct": false
+      },
+      {
+        "id": "90aa9908e8dbb29bc83a724fe12d2843_B",
+        "label": "B",
+        "html": "<p>7.76</p>",
+        "is_correct": false
+      },
+      {
+        "id": "90aa9908e8dbb29bc83a724fe12d2843_C",
+        "label": "C",
+        "html": "<p>3.29</p>",
+        "is_correct": false
+      },
+      {
+        "id": "90aa9908e8dbb29bc83a724fe12d2843_D",
+        "label": "D",
+        "html": "<p>14.47</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "90aa9908e8dbb29bc83a724fe12d2843_D"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "860174c32bafc7c68138a548f9f236e7",
+    "title": "item_17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>50% of participants show a startle response to a stimulus. Let x be the number of participants who show a startle response among 30 participants. Use the Range Rule of Thumb to identify the maximum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "860174c32bafc7c68138a548f9f236e7_A",
+        "label": "A",
+        "html": "<p>17.74</p>",
+        "is_correct": false
+      },
+      {
+        "id": "860174c32bafc7c68138a548f9f236e7_B",
+        "label": "B",
+        "html": "<p>12.26</p>",
+        "is_correct": false
+      },
+      {
+        "id": "860174c32bafc7c68138a548f9f236e7_C",
+        "label": "C",
+        "html": "<p>6.78</p>",
+        "is_correct": false
+      },
+      {
+        "id": "860174c32bafc7c68138a548f9f236e7_D",
+        "label": "D",
+        "html": "<p>20.48</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "860174c32bafc7c68138a548f9f236e7_D"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "c49aef60e28ce49d61fee5ae480631da",
+    "title": "item_16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>10% of people experience a mild side effect. Let x be the number of people with the side effect among 50 people. Use the Range Rule of Thumb to identify the minimum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "c49aef60e28ce49d61fee5ae480631da_A",
+        "label": "A",
+        "html": "<p>2.88</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c49aef60e28ce49d61fee5ae480631da_B",
+        "label": "B",
+        "html": "<p>0.76</p>",
+        "is_correct": true
+      },
+      {
+        "id": "c49aef60e28ce49d61fee5ae480631da_C",
+        "label": "C",
+        "html": "<p>0.26</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c49aef60e28ce49d61fee5ae480631da_D",
+        "label": "D",
+        "html": "<p>1.26</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c49aef60e28ce49d61fee5ae480631da_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "458405c152b1ae2a217d066efd9f4369",
+    "title": "item_15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>35% of people report feeling anxious before an exam. Let x be the number of people who feel anxious among 20 people. Use the Range Rule of Thumb to identify the minimum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "458405c152b1ae2a217d066efd9f4369_A",
+        "label": "A",
+        "html": "<p>0.60</p>",
+        "is_correct": false
+      },
+      {
+        "id": "458405c152b1ae2a217d066efd9f4369_B",
+        "label": "B",
+        "html": "<p>2.73</p>",
+        "is_correct": true
+      },
+      {
+        "id": "458405c152b1ae2a217d066efd9f4369_C",
+        "label": "C",
+        "html": "<p>1.73</p>",
+        "is_correct": false
+      },
+      {
+        "id": "458405c152b1ae2a217d066efd9f4369_D",
+        "label": "D",
+        "html": "<p>2.23</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "458405c152b1ae2a217d066efd9f4369_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "0195798eab9a56cc767806d426bb4c62",
+    "title": "item_14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>35% of participants succeed on a memory task. Let x be the number of participants who succeed among 20 participants. Use the Range Rule of Thumb to identify the maximum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "0195798eab9a56cc767806d426bb4c62_A",
+        "label": "A",
+        "html": "<p>4.87</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0195798eab9a56cc767806d426bb4c62_B",
+        "label": "B",
+        "html": "<p>11.27</p>",
+        "is_correct": true
+      },
+      {
+        "id": "0195798eab9a56cc767806d426bb4c62_C",
+        "label": "C",
+        "html": "<p>9.13</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0195798eab9a56cc767806d426bb4c62_D",
+        "label": "D",
+        "html": "<p>0.60</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0195798eab9a56cc767806d426bb4c62_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "3a711f3c8e2bbfd257706eaf42c2d04f",
+    "title": "item_13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>40% of participants show a startle response to a stimulus. Let x be the number of participants who show a startle response among 25 participants. Use the Range Rule of Thumb to identify the minimum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "3a711f3c8e2bbfd257706eaf42c2d04f_A",
+        "label": "A",
+        "html": "<p>5.10</p>",
+        "is_correct": true
+      },
+      {
+        "id": "3a711f3c8e2bbfd257706eaf42c2d04f_B",
+        "label": "B",
+        "html": "<p>2.65</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3a711f3c8e2bbfd257706eaf42c2d04f_C",
+        "label": "C",
+        "html": "<p>4.60</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3a711f3c8e2bbfd257706eaf42c2d04f_D",
+        "label": "D",
+        "html": "<p>5.60</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3a711f3c8e2bbfd257706eaf42c2d04f_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "12b127565ab3f7d99fd5bf9806fc686e",
+    "title": "item_12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>30% of subjects answer a tricky question correctly by guessing. Let x be the number of correct answers among 30 subjects. Use the Range Rule of Thumb to identify the minimum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "12b127565ab3f7d99fd5bf9806fc686e_A",
+        "label": "A",
+        "html": "<p>3.48</p>",
+        "is_correct": false
+      },
+      {
+        "id": "12b127565ab3f7d99fd5bf9806fc686e_B",
+        "label": "B",
+        "html": "<p>2.98</p>",
+        "is_correct": false
+      },
+      {
+        "id": "12b127565ab3f7d99fd5bf9806fc686e_C",
+        "label": "C",
+        "html": "<p>3.98</p>",
+        "is_correct": true
+      },
+      {
+        "id": "12b127565ab3f7d99fd5bf9806fc686e_D",
+        "label": "D",
+        "html": "<p>1.47</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "12b127565ab3f7d99fd5bf9806fc686e_C"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "2b94e28b3b144142a35922c235a0992a",
+    "title": "item_11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>10% of individuals carry a genetic marker. Let x be the number of individuals with the marker among 30 individuals. Use the Range Rule of Thumb to identify the maximum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "2b94e28b3b144142a35922c235a0992a_A",
+        "label": "A",
+        "html": "<p>5.79</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2b94e28b3b144142a35922c235a0992a_B",
+        "label": "B",
+        "html": "<p>6.29</p>",
+        "is_correct": true
+      },
+      {
+        "id": "2b94e28b3b144142a35922c235a0992a_C",
+        "label": "C",
+        "html": "<p>1.36</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2b94e28b3b144142a35922c235a0992a_D",
+        "label": "D",
+        "html": "<p>4.64</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2b94e28b3b144142a35922c235a0992a_B"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "af5b032fbe6f48a484e9dcc496b32b43",
+    "title": "item_10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>40% of fish in a lake carry a parasite. Let x be the number of fish with the parasite among 75 fish. Use the Range Rule of Thumb to identify the minimum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "af5b032fbe6f48a484e9dcc496b32b43_A",
+        "label": "A",
+        "html": "<p>21.51</p>",
+        "is_correct": true
+      },
+      {
+        "id": "af5b032fbe6f48a484e9dcc496b32b43_B",
+        "label": "B",
+        "html": "<p>17.27</p>",
+        "is_correct": false
+      },
+      {
+        "id": "af5b032fbe6f48a484e9dcc496b32b43_C",
+        "label": "C",
+        "html": "<p>42.73</p>",
+        "is_correct": false
+      },
+      {
+        "id": "af5b032fbe6f48a484e9dcc496b32b43_D",
+        "label": "D",
+        "html": "<p>34.24</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "af5b032fbe6f48a484e9dcc496b32b43_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "ad35d9b323e9963b89e4fe05c2fdf97f",
+    "title": "item_09",
+    "source": "canvas_qti",
+    "prompt_html": "<p>35% of patients test positive on a certain diagnostic test. Let x be the number of patients who test positive among 100 patients. Use the Range Rule of Thumb to identify the maximum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "ad35d9b323e9963b89e4fe05c2fdf97f_A",
+        "label": "A",
+        "html": "<p>44.54</p>",
+        "is_correct": true
+      },
+      {
+        "id": "ad35d9b323e9963b89e4fe05c2fdf97f_B",
+        "label": "B",
+        "html": "<p>44.04</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ad35d9b323e9963b89e4fe05c2fdf97f_C",
+        "label": "C",
+        "html": "<p>39.77</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ad35d9b323e9963b89e4fe05c2fdf97f_D",
+        "label": "D",
+        "html": "<p>43.54</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ad35d9b323e9963b89e4fe05c2fdf97f_A"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "7a296197cbd3fff71f29ec5a41c0642a",
+    "title": "item_08",
+    "source": "canvas_qti",
+    "prompt_html": "<p>50% of patients respond to a new treatment. Let x be the number of patients who respond among 50 patients. Use the Range Rule of Thumb to identify the minimum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "7a296197cbd3fff71f29ec5a41c0642a_A",
+        "label": "A",
+        "html": "<p>17.93</p>",
+        "is_correct": true
+      },
+      {
+        "id": "7a296197cbd3fff71f29ec5a41c0642a_B",
+        "label": "B",
+        "html": "<p>16.93</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7a296197cbd3fff71f29ec5a41c0642a_C",
+        "label": "C",
+        "html": "<p>14.39</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7a296197cbd3fff71f29ec5a41c0642a_D",
+        "label": "D",
+        "html": "<p>35.61</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7a296197cbd3fff71f29ec5a41c0642a_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "d428e56f0ffea2cc1c1404f9c639736a",
+    "title": "item_07",
+    "source": "canvas_qti",
+    "prompt_html": "<p>20% of subjects answer a tricky question correctly by guessing. Let x be the number of correct answers among 30 subjects. Use the Range Rule of Thumb to identify the maximum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "d428e56f0ffea2cc1c1404f9c639736a_A",
+        "label": "A",
+        "html": "<p>10.38</p>",
+        "is_correct": true
+      },
+      {
+        "id": "d428e56f0ffea2cc1c1404f9c639736a_B",
+        "label": "B",
+        "html": "<p>-0.57</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d428e56f0ffea2cc1c1404f9c639736a_C",
+        "label": "C",
+        "html": "<p>3.81</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d428e56f0ffea2cc1c1404f9c639736a_D",
+        "label": "D",
+        "html": "<p>8.19</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d428e56f0ffea2cc1c1404f9c639736a_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "5b5b8a561c8f1aeba594de6b9b53f439",
+    "title": "item_06",
+    "source": "canvas_qti",
+    "prompt_html": "<p>50% of participants succeed on a memory task. Let x be the number of participants who succeed among 25 participants. Use the Range Rule of Thumb to identify the maximum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "5b5b8a561c8f1aeba594de6b9b53f439_A",
+        "label": "A",
+        "html": "<p>10.00</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5b5b8a561c8f1aeba594de6b9b53f439_B",
+        "label": "B",
+        "html": "<p>17.50</p>",
+        "is_correct": true
+      },
+      {
+        "id": "5b5b8a561c8f1aeba594de6b9b53f439_C",
+        "label": "C",
+        "html": "<p>5.00</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5b5b8a561c8f1aeba594de6b9b53f439_D",
+        "label": "D",
+        "html": "<p>15.00</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5b5b8a561c8f1aeba594de6b9b53f439_B"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "9ede4a5598c2fb27cc60a94ffe261d17",
+    "title": "item_05",
+    "source": "canvas_qti",
+    "prompt_html": "<p>40% of a population of frogs are green. Let x be the number of green frogs among 25 frogs. Use the Range Rule of Thumb to identify the maximum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "9ede4a5598c2fb27cc60a94ffe261d17_A",
+        "label": "A",
+        "html": "<p>7.55</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9ede4a5598c2fb27cc60a94ffe261d17_B",
+        "label": "B",
+        "html": "<p>12.45</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9ede4a5598c2fb27cc60a94ffe261d17_C",
+        "label": "C",
+        "html": "<p>2.65</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9ede4a5598c2fb27cc60a94ffe261d17_D",
+        "label": "D",
+        "html": "<p>14.90</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "9ede4a5598c2fb27cc60a94ffe261d17_D"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "bb7af3aec20a51b1922ce6fe6f0e5436",
+    "title": "item_04",
+    "source": "canvas_qti",
+    "prompt_html": "<p>25% of participants show a startle response to a stimulus. Let x be the number of participants who show a startle response among 30 participants. Use the Range Rule of Thumb to identify the maximum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "bb7af3aec20a51b1922ce6fe6f0e5436_A",
+        "label": "A",
+        "html": "<p>9.87</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bb7af3aec20a51b1922ce6fe6f0e5436_B",
+        "label": "B",
+        "html": "<p>5.13</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bb7af3aec20a51b1922ce6fe6f0e5436_C",
+        "label": "C",
+        "html": "<p>0.38</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bb7af3aec20a51b1922ce6fe6f0e5436_D",
+        "label": "D",
+        "html": "<p>12.24</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "bb7af3aec20a51b1922ce6fe6f0e5436_D"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "da22ae219fdcd78a8b4a069b2c7654ef",
+    "title": "item_03",
+    "source": "canvas_qti",
+    "prompt_html": "<p>20% of a population of frogs are green. Let x be the number of green frogs among 30 frogs. Use the Range Rule of Thumb to identify the minimum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "da22ae219fdcd78a8b4a069b2c7654ef_A",
+        "label": "A",
+        "html": "<p>2.12</p>",
+        "is_correct": false
+      },
+      {
+        "id": "da22ae219fdcd78a8b4a069b2c7654ef_B",
+        "label": "B",
+        "html": "<p>-0.57</p>",
+        "is_correct": false
+      },
+      {
+        "id": "da22ae219fdcd78a8b4a069b2c7654ef_C",
+        "label": "C",
+        "html": "<p>1.62</p>",
+        "is_correct": true
+      },
+      {
+        "id": "da22ae219fdcd78a8b4a069b2c7654ef_D",
+        "label": "D",
+        "html": "<p>1.12</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "da22ae219fdcd78a8b4a069b2c7654ef_C"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "c32263fb88b6bf2eeb51ac9ce4eb68e9",
+    "title": "item_02",
+    "source": "canvas_qti",
+    "prompt_html": "<p>10% of a population of frogs are green. Let x be the number of green frogs among 75 frogs. Use the Range Rule of Thumb to identify the minimum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "c32263fb88b6bf2eeb51ac9ce4eb68e9_A",
+        "label": "A",
+        "html": "<p>2.30</p>",
+        "is_correct": true
+      },
+      {
+        "id": "c32263fb88b6bf2eeb51ac9ce4eb68e9_B",
+        "label": "B",
+        "html": "<p>2.80</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c32263fb88b6bf2eeb51ac9ce4eb68e9_C",
+        "label": "C",
+        "html": "<p>1.80</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c32263fb88b6bf2eeb51ac9ce4eb68e9_D",
+        "label": "D",
+        "html": "<p>-0.29</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c32263fb88b6bf2eeb51ac9ce4eb68e9_A"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "7ce6e1dc7e39f10fc5f39739013a5f56",
+    "title": "item_01",
+    "source": "canvas_qti",
+    "prompt_html": "<p>30% of a population of frogs are green. Let x be the number of green frogs among 25 frogs. Use the Range Rule of Thumb to identify the minimum usual value of x.</p><p>Round your answer to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "7ce6e1dc7e39f10fc5f39739013a5f56_A",
+        "label": "A",
+        "html": "<p>2.92</p>",
+        "is_correct": true
+      },
+      {
+        "id": "7ce6e1dc7e39f10fc5f39739013a5f56_B",
+        "label": "B",
+        "html": "<p>1.92</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7ce6e1dc7e39f10fc5f39739013a5f56_C",
+        "label": "C",
+        "html": "<p>0.63</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7ce6e1dc7e39f10fc5f39739013a5f56_D",
+        "label": "D",
+        "html": "<p>2.42</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7ce6e1dc7e39f10fc5f39739013a5f56_A"
+    ]
+  }
+]

@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "84f40980586069a3e80fb61f24d82f14",
+    "title": "Question 11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What quantity is denoted by the symbol &mu;?</p>",
+    "choices": [
+      {
+        "id": "84f40980586069a3e80fb61f24d82f14_A",
+        "label": "A",
+        "html": "sum",
+        "is_correct": false
+      },
+      {
+        "id": "84f40980586069a3e80fb61f24d82f14_B",
+        "label": "B",
+        "html": "sample mean",
+        "is_correct": false
+      },
+      {
+        "id": "84f40980586069a3e80fb61f24d82f14_C",
+        "label": "C",
+        "html": "population mean",
+        "is_correct": true
+      },
+      {
+        "id": "84f40980586069a3e80fb61f24d82f14_D",
+        "label": "D",
+        "html": "population standard deviation",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "84f40980586069a3e80fb61f24d82f14_C"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "9b289b62c1087af0c81d0186971f0b2c",
+    "title": "Question 6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In a statistics context, the symbol σ² stands for which quantity?</p>",
+    "choices": [
+      {
+        "id": "9b289b62c1087af0c81d0186971f0b2c_A",
+        "label": "A",
+        "html": "sample size",
+        "is_correct": false
+      },
+      {
+        "id": "9b289b62c1087af0c81d0186971f0b2c_B",
+        "label": "B",
+        "html": "population variance",
+        "is_correct": true
+      },
+      {
+        "id": "9b289b62c1087af0c81d0186971f0b2c_C",
+        "label": "C",
+        "html": "population mean",
+        "is_correct": false
+      },
+      {
+        "id": "9b289b62c1087af0c81d0186971f0b2c_D",
+        "label": "D",
+        "html": "population size",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9b289b62c1087af0c81d0186971f0b2c_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "c3eb2f788ce91c34cf0e3b92d9c8cd8a",
+    "title": "Question 5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In a statistics context, the symbol σ stands for which quantity?</p>",
+    "choices": [
+      {
+        "id": "c3eb2f788ce91c34cf0e3b92d9c8cd8a_A",
+        "label": "A",
+        "html": "population mean",
+        "is_correct": false
+      },
+      {
+        "id": "c3eb2f788ce91c34cf0e3b92d9c8cd8a_B",
+        "label": "B",
+        "html": "sum",
+        "is_correct": false
+      },
+      {
+        "id": "c3eb2f788ce91c34cf0e3b92d9c8cd8a_C",
+        "label": "C",
+        "html": "sample size",
+        "is_correct": false
+      },
+      {
+        "id": "c3eb2f788ce91c34cf0e3b92d9c8cd8a_D",
+        "label": "D",
+        "html": "population standard deviation",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "c3eb2f788ce91c34cf0e3b92d9c8cd8a_D"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "50e5eca7c4eecdda0c8ad9fc5e4b40d0",
+    "title": "Question 4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In a statistics context, the symbol μ stands for which quantity?</p>",
+    "choices": [
+      {
+        "id": "50e5eca7c4eecdda0c8ad9fc5e4b40d0_A",
+        "label": "A",
+        "html": "sample variance",
+        "is_correct": false
+      },
+      {
+        "id": "50e5eca7c4eecdda0c8ad9fc5e4b40d0_B",
+        "label": "B",
+        "html": "population mean",
+        "is_correct": true
+      },
+      {
+        "id": "50e5eca7c4eecdda0c8ad9fc5e4b40d0_C",
+        "label": "C",
+        "html": "sum",
+        "is_correct": false
+      },
+      {
+        "id": "50e5eca7c4eecdda0c8ad9fc5e4b40d0_D",
+        "label": "D",
+        "html": "population variance",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "50e5eca7c4eecdda0c8ad9fc5e4b40d0_B"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "17914169ca2981042e31d6d4c2504995",
+    "title": "Question 3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In a statistics context, the symbol x stands for which quantity?</p>",
+    "choices": [
+      {
+        "id": "17914169ca2981042e31d6d4c2504995_A",
+        "label": "A",
+        "html": "sample standard deviation",
+        "is_correct": false
+      },
+      {
+        "id": "17914169ca2981042e31d6d4c2504995_B",
+        "label": "B",
+        "html": "sum",
+        "is_correct": false
+      },
+      {
+        "id": "17914169ca2981042e31d6d4c2504995_C",
+        "label": "C",
+        "html": "a data value",
+        "is_correct": true
+      },
+      {
+        "id": "17914169ca2981042e31d6d4c2504995_D",
+        "label": "D",
+        "html": "sample mean",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "17914169ca2981042e31d6d4c2504995_C"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "1179b5019404aa26ae655858d9f151e6",
+    "title": "Question 2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the meaning of the symbol ̅x in a statistical formula?</p>",
+    "choices": [
+      {
+        "id": "1179b5019404aa26ae655858d9f151e6_A",
+        "label": "A",
+        "html": "sample size",
+        "is_correct": false
+      },
+      {
+        "id": "1179b5019404aa26ae655858d9f151e6_B",
+        "label": "B",
+        "html": "population standard deviation",
+        "is_correct": false
+      },
+      {
+        "id": "1179b5019404aa26ae655858d9f151e6_C",
+        "label": "C",
+        "html": "a data value",
+        "is_correct": false
+      },
+      {
+        "id": "1179b5019404aa26ae655858d9f151e6_D",
+        "label": "D",
+        "html": "sample mean",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "1179b5019404aa26ae655858d9f151e6_D"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "09c97e9211f22b46bb08b17be517e057",
+    "title": "Question 1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In a statistics context, the symbol Σ stands for which quantity?</p>",
+    "choices": [
+      {
+        "id": "09c97e9211f22b46bb08b17be517e057_A",
+        "label": "A",
+        "html": "population size",
+        "is_correct": false
+      },
+      {
+        "id": "09c97e9211f22b46bb08b17be517e057_B",
+        "label": "B",
+        "html": "population standard deviation",
+        "is_correct": false
+      },
+      {
+        "id": "09c97e9211f22b46bb08b17be517e057_C",
+        "label": "C",
+        "html": "sum",
+        "is_correct": true
+      },
+      {
+        "id": "09c97e9211f22b46bb08b17be517e057_D",
+        "label": "D",
+        "html": "sample variance",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "09c97e9211f22b46bb08b17be517e057_C"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "6860d10d2d5e4ff830875a4ac900dfdd",
+    "title": "Question 7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the meaning of the symbol s² in a statistical formula?</p>",
+    "choices": [
+      {
+        "id": "6860d10d2d5e4ff830875a4ac900dfdd_A",
+        "label": "A",
+        "html": "a data value",
+        "is_correct": false
+      },
+      {
+        "id": "6860d10d2d5e4ff830875a4ac900dfdd_B",
+        "label": "B",
+        "html": "population size",
+        "is_correct": false
+      },
+      {
+        "id": "6860d10d2d5e4ff830875a4ac900dfdd_C",
+        "label": "C",
+        "html": "sample standard deviation",
+        "is_correct": false
+      },
+      {
+        "id": "6860d10d2d5e4ff830875a4ac900dfdd_D",
+        "label": "D",
+        "html": "sample variance",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "6860d10d2d5e4ff830875a4ac900dfdd_D"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "ba718325905ca464dd6eaa1ed05e6f7a",
+    "title": "Question 8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In a statistics context, the symbol \\(\\sigma\\) stands for which quantity?</p>",
+    "choices": [
+      {
+        "id": "ba718325905ca464dd6eaa1ed05e6f7a_A",
+        "label": "A",
+        "html": "population variance",
+        "is_correct": false
+      },
+      {
+        "id": "ba718325905ca464dd6eaa1ed05e6f7a_B",
+        "label": "B",
+        "html": "sample size",
+        "is_correct": false
+      },
+      {
+        "id": "ba718325905ca464dd6eaa1ed05e6f7a_C",
+        "label": "C",
+        "html": "sample variance",
+        "is_correct": false
+      },
+      {
+        "id": "ba718325905ca464dd6eaa1ed05e6f7a_D",
+        "label": "D",
+        "html": "population standard deviation",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "ba718325905ca464dd6eaa1ed05e6f7a_D"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "8e5106a57573af1801c0a43e9de4b381",
+    "title": "Question 9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What quantity is denoted by the symbol n?</p>",
+    "choices": [
+      {
+        "id": "8e5106a57573af1801c0a43e9de4b381_A",
+        "label": "A",
+        "html": "sum",
+        "is_correct": false
+      },
+      {
+        "id": "8e5106a57573af1801c0a43e9de4b381_B",
+        "label": "B",
+        "html": "population mean",
+        "is_correct": false
+      },
+      {
+        "id": "8e5106a57573af1801c0a43e9de4b381_C",
+        "label": "C",
+        "html": "sample size",
+        "is_correct": true
+      },
+      {
+        "id": "8e5106a57573af1801c0a43e9de4b381_D",
+        "label": "D",
+        "html": "sample standard deviation",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8e5106a57573af1801c0a43e9de4b381_C"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "102b22ce90f45ef7bd3daf0f26fc3dac",
+    "title": "Question 12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In statistics, what does the symbol s represent?</p>",
+    "choices": [
+      {
+        "id": "102b22ce90f45ef7bd3daf0f26fc3dac_A",
+        "label": "A",
+        "html": "population variance",
+        "is_correct": false
+      },
+      {
+        "id": "102b22ce90f45ef7bd3daf0f26fc3dac_B",
+        "label": "B",
+        "html": "sample mean",
+        "is_correct": false
+      },
+      {
+        "id": "102b22ce90f45ef7bd3daf0f26fc3dac_C",
+        "label": "C",
+        "html": "population size",
+        "is_correct": false
+      },
+      {
+        "id": "102b22ce90f45ef7bd3daf0f26fc3dac_D",
+        "label": "D",
+        "html": "sample standard deviation",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "102b22ce90f45ef7bd3daf0f26fc3dac_D"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "a2646d388c8d258a988c0a9c5829eea2",
+    "title": "Question 15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In a statistics context, the symbol N stands for which quantity?</p>",
+    "choices": [
+      {
+        "id": "a2646d388c8d258a988c0a9c5829eea2_A",
+        "label": "A",
+        "html": "sample size",
+        "is_correct": false
+      },
+      {
+        "id": "a2646d388c8d258a988c0a9c5829eea2_B",
+        "label": "B",
+        "html": "population size",
+        "is_correct": true
+      },
+      {
+        "id": "a2646d388c8d258a988c0a9c5829eea2_C",
+        "label": "C",
+        "html": "population mean",
+        "is_correct": false
+      },
+      {
+        "id": "a2646d388c8d258a988c0a9c5829eea2_D",
+        "label": "D",
+        "html": "population standard deviation",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a2646d388c8d258a988c0a9c5829eea2_B"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "4398bffe8259bbf92e407db74a3be56a",
+    "title": "Question 14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In a statistics context, the symbol \\(\\sigma^2\\) stands for which quantity?</p>",
+    "choices": [
+      {
+        "id": "4398bffe8259bbf92e407db74a3be56a_A",
+        "label": "A",
+        "html": "sum",
+        "is_correct": false
+      },
+      {
+        "id": "4398bffe8259bbf92e407db74a3be56a_B",
+        "label": "B",
+        "html": "population variance",
+        "is_correct": true
+      },
+      {
+        "id": "4398bffe8259bbf92e407db74a3be56a_C",
+        "label": "C",
+        "html": "population standard deviation",
+        "is_correct": false
+      },
+      {
+        "id": "4398bffe8259bbf92e407db74a3be56a_D",
+        "label": "D",
+        "html": "a data value",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4398bffe8259bbf92e407db74a3be56a_B"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "891d14c132a8655f5b31a6329ca9a782",
+    "title": "Question 20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the meaning of the symbol &nbsp;\\(\\bar x\\) in a statistical formula?&nbsp;</p>",
+    "choices": [
+      {
+        "id": "891d14c132a8655f5b31a6329ca9a782_A",
+        "label": "A",
+        "html": "<p>sample mean</p>",
+        "is_correct": true
+      },
+      {
+        "id": "891d14c132a8655f5b31a6329ca9a782_B",
+        "label": "B",
+        "html": "population standard deviation",
+        "is_correct": false
+      },
+      {
+        "id": "891d14c132a8655f5b31a6329ca9a782_C",
+        "label": "C",
+        "html": "sample size",
+        "is_correct": false
+      },
+      {
+        "id": "891d14c132a8655f5b31a6329ca9a782_D",
+        "label": "D",
+        "html": "sample standard deviation",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "891d14c132a8655f5b31a6329ca9a782_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "eb68b2f3baf6ca1bb437ed5ee7c9cb74",
+    "title": "Question 19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What quantity is denoted by the symbol s?</p>",
+    "choices": [
+      {
+        "id": "eb68b2f3baf6ca1bb437ed5ee7c9cb74_A",
+        "label": "A",
+        "html": "sample size",
+        "is_correct": false
+      },
+      {
+        "id": "eb68b2f3baf6ca1bb437ed5ee7c9cb74_B",
+        "label": "B",
+        "html": "sample standard deviation",
+        "is_correct": true
+      },
+      {
+        "id": "eb68b2f3baf6ca1bb437ed5ee7c9cb74_C",
+        "label": "C",
+        "html": "sample mean",
+        "is_correct": false
+      },
+      {
+        "id": "eb68b2f3baf6ca1bb437ed5ee7c9cb74_D",
+        "label": "D",
+        "html": "a data value",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "eb68b2f3baf6ca1bb437ed5ee7c9cb74_B"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "f08f9c2c4ec023a8b8e1b892ad95ae13",
+    "title": "Question 18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In a statistics context, the symbol x stands for which quantity?</p>",
+    "choices": [
+      {
+        "id": "f08f9c2c4ec023a8b8e1b892ad95ae13_A",
+        "label": "A",
+        "html": "sample size",
+        "is_correct": false
+      },
+      {
+        "id": "f08f9c2c4ec023a8b8e1b892ad95ae13_B",
+        "label": "B",
+        "html": "sum",
+        "is_correct": false
+      },
+      {
+        "id": "f08f9c2c4ec023a8b8e1b892ad95ae13_C",
+        "label": "C",
+        "html": "population variance",
+        "is_correct": false
+      },
+      {
+        "id": "f08f9c2c4ec023a8b8e1b892ad95ae13_D",
+        "label": "D",
+        "html": "a data value",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "f08f9c2c4ec023a8b8e1b892ad95ae13_D"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "cfc773ebff3f41926eaaed1bd1085ba8",
+    "title": "Question 17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What quantity is denoted by the symbol N?</p>",
+    "choices": [
+      {
+        "id": "cfc773ebff3f41926eaaed1bd1085ba8_A",
+        "label": "A",
+        "html": "sample standard deviation",
+        "is_correct": false
+      },
+      {
+        "id": "cfc773ebff3f41926eaaed1bd1085ba8_B",
+        "label": "B",
+        "html": "a data value",
+        "is_correct": false
+      },
+      {
+        "id": "cfc773ebff3f41926eaaed1bd1085ba8_C",
+        "label": "C",
+        "html": "population size",
+        "is_correct": true
+      },
+      {
+        "id": "cfc773ebff3f41926eaaed1bd1085ba8_D",
+        "label": "D",
+        "html": "sample variance",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cfc773ebff3f41926eaaed1bd1085ba8_C"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "240f23592d224f0d0669f875b5cd5d63",
+    "title": "Question 16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What is the meaning of the symbol n in a statistical formula?</p>",
+    "choices": [
+      {
+        "id": "240f23592d224f0d0669f875b5cd5d63_A",
+        "label": "A",
+        "html": "population size",
+        "is_correct": false
+      },
+      {
+        "id": "240f23592d224f0d0669f875b5cd5d63_B",
+        "label": "B",
+        "html": "sample mean",
+        "is_correct": false
+      },
+      {
+        "id": "240f23592d224f0d0669f875b5cd5d63_C",
+        "label": "C",
+        "html": "population variance",
+        "is_correct": false
+      },
+      {
+        "id": "240f23592d224f0d0669f875b5cd5d63_D",
+        "label": "D",
+        "html": "sample size",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "240f23592d224f0d0669f875b5cd5d63_D"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "224dcd0eed198c91981b6ffae0a73842",
+    "title": "Question 13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What quantity is denoted by the symbol Σ?</p>",
+    "choices": [
+      {
+        "id": "224dcd0eed198c91981b6ffae0a73842_A",
+        "label": "A",
+        "html": "population variance",
+        "is_correct": false
+      },
+      {
+        "id": "224dcd0eed198c91981b6ffae0a73842_B",
+        "label": "B",
+        "html": "population size",
+        "is_correct": false
+      },
+      {
+        "id": "224dcd0eed198c91981b6ffae0a73842_C",
+        "label": "C",
+        "html": "sample variance",
+        "is_correct": false
+      },
+      {
+        "id": "224dcd0eed198c91981b6ffae0a73842_D",
+        "label": "D",
+        "html": "sum",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "224dcd0eed198c91981b6ffae0a73842_D"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "e426100ee8c32d89853da6a487773696",
+    "title": "Question 10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In statistics, what does the symbol s² represent?</p>",
+    "choices": [
+      {
+        "id": "e426100ee8c32d89853da6a487773696_A",
+        "label": "A",
+        "html": "sample variance",
+        "is_correct": true
+      },
+      {
+        "id": "e426100ee8c32d89853da6a487773696_B",
+        "label": "B",
+        "html": "sample size",
+        "is_correct": false
+      },
+      {
+        "id": "e426100ee8c32d89853da6a487773696_C",
+        "label": "C",
+        "html": "sum",
+        "is_correct": false
+      },
+      {
+        "id": "e426100ee8c32d89853da6a487773696_D",
+        "label": "D",
+        "html": "sample standard deviation",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e426100ee8c32d89853da6a487773696_A"
+    ]
+  }
+]

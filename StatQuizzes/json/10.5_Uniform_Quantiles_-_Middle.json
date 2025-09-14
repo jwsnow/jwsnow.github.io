@@ -1,0 +1,842 @@
+[
+  {
+    "index": 1,
+    "ident": "09ec67294f962fc91f7e0cad3d56e51d",
+    "title": "Uniform Quantiles - Middle - Q20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In psychology, inter-trial intervals in an experiment (seconds) are modeled as uniformly distributed between 1.0 and 4.0. Find two values that contain the <b>middle 90% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "09ec67294f962fc91f7e0cad3d56e51d_A",
+        "label": "A",
+        "html": "1.15, 3.72",
+        "is_correct": false
+      },
+      {
+        "id": "09ec67294f962fc91f7e0cad3d56e51d_B",
+        "label": "B",
+        "html": "1.14, 3.73",
+        "is_correct": false
+      },
+      {
+        "id": "09ec67294f962fc91f7e0cad3d56e51d_C",
+        "label": "C",
+        "html": "1.46, 3.57",
+        "is_correct": false
+      },
+      {
+        "id": "09ec67294f962fc91f7e0cad3d56e51d_D",
+        "label": "D",
+        "html": "1.15, 3.85",
+        "is_correct": true
+      },
+      {
+        "id": "09ec67294f962fc91f7e0cad3d56e51d_E",
+        "label": "E",
+        "html": "1.28, 3.58",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "09ec67294f962fc91f7e0cad3d56e51d_D"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "77bfb34e342452b7b14ed37414e2665a",
+    "title": "Uniform Quantiles - Middle - Q19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In medicine, time spent in physical therapy (minutes) are modeled as uniformly distributed between 30 and 75. Find two values that contain the <b>middle 90% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "77bfb34e342452b7b14ed37414e2665a_A",
+        "label": "A",
+        "html": "33.59, 74.69",
+        "is_correct": false
+      },
+      {
+        "id": "77bfb34e342452b7b14ed37414e2665a_B",
+        "label": "B",
+        "html": "37.29, 68.12",
+        "is_correct": false
+      },
+      {
+        "id": "77bfb34e342452b7b14ed37414e2665a_C",
+        "label": "C",
+        "html": "32.25, 72.75",
+        "is_correct": true
+      },
+      {
+        "id": "77bfb34e342452b7b14ed37414e2665a_D",
+        "label": "D",
+        "html": "32.20, 74.29",
+        "is_correct": false
+      },
+      {
+        "id": "77bfb34e342452b7b14ed37414e2665a_E",
+        "label": "E",
+        "html": "30.87, 73.28",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "77bfb34e342452b7b14ed37414e2665a_C"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "b074f22d269c2aef0cc6058322487e6a",
+    "title": "Uniform Quantiles - Middle - Q18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In biology, incubation period of an insect (days) are modeled as uniformly distributed between 8 and 20. Find two values that contain the <b>middle 95% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "b074f22d269c2aef0cc6058322487e6a_A",
+        "label": "A",
+        "html": "8.90, 19.33",
+        "is_correct": false
+      },
+      {
+        "id": "b074f22d269c2aef0cc6058322487e6a_B",
+        "label": "B",
+        "html": "8.74, 19.98",
+        "is_correct": false
+      },
+      {
+        "id": "b074f22d269c2aef0cc6058322487e6a_C",
+        "label": "C",
+        "html": "8.30, 19.70",
+        "is_correct": true
+      },
+      {
+        "id": "b074f22d269c2aef0cc6058322487e6a_D",
+        "label": "D",
+        "html": "8.15, 18.34",
+        "is_correct": false
+      },
+      {
+        "id": "b074f22d269c2aef0cc6058322487e6a_E",
+        "label": "E",
+        "html": "9.54, 19.83",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b074f22d269c2aef0cc6058322487e6a_C"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "ad5805d27a6f19953e7023d28e0db095",
+    "title": "Uniform Quantiles - Middle - Q17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In medicine, glucose tolerance test time (minutes) are modeled as uniformly distributed between 60 and 120. Find two values that contain the <b>middle 95% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "ad5805d27a6f19953e7023d28e0db095_A",
+        "label": "A",
+        "html": "61.13, 115.86",
+        "is_correct": false
+      },
+      {
+        "id": "ad5805d27a6f19953e7023d28e0db095_B",
+        "label": "B",
+        "html": "66.10, 119.93",
+        "is_correct": false
+      },
+      {
+        "id": "ad5805d27a6f19953e7023d28e0db095_C",
+        "label": "C",
+        "html": "64.08, 111.55",
+        "is_correct": false
+      },
+      {
+        "id": "ad5805d27a6f19953e7023d28e0db095_D",
+        "label": "D",
+        "html": "66.81, 119.90",
+        "is_correct": false
+      },
+      {
+        "id": "ad5805d27a6f19953e7023d28e0db095_E",
+        "label": "E",
+        "html": "61.50, 118.50",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "ad5805d27a6f19953e7023d28e0db095_E"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "ae09e7ec2a80936ac81aa02e46e8dea8",
+    "title": "Uniform Quantiles - Middle - Q16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In psychology, hours slept per night in a study (hours) are modeled as uniformly distributed between 5.0 and 9.0. Find two values that contain the <b>middle 95% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "ae09e7ec2a80936ac81aa02e46e8dea8_A",
+        "label": "A",
+        "html": "5.15, 8.91",
+        "is_correct": false
+      },
+      {
+        "id": "ae09e7ec2a80936ac81aa02e46e8dea8_B",
+        "label": "B",
+        "html": "5.34, 8.53",
+        "is_correct": false
+      },
+      {
+        "id": "ae09e7ec2a80936ac81aa02e46e8dea8_C",
+        "label": "C",
+        "html": "5.14, 8.55",
+        "is_correct": false
+      },
+      {
+        "id": "ae09e7ec2a80936ac81aa02e46e8dea8_D",
+        "label": "D",
+        "html": "5.10, 8.90",
+        "is_correct": true
+      },
+      {
+        "id": "ae09e7ec2a80936ac81aa02e46e8dea8_E",
+        "label": "E",
+        "html": "5.25, 8.42",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ae09e7ec2a80936ac81aa02e46e8dea8_D"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "c1c68bef33ba4f6b73a0e7293965f833",
+    "title": "Uniform Quantiles - Middle - Q15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In biology, shell growth per month (mm) are modeled as uniformly distributed between 1.0 and 3.5. Find two values that contain the <b>middle 95% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "c1c68bef33ba4f6b73a0e7293965f833_A",
+        "label": "A",
+        "html": "1.06, 3.44",
+        "is_correct": true
+      },
+      {
+        "id": "c1c68bef33ba4f6b73a0e7293965f833_B",
+        "label": "B",
+        "html": "1.29, 3.42",
+        "is_correct": false
+      },
+      {
+        "id": "c1c68bef33ba4f6b73a0e7293965f833_C",
+        "label": "C",
+        "html": "1.13, 3.33",
+        "is_correct": false
+      },
+      {
+        "id": "c1c68bef33ba4f6b73a0e7293965f833_D",
+        "label": "D",
+        "html": "1.34, 3.46",
+        "is_correct": false
+      },
+      {
+        "id": "c1c68bef33ba4f6b73a0e7293965f833_E",
+        "label": "E",
+        "html": "1.08, 3.38",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c1c68bef33ba4f6b73a0e7293965f833_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "7d1a7c38e30cdb5f1908b41f8f4d8f2a",
+    "title": "Uniform Quantiles - Middle - Q14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In biology, chlorophyll concentrations (µg/mL) are modeled as uniformly distributed between 0.5 and 2.5. Find two values that contain the <b>middle 95% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "7d1a7c38e30cdb5f1908b41f8f4d8f2a_A",
+        "label": "A",
+        "html": "0.55, 2.45",
+        "is_correct": true
+      },
+      {
+        "id": "7d1a7c38e30cdb5f1908b41f8f4d8f2a_B",
+        "label": "B",
+        "html": "0.77, 2.47",
+        "is_correct": false
+      },
+      {
+        "id": "7d1a7c38e30cdb5f1908b41f8f4d8f2a_C",
+        "label": "C",
+        "html": "0.59, 2.25",
+        "is_correct": false
+      },
+      {
+        "id": "7d1a7c38e30cdb5f1908b41f8f4d8f2a_D",
+        "label": "D",
+        "html": "0.79, 2.29",
+        "is_correct": false
+      },
+      {
+        "id": "7d1a7c38e30cdb5f1908b41f8f4d8f2a_E",
+        "label": "E",
+        "html": "0.55, 2.27",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7d1a7c38e30cdb5f1908b41f8f4d8f2a_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "cff46e57b1bfc7d5402bf64327f521f7",
+    "title": "Uniform Quantiles - Middle - Q13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In biology, leaf lengths in a plot (cm) are modeled as uniformly distributed between 3 and 12. Find two values that contain the <b>middle 95% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "cff46e57b1bfc7d5402bf64327f521f7_A",
+        "label": "A",
+        "html": "4.17, 11.97",
+        "is_correct": false
+      },
+      {
+        "id": "cff46e57b1bfc7d5402bf64327f521f7_B",
+        "label": "B",
+        "html": "3.30, 11.12",
+        "is_correct": false
+      },
+      {
+        "id": "cff46e57b1bfc7d5402bf64327f521f7_C",
+        "label": "C",
+        "html": "3.06, 11.53",
+        "is_correct": false
+      },
+      {
+        "id": "cff46e57b1bfc7d5402bf64327f521f7_D",
+        "label": "D",
+        "html": "3.43, 11.81",
+        "is_correct": false
+      },
+      {
+        "id": "cff46e57b1bfc7d5402bf64327f521f7_E",
+        "label": "E",
+        "html": "3.23, 11.78",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "cff46e57b1bfc7d5402bf64327f521f7_E"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "8c09ea9db6eb69729f5d75663fc87126",
+    "title": "Uniform Quantiles - Middle - Q12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In biology, flight durations of fruit flies (seconds) are modeled as uniformly distributed between 5 and 15. Find two values that contain the <b>middle 95% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "8c09ea9db6eb69729f5d75663fc87126_A",
+        "label": "A",
+        "html": "5.05, 14.12",
+        "is_correct": false
+      },
+      {
+        "id": "8c09ea9db6eb69729f5d75663fc87126_B",
+        "label": "B",
+        "html": "5.15, 14.35",
+        "is_correct": false
+      },
+      {
+        "id": "8c09ea9db6eb69729f5d75663fc87126_C",
+        "label": "C",
+        "html": "5.24, 13.87",
+        "is_correct": false
+      },
+      {
+        "id": "8c09ea9db6eb69729f5d75663fc87126_D",
+        "label": "D",
+        "html": "5.43, 14.31",
+        "is_correct": false
+      },
+      {
+        "id": "8c09ea9db6eb69729f5d75663fc87126_E",
+        "label": "E",
+        "html": "5.25, 14.75",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "8c09ea9db6eb69729f5d75663fc87126_E"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "64ed6eecfae87665867a45483d1903bb",
+    "title": "Uniform Quantiles - Middle - Q11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In biology, weights of lab mice (grams) are modeled as uniformly distributed between 18 and 35. Find two values that contain the <b>middle 90% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "64ed6eecfae87665867a45483d1903bb_A",
+        "label": "A",
+        "html": "18.81, 32.17",
+        "is_correct": false
+      },
+      {
+        "id": "64ed6eecfae87665867a45483d1903bb_B",
+        "label": "B",
+        "html": "19.17, 34.65",
+        "is_correct": false
+      },
+      {
+        "id": "64ed6eecfae87665867a45483d1903bb_C",
+        "label": "C",
+        "html": "18.85, 34.15",
+        "is_correct": true
+      },
+      {
+        "id": "64ed6eecfae87665867a45483d1903bb_D",
+        "label": "D",
+        "html": "18.68, 34.41",
+        "is_correct": false
+      },
+      {
+        "id": "64ed6eecfae87665867a45483d1903bb_E",
+        "label": "E",
+        "html": "19.20, 34.64",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "64ed6eecfae87665867a45483d1903bb_C"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "be7ae9cccc6c63c257439d1a046f94c2",
+    "title": "Uniform Quantiles - Middle - Q10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In medicine, cholesterol levels (mg/dL) in a sample are modeled as uniformly distributed between 150 and 230. Find two values that contain the <b>middle 90% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "be7ae9cccc6c63c257439d1a046f94c2_A",
+        "label": "A",
+        "html": "154, 226",
+        "is_correct": true
+      },
+      {
+        "id": "be7ae9cccc6c63c257439d1a046f94c2_B",
+        "label": "B",
+        "html": "154, 218",
+        "is_correct": false
+      },
+      {
+        "id": "be7ae9cccc6c63c257439d1a046f94c2_C",
+        "label": "C",
+        "html": "154, 229",
+        "is_correct": false
+      },
+      {
+        "id": "be7ae9cccc6c63c257439d1a046f94c2_D",
+        "label": "D",
+        "html": "160, 224",
+        "is_correct": false
+      },
+      {
+        "id": "be7ae9cccc6c63c257439d1a046f94c2_E",
+        "label": "E",
+        "html": "152, 228",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "be7ae9cccc6c63c257439d1a046f94c2_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "3554aba10fc3de7d16cdcd9cf215cc8f",
+    "title": "Uniform Quantiles - Middle - Q9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In medicine, time to dissolve a sublingual tablet (seconds) are modeled as uniformly distributed between 30 and 90. Find two values that contain the <b>middle 90% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "3554aba10fc3de7d16cdcd9cf215cc8f_A",
+        "label": "A",
+        "html": "32, 89",
+        "is_correct": false
+      },
+      {
+        "id": "3554aba10fc3de7d16cdcd9cf215cc8f_B",
+        "label": "B",
+        "html": "33, 84",
+        "is_correct": false
+      },
+      {
+        "id": "3554aba10fc3de7d16cdcd9cf215cc8f_C",
+        "label": "C",
+        "html": "33, 87",
+        "is_correct": true
+      },
+      {
+        "id": "3554aba10fc3de7d16cdcd9cf215cc8f_D",
+        "label": "D",
+        "html": "31, 89",
+        "is_correct": false
+      },
+      {
+        "id": "3554aba10fc3de7d16cdcd9cf215cc8f_E",
+        "label": "E",
+        "html": "31, 82",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3554aba10fc3de7d16cdcd9cf215cc8f_C"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "920f6eacbea869b203c4000cefb2ac83",
+    "title": "Uniform Quantiles - Middle - Q8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In medicine, post-operative heart rate (bpm) are modeled as uniformly distributed between 60 and 100. Find two values that contain the <b>middle 95% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "920f6eacbea869b203c4000cefb2ac83_A",
+        "label": "A",
+        "html": "64, 98",
+        "is_correct": false
+      },
+      {
+        "id": "920f6eacbea869b203c4000cefb2ac83_B",
+        "label": "B",
+        "html": "61, 99",
+        "is_correct": true
+      },
+      {
+        "id": "920f6eacbea869b203c4000cefb2ac83_C",
+        "label": "C",
+        "html": "60, 96",
+        "is_correct": false
+      },
+      {
+        "id": "920f6eacbea869b203c4000cefb2ac83_D",
+        "label": "D",
+        "html": "62, 95",
+        "is_correct": false
+      },
+      {
+        "id": "920f6eacbea869b203c4000cefb2ac83_E",
+        "label": "E",
+        "html": "64, 95",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "920f6eacbea869b203c4000cefb2ac83_B"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "ac6d93bf8b39823091add7dbc4e6043e",
+    "title": "Uniform Quantiles - Middle - Q7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In medicine, time to triage in ER (minutes) are modeled as uniformly distributed between 5 and 25. Find two values that contain the <b>middle 95% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "ac6d93bf8b39823091add7dbc4e6043e_A",
+        "label": "A",
+        "html": "6.23, 23.65",
+        "is_correct": false
+      },
+      {
+        "id": "ac6d93bf8b39823091add7dbc4e6043e_B",
+        "label": "B",
+        "html": "5.42, 24.90",
+        "is_correct": false
+      },
+      {
+        "id": "ac6d93bf8b39823091add7dbc4e6043e_C",
+        "label": "C",
+        "html": "5.50, 24.50",
+        "is_correct": true
+      },
+      {
+        "id": "ac6d93bf8b39823091add7dbc4e6043e_D",
+        "label": "D",
+        "html": "5.68, 23.34",
+        "is_correct": false
+      },
+      {
+        "id": "ac6d93bf8b39823091add7dbc4e6043e_E",
+        "label": "E",
+        "html": "6.63, 22.63",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ac6d93bf8b39823091add7dbc4e6043e_C"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "600824502ce2444304918fc056c2d948",
+    "title": "Uniform Quantiles - Middle - Q6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In medicine, systolic blood pressure in a trial (mmHg) are modeled as uniformly distributed between 90 and 150. Find two values that contain the <b>middle 95% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "600824502ce2444304918fc056c2d948_A",
+        "label": "A",
+        "html": "94.07, 147.43",
+        "is_correct": false
+      },
+      {
+        "id": "600824502ce2444304918fc056c2d948_B",
+        "label": "B",
+        "html": "90.06, 149.46",
+        "is_correct": false
+      },
+      {
+        "id": "600824502ce2444304918fc056c2d948_C",
+        "label": "C",
+        "html": "97.60, 143.92",
+        "is_correct": false
+      },
+      {
+        "id": "600824502ce2444304918fc056c2d948_D",
+        "label": "D",
+        "html": "98.40, 144.84",
+        "is_correct": false
+      },
+      {
+        "id": "600824502ce2444304918fc056c2d948_E",
+        "label": "E",
+        "html": "91.50, 148.50",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "600824502ce2444304918fc056c2d948_E"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "684c90fd4c2014e5de5985f0418ea87c",
+    "title": "Uniform Quantiles - Middle - Q5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In psychology, eye blink intervals during a task (ms) are modeled as uniformly distributed between 200 and 500. Find two values that contain the <b>middle 90% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "684c90fd4c2014e5de5985f0418ea87c_A",
+        "label": "A",
+        "html": "226, 464",
+        "is_correct": false
+      },
+      {
+        "id": "684c90fd4c2014e5de5985f0418ea87c_B",
+        "label": "B",
+        "html": "224, 461",
+        "is_correct": false
+      },
+      {
+        "id": "684c90fd4c2014e5de5985f0418ea87c_C",
+        "label": "C",
+        "html": "209, 468",
+        "is_correct": false
+      },
+      {
+        "id": "684c90fd4c2014e5de5985f0418ea87c_D",
+        "label": "D",
+        "html": "215, 485",
+        "is_correct": true
+      },
+      {
+        "id": "684c90fd4c2014e5de5985f0418ea87c_E",
+        "label": "E",
+        "html": "250, 484",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "684c90fd4c2014e5de5985f0418ea87c_D"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "1df1e94714278a0c0544bdd33a507162",
+    "title": "Uniform Quantiles - Middle - Q4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In psychology, time to complete a Stroop task (seconds) are modeled as uniformly distributed between 10 and 20. Find two values that contain the <b>middle 90% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "1df1e94714278a0c0544bdd33a507162_A",
+        "label": "A",
+        "html": "11.10, 18.49",
+        "is_correct": false
+      },
+      {
+        "id": "1df1e94714278a0c0544bdd33a507162_B",
+        "label": "B",
+        "html": "11.35, 18.83",
+        "is_correct": false
+      },
+      {
+        "id": "1df1e94714278a0c0544bdd33a507162_C",
+        "label": "C",
+        "html": "11.19, 19.28",
+        "is_correct": false
+      },
+      {
+        "id": "1df1e94714278a0c0544bdd33a507162_D",
+        "label": "D",
+        "html": "10.50, 19.50",
+        "is_correct": true
+      },
+      {
+        "id": "1df1e94714278a0c0544bdd33a507162_E",
+        "label": "E",
+        "html": "11.27, 19.26",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1df1e94714278a0c0544bdd33a507162_D"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "ba2536a303c72eb596dd6b9b157387b3",
+    "title": "Uniform Quantiles - Middle - Q3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In psychology, latency to recall a word (seconds) are modeled as uniformly distributed between 2.0 and 6.0. Find two values that contain the <b>middle 90% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "ba2536a303c72eb596dd6b9b157387b3_A",
+        "label": "A",
+        "html": "2.25, 5.42",
+        "is_correct": false
+      },
+      {
+        "id": "ba2536a303c72eb596dd6b9b157387b3_B",
+        "label": "B",
+        "html": "2.51, 5.96",
+        "is_correct": false
+      },
+      {
+        "id": "ba2536a303c72eb596dd6b9b157387b3_C",
+        "label": "C",
+        "html": "2.20, 5.80",
+        "is_correct": true
+      },
+      {
+        "id": "ba2536a303c72eb596dd6b9b157387b3_D",
+        "label": "D",
+        "html": "2.44, 5.65",
+        "is_correct": false
+      },
+      {
+        "id": "ba2536a303c72eb596dd6b9b157387b3_E",
+        "label": "E",
+        "html": "2.57, 5.87",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ba2536a303c72eb596dd6b9b157387b3_C"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "98cc0ecd1d97a79eed502ffa8bfe91a3",
+    "title": "Uniform Quantiles - Middle - Q2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In psychology, scores on a mindfulness scale (0–100) are modeled as uniformly distributed between 20 and 80. Find two values that contain the <b>middle 95% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "98cc0ecd1d97a79eed502ffa8bfe91a3_A",
+        "label": "A",
+        "html": "24.87, 71.88",
+        "is_correct": false
+      },
+      {
+        "id": "98cc0ecd1d97a79eed502ffa8bfe91a3_B",
+        "label": "B",
+        "html": "21.50, 78.50",
+        "is_correct": true
+      },
+      {
+        "id": "98cc0ecd1d97a79eed502ffa8bfe91a3_C",
+        "label": "C",
+        "html": "21.09, 76.48",
+        "is_correct": false
+      },
+      {
+        "id": "98cc0ecd1d97a79eed502ffa8bfe91a3_D",
+        "label": "D",
+        "html": "25.91, 71.48",
+        "is_correct": false
+      },
+      {
+        "id": "98cc0ecd1d97a79eed502ffa8bfe91a3_E",
+        "label": "E",
+        "html": "26.39, 72.79",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "98cc0ecd1d97a79eed502ffa8bfe91a3_B"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "dd578af0121df4b592b871da44714b81",
+    "title": "Uniform Quantiles - Middle - Q1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In psychology, reaction times to a visual stimulus (ms) are modeled as uniformly distributed between 150 and 300. Find two values that contain the <b>middle 90% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "dd578af0121df4b592b871da44714b81_A",
+        "label": "A",
+        "html": "170.60, 292.79",
+        "is_correct": false
+      },
+      {
+        "id": "dd578af0121df4b592b871da44714b81_B",
+        "label": "B",
+        "html": "152.60, 299.94",
+        "is_correct": false
+      },
+      {
+        "id": "dd578af0121df4b592b871da44714b81_C",
+        "label": "C",
+        "html": "150.65, 280.38",
+        "is_correct": false
+      },
+      {
+        "id": "dd578af0121df4b592b871da44714b81_D",
+        "label": "D",
+        "html": "157.50, 292.50",
+        "is_correct": true
+      },
+      {
+        "id": "dd578af0121df4b592b871da44714b81_E",
+        "label": "E",
+        "html": "162.84, 287.51",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "dd578af0121df4b592b871da44714b81_D"
+    ]
+  }
+]

@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "18722b1071ae643d9eee81fe6e69552b",
+    "title": "Q10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 1 red marbles and 6 blue marbles. You draw two marbles with replacement. Given that the second marble is blue, what is the probability that the first marble is red?</p>",
+    "choices": [
+      {
+        "id": "18722b1071ae643d9eee81fe6e69552b_A",
+        "label": "A",
+        "html": "0.0929",
+        "is_correct": false
+      },
+      {
+        "id": "18722b1071ae643d9eee81fe6e69552b_B",
+        "label": "B",
+        "html": "0.1429",
+        "is_correct": true
+      },
+      {
+        "id": "18722b1071ae643d9eee81fe6e69552b_C",
+        "label": "C",
+        "html": "0.1629",
+        "is_correct": false
+      },
+      {
+        "id": "18722b1071ae643d9eee81fe6e69552b_D",
+        "label": "D",
+        "html": "0.1229",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "18722b1071ae643d9eee81fe6e69552b_B"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "a5898d9fde2a56580e1f4fde0e17c781",
+    "title": "Q14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 8 red marbles and 1 blue marbles. You draw two marbles with replacement. What is the probability that the first marble is red and the second marble is not red?</p>",
+    "choices": [
+      {
+        "id": "a5898d9fde2a56580e1f4fde0e17c781_A",
+        "label": "A",
+        "html": "0.1188",
+        "is_correct": false
+      },
+      {
+        "id": "a5898d9fde2a56580e1f4fde0e17c781_B",
+        "label": "B",
+        "html": "0.0488",
+        "is_correct": false
+      },
+      {
+        "id": "a5898d9fde2a56580e1f4fde0e17c781_C",
+        "label": "C",
+        "html": "0.0788",
+        "is_correct": false
+      },
+      {
+        "id": "a5898d9fde2a56580e1f4fde0e17c781_D",
+        "label": "D",
+        "html": "0.0988",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "a5898d9fde2a56580e1f4fde0e17c781_D"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "671b7f6ca63b17743b13525b4f71e42c",
+    "title": "Q16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 8 red marbles and 1 blue marbles. You draw two marbles with replacement. Given that the first marble is not red, what is the probability that the second marble is red?</p>",
+    "choices": [
+      {
+        "id": "671b7f6ca63b17743b13525b4f71e42c_A",
+        "label": "A",
+        "html": "0.8389",
+        "is_correct": false
+      },
+      {
+        "id": "671b7f6ca63b17743b13525b4f71e42c_B",
+        "label": "B",
+        "html": "0.9089",
+        "is_correct": false
+      },
+      {
+        "id": "671b7f6ca63b17743b13525b4f71e42c_C",
+        "label": "C",
+        "html": "0.8689",
+        "is_correct": false
+      },
+      {
+        "id": "671b7f6ca63b17743b13525b4f71e42c_D",
+        "label": "D",
+        "html": "<p>1.0000</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "671b7f6ca63b17743b13525b4f71e42c_D"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "a4ca9f8a528a6e8f0391e4e70c8249c7",
+    "title": "Q20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 7 red marbles and 2 blue marbles. You draw two marbles with replacement. What is the probability that the first marble is red and the second marble is blue?</p>",
+    "choices": [
+      {
+        "id": "a4ca9f8a528a6e8f0391e4e70c8249c7_A",
+        "label": "A",
+        "html": "0.1728",
+        "is_correct": true
+      },
+      {
+        "id": "a4ca9f8a528a6e8f0391e4e70c8249c7_B",
+        "label": "B",
+        "html": "0.1928",
+        "is_correct": false
+      },
+      {
+        "id": "a4ca9f8a528a6e8f0391e4e70c8249c7_C",
+        "label": "C",
+        "html": "0.1528",
+        "is_correct": false
+      },
+      {
+        "id": "a4ca9f8a528a6e8f0391e4e70c8249c7_D",
+        "label": "D",
+        "html": "0.1228",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a4ca9f8a528a6e8f0391e4e70c8249c7_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "6787cb776cd6aead477fb573778ec499",
+    "title": "Q19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 5 red marbles and 5 blue marbles. You draw two marbles with replacement. What is the probability that none are red or none are blue?</p>",
+    "choices": [
+      {
+        "id": "6787cb776cd6aead477fb573778ec499_A",
+        "label": "A",
+        "html": "0.5200",
+        "is_correct": false
+      },
+      {
+        "id": "6787cb776cd6aead477fb573778ec499_B",
+        "label": "B",
+        "html": "0.4800",
+        "is_correct": false
+      },
+      {
+        "id": "6787cb776cd6aead477fb573778ec499_C",
+        "label": "C",
+        "html": "0.5000",
+        "is_correct": true
+      },
+      {
+        "id": "6787cb776cd6aead477fb573778ec499_D",
+        "label": "D",
+        "html": "0.4500",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6787cb776cd6aead477fb573778ec499_C"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "3b6db1cb2445990dcaa2423b70f5c1cc",
+    "title": "Q18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 8 red marbles and 10 blue marbles. You draw two marbles with replacement. What is the probability that at least one marble is red and at least one marble is blue?</p>",
+    "choices": [
+      {
+        "id": "3b6db1cb2445990dcaa2423b70f5c1cc_A",
+        "label": "A",
+        "html": "0.4438",
+        "is_correct": false
+      },
+      {
+        "id": "3b6db1cb2445990dcaa2423b70f5c1cc_B",
+        "label": "B",
+        "html": "0.5138",
+        "is_correct": false
+      },
+      {
+        "id": "3b6db1cb2445990dcaa2423b70f5c1cc_C",
+        "label": "C",
+        "html": "0.4938",
+        "is_correct": true
+      },
+      {
+        "id": "3b6db1cb2445990dcaa2423b70f5c1cc_D",
+        "label": "D",
+        "html": "0.4738",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3b6db1cb2445990dcaa2423b70f5c1cc_C"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "2bb3653f7a60ad10d55e5bfbd5b790cc",
+    "title": "Q17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 6 red marbles and 10 blue marbles. You draw two marbles with replacement. Given that the second marble is not blue, what is the probability that the first marble is blue?</p>",
+    "choices": [
+      {
+        "id": "2bb3653f7a60ad10d55e5bfbd5b790cc_A",
+        "label": "A",
+        "html": "0.6450",
+        "is_correct": false
+      },
+      {
+        "id": "2bb3653f7a60ad10d55e5bfbd5b790cc_B",
+        "label": "B",
+        "html": "0.5750",
+        "is_correct": false
+      },
+      {
+        "id": "2bb3653f7a60ad10d55e5bfbd5b790cc_C",
+        "label": "C",
+        "html": "0.6050",
+        "is_correct": false
+      },
+      {
+        "id": "2bb3653f7a60ad10d55e5bfbd5b790cc_D",
+        "label": "D",
+        "html": "0.6250",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "2bb3653f7a60ad10d55e5bfbd5b790cc_D"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "c7e60e5ae19425703bca52ed154fc15c",
+    "title": "Q15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 3 red marbles and 5 blue marbles. You draw two marbles with replacement. What is the probability that the first marble is blue or the second marble is red?</p>",
+    "choices": [
+      {
+        "id": "c7e60e5ae19425703bca52ed154fc15c_A",
+        "label": "A",
+        "html": "0.7856",
+        "is_correct": false
+      },
+      {
+        "id": "c7e60e5ae19425703bca52ed154fc15c_B",
+        "label": "B",
+        "html": "0.7156",
+        "is_correct": false
+      },
+      {
+        "id": "c7e60e5ae19425703bca52ed154fc15c_C",
+        "label": "C",
+        "html": "0.7656",
+        "is_correct": true
+      },
+      {
+        "id": "c7e60e5ae19425703bca52ed154fc15c_D",
+        "label": "D",
+        "html": "0.7456",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c7e60e5ae19425703bca52ed154fc15c_C"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "7404d9b2790ced58a7a669c7c16487ac",
+    "title": "Q13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 6 red marbles and 2 blue marbles. You draw two marbles with replacement. Given that exactly one of the two marbles is red, what is the probability that the first marble is red?</p>",
+    "choices": [
+      {
+        "id": "7404d9b2790ced58a7a669c7c16487ac_A",
+        "label": "A",
+        "html": "0.4500",
+        "is_correct": false
+      },
+      {
+        "id": "7404d9b2790ced58a7a669c7c16487ac_B",
+        "label": "B",
+        "html": "0.5000",
+        "is_correct": true
+      },
+      {
+        "id": "7404d9b2790ced58a7a669c7c16487ac_C",
+        "label": "C",
+        "html": "0.5200",
+        "is_correct": false
+      },
+      {
+        "id": "7404d9b2790ced58a7a669c7c16487ac_D",
+        "label": "D",
+        "html": "0.4800",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7404d9b2790ced58a7a669c7c16487ac_B"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "928f40b0042bedfbe8a41b174af7b7da",
+    "title": "Q12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 3 red marbles and 2 blue marbles. You draw two marbles with replacement. Given that at least one of the two marbles is blue, what is the probability that both marbles are blue?</p>",
+    "choices": [
+      {
+        "id": "928f40b0042bedfbe8a41b174af7b7da_A",
+        "label": "A",
+        "html": "0.2500",
+        "is_correct": true
+      },
+      {
+        "id": "928f40b0042bedfbe8a41b174af7b7da_B",
+        "label": "B",
+        "html": "0.2700",
+        "is_correct": false
+      },
+      {
+        "id": "928f40b0042bedfbe8a41b174af7b7da_C",
+        "label": "C",
+        "html": "0.2000",
+        "is_correct": false
+      },
+      {
+        "id": "928f40b0042bedfbe8a41b174af7b7da_D",
+        "label": "D",
+        "html": "0.2300",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "928f40b0042bedfbe8a41b174af7b7da_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "70976796bd0a2d32613bc0e7462f5a19",
+    "title": "Q11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 7 red marbles and 3 blue marbles. You draw two marbles with replacement. Given that at least one of the two marbles is red, what is the probability that both marbles are red?</p>",
+    "choices": [
+      {
+        "id": "70976796bd0a2d32613bc0e7462f5a19_A",
+        "label": "A",
+        "html": "0.5585",
+        "is_correct": false
+      },
+      {
+        "id": "70976796bd0a2d32613bc0e7462f5a19_B",
+        "label": "B",
+        "html": "0.5185",
+        "is_correct": false
+      },
+      {
+        "id": "70976796bd0a2d32613bc0e7462f5a19_C",
+        "label": "C",
+        "html": "0.5385",
+        "is_correct": true
+      },
+      {
+        "id": "70976796bd0a2d32613bc0e7462f5a19_D",
+        "label": "D",
+        "html": "0.4885",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "70976796bd0a2d32613bc0e7462f5a19_C"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "36b0c940e1ae94e6166c83f8c2cf729d",
+    "title": "Q9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 4 red marbles and 8 blue marbles. You draw two marbles with replacement. Given that the first marble is red, what is the probability that the second marble is red?</p>",
+    "choices": [
+      {
+        "id": "36b0c940e1ae94e6166c83f8c2cf729d_A",
+        "label": "A",
+        "html": "0.3133",
+        "is_correct": false
+      },
+      {
+        "id": "36b0c940e1ae94e6166c83f8c2cf729d_B",
+        "label": "B",
+        "html": "0.3333",
+        "is_correct": true
+      },
+      {
+        "id": "36b0c940e1ae94e6166c83f8c2cf729d_C",
+        "label": "C",
+        "html": "0.3533",
+        "is_correct": false
+      },
+      {
+        "id": "36b0c940e1ae94e6166c83f8c2cf729d_D",
+        "label": "D",
+        "html": "0.2833",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "36b0c940e1ae94e6166c83f8c2cf729d_B"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "33af7e9db7dd49d8f02f053fcb55f6f0",
+    "title": "Q8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 5 red marbles and 8 blue marbles. You draw two marbles with replacement. What is the probability that none of the two marbles is blue?</p>",
+    "choices": [
+      {
+        "id": "33af7e9db7dd49d8f02f053fcb55f6f0_A",
+        "label": "A",
+        "html": "0.1479",
+        "is_correct": true
+      },
+      {
+        "id": "33af7e9db7dd49d8f02f053fcb55f6f0_B",
+        "label": "B",
+        "html": "0.0979",
+        "is_correct": false
+      },
+      {
+        "id": "33af7e9db7dd49d8f02f053fcb55f6f0_C",
+        "label": "C",
+        "html": "0.1279",
+        "is_correct": false
+      },
+      {
+        "id": "33af7e9db7dd49d8f02f053fcb55f6f0_D",
+        "label": "D",
+        "html": "0.1679",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "33af7e9db7dd49d8f02f053fcb55f6f0_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "f15c91ecc89dca255f1019e2c08aa704",
+    "title": "Q7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 9 red marbles and 10 blue marbles. You draw two marbles with replacement. What is the probability that at least one of the two marbles is blue?</p>",
+    "choices": [
+      {
+        "id": "f15c91ecc89dca255f1019e2c08aa704_A",
+        "label": "A",
+        "html": "0.7956",
+        "is_correct": false
+      },
+      {
+        "id": "f15c91ecc89dca255f1019e2c08aa704_B",
+        "label": "B",
+        "html": "0.7756",
+        "is_correct": true
+      },
+      {
+        "id": "f15c91ecc89dca255f1019e2c08aa704_C",
+        "label": "C",
+        "html": "0.7556",
+        "is_correct": false
+      },
+      {
+        "id": "f15c91ecc89dca255f1019e2c08aa704_D",
+        "label": "D",
+        "html": "0.7256",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f15c91ecc89dca255f1019e2c08aa704_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "1c6d1ea96d121b80b1eb4d41679a360e",
+    "title": "Q6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 9 red marbles and 8 blue marbles. You draw two marbles with replacement. What is the probability that none of the two marbles is red?</p>",
+    "choices": [
+      {
+        "id": "1c6d1ea96d121b80b1eb4d41679a360e_A",
+        "label": "A",
+        "html": "0.2015",
+        "is_correct": false
+      },
+      {
+        "id": "1c6d1ea96d121b80b1eb4d41679a360e_B",
+        "label": "B",
+        "html": "0.2215",
+        "is_correct": true
+      },
+      {
+        "id": "1c6d1ea96d121b80b1eb4d41679a360e_C",
+        "label": "C",
+        "html": "0.2415",
+        "is_correct": false
+      },
+      {
+        "id": "1c6d1ea96d121b80b1eb4d41679a360e_D",
+        "label": "D",
+        "html": "0.1715",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1c6d1ea96d121b80b1eb4d41679a360e_B"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "265b5c9c328dfdc5fff2c490f0a5f194",
+    "title": "Q5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 2 red marbles and 1 blue marbles. You draw two marbles with replacement. What is the probability that at least one of the two marbles is red?</p>",
+    "choices": [
+      {
+        "id": "265b5c9c328dfdc5fff2c490f0a5f194_A",
+        "label": "A",
+        "html": "0.8689",
+        "is_correct": false
+      },
+      {
+        "id": "265b5c9c328dfdc5fff2c490f0a5f194_B",
+        "label": "B",
+        "html": "0.9089",
+        "is_correct": false
+      },
+      {
+        "id": "265b5c9c328dfdc5fff2c490f0a5f194_C",
+        "label": "C",
+        "html": "0.8389",
+        "is_correct": false
+      },
+      {
+        "id": "265b5c9c328dfdc5fff2c490f0a5f194_D",
+        "label": "D",
+        "html": "0.8889",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "265b5c9c328dfdc5fff2c490f0a5f194_D"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "846527cf31cfb2290fdca56c369c02f8",
+    "title": "Q4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 10 red marbles and 8 blue marbles. You draw two marbles with replacement. What is the probability that the first marble is red or the second marble is blue?</p>",
+    "choices": [
+      {
+        "id": "846527cf31cfb2290fdca56c369c02f8_A",
+        "label": "A",
+        "html": "0.7531",
+        "is_correct": true
+      },
+      {
+        "id": "846527cf31cfb2290fdca56c369c02f8_B",
+        "label": "B",
+        "html": "0.7731",
+        "is_correct": false
+      },
+      {
+        "id": "846527cf31cfb2290fdca56c369c02f8_C",
+        "label": "C",
+        "html": "0.7031",
+        "is_correct": false
+      },
+      {
+        "id": "846527cf31cfb2290fdca56c369c02f8_D",
+        "label": "D",
+        "html": "0.7331",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "846527cf31cfb2290fdca56c369c02f8_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "41359315b656b95cf9a55b3523cbbcc7",
+    "title": "Q3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 1 red marbles and 1 blue marbles. You draw two marbles with replacement. What is the probability that both marbles are red (the first is red and the second is red)?</p>",
+    "choices": [
+      {
+        "id": "41359315b656b95cf9a55b3523cbbcc7_A",
+        "label": "A",
+        "html": "0.2000",
+        "is_correct": false
+      },
+      {
+        "id": "41359315b656b95cf9a55b3523cbbcc7_B",
+        "label": "B",
+        "html": "0.2300",
+        "is_correct": false
+      },
+      {
+        "id": "41359315b656b95cf9a55b3523cbbcc7_C",
+        "label": "C",
+        "html": "0.2500",
+        "is_correct": true
+      },
+      {
+        "id": "41359315b656b95cf9a55b3523cbbcc7_D",
+        "label": "D",
+        "html": "0.2700",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "41359315b656b95cf9a55b3523cbbcc7_C"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "c477fd440ab4259c51802ed25a19e4a8",
+    "title": "Q2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 2 red marbles and 2 blue marbles. You draw two marbles with replacement. What is the probability that both marbles are blue (the first is blue and the second is blue)?</p>",
+    "choices": [
+      {
+        "id": "c477fd440ab4259c51802ed25a19e4a8_A",
+        "label": "A",
+        "html": "0.2300",
+        "is_correct": false
+      },
+      {
+        "id": "c477fd440ab4259c51802ed25a19e4a8_B",
+        "label": "B",
+        "html": "0.2500",
+        "is_correct": true
+      },
+      {
+        "id": "c477fd440ab4259c51802ed25a19e4a8_C",
+        "label": "C",
+        "html": "0.2000",
+        "is_correct": false
+      },
+      {
+        "id": "c477fd440ab4259c51802ed25a19e4a8_D",
+        "label": "D",
+        "html": "0.2700",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c477fd440ab4259c51802ed25a19e4a8_B"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "d63466bb662466ff605c41db78c1e599",
+    "title": "Q1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A bowl contains 8 red marbles and 2 blue marbles. You draw two marbles with replacement. What is the probability that the first marble is red and the second marble is blue?</p>",
+    "choices": [
+      {
+        "id": "d63466bb662466ff605c41db78c1e599_A",
+        "label": "A",
+        "html": "0.1400",
+        "is_correct": false
+      },
+      {
+        "id": "d63466bb662466ff605c41db78c1e599_B",
+        "label": "B",
+        "html": "0.1800",
+        "is_correct": false
+      },
+      {
+        "id": "d63466bb662466ff605c41db78c1e599_C",
+        "label": "C",
+        "html": "0.1600",
+        "is_correct": true
+      },
+      {
+        "id": "d63466bb662466ff605c41db78c1e599_D",
+        "label": "D",
+        "html": "0.1100",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d63466bb662466ff605c41db78c1e599_C"
+    ]
+  }
+]

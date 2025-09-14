@@ -1,0 +1,602 @@
+[
+  {
+    "index": 1,
+    "ident": "03562212708b9ac1e2d3cfc165ce1201",
+    "title": "Question 13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/b2f8b21b43290bf82383d9e29f739b37.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "03562212708b9ac1e2d3cfc165ce1201_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": false
+      },
+      {
+        "id": "03562212708b9ac1e2d3cfc165ce1201_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": false
+      },
+      {
+        "id": "03562212708b9ac1e2d3cfc165ce1201_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "03562212708b9ac1e2d3cfc165ce1201_C"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "23ed8d0b05582a1f481b1124cc60e243",
+    "title": "Question 14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/0893c960b91a5f03aabca7fdd24cf819.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "23ed8d0b05582a1f481b1124cc60e243_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": false
+      },
+      {
+        "id": "23ed8d0b05582a1f481b1124cc60e243_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": false
+      },
+      {
+        "id": "23ed8d0b05582a1f481b1124cc60e243_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "23ed8d0b05582a1f481b1124cc60e243_C"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "7e499f74518011de36844ac0da8cc58c",
+    "title": "Question 15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/3fcdfc8be0b7bb9e14aba899b8e35ac3.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "7e499f74518011de36844ac0da8cc58c_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": false
+      },
+      {
+        "id": "7e499f74518011de36844ac0da8cc58c_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": false
+      },
+      {
+        "id": "7e499f74518011de36844ac0da8cc58c_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "7e499f74518011de36844ac0da8cc58c_C"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "0b3b8cd9166bca87950fcb41e41c0c7e",
+    "title": "Question 16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/1076ae666c96fa4a603e1e4f66745756.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "0b3b8cd9166bca87950fcb41e41c0c7e_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": false
+      },
+      {
+        "id": "0b3b8cd9166bca87950fcb41e41c0c7e_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": false
+      },
+      {
+        "id": "0b3b8cd9166bca87950fcb41e41c0c7e_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "0b3b8cd9166bca87950fcb41e41c0c7e_C"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "c59ee4add0e154e4c139b3b95c7e7512",
+    "title": "Question 18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/b391b317897311598677bb2b78262621.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "c59ee4add0e154e4c139b3b95c7e7512_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": false
+      },
+      {
+        "id": "c59ee4add0e154e4c139b3b95c7e7512_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": false
+      },
+      {
+        "id": "c59ee4add0e154e4c139b3b95c7e7512_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "c59ee4add0e154e4c139b3b95c7e7512_C"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "6614db080c42da9b67e6b9dd43780759",
+    "title": "Question 19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/652a5a45b8ce12220ecfc3d17b970f85.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "6614db080c42da9b67e6b9dd43780759_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": false
+      },
+      {
+        "id": "6614db080c42da9b67e6b9dd43780759_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": false
+      },
+      {
+        "id": "6614db080c42da9b67e6b9dd43780759_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "6614db080c42da9b67e6b9dd43780759_C"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "a0ff48cfadfd37ba705a8b547e4afd43",
+    "title": "Question 9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/538233dd01ff45971fc9583404d34861.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "a0ff48cfadfd37ba705a8b547e4afd43_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": false
+      },
+      {
+        "id": "a0ff48cfadfd37ba705a8b547e4afd43_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": true
+      },
+      {
+        "id": "a0ff48cfadfd37ba705a8b547e4afd43_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a0ff48cfadfd37ba705a8b547e4afd43_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "1da5f5a9436e4c8f3ad08c6c6291a064",
+    "title": "Question 10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/00f6c8b5d9da60f4d2557a841a53b1b9.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "1da5f5a9436e4c8f3ad08c6c6291a064_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": false
+      },
+      {
+        "id": "1da5f5a9436e4c8f3ad08c6c6291a064_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": true
+      },
+      {
+        "id": "1da5f5a9436e4c8f3ad08c6c6291a064_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1da5f5a9436e4c8f3ad08c6c6291a064_B"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "280b7917d7e8e3f1ef3e1adf4de5fc82",
+    "title": "Question 20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p>\n<p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/460b81aa1ee8ee9a3f8f42bf401e0691.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "280b7917d7e8e3f1ef3e1adf4de5fc82_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": false
+      },
+      {
+        "id": "280b7917d7e8e3f1ef3e1adf4de5fc82_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": false
+      },
+      {
+        "id": "280b7917d7e8e3f1ef3e1adf4de5fc82_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "280b7917d7e8e3f1ef3e1adf4de5fc82_C"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "3a239ff05b254871f710220b65ede5c0",
+    "title": "Question 17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/552dd865c1d088e0a514596382e54a05.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "3a239ff05b254871f710220b65ede5c0_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": false
+      },
+      {
+        "id": "3a239ff05b254871f710220b65ede5c0_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": false
+      },
+      {
+        "id": "3a239ff05b254871f710220b65ede5c0_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "3a239ff05b254871f710220b65ede5c0_C"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "b9a0f85acc363c9b8f5ae2a3c004d570",
+    "title": "Question 12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/77c4aeb03b580de7a70ec6dee89f6047.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "b9a0f85acc363c9b8f5ae2a3c004d570_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": false
+      },
+      {
+        "id": "b9a0f85acc363c9b8f5ae2a3c004d570_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": true
+      },
+      {
+        "id": "b9a0f85acc363c9b8f5ae2a3c004d570_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b9a0f85acc363c9b8f5ae2a3c004d570_B"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "38e0f7ae6965876e362e891d2f5c4c00",
+    "title": "Question 11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/c33e5a5b8550642ec56e7be0cd223fc1.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "38e0f7ae6965876e362e891d2f5c4c00_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": false
+      },
+      {
+        "id": "38e0f7ae6965876e362e891d2f5c4c00_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": true
+      },
+      {
+        "id": "38e0f7ae6965876e362e891d2f5c4c00_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "38e0f7ae6965876e362e891d2f5c4c00_B"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "40e3339acec5097cd636a90d23e43108",
+    "title": "Question 8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/b30c26bd88148f3be71a80d6e53b4d51.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "40e3339acec5097cd636a90d23e43108_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": false
+      },
+      {
+        "id": "40e3339acec5097cd636a90d23e43108_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": true
+      },
+      {
+        "id": "40e3339acec5097cd636a90d23e43108_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "40e3339acec5097cd636a90d23e43108_B"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "f988cc00d77d51f2fd595380a790da03",
+    "title": "Question 7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/02ab4960690ee86e122fc4936b1b19fb.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "f988cc00d77d51f2fd595380a790da03_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": false
+      },
+      {
+        "id": "f988cc00d77d51f2fd595380a790da03_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": true
+      },
+      {
+        "id": "f988cc00d77d51f2fd595380a790da03_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f988cc00d77d51f2fd595380a790da03_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "a5834069c97566029efc66c24e9b20a1",
+    "title": "Question 6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/cb4e17bc9abe1e5c36201f5120630c0e.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "a5834069c97566029efc66c24e9b20a1_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": true
+      },
+      {
+        "id": "a5834069c97566029efc66c24e9b20a1_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": false
+      },
+      {
+        "id": "a5834069c97566029efc66c24e9b20a1_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a5834069c97566029efc66c24e9b20a1_A"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "1266bf454fbc6f53e5a49469a155636a",
+    "title": "Question 5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/9072606e4024272066facd8999f11b5d.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "1266bf454fbc6f53e5a49469a155636a_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": true
+      },
+      {
+        "id": "1266bf454fbc6f53e5a49469a155636a_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": false
+      },
+      {
+        "id": "1266bf454fbc6f53e5a49469a155636a_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1266bf454fbc6f53e5a49469a155636a_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "9c56c33b6e780b39716141afb2722883",
+    "title": "Question 4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/5814bd1623468e420bd77ae667b17a13.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "9c56c33b6e780b39716141afb2722883_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": true
+      },
+      {
+        "id": "9c56c33b6e780b39716141afb2722883_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": false
+      },
+      {
+        "id": "9c56c33b6e780b39716141afb2722883_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9c56c33b6e780b39716141afb2722883_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "9ea97b6f1453bdd3031ddf8df78182eb",
+    "title": "Question 3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/645ae01b418b4434049ae3b87c93c930.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "9ea97b6f1453bdd3031ddf8df78182eb_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": true
+      },
+      {
+        "id": "9ea97b6f1453bdd3031ddf8df78182eb_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": false
+      },
+      {
+        "id": "9ea97b6f1453bdd3031ddf8df78182eb_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9ea97b6f1453bdd3031ddf8df78182eb_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "c8ee846763f75a65e363100eeab9b8ec",
+    "title": "Question 2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/0aac384a01b422c3fe91009c89a5a228.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "c8ee846763f75a65e363100eeab9b8ec_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": true
+      },
+      {
+        "id": "c8ee846763f75a65e363100eeab9b8ec_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": false
+      },
+      {
+        "id": "c8ee846763f75a65e363100eeab9b8ec_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c8ee846763f75a65e363100eeab9b8ec_A"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "f5eb6b864c2f92ca3ca1de15da5c7c07",
+    "title": "Question 1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This scatter plot shows which of the following? Choose the best description.</p><p><img src=\"2.3_Scatter_Plots_Correlation_Quiz_images/2050d3382cb3c9220b06e5cd41299cd4.png\" alt=\"Scatter plot image\"></p>",
+    "choices": [
+      {
+        "id": "f5eb6b864c2f92ca3ca1de15da5c7c07_A",
+        "label": "A",
+        "html": "Linear correlation",
+        "is_correct": true
+      },
+      {
+        "id": "f5eb6b864c2f92ca3ca1de15da5c7c07_B",
+        "label": "B",
+        "html": "Correlation other than linear",
+        "is_correct": false
+      },
+      {
+        "id": "f5eb6b864c2f92ca3ca1de15da5c7c07_C",
+        "label": "C",
+        "html": "No correlation",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f5eb6b864c2f92ca3ca1de15da5c7c07_A"
+    ]
+  }
+]

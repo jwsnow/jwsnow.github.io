@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "fa33dbe5dd799bf7b318d141d9dd53c0",
+    "title": "Life Insurance #20",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$450.00</b>. If the insured dies during the year, the company pays <b>$100,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9975</b>. Find the insured person's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "fa33dbe5dd799bf7b318d141d9dd53c0_A",
+        "label": "A",
+        "html": "<div><p>$-200.00</p></div>",
+        "is_correct": true
+      },
+      {
+        "id": "fa33dbe5dd799bf7b318d141d9dd53c0_B",
+        "label": "B",
+        "html": "<div><p>$200.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "fa33dbe5dd799bf7b318d141d9dd53c0_C",
+        "label": "C",
+        "html": "<div><p>$-450.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "fa33dbe5dd799bf7b318d141d9dd53c0_D",
+        "label": "D",
+        "html": "<div>\n<p>$99.00</p>\n</div>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "fa33dbe5dd799bf7b318d141d9dd53c0_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "7ce553e27a427d6fa63dac0fb89d0fbd",
+    "title": "Life Insurance #19",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$750.00</b>. If the insured dies during the year, the company pays <b>$100,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9950</b>. Find the insured person's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "7ce553e27a427d6fa63dac0fb89d0fbd_A",
+        "label": "A",
+        "html": "<div><p>$250.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "7ce553e27a427d6fa63dac0fb89d0fbd_B",
+        "label": "B",
+        "html": "<div><p>$-750.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "7ce553e27a427d6fa63dac0fb89d0fbd_C",
+        "label": "C",
+        "html": "<div>\n<p>$98.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "7ce553e27a427d6fa63dac0fb89d0fbd_D",
+        "label": "D",
+        "html": "<div><p>$-250.00</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "7ce553e27a427d6fa63dac0fb89d0fbd_D"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "b09b9acd768de6b7e545111fde7f7874",
+    "title": "Life Insurance #18",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$600.00</b>. If the insured dies during the year, the company pays <b>$50,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9950</b>. Find the insured person's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "b09b9acd768de6b7e545111fde7f7874_A",
+        "label": "A",
+        "html": "<div>\n<p>$49.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "b09b9acd768de6b7e545111fde7f7874_B",
+        "label": "B",
+        "html": "<div><p>$350.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "b09b9acd768de6b7e545111fde7f7874_C",
+        "label": "C",
+        "html": "<div><p>$-350.00</p></div>",
+        "is_correct": true
+      },
+      {
+        "id": "b09b9acd768de6b7e545111fde7f7874_D",
+        "label": "D",
+        "html": "<div><p>$-600.00</p></div>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b09b9acd768de6b7e545111fde7f7874_C"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "ab1516abdc1b1ebad1dfbcc31518b442",
+    "title": "Life Insurance #17",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$450.00</b>. If the insured dies during the year, the company pays <b>$200,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9975</b>. Find the insured person's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "ab1516abdc1b1ebad1dfbcc31518b442_A",
+        "label": "A",
+        "html": "<div><p>$-50.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "ab1516abdc1b1ebad1dfbcc31518b442_B",
+        "label": "B",
+        "html": "<div><p>$50.00</p></div>",
+        "is_correct": true
+      },
+      {
+        "id": "ab1516abdc1b1ebad1dfbcc31518b442_C",
+        "label": "C",
+        "html": "<div>\n<p>$199.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "ab1516abdc1b1ebad1dfbcc31518b442_D",
+        "label": "D",
+        "html": "<div><p>$-450.00</p></div>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ab1516abdc1b1ebad1dfbcc31518b442_B"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "838c91e30b50ec29fb30801ed93dcb0e",
+    "title": "Life Insurance #16",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$350.00</b>. If the insured dies during the year, the company pays <b>$300,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9980</b>. Find the insured person's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "838c91e30b50ec29fb30801ed93dcb0e_A",
+        "label": "A",
+        "html": "<div>\n<p>$299.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "838c91e30b50ec29fb30801ed93dcb0e_B",
+        "label": "B",
+        "html": "<div><p>$-350.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "838c91e30b50ec29fb30801ed93dcb0e_C",
+        "label": "C",
+        "html": "<div><p>$-250.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "838c91e30b50ec29fb30801ed93dcb0e_D",
+        "label": "D",
+        "html": "<div><p>$250.00</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "838c91e30b50ec29fb30801ed93dcb0e_D"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "90a3945528d5ce0a398f59eb5c112353",
+    "title": "Life Insurance #15",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$900.00</b>. If the insured dies during the year, the company pays <b>$50,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9950</b>. Find the insured person's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "90a3945528d5ce0a398f59eb5c112353_A",
+        "label": "A",
+        "html": "<div><p>$-650.00</p></div>",
+        "is_correct": true
+      },
+      {
+        "id": "90a3945528d5ce0a398f59eb5c112353_B",
+        "label": "B",
+        "html": "<div>\n<p>$48.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "90a3945528d5ce0a398f59eb5c112353_C",
+        "label": "C",
+        "html": "<div><p>$650.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "90a3945528d5ce0a398f59eb5c112353_D",
+        "label": "D",
+        "html": "<div><p>$-900.00</p></div>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "90a3945528d5ce0a398f59eb5c112353_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "1a9b320d80677e3cd06de78403b6b444",
+    "title": "Life Insurance #14",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$750.00</b>. If the insured dies during the year, the company pays <b>$500,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9960</b>. Find the insured person's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "1a9b320d80677e3cd06de78403b6b444_A",
+        "label": "A",
+        "html": "<div><p>$1,250.00</p></div>",
+        "is_correct": true
+      },
+      {
+        "id": "1a9b320d80677e3cd06de78403b6b444_B",
+        "label": "B",
+        "html": "<div>\n<p>$497.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "1a9b320d80677e3cd06de78403b6b444_C",
+        "label": "C",
+        "html": "<div><p>$-750.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "1a9b320d80677e3cd06de78403b6b444_D",
+        "label": "D",
+        "html": "<div><p>$-1,250.00</p></div>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1a9b320d80677e3cd06de78403b6b444_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "d56b07af940c22e425aec2d9ceec8a8a",
+    "title": "Life Insurance #13",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$250.00</b>. If the insured dies during the year, the company pays <b>$100,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9975</b>. Find the insured person's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "d56b07af940c22e425aec2d9ceec8a8a_A",
+        "label": "A",
+        "html": "<div>\n<p>$0.00</p>\n</div>",
+        "is_correct": true
+      },
+      {
+        "id": "d56b07af940c22e425aec2d9ceec8a8a_B",
+        "label": "B",
+        "html": "<div>\n<p>$99.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "d56b07af940c22e425aec2d9ceec8a8a_C",
+        "label": "C",
+        "html": "<div>\n<p>$10.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "d56b07af940c22e425aec2d9ceec8a8a_D",
+        "label": "D",
+        "html": "<div><p>$-250.00</p></div>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d56b07af940c22e425aec2d9ceec8a8a_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "d56d58e6cbac32937ffc9c341b5e44d3",
+    "title": "Life Insurance #12",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$500.00</b>. If the insured dies during the year, the company pays <b>$100,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9985</b>. Find the insured person's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "d56d58e6cbac32937ffc9c341b5e44d3_A",
+        "label": "A",
+        "html": "<div><p>$-350.00</p></div>",
+        "is_correct": true
+      },
+      {
+        "id": "d56d58e6cbac32937ffc9c341b5e44d3_B",
+        "label": "B",
+        "html": "<div>\n<p>$99.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "d56d58e6cbac32937ffc9c341b5e44d3_C",
+        "label": "C",
+        "html": "<div><p>$-500.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "d56d58e6cbac32937ffc9c341b5e44d3_D",
+        "label": "D",
+        "html": "<div><p>$350.00</p></div>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d56d58e6cbac32937ffc9c341b5e44d3_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "0a6d6609d3fc5dfae0f418f0d363d128",
+    "title": "Life Insurance #11",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$400.00</b>. If the insured dies during the year, the company pays <b>$200,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9960</b>. Find the insured person's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "0a6d6609d3fc5dfae0f418f0d363d128_A",
+        "label": "A",
+        "html": "<div>\n<p>$198.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "0a6d6609d3fc5dfae0f418f0d363d128_B",
+        "label": "B",
+        "html": "<div><p>$-400.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "0a6d6609d3fc5dfae0f418f0d363d128_C",
+        "label": "C",
+        "html": "<div><p>$650.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "0a6d6609d3fc5dfae0f418f0d363d128_D",
+        "label": "D",
+        "html": "<div><p>$400.00</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "0a6d6609d3fc5dfae0f418f0d363d128_D"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "aebe2c8a803479206258bb02fa06849b",
+    "title": "Life Insurance #10",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$500.00</b>. If the insured dies during the year, the company pays <b>$100,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9960</b>. Find the insurance company's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "aebe2c8a803479206258bb02fa06849b_A",
+        "label": "A",
+        "html": "<div>\n<p>$-99.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "aebe2c8a803479206258bb02fa06849b_B",
+        "label": "B",
+        "html": "<div><p>$500.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "aebe2c8a803479206258bb02fa06849b_C",
+        "label": "C",
+        "html": "<div><p>$100.00</p></div>",
+        "is_correct": true
+      },
+      {
+        "id": "aebe2c8a803479206258bb02fa06849b_D",
+        "label": "D",
+        "html": "<div><p>$-100.00</p></div>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "aebe2c8a803479206258bb02fa06849b_C"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "0a27f5844296fc9a993d687485102008",
+    "title": "Life Insurance #9",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$500.00</b>. If the insured dies during the year, the company pays <b>$100,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9950</b>. Find the insurance company's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "0a27f5844296fc9a993d687485102008_A",
+        "label": "A",
+        "html": "<div><p>$500.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "0a27f5844296fc9a993d687485102008_B",
+        "label": "B",
+        "html": "<div>\n<p>$-99.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "0a27f5844296fc9a993d687485102008_C",
+        "label": "C",
+        "html": "<div>\n<p>$0.00</p>\n</div>",
+        "is_correct": true
+      },
+      {
+        "id": "0a27f5844296fc9a993d687485102008_D",
+        "label": "D",
+        "html": "<div>\n<p>$1.00</p>\n</div>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0a27f5844296fc9a993d687485102008_C"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "65875b9578929e7c97b3bade0c50e568",
+    "title": "Life Insurance #8",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$250.00</b>. If the insured dies during the year, the company pays <b>$500,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9950</b>. Find the insurance company's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "65875b9578929e7c97b3bade0c50e568_A",
+        "label": "A",
+        "html": "<div><p>$250.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "65875b9578929e7c97b3bade0c50e568_B",
+        "label": "B",
+        "html": "<div>\n<p>$-497.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "65875b9578929e7c97b3bade0c50e568_C",
+        "label": "C",
+        "html": "<div><p>$-2,250.00</p></div>",
+        "is_correct": true
+      },
+      {
+        "id": "65875b9578929e7c97b3bade0c50e568_D",
+        "label": "D",
+        "html": "<div><p>$2,250.00</p></div>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "65875b9578929e7c97b3bade0c50e568_C"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "d74a81aef785a2f29e9b11d074622162",
+    "title": "Life Insurance #7",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$350.00</b>. If the insured dies during the year, the company pays <b>$100,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9950</b>. Find the insurance company's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "d74a81aef785a2f29e9b11d074622162_A",
+        "label": "A",
+        "html": "<div><p>$150.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "d74a81aef785a2f29e9b11d074622162_B",
+        "label": "B",
+        "html": "<div><p>$-150.00</p></div>",
+        "is_correct": true
+      },
+      {
+        "id": "d74a81aef785a2f29e9b11d074622162_C",
+        "label": "C",
+        "html": "<div>\n<p>$-99.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "d74a81aef785a2f29e9b11d074622162_D",
+        "label": "D",
+        "html": "<div><p>$350.00</p></div>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d74a81aef785a2f29e9b11d074622162_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "8b8f48fb56b673526deb386258c2b848",
+    "title": "Life Insurance #6",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$400.00</b>. If the insured dies during the year, the company pays <b>$300,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9990</b>. Find the insurance company's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "8b8f48fb56b673526deb386258c2b848_A",
+        "label": "A",
+        "html": "<div>\n<p>$-299.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "8b8f48fb56b673526deb386258c2b848_B",
+        "label": "B",
+        "html": "<div><p>$100.00</p></div>",
+        "is_correct": true
+      },
+      {
+        "id": "8b8f48fb56b673526deb386258c2b848_C",
+        "label": "C",
+        "html": "<div><p>$-100.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "8b8f48fb56b673526deb386258c2b848_D",
+        "label": "D",
+        "html": "<div><p>$400.00</p></div>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8b8f48fb56b673526deb386258c2b848_B"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "d3d5537833f098c45f25f79323513b22",
+    "title": "Life Insurance #5",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$750.00</b>. If the insured dies during the year, the company pays <b>$50,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9975</b>. Find the insurance company's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "d3d5537833f098c45f25f79323513b22_A",
+        "label": "A",
+        "html": "<div><p>$-625.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "d3d5537833f098c45f25f79323513b22_B",
+        "label": "B",
+        "html": "<div>\n<p>$-49.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "d3d5537833f098c45f25f79323513b22_C",
+        "label": "C",
+        "html": "<div><p>$625.00</p></div>",
+        "is_correct": true
+      },
+      {
+        "id": "d3d5537833f098c45f25f79323513b22_D",
+        "label": "D",
+        "html": "<div><p>$750.00</p></div>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d3d5537833f098c45f25f79323513b22_C"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "53f9af80b115d2fb45f612d890d9efe8",
+    "title": "Life Insurance #4",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$900.00</b>. If the insured dies during the year, the company pays <b>$50,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9960</b>. Find the insurance company's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "53f9af80b115d2fb45f612d890d9efe8_A",
+        "label": "A",
+        "html": "<div><p>$900.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "53f9af80b115d2fb45f612d890d9efe8_B",
+        "label": "B",
+        "html": "<div>\n<p>$-48.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "53f9af80b115d2fb45f612d890d9efe8_C",
+        "label": "C",
+        "html": "<div><p>$700.00</p></div>",
+        "is_correct": true
+      },
+      {
+        "id": "53f9af80b115d2fb45f612d890d9efe8_D",
+        "label": "D",
+        "html": "<div><p>$-700.00</p></div>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "53f9af80b115d2fb45f612d890d9efe8_C"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "7abd173e0b3bae512a7889b908a995d2",
+    "title": "Life Insurance #3",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$900.00</b>. If the insured dies during the year, the company pays <b>$100,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9950</b>. Find the insurance company's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "7abd173e0b3bae512a7889b908a995d2_A",
+        "label": "A",
+        "html": "<div>\n<p>$-98.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "7abd173e0b3bae512a7889b908a995d2_B",
+        "label": "B",
+        "html": "<div><p>$400.00</p></div>",
+        "is_correct": true
+      },
+      {
+        "id": "7abd173e0b3bae512a7889b908a995d2_C",
+        "label": "C",
+        "html": "<div><p>$-400.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "7abd173e0b3bae512a7889b908a995d2_D",
+        "label": "D",
+        "html": "<div><p>$900.00</p></div>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7abd173e0b3bae512a7889b908a995d2_B"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "5d0daeb26e8f89ef7636f04200f31d7e",
+    "title": "Life Insurance #2",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$400.00</b>. If the insured dies during the year, the company pays <b>$300,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9990</b>. Find the insurance company's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "5d0daeb26e8f89ef7636f04200f31d7e_A",
+        "label": "A",
+        "html": "<div><p>$100.00</p></div>",
+        "is_correct": true
+      },
+      {
+        "id": "5d0daeb26e8f89ef7636f04200f31d7e_B",
+        "label": "B",
+        "html": "<div>\n<p>$-299.00</p>\n</div>",
+        "is_correct": false
+      },
+      {
+        "id": "5d0daeb26e8f89ef7636f04200f31d7e_C",
+        "label": "C",
+        "html": "<div><p>$-100.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "5d0daeb26e8f89ef7636f04200f31d7e_D",
+        "label": "D",
+        "html": "<div><p>$400.00</p></div>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5d0daeb26e8f89ef7636f04200f31d7e_A"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "9473116ea452ceb1902e85dbe60df73d",
+    "title": "Life Insurance #1",
+    "source": "canvas_qti",
+    "prompt_html": "<div><p>A one-year life insurance policy has a premium of <b>$300.00</b>. If the insured dies during the year, the company pays <b>$200,000</b>. The probability the insured <i>lives</i> through the year is <b>0.9960</b>. Find the insurance company's expected profit. (Round to the nearest cent.)</p></div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "9473116ea452ceb1902e85dbe60df73d_A",
+        "label": "A",
+        "html": "<div><p>$500.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "9473116ea452ceb1902e85dbe60df73d_B",
+        "label": "B",
+        "html": "<div><p>$300.00</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "9473116ea452ceb1902e85dbe60df73d_C",
+        "label": "C",
+        "html": "<div><p>$-500.00</p></div>",
+        "is_correct": true
+      },
+      {
+        "id": "9473116ea452ceb1902e85dbe60df73d_D",
+        "label": "D",
+        "html": "<div>\n<p>$-198.00</p>\n</div>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9473116ea452ceb1902e85dbe60df73d_C"
+    ]
+  }
+]

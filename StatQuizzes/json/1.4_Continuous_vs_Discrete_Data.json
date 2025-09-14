@@ -1,0 +1,482 @@
+[
+  {
+    "index": 1,
+    "ident": "cc5495cfd2c511f427e67b5972f624dc",
+    "title": "Question 10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A medical researcher measures the volume of blood lost during a procedure. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "cc5495cfd2c511f427e67b5972f624dc_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": true
+      },
+      {
+        "id": "cc5495cfd2c511f427e67b5972f624dc_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cc5495cfd2c511f427e67b5972f624dc_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "235a91255d9683ab60e70ad4a5885a1c",
+    "title": "Question 14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A medical researcher measures the mass of several diseased brains. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "235a91255d9683ab60e70ad4a5885a1c_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": true
+      },
+      {
+        "id": "235a91255d9683ab60e70ad4a5885a1c_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "235a91255d9683ab60e70ad4a5885a1c_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "1f1cacbec6ae5c0b98f43ec7732d460f",
+    "title": "Question 15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A psychologist records the volume of the brains of several deceased subjects. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "1f1cacbec6ae5c0b98f43ec7732d460f_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": true
+      },
+      {
+        "id": "1f1cacbec6ae5c0b98f43ec7732d460f_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1f1cacbec6ae5c0b98f43ec7732d460f_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "85e519bed585fca2bd4b1086786e05c1",
+    "title": "Question 3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A psychologist records the time that each participant spends solving a puzzle. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "85e519bed585fca2bd4b1086786e05c1_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": true
+      },
+      {
+        "id": "85e519bed585fca2bd4b1086786e05c1_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "85e519bed585fca2bd4b1086786e05c1_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "4c9ec1d60bfd0ece3d2a053cce073df8",
+    "title": "Question 8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>An economist measures the annual income of each household in a neighborhood. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "4c9ec1d60bfd0ece3d2a053cce073df8_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": false
+      },
+      {
+        "id": "4c9ec1d60bfd0ece3d2a053cce073df8_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "4c9ec1d60bfd0ece3d2a053cce073df8_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "833f8e2faae56081c2034b6abed1604f",
+    "title": "Question 12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>An economist measures the price per gallon of milk at different stores. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "833f8e2faae56081c2034b6abed1604f_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": false
+      },
+      {
+        "id": "833f8e2faae56081c2034b6abed1604f_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "833f8e2faae56081c2034b6abed1604f_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "7adfcd2cb90c42d2c6491615f62c6a97",
+    "title": "Question 19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A psychologist measures the amount of time that participants spend exercising each day. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "7adfcd2cb90c42d2c6491615f62c6a97_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": true
+      },
+      {
+        "id": "7adfcd2cb90c42d2c6491615f62c6a97_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7adfcd2cb90c42d2c6491615f62c6a97_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "f9ae28a8d15bf85692317ef015c2106f",
+    "title": "Question 20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>An economist counts the number of stock trades made by an investor in a single day. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "f9ae28a8d15bf85692317ef015c2106f_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": false
+      },
+      {
+        "id": "f9ae28a8d15bf85692317ef015c2106f_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "f9ae28a8d15bf85692317ef015c2106f_B"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "1c4618393f23f2939611474d76f9a288",
+    "title": "Question 18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A medical researcher counts the number of doses of medication taken by each patient in a week. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "1c4618393f23f2939611474d76f9a288_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": false
+      },
+      {
+        "id": "1c4618393f23f2939611474d76f9a288_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "1c4618393f23f2939611474d76f9a288_B"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "d141f222682ea5908d9261d99539be44",
+    "title": "Question 17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A biologist measures the temperature of a reptile habitat in degrees Celsius. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "d141f222682ea5908d9261d99539be44_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": true
+      },
+      {
+        "id": "d141f222682ea5908d9261d99539be44_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d141f222682ea5908d9261d99539be44_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "305e1c4dd353472301192f8a51cf82af",
+    "title": "Question 16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>An economist counts the number of unemployed people in each city. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "305e1c4dd353472301192f8a51cf82af_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": false
+      },
+      {
+        "id": "305e1c4dd353472301192f8a51cf82af_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "305e1c4dd353472301192f8a51cf82af_B"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "d0d2136ecec882e082dc78a92b28e69f",
+    "title": "Question 13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A botanist counts the number of leaves on each plant in a greenhouse. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "d0d2136ecec882e082dc78a92b28e69f_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": false
+      },
+      {
+        "id": "d0d2136ecec882e082dc78a92b28e69f_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "d0d2136ecec882e082dc78a92b28e69f_B"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "f4b3163aa845451b134459cf6d783954",
+    "title": "Question 11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A psychologist records the number of books read by each student in a semester. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "f4b3163aa845451b134459cf6d783954_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": false
+      },
+      {
+        "id": "f4b3163aa845451b134459cf6d783954_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "f4b3163aa845451b134459cf6d783954_B"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "854a6166e392bbdb0f058c6e9c51226f",
+    "title": "Question 9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A field biologist counts the number of eggs in each bird nest. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "854a6166e392bbdb0f058c6e9c51226f_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": false
+      },
+      {
+        "id": "854a6166e392bbdb0f058c6e9c51226f_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "854a6166e392bbdb0f058c6e9c51226f_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "e780e53cbbc435aa2e64b8763f9fab70",
+    "title": "Question 7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A psychologist records the number of errors made by each person on a memory test. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "e780e53cbbc435aa2e64b8763f9fab70_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": false
+      },
+      {
+        "id": "e780e53cbbc435aa2e64b8763f9fab70_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "e780e53cbbc435aa2e64b8763f9fab70_B"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "cd7c5310fb8d8698f0e8b6144303bf4d",
+    "title": "Question 6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A medical study counts the number of heartbeats in one minute for each patient. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "cd7c5310fb8d8698f0e8b6144303bf4d_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": false
+      },
+      {
+        "id": "cd7c5310fb8d8698f0e8b6144303bf4d_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "cd7c5310fb8d8698f0e8b6144303bf4d_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "65c39b9ceba4db7c867bbe61e7613e23",
+    "title": "Question 5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A biologist measures the mass of each fish in a river sample. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "65c39b9ceba4db7c867bbe61e7613e23_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": true
+      },
+      {
+        "id": "65c39b9ceba4db7c867bbe61e7613e23_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "65c39b9ceba4db7c867bbe61e7613e23_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "bb2edeebba53457a97afead17072a016",
+    "title": "Question 4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>An economist counts the number of cars sold by a dealership in a month. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "bb2edeebba53457a97afead17072a016_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": false
+      },
+      {
+        "id": "bb2edeebba53457a97afead17072a016_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "bb2edeebba53457a97afead17072a016_B"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "e398f14f2bc917ff61712a15e2e23301",
+    "title": "Question 2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A medical researcher counts the number of patients who visit the emergency room each day. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "e398f14f2bc917ff61712a15e2e23301_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": false
+      },
+      {
+        "id": "e398f14f2bc917ff61712a15e2e23301_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "e398f14f2bc917ff61712a15e2e23301_B"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "69c0993db8954883b40e6dc6e61acdd5",
+    "title": "Question 1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A biologist measures the height of each tree in a forest. Is this data continuous or discrete?</p>",
+    "choices": [
+      {
+        "id": "69c0993db8954883b40e6dc6e61acdd5_A",
+        "label": "A",
+        "html": "Continuous",
+        "is_correct": true
+      },
+      {
+        "id": "69c0993db8954883b40e6dc6e61acdd5_B",
+        "label": "B",
+        "html": "Discrete",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "69c0993db8954883b40e6dc6e61acdd5_A"
+    ]
+  }
+]

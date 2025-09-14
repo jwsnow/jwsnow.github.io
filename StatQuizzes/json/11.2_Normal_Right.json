@@ -1,0 +1,842 @@
+[
+  {
+    "index": 1,
+    "ident": "RIGN001",
+    "title": "right-1",
+    "source": "generated",
+    "prompt_html": "Systolic blood pressures of adults are approximately normally distributed with a mean of 120 mmHg and a standard deviation of 15 mmHg. What is the probability that a randomly selected individual has a value <strong>greater than 134.25 mmHg</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN001_A",
+        "label": "A",
+        "html": "0.1578",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN001_B",
+        "label": "B",
+        "html": "0.1500",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN001_C",
+        "label": "C",
+        "html": "0.1522",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN001_D",
+        "label": "D",
+        "html": "0.1711",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN001_E",
+        "label": "E",
+        "html": "0.2138",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN001_D"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "RIGN002",
+    "title": "right-2",
+    "source": "generated",
+    "prompt_html": "Cholesterol levels of patients are approximately normally distributed with a mean of 200 mg/dL and a standard deviation of 25 mg/dL. What is the probability that a randomly selected individual has a value <strong>greater than 209.50 mg/dL</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN002_A",
+        "label": "A",
+        "html": "0.3643",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN002_B",
+        "label": "B",
+        "html": "0.3520",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN002_C",
+        "label": "C",
+        "html": "0.3785",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN002_D",
+        "label": "D",
+        "html": "0.3947",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN002_E",
+        "label": "E",
+        "html": "0.3331",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN002_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "RIGN003",
+    "title": "right-3",
+    "source": "generated",
+    "prompt_html": "Reaction times to a visual stimulus are approximately normally distributed with a mean of 250 ms and a standard deviation of 40 ms. What is the probability that a randomly selected individual has a value <strong>greater than 241.20 ms</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN003_A",
+        "label": "A",
+        "html": "0.5871",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN003_B",
+        "label": "B",
+        "html": "0.5871",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN003_C",
+        "label": "C",
+        "html": "0.5774",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN003_D",
+        "label": "D",
+        "html": "0.6298",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN003_E",
+        "label": "E",
+        "html": "0.5660",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN003_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "RIGN004",
+    "title": "right-4",
+    "source": "generated",
+    "prompt_html": "IQ scores of college students are approximately normally distributed with a mean of 100 points and a standard deviation of 15 points. What is the probability that a randomly selected individual has a value <strong>greater than 116.65 points</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN004_A",
+        "label": "A",
+        "html": "0.1335",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN004_B",
+        "label": "B",
+        "html": "0.1762",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN004_C",
+        "label": "C",
+        "html": "0.1458",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN004_D",
+        "label": "D",
+        "html": "0.0994",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN004_E",
+        "label": "E",
+        "html": "0.1335",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "RIGN004_E"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "RIGN005",
+    "title": "right-5",
+    "source": "generated",
+    "prompt_html": "Memory recall scores are approximately normally distributed with a mean of 50 points and a standard deviation of 10 points. What is the probability that a randomly selected individual has a value <strong>greater than 39.30 points</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN005_A",
+        "label": "A",
+        "html": "0.8388",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN005_B",
+        "label": "B",
+        "html": "0.8700",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN005_C",
+        "label": "C",
+        "html": "0.8577",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN005_D",
+        "label": "D",
+        "html": "0.8577",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN005_E",
+        "label": "E",
+        "html": "0.9004",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN005_D"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "RIGN006",
+    "title": "right-6",
+    "source": "generated",
+    "prompt_html": "Test completion times are approximately normally distributed with a mean of 60 minutes and a standard deviation of 8 minutes. What is the probability that a randomly selected individual has a value <strong>greater than 64.56 minutes</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN006_A",
+        "label": "A",
+        "html": "0.3270",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN006_B",
+        "label": "B",
+        "html": "0.2843",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN006_C",
+        "label": "C",
+        "html": "0.2654",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN006_D",
+        "label": "D",
+        "html": "0.2843",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN006_E",
+        "label": "E",
+        "html": "0.2902",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN006_D"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "RIGN007",
+    "title": "right-7",
+    "source": "generated",
+    "prompt_html": "Weights of lab rats are approximately normally distributed with a mean of 300 grams and a standard deviation of 20 grams. What is the probability that a randomly selected individual has a value <strong>greater than 287.40 grams</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN007_A",
+        "label": "A",
+        "html": "0.7480",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN007_B",
+        "label": "B",
+        "html": "0.7357",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN007_C",
+        "label": "C",
+        "html": "0.7357",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN007_D",
+        "label": "D",
+        "html": "0.7016",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN007_E",
+        "label": "E",
+        "html": "0.7224",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN007_C"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "RIGN008",
+    "title": "right-8",
+    "source": "generated",
+    "prompt_html": "Leaf lengths are approximately normally distributed with a mean of 12 cm and a standard deviation of 2 cm. What is the probability that a randomly selected individual has a value <strong>greater than 14.90 cm</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN008_A",
+        "label": "A",
+        "html": "0.0735",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN008_B",
+        "label": "B",
+        "html": "0.0858",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN008_C",
+        "label": "C",
+        "html": "0.0394",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN008_D",
+        "label": "D",
+        "html": "0.0735",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN008_E",
+        "label": "E",
+        "html": "0.0546",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN008_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "RIGN009",
+    "title": "right-9",
+    "source": "generated",
+    "prompt_html": "Incubation periods of birds are approximately normally distributed with a mean of 30 days and a standard deviation of 3 days. What is the probability that a randomly selected individual has a value <strong>greater than 28.92 days</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN009_A",
+        "label": "A",
+        "html": "0.6406",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN009_B",
+        "label": "B",
+        "html": "0.6833",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN009_C",
+        "label": "C",
+        "html": "0.6406",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN009_D",
+        "label": "D",
+        "html": "0.6560",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN009_E",
+        "label": "E",
+        "html": "0.6195",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN009_C"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "RIGN010",
+    "title": "right-10",
+    "source": "generated",
+    "prompt_html": "Enzyme activity rates are approximately normally distributed with a mean of 100 units and a standard deviation of 12 units. What is the probability that a randomly selected individual has a value <strong>greater than 108.76 units</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN010_A",
+        "label": "A",
+        "html": "0.2327",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN010_B",
+        "label": "B",
+        "html": "0.2230",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN010_C",
+        "label": "C",
+        "html": "0.2194",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN010_D",
+        "label": "D",
+        "html": "0.2327",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN010_E",
+        "label": "E",
+        "html": "0.2386",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN010_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "RIGN011",
+    "title": "right-11",
+    "source": "generated",
+    "prompt_html": "Diastolic blood pressures of adults are approximately normally distributed with a mean of 80 mmHg and a standard deviation of 10 mmHg. What is the probability that a randomly selected individual has a value <strong>greater than 67.20 mmHg</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN011_A",
+        "label": "A",
+        "html": "0.8786",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN011_B",
+        "label": "B",
+        "html": "0.8900",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN011_C",
+        "label": "C",
+        "html": "0.8997",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN011_D",
+        "label": "D",
+        "html": "0.9056",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN011_E",
+        "label": "E",
+        "html": "0.8997",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN011_C"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "RIGN012",
+    "title": "right-12",
+    "source": "generated",
+    "prompt_html": "Blood glucose levels are approximately normally distributed with a mean of 90 mg/dL and a standard deviation of 12 mg/dL. What is the probability that a randomly selected individual has a value <strong>greater than 92.52 mg/dL</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN012_A",
+        "label": "A",
+        "html": "0.4168",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN012_B",
+        "label": "B",
+        "html": "0.4035",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN012_C",
+        "label": "C",
+        "html": "0.3957",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN012_D",
+        "label": "D",
+        "html": "0.4071",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN012_E",
+        "label": "E",
+        "html": "0.4291",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN012_A"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "RIGN013",
+    "title": "right-13",
+    "source": "generated",
+    "prompt_html": "Drug absorption times are approximately normally distributed with a mean of 50 minutes and a standard deviation of 7 minutes. What is the probability that a randomly selected individual has a value <strong>greater than 46.57 minutes</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN013_A",
+        "label": "A",
+        "html": "0.7144",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN013_B",
+        "label": "B",
+        "html": "0.7002",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN013_C",
+        "label": "C",
+        "html": "0.6879",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN013_D",
+        "label": "D",
+        "html": "0.6879",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN013_E",
+        "label": "E",
+        "html": "0.7033",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN013_D"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "RIGN014",
+    "title": "right-14",
+    "source": "generated",
+    "prompt_html": "Stress scale scores are approximately normally distributed with a mean of 30 points and a standard deviation of 5 points. What is the probability that a randomly selected individual has a value <strong>greater than 38.80 points</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN014_A",
+        "label": "A",
+        "html": "0.0392",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN014_B",
+        "label": "B",
+        "html": "0.0546",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN014_C",
+        "label": "C",
+        "html": "0.0392",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN014_D",
+        "label": "D",
+        "html": "0.0203",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN014_E",
+        "label": "E",
+        "html": "0.0451",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN014_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "RIGN015",
+    "title": "right-15",
+    "source": "generated",
+    "prompt_html": "Attention spans are approximately normally distributed with a mean of 45 minutes and a standard deviation of 6 minutes. What is the probability that a randomly selected individual has a value <strong>greater than 44.16 minutes</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN015_A",
+        "label": "A",
+        "html": "0.5616",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN015_B",
+        "label": "B",
+        "html": "0.5557",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN015_C",
+        "label": "C",
+        "html": "0.5424",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN015_D",
+        "label": "D",
+        "html": "0.5557",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN015_E",
+        "label": "E",
+        "html": "0.5984",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN015_B"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "RIGN016",
+    "title": "right-16",
+    "source": "generated",
+    "prompt_html": "Visual search times are approximately normally distributed with a mean of 35 seconds and a standard deviation of 5 seconds. What is the probability that a randomly selected individual has a value <strong>greater than 39.20 seconds</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN016_A",
+        "label": "A",
+        "html": "0.2005",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN016_B",
+        "label": "B",
+        "html": "0.2005",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN016_C",
+        "label": "C",
+        "html": "0.2432",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN016_D",
+        "label": "D",
+        "html": "0.2128",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN016_E",
+        "label": "E",
+        "html": "0.2270",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN016_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "RIGN017",
+    "title": "right-17",
+    "source": "generated",
+    "prompt_html": "Seed germination times are approximately normally distributed with a mean of 72 hours and a standard deviation of 9 hours. What is the probability that a randomly selected individual has a value <strong>greater than 65.52 hours</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN017_A",
+        "label": "A",
+        "html": "0.7907",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN017_B",
+        "label": "B",
+        "html": "0.7431",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN017_C",
+        "label": "C",
+        "html": "0.7701",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN017_D",
+        "label": "D",
+        "html": "0.7642",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN017_E",
+        "label": "E",
+        "html": "0.7642",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN017_D"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "RIGN018",
+    "title": "right-18",
+    "source": "generated",
+    "prompt_html": "Fish lengths are approximately normally distributed with a mean of 25 cm and a standard deviation of 4 cm. What is the probability that a randomly selected individual has a value <strong>greater than 26.32 cm</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN018_A",
+        "label": "A",
+        "html": "0.3707",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN018_B",
+        "label": "B",
+        "html": "0.3707",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN018_C",
+        "label": "C",
+        "html": "0.3366",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN018_D",
+        "label": "D",
+        "html": "0.3861",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN018_E",
+        "label": "E",
+        "html": "0.4134",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN018_B"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "RIGN019",
+    "title": "right-19",
+    "source": "generated",
+    "prompt_html": "Tree ring widths are approximately normally distributed with a mean of 5 mm and a standard deviation of 1 mm. What is the probability that a randomly selected individual has a value <strong>greater than 3.48 mm</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN019_A",
+        "label": "A",
+        "html": "0.9357",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN019_B",
+        "label": "B",
+        "html": "0.9511",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN019_C",
+        "label": "C",
+        "html": "0.9146",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN019_D",
+        "label": "D",
+        "html": "0.9357",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN019_E",
+        "label": "E",
+        "html": "0.9622",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN019_A"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "RIGN020",
+    "title": "right-20",
+    "source": "generated",
+    "prompt_html": "Cell growth times are approximately normally distributed with a mean of 20 hours and a standard deviation of 2 hours. What is the probability that a randomly selected individual has a value <strong>greater than 22.46 hours</strong>? Round to four decimal places.",
+    "choices": [
+      {
+        "id": "RIGN020_A",
+        "label": "A",
+        "html": "0.1093",
+        "is_correct": true
+      },
+      {
+        "id": "RIGN020_B",
+        "label": "B",
+        "html": "0.0882",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN020_C",
+        "label": "C",
+        "html": "0.1216",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN020_D",
+        "label": "D",
+        "html": "0.0752",
+        "is_correct": false
+      },
+      {
+        "id": "RIGN020_E",
+        "label": "E",
+        "html": "0.0996",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "RIGN020_A"
+    ]
+  }
+]

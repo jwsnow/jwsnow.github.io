@@ -1,0 +1,218 @@
+[
+  {
+    "index": 1,
+    "ident": "e0599a07a617e15b9a99a0f0c112d952",
+    "title": "e0599a07a617e15b9a99a0f0c112d952",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A measurement based on a sample is a </p>",
+    "choices": [
+      {
+        "id": "e0599a07a617e15b9a99a0f0c112d952_A",
+        "label": "A",
+        "html": "<p>Statistics</p>",
+        "is_correct": true
+      },
+      {
+        "id": "e0599a07a617e15b9a99a0f0c112d952_B",
+        "label": "B",
+        "html": "<p>Parameter</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e0599a07a617e15b9a99a0f0c112d952_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "8a2c8991bcdc7e5c7a43ddd65b1a8570",
+    "title": "8a2c8991bcdc7e5c7a43ddd65b1a8570",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A measurement based on a population is called a </p>",
+    "choices": [
+      {
+        "id": "8a2c8991bcdc7e5c7a43ddd65b1a8570_A",
+        "label": "A",
+        "html": "<p>Parameter</p>",
+        "is_correct": true
+      },
+      {
+        "id": "8a2c8991bcdc7e5c7a43ddd65b1a8570_B",
+        "label": "B",
+        "html": "<p>Statistic</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8a2c8991bcdc7e5c7a43ddd65b1a8570_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "1aeeb4942a625d4295f559c3d0fc4123",
+    "title": "1aeeb4942a625d4295f559c3d0fc4123",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What type of data consists of numbers which are actual counts or measurements?</p>",
+    "choices": [
+      {
+        "id": "1aeeb4942a625d4295f559c3d0fc4123_A",
+        "label": "A",
+        "html": "<p>Quantitative</p>",
+        "is_correct": true
+      },
+      {
+        "id": "1aeeb4942a625d4295f559c3d0fc4123_B",
+        "label": "B",
+        "html": "<p>Categorical</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1aeeb4942a625d4295f559c3d0fc4123_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "43881ad65bc46ace45c6954ed2dba54a",
+    "title": "43881ad65bc46ace45c6954ed2dba54a",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What type of data consists of names and labels?</p>",
+    "choices": [
+      {
+        "id": "43881ad65bc46ace45c6954ed2dba54a_A",
+        "label": "A",
+        "html": "<p>Categorical</p>",
+        "is_correct": true
+      },
+      {
+        "id": "43881ad65bc46ace45c6954ed2dba54a_B",
+        "label": "B",
+        "html": "<p>Quantitative</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "43881ad65bc46ace45c6954ed2dba54a_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "79b47e7149ae4d7b48ef88ca1acdc1e2",
+    "title": "79b47e7149ae4d7b48ef88ca1acdc1e2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What type of data-gathering procedure tries to measure the effect of some treatment on the subjects?</p>",
+    "choices": [
+      {
+        "id": "79b47e7149ae4d7b48ef88ca1acdc1e2_A",
+        "label": "A",
+        "html": "<p>Experiment</p>",
+        "is_correct": true
+      },
+      {
+        "id": "79b47e7149ae4d7b48ef88ca1acdc1e2_B",
+        "label": "B",
+        "html": "<p>Observational Study</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "79b47e7149ae4d7b48ef88ca1acdc1e2_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "c4154d04b5b09ed54f6a20682e26bae2",
+    "title": "c4154d04b5b09ed54f6a20682e26bae2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What type of statistics merely summarizes data?</p>",
+    "choices": [
+      {
+        "id": "c4154d04b5b09ed54f6a20682e26bae2_A",
+        "label": "A",
+        "html": "<p>Descriptive Statistics</p>",
+        "is_correct": true
+      },
+      {
+        "id": "c4154d04b5b09ed54f6a20682e26bae2_B",
+        "label": "B",
+        "html": "<p>Inferential Statistics</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c4154d04b5b09ed54f6a20682e26bae2_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "8c1ac446db8b4983a551a38c1beac9ad",
+    "title": "8c1ac446db8b4983a551a38c1beac9ad",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What type of statistics merely summarizes data?</p>",
+    "choices": [
+      {
+        "id": "8c1ac446db8b4983a551a38c1beac9ad_A",
+        "label": "A",
+        "html": "<p>Descriptive Statistics</p>",
+        "is_correct": true
+      },
+      {
+        "id": "8c1ac446db8b4983a551a38c1beac9ad_B",
+        "label": "B",
+        "html": "<p>Inferential Statistics</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8c1ac446db8b4983a551a38c1beac9ad_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "e8192321f62809c398a51f270037d372",
+    "title": "e8192321f62809c398a51f270037d372",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What type of data-gathering procedure tries not to affect the subjects being studied?</p>",
+    "choices": [
+      {
+        "id": "e8192321f62809c398a51f270037d372_A",
+        "label": "A",
+        "html": "<p>Observational Study</p>",
+        "is_correct": true
+      },
+      {
+        "id": "e8192321f62809c398a51f270037d372_B",
+        "label": "B",
+        "html": "<p>Experiment</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e8192321f62809c398a51f270037d372_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "552fd76f12737ec2dc727e063880f691",
+    "title": "552fd76f12737ec2dc727e063880f691",
+    "source": "canvas_qti",
+    "prompt_html": "<p>What type of statistics tries to make decisions and predictions based on data?</p>",
+    "choices": [
+      {
+        "id": "552fd76f12737ec2dc727e063880f691_A",
+        "label": "A",
+        "html": "<p>Inferential Statistics</p>",
+        "is_correct": true
+      },
+      {
+        "id": "552fd76f12737ec2dc727e063880f691_B",
+        "label": "B",
+        "html": "<p>Descriptive Statistics</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "552fd76f12737ec2dc727e063880f691_A"
+    ]
+  }
+]

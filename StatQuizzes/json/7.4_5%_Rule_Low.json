@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "2752599c6b5164564d639b4f6345186a",
+    "title": "5% Rule (Cumulative) - Q18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.06</td>\n<td>0.06</td>\n<td>0.08</td>\n<td>0.12</td>\n<td>0.12</td>\n<td>0.19</td>\n<td>0.15</td>\n<td>0.08</td>\n<td>0.07</td>\n<td>0.06</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "2752599c6b5164564d639b4f6345186a_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": false
+      },
+      {
+        "id": "2752599c6b5164564d639b4f6345186a_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": false
+      },
+      {
+        "id": "2752599c6b5164564d639b4f6345186a_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "2752599c6b5164564d639b4f6345186a_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "2752599c6b5164564d639b4f6345186a_D"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "313e411063964368017bfac35b3327a6",
+    "title": "5% Rule (Cumulative) - Q19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.07</td>\n<td>0.06</td>\n<td>0.07</td>\n<td>0.12</td>\n<td>0.14</td>\n<td>0.13</td>\n<td>0.16</td>\n<td>0.09</td>\n<td>0.09</td>\n<td>0.06</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "313e411063964368017bfac35b3327a6_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": false
+      },
+      {
+        "id": "313e411063964368017bfac35b3327a6_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": false
+      },
+      {
+        "id": "313e411063964368017bfac35b3327a6_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "313e411063964368017bfac35b3327a6_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "313e411063964368017bfac35b3327a6_D"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "668c393f131d481f71a8f5e8d40700a2",
+    "title": "5% Rule (Cumulative) - Q20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.06</td>\n<td>0.06</td>\n<td>0.07</td>\n<td>0.09</td>\n<td>0.10</td>\n<td>0.21</td>\n<td>0.15</td>\n<td>0.11</td>\n<td>0.08</td>\n<td>0.06</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "668c393f131d481f71a8f5e8d40700a2_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": false
+      },
+      {
+        "id": "668c393f131d481f71a8f5e8d40700a2_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": false
+      },
+      {
+        "id": "668c393f131d481f71a8f5e8d40700a2_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "668c393f131d481f71a8f5e8d40700a2_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "668c393f131d481f71a8f5e8d40700a2_D"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "5ba56ab4225b9c83ef44a055551bc193",
+    "title": "5% Rule (Cumulative) - Q17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.06</td>\n<td>0.06</td>\n<td>0.06</td>\n<td>0.10</td>\n<td>0.18</td>\n<td>0.19</td>\n<td>0.12</td>\n<td>0.10</td>\n<td>0.06</td>\n<td>0.06</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "5ba56ab4225b9c83ef44a055551bc193_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": false
+      },
+      {
+        "id": "5ba56ab4225b9c83ef44a055551bc193_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": false
+      },
+      {
+        "id": "5ba56ab4225b9c83ef44a055551bc193_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "5ba56ab4225b9c83ef44a055551bc193_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "5ba56ab4225b9c83ef44a055551bc193_D"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "2775c8830a4f310bc5cce98ab6718fa2",
+    "title": "5% Rule (Cumulative) - Q16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.06</td>\n<td>0.06</td>\n<td>0.08</td>\n<td>0.13</td>\n<td>0.15</td>\n<td>0.16</td>\n<td>0.11</td>\n<td>0.12</td>\n<td>0.06</td>\n<td>0.06</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "2775c8830a4f310bc5cce98ab6718fa2_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": false
+      },
+      {
+        "id": "2775c8830a4f310bc5cce98ab6718fa2_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": false
+      },
+      {
+        "id": "2775c8830a4f310bc5cce98ab6718fa2_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "2775c8830a4f310bc5cce98ab6718fa2_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "2775c8830a4f310bc5cce98ab6718fa2_D"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "ca15e51fc6d929ea5845f123e51f739c",
+    "title": "5% Rule (Cumulative) - Q15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.04</td>\n<td>0.04</td>\n<td>0.05</td>\n<td>0.07</td>\n<td>0.17</td>\n<td>0.25</td>\n<td>0.17</td>\n<td>0.08</td>\n<td>0.08</td>\n<td>0.04</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "ca15e51fc6d929ea5845f123e51f739c_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": true
+      },
+      {
+        "id": "ca15e51fc6d929ea5845f123e51f739c_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": false
+      },
+      {
+        "id": "ca15e51fc6d929ea5845f123e51f739c_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "ca15e51fc6d929ea5845f123e51f739c_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ca15e51fc6d929ea5845f123e51f739c_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "a0a639275e9fa87072c7f9666d755aab",
+    "title": "5% Rule (Cumulative) - Q14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.04</td>\n<td>0.04</td>\n<td>0.06</td>\n<td>0.14</td>\n<td>0.21</td>\n<td>0.11</td>\n<td>0.15</td>\n<td>0.10</td>\n<td>0.09</td>\n<td>0.05</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "a0a639275e9fa87072c7f9666d755aab_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": true
+      },
+      {
+        "id": "a0a639275e9fa87072c7f9666d755aab_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": false
+      },
+      {
+        "id": "a0a639275e9fa87072c7f9666d755aab_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "a0a639275e9fa87072c7f9666d755aab_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a0a639275e9fa87072c7f9666d755aab_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "c3b994816a295f8bff9e818eea06fa59",
+    "title": "5% Rule (Cumulative) - Q13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.04</td>\n<td>0.06</td>\n<td>0.06</td>\n<td>0.09</td>\n<td>0.11</td>\n<td>0.24</td>\n<td>0.17</td>\n<td>0.13</td>\n<td>0.05</td>\n<td>0.04</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "c3b994816a295f8bff9e818eea06fa59_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": true
+      },
+      {
+        "id": "c3b994816a295f8bff9e818eea06fa59_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": false
+      },
+      {
+        "id": "c3b994816a295f8bff9e818eea06fa59_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "c3b994816a295f8bff9e818eea06fa59_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c3b994816a295f8bff9e818eea06fa59_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "ec407fdf189d6465e7849b92f290370d",
+    "title": "5% Rule (Cumulative) - Q12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.04</td>\n<td>0.05</td>\n<td>0.08</td>\n<td>0.10</td>\n<td>0.14</td>\n<td>0.18</td>\n<td>0.16</td>\n<td>0.11</td>\n<td>0.07</td>\n<td>0.06</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "ec407fdf189d6465e7849b92f290370d_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": true
+      },
+      {
+        "id": "ec407fdf189d6465e7849b92f290370d_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": false
+      },
+      {
+        "id": "ec407fdf189d6465e7849b92f290370d_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "ec407fdf189d6465e7849b92f290370d_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ec407fdf189d6465e7849b92f290370d_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "3989c32f857615068c69110c68f6652d",
+    "title": "5% Rule (Cumulative) - Q11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.04</td>\n<td>0.04</td>\n<td>0.06</td>\n<td>0.10</td>\n<td>0.12</td>\n<td>0.21</td>\n<td>0.18</td>\n<td>0.10</td>\n<td>0.09</td>\n<td>0.05</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "3989c32f857615068c69110c68f6652d_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": true
+      },
+      {
+        "id": "3989c32f857615068c69110c68f6652d_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": false
+      },
+      {
+        "id": "3989c32f857615068c69110c68f6652d_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "3989c32f857615068c69110c68f6652d_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3989c32f857615068c69110c68f6652d_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "0a812196ac4fdb0e35e13be383bdf3fe",
+    "title": "5% Rule (Cumulative) - Q10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.03</td>\n<td>0.03</td>\n<td>0.08</td>\n<td>0.10</td>\n<td>0.15</td>\n<td>0.19</td>\n<td>0.18</td>\n<td>0.13</td>\n<td>0.07</td>\n<td>0.03</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "0a812196ac4fdb0e35e13be383bdf3fe_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": true
+      },
+      {
+        "id": "0a812196ac4fdb0e35e13be383bdf3fe_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": false
+      },
+      {
+        "id": "0a812196ac4fdb0e35e13be383bdf3fe_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "0a812196ac4fdb0e35e13be383bdf3fe_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0a812196ac4fdb0e35e13be383bdf3fe_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "d428ed6e0dccce1faced086ee193c723",
+    "title": "5% Rule (Cumulative) - Q9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.03</td>\n<td>0.05</td>\n<td>0.05</td>\n<td>0.13</td>\n<td>0.16</td>\n<td>0.17</td>\n<td>0.19</td>\n<td>0.10</td>\n<td>0.08</td>\n<td>0.03</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "d428ed6e0dccce1faced086ee193c723_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": true
+      },
+      {
+        "id": "d428ed6e0dccce1faced086ee193c723_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": false
+      },
+      {
+        "id": "d428ed6e0dccce1faced086ee193c723_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "d428ed6e0dccce1faced086ee193c723_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d428ed6e0dccce1faced086ee193c723_A"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "531f87c475b8e0ba7c925906e2848523",
+    "title": "5% Rule (Cumulative) - Q8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.03</td>\n<td>0.04</td>\n<td>0.06</td>\n<td>0.12</td>\n<td>0.19</td>\n<td>0.15</td>\n<td>0.19</td>\n<td>0.11</td>\n<td>0.05</td>\n<td>0.05</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "531f87c475b8e0ba7c925906e2848523_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": true
+      },
+      {
+        "id": "531f87c475b8e0ba7c925906e2848523_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": false
+      },
+      {
+        "id": "531f87c475b8e0ba7c925906e2848523_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "531f87c475b8e0ba7c925906e2848523_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "531f87c475b8e0ba7c925906e2848523_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "9e1b66566fccbd9174f7ac4ac5ec3461",
+    "title": "5% Rule (Cumulative) - Q7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.03</td>\n<td>0.04</td>\n<td>0.07</td>\n<td>0.08</td>\n<td>0.17</td>\n<td>0.21</td>\n<td>0.26</td>\n<td>0.07</td>\n<td>0.03</td>\n<td>0.03</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "9e1b66566fccbd9174f7ac4ac5ec3461_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": true
+      },
+      {
+        "id": "9e1b66566fccbd9174f7ac4ac5ec3461_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": false
+      },
+      {
+        "id": "9e1b66566fccbd9174f7ac4ac5ec3461_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "9e1b66566fccbd9174f7ac4ac5ec3461_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9e1b66566fccbd9174f7ac4ac5ec3461_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "4c20d3b5ecb0f536debc9da4f2d1b9bb",
+    "title": "5% Rule (Cumulative) - Q6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.03</td>\n<td>0.03</td>\n<td>0.10</td>\n<td>0.07</td>\n<td>0.13</td>\n<td>0.19</td>\n<td>0.21</td>\n<td>0.12</td>\n<td>0.07</td>\n<td>0.04</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "4c20d3b5ecb0f536debc9da4f2d1b9bb_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": true
+      },
+      {
+        "id": "4c20d3b5ecb0f536debc9da4f2d1b9bb_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": false
+      },
+      {
+        "id": "4c20d3b5ecb0f536debc9da4f2d1b9bb_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "4c20d3b5ecb0f536debc9da4f2d1b9bb_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4c20d3b5ecb0f536debc9da4f2d1b9bb_A"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "e3699aa3a6cb537ae6eb22ced83eb968",
+    "title": "5% Rule (Cumulative) - Q5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.01</td>\n<td>0.01</td>\n<td>0.07</td>\n<td>0.12</td>\n<td>0.17</td>\n<td>0.25</td>\n<td>0.21</td>\n<td>0.09</td>\n<td>0.04</td>\n<td>0.02</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "e3699aa3a6cb537ae6eb22ced83eb968_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": false
+      },
+      {
+        "id": "e3699aa3a6cb537ae6eb22ced83eb968_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": true
+      },
+      {
+        "id": "e3699aa3a6cb537ae6eb22ced83eb968_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "e3699aa3a6cb537ae6eb22ced83eb968_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e3699aa3a6cb537ae6eb22ced83eb968_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "5e7a8b7a37cc634766b5fe1059fbe7d4",
+    "title": "5% Rule (Cumulative) - Q4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.01</td>\n<td>0.01</td>\n<td>0.05</td>\n<td>0.10</td>\n<td>0.25</td>\n<td>0.22</td>\n<td>0.18</td>\n<td>0.12</td>\n<td>0.04</td>\n<td>0.01</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "5e7a8b7a37cc634766b5fe1059fbe7d4_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": false
+      },
+      {
+        "id": "5e7a8b7a37cc634766b5fe1059fbe7d4_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": true
+      },
+      {
+        "id": "5e7a8b7a37cc634766b5fe1059fbe7d4_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "5e7a8b7a37cc634766b5fe1059fbe7d4_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5e7a8b7a37cc634766b5fe1059fbe7d4_B"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "c4e70c6c77793289b6fbf0590ba5058f",
+    "title": "5% Rule (Cumulative) - Q3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.01</td>\n<td>0.03</td>\n<td>0.06</td>\n<td>0.09</td>\n<td>0.17</td>\n<td>0.20</td>\n<td>0.19</td>\n<td>0.16</td>\n<td>0.05</td>\n<td>0.03</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "c4e70c6c77793289b6fbf0590ba5058f_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": false
+      },
+      {
+        "id": "c4e70c6c77793289b6fbf0590ba5058f_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": true
+      },
+      {
+        "id": "c4e70c6c77793289b6fbf0590ba5058f_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "c4e70c6c77793289b6fbf0590ba5058f_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c4e70c6c77793289b6fbf0590ba5058f_B"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "dea1bd6bd180f4d23d590bf56d1a6ad1",
+    "title": "5% Rule (Cumulative) - Q2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.01</td>\n<td>0.02</td>\n<td>0.05</td>\n<td>0.16</td>\n<td>0.18</td>\n<td>0.20</td>\n<td>0.15</td>\n<td>0.13</td>\n<td>0.05</td>\n<td>0.03</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "dea1bd6bd180f4d23d590bf56d1a6ad1_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": false
+      },
+      {
+        "id": "dea1bd6bd180f4d23d590bf56d1a6ad1_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": true
+      },
+      {
+        "id": "dea1bd6bd180f4d23d590bf56d1a6ad1_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "dea1bd6bd180f4d23d590bf56d1a6ad1_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "dea1bd6bd180f4d23d590bf56d1a6ad1_B"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "9f797a7ba5c5b8e2096f708296d3377b",
+    "title": "5% Rule (Cumulative) - Q1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (cumulative), which values of <em>X</em> are significantly low?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.01</td>\n<td>0.03</td>\n<td>0.05</td>\n<td>0.12</td>\n<td>0.20</td>\n<td>0.25</td>\n<td>0.17</td>\n<td>0.10</td>\n<td>0.05</td>\n<td>0.01</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "9f797a7ba5c5b8e2096f708296d3377b_A",
+        "label": "A",
+        "html": "1",
+        "is_correct": false
+      },
+      {
+        "id": "9f797a7ba5c5b8e2096f708296d3377b_B",
+        "label": "B",
+        "html": "1, 2",
+        "is_correct": true
+      },
+      {
+        "id": "9f797a7ba5c5b8e2096f708296d3377b_C",
+        "label": "C",
+        "html": "1, 2, 3",
+        "is_correct": false
+      },
+      {
+        "id": "9f797a7ba5c5b8e2096f708296d3377b_D",
+        "label": "D",
+        "html": "There are no significantly low values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9f797a7ba5c5b8e2096f708296d3377b_B"
+    ]
+  }
+]

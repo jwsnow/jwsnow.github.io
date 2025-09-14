@@ -1,0 +1,1442 @@
+[
+  {
+    "index": 1,
+    "ident": "25052714aa8b7880f6e0ee53dc9b1f10",
+    "title": "Question 24",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns resting heart rate (bpm). The mean is 72 and the standard deviation is 8. A sample measurement is 50.2. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "25052714aa8b7880f6e0ee53dc9b1f10_A",
+        "label": "A",
+        "html": "<p>z-score = -2.73, significantly low</p>",
+        "is_correct": true
+      },
+      {
+        "id": "25052714aa8b7880f6e0ee53dc9b1f10_B",
+        "label": "B",
+        "html": "z-score = -1.15, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "25052714aa8b7880f6e0ee53dc9b1f10_C",
+        "label": "C",
+        "html": "z-score = 2.05, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "25052714aa8b7880f6e0ee53dc9b1f10_D",
+        "label": "D",
+        "html": "z-score = -2.05, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "25052714aa8b7880f6e0ee53dc9b1f10_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "eee6f3ef181016c26e81d0565f68a4ea",
+    "title": "Question 16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns price of gasoline (USD per gallon). The mean is 3.5 and the standard deviation is 0.5. A sample measurement is 2.75. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p>\n<div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "eee6f3ef181016c26e81d0565f68a4ea_A",
+        "label": "A",
+        "html": "<p>z-score = -1.50, not significant</p>",
+        "is_correct": true
+      },
+      {
+        "id": "eee6f3ef181016c26e81d0565f68a4ea_B",
+        "label": "B",
+        "html": "z-score = 2.35, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "eee6f3ef181016c26e81d0565f68a4ea_C",
+        "label": "C",
+        "html": "z-score = -2.10, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "eee6f3ef181016c26e81d0565f68a4ea_D",
+        "label": "D",
+        "html": "z-score = 0.45, significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "eee6f3ef181016c26e81d0565f68a4ea_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "834c7def5045e56cab04100ed3cceca4",
+    "title": "Question 12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns weekly grocery expenditure (USD). The mean is 150 and the standard deviation is 20. A sample measurement is 96. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p>\n<div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "834c7def5045e56cab04100ed3cceca4_A",
+        "label": "A",
+        "html": "<p>z-score = -2.70, significantly low</p>",
+        "is_correct": true
+      },
+      {
+        "id": "834c7def5045e56cab04100ed3cceca4_B",
+        "label": "B",
+        "html": "z-score = -1.15, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "834c7def5045e56cab04100ed3cceca4_C",
+        "label": "C",
+        "html": "z-score = 2.05, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "834c7def5045e56cab04100ed3cceca4_D",
+        "label": "D",
+        "html": "z-score = -2.05, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "834c7def5045e56cab04100ed3cceca4_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "6f7d4a8aaf97261c7c0b52e8d26ce36e",
+    "title": "Question 10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns resting heart rate (bpm). The mean is 72 and the standard deviation is 8. A sample measurement is 77.8. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "6f7d4a8aaf97261c7c0b52e8d26ce36e_A",
+        "label": "A",
+        "html": "<p>z-score = 0.73, not significant</p>",
+        "is_correct": true
+      },
+      {
+        "id": "6f7d4a8aaf97261c7c0b52e8d26ce36e_B",
+        "label": "B",
+        "html": "z-score = 2.35, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "6f7d4a8aaf97261c7c0b52e8d26ce36e_C",
+        "label": "C",
+        "html": "z-score = -2.10, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "6f7d4a8aaf97261c7c0b52e8d26ce36e_D",
+        "label": "D",
+        "html": "z-score = 0.45, significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6f7d4a8aaf97261c7c0b52e8d26ce36e_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "ff18d4179ae3048ba5a2037efa61be86",
+    "title": "Question 40",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns score on a depression inventory. The mean is 20 and the standard deviation is 5. A sample measurement is 24.9. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "ff18d4179ae3048ba5a2037efa61be86_A",
+        "label": "A",
+        "html": "z-score = 0.98, not significant",
+        "is_correct": true
+      },
+      {
+        "id": "ff18d4179ae3048ba5a2037efa61be86_B",
+        "label": "B",
+        "html": "z-score = 2.35, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "ff18d4179ae3048ba5a2037efa61be86_C",
+        "label": "C",
+        "html": "z-score = -2.10, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "ff18d4179ae3048ba5a2037efa61be86_D",
+        "label": "D",
+        "html": "z-score = 0.45, significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ff18d4179ae3048ba5a2037efa61be86_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "9f2785400a65d62ef9ae62f2e1c070d5",
+    "title": "Question 39",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns systolic blood pressure (mmHg). The mean is 120 and the standard deviation is 12. A sample measurement is 87.4. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "9f2785400a65d62ef9ae62f2e1c070d5_A",
+        "label": "A",
+        "html": "z-score = -2.72, significantly low",
+        "is_correct": true
+      },
+      {
+        "id": "9f2785400a65d62ef9ae62f2e1c070d5_B",
+        "label": "B",
+        "html": "z-score = -1.15, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "9f2785400a65d62ef9ae62f2e1c070d5_C",
+        "label": "C",
+        "html": "z-score = 2.05, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "9f2785400a65d62ef9ae62f2e1c070d5_D",
+        "label": "D",
+        "html": "z-score = -2.05, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9f2785400a65d62ef9ae62f2e1c070d5_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "fca7199c82d077d8171bf8821a479bf1",
+    "title": "Question 38",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns memory recall score (%). The mean is 75 and the standard deviation is 10. A sample measurement is 98.4. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "fca7199c82d077d8171bf8821a479bf1_A",
+        "label": "A",
+        "html": "z-score = 2.34, significantly high",
+        "is_correct": true
+      },
+      {
+        "id": "fca7199c82d077d8171bf8821a479bf1_B",
+        "label": "B",
+        "html": "z-score = 1.25, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "fca7199c82d077d8171bf8821a479bf1_C",
+        "label": "C",
+        "html": "z-score = -2.20, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "fca7199c82d077d8171bf8821a479bf1_D",
+        "label": "D",
+        "html": "z-score = 2.20, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "fca7199c82d077d8171bf8821a479bf1_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "0ae375bf15ab4f4fb34e57f5020100cf",
+    "title": "Question 37",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns cholesterol levels (mg/dL) in adults. The mean is 190 and the standard deviation is 30. A sample measurement is 165.1. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "0ae375bf15ab4f4fb34e57f5020100cf_A",
+        "label": "A",
+        "html": "z-score = -0.83, not significant",
+        "is_correct": true
+      },
+      {
+        "id": "0ae375bf15ab4f4fb34e57f5020100cf_B",
+        "label": "B",
+        "html": "z-score = 2.35, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "0ae375bf15ab4f4fb34e57f5020100cf_C",
+        "label": "C",
+        "html": "z-score = -2.10, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "0ae375bf15ab4f4fb34e57f5020100cf_D",
+        "label": "D",
+        "html": "z-score = 0.45, significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0ae375bf15ab4f4fb34e57f5020100cf_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "39d0437fbfcb5e4b8ea83324aba18495",
+    "title": "Question 36",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns length of salmon (cm). The mean is 75 and the standard deviation is 8. A sample measurement is 56.3. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "39d0437fbfcb5e4b8ea83324aba18495_A",
+        "label": "A",
+        "html": "z-score = -2.34, significantly low",
+        "is_correct": true
+      },
+      {
+        "id": "39d0437fbfcb5e4b8ea83324aba18495_B",
+        "label": "B",
+        "html": "z-score = -1.15, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "39d0437fbfcb5e4b8ea83324aba18495_C",
+        "label": "C",
+        "html": "z-score = 2.05, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "39d0437fbfcb5e4b8ea83324aba18495_D",
+        "label": "D",
+        "html": "z-score = -2.05, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "39d0437fbfcb5e4b8ea83324aba18495_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "862a1640f05258058beb449229718f57",
+    "title": "Question 35",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns weekly grocery expenditure (USD). The mean is 150 and the standard deviation is 20. A sample measurement is 193.6. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "862a1640f05258058beb449229718f57_A",
+        "label": "A",
+        "html": "z-score = 2.18, significantly high",
+        "is_correct": true
+      },
+      {
+        "id": "862a1640f05258058beb449229718f57_B",
+        "label": "B",
+        "html": "z-score = 1.25, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "862a1640f05258058beb449229718f57_C",
+        "label": "C",
+        "html": "z-score = -2.20, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "862a1640f05258058beb449229718f57_D",
+        "label": "D",
+        "html": "z-score = 2.20, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "862a1640f05258058beb449229718f57_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "999cd072ec2534e9b2db7c67610799af",
+    "title": "Question 34",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns systolic blood pressure (mmHg). The mean is 120 and the standard deviation is 12. A sample measurement is 110.0. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "999cd072ec2534e9b2db7c67610799af_A",
+        "label": "A",
+        "html": "z-score = -0.83, not significant",
+        "is_correct": true
+      },
+      {
+        "id": "999cd072ec2534e9b2db7c67610799af_B",
+        "label": "B",
+        "html": "z-score = 2.35, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "999cd072ec2534e9b2db7c67610799af_C",
+        "label": "C",
+        "html": "z-score = -2.10, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "999cd072ec2534e9b2db7c67610799af_D",
+        "label": "D",
+        "html": "z-score = 0.45, significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "999cd072ec2534e9b2db7c67610799af_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "408958846c2d48210af167d22eb31d9c",
+    "title": "Question 33",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns monthly household income (USD). The mean is 4000 and the standard deviation is 500. A sample measurement is 2910. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "408958846c2d48210af167d22eb31d9c_A",
+        "label": "A",
+        "html": "z-score = -2.18, significantly low",
+        "is_correct": true
+      },
+      {
+        "id": "408958846c2d48210af167d22eb31d9c_B",
+        "label": "B",
+        "html": "z-score = -1.15, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "408958846c2d48210af167d22eb31d9c_C",
+        "label": "C",
+        "html": "z-score = 2.05, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "408958846c2d48210af167d22eb31d9c_D",
+        "label": "D",
+        "html": "z-score = -2.05, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "408958846c2d48210af167d22eb31d9c_A"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "7a48dce5755cf16bfa222738e9bd7415",
+    "title": "Question 32",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns length of salmon (cm). The mean is 75 and the standard deviation is 8. A sample measurement is 93.7. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "7a48dce5755cf16bfa222738e9bd7415_A",
+        "label": "A",
+        "html": "z-score = 2.34, significantly high",
+        "is_correct": true
+      },
+      {
+        "id": "7a48dce5755cf16bfa222738e9bd7415_B",
+        "label": "B",
+        "html": "z-score = 1.25, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "7a48dce5755cf16bfa222738e9bd7415_C",
+        "label": "C",
+        "html": "z-score = -2.20, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "7a48dce5755cf16bfa222738e9bd7415_D",
+        "label": "D",
+        "html": "z-score = 2.20, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7a48dce5755cf16bfa222738e9bd7415_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "0ee54715ce0a2c51ce67d9dc73939a98",
+    "title": "Question 31",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns daily stock price change (%). The mean is 0 and the standard deviation is 1.5. A sample measurement is -1.2. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "0ee54715ce0a2c51ce67d9dc73939a98_A",
+        "label": "A",
+        "html": "z-score = -0.80, not significant",
+        "is_correct": true
+      },
+      {
+        "id": "0ee54715ce0a2c51ce67d9dc73939a98_B",
+        "label": "B",
+        "html": "z-score = 2.35, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "0ee54715ce0a2c51ce67d9dc73939a98_C",
+        "label": "C",
+        "html": "z-score = -2.10, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "0ee54715ce0a2c51ce67d9dc73939a98_D",
+        "label": "D",
+        "html": "z-score = 0.45, significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0ee54715ce0a2c51ce67d9dc73939a98_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "e717cc5a0c744cb9941f958444e00897",
+    "title": "Question 30",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns systolic blood pressure (mmHg). The mean is 120 and the standard deviation is 12. A sample measurement is 95.4. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "e717cc5a0c744cb9941f958444e00897_A",
+        "label": "A",
+        "html": "z-score = -2.05, significantly low",
+        "is_correct": true
+      },
+      {
+        "id": "e717cc5a0c744cb9941f958444e00897_B",
+        "label": "B",
+        "html": "z-score = -1.15, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "e717cc5a0c744cb9941f958444e00897_C",
+        "label": "C",
+        "html": "z-score = 2.05, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "e717cc5a0c744cb9941f958444e00897_D",
+        "label": "D",
+        "html": "z-score = -2.05, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e717cc5a0c744cb9941f958444e00897_A"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "c8885001b7467cca04d8797853cd7640",
+    "title": "Question 29",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns length of salmon (cm). The mean is 75 and the standard deviation is 8. A sample measurement is 92.4. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "c8885001b7467cca04d8797853cd7640_A",
+        "label": "A",
+        "html": "z-score = 2.18, significantly high",
+        "is_correct": true
+      },
+      {
+        "id": "c8885001b7467cca04d8797853cd7640_B",
+        "label": "B",
+        "html": "z-score = 1.25, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "c8885001b7467cca04d8797853cd7640_C",
+        "label": "C",
+        "html": "z-score = -2.20, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "c8885001b7467cca04d8797853cd7640_D",
+        "label": "D",
+        "html": "z-score = 2.20, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c8885001b7467cca04d8797853cd7640_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "de27d1eb24ad73f8d77e3050e8ed463c",
+    "title": "Question 28",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns price of gasoline (USD per gallon). The mean is 3.5 and the standard deviation is 0.5. A sample measurement is 3.7. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "de27d1eb24ad73f8d77e3050e8ed463c_A",
+        "label": "A",
+        "html": "z-score = 0.40, not significant",
+        "is_correct": true
+      },
+      {
+        "id": "de27d1eb24ad73f8d77e3050e8ed463c_B",
+        "label": "B",
+        "html": "z-score = 2.35, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "de27d1eb24ad73f8d77e3050e8ed463c_C",
+        "label": "C",
+        "html": "z-score = -2.10, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "de27d1eb24ad73f8d77e3050e8ed463c_D",
+        "label": "D",
+        "html": "z-score = 0.45, significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "de27d1eb24ad73f8d77e3050e8ed463c_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "77c55c4631d8a8b32fa81a15d80d078b",
+    "title": "Question 27",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns number of hours slept per night. The mean is 7.2 and the standard deviation is 1.1. A sample measurement is 4.6. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "77c55c4631d8a8b32fa81a15d80d078b_A",
+        "label": "A",
+        "html": "z-score = -2.36, significantly low",
+        "is_correct": true
+      },
+      {
+        "id": "77c55c4631d8a8b32fa81a15d80d078b_B",
+        "label": "B",
+        "html": "z-score = -1.15, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "77c55c4631d8a8b32fa81a15d80d078b_C",
+        "label": "C",
+        "html": "z-score = 2.05, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "77c55c4631d8a8b32fa81a15d80d078b_D",
+        "label": "D",
+        "html": "z-score = -2.05, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "77c55c4631d8a8b32fa81a15d80d078b_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "43eb63160eb2480074f6e7a54e7549f7",
+    "title": "Question 26",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns resting heart rate (bpm). The mean is 72 and the standard deviation is 8. A sample measurement is 92.5. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "43eb63160eb2480074f6e7a54e7549f7_A",
+        "label": "A",
+        "html": "z-score = 2.56, significantly high",
+        "is_correct": true
+      },
+      {
+        "id": "43eb63160eb2480074f6e7a54e7549f7_B",
+        "label": "B",
+        "html": "z-score = 1.25, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "43eb63160eb2480074f6e7a54e7549f7_C",
+        "label": "C",
+        "html": "z-score = -2.20, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "43eb63160eb2480074f6e7a54e7549f7_D",
+        "label": "D",
+        "html": "z-score = 2.20, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "43eb63160eb2480074f6e7a54e7549f7_A"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "e39a58539b8e27c6952992de8a6b389e",
+    "title": "Question 25",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns cholesterol levels (mg/dL) in adults. The mean is 190 and the standard deviation is 30. A sample measurement is 150.1. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "e39a58539b8e27c6952992de8a6b389e_A",
+        "label": "A",
+        "html": "z-score = -1.33, not significant",
+        "is_correct": true
+      },
+      {
+        "id": "e39a58539b8e27c6952992de8a6b389e_B",
+        "label": "B",
+        "html": "z-score = 2.35, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "e39a58539b8e27c6952992de8a6b389e_C",
+        "label": "C",
+        "html": "z-score = -2.10, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "e39a58539b8e27c6952992de8a6b389e_D",
+        "label": "D",
+        "html": "z-score = 0.45, significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e39a58539b8e27c6952992de8a6b389e_A"
+    ]
+  },
+  {
+    "index": 21,
+    "ident": "e9298b5ae1f2a139f78bf7f199ac5847",
+    "title": "Question 23",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns fasting blood glucose levels (mg/dL). The mean is 100 and the standard deviation is 15. A sample measurement is 130.8. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "e9298b5ae1f2a139f78bf7f199ac5847_A",
+        "label": "A",
+        "html": "z-score = 2.05, significantly high",
+        "is_correct": true
+      },
+      {
+        "id": "e9298b5ae1f2a139f78bf7f199ac5847_B",
+        "label": "B",
+        "html": "z-score = 1.25, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "e9298b5ae1f2a139f78bf7f199ac5847_C",
+        "label": "C",
+        "html": "z-score = -2.20, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "e9298b5ae1f2a139f78bf7f199ac5847_D",
+        "label": "D",
+        "html": "z-score = 2.20, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e9298b5ae1f2a139f78bf7f199ac5847_A"
+    ]
+  },
+  {
+    "index": 22,
+    "ident": "c6483aa3b9247b6f720a2839cb62ed55",
+    "title": "Question 22",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns length of salmon (cm). The mean is 75 and the standard deviation is 8. A sample measurement is 85. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "c6483aa3b9247b6f720a2839cb62ed55_A",
+        "label": "A",
+        "html": "z-score = 1.25, not significant",
+        "is_correct": true
+      },
+      {
+        "id": "c6483aa3b9247b6f720a2839cb62ed55_B",
+        "label": "B",
+        "html": "z-score = 2.35, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "c6483aa3b9247b6f720a2839cb62ed55_C",
+        "label": "C",
+        "html": "z-score = -2.10, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "c6483aa3b9247b6f720a2839cb62ed55_D",
+        "label": "D",
+        "html": "z-score = 0.45, significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c6483aa3b9247b6f720a2839cb62ed55_A"
+    ]
+  },
+  {
+    "index": 23,
+    "ident": "4ac3d9d2ff179eae9457f2cdfdf77939",
+    "title": "Question 21",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns number of hours slept per night. The mean is 7.2 and the standard deviation is 1.1. A sample measurement is 4.4. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "4ac3d9d2ff179eae9457f2cdfdf77939_A",
+        "label": "A",
+        "html": "z-score = -2.55, significantly low",
+        "is_correct": true
+      },
+      {
+        "id": "4ac3d9d2ff179eae9457f2cdfdf77939_B",
+        "label": "B",
+        "html": "z-score = -1.15, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "4ac3d9d2ff179eae9457f2cdfdf77939_C",
+        "label": "C",
+        "html": "z-score = 2.05, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "4ac3d9d2ff179eae9457f2cdfdf77939_D",
+        "label": "D",
+        "html": "z-score = -2.05, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4ac3d9d2ff179eae9457f2cdfdf77939_A"
+    ]
+  },
+  {
+    "index": 24,
+    "ident": "f0dea5e21d6e6fa992deae72d74a15bd",
+    "title": "Question 20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns number of hours slept per night. The mean is 7.2 and the standard deviation is 1.1. A sample measurement is 9.5. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "f0dea5e21d6e6fa992deae72d74a15bd_A",
+        "label": "A",
+        "html": "z-score = 2.09, significantly high",
+        "is_correct": true
+      },
+      {
+        "id": "f0dea5e21d6e6fa992deae72d74a15bd_B",
+        "label": "B",
+        "html": "z-score = 1.25, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "f0dea5e21d6e6fa992deae72d74a15bd_C",
+        "label": "C",
+        "html": "z-score = -2.20, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "f0dea5e21d6e6fa992deae72d74a15bd_D",
+        "label": "D",
+        "html": "z-score = 2.20, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f0dea5e21d6e6fa992deae72d74a15bd_A"
+    ]
+  },
+  {
+    "index": 25,
+    "ident": "3043bb2ff5171da11bfdf083d3636b4f",
+    "title": "Question 19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns score on a depression inventory. The mean is 20 and the standard deviation is 5. A sample measurement is 22.2. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "3043bb2ff5171da11bfdf083d3636b4f_A",
+        "label": "A",
+        "html": "z-score = 0.44, not significant",
+        "is_correct": true
+      },
+      {
+        "id": "3043bb2ff5171da11bfdf083d3636b4f_B",
+        "label": "B",
+        "html": "z-score = 2.35, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "3043bb2ff5171da11bfdf083d3636b4f_C",
+        "label": "C",
+        "html": "z-score = -2.10, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "3043bb2ff5171da11bfdf083d3636b4f_D",
+        "label": "D",
+        "html": "z-score = 0.45, significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3043bb2ff5171da11bfdf083d3636b4f_A"
+    ]
+  },
+  {
+    "index": 26,
+    "ident": "17b49d78464bfc3497acbd60e7f40010",
+    "title": "Question 18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns daily stock price change (%). The mean is 0 and the standard deviation is 1.5. A sample measurement is -3.1. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "17b49d78464bfc3497acbd60e7f40010_A",
+        "label": "A",
+        "html": "z-score = -2.07, significantly low",
+        "is_correct": true
+      },
+      {
+        "id": "17b49d78464bfc3497acbd60e7f40010_B",
+        "label": "B",
+        "html": "z-score = -1.15, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "17b49d78464bfc3497acbd60e7f40010_C",
+        "label": "C",
+        "html": "z-score = 2.05, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "17b49d78464bfc3497acbd60e7f40010_D",
+        "label": "D",
+        "html": "z-score = -2.05, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "17b49d78464bfc3497acbd60e7f40010_A"
+    ]
+  },
+  {
+    "index": 27,
+    "ident": "2cec6e3f44c39a6fd3d7403ac92eb545",
+    "title": "Question 17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns weight of adult male lions (kg). The mean is 190 and the standard deviation is 25. A sample measurement is 254. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "2cec6e3f44c39a6fd3d7403ac92eb545_A",
+        "label": "A",
+        "html": "z-score = 2.56, significantly high",
+        "is_correct": true
+      },
+      {
+        "id": "2cec6e3f44c39a6fd3d7403ac92eb545_B",
+        "label": "B",
+        "html": "z-score = 1.25, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "2cec6e3f44c39a6fd3d7403ac92eb545_C",
+        "label": "C",
+        "html": "z-score = -2.20, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "2cec6e3f44c39a6fd3d7403ac92eb545_D",
+        "label": "D",
+        "html": "z-score = 2.20, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2cec6e3f44c39a6fd3d7403ac92eb545_A"
+    ]
+  },
+  {
+    "index": 28,
+    "ident": "2525bba90f78999c159de26abecfa0be",
+    "title": "Question 15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns score on a depression inventory. The mean is 20 and the standard deviation is 5. A sample measurement is 9.1. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "2525bba90f78999c159de26abecfa0be_A",
+        "label": "A",
+        "html": "z-score = -2.18, significantly low",
+        "is_correct": true
+      },
+      {
+        "id": "2525bba90f78999c159de26abecfa0be_B",
+        "label": "B",
+        "html": "z-score = -1.15, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "2525bba90f78999c159de26abecfa0be_C",
+        "label": "C",
+        "html": "z-score = 2.05, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "2525bba90f78999c159de26abecfa0be_D",
+        "label": "D",
+        "html": "z-score = -2.05, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2525bba90f78999c159de26abecfa0be_A"
+    ]
+  },
+  {
+    "index": 29,
+    "ident": "52566c6c9e659977971436ccd97b01dc",
+    "title": "Question 14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns monthly household income (USD). The mean is 4000 and the standard deviation is 500. A sample measurement is 5025. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "52566c6c9e659977971436ccd97b01dc_A",
+        "label": "A",
+        "html": "z-score = 2.05, significantly high",
+        "is_correct": true
+      },
+      {
+        "id": "52566c6c9e659977971436ccd97b01dc_B",
+        "label": "B",
+        "html": "z-score = 1.25, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "52566c6c9e659977971436ccd97b01dc_C",
+        "label": "C",
+        "html": "z-score = -2.20, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "52566c6c9e659977971436ccd97b01dc_D",
+        "label": "D",
+        "html": "z-score = 2.20, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "52566c6c9e659977971436ccd97b01dc_A"
+    ]
+  },
+  {
+    "index": 30,
+    "ident": "5a79f8bd20d73608d69a9e70eaaacadc",
+    "title": "Question 13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns systolic blood pressure (mmHg). The mean is 120 and the standard deviation is 12. A sample measurement is 135. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "5a79f8bd20d73608d69a9e70eaaacadc_A",
+        "label": "A",
+        "html": "z-score = 1.25, not significant",
+        "is_correct": true
+      },
+      {
+        "id": "5a79f8bd20d73608d69a9e70eaaacadc_B",
+        "label": "B",
+        "html": "z-score = 2.35, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "5a79f8bd20d73608d69a9e70eaaacadc_C",
+        "label": "C",
+        "html": "z-score = -2.10, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "5a79f8bd20d73608d69a9e70eaaacadc_D",
+        "label": "D",
+        "html": "z-score = 0.45, significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5a79f8bd20d73608d69a9e70eaaacadc_A"
+    ]
+  },
+  {
+    "index": 31,
+    "ident": "2c498295c71fbca979163689abd03c97",
+    "title": "Question 11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns price of gasoline (USD per gallon). The mean is 3.5 and the standard deviation is 0.5. A sample measurement is 4.6. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "2c498295c71fbca979163689abd03c97_A",
+        "label": "A",
+        "html": "z-score = 2.20, significantly high",
+        "is_correct": true
+      },
+      {
+        "id": "2c498295c71fbca979163689abd03c97_B",
+        "label": "B",
+        "html": "z-score = 1.25, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "2c498295c71fbca979163689abd03c97_C",
+        "label": "C",
+        "html": "z-score = -2.20, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "2c498295c71fbca979163689abd03c97_D",
+        "label": "D",
+        "html": "z-score = 2.20, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2c498295c71fbca979163689abd03c97_A"
+    ]
+  },
+  {
+    "index": 32,
+    "ident": "9a91a1a365719af7cacc0e600032b0b1",
+    "title": "Question 9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns mass of 13-lined ground squirrels (g). The mean is 150 and the standard deviation is 20. A sample measurement is 103.2. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "9a91a1a365719af7cacc0e600032b0b1_A",
+        "label": "A",
+        "html": "z-score = -2.34, significantly low",
+        "is_correct": true
+      },
+      {
+        "id": "9a91a1a365719af7cacc0e600032b0b1_B",
+        "label": "B",
+        "html": "z-score = -1.15, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "9a91a1a365719af7cacc0e600032b0b1_C",
+        "label": "C",
+        "html": "z-score = 2.05, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "9a91a1a365719af7cacc0e600032b0b1_D",
+        "label": "D",
+        "html": "z-score = -2.05, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9a91a1a365719af7cacc0e600032b0b1_A"
+    ]
+  },
+  {
+    "index": 33,
+    "ident": "5c19ef0c64c3e70d62dfd4c39b5a3bb2",
+    "title": "Question 8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns monthly household income (USD). The mean is 4000 and the standard deviation is 500. A sample measurement is 5360. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "5c19ef0c64c3e70d62dfd4c39b5a3bb2_A",
+        "label": "A",
+        "html": "z-score = 2.72, significantly high",
+        "is_correct": true
+      },
+      {
+        "id": "5c19ef0c64c3e70d62dfd4c39b5a3bb2_B",
+        "label": "B",
+        "html": "z-score = 1.25, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "5c19ef0c64c3e70d62dfd4c39b5a3bb2_C",
+        "label": "C",
+        "html": "z-score = -2.20, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "5c19ef0c64c3e70d62dfd4c39b5a3bb2_D",
+        "label": "D",
+        "html": "z-score = 2.20, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5c19ef0c64c3e70d62dfd4c39b5a3bb2_A"
+    ]
+  },
+  {
+    "index": 34,
+    "ident": "fa7b9c5b9064c42294a83e1ca0cac365",
+    "title": "Question 7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns memory recall score (%). The mean is 75 and the standard deviation is 10. A sample measurement is 87.5. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "fa7b9c5b9064c42294a83e1ca0cac365_A",
+        "label": "A",
+        "html": "z-score = 1.25, not significant",
+        "is_correct": true
+      },
+      {
+        "id": "fa7b9c5b9064c42294a83e1ca0cac365_B",
+        "label": "B",
+        "html": "z-score = 2.35, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "fa7b9c5b9064c42294a83e1ca0cac365_C",
+        "label": "C",
+        "html": "z-score = -2.10, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "fa7b9c5b9064c42294a83e1ca0cac365_D",
+        "label": "D",
+        "html": "z-score = 0.45, significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "fa7b9c5b9064c42294a83e1ca0cac365_A"
+    ]
+  },
+  {
+    "index": 35,
+    "ident": "2906d74684e1fa732a994ebd0f373e48",
+    "title": "Question 6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns weight of adult male lions (kg). The mean is 190 and the standard deviation is 25. A sample measurement is 126. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "2906d74684e1fa732a994ebd0f373e48_A",
+        "label": "A",
+        "html": "z-score = -2.56, significantly low",
+        "is_correct": true
+      },
+      {
+        "id": "2906d74684e1fa732a994ebd0f373e48_B",
+        "label": "B",
+        "html": "z-score = -1.15, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "2906d74684e1fa732a994ebd0f373e48_C",
+        "label": "C",
+        "html": "z-score = 2.05, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "2906d74684e1fa732a994ebd0f373e48_D",
+        "label": "D",
+        "html": "z-score = -2.05, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2906d74684e1fa732a994ebd0f373e48_A"
+    ]
+  },
+  {
+    "index": 36,
+    "ident": "89dae50a7e56b1eeb1e31ce9499319a2",
+    "title": "Question 5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns wingspan of golden eagles (cm). The mean is 220 and the standard deviation is 15. A sample measurement is 255.1. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "89dae50a7e56b1eeb1e31ce9499319a2_A",
+        "label": "A",
+        "html": "z-score = 2.34, significantly high",
+        "is_correct": true
+      },
+      {
+        "id": "89dae50a7e56b1eeb1e31ce9499319a2_B",
+        "label": "B",
+        "html": "z-score = 1.25, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "89dae50a7e56b1eeb1e31ce9499319a2_C",
+        "label": "C",
+        "html": "z-score = -2.20, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "89dae50a7e56b1eeb1e31ce9499319a2_D",
+        "label": "D",
+        "html": "z-score = 2.20, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "89dae50a7e56b1eeb1e31ce9499319a2_A"
+    ]
+  },
+  {
+    "index": 37,
+    "ident": "1e1bcfb76bed78766548dcf287de2436",
+    "title": "Question 4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns price of gasoline (USD per gallon). The mean is 3.5 and the standard deviation is 0.5. A sample measurement is 3.1. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "1e1bcfb76bed78766548dcf287de2436_A",
+        "label": "A",
+        "html": "z-score = -0.80, not significant",
+        "is_correct": true
+      },
+      {
+        "id": "1e1bcfb76bed78766548dcf287de2436_B",
+        "label": "B",
+        "html": "z-score = 2.35, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "1e1bcfb76bed78766548dcf287de2436_C",
+        "label": "C",
+        "html": "z-score = -2.10, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "1e1bcfb76bed78766548dcf287de2436_D",
+        "label": "D",
+        "html": "z-score = 0.45, significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1e1bcfb76bed78766548dcf287de2436_A"
+    ]
+  },
+  {
+    "index": 38,
+    "ident": "2cdb16d57da1a617983522f26cb155d9",
+    "title": "Question 3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns reaction time in a cognitive test (ms). The mean is 250 and the standard deviation is 30. A sample measurement is 188.5. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "2cdb16d57da1a617983522f26cb155d9_A",
+        "label": "A",
+        "html": "z-score = -2.05, significantly low",
+        "is_correct": true
+      },
+      {
+        "id": "2cdb16d57da1a617983522f26cb155d9_B",
+        "label": "B",
+        "html": "z-score = -1.15, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "2cdb16d57da1a617983522f26cb155d9_C",
+        "label": "C",
+        "html": "z-score = 2.05, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "2cdb16d57da1a617983522f26cb155d9_D",
+        "label": "D",
+        "html": "z-score = -2.05, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2cdb16d57da1a617983522f26cb155d9_A"
+    ]
+  },
+  {
+    "index": 39,
+    "ident": "8714350f110d64031f9634196a47f5fb",
+    "title": "Question 2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns wingspan of golden eagles (cm). The mean is 220 and the standard deviation is 15. A sample measurement is 250.8. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "8714350f110d64031f9634196a47f5fb_A",
+        "label": "A",
+        "html": "z-score = 2.05, significantly high",
+        "is_correct": true
+      },
+      {
+        "id": "8714350f110d64031f9634196a47f5fb_B",
+        "label": "B",
+        "html": "z-score = 1.25, not significant",
+        "is_correct": false
+      },
+      {
+        "id": "8714350f110d64031f9634196a47f5fb_C",
+        "label": "C",
+        "html": "z-score = -2.20, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "8714350f110d64031f9634196a47f5fb_D",
+        "label": "D",
+        "html": "z-score = 2.20, not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8714350f110d64031f9634196a47f5fb_A"
+    ]
+  },
+  {
+    "index": 40,
+    "ident": "37d921195c073c352ae611175ead67db",
+    "title": "Question 1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question concerns wingspan of golden eagles (cm). The mean is 220 and the standard deviation is 15. A sample measurement is 234.7. Calculate the z-score for this data value and determine whether it is significantly high, significantly low, or not significant.</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "37d921195c073c352ae611175ead67db_A",
+        "label": "A",
+        "html": "z-score = 0.98, not significant",
+        "is_correct": true
+      },
+      {
+        "id": "37d921195c073c352ae611175ead67db_B",
+        "label": "B",
+        "html": "z-score = 2.35, significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "37d921195c073c352ae611175ead67db_C",
+        "label": "C",
+        "html": "z-score = -2.10, significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "37d921195c073c352ae611175ead67db_D",
+        "label": "D",
+        "html": "z-score = 0.45, significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "37d921195c073c352ae611175ead67db_A"
+    ]
+  }
+]

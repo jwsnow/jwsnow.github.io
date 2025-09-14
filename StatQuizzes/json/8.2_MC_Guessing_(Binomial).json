@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "5c52fdee1c78369e4c220ac88be3941e",
+    "title": "item_20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 40-question multiple choice quiz has 4 options with one being correct. Omar guesses on each question. What is the probability that Omar gets at least 13 correct?</p>",
+    "choices": [
+      {
+        "id": "5c52fdee1c78369e4c220ac88be3941e_A",
+        "label": "A",
+        "html": "<p>0.1032</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5c52fdee1c78369e4c220ac88be3941e_B",
+        "label": "B",
+        "html": "<p>0.0432</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5c52fdee1c78369e4c220ac88be3941e_C",
+        "label": "C",
+        "html": "<p>0.2849</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5c52fdee1c78369e4c220ac88be3941e_D",
+        "label": "D",
+        "html": "<p>0.1791</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "5c52fdee1c78369e4c220ac88be3941e_D"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "c672c78bc5aeae266c9dcff6dd644524",
+    "title": "item_19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 60-question multiple choice quiz has 4 options with one being correct. Fatima guesses on each question. What is the probability that Fatima gets at least 13 correct?</p>",
+    "choices": [
+      {
+        "id": "c672c78bc5aeae266c9dcff6dd644524_A",
+        "label": "A",
+        "html": "<p>0.9432</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c672c78bc5aeae266c9dcff6dd644524_B",
+        "label": "B",
+        "html": "<p>0.7684</p>",
+        "is_correct": true
+      },
+      {
+        "id": "c672c78bc5aeae266c9dcff6dd644524_C",
+        "label": "C",
+        "html": "<p>0.8601</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c672c78bc5aeae266c9dcff6dd644524_D",
+        "label": "D",
+        "html": "<p>0.4236</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c672c78bc5aeae266c9dcff6dd644524_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "34920079a37b598ac1d76c93e578290d",
+    "title": "item_18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 75-question multiple choice quiz has 3 options with one being correct. Kwame guesses on each question. What is the probability that Kwame gets at most 6 correct?</p>",
+    "choices": [
+      {
+        "id": "34920079a37b598ac1d76c93e578290d_A",
+        "label": "A",
+        "html": "<p>0.5077</p>",
+        "is_correct": false
+      },
+      {
+        "id": "34920079a37b598ac1d76c93e578290d_B",
+        "label": "B",
+        "html": "<p>0.0000</p>",
+        "is_correct": true
+      },
+      {
+        "id": "34920079a37b598ac1d76c93e578290d_C",
+        "label": "C",
+        "html": "<p>0.1064</p>",
+        "is_correct": false
+      },
+      {
+        "id": "34920079a37b598ac1d76c93e578290d_D",
+        "label": "D",
+        "html": "<p>1.0000</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "34920079a37b598ac1d76c93e578290d_B"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "ff2e2f20590f6e3c4d668b622583a7cf",
+    "title": "item_17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 40-question multiple choice quiz has 5 options with one being correct. David guesses on each question. What is the probability that David gets at most 5 correct?</p>",
+    "choices": [
+      {
+        "id": "ff2e2f20590f6e3c4d668b622583a7cf_A",
+        "label": "A",
+        "html": "<p>0.4325</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ff2e2f20590f6e3c4d668b622583a7cf_B",
+        "label": "B",
+        "html": "<p>0.1613</p>",
+        "is_correct": true
+      },
+      {
+        "id": "ff2e2f20590f6e3c4d668b622583a7cf_C",
+        "label": "C",
+        "html": "<p>0.0759</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ff2e2f20590f6e3c4d668b622583a7cf_D",
+        "label": "D",
+        "html": "<p>0.0989</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ff2e2f20590f6e3c4d668b622583a7cf_B"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "a37f58a1e8f532e2d5544096464b8b03",
+    "title": "item_16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 40-question multiple choice quiz has 6 options with one being correct. Isabella guesses on each question. What is the probability that Isabella gets at least 3 correct?</p>",
+    "choices": [
+      {
+        "id": "a37f58a1e8f532e2d5544096464b8b03_A",
+        "label": "A",
+        "html": "<p>0.9959</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a37f58a1e8f532e2d5544096464b8b03_B",
+        "label": "B",
+        "html": "<p>0.9726</p>",
+        "is_correct": true
+      },
+      {
+        "id": "a37f58a1e8f532e2d5544096464b8b03_C",
+        "label": "C",
+        "html": "<p>0.9189</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a37f58a1e8f532e2d5544096464b8b03_D",
+        "label": "D",
+        "html": "<p>0.8608</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a37f58a1e8f532e2d5544096464b8b03_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "0991acd37ca2f82da493221939894f86",
+    "title": "item_15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 100-question multiple choice quiz has 4 options with one being correct. Diego guesses on each question. What is the probability that Diego gets exactly 25 correct?</p>",
+    "choices": [
+      {
+        "id": "0991acd37ca2f82da493221939894f86_A",
+        "label": "A",
+        "html": "<p>0.0883</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0991acd37ca2f82da493221939894f86_B",
+        "label": "B",
+        "html": "<p>0.0828</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0991acd37ca2f82da493221939894f86_C",
+        "label": "C",
+        "html": "<p>0.0906</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0991acd37ca2f82da493221939894f86_D",
+        "label": "D",
+        "html": "<p>0.0918</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "0991acd37ca2f82da493221939894f86_D"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "be50eb4b5e1fe8c51867414becfe8798",
+    "title": "item_14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 20-question multiple choice quiz has 4 options with one being correct. Yuki guesses on each question. What is the probability that Yuki gets at least 1 correct?</p>",
+    "choices": [
+      {
+        "id": "be50eb4b5e1fe8c51867414becfe8798_A",
+        "label": "A",
+        "html": "<p>0.9968</p>",
+        "is_correct": true
+      },
+      {
+        "id": "be50eb4b5e1fe8c51867414becfe8798_B",
+        "label": "B",
+        "html": "<p>0.9885</p>",
+        "is_correct": false
+      },
+      {
+        "id": "be50eb4b5e1fe8c51867414becfe8798_C",
+        "label": "C",
+        "html": "<p>0.9982</p>",
+        "is_correct": false
+      },
+      {
+        "id": "be50eb4b5e1fe8c51867414becfe8798_D",
+        "label": "D",
+        "html": "<p>0.9992</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "be50eb4b5e1fe8c51867414becfe8798_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "0ace5780f42cd814ad7a032cb2bad992",
+    "title": "item_13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 100-question multiple choice quiz has 5 options with one being correct. Elena guesses on each question. What is the probability that Elena gets exactly 5 correct?</p>",
+    "choices": [
+      {
+        "id": "0ace5780f42cd814ad7a032cb2bad992_A",
+        "label": "A",
+        "html": "<p>0.9711</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0ace5780f42cd814ad7a032cb2bad992_B",
+        "label": "B",
+        "html": "<p>0.0011</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0ace5780f42cd814ad7a032cb2bad992_C",
+        "label": "C",
+        "html": "<p>0.0001</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0ace5780f42cd814ad7a032cb2bad992_D",
+        "label": "D",
+        "html": "<p>0.0000</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "0ace5780f42cd814ad7a032cb2bad992_D"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "d1d1ae375ee1d2a6171ee9e8a12feb72",
+    "title": "item_12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 20-question multiple choice quiz has 5 options with one being correct. Grace guesses on each question. What is the probability that Grace gets at most 5 correct?</p>",
+    "choices": [
+      {
+        "id": "d1d1ae375ee1d2a6171ee9e8a12feb72_A",
+        "label": "A",
+        "html": "<p>0.8042</p>",
+        "is_correct": true
+      },
+      {
+        "id": "d1d1ae375ee1d2a6171ee9e8a12feb72_B",
+        "label": "B",
+        "html": "<p>0.9327</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d1d1ae375ee1d2a6171ee9e8a12feb72_C",
+        "label": "C",
+        "html": "<p>0.6172</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d1d1ae375ee1d2a6171ee9e8a12feb72_D",
+        "label": "D",
+        "html": "<p>0.7343</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d1d1ae375ee1d2a6171ee9e8a12feb72_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "e4d35ebb635121cd31c745639c3608fe",
+    "title": "item_11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 20-question multiple choice quiz has 6 options with one being correct. Ahmed guesses on each question. What is the probability that Ahmed gets exactly 4 correct?</p>",
+    "choices": [
+      {
+        "id": "e4d35ebb635121cd31c745639c3608fe_A",
+        "label": "A",
+        "html": "<p>0.2157</p>",
+        "is_correct": false
+      },
+      {
+        "id": "e4d35ebb635121cd31c745639c3608fe_B",
+        "label": "B",
+        "html": "<p>0.2146</p>",
+        "is_correct": false
+      },
+      {
+        "id": "e4d35ebb635121cd31c745639c3608fe_C",
+        "label": "C",
+        "html": "<p>0.1233</p>",
+        "is_correct": false
+      },
+      {
+        "id": "e4d35ebb635121cd31c745639c3608fe_D",
+        "label": "D",
+        "html": "<p>0.2022</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "e4d35ebb635121cd31c745639c3608fe_D"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "97e6ad2b619f081b10fa61b80fd64245",
+    "title": "item_10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 40-question multiple choice quiz has 5 options with one being correct. Kwame guesses on each question. What is the probability that Kwame gets at least 13 correct?</p>",
+    "choices": [
+      {
+        "id": "97e6ad2b619f081b10fa61b80fd64245_A",
+        "label": "A",
+        "html": "<p>0.0432</p>",
+        "is_correct": true
+      },
+      {
+        "id": "97e6ad2b619f081b10fa61b80fd64245_B",
+        "label": "B",
+        "html": "<p>0.0194</p>",
+        "is_correct": false
+      },
+      {
+        "id": "97e6ad2b619f081b10fa61b80fd64245_C",
+        "label": "C",
+        "html": "<p>0.0830</p>",
+        "is_correct": false
+      },
+      {
+        "id": "97e6ad2b619f081b10fa61b80fd64245_D",
+        "label": "D",
+        "html": "<p>0.1791</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "97e6ad2b619f081b10fa61b80fd64245_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "6ec68289edddc8eb5558d22f0d64bef0",
+    "title": "item_09",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 40-question multiple choice quiz has 3 options with one being correct. Aisha guesses on each question. What is the probability that Aisha gets at least 2 correct?</p>",
+    "choices": [
+      {
+        "id": "6ec68289edddc8eb5558d22f0d64bef0_A",
+        "label": "A",
+        "html": "<p>0.0000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6ec68289edddc8eb5558d22f0d64bef0_B",
+        "label": "B",
+        "html": "<p>0.5095</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6ec68289edddc8eb5558d22f0d64bef0_C",
+        "label": "C",
+        "html": "<p>0.0909</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6ec68289edddc8eb5558d22f0d64bef0_D",
+        "label": "D",
+        "html": "<p>1.0000</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "6ec68289edddc8eb5558d22f0d64bef0_D"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "496654107ee472a0f051b5e9e73b4615",
+    "title": "item_08",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 40-question multiple choice quiz has 5 options with one being correct. Hiroshi guesses on each question. What is the probability that Hiroshi gets exactly 13 correct?</p>",
+    "choices": [
+      {
+        "id": "496654107ee472a0f051b5e9e73b4615_A",
+        "label": "A",
+        "html": "<p>0.0029</p>",
+        "is_correct": false
+      },
+      {
+        "id": "496654107ee472a0f051b5e9e73b4615_B",
+        "label": "B",
+        "html": "<p>0.0115</p>",
+        "is_correct": false
+      },
+      {
+        "id": "496654107ee472a0f051b5e9e73b4615_C",
+        "label": "C",
+        "html": "<p>0.0238</p>",
+        "is_correct": true
+      },
+      {
+        "id": "496654107ee472a0f051b5e9e73b4615_D",
+        "label": "D",
+        "html": "<p>0.0759</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "496654107ee472a0f051b5e9e73b4615_C"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "4fabfeac8a3a5623bf9c4710704d9ec5",
+    "title": "item_07",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 100-question multiple choice quiz has 3 options with one being correct. Yuki guesses on each question. What is the probability that Yuki gets exactly 28 correct?</p>",
+    "choices": [
+      {
+        "id": "4fabfeac8a3a5623bf9c4710704d9ec5_A",
+        "label": "A",
+        "html": "<p>0.0458</p>",
+        "is_correct": true
+      },
+      {
+        "id": "4fabfeac8a3a5623bf9c4710704d9ec5_B",
+        "label": "B",
+        "html": "<p>0.0883</p>",
+        "is_correct": false
+      },
+      {
+        "id": "4fabfeac8a3a5623bf9c4710704d9ec5_C",
+        "label": "C",
+        "html": "<p>0.0261</p>",
+        "is_correct": false
+      },
+      {
+        "id": "4fabfeac8a3a5623bf9c4710704d9ec5_D",
+        "label": "D",
+        "html": "<p>0.0351</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4fabfeac8a3a5623bf9c4710704d9ec5_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "68a3fce66c57a66d7459564ce524ac21",
+    "title": "item_06",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 50-question multiple choice quiz has 4 options with one being correct. Ethan guesses on each question. What is the probability that Ethan gets at most 9 correct?</p>",
+    "choices": [
+      {
+        "id": "68a3fce66c57a66d7459564ce524ac21_A",
+        "label": "A",
+        "html": "<p>0.1637</p>",
+        "is_correct": true
+      },
+      {
+        "id": "68a3fce66c57a66d7459564ce524ac21_B",
+        "label": "B",
+        "html": "<p>0.0979</p>",
+        "is_correct": false
+      },
+      {
+        "id": "68a3fce66c57a66d7459564ce524ac21_C",
+        "label": "C",
+        "html": "<p>0.2622</p>",
+        "is_correct": false
+      },
+      {
+        "id": "68a3fce66c57a66d7459564ce524ac21_D",
+        "label": "D",
+        "html": "<p>0.4437</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "68a3fce66c57a66d7459564ce524ac21_A"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "a4af2b174a667932d1fda93c1d024c26",
+    "title": "item_05",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 60-question multiple choice quiz has 3 options with one being correct. Ahmed guesses on each question. What is the probability that Ahmed gets exactly 18 correct?</p>",
+    "choices": [
+      {
+        "id": "a4af2b174a667932d1fda93c1d024c26_A",
+        "label": "A",
+        "html": "<p>0.0762</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a4af2b174a667932d1fda93c1d024c26_B",
+        "label": "B",
+        "html": "<p>0.0960</p>",
+        "is_correct": true
+      },
+      {
+        "id": "a4af2b174a667932d1fda93c1d024c26_C",
+        "label": "C",
+        "html": "<p>0.1061</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a4af2b174a667932d1fda93c1d024c26_D",
+        "label": "D",
+        "html": "<p>0.1074</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a4af2b174a667932d1fda93c1d024c26_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "9d87409ce2d5b9b685eab29b715ca0f9",
+    "title": "item_04",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 20-question multiple choice quiz has 3 options with one being correct. David guesses on each question. What is the probability that David gets exactly 5 correct?</p>",
+    "choices": [
+      {
+        "id": "9d87409ce2d5b9b685eab29b715ca0f9_A",
+        "label": "A",
+        "html": "<p>0.1457</p>",
+        "is_correct": true
+      },
+      {
+        "id": "9d87409ce2d5b9b685eab29b715ca0f9_B",
+        "label": "B",
+        "html": "<p>0.1913</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9d87409ce2d5b9b685eab29b715ca0f9_C",
+        "label": "C",
+        "html": "<p>0.0910</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9d87409ce2d5b9b685eab29b715ca0f9_D",
+        "label": "D",
+        "html": "<p>0.0911</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9d87409ce2d5b9b685eab29b715ca0f9_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "2a8a04854a4a62053a01b2895db2305c",
+    "title": "item_03",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 75-question multiple choice quiz has 3 options with one being correct. Elena guesses on each question. What is the probability that Elena gets at least 2 correct?</p>",
+    "choices": [
+      {
+        "id": "2a8a04854a4a62053a01b2895db2305c_A",
+        "label": "A",
+        "html": "<p>0.0662</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2a8a04854a4a62053a01b2895db2305c_B",
+        "label": "B",
+        "html": "<p>0.0000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2a8a04854a4a62053a01b2895db2305c_C",
+        "label": "C",
+        "html": "<p>1.0000</p>",
+        "is_correct": true
+      },
+      {
+        "id": "2a8a04854a4a62053a01b2895db2305c_D",
+        "label": "D",
+        "html": "<p>0.9131</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2a8a04854a4a62053a01b2895db2305c_C"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "8f3a9acbde2116edbb444afc44eac127",
+    "title": "item_02",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 30-question multiple choice quiz has 4 options with one being correct. Hiroshi guesses on each question. What is the probability that Hiroshi gets at most 2 correct?</p>",
+    "choices": [
+      {
+        "id": "8f3a9acbde2116edbb444afc44eac127_A",
+        "label": "A",
+        "html": "<p>0.0106</p>",
+        "is_correct": true
+      },
+      {
+        "id": "8f3a9acbde2116edbb444afc44eac127_B",
+        "label": "B",
+        "html": "<p>0.0057</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8f3a9acbde2116edbb444afc44eac127_C",
+        "label": "C",
+        "html": "<p>0.0442</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8f3a9acbde2116edbb444afc44eac127_D",
+        "label": "D",
+        "html": "<p>0.0374</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8f3a9acbde2116edbb444afc44eac127_A"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "805757dce7ad9c9a682971b75759b285",
+    "title": "item_01",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Each question on a 75-question multiple choice quiz has 3 options with one being correct. Sue guesses on each question. What is the probability that Sue gets at most 9 correct?</p>",
+    "choices": [
+      {
+        "id": "805757dce7ad9c9a682971b75759b285_A",
+        "label": "A",
+        "html": "<p>0.0006</p>",
+        "is_correct": false
+      },
+      {
+        "id": "805757dce7ad9c9a682971b75759b285_B",
+        "label": "B",
+        "html": "<p>1.0000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "805757dce7ad9c9a682971b75759b285_C",
+        "label": "C",
+        "html": "<p>0.0001</p>",
+        "is_correct": false
+      },
+      {
+        "id": "805757dce7ad9c9a682971b75759b285_D",
+        "label": "D",
+        "html": "<p>0.0000</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "805757dce7ad9c9a682971b75759b285_D"
+    ]
+  }
+]

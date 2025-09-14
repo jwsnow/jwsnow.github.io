@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "cf1198769187420cfc93cb01e842d841",
+    "title": "Q16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is a red 2 and the second card is a spade?</p>",
+    "choices": [
+      {
+        "id": "cf1198769187420cfc93cb01e842d841_A",
+        "label": "A",
+        "html": "<p>0.0049</p>",
+        "is_correct": false
+      },
+      {
+        "id": "cf1198769187420cfc93cb01e842d841_B",
+        "label": "B",
+        "html": "<p>0.0098</p>",
+        "is_correct": true
+      },
+      {
+        "id": "cf1198769187420cfc93cb01e842d841_C",
+        "label": "C",
+        "html": "0.0498",
+        "is_correct": false
+      },
+      {
+        "id": "cf1198769187420cfc93cb01e842d841_D",
+        "label": "D",
+        "html": "<p>0.0980</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cf1198769187420cfc93cb01e842d841_B"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "7eb2eaf50d77954054fcdc55170bcd22",
+    "title": "Q1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is an ace and the second card is a heart?</p>",
+    "choices": [
+      {
+        "id": "7eb2eaf50d77954054fcdc55170bcd22_A",
+        "label": "A",
+        "html": "0.0792",
+        "is_correct": false
+      },
+      {
+        "id": "7eb2eaf50d77954054fcdc55170bcd22_B",
+        "label": "B",
+        "html": "0.0192",
+        "is_correct": true
+      },
+      {
+        "id": "7eb2eaf50d77954054fcdc55170bcd22_C",
+        "label": "C",
+        "html": "0.0592",
+        "is_correct": false
+      },
+      {
+        "id": "7eb2eaf50d77954054fcdc55170bcd22_D",
+        "label": "D",
+        "html": "0.0392",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7eb2eaf50d77954054fcdc55170bcd22_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "ae91b9f641b292013cc3ac466a11e54e",
+    "title": "Q8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is an ace and the second card is not an ace?</p>",
+    "choices": [
+      {
+        "id": "ae91b9f641b292013cc3ac466a11e54e_A",
+        "label": "A",
+        "html": "0.0524",
+        "is_correct": false
+      },
+      {
+        "id": "ae91b9f641b292013cc3ac466a11e54e_B",
+        "label": "B",
+        "html": "0.0924",
+        "is_correct": false
+      },
+      {
+        "id": "ae91b9f641b292013cc3ac466a11e54e_C",
+        "label": "C",
+        "html": "<p>0.1124</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ae91b9f641b292013cc3ac466a11e54e_D",
+        "label": "D",
+        "html": "<p>0.0724</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "ae91b9f641b292013cc3ac466a11e54e_D"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "9b8c723b9ccb142ff5d5f057b269059c",
+    "title": "Q18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is not a face card and the second card is an ace?</p>",
+    "choices": [
+      {
+        "id": "9b8c723b9ccb142ff5d5f057b269059c_A",
+        "label": "A",
+        "html": "0.0988",
+        "is_correct": false
+      },
+      {
+        "id": "9b8c723b9ccb142ff5d5f057b269059c_B",
+        "label": "B",
+        "html": "0.0788",
+        "is_correct": false
+      },
+      {
+        "id": "9b8c723b9ccb142ff5d5f057b269059c_C",
+        "label": "C",
+        "html": "0.0588",
+        "is_correct": true
+      },
+      {
+        "id": "9b8c723b9ccb142ff5d5f057b269059c_D",
+        "label": "D",
+        "html": "0.0388",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9b8c723b9ccb142ff5d5f057b269059c_C"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "65753643c550ba9b2621e8e2d3bd63ce",
+    "title": "Q20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is at least 10 (10, J, Q, K, or A) and the second card is a heart?</p>",
+    "choices": [
+      {
+        "id": "65753643c550ba9b2621e8e2d3bd63ce_A",
+        "label": "A",
+        "html": "0.0962",
+        "is_correct": true
+      },
+      {
+        "id": "65753643c550ba9b2621e8e2d3bd63ce_B",
+        "label": "B",
+        "html": "0.1362",
+        "is_correct": false
+      },
+      {
+        "id": "65753643c550ba9b2621e8e2d3bd63ce_C",
+        "label": "C",
+        "html": "0.1162",
+        "is_correct": false
+      },
+      {
+        "id": "65753643c550ba9b2621e8e2d3bd63ce_D",
+        "label": "D",
+        "html": "0.0762",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "65753643c550ba9b2621e8e2d3bd63ce_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "471eeaa80391bb15ffaf89e16c603903",
+    "title": "Q19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is a red queen and the second card is a black queen?</p>",
+    "choices": [
+      {
+        "id": "471eeaa80391bb15ffaf89e16c603903_A",
+        "label": "A",
+        "html": "0.0015",
+        "is_correct": true
+      },
+      {
+        "id": "471eeaa80391bb15ffaf89e16c603903_B",
+        "label": "B",
+        "html": "0.0415",
+        "is_correct": false
+      },
+      {
+        "id": "471eeaa80391bb15ffaf89e16c603903_C",
+        "label": "C",
+        "html": "0.0615",
+        "is_correct": false
+      },
+      {
+        "id": "471eeaa80391bb15ffaf89e16c603903_D",
+        "label": "D",
+        "html": "0.0215",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "471eeaa80391bb15ffaf89e16c603903_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "2fa9ece60c26928928c984c90bff0616",
+    "title": "Q17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is a club number card (2 through 10) and the second card is a club?</p>",
+    "choices": [
+      {
+        "id": "2fa9ece60c26928928c984c90bff0616_A",
+        "label": "A",
+        "html": "0.0207",
+        "is_correct": false
+      },
+      {
+        "id": "2fa9ece60c26928928c984c90bff0616_B",
+        "label": "B",
+        "html": "0.0607",
+        "is_correct": false
+      },
+      {
+        "id": "2fa9ece60c26928928c984c90bff0616_C",
+        "label": "C",
+        "html": "0.0807",
+        "is_correct": false
+      },
+      {
+        "id": "2fa9ece60c26928928c984c90bff0616_D",
+        "label": "D",
+        "html": "0.0407",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "2fa9ece60c26928928c984c90bff0616_D"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "64b29ddb07ba060e7aaf3714717208c8",
+    "title": "Q15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is a heart face card (J, Q, or K) and the second card is a heart?</p>",
+    "choices": [
+      {
+        "id": "64b29ddb07ba060e7aaf3714717208c8_A",
+        "label": "A",
+        "html": "0.0536",
+        "is_correct": false
+      },
+      {
+        "id": "64b29ddb07ba060e7aaf3714717208c8_B",
+        "label": "B",
+        "html": "0.0336",
+        "is_correct": false
+      },
+      {
+        "id": "64b29ddb07ba060e7aaf3714717208c8_C",
+        "label": "C",
+        "html": "0.0136",
+        "is_correct": true
+      },
+      {
+        "id": "64b29ddb07ba060e7aaf3714717208c8_D",
+        "label": "D",
+        "html": "0.0736",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "64b29ddb07ba060e7aaf3714717208c8_C"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "dc0d830589477ba2b1af2c1379569503",
+    "title": "Q14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is a 10 and the second card is a queen?</p>",
+    "choices": [
+      {
+        "id": "dc0d830589477ba2b1af2c1379569503_A",
+        "label": "A",
+        "html": "0.0060",
+        "is_correct": true
+      },
+      {
+        "id": "dc0d830589477ba2b1af2c1379569503_B",
+        "label": "B",
+        "html": "0.0260",
+        "is_correct": false
+      },
+      {
+        "id": "dc0d830589477ba2b1af2c1379569503_C",
+        "label": "C",
+        "html": "0.0460",
+        "is_correct": false
+      },
+      {
+        "id": "dc0d830589477ba2b1af2c1379569503_D",
+        "label": "D",
+        "html": "0.0660",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "dc0d830589477ba2b1af2c1379569503_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "6366109bb9e6cab5bc0de2cd9623fa21",
+    "title": "Q13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is a black face card (J, Q, or K) and the second card is a red face card (J, Q, or K)?</p>",
+    "choices": [
+      {
+        "id": "6366109bb9e6cab5bc0de2cd9623fa21_A",
+        "label": "A",
+        "html": "0.0536",
+        "is_correct": false
+      },
+      {
+        "id": "6366109bb9e6cab5bc0de2cd9623fa21_B",
+        "label": "B",
+        "html": "0.0336",
+        "is_correct": false
+      },
+      {
+        "id": "6366109bb9e6cab5bc0de2cd9623fa21_C",
+        "label": "C",
+        "html": "0.0136",
+        "is_correct": true
+      },
+      {
+        "id": "6366109bb9e6cab5bc0de2cd9623fa21_D",
+        "label": "D",
+        "html": "0.0736",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6366109bb9e6cab5bc0de2cd9623fa21_C"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "123c933e4c56070b7273703e81250cce",
+    "title": "Q12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is a spade and the second card is not a spade?</p>",
+    "choices": [
+      {
+        "id": "123c933e4c56070b7273703e81250cce_A",
+        "label": "A",
+        "html": "0.1712",
+        "is_correct": false
+      },
+      {
+        "id": "123c933e4c56070b7273703e81250cce_B",
+        "label": "B",
+        "html": "0.2312",
+        "is_correct": false
+      },
+      {
+        "id": "123c933e4c56070b7273703e81250cce_C",
+        "label": "C",
+        "html": "0.2112",
+        "is_correct": false
+      },
+      {
+        "id": "123c933e4c56070b7273703e81250cce_D",
+        "label": "D",
+        "html": "0.1912",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "123c933e4c56070b7273703e81250cce_D"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "f88bdf97c39a9b8bd8c47f66538b9021",
+    "title": "Q11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is a 7 and the second card is not a 7?</p>",
+    "choices": [
+      {
+        "id": "f88bdf97c39a9b8bd8c47f66538b9021_A",
+        "label": "A",
+        "html": "0.0524",
+        "is_correct": false
+      },
+      {
+        "id": "f88bdf97c39a9b8bd8c47f66538b9021_B",
+        "label": "B",
+        "html": "0.1124",
+        "is_correct": false
+      },
+      {
+        "id": "f88bdf97c39a9b8bd8c47f66538b9021_C",
+        "label": "C",
+        "html": "0.0924",
+        "is_correct": false
+      },
+      {
+        "id": "f88bdf97c39a9b8bd8c47f66538b9021_D",
+        "label": "D",
+        "html": "0.0724",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "f88bdf97c39a9b8bd8c47f66538b9021_D"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "5fa8817da7f230810b3761ac856b0204",
+    "title": "Q10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is a king and the second card is a queen?</p>",
+    "choices": [
+      {
+        "id": "5fa8817da7f230810b3761ac856b0204_A",
+        "label": "A",
+        "html": "0.0660",
+        "is_correct": false
+      },
+      {
+        "id": "5fa8817da7f230810b3761ac856b0204_B",
+        "label": "B",
+        "html": "0.0260",
+        "is_correct": false
+      },
+      {
+        "id": "5fa8817da7f230810b3761ac856b0204_C",
+        "label": "C",
+        "html": "0.0460",
+        "is_correct": false
+      },
+      {
+        "id": "5fa8817da7f230810b3761ac856b0204_D",
+        "label": "D",
+        "html": "0.0060",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "5fa8817da7f230810b3761ac856b0204_D"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "ba4d9bb3c825ddbdab33536320e5e445",
+    "title": "Q9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is a diamond and the second card is a red card?</p>",
+    "choices": [
+      {
+        "id": "ba4d9bb3c825ddbdab33536320e5e445_A",
+        "label": "A",
+        "html": "0.1225",
+        "is_correct": true
+      },
+      {
+        "id": "ba4d9bb3c825ddbdab33536320e5e445_B",
+        "label": "B",
+        "html": "0.1625",
+        "is_correct": false
+      },
+      {
+        "id": "ba4d9bb3c825ddbdab33536320e5e445_C",
+        "label": "C",
+        "html": "0.1025",
+        "is_correct": false
+      },
+      {
+        "id": "ba4d9bb3c825ddbdab33536320e5e445_D",
+        "label": "D",
+        "html": "0.1425",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ba4d9bb3c825ddbdab33536320e5e445_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "f1032001ec2415e87e1510554ed5a094",
+    "title": "Q7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is a number card (2 through 10) and the second card is a number card (2 through 10)?</p>",
+    "choices": [
+      {
+        "id": "f1032001ec2415e87e1510554ed5a094_A",
+        "label": "A",
+        "html": "0.4751",
+        "is_correct": true
+      },
+      {
+        "id": "f1032001ec2415e87e1510554ed5a094_B",
+        "label": "B",
+        "html": "0.5151",
+        "is_correct": false
+      },
+      {
+        "id": "f1032001ec2415e87e1510554ed5a094_C",
+        "label": "C",
+        "html": "0.4951",
+        "is_correct": false
+      },
+      {
+        "id": "f1032001ec2415e87e1510554ed5a094_D",
+        "label": "D",
+        "html": "0.4551",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f1032001ec2415e87e1510554ed5a094_A"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "fd6db6d21ab04da7404e31b112305186",
+    "title": "Q6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is not a heart and the second card is a heart?</p>",
+    "choices": [
+      {
+        "id": "fd6db6d21ab04da7404e31b112305186_A",
+        "label": "A",
+        "html": "0.2312",
+        "is_correct": false
+      },
+      {
+        "id": "fd6db6d21ab04da7404e31b112305186_B",
+        "label": "B",
+        "html": "0.1712",
+        "is_correct": false
+      },
+      {
+        "id": "fd6db6d21ab04da7404e31b112305186_C",
+        "label": "C",
+        "html": "0.1912",
+        "is_correct": true
+      },
+      {
+        "id": "fd6db6d21ab04da7404e31b112305186_D",
+        "label": "D",
+        "html": "0.2112",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "fd6db6d21ab04da7404e31b112305186_C"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "094adf56fc96890b9dc4d33be89cb714",
+    "title": "Q5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is a queen and the second card is a queen?</p>",
+    "choices": [
+      {
+        "id": "094adf56fc96890b9dc4d33be89cb714_A",
+        "label": "A",
+        "html": "0.0445",
+        "is_correct": false
+      },
+      {
+        "id": "094adf56fc96890b9dc4d33be89cb714_B",
+        "label": "B",
+        "html": "0.0245",
+        "is_correct": false
+      },
+      {
+        "id": "094adf56fc96890b9dc4d33be89cb714_C",
+        "label": "C",
+        "html": "0.0645",
+        "is_correct": false
+      },
+      {
+        "id": "094adf56fc96890b9dc4d33be89cb714_D",
+        "label": "D",
+        "html": "0.0045",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "094adf56fc96890b9dc4d33be89cb714_D"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "12def1862825f3fe35679a6a80d36fba",
+    "title": "Q4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is a club and the second card is a spade?</p>",
+    "choices": [
+      {
+        "id": "12def1862825f3fe35679a6a80d36fba_A",
+        "label": "A",
+        "html": "0.0637",
+        "is_correct": true
+      },
+      {
+        "id": "12def1862825f3fe35679a6a80d36fba_B",
+        "label": "B",
+        "html": "0.0837",
+        "is_correct": false
+      },
+      {
+        "id": "12def1862825f3fe35679a6a80d36fba_C",
+        "label": "C",
+        "html": "0.0437",
+        "is_correct": false
+      },
+      {
+        "id": "12def1862825f3fe35679a6a80d36fba_D",
+        "label": "D",
+        "html": "0.1037",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "12def1862825f3fe35679a6a80d36fba_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "13a15a01d1d2aa883a35997ac558b1eb",
+    "title": "Q3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is a face card (J, Q, or K) and the second card is a 10?</p>",
+    "choices": [
+      {
+        "id": "13a15a01d1d2aa883a35997ac558b1eb_A",
+        "label": "A",
+        "html": "0.0781",
+        "is_correct": false
+      },
+      {
+        "id": "13a15a01d1d2aa883a35997ac558b1eb_B",
+        "label": "B",
+        "html": "0.0581",
+        "is_correct": false
+      },
+      {
+        "id": "13a15a01d1d2aa883a35997ac558b1eb_C",
+        "label": "C",
+        "html": "0.0381",
+        "is_correct": false
+      },
+      {
+        "id": "13a15a01d1d2aa883a35997ac558b1eb_D",
+        "label": "D",
+        "html": "0.0181",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "13a15a01d1d2aa883a35997ac558b1eb_D"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "2846d295a6d7420202557ca237a51b70",
+    "title": "Q2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you draw two cards from a standard 52-card deck without replacement, what is the probability that the first card is a red card and the second card is a black card?</p>",
+    "choices": [
+      {
+        "id": "2846d295a6d7420202557ca237a51b70_A",
+        "label": "A",
+        "html": "0.2549",
+        "is_correct": true
+      },
+      {
+        "id": "2846d295a6d7420202557ca237a51b70_B",
+        "label": "B",
+        "html": "0.2349",
+        "is_correct": false
+      },
+      {
+        "id": "2846d295a6d7420202557ca237a51b70_C",
+        "label": "C",
+        "html": "0.2749",
+        "is_correct": false
+      },
+      {
+        "id": "2846d295a6d7420202557ca237a51b70_D",
+        "label": "D",
+        "html": "0.2949",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2846d295a6d7420202557ca237a51b70_A"
+    ]
+  }
+]

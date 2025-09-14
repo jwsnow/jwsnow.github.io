@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "c7be0c2b419dcd6232499565ac495e20",
+    "title": "Question 19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows mood ratings (1–10) reported by 20 participants after a mindfulness session. What is the mean mood rating? Round your answer to 4 decimal places.</p>\n<table>\n<thead>\n<tr>\n<th>Data</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>4.0</td>\n</tr>\n<tr>\n<td>6.9</td>\n</tr>\n<tr>\n<td>8.7</td>\n</tr>\n<tr>\n<td>3.8</td>\n</tr>\n<tr>\n<td>4.0</td>\n</tr>\n<tr>\n<td>6.4</td>\n</tr>\n<tr>\n<td>5.1</td>\n</tr>\n<tr>\n<td>4.0</td>\n</tr>\n<tr>\n<td>4.1</td>\n</tr>\n<tr>\n<td>5.9</td>\n</tr>\n<tr>\n<td>8.5</td>\n</tr>\n<tr>\n<td>4.2</td>\n</tr>\n<tr>\n<td>8.6</td>\n</tr>\n<tr>\n<td>3.5</td>\n</tr>\n<tr>\n<td>4.7</td>\n</tr>\n<tr>\n<td>7.6</td>\n</tr>\n<tr>\n<td>3.0</td>\n</tr>\n<tr>\n<td>5.2</td>\n</tr>\n<tr>\n<td>4.1</td>\n</tr>\n<tr>\n<td>4.6</td>\n</tr>\n</tbody>\n</table>\n<p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "c7be0c2b419dcd6232499565ac495e20_A",
+        "label": "A",
+        "html": "5.3450",
+        "is_correct": true
+      },
+      {
+        "id": "c7be0c2b419dcd6232499565ac495e20_B",
+        "label": "B",
+        "html": "4.6500",
+        "is_correct": false
+      },
+      {
+        "id": "c7be0c2b419dcd6232499565ac495e20_C",
+        "label": "C",
+        "html": "5.4684",
+        "is_correct": false
+      },
+      {
+        "id": "c7be0c2b419dcd6232499565ac495e20_D",
+        "label": "D",
+        "html": "5.1684",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c7be0c2b419dcd6232499565ac495e20_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "ab5b2d06549e426f9be8418d61ff940e",
+    "title": "Question 20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows gasoline prices (US dollars per gallon) recorded at 20 stations in a metro area. What is the mean gasoline price? Round your answer to 4 decimal places.</p>\n<table>\n<thead>\n<tr>\n<th>Data</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>4.64</td>\n</tr>\n<tr>\n<td>3.04</td>\n</tr>\n<tr>\n<td>4.27</td>\n</tr>\n<tr>\n<td>4.69</td>\n</tr>\n<tr>\n<td>3.23</td>\n</tr>\n<tr>\n<td>4.59</td>\n</tr>\n<tr>\n<td>3.4</td>\n</tr>\n<tr>\n<td>4.39</td>\n</tr>\n<tr>\n<td>3.97</td>\n</tr>\n<tr>\n<td>3.46</td>\n</tr>\n<tr>\n<td>4.64</td>\n</tr>\n<tr>\n<td>4.22</td>\n</tr>\n<tr>\n<td>3.39</td>\n</tr>\n<tr>\n<td>3.95</td>\n</tr>\n<tr>\n<td>3.34</td>\n</tr>\n<tr>\n<td>3.32</td>\n</tr>\n<tr>\n<td>4.75</td>\n</tr>\n<tr>\n<td>4.84</td>\n</tr>\n<tr>\n<td>3.04</td>\n</tr>\n<tr>\n<td>4.71</td>\n</tr>\n</tbody>\n</table>\n<p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "ab5b2d06549e426f9be8418d61ff940e_A",
+        "label": "A",
+        "html": "3.9940",
+        "is_correct": true
+      },
+      {
+        "id": "ab5b2d06549e426f9be8418d61ff940e_B",
+        "label": "B",
+        "html": "4.0950",
+        "is_correct": false
+      },
+      {
+        "id": "ab5b2d06549e426f9be8418d61ff940e_C",
+        "label": "C",
+        "html": "4.0442",
+        "is_correct": false
+      },
+      {
+        "id": "ab5b2d06549e426f9be8418d61ff940e_D",
+        "label": "D",
+        "html": "3.9495",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ab5b2d06549e426f9be8418d61ff940e_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "30226a2aa7db1ffc1a515852dc16ca15",
+    "title": "Question 18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows enzyme activity rates (µmol/min) for 20 samples in a biochemistry assay. What is the mean activity rate? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>4.22</td></tr>\n<tr><td>7.22</td></tr>\n<tr><td>5.76</td></tr>\n<tr><td>5.91</td></tr>\n<tr><td>6.91</td></tr>\n<tr><td>1.17</td></tr>\n<tr><td>5.77</td></tr>\n<tr><td>4.71</td></tr>\n<tr><td>0.89</td></tr>\n<tr><td>2.51</td></tr>\n<tr><td>5.6</td></tr>\n<tr><td>4.35</td></tr>\n<tr><td>4.57</td></tr>\n<tr><td>2.72</td></tr>\n<tr><td>4.6</td></tr>\n<tr><td>6.69</td></tr>\n<tr><td>7.37</td></tr>\n<tr><td>4.5</td></tr>\n<tr><td>5.7</td></tr>\n<tr><td>1.38</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "30226a2aa7db1ffc1a515852dc16ca15_A",
+        "label": "A",
+        "html": "4.6275",
+        "is_correct": true
+      },
+      {
+        "id": "30226a2aa7db1ffc1a515852dc16ca15_B",
+        "label": "B",
+        "html": "4.6550",
+        "is_correct": false
+      },
+      {
+        "id": "30226a2aa7db1ffc1a515852dc16ca15_C",
+        "label": "C",
+        "html": "4.8242",
+        "is_correct": false
+      },
+      {
+        "id": "30226a2aa7db1ffc1a515852dc16ca15_D",
+        "label": "D",
+        "html": "4.4832",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "30226a2aa7db1ffc1a515852dc16ca15_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "2b0a58ccf775be1b897e644afad91f3d",
+    "title": "Question 17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows body temperatures (°C) measured to one decimal place for 20 patients during a clinic visit. What is the mean body temperature? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>36.4</td></tr>\n<tr><td>38.3</td></tr>\n<tr><td>36.7</td></tr>\n<tr><td>36.4</td></tr>\n<tr><td>37.1</td></tr>\n<tr><td>36.2</td></tr>\n<tr><td>36.3</td></tr>\n<tr><td>37.9</td></tr>\n<tr><td>36.3</td></tr>\n<tr><td>37.3</td></tr>\n<tr><td>38.1</td></tr>\n<tr><td>37.1</td></tr>\n<tr><td>38.0</td></tr>\n<tr><td>38.0</td></tr>\n<tr><td>36.5</td></tr>\n<tr><td>36.3</td></tr>\n<tr><td>37.9</td></tr>\n<tr><td>38.1</td></tr>\n<tr><td>38.1</td></tr>\n<tr><td>37.7</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "2b0a58ccf775be1b897e644afad91f3d_A",
+        "label": "A",
+        "html": "37.2350",
+        "is_correct": true
+      },
+      {
+        "id": "2b0a58ccf775be1b897e644afad91f3d_B",
+        "label": "B",
+        "html": "37.2000",
+        "is_correct": false
+      },
+      {
+        "id": "2b0a58ccf775be1b897e644afad91f3d_C",
+        "label": "C",
+        "html": "37.2895",
+        "is_correct": false
+      },
+      {
+        "id": "2b0a58ccf775be1b897e644afad91f3d_D",
+        "label": "D",
+        "html": "37.1789",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2b0a58ccf775be1b897e644afad91f3d_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "7d0c370c631e364ee7e11beb7eb46e03",
+    "title": "Question 16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows unemployment durations (weeks) for 20 individuals filing for benefits. What is the mean unemployment duration? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>19</td></tr>\n<tr><td>26</td></tr>\n<tr><td>9</td></tr>\n<tr><td>11</td></tr>\n<tr><td>34</td></tr>\n<tr><td>32</td></tr>\n<tr><td>20</td></tr>\n<tr><td>15</td></tr>\n<tr><td>27</td></tr>\n<tr><td>34</td></tr>\n<tr><td>3</td></tr>\n<tr><td>4</td></tr>\n<tr><td>34</td></tr>\n<tr><td>7</td></tr>\n<tr><td>1</td></tr>\n<tr><td>32</td></tr>\n<tr><td>19</td></tr>\n<tr><td>30</td></tr>\n<tr><td>24</td></tr>\n<tr><td>19</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "7d0c370c631e364ee7e11beb7eb46e03_A",
+        "label": "A",
+        "html": "20.0000",
+        "is_correct": true
+      },
+      {
+        "id": "7d0c370c631e364ee7e11beb7eb46e03_B",
+        "label": "B",
+        "html": "19.5000",
+        "is_correct": false
+      },
+      {
+        "id": "7d0c370c631e364ee7e11beb7eb46e03_C",
+        "label": "C",
+        "html": "21.0000",
+        "is_correct": false
+      },
+      {
+        "id": "7d0c370c631e364ee7e11beb7eb46e03_D",
+        "label": "D",
+        "html": "19.2632",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7d0c370c631e364ee7e11beb7eb46e03_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "57ba758e6016e71bb9cefaca8b732cb3",
+    "title": "Question 15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows the number of correct responses (out of 50) for 20 participants on a memory test. What is the mean number of correct responses? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>41</td></tr>\n<tr><td>48</td></tr>\n<tr><td>20</td></tr>\n<tr><td>42</td></tr>\n<tr><td>20</td></tr>\n<tr><td>40</td></tr>\n<tr><td>21</td></tr>\n<tr><td>32</td></tr>\n<tr><td>18</td></tr>\n<tr><td>42</td></tr>\n<tr><td>26</td></tr>\n<tr><td>49</td></tr>\n<tr><td>43</td></tr>\n<tr><td>24</td></tr>\n<tr><td>29</td></tr>\n<tr><td>44</td></tr>\n<tr><td>46</td></tr>\n<tr><td>35</td></tr>\n<tr><td>41</td></tr>\n<tr><td>31</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "57ba758e6016e71bb9cefaca8b732cb3_A",
+        "label": "A",
+        "html": "34.6000",
+        "is_correct": true
+      },
+      {
+        "id": "57ba758e6016e71bb9cefaca8b732cb3_B",
+        "label": "B",
+        "html": "37.5000",
+        "is_correct": false
+      },
+      {
+        "id": "57ba758e6016e71bb9cefaca8b732cb3_C",
+        "label": "C",
+        "html": "35.4737",
+        "is_correct": false
+      },
+      {
+        "id": "57ba758e6016e71bb9cefaca8b732cb3_D",
+        "label": "D",
+        "html": "33.8421",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "57ba758e6016e71bb9cefaca8b732cb3_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "9ea1e719322692443b4afbcd4c0dc4ca",
+    "title": "Question 14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows fish lengths (centimeters) for 20 trout sampled from a lake. What is the mean fish length? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>37.4</td></tr>\n<tr><td>19.7</td></tr>\n<tr><td>29.3</td></tr>\n<tr><td>13.6</td></tr>\n<tr><td>41.1</td></tr>\n<tr><td>16.6</td></tr>\n<tr><td>31.5</td></tr>\n<tr><td>33.7</td></tr>\n<tr><td>33.1</td></tr>\n<tr><td>34.3</td></tr>\n<tr><td>24.3</td></tr>\n<tr><td>37.9</td></tr>\n<tr><td>42.5</td></tr>\n<tr><td>32.2</td></tr>\n<tr><td>43.8</td></tr>\n<tr><td>39.7</td></tr>\n<tr><td>14.3</td></tr>\n<tr><td>34.0</td></tr>\n<tr><td>15.4</td></tr>\n<tr><td>33.7</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "9ea1e719322692443b4afbcd4c0dc4ca_A",
+        "label": "A",
+        "html": "30.4050",
+        "is_correct": true
+      },
+      {
+        "id": "9ea1e719322692443b4afbcd4c0dc4ca_B",
+        "label": "B",
+        "html": "33.4000",
+        "is_correct": false
+      },
+      {
+        "id": "9ea1e719322692443b4afbcd4c0dc4ca_C",
+        "label": "C",
+        "html": "31.2895",
+        "is_correct": false
+      },
+      {
+        "id": "9ea1e719322692443b4afbcd4c0dc4ca_D",
+        "label": "D",
+        "html": "29.7000",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9ea1e719322692443b4afbcd4c0dc4ca_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "aa9899fd14cfd33f9cce5eccbf755f6b",
+    "title": "Question 13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows LDL cholesterol levels (mg/dL) for 20 clinic patients. What is the mean LDL cholesterol level? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>145</td></tr>\n<tr><td>68</td></tr>\n<tr><td>121</td></tr>\n<tr><td>138</td></tr>\n<tr><td>159</td></tr>\n<tr><td>121</td></tr>\n<tr><td>180</td></tr>\n<tr><td>122</td></tr>\n<tr><td>111</td></tr>\n<tr><td>164</td></tr>\n<tr><td>98</td></tr>\n<tr><td>102</td></tr>\n<tr><td>186</td></tr>\n<tr><td>172</td></tr>\n<tr><td>184</td></tr>\n<tr><td>109</td></tr>\n<tr><td>130</td></tr>\n<tr><td>66</td></tr>\n<tr><td>108</td></tr>\n<tr><td>144</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "aa9899fd14cfd33f9cce5eccbf755f6b_A",
+        "label": "A",
+        "html": "131.4000",
+        "is_correct": true
+      },
+      {
+        "id": "aa9899fd14cfd33f9cce5eccbf755f6b_B",
+        "label": "B",
+        "html": "126.0000",
+        "is_correct": false
+      },
+      {
+        "id": "aa9899fd14cfd33f9cce5eccbf755f6b_C",
+        "label": "C",
+        "html": "134.8421",
+        "is_correct": false
+      },
+      {
+        "id": "aa9899fd14cfd33f9cce5eccbf755f6b_D",
+        "label": "D",
+        "html": "128.5263",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "aa9899fd14cfd33f9cce5eccbf755f6b_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "b28f394c827c7da53551f6a1e6ca495d",
+    "title": "Question 12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows annual household incomes (thousands of US dollars) for 20 households in a neighborhood. What is the mean annual household income? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>102.7</td></tr>\n<tr><td>129.4</td></tr>\n<tr><td>92.2</td></tr>\n<tr><td>129.4</td></tr>\n<tr><td>73.3</td></tr>\n<tr><td>47.7</td></tr>\n<tr><td>40.7</td></tr>\n<tr><td>62.4</td></tr>\n<tr><td>85.4</td></tr>\n<tr><td>128.7</td></tr>\n<tr><td>63.2</td></tr>\n<tr><td>57.3</td></tr>\n<tr><td>103.7</td></tr>\n<tr><td>71.9</td></tr>\n<tr><td>88.0</td></tr>\n<tr><td>49.4</td></tr>\n<tr><td>116.1</td></tr>\n<tr><td>122.3</td></tr>\n<tr><td>106.7</td></tr>\n<tr><td>123.9</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "b28f394c827c7da53551f6a1e6ca495d_A",
+        "label": "A",
+        "html": "89.7200",
+        "is_correct": true
+      },
+      {
+        "id": "b28f394c827c7da53551f6a1e6ca495d_B",
+        "label": "B",
+        "html": "90.1000",
+        "is_correct": false
+      },
+      {
+        "id": "b28f394c827c7da53551f6a1e6ca495d_C",
+        "label": "C",
+        "html": "92.3000",
+        "is_correct": false
+      },
+      {
+        "id": "b28f394c827c7da53551f6a1e6ca495d_D",
+        "label": "D",
+        "html": "87.6316",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b28f394c827c7da53551f6a1e6ca495d_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "b3738d7c7da203f681c5930930cbcd54",
+    "title": "Question 11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows Beck Anxiety Inventory scores (0–63) for 20 adult participants. What is the mean anxiety score? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>36</td></tr>\n<tr><td>35</td></tr>\n<tr><td>17</td></tr>\n<tr><td>9</td></tr>\n<tr><td>40</td></tr>\n<tr><td>36</td></tr>\n<tr><td>3</td></tr>\n<tr><td>24</td></tr>\n<tr><td>35</td></tr>\n<tr><td>11</td></tr>\n<tr><td>39</td></tr>\n<tr><td>45</td></tr>\n<tr><td>33</td></tr>\n<tr><td>11</td></tr>\n<tr><td>10</td></tr>\n<tr><td>10</td></tr>\n<tr><td>5</td></tr>\n<tr><td>31</td></tr>\n<tr><td>42</td></tr>\n<tr><td>39</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "b3738d7c7da203f681c5930930cbcd54_A",
+        "label": "A",
+        "html": "25.5500",
+        "is_correct": true
+      },
+      {
+        "id": "b3738d7c7da203f681c5930930cbcd54_B",
+        "label": "B",
+        "html": "32.0000",
+        "is_correct": false
+      },
+      {
+        "id": "b3738d7c7da203f681c5930930cbcd54_C",
+        "label": "C",
+        "html": "26.7368",
+        "is_correct": false
+      },
+      {
+        "id": "b3738d7c7da203f681c5930930cbcd54_D",
+        "label": "D",
+        "html": "24.5263",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b3738d7c7da203f681c5930930cbcd54_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "562fda177d71680f4a8468a983143842",
+    "title": "Question 10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows plant heights (centimeters) for 20 greenhouse-grown tomato plants. What is the mean plant height? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>49.6</td></tr>\n<tr><td>70.0</td></tr>\n<tr><td>39.6</td></tr>\n<tr><td>69.1</td></tr>\n<tr><td>53.7</td></tr>\n<tr><td>45.8</td></tr>\n<tr><td>44.4</td></tr>\n<tr><td>43.3</td></tr>\n<tr><td>73.4</td></tr>\n<tr><td>37.0</td></tr>\n<tr><td>44.1</td></tr>\n<tr><td>42.0</td></tr>\n<tr><td>40.2</td></tr>\n<tr><td>70.0</td></tr>\n<tr><td>62.5</td></tr>\n<tr><td>66.6</td></tr>\n<tr><td>78.8</td></tr>\n<tr><td>55.3</td></tr>\n<tr><td>34.0</td></tr>\n<tr><td>41.8</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "562fda177d71680f4a8468a983143842_A",
+        "label": "A",
+        "html": "53.0600",
+        "is_correct": true
+      },
+      {
+        "id": "562fda177d71680f4a8468a983143842_B",
+        "label": "B",
+        "html": "47.7000",
+        "is_correct": false
+      },
+      {
+        "id": "562fda177d71680f4a8468a983143842_C",
+        "label": "C",
+        "html": "54.0632",
+        "is_correct": false
+      },
+      {
+        "id": "562fda177d71680f4a8468a983143842_D",
+        "label": "D",
+        "html": "51.7053",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "562fda177d71680f4a8468a983143842_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "574a772426dac59a258aa0c83cf1e575",
+    "title": "Question 9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows fasting blood glucose levels (mg/dL) for 20 patients. What is the mean fasting blood glucose? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>131</td></tr>\n<tr><td>151</td></tr>\n<tr><td>79</td></tr>\n<tr><td>73</td></tr>\n<tr><td>124</td></tr>\n<tr><td>129</td></tr>\n<tr><td>107</td></tr>\n<tr><td>150</td></tr>\n<tr><td>90</td></tr>\n<tr><td>134</td></tr>\n<tr><td>153</td></tr>\n<tr><td>79</td></tr>\n<tr><td>76</td></tr>\n<tr><td>106</td></tr>\n<tr><td>149</td></tr>\n<tr><td>153</td></tr>\n<tr><td>87</td></tr>\n<tr><td>83</td></tr>\n<tr><td>151</td></tr>\n<tr><td>129</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "574a772426dac59a258aa0c83cf1e575_A",
+        "label": "A",
+        "html": "116.7000",
+        "is_correct": true
+      },
+      {
+        "id": "574a772426dac59a258aa0c83cf1e575_B",
+        "label": "B",
+        "html": "126.5000",
+        "is_correct": false
+      },
+      {
+        "id": "574a772426dac59a258aa0c83cf1e575_C",
+        "label": "C",
+        "html": "119.0000",
+        "is_correct": false
+      },
+      {
+        "id": "574a772426dac59a258aa0c83cf1e575_D",
+        "label": "D",
+        "html": "114.7895",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "574a772426dac59a258aa0c83cf1e575_A"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "c6116d47ce02c7e899622076df359a9d",
+    "title": "Question 8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows daily revenue (thousands of US dollars) for 20 retail stores on the same day. What is the mean daily revenue? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>9.26</td></tr>\n<tr><td>8.11</td></tr>\n<tr><td>3.8</td></tr>\n<tr><td>8.07</td></tr>\n<tr><td>5.75</td></tr>\n<tr><td>9.39</td></tr>\n<tr><td>9.99</td></tr>\n<tr><td>4.96</td></tr>\n<tr><td>6.94</td></tr>\n<tr><td>7.14</td></tr>\n<tr><td>5.53</td></tr>\n<tr><td>2.91</td></tr>\n<tr><td>3.01</td></tr>\n<tr><td>12.63</td></tr>\n<tr><td>10.05</td></tr>\n<tr><td>6.98</td></tr>\n<tr><td>9.3</td></tr>\n<tr><td>5.24</td></tr>\n<tr><td>9.75</td></tr>\n<tr><td>12.2</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "c6116d47ce02c7e899622076df359a9d_A",
+        "label": "A",
+        "html": "7.5505",
+        "is_correct": true
+      },
+      {
+        "id": "c6116d47ce02c7e899622076df359a9d_B",
+        "label": "B",
+        "html": "7.6050",
+        "is_correct": false
+      },
+      {
+        "id": "c6116d47ce02c7e899622076df359a9d_C",
+        "label": "C",
+        "html": "7.7947",
+        "is_correct": false
+      },
+      {
+        "id": "c6116d47ce02c7e899622076df359a9d_D",
+        "label": "D",
+        "html": "7.2832",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c6116d47ce02c7e899622076df359a9d_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "ebbfd7f5799635d787c608d4ce881dfd",
+    "title": "Question 7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows nightly sleep durations (hours) for 20 college students during exam week. What is the mean sleep duration? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>6.7</td></tr>\n<tr><td>6.6</td></tr>\n<tr><td>5.6</td></tr>\n<tr><td>8.8</td></tr>\n<tr><td>5.3</td></tr>\n<tr><td>7.4</td></tr>\n<tr><td>8.5</td></tr>\n<tr><td>5.9</td></tr>\n<tr><td>4.1</td></tr>\n<tr><td>5.0</td></tr>\n<tr><td>4.2</td></tr>\n<tr><td>4.6</td></tr>\n<tr><td>4.4</td></tr>\n<tr><td>5.6</td></tr>\n<tr><td>5.8</td></tr>\n<tr><td>6.2</td></tr>\n<tr><td>7.3</td></tr>\n<tr><td>7.4</td></tr>\n<tr><td>7.4</td></tr>\n<tr><td>5.7</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "ebbfd7f5799635d787c608d4ce881dfd_A",
+        "label": "A",
+        "html": "6.1250",
+        "is_correct": true
+      },
+      {
+        "id": "ebbfd7f5799635d787c608d4ce881dfd_B",
+        "label": "B",
+        "html": "5.8500",
+        "is_correct": false
+      },
+      {
+        "id": "ebbfd7f5799635d787c608d4ce881dfd_C",
+        "label": "C",
+        "html": "6.2316",
+        "is_correct": false
+      },
+      {
+        "id": "ebbfd7f5799635d787c608d4ce881dfd_D",
+        "label": "D",
+        "html": "5.9842",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ebbfd7f5799635d787c608d4ce881dfd_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "bc4e8574e6a1be424378537b53bdf706",
+    "title": "Question 6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows leaf nitrogen content (%) for 20 sampled leaves from a stand of oak trees. What is the mean nitrogen content? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>1.44</td></tr>\n<tr><td>3.64</td></tr>\n<tr><td>1.85</td></tr>\n<tr><td>1.73</td></tr>\n<tr><td>1.49</td></tr>\n<tr><td>3.75</td></tr>\n<tr><td>3.54</td></tr>\n<tr><td>2.03</td></tr>\n<tr><td>1.45</td></tr>\n<tr><td>2.9</td></tr>\n<tr><td>3.51</td></tr>\n<tr><td>1.23</td></tr>\n<tr><td>2.85</td></tr>\n<tr><td>3.43</td></tr>\n<tr><td>2.39</td></tr>\n<tr><td>2.68</td></tr>\n<tr><td>3.29</td></tr>\n<tr><td>1.82</td></tr>\n<tr><td>1.91</td></tr>\n<tr><td>2.92</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "bc4e8574e6a1be424378537b53bdf706_A",
+        "label": "A",
+        "html": "2.4925",
+        "is_correct": true
+      },
+      {
+        "id": "bc4e8574e6a1be424378537b53bdf706_B",
+        "label": "B",
+        "html": "2.5350",
+        "is_correct": false
+      },
+      {
+        "id": "bc4e8574e6a1be424378537b53bdf706_C",
+        "label": "C",
+        "html": "2.5589",
+        "is_correct": false
+      },
+      {
+        "id": "bc4e8574e6a1be424378537b53bdf706_D",
+        "label": "D",
+        "html": "2.4263",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "bc4e8574e6a1be424378537b53bdf706_A"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "b07b79056c34a72bf31701c2cf50f9d9",
+    "title": "Question 5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows systolic blood pressure readings (mmHg) for 20 patients at baseline. What is the mean systolic blood pressure? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>113</td></tr>\n<tr><td>156</td></tr>\n<tr><td>115</td></tr>\n<tr><td>120</td></tr>\n<tr><td>123</td></tr>\n<tr><td>155</td></tr>\n<tr><td>115</td></tr>\n<tr><td>108</td></tr>\n<tr><td>117</td></tr>\n<tr><td>137</td></tr>\n<tr><td>141</td></tr>\n<tr><td>146</td></tr>\n<tr><td>106</td></tr>\n<tr><td>105</td></tr>\n<tr><td>142</td></tr>\n<tr><td>157</td></tr>\n<tr><td>105</td></tr>\n<tr><td>122</td></tr>\n<tr><td>133</td></tr>\n<tr><td>139</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "b07b79056c34a72bf31701c2cf50f9d9_A",
+        "label": "A",
+        "html": "127.7500",
+        "is_correct": true
+      },
+      {
+        "id": "b07b79056c34a72bf31701c2cf50f9d9_B",
+        "label": "B",
+        "html": "122.5000",
+        "is_correct": false
+      },
+      {
+        "id": "b07b79056c34a72bf31701c2cf50f9d9_C",
+        "label": "C",
+        "html": "128.9474",
+        "is_correct": false
+      },
+      {
+        "id": "b07b79056c34a72bf31701c2cf50f9d9_D",
+        "label": "D",
+        "html": "126.2105",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b07b79056c34a72bf31701c2cf50f9d9_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "91604298fdd7fa13bdb61f975f5b04eb",
+    "title": "Question 4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows weekly grocery spending (US dollars) for 20 households. What is the mean weekly grocery spending? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>100.22</td></tr>\n<tr><td>174.07</td></tr>\n<tr><td>119.51</td></tr>\n<tr><td>208.62</td></tr>\n<tr><td>183.87</td></tr>\n<tr><td>194.26</td></tr>\n<tr><td>144.5</td></tr>\n<tr><td>83.28</td></tr>\n<tr><td>186.27</td></tr>\n<tr><td>135.59</td></tr>\n<tr><td>189.97</td></tr>\n<tr><td>85.54</td></tr>\n<tr><td>138.65</td></tr>\n<tr><td>190.7</td></tr>\n<tr><td>202.96</td></tr>\n<tr><td>68.02</td></tr>\n<tr><td>145.5</td></tr>\n<tr><td>139.2</td></tr>\n<tr><td>164.73</td></tr>\n<tr><td>125.22</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "91604298fdd7fa13bdb61f975f5b04eb_A",
+        "label": "A",
+        "html": "149.0340",
+        "is_correct": true
+      },
+      {
+        "id": "91604298fdd7fa13bdb61f975f5b04eb_B",
+        "label": "B",
+        "html": "145.0000",
+        "is_correct": false
+      },
+      {
+        "id": "91604298fdd7fa13bdb61f975f5b04eb_C",
+        "label": "C",
+        "html": "153.2979",
+        "is_correct": false
+      },
+      {
+        "id": "91604298fdd7fa13bdb61f975f5b04eb_D",
+        "label": "D",
+        "html": "145.8979",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "91604298fdd7fa13bdb61f975f5b04eb_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "5d2548e00929e5766bdbb5754117fca3",
+    "title": "Question 3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows reaction times (milliseconds) for 20 participants on a cognitive task. What is the mean reaction time? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>323</td></tr>\n<tr><td>766</td></tr>\n<tr><td>557</td></tr>\n<tr><td>430</td></tr>\n<tr><td>593</td></tr>\n<tr><td>368</td></tr>\n<tr><td>496</td></tr>\n<tr><td>727</td></tr>\n<tr><td>331</td></tr>\n<tr><td>509</td></tr>\n<tr><td>680</td></tr>\n<tr><td>504</td></tr>\n<tr><td>324</td></tr>\n<tr><td>454</td></tr>\n<tr><td>608</td></tr>\n<tr><td>739</td></tr>\n<tr><td>398</td></tr>\n<tr><td>337</td></tr>\n<tr><td>541</td></tr>\n<tr><td>412</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "5d2548e00929e5766bdbb5754117fca3_A",
+        "label": "A",
+        "html": "504.8500",
+        "is_correct": true
+      },
+      {
+        "id": "5d2548e00929e5766bdbb5754117fca3_B",
+        "label": "B",
+        "html": "500.0000",
+        "is_correct": false
+      },
+      {
+        "id": "5d2548e00929e5766bdbb5754117fca3_C",
+        "label": "C",
+        "html": "514.4211",
+        "is_correct": false
+      },
+      {
+        "id": "5d2548e00929e5766bdbb5754117fca3_D",
+        "label": "D",
+        "html": "491.1053",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5d2548e00929e5766bdbb5754117fca3_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "5f314e00d454f388e3a6fbc470a4d68f",
+    "title": "Question 2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows the body masses (grams) of 20 adult lab mice in a nutrition experiment. What is the mean body mass? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>19.7</td></tr>\n<tr><td>29.2</td></tr>\n<tr><td>23.6</td></tr>\n<tr><td>25.1</td></tr>\n<tr><td>23.0</td></tr>\n<tr><td>27.4</td></tr>\n<tr><td>24.1</td></tr>\n<tr><td>21.4</td></tr>\n<tr><td>24.5</td></tr>\n<tr><td>22.7</td></tr>\n<tr><td>20.0</td></tr>\n<tr><td>29.9</td></tr>\n<tr><td>28.0</td></tr>\n<tr><td>27.7</td></tr>\n<tr><td>30.8</td></tr>\n<tr><td>24.0</td></tr>\n<tr><td>23.8</td></tr>\n<tr><td>24.4</td></tr>\n<tr><td>24.1</td></tr>\n<tr><td>27.8</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "5f314e00d454f388e3a6fbc470a4d68f_A",
+        "label": "A",
+        "html": "25.0600",
+        "is_correct": true
+      },
+      {
+        "id": "5f314e00d454f388e3a6fbc470a4d68f_B",
+        "label": "B",
+        "html": "24.2500",
+        "is_correct": false
+      },
+      {
+        "id": "5f314e00d454f388e3a6fbc470a4d68f_C",
+        "label": "C",
+        "html": "25.3421",
+        "is_correct": false
+      },
+      {
+        "id": "5f314e00d454f388e3a6fbc470a4d68f_D",
+        "label": "D",
+        "html": "24.7579",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5f314e00d454f388e3a6fbc470a4d68f_A"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "425ef55f236dd631d4ffd8559cf6ff92",
+    "title": "Question 1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The table shows the resting heart rates (beats per minute) for 20 adult patients in a clinical study. What is the mean resting heart rate? Round your answer to 4 decimal places.</p><table>\n<thead><tr><th>Data</th></tr></thead>\n<tbody>\n<tr><td>92</td></tr>\n<tr><td>67</td></tr>\n<tr><td>89</td></tr>\n<tr><td>77</td></tr>\n<tr><td>84</td></tr>\n<tr><td>58</td></tr>\n<tr><td>97</td></tr>\n<tr><td>87</td></tr>\n<tr><td>68</td></tr>\n<tr><td>93</td></tr>\n<tr><td>69</td></tr>\n<tr><td>73</td></tr>\n<tr><td>86</td></tr>\n<tr><td>68</td></tr>\n<tr><td>76</td></tr>\n<tr><td>83</td></tr>\n<tr><td>59</td></tr>\n<tr><td>71</td></tr>\n<tr><td>67</td></tr>\n<tr><td>65</td></tr>\n</tbody>\n</table><p>Choose one answer.</p>",
+    "choices": [
+      {
+        "id": "425ef55f236dd631d4ffd8559cf6ff92_A",
+        "label": "A",
+        "html": "76.4500",
+        "is_correct": true
+      },
+      {
+        "id": "425ef55f236dd631d4ffd8559cf6ff92_B",
+        "label": "B",
+        "html": "74.5000",
+        "is_correct": false
+      },
+      {
+        "id": "425ef55f236dd631d4ffd8559cf6ff92_C",
+        "label": "C",
+        "html": "77.4211",
+        "is_correct": false
+      },
+      {
+        "id": "425ef55f236dd631d4ffd8559cf6ff92_D",
+        "label": "D",
+        "html": "75.3684",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "425ef55f236dd631d4ffd8559cf6ff92_A"
+    ]
+  }
+]

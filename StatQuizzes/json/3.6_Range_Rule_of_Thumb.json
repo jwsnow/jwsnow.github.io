@@ -1,0 +1,662 @@
+[
+  {
+    "index": 1,
+    "ident": "d14fc7fb1d7865c77f2943483c9f31d9",
+    "title": "Question 20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on lengths (centimeters) of fish sampled from a lake. The mean is 85.8 and the standard deviation is 5.9. A data value of 104 is observed. Using the range rule of thumb, is this value significantly high, significantly low, or not significant?</p>",
+    "choices": [
+      {
+        "id": "d14fc7fb1d7865c77f2943483c9f31d9_A",
+        "label": "A",
+        "html": "Significantly high",
+        "is_correct": true
+      },
+      {
+        "id": "d14fc7fb1d7865c77f2943483c9f31d9_B",
+        "label": "B",
+        "html": "Significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "d14fc7fb1d7865c77f2943483c9f31d9_C",
+        "label": "C",
+        "html": "Not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d14fc7fb1d7865c77f2943483c9f31d9_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "ada552bde40cef08500299fc2bc3a5ea",
+    "title": "Question 19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on fasting blood glucose levels (mg/dL) for clinic patients. The mean is 50.8 and the standard deviation is 12.9. A data value of 69 is observed. Using the range rule of thumb, is this value significantly high, significantly low, or not significant?</p>",
+    "choices": [
+      {
+        "id": "ada552bde40cef08500299fc2bc3a5ea_A",
+        "label": "A",
+        "html": "Not significant",
+        "is_correct": true
+      },
+      {
+        "id": "ada552bde40cef08500299fc2bc3a5ea_B",
+        "label": "B",
+        "html": "Significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "ada552bde40cef08500299fc2bc3a5ea_C",
+        "label": "C",
+        "html": "Significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ada552bde40cef08500299fc2bc3a5ea_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "1afacc4095fb8472a4e9086e870dc0af",
+    "title": "Question 18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on gasoline prices (US dollars per gallon) across stations. The mean is 21.4 and the standard deviation is 9.2. A data value of 38.8 is observed. Using the range rule of thumb, is this value significantly high, significantly low, or not significant?</p>",
+    "choices": [
+      {
+        "id": "1afacc4095fb8472a4e9086e870dc0af_A",
+        "label": "A",
+        "html": "Not significant",
+        "is_correct": true
+      },
+      {
+        "id": "1afacc4095fb8472a4e9086e870dc0af_B",
+        "label": "B",
+        "html": "Significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "1afacc4095fb8472a4e9086e870dc0af_C",
+        "label": "C",
+        "html": "Significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1afacc4095fb8472a4e9086e870dc0af_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "928aed3b33906536255275eefb63443b",
+    "title": "Question 17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on reaction times (milliseconds) on a cognitive task. The mean is 68.1 and the standard deviation is 14.2. A data value of 123.7 is observed. Using the range rule of thumb, is this value significantly high, significantly low, or not significant?</p>",
+    "choices": [
+      {
+        "id": "928aed3b33906536255275eefb63443b_A",
+        "label": "A",
+        "html": "Significantly high",
+        "is_correct": true
+      },
+      {
+        "id": "928aed3b33906536255275eefb63443b_B",
+        "label": "B",
+        "html": "Significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "928aed3b33906536255275eefb63443b_C",
+        "label": "C",
+        "html": "Not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "928aed3b33906536255275eefb63443b_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "d9947075745cac8a4cc8c4d44d8611e4",
+    "title": "Question 16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on unemployment durations (weeks) for job seekers. The mean is 51.1 and the standard deviation is 14. A data value of 82.3 is observed. Using the range rule of thumb, is this value significantly high, significantly low, or not significant?</p>",
+    "choices": [
+      {
+        "id": "d9947075745cac8a4cc8c4d44d8611e4_A",
+        "label": "A",
+        "html": "Significantly high",
+        "is_correct": true
+      },
+      {
+        "id": "d9947075745cac8a4cc8c4d44d8611e4_B",
+        "label": "B",
+        "html": "Significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "d9947075745cac8a4cc8c4d44d8611e4_C",
+        "label": "C",
+        "html": "Not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d9947075745cac8a4cc8c4d44d8611e4_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "b19477a6da2337bea694a854c721277c",
+    "title": "Question 15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on weights (grams) of lab mice in a growth study. The mean is 79.1 and the standard deviation is 3.5. A data value of 75.4 is observed. Using the range rule of thumb, is this value significantly high, significantly low, or not significant?</p>",
+    "choices": [
+      {
+        "id": "b19477a6da2337bea694a854c721277c_A",
+        "label": "A",
+        "html": "Not significant",
+        "is_correct": true
+      },
+      {
+        "id": "b19477a6da2337bea694a854c721277c_B",
+        "label": "B",
+        "html": "Significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "b19477a6da2337bea694a854c721277c_C",
+        "label": "C",
+        "html": "Significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b19477a6da2337bea694a854c721277c_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "df031c0c034a52d9bb2e236185bee12c",
+    "title": "Question 14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on gasoline prices (US dollars per gallon) across stations. The mean is 31.7 and the standard deviation is 7.8. A data value of 47.2 is observed. Using the range rule of thumb, is this value significantly high, significantly low, or not significant?</p>",
+    "choices": [
+      {
+        "id": "df031c0c034a52d9bb2e236185bee12c_A",
+        "label": "A",
+        "html": "Not significant",
+        "is_correct": true
+      },
+      {
+        "id": "df031c0c034a52d9bb2e236185bee12c_B",
+        "label": "B",
+        "html": "Significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "df031c0c034a52d9bb2e236185bee12c_C",
+        "label": "C",
+        "html": "Significantly high",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "df031c0c034a52d9bb2e236185bee12c_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "aa8792f32b3e518a6c03705162105c35",
+    "title": "Question 13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on gasoline prices (US dollars per gallon) across stations. The mean is 16.3 and the standard deviation is 2.5. A data value of 9.9 is observed. Using the range rule of thumb, is this value significantly high, significantly low, or not significant?</p>",
+    "choices": [
+      {
+        "id": "aa8792f32b3e518a6c03705162105c35_A",
+        "label": "A",
+        "html": "Significantly low",
+        "is_correct": true
+      },
+      {
+        "id": "aa8792f32b3e518a6c03705162105c35_B",
+        "label": "B",
+        "html": "Significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "aa8792f32b3e518a6c03705162105c35_C",
+        "label": "C",
+        "html": "Not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "aa8792f32b3e518a6c03705162105c35_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "a18e441b8bca9f27d75059a8ff398619",
+    "title": "Question 12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on unemployment durations (weeks) for job seekers. The mean is 36.3 and the standard deviation is 5.9. A data value of 12.7 is observed. Using the range rule of thumb, is this value significantly high, significantly low, or not significant?</p>",
+    "choices": [
+      {
+        "id": "a18e441b8bca9f27d75059a8ff398619_A",
+        "label": "A",
+        "html": "Significantly low",
+        "is_correct": true
+      },
+      {
+        "id": "a18e441b8bca9f27d75059a8ff398619_B",
+        "label": "B",
+        "html": "Significantly high",
+        "is_correct": false
+      },
+      {
+        "id": "a18e441b8bca9f27d75059a8ff398619_C",
+        "label": "C",
+        "html": "Not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a18e441b8bca9f27d75059a8ff398619_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "0c261901fd44048840590e43005cba36",
+    "title": "Question 11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on systolic blood pressure readings (mmHg) for a sample of patients. The mean is 20.8 and the standard deviation is 1.3. A data value of 24 is observed. Using the range rule of thumb, is this value significantly high, significantly low, or not significant?</p>",
+    "choices": [
+      {
+        "id": "0c261901fd44048840590e43005cba36_A",
+        "label": "A",
+        "html": "Significantly high",
+        "is_correct": true
+      },
+      {
+        "id": "0c261901fd44048840590e43005cba36_B",
+        "label": "B",
+        "html": "Significantly low",
+        "is_correct": false
+      },
+      {
+        "id": "0c261901fd44048840590e43005cba36_C",
+        "label": "C",
+        "html": "Not significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0c261901fd44048840590e43005cba36_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "56080dddde4250beac40f51e921a4506",
+    "title": "Question 10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on enzyme activity rates (µmol/min) in a biochemistry assay. The mean is 47.7 and the standard deviation is 8. Using the range rule of thumb, what is the maximum usual value?</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "56080dddde4250beac40f51e921a4506_A",
+        "label": "A",
+        "html": "63.7",
+        "is_correct": true
+      },
+      {
+        "id": "56080dddde4250beac40f51e921a4506_B",
+        "label": "B",
+        "html": "55.7",
+        "is_correct": false
+      },
+      {
+        "id": "56080dddde4250beac40f51e921a4506_C",
+        "label": "C",
+        "html": "71.7",
+        "is_correct": false
+      },
+      {
+        "id": "56080dddde4250beac40f51e921a4506_D",
+        "label": "D",
+        "html": "31.7",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "56080dddde4250beac40f51e921a4506_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "3295e59b049bc269aa4e63783816952a",
+    "title": "Question 9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on fasting blood glucose levels (mg/dL) for clinic patients. The mean is 46.3 and the standard deviation is 4.1. Using the range rule of thumb, what is the minimum usual value?</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "3295e59b049bc269aa4e63783816952a_A",
+        "label": "A",
+        "html": "38.1",
+        "is_correct": true
+      },
+      {
+        "id": "3295e59b049bc269aa4e63783816952a_B",
+        "label": "B",
+        "html": "42.2",
+        "is_correct": false
+      },
+      {
+        "id": "3295e59b049bc269aa4e63783816952a_C",
+        "label": "C",
+        "html": "34.0",
+        "is_correct": false
+      },
+      {
+        "id": "3295e59b049bc269aa4e63783816952a_D",
+        "label": "D",
+        "html": "54.5",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3295e59b049bc269aa4e63783816952a_A"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "b884d4b082bff7be0fc5f990fe2c90dd",
+    "title": "Question 8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on unemployment durations (weeks) for job seekers. The mean is 93.8 and the standard deviation is 9.3. Using the range rule of thumb, what is the minimum usual value?</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "b884d4b082bff7be0fc5f990fe2c90dd_A",
+        "label": "A",
+        "html": "75.2",
+        "is_correct": true
+      },
+      {
+        "id": "b884d4b082bff7be0fc5f990fe2c90dd_B",
+        "label": "B",
+        "html": "84.5",
+        "is_correct": false
+      },
+      {
+        "id": "b884d4b082bff7be0fc5f990fe2c90dd_C",
+        "label": "C",
+        "html": "65.9",
+        "is_correct": false
+      },
+      {
+        "id": "b884d4b082bff7be0fc5f990fe2c90dd_D",
+        "label": "D",
+        "html": "112.4",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b884d4b082bff7be0fc5f990fe2c90dd_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "317bcc888817e52ae8a33c6094ee7d0b",
+    "title": "Question 7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on daily sales (US dollars) at a small shop. The mean is 63.1 and the standard deviation is 9.9. Using the range rule of thumb, what is the maximum usual value?</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "317bcc888817e52ae8a33c6094ee7d0b_A",
+        "label": "A",
+        "html": "82.9",
+        "is_correct": true
+      },
+      {
+        "id": "317bcc888817e52ae8a33c6094ee7d0b_B",
+        "label": "B",
+        "html": "73.0",
+        "is_correct": false
+      },
+      {
+        "id": "317bcc888817e52ae8a33c6094ee7d0b_C",
+        "label": "C",
+        "html": "92.8",
+        "is_correct": false
+      },
+      {
+        "id": "317bcc888817e52ae8a33c6094ee7d0b_D",
+        "label": "D",
+        "html": "43.3",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "317bcc888817e52ae8a33c6094ee7d0b_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "ab4883ac18eb8bcd72259b0b9c8330f0",
+    "title": "Question 6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on resting heart rates (beats per minute) for adult participants. The mean is 47.9 and the standard deviation is 8.3. Using the range rule of thumb, what is the minimum usual value?</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "ab4883ac18eb8bcd72259b0b9c8330f0_A",
+        "label": "A",
+        "html": "31.3",
+        "is_correct": true
+      },
+      {
+        "id": "ab4883ac18eb8bcd72259b0b9c8330f0_B",
+        "label": "B",
+        "html": "39.6",
+        "is_correct": false
+      },
+      {
+        "id": "ab4883ac18eb8bcd72259b0b9c8330f0_C",
+        "label": "C",
+        "html": "23.0",
+        "is_correct": false
+      },
+      {
+        "id": "ab4883ac18eb8bcd72259b0b9c8330f0_D",
+        "label": "D",
+        "html": "64.5",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ab4883ac18eb8bcd72259b0b9c8330f0_A"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "608885fcb573ac8ccaf8571e5585d571",
+    "title": "Question 5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on unemployment durations (weeks) for job seekers. The mean is 23.5 and the standard deviation is 11.2. Using the range rule of thumb, what is the minimum usual value?</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "608885fcb573ac8ccaf8571e5585d571_A",
+        "label": "A",
+        "html": "1.1",
+        "is_correct": true
+      },
+      {
+        "id": "608885fcb573ac8ccaf8571e5585d571_B",
+        "label": "B",
+        "html": "12.3",
+        "is_correct": false
+      },
+      {
+        "id": "608885fcb573ac8ccaf8571e5585d571_C",
+        "label": "C",
+        "html": "-10.1",
+        "is_correct": false
+      },
+      {
+        "id": "608885fcb573ac8ccaf8571e5585d571_D",
+        "label": "D",
+        "html": "45.9",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "608885fcb573ac8ccaf8571e5585d571_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "ad689311b098990efc07b38f000eed55",
+    "title": "Question 4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on resting heart rates (beats per minute) for adult participants. The mean is 52 and the standard deviation is 10.1. Using the range rule of thumb, what is the minimum usual value?</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "ad689311b098990efc07b38f000eed55_A",
+        "label": "A",
+        "html": "31.8",
+        "is_correct": true
+      },
+      {
+        "id": "ad689311b098990efc07b38f000eed55_B",
+        "label": "B",
+        "html": "41.9",
+        "is_correct": false
+      },
+      {
+        "id": "ad689311b098990efc07b38f000eed55_C",
+        "label": "C",
+        "html": "21.7",
+        "is_correct": false
+      },
+      {
+        "id": "ad689311b098990efc07b38f000eed55_D",
+        "label": "D",
+        "html": "72.2",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ad689311b098990efc07b38f000eed55_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "fb057654ee3b6770150a6c6127de1d42",
+    "title": "Question 3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on gasoline prices (US dollars per gallon) across stations. The mean is 39.4 and the standard deviation is 11.9. Using the range rule of thumb, what is the maximum usual value?</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "fb057654ee3b6770150a6c6127de1d42_A",
+        "label": "A",
+        "html": "63.2",
+        "is_correct": true
+      },
+      {
+        "id": "fb057654ee3b6770150a6c6127de1d42_B",
+        "label": "B",
+        "html": "51.3",
+        "is_correct": false
+      },
+      {
+        "id": "fb057654ee3b6770150a6c6127de1d42_C",
+        "label": "C",
+        "html": "75.1",
+        "is_correct": false
+      },
+      {
+        "id": "fb057654ee3b6770150a6c6127de1d42_D",
+        "label": "D",
+        "html": "15.6",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "fb057654ee3b6770150a6c6127de1d42_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "ac92654c1b1f4a5c29de5e28232d1d1a",
+    "title": "Question 2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on mood ratings (1–10) after an intervention. The mean is 27.6 and the standard deviation is 11.8. Using the range rule of thumb, what is the minimum usual value?</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "ac92654c1b1f4a5c29de5e28232d1d1a_A",
+        "label": "A",
+        "html": "4",
+        "is_correct": true
+      },
+      {
+        "id": "ac92654c1b1f4a5c29de5e28232d1d1a_B",
+        "label": "B",
+        "html": "16",
+        "is_correct": false
+      },
+      {
+        "id": "ac92654c1b1f4a5c29de5e28232d1d1a_C",
+        "label": "C",
+        "html": "-8",
+        "is_correct": false
+      },
+      {
+        "id": "ac92654c1b1f4a5c29de5e28232d1d1a_D",
+        "label": "D",
+        "html": "51",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ac92654c1b1f4a5c29de5e28232d1d1a_A"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "cb948d2fcf140490deb4ef75a30b130c",
+    "title": "Question 1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question is based on fasting blood glucose levels (mg/dL) for clinic patients. The mean is 21.1 and the standard deviation is 14.1. Using the range rule of thumb, what is the maximum usual value?</p><div>Choose one answer.</div>",
+    "choices": [
+      {
+        "id": "cb948d2fcf140490deb4ef75a30b130c_A",
+        "label": "A",
+        "html": "49.3",
+        "is_correct": true
+      },
+      {
+        "id": "cb948d2fcf140490deb4ef75a30b130c_B",
+        "label": "B",
+        "html": "35.2",
+        "is_correct": false
+      },
+      {
+        "id": "cb948d2fcf140490deb4ef75a30b130c_C",
+        "label": "C",
+        "html": "63.4",
+        "is_correct": false
+      },
+      {
+        "id": "cb948d2fcf140490deb4ef75a30b130c_D",
+        "label": "D",
+        "html": "-7.1",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cb948d2fcf140490deb4ef75a30b130c_A"
+    ]
+  }
+]

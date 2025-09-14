@@ -1,0 +1,482 @@
+[
+  {
+    "index": 1,
+    "ident": "39c805043edd78125dad04580254ea4e",
+    "title": "Question 20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>An economist records the unemployment rate for each country in a given year. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "39c805043edd78125dad04580254ea4e_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": false
+      },
+      {
+        "id": "39c805043edd78125dad04580254ea4e_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "39c805043edd78125dad04580254ea4e_B"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "21fd74fdb1d23b413d83b1ee43e44550",
+    "title": "Question 19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A psychologist records the primary language spoken by each participant. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "21fd74fdb1d23b413d83b1ee43e44550_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": true
+      },
+      {
+        "id": "21fd74fdb1d23b413d83b1ee43e44550_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "21fd74fdb1d23b413d83b1ee43e44550_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "b1083a506abf65e67bfc0873940df907",
+    "title": "Question 18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A medical researcher records the cholesterol level of each participant in a clinical trial. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "b1083a506abf65e67bfc0873940df907_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": false
+      },
+      {
+        "id": "b1083a506abf65e67bfc0873940df907_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "b1083a506abf65e67bfc0873940df907_B"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "7c5995ae4dcdfdc67256f701e10b656b",
+    "title": "Question 17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A biologist measures the height of each plant grown in a greenhouse. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "7c5995ae4dcdfdc67256f701e10b656b_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": false
+      },
+      {
+        "id": "7c5995ae4dcdfdc67256f701e10b656b_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "7c5995ae4dcdfdc67256f701e10b656b_B"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "3fbf77d0851855497784c0d8101fdd5e",
+    "title": "Question 16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>An economist notes the currency used in each international transaction. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "3fbf77d0851855497784c0d8101fdd5e_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": true
+      },
+      {
+        "id": "3fbf77d0851855497784c0d8101fdd5e_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3fbf77d0851855497784c0d8101fdd5e_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "741c5847153d7027f674790302a55417",
+    "title": "Question 15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A psychologist records the age of each participant in a memory study. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "741c5847153d7027f674790302a55417_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": false
+      },
+      {
+        "id": "741c5847153d7027f674790302a55417_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "741c5847153d7027f674790302a55417_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "f3d5d0db0adb12607d8aeb56be0a8325",
+    "title": "Question 14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A medical researcher records whether or not each patient experienced side effects from a medication. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "f3d5d0db0adb12607d8aeb56be0a8325_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": true
+      },
+      {
+        "id": "f3d5d0db0adb12607d8aeb56be0a8325_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f3d5d0db0adb12607d8aeb56be0a8325_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "b6da16e51f6017dfa349633374149724",
+    "title": "Question 13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A biologist measures the mass of each sample of soil collected from a field. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "b6da16e51f6017dfa349633374149724_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": false
+      },
+      {
+        "id": "b6da16e51f6017dfa349633374149724_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "b6da16e51f6017dfa349633374149724_B"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "09c805f6d9835f360df34b0ccaf2b3e0",
+    "title": "Question 12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>An economist records the industry sector in which each company operates. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "09c805f6d9835f360df34b0ccaf2b3e0_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": true
+      },
+      {
+        "id": "09c805f6d9835f360df34b0ccaf2b3e0_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "09c805f6d9835f360df34b0ccaf2b3e0_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "04890d34ab76ab0fe196eae5ab0dd782",
+    "title": "Question 11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A psychologist measures the number of hours of sleep each person gets per night. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "04890d34ab76ab0fe196eae5ab0dd782_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": false
+      },
+      {
+        "id": "04890d34ab76ab0fe196eae5ab0dd782_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "04890d34ab76ab0fe196eae5ab0dd782_B"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "206b0ed49c3843fe66bb1329c370640d",
+    "title": "Question 10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A medical researcher records the blood type of each patient. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "206b0ed49c3843fe66bb1329c370640d_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": true
+      },
+      {
+        "id": "206b0ed49c3843fe66bb1329c370640d_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "206b0ed49c3843fe66bb1329c370640d_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "a9390f37846a1a6a12242e3bbc0fbaca",
+    "title": "Question 9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A biologist records the length of each fish caught in a lake. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "a9390f37846a1a6a12242e3bbc0fbaca_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": false
+      },
+      {
+        "id": "a9390f37846a1a6a12242e3bbc0fbaca_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "a9390f37846a1a6a12242e3bbc0fbaca_B"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "346261b880a2d7286df8741176e19fae",
+    "title": "Question 8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>An economist counts the number of employees at each company in a region. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "346261b880a2d7286df8741176e19fae_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": false
+      },
+      {
+        "id": "346261b880a2d7286df8741176e19fae_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "346261b880a2d7286df8741176e19fae_B"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "9e5a26a952c3598ba9861329a22675f4",
+    "title": "Question 7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A psychologist notes the personality type of each subject based on a standardized test. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "9e5a26a952c3598ba9861329a22675f4_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": true
+      },
+      {
+        "id": "9e5a26a952c3598ba9861329a22675f4_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9e5a26a952c3598ba9861329a22675f4_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "1c0042a80a75d7c02262950a8166b766",
+    "title": "Question 6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A medical study records the body temperature of each patient admitted to the hospital. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "1c0042a80a75d7c02262950a8166b766_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": false
+      },
+      {
+        "id": "1c0042a80a75d7c02262950a8166b766_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "1c0042a80a75d7c02262950a8166b766_B"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "25c0ad544d09d0e6490b9789aefe3d9e",
+    "title": "Question 5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A biologist classifies each bird observed in a wetland as male or female. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "25c0ad544d09d0e6490b9789aefe3d9e_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": true
+      },
+      {
+        "id": "25c0ad544d09d0e6490b9789aefe3d9e_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "25c0ad544d09d0e6490b9789aefe3d9e_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "9e4ad0a8d1b0b4e5b88e964db2e0cee4",
+    "title": "Question 4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>An economist measures the annual income of each household in a city. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "9e4ad0a8d1b0b4e5b88e964db2e0cee4_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": false
+      },
+      {
+        "id": "9e4ad0a8d1b0b4e5b88e964db2e0cee4_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "9e4ad0a8d1b0b4e5b88e964db2e0cee4_B"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "560c5a9ca7b40b7e5073e441079ac59f",
+    "title": "Question 3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A psychologist records whether each participant’s response to a question is “yes” or “no.” Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "560c5a9ca7b40b7e5073e441079ac59f_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": true
+      },
+      {
+        "id": "560c5a9ca7b40b7e5073e441079ac59f_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "560c5a9ca7b40b7e5073e441079ac59f_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "d976a8cf15397893551f9e78dd8098d7",
+    "title": "Question 2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A medical researcher measures the systolic blood pressure of each patient in a clinic. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "d976a8cf15397893551f9e78dd8098d7_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": false
+      },
+      {
+        "id": "d976a8cf15397893551f9e78dd8098d7_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "d976a8cf15397893551f9e78dd8098d7_B"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "477af39f86eeb0a4ee90fa6b103de406",
+    "title": "Question 1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A biologist records the species of each tree in a forest. Is this data categorical or quantitative?</p>",
+    "choices": [
+      {
+        "id": "477af39f86eeb0a4ee90fa6b103de406_A",
+        "label": "A",
+        "html": "Categorical",
+        "is_correct": true
+      },
+      {
+        "id": "477af39f86eeb0a4ee90fa6b103de406_B",
+        "label": "B",
+        "html": "Quantitative",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "477af39f86eeb0a4ee90fa6b103de406_A"
+    ]
+  }
+]

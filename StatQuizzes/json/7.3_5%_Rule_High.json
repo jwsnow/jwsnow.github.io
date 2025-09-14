@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "26ad8095d43d03b7beb8f9e9c29d7388",
+    "title": "5% Rule (High) - Q18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.06</td>\n<td>0.06</td>\n<td>0.08</td>\n<td>0.12</td>\n<td>0.12</td>\n<td>0.19</td>\n<td>0.15</td>\n<td>0.08</td>\n<td>0.07</td>\n<td>0.06</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "26ad8095d43d03b7beb8f9e9c29d7388_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": false
+      },
+      {
+        "id": "26ad8095d43d03b7beb8f9e9c29d7388_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "26ad8095d43d03b7beb8f9e9c29d7388_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "26ad8095d43d03b7beb8f9e9c29d7388_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "26ad8095d43d03b7beb8f9e9c29d7388_D"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "45b190157e0ee779a15a01ef46ada119",
+    "title": "5% Rule (High) - Q19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.07</td>\n<td>0.06</td>\n<td>0.07</td>\n<td>0.12</td>\n<td>0.14</td>\n<td>0.13</td>\n<td>0.16</td>\n<td>0.09</td>\n<td>0.09</td>\n<td>0.06</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "45b190157e0ee779a15a01ef46ada119_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": false
+      },
+      {
+        "id": "45b190157e0ee779a15a01ef46ada119_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "45b190157e0ee779a15a01ef46ada119_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "45b190157e0ee779a15a01ef46ada119_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "45b190157e0ee779a15a01ef46ada119_D"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "6dfad4dbf7a26ed834058f6038469c12",
+    "title": "5% Rule (High) - Q20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.06</td>\n<td>0.06</td>\n<td>0.07</td>\n<td>0.09</td>\n<td>0.10</td>\n<td>0.21</td>\n<td>0.15</td>\n<td>0.11</td>\n<td>0.08</td>\n<td>0.06</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "6dfad4dbf7a26ed834058f6038469c12_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": false
+      },
+      {
+        "id": "6dfad4dbf7a26ed834058f6038469c12_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "6dfad4dbf7a26ed834058f6038469c12_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "6dfad4dbf7a26ed834058f6038469c12_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "6dfad4dbf7a26ed834058f6038469c12_D"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "8469706c262a7da6789073c8ee83cce3",
+    "title": "5% Rule (High) - Q17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.06</td>\n<td>0.06</td>\n<td>0.06</td>\n<td>0.10</td>\n<td>0.18</td>\n<td>0.19</td>\n<td>0.12</td>\n<td>0.10</td>\n<td>0.06</td>\n<td>0.06</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "8469706c262a7da6789073c8ee83cce3_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": false
+      },
+      {
+        "id": "8469706c262a7da6789073c8ee83cce3_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "8469706c262a7da6789073c8ee83cce3_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "8469706c262a7da6789073c8ee83cce3_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "8469706c262a7da6789073c8ee83cce3_D"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "93a96b2154b35b8bbd7e0f8f460a694c",
+    "title": "5% Rule (High) - Q16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.06</td>\n<td>0.06</td>\n<td>0.08</td>\n<td>0.13</td>\n<td>0.15</td>\n<td>0.16</td>\n<td>0.11</td>\n<td>0.12</td>\n<td>0.06</td>\n<td>0.06</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "93a96b2154b35b8bbd7e0f8f460a694c_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": false
+      },
+      {
+        "id": "93a96b2154b35b8bbd7e0f8f460a694c_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "93a96b2154b35b8bbd7e0f8f460a694c_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "93a96b2154b35b8bbd7e0f8f460a694c_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "93a96b2154b35b8bbd7e0f8f460a694c_D"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "1029c6a59de298e97fbf23d2defd7195",
+    "title": "5% Rule (High) - Q15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.04</td>\n<td>0.04</td>\n<td>0.05</td>\n<td>0.07</td>\n<td>0.17</td>\n<td>0.25</td>\n<td>0.17</td>\n<td>0.08</td>\n<td>0.08</td>\n<td>0.04</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "1029c6a59de298e97fbf23d2defd7195_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": true
+      },
+      {
+        "id": "1029c6a59de298e97fbf23d2defd7195_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "1029c6a59de298e97fbf23d2defd7195_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "1029c6a59de298e97fbf23d2defd7195_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1029c6a59de298e97fbf23d2defd7195_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "bafa9329924ab8a1fcb65a49b9ee8ab9",
+    "title": "5% Rule (High) - Q14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.04</td>\n<td>0.04</td>\n<td>0.06</td>\n<td>0.14</td>\n<td>0.21</td>\n<td>0.11</td>\n<td>0.15</td>\n<td>0.10</td>\n<td>0.09</td>\n<td>0.05</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "bafa9329924ab8a1fcb65a49b9ee8ab9_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": true
+      },
+      {
+        "id": "bafa9329924ab8a1fcb65a49b9ee8ab9_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "bafa9329924ab8a1fcb65a49b9ee8ab9_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "bafa9329924ab8a1fcb65a49b9ee8ab9_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "bafa9329924ab8a1fcb65a49b9ee8ab9_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "8bba01f073eb84b7c5527c2720543f9e",
+    "title": "5% Rule (High) - Q13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.04</td>\n<td>0.06</td>\n<td>0.06</td>\n<td>0.09</td>\n<td>0.11</td>\n<td>0.24</td>\n<td>0.17</td>\n<td>0.13</td>\n<td>0.05</td>\n<td>0.04</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "8bba01f073eb84b7c5527c2720543f9e_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": true
+      },
+      {
+        "id": "8bba01f073eb84b7c5527c2720543f9e_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "8bba01f073eb84b7c5527c2720543f9e_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "8bba01f073eb84b7c5527c2720543f9e_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8bba01f073eb84b7c5527c2720543f9e_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "9a0be07866c3649e8c1e734438406de7",
+    "title": "5% Rule (High) - Q12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.04</td>\n<td>0.05</td>\n<td>0.08</td>\n<td>0.10</td>\n<td>0.14</td>\n<td>0.18</td>\n<td>0.16</td>\n<td>0.11</td>\n<td>0.07</td>\n<td>0.06</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "9a0be07866c3649e8c1e734438406de7_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": false
+      },
+      {
+        "id": "9a0be07866c3649e8c1e734438406de7_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "9a0be07866c3649e8c1e734438406de7_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "9a0be07866c3649e8c1e734438406de7_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "9a0be07866c3649e8c1e734438406de7_D"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "766379ced93ae2fa3e54eeb5a883fa41",
+    "title": "5% Rule (High) - Q11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.04</td>\n<td>0.04</td>\n<td>0.06</td>\n<td>0.10</td>\n<td>0.12</td>\n<td>0.21</td>\n<td>0.18</td>\n<td>0.10</td>\n<td>0.09</td>\n<td>0.05</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "766379ced93ae2fa3e54eeb5a883fa41_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": true
+      },
+      {
+        "id": "766379ced93ae2fa3e54eeb5a883fa41_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "766379ced93ae2fa3e54eeb5a883fa41_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "766379ced93ae2fa3e54eeb5a883fa41_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "766379ced93ae2fa3e54eeb5a883fa41_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "f62c9d85c89cffb587f603b3c264b935",
+    "title": "5% Rule (High) - Q10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.03</td>\n<td>0.03</td>\n<td>0.08</td>\n<td>0.10</td>\n<td>0.15</td>\n<td>0.19</td>\n<td>0.18</td>\n<td>0.13</td>\n<td>0.07</td>\n<td>0.03</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "f62c9d85c89cffb587f603b3c264b935_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": true
+      },
+      {
+        "id": "f62c9d85c89cffb587f603b3c264b935_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "f62c9d85c89cffb587f603b3c264b935_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "f62c9d85c89cffb587f603b3c264b935_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f62c9d85c89cffb587f603b3c264b935_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "73ce600e96506f9bed15a77e8b589440",
+    "title": "5% Rule (High) - Q9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.03</td>\n<td>0.05</td>\n<td>0.05</td>\n<td>0.13</td>\n<td>0.16</td>\n<td>0.17</td>\n<td>0.19</td>\n<td>0.10</td>\n<td>0.08</td>\n<td>0.03</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "73ce600e96506f9bed15a77e8b589440_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": true
+      },
+      {
+        "id": "73ce600e96506f9bed15a77e8b589440_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "73ce600e96506f9bed15a77e8b589440_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "73ce600e96506f9bed15a77e8b589440_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "73ce600e96506f9bed15a77e8b589440_A"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "753049c5b20791272d9e507aede793ee",
+    "title": "5% Rule (High) - Q8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.03</td>\n<td>0.04</td>\n<td>0.06</td>\n<td>0.12</td>\n<td>0.19</td>\n<td>0.15</td>\n<td>0.19</td>\n<td>0.11</td>\n<td>0.05</td>\n<td>0.05</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "753049c5b20791272d9e507aede793ee_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": true
+      },
+      {
+        "id": "753049c5b20791272d9e507aede793ee_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "753049c5b20791272d9e507aede793ee_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "753049c5b20791272d9e507aede793ee_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "753049c5b20791272d9e507aede793ee_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "0e9fb1349055c452f6fb37ec1cd00bd8",
+    "title": "5% Rule (High) - Q7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.03</td>\n<td>0.04</td>\n<td>0.07</td>\n<td>0.08</td>\n<td>0.17</td>\n<td>0.21</td>\n<td>0.26</td>\n<td>0.07</td>\n<td>0.03</td>\n<td>0.03</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "0e9fb1349055c452f6fb37ec1cd00bd8_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": true
+      },
+      {
+        "id": "0e9fb1349055c452f6fb37ec1cd00bd8_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "0e9fb1349055c452f6fb37ec1cd00bd8_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "0e9fb1349055c452f6fb37ec1cd00bd8_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0e9fb1349055c452f6fb37ec1cd00bd8_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "29fa2e9c5fe602fd1ba4a192cb9d3be9",
+    "title": "5% Rule (High) - Q6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.03</td>\n<td>0.03</td>\n<td>0.10</td>\n<td>0.07</td>\n<td>0.13</td>\n<td>0.19</td>\n<td>0.21</td>\n<td>0.12</td>\n<td>0.07</td>\n<td>0.04</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "29fa2e9c5fe602fd1ba4a192cb9d3be9_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": true
+      },
+      {
+        "id": "29fa2e9c5fe602fd1ba4a192cb9d3be9_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "29fa2e9c5fe602fd1ba4a192cb9d3be9_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "29fa2e9c5fe602fd1ba4a192cb9d3be9_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "29fa2e9c5fe602fd1ba4a192cb9d3be9_A"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "e543f9ee163b0c0c0d30e435ee23c69d",
+    "title": "5% Rule (High) - Q5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.01</td>\n<td>0.01</td>\n<td>0.07</td>\n<td>0.12</td>\n<td>0.17</td>\n<td>0.25</td>\n<td>0.21</td>\n<td>0.09</td>\n<td>0.04</td>\n<td>0.02</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "e543f9ee163b0c0c0d30e435ee23c69d_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": true
+      },
+      {
+        "id": "e543f9ee163b0c0c0d30e435ee23c69d_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "e543f9ee163b0c0c0d30e435ee23c69d_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "e543f9ee163b0c0c0d30e435ee23c69d_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e543f9ee163b0c0c0d30e435ee23c69d_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "43f2b597b26eb97ba665c99e28081d70",
+    "title": "5% Rule (High) - Q4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.01</td>\n<td>0.01</td>\n<td>0.05</td>\n<td>0.10</td>\n<td>0.25</td>\n<td>0.22</td>\n<td>0.18</td>\n<td>0.12</td>\n<td>0.04</td>\n<td>0.01</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "43f2b597b26eb97ba665c99e28081d70_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": false
+      },
+      {
+        "id": "43f2b597b26eb97ba665c99e28081d70_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": true
+      },
+      {
+        "id": "43f2b597b26eb97ba665c99e28081d70_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "43f2b597b26eb97ba665c99e28081d70_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "43f2b597b26eb97ba665c99e28081d70_B"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "84d5d5cd29cfab220e45a880b9fc80f5",
+    "title": "5% Rule (High) - Q3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.01</td>\n<td>0.03</td>\n<td>0.06</td>\n<td>0.09</td>\n<td>0.17</td>\n<td>0.20</td>\n<td>0.19</td>\n<td>0.16</td>\n<td>0.05</td>\n<td>0.03</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "84d5d5cd29cfab220e45a880b9fc80f5_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": true
+      },
+      {
+        "id": "84d5d5cd29cfab220e45a880b9fc80f5_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "84d5d5cd29cfab220e45a880b9fc80f5_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "84d5d5cd29cfab220e45a880b9fc80f5_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "84d5d5cd29cfab220e45a880b9fc80f5_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "abb8fe8296b41825cc8920b66c54d995",
+    "title": "5% Rule (High) - Q2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.01</td>\n<td>0.02</td>\n<td>0.05</td>\n<td>0.16</td>\n<td>0.18</td>\n<td>0.20</td>\n<td>0.15</td>\n<td>0.13</td>\n<td>0.05</td>\n<td>0.03</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "abb8fe8296b41825cc8920b66c54d995_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": true
+      },
+      {
+        "id": "abb8fe8296b41825cc8920b66c54d995_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "abb8fe8296b41825cc8920b66c54d995_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "abb8fe8296b41825cc8920b66c54d995_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "abb8fe8296b41825cc8920b66c54d995_A"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "39b8f726f9043cc97df647e780aa297d",
+    "title": "5% Rule (High) - Q1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>Below is the probability distribution of a random variable <em>X</em>.\n    Using the 5% Rule (right tail), which values of <em>X</em> are significantly high?</p><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\"><tbody>\n<tr>\n<th>x</th>\n<th>1</th>\n<th>2</th>\n<th>3</th>\n<th>4</th>\n<th>5</th>\n<th>6</th>\n<th>7</th>\n<th>8</th>\n<th>9</th>\n<th>10</th>\n</tr>\n<tr>\n<th>P(x)</th>\n<td>0.01</td>\n<td>0.03</td>\n<td>0.05</td>\n<td>0.12</td>\n<td>0.20</td>\n<td>0.25</td>\n<td>0.17</td>\n<td>0.10</td>\n<td>0.05</td>\n<td>0.01</td>\n</tr>\n</tbody></table><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "39b8f726f9043cc97df647e780aa297d_A",
+        "label": "A",
+        "html": "10",
+        "is_correct": true
+      },
+      {
+        "id": "39b8f726f9043cc97df647e780aa297d_B",
+        "label": "B",
+        "html": "9,10",
+        "is_correct": false
+      },
+      {
+        "id": "39b8f726f9043cc97df647e780aa297d_C",
+        "label": "C",
+        "html": "8, 9, 10",
+        "is_correct": false
+      },
+      {
+        "id": "39b8f726f9043cc97df647e780aa297d_D",
+        "label": "D",
+        "html": "There are no significantly high values.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "39b8f726f9043cc97df647e780aa297d_A"
+    ]
+  }
+]

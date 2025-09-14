@@ -1,0 +1,3602 @@
+[
+  {
+    "index": 1,
+    "ident": "2027d9bc399498a73d7547fd0e4fee94",
+    "title": "item_100",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 36 insects that land on a flower every 12 minutes. What is the probability that in one minute there will be at least 4 insects?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "2027d9bc399498a73d7547fd0e4fee94_A",
+        "label": "A",
+        "html": "<p>0.3528</p>",
+        "is_correct": true
+      },
+      {
+        "id": "2027d9bc399498a73d7547fd0e4fee94_B",
+        "label": "B",
+        "html": "<p>0.5768</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2027d9bc399498a73d7547fd0e4fee94_C",
+        "label": "C",
+        "html": "<p>0.1847</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2027d9bc399498a73d7547fd0e4fee94_D",
+        "label": "D",
+        "html": "<p>0.2424</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2027d9bc399498a73d7547fd0e4fee94_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "3e1ad5e5933264425ee1d09fd5e1ae15",
+    "title": "item_099",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 40 birds that fly into a wildlife reserve every 8 hours. What is the probability that in one hour there will be exactly 8 birds?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "3e1ad5e5933264425ee1d09fd5e1ae15_A",
+        "label": "A",
+        "html": "<p>0.0363</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3e1ad5e5933264425ee1d09fd5e1ae15_B",
+        "label": "B",
+        "html": "<p>0.0849</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3e1ad5e5933264425ee1d09fd5e1ae15_C",
+        "label": "C",
+        "html": "<p>0.0463</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3e1ad5e5933264425ee1d09fd5e1ae15_D",
+        "label": "D",
+        "html": "<p>0.0653</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "3e1ad5e5933264425ee1d09fd5e1ae15_D"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "36f06984e8c3351b19c3759face6add4",
+    "title": "item_098",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 18 participants who show a startle response every 3 hours. What is the probability that in one hour there will be at most 6 responses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "36f06984e8c3351b19c3759face6add4_A",
+        "label": "A",
+        "html": "<p>0.4457</p>",
+        "is_correct": false
+      },
+      {
+        "id": "36f06984e8c3351b19c3759face6add4_B",
+        "label": "B",
+        "html": "<p>0.6860</p>",
+        "is_correct": false
+      },
+      {
+        "id": "36f06984e8c3351b19c3759face6add4_C",
+        "label": "C",
+        "html": "<p>0.5265</p>",
+        "is_correct": false
+      },
+      {
+        "id": "36f06984e8c3351b19c3759face6add4_D",
+        "label": "D",
+        "html": "<p>0.6063</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "36f06984e8c3351b19c3759face6add4_D"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "bbdf2223fe8e155805b66f52e0ccbe07",
+    "title": "item_097",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 50 errors made by a typist every 50 pages. What is the probability that in one page there will be at most 3 errors?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "bbdf2223fe8e155805b66f52e0ccbe07_A",
+        "label": "A",
+        "html": "<p>0.9963</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bbdf2223fe8e155805b66f52e0ccbe07_B",
+        "label": "B",
+        "html": "<p>0.9810</p>",
+        "is_correct": true
+      },
+      {
+        "id": "bbdf2223fe8e155805b66f52e0ccbe07_C",
+        "label": "C",
+        "html": "<p>0.9982</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bbdf2223fe8e155805b66f52e0ccbe07_D",
+        "label": "D",
+        "html": "<p>0.9344</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "bbdf2223fe8e155805b66f52e0ccbe07_B"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "32530794017f9799cb1d15ff456d7abe",
+    "title": "item_096",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 5 new arrivals at an emergency room every 5 hours. What is the probability that in one hour there will be exactly 1 arrivals?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "32530794017f9799cb1d15ff456d7abe_A",
+        "label": "A",
+        "html": "<p>0.3347</p>",
+        "is_correct": false
+      },
+      {
+        "id": "32530794017f9799cb1d15ff456d7abe_B",
+        "label": "B",
+        "html": "<p>0.3679</p>",
+        "is_correct": true
+      },
+      {
+        "id": "32530794017f9799cb1d15ff456d7abe_C",
+        "label": "C",
+        "html": "<p>0.3033</p>",
+        "is_correct": false
+      },
+      {
+        "id": "32530794017f9799cb1d15ff456d7abe_D",
+        "label": "D",
+        "html": "<p>0.1839</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "32530794017f9799cb1d15ff456d7abe_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "5dea052a49f4b2c79cce8cf39ee00a0c",
+    "title": "item_095",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 40 participants who show a startle response every 8 hours. What is the probability that in one hour there will be at most 7 responses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "5dea052a49f4b2c79cce8cf39ee00a0c_A",
+        "label": "A",
+        "html": "<p>0.9134</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5dea052a49f4b2c79cce8cf39ee00a0c_B",
+        "label": "B",
+        "html": "<p>0.8666</p>",
+        "is_correct": true
+      },
+      {
+        "id": "5dea052a49f4b2c79cce8cf39ee00a0c_C",
+        "label": "C",
+        "html": "<p>0.8095</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5dea052a49f4b2c79cce8cf39ee00a0c_D",
+        "label": "D",
+        "html": "<p>0.7622</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5dea052a49f4b2c79cce8cf39ee00a0c_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "6f7d15508db98a864b67776a39e841f7",
+    "title": "item_094",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 18 positive test results processed by a lab every 6 hours. What is the probability that in one hour there will be at most 4 positives?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "6f7d15508db98a864b67776a39e841f7_A",
+        "label": "A",
+        "html": "<p>0.6472</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6f7d15508db98a864b67776a39e841f7_B",
+        "label": "B",
+        "html": "<p>0.7254</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6f7d15508db98a864b67776a39e841f7_C",
+        "label": "C",
+        "html": "<p>0.8912</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6f7d15508db98a864b67776a39e841f7_D",
+        "label": "D",
+        "html": "<p>0.8153</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "6f7d15508db98a864b67776a39e841f7_D"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "e16853eb22193a9b5e79dccb0997aac3",
+    "title": "item_093",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 36 people who press a button in a reaction task every 12 minutes. What is the probability that in one minute there will be exactly 1 presses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "e16853eb22193a9b5e79dccb0997aac3_A",
+        "label": "A",
+        "html": "<p>0.1057</p>",
+        "is_correct": false
+      },
+      {
+        "id": "e16853eb22193a9b5e79dccb0997aac3_B",
+        "label": "B",
+        "html": "<p>0.1494</p>",
+        "is_correct": true
+      },
+      {
+        "id": "e16853eb22193a9b5e79dccb0997aac3_C",
+        "label": "C",
+        "html": "<p>0.0498</p>",
+        "is_correct": false
+      },
+      {
+        "id": "e16853eb22193a9b5e79dccb0997aac3_D",
+        "label": "D",
+        "html": "<p>0.2052</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e16853eb22193a9b5e79dccb0997aac3_B"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "99c5abd3a0529f847c7f545aee907b4c",
+    "title": "item_092",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 80 butterflies observed at a field site every 10 hours. What is the probability that in one hour there will be exactly 7 butterflies?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "99c5abd3a0529f847c7f545aee907b4c_A",
+        "label": "A",
+        "html": "<p>0.1396</p>",
+        "is_correct": true
+      },
+      {
+        "id": "99c5abd3a0529f847c7f545aee907b4c_B",
+        "label": "B",
+        "html": "<p>0.1465</p>",
+        "is_correct": false
+      },
+      {
+        "id": "99c5abd3a0529f847c7f545aee907b4c_C",
+        "label": "C",
+        "html": "<p>0.1294</p>",
+        "is_correct": false
+      },
+      {
+        "id": "99c5abd3a0529f847c7f545aee907b4c_D",
+        "label": "D",
+        "html": "<p>0.1221</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "99c5abd3a0529f847c7f545aee907b4c_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "6ff5c1aa644a31d3ce3638dcf5ed4e6d",
+    "title": "item_091",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 4 new arrivals at an emergency room every 4 hours. What is the probability that in one hour there will be exactly 2 arrivals?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "6ff5c1aa644a31d3ce3638dcf5ed4e6d_A",
+        "label": "A",
+        "html": "<p>0.0758</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6ff5c1aa644a31d3ce3638dcf5ed4e6d_B",
+        "label": "B",
+        "html": "<p>0.2510</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6ff5c1aa644a31d3ce3638dcf5ed4e6d_C",
+        "label": "C",
+        "html": "<p>0.1839</p>",
+        "is_correct": true
+      },
+      {
+        "id": "6ff5c1aa644a31d3ce3638dcf5ed4e6d_D",
+        "label": "D",
+        "html": "<p>0.3679</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6ff5c1aa644a31d3ce3638dcf5ed4e6d_C"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "c038261ff636a7a6d94537062c99b825",
+    "title": "item_090",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 100 participants who show a startle response every 10 hours. What is the probability that in one hour there will be exactly 11 responses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "c038261ff636a7a6d94537062c99b825_A",
+        "label": "A",
+        "html": "<p>0.1137</p>",
+        "is_correct": true
+      },
+      {
+        "id": "c038261ff636a7a6d94537062c99b825_B",
+        "label": "B",
+        "html": "<p>0.1067</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c038261ff636a7a6d94537062c99b825_C",
+        "label": "C",
+        "html": "<p>0.1251</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c038261ff636a7a6d94537062c99b825_D",
+        "label": "D",
+        "html": "<p>0.1180</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c038261ff636a7a6d94537062c99b825_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "a52458b5b8c786285acc511d1116b7ed",
+    "title": "item_089",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 24 participants who show a startle response every 6 hours. What is the probability that in one hour there will be at most 2 responses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "a52458b5b8c786285acc511d1116b7ed_A",
+        "label": "A",
+        "html": "<p>0.2381</p>",
+        "is_correct": true
+      },
+      {
+        "id": "a52458b5b8c786285acc511d1116b7ed_B",
+        "label": "B",
+        "html": "<p>0.1736</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a52458b5b8c786285acc511d1116b7ed_C",
+        "label": "C",
+        "html": "<p>0.3208</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a52458b5b8c786285acc511d1116b7ed_D",
+        "label": "D",
+        "html": "<p>0.4335</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a52458b5b8c786285acc511d1116b7ed_A"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "1e44c1ad403aa49002cb32fc643cabaf",
+    "title": "item_088",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 37 errors made by a typist every 25 pages. What is the probability that in one page there will be exactly 1 errors?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "1e44c1ad403aa49002cb32fc643cabaf_A",
+        "label": "A",
+        "html": "<p>0.3678</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1e44c1ad403aa49002cb32fc643cabaf_B",
+        "label": "B",
+        "html": "<p>0.2493</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1e44c1ad403aa49002cb32fc643cabaf_C",
+        "label": "C",
+        "html": "<p>0.2734</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1e44c1ad403aa49002cb32fc643cabaf_D",
+        "label": "D",
+        "html": "<p>0.3369</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "1e44c1ad403aa49002cb32fc643cabaf_D"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "53253c728a117054d3a98aae3ddc9618",
+    "title": "item_087",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 20 calls received at a counseling hotline every 5 days. What is the probability that in one day there will be at most 4 calls?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "53253c728a117054d3a98aae3ddc9618_A",
+        "label": "A",
+        "html": "<p>0.5321</p>",
+        "is_correct": false
+      },
+      {
+        "id": "53253c728a117054d3a98aae3ddc9618_B",
+        "label": "B",
+        "html": "<p>0.7254</p>",
+        "is_correct": false
+      },
+      {
+        "id": "53253c728a117054d3a98aae3ddc9618_C",
+        "label": "C",
+        "html": "<p>0.7851</p>",
+        "is_correct": false
+      },
+      {
+        "id": "53253c728a117054d3a98aae3ddc9618_D",
+        "label": "D",
+        "html": "<p>0.6288</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "53253c728a117054d3a98aae3ddc9618_D"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "109b4898339c6fa77fbc1c8552506f49",
+    "title": "item_086",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 25 butterflies observed at a field site every 5 hours. What is the probability that in one hour there will be exactly 5 butterflies?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "109b4898339c6fa77fbc1c8552506f49_A",
+        "label": "A",
+        "html": "<p>0.1714</p>",
+        "is_correct": false
+      },
+      {
+        "id": "109b4898339c6fa77fbc1c8552506f49_B",
+        "label": "B",
+        "html": "<p>0.1462</p>",
+        "is_correct": false
+      },
+      {
+        "id": "109b4898339c6fa77fbc1c8552506f49_C",
+        "label": "C",
+        "html": "<p>0.1755</p>",
+        "is_correct": true
+      },
+      {
+        "id": "109b4898339c6fa77fbc1c8552506f49_D",
+        "label": "D",
+        "html": "<p>0.1708</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "109b4898339c6fa77fbc1c8552506f49_C"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "d4b43f971cc8c8f616b128978ea15d0b",
+    "title": "item_085",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 36 positive test results processed by a lab every 6 hours. What is the probability that in one hour there will be at most 7 positives?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "d4b43f971cc8c8f616b128978ea15d0b_A",
+        "label": "A",
+        "html": "<p>0.8095</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d4b43f971cc8c8f616b128978ea15d0b_B",
+        "label": "B",
+        "html": "<p>0.7440</p>",
+        "is_correct": true
+      },
+      {
+        "id": "d4b43f971cc8c8f616b128978ea15d0b_C",
+        "label": "C",
+        "html": "<p>0.6063</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d4b43f971cc8c8f616b128978ea15d0b_D",
+        "label": "D",
+        "html": "<p>0.6728</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d4b43f971cc8c8f616b128978ea15d0b_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "9e91588c7453cd60a032679d518ed21a",
+    "title": "item_084",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 37 insects that land on a flower every 15 minutes. What is the probability that in one minute there will be exactly 0 insects?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "9e91588c7453cd60a032679d518ed21a_A",
+        "label": "A",
+        "html": "<p>0.1399</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9e91588c7453cd60a032679d518ed21a_B",
+        "label": "B",
+        "html": "<p>0.0849</p>",
+        "is_correct": true
+      },
+      {
+        "id": "9e91588c7453cd60a032679d518ed21a_C",
+        "label": "C",
+        "html": "<p>0.2093</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9e91588c7453cd60a032679d518ed21a_D",
+        "label": "D",
+        "html": "<p>0.0515</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9e91588c7453cd60a032679d518ed21a_B"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "049da95c75bf0fe541e6e6b076c8faab",
+    "title": "item_083",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 54 positive test results processed by a lab every 6 hours. What is the probability that in one hour there will be at most 12 positives?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "049da95c75bf0fe541e6e6b076c8faab_A",
+        "label": "A",
+        "html": "<p>0.8758</p>",
+        "is_correct": true
+      },
+      {
+        "id": "049da95c75bf0fe541e6e6b076c8faab_B",
+        "label": "B",
+        "html": "<p>0.8364</p>",
+        "is_correct": false
+      },
+      {
+        "id": "049da95c75bf0fe541e6e6b076c8faab_C",
+        "label": "C",
+        "html": "<p>0.9091</p>",
+        "is_correct": false
+      },
+      {
+        "id": "049da95c75bf0fe541e6e6b076c8faab_D",
+        "label": "D",
+        "html": "<p>0.9261</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "049da95c75bf0fe541e6e6b076c8faab_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "83b1c4638f7f13763216f52fc477f9c7",
+    "title": "item_082",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 56 calls received at a counseling hotline every 14 days. What is the probability that in one day there will be at most 3 calls?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "83b1c4638f7f13763216f52fc477f9c7_A",
+        "label": "A",
+        "html": "<p>0.5366</p>",
+        "is_correct": false
+      },
+      {
+        "id": "83b1c4638f7f13763216f52fc477f9c7_B",
+        "label": "B",
+        "html": "<p>0.6288</p>",
+        "is_correct": false
+      },
+      {
+        "id": "83b1c4638f7f13763216f52fc477f9c7_C",
+        "label": "C",
+        "html": "<p>0.2381</p>",
+        "is_correct": false
+      },
+      {
+        "id": "83b1c4638f7f13763216f52fc477f9c7_D",
+        "label": "D",
+        "html": "<p>0.4335</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "83b1c4638f7f13763216f52fc477f9c7_D"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "bb334f3ad5708eaf731ebdb26ef1f7d0",
+    "title": "item_081",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 10 insects that land on a flower every 4 minutes. What is the probability that in one minute there will be at least 0 insects?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "bb334f3ad5708eaf731ebdb26ef1f7d0_A",
+        "label": "A",
+        "html": "<p>0.2995</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bb334f3ad5708eaf731ebdb26ef1f7d0_B",
+        "label": "B",
+        "html": "<p>0.9179</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bb334f3ad5708eaf731ebdb26ef1f7d0_C",
+        "label": "C",
+        "html": "<p>1.0000</p>",
+        "is_correct": true
+      },
+      {
+        "id": "bb334f3ad5708eaf731ebdb26ef1f7d0_D",
+        "label": "D",
+        "html": "<p>0.0722</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "bb334f3ad5708eaf731ebdb26ef1f7d0_C"
+    ]
+  },
+  {
+    "index": 21,
+    "ident": "637ba21e4d546b1b8a366b9fcccf3ebe",
+    "title": "item_080",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 5110 births at a certain hospital every 365 days. What is the probability that in one day there will be at most 13 births?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "637ba21e4d546b1b8a366b9fcccf3ebe_A",
+        "label": "A",
+        "html": "<p>0.4644</p>",
+        "is_correct": true
+      },
+      {
+        "id": "637ba21e4d546b1b8a366b9fcccf3ebe_B",
+        "label": "B",
+        "html": "<p>0.3585</p>",
+        "is_correct": false
+      },
+      {
+        "id": "637ba21e4d546b1b8a366b9fcccf3ebe_C",
+        "label": "C",
+        "html": "<p>0.4125</p>",
+        "is_correct": false
+      },
+      {
+        "id": "637ba21e4d546b1b8a366b9fcccf3ebe_D",
+        "label": "D",
+        "html": "<p>0.5182</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "637ba21e4d546b1b8a366b9fcccf3ebe_A"
+    ]
+  },
+  {
+    "index": 22,
+    "ident": "45aa1bc751657cef8832da116862575b",
+    "title": "item_079",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 6 birds that fly into a wildlife reserve every 3 hours. What is the probability that in one hour there will be at least 0 birds?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "45aa1bc751657cef8832da116862575b_A",
+        "label": "A",
+        "html": "<p>0.5668</p>",
+        "is_correct": false
+      },
+      {
+        "id": "45aa1bc751657cef8832da116862575b_B",
+        "label": "B",
+        "html": "<p>0.1322</p>",
+        "is_correct": false
+      },
+      {
+        "id": "45aa1bc751657cef8832da116862575b_C",
+        "label": "C",
+        "html": "<p>0.8647</p>",
+        "is_correct": false
+      },
+      {
+        "id": "45aa1bc751657cef8832da116862575b_D",
+        "label": "D",
+        "html": "<p>1.0000</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "45aa1bc751657cef8832da116862575b_D"
+    ]
+  },
+  {
+    "index": 23,
+    "ident": "51eeea4e81acf01cbf94bc97e2b26070",
+    "title": "item_078",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 36 fish caught by a research net every 2 days. What is the probability that in one day there will be at least 21 fish?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "51eeea4e81acf01cbf94bc97e2b26070_A",
+        "label": "A",
+        "html": "<p>0.2306</p>",
+        "is_correct": false
+      },
+      {
+        "id": "51eeea4e81acf01cbf94bc97e2b26070_B",
+        "label": "B",
+        "html": "<p>0.2693</p>",
+        "is_correct": true
+      },
+      {
+        "id": "51eeea4e81acf01cbf94bc97e2b26070_C",
+        "label": "C",
+        "html": "<p>0.3491</p>",
+        "is_correct": false
+      },
+      {
+        "id": "51eeea4e81acf01cbf94bc97e2b26070_D",
+        "label": "D",
+        "html": "<p>0.2009</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "51eeea4e81acf01cbf94bc97e2b26070_B"
+    ]
+  },
+  {
+    "index": 24,
+    "ident": "47865f66edbaf276b4fe2c562e788eae",
+    "title": "item_077",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 6 butterflies observed at a field site every 6 hours. What is the probability that in one hour there will be at most 2 butterflies?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "47865f66edbaf276b4fe2c562e788eae_A",
+        "label": "A",
+        "html": "<p>0.9810</p>",
+        "is_correct": false
+      },
+      {
+        "id": "47865f66edbaf276b4fe2c562e788eae_B",
+        "label": "B",
+        "html": "<p>0.9197</p>",
+        "is_correct": true
+      },
+      {
+        "id": "47865f66edbaf276b4fe2c562e788eae_C",
+        "label": "C",
+        "html": "<p>0.9856</p>",
+        "is_correct": false
+      },
+      {
+        "id": "47865f66edbaf276b4fe2c562e788eae_D",
+        "label": "D",
+        "html": "<p>0.8088</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "47865f66edbaf276b4fe2c562e788eae_B"
+    ]
+  },
+  {
+    "index": 25,
+    "ident": "35a5114a91d5df2656602ad4b7dcacca",
+    "title": "item_076",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 50 butterflies observed at a field site every 5 hours. What is the probability that in one hour there will be exactly 10 butterflies?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "35a5114a91d5df2656602ad4b7dcacca_A",
+        "label": "A",
+        "html": "<p>0.1235</p>",
+        "is_correct": false
+      },
+      {
+        "id": "35a5114a91d5df2656602ad4b7dcacca_B",
+        "label": "B",
+        "html": "<p>0.1251</p>",
+        "is_correct": true
+      },
+      {
+        "id": "35a5114a91d5df2656602ad4b7dcacca_C",
+        "label": "C",
+        "html": "<p>0.1236</p>",
+        "is_correct": false
+      },
+      {
+        "id": "35a5114a91d5df2656602ad4b7dcacca_D",
+        "label": "D",
+        "html": "<p>0.1137</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "35a5114a91d5df2656602ad4b7dcacca_B"
+    ]
+  },
+  {
+    "index": 26,
+    "ident": "24f4b816059e4e7ac1099d8145ab3613",
+    "title": "item_075",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 60 fish caught by a research net every 4 days. What is the probability that in one day there will be at least 15 fish?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "24f4b816059e4e7ac1099d8145ab3613_A",
+        "label": "A",
+        "html": "<p>0.5846</p>",
+        "is_correct": false
+      },
+      {
+        "id": "24f4b816059e4e7ac1099d8145ab3613_B",
+        "label": "B",
+        "html": "<p>0.6368</p>",
+        "is_correct": false
+      },
+      {
+        "id": "24f4b816059e4e7ac1099d8145ab3613_C",
+        "label": "C",
+        "html": "<p>0.4824</p>",
+        "is_correct": false
+      },
+      {
+        "id": "24f4b816059e4e7ac1099d8145ab3613_D",
+        "label": "D",
+        "html": "<p>0.5343</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "24f4b816059e4e7ac1099d8145ab3613_D"
+    ]
+  },
+  {
+    "index": 27,
+    "ident": "557ac28037b4225ba33ac309bd41eb13",
+    "title": "item_074",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 5 insects that land on a flower every 5 minutes. What is the probability that in one minute there will be at least 0 insects?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "557ac28037b4225ba33ac309bd41eb13_A",
+        "label": "A",
+        "html": "<p>1.0000</p>",
+        "is_correct": true
+      },
+      {
+        "id": "557ac28037b4225ba33ac309bd41eb13_B",
+        "label": "B",
+        "html": "<p>0.6321</p>",
+        "is_correct": false
+      },
+      {
+        "id": "557ac28037b4225ba33ac309bd41eb13_C",
+        "label": "C",
+        "html": "<p>0.4744</p>",
+        "is_correct": false
+      },
+      {
+        "id": "557ac28037b4225ba33ac309bd41eb13_D",
+        "label": "D",
+        "html": "<p>0.0896</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "557ac28037b4225ba33ac309bd41eb13_A"
+    ]
+  },
+  {
+    "index": 28,
+    "ident": "b0b4ffba98562738ae9630d8cfbaeb16",
+    "title": "item_073",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 48 positive test results processed by a lab every 24 hours. What is the probability that in one hour there will be at most 2 positives?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "b0b4ffba98562738ae9630d8cfbaeb16_A",
+        "label": "A",
+        "html": "<p>0.8571</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b0b4ffba98562738ae9630d8cfbaeb16_B",
+        "label": "B",
+        "html": "<p>0.5438</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b0b4ffba98562738ae9630d8cfbaeb16_C",
+        "label": "C",
+        "html": "<p>0.6767</p>",
+        "is_correct": true
+      },
+      {
+        "id": "b0b4ffba98562738ae9630d8cfbaeb16_D",
+        "label": "D",
+        "html": "<p>0.8088</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b0b4ffba98562738ae9630d8cfbaeb16_C"
+    ]
+  },
+  {
+    "index": 29,
+    "ident": "bb3c9a22353ff1b3f9ed12ceae6a78e4",
+    "title": "item_072",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 100 calls to a hospital triage line every 10 hours. What is the probability that in one hour there will be exactly 10 calls?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "bb3c9a22353ff1b3f9ed12ceae6a78e4_A",
+        "label": "A",
+        "html": "<p>0.1251</p>",
+        "is_correct": true
+      },
+      {
+        "id": "bb3c9a22353ff1b3f9ed12ceae6a78e4_B",
+        "label": "B",
+        "html": "<p>0.1236</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bb3c9a22353ff1b3f9ed12ceae6a78e4_C",
+        "label": "C",
+        "html": "<p>0.1235</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bb3c9a22353ff1b3f9ed12ceae6a78e4_D",
+        "label": "D",
+        "html": "<p>0.1137</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "bb3c9a22353ff1b3f9ed12ceae6a78e4_A"
+    ]
+  },
+  {
+    "index": 30,
+    "ident": "5b044f3e18067111aee3e6c94b16dade",
+    "title": "item_071",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 28 fish caught by a research net every 14 days. What is the probability that in one day there will be exactly 1 fish?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "5b044f3e18067111aee3e6c94b16dade_A",
+        "label": "A",
+        "html": "<p>0.2052</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5b044f3e18067111aee3e6c94b16dade_B",
+        "label": "B",
+        "html": "<p>0.1353</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5b044f3e18067111aee3e6c94b16dade_C",
+        "label": "C",
+        "html": "<p>0.3347</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5b044f3e18067111aee3e6c94b16dade_D",
+        "label": "D",
+        "html": "<p>0.2707</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "5b044f3e18067111aee3e6c94b16dade_D"
+    ]
+  },
+  {
+    "index": 31,
+    "ident": "03a68feb7fd36b9e47d3d95aa44118e3",
+    "title": "item_070",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 7 insects that land on a flower every 5 minutes. What is the probability that in one minute there will be at most 1 insects?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "03a68feb7fd36b9e47d3d95aa44118e3_A",
+        "label": "A",
+        "html": "<p>0.4337</p>",
+        "is_correct": false
+      },
+      {
+        "id": "03a68feb7fd36b9e47d3d95aa44118e3_B",
+        "label": "B",
+        "html": "<p>0.7725</p>",
+        "is_correct": false
+      },
+      {
+        "id": "03a68feb7fd36b9e47d3d95aa44118e3_C",
+        "label": "C",
+        "html": "<p>0.5918</p>",
+        "is_correct": true
+      },
+      {
+        "id": "03a68feb7fd36b9e47d3d95aa44118e3_D",
+        "label": "D",
+        "html": "<p>0.8335</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "03a68feb7fd36b9e47d3d95aa44118e3_C"
+    ]
+  },
+  {
+    "index": 32,
+    "ident": "cd53b6027d3d6843c764eeda0c32c3e2",
+    "title": "item_069",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 3650 births at a certain hospital every 365 days. What is the probability that in one day there will be at least 11 births?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "cd53b6027d3d6843c764eeda0c32c3e2_A",
+        "label": "A",
+        "html": "<p>0.3547</p>",
+        "is_correct": false
+      },
+      {
+        "id": "cd53b6027d3d6843c764eeda0c32c3e2_B",
+        "label": "B",
+        "html": "<p>0.3032</p>",
+        "is_correct": false
+      },
+      {
+        "id": "cd53b6027d3d6843c764eeda0c32c3e2_C",
+        "label": "C",
+        "html": "<p>0.5421</p>",
+        "is_correct": false
+      },
+      {
+        "id": "cd53b6027d3d6843c764eeda0c32c3e2_D",
+        "label": "D",
+        "html": "<p>0.4170</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "cd53b6027d3d6843c764eeda0c32c3e2_D"
+    ]
+  },
+  {
+    "index": 33,
+    "ident": "2be7df33ff40229088d6eca5692eba18",
+    "title": "item_068",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 40 errors made by a typist every 10 pages. What is the probability that in one page there will be at most 4 errors?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "2be7df33ff40229088d6eca5692eba18_A",
+        "label": "A",
+        "html": "<p>0.5321</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2be7df33ff40229088d6eca5692eba18_B",
+        "label": "B",
+        "html": "<p>0.7851</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2be7df33ff40229088d6eca5692eba18_C",
+        "label": "C",
+        "html": "<p>0.7254</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2be7df33ff40229088d6eca5692eba18_D",
+        "label": "D",
+        "html": "<p>0.6288</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "2be7df33ff40229088d6eca5692eba18_D"
+    ]
+  },
+  {
+    "index": 34,
+    "ident": "0f1179969c68500553782c25d18f830c",
+    "title": "item_067",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 4 participants who show a startle response every 4 hours. What is the probability that in one hour there will be at least 1 responses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "0f1179969c68500553782c25d18f830c_A",
+        "label": "A",
+        "html": "<p>0.6321</p>",
+        "is_correct": true
+      },
+      {
+        "id": "0f1179969c68500553782c25d18f830c_B",
+        "label": "B",
+        "html": "<p>0.3935</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0f1179969c68500553782c25d18f830c_C",
+        "label": "C",
+        "html": "<p>0.2642</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0f1179969c68500553782c25d18f830c_D",
+        "label": "D",
+        "html": "<p>0.7769</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0f1179969c68500553782c25d18f830c_A"
+    ]
+  },
+  {
+    "index": 35,
+    "ident": "d253c7a9ee3e28951f6d135ae6956214",
+    "title": "item_066",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 50 participants who show a startle response every 10 hours. What is the probability that in one hour there will be at most 3 responses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "d253c7a9ee3e28951f6d135ae6956214_A",
+        "label": "A",
+        "html": "<p>0.2650</p>",
+        "is_correct": true
+      },
+      {
+        "id": "d253c7a9ee3e28951f6d135ae6956214_B",
+        "label": "B",
+        "html": "<p>0.2017</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d253c7a9ee3e28951f6d135ae6956214_C",
+        "label": "C",
+        "html": "<p>0.3423</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d253c7a9ee3e28951f6d135ae6956214_D",
+        "label": "D",
+        "html": "<p>0.4405</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d253c7a9ee3e28951f6d135ae6956214_A"
+    ]
+  },
+  {
+    "index": 36,
+    "ident": "59139fdcbdde0f55a0d63be0e2c8b1c5",
+    "title": "item_065",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 36 positive test results processed by a lab every 6 hours. What is the probability that in one hour there will be exactly 5 positives?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "59139fdcbdde0f55a0d63be0e2c8b1c5_A",
+        "label": "A",
+        "html": "<p>0.1714</p>",
+        "is_correct": false
+      },
+      {
+        "id": "59139fdcbdde0f55a0d63be0e2c8b1c5_B",
+        "label": "B",
+        "html": "<p>0.1339</p>",
+        "is_correct": false
+      },
+      {
+        "id": "59139fdcbdde0f55a0d63be0e2c8b1c5_C",
+        "label": "C",
+        "html": "<p>0.1606</p>",
+        "is_correct": true
+      },
+      {
+        "id": "59139fdcbdde0f55a0d63be0e2c8b1c5_D",
+        "label": "D",
+        "html": "<p>0.1454</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "59139fdcbdde0f55a0d63be0e2c8b1c5_C"
+    ]
+  },
+  {
+    "index": 37,
+    "ident": "cf0c151759a155c8656db3b08082ea57",
+    "title": "item_064",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 200 calls received at a counseling hotline every 20 days. What is the probability that in one day there will be at most 12 calls?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "cf0c151759a155c8656db3b08082ea57_A",
+        "label": "A",
+        "html": "<p>0.7916</p>",
+        "is_correct": true
+      },
+      {
+        "id": "cf0c151759a155c8656db3b08082ea57_B",
+        "label": "B",
+        "html": "<p>0.7420</p>",
+        "is_correct": false
+      },
+      {
+        "id": "cf0c151759a155c8656db3b08082ea57_C",
+        "label": "C",
+        "html": "<p>0.6968</p>",
+        "is_correct": false
+      },
+      {
+        "id": "cf0c151759a155c8656db3b08082ea57_D",
+        "label": "D",
+        "html": "<p>0.8364</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cf0c151759a155c8656db3b08082ea57_A"
+    ]
+  },
+  {
+    "index": 38,
+    "ident": "e7b993fffdb5fdfd357a7d6eb88398cf",
+    "title": "item_063",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 200 errors made by a typist every 50 pages. What is the probability that in one page there will be at least 5 errors?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "e7b993fffdb5fdfd357a7d6eb88398cf_A",
+        "label": "A",
+        "html": "<p>0.2746</p>",
+        "is_correct": false
+      },
+      {
+        "id": "e7b993fffdb5fdfd357a7d6eb88398cf_B",
+        "label": "B",
+        "html": "<p>0.4679</p>",
+        "is_correct": false
+      },
+      {
+        "id": "e7b993fffdb5fdfd357a7d6eb88398cf_C",
+        "label": "C",
+        "html": "<p>0.3712</p>",
+        "is_correct": true
+      },
+      {
+        "id": "e7b993fffdb5fdfd357a7d6eb88398cf_D",
+        "label": "D",
+        "html": "<p>0.2149</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e7b993fffdb5fdfd357a7d6eb88398cf_C"
+    ]
+  },
+  {
+    "index": 39,
+    "ident": "ae733daf57b2a0df35d3b92ea66c6d34",
+    "title": "item_062",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 60 errors made by a typist every 20 pages. What is the probability that in one page there will be at most 2 errors?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "ae733daf57b2a0df35d3b92ea66c6d34_A",
+        "label": "A",
+        "html": "<p>0.5438</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ae733daf57b2a0df35d3b92ea66c6d34_B",
+        "label": "B",
+        "html": "<p>0.4232</p>",
+        "is_correct": true
+      },
+      {
+        "id": "ae733daf57b2a0df35d3b92ea66c6d34_C",
+        "label": "C",
+        "html": "<p>0.3208</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ae733daf57b2a0df35d3b92ea66c6d34_D",
+        "label": "D",
+        "html": "<p>0.6472</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ae733daf57b2a0df35d3b92ea66c6d34_B"
+    ]
+  },
+  {
+    "index": 40,
+    "ident": "becaad0fb27211f43b6e7acbf2279f3e",
+    "title": "item_061",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 42 participants who show a startle response every 6 hours. What is the probability that in one hour there will be at most 9 responses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "becaad0fb27211f43b6e7acbf2279f3e_A",
+        "label": "A",
+        "html": "<p>0.9015</p>",
+        "is_correct": false
+      },
+      {
+        "id": "becaad0fb27211f43b6e7acbf2279f3e_B",
+        "label": "B",
+        "html": "<p>0.7764</p>",
+        "is_correct": false
+      },
+      {
+        "id": "becaad0fb27211f43b6e7acbf2279f3e_C",
+        "label": "C",
+        "html": "<p>0.8774</p>",
+        "is_correct": false
+      },
+      {
+        "id": "becaad0fb27211f43b6e7acbf2279f3e_D",
+        "label": "D",
+        "html": "<p>0.8305</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "becaad0fb27211f43b6e7acbf2279f3e_D"
+    ]
+  },
+  {
+    "index": 41,
+    "ident": "a5dbaf593aa5763c76b6469f6c1cffee",
+    "title": "item_060",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 2920 births at a certain hospital every 365 days. What is the probability that in one day there will be exactly 6 births?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "a5dbaf593aa5763c76b6469f6c1cffee_A",
+        "label": "A",
+        "html": "<p>0.0916</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a5dbaf593aa5763c76b6469f6c1cffee_B",
+        "label": "B",
+        "html": "<p>0.1396</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a5dbaf593aa5763c76b6469f6c1cffee_C",
+        "label": "C",
+        "html": "<p>0.1221</p>",
+        "is_correct": true
+      },
+      {
+        "id": "a5dbaf593aa5763c76b6469f6c1cffee_D",
+        "label": "D",
+        "html": "<p>0.1367</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a5dbaf593aa5763c76b6469f6c1cffee_C"
+    ]
+  },
+  {
+    "index": 42,
+    "ident": "079854d8a3dce0d877b30fdc73d02050",
+    "title": "item_059",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 10 calls received at a counseling hotline every 5 days. What is the probability that in one day there will be at most 2 calls?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "079854d8a3dce0d877b30fdc73d02050_A",
+        "label": "A",
+        "html": "<p>0.8571</p>",
+        "is_correct": false
+      },
+      {
+        "id": "079854d8a3dce0d877b30fdc73d02050_B",
+        "label": "B",
+        "html": "<p>0.5438</p>",
+        "is_correct": false
+      },
+      {
+        "id": "079854d8a3dce0d877b30fdc73d02050_C",
+        "label": "C",
+        "html": "<p>0.6767</p>",
+        "is_correct": true
+      },
+      {
+        "id": "079854d8a3dce0d877b30fdc73d02050_D",
+        "label": "D",
+        "html": "<p>0.8088</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "079854d8a3dce0d877b30fdc73d02050_C"
+    ]
+  },
+  {
+    "index": 43,
+    "ident": "aeb9fcf633fb65d03be6c93ecb0954f6",
+    "title": "item_058",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 12 insects that land on a flower every 5 minutes. What is the probability that in one minute there will be at least 3 insects?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "aeb9fcf633fb65d03be6c93ecb0954f6_A",
+        "label": "A",
+        "html": "<p>0.6916</p>",
+        "is_correct": false
+      },
+      {
+        "id": "aeb9fcf633fb65d03be6c93ecb0954f6_B",
+        "label": "B",
+        "html": "<p>0.2963</p>",
+        "is_correct": false
+      },
+      {
+        "id": "aeb9fcf633fb65d03be6c93ecb0954f6_C",
+        "label": "C",
+        "html": "<p>0.5540</p>",
+        "is_correct": false
+      },
+      {
+        "id": "aeb9fcf633fb65d03be6c93ecb0954f6_D",
+        "label": "D",
+        "html": "<p>0.4303</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "aeb9fcf633fb65d03be6c93ecb0954f6_D"
+    ]
+  },
+  {
+    "index": 44,
+    "ident": "1c9a88e7f54d8b2f8cc6eaeaaa61e3ca",
+    "title": "item_057",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 30 butterflies observed at a field site every 5 hours. What is the probability that in one hour there will be at least 6 butterflies?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "1c9a88e7f54d8b2f8cc6eaeaaa61e3ca_A",
+        "label": "A",
+        "html": "<p>0.5543</p>",
+        "is_correct": true
+      },
+      {
+        "id": "1c9a88e7f54d8b2f8cc6eaeaaa61e3ca_B",
+        "label": "B",
+        "html": "<p>0.7149</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1c9a88e7f54d8b2f8cc6eaeaaa61e3ca_C",
+        "label": "C",
+        "html": "<p>0.4711</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1c9a88e7f54d8b2f8cc6eaeaaa61e3ca_D",
+        "label": "D",
+        "html": "<p>0.6310</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1c9a88e7f54d8b2f8cc6eaeaaa61e3ca_A"
+    ]
+  },
+  {
+    "index": 45,
+    "ident": "35871d45a467518636212b3d16515182",
+    "title": "item_056",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 5110 births at a certain hospital every 365 days. What is the probability that in one day there will be exactly 14 births?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "35871d45a467518636212b3d16515182_A",
+        "label": "A",
+        "html": "<p>0.1060</p>",
+        "is_correct": true
+      },
+      {
+        "id": "35871d45a467518636212b3d16515182_B",
+        "label": "B",
+        "html": "<p>0.1051</p>",
+        "is_correct": false
+      },
+      {
+        "id": "35871d45a467518636212b3d16515182_C",
+        "label": "C",
+        "html": "<p>0.0989</p>",
+        "is_correct": false
+      },
+      {
+        "id": "35871d45a467518636212b3d16515182_D",
+        "label": "D",
+        "html": "<p>0.1050</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "35871d45a467518636212b3d16515182_A"
+    ]
+  },
+  {
+    "index": 46,
+    "ident": "2996e17d1608e11ceae8c4a9bcd56feb",
+    "title": "item_055",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 9 people who press a button in a reaction task every 3 minutes. What is the probability that in one minute there will be at least 4 presses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "2996e17d1608e11ceae8c4a9bcd56feb_A",
+        "label": "A",
+        "html": "<p>0.5768</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2996e17d1608e11ceae8c4a9bcd56feb_B",
+        "label": "B",
+        "html": "<p>0.1847</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2996e17d1608e11ceae8c4a9bcd56feb_C",
+        "label": "C",
+        "html": "<p>0.2424</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2996e17d1608e11ceae8c4a9bcd56feb_D",
+        "label": "D",
+        "html": "<p>0.3528</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "2996e17d1608e11ceae8c4a9bcd56feb_D"
+    ]
+  },
+  {
+    "index": 47,
+    "ident": "0b1fbe07ec94772252fff53d927e5f87",
+    "title": "item_054",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 37 insects that land on a flower every 15 minutes. What is the probability that in one minute there will be exactly 4 insects?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "0b1fbe07ec94772252fff53d927e5f87_A",
+        "label": "A",
+        "html": "<p>0.0872</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0b1fbe07ec94772252fff53d927e5f87_B",
+        "label": "B",
+        "html": "<p>0.0646</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0b1fbe07ec94772252fff53d927e5f87_C",
+        "label": "C",
+        "html": "<p>0.1309</p>",
+        "is_correct": true
+      },
+      {
+        "id": "0b1fbe07ec94772252fff53d927e5f87_D",
+        "label": "D",
+        "html": "<p>0.2123</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0b1fbe07ec94772252fff53d927e5f87_C"
+    ]
+  },
+  {
+    "index": 48,
+    "ident": "eb3fefaefd05cca4d9ae413912a86edf",
+    "title": "item_053",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 5 insects that land on a flower every 5 minutes. What is the probability that in one minute there will be at most 3 insects?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "eb3fefaefd05cca4d9ae413912a86edf_A",
+        "label": "A",
+        "html": "<p>0.9810</p>",
+        "is_correct": true
+      },
+      {
+        "id": "eb3fefaefd05cca4d9ae413912a86edf_B",
+        "label": "B",
+        "html": "<p>0.9963</p>",
+        "is_correct": false
+      },
+      {
+        "id": "eb3fefaefd05cca4d9ae413912a86edf_C",
+        "label": "C",
+        "html": "<p>0.9344</p>",
+        "is_correct": false
+      },
+      {
+        "id": "eb3fefaefd05cca4d9ae413912a86edf_D",
+        "label": "D",
+        "html": "<p>0.9982</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "eb3fefaefd05cca4d9ae413912a86edf_A"
+    ]
+  },
+  {
+    "index": 49,
+    "ident": "b04f2ff07614b054cae6319f0d781258",
+    "title": "item_052",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 60 insects that land on a flower every 20 minutes. What is the probability that in one minute there will be at most 4 insects?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "b04f2ff07614b054cae6319f0d781258_A",
+        "label": "A",
+        "html": "<p>0.8153</p>",
+        "is_correct": true
+      },
+      {
+        "id": "b04f2ff07614b054cae6319f0d781258_B",
+        "label": "B",
+        "html": "<p>0.7254</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b04f2ff07614b054cae6319f0d781258_C",
+        "label": "C",
+        "html": "<p>0.8912</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b04f2ff07614b054cae6319f0d781258_D",
+        "label": "D",
+        "html": "<p>0.6472</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b04f2ff07614b054cae6319f0d781258_A"
+    ]
+  },
+  {
+    "index": 50,
+    "ident": "60f9d685ad2e0f18c9cf1b9e9508cd29",
+    "title": "item_051",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 7 insects that land on a flower every 15 minutes. What is the probability that in one minute there will be exactly 0 insects?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "60f9d685ad2e0f18c9cf1b9e9508cd29_A",
+        "label": "A",
+        "html": "<p>0.9900</p>",
+        "is_correct": false
+      },
+      {
+        "id": "60f9d685ad2e0f18c9cf1b9e9508cd29_B",
+        "label": "B",
+        "html": "<p>0.2926</p>",
+        "is_correct": false
+      },
+      {
+        "id": "60f9d685ad2e0f18c9cf1b9e9508cd29_C",
+        "label": "C",
+        "html": "<p>0.3803</p>",
+        "is_correct": false
+      },
+      {
+        "id": "60f9d685ad2e0f18c9cf1b9e9508cd29_D",
+        "label": "D",
+        "html": "<p>0.6271</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "60f9d685ad2e0f18c9cf1b9e9508cd29_D"
+    ]
+  },
+  {
+    "index": 51,
+    "ident": "0e9ca8a9ccff330c24fc05a5e78e0121",
+    "title": "item_050",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 25 calls received at a counseling hotline every 5 days. What is the probability that in one day there will be exactly 6 calls?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "0e9ca8a9ccff330c24fc05a5e78e0121_A",
+        "label": "A",
+        "html": "<p>0.1281</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0e9ca8a9ccff330c24fc05a5e78e0121_B",
+        "label": "B",
+        "html": "<p>0.1044</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0e9ca8a9ccff330c24fc05a5e78e0121_C",
+        "label": "C",
+        "html": "<p>0.1462</p>",
+        "is_correct": true
+      },
+      {
+        "id": "0e9ca8a9ccff330c24fc05a5e78e0121_D",
+        "label": "D",
+        "html": "<p>0.1755</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0e9ca8a9ccff330c24fc05a5e78e0121_C"
+    ]
+  },
+  {
+    "index": 52,
+    "ident": "f1906c2c824fa3d3c5a7b9848f9b7a1e",
+    "title": "item_049",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 64 butterflies observed at a field site every 8 hours. What is the probability that in one hour there will be at most 7 butterflies?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "f1906c2c824fa3d3c5a7b9848f9b7a1e_A",
+        "label": "A",
+        "html": "<p>0.5246</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f1906c2c824fa3d3c5a7b9848f9b7a1e_B",
+        "label": "B",
+        "html": "<p>0.3134</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f1906c2c824fa3d3c5a7b9848f9b7a1e_C",
+        "label": "C",
+        "html": "<p>0.5925</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f1906c2c824fa3d3c5a7b9848f9b7a1e_D",
+        "label": "D",
+        "html": "<p>0.4530</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "f1906c2c824fa3d3c5a7b9848f9b7a1e_D"
+    ]
+  },
+  {
+    "index": 53,
+    "ident": "73a3f88fdb145b3536184e37e40a301f",
+    "title": "item_048",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 6 calls to a hospital triage line every 3 hours. What is the probability that in one hour there will be at most 2 calls?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "73a3f88fdb145b3536184e37e40a301f_A",
+        "label": "A",
+        "html": "<p>0.8571</p>",
+        "is_correct": false
+      },
+      {
+        "id": "73a3f88fdb145b3536184e37e40a301f_B",
+        "label": "B",
+        "html": "<p>0.6767</p>",
+        "is_correct": true
+      },
+      {
+        "id": "73a3f88fdb145b3536184e37e40a301f_C",
+        "label": "C",
+        "html": "<p>0.5438</p>",
+        "is_correct": false
+      },
+      {
+        "id": "73a3f88fdb145b3536184e37e40a301f_D",
+        "label": "D",
+        "html": "<p>0.8088</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "73a3f88fdb145b3536184e37e40a301f_B"
+    ]
+  },
+  {
+    "index": 54,
+    "ident": "d5e1ca7484f7e7077d8c7967a2bff758",
+    "title": "item_047",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 5 participants who show a startle response every 5 hours. What is the probability that in one hour there will be at most 0 responses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "d5e1ca7484f7e7077d8c7967a2bff758_A",
+        "label": "A",
+        "html": "<p>0.3679</p>",
+        "is_correct": true
+      },
+      {
+        "id": "d5e1ca7484f7e7077d8c7967a2bff758_B",
+        "label": "B",
+        "html": "<p>0.7358</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d5e1ca7484f7e7077d8c7967a2bff758_C",
+        "label": "C",
+        "html": "<p>0.2231</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d5e1ca7484f7e7077d8c7967a2bff758_D",
+        "label": "D",
+        "html": "<p>0.6065</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d5e1ca7484f7e7077d8c7967a2bff758_A"
+    ]
+  },
+  {
+    "index": 55,
+    "ident": "c3209701d1180d55dae956870f731281",
+    "title": "item_046",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 14 participants who show a startle response every 2 hours. What is the probability that in one hour there will be exactly 5 responses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "c3209701d1180d55dae956870f731281_A",
+        "label": "A",
+        "html": "<p>0.0912</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c3209701d1180d55dae956870f731281_B",
+        "label": "B",
+        "html": "<p>0.1454</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c3209701d1180d55dae956870f731281_C",
+        "label": "C",
+        "html": "<p>0.1277</p>",
+        "is_correct": true
+      },
+      {
+        "id": "c3209701d1180d55dae956870f731281_D",
+        "label": "D",
+        "html": "<p>0.1094</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c3209701d1180d55dae956870f731281_C"
+    ]
+  },
+  {
+    "index": 56,
+    "ident": "5a1fa2d5ac64a7fefc9bda6a75c3b737",
+    "title": "item_045",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 2 participants who show a startle response every 2 hours. What is the probability that in one hour there will be exactly 2 responses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "5a1fa2d5ac64a7fefc9bda6a75c3b737_A",
+        "label": "A",
+        "html": "<p>0.1839</p>",
+        "is_correct": true
+      },
+      {
+        "id": "5a1fa2d5ac64a7fefc9bda6a75c3b737_B",
+        "label": "B",
+        "html": "<p>0.0758</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5a1fa2d5ac64a7fefc9bda6a75c3b737_C",
+        "label": "C",
+        "html": "<p>0.3679</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5a1fa2d5ac64a7fefc9bda6a75c3b737_D",
+        "label": "D",
+        "html": "<p>0.2510</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5a1fa2d5ac64a7fefc9bda6a75c3b737_A"
+    ]
+  },
+  {
+    "index": 57,
+    "ident": "b77cf29c18a00c48e96508248b203843",
+    "title": "item_044",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 75 errors made by a typist every 25 pages. What is the probability that in one page there will be at most 2 errors?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "b77cf29c18a00c48e96508248b203843_A",
+        "label": "A",
+        "html": "<p>0.5438</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b77cf29c18a00c48e96508248b203843_B",
+        "label": "B",
+        "html": "<p>0.6472</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b77cf29c18a00c48e96508248b203843_C",
+        "label": "C",
+        "html": "<p>0.4232</p>",
+        "is_correct": true
+      },
+      {
+        "id": "b77cf29c18a00c48e96508248b203843_D",
+        "label": "D",
+        "html": "<p>0.3208</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b77cf29c18a00c48e96508248b203843_C"
+    ]
+  },
+  {
+    "index": 58,
+    "ident": "91db5024c3104a5c1999cbf14ee8c362",
+    "title": "item_043",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 60 calls to a hospital triage line every 10 hours. What is the probability that in one hour there will be at least 7 calls?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "91db5024c3104a5c1999cbf14ee8c362_A",
+        "label": "A",
+        "html": "<p>0.3140</p>",
+        "is_correct": false
+      },
+      {
+        "id": "91db5024c3104a5c1999cbf14ee8c362_B",
+        "label": "B",
+        "html": "<p>0.5543</p>",
+        "is_correct": false
+      },
+      {
+        "id": "91db5024c3104a5c1999cbf14ee8c362_C",
+        "label": "C",
+        "html": "<p>0.3937</p>",
+        "is_correct": true
+      },
+      {
+        "id": "91db5024c3104a5c1999cbf14ee8c362_D",
+        "label": "D",
+        "html": "<p>0.2560</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "91db5024c3104a5c1999cbf14ee8c362_C"
+    ]
+  },
+  {
+    "index": 59,
+    "ident": "0905b0deab66d978e2c256f4d3df74fe",
+    "title": "item_042",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 6 birds that fly into a wildlife reserve every 6 hours. What is the probability that in one hour there will be at most 4 birds?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "0905b0deab66d978e2c256f4d3df74fe_A",
+        "label": "A",
+        "html": "<p>0.9998</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0905b0deab66d978e2c256f4d3df74fe_B",
+        "label": "B",
+        "html": "<p>0.9963</p>",
+        "is_correct": true
+      },
+      {
+        "id": "0905b0deab66d978e2c256f4d3df74fe_C",
+        "label": "C",
+        "html": "<p>0.9994</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0905b0deab66d978e2c256f4d3df74fe_D",
+        "label": "D",
+        "html": "<p>0.9814</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0905b0deab66d978e2c256f4d3df74fe_B"
+    ]
+  },
+  {
+    "index": 60,
+    "ident": "41b1788ccde46dce0c36f91aa51b0b9f",
+    "title": "item_041",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 2190 births at a certain hospital every 365 days. What is the probability that in one day there will be at most 5 births?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "41b1788ccde46dce0c36f91aa51b0b9f_A",
+        "label": "A",
+        "html": "<p>0.4457</p>",
+        "is_correct": true
+      },
+      {
+        "id": "41b1788ccde46dce0c36f91aa51b0b9f_B",
+        "label": "B",
+        "html": "<p>0.6063</p>",
+        "is_correct": false
+      },
+      {
+        "id": "41b1788ccde46dce0c36f91aa51b0b9f_C",
+        "label": "C",
+        "html": "<p>0.3690</p>",
+        "is_correct": false
+      },
+      {
+        "id": "41b1788ccde46dce0c36f91aa51b0b9f_D",
+        "label": "D",
+        "html": "<p>0.5289</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "41b1788ccde46dce0c36f91aa51b0b9f_A"
+    ]
+  },
+  {
+    "index": 61,
+    "ident": "532cbb614d42a25585957d1b51a1f044",
+    "title": "item_040",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 36 calls to a hospital triage line every 12 hours. What is the probability that in one hour there will be at least 1 calls?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "532cbb614d42a25585957d1b51a1f044_A",
+        "label": "A",
+        "html": "<p>0.9179</p>",
+        "is_correct": false
+      },
+      {
+        "id": "532cbb614d42a25585957d1b51a1f044_B",
+        "label": "B",
+        "html": "<p>0.9698</p>",
+        "is_correct": false
+      },
+      {
+        "id": "532cbb614d42a25585957d1b51a1f044_C",
+        "label": "C",
+        "html": "<p>0.8009</p>",
+        "is_correct": false
+      },
+      {
+        "id": "532cbb614d42a25585957d1b51a1f044_D",
+        "label": "D",
+        "html": "<p>0.9502</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "532cbb614d42a25585957d1b51a1f044_D"
+    ]
+  },
+  {
+    "index": 62,
+    "ident": "75d5fb1d7a89779aa3dcb77ee07cca98",
+    "title": "item_039",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 84 calls to a hospital triage line every 12 hours. What is the probability that in one hour there will be at most 9 calls?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "75d5fb1d7a89779aa3dcb77ee07cca98_A",
+        "label": "A",
+        "html": "<p>0.7764</p>",
+        "is_correct": false
+      },
+      {
+        "id": "75d5fb1d7a89779aa3dcb77ee07cca98_B",
+        "label": "B",
+        "html": "<p>0.8774</p>",
+        "is_correct": false
+      },
+      {
+        "id": "75d5fb1d7a89779aa3dcb77ee07cca98_C",
+        "label": "C",
+        "html": "<p>0.8305</p>",
+        "is_correct": true
+      },
+      {
+        "id": "75d5fb1d7a89779aa3dcb77ee07cca98_D",
+        "label": "D",
+        "html": "<p>0.9015</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "75d5fb1d7a89779aa3dcb77ee07cca98_C"
+    ]
+  },
+  {
+    "index": 63,
+    "ident": "d652383b086a5f07123d8a7de590d381",
+    "title": "item_038",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 40 participants who show a startle response every 8 hours. What is the probability that in one hour there will be exactly 5 responses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "d652383b086a5f07123d8a7de590d381_A",
+        "label": "A",
+        "html": "<p>0.1714</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d652383b086a5f07123d8a7de590d381_B",
+        "label": "B",
+        "html": "<p>0.1462</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d652383b086a5f07123d8a7de590d381_C",
+        "label": "C",
+        "html": "<p>0.1755</p>",
+        "is_correct": true
+      },
+      {
+        "id": "d652383b086a5f07123d8a7de590d381_D",
+        "label": "D",
+        "html": "<p>0.1708</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d652383b086a5f07123d8a7de590d381_C"
+    ]
+  },
+  {
+    "index": 64,
+    "ident": "0f46e9a618d9e497c12cac615d6ff890",
+    "title": "item_037",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 28 calls received at a counseling hotline every 7 days. What is the probability that in one day there will be exactly 5 calls?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "0f46e9a618d9e497c12cac615d6ff890_A",
+        "label": "A",
+        "html": "<p>0.1708</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0f46e9a618d9e497c12cac615d6ff890_B",
+        "label": "B",
+        "html": "<p>0.1042</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0f46e9a618d9e497c12cac615d6ff890_C",
+        "label": "C",
+        "html": "<p>0.1322</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0f46e9a618d9e497c12cac615d6ff890_D",
+        "label": "D",
+        "html": "<p>0.1563</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "0f46e9a618d9e497c12cac615d6ff890_D"
+    ]
+  },
+  {
+    "index": 65,
+    "ident": "4515e9d1252072fc42b1bfde46449b46",
+    "title": "item_036",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 20 calls to a hospital triage line every 4 hours. What is the probability that in one hour there will be at most 6 calls?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "4515e9d1252072fc42b1bfde46449b46_A",
+        "label": "A",
+        "html": "<p>0.8666</p>",
+        "is_correct": false
+      },
+      {
+        "id": "4515e9d1252072fc42b1bfde46449b46_B",
+        "label": "B",
+        "html": "<p>0.6860</p>",
+        "is_correct": false
+      },
+      {
+        "id": "4515e9d1252072fc42b1bfde46449b46_C",
+        "label": "C",
+        "html": "<p>0.7622</p>",
+        "is_correct": true
+      },
+      {
+        "id": "4515e9d1252072fc42b1bfde46449b46_D",
+        "label": "D",
+        "html": "<p>0.8311</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4515e9d1252072fc42b1bfde46449b46_C"
+    ]
+  },
+  {
+    "index": 66,
+    "ident": "d5e4f804fade048cbcb44b3a6ef201f6",
+    "title": "item_035",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 2 insects that land on a flower every 4 minutes. What is the probability that in one minute there will be exactly 2 insects?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "d5e4f804fade048cbcb44b3a6ef201f6_A",
+        "label": "A",
+        "html": "<p>0.3033</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d5e4f804fade048cbcb44b3a6ef201f6_B",
+        "label": "B",
+        "html": "<p>0.0126</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d5e4f804fade048cbcb44b3a6ef201f6_C",
+        "label": "C",
+        "html": "<p>0.0000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d5e4f804fade048cbcb44b3a6ef201f6_D",
+        "label": "D",
+        "html": "<p>0.0758</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "d5e4f804fade048cbcb44b3a6ef201f6_D"
+    ]
+  },
+  {
+    "index": 67,
+    "ident": "27e522b2fa7dbe0c79e234ee6371717c",
+    "title": "item_034",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 48 butterflies observed at a field site every 6 hours. What is the probability that in one hour there will be at most 8 butterflies?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "27e522b2fa7dbe0c79e234ee6371717c_A",
+        "label": "A",
+        "html": "<p>0.5231</p>",
+        "is_correct": false
+      },
+      {
+        "id": "27e522b2fa7dbe0c79e234ee6371717c_B",
+        "label": "B",
+        "html": "<p>0.4530</p>",
+        "is_correct": false
+      },
+      {
+        "id": "27e522b2fa7dbe0c79e234ee6371717c_C",
+        "label": "C",
+        "html": "<p>0.6620</p>",
+        "is_correct": false
+      },
+      {
+        "id": "27e522b2fa7dbe0c79e234ee6371717c_D",
+        "label": "D",
+        "html": "<p>0.5925</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "27e522b2fa7dbe0c79e234ee6371717c_D"
+    ]
+  },
+  {
+    "index": 68,
+    "ident": "6e0d04a691c41b4141f156f1856abfcd",
+    "title": "item_033",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 12 fish caught by a research net every 2 days. What is the probability that in one day there will be exactly 4 fish?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "6e0d04a691c41b4141f156f1856abfcd_A",
+        "label": "A",
+        "html": "<p>0.1558</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6e0d04a691c41b4141f156f1856abfcd_B",
+        "label": "B",
+        "html": "<p>0.1606</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6e0d04a691c41b4141f156f1856abfcd_C",
+        "label": "C",
+        "html": "<p>0.1339</p>",
+        "is_correct": true
+      },
+      {
+        "id": "6e0d04a691c41b4141f156f1856abfcd_D",
+        "label": "D",
+        "html": "<p>0.1118</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6e0d04a691c41b4141f156f1856abfcd_C"
+    ]
+  },
+  {
+    "index": 69,
+    "ident": "93e2a6b798248b7b39c5d6b4ee1545a3",
+    "title": "item_032",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 20 calls received at a counseling hotline every 2 days. What is the probability that in one day there will be at least 8 calls?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "93e2a6b798248b7b39c5d6b4ee1545a3_A",
+        "label": "A",
+        "html": "<p>0.7313</p>",
+        "is_correct": false
+      },
+      {
+        "id": "93e2a6b798248b7b39c5d6b4ee1545a3_B",
+        "label": "B",
+        "html": "<p>0.7798</p>",
+        "is_correct": true
+      },
+      {
+        "id": "93e2a6b798248b7b39c5d6b4ee1545a3_C",
+        "label": "C",
+        "html": "<p>0.6672</p>",
+        "is_correct": false
+      },
+      {
+        "id": "93e2a6b798248b7b39c5d6b4ee1545a3_D",
+        "label": "D",
+        "html": "<p>0.8215</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "93e2a6b798248b7b39c5d6b4ee1545a3_B"
+    ]
+  },
+  {
+    "index": 70,
+    "ident": "005f0aaa99455eb33e8f5aedac846f4d",
+    "title": "item_031",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 10 insects that land on a flower every 4 minutes. What is the probability that in one minute there will be at least 2 insects?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "005f0aaa99455eb33e8f5aedac846f4d_A",
+        "label": "A",
+        "html": "<p>0.4562</p>",
+        "is_correct": false
+      },
+      {
+        "id": "005f0aaa99455eb33e8f5aedac846f4d_B",
+        "label": "B",
+        "html": "<p>0.8009</p>",
+        "is_correct": false
+      },
+      {
+        "id": "005f0aaa99455eb33e8f5aedac846f4d_C",
+        "label": "C",
+        "html": "<p>0.7127</p>",
+        "is_correct": true
+      },
+      {
+        "id": "005f0aaa99455eb33e8f5aedac846f4d_D",
+        "label": "D",
+        "html": "<p>0.5940</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "005f0aaa99455eb33e8f5aedac846f4d_C"
+    ]
+  },
+  {
+    "index": 71,
+    "ident": "5c3398fc6c8bad72717bbc336142b0e7",
+    "title": "item_030",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 30 new arrivals at an emergency room every 3 hours. What is the probability that in one hour there will be at least 10 arrivals?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "5c3398fc6c8bad72717bbc336142b0e7_A",
+        "label": "A",
+        "html": "<p>0.5421</p>",
+        "is_correct": true
+      },
+      {
+        "id": "5c3398fc6c8bad72717bbc336142b0e7_B",
+        "label": "B",
+        "html": "<p>0.6029</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5c3398fc6c8bad72717bbc336142b0e7_C",
+        "label": "C",
+        "html": "<p>0.6672</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5c3398fc6c8bad72717bbc336142b0e7_D",
+        "label": "D",
+        "html": "<p>0.4782</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5c3398fc6c8bad72717bbc336142b0e7_A"
+    ]
+  },
+  {
+    "index": 72,
+    "ident": "338b6fb0b47126b2055add54a6fde3e9",
+    "title": "item_029",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 12 birds that fly into a wildlife reserve every 4 hours. What is the probability that in one hour there will be at most 6 birds?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "338b6fb0b47126b2055add54a6fde3e9_A",
+        "label": "A",
+        "html": "<p>0.9161</p>",
+        "is_correct": false
+      },
+      {
+        "id": "338b6fb0b47126b2055add54a6fde3e9_B",
+        "label": "B",
+        "html": "<p>0.9347</p>",
+        "is_correct": false
+      },
+      {
+        "id": "338b6fb0b47126b2055add54a6fde3e9_C",
+        "label": "C",
+        "html": "<p>0.9858</p>",
+        "is_correct": false
+      },
+      {
+        "id": "338b6fb0b47126b2055add54a6fde3e9_D",
+        "label": "D",
+        "html": "<p>0.9665</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "338b6fb0b47126b2055add54a6fde3e9_D"
+    ]
+  },
+  {
+    "index": 73,
+    "ident": "53a307ed7e1268e4d27f2ccf60efb0e5",
+    "title": "item_028",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 240 calls received at a counseling hotline every 30 days. What is the probability that in one day there will be exactly 7 calls?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "53a307ed7e1268e4d27f2ccf60efb0e5_A",
+        "label": "A",
+        "html": "<p>0.1294</p>",
+        "is_correct": false
+      },
+      {
+        "id": "53a307ed7e1268e4d27f2ccf60efb0e5_B",
+        "label": "B",
+        "html": "<p>0.1221</p>",
+        "is_correct": false
+      },
+      {
+        "id": "53a307ed7e1268e4d27f2ccf60efb0e5_C",
+        "label": "C",
+        "html": "<p>0.1396</p>",
+        "is_correct": true
+      },
+      {
+        "id": "53a307ed7e1268e4d27f2ccf60efb0e5_D",
+        "label": "D",
+        "html": "<p>0.1465</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "53a307ed7e1268e4d27f2ccf60efb0e5_C"
+    ]
+  },
+  {
+    "index": 74,
+    "ident": "e49d7c6acdffaacc2daaf16ed237e5f3",
+    "title": "item_027",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 90 insects that land on a flower every 30 minutes. What is the probability that in one minute there will be exactly 5 insects?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "e49d7c6acdffaacc2daaf16ed237e5f3_A",
+        "label": "A",
+        "html": "<p>0.1008</p>",
+        "is_correct": true
+      },
+      {
+        "id": "e49d7c6acdffaacc2daaf16ed237e5f3_B",
+        "label": "B",
+        "html": "<p>0.1322</p>",
+        "is_correct": false
+      },
+      {
+        "id": "e49d7c6acdffaacc2daaf16ed237e5f3_C",
+        "label": "C",
+        "html": "<p>0.0668</p>",
+        "is_correct": false
+      },
+      {
+        "id": "e49d7c6acdffaacc2daaf16ed237e5f3_D",
+        "label": "D",
+        "html": "<p>0.0504</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e49d7c6acdffaacc2daaf16ed237e5f3_A"
+    ]
+  },
+  {
+    "index": 75,
+    "ident": "292b3842f10e126f45ee7a050017a253",
+    "title": "item_026",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 32 butterflies observed at a field site every 4 hours. What is the probability that in one hour there will be at most 7 butterflies?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "292b3842f10e126f45ee7a050017a253_A",
+        "label": "A",
+        "html": "<p>0.5925</p>",
+        "is_correct": false
+      },
+      {
+        "id": "292b3842f10e126f45ee7a050017a253_B",
+        "label": "B",
+        "html": "<p>0.5246</p>",
+        "is_correct": false
+      },
+      {
+        "id": "292b3842f10e126f45ee7a050017a253_C",
+        "label": "C",
+        "html": "<p>0.3134</p>",
+        "is_correct": false
+      },
+      {
+        "id": "292b3842f10e126f45ee7a050017a253_D",
+        "label": "D",
+        "html": "<p>0.4530</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "292b3842f10e126f45ee7a050017a253_D"
+    ]
+  },
+  {
+    "index": 76,
+    "ident": "aa237dcb6c0f48a7dd333b6e862f71a2",
+    "title": "item_025",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 30 errors made by a typist every 20 pages. What is the probability that in one page there will be at least 4 errors?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "aa237dcb6c0f48a7dd333b6e862f71a2_A",
+        "label": "A",
+        "html": "<p>0.1912</p>",
+        "is_correct": false
+      },
+      {
+        "id": "aa237dcb6c0f48a7dd333b6e862f71a2_B",
+        "label": "B",
+        "html": "<p>0.0186</p>",
+        "is_correct": false
+      },
+      {
+        "id": "aa237dcb6c0f48a7dd333b6e862f71a2_C",
+        "label": "C",
+        "html": "<p>0.0190</p>",
+        "is_correct": false
+      },
+      {
+        "id": "aa237dcb6c0f48a7dd333b6e862f71a2_D",
+        "label": "D",
+        "html": "<p>0.0656</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "aa237dcb6c0f48a7dd333b6e862f71a2_D"
+    ]
+  },
+  {
+    "index": 77,
+    "ident": "d868a6e83332f9cc5619d3e8edf045ef",
+    "title": "item_024",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 100 errors made by a typist every 100 pages. What is the probability that in one page there will be at most 2 errors?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "d868a6e83332f9cc5619d3e8edf045ef_A",
+        "label": "A",
+        "html": "<p>0.9810</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d868a6e83332f9cc5619d3e8edf045ef_B",
+        "label": "B",
+        "html": "<p>0.9856</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d868a6e83332f9cc5619d3e8edf045ef_C",
+        "label": "C",
+        "html": "<p>0.9197</p>",
+        "is_correct": true
+      },
+      {
+        "id": "d868a6e83332f9cc5619d3e8edf045ef_D",
+        "label": "D",
+        "html": "<p>0.8088</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d868a6e83332f9cc5619d3e8edf045ef_C"
+    ]
+  },
+  {
+    "index": 78,
+    "ident": "7f5a8bcd205cd9492545dac76cb084ba",
+    "title": "item_023",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 8 participants who show a startle response every 4 hours. What is the probability that in one hour there will be at most 2 responses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "7f5a8bcd205cd9492545dac76cb084ba_A",
+        "label": "A",
+        "html": "<p>0.6767</p>",
+        "is_correct": true
+      },
+      {
+        "id": "7f5a8bcd205cd9492545dac76cb084ba_B",
+        "label": "B",
+        "html": "<p>0.8088</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7f5a8bcd205cd9492545dac76cb084ba_C",
+        "label": "C",
+        "html": "<p>0.5438</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7f5a8bcd205cd9492545dac76cb084ba_D",
+        "label": "D",
+        "html": "<p>0.8571</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7f5a8bcd205cd9492545dac76cb084ba_A"
+    ]
+  },
+  {
+    "index": 79,
+    "ident": "080de39e0464aea715cc9b31f8e9af1a",
+    "title": "item_022",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 32 calls to a hospital triage line every 4 hours. What is the probability that in one hour there will be exactly 9 calls?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "080de39e0464aea715cc9b31f8e9af1a_A",
+        "label": "A",
+        "html": "<p>0.0993</p>",
+        "is_correct": false
+      },
+      {
+        "id": "080de39e0464aea715cc9b31f8e9af1a_B",
+        "label": "B",
+        "html": "<p>0.1144</p>",
+        "is_correct": false
+      },
+      {
+        "id": "080de39e0464aea715cc9b31f8e9af1a_C",
+        "label": "C",
+        "html": "<p>0.1241</p>",
+        "is_correct": true
+      },
+      {
+        "id": "080de39e0464aea715cc9b31f8e9af1a_D",
+        "label": "D",
+        "html": "<p>0.1396</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "080de39e0464aea715cc9b31f8e9af1a_C"
+    ]
+  },
+  {
+    "index": 80,
+    "ident": "33a2a39c552bca5a988bb25d61488de6",
+    "title": "item_021",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 60 positive test results processed by a lab every 12 hours. What is the probability that in one hour there will be exactly 8 positives?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "33a2a39c552bca5a988bb25d61488de6_A",
+        "label": "A",
+        "html": "<p>0.0849</p>",
+        "is_correct": false
+      },
+      {
+        "id": "33a2a39c552bca5a988bb25d61488de6_B",
+        "label": "B",
+        "html": "<p>0.0463</p>",
+        "is_correct": false
+      },
+      {
+        "id": "33a2a39c552bca5a988bb25d61488de6_C",
+        "label": "C",
+        "html": "<p>0.0653</p>",
+        "is_correct": true
+      },
+      {
+        "id": "33a2a39c552bca5a988bb25d61488de6_D",
+        "label": "D",
+        "html": "<p>0.0363</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "33a2a39c552bca5a988bb25d61488de6_C"
+    ]
+  },
+  {
+    "index": 81,
+    "ident": "2cb556d3029d2a4cfcde0613b85c3ac0",
+    "title": "item_020",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 216 new arrivals at an emergency room every 24 hours. What is the probability that in one hour there will be at most 12 arrivals?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "2cb556d3029d2a4cfcde0613b85c3ac0_A",
+        "label": "A",
+        "html": "<p>0.8364</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2cb556d3029d2a4cfcde0613b85c3ac0_B",
+        "label": "B",
+        "html": "<p>0.9261</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2cb556d3029d2a4cfcde0613b85c3ac0_C",
+        "label": "C",
+        "html": "<p>0.8758</p>",
+        "is_correct": true
+      },
+      {
+        "id": "2cb556d3029d2a4cfcde0613b85c3ac0_D",
+        "label": "D",
+        "html": "<p>0.9091</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2cb556d3029d2a4cfcde0613b85c3ac0_C"
+    ]
+  },
+  {
+    "index": 82,
+    "ident": "395cdcf6b0dacd9d2bca9b80be72ca91",
+    "title": "item_019",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 12 insects that land on a flower every 5 minutes. What is the probability that in one minute there will be exactly 2 insects?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "395cdcf6b0dacd9d2bca9b80be72ca91_A",
+        "label": "A",
+        "html": "<p>0.2613</p>",
+        "is_correct": true
+      },
+      {
+        "id": "395cdcf6b0dacd9d2bca9b80be72ca91_B",
+        "label": "B",
+        "html": "<p>0.2090</p>",
+        "is_correct": false
+      },
+      {
+        "id": "395cdcf6b0dacd9d2bca9b80be72ca91_C",
+        "label": "C",
+        "html": "<p>0.2177</p>",
+        "is_correct": false
+      },
+      {
+        "id": "395cdcf6b0dacd9d2bca9b80be72ca91_D",
+        "label": "D",
+        "html": "<p>0.2700</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "395cdcf6b0dacd9d2bca9b80be72ca91_A"
+    ]
+  },
+  {
+    "index": 83,
+    "ident": "adaba35538ca0876520bdba8d5050705",
+    "title": "item_018",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 300 fish caught by a research net every 30 days. What is the probability that in one day there will be at least 11 fish?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "adaba35538ca0876520bdba8d5050705_A",
+        "label": "A",
+        "html": "<p>0.5421</p>",
+        "is_correct": false
+      },
+      {
+        "id": "adaba35538ca0876520bdba8d5050705_B",
+        "label": "B",
+        "html": "<p>0.3547</p>",
+        "is_correct": false
+      },
+      {
+        "id": "adaba35538ca0876520bdba8d5050705_C",
+        "label": "C",
+        "html": "<p>0.4170</p>",
+        "is_correct": true
+      },
+      {
+        "id": "adaba35538ca0876520bdba8d5050705_D",
+        "label": "D",
+        "html": "<p>0.3032</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "adaba35538ca0876520bdba8d5050705_C"
+    ]
+  },
+  {
+    "index": 84,
+    "ident": "ab21c1186b9836e7f22eac18e52596a7",
+    "title": "item_017",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 180 fish caught by a research net every 30 days. What is the probability that in one day there will be exactly 7 fish?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "ab21c1186b9836e7f22eac18e52596a7_A",
+        "label": "A",
+        "html": "<p>0.1234</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ab21c1186b9836e7f22eac18e52596a7_B",
+        "label": "B",
+        "html": "<p>0.1606</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ab21c1186b9836e7f22eac18e52596a7_C",
+        "label": "C",
+        "html": "<p>0.1377</p>",
+        "is_correct": true
+      },
+      {
+        "id": "ab21c1186b9836e7f22eac18e52596a7_D",
+        "label": "D",
+        "html": "<p>0.1462</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ab21c1186b9836e7f22eac18e52596a7_C"
+    ]
+  },
+  {
+    "index": 85,
+    "ident": "580c1d59df2746a16330dc79ca839b20",
+    "title": "item_016",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 35 calls received at a counseling hotline every 7 days. What is the probability that in one day there will be at most 4 calls?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "580c1d59df2746a16330dc79ca839b20_A",
+        "label": "A",
+        "html": "<p>0.5321</p>",
+        "is_correct": false
+      },
+      {
+        "id": "580c1d59df2746a16330dc79ca839b20_B",
+        "label": "B",
+        "html": "<p>0.2650</p>",
+        "is_correct": false
+      },
+      {
+        "id": "580c1d59df2746a16330dc79ca839b20_C",
+        "label": "C",
+        "html": "<p>0.6160</p>",
+        "is_correct": false
+      },
+      {
+        "id": "580c1d59df2746a16330dc79ca839b20_D",
+        "label": "D",
+        "html": "<p>0.4405</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "580c1d59df2746a16330dc79ca839b20_D"
+    ]
+  },
+  {
+    "index": 86,
+    "ident": "a8bc5fd65b8338ce9de0858aa3c3dfe3",
+    "title": "item_015",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 90 fish caught by a research net every 6 days. What is the probability that in one day there will be at most 13 fish?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "a8bc5fd65b8338ce9de0858aa3c3dfe3_A",
+        "label": "A",
+        "html": "<p>0.4657</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a8bc5fd65b8338ce9de0858aa3c3dfe3_B",
+        "label": "B",
+        "html": "<p>0.4125</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a8bc5fd65b8338ce9de0858aa3c3dfe3_C",
+        "label": "C",
+        "html": "<p>0.3632</p>",
+        "is_correct": true
+      },
+      {
+        "id": "a8bc5fd65b8338ce9de0858aa3c3dfe3_D",
+        "label": "D",
+        "html": "<p>0.3171</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a8bc5fd65b8338ce9de0858aa3c3dfe3_C"
+    ]
+  },
+  {
+    "index": 87,
+    "ident": "1d96584e855cf03afb5373945ccc2db3",
+    "title": "item_014",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 24 participants who show a startle response every 24 hours. What is the probability that in one hour there will be at least 1 responses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "1d96584e855cf03afb5373945ccc2db3_A",
+        "label": "A",
+        "html": "<p>0.2642</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1d96584e855cf03afb5373945ccc2db3_B",
+        "label": "B",
+        "html": "<p>0.7769</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1d96584e855cf03afb5373945ccc2db3_C",
+        "label": "C",
+        "html": "<p>0.3935</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1d96584e855cf03afb5373945ccc2db3_D",
+        "label": "D",
+        "html": "<p>0.6321</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "1d96584e855cf03afb5373945ccc2db3_D"
+    ]
+  },
+  {
+    "index": 88,
+    "ident": "705d5f42687f7f18012105e4257aef72",
+    "title": "item_013",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 60 errors made by a typist every 20 pages. What is the probability that in one page there will be at most 1 errors?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "705d5f42687f7f18012105e4257aef72_A",
+        "label": "A",
+        "html": "<p>0.1991</p>",
+        "is_correct": true
+      },
+      {
+        "id": "705d5f42687f7f18012105e4257aef72_B",
+        "label": "B",
+        "html": "<p>0.0498</p>",
+        "is_correct": false
+      },
+      {
+        "id": "705d5f42687f7f18012105e4257aef72_C",
+        "label": "C",
+        "html": "<p>0.4232</p>",
+        "is_correct": false
+      },
+      {
+        "id": "705d5f42687f7f18012105e4257aef72_D",
+        "label": "D",
+        "html": "<p>0.2873</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "705d5f42687f7f18012105e4257aef72_A"
+    ]
+  },
+  {
+    "index": 89,
+    "ident": "d931f95c9d794095ab86f405109210c4",
+    "title": "item_012",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 42 new arrivals at an emergency room every 6 hours. What is the probability that in one hour there will be at least 7 arrivals?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "d931f95c9d794095ab86f405109210c4_A",
+        "label": "A",
+        "html": "<p>0.4735</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d931f95c9d794095ab86f405109210c4_B",
+        "label": "B",
+        "html": "<p>0.4013</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d931f95c9d794095ab86f405109210c4_C",
+        "label": "C",
+        "html": "<p>0.6218</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d931f95c9d794095ab86f405109210c4_D",
+        "label": "D",
+        "html": "<p>0.5503</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "d931f95c9d794095ab86f405109210c4_D"
+    ]
+  },
+  {
+    "index": 90,
+    "ident": "9ab859e0d74745ea8eb20db4a19a7ef0",
+    "title": "item_011",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 24 fish caught by a research net every 4 days. What is the probability that in one day there will be at least 9 fish?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "9ab859e0d74745ea8eb20db4a19a7ef0_A",
+        "label": "A",
+        "html": "<p>0.2560</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9ab859e0d74745ea8eb20db4a19a7ef0_B",
+        "label": "B",
+        "html": "<p>0.1056</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9ab859e0d74745ea8eb20db4a19a7ef0_C",
+        "label": "C",
+        "html": "<p>0.0839</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9ab859e0d74745ea8eb20db4a19a7ef0_D",
+        "label": "D",
+        "html": "<p>0.1528</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "9ab859e0d74745ea8eb20db4a19a7ef0_D"
+    ]
+  },
+  {
+    "index": 91,
+    "ident": "6573094aacaa06082553092d8e104100",
+    "title": "item_010",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 9 new arrivals at an emergency room every 3 hours. What is the probability that in one hour there will be at least 1 arrivals?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "6573094aacaa06082553092d8e104100_A",
+        "label": "A",
+        "html": "<p>0.8009</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6573094aacaa06082553092d8e104100_B",
+        "label": "B",
+        "html": "<p>0.9179</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6573094aacaa06082553092d8e104100_C",
+        "label": "C",
+        "html": "<p>0.9502</p>",
+        "is_correct": true
+      },
+      {
+        "id": "6573094aacaa06082553092d8e104100_D",
+        "label": "D",
+        "html": "<p>0.9698</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6573094aacaa06082553092d8e104100_C"
+    ]
+  },
+  {
+    "index": 92,
+    "ident": "9b04e5ecaab7937ddec701cba4086522",
+    "title": "item_009",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 15 people who press a button in a reaction task every 6 minutes. What is the probability that in one minute there will be exactly 2 presses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "9b04e5ecaab7937ddec701cba4086522_A",
+        "label": "A",
+        "html": "<p>0.2138</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9b04e5ecaab7937ddec701cba4086522_B",
+        "label": "B",
+        "html": "<p>0.2240</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9b04e5ecaab7937ddec701cba4086522_C",
+        "label": "C",
+        "html": "<p>0.2707</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9b04e5ecaab7937ddec701cba4086522_D",
+        "label": "D",
+        "html": "<p>0.2565</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "9b04e5ecaab7937ddec701cba4086522_D"
+    ]
+  },
+  {
+    "index": 93,
+    "ident": "fe46cfe584ee70ad89e4e3a6c8f28a39",
+    "title": "item_008",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 4380 births at a certain hospital every 365 days. What is the probability that in one day there will be at least 10 births?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "fe46cfe584ee70ad89e4e3a6c8f28a39_A",
+        "label": "A",
+        "html": "<p>0.6528</p>",
+        "is_correct": false
+      },
+      {
+        "id": "fe46cfe584ee70ad89e4e3a6c8f28a39_B",
+        "label": "B",
+        "html": "<p>0.7576</p>",
+        "is_correct": true
+      },
+      {
+        "id": "fe46cfe584ee70ad89e4e3a6c8f28a39_C",
+        "label": "C",
+        "html": "<p>0.7986</p>",
+        "is_correct": false
+      },
+      {
+        "id": "fe46cfe584ee70ad89e4e3a6c8f28a39_D",
+        "label": "D",
+        "html": "<p>0.7112</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "fe46cfe584ee70ad89e4e3a6c8f28a39_B"
+    ]
+  },
+  {
+    "index": 94,
+    "ident": "df117cf1cb156ae3c72934a90d63b000",
+    "title": "item_007",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 90 birds that fly into a wildlife reserve every 10 hours. What is the probability that in one hour there will be at most 9 birds?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "df117cf1cb156ae3c72934a90d63b000_A",
+        "label": "A",
+        "html": "<p>0.5218</p>",
+        "is_correct": false
+      },
+      {
+        "id": "df117cf1cb156ae3c72934a90d63b000_B",
+        "label": "B",
+        "html": "<p>0.6530</p>",
+        "is_correct": false
+      },
+      {
+        "id": "df117cf1cb156ae3c72934a90d63b000_C",
+        "label": "C",
+        "html": "<p>0.4557</p>",
+        "is_correct": false
+      },
+      {
+        "id": "df117cf1cb156ae3c72934a90d63b000_D",
+        "label": "D",
+        "html": "<p>0.5874</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "df117cf1cb156ae3c72934a90d63b000_D"
+    ]
+  },
+  {
+    "index": 95,
+    "ident": "512ef41310234413afc2cc2e0729e299",
+    "title": "item_006",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 6 people who press a button in a reaction task every 6 minutes. What is the probability that in one minute there will be at least 0 presses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "512ef41310234413afc2cc2e0729e299_A",
+        "label": "A",
+        "html": "<p>0.6733</p>",
+        "is_correct": false
+      },
+      {
+        "id": "512ef41310234413afc2cc2e0729e299_B",
+        "label": "B",
+        "html": "<p>0.7488</p>",
+        "is_correct": false
+      },
+      {
+        "id": "512ef41310234413afc2cc2e0729e299_C",
+        "label": "C",
+        "html": "<p>1.0000</p>",
+        "is_correct": true
+      },
+      {
+        "id": "512ef41310234413afc2cc2e0729e299_D",
+        "label": "D",
+        "html": "<p>0.6321</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "512ef41310234413afc2cc2e0729e299_C"
+    ]
+  },
+  {
+    "index": 96,
+    "ident": "ef5a831a586da9fe46b6147c9573f7b3",
+    "title": "item_005",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 64 positive test results processed by a lab every 8 hours. What is the probability that in one hour there will be at least 10 positives?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "ef5a831a586da9fe46b6147c9573f7b3_A",
+        "label": "A",
+        "html": "<p>0.2236</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ef5a831a586da9fe46b6147c9573f7b3_B",
+        "label": "B",
+        "html": "<p>0.4075</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ef5a831a586da9fe46b6147c9573f7b3_C",
+        "label": "C",
+        "html": "<p>0.2834</p>",
+        "is_correct": true
+      },
+      {
+        "id": "ef5a831a586da9fe46b6147c9573f7b3_D",
+        "label": "D",
+        "html": "<p>0.3470</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ef5a831a586da9fe46b6147c9573f7b3_C"
+    ]
+  },
+  {
+    "index": 97,
+    "ident": "a47fb34f579c0f1c85ac64160d85bdc5",
+    "title": "item_004",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 24 calls to a hospital triage line every 4 hours. What is the probability that in one hour there will be at least 5 calls?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "a47fb34f579c0f1c85ac64160d85bdc5_A",
+        "label": "A",
+        "html": "<p>0.5543</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a47fb34f579c0f1c85ac64160d85bdc5_B",
+        "label": "B",
+        "html": "<p>0.7149</p>",
+        "is_correct": true
+      },
+      {
+        "id": "a47fb34f579c0f1c85ac64160d85bdc5_C",
+        "label": "C",
+        "html": "<p>0.7763</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a47fb34f579c0f1c85ac64160d85bdc5_D",
+        "label": "D",
+        "html": "<p>0.6425</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a47fb34f579c0f1c85ac64160d85bdc5_B"
+    ]
+  },
+  {
+    "index": 98,
+    "ident": "8629b8fbedd5551ca27e676769a831ee",
+    "title": "item_003",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 72 birds that fly into a wildlife reserve every 8 hours. What is the probability that in one hour there will be exactly 9 birds?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "8629b8fbedd5551ca27e676769a831ee_A",
+        "label": "A",
+        "html": "<p>0.1318</p>",
+        "is_correct": true
+      },
+      {
+        "id": "8629b8fbedd5551ca27e676769a831ee_B",
+        "label": "B",
+        "html": "<p>0.1299</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8629b8fbedd5551ca27e676769a831ee_C",
+        "label": "C",
+        "html": "<p>0.1186</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8629b8fbedd5551ca27e676769a831ee_D",
+        "label": "D",
+        "html": "<p>0.1300</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8629b8fbedd5551ca27e676769a831ee_A"
+    ]
+  },
+  {
+    "index": 99,
+    "ident": "ac1929c196a385ad6b2956331e847cad",
+    "title": "item_002",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 7 insects that land on a flower every 3 minutes. What is the probability that in one minute there will be at most 0 insects?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "ac1929c196a385ad6b2956331e847cad_A",
+        "label": "A",
+        "html": "<p>0.0588</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ac1929c196a385ad6b2956331e847cad_B",
+        "label": "B",
+        "html": "<p>0.0970</p>",
+        "is_correct": true
+      },
+      {
+        "id": "ac1929c196a385ad6b2956331e847cad_C",
+        "label": "C",
+        "html": "<p>0.3232</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ac1929c196a385ad6b2956331e847cad_D",
+        "label": "D",
+        "html": "<p>0.1599</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ac1929c196a385ad6b2956331e847cad_B"
+    ]
+  },
+  {
+    "index": 100,
+    "ident": "4633840daaa2e6eff5601078b2f5c645",
+    "title": "item_001",
+    "source": "canvas_qti",
+    "prompt_html": "<p>There are 54 participants who show a startle response every 6 hours. What is the probability that in one hour there will be at most 10 responses?</p><p>Choose the best answer. All options are rounded to four decimals.</p>",
+    "choices": [
+      {
+        "id": "4633840daaa2e6eff5601078b2f5c645_A",
+        "label": "A",
+        "html": "<p>0.6453</p>",
+        "is_correct": false
+      },
+      {
+        "id": "4633840daaa2e6eff5601078b2f5c645_B",
+        "label": "B",
+        "html": "<p>0.7060</p>",
+        "is_correct": true
+      },
+      {
+        "id": "4633840daaa2e6eff5601078b2f5c645_C",
+        "label": "C",
+        "html": "<p>0.5874</p>",
+        "is_correct": false
+      },
+      {
+        "id": "4633840daaa2e6eff5601078b2f5c645_D",
+        "label": "D",
+        "html": "<p>0.7634</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4633840daaa2e6eff5601078b2f5c645_B"
+    ]
+  }
+]

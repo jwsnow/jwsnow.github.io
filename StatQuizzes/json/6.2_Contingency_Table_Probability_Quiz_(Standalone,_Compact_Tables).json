@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "7a262f54a5e5d2f484e06e65502d9f70",
+    "title": "Q20",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">The following table summarizes tagging and return outcomes for seabirds (n = 700).</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">Returned to Nesting Site</th>\n<th style=\"padding:3px 6px;\">Did Not Return</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Tagged</td>\n<td style=\"padding:3px 6px;\">196</td>\n<td style=\"padding:3px 6px;\">84</td>\n<td style=\"padding:3px 6px;\">280</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Untagged</td>\n<td style=\"padding:3px 6px;\">273</td>\n<td style=\"padding:3px 6px;\">147</td>\n<td style=\"padding:3px 6px;\">420</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">469</td>\n<td style=\"padding:3px 6px;\">231</td>\n<td style=\"padding:3px 6px;\">700</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">What is the probability that a randomly selected bird either returned to its nesting site or was tagged?</p>\n</div>",
+    "choices": [
+      {
+        "id": "7a262f54a5e5d2f484e06e65502d9f70_A",
+        "label": "A",
+        "html": "0.7900",
+        "is_correct": true
+      },
+      {
+        "id": "7a262f54a5e5d2f484e06e65502d9f70_B",
+        "label": "B",
+        "html": "0.7400",
+        "is_correct": false
+      },
+      {
+        "id": "7a262f54a5e5d2f484e06e65502d9f70_C",
+        "label": "C",
+        "html": "0.7700",
+        "is_correct": false
+      },
+      {
+        "id": "7a262f54a5e5d2f484e06e65502d9f70_D",
+        "label": "D",
+        "html": "0.8200",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7a262f54a5e5d2f484e06e65502d9f70_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "e51139d0e7d4906ff4d0b287b71ae8b9",
+    "title": "Q19",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">The table shows nest return outcomes for tagged and untagged seabirds (n = 700).</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">Returned to Nesting Site</th>\n<th style=\"padding:3px 6px;\">Did Not Return</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Tagged</td>\n<td style=\"padding:3px 6px;\">196</td>\n<td style=\"padding:3px 6px;\">84</td>\n<td style=\"padding:3px 6px;\">280</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Untagged</td>\n<td style=\"padding:3px 6px;\">273</td>\n<td style=\"padding:3px 6px;\">147</td>\n<td style=\"padding:3px 6px;\">420</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">469</td>\n<td style=\"padding:3px 6px;\">231</td>\n<td style=\"padding:3px 6px;\">700</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">What is the probability that a randomly selected bird was untagged and returned to its nesting site?</p>\n</div>",
+    "choices": [
+      {
+        "id": "e51139d0e7d4906ff4d0b287b71ae8b9_A",
+        "label": "A",
+        "html": "0.3900",
+        "is_correct": true
+      },
+      {
+        "id": "e51139d0e7d4906ff4d0b287b71ae8b9_B",
+        "label": "B",
+        "html": "0.3400",
+        "is_correct": false
+      },
+      {
+        "id": "e51139d0e7d4906ff4d0b287b71ae8b9_C",
+        "label": "C",
+        "html": "0.3700",
+        "is_correct": false
+      },
+      {
+        "id": "e51139d0e7d4906ff4d0b287b71ae8b9_D",
+        "label": "D",
+        "html": "0.4200",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e51139d0e7d4906ff4d0b287b71ae8b9_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "fbba0d584694f74d3dc3558ceebb7427",
+    "title": "Q18",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">Researchers recorded return-to-nest outcomes for tagged and untagged seabirds (n = 700).</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">Returned to Nesting Site</th>\n<th style=\"padding:3px 6px;\">Did Not Return</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Tagged</td>\n<td style=\"padding:3px 6px;\">196</td>\n<td style=\"padding:3px 6px;\">84</td>\n<td style=\"padding:3px 6px;\">280</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Untagged</td>\n<td style=\"padding:3px 6px;\">273</td>\n<td style=\"padding:3px 6px;\">147</td>\n<td style=\"padding:3px 6px;\">420</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">469</td>\n<td style=\"padding:3px 6px;\">231</td>\n<td style=\"padding:3px 6px;\">700</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">If a bird returned to its nesting site, what is the probability that it had been tagged?</p>\n</div>",
+    "choices": [
+      {
+        "id": "fbba0d584694f74d3dc3558ceebb7427_A",
+        "label": "A",
+        "html": "0.4179",
+        "is_correct": true
+      },
+      {
+        "id": "fbba0d584694f74d3dc3558ceebb7427_B",
+        "label": "B",
+        "html": "0.3679",
+        "is_correct": false
+      },
+      {
+        "id": "fbba0d584694f74d3dc3558ceebb7427_C",
+        "label": "C",
+        "html": "0.3979",
+        "is_correct": false
+      },
+      {
+        "id": "fbba0d584694f74d3dc3558ceebb7427_D",
+        "label": "D",
+        "html": "0.4479",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "fbba0d584694f74d3dc3558ceebb7427_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "a961f738771d26683bd8c084fbc8033c",
+    "title": "Q17",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">A wildlife study tracked whether tagged seabirds later returned to their nesting sites (n = 700).</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">Returned to Nesting Site</th>\n<th style=\"padding:3px 6px;\">Did Not Return</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Tagged</td>\n<td style=\"padding:3px 6px;\">196</td>\n<td style=\"padding:3px 6px;\">84</td>\n<td style=\"padding:3px 6px;\">280</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Untagged</td>\n<td style=\"padding:3px 6px;\">273</td>\n<td style=\"padding:3px 6px;\">147</td>\n<td style=\"padding:3px 6px;\">420</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">469</td>\n<td style=\"padding:3px 6px;\">231</td>\n<td style=\"padding:3px 6px;\">700</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">If a bird was tagged, what is the probability that it returned to its nesting site?</p>\n</div>",
+    "choices": [
+      {
+        "id": "a961f738771d26683bd8c084fbc8033c_A",
+        "label": "A",
+        "html": "0.7000",
+        "is_correct": true
+      },
+      {
+        "id": "a961f738771d26683bd8c084fbc8033c_B",
+        "label": "B",
+        "html": "0.6500",
+        "is_correct": false
+      },
+      {
+        "id": "a961f738771d26683bd8c084fbc8033c_C",
+        "label": "C",
+        "html": "0.6800",
+        "is_correct": false
+      },
+      {
+        "id": "a961f738771d26683bd8c084fbc8033c_D",
+        "label": "D",
+        "html": "0.7300",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a961f738771d26683bd8c084fbc8033c_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "afe78174f6a7027cee602c729fa5bbe3",
+    "title": "Q16",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">The table summarizes inhibition outcomes in a culture assay with an antibiotic (n = 600).</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">Growth Inhibited</th>\n<th style=\"padding:3px 6px;\">Growth Not Inhibited</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Antibiotic</td>\n<td style=\"padding:3px 6px;\">240</td>\n<td style=\"padding:3px 6px;\">60</td>\n<td style=\"padding:3px 6px;\">300</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">No Antibiotic</td>\n<td style=\"padding:3px 6px;\">30</td>\n<td style=\"padding:3px 6px;\">270</td>\n<td style=\"padding:3px 6px;\">300</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">270</td>\n<td style=\"padding:3px 6px;\">330</td>\n<td style=\"padding:3px 6px;\">600</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">What is the probability that a randomly selected culture either had growth inhibited or received the antibiotic?</p>\n</div>",
+    "choices": [
+      {
+        "id": "afe78174f6a7027cee602c729fa5bbe3_A",
+        "label": "A",
+        "html": "0.5000",
+        "is_correct": false
+      },
+      {
+        "id": "afe78174f6a7027cee602c729fa5bbe3_B",
+        "label": "B",
+        "html": "0.5500",
+        "is_correct": true
+      },
+      {
+        "id": "afe78174f6a7027cee602c729fa5bbe3_C",
+        "label": "C",
+        "html": "0.5300",
+        "is_correct": false
+      },
+      {
+        "id": "afe78174f6a7027cee602c729fa5bbe3_D",
+        "label": "D",
+        "html": "0.5800",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "afe78174f6a7027cee602c729fa5bbe3_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "106012ebccfcdd8a68c629429287cdea",
+    "title": "Q15",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">Cultures were randomized to antibiotic vs. no antibiotic and observed for growth (n = 600).</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">Growth Inhibited</th>\n<th style=\"padding:3px 6px;\">Growth Not Inhibited</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Antibiotic</td>\n<td style=\"padding:3px 6px;\">240</td>\n<td style=\"padding:3px 6px;\">60</td>\n<td style=\"padding:3px 6px;\">300</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">No Antibiotic</td>\n<td style=\"padding:3px 6px;\">30</td>\n<td style=\"padding:3px 6px;\">270</td>\n<td style=\"padding:3px 6px;\">300</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">270</td>\n<td style=\"padding:3px 6px;\">330</td>\n<td style=\"padding:3px 6px;\">600</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">What is the probability that a randomly selected culture received no antibiotic and showed no inhibition?</p>\n</div>",
+    "choices": [
+      {
+        "id": "106012ebccfcdd8a68c629429287cdea_A",
+        "label": "A",
+        "html": "0.4000",
+        "is_correct": false
+      },
+      {
+        "id": "106012ebccfcdd8a68c629429287cdea_B",
+        "label": "B",
+        "html": "0.4300",
+        "is_correct": false
+      },
+      {
+        "id": "106012ebccfcdd8a68c629429287cdea_C",
+        "label": "C",
+        "html": "0.4800",
+        "is_correct": false
+      },
+      {
+        "id": "106012ebccfcdd8a68c629429287cdea_D",
+        "label": "D",
+        "html": "0.4500",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "106012ebccfcdd8a68c629429287cdea_D"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "93285dce42e6b7a3068d94a57ae556a5",
+    "title": "Q14",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">An experiment measured inhibition outcomes with and without an antibiotic (n = 600).</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">Growth Inhibited</th>\n<th style=\"padding:3px 6px;\">Growth Not Inhibited</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Antibiotic</td>\n<td style=\"padding:3px 6px;\">240</td>\n<td style=\"padding:3px 6px;\">60</td>\n<td style=\"padding:3px 6px;\">300</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">No Antibiotic</td>\n<td style=\"padding:3px 6px;\">30</td>\n<td style=\"padding:3px 6px;\">270</td>\n<td style=\"padding:3px 6px;\">300</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">270</td>\n<td style=\"padding:3px 6px;\">330</td>\n<td style=\"padding:3px 6px;\">600</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">If growth was inhibited, what is the probability that the culture received the antibiotic?</p>\n</div>",
+    "choices": [
+      {
+        "id": "93285dce42e6b7a3068d94a57ae556a5_A",
+        "label": "A",
+        "html": "0.8389",
+        "is_correct": false
+      },
+      {
+        "id": "93285dce42e6b7a3068d94a57ae556a5_B",
+        "label": "B",
+        "html": "0.8689",
+        "is_correct": false
+      },
+      {
+        "id": "93285dce42e6b7a3068d94a57ae556a5_C",
+        "label": "C",
+        "html": "0.9189",
+        "is_correct": false
+      },
+      {
+        "id": "93285dce42e6b7a3068d94a57ae556a5_D",
+        "label": "D",
+        "html": "0.8889",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "93285dce42e6b7a3068d94a57ae556a5_D"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "d657cc6fc608b59a3f0595b55ee399a4",
+    "title": "Q13",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">A laboratory assay tested whether an antibiotic inhibited bacterial growth in culture (n = 600).</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">Growth Inhibited</th>\n<th style=\"padding:3px 6px;\">Growth Not Inhibited</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Antibiotic</td>\n<td style=\"padding:3px 6px;\">240</td>\n<td style=\"padding:3px 6px;\">60</td>\n<td style=\"padding:3px 6px;\">300</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">No Antibiotic</td>\n<td style=\"padding:3px 6px;\">30</td>\n<td style=\"padding:3px 6px;\">270</td>\n<td style=\"padding:3px 6px;\">300</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">270</td>\n<td style=\"padding:3px 6px;\">330</td>\n<td style=\"padding:3px 6px;\">600</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">If a culture was exposed to the antibiotic, what is the probability that growth was inhibited?</p>\n</div>",
+    "choices": [
+      {
+        "id": "d657cc6fc608b59a3f0595b55ee399a4_A",
+        "label": "A",
+        "html": "0.8000",
+        "is_correct": true
+      },
+      {
+        "id": "d657cc6fc608b59a3f0595b55ee399a4_B",
+        "label": "B",
+        "html": "0.7500",
+        "is_correct": false
+      },
+      {
+        "id": "d657cc6fc608b59a3f0595b55ee399a4_C",
+        "label": "C",
+        "html": "0.7800",
+        "is_correct": false
+      },
+      {
+        "id": "d657cc6fc608b59a3f0595b55ee399a4_D",
+        "label": "D",
+        "html": "0.8300",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d657cc6fc608b59a3f0595b55ee399a4_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "3dcbf9b029ace6e513d8a02a9a2e77ea",
+    "title": "Q12",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">A community survey of adults reported sleep duration and stress status (n = 800).</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">High Stress</th>\n<th style=\"padding:3px 6px;\">Low/No Stress</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Adequate Sleep (≥7h)</td>\n<td style=\"padding:3px 6px;\">120</td>\n<td style=\"padding:3px 6px;\">280</td>\n<td style=\"padding:3px 6px;\">400</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Insufficient Sleep (7h)</td>\n<td style=\"padding:3px 6px;\">220</td>\n<td style=\"padding:3px 6px;\">180</td>\n<td style=\"padding:3px 6px;\">400</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">340</td>\n<td style=\"padding:3px 6px;\">460</td>\n<td style=\"padding:3px 6px;\">800</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">What is the probability that a randomly selected person has insufficient sleep or reports high stress?</p>\n</div>",
+    "choices": [
+      {
+        "id": "3dcbf9b029ace6e513d8a02a9a2e77ea_A",
+        "label": "A",
+        "html": "0.6500",
+        "is_correct": true
+      },
+      {
+        "id": "3dcbf9b029ace6e513d8a02a9a2e77ea_B",
+        "label": "B",
+        "html": "0.6000",
+        "is_correct": false
+      },
+      {
+        "id": "3dcbf9b029ace6e513d8a02a9a2e77ea_C",
+        "label": "C",
+        "html": "0.6300",
+        "is_correct": false
+      },
+      {
+        "id": "3dcbf9b029ace6e513d8a02a9a2e77ea_D",
+        "label": "D",
+        "html": "0.6800",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3dcbf9b029ace6e513d8a02a9a2e77ea_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "4ab86c5f9ba2e4cb09bd7336bc28f77d",
+    "title": "Q11",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">The table shows sleep duration and stress outcomes in a community survey of adults (n = 800).</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">High Stress</th>\n<th style=\"padding:3px 6px;\">Low/No Stress</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Adequate Sleep (≥7h)</td>\n<td style=\"padding:3px 6px;\">120</td>\n<td style=\"padding:3px 6px;\">280</td>\n<td style=\"padding:3px 6px;\">400</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Insufficient Sleep (7h)</td>\n<td style=\"padding:3px 6px;\">220</td>\n<td style=\"padding:3px 6px;\">180</td>\n<td style=\"padding:3px 6px;\">400</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">340</td>\n<td style=\"padding:3px 6px;\">460</td>\n<td style=\"padding:3px 6px;\">800</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">What is the probability that a randomly selected person has adequate sleep and low/no stress?</p>\n</div>",
+    "choices": [
+      {
+        "id": "4ab86c5f9ba2e4cb09bd7336bc28f77d_A",
+        "label": "A",
+        "html": "0.3000",
+        "is_correct": false
+      },
+      {
+        "id": "4ab86c5f9ba2e4cb09bd7336bc28f77d_B",
+        "label": "B",
+        "html": "0.3500",
+        "is_correct": true
+      },
+      {
+        "id": "4ab86c5f9ba2e4cb09bd7336bc28f77d_C",
+        "label": "C",
+        "html": "0.3300",
+        "is_correct": false
+      },
+      {
+        "id": "4ab86c5f9ba2e4cb09bd7336bc28f77d_D",
+        "label": "D",
+        "html": "0.3800",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4ab86c5f9ba2e4cb09bd7336bc28f77d_B"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "958a14d825fcc84e8e67743127be0399",
+    "title": "Q10",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">An adult psychology survey measured self-reported stress by sleep duration (n = 800).</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">High Stress</th>\n<th style=\"padding:3px 6px;\">Low/No Stress</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Adequate Sleep (≥7h)</td>\n<td style=\"padding:3px 6px;\">120</td>\n<td style=\"padding:3px 6px;\">280</td>\n<td style=\"padding:3px 6px;\">400</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Insufficient Sleep (7h)</td>\n<td style=\"padding:3px 6px;\">220</td>\n<td style=\"padding:3px 6px;\">180</td>\n<td style=\"padding:3px 6px;\">400</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">340</td>\n<td style=\"padding:3px 6px;\">460</td>\n<td style=\"padding:3px 6px;\">800</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">If a person reports high stress, what is the probability that they have insufficient sleep?</p>\n</div>",
+    "choices": [
+      {
+        "id": "958a14d825fcc84e8e67743127be0399_A",
+        "label": "A",
+        "html": "0.5971",
+        "is_correct": false
+      },
+      {
+        "id": "958a14d825fcc84e8e67743127be0399_B",
+        "label": "B",
+        "html": "0.6271",
+        "is_correct": false
+      },
+      {
+        "id": "958a14d825fcc84e8e67743127be0399_C",
+        "label": "C",
+        "html": "0.6471",
+        "is_correct": true
+      },
+      {
+        "id": "958a14d825fcc84e8e67743127be0399_D",
+        "label": "D",
+        "html": "0.6771",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "958a14d825fcc84e8e67743127be0399_C"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "721b3b899b9bfde890c8ca09d211332e",
+    "title": "Q9",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">A psychology survey of adults recorded sleep duration and stress levels (n = 800).</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">High Stress</th>\n<th style=\"padding:3px 6px;\">Low/No Stress</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Adequate Sleep (≥7h)</td>\n<td style=\"padding:3px 6px;\">120</td>\n<td style=\"padding:3px 6px;\">280</td>\n<td style=\"padding:3px 6px;\">400</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Insufficient Sleep (7h)</td>\n<td style=\"padding:3px 6px;\">220</td>\n<td style=\"padding:3px 6px;\">180</td>\n<td style=\"padding:3px 6px;\">400</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">340</td>\n<td style=\"padding:3px 6px;\">460</td>\n<td style=\"padding:3px 6px;\">800</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">If a person has insufficient sleep, what is the probability that they report high stress?</p>\n</div>",
+    "choices": [
+      {
+        "id": "721b3b899b9bfde890c8ca09d211332e_A",
+        "label": "A",
+        "html": "0.5000",
+        "is_correct": false
+      },
+      {
+        "id": "721b3b899b9bfde890c8ca09d211332e_B",
+        "label": "B",
+        "html": "0.5300",
+        "is_correct": false
+      },
+      {
+        "id": "721b3b899b9bfde890c8ca09d211332e_C",
+        "label": "C",
+        "html": "0.5800",
+        "is_correct": false
+      },
+      {
+        "id": "721b3b899b9bfde890c8ca09d211332e_D",
+        "label": "D",
+        "html": "0.5500",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "721b3b899b9bfde890c8ca09d211332e_D"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "7bba04f4a11efe99f87bfdcbf74256f8",
+    "title": "Q8",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">Flu outcomes by vaccination status are shown for an adult cohort (n = 1500).</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">Got Flu</th>\n<th style=\"padding:3px 6px;\">No Flu</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Vaccinated</td>\n<td style=\"padding:3px 6px;\">60</td>\n<td style=\"padding:3px 6px;\">540</td>\n<td style=\"padding:3px 6px;\">600</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Unvaccinated</td>\n<td style=\"padding:3px 6px;\">180</td>\n<td style=\"padding:3px 6px;\">720</td>\n<td style=\"padding:3px 6px;\">900</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">240</td>\n<td style=\"padding:3px 6px;\">1260</td>\n<td style=\"padding:3px 6px;\">1500</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">Among those who did not get the flu, what is the probability that they were vaccinated?</p>\n</div>",
+    "choices": [
+      {
+        "id": "7bba04f4a11efe99f87bfdcbf74256f8_A",
+        "label": "A",
+        "html": "0.4286",
+        "is_correct": true
+      },
+      {
+        "id": "7bba04f4a11efe99f87bfdcbf74256f8_B",
+        "label": "B",
+        "html": "0.3786",
+        "is_correct": false
+      },
+      {
+        "id": "7bba04f4a11efe99f87bfdcbf74256f8_C",
+        "label": "C",
+        "html": "0.4086",
+        "is_correct": false
+      },
+      {
+        "id": "7bba04f4a11efe99f87bfdcbf74256f8_D",
+        "label": "D",
+        "html": "0.4586",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7bba04f4a11efe99f87bfdcbf74256f8_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "5aef0c45295abf53b5750781c57829cc",
+    "title": "Q7",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">The table below summarizes influenza status by vaccination for a cohort of adults (n = 1500).</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">Got Flu</th>\n<th style=\"padding:3px 6px;\">No Flu</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Vaccinated</td>\n<td style=\"padding:3px 6px;\">60</td>\n<td style=\"padding:3px 6px;\">540</td>\n<td style=\"padding:3px 6px;\">600</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Unvaccinated</td>\n<td style=\"padding:3px 6px;\">180</td>\n<td style=\"padding:3px 6px;\">720</td>\n<td style=\"padding:3px 6px;\">900</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">240</td>\n<td style=\"padding:3px 6px;\">1260</td>\n<td style=\"padding:3px 6px;\">1500</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">What is the probability that a randomly selected person is unvaccinated and gets the flu?</p>\n</div>",
+    "choices": [
+      {
+        "id": "5aef0c45295abf53b5750781c57829cc_A",
+        "label": "A",
+        "html": "0.0700",
+        "is_correct": false
+      },
+      {
+        "id": "5aef0c45295abf53b5750781c57829cc_B",
+        "label": "B",
+        "html": "0.1200",
+        "is_correct": true
+      },
+      {
+        "id": "5aef0c45295abf53b5750781c57829cc_C",
+        "label": "C",
+        "html": "0.1000",
+        "is_correct": false
+      },
+      {
+        "id": "5aef0c45295abf53b5750781c57829cc_D",
+        "label": "D",
+        "html": "0.1500",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5aef0c45295abf53b5750781c57829cc_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "6fb8eed21858ab96c9b014f2172fbe26",
+    "title": "Q6",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">An adult influenza cohort recorded flu outcomes by vaccination status (n = 1500).</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">Got Flu</th>\n<th style=\"padding:3px 6px;\">No Flu</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Vaccinated</td>\n<td style=\"padding:3px 6px;\">60</td>\n<td style=\"padding:3px 6px;\">540</td>\n<td style=\"padding:3px 6px;\">600</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Unvaccinated</td>\n<td style=\"padding:3px 6px;\">180</td>\n<td style=\"padding:3px 6px;\">720</td>\n<td style=\"padding:3px 6px;\">900</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">240</td>\n<td style=\"padding:3px 6px;\">1260</td>\n<td style=\"padding:3px 6px;\">1500</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">If a person is unvaccinated, what is the probability that they do not get the flu?</p>\n</div>",
+    "choices": [
+      {
+        "id": "6fb8eed21858ab96c9b014f2172fbe26_A",
+        "label": "A",
+        "html": "0.7500",
+        "is_correct": false
+      },
+      {
+        "id": "6fb8eed21858ab96c9b014f2172fbe26_B",
+        "label": "B",
+        "html": "0.7800",
+        "is_correct": false
+      },
+      {
+        "id": "6fb8eed21858ab96c9b014f2172fbe26_C",
+        "label": "C",
+        "html": "0.8300",
+        "is_correct": false
+      },
+      {
+        "id": "6fb8eed21858ab96c9b014f2172fbe26_D",
+        "label": "D",
+        "html": "0.8000",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "6fb8eed21858ab96c9b014f2172fbe26_D"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "0c2d66f2870ce3e012fea17e7ff69186",
+    "title": "Q5",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">A cohort study tracked influenza outcomes by vaccination status in adults (n = 1500).</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">Got Flu</th>\n<th style=\"padding:3px 6px;\">No Flu</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Vaccinated</td>\n<td style=\"padding:3px 6px;\">60</td>\n<td style=\"padding:3px 6px;\">540</td>\n<td style=\"padding:3px 6px;\">600</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Unvaccinated</td>\n<td style=\"padding:3px 6px;\">180</td>\n<td style=\"padding:3px 6px;\">720</td>\n<td style=\"padding:3px 6px;\">900</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">240</td>\n<td style=\"padding:3px 6px;\">1260</td>\n<td style=\"padding:3px 6px;\">1500</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">If a person is vaccinated, what is the probability that they still get the flu?</p>\n</div>",
+    "choices": [
+      {
+        "id": "0c2d66f2870ce3e012fea17e7ff69186_A",
+        "label": "A",
+        "html": "0.0500",
+        "is_correct": false
+      },
+      {
+        "id": "0c2d66f2870ce3e012fea17e7ff69186_B",
+        "label": "B",
+        "html": "0.1000",
+        "is_correct": true
+      },
+      {
+        "id": "0c2d66f2870ce3e012fea17e7ff69186_C",
+        "label": "C",
+        "html": "0.0800",
+        "is_correct": false
+      },
+      {
+        "id": "0c2d66f2870ce3e012fea17e7ff69186_D",
+        "label": "D",
+        "html": "0.1300",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0c2d66f2870ce3e012fea17e7ff69186_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "2b9856f51012e1844755e57e41c4d4a4",
+    "title": "Q4",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">Data from a community rapid antigen test for a respiratory disease (n = 2000) are shown in the table.</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">Test Positive</th>\n<th style=\"padding:3px 6px;\">Test Negative</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Has Disease</td>\n<td style=\"padding:3px 6px;\">135</td>\n<td style=\"padding:3px 6px;\">15</td>\n<td style=\"padding:3px 6px;\">150</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">No Disease</td>\n<td style=\"padding:3px 6px;\">74</td>\n<td style=\"padding:3px 6px;\">1776</td>\n<td style=\"padding:3px 6px;\">1850</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">209</td>\n<td style=\"padding:3px 6px;\">1791</td>\n<td style=\"padding:3px 6px;\">2000</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">What is the probability that a randomly selected person either has the disease or tests positive?</p>\n</div>",
+    "choices": [
+      {
+        "id": "2b9856f51012e1844755e57e41c4d4a4_A",
+        "label": "A",
+        "html": "0.0620",
+        "is_correct": false
+      },
+      {
+        "id": "2b9856f51012e1844755e57e41c4d4a4_B",
+        "label": "B",
+        "html": "0.1120",
+        "is_correct": true
+      },
+      {
+        "id": "2b9856f51012e1844755e57e41c4d4a4_C",
+        "label": "C",
+        "html": "0.0920",
+        "is_correct": false
+      },
+      {
+        "id": "2b9856f51012e1844755e57e41c4d4a4_D",
+        "label": "D",
+        "html": "0.1420",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2b9856f51012e1844755e57e41c4d4a4_B"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "e18795c410568bc6311bcf37d73ed700",
+    "title": "Q3",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">The table below summarizes a rapid antigen disease screening in a community sample (n = 2000).</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">Test Positive</th>\n<th style=\"padding:3px 6px;\">Test Negative</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Has Disease</td>\n<td style=\"padding:3px 6px;\">135</td>\n<td style=\"padding:3px 6px;\">15</td>\n<td style=\"padding:3px 6px;\">150</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">No Disease</td>\n<td style=\"padding:3px 6px;\">74</td>\n<td style=\"padding:3px 6px;\">1776</td>\n<td style=\"padding:3px 6px;\">1850</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">209</td>\n<td style=\"padding:3px 6px;\">1791</td>\n<td style=\"padding:3px 6px;\">2000</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">What is the probability that a randomly selected person has the disease and tests positive?</p>\n</div>",
+    "choices": [
+      {
+        "id": "e18795c410568bc6311bcf37d73ed700_A",
+        "label": "A",
+        "html": "0.0175",
+        "is_correct": false
+      },
+      {
+        "id": "e18795c410568bc6311bcf37d73ed700_B",
+        "label": "B",
+        "html": "0.0475",
+        "is_correct": false
+      },
+      {
+        "id": "e18795c410568bc6311bcf37d73ed700_C",
+        "label": "C",
+        "html": "0.0975",
+        "is_correct": false
+      },
+      {
+        "id": "e18795c410568bc6311bcf37d73ed700_D",
+        "label": "D",
+        "html": "0.0675",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "e18795c410568bc6311bcf37d73ed700_D"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "55334250edc85f32b22bf441e2bc629c",
+    "title": "Q2",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">A community screening using a rapid antigen test for a respiratory disease (n = 2000) produced the following counts.</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">Test Positive</th>\n<th style=\"padding:3px 6px;\">Test Negative</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Has Disease</td>\n<td style=\"padding:3px 6px;\">135</td>\n<td style=\"padding:3px 6px;\">15</td>\n<td style=\"padding:3px 6px;\">150</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">No Disease</td>\n<td style=\"padding:3px 6px;\">74</td>\n<td style=\"padding:3px 6px;\">1776</td>\n<td style=\"padding:3px 6px;\">1850</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">209</td>\n<td style=\"padding:3px 6px;\">1791</td>\n<td style=\"padding:3px 6px;\">2000</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">If a person tests positive, what is the probability that they actually have the disease?</p>\n</div>",
+    "choices": [
+      {
+        "id": "55334250edc85f32b22bf441e2bc629c_A",
+        "label": "A",
+        "html": "0.5959",
+        "is_correct": false
+      },
+      {
+        "id": "55334250edc85f32b22bf441e2bc629c_B",
+        "label": "B",
+        "html": "0.6259",
+        "is_correct": false
+      },
+      {
+        "id": "55334250edc85f32b22bf441e2bc629c_C",
+        "label": "C",
+        "html": "0.6759",
+        "is_correct": false
+      },
+      {
+        "id": "55334250edc85f32b22bf441e2bc629c_D",
+        "label": "D",
+        "html": "0.6459",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "55334250edc85f32b22bf441e2bc629c_D"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "d39f694984a43b127d861818fd2bc855",
+    "title": "Q1",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p style=\"margin:0 0 6px 0;\">In a community screening using a rapid antigen test for a respiratory disease (n = 2000), the results are summarized below.</p>\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" style=\"border-collapse:collapse;margin:0;\"><tbody>\n<tr>\n<th style=\"padding:3px 6px;\"></th>\n<th style=\"padding:3px 6px;\">Test Positive</th>\n<th style=\"padding:3px 6px;\">Test Negative</th>\n<th style=\"padding:3px 6px;\">Total</th>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Has Disease</td>\n<td style=\"padding:3px 6px;\">135</td>\n<td style=\"padding:3px 6px;\">15</td>\n<td style=\"padding:3px 6px;\">150</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">No Disease</td>\n<td style=\"padding:3px 6px;\">74</td>\n<td style=\"padding:3px 6px;\">1776</td>\n<td style=\"padding:3px 6px;\">1850</td>\n</tr>\n<tr>\n<td style=\"padding:3px 6px;\">Total</td>\n<td style=\"padding:3px 6px;\">209</td>\n<td style=\"padding:3px 6px;\">1791</td>\n<td style=\"padding:3px 6px;\">2000</td>\n</tr>\n</tbody></table>\n<p style=\"margin:6px 0 0 0;\">If a person has the disease, what is the probability that they test positive?</p>\n</div>",
+    "choices": [
+      {
+        "id": "d39f694984a43b127d861818fd2bc855_A",
+        "label": "A",
+        "html": "0.8500",
+        "is_correct": false
+      },
+      {
+        "id": "d39f694984a43b127d861818fd2bc855_B",
+        "label": "B",
+        "html": "0.8800",
+        "is_correct": false
+      },
+      {
+        "id": "d39f694984a43b127d861818fd2bc855_C",
+        "label": "C",
+        "html": "0.9300",
+        "is_correct": false
+      },
+      {
+        "id": "d39f694984a43b127d861818fd2bc855_D",
+        "label": "D",
+        "html": "0.9000",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "d39f694984a43b127d861818fd2bc855_D"
+    ]
+  }
+]

@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "0cb52be3e8a3658dd4231ce69af61be3",
+    "title": "Q7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that there are more tails than heads?</p>",
+    "choices": [
+      {
+        "id": "0cb52be3e8a3658dd4231ce69af61be3_A",
+        "label": "A",
+        "html": "3/8",
+        "is_correct": false
+      },
+      {
+        "id": "0cb52be3e8a3658dd4231ce69af61be3_B",
+        "label": "B",
+        "html": "1/2",
+        "is_correct": true
+      },
+      {
+        "id": "0cb52be3e8a3658dd4231ce69af61be3_C",
+        "label": "C",
+        "html": "5/8",
+        "is_correct": false
+      },
+      {
+        "id": "0cb52be3e8a3658dd4231ce69af61be3_D",
+        "label": "D",
+        "html": "1/4",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0cb52be3e8a3658dd4231ce69af61be3_B"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "6654cd5781489e6301b70d6bbe2650ef",
+    "title": "Q18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that exactly one flip is different from the other two?</p>",
+    "choices": [
+      {
+        "id": "6654cd5781489e6301b70d6bbe2650ef_A",
+        "label": "A",
+        "html": "1/4",
+        "is_correct": false
+      },
+      {
+        "id": "6654cd5781489e6301b70d6bbe2650ef_B",
+        "label": "B",
+        "html": "3/8",
+        "is_correct": false
+      },
+      {
+        "id": "6654cd5781489e6301b70d6bbe2650ef_C",
+        "label": "C",
+        "html": "1/2",
+        "is_correct": false
+      },
+      {
+        "id": "6654cd5781489e6301b70d6bbe2650ef_D",
+        "label": "D",
+        "html": "<p>3/4</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "6654cd5781489e6301b70d6bbe2650ef_D"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "022e2847a49fd35a7494b3f8c6101040",
+    "title": "Q20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that the sequence starts and ends with the same result?</p>",
+    "choices": [
+      {
+        "id": "022e2847a49fd35a7494b3f8c6101040_A",
+        "label": "A",
+        "html": "1/4",
+        "is_correct": false
+      },
+      {
+        "id": "022e2847a49fd35a7494b3f8c6101040_B",
+        "label": "B",
+        "html": "3/8",
+        "is_correct": false
+      },
+      {
+        "id": "022e2847a49fd35a7494b3f8c6101040_C",
+        "label": "C",
+        "html": "1/2",
+        "is_correct": true
+      },
+      {
+        "id": "022e2847a49fd35a7494b3f8c6101040_D",
+        "label": "D",
+        "html": "5/8",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "022e2847a49fd35a7494b3f8c6101040_C"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "ad9ee4dac9c9e96c566fcac6a0121215",
+    "title": "Q19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that at least two flips are the same?</p>",
+    "choices": [
+      {
+        "id": "ad9ee4dac9c9e96c566fcac6a0121215_A",
+        "label": "A",
+        "html": "1/4",
+        "is_correct": false
+      },
+      {
+        "id": "ad9ee4dac9c9e96c566fcac6a0121215_B",
+        "label": "B",
+        "html": "1/2",
+        "is_correct": false
+      },
+      {
+        "id": "ad9ee4dac9c9e96c566fcac6a0121215_C",
+        "label": "C",
+        "html": "3/4",
+        "is_correct": false
+      },
+      {
+        "id": "ad9ee4dac9c9e96c566fcac6a0121215_D",
+        "label": "D",
+        "html": "1",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "ad9ee4dac9c9e96c566fcac6a0121215_D"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "9515b6c0724dd9c760d0701f59529885",
+    "title": "Q17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that the outcome is HHT or TTH?</p>",
+    "choices": [
+      {
+        "id": "9515b6c0724dd9c760d0701f59529885_A",
+        "label": "A",
+        "html": "1/8",
+        "is_correct": false
+      },
+      {
+        "id": "9515b6c0724dd9c760d0701f59529885_B",
+        "label": "B",
+        "html": "1/4",
+        "is_correct": true
+      },
+      {
+        "id": "9515b6c0724dd9c760d0701f59529885_C",
+        "label": "C",
+        "html": "3/8",
+        "is_correct": false
+      },
+      {
+        "id": "9515b6c0724dd9c760d0701f59529885_D",
+        "label": "D",
+        "html": "1/2",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9515b6c0724dd9c760d0701f59529885_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "4fe12a1c35349370349ad05efeaea3c5",
+    "title": "Q16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that the second flip is heads given that the first is heads?</p>",
+    "choices": [
+      {
+        "id": "4fe12a1c35349370349ad05efeaea3c5_A",
+        "label": "A",
+        "html": "1/4",
+        "is_correct": false
+      },
+      {
+        "id": "4fe12a1c35349370349ad05efeaea3c5_B",
+        "label": "B",
+        "html": "1/2",
+        "is_correct": true
+      },
+      {
+        "id": "4fe12a1c35349370349ad05efeaea3c5_C",
+        "label": "C",
+        "html": "3/4",
+        "is_correct": false
+      },
+      {
+        "id": "4fe12a1c35349370349ad05efeaea3c5_D",
+        "label": "D",
+        "html": "1",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4fe12a1c35349370349ad05efeaea3c5_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "753c21f53fa5efad8c379565a6170439",
+    "title": "Q15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that the number of heads is equal to the number of tails?</p>",
+    "choices": [
+      {
+        "id": "753c21f53fa5efad8c379565a6170439_A",
+        "label": "A",
+        "html": "0",
+        "is_correct": true
+      },
+      {
+        "id": "753c21f53fa5efad8c379565a6170439_B",
+        "label": "B",
+        "html": "1/8",
+        "is_correct": false
+      },
+      {
+        "id": "753c21f53fa5efad8c379565a6170439_C",
+        "label": "C",
+        "html": "1/4",
+        "is_correct": false
+      },
+      {
+        "id": "753c21f53fa5efad8c379565a6170439_D",
+        "label": "D",
+        "html": "3/8",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "753c21f53fa5efad8c379565a6170439_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "2ebccf998626eb85b512598d76d7e79d",
+    "title": "Q14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that there are at least two heads?</p>",
+    "choices": [
+      {
+        "id": "2ebccf998626eb85b512598d76d7e79d_A",
+        "label": "A",
+        "html": "1/4",
+        "is_correct": false
+      },
+      {
+        "id": "2ebccf998626eb85b512598d76d7e79d_B",
+        "label": "B",
+        "html": "3/8",
+        "is_correct": false
+      },
+      {
+        "id": "2ebccf998626eb85b512598d76d7e79d_C",
+        "label": "C",
+        "html": "1/2",
+        "is_correct": true
+      },
+      {
+        "id": "2ebccf998626eb85b512598d76d7e79d_D",
+        "label": "D",
+        "html": "5/8",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2ebccf998626eb85b512598d76d7e79d_C"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "774a4af7783f955368e4898f768dd87f",
+    "title": "Q13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that there are exactly zero tails?</p>",
+    "choices": [
+      {
+        "id": "774a4af7783f955368e4898f768dd87f_A",
+        "label": "A",
+        "html": "1/8",
+        "is_correct": true
+      },
+      {
+        "id": "774a4af7783f955368e4898f768dd87f_B",
+        "label": "B",
+        "html": "1/4",
+        "is_correct": false
+      },
+      {
+        "id": "774a4af7783f955368e4898f768dd87f_C",
+        "label": "C",
+        "html": "3/8",
+        "is_correct": false
+      },
+      {
+        "id": "774a4af7783f955368e4898f768dd87f_D",
+        "label": "D",
+        "html": "1/2",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "774a4af7783f955368e4898f768dd87f_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "f9e0f617e7ffcf9b3a45a07162ffae3b",
+    "title": "Q12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that the first flip is heads or the last flip is tails?</p>",
+    "choices": [
+      {
+        "id": "f9e0f617e7ffcf9b3a45a07162ffae3b_A",
+        "label": "A",
+        "html": "1/2",
+        "is_correct": false
+      },
+      {
+        "id": "f9e0f617e7ffcf9b3a45a07162ffae3b_B",
+        "label": "B",
+        "html": "5/8",
+        "is_correct": false
+      },
+      {
+        "id": "f9e0f617e7ffcf9b3a45a07162ffae3b_C",
+        "label": "C",
+        "html": "3/4",
+        "is_correct": true
+      },
+      {
+        "id": "f9e0f617e7ffcf9b3a45a07162ffae3b_D",
+        "label": "D",
+        "html": "7/8",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f9e0f617e7ffcf9b3a45a07162ffae3b_C"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "6593e214fdd7db07212af741b735b608",
+    "title": "Q11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that exactly one flip is heads?</p>",
+    "choices": [
+      {
+        "id": "6593e214fdd7db07212af741b735b608_A",
+        "label": "A",
+        "html": "1/8",
+        "is_correct": false
+      },
+      {
+        "id": "6593e214fdd7db07212af741b735b608_B",
+        "label": "B",
+        "html": "1/4",
+        "is_correct": false
+      },
+      {
+        "id": "6593e214fdd7db07212af741b735b608_C",
+        "label": "C",
+        "html": "3/8",
+        "is_correct": true
+      },
+      {
+        "id": "6593e214fdd7db07212af741b735b608_D",
+        "label": "D",
+        "html": "1/2",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6593e214fdd7db07212af741b735b608_C"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "5c49f6208f5b83b5ac0df97de11fbc35",
+    "title": "Q10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that there is at least one head?</p>",
+    "choices": [
+      {
+        "id": "5c49f6208f5b83b5ac0df97de11fbc35_A",
+        "label": "A",
+        "html": "1/8",
+        "is_correct": false
+      },
+      {
+        "id": "5c49f6208f5b83b5ac0df97de11fbc35_B",
+        "label": "B",
+        "html": "3/4",
+        "is_correct": false
+      },
+      {
+        "id": "5c49f6208f5b83b5ac0df97de11fbc35_C",
+        "label": "C",
+        "html": "7/8",
+        "is_correct": true
+      },
+      {
+        "id": "5c49f6208f5b83b5ac0df97de11fbc35_D",
+        "label": "D",
+        "html": "1",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5c49f6208f5b83b5ac0df97de11fbc35_C"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "80600ff06e944f9a36950ea11b6e495f",
+    "title": "Q9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that the first flip is heads given that there are exactly two heads in total?</p>",
+    "choices": [
+      {
+        "id": "80600ff06e944f9a36950ea11b6e495f_A",
+        "label": "A",
+        "html": "1/3",
+        "is_correct": false
+      },
+      {
+        "id": "80600ff06e944f9a36950ea11b6e495f_B",
+        "label": "B",
+        "html": "1/2",
+        "is_correct": false
+      },
+      {
+        "id": "80600ff06e944f9a36950ea11b6e495f_C",
+        "label": "C",
+        "html": "2/3",
+        "is_correct": true
+      },
+      {
+        "id": "80600ff06e944f9a36950ea11b6e495f_D",
+        "label": "D",
+        "html": "3/4",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "80600ff06e944f9a36950ea11b6e495f_C"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "5243f4c58556802375179689c3189488",
+    "title": "Q8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that exactly two flips are tails?</p>",
+    "choices": [
+      {
+        "id": "5243f4c58556802375179689c3189488_A",
+        "label": "A",
+        "html": "1/8",
+        "is_correct": false
+      },
+      {
+        "id": "5243f4c58556802375179689c3189488_B",
+        "label": "B",
+        "html": "1/4",
+        "is_correct": false
+      },
+      {
+        "id": "5243f4c58556802375179689c3189488_C",
+        "label": "C",
+        "html": "3/8",
+        "is_correct": true
+      },
+      {
+        "id": "5243f4c58556802375179689c3189488_D",
+        "label": "D",
+        "html": "1/2",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5243f4c58556802375179689c3189488_C"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "088f94c9f132247e099c9c2c7784ab29",
+    "title": "Q6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that there are more heads than tails?</p>",
+    "choices": [
+      {
+        "id": "088f94c9f132247e099c9c2c7784ab29_A",
+        "label": "A",
+        "html": "3/8",
+        "is_correct": false
+      },
+      {
+        "id": "088f94c9f132247e099c9c2c7784ab29_B",
+        "label": "B",
+        "html": "1/2",
+        "is_correct": true
+      },
+      {
+        "id": "088f94c9f132247e099c9c2c7784ab29_C",
+        "label": "C",
+        "html": "5/8",
+        "is_correct": false
+      },
+      {
+        "id": "088f94c9f132247e099c9c2c7784ab29_D",
+        "label": "D",
+        "html": "3/4",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "088f94c9f132247e099c9c2c7784ab29_B"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "748550c8fee2c5e36ce7bfcdec5b288c",
+    "title": "Q5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that exactly one flip is tails?</p>",
+    "choices": [
+      {
+        "id": "748550c8fee2c5e36ce7bfcdec5b288c_A",
+        "label": "A",
+        "html": "3/8",
+        "is_correct": true
+      },
+      {
+        "id": "748550c8fee2c5e36ce7bfcdec5b288c_B",
+        "label": "B",
+        "html": "1/2",
+        "is_correct": false
+      },
+      {
+        "id": "748550c8fee2c5e36ce7bfcdec5b288c_C",
+        "label": "C",
+        "html": "5/8",
+        "is_correct": false
+      },
+      {
+        "id": "748550c8fee2c5e36ce7bfcdec5b288c_D",
+        "label": "D",
+        "html": "1/4",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "748550c8fee2c5e36ce7bfcdec5b288c_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "cb774fc01b724535b1d9ec94c90dfdc4",
+    "title": "Q4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that all three flips are the same?</p>",
+    "choices": [
+      {
+        "id": "cb774fc01b724535b1d9ec94c90dfdc4_A",
+        "label": "A",
+        "html": "1/4",
+        "is_correct": true
+      },
+      {
+        "id": "cb774fc01b724535b1d9ec94c90dfdc4_B",
+        "label": "B",
+        "html": "1/8",
+        "is_correct": false
+      },
+      {
+        "id": "cb774fc01b724535b1d9ec94c90dfdc4_C",
+        "label": "C",
+        "html": "1/2",
+        "is_correct": false
+      },
+      {
+        "id": "cb774fc01b724535b1d9ec94c90dfdc4_D",
+        "label": "D",
+        "html": "3/4",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cb774fc01b724535b1d9ec94c90dfdc4_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "d3594162f8809a34b6b11c8732cff90f",
+    "title": "Q3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that at least one flip is tails?</p>",
+    "choices": [
+      {
+        "id": "d3594162f8809a34b6b11c8732cff90f_A",
+        "label": "A",
+        "html": "1/8",
+        "is_correct": false
+      },
+      {
+        "id": "d3594162f8809a34b6b11c8732cff90f_B",
+        "label": "B",
+        "html": "7/8",
+        "is_correct": true
+      },
+      {
+        "id": "d3594162f8809a34b6b11c8732cff90f_C",
+        "label": "C",
+        "html": "3/4",
+        "is_correct": false
+      },
+      {
+        "id": "d3594162f8809a34b6b11c8732cff90f_D",
+        "label": "D",
+        "html": "1/2",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d3594162f8809a34b6b11c8732cff90f_B"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "43485b88c3bbe56498d30b4800c35009",
+    "title": "Q2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that exactly two flips are heads?</p>",
+    "choices": [
+      {
+        "id": "43485b88c3bbe56498d30b4800c35009_A",
+        "label": "A",
+        "html": "1/4",
+        "is_correct": false
+      },
+      {
+        "id": "43485b88c3bbe56498d30b4800c35009_B",
+        "label": "B",
+        "html": "3/8",
+        "is_correct": true
+      },
+      {
+        "id": "43485b88c3bbe56498d30b4800c35009_C",
+        "label": "C",
+        "html": "1/2",
+        "is_correct": false
+      },
+      {
+        "id": "43485b88c3bbe56498d30b4800c35009_D",
+        "label": "D",
+        "html": "5/8",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "43485b88c3bbe56498d30b4800c35009_B"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "94f6071c8596d5a2e275e01b4d58893e",
+    "title": "Q1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip three fair coins, what is the probability that all three flips are heads?</p>",
+    "choices": [
+      {
+        "id": "94f6071c8596d5a2e275e01b4d58893e_A",
+        "label": "A",
+        "html": "1/8",
+        "is_correct": true
+      },
+      {
+        "id": "94f6071c8596d5a2e275e01b4d58893e_B",
+        "label": "B",
+        "html": "1/4",
+        "is_correct": false
+      },
+      {
+        "id": "94f6071c8596d5a2e275e01b4d58893e_C",
+        "label": "C",
+        "html": "3/8",
+        "is_correct": false
+      },
+      {
+        "id": "94f6071c8596d5a2e275e01b4d58893e_D",
+        "label": "D",
+        "html": "1/2",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "94f6071c8596d5a2e275e01b4d58893e_A"
+    ]
+  }
+]

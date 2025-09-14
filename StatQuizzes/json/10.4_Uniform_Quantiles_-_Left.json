@@ -1,0 +1,842 @@
+[
+  {
+    "index": 1,
+    "ident": "8af0ee7688c206bc555f2d6f32337382",
+    "title": "Uniform Quantiles - Left - Q20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In psychology, inter-trial intervals in an experiment (seconds) are modeled as uniformly distributed between 1.0 and 4.0. Find a value that is <b>greater than 10% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "8af0ee7688c206bc555f2d6f32337382_A",
+        "label": "A",
+        "html": "1.38",
+        "is_correct": false
+      },
+      {
+        "id": "8af0ee7688c206bc555f2d6f32337382_B",
+        "label": "B",
+        "html": "1.38",
+        "is_correct": false
+      },
+      {
+        "id": "8af0ee7688c206bc555f2d6f32337382_C",
+        "label": "C",
+        "html": "1.30",
+        "is_correct": true
+      },
+      {
+        "id": "8af0ee7688c206bc555f2d6f32337382_D",
+        "label": "D",
+        "html": "1.56",
+        "is_correct": false
+      },
+      {
+        "id": "8af0ee7688c206bc555f2d6f32337382_E",
+        "label": "E",
+        "html": "1.21",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8af0ee7688c206bc555f2d6f32337382_C"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "34f5d25babbfad284274f59049cbefc8",
+    "title": "Uniform Quantiles - Left - Q19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In medicine, time spent in physical therapy (minutes) are modeled as uniformly distributed between 30 and 75. Find a value that is <b>greater than 10% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "34f5d25babbfad284274f59049cbefc8_A",
+        "label": "A",
+        "html": "34.50",
+        "is_correct": true
+      },
+      {
+        "id": "34f5d25babbfad284274f59049cbefc8_B",
+        "label": "B",
+        "html": "37.11",
+        "is_correct": false
+      },
+      {
+        "id": "34f5d25babbfad284274f59049cbefc8_C",
+        "label": "C",
+        "html": "30.18",
+        "is_correct": false
+      },
+      {
+        "id": "34f5d25babbfad284274f59049cbefc8_D",
+        "label": "D",
+        "html": "34.34",
+        "is_correct": false
+      },
+      {
+        "id": "34f5d25babbfad284274f59049cbefc8_E",
+        "label": "E",
+        "html": "32.51",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "34f5d25babbfad284274f59049cbefc8_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "14005c4225e19e0a98ce1a5c73224fa4",
+    "title": "Uniform Quantiles - Left - Q18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In biology, incubation period of an insect (days) are modeled as uniformly distributed between 8 and 20. Find a value that is <b>greater than 10% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "14005c4225e19e0a98ce1a5c73224fa4_A",
+        "label": "A",
+        "html": "10.54",
+        "is_correct": false
+      },
+      {
+        "id": "14005c4225e19e0a98ce1a5c73224fa4_B",
+        "label": "B",
+        "html": "9.20",
+        "is_correct": true
+      },
+      {
+        "id": "14005c4225e19e0a98ce1a5c73224fa4_C",
+        "label": "C",
+        "html": "10.10",
+        "is_correct": false
+      },
+      {
+        "id": "14005c4225e19e0a98ce1a5c73224fa4_D",
+        "label": "D",
+        "html": "8.49",
+        "is_correct": false
+      },
+      {
+        "id": "14005c4225e19e0a98ce1a5c73224fa4_E",
+        "label": "E",
+        "html": "10.12",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "14005c4225e19e0a98ce1a5c73224fa4_B"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "22f75405395c31b1491af19a46d88d9e",
+    "title": "Uniform Quantiles - Left - Q17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In medicine, glucose tolerance test time (minutes) are modeled as uniformly distributed between 60 and 120. Find a value that is <b>greater than 5% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "22f75405395c31b1491af19a46d88d9e_A",
+        "label": "A",
+        "html": "63",
+        "is_correct": false
+      },
+      {
+        "id": "22f75405395c31b1491af19a46d88d9e_B",
+        "label": "B",
+        "html": "67",
+        "is_correct": false
+      },
+      {
+        "id": "22f75405395c31b1491af19a46d88d9e_C",
+        "label": "C",
+        "html": "60",
+        "is_correct": false
+      },
+      {
+        "id": "22f75405395c31b1491af19a46d88d9e_D",
+        "label": "D",
+        "html": "66",
+        "is_correct": false
+      },
+      {
+        "id": "22f75405395c31b1491af19a46d88d9e_E",
+        "label": "E",
+        "html": "63",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "22f75405395c31b1491af19a46d88d9e_E"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "5f9daa7b1fd515509d6e5abbf33e04be",
+    "title": "Uniform Quantiles - Left - Q16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In psychology, hours slept per night in a study (hours) are modeled as uniformly distributed between 5.0 and 9.0. Find a value that is <b>greater than 10% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "5f9daa7b1fd515509d6e5abbf33e04be_A",
+        "label": "A",
+        "html": "5.60",
+        "is_correct": false
+      },
+      {
+        "id": "5f9daa7b1fd515509d6e5abbf33e04be_B",
+        "label": "B",
+        "html": "5.26",
+        "is_correct": false
+      },
+      {
+        "id": "5f9daa7b1fd515509d6e5abbf33e04be_C",
+        "label": "C",
+        "html": "5.40",
+        "is_correct": true
+      },
+      {
+        "id": "5f9daa7b1fd515509d6e5abbf33e04be_D",
+        "label": "D",
+        "html": "5.38",
+        "is_correct": false
+      },
+      {
+        "id": "5f9daa7b1fd515509d6e5abbf33e04be_E",
+        "label": "E",
+        "html": "5.39",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5f9daa7b1fd515509d6e5abbf33e04be_C"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "aecf8effb10f4e55141deef05e71ea58",
+    "title": "Uniform Quantiles - Left - Q15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In biology, shell growth per month (mm) are modeled as uniformly distributed between 1.0 and 3.5. Find a value that is <b>greater than 10% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "aecf8effb10f4e55141deef05e71ea58_A",
+        "label": "A",
+        "html": "1.25",
+        "is_correct": true
+      },
+      {
+        "id": "aecf8effb10f4e55141deef05e71ea58_B",
+        "label": "B",
+        "html": "1.30",
+        "is_correct": false
+      },
+      {
+        "id": "aecf8effb10f4e55141deef05e71ea58_C",
+        "label": "C",
+        "html": "1.00",
+        "is_correct": false
+      },
+      {
+        "id": "aecf8effb10f4e55141deef05e71ea58_D",
+        "label": "D",
+        "html": "1.44",
+        "is_correct": false
+      },
+      {
+        "id": "aecf8effb10f4e55141deef05e71ea58_E",
+        "label": "E",
+        "html": "1.04",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "aecf8effb10f4e55141deef05e71ea58_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "612f8b8ef33d233a26d00c4360165d4c",
+    "title": "Uniform Quantiles - Left - Q14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In biology, chlorophyll concentrations (µg/mL) are modeled as uniformly distributed between 0.5 and 2.5. Find a value that is <b>greater than 10% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "612f8b8ef33d233a26d00c4360165d4c_A",
+        "label": "A",
+        "html": "0.65",
+        "is_correct": false
+      },
+      {
+        "id": "612f8b8ef33d233a26d00c4360165d4c_B",
+        "label": "B",
+        "html": "0.70",
+        "is_correct": true
+      },
+      {
+        "id": "612f8b8ef33d233a26d00c4360165d4c_C",
+        "label": "C",
+        "html": "0.56",
+        "is_correct": false
+      },
+      {
+        "id": "612f8b8ef33d233a26d00c4360165d4c_D",
+        "label": "D",
+        "html": "0.79",
+        "is_correct": false
+      },
+      {
+        "id": "612f8b8ef33d233a26d00c4360165d4c_E",
+        "label": "E",
+        "html": "0.71",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "612f8b8ef33d233a26d00c4360165d4c_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "dad5f8287e03cff599adbd4e978193c4",
+    "title": "Uniform Quantiles - Left - Q13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In biology, leaf lengths in a plot (cm) are modeled as uniformly distributed between 3 and 12. Find a value that is <b>greater than 5% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "dad5f8287e03cff599adbd4e978193c4_A",
+        "label": "A",
+        "html": "4.01",
+        "is_correct": false
+      },
+      {
+        "id": "dad5f8287e03cff599adbd4e978193c4_B",
+        "label": "B",
+        "html": "4.03",
+        "is_correct": false
+      },
+      {
+        "id": "dad5f8287e03cff599adbd4e978193c4_C",
+        "label": "C",
+        "html": "4.49",
+        "is_correct": false
+      },
+      {
+        "id": "dad5f8287e03cff599adbd4e978193c4_D",
+        "label": "D",
+        "html": "3.45",
+        "is_correct": true
+      },
+      {
+        "id": "dad5f8287e03cff599adbd4e978193c4_E",
+        "label": "E",
+        "html": "3.49",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "dad5f8287e03cff599adbd4e978193c4_D"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "6bed20dd897e453e59be74137d3c55e1",
+    "title": "Uniform Quantiles - Left - Q12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In biology, flight durations of fruit flies (seconds) are modeled as uniformly distributed between 5 and 15. Find a value that is <b>greater than 90% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "6bed20dd897e453e59be74137d3c55e1_A",
+        "label": "A",
+        "html": "14",
+        "is_correct": false
+      },
+      {
+        "id": "6bed20dd897e453e59be74137d3c55e1_B",
+        "label": "B",
+        "html": "14",
+        "is_correct": false
+      },
+      {
+        "id": "6bed20dd897e453e59be74137d3c55e1_C",
+        "label": "C",
+        "html": "14",
+        "is_correct": true
+      },
+      {
+        "id": "6bed20dd897e453e59be74137d3c55e1_D",
+        "label": "D",
+        "html": "15",
+        "is_correct": false
+      },
+      {
+        "id": "6bed20dd897e453e59be74137d3c55e1_E",
+        "label": "E",
+        "html": "14",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6bed20dd897e453e59be74137d3c55e1_C"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "4ce01315456e842467857a49f8922b2b",
+    "title": "Uniform Quantiles - Left - Q11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In biology, weights of lab mice (grams) are modeled as uniformly distributed between 18 and 35. Find a value that is <b>greater than 10% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "4ce01315456e842467857a49f8922b2b_A",
+        "label": "A",
+        "html": "21.35",
+        "is_correct": false
+      },
+      {
+        "id": "4ce01315456e842467857a49f8922b2b_B",
+        "label": "B",
+        "html": "19.70",
+        "is_correct": true
+      },
+      {
+        "id": "4ce01315456e842467857a49f8922b2b_C",
+        "label": "C",
+        "html": "21.08",
+        "is_correct": false
+      },
+      {
+        "id": "4ce01315456e842467857a49f8922b2b_D",
+        "label": "D",
+        "html": "20.05",
+        "is_correct": false
+      },
+      {
+        "id": "4ce01315456e842467857a49f8922b2b_E",
+        "label": "E",
+        "html": "18.29",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4ce01315456e842467857a49f8922b2b_B"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "e10f161f224a91c04c5b4dbe2f16c648",
+    "title": "Uniform Quantiles - Left - Q10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In medicine, cholesterol levels (mg/dL) in a sample are modeled as uniformly distributed between 150 and 230. Find a value that is <b>greater than 95% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "e10f161f224a91c04c5b4dbe2f16c648_A",
+        "label": "A",
+        "html": "223",
+        "is_correct": false
+      },
+      {
+        "id": "e10f161f224a91c04c5b4dbe2f16c648_B",
+        "label": "B",
+        "html": "224",
+        "is_correct": false
+      },
+      {
+        "id": "e10f161f224a91c04c5b4dbe2f16c648_C",
+        "label": "C",
+        "html": "226",
+        "is_correct": false
+      },
+      {
+        "id": "e10f161f224a91c04c5b4dbe2f16c648_D",
+        "label": "D",
+        "html": "226",
+        "is_correct": true
+      },
+      {
+        "id": "e10f161f224a91c04c5b4dbe2f16c648_E",
+        "label": "E",
+        "html": "222",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e10f161f224a91c04c5b4dbe2f16c648_D"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "79cedf0db2a6e50b393ff773d690753a",
+    "title": "Uniform Quantiles - Left - Q9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In medicine, time to dissolve a sublingual tablet (seconds) are modeled as uniformly distributed between 30 and 90. Find a value that is <b>greater than 90% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "79cedf0db2a6e50b393ff773d690753a_A",
+        "label": "A",
+        "html": "78",
+        "is_correct": false
+      },
+      {
+        "id": "79cedf0db2a6e50b393ff773d690753a_B",
+        "label": "B",
+        "html": "77",
+        "is_correct": false
+      },
+      {
+        "id": "79cedf0db2a6e50b393ff773d690753a_C",
+        "label": "C",
+        "html": "89",
+        "is_correct": false
+      },
+      {
+        "id": "79cedf0db2a6e50b393ff773d690753a_D",
+        "label": "D",
+        "html": "84",
+        "is_correct": true
+      },
+      {
+        "id": "79cedf0db2a6e50b393ff773d690753a_E",
+        "label": "E",
+        "html": "78",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "79cedf0db2a6e50b393ff773d690753a_D"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "16b155a153545ef50e1219b2669520fb",
+    "title": "Uniform Quantiles - Left - Q8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In medicine, post-operative heart rate (bpm) are modeled as uniformly distributed between 60 and 100. Find a value that is <b>greater than 5% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "16b155a153545ef50e1219b2669520fb_A",
+        "label": "A",
+        "html": "67",
+        "is_correct": false
+      },
+      {
+        "id": "16b155a153545ef50e1219b2669520fb_B",
+        "label": "B",
+        "html": "62",
+        "is_correct": true
+      },
+      {
+        "id": "16b155a153545ef50e1219b2669520fb_C",
+        "label": "C",
+        "html": "61",
+        "is_correct": false
+      },
+      {
+        "id": "16b155a153545ef50e1219b2669520fb_D",
+        "label": "D",
+        "html": "66",
+        "is_correct": false
+      },
+      {
+        "id": "16b155a153545ef50e1219b2669520fb_E",
+        "label": "E",
+        "html": "61",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "16b155a153545ef50e1219b2669520fb_B"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "53150089479dafc7cee3fd02baadc1f3",
+    "title": "Uniform Quantiles - Left - Q7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In medicine, time to triage in ER (minutes) are modeled as uniformly distributed between 5 and 25. Find a value that is <b>greater than 90% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "53150089479dafc7cee3fd02baadc1f3_A",
+        "label": "A",
+        "html": "24",
+        "is_correct": false
+      },
+      {
+        "id": "53150089479dafc7cee3fd02baadc1f3_B",
+        "label": "B",
+        "html": "23",
+        "is_correct": true
+      },
+      {
+        "id": "53150089479dafc7cee3fd02baadc1f3_C",
+        "label": "C",
+        "html": "25",
+        "is_correct": false
+      },
+      {
+        "id": "53150089479dafc7cee3fd02baadc1f3_D",
+        "label": "D",
+        "html": "25",
+        "is_correct": false
+      },
+      {
+        "id": "53150089479dafc7cee3fd02baadc1f3_E",
+        "label": "E",
+        "html": "23",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "53150089479dafc7cee3fd02baadc1f3_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "b266ef894e0379c76246f0391f70e8bb",
+    "title": "Uniform Quantiles - Left - Q6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In medicine, systolic blood pressure in a trial (mmHg) are modeled as uniformly distributed between 90 and 150. Find a value that is <b>greater than 95% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "b266ef894e0379c76246f0391f70e8bb_A",
+        "label": "A",
+        "html": "147",
+        "is_correct": true
+      },
+      {
+        "id": "b266ef894e0379c76246f0391f70e8bb_B",
+        "label": "B",
+        "html": "144",
+        "is_correct": false
+      },
+      {
+        "id": "b266ef894e0379c76246f0391f70e8bb_C",
+        "label": "C",
+        "html": "144",
+        "is_correct": false
+      },
+      {
+        "id": "b266ef894e0379c76246f0391f70e8bb_D",
+        "label": "D",
+        "html": "141",
+        "is_correct": false
+      },
+      {
+        "id": "b266ef894e0379c76246f0391f70e8bb_E",
+        "label": "E",
+        "html": "148",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b266ef894e0379c76246f0391f70e8bb_A"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "56d04a076c83794c0db39f9faf6cd88f",
+    "title": "Uniform Quantiles - Left - Q5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In psychology, eye blink intervals during a task (ms) are modeled as uniformly distributed between 200 and 500. Find a value that is <b>greater than 95% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "56d04a076c83794c0db39f9faf6cd88f_A",
+        "label": "A",
+        "html": "468",
+        "is_correct": false
+      },
+      {
+        "id": "56d04a076c83794c0db39f9faf6cd88f_B",
+        "label": "B",
+        "html": "485",
+        "is_correct": true
+      },
+      {
+        "id": "56d04a076c83794c0db39f9faf6cd88f_C",
+        "label": "C",
+        "html": "472",
+        "is_correct": false
+      },
+      {
+        "id": "56d04a076c83794c0db39f9faf6cd88f_D",
+        "label": "D",
+        "html": "456",
+        "is_correct": false
+      },
+      {
+        "id": "56d04a076c83794c0db39f9faf6cd88f_E",
+        "label": "E",
+        "html": "492",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "56d04a076c83794c0db39f9faf6cd88f_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "adc40ae0692abb243bc2c58907011494",
+    "title": "Uniform Quantiles - Left - Q4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In psychology, time to complete a Stroop task (seconds) are modeled as uniformly distributed between 10 and 20. Find a value that is <b>greater than 90% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "adc40ae0692abb243bc2c58907011494_A",
+        "label": "A",
+        "html": "18",
+        "is_correct": false
+      },
+      {
+        "id": "adc40ae0692abb243bc2c58907011494_B",
+        "label": "B",
+        "html": "20",
+        "is_correct": false
+      },
+      {
+        "id": "adc40ae0692abb243bc2c58907011494_C",
+        "label": "C",
+        "html": "19",
+        "is_correct": true
+      },
+      {
+        "id": "adc40ae0692abb243bc2c58907011494_D",
+        "label": "D",
+        "html": "19",
+        "is_correct": false
+      },
+      {
+        "id": "adc40ae0692abb243bc2c58907011494_E",
+        "label": "E",
+        "html": "18",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "adc40ae0692abb243bc2c58907011494_C"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "2ad13ec0b48df4f421253f41bdaccd52",
+    "title": "Uniform Quantiles - Left - Q3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In psychology, latency to recall a word (seconds) are modeled as uniformly distributed between 2.0 and 6.0. Find a value that is <b>greater than 10% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "2ad13ec0b48df4f421253f41bdaccd52_A",
+        "label": "A",
+        "html": "2.68",
+        "is_correct": false
+      },
+      {
+        "id": "2ad13ec0b48df4f421253f41bdaccd52_B",
+        "label": "B",
+        "html": "2.77",
+        "is_correct": false
+      },
+      {
+        "id": "2ad13ec0b48df4f421253f41bdaccd52_C",
+        "label": "C",
+        "html": "2.49",
+        "is_correct": false
+      },
+      {
+        "id": "2ad13ec0b48df4f421253f41bdaccd52_D",
+        "label": "D",
+        "html": "2.04",
+        "is_correct": false
+      },
+      {
+        "id": "2ad13ec0b48df4f421253f41bdaccd52_E",
+        "label": "E",
+        "html": "2.40",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "2ad13ec0b48df4f421253f41bdaccd52_E"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "9318d7434d26448e5a55bed88626ce10",
+    "title": "Uniform Quantiles - Left - Q2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In psychology, scores on a mindfulness scale (0-100) are modeled as uniformly distributed between 20 and 80. Find a value that is <b>greater than 90% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "9318d7434d26448e5a55bed88626ce10_A",
+        "label": "A",
+        "html": "74",
+        "is_correct": true
+      },
+      {
+        "id": "9318d7434d26448e5a55bed88626ce10_B",
+        "label": "B",
+        "html": "76",
+        "is_correct": false
+      },
+      {
+        "id": "9318d7434d26448e5a55bed88626ce10_C",
+        "label": "C",
+        "html": "76",
+        "is_correct": false
+      },
+      {
+        "id": "9318d7434d26448e5a55bed88626ce10_D",
+        "label": "D",
+        "html": "71",
+        "is_correct": false
+      },
+      {
+        "id": "9318d7434d26448e5a55bed88626ce10_E",
+        "label": "E",
+        "html": "79",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9318d7434d26448e5a55bed88626ce10_A"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "b2bc8efb8e48e7b5165da689153c4fa9",
+    "title": "Uniform Quantiles - Left - Q1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>In psychology, reaction times to a visual stimulus (ms) are modeled as uniformly distributed between 150 and 300. Find a value that is <b>greater than 10% of observations</b>.</p><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "b2bc8efb8e48e7b5165da689153c4fa9_A",
+        "label": "A",
+        "html": "165",
+        "is_correct": false
+      },
+      {
+        "id": "b2bc8efb8e48e7b5165da689153c4fa9_B",
+        "label": "B",
+        "html": "165",
+        "is_correct": true
+      },
+      {
+        "id": "b2bc8efb8e48e7b5165da689153c4fa9_C",
+        "label": "C",
+        "html": "161",
+        "is_correct": false
+      },
+      {
+        "id": "b2bc8efb8e48e7b5165da689153c4fa9_D",
+        "label": "D",
+        "html": "154",
+        "is_correct": false
+      },
+      {
+        "id": "b2bc8efb8e48e7b5165da689153c4fa9_E",
+        "label": "E",
+        "html": "171",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b2bc8efb8e48e7b5165da689153c4fa9_B"
+    ]
+  }
+]

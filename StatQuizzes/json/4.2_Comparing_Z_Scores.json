@@ -1,0 +1,1442 @@
+[
+  {
+    "index": 1,
+    "ident": "59c68a1b84c912dda5bbc82b2ca77903",
+    "title": "Question 40",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider mass of 13-lined ground squirrels (g) with a mean of 150 and a standard deviation of 20. A sample measurement is 146.3.\nSecond, consider systolic blood pressure (mmHg) with a mean of 120 and a standard deviation of 12. A sample measurement is 122.2.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "59c68a1b84c912dda5bbc82b2ca77903_A",
+        "label": "A",
+        "html": "z-score for mass of 13-lined ground squirrels (g) = -0.18, z-score for systolic blood pressure (mmHg) = 0.18, systolic blood pressure (mmHg) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "59c68a1b84c912dda5bbc82b2ca77903_B",
+        "label": "B",
+        "html": "z-score for mass of 13-lined ground squirrels (g) = 0.47, z-score for systolic blood pressure (mmHg) = 0.37, systolic blood pressure (mmHg) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "59c68a1b84c912dda5bbc82b2ca77903_C",
+        "label": "C",
+        "html": "z-score for mass of 13-lined ground squirrels (g) = -0.74, z-score for systolic blood pressure (mmHg) = -0.33, mass of 13-lined ground squirrels (g) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "59c68a1b84c912dda5bbc82b2ca77903_D",
+        "label": "D",
+        "html": "z-score for mass of 13-lined ground squirrels (g) = 0.59, z-score for systolic blood pressure (mmHg) = 0.75, systolic blood pressure (mmHg) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "59c68a1b84c912dda5bbc82b2ca77903_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "ad4ea80e44fefaa5acc64a254b6b39c6",
+    "title": "Question 35",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider reaction time in cognitive test (ms) with a mean of 250 and a standard deviation of 30. A sample measurement is 261.7.\nSecond, consider fasting blood glucose levels (mg/dL) with a mean of 100 and a standard deviation of 15. A sample measurement is 94.0.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "ad4ea80e44fefaa5acc64a254b6b39c6_A",
+        "label": "A",
+        "html": "z-score for reaction time in cognitive test (ms) = 0.39, z-score for fasting blood glucose levels (mg/dL) = -0.4, fasting blood glucose levels (mg/dL) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "ad4ea80e44fefaa5acc64a254b6b39c6_B",
+        "label": "B",
+        "html": "z-score for reaction time in cognitive test (ms) = 1.37, z-score for fasting blood glucose levels (mg/dL) = -1.14, fasting blood glucose levels (mg/dL) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "ad4ea80e44fefaa5acc64a254b6b39c6_C",
+        "label": "C",
+        "html": "z-score for reaction time in cognitive test (ms) = -0.46, z-score for fasting blood glucose levels (mg/dL) = -0.35, fasting blood glucose levels (mg/dL) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "ad4ea80e44fefaa5acc64a254b6b39c6_D",
+        "label": "D",
+        "html": "z-score for reaction time in cognitive test (ms) = -0.23, z-score for fasting blood glucose levels (mg/dL) = -0.3, fasting blood glucose levels (mg/dL) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ad4ea80e44fefaa5acc64a254b6b39c6_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "495c50df8821cc9103559db09da826fd",
+    "title": "Question 29",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider cholesterol levels (mg/dL) in adults with a mean of 190 and a standard deviation of 30. A sample measurement is 188.8.\nSecond, consider length of salmon (cm) with a mean of 75 and a standard deviation of 8. A sample measurement is 69.6.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "495c50df8821cc9103559db09da826fd_A",
+        "label": "A",
+        "html": "z-score for cholesterol levels (mg/dL) in adults = -0.04, z-score for length of salmon (cm) = -0.68, length of salmon (cm) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "495c50df8821cc9103559db09da826fd_B",
+        "label": "B",
+        "html": "z-score for cholesterol levels (mg/dL) in adults = 0.09, z-score for length of salmon (cm) = -1.36, cholesterol levels (mg/dL) in adults is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "495c50df8821cc9103559db09da826fd_C",
+        "label": "C",
+        "html": "z-score for cholesterol levels (mg/dL) in adults = 0.44, z-score for length of salmon (cm) = -0.37, length of salmon (cm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "495c50df8821cc9103559db09da826fd_D",
+        "label": "D",
+        "html": "z-score for cholesterol levels (mg/dL) in adults = -0.03, z-score for length of salmon (cm) = 0.3, length of salmon (cm) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "495c50df8821cc9103559db09da826fd_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "ef162d4602a3ec3c0417fa772917b6b7",
+    "title": "Question 18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider memory recall score (%) with a mean of 75 and a standard deviation of 10. A sample measurement is 80.0.\nSecond, consider systolic blood pressure (mmHg) with a mean of 120 and a standard deviation of 12. A sample measurement is 109.3.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "ef162d4602a3ec3c0417fa772917b6b7_A",
+        "label": "A",
+        "html": "z-score for memory recall score (%) = 0.5, z-score for systolic blood pressure (mmHg) = -0.89, systolic blood pressure (mmHg) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "ef162d4602a3ec3c0417fa772917b6b7_B",
+        "label": "B",
+        "html": "z-score for memory recall score (%) = 0.34, z-score for systolic blood pressure (mmHg) = -0.31, memory recall score (%) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "ef162d4602a3ec3c0417fa772917b6b7_C",
+        "label": "C",
+        "html": "z-score for memory recall score (%) = 1.08, z-score for systolic blood pressure (mmHg) = -1.2, memory recall score (%) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "ef162d4602a3ec3c0417fa772917b6b7_D",
+        "label": "D",
+        "html": "z-score for memory recall score (%) = 0.01, z-score for systolic blood pressure (mmHg) = -1.66, systolic blood pressure (mmHg) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ef162d4602a3ec3c0417fa772917b6b7_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "d64f59b499dae900f2b7e1ed26d15e67",
+    "title": "Question 14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider daily stock price change (%) with a mean of 0 and a standard deviation of 1.5. A sample measurement is 1.9.\nSecond, consider number of hours slept per night with a mean of 7.2 and a standard deviation of 1.1. A sample measurement is 8.1.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "d64f59b499dae900f2b7e1ed26d15e67_A",
+        "label": "A",
+        "html": "z-score for daily stock price change (%) = 1.27, z-score for number of hours slept per night = 0.82, daily stock price change (%) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "d64f59b499dae900f2b7e1ed26d15e67_B",
+        "label": "B",
+        "html": "z-score for daily stock price change (%) = 0.66, z-score for number of hours slept per night = 1.07, number of hours slept per night is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "d64f59b499dae900f2b7e1ed26d15e67_C",
+        "label": "C",
+        "html": "z-score for daily stock price change (%) = 1.13, z-score for number of hours slept per night = 0.84, daily stock price change (%) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "d64f59b499dae900f2b7e1ed26d15e67_D",
+        "label": "D",
+        "html": "z-score for daily stock price change (%) = 1.54, z-score for number of hours slept per night = 1.35, number of hours slept per night is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d64f59b499dae900f2b7e1ed26d15e67_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "ba4e1411508c65b6da1d6a021e23aef6",
+    "title": "Question 13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider monthly household income (USD) with a mean of 4000 and a standard deviation of 500. A sample measurement is 3677.1.\nSecond, consider score on depression inventory with a mean of 20 and a standard deviation of 5. A sample measurement is 16.5.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "ba4e1411508c65b6da1d6a021e23aef6_A",
+        "label": "A",
+        "html": "z-score for monthly household income (USD) = -0.65, z-score for score on depression inventory = -0.7, score on depression inventory is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "ba4e1411508c65b6da1d6a021e23aef6_B",
+        "label": "B",
+        "html": "z-score for monthly household income (USD) = -0.31, z-score for score on depression inventory = 0.04, score on depression inventory is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "ba4e1411508c65b6da1d6a021e23aef6_C",
+        "label": "C",
+        "html": "z-score for monthly household income (USD) = -0.02, z-score for score on depression inventory = -0.71, monthly household income (USD) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "ba4e1411508c65b6da1d6a021e23aef6_D",
+        "label": "D",
+        "html": "z-score for monthly household income (USD) = -1.29, z-score for score on depression inventory = -1.53, score on depression inventory is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ba4e1411508c65b6da1d6a021e23aef6_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "fa4f1eb09731f974873b4004ac46fb6e",
+    "title": "Question 2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider wingspan of golden eagles (cm) with a mean of 220 and a standard deviation of 15. A sample measurement is 203.4.\nSecond, consider memory recall score (%) with a mean of 75 and a standard deviation of 10. A sample measurement is 85.7.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "fa4f1eb09731f974873b4004ac46fb6e_A",
+        "label": "A",
+        "html": "z-score for wingspan of golden eagles (cm) = -1.11, z-score for memory recall score (%) = 1.07, wingspan of golden eagles (cm) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "fa4f1eb09731f974873b4004ac46fb6e_B",
+        "label": "B",
+        "html": "z-score for wingspan of golden eagles (cm) = -0.82, z-score for memory recall score (%) = 1.66, wingspan of golden eagles (cm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "fa4f1eb09731f974873b4004ac46fb6e_C",
+        "label": "C",
+        "html": "z-score for wingspan of golden eagles (cm) = -1.76, z-score for memory recall score (%) = 2.03, memory recall score (%) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "fa4f1eb09731f974873b4004ac46fb6e_D",
+        "label": "D",
+        "html": "z-score for wingspan of golden eagles (cm) = -0.53, z-score for memory recall score (%) = 1.82, wingspan of golden eagles (cm) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "fa4f1eb09731f974873b4004ac46fb6e_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "3bc9ffb7a4c4320e3e036e8d4723c764",
+    "title": "Question 39",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider length of salmon (cm) with a mean of 75 and a standard deviation of 8. A sample measurement is 83.3.\nSecond, consider reaction time in cognitive test (ms) with a mean of 250 and a standard deviation of 30. A sample measurement is 264.5.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "3bc9ffb7a4c4320e3e036e8d4723c764_A",
+        "label": "A",
+        "html": "z-score for length of salmon (cm) = 1.04, z-score for reaction time in cognitive test (ms) = 0.48, length of salmon (cm) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "3bc9ffb7a4c4320e3e036e8d4723c764_B",
+        "label": "B",
+        "html": "z-score for length of salmon (cm) = 0.37, z-score for reaction time in cognitive test (ms) = 0.32, reaction time in cognitive test (ms) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "3bc9ffb7a4c4320e3e036e8d4723c764_C",
+        "label": "C",
+        "html": "z-score for length of salmon (cm) = 0.17, z-score for reaction time in cognitive test (ms) = 1.1, reaction time in cognitive test (ms) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "3bc9ffb7a4c4320e3e036e8d4723c764_D",
+        "label": "D",
+        "html": "z-score for length of salmon (cm) = 0.18, z-score for reaction time in cognitive test (ms) = 1.04, reaction time in cognitive test (ms) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3bc9ffb7a4c4320e3e036e8d4723c764_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "9079d4519ee3f8cbf8f8a114381557cf",
+    "title": "Question 38",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider fasting blood glucose levels (mg/dL) with a mean of 100 and a standard deviation of 15. A sample measurement is 89.7.\nSecond, consider monthly household income (USD) with a mean of 4000 and a standard deviation of 500. A sample measurement is 3264.2.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "9079d4519ee3f8cbf8f8a114381557cf_A",
+        "label": "A",
+        "html": "z-score for fasting blood glucose levels (mg/dL) = -0.69, z-score for monthly household income (USD) = -1.47, monthly household income (USD) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "9079d4519ee3f8cbf8f8a114381557cf_B",
+        "label": "B",
+        "html": "z-score for fasting blood glucose levels (mg/dL) = -1.44, z-score for monthly household income (USD) = -1.57, monthly household income (USD) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "9079d4519ee3f8cbf8f8a114381557cf_C",
+        "label": "C",
+        "html": "z-score for fasting blood glucose levels (mg/dL) = -0.05, z-score for monthly household income (USD) = -2.26, monthly household income (USD) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "9079d4519ee3f8cbf8f8a114381557cf_D",
+        "label": "D",
+        "html": "z-score for fasting blood glucose levels (mg/dL) = -0.42, z-score for monthly household income (USD) = -1.45, fasting blood glucose levels (mg/dL) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9079d4519ee3f8cbf8f8a114381557cf_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "6a237a64f7ca7f7fb38b8d05c4fafb5d",
+    "title": "Question 37",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider daily stock price change (%) with a mean of 0 and a standard deviation of 1.5. A sample measurement is 2.9.\nSecond, consider length of salmon (cm) with a mean of 75 and a standard deviation of 8. A sample measurement is 85.2.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "6a237a64f7ca7f7fb38b8d05c4fafb5d_A",
+        "label": "A",
+        "html": "z-score for daily stock price change (%) = 1.93, z-score for length of salmon (cm) = 1.28, daily stock price change (%) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "6a237a64f7ca7f7fb38b8d05c4fafb5d_B",
+        "label": "B",
+        "html": "z-score for daily stock price change (%) = 0.99, z-score for length of salmon (cm) = 2.11, daily stock price change (%) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "6a237a64f7ca7f7fb38b8d05c4fafb5d_C",
+        "label": "C",
+        "html": "z-score for daily stock price change (%) = 1.03, z-score for length of salmon (cm) = 1.88, daily stock price change (%) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "6a237a64f7ca7f7fb38b8d05c4fafb5d_D",
+        "label": "D",
+        "html": "z-score for daily stock price change (%) = 1.73, z-score for length of salmon (cm) = 0.44, daily stock price change (%) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6a237a64f7ca7f7fb38b8d05c4fafb5d_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "5c8d2a56c7c15f8fe1fa196098d789a7",
+    "title": "Question 36",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider wingspan of golden eagles (cm) with a mean of 220 and a standard deviation of 15. A sample measurement is 225.2.\nSecond, consider number of hours slept per night with a mean of 7.2 and a standard deviation of 1.1. A sample measurement is 7.8.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "5c8d2a56c7c15f8fe1fa196098d789a7_A",
+        "label": "A",
+        "html": "z-score for wingspan of golden eagles (cm) = 0.35, z-score for number of hours slept per night = 0.55, number of hours slept per night is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "5c8d2a56c7c15f8fe1fa196098d789a7_B",
+        "label": "B",
+        "html": "z-score for wingspan of golden eagles (cm) = 0.7, z-score for number of hours slept per night = 1.35, wingspan of golden eagles (cm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "5c8d2a56c7c15f8fe1fa196098d789a7_C",
+        "label": "C",
+        "html": "z-score for wingspan of golden eagles (cm) = -0.48, z-score for number of hours slept per night = -0.23, wingspan of golden eagles (cm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "5c8d2a56c7c15f8fe1fa196098d789a7_D",
+        "label": "D",
+        "html": "z-score for wingspan of golden eagles (cm) = -0.18, z-score for number of hours slept per night = 1.54, number of hours slept per night is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5c8d2a56c7c15f8fe1fa196098d789a7_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "2d1f1d96105ba45cb8fb97810bdd5bca",
+    "title": "Question 34",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider reaction time in cognitive test (ms) with a mean of 250 and a standard deviation of 30. A sample measurement is 264.9.\nSecond, consider price of gasoline (USD per gallon) with a mean of 3.5 and a standard deviation of 0.5. A sample measurement is 3.5.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "2d1f1d96105ba45cb8fb97810bdd5bca_A",
+        "label": "A",
+        "html": "z-score for reaction time in cognitive test (ms) = 0.5, z-score for price of gasoline (USD per gallon) = 0.0, reaction time in cognitive test (ms) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "2d1f1d96105ba45cb8fb97810bdd5bca_B",
+        "label": "B",
+        "html": "z-score for reaction time in cognitive test (ms) = 1.12, z-score for price of gasoline (USD per gallon) = -0.48, reaction time in cognitive test (ms) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "2d1f1d96105ba45cb8fb97810bdd5bca_C",
+        "label": "C",
+        "html": "z-score for reaction time in cognitive test (ms) = 0.63, z-score for price of gasoline (USD per gallon) = 0.69, reaction time in cognitive test (ms) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "2d1f1d96105ba45cb8fb97810bdd5bca_D",
+        "label": "D",
+        "html": "z-score for reaction time in cognitive test (ms) = 1.27, z-score for price of gasoline (USD per gallon) = -0.39, reaction time in cognitive test (ms) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2d1f1d96105ba45cb8fb97810bdd5bca_A"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "076d62a1a26e7b57259dff05c2395d74",
+    "title": "Question 33",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider number of hours slept per night with a mean of 7.2 and a standard deviation of 1.1. A sample measurement is 6.3.\nSecond, consider price of gasoline (USD per gallon) with a mean of 3.5 and a standard deviation of 0.5. A sample measurement is 3.7.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "076d62a1a26e7b57259dff05c2395d74_A",
+        "label": "A",
+        "html": "z-score for number of hours slept per night = -0.82, z-score for price of gasoline (USD per gallon) = 0.4, number of hours slept per night is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "076d62a1a26e7b57259dff05c2395d74_B",
+        "label": "B",
+        "html": "z-score for number of hours slept per night = -0.1, z-score for price of gasoline (USD per gallon) = 1.06, price of gasoline (USD per gallon) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "076d62a1a26e7b57259dff05c2395d74_C",
+        "label": "C",
+        "html": "z-score for number of hours slept per night = -1.68, z-score for price of gasoline (USD per gallon) = -0.3, number of hours slept per night is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "076d62a1a26e7b57259dff05c2395d74_D",
+        "label": "D",
+        "html": "z-score for number of hours slept per night = -0.17, z-score for price of gasoline (USD per gallon) = 1.39, number of hours slept per night is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "076d62a1a26e7b57259dff05c2395d74_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "be908f0379c499b0de96bb6146d42c6a",
+    "title": "Question 32",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider mass of 13-lined ground squirrels (g) with a mean of 150 and a standard deviation of 20. A sample measurement is 144.2.\nSecond, consider number of hours slept per night with a mean of 7.2 and a standard deviation of 1.1. A sample measurement is 6.0.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "be908f0379c499b0de96bb6146d42c6a_A",
+        "label": "A",
+        "html": "z-score for mass of 13-lined ground squirrels (g) = -0.29, z-score for number of hours slept per night = -1.09, number of hours slept per night is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "be908f0379c499b0de96bb6146d42c6a_B",
+        "label": "B",
+        "html": "z-score for mass of 13-lined ground squirrels (g) = 0.6, z-score for number of hours slept per night = -0.69, number of hours slept per night is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "be908f0379c499b0de96bb6146d42c6a_C",
+        "label": "C",
+        "html": "z-score for mass of 13-lined ground squirrels (g) = 0.45, z-score for number of hours slept per night = -1.79, mass of 13-lined ground squirrels (g) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "be908f0379c499b0de96bb6146d42c6a_D",
+        "label": "D",
+        "html": "z-score for mass of 13-lined ground squirrels (g) = -1.27, z-score for number of hours slept per night = -1.52, number of hours slept per night is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "be908f0379c499b0de96bb6146d42c6a_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "c9f45932d2a5e336a6b2a6ecb3ba225d",
+    "title": "Question 31",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider daily stock price change (%) with a mean of 0 and a standard deviation of 1.5. A sample measurement is 1.2.\nSecond, consider fasting blood glucose levels (mg/dL) with a mean of 100 and a standard deviation of 15. A sample measurement is 90.8.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "c9f45932d2a5e336a6b2a6ecb3ba225d_A",
+        "label": "A",
+        "html": "z-score for daily stock price change (%) = 0.8, z-score for fasting blood glucose levels (mg/dL) = -0.61, daily stock price change (%) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "c9f45932d2a5e336a6b2a6ecb3ba225d_B",
+        "label": "B",
+        "html": "z-score for daily stock price change (%) = 1.26, z-score for fasting blood glucose levels (mg/dL) = 0.06, fasting blood glucose levels (mg/dL) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "c9f45932d2a5e336a6b2a6ecb3ba225d_C",
+        "label": "C",
+        "html": "z-score for daily stock price change (%) = 0.4, z-score for fasting blood glucose levels (mg/dL) = -1.26, daily stock price change (%) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "c9f45932d2a5e336a6b2a6ecb3ba225d_D",
+        "label": "D",
+        "html": "z-score for daily stock price change (%) = 1.39, z-score for fasting blood glucose levels (mg/dL) = 0.34, fasting blood glucose levels (mg/dL) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c9f45932d2a5e336a6b2a6ecb3ba225d_A"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "b8e648c3a95fabb67bad7ebe23c7b6da",
+    "title": "Question 30",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider length of salmon (cm) with a mean of 75 and a standard deviation of 8. A sample measurement is 91.4.\nSecond, consider resting heart rate (bpm) with a mean of 72 and a standard deviation of 8. A sample measurement is 71.2.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "b8e648c3a95fabb67bad7ebe23c7b6da_A",
+        "label": "A",
+        "html": "z-score for length of salmon (cm) = 2.05, z-score for resting heart rate (bpm) = -0.1, length of salmon (cm) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "b8e648c3a95fabb67bad7ebe23c7b6da_B",
+        "label": "B",
+        "html": "z-score for length of salmon (cm) = 1.09, z-score for resting heart rate (bpm) = -0.4, resting heart rate (bpm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "b8e648c3a95fabb67bad7ebe23c7b6da_C",
+        "label": "C",
+        "html": "z-score for length of salmon (cm) = 1.33, z-score for resting heart rate (bpm) = 0.17, resting heart rate (bpm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "b8e648c3a95fabb67bad7ebe23c7b6da_D",
+        "label": "D",
+        "html": "z-score for length of salmon (cm) = 2.19, z-score for resting heart rate (bpm) = 0.88, resting heart rate (bpm) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b8e648c3a95fabb67bad7ebe23c7b6da_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "ccdc87086752a0a43e081e076137040a",
+    "title": "Question 28",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider price of gasoline (USD per gallon) with a mean of 3.5 and a standard deviation of 0.5. A sample measurement is 4.0.\nSecond, consider number of hours slept per night with a mean of 7.2 and a standard deviation of 1.1. A sample measurement is 7.0.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "ccdc87086752a0a43e081e076137040a_A",
+        "label": "A",
+        "html": "z-score for price of gasoline (USD per gallon) = 1.0, z-score for number of hours slept per night = -0.18, price of gasoline (USD per gallon) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "ccdc87086752a0a43e081e076137040a_B",
+        "label": "B",
+        "html": "z-score for price of gasoline (USD per gallon) = 0.44, z-score for number of hours slept per night = 0.19, number of hours slept per night is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "ccdc87086752a0a43e081e076137040a_C",
+        "label": "C",
+        "html": "z-score for price of gasoline (USD per gallon) = 0.72, z-score for number of hours slept per night = 0.19, price of gasoline (USD per gallon) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "ccdc87086752a0a43e081e076137040a_D",
+        "label": "D",
+        "html": "z-score for price of gasoline (USD per gallon) = 1.9, z-score for number of hours slept per night = 0.12, number of hours slept per night is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ccdc87086752a0a43e081e076137040a_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "e8dfbe803df9cd9b16eedf43a5a10fb5",
+    "title": "Question 27",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider monthly household income (USD) with a mean of 4000 and a standard deviation of 500. A sample measurement is 2868.8.\nSecond, consider mass of 13-lined ground squirrels (g) with a mean of 150 and a standard deviation of 20. A sample measurement is 165.4.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "e8dfbe803df9cd9b16eedf43a5a10fb5_A",
+        "label": "A",
+        "html": "z-score for monthly household income (USD) = -2.26, z-score for mass of 13-lined ground squirrels (g) = 0.77, monthly household income (USD) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "e8dfbe803df9cd9b16eedf43a5a10fb5_B",
+        "label": "B",
+        "html": "z-score for monthly household income (USD) = -2.01, z-score for mass of 13-lined ground squirrels (g) = 0.46, mass of 13-lined ground squirrels (g) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "e8dfbe803df9cd9b16eedf43a5a10fb5_C",
+        "label": "C",
+        "html": "z-score for monthly household income (USD) = -2.26, z-score for mass of 13-lined ground squirrels (g) = 0.66, monthly household income (USD) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "e8dfbe803df9cd9b16eedf43a5a10fb5_D",
+        "label": "D",
+        "html": "z-score for monthly household income (USD) = -2.21, z-score for mass of 13-lined ground squirrels (g) = 0.95, monthly household income (USD) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e8dfbe803df9cd9b16eedf43a5a10fb5_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "9817a8657a5730126f0882154cefa81a",
+    "title": "Question 26",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider resting heart rate (bpm) with a mean of 72 and a standard deviation of 8. A sample measurement is 65.6.\nSecond, consider monthly household income (USD) with a mean of 4000 and a standard deviation of 500. A sample measurement is 4542.3.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "9817a8657a5730126f0882154cefa81a_A",
+        "label": "A",
+        "html": "z-score for resting heart rate (bpm) = -0.8, z-score for monthly household income (USD) = 1.08, monthly household income (USD) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "9817a8657a5730126f0882154cefa81a_B",
+        "label": "B",
+        "html": "z-score for resting heart rate (bpm) = -1.26, z-score for monthly household income (USD) = 1.17, monthly household income (USD) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "9817a8657a5730126f0882154cefa81a_C",
+        "label": "C",
+        "html": "z-score for resting heart rate (bpm) = -0.9, z-score for monthly household income (USD) = 2.04, resting heart rate (bpm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "9817a8657a5730126f0882154cefa81a_D",
+        "label": "D",
+        "html": "z-score for resting heart rate (bpm) = -0.26, z-score for monthly household income (USD) = 1.02, monthly household income (USD) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9817a8657a5730126f0882154cefa81a_A"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "ec4d0c9f5b0ed2352464ddf51439ed8e",
+    "title": "Question 25",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider length of salmon (cm) with a mean of 75 and a standard deviation of 8. A sample measurement is 65.1.\nSecond, consider systolic blood pressure (mmHg) with a mean of 120 and a standard deviation of 12. A sample measurement is 108.9.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "ec4d0c9f5b0ed2352464ddf51439ed8e_A",
+        "label": "A",
+        "html": "z-score for length of salmon (cm) = -1.24, z-score for systolic blood pressure (mmHg) = -0.92, length of salmon (cm) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "ec4d0c9f5b0ed2352464ddf51439ed8e_B",
+        "label": "B",
+        "html": "z-score for length of salmon (cm) = -1.34, z-score for systolic blood pressure (mmHg) = -0.45, systolic blood pressure (mmHg) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "ec4d0c9f5b0ed2352464ddf51439ed8e_C",
+        "label": "C",
+        "html": "z-score for length of salmon (cm) = -1.33, z-score for systolic blood pressure (mmHg) = -0.78, length of salmon (cm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "ec4d0c9f5b0ed2352464ddf51439ed8e_D",
+        "label": "D",
+        "html": "z-score for length of salmon (cm) = -1.5, z-score for systolic blood pressure (mmHg) = 0.03, systolic blood pressure (mmHg) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ec4d0c9f5b0ed2352464ddf51439ed8e_A"
+    ]
+  },
+  {
+    "index": 21,
+    "ident": "94e336ffab496815d3b6ebd53ebc28cc",
+    "title": "Question 24",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider score on depression inventory with a mean of 20 and a standard deviation of 5. A sample measurement is 23.4.\nSecond, consider length of salmon (cm) with a mean of 75 and a standard deviation of 8. A sample measurement is 85.2.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "94e336ffab496815d3b6ebd53ebc28cc_A",
+        "label": "A",
+        "html": "z-score for score on depression inventory = 0.68, z-score for length of salmon (cm) = 1.28, length of salmon (cm) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "94e336ffab496815d3b6ebd53ebc28cc_B",
+        "label": "B",
+        "html": "z-score for score on depression inventory = 1.38, z-score for length of salmon (cm) = 2.13, length of salmon (cm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "94e336ffab496815d3b6ebd53ebc28cc_C",
+        "label": "C",
+        "html": "z-score for score on depression inventory = 0.4, z-score for length of salmon (cm) = 1.97, length of salmon (cm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "94e336ffab496815d3b6ebd53ebc28cc_D",
+        "label": "D",
+        "html": "z-score for score on depression inventory = 1.09, z-score for length of salmon (cm) = 1.05, score on depression inventory is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "94e336ffab496815d3b6ebd53ebc28cc_A"
+    ]
+  },
+  {
+    "index": 22,
+    "ident": "f692eec0dd6d90edbfa5b117fc4636b2",
+    "title": "Question 23",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider price of gasoline (USD per gallon) with a mean of 3.5 and a standard deviation of 0.5. A sample measurement is 3.6.\nSecond, consider fasting blood glucose levels (mg/dL) with a mean of 100 and a standard deviation of 15. A sample measurement is 107.7.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "f692eec0dd6d90edbfa5b117fc4636b2_A",
+        "label": "A",
+        "html": "z-score for price of gasoline (USD per gallon) = 0.2, z-score for fasting blood glucose levels (mg/dL) = 0.51, fasting blood glucose levels (mg/dL) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "f692eec0dd6d90edbfa5b117fc4636b2_B",
+        "label": "B",
+        "html": "z-score for price of gasoline (USD per gallon) = -0.41, z-score for fasting blood glucose levels (mg/dL) = -0.46, fasting blood glucose levels (mg/dL) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "f692eec0dd6d90edbfa5b117fc4636b2_C",
+        "label": "C",
+        "html": "z-score for price of gasoline (USD per gallon) = -0.68, z-score for fasting blood glucose levels (mg/dL) = -0.31, fasting blood glucose levels (mg/dL) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "f692eec0dd6d90edbfa5b117fc4636b2_D",
+        "label": "D",
+        "html": "z-score for price of gasoline (USD per gallon) = -0.6, z-score for fasting blood glucose levels (mg/dL) = 0.73, price of gasoline (USD per gallon) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f692eec0dd6d90edbfa5b117fc4636b2_A"
+    ]
+  },
+  {
+    "index": 23,
+    "ident": "2b25f0f15dcab70e14ede7b656905bc0",
+    "title": "Question 22",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider wingspan of golden eagles (cm) with a mean of 220 and a standard deviation of 15. A sample measurement is 242.3.\nSecond, consider daily stock price change (%) with a mean of 0 and a standard deviation of 1.5. A sample measurement is -2.7.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "2b25f0f15dcab70e14ede7b656905bc0_A",
+        "label": "A",
+        "html": "z-score for wingspan of golden eagles (cm) = 1.49, z-score for daily stock price change (%) = -1.8, daily stock price change (%) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "2b25f0f15dcab70e14ede7b656905bc0_B",
+        "label": "B",
+        "html": "z-score for wingspan of golden eagles (cm) = 0.79, z-score for daily stock price change (%) = -1.74, daily stock price change (%) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "2b25f0f15dcab70e14ede7b656905bc0_C",
+        "label": "C",
+        "html": "z-score for wingspan of golden eagles (cm) = 0.73, z-score for daily stock price change (%) = -2.59, wingspan of golden eagles (cm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "2b25f0f15dcab70e14ede7b656905bc0_D",
+        "label": "D",
+        "html": "z-score for wingspan of golden eagles (cm) = 1.57, z-score for daily stock price change (%) = -2.67, wingspan of golden eagles (cm) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2b25f0f15dcab70e14ede7b656905bc0_A"
+    ]
+  },
+  {
+    "index": 24,
+    "ident": "5b3c77160c97106680222af3f1f80e4f",
+    "title": "Question 21",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider reaction time in cognitive test (ms) with a mean of 250 and a standard deviation of 30. A sample measurement is 233.0.\nSecond, consider length of salmon (cm) with a mean of 75 and a standard deviation of 8. A sample measurement is 70.4.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "5b3c77160c97106680222af3f1f80e4f_A",
+        "label": "A",
+        "html": "z-score for reaction time in cognitive test (ms) = -0.57, z-score for length of salmon (cm) = -0.57, length of salmon (cm) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "5b3c77160c97106680222af3f1f80e4f_B",
+        "label": "B",
+        "html": "z-score for reaction time in cognitive test (ms) = -0.6, z-score for length of salmon (cm) = 0.17, length of salmon (cm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "5b3c77160c97106680222af3f1f80e4f_C",
+        "label": "C",
+        "html": "z-score for reaction time in cognitive test (ms) = -0.31, z-score for length of salmon (cm) = -0.94, length of salmon (cm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "5b3c77160c97106680222af3f1f80e4f_D",
+        "label": "D",
+        "html": "z-score for reaction time in cognitive test (ms) = -0.02, z-score for length of salmon (cm) = -1.22, length of salmon (cm) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5b3c77160c97106680222af3f1f80e4f_A"
+    ]
+  },
+  {
+    "index": 25,
+    "ident": "ce4db4ae523b2605d6151bd091c2801d",
+    "title": "Question 20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider weekly grocery expenditure (USD) with a mean of 150 and a standard deviation of 20. A sample measurement is 157.4.\nSecond, consider memory recall score (%) with a mean of 75 and a standard deviation of 10. A sample measurement is 78.7.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "ce4db4ae523b2605d6151bd091c2801d_A",
+        "label": "A",
+        "html": "z-score for weekly grocery expenditure (USD) = 0.37, z-score for memory recall score (%) = 0.37, memory recall score (%) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "ce4db4ae523b2605d6151bd091c2801d_B",
+        "label": "B",
+        "html": "z-score for weekly grocery expenditure (USD) = 1.16, z-score for memory recall score (%) = 0.74, weekly grocery expenditure (USD) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "ce4db4ae523b2605d6151bd091c2801d_C",
+        "label": "C",
+        "html": "z-score for weekly grocery expenditure (USD) = 1.11, z-score for memory recall score (%) = -0.56, memory recall score (%) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "ce4db4ae523b2605d6151bd091c2801d_D",
+        "label": "D",
+        "html": "z-score for weekly grocery expenditure (USD) = 0.46, z-score for memory recall score (%) = 0.11, memory recall score (%) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ce4db4ae523b2605d6151bd091c2801d_A"
+    ]
+  },
+  {
+    "index": 26,
+    "ident": "e71fd349266367d1f2d9cfc84ee0dd15",
+    "title": "Question 19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider daily stock price change (%) with a mean of 0 and a standard deviation of 1.5. A sample measurement is -1.2.\nSecond, consider systolic blood pressure (mmHg) with a mean of 120 and a standard deviation of 12. A sample measurement is 119.3.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "e71fd349266367d1f2d9cfc84ee0dd15_A",
+        "label": "A",
+        "html": "z-score for daily stock price change (%) = -0.8, z-score for systolic blood pressure (mmHg) = -0.06, daily stock price change (%) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "e71fd349266367d1f2d9cfc84ee0dd15_B",
+        "label": "B",
+        "html": "z-score for daily stock price change (%) = -1.15, z-score for systolic blood pressure (mmHg) = -0.18, systolic blood pressure (mmHg) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "e71fd349266367d1f2d9cfc84ee0dd15_C",
+        "label": "C",
+        "html": "z-score for daily stock price change (%) = -0.28, z-score for systolic blood pressure (mmHg) = 0.31, daily stock price change (%) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "e71fd349266367d1f2d9cfc84ee0dd15_D",
+        "label": "D",
+        "html": "z-score for daily stock price change (%) = -0.44, z-score for systolic blood pressure (mmHg) = 0.14, daily stock price change (%) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e71fd349266367d1f2d9cfc84ee0dd15_A"
+    ]
+  },
+  {
+    "index": 27,
+    "ident": "3fc9d322305134f22c54043054c2cc9b",
+    "title": "Question 17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider wingspan of golden eagles (cm) with a mean of 220 and a standard deviation of 15. A sample measurement is 189.1.\nSecond, consider price of gasoline (USD per gallon) with a mean of 3.5 and a standard deviation of 0.5. A sample measurement is 2.9.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "3fc9d322305134f22c54043054c2cc9b_A",
+        "label": "A",
+        "html": "z-score for wingspan of golden eagles (cm) = -2.06, z-score for price of gasoline (USD per gallon) = -1.2, wingspan of golden eagles (cm) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "3fc9d322305134f22c54043054c2cc9b_B",
+        "label": "B",
+        "html": "z-score for wingspan of golden eagles (cm) = -1.53, z-score for price of gasoline (USD per gallon) = -0.93, wingspan of golden eagles (cm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "3fc9d322305134f22c54043054c2cc9b_C",
+        "label": "C",
+        "html": "z-score for wingspan of golden eagles (cm) = -2.02, z-score for price of gasoline (USD per gallon) = -2.06, price of gasoline (USD per gallon) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "3fc9d322305134f22c54043054c2cc9b_D",
+        "label": "D",
+        "html": "z-score for wingspan of golden eagles (cm) = -2.49, z-score for price of gasoline (USD per gallon) = -0.23, price of gasoline (USD per gallon) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3fc9d322305134f22c54043054c2cc9b_A"
+    ]
+  },
+  {
+    "index": 28,
+    "ident": "ed9c6e7284f28a8dd6233846bda7fa44",
+    "title": "Question 16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider memory recall score (%) with a mean of 75 and a standard deviation of 10. A sample measurement is 66.6.\nSecond, consider daily stock price change (%) with a mean of 0 and a standard deviation of 1.5. A sample measurement is -0.3.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "ed9c6e7284f28a8dd6233846bda7fa44_A",
+        "label": "A",
+        "html": "z-score for memory recall score (%) = -0.84, z-score for daily stock price change (%) = -0.2, memory recall score (%) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "ed9c6e7284f28a8dd6233846bda7fa44_B",
+        "label": "B",
+        "html": "z-score for memory recall score (%) = -0.61, z-score for daily stock price change (%) = -0.28, memory recall score (%) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "ed9c6e7284f28a8dd6233846bda7fa44_C",
+        "label": "C",
+        "html": "z-score for memory recall score (%) = -0.81, z-score for daily stock price change (%) = -1.13, daily stock price change (%) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "ed9c6e7284f28a8dd6233846bda7fa44_D",
+        "label": "D",
+        "html": "z-score for memory recall score (%) = -1.41, z-score for daily stock price change (%) = -0.35, memory recall score (%) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ed9c6e7284f28a8dd6233846bda7fa44_A"
+    ]
+  },
+  {
+    "index": 29,
+    "ident": "efd5114d0c587bd974434bfff27843be",
+    "title": "Question 15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider number of hours slept per night with a mean of 7.2 and a standard deviation of 1.1. A sample measurement is 7.4.\nSecond, consider monthly household income (USD) with a mean of 4000 and a standard deviation of 500. A sample measurement is 3899.3.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "efd5114d0c587bd974434bfff27843be_A",
+        "label": "A",
+        "html": "z-score for number of hours slept per night = 0.18, z-score for monthly household income (USD) = -0.2, monthly household income (USD) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "efd5114d0c587bd974434bfff27843be_B",
+        "label": "B",
+        "html": "z-score for number of hours slept per night = 0.24, z-score for monthly household income (USD) = 0.79, monthly household income (USD) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "efd5114d0c587bd974434bfff27843be_C",
+        "label": "C",
+        "html": "z-score for number of hours slept per night = -0.58, z-score for monthly household income (USD) = -0.35, number of hours slept per night is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "efd5114d0c587bd974434bfff27843be_D",
+        "label": "D",
+        "html": "z-score for number of hours slept per night = -0.09, z-score for monthly household income (USD) = -0.51, number of hours slept per night is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "efd5114d0c587bd974434bfff27843be_A"
+    ]
+  },
+  {
+    "index": 30,
+    "ident": "85ed083adc68d74b982ffe149692300f",
+    "title": "Question 12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider cholesterol levels (mg/dL) in adults with a mean of 190 and a standard deviation of 30. A sample measurement is 174.5.\nSecond, consider monthly household income (USD) with a mean of 4000 and a standard deviation of 500. A sample measurement is 3692.2.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "85ed083adc68d74b982ffe149692300f_A",
+        "label": "A",
+        "html": "z-score for cholesterol levels (mg/dL) in adults = -0.52, z-score for monthly household income (USD) = -0.62, monthly household income (USD) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "85ed083adc68d74b982ffe149692300f_B",
+        "label": "B",
+        "html": "z-score for cholesterol levels (mg/dL) in adults = -0.37, z-score for monthly household income (USD) = -1.41, monthly household income (USD) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "85ed083adc68d74b982ffe149692300f_C",
+        "label": "C",
+        "html": "z-score for cholesterol levels (mg/dL) in adults = -0.82, z-score for monthly household income (USD) = -1.25, monthly household income (USD) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "85ed083adc68d74b982ffe149692300f_D",
+        "label": "D",
+        "html": "z-score for cholesterol levels (mg/dL) in adults = -0.12, z-score for monthly household income (USD) = 0.26, cholesterol levels (mg/dL) in adults is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "85ed083adc68d74b982ffe149692300f_A"
+    ]
+  },
+  {
+    "index": 31,
+    "ident": "5b398ac6c36d5c88c2058175e132b3f7",
+    "title": "Question 11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider cholesterol levels (mg/dL) in adults with a mean of 190 and a standard deviation of 30. A sample measurement is 186.0.\nSecond, consider daily stock price change (%) with a mean of 0 and a standard deviation of 1.5. A sample measurement is 0.6.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "5b398ac6c36d5c88c2058175e132b3f7_A",
+        "label": "A",
+        "html": "z-score for cholesterol levels (mg/dL) in adults = -0.13, z-score for daily stock price change (%) = 0.4, daily stock price change (%) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "5b398ac6c36d5c88c2058175e132b3f7_B",
+        "label": "B",
+        "html": "z-score for cholesterol levels (mg/dL) in adults = 0.67, z-score for daily stock price change (%) = -0.19, daily stock price change (%) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "5b398ac6c36d5c88c2058175e132b3f7_C",
+        "label": "C",
+        "html": "z-score for cholesterol levels (mg/dL) in adults = 0.38, z-score for daily stock price change (%) = 0.57, daily stock price change (%) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "5b398ac6c36d5c88c2058175e132b3f7_D",
+        "label": "D",
+        "html": "z-score for cholesterol levels (mg/dL) in adults = -0.46, z-score for daily stock price change (%) = 0.11, daily stock price change (%) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5b398ac6c36d5c88c2058175e132b3f7_A"
+    ]
+  },
+  {
+    "index": 32,
+    "ident": "d2747614f10c3fa48841bcfbf8113586",
+    "title": "Question 10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider weekly grocery expenditure (USD) with a mean of 150 and a standard deviation of 20. A sample measurement is 161.0.\nSecond, consider resting heart rate (bpm) with a mean of 72 and a standard deviation of 8. A sample measurement is 69.4.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "d2747614f10c3fa48841bcfbf8113586_A",
+        "label": "A",
+        "html": "z-score for weekly grocery expenditure (USD) = 0.55, z-score for resting heart rate (bpm) = -0.32, weekly grocery expenditure (USD) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "d2747614f10c3fa48841bcfbf8113586_B",
+        "label": "B",
+        "html": "z-score for weekly grocery expenditure (USD) = 0.79, z-score for resting heart rate (bpm) = 0.17, resting heart rate (bpm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "d2747614f10c3fa48841bcfbf8113586_C",
+        "label": "C",
+        "html": "z-score for weekly grocery expenditure (USD) = 1.27, z-score for resting heart rate (bpm) = -0.55, resting heart rate (bpm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "d2747614f10c3fa48841bcfbf8113586_D",
+        "label": "D",
+        "html": "z-score for weekly grocery expenditure (USD) = 1.38, z-score for resting heart rate (bpm) = -0.67, resting heart rate (bpm) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d2747614f10c3fa48841bcfbf8113586_A"
+    ]
+  },
+  {
+    "index": 33,
+    "ident": "61a99488208cde4ba4874614c32a5acc",
+    "title": "Question 9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider mass of 13-lined ground squirrels (g) with a mean of 150 and a standard deviation of 20. A sample measurement is 141.3.\nSecond, consider systolic blood pressure (mmHg) with a mean of 120 and a standard deviation of 12. A sample measurement is 111.2.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "61a99488208cde4ba4874614c32a5acc_A",
+        "label": "A",
+        "html": "z-score for mass of 13-lined ground squirrels (g) = -0.43, z-score for systolic blood pressure (mmHg) = -0.73, systolic blood pressure (mmHg) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "61a99488208cde4ba4874614c32a5acc_B",
+        "label": "B",
+        "html": "z-score for mass of 13-lined ground squirrels (g) = -0.55, z-score for systolic blood pressure (mmHg) = -1.14, systolic blood pressure (mmHg) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "61a99488208cde4ba4874614c32a5acc_C",
+        "label": "C",
+        "html": "z-score for mass of 13-lined ground squirrels (g) = -0.5, z-score for systolic blood pressure (mmHg) = -1.16, mass of 13-lined ground squirrels (g) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "61a99488208cde4ba4874614c32a5acc_D",
+        "label": "D",
+        "html": "z-score for mass of 13-lined ground squirrels (g) = -1.01, z-score for systolic blood pressure (mmHg) = -0.23, mass of 13-lined ground squirrels (g) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "61a99488208cde4ba4874614c32a5acc_A"
+    ]
+  },
+  {
+    "index": 34,
+    "ident": "7588d6fd6112e742912ca6e11c5a9f6f",
+    "title": "Question 8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider score on depression inventory with a mean of 20 and a standard deviation of 5. A sample measurement is 19.6.\nSecond, consider length of salmon (cm) with a mean of 75 and a standard deviation of 8. A sample measurement is 68.0.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "7588d6fd6112e742912ca6e11c5a9f6f_A",
+        "label": "A",
+        "html": "z-score for score on depression inventory = -0.08, z-score for length of salmon (cm) = -0.88, length of salmon (cm) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "7588d6fd6112e742912ca6e11c5a9f6f_B",
+        "label": "B",
+        "html": "z-score for score on depression inventory = -0.67, z-score for length of salmon (cm) = -1.52, length of salmon (cm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "7588d6fd6112e742912ca6e11c5a9f6f_C",
+        "label": "C",
+        "html": "z-score for score on depression inventory = 0.62, z-score for length of salmon (cm) = -0.17, score on depression inventory is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "7588d6fd6112e742912ca6e11c5a9f6f_D",
+        "label": "D",
+        "html": "z-score for score on depression inventory = 0.48, z-score for length of salmon (cm) = -0.9, score on depression inventory is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7588d6fd6112e742912ca6e11c5a9f6f_A"
+    ]
+  },
+  {
+    "index": 35,
+    "ident": "db9450e4bd99d8bee26ba812b8fc5f69",
+    "title": "Question 7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider weekly grocery expenditure (USD) with a mean of 150 and a standard deviation of 20. A sample measurement is 115.2.\nSecond, consider wingspan of golden eagles (cm) with a mean of 220 and a standard deviation of 15. A sample measurement is 210.3.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "db9450e4bd99d8bee26ba812b8fc5f69_A",
+        "label": "A",
+        "html": "z-score for weekly grocery expenditure (USD) = -1.74, z-score for wingspan of golden eagles (cm) = -0.65, weekly grocery expenditure (USD) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "db9450e4bd99d8bee26ba812b8fc5f69_B",
+        "label": "B",
+        "html": "z-score for weekly grocery expenditure (USD) = -1.9, z-score for wingspan of golden eagles (cm) = -1.04, wingspan of golden eagles (cm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "db9450e4bd99d8bee26ba812b8fc5f69_C",
+        "label": "C",
+        "html": "z-score for weekly grocery expenditure (USD) = -1.49, z-score for wingspan of golden eagles (cm) = 0.25, wingspan of golden eagles (cm) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "db9450e4bd99d8bee26ba812b8fc5f69_D",
+        "label": "D",
+        "html": "z-score for weekly grocery expenditure (USD) = -1.2, z-score for wingspan of golden eagles (cm) = 0.17, wingspan of golden eagles (cm) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "db9450e4bd99d8bee26ba812b8fc5f69_A"
+    ]
+  },
+  {
+    "index": 36,
+    "ident": "d77888ad2c026a6c4ce550eb6134eb27",
+    "title": "Question 6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider number of hours slept per night with a mean of 7.2 and a standard deviation of 1.1. A sample measurement is 5.8.\nSecond, consider cholesterol levels (mg/dL) in adults with a mean of 190 and a standard deviation of 30. A sample measurement is 163.9.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "d77888ad2c026a6c4ce550eb6134eb27_A",
+        "label": "A",
+        "html": "z-score for number of hours slept per night = -1.27, z-score for cholesterol levels (mg/dL) in adults = -0.87, number of hours slept per night is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "d77888ad2c026a6c4ce550eb6134eb27_B",
+        "label": "B",
+        "html": "z-score for number of hours slept per night = -0.54, z-score for cholesterol levels (mg/dL) in adults = -1.85, number of hours slept per night is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "d77888ad2c026a6c4ce550eb6134eb27_C",
+        "label": "C",
+        "html": "z-score for number of hours slept per night = -0.4, z-score for cholesterol levels (mg/dL) in adults = -1.66, cholesterol levels (mg/dL) in adults is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "d77888ad2c026a6c4ce550eb6134eb27_D",
+        "label": "D",
+        "html": "z-score for number of hours slept per night = -0.86, z-score for cholesterol levels (mg/dL) in adults = -1.7, number of hours slept per night is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d77888ad2c026a6c4ce550eb6134eb27_A"
+    ]
+  },
+  {
+    "index": 37,
+    "ident": "c102c176105877bc955d40ef9fbea583",
+    "title": "Question 5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider price of gasoline (USD per gallon) with a mean of 3.5 and a standard deviation of 0.5. A sample measurement is 3.6.\nSecond, consider mass of 13-lined ground squirrels (g) with a mean of 150 and a standard deviation of 20. A sample measurement is 118.8.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "c102c176105877bc955d40ef9fbea583_A",
+        "label": "A",
+        "html": "z-score for price of gasoline (USD per gallon) = 0.2, z-score for mass of 13-lined ground squirrels (g) = -1.56, mass of 13-lined ground squirrels (g) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "c102c176105877bc955d40ef9fbea583_B",
+        "label": "B",
+        "html": "z-score for price of gasoline (USD per gallon) = -0.58, z-score for mass of 13-lined ground squirrels (g) = -0.58, price of gasoline (USD per gallon) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "c102c176105877bc955d40ef9fbea583_C",
+        "label": "C",
+        "html": "z-score for price of gasoline (USD per gallon) = 1.13, z-score for mass of 13-lined ground squirrels (g) = -2.08, mass of 13-lined ground squirrels (g) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "c102c176105877bc955d40ef9fbea583_D",
+        "label": "D",
+        "html": "z-score for price of gasoline (USD per gallon) = 0.44, z-score for mass of 13-lined ground squirrels (g) = -1.02, mass of 13-lined ground squirrels (g) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c102c176105877bc955d40ef9fbea583_A"
+    ]
+  },
+  {
+    "index": 38,
+    "ident": "405ce1a47333d254e743892c39bd2a92",
+    "title": "Question 4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider number of hours slept per night with a mean of 7.2 and a standard deviation of 1.1. A sample measurement is 7.8.\nSecond, consider mass of 13-lined ground squirrels (g) with a mean of 150 and a standard deviation of 20. A sample measurement is 193.6.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "405ce1a47333d254e743892c39bd2a92_A",
+        "label": "A",
+        "html": "z-score for number of hours slept per night = 0.55, z-score for mass of 13-lined ground squirrels (g) = 2.18, mass of 13-lined ground squirrels (g) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "405ce1a47333d254e743892c39bd2a92_B",
+        "label": "B",
+        "html": "z-score for number of hours slept per night = 0.46, z-score for mass of 13-lined ground squirrels (g) = 2.32, number of hours slept per night is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "405ce1a47333d254e743892c39bd2a92_C",
+        "label": "C",
+        "html": "z-score for number of hours slept per night = 0.82, z-score for mass of 13-lined ground squirrels (g) = 1.23, number of hours slept per night is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "405ce1a47333d254e743892c39bd2a92_D",
+        "label": "D",
+        "html": "z-score for number of hours slept per night = -0.17, z-score for mass of 13-lined ground squirrels (g) = 1.68, number of hours slept per night is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "405ce1a47333d254e743892c39bd2a92_A"
+    ]
+  },
+  {
+    "index": 39,
+    "ident": "ee31b591e626e0d789256e5bb6d86af3",
+    "title": "Question 3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider systolic blood pressure (mmHg) with a mean of 120 and a standard deviation of 12. A sample measurement is 131.2.\nSecond, consider reaction time in cognitive test (ms) with a mean of 250 and a standard deviation of 30. A sample measurement is 275.4.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "ee31b591e626e0d789256e5bb6d86af3_A",
+        "label": "A",
+        "html": "z-score for systolic blood pressure (mmHg) = 0.93, z-score for reaction time in cognitive test (ms) = 0.85, systolic blood pressure (mmHg) is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "ee31b591e626e0d789256e5bb6d86af3_B",
+        "label": "B",
+        "html": "z-score for systolic blood pressure (mmHg) = 0.93, z-score for reaction time in cognitive test (ms) = 1.42, systolic blood pressure (mmHg) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "ee31b591e626e0d789256e5bb6d86af3_C",
+        "label": "C",
+        "html": "z-score for systolic blood pressure (mmHg) = 0.31, z-score for reaction time in cognitive test (ms) = 0.15, systolic blood pressure (mmHg) is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "ee31b591e626e0d789256e5bb6d86af3_D",
+        "label": "D",
+        "html": "z-score for systolic blood pressure (mmHg) = 1.14, z-score for reaction time in cognitive test (ms) = 0.13, reaction time in cognitive test (ms) is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ee31b591e626e0d789256e5bb6d86af3_A"
+    ]
+  },
+  {
+    "index": 40,
+    "ident": "cafe3932c67241000b322c3f659a1d19",
+    "title": "Question 1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>This question compares two sets of data.\nFirst, consider cholesterol levels (mg/dL) in adults with a mean of 190 and a standard deviation of 30. A sample measurement is 196.1.\nSecond, consider score on depression inventory with a mean of 20 and a standard deviation of 5. A sample measurement is 16.2.\nCalculate the z-score for each data value and determine which is more significant.</p>",
+    "choices": [
+      {
+        "id": "cafe3932c67241000b322c3f659a1d19_A",
+        "label": "A",
+        "html": "z-score for cholesterol levels (mg/dL) in adults = 0.2, z-score for score on depression inventory = -0.76, score on depression inventory is more significant",
+        "is_correct": true
+      },
+      {
+        "id": "cafe3932c67241000b322c3f659a1d19_B",
+        "label": "B",
+        "html": "z-score for cholesterol levels (mg/dL) in adults = -0.42, z-score for score on depression inventory = -0.05, score on depression inventory is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "cafe3932c67241000b322c3f659a1d19_C",
+        "label": "C",
+        "html": "z-score for cholesterol levels (mg/dL) in adults = -0.53, z-score for score on depression inventory = -0.95, score on depression inventory is more significant",
+        "is_correct": false
+      },
+      {
+        "id": "cafe3932c67241000b322c3f659a1d19_D",
+        "label": "D",
+        "html": "z-score for cholesterol levels (mg/dL) in adults = 0.86, z-score for score on depression inventory = -0.99, cholesterol levels (mg/dL) in adults is more significant",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cafe3932c67241000b322c3f659a1d19_A"
+    ]
+  }
+]

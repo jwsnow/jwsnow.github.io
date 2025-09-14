@@ -1,0 +1,362 @@
+[
+  {
+    "index": 1,
+    "ident": "f9f92a0543b59c11999b79f80ec86ae2",
+    "title": "Q10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip two fair coins and it is known that at least one flip is tails, what is the probability that the first flip is heads?</p>",
+    "choices": [
+      {
+        "id": "f9f92a0543b59c11999b79f80ec86ae2_A",
+        "label": "A",
+        "html": "1/4",
+        "is_correct": false
+      },
+      {
+        "id": "f9f92a0543b59c11999b79f80ec86ae2_B",
+        "label": "B",
+        "html": "1/3",
+        "is_correct": true
+      },
+      {
+        "id": "f9f92a0543b59c11999b79f80ec86ae2_C",
+        "label": "C",
+        "html": "1/2",
+        "is_correct": false
+      },
+      {
+        "id": "f9f92a0543b59c11999b79f80ec86ae2_D",
+        "label": "D",
+        "html": "2/3",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f9f92a0543b59c11999b79f80ec86ae2_B"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "f23822d6ee670f46e78cf2a45f4512c8",
+    "title": "Q9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip two fair coins, what is the probability that the first flip is tails or the second flip is heads?</p>",
+    "choices": [
+      {
+        "id": "f23822d6ee670f46e78cf2a45f4512c8_A",
+        "label": "A",
+        "html": "0.25",
+        "is_correct": false
+      },
+      {
+        "id": "f23822d6ee670f46e78cf2a45f4512c8_B",
+        "label": "B",
+        "html": "0.50",
+        "is_correct": false
+      },
+      {
+        "id": "f23822d6ee670f46e78cf2a45f4512c8_C",
+        "label": "C",
+        "html": "0.75",
+        "is_correct": true
+      },
+      {
+        "id": "f23822d6ee670f46e78cf2a45f4512c8_D",
+        "label": "D",
+        "html": "1.00",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f23822d6ee670f46e78cf2a45f4512c8_C"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "1e6365af76aa99a5c5856887d91acf2a",
+    "title": "Q8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip two fair coins and it is known that there is at least one head, what is the probability that both flips are heads?</p>",
+    "choices": [
+      {
+        "id": "1e6365af76aa99a5c5856887d91acf2a_A",
+        "label": "A",
+        "html": "1/4",
+        "is_correct": false
+      },
+      {
+        "id": "1e6365af76aa99a5c5856887d91acf2a_B",
+        "label": "B",
+        "html": "1/3",
+        "is_correct": true
+      },
+      {
+        "id": "1e6365af76aa99a5c5856887d91acf2a_C",
+        "label": "C",
+        "html": "1/2",
+        "is_correct": false
+      },
+      {
+        "id": "1e6365af76aa99a5c5856887d91acf2a_D",
+        "label": "D",
+        "html": "2/3",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1e6365af76aa99a5c5856887d91acf2a_B"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "186479f504b633a0fdeaaab37cddec7a",
+    "title": "Q7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip two fair coins, what is the probability that there is at least one tail?</p>",
+    "choices": [
+      {
+        "id": "186479f504b633a0fdeaaab37cddec7a_A",
+        "label": "A",
+        "html": "0.25",
+        "is_correct": false
+      },
+      {
+        "id": "186479f504b633a0fdeaaab37cddec7a_B",
+        "label": "B",
+        "html": "0.50",
+        "is_correct": false
+      },
+      {
+        "id": "186479f504b633a0fdeaaab37cddec7a_C",
+        "label": "C",
+        "html": "0.75",
+        "is_correct": true
+      },
+      {
+        "id": "186479f504b633a0fdeaaab37cddec7a_D",
+        "label": "D",
+        "html": "1.00",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "186479f504b633a0fdeaaab37cddec7a_C"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "dda1625e8211d1bcd25aab5aa7f027fb",
+    "title": "Q6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip two fair coins and it is known that the two flips are different, what is the probability that the first flip is heads?</p>",
+    "choices": [
+      {
+        "id": "dda1625e8211d1bcd25aab5aa7f027fb_A",
+        "label": "A",
+        "html": "0.25",
+        "is_correct": false
+      },
+      {
+        "id": "dda1625e8211d1bcd25aab5aa7f027fb_B",
+        "label": "B",
+        "html": "0.50",
+        "is_correct": true
+      },
+      {
+        "id": "dda1625e8211d1bcd25aab5aa7f027fb_C",
+        "label": "C",
+        "html": "0.75",
+        "is_correct": false
+      },
+      {
+        "id": "dda1625e8211d1bcd25aab5aa7f027fb_D",
+        "label": "D",
+        "html": "1.00",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "dda1625e8211d1bcd25aab5aa7f027fb_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "7a03739292cfdcba96799d7e2a9ef1c6",
+    "title": "Q5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip two fair coins and it is known that the second flip is tails, what is the probability that the first flip is heads?</p>",
+    "choices": [
+      {
+        "id": "7a03739292cfdcba96799d7e2a9ef1c6_A",
+        "label": "A",
+        "html": "0.25",
+        "is_correct": false
+      },
+      {
+        "id": "7a03739292cfdcba96799d7e2a9ef1c6_B",
+        "label": "B",
+        "html": "0.50",
+        "is_correct": true
+      },
+      {
+        "id": "7a03739292cfdcba96799d7e2a9ef1c6_C",
+        "label": "C",
+        "html": "0.75",
+        "is_correct": false
+      },
+      {
+        "id": "7a03739292cfdcba96799d7e2a9ef1c6_D",
+        "label": "D",
+        "html": "1.00",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7a03739292cfdcba96799d7e2a9ef1c6_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "cf779f853f45f992e3491ec283374d8b",
+    "title": "Q4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip two fair coins, what is the probability that exactly one flip is a head?</p>",
+    "choices": [
+      {
+        "id": "cf779f853f45f992e3491ec283374d8b_A",
+        "label": "A",
+        "html": "0.25",
+        "is_correct": false
+      },
+      {
+        "id": "cf779f853f45f992e3491ec283374d8b_B",
+        "label": "B",
+        "html": "0.50",
+        "is_correct": true
+      },
+      {
+        "id": "cf779f853f45f992e3491ec283374d8b_C",
+        "label": "C",
+        "html": "0.75",
+        "is_correct": false
+      },
+      {
+        "id": "cf779f853f45f992e3491ec283374d8b_D",
+        "label": "D",
+        "html": "1.00",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cf779f853f45f992e3491ec283374d8b_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "14d4046e201cf002a6c828bcbc6cd9ad",
+    "title": "Q3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip two fair coins and it is known that at least one flip is a head, what is the probability that the first flip is a head?</p>",
+    "choices": [
+      {
+        "id": "14d4046e201cf002a6c828bcbc6cd9ad_A",
+        "label": "A",
+        "html": "1/3",
+        "is_correct": false
+      },
+      {
+        "id": "14d4046e201cf002a6c828bcbc6cd9ad_B",
+        "label": "B",
+        "html": "1/2",
+        "is_correct": false
+      },
+      {
+        "id": "14d4046e201cf002a6c828bcbc6cd9ad_C",
+        "label": "C",
+        "html": "2/3",
+        "is_correct": true
+      },
+      {
+        "id": "14d4046e201cf002a6c828bcbc6cd9ad_D",
+        "label": "D",
+        "html": "3/4",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "14d4046e201cf002a6c828bcbc6cd9ad_C"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "21fbb61adc18d4a62985997160b9b64a",
+    "title": "Q2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip two fair coins, what is the probability that both flips show the same result (both heads or both tails)?</p>",
+    "choices": [
+      {
+        "id": "21fbb61adc18d4a62985997160b9b64a_A",
+        "label": "A",
+        "html": "0.25",
+        "is_correct": false
+      },
+      {
+        "id": "21fbb61adc18d4a62985997160b9b64a_B",
+        "label": "B",
+        "html": "0.50",
+        "is_correct": true
+      },
+      {
+        "id": "21fbb61adc18d4a62985997160b9b64a_C",
+        "label": "C",
+        "html": "0.75",
+        "is_correct": false
+      },
+      {
+        "id": "21fbb61adc18d4a62985997160b9b64a_D",
+        "label": "D",
+        "html": "1.00",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "21fbb61adc18d4a62985997160b9b64a_B"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "308b84146ade66a62fb057c65d3de109",
+    "title": "Q1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you flip two fair coins, what is the probability that there is at least one head?</p>",
+    "choices": [
+      {
+        "id": "308b84146ade66a62fb057c65d3de109_A",
+        "label": "A",
+        "html": "1/4",
+        "is_correct": false
+      },
+      {
+        "id": "308b84146ade66a62fb057c65d3de109_B",
+        "label": "B",
+        "html": "1/2",
+        "is_correct": false
+      },
+      {
+        "id": "308b84146ade66a62fb057c65d3de109_C",
+        "label": "C",
+        "html": "3/4",
+        "is_correct": true
+      },
+      {
+        "id": "308b84146ade66a62fb057c65d3de109_D",
+        "label": "D",
+        "html": "1",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "308b84146ade66a62fb057c65d3de109_C"
+    ]
+  }
+]

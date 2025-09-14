@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "daedc3c10bd479f1e4a26e4c9b40b218",
+    "title": "Question 20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show weekly grocery spending (US dollars) of households. What is the median of these values? Choose one answer.</p><p>Data: 4.6, 4.9, 4.8, 2.5, 4.4, 4, 3.9, 4.2, 3.3, 5.4</p>",
+    "choices": [
+      {
+        "id": "daedc3c10bd479f1e4a26e4c9b40b218_A",
+        "label": "A",
+        "html": "4.3",
+        "is_correct": true
+      },
+      {
+        "id": "daedc3c10bd479f1e4a26e4c9b40b218_B",
+        "label": "B",
+        "html": "4.2",
+        "is_correct": false
+      },
+      {
+        "id": "daedc3c10bd479f1e4a26e4c9b40b218_C",
+        "label": "C",
+        "html": "4.4",
+        "is_correct": false
+      },
+      {
+        "id": "daedc3c10bd479f1e4a26e4c9b40b218_D",
+        "label": "D",
+        "html": "3.8",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "daedc3c10bd479f1e4a26e4c9b40b218_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "c8274b7f2c0b3c3bf8949de7caf85c20",
+    "title": "Question 19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show mood ratings (1–10) after an intervention. What is the median of these values? Choose one answer.</p><p>Data: 1.3, 6.1, 1.8, 5.7, 7.5, 1.4, 9.9, 7.1, 8.2</p>",
+    "choices": [
+      {
+        "id": "c8274b7f2c0b3c3bf8949de7caf85c20_A",
+        "label": "A",
+        "html": "6.1",
+        "is_correct": true
+      },
+      {
+        "id": "c8274b7f2c0b3c3bf8949de7caf85c20_B",
+        "label": "B",
+        "html": "5.4444",
+        "is_correct": false
+      },
+      {
+        "id": "c8274b7f2c0b3c3bf8949de7caf85c20_C",
+        "label": "C",
+        "html": "5.7",
+        "is_correct": false
+      },
+      {
+        "id": "c8274b7f2c0b3c3bf8949de7caf85c20_D",
+        "label": "D",
+        "html": "7.1",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c8274b7f2c0b3c3bf8949de7caf85c20_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "4f5fb2b4e50c1d486ef67a776d0351e7",
+    "title": "Question 18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show lengths (centimeters) of fish sampled from a lake. What is the median of these values? Choose one answer.</p><p>Data: 4.6, 6.9, 0.9, 4.5, 7.4, 8.4, 7.4, 7.1, 4, 4.3</p>",
+    "choices": [
+      {
+        "id": "4f5fb2b4e50c1d486ef67a776d0351e7_A",
+        "label": "A",
+        "html": "5.7500",
+        "is_correct": true
+      },
+      {
+        "id": "4f5fb2b4e50c1d486ef67a776d0351e7_B",
+        "label": "B",
+        "html": "5.5500",
+        "is_correct": false
+      },
+      {
+        "id": "4f5fb2b4e50c1d486ef67a776d0351e7_C",
+        "label": "C",
+        "html": "4.6",
+        "is_correct": false
+      },
+      {
+        "id": "4f5fb2b4e50c1d486ef67a776d0351e7_D",
+        "label": "D",
+        "html": "6.9",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4f5fb2b4e50c1d486ef67a776d0351e7_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "7df0393d37d75dfbadb9b74865be20a9",
+    "title": "Question 17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show fasting blood glucose levels (mg/dL) for clinic patients. What is the median of these values? Choose one answer.</p><p>Data: 125, 154, 98, 141, 112</p>",
+    "choices": [
+      {
+        "id": "7df0393d37d75dfbadb9b74865be20a9_A",
+        "label": "A",
+        "html": "125",
+        "is_correct": true
+      },
+      {
+        "id": "7df0393d37d75dfbadb9b74865be20a9_B",
+        "label": "B",
+        "html": "126",
+        "is_correct": false
+      },
+      {
+        "id": "7df0393d37d75dfbadb9b74865be20a9_C",
+        "label": "C",
+        "html": "112",
+        "is_correct": false
+      },
+      {
+        "id": "7df0393d37d75dfbadb9b74865be20a9_D",
+        "label": "D",
+        "html": "141",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7df0393d37d75dfbadb9b74865be20a9_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "32b83719a8c9b3b474f4e6c4d4d3b1f9",
+    "title": "Question 16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show daily sales (US dollars) at a small shop. What is the median of these values? Choose one answer.</p><p>Data: 38, 35, 50, 10, 17, 19, 21, 27</p>",
+    "choices": [
+      {
+        "id": "32b83719a8c9b3b474f4e6c4d4d3b1f9_A",
+        "label": "A",
+        "html": "24",
+        "is_correct": true
+      },
+      {
+        "id": "32b83719a8c9b3b474f4e6c4d4d3b1f9_B",
+        "label": "B",
+        "html": "27.1250",
+        "is_correct": false
+      },
+      {
+        "id": "32b83719a8c9b3b474f4e6c4d4d3b1f9_C",
+        "label": "C",
+        "html": "21",
+        "is_correct": false
+      },
+      {
+        "id": "32b83719a8c9b3b474f4e6c4d4d3b1f9_D",
+        "label": "D",
+        "html": "27",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "32b83719a8c9b3b474f4e6c4d4d3b1f9_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "92acdacd734dfe6244264decca188fa7",
+    "title": "Question 15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show reaction times (milliseconds) on a cognitive task. What is the median of these values? Choose one answer.</p><p>Data: 510, 496, 324, 558, 608</p>",
+    "choices": [
+      {
+        "id": "92acdacd734dfe6244264decca188fa7_A",
+        "label": "A",
+        "html": "510",
+        "is_correct": true
+      },
+      {
+        "id": "92acdacd734dfe6244264decca188fa7_B",
+        "label": "B",
+        "html": "499.2",
+        "is_correct": false
+      },
+      {
+        "id": "92acdacd734dfe6244264decca188fa7_C",
+        "label": "C",
+        "html": "496",
+        "is_correct": false
+      },
+      {
+        "id": "92acdacd734dfe6244264decca188fa7_D",
+        "label": "D",
+        "html": "558",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "92acdacd734dfe6244264decca188fa7_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "b6b7287237b4903ba797b1a5dab22812",
+    "title": "Question 14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show enzyme activity rates (µmol/min) in a biochemistry assay. What is the median of these values? Choose one answer.</p><p>Data: 2.6, 4.4, 3.1, 7.6, 1.7, 3.6, 3.9, 3.2, 7.7, 7.3</p>",
+    "choices": [
+      {
+        "id": "b6b7287237b4903ba797b1a5dab22812_A",
+        "label": "A",
+        "html": "3.7500",
+        "is_correct": true
+      },
+      {
+        "id": "b6b7287237b4903ba797b1a5dab22812_B",
+        "label": "B",
+        "html": "4.5100",
+        "is_correct": false
+      },
+      {
+        "id": "b6b7287237b4903ba797b1a5dab22812_C",
+        "label": "C",
+        "html": "3.6",
+        "is_correct": false
+      },
+      {
+        "id": "b6b7287237b4903ba797b1a5dab22812_D",
+        "label": "D",
+        "html": "3.9",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b6b7287237b4903ba797b1a5dab22812_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "ec627db77a2f3ff8a4fed599cbc308f4",
+    "title": "Question 13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show fasting blood glucose levels (mg/dL) for clinic patients. What is the median of these values? Choose one answer.</p><p>Data: 104, 150, 140, 162, 125, 122, 159, 101, 160</p>",
+    "choices": [
+      {
+        "id": "ec627db77a2f3ff8a4fed599cbc308f4_A",
+        "label": "A",
+        "html": "140",
+        "is_correct": true
+      },
+      {
+        "id": "ec627db77a2f3ff8a4fed599cbc308f4_B",
+        "label": "B",
+        "html": "135.8889",
+        "is_correct": false
+      },
+      {
+        "id": "ec627db77a2f3ff8a4fed599cbc308f4_C",
+        "label": "C",
+        "html": "125",
+        "is_correct": false
+      },
+      {
+        "id": "ec627db77a2f3ff8a4fed599cbc308f4_D",
+        "label": "D",
+        "html": "150",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ec627db77a2f3ff8a4fed599cbc308f4_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "576ac3025690d796f18e3c2b16180a87",
+    "title": "Question 12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show gasoline prices (US dollars per gallon) across stations. What is the median of these values? Choose one answer.</p><p>Data: 46, 51, 46, 23, 43, 22, 49, 16</p>",
+    "choices": [
+      {
+        "id": "576ac3025690d796f18e3c2b16180a87_A",
+        "label": "A",
+        "html": "44.5",
+        "is_correct": true
+      },
+      {
+        "id": "576ac3025690d796f18e3c2b16180a87_B",
+        "label": "B",
+        "html": "37",
+        "is_correct": false
+      },
+      {
+        "id": "576ac3025690d796f18e3c2b16180a87_C",
+        "label": "C",
+        "html": "43",
+        "is_correct": false
+      },
+      {
+        "id": "576ac3025690d796f18e3c2b16180a87_D",
+        "label": "D",
+        "html": "46",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "576ac3025690d796f18e3c2b16180a87_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "2d13908cce5efcdf1de548577e157f64",
+    "title": "Question 11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show hours of sleep the previous night reported by students. What is the median of these values? Choose one answer.</p><p>Data: 671, 817, 847, 876, 571</p>",
+    "choices": [
+      {
+        "id": "2d13908cce5efcdf1de548577e157f64_A",
+        "label": "A",
+        "html": "817",
+        "is_correct": true
+      },
+      {
+        "id": "2d13908cce5efcdf1de548577e157f64_B",
+        "label": "B",
+        "html": "756.4",
+        "is_correct": false
+      },
+      {
+        "id": "2d13908cce5efcdf1de548577e157f64_C",
+        "label": "C",
+        "html": "671",
+        "is_correct": false
+      },
+      {
+        "id": "2d13908cce5efcdf1de548577e157f64_D",
+        "label": "D",
+        "html": "847",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2d13908cce5efcdf1de548577e157f64_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "ebd458796900a1fb8a88d8fb870aee57",
+    "title": "Question 10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show enzyme activity rates (µmol/min) in a biochemistry assay. What is the median of these values? Choose one answer.</p><p>Data: 42, 41, 29, 38, 47, 49, 31, 40</p>",
+    "choices": [
+      {
+        "id": "ebd458796900a1fb8a88d8fb870aee57_A",
+        "label": "A",
+        "html": "40.5",
+        "is_correct": true
+      },
+      {
+        "id": "ebd458796900a1fb8a88d8fb870aee57_B",
+        "label": "B",
+        "html": "39.6250",
+        "is_correct": false
+      },
+      {
+        "id": "ebd458796900a1fb8a88d8fb870aee57_C",
+        "label": "C",
+        "html": "40",
+        "is_correct": false
+      },
+      {
+        "id": "ebd458796900a1fb8a88d8fb870aee57_D",
+        "label": "D",
+        "html": "41",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ebd458796900a1fb8a88d8fb870aee57_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "77c6029a52aeb8088a6bdf7b6141e43f",
+    "title": "Question 9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show body temperatures (°C) recorded during a visit. What is the median of these values? Choose one answer.</p><p>Data: 105, 149, 133, 143, 124, 123, 100</p>",
+    "choices": [
+      {
+        "id": "77c6029a52aeb8088a6bdf7b6141e43f_A",
+        "label": "A",
+        "html": "124",
+        "is_correct": true
+      },
+      {
+        "id": "77c6029a52aeb8088a6bdf7b6141e43f_B",
+        "label": "B",
+        "html": "125.2857",
+        "is_correct": false
+      },
+      {
+        "id": "77c6029a52aeb8088a6bdf7b6141e43f_C",
+        "label": "C",
+        "html": "123",
+        "is_correct": false
+      },
+      {
+        "id": "77c6029a52aeb8088a6bdf7b6141e43f_D",
+        "label": "D",
+        "html": "133",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "77c6029a52aeb8088a6bdf7b6141e43f_A"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "4f8670759f716050ebbc6754b478d882",
+    "title": "Question 8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show unemployment durations (weeks) for job seekers. What is the median of these values? Choose one answer.</p><p>Data: 5.1, 5.5, 2.6, 2.8, 2.5, 4.2</p>",
+    "choices": [
+      {
+        "id": "4f8670759f716050ebbc6754b478d882_A",
+        "label": "A",
+        "html": "3.5",
+        "is_correct": true
+      },
+      {
+        "id": "4f8670759f716050ebbc6754b478d882_B",
+        "label": "B",
+        "html": "3.7833",
+        "is_correct": false
+      },
+      {
+        "id": "4f8670759f716050ebbc6754b478d882_C",
+        "label": "C",
+        "html": "2.8",
+        "is_correct": false
+      },
+      {
+        "id": "4f8670759f716050ebbc6754b478d882_D",
+        "label": "D",
+        "html": "4.2",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4f8670759f716050ebbc6754b478d882_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "4730242d9f767fe47da08479c72bd7c9",
+    "title": "Question 7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show reaction times (milliseconds) on a cognitive task. What is the median of these values? Choose one answer.</p><p>Data: 26, 56, 13, 30, 22</p>",
+    "choices": [
+      {
+        "id": "4730242d9f767fe47da08479c72bd7c9_A",
+        "label": "A",
+        "html": "26",
+        "is_correct": true
+      },
+      {
+        "id": "4730242d9f767fe47da08479c72bd7c9_B",
+        "label": "B",
+        "html": "29.4",
+        "is_correct": false
+      },
+      {
+        "id": "4730242d9f767fe47da08479c72bd7c9_C",
+        "label": "C",
+        "html": "22",
+        "is_correct": false
+      },
+      {
+        "id": "4730242d9f767fe47da08479c72bd7c9_D",
+        "label": "D",
+        "html": "30",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4730242d9f767fe47da08479c72bd7c9_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "9fed0dd3857b292e0e6f60c456a7ab74",
+    "title": "Question 6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show weights (grams) of lab mice in a growth study. What is the median of these values? Choose one answer.</p><p>Data: 5.1, 7.9, 6.3, 1.2, 4, 4.4</p>",
+    "choices": [
+      {
+        "id": "9fed0dd3857b292e0e6f60c456a7ab74_A",
+        "label": "A",
+        "html": "4.7500",
+        "is_correct": true
+      },
+      {
+        "id": "9fed0dd3857b292e0e6f60c456a7ab74_B",
+        "label": "B",
+        "html": "4.8167",
+        "is_correct": false
+      },
+      {
+        "id": "9fed0dd3857b292e0e6f60c456a7ab74_C",
+        "label": "C",
+        "html": "4.4",
+        "is_correct": false
+      },
+      {
+        "id": "9fed0dd3857b292e0e6f60c456a7ab74_D",
+        "label": "D",
+        "html": "5.1",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9fed0dd3857b292e0e6f60c456a7ab74_A"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "76dcb19fa2f9e9a8829418fc6c0a6292",
+    "title": "Question 5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show resting heart rates (beats per minute) for adult participants. What is the median of these values? Choose one answer.</p><p>Data: 36.7, 37.9, 36.1, 37.5, 38.4, 37, 37.9, 38.3, 37.8</p>",
+    "choices": [
+      {
+        "id": "76dcb19fa2f9e9a8829418fc6c0a6292_A",
+        "label": "A",
+        "html": "37.8",
+        "is_correct": true
+      },
+      {
+        "id": "76dcb19fa2f9e9a8829418fc6c0a6292_B",
+        "label": "B",
+        "html": "37.5111",
+        "is_correct": false
+      },
+      {
+        "id": "76dcb19fa2f9e9a8829418fc6c0a6292_C",
+        "label": "C",
+        "html": "37.5",
+        "is_correct": false
+      },
+      {
+        "id": "76dcb19fa2f9e9a8829418fc6c0a6292_D",
+        "label": "D",
+        "html": "37.9",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "76dcb19fa2f9e9a8829418fc6c0a6292_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "600ee71df47430b88d71f63d7062c435",
+    "title": "Question 4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show weekly grocery spending (US dollars) of households. What is the median of these values? Choose one answer.</p><p>Data: 208, 120, 78, 95, 226, 100, 40, 87</p>",
+    "choices": [
+      {
+        "id": "600ee71df47430b88d71f63d7062c435_A",
+        "label": "A",
+        "html": "97.5",
+        "is_correct": true
+      },
+      {
+        "id": "600ee71df47430b88d71f63d7062c435_B",
+        "label": "B",
+        "html": "119.2500",
+        "is_correct": false
+      },
+      {
+        "id": "600ee71df47430b88d71f63d7062c435_C",
+        "label": "C",
+        "html": "95",
+        "is_correct": false
+      },
+      {
+        "id": "600ee71df47430b88d71f63d7062c435_D",
+        "label": "D",
+        "html": "100",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "600ee71df47430b88d71f63d7062c435_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "be3dd54eadab0eb0950b65b5128a804a",
+    "title": "Question 3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show mood ratings (1–10) after an intervention. What is the median of these values? Choose one answer.</p><p>Data: 6, 4.1, 3.9, 8.1, 8.7</p>",
+    "choices": [
+      {
+        "id": "be3dd54eadab0eb0950b65b5128a804a_A",
+        "label": "A",
+        "html": "6",
+        "is_correct": true
+      },
+      {
+        "id": "be3dd54eadab0eb0950b65b5128a804a_B",
+        "label": "B",
+        "html": "6.1600",
+        "is_correct": false
+      },
+      {
+        "id": "be3dd54eadab0eb0950b65b5128a804a_C",
+        "label": "C",
+        "html": "4.1",
+        "is_correct": false
+      },
+      {
+        "id": "be3dd54eadab0eb0950b65b5128a804a_D",
+        "label": "D",
+        "html": "8.1",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "be3dd54eadab0eb0950b65b5128a804a_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "0d4dc0693e2cbb712f5c8a8d17bb445c",
+    "title": "Question 2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show weights (grams) of lab mice in a growth study. What is the median of these values? Choose one answer.</p><p>Data: 36, 22, 47, 20, 45, 54, 12, 56</p>",
+    "choices": [
+      {
+        "id": "0d4dc0693e2cbb712f5c8a8d17bb445c_A",
+        "label": "A",
+        "html": "40.5",
+        "is_correct": true
+      },
+      {
+        "id": "0d4dc0693e2cbb712f5c8a8d17bb445c_B",
+        "label": "B",
+        "html": "36.5",
+        "is_correct": false
+      },
+      {
+        "id": "0d4dc0693e2cbb712f5c8a8d17bb445c_C",
+        "label": "C",
+        "html": "36",
+        "is_correct": false
+      },
+      {
+        "id": "0d4dc0693e2cbb712f5c8a8d17bb445c_D",
+        "label": "D",
+        "html": "45",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0d4dc0693e2cbb712f5c8a8d17bb445c_A"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "3fcf4c0f31d611548809b53cbb19d707",
+    "title": "Question 1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>The following data show resting heart rates (beats per minute) for adult participants. What is the median of these values? Choose one answer.</p><p>Data: 90, 82, 62, 87, 101, 105, 93</p>",
+    "choices": [
+      {
+        "id": "3fcf4c0f31d611548809b53cbb19d707_A",
+        "label": "A",
+        "html": "90",
+        "is_correct": true
+      },
+      {
+        "id": "3fcf4c0f31d611548809b53cbb19d707_B",
+        "label": "B",
+        "html": "88.5714",
+        "is_correct": false
+      },
+      {
+        "id": "3fcf4c0f31d611548809b53cbb19d707_C",
+        "label": "C",
+        "html": "87",
+        "is_correct": false
+      },
+      {
+        "id": "3fcf4c0f31d611548809b53cbb19d707_D",
+        "label": "D",
+        "html": "93",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3fcf4c0f31d611548809b53cbb19d707_A"
+    ]
+  }
+]

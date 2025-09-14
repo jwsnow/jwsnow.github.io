@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "dc18f1a976d0b86f82213db2d814b5eb",
+    "title": "Q6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the sum is a prime number?</p>",
+    "choices": [
+      {
+        "id": "dc18f1a976d0b86f82213db2d814b5eb_A",
+        "label": "A",
+        "html": "0.4167",
+        "is_correct": false
+      },
+      {
+        "id": "dc18f1a976d0b86f82213db2d814b5eb_B",
+        "label": "B",
+        "html": "0.3333",
+        "is_correct": false
+      },
+      {
+        "id": "dc18f1a976d0b86f82213db2d814b5eb_C",
+        "label": "C",
+        "html": "0.3889",
+        "is_correct": true
+      },
+      {
+        "id": "dc18f1a976d0b86f82213db2d814b5eb_D",
+        "label": "D",
+        "html": "0.3750",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "dc18f1a976d0b86f82213db2d814b5eb_C"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "2eb194a8bb8d63532367f47dab267760",
+    "title": "Q20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, given that the two dice show different numbers, what is the probability that the sum is 7 when rolling two fair six-sided dice?</p>",
+    "choices": [
+      {
+        "id": "2eb194a8bb8d63532367f47dab267760_A",
+        "label": "A",
+        "html": "0.1667",
+        "is_correct": false
+      },
+      {
+        "id": "2eb194a8bb8d63532367f47dab267760_B",
+        "label": "B",
+        "html": "0.2000",
+        "is_correct": true
+      },
+      {
+        "id": "2eb194a8bb8d63532367f47dab267760_C",
+        "label": "C",
+        "html": "0.2500",
+        "is_correct": false
+      },
+      {
+        "id": "2eb194a8bb8d63532367f47dab267760_D",
+        "label": "D",
+        "html": "0.3333",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2eb194a8bb8d63532367f47dab267760_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "3ee2c45a030943b67109ed9f603e4bf6",
+    "title": "Q19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, given that the first die shows an even number, what is the probability that the sum is odd when rolling two fair six-sided dice?</p>",
+    "choices": [
+      {
+        "id": "3ee2c45a030943b67109ed9f603e4bf6_A",
+        "label": "A",
+        "html": "0.25",
+        "is_correct": false
+      },
+      {
+        "id": "3ee2c45a030943b67109ed9f603e4bf6_B",
+        "label": "B",
+        "html": "0.5",
+        "is_correct": true
+      },
+      {
+        "id": "3ee2c45a030943b67109ed9f603e4bf6_C",
+        "label": "C",
+        "html": "0.75",
+        "is_correct": false
+      },
+      {
+        "id": "3ee2c45a030943b67109ed9f603e4bf6_D",
+        "label": "D",
+        "html": "1.0",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3ee2c45a030943b67109ed9f603e4bf6_B"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "ec2d86831fe16e5753ac24f057b9c70d",
+    "title": "Q18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the two dice show different numbers?</p>",
+    "choices": [
+      {
+        "id": "ec2d86831fe16e5753ac24f057b9c70d_A",
+        "label": "A",
+        "html": "0.8333",
+        "is_correct": true
+      },
+      {
+        "id": "ec2d86831fe16e5753ac24f057b9c70d_B",
+        "label": "B",
+        "html": "0.6667",
+        "is_correct": false
+      },
+      {
+        "id": "ec2d86831fe16e5753ac24f057b9c70d_C",
+        "label": "C",
+        "html": "0.7500",
+        "is_correct": false
+      },
+      {
+        "id": "ec2d86831fe16e5753ac24f057b9c70d_D",
+        "label": "D",
+        "html": "0.7778",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ec2d86831fe16e5753ac24f057b9c70d_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "cfe3e3ac3a323140b860f5a99dcbb8ef",
+    "title": "Q17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that at least one die shows a value of 5 or 6?</p>",
+    "choices": [
+      {
+        "id": "cfe3e3ac3a323140b860f5a99dcbb8ef_A",
+        "label": "A",
+        "html": "0.3333",
+        "is_correct": false
+      },
+      {
+        "id": "cfe3e3ac3a323140b860f5a99dcbb8ef_B",
+        "label": "B",
+        "html": "0.5556",
+        "is_correct": true
+      },
+      {
+        "id": "cfe3e3ac3a323140b860f5a99dcbb8ef_C",
+        "label": "C",
+        "html": "0.6667",
+        "is_correct": false
+      },
+      {
+        "id": "cfe3e3ac3a323140b860f5a99dcbb8ef_D",
+        "label": "D",
+        "html": "0.7778",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cfe3e3ac3a323140b860f5a99dcbb8ef_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "cb137b41f744aff28dd947b816c7215f",
+    "title": "Q16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the sum is 9 or 10?</p>",
+    "choices": [
+      {
+        "id": "cb137b41f744aff28dd947b816c7215f_A",
+        "label": "A",
+        "html": "0.1944",
+        "is_correct": true
+      },
+      {
+        "id": "cb137b41f744aff28dd947b816c7215f_B",
+        "label": "B",
+        "html": "0.1667",
+        "is_correct": false
+      },
+      {
+        "id": "cb137b41f744aff28dd947b816c7215f_C",
+        "label": "C",
+        "html": "0.2778",
+        "is_correct": false
+      },
+      {
+        "id": "cb137b41f744aff28dd947b816c7215f_D",
+        "label": "D",
+        "html": "0.2500",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cb137b41f744aff28dd947b816c7215f_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "9c5aaa8b15c978f0ef6e8322240e1913",
+    "title": "Q15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the maximum of the two values is 5?</p>",
+    "choices": [
+      {
+        "id": "9c5aaa8b15c978f0ef6e8322240e1913_A",
+        "label": "A",
+        "html": "0.1667",
+        "is_correct": false
+      },
+      {
+        "id": "9c5aaa8b15c978f0ef6e8322240e1913_B",
+        "label": "B",
+        "html": "0.2500",
+        "is_correct": true
+      },
+      {
+        "id": "9c5aaa8b15c978f0ef6e8322240e1913_C",
+        "label": "C",
+        "html": "0.1389",
+        "is_correct": false
+      },
+      {
+        "id": "9c5aaa8b15c978f0ef6e8322240e1913_D",
+        "label": "D",
+        "html": "0.3333",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9c5aaa8b15c978f0ef6e8322240e1913_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "aa84c7a0d5af175897c2ad9c64e4bf6f",
+    "title": "Q14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the absolute difference between the two values is 2?</p>",
+    "choices": [
+      {
+        "id": "aa84c7a0d5af175897c2ad9c64e4bf6f_A",
+        "label": "A",
+        "html": "0.1667",
+        "is_correct": false
+      },
+      {
+        "id": "aa84c7a0d5af175897c2ad9c64e4bf6f_B",
+        "label": "B",
+        "html": "0.2222",
+        "is_correct": true
+      },
+      {
+        "id": "aa84c7a0d5af175897c2ad9c64e4bf6f_C",
+        "label": "C",
+        "html": "0.2500",
+        "is_correct": false
+      },
+      {
+        "id": "aa84c7a0d5af175897c2ad9c64e4bf6f_D",
+        "label": "D",
+        "html": "0.1389",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "aa84c7a0d5af175897c2ad9c64e4bf6f_B"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "7536bf70b93b70c23bef207745e5f722",
+    "title": "Q13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the sum is less than 5?</p>",
+    "choices": [
+      {
+        "id": "7536bf70b93b70c23bef207745e5f722_A",
+        "label": "A",
+        "html": "0.0833",
+        "is_correct": false
+      },
+      {
+        "id": "7536bf70b93b70c23bef207745e5f722_B",
+        "label": "B",
+        "html": "0.1667",
+        "is_correct": true
+      },
+      {
+        "id": "7536bf70b93b70c23bef207745e5f722_C",
+        "label": "C",
+        "html": "0.2500",
+        "is_correct": false
+      },
+      {
+        "id": "7536bf70b93b70c23bef207745e5f722_D",
+        "label": "D",
+        "html": "0.3333",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7536bf70b93b70c23bef207745e5f722_B"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "96c0520b104e4bba07cb86dadb57cda6",
+    "title": "Q12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, given that the sum is 8 when rolling two fair six-sided dice, what is the probability that at least one die shows a 3?</p>",
+    "choices": [
+      {
+        "id": "96c0520b104e4bba07cb86dadb57cda6_A",
+        "label": "A",
+        "html": "0.2",
+        "is_correct": false
+      },
+      {
+        "id": "96c0520b104e4bba07cb86dadb57cda6_B",
+        "label": "B",
+        "html": "0.4",
+        "is_correct": true
+      },
+      {
+        "id": "96c0520b104e4bba07cb86dadb57cda6_C",
+        "label": "C",
+        "html": "0.5",
+        "is_correct": false
+      },
+      {
+        "id": "96c0520b104e4bba07cb86dadb57cda6_D",
+        "label": "D",
+        "html": "0.6",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "96c0520b104e4bba07cb86dadb57cda6_B"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "d8b6e8bef3ca6f3a99cbb5c36f064783",
+    "title": "Q11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, given that at least one die shows a 6, what is the probability that the sum is 7 when rolling two fair six-sided dice?</p>",
+    "choices": [
+      {
+        "id": "d8b6e8bef3ca6f3a99cbb5c36f064783_A",
+        "label": "A",
+        "html": "0.1667",
+        "is_correct": false
+      },
+      {
+        "id": "d8b6e8bef3ca6f3a99cbb5c36f064783_B",
+        "label": "B",
+        "html": "0.0909",
+        "is_correct": false
+      },
+      {
+        "id": "d8b6e8bef3ca6f3a99cbb5c36f064783_C",
+        "label": "C",
+        "html": "0.1818",
+        "is_correct": true
+      },
+      {
+        "id": "d8b6e8bef3ca6f3a99cbb5c36f064783_D",
+        "label": "D",
+        "html": "0.2727",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d8b6e8bef3ca6f3a99cbb5c36f064783_C"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "a2475168aeb75e1c07278bf80fe850da",
+    "title": "Q10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that exactly one die shows an even number?</p>",
+    "choices": [
+      {
+        "id": "a2475168aeb75e1c07278bf80fe850da_A",
+        "label": "A",
+        "html": "0.25",
+        "is_correct": false
+      },
+      {
+        "id": "a2475168aeb75e1c07278bf80fe850da_B",
+        "label": "B",
+        "html": "0.3333",
+        "is_correct": false
+      },
+      {
+        "id": "a2475168aeb75e1c07278bf80fe850da_C",
+        "label": "C",
+        "html": "0.5",
+        "is_correct": true
+      },
+      {
+        "id": "a2475168aeb75e1c07278bf80fe850da_D",
+        "label": "D",
+        "html": "0.6667",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a2475168aeb75e1c07278bf80fe850da_C"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "bd5b73cc86d7798e58aac44977c828e7",
+    "title": "Q9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that at least one die shows a 1?</p>",
+    "choices": [
+      {
+        "id": "bd5b73cc86d7798e58aac44977c828e7_A",
+        "label": "A",
+        "html": "0.1667",
+        "is_correct": false
+      },
+      {
+        "id": "bd5b73cc86d7798e58aac44977c828e7_B",
+        "label": "B",
+        "html": "0.2778",
+        "is_correct": false
+      },
+      {
+        "id": "bd5b73cc86d7798e58aac44977c828e7_C",
+        "label": "C",
+        "html": "0.3056",
+        "is_correct": true
+      },
+      {
+        "id": "bd5b73cc86d7798e58aac44977c828e7_D",
+        "label": "D",
+        "html": "0.3333",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "bd5b73cc86d7798e58aac44977c828e7_C"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "9c26f811c2d816a5779070f51fbd5bc3",
+    "title": "Q8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the sum is divisible by 3?</p>",
+    "choices": [
+      {
+        "id": "9c26f811c2d816a5779070f51fbd5bc3_A",
+        "label": "A",
+        "html": "0.1667",
+        "is_correct": false
+      },
+      {
+        "id": "9c26f811c2d816a5779070f51fbd5bc3_B",
+        "label": "B",
+        "html": "0.3333",
+        "is_correct": true
+      },
+      {
+        "id": "9c26f811c2d816a5779070f51fbd5bc3_C",
+        "label": "C",
+        "html": "0.4167",
+        "is_correct": false
+      },
+      {
+        "id": "9c26f811c2d816a5779070f51fbd5bc3_D",
+        "label": "D",
+        "html": "0.3889",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9c26f811c2d816a5779070f51fbd5bc3_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "5ca54660746080d5865639465f13502d",
+    "title": "Q7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the product of the two values is even?</p>",
+    "choices": [
+      {
+        "id": "5ca54660746080d5865639465f13502d_A",
+        "label": "A",
+        "html": "0.75",
+        "is_correct": true
+      },
+      {
+        "id": "5ca54660746080d5865639465f13502d_B",
+        "label": "B",
+        "html": "0.5",
+        "is_correct": false
+      },
+      {
+        "id": "5ca54660746080d5865639465f13502d_C",
+        "label": "C",
+        "html": "0.6667",
+        "is_correct": false
+      },
+      {
+        "id": "5ca54660746080d5865639465f13502d_D",
+        "label": "D",
+        "html": "0.25",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5ca54660746080d5865639465f13502d_A"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "65876848a10fd96ea9226fbbe84b1518",
+    "title": "Q5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the sum is at least 10?</p>",
+    "choices": [
+      {
+        "id": "65876848a10fd96ea9226fbbe84b1518_A",
+        "label": "A",
+        "html": "0.3333",
+        "is_correct": false
+      },
+      {
+        "id": "65876848a10fd96ea9226fbbe84b1518_B",
+        "label": "B",
+        "html": "0.1667",
+        "is_correct": true
+      },
+      {
+        "id": "65876848a10fd96ea9226fbbe84b1518_C",
+        "label": "C",
+        "html": "0.1389",
+        "is_correct": false
+      },
+      {
+        "id": "65876848a10fd96ea9226fbbe84b1518_D",
+        "label": "D",
+        "html": "0.2500",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "65876848a10fd96ea9226fbbe84b1518_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "e3da7780acdd6b2cbfec22cb60197b0a",
+    "title": "Q4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that exactly one die shows a 6?</p>",
+    "choices": [
+      {
+        "id": "e3da7780acdd6b2cbfec22cb60197b0a_A",
+        "label": "A",
+        "html": "0.1389",
+        "is_correct": false
+      },
+      {
+        "id": "e3da7780acdd6b2cbfec22cb60197b0a_B",
+        "label": "B",
+        "html": "0.2778",
+        "is_correct": false
+      },
+      {
+        "id": "e3da7780acdd6b2cbfec22cb60197b0a_C",
+        "label": "C",
+        "html": "0.3333",
+        "is_correct": false
+      },
+      {
+        "id": "e3da7780acdd6b2cbfec22cb60197b0a_D",
+        "label": "D",
+        "html": "0.2778",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "e3da7780acdd6b2cbfec22cb60197b0a_D"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "43ea92b211b4f12add5890b8063285dd",
+    "title": "Q3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that at least one die shows a 6?</p>",
+    "choices": [
+      {
+        "id": "43ea92b211b4f12add5890b8063285dd_A",
+        "label": "A",
+        "html": "0.2778",
+        "is_correct": false
+      },
+      {
+        "id": "43ea92b211b4f12add5890b8063285dd_B",
+        "label": "B",
+        "html": "0.3056",
+        "is_correct": true
+      },
+      {
+        "id": "43ea92b211b4f12add5890b8063285dd_C",
+        "label": "C",
+        "html": "0.3333",
+        "is_correct": false
+      },
+      {
+        "id": "43ea92b211b4f12add5890b8063285dd_D",
+        "label": "D",
+        "html": "0.1944",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "43ea92b211b4f12add5890b8063285dd_B"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "08cc16b3719d9d54b47c37eae33c3c71",
+    "title": "Q2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that both dice show the same number (a double)?</p>",
+    "choices": [
+      {
+        "id": "08cc16b3719d9d54b47c37eae33c3c71_A",
+        "label": "A",
+        "html": "0.25",
+        "is_correct": false
+      },
+      {
+        "id": "08cc16b3719d9d54b47c37eae33c3c71_B",
+        "label": "B",
+        "html": "0.1667",
+        "is_correct": true
+      },
+      {
+        "id": "08cc16b3719d9d54b47c37eae33c3c71_C",
+        "label": "C",
+        "html": "0.5",
+        "is_correct": false
+      },
+      {
+        "id": "08cc16b3719d9d54b47c37eae33c3c71_D",
+        "label": "D",
+        "html": "0.3333",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "08cc16b3719d9d54b47c37eae33c3c71_B"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "86fcc8decba9082c6ff201aa743f60bd",
+    "title": "Q1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>If you roll two fair six-sided dice, what is the probability that the sum is 7?</p>",
+    "choices": [
+      {
+        "id": "86fcc8decba9082c6ff201aa743f60bd_A",
+        "label": "A",
+        "html": "0.0833",
+        "is_correct": false
+      },
+      {
+        "id": "86fcc8decba9082c6ff201aa743f60bd_B",
+        "label": "B",
+        "html": "0.1111",
+        "is_correct": false
+      },
+      {
+        "id": "86fcc8decba9082c6ff201aa743f60bd_C",
+        "label": "C",
+        "html": "0.1667",
+        "is_correct": true
+      },
+      {
+        "id": "86fcc8decba9082c6ff201aa743f60bd_D",
+        "label": "D",
+        "html": "0.2500",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "86fcc8decba9082c6ff201aa743f60bd_C"
+    ]
+  }
+]

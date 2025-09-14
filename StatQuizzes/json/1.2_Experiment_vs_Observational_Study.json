@@ -1,0 +1,482 @@
+[
+  {
+    "index": 1,
+    "ident": "96cbe2a53ccfdfd5c13fd443b37bd463",
+    "title": "Question 13",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A medical team measures recovery times for patients who were given different physical therapy routines after knee surgery. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "96cbe2a53ccfdfd5c13fd443b37bd463_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": true
+      },
+      {
+        "id": "96cbe2a53ccfdfd5c13fd443b37bd463_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "96cbe2a53ccfdfd5c13fd443b37bd463_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "973f7b45ea9d181f61f86c64c0707d12",
+    "title": "Question 20",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A marine scientist reviews past ocean temperature records to see whether changes are related to fish migration patterns. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "973f7b45ea9d181f61f86c64c0707d12_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": false
+      },
+      {
+        "id": "973f7b45ea9d181f61f86c64c0707d12_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "973f7b45ea9d181f61f86c64c0707d12_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "5a5c86f740b75a77acbe7cb0739e282c",
+    "title": "Question 19",
+    "source": "canvas_qti",
+    "prompt_html": "<p>An economist gives some households a tax rebate and does not give it to others, then tracks their spending over the next three months. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "5a5c86f740b75a77acbe7cb0739e282c_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": true
+      },
+      {
+        "id": "5a5c86f740b75a77acbe7cb0739e282c_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5a5c86f740b75a77acbe7cb0739e282c_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "5879a5ca09c0104d6436e5f0b811c351",
+    "title": "Question 18",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A psychology researcher observes children at a playground and records how often they share toys with others. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "5879a5ca09c0104d6436e5f0b811c351_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": false
+      },
+      {
+        "id": "5879a5ca09c0104d6436e5f0b811c351_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "5879a5ca09c0104d6436e5f0b811c351_B"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "5ecb2ea238e5eaeb6d3c6197e7b7ac45",
+    "title": "Question 17",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A pharmaceutical company assigns some participants to receive a vaccine and others to receive a placebo, then tracks infection rates. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "5ecb2ea238e5eaeb6d3c6197e7b7ac45_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": true
+      },
+      {
+        "id": "5ecb2ea238e5eaeb6d3c6197e7b7ac45_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5ecb2ea238e5eaeb6d3c6197e7b7ac45_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "e5fde6f61b5541e570fd8627f84bccc5",
+    "title": "Question 16",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A wildlife biologist captures and tags birds, then releases them and records where they are later spotted. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "e5fde6f61b5541e570fd8627f84bccc5_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": false
+      },
+      {
+        "id": "e5fde6f61b5541e570fd8627f84bccc5_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "e5fde6f61b5541e570fd8627f84bccc5_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "3b328aa167bd6ec0beeee6c859089235",
+    "title": "Question 15",
+    "source": "canvas_qti",
+    "prompt_html": "<p>An economist studies historical unemployment rates and inflation rates to determine if they are related. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "3b328aa167bd6ec0beeee6c859089235_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": false
+      },
+      {
+        "id": "3b328aa167bd6ec0beeee6c859089235_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "3b328aa167bd6ec0beeee6c859089235_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "650d50a3e103641b1ea1a25c73510a07",
+    "title": "Question 14",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A psychologist assigns volunteers to sleep for either four hours or eight hours a night for one week and measures their mood each day. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "650d50a3e103641b1ea1a25c73510a07_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": true
+      },
+      {
+        "id": "650d50a3e103641b1ea1a25c73510a07_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "650d50a3e103641b1ea1a25c73510a07_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "49655a601b1d9c9259fcf5a7eb1e1dab",
+    "title": "Question 12",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A botanist sprays half of a garden with insect repellent and leaves the other half untreated, then counts the number of pests after a month. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "49655a601b1d9c9259fcf5a7eb1e1dab_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": true
+      },
+      {
+        "id": "49655a601b1d9c9259fcf5a7eb1e1dab_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "49655a601b1d9c9259fcf5a7eb1e1dab_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "4e999698d82b49d947ca5a3bf97b0856",
+    "title": "Question 11",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A nutrition researcher asks people what they ate over the past week and compares it to their body mass index. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "4e999698d82b49d947ca5a3bf97b0856_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": false
+      },
+      {
+        "id": "4e999698d82b49d947ca5a3bf97b0856_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "4e999698d82b49d947ca5a3bf97b0856_B"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "02da0bf8b7936e9188a9474883fc6c3d",
+    "title": "Question 10",
+    "source": "canvas_qti",
+    "prompt_html": "<p>An economics professor divides a class into two groups, giving one group a cash bonus for correct answers and the other group no bonus, to measure productivity differences. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "02da0bf8b7936e9188a9474883fc6c3d_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": true
+      },
+      {
+        "id": "02da0bf8b7936e9188a9474883fc6c3d_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "02da0bf8b7936e9188a9474883fc6c3d_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "2a487d67c35a88ac4ca6fabe54a4faac",
+    "title": "Question 9",
+    "source": "canvas_qti",
+    "prompt_html": "<p>An epidemiologist studies hospital records to identify patterns between smoking habits and lung cancer rates. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "2a487d67c35a88ac4ca6fabe54a4faac_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": false
+      },
+      {
+        "id": "2a487d67c35a88ac4ca6fabe54a4faac_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "2a487d67c35a88ac4ca6fabe54a4faac_B"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "53e49571d5dae810305c4d89e556db67",
+    "title": "Question 8",
+    "source": "canvas_qti",
+    "prompt_html": "<p>An agricultural scientist plants wheat using two different irrigation systems on separate plots and compares the resulting crop yields. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "53e49571d5dae810305c4d89e556db67_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": true
+      },
+      {
+        "id": "53e49571d5dae810305c4d89e556db67_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "53e49571d5dae810305c4d89e556db67_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "2e00224c63582833d24266852522007f",
+    "title": "Question 7",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A psychologist monitors brain activity in people who already suffer from chronic stress to see how it changes throughout the day. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "2e00224c63582833d24266852522007f_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": false
+      },
+      {
+        "id": "2e00224c63582833d24266852522007f_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "2e00224c63582833d24266852522007f_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "86d4c8811ed571ae21106c3b9b505ea8",
+    "title": "Question 6",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A marine biologist observes the feeding habits of dolphins in the wild without interfering with their natural behavior. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "86d4c8811ed571ae21106c3b9b505ea8_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": false
+      },
+      {
+        "id": "86d4c8811ed571ae21106c3b9b505ea8_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "86d4c8811ed571ae21106c3b9b505ea8_B"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "aef995d6b91df26a024cdcc77c94f219",
+    "title": "Question 5",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A doctor gives half of her patients a new drug and the other half a placebo to test whether the new drug lowers cholesterol levels. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "aef995d6b91df26a024cdcc77c94f219_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": true
+      },
+      {
+        "id": "aef995d6b91df26a024cdcc77c94f219_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "aef995d6b91df26a024cdcc77c94f219_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "323828a202060471a016ab3397f95968",
+    "title": "Question 4",
+    "source": "canvas_qti",
+    "prompt_html": "<p>An economist examines past census data to see whether people with college degrees have higher average incomes. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "323828a202060471a016ab3397f95968_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": false
+      },
+      {
+        "id": "323828a202060471a016ab3397f95968_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "323828a202060471a016ab3397f95968_B"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "763ca8c91a1eb4dc8f8d033fcdf73bbf",
+    "title": "Question 3",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A psychologist randomly assigns participants to either listen to classical music or heavy metal music while studying, and then compares their test scores. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "763ca8c91a1eb4dc8f8d033fcdf73bbf_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": true
+      },
+      {
+        "id": "763ca8c91a1eb4dc8f8d033fcdf73bbf_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "763ca8c91a1eb4dc8f8d033fcdf73bbf_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "6a4d85c4d0e9bc9133e016116858330c",
+    "title": "Question 2",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A medical researcher records the blood pressure of patients who already take different amounts of salt in their diet, without changing the patients’ diets. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "6a4d85c4d0e9bc9133e016116858330c_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": false
+      },
+      {
+        "id": "6a4d85c4d0e9bc9133e016116858330c_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "6a4d85c4d0e9bc9133e016116858330c_B"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "cef4072ef8f93949dfea28931e50a62a",
+    "title": "Question 1",
+    "source": "canvas_qti",
+    "prompt_html": "<p>A biologist gives one group of plants a nutrient-rich fertilizer and gives another group plain water, then measures their growth over two weeks. Is this an experiment or an observational study?</p>",
+    "choices": [
+      {
+        "id": "cef4072ef8f93949dfea28931e50a62a_A",
+        "label": "A",
+        "html": "Experiment",
+        "is_correct": true
+      },
+      {
+        "id": "cef4072ef8f93949dfea28931e50a62a_B",
+        "label": "B",
+        "html": "Observational Study",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cef4072ef8f93949dfea28931e50a62a_A"
+    ]
+  }
+]

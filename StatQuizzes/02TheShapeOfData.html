@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSON Quiz Viewer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>The Shape of Data</h1>
+  <div class="toolbar">
+    <button class="primary" onclick="checkAll()">Check All</button>
+    <button onclick="cryUncleAll()">Cry Uncle</button>
+  </div>
+
+  <div id="grand-total-top" class="total" style="display:none;margin-bottom:0.75rem"></div>
+
+  <div id="blocks" class="blocks"></div>
+
+  <div class="toolbar" style="margin-top:1rem">
+    <button class="primary" onclick="checkAll()">Check All</button>
+    <button onclick="cryUncleAll()">Cry Uncle</button>
+  </div>
+
+  <div id="grand-total" class="total" style="display:none"></div>
+
+  <script src="script.js"></script>
+  <script> 
+  addQuestionBlock('json/2.1_Frequency_Tables_and_Histograms.json', '5', '');
+  addQuestionBlock('json/2.2_Shapes_of_Histograms.json', '5', '');
+  addQuestionBlock('json/2.3_Scatter_Plots_Correlation_Quiz.json', '5', '');
+  </script>
+</body>
+</html>

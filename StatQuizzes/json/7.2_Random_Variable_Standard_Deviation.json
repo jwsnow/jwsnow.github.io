@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "ebe789f02bee268db50aedd14eaf2c3c",
+    "title": "Summary Stat #20",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.11</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.14</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.07</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.06</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.06</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.56</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "ebe789f02bee268db50aedd14eaf2c3c_A",
+        "label": "A",
+        "html": "<div><p>1.7657</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "ebe789f02bee268db50aedd14eaf2c3c_B",
+        "label": "B",
+        "html": "<div><p>2.0157</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "ebe789f02bee268db50aedd14eaf2c3c_C",
+        "label": "C",
+        "html": "<div><p>3.6700</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "ebe789f02bee268db50aedd14eaf2c3c_D",
+        "label": "D",
+        "html": "<div><p>1.9157</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "ebe789f02bee268db50aedd14eaf2c3c_D"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "9506394fa98694fbe82bcf3d02248a31",
+    "title": "Summary Stat #19",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.05</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.20</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.13</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.38</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.06</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.18</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "9506394fa98694fbe82bcf3d02248a31_A",
+        "label": "A",
+        "html": "<div><p>1.5465</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "9506394fa98694fbe82bcf3d02248a31_B",
+        "label": "B",
+        "html": "<div><p>2.0924</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "9506394fa98694fbe82bcf3d02248a31_C",
+        "label": "C",
+        "html": "<div><p>3.7400</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "9506394fa98694fbe82bcf3d02248a31_D",
+        "label": "D",
+        "html": "<div><p>1.4465</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "9506394fa98694fbe82bcf3d02248a31_D"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "61fe8ea0e6058f310b6f852ce0df1d24",
+    "title": "Summary Stat #18",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.02</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.10</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.04</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.02</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.21</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.61</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "61fe8ea0e6058f310b6f852ce0df1d24_A",
+        "label": "A",
+        "html": "<div><p>1.9931</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "61fe8ea0e6058f310b6f852ce0df1d24_B",
+        "label": "B",
+        "html": "<div><p>1.2618</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "61fe8ea0e6058f310b6f852ce0df1d24_C",
+        "label": "C",
+        "html": "<div><p>1.6118</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "61fe8ea0e6058f310b6f852ce0df1d24_D",
+        "label": "D",
+        "html": "<div><p>1.4118</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "61fe8ea0e6058f310b6f852ce0df1d24_D"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "2a659b6d6c5ec91b9c02fb01b95a92ad",
+    "title": "Summary Stat #17",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.25</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.05</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.30</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.02</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.07</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.31</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "2a659b6d6c5ec91b9c02fb01b95a92ad_A",
+        "label": "A",
+        "html": "<div><p>1.8117</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "2a659b6d6c5ec91b9c02fb01b95a92ad_B",
+        "label": "B",
+        "html": "<div><p>2.1617</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "2a659b6d6c5ec91b9c02fb01b95a92ad_C",
+        "label": "C",
+        "html": "<div><p>3.5400</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "2a659b6d6c5ec91b9c02fb01b95a92ad_D",
+        "label": "D",
+        "html": "<div><p>1.9617</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "2a659b6d6c5ec91b9c02fb01b95a92ad_D"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "5fb68448ab9d8ff6282fb40423495d15",
+    "title": "Summary Stat #16",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.10</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.16</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.15</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.08</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.28</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.23</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "5fb68448ab9d8ff6282fb40423495d15_A",
+        "label": "A",
+        "html": "<div><p>1.7997</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "5fb68448ab9d8ff6282fb40423495d15_B",
+        "label": "B",
+        "html": "<div><p>2.8891</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "5fb68448ab9d8ff6282fb40423495d15_C",
+        "label": "C",
+        "html": "<div><p>3.9700</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "5fb68448ab9d8ff6282fb40423495d15_D",
+        "label": "D",
+        "html": "<div><p>1.6997</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "5fb68448ab9d8ff6282fb40423495d15_D"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "402da0b5bd0dc87ec3e753387263d570",
+    "title": "Summary Stat #15",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.22</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.07</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.10</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.32</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.01</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.28</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "402da0b5bd0dc87ec3e753387263d570_A",
+        "label": "A",
+        "html": "<div><p>1.9388</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "402da0b5bd0dc87ec3e753387263d570_B",
+        "label": "B",
+        "html": "<div><p>2.0388</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "402da0b5bd0dc87ec3e753387263d570_C",
+        "label": "C",
+        "html": "<div><p>3.6700</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "402da0b5bd0dc87ec3e753387263d570_D",
+        "label": "D",
+        "html": "<div><p>1.8388</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "402da0b5bd0dc87ec3e753387263d570_D"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "134b78c2665b0c3cd1462f2deca85119",
+    "title": "Summary Stat #14",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.04</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.11</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.13</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.10</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.40</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.22</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "134b78c2665b0c3cd1462f2deca85119_A",
+        "label": "A",
+        "html": "<div><p>1.2898</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "134b78c2665b0c3cd1462f2deca85119_B",
+        "label": "B",
+        "html": "<div><p>1.5398</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "134b78c2665b0c3cd1462f2deca85119_C",
+        "label": "C",
+        "html": "<div><p>2.0731</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "134b78c2665b0c3cd1462f2deca85119_D",
+        "label": "D",
+        "html": "<div><p>1.4398</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "134b78c2665b0c3cd1462f2deca85119_D"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "71887fecc5b66ab9a9d0aabff375c136",
+    "title": "Summary Stat #13",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.04</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.02</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.44</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.24</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.16</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.10</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "71887fecc5b66ab9a9d0aabff375c136_A",
+        "label": "A",
+        "html": "<div><p>0.9258</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "71887fecc5b66ab9a9d0aabff375c136_B",
+        "label": "B",
+        "html": "<div><p>1.0258</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "71887fecc5b66ab9a9d0aabff375c136_C",
+        "label": "C",
+        "html": "<div><p>1.3824</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "71887fecc5b66ab9a9d0aabff375c136_D",
+        "label": "D",
+        "html": "<div><p>1.1758</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "71887fecc5b66ab9a9d0aabff375c136_D"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "3e2bcecf0b268d223de58ef96487887c",
+    "title": "Summary Stat #12",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.06</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.43</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.12</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.01</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.36</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.02</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "3e2bcecf0b268d223de58ef96487887c_A",
+        "label": "A",
+        "html": "<div><p>1.5975</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "3e2bcecf0b268d223de58ef96487887c_B",
+        "label": "B",
+        "html": "<div><p>2.2424</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "3e2bcecf0b268d223de58ef96487887c_C",
+        "label": "C",
+        "html": "<div><p>3.2400</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "3e2bcecf0b268d223de58ef96487887c_D",
+        "label": "D",
+        "html": "<div><p>1.4975</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "3e2bcecf0b268d223de58ef96487887c_D"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "6afb559de1050e25fc66e2d3b77f724a",
+    "title": "Summary Stat #11",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.43</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.09</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.08</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.31</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.03</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.06</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "6afb559de1050e25fc66e2d3b77f724a_A",
+        "label": "A",
+        "html": "<div><p>1.4686</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "6afb559de1050e25fc66e2d3b77f724a_B",
+        "label": "B",
+        "html": "<div><p>1.7186</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "6afb559de1050e25fc66e2d3b77f724a_C",
+        "label": "C",
+        "html": "<div><p>2.6200</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "6afb559de1050e25fc66e2d3b77f724a_D",
+        "label": "D",
+        "html": "<div><p>1.6186</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "6afb559de1050e25fc66e2d3b77f724a_D"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "f9e2d1c2d48e4c45fcc1bf09e7eb466f",
+    "title": "Summary Stat #10",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.27</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.42</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.01</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.12</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.05</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.13</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "f9e2d1c2d48e4c45fcc1bf09e7eb466f_A",
+        "label": "A",
+        "html": "<div><p>1.5434</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "f9e2d1c2d48e4c45fcc1bf09e7eb466f_B",
+        "label": "B",
+        "html": "<div><p>1.7934</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "f9e2d1c2d48e4c45fcc1bf09e7eb466f_C",
+        "label": "C",
+        "html": "<div><p>2.8675</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "f9e2d1c2d48e4c45fcc1bf09e7eb466f_D",
+        "label": "D",
+        "html": "<div><p>1.6934</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "f9e2d1c2d48e4c45fcc1bf09e7eb466f_D"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "49f4e10c9cb36cd6d52819ffd05d2503",
+    "title": "Summary Stat #9",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.31</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.02</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.09</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.17</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.07</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.34</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "49f4e10c9cb36cd6d52819ffd05d2503_A",
+        "label": "A",
+        "html": "<div><p>1.9222</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "49f4e10c9cb36cd6d52819ffd05d2503_B",
+        "label": "B",
+        "html": "<div><p>2.1722</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "49f4e10c9cb36cd6d52819ffd05d2503_C",
+        "label": "C",
+        "html": "<div><p>3.6900</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "49f4e10c9cb36cd6d52819ffd05d2503_D",
+        "label": "D",
+        "html": "<div><p>2.0722</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "49f4e10c9cb36cd6d52819ffd05d2503_D"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "b96a86cec0fcb66ec40fb09a1a177cd1",
+    "title": "Summary Stat #8",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.04</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.32</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.03</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.40</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.10</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.11</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "b96a86cec0fcb66ec40fb09a1a177cd1_A",
+        "label": "A",
+        "html": "<div><p>1.9891</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "b96a86cec0fcb66ec40fb09a1a177cd1_B",
+        "label": "B",
+        "html": "<div><p>1.6104</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "b96a86cec0fcb66ec40fb09a1a177cd1_C",
+        "label": "C",
+        "html": "<div><p>3.5300</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "b96a86cec0fcb66ec40fb09a1a177cd1_D",
+        "label": "D",
+        "html": "<div><p>1.4104</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "b96a86cec0fcb66ec40fb09a1a177cd1_D"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "033bf58fa355b99c44b3ed8b3fac012c",
+    "title": "Summary Stat #7",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.10</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.38</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.22</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.04</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.22</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.04</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "033bf58fa355b99c44b3ed8b3fac012c_A",
+        "label": "A",
+        "html": "<div><p>1.5351</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "033bf58fa355b99c44b3ed8b3fac012c_B",
+        "label": "B",
+        "html": "<div><p>2.0596</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "033bf58fa355b99c44b3ed8b3fac012c_C",
+        "label": "C",
+        "html": "<div><p>3.0200</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "033bf58fa355b99c44b3ed8b3fac012c_D",
+        "label": "D",
+        "html": "<div><p>1.4351</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "033bf58fa355b99c44b3ed8b3fac012c_D"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "d742e1536739f926a4eaf8f24207f952",
+    "title": "Summary Stat #6",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.06</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.13</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.04</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.34</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.17</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.26</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "d742e1536739f926a4eaf8f24207f952_A",
+        "label": "A",
+        "html": "<div><p>1.6053</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "d742e1536739f926a4eaf8f24207f952_B",
+        "label": "B",
+        "html": "<div><p>2.2659</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "d742e1536739f926a4eaf8f24207f952_C",
+        "label": "C",
+        "html": "<div><p>1.7053</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "d742e1536739f926a4eaf8f24207f952_D",
+        "label": "D",
+        "html": "<div><p>1.5053</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "d742e1536739f926a4eaf8f24207f952_D"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "23b03f6f06abea3ea3712f969f5988ed",
+    "title": "Summary Stat #5",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.63</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.05</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.13</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.05</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.11</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.03</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "23b03f6f06abea3ea3712f969f5988ed_A",
+        "label": "A",
+        "html": "<div><p>1.6580</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "23b03f6f06abea3ea3712f969f5988ed_B",
+        "label": "B",
+        "html": "<div><p>2.4275</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "23b03f6f06abea3ea3712f969f5988ed_C",
+        "label": "C",
+        "html": "<div><p>2.0500</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "23b03f6f06abea3ea3712f969f5988ed_D",
+        "label": "D",
+        "html": "<div><p>1.5580</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "23b03f6f06abea3ea3712f969f5988ed_D"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "2f7c539f7ba58b77899888af3b183054",
+    "title": "Summary Stat #4",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.05</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.30</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.28</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.01</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.29</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.07</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "2f7c539f7ba58b77899888af3b183054_A",
+        "label": "A",
+        "html": "<div><p>1.5629</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "2f7c539f7ba58b77899888af3b183054_B",
+        "label": "B",
+        "html": "<div><p>2.1400</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "2f7c539f7ba58b77899888af3b183054_C",
+        "label": "C",
+        "html": "<div><p>3.4000</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "2f7c539f7ba58b77899888af3b183054_D",
+        "label": "D",
+        "html": "<div><p>1.4629</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "2f7c539f7ba58b77899888af3b183054_D"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "a8e853c4c435f9d295d96a4f9f9bf1be",
+    "title": "Summary Stat #3",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.30</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.38</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.22</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.02</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.02</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.06</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "a8e853c4c435f9d295d96a4f9f9bf1be_A",
+        "label": "A",
+        "html": "<div><p>1.1432</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "a8e853c4c435f9d295d96a4f9f9bf1be_B",
+        "label": "B",
+        "html": "<div><p>1.6724</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "a8e853c4c435f9d295d96a4f9f9bf1be_C",
+        "label": "C",
+        "html": "<div><p>2.2600</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "a8e853c4c435f9d295d96a4f9f9bf1be_D",
+        "label": "D",
+        "html": "<div><p>1.2932</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "a8e853c4c435f9d295d96a4f9f9bf1be_D"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "c8e21b7b1fa7d17fb2d9f33587656813",
+    "title": "Summary Stat #2",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.08</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.10</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.06</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.09</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.62</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.05</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "c8e21b7b1fa7d17fb2d9f33587656813_A",
+        "label": "A",
+        "html": "<div><p>1.9516</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "c8e21b7b1fa7d17fb2d9f33587656813_B",
+        "label": "B",
+        "html": "<div><p>1.5970</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "c8e21b7b1fa7d17fb2d9f33587656813_C",
+        "label": "C",
+        "html": "<div><p>1.4970</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "c8e21b7b1fa7d17fb2d9f33587656813_D",
+        "label": "D",
+        "html": "<div><p>1.3970</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "c8e21b7b1fa7d17fb2d9f33587656813_D"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "170705b49405da3e206abf7652c93e06",
+    "title": "Summary Stat #1",
+    "source": "canvas_qti",
+    "prompt_html": "<div>\n<p>Below is the probability distribution of a random variable X. Find the mean μ of X. (Round to four decimals.)</p>\n<table style=\"border-collapse:collapse;margin-left:auto;margin-right:auto;text-align:center;\"><tbody>\n<tr>\n<th style=\"border:1px solid #333;padding:4px;\">X</th>\n<th style=\"border:1px solid #333;padding:4px;\">P(X)</th>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">1</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.09</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">2</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.05</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">3</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.53</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">4</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.03</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">5</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.12</td>\n</tr>\n<tr>\n<td style=\"border:1px solid #333;padding:4px;\">6</td>\n<td style=\"border:1px solid #333;padding:4px;\">0.18</td>\n</tr>\n</tbody></table>\n</div><div>Choose the best answer.</div>",
+    "choices": [
+      {
+        "id": "170705b49405da3e206abf7652c93e06_A",
+        "label": "A",
+        "html": "<div><p>1.5845</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "170705b49405da3e206abf7652c93e06_B",
+        "label": "B",
+        "html": "<div><p>2.2036</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "170705b49405da3e206abf7652c93e06_C",
+        "label": "C",
+        "html": "<div><p>3.5800</p></div>",
+        "is_correct": false
+      },
+      {
+        "id": "170705b49405da3e206abf7652c93e06_D",
+        "label": "D",
+        "html": "<div><p>1.4845</p></div>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "170705b49405da3e206abf7652c93e06_D"
+    ]
+  }
+]

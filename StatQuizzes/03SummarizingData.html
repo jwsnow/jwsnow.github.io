@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Summarizing Data</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>JSON Quiz Viewer</h1>
+  <div class="toolbar">
+    <button class="primary" onclick="checkAll()">Check All</button>
+    <button onclick="cryUncleAll()">Cry Uncle</button>
+  </div>
+
+  <div id="grand-total-top" class="total" style="display:none;margin-bottom:0.75rem"></div>
+
+  <div id="blocks" class="blocks"></div>
+
+  <div class="toolbar" style="margin-top:1rem">
+    <button class="primary" onclick="checkAll()">Check All</button>
+    <button onclick="cryUncleAll()">Cry Uncle</button>
+  </div>
+
+  <div id="grand-total" class="total" style="display:none"></div>
+
+  <script src="script.js"></script>
+  <script> 
+ addQuestionBlock('json/3.1_Statistical_Symbols.json', '3', '');
+addQuestionBlock('json/3.2_Calculating_Means.json', '5', '');
+addQuestionBlock('json/3.3_Finding_the_Median.json', '5', '');
+addQuestionBlock('json/3.4_Finding_the_Mode.json', '5', '');
+addQuestionBlock('json/3.5_Sample_Standard_Deviation.json', '5', '');
+addQuestionBlock('json/3.6_Range_Rule_of_Thumb.json', '5', '');
+  </script>
+</body>
+</html>
