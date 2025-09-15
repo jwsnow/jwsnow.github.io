@@ -1,0 +1,1262 @@
+[
+  {
+    "index": 1,
+    "ident": "Q001",
+    "title": "CLT-Q1",
+    "source": "generated",
+    "prompt_html": "Systolic blood pressure of adults are approximately normally distributed with mean \u03bc=120, \u03c3=15. A sample of n=36 is taken. What is the probability that the sample mean is less than 117?",
+    "choices": [
+      {
+        "id": "Q1_A",
+        "label": "A",
+        "html": "0.0951",
+        "is_correct": false
+      },
+      {
+        "id": "Q1_B",
+        "label": "B",
+        "html": "0.1651",
+        "is_correct": false
+      },
+      {
+        "id": "Q1_C",
+        "label": "C",
+        "html": "0.1351",
+        "is_correct": false
+      },
+      {
+        "id": "Q1_D",
+        "label": "D",
+        "html": "0.0651",
+        "is_correct": false
+      },
+      {
+        "id": "Q1_E",
+        "label": "E",
+        "html": "0.1151",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "Q1_E"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "Q002",
+    "title": "CLT-Q2",
+    "source": "generated",
+    "prompt_html": "Diastolic blood pressure of adults are approximately normally distributed with mean \u03bc=80, \u03c3=10. A sample of n=25 is taken. What is the probability that the sample mean is less than 78?",
+    "choices": [
+      {
+        "id": "Q2_A",
+        "label": "A",
+        "html": "0.1087",
+        "is_correct": false
+      },
+      {
+        "id": "Q2_B",
+        "label": "B",
+        "html": "0.2087",
+        "is_correct": false
+      },
+      {
+        "id": "Q2_C",
+        "label": "C",
+        "html": "0.1587",
+        "is_correct": true
+      },
+      {
+        "id": "Q2_D",
+        "label": "D",
+        "html": "0.1787",
+        "is_correct": false
+      },
+      {
+        "id": "Q2_E",
+        "label": "E",
+        "html": "0.1387",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q2_C"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "Q003",
+    "title": "CLT-Q3",
+    "source": "generated",
+    "prompt_html": "Cholesterol levels are approximately normally distributed with mean \u03bc=200, \u03c3=25. A sample of n=49 is taken. What is the probability that the sample mean is less than 195?",
+    "choices": [
+      {
+        "id": "Q3_A",
+        "label": "A",
+        "html": "0.0308",
+        "is_correct": false
+      },
+      {
+        "id": "Q3_B",
+        "label": "B",
+        "html": "0.1008",
+        "is_correct": false
+      },
+      {
+        "id": "Q3_C",
+        "label": "C",
+        "html": "0.1308",
+        "is_correct": false
+      },
+      {
+        "id": "Q3_D",
+        "label": "D",
+        "html": "0.0808",
+        "is_correct": true
+      },
+      {
+        "id": "Q3_E",
+        "label": "E",
+        "html": "0.0608",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q3_D"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "Q004",
+    "title": "CLT-Q4",
+    "source": "generated",
+    "prompt_html": "IQ scores are approximately normally distributed with mean \u03bc=100, \u03c3=15. A sample of n=64 is taken. What is the probability that the sample mean is less than 97?",
+    "choices": [
+      {
+        "id": "Q4_A",
+        "label": "A",
+        "html": "0.0348",
+        "is_correct": false
+      },
+      {
+        "id": "Q4_B",
+        "label": "B",
+        "html": "0.0748",
+        "is_correct": false
+      },
+      {
+        "id": "Q4_C",
+        "label": "C",
+        "html": "0.0548",
+        "is_correct": true
+      },
+      {
+        "id": "Q4_D",
+        "label": "D",
+        "html": "0.1048",
+        "is_correct": false
+      },
+      {
+        "id": "Q4_E",
+        "label": "E",
+        "html": "0.0048",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q4_C"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "Q005",
+    "title": "CLT-Q5",
+    "source": "generated",
+    "prompt_html": "Reaction times (ms) are approximately normally distributed with mean \u03bc=250, \u03c3=40. A sample of n=100 is taken. What is the probability that the sample mean is less than 245?",
+    "choices": [
+      {
+        "id": "Q5_A",
+        "label": "A",
+        "html": "0.0856",
+        "is_correct": false
+      },
+      {
+        "id": "Q5_B",
+        "label": "B",
+        "html": "0.0556",
+        "is_correct": false
+      },
+      {
+        "id": "Q5_C",
+        "label": "C",
+        "html": "0.1056",
+        "is_correct": true
+      },
+      {
+        "id": "Q5_D",
+        "label": "D",
+        "html": "0.1556",
+        "is_correct": false
+      },
+      {
+        "id": "Q5_E",
+        "label": "E",
+        "html": "0.1256",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q5_C"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "Q006",
+    "title": "CLT-Q6",
+    "source": "generated",
+    "prompt_html": "Memory recall test scores are approximately normally distributed with mean \u03bc=50, \u03c3=10. A sample of n=49 is taken. What is the probability that the sample mean is less than 48?",
+    "choices": [
+      {
+        "id": "Q6_A",
+        "label": "A",
+        "html": "0.1308",
+        "is_correct": false
+      },
+      {
+        "id": "Q6_B",
+        "label": "B",
+        "html": "0.1008",
+        "is_correct": false
+      },
+      {
+        "id": "Q6_C",
+        "label": "C",
+        "html": "0.0308",
+        "is_correct": false
+      },
+      {
+        "id": "Q6_D",
+        "label": "D",
+        "html": "0.0608",
+        "is_correct": false
+      },
+      {
+        "id": "Q6_E",
+        "label": "E",
+        "html": "0.0808",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "Q6_E"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "Q007",
+    "title": "CLT-Q7",
+    "source": "generated",
+    "prompt_html": "Stress scale scores are approximately normally distributed with mean \u03bc=30, \u03c3=5. A sample of n=36 is taken. What is the probability that the sample mean is less than 28.5?",
+    "choices": [
+      {
+        "id": "Q7_A",
+        "label": "A",
+        "html": "0.0559",
+        "is_correct": false
+      },
+      {
+        "id": "Q7_B",
+        "label": "B",
+        "html": "0.0359",
+        "is_correct": true
+      },
+      {
+        "id": "Q7_C",
+        "label": "C",
+        "html": "-0.0141",
+        "is_correct": false
+      },
+      {
+        "id": "Q7_D",
+        "label": "D",
+        "html": "0.0859",
+        "is_correct": false
+      },
+      {
+        "id": "Q7_E",
+        "label": "E",
+        "html": "0.0159",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q7_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "Q008",
+    "title": "CLT-Q8",
+    "source": "generated",
+    "prompt_html": "Body temperature of dogs are approximately normally distributed with mean \u03bc=38.5, \u03c3=0.6. A sample of n=25 is taken. What is the probability that the sample mean is less than 38.3?",
+    "choices": [
+      {
+        "id": "Q8_A",
+        "label": "A",
+        "html": "0.0978",
+        "is_correct": false
+      },
+      {
+        "id": "Q8_B",
+        "label": "B",
+        "html": "0.0278",
+        "is_correct": false
+      },
+      {
+        "id": "Q8_C",
+        "label": "C",
+        "html": "0.0678",
+        "is_correct": false
+      },
+      {
+        "id": "Q8_D",
+        "label": "D",
+        "html": "0.0478",
+        "is_correct": true
+      },
+      {
+        "id": "Q8_E",
+        "label": "E",
+        "html": "-0.0022",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q8_D"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "Q009",
+    "title": "CLT-Q9",
+    "source": "generated",
+    "prompt_html": "Birth weights (kg) are approximately normally distributed with mean \u03bc=3.2, \u03c3=0.5. A sample of n=100 is taken. What is the probability that the sample mean is less than 3.1?",
+    "choices": [
+      {
+        "id": "Q9_A",
+        "label": "A",
+        "html": "0.0028",
+        "is_correct": false
+      },
+      {
+        "id": "Q9_B",
+        "label": "B",
+        "html": "0.0228",
+        "is_correct": true
+      },
+      {
+        "id": "Q9_C",
+        "label": "C",
+        "html": "0.0728",
+        "is_correct": false
+      },
+      {
+        "id": "Q9_D",
+        "label": "D",
+        "html": "0.0428",
+        "is_correct": false
+      },
+      {
+        "id": "Q9_E",
+        "label": "E",
+        "html": "-0.0272",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q9_B"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "Q010",
+    "title": "CLT-Q10",
+    "source": "generated",
+    "prompt_html": "Leaf length (cm) are approximately normally distributed with mean \u03bc=12, \u03c3=2. A sample of n=64 is taken. What is the probability that the sample mean is less than 11.6?",
+    "choices": [
+      {
+        "id": "Q10_A",
+        "label": "A",
+        "html": "0.1048",
+        "is_correct": false
+      },
+      {
+        "id": "Q10_B",
+        "label": "B",
+        "html": "0.0348",
+        "is_correct": false
+      },
+      {
+        "id": "Q10_C",
+        "label": "C",
+        "html": "0.0048",
+        "is_correct": false
+      },
+      {
+        "id": "Q10_D",
+        "label": "D",
+        "html": "0.0548",
+        "is_correct": true
+      },
+      {
+        "id": "Q10_E",
+        "label": "E",
+        "html": "0.0748",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q10_D"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "Q011",
+    "title": "CLT-Q11",
+    "source": "generated",
+    "prompt_html": "Lizard body temperature are approximately normally distributed with mean \u03bc=30, \u03c3=0.6. A sample of n=25 is taken. What is the probability that the sample mean is greater than 30.2?",
+    "choices": [
+      {
+        "id": "Q11_A",
+        "label": "A",
+        "html": "-0.0022",
+        "is_correct": false
+      },
+      {
+        "id": "Q11_B",
+        "label": "B",
+        "html": "0.0478",
+        "is_correct": true
+      },
+      {
+        "id": "Q11_C",
+        "label": "C",
+        "html": "0.0978",
+        "is_correct": false
+      },
+      {
+        "id": "Q11_D",
+        "label": "D",
+        "html": "0.0678",
+        "is_correct": false
+      },
+      {
+        "id": "Q11_E",
+        "label": "E",
+        "html": "0.0278",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q11_B"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "Q012",
+    "title": "CLT-Q12",
+    "source": "generated",
+    "prompt_html": "Blood glucose level are approximately normally distributed with mean \u03bc=90, \u03c3=12. A sample of n=36 is taken. What is the probability that the sample mean is greater than 92?",
+    "choices": [
+      {
+        "id": "Q12_A",
+        "label": "A",
+        "html": "0.1587",
+        "is_correct": true
+      },
+      {
+        "id": "Q12_B",
+        "label": "B",
+        "html": "0.1787",
+        "is_correct": false
+      },
+      {
+        "id": "Q12_C",
+        "label": "C",
+        "html": "0.1387",
+        "is_correct": false
+      },
+      {
+        "id": "Q12_D",
+        "label": "D",
+        "html": "0.2087",
+        "is_correct": false
+      },
+      {
+        "id": "Q12_E",
+        "label": "E",
+        "html": "0.1087",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q12_A"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "Q013",
+    "title": "CLT-Q13",
+    "source": "generated",
+    "prompt_html": "Attention span (minutes) are approximately normally distributed with mean \u03bc=45, \u03c3=6. A sample of n=64 is taken. What is the probability that the sample mean is greater than 46?",
+    "choices": [
+      {
+        "id": "Q13_A",
+        "label": "A",
+        "html": "0.0412",
+        "is_correct": false
+      },
+      {
+        "id": "Q13_B",
+        "label": "B",
+        "html": "0.0712",
+        "is_correct": false
+      },
+      {
+        "id": "Q13_C",
+        "label": "C",
+        "html": "0.0912",
+        "is_correct": true
+      },
+      {
+        "id": "Q13_D",
+        "label": "D",
+        "html": "0.1112",
+        "is_correct": false
+      },
+      {
+        "id": "Q13_E",
+        "label": "E",
+        "html": "0.1412",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q13_C"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "Q014",
+    "title": "CLT-Q14",
+    "source": "generated",
+    "prompt_html": "Test completion time (minutes) are approximately normally distributed with mean \u03bc=60, \u03c3=8. A sample of n=49 is taken. What is the probability that the sample mean is greater than 61.5?",
+    "choices": [
+      {
+        "id": "Q14_A",
+        "label": "A",
+        "html": "0.0747",
+        "is_correct": false
+      },
+      {
+        "id": "Q14_B",
+        "label": "B",
+        "html": "0.0947",
+        "is_correct": true
+      },
+      {
+        "id": "Q14_C",
+        "label": "C",
+        "html": "0.1147",
+        "is_correct": false
+      },
+      {
+        "id": "Q14_D",
+        "label": "D",
+        "html": "0.0447",
+        "is_correct": false
+      },
+      {
+        "id": "Q14_E",
+        "label": "E",
+        "html": "0.1447",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q14_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "Q015",
+    "title": "CLT-Q15",
+    "source": "generated",
+    "prompt_html": "Enzyme activity rate are approximately normally distributed with mean \u03bc=100, \u03c3=12. A sample of n=25 is taken. What is the probability that the sample mean is greater than 103?",
+    "choices": [
+      {
+        "id": "Q15_A",
+        "label": "A",
+        "html": "0.1256",
+        "is_correct": false
+      },
+      {
+        "id": "Q15_B",
+        "label": "B",
+        "html": "0.0556",
+        "is_correct": false
+      },
+      {
+        "id": "Q15_C",
+        "label": "C",
+        "html": "0.0856",
+        "is_correct": false
+      },
+      {
+        "id": "Q15_D",
+        "label": "D",
+        "html": "0.1556",
+        "is_correct": false
+      },
+      {
+        "id": "Q15_E",
+        "label": "E",
+        "html": "0.1056",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "Q15_E"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "Q016",
+    "title": "CLT-Q16",
+    "source": "generated",
+    "prompt_html": "Seed germination time (hours) are approximately normally distributed with mean \u03bc=72, \u03c3=9. A sample of n=36 is taken. What is the probability that the sample mean is greater than 74?",
+    "choices": [
+      {
+        "id": "Q16_A",
+        "label": "A",
+        "html": "0.0712",
+        "is_correct": false
+      },
+      {
+        "id": "Q16_B",
+        "label": "B",
+        "html": "0.1112",
+        "is_correct": false
+      },
+      {
+        "id": "Q16_C",
+        "label": "C",
+        "html": "0.0412",
+        "is_correct": false
+      },
+      {
+        "id": "Q16_D",
+        "label": "D",
+        "html": "0.0912",
+        "is_correct": true
+      },
+      {
+        "id": "Q16_E",
+        "label": "E",
+        "html": "0.1412",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q16_D"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "Q017",
+    "title": "CLT-Q17",
+    "source": "generated",
+    "prompt_html": "Fish length (cm) are approximately normally distributed with mean \u03bc=25, \u03c3=4. A sample of n=64 is taken. What is the probability that the sample mean is greater than 25.8?",
+    "choices": [
+      {
+        "id": "Q17_A",
+        "label": "A",
+        "html": "0.0748",
+        "is_correct": false
+      },
+      {
+        "id": "Q17_B",
+        "label": "B",
+        "html": "0.0548",
+        "is_correct": true
+      },
+      {
+        "id": "Q17_C",
+        "label": "C",
+        "html": "0.1048",
+        "is_correct": false
+      },
+      {
+        "id": "Q17_D",
+        "label": "D",
+        "html": "0.0048",
+        "is_correct": false
+      },
+      {
+        "id": "Q17_E",
+        "label": "E",
+        "html": "0.0348",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q17_B"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "Q018",
+    "title": "CLT-Q18",
+    "source": "generated",
+    "prompt_html": "Tree ring width (mm) are approximately normally distributed with mean \u03bc=5, \u03c3=1. A sample of n=49 is taken. What is the probability that the sample mean is greater than 5.2?",
+    "choices": [
+      {
+        "id": "Q18_A",
+        "label": "A",
+        "html": "0.1008",
+        "is_correct": false
+      },
+      {
+        "id": "Q18_B",
+        "label": "B",
+        "html": "0.1308",
+        "is_correct": false
+      },
+      {
+        "id": "Q18_C",
+        "label": "C",
+        "html": "0.0608",
+        "is_correct": false
+      },
+      {
+        "id": "Q18_D",
+        "label": "D",
+        "html": "0.0808",
+        "is_correct": true
+      },
+      {
+        "id": "Q18_E",
+        "label": "E",
+        "html": "0.0308",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q18_D"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "Q019",
+    "title": "CLT-Q19",
+    "source": "generated",
+    "prompt_html": "Cell growth time (hours) are approximately normally distributed with mean \u03bc=20, \u03c3=2. A sample of n=36 is taken. What is the probability that the sample mean is greater than 20.4?",
+    "choices": [
+      {
+        "id": "Q19_A",
+        "label": "A",
+        "html": "0.0951",
+        "is_correct": false
+      },
+      {
+        "id": "Q19_B",
+        "label": "B",
+        "html": "0.1651",
+        "is_correct": false
+      },
+      {
+        "id": "Q19_C",
+        "label": "C",
+        "html": "0.1151",
+        "is_correct": true
+      },
+      {
+        "id": "Q19_D",
+        "label": "D",
+        "html": "0.0651",
+        "is_correct": false
+      },
+      {
+        "id": "Q19_E",
+        "label": "E",
+        "html": "0.1351",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q19_C"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "Q020",
+    "title": "CLT-Q20",
+    "source": "generated",
+    "prompt_html": "Rat weight (g) are approximately normally distributed with mean \u03bc=300, \u03c3=20. A sample of n=25 is taken. What is the probability that the sample mean is greater than 305?",
+    "choices": [
+      {
+        "id": "Q20_A",
+        "label": "A",
+        "html": "0.0856",
+        "is_correct": false
+      },
+      {
+        "id": "Q20_B",
+        "label": "B",
+        "html": "0.0556",
+        "is_correct": false
+      },
+      {
+        "id": "Q20_C",
+        "label": "C",
+        "html": "0.1056",
+        "is_correct": true
+      },
+      {
+        "id": "Q20_D",
+        "label": "D",
+        "html": "0.1256",
+        "is_correct": false
+      },
+      {
+        "id": "Q20_E",
+        "label": "E",
+        "html": "0.1556",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q20_C"
+    ]
+  },
+  {
+    "index": 21,
+    "ident": "Q021",
+    "title": "CLT-Q21",
+    "source": "generated",
+    "prompt_html": "Reaction times (ms) are approximately normally distributed with mean \u03bc=250, \u03c3=40. A sample of n=64 is taken. What is the probability that the sample mean is between 245 and 255?",
+    "choices": [
+      {
+        "id": "Q21_A",
+        "label": "A",
+        "html": "0.7327",
+        "is_correct": false
+      },
+      {
+        "id": "Q21_B",
+        "label": "B",
+        "html": "0.6827",
+        "is_correct": true
+      },
+      {
+        "id": "Q21_C",
+        "label": "C",
+        "html": "0.6627",
+        "is_correct": false
+      },
+      {
+        "id": "Q21_D",
+        "label": "D",
+        "html": "0.7027",
+        "is_correct": false
+      },
+      {
+        "id": "Q21_E",
+        "label": "E",
+        "html": "0.6327",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q21_B"
+    ]
+  },
+  {
+    "index": 22,
+    "ident": "Q022",
+    "title": "CLT-Q22",
+    "source": "generated",
+    "prompt_html": "Systolic blood pressure are approximately normally distributed with mean \u03bc=120, \u03c3=15. A sample of n=49 is taken. What is the probability that the sample mean is between 118 and 122?",
+    "choices": [
+      {
+        "id": "Q22_A",
+        "label": "A",
+        "html": "0.6994",
+        "is_correct": false
+      },
+      {
+        "id": "Q22_B",
+        "label": "B",
+        "html": "0.6494",
+        "is_correct": true
+      },
+      {
+        "id": "Q22_C",
+        "label": "C",
+        "html": "0.5994",
+        "is_correct": false
+      },
+      {
+        "id": "Q22_D",
+        "label": "D",
+        "html": "0.6294",
+        "is_correct": false
+      },
+      {
+        "id": "Q22_E",
+        "label": "E",
+        "html": "0.6694",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q22_B"
+    ]
+  },
+  {
+    "index": 23,
+    "ident": "Q023",
+    "title": "CLT-Q23",
+    "source": "generated",
+    "prompt_html": "Cholesterol levels are approximately normally distributed with mean \u03bc=200, \u03c3=25. A sample of n=36 is taken. What is the probability that the sample mean is between 195 and 205?",
+    "choices": [
+      {
+        "id": "Q23_A",
+        "label": "A",
+        "html": "0.7499",
+        "is_correct": false
+      },
+      {
+        "id": "Q23_B",
+        "label": "B",
+        "html": "0.7699",
+        "is_correct": true
+      },
+      {
+        "id": "Q23_C",
+        "label": "C",
+        "html": "0.7899",
+        "is_correct": false
+      },
+      {
+        "id": "Q23_D",
+        "label": "D",
+        "html": "0.8199",
+        "is_correct": false
+      },
+      {
+        "id": "Q23_E",
+        "label": "E",
+        "html": "0.7199",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q23_B"
+    ]
+  },
+  {
+    "index": 24,
+    "ident": "Q024",
+    "title": "CLT-Q24",
+    "source": "generated",
+    "prompt_html": "IQ scores are approximately normally distributed with mean \u03bc=100, \u03c3=15. A sample of n=100 is taken. What is the probability that the sample mean is between 98 and 102?",
+    "choices": [
+      {
+        "id": "Q24_A",
+        "label": "A",
+        "html": "0.8676",
+        "is_correct": false
+      },
+      {
+        "id": "Q24_B",
+        "label": "B",
+        "html": "0.8176",
+        "is_correct": true
+      },
+      {
+        "id": "Q24_C",
+        "label": "C",
+        "html": "0.7976",
+        "is_correct": false
+      },
+      {
+        "id": "Q24_D",
+        "label": "D",
+        "html": "0.8376",
+        "is_correct": false
+      },
+      {
+        "id": "Q24_E",
+        "label": "E",
+        "html": "0.7676",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q24_B"
+    ]
+  },
+  {
+    "index": 25,
+    "ident": "Q025",
+    "title": "CLT-Q25",
+    "source": "generated",
+    "prompt_html": "Memory recall are approximately normally distributed with mean \u03bc=50, \u03c3=10. A sample of n=64 is taken. What is the probability that the sample mean is between 48 and 52?",
+    "choices": [
+      {
+        "id": "Q25_A",
+        "label": "A",
+        "html": "0.9404",
+        "is_correct": false
+      },
+      {
+        "id": "Q25_B",
+        "label": "B",
+        "html": "0.8704",
+        "is_correct": false
+      },
+      {
+        "id": "Q25_C",
+        "label": "C",
+        "html": "0.8904",
+        "is_correct": true
+      },
+      {
+        "id": "Q25_D",
+        "label": "D",
+        "html": "0.8404",
+        "is_correct": false
+      },
+      {
+        "id": "Q25_E",
+        "label": "E",
+        "html": "0.9104",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q25_C"
+    ]
+  },
+  {
+    "index": 26,
+    "ident": "Q026",
+    "title": "CLT-Q26",
+    "source": "generated",
+    "prompt_html": "Stress scores are approximately normally distributed with mean \u03bc=30, \u03c3=5. A sample of n=25 is taken. What is the probability that the sample mean is between 29 and 31?",
+    "choices": [
+      {
+        "id": "Q26_A",
+        "label": "A",
+        "html": "0.6327",
+        "is_correct": false
+      },
+      {
+        "id": "Q26_B",
+        "label": "B",
+        "html": "0.7027",
+        "is_correct": false
+      },
+      {
+        "id": "Q26_C",
+        "label": "C",
+        "html": "0.6627",
+        "is_correct": false
+      },
+      {
+        "id": "Q26_D",
+        "label": "D",
+        "html": "0.6827",
+        "is_correct": true
+      },
+      {
+        "id": "Q26_E",
+        "label": "E",
+        "html": "0.7327",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q26_D"
+    ]
+  },
+  {
+    "index": 27,
+    "ident": "Q027",
+    "title": "CLT-Q27",
+    "source": "generated",
+    "prompt_html": "Blood glucose are approximately normally distributed with mean \u03bc=90, \u03c3=12. A sample of n=49 is taken. What is the probability that the sample mean is between 88 and 92?",
+    "choices": [
+      {
+        "id": "Q27_A",
+        "label": "A",
+        "html": "0.7567",
+        "is_correct": true
+      },
+      {
+        "id": "Q27_B",
+        "label": "B",
+        "html": "0.7367",
+        "is_correct": false
+      },
+      {
+        "id": "Q27_C",
+        "label": "C",
+        "html": "0.8067",
+        "is_correct": false
+      },
+      {
+        "id": "Q27_D",
+        "label": "D",
+        "html": "0.7067",
+        "is_correct": false
+      },
+      {
+        "id": "Q27_E",
+        "label": "E",
+        "html": "0.7767",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q27_A"
+    ]
+  },
+  {
+    "index": 28,
+    "ident": "Q028",
+    "title": "CLT-Q28",
+    "source": "generated",
+    "prompt_html": "Attention span are approximately normally distributed with mean \u03bc=45, \u03c3=6. A sample of n=36 is taken. What is the probability that the sample mean is between 44 and 46?",
+    "choices": [
+      {
+        "id": "Q28_A",
+        "label": "A",
+        "html": "0.6627",
+        "is_correct": false
+      },
+      {
+        "id": "Q28_B",
+        "label": "B",
+        "html": "0.7327",
+        "is_correct": false
+      },
+      {
+        "id": "Q28_C",
+        "label": "C",
+        "html": "0.6327",
+        "is_correct": false
+      },
+      {
+        "id": "Q28_D",
+        "label": "D",
+        "html": "0.7027",
+        "is_correct": false
+      },
+      {
+        "id": "Q28_E",
+        "label": "E",
+        "html": "0.6827",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "Q28_E"
+    ]
+  },
+  {
+    "index": 29,
+    "ident": "Q029",
+    "title": "CLT-Q29",
+    "source": "generated",
+    "prompt_html": "Leaf length (cm) are approximately normally distributed with mean \u03bc=12, \u03c3=2. A sample of n=49 is taken. What is the probability that the sample mean is between 11.7 and 12.3?",
+    "choices": [
+      {
+        "id": "Q29_A",
+        "label": "A",
+        "html": "0.6863",
+        "is_correct": false
+      },
+      {
+        "id": "Q29_B",
+        "label": "B",
+        "html": "0.6563",
+        "is_correct": false
+      },
+      {
+        "id": "Q29_C",
+        "label": "C",
+        "html": "0.7063",
+        "is_correct": true
+      },
+      {
+        "id": "Q29_D",
+        "label": "D",
+        "html": "0.7263",
+        "is_correct": false
+      },
+      {
+        "id": "Q29_E",
+        "label": "E",
+        "html": "0.7563",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q29_C"
+    ]
+  },
+  {
+    "index": 30,
+    "ident": "Q030",
+    "title": "CLT-Q30",
+    "source": "generated",
+    "prompt_html": "Birth weight (kg) are approximately normally distributed with mean \u03bc=3.2, \u03c3=0.5. A sample of n=64 is taken. What is the probability that the sample mean is between 3.1 and 3.3?",
+    "choices": [
+      {
+        "id": "Q30_A",
+        "label": "A",
+        "html": "0.8704",
+        "is_correct": false
+      },
+      {
+        "id": "Q30_B",
+        "label": "B",
+        "html": "0.9104",
+        "is_correct": false
+      },
+      {
+        "id": "Q30_C",
+        "label": "C",
+        "html": "0.8904",
+        "is_correct": true
+      },
+      {
+        "id": "Q30_D",
+        "label": "D",
+        "html": "0.9404",
+        "is_correct": false
+      },
+      {
+        "id": "Q30_E",
+        "label": "E",
+        "html": "0.8404",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q30_C"
+    ]
+  }
+]

@@ -1,0 +1,1262 @@
+[
+  {
+    "index": 1,
+    "ident": "INVQ001",
+    "title": "Inverse-CLT-1",
+    "source": "generated",
+    "prompt_html": "Adult systolic blood pressure (mmHg) are approximately normally distributed with mean 120 and standard deviation 15. A simple random sample of size n = 36 is selected. Find the value of the sample mean below which 10% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "111.54",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "114.69",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "122.05",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "116.80",
+        "is_correct": true
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "118.90",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_D"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "INVQ002",
+    "title": "Inverse-CLT-2",
+    "source": "generated",
+    "prompt_html": "Adult diastolic blood pressure (mmHg) are approximately normally distributed with mean 80 and standard deviation 10. A simple random sample of size n = 25 is selected. Find the value of the sample mean below which 5% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "73.26",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "78.09",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "75.33",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "76.71",
+        "is_correct": true
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "80.16",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_D"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "INVQ003",
+    "title": "Inverse-CLT-3",
+    "source": "generated",
+    "prompt_html": "LDL cholesterol (mg/dL) are approximately normally distributed with mean 130 and standard deviation 20. A simple random sample of size n = 49 is selected. Find the value of the sample mean below which 25% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "122.31",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "130.38",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "133.84",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "125.77",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "128.07",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "Q_E"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "INVQ004",
+    "title": "Inverse-CLT-4",
+    "source": "generated",
+    "prompt_html": "HDL cholesterol (mg/dL) are approximately normally distributed with mean 55 and standard deviation 12. A simple random sample of size n = 36 is selected. Find the value of the sample mean below which 90% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "58.60",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "56.53",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "54.97",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "60.15",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "57.56",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "Q_E"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "INVQ005",
+    "title": "Inverse-CLT-5",
+    "source": "generated",
+    "prompt_html": "Resting heart rate (bpm) are approximately normally distributed with mean 70 and standard deviation 8. A simple random sample of size n = 64 is selected. Find the value of the sample mean below which 95% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "68.42",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "70.36",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "71.64",
+        "is_correct": true
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "72.93",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "74.87",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_C"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "INVQ006",
+    "title": "Inverse-CLT-6",
+    "source": "generated",
+    "prompt_html": "Fasting glucose (mg/dL) are approximately normally distributed with mean 90 and standard deviation 12. A simple random sample of size n = 49 is selected. Find the value of the sample mean below which 80% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "89.80",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "95.56",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "93.09",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "91.44",
+        "is_correct": true
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "87.33",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_D"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "INVQ007",
+    "title": "Inverse-CLT-7",
+    "source": "generated",
+    "prompt_html": "Body temperature of dogs (\u00b0C) are approximately normally distributed with mean 38.5 and standard deviation 0.6. A simple random sample of size n = 25 is selected. Find the value of the sample mean below which 40% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "39.16",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "40.20",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "37.78",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "38.47",
+        "is_correct": true
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "36.74",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_D"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "INVQ008",
+    "title": "Inverse-CLT-8",
+    "source": "generated",
+    "prompt_html": "Birth weight of infants (kg) are approximately normally distributed with mean 3.2 and standard deviation 0.5. A simple random sample of size n = 100 is selected. Find the value of the sample mean below which 5% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "2.98",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "3.17",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "3.06",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "3.26",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "3.12",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "Q_E"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "INVQ009",
+    "title": "Inverse-CLT-9",
+    "source": "generated",
+    "prompt_html": "Reaction time to a visual cue (ms) are approximately normally distributed with mean 250 and standard deviation 40. A simple random sample of size n = 64 is selected. Find the value of the sample mean below which 15% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "249.22",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "233.80",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "255.83",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "244.82",
+        "is_correct": true
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "240.41",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_D"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "INVQ010",
+    "title": "Inverse-CLT-10",
+    "source": "generated",
+    "prompt_html": "Working memory score (points) are approximately normally distributed with mean 50 and standard deviation 9. A simple random sample of size n = 36 is selected. Find the value of the sample mean below which 70% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "53.07",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "50.79",
+        "is_correct": true
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "48.50",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "49.87",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "51.70",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_B"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "INVQ011",
+    "title": "Inverse-CLT-11",
+    "source": "generated",
+    "prompt_html": "Lizard body temperature (\u00b0C) are approximately normally distributed with mean 30.0 and standard deviation 0.6. A simple random sample of size n = 25 is selected. Find the value of the sample mean above which 10% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "31.51",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "30.15",
+        "is_correct": true
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "29.61",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "30.70",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "28.80",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_B"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "INVQ012",
+    "title": "Inverse-CLT-12",
+    "source": "generated",
+    "prompt_html": "Time to complete a cognitive task (min) are approximately normally distributed with mean 60 and standard deviation 8. A simple random sample of size n = 49 is selected. Find the value of the sample mean above which 5% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "60.77",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "59.10",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "62.99",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "61.88",
+        "is_correct": true
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "64.66",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_D"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "INVQ013",
+    "title": "Inverse-CLT-13",
+    "source": "generated",
+    "prompt_html": "Enzyme activity rate (units) are approximately normally distributed with mean 100 and standard deviation 12. A simple random sample of size n = 36 is selected. Find the value of the sample mean above which 20% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "101.68",
+        "is_correct": true
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "106.26",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "99.85",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "103.51",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "97.11",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "INVQ014",
+    "title": "Inverse-CLT-14",
+    "source": "generated",
+    "prompt_html": "Seed germination time (h) are approximately normally distributed with mean 72 and standard deviation 9. A simple random sample of size n = 64 is selected. Find the value of the sample mean above which 25% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "71.45",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "76.03",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "74.07",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "72.76",
+        "is_correct": true
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "69.48",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_D"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "INVQ015",
+    "title": "Inverse-CLT-15",
+    "source": "generated",
+    "prompt_html": "Fish length (cm) are approximately normally distributed with mean 25 and standard deviation 4. A simple random sample of size n = 49 is selected. Find the value of the sample mean above which 15% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "26.74",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "26.05",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "25.13",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "25.59",
+        "is_correct": true
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "24.44",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_D"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "INVQ016",
+    "title": "Inverse-CLT-16",
+    "source": "generated",
+    "prompt_html": "Tree ring width (mm) are approximately normally distributed with mean 5 and standard deviation 1. A simple random sample of size n = 36 is selected. Find the value of the sample mean above which 5% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "5.18",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "5.37",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "5.51",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "5.27",
+        "is_correct": true
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "5.04",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_D"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "INVQ017",
+    "title": "Inverse-CLT-17",
+    "source": "generated",
+    "prompt_html": "Cell growth time (h) are approximately normally distributed with mean 20 and standard deviation 2. A simple random sample of size n = 25 is selected. Find the value of the sample mean above which 10% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "20.51",
+        "is_correct": true
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "20.88",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "20.14",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "19.59",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "21.44",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "INVQ018",
+    "title": "Inverse-CLT-18",
+    "source": "generated",
+    "prompt_html": "Rat weight (g) are approximately normally distributed with mean 300 and standard deviation 20. A simple random sample of size n = 25 is selected. Find the value of the sample mean above which 30% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "315.69",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "296.66",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "288.50",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "302.10",
+        "is_correct": true
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "307.54",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_D"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "INVQ019",
+    "title": "Inverse-CLT-19",
+    "source": "generated",
+    "prompt_html": "Serum potassium (mmol/L) are approximately normally distributed with mean 4.2 and standard deviation 0.4. A simple random sample of size n = 36 is selected. Find the value of the sample mean above which 5% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "4.23",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "4.50",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "4.39",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "4.12",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "4.31",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "Q_E"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "INVQ020",
+    "title": "Inverse-CLT-20",
+    "source": "generated",
+    "prompt_html": "Depression inventory score (points) are approximately normally distributed with mean 18 and standard deviation 6. A simple random sample of size n = 49 is selected. Find the value of the sample mean above which 10% of all sample means are expected to fall. (Round your answer to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "19.96",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "19.10",
+        "is_correct": true
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "19.44",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "18.24",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "18.75",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_B"
+    ]
+  },
+  {
+    "index": 21,
+    "ident": "INVQ021",
+    "title": "Inverse-CLT-21",
+    "source": "generated",
+    "prompt_html": "Reaction time to an auditory cue (ms) are approximately normally distributed with mean 240 and standard deviation 35. A simple random sample of size n = 49 is selected. Find two values so that 90% of all sample means fall between these two values. (Round each value to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "231.78 and 248.22",
+        "is_correct": true
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "232.60 and 249.04",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "230.96 and 247.40",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "230.14 and 249.86",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "233.42 and 246.58",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_A"
+    ]
+  },
+  {
+    "index": 22,
+    "ident": "INVQ022",
+    "title": "Inverse-CLT-22",
+    "source": "generated",
+    "prompt_html": "Systolic blood pressure of teens (mmHg) are approximately normally distributed with mean 112 and standard deviation 14. A simple random sample of size n = 36 is selected. Find two values so that 95% of all sample means fall between these two values. (Round each value to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "108.34 and 115.66",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "107.43 and 116.57",
+        "is_correct": true
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "106.97 and 116.11",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "106.52 and 117.48",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "107.89 and 117.03",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_B"
+    ]
+  },
+  {
+    "index": 23,
+    "ident": "INVQ023",
+    "title": "Inverse-CLT-23",
+    "source": "generated",
+    "prompt_html": "Total cholesterol (mg/dL) are approximately normally distributed with mean 200 and standard deviation 25. A simple random sample of size n = 64 is selected. Find two values so that 80% of all sample means fall between these two values. (Round each value to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "196.00 and 204.00",
+        "is_correct": true
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "196.40 and 204.40",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "196.80 and 203.20",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "195.60 and 203.60",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "195.20 and 204.80",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_A"
+    ]
+  },
+  {
+    "index": 24,
+    "ident": "INVQ024",
+    "title": "Inverse-CLT-24",
+    "source": "generated",
+    "prompt_html": "IQ scores (points) are approximately normally distributed with mean 100 and standard deviation 15. A simple random sample of size n = 81 is selected. Find two values so that 90% of all sample means fall between these two values. (Round each value to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "96.99 and 102.47",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "96.71 and 103.29",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "97.26 and 102.74",
+        "is_correct": true
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "97.81 and 102.19",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "97.53 and 103.01",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_C"
+    ]
+  },
+  {
+    "index": 25,
+    "ident": "INVQ025",
+    "title": "Inverse-CLT-25",
+    "source": "generated",
+    "prompt_html": "Memory recall score (points) are approximately normally distributed with mean 50 and standard deviation 10. A simple random sample of size n = 64 is selected. Find two values so that 95% of all sample means fall between these two values. (Round each value to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "47.30 and 52.21",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "47.79 and 52.70",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "47.55 and 52.45",
+        "is_correct": true
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "48.04 and 51.96",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "47.06 and 52.94",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_C"
+    ]
+  },
+  {
+    "index": 26,
+    "ident": "INVQ026",
+    "title": "Inverse-CLT-26",
+    "source": "generated",
+    "prompt_html": "Anxiety scale (points) are approximately normally distributed with mean 30 and standard deviation 5. A simple random sample of size n = 49 is selected. Find two values so that 90% of all sample means fall between these two values. (Round each value to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "28.83 and 31.17",
+        "is_correct": true
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "28.71 and 31.05",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "28.95 and 31.29",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "29.06 and 30.94",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "28.60 and 31.40",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_A"
+    ]
+  },
+  {
+    "index": 27,
+    "ident": "INVQ027",
+    "title": "Inverse-CLT-27",
+    "source": "generated",
+    "prompt_html": "Fasting glucose (mg/dL) are approximately normally distributed with mean 92 and standard deviation 11. A simple random sample of size n = 100 is selected. Find two values so that 90% of all sample means fall between these two values. (Round each value to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "90.55 and 93.45",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "89.83 and 94.17",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "90.19 and 93.81",
+        "is_correct": true
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "90.37 and 93.99",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "90.01 and 93.63",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_C"
+    ]
+  },
+  {
+    "index": 28,
+    "ident": "INVQ028",
+    "title": "Inverse-CLT-28",
+    "source": "generated",
+    "prompt_html": "Attention span (minutes) are approximately normally distributed with mean 45 and standard deviation 6. A simple random sample of size n = 36 is selected. Find two values so that 80% of all sample means fall between these two values. (Round each value to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "43.46 and 46.54",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "43.59 and 46.15",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "43.72 and 46.28",
+        "is_correct": true
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "43.85 and 46.41",
+        "is_correct": false
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "43.98 and 46.02",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_C"
+    ]
+  },
+  {
+    "index": 29,
+    "ident": "INVQ029",
+    "title": "Inverse-CLT-29",
+    "source": "generated",
+    "prompt_html": "Leaf length (cm) are approximately normally distributed with mean 12 and standard deviation 2. A simple random sample of size n = 49 is selected. Find two values so that 95% of all sample means fall between these two values. (Round each value to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "11.50 and 12.62",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "11.38 and 12.50",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "11.55 and 12.45",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "11.44 and 12.56",
+        "is_correct": true
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "11.33 and 12.67",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_D"
+    ]
+  },
+  {
+    "index": 30,
+    "ident": "INVQ030",
+    "title": "Inverse-CLT-30",
+    "source": "generated",
+    "prompt_html": "Birth weight (kg) are approximately normally distributed with mean 3.3 and standard deviation 0.5. A simple random sample of size n = 64 is selected. Find two values so that 90% of all sample means fall between these two values. (Round each value to two decimals.)",
+    "choices": [
+      {
+        "id": "Q_A",
+        "label": "A",
+        "html": "3.21 and 3.41",
+        "is_correct": false
+      },
+      {
+        "id": "Q_B",
+        "label": "B",
+        "html": "3.18 and 3.42",
+        "is_correct": false
+      },
+      {
+        "id": "Q_C",
+        "label": "C",
+        "html": "3.22 and 3.38",
+        "is_correct": false
+      },
+      {
+        "id": "Q_D",
+        "label": "D",
+        "html": "3.20 and 3.40",
+        "is_correct": true
+      },
+      {
+        "id": "Q_E",
+        "label": "E",
+        "html": "3.19 and 3.39",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "Q_D"
+    ]
+  }
+]
