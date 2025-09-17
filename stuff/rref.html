@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RREF Row-Reduction (Fractions or Decimals)</title>
+<style>
+  :root{
+    --bg:#0f172a;
+    --ink:#e5e7eb;
+    --muted:#9ca3af;
+    --warn:#f59e0b;
+    --danger:#ef4444;
+    --card:#0b1223;
+    --border:#1f2937;
+    --overlay: rgba(0,0,0,.6);
+  }
+  html,body{ margin:0; padding:0; background:#0f172a; color:var(--ink);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; }
+  header{ padding:16px 20px; background:linear-gradient(135deg, #0b1223, #0f172a); border-bottom:1px solid var(--border); }
+  h1{ margin:0 0 6px 0; font-size:20px; }
+  main{ max-width:1200px; margin:20px auto; padding:0 16px 80px }
+  .card{ background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px; margin-bottom:16px; }
+  .row{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .grow{ flex:1 }
+  label{ font-size:14px; color:var(--muted) }
+  input[type="number"]{ width:90px; padding:8px 10px; border-radius:10px; border:1px solid var(--border); background:#0b1223; color:var(--ink); }
+  input[type="checkbox"]{ transform: scale(1.1); }
+  button{ padding:9px 14px; border-radius:12px; border:1px solid var(--border); cursor:pointer; color:var(--ink); background:#101828; }
+  button:hover{ background:#0f1a2f; }
+  button.warn{ border-color:#5a3a05; background:#1a1306; }
+  button.danger{ border-color:#5b1111; background:#1b0a0a; }
+  table.matrix{ border-collapse:separate; border-spacing: 0 6px; margin: 8px 0; }
+  table.matrix td{ padding:0 6px; }
+  table.matrix td.sep{ border-left:3px double #334155; } /* divider in editor (left border of last/RHS column) */
+  table.matrix input[type="text"]{ width:90px; padding:8px 10px; border-radius:10px; border:1px solid var(--border); background:#0b1223; color:var(--ink);
+    text-align:center; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+  .viewer table{ border-collapse: collapse; margin: 6px 0; background:#0b1223; border-radius:10px; overflow:hidden; }
+  .viewer td{ border:1px solid var(--border); padding:8px 12px; min-width:72px; text-align:center; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+  .viewer td.sep{ border-left:3px double #334155; } /* divider in viewer (left border of RHS column) */
+  .label{ display:inline-block; padding:3px 8px; border-radius:999px; font-size:12px; border:1px solid var(--border); background:#101828; color: var(--muted); }
+  .ops{ color:#93c5fd }
+  .kbd{ font-family: ui-monospace, Menlo, Consolas, monospace; font-size:12px; padding:2px 6px; border-radius:8px; border:1px solid var(--border); background:#0b1223; color:var(--muted); }
+  .muted{ color:var(--muted) }
+  .vspace{ height:6px }
+  .note{ font-size:12px; color:#86efac }
+  .overlay{ position:fixed; inset:0; background:var(--overlay); display:none; align-items:center; justify-content:center; z-index:20; }
+  .modal{ width:min(800px, 92vw); background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px; }
+  .modal h3{ margin:4px 0 10px; font-size:16px;}
+  .modal .actions{ display:flex; gap:10px; justify-content:flex-end; margin-top:8px; }
+  .modal textarea{ width:100%; min-height:220px; resize:vertical; border-radius:10px; border:1px solid var(--border); background:#0b1223; color:var(--ink); padding:10px; font-family: ui-monospace, Menlo, Consolas, monospace;}
+</style>
+</head>
+<body>
+  <header>
+    <h1>Reduced Row Echelon Form — Step-by-Step Row Reductions</h1>
+    <p>Enter integers or fractions like <span class="kbd">-3/5</span>. If <em>any</em> entry uses a decimal, the computation switches to decimal arithmetic.</p>
+  </header>
+
+  <main>
+    <section class="card controls">
+      <div class="row">
+        <div class="row">
+          <label>Rows</label>
+          <input id="rows" type="number" min="1" max="12" step="1" value="3" />
+          <label>Columns</label>
+          <input id="cols" type="number" min="1" max="12" step="1" value="3" />
+          <button id="make">Make Matrix Grid</button>
+        </div>
+        <div class="row">
+          <label><input id="augToggle" type="checkbox" /> Augmented (last column is RHS)</label>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:8px;">
+        <button id="compute">Compute RREF (show steps)</button>
+        <button class="warn" id="resetGrid">Reset all to 0</button>
+        <button class="danger" id="clearGrid">Clear all cells</button>
+        <button id="randomFillBtn">Random (-5..5)</button>
+        <span class="grow"></span>
+        <button id="basesBtnTop">Bases (Four Fundamental Spaces)</button>
+      </div>
+
+      <div class="hint">When augmented is on, a vertical line appears before the last column in both the editor and the viewer.</div>
+      <div id="grid" style="margin-top:12px;"></div>
+    </section>
+
+    <section class="card" id="viewer" style="display:none;">
+      <div class="row" style="justify-content:space-between; align-items:flex-end;">
+        <div>
+          <span class="label">Step <span id="stepNow">0</span> / <span id="stepTotal">0</span></span>
+          <span class="sep"> | </span>
+          <span class="label mode">Arithmetic: <span id="modeLabel">fractions</span></span>
+        </div>
+        <div class="steps-bar">
+          <button id="first">« First</button>
+          <button id="prev">‹ Prev</button>
+          <button id="next">Next ›</button>
+          <button id="last">Last »</button>
+          <button id="exportLatex">Export LaTeX (this view)</button>
+          <button class="danger" id="backToEdit">Back to Edit</button>
+        </div>
+      </div>
+      <div class="vspace"></div>
+      <div class="muted">Operation:</div>
+      <div class="ops" id="opText">—</div>
+      <div class="vspace"></div>
+      <div class="viewer" id="matrixView"></div>
+      <div class="note" id="note"></div>
+    </section>
+
+    <section class="card" id="basesSection" style="display:none;">
+      <h3>Four Fundamental Spaces</h3>
+      <div class="muted">Computed from the coefficient matrix (ignores RHS if augmented).</div>
+      <div id="basesContent" style="margin-top:8px;"></div>
+    </section>
+  </main>
+
+  <div class="overlay" id="overlay">
+    <div class="modal" id="modal">
+      <h3 id="modalTitle">LaTeX</h3>
+      <textarea id="modalText"></textarea>
+      <div class="actions">
+        <button id="modalClose">Close</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+/* ----------------------- Utility: hide analysis views on edit ----------------------- */
+function hideAnalysisViews(){
+  const v = document.querySelector("#viewer");
+  const b = document.querySelector("#basesSection");
+  if (v) v.style.display = "none";
+  if (b) b.style.display = "none";
+}
+
+/* ----------------------- Rational arithmetic (fractions) ----------------------- */
+class Rational {
+  constructor(n, d=1){
+    if (d === 0) throw new Error("Division by zero in Rational");
+    if (d < 0){ n = -n; d = -d; }
+    const g = Rational.gcd(Math.abs(n), Math.abs(d));
+    this.n = n / g;
+    this.d = d / g;
+  }
+  static zero(){ return new Rational(0,1); }
+  static one(){ return new Rational(1,1); }
+  static fromString(s){
+    if (s == null) return Rational.zero();
+    s = (""+s).trim();
+    if (s === "" || s === "+") return Rational.zero();
+    const m = s.match(/^([+-]?\d+)(?:\/([+-]?\d+))?$/);
+    if(!m){
+      return Rational.zero();
+    }
+    const a = parseInt(m[1], 10);
+    const b = m[2] !== undefined ? parseInt(m[2], 10) : 1;
+    return new Rational(a,b);
+  }
+  static gcd(a,b){ while(b){ const t = a % b; a = b; b = t; } return a || 1; }
+  add(o){ return new Rational(this.n*o.d + o.n*this.d, this.d*o.d); }
+  sub(o){ return new Rational(this.n*o.d - o.n*this.d, this.d*o.d); }
+  mul(o){ return new Rational(this.n*o.n, this.d*o.d); }
+  div(o){ if (o.n === 0) throw new Error("Division by zero"); return new Rational(this.n*o.d, this.d*o.n); }
+  neg(){ return new Rational(-this.n, this.d); }
+  isZero(){ return this.n === 0; }
+  isOne(){ return this.n === 1 && this.d === 1; }
+  equals(o){ return this.n === o.n && this.d === o.d; }
+  abs(){ return new Rational(Math.abs(this.n), this.d); }
+  toString(){
+    if (this.d === 1) return String(this.n);
+    return `${this.n}/${this.d}`;
+  }
+}
+
+/* ----------------------- Utilities ----------------------- */
+const $ = sel => document.querySelector(sel);
+function makeEl(tag, attrs={}, html=""){
+  const el = document.createElement(tag);
+  for (const [k,v] of Object.entries(attrs)) {
+    if (k === "class") el.className = v;
+    else el.setAttribute(k, v);
+  }
+  if (html !== null) el.innerHTML = html;
+  return el;
+}
+function deepCopyMatrix(mat, mode){
+  if (mode === "fraction") {
+    return mat.map(row => row.map(q => new Rational(q.n, q.d)));
+  } else {
+    return mat.map(row => row.slice());
+  }
+}
+function formatDecimal(x){
+  if (!isFinite(x)) return String(x);
+  const eps = 1e-12;
+  if (Math.abs(x) < eps) x = 0;
+  let s = x.toFixed(6);
+  s = s.replace(/\.?0+$/,"");
+  return s;
+}
+function parseToNumber(s){
+  s = (s ?? "").trim();
+  if (s === "") return 0;
+  if (s.includes("/")){
+    const parts = s.split("/");
+    if (parts.length === 2){
+      const a = parseFloat(parts[0]);
+      const b = parseFloat(parts[1]);
+      if (isFinite(a) && isFinite(b) && b !== 0) return a / b;
+    }
+  }
+  const x = parseFloat(s);
+  return isFinite(x) ? x : 0;
+}
+
+/* ----------------------- Grid creation ----------------------- */
+const gridDiv = $("#grid");
+const augToggle = $("#augToggle");
+
+$("#make").addEventListener("click", () => {
+  const r = Math.max(1, Math.min(12, parseInt($("#rows").value || "3",10)));
+  const c = Math.max(1, Math.min(12, parseInt($("#cols").value || "3",10)));
+  renderInputGrid(r,c);
+  applyAugSepToGrid();
+  hideAnalysisViews();
+});
+
+function renderInputGrid(r,c){
+  gridDiv.innerHTML = "";
+  const table = makeEl("table", {class:"matrix"});
+  for (let i=0;i<r;i++){
+    const tr = document.createElement("tr");
+    for (let j=0;j<c;j++){
+      const td = document.createElement("td");
+      const inp = makeEl("input", {type:"text", value:"0", "data-row":i, "data-col":j});
+      td.appendChild(inp);
+      tr.appendChild(td);
+    }
+    table.appendChild(tr);
+  }
+  gridDiv.appendChild(table);
+
+  // Event delegation: any edit in grid hides analysis views
+  gridDiv.addEventListener("input", (e) => {
+    if (e.target && e.target.matches('input[type="text"]')) {
+      hideAnalysisViews();
+    }
+  });
+
+  // Arrow-key navigation
+  gridDiv.querySelectorAll('input[type="text"]').forEach(inp => {
+    inp.addEventListener("keydown", (e) => {
+      const key = e.key;
+      if (!["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","Enter","Tab"].includes(key)) return;
+      if (key === "Tab") return; // native tabbing
+
+      const r = parseInt(inp.dataset.row,10);
+      const c = parseInt(inp.dataset.col,10);
+      const rows = table.rows.length;
+      const cols = table.rows[0].cells.length;
+
+      let nr = r, nc = c;
+      if (key === "ArrowUp") nr = Math.max(0, r-1);
+      if (key === "ArrowDown") nr = Math.min(rows-1, r+1);
+      if (key === "ArrowLeft") nc = Math.max(0, c-1);
+      if (key === "ArrowRight" || key === "Enter") {
+        if (cols > 1) {
+          nc = Math.min(cols-1, c+1);
+        } else {
+          nr = Math.min(rows-1, r+1);
+        }
+      }
+
+      e.preventDefault();
+      const next = gridDiv.querySelector(`input[data-row="${nr}"][data-col="${nc}"]`);
+      if (next) { next.focus(); next.select(); }
+    });
+  });
+}
+
+function applyAugSepToGrid(){
+  const table = gridDiv.querySelector("table.matrix");
+  if (!table) return;
+  const rows = table.rows.length;
+  const cols = rows ? table.rows[0].cells.length : 0;
+  for (let i=0;i<rows;i++){
+    for (let j=0;j<cols;j++){
+      const td = table.rows[i].cells[j];
+      td.classList.remove("sep");
+      if (augToggle.checked && cols >= 2 && j === cols-1){
+        td.classList.add("sep"); // border-left on last column (RHS)
+      }
+    }
+  }
+}
+
+augToggle.addEventListener("change", () => {
+  applyAugSepToGrid();
+  hideAnalysisViews();
+});
+
+// Also hide when rows/cols inputs change (even before pressing Make)
+$("#rows").addEventListener("input", hideAnalysisViews);
+$("#cols").addEventListener("input", hideAnalysisViews);
+
+// Reset all cells to 0
+$("#resetGrid").addEventListener("click", () => {
+  gridDiv.querySelectorAll('input[type="text"]').forEach(inp => inp.value = "0");
+  hideAnalysisViews();
+});
+
+// Clear all cells completely (empty string)
+$("#clearGrid").addEventListener("click", () => {
+  gridDiv.querySelectorAll('input[type="text"]').forEach(inp => inp.value = "");
+  hideAnalysisViews();
+});
+
+// Random fill button
+function randomFill(){
+  const table = gridDiv.querySelector("table.matrix");
+  if (!table){
+    const r = Math.max(1, Math.min(12, parseInt($("#rows").value || "3",10)));
+    const c = Math.max(1, Math.min(12, parseInt($("#cols").value || "3",10)));
+    renderInputGrid(r,c);
+  }
+  const rows = gridDiv.querySelectorAll("tr").length;
+  const cols = rows ? gridDiv.querySelector("tr").children.length : 0;
+  if (!rows || !cols) return;
+  for (let i=0;i<rows;i++){
+    for (let j=0;j<cols;j++){
+      const x = Math.floor(Math.random()*11) - 5; // -5..5
+      const cell = gridDiv.querySelector(`input[data-row="${i}"][data-col="${j}"]`);
+      if (cell) cell.value = String(x);
+    }
+  }
+  applyAugSepToGrid();
+  hideAnalysisViews();
+}
+const randomBtn = $("#randomFillBtn");
+if (randomBtn){ randomBtn.addEventListener("click", randomFill); }
+
+/* ----------------------- Read grid & detect mode ----------------------- */
+function readMatrixFromGrid(){
+  const inputs = Array.from(gridDiv.querySelectorAll('input[type="text"]'));
+  if (inputs.length === 0) return { rows:0, cols:0, data:[] };
+  const rows = Math.max(...inputs.map(i => +i.dataset.row)) + 1;
+  const cols = Math.max(...inputs.map(i => +i.dataset.col)) + 1;
+
+  const dataStrings = Array.from({length: rows}, () => Array(cols).fill("0"));
+  let decimalsPresent = false;
+  for (const inp of inputs){
+    let v = (inp.value || "0").trim();
+    if (v === "") v = "0";
+    dataStrings[+inp.dataset.row][+inp.dataset.col] = v;
+    if (/[.eE]/.test(v)) decimalsPresent = true;
+  }
+  const mode = decimalsPresent ? "decimal" : "fraction";
+
+  let data;
+  if (mode === "decimal"){
+    data = dataStrings.map(row => row.map(s => parseToNumber(s)));
+  } else {
+    data = dataStrings.map(row => row.map(s => Rational.fromString(s)));
+  }
+  return { rows, cols, data, mode };
+}
+
+/* ----------------------- RREF with step logging ----------------------- */
+function rrefSteps(matrix, mode){
+  const m = matrix.length;
+  const n = m ? matrix[0].length : 0;
+  const A = deepCopyMatrix(matrix, mode);
+  const steps = [];
+  const eps = 1e-10;
+
+  function isZero(x){
+    return mode === "fraction" ? x.isZero() : Math.abs(x) < eps;
+  }
+  function isOne(x){
+    return mode === "fraction" ? x.isOne() : Math.abs(x - 1) < 1e-12;
+  }
+  function toStr(x){ return mode === "fraction" ? x.toString() : formatDecimal(x); }
+  function swapRows(i,j){
+    const tmp = A[i]; A[i] = A[j]; A[j] = tmp;
+    steps.push({ op: `Swap R${i+1} ↔ R${j+1}`, mat: deepCopyMatrix(A, mode) });
+  }
+  function scaleRow(i, scalar){
+    const mult = mode === "fraction" ? new Rational(scalar.d, scalar.n) : (1/scalar);
+    for (let c=0;c<n;c++){
+      A[i][c] = mode === "fraction" ? A[i][c].mul(mult) : A[i][c] * mult;
+    }
+    steps.push({ op: `Scale R${i+1} ← R${i+1} / ${toStr(scalar)}`, mat: deepCopyMatrix(A, mode) });
+  }
+  function addRowMultiple(target, src, factor){
+    for (let c=0;c<n;c++){
+      if (mode === "fraction"){
+        A[target][c] = A[target][c].sub( A[src][c].mul(factor) );
+      } else {
+        A[target][c] = A[target][c] - factor * A[src][c];
+      }
+    }
+    steps.push({ op: `R${target+1} ← R${target+1} − (${toStr(factor)}) × R${src+1}`, mat: deepCopyMatrix(A, mode) });
+  }
+
+  steps.push({ op: "Initial matrix", mat: deepCopyMatrix(A, mode) });
+
+  let r = 0, c = 0;
+  while (r < m && c < n){
+    let piv = r;
+    while (piv < m && isZero(A[piv][c])) piv++;
+    if (piv === m){ c++; continue; }
+    if (piv !== r) swapRows(piv, r);
+
+    const pivotVal = A[r][c];
+    if (!isOne(pivotVal)) {
+      if (mode === "decimal" && Math.abs(pivotVal) < eps) {
+      } else {
+        scaleRow(r, pivotVal);
+      }
+    }
+
+    for (let i=0;i<m;i++){
+      if (i === r) continue;
+      const entry = A[i][c];
+      if (!isZero(entry)){
+        addRowMultiple(i, r, entry);
+        if (mode === "decimal"){
+          for (let k=0;k<n;k++){
+            if (Math.abs(A[i][k]) < eps) A[i][k] = 0;
+          }
+        }
+      }
+    }
+    r++; c++;
+  }
+
+  if (mode === "decimal"){
+    for (let i=0;i<m;i++){
+      for (let j=0;j<n;j++){
+        if (Math.abs(A[i][j]) < 1e-12) A[i][j] = 0;
+      }
+    }
+  }
+  steps.push({ op: "Reduced Row Echelon Form", mat: deepCopyMatrix(A, mode) });
+  return steps;
+}
+
+/* ----------------------- Viewer rendering ----------------------- */
+const viewer = $("#viewer");
+const stepNow = $("#stepNow");
+const stepTotal = $("#stepTotal");
+const matrixView = $("#matrixView");
+const opText = $("#opText");
+const modeLabel = $("#modeLabel");
+const note = $("#note");
+let STEPS = [];
+let MODE = "fraction";
+let CUR = 0;
+
+function showStep(idx){
+  if (idx < 0) idx = 0;
+  if (idx >= STEPS.length) idx = STEPS.length - 1;
+  CUR = idx;
+  const s = STEPS[idx];
+  stepNow.textContent = String(idx);
+  stepTotal.textContent = String(STEPS.length - 1);
+  opText.textContent = s.op;
+
+  const mat = s.mat;
+  const table = document.createElement("table");
+  const toStr = (x) => MODE === "fraction" ? x.toString() : formatDecimal(x);
+  const m = mat.length;
+  const n = m ? mat[0].length : 0;
+  for (let i=0;i<m;i++){
+    const tr = document.createElement("tr");
+    for (let j=0;j<n;j++){
+      const td = document.createElement("td");
+      td.textContent = toStr(mat[i][j]);
+      if (augToggle.checked && n >= 2 && j === n-1) td.classList.add("sep");
+      tr.appendChild(td);
+    }
+    table.appendChild(tr);
+  }
+  matrixView.innerHTML = "";
+  matrixView.appendChild(table);
+
+  if (idx === 0){
+    note.textContent = "Step 0 is your starting matrix.";
+  } else if (idx === STEPS.length - 1){
+    note.textContent = "This is the final RREF.";
+  } else {
+    note.textContent = "";
+  }
+}
+
+/* ----------------------- Button wiring ----------------------- */
+$("#compute").addEventListener("click", () => {
+  const { rows, cols, data, mode } = readMatrixFromGrid();
+  if (rows === 0 || cols === 0){
+    alert("Please create a matrix grid first.");
+    return;
+  }
+  MODE = mode;
+  modeLabel.textContent = (MODE === "fraction" ? "Fractions (exact)" : "Decimals");
+  try{
+    STEPS = rrefSteps(data, MODE);
+  } catch (e){
+    alert("Error during elimination: " + e.message);
+    return;
+  }
+  viewer.style.display = "";
+  document.querySelector("#viewer").scrollIntoView({ behavior:"smooth", block:"start" });
+  showStep(0);
+});
+
+$("#first").addEventListener("click", () => showStep(0));
+$("#prev").addEventListener("click", () => showStep(CUR-1));
+$("#next").addEventListener("click", () => showStep(CUR+1));
+$("#last").addEventListener("click", () => showStep(STEPS.length - 1));
+$("#backToEdit").addEventListener("click", () => {
+  viewer.style.display = "none";
+  document.querySelector(".controls").scrollIntoView({ behavior:"smooth", block:"start" });
+});
+
+/* ----------------------- Export LaTeX for current view ----------------------- */
+const overlay = $("#overlay");
+const modal = $("#modal");
+const modalTitle = $("#modalTitle");
+const modalText = $("#modalText");
+const modalClose = $("#modalClose");
+function openLatex(title, text){
+  modalTitle.textContent = title;
+  modalText.value = text || "";
+  overlay.style.display = "flex";
+}
+modalClose.addEventListener("click", () => overlay.style.display = "none");
+
+const exportBtn = $("#exportLatex");
+if (exportBtn){
+  exportBtn.addEventListener("click", () => {
+    if (!STEPS.length){ alert("No matrix is being displayed yet."); return; }
+    const mat = STEPS[CUR].mat;
+    const n = mat[0] ? mat[0].length : 0;
+    const toStr = (x) => MODE === "fraction" ? x.toString() : formatDecimal(x);
+    let latex = "";
+    if (!augToggle.checked){
+      latex = "\\begin{bmatrix}\n" +
+        mat.map(r => r.map(toStr).join(" & ")).join(" \\\\\n") +
+        "\n\\end{bmatrix}";
+    } else {
+      if (n < 2){ alert("Need at least 2 columns for augmented matrix."); return; }
+      const leftCols = n-1;
+      const align = "c".repeat(leftCols) + "|" + "c";
+      latex = "\\left[\\begin{array}{" + align + "}\n" +
+        mat.map(r => {
+          const left = r.slice(0, leftCols).map(toStr).join(" & ");
+          const right = r.slice(leftCols).map(toStr).join(" & ");
+          return left + " & " + right;
+        }).join(" \\\\\n") +
+        "\n\\end{array}\\right]";
+    }
+    openLatex("LaTeX (current view)", latex);
+  });
+}
+
+/* ----------------------- Bases for Four Fundamental Spaces ----------------------- */
+function rrefCore(A, mode){
+  const steps = rrefSteps(A, mode);
+  const R = deepCopyMatrix(steps[steps.length-1].mat, mode);
+  const m = R.length, n = m ? R[0].length : 0;
+  const pivots = [];
+  if (mode === "fraction"){
+    for (let i=0;i<m;i++){
+      let j = 0; while (j<n && R[i][j].isZero()) j++;
+      if (j < n) pivots.push(j);
+    }
+  } else {
+    const eps = 1e-10;
+    for (let i=0;i<m;i++){
+      let j = 0; while (j<n && Math.abs(R[i][j]) < eps) j++;
+      if (j < n) pivots.push(j);
+    }
+  }
+  const seen = new Set(); const piv = [];
+  for (const j of pivots){ if (!seen.has(j)){ seen.add(j); piv.push(j);} }
+  return { R, pivots: piv, rank: piv.length };
+}
+
+function getCoefficientMatrix(data){
+  if (!augToggle.checked) return data;
+  return data.map(row => row.slice(0, row.length-1));
+}
+
+function transpose(A, mode){
+  if (!A.length) return [];
+  const m = A.length, n = A[0].length;
+  const T = Array.from({length:n}, () => Array(m));
+  for (let i=0;i<m;i++){
+    for (let j=0;j<n;j++){
+      T[j][i] = (mode==="fraction") ? new Rational(A[i][j].n, A[i][j].d) : A[i][j];
+    }
+  }
+  return T;
+}
+
+function vecToStr(v, mode){
+  const toStr = (x) => mode === "fraction" ? x.toString() : formatDecimal(x);
+  return "(" + v.map(toStr).join(", ") + ")";
+}
+
+function computeAndShowBases(){
+  const { data, mode } = readMatrixFromGrid();
+  if (!data.length){ alert("No matrix."); return; }
+  const Acoeff = getCoefficientMatrix(data);
+  const m = Acoeff.length, n = Acoeff[0].length;
+
+  const { R, pivots } = rrefCore(Acoeff, mode);
+
+  const Col = pivots.map(j => Array.from({length:m}, (_,i) =>
+    (mode==="fraction") ? new Rational(Acoeff[i][j].n, Acoeff[i][j].d) : Acoeff[i][j]
+  ));
+
+  const Row = [];
+  if (mode === "fraction"){
+    for (let i=0;i<R.length;i++){
+      if (R[i].some(x => !x.isZero())) Row.push(R[i].map(x => new Rational(x.n,x.d)));
+    }
+  } else {
+    const eps=1e-12;
+    for (let i=0;i<R.length;i++){
+      if (R[i].some(x => Math.abs(x) > eps)) Row.push(R[i].slice());
+    }
+  }
+
+  const isPivot = Array(n).fill(false);
+  pivots.forEach(j => isPivot[j] = true);
+  const free = []; for (let j=0;j<n;j++) if (!isPivot[j]) free.push(j);
+
+  const Null = [];
+  for (const jfree of free){
+    const v = (mode==="fraction") ? Array.from({length:n}, ()=>Rational.zero()) : Array(n).fill(0);
+    if (mode==="fraction") v[jfree] = Rational.one(); else v[jfree] = 1;
+    for (let i=0;i<pivots.length;i++){
+      const p = pivots[i];
+      const val = R[i][jfree];
+      if (mode==="fraction") v[p] = val.neg(); else v[p] = -val;
+    }
+    Null.push(v);
+  }
+
+  const AT = transpose(Acoeff, mode);
+  const { R: RT, pivots: pivT } = rrefCore(AT, mode);
+  const nT = AT[0] ? AT[0].length : 0;
+  const isPivotT = Array(nT).fill(false);
+  pivT.forEach(j => isPivotT[j] = true);
+  const freeT = []; for (let j=0;j<nT;j++) if (!isPivotT[j]) freeT.push(j);
+
+  const LeftNull = [];
+  for (const jfree of freeT){
+    const v = (mode==="fraction") ? Array.from({length:nT}, ()=>Rational.zero()) : Array(nT).fill(0);
+    if (mode==="fraction") v[jfree] = Rational.one(); else v[jfree] = 1;
+    for (let i=0;i<pivT.length;i++){
+      const p = pivT[i];
+      const val = RT[i][jfree];
+      if (mode==="fraction") v[p] = val.neg(); else v[p] = -val;
+    }
+    LeftNull.push(v);
+  }
+
+  const el = $("#basesContent");
+  el.innerHTML = "";
+
+  function renderVectors(title, vectors){
+    const wrap = document.createElement("div");
+    const h = document.createElement("h4"); h.textContent = title; wrap.appendChild(h);
+    if (!vectors.length){
+      const p = document.createElement("div"); p.className="muted"; p.textContent = "Empty (only the zero vector)"; wrap.appendChild(p);
+    } else {
+      const ul = document.createElement("ul");
+      vectors.forEach(v => {
+        const li = document.createElement("li");
+        li.textContent = vecToStr(v, mode);
+        ul.appendChild(li);
+      });
+      wrap.appendChild(ul);
+    }
+    el.appendChild(wrap);
+  }
+
+  renderVectors("Column Space basis (Col(A))", Col);
+  renderVectors("Row Space basis (Row(A))", Row);
+  renderVectors("Null Space basis (N(A))", Null);
+  renderVectors("Left Null Space basis (N(Aᵀ))", LeftNull);
+
+  $("#basesSection").style.display = "";
+  document.querySelector("#basesSection").scrollIntoView({ behavior:"smooth", block:"start" });
+}
+
+const basesTop = $("#basesBtnTop");
+if (basesTop){ basesTop.addEventListener("click", computeAndShowBases); }
+
+/* Build an initial 3x3 grid on load */
+renderInputGrid(3,3);
+applyAugSepToGrid();
+
+}); // DOMContentLoaded
+</script>
+</body>
+</html>
