@@ -1,0 +1,842 @@
+[
+  {
+    "index": 1,
+    "ident": "T4Q01",
+    "title": "Type4-Q1",
+    "source": "generated",
+    "prompt_html": "In a study of 1401 subjects, 301 were observed in the category: individuals who achieved 10,000+ steps yesterday. Construct a 90% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q01_A",
+        "label": "A",
+        "html": "(0.2023, 0.2274)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q01_B",
+        "label": "B",
+        "html": "(0.1968, 0.2329)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q01_C",
+        "label": "C",
+        "html": "(0.1929, 0.2368)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q01_D",
+        "label": "D",
+        "html": "(0.1913, 0.2384)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q01_E",
+        "label": "E",
+        "html": "(0.1984, 0.2345)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q01_B"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "T4Q02",
+    "title": "Type4-Q2",
+    "source": "generated",
+    "prompt_html": "In a study of 441 subjects, 103 were observed in the category: adults sleeping fewer than 6 hours per night. Construct a 95% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q02_A",
+        "label": "A",
+        "html": "(0.2041, 0.2630)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q02_B",
+        "label": "B",
+        "html": "(0.1941, 0.2730)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q02_C",
+        "label": "C",
+        "html": "(0.1933, 0.2739)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q02_D",
+        "label": "D",
+        "html": "(0.1840, 0.2831)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q02_E",
+        "label": "E",
+        "html": "(0.1971, 0.2761)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q02_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "T4Q03",
+    "title": "Type4-Q3",
+    "source": "generated",
+    "prompt_html": "In a study of 440 subjects, 36 were observed in the category: adults sleeping fewer than 6 hours per night. Construct a 98% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q03_A",
+        "label": "A",
+        "html": "(0.0580, 0.1057)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q03_B",
+        "label": "B",
+        "html": "(0.0514, 0.1122)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q03_C",
+        "label": "C",
+        "html": "(0.0557, 0.1080)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q03_D",
+        "label": "D",
+        "html": "(0.0449, 0.1187)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q03_E",
+        "label": "E",
+        "html": "(0.0534, 0.1142)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q03_B"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "T4Q04",
+    "title": "Type4-Q4",
+    "source": "generated",
+    "prompt_html": "In a study of 1531 subjects, 704 were observed in the category: dogs that responded to a training cue. Construct a 99% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q04_A",
+        "label": "A",
+        "html": "(0.4334, 0.4863)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q04_B",
+        "label": "B",
+        "html": "(0.4270, 0.4926)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q04_C",
+        "label": "C",
+        "html": "(0.4344, 0.4853)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q04_D",
+        "label": "D",
+        "html": "(0.4207, 0.4990)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q04_E",
+        "label": "E",
+        "html": "(0.4289, 0.4945)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q04_B"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "T4Q05",
+    "title": "Type4-Q5",
+    "source": "generated",
+    "prompt_html": "In a study of 186 subjects, 42 were observed in the category: new users who retained for 30 days. Construct a 90% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q05_A",
+        "label": "A",
+        "html": "(0.1907, 0.2609)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q05_B",
+        "label": "B",
+        "html": "(0.1754, 0.2762)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q05_C",
+        "label": "C",
+        "html": "(0.1645, 0.2871)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q05_D",
+        "label": "D",
+        "html": "(0.1601, 0.2916)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q05_E",
+        "label": "E",
+        "html": "(0.1800, 0.2808)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q05_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "T4Q06",
+    "title": "Type4-Q6",
+    "source": "generated",
+    "prompt_html": "In a study of 1559 subjects, 982 were observed in the category: new users who retained for 30 days. Construct a 95% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q06_A",
+        "label": "A",
+        "html": "(0.6120, 0.6477)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q06_B",
+        "label": "B",
+        "html": "(0.6059, 0.6539)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q06_C",
+        "label": "C",
+        "html": "(0.6054, 0.6543)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q06_D",
+        "label": "D",
+        "html": "(0.5998, 0.6600)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q06_E",
+        "label": "E",
+        "html": "(0.6078, 0.6557)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q06_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "T4Q07",
+    "title": "Type4-Q7",
+    "source": "generated",
+    "prompt_html": "In a study of 1527 subjects, 350 were observed in the category: adults sleeping fewer than 6 hours per night. Construct a 98% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q07_A",
+        "label": "A",
+        "html": "(0.2096, 0.2489)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q07_B",
+        "label": "B",
+        "html": "(0.2042, 0.2542)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q07_C",
+        "label": "C",
+        "html": "(0.2077, 0.2507)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q07_D",
+        "label": "D",
+        "html": "(0.1988, 0.2596)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q07_E",
+        "label": "E",
+        "html": "(0.2058, 0.2558)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q07_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "T4Q08",
+    "title": "Type4-Q8",
+    "source": "generated",
+    "prompt_html": "In a study of 1733 subjects, 1016 were observed in the category: new users who retained for 30 days. Construct a 99% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q08_A",
+        "label": "A",
+        "html": "(0.5617, 0.6108)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q08_B",
+        "label": "B",
+        "html": "(0.5558, 0.6167)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q08_C",
+        "label": "C",
+        "html": "(0.5626, 0.6099)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q08_D",
+        "label": "D",
+        "html": "(0.5499, 0.6227)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q08_E",
+        "label": "E",
+        "html": "(0.5576, 0.6185)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q08_B"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "T4Q09",
+    "title": "Type4-Q9",
+    "source": "generated",
+    "prompt_html": "In a study of 990 subjects, 152 were observed in the category: individuals who achieved 10,000+ steps yesterday. Construct a 90% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q09_A",
+        "label": "A",
+        "html": "(0.1404, 0.1667)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q09_B",
+        "label": "B",
+        "html": "(0.1347, 0.1724)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q09_C",
+        "label": "C",
+        "html": "(0.1306, 0.1765)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q09_D",
+        "label": "D",
+        "html": "(0.1290, 0.1781)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q09_E",
+        "label": "E",
+        "html": "(0.1364, 0.1741)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q09_B"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "T4Q10",
+    "title": "Type4-Q10",
+    "source": "generated",
+    "prompt_html": "In a study of 1446 subjects, 254 were observed in the category: individuals who achieved 10,000+ steps yesterday. Construct a 95% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q10_A",
+        "label": "A",
+        "html": "(0.1610, 0.1903)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q10_B",
+        "label": "B",
+        "html": "(0.1560, 0.1953)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q10_C",
+        "label": "C",
+        "html": "(0.1556, 0.1957)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q10_D",
+        "label": "D",
+        "html": "(0.1510, 0.2003)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q10_E",
+        "label": "E",
+        "html": "(0.1575, 0.1968)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q10_B"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "T4Q11",
+    "title": "Type4-Q11",
+    "source": "generated",
+    "prompt_html": "In a study of 1812 subjects, 310 were observed in the category: new users who retained for 30 days. Construct a 98% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q11_A",
+        "label": "A",
+        "html": "(0.1549, 0.1872)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q11_B",
+        "label": "B",
+        "html": "(0.1505, 0.1917)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q11_C",
+        "label": "C",
+        "html": "(0.1534, 0.1888)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q11_D",
+        "label": "D",
+        "html": "(0.1461, 0.1961)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q11_E",
+        "label": "E",
+        "html": "(0.1518, 0.1930)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q11_B"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "T4Q12",
+    "title": "Type4-Q12",
+    "source": "generated",
+    "prompt_html": "In a study of 459 subjects, 270 were observed in the category: patients reporting nausea after a new medication. Construct a 99% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q12_A",
+        "label": "A",
+        "html": "(0.5405, 0.6359)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q12_B",
+        "label": "B",
+        "html": "(0.5291, 0.6474)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q12_C",
+        "label": "C",
+        "html": "(0.5423, 0.6342)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q12_D",
+        "label": "D",
+        "html": "(0.5176, 0.6589)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q12_E",
+        "label": "E",
+        "html": "(0.5325, 0.6509)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q12_B"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "T4Q13",
+    "title": "Type4-Q13",
+    "source": "generated",
+    "prompt_html": "In a study of 1019 subjects, 163 were observed in the category: new users who retained for 30 days. Construct a 90% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q13_A",
+        "label": "A",
+        "html": "(0.1468, 0.1731)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q13_B",
+        "label": "B",
+        "html": "(0.1411, 0.1788)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q13_C",
+        "label": "C",
+        "html": "(0.1370, 0.1829)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q13_D",
+        "label": "D",
+        "html": "(0.1353, 0.1846)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q13_E",
+        "label": "E",
+        "html": "(0.1428, 0.1806)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q13_B"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "T4Q14",
+    "title": "Type4-Q14",
+    "source": "generated",
+    "prompt_html": "In a study of 1553 subjects, 524 were observed in the category: new users who retained for 30 days. Construct a 95% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q14_A",
+        "label": "A",
+        "html": "(0.3199, 0.3549)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q14_B",
+        "label": "B",
+        "html": "(0.3139, 0.3609)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q14_C",
+        "label": "C",
+        "html": "(0.3134, 0.3614)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q14_D",
+        "label": "D",
+        "html": "(0.3079, 0.3669)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q14_E",
+        "label": "E",
+        "html": "(0.3157, 0.3627)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q14_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "T4Q15",
+    "title": "Type4-Q15",
+    "source": "generated",
+    "prompt_html": "In a study of 1144 subjects, 487 were observed in the category: new users who retained for 30 days. Construct a 98% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q15_A",
+        "label": "A",
+        "html": "(0.3990, 0.4524)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q15_B",
+        "label": "B",
+        "html": "(0.3917, 0.4597)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q15_C",
+        "label": "C",
+        "html": "(0.3965, 0.4549)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q15_D",
+        "label": "D",
+        "html": "(0.3844, 0.4670)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q15_E",
+        "label": "E",
+        "html": "(0.3939, 0.4619)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q15_B"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "T4Q16",
+    "title": "Type4-Q16",
+    "source": "generated",
+    "prompt_html": "In a study of 284 subjects, 131 were observed in the category: dogs that responded to a training cue. Construct a 99% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q16_A",
+        "label": "A",
+        "html": "(0.3999, 0.5227)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q16_B",
+        "label": "B",
+        "html": "(0.3851, 0.5375)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q16_C",
+        "label": "C",
+        "html": "(0.4021, 0.5204)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q16_D",
+        "label": "D",
+        "html": "(0.3703, 0.5523)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q16_E",
+        "label": "E",
+        "html": "(0.3895, 0.5419)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q16_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "T4Q17",
+    "title": "Type4-Q17",
+    "source": "generated",
+    "prompt_html": "In a study of 1624 subjects, 465 were observed in the category: voters who support a new public-health measure. Construct a 90% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q17_A",
+        "label": "A",
+        "html": "(0.2735, 0.2992)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q17_B",
+        "label": "B",
+        "html": "(0.2679, 0.3048)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q17_C",
+        "label": "C",
+        "html": "(0.2639, 0.3088)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q17_D",
+        "label": "D",
+        "html": "(0.2623, 0.3104)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q17_E",
+        "label": "E",
+        "html": "(0.2696, 0.3065)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q17_B"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "T4Q18",
+    "title": "Type4-Q18",
+    "source": "generated",
+    "prompt_html": "In a study of 172 subjects, 24 were observed in the category: new users who retained for 30 days. Construct a 95% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q18_A",
+        "label": "A",
+        "html": "(0.1010, 0.1781)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q18_B",
+        "label": "B",
+        "html": "(0.0878, 0.1913)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q18_C",
+        "label": "C",
+        "html": "(0.0867, 0.1924)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q18_D",
+        "label": "D",
+        "html": "(0.0745, 0.2045)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q18_E",
+        "label": "E",
+        "html": "(0.0917, 0.1953)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q18_B"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "T4Q19",
+    "title": "Type4-Q19",
+    "source": "generated",
+    "prompt_html": "In a study of 1686 subjects, 860 were observed in the category: patients reporting nausea after a new medication. Construct a 98% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q19_A",
+        "label": "A",
+        "html": "(0.4878, 0.5323)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q19_B",
+        "label": "B",
+        "html": "(0.4818, 0.5384)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q19_C",
+        "label": "C",
+        "html": "(0.4857, 0.5344)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q19_D",
+        "label": "D",
+        "html": "(0.4757, 0.5445)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q19_E",
+        "label": "E",
+        "html": "(0.4836, 0.5402)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q19_B"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "T4Q20",
+    "title": "Type4-Q20",
+    "source": "generated",
+    "prompt_html": "In a study of 1300 subjects, 137 were observed in the category: new users who retained for 30 days. Construct a 99% confidence interval for the true proportion. Round your answer to four decimals.",
+    "choices": [
+      {
+        "id": "T4Q20_A",
+        "label": "A",
+        "html": "(0.0877, 0.1231)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q20_B",
+        "label": "B",
+        "html": "(0.0834, 0.1273)",
+        "is_correct": true
+      },
+      {
+        "id": "T4Q20_C",
+        "label": "C",
+        "html": "(0.0884, 0.1224)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q20_D",
+        "label": "D",
+        "html": "(0.0792, 0.1316)",
+        "is_correct": false
+      },
+      {
+        "id": "T4Q20_E",
+        "label": "E",
+        "html": "(0.0847, 0.1286)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T4Q20_B"
+    ]
+  }
+]

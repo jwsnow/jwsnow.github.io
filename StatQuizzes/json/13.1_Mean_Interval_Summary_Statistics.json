@@ -1,0 +1,842 @@
+[
+  {
+    "index": 1,
+    "ident": "T1Q01",
+    "title": "Type1-Q1",
+    "source": "generated",
+    "prompt_html": "A random sample of 15 observations measured resting heart rate (bpm) of runners. The sample mean was 60.77 and the sample standard deviation was 7.18. Construct a 90% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q01_A",
+        "label": "A",
+        "html": "(57.97, 63.57)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q01_B",
+        "label": "B",
+        "html": "(57.50, 64.04)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q01_C",
+        "label": "C",
+        "html": "(57.14, 64.40)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q01_D",
+        "label": "D",
+        "html": "(57.04, 64.50)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q01_E",
+        "label": "E",
+        "html": "(57.69, 64.22)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q01_B"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "T1Q02",
+    "title": "Type1-Q2",
+    "source": "generated",
+    "prompt_html": "A random sample of 38 observations measured cholesterol level (mg/dL) of adults. The sample mean was 189.43 and the sample standard deviation was 38.37. Construct a 95% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q02_A",
+        "label": "A",
+        "html": "(178.37, 200.49)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q02_B",
+        "label": "B",
+        "html": "(176.82, 202.04)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q02_C",
+        "label": "C",
+        "html": "(177.23, 201.63)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q02_D",
+        "label": "D",
+        "html": "(175.26, 203.60)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q02_E",
+        "label": "E",
+        "html": "(177.44, 202.66)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q02_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "T1Q03",
+    "title": "Type1-Q3",
+    "source": "generated",
+    "prompt_html": "A random sample of 20 observations measured lizard body temp (\u00b0C). The sample mean was 30.03 and the sample standard deviation was 0.57. Construct a 98% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q03_A",
+        "label": "A",
+        "html": "(29.74, 30.32)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q03_B",
+        "label": "B",
+        "html": "(29.71, 30.35)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q03_C",
+        "label": "C",
+        "html": "(29.78, 30.28)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q03_D",
+        "label": "D",
+        "html": "(29.67, 30.39)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q03_E",
+        "label": "E",
+        "html": "(29.72, 30.37)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q03_B"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "T1Q04",
+    "title": "Type1-Q4",
+    "source": "generated",
+    "prompt_html": "A random sample of 21 observations measured resting heart rate (bpm) of runners. The sample mean was 59.14 and the sample standard deviation was 8.33. Construct a 99% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q04_A",
+        "label": "A",
+        "html": "(54.43, 63.85)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q04_B",
+        "label": "B",
+        "html": "(53.97, 64.31)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q04_C",
+        "label": "C",
+        "html": "(55.58, 62.70)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q04_D",
+        "label": "D",
+        "html": "(53.52, 64.76)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q04_E",
+        "label": "E",
+        "html": "(54.15, 64.49)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q04_B"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "T1Q05",
+    "title": "Type1-Q5",
+    "source": "generated",
+    "prompt_html": "A random sample of 24 observations measured lizard body temp (\u00b0C). The sample mean was 30.06 and the sample standard deviation was 0.76. Construct a 90% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q05_A",
+        "label": "A",
+        "html": "(29.83, 30.29)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q05_B",
+        "label": "B",
+        "html": "(29.79, 30.33)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q05_C",
+        "label": "C",
+        "html": "(29.76, 30.36)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q05_D",
+        "label": "D",
+        "html": "(29.76, 30.36)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q05_E",
+        "label": "E",
+        "html": "(29.81, 30.34)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q05_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "T1Q06",
+    "title": "Type1-Q6",
+    "source": "generated",
+    "prompt_html": "A random sample of 22 observations measured lung capacity (liters) in adults. The sample mean was 4.18 and the sample standard deviation was 0.73. Construct a 95% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q06_A",
+        "label": "A",
+        "html": "(3.90, 4.46)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q06_B",
+        "label": "B",
+        "html": "(3.86, 4.50)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q06_C",
+        "label": "C",
+        "html": "(3.87, 4.49)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q06_D",
+        "label": "D",
+        "html": "(3.82, 4.54)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q06_E",
+        "label": "E",
+        "html": "(3.87, 4.52)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q06_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "T1Q07",
+    "title": "Type1-Q7",
+    "source": "generated",
+    "prompt_html": "A random sample of 23 observations measured systolic blood pressure (mmHg) of adults. The sample mean was 119.43 and the sample standard deviation was 16.85. Construct a 98% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q07_A",
+        "label": "A",
+        "html": "(111.50, 127.36)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q07_B",
+        "label": "B",
+        "html": "(110.62, 128.24)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q07_C",
+        "label": "C",
+        "html": "(112.54, 126.32)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q07_D",
+        "label": "D",
+        "html": "(109.74, 129.12)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q07_E",
+        "label": "E",
+        "html": "(110.97, 128.59)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q07_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "T1Q08",
+    "title": "Type1-Q8",
+    "source": "generated",
+    "prompt_html": "A random sample of 21 observations measured cholesterol level (mg/dL) of adults. The sample mean was 201.4 and the sample standard deviation was 32.71. Construct a 99% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q08_A",
+        "label": "A",
+        "html": "(182.89, 219.91)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q08_B",
+        "label": "B",
+        "html": "(181.09, 221.71)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q08_C",
+        "label": "C",
+        "html": "(187.41, 215.39)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q08_D",
+        "label": "D",
+        "html": "(179.32, 223.48)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q08_E",
+        "label": "E",
+        "html": "(181.82, 222.41)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q08_B"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "T1Q09",
+    "title": "Type1-Q9",
+    "source": "generated",
+    "prompt_html": "A random sample of 27 observations measured resting heart rate (bpm) of runners. The sample mean was 58.71 and the sample standard deviation was 9.11. Construct a 90% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q09_A",
+        "label": "A",
+        "html": "(56.16, 61.26)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q09_B",
+        "label": "B",
+        "html": "(55.72, 61.70)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q09_C",
+        "label": "C",
+        "html": "(55.27, 62.15)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q09_D",
+        "label": "D",
+        "html": "(55.28, 62.14)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q09_E",
+        "label": "E",
+        "html": "(55.90, 61.88)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q09_B"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "T1Q10",
+    "title": "Type1-Q10",
+    "source": "generated",
+    "prompt_html": "A random sample of 26 observations measured birth weight (kg). The sample mean was 3.27 and the sample standard deviation was 0.66. Construct a 95% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q10_A",
+        "label": "A",
+        "html": "(3.04, 3.50)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q10_B",
+        "label": "B",
+        "html": "(3.00, 3.54)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q10_C",
+        "label": "C",
+        "html": "(3.02, 3.52)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q10_D",
+        "label": "D",
+        "html": "(2.97, 3.57)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q10_E",
+        "label": "E",
+        "html": "(3.02, 3.55)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q10_B"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "T1Q11",
+    "title": "Type1-Q11",
+    "source": "generated",
+    "prompt_html": "A random sample of 21 observations measured lizard body temp (\u00b0C). The sample mean was 30.13 and the sample standard deviation was 0.67. Construct a 98% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q11_A",
+        "label": "A",
+        "html": "(29.80, 30.46)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q11_B",
+        "label": "B",
+        "html": "(29.76, 30.50)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q11_C",
+        "label": "C",
+        "html": "(29.84, 30.42)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q11_D",
+        "label": "D",
+        "html": "(29.72, 30.54)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q11_E",
+        "label": "E",
+        "html": "(29.78, 30.51)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q11_B"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "T1Q12",
+    "title": "Type1-Q12",
+    "source": "generated",
+    "prompt_html": "A random sample of 27 observations measured lizard body temp (\u00b0C). The sample mean was 30.09 and the sample standard deviation was 0.73. Construct a 99% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q12_A",
+        "label": "A",
+        "html": "(29.73, 30.45)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q12_B",
+        "label": "B",
+        "html": "(29.70, 30.48)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q12_C",
+        "label": "C",
+        "html": "(29.81, 30.37)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q12_D",
+        "label": "D",
+        "html": "(29.66, 30.52)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q12_E",
+        "label": "E",
+        "html": "(29.71, 30.49)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q12_B"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "T1Q13",
+    "title": "Type1-Q13",
+    "source": "generated",
+    "prompt_html": "A random sample of 33 observations measured memory recall score (points). The sample mean was 50.65 and the sample standard deviation was 9.11. Construct a 90% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q13_A",
+        "label": "A",
+        "html": "(48.36, 52.94)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q13_B",
+        "label": "B",
+        "html": "(47.96, 53.34)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q13_C",
+        "label": "C",
+        "html": "(47.54, 53.76)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q13_D",
+        "label": "D",
+        "html": "(47.57, 53.73)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q13_E",
+        "label": "E",
+        "html": "(48.12, 53.49)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q13_B"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "T1Q14",
+    "title": "Type1-Q14",
+    "source": "generated",
+    "prompt_html": "A random sample of 27 observations measured reaction time (ms) in a simple task. The sample mean was 261.79 and the sample standard deviation was 39.97. Construct a 95% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q14_A",
+        "label": "A",
+        "html": "(247.90, 275.68)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q14_B",
+        "label": "B",
+        "html": "(245.98, 277.60)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q14_C",
+        "label": "C",
+        "html": "(246.71, 276.87)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q14_D",
+        "label": "D",
+        "html": "(244.06, 279.52)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q14_E",
+        "label": "E",
+        "html": "(246.75, 278.37)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q14_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "T1Q15",
+    "title": "Type1-Q15",
+    "source": "generated",
+    "prompt_html": "A random sample of 27 observations measured resting heart rate (bpm) of runners. The sample mean was 59.29 and the sample standard deviation was 8.43. Construct a 98% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q15_A",
+        "label": "A",
+        "html": "(55.68, 62.90)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q15_B",
+        "label": "B",
+        "html": "(55.27, 63.31)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q15_C",
+        "label": "C",
+        "html": "(56.11, 62.47)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q15_D",
+        "label": "D",
+        "html": "(54.86, 63.72)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q15_E",
+        "label": "E",
+        "html": "(55.43, 63.47)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q15_B"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "T1Q16",
+    "title": "Type1-Q16",
+    "source": "generated",
+    "prompt_html": "A random sample of 20 observations measured memory recall score (points). The sample mean was 51.43 and the sample standard deviation was 9.72. Construct a 99% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q16_A",
+        "label": "A",
+        "html": "(45.76, 57.10)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q16_B",
+        "label": "B",
+        "html": "(45.21, 57.65)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q16_C",
+        "label": "C",
+        "html": "(47.17, 55.69)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q16_D",
+        "label": "D",
+        "html": "(44.67, 58.19)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q16_E",
+        "label": "E",
+        "html": "(45.43, 57.86)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q16_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "T1Q17",
+    "title": "Type1-Q17",
+    "source": "generated",
+    "prompt_html": "A random sample of 37 observations measured IQ scores. The sample mean was 104.79 and the sample standard deviation was 16.95. Construct a 90% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q17_A",
+        "label": "A",
+        "html": "(100.78, 108.80)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q17_B",
+        "label": "B",
+        "html": "(100.09, 109.49)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q17_C",
+        "label": "C",
+        "html": "(99.33, 110.25)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q17_D",
+        "label": "D",
+        "html": "(99.39, 110.19)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q17_E",
+        "label": "E",
+        "html": "(100.36, 109.77)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q17_B"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "T1Q18",
+    "title": "Type1-Q18",
+    "source": "generated",
+    "prompt_html": "A random sample of 38 observations measured birth weight (kg). The sample mean was 3.12 and the sample standard deviation was 0.65. Construct a 95% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q18_A",
+        "label": "A",
+        "html": "(2.93, 3.31)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q18_B",
+        "label": "B",
+        "html": "(2.91, 3.33)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q18_C",
+        "label": "C",
+        "html": "(2.91, 3.33)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q18_D",
+        "label": "D",
+        "html": "(2.88, 3.36)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q18_E",
+        "label": "E",
+        "html": "(2.92, 3.34)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q18_B"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "T1Q19",
+    "title": "Type1-Q19",
+    "source": "generated",
+    "prompt_html": "A random sample of 29 observations measured cholesterol level (mg/dL) of adults. The sample mean was 193.31 and the sample standard deviation was 41.85. Construct a 98% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q19_A",
+        "label": "A",
+        "html": "(176.08, 210.54)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q19_B",
+        "label": "B",
+        "html": "(174.14, 212.48)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q19_C",
+        "label": "C",
+        "html": "(178.08, 208.54)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q19_D",
+        "label": "D",
+        "html": "(172.20, 214.42)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q19_E",
+        "label": "E",
+        "html": "(174.92, 213.26)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q19_B"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "T1Q20",
+    "title": "Type1-Q20",
+    "source": "generated",
+    "prompt_html": "A random sample of 25 observations measured lizard body temp (\u00b0C). The sample mean was 30.05 and the sample standard deviation was 0.8. Construct a 99% confidence interval for the true mean. Assume the population is normally distributed. Round to two decimals.",
+    "choices": [
+      {
+        "id": "T1Q20_A",
+        "label": "A",
+        "html": "(29.64, 30.46)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q20_B",
+        "label": "B",
+        "html": "(29.60, 30.50)",
+        "is_correct": true
+      },
+      {
+        "id": "T1Q20_C",
+        "label": "C",
+        "html": "(29.74, 30.36)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q20_D",
+        "label": "D",
+        "html": "(29.56, 30.54)",
+        "is_correct": false
+      },
+      {
+        "id": "T1Q20_E",
+        "label": "E",
+        "html": "(29.62, 30.51)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T1Q20_B"
+    ]
+  }
+]

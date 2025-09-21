@@ -1,0 +1,842 @@
+[
+  {
+    "index": 1,
+    "ident": "T2Q01",
+    "title": "Type2-Q1",
+    "source": "generated",
+    "prompt_html": "A study recorded pine needle length (mm) for 11 individuals with the following sample values: 106, 112, 103, 106, 110, 109, 105, 105, 98, 114, 93. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 90% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q01_A",
+        "label": "A",
+        "html": "(102.69, 108.40)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q01_B",
+        "label": "B",
+        "html": "(102.24, 108.85)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q01_C",
+        "label": "C",
+        "html": "(101.97, 109.12)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q01_D",
+        "label": "D",
+        "html": "(101.78, 109.31)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q01_E",
+        "label": "E",
+        "html": "(102.42, 109.04)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q01_B"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "T2Q02",
+    "title": "Type2-Q2",
+    "source": "generated",
+    "prompt_html": "A study recorded pine needle length (mm) for 9 individuals with the following sample values: 111, 101, 98, 105, 111, 109, 105, 103, 110. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 95% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q02_A",
+        "label": "A",
+        "html": "(102.69, 109.08)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q02_B",
+        "label": "B",
+        "html": "(102.29, 109.48)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q02_C",
+        "label": "C",
+        "html": "(102.83, 108.94)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q02_D",
+        "label": "D",
+        "html": "(101.91, 109.86)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q02_E",
+        "label": "E",
+        "html": "(102.46, 109.63)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q02_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "T2Q03",
+    "title": "Type2-Q3",
+    "source": "generated",
+    "prompt_html": "A study recorded pine needle length (mm) for 12 individuals with the following sample values: 105, 110, 108, 107, 109, 107, 103, 110, 114, 105, 96, 103. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 98% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q03_A",
+        "label": "A",
+        "html": "(103.17, 109.66)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q03_B",
+        "label": "B",
+        "html": "(102.84, 110.00)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q03_C",
+        "label": "C",
+        "html": "(103.84, 109.00)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q03_D",
+        "label": "D",
+        "html": "(102.52, 110.32)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q03_E",
+        "label": "E",
+        "html": "(102.98, 110.12)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q03_B"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "T2Q04",
+    "title": "Type2-Q4",
+    "source": "generated",
+    "prompt_html": "A study recorded mouse body temperature (\u00b0C) for 16 individuals with the following sample values: 37.8, 36.6, 38.2, 37.6, 37.3, 36.9, 37.4, 36.5, 37.6, 36.5, 37.6, 36.3, 38.4, 37.7, 36.8, 38.2. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 99% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q04_A",
+        "label": "A",
+        "html": "(36.89, 37.79)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q04_B",
+        "label": "B",
+        "html": "(36.85, 37.83)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q04_C",
+        "label": "C",
+        "html": "(37.01, 37.66)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q04_D",
+        "label": "D",
+        "html": "(36.80, 37.87)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q04_E",
+        "label": "E",
+        "html": "(36.86, 37.85)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q04_B"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "T2Q05",
+    "title": "Type2-Q5",
+    "source": "generated",
+    "prompt_html": "A study recorded heart rate (bpm) for 11 individuals with the following sample values: 74, 85, 62, 71, 80, 56, 81, 78, 62, 72, 69. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 90% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q05_A",
+        "label": "A",
+        "html": "(67.56, 76.08)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q05_B",
+        "label": "B",
+        "html": "(66.87, 76.76)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q05_C",
+        "label": "C",
+        "html": "(66.47, 77.17)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q05_D",
+        "label": "D",
+        "html": "(66.19, 77.45)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q05_E",
+        "label": "E",
+        "html": "(67.15, 77.04)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q05_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "T2Q06",
+    "title": "Type2-Q6",
+    "source": "generated",
+    "prompt_html": "A study recorded mouse body temperature (\u00b0C) for 8 individuals with the following sample values: 36.8, 39.1, 37.4, 36.5, 37.7, 38.7, 38.3, 37.3. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 95% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q06_A",
+        "label": "A",
+        "html": "(37.05, 38.40)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q06_B",
+        "label": "B",
+        "html": "(36.96, 38.49)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q06_C",
+        "label": "C",
+        "html": "(37.09, 38.36)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q06_D",
+        "label": "D",
+        "html": "(36.89, 38.56)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q06_E",
+        "label": "E",
+        "html": "(37.00, 38.52)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q06_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "T2Q07",
+    "title": "Type2-Q7",
+    "source": "generated",
+    "prompt_html": "A study recorded heart rate (bpm) for 10 individuals with the following sample values: 75, 70, 64, 50, 68, 50, 77, 85, 83, 64. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 98% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q07_A",
+        "label": "A",
+        "html": "(58.77, 78.43)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q07_B",
+        "label": "B",
+        "html": "(57.78, 79.42)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q07_C",
+        "label": "C",
+        "html": "(61.08, 76.12)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q07_D",
+        "label": "D",
+        "html": "(56.86, 80.34)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q07_E",
+        "label": "E",
+        "html": "(58.20, 79.77)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q07_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "T2Q08",
+    "title": "Type2-Q8",
+    "source": "generated",
+    "prompt_html": "A study recorded pine needle length (mm) for 17 individuals with the following sample values: 98, 102, 100, 104, 98, 112, 107, 100, 92, 110, 113, 103, 98, 114, 101, 100, 107. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 99% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q08_A",
+        "label": "A",
+        "html": "(99.48, 107.46)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q08_B",
+        "label": "B",
+        "html": "(99.10, 107.84)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q08_C",
+        "label": "C",
+        "html": "(100.54, 106.40)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q08_D",
+        "label": "D",
+        "html": "(98.73, 108.21)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q08_E",
+        "label": "E",
+        "html": "(99.26, 107.98)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q08_B"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "T2Q09",
+    "title": "Type2-Q9",
+    "source": "generated",
+    "prompt_html": "A study recorded reaction time (ms) for 12 individuals with the following sample values: 270, 248, 248, 236, 230, 253, 227, 269, 244, 249, 238, 283. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 90% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q09_A",
+        "label": "A",
+        "html": "(242.01, 257.16)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q09_B",
+        "label": "B",
+        "html": "(240.78, 258.39)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q09_C",
+        "label": "C",
+        "html": "(239.98, 259.19)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q09_D",
+        "label": "D",
+        "html": "(239.56, 259.61)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q09_E",
+        "label": "E",
+        "html": "(241.28, 258.87)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q09_B"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "T2Q10",
+    "title": "Type2-Q10",
+    "source": "generated",
+    "prompt_html": "A study recorded reaction time (ms) for 16 individuals with the following sample values: 229, 238, 230, 254, 231, 245, 234, 256, 258, 261, 254, 257, 251, 242, 250, 243. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 95% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q10_A",
+        "label": "A",
+        "html": "(240.72, 250.91)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q10_B",
+        "label": "B",
+        "html": "(240.04, 251.59)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q10_C",
+        "label": "C",
+        "html": "(240.50, 251.12)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q10_D",
+        "label": "D",
+        "html": "(239.36, 252.26)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q10_E",
+        "label": "E",
+        "html": "(240.31, 251.86)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q10_B"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "T2Q11",
+    "title": "Type2-Q11",
+    "source": "generated",
+    "prompt_html": "A study recorded blood glucose (mg/dL) for 8 individuals with the following sample values: 93, 83, 98, 116, 80, 99, 78, 111. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 98% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q11_A",
+        "label": "A",
+        "html": "(81.20, 108.30)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q11_B",
+        "label": "B",
+        "html": "(79.85, 109.65)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q11_C",
+        "label": "C",
+        "html": "(85.01, 104.49)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q11_D",
+        "label": "D",
+        "html": "(78.72, 110.78)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q11_E",
+        "label": "E",
+        "html": "(80.46, 110.04)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q11_B"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "T2Q12",
+    "title": "Type2-Q12",
+    "source": "generated",
+    "prompt_html": "A study recorded sleep duration (hours) for 8 individuals with the following sample values: 9.5, 9.2, 8.5, 6.8, 5.6, 6.0, 7.0, 8.0. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 99% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q12_A",
+        "label": "A",
+        "html": "(5.93, 9.22)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q12_B",
+        "label": "B",
+        "html": "(5.78, 9.37)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q12_C",
+        "label": "C",
+        "html": "(6.57, 8.58)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q12_D",
+        "label": "D",
+        "html": "(5.68, 9.47)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q12_E",
+        "label": "E",
+        "html": "(5.85, 9.40)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q12_B"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "T2Q13",
+    "title": "Type2-Q13",
+    "source": "generated",
+    "prompt_html": "A study recorded plant height (cm) for 13 individuals with the following sample values: 41, 34, 38, 33, 33, 31, 30, 35, 27, 38, 37, 32, 28. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 90% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q13_A",
+        "label": "A",
+        "html": "(31.86, 35.37)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q13_B",
+        "label": "B",
+        "html": "(31.57, 35.66)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q13_C",
+        "label": "C",
+        "html": "(31.37, 35.86)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q13_D",
+        "label": "D",
+        "html": "(31.29, 35.94)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q13_E",
+        "label": "E",
+        "html": "(31.69, 35.77)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q13_B"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "T2Q14",
+    "title": "Type2-Q14",
+    "source": "generated",
+    "prompt_html": "A study recorded plant height (cm) for 16 individuals with the following sample values: 40, 37, 24, 33, 35, 36, 44, 27, 38, 30, 32, 35, 40, 35, 26, 44. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 95% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q14_A",
+        "label": "A",
+        "html": "(31.96, 37.54)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q14_B",
+        "label": "B",
+        "html": "(31.59, 37.91)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q14_C",
+        "label": "C",
+        "html": "(31.84, 37.66)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q14_D",
+        "label": "D",
+        "html": "(31.22, 38.28)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q14_E",
+        "label": "E",
+        "html": "(31.74, 38.06)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q14_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "T2Q15",
+    "title": "Type2-Q15",
+    "source": "generated",
+    "prompt_html": "A study recorded heart rate (bpm) for 8 individuals with the following sample values: 80, 84, 61, 68, 66, 76, 82, 78. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 98% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q15_A",
+        "label": "A",
+        "html": "(66.33, 82.42)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q15_B",
+        "label": "B",
+        "html": "(65.53, 83.22)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q15_C",
+        "label": "C",
+        "html": "(68.59, 80.16)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q15_D",
+        "label": "D",
+        "html": "(64.85, 83.90)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q15_E",
+        "label": "E",
+        "html": "(65.89, 83.45)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q15_B"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "T2Q16",
+    "title": "Type2-Q16",
+    "source": "generated",
+    "prompt_html": "A study recorded heart rate (bpm) for 15 individuals with the following sample values: 72, 73, 65, 85, 70, 59, 74, 70, 54, 63, 58, 69, 77, 67, 55. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 99% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q16_A",
+        "label": "A",
+        "html": "(61.37, 73.43)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q16_B",
+        "label": "B",
+        "html": "(60.80, 74.00)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q16_C",
+        "label": "C",
+        "html": "(63.06, 71.74)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q16_D",
+        "label": "D",
+        "html": "(60.26, 74.54)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q16_E",
+        "label": "E",
+        "html": "(61.03, 74.21)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q16_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "T2Q17",
+    "title": "Type2-Q17",
+    "source": "generated",
+    "prompt_html": "A study recorded blood glucose (mg/dL) for 14 individuals with the following sample values: 90, 99, 90, 79, 96, 98, 98, 105, 85, 64, 95, 81, 83, 91. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 90% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q17_A",
+        "label": "A",
+        "html": "(85.29, 93.86)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q17_B",
+        "label": "B",
+        "html": "(84.58, 94.56)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q17_C",
+        "label": "C",
+        "html": "(84.05, 95.09)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q17_D",
+        "label": "D",
+        "html": "(83.88, 95.27)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q17_E",
+        "label": "E",
+        "html": "(84.86, 94.84)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q17_B"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "T2Q18",
+    "title": "Type2-Q18",
+    "source": "generated",
+    "prompt_html": "A study recorded blood glucose (mg/dL) for 12 individuals with the following sample values: 84, 102, 93, 123, 127, 104, 93, 105, 88, 76, 106, 94. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 95% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q18_A",
+        "label": "A",
+        "html": "(91.19, 107.97)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q18_B",
+        "label": "B",
+        "html": "(90.11, 109.06)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q18_C",
+        "label": "C",
+        "html": "(91.14, 108.02)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q18_D",
+        "label": "D",
+        "html": "(89.04, 110.13)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q18_E",
+        "label": "E",
+        "html": "(90.55, 109.48)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q18_B"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "T2Q19",
+    "title": "Type2-Q19",
+    "source": "generated",
+    "prompt_html": "A study recorded reaction time (ms) for 12 individuals with the following sample values: 275, 242, 247, 259, 243, 254, 244, 275, 245, 239, 242, 253. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 98% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q19_A",
+        "label": "A",
+        "html": "(242.67, 260.33)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q19_B",
+        "label": "B",
+        "html": "(241.75, 261.25)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q19_C",
+        "label": "C",
+        "html": "(244.47, 258.53)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q19_D",
+        "label": "D",
+        "html": "(240.88, 262.12)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q19_E",
+        "label": "E",
+        "html": "(242.13, 261.58)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q19_B"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "T2Q20",
+    "title": "Type2-Q20",
+    "source": "generated",
+    "prompt_html": "A study recorded mouse body temperature (\u00b0C) for 14 individuals with the following sample values: 37.3, 37.3, 37.3, 37.4, 37.0, 36.6, 37.3, 37.6, 38.5, 36.3, 36.9, 38.5, 37.7, 37.1. Assume the population is normally distributed and the data are a simple random sample. Using this information, construct a 99% confidence interval for the population mean. Round your answer to two decimals.",
+    "choices": [
+      {
+        "id": "T2Q20_A",
+        "label": "A",
+        "html": "(36.89, 37.79)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q20_B",
+        "label": "B",
+        "html": "(36.85, 37.84)",
+        "is_correct": true
+      },
+      {
+        "id": "T2Q20_C",
+        "label": "C",
+        "html": "(37.02, 37.66)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q20_D",
+        "label": "D",
+        "html": "(36.81, 37.88)",
+        "is_correct": false
+      },
+      {
+        "id": "T2Q20_E",
+        "label": "E",
+        "html": "(36.87, 37.85)",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T2Q20_B"
+    ]
+  }
+]

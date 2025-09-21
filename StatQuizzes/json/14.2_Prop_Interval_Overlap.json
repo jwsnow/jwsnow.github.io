@@ -1,0 +1,842 @@
+[
+  {
+    "index": 1,
+    "ident": "T5Q01",
+    "title": "Type5-Q1",
+    "source": "generated",
+    "prompt_html": "In a poll, a 90% confidence interval for the proportion of voters supporting Finn is (0.46, 0.50). For Pablo, the 90% confidence interval is (0.49, 0.53). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q01_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q01_B",
+        "label": "B",
+        "html": "Since Pablo\u2019s lowest is greater than Finn\u2019s highest, Pablo is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q01_C",
+        "label": "C",
+        "html": "Since Finn\u2019s lowest is greater than Pablo\u2019s highest, Finn is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q01_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q01_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q01_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "T5Q02",
+    "title": "Type5-Q2",
+    "source": "generated",
+    "prompt_html": "In a poll, a 95% confidence interval for the proportion of voters supporting Sofia is (0.48, 0.52). For Noah, the 95% confidence interval is (0.50, 0.54). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q02_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q02_B",
+        "label": "B",
+        "html": "Since Noah\u2019s lowest is greater than Sofia\u2019s highest, Noah is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q02_C",
+        "label": "C",
+        "html": "Since Sofia\u2019s lowest is greater than Noah\u2019s highest, Sofia is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q02_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q02_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q02_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "T5Q03",
+    "title": "Type5-Q3",
+    "source": "generated",
+    "prompt_html": "In a poll, a 98% confidence interval for the proportion of voters supporting Liam is (0.42, 0.49). For Noah, the 98% confidence interval is (0.52, 0.58). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q03_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q03_B",
+        "label": "B",
+        "html": "Since Noah\u2019s lowest is greater than Liam\u2019s highest, Noah is ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q03_C",
+        "label": "C",
+        "html": "Since Liam\u2019s lowest is greater than Noah\u2019s highest, Liam is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q03_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q03_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q03_B"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "T5Q04",
+    "title": "Type5-Q4",
+    "source": "generated",
+    "prompt_html": "In a poll, a 99% confidence interval for the proportion of voters supporting Kira is (0.48, 0.54). For Noah, the 99% confidence interval is (0.45, 0.52). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q04_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q04_B",
+        "label": "B",
+        "html": "Since Noah\u2019s lowest is greater than Kira\u2019s highest, Noah is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q04_C",
+        "label": "C",
+        "html": "Since Kira\u2019s lowest is greater than Noah\u2019s highest, Kira is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q04_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q04_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q04_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "T5Q05",
+    "title": "Type5-Q5",
+    "source": "generated",
+    "prompt_html": "In a poll, a 90% confidence interval for the proportion of voters supporting Rhea is (0.45, 0.49). For Ben, the 90% confidence interval is (0.47, 0.51). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q05_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q05_B",
+        "label": "B",
+        "html": "Since Ben\u2019s lowest is greater than Rhea\u2019s highest, Ben is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q05_C",
+        "label": "C",
+        "html": "Since Rhea\u2019s lowest is greater than Ben\u2019s highest, Rhea is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q05_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q05_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q05_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "T5Q06",
+    "title": "Type5-Q6",
+    "source": "generated",
+    "prompt_html": "In a poll, a 95% confidence interval for the proportion of voters supporting Mila is (0.50, 0.56). For Quincy, the 95% confidence interval is (0.41, 0.47). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q06_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q06_B",
+        "label": "B",
+        "html": "Since Quincy\u2019s lowest is greater than Mila\u2019s highest, Quincy is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q06_C",
+        "label": "C",
+        "html": "Since Mila\u2019s lowest is greater than Quincy\u2019s highest, Mila is ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q06_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q06_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q06_C"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "T5Q07",
+    "title": "Type5-Q7",
+    "source": "generated",
+    "prompt_html": "In a poll, a 98% confidence interval for the proportion of voters supporting Olive is (0.38, 0.44). For Noah, the 98% confidence interval is (0.50, 0.55). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q07_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q07_B",
+        "label": "B",
+        "html": "Since Noah\u2019s lowest is greater than Olive\u2019s highest, Noah is ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q07_C",
+        "label": "C",
+        "html": "Since Olive\u2019s lowest is greater than Noah\u2019s highest, Olive is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q07_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q07_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q07_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "T5Q08",
+    "title": "Type5-Q8",
+    "source": "generated",
+    "prompt_html": "In a poll, a 99% confidence interval for the proportion of voters supporting Pablo is (0.50, 0.55). For Olive, the 99% confidence interval is (0.45, 0.51). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q08_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q08_B",
+        "label": "B",
+        "html": "Since Olive\u2019s lowest is greater than Pablo\u2019s highest, Olive is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q08_C",
+        "label": "C",
+        "html": "Since Pablo\u2019s lowest is greater than Olive\u2019s highest, Pablo is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q08_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q08_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q08_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "T5Q09",
+    "title": "Type5-Q9",
+    "source": "generated",
+    "prompt_html": "In a poll, a 90% confidence interval for the proportion of voters supporting Jack is (0.53, 0.56). For Olive, the 90% confidence interval is (0.50, 0.54). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q09_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q09_B",
+        "label": "B",
+        "html": "Since Olive\u2019s lowest is greater than Jack\u2019s highest, Olive is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q09_C",
+        "label": "C",
+        "html": "Since Jack\u2019s lowest is greater than Olive\u2019s highest, Jack is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q09_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q09_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q09_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "T5Q10",
+    "title": "Type5-Q10",
+    "source": "generated",
+    "prompt_html": "In a poll, a 95% confidence interval for the proportion of voters supporting Theo is (0.50, 0.53). For Hank, the 95% confidence interval is (0.47, 0.51). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q10_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q10_B",
+        "label": "B",
+        "html": "Since Hank\u2019s lowest is greater than Theo\u2019s highest, Hank is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q10_C",
+        "label": "C",
+        "html": "Since Theo\u2019s lowest is greater than Hank\u2019s highest, Theo is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q10_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q10_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q10_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "T5Q11",
+    "title": "Type5-Q11",
+    "source": "generated",
+    "prompt_html": "In a poll, a 98% confidence interval for the proportion of voters supporting Noah is (0.42, 0.45). For Chloe, the 98% confidence interval is (0.56, 0.59). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q11_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q11_B",
+        "label": "B",
+        "html": "Since Chloe\u2019s lowest is greater than Noah\u2019s highest, Chloe is ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q11_C",
+        "label": "C",
+        "html": "Since Noah\u2019s lowest is greater than Chloe\u2019s highest, Noah is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q11_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q11_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q11_B"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "T5Q12",
+    "title": "Type5-Q12",
+    "source": "generated",
+    "prompt_html": "In a poll, a 99% confidence interval for the proportion of voters supporting Derek is (0.45, 0.50). For Ella, the 99% confidence interval is (0.53, 0.58). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q12_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q12_B",
+        "label": "B",
+        "html": "Since Ella\u2019s lowest is greater than Derek\u2019s highest, Ella is ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q12_C",
+        "label": "C",
+        "html": "Since Derek\u2019s lowest is greater than Ella\u2019s highest, Derek is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q12_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q12_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q12_B"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "T5Q13",
+    "title": "Type5-Q13",
+    "source": "generated",
+    "prompt_html": "In a poll, a 90% confidence interval for the proportion of voters supporting Iris is (0.51, 0.55). For Noah, the 90% confidence interval is (0.58, 0.62). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q13_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q13_B",
+        "label": "B",
+        "html": "Since Noah\u2019s lowest is greater than Iris\u2019s highest, Noah is ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q13_C",
+        "label": "C",
+        "html": "Since Iris\u2019s lowest is greater than Noah\u2019s highest, Iris is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q13_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q13_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q13_B"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "T5Q14",
+    "title": "Type5-Q14",
+    "source": "generated",
+    "prompt_html": "In a poll, a 95% confidence interval for the proportion of voters supporting Rhea is (0.44, 0.49). For Ella, the 95% confidence interval is (0.56, 0.61). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q14_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q14_B",
+        "label": "B",
+        "html": "Since Ella\u2019s lowest is greater than Rhea\u2019s highest, Ella is ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q14_C",
+        "label": "C",
+        "html": "Since Rhea\u2019s lowest is greater than Ella\u2019s highest, Rhea is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q14_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q14_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q14_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "T5Q15",
+    "title": "Type5-Q15",
+    "source": "generated",
+    "prompt_html": "In a poll, a 98% confidence interval for the proportion of voters supporting Ella is (0.42, 0.47). For Chloe, the 98% confidence interval is (0.54, 0.59). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q15_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q15_B",
+        "label": "B",
+        "html": "Since Chloe\u2019s lowest is greater than Ella\u2019s highest, Chloe is ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q15_C",
+        "label": "C",
+        "html": "Since Ella\u2019s lowest is greater than Chloe\u2019s highest, Ella is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q15_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q15_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q15_B"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "T5Q16",
+    "title": "Type5-Q16",
+    "source": "generated",
+    "prompt_html": "In a poll, a 99% confidence interval for the proportion of voters supporting Quincy is (0.51, 0.55). For Iris, the 99% confidence interval is (0.46, 0.52). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q16_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q16_B",
+        "label": "B",
+        "html": "Since Iris\u2019s lowest is greater than Quincy\u2019s highest, Iris is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q16_C",
+        "label": "C",
+        "html": "Since Quincy\u2019s lowest is greater than Iris\u2019s highest, Quincy is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q16_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q16_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q16_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "T5Q17",
+    "title": "Type5-Q17",
+    "source": "generated",
+    "prompt_html": "In a poll, a 90% confidence interval for the proportion of voters supporting Sofia is (0.54, 0.58). For Theo, the 90% confidence interval is (0.50, 0.55). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q17_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q17_B",
+        "label": "B",
+        "html": "Since Theo\u2019s lowest is greater than Sofia\u2019s highest, Theo is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q17_C",
+        "label": "C",
+        "html": "Since Sofia\u2019s lowest is greater than Theo\u2019s highest, Sofia is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q17_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q17_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q17_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "T5Q18",
+    "title": "Type5-Q18",
+    "source": "generated",
+    "prompt_html": "In a poll, a 95% confidence interval for the proportion of voters supporting Rhea is (0.43, 0.48). For Pablo, the 95% confidence interval is (0.50, 0.55). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q18_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q18_B",
+        "label": "B",
+        "html": "Since Pablo\u2019s lowest is greater than Rhea\u2019s highest, Pablo is ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q18_C",
+        "label": "C",
+        "html": "Since Rhea\u2019s lowest is greater than Pablo\u2019s highest, Rhea is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q18_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q18_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q18_B"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "T5Q19",
+    "title": "Type5-Q19",
+    "source": "generated",
+    "prompt_html": "In a poll, a 98% confidence interval for the proportion of voters supporting Olive is (0.52, 0.56). For Kira, the 98% confidence interval is (0.58, 0.62). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q19_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q19_B",
+        "label": "B",
+        "html": "Since Kira\u2019s lowest is greater than Olive\u2019s highest, Kira is ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q19_C",
+        "label": "C",
+        "html": "Since Olive\u2019s lowest is greater than Kira\u2019s highest, Olive is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q19_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q19_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q19_B"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "T5Q20",
+    "title": "Type5-Q20",
+    "source": "generated",
+    "prompt_html": "In a poll, a 99% confidence interval for the proportion of voters supporting Mila is (0.52, 0.56). For Hank, the 99% confidence interval is (0.48, 0.53). What can we conclude?",
+    "choices": [
+      {
+        "id": "T5Q20_A",
+        "label": "A",
+        "html": "Since the intervals overlap, neither candidate is clearly ahead.",
+        "is_correct": true
+      },
+      {
+        "id": "T5Q20_B",
+        "label": "B",
+        "html": "Since Hank\u2019s lowest is greater than Mila\u2019s highest, Hank is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q20_C",
+        "label": "C",
+        "html": "Since Mila\u2019s lowest is greater than Hank\u2019s highest, Mila is ahead.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q20_D",
+        "label": "D",
+        "html": "Both are tied exactly.",
+        "is_correct": false
+      },
+      {
+        "id": "T5Q20_E",
+        "label": "E",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T5Q20_A"
+    ]
+  }
+]

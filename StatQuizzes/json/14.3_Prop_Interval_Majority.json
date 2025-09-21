@@ -1,0 +1,842 @@
+[
+  {
+    "index": 1,
+    "ident": "T6Q01",
+    "title": "Type6-Q1",
+    "source": "generated",
+    "prompt_html": "A 90% confidence interval for the proportion of participants who achieved their daily activity goal is (0.47, 0.57). Can we conclude that a majority participants who achieved their daily activity goal?",
+    "choices": [
+      {
+        "id": "T6Q01_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most participants who achieved their daily activity goal.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q01_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most participants who achieved their daily activity goal.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q01_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half participants who achieved their daily activity goal.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q01_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q01_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q01_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "T6Q02",
+    "title": "Type6-Q2",
+    "source": "generated",
+    "prompt_html": "A 95% confidence interval for the proportion of participants who achieved their daily activity goal is (0.52, 0.62). Can we conclude that a majority participants who achieved their daily activity goal?",
+    "choices": [
+      {
+        "id": "T6Q02_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most participants who achieved their daily activity goal.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q02_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most participants who achieved their daily activity goal.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q02_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half participants who achieved their daily activity goal.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q02_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q02_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q02_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "T6Q03",
+    "title": "Type6-Q3",
+    "source": "generated",
+    "prompt_html": "A 98% confidence interval for the proportion of users who recommend the app to a friend is (0.40, 0.48). Can we conclude that a majority users who recommend the app to a friend?",
+    "choices": [
+      {
+        "id": "T6Q03_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most users who recommend the app to a friend.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q03_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most users who recommend the app to a friend.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q03_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half users who recommend the app to a friend.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q03_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q03_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q03_C"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "T6Q04",
+    "title": "Type6-Q4",
+    "source": "generated",
+    "prompt_html": "A 99% confidence interval for the proportion of students who prefer online exams is (0.40, 0.52). Can we conclude that a majority students who prefer online exams?",
+    "choices": [
+      {
+        "id": "T6Q04_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most students who prefer online exams.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q04_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most students who prefer online exams.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q04_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half students who prefer online exams.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q04_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q04_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q04_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "T6Q05",
+    "title": "Type6-Q5",
+    "source": "generated",
+    "prompt_html": "A 90% confidence interval for the proportion of residents who support the new policy is (0.52, 0.63). Can we conclude that a majority residents who support the new policy?",
+    "choices": [
+      {
+        "id": "T6Q05_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most residents who support the new policy.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q05_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most residents who support the new policy.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q05_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half residents who support the new policy.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q05_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q05_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q05_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "T6Q06",
+    "title": "Type6-Q6",
+    "source": "generated",
+    "prompt_html": "A 95% confidence interval for the proportion of participants who achieved their daily activity goal is (0.36, 0.48). Can we conclude that a majority participants who achieved their daily activity goal?",
+    "choices": [
+      {
+        "id": "T6Q06_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most participants who achieved their daily activity goal.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q06_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most participants who achieved their daily activity goal.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q06_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half participants who achieved their daily activity goal.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q06_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q06_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q06_C"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "T6Q07",
+    "title": "Type6-Q7",
+    "source": "generated",
+    "prompt_html": "A 98% confidence interval for the proportion of students who prefer online exams is (0.49, 0.56). Can we conclude that a majority students who prefer online exams?",
+    "choices": [
+      {
+        "id": "T6Q07_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most students who prefer online exams.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q07_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most students who prefer online exams.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q07_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half students who prefer online exams.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q07_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q07_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q07_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "T6Q08",
+    "title": "Type6-Q8",
+    "source": "generated",
+    "prompt_html": "A 99% confidence interval for the proportion of users who recommend the app to a friend is (0.52, 0.57). Can we conclude that a majority users who recommend the app to a friend?",
+    "choices": [
+      {
+        "id": "T6Q08_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most users who recommend the app to a friend.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q08_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most users who recommend the app to a friend.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q08_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half users who recommend the app to a friend.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q08_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q08_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q08_B"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "T6Q09",
+    "title": "Type6-Q9",
+    "source": "generated",
+    "prompt_html": "A 90% confidence interval for the proportion of residents who support the new policy is (0.39, 0.48). Can we conclude that a majority residents who support the new policy?",
+    "choices": [
+      {
+        "id": "T6Q09_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most residents who support the new policy.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q09_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most residents who support the new policy.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q09_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half residents who support the new policy.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q09_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q09_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q09_C"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "T6Q10",
+    "title": "Type6-Q10",
+    "source": "generated",
+    "prompt_html": "A 95% confidence interval for the proportion of users who recommend the app to a friend is (0.47, 0.54). Can we conclude that a majority users who recommend the app to a friend?",
+    "choices": [
+      {
+        "id": "T6Q10_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most users who recommend the app to a friend.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q10_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most users who recommend the app to a friend.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q10_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half users who recommend the app to a friend.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q10_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q10_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q10_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "T6Q11",
+    "title": "Type6-Q11",
+    "source": "generated",
+    "prompt_html": "A 98% confidence interval for the proportion of users who recommend the app to a friend is (0.52, 0.59). Can we conclude that a majority users who recommend the app to a friend?",
+    "choices": [
+      {
+        "id": "T6Q11_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most users who recommend the app to a friend.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q11_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most users who recommend the app to a friend.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q11_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half users who recommend the app to a friend.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q11_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q11_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q11_B"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "T6Q12",
+    "title": "Type6-Q12",
+    "source": "generated",
+    "prompt_html": "A 99% confidence interval for the proportion of residents who support the new policy is (0.37, 0.48). Can we conclude that a majority residents who support the new policy?",
+    "choices": [
+      {
+        "id": "T6Q12_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most residents who support the new policy.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q12_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most residents who support the new policy.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q12_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half residents who support the new policy.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q12_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q12_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q12_C"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "T6Q13",
+    "title": "Type6-Q13",
+    "source": "generated",
+    "prompt_html": "A 90% confidence interval for the proportion of participants who achieved their daily activity goal is (0.48, 0.52). Can we conclude that a majority participants who achieved their daily activity goal?",
+    "choices": [
+      {
+        "id": "T6Q13_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most participants who achieved their daily activity goal.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q13_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most participants who achieved their daily activity goal.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q13_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half participants who achieved their daily activity goal.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q13_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q13_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q13_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "T6Q14",
+    "title": "Type6-Q14",
+    "source": "generated",
+    "prompt_html": "A 95% confidence interval for the proportion of students who prefer online exams is (0.52, 0.61). Can we conclude that a majority students who prefer online exams?",
+    "choices": [
+      {
+        "id": "T6Q14_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most students who prefer online exams.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q14_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most students who prefer online exams.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q14_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half students who prefer online exams.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q14_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q14_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q14_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "T6Q15",
+    "title": "Type6-Q15",
+    "source": "generated",
+    "prompt_html": "A 98% confidence interval for the proportion of residents who support the new policy is (0.38, 0.48). Can we conclude that a majority residents who support the new policy?",
+    "choices": [
+      {
+        "id": "T6Q15_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most residents who support the new policy.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q15_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most residents who support the new policy.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q15_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half residents who support the new policy.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q15_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q15_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q15_C"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "T6Q16",
+    "title": "Type6-Q16",
+    "source": "generated",
+    "prompt_html": "A 99% confidence interval for the proportion of participants who achieved their daily activity goal is (0.49, 0.60). Can we conclude that a majority participants who achieved their daily activity goal?",
+    "choices": [
+      {
+        "id": "T6Q16_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most participants who achieved their daily activity goal.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q16_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most participants who achieved their daily activity goal.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q16_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half participants who achieved their daily activity goal.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q16_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q16_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q16_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "T6Q17",
+    "title": "Type6-Q17",
+    "source": "generated",
+    "prompt_html": "A 90% confidence interval for the proportion of users who recommend the app to a friend is (0.52, 0.60). Can we conclude that a majority users who recommend the app to a friend?",
+    "choices": [
+      {
+        "id": "T6Q17_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most users who recommend the app to a friend.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q17_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most users who recommend the app to a friend.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q17_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half users who recommend the app to a friend.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q17_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q17_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q17_B"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "T6Q18",
+    "title": "Type6-Q18",
+    "source": "generated",
+    "prompt_html": "A 95% confidence interval for the proportion of users who recommend the app to a friend is (0.44, 0.48). Can we conclude that a majority users who recommend the app to a friend?",
+    "choices": [
+      {
+        "id": "T6Q18_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most users who recommend the app to a friend.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q18_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most users who recommend the app to a friend.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q18_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half users who recommend the app to a friend.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q18_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q18_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q18_C"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "T6Q19",
+    "title": "Type6-Q19",
+    "source": "generated",
+    "prompt_html": "A 98% confidence interval for the proportion of residents who support the new policy is (0.48, 0.56). Can we conclude that a majority residents who support the new policy?",
+    "choices": [
+      {
+        "id": "T6Q19_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most residents who support the new policy.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q19_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most residents who support the new policy.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q19_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half residents who support the new policy.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q19_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q19_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q19_A"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "T6Q20",
+    "title": "Type6-Q20",
+    "source": "generated",
+    "prompt_html": "A 99% confidence interval for the proportion of residents who support the new policy is (0.52, 0.58). Can we conclude that a majority residents who support the new policy?",
+    "choices": [
+      {
+        "id": "T6Q20_A",
+        "label": "A",
+        "html": "Since 0.50 is within the interval, we cannot conclude that most residents who support the new policy.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q20_B",
+        "label": "B",
+        "html": "Since 0.50 is below the interval, it is safe to say that most residents who support the new policy.",
+        "is_correct": true
+      },
+      {
+        "id": "T6Q20_C",
+        "label": "C",
+        "html": "Since 0.50 is above the interval, fewer than half residents who support the new policy.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q20_D",
+        "label": "D",
+        "html": "There is no way to tell.",
+        "is_correct": false
+      },
+      {
+        "id": "T6Q20_E",
+        "label": "E",
+        "html": "The data are inconclusive for another reason.",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "T6Q20_B"
+    ]
+  }
+]
