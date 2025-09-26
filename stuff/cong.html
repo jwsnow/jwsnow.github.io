@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Congruence Lattices of Small Unary Algebras</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --panel: #111827;
+    --muted: #94a3b8;
+    --text: #e5e7eb;
+    --accent: #38bdf8;
+    --accent2: #a78bfa;
+    --good: #34d399;
+    --bad: #f87171;
+    --border: #1f2937;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: linear-gradient(180deg, #0b1022, #0f172a 40%);
+    color: var(--text);
+    font: 15px/1.35 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  }
+  header {
+    padding: 20px 16px 0;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0 0 6px;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: 0.3px;
+  }
+  header p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 16px auto 48px;
+    padding: 0 16px;
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 16px;
+  }
+  .card {
+    background: rgba(17, 24, 39, 0.8);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    overflow: hidden;
+  }
+  .card header {
+    padding: 14px 16px;
+    background: linear-gradient(180deg, rgba(56,189,248,0.07), rgba(56,189,248,0));
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .card header h2 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+  }
+  .card .content { padding: 14px 16px 16px; }
+
+  .row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+  .row label { min-width: 150px; color: var(--muted); font-size: 13px; }
+  input[type="number"], select, input[type="text"] {
+    background: #0b1220;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 14px;
+    outline: none;
+  }
+  input[type="number"]:focus, select:focus, input[type="text"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(56,189,248,0.2);
+  }
+  button {
+    background: linear-gradient(180deg, #38bdf8, #0ea5e9);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+    transition: transform .02s ease, box-shadow .15s ease;
+    box-shadow: 0 6px 20px rgba(14,165,233,0.25);
+  }
+  button.secondary {
+    background: linear-gradient(180deg, #a78bfa, #7c3aed);
+    box-shadow: 0 6px 20px rgba(124,58,237,0.25);
+  }
+  button.ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    box-shadow: none;
+  }
+  button:hover { filter: brightness(1.04); }
+  button:active { transform: translateY(1px); }
+
+  .ops-list { margin-top: 8px; }
+  .op-item {
+    display: flex; justify-content: space-between; gap: 8px; align-items: center;
+    background: rgba(148,163,184,0.06);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 8px 10px; margin-bottom: 8px;
+  }
+  .op-item span { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: 13px; color: #cbd5e1; }
+  .muted { color: var(--muted); }
+
+  hr.sep { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+
+  .grid-wrap { overflow: auto; padding-bottom: 6px; }
+  table.op-grid { border-collapse: separate; border-spacing: 0; }
+  table.op-grid th, table.op-grid td {
+    border: 1px solid var(--border);
+    padding: 0;
+    text-align: center;
+    background: #0b1220;
+  }
+  table.op-grid th {
+    position: sticky; top: 0; z-index: 1; background: #0e1528; color: var(--muted);
+    font-weight: 600; font-size: 12px;
+  }
+  table.op-grid td input {
+    width: 60px; border: none; outline: none; background: transparent; color: var(--text);
+    text-align: center; padding: 10px 8px; font-size: 14px;
+  }
+  table.op-grid td input:focus {
+    background: #0f1b35;
+    box-shadow: inset 0 0 0 2px var(--accent);
+  }
+
+  .keylist code {
+    background: #0b1220; padding: 3px 6px; border-radius: 8px; border: 1px solid var(--border);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono";
+    font-size: 12px; color: #d1d5db;
+  }
+
+  .svg-wrap {
+    background: #0b1220; border: 1px solid var(--border); border-radius: 16px; padding: 8px;
+    overflow: auto; min-height: 380px;
+  }
+  svg { width: 100%; height: 100%; }
+  .node circle { fill: #0ea5e9; opacity: 0.95; }
+  .node text { font-size: 12px; fill: #f8fafc; pointer-events: none; }
+  .edge { stroke: #475569; stroke-width: 1.4; }
+  .edge-arrow { marker-end: url(#arrowhead); }
+  .tag { font-size: 11px; fill: #e2e8f0; opacity: 0.9; }
+
+  .note { font-size: 12px; color: var(--muted); margin-top: 8px; }
+  .pill {
+    display:inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700;
+    border: 1px solid var(--border); color: #e2e8f0; background: rgba(88,28,135,.25);
+  }
+  .status { margin-left: 8px; font-size: 12px; }
+  .ok { color: var(--good); }
+  .warn { color: #f59e0b; }
+  .err { color: var(--bad); }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Congruence Lattices of Small Unary Algebras</h1>
+    <p>Define unary operations on {1,2,3,…,n}, then compute and draw the congruence lattice.</p>
+  </header>
+
+  <div class="container">
+    <!-- LEFT: Controls -->
+    <div class="card">
+      <header><h2>Algebra Setup</h2></header>
+      <div class="content">
+        <div class="row">
+          <label for="size">Universe size (n):</label>
+          <input id="size" type="number" min="1" max="9" step="1" value="4" />
+          <span class="status warn" id="sizeStatus"></span>
+        </div>
+        <div class="row">
+          <button id="btnAddOp">Add Operation</button>
+          <button id="btnEditOp" class="secondary">Edit Existing</button>
+        </div>
+
+        <div id="opEditor" style="display:none; margin-top:10px;">
+          <div class="row">
+            <label for="opName">Operation name:</label>
+            <input id="opName" type="text" placeholder="e.g., f, g, h" />
+          </div>
+          <div class="grid-wrap" id="gridWrap"></div>
+          <div class="row" style="margin-top:10px;">
+            <button id="btnSaveOp">Save Operation</button>
+            <button id="btnCancelOp" class="ghost">Cancel</button>
+            <span class="status" id="opMsg"></span>
+          </div>
+        </div>
+
+        <hr class="sep" />
+
+        <div>
+          <div class="row" style="justify-content:space-between;">
+            <div class="muted">Operations</div>
+            <div><span class="pill" id="opCount">0 ops</span></div>
+          </div>
+          <div class="ops-list" id="opsList"></div>
+        </div>
+
+        <hr class="sep" />
+
+        <div class="row">
+          <button id="btnCompute" class="secondary">Compute Congruence Lattice</button>
+        </div>
+        <div class="note">
+          Tip: Arrow keys and Tab move between cells when editing an operation. Values must be integers in 1..n.
+          For best performance, keep n ≤ 8 (Bell numbers grow fast).
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Results -->
+    <div class="card">
+      <header><h2>Results</h2></header>
+      <div class="content">
+        <div id="keyOut" class="keylist"></div>
+        <div class="svg-wrap" style="margin-top:12px;">
+          <svg id="latticeSvg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function() {
+  // ---------- State ----------
+  let n = 4;
+  let operations = []; // { name: string, map: number[] of length n (1..n) }
+  let editingIndex = null; // null for new op, or existing index to edit
+
+  const sizeEl = document.getElementById('size');
+  const sizeStatus = document.getElementById('sizeStatus');
+  const btnAddOp = document.getElementById('btnAddOp');
+  const btnEditOp = document.getElementById('btnEditOp');
+  const opEditor = document.getElementById('opEditor');
+  const gridWrap = document.getElementById('gridWrap');
+  const opNameEl = document.getElementById('opName');
+  const btnSaveOp = document.getElementById('btnSaveOp');
+  const btnCancelOp = document.getElementById('btnCancelOp');
+  const opMsg = document.getElementById('opMsg');
+  const opsList = document.getElementById('opsList');
+  const opCount = document.getElementById('opCount');
+  const btnCompute = document.getElementById('btnCompute');
+  const keyOut = document.getElementById('keyOut');
+  const svg = document.getElementById('latticeSvg');
+
+  // ---------- Utilities ----------
+  const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+  function rgsPartitions(n) {
+    // Generate all set partitions of [1..n] using restricted-growth strings
+    const res = [];
+    const a = new Array(n).fill(0);
+    function backtrack(i, maxv) {
+      if (i === n) { res.push(a.slice()); return; }
+      for (let v = 0; v <= maxv + 1; v++) {
+        a[i] = v;
+        backtrack(i+1, Math.max(maxv, v));
+      }
+    }
+    backtrack(0, -1);
+    return res; // each is array of block ids starting at 0
+  }
+  function rgsToBlocks(rgs) {
+    const m = Math.max(...rgs)+1;
+    const blocks = Array.from({length:m}, ()=>[]);
+    for (let i=0;i<rgs.length;i++) blocks[rgs[i]].push(i+1); // elements are 1..n
+    return blocks;
+  }
+  function blocksToKey(blocks) {
+    // Canonical key: blocks sorted by first element; inside block sorted asc; join with '|'
+    const norm = blocks.map(b => b.slice().sort((x,y)=>x-y));
+    norm.sort((A,B)=>A[0]-B[0]);
+    return norm.map(b=>'{'+b.join(',')+'}').join('|');
+  }
+  function refineLE(P, Q) {
+    // P ≤ Q iff each block of P ⊆ some block of Q
+    for (const B of P) {
+      const inQ = Q.some(C => B.every(x => C.includes(x)));
+      if (!inQ) return false;
+    }
+    return true;
+  }
+  function coverPairs(nodes, leMatrix) {
+    // nodes: array of {blocks, key, name, level}
+    // leMatrix[i][j] true if i <= j
+    const edges = [];
+    for (let i=0;i<nodes.length;i++) {
+      for (let j=0;j<nodes.length;j++) {
+        if (i===j) continue;
+        if (!leMatrix[i][j]) continue;
+        // cover if no k with i<k<j
+        let cover = true;
+        for (let k=0;k<nodes.length;k++) {
+          if (k===i || k===j) continue;
+          if (leMatrix[i][k] && leMatrix[k][j] && !(leMatrix[k][i] && leMatrix[j][k])) {
+            // i <= k <= j with strict somewhere
+            if (!equalPartition(nodes[i].blocks, nodes[k].blocks) &&
+                !equalPartition(nodes[k].blocks, nodes[j].blocks)) {
+              cover = false; break;
+            }
+          }
+        }
+        if (cover && strictlyLess(nodes[i], nodes[j])) edges.push([i,j]);
+      }
+    }
+    return edges;
+  }
+  function strictlyLess(A,B) {
+    const a=A.blocks, b=B.blocks;
+    if (!refineLE(a,b)) return false;
+    if (!refineLE(b,a)) return true;
+    return false;
+  }
+  function equalPartition(A,B) {
+    if (A.length !== B.length) return false;
+    const keyA = blocksToKey(A), keyB = blocksToKey(B);
+    return keyA === keyB;
+  }
+
+  // ---------- Congruence testing for unary operations ----------
+  function isCongruence(blocks, ops) {
+    // Equivalence relation given by blocks; must satisfy: x~y ⇒ f(x)~f(y) for all f
+    // Build a lookup from element -> block index
+    const where = new Map();
+    blocks.forEach((blk, idx) => blk.forEach(x => where.set(x, idx)));
+    for (const op of ops) {
+      for (const blk of blocks) {
+        if (blk.length <= 1) continue;
+        // image block index for first element
+        const target = where.get(op.map[blk[0]-1]);
+        for (let i=1;i<blk.length;i++) {
+          const t = where.get(op.map[blk[i]-1]);
+          if (t !== target) return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  // ---------- Build/Edit Operation Grid ----------
+  function buildOpGrid(existing) {
+    const table = document.createElement('table');
+    table.className = 'op-grid';
+    const thead = document.createElement('thead');
+    const hr = document.createElement('tr');
+    const th1 = document.createElement('th'); th1.textContent = 'x';
+    const th2 = document.createElement('th'); th2.textContent = 'f(x)';
+    hr.appendChild(th1); hr.appendChild(th2);
+    thead.appendChild(hr);
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    for (let i=1;i<=n;i++) {
+      const tr = document.createElement('tr');
+      const th = document.createElement('th'); th.textContent = String(i);
+      const td = document.createElement('td');
+      const inp = document.createElement('input');
+      inp.type = 'number';
+      inp.min = 1; inp.max = n; inp.step = 1;
+      inp.value = existing ? existing[i-1] : i; // default to identity
+      inp.dataset.row = i-1;
+      inp.dataset.col = 0;
+      td.appendChild(inp);
+      tr.appendChild(th); tr.appendChild(td);
+      tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+
+    // Keyboard navigation: arrows & tab
+    table.addEventListener('keydown', (e) => {
+      const t = e.target;
+      if (!(t instanceof HTMLInputElement)) return;
+      const row = parseInt(t.dataset.row,10);
+      let nr = row;
+      if (e.key === 'ArrowUp') { nr = clamp(row-1, 0, n-1); e.preventDefault(); }
+      else if (e.key === 'ArrowDown') { nr = clamp(row+1, 0, n-1); e.preventDefault(); }
+      else if (e.key === 'Tab') {
+        nr = e.shiftKey ? clamp(row-1, 0, n-1) : clamp(row+1, 0, n-1);
+        e.preventDefault();
+      } else return;
+      const next = tbody.querySelector(`tr:nth-child(${nr+1}) input`);
+      if (next) next.focus();
+    });
+
+    gridWrap.innerHTML = '';
+    gridWrap.appendChild(table);
+  }
+
+  function openEditor(index=null) {
+    editingIndex = index;
+    opMsg.textContent = '';
+    const name = (index===null) ? suggestOpName() : operations[index].name;
+    opNameEl.value = name;
+    buildOpGrid(index===null ? null : operations[index].map);
+    opEditor.style.display = 'block';
+    setTimeout(()=> opNameEl.focus(), 50);
+  }
+  function closeEditor() {
+    opEditor.style.display = 'none';
+    gridWrap.innerHTML = '';
+    editingIndex = null;
+  }
+  function suggestOpName() {
+    const used = new Set(operations.map(o=>o.name));
+    const letters = 'fghijklmnopqrstuvwxyz';
+    for (const c of letters) if (!used.has(c)) return c;
+    let k=1;
+    while (used.has('f'+k)) k++;
+    return 'f'+k;
+  }
+  function readGrid() {
+    const inputs = gridWrap.querySelectorAll('input');
+    const map = new Array(n).fill(1);
+    for (const inp of inputs) {
+      const row = parseInt(inp.dataset.row,10);
+      let v = parseInt(inp.value,10);
+      if (!Number.isInteger(v) || v<1 || v>n) return { ok:false, msg:`Row ${row+1}: value must be an integer in 1..${n}` };
+      map[row] = v;
+    }
+    return { ok:true, map };
+  }
+
+  // ---------- Rendering ----------
+  function refreshOpsList() {
+    opsList.innerHTML = '';
+    for (let i=0;i<operations.length;i++) {
+      const op = operations[i];
+      const div = document.createElement('div');
+      div.className = 'op-item';
+      const lhs = document.createElement('span');
+      lhs.textContent = `${op.name}(x) = [${op.map.join(', ')}]`;
+      const rhs = document.createElement('div');
+      const btnE = document.createElement('button');
+      btnE.className = 'ghost';
+      btnE.textContent = 'Edit';
+      btnE.addEventListener('click', ()=>openEditor(i));
+      const btnD = document.createElement('button');
+      btnD.className = 'ghost';
+      btnD.textContent = 'Delete';
+      btnD.addEventListener('click', ()=>{
+        operations.splice(i,1);
+        refreshOpsList();
+      });
+      rhs.appendChild(btnE);
+      rhs.appendChild(btnD);
+      div.appendChild(lhs);
+      div.appendChild(rhs);
+      opsList.appendChild(div);
+    }
+    opCount.textContent = `${operations.length} ${operations.length===1?'op':'ops'}`;
+  }
+
+  function warnSize() {
+    const v = parseInt(sizeEl.value,10);
+    if (v>8) {
+      sizeStatus.textContent = 'Warning: may be slow (Bell number explodes)';
+    } else if (v<=0) {
+      sizeStatus.textContent = 'n must be ≥ 1';
+    } else {
+      sizeStatus.textContent = '';
+    }
+  }
+
+  // ---------- Compute congruence lattice ----------
+  function computeCongruences() {
+    if (n <= 0) return [];
+    const all = rgsPartitions(n);
+    const congrs = [];
+    for (const rgs of all) {
+      const blocks = rgsToBlocks(rgs);
+      if (isCongruence(blocks, operations)) {
+        congrs.push(blocks);
+      }
+    }
+    // Sort by (#blocks desc) so top (1-block) first later we can layer nicely
+    congrs.sort((A,B)=> A.length - B.length); // fewer blocks (coarser) first
+    return congrs;
+  }
+
+  function assignNames(congrs) {
+    // Name Θ0 = universal, Θ1, Θ2, ...
+    // Ensure deterministic: order by (#blocks asc, then key)
+    const withKeys = congrs.map(b => ({ blocks:b, key:blocksToKey(b) }));
+    withKeys.sort((a,b)=>{
+      if (a.blocks.length !== b.blocks.length) return a.blocks.length - b.blocks.length;
+      return a.key.localeCompare(b.key);
+    });
+    withKeys.forEach((x,i)=> x.name = 'Θ' + i);
+    return withKeys;
+  }
+
+  function renderKey(list) {
+    if (!list.length) { keyOut.innerHTML = '<div class="muted">No congruences (define at least one operation or adjust n).</div>'; return; }
+    const lines = list.map(x => {
+      return `<div style="margin:4px 0;"><code>${x.name}</code> : ${blocksToKey(x.blocks)}</div>`;
+    });
+    keyOut.innerHTML = `<div style="margin-bottom:8px;"><span class="muted">Congruences (${list.length}):</span></div>` + lines.join('');
+  }
+
+  function drawLattice(nodes) {
+    // Prepare SVG
+    svg.innerHTML = '';
+    const paddingX = 40, paddingY = 40;
+    const width = 1100, height = 740;
+    svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+
+    // Levels by number of blocks: level = maxBlocks - blocks
+    const maxBlocks = Math.max(...nodes.map(x=>x.blocks.length));
+    const minBlocks = Math.min(...nodes.map(x=>x.blocks.length));
+    const levels = new Map(); // level -> indices
+    nodes.forEach((node, idx) => {
+      const level = maxBlocks - node.blocks.length;
+      node.level = level;
+      if (!levels.has(level)) levels.set(level, []);
+      levels.get(level).push(idx);
+    });
+    // order within level by key
+    for (const arr of levels.values()) {
+      arr.sort((i,j)=> nodes[i].key.localeCompare(nodes[j].key));
+    }
+
+    // compute le matrix & edges (covers)
+    const le = Array.from({length:nodes.length}, ()=>Array(nodes.length).fill(false));
+    for (let i=0;i<nodes.length;i++){
+      for (let j=0;j<nodes.length;j++){
+        if (refineLE(nodes[i].blocks, nodes[j].blocks)) le[i][j] = true;
+      }
+    }
+    const edges = coverPairs(nodes, le);
+
+    // node positions
+    const levelCount = maxBlocks - minBlocks + 1;
+    const levelGap = Math.max(80, (height - 2*paddingY) / Math.max(1, levelCount-1));
+    const positions = new Map(); // idx -> {x,y}
+    for (const [lvl, arr] of [...levels.entries()]) {
+      const y = paddingY + lvl*levelGap;
+      const cnt = arr.length;
+      const span = width - 2*paddingX;
+      for (let k=0;k<cnt;k++) {
+        const x = paddingX + (cnt===1 ? span/2 : (k * (span/(cnt-1))));
+        positions.set(arr[k], {x,y});
+      }
+    }
+
+    // defs for arrowhead (optional; uncomment to show arrows)
+    const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
+    const marker = document.createElementNS('http://www.w3.org/2000/svg','marker');
+    marker.setAttribute('id','arrowhead');
+    marker.setAttribute('markerWidth','8');
+    marker.setAttribute('markerHeight','6');
+    marker.setAttribute('refX','8');
+    marker.setAttribute('refY','3');
+    marker.setAttribute('orient','auto');
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d','M0,0 L8,3 L0,6 Z');
+    path.setAttribute('fill','#64748b');
+    marker.appendChild(path);
+    defs.appendChild(marker);
+    svg.appendChild(defs);
+
+    // draw edges
+    for (const [i,j] of edges) {
+      const p = positions.get(i), q = positions.get(j);
+      const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+      line.setAttribute('x1', p.x); line.setAttribute('y1', p.y);
+      line.setAttribute('x2', q.x); line.setAttribute('y2', q.y);
+      line.setAttribute('class','edge');
+      svg.appendChild(line);
+    }
+
+    // draw nodes
+    for (let idx=0; idx<nodes.length; idx++) {
+      const {x,y} = positions.get(idx);
+      const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+      g.setAttribute('class','node');
+      // circle
+      const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      c.setAttribute('cx', x); c.setAttribute('cy', y);
+      c.setAttribute('r', 16);
+      g.appendChild(c);
+      // label (name)
+      const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x', x); t.setAttribute('y', y+4);
+      t.setAttribute('text-anchor','middle');
+      t.textContent = nodes[idx].name;
+      g.appendChild(t);
+      svg.appendChild(g);
+
+      // tag under node with partition (optional but useful)
+      const tag = document.createElementNS('http://www.w3.org/2000/svg','text');
+      tag.setAttribute('class','tag');
+      tag.setAttribute('x', x);
+      tag.setAttribute('y', y + 30);
+      tag.setAttribute('text-anchor','middle');
+      tag.textContent = blocksToKey(nodes[idx].blocks);
+      svg.appendChild(tag);
+    }
+  }
+
+  // ---------- Events ----------
+  sizeEl.addEventListener('input', ()=>{
+    const v = parseInt(sizeEl.value,10);
+    if (!Number.isInteger(v) || v<1) return;
+    n = v;
+    warnSize();
+    // When n changes, wipe existing operations because arity changes domain/codomain
+    if (operations.length) {
+      operations = operations.map(op => {
+        const map = new Array(n).fill(1);
+        for (let i=0;i<Math.min(n, op.map.length);i++) {
+          map[i] = clamp(op.map[i], 1, n);
+        }
+        return { name: op.name, map };
+      });
+      refreshOpsList();
+    }
+    if (opEditor.style.display === 'block') {
+      buildOpGrid(editingIndex===null ? null : operations[editingIndex].map);
+    }
+  });
+
+  btnAddOp.addEventListener('click', ()=> openEditor(null));
+  btnEditOp.addEventListener('click', ()=>{
+    if (!operations.length) { opMsg.textContent = 'No operations to edit.'; return; }
+    // If only one, open it; else let the user pick via prompt
+    if (operations.length === 1) openEditor(0);
+    else {
+      const names = operations.map((o,i)=>`${i}: ${o.name}`).join('\n');
+      const s = prompt(`Edit which operation?\n${names}\nEnter index (0..${operations.length-1}):`, '0');
+      if (s === null) return;
+      const idx = parseInt(s,10);
+      if (Number.isInteger(idx) && idx>=0 && idx<operations.length) openEditor(idx);
+      else alert('Invalid index.');
+    }
+  });
+
+  btnCancelOp.addEventListener('click', ()=> closeEditor());
+  btnSaveOp.addEventListener('click', ()=>{
+    const name = opNameEl.value.trim() || suggestOpName();
+    // ensure name unique
+    const existsAt = operations.findIndex(o => o.name === name);
+    const r = readGrid();
+    if (!r.ok) { opMsg.textContent = r.msg; opMsg.className = 'status err'; return; }
+    const rec = { name, map: r.map.slice() };
+    if (editingIndex===null) {
+      if (existsAt !== -1) { opMsg.textContent = 'Name already used. Choose a different name.'; opMsg.className='status err'; return; }
+      operations.push(rec);
+      opMsg.textContent = 'Operation added.'; opMsg.className='status ok';
+    } else {
+      if (existsAt !== -1 && existsAt !== editingIndex) {
+        opMsg.textContent = 'Name already used by another operation.'; opMsg.className='status err'; return;
+      }
+      operations[editingIndex] = rec;
+      opMsg.textContent = 'Operation updated.'; opMsg.className='status ok';
+    }
+    refreshOpsList();
+    setTimeout(()=> closeEditor(), 250);
+  });
+
+  btnCompute.addEventListener('click', ()=>{
+    keyOut.innerHTML = '<span class="muted">Computing…</span>';
+    // Allow UI to paint
+    setTimeout(()=>{
+      const congrs = computeCongruences();
+      const named = assignNames(congrs);
+      renderKey(named);
+      drawLattice(named);
+    }, 10);
+  });
+
+  // ---------- Init ----------
+  warnSize();
+  refreshOpsList();
+
+  // Provide a tiny demo: default add identity op f
+  operations.push({ name: 'f', map: Array.from({length:n}, (_,i)=>i+1) });
+  refreshOpsList();
+})();
+</script>
+</body>
+</html>

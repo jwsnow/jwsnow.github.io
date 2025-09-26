@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Power Set & Subgroup Visualizer (Groups ≤ 8)</title>
+<style>
+  :root { --bg:#0b0f14; --fg:#e8eef6; --muted:#a8b3c7; --gray:#6b7280; --accent:#60a5fa; --red:#ef4444; --green:#22c55e; --blue:#3b82f6; }
+  html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,'Helvetica Neue',Arial,'Noto Sans',sans-serif;background:var(--bg);color:var(--fg)}
+  header{background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0));border-bottom:1px solid rgba(255,255,255,0.07)}
+  .wrap{max-width:1200px;margin:0 auto;padding:12px 16px}
+  h1{font-size:20px;margin:0 0 8px 0}
+  .buttons{display:flex;flex-wrap:wrap;gap:8px}
+  button.grp{background:#1f2937;color:var(--fg);border:1px solid #334155;border-radius:999px;padding:8px 12px;font-size:14px;cursor:pointer}
+  button.grp:hover{border-color:#4b5563;background:#0f172a}
+  .legend{display:flex;gap:16px;align-items:center;margin-top:8px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+  .legend .sw{display:inline-block;width:14px;height:14px;border-radius:50%;margin-right:6px;border:1.5px solid #94a3b8;background:#374151}
+  .sw.red{background:var(--red);border-color:#b91c1c}
+  .sw.green{background:var(--green);border-color:#15803d}
+  .sw.gray{background:#6b7280;border-color:#4b5563}
+  .sw.blue{background:transparent;border-color:var(--blue);border-radius:4px}
+  #stage{width:100%;}
+  svg{width:100%;display:block;background:radial-gradient(ellipse at top,#0f172a 0%,#0b0f14 60%);}
+  .node circle{fill:#6b7280;stroke:#111827;stroke-width:1.25}
+  .node.normal circle{fill:var(--green);stroke:#064e3b}
+  .node.subgroup:not(.normal) circle{fill:var(--red);stroke:#7f1d1d}
+  .node text{font-size:11px;fill:var(--muted);pointer-events:none}
+  .edge{stroke:#374151;stroke-width:1;opacity:0.65}
+  .coset-ring{fill:none;stroke:var(--blue);stroke-width:3}
+  .tooltip{position:fixed;pointer-events:none;background:#111827;border:1px solid #374151;color:#e5e7eb;padding:6px 8px;border-radius:6px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,0.35);max-width:60ch;z-index:9999;opacity:0;transform:translateY(-4px);transition:opacity .08s ease, transform .08s ease}
+  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .hint{color:#9ca3af;font-size:12px;margin-left:auto}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Power Set Hasse Diagram of Groups (|G| ≤ 8)</h1>
+    <div class="row">
+      <div class="buttons" id="groupButtons"></div>
+      <div class="hint" id="meta"></div>
+    </div>
+    <div class="legend">
+      <span><span class="sw gray"></span>subset</span>
+      <span><span class="sw red"></span>subgroup</span>
+      <span><span class="sw green"></span>normal subgroup</span>
+      <span><span class="sw blue"></span>click a normal subgroup to outline its cosets</span>
+    </div>
+  </div>
+</header>
+<div id="stage"><svg id="svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet"></svg></div>
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+/* ==========================
+   Canonical group wrapper
+   Elements are indexed 0..n-1.
+   We store labels[] and mulTable[][].
+   ========================== */
+function makeGroup(name, labels, mulTable) {
+  const n = labels.length;
+  // compute inverses
+  const inv = Array(n).fill(0);
+  for (let a=0;a<n;a++) {
+    for (let b=0;b<n;b++) if (mulTable[a][b]===0) { inv[a]=b; break; }
+  }
+  // abelian check
+  let abelian = true;
+  outer: for (let i=0;i<n;i++) for (let j=0;j<n;j++) { if (mulTable[i][j]!==mulTable[j][i]) { abelian=false; break outer; } }
+  return {
+    name, order:n,
+    label:(i)=>labels[i],
+    mul:(a,b)=>mulTable[a][b],
+    inv:(i)=>inv[i],
+    id:0,
+    abelian,
+    _labels:labels, _mul:mulTable, _inv:inv
+  };
+}
+
+function cyclic(n) {
+  const labels = Array.from({length:n}, (_,i)=> i===0 ? "e" : `${i}`);
+  const mulTable = Array.from({length:n}, ()=>Array(n).fill(0));
+  for (let a=0;a<n;a++) for (let b=0;b<n;b++) mulTable[a][b] = (a+b)%n;
+  return makeGroup(`C${n}`, labels, mulTable);
+}
+
+function product(G,H,name) {
+  const n = G.order * H.order;
+  const labels = Array.from({length:n}, (_,idx)=> {
+    const a = Math.floor(idx / H.order);
+    const b = idx % H.order;
+    return `(${G.label(a)},${H.label(b)})`;
+  });
+  const mulTable = Array.from({length:n}, ()=>Array(n).fill(0));
+  for (let i=0;i<n;i++) {
+    const a1 = Math.floor(i / H.order), b1 = i % H.order;
+    for (let j=0;j<n;j++) {
+      const a2 = Math.floor(j / H.order), b2 = j % H.order;
+      const a = G.mul(a1,a2);
+      const b = H.mul(b1,b2);
+      mulTable[i][j] = a*H.order + b;
+    }
+  }
+  return makeGroup(name, labels, mulTable);
+}
+
+function S3() {
+  const perms = [
+    [1,2,3], // e
+    [2,1,3], // (12)
+    [1,3,2], // (23)
+    [3,2,1], // (13)
+    [2,3,1], // (123)
+    [3,1,2], // (132)
+  ];
+  const labels = ["e","(12)","(23)","(13)","(123)","(132)"];
+  const compose = (p,q)=> [p[q[0]-1], p[q[1]-1], p[q[2]-1]]; // p∘q
+  const mulTable = Array.from({length:6}, ()=>Array(6).fill(0));
+  for (let i=0;i<6;i++) for (let j=0;j<6;j++) {
+    const r = compose(perms[i], perms[j]);
+    mulTable[i][j] = perms.findIndex(x=> x[0]===r[0] && x[1]===r[1] && x[2]===r[2]);
+  }
+  return makeGroup("S3", labels, mulTable);
+}
+
+function D8() { // order 8 dihedral: r^4=e, s^2=e, srs=r^{-1}
+  const els = [];
+  for (let i=0;i<4;i++) for (let j=0;j<2;j++) els.push([i,j]); // [i,j] -> r^i s^j
+  const labels = els.map(([i,j])=> j?`r^${i}·s`:`r^${i}`);
+  const mul = (a,b)=>{
+    let [i,j]=els[a], [k,l]=els[b];
+    if (j===1) k = (4 - k)%4;        // s r^k = r^{-k} s
+    const i2=(i+k)%4, j2=(j+l)%2;
+    const res=[i2,j2];
+    for (let t=0;t<els.length;t++) if (els[t][0]===res[0] && els[t][1]===res[1]) return t;
+    return 0;
+  };
+  const mulTable = Array.from({length:8}, ()=>Array(8).fill(0));
+  for (let a=0;a<8;a++) for (let b=0;b<8;b++) mulTable[a][b]=mul(a,b);
+  return makeGroup("D8", labels, mulTable);
+}
+
+function Q8() { // quaternion group
+  const labels = ["1","-1","i","-i","j","-j","k","-k"];
+  const idx = Object.fromEntries(labels.map((s,i)=>[s,i]));
+  const T = {
+    "1": {"1":"1","-1":"-1","i":"i","-i":"-i","j":"j","-j":"-j","k":"k","-k":"-k"},
+    "-1":{"1":"-1","-1":"1","i":"-i","-i":"i","j":"-j","-j":"j","k":"-k","-k":"k"},
+    "i": {"1":"i","-1":"-i","i":"-1","-i":"1","j":"k","-j":"-k","k":"-j","-k":"j"},
+    "-i":{"1":"-i","-1":"i","i":"1","-i":"-1","j":"-k","-j":"k","k":"j","-k":"-j"},
+    "j": {"1":"j","-1":"-j","i":"-k","-i":"k","j":"-1","-j":"1","k":"i","-k":"-i"},
+    "-j":{"1":"-j","-1":"j","i":"k","-i":"-k","j":"1","-j":"-1","k":"-i","-k":"i"},
+    "k": {"1":"k","-1":"-k","i":"j","-i":"-j","j":"-i","-j":"i","k":"-1","-k":"1"},
+    "-k":{"1":"-k","-1":"k","i":"-j","-i":"j","j":"i","-j":"-i","k":"1","-k":"-1"}
+  };
+  const mulTable = Array.from({length:8}, ()=>Array(8).fill(0));
+  for (let a=0;a<8;a++) for (let b=0;b<8;b++) mulTable[a][b] = idx[ T[labels[a]][labels[b]] ];
+  return makeGroup("Q8", labels, mulTable);
+}
+
+/* ==========================
+   Subset utilities
+   ========================== */
+function popcount(x){ let c=0; while(x){ x&=x-1; c++; } return c; }
+function isSubset(a,b){ return (a & ~b)===0; }
+
+function isSubgroupBits(bits, G) {
+  const n=G.order, T=G._mul, inv=G._inv, id=0;
+  if (bits===0) return false;                   // ∅ not a subgroup
+  if (((bits>>>id)&1)===0) return false;        // must contain identity
+  // closure + inverses
+  for (let a=0;a<n;a++) if ((bits>>>a)&1) {
+    if (((bits>>>inv[a])&1)===0) return false;  // inverse in H
+    for (let b=0;b<n;b++) if ((bits>>>b)&1) {
+      const c = T[a][b];
+      if (((bits>>>c)&1)===0) return false;     // closure
+    }
+  }
+  return true;
+}
+
+function isNormalBits(bits, G) {
+  if (!isSubgroupBits(bits,G)) return false;
+  if (G.abelian) return true;
+  const n=G.order, T=G._mul, inv=G._inv;
+  for (let g=0; g<n; g++) {
+    for (let h=0; h<n; h++) if ((bits>>>h)&1) {
+      const gh = T[g][h];
+      const ghgInv = T[gh][inv[g]];
+      if (((bits>>>ghgInv)&1)===0) return false;
+    }
+  }
+  return true;
+}
+
+function cosetBitsLeft(bits, g, G){
+  const n=G.order, T=G._mul; let out=0;
+  for (let h=0; h<n; h++) if ((bits>>>h)&1) out |= (1<<T[g][h]);
+  return out;
+}
+
+/* ==========================
+   Layout & rendering
+   ========================== */
+const svg = document.getElementById('svg');
+const tooltip = document.getElementById('tooltip');
+let nodes=[], edges=[], rings=[], nodeIndexByBits=new Map();
+
+function clearSVG(){ while(svg.firstChild) svg.removeChild(svg.firstChild); }
+
+function layoutBooleanLattice(n){
+  const layers=[...Array(n+1)].map(()=>[]);
+  for (let bits=0; bits<(1<<n); bits++) layers[popcount(bits)].push(bits);
+  // compute geometry
+  const W=1200, left=40, right=40, top=40, bottom=40;
+  const layerGap=90; // vertical gap between ranks
+  const H=top + bottom + layerGap*n; // k=0 at bottom, k=n at top
+  nodes=[]; nodeIndexByBits.clear();
+  let idx=0;
+  for (let k=0; k<=n; k++) {
+    const y = H - bottom - k*layerGap; // invert so empty set at bottom
+    const row = layers[k];
+    const count = row.length;
+    for (let i=0; i<count; i++) {
+      const x = left + (W-left-right) * (i+1)/(count+1);
+      const bits = row[i];
+      nodes.push({id:idx, bits, x, y, k});
+      nodeIndexByBits.set(bits, idx);
+      idx++;
+    }
+  }
+  // covers
+  edges=[];
+  for (const a of nodes){
+    for (const b of nodes){
+      if (b.k===a.k+1 && isSubset(a.bits,b.bits) && popcount(b.bits)-popcount(a.bits)===1){
+        edges.push({a:a.id, b:b.id});
+      }
+    }
+  }
+  // set svg size
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.style.height = `${H}px`;
+}
+
+function subsetLabel(bits, G){
+  const names=[]; for(let i=0;i<G.order;i++) if((bits>>>i)&1) names.push(G.label(i));
+  return `{ ${names.join(', ')} }`;
+}
+
+function render(G){
+  clearSVG(); rings=[];
+  layoutBooleanLattice(G.order);
+  // classify nodes
+  for (const nd of nodes){
+    nd.isSubgroup = isSubgroupBits(nd.bits, G);
+    nd.isNormal = nd.isSubgroup && isNormalBits(nd.bits, G);
+  }
+  // edges
+  for (const e of edges){
+    const a=nodes[e.a], b=nodes[e.b];
+    const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',a.x); line.setAttribute('y1',a.y);
+    line.setAttribute('x2',b.x); line.setAttribute('y2',b.y);
+    line.setAttribute('class','edge');
+    svg.appendChild(line);
+  }
+  // nodes
+  for (const nd of nodes){
+    const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('class', `node${nd.isNormal? ' normal' : (nd.isSubgroup? ' subgroup' : '')}`);
+    g.setAttribute('transform',`translate(${nd.x},${nd.y})`);
+    const r=10;
+    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('r', r);
+    c.setAttribute('cx',0); c.setAttribute('cy',0);
+    g.appendChild(c);
+    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('y', -14);
+    t.setAttribute('text-anchor','middle');
+    t.textContent = popcount(nd.bits);
+    g.appendChild(t);
+
+    // tooltip with viewport clamping
+    g.addEventListener('mousemove', (ev)=>{
+      tooltip.style.opacity=1;
+      const pad=12;
+      tooltip.textContent = subsetLabel(nd.bits,G);
+      // Measure and clamp
+      tooltip.style.left = '0px'; tooltip.style.top = '0px'; // reset to measure
+      tooltip.style.transform='translateY(0px)';
+      const rect = tooltip.getBoundingClientRect();
+      let x = ev.clientX + pad;
+      let y = ev.clientY + pad;
+      if (x + rect.width > window.innerWidth - 8) x = window.innerWidth - rect.width - 8;
+      if (y + rect.height > window.innerHeight - 8) y = ev.clientY - rect.height - pad;
+      if (y < 8) y = 8;
+      tooltip.style.left = x + 'px';
+      tooltip.style.top = y + 'px';
+    });
+    g.addEventListener('mouseleave', ()=>{
+      tooltip.style.opacity=0; tooltip.style.transform='translateY(-4px)';
+    });
+
+    // click: if normal subgroup, outline its cosets
+    g.addEventListener('click', ()=>{
+      if(!nd.isNormal) return;
+      highlightCosets(nd.bits, G);
+    });
+
+    svg.appendChild(g);
+  }
+}
+
+function clearCosetRings(){
+  for(const r of rings) svg.removeChild(r);
+  rings=[];
+}
+
+function highlightCosets(bits, G){
+  clearCosetRings();
+  const n=G.order; const seen=new Set();
+  for(let g=0; g<n; g++){
+    const cb = cosetBitsLeft(bits, g, G);
+    if(seen.has(cb)) continue; seen.add(cb);
+    const idx = nodeIndexByBits.get(cb);
+    if(idx==null) continue;
+    const nd = nodes[idx];
+    const ring=document.createElementNS('http://www.w3.org/2000/svg','rect');
+    const size=24;
+    ring.setAttribute('x', nd.x - size/2);
+    ring.setAttribute('y', nd.y - size/2);
+    ring.setAttribute('width', size);
+    ring.setAttribute('height', size);
+    ring.setAttribute('rx', 6);
+    ring.setAttribute('class','coset-ring');
+    svg.appendChild(ring);
+    rings.push(ring);
+  }
+}
+
+/* ==========================
+   UI
+   ========================== */
+const btns = document.getElementById('groupButtons');
+const meta = document.getElementById('meta');
+
+function makeButtonFor(G){
+  const b=document.createElement('button'); b.className='grp'; b.textContent = `${G.name} (|G|=${G.order})`;
+  b.addEventListener('click', ()=>{
+    meta.textContent = `Rendering 2^${G.name}: ${1<<G.order} subsets • ${G.abelian? 'abelian' : 'non-abelian'}`;
+    render(G);
+  });
+  return b;
+}
+
+// Build groups (non-isomorphic up to 8)
+const C1 = cyclic(1);
+const C2 = cyclic(2);
+const C3 = cyclic(3);
+const C4 = cyclic(4);
+const V4 = product(C2,C2,"C2×C2");
+const C5 = cyclic(5);
+const C6 = cyclic(6);
+const S_3 = S3();
+const C7 = cyclic(7);
+const C8 = cyclic(8);
+const C4xC2 = product(C4,C2,"C4×C2");
+const C2xC2xC2 = product(V4,C2,"C2×C2×C2");
+const D_8 = D8();
+const Q_8 = Q8();
+
+const groups = [C1,C2,C3,C4,V4,C5,C6,S_3,C7,C8,C4xC2,C2xC2xC2,D_8,Q_8];
+for (const G of groups) btns.appendChild(makeButtonFor(G));
+
+// default
+(function init(){
+  const start = C3;
+  meta.textContent = `Rendering 2^${start.name}: ${1<<start.order} subsets • ${start.abelian? 'abelian' : 'non-abelian'}`;
+  render(start);
+})();
+</script>
+</body>
+</html>
