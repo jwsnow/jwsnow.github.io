@@ -146,7 +146,7 @@ div.answerDiv{
 </style>
 <script>
 var numLists=13;
-var numRows=400;
+var numRows=1000;
 var maxRows=1000;
 var globalNumSamples=10000;
 var list=[];
@@ -1461,6 +1461,25 @@ of chirps in 60 seconds at different temperatures Fahrenheit. Clicking the butto
 </div>
 </li>
 
+<li>
+<button class='expander' data-open='HeightData' data-close='dummyExpandableDiv'>Heights</button>
+<div class='expandable' id='HeightData'>
+Below are samples of heights in cm of various types of athletes collected by students during Fall 2025.
+<ul>
+<li>
+<button onclick='insertData(UTFB,UTFBLabel);'>Heights of UT football players</button>
+<button onclick='insertData(UFC,UFCLabel);'>Heights of UFC fighters</button>
+<button onclick='insertData(Volley,VolleyLabel);'>Heights of female volleyball players</button>
+<button onclick='insertData(Bull,BullLabel);'>Heights of bull riders</button>
+<button onclick='insertData(Dancers,DancersLabel);'>Heights of female college dancers</button>
+<button onclick='insertData(WNBA,WNBALabel);'>Heights of WNBA players</button>
+<button onclick='insertData(Soccer,SoccerLabel);'>Heights of male soccer players</button>
+<button onclick='insertData(Tennis,TennisLabel);'>Heights of female tennis players</button>
+</li>
+</ul>
+</div>
+</li>
+
 </ul>
 </div>
 <script>
@@ -1555,6 +1574,15 @@ var Cylinder2Label='Cylinders 2'; var Cylinder2=[8, 5, 5, 6, 5, 9, 5, 4, 6, 8, 6
 
 var CricketChirpsLabel='Chirps'; var CricketChirps=[176, 186, 174, 140, 140, 130, 116, 111, 102, 82, 50, 148, 150, 146, 145, 132, 172, 184, 116, 127, 124, 115, 94, 130, 124, 118, 90, 82, 140, 132, 126, 115, 85, 151, 148, 148, 145, 126, 121, 125, 104, 101, 95, 89, 70, 62, 59, 60, 56, 74, 111, 104, 87, 50, 50];
 var CricketTempLabel='Temp'; var CricketTemp=[80.5, 78.5, 78, 73.5, 70.5, 68, 66, 65, 61.5, 57, 55, 76.25, 74, 74, 72.5, 66, 77.5, 78.5, 68.5, 68.5, 68, 66, 59, 70, 69, 67, 61.25, 58.5, 72, 71, 69, 66.5, 60, 75, 73.25, 72.5, 70, 67.5, 66, 69, 63, 63, 61, 62, 56.5, 55, 52, 53, 50, 52, 65, 63, 59, 50.75, 49.25];
+
+var UTFBLabel="UTFB"; var UTFB=[183, 196, 193, 193, 180, 191, 185, 183, 183, 178, 178, 183, 180, 180, 191, 193, 201, 193, 185, 198, 193, 183, 188, 185, 188, 188, 191, 193, 183, 180];
+var UFCLabel="UFC"; var UFC=[178, 178, 168, 193, 183, 180, 175, 188, 180, 170, 183, 170, 193, 188, 183, 188, 180, 180, 180, 170, 180, 185, 191, 173, 180, 183, 191, 185, 183, 185];
+var VolleyLabel="Volley"; var Volley=[182, 190, 178, 185, 188, 192, 181, 186, 189, 183, 180, 187, 191, 184, 188, 179, 193, 190, 186, 182, 181, 189, 187, 185, 192, 180, 188, 191, 183, 190];
+var BullLabel="Bull"; var Bull=[173, 178, 170, 170, 173, 170, 165, 165, 173, 175, 178, 173, 168, 170, 168, 173, 168, 178, 180, 175, 170, 175, 173, 173, 173, 170, 175, 178, 178, 173];
+var DancersLabel="Dancers"; var Dancers=[168, 155, 157, 165, 152, 157, 157, 170, 160, 165, 163, 155, 168, 157, 160, 165, 152, 163, 168, 155, 157, 160, 165, 170, 157, 152, 163, 168, 160, 165];
+var WNBALabel="WNBA"; var WNBA=[180, 173, 173, 188, 191, 170, 170, 178, 196, 193, 178, 183, 185, 180, 188, 193, 193, 196, 183, 193, 185, 201, 175, 183, 185, 188, 175, 180, 168, 188];
+var SoccerLabel="Soccer"; var Soccer=[188, 175, 182, 170, 180, 178, 174, 183, 184, 188, 188, 180, 202, 179, 178, 179, 177, 188, 175, 176, 189, 193, 194, 184, 185, 182, 173, 178, 184, 177];
+var TennisLabel="Tennis"; var Tennis=[180, 175, 180, 175, 168, 175, 178, 180, 170, 170, 183, 183, 175, 175, 185, 185, 175, 188, 170, 178, 168, 170, 173, 168, 180, 183, 163, 175, 168, 173];
 
 </script>
 </div>
