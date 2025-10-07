@@ -1,0 +1,290 @@
+[
+  {
+    "index": 1,
+    "ident": "799d5cb8de5841acbb845f28baff35ee",
+    "title": "799d5cb8de5841acbb845f28baff35ee",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a proportion p, the claim is p=0.50. What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "799d5cb8de5841acbb845f28baff35ee_A",
+        "label": "A",
+        "html": "<p>p=0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "799d5cb8de5841acbb845f28baff35ee_B",
+        "label": "B",
+        "html": "<p>p&ne;0.50</p>",
+        "is_correct": true
+      },
+      {
+        "id": "799d5cb8de5841acbb845f28baff35ee_C",
+        "label": "C",
+        "html": "<p>p&le;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "799d5cb8de5841acbb845f28baff35ee_D",
+        "label": "D",
+        "html": "<p>p&gt;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "799d5cb8de5841acbb845f28baff35ee_E",
+        "label": "E",
+        "html": "<p>p&ge;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "799d5cb8de5841acbb845f28baff35ee_F",
+        "label": "F",
+        "html": "<p>p&lt;0.50</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "799d5cb8de5841acbb845f28baff35ee_B"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "5bd309c83de64ba28f3a9e7c644f8749",
+    "title": "5bd309c83de64ba28f3a9e7c644f8749",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a proportion p, the claim is p&ne; 0.50. What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "5bd309c83de64ba28f3a9e7c644f8749_A",
+        "label": "A",
+        "html": "<p>p=0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5bd309c83de64ba28f3a9e7c644f8749_B",
+        "label": "B",
+        "html": "<p>p&ne;0.50</p>",
+        "is_correct": true
+      },
+      {
+        "id": "5bd309c83de64ba28f3a9e7c644f8749_C",
+        "label": "C",
+        "html": "<p>p&le;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5bd309c83de64ba28f3a9e7c644f8749_D",
+        "label": "D",
+        "html": "<p>p&gt;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5bd309c83de64ba28f3a9e7c644f8749_E",
+        "label": "E",
+        "html": "<p>p&ge;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5bd309c83de64ba28f3a9e7c644f8749_F",
+        "label": "F",
+        "html": "<p>p&lt;0.50</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5bd309c83de64ba28f3a9e7c644f8749_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "44a63f1cc7384d39b8526fba955dbc43",
+    "title": "44a63f1cc7384d39b8526fba955dbc43",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a proportion p, the claim is p&ge;0.50. What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "44a63f1cc7384d39b8526fba955dbc43_A",
+        "label": "A",
+        "html": "<p>p=0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "44a63f1cc7384d39b8526fba955dbc43_B",
+        "label": "B",
+        "html": "<p>p&ne;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "44a63f1cc7384d39b8526fba955dbc43_C",
+        "label": "C",
+        "html": "<p>p&le;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "44a63f1cc7384d39b8526fba955dbc43_D",
+        "label": "D",
+        "html": "<p>p&gt;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "44a63f1cc7384d39b8526fba955dbc43_E",
+        "label": "E",
+        "html": "<p>p&ge;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "44a63f1cc7384d39b8526fba955dbc43_F",
+        "label": "F",
+        "html": "<p>p&lt;0.50</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "44a63f1cc7384d39b8526fba955dbc43_F"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "33a128ecff08484392225cb212952957",
+    "title": "33a128ecff08484392225cb212952957",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a proportion p, the claim is p&lt;0.50. What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "33a128ecff08484392225cb212952957_A",
+        "label": "A",
+        "html": "<p>p=0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "33a128ecff08484392225cb212952957_B",
+        "label": "B",
+        "html": "<p>p&ne;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "33a128ecff08484392225cb212952957_C",
+        "label": "C",
+        "html": "<p>p&le;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "33a128ecff08484392225cb212952957_D",
+        "label": "D",
+        "html": "<p>p&gt;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "33a128ecff08484392225cb212952957_E",
+        "label": "E",
+        "html": "<p>p&ge;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "33a128ecff08484392225cb212952957_F",
+        "label": "F",
+        "html": "<p>p&lt;0.50</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "33a128ecff08484392225cb212952957_F"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "c1ac4332ace340e0b3ffd8af7c2d7a2e",
+    "title": "c1ac4332ace340e0b3ffd8af7c2d7a2e",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a proportion p, the claim is p&le;0.50. What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "c1ac4332ace340e0b3ffd8af7c2d7a2e_A",
+        "label": "A",
+        "html": "<p>p=0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c1ac4332ace340e0b3ffd8af7c2d7a2e_B",
+        "label": "B",
+        "html": "<p>p&ne;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c1ac4332ace340e0b3ffd8af7c2d7a2e_C",
+        "label": "C",
+        "html": "<p>p&le;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c1ac4332ace340e0b3ffd8af7c2d7a2e_D",
+        "label": "D",
+        "html": "<p>p&gt;0.50</p>",
+        "is_correct": true
+      },
+      {
+        "id": "c1ac4332ace340e0b3ffd8af7c2d7a2e_E",
+        "label": "E",
+        "html": "<p>p&ge;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c1ac4332ace340e0b3ffd8af7c2d7a2e_F",
+        "label": "F",
+        "html": "<p>p&lt;0.50</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c1ac4332ace340e0b3ffd8af7c2d7a2e_D"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "6bb037c79fb8482d9330261fac42ccc8",
+    "title": "6bb037c79fb8482d9330261fac42ccc8",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a proportion p, the claim is p&gt;0.50. What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "6bb037c79fb8482d9330261fac42ccc8_A",
+        "label": "A",
+        "html": "<p>p=0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6bb037c79fb8482d9330261fac42ccc8_B",
+        "label": "B",
+        "html": "<p>p&ne;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6bb037c79fb8482d9330261fac42ccc8_C",
+        "label": "C",
+        "html": "<p>p&le;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6bb037c79fb8482d9330261fac42ccc8_D",
+        "label": "D",
+        "html": "<p>p&gt;0.50</p>",
+        "is_correct": true
+      },
+      {
+        "id": "6bb037c79fb8482d9330261fac42ccc8_E",
+        "label": "E",
+        "html": "<p>p&ge;0.50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6bb037c79fb8482d9330261fac42ccc8_F",
+        "label": "F",
+        "html": "<p>p&lt;0.50</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6bb037c79fb8482d9330261fac42ccc8_D"
+    ]
+  }
+]

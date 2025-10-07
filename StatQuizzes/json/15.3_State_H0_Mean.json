@@ -1,0 +1,290 @@
+[
+  {
+    "index": 1,
+    "ident": "289673e105204e2caeabf45ba01d7f17",
+    "title": "289673e105204e2caeabf45ba01d7f17",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a mean &mu;, the claim is &mu;=50. What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "289673e105204e2caeabf45ba01d7f17_A",
+        "label": "A",
+        "html": "<p>&mu;=50</p>",
+        "is_correct": true
+      },
+      {
+        "id": "289673e105204e2caeabf45ba01d7f17_B",
+        "label": "B",
+        "html": "<p>&mu;&ne;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "289673e105204e2caeabf45ba01d7f17_C",
+        "label": "C",
+        "html": "<p>&mu;&le;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "289673e105204e2caeabf45ba01d7f17_D",
+        "label": "D",
+        "html": "<p>&mu;&gt;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "289673e105204e2caeabf45ba01d7f17_E",
+        "label": "E",
+        "html": "<p>&mu;&ge;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "289673e105204e2caeabf45ba01d7f17_F",
+        "label": "F",
+        "html": "<p>&mu;&lt;50</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "289673e105204e2caeabf45ba01d7f17_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "636645e877144c5ba7897b5fcb9d0d03",
+    "title": "636645e877144c5ba7897b5fcb9d0d03",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a mean &mu;, the claim is &mu;&ne;50. What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "636645e877144c5ba7897b5fcb9d0d03_A",
+        "label": "A",
+        "html": "<p>&mu;=50</p>",
+        "is_correct": true
+      },
+      {
+        "id": "636645e877144c5ba7897b5fcb9d0d03_B",
+        "label": "B",
+        "html": "<p>&mu;&ne;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "636645e877144c5ba7897b5fcb9d0d03_C",
+        "label": "C",
+        "html": "<p>&mu;&le;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "636645e877144c5ba7897b5fcb9d0d03_D",
+        "label": "D",
+        "html": "<p>&mu;&gt;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "636645e877144c5ba7897b5fcb9d0d03_E",
+        "label": "E",
+        "html": "<p>&mu;&ge;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "636645e877144c5ba7897b5fcb9d0d03_F",
+        "label": "F",
+        "html": "<p>&mu;&lt;50</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "636645e877144c5ba7897b5fcb9d0d03_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "278e7a4abfb446928a4055e1f0fe53b5",
+    "title": "278e7a4abfb446928a4055e1f0fe53b5",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a mean &mu;, the claim is &mu;&ge;50. What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "278e7a4abfb446928a4055e1f0fe53b5_A",
+        "label": "A",
+        "html": "<p>&mu;=50</p>",
+        "is_correct": true
+      },
+      {
+        "id": "278e7a4abfb446928a4055e1f0fe53b5_B",
+        "label": "B",
+        "html": "<p>&mu;&ne;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "278e7a4abfb446928a4055e1f0fe53b5_C",
+        "label": "C",
+        "html": "<p>&mu;&le;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "278e7a4abfb446928a4055e1f0fe53b5_D",
+        "label": "D",
+        "html": "<p>&mu;&gt;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "278e7a4abfb446928a4055e1f0fe53b5_E",
+        "label": "E",
+        "html": "<p>&mu;&ge;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "278e7a4abfb446928a4055e1f0fe53b5_F",
+        "label": "F",
+        "html": "<p>&mu;&lt;50</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "278e7a4abfb446928a4055e1f0fe53b5_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "1429689848e04536820be7bc4d35475f",
+    "title": "1429689848e04536820be7bc4d35475f",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a mean &mu;, the claim is &mu;&lt;50. What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "1429689848e04536820be7bc4d35475f_A",
+        "label": "A",
+        "html": "<p>&mu;=50</p>",
+        "is_correct": true
+      },
+      {
+        "id": "1429689848e04536820be7bc4d35475f_B",
+        "label": "B",
+        "html": "<p>&mu;&ne;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1429689848e04536820be7bc4d35475f_C",
+        "label": "C",
+        "html": "<p>&mu;&le;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1429689848e04536820be7bc4d35475f_D",
+        "label": "D",
+        "html": "<p>&mu;&gt;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1429689848e04536820be7bc4d35475f_E",
+        "label": "E",
+        "html": "<p>&mu;&ge;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1429689848e04536820be7bc4d35475f_F",
+        "label": "F",
+        "html": "<p>&mu;&lt;50</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1429689848e04536820be7bc4d35475f_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "73023afa948f4449b152862905d6eea1",
+    "title": "73023afa948f4449b152862905d6eea1",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a mean &mu;, the claim is &mu;&le;50. What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "73023afa948f4449b152862905d6eea1_A",
+        "label": "A",
+        "html": "<p>&mu;=50</p>",
+        "is_correct": true
+      },
+      {
+        "id": "73023afa948f4449b152862905d6eea1_B",
+        "label": "B",
+        "html": "<p>&mu;&ne;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "73023afa948f4449b152862905d6eea1_C",
+        "label": "C",
+        "html": "<p>&mu;&le;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "73023afa948f4449b152862905d6eea1_D",
+        "label": "D",
+        "html": "<p>&mu;&gt;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "73023afa948f4449b152862905d6eea1_E",
+        "label": "E",
+        "html": "<p>&mu;&ge;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "73023afa948f4449b152862905d6eea1_F",
+        "label": "F",
+        "html": "<p>&mu;&lt;50</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "73023afa948f4449b152862905d6eea1_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "d1b2dada781a489c951db3e6cbf5353a",
+    "title": "d1b2dada781a489c951db3e6cbf5353a",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a mean &mu;, the claim is &mu;&gt;50. What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "d1b2dada781a489c951db3e6cbf5353a_A",
+        "label": "A",
+        "html": "<p>&mu;=50</p>",
+        "is_correct": true
+      },
+      {
+        "id": "d1b2dada781a489c951db3e6cbf5353a_B",
+        "label": "B",
+        "html": "<p>&mu;&ne;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d1b2dada781a489c951db3e6cbf5353a_C",
+        "label": "C",
+        "html": "<p>&mu;&le;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d1b2dada781a489c951db3e6cbf5353a_D",
+        "label": "D",
+        "html": "<p>&mu;&gt;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d1b2dada781a489c951db3e6cbf5353a_E",
+        "label": "E",
+        "html": "<p>&mu;&ge;50</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d1b2dada781a489c951db3e6cbf5353a_F",
+        "label": "F",
+        "html": "<p>&mu;&lt;50</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d1b2dada781a489c951db3e6cbf5353a_A"
+    ]
+  }
+]

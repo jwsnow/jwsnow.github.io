@@ -1,0 +1,434 @@
+[
+  {
+    "index": 1,
+    "ident": "6a04eebc866945c5a5de1884ff04d57a",
+    "title": "6a04eebc866945c5a5de1884ff04d57a",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 95%, the P-value was P=0.00375. What is the formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "6a04eebc866945c5a5de1884ff04d57a_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "6a04eebc866945c5a5de1884ff04d57a_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6a04eebc866945c5a5de1884ff04d57a_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6a04eebc866945c5a5de1884ff04d57a_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6a04eebc866945c5a5de1884ff04d57a_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "578197c976c4461db05d566cb8c83134",
+    "title": "578197c976c4461db05d566cb8c83134",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 95%, the P-value was P=0.0375. What is the formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "578197c976c4461db05d566cb8c83134_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "578197c976c4461db05d566cb8c83134_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "578197c976c4461db05d566cb8c83134_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "578197c976c4461db05d566cb8c83134_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "578197c976c4461db05d566cb8c83134_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "570b1df212394839829985389fa36642",
+    "title": "570b1df212394839829985389fa36642",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 95%, the P-value was P=0.0875. What is the formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "570b1df212394839829985389fa36642_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "570b1df212394839829985389fa36642_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "570b1df212394839829985389fa36642_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "570b1df212394839829985389fa36642_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "570b1df212394839829985389fa36642_B"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "e442dd65016f4d588be334f8c19ddaf1",
+    "title": "e442dd65016f4d588be334f8c19ddaf1",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 95%, the P-value was P=0.1375. What is the formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "e442dd65016f4d588be334f8c19ddaf1_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "e442dd65016f4d588be334f8c19ddaf1_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "e442dd65016f4d588be334f8c19ddaf1_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "e442dd65016f4d588be334f8c19ddaf1_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e442dd65016f4d588be334f8c19ddaf1_B"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "33dbb22dfdaf481db75a8e1b20eeeccc",
+    "title": "33dbb22dfdaf481db75a8e1b20eeeccc",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 99%, the P-value was P=0.00375. What is the formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "33dbb22dfdaf481db75a8e1b20eeeccc_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "33dbb22dfdaf481db75a8e1b20eeeccc_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "33dbb22dfdaf481db75a8e1b20eeeccc_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "33dbb22dfdaf481db75a8e1b20eeeccc_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "33dbb22dfdaf481db75a8e1b20eeeccc_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "8120e1d1ece14f7d9d297de9b2c9e289",
+    "title": "8120e1d1ece14f7d9d297de9b2c9e289",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 99%, the P-value was P=0.0375. What is the formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "8120e1d1ece14f7d9d297de9b2c9e289_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8120e1d1ece14f7d9d297de9b2c9e289_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "8120e1d1ece14f7d9d297de9b2c9e289_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8120e1d1ece14f7d9d297de9b2c9e289_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8120e1d1ece14f7d9d297de9b2c9e289_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "ec12d40e990f4422b20dac81697c930d",
+    "title": "ec12d40e990f4422b20dac81697c930d",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 99%, the P-value was P=0.0875. What is the formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "ec12d40e990f4422b20dac81697c930d_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ec12d40e990f4422b20dac81697c930d_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "ec12d40e990f4422b20dac81697c930d_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ec12d40e990f4422b20dac81697c930d_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ec12d40e990f4422b20dac81697c930d_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "79ffcab05c104451949066ebbb196e85",
+    "title": "79ffcab05c104451949066ebbb196e85",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 99%, the P-value was P=0.1375. What is the formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "79ffcab05c104451949066ebbb196e85_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "79ffcab05c104451949066ebbb196e85_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "79ffcab05c104451949066ebbb196e85_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "79ffcab05c104451949066ebbb196e85_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "79ffcab05c104451949066ebbb196e85_B"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "118ad52de6564c4cb8bc764399d0cb5c",
+    "title": "118ad52de6564c4cb8bc764399d0cb5c",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 90%, the P-value was P=0.00375. What is the formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "118ad52de6564c4cb8bc764399d0cb5c_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "118ad52de6564c4cb8bc764399d0cb5c_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "118ad52de6564c4cb8bc764399d0cb5c_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "118ad52de6564c4cb8bc764399d0cb5c_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "118ad52de6564c4cb8bc764399d0cb5c_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "3c20940b76a441699d999f03f3c045d3",
+    "title": "3c20940b76a441699d999f03f3c045d3",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 90%, the P-value was P=0.0375. What is the formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "3c20940b76a441699d999f03f3c045d3_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "3c20940b76a441699d999f03f3c045d3_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3c20940b76a441699d999f03f3c045d3_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3c20940b76a441699d999f03f3c045d3_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3c20940b76a441699d999f03f3c045d3_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "2c838fe4d7864ad8bf86650c634cb0eb",
+    "title": "2c838fe4d7864ad8bf86650c634cb0eb",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 90%, the P-value was P=0.0875. What is the formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "2c838fe4d7864ad8bf86650c634cb0eb_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "2c838fe4d7864ad8bf86650c634cb0eb_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2c838fe4d7864ad8bf86650c634cb0eb_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2c838fe4d7864ad8bf86650c634cb0eb_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2c838fe4d7864ad8bf86650c634cb0eb_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "33822657feb242c2b322962c4938098e",
+    "title": "33822657feb242c2b322962c4938098e",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 90%, the P-value was P=0.1375. What is the formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "33822657feb242c2b322962c4938098e_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "33822657feb242c2b322962c4938098e_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "33822657feb242c2b322962c4938098e_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "33822657feb242c2b322962c4938098e_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "33822657feb242c2b322962c4938098e_B"
+    ]
+  }
+]

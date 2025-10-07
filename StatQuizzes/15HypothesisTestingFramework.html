@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSON Quiz Viewer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Confidence Intervals for Proportions</h1>
+  <div class="toolbar">
+    <button class="primary" onclick="checkAll()">Check All</button>
+    <button onclick="cryUncleAll()">Cry Uncle</button>
+  </div>
+
+  <div id="grand-total-top" class="total" style="display:none;margin-bottom:0.75rem"></div>
+
+  <div id="blocks" class="blocks"></div>
+
+  <div class="toolbar" style="margin-top:1rem">
+    <button class="primary" onclick="checkAll()">Check All</button>
+    <button onclick="cryUncleAll()">Cry Uncle</button>
+  </div>
+
+  <div id="grand-total" class="total" style="display:none"></div>
+
+  <script src="script.js"></script>
+  <script> 
+addQuestionBlock('json/15.1_State_H0_Prop.json', '3', '','');
+addQuestionBlock('json/15.2_State_H1_Prop.json', '3', '','');
+addQuestionBlock('json/15.3_State_H0_Mean.json', '3', '','');
+addQuestionBlock('json/15.4_State_H1_Mean.json', '3', '','');
+addQuestionBlock('json/15.5_Critical_Values_Prop.json', '3', '','');
+addQuestionBlock('json/15.6_Formal_Conclusions.json', '3', '','');
+addQuestionBlock('json/15.7_Final_Conclusions.json', '3', '','');
+  </script>
+</body>
+</html>

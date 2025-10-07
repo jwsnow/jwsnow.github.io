@@ -123,3 +123,14 @@ button:disabled { opacity: .5; cursor: not-allowed; }
   color: #6b7280; /* muted gray */
   font-style: italic;
 }
+
+/* Hint / Explanation styling */
+.hint-area, .explanation-area {
+  margin: 0.5em 0;
+  padding: 0.5em 0.75em;
+  border-left: 3px solid #0074D9;
+  background-color: #f9f9f9;
+  font-style: italic;
+}
+.hint-area { border-color: #2ECC40; }
+.explanation-area { border-color: #FF851B; }

@@ -1,0 +1,866 @@
+[
+  {
+    "index": 1,
+    "ident": "145645c36a284ac8b661631eca89b74d",
+    "title": "145645c36a284ac8b661631eca89b74d",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 95%, the claim is the same as H<sub>0</sub>. What is the final conclusion for a P-value of P=0.0015?</p>",
+    "choices": [
+      {
+        "id": "145645c36a284ac8b661631eca89b74d_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "145645c36a284ac8b661631eca89b74d_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "145645c36a284ac8b661631eca89b74d_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "145645c36a284ac8b661631eca89b74d_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "145645c36a284ac8b661631eca89b74d_B"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "ca64572fbff84515946a82884ad5e3b2",
+    "title": "ca64572fbff84515946a82884ad5e3b2",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 95%, the claim is the same as H<sub>0</sub>. What is the final conclusion for a P-value of P=0.0315?</p>",
+    "choices": [
+      {
+        "id": "ca64572fbff84515946a82884ad5e3b2_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ca64572fbff84515946a82884ad5e3b2_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "ca64572fbff84515946a82884ad5e3b2_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ca64572fbff84515946a82884ad5e3b2_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ca64572fbff84515946a82884ad5e3b2_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "94c28f38fede4421ba906acfe425ec45",
+    "title": "94c28f38fede4421ba906acfe425ec45",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 95%, the claim is the same as H<sub>0</sub>. What is the final conclusion for a P-value of P=0.0815?</p>",
+    "choices": [
+      {
+        "id": "94c28f38fede4421ba906acfe425ec45_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "94c28f38fede4421ba906acfe425ec45_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "94c28f38fede4421ba906acfe425ec45_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "94c28f38fede4421ba906acfe425ec45_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "94c28f38fede4421ba906acfe425ec45_D"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "5b8bdf85d99d435484ec56954e338ec8",
+    "title": "5b8bdf85d99d435484ec56954e338ec8",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 95%, the claim is the same as H<sub>0</sub>. What is the final conclusion for a P-value of P=0.1315?</p>",
+    "choices": [
+      {
+        "id": "5b8bdf85d99d435484ec56954e338ec8_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5b8bdf85d99d435484ec56954e338ec8_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5b8bdf85d99d435484ec56954e338ec8_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5b8bdf85d99d435484ec56954e338ec8_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "5b8bdf85d99d435484ec56954e338ec8_D"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "5f8623b74e854158883bb61968a2bde0",
+    "title": "5f8623b74e854158883bb61968a2bde0",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 95%, the claim is the same as H<sub>1</sub>. What is the final conclusion for a P-value of P=0.0015?</p>",
+    "choices": [
+      {
+        "id": "5f8623b74e854158883bb61968a2bde0_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "5f8623b74e854158883bb61968a2bde0_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5f8623b74e854158883bb61968a2bde0_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5f8623b74e854158883bb61968a2bde0_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5f8623b74e854158883bb61968a2bde0_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "5d33ef375a2b4855a882d106ce725559",
+    "title": "5d33ef375a2b4855a882d106ce725559",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 95%, the claim is the same as H<sub>1</sub>. What is the final conclusion for a P-value of P=0.0315?</p>",
+    "choices": [
+      {
+        "id": "5d33ef375a2b4855a882d106ce725559_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "5d33ef375a2b4855a882d106ce725559_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5d33ef375a2b4855a882d106ce725559_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5d33ef375a2b4855a882d106ce725559_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5d33ef375a2b4855a882d106ce725559_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "5a26a6a005964dbd9fe83ca7956dbe1a",
+    "title": "5a26a6a005964dbd9fe83ca7956dbe1a",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 95%, the claim is the same as H<sub>1</sub>. What is the final conclusion for a P-value of P=0.0815?</p>",
+    "choices": [
+      {
+        "id": "5a26a6a005964dbd9fe83ca7956dbe1a_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5a26a6a005964dbd9fe83ca7956dbe1a_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5a26a6a005964dbd9fe83ca7956dbe1a_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "5a26a6a005964dbd9fe83ca7956dbe1a_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5a26a6a005964dbd9fe83ca7956dbe1a_C"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "08d9c48a76dd4037aa3571ef63bee13c",
+    "title": "08d9c48a76dd4037aa3571ef63bee13c",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 95%, the claim is the same as H<sub>1</sub>. What is the final conclusion for a P-value of P=0.1315?</p>",
+    "choices": [
+      {
+        "id": "08d9c48a76dd4037aa3571ef63bee13c_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "08d9c48a76dd4037aa3571ef63bee13c_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "08d9c48a76dd4037aa3571ef63bee13c_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "08d9c48a76dd4037aa3571ef63bee13c_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "08d9c48a76dd4037aa3571ef63bee13c_C"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "6fcf733a4c054bb48c67ac73d46f327c",
+    "title": "6fcf733a4c054bb48c67ac73d46f327c",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 99%, the claim is the same as H<sub>0</sub>. What is the final conclusion for a P-value of P=0.0015?</p>",
+    "choices": [
+      {
+        "id": "6fcf733a4c054bb48c67ac73d46f327c_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6fcf733a4c054bb48c67ac73d46f327c_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "6fcf733a4c054bb48c67ac73d46f327c_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6fcf733a4c054bb48c67ac73d46f327c_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6fcf733a4c054bb48c67ac73d46f327c_B"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "77cecbbdb962424c8cf47ec41f50cba8",
+    "title": "77cecbbdb962424c8cf47ec41f50cba8",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 99%, the claim is the same as H<sub>0</sub>. What is the final conclusion for a P-value of P=0.0315?</p>",
+    "choices": [
+      {
+        "id": "77cecbbdb962424c8cf47ec41f50cba8_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "77cecbbdb962424c8cf47ec41f50cba8_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "77cecbbdb962424c8cf47ec41f50cba8_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "77cecbbdb962424c8cf47ec41f50cba8_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "77cecbbdb962424c8cf47ec41f50cba8_D"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "73685221f6144de7b8a337ce42118a04",
+    "title": "73685221f6144de7b8a337ce42118a04",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 99%, the claim is the same as H<sub>0</sub>. What is the final conclusion for a P-value of P=0.0815?</p>",
+    "choices": [
+      {
+        "id": "73685221f6144de7b8a337ce42118a04_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "73685221f6144de7b8a337ce42118a04_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "73685221f6144de7b8a337ce42118a04_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "73685221f6144de7b8a337ce42118a04_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "73685221f6144de7b8a337ce42118a04_D"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "03efdcdad48248338e30bbbec0a8b525",
+    "title": "03efdcdad48248338e30bbbec0a8b525",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 99%, the claim is the same as H<sub>0</sub>. What is the final conclusion for a P-value of P=0.1315?</p>",
+    "choices": [
+      {
+        "id": "03efdcdad48248338e30bbbec0a8b525_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "03efdcdad48248338e30bbbec0a8b525_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "03efdcdad48248338e30bbbec0a8b525_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "03efdcdad48248338e30bbbec0a8b525_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "03efdcdad48248338e30bbbec0a8b525_D"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "7a6e0e57918a4dfa823f826e96a2ac49",
+    "title": "7a6e0e57918a4dfa823f826e96a2ac49",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 99%, the claim is the same as H<sub>1</sub>. What is the final conclusion for a P-value of P=0.0015?</p>",
+    "choices": [
+      {
+        "id": "7a6e0e57918a4dfa823f826e96a2ac49_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "7a6e0e57918a4dfa823f826e96a2ac49_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7a6e0e57918a4dfa823f826e96a2ac49_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7a6e0e57918a4dfa823f826e96a2ac49_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7a6e0e57918a4dfa823f826e96a2ac49_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "3825ff1614834067b4955ebbfed07ae1",
+    "title": "3825ff1614834067b4955ebbfed07ae1",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 99%, the claim is the same as H<sub>1</sub>. What is the final conclusion for a P-value of P=0.0315?</p>",
+    "choices": [
+      {
+        "id": "3825ff1614834067b4955ebbfed07ae1_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3825ff1614834067b4955ebbfed07ae1_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3825ff1614834067b4955ebbfed07ae1_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "3825ff1614834067b4955ebbfed07ae1_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3825ff1614834067b4955ebbfed07ae1_C"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "bf2666d0fb5047ac9026c6a5baf7ac72",
+    "title": "bf2666d0fb5047ac9026c6a5baf7ac72",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 99%, the claim is the same as H<sub>1</sub>. What is the final conclusion for a P-value of P=0.0815?</p>",
+    "choices": [
+      {
+        "id": "bf2666d0fb5047ac9026c6a5baf7ac72_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bf2666d0fb5047ac9026c6a5baf7ac72_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bf2666d0fb5047ac9026c6a5baf7ac72_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "bf2666d0fb5047ac9026c6a5baf7ac72_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "bf2666d0fb5047ac9026c6a5baf7ac72_C"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "f9e6cee6544444fe95bc698a8a7e393b",
+    "title": "f9e6cee6544444fe95bc698a8a7e393b",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 99%, the claim is the same as H<sub>1</sub>. What is the final conclusion for a P-value of P=0.1315?</p>",
+    "choices": [
+      {
+        "id": "f9e6cee6544444fe95bc698a8a7e393b_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f9e6cee6544444fe95bc698a8a7e393b_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f9e6cee6544444fe95bc698a8a7e393b_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "f9e6cee6544444fe95bc698a8a7e393b_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f9e6cee6544444fe95bc698a8a7e393b_C"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "0bac84a052bd463ab4a1fb6c06551d6e",
+    "title": "0bac84a052bd463ab4a1fb6c06551d6e",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 90%, the claim is the same as H<sub>0</sub>. What is the final conclusion for a P-value of P=0.0015?</p>",
+    "choices": [
+      {
+        "id": "0bac84a052bd463ab4a1fb6c06551d6e_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0bac84a052bd463ab4a1fb6c06551d6e_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "0bac84a052bd463ab4a1fb6c06551d6e_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0bac84a052bd463ab4a1fb6c06551d6e_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0bac84a052bd463ab4a1fb6c06551d6e_B"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "d4dff302af4d41869f7d4ee73fcbaa80",
+    "title": "d4dff302af4d41869f7d4ee73fcbaa80",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 90%, the claim is the same as H<sub>0</sub>. What is the final conclusion for a P-value of P=0.0315?</p>",
+    "choices": [
+      {
+        "id": "d4dff302af4d41869f7d4ee73fcbaa80_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d4dff302af4d41869f7d4ee73fcbaa80_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "d4dff302af4d41869f7d4ee73fcbaa80_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d4dff302af4d41869f7d4ee73fcbaa80_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d4dff302af4d41869f7d4ee73fcbaa80_B"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "2cc96d52b7404512a8d618ab67bd34c1",
+    "title": "2cc96d52b7404512a8d618ab67bd34c1",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 90%, the claim is the same as H<sub>0</sub>. What is the final conclusion for a P-value of P=0.0815?</p>",
+    "choices": [
+      {
+        "id": "2cc96d52b7404512a8d618ab67bd34c1_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2cc96d52b7404512a8d618ab67bd34c1_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "2cc96d52b7404512a8d618ab67bd34c1_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2cc96d52b7404512a8d618ab67bd34c1_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2cc96d52b7404512a8d618ab67bd34c1_B"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "b1cac8a5993f44cb816652484e2c061d",
+    "title": "b1cac8a5993f44cb816652484e2c061d",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 90%, the claim is the same as H<sub>0</sub>. What is the final conclusion for a P-value of P=0.1315?</p>",
+    "choices": [
+      {
+        "id": "b1cac8a5993f44cb816652484e2c061d_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b1cac8a5993f44cb816652484e2c061d_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b1cac8a5993f44cb816652484e2c061d_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b1cac8a5993f44cb816652484e2c061d_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "b1cac8a5993f44cb816652484e2c061d_D"
+    ]
+  },
+  {
+    "index": 21,
+    "ident": "31fc26030c7146b8864dc59ca156e1d0",
+    "title": "31fc26030c7146b8864dc59ca156e1d0",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 90%, the claim is the same as H<sub>1</sub>. What is the final conclusion for a P-value of P=0.0015?</p>",
+    "choices": [
+      {
+        "id": "31fc26030c7146b8864dc59ca156e1d0_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "31fc26030c7146b8864dc59ca156e1d0_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "31fc26030c7146b8864dc59ca156e1d0_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "31fc26030c7146b8864dc59ca156e1d0_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "31fc26030c7146b8864dc59ca156e1d0_A"
+    ]
+  },
+  {
+    "index": 22,
+    "ident": "0195349daa9f4fe8b0345a04125dcfe4",
+    "title": "0195349daa9f4fe8b0345a04125dcfe4",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 90%, the claim is the same as H<sub>1</sub>. What is the final conclusion for a P-value of P=0.0315?</p>",
+    "choices": [
+      {
+        "id": "0195349daa9f4fe8b0345a04125dcfe4_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "0195349daa9f4fe8b0345a04125dcfe4_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0195349daa9f4fe8b0345a04125dcfe4_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0195349daa9f4fe8b0345a04125dcfe4_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0195349daa9f4fe8b0345a04125dcfe4_A"
+    ]
+  },
+  {
+    "index": 23,
+    "ident": "5e3c2ae1b6de4df3ab4160d32738d8b6",
+    "title": "5e3c2ae1b6de4df3ab4160d32738d8b6",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 90%, the claim is the same as H<sub>1</sub>. What is the final conclusion for a P-value of P=0.0815?</p>",
+    "choices": [
+      {
+        "id": "5e3c2ae1b6de4df3ab4160d32738d8b6_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "5e3c2ae1b6de4df3ab4160d32738d8b6_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5e3c2ae1b6de4df3ab4160d32738d8b6_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5e3c2ae1b6de4df3ab4160d32738d8b6_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5e3c2ae1b6de4df3ab4160d32738d8b6_A"
+    ]
+  },
+  {
+    "index": 24,
+    "ident": "eb71e25ef469472e9a9437d1ec73bcaa",
+    "title": "eb71e25ef469472e9a9437d1ec73bcaa",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a formal hypothesis test with a confidence level of 90%, the claim is the same as H<sub>1</sub>. What is the final conclusion for a P-value of P=0.1315?</p>",
+    "choices": [
+      {
+        "id": "eb71e25ef469472e9a9437d1ec73bcaa_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "eb71e25ef469472e9a9437d1ec73bcaa_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "eb71e25ef469472e9a9437d1ec73bcaa_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "eb71e25ef469472e9a9437d1ec73bcaa_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "eb71e25ef469472e9a9437d1ec73bcaa_C"
+    ]
+  }
+]

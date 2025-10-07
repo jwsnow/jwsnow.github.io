@@ -46,7 +46,21 @@ function getOrCreateMegaBlock() {
     const title = document.createElement('div');
     title.textContent = ''; // intentionally blank
 
-    
+    const headerButtons = document.createElement('div');
+    const checkAllTop = document.createElement('button');
+    checkAllTop.className = 'primary';
+    checkAllTop.textContent = 'Check All';
+    checkAllTop.addEventListener('click', checkAll);
+
+    const cryTop = document.createElement('button');
+    cryTop.textContent = 'Cry Uncle';
+    cryTop.addEventListener('click', cryUncleAll);
+
+    headerButtons.appendChild(checkAllTop);
+    headerButtons.appendChild(cryTop);
+    header.appendChild(title);
+    header.appendChild(headerButtons);
+
     const container = document.createElement('div');
     container.className = 'block-questions';
     container.id = 'mega-block-questions';
@@ -130,8 +144,9 @@ function markChoice(li, cls) {
 
 function disableQuestion(card) {
   card.dataset.state = 'disabled';
-  card.querySelectorAll('input[type=radio]').forEach(r => r.disabled = true);
-  card.querySelectorAll('button').forEach(b => b.disabled = true);
+  // Disable only the radios and the grading controls
+  card.querySelectorAll('input[type=radio]').forEach(inp => inp.disabled = true);
+  card.querySelectorAll('.q-check-btn, .q-uncle-btn').forEach(btn => btn.disabled = true);
   card.querySelectorAll('.choice').forEach(li => li.classList.add('disabled'));
 }
 
@@ -175,26 +190,17 @@ function createQuestionCard(q, idxWithinBlock, pathToResources) {
     input.type = 'radio';
     input.name = name;
     input.value = choice.id;
-    const inputId = `${name}-${choice.id}-${Math.random().toString(36).slice(2,8)}`;
-    input.id = inputId;
 
     const label = document.createElement('label');
-    label.style.display = 'flex';
-    label.style.alignItems = 'flex-start';
-    label.style.gap = '0.5rem';
-    label.htmlFor = inputId;
-
-    // Wrap radio inside label so clicking anywhere selects it
-    label.appendChild(input);
-    const contentSpan = document.createElement('span');
-    contentSpan.innerHTML = prefixImageSrc(choice.html || '', pathToResources);
-    label.appendChild(contentSpan);
+    label.style.flex = '1';
+    label.innerHTML = prefixImageSrc(choice.html || '', pathToResources);
 
     input.addEventListener('change', () => {
       li.parentElement.querySelectorAll('.choice').forEach(el => el.classList.remove('selected'));
       li.classList.add('selected');
     });
 
+    li.appendChild(input);
     li.appendChild(label);
     choicesList.appendChild(li);
   });
@@ -202,14 +208,57 @@ function createQuestionCard(q, idxWithinBlock, pathToResources) {
   const controls = document.createElement('div');
   controls.className = 'question-controls';
   const checkBtn = document.createElement('button');
+  checkBtn.className = 'q-check-btn';
   checkBtn.textContent = 'Check';
   const uncleBtn = document.createElement('button');
+  uncleBtn.className = 'q-uncle-btn';
   uncleBtn.textContent = 'Uncle';
 
   controls.appendChild(checkBtn);
   controls.appendChild(uncleBtn);
 
-  const footer = document.createElement('div');
+  
+  // Hint & Explanation buttons (inline, conditional visibility)
+  const hintBtn = document.createElement('button');
+  hintBtn.className = 'q-hint-btn';
+  hintBtn.textContent = 'Hint';
+  if (!(q && typeof q.hint === 'string' && q.hint.trim().length > 0)) {
+    hintBtn.style.display = 'none';
+  }
+  const explBtn = document.createElement('button');
+  explBtn.className = 'q-expl-btn';
+  explBtn.textContent = 'Explanation';
+  if (!(q && typeof q.explanation === 'string' && q.explanation.trim().length > 0)) {
+    explBtn.style.display = 'none';
+  }
+  controls.appendChild(hintBtn);
+  controls.appendChild(explBtn);
+
+  // Toggle handlers
+  hintBtn.addEventListener('click', () => {
+    if (hintArea.style.display === 'none') {
+      const html = (q && typeof q.hint === 'string' && q.hint.trim().length > 0) ? q.hint : 'There is no hint for this question.';
+      hintArea.innerHTML = prefixImageSrc(html, pathToResources);
+      hintArea.style.display = '';
+    } else {
+      hintArea.style.display = 'none';
+    }
+  });
+  explBtn.addEventListener('click', () => {
+    if (card.dataset.state !== 'disabled') {
+      explArea.innerHTML = 'Please complete this question (Check or Uncle) before seeing the explanation.';
+      explArea.style.display = '';
+      return;
+    }
+    if (explArea.style.display === 'none') {
+      const html = (q && typeof q.explanation === 'string' && q.explanation.trim().length > 0) ? q.explanation : 'There is no explanation for this question.';
+      explArea.innerHTML = prefixImageSrc(html, pathToResources);
+      explArea.style.display = '';
+    } else {
+      explArea.style.display = 'none';
+    }
+  });
+const footer = document.createElement('div');
   footer.className = 'footer';
   const leftMeta = document.createElement('div');
   leftMeta.className = 'muted';
@@ -224,6 +273,15 @@ function createQuestionCard(q, idxWithinBlock, pathToResources) {
   card.appendChild(prompt);
   card.appendChild(choicesList);
   card.appendChild(controls);
+  // Inline areas
+  const hintArea = document.createElement('div');
+  hintArea.className = 'hint-area';
+  hintArea.style.display = 'none';
+  const explArea = document.createElement('div');
+  explArea.className = 'explanation-area';
+  explArea.style.display = 'none';
+  card.appendChild(hintArea);
+  card.appendChild(explArea);
   card.appendChild(footer);
 
   // helpers
@@ -301,7 +359,7 @@ function createQuestionCard(q, idxWithinBlock, pathToResources) {
 // ------------------------------
 // Public API
 // ------------------------------
-async function addQuestionBlock(pathToJSON, n = 'all', pathToResources = '', orderFlag = '') {
+async function addQuestionBlock(pathToJSON, n = 'all', pathToResources = '', orderFlag = ''){
   const blockContainer = getOrCreateMegaBlock();
 
   let data;
@@ -321,26 +379,26 @@ async function addQuestionBlock(pathToJSON, n = 'all', pathToResources = '', ord
   }
 
   let questions;
-if (orderFlag === 'inOrder' || orderFlag === true || orderFlag === 'true') {
-  // Random subset but keep original JSON order
-  let all = data.map((q, idx) => ({ ...q, _idx: idx }));
-  if (n !== null && n !== 'all' && !isNaN(Number(n))) {
-    let shuffled = shuffle(all);
-    let subset = shuffled.slice(0, Number(n));
-    subset.sort((a, b) => a._idx - b._idx); // restore file order
-    questions = subset;
-  } else {
-    questions = all; // all questions, original order
-  }
-} else {
-  // Original behavior: fully shuffled then truncated
-  questions = shuffle(data);
-  if (n !== null && n !== 'all' && !isNaN(Number(n))) {
-    questions = questions.slice(0, Number(n));
-  }
-}
 
-  questions.forEach((q, i) => {
+
+let total = data.length;
+let k = (n !== null && n !== 'all' && !isNaN(Number(n))) ? Math.min(Number(n), total) : total;
+// Build index array
+let idxs = Array.from({length: total}, (_, i) => i);
+// Shuffle indices
+for (let i = idxs.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [idxs[i], idxs[j]] = [idxs[j], idxs[i]];
+}
+// Take first k
+let picks = idxs.slice(0, k);
+// If inOrder, sort the picks
+if (orderFlag === 'inOrder' || orderFlag === true || orderFlag === 'true') {
+  picks.sort((a, b) => a - b);
+}
+// Select questions in that order
+questions = picks.map(i => data[i]);
+questions.forEach((q, i) => {
     q.prompt_html = prefixImageSrc(q.prompt_html || '', pathToResources);
     if (Array.isArray(q.choices)) {
       q.choices = q.choices.map(c => ({
@@ -404,9 +462,6 @@ function checkAll() {
 // Randomize all cards in the single mega block and renumber
 function randomizeAll() {
   const container = getOrCreateMegaBlock();
-  const cards = Array.from(container.children);
-  const shuffled = shuffle(cards);
-  shuffled.forEach(c => container.appendChild(c));
   renumberQuestions();
   updateTotalsUI();
 }

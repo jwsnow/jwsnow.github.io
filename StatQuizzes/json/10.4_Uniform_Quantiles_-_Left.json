@@ -9,7 +9,7 @@
       {
         "id": "8af0ee7688c206bc555f2d6f32337382_A",
         "label": "A",
-        "html": "1.38",
+        "html": "1.39",
         "is_correct": false
       },
       {
@@ -345,13 +345,13 @@
       {
         "id": "6bed20dd897e453e59be74137d3c55e1_A",
         "label": "A",
-        "html": "14",
+        "html": "12",
         "is_correct": false
       },
       {
         "id": "6bed20dd897e453e59be74137d3c55e1_B",
         "label": "B",
-        "html": "14",
+        "html": "13",
         "is_correct": false
       },
       {
@@ -369,7 +369,7 @@
       {
         "id": "6bed20dd897e453e59be74137d3c55e1_E",
         "label": "E",
-        "html": "14",
+        "html": "11",
         "is_correct": false
       }
     ],
@@ -441,7 +441,7 @@
       {
         "id": "e10f161f224a91c04c5b4dbe2f16c648_C",
         "label": "C",
-        "html": "226",
+        "html": "227",
         "is_correct": false
       },
       {
@@ -495,7 +495,7 @@
       {
         "id": "79cedf0db2a6e50b393ff773d690753a_E",
         "label": "E",
-        "html": "78",
+        "html": "79",
         "is_correct": false
       }
     ],
@@ -537,7 +537,7 @@
       {
         "id": "16b155a153545ef50e1219b2669520fb_E",
         "label": "E",
-        "html": "61",
+        "html": "60",
         "is_correct": false
       }
     ],
@@ -573,13 +573,13 @@
       {
         "id": "53150089479dafc7cee3fd02baadc1f3_D",
         "label": "D",
-        "html": "25",
+        "html": "22",
         "is_correct": false
       },
       {
         "id": "53150089479dafc7cee3fd02baadc1f3_E",
         "label": "E",
-        "html": "23",
+        "html": "21",
         "is_correct": false
       }
     ],
@@ -609,7 +609,7 @@
       {
         "id": "b266ef894e0379c76246f0391f70e8bb_C",
         "label": "C",
-        "html": "144",
+        "html": "143",
         "is_correct": false
       },
       {
@@ -699,13 +699,13 @@
       {
         "id": "adc40ae0692abb243bc2c58907011494_D",
         "label": "D",
-        "html": "19",
+        "html": "17",
         "is_correct": false
       },
       {
         "id": "adc40ae0692abb243bc2c58907011494_E",
         "label": "E",
-        "html": "18",
+        "html": "16",
         "is_correct": false
       }
     ],
@@ -777,7 +777,7 @@
       {
         "id": "9318d7434d26448e5a55bed88626ce10_C",
         "label": "C",
-        "html": "76",
+        "html": "75",
         "is_correct": false
       },
       {
@@ -807,7 +807,7 @@
       {
         "id": "b2bc8efb8e48e7b5165da689153c4fa9_A",
         "label": "A",
-        "html": "165",
+        "html": "164",
         "is_correct": false
       },
       {

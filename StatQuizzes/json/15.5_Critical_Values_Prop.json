@@ -1,0 +1,434 @@
+[
+  {
+    "index": 1,
+    "ident": "46ca051ab5474c628bac1d9e05d5fae0",
+    "title": "46ca051ab5474c628bac1d9e05d5fae0",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a proportion p, the alternative hypothesis is p&lt;0.50, and the confidence level is 95%. Find the critical values of the test statistic. Round to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "46ca051ab5474c628bac1d9e05d5fae0_A",
+        "label": "A",
+        "html": "<p>z=-1.64</p>",
+        "is_correct": true
+      },
+      {
+        "id": "46ca051ab5474c628bac1d9e05d5fae0_B",
+        "label": "B",
+        "html": "<p>z=1.64</p>",
+        "is_correct": false
+      },
+      {
+        "id": "46ca051ab5474c628bac1d9e05d5fae0_C",
+        "label": "C",
+        "html": "<p>z=-1.96</p>",
+        "is_correct": false
+      },
+      {
+        "id": "46ca051ab5474c628bac1d9e05d5fae0_D",
+        "label": "D",
+        "html": "<p>z=1.96</p>",
+        "is_correct": false
+      },
+      {
+        "id": "46ca051ab5474c628bac1d9e05d5fae0_E",
+        "label": "E",
+        "html": "<p>z=&plusmn; 1.96</p>",
+        "is_correct": false
+      },
+      {
+        "id": "46ca051ab5474c628bac1d9e05d5fae0_F",
+        "label": "F",
+        "html": "<p>z= &plusmn; 1.64</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "46ca051ab5474c628bac1d9e05d5fae0_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "6616e08918ab4bb19fa579bbdbdcad17",
+    "title": "6616e08918ab4bb19fa579bbdbdcad17",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a proportion p, the alternative hypothesis is p&gt;0.50, and the confidence level is 95%. Find the critical values of the test statistic. Round to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "6616e08918ab4bb19fa579bbdbdcad17_A",
+        "label": "A",
+        "html": "<p>z=-1.64</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6616e08918ab4bb19fa579bbdbdcad17_B",
+        "label": "B",
+        "html": "<p>z=1.64</p>",
+        "is_correct": true
+      },
+      {
+        "id": "6616e08918ab4bb19fa579bbdbdcad17_C",
+        "label": "C",
+        "html": "<p>z=-1.96</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6616e08918ab4bb19fa579bbdbdcad17_D",
+        "label": "D",
+        "html": "<p>z=1.96</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6616e08918ab4bb19fa579bbdbdcad17_E",
+        "label": "E",
+        "html": "<p>z=&plusmn; 1.96</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6616e08918ab4bb19fa579bbdbdcad17_F",
+        "label": "F",
+        "html": "<p>z= &plusmn; 1.64</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6616e08918ab4bb19fa579bbdbdcad17_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "26bf2b67289a47e6b3cb9fb939c46257",
+    "title": "26bf2b67289a47e6b3cb9fb939c46257",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a proportion p, the alternative hypothesis is p&ne;0.50, and the confidence level is 95%. Find the critical values of the test statistic. Round to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "26bf2b67289a47e6b3cb9fb939c46257_A",
+        "label": "A",
+        "html": "<p>z=-1.64</p>",
+        "is_correct": false
+      },
+      {
+        "id": "26bf2b67289a47e6b3cb9fb939c46257_B",
+        "label": "B",
+        "html": "<p>z=1.64</p>",
+        "is_correct": false
+      },
+      {
+        "id": "26bf2b67289a47e6b3cb9fb939c46257_C",
+        "label": "C",
+        "html": "<p>z=-1.96</p>",
+        "is_correct": false
+      },
+      {
+        "id": "26bf2b67289a47e6b3cb9fb939c46257_D",
+        "label": "D",
+        "html": "<p>z=1.96</p>",
+        "is_correct": false
+      },
+      {
+        "id": "26bf2b67289a47e6b3cb9fb939c46257_E",
+        "label": "E",
+        "html": "<p>z=&plusmn; 1.96</p>",
+        "is_correct": true
+      },
+      {
+        "id": "26bf2b67289a47e6b3cb9fb939c46257_F",
+        "label": "F",
+        "html": "<p>z= &plusmn; 1.64</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "26bf2b67289a47e6b3cb9fb939c46257_E"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "b78f61e770084a95bc6934e0e2973fbc",
+    "title": "b78f61e770084a95bc6934e0e2973fbc",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a proportion p, the alternative hypothesis is p&lt;0.50, and the confidence level is 90%. Find the critical values of the test statistic. Round to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "b78f61e770084a95bc6934e0e2973fbc_A",
+        "label": "A",
+        "html": "<p>z=-1.64</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b78f61e770084a95bc6934e0e2973fbc_B",
+        "label": "B",
+        "html": "<p>z=1.64</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b78f61e770084a95bc6934e0e2973fbc_C",
+        "label": "C",
+        "html": "<p>z=-1.28</p>",
+        "is_correct": true
+      },
+      {
+        "id": "b78f61e770084a95bc6934e0e2973fbc_D",
+        "label": "D",
+        "html": "<p>z=1.28</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b78f61e770084a95bc6934e0e2973fbc_E",
+        "label": "E",
+        "html": "<p>z=&plusmn; 1.28</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b78f61e770084a95bc6934e0e2973fbc_F",
+        "label": "F",
+        "html": "<p>z= &plusmn; 1.64</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b78f61e770084a95bc6934e0e2973fbc_C"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "464b727f98ff4274b7e5a4ac5e1107de",
+    "title": "464b727f98ff4274b7e5a4ac5e1107de",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a proportion p, the alternative hypothesis is p&gt;0.50, and the confidence level is 90%. Find the critical values of the test statistic. Round to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "464b727f98ff4274b7e5a4ac5e1107de_A",
+        "label": "A",
+        "html": "<p>z=-1.64</p>",
+        "is_correct": false
+      },
+      {
+        "id": "464b727f98ff4274b7e5a4ac5e1107de_B",
+        "label": "B",
+        "html": "<p>z=1.64</p>",
+        "is_correct": false
+      },
+      {
+        "id": "464b727f98ff4274b7e5a4ac5e1107de_C",
+        "label": "C",
+        "html": "<p>z=-1.28</p>",
+        "is_correct": false
+      },
+      {
+        "id": "464b727f98ff4274b7e5a4ac5e1107de_D",
+        "label": "D",
+        "html": "<p>z=1.28</p>",
+        "is_correct": true
+      },
+      {
+        "id": "464b727f98ff4274b7e5a4ac5e1107de_E",
+        "label": "E",
+        "html": "<p>z=&plusmn; 1.28</p>",
+        "is_correct": false
+      },
+      {
+        "id": "464b727f98ff4274b7e5a4ac5e1107de_F",
+        "label": "F",
+        "html": "<p>z= &plusmn; 1.64</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "464b727f98ff4274b7e5a4ac5e1107de_D"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "20eb1a02bf4c49a49659adadc25b3933",
+    "title": "20eb1a02bf4c49a49659adadc25b3933",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a proportion p, the alternative hypothesis is p&ne;0.50, and the confidence level is 90%. Find the critical values of the test statistic. Round to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "20eb1a02bf4c49a49659adadc25b3933_A",
+        "label": "A",
+        "html": "<p>z=-1.64</p>",
+        "is_correct": false
+      },
+      {
+        "id": "20eb1a02bf4c49a49659adadc25b3933_B",
+        "label": "B",
+        "html": "<p>z=1.64</p>",
+        "is_correct": false
+      },
+      {
+        "id": "20eb1a02bf4c49a49659adadc25b3933_C",
+        "label": "C",
+        "html": "<p>z=-1.28</p>",
+        "is_correct": false
+      },
+      {
+        "id": "20eb1a02bf4c49a49659adadc25b3933_D",
+        "label": "D",
+        "html": "<p>z=1.28</p>",
+        "is_correct": false
+      },
+      {
+        "id": "20eb1a02bf4c49a49659adadc25b3933_E",
+        "label": "E",
+        "html": "<p>z=&plusmn; 1.28</p>",
+        "is_correct": false
+      },
+      {
+        "id": "20eb1a02bf4c49a49659adadc25b3933_F",
+        "label": "F",
+        "html": "<p>z= &plusmn; 1.64</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "20eb1a02bf4c49a49659adadc25b3933_F"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "b17a1f096c6948209815d1a9b5a11450",
+    "title": "b17a1f096c6948209815d1a9b5a11450",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a proportion p, the alternative hypothesis is p&lt;0.50, and the confidence level is 99%. Find the critical values of the test statistic. Round to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "b17a1f096c6948209815d1a9b5a11450_A",
+        "label": "A",
+        "html": "<p>z=-2.33</p>",
+        "is_correct": true
+      },
+      {
+        "id": "b17a1f096c6948209815d1a9b5a11450_B",
+        "label": "B",
+        "html": "<p>z=2.33</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b17a1f096c6948209815d1a9b5a11450_C",
+        "label": "C",
+        "html": "<p>z=-2.58</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b17a1f096c6948209815d1a9b5a11450_D",
+        "label": "D",
+        "html": "<p>z=2.58</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b17a1f096c6948209815d1a9b5a11450_E",
+        "label": "E",
+        "html": "<p>z=&plusmn; 2.58</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b17a1f096c6948209815d1a9b5a11450_F",
+        "label": "F",
+        "html": "<p>z= &plusmn; 2.33</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b17a1f096c6948209815d1a9b5a11450_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "99741621759647f9af129dc8fa160f57",
+    "title": "99741621759647f9af129dc8fa160f57",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a proportion p, the alternative hypothesis is p&gt;0.50, and the confidence level is 99%. Find the critical values of the test statistic. Round to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "99741621759647f9af129dc8fa160f57_A",
+        "label": "A",
+        "html": "<p>z=-2.33</p>",
+        "is_correct": false
+      },
+      {
+        "id": "99741621759647f9af129dc8fa160f57_B",
+        "label": "B",
+        "html": "<p>z=2.33</p>",
+        "is_correct": true
+      },
+      {
+        "id": "99741621759647f9af129dc8fa160f57_C",
+        "label": "C",
+        "html": "<p>z=-2.58</p>",
+        "is_correct": false
+      },
+      {
+        "id": "99741621759647f9af129dc8fa160f57_D",
+        "label": "D",
+        "html": "<p>z=2.58</p>",
+        "is_correct": false
+      },
+      {
+        "id": "99741621759647f9af129dc8fa160f57_E",
+        "label": "E",
+        "html": "<p>z=&plusmn; 2.58</p>",
+        "is_correct": false
+      },
+      {
+        "id": "99741621759647f9af129dc8fa160f57_F",
+        "label": "F",
+        "html": "<p>z= &plusmn; 2.33</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "99741621759647f9af129dc8fa160f57_B"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "52725267dd394020be29b81c25202b7f",
+    "title": "52725267dd394020be29b81c25202b7f",
+    "source": "converted_latex",
+    "prompt_html": "<p>In a hypothesis test about a proportion p, the alternative hypothesis is p&ne;0.50, and the confidence level is 99%. Find the critical values of the test statistic. Round to two decimal places.</p>",
+    "choices": [
+      {
+        "id": "52725267dd394020be29b81c25202b7f_A",
+        "label": "A",
+        "html": "<p>z=-2.33</p>",
+        "is_correct": false
+      },
+      {
+        "id": "52725267dd394020be29b81c25202b7f_B",
+        "label": "B",
+        "html": "<p>z=2.33</p>",
+        "is_correct": false
+      },
+      {
+        "id": "52725267dd394020be29b81c25202b7f_C",
+        "label": "C",
+        "html": "<p>z=-2.58</p>",
+        "is_correct": false
+      },
+      {
+        "id": "52725267dd394020be29b81c25202b7f_D",
+        "label": "D",
+        "html": "<p>z=2.58</p>",
+        "is_correct": false
+      },
+      {
+        "id": "52725267dd394020be29b81c25202b7f_E",
+        "label": "E",
+        "html": "<p>z=&plusmn; 2.58</p>",
+        "is_correct": true
+      },
+      {
+        "id": "52725267dd394020be29b81c25202b7f_F",
+        "label": "F",
+        "html": "<p>z= &plusmn; 2.33</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "52725267dd394020be29b81c25202b7f_E"
+    ]
+  }
+]
