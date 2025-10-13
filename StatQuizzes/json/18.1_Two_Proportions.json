@@ -1,0 +1,5042 @@
+[
+  {
+    "index": 1,
+    "ident": "d808c5037fc048348c6133327c4ef812",
+    "title": "d808c5037fc048348c6133327c4ef812",
+    "source": "generated",
+    "prompt_html": "<p>In a sample of 200 college students who completed mindfulness training, 54 reported test anxiety.</p><p>In a control sample of 220 students without training, 87 reported test anxiety.</p><p>Test the claim that the rate of test anxiety is the same for both groups. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of mindfulness-trained students who have test anxiety, and let p<sub>2</sub> be the proportion of students without training who have test anxiety.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "d808c5037fc048348c6133327c4ef812_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "d808c5037fc048348c6133327c4ef812_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "d808c5037fc048348c6133327c4ef812_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "d808c5037fc048348c6133327c4ef812_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "d808c5037fc048348c6133327c4ef812_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "d808c5037fc048348c6133327c4ef812_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d808c5037fc048348c6133327c4ef812_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "bfd57afa756646d98c2294eb9f101eb7",
+    "title": "bfd57afa756646d98c2294eb9f101eb7",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "bfd57afa756646d98c2294eb9f101eb7_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "bfd57afa756646d98c2294eb9f101eb7_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "bfd57afa756646d98c2294eb9f101eb7_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "bfd57afa756646d98c2294eb9f101eb7_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "bfd57afa756646d98c2294eb9f101eb7_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "bfd57afa756646d98c2294eb9f101eb7_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "bfd57afa756646d98c2294eb9f101eb7_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "23de649756834c7f89daaf3a552fbabc",
+    "title": "23de649756834c7f89daaf3a552fbabc",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "23de649756834c7f89daaf3a552fbabc_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "23de649756834c7f89daaf3a552fbabc_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "23de649756834c7f89daaf3a552fbabc_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "23de649756834c7f89daaf3a552fbabc_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "23de649756834c7f89daaf3a552fbabc_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "23de649756834c7f89daaf3a552fbabc_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "23de649756834c7f89daaf3a552fbabc_B"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "a801f072977442a29157fd52a2593902",
+    "title": "a801f072977442a29157fd52a2593902",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "a801f072977442a29157fd52a2593902_D",
+        "label": "D",
+        "html": "<p>0.0065</p>",
+        "is_correct": true
+      },
+      {
+        "id": "a801f072977442a29157fd52a2593902_B",
+        "label": "B",
+        "html": "<p>0.0816</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a801f072977442a29157fd52a2593902_A",
+        "label": "A",
+        "html": "<p>0.0033</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a801f072977442a29157fd52a2593902_C",
+        "label": "C",
+        "html": "<p>0.9967</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a801f072977442a29157fd52a2593902_D"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "8f8bf478fbc44e118e08175154194d46",
+    "title": "8f8bf478fbc44e118e08175154194d46",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "8f8bf478fbc44e118e08175154194d46_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "8f8bf478fbc44e118e08175154194d46_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8f8bf478fbc44e118e08175154194d46_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8f8bf478fbc44e118e08175154194d46_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8f8bf478fbc44e118e08175154194d46_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "86a236d511bc496ab7f1e01467428ae7",
+    "title": "86a236d511bc496ab7f1e01467428ae7",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "86a236d511bc496ab7f1e01467428ae7_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "86a236d511bc496ab7f1e01467428ae7_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "86a236d511bc496ab7f1e01467428ae7_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "86a236d511bc496ab7f1e01467428ae7_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "86a236d511bc496ab7f1e01467428ae7_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "90222f56a09243debf5de367c4d1aa2e",
+    "title": "90222f56a09243debf5de367c4d1aa2e",
+    "source": "generated",
+    "prompt_html": "<p>In a survey of 300 adolescents who use social media frequently, 129 reported sleep difficulties.</p><p>Among 280 adolescents who rarely use social media, 109 reported sleep difficulties.</p><p>Test the claim that the rate of sleep difficulties differs between the two groups. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of frequent social-media users with sleep difficulties, and let p<sub>2</sub> be the proportion of infrequent users with sleep difficulties.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "90222f56a09243debf5de367c4d1aa2e_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "90222f56a09243debf5de367c4d1aa2e_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "90222f56a09243debf5de367c4d1aa2e_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "90222f56a09243debf5de367c4d1aa2e_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "90222f56a09243debf5de367c4d1aa2e_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "90222f56a09243debf5de367c4d1aa2e_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "90222f56a09243debf5de367c4d1aa2e_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "77f088338001497dad3fb0ba7a1fcced",
+    "title": "77f088338001497dad3fb0ba7a1fcced",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "77f088338001497dad3fb0ba7a1fcced_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "77f088338001497dad3fb0ba7a1fcced_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "77f088338001497dad3fb0ba7a1fcced_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "77f088338001497dad3fb0ba7a1fcced_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "77f088338001497dad3fb0ba7a1fcced_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "77f088338001497dad3fb0ba7a1fcced_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "77f088338001497dad3fb0ba7a1fcced_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "06df6a9b9f50457bb61d03252ef0e484",
+    "title": "06df6a9b9f50457bb61d03252ef0e484",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "06df6a9b9f50457bb61d03252ef0e484_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "06df6a9b9f50457bb61d03252ef0e484_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "06df6a9b9f50457bb61d03252ef0e484_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "06df6a9b9f50457bb61d03252ef0e484_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "06df6a9b9f50457bb61d03252ef0e484_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "06df6a9b9f50457bb61d03252ef0e484_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "06df6a9b9f50457bb61d03252ef0e484_B"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "365274b8c77a4f529a164b1496a99fdb",
+    "title": "365274b8c77a4f529a164b1496a99fdb",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "365274b8c77a4f529a164b1496a99fdb_C",
+        "label": "C",
+        "html": "<p>0.3192</p>",
+        "is_correct": true
+      },
+      {
+        "id": "365274b8c77a4f529a164b1496a99fdb_B",
+        "label": "B",
+        "html": "<p>0.1596</p>",
+        "is_correct": false
+      },
+      {
+        "id": "365274b8c77a4f529a164b1496a99fdb_D",
+        "label": "D",
+        "html": "<p>0.1108</p>",
+        "is_correct": false
+      },
+      {
+        "id": "365274b8c77a4f529a164b1496a99fdb_A",
+        "label": "A",
+        "html": "<p>0.8404</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "365274b8c77a4f529a164b1496a99fdb_C"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "65bf4c30b5664ff58930d7881fda19e4",
+    "title": "65bf4c30b5664ff58930d7881fda19e4",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "65bf4c30b5664ff58930d7881fda19e4_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "65bf4c30b5664ff58930d7881fda19e4_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "65bf4c30b5664ff58930d7881fda19e4_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "65bf4c30b5664ff58930d7881fda19e4_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "65bf4c30b5664ff58930d7881fda19e4_B"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "a6a9276932d54d5aa9e06ef6281aa467",
+    "title": "a6a9276932d54d5aa9e06ef6281aa467",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "a6a9276932d54d5aa9e06ef6281aa467_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a6a9276932d54d5aa9e06ef6281aa467_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a6a9276932d54d5aa9e06ef6281aa467_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "a6a9276932d54d5aa9e06ef6281aa467_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a6a9276932d54d5aa9e06ef6281aa467_C"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "bd6351d7e4f34ae38c47e90578c2f852",
+    "title": "bd6351d7e4f34ae38c47e90578c2f852",
+    "source": "generated",
+    "prompt_html": "<p>In a study on therapy effectiveness, 48 of 60 patients receiving cognitive-behavioral therapy achieved remission.</p><p>In a control group of 60 patients receiving no therapy, 33 achieved remission.</p><p>Test the claim that the remission rate is higher for patients receiving CBT. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of CBT patients who achieve remission, and let p<sub>2</sub> be the proportion of control patients who achieve remission.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "bd6351d7e4f34ae38c47e90578c2f852_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "bd6351d7e4f34ae38c47e90578c2f852_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "bd6351d7e4f34ae38c47e90578c2f852_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "bd6351d7e4f34ae38c47e90578c2f852_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "bd6351d7e4f34ae38c47e90578c2f852_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "bd6351d7e4f34ae38c47e90578c2f852_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "bd6351d7e4f34ae38c47e90578c2f852_E"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "036869a973fc497f87566a66e36740f9",
+    "title": "036869a973fc497f87566a66e36740f9",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "036869a973fc497f87566a66e36740f9_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "036869a973fc497f87566a66e36740f9_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "036869a973fc497f87566a66e36740f9_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "036869a973fc497f87566a66e36740f9_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "036869a973fc497f87566a66e36740f9_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "036869a973fc497f87566a66e36740f9_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "036869a973fc497f87566a66e36740f9_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "ae609d8d0b0e467c8c20cc7ced4613d0",
+    "title": "ae609d8d0b0e467c8c20cc7ced4613d0",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "ae609d8d0b0e467c8c20cc7ced4613d0_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ae609d8d0b0e467c8c20cc7ced4613d0_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ae609d8d0b0e467c8c20cc7ced4613d0_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ae609d8d0b0e467c8c20cc7ced4613d0_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ae609d8d0b0e467c8c20cc7ced4613d0_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "ae609d8d0b0e467c8c20cc7ced4613d0_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ae609d8d0b0e467c8c20cc7ced4613d0_E"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "b6f968f363be4c7b8f146ce6d7545ec2",
+    "title": "b6f968f363be4c7b8f146ce6d7545ec2",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "b6f968f363be4c7b8f146ce6d7545ec2_A",
+        "label": "A",
+        "html": "<p>0.0017</p>",
+        "is_correct": true
+      },
+      {
+        "id": "b6f968f363be4c7b8f146ce6d7545ec2_D",
+        "label": "D",
+        "html": "<p>0.0035</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b6f968f363be4c7b8f146ce6d7545ec2_B",
+        "label": "B",
+        "html": "<p>0.0376</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b6f968f363be4c7b8f146ce6d7545ec2_C",
+        "label": "C",
+        "html": "<p>0.9983</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b6f968f363be4c7b8f146ce6d7545ec2_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "3bed8ddfefae4a48a1f9410fa6fcf007",
+    "title": "3bed8ddfefae4a48a1f9410fa6fcf007",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "3bed8ddfefae4a48a1f9410fa6fcf007_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "3bed8ddfefae4a48a1f9410fa6fcf007_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3bed8ddfefae4a48a1f9410fa6fcf007_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3bed8ddfefae4a48a1f9410fa6fcf007_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3bed8ddfefae4a48a1f9410fa6fcf007_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "1540fb58c72b4286924183c20e098cbc",
+    "title": "1540fb58c72b4286924183c20e098cbc",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "1540fb58c72b4286924183c20e098cbc_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "1540fb58c72b4286924183c20e098cbc_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1540fb58c72b4286924183c20e098cbc_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1540fb58c72b4286924183c20e098cbc_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1540fb58c72b4286924183c20e098cbc_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "416beab84231427986b5676e039cc327",
+    "title": "416beab84231427986b5676e039cc327",
+    "source": "generated",
+    "prompt_html": "<p>A psychologist found that 41 of 120 caffeine users performed above average on a memory test, while 36 of 110 non-users performed above average.</p><p>Test the claim that the rate of above-average memory performance is lower for those who did not consume caffeine. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of caffeine users who performed above average, and let p<sub>2</sub> be the proportion of non-users who performed above average.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "416beab84231427986b5676e039cc327_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "416beab84231427986b5676e039cc327_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "416beab84231427986b5676e039cc327_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "416beab84231427986b5676e039cc327_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "416beab84231427986b5676e039cc327_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "416beab84231427986b5676e039cc327_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "416beab84231427986b5676e039cc327_E"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "9b24c0abbb9a4cf8910e1cfd47e9ace2",
+    "title": "9b24c0abbb9a4cf8910e1cfd47e9ace2",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "9b24c0abbb9a4cf8910e1cfd47e9ace2_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "9b24c0abbb9a4cf8910e1cfd47e9ace2_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "9b24c0abbb9a4cf8910e1cfd47e9ace2_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "9b24c0abbb9a4cf8910e1cfd47e9ace2_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "9b24c0abbb9a4cf8910e1cfd47e9ace2_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "9b24c0abbb9a4cf8910e1cfd47e9ace2_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9b24c0abbb9a4cf8910e1cfd47e9ace2_A"
+    ]
+  },
+  {
+    "index": 21,
+    "ident": "6dcd130c075745d5a447555af20c8d81",
+    "title": "6dcd130c075745d5a447555af20c8d81",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "6dcd130c075745d5a447555af20c8d81_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "6dcd130c075745d5a447555af20c8d81_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "6dcd130c075745d5a447555af20c8d81_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "6dcd130c075745d5a447555af20c8d81_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "6dcd130c075745d5a447555af20c8d81_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "6dcd130c075745d5a447555af20c8d81_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6dcd130c075745d5a447555af20c8d81_E"
+    ]
+  },
+  {
+    "index": 22,
+    "ident": "6208b8e205624890a8b32b38f7dfeb8d",
+    "title": "6208b8e205624890a8b32b38f7dfeb8d",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "6208b8e205624890a8b32b38f7dfeb8d_B",
+        "label": "B",
+        "html": "<p>0.5914</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6208b8e205624890a8b32b38f7dfeb8d_C",
+        "label": "C",
+        "html": "<p>0.8173</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6208b8e205624890a8b32b38f7dfeb8d_D",
+        "label": "D",
+        "html": "<p>0.4086</p>",
+        "is_correct": true
+      },
+      {
+        "id": "6208b8e205624890a8b32b38f7dfeb8d_A",
+        "label": "A",
+        "html": "<p>0.1096</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6208b8e205624890a8b32b38f7dfeb8d_D"
+    ]
+  },
+  {
+    "index": 23,
+    "ident": "d6e4da822d444f059f54fc25b39de3c9",
+    "title": "d6e4da822d444f059f54fc25b39de3c9",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "d6e4da822d444f059f54fc25b39de3c9_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d6e4da822d444f059f54fc25b39de3c9_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "d6e4da822d444f059f54fc25b39de3c9_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d6e4da822d444f059f54fc25b39de3c9_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d6e4da822d444f059f54fc25b39de3c9_B"
+    ]
+  },
+  {
+    "index": 24,
+    "ident": "057b6c6138314248ac79b03ab983ccc9",
+    "title": "057b6c6138314248ac79b03ab983ccc9",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "057b6c6138314248ac79b03ab983ccc9_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "057b6c6138314248ac79b03ab983ccc9_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "057b6c6138314248ac79b03ab983ccc9_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "057b6c6138314248ac79b03ab983ccc9_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "057b6c6138314248ac79b03ab983ccc9_C"
+    ]
+  },
+  {
+    "index": 25,
+    "ident": "ec361d1079f045b0a6cbd846dd920dcb",
+    "title": "ec361d1079f045b0a6cbd846dd920dcb",
+    "source": "generated",
+    "prompt_html": "<p>In a behavioral study, 68 of 90 participants who practiced gratitude journaling reported high life satisfaction.</p><p>Among 85 participants who did not journal, 47 reported high satisfaction.</p><p>Test the claim that the proportion reporting higher satisfaction is the same in both groups. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of journalers reporting high life satisfaction, and let p<sub>2</sub> be the proportion of non-journalers reporting high life satisfaction.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "ec361d1079f045b0a6cbd846dd920dcb_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "ec361d1079f045b0a6cbd846dd920dcb_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ec361d1079f045b0a6cbd846dd920dcb_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ec361d1079f045b0a6cbd846dd920dcb_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ec361d1079f045b0a6cbd846dd920dcb_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ec361d1079f045b0a6cbd846dd920dcb_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ec361d1079f045b0a6cbd846dd920dcb_A"
+    ]
+  },
+  {
+    "index": 26,
+    "ident": "21264eb899bf4982b973f7c26551f924",
+    "title": "21264eb899bf4982b973f7c26551f924",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "21264eb899bf4982b973f7c26551f924_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "21264eb899bf4982b973f7c26551f924_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "21264eb899bf4982b973f7c26551f924_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "21264eb899bf4982b973f7c26551f924_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "21264eb899bf4982b973f7c26551f924_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "21264eb899bf4982b973f7c26551f924_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "21264eb899bf4982b973f7c26551f924_A"
+    ]
+  },
+  {
+    "index": 27,
+    "ident": "e90251c21c5d4e86812b45eaaebe9cd8",
+    "title": "e90251c21c5d4e86812b45eaaebe9cd8",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "e90251c21c5d4e86812b45eaaebe9cd8_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e90251c21c5d4e86812b45eaaebe9cd8_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "e90251c21c5d4e86812b45eaaebe9cd8_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e90251c21c5d4e86812b45eaaebe9cd8_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e90251c21c5d4e86812b45eaaebe9cd8_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e90251c21c5d4e86812b45eaaebe9cd8_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e90251c21c5d4e86812b45eaaebe9cd8_B"
+    ]
+  },
+  {
+    "index": 28,
+    "ident": "ceb4a841d33b4a54b2d980941182a11f",
+    "title": "ceb4a841d33b4a54b2d980941182a11f",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "ceb4a841d33b4a54b2d980941182a11f_D",
+        "label": "D",
+        "html": "<p>0.0048</p>",
+        "is_correct": true
+      },
+      {
+        "id": "ceb4a841d33b4a54b2d980941182a11f_A",
+        "label": "A",
+        "html": "<p>0.0192</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ceb4a841d33b4a54b2d980941182a11f_B",
+        "label": "B",
+        "html": "<p>0.9976</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ceb4a841d33b4a54b2d980941182a11f_C",
+        "label": "C",
+        "html": "<p>0.0024</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ceb4a841d33b4a54b2d980941182a11f_D"
+    ]
+  },
+  {
+    "index": 29,
+    "ident": "f5397f89e2994b3e8cc825b5d591e9fc",
+    "title": "f5397f89e2994b3e8cc825b5d591e9fc",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "f5397f89e2994b3e8cc825b5d591e9fc_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "f5397f89e2994b3e8cc825b5d591e9fc_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f5397f89e2994b3e8cc825b5d591e9fc_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f5397f89e2994b3e8cc825b5d591e9fc_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f5397f89e2994b3e8cc825b5d591e9fc_A"
+    ]
+  },
+  {
+    "index": 30,
+    "ident": "b8e5d5c87b154ecd85e94cd0af2735f6",
+    "title": "b8e5d5c87b154ecd85e94cd0af2735f6",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "b8e5d5c87b154ecd85e94cd0af2735f6_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b8e5d5c87b154ecd85e94cd0af2735f6_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "b8e5d5c87b154ecd85e94cd0af2735f6_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b8e5d5c87b154ecd85e94cd0af2735f6_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b8e5d5c87b154ecd85e94cd0af2735f6_B"
+    ]
+  },
+  {
+    "index": 31,
+    "ident": "fedeac5428734f199e60c58b1da55e0c",
+    "title": "fedeac5428734f199e60c58b1da55e0c",
+    "source": "generated",
+    "prompt_html": "<p>In a study of 150 migratory birds from urban areas, 38 showed abnormal navigation behavior.</p><p>Among 170 birds from rural areas, 36 showed abnormal navigation.</p><p>Test the claim that the rate of abnormal navigation differs between environments. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of urban birds with abnormal navigation, and let p<sub>2</sub> be the proportion of rural birds with abnormal navigation.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "fedeac5428734f199e60c58b1da55e0c_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "fedeac5428734f199e60c58b1da55e0c_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "fedeac5428734f199e60c58b1da55e0c_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "fedeac5428734f199e60c58b1da55e0c_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "fedeac5428734f199e60c58b1da55e0c_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "fedeac5428734f199e60c58b1da55e0c_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "fedeac5428734f199e60c58b1da55e0c_B"
+    ]
+  },
+  {
+    "index": 32,
+    "ident": "f92b51e6b3bf4ec59a8ffa9d5eb67e7f",
+    "title": "f92b51e6b3bf4ec59a8ffa9d5eb67e7f",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "f92b51e6b3bf4ec59a8ffa9d5eb67e7f_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "f92b51e6b3bf4ec59a8ffa9d5eb67e7f_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "f92b51e6b3bf4ec59a8ffa9d5eb67e7f_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "f92b51e6b3bf4ec59a8ffa9d5eb67e7f_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "f92b51e6b3bf4ec59a8ffa9d5eb67e7f_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "f92b51e6b3bf4ec59a8ffa9d5eb67e7f_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f92b51e6b3bf4ec59a8ffa9d5eb67e7f_A"
+    ]
+  },
+  {
+    "index": 33,
+    "ident": "6ba4592bbb684766a713b241404e8921",
+    "title": "6ba4592bbb684766a713b241404e8921",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "6ba4592bbb684766a713b241404e8921_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "6ba4592bbb684766a713b241404e8921_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "6ba4592bbb684766a713b241404e8921_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "6ba4592bbb684766a713b241404e8921_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "6ba4592bbb684766a713b241404e8921_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "6ba4592bbb684766a713b241404e8921_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6ba4592bbb684766a713b241404e8921_B"
+    ]
+  },
+  {
+    "index": 34,
+    "ident": "294c97de307842ea9a542cfd02523f54",
+    "title": "294c97de307842ea9a542cfd02523f54",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "294c97de307842ea9a542cfd02523f54_D",
+        "label": "D",
+        "html": "<p>0.3788</p>",
+        "is_correct": true
+      },
+      {
+        "id": "294c97de307842ea9a542cfd02523f54_B",
+        "label": "B",
+        "html": "<p>0.1894</p>",
+        "is_correct": false
+      },
+      {
+        "id": "294c97de307842ea9a542cfd02523f54_A",
+        "label": "A",
+        "html": "<p>0.1202</p>",
+        "is_correct": false
+      },
+      {
+        "id": "294c97de307842ea9a542cfd02523f54_C",
+        "label": "C",
+        "html": "<p>0.8106</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "294c97de307842ea9a542cfd02523f54_D"
+    ]
+  },
+  {
+    "index": 35,
+    "ident": "f5512769328c42f9b431da5229a49185",
+    "title": "f5512769328c42f9b431da5229a49185",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "f5512769328c42f9b431da5229a49185_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f5512769328c42f9b431da5229a49185_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "f5512769328c42f9b431da5229a49185_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f5512769328c42f9b431da5229a49185_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f5512769328c42f9b431da5229a49185_B"
+    ]
+  },
+  {
+    "index": 36,
+    "ident": "bafd9d29f0a64f27a3dfb793372a6c09",
+    "title": "bafd9d29f0a64f27a3dfb793372a6c09",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "bafd9d29f0a64f27a3dfb793372a6c09_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bafd9d29f0a64f27a3dfb793372a6c09_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bafd9d29f0a64f27a3dfb793372a6c09_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "bafd9d29f0a64f27a3dfb793372a6c09_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "bafd9d29f0a64f27a3dfb793372a6c09_C"
+    ]
+  },
+  {
+    "index": 37,
+    "ident": "62e12890e34c404f9022b3c0d9d1803c",
+    "title": "62e12890e34c404f9022b3c0d9d1803c",
+    "source": "generated",
+    "prompt_html": "<p>In an experiment on seed germination, 72 of 100 treated seeds sprouted within one week.</p><p>Among 100 untreated seeds, 55 sprouted within one week.</p><p>Test the claim that the sprouting rate is higher among treated seeds. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of treated seeds that sprout within one week, and let p<sub>2</sub> be the proportion of untreated seeds that sprout within one week.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "62e12890e34c404f9022b3c0d9d1803c_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "62e12890e34c404f9022b3c0d9d1803c_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "62e12890e34c404f9022b3c0d9d1803c_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "62e12890e34c404f9022b3c0d9d1803c_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "62e12890e34c404f9022b3c0d9d1803c_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "62e12890e34c404f9022b3c0d9d1803c_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "62e12890e34c404f9022b3c0d9d1803c_E"
+    ]
+  },
+  {
+    "index": 38,
+    "ident": "4f3aaa8902dd41f4bd9c489bd559a277",
+    "title": "4f3aaa8902dd41f4bd9c489bd559a277",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "4f3aaa8902dd41f4bd9c489bd559a277_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "4f3aaa8902dd41f4bd9c489bd559a277_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4f3aaa8902dd41f4bd9c489bd559a277_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4f3aaa8902dd41f4bd9c489bd559a277_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4f3aaa8902dd41f4bd9c489bd559a277_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4f3aaa8902dd41f4bd9c489bd559a277_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4f3aaa8902dd41f4bd9c489bd559a277_A"
+    ]
+  },
+  {
+    "index": 39,
+    "ident": "cf75ba66817545f981b48b29d3bbc902",
+    "title": "cf75ba66817545f981b48b29d3bbc902",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "cf75ba66817545f981b48b29d3bbc902_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "cf75ba66817545f981b48b29d3bbc902_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "cf75ba66817545f981b48b29d3bbc902_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "cf75ba66817545f981b48b29d3bbc902_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "cf75ba66817545f981b48b29d3bbc902_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "cf75ba66817545f981b48b29d3bbc902_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cf75ba66817545f981b48b29d3bbc902_E"
+    ]
+  },
+  {
+    "index": 40,
+    "ident": "41e8c86af01249c584ef2ec1ad1a7fbe",
+    "title": "41e8c86af01249c584ef2ec1ad1a7fbe",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "41e8c86af01249c584ef2ec1ad1a7fbe_D",
+        "label": "D",
+        "html": "<p>0.0063</p>",
+        "is_correct": true
+      },
+      {
+        "id": "41e8c86af01249c584ef2ec1ad1a7fbe_B",
+        "label": "B",
+        "html": "<p>0.0793</p>",
+        "is_correct": false
+      },
+      {
+        "id": "41e8c86af01249c584ef2ec1ad1a7fbe_A",
+        "label": "A",
+        "html": "<p>0.0125</p>",
+        "is_correct": false
+      },
+      {
+        "id": "41e8c86af01249c584ef2ec1ad1a7fbe_C",
+        "label": "C",
+        "html": "<p>0.9937</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "41e8c86af01249c584ef2ec1ad1a7fbe_D"
+    ]
+  },
+  {
+    "index": 41,
+    "ident": "d260dd91411f4f7f9211f6ae2e3bbe0e",
+    "title": "d260dd91411f4f7f9211f6ae2e3bbe0e",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "d260dd91411f4f7f9211f6ae2e3bbe0e_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "d260dd91411f4f7f9211f6ae2e3bbe0e_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d260dd91411f4f7f9211f6ae2e3bbe0e_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d260dd91411f4f7f9211f6ae2e3bbe0e_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d260dd91411f4f7f9211f6ae2e3bbe0e_A"
+    ]
+  },
+  {
+    "index": 42,
+    "ident": "f71649cd3a594f4b9a139a8fbdc5420a",
+    "title": "f71649cd3a594f4b9a139a8fbdc5420a",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "f71649cd3a594f4b9a139a8fbdc5420a_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "f71649cd3a594f4b9a139a8fbdc5420a_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f71649cd3a594f4b9a139a8fbdc5420a_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f71649cd3a594f4b9a139a8fbdc5420a_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f71649cd3a594f4b9a139a8fbdc5420a_A"
+    ]
+  },
+  {
+    "index": 43,
+    "ident": "6dc7c604ae664c3aa349a2131756d70c",
+    "title": "6dc7c604ae664c3aa349a2131756d70c",
+    "source": "generated",
+    "prompt_html": "<p>In a study of 50 honeybee colonies exposed to pesticides, 17 experienced queen loss.</p><p>In 60 unexposed colonies, 14 experienced queen loss.</p><p>Test the claim that the rate of queen loss is greater for pesticide-exposed colonies. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of exposed colonies with queen loss, and let p<sub>2</sub> be the proportion of unexposed colonies with queen loss.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "6dc7c604ae664c3aa349a2131756d70c_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "6dc7c604ae664c3aa349a2131756d70c_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "6dc7c604ae664c3aa349a2131756d70c_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "6dc7c604ae664c3aa349a2131756d70c_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "6dc7c604ae664c3aa349a2131756d70c_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "6dc7c604ae664c3aa349a2131756d70c_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "6dc7c604ae664c3aa349a2131756d70c_E"
+    ]
+  },
+  {
+    "index": 44,
+    "ident": "03c94e397cc548f3b8d1f942f844c55e",
+    "title": "03c94e397cc548f3b8d1f942f844c55e",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "03c94e397cc548f3b8d1f942f844c55e_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "03c94e397cc548f3b8d1f942f844c55e_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "03c94e397cc548f3b8d1f942f844c55e_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "03c94e397cc548f3b8d1f942f844c55e_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "03c94e397cc548f3b8d1f942f844c55e_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "03c94e397cc548f3b8d1f942f844c55e_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "03c94e397cc548f3b8d1f942f844c55e_A"
+    ]
+  },
+  {
+    "index": 45,
+    "ident": "f85ba2a5ef07403c8462605cdc963edf",
+    "title": "f85ba2a5ef07403c8462605cdc963edf",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "f85ba2a5ef07403c8462605cdc963edf_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "f85ba2a5ef07403c8462605cdc963edf_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "f85ba2a5ef07403c8462605cdc963edf_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "f85ba2a5ef07403c8462605cdc963edf_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "f85ba2a5ef07403c8462605cdc963edf_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "f85ba2a5ef07403c8462605cdc963edf_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f85ba2a5ef07403c8462605cdc963edf_E"
+    ]
+  },
+  {
+    "index": 46,
+    "ident": "a0036df66a024e3cb4c87b1f67a2325e",
+    "title": "a0036df66a024e3cb4c87b1f67a2325e",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "a0036df66a024e3cb4c87b1f67a2325e_D",
+        "label": "D",
+        "html": "<p>0.1078</p>",
+        "is_correct": true
+      },
+      {
+        "id": "a0036df66a024e3cb4c87b1f67a2325e_A",
+        "label": "A",
+        "html": "<p>0.1281</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a0036df66a024e3cb4c87b1f67a2325e_C",
+        "label": "C",
+        "html": "<p>0.8922</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a0036df66a024e3cb4c87b1f67a2325e_B",
+        "label": "B",
+        "html": "<p>0.2156</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a0036df66a024e3cb4c87b1f67a2325e_D"
+    ]
+  },
+  {
+    "index": 47,
+    "ident": "651495c25fa94bf091be83bf3f552d9d",
+    "title": "651495c25fa94bf091be83bf3f552d9d",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "651495c25fa94bf091be83bf3f552d9d_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "651495c25fa94bf091be83bf3f552d9d_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "651495c25fa94bf091be83bf3f552d9d_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "651495c25fa94bf091be83bf3f552d9d_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "651495c25fa94bf091be83bf3f552d9d_B"
+    ]
+  },
+  {
+    "index": 48,
+    "ident": "736ea569ba2048239cb9a2919ea0d692",
+    "title": "736ea569ba2048239cb9a2919ea0d692",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "736ea569ba2048239cb9a2919ea0d692_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "736ea569ba2048239cb9a2919ea0d692_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "736ea569ba2048239cb9a2919ea0d692_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "736ea569ba2048239cb9a2919ea0d692_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "736ea569ba2048239cb9a2919ea0d692_C"
+    ]
+  },
+  {
+    "index": 49,
+    "ident": "e8ea2aaadac243d682b9af1c348c6e35",
+    "title": "e8ea2aaadac243d682b9af1c348c6e35",
+    "source": "generated",
+    "prompt_html": "<p>Of 90 turtles fitted with GPS devices, 81 survived migration season.</p><p>Of 100 turtles without devices, 80 survived.</p><p>Test the claim that the survival rate is the same for both groups. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of GPS-fitted turtles that survived, and let p<sub>2</sub> be the proportion of non-fitted turtles that survived.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "e8ea2aaadac243d682b9af1c348c6e35_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "e8ea2aaadac243d682b9af1c348c6e35_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e8ea2aaadac243d682b9af1c348c6e35_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e8ea2aaadac243d682b9af1c348c6e35_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e8ea2aaadac243d682b9af1c348c6e35_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e8ea2aaadac243d682b9af1c348c6e35_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e8ea2aaadac243d682b9af1c348c6e35_A"
+    ]
+  },
+  {
+    "index": 50,
+    "ident": "5a54a3d798734915bf664815b209b9bc",
+    "title": "5a54a3d798734915bf664815b209b9bc",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "5a54a3d798734915bf664815b209b9bc_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "5a54a3d798734915bf664815b209b9bc_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "5a54a3d798734915bf664815b209b9bc_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "5a54a3d798734915bf664815b209b9bc_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "5a54a3d798734915bf664815b209b9bc_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "5a54a3d798734915bf664815b209b9bc_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5a54a3d798734915bf664815b209b9bc_A"
+    ]
+  },
+  {
+    "index": 51,
+    "ident": "8f4ac8e72854487891b1a74fb510ce40",
+    "title": "8f4ac8e72854487891b1a74fb510ce40",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "8f4ac8e72854487891b1a74fb510ce40_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "8f4ac8e72854487891b1a74fb510ce40_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "8f4ac8e72854487891b1a74fb510ce40_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "8f4ac8e72854487891b1a74fb510ce40_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "8f4ac8e72854487891b1a74fb510ce40_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "8f4ac8e72854487891b1a74fb510ce40_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8f4ac8e72854487891b1a74fb510ce40_B"
+    ]
+  },
+  {
+    "index": 52,
+    "ident": "3d53ab65ec284bef93f64afae68ff01e",
+    "title": "3d53ab65ec284bef93f64afae68ff01e",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "3d53ab65ec284bef93f64afae68ff01e_D",
+        "label": "D",
+        "html": "<p>0.0557</p>",
+        "is_correct": true
+      },
+      {
+        "id": "3d53ab65ec284bef93f64afae68ff01e_B",
+        "label": "B",
+        "html": "<p>0.9722</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3d53ab65ec284bef93f64afae68ff01e_C",
+        "label": "C",
+        "html": "<p>0.0825</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3d53ab65ec284bef93f64afae68ff01e_A",
+        "label": "A",
+        "html": "<p>0.0278</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3d53ab65ec284bef93f64afae68ff01e_D"
+    ]
+  },
+  {
+    "index": 53,
+    "ident": "37cf61c6478348cd86231d424b3ab145",
+    "title": "37cf61c6478348cd86231d424b3ab145",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "37cf61c6478348cd86231d424b3ab145_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "37cf61c6478348cd86231d424b3ab145_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "37cf61c6478348cd86231d424b3ab145_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "37cf61c6478348cd86231d424b3ab145_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "37cf61c6478348cd86231d424b3ab145_B"
+    ]
+  },
+  {
+    "index": 54,
+    "ident": "8f80b4eb09124232995ea999b1de0f38",
+    "title": "8f80b4eb09124232995ea999b1de0f38",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "8f80b4eb09124232995ea999b1de0f38_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8f80b4eb09124232995ea999b1de0f38_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8f80b4eb09124232995ea999b1de0f38_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8f80b4eb09124232995ea999b1de0f38_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "8f80b4eb09124232995ea999b1de0f38_D"
+    ]
+  },
+  {
+    "index": 55,
+    "ident": "5c727a634c5144b6a531cfa5cfc09726",
+    "title": "5c727a634c5144b6a531cfa5cfc09726",
+    "source": "generated",
+    "prompt_html": "<p>In a bacterial culture study, 28 of 70 colonies exposed to ultraviolet light developed mutations.</p><p>Among 80 colonies kept in darkness, 25 developed mutations.</p><p>Test the claim that the mutation rate is lower under dark conditions. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of UV-exposed colonies that developed mutations, and let p<sub>2</sub> be the proportion of dark-kept colonies that developed mutations.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "5c727a634c5144b6a531cfa5cfc09726_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "5c727a634c5144b6a531cfa5cfc09726_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "5c727a634c5144b6a531cfa5cfc09726_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "5c727a634c5144b6a531cfa5cfc09726_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "5c727a634c5144b6a531cfa5cfc09726_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "5c727a634c5144b6a531cfa5cfc09726_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5c727a634c5144b6a531cfa5cfc09726_E"
+    ]
+  },
+  {
+    "index": 56,
+    "ident": "40bf71b010a64111ae0c139d21544cc1",
+    "title": "40bf71b010a64111ae0c139d21544cc1",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "40bf71b010a64111ae0c139d21544cc1_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "40bf71b010a64111ae0c139d21544cc1_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "40bf71b010a64111ae0c139d21544cc1_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "40bf71b010a64111ae0c139d21544cc1_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "40bf71b010a64111ae0c139d21544cc1_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "40bf71b010a64111ae0c139d21544cc1_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "40bf71b010a64111ae0c139d21544cc1_A"
+    ]
+  },
+  {
+    "index": 57,
+    "ident": "e6d39ae676cd47df83e7124d1131d03b",
+    "title": "e6d39ae676cd47df83e7124d1131d03b",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "e6d39ae676cd47df83e7124d1131d03b_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e6d39ae676cd47df83e7124d1131d03b_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e6d39ae676cd47df83e7124d1131d03b_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e6d39ae676cd47df83e7124d1131d03b_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e6d39ae676cd47df83e7124d1131d03b_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "e6d39ae676cd47df83e7124d1131d03b_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e6d39ae676cd47df83e7124d1131d03b_E"
+    ]
+  },
+  {
+    "index": 58,
+    "ident": "8a0845f570194e0ea96b81e05ce4df60",
+    "title": "8a0845f570194e0ea96b81e05ce4df60",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "8a0845f570194e0ea96b81e05ce4df60_B",
+        "label": "B",
+        "html": "<p>0.8683</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8a0845f570194e0ea96b81e05ce4df60_D",
+        "label": "D",
+        "html": "<p>0.0065</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8a0845f570194e0ea96b81e05ce4df60_A",
+        "label": "A",
+        "html": "<p>0.2634</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8a0845f570194e0ea96b81e05ce4df60_C",
+        "label": "C",
+        "html": "<p>0.1317</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "8a0845f570194e0ea96b81e05ce4df60_C"
+    ]
+  },
+  {
+    "index": 59,
+    "ident": "7fce192fcca443b29b88255b97b32d83",
+    "title": "7fce192fcca443b29b88255b97b32d83",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "7fce192fcca443b29b88255b97b32d83_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7fce192fcca443b29b88255b97b32d83_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "7fce192fcca443b29b88255b97b32d83_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7fce192fcca443b29b88255b97b32d83_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7fce192fcca443b29b88255b97b32d83_B"
+    ]
+  },
+  {
+    "index": 60,
+    "ident": "1150a77cd0504f93b6b5203c8e25aeba",
+    "title": "1150a77cd0504f93b6b5203c8e25aeba",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "1150a77cd0504f93b6b5203c8e25aeba_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1150a77cd0504f93b6b5203c8e25aeba_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1150a77cd0504f93b6b5203c8e25aeba_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "1150a77cd0504f93b6b5203c8e25aeba_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1150a77cd0504f93b6b5203c8e25aeba_C"
+    ]
+  },
+  {
+    "index": 61,
+    "ident": "b03214d691fa4a66b163dbb990a0fdad",
+    "title": "b03214d691fa4a66b163dbb990a0fdad",
+    "source": "generated",
+    "prompt_html": "<p>In a study of adults taking a new cholesterol-lowering drug, 95 of 120 showed improved lipid levels.</p><p>Among 130 adults taking a placebo, 84 showed improvement.</p><p>Test the claim that the drug's success rate differs from that of the placebo. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of drug patients who improved, and let p<sub>2</sub> be the proportion of placebo patients who improved.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "b03214d691fa4a66b163dbb990a0fdad_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "b03214d691fa4a66b163dbb990a0fdad_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "b03214d691fa4a66b163dbb990a0fdad_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "b03214d691fa4a66b163dbb990a0fdad_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "b03214d691fa4a66b163dbb990a0fdad_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "b03214d691fa4a66b163dbb990a0fdad_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b03214d691fa4a66b163dbb990a0fdad_B"
+    ]
+  },
+  {
+    "index": 62,
+    "ident": "194ab4d1df164fdcbc2ecbcd1f6d3cdc",
+    "title": "194ab4d1df164fdcbc2ecbcd1f6d3cdc",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "194ab4d1df164fdcbc2ecbcd1f6d3cdc_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "194ab4d1df164fdcbc2ecbcd1f6d3cdc_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "194ab4d1df164fdcbc2ecbcd1f6d3cdc_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "194ab4d1df164fdcbc2ecbcd1f6d3cdc_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "194ab4d1df164fdcbc2ecbcd1f6d3cdc_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "194ab4d1df164fdcbc2ecbcd1f6d3cdc_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "194ab4d1df164fdcbc2ecbcd1f6d3cdc_A"
+    ]
+  },
+  {
+    "index": 63,
+    "ident": "9c9355dae8784f01b2a9e809656090d9",
+    "title": "9c9355dae8784f01b2a9e809656090d9",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "9c9355dae8784f01b2a9e809656090d9_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "9c9355dae8784f01b2a9e809656090d9_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "9c9355dae8784f01b2a9e809656090d9_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "9c9355dae8784f01b2a9e809656090d9_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "9c9355dae8784f01b2a9e809656090d9_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "9c9355dae8784f01b2a9e809656090d9_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9c9355dae8784f01b2a9e809656090d9_B"
+    ]
+  },
+  {
+    "index": 64,
+    "ident": "76ba82bf3d054ce6825e8a363511dbbb",
+    "title": "76ba82bf3d054ce6825e8a363511dbbb",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "76ba82bf3d054ce6825e8a363511dbbb_C",
+        "label": "C",
+        "html": "<p>0.0108</p>",
+        "is_correct": true
+      },
+      {
+        "id": "76ba82bf3d054ce6825e8a363511dbbb_A",
+        "label": "A",
+        "html": "<p>0.9946</p>",
+        "is_correct": false
+      },
+      {
+        "id": "76ba82bf3d054ce6825e8a363511dbbb_B",
+        "label": "B",
+        "html": "<p>0.1404</p>",
+        "is_correct": false
+      },
+      {
+        "id": "76ba82bf3d054ce6825e8a363511dbbb_D",
+        "label": "D",
+        "html": "<p>0.0054</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "76ba82bf3d054ce6825e8a363511dbbb_C"
+    ]
+  },
+  {
+    "index": 65,
+    "ident": "b875a6857927471c9f46ee42434b3a8b",
+    "title": "b875a6857927471c9f46ee42434b3a8b",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "b875a6857927471c9f46ee42434b3a8b_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "b875a6857927471c9f46ee42434b3a8b_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b875a6857927471c9f46ee42434b3a8b_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b875a6857927471c9f46ee42434b3a8b_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b875a6857927471c9f46ee42434b3a8b_A"
+    ]
+  },
+  {
+    "index": 66,
+    "ident": "3faf451a58344c279bfcaa9e3db73d79",
+    "title": "3faf451a58344c279bfcaa9e3db73d79",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "3faf451a58344c279bfcaa9e3db73d79_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "3faf451a58344c279bfcaa9e3db73d79_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3faf451a58344c279bfcaa9e3db73d79_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3faf451a58344c279bfcaa9e3db73d79_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3faf451a58344c279bfcaa9e3db73d79_A"
+    ]
+  },
+  {
+    "index": 67,
+    "ident": "defc1a83de884493a6adc7e55da27465",
+    "title": "defc1a83de884493a6adc7e55da27465",
+    "source": "generated",
+    "prompt_html": "<p>Of 300 vaccinated adults, 18 became ill during flu season.</p><p>Of 300 unvaccinated adults, 26 became ill.</p><p>Test the claim that the infection rate is lower among vaccinated individuals. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of vaccinated adults who became ill, and let p<sub>2</sub> be the proportion of unvaccinated adults who became ill.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "defc1a83de884493a6adc7e55da27465_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "defc1a83de884493a6adc7e55da27465_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "defc1a83de884493a6adc7e55da27465_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "defc1a83de884493a6adc7e55da27465_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "defc1a83de884493a6adc7e55da27465_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "defc1a83de884493a6adc7e55da27465_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "defc1a83de884493a6adc7e55da27465_F"
+    ]
+  },
+  {
+    "index": 68,
+    "ident": "38174694303341bf99f2df99dde4834c",
+    "title": "38174694303341bf99f2df99dde4834c",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "38174694303341bf99f2df99dde4834c_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "38174694303341bf99f2df99dde4834c_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "38174694303341bf99f2df99dde4834c_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "38174694303341bf99f2df99dde4834c_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "38174694303341bf99f2df99dde4834c_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "38174694303341bf99f2df99dde4834c_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "38174694303341bf99f2df99dde4834c_A"
+    ]
+  },
+  {
+    "index": 69,
+    "ident": "cdbdf0fb9cbd4d7da6cd0a6d998c1356",
+    "title": "cdbdf0fb9cbd4d7da6cd0a6d998c1356",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "cdbdf0fb9cbd4d7da6cd0a6d998c1356_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "cdbdf0fb9cbd4d7da6cd0a6d998c1356_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "cdbdf0fb9cbd4d7da6cd0a6d998c1356_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "cdbdf0fb9cbd4d7da6cd0a6d998c1356_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "cdbdf0fb9cbd4d7da6cd0a6d998c1356_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "cdbdf0fb9cbd4d7da6cd0a6d998c1356_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "cdbdf0fb9cbd4d7da6cd0a6d998c1356_F"
+    ]
+  },
+  {
+    "index": 70,
+    "ident": "b3c5a99935e34007bd8231b2b7c26466",
+    "title": "b3c5a99935e34007bd8231b2b7c26466",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "b3c5a99935e34007bd8231b2b7c26466_B",
+        "label": "B",
+        "html": "<p>0.1051</p>",
+        "is_correct": true
+      },
+      {
+        "id": "b3c5a99935e34007bd8231b2b7c26466_D",
+        "label": "D",
+        "html": "<p>0.2103</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b3c5a99935e34007bd8231b2b7c26466_C",
+        "label": "C",
+        "html": "<p>0.0625</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b3c5a99935e34007bd8231b2b7c26466_A",
+        "label": "A",
+        "html": "<p>0.8949</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b3c5a99935e34007bd8231b2b7c26466_B"
+    ]
+  },
+  {
+    "index": 71,
+    "ident": "87811e0e894748ad921e5d0f9c673272",
+    "title": "87811e0e894748ad921e5d0f9c673272",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "87811e0e894748ad921e5d0f9c673272_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "87811e0e894748ad921e5d0f9c673272_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "87811e0e894748ad921e5d0f9c673272_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "87811e0e894748ad921e5d0f9c673272_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "87811e0e894748ad921e5d0f9c673272_B"
+    ]
+  },
+  {
+    "index": 72,
+    "ident": "bc8983d5028c427f983bf5a58e053b8b",
+    "title": "bc8983d5028c427f983bf5a58e053b8b",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "bc8983d5028c427f983bf5a58e053b8b_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bc8983d5028c427f983bf5a58e053b8b_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "bc8983d5028c427f983bf5a58e053b8b_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "bc8983d5028c427f983bf5a58e053b8b_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "bc8983d5028c427f983bf5a58e053b8b_C"
+    ]
+  },
+  {
+    "index": 73,
+    "ident": "5fd3de788fad448e896dfcbef9f90c15",
+    "title": "5fd3de788fad448e896dfcbef9f90c15",
+    "source": "generated",
+    "prompt_html": "<p>In a clinical trial of a new pain treatment, 62 of 80 patients reported pain relief.</p><p>Among 80 patients using the standard treatment, 47 reported pain relief.</p><p>Test the claim that the pain relief rates are the same for both treatments. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of new-treatment patients reporting pain relief, and let p<sub>2</sub> be the proportion of standard-treatment patients reporting pain relief.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "5fd3de788fad448e896dfcbef9f90c15_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "5fd3de788fad448e896dfcbef9f90c15_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "5fd3de788fad448e896dfcbef9f90c15_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "5fd3de788fad448e896dfcbef9f90c15_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "5fd3de788fad448e896dfcbef9f90c15_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "5fd3de788fad448e896dfcbef9f90c15_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "5fd3de788fad448e896dfcbef9f90c15_A"
+    ]
+  },
+  {
+    "index": 74,
+    "ident": "7c22f0016773490787d5cecc9f5e302e",
+    "title": "7c22f0016773490787d5cecc9f5e302e",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "7c22f0016773490787d5cecc9f5e302e_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "7c22f0016773490787d5cecc9f5e302e_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "7c22f0016773490787d5cecc9f5e302e_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "7c22f0016773490787d5cecc9f5e302e_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "7c22f0016773490787d5cecc9f5e302e_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "7c22f0016773490787d5cecc9f5e302e_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "7c22f0016773490787d5cecc9f5e302e_A"
+    ]
+  },
+  {
+    "index": 75,
+    "ident": "66dae12d2eba44fdb5769169ebf48b0b",
+    "title": "66dae12d2eba44fdb5769169ebf48b0b",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "66dae12d2eba44fdb5769169ebf48b0b_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "66dae12d2eba44fdb5769169ebf48b0b_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "66dae12d2eba44fdb5769169ebf48b0b_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "66dae12d2eba44fdb5769169ebf48b0b_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "66dae12d2eba44fdb5769169ebf48b0b_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "66dae12d2eba44fdb5769169ebf48b0b_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "66dae12d2eba44fdb5769169ebf48b0b_B"
+    ]
+  },
+  {
+    "index": 76,
+    "ident": "2840207b92a147058ba064e13bc8295a",
+    "title": "2840207b92a147058ba064e13bc8295a",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "2840207b92a147058ba064e13bc8295a_C",
+        "label": "C",
+        "html": "<p>0.0109</p>",
+        "is_correct": true
+      },
+      {
+        "id": "2840207b92a147058ba064e13bc8295a_A",
+        "label": "A",
+        "html": "<p>0.0055</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2840207b92a147058ba064e13bc8295a_D",
+        "label": "D",
+        "html": "<p>0.1434</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2840207b92a147058ba064e13bc8295a_B",
+        "label": "B",
+        "html": "<p>0.9945</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2840207b92a147058ba064e13bc8295a_C"
+    ]
+  },
+  {
+    "index": 77,
+    "ident": "4ecdde69b8404599aa1a97a9b99d3eb6",
+    "title": "4ecdde69b8404599aa1a97a9b99d3eb6",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "4ecdde69b8404599aa1a97a9b99d3eb6_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "4ecdde69b8404599aa1a97a9b99d3eb6_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "4ecdde69b8404599aa1a97a9b99d3eb6_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "4ecdde69b8404599aa1a97a9b99d3eb6_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4ecdde69b8404599aa1a97a9b99d3eb6_A"
+    ]
+  },
+  {
+    "index": 78,
+    "ident": "b8f3091584524625a17b9519c77ef3d1",
+    "title": "b8f3091584524625a17b9519c77ef3d1",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "b8f3091584524625a17b9519c77ef3d1_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b8f3091584524625a17b9519c77ef3d1_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "b8f3091584524625a17b9519c77ef3d1_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b8f3091584524625a17b9519c77ef3d1_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b8f3091584524625a17b9519c77ef3d1_B"
+    ]
+  },
+  {
+    "index": 79,
+    "ident": "134485c434544964b063bac872191ff5",
+    "title": "134485c434544964b063bac872191ff5",
+    "source": "generated",
+    "prompt_html": "<p>Among 100 smokers using nicotine patches, 44 quit smoking.</p><p>Among 100 smokers using gum, 39 quit smoking.</p><p>Test the claim that the quit rate differs between the two methods. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of patch users who quit, and let p<sub>2</sub> be the proportion of gum users who quit.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "134485c434544964b063bac872191ff5_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "134485c434544964b063bac872191ff5_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "134485c434544964b063bac872191ff5_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "134485c434544964b063bac872191ff5_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "134485c434544964b063bac872191ff5_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "134485c434544964b063bac872191ff5_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "134485c434544964b063bac872191ff5_B"
+    ]
+  },
+  {
+    "index": 80,
+    "ident": "a2f64bb1c2334792b976f888b07945c3",
+    "title": "a2f64bb1c2334792b976f888b07945c3",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "a2f64bb1c2334792b976f888b07945c3_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "a2f64bb1c2334792b976f888b07945c3_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "a2f64bb1c2334792b976f888b07945c3_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "a2f64bb1c2334792b976f888b07945c3_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "a2f64bb1c2334792b976f888b07945c3_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "a2f64bb1c2334792b976f888b07945c3_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a2f64bb1c2334792b976f888b07945c3_A"
+    ]
+  },
+  {
+    "index": 81,
+    "ident": "ba31c62cf6894586ab794d927f188a3f",
+    "title": "ba31c62cf6894586ab794d927f188a3f",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "ba31c62cf6894586ab794d927f188a3f_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ba31c62cf6894586ab794d927f188a3f_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "ba31c62cf6894586ab794d927f188a3f_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ba31c62cf6894586ab794d927f188a3f_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ba31c62cf6894586ab794d927f188a3f_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ba31c62cf6894586ab794d927f188a3f_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ba31c62cf6894586ab794d927f188a3f_B"
+    ]
+  },
+  {
+    "index": 82,
+    "ident": "0f5960a65aa54a50a26af2b3e20a1319",
+    "title": "0f5960a65aa54a50a26af2b3e20a1319",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "0f5960a65aa54a50a26af2b3e20a1319_A",
+        "label": "A",
+        "html": "<p>0.4730</p>",
+        "is_correct": true
+      },
+      {
+        "id": "0f5960a65aa54a50a26af2b3e20a1319_C",
+        "label": "C",
+        "html": "<p>0.2365</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0f5960a65aa54a50a26af2b3e20a1319_D",
+        "label": "D",
+        "html": "<p>0.0744</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0f5960a65aa54a50a26af2b3e20a1319_B",
+        "label": "B",
+        "html": "<p>0.7635</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0f5960a65aa54a50a26af2b3e20a1319_A"
+    ]
+  },
+  {
+    "index": 83,
+    "ident": "424516965bd54aa0bf167b42aadd402d",
+    "title": "424516965bd54aa0bf167b42aadd402d",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "424516965bd54aa0bf167b42aadd402d_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "424516965bd54aa0bf167b42aadd402d_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "424516965bd54aa0bf167b42aadd402d_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "424516965bd54aa0bf167b42aadd402d_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "424516965bd54aa0bf167b42aadd402d_B"
+    ]
+  },
+  {
+    "index": 84,
+    "ident": "d982786807894dc48a2657d1fcd7a215",
+    "title": "d982786807894dc48a2657d1fcd7a215",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "d982786807894dc48a2657d1fcd7a215_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d982786807894dc48a2657d1fcd7a215_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "d982786807894dc48a2657d1fcd7a215_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "d982786807894dc48a2657d1fcd7a215_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "d982786807894dc48a2657d1fcd7a215_C"
+    ]
+  },
+  {
+    "index": 85,
+    "ident": "8fb0d47b95144a939d9c0573d40707f5",
+    "title": "8fb0d47b95144a939d9c0573d40707f5",
+    "source": "generated",
+    "prompt_html": "<p>In a test of side effects, 23 of 60 patients taking Drug A reported nausea.</p><p>Among 60 patients taking Drug B, 9 reported nausea.</p><p>Test the claim that the rate of nausea is higher for Drug A. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of Drug A patients who reported nausea, and let p<sub>2</sub> be the proportion of Drug B patients who reported nausea.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "8fb0d47b95144a939d9c0573d40707f5_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "8fb0d47b95144a939d9c0573d40707f5_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "8fb0d47b95144a939d9c0573d40707f5_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "8fb0d47b95144a939d9c0573d40707f5_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "8fb0d47b95144a939d9c0573d40707f5_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "8fb0d47b95144a939d9c0573d40707f5_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "8fb0d47b95144a939d9c0573d40707f5_E"
+    ]
+  },
+  {
+    "index": 86,
+    "ident": "60eb979ec1ee450f816cc235c051ccb8",
+    "title": "60eb979ec1ee450f816cc235c051ccb8",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "60eb979ec1ee450f816cc235c051ccb8_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "60eb979ec1ee450f816cc235c051ccb8_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "60eb979ec1ee450f816cc235c051ccb8_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "60eb979ec1ee450f816cc235c051ccb8_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "60eb979ec1ee450f816cc235c051ccb8_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "60eb979ec1ee450f816cc235c051ccb8_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "60eb979ec1ee450f816cc235c051ccb8_A"
+    ]
+  },
+  {
+    "index": 87,
+    "ident": "94c8c4fff7c64ade970b39793fc24076",
+    "title": "94c8c4fff7c64ade970b39793fc24076",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "94c8c4fff7c64ade970b39793fc24076_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "94c8c4fff7c64ade970b39793fc24076_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "94c8c4fff7c64ade970b39793fc24076_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "94c8c4fff7c64ade970b39793fc24076_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "94c8c4fff7c64ade970b39793fc24076_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "94c8c4fff7c64ade970b39793fc24076_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "94c8c4fff7c64ade970b39793fc24076_E"
+    ]
+  },
+  {
+    "index": 88,
+    "ident": "631e1f9761e74a77b55193466a579616",
+    "title": "631e1f9761e74a77b55193466a579616",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "631e1f9761e74a77b55193466a579616_D",
+        "label": "D",
+        "html": "<p>0.0019</p>",
+        "is_correct": true
+      },
+      {
+        "id": "631e1f9761e74a77b55193466a579616_B",
+        "label": "B",
+        "html": "<p>0.9981</p>",
+        "is_correct": false
+      },
+      {
+        "id": "631e1f9761e74a77b55193466a579616_C",
+        "label": "C",
+        "html": "<p>0.1342</p>",
+        "is_correct": false
+      },
+      {
+        "id": "631e1f9761e74a77b55193466a579616_A",
+        "label": "A",
+        "html": "<p>0.0039</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "631e1f9761e74a77b55193466a579616_D"
+    ]
+  },
+  {
+    "index": 89,
+    "ident": "89b92e92f78a4434b063de6e830a3551",
+    "title": "89b92e92f78a4434b063de6e830a3551",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "89b92e92f78a4434b063de6e830a3551_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "89b92e92f78a4434b063de6e830a3551_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "89b92e92f78a4434b063de6e830a3551_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "89b92e92f78a4434b063de6e830a3551_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "89b92e92f78a4434b063de6e830a3551_A"
+    ]
+  },
+  {
+    "index": 90,
+    "ident": "e64ac4802ba24092bc92fa01213cadf4",
+    "title": "e64ac4802ba24092bc92fa01213cadf4",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "e64ac4802ba24092bc92fa01213cadf4_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "e64ac4802ba24092bc92fa01213cadf4_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "e64ac4802ba24092bc92fa01213cadf4_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "e64ac4802ba24092bc92fa01213cadf4_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e64ac4802ba24092bc92fa01213cadf4_A"
+    ]
+  },
+  {
+    "index": 91,
+    "ident": "bf3ab78215d2460a9c458f6fb4748825",
+    "title": "bf3ab78215d2460a9c458f6fb4748825",
+    "source": "generated",
+    "prompt_html": "<p>In a study of decision-making under stress, 38 of 100 participants under high stress made risky choices.</p><p>Among 100 participants under low stress, 33 made risky choices.</p><p>Test the claim that the rate of risky decisions is the same for both stress levels. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of high-stress participants who made risky choices, and let p<sub>2</sub> be the proportion of low-stress participants who made risky choices.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "bf3ab78215d2460a9c458f6fb4748825_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "bf3ab78215d2460a9c458f6fb4748825_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "bf3ab78215d2460a9c458f6fb4748825_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "bf3ab78215d2460a9c458f6fb4748825_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "bf3ab78215d2460a9c458f6fb4748825_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "bf3ab78215d2460a9c458f6fb4748825_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "bf3ab78215d2460a9c458f6fb4748825_A"
+    ]
+  },
+  {
+    "index": 92,
+    "ident": "aab0f7e74b5b4861bd60e84eb0702e85",
+    "title": "aab0f7e74b5b4861bd60e84eb0702e85",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "aab0f7e74b5b4861bd60e84eb0702e85_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "aab0f7e74b5b4861bd60e84eb0702e85_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "aab0f7e74b5b4861bd60e84eb0702e85_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "aab0f7e74b5b4861bd60e84eb0702e85_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "aab0f7e74b5b4861bd60e84eb0702e85_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "aab0f7e74b5b4861bd60e84eb0702e85_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "aab0f7e74b5b4861bd60e84eb0702e85_A"
+    ]
+  },
+  {
+    "index": 93,
+    "ident": "27e7ec290af5427c84758c2073b1d0fc",
+    "title": "27e7ec290af5427c84758c2073b1d0fc",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "27e7ec290af5427c84758c2073b1d0fc_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "27e7ec290af5427c84758c2073b1d0fc_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "27e7ec290af5427c84758c2073b1d0fc_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "27e7ec290af5427c84758c2073b1d0fc_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "27e7ec290af5427c84758c2073b1d0fc_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "27e7ec290af5427c84758c2073b1d0fc_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "27e7ec290af5427c84758c2073b1d0fc_B"
+    ]
+  },
+  {
+    "index": 94,
+    "ident": "0788568f8ada44bcad915d14382ba303",
+    "title": "0788568f8ada44bcad915d14382ba303",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "0788568f8ada44bcad915d14382ba303_C",
+        "label": "C",
+        "html": "<p>0.4600</p>",
+        "is_correct": true
+      },
+      {
+        "id": "0788568f8ada44bcad915d14382ba303_A",
+        "label": "A",
+        "html": "<p>0.2300</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0788568f8ada44bcad915d14382ba303_B",
+        "label": "B",
+        "html": "<p>0.0148</p>",
+        "is_correct": false
+      },
+      {
+        "id": "0788568f8ada44bcad915d14382ba303_D",
+        "label": "D",
+        "html": "<p>0.7700</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "0788568f8ada44bcad915d14382ba303_C"
+    ]
+  },
+  {
+    "index": 95,
+    "ident": "068a7c89518c48bfbafb6966dc8c5743",
+    "title": "068a7c89518c48bfbafb6966dc8c5743",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "068a7c89518c48bfbafb6966dc8c5743_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "068a7c89518c48bfbafb6966dc8c5743_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "068a7c89518c48bfbafb6966dc8c5743_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "068a7c89518c48bfbafb6966dc8c5743_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "068a7c89518c48bfbafb6966dc8c5743_B"
+    ]
+  },
+  {
+    "index": 96,
+    "ident": "8a9f09169ce7440da45d78c754d86cdd",
+    "title": "8a9f09169ce7440da45d78c754d86cdd",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "8a9f09169ce7440da45d78c754d86cdd_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8a9f09169ce7440da45d78c754d86cdd_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8a9f09169ce7440da45d78c754d86cdd_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8a9f09169ce7440da45d78c754d86cdd_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "8a9f09169ce7440da45d78c754d86cdd_D"
+    ]
+  },
+  {
+    "index": 97,
+    "ident": "e9abfb23ec7e4e69beee7b38378c5a8c",
+    "title": "e9abfb23ec7e4e69beee7b38378c5a8c",
+    "source": "generated",
+    "prompt_html": "<p>In a study of aggression, 42 of 80 children exposed to violent video games showed aggressive behavior.</p><p>Among 80 children who played non-violent games, 25 showed aggressive behavior. </p><p>Test the claim that the aggression rate is greater for children exposed to violent games. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of children exposed to violent games who showed aggression, and let p<sub>2</sub> be the proportion of children playing non-violent games who showed aggression.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "e9abfb23ec7e4e69beee7b38378c5a8c_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e9abfb23ec7e4e69beee7b38378c5a8c_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e9abfb23ec7e4e69beee7b38378c5a8c_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e9abfb23ec7e4e69beee7b38378c5a8c_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e9abfb23ec7e4e69beee7b38378c5a8c_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "e9abfb23ec7e4e69beee7b38378c5a8c_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e9abfb23ec7e4e69beee7b38378c5a8c_E"
+    ]
+  },
+  {
+    "index": 98,
+    "ident": "4c45fba4a52a43c09125ebda27f2748b",
+    "title": "4c45fba4a52a43c09125ebda27f2748b",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "4c45fba4a52a43c09125ebda27f2748b_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "4c45fba4a52a43c09125ebda27f2748b_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4c45fba4a52a43c09125ebda27f2748b_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4c45fba4a52a43c09125ebda27f2748b_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4c45fba4a52a43c09125ebda27f2748b_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4c45fba4a52a43c09125ebda27f2748b_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4c45fba4a52a43c09125ebda27f2748b_A"
+    ]
+  },
+  {
+    "index": 99,
+    "ident": "4525ef4656144c87bd67719d4eea260f",
+    "title": "4525ef4656144c87bd67719d4eea260f",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "4525ef4656144c87bd67719d4eea260f_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4525ef4656144c87bd67719d4eea260f_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4525ef4656144c87bd67719d4eea260f_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4525ef4656144c87bd67719d4eea260f_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4525ef4656144c87bd67719d4eea260f_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "4525ef4656144c87bd67719d4eea260f_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "4525ef4656144c87bd67719d4eea260f_E"
+    ]
+  },
+  {
+    "index": 100,
+    "ident": "c32a0abfe43247aeb1606cbb5b336c7b",
+    "title": "c32a0abfe43247aeb1606cbb5b336c7b",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "c32a0abfe43247aeb1606cbb5b336c7b_A",
+        "label": "A",
+        "html": "<p>0.0032</p>",
+        "is_correct": true
+      },
+      {
+        "id": "c32a0abfe43247aeb1606cbb5b336c7b_D",
+        "label": "D",
+        "html": "<p>0.0427</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c32a0abfe43247aeb1606cbb5b336c7b_B",
+        "label": "B",
+        "html": "<p>0.0064</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c32a0abfe43247aeb1606cbb5b336c7b_C",
+        "label": "C",
+        "html": "<p>0.9968</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "c32a0abfe43247aeb1606cbb5b336c7b_A"
+    ]
+  },
+  {
+    "index": 101,
+    "ident": "b477a4b1a3f749b2a37eaff3c6fd4f03",
+    "title": "b477a4b1a3f749b2a37eaff3c6fd4f03",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "b477a4b1a3f749b2a37eaff3c6fd4f03_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "b477a4b1a3f749b2a37eaff3c6fd4f03_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b477a4b1a3f749b2a37eaff3c6fd4f03_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b477a4b1a3f749b2a37eaff3c6fd4f03_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b477a4b1a3f749b2a37eaff3c6fd4f03_A"
+    ]
+  },
+  {
+    "index": 102,
+    "ident": "2bb606972967433fa186f72e1061b5bd",
+    "title": "2bb606972967433fa186f72e1061b5bd",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "2bb606972967433fa186f72e1061b5bd_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "2bb606972967433fa186f72e1061b5bd_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2bb606972967433fa186f72e1061b5bd_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2bb606972967433fa186f72e1061b5bd_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "2bb606972967433fa186f72e1061b5bd_A"
+    ]
+  },
+  {
+    "index": 103,
+    "ident": "c230996adab746b69fddd9ee091835c0",
+    "title": "c230996adab746b69fddd9ee091835c0",
+    "source": "generated",
+    "prompt_html": "<p>In a survey of adults with daily exercise routines, 24 of 120 reported depression symptoms.</p><p>Among 100 adults with sedentary lifestyles, 26 reported depression symptoms.</p><p>Test the claim that the rate of depression is lower among those who exercise. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of daily exercisers who reported depression symptoms, and let p<sub>2</sub> be the proportion of sedentary adults who reported depression symptoms.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "c230996adab746b69fddd9ee091835c0_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "c230996adab746b69fddd9ee091835c0_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "c230996adab746b69fddd9ee091835c0_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "c230996adab746b69fddd9ee091835c0_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "c230996adab746b69fddd9ee091835c0_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "c230996adab746b69fddd9ee091835c0_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "c230996adab746b69fddd9ee091835c0_F"
+    ]
+  },
+  {
+    "index": 104,
+    "ident": "346c9ed7fa454c798b6db6d2afb8647b",
+    "title": "346c9ed7fa454c798b6db6d2afb8647b",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "346c9ed7fa454c798b6db6d2afb8647b_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "346c9ed7fa454c798b6db6d2afb8647b_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "346c9ed7fa454c798b6db6d2afb8647b_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "346c9ed7fa454c798b6db6d2afb8647b_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "346c9ed7fa454c798b6db6d2afb8647b_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "346c9ed7fa454c798b6db6d2afb8647b_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "346c9ed7fa454c798b6db6d2afb8647b_A"
+    ]
+  },
+  {
+    "index": 105,
+    "ident": "4c281cdc58554c198242b08e11771b39",
+    "title": "4c281cdc58554c198242b08e11771b39",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "4c281cdc58554c198242b08e11771b39_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4c281cdc58554c198242b08e11771b39_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4c281cdc58554c198242b08e11771b39_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4c281cdc58554c198242b08e11771b39_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4c281cdc58554c198242b08e11771b39_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4c281cdc58554c198242b08e11771b39_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "4c281cdc58554c198242b08e11771b39_F"
+    ]
+  },
+  {
+    "index": 106,
+    "ident": "9aaca101f7804b1fb2e7d80540200af2",
+    "title": "9aaca101f7804b1fb2e7d80540200af2",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "9aaca101f7804b1fb2e7d80540200af2_D",
+        "label": "D",
+        "html": "<p>0.1452</p>",
+        "is_correct": true
+      },
+      {
+        "id": "9aaca101f7804b1fb2e7d80540200af2_A",
+        "label": "A",
+        "html": "<p>0.0137</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9aaca101f7804b1fb2e7d80540200af2_C",
+        "label": "C",
+        "html": "<p>0.8548</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9aaca101f7804b1fb2e7d80540200af2_B",
+        "label": "B",
+        "html": "<p>0.2903</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "9aaca101f7804b1fb2e7d80540200af2_D"
+    ]
+  },
+  {
+    "index": 107,
+    "ident": "1a5f530091134002a2b5f804ed9cc7bb",
+    "title": "1a5f530091134002a2b5f804ed9cc7bb",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "1a5f530091134002a2b5f804ed9cc7bb_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1a5f530091134002a2b5f804ed9cc7bb_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "1a5f530091134002a2b5f804ed9cc7bb_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1a5f530091134002a2b5f804ed9cc7bb_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1a5f530091134002a2b5f804ed9cc7bb_B"
+    ]
+  },
+  {
+    "index": 108,
+    "ident": "666125c6e8a84d0f9c57c7f76453cdd5",
+    "title": "666125c6e8a84d0f9c57c7f76453cdd5",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "666125c6e8a84d0f9c57c7f76453cdd5_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "666125c6e8a84d0f9c57c7f76453cdd5_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "666125c6e8a84d0f9c57c7f76453cdd5_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "666125c6e8a84d0f9c57c7f76453cdd5_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "666125c6e8a84d0f9c57c7f76453cdd5_C"
+    ]
+  },
+  {
+    "index": 109,
+    "ident": "f51ab886d5934895a76025fbba542b63",
+    "title": "f51ab886d5934895a76025fbba542b63",
+    "source": "generated",
+    "prompt_html": "<p>In a classroom study, 36 of 40 students who studied in groups passed an exam.</p><p>Among 40 students who studied alone, 25 passed.</p><p>Test the claim that the passing rates differ between the two study methods. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of students studying in groups who passed, and let p<sub>2</sub> be the proportion of students studying alone who passed.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "f51ab886d5934895a76025fbba542b63_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "f51ab886d5934895a76025fbba542b63_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "f51ab886d5934895a76025fbba542b63_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "f51ab886d5934895a76025fbba542b63_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "f51ab886d5934895a76025fbba542b63_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "f51ab886d5934895a76025fbba542b63_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f51ab886d5934895a76025fbba542b63_B"
+    ]
+  },
+  {
+    "index": 110,
+    "ident": "a5b8e10a696e4b828f1406b305588771",
+    "title": "a5b8e10a696e4b828f1406b305588771",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "a5b8e10a696e4b828f1406b305588771_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "a5b8e10a696e4b828f1406b305588771_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "a5b8e10a696e4b828f1406b305588771_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "a5b8e10a696e4b828f1406b305588771_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "a5b8e10a696e4b828f1406b305588771_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "a5b8e10a696e4b828f1406b305588771_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "a5b8e10a696e4b828f1406b305588771_A"
+    ]
+  },
+  {
+    "index": 111,
+    "ident": "3e8569fb679e4d8ba4cdd53f44a0e75a",
+    "title": "3e8569fb679e4d8ba4cdd53f44a0e75a",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "3e8569fb679e4d8ba4cdd53f44a0e75a_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "3e8569fb679e4d8ba4cdd53f44a0e75a_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "3e8569fb679e4d8ba4cdd53f44a0e75a_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "3e8569fb679e4d8ba4cdd53f44a0e75a_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "3e8569fb679e4d8ba4cdd53f44a0e75a_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "3e8569fb679e4d8ba4cdd53f44a0e75a_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "3e8569fb679e4d8ba4cdd53f44a0e75a_B"
+    ]
+  },
+  {
+    "index": 112,
+    "ident": "e5e48dfa9d414579a32a222fb0a8f238",
+    "title": "e5e48dfa9d414579a32a222fb0a8f238",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "e5e48dfa9d414579a32a222fb0a8f238_A",
+        "label": "A",
+        "html": "<p>0.0039</p>",
+        "is_correct": true
+      },
+      {
+        "id": "e5e48dfa9d414579a32a222fb0a8f238_D",
+        "label": "D",
+        "html": "<p>0.0019</p>",
+        "is_correct": false
+      },
+      {
+        "id": "e5e48dfa9d414579a32a222fb0a8f238_B",
+        "label": "B",
+        "html": "<p>0.0505</p>",
+        "is_correct": false
+      },
+      {
+        "id": "e5e48dfa9d414579a32a222fb0a8f238_C",
+        "label": "C",
+        "html": "<p>0.9981</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "e5e48dfa9d414579a32a222fb0a8f238_A"
+    ]
+  },
+  {
+    "index": 113,
+    "ident": "b62546a043564dceb65a857a118b826c",
+    "title": "b62546a043564dceb65a857a118b826c",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "b62546a043564dceb65a857a118b826c_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "b62546a043564dceb65a857a118b826c_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b62546a043564dceb65a857a118b826c_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b62546a043564dceb65a857a118b826c_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "b62546a043564dceb65a857a118b826c_A"
+    ]
+  },
+  {
+    "index": 114,
+    "ident": "29e1cf9632624df5acff66a9c9afabb0",
+    "title": "29e1cf9632624df5acff66a9c9afabb0",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "29e1cf9632624df5acff66a9c9afabb0_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "29e1cf9632624df5acff66a9c9afabb0_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "29e1cf9632624df5acff66a9c9afabb0_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "29e1cf9632624df5acff66a9c9afabb0_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "29e1cf9632624df5acff66a9c9afabb0_A"
+    ]
+  },
+  {
+    "index": 115,
+    "ident": "ba6e2e7735db4585beba6f42bf305f79",
+    "title": "ba6e2e7735db4585beba6f42bf305f79",
+    "source": "generated",
+    "prompt_html": "<p>In a follow-up study, 64 of 90 participants receiving sleep therapy improved their sleep quality.</p><p>Among 85 participants using meditation, 58 improved.</p><p>Test the claim that the improvement rate is the same for both methods. Use a 95% confidence level.</p><p>Let p<sub>1</sub> be the proportion of sleep-therapy participants who improved, and let p<sub>2</sub> be the proportion of meditation participants who improved.</p><p>State the claim in symbols.</p>",
+    "choices": [
+      {
+        "id": "ba6e2e7735db4585beba6f42bf305f79_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "ba6e2e7735db4585beba6f42bf305f79_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ba6e2e7735db4585beba6f42bf305f79_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ba6e2e7735db4585beba6f42bf305f79_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ba6e2e7735db4585beba6f42bf305f79_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ba6e2e7735db4585beba6f42bf305f79_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "ba6e2e7735db4585beba6f42bf305f79_A"
+    ]
+  },
+  {
+    "index": 116,
+    "ident": "1cf7877022cb45c38c6bd0e323a167f8",
+    "title": "1cf7877022cb45c38c6bd0e323a167f8",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>0</sub>?</p>",
+    "choices": [
+      {
+        "id": "1cf7877022cb45c38c6bd0e323a167f8_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "1cf7877022cb45c38c6bd0e323a167f8_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "1cf7877022cb45c38c6bd0e323a167f8_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "1cf7877022cb45c38c6bd0e323a167f8_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "1cf7877022cb45c38c6bd0e323a167f8_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "1cf7877022cb45c38c6bd0e323a167f8_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "1cf7877022cb45c38c6bd0e323a167f8_A"
+    ]
+  },
+  {
+    "index": 117,
+    "ident": "99c5e6e08d224aa19fdd19db1f69f331",
+    "title": "99c5e6e08d224aa19fdd19db1f69f331",
+    "source": "generated",
+    "prompt_html": "<p>What is H<sub>1</sub>?</p>",
+    "choices": [
+      {
+        "id": "99c5e6e08d224aa19fdd19db1f69f331_A",
+        "label": "A",
+        "html": "<p>p<sub>1</sub> = p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "99c5e6e08d224aa19fdd19db1f69f331_B",
+        "label": "B",
+        "html": "<p>p<sub>1</sub> &ne; p<sub>2</sub></p>",
+        "is_correct": true
+      },
+      {
+        "id": "99c5e6e08d224aa19fdd19db1f69f331_C",
+        "label": "C",
+        "html": "<p>p<sub>1</sub> &ge; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "99c5e6e08d224aa19fdd19db1f69f331_D",
+        "label": "D",
+        "html": "<p>p<sub>1</sub> &le; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "99c5e6e08d224aa19fdd19db1f69f331_E",
+        "label": "E",
+        "html": "<p>p<sub>1</sub> &gt; p<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "99c5e6e08d224aa19fdd19db1f69f331_F",
+        "label": "F",
+        "html": "<p>p<sub>1</sub> &lt; p<sub>2</sub></p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "99c5e6e08d224aa19fdd19db1f69f331_B"
+    ]
+  },
+  {
+    "index": 118,
+    "ident": "f908f8f7381e468b982bebf1dffa58db",
+    "title": "f908f8f7381e468b982bebf1dffa58db",
+    "source": "generated",
+    "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
+    "choices": [
+      {
+        "id": "f908f8f7381e468b982bebf1dffa58db_C",
+        "label": "C",
+        "html": "<p>0.6790</p>",
+        "is_correct": true
+      },
+      {
+        "id": "f908f8f7381e468b982bebf1dffa58db_A",
+        "label": "A",
+        "html": "<p>0.3395</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f908f8f7381e468b982bebf1dffa58db_B",
+        "label": "B",
+        "html": "<p>0.0948</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f908f8f7381e468b982bebf1dffa58db_D",
+        "label": "D",
+        "html": "<p>0.6605</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "f908f8f7381e468b982bebf1dffa58db_C"
+    ]
+  },
+  {
+    "index": 119,
+    "ident": "937bd65932df405bb2c9940d249a0239",
+    "title": "937bd65932df405bb2c9940d249a0239",
+    "source": "generated",
+    "prompt_html": "<p>What is your formal conclusion?</p>",
+    "choices": [
+      {
+        "id": "937bd65932df405bb2c9940d249a0239_A",
+        "label": "A",
+        "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "937bd65932df405bb2c9940d249a0239_B",
+        "label": "B",
+        "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "937bd65932df405bb2c9940d249a0239_C",
+        "label": "C",
+        "html": "<p>Support H<sub>0</sub> and reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "937bd65932df405bb2c9940d249a0239_D",
+        "label": "D",
+        "html": "<p>Do not support H<sub>0</sub> and do not reject H<sub>1</sub>.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "937bd65932df405bb2c9940d249a0239_B"
+    ]
+  },
+  {
+    "index": 120,
+    "ident": "8dfa89d15d13445cbda11febb88330a4",
+    "title": "8dfa89d15d13445cbda11febb88330a4",
+    "source": "generated",
+    "prompt_html": "<p>What is your final conclusion?</p>",
+    "choices": [
+      {
+        "id": "8dfa89d15d13445cbda11febb88330a4_A",
+        "label": "A",
+        "html": "<p>There is enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8dfa89d15d13445cbda11febb88330a4_B",
+        "label": "B",
+        "html": "<p>There is enough sample evidence to reject the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8dfa89d15d13445cbda11febb88330a4_C",
+        "label": "C",
+        "html": "<p>There is not enough sample evidence to support the claim.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "8dfa89d15d13445cbda11febb88330a4_D",
+        "label": "D",
+        "html": "<p>There is not enough sample evidence to reject the claim.</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "8dfa89d15d13445cbda11febb88330a4_D"
+    ]
+  }
+]
