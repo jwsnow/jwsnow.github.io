@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+<head><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>J.W. Snow</title>
+
+<style>
+html{
+	height:100%;
+	width:100%;
+}
+body{
+  width: 100%;
+  height: 100%;
+  display:table;
+  margin:0px;
+  text-align: center;
+}
+div.content{
+  width: 100%;
+  height: 100%;
+	display:table-cell;
+	background:black;
+	color: white;
+	font-size: 18px;
+	vertical-align: middle;
+	text-align: center;
+}
+canvas{
+max-height: 75%;
+max-width:75%;
+margin: auto;
+}
+img{
+	display: none;
+}
+</style>
+<script src='spork.js'></script>
+<script src='rancomp.js'></script>
+<script src='reflection.js'></script>
+<script>
+  theFunctions=['P1','P2','MUL', 'SINPI', 'COSPI','CUBE','SINXXYY','max','min','SIN2PI','COS2PI','AVG','NOISE'];
+
+  var WIDTH=500;
+  function setup(){
+	size(WIDTH, WIDTH);
+	RNGSEED=floor(random()*100000000);
+	random=RNG;	
+	timestep(1000);
+	loop();
+  }
+  
+  function s(x){
+	return(3*x*x-2*x*x*x);
+  }
+
+  function draw(){
+	var r=66
+	var g=91
+	var B=129
+	
+	var r2=144
+	var g2=142
+	var b2=125
+	
+r=floor(random()*255);
+g=floor(random()*255);
+B=floor(random()*255);
+if (random()<0.33)
+	r=255;
+else if (random()<0.5)
+	g=255;
+else
+	B=255;
+
+r2=255-r
+g2=255-g
+b2=255-B
+	
+	var x,y,a,b,c,d,cr,cg,cb,X,Y,theBump;
+//	var depth=0;
+	var fr1='';
+	function xfn(){};
+	var theSeed=RNGSEED;
+			
+		
+	while ((fr1.length<=10)){
+		theSeed=RNGSEED;
+		depth=3+floor(random()*5);
+		fr1=randomFunction(depth);
+	}
+//if ((fr1.length>20) && (fr2.length>20))
+	{
+	eval('xfn=function(x,y){ var c='+fr1+'; return(c);}');	
+	setupNoise(2+floor(random()*10));
+	for (a=0;a<width;a++)
+		for (b=0;b<height;b++){
+			x=2*a/width-1;
+			y=2*b/height-1;
+			X=cos(4*PI*xfn(x,y));
+			X=(((X+1)/2));
+			//X=floor(X*10)/10;
+			cr=floor(X*r+(1-X)*r2);
+			cg=floor(X*g+(1-X)*g2);
+			cb=floor(X*B+(1-X)*b2);
+			fillcolor(cr,cg,cb);
+			fillrect(a,b,1,1);
+
+		}
+	}	
+}
+  
+</script>
+</head>
+<body>
+
+<div class='content'>
+<div id='spork'></div>
+</div>
+
+
+</script>
+</body>
+</html>

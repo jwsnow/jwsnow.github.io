@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+<head>
+<style>
+html{
+	height:100%;
+	width:100%;
+}
+body{
+  width: 100%;
+  height: 100%;
+  display:table;
+  margin:0px;
+  text-align: center;
+}
+div.content{
+  width: 100%;
+  height: 100%;
+	display:table-cell;
+	background:black;
+	color: white;
+	font-size: 18px;
+	vertical-align: middle;
+	text-align: center;
+}
+canvas{
+max-height: 75%;
+max-width:75%;
+margin: auto;
+}
+img{
+	display: none;
+}
+</style>
+<script src='spork.js'></script>
+<script>
+var F;
+var c=[];
+var d=[];
+var C=[];
+var S=[];
+var R=[], G=[], B=[], A=[];
+
+function setupArrays(){
+	F=20;
+	var K=1;
+	var m,n;
+	drawImage(theImage, width/2, height/2, width, height);
+	copyImageData(R, G, B, A);
+	//select coefficients
+	for (m=0;m<F;m++){
+		c[m]=[];
+		for (n=0;n<F;n++){
+			c[m][n]=(2*(random()-0.5))*K;
+		}	
+	}
+	for (m=0;m<F;m++){
+		d[m]=[];
+		for (n=0;n<F;n++){
+			d[m][n]=(2*(random()-0.5))*K;
+		}	
+	}
+	
+}
+
+function evaluateSeries(x,y){
+	var r=0;
+	var s=0;
+	var m,n;
+	for (m=0;m<F;m++)
+	for (n=0;n<F;n++){
+		r+=c[m][n]*pow(x,m)*pow(y,n);
+		s+=d[m][n]*pow(x,m)*pow(y,n);
+	}	
+	return({x: sin(r), y:sin(s)});
+}
+var I;
+  function bump(x,y){
+  var bumpconstant=8;
+	var r=max(0, 1-(pow(x,bumpconstant)+pow(y,bumpconstant)))
+	return(r);
+}
+function makeImage(){ 
+	var x, y,i,r,g,b,t,u,dx,dy,a,b,k;
+	var X, Y,P;
+	for (x=0;x<width;x++)
+		for (y=0;y<height;y++){
+			a=cos(2*x/width-1)
+			b=cos(2*y/height-1)
+			k=1;//=bump(a,b)
+			P=evaluateSeries(k*a, k*b)
+			X=floor((P.x+1)/2*width);
+			Y=floor((P.y+1)/2*height);
+			
+			//console.log(X+' '+Y);
+			i=x+width*y;
+			r=R[X][Y];
+			g=G[X][Y];
+			b=B[X][Y];
+			I.data[4*i]=r;
+			I.data[4*i+1]=g;
+			I.data[4*i+2]=b;
+			I.data[4*i+3]=255;
+		}
+}
+function setup(){
+	size(500,500);
+	background('red');
+	timestep(1000);
+	loop();
+	I=theCanvas.getImageData(0,0,width,height);
+}
+
+function draw(){
+	setupArrays();
+	makeImage();
+	theCanvas.putImageData(I, 0, 0);	
+}
+
+</script>
+</head>
+<body>
+<div class='content'>
+<div id='spork'></div>
+<div id='out'></div>
+<img src='png/JBE.jpg' id='theImage'>
+</div>
+</body>
+</html>
