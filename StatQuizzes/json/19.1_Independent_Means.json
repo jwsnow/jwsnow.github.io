@@ -29,6 +29,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "31b7af9ef83747a68f34d1c9c352e2e5_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "31b7af9ef83747a68f34d1c9c352e2e5_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -65,6 +77,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "1cd1a75450b1450381ddcd9f29a6b321_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "1cd1a75450b1450381ddcd9f29a6b321_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -100,6 +124,18 @@
         "id": "25b2e3e464bc4d3c9071e957247e0c8a_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "25b2e3e464bc4d3c9071e957247e0c8a_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "25b2e3e464bc4d3c9071e957247e0c8a_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -245,6 +281,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "87a72a0ae6d24ae9bfd09b2ba00ed7af_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "87a72a0ae6d24ae9bfd09b2ba00ed7af_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -281,6 +329,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "a52e157fb29b4c808107cab472de995e_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "a52e157fb29b4c808107cab472de995e_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -316,6 +376,18 @@
         "id": "c7c83407907e4448940278a92cc5443a_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "c7c83407907e4448940278a92cc5443a_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "c7c83407907e4448940278a92cc5443a_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -461,6 +533,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": true
+      },
+      {
+        "id": "75d119b32c844384938da5e7a7ecfc3c_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "75d119b32c844384938da5e7a7ecfc3c_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -496,6 +580,18 @@
         "id": "c0d3b091154d445d86fe3032f275eb82_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "c0d3b091154d445d86fe3032f275eb82_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "c0d3b091154d445d86fe3032f275eb82_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -533,6 +629,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": true
+      },
+      {
+        "id": "a6723bbc803345fe976ea7e0bbc80b07_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "a6723bbc803345fe976ea7e0bbc80b07_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -652,7 +760,7 @@
     "ident": "d0c2effb887946b6b00a7c21b8b3cd09",
     "title": "d0c2effb887946b6b00a7c21b8b3cd09",
     "source": "generated",
-    "prompt_html": "<p>Researchers measured memory-recall scores for two groups of volunteers.</p><p>Those who slept six hours had an average score of 72.0 with a standard deviation of 12.0, while those who slept eight hours had an average of 69.0 with a standard deviation of 12.0.</p><p>Test the claim that the mean recall score is higher for the eight-hour group. Use a 0.05 significance level.</p><p>Let &mu;<sub>1</sub> be the mean recall score for the six-hour group, and let &mu;<sub>2</sub> be the mean recall score for the eight-hour group.</p><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>Researchers measured memory-recall scores for two groups of 50 volunteers.</p><p>Those who slept six hours had an average score of 72.0 with a standard deviation of 12.0, while those who slept eight hours had an average of 69.0 with a standard deviation of 12.0.</p><p>Test the claim that the mean recall score is higher for the six-hour group. Use a 0.05 significance level.</p><p>Let &mu;<sub>1</sub> be the mean recall score for the six-hour group, and let &mu;<sub>2</sub> be the mean recall score for the eight-hour group.</p><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "d0c2effb887946b6b00a7c21b8b3cd09_A",
@@ -676,6 +784,18 @@
         "id": "d0c2effb887946b6b00a7c21b8b3cd09_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "d0c2effb887946b6b00a7c21b8b3cd09_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "d0c2effb887946b6b00a7c21b8b3cd09_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -713,6 +833,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "4f277248713842e6903faf2f36efc967_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "4f277248713842e6903faf2f36efc967_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -748,6 +880,18 @@
         "id": "ace42f4c2b6849e9be6b9795b8545c40_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ace42f4c2b6849e9be6b9795b8545c40_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ace42f4c2b6849e9be6b9795b8545c40_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -893,6 +1037,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "8060ba46e1eb46a79e4cb61c204536eb_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "8060ba46e1eb46a79e4cb61c204536eb_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -929,6 +1085,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "7a3b83d30bcf4df2a214bab0ac009b53_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "7a3b83d30bcf4df2a214bab0ac009b53_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -964,6 +1132,18 @@
         "id": "80f23a4e67a14c8d83070975f760eea0_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "80f23a4e67a14c8d83070975f760eea0_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "80f23a4e67a14c8d83070975f760eea0_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -1109,6 +1289,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "cae4052809a245d696c2957a1c19287a_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "cae4052809a245d696c2957a1c19287a_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -1145,6 +1337,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "6032e305a3f144d48dce9f4c537efe63_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "6032e305a3f144d48dce9f4c537efe63_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -1180,6 +1384,18 @@
         "id": "64ab96839d1844eb99f897668adc008b_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "64ab96839d1844eb99f897668adc008b_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "64ab96839d1844eb99f897668adc008b_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -1325,6 +1541,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": true
+      },
+      {
+        "id": "71dfea9968544d5e82d9ed843ccd7638_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "71dfea9968544d5e82d9ed843ccd7638_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -1360,6 +1588,18 @@
         "id": "f8e2d8be1403441f858d8e345c6b9e27_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "f8e2d8be1403441f858d8e345c6b9e27_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "f8e2d8be1403441f858d8e345c6b9e27_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -1397,6 +1637,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": true
+      },
+      {
+        "id": "24c05cd8483048e890176a04f709a837_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "24c05cd8483048e890176a04f709a837_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -1541,6 +1793,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "281f90a259464e9a8fef86081852965b_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "281f90a259464e9a8fef86081852965b_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -1577,6 +1841,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "c5e938bb495d43088aa9715e32355d57_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "c5e938bb495d43088aa9715e32355d57_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -1612,6 +1888,18 @@
         "id": "93538396f9154832ae518055a43dbbdd_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "93538396f9154832ae518055a43dbbdd_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "93538396f9154832ae518055a43dbbdd_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -1757,6 +2045,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": true
+      },
+      {
+        "id": "ae5698eb520641838214840dad696dba_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ae5698eb520641838214840dad696dba_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -1792,6 +2092,18 @@
         "id": "d925688fc1ba4ed99f7d9d0a1b75925c_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "d925688fc1ba4ed99f7d9d0a1b75925c_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "d925688fc1ba4ed99f7d9d0a1b75925c_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -1829,6 +2141,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": true
+      },
+      {
+        "id": "1e1faf92f65b46309bbacf306915e9df_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "1e1faf92f65b46309bbacf306915e9df_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -1973,6 +2297,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "e4837a2179b84e4fa55e2d4e5b5cfb06_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e4837a2179b84e4fa55e2d4e5b5cfb06_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -2009,6 +2345,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "b32e26071ff748fbbd0d9853df3c3b84_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "b32e26071ff748fbbd0d9853df3c3b84_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -2044,6 +2392,18 @@
         "id": "529129a9c4c14b89bce41d17f580e397_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "529129a9c4c14b89bce41d17f580e397_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "529129a9c4c14b89bce41d17f580e397_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -2189,6 +2549,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "d4171e0e89a2419eb2dc967b9d1ff6c4_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "d4171e0e89a2419eb2dc967b9d1ff6c4_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -2225,6 +2597,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "7959d83d64f94f6ab3b806b776525982_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "7959d83d64f94f6ab3b806b776525982_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -2260,6 +2644,18 @@
         "id": "6f96a0a41e0d4141b685078d0ecae0a9_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "6f96a0a41e0d4141b685078d0ecae0a9_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "6f96a0a41e0d4141b685078d0ecae0a9_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -2405,6 +2801,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "a854405956f54523886de3e1faceeb8f_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "a854405956f54523886de3e1faceeb8f_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -2441,6 +2849,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "e186c4fe9ca74c51aadc9a1183865cb7_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "e186c4fe9ca74c51aadc9a1183865cb7_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -2476,6 +2896,18 @@
         "id": "f145f0a6817b4f9abc486d3bbfe22e40_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "f145f0a6817b4f9abc486d3bbfe22e40_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "f145f0a6817b4f9abc486d3bbfe22e40_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -2621,6 +3053,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "8856f3de09134d4bb8fc0371e3ca8348_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "8856f3de09134d4bb8fc0371e3ca8348_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -2657,6 +3101,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "02ad6d1ecec44fc08b43bbc1a4f7443d_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "02ad6d1ecec44fc08b43bbc1a4f7443d_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -2692,6 +3148,18 @@
         "id": "98bc0cc9b2e145bbbd68296d647127e2_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "98bc0cc9b2e145bbbd68296d647127e2_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "98bc0cc9b2e145bbbd68296d647127e2_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -2837,6 +3305,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "62c4889a8ece4ec0819b77352bd2bd26_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "62c4889a8ece4ec0819b77352bd2bd26_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -2873,6 +3353,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "d86cfd60bda348dba02e23291a1f84b6_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "d86cfd60bda348dba02e23291a1f84b6_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -2908,6 +3400,18 @@
         "id": "7b0c5da97f75444e8e0e71c6721449e1_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "7b0c5da97f75444e8e0e71c6721449e1_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "7b0c5da97f75444e8e0e71c6721449e1_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -3053,6 +3557,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "8e34bed9c5384540ac1d6895bbe0c352_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "8e34bed9c5384540ac1d6895bbe0c352_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -3089,6 +3605,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "0439f8500f0b4d2fb58f03511a021a91_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "0439f8500f0b4d2fb58f03511a021a91_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -3124,6 +3652,18 @@
         "id": "0c537aea77a54ecea1627528b9dbed67_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "0c537aea77a54ecea1627528b9dbed67_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "0c537aea77a54ecea1627528b9dbed67_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -3244,7 +3784,7 @@
     "ident": "7747efa63c504c409d19f60ec83503ab",
     "title": "7747efa63c504c409d19f60ec83503ab",
     "source": "generated",
-    "prompt_html": "<p>A conservation team tracked bird migration before and after a major storm.</p><p>Before the storm, 55 birds traveled an average of 540.0 kilometers with a standard deviation of 120.0 kilometers.</p><p>After the storm, 60 birds traveled an average of 567.5 kilometers with a standard deviation of 130.0 kilometers.</p><p>Test the claim that the mean migration distance is lower after the storm. Use a 0.05 significance level.</p><p>Let &mu;<sub>1</sub> be the mean migration distance (km) before the storm, and let &mu;<sub>2</sub> be the mean migration distance (km) after the storm.</p><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>A conservation team tracked bird migration before and after a major storm.</p><p>Before the storm, 55 birds traveled an average of 540.0 kilometers with a standard deviation of 120.0 kilometers.</p><p>After the storm, 60 birds traveled an average of 567.5 kilometers with a standard deviation of 130.0 kilometers.</p><p>Test the claim that the mean migration distance is greater after the storm. Use a 0.05 significance level.</p><p>Let &mu;<sub>1</sub> be the mean migration distance (km) before the storm, and let &mu;<sub>2</sub> be the mean migration distance (km) after the storm.</p><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "7747efa63c504c409d19f60ec83503ab_A",
@@ -3269,6 +3809,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": true
+      },
+      {
+        "id": "7747efa63c504c409d19f60ec83503ab_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "7747efa63c504c409d19f60ec83503ab_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -3304,6 +3856,18 @@
         "id": "355b2271671a437faae7f5e250edac76_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "355b2271671a437faae7f5e250edac76_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "355b2271671a437faae7f5e250edac76_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -3341,6 +3905,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": true
+      },
+      {
+        "id": "488302e280ed4fb89c7ef5273b8b586d_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "488302e280ed4fb89c7ef5273b8b586d_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -3485,6 +4061,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "eb639559002043749203cb5563cba24a_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "eb639559002043749203cb5563cba24a_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -3521,6 +4109,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "eed847bcfd624aa4bca63c13199ed4ea_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "eed847bcfd624aa4bca63c13199ed4ea_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -3556,6 +4156,18 @@
         "id": "001710de4d4841a598d0cb3d451d1aeb_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "001710de4d4841a598d0cb3d451d1aeb_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "001710de4d4841a598d0cb3d451d1aeb_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -3701,6 +4313,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "ccd037e6d352428fb50891b263c14127_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ccd037e6d352428fb50891b263c14127_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -3737,6 +4361,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "5b89e29d386a4d548f74ef9ea226e9d0_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "5b89e29d386a4d548f74ef9ea226e9d0_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -3772,6 +4408,18 @@
         "id": "b29e1635b7df4c62aa8be0add192cbaf_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "b29e1635b7df4c62aa8be0add192cbaf_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "b29e1635b7df4c62aa8be0add192cbaf_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -3917,6 +4565,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "7bfe1f61107f4ceaaedcaca1fbffa583_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "7bfe1f61107f4ceaaedcaca1fbffa583_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -3953,6 +4613,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "415324d53cd240bfbc3ac94e881e3ecd_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "415324d53cd240bfbc3ac94e881e3ecd_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -3988,6 +4660,18 @@
         "id": "ba79ffe4561b4e3382d0bb93b1708a51_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ba79ffe4561b4e3382d0bb93b1708a51_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "ba79ffe4561b4e3382d0bb93b1708a51_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
@@ -4133,6 +4817,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "8ac576b50a3b490185eb719046c30f6d_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "8ac576b50a3b490185eb719046c30f6d_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -4169,6 +4865,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
         "is_correct": false
+      },
+      {
+        "id": "8370234c72ea47ee8dfd6e5fe31070fa_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "8370234c72ea47ee8dfd6e5fe31070fa_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -4204,6 +4912,18 @@
         "id": "9d58dc0f8f634e4e9904c948edf9788f_D",
         "label": "D",
         "html": "<p>&mu;<sub>1</sub> &lt; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "9d58dc0f8f634e4e9904c948edf9788f_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>1</sub> &ge; &mu;<sub>2</sub></p>",
+        "is_correct": false
+      },
+      {
+        "id": "9d58dc0f8f634e4e9904c948edf9788f_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>1</sub> &le; &mu;<sub>2</sub></p>",
         "is_correct": false
       }
     ],
