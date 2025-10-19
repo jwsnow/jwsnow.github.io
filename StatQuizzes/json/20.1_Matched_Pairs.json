@@ -4,7 +4,7 @@
     "ident": "75574758edae4754948a821d52638b30",
     "title": "75574758edae4754948a821d52638b30",
     "source": "generated",
-    "prompt_html": "<p>A psychologist compared reaction times using the dominant hand and the nondominant hand for the same participants.</p><p>Test the claim that the mean reaction time with the dominant hand is less than the mean reaction time with the nondominant hand. Use a 0.05 significance level.</p>Let d = Nondominant &minus; Dominant for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Dominant</th><th>Nondominant</th></tr></thead><tbody><tr><td>245</td><td>268</td></tr><tr><td>232</td><td>255</td></tr><tr><td>260</td><td>276</td></tr><tr><td>251</td><td>266</td></tr><tr><td>239</td><td>253</td></tr><tr><td>247</td><td>265</td></tr><tr><td>236</td><td>249</td></tr><tr><td>242</td><td>257</td></tr><tr><td>255</td><td>272</td></tr><tr><td>238</td><td>251</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>A psychologist compared reaction times using the dominant hand and the nondominant hand for the same participants.</p><p>Test the claim that the mean reaction time with the dominant hand is less than the mean reaction time with the nondominant hand. Use a 0.05 significance level.</p></p>Let d = Dominant &minus; Nondominant for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Dominant</th><th>Nondominant</th></tr></thead><tbody><tr><td>245</td><td>254</td></tr><tr><td>232</td><td>241</td></tr><tr><td>260</td><td>262</td></tr><tr><td>251</td><td>252</td></tr><tr><td>239</td><td>239</td></tr><tr><td>247</td><td>251</td></tr><tr><td>236</td><td>235</td></tr><tr><td>242</td><td>243</td></tr><tr><td>255</td><td>258</td></tr><tr><td>238</td><td>237</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "75574758edae4754948a821d52638b30_A",
@@ -22,17 +22,29 @@
         "id": "75574758edae4754948a821d52638b30_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "75574758edae4754948a821d52638b30_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
+        "is_correct": true
+      },
+      {
+        "id": "75574758edae4754948a821d52638b30_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "75574758edae4754948a821d52638b30_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
         "is_correct": false
       }
     ],
     "correct_ids": [
-      "75574758edae4754948a821d52638b30_C"
+      "75574758edae4754948a821d52638b30_D"
     ]
   },
   {
@@ -65,6 +77,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "5b27aab52f7340afb5f7f03c230b4d6d_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5b27aab52f7340afb5f7f03c230b4d6d_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -94,17 +118,29 @@
         "id": "19ea5bccd3de480bbac3d42ae1e1a0f1_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "19ea5bccd3de480bbac3d42ae1e1a0f1_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
+        "is_correct": true
+      },
+      {
+        "id": "19ea5bccd3de480bbac3d42ae1e1a0f1_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "19ea5bccd3de480bbac3d42ae1e1a0f1_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
         "is_correct": false
       }
     ],
     "correct_ids": [
-      "19ea5bccd3de480bbac3d42ae1e1a0f1_C"
+      "19ea5bccd3de480bbac3d42ae1e1a0f1_D"
     ]
   },
   {
@@ -115,32 +151,32 @@
     "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
     "choices": [
       {
-        "id": "c855a011bc4d42678a5b6445b85e890c_C",
-        "label": "C",
-        "html": "<p>0.0291</p>",
+        "id": "c855a011bc4d42678a5b6445b85e890c_A",
+        "label": "A",
+        "html": "<p>0.9772</p>",
         "is_correct": false
       },
       {
         "id": "c855a011bc4d42678a5b6445b85e890c_B",
         "label": "B",
-        "html": "<p>1.0000</p>",
+        "html": "<p>0.0228</p>",
+        "is_correct": true
+      },
+      {
+        "id": "c855a011bc4d42678a5b6445b85e890c_C",
+        "label": "C",
+        "html": "<p>0.0465</p>",
         "is_correct": false
       },
       {
         "id": "c855a011bc4d42678a5b6445b85e890c_D",
         "label": "D",
-        "html": "<p>0.0000</p>",
+        "html": "<p>0.0314</p>",
         "is_correct": false
-      },
-      {
-        "id": "c855a011bc4d42678a5b6445b85e890c_A",
-        "label": "A",
-        "html": "<p>0.0000</p>",
-        "is_correct": true
       }
     ],
     "correct_ids": [
-      "c855a011bc4d42678a5b6445b85e890c_A"
+      "c855a011bc4d42678a5b6445b85e890c_B"
     ]
   },
   {
@@ -220,7 +256,7 @@
     "ident": "851c22df4495431e90015699bcbde50c",
     "title": "851c22df4495431e90015699bcbde50c",
     "source": "generated",
-    "prompt_html": "<p>Students solved verbal and quantitative reasoning problems from the same test battery.</p><p>Test the claim that the mean verbal score equals the mean quantitative score. Use a 0.05 significance level.</p>Let d = Quantitative &minus; Verbal for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Verbal</th><th>Quantitative</th></tr></thead><tbody><tr><td>74</td><td>72</td></tr><tr><td>81</td><td>84</td></tr><tr><td>69</td><td>70</td></tr><tr><td>88</td><td>86</td></tr><tr><td>77</td><td>79</td></tr><tr><td>92</td><td>90</td></tr><tr><td>83</td><td>82</td></tr><tr><td>71</td><td>73</td></tr><tr><td>79</td><td>80</td></tr><tr><td>86</td><td>85</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>Students solved verbal and quantitative reasoning problems from the same test battery.</p><p>Test the claim that the mean verbal score is not equal to the mean quantitative score. Use a 0.05 significance level.</p></p>Let d = Verbal &minus; Quantitative for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Verbal</th><th>Quantitative</th></tr></thead><tbody><tr><td>74</td><td>73</td></tr><tr><td>81</td><td>85</td></tr><tr><td>69</td><td>71</td></tr><tr><td>88</td><td>87</td></tr><tr><td>77</td><td>80</td></tr><tr><td>92</td><td>91</td></tr><tr><td>83</td><td>83</td></tr><tr><td>71</td><td>74</td></tr><tr><td>79</td><td>81</td></tr><tr><td>86</td><td>86</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "851c22df4495431e90015699bcbde50c_A",
@@ -244,6 +280,18 @@
         "id": "851c22df4495431e90015699bcbde50c_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "851c22df4495431e90015699bcbde50c_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "851c22df4495431e90015699bcbde50c_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
         "is_correct": false
       }
     ],
@@ -281,6 +329,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "3595bd6fb7154d72be52dc9e3793996d_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3595bd6fb7154d72be52dc9e3793996d_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -317,6 +377,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "52d3f3c6375346aea07c8d04bdf60f9e_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "52d3f3c6375346aea07c8d04bdf60f9e_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -331,32 +403,32 @@
     "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
     "choices": [
       {
-        "id": "dd7a9ed0ad304cd79c219db5f151a091_D",
-        "label": "D",
-        "html": "<p>0.4361</p>",
+        "id": "dd7a9ed0ad304cd79c219db5f151a091_A",
+        "label": "A",
+        "html": "<p>0.8978</p>",
         "is_correct": false
       },
       {
         "id": "dd7a9ed0ad304cd79c219db5f151a091_B",
         "label": "B",
-        "html": "<p>0.5639</p>",
-        "is_correct": false
-      },
-      {
-        "id": "dd7a9ed0ad304cd79c219db5f151a091_A",
-        "label": "A",
-        "html": "<p>0.1050</p>",
-        "is_correct": false
+        "html": "<p>0.1022</p>",
+        "is_correct": true
       },
       {
         "id": "dd7a9ed0ad304cd79c219db5f151a091_C",
         "label": "C",
-        "html": "<p>0.8723</p>",
-        "is_correct": true
+        "html": "<p>0.1735</p>",
+        "is_correct": false
+      },
+      {
+        "id": "dd7a9ed0ad304cd79c219db5f151a091_D",
+        "label": "D",
+        "html": "<p>0.0711</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "dd7a9ed0ad304cd79c219db5f151a091_C"
+      "dd7a9ed0ad304cd79c219db5f151a091_B"
     ]
   },
   {
@@ -436,7 +508,7 @@
     "ident": "90b99faf41b0436fad7e741112bfef3f",
     "title": "90b99faf41b0436fad7e741112bfef3f",
     "source": "generated",
-    "prompt_html": "<p>Participants’ stress levels were recorded before and after a four-week mindfulness course.</p><p>Test the claim that the mean stress level after training is less than the mean stress level before training. Use a 0.05 significance level.</p>Let d = After &minus; Before for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Before</th><th>After</th></tr></thead><tbody><tr><td>27</td><td>21</td></tr><tr><td>31</td><td>25</td></tr><tr><td>24</td><td>20</td></tr><tr><td>29</td><td>22</td></tr><tr><td>33</td><td>26</td></tr><tr><td>26</td><td>19</td></tr><tr><td>28</td><td>22</td></tr><tr><td>30</td><td>24</td></tr><tr><td>25</td><td>20</td></tr><tr><td>32</td><td>27</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>Participants’ stress levels were recorded before and after a four-week mindfulness course.</p><p>Test the claim that the mean stress level after training is less than the mean stress level before training. Use a 0.05 significance level.</p></p>Let d = Before &minus; After for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Before</th><th>After</th></tr></thead><tbody><tr><td>27</td><td>27</td></tr><tr><td>31</td><td>31</td></tr><tr><td>24</td><td>26</td></tr><tr><td>29</td><td>28</td></tr><tr><td>33</td><td>32</td></tr><tr><td>26</td><td>25</td></tr><tr><td>28</td><td>28</td></tr><tr><td>30</td><td>30</td></tr><tr><td>25</td><td>26</td></tr><tr><td>32</td><td>33</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "90b99faf41b0436fad7e741112bfef3f_A",
@@ -454,17 +526,29 @@
         "id": "90b99faf41b0436fad7e741112bfef3f_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "90b99faf41b0436fad7e741112bfef3f_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
-        "is_correct": true
+        "is_correct": false
+      },
+      {
+        "id": "90b99faf41b0436fad7e741112bfef3f_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "90b99faf41b0436fad7e741112bfef3f_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "90b99faf41b0436fad7e741112bfef3f_D"
+      "90b99faf41b0436fad7e741112bfef3f_C"
     ]
   },
   {
@@ -497,6 +581,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "b85fb8345bce433995d75738c7f29a22_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b85fb8345bce433995d75738c7f29a22_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -526,17 +622,29 @@
         "id": "18deba734ab14c97be744fb3257c0c3d_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "18deba734ab14c97be744fb3257c0c3d_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
-        "is_correct": true
+        "is_correct": false
+      },
+      {
+        "id": "18deba734ab14c97be744fb3257c0c3d_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "18deba734ab14c97be744fb3257c0c3d_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "18deba734ab14c97be744fb3257c0c3d_D"
+      "18deba734ab14c97be744fb3257c0c3d_C"
     ]
   },
   {
@@ -547,32 +655,32 @@
     "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
     "choices": [
       {
+        "id": "f06f0ae7c9744e94988b55bd951ac3ab_A",
+        "label": "A",
+        "html": "<p>0.3789</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f06f0ae7c9744e94988b55bd951ac3ab_B",
+        "label": "B",
+        "html": "<p>0.6211</p>",
+        "is_correct": true
+      },
+      {
         "id": "f06f0ae7c9744e94988b55bd951ac3ab_C",
         "label": "C",
-        "html": "<p>0.0337</p>",
+        "html": "<p>1.0000</p>",
         "is_correct": false
       },
       {
         "id": "f06f0ae7c9744e94988b55bd951ac3ab_D",
         "label": "D",
-        "html": "<p>0.0000</p>",
-        "is_correct": true
-      },
-      {
-        "id": "f06f0ae7c9744e94988b55bd951ac3ab_B",
-        "label": "B",
-        "html": "<p>1.0000</p>",
-        "is_correct": false
-      },
-      {
-        "id": "f06f0ae7c9744e94988b55bd951ac3ab_A",
-        "label": "A",
-        "html": "<p>0.0000</p>",
+        "html": "<p>0.3306</p>",
         "is_correct": false
       }
     ],
     "correct_ids": [
-      "f06f0ae7c9744e94988b55bd951ac3ab_D"
+      "f06f0ae7c9744e94988b55bd951ac3ab_B"
     ]
   },
   {
@@ -586,13 +694,13 @@
         "id": "fc3694a74858402b978f08461fcf5c34_A",
         "label": "A",
         "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "fc3694a74858402b978f08461fcf5c34_B",
         "label": "B",
         "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "fc3694a74858402b978f08461fcf5c34_C",
@@ -608,7 +716,7 @@
       }
     ],
     "correct_ids": [
-      "fc3694a74858402b978f08461fcf5c34_A"
+      "fc3694a74858402b978f08461fcf5c34_B"
     ]
   },
   {
@@ -622,7 +730,7 @@
         "id": "80a936cb7a69408daec94e02a7ecc2dc_A",
         "label": "A",
         "html": "<p>There is enough sample evidence to support the claim.</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "80a936cb7a69408daec94e02a7ecc2dc_B",
@@ -634,7 +742,7 @@
         "id": "80a936cb7a69408daec94e02a7ecc2dc_C",
         "label": "C",
         "html": "<p>There is not enough sample evidence to support the claim.</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "80a936cb7a69408daec94e02a7ecc2dc_D",
@@ -644,7 +752,7 @@
       }
     ],
     "correct_ids": [
-      "80a936cb7a69408daec94e02a7ecc2dc_A"
+      "80a936cb7a69408daec94e02a7ecc2dc_C"
     ]
   },
   {
@@ -652,7 +760,7 @@
     "ident": "ae9d67eb462443ea9d90e8cc70d0b7f8",
     "title": "ae9d67eb462443ea9d90e8cc70d0b7f8",
     "source": "generated",
-    "prompt_html": "<p>Each volunteer rated enjoyment while listening to classical music and while listening to pop music.</p><p>Test the claim that the mean enjoyment score for classical music differs from the mean for pop music. Use a 0.05 significance level.</p>Let d = Pop &minus; Classical for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Classical</th><th>Pop</th></tr></thead><tbody><tr><td>7.5</td><td>6.2</td></tr><tr><td>6.9</td><td>7.1</td></tr><tr><td>8.1</td><td>6.6</td></tr><tr><td>7.0</td><td>7.4</td></tr><tr><td>6.4</td><td>6.2</td></tr><tr><td>7.8</td><td>6.5</td></tr><tr><td>5.9</td><td>7.3</td></tr><tr><td>8.2</td><td>7.0</td></tr><tr><td>6.7</td><td>6.8</td></tr><tr><td>7.4</td><td>6.6</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>Each volunteer rated enjoyment while listening to classical music and while listening to pop music.</p><p>Test the claim that the mean enjoyment score for classical music differs from the mean for pop music. Use a 0.05 significance level.</p></p>Let d = Classical &minus; Pop for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Classical</th><th>Pop</th></tr></thead><tbody><tr><td>8</td><td>7</td></tr><tr><td>7</td><td>9</td></tr><tr><td>8</td><td>7</td></tr><tr><td>7</td><td>10</td></tr><tr><td>6</td><td>7</td></tr><tr><td>8</td><td>6</td></tr><tr><td>6</td><td>8</td></tr><tr><td>8</td><td>8</td></tr><tr><td>7</td><td>8</td></tr><tr><td>7</td><td>8</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "ae9d67eb462443ea9d90e8cc70d0b7f8_A",
@@ -676,6 +784,18 @@
         "id": "ae9d67eb462443ea9d90e8cc70d0b7f8_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ae9d67eb462443ea9d90e8cc70d0b7f8_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ae9d67eb462443ea9d90e8cc70d0b7f8_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
         "is_correct": false
       }
     ],
@@ -713,6 +833,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "4db5fdb443e84acea498d94f1904c79e_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "4db5fdb443e84acea498d94f1904c79e_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -749,6 +881,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "522ff17a81d545a48926a33821e2d3c9_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "522ff17a81d545a48926a33821e2d3c9_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -763,32 +907,32 @@
     "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
     "choices": [
       {
-        "id": "1684127cb5fb41acbd7bf37aa399b0cd_B",
-        "label": "B",
-        "html": "<p>0.0982</p>",
+        "id": "1684127cb5fb41acbd7bf37aa399b0cd_A",
+        "label": "A",
+        "html": "<p>0.7402</p>",
         "is_correct": false
       },
       {
-        "id": "1684127cb5fb41acbd7bf37aa399b0cd_A",
-        "label": "A",
-        "html": "<p>0.0626</p>",
-        "is_correct": false
+        "id": "1684127cb5fb41acbd7bf37aa399b0cd_B",
+        "label": "B",
+        "html": "<p>0.2598</p>",
+        "is_correct": true
       },
       {
         "id": "1684127cb5fb41acbd7bf37aa399b0cd_C",
         "label": "C",
-        "html": "<p>0.9018</p>",
+        "html": "<p>0.4257</p>",
         "is_correct": false
       },
       {
         "id": "1684127cb5fb41acbd7bf37aa399b0cd_D",
         "label": "D",
-        "html": "<p>0.1964</p>",
-        "is_correct": true
+        "html": "<p>0.1499</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "1684127cb5fb41acbd7bf37aa399b0cd_D"
+      "1684127cb5fb41acbd7bf37aa399b0cd_B"
     ]
   },
   {
@@ -868,7 +1012,7 @@
     "ident": "dd6238ee6ef345ef9032e00afc17618b",
     "title": "dd6238ee6ef345ef9032e00afc17618b",
     "source": "generated",
-    "prompt_html": "<p>A therapist measured anxiety ratings before and after completing ten counseling sessions.</p><p>Test the claim that the mean anxiety rating after therapy is less than the mean anxiety rating before therapy. Use a 0.01 significance level.</p>Let d = After &minus; Before for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Before</th><th>After</th></tr></thead><tbody><tr><td>18</td><td>12</td></tr><tr><td>22</td><td>15</td></tr><tr><td>19</td><td>13</td></tr><tr><td>21</td><td>14</td></tr><tr><td>24</td><td>16</td></tr><tr><td>17</td><td>12</td></tr><tr><td>20</td><td>14</td></tr><tr><td>23</td><td>15</td></tr><tr><td>19</td><td>13</td></tr><tr><td>21</td><td>14</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>A therapist measured anxiety ratings before and after completing ten counseling sessions.</p><p>Test the claim that the mean anxiety rating after therapy is less than the mean anxiety rating before therapy. Use a 0.01 significance level.</p></p>Let d = Before &minus; After for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Before</th><th>After</th></tr></thead><tbody><tr><td>18</td><td>19</td></tr><tr><td>22</td><td>22</td></tr><tr><td>19</td><td>20</td></tr><tr><td>21</td><td>21</td></tr><tr><td>24</td><td>23</td></tr><tr><td>17</td><td>19</td></tr><tr><td>20</td><td>21</td></tr><tr><td>23</td><td>22</td></tr><tr><td>19</td><td>20</td></tr><tr><td>21</td><td>21</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "dd6238ee6ef345ef9032e00afc17618b_A",
@@ -886,17 +1030,29 @@
         "id": "dd6238ee6ef345ef9032e00afc17618b_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "dd6238ee6ef345ef9032e00afc17618b_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
-        "is_correct": true
+        "is_correct": false
+      },
+      {
+        "id": "dd6238ee6ef345ef9032e00afc17618b_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "dd6238ee6ef345ef9032e00afc17618b_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "dd6238ee6ef345ef9032e00afc17618b_D"
+      "dd6238ee6ef345ef9032e00afc17618b_C"
     ]
   },
   {
@@ -929,6 +1085,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "b7cbd321e2fb4297bbf06e2596b867e6_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b7cbd321e2fb4297bbf06e2596b867e6_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -958,17 +1126,29 @@
         "id": "39838498fbd64a05aca69049d02b5c7e_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "39838498fbd64a05aca69049d02b5c7e_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
-        "is_correct": true
+        "is_correct": false
+      },
+      {
+        "id": "39838498fbd64a05aca69049d02b5c7e_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "39838498fbd64a05aca69049d02b5c7e_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "39838498fbd64a05aca69049d02b5c7e_D"
+      "39838498fbd64a05aca69049d02b5c7e_C"
     ]
   },
   {
@@ -979,32 +1159,32 @@
     "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
     "choices": [
       {
-        "id": "b157af94687c4a839cfff43fd80fd6c7_D",
-        "label": "D",
-        "html": "<p>1.0000</p>",
+        "id": "b157af94687c4a839cfff43fd80fd6c7_A",
+        "label": "A",
+        "html": "<p>0.1114</p>",
         "is_correct": false
-      },
-      {
-        "id": "b157af94687c4a839cfff43fd80fd6c7_C",
-        "label": "C",
-        "html": "<p>0.0000</p>",
-        "is_correct": true
       },
       {
         "id": "b157af94687c4a839cfff43fd80fd6c7_B",
         "label": "B",
-        "html": "<p>0.0000</p>",
+        "html": "<p>0.8886</p>",
+        "is_correct": true
+      },
+      {
+        "id": "b157af94687c4a839cfff43fd80fd6c7_C",
+        "label": "C",
+        "html": "<p>1.0000</p>",
         "is_correct": false
       },
       {
-        "id": "b157af94687c4a839cfff43fd80fd6c7_A",
-        "label": "A",
-        "html": "<p>0.1275</p>",
+        "id": "b157af94687c4a839cfff43fd80fd6c7_D",
+        "label": "D",
+        "html": "<p>0.4643</p>",
         "is_correct": false
       }
     ],
     "correct_ids": [
-      "b157af94687c4a839cfff43fd80fd6c7_C"
+      "b157af94687c4a839cfff43fd80fd6c7_B"
     ]
   },
   {
@@ -1018,13 +1198,13 @@
         "id": "d31fd09479e14bf6882293d97c7f7934_A",
         "label": "A",
         "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "d31fd09479e14bf6882293d97c7f7934_B",
         "label": "B",
         "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "d31fd09479e14bf6882293d97c7f7934_C",
@@ -1040,7 +1220,7 @@
       }
     ],
     "correct_ids": [
-      "d31fd09479e14bf6882293d97c7f7934_A"
+      "d31fd09479e14bf6882293d97c7f7934_B"
     ]
   },
   {
@@ -1054,7 +1234,7 @@
         "id": "34f13f4739d74866b964e903036a06d6_A",
         "label": "A",
         "html": "<p>There is enough sample evidence to support the claim.</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "34f13f4739d74866b964e903036a06d6_B",
@@ -1066,7 +1246,7 @@
         "id": "34f13f4739d74866b964e903036a06d6_C",
         "label": "C",
         "html": "<p>There is not enough sample evidence to support the claim.</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "34f13f4739d74866b964e903036a06d6_D",
@@ -1076,7 +1256,7 @@
       }
     ],
     "correct_ids": [
-      "34f13f4739d74866b964e903036a06d6_A"
+      "34f13f4739d74866b964e903036a06d6_C"
     ]
   },
   {
@@ -1084,19 +1264,19 @@
     "ident": "2f013b72ed904386b8cf8c5a9cf3b200",
     "title": "2f013b72ed904386b8cf8c5a9cf3b200",
     "source": "generated",
-    "prompt_html": "<p>A researcher measured mood scores on sunny and cloudy days for the same individuals.</p><p>Test the claim that the mean mood score on sunny days equals the mean on cloudy days. Use a 0.05 significance level.</p>Let d = Cloudy &minus; Sunny for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Sunny</th><th>Cloudy</th></tr></thead><tbody><tr><td>7.2</td><td>7.1</td></tr><tr><td>6.8</td><td>6.9</td></tr><tr><td>7.5</td><td>7.3</td></tr><tr><td>6.9</td><td>7.0</td></tr><tr><td>7.1</td><td>7.2</td></tr><tr><td>7.4</td><td>7.4</td></tr><tr><td>6.7</td><td>6.8</td></tr><tr><td>7.3</td><td>7.1</td></tr><tr><td>6.9</td><td>7.0</td></tr><tr><td>7.2</td><td>7.2</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>A researcher measured mood scores on sunny and cloudy days for the same individuals.</p><p>Test the claim that the mean mood score on sunny days equals the mean on cloudy days. Use a 0.05 significance level.</p></p>Let d = Sunny &minus; Cloudy for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Sunny</th><th>Cloudy</th></tr></thead><tbody><tr><td>7</td><td>5</td></tr><tr><td>7</td><td>6</td></tr><tr><td>8</td><td>7</td></tr><tr><td>7</td><td>8</td></tr><tr><td>7</td><td>9</td></tr><tr><td>7</td><td>5</td></tr><tr><td>7</td><td>6</td></tr><tr><td>7</td><td>7</td></tr><tr><td>7</td><td>8</td></tr><tr><td>7</td><td>9</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "2f013b72ed904386b8cf8c5a9cf3b200_A",
         "label": "A",
         "html": "<p>&mu;<sub>d</sub> = 0</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "2f013b72ed904386b8cf8c5a9cf3b200_B",
         "label": "B",
         "html": "<p>&mu;<sub>d</sub> &ne; 0</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "2f013b72ed904386b8cf8c5a9cf3b200_C",
@@ -1109,10 +1289,22 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "2f013b72ed904386b8cf8c5a9cf3b200_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2f013b72ed904386b8cf8c5a9cf3b200_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "2f013b72ed904386b8cf8c5a9cf3b200_B"
+      "2f013b72ed904386b8cf8c5a9cf3b200_A"
     ]
   },
   {
@@ -1144,6 +1336,18 @@
         "id": "36ab9be218744b0d9e739c9a45664ea9_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "36ab9be218744b0d9e739c9a45664ea9_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "36ab9be218744b0d9e739c9a45664ea9_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
         "is_correct": false
       }
     ],
@@ -1181,6 +1385,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "40402d50c05d45c6844caf93faa887eb_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "40402d50c05d45c6844caf93faa887eb_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -1195,32 +1411,32 @@
     "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
     "choices": [
       {
-        "id": "2b922b662fd3498fad464147a72dacbc_B",
-        "label": "B",
-        "html": "<p>0.5000</p>",
-        "is_correct": false
-      },
-      {
         "id": "2b922b662fd3498fad464147a72dacbc_A",
         "label": "A",
-        "html": "<p>0.5000</p>",
+        "html": "<p>0.1598</p>",
         "is_correct": false
       },
       {
-        "id": "2b922b662fd3498fad464147a72dacbc_D",
-        "label": "D",
-        "html": "<p>1.0000</p>",
+        "id": "2b922b662fd3498fad464147a72dacbc_B",
+        "label": "B",
+        "html": "<p>0.8402</p>",
         "is_correct": true
       },
       {
         "id": "2b922b662fd3498fad464147a72dacbc_C",
         "label": "C",
-        "html": "<p>0.1440</p>",
+        "html": "<p>1.0000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2b922b662fd3498fad464147a72dacbc_D",
+        "label": "D",
+        "html": "<p>0.4401</p>",
         "is_correct": false
       }
     ],
     "correct_ids": [
-      "2b922b662fd3498fad464147a72dacbc_D"
+      "2b922b662fd3498fad464147a72dacbc_B"
     ]
   },
   {
@@ -1282,17 +1498,17 @@
         "id": "44c7bcc8f6ae4ab79b512f3b52131a93_C",
         "label": "C",
         "html": "<p>There is not enough sample evidence to support the claim.</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "44c7bcc8f6ae4ab79b512f3b52131a93_D",
         "label": "D",
         "html": "<p>There is not enough sample evidence to reject the claim.</p>",
-        "is_correct": false
+        "is_correct": true
       }
     ],
     "correct_ids": [
-      "44c7bcc8f6ae4ab79b512f3b52131a93_C"
+      "44c7bcc8f6ae4ab79b512f3b52131a93_D"
     ]
   },
   {
@@ -1300,7 +1516,7 @@
     "ident": "3ddf0924dd43490ab4d6b0b16570088d",
     "title": "3ddf0924dd43490ab4d6b0b16570088d",
     "source": "generated",
-    "prompt_html": "<p>In a study of learning styles, each subject recalled words presented visually and aurally.</p><p>Test the claim that the mean number of words recalled differs between visual and aural presentation. Use a 0.05 significance level.</p>Let d = Aural &minus; Visual for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Visual</th><th>Aural</th></tr></thead><tbody><tr><td>14</td><td>12</td></tr><tr><td>12</td><td>13</td></tr><tr><td>16</td><td>14</td></tr><tr><td>13</td><td>12</td></tr><tr><td>15</td><td>16</td></tr><tr><td>14</td><td>13</td></tr><tr><td>12</td><td>11</td></tr><tr><td>15</td><td>14</td></tr><tr><td>13</td><td>14</td></tr><tr><td>16</td><td>15</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>In a study of learning styles, each subject recalled words presented visually and aurally.</p><p>Test the claim that the mean number of words recalled differs between visual and aural presentation. Use a 0.05 significance level.</p></p>Let d = Visual &minus; Aural for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Visual</th><th>Aural</th></tr></thead><tbody><tr><td>14</td><td>12</td></tr><tr><td>12</td><td>13</td></tr><tr><td>16</td><td>14</td></tr><tr><td>13</td><td>12</td></tr><tr><td>15</td><td>16</td></tr><tr><td>14</td><td>13</td></tr><tr><td>12</td><td>11</td></tr><tr><td>15</td><td>14</td></tr><tr><td>13</td><td>14</td></tr><tr><td>16</td><td>15</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "3ddf0924dd43490ab4d6b0b16570088d_A",
@@ -1324,6 +1540,18 @@
         "id": "3ddf0924dd43490ab4d6b0b16570088d_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3ddf0924dd43490ab4d6b0b16570088d_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3ddf0924dd43490ab4d6b0b16570088d_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
         "is_correct": false
       }
     ],
@@ -1361,6 +1589,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "01a83d39c0d647099e586f1d7553503a_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "01a83d39c0d647099e586f1d7553503a_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -1397,6 +1637,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "2a8d677e111247d79cb52cd29bc763e0_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2a8d677e111247d79cb52cd29bc763e0_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -1411,32 +1663,32 @@
     "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
     "choices": [
       {
-        "id": "0394f96e822f471a8d1a86729f264829_B",
-        "label": "B",
-        "html": "<p>0.9298</p>",
+        "id": "0394f96e822f471a8d1a86729f264829_A",
+        "label": "A",
+        "html": "<p>0.8595</p>",
         "is_correct": false
       },
       {
-        "id": "0394f96e822f471a8d1a86729f264829_A",
-        "label": "A",
+        "id": "0394f96e822f471a8d1a86729f264829_B",
+        "label": "B",
         "html": "<p>0.1405</p>",
         "is_correct": true
       },
       {
-        "id": "0394f96e822f471a8d1a86729f264829_D",
-        "label": "D",
-        "html": "<p>0.0702</p>",
+        "id": "0394f96e822f471a8d1a86729f264829_C",
+        "label": "C",
+        "html": "<p>0.2348</p>",
         "is_correct": false
       },
       {
-        "id": "0394f96e822f471a8d1a86729f264829_C",
-        "label": "C",
-        "html": "<p>0.0140</p>",
+        "id": "0394f96e822f471a8d1a86729f264829_D",
+        "label": "D",
+        "html": "<p>0.0903</p>",
         "is_correct": false
       }
     ],
     "correct_ids": [
-      "0394f96e822f471a8d1a86729f264829_A"
+      "0394f96e822f471a8d1a86729f264829_B"
     ]
   },
   {
@@ -1516,19 +1768,19 @@
     "ident": "1fb070f3af1e4d5d81ce469ec55af14e",
     "title": "1fb070f3af1e4d5d81ce469ec55af14e",
     "source": "generated",
-    "prompt_html": "<p>Doctors measured blood pressure in each arm for a sample of adult patients.</p><p>Test the claim that the mean systolic pressure in the left arm equals the mean in the right arm. Use a 0.01 significance level.</p>Let d = Right Arm &minus; Left Arm for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Left Arm</th><th>Right Arm</th></tr></thead><tbody><tr><td>128</td><td>129</td></tr><tr><td>134</td><td>133</td></tr><tr><td>121</td><td>122</td></tr><tr><td>139</td><td>138</td></tr><tr><td>130</td><td>131</td></tr><tr><td>142</td><td>141</td></tr><tr><td>125</td><td>126</td></tr><tr><td>136</td><td>136</td></tr><tr><td>129</td><td>130</td></tr><tr><td>133</td><td>132</td></tr><tr><td>127</td><td>127</td></tr><tr><td>140</td><td>141</td></tr><tr><td>124</td><td>125</td></tr><tr><td>138</td><td>137</td></tr><tr><td>132</td><td>133</td></tr><tr><td>135</td><td>134</td></tr><tr><td>126</td><td>127</td></tr><tr><td>137</td><td>136</td></tr><tr><td>131</td><td>131</td></tr><tr><td>128</td><td>129</td></tr><tr><td>134</td><td>135</td></tr><tr><td>123</td><td>124</td></tr><tr><td>141</td><td>140</td></tr><tr><td>129</td><td>129</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>Doctors measured blood pressure in each arm for a sample of adult patients.</p><p>Test the claim that the mean systolic pressure in the left arm equals the mean in the right arm. Use a 0.01 significance level.</p></p>Let d = Left Arm &minus; Right Arm for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Left Arm</th><th>Right Arm</th></tr></thead><tbody><tr><td>128</td><td>129</td></tr><tr><td>121</td><td>122</td></tr><tr><td>130</td><td>131</td></tr><tr><td>125</td><td>126</td></tr><tr><td>129</td><td>130</td></tr><tr><td>127</td><td>127</td></tr><tr><td>124</td><td>125</td></tr><tr><td>138</td><td>137</td></tr><tr><td>135</td><td>134</td></tr><tr><td>137</td><td>136</td></tr><tr><td>128</td><td>129</td></tr><tr><td>123</td><td>124</td></tr><tr><td>129</td><td>129</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "1fb070f3af1e4d5d81ce469ec55af14e_A",
         "label": "A",
         "html": "<p>&mu;<sub>d</sub> = 0</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "1fb070f3af1e4d5d81ce469ec55af14e_B",
         "label": "B",
         "html": "<p>&mu;<sub>d</sub> &ne; 0</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "1fb070f3af1e4d5d81ce469ec55af14e_C",
@@ -1541,10 +1793,22 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "1fb070f3af1e4d5d81ce469ec55af14e_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "1fb070f3af1e4d5d81ce469ec55af14e_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "1fb070f3af1e4d5d81ce469ec55af14e_B"
+      "1fb070f3af1e4d5d81ce469ec55af14e_A"
     ]
   },
   {
@@ -1576,6 +1840,18 @@
         "id": "10ec282a30be449b980d8bf4ed64ad42_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "10ec282a30be449b980d8bf4ed64ad42_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "10ec282a30be449b980d8bf4ed64ad42_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
         "is_correct": false
       }
     ],
@@ -1613,6 +1889,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "f89be16747864670a556899cdbd756f4_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f89be16747864670a556899cdbd756f4_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -1629,30 +1917,30 @@
       {
         "id": "b6d2f5a4d3f9429793626d568534a7e1_A",
         "label": "A",
-        "html": "<p>0.3824</p>",
-        "is_correct": true
-      },
-      {
-        "id": "b6d2f5a4d3f9429793626d568534a7e1_C",
-        "label": "C",
-        "html": "<p>0.8088</p>",
+        "html": "<p>0.8632</p>",
         "is_correct": false
       },
       {
         "id": "b6d2f5a4d3f9429793626d568534a7e1_B",
         "label": "B",
-        "html": "<p>0.0616</p>",
+        "html": "<p>0.1368</p>",
+        "is_correct": true
+      },
+      {
+        "id": "b6d2f5a4d3f9429793626d568534a7e1_C",
+        "label": "C",
+        "html": "<p>0.2289</p>",
         "is_correct": false
       },
       {
         "id": "b6d2f5a4d3f9429793626d568534a7e1_D",
         "label": "D",
-        "html": "<p>0.1912</p>",
+        "html": "<p>0.0884</p>",
         "is_correct": false
       }
     ],
     "correct_ids": [
-      "b6d2f5a4d3f9429793626d568534a7e1_A"
+      "b6d2f5a4d3f9429793626d568534a7e1_B"
     ]
   },
   {
@@ -1732,7 +2020,7 @@
     "ident": "9d9f7b6c2a744f48a8fdab4bdee1e64e",
     "title": "9d9f7b6c2a744f48a8fdab4bdee1e64e",
     "source": "generated",
-    "prompt_html": "<p>A dietitian recorded each participant’s body weight before and after a six-week low-carb diet.</p><p>Test the claim that the mean weight after the diet is less than the mean weight before the diet. Use a 0.05 significance level.</p>Let d = After &minus; Before for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Before</th><th>After</th></tr></thead><tbody><tr><td>86.4</td><td>83.5</td></tr><tr><td>91.2</td><td>88.4</td></tr><tr><td>79.5</td><td>77.8</td></tr><tr><td>95.1</td><td>92.0</td></tr><tr><td>88.6</td><td>85.9</td></tr><tr><td>82.3</td><td>80.4</td></tr><tr><td>90.0</td><td>87.5</td></tr><tr><td>84.2</td><td>82.1</td></tr><tr><td>93.7</td><td>90.9</td></tr><tr><td>87.5</td><td>85.0</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>A dietitian recorded each participant’s body weight before and after a six-week low-carb diet.</p><p>Test the claim that the mean Before is greater than the mean After. Use a 0.05 significance level.</p></p>Let d = Before &minus; After for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Before</th><th>After</th></tr></thead><tbody><tr><td>86</td><td>85</td></tr><tr><td>91</td><td>90</td></tr><tr><td>80</td><td>80</td></tr><tr><td>95</td><td>94</td></tr><tr><td>89</td><td>88</td></tr><tr><td>82</td><td>82</td></tr><tr><td>90</td><td>89</td></tr><tr><td>84</td><td>84</td></tr><tr><td>94</td><td>93</td></tr><tr><td>88</td><td>87</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "9d9f7b6c2a744f48a8fdab4bdee1e64e_A",
@@ -1750,17 +2038,29 @@
         "id": "9d9f7b6c2a744f48a8fdab4bdee1e64e_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "9d9f7b6c2a744f48a8fdab4bdee1e64e_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
-        "is_correct": true
+        "is_correct": false
+      },
+      {
+        "id": "9d9f7b6c2a744f48a8fdab4bdee1e64e_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9d9f7b6c2a744f48a8fdab4bdee1e64e_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "9d9f7b6c2a744f48a8fdab4bdee1e64e_D"
+      "9d9f7b6c2a744f48a8fdab4bdee1e64e_C"
     ]
   },
   {
@@ -1793,6 +2093,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "4c342cb07ad344f1a32b7faf7725f726_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "4c342cb07ad344f1a32b7faf7725f726_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -1822,17 +2134,29 @@
         "id": "c9f5cf3ce6844345bb310a7e3db2b128_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "c9f5cf3ce6844345bb310a7e3db2b128_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
-        "is_correct": true
+        "is_correct": false
+      },
+      {
+        "id": "c9f5cf3ce6844345bb310a7e3db2b128_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c9f5cf3ce6844345bb310a7e3db2b128_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "c9f5cf3ce6844345bb310a7e3db2b128_D"
+      "c9f5cf3ce6844345bb310a7e3db2b128_C"
     ]
   },
   {
@@ -1843,27 +2167,27 @@
     "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
     "choices": [
       {
-        "id": "96d52fe9c1484d88aec7429b815f96f1_D",
-        "label": "D",
-        "html": "<p>1.0000</p>",
+        "id": "96d52fe9c1484d88aec7429b815f96f1_A",
+        "label": "A",
+        "html": "<p>0.9993</p>",
         "is_correct": false
       },
       {
         "id": "96d52fe9c1484d88aec7429b815f96f1_B",
         "label": "B",
-        "html": "<p>0.0000</p>",
+        "html": "<p>0.0007</p>",
         "is_correct": true
-      },
-      {
-        "id": "96d52fe9c1484d88aec7429b815f96f1_A",
-        "label": "A",
-        "html": "<p>0.0000</p>",
-        "is_correct": false
       },
       {
         "id": "96d52fe9c1484d88aec7429b815f96f1_C",
         "label": "C",
-        "html": "<p>0.0391</p>",
+        "html": "<p>0.0111</p>",
+        "is_correct": false
+      },
+      {
+        "id": "96d52fe9c1484d88aec7429b815f96f1_D",
+        "label": "D",
+        "html": "<p>0.0204</p>",
         "is_correct": false
       }
     ],
@@ -1948,7 +2272,7 @@
     "ident": "2de437ab5262448a884e18a91a88e86f",
     "title": "2de437ab5262448a884e18a91a88e86f",
     "source": "generated",
-    "prompt_html": "<p>In a vision study, subjects viewed text with and without blue-light-filter lenses.</p><p>Test the claim that the mean eye-strain score differs between viewing with and without a blue-light filter. Use a 0.05 significance level.</p>Let d = Without Filter &minus; With Filter for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>With Filter</th><th>Without Filter</th></tr></thead><tbody><tr><td>4.8</td><td>5.6</td></tr><tr><td>5.1</td><td>5.0</td></tr><tr><td>4.5</td><td>5.3</td></tr><tr><td>5.2</td><td>5.6</td></tr><tr><td>4.7</td><td>5.1</td></tr><tr><td>4.9</td><td>5.4</td></tr><tr><td>5.0</td><td>5.2</td></tr><tr><td>4.6</td><td>5.3</td></tr><tr><td>5.3</td><td>5.5</td></tr><tr><td>4.8</td><td>5.0</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>In a vision study, subjects viewed text with and without blue-light-filter lenses.</p><p>Test the claim that the mean eye-strain score differs between viewing with and without a blue-light filter. Use a 0.05 significance level.</p></p>Let d = With Filter &minus; Without Filter for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>With Filter</th><th>Without Filter</th></tr></thead><tbody><tr><td>4.8</td><td>5.4</td></tr><tr><td>5.1</td><td>4.8</td></tr><tr><td>4.5</td><td>5.1</td></tr><tr><td>5.2</td><td>5.4</td></tr><tr><td>4.7</td><td>4.9</td></tr><tr><td>4.9</td><td>5.2</td></tr><tr><td>5.0</td><td>5.0</td></tr><tr><td>4.6</td><td>5.1</td></tr><tr><td>5.3</td><td>5.3</td></tr><tr><td>4.8</td><td>4.8</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "2de437ab5262448a884e18a91a88e86f_A",
@@ -1972,6 +2296,18 @@
         "id": "2de437ab5262448a884e18a91a88e86f_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2de437ab5262448a884e18a91a88e86f_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "2de437ab5262448a884e18a91a88e86f_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
         "is_correct": false
       }
     ],
@@ -2009,6 +2345,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "4e8d9a4e4b474aa599ae7b8770f3c4e6_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "4e8d9a4e4b474aa599ae7b8770f3c4e6_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -2045,6 +2393,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "30a77f6c26a84ccbb3b5491cb38ede75_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "30a77f6c26a84ccbb3b5491cb38ede75_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -2061,30 +2421,30 @@
       {
         "id": "7909b3fbd92b488dacd3261c817426a9_A",
         "label": "A",
-        "html": "<p>0.0018</p>",
-        "is_correct": true
-      },
-      {
-        "id": "7909b3fbd92b488dacd3261c817426a9_D",
-        "label": "D",
-        "html": "<p>0.0556</p>",
-        "is_correct": false
-      },
-      {
-        "id": "7909b3fbd92b488dacd3261c817426a9_C",
-        "label": "C",
-        "html": "<p>0.9991</p>",
+        "html": "<p>0.9484</p>",
         "is_correct": false
       },
       {
         "id": "7909b3fbd92b488dacd3261c817426a9_B",
         "label": "B",
-        "html": "<p>0.0009</p>",
+        "html": "<p>0.0516</p>",
+        "is_correct": true
+      },
+      {
+        "id": "7909b3fbd92b488dacd3261c817426a9_C",
+        "label": "C",
+        "html": "<p>0.0926</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7909b3fbd92b488dacd3261c817426a9_D",
+        "label": "D",
+        "html": "<p>0.0458</p>",
         "is_correct": false
       }
     ],
     "correct_ids": [
-      "7909b3fbd92b488dacd3261c817426a9_A"
+      "7909b3fbd92b488dacd3261c817426a9_B"
     ]
   },
   {
@@ -2098,13 +2458,13 @@
         "id": "9ebb638426e84dd1b7f0c1d90883bc18_A",
         "label": "A",
         "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "9ebb638426e84dd1b7f0c1d90883bc18_B",
         "label": "B",
         "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "9ebb638426e84dd1b7f0c1d90883bc18_C",
@@ -2120,7 +2480,7 @@
       }
     ],
     "correct_ids": [
-      "9ebb638426e84dd1b7f0c1d90883bc18_A"
+      "9ebb638426e84dd1b7f0c1d90883bc18_B"
     ]
   },
   {
@@ -2134,7 +2494,7 @@
         "id": "27907926678840e097781cd3a3ba7703_A",
         "label": "A",
         "html": "<p>There is enough sample evidence to support the claim.</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "27907926678840e097781cd3a3ba7703_B",
@@ -2146,7 +2506,7 @@
         "id": "27907926678840e097781cd3a3ba7703_C",
         "label": "C",
         "html": "<p>There is not enough sample evidence to support the claim.</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "27907926678840e097781cd3a3ba7703_D",
@@ -2156,7 +2516,7 @@
       }
     ],
     "correct_ids": [
-      "27907926678840e097781cd3a3ba7703_A"
+      "27907926678840e097781cd3a3ba7703_C"
     ]
   },
   {
@@ -2164,7 +2524,7 @@
     "ident": "b89fcebd20844087a35c7f95f4cab500",
     "title": "b89fcebd20844087a35c7f95f4cab500",
     "source": "generated",
-    "prompt_html": "<p>Audiologists measured hearing thresholds in the left and right ears of the same individuals.</p><p>Test the claim that the mean hearing threshold in the left ear is greater than the mean in the right ear. Use a 0.05 significance level.</p>Let d = Right Ear &minus; Left Ear for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Left Ear</th><th>Right Ear</th></tr></thead><tbody><tr><td>26</td><td>24</td></tr><tr><td>22</td><td>21</td></tr><tr><td>28</td><td>26</td></tr><tr><td>24</td><td>23</td></tr><tr><td>30</td><td>28</td></tr><tr><td>25</td><td>24</td></tr><tr><td>27</td><td>26</td></tr><tr><td>23</td><td>22</td></tr><tr><td>29</td><td>27</td></tr><tr><td>26</td><td>25</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>Audiologists measured hearing thresholds in the left and right ears of the same individuals.</p><p>Test the claim that the mean hearing threshold in the left ear is greater than the mean in the right ear. Use a 0.05 significance level.</p></p>Let d = Left Ear &minus; Right Ear for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Left Ear</th><th>Right Ear</th></tr></thead><tbody><tr><td>26</td><td>25</td></tr><tr><td>22</td><td>22</td></tr><tr><td>28</td><td>27</td></tr><tr><td>24</td><td>24</td></tr><tr><td>30</td><td>29</td></tr><tr><td>25</td><td>25</td></tr><tr><td>27</td><td>27</td></tr><tr><td>23</td><td>23</td></tr><tr><td>29</td><td>28</td></tr><tr><td>26</td><td>26</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "b89fcebd20844087a35c7f95f4cab500_A",
@@ -2182,17 +2542,29 @@
         "id": "b89fcebd20844087a35c7f95f4cab500_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "b89fcebd20844087a35c7f95f4cab500_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
-        "is_correct": true
+        "is_correct": false
+      },
+      {
+        "id": "b89fcebd20844087a35c7f95f4cab500_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b89fcebd20844087a35c7f95f4cab500_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "b89fcebd20844087a35c7f95f4cab500_D"
+      "b89fcebd20844087a35c7f95f4cab500_C"
     ]
   },
   {
@@ -2225,6 +2597,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "503c3df40db243e59bdf2e7d7d5205ae_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "503c3df40db243e59bdf2e7d7d5205ae_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -2254,17 +2638,29 @@
         "id": "950ee263ef68444d92cee7740097b472_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "950ee263ef68444d92cee7740097b472_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
-        "is_correct": true
+        "is_correct": false
+      },
+      {
+        "id": "950ee263ef68444d92cee7740097b472_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "950ee263ef68444d92cee7740097b472_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "950ee263ef68444d92cee7740097b472_D"
+      "950ee263ef68444d92cee7740097b472_C"
     ]
   },
   {
@@ -2275,27 +2671,27 @@
     "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
     "choices": [
       {
-        "id": "5733c58ede17477eb9d83caeedc2dc7e_D",
-        "label": "D",
-        "html": "<p>0.0286</p>",
+        "id": "5733c58ede17477eb9d83caeedc2dc7e_A",
+        "label": "A",
+        "html": "<p>0.9816</p>",
         "is_correct": false
       },
       {
         "id": "5733c58ede17477eb9d83caeedc2dc7e_B",
         "label": "B",
-        "html": "<p>0.0000</p>",
+        "html": "<p>0.0184</p>",
         "is_correct": true
-      },
-      {
-        "id": "5733c58ede17477eb9d83caeedc2dc7e_A",
-        "label": "A",
-        "html": "<p>0.0000</p>",
-        "is_correct": false
       },
       {
         "id": "5733c58ede17477eb9d83caeedc2dc7e_C",
         "label": "C",
-        "html": "<p>1.0000</p>",
+        "html": "<p>0.0394</p>",
+        "is_correct": false
+      },
+      {
+        "id": "5733c58ede17477eb9d83caeedc2dc7e_D",
+        "label": "D",
+        "html": "<p>0.0292</p>",
         "is_correct": false
       }
     ],
@@ -2380,7 +2776,7 @@
     "ident": "6fae66468e374681a1e6ef339a19eeed",
     "title": "6fae66468e374681a1e6ef339a19eeed",
     "source": "generated",
-    "prompt_html": "<p>Nurses recorded each patient’s heart rate while sitting and again while standing.</p><p>Test the claim that the mean heart rate while standing is greater than the mean while sitting. Use a 0.01 significance level.</p>Let d = Standing &minus; Sitting for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Sitting</th><th>Standing</th></tr></thead><tbody><tr><td>68</td><td>78</td></tr><tr><td>70</td><td>82</td></tr><tr><td>65</td><td>75</td></tr><tr><td>72</td><td>84</td></tr><tr><td>66</td><td>77</td></tr><tr><td>69</td><td>81</td></tr><tr><td>71</td><td>83</td></tr><tr><td>67</td><td>78</td></tr><tr><td>73</td><td>86</td></tr><tr><td>64</td><td>74</td></tr><tr><td>70</td><td>82</td></tr><tr><td>68</td><td>79</td></tr><tr><td>66</td><td>76</td></tr><tr><td>72</td><td>84</td></tr><tr><td>69</td><td>80</td></tr><tr><td>65</td><td>75</td></tr><tr><td>71</td><td>82</td></tr><tr><td>67</td><td>78</td></tr><tr><td>70</td><td>81</td></tr><tr><td>68</td><td>79</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>Nurses recorded each patient’s heart rate while sitting and again while standing.</p><p>Test the claim that the mean Sitting is less than the mean Standing. Use a 0.01 significance level.</p></p>Let d = Sitting &minus; Standing for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Sitting</th><th>Standing</th></tr></thead><tbody><tr><td>68</td><td>67</td></tr><tr><td>65</td><td>64</td></tr><tr><td>72</td><td>73</td></tr><tr><td>69</td><td>70</td></tr><tr><td>71</td><td>72</td></tr><tr><td>73</td><td>75</td></tr><tr><td>70</td><td>71</td></tr><tr><td>68</td><td>68</td></tr><tr><td>72</td><td>73</td></tr><tr><td>69</td><td>69</td></tr><tr><td>71</td><td>71</td></tr><tr><td>67</td><td>67</td></tr><tr><td>68</td><td>68</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "6fae66468e374681a1e6ef339a19eeed_A",
@@ -2398,17 +2794,29 @@
         "id": "6fae66468e374681a1e6ef339a19eeed_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "6fae66468e374681a1e6ef339a19eeed_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
+        "is_correct": true
+      },
+      {
+        "id": "6fae66468e374681a1e6ef339a19eeed_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6fae66468e374681a1e6ef339a19eeed_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
         "is_correct": false
       }
     ],
     "correct_ids": [
-      "6fae66468e374681a1e6ef339a19eeed_C"
+      "6fae66468e374681a1e6ef339a19eeed_D"
     ]
   },
   {
@@ -2441,6 +2849,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "a2913763022b43bcbe8191398db4d5cf_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "a2913763022b43bcbe8191398db4d5cf_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -2470,17 +2890,29 @@
         "id": "e3d9d83727ad40a3a1cf2d0fef134e42_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "e3d9d83727ad40a3a1cf2d0fef134e42_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
+        "is_correct": true
+      },
+      {
+        "id": "e3d9d83727ad40a3a1cf2d0fef134e42_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "e3d9d83727ad40a3a1cf2d0fef134e42_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
         "is_correct": false
       }
     ],
     "correct_ids": [
-      "e3d9d83727ad40a3a1cf2d0fef134e42_C"
+      "e3d9d83727ad40a3a1cf2d0fef134e42_D"
     ]
   },
   {
@@ -2491,32 +2923,32 @@
     "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
     "choices": [
       {
+        "id": "346f3a67d1d74c8fba1b6711bab00dd4_A",
+        "label": "A",
+        "html": "<p>0.9316</p>",
+        "is_correct": false
+      },
+      {
+        "id": "346f3a67d1d74c8fba1b6711bab00dd4_B",
+        "label": "B",
+        "html": "<p>0.0684</p>",
+        "is_correct": true
+      },
+      {
         "id": "346f3a67d1d74c8fba1b6711bab00dd4_C",
         "label": "C",
-        "html": "<p>1.0000</p>",
+        "html": "<p>0.1194</p>",
         "is_correct": false
       },
       {
         "id": "346f3a67d1d74c8fba1b6711bab00dd4_D",
         "label": "D",
-        "html": "<p>0.0000</p>",
-        "is_correct": true
-      },
-      {
-        "id": "346f3a67d1d74c8fba1b6711bab00dd4_B",
-        "label": "B",
-        "html": "<p>0.0514</p>",
-        "is_correct": false
-      },
-      {
-        "id": "346f3a67d1d74c8fba1b6711bab00dd4_A",
-        "label": "A",
-        "html": "<p>0.0000</p>",
+        "html": "<p>0.0542</p>",
         "is_correct": false
       }
     ],
     "correct_ids": [
-      "346f3a67d1d74c8fba1b6711bab00dd4_D"
+      "346f3a67d1d74c8fba1b6711bab00dd4_B"
     ]
   },
   {
@@ -2530,13 +2962,13 @@
         "id": "1c9610cbed474604b5675b5da4d1cf01_A",
         "label": "A",
         "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "1c9610cbed474604b5675b5da4d1cf01_B",
         "label": "B",
         "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "1c9610cbed474604b5675b5da4d1cf01_C",
@@ -2552,7 +2984,7 @@
       }
     ],
     "correct_ids": [
-      "1c9610cbed474604b5675b5da4d1cf01_A"
+      "1c9610cbed474604b5675b5da4d1cf01_B"
     ]
   },
   {
@@ -2566,7 +2998,7 @@
         "id": "913dbf44ae7a44718a44db24d2ae1f03_A",
         "label": "A",
         "html": "<p>There is enough sample evidence to support the claim.</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "913dbf44ae7a44718a44db24d2ae1f03_B",
@@ -2578,7 +3010,7 @@
         "id": "913dbf44ae7a44718a44db24d2ae1f03_C",
         "label": "C",
         "html": "<p>There is not enough sample evidence to support the claim.</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "913dbf44ae7a44718a44db24d2ae1f03_D",
@@ -2588,7 +3020,7 @@
       }
     ],
     "correct_ids": [
-      "913dbf44ae7a44718a44db24d2ae1f03_A"
+      "913dbf44ae7a44718a44db24d2ae1f03_C"
     ]
   },
   {
@@ -2596,7 +3028,7 @@
     "ident": "adb1b46ed3134ad7aba58d8eb8e688a6",
     "title": "adb1b46ed3134ad7aba58d8eb8e688a6",
     "source": "generated",
-    "prompt_html": "<p>Researchers measured LDL cholesterol before and after participants took a new supplement.</p><p>Test the claim that the mean LDL level after the supplement is less than the mean level before the supplement. Use a 0.05 significance level.</p>Let d = After &minus; Before for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Before</th><th>After</th></tr></thead><tbody><tr><td>152</td><td>143</td></tr><tr><td>168</td><td>160</td></tr><tr><td>139</td><td>133</td></tr><tr><td>176</td><td>167</td></tr><tr><td>161</td><td>154</td></tr><tr><td>148</td><td>141</td></tr><tr><td>170</td><td>162</td></tr><tr><td>157</td><td>149</td></tr><tr><td>164</td><td>157</td></tr><tr><td>150</td><td>143</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>Researchers measured LDL cholesterol before and after participants took a new supplement.</p><p>Test the claim that the mean LDL level after the supplement is less than the mean level before the supplement. Use a 0.05 significance level.</p></p>Let d = Before &minus; After for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Before</th><th>After</th></tr></thead><tbody><tr><td>152</td><td>151</td></tr><tr><td>168</td><td>168</td></tr><tr><td>139</td><td>141</td></tr><tr><td>176</td><td>175</td></tr><tr><td>161</td><td>162</td></tr><tr><td>148</td><td>149</td></tr><tr><td>170</td><td>170</td></tr><tr><td>157</td><td>157</td></tr><tr><td>164</td><td>165</td></tr><tr><td>150</td><td>151</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "adb1b46ed3134ad7aba58d8eb8e688a6_A",
@@ -2614,17 +3046,29 @@
         "id": "adb1b46ed3134ad7aba58d8eb8e688a6_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "adb1b46ed3134ad7aba58d8eb8e688a6_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
-        "is_correct": true
+        "is_correct": false
+      },
+      {
+        "id": "adb1b46ed3134ad7aba58d8eb8e688a6_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "adb1b46ed3134ad7aba58d8eb8e688a6_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "adb1b46ed3134ad7aba58d8eb8e688a6_D"
+      "adb1b46ed3134ad7aba58d8eb8e688a6_C"
     ]
   },
   {
@@ -2657,6 +3101,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "ca193e232b48477abbaba8a0ebdd2022_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "ca193e232b48477abbaba8a0ebdd2022_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -2686,17 +3142,29 @@
         "id": "532e7daced4140d9a9699ac61daba9e8_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "532e7daced4140d9a9699ac61daba9e8_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
-        "is_correct": true
+        "is_correct": false
+      },
+      {
+        "id": "532e7daced4140d9a9699ac61daba9e8_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "532e7daced4140d9a9699ac61daba9e8_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "532e7daced4140d9a9699ac61daba9e8_D"
+      "532e7daced4140d9a9699ac61daba9e8_C"
     ]
   },
   {
@@ -2707,32 +3175,32 @@
     "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
     "choices": [
       {
-        "id": "178bf871d4d940bfbd98b9929c3a5dbc_C",
-        "label": "C",
-        "html": "<p>0.0000</p>",
-        "is_correct": true
+        "id": "178bf871d4d940bfbd98b9929c3a5dbc_A",
+        "label": "A",
+        "html": "<p>0.1114</p>",
+        "is_correct": false
       },
       {
         "id": "178bf871d4d940bfbd98b9929c3a5dbc_B",
         "label": "B",
+        "html": "<p>0.8886</p>",
+        "is_correct": true
+      },
+      {
+        "id": "178bf871d4d940bfbd98b9929c3a5dbc_C",
+        "label": "C",
         "html": "<p>1.0000</p>",
         "is_correct": false
       },
       {
         "id": "178bf871d4d940bfbd98b9929c3a5dbc_D",
         "label": "D",
-        "html": "<p>0.0000</p>",
-        "is_correct": false
-      },
-      {
-        "id": "178bf871d4d940bfbd98b9929c3a5dbc_A",
-        "label": "A",
-        "html": "<p>0.1144</p>",
+        "html": "<p>0.4643</p>",
         "is_correct": false
       }
     ],
     "correct_ids": [
-      "178bf871d4d940bfbd98b9929c3a5dbc_C"
+      "178bf871d4d940bfbd98b9929c3a5dbc_B"
     ]
   },
   {
@@ -2746,13 +3214,13 @@
         "id": "9be5e519b316416d97e2047bd6711526_A",
         "label": "A",
         "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "9be5e519b316416d97e2047bd6711526_B",
         "label": "B",
         "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "9be5e519b316416d97e2047bd6711526_C",
@@ -2768,7 +3236,7 @@
       }
     ],
     "correct_ids": [
-      "9be5e519b316416d97e2047bd6711526_A"
+      "9be5e519b316416d97e2047bd6711526_B"
     ]
   },
   {
@@ -2782,7 +3250,7 @@
         "id": "ce78a59a0e6242438b37e086173f13e7_A",
         "label": "A",
         "html": "<p>There is enough sample evidence to support the claim.</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "ce78a59a0e6242438b37e086173f13e7_B",
@@ -2794,7 +3262,7 @@
         "id": "ce78a59a0e6242438b37e086173f13e7_C",
         "label": "C",
         "html": "<p>There is not enough sample evidence to support the claim.</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "ce78a59a0e6242438b37e086173f13e7_D",
@@ -2804,7 +3272,7 @@
       }
     ],
     "correct_ids": [
-      "ce78a59a0e6242438b37e086173f13e7_A"
+      "ce78a59a0e6242438b37e086173f13e7_C"
     ]
   },
   {
@@ -2812,7 +3280,7 @@
     "ident": "f247eb5e996240c8b9fd964b7f83b478",
     "title": "f247eb5e996240c8b9fd964b7f83b478",
     "source": "generated",
-    "prompt_html": "<p>A sports scientist compared lung capacity before and after a one-mile run.</p><p>Test the claim that the mean lung capacity after the run differs from the mean before the run. Use a 0.05 significance level.</p>Let d = After &minus; Before for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Before</th><th>After</th></tr></thead><tbody><tr><td>4.6</td><td>4.2</td></tr><tr><td>5.0</td><td>4.8</td></tr><tr><td>4.4</td><td>4.1</td></tr><tr><td>4.8</td><td>4.5</td></tr><tr><td>4.9</td><td>4.6</td></tr><tr><td>4.5</td><td>4.2</td></tr><tr><td>5.1</td><td>4.7</td></tr><tr><td>4.7</td><td>4.4</td></tr><tr><td>4.6</td><td>4.3</td></tr><tr><td>4.9</td><td>4.7</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>A sports scientist compared lung capacity before and after a one-mile run.</p><p>Test the claim that the mean lung capacity after the run differs from the mean before the run. Use a 0.05 significance level.</p></p>Let d = Before &minus; After for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Before</th><th>After</th></tr></thead><tbody><tr><td>5</td><td>3</td></tr><tr><td>5</td><td>4</td></tr><tr><td>4</td><td>4</td></tr><tr><td>5</td><td>6</td></tr><tr><td>5</td><td>7</td></tr><tr><td>4</td><td>3</td></tr><tr><td>5</td><td>4</td></tr><tr><td>5</td><td>5</td></tr><tr><td>5</td><td>6</td></tr><tr><td>5</td><td>7</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "f247eb5e996240c8b9fd964b7f83b478_A",
@@ -2836,6 +3304,18 @@
         "id": "f247eb5e996240c8b9fd964b7f83b478_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f247eb5e996240c8b9fd964b7f83b478_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f247eb5e996240c8b9fd964b7f83b478_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
         "is_correct": false
       }
     ],
@@ -2873,6 +3353,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "08112d126290497487f999133eda10c7_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "08112d126290497487f999133eda10c7_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -2909,6 +3401,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "dd881ff52e934e42912a8dfb4b868376_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "dd881ff52e934e42912a8dfb4b868376_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -2923,27 +3427,27 @@
     "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
     "choices": [
       {
-        "id": "93fe1043ebc142b8874b0c637031fe66_D",
-        "label": "D",
-        "html": "<p>0.0747</p>",
+        "id": "93fe1043ebc142b8874b0c637031fe66_A",
+        "label": "A",
+        "html": "<p>0.1773</p>",
         "is_correct": false
       },
       {
         "id": "93fe1043ebc142b8874b0c637031fe66_B",
         "label": "B",
-        "html": "<p>0.0000</p>",
+        "html": "<p>0.8227</p>",
         "is_correct": true
-      },
-      {
-        "id": "93fe1043ebc142b8874b0c637031fe66_A",
-        "label": "A",
-        "html": "<p>1.0000</p>",
-        "is_correct": false
       },
       {
         "id": "93fe1043ebc142b8874b0c637031fe66_C",
         "label": "C",
-        "html": "<p>0.0000</p>",
+        "html": "<p>1.0000</p>",
+        "is_correct": false
+      },
+      {
+        "id": "93fe1043ebc142b8874b0c637031fe66_D",
+        "label": "D",
+        "html": "<p>0.4314</p>",
         "is_correct": false
       }
     ],
@@ -2962,13 +3466,13 @@
         "id": "707eb2c19ee442618bd2c73439dfa5b1_A",
         "label": "A",
         "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "707eb2c19ee442618bd2c73439dfa5b1_B",
         "label": "B",
         "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "707eb2c19ee442618bd2c73439dfa5b1_C",
@@ -2984,7 +3488,7 @@
       }
     ],
     "correct_ids": [
-      "707eb2c19ee442618bd2c73439dfa5b1_A"
+      "707eb2c19ee442618bd2c73439dfa5b1_B"
     ]
   },
   {
@@ -2998,7 +3502,7 @@
         "id": "5afa0399a2204cb4838227e6e91a4e04_A",
         "label": "A",
         "html": "<p>There is enough sample evidence to support the claim.</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "5afa0399a2204cb4838227e6e91a4e04_B",
@@ -3010,7 +3514,7 @@
         "id": "5afa0399a2204cb4838227e6e91a4e04_C",
         "label": "C",
         "html": "<p>There is not enough sample evidence to support the claim.</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "5afa0399a2204cb4838227e6e91a4e04_D",
@@ -3020,7 +3524,7 @@
       }
     ],
     "correct_ids": [
-      "5afa0399a2204cb4838227e6e91a4e04_A"
+      "5afa0399a2204cb4838227e6e91a4e04_C"
     ]
   },
   {
@@ -3028,7 +3532,7 @@
     "ident": "9b5a52fd3b3c4543a58cffc6f0346be2",
     "title": "9b5a52fd3b3c4543a58cffc6f0346be2",
     "source": "generated",
-    "prompt_html": "<p>Biologists measured chlorophyll concentration in paired leaves exposed to sunlight and shade on the same plant.</p><p>Test the claim that the mean chlorophyll concentration in sun-exposed leaves is greater than the mean in shaded leaves. Use a 0.05 significance level.</p>Let d = Shade &minus; Sun for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Sun</th><th>Shade</th></tr></thead><tbody><tr><td>18.1</td><td>15.6</td></tr><tr><td>19.4</td><td>16.3</td></tr><tr><td>17.8</td><td>15.2</td></tr><tr><td>20.0</td><td>17.0</td></tr><tr><td>18.7</td><td>16.1</td></tr><tr><td>19.1</td><td>16.8</td></tr><tr><td>17.9</td><td>15.4</td></tr><tr><td>18.8</td><td>16.6</td></tr><tr><td>19.6</td><td>16.9</td></tr><tr><td>18.4</td><td>15.9</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>Biologists measured chlorophyll concentration in paired leaves exposed to sunlight and shade on the same plant.</p><p>Test the claim that the mean chlorophyll concentration in sun-exposed leaves is greater than the mean in shaded leaves. Use a 0.05 significance level.</p></p>Let d = Sun &minus; Shade for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Sun</th><th>Shade</th></tr></thead><tbody><tr><td>18.1</td><td>17.9</td></tr><tr><td>19.4</td><td>19.0</td></tr><tr><td>17.8</td><td>17.9</td></tr><tr><td>20.0</td><td>19.9</td></tr><tr><td>18.7</td><td>18.9</td></tr><tr><td>19.1</td><td>18.9</td></tr><tr><td>17.9</td><td>17.9</td></tr><tr><td>18.8</td><td>18.9</td></tr><tr><td>19.6</td><td>18.9</td></tr><tr><td>18.4</td><td>17.9</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "9b5a52fd3b3c4543a58cffc6f0346be2_A",
@@ -3046,17 +3550,29 @@
         "id": "9b5a52fd3b3c4543a58cffc6f0346be2_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "9b5a52fd3b3c4543a58cffc6f0346be2_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
-        "is_correct": true
+        "is_correct": false
+      },
+      {
+        "id": "9b5a52fd3b3c4543a58cffc6f0346be2_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9b5a52fd3b3c4543a58cffc6f0346be2_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "9b5a52fd3b3c4543a58cffc6f0346be2_D"
+      "9b5a52fd3b3c4543a58cffc6f0346be2_C"
     ]
   },
   {
@@ -3089,6 +3605,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "be50d6b0e7104c66bc3ffb401f628081_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "be50d6b0e7104c66bc3ffb401f628081_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -3118,17 +3646,29 @@
         "id": "14b9b22f810746299c447e5365282b20_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "14b9b22f810746299c447e5365282b20_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
-        "is_correct": true
+        "is_correct": false
+      },
+      {
+        "id": "14b9b22f810746299c447e5365282b20_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "14b9b22f810746299c447e5365282b20_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "14b9b22f810746299c447e5365282b20_D"
+      "14b9b22f810746299c447e5365282b20_C"
     ]
   },
   {
@@ -3139,32 +3679,32 @@
     "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
     "choices": [
       {
-        "id": "48ddb4a3fd6f4f5bbbd6eb42e9aec435_D",
-        "label": "D",
-        "html": "<p>0.0950</p>",
-        "is_correct": false
-      },
-      {
-        "id": "48ddb4a3fd6f4f5bbbd6eb42e9aec435_C",
-        "label": "C",
-        "html": "<p>0.0000</p>",
-        "is_correct": false
-      },
-      {
         "id": "48ddb4a3fd6f4f5bbbd6eb42e9aec435_A",
         "label": "A",
-        "html": "<p>0.0000</p>",
-        "is_correct": true
+        "html": "<p>0.9512</p>",
+        "is_correct": false
       },
       {
         "id": "48ddb4a3fd6f4f5bbbd6eb42e9aec435_B",
         "label": "B",
-        "html": "<p>1.0000</p>",
+        "html": "<p>0.0488</p>",
+        "is_correct": true
+      },
+      {
+        "id": "48ddb4a3fd6f4f5bbbd6eb42e9aec435_C",
+        "label": "C",
+        "html": "<p>0.0881</p>",
+        "is_correct": false
+      },
+      {
+        "id": "48ddb4a3fd6f4f5bbbd6eb42e9aec435_D",
+        "label": "D",
+        "html": "<p>0.0444</p>",
         "is_correct": false
       }
     ],
     "correct_ids": [
-      "48ddb4a3fd6f4f5bbbd6eb42e9aec435_A"
+      "48ddb4a3fd6f4f5bbbd6eb42e9aec435_B"
     ]
   },
   {
@@ -3244,7 +3784,7 @@
     "ident": "c223a8d2236c46bea27e991283b86e8d",
     "title": "c223a8d2236c46bea27e991283b86e8d",
     "source": "generated",
-    "prompt_html": "<p>Zoologists compared left-leg and right-leg muscle strength in a sample of kangaroos.</p><p>Test the claim that the mean leg muscle strength differs between the left and right legs. Use a 0.05 significance level.</p>Let d = Right Leg &minus; Left Leg for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Left Leg</th><th>Right Leg</th></tr></thead><tbody><tr><td>980</td><td>1005</td></tr><tr><td>995</td><td>990</td></tr><tr><td>1008</td><td>1022</td></tr><tr><td>1015</td><td>1007</td></tr><tr><td>992</td><td>1001</td></tr><tr><td>1003</td><td>998</td></tr><tr><td>1018</td><td>1025</td></tr><tr><td>1007</td><td>1003</td></tr><tr><td>996</td><td>1008</td></tr><tr><td>1009</td><td>1004</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>Zoologists compared left-leg and right-leg muscle strength in a sample of kangaroos.</p><p>Test the claim that the mean leg muscle strength differs between the left and right legs. Use a 0.05 significance level.</p></p>Let d = Left Leg &minus; Right Leg for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Left Leg</th><th>Right Leg</th></tr></thead><tbody><tr><td>980</td><td>1008</td></tr><tr><td>995</td><td>993</td></tr><tr><td>1008</td><td>1025</td></tr><tr><td>1015</td><td>1010</td></tr><tr><td>992</td><td>1004</td></tr><tr><td>1003</td><td>1001</td></tr><tr><td>1018</td><td>1028</td></tr><tr><td>1007</td><td>1006</td></tr><tr><td>996</td><td>1011</td></tr><tr><td>1009</td><td>1007</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "c223a8d2236c46bea27e991283b86e8d_A",
@@ -3268,6 +3808,18 @@
         "id": "c223a8d2236c46bea27e991283b86e8d_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c223a8d2236c46bea27e991283b86e8d_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "c223a8d2236c46bea27e991283b86e8d_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
         "is_correct": false
       }
     ],
@@ -3305,6 +3857,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "4191ef8cf85e49cfab0e64402490926c_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "4191ef8cf85e49cfab0e64402490926c_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -3341,6 +3905,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "fa5001d2d6a046aa9c81713f6413e9d8_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "fa5001d2d6a046aa9c81713f6413e9d8_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -3357,26 +3933,26 @@
       {
         "id": "6a91e72396e7471b95cd96126981c6af_A",
         "label": "A",
-        "html": "<p>0.8600</p>",
-        "is_correct": false
-      },
-      {
-        "id": "6a91e72396e7471b95cd96126981c6af_C",
-        "label": "C",
-        "html": "<p>0.1400</p>",
-        "is_correct": false
-      },
-      {
-        "id": "6a91e72396e7471b95cd96126981c6af_D",
-        "label": "D",
-        "html": "<p>0.1222</p>",
+        "html": "<p>0.9248</p>",
         "is_correct": false
       },
       {
         "id": "6a91e72396e7471b95cd96126981c6af_B",
         "label": "B",
-        "html": "<p>0.2800</p>",
+        "html": "<p>0.0752</p>",
         "is_correct": true
+      },
+      {
+        "id": "6a91e72396e7471b95cd96126981c6af_C",
+        "label": "C",
+        "html": "<p>0.1303</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6a91e72396e7471b95cd96126981c6af_D",
+        "label": "D",
+        "html": "<p>0.0576</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -3460,19 +4036,19 @@
     "ident": "3dee01ed175d4f24a6f2c42e47a192f0",
     "title": "3dee01ed175d4f24a6f2c42e47a192f0",
     "source": "generated",
-    "prompt_html": "<p>Environmental scientists measured pH at two locations within the same pond—near the inlet and near the outlet.</p><p>Test the claim that the mean pH at the inlet equals the mean pH at the outlet. Use a 0.01 significance level.</p>Let d = Outlet pH &minus; Inlet pH for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Inlet pH</th><th>Outlet pH</th></tr></thead><tbody><tr><td>7.18</td><td>7.21</td></tr><tr><td>7.25</td><td>7.23</td></tr><tr><td>7.12</td><td>7.14</td></tr><tr><td>7.2</td><td>7.19</td></tr><tr><td>7.27</td><td>7.26</td></tr><tr><td>7.22</td><td>7.21</td></tr><tr><td>7.16</td><td>7.18</td></tr><tr><td>7.24</td><td>7.23</td></tr><tr><td>7.19</td><td>7.2</td></tr><tr><td>7.21</td><td>7.22</td></tr><tr><td>7.15</td><td>7.16</td></tr><tr><td>7.23</td><td>7.21</td></tr><tr><td>7.26</td><td>7.27</td></tr><tr><td>7.18</td><td>7.19</td></tr><tr><td>7.17</td><td>7.18</td></tr><tr><td>7.22</td><td>7.23</td></tr><tr><td>7.2</td><td>7.2</td></tr><tr><td>7.25</td><td>7.24</td></tr><tr><td>7.14</td><td>7.15</td></tr><tr><td>7.23</td><td>7.22</td></tr><tr><td>7.19</td><td>7.19</td></tr><tr><td>7.16</td><td>7.17</td></tr><tr><td>7.24</td><td>7.25</td></tr><tr><td>7.21</td><td>7.2</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>Environmental scientists measured pH at two locations within the same pond—near the inlet and near the outlet.</p><p>Test the claim that the mean pH at the inlet equals the mean pH at the outlet. Use a 0.01 significance level.</p></p>Let d = Inlet pH &minus; Outlet pH for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Inlet pH</th><th>Outlet pH</th></tr></thead><tbody><tr><td>7.3</td><td>6.7</td></tr><tr><td>7.1</td><td>6.8</td></tr><tr><td>7.3</td><td>6.9</td></tr><tr><td>7.3</td><td>7.0</td></tr><tr><td>7.1</td><td>7.0</td></tr><tr><td>7.4</td><td>7.1</td></tr><tr><td>7.3</td><td>7.2</td></tr><tr><td>7.2</td><td>7.2</td></tr><tr><td>7.2</td><td>7.3</td></tr><tr><td>7.2</td><td>7.4</td></tr><tr><td>7.2</td><td>7.5</td></tr><tr><td>7.2</td><td>7.6</td></tr><tr><td>7.2</td><td>7.7</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "3dee01ed175d4f24a6f2c42e47a192f0_A",
         "label": "A",
         "html": "<p>&mu;<sub>d</sub> = 0</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "3dee01ed175d4f24a6f2c42e47a192f0_B",
         "label": "B",
         "html": "<p>&mu;<sub>d</sub> &ne; 0</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "3dee01ed175d4f24a6f2c42e47a192f0_C",
@@ -3485,10 +4061,22 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "3dee01ed175d4f24a6f2c42e47a192f0_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "3dee01ed175d4f24a6f2c42e47a192f0_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "3dee01ed175d4f24a6f2c42e47a192f0_B"
+      "3dee01ed175d4f24a6f2c42e47a192f0_A"
     ]
   },
   {
@@ -3520,6 +4108,18 @@
         "id": "88897f45818940e7bb9011ab26d5617b_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "88897f45818940e7bb9011ab26d5617b_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "88897f45818940e7bb9011ab26d5617b_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
         "is_correct": false
       }
     ],
@@ -3557,6 +4157,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "814b113ea3fc47c0a3201646a71af71b_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "814b113ea3fc47c0a3201646a71af71b_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -3571,32 +4183,32 @@
     "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
     "choices": [
       {
-        "id": "4fad3679eb884efc99470d5308d413c5_C",
-        "label": "C",
-        "html": "<p>0.0267</p>",
+        "id": "4fad3679eb884efc99470d5308d413c5_A",
+        "label": "A",
+        "html": "<p>0.3735</p>",
         "is_correct": false
       },
       {
         "id": "4fad3679eb884efc99470d5308d413c5_B",
         "label": "B",
-        "html": "<p>0.8172</p>",
+        "html": "<p>0.6265</p>",
+        "is_correct": true
+      },
+      {
+        "id": "4fad3679eb884efc99470d5308d413c5_C",
+        "label": "C",
+        "html": "<p>1.0000</p>",
         "is_correct": false
       },
       {
         "id": "4fad3679eb884efc99470d5308d413c5_D",
         "label": "D",
-        "html": "<p>0.1828</p>",
+        "html": "<p>0.3332</p>",
         "is_correct": false
-      },
-      {
-        "id": "4fad3679eb884efc99470d5308d413c5_A",
-        "label": "A",
-        "html": "<p>0.3656</p>",
-        "is_correct": true
       }
     ],
     "correct_ids": [
-      "4fad3679eb884efc99470d5308d413c5_A"
+      "4fad3679eb884efc99470d5308d413c5_B"
     ]
   },
   {
@@ -3658,17 +4270,17 @@
         "id": "58ef170ccdb647d0aa9b3db73096e8ab_C",
         "label": "C",
         "html": "<p>There is not enough sample evidence to support the claim.</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "58ef170ccdb647d0aa9b3db73096e8ab_D",
         "label": "D",
         "html": "<p>There is not enough sample evidence to reject the claim.</p>",
-        "is_correct": false
+        "is_correct": true
       }
     ],
     "correct_ids": [
-      "58ef170ccdb647d0aa9b3db73096e8ab_C"
+      "58ef170ccdb647d0aa9b3db73096e8ab_D"
     ]
   },
   {
@@ -3676,7 +4288,7 @@
     "ident": "f243813a0fca4ea895c61c27eb0defe0",
     "title": "f243813a0fca4ea895c61c27eb0defe0",
     "source": "generated",
-    "prompt_html": "<p>Marine biologists weighed shellfish before and after an eight-week feeding trial.</p><p>Test the claim that the mean weight gain after the feeding period is greater than zero. Use a 0.05 significance level.</p>Let d = After &minus; Before for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Before</th><th>After</th></tr></thead><tbody><tr><td>142</td><td>156</td></tr><tr><td>135</td><td>148</td></tr><tr><td>151</td><td>164</td></tr><tr><td>138</td><td>150</td></tr><tr><td>147</td><td>160</td></tr><tr><td>140</td><td>151</td></tr><tr><td>153</td><td>166</td></tr><tr><td>149</td><td>161</td></tr><tr><td>145</td><td>158</td></tr><tr><td>150</td><td>162</td></tr><tr><td>137</td><td>149</td></tr><tr><td>148</td><td>160</td></tr><tr><td>141</td><td>153</td></tr><tr><td>152</td><td>165</td></tr><tr><td>139</td><td>150</td></tr><tr><td>146</td><td>158</td></tr><tr><td>144</td><td>156</td></tr><tr><td>151</td><td>163</td></tr><tr><td>143</td><td>155</td></tr><tr><td>147</td><td>159</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>Marine biologists weighed shellfish before and after an eight-week feeding trial.</p><p>Test the claim that the mean Before is less than the mean After. Use a 0.05 significance level.</p></p>Let d = Before &minus; After for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Before</th><th>After</th></tr></thead><tbody><tr><td>142</td><td>144</td></tr><tr><td>151</td><td>152</td></tr><tr><td>138</td><td>138</td></tr><tr><td>140</td><td>139</td></tr><tr><td>153</td><td>154</td></tr><tr><td>145</td><td>146</td></tr><tr><td>137</td><td>137</td></tr><tr><td>148</td><td>148</td></tr><tr><td>152</td><td>153</td></tr><tr><td>139</td><td>138</td></tr><tr><td>144</td><td>144</td></tr><tr><td>151</td><td>151</td></tr><tr><td>147</td><td>147</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "f243813a0fca4ea895c61c27eb0defe0_A",
@@ -3694,17 +4306,29 @@
         "id": "f243813a0fca4ea895c61c27eb0defe0_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "f243813a0fca4ea895c61c27eb0defe0_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
+        "is_correct": true
+      },
+      {
+        "id": "f243813a0fca4ea895c61c27eb0defe0_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "f243813a0fca4ea895c61c27eb0defe0_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
         "is_correct": false
       }
     ],
     "correct_ids": [
-      "f243813a0fca4ea895c61c27eb0defe0_C"
+      "f243813a0fca4ea895c61c27eb0defe0_D"
     ]
   },
   {
@@ -3737,6 +4361,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "fabed83f5e4e43de999cd1f5a30dba0c_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "fabed83f5e4e43de999cd1f5a30dba0c_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -3766,17 +4402,29 @@
         "id": "46a1da39da274f23acc96b18acbac69a_C",
         "label": "C",
         "html": "<p>&mu;<sub>d</sub> &gt; 0</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "46a1da39da274f23acc96b18acbac69a_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
+        "is_correct": true
+      },
+      {
+        "id": "46a1da39da274f23acc96b18acbac69a_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "46a1da39da274f23acc96b18acbac69a_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
         "is_correct": false
       }
     ],
     "correct_ids": [
-      "46a1da39da274f23acc96b18acbac69a_C"
+      "46a1da39da274f23acc96b18acbac69a_D"
     ]
   },
   {
@@ -3787,32 +4435,32 @@
     "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
     "choices": [
       {
-        "id": "ebc7ff6ced6546d0b82b3f3f1b5d5d06_C",
-        "label": "C",
-        "html": "<p>1.0000</p>",
-        "is_correct": false
-      },
-      {
         "id": "ebc7ff6ced6546d0b82b3f3f1b5d5d06_A",
         "label": "A",
-        "html": "<p>0.0000</p>",
+        "html": "<p>0.8906</p>",
         "is_correct": false
       },
       {
         "id": "ebc7ff6ced6546d0b82b3f3f1b5d5d06_B",
         "label": "B",
-        "html": "<p>0.1113</p>",
+        "html": "<p>0.1094</p>",
+        "is_correct": true
+      },
+      {
+        "id": "ebc7ff6ced6546d0b82b3f3f1b5d5d06_C",
+        "label": "C",
+        "html": "<p>0.1850</p>",
         "is_correct": false
       },
       {
         "id": "ebc7ff6ced6546d0b82b3f3f1b5d5d06_D",
         "label": "D",
-        "html": "<p>0.0000</p>",
-        "is_correct": true
+        "html": "<p>0.0747</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "ebc7ff6ced6546d0b82b3f3f1b5d5d06_D"
+      "ebc7ff6ced6546d0b82b3f3f1b5d5d06_B"
     ]
   },
   {
@@ -3826,13 +4474,13 @@
         "id": "524542c5d19f4cc2b412e9becd16f622_A",
         "label": "A",
         "html": "<p>Reject H<sub>0</sub> and support H<sub>1</sub>.</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "524542c5d19f4cc2b412e9becd16f622_B",
         "label": "B",
         "html": "<p>Do not reject H<sub>0</sub> and do not support H<sub>1</sub>.</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "524542c5d19f4cc2b412e9becd16f622_C",
@@ -3848,7 +4496,7 @@
       }
     ],
     "correct_ids": [
-      "524542c5d19f4cc2b412e9becd16f622_A"
+      "524542c5d19f4cc2b412e9becd16f622_B"
     ]
   },
   {
@@ -3862,7 +4510,7 @@
         "id": "5dacb4483d384afbbd2c018a146cfe2b_A",
         "label": "A",
         "html": "<p>There is enough sample evidence to support the claim.</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "5dacb4483d384afbbd2c018a146cfe2b_B",
@@ -3874,7 +4522,7 @@
         "id": "5dacb4483d384afbbd2c018a146cfe2b_C",
         "label": "C",
         "html": "<p>There is not enough sample evidence to support the claim.</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "5dacb4483d384afbbd2c018a146cfe2b_D",
@@ -3884,7 +4532,7 @@
       }
     ],
     "correct_ids": [
-      "5dacb4483d384afbbd2c018a146cfe2b_A"
+      "5dacb4483d384afbbd2c018a146cfe2b_C"
     ]
   },
   {
@@ -3892,7 +4540,7 @@
     "ident": "6b939931e074421d98705432d1938a5a",
     "title": "6b939931e074421d98705432d1938a5a",
     "source": "generated",
-    "prompt_html": "<p>Geneticists recorded enzyme activity in each of a pair of identical twins.</p><p>Test the claim that the mean enzyme activity differs between Twin A and Twin B. Use a 0.01 significance level.</p>Let d = Twin B &minus; Twin A for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Twin A</th><th>Twin B</th></tr></thead><tbody><tr><td>84</td><td>81</td></tr><tr><td>79</td><td>83</td></tr><tr><td>88</td><td>86</td></tr><tr><td>82</td><td>80</td></tr><tr><td>91</td><td>89</td></tr><tr><td>85</td><td>87</td></tr><tr><td>90</td><td>88</td></tr><tr><td>86</td><td>84</td></tr><tr><td>83</td><td>85</td></tr><tr><td>89</td><td>87</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>Geneticists recorded enzyme activity in each of a pair of identical twins.</p><p>Test the claim that the mean enzyme activity differs between Twin A and Twin B. Use a 0.01 significance level.</p></p>Let d = Twin A &minus; Twin B for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Twin A</th><th>Twin B</th></tr></thead><tbody><tr><td>84</td><td>83</td></tr><tr><td>79</td><td>85</td></tr><tr><td>88</td><td>88</td></tr><tr><td>82</td><td>82</td></tr><tr><td>91</td><td>91</td></tr><tr><td>85</td><td>89</td></tr><tr><td>90</td><td>90</td></tr><tr><td>86</td><td>86</td></tr><tr><td>83</td><td>87</td></tr><tr><td>89</td><td>89</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "6b939931e074421d98705432d1938a5a_A",
@@ -3916,6 +4564,18 @@
         "id": "6b939931e074421d98705432d1938a5a_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6b939931e074421d98705432d1938a5a_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6b939931e074421d98705432d1938a5a_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
         "is_correct": false
       }
     ],
@@ -3953,6 +4613,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "6c3dde87c4c9409bb77652d7a34d53cb_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "6c3dde87c4c9409bb77652d7a34d53cb_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -3989,6 +4661,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "b836271bf3af4a3489bb9edee0189e13_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b836271bf3af4a3489bb9edee0189e13_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -4003,32 +4687,32 @@
     "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
     "choices": [
       {
-        "id": "cbc7f9359bc4459184e0ffb7dc34ffe8_D",
-        "label": "D",
-        "html": "<p>0.3816</p>",
-        "is_correct": true
-      },
-      {
-        "id": "cbc7f9359bc4459184e0ffb7dc34ffe8_C",
-        "label": "C",
-        "html": "<p>0.8092</p>",
+        "id": "cbc7f9359bc4459184e0ffb7dc34ffe8_A",
+        "label": "A",
+        "html": "<p>0.8783</p>",
         "is_correct": false
       },
       {
         "id": "cbc7f9359bc4459184e0ffb7dc34ffe8_B",
         "label": "B",
-        "html": "<p>0.0997</p>",
+        "html": "<p>0.1217</p>",
+        "is_correct": true
+      },
+      {
+        "id": "cbc7f9359bc4459184e0ffb7dc34ffe8_C",
+        "label": "C",
+        "html": "<p>0.2047</p>",
         "is_correct": false
       },
       {
-        "id": "cbc7f9359bc4459184e0ffb7dc34ffe8_A",
-        "label": "A",
-        "html": "<p>0.1908</p>",
+        "id": "cbc7f9359bc4459184e0ffb7dc34ffe8_D",
+        "label": "D",
+        "html": "<p>0.0809</p>",
         "is_correct": false
       }
     ],
     "correct_ids": [
-      "cbc7f9359bc4459184e0ffb7dc34ffe8_D"
+      "cbc7f9359bc4459184e0ffb7dc34ffe8_B"
     ]
   },
   {
@@ -4108,19 +4792,19 @@
     "ident": "7b9831896da646b1bc8d322b85b8b1f7",
     "title": "7b9831896da646b1bc8d322b85b8b1f7",
     "source": "generated",
-    "prompt_html": "<p>Ecologists measured soil nitrogen at the base and at the midpoint of the same tree trunk.</p><p>Test the claim that the mean soil nitrogen concentration at the base equals the mean at the midpoint. Use a 0.05 significance level.</p>Let d = Midpoint &minus; Base for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.</p><table><thead><tr><th>Base</th><th>Midpoint</th></tr></thead><tbody><tr><td>18.9</td><td>19.0</td></tr><tr><td>20.1</td><td>20.2</td></tr><tr><td>17.8</td><td>17.7</td></tr><tr><td>19.5</td><td>19.6</td></tr><tr><td>18.3</td><td>18.4</td></tr><tr><td>19.2</td><td>19.1</td></tr><tr><td>20.0</td><td>20.1</td></tr><tr><td>18.7</td><td>18.8</td></tr><tr><td>19.6</td><td>19.5</td></tr><tr><td>18.4</td><td>18.5</td></tr><tr><td>19.0</td><td>19.1</td></tr><tr><td>18.8</td><td>18.9</td></tr><tr><td>19.7</td><td>19.6</td></tr><tr><td>18.5</td><td>18.6</td></tr><tr><td>19.3</td><td>19.2</td></tr><tr><td>18.6</td><td>18.7</td></tr><tr><td>19.1</td><td>19.0</td></tr><tr><td>18.9</td><td>18.8</td></tr><tr><td>19.4</td><td>19.5</td></tr><tr><td>18.7</td><td>18.6</td></tr><tr><td>19.2</td><td>19.3</td></tr><tr><td>18.5</td><td>18.6</td></tr><tr><td>19.6</td><td>19.6</td></tr><tr><td>18.8</td><td>18.9</td></tr></tbody></table><p>State the claim in symbols.</p>",
+    "prompt_html": "<p>Ecologists measured soil nitrogen at the base and at the midpoint of the same tree trunk.</p><p>Test the claim that the mean soil nitrogen concentration at the base equals the mean at the midpoint. Use a 0.05 significance level.</p></p>Let d = Base &minus; Midpoint for each pair, and let &mu;<sub>d</sub> be the population mean of these paired differences.\n<table><thead><tr><th>Base</th><th>Midpoint</th></tr></thead><tbody><tr><td>18.9</td><td>19.0</td></tr><tr><td>17.8</td><td>17.7</td></tr><tr><td>18.3</td><td>18.4</td></tr><tr><td>20.0</td><td>20.1</td></tr><tr><td>19.6</td><td>19.5</td></tr><tr><td>19.0</td><td>19.1</td></tr><tr><td>19.7</td><td>19.6</td></tr><tr><td>18.5</td><td>18.6</td></tr><tr><td>18.6</td><td>18.7</td></tr><tr><td>18.9</td><td>18.8</td></tr><tr><td>18.7</td><td>18.6</td></tr><tr><td>18.5</td><td>18.6</td></tr><tr><td>18.8</td><td>18.9</td></tr></tbody></table><p>State the claim in symbols.</p>",
     "choices": [
       {
         "id": "7b9831896da646b1bc8d322b85b8b1f7_A",
         "label": "A",
         "html": "<p>&mu;<sub>d</sub> = 0</p>",
-        "is_correct": false
+        "is_correct": true
       },
       {
         "id": "7b9831896da646b1bc8d322b85b8b1f7_B",
         "label": "B",
         "html": "<p>&mu;<sub>d</sub> &ne; 0</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "7b9831896da646b1bc8d322b85b8b1f7_C",
@@ -4133,10 +4817,22 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "7b9831896da646b1bc8d322b85b8b1f7_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "7b9831896da646b1bc8d322b85b8b1f7_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
-      "7b9831896da646b1bc8d322b85b8b1f7_B"
+      "7b9831896da646b1bc8d322b85b8b1f7_A"
     ]
   },
   {
@@ -4168,6 +4864,18 @@
         "id": "9875da7ba49b4ddfa239262c04d75769_D",
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9875da7ba49b4ddfa239262c04d75769_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "9875da7ba49b4ddfa239262c04d75769_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
         "is_correct": false
       }
     ],
@@ -4205,6 +4913,18 @@
         "label": "D",
         "html": "<p>&mu;<sub>d</sub> &lt; 0</p>",
         "is_correct": false
+      },
+      {
+        "id": "21d70fb72a7f4bf19d9dd1a2231e0f4e_E",
+        "label": "E",
+        "html": "<p>&mu;<sub>d</sub> &ge; 0</p>",
+        "is_correct": false
+      },
+      {
+        "id": "21d70fb72a7f4bf19d9dd1a2231e0f4e_F",
+        "label": "F",
+        "html": "<p>&mu;<sub>d</sub> &le; 0</p>",
+        "is_correct": false
       }
     ],
     "correct_ids": [
@@ -4219,27 +4939,27 @@
     "prompt_html": "<p>What is the P-value? (Round to four decimal places.)</p>",
     "choices": [
       {
-        "id": "b465fee635154d31a3c26020b43daa23_D",
-        "label": "D",
-        "html": "<p>0.1167</p>",
+        "id": "b465fee635154d31a3c26020b43daa23_A",
+        "label": "A",
+        "html": "<p>0.5727</p>",
         "is_correct": false
       },
       {
         "id": "b465fee635154d31a3c26020b43daa23_B",
         "label": "B",
-        "html": "<p>0.1480</p>",
+        "html": "<p>0.4273</p>",
         "is_correct": true
-      },
-      {
-        "id": "b465fee635154d31a3c26020b43daa23_A",
-        "label": "A",
-        "html": "<p>0.9260</p>",
-        "is_correct": false
       },
       {
         "id": "b465fee635154d31a3c26020b43daa23_C",
         "label": "C",
-        "html": "<p>0.0740</p>",
+        "html": "<p>0.6937</p>",
+        "is_correct": false
+      },
+      {
+        "id": "b465fee635154d31a3c26020b43daa23_D",
+        "label": "D",
+        "html": "<p>0.2336</p>",
         "is_correct": false
       }
     ],
@@ -4306,17 +5026,17 @@
         "id": "7f223905ffa8438690c2d0b56d72a19e_C",
         "label": "C",
         "html": "<p>There is not enough sample evidence to support the claim.</p>",
-        "is_correct": true
+        "is_correct": false
       },
       {
         "id": "7f223905ffa8438690c2d0b56d72a19e_D",
         "label": "D",
         "html": "<p>There is not enough sample evidence to reject the claim.</p>",
-        "is_correct": false
+        "is_correct": true
       }
     ],
     "correct_ids": [
-      "7f223905ffa8438690c2d0b56d72a19e_C"
+      "7f223905ffa8438690c2d0b56d72a19e_D"
     ]
   }
 ]
