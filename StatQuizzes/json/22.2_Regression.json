@@ -1,0 +1,722 @@
+[
+  {
+    "index": 1,
+    "ident": "regrU_01_y_from_x",
+    "title": "Regression (units) 01",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>enzyme concentration (µmol/L)</em> and <em>reaction rate (µmol/min)</em>. Use a regression line based on the data below to approximate the value of <em>reaction rate (µmol/min)</em> which corresponds to <em>enzyme concentration (µmol/L)</em> = <strong>4.5 µmol/L</strong>.</p><table><thead><tr><th>enzyme concentration (µmol/L)</th><th>reaction rate (µmol/min)</th></tr></thead><tbody><tr><td>1</td><td>-0.200</td></tr><tr><td>2</td><td>17.10</td></tr><tr><td>3</td><td>19.20</td></tr><tr><td>4</td><td>27.50</td></tr><tr><td>5</td><td>28.50</td></tr><tr><td>6</td><td>26.70</td></tr><tr><td>7</td><td>36.20</td></tr><tr><td>8</td><td>31.50</td></tr><tr><td>9</td><td>42.20</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_01_y_from_x_D",
+        "label": "D",
+        "html": "<p>21.11 µmol/min</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_01_y_from_x_C",
+        "label": "C",
+        "html": "<p>25.70 µmol/min</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_01_y_from_x_A",
+        "label": "A",
+        "html": "<p>23.36 µmol/min</p>",
+        "is_correct": true
+      },
+      {
+        "id": "regrU_01_y_from_x_B",
+        "label": "B",
+        "html": "<p>22.94 µmol/min</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "regrU_01_y_from_x_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "regrU_01_x_from_y",
+    "title": "Regression (units) 01",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>enzyme concentration (µmol/L)</em> and <em>reaction rate (µmol/min)</em>. Use a regression line based on the data below to approximate the value of <em>enzyme concentration (µmol/L)</em> which corresponds to <em>reaction rate (µmol/min)</em> = <strong>27.10 µmol/min</strong>.</p><table><thead><tr><th>enzyme concentration (µmol/L)</th><th>reaction rate (µmol/min)</th></tr></thead><tbody><tr><td>1</td><td>-0.200</td></tr><tr><td>2</td><td>17.10</td></tr><tr><td>3</td><td>19.20</td></tr><tr><td>4</td><td>27.50</td></tr><tr><td>5</td><td>28.50</td></tr><tr><td>6</td><td>26.70</td></tr><tr><td>7</td><td>36.20</td></tr><tr><td>8</td><td>31.50</td></tr><tr><td>9</td><td>42.20</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_01_x_from_y_D",
+        "label": "D",
+        "html": "<p>5.8 µmol/L</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_01_x_from_y_B",
+        "label": "B",
+        "html": "<p>5.4 µmol/L</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_01_x_from_y_C",
+        "label": "C",
+        "html": "<p>4.8 µmol/L</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_01_x_from_y_A",
+        "label": "A",
+        "html": "<p>5.3 µmol/L</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "regrU_01_x_from_y_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "regrU_02_y_from_x",
+    "title": "Regression (units) 02",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>ambient temperature (°c)</em> and <em>heart rate (beats/min)</em>. Use a regression line based on the data below to approximate the value of <em>heart rate (beats/min)</em> which corresponds to <em>ambient temperature (°c)</em> = <strong>27.5 °c</strong>.</p><table><thead><tr><th>ambient temperature (°c)</th><th>heart rate (beats/min)</th></tr></thead><tbody><tr><td>10</td><td>14.20</td></tr><tr><td>15</td><td>22.70</td></tr><tr><td>20</td><td>37</td></tr><tr><td>25</td><td>27.20</td></tr><tr><td>30</td><td>31.80</td></tr><tr><td>35</td><td>35.50</td></tr><tr><td>40</td><td>36</td></tr><tr><td>45</td><td>43.40</td></tr><tr><td>50</td><td>58.70</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_02_y_from_x_C",
+        "label": "C",
+        "html": "<p>35.20 beats/min</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_02_y_from_x_A",
+        "label": "A",
+        "html": "<p>32.00 beats/min</p>",
+        "is_correct": true
+      },
+      {
+        "id": "regrU_02_y_from_x_B",
+        "label": "B",
+        "html": "<p>31.45 beats/min</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_02_y_from_x_D",
+        "label": "D",
+        "html": "<p>28.93 beats/min</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "regrU_02_y_from_x_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "regrU_02_x_from_y",
+    "title": "Regression (units) 02",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>ambient temperature (°c)</em> and <em>heart rate (beats/min)</em>. Use a regression line based on the data below to approximate the value of <em>ambient temperature (°c)</em> which corresponds to <em>heart rate (beats/min)</em> = <strong>33.65 beats/min</strong>.</p><table><thead><tr><th>ambient temperature (°c)</th><th>heart rate (beats/min)</th></tr></thead><tbody><tr><td>10</td><td>14.20</td></tr><tr><td>15</td><td>22.70</td></tr><tr><td>20</td><td>37</td></tr><tr><td>25</td><td>27.20</td></tr><tr><td>30</td><td>31.80</td></tr><tr><td>35</td><td>35.50</td></tr><tr><td>40</td><td>36</td></tr><tr><td>45</td><td>43.40</td></tr><tr><td>50</td><td>58.70</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_02_x_from_y_D",
+        "label": "D",
+        "html": "<p>31.9 °c</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_02_x_from_y_B",
+        "label": "B",
+        "html": "<p>29.5 °c</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_02_x_from_y_A",
+        "label": "A",
+        "html": "<p>29.6 °c</p>",
+        "is_correct": true
+      },
+      {
+        "id": "regrU_02_x_from_y_C",
+        "label": "C",
+        "html": "<p>26.6 °c</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "regrU_02_x_from_y_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "regrU_03_y_from_x",
+    "title": "Regression (units) 03",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>chlorophyll concentration (mg/L)</em> and <em>absorbance (a.u.)</em>. Use a regression line based on the data below to approximate the value of <em>absorbance (a.u.)</em> which corresponds to <em>chlorophyll concentration (mg/L)</em> = <strong>0.450 mg/L</strong>.</p><table><thead><tr><th>chlorophyll concentration (mg/L)</th><th>absorbance (a.u.)</th></tr></thead><tbody><tr><td>0.10</td><td>-0.060</td></tr><tr><td>0.20</td><td>0.210</td></tr><tr><td>0.30</td><td>0.200</td></tr><tr><td>0.40</td><td>0.320</td></tr><tr><td>0.50</td><td>0.180</td></tr><tr><td>0.60</td><td>0.330</td></tr><tr><td>0.70</td><td>0.370</td></tr><tr><td>0.80</td><td>0.410</td></tr><tr><td>0.90</td><td>0.460</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_03_y_from_x_B",
+        "label": "B",
+        "html": "<p>0.236 a.u.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_03_y_from_x_A",
+        "label": "A",
+        "html": "<p>0.244 a.u.</p>",
+        "is_correct": true
+      },
+      {
+        "id": "regrU_03_y_from_x_C",
+        "label": "C",
+        "html": "<p>0.268 a.u.</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_03_y_from_x_D",
+        "label": "D",
+        "html": "<p>0.217 a.u.</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "regrU_03_y_from_x_A"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "regrU_03_x_from_y",
+    "title": "Regression (units) 03",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>chlorophyll concentration (mg/L)</em> and <em>absorbance (a.u.)</em>. Use a regression line based on the data below to approximate the value of <em>chlorophyll concentration (mg/L)</em> which corresponds to <em>absorbance (a.u.)</em> = <strong>0.265 a.u.</strong>.</p><table><thead><tr><th>chlorophyll concentration (mg/L)</th><th>absorbance (a.u.)</th></tr></thead><tbody><tr><td>0.10</td><td>-0.060</td></tr><tr><td>0.20</td><td>0.210</td></tr><tr><td>0.30</td><td>0.200</td></tr><tr><td>0.40</td><td>0.320</td></tr><tr><td>0.50</td><td>0.180</td></tr><tr><td>0.60</td><td>0.330</td></tr><tr><td>0.70</td><td>0.370</td></tr><tr><td>0.80</td><td>0.410</td></tr><tr><td>0.90</td><td>0.460</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_03_x_from_y_D",
+        "label": "D",
+        "html": "<p>0.532 mg/L</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_03_x_from_y_B",
+        "label": "B",
+        "html": "<p>0.492 mg/L</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_03_x_from_y_A",
+        "label": "A",
+        "html": "<p>0.494 mg/L</p>",
+        "is_correct": true
+      },
+      {
+        "id": "regrU_03_x_from_y_C",
+        "label": "C",
+        "html": "<p>0.445 mg/L</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "regrU_03_x_from_y_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "regrU_04_y_from_x",
+    "title": "Regression (units) 04",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>growth hormone (ng/mL)</em> and <em>growth rate (cm/month)</em>. Use a regression line based on the data below to approximate the value of <em>growth rate (cm/month)</em> which corresponds to <em>growth hormone (ng/mL)</em> = <strong>4.5 ng/mL</strong>.</p><table><thead><tr><th>growth hormone (ng/mL)</th><th>growth rate (cm/month)</th></tr></thead><tbody><tr><td>1</td><td>0.200</td></tr><tr><td>2</td><td>2.40</td></tr><tr><td>3</td><td>3.30</td></tr><tr><td>4</td><td>2.90</td></tr><tr><td>5</td><td>3.60</td></tr><tr><td>6</td><td>6.10</td></tr><tr><td>7</td><td>5.20</td></tr><tr><td>8</td><td>5.50</td></tr><tr><td>9</td><td>6.10</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_04_y_from_x_A",
+        "label": "A",
+        "html": "<p>3.59 cm/month</p>",
+        "is_correct": true
+      },
+      {
+        "id": "regrU_04_y_from_x_B",
+        "label": "B",
+        "html": "<p>3.53 cm/month</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_04_y_from_x_C",
+        "label": "C",
+        "html": "<p>3.95 cm/month</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_04_y_from_x_D",
+        "label": "D",
+        "html": "<p>3.25 cm/month</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "regrU_04_y_from_x_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "regrU_04_x_from_y",
+    "title": "Regression (units) 04",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>growth hormone (ng/mL)</em> and <em>growth rate (cm/month)</em>. Use a regression line based on the data below to approximate the value of <em>growth hormone (ng/mL)</em> which corresponds to <em>growth rate (cm/month)</em> = <strong>3.45 cm/month</strong>.</p><table><thead><tr><th>growth hormone (ng/mL)</th><th>growth rate (cm/month)</th></tr></thead><tbody><tr><td>1</td><td>0.200</td></tr><tr><td>2</td><td>2.40</td></tr><tr><td>3</td><td>3.30</td></tr><tr><td>4</td><td>2.90</td></tr><tr><td>5</td><td>3.60</td></tr><tr><td>6</td><td>6.10</td></tr><tr><td>7</td><td>5.20</td></tr><tr><td>8</td><td>5.50</td></tr><tr><td>9</td><td>6.10</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_04_x_from_y_D",
+        "label": "D",
+        "html": "<p>4.6 ng/mL</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_04_x_from_y_C",
+        "label": "C",
+        "html": "<p>4.0 ng/mL</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_04_x_from_y_A",
+        "label": "A",
+        "html": "<p>4.4 ng/mL</p>",
+        "is_correct": true
+      },
+      {
+        "id": "regrU_04_x_from_y_B",
+        "label": "B",
+        "html": "<p>4.3 ng/mL</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "regrU_04_x_from_y_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "regrU_05_y_from_x",
+    "title": "Regression (units) 05",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>age (years)</em> and <em>systolic blood pressure (mmHg)</em>. Use a regression line based on the data below to approximate the value of <em>systolic blood pressure (mmHg)</em> which corresponds to <em>age (years)</em> = <strong>47.5 years</strong>.</p><table><thead><tr><th>age (years)</th><th>systolic blood pressure (mmHg)</th></tr></thead><tbody><tr><td>30</td><td>122.30</td></tr><tr><td>35</td><td>111.40</td></tr><tr><td>40</td><td>118</td></tr><tr><td>45</td><td>126.70</td></tr><tr><td>50</td><td>121.80</td></tr><tr><td>55</td><td>125</td></tr><tr><td>60</td><td>130.10</td></tr><tr><td>65</td><td>135.10</td></tr><tr><td>70</td><td>133.60</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_05_y_from_x_A",
+        "label": "A",
+        "html": "<p>123.73 mmHg</p>",
+        "is_correct": true
+      },
+      {
+        "id": "regrU_05_y_from_x_C",
+        "label": "C",
+        "html": "<p>136.11 mmHg</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_05_y_from_x_B",
+        "label": "B",
+        "html": "<p>123.25 mmHg</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_05_y_from_x_D",
+        "label": "D",
+        "html": "<p>113.39 mmHg</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "regrU_05_y_from_x_A"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "regrU_05_x_from_y",
+    "title": "Regression (units) 05",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>age (years)</em> and <em>systolic blood pressure (mmHg)</em>. Use a regression line based on the data below to approximate the value of <em>age (years)</em> which corresponds to <em>systolic blood pressure (mmHg)</em> = <strong>123.65 mmHg</strong>.</p><table><thead><tr><th>age (years)</th><th>systolic blood pressure (mmHg)</th></tr></thead><tbody><tr><td>30</td><td>122.30</td></tr><tr><td>35</td><td>111.40</td></tr><tr><td>40</td><td>118</td></tr><tr><td>45</td><td>126.70</td></tr><tr><td>50</td><td>121.80</td></tr><tr><td>55</td><td>125</td></tr><tr><td>60</td><td>130.10</td></tr><tr><td>65</td><td>135.10</td></tr><tr><td>70</td><td>133.60</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_05_x_from_y_D",
+        "label": "D",
+        "html": "<p>51.1 years</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_05_x_from_y_A",
+        "label": "A",
+        "html": "<p>48.1 years</p>",
+        "is_correct": true
+      },
+      {
+        "id": "regrU_05_x_from_y_C",
+        "label": "C",
+        "html": "<p>43.3 years</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_05_x_from_y_B",
+        "label": "B",
+        "html": "<p>47.3 years</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "regrU_05_x_from_y_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "regrU_06_y_from_x",
+    "title": "Regression (units) 06",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>exercise intensity (% max)</em> and <em>heart rate (beats/min)</em>. Use a regression line based on the data below to approximate the value of <em>heart rate (beats/min)</em> which corresponds to <em>exercise intensity (% max)</em> = <strong>55.0 % max</strong>.</p><table><thead><tr><th>exercise intensity (% max)</th><th>heart rate (beats/min)</th></tr></thead><tbody><tr><td>20</td><td>84.70</td></tr><tr><td>30</td><td>109.10</td></tr><tr><td>40</td><td>125.20</td></tr><tr><td>50</td><td>109.60</td></tr><tr><td>60</td><td>147.40</td></tr><tr><td>70</td><td>127.10</td></tr><tr><td>80</td><td>159</td></tr><tr><td>85</td><td>165.10</td></tr><tr><td>90</td><td>180.50</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_06_y_from_x_C",
+        "label": "C",
+        "html": "<p>143.39 beats/min</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_06_y_from_x_D",
+        "label": "D",
+        "html": "<p>119.34 beats/min</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_06_y_from_x_A",
+        "label": "A",
+        "html": "<p>130.36 beats/min</p>",
+        "is_correct": true
+      },
+      {
+        "id": "regrU_06_y_from_x_B",
+        "label": "B",
+        "html": "<p>129.72 beats/min</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "regrU_06_y_from_x_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "regrU_06_x_from_y",
+    "title": "Regression (units) 06",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>exercise intensity (% max)</em> and <em>heart rate (beats/min)</em>. Use a regression line based on the data below to approximate the value of <em>exercise intensity (% max)</em> which corresponds to <em>heart rate (beats/min)</em> = <strong>126.15 beats/min</strong>.</p><table><thead><tr><th>exercise intensity (% max)</th><th>heart rate (beats/min)</th></tr></thead><tbody><tr><td>20</td><td>84.70</td></tr><tr><td>30</td><td>109.10</td></tr><tr><td>40</td><td>125.20</td></tr><tr><td>50</td><td>109.60</td></tr><tr><td>60</td><td>147.40</td></tr><tr><td>70</td><td>127.10</td></tr><tr><td>80</td><td>159</td></tr><tr><td>85</td><td>165.10</td></tr><tr><td>90</td><td>180.50</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_06_x_from_y_B",
+        "label": "B",
+        "html": "<p>51.3 % max</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_06_x_from_y_A",
+        "label": "A",
+        "html": "<p>52.3 % max</p>",
+        "is_correct": true
+      },
+      {
+        "id": "regrU_06_x_from_y_D",
+        "label": "D",
+        "html": "<p>55.4 % max</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_06_x_from_y_C",
+        "label": "C",
+        "html": "<p>47.1 % max</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "regrU_06_x_from_y_A"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "regrU_07_y_from_x",
+    "title": "Regression (units) 07",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>saturated fat intake (g/day)</em> and <em>ldl cholesterol (mg/dL)</em>. Use a regression line based on the data below to approximate the value of <em>ldl cholesterol (mg/dL)</em> which corresponds to <em>saturated fat intake (g/day)</em> = <strong>55.0 g/day</strong>.</p><table><thead><tr><th>saturated fat intake (g/day)</th><th>ldl cholesterol (mg/dL)</th></tr></thead><tbody><tr><td>20</td><td>86.30</td></tr><tr><td>30</td><td>84.90</td></tr><tr><td>40</td><td>102.10</td></tr><tr><td>50</td><td>92</td></tr><tr><td>60</td><td>133.40</td></tr><tr><td>70</td><td>127.60</td></tr><tr><td>80</td><td>159.60</td></tr><tr><td>90</td><td>117.80</td></tr><tr><td>100</td><td>161.90</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_07_y_from_x_C",
+        "label": "C",
+        "html": "<p>125.18 mg/dL</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_07_y_from_x_A",
+        "label": "A",
+        "html": "<p>113.80 mg/dL</p>",
+        "is_correct": true
+      },
+      {
+        "id": "regrU_07_y_from_x_D",
+        "label": "D",
+        "html": "<p>103.08 mg/dL</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_07_y_from_x_B",
+        "label": "B",
+        "html": "<p>112.04 mg/dL</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "regrU_07_y_from_x_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "regrU_07_x_from_y",
+    "title": "Regression (units) 07",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>saturated fat intake (g/day)</em> and <em>ldl cholesterol (mg/dL)</em>. Use a regression line based on the data below to approximate the value of <em>saturated fat intake (g/day)</em> which corresponds to <em>ldl cholesterol (mg/dL)</em> = <strong>109.95 mg/dL</strong>.</p><table><thead><tr><th>saturated fat intake (g/day)</th><th>ldl cholesterol (mg/dL)</th></tr></thead><tbody><tr><td>20</td><td>86.30</td></tr><tr><td>30</td><td>84.90</td></tr><tr><td>40</td><td>102.10</td></tr><tr><td>50</td><td>92</td></tr><tr><td>60</td><td>133.40</td></tr><tr><td>70</td><td>127.60</td></tr><tr><td>80</td><td>159.60</td></tr><tr><td>90</td><td>117.80</td></tr><tr><td>100</td><td>161.90</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_07_x_from_y_C",
+        "label": "C",
+        "html": "<p>48.0 g/day</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_07_x_from_y_A",
+        "label": "A",
+        "html": "<p>53.4 g/day</p>",
+        "is_correct": true
+      },
+      {
+        "id": "regrU_07_x_from_y_D",
+        "label": "D",
+        "html": "<p>54.9 g/day</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_07_x_from_y_B",
+        "label": "B",
+        "html": "<p>50.8 g/day</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "regrU_07_x_from_y_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "regrU_08_y_from_x",
+    "title": "Regression (units) 08",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>time since peak (hours)</em> and <em>blood alcohol concentration (%)</em>. Use a regression line based on the data below to approximate the value of <em>blood alcohol concentration (%)</em> which corresponds to <em>time since peak (hours)</em> = <strong>4.5 hours</strong>.</p><table><thead><tr><th>time since peak (hours)</th><th>blood alcohol concentration (%)</th></tr></thead><tbody><tr><td>1</td><td>0.200</td></tr><tr><td>2</td><td>0.200</td></tr><tr><td>3</td><td>0.200</td></tr><tr><td>4</td><td>0.200</td></tr><tr><td>5</td><td>0.200</td></tr><tr><td>6</td><td>0.100</td></tr><tr><td>7</td><td>0.100</td></tr><tr><td>8</td><td>0.100</td></tr><tr><td>9</td><td>0.100</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_08_y_from_x_D",
+        "label": "D",
+        "html": "<p>0.153 %</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_08_y_from_x_B",
+        "label": "B",
+        "html": "<p>0.167 %</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_08_y_from_x_C",
+        "label": "C",
+        "html": "<p>0.180 %</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_08_y_from_x_A",
+        "label": "A",
+        "html": "<p>0.164 %</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "regrU_08_y_from_x_A"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "regrU_08_x_from_y",
+    "title": "Regression (units) 08",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>time since peak (hours)</em> and <em>blood alcohol concentration (%)</em>. Use a regression line based on the data below to approximate the value of <em>time since peak (hours)</em> which corresponds to <em>blood alcohol concentration (%)</em> = <strong>0.150 %</strong>.</p><table><thead><tr><th>time since peak (hours)</th><th>blood alcohol concentration (%)</th></tr></thead><tbody><tr><td>1</td><td>0.200</td></tr><tr><td>2</td><td>0.200</td></tr><tr><td>3</td><td>0.200</td></tr><tr><td>4</td><td>0.200</td></tr><tr><td>5</td><td>0.200</td></tr><tr><td>6</td><td>0.100</td></tr><tr><td>7</td><td>0.100</td></tr><tr><td>8</td><td>0.100</td></tr><tr><td>9</td><td>0.100</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_08_x_from_y_D",
+        "label": "D",
+        "html": "<p>5.8 hours</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_08_x_from_y_A",
+        "label": "A",
+        "html": "<p>5.3 hours</p>",
+        "is_correct": true
+      },
+      {
+        "id": "regrU_08_x_from_y_B",
+        "label": "B",
+        "html": "<p>5.3 hours</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_08_x_from_y_C",
+        "label": "C",
+        "html": "<p>4.7 hours</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "regrU_08_x_from_y_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "regrU_09_y_from_x",
+    "title": "Regression (units) 09",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>stress rating (1–10)</em> and <em>cortisol level (µg/dL)</em>. Use a regression line based on the data below to approximate the value of <em>cortisol level (µg/dL)</em> which corresponds to <em>stress rating (1–10)</em> = <strong>4.5 1–10</strong>.</p><table><thead><tr><th>stress rating (1–10)</th><th>cortisol level (µg/dL)</th></tr></thead><tbody><tr><td>1</td><td>4.40</td></tr><tr><td>2</td><td>4.30</td></tr><tr><td>3</td><td>5.60</td></tr><tr><td>4</td><td>4.90</td></tr><tr><td>5</td><td>7.10</td></tr><tr><td>6</td><td>8.70</td></tr><tr><td>7</td><td>7.10</td></tr><tr><td>8</td><td>9.80</td></tr><tr><td>9</td><td>11</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_09_y_from_x_C",
+        "label": "C",
+        "html": "<p>7.23 µg/dL</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_09_y_from_x_D",
+        "label": "D",
+        "html": "<p>5.99 µg/dL</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_09_y_from_x_A",
+        "label": "A",
+        "html": "<p>6.57 µg/dL</p>",
+        "is_correct": true
+      },
+      {
+        "id": "regrU_09_y_from_x_B",
+        "label": "B",
+        "html": "<p>6.51 µg/dL</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "regrU_09_y_from_x_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "regrU_09_x_from_y",
+    "title": "Regression (units) 09",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>stress rating (1–10)</em> and <em>cortisol level (µg/dL)</em>. Use a regression line based on the data below to approximate the value of <em>stress rating (1–10)</em> which corresponds to <em>cortisol level (µg/dL)</em> = <strong>6.35 µg/dL</strong>.</p><table><thead><tr><th>stress rating (1–10)</th><th>cortisol level (µg/dL)</th></tr></thead><tbody><tr><td>1</td><td>4.40</td></tr><tr><td>2</td><td>4.30</td></tr><tr><td>3</td><td>5.60</td></tr><tr><td>4</td><td>4.90</td></tr><tr><td>5</td><td>7.10</td></tr><tr><td>6</td><td>8.70</td></tr><tr><td>7</td><td>7.10</td></tr><tr><td>8</td><td>9.80</td></tr><tr><td>9</td><td>11</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_09_x_from_y_B",
+        "label": "B",
+        "html": "<p>4.2 1–10</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_09_x_from_y_C",
+        "label": "C",
+        "html": "<p>3.9 1–10</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_09_x_from_y_D",
+        "label": "D",
+        "html": "<p>4.6 1–10</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_09_x_from_y_A",
+        "label": "A",
+        "html": "<p>4.3 1–10</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "regrU_09_x_from_y_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "regrU_10_y_from_x",
+    "title": "Regression (units) 10",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>hours awake (h)</em> and <em>errors per hour (errors/h)</em>. Use a regression line based on the data below to approximate the value of <em>errors per hour (errors/h)</em> which corresponds to <em>hours awake (h)</em> = <strong>22.0 h</strong>.</p><table><thead><tr><th>hours awake (h)</th><th>errors per hour (errors/h)</th></tr></thead><tbody><tr><td>8</td><td>5</td></tr><tr><td>12</td><td>2.80</td></tr><tr><td>16</td><td>5.50</td></tr><tr><td>20</td><td>5.40</td></tr><tr><td>24</td><td>9.20</td></tr><tr><td>28</td><td>14.40</td></tr><tr><td>32</td><td>19.60</td></tr><tr><td>36</td><td>15.60</td></tr><tr><td>40</td><td>22.70</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_10_y_from_x_A",
+        "label": "A",
+        "html": "<p>9.91 errors/h</p>",
+        "is_correct": true
+      },
+      {
+        "id": "regrU_10_y_from_x_B",
+        "label": "B",
+        "html": "<p>9.73 errors/h</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_10_y_from_x_D",
+        "label": "D",
+        "html": "<p>8.95 errors/h</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_10_y_from_x_C",
+        "label": "C",
+        "html": "<p>10.90 errors/h</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "regrU_10_y_from_x_A"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "regrU_10_x_from_y",
+    "title": "Regression (units) 10",
+    "source": "generated",
+    "prompt_html": "<p>There is a linear correlation between <em>hours awake (h)</em> and <em>errors per hour (errors/h)</em>. Use a regression line based on the data below to approximate the value of <em>hours awake (h)</em> which corresponds to <em>errors per hour (errors/h)</em> = <strong>7.35 errors/h</strong>.</p><table><thead><tr><th>hours awake (h)</th><th>errors per hour (errors/h)</th></tr></thead><tbody><tr><td>8</td><td>5</td></tr><tr><td>12</td><td>2.80</td></tr><tr><td>16</td><td>5.50</td></tr><tr><td>20</td><td>5.40</td></tr><tr><td>24</td><td>9.20</td></tr><tr><td>28</td><td>14.40</td></tr><tr><td>32</td><td>19.60</td></tr><tr><td>36</td><td>15.60</td></tr><tr><td>40</td><td>22.70</td></tr></tbody></table>",
+    "choices": [
+      {
+        "id": "regrU_10_x_from_y_B",
+        "label": "B",
+        "html": "<p>17.8 h</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_10_x_from_y_D",
+        "label": "D",
+        "html": "<p>19.2 h</p>",
+        "is_correct": false
+      },
+      {
+        "id": "regrU_10_x_from_y_A",
+        "label": "A",
+        "html": "<p>18.6 h</p>",
+        "is_correct": true
+      },
+      {
+        "id": "regrU_10_x_from_y_C",
+        "label": "C",
+        "html": "<p>16.8 h</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "regrU_10_x_from_y_A"
+    ]
+  }
+]

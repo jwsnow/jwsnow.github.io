@@ -1,0 +1,1202 @@
+[
+  {
+    "index": 1,
+    "ident": "cont2_01_pvalue",
+    "title": "Contingency 01 — Habitat type vs. species presence (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Field ecologists sampled sites across habitats. The table shows counts of sites by habitat and whether the focal species was detected.</p><table><thead><tr><th>Habitat type</th><th>Present</th><th>Absent</th></tr></thead><tbody><tr><td>Forest</td><td>38</td><td>37</td></tr><tr><td>Grassland</td><td>38</td><td>38</td></tr><tr><td>Wetland</td><td>38</td><td>38</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>species presence</em> is independent of <em>habitat type</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.9934</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.9970</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.9982</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.9955</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "pv_D"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "cont2_01_decision",
+    "title": "Contingency 01 — Habitat type vs. species presence (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_01_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": true
+      },
+      {
+        "id": "cont2_01_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cont2_01_decision_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "cont2_02_pvalue",
+    "title": "Contingency 02 — Diet type vs. reproduction success (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>A laboratory colony was split into two diet types. The table shows counts of animals that did or did not reproduce.</p><table><thead><tr><th>Diet type</th><th>Reproduced</th><th>Did not reproduce</th></tr></thead><tbody><tr><td>High-protein</td><td>44</td><td>29</td></tr><tr><td>Low-protein</td><td>29</td><td>44</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>reproduction</em> is independent of <em>diet type</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0130</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0193</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0315</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0088</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "cont2_02_decision",
+    "title": "Contingency 02 — Diet type vs. reproduction success (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_02_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": false
+      },
+      {
+        "id": "cont2_02_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "cont2_02_decision_B"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "cont2_03_pvalue",
+    "title": "Contingency 03 — Temperature range vs. enzyme activity (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Samples were incubated at different temperature ranges. The table shows counts by measured activity category.</p><table><thead><tr><th>Temperature range</th><th>Low</th><th>Moderate</th><th>High</th></tr></thead><tbody><tr><td>Low (15–20°C)</td><td>36</td><td>24</td><td>24</td></tr><tr><td>Moderate (21–26°C)</td><td>24</td><td>36</td><td>24</td></tr><tr><td>High (27–32°C)</td><td>24</td><td>24</td><td>37</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>enzyme activity</em> is independent of <em>temperature range</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0676</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0194</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0421</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0286</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "pv_D"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "cont2_03_decision",
+    "title": "Contingency 03 — Temperature range vs. enzyme activity (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_03_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": false
+      },
+      {
+        "id": "cont2_03_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "cont2_03_decision_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "cont2_04_pvalue",
+    "title": "Contingency 04 — Game location vs. match result (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>A team recorded results at home and away. The table shows win/loss counts by location.</p><table><thead><tr><th>Game location</th><th>Win</th><th>Loss</th></tr></thead><tbody><tr><td>Home</td><td>37</td><td>38</td></tr><tr><td>Away</td><td>38</td><td>37</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>result</em> is independent of <em>game location</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.8703</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.9429</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.8181</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.9092</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_A"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "cont2_04_decision",
+    "title": "Contingency 04 — Game location vs. match result (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_04_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": true
+      },
+      {
+        "id": "cont2_04_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cont2_04_decision_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "cont2_05_pvalue",
+    "title": "Contingency 05 — Training program vs. performance change (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Athletes completed one of two training programs. The table shows counts of performance outcomes.</p><table><thead><tr><th>Training program</th><th>Improved</th><th>Unchanged</th><th>Declined</th></tr></thead><tbody><tr><td>Program A</td><td>54</td><td>36</td><td>36</td></tr><tr><td>Program B</td><td>36</td><td>55</td><td>37</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>performance change</em> is independent of <em>training program</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0154</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0336</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0542</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0228</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "pv_D"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "cont2_05_decision",
+    "title": "Contingency 05 — Training program vs. performance change (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_05_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": false
+      },
+      {
+        "id": "cont2_05_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "cont2_05_decision_B"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "cont2_06_pvalue",
+    "title": "Contingency 06 — Batting order group vs. hit outcome (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>A baseball team tracked plate appearances by lineup segment. The table shows hit/no-hit counts.</p><table><thead><tr><th>Batting order group</th><th>Hit</th><th>No hit</th></tr></thead><tbody><tr><td>Top 1–3</td><td>27</td><td>27</td></tr><tr><td>Middle 4–6</td><td>28</td><td>28</td></tr><tr><td>Bottom 7–9</td><td>27</td><td>28</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>hit outcome</em> is independent of <em>batting order group</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.9940</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.9959</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.9975</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.9910</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "cont2_06_decision",
+    "title": "Contingency 06 — Batting order group vs. hit outcome (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_06_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": true
+      },
+      {
+        "id": "cont2_06_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cont2_06_decision_A"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "cont2_07_pvalue",
+    "title": "Contingency 07 — Education level vs. political affiliation (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>A survey tallied respondents’ education level and party preference.</p><table><thead><tr><th>Education level</th><th>Party X</th><th>Party Y</th></tr></thead><tbody><tr><td>HS or less</td><td>31</td><td>32</td></tr><tr><td>Some college</td><td>32</td><td>32</td></tr><tr><td>Bachelor+</td><td>32</td><td>32</td></tr><tr><td>Graduate</td><td>32</td><td>31</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>political affiliation</em> is independent of <em>education level</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.9985</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.9994</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.9978</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.9990</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_A"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "cont2_07_decision",
+    "title": "Contingency 07 — Education level vs. political affiliation (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_07_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": true
+      },
+      {
+        "id": "cont2_07_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cont2_07_decision_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "cont2_08_pvalue",
+    "title": "Contingency 08 — Residence vs. broadband access (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Households were categorized by residence type and whether they had broadband internet.</p><table><thead><tr><th>Residence</th><th>Yes</th><th>No</th></tr></thead><tbody><tr><td>Urban</td><td>51</td><td>34</td></tr><tr><td>Suburban</td><td>34</td><td>52</td></tr><tr><td>Rural</td><td>34</td><td>34</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>broadband access</em> is independent of <em>residence</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0278</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0188</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0658</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0410</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_A"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "cont2_08_decision",
+    "title": "Contingency 08 — Residence vs. broadband access (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_08_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": false
+      },
+      {
+        "id": "cont2_08_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "cont2_08_decision_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "cont2_09_pvalue",
+    "title": "Contingency 09 — Marital status vs. happiness rating (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>A community study recorded marital status and self-reported happiness.</p><table><thead><tr><th>Marital status</th><th>Happy</th><th>Neutral</th><th>Unhappy</th></tr></thead><tbody><tr><td>Married</td><td>17</td><td>17</td><td>17</td></tr><tr><td>Never married</td><td>18</td><td>17</td><td>18</td></tr><tr><td>Divorced/Separated</td><td>17</td><td>17</td><td>19</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>happiness rating</em> is independent of <em>marital status</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.9995</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.9982</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.9988</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.9992</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_C"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "cont2_09_decision",
+    "title": "Contingency 09 — Marital status vs. happiness rating (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_09_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": true
+      },
+      {
+        "id": "cont2_09_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cont2_09_decision_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "cont2_10_pvalue",
+    "title": "Contingency 10 — Gender vs. occupation sector (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>A sample of workers was cross-classified by gender and occupation sector.</p><table><thead><tr><th>Gender</th><th>Science/Tech</th><th>Education</th><th>Business</th></tr></thead><tbody><tr><td>Male</td><td>55</td><td>37</td><td>36</td></tr><tr><td>Female</td><td>37</td><td>55</td><td>37</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>occupation sector</em> is independent of <em>gender</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0693</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0199</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0294</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0432</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_C"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "cont2_10_decision",
+    "title": "Contingency 10 — Gender vs. occupation sector (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_10_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": false
+      },
+      {
+        "id": "cont2_10_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "cont2_10_decision_B"
+    ]
+  },
+  {
+    "index": 21,
+    "ident": "cont2_11_pvalue",
+    "title": "Contingency 11 — Therapy type vs. treatment outcome (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>A clinic recorded outcomes for patients receiving two types of therapy.</p><table><thead><tr><th>Therapy type</th><th>Improved</th><th>Not improved</th></tr></thead><tbody><tr><td>Cognitive</td><td>44</td><td>43</td></tr><tr><td>Behavioral</td><td>43</td><td>44</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>treatment outcome</em> is independent of <em>therapy type</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.8303</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.8795</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.9159</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.9472</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_B"
+    ]
+  },
+  {
+    "index": 22,
+    "ident": "cont2_11_decision",
+    "title": "Contingency 11 — Therapy type vs. treatment outcome (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_11_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": true
+      },
+      {
+        "id": "cont2_11_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cont2_11_decision_A"
+    ]
+  },
+  {
+    "index": 23,
+    "ident": "cont2_12_pvalue",
+    "title": "Contingency 12 — Stress level vs. coping strategy (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Participants reported stress level and predominant coping strategy.</p><table><thead><tr><th>Stress level</th><th>Problem-focused</th><th>Emotion-focused</th><th>Avoidance</th></tr></thead><tbody><tr><td>Low</td><td>19</td><td>18</td><td>19</td></tr><tr><td>Medium</td><td>19</td><td>19</td><td>19</td></tr><tr><td>High</td><td>19</td><td>19</td><td>19</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>coping strategy</em> is independent of <em>stress level</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.4877</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.2579</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.9999</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.9998</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_C"
+    ]
+  },
+  {
+    "index": 24,
+    "ident": "cont2_12_decision",
+    "title": "Contingency 12 — Stress level vs. coping strategy (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_12_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": true
+      },
+      {
+        "id": "cont2_12_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cont2_12_decision_A"
+    ]
+  },
+  {
+    "index": 25,
+    "ident": "cont2_13_pvalue",
+    "title": "Contingency 13 — Sleep quality vs. mood category (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Respondents were grouped by sleep quality and next-day mood.</p><table><thead><tr><th>Sleep quality</th><th>Positive</th><th>Neutral</th><th>Negative</th></tr></thead><tbody><tr><td>Good</td><td>55</td><td>37</td><td>37</td></tr><tr><td>Poor</td><td>35</td><td>55</td><td>37</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>mood category</em> is independent of <em>sleep quality</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0277</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0188</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0127</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0449</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_B"
+    ]
+  },
+  {
+    "index": 26,
+    "ident": "cont2_13_decision",
+    "title": "Contingency 13 — Sleep quality vs. mood category (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_13_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": false
+      },
+      {
+        "id": "cont2_13_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "cont2_13_decision_B"
+    ]
+  },
+  {
+    "index": 27,
+    "ident": "cont2_14_pvalue",
+    "title": "Contingency 14 — Personality trait vs. study preference (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Students reported personality trait and preferred study mode.</p><table><thead><tr><th>Personality trait</th><th>Study alone</th><th>Study in group</th></tr></thead><tbody><tr><td>Introvert</td><td>52</td><td>52</td></tr><tr><td>Extrovert</td><td>52</td><td>54</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>study preference</em> is independent of <em>personality trait</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.8913</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.9244</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.9527</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.8460</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_A"
+    ]
+  },
+  {
+    "index": 28,
+    "ident": "cont2_14_decision",
+    "title": "Contingency 14 — Personality trait vs. study preference (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_14_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": true
+      },
+      {
+        "id": "cont2_14_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cont2_14_decision_A"
+    ]
+  },
+  {
+    "index": 29,
+    "ident": "cont2_15_pvalue",
+    "title": "Contingency 15 — Genotype vs. disease status (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>A genetic screening study compared allele presence to disease status.</p><table><thead><tr><th>Genotype (allele)</th><th>Disease</th><th>No disease</th></tr></thead><tbody><tr><td>Allele present</td><td>46</td><td>30</td></tr><tr><td>Allele absent</td><td>31</td><td>46</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>disease status</em> is independent of <em>genotype (allele)</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0181</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0294</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0122</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0082</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_C"
+    ]
+  },
+  {
+    "index": 30,
+    "ident": "cont2_15_decision",
+    "title": "Contingency 15 — Genotype vs. disease status (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_15_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": false
+      },
+      {
+        "id": "cont2_15_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "cont2_15_decision_B"
+    ]
+  },
+  {
+    "index": 31,
+    "ident": "cont2_16_pvalue",
+    "title": "Contingency 16 — Plant light exposure vs. growth category (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Greenhouse plants were assigned light levels; growth outcomes were categorized after 4 weeks.</p><table><thead><tr><th>Light exposure</th><th>Low</th><th>Moderate</th><th>High</th></tr></thead><tbody><tr><td>Low</td><td>19</td><td>19</td><td>19</td></tr><tr><td>Medium</td><td>19</td><td>19</td><td>19</td></tr><tr><td>High</td><td>19</td><td>19</td><td>19</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>growth category</em> is independent of <em>light exposure</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.9702</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.6074</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.9998</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>1.0000</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "pv_D"
+    ]
+  },
+  {
+    "index": 32,
+    "ident": "cont2_16_decision",
+    "title": "Contingency 16 — Plant light exposure vs. growth category (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_16_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": true
+      },
+      {
+        "id": "cont2_16_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cont2_16_decision_A"
+    ]
+  },
+  {
+    "index": 33,
+    "ident": "cont2_17_pvalue",
+    "title": "Contingency 17 — Soccer position vs. card type (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>A soccer club tracked cautions by player position.</p><table><thead><tr><th>Position group</th><th>Yellow</th><th>Red</th></tr></thead><tbody><tr><td>Defender</td><td>52</td><td>34</td></tr><tr><td>Midfielder</td><td>34</td><td>52</td></tr><tr><td>Forward</td><td>35</td><td>34</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>card type</em> is independent of <em>position group</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0230</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0339</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0547</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0155</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_A"
+    ]
+  },
+  {
+    "index": 34,
+    "ident": "cont2_17_decision",
+    "title": "Contingency 17 — Soccer position vs. card type (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_17_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": false
+      },
+      {
+        "id": "cont2_17_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "cont2_17_decision_B"
+    ]
+  },
+  {
+    "index": 35,
+    "ident": "cont2_18_pvalue",
+    "title": "Contingency 18 — Age group vs. voting participation (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>A civic survey recorded age group and whether respondents voted in the last election.</p><table><thead><tr><th>Age group</th><th>Yes</th><th>No</th></tr></thead><tbody><tr><td>18–34</td><td>54</td><td>35</td></tr><tr><td>35–54</td><td>36</td><td>53</td></tr><tr><td>55+</td><td>35</td><td>35</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>voted in last election</em> is independent of <em>age group</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0620</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0385</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0177</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0262</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "pv_D"
+    ]
+  },
+  {
+    "index": 36,
+    "ident": "cont2_18_decision",
+    "title": "Contingency 18 — Age group vs. voting participation (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_18_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": false
+      },
+      {
+        "id": "cont2_18_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "cont2_18_decision_B"
+    ]
+  },
+  {
+    "index": 37,
+    "ident": "cont2_19_pvalue",
+    "title": "Contingency 19 — Condition (control vs. stimulus) vs. response category (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>An experiment compared response accuracy under control vs. stimulus.</p><table><thead><tr><th>Condition</th><th>Accurate</th><th>Inaccurate</th></tr></thead><tbody><tr><td>Control</td><td>35</td><td>36</td></tr><tr><td>Stimulus</td><td>36</td><td>35</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>response</em> is independent of <em>condition</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.9065</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.9412</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.8667</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.8134</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_C"
+    ]
+  },
+  {
+    "index": 38,
+    "ident": "cont2_19_decision",
+    "title": "Contingency 19 — Condition (control vs. stimulus) vs. response category (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_19_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": true
+      },
+      {
+        "id": "cont2_19_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "cont2_19_decision_A"
+    ]
+  },
+  {
+    "index": 39,
+    "ident": "cont2_20_pvalue",
+    "title": "Contingency 20 — Injury status vs. position group (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>A team tracked injuries by position group.</p><table><thead><tr><th>Injury status</th><th>Backs</th><th>Midfield</th><th>Forwards</th></tr></thead><tbody><tr><td>Injured</td><td>55</td><td>36</td><td>37</td></tr><tr><td>Not injured</td><td>36</td><td>55</td><td>36</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>position group</em> is independent of <em>injury status</em>. What is the <em>P</em>-value?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0278</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0451</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0127</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0188</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "pv_D"
+    ]
+  },
+  {
+    "index": 40,
+    "ident": "cont2_20_decision",
+    "title": "Contingency 20 — Injury status vs. position group (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
+    "choices": [
+      {
+        "id": "cont2_20_decision_A",
+        "label": "A",
+        "html": "<p>Independent</p>",
+        "is_correct": false
+      },
+      {
+        "id": "cont2_20_decision_B",
+        "label": "B",
+        "html": "<p>Dependent</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "cont2_20_decision_B"
+    ]
+  }
+]

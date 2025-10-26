@@ -1,0 +1,602 @@
+[
+  {
+    "index": 1,
+    "ident": "gof_01_pvalue",
+    "title": "GOF 01 — Blood type frequencies (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Public health researchers are studying whether a clinic’s blood type distribution matches a known population distribution. The claimed proportions are shown below along with the observed counts from a sample of 200 cases.</p><table><thead><tr><th>Category</th><th>Observed</th><th>Expected proportion</th></tr></thead><tbody><tr><td>O</td><td>96</td><td>0.46</td></tr><tr><td>A</td><td>88</td><td>0.40</td></tr><tr><td>B</td><td>9</td><td>0.11</td></tr><tr><td>AB</td><td>7</td><td>0.03</td></tr></tbody></table><p>Using a chi-squared goodness-of-fit test, what is the P-value?</p>",
+    "choices": [
+      {
+        "id": "p_A",
+        "label": "A",
+        "html": "<p>0.0317</p>",
+        "is_correct": true
+      },
+      {
+        "id": "p_B",
+        "label": "B",
+        "html": "<p>0.0195</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_C",
+        "label": "C",
+        "html": "<p>0.0818</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_D",
+        "label": "D",
+        "html": "<p>0.0513</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "p_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "gof_01_decision",
+    "title": "GOF 01 — Blood type frequencies (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the data appear to fit the claimed distribution?</p>",
+    "choices": [
+      {
+        "id": "gof_01_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "gof_01_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "gof_01_decision_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "gof_02_pvalue",
+    "title": "GOF 02 — Clinic blood-pressure categories (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>A clinic wants to know if their patients’ blood-pressure categories match national distributions. The claimed proportions are shown below along with the observed counts from a sample of 250 cases.</p><table><thead><tr><th>Category</th><th>Observed</th><th>Expected proportion</th></tr></thead><tbody><tr><td>Normal</td><td>90</td><td>0.36</td></tr><tr><td>Elevated</td><td>38</td><td>0.15</td></tr><tr><td>Hypertension stage 1</td><td>80</td><td>0.32</td></tr><tr><td>Hypertension stage 2</td><td>42</td><td>0.17</td></tr></tbody></table><p>Using a chi-squared goodness-of-fit test, what is the P-value?</p>",
+    "choices": [
+      {
+        "id": "p_A",
+        "label": "A",
+        "html": "<p>0.9994</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_B",
+        "label": "B",
+        "html": "<p>0.9996</p>",
+        "is_correct": true
+      },
+      {
+        "id": "p_C",
+        "label": "C",
+        "html": "<p>0.9998</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_D",
+        "label": "D",
+        "html": "<p>0.8965</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "p_B"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "gof_02_decision",
+    "title": "GOF 02 — Clinic blood-pressure categories (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the data appear to fit the claimed distribution?</p>",
+    "choices": [
+      {
+        "id": "gof_02_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "gof_02_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "gof_02_decision_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "gof_03_pvalue",
+    "title": "GOF 03 — ER arrival times by 6-hour block (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Hospital administrators are testing whether emergency-room arrivals are uniform across the day. The claimed proportions are shown below along with the observed counts from a sample of 240 cases.</p><table><thead><tr><th>Category</th><th>Observed</th><th>Expected proportion</th></tr></thead><tbody><tr><td>00–06</td><td>52</td><td>0.25</td></tr><tr><td>06–12</td><td>76</td><td>0.25</td></tr><tr><td>12–18</td><td>48</td><td>0.25</td></tr><tr><td>18–24</td><td>64</td><td>0.25</td></tr></tbody></table><p>Using a chi-squared goodness-of-fit test, what is the P-value?</p>",
+    "choices": [
+      {
+        "id": "p_A",
+        "label": "A",
+        "html": "<p>0.0284</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_B",
+        "label": "B",
+        "html": "<p>0.0460</p>",
+        "is_correct": true
+      },
+      {
+        "id": "p_C",
+        "label": "C",
+        "html": "<p>0.1159</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_D",
+        "label": "D",
+        "html": "<p>0.0737</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "p_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "gof_03_decision",
+    "title": "GOF 03 — ER arrival times by 6-hour block (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the data appear to fit the claimed distribution?</p>",
+    "choices": [
+      {
+        "id": "gof_03_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "gof_03_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "gof_03_decision_B"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "gof_04_pvalue",
+    "title": "GOF 04 — Tumor classification outcomes (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>A screening program compares tumor classifications with predictions from a prior model. The claimed proportions are shown below along with the observed counts from a sample of 250 cases.</p><table><thead><tr><th>Category</th><th>Observed</th><th>Expected proportion</th></tr></thead><tbody><tr><td>Benign</td><td>156</td><td>0.62</td></tr><tr><td>Pre-malignant</td><td>44</td><td>0.18</td></tr><tr><td>Malignant</td><td>50</td><td>0.20</td></tr></tbody></table><p>Using a chi-squared goodness-of-fit test, what is the P-value?</p>",
+    "choices": [
+      {
+        "id": "p_A",
+        "label": "A",
+        "html": "<p>0.9947</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_B",
+        "label": "B",
+        "html": "<p>0.9858</p>",
+        "is_correct": true
+      },
+      {
+        "id": "p_C",
+        "label": "C",
+        "html": "<p>0.9767</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_D",
+        "label": "D",
+        "html": "<p>0.9913</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "p_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "gof_04_decision",
+    "title": "GOF 04 — Tumor classification outcomes (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the data appear to fit the claimed distribution?</p>",
+    "choices": [
+      {
+        "id": "gof_04_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "gof_04_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "gof_04_decision_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "gof_05_pvalue",
+    "title": "GOF 05 — Reaction-time categories in a task (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Psychologists test whether reaction times fall into fast/medium/slow categories as predicted by a model. The claimed proportions are shown below along with the observed counts from a sample of 240 cases.</p><table><thead><tr><th>Category</th><th>Observed</th><th>Expected proportion</th></tr></thead><tbody><tr><td>Fast</td><td>73</td><td>0.30</td></tr><tr><td>Medium</td><td>120</td><td>0.50</td></tr><tr><td>Slow</td><td>47</td><td>0.20</td></tr></tbody></table><p>Using a chi-squared goodness-of-fit test, what is the P-value?</p>",
+    "choices": [
+      {
+        "id": "p_A",
+        "label": "A",
+        "html": "<p>0.9895</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_B",
+        "label": "B",
+        "html": "<p>0.9936</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_C",
+        "label": "C",
+        "html": "<p>0.9828</p>",
+        "is_correct": true
+      },
+      {
+        "id": "p_D",
+        "label": "D",
+        "html": "<p>0.9719</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "p_C"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "gof_05_decision",
+    "title": "GOF 05 — Reaction-time categories in a task (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the data appear to fit the claimed distribution?</p>",
+    "choices": [
+      {
+        "id": "gof_05_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "gof_05_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "gof_05_decision_A"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "gof_06_pvalue",
+    "title": "GOF 06 — Color preference survey (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>A psychology lab tests whether color preferences are equally distributed. The claimed proportions are shown below along with the observed counts from a sample of 280 cases.</p><table><thead><tr><th>Category</th><th>Observed</th><th>Expected proportion</th></tr></thead><tbody><tr><td>Blue</td><td>79</td><td>0.25</td></tr><tr><td>Green</td><td>72</td><td>0.25</td></tr><tr><td>Red</td><td>50</td><td>0.25</td></tr><tr><td>Yellow</td><td>79</td><td>0.25</td></tr></tbody></table><p>Using a chi-squared goodness-of-fit test, what is the P-value?</p>",
+    "choices": [
+      {
+        "id": "p_A",
+        "label": "A",
+        "html": "<p>0.0443</p>",
+        "is_correct": true
+      },
+      {
+        "id": "p_B",
+        "label": "B",
+        "html": "<p>0.1118</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_C",
+        "label": "C",
+        "html": "<p>0.0273</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_D",
+        "label": "D",
+        "html": "<p>0.0710</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "p_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "gof_06_decision",
+    "title": "GOF 06 — Color preference survey (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the data appear to fit the claimed distribution?</p>",
+    "choices": [
+      {
+        "id": "gof_06_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "gof_06_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "gof_06_decision_B"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "gof_07_pvalue",
+    "title": "GOF 07 — Pitch-type usage for a pitcher (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Analysts examine whether a pitcher’s pitch-type usage matches the team’s expected mix. The claimed proportions are shown below along with the observed counts from a sample of 200 cases.</p><table><thead><tr><th>Category</th><th>Observed</th><th>Expected proportion</th></tr></thead><tbody><tr><td>Fastball</td><td>99</td><td>0.50</td></tr><tr><td>Slider</td><td>50</td><td>0.25</td></tr><tr><td>Curveball</td><td>31</td><td>0.15</td></tr><tr><td>Changeup</td><td>20</td><td>0.10</td></tr></tbody></table><p>Using a chi-squared goodness-of-fit test, what is the P-value?</p>",
+    "choices": [
+      {
+        "id": "p_A",
+        "label": "A",
+        "html": "<p>0.9961</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_B",
+        "label": "B",
+        "html": "<p>0.9991</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_C",
+        "label": "C",
+        "html": "<p>0.9986</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_D",
+        "label": "D",
+        "html": "<p>0.9976</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "p_D"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "gof_07_decision",
+    "title": "GOF 07 — Pitch-type usage for a pitcher (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the data appear to fit the claimed distribution?</p>",
+    "choices": [
+      {
+        "id": "gof_07_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "gof_07_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "gof_07_decision_A"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "gof_08_pvalue",
+    "title": "GOF 08 — Basketball points by quarter (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>A team wants to know if points are equally distributed across quarters. The claimed proportions are shown below along with the observed counts from a sample of 220 cases.</p><table><thead><tr><th>Category</th><th>Observed</th><th>Expected proportion</th></tr></thead><tbody><tr><td>Q1</td><td>46</td><td>0.25</td></tr><tr><td>Q2</td><td>54</td><td>0.25</td></tr><tr><td>Q3</td><td>47</td><td>0.25</td></tr><tr><td>Q4</td><td>73</td><td>0.25</td></tr></tbody></table><p>Using a chi-squared goodness-of-fit test, what is the P-value?</p>",
+    "choices": [
+      {
+        "id": "p_A",
+        "label": "A",
+        "html": "<p>0.0921</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_B",
+        "label": "B",
+        "html": "<p>0.0580</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_C",
+        "label": "C",
+        "html": "<p>0.0360</p>",
+        "is_correct": true
+      },
+      {
+        "id": "p_D",
+        "label": "D",
+        "html": "<p>0.0221</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "p_C"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "gof_08_decision",
+    "title": "GOF 08 — Basketball points by quarter (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the data appear to fit the claimed distribution?</p>",
+    "choices": [
+      {
+        "id": "gof_08_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "gof_08_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "gof_08_decision_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "gof_09_pvalue",
+    "title": "GOF 09 — Bird plumage color frequencies (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Field biologists compare observed plumage colors to species-wide proportions. The claimed proportions are shown below along with the observed counts from a sample of 250 cases.</p><table><thead><tr><th>Category</th><th>Observed</th><th>Expected proportion</th></tr></thead><tbody><tr><td>Brown</td><td>93</td><td>0.40</td></tr><tr><td>Gray</td><td>64</td><td>0.30</td></tr><tr><td>Black</td><td>57</td><td>0.20</td></tr><tr><td>Other</td><td>36</td><td>0.10</td></tr></tbody></table><p>Using a chi-squared goodness-of-fit test, what is the P-value?</p>",
+    "choices": [
+      {
+        "id": "p_A",
+        "label": "A",
+        "html": "<p>0.0294</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_B",
+        "label": "B",
+        "html": "<p>0.0762</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_C",
+        "label": "C",
+        "html": "<p>0.1197</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_D",
+        "label": "D",
+        "html": "<p>0.0476</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "p_D"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "gof_09_decision",
+    "title": "GOF 09 — Bird plumage color frequencies (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the data appear to fit the claimed distribution?</p>",
+    "choices": [
+      {
+        "id": "gof_09_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "gof_09_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "gof_09_decision_B"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "gof_10_pvalue",
+    "title": "GOF 10 — Olympic medal counts by type (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>An analyst tests if a country’s medal types follow expected proportions based on entries. The claimed proportions are shown below along with the observed counts from a sample of 300 cases.</p><table><thead><tr><th>Category</th><th>Observed</th><th>Expected proportion</th></tr></thead><tbody><tr><td>Gold</td><td>101</td><td>0.34</td></tr><tr><td>Silver</td><td>100</td><td>0.33</td></tr><tr><td>Bronze</td><td>99</td><td>0.33</td></tr></tbody></table><p>Using a chi-squared goodness-of-fit test, what is the P-value?</p>",
+    "choices": [
+      {
+        "id": "p_A",
+        "label": "A",
+        "html": "<p>0.9838</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_B",
+        "label": "B",
+        "html": "<p>0.9963</p>",
+        "is_correct": false
+      },
+      {
+        "id": "p_C",
+        "label": "C",
+        "html": "<p>0.9901</p>",
+        "is_correct": true
+      },
+      {
+        "id": "p_D",
+        "label": "D",
+        "html": "<p>0.9940</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "p_C"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "gof_10_decision",
+    "title": "GOF 10 — Olympic medal counts by type (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the data appear to fit the claimed distribution?</p>",
+    "choices": [
+      {
+        "id": "gof_10_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "gof_10_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "gof_10_decision_A"
+    ]
+  }
+]

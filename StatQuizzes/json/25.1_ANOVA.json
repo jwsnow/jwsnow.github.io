@@ -1,0 +1,1202 @@
+[
+  {
+    "index": 1,
+    "ident": "anova_01_p",
+    "title": "ANOVA 01 — Archaeology — Pottery thickness across sites (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Archaeologists measured pottery wall thickness (mm) from shards at three excavation sites. Do the mean thicknesses differ by site?</p><table><thead><tr><th>Site A</th><th>Site B</th><th>Site C</th></tr></thead><tbody><tr><td>89</td><td>93</td><td>93</td></tr><tr><td>97</td><td>92</td><td>91</td></tr><tr><td>89</td><td>105</td><td>96</td></tr><tr><td>98</td><td>87</td><td>80</td></tr><tr><td>67</td><td>98</td><td>90</td></tr><tr><td>98</td><td>105</td><td>79</td></tr><tr><td>78</td><td>90</td><td>89</td></tr><tr><td>84</td><td>86</td><td>76</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.1730</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.4099</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.2760</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.1030</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_A"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "anova_01_decision",
+    "title": "ANOVA 01 — Archaeology — Pottery thickness across sites (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_01_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "anova_01_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "anova_01_decision_A"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "anova_02_p",
+    "title": "ANOVA 02 — Archaeology — Radiocarbon ages by layer (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Radiocarbon ages (years BP) were obtained for samples from three stratigraphic layers. Do the mean ages differ by layer?</p><table><thead><tr><th>Layer 1</th><th>Layer 2</th><th>Layer 3</th></tr></thead><tbody><tr><td>117</td><td>131</td><td>145</td></tr><tr><td>115</td><td>127</td><td>137</td></tr><tr><td>143</td><td>126</td><td>139</td></tr><tr><td>128</td><td>123</td><td>145</td></tr><tr><td>120</td><td>113</td><td>144</td></tr><tr><td>114</td><td>143</td><td>137</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0230</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0127</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0070</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0039</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_C"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "anova_02_decision",
+    "title": "ANOVA 02 — Archaeology — Radiocarbon ages by layer (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_02_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "anova_02_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "anova_02_decision_B"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "anova_03_p",
+    "title": "ANOVA 03 — Archaeology — Artifact weight by material (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Weights (g) of artifacts made of stone, bronze, and iron were compared. Do the mean weights differ by material?</p><table><thead><tr><th>Stone</th><th>Bronze</th><th>Iron</th></tr></thead><tbody><tr><td>272</td><td>273</td><td>285</td></tr><tr><td>271</td><td>261</td><td>282</td></tr><tr><td>263</td><td>280</td><td>270</td></tr><tr><td>283</td><td>271</td><td>285</td></tr><tr><td>276</td><td>290</td><td>278</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.2852</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.4209</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.7070</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.5698</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_B"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "anova_03_decision",
+    "title": "ANOVA 03 — Archaeology — Artifact weight by material (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_03_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "anova_03_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "anova_03_decision_A"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "anova_04_p",
+    "title": "ANOVA 04 — Biology — Plant height under light types (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Plant height (cm) was measured under red, blue, and white LED light. Do the mean heights differ by light type?</p><table><thead><tr><th>Red</th><th>Blue</th><th>White</th></tr></thead><tbody><tr><td>286</td><td>296</td><td>293</td></tr><tr><td>279</td><td>293</td><td>287</td></tr><tr><td>292</td><td>288</td><td>308</td></tr><tr><td>285</td><td>292</td><td>283</td></tr><tr><td>299</td><td>293</td><td>305</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.2651</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.6857</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.5449</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.3966</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "pv_D"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "anova_04_decision",
+    "title": "ANOVA 04 — Biology — Plant height under light types (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_04_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "anova_04_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "anova_04_decision_A"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "anova_05_p",
+    "title": "ANOVA 05 — Biology — Fish length by habitat (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Lengths (cm) were measured for fish sampled in river, lake, and estuary habitats. Do the mean lengths differ by habitat?</p><table><thead><tr><th>River</th><th>Lake</th><th>Estuary</th></tr></thead><tbody><tr><td>194</td><td>190</td><td>181</td></tr><tr><td>173</td><td>181</td><td>215</td></tr><tr><td>184</td><td>181</td><td>214</td></tr><tr><td>183</td><td>197</td><td>196</td></tr><tr><td>200</td><td>184</td><td>196</td></tr><tr><td>176</td><td>193</td><td>207</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0176</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0316</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0561</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0977</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_B"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "anova_05_decision",
+    "title": "ANOVA 05 — Biology — Fish length by habitat (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_05_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "anova_05_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "anova_05_decision_B"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "anova_06_p",
+    "title": "ANOVA 06 — Biology — Enzyme activity across pH (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Enzyme reaction rate (µmol/min) was recorded at three pH levels. Do the mean rates differ by pH?</p><table><thead><tr><th>pH 6</th><th>pH 7</th><th>pH 8</th></tr></thead><tbody><tr><td>92</td><td>81</td><td>102</td></tr><tr><td>90</td><td>91</td><td>96</td></tr><tr><td>86</td><td>95</td><td>104</td></tr><tr><td>80</td><td>81</td><td>93</td></tr><tr><td>91</td><td>87</td><td>86</td></tr><tr><td>84</td><td>94</td><td>117</td></tr><tr><td>92</td><td>76</td><td>104</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0177</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0098</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0054</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0030</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_C"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "anova_06_decision",
+    "title": "ANOVA 06 — Biology — Enzyme activity across pH (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_06_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "anova_06_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "anova_06_decision_B"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "anova_07_p",
+    "title": "ANOVA 07 — Sports — Sprint time across programs (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>100 m sprint times (s) were recorded under three training programs. Do the mean times differ by program?</p><table><thead><tr><th>Program A</th><th>Program B</th><th>Program C</th></tr></thead><tbody><tr><td>190</td><td>208</td><td>208</td></tr><tr><td>188</td><td>196</td><td>210</td></tr><tr><td>197</td><td>191</td><td>212</td></tr><tr><td>204</td><td>205</td><td>205</td></tr><tr><td>196</td><td>192</td><td>201</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0143</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0808</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0258</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0460</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_C"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "anova_07_decision",
+    "title": "ANOVA 07 — Sports — Sprint time across programs (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_07_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "anova_07_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "anova_07_decision_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "anova_08_p",
+    "title": "ANOVA 08 — Sports — Batting average by league (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Season batting averages (%) were sampled from minor, major, and international leagues. Do the mean averages differ by league?</p><table><thead><tr><th>Minor</th><th>Major</th><th>International</th></tr></thead><tbody><tr><td>188</td><td>188</td><td>195</td></tr><tr><td>187</td><td>186</td><td>189</td></tr><tr><td>190</td><td>190</td><td>192</td></tr><tr><td>191</td><td>194</td><td>193</td></tr><tr><td>181</td><td>197</td><td>191</td></tr><tr><td>183</td><td>197</td><td>202</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0370</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0207</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0654</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.1132</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_A"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "anova_08_decision",
+    "title": "ANOVA 08 — Sports — Batting average by league (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_08_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "anova_08_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "anova_08_decision_B"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "anova_09_p",
+    "title": "ANOVA 09 — Sports — VO₂ max by sport (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>VO₂ max (mL·kg⁻¹·min⁻¹) was measured for runners, cyclists, and swimmers. Do the mean VO₂ max values differ by sport?</p><table><thead><tr><th>Runners</th><th>Cyclists</th><th>Swimmers</th></tr></thead><tbody><tr><td>157</td><td>155</td><td>162</td></tr><tr><td>168</td><td>162</td><td>163</td></tr><tr><td>162</td><td>164</td><td>167</td></tr><tr><td>161</td><td>166</td><td>168</td></tr><tr><td>155</td><td>165</td><td>158</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.5846</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.4358</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.8237</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.7194</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_A"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "anova_09_decision",
+    "title": "ANOVA 09 — Sports — VO₂ max by sport (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_09_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "anova_09_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "anova_09_decision_A"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "anova_10_p",
+    "title": "ANOVA 10 — Sociology — Income by education level (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Annual income ($1000s) was sampled for high school, college, and graduate degree holders. Do the mean incomes differ by education level?</p><table><thead><tr><th>HS</th><th>College</th><th>Graduate</th></tr></thead><tbody><tr><td>204</td><td>207</td><td>210</td></tr><tr><td>200</td><td>204</td><td>209</td></tr><tr><td>202</td><td>213</td><td>205</td></tr><tr><td>200</td><td>210</td><td>202</td></tr><tr><td>197</td><td>206</td><td>205</td></tr><tr><td>208</td><td>215</td><td>198</td></tr><tr><td>208</td><td>215</td><td>211</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0399</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0703</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0223</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0124</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_C"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "anova_10_decision",
+    "title": "ANOVA 10 — Sociology — Income by education level (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_10_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "anova_10_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "anova_10_decision_B"
+    ]
+  },
+  {
+    "index": 21,
+    "ident": "anova_11_p",
+    "title": "ANOVA 11 — Sociology — Work hours by occupation (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Weekly work hours were recorded for professionals, service workers, and manual laborers. Do the mean hours differ by occupation?</p><table><thead><tr><th>Professional</th><th>Service</th><th>Manual</th></tr></thead><tbody><tr><td>101</td><td>112</td><td>108</td></tr><tr><td>110</td><td>101</td><td>119</td></tr><tr><td>107</td><td>114</td><td>104</td></tr><tr><td>105</td><td>99</td><td>115</td></tr><tr><td>98</td><td>99</td><td>110</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.2889</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.1823</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.4254</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.1090</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_B"
+    ]
+  },
+  {
+    "index": 22,
+    "ident": "anova_11_decision",
+    "title": "ANOVA 11 — Sociology — Work hours by occupation (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_11_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "anova_11_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "anova_11_decision_A"
+    ]
+  },
+  {
+    "index": 23,
+    "ident": "anova_12_p",
+    "title": "ANOVA 12 — Sociology — Donations by age group (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Annual charitable donations ($) were recorded for young, middle-aged, and older adults. Do the mean donations differ by age group?</p><table><thead><tr><th>Young</th><th>Middle-aged</th><th>Older</th></tr></thead><tbody><tr><td>156</td><td>142</td><td>151</td></tr><tr><td>162</td><td>140</td><td>163</td></tr><tr><td>152</td><td>152</td><td>149</td></tr><tr><td>148</td><td>146</td><td>153</td></tr><tr><td>152</td><td>155</td><td>145</td></tr><tr><td>152</td><td>157</td><td>158</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.6207</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.4732</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.3302</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.2129</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_C"
+    ]
+  },
+  {
+    "index": 24,
+    "ident": "anova_12_decision",
+    "title": "ANOVA 12 — Sociology — Donations by age group (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_12_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "anova_12_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "anova_12_decision_A"
+    ]
+  },
+  {
+    "index": 25,
+    "ident": "anova_13_p",
+    "title": "ANOVA 13 — Psychology — Memory score by sleep duration (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Memory recall scores were measured after 4 h, 6 h, and 8 h of sleep. Do the mean scores differ by sleep duration?</p><table><thead><tr><th>4 h</th><th>6 h</th><th>8 h</th></tr></thead><tbody><tr><td>244</td><td>250</td><td>250</td></tr><tr><td>243</td><td>242</td><td>261</td></tr><tr><td>238</td><td>241</td><td>253</td></tr><tr><td>239</td><td>254</td><td>258</td></tr><tr><td>242</td><td>260</td><td>248</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0076</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0250</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0445</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0139</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "pv_D"
+    ]
+  },
+  {
+    "index": 26,
+    "ident": "anova_13_decision",
+    "title": "ANOVA 13 — Psychology — Memory score by sleep duration (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_13_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "anova_13_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "anova_13_decision_B"
+    ]
+  },
+  {
+    "index": 27,
+    "ident": "anova_14_p",
+    "title": "ANOVA 14 — Psychology — Stress score across jobs (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Perceived stress scores (0–40) were recorded for teachers, nurses, and engineers. Do the mean stress levels differ by job?</p><table><thead><tr><th>Teachers</th><th>Nurses</th><th>Engineers</th></tr></thead><tbody><tr><td>180</td><td>178</td><td>192</td></tr><tr><td>168</td><td>179</td><td>182</td></tr><tr><td>176</td><td>184</td><td>187</td></tr><tr><td>180</td><td>175</td><td>181</td></tr><tr><td>174</td><td>186</td><td>188</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0255</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0142</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0456</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0078</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_B"
+    ]
+  },
+  {
+    "index": 28,
+    "ident": "anova_14_decision",
+    "title": "ANOVA 14 — Psychology — Stress score across jobs (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_14_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "anova_14_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "anova_14_decision_B"
+    ]
+  },
+  {
+    "index": 29,
+    "ident": "anova_15_p",
+    "title": "ANOVA 15 — Psychology — Reaction time by caffeine dose (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Reaction time (ms) was measured under 0 mg, 100 mg, and 200 mg caffeine. Do the mean reaction times differ by dose?</p><table><thead><tr><th>0 mg</th><th>100 mg</th><th>200 mg</th></tr></thead><tbody><tr><td>187</td><td>216</td><td>225</td></tr><tr><td>198</td><td>202</td><td>209</td></tr><tr><td>197</td><td>206</td><td>209</td></tr><tr><td>200</td><td>193</td><td>214</td></tr><tr><td>202</td><td>216</td><td>220</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0086</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0047</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0279</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0155</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_A"
+    ]
+  },
+  {
+    "index": 30,
+    "ident": "anova_15_decision",
+    "title": "ANOVA 15 — Psychology — Reaction time by caffeine dose (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_15_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "anova_15_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "anova_15_decision_B"
+    ]
+  },
+  {
+    "index": 31,
+    "ident": "anova_16_p",
+    "title": "ANOVA 16 — Archaeology — Soil phosphate by site (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Soil phosphate concentration (ppm) was measured at three ancient settlements. Do the mean concentrations differ by site?</p><table><thead><tr><th>Settlement A</th><th>Settlement B</th><th>Settlement C</th></tr></thead><tbody><tr><td>151</td><td>172</td><td>159</td></tr><tr><td>135</td><td>188</td><td>162</td></tr><tr><td>169</td><td>156</td><td>167</td></tr><tr><td>158</td><td>179</td><td>167</td></tr><tr><td>140</td><td>166</td><td>173</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0462</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.0811</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.0144</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0259</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "pv_D"
+    ]
+  },
+  {
+    "index": 32,
+    "ident": "anova_16_decision",
+    "title": "ANOVA 16 — Archaeology — Soil phosphate by site (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_16_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "anova_16_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "anova_16_decision_B"
+    ]
+  },
+  {
+    "index": 33,
+    "ident": "anova_17_p",
+    "title": "ANOVA 17 — Biology — Heart rate across species (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Resting heart rate (beats/min) was measured in three related mammal species. Do the mean rates differ by species?</p><table><thead><tr><th>Species 1</th><th>Species 2</th><th>Species 3</th></tr></thead><tbody><tr><td>250</td><td>249</td><td>232</td></tr><tr><td>239</td><td>235</td><td>237</td></tr><tr><td>234</td><td>233</td><td>242</td></tr><tr><td>235</td><td>236</td><td>252</td></tr><tr><td>233</td><td>245</td><td>227</td></tr><tr><td>235</td><td>248</td><td>234</td></tr><tr><td>241</td><td>237</td><td>250</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.8490</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.9492</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.7552</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.9111</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_A"
+    ]
+  },
+  {
+    "index": 34,
+    "ident": "anova_17_decision",
+    "title": "ANOVA 17 — Biology — Heart rate across species (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_17_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "anova_17_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "anova_17_decision_A"
+    ]
+  },
+  {
+    "index": 35,
+    "ident": "anova_18_p",
+    "title": "ANOVA 18 — Sports — Reaction time by position (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Reaction time (ms) was measured for goalkeepers, defenders, and forwards. Do the mean times differ by position?</p><table><thead><tr><th>Goalkeepers</th><th>Defenders</th><th>Forwards</th></tr></thead><tbody><tr><td>112</td><td>116</td><td>119</td></tr><tr><td>108</td><td>109</td><td>118</td></tr><tr><td>118</td><td>103</td><td>116</td></tr><tr><td>113</td><td>119</td><td>121</td></tr><tr><td>117</td><td>110</td><td>114</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.0802</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.1371</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.2244</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.3452</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_B"
+    ]
+  },
+  {
+    "index": 36,
+    "ident": "anova_18_decision",
+    "title": "ANOVA 18 — Sports — Reaction time by position (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_18_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "anova_18_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "anova_18_decision_A"
+    ]
+  },
+  {
+    "index": 37,
+    "ident": "anova_19_p",
+    "title": "ANOVA 19 — Sociology — Satisfaction across regions (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Satisfaction ratings (1–10) with public services were sampled from three cities. Do the mean ratings differ by city?</p><table><thead><tr><th>City A</th><th>City B</th><th>City C</th></tr></thead><tbody><tr><td>94</td><td>97</td><td>96</td></tr><tr><td>108</td><td>90</td><td>101</td></tr><tr><td>86</td><td>88</td><td>91</td></tr><tr><td>105</td><td>97</td><td>98</td></tr><tr><td>97</td><td>81</td><td>91</td></tr><tr><td>104</td><td>104</td><td>94</td></tr><tr><td>94</td><td>90</td><td>101</td></tr><tr><td>106</td><td>88</td><td>92</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.2710</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.1007</p>",
+        "is_correct": true
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.1695</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.0579</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "pv_B"
+    ]
+  },
+  {
+    "index": 38,
+    "ident": "anova_19_decision",
+    "title": "ANOVA 19 — Sociology — Satisfaction across regions (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_19_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "anova_19_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "anova_19_decision_A"
+    ]
+  },
+  {
+    "index": 39,
+    "ident": "anova_20_p",
+    "title": "ANOVA 20 — Psychology — Mood change across therapies (P-value)",
+    "source": "generated",
+    "prompt_html": "<p>Change in mood score (post–pre) was measured for cognitive, behavioral, and group therapy. Do the mean changes differ by therapy type?</p><table><thead><tr><th>Cognitive</th><th>Behavioral</th><th>Group</th></tr></thead><tbody><tr><td>189</td><td>193</td><td>188</td></tr><tr><td>179</td><td>173</td><td>194</td></tr><tr><td>168</td><td>201</td><td>180</td></tr><tr><td>200</td><td>177</td><td>180</td></tr><tr><td>185</td><td>187</td><td>172</td></tr><tr><td>189</td><td>190</td><td>169</td></tr><tr><td>172</td><td>174</td><td>186</td></tr></tbody></table><p>Use a one-way ANOVA to test whether the population means are equal across the groups. What is the <em>P</em>-value for the F-test?</p>",
+    "choices": [
+      {
+        "id": "pv_A",
+        "label": "A",
+        "html": "<p>0.6809</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_B",
+        "label": "B",
+        "html": "<p>0.9281</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_C",
+        "label": "C",
+        "html": "<p>0.8763</p>",
+        "is_correct": false
+      },
+      {
+        "id": "pv_D",
+        "label": "D",
+        "html": "<p>0.7954</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "pv_D"
+    ]
+  },
+  {
+    "index": 40,
+    "ident": "anova_20_decision",
+    "title": "ANOVA 20 — Psychology — Mood change across therapies (decision at 5%)",
+    "source": "generated",
+    "prompt_html": "<p>At the 5% significance level, do the mean values appear to be the same across the groups?</p>",
+    "choices": [
+      {
+        "id": "anova_20_decision_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "anova_20_decision_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "anova_20_decision_A"
+    ]
+  }
+]

@@ -1,0 +1,2523 @@
+[
+  {
+    "index": 1,
+    "ident": "corrU_01_r",
+    "title": "Correlation (units) 01",
+    "source": "generated",
+    "prompt_html": "<p>Researchers want to know the relationship between enzyme concentration (µmol/L) and reaction rate (µmol/min). They collected the following paired data and want to know if there is a linear correlation.</p><table><thead><tr><th>enzyme concentration (µmol/L)</th><th>reaction rate (µmol/min)</th></tr></thead><tbody><tr><td>1</td><td>-0.200</td></tr><tr><td>2</td><td>17.10</td></tr><tr><td>3</td><td>19.20</td></tr><tr><td>4</td><td>27.50</td></tr><tr><td>5</td><td>28.50</td></tr><tr><td>6</td><td>26.70</td></tr><tr><td>7</td><td>36.20</td></tr><tr><td>8</td><td>31.50</td></tr><tr><td>9</td><td>42.20</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_01_r_A",
+        "label": "A",
+        "html": "<p>-0.82</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_01_r_B",
+        "label": "B",
+        "html": "<p>-0.96</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_01_r_C",
+        "label": "C",
+        "html": "<p>+0.82</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_01_r_D",
+        "label": "D",
+        "html": "<p>+0.91</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_01_r_D"
+    ]
+  },
+  {
+    "index": 2,
+    "ident": "corrU_01_p",
+    "title": "Correlation p (units) 01",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_01_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_01_p_B",
+        "label": "B",
+        "html": "<p>0.0006</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_01_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_01_p_D",
+        "label": "D",
+        "html": "<p>0.2077</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_01_p_B"
+    ]
+  },
+  {
+    "index": 3,
+    "ident": "corrU_01_lin",
+    "title": "Correlation linear (units) 01",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_01_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_01_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_01_lin_A"
+    ]
+  },
+  {
+    "index": 4,
+    "ident": "corrU_01_dir",
+    "title": "Correlation direction (units) 01",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_01_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_01_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_01_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_01_dir_A"
+    ]
+  },
+  {
+    "index": 5,
+    "ident": "corrU_02_r",
+    "title": "Correlation (units) 02",
+    "source": "generated",
+    "prompt_html": "<p>A study measured leaf area (cm²) and photosynthetic rate (µmol CO₂/s) to examine whether they are linearly related. The paired data are shown below. Do the data suggest a linear correlation?</p><table><thead><tr><th>leaf area (cm²)</th><th>photosynthetic rate (µmol CO₂/s)</th></tr></thead><tbody><tr><td>10</td><td>4.10</td></tr><tr><td>20</td><td>5.30</td></tr><tr><td>30</td><td>8</td></tr><tr><td>40</td><td>5.10</td></tr><tr><td>50</td><td>10.20</td></tr><tr><td>60</td><td>16.50</td></tr><tr><td>70</td><td>9.30</td></tr><tr><td>80</td><td>5.30</td></tr><tr><td>90</td><td>15.40</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_02_r_A",
+        "label": "A",
+        "html": "<p>-0.53</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_02_r_B",
+        "label": "B",
+        "html": "<p>-0.62</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_02_r_C",
+        "label": "C",
+        "html": "<p>+0.53</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_02_r_D",
+        "label": "D",
+        "html": "<p>+0.59</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_02_r_D"
+    ]
+  },
+  {
+    "index": 6,
+    "ident": "corrU_02_p",
+    "title": "Correlation p (units) 02",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_02_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_02_p_B",
+        "label": "B",
+        "html": "<p>0.0350</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_02_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_02_p_D",
+        "label": "D",
+        "html": "<p>0.0922</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_02_p_D"
+    ]
+  },
+  {
+    "index": 7,
+    "ident": "corrU_02_lin",
+    "title": "Correlation linear (units) 02",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_02_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_02_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_02_lin_B"
+    ]
+  },
+  {
+    "index": 8,
+    "ident": "corrU_02_dir",
+    "title": "Correlation direction (units) 02",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_02_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_02_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_02_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_02_dir_C"
+    ]
+  },
+  {
+    "index": 9,
+    "ident": "corrU_03_r",
+    "title": "Correlation (units) 03",
+    "source": "generated",
+    "prompt_html": "<p>Scientists recorded ambient temperature (°c) and heart rate (beats/min) for a sample and want to assess whether a linear correlation is present. The data are given below.</p><table><thead><tr><th>ambient temperature (°c)</th><th>heart rate (beats/min)</th></tr></thead><tbody><tr><td>10</td><td>14.20</td></tr><tr><td>15</td><td>22.70</td></tr><tr><td>20</td><td>37</td></tr><tr><td>25</td><td>27.20</td></tr><tr><td>30</td><td>31.80</td></tr><tr><td>35</td><td>35.50</td></tr><tr><td>40</td><td>36</td></tr><tr><td>45</td><td>43.40</td></tr><tr><td>50</td><td>58.70</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_03_r_A",
+        "label": "A",
+        "html": "<p>-0.80</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_03_r_B",
+        "label": "B",
+        "html": "<p>-0.93</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_03_r_C",
+        "label": "C",
+        "html": "<p>+0.80</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_03_r_D",
+        "label": "D",
+        "html": "<p>+0.89</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_03_r_D"
+    ]
+  },
+  {
+    "index": 10,
+    "ident": "corrU_03_p",
+    "title": "Correlation p (units) 03",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_03_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_03_p_B",
+        "label": "B",
+        "html": "<p>0.0014</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_03_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_03_p_D",
+        "label": "D",
+        "html": "<p>0.2077</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_03_p_B"
+    ]
+  },
+  {
+    "index": 11,
+    "ident": "corrU_03_lin",
+    "title": "Correlation linear (units) 03",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_03_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_03_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_03_lin_A"
+    ]
+  },
+  {
+    "index": 12,
+    "ident": "corrU_03_dir",
+    "title": "Correlation direction (units) 03",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_03_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_03_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_03_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_03_dir_A"
+    ]
+  },
+  {
+    "index": 13,
+    "ident": "corrU_04_r",
+    "title": "Correlation (units) 04",
+    "source": "generated",
+    "prompt_html": "<p>Investigators compared chlorophyll concentration (mg/L) and absorbance (a.u.). Using the paired data shown below, determine whether there is a linear correlation.</p><table><thead><tr><th>chlorophyll concentration (mg/L)</th><th>absorbance (a.u.)</th></tr></thead><tbody><tr><td>0.10</td><td>-0.060</td></tr><tr><td>0.20</td><td>0.210</td></tr><tr><td>0.30</td><td>0.200</td></tr><tr><td>0.40</td><td>0.320</td></tr><tr><td>0.50</td><td>0.180</td></tr><tr><td>0.60</td><td>0.330</td></tr><tr><td>0.70</td><td>0.370</td></tr><tr><td>0.80</td><td>0.410</td></tr><tr><td>0.90</td><td>0.460</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_04_r_A",
+        "label": "A",
+        "html": "<p>-0.79</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_04_r_B",
+        "label": "B",
+        "html": "<p>-0.92</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_04_r_C",
+        "label": "C",
+        "html": "<p>+0.79</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_04_r_D",
+        "label": "D",
+        "html": "<p>+0.88</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_04_r_D"
+    ]
+  },
+  {
+    "index": 14,
+    "ident": "corrU_04_p",
+    "title": "Correlation p (units) 04",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_04_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_04_p_B",
+        "label": "B",
+        "html": "<p>0.0017</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_04_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_04_p_D",
+        "label": "D",
+        "html": "<p>0.2077</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_04_p_B"
+    ]
+  },
+  {
+    "index": 15,
+    "ident": "corrU_04_lin",
+    "title": "Correlation linear (units) 04",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_04_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_04_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_04_lin_A"
+    ]
+  },
+  {
+    "index": 16,
+    "ident": "corrU_04_dir",
+    "title": "Correlation direction (units) 04",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_04_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_04_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_04_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_04_dir_A"
+    ]
+  },
+  {
+    "index": 17,
+    "ident": "corrU_05_r",
+    "title": "Correlation (units) 05",
+    "source": "generated",
+    "prompt_html": "<p>Analysts gathered paired observations of body length (cm) and body weight (g). Use these data to evaluate whether a linear correlation exists.</p><table><thead><tr><th>body length (cm)</th><th>body weight (g)</th></tr></thead><tbody><tr><td>8</td><td>9</td></tr><tr><td>10</td><td>8.90</td></tr><tr><td>12</td><td>38.50</td></tr><tr><td>14</td><td>26.90</td></tr><tr><td>16</td><td>43.60</td></tr><tr><td>18</td><td>111</td></tr><tr><td>20</td><td>66.20</td></tr><tr><td>22</td><td>60.70</td></tr><tr><td>24</td><td>31.60</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_05_r_A",
+        "label": "A",
+        "html": "<p>-0.49</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_05_r_B",
+        "label": "B",
+        "html": "<p>-0.58</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_05_r_C",
+        "label": "C",
+        "html": "<p>+0.49</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_05_r_D",
+        "label": "D",
+        "html": "<p>+0.55</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_05_r_D"
+    ]
+  },
+  {
+    "index": 18,
+    "ident": "corrU_05_p",
+    "title": "Correlation p (units) 05",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_05_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_05_p_B",
+        "label": "B",
+        "html": "<p>0.0350</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_05_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_05_p_D",
+        "label": "D",
+        "html": "<p>0.1254</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_05_p_D"
+    ]
+  },
+  {
+    "index": 19,
+    "ident": "corrU_05_lin",
+    "title": "Correlation linear (units) 05",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_05_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_05_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_05_lin_B"
+    ]
+  },
+  {
+    "index": 20,
+    "ident": "corrU_05_dir",
+    "title": "Correlation direction (units) 05",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_05_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_05_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_05_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_05_dir_C"
+    ]
+  },
+  {
+    "index": 21,
+    "ident": "corrU_06_r",
+    "title": "Correlation (units) 06",
+    "source": "generated",
+    "prompt_html": "<p>Researchers want to know the relationship between growth hormone (ng/mL) and growth rate (cm/month). They collected the following paired data and want to know if there is a linear correlation.</p><table><thead><tr><th>growth hormone (ng/mL)</th><th>growth rate (cm/month)</th></tr></thead><tbody><tr><td>1</td><td>0.200</td></tr><tr><td>2</td><td>2.40</td></tr><tr><td>3</td><td>3.30</td></tr><tr><td>4</td><td>2.90</td></tr><tr><td>5</td><td>3.60</td></tr><tr><td>6</td><td>6.10</td></tr><tr><td>7</td><td>5.20</td></tr><tr><td>8</td><td>5.50</td></tr><tr><td>9</td><td>6.10</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_06_r_A",
+        "label": "A",
+        "html": "<p>-0.83</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_06_r_B",
+        "label": "B",
+        "html": "<p>-0.97</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_06_r_C",
+        "label": "C",
+        "html": "<p>+0.83</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_06_r_D",
+        "label": "D",
+        "html": "<p>+0.92</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_06_r_D"
+    ]
+  },
+  {
+    "index": 22,
+    "ident": "corrU_06_p",
+    "title": "Correlation p (units) 06",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_06_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_06_p_B",
+        "label": "B",
+        "html": "<p>0.0004</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_06_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_06_p_D",
+        "label": "D",
+        "html": "<p>0.2077</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_06_p_B"
+    ]
+  },
+  {
+    "index": 23,
+    "ident": "corrU_06_lin",
+    "title": "Correlation linear (units) 06",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_06_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_06_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_06_lin_A"
+    ]
+  },
+  {
+    "index": 24,
+    "ident": "corrU_06_dir",
+    "title": "Correlation direction (units) 06",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_06_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_06_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_06_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_06_dir_A"
+    ]
+  },
+  {
+    "index": 25,
+    "ident": "corrU_07_r",
+    "title": "Correlation (units) 07",
+    "source": "generated",
+    "prompt_html": "<p>A study measured stimulus intensity (mA) and neural firing rate (spikes/s) to examine whether they are linearly related. The paired data are shown below. Do the data suggest a linear correlation?</p><table><thead><tr><th>stimulus intensity (mA)</th><th>neural firing rate (spikes/s)</th></tr></thead><tbody><tr><td>1</td><td>9.80</td></tr><tr><td>2</td><td>10.20</td></tr><tr><td>3</td><td>17.80</td></tr><tr><td>4</td><td>5</td></tr><tr><td>5</td><td>30.40</td></tr><tr><td>6</td><td>19.70</td></tr><tr><td>7</td><td>38.80</td></tr><tr><td>8</td><td>33.90</td></tr><tr><td>9</td><td>17.50</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_07_r_A",
+        "label": "A",
+        "html": "<p>-0.56</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_07_r_B",
+        "label": "B",
+        "html": "<p>-0.65</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_07_r_C",
+        "label": "C",
+        "html": "<p>+0.56</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_07_r_D",
+        "label": "D",
+        "html": "<p>+0.62</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_07_r_D"
+    ]
+  },
+  {
+    "index": 26,
+    "ident": "corrU_07_p",
+    "title": "Correlation p (units) 07",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_07_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_07_p_B",
+        "label": "B",
+        "html": "<p>0.0350</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_07_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_07_p_D",
+        "label": "D",
+        "html": "<p>0.0748</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_07_p_D"
+    ]
+  },
+  {
+    "index": 27,
+    "ident": "corrU_07_lin",
+    "title": "Correlation linear (units) 07",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_07_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_07_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_07_lin_B"
+    ]
+  },
+  {
+    "index": 28,
+    "ident": "corrU_07_dir",
+    "title": "Correlation direction (units) 07",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_07_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_07_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_07_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_07_dir_C"
+    ]
+  },
+  {
+    "index": 29,
+    "ident": "corrU_08_r",
+    "title": "Correlation (units) 08",
+    "source": "generated",
+    "prompt_html": "<p>Scientists recorded protein intake (g/day) and muscle gain (kg) for a sample and want to assess whether a linear correlation is present. The data are given below.</p><table><thead><tr><th>protein intake (g/day)</th><th>muscle gain (kg)</th></tr></thead><tbody><tr><td>60</td><td>1.80</td></tr><tr><td>70</td><td>1.30</td></tr><tr><td>80</td><td>0.700</td></tr><tr><td>90</td><td>2.70</td></tr><tr><td>100</td><td>2.60</td></tr><tr><td>110</td><td>2.40</td></tr><tr><td>120</td><td>2.10</td></tr><tr><td>130</td><td>1.70</td></tr><tr><td>140</td><td>2.60</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_08_r_A",
+        "label": "A",
+        "html": "<p>-0.42</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_08_r_B",
+        "label": "B",
+        "html": "<p>-0.49</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_08_r_C",
+        "label": "C",
+        "html": "<p>+0.42</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_08_r_D",
+        "label": "D",
+        "html": "<p>+0.46</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_08_r_D"
+    ]
+  },
+  {
+    "index": 30,
+    "ident": "corrU_08_p",
+    "title": "Correlation p (units) 08",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_08_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_08_p_B",
+        "label": "B",
+        "html": "<p>0.0350</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_08_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_08_p_D",
+        "label": "D",
+        "html": "<p>0.2086</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_08_p_D"
+    ]
+  },
+  {
+    "index": 31,
+    "ident": "corrU_08_lin",
+    "title": "Correlation linear (units) 08",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_08_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_08_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_08_lin_B"
+    ]
+  },
+  {
+    "index": 32,
+    "ident": "corrU_08_dir",
+    "title": "Correlation direction (units) 08",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_08_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_08_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_08_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_08_dir_C"
+    ]
+  },
+  {
+    "index": 33,
+    "ident": "corrU_09_r",
+    "title": "Correlation (units) 09",
+    "source": "generated",
+    "prompt_html": "<p>Investigators compared light intensity (lux) and plant height (cm). Using the paired data shown below, determine whether there is a linear correlation.</p><table><thead><tr><th>light intensity (lux)</th><th>plant height (cm)</th></tr></thead><tbody><tr><td>200</td><td>2.40</td></tr><tr><td>300</td><td>5.60</td></tr><tr><td>400</td><td>6.20</td></tr><tr><td>500</td><td>6.30</td></tr><tr><td>600</td><td>6.90</td></tr><tr><td>700</td><td>6</td></tr><tr><td>800</td><td>5.40</td></tr><tr><td>900</td><td>5.50</td></tr><tr><td>1000</td><td>5.70</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_09_r_A",
+        "label": "A",
+        "html": "<p>-0.35</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_09_r_B",
+        "label": "B",
+        "html": "<p>-0.41</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_09_r_C",
+        "label": "C",
+        "html": "<p>+0.35</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_09_r_D",
+        "label": "D",
+        "html": "<p>+0.39</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_09_r_D"
+    ]
+  },
+  {
+    "index": 34,
+    "ident": "corrU_09_p",
+    "title": "Correlation p (units) 09",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_09_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_09_p_B",
+        "label": "B",
+        "html": "<p>0.0350</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_09_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_09_p_D",
+        "label": "D",
+        "html": "<p>0.2939</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_09_p_D"
+    ]
+  },
+  {
+    "index": 35,
+    "ident": "corrU_09_lin",
+    "title": "Correlation linear (units) 09",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_09_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_09_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_09_lin_B"
+    ]
+  },
+  {
+    "index": 36,
+    "ident": "corrU_09_dir",
+    "title": "Correlation direction (units) 09",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_09_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_09_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_09_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_09_dir_C"
+    ]
+  },
+  {
+    "index": 37,
+    "ident": "corrU_10_r",
+    "title": "Correlation (units) 10",
+    "source": "generated",
+    "prompt_html": "<p>Analysts gathered paired observations of hemoglobin (g/dL) and blood oxygen content (mL/dL). Use these data to evaluate whether a linear correlation exists.</p><table><thead><tr><th>hemoglobin (g/dL)</th><th>blood oxygen content (mL/dL)</th></tr></thead><tbody><tr><td>10</td><td>15.70</td></tr><tr><td>11</td><td>5.90</td></tr><tr><td>12</td><td>18.90</td></tr><tr><td>13</td><td>19</td></tr><tr><td>14</td><td>11.40</td></tr><tr><td>15</td><td>21.70</td></tr><tr><td>16</td><td>15</td></tr><tr><td>17</td><td>25.50</td></tr><tr><td>18</td><td>24.50</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_10_r_A",
+        "label": "A",
+        "html": "<p>-0.58</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_10_r_B",
+        "label": "B",
+        "html": "<p>-0.68</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_10_r_C",
+        "label": "C",
+        "html": "<p>+0.58</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_10_r_D",
+        "label": "D",
+        "html": "<p>+0.65</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_10_r_D"
+    ]
+  },
+  {
+    "index": 38,
+    "ident": "corrU_10_p",
+    "title": "Correlation p (units) 10",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_10_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_10_p_B",
+        "label": "B",
+        "html": "<p>0.0350</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_10_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_10_p_D",
+        "label": "D",
+        "html": "<p>0.0604</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_10_p_D"
+    ]
+  },
+  {
+    "index": 39,
+    "ident": "corrU_10_lin",
+    "title": "Correlation linear (units) 10",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_10_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_10_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_10_lin_B"
+    ]
+  },
+  {
+    "index": 40,
+    "ident": "corrU_10_dir",
+    "title": "Correlation direction (units) 10",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_10_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_10_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_10_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_10_dir_C"
+    ]
+  },
+  {
+    "index": 41,
+    "ident": "corrU_11_r",
+    "title": "Correlation (units) 11",
+    "source": "generated",
+    "prompt_html": "<p>Researchers want to know the relationship between age (years) and systolic blood pressure (mmHg). They collected the following paired data and want to know if there is a linear correlation.</p><table><thead><tr><th>age (years)</th><th>systolic blood pressure (mmHg)</th></tr></thead><tbody><tr><td>30</td><td>122.30</td></tr><tr><td>35</td><td>111.40</td></tr><tr><td>40</td><td>118</td></tr><tr><td>45</td><td>126.70</td></tr><tr><td>50</td><td>121.80</td></tr><tr><td>55</td><td>125</td></tr><tr><td>60</td><td>130.10</td></tr><tr><td>65</td><td>135.10</td></tr><tr><td>70</td><td>133.60</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_11_r_A",
+        "label": "A",
+        "html": "<p>-0.76</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_11_r_B",
+        "label": "B",
+        "html": "<p>-0.88</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_11_r_C",
+        "label": "C",
+        "html": "<p>+0.76</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_11_r_D",
+        "label": "D",
+        "html": "<p>+0.84</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_11_r_D"
+    ]
+  },
+  {
+    "index": 42,
+    "ident": "corrU_11_p",
+    "title": "Correlation p (units) 11",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_11_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_11_p_B",
+        "label": "B",
+        "html": "<p>0.0047</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_11_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_11_p_D",
+        "label": "D",
+        "html": "<p>0.2077</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_11_p_B"
+    ]
+  },
+  {
+    "index": 43,
+    "ident": "corrU_11_lin",
+    "title": "Correlation linear (units) 11",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_11_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_11_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_11_lin_A"
+    ]
+  },
+  {
+    "index": 44,
+    "ident": "corrU_11_dir",
+    "title": "Correlation direction (units) 11",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_11_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_11_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_11_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_11_dir_A"
+    ]
+  },
+  {
+    "index": 45,
+    "ident": "corrU_12_r",
+    "title": "Correlation (units) 12",
+    "source": "generated",
+    "prompt_html": "<p>A study measured insulin dose (units) and glucose reduction (mg/dL) to examine whether they are linearly related. The paired data are shown below. Do the data suggest a linear correlation?</p><table><thead><tr><th>insulin dose (units)</th><th>glucose reduction (mg/dL)</th></tr></thead><tbody><tr><td>5</td><td>137.70</td></tr><tr><td>10</td><td>147.20</td></tr><tr><td>15</td><td>-58</td></tr><tr><td>20</td><td>-6.10</td></tr><tr><td>25</td><td>134.90</td></tr><tr><td>30</td><td>117.20</td></tr><tr><td>35</td><td>111.50</td></tr><tr><td>40</td><td>191.80</td></tr><tr><td>45</td><td>187.10</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_12_r_A",
+        "label": "A",
+        "html": "<p>-0.39</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_12_r_B",
+        "label": "B",
+        "html": "<p>-0.45</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_12_r_C",
+        "label": "C",
+        "html": "<p>+0.39</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_12_r_D",
+        "label": "D",
+        "html": "<p>+0.43</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_12_r_D"
+    ]
+  },
+  {
+    "index": 46,
+    "ident": "corrU_12_p",
+    "title": "Correlation p (units) 12",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_12_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_12_p_B",
+        "label": "B",
+        "html": "<p>0.0350</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_12_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_12_p_D",
+        "label": "D",
+        "html": "<p>0.2494</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_12_p_D"
+    ]
+  },
+  {
+    "index": 47,
+    "ident": "corrU_12_lin",
+    "title": "Correlation linear (units) 12",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_12_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_12_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_12_lin_B"
+    ]
+  },
+  {
+    "index": 48,
+    "ident": "corrU_12_dir",
+    "title": "Correlation direction (units) 12",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_12_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_12_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_12_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_12_dir_C"
+    ]
+  },
+  {
+    "index": 49,
+    "ident": "corrU_13_r",
+    "title": "Correlation (units) 13",
+    "source": "generated",
+    "prompt_html": "<p>Scientists recorded exercise intensity (% max) and heart rate (beats/min) for a sample and want to assess whether a linear correlation is present. The data are given below.</p><table><thead><tr><th>exercise intensity (% max)</th><th>heart rate (beats/min)</th></tr></thead><tbody><tr><td>20</td><td>84.70</td></tr><tr><td>30</td><td>109.10</td></tr><tr><td>40</td><td>125.20</td></tr><tr><td>50</td><td>109.60</td></tr><tr><td>60</td><td>147.40</td></tr><tr><td>70</td><td>127.10</td></tr><tr><td>80</td><td>159</td></tr><tr><td>85</td><td>165.10</td></tr><tr><td>90</td><td>180.50</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_13_r_A",
+        "label": "A",
+        "html": "<p>-0.83</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_13_r_B",
+        "label": "B",
+        "html": "<p>-0.97</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_13_r_C",
+        "label": "C",
+        "html": "<p>+0.83</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_13_r_D",
+        "label": "D",
+        "html": "<p>+0.93</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_13_r_D"
+    ]
+  },
+  {
+    "index": 50,
+    "ident": "corrU_13_p",
+    "title": "Correlation p (units) 13",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_13_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_13_p_B",
+        "label": "B",
+        "html": "<p>0.0003</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_13_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_13_p_D",
+        "label": "D",
+        "html": "<p>0.2077</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_13_p_B"
+    ]
+  },
+  {
+    "index": 51,
+    "ident": "corrU_13_lin",
+    "title": "Correlation linear (units) 13",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_13_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_13_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_13_lin_A"
+    ]
+  },
+  {
+    "index": 52,
+    "ident": "corrU_13_dir",
+    "title": "Correlation direction (units) 13",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_13_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_13_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_13_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_13_dir_A"
+    ]
+  },
+  {
+    "index": 53,
+    "ident": "corrU_14_r",
+    "title": "Correlation (units) 14",
+    "source": "generated",
+    "prompt_html": "<p>Investigators compared lung capacity (L) and height (cm). Using the paired data shown below, determine whether there is a linear correlation.</p><table><thead><tr><th>lung capacity (L)</th><th>height (cm)</th></tr></thead><tbody><tr><td>150</td><td>2.50</td></tr><tr><td>155</td><td>3.70</td></tr><tr><td>160</td><td>4.60</td></tr><tr><td>165</td><td>4.90</td></tr><tr><td>170</td><td>2.80</td></tr><tr><td>175</td><td>5.20</td></tr><tr><td>180</td><td>6</td></tr><tr><td>185</td><td>5.70</td></tr><tr><td>190</td><td>4.30</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_14_r_A",
+        "label": "A",
+        "html": "<p>-0.55</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_14_r_B",
+        "label": "B",
+        "html": "<p>-0.64</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_14_r_C",
+        "label": "C",
+        "html": "<p>+0.55</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_14_r_D",
+        "label": "D",
+        "html": "<p>+0.61</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_14_r_D"
+    ]
+  },
+  {
+    "index": 54,
+    "ident": "corrU_14_p",
+    "title": "Correlation p (units) 14",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_14_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_14_p_B",
+        "label": "B",
+        "html": "<p>0.0350</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_14_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_14_p_D",
+        "label": "D",
+        "html": "<p>0.0803</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_14_p_D"
+    ]
+  },
+  {
+    "index": 55,
+    "ident": "corrU_14_lin",
+    "title": "Correlation linear (units) 14",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_14_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_14_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_14_lin_B"
+    ]
+  },
+  {
+    "index": 56,
+    "ident": "corrU_14_dir",
+    "title": "Correlation direction (units) 14",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_14_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_14_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_14_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_14_dir_C"
+    ]
+  },
+  {
+    "index": 57,
+    "ident": "corrU_15_r",
+    "title": "Correlation (units) 15",
+    "source": "generated",
+    "prompt_html": "<p>Analysts gathered paired observations of calcium intake (mg/day) and bone mineral density (g/cm²). Use these data to evaluate whether a linear correlation exists.</p><table><thead><tr><th>calcium intake (mg/day)</th><th>bone mineral density (g/cm²)</th></tr></thead><tbody><tr><td>400</td><td>1.10</td></tr><tr><td>600</td><td>0.800</td></tr><tr><td>800</td><td>1.10</td></tr><tr><td>1000</td><td>0.700</td></tr><tr><td>1200</td><td>1.10</td></tr><tr><td>1400</td><td>1</td></tr><tr><td>1600</td><td>1.10</td></tr><tr><td>1800</td><td>1.10</td></tr><tr><td>2000</td><td>1.10</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_15_r_A",
+        "label": "A",
+        "html": "<p>-0.32</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_15_r_B",
+        "label": "B",
+        "html": "<p>-0.37</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_15_r_C",
+        "label": "C",
+        "html": "<p>+0.32</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_15_r_D",
+        "label": "D",
+        "html": "<p>+0.36</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_15_r_D"
+    ]
+  },
+  {
+    "index": 58,
+    "ident": "corrU_15_p",
+    "title": "Correlation p (units) 15",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_15_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_15_p_B",
+        "label": "B",
+        "html": "<p>0.0350</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_15_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_15_p_D",
+        "label": "D",
+        "html": "<p>0.3463</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_15_p_D"
+    ]
+  },
+  {
+    "index": 59,
+    "ident": "corrU_15_lin",
+    "title": "Correlation linear (units) 15",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_15_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_15_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_15_lin_B"
+    ]
+  },
+  {
+    "index": 60,
+    "ident": "corrU_15_dir",
+    "title": "Correlation direction (units) 15",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_15_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_15_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_15_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_15_dir_C"
+    ]
+  },
+  {
+    "index": 61,
+    "ident": "corrU_16_r",
+    "title": "Correlation (units) 16",
+    "source": "generated",
+    "prompt_html": "<p>Researchers want to know the relationship between hematocrit (%) and blood viscosity (mPa·s). They collected the following paired data and want to know if there is a linear correlation.</p><table><thead><tr><th>hematocrit (%)</th><th>blood viscosity (mPa·s)</th></tr></thead><tbody><tr><td>35</td><td>3.20</td></tr><tr><td>38</td><td>4.60</td></tr><tr><td>41</td><td>1.80</td></tr><tr><td>44</td><td>3.70</td></tr><tr><td>47</td><td>4.50</td></tr><tr><td>50</td><td>4.60</td></tr><tr><td>53</td><td>3.60</td></tr><tr><td>55</td><td>4.50</td></tr><tr><td>57</td><td>6.20</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_16_r_A",
+        "label": "A",
+        "html": "<p>-0.53</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_16_r_B",
+        "label": "B",
+        "html": "<p>-0.62</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_16_r_C",
+        "label": "C",
+        "html": "<p>+0.53</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_16_r_D",
+        "label": "D",
+        "html": "<p>+0.59</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_16_r_D"
+    ]
+  },
+  {
+    "index": 62,
+    "ident": "corrU_16_p",
+    "title": "Correlation p (units) 16",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_16_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_16_p_B",
+        "label": "B",
+        "html": "<p>0.0350</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_16_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_16_p_D",
+        "label": "D",
+        "html": "<p>0.0969</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_16_p_D"
+    ]
+  },
+  {
+    "index": 63,
+    "ident": "corrU_16_lin",
+    "title": "Correlation linear (units) 16",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_16_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_16_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_16_lin_B"
+    ]
+  },
+  {
+    "index": 64,
+    "ident": "corrU_16_dir",
+    "title": "Correlation direction (units) 16",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_16_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_16_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_16_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_16_dir_C"
+    ]
+  },
+  {
+    "index": 65,
+    "ident": "corrU_17_r",
+    "title": "Correlation (units) 17",
+    "source": "generated",
+    "prompt_html": "<p>A study measured saturated fat intake (g/day) and ldl cholesterol (mg/dL) to examine whether they are linearly related. The paired data are shown below. Do the data suggest a linear correlation?</p><table><thead><tr><th>saturated fat intake (g/day)</th><th>ldl cholesterol (mg/dL)</th></tr></thead><tbody><tr><td>20</td><td>86.30</td></tr><tr><td>30</td><td>84.90</td></tr><tr><td>40</td><td>102.10</td></tr><tr><td>50</td><td>92</td></tr><tr><td>60</td><td>133.40</td></tr><tr><td>70</td><td>127.60</td></tr><tr><td>80</td><td>159.60</td></tr><tr><td>90</td><td>117.80</td></tr><tr><td>100</td><td>161.90</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_17_r_A",
+        "label": "A",
+        "html": "<p>-0.77</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_17_r_B",
+        "label": "B",
+        "html": "<p>-0.89</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_17_r_C",
+        "label": "C",
+        "html": "<p>+0.77</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_17_r_D",
+        "label": "D",
+        "html": "<p>+0.85</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_17_r_D"
+    ]
+  },
+  {
+    "index": 66,
+    "ident": "corrU_17_p",
+    "title": "Correlation p (units) 17",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_17_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_17_p_B",
+        "label": "B",
+        "html": "<p>0.0037</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_17_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_17_p_D",
+        "label": "D",
+        "html": "<p>0.2077</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_17_p_B"
+    ]
+  },
+  {
+    "index": 67,
+    "ident": "corrU_17_lin",
+    "title": "Correlation linear (units) 17",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_17_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_17_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_17_lin_A"
+    ]
+  },
+  {
+    "index": 68,
+    "ident": "corrU_17_dir",
+    "title": "Correlation direction (units) 17",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_17_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_17_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_17_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_17_dir_A"
+    ]
+  },
+  {
+    "index": 69,
+    "ident": "corrU_18_r",
+    "title": "Correlation (units) 18",
+    "source": "generated",
+    "prompt_html": "<p>Scientists recorded time since peak (hours) and blood alcohol concentration (%) for a sample and want to assess whether a linear correlation is present. The data are given below.</p><table><thead><tr><th>time since peak (hours)</th><th>blood alcohol concentration (%)</th></tr></thead><tbody><tr><td>1</td><td>0.200</td></tr><tr><td>2</td><td>0.200</td></tr><tr><td>3</td><td>0.200</td></tr><tr><td>4</td><td>0.200</td></tr><tr><td>5</td><td>0.200</td></tr><tr><td>6</td><td>0.100</td></tr><tr><td>7</td><td>0.100</td></tr><tr><td>8</td><td>0.100</td></tr><tr><td>9</td><td>0.100</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_18_r_A",
+        "label": "A",
+        "html": "<p>-0.78</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_18_r_B",
+        "label": "B",
+        "html": "<p>-0.87</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_18_r_C",
+        "label": "C",
+        "html": "<p>+0.78</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_18_r_D",
+        "label": "D",
+        "html": "<p>+0.91</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_18_r_B"
+    ]
+  },
+  {
+    "index": 70,
+    "ident": "corrU_18_p",
+    "title": "Correlation p (units) 18",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_18_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_18_p_B",
+        "label": "B",
+        "html": "<p>0.0025</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_18_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_18_p_D",
+        "label": "D",
+        "html": "<p>0.2077</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_18_p_B"
+    ]
+  },
+  {
+    "index": 71,
+    "ident": "corrU_18_lin",
+    "title": "Correlation linear (units) 18",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_18_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_18_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_18_lin_A"
+    ]
+  },
+  {
+    "index": 72,
+    "ident": "corrU_18_dir",
+    "title": "Correlation direction (units) 18",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_18_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_18_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_18_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_18_dir_B"
+    ]
+  },
+  {
+    "index": 73,
+    "ident": "corrU_19_r",
+    "title": "Correlation (units) 19",
+    "source": "generated",
+    "prompt_html": "<p>Investigators compared stress rating (1–10) and cortisol level (µg/dL). Using the paired data shown below, determine whether there is a linear correlation.</p><table><thead><tr><th>stress rating (1–10)</th><th>cortisol level (µg/dL)</th></tr></thead><tbody><tr><td>1</td><td>4.40</td></tr><tr><td>2</td><td>4.30</td></tr><tr><td>3</td><td>5.60</td></tr><tr><td>4</td><td>4.90</td></tr><tr><td>5</td><td>7.10</td></tr><tr><td>6</td><td>8.70</td></tr><tr><td>7</td><td>7.10</td></tr><tr><td>8</td><td>9.80</td></tr><tr><td>9</td><td>11</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_19_r_A",
+        "label": "A",
+        "html": "<p>-0.84</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_19_r_B",
+        "label": "B",
+        "html": "<p>-0.98</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_19_r_C",
+        "label": "C",
+        "html": "<p>+0.84</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_19_r_D",
+        "label": "D",
+        "html": "<p>+0.93</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_19_r_D"
+    ]
+  },
+  {
+    "index": 74,
+    "ident": "corrU_19_p",
+    "title": "Correlation p (units) 19",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_19_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_19_p_B",
+        "label": "B",
+        "html": "<p>0.0002</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_19_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_19_p_D",
+        "label": "D",
+        "html": "<p>0.2077</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_19_p_A",
+      "corrU_19_p_B"
+    ]
+  },
+  {
+    "index": 75,
+    "ident": "corrU_19_lin",
+    "title": "Correlation linear (units) 19",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_19_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_19_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_19_lin_A"
+    ]
+  },
+  {
+    "index": 76,
+    "ident": "corrU_19_dir",
+    "title": "Correlation direction (units) 19",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_19_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_19_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_19_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_19_dir_A"
+    ]
+  },
+  {
+    "index": 77,
+    "ident": "corrU_20_r",
+    "title": "Correlation (units) 20",
+    "source": "generated",
+    "prompt_html": "<p>Analysts gathered paired observations of hours awake (h) and errors per hour (errors/h). Use these data to evaluate whether a linear correlation exists.</p><table><thead><tr><th>hours awake (h)</th><th>errors per hour (errors/h)</th></tr></thead><tbody><tr><td>8</td><td>5</td></tr><tr><td>12</td><td>2.80</td></tr><tr><td>16</td><td>5.50</td></tr><tr><td>20</td><td>5.40</td></tr><tr><td>24</td><td>9.20</td></tr><tr><td>28</td><td>14.40</td></tr><tr><td>32</td><td>19.60</td></tr><tr><td>36</td><td>15.60</td></tr><tr><td>40</td><td>22.70</td></tr></tbody></table><p>Find the sample correlation coefficient <em>r</em>.</p>",
+    "choices": [
+      {
+        "id": "corrU_20_r_A",
+        "label": "A",
+        "html": "<p>-0.84</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_20_r_B",
+        "label": "B",
+        "html": "<p>-0.98</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_20_r_C",
+        "label": "C",
+        "html": "<p>+0.84</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_20_r_D",
+        "label": "D",
+        "html": "<p>+0.93</p>",
+        "is_correct": true
+      }
+    ],
+    "correct_ids": [
+      "corrU_20_r_D"
+    ]
+  },
+  {
+    "index": 78,
+    "ident": "corrU_20_p",
+    "title": "Correlation p (units) 20",
+    "source": "generated",
+    "prompt_html": "<p>Find the two-tailed <em>P</em>-value for testing correlation.</p>",
+    "choices": [
+      {
+        "id": "corrU_20_p_A",
+        "label": "A",
+        "html": "<p>0.0002</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_20_p_B",
+        "label": "B",
+        "html": "<p>0.0003</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_20_p_C",
+        "label": "C",
+        "html": "<p>0.0612</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_20_p_D",
+        "label": "D",
+        "html": "<p>0.2077</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_20_p_B"
+    ]
+  },
+  {
+    "index": 79,
+    "ident": "corrU_20_lin",
+    "title": "Correlation linear (units) 20",
+    "source": "generated",
+    "prompt_html": "<p>Does there appear to be a linear correlation?</p>",
+    "choices": [
+      {
+        "id": "corrU_20_lin_A",
+        "label": "A",
+        "html": "<p>Yes</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_20_lin_B",
+        "label": "B",
+        "html": "<p>No</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_20_lin_A"
+    ]
+  },
+  {
+    "index": 80,
+    "ident": "corrU_20_dir",
+    "title": "Correlation direction (units) 20",
+    "source": "generated",
+    "prompt_html": "<p>If there is a linear correlation, does it seem to be positive or negative?</p>",
+    "choices": [
+      {
+        "id": "corrU_20_dir_A",
+        "label": "A",
+        "html": "<p>Positive</p>",
+        "is_correct": true
+      },
+      {
+        "id": "corrU_20_dir_B",
+        "label": "B",
+        "html": "<p>Negative</p>",
+        "is_correct": false
+      },
+      {
+        "id": "corrU_20_dir_C",
+        "label": "C",
+        "html": "<p>There is no linear correlation</p>",
+        "is_correct": false
+      }
+    ],
+    "correct_ids": [
+      "corrU_20_dir_A"
+    ]
+  }
+]
