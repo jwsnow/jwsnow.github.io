@@ -9,19 +9,19 @@
       {
         "id": "pv_A",
         "label": "A",
-        "html": "<p>0.9934</p>",
+        "html": "<p>0.0134</p>",
         "is_correct": false
       },
       {
         "id": "pv_B",
         "label": "B",
-        "html": "<p>0.9970</p>",
+        "html": "<p>0.3970</p>",
         "is_correct": false
       },
       {
         "id": "pv_C",
         "label": "C",
-        "html": "<p>0.9982</p>",
+        "html": "<p>0.0045</p>",
         "is_correct": false
       },
       {
@@ -75,7 +75,7 @@
       {
         "id": "pv_B",
         "label": "B",
-        "html": "<p>0.0193</p>",
+        "html": "<p>0.1193</p>",
         "is_correct": false
       },
       {
@@ -87,7 +87,7 @@
       {
         "id": "pv_D",
         "label": "D",
-        "html": "<p>0.0088</p>",
+        "html": "<p>0.2288</p>",
         "is_correct": false
       }
     ],
@@ -135,13 +135,13 @@
       {
         "id": "pv_B",
         "label": "B",
-        "html": "<p>0.0194</p>",
+        "html": "<p>0.2194</p>",
         "is_correct": false
       },
       {
         "id": "pv_C",
         "label": "C",
-        "html": "<p>0.0421</p>",
+        "html": "<p>0.1421</p>",
         "is_correct": false
       },
       {
@@ -195,13 +195,13 @@
       {
         "id": "pv_B",
         "label": "B",
-        "html": "<p>0.9429</p>",
+        "html": "<p>0.0429</p>",
         "is_correct": false
       },
       {
         "id": "pv_C",
         "label": "C",
-        "html": "<p>0.8181</p>",
+        "html": "<p>0.0181</p>",
         "is_correct": false
       },
       {
@@ -255,13 +255,13 @@
       {
         "id": "pv_B",
         "label": "B",
-        "html": "<p>0.0336</p>",
+        "html": "<p>0.2336</p>",
         "is_correct": false
       },
       {
         "id": "pv_C",
         "label": "C",
-        "html": "<p>0.0542</p>",
+        "html": "<p>0.1542</p>",
         "is_correct": false
       },
       {
@@ -315,19 +315,19 @@
       {
         "id": "pv_B",
         "label": "B",
-        "html": "<p>0.9959</p>",
+        "html": "<p>0.0959</p>",
         "is_correct": false
       },
       {
         "id": "pv_C",
         "label": "C",
-        "html": "<p>0.9975</p>",
+        "html": "<p>0.0075</p>",
         "is_correct": false
       },
       {
         "id": "pv_D",
         "label": "D",
-        "html": "<p>0.9910</p>",
+        "html": "<p>0.0310</p>",
         "is_correct": false
       }
     ],
@@ -375,19 +375,19 @@
       {
         "id": "pv_B",
         "label": "B",
-        "html": "<p>0.9994</p>",
+        "html": "<p>0.0994</p>",
         "is_correct": false
       },
       {
         "id": "pv_C",
         "label": "C",
-        "html": "<p>0.9978</p>",
+        "html": "<p>0.0078</p>",
         "is_correct": false
       },
       {
         "id": "pv_D",
         "label": "D",
-        "html": "<p>0.9990</p>",
+        "html": "<p>0.0390</p>",
         "is_correct": false
       }
     ],
@@ -435,7 +435,7 @@
       {
         "id": "pv_B",
         "label": "B",
-        "html": "<p>0.0188</p>",
+        "html": "<p>0.9188</p>",
         "is_correct": false
       },
       {
@@ -447,7 +447,7 @@
       {
         "id": "pv_D",
         "label": "D",
-        "html": "<p>0.0410</p>",
+        "html": "<p>0.3410</p>",
         "is_correct": false
       }
     ],
@@ -489,13 +489,13 @@
       {
         "id": "pv_A",
         "label": "A",
-        "html": "<p>0.9995</p>",
+        "html": "<p>0.0395</p>",
         "is_correct": false
       },
       {
         "id": "pv_B",
         "label": "B",
-        "html": "<p>0.9982</p>",
+        "html": "<p>0.3982</p>",
         "is_correct": false
       },
       {
@@ -507,7 +507,7 @@
       {
         "id": "pv_D",
         "label": "D",
-        "html": "<p>0.9992</p>",
+        "html": "<p>0.0092</p>",
         "is_correct": false
       }
     ],
@@ -555,7 +555,7 @@
       {
         "id": "pv_B",
         "label": "B",
-        "html": "<p>0.0199</p>",
+        "html": "<p>0.9199</p>",
         "is_correct": false
       },
       {
@@ -567,7 +567,7 @@
       {
         "id": "pv_D",
         "label": "D",
-        "html": "<p>0.0432</p>",
+        "html": "<p>0.1432</p>",
         "is_correct": false
       }
     ],
@@ -609,7 +609,7 @@
       {
         "id": "pv_A",
         "label": "A",
-        "html": "<p>0.8303</p>",
+        "html": "<p>0.0303</p>",
         "is_correct": false
       },
       {
@@ -621,7 +621,7 @@
       {
         "id": "pv_C",
         "label": "C",
-        "html": "<p>0.9159</p>",
+        "html": "<p>0.0159</p>",
         "is_correct": false
       },
       {
@@ -664,7 +664,7 @@
     "ident": "cont2_12_pvalue",
     "title": "Contingency 12 — Stress level vs. coping strategy (P-value)",
     "source": "generated",
-    "prompt_html": "<p>Participants reported stress level and predominant coping strategy.</p><table><thead><tr><th>Stress level</th><th>Problem-focused</th><th>Emotion-focused</th><th>Avoidance</th></tr></thead><tbody><tr><td>Low</td><td>19</td><td>18</td><td>19</td></tr><tr><td>Medium</td><td>19</td><td>19</td><td>19</td></tr><tr><td>High</td><td>19</td><td>19</td><td>19</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>coping strategy</em> is independent of <em>stress level</em>. What is the <em>P</em>-value?</p>",
+    "prompt_html": "<p>Participants reported stress level and predominant coping strategy.</p><table><thead><tr><th>Stress level</th><th>Problem-focused</th><th>Emotion-focused</th><th>Avoidance</th></tr></thead><tbody><tr><td>Low</td><td>19</td><td>18</td><td>19</td></tr><tr><td>Medium</td><td>19</td><td>15</td><td>14</td></tr><tr><td>High</td><td>15</td><td>10</td><td>19</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>coping strategy</em> is independent of <em>stress level</em>. What is the <em>P</em>-value?</p>",
     "choices": [
       {
         "id": "pv_A",
@@ -681,7 +681,7 @@
       {
         "id": "pv_C",
         "label": "C",
-        "html": "<p>0.9999</p>",
+        "html": "<p>0.6495</p>",
         "is_correct": true
       },
       {
@@ -729,7 +729,7 @@
       {
         "id": "pv_A",
         "label": "A",
-        "html": "<p>0.0277</p>",
+        "html": "<p>0.1277</p>",
         "is_correct": false
       },
       {
@@ -747,7 +747,7 @@
       {
         "id": "pv_D",
         "label": "D",
-        "html": "<p>0.0449</p>",
+        "html": "<p>0.9449</p>",
         "is_correct": false
       }
     ],
@@ -795,13 +795,13 @@
       {
         "id": "pv_B",
         "label": "B",
-        "html": "<p>0.9244</p>",
+        "html": "<p>0.0244</p>",
         "is_correct": false
       },
       {
         "id": "pv_C",
         "label": "C",
-        "html": "<p>0.9527</p>",
+        "html": "<p>0.0527</p>",
         "is_correct": false
       },
       {
@@ -849,7 +849,7 @@
       {
         "id": "pv_A",
         "label": "A",
-        "html": "<p>0.0181</p>",
+        "html": "<p>0.2181</p>",
         "is_correct": false
       },
       {
@@ -867,7 +867,7 @@
       {
         "id": "pv_D",
         "label": "D",
-        "html": "<p>0.0082</p>",
+        "html": "<p>0.0820</p>",
         "is_correct": false
       }
     ],
@@ -900,66 +900,6 @@
     ]
   },
   {
-    "index": 31,
-    "ident": "cont2_16_pvalue",
-    "title": "Contingency 16 — Plant light exposure vs. growth category (P-value)",
-    "source": "generated",
-    "prompt_html": "<p>Greenhouse plants were assigned light levels; growth outcomes were categorized after 4 weeks.</p><table><thead><tr><th>Light exposure</th><th>Low</th><th>Moderate</th><th>High</th></tr></thead><tbody><tr><td>Low</td><td>19</td><td>19</td><td>19</td></tr><tr><td>Medium</td><td>19</td><td>19</td><td>19</td></tr><tr><td>High</td><td>19</td><td>19</td><td>19</td></tr></tbody></table><p>Use a chi-squared test to determine if <em>growth category</em> is independent of <em>light exposure</em>. What is the <em>P</em>-value?</p>",
-    "choices": [
-      {
-        "id": "pv_A",
-        "label": "A",
-        "html": "<p>0.9702</p>",
-        "is_correct": false
-      },
-      {
-        "id": "pv_B",
-        "label": "B",
-        "html": "<p>0.6074</p>",
-        "is_correct": false
-      },
-      {
-        "id": "pv_C",
-        "label": "C",
-        "html": "<p>0.9998</p>",
-        "is_correct": false
-      },
-      {
-        "id": "pv_D",
-        "label": "D",
-        "html": "<p>1.0000</p>",
-        "is_correct": true
-      }
-    ],
-    "correct_ids": [
-      "pv_D"
-    ]
-  },
-  {
-    "index": 32,
-    "ident": "cont2_16_decision",
-    "title": "Contingency 16 — Plant light exposure vs. growth category (decision at 5%)",
-    "source": "generated",
-    "prompt_html": "<p>At the 5% significance level, do the variables appear to be independent?</p>",
-    "choices": [
-      {
-        "id": "cont2_16_decision_A",
-        "label": "A",
-        "html": "<p>Independent</p>",
-        "is_correct": true
-      },
-      {
-        "id": "cont2_16_decision_B",
-        "label": "B",
-        "html": "<p>Dependent</p>",
-        "is_correct": false
-      }
-    ],
-    "correct_ids": [
-      "cont2_16_decision_A"
-    ]
-  },
-  {
     "index": 33,
     "ident": "cont2_17_pvalue",
     "title": "Contingency 17 — Soccer position vs. card type (P-value)",
@@ -975,7 +915,7 @@
       {
         "id": "pv_B",
         "label": "B",
-        "html": "<p>0.0339</p>",
+        "html": "<p>0.1339</p>",
         "is_correct": false
       },
       {
@@ -987,7 +927,7 @@
       {
         "id": "pv_D",
         "label": "D",
-        "html": "<p>0.0155</p>",
+        "html": "<p>0.9155</p>",
         "is_correct": false
       }
     ],
@@ -1041,7 +981,7 @@
       {
         "id": "pv_C",
         "label": "C",
-        "html": "<p>0.0177</p>",
+        "html": "<p>0.1177</p>",
         "is_correct": false
       },
       {
@@ -1089,13 +1029,13 @@
       {
         "id": "pv_A",
         "label": "A",
-        "html": "<p>0.9065</p>",
+        "html": "<p>0.0065</p>",
         "is_correct": false
       },
       {
         "id": "pv_B",
         "label": "B",
-        "html": "<p>0.9412</p>",
+        "html": "<p>0.0412</p>",
         "is_correct": false
       },
       {
@@ -1149,7 +1089,7 @@
       {
         "id": "pv_A",
         "label": "A",
-        "html": "<p>0.0278</p>",
+        "html": "<p>0.9278</p>",
         "is_correct": false
       },
       {
@@ -1161,7 +1101,7 @@
       {
         "id": "pv_C",
         "label": "C",
-        "html": "<p>0.0127</p>",
+        "html": "<p>0.1127</p>",
         "is_correct": false
       },
       {

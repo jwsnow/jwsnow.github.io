@@ -195,7 +195,7 @@
       {
         "id": "regrU_03_x_from_y_B",
         "label": "B",
-        "html": "<p>0.492 mg/L</p>",
+        "html": "<p>0.692 mg/L</p>",
         "is_correct": false
       },
       {
@@ -279,7 +279,7 @@
       {
         "id": "regrU_04_x_from_y_B",
         "label": "B",
-        "html": "<p>4.3 ng/mL</p>",
+        "html": "<p>4.1 ng/mL</p>",
         "is_correct": false
       }
     ],
@@ -309,7 +309,7 @@
       {
         "id": "regrU_05_y_from_x_B",
         "label": "B",
-        "html": "<p>123.25 mmHg</p>",
+        "html": "<p>132.25 mmHg</p>",
         "is_correct": false
       },
       {
@@ -504,83 +504,11 @@
     ]
   },
   {
-    "index": 15,
-    "ident": "regrU_08_y_from_x",
-    "title": "Regression (units) 08",
-    "source": "generated",
-    "prompt_html": "<p>There is a linear correlation between <em>time since peak (hours)</em> and <em>blood alcohol concentration (%)</em>. Use a regression line based on the data below to approximate the value of <em>blood alcohol concentration (%)</em> which corresponds to <em>time since peak (hours)</em> = <strong>4.5 hours</strong>.</p><table><thead><tr><th>time since peak (hours)</th><th>blood alcohol concentration (%)</th></tr></thead><tbody><tr><td>1</td><td>0.200</td></tr><tr><td>2</td><td>0.200</td></tr><tr><td>3</td><td>0.200</td></tr><tr><td>4</td><td>0.200</td></tr><tr><td>5</td><td>0.200</td></tr><tr><td>6</td><td>0.100</td></tr><tr><td>7</td><td>0.100</td></tr><tr><td>8</td><td>0.100</td></tr><tr><td>9</td><td>0.100</td></tr></tbody></table>",
-    "choices": [
-      {
-        "id": "regrU_08_y_from_x_D",
-        "label": "D",
-        "html": "<p>0.153 %</p>",
-        "is_correct": false
-      },
-      {
-        "id": "regrU_08_y_from_x_B",
-        "label": "B",
-        "html": "<p>0.167 %</p>",
-        "is_correct": false
-      },
-      {
-        "id": "regrU_08_y_from_x_C",
-        "label": "C",
-        "html": "<p>0.180 %</p>",
-        "is_correct": false
-      },
-      {
-        "id": "regrU_08_y_from_x_A",
-        "label": "A",
-        "html": "<p>0.164 %</p>",
-        "is_correct": true
-      }
-    ],
-    "correct_ids": [
-      "regrU_08_y_from_x_A"
-    ]
-  },
-  {
-    "index": 16,
-    "ident": "regrU_08_x_from_y",
-    "title": "Regression (units) 08",
-    "source": "generated",
-    "prompt_html": "<p>There is a linear correlation between <em>time since peak (hours)</em> and <em>blood alcohol concentration (%)</em>. Use a regression line based on the data below to approximate the value of <em>time since peak (hours)</em> which corresponds to <em>blood alcohol concentration (%)</em> = <strong>0.150 %</strong>.</p><table><thead><tr><th>time since peak (hours)</th><th>blood alcohol concentration (%)</th></tr></thead><tbody><tr><td>1</td><td>0.200</td></tr><tr><td>2</td><td>0.200</td></tr><tr><td>3</td><td>0.200</td></tr><tr><td>4</td><td>0.200</td></tr><tr><td>5</td><td>0.200</td></tr><tr><td>6</td><td>0.100</td></tr><tr><td>7</td><td>0.100</td></tr><tr><td>8</td><td>0.100</td></tr><tr><td>9</td><td>0.100</td></tr></tbody></table>",
-    "choices": [
-      {
-        "id": "regrU_08_x_from_y_D",
-        "label": "D",
-        "html": "<p>5.8 hours</p>",
-        "is_correct": false
-      },
-      {
-        "id": "regrU_08_x_from_y_A",
-        "label": "A",
-        "html": "<p>5.3 hours</p>",
-        "is_correct": true
-      },
-      {
-        "id": "regrU_08_x_from_y_B",
-        "label": "B",
-        "html": "<p>5.3 hours</p>",
-        "is_correct": false
-      },
-      {
-        "id": "regrU_08_x_from_y_C",
-        "label": "C",
-        "html": "<p>4.7 hours</p>",
-        "is_correct": false
-      }
-    ],
-    "correct_ids": [
-      "regrU_08_x_from_y_A"
-    ]
-  },
-  {
     "index": 17,
     "ident": "regrU_09_y_from_x",
     "title": "Regression (units) 09",
     "source": "generated",
-    "prompt_html": "<p>There is a linear correlation between <em>stress rating (1–10)</em> and <em>cortisol level (µg/dL)</em>. Use a regression line based on the data below to approximate the value of <em>cortisol level (µg/dL)</em> which corresponds to <em>stress rating (1–10)</em> = <strong>4.5 1–10</strong>.</p><table><thead><tr><th>stress rating (1–10)</th><th>cortisol level (µg/dL)</th></tr></thead><tbody><tr><td>1</td><td>4.40</td></tr><tr><td>2</td><td>4.30</td></tr><tr><td>3</td><td>5.60</td></tr><tr><td>4</td><td>4.90</td></tr><tr><td>5</td><td>7.10</td></tr><tr><td>6</td><td>8.70</td></tr><tr><td>7</td><td>7.10</td></tr><tr><td>8</td><td>9.80</td></tr><tr><td>9</td><td>11</td></tr></tbody></table>",
+    "prompt_html": "<p>There is a linear correlation between <em>stress rating (1-10)</em> and <em>cortisol level (µg/dL)</em>. Use a regression line based on the data below to approximate the value of <em>cortisol level (µg/dL)</em> which corresponds to <em>stress rating (1-10)</em> = <strong>4.5 </strong>.</p><table><thead><tr><th>stress rating (1-10)</th><th>cortisol level (µg/dL)</th></tr></thead><tbody><tr><td>1</td><td>4.40</td></tr><tr><td>2</td><td>4.30</td></tr><tr><td>3</td><td>5.60</td></tr><tr><td>4</td><td>4.90</td></tr><tr><td>5</td><td>7.10</td></tr><tr><td>6</td><td>8.70</td></tr><tr><td>7</td><td>7.10</td></tr><tr><td>8</td><td>9.80</td></tr><tr><td>9</td><td>11</td></tr></tbody></table>",
     "choices": [
       {
         "id": "regrU_09_y_from_x_C",
@@ -616,30 +544,30 @@
     "ident": "regrU_09_x_from_y",
     "title": "Regression (units) 09",
     "source": "generated",
-    "prompt_html": "<p>There is a linear correlation between <em>stress rating (1–10)</em> and <em>cortisol level (µg/dL)</em>. Use a regression line based on the data below to approximate the value of <em>stress rating (1–10)</em> which corresponds to <em>cortisol level (µg/dL)</em> = <strong>6.35 µg/dL</strong>.</p><table><thead><tr><th>stress rating (1–10)</th><th>cortisol level (µg/dL)</th></tr></thead><tbody><tr><td>1</td><td>4.40</td></tr><tr><td>2</td><td>4.30</td></tr><tr><td>3</td><td>5.60</td></tr><tr><td>4</td><td>4.90</td></tr><tr><td>5</td><td>7.10</td></tr><tr><td>6</td><td>8.70</td></tr><tr><td>7</td><td>7.10</td></tr><tr><td>8</td><td>9.80</td></tr><tr><td>9</td><td>11</td></tr></tbody></table>",
+    "prompt_html": "<p>There is a linear correlation between <em>stress rating (1-10)</em> and <em>cortisol level (µg/dL)</em>. Use a regression line based on the data below to approximate the value of <em>stress rating (1-10)</em> which corresponds to <em>cortisol level (µg/dL)</em> = <strong>6.35 µg/dL</strong>.</p><table><thead><tr><th>stress rating (1-10)</th><th>cortisol level (µg/dL)</th></tr></thead><tbody><tr><td>1</td><td>4.40</td></tr><tr><td>2</td><td>4.30</td></tr><tr><td>3</td><td>5.60</td></tr><tr><td>4</td><td>4.90</td></tr><tr><td>5</td><td>7.10</td></tr><tr><td>6</td><td>8.70</td></tr><tr><td>7</td><td>7.10</td></tr><tr><td>8</td><td>9.80</td></tr><tr><td>9</td><td>11</td></tr></tbody></table>",
     "choices": [
       {
         "id": "regrU_09_x_from_y_B",
         "label": "B",
-        "html": "<p>4.2 1–10</p>",
+        "html": "<p>4.2 </p>",
         "is_correct": false
       },
       {
         "id": "regrU_09_x_from_y_C",
         "label": "C",
-        "html": "<p>3.9 1–10</p>",
+        "html": "<p>3.9 </p>",
         "is_correct": false
       },
       {
         "id": "regrU_09_x_from_y_D",
         "label": "D",
-        "html": "<p>4.6 1–10</p>",
+        "html": "<p>4.6 </p>",
         "is_correct": false
       },
       {
         "id": "regrU_09_x_from_y_A",
         "label": "A",
-        "html": "<p>4.3 1–10</p>",
+        "html": "<p>4.3 </p>",
         "is_correct": true
       }
     ],

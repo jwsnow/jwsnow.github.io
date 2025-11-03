@@ -69,7 +69,7 @@
       {
         "id": "p_A",
         "label": "A",
-        "html": "<p>0.9994</p>",
+        "html": "<p>0.0022</p>",
         "is_correct": false
       },
       {
@@ -81,7 +81,7 @@
       {
         "id": "p_C",
         "label": "C",
-        "html": "<p>0.9998</p>",
+        "html": "<p>0.0004</p>",
         "is_correct": false
       },
       {
@@ -189,7 +189,7 @@
       {
         "id": "p_A",
         "label": "A",
-        "html": "<p>0.9947</p>",
+        "html": "<p>0.0027</p>",
         "is_correct": false
       },
       {
@@ -201,13 +201,13 @@
       {
         "id": "p_C",
         "label": "C",
-        "html": "<p>0.9767</p>",
+        "html": "<p>0.0242</p>",
         "is_correct": false
       },
       {
         "id": "p_D",
         "label": "D",
-        "html": "<p>0.9913</p>",
+        "html": "<p>0.3978</p>",
         "is_correct": false
       }
     ],
@@ -249,13 +249,13 @@
       {
         "id": "p_A",
         "label": "A",
-        "html": "<p>0.9895</p>",
+        "html": "<p>0.0282</p>",
         "is_correct": false
       },
       {
         "id": "p_B",
         "label": "B",
-        "html": "<p>0.9936</p>",
+        "html": "<p>0.3936</p>",
         "is_correct": false
       },
       {
@@ -267,7 +267,7 @@
       {
         "id": "p_D",
         "label": "D",
-        "html": "<p>0.9719</p>",
+        "html": "<p>0.0179</p>",
         "is_correct": false
       }
     ],
@@ -369,19 +369,19 @@
       {
         "id": "p_A",
         "label": "A",
-        "html": "<p>0.9961</p>",
+        "html": "<p>0.0061</p>",
         "is_correct": false
       },
       {
         "id": "p_B",
         "label": "B",
-        "html": "<p>0.9991</p>",
+        "html": "<p>0.1991</p>",
         "is_correct": false
       },
       {
         "id": "p_C",
         "label": "C",
-        "html": "<p>0.9986</p>",
+        "html": "<p>0.0034</p>",
         "is_correct": false
       },
       {
@@ -549,13 +549,13 @@
       {
         "id": "p_A",
         "label": "A",
-        "html": "<p>0.9838</p>",
+        "html": "<p>0.0001</p>",
         "is_correct": false
       },
       {
         "id": "p_B",
         "label": "B",
-        "html": "<p>0.9963</p>",
+        "html": "<p>0.3963</p>",
         "is_correct": false
       },
       {
@@ -567,7 +567,7 @@
       {
         "id": "p_D",
         "label": "D",
-        "html": "<p>0.9940</p>",
+        "html": "<p>0.0940</p>",
         "is_correct": false
       }
     ],
