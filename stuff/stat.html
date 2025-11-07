@@ -1370,14 +1370,14 @@ The data below were collected from some of my classes.  The data is aligned so t
 <button onclick='insertData(ClassSiblings,ClassSiblingsLabel)'>Number of Siblings</button>
 </li>
 <li>
-<button onclick='insertData(Month,MonthLabel,0);insertData(ClassBirthMonth,ClassBirthMonthLabel,1)'>Birth Month</button>
-<button onclick='insertData(Day,DayLabel,0);insertData(ClassBirthDay,ClassBirthDayLabel,1)'>Birth Day</button>
-<button onclick='insertData(Line,LineLabel,0);insertData(ClassLine,ClassLineLabel,1)'>Lines</button>
+<button onclick='deleteAllLists();insertData(Month,MonthLabel,0);insertData(ClassBirthMonth,ClassBirthMonthLabel,1)'>Birth Month</button>
+<button onclick='deleteAllLists();insertData(Day,DayLabel,0);insertData(ClassBirthDay,ClassBirthDayLabel,1)'>Birth Day</button>
+<button onclick='deleteAllLists();insertData(Line,LineLabel,0);insertData(ClassLine,ClassLineLabel,1)'>Lines</button>
 </li>
 <li>By gender - 
-<button onclick='insertData(Month,MonthLabel,0);insertData(ClassBirthMonthFemale,ClassBirthMonthLabelFemale,1);insertData(ClassBirthMonthMale,ClassBirthMonthLabelMale,2)'>Birth Month</button>
-<button onclick='insertData(Day,DayLabel,0);insertData(ClassBirthDayFemale,ClassBirthDayLabelFemale,1);insertData(ClassBirthDayMale,ClassBirthDayLabelMale,2)'>Birth Day</button>
-<button onclick='insertData(Line,MonthLabel,0);insertData(ClassLineFemale,ClassLineLabelFemale,1);insertData(ClassLineMale,ClassLineLabelMale,2)'>Lines</button>
+<button onclick='deleteAllLists();insertData(Month,MonthLabel,0);insertData(ClassBirthMonthFemale,ClassBirthMonthLabelFemale,1);insertData(ClassBirthMonthMale,ClassBirthMonthLabelMale,2)'>Birth Month</button>
+<button onclick='deleteAllLists();insertData(Day,DayLabel,0);insertData(ClassBirthDayFemale,ClassBirthDayLabelFemale,1);insertData(ClassBirthDayMale,ClassBirthDayLabelMale,2)'>Birth Day</button>
+<button onclick='deleteAllLists();insertData(Line,LineLabel,0);insertData(ClassLineFemale,ClassLineLabelFemale,1);insertData(ClassLineMale,ClassLineLabelMale,2)'>Lines</button>
 
 </li>
 <li>
@@ -1480,6 +1480,23 @@ Below are samples of heights in cm of various types of athletes collected by stu
 </div>
 </li>
 
+<li>
+<button class='expander' data-open='CemeteryData' data-close='dummyExpandableDiv'>Belton Cemetery</button>
+<div class='expandable' id='CemeteryData'>
+Below are data sets based on simple random samples of cemetery records found online for the North Belton Cemetery.  The ages data are ages from simple random samples of 
+people from the cemetery who DIED before 1880, between 1880 and 1920, between 1920 and 1960, and between 1960 and 2000. The birthday data are days of births from simple random samples
+of people from the cemetery who were BORN before 1880, between 1880 and 1920, between 1920 and 1960, and between 1960 and 2000. 
+<ul>
+<li>
+<button onclick='deleteAllLists();insertData(CemeteryAge1880,CemeteryAgeLabel1880 ,0);insertData(CemeteryAge1920,CemeteryAgeLabel1920 ,1);insertData(CemeteryAge1960,CemeteryAgeLabel1960 ,2);insertData(CemeteryAge2000,CemeteryAgeLabel2000 ,3);'>Age Data</button>
+</li>
+<li>
+<button onclick='deleteAllLists();insertData(CemeteryBirthdayDays,CemeteryBirthdayLabelDays ,0);insertData(CemeteryBirthday1880,CemeteryBirthdayLabel1880 ,1);insertData(CemeteryBirthday1920,CemeteryBirthdayLabel1920 ,2);insertData(CemeteryBirthday1960,CemeteryBirthdayLabel1960 ,3);insertData(CemeteryBirthday2000,CemeteryBirthdayLabel2000 ,4);'>Birthdays</button>
+</li>
+</ul>
+</div>
+</li>
+
 </ul>
 </div>
 <script>
@@ -1509,6 +1526,16 @@ var FWaistLabel='F Waist Height'; var Fwaist=[997,970,962,1060,1042,957,974,1051
 var FWeightLabel='F Weight'; var Fweight=[76.2,67.2,60.9,58.2,61.9,78.5,56.1,68.7,65.4,73.3,64.4,70.3,101.9,61.8,58.2,68.5,81.9,62.3,59,75.6,87,85.2,74.9,54.3,59.8,77.6,66.3,53.9,61.1,74.3,67.8,82.2,43.1,51.6,66,59.1,68.6,67.8,73.5,73.2,54.8,79.2,71.2,69.7,58.9,54.9,66.3,69.8,63.1,67.6];
 var FAgeLabel='F Age'; var Fage=[32,18,19,25,20,27,24,44,33,38,40,23,27,20,20,36,30,27,25,18,36,26,24,40,19,33,27,23,20,21,38,52,23,23,22,19,21,21,34,39,21,25,58,39,24,20,33,20,39,45];
 
+var CemeteryAgeLabel1880="Up to 1880"; var CemeteryAge1880=[34, 23, 3, 22, 1, 5, 18, 4, 6, 1, 10, 4, 4, 17, 49, 34, 32, 15, 54, 0, 24, 0, 39, 37, 1, 6, 5, 72, 51, 36, 23];
+var CemeteryAgeLabel1920="Up to 1920"; var CemeteryAge1920=[43, 31, 1, 30, 35, 62, 1, 32, 1, 15, 54, 71, 78, 0, 72, 25, 37, 29, 47, 51, 0, 50, 20, 73, 19, 26, 52, 0, 87, 49, 102];
+var CemeteryAgeLabel1960="Up to 1960"; var CemeteryAge1960=[84, 75, 0, 3, 72, 77, 82, 61, 15, 71, 0, 74, 80, 53, 7, 31, 78, 34, 3, 33, 55, 0, 69, 79, 57, 59, 75, 37, 58, 21, 80];
+var CemeteryAgeLabel2000="Up to 2000"; var CemeteryAge2000=[67, 72, 70, 75, 58, 75, 70, 79, 66, 1, 76, 78, 60, 34, 82, 70, 87, 55, 59, 75, 51, 80, 79, 71, 74, 66, 78, 77, 24, 84, 56];
+
+var CemeteryBirthdayLabelDays="Day of week"; var CemeteryBirthdayDays=['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+var CemeteryBirthdayLabel1880="Up to 1880"; var CemeteryBirthday1880=[18, 9, 12, 16, 19, 14, 13];
+var CemeteryBirthdayLabel1920="Up to 1920"; var CemeteryBirthday1920=[10, 17, 16, 12, 20, 13, 13];
+var CemeteryBirthdayLabel1960="Up to 1960"; var CemeteryBirthday1960=[10, 20, 11, 17, 16, 9, 18];
+var CemeteryBirthdayLabel2000="Up to 2000"; var CemeteryBirthday2000=[14, 17, 22, 9, 16, 8, 15];
 
 var MFootLabel='M Foot'; var Mfoot=[276,264,274,271,255,271,259,275,257,259,263,263,244,270,280,273,251,272,269,278,281,282,258,267,283,274,270,264,262,263,268,255,250,249,264,279,263,261,267,273,263,254,268,253,278,274,283,260,260,257];
 var MSpanLabel='M Span'; var Mspan=[1800,1743,1877,1873,1699,1792,1694,1786,1729,1740,1748,1814,1677,1809,1916,1822,1783,1886,1739,1735,1861,1922,1834,1781,1979,1786,1829,1733,1789,1829,1775,1648,1708,1614,1766,1773,1790,1774,1834,1849,1737,1691,1790,1784,1855,1840,1878,1844,1743,1757];
@@ -1530,7 +1557,7 @@ var ClassBirthDayLabel='Count'; var ClassBirthDay=[3,15,8,24,9,17,9];
 var ClassBirthDayLabelMale='M Count'; var ClassBirthDayMale=[0,5,3,7,2,3,2];
 var ClassBirthDayLabelFemale='F Count'; var ClassBirthDayFemale=[3,10,5,17,7,14,7];
 
-var LineLabel='Month'; var Line=['DR','UR','H','V'];
+var LineLabel='Direction'; var Line=['DR','UR','H','V'];
 var ClassLineLabel='Count'; var ClassLine=[31,23,12,19];
 var ClassLineLabelMale='M Count'; var ClassLineMale=[7,8,3,4];
 var ClassLineLabelFemale='F Count'; var ClassLineFemale=[24,15,9,15];
