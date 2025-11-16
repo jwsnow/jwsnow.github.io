@@ -2240,6 +2240,8 @@ Y List: <br><script>
 	allLabelNames.push('scattery'+'label');	
 </script>
 <br>
+<label><input type='checkbox' id='scatterplotaxes' onclick='drawScatterPlot();'>Make Axes Same</label>
+<!--onclick='purge(scatterPlotDiv);'-->
 <div id='scatterPlotDiv' class='expandable'>
 <canvas id='scatterplotcanvas' width=400 height=400></canvas>	
 </div>
@@ -2278,6 +2280,12 @@ for (i=0;i<numLists;i++){
 		var xmax=listMax[xlist];
 		var ymin=listMin[ylist];
 		var ymax=listMax[ylist];
+if (scatterplotaxes.checked==true){
+	xmin=min(xmin,ymin);
+	ymin=xmin;
+	xmax=max(xmax,ymax);
+	ymax=xmax;
+	}
 		var n = listN[xlist];
 		var W=w-2*D;
 		var H=h-2*D;
