@@ -7,6 +7,7 @@
 }
 #dataTable td{
 	border:1px solid black;
+	min-width: 10ch;
 	width: 10ch;
 	height: 16px;
 	border-radius: 2px;
@@ -152,7 +153,9 @@ button{
 div.answerDiv{
 	display: none;
 }
-
+div.hidden{
+	display:none;
+}
 </style>
 <script>
 var numLists=13;
@@ -399,6 +402,17 @@ console.log(list[tj]);
 function deleteList(){ 
 	var i;
 	var tj=targetList;
+	getLists();
+	if (tj>=0){ 
+		for (i=0;i<list[tj].length;i++) list[tj][i]='';
+		listLabel[tj]='List '+tj;
+		printLists();
+	}	
+		processLists();
+}
+function deleteSpecificList(tj){ 
+	var i;
+//	var tj=targetList;
 	getLists();
 	if (tj>=0){ 
 		for (i=0;i<list[tj].length;i++) list[tj][i]='';
@@ -1121,7 +1135,7 @@ function fcdf(x, d1, d2){
 
 <!---- Data Lists ---------------------------------------------->
 <div id='dataListDiv' class='pageDiv expandable'>
-<div class='pageMenu'>
+<div class='hidden'>
 <button class='expander' data-open='generatedDiv' data-close='cannedDiv,normalGenDiv,uniformGenDiv,binomialGenDiv,sampleGenDiv,genIntegerDiv'>Generate Data</button>
 <button class='expander' data-open='cannedDiv' data-close='generatedDiv,normalGenDiv,uniformGenDiv,binomialGenDiv,sampleGenDiv,genIntegerDiv'>Canned Data</button>
 </div>
@@ -1351,6 +1365,23 @@ function fcdf(x, d1, d2){
 </div><!--generatedDiv-->
 <!--generated data ---------------------------------------------->
 
+
+<!---------------------------------------------------------------------------------------------------------------------------------->
+<div id='dataTableDiv'>
+<div class='pageMenu'>
+<button onclick='deleteCell();'>Delete Cell</button>
+<button onclick='addCell();'>Add Cell</button>
+<button onclick='deleteList();'>Clear List</button>
+<button onclick='deleteAllLists();'>Clear All Lists</button>
+<button onclick='sortList();'>Sort List</button>
+
+<!--button class='expander' data-open='generatedDiv' data-close='cannedDiv,normalGenDiv,uniformGenDiv,binomialGenDiv,sampleGenDiv,genIntegerDiv'>Generate Data</button-->
+<button class='expander' data-open='cannedDiv' data-close='generatedDiv,normalGenDiv,uniformGenDiv,binomialGenDiv,sampleGenDiv,genIntegerDiv'>Canned Data</button>
+<br>
+<label><input type='checkbox' id='transposePaste'>Transpose</label>
+<label><input type='checkbox' id='commas'>Commas</label>
+</div>
+
 <!----------------------------------------------------------------------------------------------------------------------------------->
 <!-- canned dat-->
 <div id='cannedDiv' class='pageDiv expandable'>
@@ -1533,6 +1564,7 @@ function insertData(a, b,outputlist){
 			l=outputlist;
 		else
 			l=getChecked('canoutput');//
+deleteSpecificList(l);			
 		var n=a.length;
 		list[l]=[];
 		for (i=0;i<n;i++)
@@ -1641,23 +1673,13 @@ var TennisLabel="Tennis"; var Tennis=[180, 175, 180, 175, 168, 175, 178, 180, 17
 </div>
 <!-- canned data--->
 <!---------------------------------------------------------------------------------------------------------------------------------->
-<div id='dataTableDiv'>
-<div class='pageMenu'>
-<button onclick='deleteCell();'>Delete Cell</button>
-<button onclick='addCell();'>Add Cell</button>
-<button onclick='deleteList();'>Clear List</button>
-<button onclick='deleteAllLists();'>Clear All Lists</button>
-
-<button onclick='sortList();'>Sort List</button>
-<label><input type='checkbox' id='transposePaste'>Transpose</label>
-<label><input type='checkbox' id='commas'>Commas</label>
-</div>
 
 <div id='editorHolder'><input class='datacell' id='cellEditor'></input></div>
 <table id='dataTable'></table>
 </div>
 <script>
 cellEditor.onkeydown=function(e){handleEnter(e);};
+//cellEditor.onblur=function(e){if (editingCells) stopEditing();}
 var editingCells=false;
 function addRowToDataList(){
 	var i=spreadSheetElements.length;
@@ -1695,19 +1717,14 @@ function setupDataLists(){
 }
 setupDataLists();
 
-function setuppaste(){
-
-	cellEditor.addEventListener('paste', (event) => { 
-//		processLists();
-			event.preventDefault();
-getLists();
+function pasteText(pastedData, tj, ti){
+	getLists();
 			// Access the pasted data
-			var tj=targetList;
-			var ti=targetCell;	
+	
 			if (editingCells) stopEditing();
 			if ((tj>=0)&&(tj>=0)){
 				//get clipboard
-				var pastedData = event.clipboardData.getData('text/plain');
+				
 				if (commas.checked){
 					pastedData=pastedData.replaceAll(',', '\t');
 					commas.checked=false;
@@ -1753,8 +1770,22 @@ getLists();
 			}//transpose
 			}	
 
-		});
 		
+}
+
+function setuppaste(){
+
+	cellEditor.addEventListener('paste', (event) => { 
+//		processLists();
+			event.preventDefault();
+			var pastedData = event.clipboardData.getData('text/plain');
+			var tj=targetList;
+			var ti=targetCell;
+			pasteText(pastedData, tj, ti);			
+//VVVVV			
+
+//^^^		
+});	
 }
 setuppaste();
 </script>
