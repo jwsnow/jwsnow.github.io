@@ -1,13 +1,10 @@
 <!doctype html>
 <html>
 <head>
-<style>
-#spork{
-text-align:center;
-}</style>
+<style></style>
 <script src='spork.js'></script>
 <script>
-var N=100;
+var N=1000;
 var X=[]; var Y=[];
 var VX=[]; var VY=[]; var V=[];
 var FX=[]; var FY=[];
@@ -18,7 +15,7 @@ var NN=[];
 var NX=[]; var NY=[];
 var NVX=[]; var NVY=[];
 var NFX=[]; var NFY=[];
-var NR=100;
+var NR=50;
 var R=30;
 
 var DT=0.01;
@@ -27,32 +24,44 @@ var fovAngle=10;
 var repCon=5;
 var attCon=0.5;
 var gravity=0
-var vCap=2;
+var vCap=20;
 var followCon=2;
+
+var theColors=[];
 
 function displayBoids(){
 	var i;
 	var dx,dy,v,x,y;
 	for (i=0;i<N;i++){
 		x=X[i]; y=Y[i];
-		point(x,y);
+		color(theColors[i]);
+//		point(x,y);
 		v=V[i];
 		if (v!=0){
 			dx=VX[i]/v;
 			dy=VY[i]/v;
-			line(x,y,x-10*dx, y-10*dy);
+			line(x,y,x-2*dx, y-2*dy);
 		}
+	if (random()<0.01) theColors[i]=randomColor();	
+	if (random()<0.0){
+		x=floor(random()*width);
+		y=floor(random()*height);
+		while (ENV[x][y]<255){
+			x=floor(random()*width);
+			y=floor(random()*height);		
+		}
+		X[i]=x; Y[i]=y;
+	}
 	}	
 }
 function displayEnvironment(){
-var x,y,dx=100;
+var x,y,dx=50;
 	save();
 	background('gray');
 	fillcolor('white');
 	fillrect(20,20,width-40, height-40);
 	fillcolor('gray');
 	color('gray');
-		linewidth(20);
 	for (x=dx;x<=width-dx;x+=dx)
 	for (y=dx;y<=height-dx;y+=dx){
 		circle(x,y, 10);
@@ -71,6 +80,14 @@ function setupEnvironment(){
 	displayEnvironment();
 	copyImageData(ENV, G, B, A);
 }
+
+function randomColor(){
+	return(rgb(
+		floor(random()*255),
+		floor(random()*255),
+		floor(random()*255)
+	));
+}
 function setupArrays(){
 	var i,x,y;
 	var V0=vCap;
@@ -86,6 +103,9 @@ function setupArrays(){
 		VX[i]=V0*(random()-0.5); VY[i]=V0*(random()-0.5);
 	}
 	findVelocities();
+	
+	for (i=0;i<N;i++)
+		theColors[i]=randomColor();
 }
 
 
@@ -233,8 +253,9 @@ function updateForces(){
 	var i;
 	var dx,dy,d,k;
 	for (i=0;i<N;i++){
-		FX[i]=NFX[i];
-		FY[i]=repCon*NFY[i]+gravity;
+		a=noise(X[i]/width, Y[i]/height)*360;
+		FX[i]=repCon*NFX[i]+0*COS(a);
+		FY[i]=repCon*NFY[i]+0*SIN(a);
 	}
 	for (i=0;i<N;i++){
 		dx=NX[i]-X[i];
@@ -283,22 +304,27 @@ function updateBoids(){
 	updatePositions();
 }
 function setup(){
-	size(600,600);
+	size(2000,2000);
 	setupEnvironment();
 	setupArrays();
 	avoidEnvironment();
-	loop();
+	setupNoise(20);
+	clear();
+	//loop();
 }
+var counter=0;
 function draw(){
 	var i;
+	if (counter++<100) clear();
 	for (i=0;i<15;i++)
 		updateBoids();
-	displayEnvironment();
+//	displayEnvironment();
 	displayBoids();
 }
 </script>
 </head>
 <body>
 <div id='spork'></div>
+<button onclick='stoploop();'>Pause</button> <button onclick='startloop();'>Go</button>
 </body>
 </html>

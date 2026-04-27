@@ -3,8 +3,9 @@
 <head>
 <style>
 #spork{
-text-align:center;
-}</style>
+	text-align:center;
+}
+</style>
 <script src='spork.js'></script>
 <script>
 var N=100;
@@ -233,7 +234,7 @@ function updateForces(){
 	var i;
 	var dx,dy,d,k;
 	for (i=0;i<N;i++){
-		FX[i]=NFX[i];
+		FX[i]=repCon*NFX[i];
 		FY[i]=repCon*NFY[i]+gravity;
 	}
 	for (i=0;i<N;i++){
@@ -300,5 +301,6 @@ function draw(){
 </head>
 <body>
 <div id='spork'></div>
+<!--button onclick='stoploop();'>Pause</button> <button onclick='startloop();'>Go</button-->
 </body>
 </html>

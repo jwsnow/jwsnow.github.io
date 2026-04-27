@@ -1,0 +1,218 @@
+<!doctype html>
+<html>
+<head>
+<style></style>
+<script src='spork.js'></script>
+<script>
+var N=20000;
+var numTypes=8;
+var X=[];
+var Y=[];
+var VX=[];
+var VY=[];
+var FX=[];
+var FY=[];
+var TYPES=[]; 
+var COLORS=[];
+var FORCES=[];
+
+var dt=0.02;
+var WIDTH=400
+var D=WIDTH/16;
+var GW=Math.floor(WIDTH/D)+1;
+var E=0.3*D;
+var ED2=(E+D)/2;
+var DME2=(D-E)/2
+var K=20;
+var thalf=0.05;
+var FRICTION=Math.pow(1/2, dt/thalf);
+var G=[];
+
+function setupArrays(){
+	var i,j;
+	for (i=0;i<N;i++){
+		X[i]=random()*width;
+		Y[i]=random()*height;
+		VX[i]=0;
+		VY[i]=0;
+		FX[i]=0;
+		FY[i]=0;
+		TYPES[i]=floor(random()*numTypes);
+	}
+	for (i=0;i<numTypes;i++){
+		COLORS[i]=rgb(floor(random()*256), floor(random()*256),floor(random()*256));
+		FORCES[i]=[];
+		for (j=0;j<numTypes;j++)
+			FORCES[i][j]=1-2*random();
+	}
+	for (i=0;i<GW;i++){
+		G[i]=[];
+		for (j=0;j<GW;j++)
+			G[i][j]=[];
+	}
+}
+function distance(i,j){
+	var dx=X[i]-X[j];
+	var dy=Y[i]-Y[j];
+	return sqrt(dx*dx+dy*dy);
+}
+function force(a,d){
+	if (d<E){
+		return(-K*K*(d/E-1))
+	}
+	else{
+		var x=abs(d-ED2)
+		return(a*K*(1-x/DME2))
+	}
+}
+function forceOn(i,j,d){
+	var dx=(X[j]-X[i])/d;
+	var dy=(Y[j]-Y[i])/d;
+	var f=force(FORCES[TYPES[i]][TYPES[j]],d);
+	FX[j]+=f*dx;
+	FY[j]+=f*dy;
+}
+function applyForcesBetween(i,j){
+	var d=distance(i,j);
+	if ((d<D)&&(d>0)){
+		forceOn(i,j,d);
+		forceOn(j,i,d);
+	}
+}
+function clearGrid(){
+	var i,j;
+	for (i=0;i<GW;i++)
+		for (j=0;j<GW;j++)
+			G[i][j]=[];
+}
+function fillGrid(){
+	var i,x,y;
+	for (i=0;i<N;i++){
+		G[floor(X[i]/D)][floor(Y[i]/D)].push(i);
+	}	
+}
+function findForces(){
+	var i,j;
+	
+	for (i=0;i<N;i++){
+		FX[i]=0;
+		FY[i]=0;
+	}
+	clearGrid();
+	fillGrid();
+	for (i=0;i<N;i++)
+		for (j=i+1;j<N;j++)
+			applyForcesBetween(i,j);
+/*
+	var x,y;		
+	for (i=0;i<N;i++){
+		x=X[i]/width;
+		y=Y[i]/height;
+		FX[i]+=K*COS(180*noise(x,y));
+		FY[i]+=K*SIN(180*noise(x,y));
+	}
+*/
+/*
+	var dx,dy,r;
+	for (i=0;i<N;i++){
+		dx=width/2-X[i];
+		dy=height/2-Y[i];
+		r=sqrt(dx*dx+dy*dy);
+//		if (r>width/4)
+		{
+			dx=K*K*dx/r/abs(width/2-r);
+			dy=K*K*dy/r/abs(height/2-r);
+			FX[i]+=dx;
+			FY[i]+=dy;
+		}
+	}	
+*/	
+}
+function updateVelocities(){
+	var i;
+	for (i=0;i<N;i++){
+		VX[i]=VX[i]*FRICTION+dt*FX[i];
+		VY[i]=VY[i]*FRICTION+dt*FY[i];
+	}
+/*	var dx,dy,r;
+	for (i=0;i<N;i++){
+		dx=width/2-X[i];
+		dy=height/2-Y[i];
+		r=sqrt(dx*dx+dy*dy);
+		if (r>width/4){
+			dx=K*dx/r;
+			dy=K*dy/r;
+			VX[i]=dx;
+			VY[i]=dy;
+		}
+	}	
+*/	
+}
+function updatePositions(){
+	var i;
+	for (i=0;i<N;i++){
+		X[i]+=dt*VX[i];
+		Y[i]+=dt*VY[i];
+	}
+}
+function bounce(){
+	var i;
+	for (i=0;i<N;i++){
+		if ((X[i]>width-1) || (Y[i]>height-1) || (X[i]<0) || (Y[i]<0)){
+			X[i]=random()*width;
+			Y[i]=random()*height;
+			VX[i]=0;
+			VY[i]=0;
+		}
+	}
+/*	
+	for (i=0;i<N;i++){
+		if (X[i]>width-1){X[i]=width-1; VX[i]=-max(K,abs(VX[i]));}
+		else if (X[i]<0){X[i]=0; VX[i]=max(K,abs(VX[i]));}
+		if (Y[i]>height-1){Y[i]=height-1; VY[i]=-max(K,abs(VY[i]));}
+		else if (Y[i]<0){Y[i]=0; VY[i]=max(K,abs(VY[i]));}
+	}
+*/	
+/*	
+	for (i=0;i<N;i++){
+		X[i]=(X[i]+width)%width;
+		Y[i]=(Y[i]+height)%height;
+	}
+*/	
+
+}
+function updatePoints(){
+	findForces();
+	updateVelocities();
+	updatePositions();
+	bounce();
+}
+function drawPoints(){
+	var i;
+	for (i=0;i<N;i++){
+		fillcolor(COLORS[TYPES[i]]);
+		fillrect(X[i], Y[i], 1,1);
+	}
+}
+function setup(){
+size(WIDTH,WIDTH);
+	setupArrays();
+	setupNoise(12);
+	flattenNoiseEdges();
+console.log(FORCES);	
+	loop();
+}
+function draw(){
+	var i;
+	clear();
+//for (i=0;i<10;i++)	
+	updatePoints();
+	drawPoints();
+}
+
+</script>
+</head>
+<body>
+<div id='spork'></div>
+</body>
+</html>

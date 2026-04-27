@@ -1,13 +1,166 @@
 <!doctype html>
 <html>
 <head>
-<style>
-#spork{
-text-align:center;
-}</style>
+<style></style>
 <script src='spork.js'></script>
 <script>
-var N=100;
+//-------------from Gradient Secondary Colors
+
+//Gaussian Blur code
+var blurSD=5;
+var blurR=3*blurSD;
+var blurN=2*blurR+1;
+var blurMask=[];
+function setupBlur(s){
+	blurSD=s;
+	blurR=3*blurSD;
+	blurN=2*blurR+1;
+	blurMask=[];
+	
+	var i;
+	var c=0;
+	var f=1/sqrt(2*pi*s*s);
+	var exponentCoef=-1/(2*s*s);
+	for (i=-blurR;i<=blurR;i++){
+		blurMask[i+blurR]=(f*exp(exponentCoef*i*i));
+		c+=blurMask[i+blurR];
+	}
+}
+function gBlur(A){
+	var w=A.length;
+	var h=A[0].length;
+	var T=[];
+	var x,y,i,j,a,X,Y,t;
+	
+	for (x=0;x<w;x++){
+		T[x]=[];
+		for (y=0;y<h;y++){
+			T[x][y]=0;
+			a=0;
+			for (i=-blurR;i<=blurR;i++){
+				X=x+i;
+				if ((0<=X) && (X<w)){
+					t=blurMask[i+blurR];
+					a+=t;
+					T[x][y]+=t*A[X][y];
+				}
+			}
+			T[x][y]=T[x][y]/a;
+		}
+	}
+	for (x=0;x<w;x++){
+		for (y=0;y<h;y++){
+			A[x][y]=0;
+			a=0;
+			for (i=-blurR;i<=blurR;i++){
+				Y=y+i;
+				if ((0<=Y) && (Y<h)){
+					t=blurMask[i+blurR];
+					a+=t;
+					A[x][y]+=t*T[x][Y];
+				}
+			}
+			A[x][y]=A[x][y]/a;
+		}
+	}	
+}
+//end Gaussian Blur Code
+
+
+
+//GRADIENT CODE
+function setupGradient(G, VX, VY, V){
+	//input an image G and calculate gradient or tangent vectors
+	//VX and VY are unit vectors
+	//magnitude is in V
+	
+	//setup vectors
+	var w=G.length;
+	var h=G[0].length;
+	var x,y,dx,dy,mind,d,mini;
+	var maxv=0;
+	for (x=0;x<w;x++){
+		V[x]=[];
+		VX[x]=[];
+		VY[x]=[];
+		for (y=0;y<h;y++){
+			VX[x][y]=0;
+			VY[x][y]=0;
+			V[x][y]=0;
+		}
+	}
+	//find gradient
+	for (x=1;x<w-1;x++)
+	for (y=1;y<h-1;y++){
+			VX[x][y]=-G[x-1][y-1]-2*G[x-1][y]-G[x-1][y+1]+G[x+1][y-1]+2*G[x+1][y]+G[x+1][y+1];
+			VY[x][y]=-G[x-1][y-1]-2*G[x][y-1]-G[x+1][y-1]+G[x-1][y+1]+2*G[x][y+1]+G[x+1][y+1];
+			V[x][y]=sqrt(VX[x][y]*VX[x][y]+VY[x][y]*VY[x][y]);
+			//convert to tangent	
+			dx=VX[x][y];
+			VX[x][y]=-VY[x][y];
+			VY[x][y]=dx;
+			//normalize
+			d=V[x][y];
+			if (d>maxv) maxv=d;
+			if (d!=0)
+			{
+				VX[x][y]=VX[x][y]/d;
+				VY[x][y]=VY[x][y]/d;
+			}
+	}
+//	for (x=1;x<w-1;x++)
+//	for (y=1;y<h-1;y++){
+//		VX[x][y]=VX[x][y]/maxv;
+//		VY[x][y]=VY[x][y]/maxv;
+//	}
+}
+//end gradient code
+
+//lerp stuff
+
+function lerp(a,b,t){
+	return(t*b+(1-t)*a);
+}
+function lerpArray(a,x,y){
+var ox=x;
+var oy=y;
+	var width=a.length;
+	var height=a[0].length;
+	var X, Y, X1, Y1;
+	var a1, a2,r;
+	if (x<0) x=0;
+	else if (x>=width-1){
+		x=width-1;
+		X=width-1;
+		X1=width-1;
+	}
+	else{
+		X=floor(x);
+		X1=X+1;
+	}
+	if (y<0) y=0;
+	else if (y>=height-1){
+		y=height-1;
+		Y=height-1;
+		Y1=height-1;
+	}
+	else{
+		Y=floor(y);
+		Y1=Y+1;
+	}
+	x=x-X;
+	y=y-Y	
+	
+	a1=lerp(a[X][Y],a[X1][Y],x);
+	a2=lerp(a[X][Y1], a[X1][Y1],x);
+
+	r=(lerp(a1,a2,y));
+	return(r);
+}
+//end lerp stuff
+//--------------------------
+
+var N=500;
 var X=[]; var Y=[];
 var VX=[]; var VY=[]; var V=[];
 var FX=[]; var FY=[];
@@ -27,37 +180,48 @@ var fovAngle=10;
 var repCon=5;
 var attCon=0.5;
 var gravity=0
-var vCap=2;
+var vCap=30;
 var followCon=2;
+
+var theColors=[];
 
 function displayBoids(){
 	var i;
 	var dx,dy,v,x,y;
 	for (i=0;i<N;i++){
 		x=X[i]; y=Y[i];
-		point(x,y);
+//		color(theColors[i]);
+//		point(x,y);
 		v=V[i];
 		if (v!=0){
 			dx=VX[i]/v;
 			dy=VY[i]/v;
-			line(x,y,x-10*dx, y-10*dy);
+			line(x,y,x-2*dx, y-2*dy);
 		}
+//		if (random()<0.01) {
+//			x=floor(X[i]);
+//			y=floor(Y[i]);
+//			theColors[i]=rgb(RED[x][y], GREEN[x][y], BLUE[x][y]);
+//		}
 	}	
 }
 function displayEnvironment(){
-var x,y,dx=100;
+var x,y,dx=200;
 	save();
 	background('gray');
 	fillcolor('white');
 	fillrect(20,20,width-40, height-40);
 	fillcolor('gray');
 	color('gray');
-		linewidth(20);
-	for (x=dx;x<=width-dx;x+=dx)
-	for (y=dx;y<=height-dx;y+=dx){
-		circle(x,y, 10);
-		fill();
-	}	
+	linewidth(1);
+	circle(width/2, height/2, width/2);
+	
+		
+//	for (x=dx;x<=width-dx;x+=dx)
+//	for (y=dx;y<=height-dx;y+=dx){
+//		circle(x,y, 5);
+//		fill();
+//	}	
 
 	//color('gray');
 	//line(0,height/2, width/4, height/2);
@@ -70,6 +234,14 @@ function setupEnvironment(){
 	clear();
 	displayEnvironment();
 	copyImageData(ENV, G, B, A);
+}
+
+function randomColor(){
+	return(rgb(
+		floor(random()*255),
+		floor(random()*255),
+		floor(random()*255)
+	));
 }
 function setupArrays(){
 	var i,x,y;
@@ -86,6 +258,12 @@ function setupArrays(){
 		VX[i]=V0*(random()-0.5); VY[i]=V0*(random()-0.5);
 	}
 	findVelocities();
+	
+//	for (i=0;i<N;i++){
+//		x=floor(X[i]);
+//		y=floor(Y[i]);
+//		theColors[i]=rgb(RED[x][y], GREEN[x][y], BLUE[x][y]);
+//	}	
 }
 
 
@@ -233,8 +411,9 @@ function updateForces(){
 	var i;
 	var dx,dy,d,k;
 	for (i=0;i<N;i++){
-		FX[i]=NFX[i];
-		FY[i]=repCon*NFY[i]+gravity;
+		//a=noise(X[i]/width, Y[i]/height)*360;
+		FX[i]=repCon*NFX[i]//+lerpArray(IVX, X[i], Y[i]);
+		FY[i]=repCon*NFY[i]//+lerpArray(IVX, X[i], Y[i]);
 	}
 	for (i=0;i<N;i++){
 		dx=NX[i]-X[i];
@@ -282,23 +461,46 @@ function updateBoids(){
 	avoidEnvironment();
 	updatePositions();
 }
+var RED=[], GREEN=[], BLUE=[], ALPHA=[], GRAY=[], IVX=[], IVY=[], IV=[];
 function setup(){
-	size(600,600);
+	size(2000,2000);
+//	drawImage(colorImage, width/2, height/2, width, height);
+//	copyImageData(RED, GREEN, BLUE, ALPHA);
 	setupEnvironment();
 	setupArrays();
 	avoidEnvironment();
-	loop();
+	setupNoise(10);
+	
+/*	var x,y;
+	for (x=0;x<width;x++){
+		GRAY[x]=[];
+		for (y=0;y<height;y++){
+			GRAY[x][y]=max(RED[x][y],GREEN[x][y],BLUE[x][y]);
+		}
+	}	
+	setupBlur(5); 
+	gBlur(GRAY);
+	setupGradient(GRAY, IVX, IVY, IV);
+	gBlur(IVX);
+	gBlur(IVY);
+*/	clear();
+	//loop();
 }
+var counter=0;
 function draw(){
 	var i;
+	if (counter++<100) clear();
 	for (i=0;i<15;i++)
 		updateBoids();
-	displayEnvironment();
+//	displayEnvironment();
 	displayBoids();
 }
 </script>
 </head>
 <body>
 <div id='spork'></div>
+<button onclick='stoploop();'>Pause</button> <button onclick='startloop();'>Go</button>
+
+<img id='colorImage' src='png/dadoutline.png' class='hidden'>
 </body>
 </html>

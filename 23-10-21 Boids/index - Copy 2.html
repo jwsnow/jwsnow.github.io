@@ -1,13 +1,10 @@
 <!doctype html>
 <html>
 <head>
-<style>
-#spork{
-text-align:center;
-}</style>
+<style></style>
 <script src='spork.js'></script>
 <script>
-var N=100;
+var N=20;
 var X=[]; var Y=[];
 var VX=[]; var VY=[]; var V=[];
 var FX=[]; var FY=[];
@@ -18,30 +15,26 @@ var NN=[];
 var NX=[]; var NY=[];
 var NVX=[]; var NVY=[];
 var NFX=[]; var NFY=[];
-var NR=100;
-var R=30;
+var NR=20;
+var R=10;
 
 var DT=0.01;
 var safeDistance=10;
 var fovAngle=10;
 var repCon=5;
-var attCon=0.5;
+var attCon=1;
 var gravity=0
 var vCap=2;
-var followCon=2;
+var followCon=1;
 
 function displayBoids(){
 	var i;
-	var dx,dy,v,x,y;
 	for (i=0;i<N;i++){
-		x=X[i]; y=Y[i];
-		point(x,y);
-		v=V[i];
-		if (v!=0){
-			dx=VX[i]/v;
-			dy=VY[i]/v;
-			line(x,y,x-10*dx, y-10*dy);
-		}
+		if ((i%10)==0)
+			color('red');
+		else
+			color('black');
+		point(X[i], Y[i]);
 	}	
 }
 function displayEnvironment(){
@@ -52,16 +45,15 @@ var x,y,dx=100;
 	fillrect(20,20,width-40, height-40);
 	fillcolor('gray');
 	color('gray');
-		linewidth(20);
 	for (x=dx;x<=width-dx;x+=dx)
 	for (y=dx;y<=height-dx;y+=dx){
 		circle(x,y, 10);
 		fill();
 	}	
-
+	linewidth(20);
 	//color('gray');
-	//line(0,height/2, width/4, height/2);
-	//line(width, height/2, 0.75*width, 0.5*height);
+	line(0,height/2, width/4, height/2);
+	line(width, height/2, 0.75*width, 0.5*height);
 	restore();
 }
 function setupEnvironment(){
@@ -283,11 +275,11 @@ function updateBoids(){
 	updatePositions();
 }
 function setup(){
-	size(600,600);
+	size(200,200);
 	setupEnvironment();
 	setupArrays();
 	avoidEnvironment();
-	loop();
+	//loop();
 }
 function draw(){
 	var i;
@@ -300,5 +292,6 @@ function draw(){
 </head>
 <body>
 <div id='spork'></div>
+<button onclick='stoploop();'>Pause</button> <button onclick='startloop();'>Go</button>
 </body>
 </html>

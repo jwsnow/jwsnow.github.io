@@ -6813,8 +6813,8 @@ function bootstrapGOF(observed, probabilities, sampleMeans){
 }
 function RSCalculateGOF(){
 try{
-	var l1=getChecked('RSmpradio1');
-	var l2=getChecked('RSmpradio2');
+	var l1=getChecked('RSGOFradio1');
+	var l2=getChecked('RSGOFradio2');
 	if (l1==l2) alert('Select two different lists.');
 	else if(listN[l1]*listN[l2]==0) alert('One of your lists is empty.');
 	else if (listN[l1]!=listN[l2]) alert('Your lists need to be the same length.');
