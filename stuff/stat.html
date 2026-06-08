@@ -2,6 +2,9 @@
 <html>
 <head>
 <style>
+canvas{
+	border: 1px solid black;
+}
 #dataTable{
 	border-spacing: 2px;
 }
@@ -234,8 +237,8 @@ function expand(t){
 	removeSpaces(); //KEEP OR KILL
 	printLists();
 //++++++++++++++
-	var graphDivs=['histoDiv','histoDiv2','boxDiv','scatterDiv','quantileDiv','insideHistoDiv','seriesDiv'];
-	var checksToClear=['histocheckbox','boxcheckbox','scatterxradio','scatteryradio','quantileradio','histo2radio','seriesradio'];
+	var graphDivs=['histoDiv','histoDiv2','boxDiv','scatterDiv','quantileDiv','insideHistoDiv','seriesDiv','dotPlotDiv','insideDotPlotDiv'];
+	var checksToClear=['histocheckbox','boxcheckbox','scatterxradio','scatteryradio','quantileradio','histo2radio','seriesradio','dotplotcheckbox'];
 	var i;
 //for (i=0;i<graphDivs.length;i++)
 //		document.getElementById(graphDivs[i]).style.display='none';
@@ -262,8 +265,7 @@ function expand(t){
 				document.getElementById(toToggle[i]).style.display='none';		
 		}
 	}
-//	var graphDivs=['histoDiv','histoDiv2','boxDiv','scatterDiv','quantileDiv','insideHistoDiv','seriesDiv'];
-//	var checksToClear=['histocheckbox','boxcheckbox','scatterxradio','scatteryradio','quantileradio','histo2radio','seriesradio'];
+
 	if (toClose.length>0){ 
 		for (i=0;i<toClose.length;i++){
 			document.getElementById(toClose[i]).style.display='none';
@@ -1122,7 +1124,7 @@ function fcdf(x, d1, d2){
 </script>
 <body>
 <div class='tabbar'>
-<button class='expander' data-open='dataListDiv' data-close='welcomDiv,generatedDiv,summaryDiv,chartDiv,distributionDiv,intervalsDiv,testsDiv,insideHistoDiv,boxplotCanvasDiv,scatterPlotDiv,quantilePlotDiv,ranVarInnerDiv'>Data</button>
+<button class='expander' data-open='dataListDiv' data-close='welcomDiv,generatedDiv,summaryDiv,chartDiv,distributionDiv,intervalsDiv,testsDiv,insideHistoDiv,boxplotCanvasDiv,scatterPlotDiv,quantilePlotDiv,ranVarInnerDiv,dotPlotDiv,insideDotPlotDiv'>Data</button>
 <button class='expander' data-open='summaryDiv'  data-close='welcomDiv,chartDiv,dataListDiv,distributionDiv,intervalsDiv,testsDiv'>Summary</button>
 <button class='expander' data-open='chartDiv'  data-close='welcomDiv,summaryDiv,dataListDiv,distributionDiv,intervalsDiv,testsDiv'>Plots</button>
 <button class='expander' data-open='distributionDiv'  data-close='welcomDiv,dataListDiv,generatedDiv,summaryDiv,chartDiv,intervalsDiv,testsDiv'>Calculators</button>
@@ -1910,12 +1912,13 @@ ranVarCanvas.style.display='none';
 <!--charts------------------------------------------------------>
 <div id='chartDiv' class='pageDiv expandable'>
 <div class='pageMenu'>
-<button class='expander' data-open='histoDiv' data-close='seriesDiv,histoDiv2,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2'>Histograms</button>
-<button class='expander' data-open='histoDiv2' data-close='seriesDiv,histoDiv,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2'>Bar Chart</button>
-<button class='expander' data-open='seriesDiv' data-close='histoDiv2,histoDiv,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2,insideSeriesDiv'>Series</button>
-<button class='expander' data-open='boxDiv' data-close='seriesDiv,histoDiv2,histoDiv,scatterDiv,quantileDiv,boxplotCanvasDiv'>Box Plots</button>
-<button class='expander' data-open='scatterDiv' data-close='seriesDiv,histoDiv2,histoDiv,boxDiv,quantileDiv,scatterPlotDiv'>Scatter Plots</button>
-<button class='expander' data-open='quantileDiv'  data-close='seriesDiv,histoDiv2,histoDiv,boxDiv,scatterDiv,quantilePlotDiv'>Quantile Plots</button>
+<button class='expander' data-open='dotPlotDiv' data-close='histoDiv,seriesDiv,histoDiv2,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2'>Dot Plots</button>
+<button class='expander' data-open='histoDiv' data-close='dotPlotDiv,seriesDiv,histoDiv2,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2'>Histograms</button>
+<button class='expander' data-open='histoDiv2' data-close='dotPlotDiv,seriesDiv,histoDiv,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2'>Bar Chart</button>
+<!--button class='expander' data-open='seriesDiv' data-close='dotPlotDiv,histoDiv2,histoDiv,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2,insideSeriesDiv'>Series</button-->
+<button class='expander' data-open='boxDiv' data-close='dotPlotDiv,seriesDiv,histoDiv2,histoDiv,scatterDiv,quantileDiv,boxplotCanvasDiv'>Box Plots</button>
+<button class='expander' data-open='scatterDiv' data-close='dotPlotDiv,seriesDiv,histoDiv2,histoDiv,boxDiv,quantileDiv,scatterPlotDiv'>Scatter Plots</button>
+<button class='expander' data-open='quantileDiv'  data-close='dotPlotDiv,seriesDiv,histoDiv2,histoDiv,boxDiv,scatterDiv,quantilePlotDiv'>Quantile Plots</button>
 </div>
 
 <div class='subPage'>
@@ -1992,7 +1995,14 @@ function drawSeries(){
 		document.write("<label><input type='checkbox'  class='histocheckbox' onclick='drawHistograms();'><span class='histolabel'  style='color:"+theColors[i]+";'>"+listLabel[i]+"</span></label>&nbsp;");
 	allLabelNames.push('histo'+'label');	
 	</script>
-	<div id="insideHistoDiv"><canvas id="histoCanvas" width=400 height=200></canvas>
+	<div id="insideHistoDiv">	
+	<script>
+	for (let i=0;i<numLists;i++)
+		document.write("<div id='histoCanvasDiv"+i+"' style='display: none;'><span class='histocanvaslabel'  style='color:"+theColors[i]+";'>"+listLabel[i]+"</span><br><canvas id='singleHistoCanvas"+i+"' width=400 height=200></canvas></div>");
+	allLabelNames.push('histocanvas'+'label');	
+	</script>
+
+		<!--canvas id="histoCanvas" width=400 height=200></canvas-->
 	<div id='freqTableDiv'></div>
 	</div>
 	</div>
@@ -2007,60 +2017,44 @@ function drawHistograms(){
 	n=eval(histoBins.value);
 //	d=(eval(histoMax.value)-eval(histoMin.value))/n;
 //	Min=eval(histoMin.value);
-	var can=histoCanvas;
-	var ctx=can.getContext('2d');
-	var w=can.width;
-	var h=can.height;	
-	ctx.fillStyle='white';
-	ctx.fillRect(0,0,w,h);	
 	var boxes=document.getElementsByClassName('histocheckbox');	
-freqTableDiv.innerHTML='';	
-insideHistoDiv.style.display='none';
-var numChecks=0;
-var lastX;
-for (i=0;i<numLists;i++)
-	if ((listN[i]==0)||(!numbersOnly[i])) boxes[i].checked=false;
-	
-for (i=0;i<numLists;i++)
-	if ((boxes[i].checked) && listN[i]>0)
-		numChecks++;
-	else
-		boxes[i].checked=false;
-if (numChecks>0){	
-Min=Infinity;
-Max=-Infinity;
-for (i=0;i<numLists;i++){
-	if (boxes[i].checked){
-		if (listMin[i]<Min) Min=listMin[i];
-		if (listMax[i]>Max) Max=listMax[i];
+	freqTableDiv.innerHTML='';	
+	insideHistoDiv.style.display='none';
+	var numChecks=0;
+	var lastX;
+	for (i=0;i<numLists;i++)
+		if ((listN[i]==0)||(!numbersOnly[i])) boxes[i].checked=false;
+
+	//GET MAX AND MIN OVER ALL SELECTED LISTS
+	for (i=0;i<numLists;i++)
+		if ((boxes[i].checked) && listN[i]>0)
+			numChecks++;
+		else
+			boxes[i].checked=false;
+	if (numChecks>0){	
+	Min=Infinity;
+	Max=-Infinity;
+	for (i=0;i<numLists;i++){
+		if (boxes[i].checked){
+			if (listMin[i]<Min) Min=listMin[i];
+			if (listMax[i]>Max) Max=listMax[i];
+		}
 	}
-}
-d=(Max-Min);
-Min=Min-0.05*d;
-Max=Max+0.05*d;
-d=(Max-Min)/n;
-			ctx.font='12px Helvetica';
-			ctx.fillStyle='black';
-			dx=w/(n+2);
-			lastX=-20;
-			for (j=0;j<=n;j++)
-			if (j*dx-lastX>12){
-				ctx.save();
-				ctx.translate(j*dx, h-40);
-				ctx.rotate(PI/2);
-				ctx.fillText((Min+j*d).TOFIXED(2),0,0);
-				lastX=j*dx;
-				ctx.restore();
-			}
+	d=(Max-Min);
+	Min=Min-0.05*d;
+	Max=Max+0.05*d;
+	d=(Max-Min)/n;
+	
 	var listsDrawn=0;
 	var freqTables='';
+	var can, ctx, w, h;
 	freqTableDiv.innerHTML='HELLO';
+	//HIDE ALL CANVASES
+	for (i=0;i<numLists;i++)
+		document.getElementById("histoCanvasDiv"+i).style.display='none';
 	for (i=0;i<numLists;i++)
 	if ((listN[i]>1) && (boxes[i].checked)){
-		//histoDiv.style.display='block';
-		freqTables+='<table border=1><tr><th colspan=4>'+listLabel[i]+'</th></tr>';
-		freqTables+='<tr><th>Interval</th><th>Frequency</th><th>Relative Frequency</th><th>Cumulative Frequency</th></tr>';
-		ctx.strokeStyle=theColors[i];
+		//COUNT
 			c=[];
 			for (bin=0;bin<=n;bin++)
 				c[bin]=0;
@@ -2074,10 +2068,39 @@ d=(Max-Min)/n;
 			for (j=0;j<n;j++)
 				if (c[j]>H)
 					H=c[j];
+					
+		//SETUP CANVAS
+		can=document.getElementById("singleHistoCanvas"+i);
+		document.getElementById("histoCanvasDiv"+i).style.display='block';
+		ctx=can.getContext('2d');
+		w=can.width;
+		h=can.height;	
+		ctx.fillStyle='white';
+		ctx.fillRect(0,0,w,h);	
+
+		//PRINT LABELS
+		ctx.font='12px Helvetica';
+		ctx.fillStyle='black';
+		dx=w/(n+2);
+		lastX=-20;
+		for (j=0;j<=n;j++)
+		if (j*dx-lastX>12){
+			ctx.save();
+			ctx.translate(j*dx, h-40);
+			ctx.rotate(PI/2);
+			ctx.fillText((Min+j*d).TOFIXED(2),0,0);
+			lastX=j*dx;
+			ctx.restore();
+		}		
+
+		//START TABLE and SET COLOR			
+		freqTables+='<table border=1><tr><th colspan=4>'+listLabel[i]+'</th></tr>';
+		freqTables+='<tr><th>Interval</th><th>Frequency</th><th>Relative Frequency</th><th>Cumulative Frequency</th></tr>';
+		ctx.strokeStyle=theColors[i];
 			for (j=0;j<n;j++){
 				freqTables+='<tr><td>'+(Min+j*d).TOFIXED(2)+'&le; x &lt; '+(Min+(j+1)*d).TOFIXED(2)+'</td><td>'+c[j]+'</td><td>'+(c[j]/listN[i]).TOFIXED(4)+'</td><td>'+(cum[j]/listN[i]).TOFIXED(4)+'</td></tr>'
 			}
-			ctx.lineWidth=0.95*dx/numChecks;
+			ctx.lineWidth=0.95*dx;
 			ctx.beginPath();
 			for (j=0;j<=n;j++){
 				ctx.moveTo(j*dx+dx/2+listsDrawn*dx/numChecks, h-50);
@@ -2095,6 +2118,111 @@ d=(Max-Min)/n;
 </script>
 <!------------------------------------------------------------------------------------------------------------------------------->
 <!------------------------------------------------------------------------------------------------------------------------------->
+	<div id='dotPlotDiv' class='expandable'>
+	Lists: <br><script>
+	for (let i=0;i<numLists;i++)
+		document.write("<label><input type='checkbox'  class='dotplotcheckbox' onclick='drawDotPlots();'><span class='dotplotlabel'  style='color:"+theColors[i]+";'>"+listLabel[i]+"</span></label>&nbsp;");
+	allLabelNames.push('dotplot'+'label');	
+	</script>
+	<div id="insideDotPlotDiv">	
+	<script>
+	for (let i=0;i<numLists;i++)
+		document.write("<div id='dotPlotCanvasDiv"+i+"' style='display: none;'><span class='dotplotcanvaslabel'  style='color:"+theColors[i]+";'>"+listLabel[i]+"</span><br><canvas id='singleDotPlotCanvas"+i+"' width=400 height=200></canvas></div>");
+	allLabelNames.push('dotplotcanvas'+'label');	
+	</script>
+	</div>
+	</div>
+<script>
+
+function drawDotPlots(){ 
+	var i,bin,j,k,r;
+	var n,dx,d;
+	var c,H;
+	var Min, MAX;
+	processLists();
+	var boxes=document.getElementsByClassName('dotplotcheckbox');	
+	insideHistoDiv.style.display='none';
+	var numChecks=0;
+	var lastX;
+	for (i=0;i<numLists;i++)
+		if ((listN[i]==0)||(!numbersOnly[i])) boxes[i].checked=false;
+
+	//GET MAX AND MIN OVER ALL SELECTED LISTS
+	for (i=0;i<numLists;i++)
+		if ((boxes[i].checked) && listN[i]>0)
+			numChecks++;
+		else
+			boxes[i].checked=false;
+	if (numChecks>0){	
+	Min=Infinity;
+	Max=-Infinity;
+	for (i=0;i<numLists;i++){
+		if (boxes[i].checked){
+			if (listMin[i]<Min) Min=listMin[i];
+			if (listMax[i]>Max) Max=listMax[i];
+		}
+	}
+	n=10; //10 labels
+	d=(Max-Min);
+	Min=Min-0.05*d;
+	Max=Max+0.05*d;
+	d=(Max-Min)/n;
+	
+	var can, ctx, w, h;
+	//HIDE ALL CANVASES
+	for (i=0;i<numLists;i++)
+		document.getElementById("dotPlotCanvasDiv"+i).style.display='none';
+	for (i=0;i<numLists;i++)
+	if ((listN[i]>1) && (boxes[i].checked)){ //WORKING RIGHT HERE
+		//COUNT
+			c=[];
+			for (j=0;j<listN[i];j++){
+				if (c[list[i][j]]) c[list[i][j]]++;
+				else c[list[i][j]]=1;
+			}	
+			
+		//SETUP CANVAS
+		can=document.getElementById("singleDotPlotCanvas"+i);
+		document.getElementById("dotPlotCanvasDiv"+i).style.display='block';
+		ctx=can.getContext('2d');
+		w=can.width;
+		h=can.height;	
+		ctx.fillStyle='white';
+		ctx.fillRect(0,0,w,h);	
+
+		//PRINT LABELS
+		ctx.font='12px Helvetica';
+		ctx.fillStyle='black';
+		dx=w/n;
+		lastX=-20;
+		for (j=1;j<n;j++)
+		if (j*dx-lastX>12){
+			ctx.save();
+			ctx.translate(j*dx-6, h-40);
+			ctx.rotate(PI/2);
+			ctx.fillText((Min+j*d).TOFIXED(2),0,0);
+			lastX=j*dx;
+			ctx.restore();
+		}		
+
+		//START TABLE and SET COLOR			
+		ctx.strokeStyle=theColors[i];
+		ctx.fillStyle=theColors[i];
+			for (j in c){
+				r=(parseFloat(j)-Min)/(Max-Min)*w;
+				for (k=0;k<c[j];k++){
+					ctx.beginPath();
+					ctx.arc(r, h-50-5*k, 2, 0, 2 * Math.PI)
+					ctx.stroke();
+					ctx.fill();
+					}
+			}
+	}
+	else boxes[i].checked=false;
+	insideDotPlotDiv.style.display='block';	
+}	
+}
+</script>
 <!------------------------------------------------------------------------------------------------------------------------------->
 <!------------------------------------------------------------------------------------------------------------------------------->
 	<div id='histoDiv2' class='expandable'>
@@ -7142,7 +7270,8 @@ function showhidespecials(){
 		else  a[i].style.display='inline';
 }
 </script>
-<div id='welcomDiv'  style="text-align: center; width: 200px; margin: auto; margin-top: 50px;">This is the new version of the statistics program from March 2026. For the old version, go <a href="statOld.html">here</a>.</div>
+<div id='welcomDiv'  style="text-align: center; width: 200px; margin: auto; margin-top: 50px;">
+</div>
 </body>
 <script>setupAll();</script>
 

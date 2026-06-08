@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+<style>
+div.colorblock{
+	width: 50px;
+	height:50px;
+	display: inline-block;
+	margin: 10px;
+}
+#centerColor{
+	height: 50px;
+	width: 330px;
+	margin: 10px;
+}
+canvas{
+	display: none;
+}
+#output{
+	width: 400px;
+}
+#explanation{
+	width: 400px;
+}
+button{
+	margin: 10px;
+}
+</style>
+<script src='spork.js'></script>
+<script>
+function fibonacciSphere(n) { //z up
+  const points = [];
+  const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+
+  for (let i = 0; i < n; i++) {
+    const z = 1 - (2 * i) / (n - 1 || 1);  // from 1 to -1
+    const radius = Math.sqrt(1 - z * z);
+
+    const theta = goldenAngle * i;
+
+    const x = Math.cos(theta) * radius;
+    const y = Math.sin(theta) * radius;
+
+    points.push([x, y, z]);
+  }
+
+  return points;
+}
+
+function rotateAroundZ(points, theta) {
+  const c = COS(theta);
+  const s = SIN(theta);
+
+function rotate(point){
+    const x = point[0];
+    const y = point[1];
+    const z = point[2];
+
+    return [
+      c * x - s * y,
+      s * x + c * y,
+      z
+    ];
+  }
+  return points.map(rotate);
+}
+
+function rotateAroundX(points, theta) {
+  const c = COS(theta);
+  const s = SIN(theta);
+  
+  function rotate(point){
+    const x = point[0];
+    const y = point[1];
+    const z = point[2];
+
+    return [
+      x,
+      c * y - s * z,
+      s * y + c * z
+    ];
+  }
+
+  return points.map(rotate);
+}
+
+function focusColors(points){
+	var a=1-2*random();
+	var b=1-2*random();
+	var c=1-2*random();
+	
+	function averageColors(point){
+		var x=point[0]; var y=point[1]; var z=point[2];
+		return([(x+a)/2, (y+b)/2, (z+c)/2]);
+	}
+	var newPoints=points.map(averageColors)
+	newPoints.push([a, b, c]);
+	return(newPoints);
+}
+
+function pointsToColors(points){
+	function oneChannel(x){
+		return(floor(128*x+128));
+	}
+	function oneColor(point){
+		var x=point[0]; var y=point[1]; var z=point[2];
+		return(rgb(oneChannel(x), oneChannel(y), oneChannel(z)));
+	}
+	return(points.map(oneColor));
+}
+function randomColors(n){
+	var sphere=fibonacciSphere(n);
+	sphere=rotateAroundX(sphere, random()*180);
+	sphere=rotateAroundZ(sphere, random()*360);
+	sphere=focusColors(sphere);
+	sphere=pointsToColors(sphere);
+	return(sphere);
+}
+</script>
+<script>
+var theColors=[];
+var numColors;
+function setup(){
+	numColors=parseInt(numColorsInput.value,10);
+	theColors=randomColors(numColors);
+	console.log(theColors);
+}
+
+function draw(){
+	var i;
+	var s='';
+	for (i=0;i<numColors;i++)
+		s+='<div class="colorblock" style="background: '+theColors[i]+';" title="'+theColors[i]+'"></div>';
+	
+	output.innerHTML=s;	
+	//centerColor.style.background=theColors[numColors];
+}
+</script>
+</head>
+<body>
+<div id='spork'></div>
+<h2>Random Fibonacci Colors</h2>
+Number of colors: <input id='numColorsInput' value=5 onchange='startover();'><br>
+<button onclick='startover();'>Generate new colors</button>
+<div id='output'></div>
+<!--div id='centerColor'></div-->
+<div id='explanation'>
+<h3>Explanation</h3>
+First, a sphere is placed inside the RGB cube tangent to all six sides.
+Then the specified number of colors are chosen at points along a spiral drawn on the surface of the sphere with the golden angle between consecutive points.
+This selection of points gives an approximation at evenly spacing the colors on the sphere.
+Next, the sphere is randomly rotated around its center.
+Finally, all of the currently selected colors are averaged with a single random color. 
+</div>
+</body>
+</html>
