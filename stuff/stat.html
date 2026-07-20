@@ -159,6 +159,9 @@ div.answerDiv{
 div.hidden{
 	display:none;
 }
+span.special{
+	display: none;
+}
 </style>
 <script>
 var numLists=13;
@@ -7224,7 +7227,7 @@ function anovaF(P){
 <button class='closer' onclick='hideSettings()'>X</button>
 <h4>Settings</h4>
 <ul>
-<li> <label><input type='checkbox' id='specialBox' onclick='showhidespecials();'> Hide bootstrap, nonparametric, and resampling options.</label></li>
+<li> <label><input type='checkbox' id='specialBox' onclick='showhidespecials();' checked=true> Hide bootstrap, nonparametric, and resampling options.</label></li>
 <li> <label><input type='checkbox' id='arrowEditingBox' onclick='changeArrowEditing();' checked=true> Use arrows for editing cells.</label></li>
 <!--li> <label><input type='checkbox' id='backspaceBox' onclick='changeBackSpaceOption();'> Allow cell deletion with backspace.</label></li-->
 <!--li> Data separation character: 
@@ -7266,7 +7269,7 @@ function showhidespecials(){
 	var a=document.getElementsByClassName('special');
 	var i;
 	for (i=0;i<a.length;i++)
-		if (a[i].style.display!='none') a[i].style.display='none';
+		if (a[i].style.display=='inline') a[i].style.display='none';
 		else  a[i].style.display='inline';
 }
 </script>
