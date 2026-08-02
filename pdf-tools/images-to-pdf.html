@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Combine Images into a PDF</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html">PDF Submission Tools</a>
+      <nav aria-label="Primary">
+        <a href="compress-pdf.html">Resize a PDF</a>
+        <a href="images-to-pdf.html" aria-current="page">Images to PDF</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">Images to one submission-ready PDF</div>
+      <h1>Combine images into a PDF.</h1>
+      <p class="lead">Choose one or more images, arrange them in page order, and create one letter-size PDF no larger than 10 MB.</p>
+    </section>
+
+    <section class="card" aria-labelledby="tool-heading">
+      <h2 id="tool-heading">Choose images</h2>
+      <div class="drop-zone" id="drop-zone">
+        <input id="image-input" type="file" multiple accept="image/*,.heic,.heif,.jpg,.jpeg,.png,.webp,.gif,.bmp" aria-label="Choose image files">
+        <span class="drop-title">Drop images here or click to browse</span>
+        <span class="drop-help">PNG, JPEG, HEIC, HEIF, WebP, GIF, BMP, and other browser-readable image types</span>
+      </div>
+
+      <ul id="image-list" class="image-list" aria-live="polite"></ul>
+      <div class="actions">
+        <button id="process-button" class="button" type="button" disabled>Create PDF</button>
+        <button id="clear-button" class="button secondary" type="button" disabled>Clear list</button>
+      </div>
+
+      <div id="progress-wrap" class="progress-wrap" hidden>
+        <progress id="progress" max="100" value="0"></progress>
+        <p id="status" class="status" aria-live="polite"></p>
+      </div>
+      <div id="error" class="error" role="alert" hidden></div>
+      <div id="success" class="success" hidden>
+        <strong>Your PDF is ready.</strong>
+        <div id="result-details" class="result-grid"></div>
+        <div class="actions">
+          <button id="download-button" class="button" type="button">Download PDF</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Page and file sizing</h2>
+      <ul class="compact">
+        <li>One image is placed on each PDF page.</li>
+        <li>Portrait images use 8.5 × 11 inch pages; landscape images use 11 × 8.5 inch pages.</li>
+        <li>Images are scaled proportionally and are never cropped.</li>
+        <li>Transparent areas are placed on a white background.</li>
+        <li>Animated images contribute their first displayed frame.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer><div class="footer-inner">Processing occurs locally in the browser. The page loads open-source JavaScript libraries from a content-delivery network.</div></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+  <script src="common.js"></script>
+  <script>
+    (function () {
+      'use strict';
+
+      const tools = window.PdfTools;
+      const { PDFDocument } = window.PDFLib || {};
+      const input = document.getElementById('image-input');
+      const dropZone = document.getElementById('drop-zone');
+      const imageList = document.getElementById('image-list');
+      const processButton = document.getElementById('process-button');
+      const clearButton = document.getElementById('clear-button');
+      const progressWrap = document.getElementById('progress-wrap');
+      const progress = document.getElementById('progress');
+      const status = document.getElementById('status');
+      const errorBox = document.getElementById('error');
+      const successBox = document.getElementById('success');
+      const resultDetails = document.getElementById('result-details');
+      const downloadButton = document.getElementById('download-button');
+
+      let files = [];
+      let resultBlob = null;
+      let resultName = 'combined-images-under-10mb.pdf';
+      const THUMBNAIL_BOX = 72;
+
+      function idForFile() {
+        return window.crypto && typeof window.crypto.randomUUID === 'function'
+          ? window.crypto.randomUUID()
+          : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      }
+
+      function showError(message) {
+        errorBox.textContent = message;
+        errorBox.hidden = false;
+      }
+
+      function clearMessages() {
+        errorBox.hidden = true;
+        errorBox.textContent = '';
+        successBox.hidden = true;
+        resultDetails.textContent = '';
+        resultBlob = null;
+      }
+
+      function isAcceptedImage(file) {
+        return /^image\//i.test(file.type || '') || /\.(png|jpe?g|heic|heif|webp|gif|bmp)$/i.test(file.name || '');
+      }
+
+      function addFiles(newFiles) {
+        clearMessages();
+        const accepted = newFiles.filter(isAcceptedImage);
+        if (!accepted.length) {
+          showError('No supported image files were selected.');
+          return;
+        }
+        files.push(...accepted.map((file) => ({ id: idForFile(), file, previewUrl: '', previewPromise: null, previewDisposed: false })));
+        renderList();
+        if (accepted.length !== newFiles.length) {
+          showError('Some selected files were skipped because they were not recognized as images.');
+        }
+      }
+
+      function revokePreview(entry) {
+        if (!entry) return;
+        entry.previewDisposed = true;
+        if (entry.previewUrl) {
+          URL.revokeObjectURL(entry.previewUrl);
+          entry.previewUrl = '';
+        }
+      }
+
+      async function ensurePreview(entry, imageEl, fallbackEl) {
+        if (entry.previewUrl) {
+          imageEl.src = entry.previewUrl;
+          imageEl.hidden = false;
+          fallbackEl.hidden = true;
+          return;
+        }
+
+        if (!entry.previewPromise) {
+          entry.previewPromise = (async () => {
+            let loaded = null;
+            let canvas = null;
+            try {
+              loaded = await tools.loadImageSource(entry.file);
+              if (entry.previewDisposed) return;
+              const fitted = tools.fitInside(loaded.width, loaded.height, THUMBNAIL_BOX, THUMBNAIL_BOX, false);
+              canvas = document.createElement('canvas');
+              canvas.width = Math.max(1, fitted.width);
+              canvas.height = Math.max(1, fitted.height);
+              const ctx = canvas.getContext('2d', { alpha: false });
+              ctx.fillStyle = '#fff';
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+              ctx.imageSmoothingEnabled = true;
+              ctx.imageSmoothingQuality = 'high';
+              ctx.drawImage(loaded.source, 0, 0, canvas.width, canvas.height);
+              const blob = await new Promise((resolve, reject) => {
+                canvas.toBlob((value) => {
+                  if (value) resolve(value);
+                  else reject(new Error('Thumbnail generation failed.'));
+                }, 'image/jpeg', 0.82);
+              });
+              entry.previewUrl = URL.createObjectURL(blob);
+              if (entry.previewDisposed) {
+                URL.revokeObjectURL(entry.previewUrl);
+                entry.previewUrl = '';
+              }
+            } catch (error) {
+              console.warn('Preview generation failed for', entry.file && entry.file.name, error);
+            } finally {
+              if (canvas) {
+                canvas.width = 1;
+                canvas.height = 1;
+              }
+              if (loaded) loaded.close();
+              entry.previewPromise = null;
+            }
+          })();
+        }
+
+        await entry.previewPromise;
+        if (!files.some((item) => item.id === entry.id)) {
+          revokePreview(entry);
+          return;
+        }
+
+        if (entry.previewUrl) {
+          imageEl.src = entry.previewUrl;
+          imageEl.hidden = false;
+          fallbackEl.hidden = true;
+        } else {
+          fallbackEl.textContent = 'Preview unavailable';
+        }
+      }
+
+      function renderList() {
+        imageList.textContent = '';
+        files.forEach((entry, index) => {
+          const row = document.createElement('li');
+          row.className = 'image-row';
+
+          const info = document.createElement('div');
+          info.className = 'image-info';
+
+          const thumbWrap = document.createElement('div');
+          thumbWrap.className = 'thumbnail-wrap';
+          const thumb = document.createElement('img');
+          thumb.className = 'thumbnail-image';
+          thumb.alt = `Thumbnail preview for ${entry.file.name}`;
+          thumb.hidden = true;
+          const thumbFallback = document.createElement('div');
+          thumbFallback.className = 'thumbnail-fallback';
+          thumbFallback.textContent = 'Loading preview…';
+          thumbWrap.append(thumb, thumbFallback);
+
+          const name = document.createElement('div');
+          name.className = 'image-name';
+          const strong = document.createElement('strong');
+          strong.textContent = `${index + 1}. ${entry.file.name}`;
+          const size = document.createElement('span');
+          size.textContent = tools.formatBytes(entry.file.size);
+          name.append(strong, size);
+
+          info.append(thumbWrap, name);
+
+          const controls = document.createElement('div');
+          controls.className = 'row-actions';
+          const up = makeRowButton('↑', 'Move image up', () => move(index, index - 1));
+          const down = makeRowButton('↓', 'Move image down', () => move(index, index + 1));
+          const remove = makeRowButton('Remove', `Remove ${entry.file.name}`, () => removeAt(index));
+          up.disabled = index === 0;
+          down.disabled = index === files.length - 1;
+          controls.append(up, down, remove);
+          row.append(info, controls);
+          imageList.appendChild(row);
+
+          ensurePreview(entry, thumb, thumbFallback);
+        });
+        processButton.disabled = files.length === 0;
+        clearButton.disabled = files.length === 0;
+      }
+
+      function makeRowButton(text, label, handler) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'small-button';
+        button.textContent = text;
+        button.setAttribute('aria-label', label);
+        button.addEventListener('click', handler);
+        return button;
+      }
+
+      function move(from, to) {
+        if (to < 0 || to >= files.length) return;
+        clearMessages();
+        const [item] = files.splice(from, 1);
+        files.splice(to, 0, item);
+        renderList();
+      }
+
+      function removeAt(index) {
+        clearMessages();
+        const [removed] = files.splice(index, 1);
+        revokePreview(removed);
+        renderList();
+      }
+
+      tools.installDropZone(dropZone, input, addFiles);
+
+      clearButton.addEventListener('click', () => {
+        files.forEach(revokePreview);
+        files = [];
+        clearMessages();
+        renderList();
+      });
+
+      async function buildPdf(budgetScale) {
+        const output = await PDFDocument.create();
+        output.setTitle('Combined images');
+        output.setCreator('Browser PDF Submission Tool');
+        output.setProducer('pdf-lib');
+        let remainingImageBudget = tools.imageBudgetForPages(files.length, budgetScale);
+
+        for (let index = 0; index < files.length; index += 1) {
+          const entry = files[index];
+          const pageNumber = index + 1;
+          progress.value = (index / files.length) * 100;
+          status.textContent = `Reading image ${pageNumber} of ${files.length}: ${entry.file.name}`;
+
+          let loaded = null;
+          let rendered = null;
+          try {
+            loaded = await tools.loadImageSource(entry.file);
+            if (!loaded.width || !loaded.height) {
+              throw new Error(`${entry.file.name} has invalid dimensions.`);
+            }
+            rendered = tools.drawSourceToLetterCanvas(loaded.source, loaded.width, loaded.height);
+            const pagesRemaining = files.length - index;
+            const pageBudget = Math.max(700, remainingImageBudget / pagesRemaining);
+            status.textContent = `Compressing image ${pageNumber} of ${files.length}…`;
+            const encoded = await tools.encodeCanvasToJpegBudget(rendered.canvas, pageBudget);
+            const jpegBytes = new Uint8Array(await encoded.blob.arrayBuffer());
+            const image = await output.embedJpg(jpegBytes);
+            const paper = tools.LETTER[rendered.orientation];
+            const page = output.addPage([paper.width, paper.height]);
+            const fitted = tools.fitInside(image.width, image.height, paper.width, paper.height, true);
+            page.drawImage(image, {
+              x: (paper.width - fitted.width) / 2,
+              y: (paper.height - fitted.height) / 2,
+              width: fitted.width,
+              height: fitted.height
+            });
+            remainingImageBudget = Math.max(0, remainingImageBudget - encoded.blob.size);
+          } finally {
+            if (rendered && rendered.canvas) {
+              rendered.canvas.width = 1;
+              rendered.canvas.height = 1;
+            }
+            if (loaded) loaded.close();
+          }
+        }
+
+        status.textContent = 'Finalizing the PDF…';
+        return output.save({ useObjectStreams: true, addDefaultPage: false, objectsPerTick: 40 });
+      }
+
+      async function createWithinLimit() {
+        let budgetScale = 1;
+        let bytes = null;
+        for (let attempt = 1; attempt <= 4; attempt += 1) {
+          if (attempt > 1) status.textContent = `Reducing the file further (pass ${attempt})…`;
+          bytes = await buildPdf(budgetScale);
+          if (bytes.length <= tools.TARGET_BYTES) return { bytes, attempts: attempt };
+          budgetScale *= Math.max(0.25, Math.min(0.82, (tools.TARGET_BYTES / bytes.length) * 0.84));
+        }
+        throw new Error('The images could not be reduced below 10 MB without making pages unusably small. Try creating two PDFs.');
+      }
+
+      processButton.addEventListener('click', async () => {
+        if (!files.length || !PDFDocument) return;
+        clearMessages();
+        tools.setBusy(processButton, true, 'Creating PDF…');
+        clearButton.disabled = true;
+        progressWrap.hidden = false;
+        progress.value = 0;
+        status.textContent = 'Starting…';
+
+        try {
+          const totalOriginalSize = files.reduce((sum, entry) => sum + entry.file.size, 0);
+          const result = await createWithinLimit();
+          resultBlob = new Blob([result.bytes], { type: 'application/pdf' });
+          resultDetails.innerHTML = [
+            `<span><strong>Pages:</strong> ${files.length}</span>`,
+            `<span><strong>Combined image size:</strong> ${tools.formatBytes(totalOriginalSize)}</span>`,
+            `<span><strong>PDF size:</strong> ${tools.formatBytes(resultBlob.size)}</span>`
+          ].join('');
+          progress.value = 100;
+          status.textContent = 'Finished.';
+          successBox.hidden = false;
+        } catch (error) {
+          console.error(error);
+          showError(error && error.message ? error.message : 'The PDF could not be created.');
+          status.textContent = 'Processing stopped.';
+        } finally {
+          tools.setBusy(processButton, false);
+          clearButton.disabled = files.length === 0;
+        }
+      });
+
+      downloadButton.addEventListener('click', () => {
+        if (resultBlob) tools.downloadBlob(resultBlob, resultName);
+      });
+    }());
+  </script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resize and Compress a PDF</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html">PDF Submission Tools</a>
+      <nav aria-label="Primary">
+        <a href="compress-pdf.html" aria-current="page">Resize a PDF</a>
+        <a href="images-to-pdf.html">Images to PDF</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">PDF to submission-ready PDF</div>
+      <h1>Resize and compress a PDF.</h1>
+      <p class="lead">Every page will fit on US letter paper in portrait or landscape orientation, and the finished file will be no larger than 10 MB.</p>
+    </section>
+
+    <section class="card" aria-labelledby="tool-heading">
+      <h2 id="tool-heading">Choose one PDF</h2>
+      <div class="drop-zone" id="drop-zone">
+        <input id="pdf-input" type="file" accept="application/pdf,.pdf" aria-label="Choose a PDF file">
+        <span class="drop-title">Drop a PDF here or click to browse</span>
+        <span class="drop-help">The file stays on this device.</span>
+      </div>
+      <div id="file-summary" class="file-summary" aria-live="polite"></div>
+
+      <div class="actions">
+        <button id="process-button" class="button" type="button" disabled>Resize and compress PDF</button>
+      </div>
+
+      <div id="progress-wrap" class="progress-wrap" hidden>
+        <progress id="progress" max="100" value="0"></progress>
+        <p id="status" class="status" aria-live="polite"></p>
+      </div>
+      <div id="error" class="error" role="alert" hidden></div>
+      <div id="success" class="success" hidden>
+        <strong>Your PDF is ready.</strong>
+        <div id="result-details" class="result-grid"></div>
+        <div class="actions">
+          <button id="download-button" class="button" type="button">Download PDF</button>
+        </div>
+      </div>
+
+      <div class="notice">
+        <strong>What changes:</strong> Each original page is rendered as a JPEG image and placed on a letter-size PDF page. This removes selectable text, links, fillable fields, annotations, and accessibility tags.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>How it works</h2>
+      <ul class="compact">
+        <li>Portrait pages become 8.5 × 11 inches; landscape pages become 11 × 8.5 inches.</li>
+        <li>Content is scaled proportionally without cropping.</li>
+        <li>Image quality and resolution are reduced only as much as needed to meet the 10 MB limit.</li>
+        <li>Password-protected PDFs may prompt for the password.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer><div class="footer-inner">Processing occurs locally in the browser. The page loads open-source JavaScript libraries from a content-delivery network.</div></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="common.js"></script>
+  <script type="module">
+    import * as pdfjsLib from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.1.200/legacy/build/pdf.mjs';
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.1.200/legacy/build/pdf.worker.mjs';
+
+    const tools = window.PdfTools;
+    const { PDFDocument } = window.PDFLib || {};
+    const input = document.getElementById('pdf-input');
+    const dropZone = document.getElementById('drop-zone');
+    const fileSummary = document.getElementById('file-summary');
+    const processButton = document.getElementById('process-button');
+    const progressWrap = document.getElementById('progress-wrap');
+    const progress = document.getElementById('progress');
+    const status = document.getElementById('status');
+    const errorBox = document.getElementById('error');
+    const successBox = document.getElementById('success');
+    const resultDetails = document.getElementById('result-details');
+    const downloadButton = document.getElementById('download-button');
+
+    let selectedFile = null;
+    let resultBlob = null;
+    let resultName = '';
+
+    function showError(message) {
+      errorBox.textContent = message;
+      errorBox.hidden = false;
+    }
+
+    function clearMessages() {
+      errorBox.hidden = true;
+      errorBox.textContent = '';
+      successBox.hidden = true;
+      resultDetails.textContent = '';
+      resultBlob = null;
+    }
+
+    function selectFiles(files) {
+      clearMessages();
+      const file = files.find((candidate) =>
+        candidate.type === 'application/pdf' || /\.pdf$/i.test(candidate.name)
+      );
+      if (!file) {
+        selectedFile = null;
+        fileSummary.textContent = '';
+        processButton.disabled = true;
+        showError('Choose a file whose name ends in .pdf.');
+        return;
+      }
+      selectedFile = file;
+      fileSummary.innerHTML = `<strong>${escapeHtml(file.name)}</strong><br>${tools.formatBytes(file.size)}`;
+      processButton.disabled = false;
+    }
+
+    function escapeHtml(value) {
+      const span = document.createElement('span');
+      span.textContent = String(value);
+      return span.innerHTML;
+    }
+
+    tools.installDropZone(dropZone, input, selectFiles);
+
+    async function loadPdf(file) {
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      const loadingTask = pdfjsLib.getDocument({ data: bytes });
+      loadingTask.onPassword = (setPassword, reason) => {
+        const message = reason === pdfjsLib.PasswordResponses.INCORRECT_PASSWORD
+          ? 'That password was incorrect. Enter the PDF password again:'
+          : 'Enter the password for this PDF:';
+        const password = window.prompt(message);
+        setPassword(password === null ? '' : password);
+      };
+      return loadingTask.promise;
+    }
+
+    async function buildPdf(sourcePdf, pageCount, budgetScale) {
+      const output = await PDFDocument.create();
+      output.setTitle(`${tools.safeBaseName(selectedFile.name, 'document')} - resized`);
+      output.setCreator('Browser PDF Submission Tool');
+      output.setProducer('pdf-lib');
+
+      let remainingImageBudget = tools.imageBudgetForPages(pageCount, budgetScale);
+
+      for (let pageNumber = 1; pageNumber <= pageCount; pageNumber += 1) {
+        progress.value = ((pageNumber - 1) / pageCount) * 100;
+        status.textContent = `Rendering page ${pageNumber} of ${pageCount}…`;
+
+        const sourcePage = await sourcePdf.getPage(pageNumber);
+        const initialViewport = sourcePage.getViewport({ scale: 1 });
+        const orientation = tools.orientationFor(initialViewport.width, initialViewport.height);
+        const pixelBox = tools.LETTER_PIXELS[orientation];
+        const scale = Math.min(
+          pixelBox.width / initialViewport.width,
+          pixelBox.height / initialViewport.height
+        );
+        const viewport = sourcePage.getViewport({ scale });
+        const canvas = tools.makeCanvas(viewport.width, viewport.height);
+        const context = canvas.getContext('2d', { alpha: false });
+
+        await sourcePage.render({
+          canvasContext: context,
+          viewport,
+          background: 'rgb(255,255,255)'
+        }).promise;
+
+        const pagesRemaining = pageCount - pageNumber + 1;
+        const pageBudget = Math.max(700, remainingImageBudget / pagesRemaining);
+        status.textContent = `Compressing page ${pageNumber} of ${pageCount}…`;
+        const encoded = await tools.encodeCanvasToJpegBudget(canvas, pageBudget);
+        const jpegBytes = new Uint8Array(await encoded.blob.arrayBuffer());
+        const image = await output.embedJpg(jpegBytes);
+        const paper = tools.LETTER[orientation];
+        const outputPage = output.addPage([paper.width, paper.height]);
+        const fitted = tools.fitInside(image.width, image.height, paper.width, paper.height, true);
+        outputPage.drawImage(image, {
+          x: (paper.width - fitted.width) / 2,
+          y: (paper.height - fitted.height) / 2,
+          width: fitted.width,
+          height: fitted.height
+        });
+
+        remainingImageBudget = Math.max(0, remainingImageBudget - encoded.blob.size);
+        canvas.width = 1;
+        canvas.height = 1;
+        sourcePage.cleanup();
+      }
+
+      status.textContent = 'Finalizing the PDF…';
+      return output.save({ useObjectStreams: true, addDefaultPage: false, objectsPerTick: 40 });
+    }
+
+    async function createWithinLimit(sourcePdf) {
+      const pageCount = sourcePdf.numPages;
+      if (!pageCount) throw new Error('The PDF does not contain any pages.');
+
+      let budgetScale = 1;
+      let bytes = null;
+      for (let attempt = 1; attempt <= 4; attempt += 1) {
+        if (attempt > 1) status.textContent = `Reducing the file further (pass ${attempt})…`;
+        bytes = await buildPdf(sourcePdf, pageCount, budgetScale);
+        if (bytes.length <= tools.TARGET_BYTES) return { bytes, pageCount, attempts: attempt };
+        budgetScale *= Math.max(0.25, Math.min(0.82, (tools.TARGET_BYTES / bytes.length) * 0.84));
+      }
+      throw new Error('This PDF could not be reduced below 10 MB without making pages unusably small. Try splitting it into two PDFs.');
+    }
+
+    processButton.addEventListener('click', async () => {
+      if (!selectedFile || !PDFDocument) return;
+      clearMessages();
+      tools.setBusy(processButton, true, 'Processing PDF…');
+      progressWrap.hidden = false;
+      progress.value = 0;
+      status.textContent = 'Reading the PDF…';
+
+      let sourcePdf = null;
+      try {
+        sourcePdf = await loadPdf(selectedFile);
+        const result = await createWithinLimit(sourcePdf);
+        resultBlob = new Blob([result.bytes], { type: 'application/pdf' });
+        resultName = `${tools.safeBaseName(selectedFile.name, 'document')}-letter-under-10mb.pdf`;
+        resultDetails.innerHTML = [
+          `<span><strong>Pages:</strong> ${result.pageCount}</span>`,
+          `<span><strong>Original size:</strong> ${tools.formatBytes(selectedFile.size)}</span>`,
+          `<span><strong>New size:</strong> ${tools.formatBytes(resultBlob.size)}</span>`
+        ].join('');
+        progress.value = 100;
+        status.textContent = 'Finished.';
+        successBox.hidden = false;
+      } catch (error) {
+        console.error(error);
+        showError(error && error.message ? error.message : 'The PDF could not be processed.');
+        status.textContent = 'Processing stopped.';
+      } finally {
+        if (sourcePdf) {
+          try { await sourcePdf.destroy(); } catch (_) { /* Ignore cleanup errors. */ }
+        }
+        tools.setBusy(processButton, false);
+      }
+    });
+
+    downloadButton.addEventListener('click', () => {
+      if (resultBlob) tools.downloadBlob(resultBlob, resultName);
+    });
+  </script>
+</body>
+</html>
