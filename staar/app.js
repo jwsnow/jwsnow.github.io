@@ -3,8 +3,8 @@
 const D=window.STAAR7_DATA;
 const main=document.getElementById("main");
 const dialog=document.getElementById("confirm-dialog");
-const RESULTS_KEY="staar7Rla.results.v1";
-const DRAFTS_KEY="staar7Rla.drafts.v1";
+const RESULTS_KEY="staar7Rla.results.v2";
+const DRAFTS_KEY="staar7Rla.drafts.v2";
 const state={view:"home",quiz:null,result:null,reviewFilter:"all",timerId:null,navOpen:false};
 
 const byId=(id)=>document.getElementById(id);
@@ -35,7 +35,6 @@ function masteryMap(){
   const agg={};for(const [id] of skillEntries)agg[id]={earned:0,possible:0,attempts:0};
   for(const r of results()){
     for(const s of r.skillStats||[]){if(!agg[s.id])continue;agg[s.id].earned+=s.earned;agg[s.id].possible+=s.possible;agg[s.id].attempts++;}
-    if(r.ecrScore!=null&&agg["extended-response"]){agg["extended-response"].earned+=r.ecrScore;agg["extended-response"].possible+=10;agg["extended-response"].attempts++;}
   }
   for(const x of Object.values(agg))x.percent=x.possible?Math.round(100*x.earned/x.possible):null;
   return agg;
@@ -53,73 +52,77 @@ function completedDays(){
 }
 
 function renderHome(){
-  const done=completedDays().size;
+  const done=completedDays().size,totalDays=D.days.length,c=D.site.coverage;
   main.innerHTML=`<section class="hero"><div class="hero-inner">
     <p class="eyebrow">Grade 7 Reading Language Arts</p>
-    <h1>Practice deeply. Find weak skills. Study what matters next.</h1>
-    <p>This independent practice center combines full STAAR-style forms, targeted skill quizzes, a 90-day semester sequence, worked explanations, and diagnostic reports that link directly to the skills needing attention.</p>
-    <div class="hero-actions"><button class="primary-button" data-action="full-tests">Take a full diagnostic</button><button class="secondary-button" data-action="skills">Choose a specific skill</button><button class="ghost-button" data-action="semester">Continue the 90-day plan</button></div>
+    <h1>Complete TEKS practice with clear STAAR boundaries.</h1>
+    <p>This revised practice center includes full STAAR-style forms, exact-skill quizzes for every STAAR-eligible Grade 7 RLA standard, separate practice for course TEKS that are not STAAR tested, numbered daily assignments, explanations, and diagnostic links.</p>
+    <div class="hero-actions"><button class="primary-button" data-action="full-tests">Take a full diagnostic</button><button class="secondary-button" data-action="skills">Choose a specific skill</button><button class="ghost-button" data-action="semester">Open numbered practice</button></div>
     <div class="hero-stats">
       <div class="hero-stat"><strong>${D.forms.length}</strong><span>fixed full-length forms</span></div>
-      <div class="hero-stat"><strong>${skillEntries.length}</strong><span>targeted skill areas</span></div>
-      <div class="hero-stat"><strong>90</strong><span>daily semester assignments</span></div>
-      <div class="hero-stat"><strong>${D.questions.length}+</strong><span>original objective items</span></div>
+      <div class="hero-stat"><strong>${c.testedObjectiveSkills+c.testedWritingLabs}</strong><span>STAAR-tested skill centers</span></div>
+      <div class="hero-stat"><strong>${c.nonTestedCourseSkills}</strong><span>additional course-TEKS centers</span></div>
+      <div class="hero-stat"><strong>${totalDays}</strong><span>numbered practice activities</span></div>
     </div>
   </div></section>
   <section class="content-wrap">
-    <div class="section-heading"><h2>Choose how to practice</h2><p>Every objective question includes an explanation. Full tests and mixed assignments identify the weakest skills and provide direct practice links.</p></div>
+    <div class="section-heading"><h2>Choose how to practice</h2><p>Every objective question includes an explanation. Full tests identify the weakest skills they actually sample and link directly to the matching skill center.</p></div>
     <div class="dashboard-grid">
-      <article class="dashboard-card"><div class="icon">📝</div><h2>Full Practice Tests</h2><p>Five 45-item fixed forms plus randomized practice, with reading, revising, editing, technology-enhanced items, and an extended response.</p><button class="primary-button" data-action="full-tests">Open full tests</button></article>
-      <article class="dashboard-card"><div class="icon">🎯</div><h2>Skill Practice</h2><p>Practice one precise skill at a time. Each area has four reproducible quiz versions and unlimited randomized practice.</p><button class="primary-button" data-action="skills">Open skill practice</button></article>
-      <article class="dashboard-card"><div class="icon">📅</div><h2>90-Day Semester Plan</h2><p>Follow 18 weeks of sequenced reading, revising, editing, mixed review, and text-based writing assignments.</p><button class="primary-button" data-action="semester">${done?`Continue plan (${done}/90)`:"Start day 1"}</button></article>
-      <article class="dashboard-card"><div class="icon">📊</div><h2>Progress and Weaknesses</h2><p>See score history, semester completion, and cumulative performance for every skill practiced on this device.</p><button class="primary-button" data-action="progress">View progress</button></article>
+      <article class="dashboard-card"><div class="icon">📝</div><h2>Full Practice Tests</h2><p>${D.forms.length} fixed 45-item forms plus randomized answer order, with reading, revising, editing, two-point items, and an extended response.</p><button class="primary-button" data-action="full-tests">Open full tests</button></article>
+      <article class="dashboard-card"><div class="icon">🎯</div><h2>Exact-Skill Practice</h2><p>Practice each tested standard separately. Course TEKS omitted from STAAR are clearly marked and kept in their own section.</p><button class="primary-button" data-action="skills">Open skill practice</button></article>
+      <article class="dashboard-card"><div class="icon">🔢</div><h2>Numbered Practice 1–${totalDays}</h2><p>Use the assignments in order or select any number. The list is intentionally not divided into weeks.</p><button class="primary-button" data-action="semester">${done?`Continue (${done}/${totalDays})`:'Start practice 1'}</button></article>
+      <article class="dashboard-card"><div class="icon">📊</div><h2>Progress and Weaknesses</h2><p>See score history, completion, and cumulative performance for every skill practiced on this browser.</p><button class="primary-button" data-action="progress">View progress</button></article>
     </div>
-    <div class="notice"><strong>Study diagnostic:</strong> Scores on this site are raw practice scores. They are not official STAAR scale scores and cannot predict a performance level.</div>
+    <div class="notice"><strong>Important:</strong> “STAAR tested” means the skill appears in TEA’s assessed-curriculum list. Practice scores are raw diagnostics, not official scale scores or performance-level predictions.</div>
   </section>`;
 }
 
 function renderFullTests(){
   main.innerHTML=`<section class="content-wrap">${breadcrumbs("Full Practice Tests")}
-    <div class="section-heading"><p class="eyebrow">Comprehensive diagnostics</p><h1>Full Practice Tests</h1><p>Each fixed form contains 45 items worth 56 points: 27 reading items, 17 revising/editing items, and one extended constructed response. Explanations and skill-level diagnosis appear after submission.</p></div>
+    <div class="section-heading"><p class="eyebrow">Comprehensive diagnostics</p><h1>Full Practice Tests</h1><p>Each fixed form contains 45 items worth 56 points, with 26–28 reading items, 17–19 revising/editing items, and one extended constructed response. Explanations and skill-level diagnosis appear after submission.</p></div>
     <div class="notice"><strong>Recommended use:</strong> Begin with Form A. Complete targeted skill practice based on the report, then use a later form to measure improvement.</div>
     <div class="card-grid">${D.forms.map(f=>`<article class="form-card"><p class="eyebrow">${esc(f.id==="A"?"Suggested starting diagnostic":"Parallel practice form")}</p><h3>${esc(f.label)}</h3><p>${esc(f.description)}</p><div class="form-meta"><span class="chip">45 items</span><span class="chip">56 points</span><span class="chip">4-hour timer</span></div><button class="primary-button" data-action="start-full" data-form="${f.id}">Begin Form ${f.id}</button></article>`).join("")}
-    <article class="form-card"><p class="eyebrow">Additional practice</p><h3>Random Practice Form</h3><p>Uses one complete passage set with randomized answer order. A new seed is created each time.</p><div class="form-meta"><span class="chip">45 items</span><span class="chip">56 points</span></div><button class="secondary-button" data-action="start-random-full">Generate a form</button></article></div>
+    <article class="form-card"><p class="eyebrow">Additional practice</p><h3>Random Practice Form</h3><p>Uses one complete fixed-form content set with randomized answer order. A new seed is created each time.</p><div class="form-meta"><span class="chip">45 items</span><span class="chip">56 points</span></div><button class="secondary-button" data-action="start-random-full">Generate a form</button></article></div>
   </section>`;
 }
 
+function standardBadges(s){return `<span class="chip ${s.tested?'tested-chip':'not-tested-chip'}">${s.tested?'STAAR tested':'Not STAAR tested'}</span><span class="chip">${esc(s.teks)}</span>`;}
 function renderSkills(){
   const m=masteryMap();
-  const groups=["Reading","Writing"];
+  const groups=[
+    {id:"STAAR-Tested Reading",title:"STAAR-Tested Reading Skills",desc:"Every reading student expectation in the Grade 7 assessed-curriculum list."},
+    {id:"STAAR-Tested Writing",title:"STAAR-Tested Writing Skills",desc:"Revising, editing, text response, and composition standards eligible for STAAR."},
+    {id:"Course TEKS — Not STAAR Tested",title:"Additional Grade 7 Course TEKS",desc:"Required Grade 7 ELAR skills that are not in the STAAR assessed-curriculum list. These are clearly marked and do not appear on the full practice tests."}
+  ];
   main.innerHTML=`<section class="content-wrap">${breadcrumbs("Skill Practice")}
-    <div class="section-heading"><p class="eyebrow">Targeted review</p><h1>Practice a Specific Skill</h1><p>Choose exactly what needs work. Every objective skill includes four fixed 8-question quizzes plus randomized practice. Weakness buttons on diagnostic reports open these same cards directly.</p></div>
-    ${groups.map(g=>`<section class="skill-group"><div class="skill-group-title"><div><h2>${g}</h2><p>${g==="Reading"?"Comprehension, genre, analysis, vocabulary, and synthesis.":"Revising, editing, and text-based composition."}</p></div></div>
-      <div class="skill-grid">${skillEntries.filter(([,s])=>s.group===g).map(([id,s])=>`<article class="skill-card" id="skill-${id}">
-        <div class="skill-meta"><span class="chip ${g.toLowerCase()}">${esc(s.teks)}</span>${skillBadge(m[id])}</div>
+    <div class="section-heading"><p class="eyebrow">TEKS-by-TEKS practice</p><h1>Practice a Specific Skill</h1><p>Each objective skill has four reproducible 8-question quizzes plus randomized practice. Writing skills open text-based composition labs. Diagnostic links return to the exact skill tested.</p></div>
+    <div class="legend-panel"><span class="chip tested-chip">STAAR tested</span> Included in TEA’s assessed curriculum. <span class="chip not-tested-chip">Not STAAR tested</span> Part of the Grade 7 course TEKS but omitted from the STAAR assessed-curriculum list.</div>
+    ${groups.map(g=>`<section class="skill-group"><div class="skill-group-title"><div><h2>${g.title}</h2><p>${g.desc}</p></div></div>
+      <div class="skill-grid">${skillEntries.filter(([,s])=>s.group===g.id).map(([id,s])=>`<article class="skill-card ${s.tested?'':'course-only'}" id="skill-${id}">
+        <div class="skill-meta"><div>${standardBadges(s)}</div>${skillBadge(m[id])}</div>
         <h3>${esc(s.label)}</h3><p>${esc(s.desc)}</p>
-        <div class="topic-actions">${[1,2,3,4].map(v=>`<button class="secondary-button" data-action="start-skill" data-skill="${id}" data-version="${v}">Quiz ${v}</button>`).join("")}<button class="primary-button" data-action="start-skill-random" data-skill="${id}">Random</button></div>
+        <div class="topic-actions">${[1,2,3,4].map(v=>`<button class="secondary-button" data-action="start-skill" data-skill="${id}" data-version="${v}">${s.mode==='ecr'?'Prompt':'Quiz'} ${v}</button>`).join("")}<button class="primary-button" data-action="start-skill-random" data-skill="${id}">Random</button></div>
       </article>`).join("")}</div></section>`).join("")}
   </section>`;
 }
 
 function renderSemester(){
-  const completed=completedDays(),pct=Math.round(100*completed.size/90);
-  main.innerHTML=`<section class="content-wrap">${breadcrumbs("90-Day Semester Plan")}
-    <div class="section-heading"><p class="eyebrow">18 weeks • 5 days each</p><h1>90-Day Skill-Building Plan</h1><p>Assignments move from focused practice to mixed application, periodic writing checkpoints, and cumulative review. A student may follow the sequence or jump directly to any day.</p></div>
-    <section class="panel"><div class="semester-progress"><strong>${completed.size}/90 days</strong><div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div><span>${pct}%</span></div></section>
-    <div class="week-grid">${Array.from({length:18},(_,i)=>i+1).map(w=>{
-      const ds=D.days.filter(d=>d.week===w),done=ds.filter(d=>completed.has(d.id)).length;
-      return `<article class="week-card"><span class="chip ${done===5?"done":""}">Week ${w} • ${done}/5 complete</span><h3>${esc(ds[0].weekTitle)}</h3><p>${w===17?"Plan, draft, revise, and self-score text-based responses.":w===18?"Use mixed review and a final full-length form.":"Build a core skill, connect it to related skills, and finish with mixed review."}</p><div class="day-list">${ds.map(d=>{const r=completed.get(d.id);return `<button class="day-button ${r?"completed":""}" data-action="start-day" data-day="${d.day}"><span class="day-number">Day ${d.day}</span><span class="day-title">${esc(d.title)}</span>${r?`<span class="day-result">${r.percent}% ✓</span>`:""}</button>`}).join("")}</div></article>`;
-    }).join("")}</div>
+  const completed=completedDays(),total=D.days.length,pct=Math.round(100*completed.size/total);
+  main.innerHTML=`<section class="content-wrap">${breadcrumbs("Numbered Practice")}
+    <div class="section-heading"><p class="eyebrow">Practice 1 through ${total}</p><h1>Numbered Daily Practice</h1><p>The sequence begins with every individual TEKS skill, continues with connected and cumulative practice, and ends with writing checkpoints and full forms. Skills not assessed on STAAR are labeled in the assignment title.</p></div>
+    <section class="panel"><div class="semester-progress"><strong>${completed.size}/${total} complete</strong><div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div><span>${pct}%</span></div></section>
+    <div class="daily-grid">${D.days.map(d=>{const r=completed.get(d.id);return `<button class="daily-card ${r?'completed':''}" data-action="start-day" data-day="${d.day}"><span class="daily-number">${d.day}</span><span class="daily-title">${esc(d.title)}</span>${r?`<span class="day-result">${r.percent}% ✓</span>`:`<span class="daily-type">${d.type==='full'?'Full test':d.type==='ecr'?'Writing':'Quiz'}</span>`}</button>`}).join("")}</div>
   </section>`;
 }
 
 function renderAbout(){
+  const c=D.site.coverage;
   main.innerHTML=`<section class="content-wrap">${breadcrumbs("About")}
-    <div class="section-heading"><p class="eyebrow">Scope and limitations</p><h1>About This Practice Site</h1><p>The material is original and aligned to the public Grade 7 RLA blueprint and eligible Texas standards.</p></div>
-    <section class="panel"><h2>Test model used</h2><p>The full forms reproduce the public blueprint’s item and point totals: 45 items and 56 points, including 42 one-point items, two two-point non-multiple-choice items, and one extended constructed response worth 10 points. Each form includes two single reading passages, one paired set, two revising passages, two editing passages, and a text-based composition.</p></section>
-    <section class="panel"><h2>Question design</h2><p>All passages, prompts, answer choices, and explanations in this site were written for this project. Public standards and released materials were used to understand scope and format, not copied into the question bank.</p><p>The site practices multiple choice and multiple-select questions. It does not reproduce every interactive mechanism available in the official online testing platform.</p></section>
-    <section class="panel"><h2>Scoring</h2><p>Objective questions receive one or two raw points. A two-point multiple-select item receives full credit for the exact correct set and one point when exactly one correct choice is selected with no incorrect choice. Extended responses are self-scored on a five-point rubric and doubled to match the 10-point blueprint value.</p><p>Raw scores are diagnostic only. Official STAAR reporting uses scale scores and performance standards not reproduced here.</p></section>
-    <section class="panel"><h2>Privacy and hosting</h2><p>The site is entirely static. Answers, drafts, and score history remain in the browser’s local storage and are not sent to a server. The folder may be hosted on any ordinary static web server or opened locally.</p></section>
+    <div class="section-heading"><p class="eyebrow">Scope, coverage, and limitations</p><h1>About This Practice Site</h1><p>The content map separates the current Grade 7 STAAR assessed curriculum from the complete Grade 7 ELAR course TEKS.</p></div>
+    <section class="panel"><h2>Coverage map</h2><p>The site provides ${c.testedObjectiveSkills} exact objective-skill centers and ${c.testedWritingLabs} STAAR-tested writing labs. It also provides ${c.nonTestedCourseSkills} additional course-TEKS centers clearly labeled <strong>Not STAAR tested</strong>. A machine-readable coverage table is included in <code>coverage.csv</code> and <code>coverage.json</code>.</p></section>
+    <section class="panel"><h2>Full-test model</h2><p>Each fixed form contains 45 items worth 56 points: 42 one-point items, two two-point selected-response items, and one extended constructed response worth 10 points. Each form includes two single reading selections, one paired set, revising passages, editing passages, and a text-based composition.</p><p>A full form cannot measure every individual TEKS in one sitting. Its report diagnoses only the exact skills sampled on that form; the skill dashboard provides direct practice for the complete assessed list.</p></section>
+    <section class="panel"><h2>Question design</h2><p>All passages, prompts, choices, explanations, and writing tasks are original. Public TEA standards, blueprints, assessed-curriculum documents, and released-item formats were used to define scope and form—not copied into the bank.</p><p>The site uses multiple choice and multiple select. It does not simulate every technology-enhanced interaction in the official testing platform.</p></section>
+    <section class="panel"><h2>Scoring and privacy</h2><p>Raw scores are diagnostic only. Extended responses are self-scored with the included rubric. Results remain in this browser’s local storage and are not sent to a server.</p></section>
   </section>`;
 }
 
@@ -141,7 +144,7 @@ function prepareObjective(raw,seed){
   return {...raw,choices:all,answerIndexes:corrects.map(c=>all.indexOf(c)).sort((a,b)=>a-b)};
 }
 function prepareEcr(id){
-  const e=ecrs.get(id);return {id:e.id,type:"ecr",points:10,skill:"extended-response",category:"Writing",prompt:e.prompt,passageIds:e.passageIds,title:e.title,mode:e.mode};
+  const e=ecrs.get(id);return {id:e.id,type:"ecr",points:10,skill:e.skill,category:"Writing",prompt:e.prompt,passageIds:e.passageIds,title:e.title,mode:e.mode};
 }
 function buildFull(formId,seed,labelOverride,dailyId){
   const f=D.forms.find(x=>x.id===formId),items=f.itemIds.map(id=>id.startsWith("ecr")?prepareEcr(id):prepareObjective(questions.get(id),seed));
@@ -149,7 +152,7 @@ function buildFull(formId,seed,labelOverride,dailyId){
 }
 function buildSkill(skillId,version,randomized=false,dailyId=null,count=8){
   const s=D.skills[skillId],seed=randomized?`${skillId}-${Date.now()}-${Math.random()}`:`${skillId}-version-${version}`;
-  if(skillId==="extended-response"){const idx=randomized?Math.floor(rngFrom(seed)()*D.ecrPrompts.length):(Number(version)-1)%D.ecrPrompts.length;return {mode:"skill",label:`${s.label} — ${randomized?"Random":"Quiz "+version}`,seed,items:[prepareEcr(D.ecrPrompts[idx].id)],timeSeconds:null,dailyId};}
+  if(s.mode==="ecr"){const pool=D.ecrPrompts.filter(x=>x.skill===skillId),idx=randomized?Math.floor(rngFrom(seed)()*pool.length):(Number(version)-1)%pool.length;return {mode:"skill",label:`${s.label} — ${randomized?"Random":"Prompt "+version}`,seed,items:[prepareEcr(pool[idx].id)],timeSeconds:null,dailyId};}
   const pool=D.questions.filter(x=>x.skill===skillId),selected=selectBalanced(pool,Math.min(count,pool.length),rngFrom(seed));
   return {mode:"skill",label:`${s.label} — ${randomized?"Random":"Quiz "+version}`,seed,items:shuffled(selected,rngFrom(seed+"order")).map(x=>prepareObjective(x,seed)),timeSeconds:null,dailyId};
 }
@@ -182,6 +185,7 @@ function renderQuiz(){
     <div class="quiz-layout">
       <article class="question-card"><div class="question-heading"><span class="question-number">Question ${z.current+1} • ${q.points} ${q.points===1?"point":"points"}</span><span class="question-skill">${esc(D.skills[q.skill]?.teks||"Text-based composition")}</span></div>
         ${passageHtml(q.passageIds)}
+        ${q.stimulus?`<div class="stimulus-box">${q.stimulus}</div>`:""}
         ${q.type==="ecr"?`<h2>${esc(q.title)}</h2>`:""}
         <div class="question-prompt">${q.prompt}</div>${choiceHtml}
         <div class="question-controls"><button class="ghost-button" data-action="flag">${z.flags[z.current]?"Unflag":"Flag for review"}</button><div><button class="secondary-button" data-action="prev" ${z.current===0?"disabled":""}>Previous</button>${z.current<z.items.length-1?`<button class="primary-button" data-action="next">Next</button>`:`<button class="primary-button" data-action="submit">Submit</button>`}</div></div>
@@ -257,14 +261,14 @@ function correctText(q){return q.answerIndexes.map(i=>`${"ABCD"[i]}. ${q.choices
 function reviewHtml(q,i,a,earned){
   if(q.type==="ecr")return `<article class="review-item ${String(a||"").trim()?"correct":"unanswered"}"><h3>Item ${i+1} • Extended Constructed Response</h3><details><summary>Show source passage(s)</summary>${passageHtml(q.passageIds,true)}</details><div class="question-prompt">${q.prompt}</div><div class="explanation"><strong>Your response:</strong><br>${esc(a||"No response").replace(/\n/g,"<br>")}</div><p>Use the self-scoring rubric above. There is no single model answer; strong responses develop a clear idea or claim, use relevant evidence, explain the evidence, organize logically, and control conventions.</p></article>`;
   const status=!isAnswered(q,a)?"unanswered":earned===q.points?"correct":"incorrect";
-  return `<article class="review-item ${status}"><h3>Item ${i+1} • ${esc(D.skills[q.skill].label)} • ${earned}/${q.points} points</h3>${q.passageIds.length?`<details><summary>Show passage(s)</summary>${passageHtml(q.passageIds,true)}</details>`:""}<div class="question-prompt">${q.prompt}</div><p class="answer-line"><strong>Your answer:</strong> ${answerText(q,a)}</p><p class="answer-line"><strong>Correct answer${q.answerIndexes.length>1?"s":""}:</strong> ${correctText(q)}</p><div class="explanation"><strong>Explanation:</strong> ${q.explanation}</div></article>`;
+  return `<article class="review-item ${status}"><h3>Item ${i+1} • ${esc(D.skills[q.skill].label)} • ${earned}/${q.points} points</h3>${q.passageIds.length?`<details><summary>Show passage(s)</summary>${passageHtml(q.passageIds,true)}</details>`:""}${q.stimulus?`<div class="stimulus-box">${q.stimulus}</div>`:""}<div class="question-prompt">${q.prompt}</div><p class="answer-line"><strong>Your answer:</strong> ${answerText(q,a)}</p><p class="answer-line"><strong>Correct answer${q.answerIndexes.length>1?"s":""}:</strong> ${correctText(q)}</p><div class="explanation"><strong>Explanation:</strong> ${q.explanation}</div></article>`;
 }
 
 function renderProgress(){
   const a=results(),m=masteryMap(),done=completedDays().size;
   main.innerHTML=`<section class="content-wrap">${breadcrumbs("Progress")}
     <div class="section-heading"><p class="eyebrow">Stored on this device</p><h1>Progress and Skill History</h1><p>Results remain in this browser. Clearing browser storage or using another device will not carry the history over.</p></div>
-    <div class="stat-grid"><article class="panel"><h2>${a.length}</h2><p>completed activities</p></article><article class="panel"><h2>${done}/90</h2><p>semester days completed</p></article><article class="panel"><h2>${skillEntries.filter(([id])=>m[id].percent!=null).length}/${skillEntries.length}</h2><p>skills attempted</p></article></div>
+    <div class="stat-grid"><article class="panel"><h2>${a.length}</h2><p>completed activities</p></article><article class="panel"><h2>${done}/${D.days.length}</h2><p>numbered activities completed</p></article><article class="panel"><h2>${skillEntries.filter(([id])=>m[id].percent!=null).length}/${skillEntries.length}</h2><p>skills attempted</p></article></div>
     <section class="panel"><div style="display:flex;justify-content:space-between;gap:1rem;align-items:center"><h2>Skill mastery</h2><button class="secondary-button" data-action="skills">Open skill practice</button></div><div class="mastery-grid">${skillEntries.map(([id,s])=>`<div class="mastery-item"><strong>${esc(s.label)}</strong>${skillBadge(m[id])}<span>${m[id].possible?`${m[id].earned}/${m[id].possible} points across ${m[id].attempts} activities`:"No score data yet"}</span></div>`).join("")}</div></section>
     <section class="panel"><div style="display:flex;justify-content:space-between;gap:1rem;align-items:center"><h2>Activity history</h2>${a.length?`<button class="danger-button" data-action="clear-progress">Clear history</button>`:""}</div>${a.length?`<div class="progress-list">${a.map(r=>`<div class="progress-row"><div><strong>${esc(r.label)}</strong><br><small>${r.dailyId?esc(r.dailyId.replace("-"," ")):esc(r.mode)}</small></div><strong>${r.percent}%</strong><time>${new Date(r.completedAt).toLocaleDateString()}</time></div>`).join("")}</div>`:`<div class="empty-state">No completed activities yet.</div>`}</section>
   </section>`;
@@ -277,6 +281,8 @@ function updateRubric(dim,score){
   if(Number.isInteger(r.ecrTraits.development)&&Number.isInteger(r.ecrTraits.conventions)){
     r.ecrScore=(r.ecrTraits.development+r.ecrTraits.conventions)*2;
     const total=r.earned+r.ecrScore,max=r.possible+10;r.percent=Math.round(100*total/max);
+    const q=r.items.find(x=>x.type==="ecr"),sid=q?.skill;
+    if(sid){const stat={id:sid,label:D.skills[sid].label,earned:r.ecrScore,possible:10,percent:r.ecrScore*10};const i=r.skillStats.findIndex(x=>x.id===sid);if(i>=0)r.skillStats[i]=stat;else r.skillStats.push(stat);r.skillStats.sort((a,b)=>a.percent-b.percent||a.label.localeCompare(b.label));}
   }
   persistResult(r);renderResults();
 }

@@ -1,74 +1,85 @@
-# Grade 7 STAAR RLA Practice Center
+# Grade 7 STAAR RLA Comprehensive Practice Center
 
-A separate, self-contained static website for Grade 7 Texas Reading Language Arts practice.
+A separate, self-contained static website for Grade 7 Texas English Language Arts and Reading practice.
 
-## Launch
+## Launch and hosting
 
-Extract the folder and open `index.html` in a modern browser. It can also be uploaded unchanged to any static web host.
+Upload the contents of this folder to any static web host, or open `index.html` locally for testing. No server-side code, database, account system, or build step is required.
 
-No server, database, login, build process, or internet connection is required after download.
+## Coverage
 
-## Included
+The site deliberately separates two bodies of content:
 
-- Five fixed full-length forms (A–E)
-- One randomized full-form launcher
-- 45 items and 56 raw points per full form
-- Two single reading passages and one paired set per form
-- Two revising passages and two editing passages per form
-- Two 2-point multiple-select items per form
-- One text-based extended constructed response per form
-- Nineteen granular skill practice centers
-- Four fixed 8-question versions plus randomized practice for each objective skill
-- Ten text-based extended-response prompts
-- A 90-day, 18-week semester practice sequence
-- Explanations for every objective answer
-- Skill-level weakness reports with direct links to targeted quizzes
-- Local score history, semester completion tracking, question flags, navigation, timer, and printable reports
+1. **STAAR-tested skills:** every student expectation identified in TEA's Grade 7 RLA assessed-curriculum document, including the integrated editing standard 7.10D and its nine component expectations.
+2. **Additional Grade 7 course TEKS:** Grade 7 ELAR standards that are required instruction but do not appear in the STAAR assessed-curriculum list. These centers are visibly labeled **Not STAAR tested** and do not appear on full practice tests.
 
-## Skill Areas
+Current coverage totals:
 
-Reading:
-1. Vocabulary in Context
-2. Roots and Reference Skills
-3. Inference and Text Evidence
-4. Key Ideas and Summary
-5. Synthesis and Connections
-6. Literary Elements
-7. Poetry, Drama, and Genre
-8. Informational Text
-9. Argumentative Text
-10. Author’s Purpose and Craft
+- 30 STAAR-tested reading skill centers
+- 13 STAAR-tested revising/editing objective centers
+- 4 STAAR-tested text-response/composition labs
+- 30 additional course-TEKS centers marked Not STAAR tested
+- 77 skill centers total
 
-Writing:
-11. Revising: Organization
-12. Revising: Development
-13. Revising: Clarity and Style
-14. Editing: Sentences and Agreement
-15. Editing: Verb Tense
-16. Editing: Conjunctions
-17. Editing: Capitalization and Punctuation
-18. Editing: Spelling and Usage
-19. Extended Constructed Response
+A detailed audit table is included in `coverage.csv` and `coverage.json`.
 
-## Scoring
+## Full practice tests
 
-The website reports raw study scores. It does not reproduce official STAAR scale scoring or predict an official performance level.
+The website contains five fixed full-length forms, A–E, plus a randomized-form launcher. Each fixed form contains:
 
-Multiple-select questions award:
-- 2 points for the exact correct set
-- 1 point for selecting exactly one correct choice and no incorrect choice
-- 0 points otherwise
+- 45 items
+- 56 raw points
+- 26–28 reading items
+- 17–19 writing items, including the extended response
+- 42 one-point objective items
+- two 2-point multiple-select items
+- one 10-point extended constructed response
 
-Extended responses are self-scored using two dimensions:
-- Organization and development: 0–3
-- Language and conventions: 0–2
+Across Forms A–E collectively, every STAAR-tested skill center is represented. A single 45-item form cannot measure every eligible standard, so each diagnostic report identifies only the exact skills sampled on that form and links to focused practice.
 
-The 5-point rubric score is doubled to a 10-point full-test value.
+## Focused skill practice
 
-## Privacy
+Every objective skill center provides:
 
-All progress, drafts, and scores are saved only in the current browser through `localStorage`. Nothing is submitted to a server.
+- four fixed 8-question quizzes;
+- randomized practice;
+- explanations for every answer;
+- local mastery history; and
+- direct access from weakness reports.
 
-## Content notice
+Writing centers provide multiple text-based prompts and the site's self-scoring rubric. Teacher scoring is recommended for consequential use.
 
-All passages, questions, answer choices, explanations, and prompts were written specifically for this practice site. Public TEA assessment documents were used to determine scope, item totals, and eligible skills. This resource is not produced, endorsed, or scored by the Texas Education Agency.
+## Numbered practice sequence
+
+The site contains **122 consecutively numbered activities**. They are listed simply as Practice 1 through Practice 122 and are not grouped by week.
+
+The sequence includes:
+
+- one activity for every tested and non-tested skill center;
+- connected-skill and cumulative review;
+- extended-response checkpoints; and
+- all five full-length forms.
+
+## Scoring and privacy
+
+The site reports raw study scores. It does not reproduce official STAAR scale scoring or predict an official performance level.
+
+Progress is stored in the current browser using `localStorage`. Nothing is sent to a server. Unfinished answers are not automatically synchronized between devices.
+
+## Content and validation notice
+
+All passages, questions, answer choices, explanations, and prompts are original practice material. Public TEA standards, assessed-curriculum documents, blueprints, and released-item formats were used to define content and structure.
+
+The package has passed automated structural checks for:
+
+- exact skill-center coverage;
+- question-bank minimums;
+- answer keys and four distinct choices;
+- explanations;
+- fixed-quiz distinctness;
+- form length, point totals, and category ranges;
+- consecutive practice numbering;
+- explicit labeling of non-tested standards; and
+- local file references and JavaScript syntax.
+
+It has not undergone TEA review, field testing, psychometric calibration, or external validation. It is not produced or endorsed by the Texas Education Agency.

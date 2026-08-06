@@ -1,48 +1,41 @@
-GRADE 7 STAAR RLA PRACTICE CENTER — VALIDATION REPORT
-Generated: August 6, 2026
+GRADE 7 STAAR RLA COMPREHENSIVE REVISION — VALIDATION SUMMARY
 
-CONTENT INVENTORY
-- Original objective questions: 353
-- Original passages: 40
-  - Reading passages: 20
-  - Revising/editing passages: 20
-- Extended-response prompts: 10
-- Specific skill areas: 19
+Content centers
+- Total skill centers: 77
+- STAAR-tested reading centers: 30
+- STAAR-tested objective writing centers: 13
+- STAAR-tested writing labs: 4
+- Additional Grade 7 course-TEKS centers marked Not STAAR tested: 30
+- Total STAAR-tested centers: 47
+
+Practice content
+- Objective questions: 1,746
+- Constructed-response prompts: 30
 - Fixed full-length forms: 5
-- Daily semester assignments: 90
+- Consecutively numbered activities: 122
 
-FULL-FORM CHECKS
-- 45 items on every form: PASS
-- 56 points on every form: PASS
-- 42 one-point items on every form: PASS
-- 2 two-point items on every form: PASS
-- 1 extended response worth 10 points on every form: PASS
-- 27 reading items on every form: PASS
-- 18 writing items including the ECR on every form: PASS
-- 2 single reading passages and 1 paired set on every form: PASS
-- 2 revising passages and 2 editing passages on every form: PASS
+Full-form structure
+- Form A: 45 items, 56 points, 26 reading, 18 writing, 2 two-point items, 1 ECR
+- Form B: 45 items, 56 points, 27 reading, 17 writing, 2 two-point items, 1 ECR
+- Form C: 45 items, 56 points, 26 reading, 18 writing, 2 two-point items, 1 ECR
+- Form D: 45 items, 56 points, 27 reading, 17 writing, 2 two-point items, 1 ECR
+- Form E: 45 items, 56 points, 27 reading, 17 writing, 2 two-point items, 1 ECR
 
-QUESTION-BANK CHECKS
-- Unique question identifiers: PASS
-- Four distinct answer choices for every objective item: PASS
-- Valid answer keys: PASS
-- Complete explanations: PASS
-- Valid passage references: PASS
-- At least 12 objective items in every targeted objective skill pool: PASS
-- Four fixed skill versions and randomized practice supported: PASS
+Checks passed
+- Every STAAR-tested center appears across the five fixed forms collectively.
+- Every objective skill has at least 24 questions.
+- Every objective skill supports four fixed 8-question quizzes and randomized practice.
+- Fixed quizzes within each skill are distinct.
+- Every question has a valid answer key, four distinct choices, and an explanation.
+- All five forms meet the 45-item and 56-point design.
+- Reading and writing item counts fall within the published ranges.
+- Each form contains two 2-point items and one 10-point ECR.
+- All 122 activities are numbered consecutively and contain no week grouping.
+- Every non-assessed course standard is explicitly marked Not STAAR tested.
+- JavaScript syntax and local file references pass validation.
 
-SEMESTER PLAN CHECKS
-- Days numbered 1 through 90 with no omissions: PASS
-- 18 weeks of 5 assignments: PASS
-- Reading, revising, editing, mixed review, ECR workshops, and full-form checkpoints included: PASS
-- Completion tracking supported: PASS
+Automated structural validation found 0 errors and 0 warnings.
+See VALIDATION.json for machine-readable results and coverage.csv for the complete TEKS map.
 
-TECHNICAL CHECKS
-- app.js JavaScript syntax: PASS
-- content.js JavaScript syntax: PASS
-- Home-page DOM smoke test: PASS
-- Full-form launch and 45-question navigation smoke test: PASS
-- Answer selection and result rendering smoke test: PASS
-- Skill-practice launch and 8-question navigation smoke test: PASS
-
-No structural validation errors were found.
+LIMITATION
+This is original practice material. It has not been reviewed by TEA, field tested with Texas students, psychometrically calibrated, or validated as a predictor of an official STAAR score.

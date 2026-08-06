@@ -1,0 +1,62 @@
+{
+  "errors": [],
+  "warnings": [],
+  "counts": {
+    "skills": 77,
+    "testedObjective": 43,
+    "testedWritingLabs": 4,
+    "nonTested": 30,
+    "questions": 1746,
+    "ecr": 30,
+    "forms": 5,
+    "days": 122,
+    "fixedFormSkillCoverage": 47
+  },
+  "formSummary": [
+    {
+      "form": "A",
+      "items": 45,
+      "points": 56,
+      "reading": 26,
+      "writing": 18,
+      "multi": 2,
+      "ecr": 1
+    },
+    {
+      "form": "B",
+      "items": 45,
+      "points": 56,
+      "reading": 27,
+      "writing": 17,
+      "multi": 2,
+      "ecr": 1
+    },
+    {
+      "form": "C",
+      "items": 45,
+      "points": 56,
+      "reading": 26,
+      "writing": 18,
+      "multi": 2,
+      "ecr": 1
+    },
+    {
+      "form": "D",
+      "items": 45,
+      "points": 56,
+      "reading": 27,
+      "writing": 17,
+      "multi": 2,
+      "ecr": 1
+    },
+    {
+      "form": "E",
+      "items": 45,
+      "points": 56,
+      "reading": 27,
+      "writing": 17,
+      "multi": 2,
+      "ecr": 1
+    }
+  ]
+}
