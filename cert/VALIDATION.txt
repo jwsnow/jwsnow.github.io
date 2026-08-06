@@ -1,0 +1,41 @@
+Texas Core Subjects Diagnostic & Practice Portal
+Validation completed: August 6, 2026
+
+STRUCTURE
+- One portal linking Mathematics, Science, Social Studies, and ELAR/Reading
+- Static HTML, CSS, and JavaScript only
+- No server-side processing or database
+
+QUESTION-BANK VALIDATION
+- Mathematics and ACCUPLACER: 2,650 generated instances checked
+- Science: 178 original base questions; 1,612 generated instances checked
+- Social Studies: 168 original base questions; 1,592 generated instances checked
+- ELAR/Reading: 217 original base questions; 2,444 generated instances checked
+- New non-mathematics base questions total: 563
+- Total generated quiz instances checked across the portal: 8,298
+
+Checks included:
+- Exact full-form and topic-quiz lengths
+- Form category distributions
+- Valid answer indices
+- Four nonempty, distinct choices per question
+- Nonempty prompts and explanations
+- Category metadata
+- No repeated question within any generated non-mathematics form
+- All local HTML, CSS, and JavaScript links resolve
+- JavaScript syntax checks
+
+INTERFACE SMOKE TESTS
+Science, Social Studies, and ELAR/Reading each passed scripted tests for:
+- Home page rendering
+- Exam-center navigation
+- Full-form launch
+- Answer selection
+- Quiz submission
+- Component-area report rendering
+- Answer-review rendering
+- ELAR constructed-response lab rendering
+
+NOTES
+- Raw percentages are diagnostic and do not reproduce official TExES scaled scores.
+- Questions are original and aligned to public exam frameworks; published sample questions were not copied into the banks.

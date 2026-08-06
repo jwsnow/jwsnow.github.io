@@ -1,0 +1,23 @@
+Validation completed August 6, 2026
+
+Automated question-bank checks:
+- 6 test configurations
+- 49 reportable content categories
+- 2,650 questions generated across all fixed full forms and all fixed topic versions
+- Correct question counts for every form
+- Exactly four distinct choices per question
+- Valid answer key for every question
+- Nonempty prompt, category, and explanation for every question
+
+Application smoke test:
+- Home page rendering
+- TExES exam-page navigation
+- 40-question EC–6 full-form launch
+- Answer selection and question navigation
+- Submission and diagnostic-report rendering
+- Content-area report rendering
+- Return to practice center
+- ACCUPLACER group navigation
+- AAF component-area quiz launch
+
+The tests verify application structure and generated-answer integrity. They do not constitute psychometric validation or an official score-equating study.
