@@ -1,0 +1,27 @@
+TExES Mathematics 7–12 (235) Practice Center — Validation
+
+Exam configuration
+- 1 exam center
+- 5 fixed full forms
+- 100 questions per full form
+- 21 competency centers
+- 4 fixed quizzes per competency
+- 12 questions per competency quiz
+- Full-form domain allocation: 14 / 33 / 19 / 14 / 10 / 10
+
+Automated checks
+- 2,716 generated instances checked in the primary validation run
+- 25,200 additional topic-question instances generated in a runtime stress test
+- Correct form lengths and exact competency allocations
+- Four distinct choices per question
+- Valid answer indexes
+- Nonempty prompts and explanations
+- Valid competency metadata
+- No duplicate prompts within fixed Forms A–E
+- JavaScript syntax checks passed
+- Static local-link check passed
+
+Limitations
+- Questions are original and framework-aligned but have not been field-tested, psychometrically calibrated, or externally validated item by item.
+- Raw percentages are not official TExES scaled scores.
+- Headless Chromium could not complete in this container because of its system-bus dependency; the shared interface engine is reused from the previously working static practice sites.
