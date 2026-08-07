@@ -1,26 +1,28 @@
-# Content Audit
+# Content and Repetition Audit
 
-## STAAR-tested content
+## Finding
 
-The assessed-curriculum map contains 30 reading expectations and 17 writing expectations. This site provides a separate practice center for all 47:
+The earlier comprehensive revision had excessive repetition in the targeted skill banks. In particular, some nominal 24-question banks consisted of only four genuinely distinct questions repeated several times. Fixed skill quizzes also reused questions from the full practice forms.
 
-- 30 reading centers
-- 13 objective revising/editing centers, including integrated standard 7.10D
-- 4 constructed-response/composition centers
+That structure has been replaced.
 
-## Grade 7 course TEKS not listed for STAAR
+## Current anti-repetition design
 
-The full Grade 7 ELAR course contains additional expectations beyond the assessed-curriculum list. The site includes 30 additional centers covering oral language, fluency, independent reading, metacognitive comprehension, response and presentation, multimodal composition, publishing, literary composition, and inquiry/research.
+- The raw objective bank has been pruned from 1,746 entries to **829 content-distinct question instances**.
+- The five fixed full tests use **220 objective questions**, with no content duplicates within or across Forms A–E.
+- The remaining **609 objective questions** form the targeted-practice pool and are separate from fixed full-test content.
+- Within each skill, exact duplicate question content is removed before practice sets are constructed.
+- Fixed practice sets for the same skill are disjoint.
+- STAAR-tested objective skills have **2–4 fixed practice sets**.
+- Course-only objective skills use one short, distinct fixed practice set instead of multiple repetitive sets.
+- Seven duplicated integrated-editing questions were rewritten so the bank no longer contains exact cross-skill duplicate question instances.
 
-Every such center is marked **Not STAAR tested** in the dashboard and numbered-practice title. These skills are excluded from full STAAR-style forms.
+Random practice uses the deduplicated practice-only pool. Different random attempts may eventually revisit a question, which is intentional and unavoidable in repeated practice, but the generator does not duplicate an item within a single quiz.
 
-## Files for review
+## Numbered sequence
 
-- `coverage.csv`: one row per skill center with TEKS code, tested status, question/prompt count, and fixed-form appearances
-- `coverage.json`: the same map in machine-readable JSON
-- `VALIDATION.json`: structural validation results
-- `VALIDATION.txt`: human-readable validation summary
+The former 122-item numbered practice sequence has been removed from the data, navigation, dashboard, and progress display.
 
 ## Interpretation
 
-“Complete” means that the site contains a center for every student expectation in the official Grade 7 assessed-curriculum list and every additional Grade 7 ELAR course expectation. It does not mean that the material has undergone the official passage review, educator review, field testing, bias review, or psychometric calibration used for operational STAAR items.
+The site is designed as original practice aligned to Grade 7 RLA standards and STAAR structure. It has not undergone the official educator review, field testing, bias review, or psychometric calibration used for operational STAAR items.

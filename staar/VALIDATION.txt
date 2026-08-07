@@ -1,41 +1,37 @@
-GRADE 7 STAAR RLA COMPREHENSIVE REVISION — VALIDATION SUMMARY
+GRADE 7 STAAR RLA — REPETITION AUDIT AND REVISION
 
-Content centers
+Coverage
 - Total skill centers: 77
-- STAAR-tested reading centers: 30
-- STAAR-tested objective writing centers: 13
+- STAAR-tested objective skill centers: 43
 - STAAR-tested writing labs: 4
-- Additional Grade 7 course-TEKS centers marked Not STAAR tested: 30
-- Total STAAR-tested centers: 47
+- Additional course-TEKS centers: 30
 
-Practice content
-- Objective questions: 1,746
+Question bank
+- Objective questions after deduplication and revision: 829
+- Objective questions reserved for fixed full tests: 220
+- Distinct objective questions available for targeted practice: 609
 - Constructed-response prompts: 30
-- Fixed full-length forms: 5
-- Consecutively numbered activities: 122
+- Numbered practice activities: 0 (removed)
 
-Full-form structure
-- Form A: 45 items, 56 points, 26 reading, 18 writing, 2 two-point items, 1 ECR
-- Form B: 45 items, 56 points, 27 reading, 17 writing, 2 two-point items, 1 ECR
-- Form C: 45 items, 56 points, 26 reading, 18 writing, 2 two-point items, 1 ECR
-- Form D: 45 items, 56 points, 27 reading, 17 writing, 2 two-point items, 1 ECR
-- Form E: 45 items, 56 points, 27 reading, 17 writing, 2 two-point items, 1 ECR
+Full forms
+- Five fixed forms, A–E
+- 45 items and 56 points per form
+- 26–28 reading items per form
+- 17–19 writing items per form
+- Two 2-point items and one 10-point ECR per form
+- 220/220 fixed-form objective items are content-distinct across all five forms
 
-Checks passed
-- Every STAAR-tested center appears across the five fixed forms collectively.
-- Every objective skill has at least 24 questions.
-- Every objective skill supports four fixed 8-question quizzes and randomized practice.
-- Fixed quizzes within each skill are distinct.
-- Every question has a valid answer key, four distinct choices, and an explanation.
-- All five forms meet the 45-item and 56-point design.
-- Reading and writing item counts fall within the published ranges.
-- Each form contains two 2-point items and one 10-point ECR.
-- All 122 activities are numbered consecutively and contain no week grouping.
-- Every non-assessed course standard is explicitly marked Not STAAR tested.
-- JavaScript syntax and local file references pass validation.
+Targeted practice
+- Every fixed targeted-practice item is excluded from the fixed full-test pool by content fingerprint.
+- Fixed practice sets within each skill are disjoint.
+- All 43 STAAR-tested objective skills have at least two fixed practice sets.
+- Tested skill distribution: 25 skills have 2 sets, 11 have 3 sets, 7 have 4 sets.
+- Course-only objective skills use one four-question fixed set rather than repetitive parallel versions.
+- Random practice draws from deduplicated practice-only pools.
 
-Automated structural validation found 0 errors and 0 warnings.
-See VALIDATION.json for machine-readable results and coverage.csv for the complete TEKS map.
+Automated validation
+- 0 errors
+- 0 warnings
 
 LIMITATION
-This is original practice material. It has not been reviewed by TEA, field tested with Texas students, psychometrically calibrated, or validated as a predictor of an official STAAR score.
+This is original practice material. It has not been reviewed or calibrated by TEA and should not be treated as a validated predictor of official STAAR performance.

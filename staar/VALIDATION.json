@@ -3,14 +3,12 @@
   "warnings": [],
   "counts": {
     "skills": 77,
-    "testedObjective": 43,
-    "testedWritingLabs": 4,
-    "nonTested": 30,
-    "questions": 1746,
-    "ecr": 30,
+    "questions": 829,
+    "ecrPrompts": 30,
     "forms": 5,
-    "days": 122,
-    "fixedFormSkillCoverage": 47
+    "days": 0,
+    "fullObjectiveQuestions": 220,
+    "fullObjectiveFingerprints": 220
   },
   "formSummary": [
     {
@@ -18,8 +16,8 @@
       "items": 45,
       "points": 56,
       "reading": 26,
-      "writing": 18,
-      "multi": 2,
+      "writing": 19,
+      "twoPoint": 2,
       "ecr": 1
     },
     {
@@ -27,8 +25,8 @@
       "items": 45,
       "points": 56,
       "reading": 27,
-      "writing": 17,
-      "multi": 2,
+      "writing": 18,
+      "twoPoint": 2,
       "ecr": 1
     },
     {
@@ -36,8 +34,8 @@
       "items": 45,
       "points": 56,
       "reading": 26,
-      "writing": 18,
-      "multi": 2,
+      "writing": 19,
+      "twoPoint": 2,
       "ecr": 1
     },
     {
@@ -45,8 +43,8 @@
       "items": 45,
       "points": 56,
       "reading": 27,
-      "writing": 17,
-      "multi": 2,
+      "writing": 18,
+      "twoPoint": 2,
       "ecr": 1
     },
     {
@@ -54,9 +52,834 @@
       "items": 45,
       "points": 56,
       "reading": 27,
-      "writing": 17,
-      "multi": 2,
+      "writing": 18,
+      "twoPoint": 2,
       "ecr": 1
+    }
+  ],
+  "skillSummary": [
+    {
+      "skill": "r-2a-reference",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 23,
+      "fixedSets": 4,
+      "fixedSetSizes": [
+        6,
+        6,
+        6,
+        5
+      ]
+    },
+    {
+      "skill": "r-2b-context",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-2c-roots",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 24,
+      "fixedSets": 4,
+      "fixedSetSizes": [
+        6,
+        6,
+        6,
+        6
+      ]
+    },
+    {
+      "skill": "r-5c-predictions",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-5e-connections",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 16,
+      "fixedSets": 4,
+      "fixedSetSizes": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-5f-inferences",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-5g-key-ideas",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-5h-synthesis",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 15,
+      "fixedSets": 3,
+      "fixedSetSizes": [
+        5,
+        5,
+        5
+      ]
+    },
+    {
+      "skill": "r-6c-evidence",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 14,
+      "fixedSets": 3,
+      "fixedSetSizes": [
+        5,
+        5,
+        4
+      ]
+    },
+    {
+      "skill": "r-6d-paraphrase-summary",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 11,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        6,
+        5
+      ]
+    },
+    {
+      "skill": "r-7a-themes",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-7b-character",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-7c-plot",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 16,
+      "fixedSets": 4,
+      "fixedSetSizes": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-7d-setting",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-8a-genres",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-8b-poetry",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 20,
+      "fixedSets": 4,
+      "fixedSetSizes": [
+        5,
+        5,
+        5,
+        5
+      ]
+    },
+    {
+      "skill": "r-8c-drama",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 17,
+      "fixedSets": 4,
+      "fixedSetSizes": [
+        5,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-8di-controlling-idea",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 14,
+      "fixedSets": 3,
+      "fixedSetSizes": [
+        5,
+        5,
+        4
+      ]
+    },
+    {
+      "skill": "r-8dii-references",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 13,
+      "fixedSets": 3,
+      "fixedSetSizes": [
+        5,
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-8diii-organization",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 14,
+      "fixedSets": 3,
+      "fixedSetSizes": [
+        5,
+        5,
+        4
+      ]
+    },
+    {
+      "skill": "r-8ei-claim",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 10,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        5,
+        5
+      ]
+    },
+    {
+      "skill": "r-8eii-evidence-alternatives",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 18,
+      "fixedSets": 4,
+      "fixedSetSizes": [
+        5,
+        5,
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-8eiii-audience",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 10,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        5,
+        5
+      ]
+    },
+    {
+      "skill": "r-9a-purpose-message",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-9b-structure-purpose",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 12,
+      "fixedSets": 3,
+      "fixedSetSizes": [
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-9c-print-graphics",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 12,
+      "fixedSets": 3,
+      "fixedSetSizes": [
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-9d-figurative",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 13,
+      "fixedSets": 3,
+      "fixedSetSizes": [
+        5,
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-9e-point-view",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "r-9f-mood-voice-tone",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 15,
+      "fixedSets": 3,
+      "fixedSetSizes": [
+        5,
+        5,
+        5
+      ]
+    },
+    {
+      "skill": "r-9g-rhetoric-fallacies",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "w-10bi-organization",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 12,
+      "fixedSets": 3,
+      "fixedSetSizes": [
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "w-10bii-development",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "w-10c-revision",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "w-10d-editing-integrated",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "w-10di-sentences-agreement",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "w-10dii-verb-tense",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 10,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        5,
+        5
+      ]
+    },
+    {
+      "skill": "w-10diii-conjunctive-adverbs",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "w-10div-prepositions-agreement",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "w-10dv-pronouns",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "w-10dvi-conjunctions",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 10,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        5,
+        5
+      ]
+    },
+    {
+      "skill": "w-10dvii-capitalization",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "w-10dviii-punctuation",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 8,
+      "fixedSets": 2,
+      "fixedSetSizes": [
+        4,
+        4
+      ]
+    },
+    {
+      "skill": "w-10dix-spelling-usage",
+      "tested": true,
+      "mode": "objective",
+      "practiceUnique": 14,
+      "fixedSets": 3,
+      "fixedSetSizes": [
+        5,
+        5,
+        4
+      ]
+    },
+    {
+      "skill": "w-6b-text-response",
+      "tested": true,
+      "mode": "ecr",
+      "practiceUnique": 6,
+      "fixedSets": 4
+    },
+    {
+      "skill": "w-11b-informational",
+      "tested": true,
+      "mode": "ecr",
+      "practiceUnique": 6,
+      "fixedSets": 4
+    },
+    {
+      "skill": "w-11c-argumentative",
+      "tested": true,
+      "mode": "ecr",
+      "practiceUnique": 6,
+      "fixedSets": 4
+    },
+    {
+      "skill": "w-11d-correspondence",
+      "tested": true,
+      "mode": "ecr",
+      "practiceUnique": 6,
+      "fixedSets": 4
+    },
+    {
+      "skill": "nt-1a-listen",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-1b-instructions",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-1c-presentation",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-1d-discourse",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-3-fluency",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-4-independent-reading",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-5a-purpose",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-5b-questions",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-5d-mental-images",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-5i-monitor",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-6a-personal-connections",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-6e-interact",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-6f-new-vocabulary",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-6g-meaning",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-6h-register",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-6i-adjust-response",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-8f-multimodal",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-10a-plan",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-10e-publish",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-11a-literary",
+      "tested": false,
+      "mode": "ecr",
+      "practiceUnique": 6,
+      "fixedSets": 4
+    },
+    {
+      "skill": "nt-12a-inquiry-questions",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-12b-research-plan",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-12c-refine-question",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-12d-gather",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-12e-primary-secondary",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-12f-synthesize",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-12g-plagiarism",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-12h-source-evaluation",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-12i-citations",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
+    },
+    {
+      "skill": "nt-12j-delivery",
+      "tested": false,
+      "mode": "objective",
+      "practiceUnique": 4,
+      "fixedSets": 1,
+      "fixedSetSizes": [
+        4
+      ]
     }
   ]
 }
