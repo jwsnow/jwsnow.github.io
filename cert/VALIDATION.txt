@@ -1,25 +1,26 @@
-TEXAS EDUCATOR CERTIFICATION PRACTICE PORTAL — VALIDATION SUMMARY
+TEXAS EDUCATOR CERTIFICATION PRACTICE PORTAL — VISUAL-DATA / MATH-NOTATION REVISION
 
-Expanded centers:
-- Core Subjects EC–6 Fine Arts, Health and Physical Education 905
-- ELAR/Social Studies 4–8 (113)
-- Mathematics/Science 4–8 (114)
+Revision focus
+- Preserved the existing site structure, styling, scoring, progress history, explanations, and diagnostic reports.
+- Added charts, tables, graphs, and diagrams across mathematics, science, social studies, and the combined 4–8 exam centers.
+- Added MathJax typesetting to mathematics and combined 4–8 pages and modernized radicals, fractions, exponents, inequalities, and other notation.
+- Preserved the prior question-independence rules for fixed full tests and fixed targeted quizzes.
 
-New fixed-form checks:
-- Exam 905: 4 forms × 40 questions
-- Exam 113: 4 forms × 120 questions
-- Exam 114: 4 forms × 120 questions
-- All category allocations matched configured framework weights.
-- All generated questions had four distinct choices, one valid answer, and an explanation.
-- All fixed targeted quiz versions generated at their configured lengths.
+Guaranteed visual/data-display minimums in fixed mathematics forms
+- EC–6 Mathematics 902: at least 5 of 40
+- Core Subjects 4–8 Mathematics 807: at least 6 of 42
+- Mathematics 4–8 (115): at least 12 of 100
 
-Portal-wide checks:
-- 19 exam configurations
-- 10,684 generated fixed-form and fixed-topic question instances
-- 0 structural errors
-- 7 HTML entry pages
-- 0 broken local file references
-- All JavaScript files passed Node syntax checks
+Validation
+- Exam configurations checked: 19
+- Fixed-form and fixed-topic instances checked: 10,684
+- Additional randomly generated instances checked: 2,622
+- Structural/content-engine errors: 0
+- Fixed-form / fixed-topic exact-prompt independence errors: 0
+- JavaScript syntax errors: 0
+- Broken local HTML/script/style links: 0
+- Old-style radical pattern √(...), in generated fixed TExES math forms: 0
+- Slash fractions inside generated math display blocks: 0
 
-Browser-render limitation:
-The container's Chromium process hung while attempting to connect to unavailable system-bus services, so a fresh automated browser render could not be completed. The shared quiz interface code was not changed except for footer/navigation links and responsive header wrapping.
+Important distinction
+The practice materials are independently written and framework-aligned. They have not been field-tested or psychometrically calibrated, and raw percentages should be treated as diagnostic rather than official scaled-score predictions.

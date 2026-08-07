@@ -337,3 +337,33 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 .choice-button .choice-text{line-height:1.45}.portal-footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.7rem;margin-bottom:.6rem}
 @media(max-width:650px){.stimulus{max-height:none}.lab-workspace textarea{min-height:16rem}}
 .primary-button, .secondary-button, .ghost-button, .danger-button { text-decoration: none; }
+
+/* Reasoning variants used to keep fixed forms and skill-quiz versions independent. */
+.comparison-box,.error-analysis,.reasoning-check,.mini-stem{
+  margin:.9rem 0;
+  padding:.85rem 1rem;
+  border:1px solid #dbe4ee;
+  border-radius:.65rem;
+  background:#f8fafc;
+}
+.comparison-box p:last-child,.error-analysis p:last-child,.reasoning-check p:last-child,.mini-stem p:last-child{margin-bottom:0}
+.mini-stem{background:#fff;margin:.65rem 0}
+
+/* Visual-question and modern mathematics support */
+.visual-block { margin: .9rem auto 1rem; max-width: 560px; overflow-x: auto; }
+.chart-svg, .diagram-svg, .svg-graph { width: 100%; height: auto; display: block; background: #fff; border: 1px solid var(--line); border-radius: 10px; }
+.grid-line { stroke: #dfe5eb; stroke-width: 1; }
+.axis-line { stroke: #485563; stroke-width: 1.5; }
+.plot-line { fill: none; stroke: #184e77; stroke-width: 3; }
+.plot-point { fill: #184e77; }
+.best-fit { stroke: #7a3348; stroke-width: 2.5; stroke-dasharray: 7 5; }
+.chart-bar { fill: #3978a8; }
+.boxplot-box { fill: #dcebf5; stroke: #184e77; stroke-width: 2; }
+.boxplot-median { stroke: #7a3348; stroke-width: 3; }
+.diagram-shape { fill: #eef5f8; stroke: #334a5e; stroke-width: 2.5; }
+.axis-text { fill: #394956; font-size: 12px; font-family: system-ui, sans-serif; }
+.axis-label, .chart-title, .diagram-label { fill: #263746; font-size: 14px; font-family: system-ui, sans-serif; font-weight: 600; }
+.data-table caption { font-weight: 700; margin-bottom: .35rem; color: var(--ink); }
+.math-inline mjx-container, .math-display mjx-container { font-size: 108% !important; }
+.question-prompt mjx-container[display="true"] { margin: .65em 0 !important; }
+@media (max-width: 520px) { .visual-block { max-width: 100%; } .data-table td, .data-table th { padding: .3rem .45rem; } }

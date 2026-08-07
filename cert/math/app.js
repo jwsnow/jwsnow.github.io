@@ -79,6 +79,12 @@
     dialog.addEventListener("close", handler);
   }
 
+  function typesetMath() {
+    if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
+      window.MathJax.typesetPromise([main]).catch(() => {});
+    }
+  }
+
   function render() {
     if (state.view === "home") renderHome();
     else if (state.view === "exam") renderExam(state.examId);
@@ -88,6 +94,7 @@
     else if (state.view === "progress") renderProgress();
     else if (state.view === "about") renderAbout();
     main.focus({preventScroll:true});
+    typesetMath();
   }
 
   function examCard(exam) {
@@ -317,6 +324,7 @@
     recordResult(result);
     window.scrollTo(0,0);
     renderResults();
+    typesetMath();
   }
 
   function diagnosticLabel(percent) {

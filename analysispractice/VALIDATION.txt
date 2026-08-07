@@ -1,3 +1,4 @@
+Questions: 434
 Sections: 40
-Questions: 469
-Errors: 0
+Visual questions: 22
+Issues: 0

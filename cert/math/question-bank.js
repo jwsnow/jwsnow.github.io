@@ -45,8 +45,14 @@
   }
   function frac(n, d) {
     const [a, b] = reduce(n, d);
-    return b === 1 ? String(a) : `${a}/${b}`;
+    return b === 1 ? String(a) : `\\(\\frac{${a}}{${b}}\\)`;
   }
+  function texFrac(n, d) {
+    const [a, b] = reduce(n, d);
+    return b === 1 ? String(a) : `\\frac{${a}}{${b}}`;
+  }
+  function MI(latex) { return `<span class="math-inline">\\(${latex}\\)</span>`; }
+  function MD(latex) { return `<div class="math-display">\\[${latex}\\]</div>`; }
   function mixed(n, d) {
     const sign = n < 0 ? "−" : "";
     n = Math.abs(n);
@@ -90,21 +96,79 @@
     };
   }
 
-  function svgLineGraph(points, label = "") {
-    const w = 360, h = 240, pad = 35;
+  function svgLineGraph(points, label = "", xLabel = "x", yLabel = "y") {
+    const w = 420, h = 270, padL = 48, padR = 20, padT = 22, padB = 42;
     const xs = points.map(p => p[0]), ys = points.map(p => p[1]);
-    const xmin = Math.min(-1, ...xs), xmax = Math.max(5, ...xs);
-    const ymin = Math.min(-1, ...ys), ymax = Math.max(5, ...ys);
-    const sx = x => pad + (x - xmin) / (xmax - xmin) * (w - 2 * pad);
-    const sy = y => h - pad - (y - ymin) / (ymax - ymin) * (h - 2 * pad);
+    const xmin = Math.min(0, ...xs), xmax = Math.max(1, ...xs);
+    const ymin = Math.min(0, ...ys), ymax = Math.max(1, ...ys);
+    const xspan = (xmax-xmin)||1, yspan=(ymax-ymin)||1;
+    const sx = x => padL + (x - xmin) / xspan * (w - padL - padR);
+    const sy = y => h - padB - (y - ymin) / yspan * (h - padT - padB);
     const path = points.map((p, i) => `${i ? "L" : "M"}${sx(p[0]).toFixed(1)},${sy(p[1]).toFixed(1)}`).join(" ");
-    return `<svg class="svg-graph" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label || "coordinate graph"}">
-      <line x1="${pad}" y1="${sy(0)}" x2="${w-pad}" y2="${sy(0)}" stroke="#506070"/>
-      <line x1="${sx(0)}" y1="${pad}" x2="${sx(0)}" y2="${h-pad}" stroke="#506070"/>
-      <path d="${path}" fill="none" stroke="#184e77" stroke-width="3"/>
-      ${points.map(p => `<circle cx="${sx(p[0])}" cy="${sy(p[1])}" r="4" fill="#184e77"/>`).join("")}
-    </svg>`;
+    const xticks=Array.from({length:Math.min(7,Math.floor(xmax-xmin)+1)},(_,i)=>xmin+i*(xspan/Math.max(1,Math.min(6,Math.floor(xmax-xmin)))));
+    const yticks=Array.from({length:5},(_,i)=>ymin+i*yspan/4);
+    return `<div class="visual-block"><svg class="svg-graph" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label || "coordinate graph"}">
+      ${xticks.map(x=>`<line x1="${sx(x)}" y1="${padT}" x2="${sx(x)}" y2="${h-padB}" class="grid-line"/><text x="${sx(x)}" y="${h-padB+20}" text-anchor="middle" class="axis-text">${fmt(x,1)}</text>`).join("")}
+      ${yticks.map(y=>`<line x1="${padL}" y1="${sy(y)}" x2="${w-padR}" y2="${sy(y)}" class="grid-line"/><text x="${padL-8}" y="${sy(y)+4}" text-anchor="end" class="axis-text">${fmt(y,1)}</text>`).join("")}
+      <line x1="${padL}" y1="${h-padB}" x2="${w-padR}" y2="${h-padB}" class="axis-line"/>
+      <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${h-padB}" class="axis-line"/>
+      <path d="${path}" class="plot-line"/>
+      ${points.map(p => `<circle cx="${sx(p[0])}" cy="${sy(p[1])}" r="4" class="plot-point"/>`).join("")}
+      <text x="${(padL+w-padR)/2}" y="${h-7}" text-anchor="middle" class="axis-label">${xLabel}</text>
+      <text x="16" y="${h/2}" text-anchor="middle" transform="rotate(-90 16 ${h/2})" class="axis-label">${yLabel}</text>
+    </svg></div>`;
   }
+
+  function dataTable(headers, rows, caption="") {
+    return `<div class="visual-block"><table class="data-table">${caption?`<caption>${caption}</caption>`:""}<thead><tr>${headers.map(h=>`<th scope="col">${h}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(v=>`<td>${v}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+  }
+
+  function svgBarChart(labels, values, title="Bar chart", yLabel="Value") {
+    const w=440,h=280,pL=48,pR=18,pT=36,pB=54,max=Math.max(...values)*1.15;
+    const innerW=w-pL-pR, gap=12, bw=(innerW-gap*(values.length+1))/values.length;
+    const y=v=>h-pB-(v/max)*(h-pT-pB);
+    return `<div class="visual-block"><svg class="chart-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${title}">
+      <text x="${w/2}" y="20" text-anchor="middle" class="chart-title">${title}</text>
+      ${[0,.25,.5,.75,1].map(t=>{const v=max*t,yy=y(v);return `<line x1="${pL}" y1="${yy}" x2="${w-pR}" y2="${yy}" class="grid-line"/><text x="${pL-7}" y="${yy+4}" text-anchor="end" class="axis-text">${Math.round(v)}</text>`;}).join("")}
+      ${values.map((v,i)=>{const x=pL+gap+i*(bw+gap);return `<rect x="${x}" y="${y(v)}" width="${bw}" height="${h-pB-y(v)}" class="chart-bar"/><text x="${x+bw/2}" y="${h-pB+20}" text-anchor="middle" class="axis-text">${labels[i]}</text>`;}).join("")}
+      <text x="15" y="${h/2}" text-anchor="middle" transform="rotate(-90 15 ${h/2})" class="axis-label">${yLabel}</text>
+    </svg></div>`;
+  }
+
+  function svgScatter(points, line=null, label="scatterplot") {
+    const w=420,h=280,pL=48,pR=20,pT=24,pB=42,maxX=Math.max(10,...points.map(p=>p[0])),maxY=Math.max(10,...points.map(p=>p[1]));
+    const sx=x=>pL+x/maxX*(w-pL-pR), sy=y=>h-pB-y/maxY*(h-pT-pB);
+    return `<div class="visual-block"><svg class="chart-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label}">
+      ${[0,.25,.5,.75,1].map(t=>`<line x1="${pL}" y1="${sy(maxY*t)}" x2="${w-pR}" y2="${sy(maxY*t)}" class="grid-line"/><line x1="${sx(maxX*t)}" y1="${pT}" x2="${sx(maxX*t)}" y2="${h-pB}" class="grid-line"/>`).join("")}
+      <line x1="${pL}" y1="${h-pB}" x2="${w-pR}" y2="${h-pB}" class="axis-line"/><line x1="${pL}" y1="${pT}" x2="${pL}" y2="${h-pB}" class="axis-line"/>
+      ${line?`<line x1="${sx(line[0][0])}" y1="${sy(line[0][1])}" x2="${sx(line[1][0])}" y2="${sy(line[1][1])}" class="best-fit"/>`:""}
+      ${points.map(p=>`<circle cx="${sx(p[0])}" cy="${sy(p[1])}" r="4" class="plot-point"/>`).join("")}
+      <text x="${(pL+w-pR)/2}" y="${h-7}" text-anchor="middle" class="axis-label">x</text><text x="16" y="${h/2}" text-anchor="middle" transform="rotate(-90 16 ${h/2})" class="axis-label">y</text>
+    </svg></div>`;
+  }
+
+  function svgBoxPlot(min,q1,med,q3,max,label="box plot") {
+    const w=440,h=150,p=35,lo=Math.min(0,min),hi=max+Math.max(1,(max-min)*.08),sx=x=>p+(x-lo)/(hi-lo)*(w-2*p),cy=66;
+    return `<div class="visual-block"><svg class="chart-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label}">
+      <line x1="${sx(min)}" y1="${cy}" x2="${sx(max)}" y2="${cy}" class="axis-line"/><line x1="${sx(min)}" y1="48" x2="${sx(min)}" y2="84" class="axis-line"/><line x1="${sx(max)}" y1="48" x2="${sx(max)}" y2="84" class="axis-line"/>
+      <rect x="${sx(q1)}" y="40" width="${sx(q3)-sx(q1)}" height="52" class="boxplot-box"/><line x1="${sx(med)}" y1="40" x2="${sx(med)}" y2="92" class="boxplot-median"/>
+      ${[min,q1,med,q3,max].map(v=>`<text x="${sx(v)}" y="120" text-anchor="middle" class="axis-text">${v}</text>`).join("")}
+    </svg></div>`;
+  }
+
+  function svgTriangleDiagram(A,B,C,label="triangle diagram") {
+    return `<div class="visual-block"><svg class="diagram-svg" viewBox="0 0 360 230" role="img" aria-label="${label}"><polygon points="55,190 305,190 205,38" class="diagram-shape"/><text x="82" y="180" class="diagram-label">${A}°</text><text x="265" y="180" class="diagram-label">${B}°</text><text x="193" y="72" class="diagram-label">${C}</text></svg></div>`;
+  }
+
+  function svgCoordinatePoint(x,y,label="coordinate plane") {
+    const w=330,h=300,p=35,s=24,cx=w/2,cy=h/2;
+    return `<div class="visual-block"><svg class="diagram-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label}">
+      ${Array.from({length:11},(_,i)=>i-5).map(v=>`<line x1="${cx+v*s}" y1="${p}" x2="${cx+v*s}" y2="${h-p}" class="grid-line"/><line x1="${p}" y1="${cy-v*s}" x2="${w-p}" y2="${cy-v*s}" class="grid-line"/>`).join("")}
+      <line x1="${p}" y1="${cy}" x2="${w-p}" y2="${cy}" class="axis-line"/><line x1="${cx}" y1="${p}" x2="${cx}" y2="${h-p}" class="axis-line"/>
+      <circle cx="${cx+x*s}" cy="${cy-y*s}" r="6" class="plot-point"/><text x="${cx+x*s+10}" y="${cy-y*s-8}" class="diagram-label">P</text>
+    </svg></div>`;
+  }
+
 
   // ---------- Number and arithmetic generators ----------
   function qWholeOperation(rng) {
@@ -157,7 +221,7 @@
     const n = a*d2 + b*d1, d = d1*d2;
     const correct = frac(n,d);
     return makeQuestion(rng,
-      `Compute <span class="math-display">${a}/${d1} + ${b}/${d2}</span>.`,
+      `Compute ${MD(`\\frac{${a}}{${d1}}+\\frac{${b}}{${d2}}`)}.`,
       correct,
       [frac(a+b,d1+d2), frac(a+b,lcm(d1,d2)), frac(a*d2-b*d1,d1*d2)],
       `A common denominator is ${d1*d2}. The numerator is ${a}(${d2}) + ${b}(${d1}) = ${n}. Reducing gives ${correct}.`);
@@ -167,7 +231,7 @@
     const a = ri(rng,2,9), b = ri(rng,2,10), c = ri(rng,2,9), d = ri(rng,2,10);
     const correct = frac(a*c,b*d);
     return makeQuestion(rng,
-      `Compute <span class="math-display">${a}/${b} × ${c}/${d}</span>.`,
+      `Compute ${MD(`\\frac{${a}}{${b}}\\cdot\\frac{${c}}{${d}}`)}.`,
       correct,
       [frac(a+c,b+d), frac(a*d,b*c), frac(a*c,b+d)],
       `Multiply numerators and denominators: (${a}×${c})/(${b}×${d}) = ${a*c}/${b*d}, which reduces to ${correct}.`);
@@ -177,7 +241,7 @@
     const a = ri(rng,1,8), b = ri(rng,2,10), c = ri(rng,1,8), d = ri(rng,2,10);
     const correct = frac(a*d,b*c);
     return makeQuestion(rng,
-      `Compute <span class="math-display">${a}/${b} ÷ ${c}/${d}</span>.`,
+      `Compute ${MD(`\\frac{${a}}{${b}}\\div\\frac{${c}}{${d}}`)}.`,
       correct,
       [frac(a*c,b*d), frac(a*d,b+c), frac(b*c,a*d)],
       `Multiply by the reciprocal: ${a}/${b} × ${d}/${c} = ${a*d}/${b*c} = ${correct}.`);
@@ -187,7 +251,7 @@
     const d = pick(rng,[3,4,5,6,8,10]), n = ri(rng,1,d-1), unit = ri(rng,3,12), total = d*unit;
     const correct = n*unit;
     return makeQuestion(rng,
-      `What is <span class="math-display">${n}/${d}</span> of ${total}?`,
+      `What is ${MI(`\\frac{${n}}{${d}}`)} of ${total}?`,
       correct,
       [total/d, total-n, total*n],
       `${total} ÷ ${d} = ${unit}, and ${unit} × ${n} = ${correct}.`);
@@ -237,12 +301,13 @@
   function qEquivalentRepresentations(rng) {
     const pairs = [[1,2,.5,50],[1,4,.25,25],[3,4,.75,75],[2,5,.4,40],[3,5,.6,60],[7,10,.7,70],[1,5,.2,20],[4,5,.8,80]];
     const [n,d,dec,pct] = pick(rng,pairs);
-    const correct = `${n}/${d}, ${dec}, and ${pct}%`;
+    const f=MI(`\\frac{${n}}{${d}}`), f2=MI(`\\frac{${n+1}}{${d}}`);
+    const correct = `${f}, ${dec}, and ${pct}%`;
     return makeQuestion(rng,
       `Which group contains three equivalent representations of the same number?`,
       correct,
-      [`${n}/${d}, ${fmt(dec+.1,2)}, and ${pct}%`,`${n+1}/${d}, ${dec}, and ${pct}%`,`${n}/${d}, ${dec}, and ${pct+10}%`],
-      `${n} ÷ ${d} = ${dec}, and ${dec} × 100% = ${pct}%.`);
+      [`${f}, ${fmt(dec+.1,2)}, and ${pct}%`,`${f2}, ${dec}, and ${pct}%`,`${f}, ${dec}, and ${pct+10}%`],
+      `${MI(`\\frac{${n}}{${d}}`)} = ${dec}, and ${dec} × 100% = ${pct}%.`);
   }
 
   function qCompareNumbers(rng) {
@@ -251,7 +316,7 @@
     const f = a/b;
     const relation = f < dec ? "<" : f > dec ? ">" : "=";
     return makeQuestion(rng,
-      `Choose the correct comparison: <span class="math-display">${a}/${b} ___ ${dec}</span>.`,
+      `Choose the correct comparison: ${MD(`\\frac{${a}}{${b}}\;\_\_\_\;${dec}`)}.`,
       relation,
       [relation==="<"?">":"<","=","cannot be determined"],
       `${a}/${b} ≈ ${fmt(f,3)}. Comparing that decimal with ${dec} gives ${a}/${b} ${relation} ${dec}.`);
@@ -293,9 +358,9 @@
 
   function qNumberSet(rng) {
     const options = [
-      {v:`√${pick(rng,[2,3,5,7,11])}`,a:"irrational"},
+      {v:MI(`\\sqrt{${pick(rng,[2,3,5,7,11])}}`),a:"irrational"},
       {v:`${ri(rng,-9,-1)}`,a:"integer"},
-      (() => { const d=ri(rng,2,10), n=ri(rng,1,d-1); return {v:`${n}/${d}`,a:"rational"}; })(),
+      (() => { const d=ri(rng,2,10), n=ri(rng,1,d-1); return {v:MI(`\\frac{${n}}{${d}}`),a:"rational"}; })(),
       {v:`${ri(rng,2,9)} + ${ri(rng,1,5)}i`,a:"complex but not real"}
     ];
     const item=pick(rng,options);
@@ -374,8 +439,8 @@
   function qProportion(rng) {
     const a=ri(rng,2,9), b=ri(rng,3,12), k=ri(rng,2,8), c=a*k, d=b*k;
     const blank=pick(rng,["c","d"]);
-    if(blank==="c") return makeQuestion(rng,`Solve <span class="math-display">${a}/${b} = x/${d}</span>.`,c,[d-a,a*k+1,b*k],`Cross multiply: ${b}x = ${a}(${d}), so x = ${c}.`);
-    return makeQuestion(rng,`Solve <span class="math-display">${a}/${b} = ${c}/x</span>.`,d,[c-b,b*k+1,a*k],`Cross multiply: ${a}x = ${b}(${c}), so x = ${d}.`);
+    if(blank==="c") return makeQuestion(rng,`Solve ${MD(`\\frac{${a}}{${b}}=\\frac{x}{${d}}`)}.`,c,[d-a,a*k+1,b*k],`Cross multiply: ${b}x = ${a}(${d}), so x = ${c}.`);
+    return makeQuestion(rng,`Solve ${MD(`\\frac{${a}}{${b}}=\\frac{${c}}{x}`)}.`,d,[c-b,b*k+1,a*k],`Cross multiply: ${a}x = ${b}(${c}), so x = ${d}.`);
   }
 
   function qSlope(rng) {
@@ -385,7 +450,7 @@
       `What is the slope of the line through <span class="math-display">(${x1}, ${y1})</span> and <span class="math-display">(${x2}, ${y2})</span>?`,
       m,
       [frac(x2-x1,y2-y1),y2-y1,m+1],
-      `Slope = (y₂−y₁)/(x₂−x₁) = (${y2}−${y1})/(${x2}−${x1}) = ${m}.`);
+      `Slope is ${MI(`\\frac{y_2-y_1}{x_2-x_1}=\\frac{${y2}-${y1}}{${x2}-${x1}}=${m}`)}.`);
   }
 
   function qLineEquation(rng) {
@@ -503,16 +568,16 @@
     const x=ri(rng,1,12), k=ri(rng,1,8), root=ri(rng,2,7), c=root*root-x;
     const correct=x;
     return makeQuestion(rng,
-      `Solve <span class="math-display">√(x ${c>=0?"+":"−"} ${Math.abs(c)}) = ${root}</span>.`,
+      `Solve ${MD(`\\sqrt{x ${c>=0?"+":"-"} ${Math.abs(c)}}=${root}`)}.`,
       correct,
       [root-c,root*root+c,x+2],
-      `Square both sides: x ${c>=0?"+":"−"} ${Math.abs(c)} = ${root*root}. Therefore x=${x}. Checking gives √${root*root}=${root}.`);
+      `Square both sides: ${MI(`x ${c>=0?"+":"-"} ${Math.abs(c)}=${root*root}`)}. Therefore ${MI(`x=${x}`)}. Substitution checks the solution because ${MI(`\\sqrt{${root*root}}=${root}`)}.`);
   }
 
   function qRationalEquation(rng) {
     const x=ri(rng,1,10), b=ri(rng,1,6), c=ri(rng,2,7), a=c*(x+b);
     return makeQuestion(rng,
-      `Solve <span class="math-display">${a}/(x + ${b}) = ${c}</span>.`,
+      `Solve ${MD(`\\frac{${a}}{x+${b}}=${c}`)}.`,
       x,
       [a/c+b,a*c-b,x+b],
       `Multiply by x+${b}: ${a}=${c}(x+${b}). Divide by ${c} and subtract ${b}: x=${x}.`);
@@ -623,11 +688,11 @@
     if(missing==="hyp") return makeQuestion(rng,
       `A right triangle has legs ${a} and ${b}. What is the hypotenuse?`,c,
       [a+b,Math.abs(a-b),a*a+b*b],
-      `By the Pythagorean theorem, c=√(${a}²+${b}²)=√${a*a+b*b}=${c}.`);
+      `By the Pythagorean theorem, ${MI(`c=\\sqrt{${a}^2+${b}^2}=\\sqrt{${a*a+b*b}}=${c}`)}.`);
     return makeQuestion(rng,
       `A right triangle has hypotenuse ${c} and one leg ${a}. What is the other leg?`,b,
       [c-a,Math.sqrt(c*c+a*a).toFixed(1),a+b],
-      `The missing leg is √(${c}²−${a}²)=√${c*c-a*a}=${b}.`);
+      `The missing leg is ${MI(`\\sqrt{${c}^2-${a}^2}=\\sqrt{${c*c-a*a}}=${b}`)}.`);
   }
 
   function qDistanceMidpoint(rng) {
@@ -642,7 +707,7 @@
     const dist=Math.sqrt(dx*dx+dy*dy), correct=Number.isInteger(dist)?String(dist):`√${dx*dx+dy*dy}`;
     return makeQuestion(rng,`Find the distance between <span class="math-display">(${x1},${y1})</span> and <span class="math-display">(${x2},${y2})</span>.`,correct,
       [String(dx+dy),String(Math.abs(dx-dy)),String(dx*dx+dy*dy)],
-      `Distance = √[(${x2}−${x1})²+(${y2}−${y1})²] = √${dx*dx+dy*dy}${Number.isInteger(dist)?` = ${dist}`:""}.`);
+      `Distance is ${MI(`\\sqrt{(${x2}-${x1})^2+(${y2}-${y1})^2}=\\sqrt{${dx*dx+dy*dy}}${Number.isInteger(dist)?`=${dist}`:""}`)}.`);
   }
 
   function qAngles(rng) {
@@ -940,14 +1005,14 @@
     if(type==="radical"){
       const correct=`x ≥ ${-a}`;
       return makeQuestion(rng,
-        `What is the domain of <span class="math-display">f(x)=√(x ${a>=0?"+":"−"} ${Math.abs(a)})</span>?`,
+        `What is the domain of ${MI(`f(x)=\\sqrt{x ${a>=0?"+":"-"} ${Math.abs(a)}}`)}?`,
         correct,
         [`x > ${a}`,`x ≠ ${-a}`,"all real numbers"],
         `The expression inside the square root must be nonnegative: x+(${a})≥0, so ${correct}.`);
     }
     const correct=`all real x except ${-a}`;
     return makeQuestion(rng,
-      `What is the domain of <span class="math-display">f(x)=1/(x ${a>=0?"+":"−"} ${Math.abs(a)})</span>?`,
+      `What is the domain of ${MI(`f(x)=\\frac{1}{x ${a>=0?"+":"-"} ${Math.abs(a)}}`)}?`,
       correct,
       [`x ≥ ${-a}`,`x > ${a}`,"all real numbers"],
       `The denominator cannot be zero. x+(${a})≠0, so x≠${-a}.`);
@@ -965,20 +1030,21 @@
 
   function qTrigExact(rng) {
     const cases=[
-      ["sin(30°)","1/2"],["cos(60°)","1/2"],["sin(45°)","√2/2"],
-      ["cos(45°)","√2/2"],["tan(45°)","1"],["sin(90°)","1"],
-      ["cos(0°)","1"],["tan(0°)","0"]
+      ["\\sin 30^\\circ","\\frac{1}{2}"],["\\cos 60^\\circ","\\frac{1}{2}"],["\\sin 45^\\circ","\\frac{\\sqrt{2}}{2}"],
+      ["\\cos 45^\\circ","\\frac{\\sqrt{2}}{2}"],["\\tan 45^\\circ","1"],["\\sin 90^\\circ","1"],
+      ["\\cos 0^\\circ","1"],["\\tan 0^\\circ","0"]
     ];
-    const [expr,correct]=pick(rng,cases);
-    return makeQuestion(rng,`Evaluate <span class="math-display">${expr}</span>.`,correct,
-      shuffle(rng,["0","1/2","√2/2","√3/2","1"]).filter(x=>x!==correct).slice(0,3),
-      `From the unit circle or special right triangles, ${expr}=${correct}.`);
+    const [expr,correctTex]=pick(rng,cases), correct=MI(correctTex);
+    const choices=["0","1","\\frac{1}{2}","\\frac{\\sqrt{2}}{2}","\\frac{\\sqrt{3}}{2}"].map(MI);
+    return makeQuestion(rng,`Evaluate ${MI(expr)}.`,correct,
+      shuffle(rng,choices.filter(x=>x!==correct)).slice(0,3),
+      `From the unit circle or a special right triangle, ${MI(`${expr}=${correctTex}`)}.`);
   }
 
   function qLimitSequence(rng) {
     const L=ri(rng,-4,8), c=ri(rng,2,12);
     return makeQuestion(rng,
-      `The sequence is defined by <span class="math-display">a<sub>n</sub> = ${L} + ${c}/n</span>. What value does a<sub>n</sub> approach as n becomes very large?`,
+      `The sequence is defined by ${MI(`a_n=${L}+\\frac{${c}}{n}`)}. What value does ${MI(`a_n`)} approach as n becomes very large?`,
       L,
       [c,L+c,0],
       `As n grows, ${c}/n approaches 0. Therefore aₙ approaches ${L}+0=${L}.`);
@@ -986,11 +1052,12 @@
 
   function qAreaUnderConstant(rng) {
     const rate=ri(rng,2,12), time=ri(rng,3,10), area=rate*time;
+    const graph=svgLineGraph([[0,rate],[time,rate]],`velocity-time graph: velocity ${rate} from 0 to ${time}`,"Time","Velocity");
     return makeQuestion(rng,
-      `A graph of velocity versus time is the horizontal line <span class="math-display">v=${rate}</span> from t=0 to t=${time}. What distance is represented by the area under the graph?`,
+      `${graph}The graph shows constant velocity from time 0 to time ${time}. What distance is represented by the area between the graph and the time axis?`,
       area,
       [rate+time,rate/time,2*(rate+time)],
-      `The area is a rectangle with height ${rate} and width ${time}, so distance=${rate}×${time}=${area}.`);
+      `The region is a rectangle with height ${rate} and width ${time}, so its area is ${rate}\\(\\cdot\\)${time}=${area}.`, {visual:true});
   }
 
   function qInstantaneousRate(rng) {
@@ -1002,6 +1069,108 @@
       `For f(x)=x², f′(x)=2x. Thus f′(${a})=2(${a})=${slope}.`);
   }
 
+  // ---------- Visual, table, chart, and graph generators ----------
+  function qFunctionTable(rng) {
+    const m=pick(rng,[2,3,4,5,-2,-3]), b=ri(rng,-5,6), xs=[-1,0,1,2], rows=xs.map(x=>[x,m*x+b]);
+    const table=dataTable(["x","y"],rows,"Values of a function");
+    const correct=`y = ${m}x ${b>=0?"+":"−"} ${Math.abs(b)}`;
+    return makeQuestion(rng,`${table}Which equation represents the relationship in the table?`,correct,
+      [`y = ${b}x ${m>=0?"+":"−"} ${Math.abs(m)}`,`y = ${m}x ${-b>=0?"+":"−"} ${Math.abs(b)}`,`y = ${m+b}x`],
+      `Each increase of 1 in x changes y by ${m}, so the slope is ${m}. When x=0, y=${b}; therefore the equation is ${correct}.`,{visual:true});
+  }
+
+  function qRatioTable(rng) {
+    const k=pick(rng,[2,3,4,5,6]), xs=[2,4,6,8], rows=xs.map(x=>[x,k*x]);
+    const table=dataTable(["Number of packages","Total items"],rows,"Package relationship");
+    return makeQuestion(rng,`${table}How many items are in each package?`,k,[k+1,k*2,Math.round(k/2)],
+      `The ratio total items to packages is constant: for example, ${2*k}÷2=${k} items per package.`,{visual:true});
+  }
+
+  function qTableRateOfChange(rng) {
+    const m=pick(rng,[3,4,5,6,-2,-3]), b=ri(rng,0,10), xs=[0,2,4,6], rows=xs.map(x=>[x,m*x+b]);
+    const table=dataTable(["x","f(x)"],rows,"Function values");
+    return makeQuestion(rng,`${table}What is the average rate of change of the function from x=2 to x=6?`,m,
+      [m*2,m+1,b],`The change in f(x) is ${m*6+b}−${m*2+b}=${4*m}, while the change in x is 4. Thus the average rate of change is ${4*m}/4=${m}.`,{visual:true});
+  }
+
+  function qBarChartInterpret(rng) {
+    const labels=["A","B","C","D"], vals=shuffle(rng,[12,18,24,30]), chart=svgBarChart(labels,vals,"Books read by four groups","Books");
+    const hi=Math.max(...vals), lo=Math.min(...vals), correct=hi-lo;
+    return makeQuestion(rng,`${chart}How many more books did the group with the greatest number read than the group with the least number?`,correct,
+      [hi,lo,hi+lo],`Read the largest and smallest bar heights from the vertical scale: ${hi}−${lo}=${correct}.`,{visual:true});
+  }
+
+  function qLineGraphInterpret(rng) {
+    const start=ri(rng,4,10), changes=[0,2,5,3,7], points=changes.map((v,i)=>[i,start+v]), graph=svgLineGraph(points,"temperature over five hours","Hours","Temperature");
+    const correct=points[2][1];
+    return makeQuestion(rng,`${graph}What value is shown at hour 2?`,correct,
+      [points[1][1],points[3][1],points[4][1]],`Locate x=2 on the horizontal axis and read the corresponding plotted y-value, ${correct}.`,{visual:true});
+  }
+
+  function qDataTableMean(rng) {
+    const vals=[ri(rng,6,14),ri(rng,6,14),ri(rng,6,14),ri(rng,6,14)];
+    const sum=vals.reduce((a,b)=>a+b,0), adjusted=sum%4, fix=adjusted?4-adjusted:0; vals[3]+=fix;
+    const table=dataTable(["Day","Number of customers"],vals.map((v,i)=>[i+1,v]),"Four-day data");
+    const mean=vals.reduce((a,b)=>a+b,0)/4;
+    return makeQuestion(rng,`${table}What is the mean number of customers per day?`,mean,[Math.max(...vals),Math.min(...vals),mean+2],
+      `Add the four values and divide by 4: (${vals.join("+")})/4=${mean}.`,{visual:true});
+  }
+
+  function qBoxPlotInterpret(rng) {
+    const min=ri(rng,2,6),q1=min+ri(rng,2,4),med=q1+ri(rng,2,4),q3=med+ri(rng,2,5),max=q3+ri(rng,2,5),plot=svgBoxPlot(min,q1,med,q3,max);
+    const correct=q3-q1;
+    return makeQuestion(rng,`${plot}What is the interquartile range of the data represented by the box plot?`,correct,
+      [max-min,med-q1,q3-med],`The interquartile range is Q3−Q1=${q3}−${q1}=${correct}.`,{visual:true});
+  }
+
+  function qHistogramInterpret(rng) {
+    const vals=[4,7,11,6], labels=["0–9","10–19","20–29","30–39"], chart=svgBarChart(labels,vals,"Frequency distribution","Frequency");
+    return makeQuestion(rng,`${chart}Which interval contains the greatest frequency?`,`20–29`,["0–9","10–19","30–39"],
+      `The tallest bar has height 11 and corresponds to the interval 20–29.`,{visual:true});
+  }
+
+  function qScatterAssociation(rng) {
+    const positive=rng()<.5;
+    const pts=Array.from({length:10},(_,i)=>{const x=i+1; const y=positive?1.4*x+ri(rng,-2,2):17-1.2*x+ri(rng,-2,2); return [x,Math.max(1,y)];});
+    const plot=svgScatter(pts,null,positive?"scatterplot with positive association":"scatterplot with negative association");
+    const correct=positive?"a negative association".replace("negative","positive"):"a negative association";
+    return makeQuestion(rng,`${plot}Which description best characterizes the relationship shown?`,correct,
+      [positive?"a negative association":"a positive association","no apparent association","a perfect horizontal relationship"],
+      `As x increases, y generally ${positive?"increases":"decreases"}, indicating ${correct}.`,{visual:true});
+  }
+
+  function qScatterPrediction(rng) {
+    const m=-.5,b=12,pts=Array.from({length:10},(_,i)=>[i+1,b+m*(i+1)+ri(rng,-1,1)]),line=[[0,b],[18,b+m*18]],plot=svgScatter(pts,line,"scatterplot with a line of best fit");
+    const x=14,correct=Math.round(b+m*x);
+    return makeQuestion(rng,`${plot}Using the line of best fit, what is the best estimate of y when x=${x}?`,correct,
+      [correct-3,correct+3,Math.round(b)],`The line of best fit is near y=${correct} when x=${x}. A graph-based estimate is appropriate rather than an exact data-point lookup.`,{visual:true});
+  }
+
+  function qTwoWayTableProbability(rng) {
+    const a=18,b=12,c=9,d=21, table=dataTable(["","Prefers X","Prefers Y","Total"],[["Group 1",a,b,a+b],["Group 2",c,d,c+d],["Total",a+c,b+d,a+b+c+d]],"Survey results");
+    const correct=frac(a,a+b);
+    return makeQuestion(rng,`${table}A person is selected at random from Group 1. What is the probability that the person prefers X?`,correct,
+      [frac(a,a+b+c+d),frac(a+c,a+b+c+d),frac(b,a+b)],`The condition “from Group 1” restricts the sample space to ${a+b} people. Of those, ${a} prefer X, so the probability is ${frac(a,a+b)}.`,{visual:true});
+  }
+
+  function qGeometryDiagram(rng) {
+    const A=ri(rng,35,65),B=ri(rng,35,65),C=180-A-B,diagram=svgTriangleDiagram(A,B,"x°","triangle with two known angles and one unknown angle");
+    return makeQuestion(rng,`${diagram}What is the value of x?`,C,[180-A,180-B,A+B],
+      `The interior angles of a triangle sum to 180°. Thus x=180−${A}−${B}=${C}.`,{visual:true});
+  }
+
+  function qCoordinateGraphPoint(rng) {
+    const x=ri(rng,-4,4),y=ri(rng,-4,4),plot=svgCoordinatePoint(x,y,"coordinate plane with point P");
+    return makeQuestion(rng,`${plot}What are the coordinates of point P?`,`(${x}, ${y})`,
+      [`(${y}, ${x})`,`(${-x}, ${y})`,`(${x}, ${-y})`],`Read the horizontal coordinate first and then the vertical coordinate: P=(${x},${y}).`,{visual:true});
+  }
+
+  function qGraphModelType(rng) {
+    const pts=[[0,2],[1,4],[2,8],[3,16],[4,32]],plot=svgScatter(pts,null,"rapidly increasing data points");
+    return makeQuestion(rng,`${plot}Which type of model is most appropriate for these data?`,`exponential`,["linear","quadratic","constant"],
+      `The y-values approximately double whenever x increases by 1, which is characteristic of exponential growth.`,{visual:true});
+  }
+
   const categories = {};
   function category(id, label, description, pool, group = "") {
     categories[id] = { id, label, description, pool, group };
@@ -1011,11 +1180,11 @@
   const ec6Num = category("ec6-number", "Number Concepts and Operations", "Whole numbers, fractions, decimals, percents, number theory, estimation, and representations.",
     [qWholeOperation,qDivisionContext,qPlaceValue,qRounding,qFractionAdd,qFractionMultiply,qFractionDivide,qFractionOfQuantity,qDecimalOperation,qPercentOf,qPercentChange,qEquivalentRepresentations,qCompareNumbers,qPrimeFactorization,qGcdLcm,qEstimation]);
   const ec6Alg = category("ec6-algebra", "Patterns and Algebra", "Patterns, sequences, expressions, equations, proportional relationships, tables, and elementary functions.",
-    [qPatternReasoning,qSequence,qSimplifyExpression,qEvaluateExpression,qLinearEquation,qProportion,qLinearApplication,qProportionalModel,qFunctionEvaluate]);
+    [qPatternReasoning,qSequence,qSimplifyExpression,qEvaluateExpression,qLinearEquation,qProportion,qLinearApplication,qProportionalModel,qFunctionEvaluate,qFunctionTable,qRatioTable]);
   const ec6Geo = category("ec6-geometry", "Geometry and Measurement", "Two- and three-dimensional figures, coordinate ideas, transformations, angles, measurement, and conversions.",
-    [qRectangleAreaPerimeter,qTriangleArea,qCircle,qVolumePrism,qCylinderVolume,qPythagorean,qDistanceMidpoint,qAngles,qPolygonAngles,qSimilarityScale,qTransformation,qUnitConversion]);
+    [qRectangleAreaPerimeter,qTriangleArea,qCircle,qVolumePrism,qCylinderVolume,qPythagorean,qDistanceMidpoint,qAngles,qPolygonAngles,qSimilarityScale,qTransformation,qUnitConversion,qGeometryDiagram,qCoordinateGraphPoint]);
   const ec6Stat = category("ec6-statistics", "Probability and Statistics", "Data displays and summaries, sample spaces, simple and compound probability, and elementary inference.",
-    [qMeanMedian,qRangeIqr,qWeightedMean,qSimpleProbability,qCompoundProbability,qWithoutReplacement,qSetProbability,qCorrelation,qSamplingInference]);
+    [qMeanMedian,qRangeIqr,qWeightedMean,qSimpleProbability,qCompoundProbability,qWithoutReplacement,qSetProbability,qCorrelation,qSamplingInference,qBarChartInterpret,qLineGraphInterpret,qDataTableMean,qBoxPlotInterpret]);
   const ec6Proc = category("ec6-processes", "Processes and Financial Literacy", "Problem solving, reasonableness, modeling, estimation, personal finance, rates, and dimensional reasoning.",
     [qSimpleInterest,qBudget,qEstimation,qLogicCounterexample,qReasonableness,qDimensionalAnalysis,qProportionalModel,qPercentChange]);
 
@@ -1026,27 +1195,27 @@
   const c807_3 = category("807-c03", "C03: Number Theory and Numerical Modeling", "Prime factorization, GCD and LCM, counting, estimation, scientific notation, and applications of real numbers.",
     [qPrimeFactorization,qGcdLcm,qCounting,qEstimation,qScientificNotation,qDimensionalAnalysis,qPercentChange]);
   const c807_4 = category("807-c04", "C04: Patterns, Expressions, Relations, and Functions", "Patterns, sequences, variables, expressions, equations, relations, and function representations.",
-    [qPatternReasoning,qSequence,qEvaluateExpression,qSimplifyExpression,qFunctionEvaluate,qFunctionComposition,qAbsoluteValueEquation]);
+    [qPatternReasoning,qSequence,qEvaluateExpression,qSimplifyExpression,qFunctionEvaluate,qFunctionComposition,qAbsoluteValueEquation,qFunctionTable]);
   const c807_5 = category("807-c05", "C05: Linear Functions", "Proportions, direct variation, slope, graphs, equations, inequalities, systems, and linear modeling.",
-    [qProportion,qProportionalModel,qSlope,qLineEquation,qGraphSlope,qLinearEquation,qLinearInequality,qLinearApplication,qSystemEquations]);
+    [qProportion,qProportionalModel,qSlope,qLineEquation,qGraphSlope,qLinearEquation,qLinearInequality,qLinearApplication,qSystemEquations,qFunctionTable,qTableRateOfChange]);
   const c807_6 = category("807-c06", "C06: Nonlinear Functions", "Quadratics, polynomials, radicals, rational functions, exponentials, logarithms, trigonometry, and transformations.",
-    [qFactorQuadratic,qDifferenceSquares,qQuadraticRoots,qQuadraticVertex,qDiscriminant,qRadicalEquation,qRationalEquation,qPolynomialRemainder,qExponentialGrowth,qLogarithm,qTrigRightTriangle,qTrigExact,qFunctionDomain,qAbsoluteValueEquation]);
+    [qFactorQuadratic,qDifferenceSquares,qQuadraticRoots,qQuadraticVertex,qDiscriminant,qRadicalEquation,qRationalEquation,qPolynomialRemainder,qExponentialGrowth,qLogarithm,qTrigRightTriangle,qTrigExact,qFunctionDomain,qAbsoluteValueEquation,qGraphModelType]);
   const c807_7 = category("807-c07", "C07: Conceptual Foundations of Calculus", "Limits, average and instantaneous rates of change, and area-under-a-curve interpretations.",
     [qRateOfChange,qLimitSequence,qAreaUnderConstant,qInstantaneousRate,qGraphSlope]);
   const c807_8 = category("807-c08", "C08: Measurement", "Units, conversions, dimensional analysis, precision, error, Pythagorean applications, and right-triangle trigonometry.",
     [qUnitConversion,qDimensionalAnalysis,qMeasurementError,qPythagorean,qTrigRightTriangle,qRectangleAreaPerimeter,qCylinderVolume]);
   const c807_9 = category("807-c09", "C09: Euclidean Geometry", "Points, lines, planes, angles, parallelism, congruence, constructions, and deductive geometry.",
-    [qAngles,qPolygonAngles,qPythagorean,qSimilarityScale,qLogicCounterexample,qDistanceMidpoint]);
+    [qAngles,qPolygonAngles,qPythagorean,qSimilarityScale,qLogicCounterexample,qDistanceMidpoint,qGeometryDiagram]);
   const c807_10 = category("807-c10", "C10: Two- and Three-Dimensional Figures", "Length, perimeter, area, volume, similarity, scaling, circles, polygons, prisms, cylinders, and spheres.",
     [qRectangleAreaPerimeter,qTriangleArea,qCircle,qVolumePrism,qCylinderVolume,qSimilarityScale,qPolygonAngles]);
   const c807_11 = category("807-c11", "C11: Coordinate and Transformational Geometry", "Slope, midpoint, distance, transformations, symmetry, dilation, and coordinate modeling.",
-    [qDistanceMidpoint,qTransformation,qSlope,qLineEquation,qGraphSlope,qSimilarityScale]);
+    [qDistanceMidpoint,qTransformation,qSlope,qLineEquation,qGraphSlope,qSimilarityScale,qCoordinateGraphPoint]);
   const c807_12 = category("807-c12", "C12: Describing Data", "Displays, center, spread, shape, quartiles, percentiles, outliers, and one-variable data.",
-    [qMeanMedian,qWeightedMean,qRangeIqr,qCorrelation,qNormalRule]);
+    [qMeanMedian,qWeightedMean,qRangeIqr,qCorrelation,qNormalRule,qBarChartInterpret,qDataTableMean,qBoxPlotInterpret,qHistogramInterpret]);
   const c807_13 = category("807-c13", "C13: Probability", "Experimental and theoretical probability, sample spaces, compound events, counting, and distributions.",
-    [qSimpleProbability,qCompoundProbability,qWithoutReplacement,qCounting,qSetProbability,qConditionalProbability,qNormalRule]);
+    [qSimpleProbability,qCompoundProbability,qWithoutReplacement,qCounting,qSetProbability,qConditionalProbability,qNormalRule,qTwoWayTableProbability]);
   const c807_14 = category("807-c14", "C14: Sampling and Statistical Inference", "Random sampling, confidence, distributions, scatterplots, correlation, regression, and prediction.",
-    [qSamplingInference,qCorrelation,qNormalRule,qConditionalProbability,qMeanMedian,qSetProbability]);
+    [qSamplingInference,qCorrelation,qNormalRule,qConditionalProbability,qMeanMedian,qSetProbability,qScatterAssociation,qScatterPrediction,qGraphModelType]);
   const c807_15 = category("807-c15", "C15: Reasoning and Problem Solving", "Proof, counterexamples, inductive and deductive reasoning, estimation, modeling, and reasonableness.",
     [qLogicCounterexample,qReasonableness,qEstimation,qProportionalModel,qDimensionalAnalysis,qPatternReasoning]);
   const c807_16 = category("807-c16", "C16: Mathematical Connections and Communication", "Connections among representations and applications across finance, science, geometry, algebra, and data.",
@@ -1055,13 +1224,13 @@
   const m115Num = category("115-number", "Domain I: Number Concepts", "Number systems, operations, algorithms, number theory, counting, estimation, and numerical modeling.",
     [qPlaceValue,qEquivalentRepresentations,qCompareNumbers,qScientificNotation,qNumberSet,qComplexArithmetic,qFractionAdd,qFractionMultiply,qFractionDivide,qDecimalOperation,qExponentLaw,qPrimeFactorization,qGcdLcm,qCounting,qEstimation]);
   const m115Alg = category("115-algebra", "Domain II: Patterns and Algebra", "Patterns, expressions, linear and nonlinear functions, systems, transformations, and conceptual calculus.",
-    [qPatternReasoning,qSequence,qEvaluateExpression,qSimplifyExpression,qLinearEquation,qLinearInequality,qProportion,qSlope,qLineEquation,qGraphSlope,qLinearApplication,qSystemEquations,qFunctionEvaluate,qFunctionComposition,qFactorQuadratic,qDifferenceSquares,qQuadraticRoots,qQuadraticVertex,qDiscriminant,qRadicalEquation,qRationalEquation,qPolynomialRemainder,qExponentialGrowth,qLogarithm,qTrigRightTriangle,qTrigExact,qFunctionDomain,qAbsoluteValueEquation,qRateOfChange,qLimitSequence,qAreaUnderConstant,qInstantaneousRate]);
+    [qPatternReasoning,qSequence,qEvaluateExpression,qSimplifyExpression,qLinearEquation,qLinearInequality,qProportion,qSlope,qLineEquation,qGraphSlope,qLinearApplication,qSystemEquations,qFunctionEvaluate,qFunctionComposition,qFactorQuadratic,qDifferenceSquares,qQuadraticRoots,qQuadraticVertex,qDiscriminant,qRadicalEquation,qRationalEquation,qPolynomialRemainder,qExponentialGrowth,qLogarithm,qTrigRightTriangle,qTrigExact,qFunctionDomain,qAbsoluteValueEquation,qRateOfChange,qLimitSequence,qAreaUnderConstant,qInstantaneousRate,qFunctionTable,qTableRateOfChange,qGraphModelType]);
   const m115Geo = category("115-geometry", "Domain III: Geometry and Measurement", "Measurement, Euclidean geometry, figures, coordinate geometry, transformations, similarity, and trigonometry.",
-    [qUnitConversion,qDimensionalAnalysis,qMeasurementError,qPythagorean,qTrigRightTriangle,qRectangleAreaPerimeter,qTriangleArea,qCircle,qVolumePrism,qCylinderVolume,qAngles,qPolygonAngles,qSimilarityScale,qDistanceMidpoint,qTransformation,qSlope]);
+    [qUnitConversion,qDimensionalAnalysis,qMeasurementError,qPythagorean,qTrigRightTriangle,qRectangleAreaPerimeter,qTriangleArea,qCircle,qVolumePrism,qCylinderVolume,qAngles,qPolygonAngles,qSimilarityScale,qDistanceMidpoint,qTransformation,qSlope,qGeometryDiagram,qCoordinateGraphPoint]);
   const m115Stat = category("115-statistics", "Domain IV: Probability and Statistics", "Data analysis, measures of center and spread, probability, counting, distributions, sampling, inference, and correlation.",
-    [qMeanMedian,qWeightedMean,qRangeIqr,qSimpleProbability,qCompoundProbability,qWithoutReplacement,qCounting,qSetProbability,qConditionalProbability,qCorrelation,qNormalRule,qSamplingInference]);
+    [qMeanMedian,qWeightedMean,qRangeIqr,qSimpleProbability,qCompoundProbability,qWithoutReplacement,qCounting,qSetProbability,qConditionalProbability,qCorrelation,qNormalRule,qSamplingInference,qBarChartInterpret,qLineGraphInterpret,qDataTableMean,qBoxPlotInterpret,qHistogramInterpret,qScatterAssociation,qScatterPrediction,qTwoWayTableProbability,qGraphModelType]);
   const m115Proc = category("115-processes", "Domain V: Mathematical Processes and Perspectives", "Reasoning, proof, modeling, connections, estimation, financial mathematics, and evaluation of solutions.",
-    [qLogicCounterexample,qReasonableness,qEstimation,qDimensionalAnalysis,qProportionalModel,qSimpleInterest,qBudget,qPatternReasoning,qLinearApplication]);
+    [qLogicCounterexample,qReasonableness,qEstimation,qDimensionalAnalysis,qProportionalModel,qSimpleInterest,qBudget,qPatternReasoning,qLinearApplication,qTableRateOfChange]);
 
   // ACCUPLACER Arithmetic
   const arWhole = category("acc-ar-whole", "Whole Number Operations", "Computation, order of operations, estimation, rounding, place value, and whole-number applications.",
@@ -1174,43 +1343,203 @@
     }
   };
 
-  function generateCategoryQuestions(categoryId, count, seedText) {
+  function promptKey(prompt) {
+    return String(prompt || "").replace(/\s+/g, " ").trim();
+  }
+
+  function cloneQuestion(q) {
+    return { ...q, choices: q.choices.slice() };
+  }
+
+  function transformedQuestion(base, rng, style, tag) {
+    const correct = base.choices[base.answer];
+    const wrong = base.choices.filter((_, i) => i !== base.answer);
+    let prompt, choices, answer, explanation;
+    if (style % 2 === 0) {
+      const k = style % wrong.length;
+      prompt = `${base.prompt}<div class="comparison-box"><p>A candidate is comparing two possible responses.</p><p><strong>I.</strong> ${correct}<br><strong>II.</strong> ${wrong[k]}</p><p>Which statement is correct?</p></div>`;
+      choices = ["I only", "II only", "Both I and II", "Neither I nor II"];
+      answer = 0;
+      explanation = `Response I is correct and response II is not. ${base.explanation}`;
+    } else {
+      const k = style % wrong.length;
+      prompt = `<div class="error-analysis"><p>A student selected <strong>${wrong[k]}</strong> for the problem below.</p><div class="mini-stem">${base.prompt}</div><p>Which response should replace the student's answer?</p></div>`;
+      choices = [correct, ...wrong];
+      answer = 0;
+      explanation = `The student's selected response is not correct. ${base.explanation}`;
+    }
+    const opts = shuffle(rng, choices.map((text, i) => ({ text, ok: i === answer })));
+    return {
+      ...base,
+      prompt,
+      choices: opts.map(x => x.text),
+      answer: opts.findIndex(x => x.ok),
+      explanation,
+      transformedTag: tag
+    };
+  }
+
+  function buildUniqueQuestions(categoryId, count, seedText, usedPrompts, modeTag) {
     const cat = categories[categoryId];
     if (!cat) throw new Error(`Unknown category: ${categoryId}`);
-    const rng = rngFromSeed(seedText);
-    const questions = [];
-    let lastIndex = -1;
-    for (let i=0;i<count;i++) {
-      let idx = Math.floor(rng()*cat.pool.length);
-      if (cat.pool.length>1 && idx===lastIndex) idx=(idx+1+ri(rng,0,cat.pool.length-2))%cat.pool.length;
-      lastIndex=idx;
-      const q=cat.pool[idx](rng);
-      q.categoryId=categoryId;
-      q.categoryLabel=cat.label;
-      q.id=`${categoryId}-${hashString(seedText+":"+i+":"+q.prompt).toString(36)}`;
-      questions.push(q);
+    const templateOrder = shuffle(rngFromSeed(`${seedText}:template-order:v2`), cat.pool.map((_, i) => i));
+    const out = [], local = new Set();
+
+    for (let item = 0; item < count; item++) {
+      let accepted = null;
+      // First prefer a normal, direct item. Cycle through all templates and
+      // several independent parameter seeds before using a transformed fallback.
+      for (let pass = 0; pass < 18 && !accepted; pass++) {
+        for (let offset = 0; offset < templateOrder.length && !accepted; offset++) {
+          const ti = templateOrder[(item + offset + pass) % templateOrder.length];
+          const r = rngFromSeed(`${seedText}:item-${item}:template-${ti}:pass-${pass}:v2`);
+          const q = cat.pool[ti](r);
+          const key = promptKey(q.prompt);
+          if (!usedPrompts.has(key) && !local.has(key)) accepted = q;
+        }
+      }
+
+      // Some conceptual templates are intentionally fixed. If their direct
+      // wording has already appeared, use a different reasoning task built
+      // around the concept rather than repeating the same prompt.
+      if (!accepted) {
+        for (let pass = 0; pass < 200 && !accepted; pass++) {
+          const ti = templateOrder[(item + pass) % templateOrder.length];
+          const r = rngFromSeed(`${seedText}:fallback-${item}-${pass}:v2`);
+          const raw = cat.pool[ti](r);
+          const q = transformedQuestion(raw, r, pass, `${modeTag}:${item}:${pass}`);
+          const key = promptKey(q.prompt);
+          if (!usedPrompts.has(key) && !local.has(key)) accepted = q;
+        }
+      }
+      if (!accepted) throw new Error(`Could not create a distinct fixed question for ${categoryId}`);
+      accepted.categoryId = categoryId;
+      accepted.categoryLabel = cat.label;
+      accepted.id = `${categoryId}-${hashString(`${seedText}:${item}:${accepted.prompt}`).toString(36)}`;
+      local.add(promptKey(accepted.prompt));
+      usedPrompts.add(promptKey(accepted.prompt));
+      out.push(accepted);
     }
-    return questions;
+    return out;
+  }
+
+  function isVisualQuestion(q) { return !!q.visual || /visual-block|svg-graph|data-table|chart-svg|diagram-svg/.test(String(q.prompt||"")); }
+  function visualGeneratorsFor(categoryId) {
+    const cat=categories[categoryId];
+    return cat.pool.filter((fn,i)=>{
+      try { return isVisualQuestion(fn(rngFromSeed(`visual-probe:${categoryId}:${i}`))); } catch { return false; }
+    });
+  }
+  function buildUniqueVisualQuestion(categoryId, seedText, usedPrompts) {
+    const cat=categories[categoryId], vp=visualGeneratorsFor(categoryId);
+    if (!vp.length) return null;
+    for (let pass=0; pass<120; pass++) {
+      const fn=vp[pass%vp.length], r=rngFromSeed(`${seedText}:visual:${pass}`), q=fn(r), key=promptKey(q.prompt);
+      if (!usedPrompts.has(key)) {
+        q.categoryId=categoryId; q.categoryLabel=cat.label; q.id=`${categoryId}-${hashString(`${seedText}:${pass}:${q.prompt}`).toString(36)}`; q.visual=true;
+        usedPrompts.add(key); return q;
+      }
+    }
+    return null;
+  }
+  function enforceVisualMinimum(examId, qs, used, formIndex) {
+    const target=({ec6:5,core48:6,math48:12})[examId]||0;
+    let current=qs.filter(isVisualQuestion).length;
+    if (current>=target) return qs;
+    const e=exams[examId], cats=e.categories.filter(id=>visualGeneratorsFor(id).length);
+    let guard=0, ci=formIndex%Math.max(1,cats.length);
+    while(current<target && guard++<300 && cats.length){
+      const catId=cats[ci%cats.length]; ci++;
+      const replaceIndex=qs.findIndex(q=>q.categoryId===catId && !isVisualQuestion(q));
+      if(replaceIndex<0) continue;
+      const v=buildUniqueVisualQuestion(catId,`${examId}:fixed-full:${formIndex}:forced:${current}:${catId}`,used);
+      if(!v) continue;
+      qs[replaceIndex]=v; current++;
+    }
+    return qs;
+  }
+
+  const FIXED = { full: {}, topic: {} };
+  function buildFixedAssessments() {
+    for (const [examId, exam] of Object.entries(exams)) {
+      const used = new Set();
+      FIXED.full[examId] = [];
+      for (let formIndex = 0; formIndex < exam.forms; formIndex++) {
+        let qs = [];
+        for (const categoryId of exam.categories) {
+          qs = qs.concat(buildUniqueQuestions(
+            categoryId,
+            exam.weights[categoryId],
+            `${examId}:fixed-full:${formIndex}:${categoryId}`,
+            used,
+            `full-${formIndex}`
+          ));
+        }
+        qs = enforceVisualMinimum(examId, qs, used, formIndex);
+        qs = shuffle(rngFromSeed(`${examId}:fixed-full:${formIndex}:shuffle:v2`), qs);
+        qs.forEach((q, i) => q.order = i + 1);
+        FIXED.full[examId].push(qs);
+      }
+
+      FIXED.topic[examId] = {};
+      for (const categoryId of exam.categories) {
+        FIXED.topic[examId][categoryId] = [];
+        for (let versionIndex = 0; versionIndex < exam.topicVersions; versionIndex++) {
+          const qs = buildUniqueQuestions(
+            categoryId,
+            exam.topicCount,
+            `${examId}:fixed-topic:${categoryId}:${versionIndex}`,
+            used,
+            `topic-${versionIndex}`
+          );
+          qs.forEach((q, i) => q.order = i + 1);
+          FIXED.topic[examId][categoryId].push(qs);
+        }
+      }
+    }
+  }
+  buildFixedAssessments();
+
+  function parseFormIndex(seedText) {
+    const m = String(seedText).match(/form-([A-Z])/);
+    return m ? m[1].charCodeAt(0) - 65 : null;
+  }
+  function parseTopicIndex(seedText) {
+    const m = String(seedText).match(/topic-(\d+)/);
+    return m ? Number(m[1]) - 1 : null;
+  }
+
+  function generateCategoryQuestions(categoryId, count, seedText) {
+    // Random practice: unique within the current assessment, but allowed to
+    // revisit concepts seen on fixed forms because it is intentionally open-ended.
+    return buildUniqueQuestions(categoryId, count, seedText, new Set(), "random");
   }
 
   function generateFullExam(examId, seedText) {
-    const exam=exams[examId];
-    if(!exam) throw new Error(`Unknown exam: ${examId}`);
-    let questions=[];
-    exam.categories.forEach(categoryId=>{
-      const count=exam.weights[categoryId];
-      questions=questions.concat(generateCategoryQuestions(categoryId,count,`${seedText}:${categoryId}`));
-    });
-    const rng=rngFromSeed(`${seedText}:shuffle`);
-    questions=shuffle(rng,questions);
-    questions.forEach((q,i)=>q.order=i+1);
+    const exam = exams[examId];
+    if (!exam) throw new Error(`Unknown exam: ${examId}`);
+    const formIndex = parseFormIndex(seedText);
+    if (formIndex !== null && FIXED.full[examId] && FIXED.full[examId][formIndex]) {
+      return FIXED.full[examId][formIndex].map(cloneQuestion);
+    }
+    const used = new Set();
+    let questions = [];
+    for (const categoryId of exam.categories) {
+      questions = questions.concat(buildUniqueQuestions(categoryId, exam.weights[categoryId], `${seedText}:${categoryId}`, used, "random-full"));
+    }
+    questions = shuffle(rngFromSeed(`${seedText}:shuffle:v2`), questions);
+    questions.forEach((q, i) => q.order = i + 1);
     return questions;
   }
 
   function generateTopicQuiz(examId, categoryId, seedText) {
-    const exam=exams[examId];
-    if(!exam || !exam.categories.includes(categoryId)) throw new Error("Topic does not belong to exam");
-    return generateCategoryQuestions(categoryId,exam.topicCount,seedText).map((q,i)=>({...q,order:i+1}));
+    const exam = exams[examId];
+    if (!exam || !exam.categories.includes(categoryId)) throw new Error("Topic does not belong to exam");
+    const topicIndex = parseTopicIndex(seedText);
+    if (topicIndex !== null && FIXED.topic[examId]?.[categoryId]?.[topicIndex]) {
+      return FIXED.topic[examId][categoryId][topicIndex].map(cloneQuestion);
+    }
+    return buildUniqueQuestions(categoryId, exam.topicCount, seedText, new Set(), "random-topic").map((q, i) => ({ ...q, order: i + 1 }));
   }
 
   global.MathQuizData = {

@@ -69,9 +69,9 @@ Open `index.html` after uploading the complete folder to a static web host.
 
 ## Validation
 
-`VALIDATION.json` records automated form and topic generation checks. The current package generated and checked 10,684 fixed-form and fixed-topic question instances across 19 exam configurations with zero structural errors. Local links and JavaScript syntax were also checked.
+The final automated checks covered 10,684 fixed-form/fixed-topic question instances and 2,622 additional randomly generated question instances across 19 exam configurations with zero structural errors. Fixed full forms, fixed topic versions, and their cross-overlap were also checked for exact prompt duplication within each exam configuration. Local links, JavaScript syntax, and MathJax delimiter balance were checked.
 
-The managed Chromium executable in the build container could not complete a headless render because it hung while attempting to access unavailable system-bus services. The new centers use the unchanged shared interface engine already used by the working science, social studies, and ELAR centers.
+This revision also adds substantial chart/table/graph/diagram practice and MathJax typesetting to the mathematics portions. See `REVISION_NOTES.md` for details.
 
 ## Alignment and limitations
 
@@ -82,3 +82,8 @@ Official frameworks used for the new centers:
 - Core Subjects EC–6 (391), including Subject Exam 905: `https://www.tx.nesinc.com/Content/StudyGuide/TX_SG_obj_391.htm`
 - ELAR/Social Studies 4–8 (113): `https://www.tx.nesinc.com/Content/StudyGuide/TX_SG_obj_113_2021.htm`
 - Mathematics/Science 4–8 (114): `https://www.tx.nesinc.com/Content/StudyGuide/TX_SG_obj_114.htm`
+
+
+## Local MathJax
+
+MathJax 3.2.2 is bundled locally in `vendor/mathjax/`. The mathematics and combined 4–8 centers load `vendor/mathjax/es5/tex-chtml.js` rather than an external CDN, so mathematical notation remains available on restricted or offline networks. MathJax is distributed under the Apache License 2.0; its license is included at `vendor/mathjax/LICENSE`.
