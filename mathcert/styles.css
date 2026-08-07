@@ -332,3 +332,30 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 .portal-link { color: inherit; text-decoration: none; }
 .portal-footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem; margin-bottom: .6rem; }
 .primary-button, .secondary-button, .ghost-button, .danger-button { text-decoration: none; }
+
+/* Secondary mathematics visual items */
+.svg-graph { overflow: visible; }
+.grid-line { stroke: #e2e8ef; stroke-width: 1; }
+.axis-line { stroke: #526272; stroke-width: 1.6; }
+.plot-line { fill: none; stroke: #184e77; stroke-width: 3; }
+.plot-2 { stroke-dasharray: 8 5; stroke: #7b3f72; }
+.plot-point { fill: #184e77; stroke: white; stroke-width: 1.4; }
+.plot-hole { fill: white; stroke: #184e77; stroke-width: 2.5; }
+.trend-line { stroke: #7b3f72; stroke-width: 2; stroke-dasharray: 7 5; }
+.bar-mark { fill: #407ba7; }
+.box-mark { fill: #dcebf4; stroke: #184e77; stroke-width: 2; }
+.median-line { stroke: #7b3f72; stroke-width: 3; }
+.chart-label,.axis-label,.diagram-label { font: 14px system-ui, sans-serif; fill: #263442; }
+.diagram-line { fill: none; stroke: #34495e; stroke-width: 2.2; }
+.diagram-line.emphasis { stroke: #184e77; stroke-width: 3; }
+.shape-fill { fill: #eef4f8; stroke: #34495e; stroke-width: 2.2; }
+.slice-fill { fill: #d7e9f4; stroke: #184e77; stroke-width: 2; }
+.circle-mark { fill: none; stroke: #34495e; stroke-width: 2.2; }
+.arc-mark { fill: none; stroke: #7b3f72; stroke-width: 2.2; }
+.grid-dot { fill: #526272; }
+.tick-line { stroke: #7b3f72; stroke-width: 3; }
+.arrow-fill { fill: #184e77; }
+.question-prompt mjx-container[display="true"], .choice-button mjx-container[display="true"] { margin: .35em 0 !important; }
+.choice-button mjx-container { font-size: 1.02em; }
+.visual-note { font-size: .85rem; color: var(--muted); text-align: center; }
+.tick-label{font-size:10px;fill:currentColor;opacity:.78}

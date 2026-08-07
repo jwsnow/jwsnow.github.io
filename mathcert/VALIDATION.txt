@@ -1,27 +1,55 @@
-TExES Mathematics 7–12 (235) Practice Center — Validation
+TExES Mathematics 7–12 (235) Practice Center — Final Rebuild Validation
 
 Exam configuration
-- 1 exam center
+- 1 Mathematics 7–12 (235) exam center
 - 5 fixed full forms
-- 100 questions per full form
+- 100 questions per fixed full form
+- Exact domain allocation on every fixed form: 14 / 33 / 19 / 14 / 10 / 10
 - 21 competency centers
 - 4 fixed quizzes per competency
-- 12 questions per competency quiz
-- Full-form domain allocation: 14 / 33 / 19 / 14 / 10 / 10
+- 12 questions per fixed competency quiz
 
-Automated checks
-- 2,716 generated instances checked in the primary validation run
-- 25,200 additional topic-question instances generated in a runtime stress test
-- Correct form lengths and exact competency allocations
-- Four distinct choices per question
+Fixed-bank validation
+- 500 distinct fixed full-test items
+- 1,008 distinct fixed competency-practice items
+- No exact full-form overlap across Forms A–E
+- No exact overlap between fixed full tests and fixed competency quizzes
+- No repeated generator family within a competency on any fixed full form
+- Every fixed 12-question competency quiz uses 12 distinct generator families
+- No generic contextual fallback items were required in the fixed banks
+- Visual questions per fixed full form: A 40, B 39, C 40, D 40, E 38
+- Internal difficulty distribution per fixed form: 10 level-2, 51 level-3, 39 level-4 items
+
+Primary generation validation
+- 2,716 generated question instances checked
+- 0 structural errors
+- All 21 competencies represented
+- Four distinct choices per item
 - Valid answer indexes
 - Nonempty prompts and explanations
-- Valid competency metadata
-- No duplicate prompts within fixed Forms A–E
-- JavaScript syntax checks passed
-- Static local-link check passed
+- Valid category/domain metadata
+
+Random-generation stress test
+- 50 independently seeded 100-question full forms
+- 210 independently seeded competency quizzes
+- 7,520 total random question instances
+- 2,520 visual instances
+- 0 duplicate-prompt, family-repeat, form-length, category-allocation, choice, or answer-key errors
+
+MathJax audit
+- Local bundled MathJax 3.2.1
+- 18,072 text fields scanned
+- 9,613 fields containing TeX
+- 3,257 distinct TeX expressions compiled through the bundled MathJax parser
+- 0 MathJax parser errors
+- 0 raw TeX-command leaks detected outside math delimiters
+
+Technical checks
+- question-bank.js syntax check passed
+- app.js syntax check passed
+- MathJax is loaded locally before application scripts and dynamic redraws are re-typeset
 
 Limitations
-- Questions are original and framework-aligned but have not been field-tested, psychometrically calibrated, or externally validated item by item.
+- Difficulty labels are internal authoring classifications, not official Pearson statistics.
+- The questions are original and framework-aligned but have not been field-tested, psychometrically calibrated, or externally validated item by item.
 - Raw percentages are not official TExES scaled scores.
-- Headless Chromium could not complete in this container because of its system-bus dependency; the shared interface engine is reused from the previously working static practice sites.

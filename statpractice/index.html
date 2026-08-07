@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Statistics diagnostic exams and focused skill practice with detailed answer explanations.">
+  <title>Statistics Diagnostic & Practice Center</title>
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    window.MathJax={
+      tex:{inlineMath:[["\\(","\\)"]],displayMath:[["\\[","\\]"]],processEscapes:true},
+      options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}
+    };
+  </script>
+  <script defer src="vendor/mathjax/es5/tex-chtml.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="brand" data-action="home" role="button" tabindex="0" aria-label="Return home">
+    <span class="brand-mark">σ</span>
+    <span><strong>Statistics Practice Center</strong><small>Diagnose • Practice • Improve</small></span>
+  </div>
+  <nav class="header-actions">
+    <button class="ghost-button" data-action="progress">My progress</button>
+    <button class="ghost-button" data-action="about">About</button>
+  </nav>
+</header>
+<main id="main" tabindex="-1"></main>
+<footer class="site-footer">Practice questions are designed for course review and diagnosis. Scores are diagnostic rather than official course grades.</footer>
+<dialog id="leave-dialog"><form method="dialog"><h2>Leave this quiz?</h2><p>Your current answers will be lost.</p><div class="dialog-actions"><button value="cancel" class="secondary-button">Stay</button><button value="confirm" class="danger-button">Leave quiz</button></div></form></dialog>
+<script defer src="question-bank.js"></script>
+<script defer src="app.js"></script>
+</body>
+</html>

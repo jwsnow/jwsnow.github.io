@@ -1,0 +1,57 @@
+exam,skill,label,pool,quiz_count
+e1,s1_vocab,"Statistics Fundamentals",30,5
+e1,s1_design,"Sampling and Study Design",30,10
+e1,s1_types,"Types of Data",30,10
+e1,s1_graphs,"Graphs and Histograms",30,10
+e1,s1_scatter,"Scatterplots",30,10
+e2,s2_symbols,"Statistical Symbols",30,7
+e2,s2_center,"Measures of Center",30,10
+e2,s2_quartiles,"Quartiles and Five-Number Summaries",30,10
+e2,s2_variation,"Standard Deviation and Variance",30,10
+e2,s2_z,"Empirical Rule, Range Rule, and z-Scores",30,10
+e3,s3_vocab,"Probability Language and Approaches",30,5
+e3,s3_complement,"Complements and Basic Probability",30,10
+e3,s3_rules,"AND, OR, Independence, and Mutual Exclusivity",30,10
+e3,s3_conditional,"Conditional Probability and Dependence",30,10
+e3,s3_compound,"Compound Probability",30,10
+e4,s4_rv,"Random Variables and Distributions",30,6
+e4,s4_mean,"Expected Value of a Random Variable",30,10
+e4,s4_sd,"Standard Deviation of a Random Variable",30,10
+e4,s4_5rule,"The 5% Rule",30,10
+e4,s4_ev_apps,"Expected Value in Games and Insurance",30,10
+e5,s5_bin_rec,"Recognizing Binomial Settings",30,10
+e5,s5_bin_prob,"Binomial Probabilities",30,10
+e5,s5_bin_summary,"Binomial Mean, Standard Deviation, and Usual Values",30,10
+e5,s5_pois_prob,"Poisson Probabilities",30,10
+e5,s5_pois_summary,"Poisson Rates, Mean, Standard Deviation, and Capacity",30,10
+e6,s6_unif_prob,"Uniform Probabilities",30,10
+e6,s6_unif_quant,"Uniform Quantiles",30,10
+e6,s6_stdnormal,"Standard Normal Distribution",30,10
+e6,s6_norm_prob,"Normal Probabilities",30,10
+e6,s6_norm_quant,"Normal Quantiles",30,10
+e6,s6_clt,"Sampling Distributions and the CLT",30,10
+e7,s7_prop_ci,"Confidence Intervals for Proportions — Calculation",30,10
+e7,s7_prop_interp,"Confidence Intervals for Proportions — Interpretation",30,10
+e7,s7_mean_ci_summary,"Confidence Intervals for Means — Summary Statistics",30,10
+e7,s7_mean_ci_data,"Confidence Intervals for Means — Raw Data",30,10
+e7,s7_mean_interp,"Confidence Intervals for Means — Interpretation",30,10
+e8,s8_prop_setup,"One Proportion — Setup and Interpretation",36,10
+e8,s8_prop_full,"One Proportion — Full Hypothesis Tests",30,8
+e8,s8_mean_setup,"One Mean — Setup and Interpretation",36,10
+e8,s8_mean_full,"One Mean — Full Hypothesis Tests",30,8
+e9,s9_prop_setup,"Two Independent Proportions — Setup and Interpretation",36,10
+e9,s9_prop_full,"Two Independent Proportions — Full Hypothesis Tests",30,8
+e9,s9_mean_setup,"Two Independent Means — Setup and Interpretation",36,10
+e9,s9_mean_full,"Two Independent Means — Full Hypothesis Tests",30,8
+e10,s10_match_setup,"Matched Pairs — Setup and Interpretation",36,10
+e10,s10_match_full,"Matched Pairs — Full Hypothesis Tests",30,8
+e11,s11_gof_setup,"Chi-Squared Goodness of Fit — Setup and Interpretation",36,10
+e11,s11_gof_full,"Chi-Squared Goodness of Fit — Full Hypothesis Tests",30,8
+e11,s11_cont_setup,"Contingency Tables — Setup and Interpretation",36,10
+e11,s11_cont_full,"Contingency Tables — Full Hypothesis Tests",30,8
+e12,s12_anova_setup,"ANOVA — Setup and Interpretation",36,10
+e12,s12_anova_full,"ANOVA — Full Hypothesis Tests",30,8
+e10,s10_corr_setup,"Linear Correlation — Setup and Interpretation",36,10
+e10,s10_corr_full,"Linear Correlation — Full Hypothesis Tests",30,8
+e10,s10_reg,"Linear Regression",30,10
+e12,s12_choose,"Choosing the Correct Test",60,10

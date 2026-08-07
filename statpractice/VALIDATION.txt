@@ -1,0 +1,11 @@
+Validation passed.
+12 diagnostic exams
+56 focused skills
+1,764 questions
+Every question has four distinct choices, one valid answer index, and a nonempty explanation.
+Three fixed skill versions fit in every skill bank without question-ID overlap.
+Four fixed diagnostic forms fit in every exam without question-ID overlap within the exam.
+Hypothesis-test setup/interpretation and full-test skills are separated.
+No critical-value hypothesis-testing language appears in the generated question bank.
+Salary and price discrete-data examples are retained intentionally.
+Discrete-random-variable standard deviation is included.

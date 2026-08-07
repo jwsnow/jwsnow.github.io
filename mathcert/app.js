@@ -80,6 +80,17 @@
     dialog.addEventListener("close", handler);
   }
 
+  let mathTypesetQueue = Promise.resolve();
+  function typesetMath() {
+    const mj = window.MathJax;
+    if (!mj) return;
+    const ready = mj.startup && mj.startup.promise ? mj.startup.promise : Promise.resolve();
+    mathTypesetQueue = mathTypesetQueue
+      .then(() => ready)
+      .then(() => typeof mj.typesetPromise === "function" ? mj.typesetPromise([main]) : undefined)
+      .catch(err => console.warn("MathJax typesetting error", err));
+  }
+
   function render() {
     if (state.view === "home") renderHome();
     else if (state.view === "exam") renderExam(state.examId);
@@ -89,6 +100,7 @@
     else if (state.view === "progress") renderProgress();
     else if (state.view === "about") renderAbout();
     main.focus({preventScroll:true});
+    if (state.view !== "quiz" && state.view !== "results") typesetMath();
   }
 
   function examCard(exam) {
@@ -281,6 +293,7 @@
     updateTimerDisplay();
     const selected=document.querySelector(".choice-button.selected");
     if(selected) selected.focus({preventScroll:true});
+    typesetMath();
   }
 
   function chooseAnswer(index) {
@@ -379,6 +392,7 @@
         }).join("")||`<div class="empty-state">No missed questions to review.</div>`}</div>
       </section>
     </section>`;
+    typesetMath();
   }
 
   function renderProgress() {
@@ -395,7 +409,7 @@
   function renderAbout() {
     main.innerHTML=`<section class="content-wrap">${breadcrumbs("About")}
       <div class="section-heading"><h1>About this practice site</h1><p>Design, alignment, limitations, and official references.</p></div>
-      <section class="panel"><h2>Question design</h2><p>All questions on this site are newly written, parameterized items. Published sample questions were used only to understand scope, style, and difficulty; they are not copied into the question bank.</p><p>The site covers all six official domains and all 21 competencies, including mathematical learning, instruction, and assessment.</p></section>
+      <section class="panel"><h2>Question design</h2><p>All questions on this site are newly written original practice items. Many numerical and visual items are parameterized; conceptual, reasoning, instructional, and assessment items use multiple distinct scenarios. Published sample questions were used only to understand scope, format, and difficulty; they are not copied into the question bank.</p><p>The site covers all six official domains and all 21 competencies, including mathematical learning, instruction, and assessment. The practice bank is intentionally demanding: many questions require multistep reasoning, interpretation of graphs or diagrams, or connections among representations.</p><p>Mathematical notation is typeset by a copy of MathJax bundled with the site, so typesetting does not require an external CDN.</p></section>
       <section class="panel"><h2>Official framework</h2><ul>
         <li><a href="https://www.tx.nesinc.com/Content/StudyGuide/TX_SG_obj_235.htm" target="_blank" rel="noopener">TExES Mathematics 7–12 (235) overview and exam framework</a></li>
         <li><a href="https://www.tx.nesinc.com/TestView.aspx?f=HTML_FRAG%2FTX235_PrepMaterials.html" target="_blank" rel="noopener">Official Mathematics 7–12 preparation materials</a></li>

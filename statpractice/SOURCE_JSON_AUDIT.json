@@ -1,0 +1,956 @@
+[
+  {
+    "file": "10.4_Uniform_Quantiles_-_Left.json",
+    "question": 4,
+    "type": "duplicate-choice",
+    "message": "duplicate visible answer choices"
+  },
+  {
+    "file": "13.1_Mean_Interval_Summary_Statistics.json",
+    "question": 5,
+    "type": "duplicate-choice",
+    "message": "duplicate visible answer choices"
+  },
+  {
+    "file": "13.1_Mean_Interval_Summary_Statistics.json",
+    "question": 18,
+    "type": "duplicate-choice",
+    "message": "duplicate visible answer choices"
+  },
+  {
+    "file": "16.1_Proportion_HT.json",
+    "question": 52,
+    "type": "answer-key",
+    "message": "correct_ids disagrees with marked correct choice"
+  },
+  {
+    "file": "16.1_Proportion_HT.json",
+    "question": 61,
+    "type": "answer-key",
+    "message": "correct_ids disagrees with marked correct choice"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 1,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 7,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 13,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 19,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 25,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 31,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 37,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 43,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 49,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 55,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 61,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 67,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 73,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 79,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 85,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 91,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 97,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 103,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 109,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "20.1_Matched_Pairs.json",
+    "question": 115,
+    "type": "html",
+    "message": "malformed `</p></p>` paragraph sequence"
+  },
+  {
+    "file": "22.1_Correlation.json",
+    "question": 74,
+    "type": "answer-key",
+    "message": "2 choices marked correct"
+  },
+  {
+    "file": "22.1_Correlation.json",
+    "question": 74,
+    "type": "duplicate-choice",
+    "message": "duplicate visible answer choices"
+  },
+  {
+    "file": "5.5_Two_Dice_Probability_Quiz.json",
+    "question": 17,
+    "type": "duplicate-choice",
+    "message": "duplicate visible answer choices"
+  },
+  {
+    "file": "1.1_Data_and_Sampling_Vocabulary.json",
+    "question": 1,
+    "type": "content",
+    "message": "Keyed answer uses \u201cStatistics\u201d for a numerical measurement based on a sample; the correct term is \u201cstatistic.\u201d"
+  },
+  {
+    "file": "4.2_Comparing_Z_Scores.json",
+    "question": 1,
+    "type": "answer",
+    "message": "Marked comparison is inconsistent with the computed z-scores; the other observation has the larger standardized score."
+  },
+  {
+    "file": "10.6_Uniform_Quantiles_-_Right.json",
+    "question": 3,
+    "type": "generator",
+    "message": "Displayed percentage is 9% while the keyed cutoff corresponds to 10% (percentage-formatting defect)."
+  },
+  {
+    "file": "10.6_Uniform_Quantiles_-_Right.json",
+    "question": 7,
+    "type": "generator",
+    "message": "Displayed percentage is 9% while the keyed cutoff corresponds to 10% (percentage-formatting defect)."
+  },
+  {
+    "file": "10.6_Uniform_Quantiles_-_Right.json",
+    "question": 11,
+    "type": "generator",
+    "message": "Displayed percentage is 9% while the keyed cutoff corresponds to 10% (percentage-formatting defect)."
+  },
+  {
+    "file": "10.6_Uniform_Quantiles_-_Right.json",
+    "question": 15,
+    "type": "generator",
+    "message": "Displayed percentage is 9% while the keyed cutoff corresponds to 10% (percentage-formatting defect)."
+  },
+  {
+    "file": "16.1_Proportion_HT.json",
+    "question": 61,
+    "type": "wording",
+    "message": "Contains the typo \u201cat lease 0.40\u201d; it should be \u201cat least 0.40.\u201d"
+  },
+  {
+    "file": "6.6_Two_Marbles_(With_Replacement)_Mixed_Probability_Quiz_(Decimals).json",
+    "question": "multiple",
+    "type": "wording",
+    "message": "Several generated stems use singular counts with plural nouns, such as \u201c1 red marbles\u201d or \u201c1 blue marbles.\u201d"
+  },
+  {
+    "file": "6.7_Two_Marbles_(Without_Replacement)_Mixed_Probability_Quiz_(Decimals).json",
+    "question": "multiple",
+    "type": "wording",
+    "message": "Several generated stems use singular counts with plural nouns, such as \u201c1 red marbles\u201d or \u201c1 blue marbles.\u201d"
+  },
+  {
+    "file": "14.3_Prop_Interval_Majority.json",
+    "question": "multiple",
+    "type": "wording",
+    "message": "The generated majority-conclusion wording is frequently ungrammatical (for example, \u201ca majority participants\u2026\u201d)."
+  },
+  {
+    "file": "15.5_Critical_Values_Prop.json",
+    "question": "all",
+    "type": "excluded",
+    "message": "Critical-value hypothesis-testing material is intentionally excluded from the new site."
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 1,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/e6bbf5f4ab5254fbf34c2dc556f1b40f.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 1,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/4a47889c3a8e423c2dc7227641f614f5.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 1,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/70702551b403abbd0c810a05128a4f83.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 1,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/071ee784d55b83213d256aa26d4c6212.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 2,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/341c193c79bc3bea0547427ef25ac34f.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 2,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/580d4e435dd2bc4e45d6f8b4be7daffe.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 2,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/708dcba1aafa2b99e73feef467557426.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 2,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/0357751063f4e5b356598f793b999f90.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 3,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/431b8b5a37f1af4930bbbff92b8b5b75.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 3,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/e96fe1d00adbf9944cf2591dfbc4271c.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 3,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/d792f71dfca320b9bd95bbb66cf4f6d8.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 3,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/1bb4115736b5a80a18c85c84f71af97f.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 4,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/d87bdf1e91f9b90e1d4562dad049bbc3.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 4,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/8d46d543935fe956d18ecf0439daa42d.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 4,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/9cc840b5aa5fb19dfc3b104e7f9915e4.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 4,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/e304a4264050daeb2dba366c0c3aa1fc.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 5,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/e3281f5e83ac5128d8a76057e2f7e48e.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 5,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/bee5e9756a2241720cc17165877f94ec.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 5,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/42f32e906e68275b7518b92e653f01ba.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 5,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/c0a91887b090332afb86af0a5b77b68a.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 6,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/b59c9dbab3f0fe70a933a95a583b038c.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 6,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/69bce30e6bf1642a277c5c18caa53a74.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 6,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/d11ecd6e68da32f3d431e1e2cc27082c.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 6,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/292a9713304e02f1af0f91df219030d7.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 7,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/a1fea8888d9170c2e47a7016d8202b03.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 7,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/8ea20b43f664c2b6396e7296b01b9d96.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 7,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/41c410890799a8782851c1899e3aae99.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 7,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/d0e9c1b1c83a3b1f6183c95ee38835e9.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 8,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/be9587f9a4a32ae270a8a4012c59066d.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 8,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/ae674dac818b7d3adf616a137ecd6b57.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 8,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/0bb733a8064fd7dbff205bf6361f629c.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 8,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/0637c74fd67f64ada47538988ddc2092.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 9,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/85f15b14cf6fa68126a470951dbf3ef0.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 9,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/ff73d8f8c40b9af9a389fda93cb51de6.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 9,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/85b0788d9755a7bd5f722caed9f57422.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 9,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/41199f8cf6b7114236d910974ca0c5a1.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 10,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/fc763acdb1714b277bd29cf823179672.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 10,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/9c91eb275f666cd4b0087ed34bd1ad35.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 10,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/d7f392fa213ad83a4ce650835f02f40a.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 10,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/f75248d10846b106181eacec9a51f422.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 11,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/3f98cadfb1aa6284c44fe1c08d23924e.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 11,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/83651c8b5aebfc1733e8f31689600273.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 11,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/f76fcd260a6db2da0d9f7be0fa887833.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 11,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/9efe9cb9b94ba7c90b05c951fd8632e2.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 12,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/d00e3ff2bf6ab0f37f222ff2b264ce95.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 12,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/deadbd203572fe23d01d32044c970675.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 12,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/03ae5d14e60e7822ab2ca64d56413a2b.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 12,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/68fb9a456f49183e0997c4a1d716a1c1.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 13,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/09351f285ca5be798496bdfb64662229.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 13,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/cba5c9a6c3867d12a992e46f10e5fe9a.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 13,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/d7863ef884723d252046f1dcd0629e43.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 13,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/d4e7a5d0954434c6271ec17e4de53ea1.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 14,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/18999b59fb34ff5be26dbb5c15f195e9.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 14,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/aed00e8753e647e890ee7229b3a242a5.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 14,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/8c2f657f3069ce9b3b01fdb0c9834d0f.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 14,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/bec7ec459a1e1cf73f5c6b8a9279c00c.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 15,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/7628481b04641f9488e50854c83591f3.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 15,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/159f183d39b7200635e8a6d645b48d3b.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 15,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/6234d6b7c9832e60f1545383c1db850e.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 15,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/49ca192d782e905941c7732fd07534c8.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 16,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/b650bbf9893fbb7bab62ce3c9fe55069.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 16,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/cac93d797b286fd7a8e0b3557a5330fc.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 16,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/7f922649329df8ef329739a6aae9b010.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 16,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/790df8b28c317a9d3632561feb902441.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 17,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/453cbee829b843cf85dd1848b2cff38d.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 17,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/0132816fa8f2b94e6d7ec7aa801bd4ee.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 17,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/d32af914e7c43df59896ac25e4729ac9.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 17,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/2f4e4a59cecd682490a152b7e150c3b4.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 18,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/b3be36f45f74fabfa63fecd8ddc3994b.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 18,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/9332468dd82d2575f8ea3ee8a1fe284c.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 18,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/9fccc48b003fd352317390c346dc4bf0.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 18,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/dc0b59be28e2e1a5f14b65504d78b441.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 19,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/0bea4bbac524c65fa98c963793c0c755.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 19,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/3fb458827d3549117bb83ee1d449318a.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 19,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/724bd2b916b43ba39b8a204df304dfba.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 19,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/5e2cbda858e6d4476b2f69ac2a98d4c3.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 20,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/afde6fb4254aeff08e1e2a06f06f6b1d.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 20,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/ca3ef32e417ee8675d6c062857c2cf23.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 20,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/998718c3ec5b9a3b9af0730ea2e093e2.png"
+  },
+  {
+    "file": "2.1_Frequency_Tables_and_Histograms.json",
+    "question": 20,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.1_Frequency_Tables_and_Histograms_images/b8e23c08f955365eeb1e72abd466def7.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 1,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/7213bc1c1fa21919bee7304f1c7b8ca9.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 2,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/66d3e1a18a02267d0ed66c4989b66338.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 3,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/47466d7d9cac8baa9e6a358450774be8.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 4,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/4a4e3be6b9db19fa8958bae4704fee49.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 5,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/normal.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 6,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/uniform.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 7,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/3e3814723a038d9bf29fce72a78a5c2d.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 8,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/3cf69650a6483c6c4e1797bbfd8a64b9.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 9,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/skewleft.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 10,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/skewright.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 11,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/symetricmultiplepeaks.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 12,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/symetricmultiplepeaks.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 13,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/multiplepeaks.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 14,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/06696d992240913082768d415ae586fe.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 15,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/301b5b17decd1cb8096585dbfa57842f.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 16,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/524f2d28eb08e90cad74ec5c5b06d033.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 17,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/e69a95d9029b81ac1d8f9ea44ce330af.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 18,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/47bf0f2633afff74d75af1ccde4d24e9.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 19,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/51a73194a2e5b46b8f837e5db635128a.png"
+  },
+  {
+    "file": "2.2_Shapes_of_Histograms.json",
+    "question": 20,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.2_Shapes_of_Histograms_images/04f4dbeee611b844d5cff1d2ed6ea995.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 1,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/b2f8b21b43290bf82383d9e29f739b37.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 2,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/0893c960b91a5f03aabca7fdd24cf819.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 3,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/3fcdfc8be0b7bb9e14aba899b8e35ac3.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 4,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/1076ae666c96fa4a603e1e4f66745756.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 5,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/b391b317897311598677bb2b78262621.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 6,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/652a5a45b8ce12220ecfc3d17b970f85.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 7,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/538233dd01ff45971fc9583404d34861.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 8,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/00f6c8b5d9da60f4d2557a841a53b1b9.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 9,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/460b81aa1ee8ee9a3f8f42bf401e0691.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 10,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/552dd865c1d088e0a514596382e54a05.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 11,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/77c4aeb03b580de7a70ec6dee89f6047.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 12,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/c33e5a5b8550642ec56e7be0cd223fc1.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 13,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/b30c26bd88148f3be71a80d6e53b4d51.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 14,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/02ab4960690ee86e122fc4936b1b19fb.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 15,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/cb4e17bc9abe1e5c36201f5120630c0e.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 16,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/9072606e4024272066facd8999f11b5d.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 17,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/5814bd1623468e420bd77ae667b17a13.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 18,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/645ae01b418b4434049ae3b87c93c930.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 19,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/0aac384a01b422c3fe91009c89a5a228.png"
+  },
+  {
+    "file": "2.3_Scatter_Plots_Correlation_Quiz.json",
+    "question": 20,
+    "type": "missing-image",
+    "message": "references image not present in the uploaded ZIP: 2.3_Scatter_Plots_Correlation_Quiz_images/2050d3382cb3c9220b06e5cd41299cd4.png"
+  }
+]
