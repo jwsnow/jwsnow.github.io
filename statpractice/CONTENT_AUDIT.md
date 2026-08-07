@@ -51,3 +51,7 @@ For one proportion, one mean, two independent proportions, two independent means
 Mathematical notation in the new bank is written in MathJax LaTeX. HTML is used only for structural layout (paragraphs, tables, and inline SVG graphs). The renderer avoids raw `<` in mathematical source, preventing the truncation problem found in the earlier analysis site.
 
 All graph questions in the new bank use inline SVG; they do not depend on the 120 missing image references in the older JSON bank.
+
+## August 7 site-wide question-quality revision
+
+A review of Exam 1 Form A exposed a general padding/repetition problem in the generated bank. The site was re-audited globally. Canned lead-ins were removed, duplicate-stem groups were replaced with substantive variants, and diagnostic selection was changed to balance subskills rather than relying on an unrestricted shuffle. Introductory scatterplots now use correlation terminology without undefined strength labels, and misleading-display questions show the graph. See `REVISION_NOTES.md` for the detailed audit.

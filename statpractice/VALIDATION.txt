@@ -3,6 +3,11 @@ Validation passed.
 56 focused skills
 1,764 questions
 Every question has four distinct choices, one valid answer index, and a nonempty explanation.
+No canned test-taking lead-ins remain in the question bank.
+No exact duplicate prompts remain within any focused-skill bank.
+Diagnostic forms use subskill-balanced selection to avoid clustering on one concept.
+Exam 1 scatterplot language uses correlation rather than association and does not use undefined strength labels.
+Misleading-display questions show the graph rather than describing it only in prose.
 Three fixed skill versions fit in every skill bank without question-ID overlap.
 Four fixed diagnostic forms fit in every exam without question-ID overlap within the exam.
 Hypothesis-test setup/interpretation and full-test skills are separated.

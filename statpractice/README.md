@@ -42,4 +42,5 @@ Then open `http://localhost:8000`.
 - `SOURCE_JSON_AUDIT.md` — audit of all 77 older JSON files / 2,191 source questions
 - `VALIDATION.txt` / `VALIDATION.json` — generated-bank structural validation
 - `MATHJAX_AUDIT.json` — MathJax parser audit
-- `FORMS_VALIDATION.json` — fixed-form disjointness and hypothesis-test weighting checks
+- `FORMS_VALIDATION.json` — fixed-form disjointness, subskill balance, and hypothesis-test weighting checks
+- `REVISION_NOTES.md` — site-wide cleanup prompted by the Exam 1 Form A review

@@ -3,5 +3,11 @@
   "skills": 56,
   "questions": 1764,
   "errors": 0,
-  "warnings": 0
+  "warnings": 0,
+  "sitewide_review_checks": {
+    "canned_leadin_occurrences": 0,
+    "exact_duplicate_prompt_groups_within_skills": 0,
+    "exam1_scatter_association_or_strong_labels": 0,
+    "graph_questions_requiring_visuals_missing_svg": 0
+  }
 }
