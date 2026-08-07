@@ -87,3 +87,7 @@ Official frameworks used for the new centers:
 ## Local MathJax
 
 MathJax 3.2.2 is bundled locally in `vendor/mathjax/`. The mathematics and combined 4–8 centers load `vendor/mathjax/es5/tex-chtml.js` rather than an external CDN, so mathematical notation remains available on restricted or offline networks. MathJax is distributed under the Apache License 2.0; its license is included at `vendor/mathjax/LICENSE`.
+
+## August 2026 ACCUPLACER visual/notation revision
+
+The ACCUPLACER mathematics center now re-typesets MathJax after every dynamic question redraw and contains substantially more table, chart, graph, coordinate-plane, and geometry-diagram questions. See `ACCUPLACER_REVISION_NOTES.md` and `VALIDATION_ACCUPLACER_VISUAL.txt`.

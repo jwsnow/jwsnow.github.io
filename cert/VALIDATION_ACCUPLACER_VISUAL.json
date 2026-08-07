@@ -1,0 +1,187 @@
+{
+  "exams": {
+    "ec6": {
+      "fullCount": 40,
+      "categories": 5,
+      "formReports": [
+        {
+          "form": "A",
+          "count": 40,
+          "visual": 7
+        },
+        {
+          "form": "B",
+          "count": 40,
+          "visual": 6
+        },
+        {
+          "form": "C",
+          "count": 40,
+          "visual": 5
+        },
+        {
+          "form": "D",
+          "count": 40,
+          "visual": 6
+        },
+        {
+          "form": "E",
+          "count": 40,
+          "visual": 5
+        }
+      ],
+      "topicQuestions": 150
+    },
+    "core48": {
+      "fullCount": 42,
+      "categories": 16,
+      "formReports": [
+        {
+          "form": "A",
+          "count": 42,
+          "visual": 6
+        },
+        {
+          "form": "B",
+          "count": 42,
+          "visual": 7
+        },
+        {
+          "form": "C",
+          "count": 42,
+          "visual": 6
+        },
+        {
+          "form": "D",
+          "count": 42,
+          "visual": 6
+        },
+        {
+          "form": "E",
+          "count": 42,
+          "visual": 7
+        }
+      ],
+      "topicQuestions": 480
+    },
+    "math48": {
+      "fullCount": 100,
+      "categories": 5,
+      "formReports": [
+        {
+          "form": "A",
+          "count": 100,
+          "visual": 14
+        },
+        {
+          "form": "B",
+          "count": 100,
+          "visual": 13
+        },
+        {
+          "form": "C",
+          "count": 100,
+          "visual": 15
+        },
+        {
+          "form": "D",
+          "count": 100,
+          "visual": 17
+        },
+        {
+          "form": "E",
+          "count": 100,
+          "visual": 16
+        }
+      ],
+      "topicQuestions": 180
+    },
+    "accu-arith": {
+      "fullCount": 20,
+      "categories": 5,
+      "formReports": [
+        {
+          "form": "A",
+          "count": 20,
+          "visual": 2
+        },
+        {
+          "form": "B",
+          "count": 20,
+          "visual": 2
+        },
+        {
+          "form": "C",
+          "count": 20,
+          "visual": 2
+        },
+        {
+          "form": "D",
+          "count": 20,
+          "visual": 2
+        }
+      ],
+      "topicQuestions": 150
+    },
+    "accu-qas": {
+      "fullCount": 20,
+      "categories": 9,
+      "formReports": [
+        {
+          "form": "A",
+          "count": 20,
+          "visual": 6
+        },
+        {
+          "form": "B",
+          "count": 20,
+          "visual": 6
+        },
+        {
+          "form": "C",
+          "count": 20,
+          "visual": 6
+        },
+        {
+          "form": "D",
+          "count": 20,
+          "visual": 7
+        }
+      ],
+      "topicQuestions": 270
+    },
+    "accu-aaf": {
+      "fullCount": 20,
+      "categories": 10,
+      "formReports": [
+        {
+          "form": "A",
+          "count": 20,
+          "visual": 8
+        },
+        {
+          "form": "B",
+          "count": 20,
+          "visual": 7
+        },
+        {
+          "form": "C",
+          "count": 20,
+          "visual": 7
+        },
+        {
+          "form": "D",
+          "count": 20,
+          "visual": 7
+        }
+      ],
+      "topicQuestions": 300
+    }
+  },
+  "totals": {
+    "fixedFull": 1150,
+    "fixedTopic": 1530,
+    "random": 1210
+  },
+  "errors": []
+}

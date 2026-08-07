@@ -1,4 +1,27 @@
+REAL ANALYSIS PRACTICE CENTER — FULL AUDIT VALIDATION
+
 Questions: 434
 Sections: 40
-Visual questions: 22
-Issues: 0
+Graph/diagram questions: 22
+Bundled MathJax: 3.2.1
+MathJax expressions parsed: 1973
+MathJax input errors: 0
+Structural errors: 0
+Structural warnings: 0
+
+Passed checks:
+- four distinct answer choices per question
+- correct answer appears among the four choices
+- nonempty question stems and explanations
+- section question counts match metadata
+- no duplicate prompts within a section
+- no raw subscript/superscript operators detected outside math delimiters
+- no recognized TeX commands detected leaking into prose
+- no control characters in question text
+- local HTML links/assets resolve
+- local MathJax is loaded before the quiz application
+- Exit quiz and Exit review controls are present
+- assets/app.js passes Node JavaScript syntax checking
+
+Browser-render note:
+A full headless Chromium smoke test could not be completed in this container because Chromium hung on system DBus/zygote dependencies. The MathJax audit therefore parses every bank expression directly through the exact bundled MathJax engine, rather than relying only on regex/source inspection.

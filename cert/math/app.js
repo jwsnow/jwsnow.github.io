@@ -79,10 +79,15 @@
     dialog.addEventListener("close", handler);
   }
 
+  let mathTypesetQueue = Promise.resolve();
   function typesetMath() {
-    if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
-      window.MathJax.typesetPromise([main]).catch(() => {});
-    }
+    const mj = window.MathJax;
+    if (!mj) return;
+    const ready = mj.startup && mj.startup.promise ? mj.startup.promise : Promise.resolve();
+    mathTypesetQueue = mathTypesetQueue
+      .then(() => ready)
+      .then(() => typeof mj.typesetPromise === "function" ? mj.typesetPromise([main]) : undefined)
+      .catch(err => console.warn("MathJax typesetting error", err));
   }
 
   function render() {
@@ -94,7 +99,7 @@
     else if (state.view === "progress") renderProgress();
     else if (state.view === "about") renderAbout();
     main.focus({preventScroll:true});
-    typesetMath();
+    if (state.view !== "quiz" && state.view !== "results") typesetMath();
   }
 
   function examCard(exam) {
@@ -287,6 +292,7 @@
     updateTimerDisplay();
     const selected=document.querySelector(".choice-button.selected");
     if(selected) selected.focus({preventScroll:true});
+    typesetMath();
   }
 
   function chooseAnswer(index) {
@@ -373,6 +379,7 @@
         }).join("")||`<div class="empty-state">No missed questions to review.</div>`}</div>
       </section>
     </section>`;
+    typesetMath();
   }
 
   function renderProgress() {

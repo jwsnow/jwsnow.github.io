@@ -1,0 +1,170 @@
+{
+  "errors": [],
+  "report": {
+    "ec6": [
+      {
+        "form": "A",
+        "visuals": 12,
+        "graphs": 5
+      },
+      {
+        "form": "B",
+        "visuals": 11,
+        "graphs": 5
+      },
+      {
+        "form": "C",
+        "visuals": 11,
+        "graphs": 5
+      },
+      {
+        "form": "D",
+        "visuals": 11,
+        "graphs": 5
+      },
+      {
+        "form": "E",
+        "visuals": 11,
+        "graphs": 5
+      }
+    ],
+    "core48": [
+      {
+        "form": "A",
+        "visuals": 14,
+        "graphs": 7
+      },
+      {
+        "form": "B",
+        "visuals": 13,
+        "graphs": 7
+      },
+      {
+        "form": "C",
+        "visuals": 14,
+        "graphs": 7
+      },
+      {
+        "form": "D",
+        "visuals": 12,
+        "graphs": 7
+      },
+      {
+        "form": "E",
+        "visuals": 14,
+        "graphs": 7
+      }
+    ],
+    "math48": [
+      {
+        "form": "A",
+        "visuals": 26,
+        "graphs": 15
+      },
+      {
+        "form": "B",
+        "visuals": 29,
+        "graphs": 15
+      },
+      {
+        "form": "C",
+        "visuals": 27,
+        "graphs": 15
+      },
+      {
+        "form": "D",
+        "visuals": 29,
+        "graphs": 15
+      },
+      {
+        "form": "E",
+        "visuals": 28,
+        "graphs": 15
+      }
+    ],
+    "accu-arith": [
+      {
+        "form": "A",
+        "visuals": 2,
+        "graphs": 1
+      },
+      {
+        "form": "B",
+        "visuals": 2,
+        "graphs": 1
+      },
+      {
+        "form": "C",
+        "visuals": 2,
+        "graphs": 0
+      },
+      {
+        "form": "D",
+        "visuals": 2,
+        "graphs": 0
+      }
+    ],
+    "accu-qas": [
+      {
+        "form": "A",
+        "visuals": 6,
+        "graphs": 4
+      },
+      {
+        "form": "B",
+        "visuals": 6,
+        "graphs": 3
+      },
+      {
+        "form": "C",
+        "visuals": 6,
+        "graphs": 2
+      },
+      {
+        "form": "D",
+        "visuals": 7,
+        "graphs": 2
+      }
+    ],
+    "accu-aaf": [
+      {
+        "form": "A",
+        "visuals": 8,
+        "graphs": 2
+      },
+      {
+        "form": "B",
+        "visuals": 7,
+        "graphs": 2
+      },
+      {
+        "form": "C",
+        "visuals": 7,
+        "graphs": 3
+      },
+      {
+        "form": "D",
+        "visuals": 7,
+        "graphs": 2
+      }
+    ],
+    "math-science48": [
+      {
+        "form": "A",
+        "mathVisuals": 22
+      },
+      {
+        "form": "B",
+        "mathVisuals": 20
+      },
+      {
+        "form": "C",
+        "mathVisuals": 15
+      },
+      {
+        "form": "D",
+        "mathVisuals": 18
+      }
+    ]
+  }
+}

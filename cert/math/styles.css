@@ -361,3 +361,15 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 .math-inline mjx-container, .math-display mjx-container { font-size: 108% !important; }
 .question-prompt mjx-container[display="true"] { margin: .65em 0 !important; }
 @media (max-width: 520px) { .visual-block { max-width: 100%; } .data-table td, .data-table th { padding: .3rem .45rem; } }
+
+/* ACCUPLACER visual/MathJax revision */
+.choice-button > span:last-child { min-width: 0; }
+.choice-button mjx-container { margin: 0 !important; max-width: 100%; }
+.answer-line mjx-container, .explanation mjx-container { margin: 0 .08em !important; }
+.chart-bar-alt { fill: #7d8792; }
+.right-angle { fill: none; stroke: #334a5e; stroke-width: 2.3; }
+.angle-mark { fill: none; stroke: #184e77; stroke-width: 3; }
+.angle-mark-alt { fill: none; stroke: #7a3348; stroke-width: 3; stroke-dasharray: 5 3; }
+.mini-graph-frame { fill: #fff; stroke: #c9d2db; stroke-width: 1.5; }
+.graph-choice-label { fill: #263746; font-size: 20px; font-family: system-ui, sans-serif; font-weight: 700; }
+.graph-choice-grid .plot-line { fill: none; }

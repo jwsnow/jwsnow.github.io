@@ -1,6 +1,26 @@
 {
-  "question_count": 434,
-  "section_count": 40,
-  "visual_question_count": 22,
-  "issues": []
+  "questions": 434,
+  "sections": 40,
+  "visual_questions": 22,
+  "mathjax_version": "3.2.1",
+  "mathjax_expressions_parsed": 1973,
+  "mathjax_input_errors": 0,
+  "structural_errors": 0,
+  "structural_warnings": 0,
+  "checks": {
+    "four_distinct_choices_per_question": true,
+    "correct_answer_is_a_choice": true,
+    "nonempty_prompts_and_explanations": true,
+    "section_question_counts_match_metadata": true,
+    "no_duplicate_prompts_within_sections": true,
+    "no_raw_subscript_or_superscript_operators_outside_math": true,
+    "no_detected_TeX_macros_leaking_outside_math_delimiters": true,
+    "no_control_characters_in_question_text": true,
+    "local_links_and_assets_resolve": true,
+    "local_mathjax_loads_before_application_code": true,
+    "exit_quiz_control_present": true,
+    "exit_review_control_present": true,
+    "javascript_syntax_check": "passed"
+  },
+  "browser_render_note": "A full headless Chromium smoke test could not be completed in the container because Chromium hung on system DBus/zygote dependencies. MathJax parser-level validation used the exact bundled MathJax engine."
 }

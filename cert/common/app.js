@@ -3,7 +3,7 @@
 const D=window.PracticeData, main=document.getElementById("main"), dialog=document.getElementById("confirm-dialog");
 const STORAGE_KEY=`practiceResults.${D.area.id}.v1`, LAB_KEY=`practiceLabs.${D.area.id}.v1`;
 const state={view:"home",examId:null,quiz:null,result:null,timerId:null,reviewFilter:"all",labId:null};
-function typesetMath(){if(window.MathJax&&typeof window.MathJax.typesetPromise==="function")window.MathJax.typesetPromise([main]).catch(()=>{});}
+let mathTypesetQueue=Promise.resolve();function typesetMath(){const mj=window.MathJax;if(!mj)return;const ready=mj.startup&&mj.startup.promise?mj.startup.promise:Promise.resolve();mathTypesetQueue=mathTypesetQueue.then(()=>ready).then(()=>typeof mj.typesetPromise==="function"?mj.typesetPromise([main]):undefined).catch(err=>console.warn("MathJax typesetting error",err));}
 const escapeText=v=>String(v).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[ch]));
 function load(key,fallback=[]){try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback));}catch{return fallback;}}
 function save(key,value){localStorage.setItem(key,JSON.stringify(value));}

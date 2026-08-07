@@ -138,12 +138,13 @@
   function svgScatter(points, line=null, label="scatterplot") {
     const w=420,h=280,pL=48,pR=20,pT=24,pB=42,maxX=Math.max(10,...points.map(p=>p[0])),maxY=Math.max(10,...points.map(p=>p[1]));
     const sx=x=>pL+x/maxX*(w-pL-pR), sy=y=>h-pB-y/maxY*(h-pT-pB);
+    const ticks=[0,.25,.5,.75,1];
     return `<div class="visual-block"><svg class="chart-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label}">
-      ${[0,.25,.5,.75,1].map(t=>`<line x1="${pL}" y1="${sy(maxY*t)}" x2="${w-pR}" y2="${sy(maxY*t)}" class="grid-line"/><line x1="${sx(maxX*t)}" y1="${pT}" x2="${sx(maxX*t)}" y2="${h-pB}" class="grid-line"/>`).join("")}
+      ${ticks.map(t=>`<line x1="${pL}" y1="${sy(maxY*t)}" x2="${w-pR}" y2="${sy(maxY*t)}" class="grid-line"/><line x1="${sx(maxX*t)}" y1="${pT}" x2="${sx(maxX*t)}" y2="${h-pB}" class="grid-line"/><text x="${sx(maxX*t)}" y="${h-pB+19}" text-anchor="middle" class="axis-text">${fmt(maxX*t,1)}</text><text x="${pL-7}" y="${sy(maxY*t)+4}" text-anchor="end" class="axis-text">${fmt(maxY*t,1)}</text>`).join("")}
       <line x1="${pL}" y1="${h-pB}" x2="${w-pR}" y2="${h-pB}" class="axis-line"/><line x1="${pL}" y1="${pT}" x2="${pL}" y2="${h-pB}" class="axis-line"/>
       ${line?`<line x1="${sx(line[0][0])}" y1="${sy(line[0][1])}" x2="${sx(line[1][0])}" y2="${sy(line[1][1])}" class="best-fit"/>`:""}
       ${points.map(p=>`<circle cx="${sx(p[0])}" cy="${sy(p[1])}" r="4" class="plot-point"/>`).join("")}
-      <text x="${(pL+w-pR)/2}" y="${h-7}" text-anchor="middle" class="axis-label">x</text><text x="16" y="${h/2}" text-anchor="middle" transform="rotate(-90 16 ${h/2})" class="axis-label">y</text>
+      <text x="${(pL+w-pR)/2}" y="${h-5}" text-anchor="middle" class="axis-label">x</text><text x="15" y="${h/2}" text-anchor="middle" transform="rotate(-90 15 ${h/2})" class="axis-label">y</text>
     </svg></div>`;
   }
 
@@ -161,11 +162,94 @@
   }
 
   function svgCoordinatePoint(x,y,label="coordinate plane") {
-    const w=330,h=300,p=35,s=24,cx=w/2,cy=h/2;
+    const w=350,h=320,p=38,s=24,cx=w/2,cy=h/2;
+    const vals=Array.from({length:11},(_,i)=>i-5);
     return `<div class="visual-block"><svg class="diagram-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label}">
-      ${Array.from({length:11},(_,i)=>i-5).map(v=>`<line x1="${cx+v*s}" y1="${p}" x2="${cx+v*s}" y2="${h-p}" class="grid-line"/><line x1="${p}" y1="${cy-v*s}" x2="${w-p}" y2="${cy-v*s}" class="grid-line"/>`).join("")}
+      ${vals.map(v=>`<line x1="${cx+v*s}" y1="${p}" x2="${cx+v*s}" y2="${h-p}" class="grid-line"/><line x1="${p}" y1="${cy-v*s}" x2="${w-p}" y2="${cy-v*s}" class="grid-line"/>`).join("")}
       <line x1="${p}" y1="${cy}" x2="${w-p}" y2="${cy}" class="axis-line"/><line x1="${cx}" y1="${p}" x2="${cx}" y2="${h-p}" class="axis-line"/>
+      ${[-4,-2,2,4].map(v=>`<text x="${cx+v*s}" y="${cy+18}" text-anchor="middle" class="axis-text">${v}</text><text x="${cx-8}" y="${cy-v*s+4}" text-anchor="end" class="axis-text">${v}</text>`).join("")}
+      <text x="${w-p+10}" y="${cy-7}" class="axis-label">x</text><text x="${cx+8}" y="${p-8}" class="axis-label">y</text>
       <circle cx="${cx+x*s}" cy="${cy-y*s}" r="6" class="plot-point"/><text x="${cx+x*s+10}" y="${cy-y*s-8}" class="diagram-label">P</text>
+    </svg></div>`;
+  }
+
+
+  function svgGroupedBarChart(labels, first, second, title="Grouped bar chart", firstLabel="Year 1", secondLabel="Year 2", yLabel="Value") {
+    const w=470,h=300,pL=52,pR=20,pT=52,pB=62,max=Math.max(...first,...second)*1.15;
+    const innerW=w-pL-pR, groupW=innerW/labels.length, bw=Math.min(28,(groupW-18)/2);
+    const y=v=>h-pB-(v/max)*(h-pT-pB);
+    return `<div class="visual-block"><svg class="chart-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${title}">
+      <text x="${w/2}" y="22" text-anchor="middle" class="chart-title">${title}</text>
+      <rect x="${w-168}" y="31" width="13" height="13" class="chart-bar"/><text x="${w-150}" y="42" class="axis-text">${firstLabel}</text>
+      <rect x="${w-88}" y="31" width="13" height="13" class="chart-bar-alt"/><text x="${w-70}" y="42" class="axis-text">${secondLabel}</text>
+      ${[0,.25,.5,.75,1].map(t=>{const v=max*t,yy=y(v);return `<line x1="${pL}" y1="${yy}" x2="${w-pR}" y2="${yy}" class="grid-line"/><text x="${pL-7}" y="${yy+4}" text-anchor="end" class="axis-text">${Math.round(v)}</text>`;}).join("")}
+      ${labels.map((lab,i)=>{const gx=pL+i*groupW+groupW/2;return `<rect x="${gx-bw-2}" y="${y(first[i])}" width="${bw}" height="${h-pB-y(first[i])}" class="chart-bar"/><rect x="${gx+2}" y="${y(second[i])}" width="${bw}" height="${h-pB-y(second[i])}" class="chart-bar-alt"/><text x="${gx}" y="${h-pB+20}" text-anchor="middle" class="axis-text">${lab}</text>`;}).join("")}
+      <text x="16" y="${h/2}" text-anchor="middle" transform="rotate(-90 16 ${h/2})" class="axis-label">${yLabel}</text>
+    </svg></div>`;
+  }
+
+  function svgCoordinateLine(m,b,label="line in the xy-plane", xmin=-6,xmax=6,ymin=-6,ymax=6) {
+    const w=390,h=340,p=42, sx=x=>p+(x-xmin)/(xmax-xmin)*(w-2*p), sy=y=>h-p-(y-ymin)/(ymax-ymin)*(h-2*p);
+    const cid=`clip-${String(m).replace(/[^0-9]/g,'')}-${String(b).replace(/[^0-9]/g,'')}-${Math.abs(Math.round(100*m+17*b))}`;
+    const ticks=Array.from({length:xmax-xmin+1},(_,i)=>xmin+i);
+    return `<div class="visual-block"><svg class="diagram-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label}">
+      <defs><clipPath id="${cid}"><rect x="${p}" y="${p}" width="${w-2*p}" height="${h-2*p}"/></clipPath></defs>
+      ${ticks.map(v=>`<line x1="${sx(v)}" y1="${p}" x2="${sx(v)}" y2="${h-p}" class="grid-line"/><line x1="${p}" y1="${sy(v)}" x2="${w-p}" y2="${sy(v)}" class="grid-line"/>`).join("")}
+      <line x1="${p}" y1="${sy(0)}" x2="${w-p}" y2="${sy(0)}" class="axis-line"/><line x1="${sx(0)}" y1="${p}" x2="${sx(0)}" y2="${h-p}" class="axis-line"/>
+      ${[-6,-4,-2,2,4,6].map(v=>`<text x="${sx(v)}" y="${sy(0)+18}" text-anchor="middle" class="axis-text">${v}</text><text x="${sx(0)-8}" y="${sy(v)+4}" text-anchor="end" class="axis-text">${v}</text>`).join("")}
+      <g clip-path="url(#${cid})"><line x1="${sx(xmin)}" y1="${sy(m*xmin+b)}" x2="${sx(xmax)}" y2="${sy(m*xmax+b)}" class="plot-line"/></g>
+      <text x="${w-p+10}" y="${sy(0)-7}" class="axis-label">x</text><text x="${sx(0)+8}" y="${p-8}" class="axis-label">y</text>
+    </svg></div>`;
+  }
+
+  function svgQuadraticGraph(a,h0,k0,label="quadratic graph") {
+    const w=390,h=340,p=42,xmin=-6,xmax=6,ymin=-8,ymax=10,sx=x=>p+(x-xmin)/(xmax-xmin)*(w-2*p),sy=y=>h-p-(y-ymin)/(ymax-ymin)*(h-2*p);
+    const pts=[]; for(let i=0;i<=120;i++){const x=xmin+(xmax-xmin)*i/120; pts.push([x,a*(x-h0)*(x-h0)+k0]);}
+    const path=pts.map((q,i)=>`${i?'L':'M'}${sx(q[0]).toFixed(1)},${sy(q[1]).toFixed(1)}`).join(' '),cid=`qclip-${Math.abs(a)}-${h0+9}-${k0+12}`;
+    return `<div class="visual-block"><svg class="diagram-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label}">
+      <defs><clipPath id="${cid}"><rect x="${p}" y="${p}" width="${w-2*p}" height="${h-2*p}"/></clipPath></defs>
+      ${[-6,-4,-2,0,2,4,6].map(v=>`<line x1="${sx(v)}" y1="${p}" x2="${sx(v)}" y2="${h-p}" class="grid-line"/><text x="${sx(v)}" y="${sy(0)+18}" text-anchor="middle" class="axis-text">${v}</text>`).join("")}
+      ${[-8,-4,0,4,8].map(v=>`<line x1="${p}" y1="${sy(v)}" x2="${w-p}" y2="${sy(v)}" class="grid-line"/><text x="${sx(0)-8}" y="${sy(v)+4}" text-anchor="end" class="axis-text">${v}</text>`).join("")}
+      <line x1="${p}" y1="${sy(0)}" x2="${w-p}" y2="${sy(0)}" class="axis-line"/><line x1="${sx(0)}" y1="${p}" x2="${sx(0)}" y2="${h-p}" class="axis-line"/>
+      <path d="${path}" class="plot-line" clip-path="url(#${cid})"/><circle cx="${sx(h0)}" cy="${sy(k0)}" r="4.5" class="plot-point"/>
+      <text x="${w-p+10}" y="${sy(0)-7}" class="axis-label">x</text><text x="${sx(0)+8}" y="${p-8}" class="axis-label">y</text>
+    </svg></div>`;
+  }
+
+  function svgRectPrismDiagram(length,width,height,label="right rectangular prism") {
+    return `<div class="visual-block"><svg class="diagram-svg" viewBox="0 0 430 250" role="img" aria-label="${label}">
+      <polygon points="72,88 300,88 360,48 132,48" class="diagram-shape"/><polygon points="300,88 360,48 360,178 300,218" class="diagram-shape"/><rect x="72" y="88" width="228" height="130" class="diagram-shape"/>
+      <line x1="72" y1="88" x2="132" y2="48" class="axis-line"/><line x1="72" y1="218" x2="132" y2="178" class="axis-line"/><line x1="132" y1="48" x2="132" y2="178" class="axis-line"/><line x1="132" y1="178" x2="360" y2="178" class="axis-line"/>
+      <text x="182" y="239" class="diagram-label">${length}</text><text x="326" y="210" class="diagram-label">${width}</text><text x="42" y="158" class="diagram-label">${height}</text>
+    </svg></div>`;
+  }
+
+  function svgRightTriangleDiagram(legA,legB,hyp,label="right triangle") {
+    return `<div class="visual-block"><svg class="diagram-svg" viewBox="0 0 390 270" role="img" aria-label="${label}">
+      <polygon points="65,220 315,220 65,55" class="diagram-shape"/><polyline points="65,195 90,195 90,220" class="right-angle"/>
+      <text x="177" y="246" class="diagram-label">${legA}</text><text x="35" y="142" class="diagram-label">${legB}</text><text x="198" y="125" class="diagram-label">${hyp}</text><text x="278" y="207" class="diagram-label">θ</text>
+    </svg></div>`;
+  }
+
+  function svgTrianglePairDiagram(label="two triangles") {
+    return `<div class="visual-block"><svg class="diagram-svg" viewBox="0 0 520 245" role="img" aria-label="${label}">
+      <polygon points="55,200 220,200 105,55" class="diagram-shape"/><polygon points="305,200 470,200 355,55" class="diagram-shape"/>
+      <text x="40" y="218" class="diagram-label">J</text><text x="225" y="218" class="diagram-label">K</text><text x="96" y="45" class="diagram-label">L</text>
+      <text x="290" y="218" class="diagram-label">P</text><text x="475" y="218" class="diagram-label">Q</text><text x="346" y="45" class="diagram-label">R</text>
+      <path d="M69 191 A23 23 0 0 1 79 174" class="angle-mark"/><path d="M319 191 A23 23 0 0 1 329 174" class="angle-mark"/>
+      <path d="M194 191 A23 23 0 0 0 184 174" class="angle-mark-alt"/><path d="M444 191 A23 23 0 0 0 434 174" class="angle-mark-alt"/>
+    </svg></div>`;
+  }
+
+  function svgFunctionChoiceGrid(order) {
+    const shapes={
+      circle:`<circle cx="75" cy="70" r="38" class="plot-line"/>`,
+      vertical:`<line x1="75" y1="25" x2="75" y2="115" class="plot-line"/>`,
+      parabola:`<path d="M30,105 Q75,25 120,105" class="plot-line"/>`,
+      sideways:`<path d="M35,25 Q120,70 35,115" class="plot-line"/>`
+    };
+    return `<div class="visual-block"><svg class="diagram-svg graph-choice-grid" viewBox="0 0 520 330" role="img" aria-label="four candidate graphs labeled A through D">
+      ${order.map((name,i)=>{const col=i%2,row=Math.floor(i/2),ox=15+col*255,oy=15+row*155,label=LETTERS[i];return `<g transform="translate(${ox},${oy})"><rect x="0" y="0" width="235" height="140" class="mini-graph-frame"/><line x1="20" y1="70" x2="130" y2="70" class="axis-line"/><line x1="75" y1="15" x2="75" y2="125" class="axis-line"/>${shapes[name]}<text x="160" y="76" class="graph-choice-label">${label}</text></g>`;}).join('')}
     </svg></div>`;
   }
 
@@ -221,7 +305,7 @@
     const n = a*d2 + b*d1, d = d1*d2;
     const correct = frac(n,d);
     return makeQuestion(rng,
-      `Compute ${MD(`\\frac{${a}}{${d1}}+\\frac{${b}}{${d2}}`)}.`,
+      `Compute ${MD(`\\frac{${a}}{${d1}}+\\frac{${b}}{${d2}}`)}`,
       correct,
       [frac(a+b,d1+d2), frac(a+b,lcm(d1,d2)), frac(a*d2-b*d1,d1*d2)],
       `A common denominator is ${d1*d2}. The numerator is ${a}(${d2}) + ${b}(${d1}) = ${n}. Reducing gives ${correct}.`);
@@ -231,7 +315,7 @@
     const a = ri(rng,2,9), b = ri(rng,2,10), c = ri(rng,2,9), d = ri(rng,2,10);
     const correct = frac(a*c,b*d);
     return makeQuestion(rng,
-      `Compute ${MD(`\\frac{${a}}{${b}}\\cdot\\frac{${c}}{${d}}`)}.`,
+      `Compute ${MD(`\\frac{${a}}{${b}}\\cdot\\frac{${c}}{${d}}`)}`,
       correct,
       [frac(a+c,b+d), frac(a*d,b*c), frac(a*c,b+d)],
       `Multiply numerators and denominators: (${a}×${c})/(${b}×${d}) = ${a*c}/${b*d}, which reduces to ${correct}.`);
@@ -241,7 +325,7 @@
     const a = ri(rng,1,8), b = ri(rng,2,10), c = ri(rng,1,8), d = ri(rng,2,10);
     const correct = frac(a*d,b*c);
     return makeQuestion(rng,
-      `Compute ${MD(`\\frac{${a}}{${b}}\\div\\frac{${c}}{${d}}`)}.`,
+      `Compute ${MD(`\\frac{${a}}{${b}}\\div\\frac{${c}}{${d}}`)}`,
       correct,
       [frac(a*c,b*d), frac(a*d,b+c), frac(b*c,a*d)],
       `Multiply by the reciprocal: ${a}/${b} × ${d}/${c} = ${a*d}/${b*c} = ${correct}.`);
@@ -316,7 +400,7 @@
     const f = a/b;
     const relation = f < dec ? "<" : f > dec ? ">" : "=";
     return makeQuestion(rng,
-      `Choose the correct comparison: ${MD(`\\frac{${a}}{${b}}\;\_\_\_\;${dec}`)}.`,
+      `Choose the correct comparison: ${MD(`\\frac{${a}}{${b}}\\;?\\;${dec}`)}`,
       relation,
       [relation==="<"?">":"<","=","cannot be determined"],
       `${a}/${b} ≈ ${fmt(f,3)}. Comparing that decimal with ${dec} gives ${a}/${b} ${relation} ${dec}.`);
@@ -439,8 +523,8 @@
   function qProportion(rng) {
     const a=ri(rng,2,9), b=ri(rng,3,12), k=ri(rng,2,8), c=a*k, d=b*k;
     const blank=pick(rng,["c","d"]);
-    if(blank==="c") return makeQuestion(rng,`Solve ${MD(`\\frac{${a}}{${b}}=\\frac{x}{${d}}`)}.`,c,[d-a,a*k+1,b*k],`Cross multiply: ${b}x = ${a}(${d}), so x = ${c}.`);
-    return makeQuestion(rng,`Solve ${MD(`\\frac{${a}}{${b}}=\\frac{${c}}{x}`)}.`,d,[c-b,b*k+1,a*k],`Cross multiply: ${a}x = ${b}(${c}), so x = ${d}.`);
+    if(blank==="c") return makeQuestion(rng,`Solve ${MD(`\\frac{${a}}{${b}}=\\frac{x}{${d}}`)}`,c,[d-a,a*k+1,b*k],`Cross multiply: ${b}x = ${a}(${d}), so x = ${c}.`);
+    return makeQuestion(rng,`Solve ${MD(`\\frac{${a}}{${b}}=\\frac{${c}}{x}`)}`,d,[c-b,b*k+1,a*k],`Cross multiply: ${a}x = ${b}(${c}), so x = ${d}.`);
   }
 
   function qSlope(rng) {
@@ -568,7 +652,7 @@
     const x=ri(rng,1,12), k=ri(rng,1,8), root=ri(rng,2,7), c=root*root-x;
     const correct=x;
     return makeQuestion(rng,
-      `Solve ${MD(`\\sqrt{x ${c>=0?"+":"-"} ${Math.abs(c)}}=${root}`)}.`,
+      `Solve ${MD(`\\sqrt{x ${c>=0?"+":"-"} ${Math.abs(c)}}=${root}`)}`,
       correct,
       [root-c,root*root+c,x+2],
       `Square both sides: ${MI(`x ${c>=0?"+":"-"} ${Math.abs(c)}=${root*root}`)}. Therefore ${MI(`x=${x}`)}. Substitution checks the solution because ${MI(`\\sqrt{${root*root}}=${root}`)}.`);
@@ -577,7 +661,7 @@
   function qRationalEquation(rng) {
     const x=ri(rng,1,10), b=ri(rng,1,6), c=ri(rng,2,7), a=c*(x+b);
     return makeQuestion(rng,
-      `Solve ${MD(`\\frac{${a}}{x+${b}}=${c}`)}.`,
+      `Solve ${MD(`\\frac{${a}}{x+${b}}=${c}`)}`,
       x,
       [a/c+b,a*c-b,x+b],
       `Multiply by x+${b}: ${a}=${c}(x+${b}). Divide by ${c} and subtract ${b}: x=${x}.`);
@@ -1171,6 +1255,131 @@
       `The y-values approximately double whenever x increases by 1, which is characteristic of exponential growth.`,{visual:true});
   }
 
+
+  // ---------- ACCUPLACER-style visual interpretation generators ----------
+  function qArithmeticDataTable(rng) {
+    const values=[ri(rng,18,35),ri(rng,18,35),ri(rng,18,35)], labels=["Monday","Tuesday","Wednesday"];
+    const table=dataTable(["Day","Items packed"],labels.map((d,i)=>[d,values[i]]),"Items packed during three days");
+    const hi=Math.max(...values),lo=Math.min(...values),correct=hi-lo;
+    return makeQuestion(rng,`${table}How many more items were packed on the day with the greatest total than on the day with the least total?`,correct,
+      [hi,lo,hi+lo],`Read the greatest and least values in the table and subtract: ${hi}-${lo}=${correct}.`,{visual:true});
+  }
+
+  function qArithmeticBarRead(rng) {
+    const labels=["A","B","C","D"],values=shuffle(rng,[15,20,25,30]),chart=svgBarChart(labels,values,"Items collected by four teams","Items");
+    const idx=ri(rng,0,3),correct=values[idx];
+    return makeQuestion(rng,`${chart}How many items did Team ${labels[idx]} collect?`,correct,
+      values.filter((_,i)=>i!==idx).slice(0,3),`Locate Team ${labels[idx]} on the horizontal axis and read the height of its bar: ${correct}.`,{visual:true});
+  }
+
+  function qQasGroupedBarIncrease(rng) {
+    const labels=["Blue","Green","Orange","Red"],first=[10,24,8,32],deltas=shuffle(rng,[8,5,4,-9]),second=first.map((v,i)=>v+deltas[i]);
+    const chart=svgGroupedBarChart(labels,first,second,"Sales in two years","Year 1","Year 2","Items sold");
+    const maxDelta=Math.max(...deltas),idx=deltas.indexOf(maxDelta),correct=labels[idx];
+    return makeQuestion(rng,`${chart}Which category had the greatest increase from Year 1 to Year 2?`,correct,
+      labels.filter(x=>x!==correct),`Compare Year 2 minus Year 1 for each category. The largest increase is ${maxDelta}, for ${correct}.`,{visual:true});
+  }
+
+  function qQasNumericTableMean(rng) {
+    const vals=[52.4,67.8,61.2,48.6,70.0].map(v=>v+ri(rng,-3,3));
+    const table=dataTable(["Region","Population (thousands)"],vals.map((v,i)=>[`Region ${LETTERS[i]}`,fmt(v,1)]),"Approximate populations");
+    const mean=vals.reduce((a,b)=>a+b,0)/vals.length,correct=fmt(mean,1);
+    return makeQuestion(rng,`${table}Which value is closest to the mean population of the five regions?`,correct,
+      [fmt(Math.max(...vals),1),fmt(Math.min(...vals),1),fmt(vals.sort((a,b)=>a-b)[2],1)],`Add the five populations and divide by 5. The mean is approximately ${correct} thousand.`,{visual:true});
+  }
+
+  function qQasLinearGraphEquation(rng) {
+    const m=pick(rng,[-2,-1,1,2]),b=ri(rng,-3,3),graph=svgCoordinateLine(m,b,`line with slope ${m} and y-intercept ${b}`);
+    const correct=MI(`y=${m===1?'':m===-1?'-':m}x${b===0?'':b>0?`+${b}`:`-${Math.abs(b)}`}`);
+    const choices=[
+      MI(`y=${-m===1?'':-m===-1?'-':-m}x${b===0?'':b>0?`+${b}`:`-${Math.abs(b)}`}`),
+      MI(`y=${m===1?'':m===-1?'-':m}x${b===0?'':b>0?`-${b}`:`+${Math.abs(b)}`}`),
+      MI(`y=${b===1?'':b===-1?'-':b}x${m===0?'':m>0?`+${m}`:`-${Math.abs(m)}`}`)
+    ];
+    return makeQuestion(rng,`${graph}Which equation represents the line shown?`,correct,choices,
+      `The graph has slope ${m} and y-intercept ${b}, so its equation is ${correct}.`,{visual:true});
+  }
+
+  function qQasCoordinateTransformation(rng) {
+    const x=pick(rng,[2,3,4]),y=-pick(rng,[1,2,3]);
+    const plot=svgCoordinatePoint(x,y,"coordinate plane showing point P before a transformation");
+    const correct=`(${x}, ${-y})`;
+    return makeQuestion(rng,`${plot}Point P is reflected across the x-axis. What are the coordinates of its image?`,correct,
+      [`(${-x}, ${y})`,`(${-x}, ${-y})`,`(${y}, ${x})`],`Reflection across the x-axis keeps the x-coordinate and changes the sign of the y-coordinate, giving ${correct}.`,{visual:true});
+  }
+
+  function qQasPrismDiagram(rng) {
+    const l=ri(rng,5,10),w=ri(rng,3,7),h=ri(rng,2,6),diagram=svgRectPrismDiagram(`${l} cm`,`${w} cm`,`${h} cm`),correct=2*(l*w+l*h+w*h);
+    return makeQuestion(rng,`${diagram}What is the surface area of the rectangular prism?`,`${correct} cm²`,
+      [`${l*w*h} cm²`,`${l*w+h} cm²`,`${2*(l+w+h)} cm²`],`Surface area is ${MI(`2(lw+lh+wh)`)}. Thus ${MI(`2(${l}\\cdot${w}+${l}\\cdot${h}+${w}\\cdot${h})=${correct}`)} square centimeters.`,{visual:true});
+  }
+
+  function qQasRightTriangleDiagram(rng) {
+    const triples=pick(rng,[[3,4,5],[5,12,13],[8,15,17],[7,24,25]]),[a,b,c]=triples,diagram=svgRightTriangleDiagram(`${a}`,`${b}`,"x"),correct=c;
+    return makeQuestion(rng,`${diagram}What is the value of x?`,correct,[a+b,c-1,c+2],
+      `By the Pythagorean theorem, ${MI(`x=\\sqrt{${a}^2+${b}^2}=${c}`)}.`,{visual:true});
+  }
+
+  function qAafPerpendicularGraph(rng) {
+    const slopes=[[1,2],[-1,2],[2,3],[-2,3],[3,2],[-3,2]], [n,d]=pick(rng,slopes),m=n/d,b=ri(rng,-2,2),graph=svgCoordinateLine(m,b,"line used to determine a perpendicular slope");
+    const pn=-d,pd=n,correct=MI(`y=${texFrac(pn,pd)}x`);
+    return makeQuestion(rng,`${graph}Which equation represents the line through the origin that is perpendicular to the line shown?`,correct,
+      [MI(`y=${texFrac(n,d)}x`),MI(`y=${texFrac(d,n)}x`),MI(`y=${texFrac(-n,d)}x`)],`The graphed line has slope ${MI(texFrac(n,d))}. A perpendicular line has slope equal to the negative reciprocal, ${MI(texFrac(pn,pd))}, and passing through the origin gives ${correct}.`,{visual:true});
+  }
+
+  function qAafQuadraticGraphEquation(rng) {
+    const roots=pick(rng,[[-4,2],[-3,3],[-2,4],[-1,3]]),[r1,r2]=roots,a=pick(rng,[1,-1]);
+    const h0=(r1+r2)/2,k0=a*(h0-r1)*(h0-r2),graph=svgQuadraticGraph(a,h0,k0,"parabola with visible intercepts");
+    const factor=r=>r<0?`(x+${-r})`:`(x-${r})`, opposite=r=>r<0?`(x-${-r})`:`(x+${r})`;
+    const correct=MI(`f(x)=${a===-1?'-':''}${factor(r1)}${factor(r2)}`);
+    const wrong1=MI(`f(x)=${a===-1?'-':''}${opposite(r1)}${opposite(r2)}`);
+    const wrong2=MI(`f(x)=${a===-1?'':'-'}${factor(r1)}${factor(r2)}`);
+    const shift=h0<0?`x+${Math.abs(h0)}`:`x-${h0}`;
+    const wrong3=MI(`f(x)=(${shift})^2${k0>=0?`+${fmt(k0,1)}`:`-${fmt(Math.abs(k0),1)}`}`);
+    return makeQuestion(rng,`${graph}Which equation could define the graphed function?`,correct,[wrong1,wrong2,wrong3],
+      `The x-intercepts are ${r1} and ${r2}, so the corresponding factors are ${MI(`${factor(r1)}${factor(r2)}`)}. The graph ${a>0?'opens upward':'opens downward'}, fixing the sign of the leading coefficient.`,{visual:true});
+  }
+
+  function qAafQuadraticVertexFromGraph(rng) {
+    const h0=ri(rng,-3,3),k0=ri(rng,-5,4),a=pick(rng,[1,-1]),graph=svgQuadraticGraph(a,h0,k0,"quadratic graph with marked vertex");
+    const correct=`(${h0}, ${k0})`;
+    return makeQuestion(rng,`${graph}What is the vertex of the graphed quadratic?`,correct,
+      [`(${-h0}, ${k0})`,`(${h0}, ${-k0})`,`(${k0}, ${h0})`],`The turning point of the parabola is at x=${h0}, y=${k0}; therefore the vertex is ${correct}.`,{visual:true});
+  }
+
+  function qAafFunctionGraphChoice(rng) {
+    const order=shuffle(rng,["circle","vertical","parabola","sideways"]),grid=svgFunctionChoiceGrid(order),idx=order.indexOf("parabola"),correct=`Graph ${LETTERS[idx]}`;
+    return makeQuestion(rng,`${grid}Which graph represents y as a function of x?`,correct,
+      LETTERS.map(x=>`Graph ${x}`).filter(x=>x!==correct),`Only ${correct} passes the vertical-line test: every vertical line intersects it at most once.`,{visual:true});
+  }
+
+  function qAafExponentialGraph(rng) {
+    const base=pick(rng,[2,3]),scale=pick(rng,[1,2]),pts=Array.from({length:5},(_,i)=>[i,scale*(base**i)]),plot=svgScatter(pts,null,"points following exponential growth");
+    const correct=MI(scale===1?`y=${base}^x`:`y=${scale}\\cdot ${base}^x`);
+    return makeQuestion(rng,`${plot}Which model best fits the plotted points?`,correct,
+      [MI(`y=${scale*base}x`),MI(`y=${scale}x^2+${base}`),MI(`y=${base}x+${scale}`)],`Each time x increases by 1, y is multiplied by ${base}. That constant multiplicative change is modeled by ${correct}.`,{visual:true});
+  }
+
+  function qAafRightTriangleTrigDiagram(rng) {
+    const triples=pick(rng,[[3,4,5],[5,12,13],[8,15,17]]),[adj,opp,hyp]=triples,diagram=svgRightTriangleDiagram(`${adj}`,`${opp}`,`${hyp}`),fn=pick(rng,["sin","cos","tan"]);
+    const correct=fn==="sin"?frac(opp,hyp):fn==="cos"?frac(adj,hyp):frac(opp,adj);
+    const wrongs=fn==="sin"?[frac(adj,hyp),frac(opp,adj),frac(hyp,opp)]:fn==="cos"?[frac(opp,hyp),frac(adj,opp),frac(hyp,adj)]:[frac(adj,opp),frac(opp,hyp),frac(adj,hyp)];
+    return makeQuestion(rng,`${diagram}For the angle θ shown, what is ${MI(`\\${fn}\\theta`)}?`,correct,wrongs,
+      `${fn}(θ) is ${fn==="sin"?'opposite/hypotenuse':fn==="cos"?'adjacent/hypotenuse':'opposite/adjacent'}, so the value is ${correct}.`,{visual:true});
+  }
+
+  function qAafPrismSurfaceArea(rng) {
+    const l=ri(rng,6,11),w=ri(rng,3,7),h=ri(rng,2,6),diagram=svgRectPrismDiagram(`${l}`,`${w}`,`${h}`),correct=2*(l*w+l*h+w*h);
+    return makeQuestion(rng,`${diagram}The dimensions of the right rectangular prism are shown. What is its surface area?`,correct,
+      [l*w*h,l*w+l*h+w*h,2*(l+w+h)],`Add the areas of all six faces: ${MI(`2(lw+lh+wh)=2(${l}\\cdot${w}+${l}\\cdot${h}+${w}\\cdot${h})=${correct}`)}.`,{visual:true});
+  }
+
+  function qAafTriangleCongruenceDiagram(rng) {
+    const diagram=svgTrianglePairDiagram("two triangles with corresponding angle marks");
+    return makeQuestion(rng,`${diagram}The diagram indicates ${MI(`\\angle J\\cong\\angle P`)} and ${MI(`\\angle K\\cong\\angle Q`)}. Which additional fact would be sufficient to prove ${MI(`\\triangle JKL\\cong\\triangle PQR`)} by ASA?`,
+      MI(`JK\\cong PQ`),[MI(`JL\\cong PR`),MI(`KL\\cong QR`),MI(`\\angle L\\cong\\angle R`)],`ASA uses two corresponding angles and the included side. The side included between ∠J and ∠K is JK, corresponding to PQ.`,{visual:true});
+  }
+
   const categories = {};
   function category(id, label, description, pool, group = "") {
     categories[id] = { id, label, description, pool, group };
@@ -1180,9 +1389,9 @@
   const ec6Num = category("ec6-number", "Number Concepts and Operations", "Whole numbers, fractions, decimals, percents, number theory, estimation, and representations.",
     [qWholeOperation,qDivisionContext,qPlaceValue,qRounding,qFractionAdd,qFractionMultiply,qFractionDivide,qFractionOfQuantity,qDecimalOperation,qPercentOf,qPercentChange,qEquivalentRepresentations,qCompareNumbers,qPrimeFactorization,qGcdLcm,qEstimation]);
   const ec6Alg = category("ec6-algebra", "Patterns and Algebra", "Patterns, sequences, expressions, equations, proportional relationships, tables, and elementary functions.",
-    [qPatternReasoning,qSequence,qSimplifyExpression,qEvaluateExpression,qLinearEquation,qProportion,qLinearApplication,qProportionalModel,qFunctionEvaluate,qFunctionTable,qRatioTable]);
+    [qPatternReasoning,qSequence,qSimplifyExpression,qEvaluateExpression,qLinearEquation,qProportion,qLinearApplication,qProportionalModel,qFunctionEvaluate,qFunctionTable,qRatioTable,qGraphSlope,qQasLinearGraphEquation]);
   const ec6Geo = category("ec6-geometry", "Geometry and Measurement", "Two- and three-dimensional figures, coordinate ideas, transformations, angles, measurement, and conversions.",
-    [qRectangleAreaPerimeter,qTriangleArea,qCircle,qVolumePrism,qCylinderVolume,qPythagorean,qDistanceMidpoint,qAngles,qPolygonAngles,qSimilarityScale,qTransformation,qUnitConversion,qGeometryDiagram,qCoordinateGraphPoint]);
+    [qRectangleAreaPerimeter,qTriangleArea,qCircle,qVolumePrism,qCylinderVolume,qPythagorean,qDistanceMidpoint,qAngles,qPolygonAngles,qSimilarityScale,qTransformation,qUnitConversion,qGeometryDiagram,qCoordinateGraphPoint,qQasRightTriangleDiagram,qAafPrismSurfaceArea]);
   const ec6Stat = category("ec6-statistics", "Probability and Statistics", "Data displays and summaries, sample spaces, simple and compound probability, and elementary inference.",
     [qMeanMedian,qRangeIqr,qWeightedMean,qSimpleProbability,qCompoundProbability,qWithoutReplacement,qSetProbability,qCorrelation,qSamplingInference,qBarChartInterpret,qLineGraphInterpret,qDataTableMean,qBoxPlotInterpret]);
   const ec6Proc = category("ec6-processes", "Processes and Financial Literacy", "Problem solving, reasonableness, modeling, estimation, personal finance, rates, and dimensional reasoning.",
@@ -1199,15 +1408,15 @@
   const c807_5 = category("807-c05", "C05: Linear Functions", "Proportions, direct variation, slope, graphs, equations, inequalities, systems, and linear modeling.",
     [qProportion,qProportionalModel,qSlope,qLineEquation,qGraphSlope,qLinearEquation,qLinearInequality,qLinearApplication,qSystemEquations,qFunctionTable,qTableRateOfChange]);
   const c807_6 = category("807-c06", "C06: Nonlinear Functions", "Quadratics, polynomials, radicals, rational functions, exponentials, logarithms, trigonometry, and transformations.",
-    [qFactorQuadratic,qDifferenceSquares,qQuadraticRoots,qQuadraticVertex,qDiscriminant,qRadicalEquation,qRationalEquation,qPolynomialRemainder,qExponentialGrowth,qLogarithm,qTrigRightTriangle,qTrigExact,qFunctionDomain,qAbsoluteValueEquation,qGraphModelType]);
+    [qFactorQuadratic,qDifferenceSquares,qQuadraticRoots,qQuadraticVertex,qDiscriminant,qRadicalEquation,qRationalEquation,qPolynomialRemainder,qExponentialGrowth,qLogarithm,qTrigRightTriangle,qTrigExact,qFunctionDomain,qAbsoluteValueEquation,qGraphModelType,qAafQuadraticGraphEquation,qAafQuadraticVertexFromGraph,qAafExponentialGraph]);
   const c807_7 = category("807-c07", "C07: Conceptual Foundations of Calculus", "Limits, average and instantaneous rates of change, and area-under-a-curve interpretations.",
     [qRateOfChange,qLimitSequence,qAreaUnderConstant,qInstantaneousRate,qGraphSlope]);
   const c807_8 = category("807-c08", "C08: Measurement", "Units, conversions, dimensional analysis, precision, error, Pythagorean applications, and right-triangle trigonometry.",
-    [qUnitConversion,qDimensionalAnalysis,qMeasurementError,qPythagorean,qTrigRightTriangle,qRectangleAreaPerimeter,qCylinderVolume]);
+    [qUnitConversion,qDimensionalAnalysis,qMeasurementError,qPythagorean,qTrigRightTriangle,qRectangleAreaPerimeter,qCylinderVolume,qQasRightTriangleDiagram,qAafPrismSurfaceArea]);
   const c807_9 = category("807-c09", "C09: Euclidean Geometry", "Points, lines, planes, angles, parallelism, congruence, constructions, and deductive geometry.",
     [qAngles,qPolygonAngles,qPythagorean,qSimilarityScale,qLogicCounterexample,qDistanceMidpoint,qGeometryDiagram]);
   const c807_10 = category("807-c10", "C10: Two- and Three-Dimensional Figures", "Length, perimeter, area, volume, similarity, scaling, circles, polygons, prisms, cylinders, and spheres.",
-    [qRectangleAreaPerimeter,qTriangleArea,qCircle,qVolumePrism,qCylinderVolume,qSimilarityScale,qPolygonAngles]);
+    [qRectangleAreaPerimeter,qTriangleArea,qCircle,qVolumePrism,qCylinderVolume,qSimilarityScale,qPolygonAngles,qAafPrismSurfaceArea,qQasRightTriangleDiagram,qGeometryDiagram]);
   const c807_11 = category("807-c11", "C11: Coordinate and Transformational Geometry", "Slope, midpoint, distance, transformations, symmetry, dilation, and coordinate modeling.",
     [qDistanceMidpoint,qTransformation,qSlope,qLineEquation,qGraphSlope,qSimilarityScale,qCoordinateGraphPoint]);
   const c807_12 = category("807-c12", "C12: Describing Data", "Displays, center, spread, shape, quartiles, percentiles, outliers, and one-variable data.",
@@ -1224,9 +1433,9 @@
   const m115Num = category("115-number", "Domain I: Number Concepts", "Number systems, operations, algorithms, number theory, counting, estimation, and numerical modeling.",
     [qPlaceValue,qEquivalentRepresentations,qCompareNumbers,qScientificNotation,qNumberSet,qComplexArithmetic,qFractionAdd,qFractionMultiply,qFractionDivide,qDecimalOperation,qExponentLaw,qPrimeFactorization,qGcdLcm,qCounting,qEstimation]);
   const m115Alg = category("115-algebra", "Domain II: Patterns and Algebra", "Patterns, expressions, linear and nonlinear functions, systems, transformations, and conceptual calculus.",
-    [qPatternReasoning,qSequence,qEvaluateExpression,qSimplifyExpression,qLinearEquation,qLinearInequality,qProportion,qSlope,qLineEquation,qGraphSlope,qLinearApplication,qSystemEquations,qFunctionEvaluate,qFunctionComposition,qFactorQuadratic,qDifferenceSquares,qQuadraticRoots,qQuadraticVertex,qDiscriminant,qRadicalEquation,qRationalEquation,qPolynomialRemainder,qExponentialGrowth,qLogarithm,qTrigRightTriangle,qTrigExact,qFunctionDomain,qAbsoluteValueEquation,qRateOfChange,qLimitSequence,qAreaUnderConstant,qInstantaneousRate,qFunctionTable,qTableRateOfChange,qGraphModelType]);
+    [qPatternReasoning,qSequence,qEvaluateExpression,qSimplifyExpression,qLinearEquation,qLinearInequality,qProportion,qSlope,qLineEquation,qGraphSlope,qLinearApplication,qSystemEquations,qFunctionEvaluate,qFunctionComposition,qFactorQuadratic,qDifferenceSquares,qQuadraticRoots,qQuadraticVertex,qDiscriminant,qRadicalEquation,qRationalEquation,qPolynomialRemainder,qExponentialGrowth,qLogarithm,qTrigRightTriangle,qTrigExact,qFunctionDomain,qAbsoluteValueEquation,qRateOfChange,qLimitSequence,qAreaUnderConstant,qInstantaneousRate,qFunctionTable,qTableRateOfChange,qGraphModelType,qQasLinearGraphEquation,qAafQuadraticGraphEquation,qAafQuadraticVertexFromGraph,qAafExponentialGraph]);
   const m115Geo = category("115-geometry", "Domain III: Geometry and Measurement", "Measurement, Euclidean geometry, figures, coordinate geometry, transformations, similarity, and trigonometry.",
-    [qUnitConversion,qDimensionalAnalysis,qMeasurementError,qPythagorean,qTrigRightTriangle,qRectangleAreaPerimeter,qTriangleArea,qCircle,qVolumePrism,qCylinderVolume,qAngles,qPolygonAngles,qSimilarityScale,qDistanceMidpoint,qTransformation,qSlope,qGeometryDiagram,qCoordinateGraphPoint]);
+    [qUnitConversion,qDimensionalAnalysis,qMeasurementError,qPythagorean,qTrigRightTriangle,qRectangleAreaPerimeter,qTriangleArea,qCircle,qVolumePrism,qCylinderVolume,qAngles,qPolygonAngles,qSimilarityScale,qDistanceMidpoint,qTransformation,qSlope,qGeometryDiagram,qCoordinateGraphPoint,qQasRightTriangleDiagram,qAafPrismSurfaceArea,qAafTriangleCongruenceDiagram]);
   const m115Stat = category("115-statistics", "Domain IV: Probability and Statistics", "Data analysis, measures of center and spread, probability, counting, distributions, sampling, inference, and correlation.",
     [qMeanMedian,qWeightedMean,qRangeIqr,qSimpleProbability,qCompoundProbability,qWithoutReplacement,qCounting,qSetProbability,qConditionalProbability,qCorrelation,qNormalRule,qSamplingInference,qBarChartInterpret,qLineGraphInterpret,qDataTableMean,qBoxPlotInterpret,qHistogramInterpret,qScatterAssociation,qScatterPrediction,qTwoWayTableProbability,qGraphModelType]);
   const m115Proc = category("115-processes", "Domain V: Mathematical Processes and Perspectives", "Reasoning, proof, modeling, connections, estimation, financial mathematics, and evaluation of solutions.",
@@ -1234,7 +1443,7 @@
 
   // ACCUPLACER Arithmetic
   const arWhole = category("acc-ar-whole", "Whole Number Operations", "Computation, order of operations, estimation, rounding, place value, and whole-number applications.",
-    [qWholeOperation,qDivisionContext,qPlaceValue,qRounding,qEstimation], "Arithmetic");
+    [qWholeOperation,qDivisionContext,qPlaceValue,qRounding,qEstimation,qArithmeticDataTable,qArithmeticBarRead], "Arithmetic");
   const arFrac = category("acc-ar-fractions", "Fraction Operations", "Addition, multiplication, division, fractions of quantities, and fraction comparisons.",
     [qFractionAdd,qFractionMultiply,qFractionDivide,qFractionOfQuantity,qCompareNumbers], "Arithmetic");
   const arDec = category("acc-ar-decimals", "Decimal Operations", "Decimal computation, place value, rounding, estimation, and comparison.",
@@ -1248,7 +1457,7 @@
   const qasRat = category("acc-qas-rational", "Rational Numbers", "Operations, ordering, absolute value, and representations of signed rational numbers.",
     [qFractionAdd,qFractionMultiply,qFractionDivide,qDecimalOperation,qCompareNumbers,qAbsoluteValueEquation], "QAS");
   const qasRatio = category("acc-qas-ratio", "Ratio and Proportional Relationships", "Ratios, rates, unit rates, proportions, percents, and direct variation.",
-    [qProportion,qProportionalModel,qPercentOf,qPercentChange,qLinearApplication,qDimensionalAnalysis], "QAS");
+    [qProportion,qProportionalModel,qPercentOf,qPercentChange,qLinearApplication,qDimensionalAnalysis,qRatioTable,qQasGroupedBarIncrease], "QAS");
   const qasExp = category("acc-qas-exponents", "Exponents", "Exponent rules, powers of ten, square roots, and scientific notation.",
     [qExponentLaw,qScientificNotation,qNumberSet,qEvaluateExpression], "QAS");
   const qasExpr = category("acc-qas-expressions", "Algebraic Expressions", "Evaluation, simplification, combining like terms, and translating relationships.",
@@ -1256,33 +1465,35 @@
   const qasEq = category("acc-qas-equations", "Linear Equations", "One-variable equations, inequalities, systems, and absolute-value equations.",
     [qLinearEquation,qLinearInequality,qSystemEquations,qAbsoluteValueEquation], "QAS");
   const qasLin = category("acc-qas-linear", "Linear Applications and Graphs", "Slope, equations of lines, graphs, direct variation, and real-world linear models.",
-    [qSlope,qLineEquation,qGraphSlope,qLinearApplication,qProportionalModel,qRateOfChange], "QAS");
+    [qSlope,qLineEquation,qGraphSlope,qLinearApplication,qProportionalModel,qRateOfChange,qFunctionTable,qTableRateOfChange,qQasLinearGraphEquation,qLineGraphInterpret], "QAS");
   const qasProb = category("acc-qas-probability", "Probability and Sets", "Sample spaces, simple and compound probability, sets, counting, and conditional probability.",
-    [qSimpleProbability,qCompoundProbability,qWithoutReplacement,qSetProbability,qConditionalProbability,qCounting], "QAS");
+    [qSimpleProbability,qCompoundProbability,qWithoutReplacement,qSetProbability,qConditionalProbability,qCounting,qTwoWayTableProbability], "QAS");
   const qasStat = category("acc-qas-statistics", "Descriptive Statistics", "Mean, median, range, IQR, weighted averages, distributions, and correlation.",
-    [qMeanMedian,qRangeIqr,qWeightedMean,qCorrelation,qNormalRule], "QAS");
+    [qMeanMedian,qRangeIqr,qWeightedMean,qCorrelation,qNormalRule,qBarChartInterpret,qQasGroupedBarIncrease,qQasNumericTableMean,qDataTableMean,qBoxPlotInterpret,qHistogramInterpret,qScatterAssociation,qScatterPrediction], "QAS");
   const qasGeo = category("acc-qas-geometry", "Geometry Concepts", "Area, perimeter, volume, angles, similarity, coordinate geometry, and the Pythagorean theorem.",
-    [qRectangleAreaPerimeter,qTriangleArea,qCircle,qVolumePrism,qPythagorean,qAngles,qSimilarityScale,qDistanceMidpoint], "QAS");
+    [qRectangleAreaPerimeter,qTriangleArea,qCircle,qVolumePrism,qPythagorean,qAngles,qSimilarityScale,qDistanceMidpoint,qQasPrismDiagram,qQasRightTriangleDiagram,qQasCoordinateTransformation,qGeometryDiagram,qCoordinateGraphPoint], "QAS");
 
   // ACCUPLACER AAF
   const aafEq = category("acc-aaf-equations", "Linear Equations", "Multi-step equations, inequalities, systems, and equations involving parameters.",
     [qLinearEquation,qLinearInequality,qSystemEquations,qAbsoluteValueEquation], "AAF");
   const aafLin = category("acc-aaf-linear", "Linear Applications and Graphs", "Slope, line equations, systems, rate of change, and linear modeling.",
-    [qSlope,qLineEquation,qGraphSlope,qLinearApplication,qSystemEquations,qRateOfChange], "AAF");
+    [qSlope,qLineEquation,qGraphSlope,qLinearApplication,qSystemEquations,qRateOfChange,qAafPerpendicularGraph,qFunctionTable,qTableRateOfChange,qQasLinearGraphEquation], "AAF");
   const aafFact = category("acc-aaf-factoring", "Factoring", "Trinomials, difference of squares, zeros, and factor-based solution methods.",
     [qFactorQuadratic,qDifferenceSquares,qQuadraticRoots,qPolynomialRemainder], "AAF");
   const aafQuad = category("acc-aaf-quadratics", "Quadratics", "Roots, factoring, vertex form, discriminants, graphs, and quadratic models.",
-    [qFactorQuadratic,qQuadraticRoots,qQuadraticVertex,qDiscriminant,qDifferenceSquares], "AAF");
+    [qFactorQuadratic,qQuadraticRoots,qQuadraticVertex,qDiscriminant,qDifferenceSquares,qAafQuadraticGraphEquation,qAafQuadraticVertexFromGraph], "AAF");
   const aafFunc = category("acc-aaf-functions", "Functions", "Function notation, composition, domain, transformations, sequences, and rates of change.",
-    [qFunctionEvaluate,qFunctionComposition,qFunctionDomain,qSequence,qRateOfChange,qGraphSlope], "AAF");
+    [qFunctionEvaluate,qFunctionComposition,qFunctionDomain,qSequence,qRateOfChange,qGraphSlope,qFunctionTable,qAafFunctionGraphChoice,qQasLinearGraphEquation], "AAF");
   const aafRad = category("acc-aaf-radical", "Radical and Rational Equations", "Radical equations, rational equations, domains, and extraneous-value checks.",
     [qRadicalEquation,qRationalEquation,qFunctionDomain,qExponentLaw], "AAF");
   const aafPoly = category("acc-aaf-polynomial", "Polynomial Equations", "Polynomial zeros, factoring, remainders, quadratics, and complex solutions.",
     [qPolynomialRemainder,qFactorQuadratic,qDifferenceSquares,qQuadraticRoots,qDiscriminant,qComplexArithmetic], "AAF");
   const aafExp = category("acc-aaf-explog", "Exponential and Logarithmic Equations", "Growth and decay, exponent properties, powers, logarithms, and inverse relationships.",
-    [qExponentialGrowth,qLogarithm,qExponentLaw,qScientificNotation,qLimitSequence], "AAF");
+    [qExponentialGrowth,qLogarithm,qExponentLaw,qScientificNotation,qLimitSequence,qAafExponentialGraph], "AAF");
+  const aafGeo = category("acc-aaf-geometry", "Geometry Concepts", "Coordinate and Euclidean geometry, transformations, congruence, measurement, and three-dimensional figures.",
+    [qAafPrismSurfaceArea,qAafTriangleCongruenceDiagram,qQasCoordinateTransformation,qQasRightTriangleDiagram,qDistanceMidpoint,qSimilarityScale,qGeometryDiagram,qCoordinateGraphPoint], "AAF");
   const aafTrig = category("acc-aaf-trig", "Trigonometry", "Right-triangle ratios, special angles, unit-circle values, and trigonometric applications.",
-    [qTrigRightTriangle,qTrigExact,qPythagorean,qDistanceMidpoint], "AAF");
+    [qTrigRightTriangle,qTrigExact,qPythagorean,qDistanceMidpoint,qAafRightTriangleTrigDiagram], "AAF");
 
   const exams = {
     ec6: {
@@ -1329,8 +1540,8 @@
       id:"accu-aaf", family:"ACCUPLACER", code:"AAF", title:"ACCUPLACER Advanced Algebra and Functions", shortTitle:"ACCUPLACER AAF",
       description:"Linear and nonlinear algebra, functions, factoring, polynomials, exponentials, logarithms, radicals, rational equations, and trigonometry.",
       fullCount:20, duration:0, forms:4, topicVersions:3, topicCount:10,
-      categories:[aafEq,aafLin,aafFact,aafQuad,aafFunc,aafRad,aafPoly,aafExp,aafTrig],
-      weights:{[aafEq]:2,[aafLin]:2,[aafFact]:2,[aafQuad]:3,[aafFunc]:3,[aafRad]:2,[aafPoly]:2,[aafExp]:2,[aafTrig]:2},
+      categories:[aafEq,aafLin,aafFact,aafQuad,aafFunc,aafRad,aafPoly,aafExp,aafGeo,aafTrig],
+      weights:{[aafEq]:3,[aafLin]:2,[aafFact]:2,[aafQuad]:2,[aafFunc]:2,[aafRad]:3,[aafPoly]:2,[aafExp]:1,[aafGeo]:2,[aafTrig]:1},
       note:"ACCUPLACER is computer-adaptive and normally untimed. This fixed form samples every published AAF content category."
     }
   };
@@ -1382,7 +1593,7 @@
   function buildUniqueQuestions(categoryId, count, seedText, usedPrompts, modeTag) {
     const cat = categories[categoryId];
     if (!cat) throw new Error(`Unknown category: ${categoryId}`);
-    const templateOrder = shuffle(rngFromSeed(`${seedText}:template-order:v2`), cat.pool.map((_, i) => i));
+    const templateOrder = shuffle(rngFromSeed(`${seedText}:template-order:v3`), cat.pool.map((_, i) => i));
     const out = [], local = new Set();
 
     for (let item = 0; item < count; item++) {
@@ -1392,7 +1603,7 @@
       for (let pass = 0; pass < 18 && !accepted; pass++) {
         for (let offset = 0; offset < templateOrder.length && !accepted; offset++) {
           const ti = templateOrder[(item + offset + pass) % templateOrder.length];
-          const r = rngFromSeed(`${seedText}:item-${item}:template-${ti}:pass-${pass}:v2`);
+          const r = rngFromSeed(`${seedText}:item-${item}:template-${ti}:pass-${pass}:v3`);
           const q = cat.pool[ti](r);
           const key = promptKey(q.prompt);
           if (!usedPrompts.has(key) && !local.has(key)) accepted = q;
@@ -1405,7 +1616,7 @@
       if (!accepted) {
         for (let pass = 0; pass < 200 && !accepted; pass++) {
           const ti = templateOrder[(item + pass) % templateOrder.length];
-          const r = rngFromSeed(`${seedText}:fallback-${item}-${pass}:v2`);
+          const r = rngFromSeed(`${seedText}:fallback-${item}-${pass}:v3`);
           const raw = cat.pool[ti](r);
           const q = transformedQuestion(raw, r, pass, `${modeTag}:${item}:${pass}`);
           const key = promptKey(q.prompt);
@@ -1443,7 +1654,7 @@
     return null;
   }
   function enforceVisualMinimum(examId, qs, used, formIndex) {
-    const target=({ec6:5,core48:6,math48:12})[examId]||0;
+    const target=({ec6:10,core48:12,math48:25,"accu-arith":2,"accu-qas":6,"accu-aaf":7})[examId]||0;
     let current=qs.filter(isVisualQuestion).length;
     if (current>=target) return qs;
     const e=exams[examId], cats=e.categories.filter(id=>visualGeneratorsFor(id).length);
@@ -1454,6 +1665,57 @@
       if(replaceIndex<0) continue;
       const v=buildUniqueVisualQuestion(catId,`${examId}:fixed-full:${formIndex}:forced:${current}:${catId}`,used);
       if(!v) continue;
+      qs[replaceIndex]=v; current++;
+    }
+    return qs;
+  }
+
+  function isGraphQuestion(q) {
+    return /svg-graph|chart-svg/.test(String(q.prompt||""));
+  }
+  function graphGeneratorsFor(categoryId) {
+    const cat=categories[categoryId];
+    return cat.pool.filter((fn,i)=>{
+      try { return isGraphQuestion(fn(rngFromSeed(`graph-probe:${categoryId}:${i}`))); } catch { return false; }
+    });
+  }
+  function buildUniqueGraphQuestion(categoryId, seedText, usedPrompts) {
+    const cat=categories[categoryId], gp=graphGeneratorsFor(categoryId);
+    if(!gp.length) return null;
+    for(let pass=0; pass<180; pass++){
+      const fn=gp[pass%gp.length], r=rngFromSeed(`${seedText}:graph:${pass}`), q=fn(r), key=promptKey(q.prompt);
+      if(!usedPrompts.has(key)){
+        q.categoryId=categoryId; q.categoryLabel=cat.label; q.id=`${categoryId}-${hashString(`${seedText}:${pass}:${q.prompt}`).toString(36)}`; q.visual=true;
+        usedPrompts.add(key); return q;
+      }
+    }
+    return null;
+  }
+  function enforceGraphMinimum(examId, qs, used, formIndex) {
+    const target=({ec6:5,core48:7,math48:15})[examId]||0;
+    let current=qs.filter(isGraphQuestion).length;
+    if(current>=target) return qs;
+    const e=exams[examId], cats=e.categories.filter(id=>graphGeneratorsFor(id).length);
+    let guard=0, ci=formIndex%Math.max(1,cats.length);
+    while(current<target && guard++<500 && cats.length){
+      const catId=cats[ci%cats.length]; ci++;
+      const replaceIndex=qs.findIndex(q=>q.categoryId===catId && !isGraphQuestion(q));
+      if(replaceIndex<0) continue;
+      const g=buildUniqueGraphQuestion(catId,`${examId}:fixed-full:${formIndex}:forced-graph:${current}:${catId}`,used);
+      if(!g) continue;
+      qs[replaceIndex]=g; current++;
+    }
+    return qs;
+  }
+  function enforceTopicVisualMinimum(examId, categoryId, qs, used, versionIndex) {
+    if(!visualGeneratorsFor(categoryId).length) return qs;
+    const target=Math.min(qs.length, Math.max(2, Math.ceil(qs.length*0.25)));
+    let current=qs.filter(isVisualQuestion).length, guard=0;
+    while(current<target && guard++<250){
+      const replaceIndex=qs.findIndex(q=>!isVisualQuestion(q));
+      if(replaceIndex<0) break;
+      const v=buildUniqueVisualQuestion(categoryId,`${examId}:fixed-topic:${categoryId}:${versionIndex}:forced:${current}:${guard}`,used);
+      if(!v) break;
       qs[replaceIndex]=v; current++;
     }
     return qs;
@@ -1476,7 +1738,8 @@
           ));
         }
         qs = enforceVisualMinimum(examId, qs, used, formIndex);
-        qs = shuffle(rngFromSeed(`${examId}:fixed-full:${formIndex}:shuffle:v2`), qs);
+        qs = enforceGraphMinimum(examId, qs, used, formIndex);
+        qs = shuffle(rngFromSeed(`${examId}:fixed-full:${formIndex}:shuffle:v4`), qs);
         qs.forEach((q, i) => q.order = i + 1);
         FIXED.full[examId].push(qs);
       }
@@ -1485,13 +1748,14 @@
       for (const categoryId of exam.categories) {
         FIXED.topic[examId][categoryId] = [];
         for (let versionIndex = 0; versionIndex < exam.topicVersions; versionIndex++) {
-          const qs = buildUniqueQuestions(
+          let qs = buildUniqueQuestions(
             categoryId,
             exam.topicCount,
             `${examId}:fixed-topic:${categoryId}:${versionIndex}`,
             used,
             `topic-${versionIndex}`
           );
+          qs = enforceTopicVisualMinimum(examId, categoryId, qs, used, versionIndex);
           qs.forEach((q, i) => q.order = i + 1);
           FIXED.topic[examId][categoryId].push(qs);
         }
@@ -1527,7 +1791,7 @@
     for (const categoryId of exam.categories) {
       questions = questions.concat(buildUniqueQuestions(categoryId, exam.weights[categoryId], `${seedText}:${categoryId}`, used, "random-full"));
     }
-    questions = shuffle(rngFromSeed(`${seedText}:shuffle:v2`), questions);
+    questions = shuffle(rngFromSeed(`${seedText}:shuffle:v3`), questions);
     questions.forEach((q, i) => q.order = i + 1);
     return questions;
   }
