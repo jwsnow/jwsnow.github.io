@@ -78,7 +78,7 @@ a { color: var(--primary); }
 }
 .brand strong, .brand small { display: block; }
 .brand small { color: var(--muted); font-size: .72rem; }
-.header-actions { display: flex; gap: .5rem; }
+.header-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5rem; }
 
 main { min-height: 75vh; }
 .hero {

@@ -1,0 +1,159 @@
+{
+  "checkedAt": "2026-08-07T02:13:17.430Z",
+  "exams": [
+    {
+      "area": "math",
+      "id": "ec6",
+      "code": "902",
+      "full": 40,
+      "forms": 5,
+      "categories": 5
+    },
+    {
+      "area": "math",
+      "id": "core48",
+      "code": "807",
+      "full": 42,
+      "forms": 5,
+      "categories": 16
+    },
+    {
+      "area": "math",
+      "id": "math48",
+      "code": "115",
+      "full": 100,
+      "forms": 5,
+      "categories": 5
+    },
+    {
+      "area": "math",
+      "id": "accu-arith",
+      "code": "Arithmetic",
+      "full": 20,
+      "forms": 4,
+      "categories": 5
+    },
+    {
+      "area": "math",
+      "id": "accu-qas",
+      "code": "QAS",
+      "full": 20,
+      "forms": 4,
+      "categories": 9
+    },
+    {
+      "area": "math",
+      "id": "accu-aaf",
+      "code": "AAF",
+      "full": 20,
+      "forms": 4,
+      "categories": 9
+    },
+    {
+      "area": "science",
+      "id": "ec6-science",
+      "code": "904",
+      "full": 45,
+      "forms": 4,
+      "categories": 9
+    },
+    {
+      "area": "science",
+      "id": "core48-science",
+      "code": "809",
+      "full": 42,
+      "forms": 4,
+      "categories": 9
+    },
+    {
+      "area": "science",
+      "id": "science48",
+      "code": "116",
+      "full": 100,
+      "forms": 4,
+      "categories": 9
+    },
+    {
+      "area": "social-studies",
+      "id": "ec6-social",
+      "code": "903",
+      "full": 40,
+      "forms": 4,
+      "categories": 9
+    },
+    {
+      "area": "social-studies",
+      "id": "core48-social",
+      "code": "808",
+      "full": 42,
+      "forms": 4,
+      "categories": 9
+    },
+    {
+      "area": "social-studies",
+      "id": "social48",
+      "code": "118",
+      "full": 100,
+      "forms": 4,
+      "categories": 9
+    },
+    {
+      "area": "elar-reading",
+      "id": "ec6-elar",
+      "code": "901",
+      "full": 45,
+      "forms": 4,
+      "categories": 10
+    },
+    {
+      "area": "elar-reading",
+      "id": "core48-elar",
+      "code": "806",
+      "full": 74,
+      "forms": 4,
+      "categories": 10
+    },
+    {
+      "area": "elar-reading",
+      "id": "elar48",
+      "code": "217",
+      "full": 90,
+      "forms": 4,
+      "categories": 10
+    },
+    {
+      "area": "elar-reading",
+      "id": "str293",
+      "code": "293",
+      "full": 90,
+      "forms": 4,
+      "categories": 8
+    },
+    {
+      "area": "fine-arts-health-pe",
+      "id": "ec6-fahpe",
+      "code": "905",
+      "full": 40,
+      "forms": 4,
+      "categories": 5
+    },
+    {
+      "area": "combined-48",
+      "id": "elar-social48",
+      "code": "113",
+      "full": 120,
+      "forms": 4,
+      "categories": 20
+    },
+    {
+      "area": "combined-48",
+      "id": "math-science48",
+      "code": "114",
+      "full": 120,
+      "forms": 4,
+      "categories": 11
+    }
+  ],
+  "generatedInstances": 10684,
+  "errors": []
+}

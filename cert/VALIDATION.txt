@@ -1,41 +1,25 @@
-Texas Core Subjects Diagnostic & Practice Portal
-Validation completed: August 6, 2026
+TEXAS EDUCATOR CERTIFICATION PRACTICE PORTAL — VALIDATION SUMMARY
 
-STRUCTURE
-- One portal linking Mathematics, Science, Social Studies, and ELAR/Reading
-- Static HTML, CSS, and JavaScript only
-- No server-side processing or database
+Expanded centers:
+- Core Subjects EC–6 Fine Arts, Health and Physical Education 905
+- ELAR/Social Studies 4–8 (113)
+- Mathematics/Science 4–8 (114)
 
-QUESTION-BANK VALIDATION
-- Mathematics and ACCUPLACER: 2,650 generated instances checked
-- Science: 178 original base questions; 1,612 generated instances checked
-- Social Studies: 168 original base questions; 1,592 generated instances checked
-- ELAR/Reading: 217 original base questions; 2,444 generated instances checked
-- New non-mathematics base questions total: 563
-- Total generated quiz instances checked across the portal: 8,298
+New fixed-form checks:
+- Exam 905: 4 forms × 40 questions
+- Exam 113: 4 forms × 120 questions
+- Exam 114: 4 forms × 120 questions
+- All category allocations matched configured framework weights.
+- All generated questions had four distinct choices, one valid answer, and an explanation.
+- All fixed targeted quiz versions generated at their configured lengths.
 
-Checks included:
-- Exact full-form and topic-quiz lengths
-- Form category distributions
-- Valid answer indices
-- Four nonempty, distinct choices per question
-- Nonempty prompts and explanations
-- Category metadata
-- No repeated question within any generated non-mathematics form
-- All local HTML, CSS, and JavaScript links resolve
-- JavaScript syntax checks
+Portal-wide checks:
+- 19 exam configurations
+- 10,684 generated fixed-form and fixed-topic question instances
+- 0 structural errors
+- 7 HTML entry pages
+- 0 broken local file references
+- All JavaScript files passed Node syntax checks
 
-INTERFACE SMOKE TESTS
-Science, Social Studies, and ELAR/Reading each passed scripted tests for:
-- Home page rendering
-- Exam-center navigation
-- Full-form launch
-- Answer selection
-- Quiz submission
-- Component-area report rendering
-- Answer-review rendering
-- ELAR constructed-response lab rendering
-
-NOTES
-- Raw percentages are diagnostic and do not reproduce official TExES scaled scores.
-- Questions are original and aligned to public exam frameworks; published sample questions were not copied into the banks.
+Browser-render limitation:
+The container's Chromium process hung while attempting to connect to unavailable system-bus services, so a fresh automated browser render could not be completed. The shared quiz interface code was not changed except for footer/navigation links and responsive header wrapping.
