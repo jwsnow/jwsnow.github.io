@@ -4,10 +4,30 @@
   "questions": 1764,
   "errors": 0,
   "warnings": 0,
-  "sitewide_review_checks": {
-    "canned_leadin_occurrences": 0,
-    "exact_duplicate_prompt_groups_within_skills": 0,
-    "exam1_scatter_association_or_strong_labels": 0,
-    "graph_questions_requiring_visuals_missing_svg": 0
+  "answer_audit": {
+    "numerical_questions_independently_recomputed": 777,
+    "numerical_errors": 0,
+    "conceptual_questions_independently_checked": 987,
+    "conceptual_errors": 0,
+    "total_questions_covered": 1764,
+    "duplicate_answer_choices": 0,
+    "normalized_duplicate_answer_choices": 0
+  },
+  "conventions": {
+    "H0_equality_for_one_two_sample_and_matched_pairs": true,
+    "formal_conclusions_support_H1_wording": true,
+    "correlation_hypotheses_in_words": true,
+    "anova_hypotheses_in_words": true,
+    "means_use_t_procedures": true,
+    "hypothesis_test_critical_values_excluded": true
+  },
+  "mathjax": {
+    "tex_occurrences": 12185,
+    "unique_tex_expressions": 5428,
+    "errors": 0,
+    "raw_tex_outside_delimiters": 0
+  },
+  "forms": {
+    "errors": 0
   }
 }

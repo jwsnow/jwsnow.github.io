@@ -17,41 +17,66 @@ The diagnostic sequence follows the uploaded class-review file:
 11. Chi-Squared Tests
 12. ANOVA and Choosing the Correct Test
 
-The 5a/5b through 12a/12b subdivisions are represented as skill groups within the corresponding diagnostic exam.
+The 5a/5b through 12a/12b subdivisions are represented as focused skills within the corresponding diagnostic exam.
 
-## JSON-only material incorporated
+## Source hierarchy
 
-Material found in the older JSON bank but not emphasized as strongly in the printed review was incorporated where it supports fundamental skills:
+The revised bank uses three sources in this order:
 
-- descriptive/statistical vocabulary beyond the printed prompts;
-- experiment versus observational study;
-- frequency-table/histogram interpretation (rebuilt without the missing images);
-- sample-space/event vocabulary;
-- replacement versus nonreplacement and dependence;
-- **standard deviation of a discrete random variable**;
-- significantly low values using the 5% Rule;
-- confidence-interval majority/overlap interpretation;
-- explicit null-hypothesis formulation as well as alternative-hypothesis formulation;
-- direction/strength of correlation.
+1. the uploaded class-review `testTopics` material for the expected course sequence and question style;
+2. the older JSON banks for the established kinds of practice questions and contextual applications;
+3. newly generated contextual variants to provide enough material for multiple fixed and random forms.
 
-Lottery, insurance, Punnett-square, cards, coins, dice, and marbles are used as applications of existing skills rather than being treated as separate course topics.
+Sections 1–2 were retained from the prior site-wide revision. Sections 3–12 were re-audited/rebuilt after the source-alignment review.
 
-## Intentional discrete examples
+## Section 3 — Probability
 
-Salary and posted-price examples are intentionally retained as **discrete quantitative** variables when their possible values are restricted to fixed currency increments. The explanations explicitly distinguish discrete/continuous from the superficial question of whether a number is written with decimals.
+Genetics questions now follow the formal wording used in the JSON bank: homozygous dominant, homozygous recessive, heterozygous, genotype, and phenotype. Casual references such as “Mendelian cross” are not used as a substitute for the actual genetic setup.
+
+## Section 4 — Random variables
+
+Validity-of-distribution, mean, standard-deviation, and 5% Rule questions display probability tables. All 60 mean/standard-deviation questions were independently recomputed from the exact probabilities shown in those tables. The bank includes mean, standard deviation, significantly high values, significantly low values, insurance, lottery/game expected value, and long-run interpretation.
+
+## Sections 5–7 — distributions and intervals
+
+Binomial and Poisson questions are contextual and mirror the JSON/`testTopics` patterns: ordinary probabilities, claims evaluated with Rare Event Rule reasoning, multiple-choice guessing, Range Rule of Thumb, Poisson rate conversion, Poisson mean/standard deviation, and capacity/percentile questions. Bare notation such as `X ~ Bin(...)` is excluded from student prompts.
+
+Uniform, normal, standard-normal, and sampling-distribution questions use contextual measurements when a context is meaningful. The standard-normal bank also includes the mean/standard deviation and inverse-normal cutoff types present in `testTopics`.
+
+Confidence-interval banks include calculation from summary statistics or raw data, interpretation, margin of error, overlapping proportion intervals, majority claims, and the inference/rare-event meaning of a claimed parameter lying outside an interval. All intervals about means use t-distributions.
 
 ## Hypothesis testing
 
-The site uses the **P-value method**. Critical-value hypothesis-testing material from the older JSON bank is excluded.
+The site uses the **P-value method**. Hypothesis-test critical-value material from the older JSON bank is excluded.
 
-For one proportion, one mean, two independent proportions, two independent means, matched pairs, goodness of fit, contingency tables, ANOVA, and correlation, **setup/interpretation is separated from full-test computation**. Diagnostics 8–12 deliberately contain only a few full tests; most questions emphasize claims, hypotheses, P-value decisions, conclusions, interpretation, regression, or test selection.
+For one proportion, one mean, two independent proportions, two independent means, matched pairs, and correlation, setup/interpretation banks explicitly practice:
+
+- translating verbal claims into symbols;
+- identifying `H0`;
+- identifying `H1`;
+- formal reject/fail-to-reject conclusions from a P-value and significance level;
+- conclusions about the original claim.
+
+Computation is deliberately separated into contextual **P-value calculation** questions. The old all-in-one “Which complete analysis is correct?” format has been removed. Goodness of fit, contingency tables, and ANOVA likewise separate hypotheses/interpretation from P-value calculation.
+
+All one-mean, two-independent-means, and matched-pairs inference uses t procedures. Two-independent-means calculations use Welch’s t procedure. Matched-pairs differences are defined as `First − Second`.
+
+## Correlation, regression, chi-square, and ANOVA
+
+Correlation questions use positive correlation, negative correlation, and no linear correlation terminology without undefined “strong” labels in introductory interpretation. Regression includes both predicting `y` from `x` and the reverse-variable regression examples represented in the source material.
+
+Goodness-of-fit, contingency-table, and ANOVA questions use contextual categorical/group labels and technology-based P-values. The Choosing the Correct Test bank contains unique contextual claims representing all nine procedures used in the class review.
+
+## Intentional discrete monetary examples
+
+Salary and posted-price examples remain intentionally **discrete quantitative** variables when possible values are restricted to fixed currency increments. Decimal notation alone does not make a variable continuous.
 
 ## Formatting
 
-Mathematical notation in the new bank is written in MathJax LaTeX. HTML is used only for structural layout (paragraphs, tables, and inline SVG graphs). The renderer avoids raw `<` in mathematical source, preventing the truncation problem found in the earlier analysis site.
+Mathematical notation is written in MathJax LaTeX. HTML is used for structural layout such as paragraphs, tables, and inline SVG graphs. Every question includes a nonempty explanation shown after submission.
 
-All graph questions in the new bank use inline SVG; they do not depend on the 120 missing image references in the older JSON bank.
+## Final course-language conventions
 
-## August 7 site-wide question-quality revision
+After the Form A review, the same wording rules were applied throughout the bank. Empirical-Rule ranges are written with “to”; binomial and Poisson questions request the probability explicitly; Poisson problems do not coach students to convert the rate; and contextual parameter definitions are given for independent-sample inference. In one-/two-sample and matched-pairs tests, the null hypothesis always uses equality. Formal decisions use “Support \(H_1\)” or “Do not support \(H_1\).” Correlation hypotheses and ANOVA hypotheses are stated in words, consistent with the course text.
 
-A review of Exam 1 Form A exposed a general padding/repetition problem in the generated bank. The site was re-audited globally. Canned lead-ins were removed, duplicate-stem groups were replaced with substantive variants, and diagnostic selection was changed to balance subskills rather than relying on an unrestricted shuffle. Introductory scatterplots now use correlation terminology without undefined strength labels, and misleading-display questions show the graph. See `REVISION_NOTES.md` for the detailed audit.
+The final answer audit covers all 1,764 questions: 777 were independently recomputed numerically from the exact displayed values, while the remaining 987 were independently checked against definitions, rules, hypothesis conventions, interpretation rules, and test-selection criteria. No unresolved answer errors or duplicate answer choices remained.

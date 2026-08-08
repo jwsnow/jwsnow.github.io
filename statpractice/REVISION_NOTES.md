@@ -1,53 +1,46 @@
-# Site-wide revision after Exam 1 Form A review
+# Revision Notes
 
-This revision treats the issues found in Exam 1 Form A as generator/site-wide issues rather than isolated edits.
+## August 8, 2026 — Form A review and full answer audit
 
-## Removed canned directions
+The Form A comments for Exams 2 and 5–12 were treated as site-wide conventions rather than isolated edits. Changes include:
 
-The following artificial lead-ins were removed throughout the entire question bank:
+- changed Empirical-Rule ranges to “a to b” wording;
+- broadened binomial contexts and removed unnecessary Poisson rate-conversion coaching;
+- made Poisson capacity contexts concrete and understandable;
+- made requested binomial/Poisson probabilities explicit and standardized “Let \(x\) be the number correct” wording for guessing problems;
+- repaired percentage rendering and “middle q%” wording in uniform/normal questions;
+- made confidence-interval population characteristics explicit;
+- standardized \(H_0\) on equality for one-/two-sample and matched-pairs tests;
+- standardized formal decisions on “Support \(H_1\)” / “Do not support \(H_1\)”;
+- added formal contextual definitions of \(p_1,p_2,\mu_1,\mu_2\) throughout independent-sample work;
+- stated correlation hypotheses in words;
+- made goodness-of-fit prompts self-contained by stating the population claim;
+- stated ANOVA hypotheses in words and added interpretation of “Not all of the means are equal.”
 
-- “Select the correct response.”
-- “Which option is correct?”
-- “Choose the best answer.”
-- “During a review, answer this question:”
-- “A student is checking this skill.”
-- “For another example of this skill,”
-- “Identify the correct response.”
-- “Consider this review question:”
-- “Use the definitions from this unit to answer:”
-- “Apply the same skill in this version:”
+A separate answer audit then independently recomputed 777 numerical questions from the displayed values and checked the remaining 987 conceptual/setup/interpretive questions. Both audits completed with zero unresolved answer errors. Exact and normalized-math duplicate-choice audits also completed with zero findings.
 
-Before correction, 310 questions contained one of these padding phrases.
+## August 8, 2026 — contextual/source-alignment rebuild
 
-## Repetition
+Sections 3–12 were rebuilt/re-audited against the uploaded JSON review banks and `testTopics` files.
 
-Removing the padding exposed 391 questions that belonged to exact duplicate-stem groups. Those copies were replaced with genuine contexts, different data, or distinct applications. There are now no exact duplicate prompts within any focused-skill bank.
+Major changes:
 
-The diagnostic selection algorithm was also changed. Fixed and random diagnostics now balance questions across tagged subskills inside a bank rather than simply shuffling the whole pool. This prevents a form from accidentally asking the same underlying definition or setup several times. Later hypothesis-test diagnostics are similarly balanced among hypothesis/claim work, P-value decisions, claim conclusions, and interpretation.
+- formalized genetics wording in Section 3;
+- regenerated Section 4 random-variable tables and independently verified mean/SD arithmetic;
+- displayed tables for probability-distribution validity and 5% Rule questions;
+- rebuilt binomial/Poisson practice around contextual source examples and Rare Event Rule reasoning;
+- removed abstract `X ~ Bin(...)` prompts;
+- restored missing standard-normal source question types;
+- strengthened confidence-interval rare-event/claim interpretation;
+- removed every “complete analysis” hypothesis-test question;
+- separated contextual P-value calculations from setup/interpretation;
+- added recurring `H0` as well as `H1` questions in one-/two-sample and matched-pairs setup;
+- retained t-distributions for all inference about means;
+- restored source-style regression in both prediction directions;
+- rebuilt choosing-the-test practice as 60 unique contextual claims.
 
-## Exam 1 terminology and graphs
+Exam 5 and Exam 7 diagnostic allocations were adjusted so the source-review question types and rare-event interpretation are reliably represented.
 
-- Scatterplot answers use **positive correlation**, **negative correlation**, and **no clear linear correlation**.
-- “Association” is not used for the introductory scatterplot skill.
-- “Strong positive” and “strong negative” are not used in Exam 1; strength terminology is reserved for the later correlation unit where the correlation coefficient is available.
-- Scatterplots intended to represent no clear linear correlation were regenerated so they do not contain an ambiguous moderate trend.
-- Misleading-axis questions now show an inline bar graph with the truncated vertical axis instead of describing the graph only in prose.
-- Histogram-shape questions continue to show the histogram itself.
+## August 7, 2026 — site-wide question-quality revision
 
-## Additional cleanup found during the audit
-
-- Rebuilt repeated introductory vocabulary, sampling/design, data-type, probability-vocabulary, compound-probability, random-variable, binomial-recognition, standard-normal, and confidence-interval interpretation items with substantive variants.
-- Replaced padded copies in two-sample, matched-pairs, correlation, goodness-of-fit, contingency-table, and ANOVA setup banks with actual research contexts.
-- Kept salary and price examples intentionally discrete when values are recorded in fixed currency increments.
-- Repaired nested MathJax delimiters in Mendelian-genetics questions and doubled backslashes in several standard-normal choices discovered during the revision audit.
-
-## Validation
-
-- 1,764 questions
-- four distinct choices and valid answer key for every question
-- explanation present for every question
-- no exact prompt duplicates within a skill bank
-- no canned lead-ins listed above
-- fixed skill versions remain disjoint by question ID
-- fixed diagnostic forms remain disjoint by question ID and are subskill-balanced
-- MathJax audit: 0 parser errors
+Exam 1 Form A exposed a general padding/repetition problem. Canned lead-ins were removed, duplicate-stem groups were replaced with substantive variants, diagnostic selection was changed to balance subskills, introductory scatterplots were standardized on correlation terminology without undefined strength labels, and misleading-display questions were changed to show the graph.

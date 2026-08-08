@@ -8,7 +8,7 @@ A self-contained static practice site for an introductory statistics course.
 - 4 fixed, reproducible forms for every diagnostic plus a Random form
 - 56 focused skill quizzes
 - 3 fixed versions for every skill plus a Random version
-- 1,764 original/regenerated questions
+- 1,764 audited questions
 - explanations for every question after submission
 - weakness reports that link directly to the corresponding skill practice
 - local-browser progress history
@@ -28,19 +28,27 @@ Then open `http://localhost:8000`.
 
 ## Important content decisions
 
-- Hypothesis tests use the P-value method.
-- Setup/interpretation and full hypothesis tests are separate focused skills.
-- Exams 8–12 weight setup and interpretation more heavily than full tests.
-- Discrete-random-variable standard deviation is included.
-- Salary and price can appear as intentionally discrete monetary variables.
+- Sections 3–12 were rebuilt against the original JSON review banks and the uploaded `testTopics` material.
+- Questions use contextual settings whenever practical rather than bare distribution notation.
+- Binomial questions do not use shorthand such as `X ~ Bin(...)`.
+- Binomial and Poisson practice includes Rare Event Rule / unusual-result interpretation.
+- Confidence-interval practice includes claim/rare-event-style interpretation as well as interval construction.
+- Hypothesis testing uses the P-value method; hypothesis-test critical values are excluded.
+- Hypothesis-test setup/interpretation is separated from contextual P-value calculations. There are no all-in-one “complete analysis” multiple-choice questions.
+- Inference about means uses t-distributions throughout; proportions use z procedures.
+- Matched-pairs differences use `First − Second`.
+- Discrete-random-variable means and standard deviations are calculated from the exact probability tables displayed to students.
+- Salary and posted-price examples may be intentionally discrete when possible values occur in fixed currency increments.
 - Mathematical notation is standardized on MathJax LaTeX.
 
 ## Audit files
 
 - `SKILL_MAP.md` — complete diagnostic/skill map and bank sizes
-- `CONTENT_AUDIT.md` — content decisions and alignment notes
+- `CONTENT_AUDIT.md` — content decisions and source-alignment notes
 - `SOURCE_JSON_AUDIT.md` — audit of all 77 older JSON files / 2,191 source questions
-- `VALIDATION.txt` / `VALIDATION.json` — generated-bank structural validation
+- `CONTEXTUAL_REBUILD_AUDIT.md` — details of the Sections 3–12 rebuild
+- `VALIDATION.txt` / `VALIDATION.json` — structural and content validation summary
+- `CONTEXTUAL_REBUILD_VALIDATION.json` — independent checks specific to this rebuild
 - `MATHJAX_AUDIT.json` — MathJax parser audit
-- `FORMS_VALIDATION.json` — fixed-form disjointness, subskill balance, and hypothesis-test weighting checks
-- `REVISION_NOTES.md` — site-wide cleanup prompted by the Exam 1 Form A review
+- `FORMS_VALIDATION.json` — fixed-form disjointness and subskill-balance checks
+- `REVISION_NOTES.md` — cumulative revision history
