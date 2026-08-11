@@ -45,6 +45,20 @@
     saveResults(all);
   }
 
+  const categoryIds = [...new Set(Object.values(D.exams).flatMap(e => e.categories || []))];
+  function masteryMap() {
+    const agg={}; categoryIds.forEach(id=>agg[id]={correct:0,total:0,attempts:0});
+    for(const r of loadResults()) for(const s of (r.categoryStats||[])) if(agg[s.id]) { agg[s.id].correct+=Number(s.correct)||0; agg[s.id].total+=Number(s.total)||0; agg[s.id].attempts++; }
+    Object.values(agg).forEach(x=>x.percent=x.total?Math.round(100*x.correct/x.total):null); return agg;
+  }
+  function masteryBadge(x) {
+    if(!x || x.percent==null) return `<span class="mastery-badge unseen">Not attempted</span>`;
+    const cls=x.percent<60?"weak":x.percent<80?"developing":"strong", label=x.percent<60?"Needs attention":x.percent<80?"Developing":"Strong";
+    return `<span class="mastery-badge ${cls}">${label} • ${x.percent}%</span>`;
+  }
+  function cumulativeWeaknesses(m) { return Object.entries(m).filter(([,x])=>x.percent!=null).sort((a,b)=>a[1].percent-b[1].percent||D.categories[a[0]].label.localeCompare(D.categories[b[0]].label)); }
+  function examForCategory(id) { return Object.values(D.exams).find(e=>(e.categories||[]).includes(id)); }
+
   function clearTimer() {
     if (state.timerId) window.clearInterval(state.timerId);
     state.timerId = null;
@@ -118,6 +132,7 @@
   }
 
   function renderHome() {
+    const saved=loadResults(), mastery=masteryMap(), attempted=Object.values(mastery).filter(x=>x.percent!=null).length, priority=cumulativeWeaknesses(mastery).filter(([,x])=>x.percent<60).length;
     const cards = [D.exams.math712].map(examCard).join("");
     main.innerHTML = `<section class="hero">
       <div class="hero-inner">
@@ -130,6 +145,10 @@
     <section class="content-wrap">
       <div class="section-heading"><h2>Mathematics 7–12 (235)</h2><p>Begin with a complete 100-question form or practice any competency individually.</p></div>
       <div class="exam-grid">${cards}</div>
+      <section class="panel progress-snapshot" style="margin-top:1.5rem">
+        <div class="section-heading"><div><h2>Progress and weaknesses</h2><p>Cumulative performance from completed activities on this browser.</p></div><button class="secondary-button" data-action="progress">View progress</button></div>
+        <div class="progress-summary-grid"><div><strong>${saved.length}</strong><span>activities completed</span></div><div><strong>${attempted}/${categoryIds.length}</strong><span>areas attempted</span></div><div><strong>${priority}</strong><span>areas needing attention</span></div></div>
+      </section>
       <section class="panel" style="margin-top:1.5rem">
         <h2>How to use the site</h2>
         <div class="card-grid">
@@ -172,19 +191,21 @@
     }).join("") + `<button class="form-button" data-action="start-full" data-exam="${exam.id}" data-seed="random-${Date.now()}"><strong>Random form</strong><small>New generated version</small></button>`;
   }
 
-  function topicCard(exam, categoryId) {
-    const cat=D.categories[categoryId];
+  function topicCard(exam, categoryId, mastery) {
+    const cat=D.categories[categoryId], stat=mastery?.[categoryId];
     const buttons=Array.from({length:exam.topicVersions},(_,i)=>`<button class="secondary-button" data-action="start-topic" data-exam="${exam.id}" data-topic="${cat.id}" data-seed="topic-${i+1}">Version ${i+1}</button>`).join("");
     return `<article class="topic-card">
       ${cat.group?`<span class="chip">${escapeText(cat.group)}</span>`:""}
-      <h3>${escapeText(cat.label)}</h3>
+      <div class="topic-title-row"><h3>${escapeText(cat.label)}</h3>${masteryBadge(stat)}</div>
       <p>${escapeText(cat.description)}</p>
+      ${stat?.total?`<div class="topic-mastery-detail">${stat.correct}/${stat.total} cumulative correct across ${stat.attempts} activities</div>`:""}
       <div class="topic-actions">${buttons}<button class="ghost-button" data-action="start-topic" data-exam="${exam.id}" data-topic="${cat.id}" data-seed="random-${Date.now()}-${cat.id}">Random</button></div>
     </article>`;
   }
 
   function renderExam(examId) {
     const exam=D.exams[examId];
+    const mastery=masteryMap();
     if(!exam) return doNavigate("home");
     const back = `<button data-action="home">Home</button>`;
     main.innerHTML=`<section class="content-wrap">
@@ -201,7 +222,7 @@
       </section>
       <section>
         <div class="section-heading"><h2>Practice by component area</h2><p>Each version contains ${exam.topicCount} generated questions. Repeating a version preserves its seed; “Random” produces a new set.</p></div>
-        <div class="topic-grid">${exam.categories.map(id=>topicCard(exam,id)).join("")}</div>
+        <div class="topic-grid">${exam.categories.map(id=>topicCard(exam,id,mastery)).join("")}</div>
       </section>
     </section>`;
   }
@@ -396,11 +417,14 @@
   }
 
   function renderProgress() {
-    const results=loadResults();
+    const results=loadResults(), mastery=masteryMap(), weak=cumulativeWeaknesses(mastery), priority=weak.slice(0,5);
     main.innerHTML=`<section class="content-wrap">${breadcrumbs("My progress")}
-      <div class="section-heading"><h1>My progress</h1><p>Results are stored only in this browser's local storage.</p></div>
+      <div class="section-heading"><div><p class="eyebrow">Stored on this device</p><h1>Progress and weakness history</h1><p>Results remain in this browser. Clearing browser storage or using another device will not carry the history over.</p></div></div>
+      <div class="progress-summary-grid"><div><strong>${results.length}</strong><span>activities completed</span></div><div><strong>${weak.length}/${categoryIds.length}</strong><span>areas attempted</span></div><div><strong>${weak.filter(([,x])=>x.percent>=80).length}</strong><span>areas currently strong</span></div></div>
+      ${priority.length?`<section class="panel"><h2>Cumulative priorities</h2><p>Lowest performance across all saved attempts.</p><div class="priority-grid">${priority.map(([id,x])=>{const e=examForCategory(id);return `<div class="priority-item"><div><strong>${escapeText(D.categories[id].label)}</strong>${masteryBadge(x)}<small>${x.correct}/${x.total} correct across ${x.attempts} activities</small></div>${e?`<button class="secondary-button" data-action="start-topic" data-exam="${e.id}" data-topic="${id}" data-seed="progress-${Date.now()}-${id}">Practice</button>`:""}</div>`;}).join("")}</div></section>`:""}
+      <section class="panel"><div class="section-heading"><div><h2>Area mastery</h2><p>All saved questions are combined by reporting area.</p></div></div><div class="mastery-grid">${categoryIds.map(id=>`<div class="mastery-item"><strong>${escapeText(D.categories[id].label)}</strong>${masteryBadge(mastery[id])}<span>${mastery[id].total?`${mastery[id].correct}/${mastery[id].total} correct across ${mastery[id].attempts} activities`:"No score data yet"}</span></div>`).join("")}</div></section>
       <section class="panel">
-        <div style="display:flex;justify-content:space-between;gap:1rem;align-items:center"><h2>Completed quizzes</h2>${results.length?`<button class="danger-button" data-action="clear-progress">Clear history</button>`:""}</div>
+        <div style="display:flex;justify-content:space-between;gap:1rem;align-items:center"><h2>Activity history</h2>${results.length?`<button class="danger-button" data-action="clear-progress">Clear history</button>`:""}</div>
         ${results.length?`<div class="progress-list">${results.map(r=>`<div class="progress-row"><div><strong>${escapeText(r.examTitle)}</strong><br><small>${escapeText(r.label)} • ${escapeText(r.mode)}</small></div><strong>${r.percent}%</strong><time datetime="${r.completedAt}">${new Date(r.completedAt).toLocaleDateString()}</time></div>`).join("")}</div>`:`<div class="empty-state">No completed quizzes yet.</div>`}
       </section>
     </section>`;
