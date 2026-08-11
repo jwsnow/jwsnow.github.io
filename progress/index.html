@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Practice Progress Instructor Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div><strong>Practice Progress Instructor Dashboard</strong><small>Local-only student progress collection and class analysis</small></div>
+      <div class="top-actions">
+        <button class="button secondary" id="export-backup">Export instructor backup</button>
+        <label class="button secondary file-button">Restore backup<input id="restore-backup" type="file" accept="application/json,.json"></label>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Static, local, portable</p>
+        <h1>Collect student practice progress without a server.</h1>
+        <p>Import student progress JSON files from the practice sites. This dashboard stores the current class records in this browser, replaces older records when a newer export for the same student and site is imported, and recomputes class-wide strengths and weaknesses.</p>
+      </div>
+    </section>
+
+    <section class="panel import-panel">
+      <div>
+        <h2>Import student progress</h2>
+        <p>Select one or many progress files. Student name is required in exported files; Student ID is optional.</p>
+      </div>
+      <label class="button primary file-button">Add progress files<input id="student-files" type="file" accept="application/json,.json" multiple></label>
+      <p id="import-message" class="message" aria-live="polite"></p>
+    </section>
+
+    <section class="panel backup-panel">
+      <div>
+        <h2>Move or back up this dashboard</h2>
+        <p><strong>Export instructor backup</strong> downloads everything currently stored here as one JSON file. To restore on another browser or machine, choose how the backup should be applied, then use <strong>Restore backup</strong> above.</p>
+      </div>
+      <label>Restore mode
+        <select id="restore-mode">
+          <option value="merge">Merge with current data (newer records win)</option>
+          <option value="replace">Replace all current dashboard data</option>
+        </select>
+      </label>
+      <p class="small">A backup file contains all stored students and all of their imported site records. It does not contain any server credentials because this dashboard does not use a server.</p>
+    </section>
+
+    <section class="toolbar panel">
+      <label>Show site
+        <select id="site-filter"><option value="all">All sites</option></select>
+      </label>
+      <label>Find student
+        <input id="student-search" type="search" placeholder="Search name or optional ID">
+      </label>
+    </section>
+
+    <section id="summary" class="summary-grid"></section>
+
+    <section class="panel">
+      <div class="section-heading student-heading">
+        <div><h2>Students</h2><p>Click a student to view imported site records and detailed mastery. Use the selection controls to remove several students at once.</p></div>
+        <div class="bulk-actions" aria-label="Bulk student actions">
+          <button type="button" class="button secondary" id="select-visible">Select all shown</button>
+          <button type="button" class="button secondary" id="clear-selection">Clear selection</button>
+          <button type="button" class="button danger" id="delete-selected" disabled>Delete selected (0)</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th class="select-col"><span class="sr-only">Select</span></th><th>Student</th><th>Student ID</th><th>Sites</th><th>Activities</th><th>Overall</th><th>Needs attention</th><th>Last activity</th><th>Actions</th></tr></thead>
+          <tbody id="student-table"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div><h2>Aggregate strengths and weaknesses</h2><p>Combined results for the selected site. “Students” counts students who have attempted that area.</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Site / area</th><th>Students</th><th>Combined score</th><th>Class accuracy</th><th>Need attention</th><th>Developing</th><th>Strong</th></tr></thead>
+          <tbody id="area-table"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="privacy panel">
+      <h2>Storage and privacy</h2>
+      <p>All imported information is stored in this browser’s local storage. Nothing is uploaded by this dashboard. Clearing this browser’s site data can erase the dashboard, so use <strong>Export instructor backup</strong> regularly if you want a portable copy.</p>
+    </section>
+  </main>
+
+  <dialog id="student-dialog">
+    <form method="dialog" class="dialog-card" id="student-form">
+      <div class="dialog-head"><div><p class="eyebrow">Student record</p><h2 id="dialog-title">Student</h2></div><button class="icon-button" value="cancel" aria-label="Close">×</button></div>
+      <div id="student-detail"></div>
+      <section class="identity-edit">
+        <h3>Edit student identity</h3>
+        <div class="form-grid">
+          <label>Student name <strong class="required">(required)</strong><input id="edit-name" required></label>
+          <label>Student ID <strong class="optional">(optional)</strong><input id="edit-id" placeholder="Optional — may be left blank"></label>
+        </div>
+        <p class="small"><strong>Student ID is optional.</strong> Use it only if you need to distinguish students with the same name.</p>
+        <div class="dialog-actions">
+          <button type="button" class="button secondary" id="save-identity">Save identity / merge if matched</button>
+          <button type="button" class="button danger" id="delete-student">Delete student</button>
+          <button value="cancel" class="button secondary">Close</button>
+        </div>
+        <p id="dialog-message" class="message" aria-live="polite"></p>
+      </section>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

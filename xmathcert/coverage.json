@@ -1,0 +1,170 @@
+[
+  {
+    "domain": "Domain I \u2014 Number Concepts",
+    "competency": "001",
+    "title": "Real Number System",
+    "questions_per_full_form": 5,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain I \u2014 Number Concepts",
+    "competency": "002",
+    "title": "Complex Number System",
+    "questions_per_full_form": 4,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain I \u2014 Number Concepts",
+    "competency": "003",
+    "title": "Number Theory and Numerical Modeling",
+    "questions_per_full_form": 5,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain II \u2014 Patterns and Algebra",
+    "competency": "004",
+    "title": "Patterns, Sequences, Series, and Finance",
+    "questions_per_full_form": 4,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain II \u2014 Patterns and Algebra",
+    "competency": "005",
+    "title": "Functions, Relations, and Graphs",
+    "questions_per_full_form": 5,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain II \u2014 Patterns and Algebra",
+    "competency": "006",
+    "title": "Linear and Quadratic Functions",
+    "questions_per_full_form": 5,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain II \u2014 Patterns and Algebra",
+    "competency": "007",
+    "title": "Polynomial, Rational, Radical, Absolute-Value, and Piecewise Functions",
+    "questions_per_full_form": 5,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain II \u2014 Patterns and Algebra",
+    "competency": "008",
+    "title": "Exponential and Logarithmic Functions",
+    "questions_per_full_form": 5,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain II \u2014 Patterns and Algebra",
+    "competency": "009",
+    "title": "Trigonometric and Circular Functions",
+    "questions_per_full_form": 5,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain II \u2014 Patterns and Algebra",
+    "competency": "010",
+    "title": "Differential and Integral Calculus",
+    "questions_per_full_form": 4,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain III \u2014 Geometry and Measurement",
+    "competency": "011",
+    "title": "Measurement",
+    "questions_per_full_form": 5,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain III \u2014 Geometry and Measurement",
+    "competency": "012",
+    "title": "Axiomatic and Euclidean Geometry",
+    "questions_per_full_form": 5,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain III \u2014 Geometry and Measurement",
+    "competency": "013",
+    "title": "Euclidean Geometry Results and Applications",
+    "questions_per_full_form": 5,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain III \u2014 Geometry and Measurement",
+    "competency": "014",
+    "title": "Coordinate, Transformational, and Vector Geometry",
+    "questions_per_full_form": 4,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain IV \u2014 Probability and Statistics",
+    "competency": "015",
+    "title": "Exploring and Describing Data",
+    "questions_per_full_form": 5,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain IV \u2014 Probability and Statistics",
+    "competency": "016",
+    "title": "Probability and Distributions",
+    "questions_per_full_form": 5,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain IV \u2014 Probability and Statistics",
+    "competency": "017",
+    "title": "Sampling and Statistical Inference",
+    "questions_per_full_form": 4,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain V \u2014 Mathematical Processes and Perspectives",
+    "competency": "018",
+    "title": "Mathematical Reasoning and Problem Solving",
+    "questions_per_full_form": 5,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain V \u2014 Mathematical Processes and Perspectives",
+    "competency": "019",
+    "title": "Connections and Communication",
+    "questions_per_full_form": 5,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain VI \u2014 Mathematical Learning, Instruction and Assessment",
+    "competency": "020",
+    "title": "Mathematical Learning and Instruction",
+    "questions_per_full_form": 5,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  },
+  {
+    "domain": "Domain VI \u2014 Mathematical Learning, Instruction and Assessment",
+    "competency": "021",
+    "title": "Mathematical Assessment",
+    "questions_per_full_form": 5,
+    "fixed_quiz_versions": 4,
+    "questions_per_quiz": 12
+  }
+]

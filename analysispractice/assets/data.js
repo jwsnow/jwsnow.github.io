@@ -1,0 +1,6949 @@
+window.REAL_ANALYSIS_DATA = {
+  "title": "Real Analysis Practice Center",
+  "book": "An Introduction to Real Analysis",
+  "author": "John W. Snow",
+  "chapters": {
+    "1": "The Real Numbers",
+    "2": "Sequences",
+    "3": "Limits and Continuity",
+    "4": "Differentiation",
+    "5": "Integration",
+    "6": "Series"
+  },
+  "sections": [
+    {
+      "id": "1.2",
+      "title": "Ordered Field Axioms",
+      "chapter": "1",
+      "page_start": 2,
+      "page_end": 5,
+      "focus": "Axioms for addition, multiplication, and order; cancellation; inverses; signs and inequalities.",
+      "homework": "The Chapter 1 exercise set revisits which axioms fail in N and Z, midpoint and AM-GM inequalities, and proofs from the axioms.",
+      "question_count": 12
+    },
+    {
+      "id": "1.3",
+      "title": "Absolute Values",
+      "chapter": "1",
+      "page_start": 6,
+      "page_end": 8,
+      "focus": "Absolute value as distance, basic inequalities, the triangle inequality, reverse triangle inequality, and the epsilon test for equality.",
+      "homework": "Chapter 1 exercises use absolute value in max/min formulas, bounds, and comparison arguments.",
+      "question_count": 11
+    },
+    {
+      "id": "1.4",
+      "title": "The Completeness Axiom",
+      "chapter": "1",
+      "page_start": 9,
+      "page_end": 12,
+      "focus": "Maximum and minimum, upper and lower bounds, bounded sets, supremum and infimum, and completeness.",
+      "homework": "Chapter 1 exercises ask for bounds, suprema and infima and prove how these behave under subsets, sums, products, and scalar multiplication.",
+      "question_count": 12
+    },
+    {
+      "id": "1.5",
+      "title": "Density of Q and R - Q",
+      "chapter": "1",
+      "page_start": 13,
+      "page_end": 15,
+      "focus": "Unboundedness of N, the Archimedean property, density of rationals and irrationals, and the irrationality of sqrt(2).",
+      "homework": "Chapter 1 exercises revisit density proofs, the omitted sign cases, square-root existence, and rational multiples of sqrt(2).",
+      "question_count": 10
+    },
+    {
+      "id": "1.6",
+      "title": "Chapter 1 Exercises",
+      "chapter": "1",
+      "page_start": 16,
+      "page_end": 18,
+      "focus": "A cumulative review of ordered-field arguments, inequalities, bounds, completeness, density, and proof techniques.",
+      "homework": "This section is the Chapter 1 homework set itself; its quizzes emphasize choosing proof steps, counterexamples, and correct conclusions.",
+      "question_count": 13
+    },
+    {
+      "id": "2.1",
+      "title": "Limits of Sequences",
+      "chapter": "2",
+      "page_start": 20,
+      "page_end": 24,
+      "focus": "The epsilon-N definition, convergence and divergence, uniqueness of limits, and translating symbolic inequalities into an N choice.",
+      "homework": "Exercises use the definition for rational, exponential, alternating, and radical sequences and ask for examples and counterexamples.",
+      "question_count": 12
+    },
+    {
+      "id": "2.2",
+      "title": "Algebraic Properties of Limits of Sequences",
+      "chapter": "2",
+      "page_start": 25,
+      "page_end": 35,
+      "focus": "Limit laws, boundedness of convergent sequences, order and squeeze theorems, absolute values, products, quotients, and roots.",
+      "homework": "Exercises combine convergent and divergent sequences, compute limits, and prove omitted algebraic and order properties.",
+      "question_count": 12
+    },
+    {
+      "id": "2.3",
+      "title": "Accumulation Points",
+      "chapter": "2",
+      "page_start": 36,
+      "page_end": 39,
+      "focus": "Neighborhood definitions of accumulation point, isolated points, examples, and the relation between infinite bounded sets and accumulation points.",
+      "homework": "Exercises construct sets with prescribed accumulation points and prove interval and finiteness statements.",
+      "question_count": 12
+    },
+    {
+      "id": "2.4",
+      "title": "Monotonic Sequences",
+      "chapter": "2",
+      "page_start": 40,
+      "page_end": 46,
+      "focus": "Increasing and decreasing sequences, bounded monotone convergence, recursive sequences, and the first Bolzano-Weierstrass formulation.",
+      "homework": "Exercises classify sequences, find bounds, construct monotone approximations to suprema/infima, and analyze recursive sequences.",
+      "question_count": 11
+    },
+    {
+      "id": "2.5",
+      "title": "Cauchy Sequences",
+      "chapter": "2",
+      "page_start": 47,
+      "page_end": 50,
+      "focus": "The Cauchy definition, convergence implies Cauchy, boundedness, and completeness of R via the Cauchy criterion.",
+      "homework": "Exercises prove specific sequences are Cauchy and analyze a recursively defined averaging sequence.",
+      "question_count": 10
+    },
+    {
+      "id": "2.6",
+      "title": "Subsequences",
+      "chapter": "2",
+      "page_start": 51,
+      "page_end": 56,
+      "focus": "Subsequence indices, preservation of limits, dominant terms, monotone subsequences, Bolzano-Weierstrass, and subsequence criteria for convergence.",
+      "homework": "Exercises find subsequences and limits, relate accumulation points to subsequences, and use interlacing and convergence criteria.",
+      "question_count": 10
+    },
+    {
+      "id": "3.1",
+      "title": "Limits of Functions",
+      "chapter": "3",
+      "page_start": 57,
+      "page_end": 62,
+      "focus": "Epsilon-delta limits on arbitrary domains, accumulation points, uniqueness, one-sided behavior, and changing a function at the limit point.",
+      "homework": "Exercises prove limits from the definition, simplify removable discontinuities, and construct functions with or without limits.",
+      "question_count": 11
+    },
+    {
+      "id": "3.2",
+      "title": "Limits of Sequences and Functions",
+      "chapter": "3",
+      "page_start": 63,
+      "page_end": 67,
+      "focus": "The sequential criterion for function limits, algebraic limit laws, order theorem, and squeeze theorem.",
+      "homework": "Exercises use sequences to disprove limits, prove limit laws, and evaluate or establish function limits.",
+      "question_count": 10
+    },
+    {
+      "id": "3.3",
+      "title": "The Definition of Continuity",
+      "chapter": "3",
+      "page_start": 68,
+      "page_end": 68,
+      "focus": "Continuity at a point and on a domain, the role of isolated points, and Lipschitz-type estimates.",
+      "homework": "Exercises prove continuity directly, explore isolated points, and introduce the Lipschitz condition.",
+      "question_count": 10
+    },
+    {
+      "id": "3.4",
+      "title": "Limits and Continuity",
+      "chapter": "3",
+      "page_start": 69,
+      "page_end": 73,
+      "focus": "Sequential continuity, continuity as equality of value and limit, algebraic properties, composition, and continuity of standard functions.",
+      "homework": "Exercises prove consequences of continuity, max/min continuity, compositions, and local boundedness.",
+      "question_count": 10
+    },
+    {
+      "id": "3.5",
+      "title": "Uniform Continuity",
+      "chapter": "3",
+      "page_start": 74,
+      "page_end": 78,
+      "focus": "Uniform versus pointwise continuity, epsilon-delta quantifiers, Lipschitz functions, compact-interval uniform continuity, and sequential criteria.",
+      "homework": "Exercises prove uniform continuity or failure on specified intervals and connect Lipschitz estimates to uniform continuity.",
+      "question_count": 12
+    },
+    {
+      "id": "3.6",
+      "title": "The Extreme Value Theorem",
+      "chapter": "3",
+      "page_start": 79,
+      "page_end": 80,
+      "focus": "Bounded Value Theorem and Extreme Value Theorem for continuous functions on closed intervals.",
+      "homework": "There is no separate exercise list; practice emphasizes hypotheses, counterexamples when hypotheses are removed, and optimization existence.",
+      "question_count": 10
+    },
+    {
+      "id": "3.7",
+      "title": "The Intermediate Value Theorem",
+      "chapter": "3",
+      "page_start": 81,
+      "page_end": 84,
+      "focus": "Bolzano's theorem, the Intermediate Value Theorem, fixed-point and root applications, images of intervals, and continuity of inverses.",
+      "homework": "Exercises bracket roots, prove fixed-point and crossing results, and use IVT to analyze polynomial and range questions.",
+      "question_count": 10
+    },
+    {
+      "id": "4.1",
+      "title": "Tangent Lines",
+      "chapter": "4",
+      "page_start": 86,
+      "page_end": 86,
+      "focus": "Secant slopes approaching a tangent slope and the geometric interpretation of the derivative.",
+      "homework": "The preliminary Exercises 4.0 reinforce difference quotients, slopes of linear functions, and monotonicity.",
+      "question_count": 10
+    },
+    {
+      "id": "4.2",
+      "title": "Linear Approximations",
+      "chapter": "4",
+      "page_start": 87,
+      "page_end": 87,
+      "focus": "The tangent line as the best local linear approximation and the role of the limiting difference quotient.",
+      "homework": "Practice connects local error, slope, and the formula for a tangent-line approximation.",
+      "question_count": 9
+    },
+    {
+      "id": "4.3",
+      "title": "Instantaneous Velocity",
+      "chapter": "4",
+      "page_start": 88,
+      "page_end": 88,
+      "focus": "Average velocity, instantaneous velocity, and the derivative as a limit of average rates of change.",
+      "homework": "Practice interprets position functions, units, secant rates, and limiting velocity.",
+      "question_count": 9
+    },
+    {
+      "id": "4.4",
+      "title": "The Definition of the Derivative",
+      "chapter": "4",
+      "page_start": 88,
+      "page_end": 92,
+      "focus": "Derivative at a point, differentiability, derivatives from first principles, and differentiability implying continuity.",
+      "homework": "Exercises compute derivatives by definition, test nondifferentiability, and analyze zero and prescribed derivative conditions.",
+      "question_count": 11
+    },
+    {
+      "id": "4.5",
+      "title": "Properties of the Derivative",
+      "chapter": "4",
+      "page_start": 93,
+      "page_end": 100,
+      "focus": "Linearity, product and quotient rules, chain rule, inverse-function derivative, and power rules.",
+      "homework": "Exercises prove rules, differentiate compositions, and find tangent lines to inverse functions.",
+      "question_count": 11
+    },
+    {
+      "id": "4.6",
+      "title": "Extrema and the Mean Value Theorem",
+      "chapter": "4",
+      "page_start": 101,
+      "page_end": 104,
+      "focus": "Local extrema, Fermat, Rolle, Mean Value, zero derivative, and constant-difference theorems.",
+      "homework": "Exercises use MVT to bound changes, prove uniqueness/counting results, and compare functions through derivatives.",
+      "question_count": 11
+    },
+    {
+      "id": "4.7",
+      "title": "First Derivative Tests",
+      "chapter": "4",
+      "page_start": 105,
+      "page_end": 107,
+      "focus": "Derivative sign and monotonicity, strict monotonicity, critical points, and first derivative tests for extrema.",
+      "homework": "Exercises prove omitted cases and use derivative comparisons to establish inequalities and local behavior.",
+      "question_count": 11
+    },
+    {
+      "id": "4.8",
+      "title": "l'Hopital's Rule",
+      "chapter": "4",
+      "page_start": 108,
+      "page_end": 110,
+      "focus": "Extended Mean Value Theorem and l'Hopital's rule for 0/0 limits under stated hypotheses.",
+      "homework": "Exercises prove simplified forms and evaluate indeterminate limits.",
+      "question_count": 10
+    },
+    {
+      "id": "5.1",
+      "title": "Area",
+      "chapter": "5",
+      "page_start": 111,
+      "page_end": 114,
+      "focus": "Rectangle approximations, partitions, sample points, widths, and Riemann-sum intuition for nonnegative area.",
+      "homework": "Exercises later in 5.6 ask students to mimic area computations for polynomial functions.",
+      "question_count": 9
+    },
+    {
+      "id": "5.2",
+      "title": "Distance",
+      "chapter": "5",
+      "page_start": 115,
+      "page_end": 115,
+      "focus": "Distance traveled as accumulated nonnegative velocity and its approximation by velocity-times-time rectangles.",
+      "homework": "Practice translates between position, velocity, units, and accumulated distance.",
+      "question_count": 9
+    },
+    {
+      "id": "5.3",
+      "title": "Riemann Sums",
+      "chapter": "5",
+      "page_start": 115,
+      "page_end": 116,
+      "focus": "Riemann sums, dependence on tags and partitions, and bounding sums by lower and upper sums.",
+      "homework": "Homework in 5.6 computes concrete upper/lower sum differences and compares Riemann sums.",
+      "question_count": 9
+    },
+    {
+      "id": "5.4",
+      "title": "The Fundamental Theorems and Why They are Obvious",
+      "chapter": "5",
+      "page_start": 116,
+      "page_end": 117,
+      "focus": "The two Fundamental Theorems interpreted through position, velocity, distance, and accumulation.",
+      "homework": "Practice distinguishes the two theorems and identifies the hypotheses and conclusions later proved formally.",
+      "question_count": 10
+    },
+    {
+      "id": "5.5",
+      "title": "Partitions and Sums",
+      "chapter": "5",
+      "page_start": 117,
+      "page_end": 123,
+      "focus": "Partitions, mesh, upper and lower sums, telescoping, refinement, and order relations among sums.",
+      "homework": "Exercises 5.6 use regular partitions, compute U-L, and mimic examples with polynomial and Dirichlet-type functions.",
+      "question_count": 11
+    },
+    {
+      "id": "5.6",
+      "title": "Integrals",
+      "chapter": "5",
+      "page_start": 124,
+      "page_end": 126,
+      "focus": "Upper and lower integrals, integrability as equality, and direct calculations for constants and simple functions.",
+      "homework": "Exercises calculate areas through sums and construct a nonintegrable function whose absolute value is integrable.",
+      "question_count": 11
+    },
+    {
+      "id": "5.7",
+      "title": "Conditions for Integrability",
+      "chapter": "5",
+      "page_start": 127,
+      "page_end": 136,
+      "focus": "The epsilon-partition criterion and integrability of monotone, continuous, and piecewise functions.",
+      "homework": "Exercises prove integrability for examples and omitted cases, and explore consequences of equality or small integral values.",
+      "question_count": 11
+    },
+    {
+      "id": "5.8",
+      "title": "Algebraic Properties of the Integral",
+      "chapter": "5",
+      "page_start": 137,
+      "page_end": 141,
+      "focus": "Linearity, additivity, order, absolute-value inequality, and integrability under algebraic operations.",
+      "homework": "Exercises prove negative scalar cases, products and max/min integrability, and zero-integral consequences.",
+      "question_count": 11
+    },
+    {
+      "id": "5.9",
+      "title": "The Fundamental Theorem of Calculus",
+      "chapter": "5",
+      "page_start": 142,
+      "page_end": 150,
+      "focus": "Oriented integrals, accumulation functions, both Fundamental Theorems, and differentiation/integration as inverse processes.",
+      "homework": "Exercises prove supporting results, study discontinuous examples, and apply FTC to inverse functions and integral-defined functions.",
+      "question_count": 11
+    },
+    {
+      "id": "6.1",
+      "title": "Definitions and Basic Properties",
+      "chapter": "6",
+      "page_start": 151,
+      "page_end": 163,
+      "focus": "Infinite series as limits of partial sums, geometric series, term test, p-series, and algebraic/order properties.",
+      "homework": "Exercises sum geometric series, test basic convergence, prove comparison properties, and manipulate convergent series.",
+      "question_count": 12
+    },
+    {
+      "id": "6.2",
+      "title": "Tests for Convergence",
+      "chapter": "6",
+      "page_start": 164,
+      "page_end": 178,
+      "focus": "Absolute and conditional convergence; direct and limit comparison, ratio, root, integral, and alternating-series tests; error bounds.",
+      "homework": "Exercises choose and justify convergence tests and prove consequences of absolute convergence and decreasing terms.",
+      "question_count": 13
+    },
+    {
+      "id": "6.3",
+      "title": "Power Series",
+      "chapter": "6",
+      "page_start": 179,
+      "page_end": 183,
+      "focus": "Power series, centers, convergence sets, radius and interval of convergence, and endpoint testing.",
+      "homework": "Exercises find intervals/radii and reason from coefficient limits and known convergence points.",
+      "question_count": 11
+    },
+    {
+      "id": "6.4",
+      "title": "Properties of Power Series",
+      "chapter": "6",
+      "page_start": 184,
+      "page_end": 195,
+      "focus": "Uniform convergence inside the radius, continuity, Abel-type endpoint behavior, and termwise integration and differentiation.",
+      "homework": "Exercises prove convergence properties and derive new power series by algebra, integration, and differentiation.",
+      "question_count": 12
+    },
+    {
+      "id": "6.5",
+      "title": "Taylor Series",
+      "chapter": "6",
+      "page_start": 196,
+      "page_end": 204,
+      "focus": "Taylor polynomials and series, Taylor coefficients, remainder estimates, and standard expansions.",
+      "homework": "Exercises build and modify Taylor series, approximate nonelementary integrals, and test whether functions equal a Taylor series.",
+      "question_count": 14
+    }
+  ],
+  "questions": [
+    {
+      "id": "1.2-001",
+      "section": "1.2",
+      "kind": "concept",
+      "prompt": "Let \\(x\\in\\mathbb{R}\\). Which statement correctly describes the additive inverse of \\(x\\)?",
+      "correct": "A real number \\(y\\) such that \\(x+y=0\\).",
+      "choices": [
+        "A real number \\(y\\) such that \\(x+y=0\\).",
+        "A real number \\(y\\) such that \\(xy=1\\).",
+        "The number \\(0\\), for every \\(x\\).",
+        "Any real number \\(y\\) such that \\(y<x\\)."
+      ],
+      "explanation": "An additive inverse of \\(x\\) is a real number whose sum with \\(x\\) is \\(0\\). The cancellation laws show that this inverse is unique.",
+      "tags": []
+    },
+    {
+      "id": "1.2-003",
+      "section": "1.2",
+      "kind": "concept",
+      "prompt": "Let \\(x\\in\\mathbb{R}\\) with \\(x\\ne0\\). Which statement correctly describes the multiplicative inverse of \\(x\\)?",
+      "correct": "A real number \\(y\\) such that \\(xy=1\\).",
+      "choices": [
+        "A real number \\(y\\) such that \\(xy=1\\).",
+        "A real number \\(y\\) such that \\(x+y=0\\).",
+        "The number \\(1\\), for every nonzero \\(x\\).",
+        "Any real number \\(y\\) such that \\(y>x\\)."
+      ],
+      "explanation": "A multiplicative inverse of a nonzero real number \\(x\\) is a real number \\(y\\) satisfying \\(xy=1\\), and it is unique.",
+      "tags": []
+    },
+    {
+      "id": "1.2-005",
+      "section": "1.2",
+      "kind": "concept",
+      "prompt": "Suppose \\(x,y,z\\in\\mathbb{R}\\). If \\(x+z=y+z\\), or if \\(xz=yz\\) with \\(z\\ne0\\), what must be true?",
+      "correct": "\\(x=y\\)",
+      "choices": [
+        "\\(x=y\\)",
+        "\\(z=0\\)",
+        "\\(x=-y\\)",
+        "\\(x\\) and \\(y\\) have the same sign"
+      ],
+      "explanation": "Additive cancellation gives \\(x=y\\) from \\(x+z=y+z\\). Multiplicative cancellation gives the same conclusion from \\(xz=yz\\) when \\(z\\ne0\\).",
+      "tags": []
+    },
+    {
+      "id": "1.2-007",
+      "section": "1.2",
+      "kind": "concept",
+      "prompt": "Suppose \\(x,y\\in\\mathbb{R}\\) and \\(xy=0\\). What must be true?",
+      "correct": "\\(x=0\\) or \\(y=0\\)",
+      "choices": [
+        "\\(x=0\\) or \\(y=0\\)",
+        "\\(x=y=0\\)",
+        "\\(x=y\\)",
+        "\\(x>0\\) and \\(y>0\\)"
+      ],
+      "explanation": "An ordered field has no zero divisors, so \\(xy=0\\) implies \\(x=0\\) or \\(y=0\\).",
+      "tags": []
+    },
+    {
+      "id": "1.2-009",
+      "section": "1.2",
+      "kind": "homework",
+      "prompt": "Which ordered-field axiom justifies adding the same real number \\(z\\) to both sides of \\(x<y\\)?",
+      "correct": "O3",
+      "choices": [
+        "O3",
+        "O1",
+        "M4",
+        "DL"
+      ],
+      "explanation": "Axiom O3 says that if \\(x<y\\), then \\(x+z<y+z\\) for every real \\(z\\).",
+      "tags": []
+    },
+    {
+      "id": "1.2-010",
+      "section": "1.2",
+      "kind": "homework",
+      "prompt": "If \\(x<y\\) and \\(z<0\\), which inequality is correct?",
+      "correct": "\\(yz<xz\\)",
+      "choices": [
+        "\\(yz<xz\\)",
+        "\\(xz<yz\\)",
+        "\\(xz=yz\\)",
+        "\\(0<xz<yz\\)"
+      ],
+      "explanation": "Multiplication by a negative real number reverses the direction of an inequality.",
+      "tags": []
+    },
+    {
+      "id": "1.2-011",
+      "section": "1.2",
+      "kind": "homework",
+      "prompt": "Which step is the key to proving \\(x\\cdot0=0\\) from the ordered-field axioms?",
+      "correct": "Write \\(x\\cdot0=x(0+0)=x\\cdot0+x\\cdot0\\), then use additive cancellation.",
+      "choices": [
+        "Write \\(x\\cdot0=x(0+0)=x\\cdot0+x\\cdot0\\), then use additive cancellation.",
+        "Divide both sides by \\(0\\).",
+        "Assume \\(0\\) has a multiplicative inverse.",
+        "Use only the trichotomy axiom."
+      ],
+      "explanation": "Distributivity gives \\(x\\cdot0=x(0+0)=x\\cdot0+x\\cdot0\\). Additive cancellation then yields \\(x\\cdot0=0\\).",
+      "tags": []
+    },
+    {
+      "id": "1.2-012",
+      "section": "1.2",
+      "kind": "homework",
+      "prompt": "Which statement is always true when \\(x\\ne0\\)?",
+      "correct": "\\(x^2>0\\)",
+      "choices": [
+        "\\(x^2>0\\)",
+        "\\(x^2<0\\)",
+        "\\(x^{-1}<0\\)",
+        "\\(x<0\\)"
+      ],
+      "explanation": "In an ordered field, the square of every nonzero real number is positive.",
+      "tags": []
+    },
+    {
+      "id": "1.2-013",
+      "section": "1.2",
+      "kind": "homework",
+      "prompt": "In \\(\\mathbb{N}=\\{1,2,3,\\ldots\\}\\), which field axiom fails immediately?",
+      "correct": "Existence of additive inverses",
+      "choices": [
+        "Existence of additive inverses",
+        "Associativity of addition",
+        "Commutativity of multiplication",
+        "Distributivity"
+      ],
+      "explanation": "For example, \\(1\\) has no additive inverse in \\(\\mathbb{N}\\).",
+      "tags": []
+    },
+    {
+      "id": "1.2-014",
+      "section": "1.2",
+      "kind": "homework",
+      "prompt": "In \\(\\mathbb{Z}\\), which field axiom fails?",
+      "correct": "Every nonzero element has a multiplicative inverse in the set.",
+      "choices": [
+        "Every nonzero element has a multiplicative inverse in the set.",
+        "Additive identity exists.",
+        "Addition is associative.",
+        "Order is transitive."
+      ],
+      "explanation": "For example, \\(2\\) has no multiplicative inverse in \\(\\mathbb{Z}\\).",
+      "tags": []
+    },
+    {
+      "id": "1.2-new-negative-mult",
+      "section": "1.2",
+      "kind": "concept",
+      "prompt": "Suppose \\(0<x<y\\). Which reciprocal inequality must hold?",
+      "choices": [
+        "\\(0<y^{-1}<x^{-1}\\)",
+        "\\(0<x^{-1}<y^{-1}\\)",
+        "\\(x^{-1}<0<y^{-1}\\)",
+        "\\(x^{-1}=y^{-1}\\)"
+      ],
+      "correct": "\\(0<y^{-1}<x^{-1}\\)",
+      "explanation": "Positive reciprocals reverse order: if \\(0<x<y\\), then \\(0<y^{-1}<x^{-1}\\).",
+      "tags": []
+    },
+    {
+      "id": "1.2-new-trichotomy",
+      "section": "1.2",
+      "kind": "concept",
+      "prompt": "Which statement is exactly the trichotomy axiom O1 from the notes?",
+      "choices": [
+        "For all \\(x,y\\in\\mathbb{R}\\), exactly one of \\(x<y\\), \\(y<x\\), or \\(x=y\\) holds.",
+        "For all \\(x,y\\in\\mathbb{R}\\), at least one of \\(x\\le y\\) or \\(y\\le x\\) holds, and both may fail.",
+        "If \\(x<y\\), then \\(xz<yz\\) for every \\(z\\in\\mathbb{R}\\).",
+        "If \\(x<y\\) and \\(y<z\\), then \\(x=z\\)."
+      ],
+      "correct": "For all \\(x,y\\in\\mathbb{R}\\), exactly one of \\(x<y\\), \\(y<x\\), or \\(x=y\\) holds.",
+      "explanation": "This is Axiom O1 as stated in Section 1.2.",
+      "tags": []
+    },
+    {
+      "id": "1.3-001",
+      "section": "1.3",
+      "kind": "concept",
+      "prompt": "Which formula is the definition of \\(|x|\\) used in the notes?",
+      "correct": "\\(\\displaystyle |x|=\\begin{cases}-x,&x<0,\\\\x,&x\\ge0.\\end{cases}\\)",
+      "choices": [
+        "\\(\\displaystyle |x|=\\begin{cases}-x,&x<0,\\\\x,&x\\ge0.\\end{cases}\\)",
+        "\\(\\displaystyle |x|=x\\) for every \\(x\\).",
+        "\\(\\displaystyle |x|=-x\\) for every \\(x\\).",
+        "\\(\\displaystyle |x|=x^2\\) for every \\(x\\)."
+      ],
+      "explanation": "Absolute value is defined piecewise: use \\(-x\\) when \\(x<0\\), and use \\(x\\) when \\(x\\ge0\\).",
+      "tags": []
+    },
+    {
+      "id": "1.3-003",
+      "section": "1.3",
+      "kind": "concept",
+      "prompt": "For real numbers \\(x\\) and \\(y\\), which inequality is the Triangle Inequality?",
+      "correct": "\\(|x+y|\\le|x|+|y|\\)",
+      "choices": [
+        "\\(|x+y|\\le|x|+|y|\\)",
+        "\\(|x+y|\\ge|x|+|y|\\)",
+        "\\(|x-y|=|x|-|y|\\)",
+        "\\(|xy|\\le|x|+|y|\\)"
+      ],
+      "explanation": "The Triangle Inequality states that \\(|x+y|\\le |x|+|y|\\).",
+      "tags": []
+    },
+    {
+      "id": "1.3-005",
+      "section": "1.3",
+      "kind": "concept",
+      "prompt": "For real numbers \\(x\\) and \\(y\\), which inequality correctly compares \\(\\bigl||x|-|y|\\bigr|\\) and \\(|x-y|\\)?",
+      "correct": "\\(\\bigl||x|-|y|\\bigr|\\le|x-y|\\)",
+      "choices": [
+        "\\(\\bigl||x|-|y|\\bigr|\\le|x-y|\\)",
+        "\\(|x-y|\\le\\bigl||x|-|y|\\bigr|\\)",
+        "\\(|x+y|=|x|+|y|\\) for all \\(x,y\\)",
+        "\\(|x|+|y|\\le|x-y|\\)"
+      ],
+      "explanation": "The reverse form of the Triangle Inequality gives \\(\\bigl||x|-|y|\\bigr|\\le|x-y|\\).",
+      "tags": []
+    },
+    {
+      "id": "1.3-007",
+      "section": "1.3",
+      "kind": "concept",
+      "prompt": "For \\(r>0\\), which condition is equivalent to \\(|x|<r\\)?",
+      "correct": "\\(-r<x<r\\)",
+      "choices": [
+        "\\(-r<x<r\\)",
+        "\\(x<-r\\) or \\(x>r\\)",
+        "\\(0<x<r\\)",
+        "\\(x<r\\) only"
+      ],
+      "explanation": "The inequality \\(|x|<r\\) says that the distance from \\(x\\) to \\(0\\) is less than \\(r\\), which is equivalent to \\(-r<x<r\\).",
+      "tags": []
+    },
+    {
+      "id": "1.3-008",
+      "section": "1.3",
+      "kind": "homework",
+      "prompt": "Which expression equals the distance between \\(a\\) and \\(b\\)?",
+      "correct": "\\(|a-b|\\)",
+      "choices": [
+        "\\(|a-b|\\)",
+        "\\(a-b\\)",
+        "\\(|a|+|b|\\)",
+        "\\(ab\\)"
+      ],
+      "explanation": "The distance between \\(a\\) and \\(b\\) on the real line is \\(|a-b|\\).",
+      "tags": []
+    },
+    {
+      "id": "1.3-009",
+      "section": "1.3",
+      "kind": "homework",
+      "prompt": "Which formula is correct for \\(\\max(a,b)\\)?",
+      "correct": "\\(\\max(a,b)=\\frac{a+b}{2}+\\frac{|a-b|}{2}\\)",
+      "choices": [
+        "\\(\\max(a,b)=\\frac{a+b}{2}+\\frac{|a-b|}{2}\\)",
+        "\\(\\frac{a+b-|a-b|}{2}\\)",
+        "\\(a+b+|a-b|\\)",
+        "\\(\\frac{|a+b|}{2}\\)"
+      ],
+      "explanation": "If \\(a\\ge b\\), the formula reduces to \\(a\\); if \\(b\\ge a\\), it reduces to \\(b\\).",
+      "tags": []
+    },
+    {
+      "id": "1.3-010",
+      "section": "1.3",
+      "kind": "homework",
+      "prompt": "Which formula is correct for \\(\\min(a,b)\\)?",
+      "correct": "\\(\\min(a,b)=\\frac{a+b}{2}-\\frac{|a-b|}{2}\\)",
+      "choices": [
+        "\\(\\min(a,b)=\\frac{a+b}{2}-\\frac{|a-b|}{2}\\)",
+        "\\(\\frac{a+b+|a-b|}{2}\\)",
+        "\\(a-b-|a-b|\\)",
+        "\\(\\frac{|a-b|}{2}\\)"
+      ],
+      "explanation": "A case analysis using \\(a\\ge b\\) or \\(b\\ge a\\) verifies the formula.",
+      "tags": []
+    },
+    {
+      "id": "1.3-011",
+      "section": "1.3",
+      "kind": "proof",
+      "prompt": "To prove \\(a=b\\), which statement is sufficient to prove for every real \\(\\varepsilon>0\\)?",
+      "correct": "\\(|a-b|<\\varepsilon\\)",
+      "choices": [
+        "\\(|a-b|<\\varepsilon\\)",
+        "\\(|a-b|<1\\) for one choice of \\(\\varepsilon\\)",
+        "\\(a-b<\\varepsilon\\) for some \\(\\varepsilon>0\\)",
+        "\\(|a+b|=0\\)"
+      ],
+      "explanation": "If \\(|a-b|<\\varepsilon\\) for every real \\(\\varepsilon>0\\), then \\(|a-b|=0\\), so \\(a=b\\).",
+      "tags": []
+    },
+    {
+      "id": "1.3-012",
+      "section": "1.3",
+      "kind": "homework",
+      "prompt": "If \\(|x-3|<2\\), which interval is exactly the solution set?",
+      "correct": "\\((1,5)\\)",
+      "choices": [
+        "\\((1,5)\\)",
+        "\\((-2,2)\\)",
+        "\\((3,5)\\)",
+        "\\([1,5]\\)"
+      ],
+      "explanation": "Rewrite the inequality as \\(-2<x-3<2\\), then add \\(3\\) throughout to obtain \\(1<x<5\\).",
+      "tags": []
+    },
+    {
+      "id": "1.3-new-numberline",
+      "section": "1.3",
+      "kind": "concept",
+      "prompt": "The shaded interval in the figure is centered at \\(2\\) and has radius \\(1\\). Which inequality describes it?",
+      "choices": [
+        "\\(|x-2|<1\\)",
+        "\\(|x+2|<1\\)",
+        "\\(|x-1|<2\\)",
+        "\\(|x|<2\\)"
+      ],
+      "correct": "\\(|x-2|<1\\)",
+      "explanation": "The distance from \\(x\\) to \\(2\\) is \\(|x-2|\\); being inside the interval means that this distance is less than \\(1\\).",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"Number line with the interval (1,3) highlighted conceptually\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"48.0\" y1=\"20\" x2=\"48.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"123.3\" y1=\"20\" x2=\"123.3\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"198.7\" y1=\"20\" x2=\"198.7\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"349.3\" y1=\"20\" x2=\"349.3\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"424.7\" y1=\"20\" x2=\"424.7\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"500.0\" y1=\"20\" x2=\"500.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"240.0\" x2=\"500\" y2=\"240.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"130.0\" x2=\"500\" y2=\"130.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"20.0\" x2=\"500\" y2=\"20.0\" stroke=\"#e5e7eb\"/><line x1=\"123.3\" y1=\"20\" x2=\"123.3\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"130.0\" x2=\"500\" y2=\"130.0\" stroke=\"#555\" stroke-width=\"1.4\"/><polyline points=\"-178.0,130.0 424.7,130.0\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/><text x=\"203.7\" y=\"124.0\" font-size=\"13\" fill=\"#111827\">1</text><text x=\"279.0\" y=\"124.0\" font-size=\"13\" fill=\"#111827\">2</text><text x=\"354.3\" y=\"124.0\" font-size=\"13\" fill=\"#111827\">3</text></svg><div class=\"figure-caption\">Number line with the interval (1,3) highlighted conceptually</div>"
+    },
+    {
+      "id": "1.3-new-zeroeps",
+      "section": "1.3",
+      "kind": "concept",
+      "prompt": "Which condition on a real number \\(x\\) is equivalent to \\(x=0\\)?",
+      "choices": [
+        "\\(x=0\\) if and only if \\(|x|<\\varepsilon\\) for every real \\(\\varepsilon>0\\).",
+        "\\(x=0\\) if and only if \\(|x|\\le1\\).",
+        "\\(x=0\\) whenever \\(|x|<\\varepsilon\\) for some \\(\\varepsilon>0\\).",
+        "\\(x=0\\) whenever \\(|x|\\le|y|\\) for some real \\(y\\)."
+      ],
+      "correct": "\\(x=0\\) if and only if \\(|x|<\\varepsilon\\) for every real \\(\\varepsilon>0\\).",
+      "explanation": "A real number is \\(0\\) exactly when its absolute value is smaller than every positive real number.",
+      "tags": []
+    },
+    {
+      "id": "1.4-001",
+      "section": "1.4",
+      "kind": "concept",
+      "prompt": "Let \\(A\\subseteq\\mathbb{R}\\). Which statement means that \\(u\\in\\mathbb{R}\\) is an upper bound of \\(A\\)?",
+      "correct": "\\(a\\le u\\) for every \\(a\\in A\\).",
+      "choices": [
+        "\\(a\\le u\\) for every \\(a\\in A\\).",
+        "\\(u\\in A\\) and \\(a\\le u\\) for every \\(a\\in A\\).",
+        "\\(u\\le a\\) for every \\(a\\in A\\).",
+        "There is some \\(a\\in A\\) with \\(u<a\\)."
+      ],
+      "explanation": "An upper bound \\(u\\) of \\(A\\) is a real number satisfying \\(a\\le u\\) for every \\(a\\in A\\); membership \\(u\\in A\\) is not required.",
+      "tags": []
+    },
+    {
+      "id": "1.4-003",
+      "section": "1.4",
+      "kind": "concept",
+      "prompt": "Let \\(A\\subseteq\\mathbb{R}\\) be bounded above. Which statement means that \\(s=\\sup A\\)?",
+      "correct": "\\(s\\) is an upper bound of \\(A\\), and \\(s\\le u\\) for every upper bound \\(u\\) of \\(A\\).",
+      "choices": [
+        "\\(s\\) is an upper bound of \\(A\\), and \\(s\\le u\\) for every upper bound \\(u\\) of \\(A\\).",
+        "\\(s\\in A\\) and \\(a\\le s\\) for every \\(a\\in A\\).",
+        "\\(s\\) is a lower bound of \\(A\\), and every lower bound is at most \\(s\\).",
+        "\\(s\\) is any upper bound of \\(A\\)."
+      ],
+      "explanation": "The supremum is the least upper bound. It need not be an element of \\(A\\).",
+      "tags": []
+    },
+    {
+      "id": "1.4-005",
+      "section": "1.4",
+      "kind": "concept",
+      "prompt": "Let \\(A\\subseteq\\mathbb{R}\\). Which statement means that \\(m=\\max A\\)?",
+      "correct": "\\(m\\in A\\) and \\(a\\le m\\) for every \\(a\\in A\\).",
+      "choices": [
+        "\\(m\\in A\\) and \\(a\\le m\\) for every \\(a\\in A\\).",
+        "\\(a\\le m\\) for every \\(a\\in A\\), whether or not \\(m\\in A\\).",
+        "\\(m\\le a\\) for every \\(a\\in A\\).",
+        "\\(m\\) is the least upper bound of \\(A\\), whether or not it belongs to \\(A\\)."
+      ],
+      "explanation": "A maximum must be an element of the set and must be at least as large as every element of the set.",
+      "tags": []
+    },
+    {
+      "id": "1.4-007",
+      "section": "1.4",
+      "kind": "concept",
+      "prompt": "Suppose \\(A\\subseteq\\mathbb{R}\\) is nonempty and bounded above. What does the Completeness Axiom guarantee?",
+      "correct": "\\(A\\) has a supremum in \\(\\mathbb{R}\\).",
+      "choices": [
+        "\\(A\\) has a supremum in \\(\\mathbb{R}\\).",
+        "\\(A\\) has a maximum.",
+        "\\(A\\) is finite.",
+        "\\(A\\) has a minimum."
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: \\(A\\) has a supremum in \\(\\mathbb{R}\\).",
+      "tags": []
+    },
+    {
+      "id": "1.4-009",
+      "section": "1.4",
+      "kind": "concept",
+      "prompt": "For \\(A=(0,1)\\), which statement is correct?",
+      "correct": "\\(\\sup A=1\\), but \\(A\\) has no maximum.",
+      "choices": [
+        "\\(\\sup A=1\\), but \\(A\\) has no maximum.",
+        "\\(\\max A=1\\)",
+        "\\(\\sup A=0\\)",
+        "\\(A\\) is not bounded above."
+      ],
+      "explanation": "The number \\(1\\) is the least upper bound but does not belong to the open interval.",
+      "tags": []
+    },
+    {
+      "id": "1.4-010",
+      "section": "1.4",
+      "kind": "concept",
+      "prompt": "For \\(A=\\{1/n:n\\in\\mathbb{N}\\}\\), which statement is correct?",
+      "correct": "\\(\\inf A=0\\), and \\(\\min A\\) does not exist.",
+      "choices": [
+        "\\(\\inf A=0\\), and \\(\\min A\\) does not exist.",
+        "\\(\\min A=0\\)",
+        "\\(\\inf A=1\\)",
+        "\\(A\\) has no lower bound."
+      ],
+      "explanation": "All terms are positive and approach \\(0\\), but \\(0\\) is not a term.",
+      "tags": []
+    },
+    {
+      "id": "1.4-011",
+      "section": "1.4",
+      "kind": "homework",
+      "prompt": "If \\(A\\) is a subset of \\(B\\) and both are nonempty and bounded, which chain is correct?",
+      "correct": "\\(\\inf B\\le\\inf A\\le\\sup A\\le\\sup B\\)",
+      "choices": [
+        "\\(\\inf B\\le\\inf A\\le\\sup A\\le\\sup B\\)",
+        "\\(\\inf A\\le\\inf B\\le\\sup B\\le\\sup A\\)",
+        "\\(\\sup B\\le\\sup A\\)",
+        "\\(\\inf A=\\inf B\\) always"
+      ],
+      "explanation": "A smaller set can have a larger infimum and a smaller supremum.",
+      "tags": []
+    },
+    {
+      "id": "1.4-012",
+      "section": "1.4",
+      "kind": "homework",
+      "prompt": "If \\(A\\subseteq\\mathbb{R}\\) is nonempty and bounded and \\(k<0\\), which identity is correct?",
+      "correct": "\\(\\sup(kA)=k\\inf A\\)",
+      "choices": [
+        "\\(\\sup(kA)=k\\inf A\\)",
+        "\\(\\sup(kA)=k\\sup A\\)",
+        "\\(\\inf(kA)=k\\inf A\\)",
+        "\\(\\sup(kA)=\\sup A+k\\)"
+      ],
+      "explanation": "Multiplication by a negative reverses order, so the largest scaled value comes from the smallest original value.",
+      "tags": []
+    },
+    {
+      "id": "1.4-013",
+      "section": "1.4",
+      "kind": "proof",
+      "prompt": "To prove \\(s=\\sup A\\), which two facts must be shown?",
+      "correct": "\\(s\\) is an upper bound of \\(A\\), and every upper bound \\(u\\) satisfies \\(s\\le u\\).",
+      "choices": [
+        "\\(s\\) is an upper bound of \\(A\\), and every upper bound \\(u\\) satisfies \\(s\\le u\\).",
+        "\\(s\\) is in \\(A\\), and \\(A\\) is finite.",
+        "\\(s\\) is a lower bound and belongs to \\(A\\).",
+        "Every element of \\(A\\) equals \\(s\\)."
+      ],
+      "explanation": "These are exactly the upper-bound and leastness clauses.",
+      "tags": []
+    },
+    {
+      "id": "1.4-014",
+      "section": "1.4",
+      "kind": "homework",
+      "prompt": "What is \\(\\sup\\{r\\in\\mathbb{Q}:r^2<4\\}\\)?",
+      "correct": "\\(2\\)",
+      "choices": [
+        "\\(2\\)",
+        "\\(4\\)",
+        "\\(\\sqrt{2}\\)",
+        "The set has no supremum in \\(\\mathbb{R}\\)."
+      ],
+      "explanation": "Rational numbers with square less than \\(4\\) approach \\(2\\) from below, and \\(2\\) is the least real upper bound.",
+      "tags": []
+    },
+    {
+      "id": "1.4-new-openinterval",
+      "section": "1.4",
+      "kind": "concept",
+      "prompt": "For the set \\(A=(0,1)\\), which statement correctly distinguishes extrema from bounds?",
+      "choices": [
+        "\\(\\inf A=0\\) and \\(\\sup A=1\\), but \\(A\\) has neither a minimum nor a maximum.",
+        "\\(\\min A=0\\) and \\(\\max A=1\\).",
+        "\\(\\inf A=\\sup A=0\\).",
+        "\\(A\\) is unbounded."
+      ],
+      "correct": "\\(\\inf A=0\\) and \\(\\sup A=1\\), but \\(A\\) has neither a minimum nor a maximum.",
+      "explanation": "The endpoints bound the open interval and are its infimum and supremum, but neither endpoint belongs to the set.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"Open interval (0,1)\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"161.0\" y1=\"20\" x2=\"161.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"387.0\" y1=\"20\" x2=\"387.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"240.0\" x2=\"500\" y2=\"240.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"130.0\" x2=\"500\" y2=\"130.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"20.0\" x2=\"500\" y2=\"20.0\" stroke=\"#e5e7eb\"/><line x1=\"161.0\" y1=\"20\" x2=\"161.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"130.0\" x2=\"500\" y2=\"130.0\" stroke=\"#555\" stroke-width=\"1.4\"/><polyline points=\"165.5,130.0 382.5,130.0\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/><circle cx=\"161.0\" cy=\"130.0\" r=\"5\" fill=\"white\" stroke=\"#b91c1c\" stroke-width=\"2\"/><circle cx=\"387.0\" cy=\"130.0\" r=\"5\" fill=\"white\" stroke=\"#b91c1c\" stroke-width=\"2\"/></svg><div class=\"figure-caption\">Open interval (0,1)</div>"
+    },
+    {
+      "id": "1.4-new-sup-character",
+      "section": "1.4",
+      "kind": "concept",
+      "prompt": "Let \\(A\\subseteq\\mathbb{R}\\) be nonempty and bounded above. Which pair of conditions characterizes \\(s=\\sup A\\)?",
+      "choices": [
+        "\\(a\\le s\\) for every \\(a\\in A\\), and if \\(u\\) is any upper bound of \\(A\\), then \\(s\\le u\\).",
+        "\\(s\\in A\\), and \\(s\\le a\\) for every \\(a\\in A\\).",
+        "\\(s\\) is an upper bound and \\(s\\in A\\).",
+        "Every upper bound \\(u\\) satisfies \\(u<s\\)."
+      ],
+      "correct": "\\(a\\le s\\) for every \\(a\\in A\\), and if \\(u\\) is any upper bound of \\(A\\), then \\(s\\le u\\).",
+      "explanation": "A supremum is precisely a least upper bound.",
+      "tags": []
+    },
+    {
+      "id": "1.5-001",
+      "section": "1.5",
+      "kind": "concept",
+      "prompt": "Which statement is the Archimedean Property?",
+      "correct": "If \\(x,y>0\\), then there is \\(n\\in\\mathbb{N}\\) such that \\(nx>y\\).",
+      "choices": [
+        "If \\(x,y>0\\), then there is \\(n\\in\\mathbb{N}\\) such that \\(nx>y\\).",
+        "Every bounded set has a maximum.",
+        "Every real number is rational.",
+        "There is a largest natural number."
+      ],
+      "explanation": "The Archimedean Property says that for \\(x,y>0\\), there is some \\(n\\in\\mathbb{N}\\) such that \\(nx>y\\).",
+      "tags": []
+    },
+    {
+      "id": "1.5-003",
+      "section": "1.5",
+      "kind": "concept",
+      "prompt": "Suppose \\(x<y\\) are real numbers. What does density of \\(\\mathbb{Q}\\) guarantee?",
+      "correct": "There is a rational number \\(r\\) with \\(x<r<y\\).",
+      "choices": [
+        "There is a rational number \\(r\\) with \\(x<r<y\\).",
+        "Every number between \\(x\\) and \\(y\\) is rational.",
+        "\\(x\\) and \\(y\\) must be rational.",
+        "There is an integer between \\(x\\) and \\(y\\)."
+      ],
+      "explanation": "There is a rational number \\(r\\) with \\(x<r<y\\).",
+      "tags": []
+    },
+    {
+      "id": "1.5-005",
+      "section": "1.5",
+      "kind": "concept",
+      "prompt": "Suppose \\(x<y\\) are real numbers. What does density of the irrational numbers guarantee?",
+      "correct": "There is an irrational number \\(s\\) with \\(x<s<y\\).",
+      "choices": [
+        "There is an irrational number \\(s\\) with \\(x<s<y\\).",
+        "Every interval has rational endpoints.",
+        "There are no rational numbers between \\(x\\) and \\(y\\).",
+        "\\(x-y\\) must be irrational."
+      ],
+      "explanation": "There is an irrational number \\(s\\) with \\(x<s<y\\).",
+      "tags": []
+    },
+    {
+      "id": "1.5-007",
+      "section": "1.5",
+      "kind": "concept",
+      "prompt": "Which statement is equivalent to \\(\\mathbb{N}\\) not being bounded above in \\(\\mathbb{R}\\)?",
+      "correct": "For every real \\(M\\), some \\(n\\in\\mathbb{N}\\) satisfies \\(n>M\\).",
+      "choices": [
+        "For every real \\(M\\), some \\(n\\in\\mathbb{N}\\) satisfies \\(n>M\\).",
+        "There is a largest natural number.",
+        "Every real number is natural.",
+        "\\(\\mathbb{N}\\) has supremum \\(0\\)."
+      ],
+      "explanation": "Unbounded above means no real number bounds all natural numbers.",
+      "tags": []
+    },
+    {
+      "id": "1.5-008",
+      "section": "1.5",
+      "kind": "homework",
+      "prompt": "Which statement follows from the Archimedean Property for every real number \\(x>0\\)?",
+      "correct": "There is \\(n\\in\\mathbb{N}\\) with \\(1/n<x\\).",
+      "choices": [
+        "There is \\(n\\in\\mathbb{N}\\) with \\(1/n<x\\).",
+        "There is \\(n\\) with \\(n<x\\) for every \\(x\\).",
+        "\\(1/n>x\\) for all \\(n\\).",
+        "\\(x\\) is rational."
+      ],
+      "explanation": "Apply the Archimedean Property with \\(y=1\\), then rearrange.",
+      "tags": []
+    },
+    {
+      "id": "1.5-009",
+      "section": "1.5",
+      "kind": "proof",
+      "prompt": "Which assumption begins the standard proof by contradiction that \\(\\sqrt2\\) is irrational?",
+      "correct": "\\(\\sqrt{2}=m/n\\) in lowest terms.",
+      "choices": [
+        "\\(\\sqrt{2}=m/n\\) in lowest terms.",
+        "\\(\\sqrt{2}\\) is negative.",
+        "\\(m\\) and \\(n\\) are both odd without justification.",
+        "\\(2\\) has no square root."
+      ],
+      "explanation": "Squaring then forces both \\(m\\) and \\(n\\) to be even, contradicting lowest terms.",
+      "tags": []
+    },
+    {
+      "id": "1.5-010",
+      "section": "1.5",
+      "kind": "homework",
+      "prompt": "Why does density imply every nonempty open interval contains infinitely many rationals?",
+      "correct": "After finding one rational, apply density again to a smaller subinterval repeatedly.",
+      "choices": [
+        "After finding one rational, apply density again to a smaller subinterval repeatedly.",
+        "Because every real is rational.",
+        "Because an interval has integer length.",
+        "Because completeness directly gives a maximum rational."
+      ],
+      "explanation": "Density can be iterated in disjoint or nested subintervals.",
+      "tags": []
+    },
+    {
+      "id": "1.5-011",
+      "section": "1.5",
+      "kind": "homework",
+      "prompt": "Which number is certainly irrational when \\(r\\) is a nonzero rational?",
+      "correct": "\\(\\frac{r}{\\sqrt{2}}\\)",
+      "choices": [
+        "\\(\\frac{r}{\\sqrt{2}}\\)",
+        "\\(r+1\\)",
+        "\\(2r\\)",
+        "\\(r/2\\)"
+      ],
+      "explanation": "If \\(\\frac{r}{\\sqrt{2}}\\) were rational, then \\(\\sqrt{2}\\) would be a quotient of nonzero rationals.",
+      "tags": []
+    },
+    {
+      "id": "1.5-012",
+      "section": "1.5",
+      "kind": "proof",
+      "prompt": "In a density proof for \\(x<y\\), why choose \\(n\\) so that \\(n(y-x)>1\\)?",
+      "correct": "It makes the scaled interval (\\(nx\\),\\(ny\\)) longer than \\(1\\), so an integer can be placed inside.",
+      "choices": [
+        "It makes the scaled interval (\\(nx\\),\\(ny\\)) longer than \\(1\\), so an integer can be placed inside.",
+        "It proves \\(x\\) and \\(y\\) are integers.",
+        "It makes \\(y-x\\) negative.",
+        "It supplies a maximum of \\(\\mathbb{Q}\\)."
+      ],
+      "explanation": "After finding an integer \\(m\\) between \\(nx\\) and \\(ny\\), \\(m/n\\) lies between \\(x\\) and \\(y\\).",
+      "tags": []
+    },
+    {
+      "id": "1.5-new-density",
+      "section": "1.5",
+      "kind": "concept",
+      "prompt": "If \\(x<y\\), which statement follows from the density of both the rational and irrational numbers in \\(\\mathbb{R}\\)?",
+      "choices": [
+        "There is both a rational and an irrational number strictly between \\(x\\) and \\(y\\).",
+        "Every number between \\(x\\) and \\(y\\) is rational.",
+        "Every interval has a least rational number.",
+        "Every interval has a greatest irrational number."
+      ],
+      "correct": "There is both a rational and an irrational number strictly between \\(x\\) and \\(y\\).",
+      "explanation": "The notes prove density of \\(\\mathbb{Q}\\) and of \\(\\mathbb{R}-\\mathbb{Q}\\) separately.",
+      "tags": []
+    },
+    {
+      "id": "1.6-001",
+      "section": "1.6",
+      "kind": "homework",
+      "prompt": "Which strategy proves \\(x<(x+y)/2<y\\) from \\(x<y\\)?",
+      "correct": "Add \\(x\\) to \\(x<y\\) and add \\(y\\) to \\(x<y\\), then divide the resulting inequalities by \\(2\\).",
+      "choices": [
+        "Add \\(x\\) to \\(x<y\\) and add \\(y\\) to \\(x<y\\), then divide the resulting inequalities by \\(2\\).",
+        "Square \\(x<y\\) without checking signs.",
+        "Use completeness to choose a maximum.",
+        "Assume \\(x\\) and \\(y\\) are integers."
+      ],
+      "explanation": "The ordered-field axioms preserve inequalities under addition and multiplication by the positive number \\(1/2\\).",
+      "tags": []
+    },
+    {
+      "id": "1.6-002",
+      "section": "1.6",
+      "kind": "homework",
+      "prompt": "For \\(x,y\\ge0\\), which nonnegative square leads directly to \\(\\sqrt{xy}\\le\\frac{x+y}{2}\\)?",
+      "correct": "\\((\\sqrt{x}-\\sqrt{y})^2\\ge0\\)",
+      "choices": [
+        "\\((\\sqrt{x}-\\sqrt{y})^2\\ge0\\)",
+        "\\((x-y)^2<0\\)",
+        "\\(x+y<0\\)",
+        "The density of \\(\\mathbb{Q}\\)"
+      ],
+      "explanation": "Expanding gives \\(x-2\\sqrt{xy}+y\\ge0\\), which rearranges to the desired inequality.",
+      "tags": []
+    },
+    {
+      "id": "1.6-003",
+      "section": "1.6",
+      "kind": "homework",
+      "prompt": "If \\(S\\) is bounded and \\(s=\\sup S\\), what approximation property holds?",
+      "correct": "For every \\(\\varepsilon>0\\), some \\(a\\in S\\) satisfies \\(s-\\varepsilon<a\\le s\\).",
+      "choices": [
+        "For every \\(\\varepsilon>0\\), some \\(a\\in S\\) satisfies \\(s-\\varepsilon<a\\le s\\).",
+        "There is always \\(a=s\\) in \\(S\\).",
+        "Every \\(a\\in S\\) satisfies \\(a<s-\\varepsilon\\).",
+        "\\(S\\) must be finite."
+      ],
+      "explanation": "Otherwise \\(s-\\varepsilon\\) would be a smaller upper bound.",
+      "tags": []
+    },
+    {
+      "id": "1.6-004",
+      "section": "1.6",
+      "kind": "homework",
+      "prompt": "If \\(a\\le b+1/n\\) for every \\(n\\in\\mathbb{N}\\), what follows?",
+      "correct": "\\(a\\le b\\)",
+      "choices": [
+        "\\(a\\le b\\)",
+        "\\(a>b\\)",
+        "\\(a=b+1\\)",
+        "No comparison between \\(a\\) and \\(b\\) is possible."
+      ],
+      "explanation": "If \\(a>b\\), choose \\(n\\) so large that \\(1/n<a-b\\), a contradiction.",
+      "tags": []
+    },
+    {
+      "id": "1.6-005",
+      "section": "1.6",
+      "kind": "homework",
+      "prompt": "If \\(A,B\\subseteq\\mathbb{R}\\) are nonempty and bounded, what is \\(\\sup(A+B)\\)?",
+      "correct": "\\(\\sup A+\\sup B\\)",
+      "choices": [
+        "\\(\\sup A+\\sup B\\)",
+        "\\(\\sup A\\cdot\\sup B\\)",
+        "\\(\\max A+\\max B\\) only",
+        "\\(\\inf A+\\inf B\\)"
+      ],
+      "explanation": "Sums are bounded above by the sum of suprema, and elements can approach each supremum independently.",
+      "tags": []
+    },
+    {
+      "id": "1.6-006",
+      "section": "1.6",
+      "kind": "homework",
+      "prompt": "If \\(A\\subseteq\\mathbb{R}\\) is nonempty and bounded and \\(k<0\\), what happens to the infimum and supremum under \\(kA\\)?",
+      "correct": "They exchange roles: \\(\\sup(kA)=k\\inf A\\) and \\(\\inf(kA)=k\\sup A\\).",
+      "choices": [
+        "They exchange roles: \\(\\sup(kA)=k\\inf A\\) and \\(\\inf(kA)=k\\sup A\\).",
+        "They are unchanged.",
+        "Both become \\(k\\sup A\\).",
+        "They cease to exist."
+      ],
+      "explanation": "Negative scaling reverses order.",
+      "tags": []
+    },
+    {
+      "id": "1.6-007",
+      "section": "1.6",
+      "kind": "proof",
+      "prompt": "Which set is a natural starting point for a completeness proof that every positive real number has a positive square root?",
+      "correct": "\\(S=\\{t\\in\\mathbb{R}:t\\ge0\\text{ and }t^2\\le x\\}\\), and then show \\((\\sup S)^2=x\\).",
+      "choices": [
+        "\\(S=\\{t\\in\\mathbb{R}:t\\ge0\\text{ and }t^2\\le x\\}\\), and then show \\((\\sup S)^2=x\\).",
+        "Take \\(S=\\mathbb{N}\\) and show \\(\\max S=x\\).",
+        "Take \\(S=\\mathbb{Q}\\) and assume it has a maximum.",
+        "Take \\(S=\\{x\\}\\) and use density."
+      ],
+      "explanation": "Completeness supplies the candidate supremum; inequalities rule out its square being too small or too large.",
+      "tags": []
+    },
+    {
+      "id": "1.6-008",
+      "section": "1.6",
+      "kind": "concept",
+      "prompt": "Which pair need not be equal?",
+      "correct": "\\(\\sup A\\) and \\(\\max A\\)",
+      "choices": [
+        "\\(\\sup A\\) and \\(\\max A\\)",
+        "\\(\\sup A\\) and the least upper bound of \\(A\\)",
+        "\\(\\inf A\\) and the greatest lower bound of \\(A\\)",
+        "\\(\\max A\\) and \\(\\sup A\\) when \\(\\max A\\) exists"
+      ],
+      "explanation": "A supremum need not belong to \\(A\\), so a maximum can fail to exist.",
+      "tags": []
+    },
+    {
+      "id": "1.6-009",
+      "section": "1.6",
+      "kind": "homework",
+      "prompt": "For \\(A=(2,3)\\), which numbers are upper bounds?",
+      "correct": "\\(3\\), \\(4\\), and \\(100\\)",
+      "choices": [
+        "\\(3\\), \\(4\\), and \\(100\\)",
+        "\\(2\\), \\(2.5\\), and \\(3\\)",
+        "Only \\(3\\)",
+        "No real numbers"
+      ],
+      "explanation": "Every element of \\(A\\) is less than \\(3\\), so any number at least \\(3\\) is an upper bound.",
+      "tags": []
+    },
+    {
+      "id": "1.6-010",
+      "section": "1.6",
+      "kind": "homework",
+      "prompt": "What is \\(\\inf\\{1/n:n\\text{ is prime}\\}\\)?",
+      "correct": "\\(0\\)",
+      "choices": [
+        "\\(0\\)",
+        "\\(1/2\\)",
+        "\\(1\\)",
+        "The set is unbounded below."
+      ],
+      "explanation": "Prime numbers are unbounded, so their reciprocals approach \\(0\\); all are positive.",
+      "tags": []
+    },
+    {
+      "id": "1.6-011",
+      "section": "1.6",
+      "kind": "proof",
+      "prompt": "If \\(\\sup A\\in A\\), why is \\(\\sup A=\\max A\\)?",
+      "correct": "A supremum is an upper bound, and membership makes it an element of \\(A\\).",
+      "choices": [
+        "A supremum is an upper bound, and membership makes it an element of \\(A\\).",
+        "Every supremum is automatically in \\(A\\).",
+        "\\(A\\) must be finite.",
+        "Completeness says every set has a maximum."
+      ],
+      "explanation": "The definition of maximum is exactly an upper bound that lies in the set.",
+      "tags": []
+    },
+    {
+      "id": "1.6-012",
+      "section": "1.6",
+      "kind": "homework",
+      "prompt": "Suppose \\(A,B\\subseteq\\mathbb{R}\\) are nonempty and bounded. Which additional hypothesis from the Chapter 1 exercise guarantees \\(\\sup(AB)=\\sup A\\,\\sup B\\)?",
+      "correct": "All elements of \\(A\\) and \\(B\\) are nonnegative.",
+      "choices": [
+        "All elements of \\(A\\) and \\(B\\) are nonnegative.",
+        "\\(A\\) and \\(B\\) are disjoint.",
+        "\\(A\\) and \\(B\\) are finite.",
+        "\\(\\sup A=\\sup B\\)."
+      ],
+      "explanation": "Without nonnegativity, order behavior of products is more complicated.",
+      "tags": []
+    },
+    {
+      "id": "1.6-new-supapprox",
+      "section": "1.6",
+      "kind": "concept",
+      "prompt": "Suppose \\(S\\subseteq\\mathbb{R}\\) and \\(s=\\sup S\\). Which statement is the approximation property asked for in Exercise 1.6.20?",
+      "choices": [
+        "For every \\(\\varepsilon>0\\), there is \\(a\\in S\\) such that \\(s-\\varepsilon<a\\le s\\).",
+        "For every \\(\\varepsilon>0\\), every \\(a\\in S\\) satisfies \\(a<s-\\varepsilon\\).",
+        "There is one \\(a\\in S\\) with \\(s-\\varepsilon<a\\) for every \\(\\varepsilon>0\\).",
+        "\\(s\\in S\\) for every bounded set \\(S\\)."
+      ],
+      "correct": "For every \\(\\varepsilon>0\\), there is \\(a\\in S\\) such that \\(s-\\varepsilon<a\\le s\\).",
+      "explanation": "If no element of \\(S\\) lay above \\(s-\\varepsilon\\), then \\(s-\\varepsilon\\) would be an upper bound smaller than \\(s=\\sup S\\), a contradiction.",
+      "tags": []
+    },
+    {
+      "id": "2.1-001",
+      "section": "2.1",
+      "kind": "concept",
+      "prompt": "Which statement is the definition that the sequence \\(\\langle s_n\\rangle\\) converges to \\(L\\)?",
+      "correct": "For every \\(\\varepsilon>0\\), there is \\(N\\in\\mathbb{R}\\) such that for every \\(n\\in\\mathbb{N}\\), if \\(n>N\\), then \\(|s_n-L|<\\varepsilon\\).",
+      "choices": [
+        "For every \\(\\varepsilon>0\\), there is \\(N\\in\\mathbb{R}\\) such that for every \\(n\\in\\mathbb{N}\\), if \\(n>N\\), then \\(|s_n-L|<\\varepsilon\\).",
+        "There is one \\(\\varepsilon>0\\) such that \\(|s_n-L|<\\varepsilon\\) for every \\(n\\in\\mathbb{N}\\).",
+        "For every \\(N\\in\\mathbb{R}\\), there is \\(\\varepsilon>0\\) such that \\(n>N\\) implies \\(|s_n-L|<\\varepsilon\\).",
+        "There is \\(N\\in\\mathbb{R}\\) such that \\(s_n=L\\) for every \\(n>N\\)."
+      ],
+      "explanation": "Convergence means that one tail of the sequence lies inside every prescribed \\(\\varepsilon\\)-neighborhood of \\(L\\).",
+      "tags": []
+    },
+    {
+      "id": "2.1-003",
+      "section": "2.1",
+      "kind": "concept",
+      "prompt": "Suppose a sequence \\(\\langle s_n\\rangle\\) converges both to \\(L\\) and to \\(M\\). What does uniqueness of limits imply?",
+      "correct": "\\(L=M\\)",
+      "choices": [
+        "\\(L=M\\)",
+        "\\(L=-M\\)",
+        "\\(L<M\\)",
+        "\\(L>M\\)"
+      ],
+      "explanation": "Limits of a convergent sequence are unique, so \\(L=M\\).",
+      "tags": []
+    },
+    {
+      "id": "2.1-005",
+      "section": "2.1",
+      "kind": "concept",
+      "prompt": "What is the correct negation of the statement \\(s_n\\to L\\)?",
+      "correct": "There is \\(\\varepsilon>0\\) such that for every real \\(N\\), there is \\(n\\in\\mathbb{N}\\) with \\(n>N\\) and \\(|s_n-L|\\ge\\varepsilon\\).",
+      "choices": [
+        "There is \\(\\varepsilon>0\\) such that for every real \\(N\\), there is \\(n\\in\\mathbb{N}\\) with \\(n>N\\) and \\(|s_n-L|\\ge\\varepsilon\\).",
+        "For every \\(\\varepsilon>0\\), there is \\(N\\) such that all later terms are close to \\(L\\).",
+        "There is one \\(N\\) such that every \\(n>N\\) is far from \\(L\\).",
+        "There is one term \\(s_n\\ne L\\)."
+      ],
+      "explanation": "Negating the convergence definition changes the outer “for every \\(\\varepsilon>0\\)” to “there exists \\(\\varepsilon>0\\)” and reverses the later quantifiers and the strict inequality.",
+      "tags": []
+    },
+    {
+      "id": "2.1-006",
+      "section": "2.1",
+      "kind": "homework",
+      "prompt": "For \\(s_n=1/n\\) and a given \\(\\varepsilon>0\\), which choice of \\(N\\) is sufficient?",
+      "correct": "\\(N\\ge1/\\varepsilon\\)",
+      "choices": [
+        "\\(N\\ge1/\\varepsilon\\)",
+        "\\(N=\\varepsilon\\)",
+        "\\(N=0\\) for every \\(\\varepsilon\\)",
+        "Any positive \\(N\\) works."
+      ],
+      "explanation": "If \\(n>N\\ge1/\\varepsilon\\), then \\(1/n<\\varepsilon\\).",
+      "tags": []
+    },
+    {
+      "id": "2.1-007",
+      "section": "2.1",
+      "kind": "homework",
+      "prompt": "What is \\(\\displaystyle\\lim_{n\\to\\infty}\\frac{3n}{2n+1}\\)?",
+      "correct": "\\(3/2\\)",
+      "choices": [
+        "\\(3/2\\)",
+        "\\(0\\)",
+        "\\(3\\)",
+        "\\(2/3\\)"
+      ],
+      "explanation": "Divide numerator and denominator by \\(n\\).",
+      "tags": []
+    },
+    {
+      "id": "2.1-008",
+      "section": "2.1",
+      "kind": "homework",
+      "prompt": "Does the sequence \\(\\langle(-1)^n\\rangle\\) converge?",
+      "correct": "No; its even and odd terms remain at \\(1\\) and \\(-1\\).",
+      "choices": [
+        "No; its even and odd terms remain at \\(1\\) and \\(-1\\).",
+        "Yes, to \\(0\\).",
+        "Yes, to \\(1\\).",
+        "Yes, to \\(-1\\)."
+      ],
+      "explanation": "Two subsequences have different constant limits.",
+      "tags": []
+    },
+    {
+      "id": "2.1-009",
+      "section": "2.1",
+      "kind": "homework",
+      "prompt": "Which sequence of rationals converges to an irrational number?",
+      "correct": "Decimal truncations of \\(\\sqrt{2}\\).",
+      "choices": [
+        "Decimal truncations of \\(\\sqrt{2}\\).",
+        "The constant sequence \\(1\\).",
+        "\\((-1)^n.\\)",
+        "\\(n\\)."
+      ],
+      "explanation": "Each truncation is rational and the truncations approach \\(\\sqrt{2}\\).",
+      "tags": []
+    },
+    {
+      "id": "2.1-010",
+      "section": "2.1",
+      "kind": "homework",
+      "prompt": "Suppose \\(|a_n|\\le b_n\\) for every \\(n\\) and \\(b_n\\to0\\). What follows?",
+      "correct": "\\(a_n\\to0\\).",
+      "choices": [
+        "\\(a_n\\to0\\).",
+        "\\(a_n\\to1\\).",
+        "The sequence \\(\\langle a_n\\rangle\\) diverges.",
+        "The sequence \\(\\langle b_n\\rangle\\) is eventually negative."
+      ],
+      "explanation": "Because \\(0\\le|a_n|\\le b_n\\) and \\(b_n\\to0\\), the Squeeze Theorem gives \\(|a_n|\\to0\\), hence \\(a_n\\to0\\).",
+      "tags": []
+    },
+    {
+      "id": "2.1-011",
+      "section": "2.1",
+      "kind": "proof",
+      "prompt": "In the \\(\\varepsilon/2\\) proof of uniqueness, why choose \\(n>\\max(N_L,N_M)\\)?",
+      "correct": "So the same term \\(s_n\\) is simultaneously close to \\(L\\) and \\(M\\).",
+      "choices": [
+        "So the same term \\(s_n\\) is simultaneously close to \\(L\\) and \\(M\\).",
+        "To make \\(s_n\\) equal both limits.",
+        "To prove the sequence is monotone.",
+        "To use completeness."
+      ],
+      "explanation": "The Triangle Inequality then bounds \\(|L-M|\\) by two terms, each smaller than \\(\\varepsilon/2\\).",
+      "tags": []
+    },
+    {
+      "id": "2.1-012",
+      "section": "2.1",
+      "kind": "homework",
+      "prompt": "What is \\(\\displaystyle\\lim_{n\\to\\infty}(\\sqrt{n^2+n}-n)\\)?",
+      "correct": "\\(\\frac12\\)",
+      "choices": [
+        "\\(\\frac12\\)",
+        "\\(0\\)",
+        "\\(1\\)",
+        "The limit does not exist."
+      ],
+      "explanation": "Rationalize: \\(\\sqrt{n^2+n}-n=\\frac{n}{\\sqrt{n^2+n}+n}\\), then divide numerator and denominator by \\(n\\).",
+      "tags": []
+    },
+    {
+      "id": "2.1-new-graph-eps",
+      "section": "2.1",
+      "kind": "concept",
+      "prompt": "The graph shows terms of \\(s_n=1/n\\) and an \\(\\varepsilon\\)-band about \\(0\\). What does convergence require for an arbitrary \\(\\varepsilon>0\\)?",
+      "choices": [
+        "There is an \\(N\\) such that every term with \\(n>N\\) lies in the band.",
+        "Every term of the sequence must lie in the band.",
+        "At least one term with \\(n>N\\) lies in the band.",
+        "The band must contain an interval of indices."
+      ],
+      "correct": "There is an \\(N\\) such that every term with \\(n>N\\) lies in the band.",
+      "explanation": "Convergence means that for every \\(\\varepsilon>0\\), all sufficiently late terms lie in the interval \\((-\\varepsilon,\\varepsilon)\\).",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"Terms of s_n=1/n with an epsilon-band around 0\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><rect x=\"48\" y=\"150.6\" width=\"452\" height=\"68.8\" fill=\"#e8f0fe\"/><line x1=\"48.0\" y1=\"20\" x2=\"48.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"98.2\" y1=\"20\" x2=\"98.2\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"148.4\" y1=\"20\" x2=\"148.4\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"198.7\" y1=\"20\" x2=\"198.7\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"248.9\" y1=\"20\" x2=\"248.9\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"299.1\" y1=\"20\" x2=\"299.1\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"349.3\" y1=\"20\" x2=\"349.3\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"399.6\" y1=\"20\" x2=\"399.6\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"449.8\" y1=\"20\" x2=\"449.8\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"500.0\" y1=\"20\" x2=\"500.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"185.0\" x2=\"500\" y2=\"185.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"47.5\" x2=\"500\" y2=\"47.5\" stroke=\"#e5e7eb\"/><line x1=\"48.0\" y1=\"20\" x2=\"48.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"185.0\" x2=\"500\" y2=\"185.0\" stroke=\"#555\" stroke-width=\"1.4\"/><circle cx=\"98.2\" cy=\"47.5\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"148.4\" cy=\"116.2\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"198.7\" cy=\"139.2\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"248.9\" cy=\"150.6\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"299.1\" cy=\"157.5\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"349.3\" cy=\"162.1\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"399.6\" cy=\"165.4\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"449.8\" cy=\"167.8\" r=\"4.2\" fill=\"#1d4ed8\"/></svg><div class=\"figure-caption\">Terms of s_n=1/n with an epsilon-band around 0</div>"
+    },
+    {
+      "id": "2.1-new-negation-formal",
+      "section": "2.1",
+      "kind": "concept",
+      "prompt": "Which is the correct negation of \\(s_n\\to L\\)?",
+      "choices": [
+        "There is an \\(\\varepsilon>0\\) such that for every real \\(N\\), there is an integer \\(n>N\\) with \\(|s_n-L|\\ge\\varepsilon\\).",
+        "For every \\(\\varepsilon>0\\), there is an \\(N\\) such that \\(|s_N-L|\\ge\\varepsilon\\).",
+        "There is an \\(N\\) such that every \\(n>N\\) has \\(|s_n-L|\\ge1\\).",
+        "For every \\(N\\), all \\(n>N\\) satisfy \\(|s_n-L|<1\\)."
+      ],
+      "correct": "There is an \\(\\varepsilon>0\\) such that for every real \\(N\\), there is an integer \\(n>N\\) with \\(|s_n-L|\\ge\\varepsilon\\).",
+      "explanation": "Negating convergence reverses the quantifiers and changes the final strict inequality \\(<\\varepsilon\\) to \\(\\ge\\varepsilon\\).",
+      "tags": []
+    },
+    {
+      "id": "2.2-001",
+      "section": "2.2",
+      "kind": "concept",
+      "prompt": "Which statement means that a sequence \\(\\langle s_n\\rangle\\) is bounded?",
+      "correct": "There is a real number \\(M>0\\) such that \\(|s_n|\\le M\\) for every \\(n\\in\\mathbb{N}\\).",
+      "choices": [
+        "There is a real number \\(M>0\\) such that \\(|s_n|\\le M\\) for every \\(n\\in\\mathbb{N}\\).",
+        "The terms are increasing.",
+        "The sequence has a maximum term.",
+        "Every subsequence converges."
+      ],
+      "explanation": "A sequence is bounded when all of its terms lie in one interval \\([-M,M]\\) for some \\(M>0\\).",
+      "tags": []
+    },
+    {
+      "id": "2.2-003",
+      "section": "2.2",
+      "kind": "concept",
+      "prompt": "Suppose \\(a_n\\to L\\) and \\(b_n\\to M\\). Which statement is a valid algebraic property of limits?",
+      "correct": "Sums, differences, products, and valid quotients have the corresponding algebraic limits.",
+      "choices": [
+        "Sums, differences, products, and valid quotients have the corresponding algebraic limits.",
+        "Every combination diverges.",
+        "Only sums have limits.",
+        "The quotient law holds even when \\(M=0\\)."
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: Sums, differences, products, and valid quotients have the corresponding algebraic limits.",
+      "tags": []
+    },
+    {
+      "id": "2.2-005",
+      "section": "2.2",
+      "kind": "concept",
+      "prompt": "Suppose \\(a_n\\le b_n\\le c_n\\) for all \\(n\\in\\mathbb{N}\\), with \\(a_n\\to L\\) and \\(c_n\\to L\\). What does the Squeeze Theorem imply about \\(\\langle b_n\\rangle\\)?",
+      "correct": "\\(b_n\\to L\\)",
+      "choices": [
+        "\\(b_n\\to L\\)",
+        "\\(b_n\\) is constant",
+        "\\(b_n\\to0\\) regardless of \\(L\\)",
+        "\\(a_n=c_n\\) for every \\(n\\)"
+      ],
+      "explanation": "The Squeeze Theorem gives \\(b_n\\to L\\).",
+      "tags": []
+    },
+    {
+      "id": "2.2-007",
+      "section": "2.2",
+      "kind": "concept",
+      "prompt": "What additional condition is needed for \\(\\lim(a_n/b_n)=L/M\\)?",
+      "correct": "\\(M\\ne0\\), and the denominators are eventually nonzero.",
+      "choices": [
+        "\\(M\\ne0\\), and the denominators are eventually nonzero.",
+        "\\(L\\ne0\\)",
+        "\\(a_n\\) is monotone",
+        "\\(b_n\\) is positive for every \\(n\\) from the start"
+      ],
+      "explanation": "A nonzero denominator limit keeps \\(b_n\\) bounded away from zero eventually.",
+      "tags": []
+    },
+    {
+      "id": "2.2-008",
+      "section": "2.2",
+      "kind": "homework",
+      "prompt": "If \\(a_n\\to4\\) and \\(a_n+b_n\\to7\\), what is \\(\\lim b_n\\)?",
+      "correct": "\\(3\\)",
+      "choices": [
+        "\\(3\\)",
+        "\\(11\\)",
+        "\\(28\\)",
+        "Cannot be determined"
+      ],
+      "explanation": "Subtract the convergent sequences: \\(b_n=(a_n+b_n)-a_n\\).",
+      "tags": []
+    },
+    {
+      "id": "2.2-009",
+      "section": "2.2",
+      "kind": "homework",
+      "prompt": "What is \\(\\displaystyle\\lim_{n\\to\\infty}\\frac{2n^2+1}{5n^2-3n}\\)?",
+      "correct": "\\(2/5\\)",
+      "choices": [
+        "\\(2/5\\)",
+        "\\(2/3\\)",
+        "\\(5/2\\)",
+        "\\(0\\)"
+      ],
+      "explanation": "Divide by \\(n^2\\) and use algebraic limit laws.",
+      "tags": []
+    },
+    {
+      "id": "2.2-010",
+      "section": "2.2",
+      "kind": "homework",
+      "prompt": "Which pair of divergent sequences has a convergent sum?",
+      "correct": "\\(a_n=n,\\ b_n=-n\\)",
+      "choices": [
+        "\\(a_n=n,\\ b_n=-n\\)",
+        "\\(a_n=n,\\ b_n=n\\)",
+        "\\(a_n=(-1)^n,\\ b_n=0\\)",
+        "\\(a_n=n^2,\\ b_n=n\\)"
+      ],
+      "explanation": "Their sum is constantly \\(0\\) even though neither sequence converges.",
+      "tags": []
+    },
+    {
+      "id": "2.2-011",
+      "section": "2.2",
+      "kind": "homework",
+      "prompt": "If \\(a_n\\to-3\\), what is \\(\\lim |a_n|\\)?",
+      "correct": "\\(3\\)",
+      "choices": [
+        "\\(3\\)",
+        "\\(-3\\)",
+        "\\(0\\)",
+        "The limit does not exist."
+      ],
+      "explanation": "Absolute value is compatible with limits.",
+      "tags": []
+    },
+    {
+      "id": "2.2-012",
+      "section": "2.2",
+      "kind": "proof",
+      "prompt": "Why is every convergent sequence bounded?",
+      "correct": "A tail lies in a fixed neighborhood of the limit, and the finitely many earlier terms have a maximum absolute value.",
+      "choices": [
+        "A tail lies in a fixed neighborhood of the limit, and the finitely many earlier terms have a maximum absolute value.",
+        "Every convergent sequence is monotone.",
+        "The limit must be zero.",
+        "Completeness directly supplies a maximum term."
+      ],
+      "explanation": "Combine the tail bound with a bound on finitely many initial terms.",
+      "tags": []
+    },
+    {
+      "id": "2.2-013",
+      "section": "2.2",
+      "kind": "homework",
+      "prompt": "If \\(0\\le a_n\\le1/n\\), what is \\(\\lim a_n\\)?",
+      "correct": "\\(0\\)",
+      "choices": [
+        "\\(0\\)",
+        "\\(1\\)",
+        "The limit does not exist.",
+        "It depends on monotonicity."
+      ],
+      "explanation": "Apply the squeeze theorem between \\(0\\) and \\(1/n\\).",
+      "tags": []
+    },
+    {
+      "id": "2.2-014",
+      "section": "2.2",
+      "kind": "concept",
+      "prompt": "If \\(a_n\\le b_n\\) for all \\(n\\) and both sequences converge, what can be concluded?",
+      "correct": "\\(\\lim a_n\\le\\lim b_n\\)",
+      "choices": [
+        "\\(\\lim a_n\\le\\lim b_n\\)",
+        "\\(\\lim a_n<\\lim b_n\\) always",
+        "The limits are equal",
+        "Both limits are positive"
+      ],
+      "explanation": "The order theorem preserves non-strict inequalities in the limit.",
+      "tags": []
+    },
+    {
+      "id": "2.2-new-squeezegraph",
+      "section": "2.2",
+      "kind": "concept",
+      "prompt": "In the graph, the middle sequence is trapped between two sequences that both approach \\(0\\). Which theorem gives the limit of the middle sequence?",
+      "choices": [
+        "The Squeeze Theorem; the middle sequence converges to \\(0\\).",
+        "The bounded-sequence theorem; the middle sequence need not converge.",
+        "The quotient law; the middle sequence converges to \\(1\\).",
+        "The order theorem only; no limit follows."
+      ],
+      "correct": "The Squeeze Theorem; the middle sequence converges to \\(0\\).",
+      "explanation": "If \\(a_n\\le b_n\\le c_n\\) and both outer sequences tend to the same limit, then the middle sequence has that limit.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"A middle sequence squeezed between ±1/n\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"48.0\" y1=\"20\" x2=\"48.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"98.2\" y1=\"20\" x2=\"98.2\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"148.4\" y1=\"20\" x2=\"148.4\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"198.7\" y1=\"20\" x2=\"198.7\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"248.9\" y1=\"20\" x2=\"248.9\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"299.1\" y1=\"20\" x2=\"299.1\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"349.3\" y1=\"20\" x2=\"349.3\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"399.6\" y1=\"20\" x2=\"399.6\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"449.8\" y1=\"20\" x2=\"449.8\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"500.0\" y1=\"20\" x2=\"500.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"221.7\" x2=\"500\" y2=\"221.7\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"130.0\" x2=\"500\" y2=\"130.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"38.3\" x2=\"500\" y2=\"38.3\" stroke=\"#e5e7eb\"/><line x1=\"48.0\" y1=\"20\" x2=\"48.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"130.0\" x2=\"500\" y2=\"130.0\" stroke=\"#555\" stroke-width=\"1.4\"/><polyline points=\"98.2,221.7 148.4,175.8 198.7,160.6 248.9,152.9 299.1,148.3 349.3,145.3 399.6,143.1 449.8,141.5\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/><polyline points=\"98.2,38.3 148.4,84.2 198.7,99.4 248.9,107.1 299.1,111.7 349.3,114.7 399.6,116.9 449.8,118.5\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/><circle cx=\"98.2\" cy=\"70.4\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"148.4\" cy=\"100.2\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"198.7\" cy=\"110.1\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"248.9\" cy=\"115.1\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"299.1\" cy=\"118.1\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"349.3\" cy=\"120.1\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"399.6\" cy=\"121.5\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"449.8\" cy=\"122.6\" r=\"4.2\" fill=\"#1d4ed8\"/></svg><div class=\"figure-caption\">A middle sequence squeezed between ±1/n</div>"
+    },
+    {
+      "id": "2.3-001",
+      "section": "2.3",
+      "kind": "concept",
+      "prompt": "Let \\(A\\subseteq\\mathbb{R}\\). Which statement is the definition that \\(a\\in\\mathbb{R}\\) is an accumulation point of \\(A\\)?",
+      "correct": "Every open interval containing \\(a\\) contains a point of \\(A\\) other than \\(a\\).",
+      "choices": [
+        "Every open interval containing \\(a\\) contains a point of \\(A\\) other than \\(a\\).",
+        "The point \\(a\\) belongs to \\(A\\).",
+        "Every open interval containing \\(a\\) is contained in \\(A\\).",
+        "There is an open interval containing \\(a\\) that contains no other point of \\(A\\)."
+      ],
+      "explanation": "Every open interval about an accumulation point \\(a\\) must contain a point of \\(A\\) distinct from \\(a\\); the point \\(a\\) itself need not belong to \\(A\\).",
+      "tags": []
+    },
+    {
+      "id": "2.3-003",
+      "section": "2.3",
+      "kind": "concept",
+      "prompt": "Must an accumulation point of \\(A\\) belong to \\(A\\)?",
+      "correct": "No",
+      "choices": [
+        "No",
+        "Yes, always",
+        "Only if \\(A\\) is finite",
+        "Only if \\(A\\) is bounded"
+      ],
+      "explanation": "For example, \\(0\\) is an accumulation point of \\(\\{1/n\\}\\) but is not in the set.",
+      "tags": []
+    },
+    {
+      "id": "2.3-004",
+      "section": "2.3",
+      "kind": "concept",
+      "prompt": "What are the accumulation points of \\(\\{1/n:n\\in\\mathbb{N}\\}\\)?",
+      "correct": "\\(\\{0\\}\\)",
+      "choices": [
+        "\\(\\{0\\}\\)",
+        "\\(\\{1\\}\\)",
+        "The whole interval \\([0,1]\\)",
+        "There are none"
+      ],
+      "explanation": "Only \\(0\\) has infinitely many set points arbitrarily close.",
+      "tags": []
+    },
+    {
+      "id": "2.3-005",
+      "section": "2.3",
+      "kind": "concept",
+      "prompt": "Suppose \\(A\\subseteq\\mathbb{R}\\) is bounded and infinite. What conclusion follows from the Bolzano--Weierstrass theorem for bounded infinite sets?",
+      "correct": "The set \\(A\\) has an accumulation point.",
+      "choices": [
+        "The set \\(A\\) has an accumulation point.",
+        "The set \\(A\\) has a maximum.",
+        "The set \\(A\\) is finite.",
+        "The set \\(A\\) is countable."
+      ],
+      "explanation": "Every bounded infinite subset of \\(\\mathbb{R}\\) has at least one accumulation point.",
+      "tags": []
+    },
+    {
+      "id": "2.3-007",
+      "section": "2.3",
+      "kind": "homework",
+      "prompt": "Which set has exactly two accumulation points?",
+      "correct": "\\(\\{1/n:n\\in\\mathbb{N}\\}\\cup\\{2+1/n:n\\in\\mathbb{N}\\}\\)",
+      "choices": [
+        "\\(\\{1/n:n\\in\\mathbb{N}\\}\\cup\\{2+1/n:n\\in\\mathbb{N}\\}\\)",
+        "\\(\\mathbb{Z}\\)",
+        "\\(\\{1,2\\}\\)",
+        "\\(\\mathbb{Q}\\)"
+      ],
+      "explanation": "The two component sequences accumulate at \\(0\\) and \\(2\\).",
+      "tags": []
+    },
+    {
+      "id": "2.3-008",
+      "section": "2.3",
+      "kind": "homework",
+      "prompt": "Which countable set has every real number as an accumulation point?",
+      "correct": "\\(\\mathbb{Q}\\)",
+      "choices": [
+        "\\(\\mathbb{Q}\\)",
+        "\\(\\mathbb{Z}\\)",
+        "\\(\\mathbb{N}\\)",
+        "\\(\\{1/n\\}\\)"
+      ],
+      "explanation": "Rationals are dense in \\(\\mathbb{R}\\).",
+      "tags": []
+    },
+    {
+      "id": "2.3-009",
+      "section": "2.3",
+      "kind": "proof",
+      "prompt": "If \\(x\\ne y\\), how can one find disjoint open intervals around them?",
+      "correct": "Choose a radius less than \\(|x-y|/2\\).",
+      "choices": [
+        "Choose a radius less than \\(|x-y|/2\\).",
+        "Choose a radius larger than \\(|x-y|\\).",
+        "Use the same interval \\(R\\).",
+        "Assume \\(x\\) and \\(y\\) are integers."
+      ],
+      "explanation": "Small enough neighborhoods cannot overlap by the triangle inequality.",
+      "tags": []
+    },
+    {
+      "id": "2.3-010",
+      "section": "2.3",
+      "kind": "homework",
+      "prompt": "Which point is isolated in \\(A=\\{0\\}\\cup[1,2]\\)?",
+      "correct": "\\(0\\)",
+      "choices": [
+        "\\(0\\)",
+        "\\(1\\)",
+        "\\(3/2\\)",
+        "\\(2\\)"
+      ],
+      "explanation": "A small interval around \\(0\\) contains no other point of \\(A\\).",
+      "tags": []
+    },
+    {
+      "id": "2.3-011",
+      "section": "2.3",
+      "kind": "concept",
+      "prompt": "Let \\(A\\subseteq\\mathbb{R}\\) be bounded and infinite. Which sequence argument explains why \\(A\\) has an accumulation point?",
+      "correct": "Choose distinct points of \\(A\\); a convergent subsequence has a limit that is an accumulation point of \\(A\\).",
+      "choices": [
+        "Choose distinct points of \\(A\\); a convergent subsequence has a limit that is an accumulation point of \\(A\\).",
+        "Choose the maximum of \\(A\\) and repeat it to obtain a convergent sequence.",
+        "List all points of \\(A\\) in increasing order; the list must terminate.",
+        "Every sequence in \\(A\\) is automatically monotone and convergent."
+      ],
+      "explanation": "A sequence of distinct points from a bounded set has a convergent subsequence; its limit is approached by distinct points of \\(A\\), so it is an accumulation point.",
+      "tags": []
+    },
+    {
+      "id": "2.3-012",
+      "section": "2.3",
+      "kind": "homework",
+      "prompt": "What are the accumulation points of \\(\\mathbb{Z}\\)?",
+      "correct": "None",
+      "choices": [
+        "None",
+        "\\(0\\)",
+        "Every integer",
+        "All real numbers"
+      ],
+      "explanation": "Each integer has a small neighborhood containing no other integer, and nonintegers can also be isolated from \\(\\mathbb{Z}\\) locally.",
+      "tags": []
+    },
+    {
+      "id": "2.3-new-accumgraph",
+      "section": "2.3",
+      "kind": "concept",
+      "prompt": "The plotted set consists of the points \\(1,1/2,1/3,\\ldots\\). Which number is its accumulation point?",
+      "choices": [
+        "\\(0\\)",
+        "\\(1\\)",
+        "\\(1/2\\)",
+        "The set has no accumulation point."
+      ],
+      "correct": "\\(0\\)",
+      "explanation": "Every open interval about \\(0\\) contains a point \\(1/n\\) different from \\(0\\); no other point has this property.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"The set {1/n : n in N} on the real line\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"85.7\" y1=\"20\" x2=\"85.7\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"462.3\" y1=\"20\" x2=\"462.3\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"240.0\" x2=\"500\" y2=\"240.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"130.0\" x2=\"500\" y2=\"130.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"20.0\" x2=\"500\" y2=\"20.0\" stroke=\"#e5e7eb\"/><line x1=\"85.7\" y1=\"20\" x2=\"85.7\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"130.0\" x2=\"500\" y2=\"130.0\" stroke=\"#555\" stroke-width=\"1.4\"/><circle cx=\"462.3\" cy=\"130.0\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"274.0\" cy=\"130.0\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"211.2\" cy=\"130.0\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"179.8\" cy=\"130.0\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"161.0\" cy=\"130.0\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"148.4\" cy=\"130.0\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"139.5\" cy=\"130.0\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"132.8\" cy=\"130.0\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"127.5\" cy=\"130.0\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"123.3\" cy=\"130.0\" r=\"4.2\" fill=\"#1d4ed8\"/><text x=\"90.7\" y=\"124.0\" font-size=\"13\" fill=\"#111827\">0</text></svg><div class=\"figure-caption\">The set {1/n : n in N} on the real line</div>"
+    },
+    {
+      "id": "2.3-new-definition-formal",
+      "section": "2.3",
+      "kind": "concept",
+      "prompt": "Which is the definition of an accumulation point used in the notes?",
+      "choices": [
+        "A number \\(a\\in\\mathbb{R}\\) is an accumulation point of \\(A\\subseteq\\mathbb{R}\\) if every open interval containing \\(a\\) contains an element of \\(A\\) different from \\(a\\).",
+        "An accumulation point of \\(A\\) must be an element of \\(A\\).",
+        "\\(a\\) is an accumulation point exactly when \\(A\\) has a maximum at \\(a\\).",
+        "\\(a\\) is an accumulation point if one open interval about \\(a\\) contains infinitely many elements of \\(A\\)."
+      ],
+      "correct": "A number \\(a\\in\\mathbb{R}\\) is an accumulation point of \\(A\\subseteq\\mathbb{R}\\) if every open interval containing \\(a\\) contains an element of \\(A\\) different from \\(a\\).",
+      "explanation": "An accumulation point need not belong to the set; what matters is that every open interval around it contains another point of the set.",
+      "tags": []
+    },
+    {
+      "id": "2.4-001",
+      "section": "2.4",
+      "kind": "concept",
+      "prompt": "Which statement is the definition that a sequence \\(\\langle a_n\\rangle\\) is increasing?",
+      "correct": "\\(a_n\\le a_{n+1}\\) for every \\(n\\in\\mathbb{N}\\).",
+      "choices": [
+        "\\(a_n\\le a_{n+1}\\) for every \\(n\\in\\mathbb{N}\\).",
+        "\\(a_n\\ge a_{n+1}\\) for every \\(n\\in\\mathbb{N}\\).",
+        "\\(a_n\\to\\infty\\).",
+        "\\(a_n>0\\) for every \\(n\\)."
+      ],
+      "explanation": "An increasing sequence satisfies \\(a_n\\le a_{n+1}\\) for every \\(n\\).",
+      "tags": []
+    },
+    {
+      "id": "2.4-003",
+      "section": "2.4",
+      "kind": "concept",
+      "prompt": "Which statement is the definition that a sequence \\(\\langle a_n\\rangle\\) is decreasing?",
+      "correct": "\\(a_{n+1}\\le a_n\\) for every \\(n\\in\\mathbb{N}\\).",
+      "choices": [
+        "\\(a_{n+1}\\le a_n\\) for every \\(n\\in\\mathbb{N}\\).",
+        "\\(a_n\\le a_{n+1}\\) for every \\(n\\in\\mathbb{N}\\).",
+        "\\(a_n<0\\) for every \\(n\\).",
+        "The sequence has no lower bound."
+      ],
+      "explanation": "A decreasing sequence satisfies \\(a_n\\ge a_{n+1}\\) for every \\(n\\).",
+      "tags": []
+    },
+    {
+      "id": "2.4-005",
+      "section": "2.4",
+      "kind": "concept",
+      "prompt": "Suppose \\(\\langle s_n\\rangle\\) is increasing and bounded above. What can be concluded about its limit?",
+      "correct": "It converges to its supremum.",
+      "choices": [
+        "It converges to its supremum.",
+        "It diverges to \\(\\infty\\).",
+        "It is eventually constant.",
+        "It converges to its infimum."
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: It converges to its supremum.",
+      "tags": []
+    },
+    {
+      "id": "2.4-007",
+      "section": "2.4",
+      "kind": "concept",
+      "prompt": "For a monotonic sequence of real numbers, which condition is equivalent to convergence?",
+      "correct": "The sequence is bounded.",
+      "choices": [
+        "The sequence is bounded.",
+        "The sequence is bounded above.",
+        "The sequence is bounded below.",
+        "The sequence is strictly increasing."
+      ],
+      "explanation": "A monotonic real sequence converges if and only if it is bounded. An increasing sequence needs an upper bound, and a decreasing sequence needs a lower bound.",
+      "tags": []
+    },
+    {
+      "id": "2.4-008",
+      "section": "2.4",
+      "kind": "homework",
+      "prompt": "Is \\(a_n=1-1/n\\) increasing or decreasing?",
+      "correct": "Increasing",
+      "choices": [
+        "Increasing",
+        "Decreasing",
+        "Neither",
+        "Constant"
+      ],
+      "explanation": "As \\(n\\) grows, \\(1/n\\) decreases, so \\(1-1/n\\) increases.",
+      "tags": []
+    },
+    {
+      "id": "2.4-009",
+      "section": "2.4",
+      "kind": "homework",
+      "prompt": "Which sequence is bounded but not convergent?",
+      "correct": "\\((-1)^n\\)",
+      "choices": [
+        "\\((-1)^n\\)",
+        "\\(1/n\\)",
+        "\\(1-1/n\\)",
+        "\\(0\\)"
+      ],
+      "explanation": "It oscillates between \\(-1\\) and \\(1\\).",
+      "tags": []
+    },
+    {
+      "id": "2.4-010",
+      "section": "2.4",
+      "kind": "homework",
+      "prompt": "If \\(a_{n+1}=(a_n+2)/2\\) and \\(a_1<2\\), what behavior is expected?",
+      "correct": "Increasing and bounded above by \\(2\\), hence convergent to \\(2\\).",
+      "choices": [
+        "Increasing and bounded above by \\(2\\), hence convergent to \\(2\\).",
+        "Decreasing without a lower bound.",
+        "Oscillating between \\(-2\\) and \\(2\\).",
+        "Constant at \\(a_1\\)."
+      ],
+      "explanation": "The recurrence moves halfway toward \\(2\\) each step.",
+      "tags": []
+    },
+    {
+      "id": "2.4-011",
+      "section": "2.4",
+      "kind": "proof",
+      "prompt": "If \\(u=\\sup A\\) and \\(u\\notin A\\), which approximation property supplies elements of \\(A\\) arbitrarily close to \\(u\\) from below?",
+      "correct": "For every \\(\\varepsilon>0\\), there is \\(a\\in A\\) such that \\(u-\\varepsilon<a\\le u\\).",
+      "choices": [
+        "For every \\(\\varepsilon>0\\), there is \\(a\\in A\\) such that \\(u-\\varepsilon<a\\le u\\).",
+        "Every element \\(a\\in A\\) satisfies \\(a=u\\).",
+        "Every element \\(a\\in A\\) satisfies \\(a<\\inf A\\).",
+        "The set \\(A\\) must contain a largest element."
+      ],
+      "explanation": "If no element of \\(A\\) lay above \\(u-\\varepsilon\\), then \\(u-\\varepsilon\\) would be an upper bound smaller than \\(u=\\sup A\\). This property is used to choose terms approaching \\(u\\) from below.",
+      "tags": []
+    },
+    {
+      "id": "2.4-012",
+      "section": "2.4",
+      "kind": "concept",
+      "prompt": "Which statement is the Bolzano–Weierstrass Theorem for bounded infinite sets?",
+      "correct": "Every bounded infinite subset of \\(\\mathbb{R}\\) has an accumulation point.",
+      "choices": [
+        "Every bounded infinite subset of \\(\\mathbb{R}\\) has an accumulation point.",
+        "Every bounded sequence converges.",
+        "Every infinite subset of \\(\\mathbb{R}\\) has a maximum.",
+        "Every monotonic sequence is unbounded."
+      ],
+      "explanation": "The Bolzano–Weierstrass Theorem for sets says that every bounded infinite subset of \\(\\mathbb{R}\\) has an accumulation point.",
+      "tags": []
+    },
+    {
+      "id": "2.4-013",
+      "section": "2.4",
+      "kind": "homework",
+      "prompt": "If a decreasing sequence is bounded below, to which number does it converge?",
+      "correct": "It converges to its infimum.",
+      "choices": [
+        "It converges to its infimum.",
+        "It converges to its supremum.",
+        "It always converges to \\(0\\).",
+        "It converges to its first term."
+      ],
+      "explanation": "The decreasing case follows by applying the increasing-sequence result to \\(-a_n\\).",
+      "tags": []
+    },
+    {
+      "id": "2.4-new-monotonegraph",
+      "section": "2.4",
+      "kind": "concept",
+      "prompt": "The plotted sequence is increasing and bounded above. What must follow?",
+      "choices": [
+        "It converges.",
+        "It diverges because it is not constant.",
+        "It must eventually equal its supremum.",
+        "It has no monotonic subsequence."
+      ],
+      "correct": "It converges.",
+      "explanation": "A monotonic sequence converges exactly when it is bounded.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"An increasing sequence bounded above by 2\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"48.0\" y1=\"20\" x2=\"48.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"98.2\" y1=\"20\" x2=\"98.2\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"148.4\" y1=\"20\" x2=\"148.4\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"198.7\" y1=\"20\" x2=\"198.7\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"248.9\" y1=\"20\" x2=\"248.9\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"299.1\" y1=\"20\" x2=\"299.1\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"349.3\" y1=\"20\" x2=\"349.3\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"399.6\" y1=\"20\" x2=\"399.6\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"449.8\" y1=\"20\" x2=\"449.8\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"500.0\" y1=\"20\" x2=\"500.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"240.0\" x2=\"500\" y2=\"240.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"148.3\" x2=\"500\" y2=\"148.3\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"56.7\" x2=\"500\" y2=\"56.7\" stroke=\"#e5e7eb\"/><line x1=\"48.0\" y1=\"20\" x2=\"48.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"240.0\" x2=\"500\" y2=\"240.0\" stroke=\"#555\" stroke-width=\"1.4\"/><polyline points=\"48.0,56.7 500.0,56.7\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\" stroke-dasharray=\"7,5\"/><circle cx=\"98.2\" cy=\"148.3\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"148.4\" cy=\"117.8\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"198.7\" cy=\"102.5\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"248.9\" cy=\"93.3\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"299.1\" cy=\"87.2\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"349.3\" cy=\"82.9\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"399.6\" cy=\"79.6\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"449.8\" cy=\"77.0\" r=\"4.2\" fill=\"#1d4ed8\"/></svg><div class=\"figure-caption\">An increasing sequence bounded above by 2</div>"
+    },
+    {
+      "id": "2.5-001",
+      "section": "2.5",
+      "kind": "concept",
+      "prompt": "Which statement is the definition that the sequence \\(\\langle s_n\\rangle\\) is a Cauchy sequence?",
+      "correct": "For every \\(\\varepsilon>0\\), there is \\(N\\in\\mathbb{R}\\) such that if \\(m,n\\in\\mathbb{N}\\) and \\(m,n>N\\), then \\(|s_m-s_n|<\\varepsilon\\).",
+      "choices": [
+        "For every \\(\\varepsilon>0\\), there is \\(N\\in\\mathbb{R}\\) such that if \\(m,n\\in\\mathbb{N}\\) and \\(m,n>N\\), then \\(|s_m-s_n|<\\varepsilon\\).",
+        "For every \\(m,n\\in\\mathbb{N}\\), \\(|s_m-s_n|<1\\).",
+        "There is \\(L\\in\\mathbb{R}\\) such that \\(s_n=L\\) for all sufficiently large \\(n\\).",
+        "The sequence \\(\\langle s_n\\rangle\\) is monotone and bounded."
+      ],
+      "explanation": "A Cauchy sequence has the property that sufficiently late terms are arbitrarily close to one another.",
+      "tags": []
+    },
+    {
+      "id": "2.5-003",
+      "section": "2.5",
+      "kind": "concept",
+      "prompt": "Suppose \\(\\langle s_n\\rangle\\) is a Cauchy sequence of real numbers. What conclusion follows from the Cauchy criterion proved in Section 2.5?",
+      "correct": "It converges to a real number.",
+      "choices": [
+        "It converges to a real number.",
+        "It is monotone.",
+        "It converges to \\(0\\).",
+        "It has a maximum."
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: It converges to a real number.",
+      "tags": []
+    },
+    {
+      "id": "2.5-005",
+      "section": "2.5",
+      "kind": "concept",
+      "prompt": "Why does convergence imply the Cauchy property?",
+      "correct": "Two sufficiently late terms are each close to the same limit, so their difference is small by the triangle inequality.",
+      "choices": [
+        "Two sufficiently late terms are each close to the same limit, so their difference is small by the triangle inequality.",
+        "Every convergent sequence is increasing.",
+        "The limit is an integer.",
+        "Late terms are equal."
+      ],
+      "explanation": "Use \\(\\varepsilon/2\\) around the limit for both terms.",
+      "tags": []
+    },
+    {
+      "id": "2.5-006",
+      "section": "2.5",
+      "kind": "concept",
+      "prompt": "Which statement is true of every Cauchy sequence of real numbers?",
+      "correct": "Every Cauchy sequence is bounded.",
+      "choices": [
+        "Every Cauchy sequence is bounded.",
+        "Every Cauchy sequence is monotone.",
+        "Every Cauchy sequence is eventually constant.",
+        "Every Cauchy sequence is positive."
+      ],
+      "explanation": "Choose a tail whose terms stay within \\(1\\) of one fixed tail term and bound the finite beginning separately.",
+      "tags": []
+    },
+    {
+      "id": "2.5-007",
+      "section": "2.5",
+      "kind": "homework",
+      "prompt": "Which of the following sequences is a Cauchy sequence of real numbers?",
+      "correct": "\\(1/n\\)",
+      "choices": [
+        "\\(1/n\\)",
+        "\\(n\\)",
+        "\\((-1)^n\\)",
+        "\\(n^2\\)"
+      ],
+      "explanation": "It converges to \\(0\\), hence is Cauchy.",
+      "tags": []
+    },
+    {
+      "id": "2.5-008",
+      "section": "2.5",
+      "kind": "homework",
+      "prompt": "Which estimate is useful for proving \\(1/n\\) is Cauchy?",
+      "correct": "For \\(m,n>N\\), \\(|1/m-1/n|\\le1/m+1/n<2/N\\).",
+      "choices": [
+        "For \\(m,n>N\\), \\(|1/m-1/n|\\le1/m+1/n<2/N\\).",
+        "\\(|1/m-1/n|\\ge1\\)",
+        "\\(m=n\\) always",
+        "\\(1/m-1/n=N\\)"
+      ],
+      "explanation": "Choose \\(N>2/\\varepsilon\\).",
+      "tags": []
+    },
+    {
+      "id": "2.5-009",
+      "section": "2.5",
+      "kind": "proof",
+      "prompt": "Where is completeness of \\(\\mathbb{R}\\) used in proving every Cauchy sequence converges?",
+      "correct": "Completeness ensures that a bounded sequence has an accumulation point, equivalently a convergent subsequence, whose limit then attracts the whole Cauchy sequence.",
+      "choices": [
+        "Completeness ensures that a bounded sequence has an accumulation point, equivalently a convergent subsequence, whose limit then attracts the whole Cauchy sequence.",
+        "Completeness shows that every sequence is monotone.",
+        "Completeness selects a largest term of every sequence.",
+        "Completeness permits division by zero."
+      ],
+      "explanation": "The Cauchy property then forces all sufficiently late terms near the subsequential limit.",
+      "tags": []
+    },
+    {
+      "id": "2.5-010",
+      "section": "2.5",
+      "kind": "homework",
+      "prompt": "If \\(a_{n+2}=(a_n+a_{n+1})/2\\) with \\(a_1<a_2\\), what feature helps prove convergence?",
+      "correct": "Successive terms become trapped in shrinking intervals determined by earlier terms.",
+      "choices": [
+        "Successive terms become trapped in shrinking intervals determined by earlier terms.",
+        "The terms increase without bound.",
+        "Every term equals \\(a_1\\).",
+        "The sequence alternates exactly between \\(a_1\\) and \\(a_2\\)."
+      ],
+      "explanation": "Averaging keeps new terms between prior values and controls oscillation.",
+      "tags": []
+    },
+    {
+      "id": "2.5-011",
+      "section": "2.5",
+      "kind": "concept",
+      "prompt": "Which statement about Cauchy sequences of real numbers is false?",
+      "correct": "Every bounded sequence is Cauchy.",
+      "choices": [
+        "Every bounded sequence is Cauchy.",
+        "Every convergent sequence is Cauchy.",
+        "Every Cauchy sequence in \\(\\mathbb{R}\\) converges.",
+        "Every Cauchy sequence is bounded."
+      ],
+      "explanation": "The sequence \\((-1)^n\\) is bounded but not Cauchy.",
+      "tags": []
+    },
+    {
+      "id": "2.5-new-cauchy-formal",
+      "section": "2.5",
+      "kind": "concept",
+      "prompt": "What feature distinguishes the Cauchy condition from the definition of convergence?",
+      "choices": [
+        "It compares sufficiently late terms with one another and does not name a candidate limit.",
+        "It requires the sequence to be monotone.",
+        "It requires every term to be positive.",
+        "It compares every term only with the first term."
+      ],
+      "correct": "It compares sufficiently late terms with one another and does not name a candidate limit.",
+      "explanation": "The Cauchy condition requires \\(|s_m-s_n|<\\varepsilon\\) for all sufficiently large \\(m,n\\); no candidate limit \\(L\\) appears in the definition.",
+      "tags": []
+    },
+    {
+      "id": "2.6-001",
+      "section": "2.6",
+      "kind": "concept",
+      "prompt": "Which statement is the definition of a subsequence of \\(\\langle a_n\\rangle\\)?",
+      "correct": "A sequence \\(\\langle a_{n_k}\\rangle\\) where \\(n_1<n_2<\\cdots\\) are increasing natural-number indices from the original sequence.",
+      "choices": [
+        "A sequence \\(\\langle a_{n_k}\\rangle\\) where \\(n_1<n_2<\\cdots\\) are increasing natural-number indices from the original sequence.",
+        "A rearrangement using every term exactly once.",
+        "The sequence of partial sums.",
+        "Any sequence with the same limit."
+      ],
+      "explanation": "In the notes, subsequence is characterized by the condition in the correct choice: A sequence \\(\\langle a_{n_k}\\rangle\\) where \\(n_1<n_2<\\cdots\\) are increasing natural-number indices from the original sequence.",
+      "tags": []
+    },
+    {
+      "id": "2.6-003",
+      "section": "2.6",
+      "kind": "concept",
+      "prompt": "Suppose \\(s_n\\to L\\) and \\(\\langle s_{n_k}\\rangle\\) is a subsequence of \\(\\langle s_n\\rangle\\). What must be true of the subsequence?",
+      "correct": "\\(s_{n_k}\\to L\\).",
+      "choices": [
+        "\\(s_{n_k}\\to L\\).",
+        "\\(s_{n_k}\\to0\\).",
+        "The subsequence diverges.",
+        "The indices \\(n_k\\) are bounded."
+      ],
+      "explanation": "Every subsequence of a convergent sequence converges to the same limit.",
+      "tags": []
+    },
+    {
+      "id": "2.6-005",
+      "section": "2.6",
+      "kind": "concept",
+      "prompt": "Suppose \\(\\langle s_n\\rangle\\) is a bounded sequence of real numbers. What does the Bolzano–Weierstrass Theorem guarantee?",
+      "correct": "The sequence \\(\\langle s_n\\rangle\\) has a convergent subsequence.",
+      "choices": [
+        "The sequence \\(\\langle s_n\\rangle\\) has a convergent subsequence.",
+        "The sequence \\(\\langle s_n\\rangle\\) converges.",
+        "The sequence \\(\\langle s_n\\rangle\\) is monotone.",
+        "Every subsequence converges to a different limit."
+      ],
+      "explanation": "The Bolzano–Weierstrass Theorem for sequences guarantees that the bounded sequence \\(\\langle s_n\\rangle\\) has a convergent subsequence.",
+      "tags": []
+    },
+    {
+      "id": "2.6-007",
+      "section": "2.6",
+      "kind": "concept",
+      "prompt": "What can be concluded if two subsequences of one sequence converge to different limits?",
+      "correct": "The original sequence does not converge.",
+      "choices": [
+        "The original sequence does not converge.",
+        "The original sequence converges to the average of the two limits.",
+        "The original sequence converges to both limits.",
+        "The original sequence must be unbounded."
+      ],
+      "explanation": "Every subsequence of a convergent sequence has the same limit.",
+      "tags": []
+    },
+    {
+      "id": "2.6-008",
+      "section": "2.6",
+      "kind": "homework",
+      "prompt": "For \\(a_n=(-1)^n+1/n\\), what are the limits of the even and odd subsequences?",
+      "correct": "\\(1\\) and \\(-1\\)",
+      "choices": [
+        "\\(1\\) and \\(-1\\)",
+        "\\(0\\) and \\(0\\)",
+        "\\(1\\) and \\(1\\)",
+        "\\(-1\\) and \\(-1\\)"
+      ],
+      "explanation": "The \\(1/n\\) term vanishes while \\((-1)^n\\) is fixed on each parity.",
+      "tags": []
+    },
+    {
+      "id": "2.6-009",
+      "section": "2.6",
+      "kind": "homework",
+      "prompt": "Suppose a bounded sequence has exactly one subsequential limit. What can be concluded about the sequence?",
+      "correct": "The sequence converges to that unique subsequential limit.",
+      "choices": [
+        "The sequence converges to that unique subsequential limit.",
+        "The sequence must be constant.",
+        "The sequence must be monotone.",
+        "The sequence has no subsequential limits."
+      ],
+      "explanation": "If it failed to converge, a subsequence staying away from the candidate would have another convergent subsequence by Bolzano-Weierstrass.",
+      "tags": []
+    },
+    {
+      "id": "2.6-010",
+      "section": "2.6",
+      "kind": "concept",
+      "prompt": "What does \\(n_k\\ge k\\) help prove?",
+      "correct": "If \\(k\\) is large, then the original index \\(n_k\\) is also large.",
+      "choices": [
+        "If \\(k\\) is large, then the original index \\(n_k\\) is also large.",
+        "The subsequence uses consecutive indices.",
+        "\\(n_k\\) converges to a finite number.",
+        "The subsequence is increasing in value."
+      ],
+      "explanation": "This lets convergence estimates for \\(a_n\\) transfer to \\(a_{n_k}\\).",
+      "tags": []
+    },
+    {
+      "id": "2.6-011",
+      "section": "2.6",
+      "kind": "homework",
+      "prompt": "Which is a subsequence of \\(a_n\\)?",
+      "correct": "\\(a_{2k}\\)",
+      "choices": [
+        "\\(a_{2k}\\)",
+        "\\(a_{k/2}\\) for every natural \\(k\\)",
+        "\\(a_{(-1)^k}\\)",
+        "\\(a_k+a_{k+1}\\)"
+      ],
+      "explanation": "Indices \\(2k\\) are strictly increasing natural numbers.",
+      "tags": []
+    },
+    {
+      "id": "2.6-012",
+      "section": "2.6",
+      "kind": "proof",
+      "prompt": "Which fact about arbitrary sequences is used to obtain a convergent subsequence from a bounded sequence?",
+      "correct": "Every sequence has a monotonic subsequence.",
+      "choices": [
+        "Every sequence has a monotonic subsequence.",
+        "Every sequence has a maximum term.",
+        "Every bounded sequence is monotonic.",
+        "Every bounded sequence has finite range."
+      ],
+      "explanation": "Every sequence has a monotonic subsequence. If the original sequence is bounded, that monotonic subsequence is also bounded and therefore converges by the monotone convergence theorem.",
+      "tags": []
+    },
+    {
+      "id": "2.6-new-subseqgraph",
+      "section": "2.6",
+      "kind": "concept",
+      "prompt": "The blue points alternate near \\(-1\\) and \\(1\\). Which conclusion is justified if the even and odd subsequences converge to different limits?",
+      "choices": [
+        "The original sequence does not converge.",
+        "The original sequence converges to \\(0\\).",
+        "The original sequence converges to both limits.",
+        "The original sequence is unbounded."
+      ],
+      "correct": "The original sequence does not converge.",
+      "explanation": "Every subsequence of a convergent sequence must converge to the same limit as the original sequence.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"A sequence with two subsequences approaching different limits\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"48.0\" y1=\"20\" x2=\"48.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"89.1\" y1=\"20\" x2=\"89.1\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"130.2\" y1=\"20\" x2=\"130.2\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"171.3\" y1=\"20\" x2=\"171.3\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"212.4\" y1=\"20\" x2=\"212.4\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"253.5\" y1=\"20\" x2=\"253.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"294.5\" y1=\"20\" x2=\"294.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"335.6\" y1=\"20\" x2=\"335.6\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"376.7\" y1=\"20\" x2=\"376.7\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"417.8\" y1=\"20\" x2=\"417.8\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"458.9\" y1=\"20\" x2=\"458.9\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"500.0\" y1=\"20\" x2=\"500.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"203.3\" x2=\"500\" y2=\"203.3\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"130.0\" x2=\"500\" y2=\"130.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"56.7\" x2=\"500\" y2=\"56.7\" stroke=\"#e5e7eb\"/><line x1=\"48.0\" y1=\"20\" x2=\"48.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"130.0\" x2=\"500\" y2=\"130.0\" stroke=\"#555\" stroke-width=\"1.4\"/><circle cx=\"89.1\" cy=\"185.0\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"130.2\" cy=\"47.5\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"171.3\" cy=\"197.2\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"212.4\" cy=\"52.1\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"253.5\" cy=\"199.7\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"294.5\" cy=\"53.6\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"335.6\" cy=\"200.7\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"376.7\" cy=\"54.4\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"417.8\" cy=\"201.3\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"458.9\" cy=\"54.8\" r=\"4.2\" fill=\"#1d4ed8\"/></svg><div class=\"figure-caption\">A sequence with two subsequences approaching different limits</div>"
+    },
+    {
+      "id": "3.1-001",
+      "section": "3.1",
+      "kind": "concept",
+      "prompt": "Which statement is the definition that \\(\\lim_{x\\to z}f(x)=L\\), where \\(z\\) is an accumulation point of the domain?",
+      "correct": "For every \\(\\varepsilon>0\\) there is \\(\\delta>0\\) such that \\(x\\in D\\) and \\(0<|x-z|<\\delta\\) imply \\(|f(x)-L|<\\varepsilon\\).",
+      "choices": [
+        "For every \\(\\varepsilon>0\\) there is \\(\\delta>0\\) such that \\(x\\in D\\) and \\(0<|x-z|<\\delta\\) imply \\(|f(x)-L|<\\varepsilon\\).",
+        "The value \\(f(z)\\) must equal \\(L\\).",
+        "Every \\(x\\in D\\) satisfies \\(f(x)=L\\).",
+        "\\(z\\) must belong to \\(D\\)."
+      ],
+      "explanation": "This is the epsilon-delta definition of the limit of a function at an accumulation point.",
+      "tags": []
+    },
+    {
+      "id": "3.1-003",
+      "section": "3.1",
+      "kind": "concept",
+      "prompt": "Why is \\(0<|x-z|\\) used in the definition?",
+      "correct": "The limit concerns nearby points other than \\(z\\), so \\(f(z)\\) may be irrelevant.",
+      "choices": [
+        "The limit concerns nearby points other than \\(z\\), so \\(f(z)\\) may be irrelevant.",
+        "It forces \\(x=z\\).",
+        "It makes \\(z\\) an endpoint.",
+        "It assumes \\(f\\) is continuous."
+      ],
+      "explanation": "Changing a function only at \\(z\\) does not change its limit at \\(z\\).",
+      "tags": []
+    },
+    {
+      "id": "3.1-004",
+      "section": "3.1",
+      "kind": "concept",
+      "prompt": "Suppose \\(z\\) is an accumulation point of \\(D\\subseteq\\mathbb{R}\\) and \\(f,g:D\\to\\mathbb{R}\\) satisfy \\(f(x)=g(x)\\) for every \\(x\\in D\\setminus\\{z\\}\\). If \\(\\lim_{x\\to z}f(x)\\) exists, what can be concluded about \\(g\\)?",
+      "correct": "\\(\\lim_{x\\to z}g(x)\\) exists and equals \\(\\lim_{x\\to z}f(x)\\).",
+      "choices": [
+        "\\(\\lim_{x\\to z}g(x)\\) exists and equals \\(\\lim_{x\\to z}f(x)\\).",
+        "\\(g(z)=f(z)\\) is required.",
+        "\\(g\\) has no limit",
+        "Both functions are constant"
+      ],
+      "explanation": "Changing the value of a function at the limiting point does not change the limit.",
+      "tags": []
+    },
+    {
+      "id": "3.1-006",
+      "section": "3.1",
+      "kind": "homework",
+      "prompt": "What is \\(\\displaystyle\\lim_{x\\to-2}\\frac{x^2-4}{x+2}\\)?",
+      "correct": "\\(-4\\)",
+      "choices": [
+        "\\(-4\\)",
+        "\\(0\\)",
+        "\\(4\\)",
+        "The limit does not exist."
+      ],
+      "explanation": "For \\(x\\ne-2\\), the quotient simplifies to \\(x-2\\).",
+      "tags": []
+    },
+    {
+      "id": "3.1-007",
+      "section": "3.1",
+      "kind": "homework",
+      "prompt": "What is \\(\\displaystyle\\lim_{x\\to1}\\frac{x^3-x^2+x-1}{x-1}\\)?",
+      "correct": "\\(1\\)",
+      "choices": [
+        "\\(1\\)",
+        "\\(0\\)",
+        "\\(3\\)",
+        "The limit does not exist."
+      ],
+      "explanation": "Factor by grouping: the numerator is \\((x-1)(x^2+1)\\).",
+      "tags": []
+    },
+    {
+      "id": "3.1-008",
+      "section": "3.1",
+      "kind": "concept",
+      "prompt": "Which statement illustrates why \\(\\lim_{x\\to z}f(x)\\) does not depend on the value \\(f(z)\\)?",
+      "correct": "\\(f(z)\\) is undefined or differs from the limit.",
+      "choices": [
+        "\\(f(z)\\) is undefined or differs from the limit.",
+        "\\(z\\) is not an accumulation point of the domain under the text definition",
+        "the values near \\(z\\) are unbounded",
+        "two sequences approach different output limits"
+      ],
+      "explanation": "The punctured-neighborhood condition excludes the point \\(z\\) itself.",
+      "tags": []
+    },
+    {
+      "id": "3.1-009",
+      "section": "3.1",
+      "kind": "homework",
+      "prompt": "For \\(f(x)=2x+1\\), which choice of \\(\\delta\\) proves \\(\\lim_{x\\to z}f(x)=2z+1\\) for a given \\(\\varepsilon>0\\)?",
+      "correct": "\\(\\delta=\\varepsilon/2\\)",
+      "choices": [
+        "\\(\\delta=\\varepsilon/2\\)",
+        "\\(\\delta=2\\varepsilon\\)",
+        "\\(\\delta=\\varepsilon^2\\)",
+        "\\(\\delta=1\\) for every \\(\\varepsilon\\)"
+      ],
+      "explanation": "\\(|f(x)-f(z)|=2|x-z|\\), so \\(|x-z|<\\varepsilon/2\\) makes the output difference less than \\(\\varepsilon\\).",
+      "tags": []
+    },
+    {
+      "id": "3.1-010",
+      "section": "3.1",
+      "kind": "proof",
+      "prompt": "Which strategy can be used to prove that a function limit does not exist?",
+      "correct": "Two sequences approaching \\(z\\) whose function values approach different limits.",
+      "choices": [
+        "Two sequences approaching \\(z\\) whose function values approach different limits.",
+        "One point where \\(f\\) is undefined.",
+        "A maximum of \\(f\\).",
+        "A derivative at \\(z\\)."
+      ],
+      "explanation": "A genuine limit would force all approaching sequences to have the same image limit.",
+      "tags": []
+    },
+    {
+      "id": "3.1-011",
+      "section": "3.1",
+      "kind": "homework",
+      "prompt": "Define \\(f(x)=1\\) for \\(x\\ge0\\) and \\(f(x)=-1\\) for \\(x<0\\). What is \\(\\lim_{x\\to0}f(x)\\)?",
+      "correct": "It does not exist.",
+      "choices": [
+        "It does not exist.",
+        "\\(0\\)",
+        "\\(1\\)",
+        "\\(-1\\)"
+      ],
+      "explanation": "Approaching from the right gives \\(1\\) and from the left gives \\(-1\\).",
+      "tags": []
+    },
+    {
+      "id": "3.1-new-definition-formal",
+      "section": "3.1",
+      "kind": "concept",
+      "prompt": "In the definition of \\(\\lim_{x\\to z}f(x)=L\\), why is the condition \\(0<|x-z|\\) included?",
+      "choices": [
+        "It excludes \\(x=z\\), so the value \\(f(z)\\) is irrelevant to the limit.",
+        "It forces \\(x\\) to be positive.",
+        "It requires \\(f(z)=L\\).",
+        "It guarantees that \\(z\\) is an isolated point."
+      ],
+      "correct": "It excludes \\(x=z\\), so the value \\(f(z)\\) is irrelevant to the limit.",
+      "explanation": "A function limit concerns domain points near \\(z\\), other than \\(z\\) itself.",
+      "tags": []
+    },
+    {
+      "id": "3.1-new-holegraph",
+      "section": "3.1",
+      "kind": "concept",
+      "prompt": "The graph has a hole at \\((0,1)\\) but the function value at \\(x=0\\) is shown at a different height. Which statement about the limit is correct?",
+      "choices": [
+        "\\(\\displaystyle\\lim_{x\\to0}f(x)=1\\), regardless of the displayed value \\(f(0)\\).",
+        "The limit must equal \\(f(0)\\).",
+        "The limit does not exist because there is a hole.",
+        "The limit is \\(0\\) because \\(x\\to0\\)."
+      ],
+      "correct": "\\(\\displaystyle\\lim_{x\\to0}f(x)=1\\), regardless of the displayed value \\(f(0)\\).",
+      "explanation": "The definition of a function limit uses \\(0<|x-z|<\\delta\\), so the value at \\(z\\) is irrelevant.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"Graph approaching the open point (0,1), with f(0) at (0,-1)\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"48.0\" y1=\"20\" x2=\"48.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"130.2\" y1=\"20\" x2=\"130.2\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"212.4\" y1=\"20\" x2=\"212.4\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"294.5\" y1=\"20\" x2=\"294.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"376.7\" y1=\"20\" x2=\"376.7\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"458.9\" y1=\"20\" x2=\"458.9\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"221.7\" x2=\"500\" y2=\"221.7\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"185.0\" x2=\"500\" y2=\"185.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"148.3\" x2=\"500\" y2=\"148.3\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"111.7\" x2=\"500\" y2=\"111.7\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"75.0\" x2=\"500\" y2=\"75.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"38.3\" x2=\"500\" y2=\"38.3\" stroke=\"#e5e7eb\"/><line x1=\"294.5\" y1=\"20\" x2=\"294.5\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"148.3\" x2=\"500\" y2=\"148.3\" stroke=\"#555\" stroke-width=\"1.4\"/><polyline points=\"48.0,221.7 130.2,185.0 212.4,148.3 278.1,119.0\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/><polyline points=\"311.0,104.3 376.7,75.0 458.9,38.3\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/><circle cx=\"294.5\" cy=\"185.0\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"294.5\" cy=\"111.7\" r=\"5\" fill=\"white\" stroke=\"#b91c1c\" stroke-width=\"2\"/></svg><div class=\"figure-caption\">Graph approaching the open point (0,1), with f(0) at (0,-1)</div>"
+    },
+    {
+      "id": "3.2-001",
+      "section": "3.2",
+      "kind": "concept",
+      "prompt": "Which statement is the sequential criterion for \\(\\lim_{x\\to z}f(x)=L\\)?",
+      "correct": "\\(\\lim_{x\\to z}f(x)=L\\) if and only if, for every sequence \\(\\langle x_n\\rangle\\) in \\(D\\setminus\\{z\\}\\) with \\(x_n\\to z\\), the sequence \\(f(x_n)\\) converges to \\(L\\).",
+      "choices": [
+        "\\(\\lim_{x\\to z}f(x)=L\\) if and only if, for every sequence \\(\\langle x_n\\rangle\\) in \\(D\\setminus\\{z\\}\\) with \\(x_n\\to z\\), the sequence \\(f(x_n)\\) converges to \\(L\\).",
+        "It is enough to test one sequence.",
+        "\\(f(z)=L\\) is required.",
+        "Every sequence in \\(D\\) must converge."
+      ],
+      "explanation": "In the notes, sequential criterion for function limits is characterized by the condition in the correct choice: \\(\\lim_{x\\to z}f(x)=L\\) if and only if, for every sequence \\(\\langle x_n\\rangle\\) in \\(D\\setminus\\{z\\}\\) with \\(x_n\\to z\\), the sequence \\(f(x_n)\\) converges to \\(L\\).",
+      "tags": []
+    },
+    {
+      "id": "3.2-003",
+      "section": "3.2",
+      "kind": "concept",
+      "prompt": "Suppose \\(f(x)\\le g(x)\\le h(x)\\) near \\(z\\), and \\(\\lim_{x\\to z}f(x)=\\lim_{x\\to z}h(x)=L\\). Which conclusion follows from the squeeze theorem for function limits?",
+      "correct": "\\(\\displaystyle\\lim_{x\\to z}g(x)=L\\).",
+      "choices": [
+        "\\(\\displaystyle\\lim_{x\\to z}g(x)=L\\).",
+        "\\(\\displaystyle\\lim_{x\\to z}g(x)\\) does not exist.",
+        "\\(g(z)=L\\) must hold even without continuity.",
+        "\\(\\displaystyle\\lim_{x\\to z}g(x)=0\\)."
+      ],
+      "explanation": "The squeeze theorem forces \\(g(x)\\) to have the same limit \\(L\\) as the two bounding functions.",
+      "tags": []
+    },
+    {
+      "id": "3.2-005",
+      "section": "3.2",
+      "kind": "homework",
+      "prompt": "If \\(\\lim f=2\\) and \\(\\lim g=-3\\) at \\(z\\), what is \\(\\lim(fg)\\)?",
+      "correct": "\\(-6\\)",
+      "choices": [
+        "\\(-6\\)",
+        "\\(-1\\)",
+        "\\(6\\)",
+        "The limit does not exist."
+      ],
+      "explanation": "Use the product limit law.",
+      "tags": []
+    },
+    {
+      "id": "3.2-006",
+      "section": "3.2",
+      "kind": "homework",
+      "prompt": "If \\(\\lim f=2\\) and \\(\\lim g=0\\), can \\(\\lim(f/g)\\) be concluded from the quotient law?",
+      "correct": "No; the denominator limit is zero.",
+      "choices": [
+        "No; the denominator limit is zero.",
+        "Yes, it is \\(0\\).",
+        "Yes; it is \\(\\infty\\) as a real limit.",
+        "Yes, it is \\(2\\)."
+      ],
+      "explanation": "The quotient theorem requires a nonzero denominator limit.",
+      "tags": []
+    },
+    {
+      "id": "3.2-007",
+      "section": "3.2",
+      "kind": "proof",
+      "prompt": "To show that \\(\\lim_{x\\to0}\\sin(1/x)\\) does not exist, what should two sequences approaching \\(0\\) be chosen to do?",
+      "correct": "Choose one sequence on which the function values equal \\(1\\) and another on which they equal \\(-1\\).",
+      "choices": [
+        "Choose one sequence on which the function values equal \\(1\\) and another on which they equal \\(-1\\).",
+        "Choose two sequences on which the function values both equal \\(0\\).",
+        "Choose sequences that make the function monotone on all of \\(\\mathbb{R}\\).",
+        "Choose sequences at which the function is undefined."
+      ],
+      "explanation": "Different image limits contradict the sequential criterion.",
+      "tags": []
+    },
+    {
+      "id": "3.2-008",
+      "section": "3.2",
+      "kind": "concept",
+      "prompt": "Suppose \\(f(x)\\le g(x)\\) near \\(z\\) and both limits at \\(z\\) exist. What inequality must hold between the limits?",
+      "correct": "\\(\\lim f\\le\\lim g\\)",
+      "choices": [
+        "\\(\\lim f\\le\\lim g\\)",
+        "\\(\\lim f<\\lim g\\) always",
+        "the limits are equal",
+        "\\(g\\) is continuous"
+      ],
+      "explanation": "Order passes to limits as a non-strict inequality.",
+      "tags": []
+    },
+    {
+      "id": "3.2-009",
+      "section": "3.2",
+      "kind": "homework",
+      "prompt": "What is \\(\\displaystyle\\lim_{x\\to0}x^2\\sin(1/x)\\)?",
+      "correct": "\\(0\\)",
+      "choices": [
+        "\\(0\\)",
+        "\\(1\\)",
+        "The limit does not exist.",
+        "\\(-1\\)"
+      ],
+      "explanation": "Since \\(|x^2\\sin(1/x)|\\le x^2\\) for \\(x\\ne0\\) and \\(x^2\\to0\\), the Squeeze Theorem gives the limit \\(0\\).",
+      "tags": []
+    },
+    {
+      "id": "3.2-010",
+      "section": "3.2",
+      "kind": "homework",
+      "prompt": "What is \\(\\displaystyle\\lim_{x\\to2}(x^2+3x-1)\\)?",
+      "correct": "\\(9\\)",
+      "choices": [
+        "\\(9\\)",
+        "\\(5\\)",
+        "\\(7\\)",
+        "The limit does not exist."
+      ],
+      "explanation": "Polynomial limits are found by substitution.",
+      "tags": []
+    },
+    {
+      "id": "3.2-011",
+      "section": "3.2",
+      "kind": "concept",
+      "prompt": "Why is the sequential criterion especially useful when studying limits of functions?",
+      "correct": "It transfers established sequence-limit theorems to function limits.",
+      "choices": [
+        "It transfers established sequence-limit theorems to function limits.",
+        "It eliminates the need to specify a domain.",
+        "It makes every function continuous.",
+        "It requires testing only rational sequences."
+      ],
+      "explanation": "Algebraic and order theorems for sequences can be applied to \\(f(x_n)\\).",
+      "tags": []
+    },
+    {
+      "id": "3.2-new-seqcriterion",
+      "section": "3.2",
+      "kind": "concept",
+      "prompt": "Suppose two sequences \\(\\langle x_n\\rangle\\) and \\(\\langle y_n\\rangle\\) in \\(D\\setminus\\{z\\}\\) both converge to \\(z\\), but \\(f(x_n)\\to L\\) and \\(f(y_n)\\to M\\) with \\(L\\ne M\\). What follows about \\(\\lim_{x\\to z}f(x)\\)?",
+      "choices": [
+        "The limit \\(\\lim_{x\\to z}f(x)\\) does not exist.",
+        "\\(\\lim_{x\\to z}f(x)=(L+M)/2\\).",
+        "The value \\(f(z)\\) must equal \\(L\\).",
+        "The function is uniformly continuous."
+      ],
+      "correct": "The limit \\(\\lim_{x\\to z}f(x)\\) does not exist.",
+      "explanation": "If the function limit existed, every sequence in the punctured domain converging to \\(z\\) would have image sequence converging to the same limit.",
+      "tags": []
+    },
+    {
+      "id": "3.3-001",
+      "section": "3.3",
+      "kind": "concept",
+      "prompt": "Which statement is the definition that \\(f:D\\to\\mathbb{R}\\) is continuous at \\(z\\in D\\)?",
+      "correct": "For every \\(\\varepsilon>0\\) there is \\(\\delta>0\\) such that \\(x\\in D\\) and \\(|x-z|<\\delta\\) imply \\(|f(x)-f(z)|<\\varepsilon\\).",
+      "choices": [
+        "For every \\(\\varepsilon>0\\) there is \\(\\delta>0\\) such that \\(x\\in D\\) and \\(|x-z|<\\delta\\) imply \\(|f(x)-f(z)|<\\varepsilon\\).",
+        "The punctured condition \\(0<|x-z|\\) is required, and \\(f(z)\\) is irrelevant.",
+        "\\(f\\) is differentiable at \\(z\\).",
+        "\\(f\\) is bounded on all of \\(\\mathbb{R}\\)."
+      ],
+      "explanation": "This is the epsilon-delta definition of continuity at a point.",
+      "tags": []
+    },
+    {
+      "id": "3.3-003",
+      "section": "3.3",
+      "kind": "concept",
+      "prompt": "If \\(z\\) is an isolated point of the domain of \\(f\\), what can be said about continuity of \\(f\\) at \\(z\\)?",
+      "correct": "The function is continuous at \\(z\\).",
+      "choices": [
+        "The function is continuous at \\(z\\).",
+        "The function is discontinuous at \\(z\\).",
+        "The function must be differentiable at \\(z\\).",
+        "The function must be uniformly continuous on all of \\(\\mathbb{R}\\)."
+      ],
+      "explanation": "Choose delta so the neighborhood contains no other domain point; the only possible \\(x\\) is \\(z\\).",
+      "tags": []
+    },
+    {
+      "id": "3.3-004",
+      "section": "3.3",
+      "kind": "homework",
+      "prompt": "For \\(f(x)=3x-2\\), which choice of \\(\\delta\\) works at every \\(z\\) for a given \\(\\varepsilon>0\\)?",
+      "correct": "\\(\\delta=\\varepsilon/3\\)",
+      "choices": [
+        "\\(\\delta=\\varepsilon/3\\)",
+        "\\(\\delta=3\\varepsilon\\)",
+        "\\(\\delta=\\varepsilon^2\\)",
+        "\\(\\delta=z\\)"
+      ],
+      "explanation": "\\(|f(x)-f(z)|=3|x-z|\\), so \\(|x-z|<\\varepsilon/3\\) gives \\(|f(x)-f(z)|<\\varepsilon\\).",
+      "tags": []
+    },
+    {
+      "id": "3.3-005",
+      "section": "3.3",
+      "kind": "homework",
+      "prompt": "Which inequality states a Lipschitz condition for a function?",
+      "correct": "\\(|f(x)-f(y)|\\le K|x-y|\\) for all \\(x,y\\) in the domain.",
+      "choices": [
+        "\\(|f(x)-f(y)|\\le K|x-y|\\) for all \\(x,y\\) in the domain.",
+        "\\(|f(x)|\\le K\\) for one \\(x\\).",
+        "\\(f(x)=f(y)\\) for all \\(x,y\\).",
+        "\\(|x-y|\\le K|f(x)-f(y)|\\) only."
+      ],
+      "explanation": "A global slope bound gives a direct uniform continuity estimate.",
+      "tags": []
+    },
+    {
+      "id": "3.3-006",
+      "section": "3.3",
+      "kind": "concept",
+      "prompt": "What additional requirement distinguishes continuity of \\(f\\) at \\(z\\) from merely having a function limit at \\(z\\)?",
+      "correct": "Continuity requires the value \\(f(z)\\) to be defined and nearby values to be compared with \\(f(z)\\).",
+      "choices": [
+        "Continuity requires the value \\(f(z)\\) to be defined and nearby values to be compared with \\(f(z)\\).",
+        "Continuity requires \\(z\\) to be an accumulation point.",
+        "Continuity requires the domain to be an interval.",
+        "Continuity requires the function to be injective."
+      ],
+      "explanation": "At isolated points continuity is meaningful even when the punctured limit is not.",
+      "tags": []
+    },
+    {
+      "id": "3.3-007",
+      "section": "3.3",
+      "kind": "homework",
+      "prompt": "Which function is continuous at every real number by a direct Lipschitz estimate?",
+      "correct": "\\(f(x)=5x+1\\)",
+      "choices": [
+        "\\(f(x)=5x+1\\)",
+        "\\(f(x)=1/x\\) on all of \\(\\mathbb{R}\\)",
+        "the sign function at \\(0\\)",
+        "\\(f(x)=1\\) if \\(x\\) is rational and \\(f(x)=0\\) otherwise"
+      ],
+      "explanation": "Linear functions satisfy \\(|f(x)-f(y)|=5|x-y|\\).",
+      "tags": []
+    },
+    {
+      "id": "3.3-008",
+      "section": "3.3",
+      "kind": "proof",
+      "prompt": "If \\(f\\) satisfies a Lipschitz condition with constant \\(K>0\\), which choice of \\(\\delta\\) works naturally for a given \\(\\varepsilon>0\\)?",
+      "correct": "\\(\\varepsilon/K\\)",
+      "choices": [
+        "\\(\\varepsilon/K\\)",
+        "\\(K/\\varepsilon\\)",
+        "\\(\\varepsilon K\\)",
+        "\\(1/K\\), independent of \\(\\varepsilon\\)"
+      ],
+      "explanation": "Then \\(|f(x)-f(z)|\\le K|x-z|<K\\delta=\\varepsilon\\).",
+      "tags": []
+    },
+    {
+      "id": "3.3-009",
+      "section": "3.3",
+      "kind": "concept",
+      "prompt": "Which statement correctly gives the sequential test for continuity at a point?",
+      "correct": "Continuity at \\(z\\) can be tested using all sequences in the domain converging to \\(z\\).",
+      "choices": [
+        "Continuity at \\(z\\) can be tested using all sequences in the domain converging to \\(z\\).",
+        "It is enough to test one sequence.",
+        "Continuity implies \\(z\\) is an accumulation point.",
+        "Every bounded function is continuous."
+      ],
+      "explanation": "Sequential continuity is developed in the next section and is equivalent in \\(\\mathbb{R}\\).",
+      "tags": []
+    },
+    {
+      "id": "3.3-new-continuousgraph",
+      "section": "3.3",
+      "kind": "concept",
+      "prompt": "At \\(x=0\\), the curve approaches the open point \\((0,1)\\), but the filled point is \\((0,-1)\\). Is the function continuous at \\(0\\)?",
+      "choices": [
+        "No, because the limiting value is \\(1\\) while \\(f(0)=-1\\).",
+        "Yes, because the function is defined at \\(0\\).",
+        "Yes, because the left and right limits agree.",
+        "No, because a continuous function cannot have any filled points."
+      ],
+      "correct": "No, because the limiting value is \\(1\\) while \\(f(0)=-1\\).",
+      "explanation": "Continuity at \\(z\\) requires nearby function values to approach the actual value \\(f(z)\\).",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"A removable discontinuity at x=0\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"93.2\" y1=\"20\" x2=\"93.2\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"183.6\" y1=\"20\" x2=\"183.6\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"364.4\" y1=\"20\" x2=\"364.4\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"454.8\" y1=\"20\" x2=\"454.8\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"240.0\" x2=\"500\" y2=\"240.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"200.0\" x2=\"500\" y2=\"200.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"160.0\" x2=\"500\" y2=\"160.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"120.0\" x2=\"500\" y2=\"120.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"80.0\" x2=\"500\" y2=\"80.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"40.0\" x2=\"500\" y2=\"40.0\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"160.0\" x2=\"500\" y2=\"160.0\" stroke=\"#555\" stroke-width=\"1.4\"/><polyline points=\"93.2,200.0 183.6,160.0 255.9,128.0\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/><polyline points=\"292.1,112.0 364.4,80.0 454.8,40.0\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/><circle cx=\"274.0\" cy=\"200.0\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"274.0\" cy=\"120.0\" r=\"5\" fill=\"white\" stroke=\"#b91c1c\" stroke-width=\"2\"/></svg><div class=\"figure-caption\">A removable discontinuity at x=0</div>"
+    },
+    {
+      "id": "3.3-new-definition-formal",
+      "section": "3.3",
+      "kind": "concept",
+      "prompt": "Why does the definition of continuity at \\(z\\) use \\(|x-z|<\\delta\\) rather than the punctured condition \\(0<|x-z|<\\delta\\) used for a function limit?",
+      "choices": [
+        "Continuity compares nearby values with the actual value \\(f(z)\\), so including \\(x=z\\) causes no problem.",
+        "Continuity is defined only at isolated points.",
+        "Function limits require \\(f(z)\\) to be undefined.",
+        "The two definitions are unrelated."
+      ],
+      "correct": "Continuity compares nearby values with the actual value \\(f(z)\\), so including \\(x=z\\) causes no problem.",
+      "explanation": "Unlike the definition of a limit, the continuity definition does not puncture the neighborhood at \\(z\\).",
+      "tags": []
+    },
+    {
+      "id": "3.4-001",
+      "section": "3.4",
+      "kind": "concept",
+      "prompt": "Which sequential condition is equivalent to continuity of \\(f:D\\to\\mathbb{R}\\) at \\(z\\in D\\)?",
+      "correct": "Whenever \\(x_n\\to z\\) with \\(x_n\\in D\\), we have \\(f(x_n)\\to f(z)\\).",
+      "choices": [
+        "Whenever \\(x_n\\to z\\) with \\(x_n\\in D\\), we have \\(f(x_n)\\to f(z)\\).",
+        "There is one sequence for which this happens.",
+        "\\(f(z)=0.\\)",
+        "\\(f\\) is uniformly continuous."
+      ],
+      "explanation": "In the notes, sequential continuity at \\(z\\) is characterized by the condition in the correct choice: Whenever \\(x_n\\to z\\) with \\(x_n\\in D\\), we have \\(f(x_n)\\to f(z)\\).",
+      "tags": []
+    },
+    {
+      "id": "3.4-003",
+      "section": "3.4",
+      "kind": "concept",
+      "prompt": "Suppose \\(f\\) is continuous at \\(z\\) and \\(g\\) is continuous at \\(f(z)\\). What can be concluded about \\(g\\circ f\\) at \\(z\\)?",
+      "correct": "\\(g\\circ f\\) is continuous at \\(z\\).",
+      "choices": [
+        "\\(g\\circ f\\) is continuous at \\(z\\).",
+        "\\(f\\circ g\\) is continuous at \\(z\\) regardless of domains",
+        "\\(g\\circ f\\) is constant",
+        "\\(f\\) must be injective"
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: \\(g\\circ f\\) is continuous at \\(z\\).",
+      "tags": []
+    },
+    {
+      "id": "3.4-005",
+      "section": "3.4",
+      "kind": "concept",
+      "prompt": "Suppose \\(f\\) and \\(g\\) are continuous at \\(z\\). Which statement is guaranteed by the algebraic properties of continuity?",
+      "correct": "\\(f+g\\), \\(f-g\\), \\(fg\\), and valid quotients are continuous at \\(z\\).",
+      "choices": [
+        "\\(f+g\\), \\(f-g\\), \\(fg\\), and valid quotients are continuous at \\(z\\).",
+        "Only \\(f+g\\) is continuous.",
+        "The quotient is continuous even where \\(g(z)=0\\).",
+        "\\(f\\) and \\(g\\) must be polynomials."
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: \\(f+g\\), \\(f-g\\), \\(fg\\), and valid quotients are continuous at \\(z\\).",
+      "tags": []
+    },
+    {
+      "id": "3.4-007",
+      "section": "3.4",
+      "kind": "homework",
+      "prompt": "If \\(f\\) is continuous and \\(f(r)>0\\), what local conclusion follows?",
+      "correct": "\\(f(x)>0\\) for all \\(x\\) sufficiently close to \\(r\\).",
+      "choices": [
+        "\\(f(x)>0\\) for all \\(x\\) sufficiently close to \\(r\\).",
+        "\\(f\\) is positive everywhere.",
+        "\\(f\\) has a maximum at \\(r\\).",
+        "\\(f\\) is differentiable at \\(r\\)."
+      ],
+      "explanation": "Choose \\(\\varepsilon=f(r)/2\\), so nearby values remain above \\(f(r)/2\\).",
+      "tags": []
+    },
+    {
+      "id": "3.4-008",
+      "section": "3.4",
+      "kind": "homework",
+      "prompt": "Why is \\(\\max(f,g)\\) continuous when \\(f\\) and \\(g\\) are continuous?",
+      "correct": "\\(\\max(f,g)=(f+g+|f-g|)/2\\).",
+      "choices": [
+        "\\(\\max(f,g)=(f+g+|f-g|)/2\\).",
+        "Maximums of functions are always differentiable.",
+        "Because \\(\\max(f,g)=fg\\).",
+        "Because every bounded function is continuous."
+      ],
+      "explanation": "Algebraic continuity and continuity of absolute value apply.",
+      "tags": []
+    },
+    {
+      "id": "3.4-009",
+      "section": "3.4",
+      "kind": "homework",
+      "prompt": "Which function is continuous on its natural domain?",
+      "correct": "\\(1/(x^2+1)\\)",
+      "choices": [
+        "\\(1/(x^2+1)\\)",
+        "\\(1/x\\) at \\(x=0\\)",
+        "the Dirichlet function",
+        "the sign function at \\(0\\)"
+      ],
+      "explanation": "The denominator \\(x^2+1\\) is never zero.",
+      "tags": []
+    },
+    {
+      "id": "3.4-010",
+      "section": "3.4",
+      "kind": "concept",
+      "prompt": "If \\(z\\) is an accumulation point of the domain and \\(f\\) is continuous at \\(z\\), how are \\(\\lim_{x\\to z}f(x)\\) and \\(f(z)\\) related?",
+      "correct": "\\(\\lim_{x\\to z}f(x)=f(z)\\)",
+      "choices": [
+        "\\(\\lim_{x\\to z}f(x)=f(z)\\)",
+        "the limit need not exist",
+        "\\(f(z)=0\\)",
+        "\\(f\\) is uniformly continuous on its domain"
+      ],
+      "explanation": "This is the bridge between the limit and continuity definitions.",
+      "tags": []
+    },
+    {
+      "id": "3.4-011",
+      "section": "3.4",
+      "kind": "homework",
+      "prompt": "If \\(f\\) and \\(g\\) are continuous and \\(f(r)=g(r)\\), with \\(f(x)<g(x)\\) just left of \\(r\\) and \\(f(x)>g(x)\\) just right of \\(r\\), what is \\(r\\)?",
+      "correct": "A crossing point; the difference \\(f-g\\) changes sign at \\(r\\).",
+      "choices": [
+        "A crossing point; the difference \\(f-g\\) changes sign at \\(r\\).",
+        "A pole of both functions",
+        "An isolated domain point",
+        "A point where neither function is continuous"
+      ],
+      "explanation": "Continuity makes \\(f-g\\) continuous and its sign describes the crossing.",
+      "tags": []
+    },
+    {
+      "id": "3.4-012",
+      "section": "3.4",
+      "kind": "proof",
+      "prompt": "In the proof that a continuous function is locally bounded at \\(z\\), what bound follows after choosing \\(\\varepsilon=1\\)?",
+      "correct": "\\(|f(x)|\\le|f(z)|+1\\) near \\(z\\).",
+      "choices": [
+        "\\(|f(x)|\\le|f(z)|+1\\) near \\(z\\).",
+        "\\(f(x)=f(z)\\) near \\(z\\).",
+        "\\(f\\) is bounded on all of \\(\\mathbb{R}\\).",
+        "\\(z\\) is a maximum."
+      ],
+      "explanation": "The Triangle Inequality converts \\(|f(x)-f(z)|<1\\) into a local absolute bound.",
+      "tags": []
+    },
+    {
+      "id": "3.4-new-isolated",
+      "section": "3.4",
+      "kind": "concept",
+      "prompt": "If \\(z\\in D\\) is not an accumulation point of \\(D\\), what can be concluded about continuity of a function \\(f:D\\to\\mathbb{R}\\) at \\(z\\)?",
+      "choices": [
+        "\\(f\\) is continuous at \\(z\\).",
+        "\\(f\\) is discontinuous at \\(z\\).",
+        "\\(f\\) has no value at \\(z\\).",
+        "\\(f\\) must be constant on \\(D\\)."
+      ],
+      "correct": "\\(f\\) is continuous at \\(z\\).",
+      "explanation": "At an isolated domain point, a small enough neighborhood contains no other domain points, so the continuity condition is automatic.",
+      "tags": []
+    },
+    {
+      "id": "3.5-001",
+      "section": "3.5",
+      "kind": "concept",
+      "prompt": "Which statement is the definition that a function \\(f:D\\to\\mathbb{R}\\) is uniformly continuous on \\(D\\)?",
+      "correct": "For every \\(\\varepsilon>0\\), there is \\(\\delta>0\\) such that for all \\(x,y\\in D\\), if \\(|x-y|<\\delta\\), then \\(|f(x)-f(y)|<\\varepsilon\\).",
+      "choices": [
+        "For every \\(\\varepsilon>0\\), there is \\(\\delta>0\\) such that for all \\(x,y\\in D\\), if \\(|x-y|<\\delta\\), then \\(|f(x)-f(y)|<\\varepsilon\\).",
+        "For every \\(x\\in D\\) and every \\(\\varepsilon>0\\), there is a possibly different \\(\\delta_x>0\\) that works only at \\(x\\).",
+        "There is one \\(\\varepsilon>0\\) that works for every \\(x,y\\in D\\).",
+        "The function \\(f\\) is bounded on \\(D\\)."
+      ],
+      "explanation": "Uniform continuity requires a single \\(\\delta\\), depending only on \\(\\varepsilon\\), to work simultaneously for every pair \\(x,y\\in D\\).",
+      "tags": []
+    },
+    {
+      "id": "3.5-003",
+      "section": "3.5",
+      "kind": "concept",
+      "prompt": "What is the main quantifier difference between continuity and uniform continuity?",
+      "correct": "Uniform continuity chooses delta independently of the point in the domain.",
+      "choices": [
+        "Uniform continuity chooses delta independently of the point in the domain.",
+        "Uniform continuity chooses \\(\\varepsilon\\) after \\(x\\) and \\(y\\).",
+        "Continuity does not use \\(\\varepsilon\\).",
+        "There is no difference."
+      ],
+      "explanation": "A single delta must control all pairs of points in the domain.",
+      "tags": []
+    },
+    {
+      "id": "3.5-004",
+      "section": "3.5",
+      "kind": "concept",
+      "prompt": "Suppose \\(f:[a,b]\\to\\mathbb{R}\\) is continuous. What can be concluded about uniform continuity?",
+      "correct": "\\(f\\) is uniformly continuous on \\([a,b]\\).",
+      "choices": [
+        "\\(f\\) is uniformly continuous on \\([a,b]\\).",
+        "\\(f\\) is differentiable",
+        "\\(f\\) is constant",
+        "\\(f\\) is uniformly continuous on all of \\(\\mathbb{R}\\)"
+      ],
+      "explanation": "A continuous function on a closed bounded interval \\([a,b]\\) is uniformly continuous.",
+      "tags": []
+    },
+    {
+      "id": "3.5-006",
+      "section": "3.5",
+      "kind": "homework",
+      "prompt": "Is the function \\(f:(0,1)\\to\\mathbb{R}\\) defined by \\(f(x)=x^3\\) uniformly continuous on \\((0,1)\\)?",
+      "correct": "Yes",
+      "choices": [
+        "Yes",
+        "No",
+        "Only at rational points",
+        "Only if the interval is closed"
+      ],
+      "explanation": "Yes. If \\(x,y\\in(0,1)\\), then \\(|x^3-y^3|=|x-y|\\,|x^2+xy+y^2|<3|x-y|\\). Thus choosing \\(\\delta=\\varepsilon/3\\) proves uniform continuity directly.",
+      "tags": []
+    },
+    {
+      "id": "3.5-007",
+      "section": "3.5",
+      "kind": "homework",
+      "prompt": "Is \\(f(x)=x^3\\) uniformly continuous on \\((0,\\infty)\\)?",
+      "correct": "No",
+      "choices": [
+        "No",
+        "Yes",
+        "Only if \\(x\\) is rational",
+        "It is constant"
+      ],
+      "explanation": "Pairs \\(x\\) and \\(x+h\\) with small \\(h\\) can have arbitrarily large output differences when \\(x\\) is large.",
+      "tags": []
+    },
+    {
+      "id": "3.5-008",
+      "section": "3.5",
+      "kind": "homework",
+      "prompt": "Which condition immediately implies uniform continuity?",
+      "correct": "A global Lipschitz condition",
+      "choices": [
+        "A global Lipschitz condition",
+        "Pointwise boundedness",
+        "Having one derivative value",
+        "Being injective"
+      ],
+      "explanation": "Take \\(\\delta=\\varepsilon/K\\).",
+      "tags": []
+    },
+    {
+      "id": "3.5-009",
+      "section": "3.5",
+      "kind": "concept",
+      "prompt": "Which sequential pattern can be used to prove that a function is not uniformly continuous on its domain?",
+      "correct": "There are sequences \\(\\langle x_n\\rangle\\) and \\(\\langle y_n\\rangle\\) in the domain such that \\(|x_n-y_n|\\to0\\), but \\(|f(x_n)-f(y_n)|\\not\\to0\\).",
+      "choices": [
+        "There are sequences \\(\\langle x_n\\rangle\\) and \\(\\langle y_n\\rangle\\) in the domain such that \\(|x_n-y_n|\\to0\\), but \\(|f(x_n)-f(y_n)|\\not\\to0\\).",
+        "There is one convergent sequence in the domain.",
+        "The function has a zero.",
+        "The domain is unbounded."
+      ],
+      "explanation": "Uniform continuity must carry arbitrarily close pairs to arbitrarily close values.",
+      "tags": []
+    },
+    {
+      "id": "3.5-010",
+      "section": "3.5",
+      "kind": "homework",
+      "prompt": "Is \\(f(x)=1/x\\) uniformly continuous on \\([1,\\infty)\\)?",
+      "correct": "Yes",
+      "choices": [
+        "Yes",
+        "No",
+        "Only on integers",
+        "The function is not continuous"
+      ],
+      "explanation": "On this domain, \\(|1/x-1/y|=|x-y|/(xy)\\le|x-y|\\).",
+      "tags": []
+    },
+    {
+      "id": "3.5-011",
+      "section": "3.5",
+      "kind": "homework",
+      "prompt": "Is \\(f(x)=1/x\\) uniformly continuous on \\((0,1)\\)?",
+      "correct": "No",
+      "choices": [
+        "No",
+        "Yes",
+        "Only near \\(1\\)",
+        "It is Lipschitz with constant \\(1\\)"
+      ],
+      "explanation": "Take \\(x_n=1/n\\) and \\(y_n=1/(n+1)\\); the inputs get close while the reciprocal values differ by \\(1\\).",
+      "tags": []
+    },
+    {
+      "id": "3.5-012",
+      "section": "3.5",
+      "kind": "proof",
+      "prompt": "In the proof that a continuous function on a closed bounded interval is uniformly continuous, why is a convergent subsequence of \\(\\langle x_n\\rangle\\) available?",
+      "correct": "The sequence lies in \\([a,b]\\), so it is bounded; the Bolzano–Weierstrass Theorem gives a convergent subsequence.",
+      "choices": [
+        "The sequence lies in \\([a,b]\\), so it is bounded; the Bolzano–Weierstrass Theorem gives a convergent subsequence.",
+        "The sequence is monotonic by definition.",
+        "Every sequence of real numbers converges.",
+        "Continuity makes the sequence constant."
+      ],
+      "explanation": "The notes prove uniform continuity on a closed interval by constructing bounded sequences of problematic points and then applying Bolzano–Weierstrass to obtain convergent subsequences.",
+      "tags": []
+    },
+    {
+      "id": "3.5-new-definition-formal",
+      "section": "3.5",
+      "kind": "concept",
+      "prompt": "In the definition of uniform continuity of \\(f:D\\to\\mathbb{R}\\) on \\(E\\subseteq D\\), on what may \\(\\delta\\) depend?",
+      "choices": [
+        "It may depend on \\(\\varepsilon\\), but not on the particular points \\(x,y\\in E\\).",
+        "It may depend on both \\(x\\) and \\(y\\).",
+        "It may depend only on \\(x\\).",
+        "It must always equal \\(1\\)."
+      ],
+      "correct": "It may depend on \\(\\varepsilon\\), but not on the particular points \\(x,y\\in E\\).",
+      "explanation": "Uniform continuity requires one \\(\\delta\\) to work simultaneously for every pair \\(x,y\\in E\\).",
+      "tags": []
+    },
+    {
+      "id": "3.5-new-uniformgraph",
+      "section": "3.5",
+      "kind": "concept",
+      "prompt": "The graph of \\(f(x)=1/x\\) on \\((0,1)\\) becomes arbitrarily steep near \\(0\\). Which conclusion is consistent with Section 3.5?",
+      "choices": [
+        "\\(f\\) is continuous on \\((0,1)\\) but not uniformly continuous there.",
+        "\\(f\\) is uniformly continuous because it is continuous.",
+        "\\(f\\) is not continuous at any point of \\((0,1)\\).",
+        "\\(f\\) is bounded on \\((0,1)\\)."
+      ],
+      "correct": "\\(f\\) is continuous on \\((0,1)\\) but not uniformly continuous there.",
+      "explanation": "Uniform continuity requires one \\(\\delta\\) to work throughout the domain; near \\(0\\), close inputs can have function values far apart.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"Graph of y=1/x on (0,1]\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"48.0\" y1=\"20\" x2=\"48.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"458.9\" y1=\"20\" x2=\"458.9\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"240.0\" x2=\"500\" y2=\"240.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"200.0\" x2=\"500\" y2=\"200.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"160.0\" x2=\"500\" y2=\"160.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"120.0\" x2=\"500\" y2=\"120.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"80.0\" x2=\"500\" y2=\"80.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"40.0\" x2=\"500\" y2=\"40.0\" stroke=\"#e5e7eb\"/><line x1=\"48.0\" y1=\"20\" x2=\"48.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"240.0\" x2=\"500\" y2=\"240.0\" stroke=\"#555\" stroke-width=\"1.4\"/><polyline points=\"130.2,40.0 150.7,80.0 183.6,118.8 253.5,160.0 356.2,186.7 458.9,200.0\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/></svg><div class=\"figure-caption\">Graph of y=1/x on (0,1]</div>"
+    },
+    {
+      "id": "3.6-001",
+      "section": "3.6",
+      "kind": "concept",
+      "prompt": "Suppose \\(f:[a,b]\\to\\mathbb{R}\\) is continuous. What does the Bounded Value Theorem guarantee?",
+      "correct": "\\(f\\) is bounded on \\([a,b]\\).",
+      "choices": [
+        "\\(f\\) is bounded on \\([a,b]\\).",
+        "\\(f\\) is monotone",
+        "\\(f\\) is differentiable",
+        "\\(f\\) has exactly one maximum"
+      ],
+      "explanation": "The Bounded Value Theorem guarantees that \\(f\\) is bounded on \\([a,b]\\).",
+      "tags": []
+    },
+    {
+      "id": "3.6-003",
+      "section": "3.6",
+      "kind": "concept",
+      "prompt": "Suppose \\(f:[a,b]\\to\\mathbb{R}\\) is continuous. What does the Extreme Value Theorem guarantee?",
+      "correct": "\\(f\\) attains both a maximum and a minimum on \\([a,b]\\).",
+      "choices": [
+        "\\(f\\) attains both a maximum and a minimum on \\([a,b]\\).",
+        "\\(f\\) is constant",
+        "\\(f\\) has no zeros",
+        "\\(f\\) attains every real value"
+      ],
+      "explanation": "The Extreme Value Theorem guarantees both extrema on \\([a,b]\\).",
+      "tags": []
+    },
+    {
+      "id": "3.6-005",
+      "section": "3.6",
+      "kind": "concept",
+      "prompt": "Which hypothesis cannot simply be dropped from the Extreme Value Theorem?",
+      "correct": "The domain is a closed bounded interval.",
+      "choices": [
+        "The domain is a closed bounded interval.",
+        "The function is real-valued.",
+        "The interval has endpoints named \\(a,b\\).",
+        "The maximum and minimum are unique."
+      ],
+      "explanation": "On an open interval, a continuous function such as \\(f(x)=x\\) may fail to attain extrema.",
+      "tags": []
+    },
+    {
+      "id": "3.6-006",
+      "section": "3.6",
+      "kind": "homework",
+      "prompt": "Why does \\(f(x)=1/x\\) on \\((0,1]\\) not contradict the Bounded Value Theorem?",
+      "correct": "The domain \\((0,1]\\) is not a closed interval of the form \\([a,b]\\) contained in the domain away from \\(0\\).",
+      "choices": [
+        "The domain \\((0,1]\\) is not a closed interval of the form \\([a,b]\\) contained in the domain away from \\(0\\).",
+        "The function is discontinuous at every point of its domain.",
+        "The function has a maximum on \\((0,1]\\).",
+        "The Bounded Value Theorem applies only to polynomials."
+      ],
+      "explanation": "The Bounded Value Theorem assumes continuity on a closed interval. The interval \\((0,1]\\) omits the endpoint at which \\(1/x\\) becomes unbounded.",
+      "tags": []
+    },
+    {
+      "id": "3.6-007",
+      "section": "3.6",
+      "kind": "concept",
+      "prompt": "In the proof of the Extreme Value Theorem, let \\(y_0=\\sup\\{f(x):x\\in[a,b]\\}\\) and choose \\(y_n=f(x_n)\\to y_0\\). What is the next key step?",
+      "correct": "Use the boundedness of \\(\\langle x_n\\rangle\\) to extract a convergent subsequence \\(x_{n_k}\\to v\\) in \\([a,b]\\), and then use continuity.",
+      "choices": [
+        "Use the boundedness of \\(\\langle x_n\\rangle\\) to extract a convergent subsequence \\(x_{n_k}\\to v\\) in \\([a,b]\\), and then use continuity.",
+        "Assume \\(\\langle x_n\\rangle\\) is constant.",
+        "Differentiate \\(f\\) and solve \\(f'(x)=0\\).",
+        "Assume the supremum is already attained."
+      ],
+      "explanation": "Because every \\(x_n\\) lies in \\([a,b]\\), the sequence is bounded. Bolzano–Weierstrass gives a convergent subsequence, and continuity transfers its limit to the corresponding function values.",
+      "tags": []
+    },
+    {
+      "id": "3.6-008",
+      "section": "3.6",
+      "kind": "homework",
+      "prompt": "A continuous function on \\([0,1]\\) has values \\(f(0)=2\\) and \\(f(1)=5\\). Which conclusion is guaranteed by the Extreme Value Theorem alone?",
+      "correct": "It attains some global maximum and minimum on \\([0,1]\\).",
+      "choices": [
+        "It attains some global maximum and minimum on \\([0,1]\\).",
+        "Its maximum is \\(5\\).",
+        "It is increasing.",
+        "It has a zero."
+      ],
+      "explanation": "Endpoint values alone do not identify the extrema, but existence is guaranteed.",
+      "tags": []
+    },
+    {
+      "id": "3.6-009",
+      "section": "3.6",
+      "kind": "proof",
+      "prompt": "In the bounded-value proof using uniform continuity, why partition \\([a,b]\\) into finitely many small intervals?",
+      "correct": "Every \\(x\\) is close to one of finitely many sample points, so \\(f(x)\\) is controlled by finitely many sample values.",
+      "choices": [
+        "Every \\(x\\) is close to one of finitely many sample points, so \\(f(x)\\) is controlled by finitely many sample values.",
+        "To make \\(f\\) linear on each interval.",
+        "To prove \\(f\\) has a derivative.",
+        "To force \\(f(x)=0\\)."
+      ],
+      "explanation": "Uniform continuity gives a uniform output bound around each sample point.",
+      "tags": []
+    },
+    {
+      "id": "3.6-010",
+      "section": "3.6",
+      "kind": "concept",
+      "prompt": "Which example shows continuity is essential for EVT?",
+      "correct": "A function on \\([0,1]\\) with \\(f(x)=1/x\\) for \\(x>0\\) and \\(f(0)=0\\) is unbounded.",
+      "choices": [
+        "A function on \\([0,1]\\) with \\(f(x)=1/x\\) for \\(x>0\\) and \\(f(0)=0\\) is unbounded.",
+        "\\(f(x)=x^2\\) on \\([0,1]\\)",
+        "\\(f(x)=0\\) on \\([0,1]\\)",
+        "\\(f(x)=\\sin x\\) on \\([0,1]\\)"
+      ],
+      "explanation": "The example is discontinuous at \\(0\\) and violates boundedness.",
+      "tags": []
+    },
+    {
+      "id": "3.6-new-evtgraph",
+      "section": "3.6",
+      "kind": "concept",
+      "prompt": "The graph is continuous on the closed interval shown. What does the Extreme Value Theorem guarantee?",
+      "choices": [
+        "The function attains both a maximum value and a minimum value on the interval.",
+        "The function is monotone.",
+        "The function has exactly one maximum.",
+        "The derivative exists everywhere."
+      ],
+      "correct": "The function attains both a maximum value and a minimum value on the interval.",
+      "explanation": "The theorem is an existence statement for extrema of a continuous function on a closed interval.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"A continuous function on a closed interval\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"77.5\" y1=\"20\" x2=\"77.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"175.7\" y1=\"20\" x2=\"175.7\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"372.3\" y1=\"20\" x2=\"372.3\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"470.5\" y1=\"20\" x2=\"470.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"240.0\" x2=\"500\" y2=\"240.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"171.2\" x2=\"500\" y2=\"171.2\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"102.5\" x2=\"500\" y2=\"102.5\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"33.8\" x2=\"500\" y2=\"33.8\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"240.0\" x2=\"500\" y2=\"240.0\" stroke=\"#555\" stroke-width=\"1.4\"/><polyline points=\"77.5,171.2 175.7,88.8 274.0,205.6 372.3,47.5 470.5,150.6\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/></svg><div class=\"figure-caption\">A continuous function on a closed interval</div>"
+    },
+    {
+      "id": "3.6-new-hyp",
+      "section": "3.6",
+      "kind": "concept",
+      "prompt": "Which hypotheses are required by the Extreme Value Theorem?",
+      "choices": [
+        "\\(f\\) is continuous on a closed interval \\([a,b]\\).",
+        "\\(f\\) is differentiable on an open interval.",
+        "\\(f\\) is monotone on \\((a,b)\\).",
+        "\\(f\\) is bounded but not necessarily continuous."
+      ],
+      "correct": "\\(f\\) is continuous on a closed interval \\([a,b]\\).",
+      "explanation": "Those hypotheses ensure that the maximum and minimum values are actually attained.",
+      "tags": []
+    },
+    {
+      "id": "3.7-001",
+      "section": "3.7",
+      "kind": "concept",
+      "prompt": "Suppose \\(f:[a,b]\\to\\mathbb{R}\\) is continuous and \\(f(a)\\) and \\(f(b)\\) have opposite signs. What does Bolzano's Theorem guarantee?",
+      "correct": "There is \\(z\\in(a,b)\\) with \\(f(z)=0\\).",
+      "choices": [
+        "There is \\(z\\in(a,b)\\) with \\(f(z)=0\\).",
+        "\\(f\\) has a maximum at \\(z\\)",
+        "\\(f\\) is injective",
+        "\\(f\\) has exactly one zero"
+      ],
+      "explanation": "Continuity together with opposite signs at the endpoints guarantees a zero \\(z\\in(a,b)\\).",
+      "tags": []
+    },
+    {
+      "id": "3.7-003",
+      "section": "3.7",
+      "kind": "concept",
+      "prompt": "Suppose \\(g:[a,b]\\to\\mathbb{R}\\) is continuous and \\(y\\) lies between \\(g(a)\\) and \\(g(b)\\). What does the Intermediate Value Theorem guarantee?",
+      "correct": "There is \\(z\\in[a,b]\\) such that \\(g(z)=y\\).",
+      "choices": [
+        "There is \\(z\\in[a,b]\\) such that \\(g(z)=y\\).",
+        "There is exactly one such \\(z\\).",
+        "The function \\(g\\) must be monotone.",
+        "The value \\(y\\) must equal an endpoint value."
+      ],
+      "explanation": "The Intermediate Value Theorem says that a continuous function on \\([a,b]\\) takes every value between \\(g(a)\\) and \\(g(b)\\).",
+      "tags": []
+    },
+    {
+      "id": "3.7-005",
+      "section": "3.7",
+      "kind": "homework",
+      "prompt": "Which interval brackets a root of \\(xe^x=1\\)?",
+      "correct": "\\([0,1]\\)",
+      "choices": [
+        "\\([0,1]\\)",
+        "\\([-2,-1]\\)",
+        "\\([2,3]\\)",
+        "\\([1,2]\\)"
+      ],
+      "explanation": "For \\(h(x)=xe^x-1\\), \\(h(0)=-1\\) and \\(h(1)=e-1>0\\).",
+      "tags": []
+    },
+    {
+      "id": "3.7-006",
+      "section": "3.7",
+      "kind": "homework",
+      "prompt": "To prove that a continuous function \\(f:[0,1]\\to[0,1]\\) has a fixed point, to which function should the Intermediate Value Theorem be applied?",
+      "correct": "\\(g(x)=f(x)-x\\)",
+      "choices": [
+        "\\(g(x)=f(x)-x\\)",
+        "\\(g(x)=f(x)+x\\)",
+        "\\(g(x)=f(x)x\\)",
+        "\\(g(x)=1/f(x)\\)"
+      ],
+      "explanation": "Here \\(g(0)\\ge0\\) and \\(g(1)\\le0\\), so the Intermediate Value Theorem gives a zero of \\(g\\).",
+      "tags": []
+    },
+    {
+      "id": "3.7-007",
+      "section": "3.7",
+      "kind": "homework",
+      "prompt": "Suppose continuous functions \\(f,g:[a,b]\\to\\mathbb{R}\\) satisfy \\(f(a)<g(a)\\) and \\(f(b)>g(b)\\). What conclusion follows from the Intermediate Value Theorem applied to their difference?",
+      "correct": "There is \\(z\\) with \\(f(z)=g(z)\\).",
+      "choices": [
+        "There is \\(z\\) with \\(f(z)=g(z)\\).",
+        "\\(f>g\\) everywhere",
+        "\\(f\\) and \\(g\\) are constant",
+        "They have equal derivatives"
+      ],
+      "explanation": "Apply IVT to \\(f-g\\), which changes sign.",
+      "tags": []
+    },
+    {
+      "id": "3.7-008",
+      "section": "3.7",
+      "kind": "concept",
+      "prompt": "What does the Intermediate Value Theorem generally fail to guarantee about a point whose existence it establishes?",
+      "correct": "The theorem does not generally guarantee that the point \\(z\\) is unique.",
+      "choices": [
+        "The theorem does not generally guarantee that the point \\(z\\) is unique.",
+        "The theorem does not guarantee any point \\(z\\) with \\(f(z)=y\\).",
+        "The theorem does not require a closed interval in its hypotheses.",
+        "The theorem does not require continuity."
+      ],
+      "explanation": "A continuous function may take the same intermediate value many times.",
+      "tags": []
+    },
+    {
+      "id": "3.7-009",
+      "section": "3.7",
+      "kind": "homework",
+      "prompt": "Why does every odd-degree real polynomial have a real root?",
+      "correct": "Its leading term makes the polynomial have opposite signs for sufficiently large positive and negative inputs, then IVT applies.",
+      "choices": [
+        "Its leading term makes the polynomial have opposite signs for sufficiently large positive and negative inputs, then IVT applies.",
+        "Every polynomial is injective.",
+        "Odd degree implies derivative zero.",
+        "Completeness gives a rational root."
+      ],
+      "explanation": "Continuity plus opposite end behavior forces a zero.",
+      "tags": []
+    },
+    {
+      "id": "3.7-010",
+      "section": "3.7",
+      "kind": "concept",
+      "prompt": "In the proof that a continuous injective function on an interval has a continuous inverse, why does a sequence \\(x_n=f^{-1}(y_n)\\) with \\(y_n\\to y_0\\) converge to \\(f^{-1}(y_0)\\)?",
+      "correct": "Every convergent subsequence of \\(\\langle x_n\\rangle\\) has the same limit by continuity and injectivity; a bounded sequence whose convergent subsequences all have that same limit must itself converge to that limit.",
+      "choices": [
+        "Every convergent subsequence of \\(\\langle x_n\\rangle\\) has the same limit by continuity and injectivity; a bounded sequence whose convergent subsequences all have that same limit must itself converge to that limit.",
+        "Every continuous injective function is linear.",
+        "The inverse of a continuous injective function is automatically a polynomial.",
+        "The derivative of every continuous injective function is nonzero."
+      ],
+      "explanation": "The image is a closed interval, so the inverse-image sequence is bounded. Continuity and injectivity force every convergent subsequence to approach the same inverse value; the bounded-sequence subsequence criterion then gives convergence of the whole sequence.",
+      "tags": []
+    },
+    {
+      "id": "3.7-011",
+      "section": "3.7",
+      "kind": "proof",
+      "prompt": "In Bolzano's proof using \\(z=\\sup\\{x:f(x)<0\\}\\), why must \\(f(z)=0\\)?",
+      "correct": "Sequences from the negative side and nonnegative side force \\(f(z)\\le0\\) and \\(f(z)\\ge0\\) by continuity.",
+      "choices": [
+        "Sequences from the negative side and nonnegative side force \\(f(z)\\le0\\) and \\(f(z)\\ge0\\) by continuity.",
+        "Because \\(z\\) is a maximum of the domain.",
+        "Because \\(f\\) is differentiable.",
+        "Because suprema always belong to the set."
+      ],
+      "explanation": "The two inequalities combine to equality.",
+      "tags": []
+    },
+    {
+      "id": "3.7-new-ivtgraph",
+      "section": "3.7",
+      "kind": "concept",
+      "prompt": "The graph is continuous and takes values below and above \\(0\\). Which conclusion follows from the Intermediate Value Theorem?",
+      "choices": [
+        "There is at least one point \\(c\\) between the endpoints with \\(f(c)=0\\).",
+        "There is exactly one point with \\(f(c)=0\\).",
+        "The derivative is zero somewhere.",
+        "The function is increasing."
+      ],
+      "correct": "There is at least one point \\(c\\) between the endpoints with \\(f(c)=0\\).",
+      "explanation": "Zero lies between the two endpoint values, so the Intermediate Value Theorem guarantees that value is attained.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"Continuous graph crossing the x-axis\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"77.5\" y1=\"20\" x2=\"77.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"175.7\" y1=\"20\" x2=\"175.7\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"372.3\" y1=\"20\" x2=\"372.3\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"470.5\" y1=\"20\" x2=\"470.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"220.0\" x2=\"500\" y2=\"220.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"180.0\" x2=\"500\" y2=\"180.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"140.0\" x2=\"500\" y2=\"140.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"100.0\" x2=\"500\" y2=\"100.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"60.0\" x2=\"500\" y2=\"60.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"20.0\" x2=\"500\" y2=\"20.0\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"140.0\" x2=\"500\" y2=\"140.0\" stroke=\"#555\" stroke-width=\"1.4\"/><polyline points=\"77.5,220.0 175.7,188.0 274.0,120.0 372.3,84.0 470.5,40.0\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/></svg><div class=\"figure-caption\">Continuous graph crossing the x-axis</div>"
+    },
+    {
+      "id": "4.1-001",
+      "section": "4.1",
+      "kind": "concept",
+      "prompt": "What is the slope of the secant line through \\((z,f(z))\\) and \\((x,f(x))\\) when \\(x\\ne z\\)?",
+      "correct": "\\(\\displaystyle\\frac{f(x)-f(z)}{x-z}\\).",
+      "choices": [
+        "\\(\\displaystyle\\frac{f(x)-f(z)}{x-z}\\).",
+        "\\(\\displaystyle\\frac{x-z}{f(x)-f(z)}\\).",
+        "\\(f(x)-f(z).\\)",
+        "\\(x-z.\\)"
+      ],
+      "explanation": "The slope of a secant line is the change in the function value divided by the change in the input.",
+      "tags": []
+    },
+    {
+      "id": "4.1-002",
+      "section": "4.1",
+      "kind": "concept",
+      "prompt": "Which limit motivates the definition of the tangent slope at \\(z\\)?",
+      "correct": "\\(\\lim_{x\\to z}\\frac{f(x)-f(z)}{x-z}\\)",
+      "choices": [
+        "\\(\\lim_{x\\to z}\\frac{f(x)-f(z)}{x-z}\\)",
+        "\\(f(z)\\)",
+        "\\(\\lim_{x\\to\\infty}f(x)\\)",
+        "\\(f(x)-f(z)\\)"
+      ],
+      "explanation": "Secant slopes approach the tangent slope as the second point approaches \\(z\\).",
+      "tags": []
+    },
+    {
+      "id": "4.1-003",
+      "section": "4.1",
+      "kind": "homework",
+      "prompt": "For \\(f(x)=3x+2\\), what is the slope of every secant line through two distinct points of the graph?",
+      "correct": "\\(3\\)",
+      "choices": [
+        "\\(3\\)",
+        "\\(2\\)",
+        "\\(3x\\)",
+        "\\(5\\)"
+      ],
+      "explanation": "The difference quotient simplifies to \\(3\\).",
+      "tags": []
+    },
+    {
+      "id": "4.1-004",
+      "section": "4.1",
+      "kind": "homework",
+      "prompt": "A tangent line can cross the graph of a function. Is this possible?",
+      "correct": "Yes",
+      "choices": [
+        "Yes",
+        "No",
+        "Only for circles",
+        "Only if the function is discontinuous"
+      ],
+      "explanation": "The geometric “touch without crossing” description is inadequate for general function graphs.",
+      "tags": []
+    },
+    {
+      "id": "4.1-005",
+      "section": "4.1",
+      "kind": "homework",
+      "prompt": "For \\(f(x)=x^2\\) at \\(z=1\\), what is the secant slope from \\(x=1\\) to \\(x=1+h\\) when \\(h\\ne0\\)?",
+      "correct": "\\(2+h.\\)",
+      "choices": [
+        "\\(2+h.\\)",
+        "\\(2.\\)",
+        "\\(h\\).",
+        "\\(1+h^2.\\)"
+      ],
+      "explanation": "The difference quotient is \\(\\frac{(1+h)^2-1}{h}=2+h\\).",
+      "tags": []
+    },
+    {
+      "id": "4.1-006",
+      "section": "4.1",
+      "kind": "concept",
+      "prompt": "Which two pieces of information determine the tangent line to the graph of a differentiable function at a point?",
+      "correct": "A point on the line and its slope.",
+      "choices": [
+        "A point on the line and its slope.",
+        "Two \\(y\\)-intercepts.",
+        "An area and a volume.",
+        "Only a slope, with no point specified."
+      ],
+      "explanation": "At \\(z\\), the point is \\((z,f(z))\\); the limiting difference quotient supplies the slope.",
+      "tags": []
+    },
+    {
+      "id": "4.1-007",
+      "section": "4.1",
+      "kind": "homework",
+      "prompt": "How does a linear function behave when its slope is positive?",
+      "correct": "The function is strictly increasing.",
+      "choices": [
+        "The function is strictly increasing.",
+        "The function is strictly decreasing.",
+        "The function is constant.",
+        "The function is not continuous."
+      ],
+      "explanation": "Positive differences in \\(x\\) produce positive differences in \\(f(x)\\).",
+      "tags": []
+    },
+    {
+      "id": "4.1-008",
+      "section": "4.1",
+      "kind": "proof",
+      "prompt": "Which algebraic fact is used most directly to show that the difference quotient of \\(f(x)=mx+b\\) is always \\(m\\)?",
+      "correct": "algebraic cancellation of \\(b\\) and \\(x_2-x_1\\)",
+      "choices": [
+        "algebraic cancellation of \\(b\\) and \\(x_2-x_1\\)",
+        "the Extreme Value Theorem",
+        "integration",
+        "the ratio test"
+      ],
+      "explanation": "The numerator becomes \\(m(x_2-x_1)\\).",
+      "tags": []
+    },
+    {
+      "id": "4.1-new-secant",
+      "section": "4.1",
+      "kind": "concept",
+      "prompt": "As the second point on a secant line moves toward \\((z,f(z))\\), what quantity is intended to approach the tangent slope?",
+      "choices": [
+        "\\(\\displaystyle\\frac{f(x)-f(z)}{x-z}\\)",
+        "\\(f(x)-f(z)\\)",
+        "\\(x-z\\)",
+        "\\(f(x)+f(z)\\)"
+      ],
+      "correct": "\\(\\displaystyle\\frac{f(x)-f(z)}{x-z}\\)",
+      "explanation": "Section 4.1 motivates tangent slope by the limit of secant slopes.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"A curve with a secant through two nearby points\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"68.5\" y1=\"20\" x2=\"68.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"171.3\" y1=\"20\" x2=\"171.3\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"376.7\" y1=\"20\" x2=\"376.7\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"479.5\" y1=\"20\" x2=\"479.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"218.0\" x2=\"500\" y2=\"218.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"174.0\" x2=\"500\" y2=\"174.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"130.0\" x2=\"500\" y2=\"130.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"86.0\" x2=\"500\" y2=\"86.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"42.0\" x2=\"500\" y2=\"42.0\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"218.0\" x2=\"500\" y2=\"218.0\" stroke=\"#555\" stroke-width=\"1.4\"/><polyline points=\"68.5,42.0 171.3,174.0 274.0,218.0 376.7,174.0 479.5,42.0\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/><polyline points=\"171.3,174.0 376.7,174.0\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\" stroke-dasharray=\"7,5\"/><circle cx=\"274.0\" cy=\"218.0\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"376.7\" cy=\"174.0\" r=\"4.2\" fill=\"#1d4ed8\"/></svg><div class=\"figure-caption\">A curve with a secant through two nearby points</div>"
+    },
+    {
+      "id": "4.1-new-tangent-not",
+      "section": "4.1",
+      "kind": "concept",
+      "prompt": "Which statement is emphasized in Section 4.1 about tangent lines to graphs of functions?",
+      "choices": [
+        "A tangent line may cross the graph or meet it at more than one point, so those geometric descriptions are not adequate definitions.",
+        "A tangent line must meet the graph at exactly one point.",
+        "A tangent line can never cross the graph.",
+        "Every continuous function has a tangent line at every point."
+      ],
+      "correct": "A tangent line may cross the graph or meet it at more than one point, so those geometric descriptions are not adequate definitions.",
+      "explanation": "Figure \\(4.1\\) is used specifically to show why the elementary circle-based descriptions are inadequate.",
+      "tags": []
+    },
+    {
+      "id": "4.2-001",
+      "section": "4.2",
+      "kind": "concept",
+      "prompt": "Which formula gives the tangent-line approximation to \\(f\\) near \\(z\\)?",
+      "correct": "\\(L(x)=f(z)+m(x-z)\\), where \\(m\\) is the tangent slope.",
+      "choices": [
+        "\\(L(x)=f(z)+m(x-z)\\), where \\(m\\) is the tangent slope.",
+        "\\(L(x)=f(x)^2\\)",
+        "\\(L(x)=z+f(z)\\)",
+        "\\(L(x)=m\\) only"
+      ],
+      "explanation": "It is the line through \\((z,f(z))\\) with slope \\(m\\).",
+      "tags": []
+    },
+    {
+      "id": "4.2-002",
+      "section": "4.2",
+      "kind": "concept",
+      "prompt": "Where should a tangent-line approximation generally be most accurate?",
+      "correct": "near the base point \\(z\\)",
+      "choices": [
+        "near the base point \\(z\\)",
+        "far from \\(z\\)",
+        "only at \\(\\infty\\)",
+        "only when \\(f\\) is discontinuous"
+      ],
+      "explanation": "The tangent line captures local first-order behavior.",
+      "tags": []
+    },
+    {
+      "id": "4.2-003",
+      "section": "4.2",
+      "kind": "homework",
+      "prompt": "For \\(f(x)=x^2\\) at \\(z=2\\), what is the tangent-line approximation \\(L(x)\\)?",
+      "correct": "\\(L(x)=4+4(x-2)\\)",
+      "choices": [
+        "\\(L(x)=4+4(x-2)\\)",
+        "\\(L(x)=4+2(x-2)\\)",
+        "\\(L(x)=x^2\\)",
+        "\\(L(x)=2+4x\\)"
+      ],
+      "explanation": "Here \\(f(2)=4\\) and \\(f'(2)=4\\).",
+      "tags": []
+    },
+    {
+      "id": "4.2-004",
+      "section": "4.2",
+      "kind": "homework",
+      "prompt": "Using the tangent-line approximation \\(L(x)=4+4(x-2)\\), what is the approximate value of \\(2.01^2\\)?",
+      "correct": "\\(4.04\\)",
+      "choices": [
+        "\\(4.04\\)",
+        "\\(4.0001\\)",
+        "\\(4.4\\)",
+        "\\(4.02\\)"
+      ],
+      "explanation": "\\(L(2.01)=4+4(0.01)=4.04.\\)",
+      "tags": []
+    },
+    {
+      "id": "4.2-005",
+      "section": "4.2",
+      "kind": "concept",
+      "prompt": "If \\(L\\) is the tangent-line approximation to a differentiable function \\(f\\) at \\(z\\), what limiting statement describes the local error?",
+      "correct": "it is small compared with \\(x-z\\) as \\(x\\) approaches \\(z\\).",
+      "choices": [
+        "it is small compared with \\(x-z\\) as \\(x\\) approaches \\(z\\).",
+        "it is always zero",
+        "it is constant",
+        "it is larger than \\(|x-z|\\)."
+      ],
+      "explanation": "Differentiability is a first-order linear approximation property.",
+      "tags": []
+    },
+    {
+      "id": "4.2-006",
+      "section": "4.2",
+      "kind": "homework",
+      "prompt": "Which line gives the best local linear approximation to \\(f\\) at \\(z\\)?",
+      "correct": "The tangent line at \\(z\\)",
+      "choices": [
+        "The tangent line at \\(z\\)",
+        "Any secant line through distant points",
+        "The horizontal axis",
+        "The line \\(y=x\\) always"
+      ],
+      "explanation": "The derivative chooses the unique first-order slope when it exists.",
+      "tags": []
+    },
+    {
+      "id": "4.2-007",
+      "section": "4.2",
+      "kind": "concept",
+      "prompt": "If a function is linear, how does its tangent-line approximation compare with the function itself?",
+      "correct": "The tangent-line approximation equals \\(f\\) everywhere.",
+      "choices": [
+        "The tangent-line approximation equals \\(f\\) everywhere.",
+        "It is accurate only at the base point.",
+        "It always has slope \\(0\\).",
+        "It does not exist."
+      ],
+      "explanation": "All secant and tangent slopes equal the constant slope of \\(f\\).",
+      "tags": []
+    },
+    {
+      "id": "4.2-008",
+      "section": "4.2",
+      "kind": "homework",
+      "prompt": "For \\(f(x)=\\sqrt{x}\\) at \\(z=4\\), what slope is used in the tangent-line approximation?",
+      "correct": "\\(\\frac14\\)",
+      "choices": [
+        "\\(\\frac14\\)",
+        "\\(\\frac12\\)",
+        "\\(2\\)",
+        "\\(4\\)"
+      ],
+      "explanation": "Since \\(f'(x)=\\frac{1}{2\\sqrt{x}}\\), one has \\(f'(4)=\\frac14\\).",
+      "tags": []
+    },
+    {
+      "id": "4.2-new-linearapprox",
+      "section": "4.2",
+      "kind": "concept",
+      "prompt": "Near \\(z\\), the tangent line is used as a linear approximation to \\(f\\). Which formula expresses this approximation?",
+      "choices": [
+        "\\(f(x)\\approx f(z)+f'(z)(x-z)\\)",
+        "\\(f(x)\\approx f(z)f'(z)\\)",
+        "\\(f(x)\\approx f'(x-z)\\)",
+        "\\(f(x)\\approx f(z)+(x-z)^2\\)"
+      ],
+      "correct": "\\(f(x)\\approx f(z)+f'(z)(x-z)\\)",
+      "explanation": "The line has value \\(f(z)\\) at \\(z\\) and slope \\(f'(z)\\).",
+      "tags": []
+    },
+    {
+      "id": "4.3-001",
+      "section": "4.3",
+      "kind": "concept",
+      "prompt": "Which expression gives the average velocity from time \\(z\\) to time \\(t\\)?",
+      "correct": "\\(\\frac{f(t)-f(z)}{t-z}\\)",
+      "choices": [
+        "\\(\\frac{f(t)-f(z)}{t-z}\\)",
+        "\\(\\frac{f(t)}{t-z}\\)",
+        "\\(f(t)-f(z)\\)",
+        "\\(f'(t)-f'(z)\\)"
+      ],
+      "explanation": "It is change in position divided by elapsed time.",
+      "tags": []
+    },
+    {
+      "id": "4.3-002",
+      "section": "4.3",
+      "kind": "concept",
+      "prompt": "Which limit motivates instantaneous velocity at time \\(z\\)?",
+      "correct": "the limit of average velocities as \\(t\\) approaches \\(z\\).",
+      "choices": [
+        "the limit of average velocities as \\(t\\) approaches \\(z\\).",
+        "the position \\(f(z)\\)",
+        "the maximum average velocity",
+        "distance divided by total trip time only"
+      ],
+      "explanation": "The derivative is the limiting rate over shrinking time intervals.",
+      "tags": []
+    },
+    {
+      "id": "4.3-003",
+      "section": "4.3",
+      "kind": "homework",
+      "prompt": "If position is \\(p(t)=t^2\\), what is the average velocity from \\(t=2\\) to \\(t=2+h\\) when \\(h\\ne0\\)?",
+      "correct": "\\(4+h.\\)",
+      "choices": [
+        "\\(4+h.\\)",
+        "\\(4.\\)",
+        "\\(h\\).",
+        "\\(2+h.\\)"
+      ],
+      "explanation": "The average velocity is \\(\\frac{(2+h)^2-2^2}{h}=4+h\\).",
+      "tags": []
+    },
+    {
+      "id": "4.3-004",
+      "section": "4.3",
+      "kind": "homework",
+      "prompt": "If position is \\(p(t)=t^2\\), what is the instantaneous velocity at \\(t=2\\)?",
+      "correct": "\\(4\\)",
+      "choices": [
+        "\\(4\\)",
+        "\\(2\\)",
+        "\\(0\\)",
+        "\\(8\\)"
+      ],
+      "explanation": "Take the limit of \\(4+h\\) as \\(h\\to0\\).",
+      "tags": []
+    },
+    {
+      "id": "4.3-005",
+      "section": "4.3",
+      "kind": "concept",
+      "prompt": "If position is measured in meters and time in seconds, what are the units of velocity?",
+      "correct": "Meters per second.",
+      "choices": [
+        "Meters per second.",
+        "Square meters.",
+        "Seconds per meter.",
+        "Meters."
+      ],
+      "explanation": "Rates divide output units by input units.",
+      "tags": []
+    },
+    {
+      "id": "4.3-006",
+      "section": "4.3",
+      "kind": "homework",
+      "prompt": "What does a negative instantaneous velocity indicate about one-dimensional motion?",
+      "correct": "The object is moving in the negative direction along the axis.",
+      "choices": [
+        "The object is moving in the negative direction along the axis.",
+        "The object has traveled a negative distance.",
+        "Time is running backward.",
+        "The object has negative mass."
+      ],
+      "explanation": "Velocity is signed change in position.",
+      "tags": []
+    },
+    {
+      "id": "4.3-007",
+      "section": "4.3",
+      "kind": "concept",
+      "prompt": "Besides tangent slope and the slope of a local linear approximation, what physical quantity is represented by the same limiting difference quotient?",
+      "correct": "Instantaneous velocity.",
+      "choices": [
+        "Instantaneous velocity.",
+        "Area under a curve.",
+        "A series sum.",
+        "An upper bound."
+      ],
+      "explanation": "These are three interpretations motivating the derivative.",
+      "tags": []
+    },
+    {
+      "id": "4.3-008",
+      "section": "4.3",
+      "kind": "homework",
+      "prompt": "If position is constant, \\(p(t)=5\\), what is the instantaneous velocity?",
+      "correct": "\\(0\\)",
+      "choices": [
+        "\\(0\\)",
+        "\\(5\\)",
+        "\\(1\\)",
+        "undefined"
+      ],
+      "explanation": "Every average rate is zero.",
+      "tags": []
+    },
+    {
+      "id": "4.3-new-velocity",
+      "section": "4.3",
+      "kind": "concept",
+      "prompt": "If \\(p(t)\\) is position, what expression motivates instantaneous velocity at time \\(t\\)?",
+      "choices": [
+        "\\(\\displaystyle\\lim_{h\\to0}\\frac{p(t+h)-p(t)}{h}\\)",
+        "\\(p(t+h)-p(t)\\)",
+        "\\(p(t)/t\\)",
+        "\\(\\displaystyle\\int_0^t p(s)\\,ds\\)"
+      ],
+      "correct": "\\(\\displaystyle\\lim_{h\\to0}\\frac{p(t+h)-p(t)}{h}\\)",
+      "explanation": "Instantaneous velocity is obtained by taking the limit of average velocities over shorter time intervals.",
+      "tags": []
+    },
+    {
+      "id": "4.4-001",
+      "section": "4.4",
+      "kind": "concept",
+      "prompt": "Which formula defines the derivative of \\(f\\) at \\(z\\), provided the limit exists?",
+      "correct": "\\(f'(z)=\\lim_{x\\to z}\\frac{f(x)-f(z)}{x-z}\\), provided the limit exists.",
+      "choices": [
+        "\\(f'(z)=\\lim_{x\\to z}\\frac{f(x)-f(z)}{x-z}\\), provided the limit exists.",
+        "\\(f(z)/z\\)",
+        "\\(\\lim f(x)\\)",
+        "the slope of one arbitrary secant line"
+      ],
+      "explanation": "In the notes, derivative of \\(f\\) at \\(z\\) is characterized by the condition in the correct choice: \\(f'(z)=\\lim_{x\\to z}\\frac{f(x)-f(z)}{x-z}\\), provided the limit exists.",
+      "tags": []
+    },
+    {
+      "id": "4.4-003",
+      "section": "4.4",
+      "kind": "concept",
+      "prompt": "Suppose \\(f\\) is differentiable at \\(z\\). Which conclusion follows from the theorem that differentiability implies continuity?",
+      "correct": "\\(f\\) is continuous at \\(z\\).",
+      "choices": [
+        "\\(f\\) is continuous at \\(z\\).",
+        "\\(f\\) is twice differentiable",
+        "\\(f\\) has a local extremum",
+        "\\(f\\) is uniformly continuous on \\(\\mathbb{R}\\)"
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: \\(f\\) is continuous at \\(z\\).",
+      "tags": []
+    },
+    {
+      "id": "4.4-005",
+      "section": "4.4",
+      "kind": "homework",
+      "prompt": "Using the definition of the derivative, what is the derivative of \\(f(x)=x^2\\)?",
+      "correct": "\\(2x\\)",
+      "choices": [
+        "\\(2x\\)",
+        "\\(x\\)",
+        "\\(x^2\\)",
+        "\\(2\\)"
+      ],
+      "explanation": "The difference quotient simplifies as \\(\\frac{(x+h)^2-x^2}{h}=2x+h\\), and its limit as \\(h\\to0\\) is \\(2x\\).",
+      "tags": []
+    },
+    {
+      "id": "4.4-006",
+      "section": "4.4",
+      "kind": "homework",
+      "prompt": "What is the derivative of a constant function?",
+      "correct": "\\(0\\)",
+      "choices": [
+        "\\(0\\)",
+        "the constant itself",
+        "\\(1\\)",
+        "undefined"
+      ],
+      "explanation": "Every difference quotient is zero.",
+      "tags": []
+    },
+    {
+      "id": "4.4-007",
+      "section": "4.4",
+      "kind": "homework",
+      "prompt": "Why is \\(f(x)=|x|\\) not differentiable at \\(0\\)?",
+      "correct": "The left and right difference quotients approach \\(-1\\) and \\(1\\).",
+      "choices": [
+        "The left and right difference quotients approach \\(-1\\) and \\(1\\).",
+        "It is not continuous at \\(0\\).",
+        "Its value is \\(0\\).",
+        "Absolute values have no limits."
+      ],
+      "explanation": "Different one-sided slopes prevent a two-sided derivative.",
+      "tags": []
+    },
+    {
+      "id": "4.4-008",
+      "section": "4.4",
+      "kind": "concept",
+      "prompt": "Which implication between differentiability and continuity at a point is false?",
+      "correct": "Continuity implies differentiability.",
+      "choices": [
+        "Continuity implies differentiability.",
+        "Differentiability implies continuity.",
+        "A derivative is a limit.",
+        "A constant function is differentiable."
+      ],
+      "explanation": "Absolute value at \\(0\\) is a standard counterexample.",
+      "tags": []
+    },
+    {
+      "id": "4.4-009",
+      "section": "4.4",
+      "kind": "homework",
+      "prompt": "If \\(f'(z)=0\\), what is guaranteed?",
+      "correct": "The tangent line is horizontal at \\(z\\).",
+      "choices": [
+        "The tangent line is horizontal at \\(z\\).",
+        "\\(f\\) has a local maximum at \\(z\\).",
+        "\\(f\\) is constant everywhere.",
+        "\\(f(z)=0.\\)"
+      ],
+      "explanation": "A zero derivative is necessary for many interior extrema, not sufficient.",
+      "tags": []
+    },
+    {
+      "id": "4.4-010",
+      "section": "4.4",
+      "kind": "proof",
+      "prompt": "In the proof that differentiability at \\(z\\) implies continuity at \\(z\\), which factorization of \\(f(x)-f(z)\\) introduces the difference quotient?",
+      "correct": "\\(\\displaystyle \\frac{f(x)-f(z)}{x-z}(x-z)\\) for \\(x\\ne z\\).",
+      "choices": [
+        "\\(\\displaystyle \\frac{f(x)-f(z)}{x-z}(x-z)\\) for \\(x\\ne z\\).",
+        "\\(f'(z)+f(z)\\)",
+        "\\(f(x)f(z)\\)",
+        "\\(1/(x-z)\\)"
+      ],
+      "explanation": "The first factor approaches \\(f'(z)\\) and the second approaches \\(0\\).",
+      "tags": []
+    },
+    {
+      "id": "4.4-011",
+      "section": "4.4",
+      "kind": "homework",
+      "prompt": "Using the definition of derivative, what is the derivative of \\(f(x)=1/x\\) on its domain?",
+      "correct": "\\(-1/x^2\\)",
+      "choices": [
+        "\\(-1/x^2\\)",
+        "\\(1/x^2\\)",
+        "\\(-1/x\\)",
+        "\\(x^{-2}/2\\)"
+      ],
+      "explanation": "Simplifying \\(\\bigl[1/(x+h)-1/x\\bigr]/h\\) gives \\(-1/[x(x+h)]\\).",
+      "tags": []
+    },
+    {
+      "id": "4.4-new-cornergraph",
+      "section": "4.4",
+      "kind": "concept",
+      "prompt": "The graph has a sharp corner at the origin, like \\(f(x)=|x|\\). Which conclusion is correct?",
+      "choices": [
+        "The derivative at \\(0\\) does not exist because the left and right difference quotients have different limits.",
+        "The derivative at \\(0\\) is \\(0\\) because \\(f(0)=0\\).",
+        "The function is not continuous at \\(0\\).",
+        "The derivative at \\(0\\) is \\(1\\)."
+      ],
+      "correct": "The derivative at \\(0\\) does not exist because the left and right difference quotients have different limits.",
+      "explanation": "Continuity does not guarantee differentiability; the two one-sided slopes disagree.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"Graph of y=|x| with a corner at the origin\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"77.5\" y1=\"20\" x2=\"77.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"175.7\" y1=\"20\" x2=\"175.7\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"372.3\" y1=\"20\" x2=\"372.3\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"470.5\" y1=\"20\" x2=\"470.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"209.7\" x2=\"500\" y2=\"209.7\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"133.8\" x2=\"500\" y2=\"133.8\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"57.9\" x2=\"500\" y2=\"57.9\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"209.7\" x2=\"500\" y2=\"209.7\" stroke=\"#555\" stroke-width=\"1.4\"/><polyline points=\"77.5,57.9 175.7,133.8 274.0,209.7 372.3,133.8 470.5,57.9\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/></svg><div class=\"figure-caption\">Graph of y=|x| with a corner at the origin</div>"
+    },
+    {
+      "id": "4.4-new-definition-formal",
+      "section": "4.4",
+      "kind": "concept",
+      "prompt": "Which expression gives the derivative of \\(f\\) at \\(z\\), when the limit exists?",
+      "choices": [
+        "\\(\\displaystyle f'(z)=\\lim_{x\\to z}\\frac{f(x)-f(z)}{x-z}\\)",
+        "\\(\\displaystyle f'(z)=\\lim_{x\\to z}\\frac{f(x)}{x}\\)",
+        "\\(\\displaystyle f'(z)=\\frac{f(z)}{z}\\)",
+        "\\(\\displaystyle f'(z)=\\lim_{x\\to z}(f(x)-f(z))\\)"
+      ],
+      "correct": "\\(\\displaystyle f'(z)=\\lim_{x\\to z}\\frac{f(x)-f(z)}{x-z}\\)",
+      "explanation": "This is the difference quotient limit used in the notes.",
+      "tags": []
+    },
+    {
+      "id": "4.5-001",
+      "section": "4.5",
+      "kind": "concept",
+      "prompt": "Suppose \\(f\\) and \\(g\\) are differentiable at \\(x\\). Which formula is the Product Rule?",
+      "correct": "\\((fg)'=f'g+fg'\\)",
+      "choices": [
+        "\\((fg)'=f'g+fg'\\)",
+        "\\((fg)'=f'g'\\)",
+        "\\((fg)'=f'+g'\\)",
+        "\\((fg)'=fg'\\) only"
+      ],
+      "explanation": "The product rule is \\((fg)'=f'g+fg'\\).",
+      "tags": []
+    },
+    {
+      "id": "4.5-003",
+      "section": "4.5",
+      "kind": "concept",
+      "prompt": "Suppose \\(f\\) is differentiable at \\(x\\) and \\(g\\) is differentiable at \\(f(x)\\). Which formula is the Chain Rule for \\(g\\circ f\\)?",
+      "correct": "\\((g\\circ f)'(x)=g'(f(x))f'(x)\\).",
+      "choices": [
+        "\\((g\\circ f)'(x)=g'(f(x))f'(x)\\).",
+        "\\(g'(x)+f'(x)\\)",
+        "\\(g'(f(x))\\) only",
+        "\\(f'(g(x))g'(x)\\)"
+      ],
+      "explanation": "The Chain Rule gives \\((g\\circ f)'(x)=g'(f(x))f'(x)\\).",
+      "tags": []
+    },
+    {
+      "id": "4.5-005",
+      "section": "4.5",
+      "kind": "concept",
+      "prompt": "Suppose \\(f\\) is injective and differentiable, \\(f'(x)\\ne0\\), and the inverse is defined at \\(f(x)\\). Which formula gives the derivative of \\(f^{-1}\\) at \\(f(x)\\)?",
+      "correct": "\\((f^{-1})'(f(x))=1/f'(x).\\)",
+      "choices": [
+        "\\((f^{-1})'(f(x))=1/f'(x).\\)",
+        "\\((f^{-1})'=f'\\)",
+        "\\((f^{-1})'=0\\)",
+        "\\((f^{-1})'(f(x))=f'(x)\\)"
+      ],
+      "explanation": "Differentiating \\(f^{-1}(f(x))=x\\) gives \\((f^{-1})'(f(x))f'(x)=1\\).",
+      "tags": []
+    },
+    {
+      "id": "4.5-007",
+      "section": "4.5",
+      "kind": "homework",
+      "prompt": "What is the derivative of \\(x^3\\sin x\\)?",
+      "correct": "\\(3x^2\\sin x+x^3\\cos x\\)",
+      "choices": [
+        "\\(3x^2\\sin x+x^3\\cos x\\)",
+        "\\(3x^2\\cos x\\)",
+        "\\(x^3\\cos x\\)",
+        "\\(3x^2\\sin x\\)"
+      ],
+      "explanation": "Apply the product rule.",
+      "tags": []
+    },
+    {
+      "id": "4.5-008",
+      "section": "4.5",
+      "kind": "homework",
+      "prompt": "What is the derivative of \\((2x+1)^5\\)?",
+      "correct": "\\(10(2x+1)^4\\)",
+      "choices": [
+        "\\(10(2x+1)^4\\)",
+        "\\(5(2x+1)^4\\)",
+        "\\((2x+1)^4\\)",
+        "\\(10x^4\\)"
+      ],
+      "explanation": "Apply the chain rule: outer derivative times inner derivative \\(2\\).",
+      "tags": []
+    },
+    {
+      "id": "4.5-009",
+      "section": "4.5",
+      "kind": "homework",
+      "prompt": "If \\(f\\) and \\(g\\) are differentiable and \\(g(x)\\ne0\\), which formula gives the derivative of \\(f/g\\) at \\(x\\)?",
+      "correct": "\\(\\frac{f'g-fg'}{g^2}\\)",
+      "choices": [
+        "\\(\\frac{f'g-fg'}{g^2}\\)",
+        "\\(\\frac{f'g+fg'}{g^2}\\)",
+        "\\(\\frac{f'}{g'}\\)",
+        "\\(\\frac{f'-g'}{g}\\)"
+      ],
+      "explanation": "This is the quotient rule, valid where \\(g\\ne0\\).",
+      "tags": []
+    },
+    {
+      "id": "4.5-010",
+      "section": "4.5",
+      "kind": "homework",
+      "prompt": "If \\(f(1)=3\\) and \\(f'(1)=6\\), what is \\((f^{-1})'(3)\\)?",
+      "correct": "\\(1/6\\)",
+      "choices": [
+        "\\(1/6\\)",
+        "\\(6\\)",
+        "\\(3\\)",
+        "\\(1/3\\)"
+      ],
+      "explanation": "Use the reciprocal derivative at the corresponding point.",
+      "tags": []
+    },
+    {
+      "id": "4.5-011",
+      "section": "4.5",
+      "kind": "concept",
+      "prompt": "Which formula is the power rule for rational exponents on positive real inputs?",
+      "correct": "\\(\\frac{d}{dx}x^{m/n}=\\frac mn x^{m/n-1}\\)",
+      "choices": [
+        "\\(\\frac{d}{dx}x^{m/n}=\\frac mn x^{m/n-1}\\)",
+        "\\(x^{m/n-1}\\)",
+        "\\(\\frac nm x^{n/m-1}\\)",
+        "\\(\\frac mn x^{m/n}\\)"
+      ],
+      "explanation": "The notes restrict to positive \\(x\\) to avoid domain issues.",
+      "tags": []
+    },
+    {
+      "id": "4.5-012",
+      "section": "4.5",
+      "kind": "proof",
+      "prompt": "Which previously established derivative rules are used in the exercise that proves the natural-number power rule by induction?",
+      "correct": "The Product Rule applied to \\(x^{n+1}=x^n\\cdot x\\).",
+      "choices": [
+        "The Product Rule applied to \\(x^{n+1}=x^n\\cdot x\\).",
+        "the quotient rule only",
+        "the Extreme Value Theorem",
+        "integration by parts"
+      ],
+      "explanation": "The induction hypothesis and the Product Rule give \\((x^{n+1})'=(n+1)x^n\\).",
+      "tags": []
+    },
+    {
+      "id": "4.5-013",
+      "section": "4.5",
+      "kind": "homework",
+      "prompt": "If \\(h(x)=g(f(x))\\) and the required second derivatives exist, which formula gives \\(h''(x)\\)?",
+      "correct": "\\(g''(f(x))(f'(x))^2+g'(f(x))f''(x)\\)",
+      "choices": [
+        "\\(g''(f(x))(f'(x))^2+g'(f(x))f''(x)\\)",
+        "\\(g''(f(x))f''(x)\\) only",
+        "\\(g'(x)+f'(x)\\)",
+        "\\(0\\)"
+      ],
+      "explanation": "Differentiate the chain-rule product once more.",
+      "tags": []
+    },
+    {
+      "id": "4.5-new-chain",
+      "section": "4.5",
+      "kind": "concept",
+      "prompt": "Under the hypotheses of the Chain Rule, which formula is correct?",
+      "choices": [
+        "\\((g\\circ f)'(a)=g'(f(a))f'(a)\\)",
+        "\\((g\\circ f)'(a)=g'(a)+f'(a)\\)",
+        "\\((g\\circ f)'(a)=g(f'(a))\\)",
+        "\\((g\\circ f)'(a)=g'(f'(a))\\)"
+      ],
+      "correct": "\\((g\\circ f)'(a)=g'(f(a))f'(a)\\)",
+      "explanation": "The Chain Rule gives the derivative of a composition as the derivative of the outer function, evaluated at the inner function, times the derivative of the inner function.",
+      "tags": []
+    },
+    {
+      "id": "4.6-001",
+      "section": "4.6",
+      "kind": "concept",
+      "prompt": "Which statement is the definition that \\(f\\) has a local maximum at \\(c\\)?",
+      "correct": "There is an open interval around \\(c\\) on which \\(f(x)\\le f(c)\\).",
+      "choices": [
+        "There is an open interval around \\(c\\) on which \\(f(x)\\le f(c)\\).",
+        "\\(f(c)\\) is the largest value on all of \\(\\mathbb{R}\\).",
+        "\\(f'(c)>0.\\)",
+        "\\(f\\) is increasing near \\(c\\)."
+      ],
+      "explanation": "This is the definition of a local maximum at \\(c\\).",
+      "tags": []
+    },
+    {
+      "id": "4.6-003",
+      "section": "4.6",
+      "kind": "concept",
+      "prompt": "Suppose \\(f\\) has a local extremum at an interior point \\(c\\) and is differentiable at \\(c\\). What does Fermat's Theorem imply?",
+      "correct": "\\(f'(c)=0.\\)",
+      "choices": [
+        "\\(f'(c)=0.\\)",
+        "\\(f(c)=0\\)",
+        "\\(f\\) is constant",
+        "\\(c\\) is a global maximum"
+      ],
+      "explanation": "At an interior differentiable local extremum, Fermat's Theorem gives \\(f'(c)=0\\).",
+      "tags": []
+    },
+    {
+      "id": "4.6-005",
+      "section": "4.6",
+      "kind": "concept",
+      "prompt": "Suppose \\(f:[a,b]\\to\\mathbb{R}\\) is continuous on \\([a,b]\\) and differentiable on \\((a,b)\\). What does the Mean Value Theorem guarantee?",
+      "correct": "There is \\(c\\in(a,b)\\) with \\(f'(c)=\\frac{f(b)-f(a)}{b-a}\\).",
+      "choices": [
+        "There is \\(c\\in(a,b)\\) with \\(f'(c)=\\frac{f(b)-f(a)}{b-a}\\).",
+        "\\(f'(c)=0\\) always",
+        "\\(f(a)=f(b)\\)",
+        "\\(f\\) is linear"
+      ],
+      "explanation": "This is the conclusion of the Mean Value Theorem.",
+      "tags": []
+    },
+    {
+      "id": "4.6-007",
+      "section": "4.6",
+      "kind": "concept",
+      "prompt": "Which additional hypothesis turns the Mean Value Theorem into Rolle's Theorem?",
+      "correct": "\\(f(a)=f(b)\\), yielding \\(f'(c)=0\\).",
+      "choices": [
+        "\\(f(a)=f(b)\\), yielding \\(f'(c)=0\\).",
+        "\\(a=b\\)",
+        "\\(f'(a)=f'(b)\\)",
+        "\\(f\\) constant assumed"
+      ],
+      "explanation": "The secant slope is zero.",
+      "tags": []
+    },
+    {
+      "id": "4.6-008",
+      "section": "4.6",
+      "kind": "homework",
+      "prompt": "Suppose \\(|f'(t)|\\le M\\) for every \\(t\\) in an interval containing \\(x\\) and \\(y\\). Which inequality follows from the Mean Value Theorem?",
+      "correct": "\\(|f(y)-f(x)|\\le M|y-x|\\).",
+      "choices": [
+        "\\(|f(y)-f(x)|\\le M|y-x|\\).",
+        "\\(|f(y)-f(x)|\\ge M|y-x|\\).",
+        "\\(|f(y)-f(x)|\\le M\\).",
+        "\\(f(y)=f(x)\\) always."
+      ],
+      "explanation": "For \\(x\\ne y\\), the Mean Value Theorem gives \\(f(y)-f(x)=f'(c)(y-x)\\) for some \\(c\\) between \\(x\\) and \\(y\\). Taking absolute values gives the stated estimate.",
+      "tags": []
+    },
+    {
+      "id": "4.6-009",
+      "section": "4.6",
+      "kind": "homework",
+      "prompt": "Suppose \\(f'(x)=g'(x)\\) for every \\(x\\) in an interval. What does the Constant Difference Theorem imply?",
+      "correct": "\\(f-g\\) is constant",
+      "choices": [
+        "\\(f-g\\) is constant",
+        "\\(f=g\\) exactly",
+        "\\(f+g\\) is constant",
+        "both functions are zero"
+      ],
+      "explanation": "The derivative of \\(f-g\\) is zero.",
+      "tags": []
+    },
+    {
+      "id": "4.6-010",
+      "section": "4.6",
+      "kind": "concept",
+      "prompt": "Is the following statement true or false? A point with \\(f'(c)=0\\) must be a local extremum.",
+      "correct": "False.",
+      "choices": [
+        "False.",
+        "True.",
+        "True for every polynomial.",
+        "True whenever the function is differentiable at the point."
+      ],
+      "explanation": "For \\(f(x)=x^3\\), \\(f'(0)=0\\), but \\(0\\) is not an extremum.",
+      "tags": []
+    },
+    {
+      "id": "4.6-011",
+      "section": "4.6",
+      "kind": "homework",
+      "prompt": "For \\(f(x)=x^2\\) on \\([-1,2]\\), the Mean Value Theorem guarantees a \\(c\\in(-1,2)\\) with \\(f'(c)=\\) what value?",
+      "correct": "\\(1\\)",
+      "choices": [
+        "\\(1\\)",
+        "\\(0\\)",
+        "\\(2\\)",
+        "\\(3\\)"
+      ],
+      "explanation": "The secant slope is \\((4-1)/(2-(-1))=1\\), so \\(2c=1\\).",
+      "tags": []
+    },
+    {
+      "id": "4.6-012",
+      "section": "4.6",
+      "kind": "proof",
+      "prompt": "In the standard proof of the Mean Value Theorem, to which auxiliary function is Rolle's Theorem applied?",
+      "correct": "\\(f\\) minus the secant line through the endpoints.",
+      "choices": [
+        "\\(f\\) minus the secant line through the endpoints.",
+        "\\(f'\\) directly",
+        "the absolute value of \\(f\\)",
+        "an antiderivative of \\(f\\)"
+      ],
+      "explanation": "Subtracting the secant line creates equal endpoint values.",
+      "tags": []
+    },
+    {
+      "id": "4.6-013",
+      "section": "4.6",
+      "kind": "homework",
+      "prompt": "Suppose \\(|f(x)-f(y)|\\le(x-y)^2\\) for all real \\(x,y\\). What conclusion follows by considering difference quotients?",
+      "correct": "The function \\(f\\) is constant.",
+      "choices": [
+        "The function \\(f\\) is constant.",
+        "\\(f(x)=x^2\\) for every \\(x\\).",
+        "The function \\(f\\) is unbounded.",
+        "\\(f'(x)=2x\\) for every \\(x\\)."
+      ],
+      "explanation": "For \\(x\\ne y\\), divide by \\(|x-y|\\) to obtain \\(\\left|\\frac{f(x)-f(y)}{x-y}\\right|\\le|x-y|\\). Letting \\(y\\to x\\) gives \\(f'(x)=0\\), so the Zero Derivative Theorem implies that \\(f\\) is constant.",
+      "tags": []
+    },
+    {
+      "id": "4.6-new-mvtgraph",
+      "section": "4.6",
+      "kind": "concept",
+      "prompt": "The secant line through the endpoints and one interior tangent are shown parallel. Which theorem explains this?",
+      "choices": [
+        "The Mean Value Theorem.",
+        "The Intermediate Value Theorem.",
+        "The Extreme Value Theorem.",
+        "The Squeeze Theorem."
+      ],
+      "correct": "The Mean Value Theorem.",
+      "explanation": "Under continuity on \\([a,b]\\) and differentiability on \\((a,b)\\), the Mean Value Theorem produces an interior point where the derivative equals the secant slope.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"A secant line and an interior parallel tangent\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"77.5\" y1=\"20\" x2=\"77.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"175.7\" y1=\"20\" x2=\"175.7\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"372.3\" y1=\"20\" x2=\"372.3\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"470.5\" y1=\"20\" x2=\"470.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"227.8\" x2=\"500\" y2=\"227.8\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"166.7\" x2=\"500\" y2=\"166.7\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"105.6\" x2=\"500\" y2=\"105.6\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"44.4\" x2=\"500\" y2=\"44.4\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"227.8\" x2=\"500\" y2=\"227.8\" stroke=\"#555\" stroke-width=\"1.4\"/><polyline points=\"77.5,166.7 175.7,215.6 274.0,203.3 372.3,117.8 470.5,44.4\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/><polyline points=\"77.5,166.7 470.5,44.4\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\" stroke-dasharray=\"7,5\"/><polyline points=\"205.2,197.2 342.8,154.4\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\" stroke-dasharray=\"7,5\"/></svg><div class=\"figure-caption\">A secant line and an interior parallel tangent</div>"
+    },
+    {
+      "id": "4.7-001",
+      "section": "4.7",
+      "kind": "concept",
+      "prompt": "Suppose \\(f\\) is differentiable on an interval \\(I\\) and \\(f'(x)\\ge0\\) for every \\(x\\in I\\). Which conclusion follows from the first-derivative monotonicity theorem?",
+      "correct": "\\(f\\) is increasing.",
+      "choices": [
+        "\\(f\\) is increasing.",
+        "\\(f\\) is decreasing",
+        "\\(f\\) is constant",
+        "\\(f\\) has a local maximum everywhere"
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: \\(f\\) is increasing.",
+      "tags": []
+    },
+    {
+      "id": "4.7-003",
+      "section": "4.7",
+      "kind": "concept",
+      "prompt": "Suppose \\(a<b<c\\), \\(f:(a,c)\\to\\mathbb{R}\\) is continuous, \\(f'(x)>0\\) on \\((a,b)\\), and \\(f'(x)<0\\) on \\((b,c)\\). What can be concluded about \\(f\\) at \\(b\\)?",
+      "correct": "\\(f\\) has a local maximum at \\(b\\).",
+      "choices": [
+        "\\(f\\) has a local maximum at \\(b\\).",
+        "\\(f\\) has a local minimum at \\(b\\)",
+        "\\(f\\) is constant",
+        "\\(f\\) is discontinuous at \\(b\\)"
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: \\(f\\) has a local maximum at \\(b\\).",
+      "tags": []
+    },
+    {
+      "id": "4.7-005",
+      "section": "4.7",
+      "kind": "concept",
+      "prompt": "Suppose \\(f'(x)>0\\) throughout an interval. What can be concluded about \\(f\\)?",
+      "correct": "The function \\(f\\) is strictly increasing on the interval.",
+      "choices": [
+        "The function \\(f\\) is strictly increasing on the interval.",
+        "strictly decreasing",
+        "constant",
+        "not continuous"
+      ],
+      "explanation": "MVT makes every secant slope positive.",
+      "tags": []
+    },
+    {
+      "id": "4.7-006",
+      "section": "4.7",
+      "kind": "homework",
+      "prompt": "If \\(f'\\) changes sign from negative to positive at \\(c\\), what local behavior does the First Derivative Test imply?",
+      "correct": "The function has a local minimum at \\(c\\).",
+      "choices": [
+        "The function has a local minimum at \\(c\\).",
+        "The function has a local maximum at \\(c\\).",
+        "The test shows no local extremum at \\(c\\).",
+        "The function has a vertical asymptote at \\(c\\)."
+      ],
+      "explanation": "The function decreases then increases.",
+      "tags": []
+    },
+    {
+      "id": "4.7-007",
+      "section": "4.7",
+      "kind": "homework",
+      "prompt": "For \\(f(x)=x^3-3x\\), at which values of \\(x\\) is \\(f'(x)=0\\)?",
+      "correct": "\\(x=\\pm1\\)",
+      "choices": [
+        "\\(x=\\pm1\\)",
+        "\\(x=0\\) only",
+        "\\(x=\\pm3\\)",
+        "There are none"
+      ],
+      "explanation": "\\(f'(x)=3x^2-3=3(x-1)(x+1)\\), so the derivative is zero at \\(x=\\pm1\\).",
+      "tags": []
+    },
+    {
+      "id": "4.7-008",
+      "section": "4.7",
+      "kind": "homework",
+      "prompt": "For \\(f(x)=x^3-3x\\), what type of local extremum occurs at \\(x=-1\\)?",
+      "correct": "There is a local maximum at \\(x=-1\\).",
+      "choices": [
+        "There is a local maximum at \\(x=-1\\).",
+        "There is a local minimum at \\(x=-1\\).",
+        "There is neither a local maximum nor a local minimum at \\(x=-1\\).",
+        "There is a global minimum at \\(x=-1\\) on \\(\\mathbb{R}\\)."
+      ],
+      "explanation": "The derivative changes from positive to negative at \\(-1\\).",
+      "tags": []
+    },
+    {
+      "id": "4.7-009",
+      "section": "4.7",
+      "kind": "concept",
+      "prompt": "Which description correctly identifies a critical point in the context of the first-derivative tests?",
+      "correct": "\\(f'=0\\) or \\(f'\\) does not exist, provided the point is in the domain.",
+      "choices": [
+        "\\(f'=0\\) or \\(f'\\) does not exist, provided the point is in the domain.",
+        "\\(f=0\\) only",
+        "\\(f\\) is discontinuous only",
+        "\\(f\\) has a global maximum only"
+      ],
+      "explanation": "Critical points are candidates for extrema, not guarantees.",
+      "tags": []
+    },
+    {
+      "id": "4.7-010",
+      "section": "4.7",
+      "kind": "proof",
+      "prompt": "Why does \\(f'>0\\) imply strict increase?",
+      "correct": "For \\(x<y\\), the Mean Value Theorem gives \\(f(y)-f(x)=f'(c)(y-x)>0\\).",
+      "choices": [
+        "For \\(x<y\\), the Mean Value Theorem gives \\(f(y)-f(x)=f'(c)(y-x)>0\\).",
+        "Because \\(f(x)>0\\).",
+        "Because \\(f\\) has no roots.",
+        "Because \\(f'\\) is constant."
+      ],
+      "explanation": "Both factors on the right are positive.",
+      "tags": []
+    },
+    {
+      "id": "4.7-011",
+      "section": "4.7",
+      "kind": "homework",
+      "prompt": "Suppose \\(f'(x)>g'(x)\\) on \\([0,1]\\) and \\(f(0)=g(0)\\). What follows for every \\(x\\in(0,1]\\)?",
+      "correct": "\\(f(x)>g(x)\\)",
+      "choices": [
+        "\\(f(x)>g(x)\\)",
+        "\\(f(x)=g(x)\\)",
+        "\\(f(x)<g(x)\\)",
+        "No comparison is possible"
+      ],
+      "explanation": "Apply strict increase to \\(h=f-g\\), whose derivative is positive and for which \\(h(0)=0\\).",
+      "tags": []
+    },
+    {
+      "id": "4.7-012",
+      "section": "4.7",
+      "kind": "concept",
+      "prompt": "Suppose \\(f'\\) is positive on both sides of an interior point \\(c\\). What does the First Derivative Test conclude at \\(c\\)?",
+      "correct": "The sign of \\(f'\\) does not change, so the test does not give a local extremum at \\(c\\).",
+      "choices": [
+        "The sign of \\(f'\\) does not change, so the test does not give a local extremum at \\(c\\).",
+        "There is a local maximum at \\(c\\).",
+        "There is a local minimum at \\(c\\).",
+        "The function must be constant near \\(c\\)."
+      ],
+      "explanation": "If the function is increasing on both sides, it continues through \\(c\\) without turning.",
+      "tags": []
+    },
+    {
+      "id": "4.7-new-derivative-sign",
+      "section": "4.7",
+      "kind": "concept",
+      "prompt": "The graph of \\(f\\) rises, then falls, then rises. Which sign pattern for \\(f'\\) is consistent with the graph?",
+      "choices": [
+        "Positive, then negative, then positive.",
+        "Negative, then positive, then negative.",
+        "Positive everywhere.",
+        "Zero everywhere."
+      ],
+      "correct": "Positive, then negative, then positive.",
+      "explanation": "By the first derivative test for monotonicity, the sign of the derivative tracks increasing and decreasing behavior.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"A function increasing, then decreasing, then increasing\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"62.1\" y1=\"20\" x2=\"62.1\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"132.8\" y1=\"20\" x2=\"132.8\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"203.4\" y1=\"20\" x2=\"203.4\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"344.6\" y1=\"20\" x2=\"344.6\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"415.2\" y1=\"20\" x2=\"415.2\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"485.9\" y1=\"20\" x2=\"485.9\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"212.5\" x2=\"500\" y2=\"212.5\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"157.5\" x2=\"500\" y2=\"157.5\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"102.5\" x2=\"500\" y2=\"102.5\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"47.5\" x2=\"500\" y2=\"47.5\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"157.5\" x2=\"500\" y2=\"157.5\" stroke=\"#555\" stroke-width=\"1.4\"/><polyline points=\"62.1,212.5 132.8,102.5 203.4,47.5 274.0,146.5 344.6,212.5 415.2,146.5 485.9,47.5\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/></svg><div class=\"figure-caption\">A function increasing, then decreasing, then increasing</div>"
+    },
+    {
+      "id": "4.8-001",
+      "section": "4.8",
+      "kind": "concept",
+      "prompt": "Suppose \\(f\\) and \\(g\\) are continuous on \\([a,b]\\) and differentiable on \\((a,b)\\). Which conclusion is the Extended Mean Value Theorem?",
+      "correct": "Some \\(z\\) satisfies \\(f'(z)(g(b)-g(a))=g'(z)(f(b)-f(a))\\).",
+      "choices": [
+        "Some \\(z\\) satisfies \\(f'(z)(g(b)-g(a))=g'(z)(f(b)-f(a))\\).",
+        "\\(f'(z)=g'(z)\\) always",
+        "\\(f(a)=g(a)\\)",
+        "\\(f/g\\) is constant"
+      ],
+      "explanation": "This is the conclusion of the Extended Mean Value Theorem.",
+      "tags": []
+    },
+    {
+      "id": "4.8-003",
+      "section": "4.8",
+      "kind": "concept",
+      "prompt": "Suppose \\(f\\) and \\(g\\) satisfy the hypotheses of \\(l\\)’Hôpital’s Rule at \\(z\\in(a,b)\\): \\(g'(x)\\ne0\\) on \\((a,b)\\), \\(f(z)=g(z)=0\\), and \\(\\lim_{x\\to z}f'(x)/g'(x)\\) exists. Which conclusion follows?",
+      "correct": "\\(\\displaystyle\\lim_{x\\to z}\\frac{f(x)}{g(x)}=\\lim_{x\\to z}\\frac{f'(x)}{g'(x)}\\), provided the derivative-quotient limit exists.",
+      "choices": [
+        "\\(\\displaystyle\\lim_{x\\to z}\\frac{f(x)}{g(x)}=\\lim_{x\\to z}\\frac{f'(x)}{g'(x)}\\), provided the derivative-quotient limit exists.",
+        "\\(\\displaystyle\\lim_{x\\to z}\\frac{f(x)}{g(x)}=\\frac{f(z)}{g(z)}\\).",
+        "\\(\\displaystyle\\lim_{x\\to z}\\frac{f(x)}{g(x)}=0\\) in every zero-over-zero case.",
+        "One may differentiate repeatedly without checking the hypotheses again."
+      ],
+      "explanation": "Under the stated zero-over-zero hypotheses, l’Hôpital’s Rule identifies \\(\\displaystyle\\lim_{x\\to z}f(x)/g(x)\\) with \\(\\displaystyle\\lim_{x\\to z}f'(x)/g'(x)\\).",
+      "tags": []
+    },
+    {
+      "id": "4.8-005",
+      "section": "4.8",
+      "kind": "concept",
+      "prompt": "Which indeterminate form is covered directly by l’Hôpital’s Rule in the form stated in the notes?",
+      "correct": "\\(0/0\\)",
+      "choices": [
+        "\\(0/0\\)",
+        "\\(\\infty-\\infty\\) without rewriting",
+        "\\(0\\cdot\\infty\\) without rewriting",
+        "a nonzero constant divided by zero"
+      ],
+      "explanation": "The stated rule assumes both numerator and denominator vanish at \\(z\\).",
+      "tags": []
+    },
+    {
+      "id": "4.8-006",
+      "section": "4.8",
+      "kind": "homework",
+      "prompt": "Using \\(l\\)’Hôpital’s Rule and the standard derivatives of sine and cosine, what is \\(\\lim_{x\\to0}\\frac{\\sin x}{x}\\)?",
+      "correct": "\\(1\\)",
+      "choices": [
+        "\\(1\\)",
+        "\\(0\\)",
+        "The limit does not exist.",
+        "\\(-1\\)"
+      ],
+      "explanation": "Differentiate numerator and denominator to get \\(\\cos x/1\\to1\\).",
+      "tags": []
+    },
+    {
+      "id": "4.8-007",
+      "section": "4.8",
+      "kind": "homework",
+      "prompt": "Using \\(l\\)’Hôpital’s Rule and the derivative of the exponential function, what is \\(\\lim_{x\\to0}\\frac{e^x-1}{x}\\)?",
+      "correct": "\\(1\\)",
+      "choices": [
+        "\\(1\\)",
+        "\\(0\\)",
+        "\\(e\\)",
+        "The limit does not exist."
+      ],
+      "explanation": "After differentiation the quotient is \\(e^x\\).",
+      "tags": []
+    },
+    {
+      "id": "4.8-008",
+      "section": "4.8",
+      "kind": "concept",
+      "prompt": "Before applying l’Hôpital’s Rule in the zero-over-zero form used in the notes, which collection of conditions must be verified?",
+      "correct": "The numerator and denominator approach \\(0\\), the denominator derivative is nonzero near the limiting point as required, and the limit of the derivative quotient exists.",
+      "choices": [
+        "The numerator and denominator approach \\(0\\), the denominator derivative is nonzero near the limiting point as required, and the limit of the derivative quotient exists.",
+        "It is enough that both functions are continuous at one point.",
+        "The original quotient must already have a known limit.",
+        "Both functions must be polynomials."
+      ],
+      "explanation": "l’Hôpital’s Rule is conditional: its indeterminate-form, differentiability, nonzero-denominator-derivative, and derivative-quotient hypotheses must be checked before its conclusion is used.",
+      "tags": []
+    },
+    {
+      "id": "4.8-009",
+      "section": "4.8",
+      "kind": "homework",
+      "prompt": "What is \\(\\lim_{x\\to1}\\frac{x^2-1}{x-1}\\)?",
+      "correct": "\\(2\\)",
+      "choices": [
+        "\\(2\\)",
+        "\\(0\\)",
+        "\\(1\\)",
+        "The limit does not exist."
+      ],
+      "explanation": "Either factor or apply \\(l\\)’Hôpital’s Rule to obtain \\(2x\\to2\\).",
+      "tags": []
+    },
+    {
+      "id": "4.8-010",
+      "section": "4.8",
+      "kind": "proof",
+      "prompt": "Which auxiliary function is used to prove the Extended Mean Value Theorem by Rolle's Theorem?",
+      "correct": "a linear combination of \\(f\\) and \\(g\\) that vanishes at both endpoints.",
+      "choices": [
+        "a linear combination of \\(f\\) and \\(g\\) that vanishes at both endpoints.",
+        "\\(f/g\\) without checking zeros",
+        "\\(f+g\\) only",
+        "an infinite series"
+      ],
+      "explanation": "The chosen coefficients force equal endpoint values.",
+      "tags": []
+    },
+    {
+      "id": "4.8-011",
+      "section": "4.8",
+      "kind": "concept",
+      "prompt": "If \\(\\lim_{x\\to z}f'(x)/g'(x)\\) does not exist, what conclusion can be drawn from \\(l\\)’Hôpital’s Rule as stated in the notes?",
+      "correct": "The theorem, as stated, provides no conclusion about \\(\\lim_{x\\to z}f(x)/g(x)\\).",
+      "choices": [
+        "The theorem, as stated, provides no conclusion about \\(\\lim_{x\\to z}f(x)/g(x)\\).",
+        "proves \\(\\lim(f/g)=0\\)",
+        "proves divergence",
+        "can still be applied with any answer"
+      ],
+      "explanation": "Failure of a sufficient hypothesis means the theorem cannot be invoked.",
+      "tags": []
+    },
+    {
+      "id": "4.8-new-lhospital",
+      "section": "4.8",
+      "kind": "concept",
+      "prompt": "Why can l’Hôpital’s Rule not be applied directly to an expression of the form \\(0\\cdot\\infty\\) in the version stated in the notes?",
+      "choices": [
+        "The stated rule applies to a quotient in the \\(0/0\\) form, so the product must first be rewritten as an appropriate quotient.",
+        "The rule applies only to polynomial products.",
+        "The rule says every product with a zero factor has limit \\(0\\).",
+        "The rule applies only when both factors are bounded."
+      ],
+      "correct": "The stated rule applies to a quotient in the \\(0/0\\) form, so the product must first be rewritten as an appropriate quotient.",
+      "explanation": "The form stated in the notes is a quotient theorem. Other indeterminate forms must first be transformed into a quotient for which the hypotheses can be checked.",
+      "tags": []
+    },
+    {
+      "id": "5.1-001",
+      "section": "5.1",
+      "kind": "concept",
+      "prompt": "Which finite set is a partition of \\([a,b]\\)?",
+      "correct": "A finite set \\(a=x_0<x_1<\\cdots<x_n=b\\).",
+      "choices": [
+        "A finite set \\(a=x_0<x_1<\\cdots<x_n=b\\).",
+        "Any infinite subset of \\([a,b]\\).",
+        "A set of function values.",
+        "Only the midpoint of \\([a,b]\\)."
+      ],
+      "explanation": "A partition of \\([a,b]\\) is a finite set of points \\(a=x_0<x_1<\\cdots<x_n=b\\).",
+      "tags": []
+    },
+    {
+      "id": "5.1-003",
+      "section": "5.1",
+      "kind": "concept",
+      "prompt": "For a rectangle over \\([x_{i-1},x_i]\\) with sample point \\(c_i\\), which expression gives its area in a Riemann-sum approximation?",
+      "correct": "\\(f(c_i)\\,\\Delta x_i\\)",
+      "choices": [
+        "\\(f(c_i)\\,\\Delta x_i\\)",
+        "\\(f(c_i)+\\Delta x_i\\)",
+        "\\(f(x_i)-f(x_{i-1})\\)",
+        "\\(\\Delta x_i/f(c_i)\\)"
+      ],
+      "explanation": "Area is height times width.",
+      "tags": []
+    },
+    {
+      "id": "5.1-004",
+      "section": "5.1",
+      "kind": "concept",
+      "prompt": "For a nonnegative function \\(f\\), what geometric quantity is approximated by \\(\\sum_i f(c_i)\\Delta x_i\\)?",
+      "correct": "the area under \\(y=f(x)\\) over \\([a,b]\\)",
+      "choices": [
+        "the area under \\(y=f(x)\\) over \\([a,b]\\)",
+        "the derivative at a",
+        "the maximum of \\(f\\)",
+        "the length of the graph exactly"
+      ],
+      "explanation": "Finer partitions are intended to improve the approximation.",
+      "tags": []
+    },
+    {
+      "id": "5.1-005",
+      "section": "5.1",
+      "kind": "homework",
+      "prompt": "For \\(f(x)=x\\) on \\([0,1]\\), what is the right-endpoint sum for the partition \\(\\{0,\\tfrac12,1\\}\\)?",
+      "correct": "\\(3/4\\)",
+      "choices": [
+        "\\(3/4\\)",
+        "\\(1/4\\)",
+        "\\(1/2\\)",
+        "\\(1\\)"
+      ],
+      "explanation": "Widths are \\(1/2\\) and the sampled heights are \\(1/2\\) and \\(1\\), so the sum is \\(1/4+1/2\\).",
+      "tags": []
+    },
+    {
+      "id": "5.1-006",
+      "section": "5.1",
+      "kind": "homework",
+      "prompt": "For an increasing nonnegative function, how do left-endpoint rectangle sums typically compare with the area suggested by the graph?",
+      "correct": "a lower approximation to area",
+      "choices": [
+        "a lower approximation to area",
+        "an upper approximation",
+        "the exact value always",
+        "a negative area"
+      ],
+      "explanation": "On each subinterval the left endpoint has the smallest function value.",
+      "tags": []
+    },
+    {
+      "id": "5.1-007",
+      "section": "5.1",
+      "kind": "concept",
+      "prompt": "For a Riemann-sum term associated with \\([x_{i-1},x_i]\\), where must the sample point \\(c_i\\) lie?",
+      "correct": "inside \\([x_{i-1},x_i]\\)",
+      "choices": [
+        "inside \\([x_{i-1},x_i]\\)",
+        "outside \\([a,b]\\)",
+        "at the global maximum only",
+        "at \\(x_0\\) for every \\(i\\)"
+      ],
+      "explanation": "A tagged Riemann sum selects one point per subinterval.",
+      "tags": []
+    },
+    {
+      "id": "5.1-008",
+      "section": "5.1",
+      "kind": "homework",
+      "prompt": "If \\(f(x)=c\\) on \\([a,b]\\), what is the value of every rectangle sum for any partition and any sample points?",
+      "correct": "\\(c(b-a)\\)",
+      "choices": [
+        "\\(c(b-a)\\)",
+        "\\(c(a+b)\\)",
+        "\\(b-a\\)",
+        "\\(c\\)"
+      ],
+      "explanation": "The widths telescope to \\(b-a\\).",
+      "tags": []
+    },
+    {
+      "id": "5.1-009",
+      "section": "5.1",
+      "kind": "concept",
+      "prompt": "Why can rectangle approximations vary for the same partition?",
+      "correct": "Different choices of sample points can give different heights.",
+      "choices": [
+        "Different choices of sample points can give different heights.",
+        "The interval endpoints change.",
+        "The function changes.",
+        "The widths become negative."
+      ],
+      "explanation": "Tags affect the Riemann sum unless \\(f\\) is constant on each subinterval.",
+      "tags": []
+    },
+    {
+      "id": "5.1-new-area",
+      "section": "5.1",
+      "kind": "concept",
+      "prompt": "For a nonnegative function, what geometric quantity is suggested by sums of thin rectangles \\(\\sum f(c_i)\\Delta x_i\\)?",
+      "choices": [
+        "The area under the graph over the interval.",
+        "The slope of the tangent line.",
+        "The maximum value of the function.",
+        "The arc length of the graph."
+      ],
+      "correct": "The area under the graph over the interval.",
+      "explanation": "Section 5.1 begins with area as the motivating interpretation of such sums.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"Rectangles approximating area under a nonnegative graph\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"68.5\" y1=\"20\" x2=\"68.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"171.3\" y1=\"20\" x2=\"171.3\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"376.7\" y1=\"20\" x2=\"376.7\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"479.5\" y1=\"20\" x2=\"479.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"223.7\" x2=\"500\" y2=\"223.7\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"142.2\" x2=\"500\" y2=\"142.2\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"60.7\" x2=\"500\" y2=\"60.7\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"223.7\" x2=\"500\" y2=\"223.7\" stroke=\"#555\" stroke-width=\"1.4\"/><rect x=\"68.5\" y=\"142.2\" width=\"102.7\" height=\"81.5\" fill=\"#dbeafe\" stroke=\"#2563eb\" opacity=\"0.75\"/><rect x=\"171.3\" y=\"60.7\" width=\"102.7\" height=\"163.0\" fill=\"#dbeafe\" stroke=\"#2563eb\" opacity=\"0.75\"/><rect x=\"274.0\" y=\"101.5\" width=\"102.7\" height=\"122.2\" fill=\"#dbeafe\" stroke=\"#2563eb\" opacity=\"0.75\"/><rect x=\"376.7\" y=\"183.0\" width=\"102.7\" height=\"40.7\" fill=\"#dbeafe\" stroke=\"#2563eb\" opacity=\"0.75\"/><polyline points=\"68.5,223.7 171.3,142.2 274.0,60.7 376.7,101.5 479.5,183.0\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/></svg><div class=\"figure-caption\">Rectangles approximating area under a nonnegative graph</div>"
+    },
+    {
+      "id": "5.2-001",
+      "section": "5.2",
+      "kind": "concept",
+      "prompt": "If velocity \\(v(t)\\ge0\\), which sum approximates the distance traveled over a partition of the time interval?",
+      "correct": "\\(\\sum_i v(c_i)\\Delta t_i\\)",
+      "choices": [
+        "\\(\\sum_i v(c_i)\\Delta t_i\\)",
+        "\\(\\sum_i \\frac{\\Delta t_i}{v(c_i)}\\)",
+        "\\(v(b)-v(a)\\)",
+        "The maximum velocity only."
+      ],
+      "explanation": "Distance on a small interval is approximately velocity times elapsed time.",
+      "tags": []
+    },
+    {
+      "id": "5.2-002",
+      "section": "5.2",
+      "kind": "concept",
+      "prompt": "If velocity may be negative, what quantity does the integral of velocity represent?",
+      "correct": "net change in position (displacement), not total distance.",
+      "choices": [
+        "net change in position (displacement), not total distance.",
+        "total distance automatically",
+        "speed squared",
+        "acceleration"
+      ],
+      "explanation": "Signed velocity allows cancellation between directions.",
+      "tags": []
+    },
+    {
+      "id": "5.2-003",
+      "section": "5.2",
+      "kind": "homework",
+      "prompt": "An object moves at a constant velocity of \\(3\\) meters per second for \\(5\\) seconds. How far does it travel?",
+      "correct": "\\(15\\text{ m}\\)",
+      "choices": [
+        "\\(15\\text{ m}\\)",
+        "\\(8\\text{ m}\\)",
+        "\\(3/5\\text{ m}\\)",
+        "\\(5/3\\text{ m}\\)"
+      ],
+      "explanation": "Distance equals rate times time, so the constant speed equals total distance divided by total time.",
+      "tags": []
+    },
+    {
+      "id": "5.2-004",
+      "section": "5.2",
+      "kind": "homework",
+      "prompt": "If \\(p(t)\\) is position, which expression gives average velocity on \\([a,b]\\)?",
+      "correct": "\\(\\frac{p(b)-p(a)}{b-a}\\)",
+      "choices": [
+        "\\(\\frac{p(b)-p(a)}{b-a}\\)",
+        "\\(p(b)+p(a)\\)",
+        "\\(p'(b)-p'(a)\\)",
+        "\\(p(b)/(b-a)\\)"
+      ],
+      "explanation": "This is the secant slope of position versus time.",
+      "tags": []
+    },
+    {
+      "id": "5.2-005",
+      "section": "5.2",
+      "kind": "concept",
+      "prompt": "Why is the integral model for distance analogous to the rectangle model for area?",
+      "correct": "both add many small products of a height/rate and a width/time interval.",
+      "choices": [
+        "both add many small products of a height/rate and a width/time interval.",
+        "both require negative functions",
+        "both are derivatives only",
+        "both use infinite intervals."
+      ],
+      "explanation": "The same Riemann-sum structure underlies both interpretations.",
+      "tags": []
+    },
+    {
+      "id": "5.2-006",
+      "section": "5.2",
+      "kind": "homework",
+      "prompt": "If \\(v(t)=2t\\) on \\([0,2]\\), what is the right-endpoint sum using the two equal subintervals \\([0,1]\\) and \\([1,2]\\)?",
+      "correct": "\\(6\\)",
+      "choices": [
+        "\\(6\\)",
+        "\\(2\\)",
+        "\\(4\\)",
+        "\\(8\\)"
+      ],
+      "explanation": "Widths are \\(1\\); velocities at \\(1\\) and \\(2\\) are \\(2\\) and \\(4\\).",
+      "tags": []
+    },
+    {
+      "id": "5.2-007",
+      "section": "5.2",
+      "kind": "concept",
+      "prompt": "If \\(v(t)\\) is measured in meters per second and \\(t\\) in seconds, what units does \\(\\int v(t)\\,dt\\) have?",
+      "correct": "velocity units times time units, hence distance units.",
+      "choices": [
+        "velocity units times time units, hence distance units.",
+        "velocity per time",
+        "time per distance",
+        "dimensionless"
+      ],
+      "explanation": "Integration multiplies the rate by time increments.",
+      "tags": []
+    },
+    {
+      "id": "5.2-008",
+      "section": "5.2",
+      "kind": "homework",
+      "prompt": "An object has constant velocity \\(-4\\) meters per second for \\(3\\) seconds. What is its displacement?",
+      "correct": "\\(-12\\text{ m}\\)",
+      "choices": [
+        "\\(-12\\text{ m}\\)",
+        "\\(12\\text{ m}\\)",
+        "\\(-1/12\\text{ m}\\)",
+        "\\(7\\text{ m}\\)"
+      ],
+      "explanation": "Signed change is velocity times time; total distance would be \\(12\\text{ m}\\).",
+      "tags": []
+    },
+    {
+      "id": "5.2-new-distance",
+      "section": "5.2",
+      "kind": "concept",
+      "prompt": "If velocity \\(v(t)\\ge0\\), which expression is the limiting form of the distance approximation developed in Section 5.2?",
+      "choices": [
+        "\\(\\displaystyle\\int_a^b v(t)\\,dt\\)",
+        "\\(v(b)-v(a)\\)",
+        "\\(\\displaystyle\\int_a^b |v'(t)|\\,dt\\)",
+        "\\(v(a)(b-a)\\) only"
+      ],
+      "correct": "\\(\\displaystyle\\int_a^b v(t)\\,dt\\)",
+      "explanation": "When velocity is nonnegative, the area under the velocity graph gives distance traveled.",
+      "tags": []
+    },
+    {
+      "id": "5.3-001",
+      "section": "5.3",
+      "kind": "concept",
+      "prompt": "Which expression is a Riemann sum for \\(f\\) on a partition \\(a=x_0<\\cdots<x_n=b\\), with sample points \\(c_i\\in[x_{i-1},x_i]\\)?",
+      "correct": "\\(\\sum_{i=1}^{n}f(c_i)\\Delta x_i\\), where \\(c_i\\in[x_{i-1},x_i]\\).",
+      "choices": [
+        "\\(\\sum_{i=1}^{n}f(c_i)\\Delta x_i\\), where \\(c_i\\in[x_{i-1},x_i]\\).",
+        "\\(\\sum_i f'(c_i)\\)",
+        "The difference between the supremum and infimum of \\(f\\).",
+        "A single rectangle."
+      ],
+      "explanation": "A Riemann sum has one term \\(f(c_i)\\Delta x_i\\) for each subinterval of the partition.",
+      "tags": []
+    },
+    {
+      "id": "5.3-003",
+      "section": "5.3",
+      "kind": "concept",
+      "prompt": "For a fixed partition \\(P\\) of \\([a,b]\\), between which two Darboux sums must every Riemann sum lie?",
+      "correct": "\\(L(f,P)\\) and \\(U(f,P)\\)",
+      "choices": [
+        "\\(L(f,P)\\) and \\(U(f,P)\\)",
+        "\\(\\inf f\\) and \\(\\sup f\\) without interval widths",
+        "\\(f(a)\\) and \\(f(b)\\) always",
+        "\\(0\\) and \\(1\\)"
+      ],
+      "explanation": "Each sample height lies between the infimum and supremum on its subinterval.",
+      "tags": []
+    },
+    {
+      "id": "5.3-004",
+      "section": "5.3",
+      "kind": "homework",
+      "prompt": "For \\(f(x)=x^2\\) on \\([0,1]\\) with partition \\(\\{0,\\tfrac12,1\\}\\), what is the right-endpoint Riemann sum?",
+      "correct": "\\(5/8\\)",
+      "choices": [
+        "\\(5/8\\)",
+        "\\(3/8\\)",
+        "\\(1/2\\)",
+        "\\(1\\)"
+      ],
+      "explanation": "\\(\\left(\\frac12\\right)^2\\left(\\frac12\\right)+1^2\\left(\\frac12\\right)=\\frac18+\\frac12=\\frac58\\).",
+      "tags": []
+    },
+    {
+      "id": "5.3-005",
+      "section": "5.3",
+      "kind": "homework",
+      "prompt": "For \\(f(x)=x^2\\) on \\([0,1]\\) with partition \\(\\{0,\\tfrac12,1\\}\\), what is the left-endpoint Riemann sum?",
+      "correct": "\\(1/8\\)",
+      "choices": [
+        "\\(1/8\\)",
+        "\\(5/8\\)",
+        "\\(3/8\\)",
+        "\\(1\\)"
+      ],
+      "explanation": "\\(0^2\\left(\\frac12\\right)+\\left(\\frac12\\right)^2\\left(\\frac12\\right)=\\frac18\\).",
+      "tags": []
+    },
+    {
+      "id": "5.3-006",
+      "section": "5.3",
+      "kind": "concept",
+      "prompt": "What effect does refining a partition have on the possible lower and upper sums?",
+      "correct": "more subintervals and a smaller or equal mesh.",
+      "choices": [
+        "more subintervals and a smaller or equal mesh.",
+        "fewer subintervals",
+        "a larger interval",
+        "different function values."
+      ],
+      "explanation": "Adding points breaks intervals into smaller pieces.",
+      "tags": []
+    },
+    {
+      "id": "5.3-007",
+      "section": "5.3",
+      "kind": "homework",
+      "prompt": "If \\(f\\) is increasing, what are the infimum and supremum of \\(f\\) on each subinterval \\([x_{i-1},x_i]\\)?",
+      "correct": "the infimum occurs at the left endpoint and supremum at the right endpoint.",
+      "choices": [
+        "the infimum occurs at the left endpoint and supremum at the right endpoint.",
+        "both occur at the midpoint",
+        "the infimum occurs at the right endpoint",
+        "neither exists on a closed interval."
+      ],
+      "explanation": "Monotonicity identifies extrema on each closed subinterval.",
+      "tags": []
+    },
+    {
+      "id": "5.3-008",
+      "section": "5.3",
+      "kind": "concept",
+      "prompt": "Which choices determine the value of a Riemann sum?",
+      "correct": "the partition and the chosen sample points.",
+      "choices": [
+        "the partition and the chosen sample points.",
+        "only the endpoints \\(a,b\\)",
+        "only the derivative",
+        "only the maximum of \\(f\\)."
+      ],
+      "explanation": "Both widths and sample heights enter the sum.",
+      "tags": []
+    },
+    {
+      "id": "5.3-009",
+      "section": "5.3",
+      "kind": "homework",
+      "prompt": "For \\(f(x)=1\\) on \\([2,5]\\), what is the value of every Riemann sum?",
+      "correct": "\\(3\\)",
+      "choices": [
+        "\\(3\\)",
+        "\\(1\\)",
+        "\\(7\\)",
+        "\\(15\\)"
+      ],
+      "explanation": "The sum of the subinterval widths is \\(5-2=3\\).",
+      "tags": []
+    },
+    {
+      "id": "5.3-new-riemann",
+      "section": "5.3",
+      "kind": "concept",
+      "prompt": "For a partition \\(P=\\{a=x_0<\\cdots<x_n=b\\}\\), how is the Riemann-sum factor \\(\\Delta x_i\\) expressed in terms of the partition points?",
+      "choices": [
+        "\\(\\Delta x_i=x_i-x_{i-1}\\).",
+        "\\(\\Delta x_i=x_i+x_{i-1}\\).",
+        "\\(\\Delta x_i=f(x_i)-f(x_{i-1})\\).",
+        "\\(\\Delta x_i=c_i\\)."
+      ],
+      "correct": "\\(\\Delta x_i=x_i-x_{i-1}\\).",
+      "explanation": "The width of the \\(i\\)th subinterval \\([x_{i-1},x_i]\\) is \\(x_i-x_{i-1}\\).",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"A Riemann-sum rectangle approximation\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"68.5\" y1=\"20\" x2=\"68.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"171.3\" y1=\"20\" x2=\"171.3\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"376.7\" y1=\"20\" x2=\"376.7\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"479.5\" y1=\"20\" x2=\"479.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"223.1\" x2=\"500\" y2=\"223.1\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"138.5\" x2=\"500\" y2=\"138.5\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"53.8\" x2=\"500\" y2=\"53.8\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"223.1\" x2=\"500\" y2=\"223.1\" stroke=\"#555\" stroke-width=\"1.4\"/><rect x=\"68.5\" y=\"155.4\" width=\"102.7\" height=\"67.7\" fill=\"#dbeafe\" stroke=\"#2563eb\" opacity=\"0.75\"/><rect x=\"171.3\" y=\"87.7\" width=\"102.7\" height=\"135.4\" fill=\"#dbeafe\" stroke=\"#2563eb\" opacity=\"0.75\"/><rect x=\"274.0\" y=\"53.8\" width=\"102.7\" height=\"169.2\" fill=\"#dbeafe\" stroke=\"#2563eb\" opacity=\"0.75\"/><rect x=\"376.7\" y=\"121.5\" width=\"102.7\" height=\"101.5\" fill=\"#dbeafe\" stroke=\"#2563eb\" opacity=\"0.75\"/></svg><div class=\"figure-caption\">A Riemann-sum rectangle approximation</div>"
+    },
+    {
+      "id": "5.4-001",
+      "section": "5.4",
+      "kind": "concept",
+      "prompt": "What relationship between differentiation and integration is motivated by displacement in Section 5.4?",
+      "correct": "Integrating a derivative over \\([a,b]\\) gives \\(f(b)-f(a)\\).",
+      "choices": [
+        "Integrating a derivative over \\([a,b]\\) gives \\(f(b)-f(a)\\).",
+        "Differentiating \\(f\\) gives its area.",
+        "Every function has an antiderivative.",
+        "The integral is always zero."
+      ],
+      "explanation": "Accumulated velocity equals change in position.",
+      "tags": []
+    },
+    {
+      "id": "5.4-002",
+      "section": "5.4",
+      "kind": "concept",
+      "prompt": "If \\(F(x)=\\int_a^x f(t)\\,dt\\) and \\(f\\) is continuous, what derivative relationship is motivated in Section 5.4?",
+      "correct": "An accumulation function \\(F(x)=\\int_a^x f(t)\\,dt\\) has derivative \\(f(x)\\) when \\(f\\) is continuous.",
+      "choices": [
+        "An accumulation function \\(F(x)=\\int_a^x f(t)\\,dt\\) has derivative \\(f(x)\\) when \\(f\\) is continuous.",
+        "\\(F\\) is constant.",
+        "\\(F'(x)=\\int_a^x f(t)\\,dt\\).",
+        "Every discontinuous \\(f\\) has \\(F'=f\\) everywhere."
+      ],
+      "explanation": "The derivative of accumulated area/distance is the original rate.",
+      "tags": []
+    },
+    {
+      "id": "5.4-003",
+      "section": "5.4",
+      "kind": "homework",
+      "prompt": "If \\(p(t)\\) is position and \\(p'(t)\\ge0\\), what does \\(\\int_a^b p'(t)\\,dt\\) represent?",
+      "correct": "Distance traveled, and it equals \\(p(b)-p(a)\\).",
+      "choices": [
+        "Distance traveled, and it equals \\(p(b)-p(a)\\).",
+        "Acceleration.",
+        "Average position.",
+        "Maximum speed."
+      ],
+      "explanation": "Nonnegative velocity means displacement equals distance.",
+      "tags": []
+    },
+    {
+      "id": "5.4-004",
+      "section": "5.4",
+      "kind": "concept",
+      "prompt": "Why are the informal interpretations not enough as proofs?",
+      "correct": "Physical/geometric intuition can be misleading and definitions must cover arbitrary bounded functions.",
+      "choices": [
+        "Physical/geometric intuition can be misleading and definitions must cover arbitrary bounded functions.",
+        "They are always false.",
+        "They only apply to linear functions.",
+        "The Fundamental Theorem has no hypotheses."
+      ],
+      "explanation": "The chapter proceeds to formal upper/lower sums and integrals.",
+      "tags": []
+    },
+    {
+      "id": "5.4-005",
+      "section": "5.4",
+      "kind": "homework",
+      "prompt": "If \\(F(x)=\\displaystyle\\int_0^x3t^2\\,dt\\), the Fundamental Theorem predicts \\(F'(x)=\\)?",
+      "correct": "\\(3x^2\\)",
+      "choices": [
+        "\\(3x^2\\)",
+        "\\(x^3\\)",
+        "\\(6x\\)",
+        "\\(3\\)"
+      ],
+      "explanation": "The derivative of the accumulation function is the integrand.",
+      "tags": []
+    },
+    {
+      "id": "5.4-006",
+      "section": "5.4",
+      "kind": "homework",
+      "prompt": "If \\(f'=v\\), \\(f(2)=5\\), and \\(f(7)=18\\), then \\(\\displaystyle\\int_2^7v(t)\\,dt=\\)?",
+      "correct": "\\(13\\)",
+      "choices": [
+        "\\(13\\)",
+        "\\(23\\)",
+        "\\(5\\)",
+        "\\(18\\)"
+      ],
+      "explanation": "The integral of the derivative is the endpoint change \\(18-5=13\\).",
+      "tags": []
+    },
+    {
+      "id": "5.4-007",
+      "section": "5.4",
+      "kind": "concept",
+      "prompt": "Which pair are inverse processes under suitable hypotheses?",
+      "correct": "Differentiation and integration",
+      "choices": [
+        "Differentiation and integration",
+        "Taking maximum and minimum",
+        "Addition and order",
+        "Density and completeness"
+      ],
+      "explanation": "The two Fundamental Theorems formalize this inverse relationship.",
+      "tags": []
+    },
+    {
+      "id": "5.4-008",
+      "section": "5.4",
+      "kind": "homework",
+      "prompt": "If velocity changes sign, what does \\(\\int_a^b v(t)\\,dt\\) represent?",
+      "correct": "net displacement",
+      "choices": [
+        "net displacement",
+        "total distance automatically",
+        "the maximum position",
+        "the average acceleration"
+      ],
+      "explanation": "Signed areas cancel, so total distance requires integrating \\(|v|\\).",
+      "tags": []
+    },
+    {
+      "id": "5.4-new-ftc-intuition",
+      "section": "5.4",
+      "kind": "concept",
+      "prompt": "The chapter motivates the Fundamental Theorem by viewing accumulation of area and instantaneous rate as inverse processes. Which relationship captures that idea?",
+      "choices": [
+        "Differentiating an accumulation function recovers the original continuous function.",
+        "Differentiating an accumulation function always gives \\(0\\).",
+        "Integrating a function produces its reciprocal.",
+        "The derivative and integral are unrelated operations."
+      ],
+      "correct": "Differentiating an accumulation function recovers the original continuous function.",
+      "explanation": "Section 5.4 provides the informal motivation that is later made precise in Section 5.9.",
+      "tags": []
+    },
+    {
+      "id": "5.4-new-twoftc",
+      "section": "5.4",
+      "kind": "concept",
+      "prompt": "Why does Section 5.4 call the Fundamental Theorems “obvious” in its informal discussion?",
+      "choices": [
+        "The notes motivate differentiation and integration as inverse processes through area/accumulation and rate-of-change ideas before proving the formal theorems later.",
+        "No proof is needed for any version of the theorem.",
+        "The theorem follows from algebra alone.",
+        "The theorem is assumed as an axiom."
+      ],
+      "correct": "The notes motivate differentiation and integration as inverse processes through area/accumulation and rate-of-change ideas before proving the formal theorems later.",
+      "explanation": "Section 5.4 is motivational; the rigorous definitions and proofs come later in the chapter.",
+      "tags": []
+    },
+    {
+      "id": "5.5-001",
+      "section": "5.5",
+      "kind": "concept",
+      "prompt": "Which expression gives the mesh \\(|P|\\) of a partition \\(P=\\{a=x_0<\\cdots<x_n=b\\}\\)?",
+      "correct": "\\(\\displaystyle |P|=\\max_{1\\le i\\le n}\\Delta x_i\\).",
+      "choices": [
+        "\\(\\displaystyle |P|=\\max_{1\\le i\\le n}\\Delta x_i\\).",
+        "The number of partition points.",
+        "\\(\\displaystyle\\min_{x\\in[a,b]}f(x)\\).",
+        "The upper sum \\(U(f,P)\\)."
+      ],
+      "explanation": "The mesh \\(|P|\\) is the length of the largest subinterval in the partition.",
+      "tags": []
+    },
+    {
+      "id": "5.5-003",
+      "section": "5.5",
+      "kind": "concept",
+      "prompt": "Which formula defines the upper sum \\(U(f,P)\\) for a bounded function \\(f\\) and partition \\(P\\)?",
+      "correct": "\\(U(f,P)=\\sum_{i=1}^{n}M_i\\Delta x_i\\), where \\(M_i=\\sup\\{f(x):x\\in[x_{i-1},x_i]\\}\\).",
+      "choices": [
+        "\\(U(f,P)=\\sum_{i=1}^{n}M_i\\Delta x_i\\), where \\(M_i=\\sup\\{f(x):x\\in[x_{i-1},x_i]\\}\\).",
+        "\\(\\sum_{i=1}^{n}m_i\\Delta x_i\\)",
+        "\\(\\sum_i f'(x_i)\\)",
+        "Only the maximum value of \\(f\\)."
+      ],
+      "explanation": "The upper sum uses the supremum \\(M_i\\) of \\(f\\) on each subinterval and multiplies it by the subinterval width \\(\\Delta x_i\\).",
+      "tags": []
+    },
+    {
+      "id": "5.5-005",
+      "section": "5.5",
+      "kind": "concept",
+      "prompt": "Suppose \\(Q\\) is a refinement of the partition \\(P\\). Which inequality is guaranteed for the lower and upper sums of a bounded function \\(f\\)?",
+      "correct": "\\(L(f,P)\\le L(f,Q)\\le U(f,Q)\\le U(f,P)\\).",
+      "choices": [
+        "\\(L(f,P)\\le L(f,Q)\\le U(f,Q)\\le U(f,P)\\).",
+        "All four sums are equal",
+        "Upper sums increase under refinement",
+        "Lower sums decrease under refinement"
+      ],
+      "explanation": "Refinement raises lower sums and lowers upper sums, giving \\(L(f,P)\\le L(f,Q)\\le U(f,Q)\\le U(f,P)\\).",
+      "tags": []
+    },
+    {
+      "id": "5.5-007",
+      "section": "5.5",
+      "kind": "concept",
+      "prompt": "For a bounded function \\(f\\) and any partition \\(P\\), which inequality between lower and upper sums is always true?",
+      "correct": "\\(L(f,P)\\le U(f,P)\\)",
+      "choices": [
+        "\\(L(f,P)\\le U(f,P)\\)",
+        "\\(L(f,P)\\ge U(f,P)\\)",
+        "both sums are zero",
+        "the function is integrable."
+      ],
+      "explanation": "Subinterval infima are at most their suprema.",
+      "tags": []
+    },
+    {
+      "id": "5.5-008",
+      "section": "5.5",
+      "kind": "homework",
+      "prompt": "If \\(f(x)=c\\) on \\([a,b]\\), what are \\(L(f,P)\\) and \\(U(f,P)\\) for any partition \\(P\\)?",
+      "correct": "\\(c(b-a)\\)",
+      "choices": [
+        "\\(c(b-a)\\)",
+        "\\(c\\)",
+        "\\(b-a\\)",
+        "\\(c(a+b)\\)"
+      ],
+      "explanation": "Every subinterval infimum and supremum is \\(c\\), and widths telescope.",
+      "tags": []
+    },
+    {
+      "id": "5.5-009",
+      "section": "5.5",
+      "kind": "homework",
+      "prompt": "For the function that equals \\(1\\) on rational inputs and \\(0\\) on irrational inputs in \\([0,1]\\), what are the lower and upper sums for every partition?",
+      "correct": "\\(0\\) and \\(1\\), respectively",
+      "choices": [
+        "\\(0\\) and \\(1\\), respectively",
+        "both \\(0\\)",
+        "both \\(1\\)",
+        "\\(1/2\\) and \\(1/2\\)"
+      ],
+      "explanation": "Every interval contains rationals and irrationals.",
+      "tags": []
+    },
+    {
+      "id": "5.5-010",
+      "section": "5.5",
+      "kind": "proof",
+      "prompt": "Why does adding partition points lower an upper sum?",
+      "correct": "Suprema on smaller subintervals cannot exceed the supremum on the original larger interval.",
+      "choices": [
+        "Suprema on smaller subintervals cannot exceed the supremum on the original larger interval.",
+        "Widths become negative.",
+        "The function becomes smaller.",
+        "Completeness forces equality."
+      ],
+      "explanation": "The split contributions are bounded by the old height times the same total width.",
+      "tags": []
+    },
+    {
+      "id": "5.5-011",
+      "section": "5.5",
+      "kind": "homework",
+      "prompt": "If \\(|f(x)|\\le M\\) on \\([a,b]\\), which bound is correct?",
+      "correct": "\\(-M(b-a)\\le L(f,P)\\le U(f,P)\\le M(b-a)\\)",
+      "choices": [
+        "\\(-M(b-a)\\le L(f,P)\\le U(f,P)\\le M(b-a)\\)",
+        "\\(L\\) and \\(U\\) are between \\(-M\\) and \\(M\\) without width",
+        "\\(U(f,P)\\le M\\) only",
+        "\\(L(f,P)\\ge0\\)"
+      ],
+      "explanation": "Sum the pointwise height bounds over widths totaling \\(b-a\\).",
+      "tags": []
+    },
+    {
+      "id": "5.5-012",
+      "section": "5.5",
+      "kind": "concept",
+      "prompt": "Which property of the real numbers guarantees that the sets of all lower sums and all upper sums have the needed supremum and infimum?",
+      "correct": "the Completeness Axiom",
+      "choices": [
+        "the Completeness Axiom",
+        "the Intermediate Value Theorem",
+        "the ratio test",
+        "the chain rule"
+      ],
+      "explanation": "Completeness supplies supremum of lower sums and infimum of upper sums.",
+      "tags": []
+    },
+    {
+      "id": "5.5-013",
+      "section": "5.5",
+      "kind": "homework",
+      "prompt": "For an increasing function on a regular partition with \\(n\\) equal subintervals, which expression controls \\(U(f,P)-L(f,P)\\)?",
+      "correct": "the total endpoint change times the mesh.",
+      "choices": [
+        "the total endpoint change times the mesh.",
+        "the derivative at one point only",
+        "the square of the interval length regardless of \\(n\\)",
+        "zero for every \\(n\\)."
+      ],
+      "explanation": "Adjacent endpoint differences telescope or can be bounded using monotonicity.",
+      "tags": []
+    },
+    {
+      "id": "5.5-new-upperlower",
+      "section": "5.5",
+      "kind": "concept",
+      "prompt": "For the bounded function and partition shown, which statement must hold?",
+      "choices": [
+        "\\(L(f,P)\\le U(f,P)\\).",
+        "\\(U(f,P)<L(f,P).\\)",
+        "\\(L(f,P)=U(f,P)\\) for every bounded function.",
+        "Neither sum is defined unless \\(f\\) is continuous."
+      ],
+      "correct": "\\(L(f,P)\\le U(f,P)\\).",
+      "explanation": "On each subinterval the infimum is at most the supremum, so the lower sum cannot exceed the upper sum.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"A bounded function over a partitioned interval\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"68.5\" y1=\"20\" x2=\"68.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"171.3\" y1=\"20\" x2=\"171.3\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"376.7\" y1=\"20\" x2=\"376.7\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"479.5\" y1=\"20\" x2=\"479.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"240.0\" x2=\"500\" y2=\"240.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"152.0\" x2=\"500\" y2=\"152.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"64.0\" x2=\"500\" y2=\"64.0\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"240.0\" x2=\"500\" y2=\"240.0\" stroke=\"#555\" stroke-width=\"1.4\"/><polyline points=\"68.5,196.0 171.3,81.6 274.0,169.6 376.7,55.2 479.5,152.0\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/></svg><div class=\"figure-caption\">A bounded function over a partitioned interval</div>"
+    },
+    {
+      "id": "5.6-001",
+      "section": "5.6",
+      "kind": "concept",
+      "prompt": "For a bounded function \\(f:[a,b]\\to\\mathbb{R}\\), how is the upper integral defined?",
+      "correct": "It is the infimum of the set of all upper sums \\(U(f,P)\\) as \\(P\\) ranges over partitions of \\([a,b]\\).",
+      "choices": [
+        "It is the infimum of the set of all upper sums \\(U(f,P)\\) as \\(P\\) ranges over partitions of \\([a,b]\\).",
+        "It is the supremum of all upper sums.",
+        "It is one selected Riemann sum.",
+        "It is the maximum value of \\(f\\)."
+      ],
+      "explanation": "The upper integral is obtained by taking the greatest lower bound of all possible upper sums.",
+      "tags": []
+    },
+    {
+      "id": "5.6-003",
+      "section": "5.6",
+      "kind": "concept",
+      "prompt": "For a bounded function \\(f:[a,b]\\to\\mathbb{R}\\), how is the lower integral defined?",
+      "correct": "It is the supremum of the set of all lower sums \\(L(f,P)\\) as \\(P\\) ranges over partitions of \\([a,b]\\).",
+      "choices": [
+        "It is the supremum of the set of all lower sums \\(L(f,P)\\) as \\(P\\) ranges over partitions of \\([a,b]\\).",
+        "It is the infimum of all lower sums.",
+        "It is the minimum value of \\(f\\).",
+        "It is a derivative."
+      ],
+      "explanation": "The lower integral is obtained by taking the least upper bound of all possible lower sums.",
+      "tags": []
+    },
+    {
+      "id": "5.6-005",
+      "section": "5.6",
+      "kind": "concept",
+      "prompt": "When is a bounded function \\(f:[a,b]\\to\\mathbb{R}\\) integrable in terms of its lower and upper integrals?",
+      "correct": "The upper and lower integrals are equal.",
+      "choices": [
+        "The upper and lower integrals are equal.",
+        "Every upper sum equals every lower sum.",
+        "The function is continuous by definition.",
+        "The function is nonnegative."
+      ],
+      "explanation": "In the notes, riemann/darboux integrable is characterized by the condition in the correct choice: The upper and lower integrals are equal.",
+      "tags": []
+    },
+    {
+      "id": "5.6-007",
+      "section": "5.6",
+      "kind": "concept",
+      "prompt": "For any bounded function, how are the lower and upper integrals ordered?",
+      "correct": "The lower integral is less than or equal to the upper integral.",
+      "choices": [
+        "The lower integral is less than or equal to the upper integral.",
+        "The lower integral is greater than the upper integral.",
+        "The lower and upper integrals are always equal.",
+        "Both integrals are always zero."
+      ],
+      "explanation": "Every lower sum is at most every upper sum.",
+      "tags": []
+    },
+    {
+      "id": "5.6-008",
+      "section": "5.6",
+      "kind": "homework",
+      "prompt": "Is the function that equals \\(1\\) on rational inputs and \\(0\\) on irrational inputs in \\([0,1]\\) integrable?",
+      "correct": "The function is not integrable.",
+      "choices": [
+        "The function is not integrable.",
+        "The function is integrable with integral \\(1/2\\).",
+        "The function is integrable with integral \\(0\\).",
+        "The function is continuous."
+      ],
+      "explanation": "Lower integral is \\(0\\) and upper integral is \\(1\\).",
+      "tags": []
+    },
+    {
+      "id": "5.6-009",
+      "section": "5.6",
+      "kind": "homework",
+      "prompt": "If \\(f(x)=c\\) on \\([a,b]\\), what is \\(\\int_a^b f\\)?",
+      "correct": "\\(c(b-a)\\)",
+      "choices": [
+        "\\(c(b-a)\\)",
+        "\\(c\\)",
+        "\\(b-a\\)",
+        "\\(0\\)"
+      ],
+      "explanation": "All upper and lower sums equal \\(c(b-a)\\).",
+      "tags": []
+    },
+    {
+      "id": "5.6-010",
+      "section": "5.6",
+      "kind": "homework",
+      "prompt": "For \\(f(x)=x\\) on \\([0,1]\\) and the regular partition into \\(n\\) equal subintervals, what is \\(U(f,P)-L(f,P)\\)?",
+      "correct": "\\(1/n\\)",
+      "choices": [
+        "\\(1/n\\)",
+        "\\(n\\)",
+        "\\(1\\)",
+        "\\(1/n^2\\)"
+      ],
+      "explanation": "The difference is the mesh times the total increase: \\(\\frac1n(1-0)=\\frac1n\\).",
+      "tags": []
+    },
+    {
+      "id": "5.6-011",
+      "section": "5.6",
+      "kind": "concept",
+      "prompt": "Which condition is sufficient to prove directly that a bounded function \\(f:[a,b]\\to\\mathbb{R}\\) is not integrable?",
+      "correct": "There is \\(\\eta>0\\) such that \\(U(f,P)-L(f,P)\\ge\\eta\\) for every partition \\(P\\).",
+      "choices": [
+        "There is \\(\\eta>0\\) such that \\(U(f,P)-L(f,P)\\ge\\eta\\) for every partition \\(P\\).",
+        "There is one partition \\(P\\) with \\(U(f,P)>L(f,P)\\).",
+        "The function has one point where \\(f(x)=0\\).",
+        "The function takes both positive and negative values."
+      ],
+      "explanation": "A fixed positive lower bound on \\(U(f,P)-L(f,P)\\) prevents the upper and lower integrals from being equal.",
+      "tags": []
+    },
+    {
+      "id": "5.6-012",
+      "section": "5.6",
+      "kind": "homework",
+      "prompt": "Which example can be nonintegrable while its absolute value is integrable?",
+      "correct": "A function taking \\(1\\) on \\(\\mathbb{Q}\\) and \\(-1\\) on irrational points; \\(|f|=1\\).",
+      "choices": [
+        "A function taking \\(1\\) on \\(\\mathbb{Q}\\) and \\(-1\\) on irrational points; \\(|f|=1\\).",
+        "\\(f(x)=x\\)",
+        "\\(f(x)=0\\)",
+        "\\(f(x)=x^2\\)"
+      ],
+      "explanation": "The original function has lower integral \\(-1\\) and upper integral \\(1\\), while \\(|f|\\) is constant.",
+      "tags": []
+    },
+    {
+      "id": "5.6-013",
+      "section": "5.6",
+      "kind": "proof",
+      "prompt": "Suppose a real number \\(I\\) lies between every lower and upper sum, and partitions can be chosen with \\(U(f,P)-L(f,P)\\) arbitrarily small. What follows?",
+      "correct": "The function is integrable with integral \\(I\\).",
+      "choices": [
+        "The function is integrable with integral \\(I\\).",
+        "The number \\(I\\) must be a maximum of \\(f\\).",
+        "The function must be constant.",
+        "The interval must have length \\(1\\)."
+      ],
+      "explanation": "The lower and upper integrals are squeezed to the same value.",
+      "tags": []
+    },
+    {
+      "id": "5.6-new-integrable-def",
+      "section": "5.6",
+      "kind": "concept",
+      "prompt": "Suppose the lower integral of a bounded function \\(f:[a,b]\\to\\mathbb{R}\\) is \\(I\\), and its upper integral is also \\(I\\). What can be concluded?",
+      "choices": [
+        "The function \\(f\\) is integrable and \\(\\displaystyle\\int_a^b f=I\\).",
+        "The function must be constant.",
+        "The function is not integrable.",
+        "Every Riemann sum must equal \\(I\\)."
+      ],
+      "correct": "The function \\(f\\) is integrable and \\(\\displaystyle\\int_a^b f=I\\).",
+      "explanation": "Integrability is defined by equality of the lower and upper integrals; their common value is the integral.",
+      "tags": []
+    },
+    {
+      "id": "5.7-001",
+      "section": "5.7",
+      "kind": "concept",
+      "prompt": "Suppose \\(f:[a,b]\\to\\mathbb{R}\\) is bounded. Which statement gives the \\(\\varepsilon\\)-partition criterion for integrability?",
+      "correct": "The function \\(f\\) is integrable if and only if, for every \\(\\varepsilon>0\\), there is a partition \\(P\\) of \\([a,b]\\) such that \\(U(f,P)-L(f,P)<\\varepsilon\\).",
+      "choices": [
+        "The function \\(f\\) is integrable if and only if, for every \\(\\varepsilon>0\\), there is a partition \\(P\\) of \\([a,b]\\) such that \\(U(f,P)-L(f,P)<\\varepsilon\\).",
+        "The function \\(f\\) is integrable if and only if \\(U(f,P)=L(f,P)\\) for every partition \\(P\\).",
+        "Every bounded function is integrable.",
+        "The function is integrable only if it is continuous."
+      ],
+      "explanation": "The theorem is an equivalence: a bounded function is integrable exactly when the upper-sum/lower-sum gap can be made smaller than every prescribed \\(\\varepsilon>0\\).",
+      "tags": []
+    },
+    {
+      "id": "5.7-003",
+      "section": "5.7",
+      "kind": "concept",
+      "prompt": "Suppose \\(f:[a,b]\\to\\mathbb{R}\\) is continuous. What can be concluded about its integrability?",
+      "correct": "\\(f\\) is integrable on \\([a,b]\\).",
+      "choices": [
+        "\\(f\\) is integrable on \\([a,b]\\).",
+        "\\(f\\) is monotone only",
+        "\\(f\\) has integral \\(0\\)",
+        "\\(f\\) is a polynomial"
+      ],
+      "explanation": "Every continuous function on \\([a,b]\\) is Riemann integrable.",
+      "tags": []
+    },
+    {
+      "id": "5.7-005",
+      "section": "5.7",
+      "kind": "concept",
+      "prompt": "Suppose \\(f:[a,b]\\to\\mathbb{R}\\) is bounded and monotonic. What can be concluded about its integrability?",
+      "correct": "\\(f\\) is integrable on \\([a,b]\\).",
+      "choices": [
+        "\\(f\\) is integrable on \\([a,b]\\).",
+        "\\(f\\) is continuous everywhere",
+        "\\(f\\) has no jump discontinuities",
+        "\\(f\\) has derivative \\(0\\)"
+      ],
+      "explanation": "Every bounded monotonic function on \\([a,b]\\) is Riemann integrable.",
+      "tags": []
+    },
+    {
+      "id": "5.7-007",
+      "section": "5.7",
+      "kind": "concept",
+      "prompt": "Why does uniform continuity help prove continuous functions integrable?",
+      "correct": "A fine partition makes each oscillation \\(M_i-m_i\\) small on every subinterval.",
+      "choices": [
+        "A fine partition makes each oscillation \\(M_i-m_i\\) small on every subinterval.",
+        "Uniform continuity makes the function constant.",
+        "Uniform continuity makes all subinterval widths equal to zero.",
+        "Uniform continuity guarantees that the derivative exists."
+      ],
+      "explanation": "Then \\(U(f,P)-L(f,P)\\) is bounded by a small oscillation times the total interval length.",
+      "tags": []
+    },
+    {
+      "id": "5.7-008",
+      "section": "5.7",
+      "kind": "homework",
+      "prompt": "If \\(f\\) is increasing on \\([a,b]\\) and \\(P\\) is a sufficiently fine regular partition, which telescoping estimate is used to make \\(U(f,P)-L(f,P)\\) small?",
+      "correct": "\\((f(b)-f(a))\\Delta\\), where \\(\\Delta\\) is the common subinterval width.",
+      "choices": [
+        "\\((f(b)-f(a))\\Delta\\), where \\(\\Delta\\) is the common subinterval width.",
+        "\\(f(a)+f(b)\\)",
+        "\\(1/\\Delta\\)",
+        "\\(0\\) for every \\(\\Delta\\)"
+      ],
+      "explanation": "The endpoint differences telescope.",
+      "tags": []
+    },
+    {
+      "id": "5.7-009",
+      "section": "5.7",
+      "kind": "homework",
+      "prompt": "Suppose \\(f,g:[a,b]\\to\\mathbb{R}\\) are bounded, \\(f\\) is integrable, and \\(f(x)=g(x)\\) except at finitely many points. What can be concluded about \\(g\\)?",
+      "correct": "The function \\(g\\) is integrable and has the same integral as \\(f\\).",
+      "choices": [
+        "The function \\(g\\) is integrable and has the same integral as \\(f\\).",
+        "The function \\(g\\) cannot be integrable.",
+        "The function \\(g\\) is integrable only when it is nonnegative.",
+        "The function \\(g\\) must be continuous."
+      ],
+      "explanation": "The notes show that changing an integrable bounded function at an endpoint preserves both integrability and the integral, and then note that finitely many point changes can be handled by combining the interval results.",
+      "tags": []
+    },
+    {
+      "id": "5.7-010",
+      "section": "5.7",
+      "kind": "concept",
+      "prompt": "Which function is not Riemann integrable on \\([0,1]\\)?",
+      "correct": "The indicator of \\(\\mathbb{Q}\\)",
+      "choices": [
+        "The indicator of \\(\\mathbb{Q}\\)",
+        "\\(x^2\\)",
+        "a step function with one jump",
+        "\\(|x|\\)"
+      ],
+      "explanation": "Every subinterval of the indicator contains both values \\(0\\) and \\(1\\).",
+      "tags": []
+    },
+    {
+      "id": "5.7-011",
+      "section": "5.7",
+      "kind": "homework",
+      "prompt": "Suppose \\(f\\ge0\\) is continuous on \\([a,b]\\) and \\(\\int_a^b f=0\\). What must be true about \\(f\\) on \\([a,b]\\)?",
+      "correct": "\\(f(x)=0\\) for every \\(x\\in[a,b]\\).",
+      "choices": [
+        "\\(f(x)=0\\) for every \\(x\\in[a,b]\\).",
+        "\\(f\\) is zero at exactly one point.",
+        "\\(f\\) must be negative somewhere.",
+        "\\(f(a)=f(b)=1.\\)"
+      ],
+      "explanation": "If \\(f\\) were positive at one point, continuity would make it positive on a small interval and the integral would be positive.",
+      "tags": []
+    },
+    {
+      "id": "5.7-012",
+      "section": "5.7",
+      "kind": "proof",
+      "prompt": "In the proof of the \\(\\varepsilon\\)-partition integrability condition, why is the common refinement \\(P=P_1\\cup P_2\\) used?",
+      "correct": "it simultaneously improves the chosen lower and upper sum estimates.",
+      "choices": [
+        "it simultaneously improves the chosen lower and upper sum estimates.",
+        "it makes all function values rational.",
+        "it changes the interval endpoints.",
+        "it removes discontinuities."
+      ],
+      "explanation": "Refinement raises lower sums and lowers upper sums.",
+      "tags": []
+    },
+    {
+      "id": "5.7-013",
+      "section": "5.7",
+      "kind": "homework",
+      "prompt": "Which property is sufficient but not necessary for integrability?",
+      "correct": "Continuity",
+      "choices": [
+        "Continuity",
+        "Boundedness alone",
+        "Equality of upper and lower integrals",
+        "The \\(\\varepsilon\\)-partition condition"
+      ],
+      "explanation": "Step functions show integrable functions need not be continuous.",
+      "tags": []
+    },
+    {
+      "id": "5.7-new-epsilonpartition",
+      "section": "5.7",
+      "kind": "concept",
+      "prompt": "Let \\(f:[a,b]\\to\\mathbb{R}\\) be bounded. Assume that for every \\(\\varepsilon>0\\) there is a partition \\(P\\) such that \\(U(f,P)-L(f,P)<\\varepsilon\\). What can be concluded about \\(f\\)?",
+      "choices": [
+        "The bounded function \\(f\\) is integrable.",
+        "The function must be constant.",
+        "The function must be differentiable.",
+        "Every upper sum equals every lower sum."
+      ],
+      "correct": "The bounded function \\(f\\) is integrable.",
+      "explanation": "This is one direction of the \\(\\varepsilon\\)-partition integrability condition.",
+      "tags": []
+    },
+    {
+      "id": "5.8-001",
+      "section": "5.8",
+      "kind": "concept",
+      "prompt": "Suppose \\(f\\) and \\(g\\) are integrable on \\([a,b]\\) and \\(k\\in\\mathbb{R}\\). Which formula states the linearity property of the integral?",
+      "correct": "\\(\\int_a^b(f+g)=\\int_a^b f+\\int_a^b g\\) and \\(\\int_a^b(kf)=k\\int_a^b f\\).",
+      "choices": [
+        "\\(\\int_a^b(f+g)=\\int_a^b f+\\int_a^b g\\) and \\(\\int_a^b(kf)=k\\int_a^b f\\).",
+        "\\(\\int_a^b fg=(\\int_a^b f)(\\int_a^b g)\\) for every pair of integrable functions.",
+        "\\(\\int_a^b(f+g)=\\max\\{\\int_a^b f,\\int_a^b g\\}\\)",
+        "The scalar rule holds only for positive \\(k\\)."
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: \\(\\int_a^b(f+g)=\\int_a^b f+\\int_a^b g\\) and \\(\\int_a^b(kf)=k\\int_a^b f\\).",
+      "tags": []
+    },
+    {
+      "id": "5.8-003",
+      "section": "5.8",
+      "kind": "concept",
+      "prompt": "Suppose \\(f\\) and \\(g\\) are integrable on \\([a,b]\\) and \\(f(x)\\le g(x)\\) for all \\(x\\in[a,b]\\). Which inequality follows from the order property of the integral?",
+      "correct": "\\(\\int f\\le \\int g\\).",
+      "choices": [
+        "\\(\\int f\\le \\int g\\).",
+        "\\(\\int f\\ge \\int g\\)",
+        "the integrals are equal",
+        "\\(f=g\\)"
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: \\(\\int f\\le \\int g\\).",
+      "tags": []
+    },
+    {
+      "id": "5.8-005",
+      "section": "5.8",
+      "kind": "concept",
+      "prompt": "Suppose \\(f\\) is integrable on \\([a,b]\\). Which inequality relating \\(\\int_a^b f\\) and \\(\\int_a^b |f|\\) is always valid?",
+      "correct": "\\(\\left|\\int_a^b f\\right|\\le\\int_a^b|f|\\)",
+      "choices": [
+        "\\(\\left|\\int_a^b f\\right|\\le\\int_a^b|f|\\)",
+        "\\(\\int_a^b|f|\\le\\left|\\int_a^b f\\right|\\)",
+        "\\(\\int_a^b f>0\\) for every integrable \\(f\\).",
+        "\\(\\left|\\int_a^b f\\right|=\\int_a^b|f|\\) for every integrable \\(f\\)."
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: \\(\\left|\\int_a^b f\\right|\\le\\int_a^b|f|\\).",
+      "tags": []
+    },
+    {
+      "id": "5.8-007",
+      "section": "5.8",
+      "kind": "homework",
+      "prompt": "If \\(\\int_a^b f=3\\) and \\(\\int_a^b g=-2\\), what is \\(\\int_a^b(4f-g)\\)?",
+      "correct": "\\(14\\)",
+      "choices": [
+        "\\(14\\)",
+        "\\(10\\)",
+        "\\(-14\\)",
+        "\\(5\\)"
+      ],
+      "explanation": "Linearity gives \\(4(3)-(-2)=14\\).",
+      "tags": []
+    },
+    {
+      "id": "5.8-008",
+      "section": "5.8",
+      "kind": "homework",
+      "prompt": "If \\(f\\) and \\(g\\) are integrable, why is \\(fg\\) integrable in the exercise?",
+      "correct": "Use \\(4fg=(f+g)^2-(f-g)^2\\) after proving squares integrable.",
+      "choices": [
+        "Use \\(4fg=(f+g)^2-(f-g)^2\\) after proving squares integrable.",
+        "Products are integrable by definition.",
+        "Use the quotient rule.",
+        "Every bounded function is integrable."
+      ],
+      "explanation": "The algebra reduces products to sums and squares.",
+      "tags": []
+    },
+    {
+      "id": "5.8-009",
+      "section": "5.8",
+      "kind": "homework",
+      "prompt": "Which formula expresses \\(\\max(f,g)\\) in terms of \\(f\\), \\(g\\), and \\(|f-g|\\)?",
+      "correct": "\\((f+g+|f-g|)/2\\)",
+      "choices": [
+        "\\((f+g+|f-g|)/2\\)",
+        "\\(f+g\\)",
+        "\\(fg\\)",
+        "\\(|f+g|\\)"
+      ],
+      "explanation": "This formula and closure under absolute value show integrability.",
+      "tags": []
+    },
+    {
+      "id": "5.8-010",
+      "section": "5.8",
+      "kind": "concept",
+      "prompt": "If \\(f\\le g\\) on \\([a,b]\\), to which nonnegative function can the nonnegativity property of the integral be applied to prove the order property?",
+      "correct": "\\(h=g-f.\\)",
+      "choices": [
+        "\\(h=g-f.\\)",
+        "\\(h=f-g.\\)",
+        "\\(h=fg\\).",
+        "\\(h=f+g.\\)"
+      ],
+      "explanation": "Since \\(h=g-f\\ge0\\), one has \\(\\int_a^b h\\ge0\\). By linearity, \\(\\int_a^b g-\\int_a^b f\\ge0\\), so \\(\\int_a^b f\\le\\int_a^b g\\).",
+      "tags": []
+    },
+    {
+      "id": "5.8-011",
+      "section": "5.8",
+      "kind": "homework",
+      "prompt": "Under which condition is the equality \\(\\left|\\int_a^b f\\right|=\\int_a^b|f|\\) certainly valid?",
+      "correct": "When \\(f\\) has one sign on the interval.",
+      "choices": [
+        "When \\(f\\) has one sign on the interval.",
+        "For every integrable \\(f\\)",
+        "Only when \\(f\\) is constant \\(0\\)",
+        "Only when \\(f\\) is differentiable."
+      ],
+      "explanation": "If \\(f\\ge0\\) or \\(f\\le0\\), there is no cancellation.",
+      "tags": []
+    },
+    {
+      "id": "5.8-012",
+      "section": "5.8",
+      "kind": "proof",
+      "prompt": "When proving \\(\\int_a^b(kf)=k\\int_a^b f\\) for \\(k<0\\), what change in infima and suprema must be taken into account?",
+      "correct": "multiplication by \\(k\\) reverses suprema and infima.",
+      "choices": [
+        "multiplication by \\(k\\) reverses suprema and infima.",
+        "the interval reverses automatically",
+        "\\(f\\) becomes discontinuous",
+        "\\(k\\) has no inverse."
+      ],
+      "explanation": "Upper and lower sums exchange roles under negative scaling.",
+      "tags": []
+    },
+    {
+      "id": "5.8-013",
+      "section": "5.8",
+      "kind": "homework",
+      "prompt": "If \\(|f(x)|\\le B\\) on \\([a,b]\\), which estimate follows?",
+      "correct": "\\(\\displaystyle\\left|\\int_a^b f\\right|\\le B(b-a)\\)",
+      "choices": [
+        "\\(\\displaystyle\\left|\\int_a^b f\\right|\\le B(b-a)\\)",
+        "\\(\\displaystyle\\left|\\int_a^b f\\right|\\le B\\) only",
+        "\\(\\displaystyle\\int_a^b f=B(b-a)\\) always",
+        "\\(\\displaystyle\\int_a^b f\\ge B(b-a)\\)"
+      ],
+      "explanation": "Use \\(\\left|\\int_a^b f\\right|\\le\\int_a^b|f|\\le\\int_a^b B\\,dx=B(b-a)\\).",
+      "tags": []
+    },
+    {
+      "id": "5.8-new-absint",
+      "section": "5.8",
+      "kind": "concept",
+      "prompt": "Suppose \\(f\\) changes sign on \\([a,b]\\). Why can \\(\\left|\\int_a^b f\\right|\\) be strictly smaller than \\(\\int_a^b|f|\\)?",
+      "choices": [
+        "Positive and negative contributions to \\(\\int_a^b f\\) can cancel, while they do not cancel in \\(\\int_a^b|f|\\).",
+        "The function \\(|f|\\) is never integrable.",
+        "The two integrals are always equal.",
+        "The integral of \\(f\\) ignores negative values."
+      ],
+      "correct": "Positive and negative contributions to \\(\\int_a^b f\\) can cancel, while they do not cancel in \\(\\int_a^b|f|\\).",
+      "explanation": "The inequality \\(\\left|\\int_a^b f\\right|\\le\\int_a^b|f|\\) allows strict inequality because positive and negative contributions can cancel in \\(\\int_a^b f\\).",
+      "tags": []
+    },
+    {
+      "id": "5.9-001",
+      "section": "5.9",
+      "kind": "concept",
+      "prompt": "How is the oriented integral \\(\\int_a^b f\\) defined when \\(a>b\\)?",
+      "correct": "For \\(a>b\\), \\(\\displaystyle\\int_a^b f\\) is defined as \\(-\\int_b^a f\\).",
+      "choices": [
+        "For \\(a>b\\), \\(\\displaystyle\\int_a^b f\\) is defined as \\(-\\int_b^a f\\).",
+        "It is always \\(0\\).",
+        "It is undefined.",
+        "It equals \\(\\displaystyle\\int_b^a f\\)."
+      ],
+      "explanation": "In the notes, oriented integral is characterized by the condition in the correct choice: For \\(a>b\\), \\(\\displaystyle\\int_a^b f\\) is defined as \\(-\\int_b^a f\\).",
+      "tags": []
+    },
+    {
+      "id": "5.9-003",
+      "section": "5.9",
+      "kind": "concept",
+      "prompt": "Suppose \\(f\\) is continuous on \\([a,b]\\) and \\(F\\) is an antiderivative of \\(f\\) on that interval. What does the evaluation form of the Fundamental Theorem of Calculus guarantee?",
+      "correct": "\\(\\displaystyle\\int_a^b f=F(b)-F(a)\\)",
+      "choices": [
+        "\\(\\displaystyle\\int_a^b f=F(b)-F(a)\\)",
+        "\\(\\displaystyle\\int_a^b f=F(a)-F(b)\\)",
+        "\\(f(b)-f(a)\\)",
+        "\\(\\displaystyle F'=\\int f\\)"
+      ],
+      "explanation": "The evaluation form of the Fundamental Theorem gives \\(\\displaystyle\\int_a^b f(x)\\,dx=F(b)-F(a)\\).",
+      "tags": []
+    },
+    {
+      "id": "5.9-005",
+      "section": "5.9",
+      "kind": "concept",
+      "prompt": "If \\(f\\) is continuous and \\(F(x)=\\displaystyle\\int_a^x f(t)\\,dt\\), what does the accumulation form of the Fundamental Theorem guarantee?",
+      "correct": "\\(F\\) is differentiable and \\(F'(x)=f(x)\\).",
+      "choices": [
+        "\\(F\\) is differentiable and \\(F'(x)=f(x)\\).",
+        "\\(F\\) is constant.",
+        "\\(\\displaystyle F'(x)=\\int_a^x f\\).",
+        "\\(F(x)=f'(x).\\)"
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: \\(F\\) is differentiable and \\(F'(x)=f(x)\\).",
+      "tags": []
+    },
+    {
+      "id": "5.9-007",
+      "section": "5.9",
+      "kind": "homework",
+      "prompt": "What is the value of \\(\\displaystyle\\int_0^2 3x^2\\,dx\\)?",
+      "correct": "\\(8\\)",
+      "choices": [
+        "\\(8\\)",
+        "\\(6\\)",
+        "\\(4\\)",
+        "\\(12\\)"
+      ],
+      "explanation": "An antiderivative is \\(x^3\\), so the value is \\(8-0=8\\).",
+      "tags": []
+    },
+    {
+      "id": "5.9-008",
+      "section": "5.9",
+      "kind": "homework",
+      "prompt": "If \\(F(x)=\\displaystyle\\int_1^{x^2}\\sin t\\,dt\\), then \\(F'(x)=\\)?",
+      "correct": "\\(2x\\sin(x^2)\\)",
+      "choices": [
+        "\\(2x\\sin(x^2)\\)",
+        "\\(\\sin x\\)",
+        "\\(x^2\\sin x\\)",
+        "\\(2x\\cos(x^2)\\)"
+      ],
+      "explanation": "FTC plus the chain rule.",
+      "tags": []
+    },
+    {
+      "id": "5.9-009",
+      "section": "5.9",
+      "kind": "concept",
+      "prompt": "If the integrand \\(f\\) is discontinuous at a point \\(x\\), what can still be true about the accumulation function \\(F(x)=\\int_a^x f(t)\\,dt\\)?",
+      "correct": "continuous, though differentiability at that point may fail.",
+      "choices": [
+        "continuous, though differentiability at that point may fail.",
+        "undefined everywhere",
+        "constant",
+        "equal to \\(f\\)."
+      ],
+      "explanation": "Bounded integrable functions produce continuous accumulation functions; FTC derivative requires continuity at the point.",
+      "tags": []
+    },
+    {
+      "id": "5.9-010",
+      "section": "5.9",
+      "kind": "homework",
+      "prompt": "What is \\(\\displaystyle\\int_b^a f\\) in terms of \\(\\displaystyle\\int_a^b f\\)?",
+      "correct": "\\(\\displaystyle-\\int_a^b f\\)",
+      "choices": [
+        "\\(\\displaystyle-\\int_a^b f\\)",
+        "\\(\\displaystyle\\int_a^b f\\)",
+        "\\(0\\)",
+        "\\(\\displaystyle\\frac{1}{\\int_a^b f}\\)"
+      ],
+      "explanation": "Reversing orientation changes sign.",
+      "tags": []
+    },
+    {
+      "id": "5.9-011",
+      "section": "5.9",
+      "kind": "proof",
+      "prompt": "In the proof that \\(F'(z)=f(z)\\) for \\(F(x)=\\int_a^x f(t)\\,dt\\), what bounds the difference quotient \\(\\frac{F(x)-F(z)}{x-z}\\) when \\(x\\ne z\\)?",
+      "correct": "The infimum and supremum of \\(f\\) on the interval between \\(z\\) and \\(x\\).",
+      "choices": [
+        "The infimum and supremum of \\(f\\) on the interval between \\(z\\) and \\(x\\).",
+        "Only the maximum value of \\(f'(t)\\) on the interval.",
+        "The partial sums of a geometric series.",
+        "The single value \\(f(a)\\)."
+      ],
+      "explanation": "The quotient is the average value of \\(f\\) over the short interval from \\(z\\) to \\(x\\), so it lies between the infimum and supremum of \\(f\\) there. Continuity makes both bounds approach \\(f(z)\\).",
+      "tags": []
+    },
+    {
+      "id": "5.9-012",
+      "section": "5.9",
+      "kind": "homework",
+      "prompt": "Suppose \\(f\\) is continuous and \\(\\int_0^x f(t)\\,dt=0\\) for every \\(x\\). What must \\(f\\) be?",
+      "correct": "\\(f(x)=0\\) for every \\(x\\).",
+      "choices": [
+        "\\(f(x)=0\\) for every \\(x\\).",
+        "\\(f\\) is constantly \\(1\\).",
+        "The integral is zero only at \\(x=0\\).",
+        "\\(f\\) is not continuous."
+      ],
+      "explanation": "Differentiate both sides using FTC.",
+      "tags": []
+    },
+    {
+      "id": "5.9-013",
+      "section": "5.9",
+      "kind": "concept",
+      "prompt": "What conceptual relationship do the two forms of the Fundamental Theorem of Calculus establish?",
+      "correct": "differentiation and integration undo each other up to an additive constant/endpoints.",
+      "choices": [
+        "differentiation and integration undo each other up to an additive constant/endpoints.",
+        "every function is differentiable",
+        "every series converges",
+        "all integrals are areas."
+      ],
+      "explanation": "Antiderivatives evaluate definite integrals, and accumulation functions differentiate back to the integrand.",
+      "tags": []
+    },
+    {
+      "id": "5.9-new-accumgraph",
+      "section": "5.9",
+      "kind": "concept",
+      "prompt": "Let \\(F(x)=\\int_a^x f(t)\\,dt\\), where \\(f\\) is continuous. Which statement is the first Fundamental Theorem of Calculus in the notes?",
+      "choices": [
+        "\\(F'(x)=f(x).\\)",
+        "\\(F'(x)=0.\\)",
+        "\\(F(x)=f'(x).\\)",
+        "\\(F\\) need not be continuous."
+      ],
+      "correct": "\\(F'(x)=f(x).\\)",
+      "explanation": "The accumulation function has derivative equal to the original continuous integrand.",
+      "tags": []
+    },
+    {
+      "id": "6.1-001",
+      "section": "6.1",
+      "kind": "concept",
+      "prompt": "Which description best matches the infinite series \\(\\sum_{k=1}^{\\infty}a_k\\)?",
+      "correct": "The limit, if it exists, of the sequence of partial sums \\(s_n=\\sum_{k=1}^{n}a_k\\).",
+      "choices": [
+        "The limit, if it exists, of the sequence of partial sums \\(s_n=\\sum_{k=1}^{n}a_k\\).",
+        "The limit of \\(a_k\\) only.",
+        "The set of its terms.",
+        "The product of all terms."
+      ],
+      "explanation": "An infinite series is defined through the convergence of its sequence of partial sums.",
+      "tags": []
+    },
+    {
+      "id": "6.1-003",
+      "section": "6.1",
+      "kind": "concept",
+      "prompt": "If \\(\\sum_{k=0}^{\\infty}a_k\\) is a series, what is its \\(n\\)th partial sum?",
+      "correct": "\\(\\displaystyle s_n=\\sum_{k=0}^n a_k\\)",
+      "choices": [
+        "\\(\\displaystyle s_n=\\sum_{k=0}^n a_k\\)",
+        "\\(s_n=a_n\\) only",
+        "\\(\\displaystyle s_n=\\sum_{k=n}^{\\infty}a_k\\)",
+        "\\(\\displaystyle s_n=\\frac{a_{n+1}}{a_n}\\)"
+      ],
+      "explanation": "In the notes, partial sum \\(s_n\\) is characterized by the condition in the correct choice: \\(\\displaystyle s_n=\\sum_{k=0}^n a_k\\).",
+      "tags": []
+    },
+    {
+      "id": "6.1-005",
+      "section": "6.1",
+      "kind": "concept",
+      "prompt": "For the geometric series \\(\\sum_{k=0}^{\\infty}ar^k\\) with \\(|r|<1\\), which formula gives its sum?",
+      "correct": "The series converges to \\(a/(1-r)\\).",
+      "choices": [
+        "The series converges to \\(a/(1-r)\\).",
+        "It converges to \\(ar\\).",
+        "It diverges for every \\(r\\)",
+        "It converges to \\(1/(1-a)\\)."
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: The series converges to \\(a/(1-r)\\).",
+      "tags": []
+    },
+    {
+      "id": "6.1-007",
+      "section": "6.1",
+      "kind": "concept",
+      "prompt": "Suppose the series \\(\\sum_{k=1}^{\\infty}a_k\\) converges. What must be true about the sequence of terms \\(\\langle a_k\\rangle\\)?",
+      "correct": "\\(a_k\\to0\\).",
+      "choices": [
+        "\\(a_k\\to0\\).",
+        "\\(a_k\\) is decreasing",
+        "\\(a_k>0\\)",
+        "\\(a_k\\) sums to \\(0\\)"
+      ],
+      "explanation": "A necessary condition for convergence of a series is \\(a_k\\to0\\).",
+      "tags": []
+    },
+    {
+      "id": "6.1-009",
+      "section": "6.1",
+      "kind": "concept",
+      "prompt": "If \\(a_k\\to0\\), must the series \\(\\sum_{k=1}^{\\infty}a_k\\) converge?",
+      "correct": "No",
+      "choices": [
+        "No",
+        "Yes",
+        "Only if \\(a_k\\) is rational",
+        "Only if the first term is \\(0\\)"
+      ],
+      "explanation": "The harmonic series is the standard counterexample.",
+      "tags": []
+    },
+    {
+      "id": "6.1-010",
+      "section": "6.1",
+      "kind": "homework",
+      "prompt": "What is the sum of the geometric series \\(\\displaystyle\\sum_{k=0}^{\\infty}3\\left(\\frac12\\right)^k\\)?",
+      "correct": "\\(6\\)",
+      "choices": [
+        "\\(6\\)",
+        "\\(3\\)",
+        "\\(3/2\\)",
+        "The series diverges."
+      ],
+      "explanation": "For a geometric series, \\(a/(1-r)=3/(1-1/2)=6\\).",
+      "tags": []
+    },
+    {
+      "id": "6.1-011",
+      "section": "6.1",
+      "kind": "homework",
+      "prompt": "Does the harmonic series \\(\\displaystyle\\sum_{k=1}^{\\infty}\\frac1k\\) converge?",
+      "correct": "No; it is the harmonic series.",
+      "choices": [
+        "No; it is the harmonic series.",
+        "Yes, to \\(1\\)",
+        "Yes, by the term test",
+        "Yes, because terms decrease."
+      ],
+      "explanation": "Its terms go to zero but too slowly; grouping proves divergence.",
+      "tags": []
+    },
+    {
+      "id": "6.1-012",
+      "section": "6.1",
+      "kind": "homework",
+      "prompt": "For which real \\(p\\) does \\(\\displaystyle\\sum_{k=1}^{\\infty}\\frac1{k^p}\\) converge?",
+      "correct": "\\(p>1\\)",
+      "choices": [
+        "\\(p>1\\)",
+        "\\(p\\ge0\\)",
+        "\\(p<1\\)",
+        "all \\(p\\)"
+      ],
+      "explanation": "This is the \\(p\\)-series theorem.",
+      "tags": []
+    },
+    {
+      "id": "6.1-013",
+      "section": "6.1",
+      "kind": "concept",
+      "prompt": "If two infinite series converge, what can be said about the series formed by adding their terms term-by-term?",
+      "correct": "The term-by-term sum series converges to the sum of the two series sums.",
+      "choices": [
+        "The term-by-term sum series converges to the sum of the two series sums.",
+        "The term-by-term sum series must diverge.",
+        "The term-by-term sum series converges to the product of the two sums.",
+        "The term-by-term sum series must be geometric."
+      ],
+      "explanation": "Partial sums add, then limit laws apply.",
+      "tags": []
+    },
+    {
+      "id": "6.1-014",
+      "section": "6.1",
+      "kind": "homework",
+      "prompt": "What is the sum of \\(\\displaystyle\\sum_{k=1}^{\\infty}\\frac{1}{2^k}\\)?",
+      "correct": "\\(1\\)",
+      "choices": [
+        "\\(1\\)",
+        "\\(2\\)",
+        "\\(\\frac12\\)",
+        "The series diverges."
+      ],
+      "explanation": "This geometric series begins with \\(1/2\\) and has ratio \\(1/2\\).",
+      "tags": []
+    },
+    {
+      "id": "6.1-015",
+      "section": "6.1",
+      "kind": "proof",
+      "prompt": "If \\(s_n=\\sum_{k=1}^{n}a_k\\) is the sequence of partial sums, which identity relates the term \\(a_n\\) to consecutive partial sums?",
+      "correct": "\\(a_n=s_n-s_{n-1}\\).",
+      "choices": [
+        "\\(a_n=s_n-s_{n-1}\\).",
+        "\\(a_n=s_n+s_{n-1}\\).",
+        "\\(a_n\\) equals the series sum for every \\(n\\).",
+        "\\(a_n=1/s_n\\)."
+      ],
+      "explanation": "Because \\(a_n=s_n-s_{n-1}\\), if the partial sums converge then the difference of two sequences with the same limit tends to \\(0\\), so \\(a_n\\to0\\).",
+      "tags": []
+    },
+    {
+      "id": "6.1-new-partialsumgraph",
+      "section": "6.1",
+      "kind": "concept",
+      "prompt": "The plotted partial sums approach a horizontal level. What is the definition of convergence of the corresponding series?",
+      "choices": [
+        "The sequence of partial sums converges.",
+        "The individual terms are bounded.",
+        "The sequence of terms is increasing.",
+        "The terms are all positive."
+      ],
+      "correct": "The sequence of partial sums converges.",
+      "explanation": "A series converges exactly when its sequence of partial sums converges.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"Partial sums approaching a finite limit\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"48.0\" y1=\"20\" x2=\"48.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"98.2\" y1=\"20\" x2=\"98.2\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"148.4\" y1=\"20\" x2=\"148.4\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"198.7\" y1=\"20\" x2=\"198.7\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"248.9\" y1=\"20\" x2=\"248.9\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"299.1\" y1=\"20\" x2=\"299.1\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"349.3\" y1=\"20\" x2=\"349.3\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"399.6\" y1=\"20\" x2=\"399.6\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"449.8\" y1=\"20\" x2=\"449.8\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"500.0\" y1=\"20\" x2=\"500.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"240.0\" x2=\"500\" y2=\"240.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"144.3\" x2=\"500\" y2=\"144.3\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"48.7\" x2=\"500\" y2=\"48.7\" stroke=\"#e5e7eb\"/><line x1=\"48.0\" y1=\"20\" x2=\"48.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"240.0\" x2=\"500\" y2=\"240.0\" stroke=\"#555\" stroke-width=\"1.4\"/><polyline points=\"48.0,48.7 500.0,48.7\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\" stroke-dasharray=\"7,5\"/><circle cx=\"98.2\" cy=\"144.3\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"148.4\" cy=\"96.5\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"198.7\" cy=\"72.6\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"248.9\" cy=\"60.7\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"299.1\" cy=\"54.7\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"349.3\" cy=\"51.7\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"399.6\" cy=\"50.2\" r=\"4.2\" fill=\"#1d4ed8\"/><circle cx=\"449.8\" cy=\"49.4\" r=\"4.2\" fill=\"#1d4ed8\"/></svg><div class=\"figure-caption\">Partial sums approaching a finite limit</div>"
+    },
+    {
+      "id": "6.2-001",
+      "section": "6.2",
+      "kind": "concept",
+      "prompt": "When is a series \\(\\sum_{k=1}^{\\infty}a_k\\) absolutely convergent?",
+      "correct": "\\(\\sum_{k=1}^{\\infty}|a_k|\\) converges.",
+      "choices": [
+        "\\(\\sum_{k=1}^{\\infty}|a_k|\\) converges.",
+        "The series \\(\\sum a_k\\) has positive terms.",
+        "\\(a_k\\to0\\).",
+        "Partial sums are bounded above only."
+      ],
+      "explanation": "In the notes, absolute convergence is characterized by the condition in the correct choice: \\(\\sum_{k=1}^{\\infty}|a_k|\\) converges.",
+      "tags": []
+    },
+    {
+      "id": "6.2-003",
+      "section": "6.2",
+      "kind": "concept",
+      "prompt": "Suppose \\(0\\le a_k\\le b_k\\) for all sufficiently large \\(k\\) and \\(\\sum b_k\\) converges. What conclusion follows from the Direct Comparison Test?",
+      "correct": "\\(\\sum a_k\\) converges.",
+      "choices": [
+        "\\(\\sum a_k\\) converges.",
+        "\\(\\sum a_k\\) diverges.",
+        "\\(\\sum b_k\\) diverges.",
+        "\\(a_k=b_k\\) eventually."
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: \\(\\sum a_k\\) converges.",
+      "tags": []
+    },
+    {
+      "id": "6.2-005",
+      "section": "6.2",
+      "kind": "concept",
+      "prompt": "Suppose \\(a_k>0\\) and \\(b_k>0\\) eventually, and \\(\\lim_{k\\to\\infty}a_k/b_k=L\\) with \\(0<L<\\infty\\). What does the Limit Comparison Test imply?",
+      "correct": "\\(\\sum a_k\\) and \\(\\sum b_k\\) have the same convergence behavior.",
+      "choices": [
+        "\\(\\sum a_k\\) and \\(\\sum b_k\\) have the same convergence behavior.",
+        "Both converge to \\(L\\)",
+        "\\(a_k=b_k\\) eventually",
+        "Only \\(\\sum a_k\\) converges."
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: \\(\\sum a_k\\) and \\(\\sum b_k\\) have the same convergence behavior.",
+      "tags": []
+    },
+    {
+      "id": "6.2-007",
+      "section": "6.2",
+      "kind": "concept",
+      "prompt": "Suppose \\(\\lim_{k\\to\\infty}|a_{k+1}/a_k|=L\\) with \\(L<1\\). What conclusion follows from the Ratio Test?",
+      "correct": "\\(\\sum a_k\\) converges absolutely.",
+      "choices": [
+        "\\(\\sum a_k\\) converges absolutely.",
+        "The series diverges",
+        "The test is inconclusive only when \\(L<1\\)",
+        "The sum equals \\(L\\)"
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: \\(\\sum a_k\\) converges absolutely.",
+      "tags": []
+    },
+    {
+      "id": "6.2-009",
+      "section": "6.2",
+      "kind": "concept",
+      "prompt": "For the Ratio Test or Root Test, what does a limiting value \\(L>1\\) imply?",
+      "correct": "The series diverges.",
+      "choices": [
+        "The series diverges.",
+        "The series converges absolutely.",
+        "The series converges conditionally.",
+        "The sum of the series equals \\(L\\)."
+      ],
+      "explanation": "Terms fail to decay fast enough; in fact they do not approach zero appropriately.",
+      "tags": []
+    },
+    {
+      "id": "6.2-010",
+      "section": "6.2",
+      "kind": "homework",
+      "prompt": "Which test is most natural for \\(\\displaystyle\\sum\\frac{1}{k^2+1}\\)?",
+      "correct": "Comparison with \\(\\displaystyle\\sum\\frac1{k^2}\\).",
+      "choices": [
+        "Comparison with \\(\\displaystyle\\sum\\frac1{k^2}\\).",
+        "The Ratio Test only.",
+        "The term test proves convergence.",
+        "The Alternating Series Test."
+      ],
+      "explanation": "For large \\(k\\), \\(1/(k^2+1)\\le1/k^2\\).",
+      "tags": []
+    },
+    {
+      "id": "6.2-011",
+      "section": "6.2",
+      "kind": "homework",
+      "prompt": "Which test is most natural for \\(\\displaystyle\\sum\\frac{k!}{3^k}\\)?",
+      "correct": "The Ratio Test.",
+      "choices": [
+        "The Ratio Test.",
+        "The Integral Test.",
+        "The Alternating Series Test.",
+        "Direct comparison with the harmonic series immediately."
+      ],
+      "explanation": "The ratio is \\((k+1)/3\\), eventually greater than \\(1\\), so it diverges.",
+      "tags": []
+    },
+    {
+      "id": "6.2-012",
+      "section": "6.2",
+      "kind": "homework",
+      "prompt": "How should the alternating harmonic series \\(\\sum_{k=1}^{\\infty}(-1)^{k+1}/k\\) be classified?",
+      "correct": "The series is conditionally convergent.",
+      "choices": [
+        "The series is conditionally convergent.",
+        "The series is absolutely convergent.",
+        "The series diverges by the term test.",
+        "The series is geometric."
+      ],
+      "explanation": "The Alternating Series Test gives convergence, but \\(\\sum_{k=1}^{\\infty}1/k\\) diverges, so the convergence is conditional.",
+      "tags": []
+    },
+    {
+      "id": "6.2-013",
+      "section": "6.2",
+      "kind": "concept",
+      "prompt": "For a convergent alternating series satisfying the hypotheses of the Alternating Series Test, what bounds the error after \\(n\\) terms?",
+      "correct": "the magnitude of the first omitted term",
+      "choices": [
+        "the magnitude of the first omitted term",
+        "the sum of all omitted magnitudes",
+        "\\(1/n^2\\) always",
+        "the ratio limit"
+      ],
+      "explanation": "For decreasing terms tending to zero, the remainder is trapped between successive partial sums.",
+      "tags": []
+    },
+    {
+      "id": "6.2-014",
+      "section": "6.2",
+      "kind": "homework",
+      "prompt": "Does the series \\(\\displaystyle\\sum_{k=2}^{\\infty}\\frac{1}{k\\ln k}\\) converge?",
+      "correct": "No, by the Integral Test.",
+      "choices": [
+        "No, by the Integral Test.",
+        "Yes, by comparison with \\(1/k^2\\).",
+        "Yes, by the Ratio Test with limit \\(0\\).",
+        "Yes, as a geometric series."
+      ],
+      "explanation": "The integral \\(\\displaystyle\\int_2^\\infty\\frac{dx}{x\\ln x}\\) diverges because its antiderivative is \\(\\ln(\\ln x)\\), which is unbounded.",
+      "tags": []
+    },
+    {
+      "id": "6.2-015",
+      "section": "6.2",
+      "kind": "homework",
+      "prompt": "Suppose \\(\\sum a_k\\) converges absolutely and \\(\\langle b_k\\rangle\\) is bounded. What can be concluded about \\(\\sum a_kb_k\\)?",
+      "correct": "The series \\(\\sum a_kb_k\\) converges absolutely.",
+      "choices": [
+        "The series \\(\\sum a_kb_k\\) converges absolutely.",
+        "The series \\(\\sum a_kb_k\\) must diverge.",
+        "The series \\(\\sum a_kb_k\\) must be geometric.",
+        "The series \\(\\sum a_kb_k\\) must have sum \\(0\\)."
+      ],
+      "explanation": "If \\(|b_k|\\le M\\), then \\(|a_kb_k|\\le M|a_k|\\), and comparison applies.",
+      "tags": []
+    },
+    {
+      "id": "6.2-016",
+      "section": "6.2",
+      "kind": "concept",
+      "prompt": "If the Ratio Test produces the limiting value \\(L=1\\), what conclusion does the test give?",
+      "correct": "The Ratio Test is inconclusive.",
+      "choices": [
+        "The Ratio Test is inconclusive.",
+        "The Ratio Test proves convergence.",
+        "The Ratio Test proves divergence.",
+        "The Ratio Test proves conditional convergence."
+      ],
+      "explanation": "Both the harmonic series and the \\(p=2\\) series have ratio limit \\(1\\), but they have different convergence behavior.",
+      "tags": []
+    },
+    {
+      "id": "6.2-new-ratioformal",
+      "section": "6.2",
+      "kind": "concept",
+      "prompt": "Why does the Ratio Test conclusion for \\(L<1\\) give absolute convergence?",
+      "choices": [
+        "The test is applied to \\(\\sum |a_k|\\), whose ratio of successive terms is \\(|a_{k+1}/a_k|\\).",
+        "The Ratio Test assumes all terms are positive.",
+        "Absolute and ordinary convergence are the same definition.",
+        "The Ratio Test never uses absolute values."
+      ],
+      "correct": "The test is applied to \\(\\sum |a_k|\\), whose ratio of successive terms is \\(|a_{k+1}/a_k|\\).",
+      "explanation": "When the limiting ratio is less than \\(1\\), the absolute-value series converges, so the original series converges absolutely.",
+      "tags": []
+    },
+    {
+      "id": "6.3-001",
+      "section": "6.3",
+      "kind": "concept",
+      "prompt": "Which expression is a power series centered at \\(c\\)?",
+      "correct": "\\(\\displaystyle\\sum_{k=0}^{\\infty}a_k(x-c)^k\\)",
+      "choices": [
+        "\\(\\displaystyle\\sum_{k=0}^{\\infty}a_k(x-c)^k\\)",
+        "\\(\\displaystyle\\sum_{k=0}^{\\infty}a_kc^x\\)",
+        "A polynomial with finitely many terms only.",
+        "A Fourier series."
+      ],
+      "explanation": "In the notes, a power series centered at \\(c\\) is characterized by the condition in the correct choice: \\(\\displaystyle\\sum_{k=0}^{\\infty}a_k(x-c)^k\\).",
+      "tags": []
+    },
+    {
+      "id": "6.3-003",
+      "section": "6.3",
+      "kind": "concept",
+      "prompt": "What does it mean for a power series centered at \\(c\\) to have radius of convergence \\(R\\)?",
+      "correct": "The number \\(R\\) such that the series converges for \\(|x-c|<R\\) and diverges for \\(|x-c|>R\\).",
+      "choices": [
+        "The number \\(R\\) such that the series converges for \\(|x-c|<R\\) and diverges for \\(|x-c|>R\\).",
+        "The sum of the series.",
+        "The center \\(c\\).",
+        "The first coefficient."
+      ],
+      "explanation": "The radius of convergence \\(R\\) separates the interior region \\(|x-c|<R\\), where convergence is guaranteed, from \\(|x-c|>R\\), where divergence occurs.",
+      "tags": []
+    },
+    {
+      "id": "6.3-005",
+      "section": "6.3",
+      "kind": "concept",
+      "prompt": "For a power series with radius of convergence \\(R\\), what can be concluded from the radius alone about convergence at points satisfying \\(|x-c|=R\\)?",
+      "correct": "Convergence at those boundary points must be tested separately.",
+      "choices": [
+        "Convergence at those boundary points must be tested separately.",
+        "Convergence always occurs at both boundary points.",
+        "Divergence always occurs at both boundary points.",
+        "Endpoint behavior is determined solely by the center."
+      ],
+      "explanation": "Different endpoints may behave differently.",
+      "tags": []
+    },
+    {
+      "id": "6.3-006",
+      "section": "6.3",
+      "kind": "homework",
+      "prompt": "What is the radius of convergence of \\(\\displaystyle\\sum_{k=0}^{\\infty}\\frac{x^k}{3^k}\\)?",
+      "correct": "\\(3\\)",
+      "choices": [
+        "\\(3\\)",
+        "\\(1/3\\)",
+        "\\(1\\)",
+        "\\(\\infty\\)"
+      ],
+      "explanation": "The series is geometric with ratio \\(x/3\\), so it converges when \\(|x|<3\\).",
+      "tags": []
+    },
+    {
+      "id": "6.3-007",
+      "section": "6.3",
+      "kind": "homework",
+      "prompt": "What is the interval of convergence of \\(\\displaystyle\\sum_{k=1}^{\\infty}\\frac{x^k}{k}\\)?",
+      "correct": "\\([-1,1)\\)",
+      "choices": [
+        "\\([-1,1)\\)",
+        "\\((-1,1)\\)",
+        "\\([-1,1]\\)",
+        "\\(\\mathbb{R}\\)"
+      ],
+      "explanation": "The radius is \\(1\\). At \\(x=1\\), the harmonic series diverges; at \\(x=-1\\), the alternating harmonic series converges.",
+      "tags": []
+    },
+    {
+      "id": "6.3-008",
+      "section": "6.3",
+      "kind": "homework",
+      "prompt": "What is the radius of convergence of \\(\\sum_{k=0}^{\\infty}k!x^k\\)?",
+      "correct": "\\(0\\)",
+      "choices": [
+        "\\(0\\)",
+        "\\(1\\)",
+        "\\(\\infty\\)",
+        "\\(e\\)"
+      ],
+      "explanation": "The ratio of successive absolute terms is \\((k+1)|x|\\), which diverges for every \\(x\\ne0\\).",
+      "tags": []
+    },
+    {
+      "id": "6.3-009",
+      "section": "6.3",
+      "kind": "homework",
+      "prompt": "What is the radius of convergence of \\(\\sum_{k=0}^{\\infty}x^k/k!\\)?",
+      "correct": "\\(\\infty\\)",
+      "choices": [
+        "\\(\\infty\\)",
+        "\\(0\\)",
+        "\\(1\\)",
+        "\\(e\\)"
+      ],
+      "explanation": "The ratio tends to \\(0\\) for every real \\(x\\).",
+      "tags": []
+    },
+    {
+      "id": "6.3-010",
+      "section": "6.3",
+      "kind": "concept",
+      "prompt": "Suppose a power series centered at \\(c\\) converges at \\(x=z\\) with \\(|z-c|=d\\). At which other points is convergence guaranteed?",
+      "correct": "absolutely for every \\(x\\) with \\(|x-c|<d\\).",
+      "choices": [
+        "absolutely for every \\(x\\) with \\(|x-c|<d\\).",
+        "only at \\(x=z\\)",
+        "for every \\(x\\) with \\(|x-c|>d\\)",
+        "nowhere else."
+      ],
+      "explanation": "For \\(|x-c|<|z-c|\\), comparison uses the geometric factor \\(\\left|\\frac{x-c}{z-c}\\right|^k\\).",
+      "tags": []
+    },
+    {
+      "id": "6.3-011",
+      "section": "6.3",
+      "kind": "proof",
+      "prompt": "Why is the convergence set of a power series necessarily interval-shaped, apart from the endpoint choices?",
+      "correct": "convergence at one distance from the center forces convergence at every smaller distance.",
+      "choices": [
+        "convergence at one distance from the center forces convergence at every smaller distance.",
+        "coefficients are positive",
+        "the series is always monotone",
+        "the center is rational."
+      ],
+      "explanation": "The radius theorem follows from this inward convergence property.",
+      "tags": []
+    },
+    {
+      "id": "6.3-012",
+      "section": "6.3",
+      "kind": "homework",
+      "prompt": "What is the center of the power series \\(\\sum_{k=0}^{\\infty}a_k(x-2)^k\\)?",
+      "correct": "\\(2\\)",
+      "choices": [
+        "\\(2\\)",
+        "\\(0\\)",
+        "\\(-2\\)",
+        "\\(a_0\\)"
+      ],
+      "explanation": "The power is written in terms of \\(x-c\\).",
+      "tags": []
+    },
+    {
+      "id": "6.3-new-radiusgraph",
+      "section": "6.3",
+      "kind": "concept",
+      "prompt": "A power series centered at \\(0\\) converges for every \\(|x|<3\\) and diverges for every \\(|x|>3\\). What is its radius of convergence?",
+      "choices": [
+        "\\(3\\)",
+        "\\(6\\)",
+        "\\(9\\)",
+        "The radius cannot be determined without knowing endpoint behavior."
+      ],
+      "correct": "\\(3\\)",
+      "explanation": "Endpoint behavior affects the interval of convergence but not the radius itself.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"Interior convergence interval (-3,3); endpoint behavior unspecified\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"48.0\" y1=\"20\" x2=\"48.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"104.5\" y1=\"20\" x2=\"104.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"161.0\" y1=\"20\" x2=\"161.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"217.5\" y1=\"20\" x2=\"217.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"330.5\" y1=\"20\" x2=\"330.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"387.0\" y1=\"20\" x2=\"387.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"443.5\" y1=\"20\" x2=\"443.5\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"500.0\" y1=\"20\" x2=\"500.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"240.0\" x2=\"500\" y2=\"240.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"130.0\" x2=\"500\" y2=\"130.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"20.0\" x2=\"500\" y2=\"20.0\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"130.0\" x2=\"500\" y2=\"130.0\" stroke=\"#555\" stroke-width=\"1.4\"/><polyline points=\"104.5,130.0 443.5,130.0\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/><circle cx=\"104.5\" cy=\"130.0\" r=\"5\" fill=\"white\" stroke=\"#b91c1c\" stroke-width=\"2\"/><circle cx=\"443.5\" cy=\"130.0\" r=\"5\" fill=\"white\" stroke=\"#b91c1c\" stroke-width=\"2\"/><text x=\"109.5\" y=\"124.0\" font-size=\"13\" fill=\"#111827\">-3</text><text x=\"279.0\" y=\"124.0\" font-size=\"13\" fill=\"#111827\">0</text><text x=\"448.5\" y=\"124.0\" font-size=\"13\" fill=\"#111827\">3</text></svg><div class=\"figure-caption\">Interior convergence interval (-3,3); endpoint behavior unspecified</div>"
+    },
+    {
+      "id": "6.4-001",
+      "section": "6.4",
+      "kind": "concept",
+      "prompt": "Suppose the power series \\(f(x)=\\sum_{k=0}^{\\infty}c_kx^k\\) has radius of convergence \\(R>0\\). Which continuity conclusion holds for \\(|x|<R\\)?",
+      "correct": "The sum function is continuous there.",
+      "choices": [
+        "The sum function is continuous there.",
+        "The sum is constant",
+        "The series terminates",
+        "The function is discontinuous at the center"
+      ],
+      "explanation": "Under the hypotheses stated in the question, the result concludes: The sum function is continuous there.",
+      "tags": []
+    },
+    {
+      "id": "6.4-003",
+      "section": "6.4",
+      "kind": "concept",
+      "prompt": "Suppose \\(f(x)=\\sum_{k=0}^{\\infty}c_kx^k\\) has radius of convergence \\(R>0\\). Which formula gives \\(f'(x)\\) for \\(|x|<R\\)?",
+      "correct": "\\(\\displaystyle f'(x)=\\sum_{k=1}^{\\infty}k c_kx^{k-1}\\).",
+      "choices": [
+        "\\(\\displaystyle f'(x)=\\sum_{k=1}^{\\infty}k c_kx^{k-1}\\).",
+        "\\(\\displaystyle f'(x)=\\sum_{k=0}^{\\infty}c_kx^{k+1}\\).",
+        "\\(\\displaystyle f'(x)=\\sum_{k=0}^{\\infty}\\frac{c_k}{k+1}\\).",
+        "Term-by-term differentiation is never valid for a power series."
+      ],
+      "explanation": "Inside the radius of convergence, a power series may be differentiated term by term, and the differentiated series has the same radius of convergence.",
+      "tags": []
+    },
+    {
+      "id": "6.4-005",
+      "section": "6.4",
+      "kind": "concept",
+      "prompt": "Suppose \\(f(x)=\\sum_{k=0}^{\\infty}c_kx^k\\) has radius of convergence \\(R>0\\). Which formula gives a term-by-term antiderivative for \\(|x|<R\\)?",
+      "correct": "\\(\\displaystyle C+\\sum_{k=0}^{\\infty}\\frac{c_k}{k+1}x^{k+1}\\).",
+      "choices": [
+        "\\(\\displaystyle C+\\sum_{k=0}^{\\infty}\\frac{c_k}{k+1}x^{k+1}\\).",
+        "\\(\\displaystyle C+\\sum_{k=1}^{\\infty}k c_kx^{k-1}\\).",
+        "\\(\\displaystyle C+\\sum_{k=0}^{\\infty}c_kx^k\\).",
+        "Term-by-term integration is never valid for a power series."
+      ],
+      "explanation": "Inside the radius of convergence, a power series may be integrated term by term, and the resulting power series has the same radius.",
+      "tags": []
+    },
+    {
+      "id": "6.4-007",
+      "section": "6.4",
+      "kind": "concept",
+      "prompt": "Why is uniform convergence on \\([-r,r]\\) with \\(0<r<R\\) useful when studying a power series with radius \\(R\\)?",
+      "correct": "It permits uniform control needed to pass limits through continuity and integration arguments safely.",
+      "choices": [
+        "It permits uniform control needed to pass limits through continuity and integration arguments safely.",
+        "It makes every coefficient zero.",
+        "It forces convergence at the endpoints \\(|x|=R\\).",
+        "It makes every power series geometric."
+      ],
+      "explanation": "Uniform tail control is stronger than pointwise convergence.",
+      "tags": []
+    },
+    {
+      "id": "6.4-008",
+      "section": "6.4",
+      "kind": "homework",
+      "prompt": "Starting with \\(\\frac1{1-x}=\\sum_{k=0}^{\\infty}x^k\\) for \\(|x|<1\\), which series identity follows by differentiating term-by-term?",
+      "correct": "\\(\\displaystyle\\frac{1}{(1-x)^2}=\\sum_{k=1}^{\\infty}kx^{k-1}\\)",
+      "choices": [
+        "\\(\\displaystyle\\frac{1}{(1-x)^2}=\\sum_{k=1}^{\\infty}kx^{k-1}\\)",
+        "\\(\\displaystyle-\\frac{1}{(1-x)^2}=\\sum x^k\\)",
+        "\\(\\displaystyle\\ln(1-x)=\\sum x^k\\)",
+        "\\(\\displaystyle\\frac{1}{1+x}=\\sum x^k\\)"
+      ],
+      "explanation": "Differentiate both sides term by term.",
+      "tags": []
+    },
+    {
+      "id": "6.4-009",
+      "section": "6.4",
+      "kind": "homework",
+      "prompt": "Starting with \\(\\sum_{k=0}^{\\infty}x^k\\) for \\(|x|<1\\), which identity follows by integrating term-by-term from \\(0\\) to \\(x\\)?",
+      "correct": "\\(\\displaystyle-\\ln(1-x)=\\sum_{k=0}^{\\infty}\\frac{x^{k+1}}{k+1}\\)",
+      "choices": [
+        "\\(\\displaystyle-\\ln(1-x)=\\sum_{k=0}^{\\infty}\\frac{x^{k+1}}{k+1}\\)",
+        "\\(\\displaystyle\\ln(1+x)=\\sum x^k\\)",
+        "\\(\\displaystyle\\frac{1}{(1-x)^2}\\)",
+        "\\(e^x\\)"
+      ],
+      "explanation": "The integral of \\(1/(1-t)\\) from \\(0\\) to \\(x\\) is \\(-\\ln(1-x)\\).",
+      "tags": []
+    },
+    {
+      "id": "6.4-010",
+      "section": "6.4",
+      "kind": "concept",
+      "prompt": "Where may a power series be differentiated term-by-term without separately resolving endpoint behavior?",
+      "correct": "on every closed subinterval strictly inside the radius, hence at each interior point.",
+      "choices": [
+        "on every closed subinterval strictly inside the radius, hence at each interior point.",
+        "at every endpoint automatically",
+        "outside the radius",
+        "only at the center."
+      ],
+      "explanation": "The theorem does not by itself settle endpoint behavior.",
+      "tags": []
+    },
+    {
+      "id": "6.4-011",
+      "section": "6.4",
+      "kind": "homework",
+      "prompt": "If \\(f(x)=\\sum_{k=0}^{\\infty}a_kx^k\\) near \\(0\\), what is \\(f^{(n)}(0)\\) in terms of \\(a_n\\)?",
+      "correct": "\\(n!a_n\\)",
+      "choices": [
+        "\\(n!a_n\\)",
+        "\\(\\frac{a_n}{n!}\\)",
+        "\\(a_0\\)",
+        "\\(0\\)"
+      ],
+      "explanation": "All other terms vanish at \\(0\\) after \\(n\\) derivatives; the \\(x^n\\) term gives \\(n!a_n\\).",
+      "tags": []
+    },
+    {
+      "id": "6.4-012",
+      "section": "6.4",
+      "kind": "concept",
+      "prompt": "Why are separate endpoint results needed after proving term-by-term properties inside the radius of convergence?",
+      "correct": "uniform convergence on compact subintervals does not automatically include the radius endpoints.",
+      "choices": [
+        "uniform convergence on compact subintervals does not automatically include the radius endpoints.",
+        "power series never converge at endpoints",
+        "the radius is always infinite",
+        "derivatives do not exist inside."
+      ],
+      "explanation": "Endpoint behavior requires separate arguments and hypotheses.",
+      "tags": []
+    },
+    {
+      "id": "6.4-013",
+      "section": "6.4",
+      "kind": "proof",
+      "prompt": "For a power series with radius \\(R\\), which geometric comparison is used to control the tail uniformly on \\(|x|\\le r<R\\)?",
+      "correct": "A convergent geometric series involving \\((r/R_0)^k\\) for some \\(R_0\\) with \\(r<R_0<R\\).",
+      "choices": [
+        "A convergent geometric series involving \\((r/R_0)^k\\) for some \\(R_0\\) with \\(r<R_0<R\\).",
+        "the harmonic series",
+        "a constant independent of \\(k\\) that does not sum",
+        "the derivative at zero."
+      ],
+      "explanation": "Convergence at a larger interior radius supplies coefficient control.",
+      "tags": []
+    },
+    {
+      "id": "6.4-014",
+      "section": "6.4",
+      "kind": "homework",
+      "prompt": "What is the derivative of \\(\\sum_{k=0}^{\\infty}x^k/k!\\) inside its interval of convergence?",
+      "correct": "The same series.",
+      "choices": [
+        "The same series.",
+        "\\(0\\)",
+        "\\(\\displaystyle\\sum x^k\\)",
+        "\\(\\displaystyle\\frac{1}{1-x}\\)"
+      ],
+      "explanation": "Termwise differentiation shifts indices and reproduces \\(e^x\\).",
+      "tags": []
+    },
+    {
+      "id": "6.4-new-termwise",
+      "section": "6.4",
+      "kind": "concept",
+      "prompt": "Inside the radius of convergence, which term-by-term operations are valid for a power series \\(f(x)=\\sum_{k=0}^{\\infty}c_kx^k\\)?",
+      "choices": [
+        "It may be differentiated term by term, and the differentiated series has the same radius of convergence.",
+        "It may never be differentiated.",
+        "It can be differentiated term by term only at \\(x=0\\).",
+        "Termwise differentiation always decreases the radius to \\(0\\)."
+      ],
+      "correct": "It may be differentiated term by term, and the differentiated series has the same radius of convergence.",
+      "explanation": "This is one of the central structural properties established in Section 6.4.",
+      "tags": []
+    },
+    {
+      "id": "6.5-001",
+      "section": "6.5",
+      "kind": "concept",
+      "prompt": "Which formula gives the Taylor polynomial \\(P_n\\) of degree \\(n\\) for \\(f\\) at \\(0\\)?",
+      "correct": "\\(\\displaystyle P_n(x)=\\sum_{k=0}^{n}\\frac{f^{(k)}(0)}{k!}x^k\\)",
+      "choices": [
+        "\\(\\displaystyle P_n(x)=\\sum_{k=0}^{n}\\frac{f^{(k)}(0)}{k!}x^k\\)",
+        "\\(\\displaystyle P_n(x)=\\sum_{k=0}^{n}f^{(k)}(x)x^k\\)",
+        "\\(\\displaystyle P_n(x)=\\sum_{k=0}^{n}\\frac{f(0)}{k!}x^k\\)",
+        "\\(\\displaystyle P_n(x)=f(0)+f'(x)\\)"
+      ],
+      "explanation": "The notes restrict Taylor polynomials to expansion about \\(0\\): the coefficient of \\(x^k\\) is \\(f^{(k)}(0)/k!\\).",
+      "tags": []
+    },
+    {
+      "id": "6.5-003",
+      "section": "6.5",
+      "kind": "concept",
+      "prompt": "Which series is the Taylor series of \\(f\\) at \\(0\\)?",
+      "correct": "\\(\\displaystyle\\sum_{k=0}^{\\infty}\\frac{f^{(k)}(0)}{k!}x^k\\)",
+      "choices": [
+        "\\(\\displaystyle\\sum_{k=0}^{\\infty}\\frac{f^{(k)}(0)}{k!}x^k\\)",
+        "\\(\\displaystyle\\sum_{k=0}^{\\infty}f(0)^k x^k\\)",
+        "The Fourier series of \\(f\\).",
+        "The sequence \\(\\langle f(n)\\rangle\\)."
+      ],
+      "explanation": "The Taylor series in the notes is the power series whose \\(k\\)th coefficient is \\(f^{(k)}(0)/k!\\).",
+      "tags": []
+    },
+    {
+      "id": "6.5-005",
+      "section": "6.5",
+      "kind": "concept",
+      "prompt": "Suppose \\(f:(a,b)\\to\\mathbb{R}\\) is defined on an open interval containing \\(0\\), and \\(f^{(n+1)}\\) exists on \\((a,b)\\). Let \\(P_n\\) be the degree-\\(n\\) Taylor polynomial at \\(0\\), and let \\(R_n(z)=f(z)-P_n(z)\\). For \\(z\\ne0\\), which conclusion is Taylor's Formula?",
+      "correct": "For some \\(y\\) between \\(0\\) and \\(z\\), \\(\\displaystyle R_n(z)=\\frac{f^{(n+1)}(y)}{(n+1)!}z^{n+1}\\).",
+      "choices": [
+        "For some \\(y\\) between \\(0\\) and \\(z\\), \\(\\displaystyle R_n(z)=\\frac{f^{(n+1)}(y)}{(n+1)!}z^{n+1}\\).",
+        "\\(R_n(z)=0\\) for every differentiable function and every \\(n\\).",
+        "\\(\\displaystyle R_n(z)=\\frac{f^{(n)}(0)}{n!}z^n\\) for every \\(z\\).",
+        "The remainder is always larger in magnitude than the Taylor polynomial."
+      ],
+      "explanation": "Taylor's Formula expresses the remainder at \\(z\\) in Lagrange form using some point \\(y\\) between the center \\(0\\) and \\(z\\).",
+      "tags": []
+    },
+    {
+      "id": "6.5-007",
+      "section": "6.5",
+      "kind": "concept",
+      "prompt": "Is the following statement true or false? A function may have a Taylor series at \\(0\\) without being equal to that series at nonzero points near \\(0\\).",
+      "correct": "True",
+      "choices": [
+        "True",
+        "False",
+        "True only for polynomials",
+        "The statement cannot be decided from the definition."
+      ],
+      "explanation": "The notes give a smooth example whose derivatives of every order at \\(0\\) vanish, so its Taylor series is the zero series even though the function is nonzero away from \\(0\\).",
+      "tags": []
+    },
+    {
+      "id": "6.5-008",
+      "section": "6.5",
+      "kind": "homework",
+      "prompt": "Which series is the Maclaurin series for \\(e^x\\)?",
+      "correct": "\\(\\displaystyle\\sum_{k=0}^{\\infty}\\frac{x^k}{k!}\\)",
+      "choices": [
+        "\\(\\displaystyle\\sum_{k=0}^{\\infty}\\frac{x^k}{k!}\\)",
+        "\\(\\displaystyle\\sum x^k\\)",
+        "\\(\\displaystyle\\sum(-1)^kx^{2k}\\)",
+        "\\(\\displaystyle\\frac{1}{1-x}\\)"
+      ],
+      "explanation": "All derivatives of \\(e^x\\) at \\(0\\) equal \\(1\\).",
+      "tags": []
+    },
+    {
+      "id": "6.5-009",
+      "section": "6.5",
+      "kind": "homework",
+      "prompt": "Which series is the Maclaurin series for \\(\\sin x\\)?",
+      "correct": "\\(\\displaystyle\\sum_{k=0}^{\\infty}(-1)^k\\frac{x^{2k+1}}{(2k+1)!}\\)",
+      "choices": [
+        "\\(\\displaystyle\\sum_{k=0}^{\\infty}(-1)^k\\frac{x^{2k+1}}{(2k+1)!}\\)",
+        "\\(\\displaystyle\\sum\\frac{x^k}{k!}\\)",
+        "\\(\\displaystyle\\sum(-1)^k\\frac{x^{2k}}{(2k)!}\\)",
+        "\\(\\displaystyle\\sum x^{2k+1}\\)"
+      ],
+      "explanation": "Odd derivatives alternate between \\(\\pm1\\), and even derivatives vanish at \\(0\\).",
+      "tags": []
+    },
+    {
+      "id": "6.5-010",
+      "section": "6.5",
+      "kind": "homework",
+      "prompt": "Which series is the Maclaurin series for \\(\\cos x\\)?",
+      "correct": "\\(\\displaystyle\\sum_{k=0}^{\\infty}(-1)^k\\frac{x^{2k}}{(2k)!}\\)",
+      "choices": [
+        "\\(\\displaystyle\\sum_{k=0}^{\\infty}(-1)^k\\frac{x^{2k}}{(2k)!}\\)",
+        "\\(\\displaystyle\\sum(-1)^k\\frac{x^{2k+1}}{(2k+1)!}\\)",
+        "\\(\\displaystyle\\sum x^k\\)",
+        "\\(\\displaystyle\\sum\\frac{x^{2k}}{k}\\)"
+      ],
+      "explanation": "Even derivatives alternate between \\(\\pm1\\), and odd derivatives vanish at \\(0\\).",
+      "tags": []
+    },
+    {
+      "id": "6.5-011",
+      "section": "6.5",
+      "kind": "homework",
+      "prompt": "What is the degree-\\(2\\) Taylor polynomial for \\(e^x\\) centered at \\(0\\)?",
+      "correct": "\\(\\displaystyle 1+x+\\frac{x^2}{2}\\).",
+      "choices": [
+        "\\(\\displaystyle 1+x+\\frac{x^2}{2}\\).",
+        "\\(1+x+x^2.\\)",
+        "\\(x+\\frac{x^2}{2}\\).",
+        "\\(1+\\frac{x^2}{2}\\)."
+      ],
+      "explanation": "For \\(e^x\\), every derivative at \\(0\\) equals \\(1\\), so \\(P_2(x)=1+x+x^2/2\\).",
+      "tags": []
+    },
+    {
+      "id": "6.5-012",
+      "section": "6.5",
+      "kind": "concept",
+      "prompt": "What is the purpose of a remainder estimate in Taylor approximation?",
+      "correct": "It provides a bound on the error between \\(f(x)\\) and its Taylor polynomial.",
+      "choices": [
+        "It provides a bound on the error between \\(f(x)\\) and its Taylor polynomial.",
+        "It finds only the exact first derivative.",
+        "It proves that every series diverges.",
+        "It chooses a supremum."
+      ],
+      "explanation": "Taylor's formula separates approximation from error.",
+      "tags": []
+    },
+    {
+      "id": "6.5-013",
+      "section": "6.5",
+      "kind": "homework",
+      "prompt": "How can the Taylor series for \\(\\sin x\\) be used to approximate \\(\\int_0^a\\sin(t^2)\\,dt\\)?",
+      "correct": "Expand \\(\\sin(t^2)\\) as a power series and integrate term by term.",
+      "choices": [
+        "Expand \\(\\sin(t^2)\\) as a power series and integrate term by term.",
+        "Apply the geometric-series sum directly without substitution.",
+        "Differentiate the integral repeatedly only.",
+        "Claim an elementary antiderivative exists."
+      ],
+      "explanation": "The resulting series gives polynomial approximations and error control.",
+      "tags": []
+    },
+    {
+      "id": "6.5-014",
+      "section": "6.5",
+      "kind": "homework",
+      "prompt": "Can \\(|x|\\) equal a power series on an interval around \\(0\\)?",
+      "correct": "No; a power-series function is differentiable at \\(0\\), but \\(|x|\\) is not.",
+      "choices": [
+        "No; a power-series function is differentiable at \\(0\\), but \\(|x|\\) is not.",
+        "Yes, its Taylor series is \\(x\\).",
+        "Yes, every continuous function is a power series.",
+        "Only if the interval is unbounded."
+      ],
+      "explanation": "Analytic power-series sums are differentiable throughout the interior.",
+      "tags": []
+    },
+    {
+      "id": "6.5-015",
+      "section": "6.5",
+      "kind": "proof",
+      "prompt": "What is sufficient to prove in order to show that the Taylor series of \\(e^x\\) converges to \\(e^x\\) at a fixed real number \\(x\\)?",
+      "correct": "the remainder \\(R_n(x)\\) tends to \\(0\\) for each fixed \\(x\\).",
+      "choices": [
+        "the remainder \\(R_n(x)\\) tends to \\(0\\) for each fixed \\(x\\).",
+        "the first derivative exists",
+        "the coefficients are rational",
+        "the series has one term."
+      ],
+      "explanation": "Taylor's formula then gives convergence of the polynomials to the function.",
+      "tags": []
+    },
+    {
+      "id": "6.5-new-approxgraph",
+      "section": "6.5",
+      "kind": "concept",
+      "prompt": "A Taylor polynomial is intended to approximate a function near its center. Which statement best describes what increasing the degree can improve when the hypotheses for Taylor approximation are favorable?",
+      "choices": [
+        "Agreement of more derivatives at the center and, with a controlled remainder, the approximation near the center.",
+        "The polynomial must equal the function everywhere.",
+        "The radius of convergence automatically becomes infinite.",
+        "The function becomes a polynomial."
+      ],
+      "correct": "Agreement of more derivatives at the center and, with a controlled remainder, the approximation near the center.",
+      "explanation": "Taylor polynomials match successive derivatives at the center; Taylor’s Formula controls the remainder under its hypotheses.",
+      "tags": [],
+      "visual": "<svg class=\"math-figure\" viewBox=\"0 0 520 280\" role=\"img\" aria-label=\"A function and a local polynomial approximation near the center\"><rect x=\"0\" y=\"0\" width=\"520\" height=\"280\" fill=\"white\"/><line x1=\"141.1\" y1=\"20\" x2=\"141.1\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"406.9\" y1=\"20\" x2=\"406.9\" y2=\"240\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"194.7\" x2=\"500\" y2=\"194.7\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"130.0\" x2=\"500\" y2=\"130.0\" stroke=\"#e5e7eb\"/><line x1=\"48\" y1=\"65.3\" x2=\"500\" y2=\"65.3\" stroke=\"#e5e7eb\"/><line x1=\"274.0\" y1=\"20\" x2=\"274.0\" y2=\"240\" stroke=\"#555\" stroke-width=\"1.4\"/><line x1=\"48\" y1=\"130.0\" x2=\"500\" y2=\"130.0\" stroke=\"#555\" stroke-width=\"1.4\"/><polyline points=\"74.6,220.6 141.1,184.4 207.5,161.1 274.0,130.0 340.5,98.9 406.9,75.6 473.4,39.4\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\"/><polyline points=\"74.6,227.1 141.1,194.7 207.5,162.4 274.0,130.0 340.5,97.6 406.9,65.3 473.4,32.9\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2.2\" stroke-dasharray=\"7,5\"/></svg><div class=\"figure-caption\">A function and a local polynomial approximation near the center</div>"
+    },
+    {
+      "id": "6.5-new-taylorformal",
+      "section": "6.5",
+      "kind": "concept",
+      "prompt": "If \\(P_n\\) is the Taylor polynomial of degree \\(n\\) for \\(f\\) at \\(0\\), how is the remainder \\(R_n\\) defined?",
+      "choices": [
+        "\\(R_n(x)=f(x)-P_n(x)\\)",
+        "\\(R_n(x)=P_n(x)-f(x)\\)",
+        "\\(R_n(x)=f^{(n)}(x)-P_n(x)\\)",
+        "\\(R_n(x)=f(x)-P_{n+1}(x)\\)"
+      ],
+      "correct": "\\(R_n(x)=f(x)-P_n(x)\\)",
+      "explanation": "The remainder is the error left after subtracting the Taylor polynomial from the function: \\(R_n(x)=f(x)-P_n(x)\\).",
+      "tags": []
+    }
+  ]
+};

@@ -1,0 +1,351 @@
+{
+  "math": {
+    "rows": [
+      {
+        "id": "ec6",
+        "form": "A",
+        "count": 40,
+        "visual": 5,
+        "dup": 0
+      },
+      {
+        "id": "ec6",
+        "form": "B",
+        "count": 40,
+        "visual": 5,
+        "dup": 0
+      },
+      {
+        "id": "ec6",
+        "form": "C",
+        "count": 40,
+        "visual": 6,
+        "dup": 0
+      },
+      {
+        "id": "ec6",
+        "form": "D",
+        "count": 40,
+        "visual": 5,
+        "dup": 0
+      },
+      {
+        "id": "ec6",
+        "form": "E",
+        "count": 40,
+        "visual": 6,
+        "dup": 0
+      },
+      {
+        "id": "core48",
+        "form": "A",
+        "count": 42,
+        "visual": 6,
+        "dup": 0
+      },
+      {
+        "id": "core48",
+        "form": "B",
+        "count": 42,
+        "visual": 9,
+        "dup": 0
+      },
+      {
+        "id": "core48",
+        "form": "C",
+        "count": 42,
+        "visual": 6,
+        "dup": 0
+      },
+      {
+        "id": "core48",
+        "form": "D",
+        "count": 42,
+        "visual": 6,
+        "dup": 0
+      },
+      {
+        "id": "core48",
+        "form": "E",
+        "count": 42,
+        "visual": 6,
+        "dup": 0
+      },
+      {
+        "id": "math48",
+        "form": "A",
+        "count": 100,
+        "visual": 15,
+        "dup": 0
+      },
+      {
+        "id": "math48",
+        "form": "B",
+        "count": 100,
+        "visual": 15,
+        "dup": 0
+      },
+      {
+        "id": "math48",
+        "form": "C",
+        "count": 100,
+        "visual": 12,
+        "dup": 0
+      },
+      {
+        "id": "math48",
+        "form": "D",
+        "count": 100,
+        "visual": 12,
+        "dup": 0
+      },
+      {
+        "id": "math48",
+        "form": "E",
+        "count": 100,
+        "visual": 14,
+        "dup": 0
+      }
+    ],
+    "errors": []
+  },
+  "science": {
+    "rows": [
+      {
+        "id": "ec6-science",
+        "form": "A",
+        "count": 45,
+        "visual": 4,
+        "dup": 0
+      },
+      {
+        "id": "ec6-science",
+        "form": "B",
+        "count": 45,
+        "visual": 7,
+        "dup": 0
+      },
+      {
+        "id": "ec6-science",
+        "form": "C",
+        "count": 45,
+        "visual": 9,
+        "dup": 0
+      },
+      {
+        "id": "ec6-science",
+        "form": "D",
+        "count": 45,
+        "visual": 7,
+        "dup": 0
+      },
+      {
+        "id": "core48-science",
+        "form": "A",
+        "count": 42,
+        "visual": 5,
+        "dup": 0
+      },
+      {
+        "id": "core48-science",
+        "form": "B",
+        "count": 42,
+        "visual": 6,
+        "dup": 0
+      },
+      {
+        "id": "core48-science",
+        "form": "C",
+        "count": 42,
+        "visual": 9,
+        "dup": 0
+      },
+      {
+        "id": "core48-science",
+        "form": "D",
+        "count": 42,
+        "visual": 5,
+        "dup": 0
+      },
+      {
+        "id": "science48",
+        "form": "A",
+        "count": 100,
+        "visual": 15,
+        "dup": 0
+      },
+      {
+        "id": "science48",
+        "form": "B",
+        "count": 100,
+        "visual": 15,
+        "dup": 0
+      },
+      {
+        "id": "science48",
+        "form": "C",
+        "count": 100,
+        "visual": 12,
+        "dup": 0
+      },
+      {
+        "id": "science48",
+        "form": "D",
+        "count": 100,
+        "visual": 15,
+        "dup": 0
+      }
+    ],
+    "errors": []
+  },
+  "social": {
+    "rows": [
+      {
+        "id": "ec6-social",
+        "form": "A",
+        "count": 40,
+        "visual": 4,
+        "dup": 0
+      },
+      {
+        "id": "ec6-social",
+        "form": "B",
+        "count": 40,
+        "visual": 6,
+        "dup": 0
+      },
+      {
+        "id": "ec6-social",
+        "form": "C",
+        "count": 40,
+        "visual": 6,
+        "dup": 0
+      },
+      {
+        "id": "ec6-social",
+        "form": "D",
+        "count": 40,
+        "visual": 8,
+        "dup": 0
+      },
+      {
+        "id": "core48-social",
+        "form": "A",
+        "count": 42,
+        "visual": 10,
+        "dup": 0
+      },
+      {
+        "id": "core48-social",
+        "form": "B",
+        "count": 42,
+        "visual": 4,
+        "dup": 0
+      },
+      {
+        "id": "core48-social",
+        "form": "C",
+        "count": 42,
+        "visual": 8,
+        "dup": 0
+      },
+      {
+        "id": "core48-social",
+        "form": "D",
+        "count": 42,
+        "visual": 6,
+        "dup": 0
+      },
+      {
+        "id": "social48",
+        "form": "A",
+        "count": 100,
+        "visual": 8,
+        "dup": 0
+      },
+      {
+        "id": "social48",
+        "form": "B",
+        "count": 100,
+        "visual": 20,
+        "dup": 0
+      },
+      {
+        "id": "social48",
+        "form": "C",
+        "count": 100,
+        "visual": 16,
+        "dup": 0
+      },
+      {
+        "id": "social48",
+        "form": "D",
+        "count": 100,
+        "visual": 15,
+        "dup": 0
+      }
+    ],
+    "errors": []
+  },
+  "combined": {
+    "rows": [
+      {
+        "id": "elar-social48",
+        "form": "A",
+        "count": 120,
+        "visual": 10,
+        "dup": 0
+      },
+      {
+        "id": "elar-social48",
+        "form": "B",
+        "count": 120,
+        "visual": 4,
+        "dup": 0
+      },
+      {
+        "id": "elar-social48",
+        "form": "C",
+        "count": 120,
+        "visual": 8,
+        "dup": 0
+      },
+      {
+        "id": "elar-social48",
+        "form": "D",
+        "count": 120,
+        "visual": 9,
+        "dup": 0
+      },
+      {
+        "id": "math-science48",
+        "form": "A",
+        "count": 120,
+        "visual": 12,
+        "dup": 0
+      },
+      {
+        "id": "math-science48",
+        "form": "B",
+        "count": 120,
+        "visual": 13,
+        "dup": 0
+      },
+      {
+        "id": "math-science48",
+        "form": "C",
+        "count": 120,
+        "visual": 14,
+        "dup": 0
+      },
+      {
+        "id": "math-science48",
+        "form": "D",
+        "count": 120,
+        "visual": 11,
+        "dup": 0
+      }
+    ],
+    "errors": []
+  }
+}

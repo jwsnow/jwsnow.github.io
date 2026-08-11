@@ -1,0 +1,24 @@
+Student progress sharing revision — August 11, 2026
+
+Common student features added to Statistics, Texas Certification, TExES Mathematics 7–12, Real Analysis, and Grade 7 STAAR RLA:
+- Student name required; Student ID explicitly optional.
+- Student identity saved in browser localStorage and reused on later exports/reports.
+- Export progress as a standardized JSON file.
+- View/print a human-readable progress report with mastery and activity history.
+
+Real Analysis progress management was expanded:
+- Cumulative section mastery across section quizzes and mixed chapter/cumulative reviews.
+- Question-type mastery for saved section quizzes.
+- Activity history on the progress dashboard.
+- Chapter/cumulative review results are now persisted and contribute to section mastery.
+
+Instructor dashboard:
+- Imports one or many student JSON files.
+- Stores class data in localStorage.
+- Keeps separate records by site/subject; Texas Certification subjects are not collapsed.
+- Shows individual test/activity history within each site/subject record.
+- Replaces an older same-student/same-site record when a newer export is imported.
+- Allows student deletion and identity edit/merge.
+- Shows class aggregate strengths and weaknesses.
+- Exports a complete instructor backup as JSON.
+- Restores backups by merge (newer records win) or complete replacement.

@@ -1,0 +1,57 @@
+exam,exam_number,exam_title,skill_id,label,bank_count,fixed_quiz_count,diagnostic_count
+e1,1,Data and Graphs,s1_vocab,Statistics Fundamentals,30,5,
+e1,1,Data and Graphs,s1_design,Sampling and Study Design,30,10,
+e1,1,Data and Graphs,s1_types,Types of Data,30,10,
+e1,1,Data and Graphs,s1_graphs,Graphs and Histograms,30,10,
+e1,1,Data and Graphs,s1_scatter,Scatterplots,30,10,
+e2,2,Summarizing Data,s2_symbols,Statistical Symbols,30,7,
+e2,2,Summarizing Data,s2_center,Measures of Center,30,10,
+e2,2,Summarizing Data,s2_quartiles,Quartiles and Five-Number Summaries,30,10,
+e2,2,Summarizing Data,s2_variation,Standard Deviation and Variance,30,10,
+e2,2,Summarizing Data,s2_z,"Empirical Rule, Range Rule, and z-Scores",30,10,
+e3,3,Probability,s3_vocab,Probability Language and Approaches,30,5,
+e3,3,Probability,s3_complement,Complements and Basic Probability,30,10,
+e3,3,Probability,s3_rules,"AND, OR, Independence, and Mutual Exclusivity",30,10,
+e3,3,Probability,s3_conditional,Conditional Probability and Dependence,30,10,
+e3,3,Probability,s3_compound,Compound Probability,30,10,
+e4,4,Random Variables,s4_rv,Random Variables and Distributions,30,6,
+e4,4,Random Variables,s4_mean,Expected Value of a Random Variable,30,10,
+e4,4,Random Variables,s4_sd,Standard Deviation of a Random Variable,30,10,
+e4,4,Random Variables,s4_5rule,The 5% Rule,30,10,
+e4,4,Random Variables,s4_ev_apps,Expected Value in Games and Insurance,30,10,
+e5,5,Binomial and Poisson Distributions,s5_bin_rec,Recognizing Binomial Settings,30,10,1
+e5,5,Binomial and Poisson Distributions,s5_bin_prob,Binomial Probabilities,30,10,5
+e5,5,Binomial and Poisson Distributions,s5_bin_summary,"Binomial Mean, Standard Deviation, and Usual Values",30,10,5
+e5,5,Binomial and Poisson Distributions,s5_pois_prob,Poisson Probabilities,30,10,5
+e5,5,Binomial and Poisson Distributions,s5_pois_summary,"Poisson Rates, Mean, Standard Deviation, and Capacity",30,10,4
+e6,6,Uniform and Normal Distributions,s6_unif_prob,Uniform Probabilities,30,10,
+e6,6,Uniform and Normal Distributions,s6_unif_quant,Uniform Quantiles,30,10,
+e6,6,Uniform and Normal Distributions,s6_stdnormal,Standard Normal Distribution,30,10,
+e6,6,Uniform and Normal Distributions,s6_norm_prob,Normal Probabilities,30,10,
+e6,6,Uniform and Normal Distributions,s6_norm_quant,Normal Quantiles,30,10,
+e6,6,Uniform and Normal Distributions,s6_clt,Sampling Distributions and the CLT,30,10,
+e7,7,Confidence Intervals,s7_prop_ci,Confidence Intervals for Proportions — Calculation,30,10,3
+e7,7,Confidence Intervals,s7_prop_interp,Confidence Intervals for Proportions — Interpretation,30,10,5
+e7,7,Confidence Intervals,s7_mean_ci_summary,Confidence Intervals for Means — Summary Statistics,30,10,3
+e7,7,Confidence Intervals,s7_mean_ci_data,Confidence Intervals for Means — Raw Data,30,10,4
+e7,7,Confidence Intervals,s7_mean_interp,Confidence Intervals for Means — Interpretation,30,10,5
+e8,8,Hypothesis Tests about One Sample,s8_prop_setup,One Proportion — Setup and Interpretation,36,10,8
+e8,8,Hypothesis Tests about One Sample,s8_prop_full,One Proportion — P-Value Calculations,30,8,2
+e8,8,Hypothesis Tests about One Sample,s8_mean_setup,One Mean — Setup and Interpretation,36,10,8
+e8,8,Hypothesis Tests about One Sample,s8_mean_full,One Mean — P-Value Calculations,30,8,2
+e9,9,Hypothesis Tests about Two Independent Samples,s9_prop_setup,Two Independent Proportions — Setup and Interpretation,36,10,8
+e9,9,Hypothesis Tests about Two Independent Samples,s9_prop_full,Two Independent Proportions — P-Value Calculations,30,8,2
+e9,9,Hypothesis Tests about Two Independent Samples,s9_mean_setup,Two Independent Means — Setup and Interpretation,36,10,8
+e9,9,Hypothesis Tests about Two Independent Samples,s9_mean_full,Two Independent Means — P-Value Calculations,30,8,2
+e10,10,"Matched Pairs, Correlation, and Regression",s10_match_setup,Matched Pairs — Setup and Interpretation,36,10,5
+e10,10,"Matched Pairs, Correlation, and Regression",s10_match_full,Matched Pairs — P-Value Calculations,30,8,2
+e10,10,"Matched Pairs, Correlation, and Regression",s10_corr_setup,Linear Correlation — Setup and Interpretation,36,10,5
+e10,10,"Matched Pairs, Correlation, and Regression",s10_corr_full,Linear Correlation — Calculations,30,8,2
+e10,10,"Matched Pairs, Correlation, and Regression",s10_reg,Linear Regression,30,10,6
+e11,11,Chi-Squared Tests,s11_gof_setup,Chi-Squared Goodness of Fit — Setup and Interpretation,36,10,8
+e11,11,Chi-Squared Tests,s11_gof_full,Chi-Squared Goodness of Fit — P-Value Calculations,30,8,2
+e11,11,Chi-Squared Tests,s11_cont_setup,Contingency Tables — Setup and Interpretation,36,10,8
+e11,11,Chi-Squared Tests,s11_cont_full,Contingency Tables — P-Value Calculations,30,8,2
+e12,12,ANOVA and Choosing the Correct Test,s12_anova_setup,ANOVA — Setup and Interpretation,36,10,8
+e12,12,ANOVA and Choosing the Correct Test,s12_anova_full,ANOVA — P-Value Calculations,30,8,2
+e12,12,ANOVA and Choosing the Correct Test,s12_choose,Choosing the Correct Test,60,10,10

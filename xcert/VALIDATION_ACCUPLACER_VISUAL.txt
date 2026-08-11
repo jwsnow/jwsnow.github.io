@@ -1,0 +1,27 @@
+ACCUPLACER visual/notation revision validation
+
+Errors: 0
+Fixed full-test instances checked: 1150
+Fixed targeted-quiz instances checked: 1530
+Random full-test instances checked: 1210
+
+accu-arith
+  Form A: 20 questions, 2 visual/data items
+  Form B: 20 questions, 2 visual/data items
+  Form C: 20 questions, 2 visual/data items
+  Form D: 20 questions, 2 visual/data items
+  Fixed targeted-quiz question instances: 150
+
+accu-qas
+  Form A: 20 questions, 6 visual/data items
+  Form B: 20 questions, 6 visual/data items
+  Form C: 20 questions, 6 visual/data items
+  Form D: 20 questions, 7 visual/data items
+  Fixed targeted-quiz question instances: 270
+
+accu-aaf
+  Form A: 20 questions, 8 visual/data items
+  Form B: 20 questions, 7 visual/data items
+  Form C: 20 questions, 7 visual/data items
+  Form D: 20 questions, 7 visual/data items
+  Fixed targeted-quiz question instances: 300

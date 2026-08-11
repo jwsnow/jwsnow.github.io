@@ -1,0 +1,41 @@
+section,title,page_start,page_end,questions,visual_questions
+1.2,Ordered Field Axioms,2,5,12,0
+1.3,Absolute Values,6,8,11,1
+1.4,The Completeness Axiom,9,12,12,1
+1.5,Density of Q and R - Q,13,15,10,0
+1.6,Chapter 1 Exercises,16,18,13,0
+2.1,Limits of Sequences,20,24,12,1
+2.2,Algebraic Properties of Limits of Sequences,25,35,12,1
+2.3,Accumulation Points,36,39,12,1
+2.4,Monotonic Sequences,40,46,11,1
+2.5,Cauchy Sequences,47,50,10,0
+2.6,Subsequences,51,56,10,1
+3.1,Limits of Functions,57,62,11,1
+3.2,Limits of Sequences and Functions,63,67,10,0
+3.3,The Definition of Continuity,68,68,10,1
+3.4,Limits and Continuity,69,73,10,0
+3.5,Uniform Continuity,74,78,12,1
+3.6,The Extreme Value Theorem,79,80,10,1
+3.7,The Intermediate Value Theorem,81,84,10,1
+4.1,Tangent Lines,86,86,10,1
+4.2,Linear Approximations,87,87,9,0
+4.3,Instantaneous Velocity,88,88,9,0
+4.4,The Definition of the Derivative,88,92,11,1
+4.5,Properties of the Derivative,93,100,11,0
+4.6,Extrema and the Mean Value Theorem,101,104,11,1
+4.7,First Derivative Tests,105,107,11,1
+4.8,l'Hopital's Rule,108,110,10,0
+5.1,Area,111,114,9,1
+5.2,Distance,115,115,9,0
+5.3,Riemann Sums,115,116,9,1
+5.4,The Fundamental Theorems and Why They are Obvious,116,117,10,0
+5.5,Partitions and Sums,117,123,11,1
+5.6,Integrals,124,126,11,0
+5.7,Conditions for Integrability,127,136,11,0
+5.8,Algebraic Properties of the Integral,137,141,11,0
+5.9,The Fundamental Theorem of Calculus,142,150,11,0
+6.1,Definitions and Basic Properties,151,163,12,1
+6.2,Tests for Convergence,164,178,13,0
+6.3,Power Series,179,183,11,1
+6.4,Properties of Power Series,184,195,12,0
+6.5,Taylor Series,196,204,14,1

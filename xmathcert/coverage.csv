@@ -1,0 +1,22 @@
+domain,competency,title,questions_per_full_form,fixed_quiz_versions,questions_per_quiz
+Domain I — Number Concepts,001,Real Number System,5,4,12
+Domain I — Number Concepts,002,Complex Number System,4,4,12
+Domain I — Number Concepts,003,Number Theory and Numerical Modeling,5,4,12
+Domain II — Patterns and Algebra,004,"Patterns, Sequences, Series, and Finance",4,4,12
+Domain II — Patterns and Algebra,005,"Functions, Relations, and Graphs",5,4,12
+Domain II — Patterns and Algebra,006,Linear and Quadratic Functions,5,4,12
+Domain II — Patterns and Algebra,007,"Polynomial, Rational, Radical, Absolute-Value, and Piecewise Functions",5,4,12
+Domain II — Patterns and Algebra,008,Exponential and Logarithmic Functions,5,4,12
+Domain II — Patterns and Algebra,009,Trigonometric and Circular Functions,5,4,12
+Domain II — Patterns and Algebra,010,Differential and Integral Calculus,4,4,12
+Domain III — Geometry and Measurement,011,Measurement,5,4,12
+Domain III — Geometry and Measurement,012,Axiomatic and Euclidean Geometry,5,4,12
+Domain III — Geometry and Measurement,013,Euclidean Geometry Results and Applications,5,4,12
+Domain III — Geometry and Measurement,014,"Coordinate, Transformational, and Vector Geometry",4,4,12
+Domain IV — Probability and Statistics,015,Exploring and Describing Data,5,4,12
+Domain IV — Probability and Statistics,016,Probability and Distributions,5,4,12
+Domain IV — Probability and Statistics,017,Sampling and Statistical Inference,4,4,12
+Domain V — Mathematical Processes and Perspectives,018,Mathematical Reasoning and Problem Solving,5,4,12
+Domain V — Mathematical Processes and Perspectives,019,Connections and Communication,5,4,12
+"Domain VI — Mathematical Learning, Instruction and Assessment",020,Mathematical Learning and Instruction,5,4,12
+"Domain VI — Mathematical Learning, Instruction and Assessment",021,Mathematical Assessment,5,4,12

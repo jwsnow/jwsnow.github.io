@@ -1,0 +1,432 @@
+{
+  "forms": {
+    "A": {
+      "count": 100,
+      "visuals": 40,
+      "difficulty": {
+        "2": 10,
+        "3": 51,
+        "4": 39
+      }
+    },
+    "B": {
+      "count": 100,
+      "visuals": 39,
+      "difficulty": {
+        "2": 10,
+        "3": 51,
+        "4": 39
+      }
+    },
+    "C": {
+      "count": 100,
+      "visuals": 40,
+      "difficulty": {
+        "2": 10,
+        "3": 51,
+        "4": 39
+      }
+    },
+    "D": {
+      "count": 100,
+      "visuals": 40,
+      "difficulty": {
+        "2": 10,
+        "3": 51,
+        "4": 39
+      }
+    },
+    "E": {
+      "count": 100,
+      "visuals": 38,
+      "difficulty": {
+        "2": 10,
+        "3": 51,
+        "4": 39
+      }
+    }
+  },
+  "topics": {
+    "235-c001": {
+      "1": {
+        "visuals": 1,
+        "families": 12
+      },
+      "2": {
+        "visuals": 1,
+        "families": 12
+      },
+      "3": {
+        "visuals": 1,
+        "families": 12
+      },
+      "4": {
+        "visuals": 1,
+        "families": 12
+      }
+    },
+    "235-c002": {
+      "1": {
+        "visuals": 1,
+        "families": 12
+      },
+      "2": {
+        "visuals": 1,
+        "families": 12
+      },
+      "3": {
+        "visuals": 1,
+        "families": 12
+      },
+      "4": {
+        "visuals": 1,
+        "families": 12
+      }
+    },
+    "235-c003": {
+      "1": {
+        "visuals": 0,
+        "families": 12
+      },
+      "2": {
+        "visuals": 0,
+        "families": 12
+      },
+      "3": {
+        "visuals": 0,
+        "families": 12
+      },
+      "4": {
+        "visuals": 0,
+        "families": 12
+      }
+    },
+    "235-c004": {
+      "1": {
+        "visuals": 2,
+        "families": 12
+      },
+      "2": {
+        "visuals": 2,
+        "families": 12
+      },
+      "3": {
+        "visuals": 2,
+        "families": 12
+      },
+      "4": {
+        "visuals": 2,
+        "families": 12
+      }
+    },
+    "235-c005": {
+      "1": {
+        "visuals": 3,
+        "families": 12
+      },
+      "2": {
+        "visuals": 3,
+        "families": 12
+      },
+      "3": {
+        "visuals": 3,
+        "families": 12
+      },
+      "4": {
+        "visuals": 3,
+        "families": 12
+      }
+    },
+    "235-c006": {
+      "1": {
+        "visuals": 3,
+        "families": 12
+      },
+      "2": {
+        "visuals": 3,
+        "families": 12
+      },
+      "3": {
+        "visuals": 3,
+        "families": 12
+      },
+      "4": {
+        "visuals": 3,
+        "families": 12
+      }
+    },
+    "235-c007": {
+      "1": {
+        "visuals": 3,
+        "families": 12
+      },
+      "2": {
+        "visuals": 3,
+        "families": 12
+      },
+      "3": {
+        "visuals": 3,
+        "families": 12
+      },
+      "4": {
+        "visuals": 3,
+        "families": 12
+      }
+    },
+    "235-c008": {
+      "1": {
+        "visuals": 3,
+        "families": 12
+      },
+      "2": {
+        "visuals": 3,
+        "families": 12
+      },
+      "3": {
+        "visuals": 3,
+        "families": 12
+      },
+      "4": {
+        "visuals": 3,
+        "families": 12
+      }
+    },
+    "235-c009": {
+      "1": {
+        "visuals": 4,
+        "families": 12
+      },
+      "2": {
+        "visuals": 4,
+        "families": 12
+      },
+      "3": {
+        "visuals": 4,
+        "families": 12
+      },
+      "4": {
+        "visuals": 4,
+        "families": 12
+      }
+    },
+    "235-c010": {
+      "1": {
+        "visuals": 4,
+        "families": 12
+      },
+      "2": {
+        "visuals": 4,
+        "families": 12
+      },
+      "3": {
+        "visuals": 4,
+        "families": 12
+      },
+      "4": {
+        "visuals": 4,
+        "families": 12
+      }
+    },
+    "235-c011": {
+      "1": {
+        "visuals": 3,
+        "families": 12
+      },
+      "2": {
+        "visuals": 3,
+        "families": 12
+      },
+      "3": {
+        "visuals": 3,
+        "families": 12
+      },
+      "4": {
+        "visuals": 3,
+        "families": 12
+      }
+    },
+    "235-c012": {
+      "1": {
+        "visuals": 2,
+        "families": 12
+      },
+      "2": {
+        "visuals": 2,
+        "families": 12
+      },
+      "3": {
+        "visuals": 2,
+        "families": 12
+      },
+      "4": {
+        "visuals": 2,
+        "families": 12
+      }
+    },
+    "235-c013": {
+      "1": {
+        "visuals": 3,
+        "families": 12
+      },
+      "2": {
+        "visuals": 3,
+        "families": 12
+      },
+      "3": {
+        "visuals": 3,
+        "families": 12
+      },
+      "4": {
+        "visuals": 3,
+        "families": 12
+      }
+    },
+    "235-c014": {
+      "1": {
+        "visuals": 4,
+        "families": 12
+      },
+      "2": {
+        "visuals": 4,
+        "families": 12
+      },
+      "3": {
+        "visuals": 4,
+        "families": 12
+      },
+      "4": {
+        "visuals": 4,
+        "families": 12
+      }
+    },
+    "235-c015": {
+      "1": {
+        "visuals": 4,
+        "families": 12
+      },
+      "2": {
+        "visuals": 4,
+        "families": 12
+      },
+      "3": {
+        "visuals": 4,
+        "families": 12
+      },
+      "4": {
+        "visuals": 4,
+        "families": 12
+      }
+    },
+    "235-c016": {
+      "1": {
+        "visuals": 3,
+        "families": 12
+      },
+      "2": {
+        "visuals": 3,
+        "families": 12
+      },
+      "3": {
+        "visuals": 3,
+        "families": 12
+      },
+      "4": {
+        "visuals": 3,
+        "families": 12
+      }
+    },
+    "235-c017": {
+      "1": {
+        "visuals": 1,
+        "families": 12
+      },
+      "2": {
+        "visuals": 1,
+        "families": 12
+      },
+      "3": {
+        "visuals": 1,
+        "families": 12
+      },
+      "4": {
+        "visuals": 1,
+        "families": 12
+      }
+    },
+    "235-c018": {
+      "1": {
+        "visuals": 2,
+        "families": 12
+      },
+      "2": {
+        "visuals": 2,
+        "families": 12
+      },
+      "3": {
+        "visuals": 2,
+        "families": 12
+      },
+      "4": {
+        "visuals": 2,
+        "families": 12
+      }
+    },
+    "235-c019": {
+      "1": {
+        "visuals": 4,
+        "families": 12
+      },
+      "2": {
+        "visuals": 4,
+        "families": 12
+      },
+      "3": {
+        "visuals": 4,
+        "families": 12
+      },
+      "4": {
+        "visuals": 4,
+        "families": 12
+      }
+    },
+    "235-c020": {
+      "1": {
+        "visuals": 0,
+        "families": 12
+      },
+      "2": {
+        "visuals": 0,
+        "families": 12
+      },
+      "3": {
+        "visuals": 0,
+        "families": 12
+      },
+      "4": {
+        "visuals": 0,
+        "families": 12
+      }
+    },
+    "235-c021": {
+      "1": {
+        "visuals": 0,
+        "families": 12
+      },
+      "2": {
+        "visuals": 0,
+        "families": 12
+      },
+      "3": {
+        "visuals": 0,
+        "families": 12
+      },
+      "4": {
+        "visuals": 0,
+        "families": 12
+      }
+    }
+  },
+  "full_unique": 500,
+  "topic_unique": 1008,
+  "issues": []
+}

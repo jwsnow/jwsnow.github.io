@@ -1,0 +1,39 @@
+Validation passed — August 8, 2026 final answer/convention revision.
+
+12 diagnostic exams
+56 focused skills
+1,764 questions
+
+Answer validation:
+- 777 numerical questions independently recomputed from the exact displayed values: 0 errors.
+- 987 conceptual/setup/interpretive questions independently checked: 0 errors.
+- Together these disjoint audits cover all 1,764 questions.
+- Every question has four distinct choices and one valid answer index.
+- No exact or normalized-math duplicate answer choices were found.
+
+Content/convention validation:
+- Empirical-Rule ranges use “a to b” wording rather than interval notation.
+- Binomial/Poisson practice is contextual and includes Rare Event Rule interpretation.
+- Poisson prompts do not contain rate-conversion coaching directions.
+- Multiple-choice guessing questions define x as the number correct.
+- Uniform/normal percentage notation is escaped correctly for MathJax.
+- Confidence-interval prompts identify the population characteristic when appropriate.
+- H0 uses equality in one-/two-sample and matched-pairs hypothesis tests.
+- Formal hypothesis-test conclusions use Support H1 / Do not support H1.
+- Two-proportion and two-mean questions define p1/p2 and mu1/mu2 contextually.
+- Correlation H0/H1 are stated in words.
+- Chi-squared goodness-of-fit prompts state the claim being tested rather than referring to an unnamed test.
+- ANOVA H0/H1 are stated in words, and interpretation of “Not all of the means are equal” is practiced.
+- No all-in-one “complete analysis” hypothesis-test questions remain.
+- No hypothesis-test critical-value material appears.
+- All inference about means uses t procedures.
+
+Form validation:
+- Four fixed diagnostic forms are disjoint by question ID and subskill-balanced.
+- Three fixed skill versions fit in every bank without question-ID overlap.
+- No exact duplicate prompt occurs within a focused-skill bank.
+
+MathJax validation:
+- 12,185 mathematical expressions parsed.
+- 0 MathJax errors.
+- 0 raw-math errors.

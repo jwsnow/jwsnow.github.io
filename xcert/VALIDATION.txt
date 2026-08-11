@@ -1,0 +1,26 @@
+TEXAS EDUCATOR CERTIFICATION PRACTICE PORTAL — VISUAL-DATA / MATH-NOTATION REVISION
+
+Revision focus
+- Preserved the existing site structure, styling, scoring, progress history, explanations, and diagnostic reports.
+- Added charts, tables, graphs, and diagrams across mathematics, science, social studies, and the combined 4–8 exam centers.
+- Added MathJax typesetting to mathematics and combined 4–8 pages and modernized radicals, fractions, exponents, inequalities, and other notation.
+- Preserved the prior question-independence rules for fixed full tests and fixed targeted quizzes.
+
+Guaranteed visual/data-display minimums in fixed mathematics forms
+- EC–6 Mathematics 902: at least 5 of 40
+- Core Subjects 4–8 Mathematics 807: at least 6 of 42
+- Mathematics 4–8 (115): at least 12 of 100
+
+Validation
+- Exam configurations checked: 19
+- Fixed-form and fixed-topic instances checked: 10,684
+- Additional randomly generated instances checked: 2,622
+- Structural/content-engine errors: 0
+- Fixed-form / fixed-topic exact-prompt independence errors: 0
+- JavaScript syntax errors: 0
+- Broken local HTML/script/style links: 0
+- Old-style radical pattern √(...), in generated fixed TExES math forms: 0
+- Slash fractions inside generated math display blocks: 0
+
+Important distinction
+The practice materials are independently written and framework-aligned. They have not been field-tested or psychometrically calibrated, and raw percentages should be treated as diagnostic rather than official scaled-score predictions.

@@ -1,0 +1,118 @@
+{
+  "exams": 12,
+  "skills": 56,
+  "questions": 1764,
+  "random_variable_validity_tables": 20,
+  "random_variable_mean_sd_independent_recalculations": 60,
+  "five_percent_rule_tables": 30,
+  "required_group_counts": {
+    "s5_bin_prob": {
+      "exact-probability": 8,
+      "at-most-probability": 8,
+      "at-least-probability": 7,
+      "rare-event-interpretation": 7
+    },
+    "s5_bin_summary": {
+      "mean": 6,
+      "standard-deviation": 6,
+      "minimum-usual": 6,
+      "maximum-usual": 6,
+      "unusual-guessing": 6
+    },
+    "s5_pois_prob": {
+      "exact-probability": 8,
+      "at-most-probability": 8,
+      "more-than-probability": 7,
+      "rare-event-interpretation": 7
+    },
+    "s5_pois_summary": {
+      "rate-mean": 8,
+      "standard-deviation": 8,
+      "capacity-percentile": 7,
+      "rare-event-summary": 7
+    },
+    "s6_stdnormal": {
+      "mean-and-standard-deviation": 5,
+      "left-quantile": 5,
+      "right-quantile": 5,
+      "middle-quantile": 5,
+      "left-area": 3,
+      "between-area": 5,
+      "right-area": 2
+    },
+    "s7_prop_interp": {
+      "interpretation": 6,
+      "majority": 6,
+      "overlap": 6,
+      "claim-rare-event": 6,
+      "margin-of-error": 6
+    },
+    "s7_mean_interp": {
+      "interpretation": 8,
+      "claim-rare-event": 8,
+      "margin-of-error": 7,
+      "overlap": 7
+    },
+    "s10_reg": {
+      "predict-y-from-x": 15,
+      "predict-x-from-y": 15
+    }
+  },
+  "hypothesis_setup_groups": {
+    "s8_prop_setup": {
+      "translate-claim": 8,
+      "state-H1": 7,
+      "state-H0": 7,
+      "formal-conclusion": 7,
+      "claim-conclusion": 7
+    },
+    "s8_mean_setup": {
+      "translate-claim": 8,
+      "state-H1": 7,
+      "state-H0": 7,
+      "formal-conclusion": 7,
+      "claim-conclusion": 7
+    },
+    "s9_prop_setup": {
+      "translate-claim": 8,
+      "state-H1": 7,
+      "state-H0": 7,
+      "formal-conclusion": 7,
+      "claim-conclusion": 7
+    },
+    "s9_mean_setup": {
+      "translate-claim": 8,
+      "state-H1": 7,
+      "state-H0": 7,
+      "formal-conclusion": 7,
+      "claim-conclusion": 7
+    },
+    "s10_match_setup": {
+      "translate-claim": 8,
+      "state-H1": 7,
+      "state-H0": 7,
+      "formal-conclusion": 7,
+      "claim-conclusion": 7
+    },
+    "s10_corr_setup": {
+      "state-H1": 8,
+      "state-H0": 7,
+      "direction": 7,
+      "formal-conclusion": 7,
+      "contextual-conclusion": 7
+    }
+  },
+  "choosing_test_procedures": {
+    "One mean": 7,
+    "One proportion": 7,
+    "Two independent means": 7,
+    "Matched pairs": 7,
+    "Two independent proportions": 7,
+    "Chi-squared goodness of fit": 7,
+    "Contingency table": 7,
+    "ANOVA": 7,
+    "Linear correlation": 4
+  },
+  "errors": 0,
+  "error_messages": []
+}

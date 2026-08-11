@@ -1,0 +1,31 @@
+{
+  "generatedAt": "2026-08-07T11:15:17.089Z",
+  "sites": {
+    "math": {
+      "fixedInstances": 2650,
+      "randomInstances": 726
+    },
+    "science": {
+      "fixedInstances": 1612,
+      "randomInstances": 374
+    },
+    "social-studies": {
+      "fixedInstances": 1592,
+      "randomInstances": 364
+    },
+    "elar-reading": {
+      "fixedInstances": 2444,
+      "randomInstances": 598
+    },
+    "fine-arts-health-pe": {
+      "fixedInstances": 310,
+      "randomInstances": 80
+    },
+    "combined-48": {
+      "fixedInstances": 2076,
+      "randomInstances": 480
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

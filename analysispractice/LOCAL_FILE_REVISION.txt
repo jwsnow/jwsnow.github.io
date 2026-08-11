@@ -1,0 +1,14 @@
+Real Analysis local-file revision — 2026-08-11
+
+Purpose
+-------
+Allow the complete practice site to run when index.html is opened directly with a file:// URL.
+
+Change
+------
+- assets/data.json remains unchanged as the canonical question/data file.
+- assets/data.js contains the exact same JSON object assigned to window.REAL_ANALYSIS_DATA.
+- HTML pages load assets/data.js before assets/app.js.
+- The app and progress-sharing helper use window.REAL_ANALYSIS_DATA first and retain the old fetch-based loader only as a fallback.
+
+No question content, scoring rules, progress-storage keys, review logic, MathJax setup, or sharing format was changed.

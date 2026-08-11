@@ -1,0 +1,562 @@
+[
+  {
+    "exam": "e1",
+    "exam_number": "1",
+    "exam_title": "Data and Graphs",
+    "skill_id": "s1_vocab",
+    "label": "Statistics Fundamentals",
+    "bank_count": 30,
+    "fixed_quiz_count": 5,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e1",
+    "exam_number": "1",
+    "exam_title": "Data and Graphs",
+    "skill_id": "s1_design",
+    "label": "Sampling and Study Design",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e1",
+    "exam_number": "1",
+    "exam_title": "Data and Graphs",
+    "skill_id": "s1_types",
+    "label": "Types of Data",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e1",
+    "exam_number": "1",
+    "exam_title": "Data and Graphs",
+    "skill_id": "s1_graphs",
+    "label": "Graphs and Histograms",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e1",
+    "exam_number": "1",
+    "exam_title": "Data and Graphs",
+    "skill_id": "s1_scatter",
+    "label": "Scatterplots",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e2",
+    "exam_number": "2",
+    "exam_title": "Summarizing Data",
+    "skill_id": "s2_symbols",
+    "label": "Statistical Symbols",
+    "bank_count": 30,
+    "fixed_quiz_count": 7,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e2",
+    "exam_number": "2",
+    "exam_title": "Summarizing Data",
+    "skill_id": "s2_center",
+    "label": "Measures of Center",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e2",
+    "exam_number": "2",
+    "exam_title": "Summarizing Data",
+    "skill_id": "s2_quartiles",
+    "label": "Quartiles and Five-Number Summaries",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e2",
+    "exam_number": "2",
+    "exam_title": "Summarizing Data",
+    "skill_id": "s2_variation",
+    "label": "Standard Deviation and Variance",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e2",
+    "exam_number": "2",
+    "exam_title": "Summarizing Data",
+    "skill_id": "s2_z",
+    "label": "Empirical Rule, Range Rule, and z-Scores",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e3",
+    "exam_number": "3",
+    "exam_title": "Probability",
+    "skill_id": "s3_vocab",
+    "label": "Probability Language and Approaches",
+    "bank_count": 30,
+    "fixed_quiz_count": 5,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e3",
+    "exam_number": "3",
+    "exam_title": "Probability",
+    "skill_id": "s3_complement",
+    "label": "Complements and Basic Probability",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e3",
+    "exam_number": "3",
+    "exam_title": "Probability",
+    "skill_id": "s3_rules",
+    "label": "AND, OR, Independence, and Mutual Exclusivity",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e3",
+    "exam_number": "3",
+    "exam_title": "Probability",
+    "skill_id": "s3_conditional",
+    "label": "Conditional Probability and Dependence",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e3",
+    "exam_number": "3",
+    "exam_title": "Probability",
+    "skill_id": "s3_compound",
+    "label": "Compound Probability",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e4",
+    "exam_number": "4",
+    "exam_title": "Random Variables",
+    "skill_id": "s4_rv",
+    "label": "Random Variables and Distributions",
+    "bank_count": 30,
+    "fixed_quiz_count": 6,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e4",
+    "exam_number": "4",
+    "exam_title": "Random Variables",
+    "skill_id": "s4_mean",
+    "label": "Expected Value of a Random Variable",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e4",
+    "exam_number": "4",
+    "exam_title": "Random Variables",
+    "skill_id": "s4_sd",
+    "label": "Standard Deviation of a Random Variable",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e4",
+    "exam_number": "4",
+    "exam_title": "Random Variables",
+    "skill_id": "s4_5rule",
+    "label": "The 5% Rule",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e4",
+    "exam_number": "4",
+    "exam_title": "Random Variables",
+    "skill_id": "s4_ev_apps",
+    "label": "Expected Value in Games and Insurance",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e5",
+    "exam_number": "5",
+    "exam_title": "Binomial and Poisson Distributions",
+    "skill_id": "s5_bin_rec",
+    "label": "Recognizing Binomial Settings",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 1
+  },
+  {
+    "exam": "e5",
+    "exam_number": "5",
+    "exam_title": "Binomial and Poisson Distributions",
+    "skill_id": "s5_bin_prob",
+    "label": "Binomial Probabilities",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 5
+  },
+  {
+    "exam": "e5",
+    "exam_number": "5",
+    "exam_title": "Binomial and Poisson Distributions",
+    "skill_id": "s5_bin_summary",
+    "label": "Binomial Mean, Standard Deviation, and Usual Values",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 5
+  },
+  {
+    "exam": "e5",
+    "exam_number": "5",
+    "exam_title": "Binomial and Poisson Distributions",
+    "skill_id": "s5_pois_prob",
+    "label": "Poisson Probabilities",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 5
+  },
+  {
+    "exam": "e5",
+    "exam_number": "5",
+    "exam_title": "Binomial and Poisson Distributions",
+    "skill_id": "s5_pois_summary",
+    "label": "Poisson Rates, Mean, Standard Deviation, and Capacity",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 4
+  },
+  {
+    "exam": "e6",
+    "exam_number": "6",
+    "exam_title": "Uniform and Normal Distributions",
+    "skill_id": "s6_unif_prob",
+    "label": "Uniform Probabilities",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e6",
+    "exam_number": "6",
+    "exam_title": "Uniform and Normal Distributions",
+    "skill_id": "s6_unif_quant",
+    "label": "Uniform Quantiles",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e6",
+    "exam_number": "6",
+    "exam_title": "Uniform and Normal Distributions",
+    "skill_id": "s6_stdnormal",
+    "label": "Standard Normal Distribution",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e6",
+    "exam_number": "6",
+    "exam_title": "Uniform and Normal Distributions",
+    "skill_id": "s6_norm_prob",
+    "label": "Normal Probabilities",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e6",
+    "exam_number": "6",
+    "exam_title": "Uniform and Normal Distributions",
+    "skill_id": "s6_norm_quant",
+    "label": "Normal Quantiles",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e6",
+    "exam_number": "6",
+    "exam_title": "Uniform and Normal Distributions",
+    "skill_id": "s6_clt",
+    "label": "Sampling Distributions and the CLT",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": ""
+  },
+  {
+    "exam": "e7",
+    "exam_number": "7",
+    "exam_title": "Confidence Intervals",
+    "skill_id": "s7_prop_ci",
+    "label": "Confidence Intervals for Proportions \u2014 Calculation",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 3
+  },
+  {
+    "exam": "e7",
+    "exam_number": "7",
+    "exam_title": "Confidence Intervals",
+    "skill_id": "s7_prop_interp",
+    "label": "Confidence Intervals for Proportions \u2014 Interpretation",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 5
+  },
+  {
+    "exam": "e7",
+    "exam_number": "7",
+    "exam_title": "Confidence Intervals",
+    "skill_id": "s7_mean_ci_summary",
+    "label": "Confidence Intervals for Means \u2014 Summary Statistics",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 3
+  },
+  {
+    "exam": "e7",
+    "exam_number": "7",
+    "exam_title": "Confidence Intervals",
+    "skill_id": "s7_mean_ci_data",
+    "label": "Confidence Intervals for Means \u2014 Raw Data",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 4
+  },
+  {
+    "exam": "e7",
+    "exam_number": "7",
+    "exam_title": "Confidence Intervals",
+    "skill_id": "s7_mean_interp",
+    "label": "Confidence Intervals for Means \u2014 Interpretation",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 5
+  },
+  {
+    "exam": "e8",
+    "exam_number": "8",
+    "exam_title": "Hypothesis Tests about One Sample",
+    "skill_id": "s8_prop_setup",
+    "label": "One Proportion \u2014 Setup and Interpretation",
+    "bank_count": 36,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 8
+  },
+  {
+    "exam": "e8",
+    "exam_number": "8",
+    "exam_title": "Hypothesis Tests about One Sample",
+    "skill_id": "s8_prop_full",
+    "label": "One Proportion \u2014 P-Value Calculations",
+    "bank_count": 30,
+    "fixed_quiz_count": 8,
+    "diagnostic_count": 2
+  },
+  {
+    "exam": "e8",
+    "exam_number": "8",
+    "exam_title": "Hypothesis Tests about One Sample",
+    "skill_id": "s8_mean_setup",
+    "label": "One Mean \u2014 Setup and Interpretation",
+    "bank_count": 36,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 8
+  },
+  {
+    "exam": "e8",
+    "exam_number": "8",
+    "exam_title": "Hypothesis Tests about One Sample",
+    "skill_id": "s8_mean_full",
+    "label": "One Mean \u2014 P-Value Calculations",
+    "bank_count": 30,
+    "fixed_quiz_count": 8,
+    "diagnostic_count": 2
+  },
+  {
+    "exam": "e9",
+    "exam_number": "9",
+    "exam_title": "Hypothesis Tests about Two Independent Samples",
+    "skill_id": "s9_prop_setup",
+    "label": "Two Independent Proportions \u2014 Setup and Interpretation",
+    "bank_count": 36,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 8
+  },
+  {
+    "exam": "e9",
+    "exam_number": "9",
+    "exam_title": "Hypothesis Tests about Two Independent Samples",
+    "skill_id": "s9_prop_full",
+    "label": "Two Independent Proportions \u2014 P-Value Calculations",
+    "bank_count": 30,
+    "fixed_quiz_count": 8,
+    "diagnostic_count": 2
+  },
+  {
+    "exam": "e9",
+    "exam_number": "9",
+    "exam_title": "Hypothesis Tests about Two Independent Samples",
+    "skill_id": "s9_mean_setup",
+    "label": "Two Independent Means \u2014 Setup and Interpretation",
+    "bank_count": 36,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 8
+  },
+  {
+    "exam": "e9",
+    "exam_number": "9",
+    "exam_title": "Hypothesis Tests about Two Independent Samples",
+    "skill_id": "s9_mean_full",
+    "label": "Two Independent Means \u2014 P-Value Calculations",
+    "bank_count": 30,
+    "fixed_quiz_count": 8,
+    "diagnostic_count": 2
+  },
+  {
+    "exam": "e10",
+    "exam_number": "10",
+    "exam_title": "Matched Pairs, Correlation, and Regression",
+    "skill_id": "s10_match_setup",
+    "label": "Matched Pairs \u2014 Setup and Interpretation",
+    "bank_count": 36,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 5
+  },
+  {
+    "exam": "e10",
+    "exam_number": "10",
+    "exam_title": "Matched Pairs, Correlation, and Regression",
+    "skill_id": "s10_match_full",
+    "label": "Matched Pairs \u2014 P-Value Calculations",
+    "bank_count": 30,
+    "fixed_quiz_count": 8,
+    "diagnostic_count": 2
+  },
+  {
+    "exam": "e10",
+    "exam_number": "10",
+    "exam_title": "Matched Pairs, Correlation, and Regression",
+    "skill_id": "s10_corr_setup",
+    "label": "Linear Correlation \u2014 Setup and Interpretation",
+    "bank_count": 36,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 5
+  },
+  {
+    "exam": "e10",
+    "exam_number": "10",
+    "exam_title": "Matched Pairs, Correlation, and Regression",
+    "skill_id": "s10_corr_full",
+    "label": "Linear Correlation \u2014 Calculations",
+    "bank_count": 30,
+    "fixed_quiz_count": 8,
+    "diagnostic_count": 2
+  },
+  {
+    "exam": "e10",
+    "exam_number": "10",
+    "exam_title": "Matched Pairs, Correlation, and Regression",
+    "skill_id": "s10_reg",
+    "label": "Linear Regression",
+    "bank_count": 30,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 6
+  },
+  {
+    "exam": "e11",
+    "exam_number": "11",
+    "exam_title": "Chi-Squared Tests",
+    "skill_id": "s11_gof_setup",
+    "label": "Chi-Squared Goodness of Fit \u2014 Setup and Interpretation",
+    "bank_count": 36,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 8
+  },
+  {
+    "exam": "e11",
+    "exam_number": "11",
+    "exam_title": "Chi-Squared Tests",
+    "skill_id": "s11_gof_full",
+    "label": "Chi-Squared Goodness of Fit \u2014 P-Value Calculations",
+    "bank_count": 30,
+    "fixed_quiz_count": 8,
+    "diagnostic_count": 2
+  },
+  {
+    "exam": "e11",
+    "exam_number": "11",
+    "exam_title": "Chi-Squared Tests",
+    "skill_id": "s11_cont_setup",
+    "label": "Contingency Tables \u2014 Setup and Interpretation",
+    "bank_count": 36,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 8
+  },
+  {
+    "exam": "e11",
+    "exam_number": "11",
+    "exam_title": "Chi-Squared Tests",
+    "skill_id": "s11_cont_full",
+    "label": "Contingency Tables \u2014 P-Value Calculations",
+    "bank_count": 30,
+    "fixed_quiz_count": 8,
+    "diagnostic_count": 2
+  },
+  {
+    "exam": "e12",
+    "exam_number": "12",
+    "exam_title": "ANOVA and Choosing the Correct Test",
+    "skill_id": "s12_anova_setup",
+    "label": "ANOVA \u2014 Setup and Interpretation",
+    "bank_count": 36,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 8
+  },
+  {
+    "exam": "e12",
+    "exam_number": "12",
+    "exam_title": "ANOVA and Choosing the Correct Test",
+    "skill_id": "s12_anova_full",
+    "label": "ANOVA \u2014 P-Value Calculations",
+    "bank_count": 30,
+    "fixed_quiz_count": 8,
+    "diagnostic_count": 2
+  },
+  {
+    "exam": "e12",
+    "exam_number": "12",
+    "exam_title": "ANOVA and Choosing the Correct Test",
+    "skill_id": "s12_choose",
+    "label": "Choosing the Correct Test",
+    "bank_count": 60,
+    "fixed_quiz_count": 10,
+    "diagnostic_count": 10
+  }
+]

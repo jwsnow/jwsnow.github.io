@@ -1,0 +1,13 @@
+Local-file revision validation — 2026-08-11
+
+PASS: assets/data.json is byte-for-byte unchanged from the prior progress-sharing build.
+PASS: assets/data.js is an exact JavaScript wrapper around the complete data.json object.
+PASS: 40 section records and 434 question records preserved.
+PASS: question IDs are unique; all question section IDs are valid; each correct answer remains one of its choices.
+PASS: all 8 application HTML pages load assets/data.js before assets/app.js.
+PASS: HTML changes are limited to that one script insertion.
+PASS: assets/app.js change is limited to preferring window.REAL_ANALYSIS_DATA before the existing fetch fallback.
+PASS: assets/student-progress-share.js change is limited to preferring the same in-memory data before its existing fetch fallback.
+PASS: JavaScript syntax checks pass for data.js, app.js, and student-progress-share.js.
+
+Automated Chromium navigation is blocked by the execution environment for both file:// and localhost URLs, so browser click-through testing could not be run here. The local-file dependency itself is removed structurally because data is supplied by an ordinary script tag before application initialization.
