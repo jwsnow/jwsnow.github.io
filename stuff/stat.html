@@ -459,6 +459,7 @@ if (editingCells){
 	editorHolder.appendChild(cellEditor);
 	spreadSheetElements[targetCell][targetList].innerText=list[targetList][targetCell-1];
 	editingCells=false;
+	processLists();
 }	
 }
 function startEditing(l,c){
@@ -1424,35 +1425,57 @@ The data below represent random samples of 50 females and 50 males from the ANSU
 <button class='expander' data-open='ClassData' data-close='dummyExpandableDiv'>Class Data</button>
 </li>
 <div class='expandable' id='ClassData'>
-The data below were collected from some of my classes.  The data is aligned so that corresponding entries from each list are from the same individual.
+The data below were collected from some of my classes in <b>Fall 2026</b>.  The data is aligned so that corresponding entries from each list are from the same individual.
+	<ul>
+	<li>
+	<button onclick='insertData(ClassF26Height,ClassHeightLabel)'>Height</button>
+	<button onclick='insertData(ClassF26Span,ClassSpanLabel)'>Span</button>
+	<button onclick='insertData(ClassF26Siblings,ClassSiblingsLabel)'>Number of Siblings</button>
+<br>
+	<button onclick='deleteAllLists();insertData(Month,MonthLabel,0);insertData(ClassF26BirthMonths,ClassBirthMonthLabel,1)'>Birth Month</button>
+	<button onclick='deleteAllLists();insertData(Day,DayLabel,0);insertData(ClassF26BirthDays,ClassBirthDayLabel,1)'>Birth Day</button>
+	</li>	
+	<li> By class:<br>
+	<button onclick='deleteAllLists();insertData(ClassF26HeightStat,StatLabel,0);insertData(ClassF26HeightMED1,MED1Label,1);insertData(ClassF26HeightSurvey,SurveyLabel,2);insertData(ClassF26HeightAnalysis,AnalysisLabel,3);'>Height</button>
+	<button onclick='deleteAllLists();insertData(ClassF26SpanStat,StatLabel,0);insertData(ClassF26SpanMED1,MED1Label,1);insertData(ClassF26SpanSurvey,SurveyLabel,2);insertData(ClassF26SpanAnalysis,AnalysisLabel,3);'>Span</button>
+	<button onclick='deleteAllLists();insertData(ClassF26SiblingsStat,StatLabel,0);insertData(ClassF26SiblingsMED1,MED1Label,1);insertData(ClassF26SiblingsSurvey,SurveyLabel,2);insertData(ClassF26SiblingsAnalysis,AnalysisLabel,3);'>Siblings</button>
+	<br>
+	<button onclick='deleteAllLists();insertData(Month,MonthLabel,0);insertData(ClassF26BirthMonthsStat,StatLabel,1);insertData(ClassF26BirthMonthsMED1,MED1Label,2);insertData(ClassF26BirthMonthsSurvey,SurveyLabel,3);insertData(ClassF26BirthMonthsAnalysis,AnalysisLabel,4);insertData(ClassF26BirthMonths,AllLabel,5);'>Birth Month</button>
+	<button onclick='deleteAllLists();insertData(Day,DayLabel,0);insertData(ClassF26BirthDaysStat,StatLabel,1);insertData(ClassF26BirthDaysMED1,MED1Label,2);insertData(ClassF26BirthDaysSurvey,SurveyLabel,3);insertData(ClassF26BirthDaysAnalysis,AnalysisLabel,4);insertData(ClassF26BirthDays,AllLabel,5);'>Birth Day</button>
+	<button onclick='deleteAllLists();insertData(DayDigits,DayDigitLabel,0);insertData(ClassF26LastDigitOfBirthdateStat,StatLabel,1);insertData(ClassF26LastDigitOfBirthdateMED1,MED1Label,2);insertData(ClassF26LastDigitOfBirthdateSurvey,SurveyLabel,3);insertData(ClassF26LastDigitOfBirthdateAnalysis,AnalysisLabel,4);insertData(ClassF26LastDigitOfBirthdate,AllLabel,5);'>Last Digit of Birth Day</button>
+	<br>
+	<button onclick='deleteAllLists();insertData(HandednessTypes,HandednessLabel,0);insertData(ClassF26HandednessStat,StatLabel,1);insertData(ClassF26HandednessMED1,MED1Label,2);insertData(ClassF26HandednessSurvey,SurveyLabel,3);insertData(ClassF26HandednessAnalysis,AnalysisLabel,4);insertData(ClassF26Handedness,AllLabel,5);'>Handedness</button>
+	<button onclick='deleteAllLists();insertData(MathAttitudeTupes,MathAttitudeLabel,0);insertData(ClassF26MathAffinityStat,StatLabel,1);insertData(ClassF26MathAffinityMED1,MED1Label,2);insertData(ClassF26MathAffinitySurvey,SurveyLabel,3);insertData(ClassF26MathAffinityAnalysis,AnalysisLabel,4);insertData(ClassF26MathAffinity,AllLabel,5);'>Math Affinity</button>
+	
+	</li>
+	</ul>
+The data below were collected from some of my classes in Fall 2025.  The data is aligned so that corresponding entries from each list are from the same individual.
 <ul>
 <li>
-<button onclick='insertData(ClassHeight,ClassHeightLabel)'>Height</button>
-<button onclick='insertData(ClassSpan,ClassSpanLabel)'>Span</button>
-<button onclick='insertData(ClassSiblings,ClassSiblingsLabel)'>Number of Siblings</button>
-</li>
-<li>
-<button onclick='deleteAllLists();insertData(Month,MonthLabel,0);insertData(ClassBirthMonth,ClassBirthMonthLabel,1)'>Birth Month</button>
-<button onclick='deleteAllLists();insertData(Day,DayLabel,0);insertData(ClassBirthDay,ClassBirthDayLabel,1)'>Birth Day</button>
-<button onclick='deleteAllLists();insertData(Line,LineLabel,0);insertData(ClassLine,ClassLineLabel,1)'>Lines</button>
+<button onclick='insertData(ClassF25Height,ClassHeightLabel)'>Height</button>
+<button onclick='insertData(ClassF25Span,ClassSpanLabel)'>Span</button>
+<button onclick='insertData(ClassF25Siblings,ClassSiblingsLabel)'>Number of Siblings</button>
+<br>
+<button onclick='deleteAllLists();insertData(Month,MonthLabel,0);insertData(ClassF25BirthMonth,ClassBirthMonthLabel,1)'>Birth Month</button>
+<button onclick='deleteAllLists();insertData(Day,DayLabel,0);insertData(ClassF25BirthDay,ClassBirthDayLabel,1)'>Birth Day</button>
 </li>
 <li>By gender - 
-<button onclick='deleteAllLists();insertData(Month,MonthLabel,0);insertData(ClassBirthMonthFemale,ClassBirthMonthLabelFemale,1);insertData(ClassBirthMonthMale,ClassBirthMonthLabelMale,2)'>Birth Month</button>
-<button onclick='deleteAllLists();insertData(Day,DayLabel,0);insertData(ClassBirthDayFemale,ClassBirthDayLabelFemale,1);insertData(ClassBirthDayMale,ClassBirthDayLabelMale,2)'>Birth Day</button>
-<button onclick='deleteAllLists();insertData(Line,LineLabel,0);insertData(ClassLineFemale,ClassLineLabelFemale,1);insertData(ClassLineMale,ClassLineLabelMale,2)'>Lines</button>
+<button onclick='deleteAllLists();insertData(Month,MonthLabel,0);insertData(ClassF25BirthMonthFemale,ClassBirthMonthLabelFemale,1);insertData(ClassF25BirthMonthMale,ClassBirthMonthLabelMale,2)'>Birth Month</button>
+<button onclick='deleteAllLists();insertData(Day,DayLabel,0);insertData(ClassF25BirthDayFemale,ClassBirthDayLabelFemale,1);insertData(ClassF25BirthDayMale,ClassBirthDayLabelMale,2)'>Birth Day</button>
 
 </li>
 <li>
-Female data - <button onclick='insertData(ClassHeightFemale,ClassHeightFemaleLabel)'>Height</button> 
-<button onclick='insertData(ClassSpanFemale,ClassSpanLabelFemale)'>Span</button> 
-<button onclick='insertData(ClassSiblingsFemale,ClassSiblingsFemaleLabel)'>Number of Siblings</button>
+Female data - <button onclick='insertData(ClassF25HeightFemale,ClassHeightFemaleLabel)'>Height</button> 
+<button onclick='insertData(ClassF25SpanFemale,ClassSpanLabelFemale)'>Span</button> 
+<button onclick='insertData(ClassF25SiblingsFemale,ClassSiblingsFemaleLabel)'>Number of Siblings</button>
 </li>
 <li>
-Male data - <button onclick='insertData(ClassHeightMale,ClassHeightMaleLabel)'>Height</button> 
-<button onclick='insertData(ClassSpanMale,ClassSpanLabelMale)'>Span</button> 
-<button onclick='insertData(ClassSiblingsMale,ClassSiblingsMaleLabel)'>Number of Siblings</button>
+Male data - <button onclick='insertData(ClassF25HeightMale,ClassHeightMaleLabel)'>Height</button> 
+<button onclick='insertData(ClassF25SpanMale,ClassSpanLabelMale)'>Span</button> 
+<button onclick='insertData(ClassF25SiblingsMale,ClassSiblingsMaleLabel)'>Number of Siblings</button>
 </li>
 </ul>
+
 </div>
 <li>
 <button class='expander' data-open='CollegeData' data-close='dummyExpandableDiv'>College Data </button>
@@ -1581,7 +1604,76 @@ deleteSpecificList(l);
 		openDiv(dataListDiv);	
 
 }
+// Fall 2026 Data ==============================================================================
+//All
+var ClassF26BirthMonths=[2,6,8,6,9,13,4,9,4,6,1,7];
+var ClassF26BirthDays=[7,12,10,13,16,13,4];
+var ClassF26LastDigitOfBirthdate=[9,5,9,6,10,11,3,6,6,10];
 
+var HandednessLabel='Handedness';
+var HandednessTypes=['Right','Left','Ambi'];
+var ClassF26Handedness=[60,11,4];
+
+var ClassF26Height=[72,64,68,72,68,64,69,65,63,65.5,66,66,64,66,62,66,62,68,66,64,67,68,64,65,65,60,67,74,64,60,60,65,60,63,68,69.5,65,64,63,59,72,65,71,68,68,65,72,63,61,55,66,59,64,64,66,66,74,65,69.6,75,62,69,62,62,67,63,62,68,65.5,71,58,58,58,66,64];
+var ClassF26Span=[71,63.5,70,73.5,70.25,69,70,65,63,65.5,70,63,61,68,63.5,65,62,68,63,63,58,71,63,65,64,53,65,74,60.5,59,64.5,66,60,62.5,66,68.5,63.5,61.5,62.5,52.75,74,66,68.5,65,68,62.5,68.5,64.24,63,62.5,65,58.5,67,65,66.5,62,72.5,66,69.5,77,64,69,65,61,67,62,62,67,67,74,61,57,58,69,65];
+var ClassF26Siblings=[3,1,2,3,0,6,3,2,6,7,5,3,1,10,3,3,2,1,0,1,1,3,3,2,3,1,12,0,2,8,6,5,3,2,4,2,1,6,5,0,3,2,0,2,5,3,4,10,14,3,0,1,3,5,1,3,5,2,2,3,0,5,0,4,3,2,1,2,2,3,2,8,2,2,1];
+
+var MathAttitudeTupes=[1, 2, 3, 4, 5];
+var MathAttitudeLabel='Math Affinity';
+var ClassF26MathAffinity=[9,13,23,19,11];
+var DayDigits=[0,1,2,3,4,5,6,7,8,9];
+var DayDigitLabel='Digit';
+
+var AllLabel='All';
+var AnalysisLabel='Analysis';
+var StatLabel='Stat';
+var SurveyLabel='Survey';
+var MED1Label='MED1';
+
+//Analysis
+var ClassF26BirthMonthsAnalysis=[0,1,0,0,0,1,0,1,0,1,0,1];
+var ClassF26BirthDaysAnalysis=[0,0,0,1,3,1,0];
+var ClassF26LastDigitOfBirthdateAnalysis=[0,0,0,0,0,1,0,1,2,1];
+var ClassF26HandednessAnalysis=[3,1,1];
+var ClassF26HeightAnalysis=[72,64,68,72,68];
+var ClassF26SpanAnalysis=[71,63.5,70,73.5,70.25];
+var ClassF26SiblingsAnalysis=[3,1,2,3,0]; 
+var ClassF26MathAffinityAnalysis=[0,0,0,2,3];
+
+
+//Med1
+var ClassF26BirthMonthsMED1=[2,1,4,1,2,9,1,2,2,0,1,2];
+var ClassF26BirthDaysMED1=[4,6,5,3,4,3,2];
+var ClassF26LastDigitOfBirthdateMED1=[4,3,3,3,4,2,2,1,1,4];
+var ClassF26HandednessMED1=[24,2,1];
+var ClassF26HeightMED1=[64,69,65,63,65.5,66,66,64,66,62,66,62,68,66,64,67,68,64,65,65,60,67,74,64,60,60,65];
+var ClassF26SpanMED1=[69,70,65,63,65.5,70,63,61,68,63.5,65,62,68,63,63,58,71,63,65,64,53,65,74,60.5,59,64.5,66];
+var ClassF26SiblingsMED1=[6,3,2,6,7,5,3,1,10,3,3,2,1,0,1,1,3,3,2,3,1,12,0,2,8,6,5];
+var ClassF26MathAffinityMED1=[4,4,6,10,3];
+
+//Stat
+var ClassF26BirthMonthsStat=[0,2,3,2,6,1,2,3,1,4,0,3];
+var ClassF26BirthDaysStat=[2,4,4,6,5,5,1];
+var ClassF26LastDigitOfBirthdateStat=[1,1,3,1,6,8,1,2,2,2];
+var ClassF26HandednessStat=[21,4,2];
+var ClassF26HeightStat=[60,63,68,69.5,65,64,63,59,72,65,71,68,68,65,72,63,61,55,66,59,64,64,66,66,74,65,69.6];
+var ClassF26SpanStat=[60,62.5,66,68.5,63.5,61.5,62.5,52.75,74,66,68.5,65,68,62.5,68.5,64.24,63,62.5,65,58.5,67,65,66.5,62,72.5,66,69.5];
+var ClassF26SiblingsStat=[3,2,4,2,1,6,5,0,3,2,0,2,5,3,4,10,14,3,0,1,3,5,1,3,5,2,2];
+var ClassF26MathAffinityStat=[3,5,10,5,4];
+
+
+//Survey
+var ClassF26BirthMonthsSurvey=[0,2,1,3,1,2,1,3,1,1,0,1];
+var ClassF26BirthDaysSurvey=[1,2,1,3,4,4,1];
+var ClassF26LastDigitOfBirthdateSurvey=[4,1,3,2,0,0,0,2,1,3];
+var ClassF26HandednessSurvey=[12,4,0];
+var ClassF26HeightSurvey=[75,62,69,62,62,67,63,62,68,65.5,71,58,58,58,66,64];
+var ClassF26SpanSurvey=[77,64,69,65,61,67,62,62,67,67,74,61,57,58,69,65];
+var ClassF26SiblingsSurvey=[3,0,5,0,4,3,2,1,2,2,3,2,8,2,2,1];
+var ClassF26MathAffinitySurvey=[2,4,7,2,1];
+
+
+//===========================================================================================
 var FFootLabel='F Foot'; var Ffoot=[ 251,257,235,257,258,246,247,245,230,244,227,245,272,240,224,249,250,234,248,252,244,250,267,220,240,257,260,232,256,252,266,256,225,243,243,274,228,245,234,260,233,262,240,249,217,237,253,268,247,225];
 var FSpanLabel='F Span'; var Fspan=[ 1688,1669,1641,1746,1697,1619,1617,1683,1538,1605,1495,1633,1785,1578,1548,1738,1700,1560,1618,1660,1636,1698,1752,1529,1570,1719,1752,1643,1704,1639,1843,1738,1627,1613,1677,1720,1700,1631,1647,1693,1552,1662,1659,1734,1628,1521,1667,1840,1674,1511];
 var FHeightLabel='F Height'; var Fheight=[1670,1570,1592,1712,1682,1608,1603,1704,1599,1642,1500,1628,1702,1633,1588,1646,1684,1543,1623,1633,1683,1658,1729,1545,1575,1685,1708,1590,1686,1628,1732,1615,1552,1590,1619,1679,1688,1618,1688,1629,1597,1694,1584,1714,1573,1600,1603,1718,1597,1549];
@@ -1607,32 +1699,27 @@ var MWaistLabel='M Waist Height'; var Mwaist=[1061,1021,1115,1055,1006,1029,1007
 var MWeightLabel='M Weight'; var Mweight=[83.8,68.2,85.1,100.1,71.7,86.9,74.7,68.5,71.3,95.1,81.5,69.6,56.8,90.5,84.7,92.7,68.8,132.9,81.3,98.8,95.3,67.4,70.3,79.8,114,86.9,92,86.2,73.5,70.1,104.4,66.7,67.7,60,86.2,72.3,73.4,97.5,70.1,113.8,74.9,71.7,101.6,77.5,74.2,87.8,96.2,77.9,77.2,60.9];
 var MAgeLabel='M Age'; var Mage=[42,20,36,35,21,47,24,30,25,23,32,26,30,49,29,51,22,49,31,24,27,26,21,22,26,30,21,29,20,27,33,29,36,26,26,18,48,32,32,36,24,23,22,30,22,41,27,46,33,28]; 
 
-var ClassHeightLabel='Height'; var ClassHeight=[61,64,62,62,68,64,63,63,62,65,66,65,62,69,66,62,66,70,61.75,61,72.5,64,68,63.5,64,68,63,65,56,66,66,65.6,68,63,61,61,66,66,62,60,69,69,65.5,67,66,60,63,71,63,71,60,65,61,71,69,65,68,61,68,60.5,67,67,66,70,71,72,74,66,72,67,70,73,67,70,67,77,70,74,75,72,71,74,67,75,69];
-var ClassSpanLabel='Span'; var ClassSpan=[61,64,63,59,65,66,64,63,64,64,61.5,62.5,59.5,68,62,60,64,71,61.5,62,72,65.5,62.5,63.5,69,67,64,66,54,65,67,67,62,61,61,62,63,65,63,62,67,66,65.5,67,65,64.5,64,69,69,72,62.5,65,69,73.5,69,64.5,68.5,61,66.5,60.5,67.5,67,66.5,67.5,69,74,72.5,68,71,67,69,75.5,66,69,71,77,69.5,72,77.5,71,76,64,77,75,69];
-var ClassSiblingsLabel='Siblings'; var ClassSiblings=[2,4,3,1,3,2,3,2,2,2,4,1,3,1,1,2,2,2,0,1,1,2,1,3,4,5,7,3,3,3,6,2,2,2,3,5,3,2,1,2,4,5,1,3,1,7,1,3,3,3,2,2,9,2,3,0,2,1,1,1,13,1,1,0,9,3,3,1,4,2,2,10,6,1,4,2,8,1,3,4,1,3,4,1,4];
-var MonthLabel='Month'; var Month=[1,2,3,4,5,6,7,8,9,10,11,12];
-var ClassBirthMonthLabel='Count'; var ClassBirthMonth=[6,7,11,4,3,10,5,8,7,7,8,9];
-var ClassBirthMonthLabelMale='M Count'; var ClassBirthMonthMale=[0,1,1,1,1,3,1,5,1,4,1,3];
-var ClassBirthMonthLabelFemale='F Count'; var ClassBirthMonthFemale=[6,6,10,3,2,7,4,3,6,3,7,6];
+var ClassHeightLabel='Height'; var ClassF25Height=[61,64,62,62,68,64,63,63,62,65,66,65,62,69,66,62,66,70,61.75,61,72.5,64,68,63.5,64,68,63,65,56,66,66,65.6,68,63,61,61,66,66,62,60,69,69,65.5,67,66,60,63,71,63,71,60,65,61,71,69,65,68,61,68,60.5,67,67,66,70,71,72,74,66,72,67,70,73,67,70,67,77,70,74,75,72,71,74,67,75,69];
+var ClassSpanLabel='Span'; var ClassF25Span=[61,64,63,59,65,66,64,63,64,64,61.5,62.5,59.5,68,62,60,64,71,61.5,62,72,65.5,62.5,63.5,69,67,64,66,54,65,67,67,62,61,61,62,63,65,63,62,67,66,65.5,67,65,64.5,64,69,69,72,62.5,65,69,73.5,69,64.5,68.5,61,66.5,60.5,67.5,67,66.5,67.5,69,74,72.5,68,71,67,69,75.5,66,69,71,77,69.5,72,77.5,71,76,64,77,75,69];
+var ClassSiblingsLabel='Siblings'; var ClassF25Siblings=[2,4,3,1,3,2,3,2,2,2,4,1,3,1,1,2,2,2,0,1,1,2,1,3,4,5,7,3,3,3,6,2,2,2,3,5,3,2,1,2,4,5,1,3,1,7,1,3,3,3,2,2,9,2,3,0,2,1,1,1,13,1,1,0,9,3,3,1,4,2,2,10,6,1,4,2,8,1,3,4,1,3,4,1,4];
+var MonthLabel='Month'; var Month=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+var ClassBirthMonthLabel='Count'; var ClassF25BirthMonth=[6,7,11,4,3,10,5,8,7,7,8,9];
+var ClassBirthMonthLabelMale='M Count'; var ClassF25BirthMonthMale=[0,1,1,1,1,3,1,5,1,4,1,3];
+var ClassBirthMonthLabelFemale='F Count'; var ClassF25BirthMonthFemale=[6,6,10,3,2,7,4,3,6,3,7,6];
 
-var DayLabel='Month'; var Day=[1,2,3,4,5,6,7];
-var ClassBirthDayLabel='Count'; var ClassBirthDay=[3,15,8,24,9,17,9];
-var ClassBirthDayLabelMale='M Count'; var ClassBirthDayMale=[0,5,3,7,2,3,2];
-var ClassBirthDayLabelFemale='F Count'; var ClassBirthDayFemale=[3,10,5,17,7,14,7];
-
-var LineLabel='Direction'; var Line=['DR','UR','H','V'];
-var ClassLineLabel='Count'; var ClassLine=[31,23,12,19];
-var ClassLineLabelMale='M Count'; var ClassLineMale=[7,8,3,4];
-var ClassLineLabelFemale='F Count'; var ClassLineFemale=[24,15,9,15];
+var DayLabel='Day'; var Day=['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+var ClassBirthDayLabel='Count'; var ClassF25BirthDay=[3,15,8,24,9,17,9];
+var ClassBirthDayLabelMale='M Count'; var ClassF25BirthDayMale=[0,5,3,7,2,3,2];
+var ClassBirthDayLabelFemale='F Count'; var ClassF25BirthDayFemale=[3,10,5,17,7,14,7];
 
 
-var ClassHeightFemaleLabel='F Height'; var ClassHeightFemale=[61,64,62,62,68,64,63,63,62,65,66,65,62,69,66,62,66,70,61.75,61,72.5,64,68,63.5,64,68,63,65,56,66,66,65.6,68,63,61,61,66,66,62,60,69,69,65.5,67,66,60,63,71,63,71,60,65,61,71,69,65,68,61,68,60.5,67,67,66];
-var ClassSpanLabelFemale='F Span'; var ClassSpanFemale=[61,64,63,59,65,66,64,63,64,64,61.5,62.5,59.5,68,62,60,64,71,61.5,62,72,65.5,62.5,63.5,69,67,64,66,54,65,67,67,62,61,61,62,63,65,63,62,67,66,65.5,67,65,64.5,64,69,69,72,62.5,65,69,73.5,69,64.5,68.5,61,66.5,60.5,67.5,67,66.5];
-var ClassSiblingsFemaleLabel='F Siblings'; var ClassSiblingsFemale=[2,4,3,1,3,2,3,2,2,2,4,1,3,1,1,2,2,2,0,1,1,2,1,3,4,5,7,3,3,3,6,2,2,2,3,5,3,2,1,2,4,5,1,3,1,7,1,3,3,3,2,2,9,2,3,0,2,1,1,1,13,1,1];
+var ClassHeightFemaleLabel='F Height'; var ClassF25HeightFemale=[61,64,62,62,68,64,63,63,62,65,66,65,62,69,66,62,66,70,61.75,61,72.5,64,68,63.5,64,68,63,65,56,66,66,65.6,68,63,61,61,66,66,62,60,69,69,65.5,67,66,60,63,71,63,71,60,65,61,71,69,65,68,61,68,60.5,67,67,66];
+var ClassSpanLabelFemale='F Span'; var ClassF25SpanFemale=[61,64,63,59,65,66,64,63,64,64,61.5,62.5,59.5,68,62,60,64,71,61.5,62,72,65.5,62.5,63.5,69,67,64,66,54,65,67,67,62,61,61,62,63,65,63,62,67,66,65.5,67,65,64.5,64,69,69,72,62.5,65,69,73.5,69,64.5,68.5,61,66.5,60.5,67.5,67,66.5];
+var ClassSiblingsFemaleLabel='F Siblings'; var ClassF25SiblingsFemale=[2,4,3,1,3,2,3,2,2,2,4,1,3,1,1,2,2,2,0,1,1,2,1,3,4,5,7,3,3,3,6,2,2,2,3,5,3,2,1,2,4,5,1,3,1,7,1,3,3,3,2,2,9,2,3,0,2,1,1,1,13,1,1];
 
-var ClassHeightMaleLabel='M Height'; var ClassHeightMale=[70,71,72,74,66,72,67,70,73,67,70,67,77,70,74,75,72,71,74,67,75,69];
-var ClassSpanLabelMale='M Span'; var ClassSpanMale=[67.5,69,74,72.5,68,71,67,69,75.5,66,69,71,77,69.5,72,77.5,71,76,64,77,75,69];
-var ClassSiblingsMaleLabel='M Siblings';  var ClassSiblingsMale=[0,9,3,3,1,4,2,2,10,6,1,4,2,8,1,3,4,1,3,4,1,4];
+var ClassHeightMaleLabel='M Height'; var ClassF25HeightMale=[70,71,72,74,66,72,67,70,73,67,70,67,77,70,74,75,72,71,74,67,75,69];
+var ClassSpanLabelMale='M Span'; var ClassF25SpanMale=[67.5,69,74,72.5,68,71,67,69,75.5,66,69,71,77,69.5,72,77.5,71,76,64,77,75,69];
+var ClassSiblingsMaleLabel='M Siblings';  var ClassF25SiblingsMale=[0,9,3,3,1,4,2,2,10,6,1,4,2,8,1,3,4,1,3,4,1,4];
 
 var StatHeightLabel='Stat Height'; var StatHeight=[70,61,64,62,71,66,65,62,72,68,64,63,63,62,65,74,66,66,72,65,62,67,69,70,73,66,62,67,66,70,61.75,70,67,61,72.5];
 var MetHeightLabel='MET Height'; var MetHeight=[77,64,68,63.5,64.5,64,68,63,65,56,66,66,65.6,68,63,61,61,66,66,62,60,69,69,65.5,66,67,66];
@@ -1918,7 +2005,7 @@ ranVarCanvas.style.display='none';
 <button class='expander' data-open='dotPlotDiv' data-close='histoDiv,seriesDiv,histoDiv2,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2'>Dot Plots</button>
 <button class='expander' data-open='histoDiv' data-close='dotPlotDiv,seriesDiv,histoDiv2,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2'>Histograms</button>
 <button class='expander' data-open='histoDiv2' data-close='dotPlotDiv,seriesDiv,histoDiv,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2'>Bar Chart</button>
-<!--button class='expander' data-open='seriesDiv' data-close='dotPlotDiv,histoDiv2,histoDiv,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2,insideSeriesDiv'>Series</button-->
+<button class='expander' data-open='seriesDiv' data-close='dotPlotDiv,histoDiv2,histoDiv,boxDiv,scatterDiv,quantileDiv,insideHistoDiv,insideHistoDiv2,insideSeriesDiv'>Series</button>
 <button class='expander' data-open='boxDiv' data-close='dotPlotDiv,seriesDiv,histoDiv2,histoDiv,scatterDiv,quantileDiv,boxplotCanvasDiv'>Box Plots</button>
 <button class='expander' data-open='scatterDiv' data-close='dotPlotDiv,seriesDiv,histoDiv2,histoDiv,boxDiv,quantileDiv,scatterPlotDiv'>Scatter Plots</button>
 <button class='expander' data-open='quantileDiv'  data-close='dotPlotDiv,seriesDiv,histoDiv2,histoDiv,boxDiv,scatterDiv,quantilePlotDiv'>Quantile Plots</button>
