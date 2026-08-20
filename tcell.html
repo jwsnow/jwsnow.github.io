@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rooted Tree Attack Simulator</title>
+<style>
+  :root {
+    --bg: #f5f7fb;
+    --panel: #ffffff;
+    --text: #172033;
+    --muted: #667085;
+    --border: #d0d5dd;
+    --accent: #2457c5;
+    --accent-dark: #173e91;
+    --danger: #b42318;
+    --danger-bg: #fef3f2;
+    --ok: #067647;
+    --ok-bg: #ecfdf3;
+    --gray-node: #d0d5dd;
+    --gray-edge: #c9cdd4;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.45;
+  }
+
+  .page {
+    width: min(1180px, calc(100% - 28px));
+    margin: 28px auto 56px;
+  }
+
+  h1, h2, h3 { line-height: 1.2; }
+  h1 { margin-bottom: 8px; }
+  h2 { margin-top: 0; }
+  p { margin-top: 0; }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    margin-top: 18px;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, .05);
+  }
+
+  .instructions {
+    color: var(--muted);
+    max-width: 900px;
+  }
+
+  label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 92px;
+    resize: vertical;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    font: 1rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--text);
+    background: #fff;
+  }
+
+  textarea:focus, button:focus {
+    outline: 3px solid rgba(36, 87, 197, .18);
+    outline-offset: 2px;
+  }
+
+  .button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  button {
+    border: 0;
+    border-radius: 9px;
+    padding: 10px 15px;
+    font-weight: 700;
+    font-size: .96rem;
+    cursor: pointer;
+    background: var(--accent);
+    color: white;
+  }
+
+  button:hover:not(:disabled) { background: var(--accent-dark); }
+
+  button.secondary {
+    background: #344054;
+  }
+
+  button:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+  }
+
+  .status {
+    margin-top: 14px;
+    padding: 11px 13px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+  }
+
+  .status.ok {
+    background: var(--ok-bg);
+    border-color: #abefc6;
+    color: var(--ok);
+  }
+
+  .status.error {
+    background: var(--danger-bg);
+    border-color: #fecdca;
+    color: var(--danger);
+  }
+
+  .hidden { display: none !important; }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin: 14px 0;
+  }
+
+  .stat {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    background: #fafafa;
+  }
+
+  .stat .value {
+    font-size: 1.35rem;
+    font-weight: 800;
+  }
+
+  .stat .label {
+    color: var(--muted);
+    font-size: .9rem;
+  }
+
+  .graph-wrap {
+    overflow-x: auto;
+    padding: 8px 0 2px;
+  }
+
+  svg.tree {
+    display: block;
+    width: 100%;
+    min-width: 320px;
+    max-height: 650px;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    font-size: .9rem;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 2px solid #344054;
+    background: #fff;
+  }
+
+  .swatch.root { background: #dbeafe; border-color: #2457c5; }
+  .swatch.leaf { background: #ecfdf3; border-color: #067647; }
+  .swatch.removed { background: var(--gray-node); border-color: #98a2b3; }
+
+  .attack-sequence {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    gap: 14px;
+    align-items: start;
+  }
+
+  .snapshot {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    background: #fff;
+  }
+
+  .snapshot.broken {
+    border-color: #f04438;
+    background: #fffafa;
+  }
+
+  .snapshot h3 {
+    margin: 0 0 5px;
+    font-size: 1rem;
+  }
+
+  .snapshot p {
+    color: var(--muted);
+    font-size: .9rem;
+    margin-bottom: 8px;
+  }
+
+  .result-callout {
+    margin: 14px 0;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    background: var(--danger-bg);
+    border: 1px solid #fecdca;
+    color: var(--danger);
+  }
+
+  .estimate-callout {
+    margin: 14px 0;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    background: #eef4ff;
+    border: 1px solid #c7d7fe;
+    color: #1849a9;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+  }
+
+  th, td {
+    border-bottom: 1px solid var(--border);
+    padding: 9px 10px;
+    text-align: right;
+  }
+
+  th:first-child, td:first-child { text-align: left; }
+
+  th {
+    background: #f9fafb;
+    font-size: .9rem;
+  }
+
+  .small-note {
+    color: var(--muted);
+    font-size: .88rem;
+  }
+
+  .top-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .help-btn {
+    background: #475467;
+    white-space: nowrap;
+  }
+
+  dialog {
+    width: min(700px, calc(100% - 28px));
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 0;
+    color: var(--text);
+    background: #fff;
+    box-shadow: 0 24px 48px rgba(16, 24, 40, .22);
+  }
+
+  dialog::backdrop {
+    background: rgba(16, 24, 40, .55);
+  }
+
+  .dialog-inner { padding: 22px; }
+  .dialog-inner h2 { margin-bottom: 14px; }
+  .dialog-inner h3 { margin-bottom: 6px; }
+  .dialog-inner ul, .dialog-inner ol { padding-left: 24px; }
+
+  .recent-action {
+    margin: 8px 0 10px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    background: #fff4e5;
+    border: 1px solid #fdb022;
+    color: #7a2e0e;
+    font-weight: 800;
+  }
+
+  @media (max-width: 600px) {
+    .page { width: min(100% - 16px, 1180px); margin-top: 12px; }
+    .panel { padding: 14px; border-radius: 10px; }
+    button { width: 100%; }
+    .attack-sequence { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="top-actions">
+    <h1>Rooted Tree Attack Simulator</h1>
+    <button id="helpBtn" class="help-btn" type="button">How to Use This Page</button>
+  </div>
+  <p class="instructions">
+    Enter the edges of a rooted tree using two-letter vertex pairs such as
+    <strong>AB, AC, BD, BE</strong>. Vertices are single letters, the root is
+    <strong>A</strong>, and the graph is treated as undirected before being rooted at A.
+  </p>
+
+  <section class="panel">
+    <h2>1. Enter a tree</h2>
+    <label for="edgeInput">Edges</label>
+    <textarea id="edgeInput" spellcheck="false" placeholder="AB, AC, BD, BE, CF, CG"></textarea>
+    <div class="button-row">
+      <button id="verifyBtn">Verify and Draw Tree</button>
+    </div>
+    <div id="validationStatus" class="status hidden" role="status" aria-live="polite"></div>
+  </section>
+
+  <section id="treePanel" class="panel hidden">
+    <h2>2. Verified rooted tree</h2>
+    <div id="treeSummary" class="summary-grid"></div>
+    <div id="originalGraph" class="graph-wrap"></div>
+    <div class="legend">
+      <span class="legend-item"><span class="swatch root"></span>Root A</span>
+      <span class="legend-item"><span class="swatch leaf"></span>Original leaf</span>
+      <span class="legend-item"><span class="swatch removed"></span>Eliminated vertex</span>
+    </div>
+    <p class="small-note">
+      In every attack step, an edge is chosen uniformly at random from the edges whose
+      two endpoints are still present, and then one endpoint of that edge is chosen
+      uniformly at random. The tree is broken when A has no surviving path to any
+      leaf of the original rooted tree.
+    </p>
+    <div class="button-row">
+      <button id="attackBtn">Attack Once</button>
+      <button id="estimateBtn" class="secondary">Estimate Expected Number of Attacks</button>
+    </div>
+  </section>
+
+  <section id="attackPanel" class="panel hidden">
+    <h2>Attack Once</h2>
+    <div id="attackResult"></div>
+    <div id="attackSequence" class="attack-sequence"></div>
+  </section>
+
+  <section id="estimatePanel" class="panel hidden">
+    <h2>Estimate from 10,000 attacks</h2>
+    <div id="estimateResult"></div>
+    <div id="estimateTable"></div>
+  </section>
+
+  <dialog id="helpDialog">
+    <div class="dialog-inner">
+      <h2>How to enter and attack a rooted tree</h2>
+
+      <h3>Entering the tree</h3>
+      <p>Each vertex is represented by a single letter. The root must be <strong>A</strong>. Enter each edge by typing the letters at its two endpoints together.</p>
+      <p>For example, <strong>AB, AC, BD, BE</strong> describes the edges A–B, A–C, B–D, and B–E. You may separate edges with commas, spaces, semicolons, or line breaks.</p>
+      <p>When you choose <strong>Verify and Draw Tree</strong>, the page checks that A is present, that every vertex is connected to A, that no edge is repeated, and that the graph contains no cycle.</p>
+
+      <h3>How one attack works</h3>
+      <ol>
+        <li>Choose uniformly at random one edge whose two endpoints are still present.</li>
+        <li>Choose uniformly at random one endpoint of that edge.</li>
+        <li>Eliminate that endpoint and all edges incident with it.</li>
+        <li>Check whether the root A still has a path to at least one leaf of the <em>original</em> rooted tree.</li>
+        <li>If such a path remains, repeat the process. If not, the tree is broken.</li>
+      </ol>
+      <p>During <strong>Attack Once</strong>, each successive diagram keeps the original layout. Previously eliminated material is gray, while the most recently selected edge and most recently eliminated vertex are specially highlighted.</p>
+
+      <h3>Estimated number of attacks</h3>
+      <p><strong>Estimate Expected Number of Attacks</strong> runs 10,000 independent attacks. It reports the mean number of eliminated vertices required to break the tree. For each n, the table also reports the percentage of trials in which the tree had broken <strong>by the time n vertices had been eliminated</strong>.</p>
+
+      <div class="button-row">
+        <button id="closeHelpBtn" type="button">Close</button>
+      </div>
+    </div>
+  </dialog>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const edgeInput = document.getElementById("edgeInput");
+  const helpBtn = document.getElementById("helpBtn");
+  const helpDialog = document.getElementById("helpDialog");
+  const closeHelpBtn = document.getElementById("closeHelpBtn");
+  const verifyBtn = document.getElementById("verifyBtn");
+  const attackBtn = document.getElementById("attackBtn");
+  const estimateBtn = document.getElementById("estimateBtn");
+  const validationStatus = document.getElementById("validationStatus");
+  const treePanel = document.getElementById("treePanel");
+  const treeSummary = document.getElementById("treeSummary");
+  const originalGraph = document.getElementById("originalGraph");
+  const attackPanel = document.getElementById("attackPanel");
+  const attackResult = document.getElementById("attackResult");
+  const attackSequence = document.getElementById("attackSequence");
+  const estimatePanel = document.getElementById("estimatePanel");
+  const estimateResult = document.getElementById("estimateResult");
+  const estimateTable = document.getElementById("estimateTable");
+
+  let model = null;
+
+  function showStatus(message, kind) {
+    validationStatus.textContent = message;
+    validationStatus.className = `status ${kind}`;
+  }
+
+  function parseInput(raw) {
+    const cleaned = raw.trim().toUpperCase();
+    if (!cleaned) {
+      return { error: "No edges were entered." };
+    }
+
+    const tokens = cleaned.split(/[\s,;]+/).filter(Boolean);
+    const edges = [];
+    const seen = new Set();
+
+    for (const token of tokens) {
+      if (!/^[A-Z]{2}$/.test(token)) {
+        return {
+          error: `"${token}" is not a valid edge. Each edge must contain exactly two letters, such as AB.`
+        };
+      }
+      const u = token[0];
+      const v = token[1];
+      if (u === v) {
+        return { error: `${token} is a self-loop. A tree cannot contain a self-loop.` };
+      }
+      const key = [u, v].sort().join("");
+      if (seen.has(key)) {
+        return { error: `${token} duplicates an edge already entered. Enter each undirected edge only once.` };
+      }
+      seen.add(key);
+      edges.push([u, v]);
+    }
+
+    return { edges };
+  }
+
+  function buildAdjacency(edges) {
+    const adj = new Map();
+    for (const [u, v] of edges) {
+      if (!adj.has(u)) adj.set(u, []);
+      if (!adj.has(v)) adj.set(v, []);
+      adj.get(u).push(v);
+      adj.get(v).push(u);
+    }
+    for (const neighbors of adj.values()) neighbors.sort();
+    return adj;
+  }
+
+  function findCycle(adj) {
+    const visited = new Set();
+    const parent = new Map();
+
+    function dfs(u, p) {
+      visited.add(u);
+      parent.set(u, p);
+
+      for (const v of adj.get(u) || []) {
+        if (v === p) continue;
+        if (!visited.has(v)) {
+          const cycle = dfs(v, u);
+          if (cycle) return cycle;
+        } else {
+          const path = [u];
+          let x = u;
+          while (x !== v && x != null) {
+            x = parent.get(x);
+            if (x != null) path.push(x);
+          }
+          if (path[path.length - 1] === v) {
+            path.reverse();
+            path.push(u);
+            return path;
+          }
+        }
+      }
+      return null;
+    }
+
+    for (const start of [...adj.keys()].sort()) {
+      if (!visited.has(start)) {
+        const cycle = dfs(start, null);
+        if (cycle) return cycle;
+      }
+    }
+    return null;
+  }
+
+  function validateTree(edges) {
+    const adj = buildAdjacency(edges);
+    const vertices = [...adj.keys()].sort();
+
+    if (!adj.has("A")) {
+      return { ok: false, reason: "The root A does not occur in the graph." };
+    }
+
+    const reached = new Set(["A"]);
+    const stack = ["A"];
+    while (stack.length) {
+      const u = stack.pop();
+      for (const v of adj.get(u) || []) {
+        if (!reached.has(v)) {
+          reached.add(v);
+          stack.push(v);
+        }
+      }
+    }
+
+    if (reached.size !== vertices.length) {
+      const unreachable = vertices.filter(v => !reached.has(v));
+      return {
+        ok: false,
+        reason: `The graph is not connected. From root A, the following vertices cannot be reached: ${unreachable.join(", ")}.`
+      };
+    }
+
+    const cycle = findCycle(adj);
+    if (cycle) {
+      return {
+        ok: false,
+        reason: `The graph contains a cycle (${cycle.join("–")}), so it is not a tree.`
+      };
+    }
+
+    if (edges.length !== vertices.length - 1) {
+      return {
+        ok: false,
+        reason: `A connected tree on ${vertices.length} vertices must have ${vertices.length - 1} edges, but ${edges.length} were entered.`
+      };
+    }
+
+    return { ok: true, adj, vertices };
+  }
+
+  function rootTree(adj) {
+    const parent = new Map([["A", null]]);
+    const depth = new Map([["A", 0]]);
+    const children = new Map();
+    for (const v of adj.keys()) children.set(v, []);
+
+    const queue = ["A"];
+    while (queue.length) {
+      const u = queue.shift();
+      for (const v of adj.get(u) || []) {
+        if (v === parent.get(u)) continue;
+        if (!parent.has(v)) {
+          parent.set(v, u);
+          depth.set(v, depth.get(u) + 1);
+          children.get(u).push(v);
+          queue.push(v);
+        }
+      }
+    }
+    for (const list of children.values()) list.sort();
+
+    const leaves = [...children.keys()]
+      .filter(v => children.get(v).length === 0)
+      .sort();
+
+    return { parent, depth, children, leaves };
+  }
+
+  function layoutTree(children, depth) {
+    const x = new Map();
+    let leafIndex = 0;
+
+    function place(u) {
+      const kids = children.get(u) || [];
+      if (kids.length === 0) {
+        x.set(u, leafIndex++);
+        return x.get(u);
+      }
+      const xs = kids.map(place);
+      const avg = xs.reduce((a, b) => a + b, 0) / xs.length;
+      x.set(u, avg);
+      return avg;
+    }
+
+    place("A");
+
+    const vertices = [...children.keys()];
+    const maxDepth = Math.max(...vertices.map(v => depth.get(v)));
+    const leafCount = Math.max(1, leafIndex);
+    const horizontalGap = 95;
+    const verticalGap = 105;
+    const marginX = 55;
+    const marginY = 55;
+    const width = Math.max(360, (leafCount - 1) * horizontalGap + 2 * marginX);
+    const height = Math.max(180, maxDepth * verticalGap + 2 * marginY);
+
+    const pos = new Map();
+    for (const v of vertices) {
+      const px = leafCount === 1
+        ? width / 2
+        : marginX + x.get(v) * horizontalGap;
+      const py = marginY + depth.get(v) * verticalGap;
+      pos.set(v, { x: px, y: py });
+    }
+
+    return { pos, width, height };
+  }
+
+  function makeModel(edges, adj, vertices) {
+    const rooted = rootTree(adj);
+    const layout = layoutTree(rooted.children, rooted.depth);
+    return {
+      edges,
+      adj,
+      vertices,
+      parent: rooted.parent,
+      depth: rooted.depth,
+      children: rooted.children,
+      leaves: rooted.leaves,
+      pos: layout.pos,
+      width: layout.width,
+      height: layout.height
+    };
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, ch => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[ch]);
+  }
+
+  function renderGraph(eliminated = new Set(), options = {}) {
+    const {
+      compact = false,
+      ariaLabel = "Tree diagram",
+      selectedEdge = null,
+      selectedVertex = null
+    } = options;
+    const m = model;
+    const radius = compact ? 16 : 19;
+    const fontSize = compact ? 12 : 14;
+
+    const sameEdge = (edge, chosen) => {
+      if (!chosen) return false;
+      return (edge[0] === chosen[0] && edge[1] === chosen[1]) ||
+             (edge[0] === chosen[1] && edge[1] === chosen[0]);
+    };
+
+    const edgeSvg = m.edges.map(([u, v]) => {
+      const p1 = m.pos.get(u);
+      const p2 = m.pos.get(v);
+      const removed = eliminated.has(u) || eliminated.has(v);
+      const stroke = removed ? "#c9cdd4" : "#475467";
+      const dash = removed ? ' stroke-dasharray="7 6"' : "";
+      return `<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="${stroke}" stroke-width="3"${dash} />`;
+    }).join("");
+
+    const selectedEdgeSvg = selectedEdge ? m.edges.filter(edge => sameEdge(edge, selectedEdge)).map(([u, v]) => {
+      const p1 = m.pos.get(u);
+      const p2 = m.pos.get(v);
+      return `<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}"
+                    stroke="#f79009" stroke-width="3" stroke-dasharray="7 6" opacity="0.95" />`;
+    }).join("") : "";
+
+    const nodeSvg = m.vertices.map(v => {
+      const p = m.pos.get(v);
+      const removed = eliminated.has(v);
+      const isRoot = v === "A";
+      const isLeaf = m.leaves.includes(v);
+      const isSelected = v === selectedVertex;
+
+      let fill = "#ffffff";
+      let stroke = "#344054";
+      let text = "#172033";
+
+      if (removed) {
+        fill = "#d0d5dd";
+        stroke = "#98a2b3";
+        text = "#667085";
+      } else if (isRoot) {
+        fill = "#dbeafe";
+        stroke = "#2457c5";
+      } else if (isLeaf) {
+        fill = "#ecfdf3";
+        stroke = "#067647";
+      }
+
+      const outerRing = isSelected
+        ? `<circle cx="${p.x}" cy="${p.y}" r="${radius + 7}" fill="none" stroke="#d92d20" stroke-width="5" />`
+        : "";
+
+      return `
+        ${outerRing}
+        <circle cx="${p.x}" cy="${p.y}" r="${radius}" fill="${fill}" stroke="${stroke}" stroke-width="3" />
+        <text x="${p.x}" y="${p.y + fontSize * 0.36}" text-anchor="middle"
+              font-size="${fontSize}" font-weight="800" fill="${text}"
+              font-family="system-ui, sans-serif">${v}</text>
+      `;
+    }).join("");
+
+    return `
+      <svg class="tree" viewBox="0 0 ${m.width} ${m.height}"
+           role="img" aria-label="${escapeHtml(ariaLabel)}"
+           preserveAspectRatio="xMidYMid meet">
+        ${edgeSvg}
+        ${selectedEdgeSvg}
+        ${nodeSvg}
+      </svg>
+    `;
+  }
+
+  function isBroken(eliminated) {
+    if (eliminated.has("A")) return true;
+
+    const visited = new Set(["A"]);
+    const stack = ["A"];
+
+    while (stack.length) {
+      const u = stack.pop();
+      for (const v of model.adj.get(u) || []) {
+        if (eliminated.has(v) || visited.has(v)) continue;
+        visited.add(v);
+        stack.push(v);
+      }
+    }
+
+    return !model.leaves.some(leaf => !eliminated.has(leaf) && visited.has(leaf));
+  }
+
+  function activeEdges(eliminated) {
+    return model.edges.filter(([u, v]) => !eliminated.has(u) && !eliminated.has(v));
+  }
+
+  function randomInt(n) {
+    return Math.floor(Math.random() * n);
+  }
+
+  function oneTrial(recordSteps = false) {
+    const eliminated = new Set();
+    const steps = [];
+
+    while (!isBroken(eliminated)) {
+      const edges = activeEdges(eliminated);
+      if (edges.length === 0) {
+        // This should be impossible if a path from A to an original leaf survives,
+        // but it prevents an infinite loop if the model is later modified.
+        break;
+      }
+
+      const edge = edges[randomInt(edges.length)];
+      const endpoint = edge[randomInt(2)];
+      eliminated.add(endpoint);
+
+      if (recordSteps) {
+        steps.push({
+          edge: [...edge],
+          eliminatedVertex: endpoint,
+          eliminated: new Set(eliminated),
+          broken: isBroken(eliminated)
+        });
+      }
+    }
+
+    return { count: eliminated.size, steps, eliminated };
+  }
+
+  function renderTreeSummary() {
+    treeSummary.innerHTML = `
+      <div class="stat">
+        <div class="value">${model.vertices.length}</div>
+        <div class="label">vertices</div>
+      </div>
+      <div class="stat">
+        <div class="value">${model.edges.length}</div>
+        <div class="label">edges</div>
+      </div>
+      <div class="stat">
+        <div class="value">${model.leaves.length}</div>
+        <div class="label">original leaves: ${model.leaves.join(", ")}</div>
+      </div>
+    `;
+  }
+
+  function verify() {
+    attackPanel.classList.add("hidden");
+    estimatePanel.classList.add("hidden");
+    model = null;
+
+    const parsed = parseInput(edgeInput.value);
+    if (parsed.error) {
+      showStatus(parsed.error, "error");
+      treePanel.classList.add("hidden");
+      return;
+    }
+
+    const validation = validateTree(parsed.edges);
+    if (!validation.ok) {
+      showStatus(`Not a connected tree: ${validation.reason}`, "error");
+      treePanel.classList.add("hidden");
+      return;
+    }
+
+    model = makeModel(parsed.edges, validation.adj, validation.vertices);
+
+    if (model.edges.length === 0) {
+      showStatus("A one-vertex tree has no edge to attack.", "error");
+      treePanel.classList.add("hidden");
+      model = null;
+      return;
+    }
+
+    showStatus(
+      `Valid connected tree. Root A reaches all ${model.vertices.length} vertices, and the graph has no cycle.`,
+      "ok"
+    );
+    treePanel.classList.remove("hidden");
+    renderTreeSummary();
+    originalGraph.innerHTML = renderGraph(new Set(), { ariaLabel: "Original rooted tree" });
+  }
+
+  function attackOnce() {
+    if (!model) return;
+
+    const trial = oneTrial(true);
+    attackPanel.classList.remove("hidden");
+    attackResult.innerHTML = `
+      <div class="result-callout">
+        The graph was broken after ${trial.count} ${trial.count === 1 ? "vertex was" : "vertices were"} eliminated.
+      </div>
+    `;
+
+    const initial = `
+      <article class="snapshot">
+        <h3>Initial tree</h3>
+        <p>No vertices eliminated.</p>
+        ${renderGraph(new Set(), { compact: true, ariaLabel: "Initial tree before the attack" })}
+      </article>
+    `;
+
+    const cards = trial.steps.map((step, i) => {
+      const edgeName = step.edge.join("–");
+      return `
+        <article class="snapshot ${step.broken ? "broken" : ""}">
+          <h3>After elimination ${i + 1}${step.broken ? " — BROKEN" : ""}</h3>
+          <div class="recent-action">Most recent selection: edge ${edgeName}; vertex ${step.eliminatedVertex} eliminated.</div>
+          ${renderGraph(step.eliminated, {
+            compact: true,
+            selectedEdge: step.edge,
+            selectedVertex: step.eliminatedVertex,
+            ariaLabel: `Tree after elimination ${i + 1}; selected edge ${edgeName}; vertex ${step.eliminatedVertex} removed`
+          })}
+        </article>
+      `;
+    }).join("");
+
+    attackSequence.innerHTML = initial + cards;
+    attackPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function estimate() {
+    if (!model) return;
+
+    estimateBtn.disabled = true;
+    estimateBtn.textContent = "Running 10,000 attacks…";
+
+    // Let the browser paint the button state before doing the computation.
+    setTimeout(() => {
+      const trials = 10000;
+      const counts = new Array(model.vertices.length + 1).fill(0);
+      let total = 0;
+
+      for (let i = 0; i < trials; i++) {
+        const result = oneTrial(false);
+        total += result.count;
+        if (result.count >= 0 && result.count < counts.length) {
+          counts[result.count]++;
+        }
+      }
+
+      const average = total / trials;
+      estimatePanel.classList.remove("hidden");
+      estimateResult.innerHTML = `
+        <div class="estimate-callout">
+          Estimated expected number of eliminated vertices needed to break the tree:
+          ${average.toFixed(4)}
+        </div>
+        <p class="small-note">
+          Estimate based on ${trials.toLocaleString()} independent simulated attacks.
+        </p>
+      `;
+
+      const rows = [];
+      let cumulativeCount = 0;
+      for (let k = 1; k <= model.vertices.length; k++) {
+        cumulativeCount += counts[k] || 0;
+        const pct = 100 * cumulativeCount / trials;
+        rows.push(`
+          <tr>
+            <td>${k}</td>
+            <td>${cumulativeCount.toLocaleString()}</td>
+            <td>${pct.toFixed(2)}%</td>
+          </tr>
+        `);
+      }
+
+      estimateTable.innerHTML = `
+        <p class="small-note"><strong>Cumulative percentages:</strong> for each n, this is the percentage of simulated attacks in which the tree had broken by the time n vertices had been eliminated.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Vertices eliminated, n</th>
+              <th>Trials broken by n</th>
+              <th>Percentage broken by n</th>
+            </tr>
+          </thead>
+          <tbody>${rows.join("")}</tbody>
+        </table>
+      `;
+
+      estimateBtn.disabled = false;
+      estimateBtn.textContent = "Estimate Expected Number of Attacks";
+      estimatePanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 20);
+  }
+
+  helpBtn.addEventListener("click", () => helpDialog.showModal());
+  closeHelpBtn.addEventListener("click", () => helpDialog.close());
+  helpDialog.addEventListener("click", event => {
+    if (event.target === helpDialog) helpDialog.close();
+  });
+
+  verifyBtn.addEventListener("click", verify);
+  attackBtn.addEventListener("click", attackOnce);
+  estimateBtn.addEventListener("click", estimate);
+
+  edgeInput.addEventListener("keydown", event => {
+    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") verify();
+  });
+})();
+</script>
+</body>
+</html>
