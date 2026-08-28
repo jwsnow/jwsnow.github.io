@@ -1,19 +1,24 @@
+const APP_VERSION = '1.7.1';
+
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
+const PDFJS_WASM_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/wasm/';
+const PDFJS_CMAP_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/cmaps/';
+const PDFJS_STANDARD_FONT_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/standard_fonts/';
 
 const $ = (id) => document.getElementById(id);
 const els = {
   app: $('app'), openBtn: $('openBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), documentSelect: $('documentSelect'),
   viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), viewerControls: $('viewerControls'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
-  fitModeBtn: $('fitModeBtn'), fitModeLabel: $('fitModeLabel'), presentBtn: $('presentBtn'),
+  fitModeBtn: $('fitModeBtn'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), aboutBtn: $('aboutBtn'),
   emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), organizerPane: $('organizerPane'),
   thumbnailGrid: $('thumbnailGrid'), pageCountLabel: $('pageCountLabel'), selectionLabel: $('selectionLabel'),
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), duplicateBtn: $('duplicateBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationExit: $('presentationExit'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -24,10 +29,12 @@ const state = {
   sources: new Map(),
   pages: [],
   selected: new Set(),
+  selectionAnchorId: null,
   activePageId: null,
   workspaceMode: 'view',
   scrollMode: safePref('pdfwb-scroll-mode', 'continuous', ['continuous', 'snap', 'single']),
   fitMode: safePref('pdfwb-fit-mode', 'width', ['width', 'page']),
+  zoom: 1,
   history: [],
   future: [],
   renderGeneration: 0,
@@ -36,6 +43,7 @@ const state = {
   dragging: null,
   lastWheelPageChange: 0,
   statusTimer: null,
+  presentationControlsTimer: null,
 };
 
 function safePref(key, fallback, allowed) {
@@ -47,6 +55,28 @@ function safePref(key, fallback, allowed) {
 function savePref(key, value) { try { localStorage.setItem(key, value); } catch {} }
 function uid(prefix='id') { return `${prefix}-${crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`}`; }
 function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+
+// Keep raster work bounded. Image-only PDFs can require large temporary bitmaps;
+// letting many pages render at once can exhaust browser/GPU memory and leave
+// apparently blank canvases. Viewer jobs are given priority over thumbnails.
+const renderQueue = { active: 0, max: 2, jobs: [] };
+function enqueueRender(task, priority=0) {
+  return new Promise((resolve, reject) => {
+    renderQueue.jobs.push({ task, priority, resolve, reject });
+    renderQueue.jobs.sort((a, b) => b.priority - a.priority);
+    pumpRenderQueue();
+  });
+}
+function pumpRenderQueue() {
+  while (renderQueue.active < renderQueue.max && renderQueue.jobs.length) {
+    const job = renderQueue.jobs.shift();
+    renderQueue.active++;
+    Promise.resolve().then(job.task).then(job.resolve, job.reject).finally(() => {
+      renderQueue.active--;
+      pumpRenderQueue();
+    });
+  }
+}
 function rotatedDims(page) { return page.rotation % 180 === 0 ? [page.width, page.height] : [page.height, page.width]; }
 function activeIndex() { return Math.max(0, state.pages.findIndex(p => p.id === state.activePageId)); }
 function pageById(id) { return state.pages.find(p => p.id === id); }
@@ -61,6 +91,7 @@ function saveCurrentDocumentState() {
   if (!doc) return;
   doc.pages = state.pages;
   doc.selected = state.selected;
+  doc.selectionAnchorId = state.selectionAnchorId;
   doc.activePageId = state.activePageId;
   doc.history = state.history;
   doc.future = state.future;
@@ -69,13 +100,14 @@ function saveCurrentDocumentState() {
 function createDocument(name) {
   saveCurrentDocumentState();
   const doc = {
-    id: uid('doc'), name: name || 'Untitled', pages: [], selected: new Set(),
+    id: uid('doc'), name: name || 'Untitled', pages: [], selected: new Set(), selectionAnchorId: null,
     activePageId: null, history: [], future: []
   };
   state.documents.push(doc);
   state.currentDocumentId = doc.id;
   state.pages = doc.pages;
   state.selected = doc.selected;
+  state.selectionAnchorId = doc.selectionAnchorId;
   state.activePageId = null;
   state.history = doc.history;
   state.future = doc.future;
@@ -104,6 +136,7 @@ function removeDocument(docId) {
       state.currentDocumentId = null;
       state.pages = [];
       state.selected = new Set();
+      state.selectionAnchorId = null;
       state.activePageId = null;
       state.history = [];
       state.future = [];
@@ -119,6 +152,7 @@ function loadDocumentState(docId, rerender=true) {
   state.currentDocumentId = doc.id;
   state.pages = doc.pages;
   state.selected = doc.selected;
+  state.selectionAnchorId = doc.selectionAnchorId || null;
   state.activePageId = doc.activePageId || doc.pages[0]?.id || null;
   state.history = doc.history;
   state.future = doc.future;
@@ -132,24 +166,44 @@ function loadDocumentState(docId, rerender=true) {
 
 function renderDocumentSelect() {
   if (!els.documentSelect) return;
-  const previous = els.documentSelect.value;
-  els.documentSelect.replaceChildren();
-  for (const doc of state.documents) {
-    const option = document.createElement('option');
-    option.value = doc.id;
-    option.textContent = doc.name;
-    els.documentSelect.append(option);
+  const selects = [els.documentSelect, els.presentationDocumentSelect].filter(Boolean);
+  for (const select of selects) {
+    const previous = select.value;
+    select.replaceChildren();
+    for (const doc of state.documents) {
+      const option = document.createElement('option');
+      option.value = doc.id;
+      option.textContent = doc.name;
+      select.append(option);
+    }
+    select.classList.toggle('hidden', state.documents.length === 0);
+    if (state.currentDocumentId) select.value = state.currentDocumentId;
+    else if (previous) select.value = previous;
+    select.title = state.documents.length > 1 ? 'Switch open document' : 'Current document';
   }
-  els.documentSelect.classList.toggle('hidden', state.documents.length === 0);
-  if (state.currentDocumentId) els.documentSelect.value = state.currentDocumentId;
-  else if (previous) els.documentSelect.value = previous;
-  els.documentSelect.title = state.documents.length > 1 ? 'Switch open document' : 'Current document';
 }
 
 async function registerServiceWorker() {
   if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
   try {
-    await navigator.serviceWorker.register('./sw.js');
+    // If this launch is already controlled by an older Workbench service worker,
+    // reload once when a newly deployed worker takes control. This makes an
+    // installed PWA pick up a new release on an online launch without requiring
+    // the user to remove/reinstall it.
+    const hadController = !!navigator.serviceWorker.controller;
+    let updateReloadStarted = false;
+    if (hadController) {
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (updateReloadStarted) return;
+        updateReloadStarted = true;
+        location.reload();
+      }, { once: true });
+    }
+
+    const registration = await navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' });
+    // Ask for an update check on each online launch. The release process bumps
+    // the service-worker/cache version whenever application files change.
+    if (navigator.onLine) await registration.update().catch(() => {});
     await navigator.serviceWorker.ready;
     navigator.serviceWorker.controller?.postMessage({ type: 'CACHE_EXTERNAL', urls: [PDFJS_URL, PDFJS_WORKER_URL] });
   } catch (err) { console.warn('Service worker unavailable', err); }
@@ -252,18 +306,31 @@ async function addPdf(file) {
   const buffer = await file.arrayBuffer();
   const bytes = new Uint8Array(buffer);
   const sourceId = uid('src');
-  const pdf = await state.pdfjs.getDocument({ data: bytes.slice() }).promise;
-  const source = { id: sourceId, type: 'pdf', name: file.name, size: file.size, bytes, pdf, pageCache: new Map() };
+  const pdf = await state.pdfjs.getDocument({
+    data: bytes.slice(),
+    wasmUrl: PDFJS_WASM_URL,
+    cMapUrl: PDFJS_CMAP_URL,
+    cMapPacked: true,
+    standardFontDataUrl: PDFJS_STANDARD_FONT_URL,
+    useWasm: true,
+  }).promise;
+  const source = { id: sourceId, type: 'pdf', name: file.name, size: file.size, bytes, pdf };
   state.sources.set(sourceId, source);
 
   const newPages = [];
   for (let n = 1; n <= pdf.numPages; n++) {
     setStatus(`Reading ${file.name}: page ${n} of ${pdf.numPages}…`, true);
     const pdfPage = await pdf.getPage(n);
-    source.pageCache.set(n, pdfPage);
     const viewport = pdfPage.getViewport({ scale: 1, rotation: pdfPage.rotate || 0 });
     newPages.push({ id: uid('page'), sourceId, sourcePage: n, width: viewport.width, height: viewport.height, baseRotation: pdfPage.rotate || 0, rotation: 0, kind: 'pdf' });
+    // Release decoded scan/image resources used only while reading metadata.
+    try { pdfPage.cleanup?.(); } catch {}
   }
+  // We touched every PDFPageProxy only to discover page dimensions. Clear
+  // document/page resources before the viewer begins; scan-only files can
+  // otherwise enter the viewer with a large amount of worker-side image state
+  // already resident. No rendering is active at this point, so cleanup is safe.
+  try { await pdf.cleanup(); } catch {}
   state.pages.push(...newPages);
   return newPages.length;
 }
@@ -306,10 +373,10 @@ async function getSourceImage(source) {
 }
 
 async function getPdfPage(source, pageNumber) {
-  if (source.pageCache.has(pageNumber)) return source.pageCache.get(pageNumber);
-  const page = await source.pdf.getPage(pageNumber);
-  source.pageCache.set(pageNumber, page);
-  return page;
+  // PDF.js may internally reuse page proxies; do not retain an additional
+  // unbounded cache in the app. Large scanned documents otherwise keep every
+  // page's decoded resources reachable for the lifetime of the document.
+  return source.pdf.getPage(pageNumber);
 }
 
 function showWorkspaceMode(mode) {
@@ -385,7 +452,13 @@ function renderOrganizer() {
     check.className = 'thumb-check';
     check.checked = state.selected.has(page.id);
     check.setAttribute('aria-label', `Select page ${index + 1}`);
-    check.addEventListener('change', () => toggleSelection(page.id, check.checked));
+    check.addEventListener('click', (e) => {
+      // A checkbox is an additive selection control: checking another page must
+      // not clear pages that were already checked. Do not preventDefault here;
+      // doing so can make the native checkbox visually revert after we sync it.
+      e.stopPropagation();
+      applyCheckboxSelection(e, page.id, e.currentTarget.checked);
+    });
 
     const title = document.createElement('div');
     title.className = 'thumb-title';
@@ -400,11 +473,13 @@ function renderOrganizer() {
     handle.title = 'Drag to reorder';
     handle.setAttribute('aria-label', `Drag page ${index + 1} to reorder`);
     handle.addEventListener('pointerdown', beginPageDrag);
+    handle.addEventListener('contextmenu', (e) => e.preventDefault());
+    handle.addEventListener('dragstart', (e) => e.preventDefault());
 
     footer.append(check, title, handle);
     card.append(preview, footer);
     card.addEventListener('dblclick', () => openPageInViewer(page.id));
-    preview.addEventListener('click', () => toggleSelection(page.id, !state.selected.has(page.id)));
+    preview.addEventListener('click', (e) => applySelectionGesture(e, page.id));
     els.thumbnailGrid.append(card);
     observer.observe(card);
   });
@@ -412,26 +487,89 @@ function renderOrganizer() {
 }
 
 async function renderThumbnail(page, canvas) {
+  const preview = canvas.closest('.thumb-preview');
+  if (!preview || !preview.isConnected) return;
   const [bw, bh] = rotatedDims(page);
-  const cssWidth = 160;
-  const cssHeight = cssWidth * bh / bw;
-  await renderPageToCanvas(page, canvas, cssWidth, cssHeight, 1.25);
+  const rect = preview.getBoundingClientRect();
+  const innerW = Math.max(40, rect.width - 12);
+  const innerH = Math.max(40, rect.height - 12);
+  const scale = Math.min(innerW / bw, innerH / bh);
+  const cssWidth = Math.max(1, bw * scale);
+  const cssHeight = Math.max(1, bh * scale);
+  await enqueueRender(async () => {
+    if (!preview.isConnected || !canvas.isConnected) return;
+    await renderPageToCanvas(page, canvas, cssWidth, cssHeight, 1.05, 1_100_000);
+    // A scan image can occasionally fail to materialize while PDF.js still
+    // resolves the render task. Retry once at a smaller raster size.
+    if (canvasLooksBlank(canvas) && preview.isConnected) {
+      await renderPageToCanvas(page, canvas, cssWidth, cssHeight, 0.8, 650_000);
+    }
+  }, 0);
+}
+
+function refreshSelectionCards() {
+  els.thumbnailGrid.querySelectorAll('.thumb-card').forEach(card => {
+    const selected = state.selected.has(card.dataset.pageId);
+    card.classList.toggle('selected', selected);
+    const check = card.querySelector('.thumb-check');
+    if (check) check.checked = selected;
+  });
+  updatePageCounts();
+}
+
+function applySelectionGesture(event, pageId) {
+  const index = state.pages.findIndex(p => p.id === pageId);
+  if (index < 0) return;
+  const toggle = event.ctrlKey || event.metaKey;
+  const range = event.shiftKey && state.selectionAnchorId;
+
+  if (range) {
+    const anchorIndex = state.pages.findIndex(p => p.id === state.selectionAnchorId);
+    if (anchorIndex >= 0) {
+      if (!toggle) state.selected.clear();
+      const lo = Math.min(anchorIndex, index), hi = Math.max(anchorIndex, index);
+      for (let i = lo; i <= hi; i++) state.selected.add(state.pages[i].id);
+    }
+  } else if (toggle || state.selected.has(pageId)) {
+    if (state.selected.has(pageId)) state.selected.delete(pageId); else state.selected.add(pageId);
+    state.selectionAnchorId = pageId;
+  } else {
+    state.selected.clear();
+    state.selected.add(pageId);
+    state.selectionAnchorId = pageId;
+  }
+  refreshSelectionCards();
+}
+
+function applyCheckboxSelection(event, pageId, shouldSelect) {
+  const index = state.pages.findIndex(p => p.id === pageId);
+  if (index < 0) return;
+
+  if (event.shiftKey && state.selectionAnchorId) {
+    const anchorIndex = state.pages.findIndex(p => p.id === state.selectionAnchorId);
+    if (anchorIndex >= 0) {
+      const lo = Math.min(anchorIndex, index), hi = Math.max(anchorIndex, index);
+      for (let i = lo; i <= hi; i++) {
+        const id = state.pages[i].id;
+        if (shouldSelect) state.selected.add(id); else state.selected.delete(id);
+      }
+    }
+  } else {
+    if (shouldSelect) state.selected.add(pageId); else state.selected.delete(pageId);
+  }
+  state.selectionAnchorId = pageId;
+  refreshSelectionCards();
 }
 
 function toggleSelection(pageId, shouldSelect) {
   if (shouldSelect) state.selected.add(pageId); else state.selected.delete(pageId);
-  const card = els.thumbnailGrid.querySelector(`.thumb-card[data-page-id="${CSS.escape(pageId)}"]`);
-  if (card) {
-    card.classList.toggle('selected', shouldSelect);
-    const check = card.querySelector('.thumb-check');
-    if (check) check.checked = shouldSelect;
-  }
-  updatePageCounts();
+  state.selectionAnchorId = pageId;
+  refreshSelectionCards();
 }
 
 function selectAllToggle() {
-  if (state.selected.size === state.pages.length) state.selected.clear();
-  else state.pages.forEach(p => state.selected.add(p.id));
+  if (state.selected.size === state.pages.length) { state.selected.clear(); state.selectionAnchorId = null; }
+  else { state.pages.forEach(p => state.selected.add(p.id)); state.selectionAnchorId = state.pages[0]?.id || null; }
   renderOrganizer();
 }
 
@@ -475,97 +613,89 @@ function beginPageDrag(event) {
   if (event.button !== undefined && event.button !== 0) return;
   const handle = event.currentTarget;
   const card = handle.closest('.thumb-card');
-  if (!card) return;
+  if (!card || state.dragging) return;
   event.preventDefault();
 
   const before = snapshotPages();
   const startRect = card.getBoundingClientRect();
-  const offsetX = event.clientX - startRect.left;
-  const offsetY = event.clientY - startRect.top;
-
-  // Keep the grid position occupied while a lightweight ghost follows the pointer.
-  // This makes long moves predictable and avoids repeatedly moving the live card
-  // underneath the captured pointer.
-  const placeholder = document.createElement('div');
-  placeholder.className = 'thumb-placeholder';
-  placeholder.style.height = `${startRect.height}px`;
-  placeholder.setAttribute('aria-hidden', 'true');
-  card.parentElement.insertBefore(placeholder, card);
-
-  const ghost = card.cloneNode(true);
-  ghost.classList.remove('selected');
-  ghost.classList.add('drag-ghost');
-  ghost.style.width = `${startRect.width}px`;
-  ghost.style.height = `${startRect.height}px`;
-  ghost.style.left = `${startRect.left}px`;
-  ghost.style.top = `${startRect.top}px`;
-  ghost.setAttribute('aria-hidden', 'true');
-  ghost.querySelectorAll('button,input').forEach(el => { el.tabIndex = -1; el.disabled = true; });
-  document.body.append(ghost);
-
-  card.classList.add('drag-source');
+  const startX = event.clientX, startY = event.clientY;
+  const offsetX = startX - startRect.left;
+  const offsetY = startY - startRect.top;
+  const drag = {
+    card, handle, before, pointerId: event.pointerId, offsetX, offsetY,
+    startRect, startX, startY, started: false, moved: false,
+    placeholder: null, ghost: null,
+  };
+  state.dragging = drag;
   handle.setPointerCapture?.(event.pointerId);
 
-  state.dragging = {
-    card, handle, before, placeholder, ghost,
-    pointerId: event.pointerId, offsetX, offsetY,
-    startIndex: Number(card.dataset.index), moved: false,
-    lastClientY: event.clientY,
+  const startVisualDrag = (e) => {
+    if (drag.started) return;
+    drag.started = true;
+    const placeholder = document.createElement('div');
+    placeholder.className = 'thumb-placeholder';
+    placeholder.style.height = `${startRect.height}px`;
+    placeholder.setAttribute('aria-hidden', 'true');
+    card.parentElement.insertBefore(placeholder, card);
+
+    const ghost = card.cloneNode(true);
+    ghost.classList.remove('selected');
+    ghost.classList.add('drag-ghost');
+    ghost.style.width = `${startRect.width}px`;
+    ghost.style.height = `${startRect.height}px`;
+    ghost.style.left = `${startRect.left}px`;
+    ghost.style.top = `${startRect.top}px`;
+    ghost.setAttribute('aria-hidden', 'true');
+    ghost.querySelectorAll('button,input').forEach(el => { el.tabIndex = -1; el.disabled = true; });
+    document.body.append(ghost);
+    card.classList.add('drag-source');
+    drag.placeholder = placeholder;
+    drag.ghost = ghost;
+    positionGhost(e);
   };
 
   const positionGhost = (e) => {
-    ghost.style.transform = `translate3d(${e.clientX - offsetX - startRect.left}px, ${e.clientY - offsetY - startRect.top}px, 0)`;
+    if (!drag.ghost) return;
+    drag.ghost.style.transform = `translate3d(${e.clientX - offsetX - startRect.left}px, ${e.clientY - offsetY - startRect.top}px, 0)`;
   };
 
   const animateGridMove = (mutate) => {
+    const placeholder = drag.placeholder;
     const items = [...els.thumbnailGrid.querySelectorAll('.thumb-card:not(.drag-source), .thumb-placeholder')];
     const first = new Map(items.map(el => [el, el.getBoundingClientRect()]));
     mutate();
     requestAnimationFrame(() => {
       for (const el of items) {
         if (!el.isConnected || el === placeholder) continue;
-        const a = first.get(el);
-        const b = el.getBoundingClientRect();
+        const a = first.get(el), b = el.getBoundingClientRect();
         if (!a || !b) continue;
-        const dx = a.left - b.left;
-        const dy = a.top - b.top;
+        const dx = a.left - b.left, dy = a.top - b.top;
         if (!dx && !dy) continue;
-        el.animate([
-          { transform: `translate(${dx}px, ${dy}px)` },
-          { transform: 'translate(0, 0)' }
-        ], { duration: 140, easing: 'ease-out' });
+        el.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'translate(0, 0)' }],
+          { duration: 140, easing: 'ease-out' });
       }
     });
   };
 
   const movePlaceholder = (e) => {
+    const placeholder = drag.placeholder;
+    if (!placeholder) return;
     const candidates = [...els.thumbnailGrid.querySelectorAll('.thumb-card:not(.drag-source)')];
     if (!candidates.length) return;
-
-    // Choose the closest thumbnail center to the pointer.  This works across
-    // rows as well as columns and lets one drag jump any distance in the grid.
-    let best = null;
-    let bestDist = Infinity;
+    let best = null, bestDist = Infinity;
     for (const el of candidates) {
       const r = el.getBoundingClientRect();
-      const cx = r.left + r.width / 2;
-      const cy = r.top + r.height / 2;
-      const dx = e.clientX - cx;
-      const dy = e.clientY - cy;
-      const d = dx * dx + dy * dy;
+      const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      const dx = e.clientX - cx, dy = e.clientY - cy, d = dx * dx + dy * dy;
       if (d < bestDist) { bestDist = d; best = { el, r, cx, cy }; }
     }
     if (!best) return;
-
-    // Before/after is determined primarily by row, then by horizontal position.
-    const rowTolerance = best.r.height * 0.42;
-    const sameRow = Math.abs(e.clientY - best.cy) <= rowTolerance;
+    const sameRow = Math.abs(e.clientY - best.cy) <= best.r.height * 0.42;
     const putBefore = sameRow ? e.clientX < best.cx : e.clientY < best.cy;
     const reference = putBefore ? best.el : best.el.nextSibling;
     if (reference === placeholder || placeholder.nextSibling === reference) return;
-
     animateGridMove(() => els.thumbnailGrid.insertBefore(placeholder, reference));
-    state.dragging.moved = true;
+    drag.moved = true;
   };
 
   const autoScroll = (e) => {
@@ -574,38 +704,38 @@ function beginPageDrag(event) {
     let delta = 0;
     if (e.clientY < r.top + margin) delta = -Math.ceil((r.top + margin - e.clientY) / 5);
     else if (e.clientY > r.bottom - margin) delta = Math.ceil((e.clientY - (r.bottom - margin)) / 5);
-    if (delta) els.thumbnailGrid.scrollTop += Math.max(-24, Math.min(24, delta));
+    if (delta) els.thumbnailGrid.scrollTop += clamp(delta, -24, 24);
   };
 
   const move = (e) => {
-    if (!state.dragging || e.pointerId !== state.dragging.pointerId) return;
+    if (!state.dragging || e.pointerId !== drag.pointerId) return;
+    if (!drag.started) {
+      const dx = e.clientX - startX, dy = e.clientY - startY;
+      if (Math.hypot(dx, dy) < 7) return;
+      startVisualDrag(e);
+    }
     positionGhost(e);
     autoScroll(e);
     movePlaceholder(e);
   };
 
-  const cleanup = (e, commit) => {
-    const drag = state.dragging;
-    if (!drag) return;
+  const cleanup = (commit) => {
     try { handle.releasePointerCapture?.(drag.pointerId); } catch {}
     handle.removeEventListener('pointermove', move);
     handle.removeEventListener('pointerup', end);
     handle.removeEventListener('pointercancel', cancel);
 
-    if (commit) {
-      // Put the real card at the placeholder position before reading the order.
-      els.thumbnailGrid.insertBefore(card, placeholder);
+    if (!drag.started) {
+      state.dragging = null;
+      return;
     }
-    placeholder.remove();
-    ghost.remove();
+    if (commit && drag.placeholder) els.thumbnailGrid.insertBefore(card, drag.placeholder);
+    drag.placeholder?.remove();
+    drag.ghost?.remove();
     card.classList.remove('drag-source');
     state.dragging = null;
 
-    if (!commit || !drag.moved) {
-      renderOrganizer();
-      return;
-    }
-
+    if (!commit || !drag.moved) { renderOrganizer(); return; }
     const order = [...els.thumbnailGrid.querySelectorAll('.thumb-card')].map(el => el.dataset.pageId);
     const map = new Map(state.pages.map(p => [p.id, p]));
     state.pages = order.map(id => map.get(id)).filter(Boolean);
@@ -614,13 +744,11 @@ function beginPageDrag(event) {
     setStatus('Pages reordered');
   };
 
-  const end = (e) => cleanup(e, true);
-  const cancel = (e) => cleanup(e, false);
-
+  const end = () => cleanup(true);
+  const cancel = () => cleanup(false);
   handle.addEventListener('pointermove', move);
   handle.addEventListener('pointerup', end);
   handle.addEventListener('pointercancel', cancel);
-  positionGhost(event);
 }
 
 function openPageInViewer(pageId) {
@@ -637,15 +765,26 @@ function cycleScrollMode() {
 }
 function cycleFitMode() {
   state.fitMode = state.fitMode === 'width' ? 'page' : 'width';
+  state.zoom = 1;
   savePref('pdfwb-fit-mode', state.fitMode);
   renderViewer();
 }
+function setZoom(value) {
+  state.zoom = clamp(value, 0.25, 4);
+  renderViewer();
+}
+function zoomBy(factor) { setZoom(state.zoom * factor); }
+function resetZoom() { setZoom(1); }
 function updateViewerLabels() {
   const modeLabel = { continuous: 'Continuous', snap: 'Page snap', single: 'Full page' }[state.scrollMode];
   const modeIcon = { continuous: '↕', snap: '⇵', single: '▯' }[state.scrollMode];
   els.scrollModeLabel.textContent = modeLabel;
   els.scrollModeIcon.textContent = modeIcon;
   els.fitModeLabel.textContent = state.fitMode === 'width' ? 'Fit width' : 'Fit page';
+  const zoomText = `${Math.round(state.zoom * 100)}%`;
+  els.zoomLabel.textContent = zoomText;
+  if (els.presentationZoomLabel) els.presentationZoomLabel.textContent = zoomText;
+  if (els.presentationScrollModeBtn) els.presentationScrollModeBtn.textContent = modeIcon;
   els.singlePageNav.classList.toggle('hidden', state.scrollMode !== 'single' || !state.pages.length);
   updatePageCounts();
 }
@@ -658,8 +797,57 @@ function computeCssSize(page) {
   if (state.fitMode === 'width') scale = wAvail / bw;
   else scale = Math.min(wAvail / bw, hAvail / bh);
   if (state.scrollMode === 'single') scale = Math.min(wAvail / bw, hAvail / bh);
-  scale = clamp(scale, 0.05, 5);
+  scale *= state.zoom;
+  scale = clamp(scale, 0.02, 8);
   return { width: Math.max(1, bw * scale), height: Math.max(1, bh * scale) };
+}
+
+function ensurePageLoading(stage, text='Rendering…') {
+  let loading = stage.querySelector('.page-loading');
+  if (!loading) {
+    loading = document.createElement('div');
+    loading.className = 'page-loading';
+    stage.append(loading);
+  }
+  loading.textContent = text;
+  return loading;
+}
+
+function releaseViewerStage(stage) {
+  const canvas = stage.querySelector('canvas');
+  if (canvas) {
+    // Resetting width/height releases the browser/GPU backing store. This is
+    // essential for long scan-only PDFs, where each visible page can otherwise
+    // keep several megabytes (or much more) of decoded raster memory alive.
+    canvas.width = 1;
+    canvas.height = 1;
+  }
+  delete stage.dataset.rendered;
+  ensurePageLoading(stage, 'Rendering…');
+}
+
+function canvasLooksBlank(canvas) {
+  if (!canvas.width || !canvas.height) return true;
+  try {
+    const probe = document.createElement('canvas');
+    probe.width = 72;
+    probe.height = 72;
+    const pctx = probe.getContext('2d', { willReadFrequently: true });
+    pctx.drawImage(canvas, 0, 0, probe.width, probe.height);
+    const data = pctx.getImageData(0, 0, probe.width, probe.height).data;
+    let min = 255, max = 0;
+    for (let i = 0; i < data.length; i += 4) {
+      const lum = (data[i] * 0.299) + (data[i + 1] * 0.587) + (data[i + 2] * 0.114);
+      if (lum < min) min = lum;
+      if (lum > max) max = lum;
+      // Any clearly non-white content means the page rendered successfully.
+      if (lum < 246) return false;
+    }
+    return min > 250 && (max - min) < 3;
+  } catch {
+    // If the browser refuses inspection, do not force a retry loop.
+    return false;
+  }
 }
 
 function renderViewer() {
@@ -676,14 +864,25 @@ function renderViewer() {
   const observer = state.scrollMode === 'single' ? null : new IntersectionObserver((entries) => {
     let mostVisible = null;
     for (const entry of entries) {
+      const stage = entry.target;
       if (entry.isIntersecting && entry.intersectionRatio > .01) {
-        const page = pageById(entry.target.dataset.pageId);
-        const canvas = entry.target.querySelector('canvas');
-        if (page && canvas && !entry.target.dataset.rendered) {
-          entry.target.dataset.rendered = 'loading';
-          renderViewerPage(page, entry.target, canvas, generation).catch(err => renderError(entry.target, err));
+        stage.dataset.wantRender = 'true';
+        const page = pageById(stage.dataset.pageId);
+        const canvas = stage.querySelector('canvas');
+        if (page && canvas && stage.dataset.rendered !== 'loading' && stage.dataset.rendered !== 'true') {
+          stage.dataset.rendered = 'loading';
+          ensurePageLoading(stage);
+          renderViewerPage(page, stage, canvas, generation).catch(err => renderError(stage, err));
         }
         if (!mostVisible || entry.intersectionRatio > mostVisible.intersectionRatio) mostVisible = entry;
+      } else {
+        stage.dataset.wantRender = 'false';
+        // This callback fires only after the page has left the generous root
+        // margin, so releasing it does not cause normal nearby scrolling to
+        // constantly render/evict the same page.
+        if (stage.dataset.rendered === 'true' || stage.dataset.rendered === 'error') {
+          releaseViewerStage(stage);
+        }
       }
     }
     if (mostVisible?.intersectionRatio > .28) {
@@ -694,7 +893,7 @@ function renderViewer() {
         updatePageCounts();
       }
     }
-  }, { root: els.viewer, rootMargin: '90% 0px 90% 0px', threshold: [0.01, .28, .55, .8] });
+  }, { root: els.viewer, rootMargin: '125% 0px 125% 0px', threshold: [0.01, .28, .55, .8] });
   state.pageObserver = observer;
 
   for (const page of pagesToBuild) {
@@ -712,6 +911,7 @@ function renderViewer() {
     els.viewer.append(stage);
     if (observer) observer.observe(stage);
     else {
+      stage.dataset.wantRender = 'true';
       stage.dataset.rendered = 'loading';
       renderViewerPage(page, stage, canvas, generation).catch(err => renderError(stage, err));
     }
@@ -721,21 +921,58 @@ function renderViewer() {
 
 async function renderViewerPage(page, stage, canvas, generation) {
   const size = computeCssSize(page);
-  if (generation !== state.renderGeneration || !stage.isConnected) return;
+  if (generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false') return;
   stage.style.width = `${size.width}px`;
   stage.style.height = `${size.height}px`;
-  const dpr = clamp(window.devicePixelRatio || 1, 1, 2.5);
-  await renderPageToCanvas(page, canvas, size.width, size.height, dpr);
+  const dpr = clamp(window.devicePixelRatio || 1, 1, 2.25);
+
+  const didRender = await enqueueRender(async () => {
+    // Stale/offscreen jobs may sit in the queue for a while. Check again at
+    // execution time so they do not consume memory after the user has moved on.
+    if (generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
+    await renderPageToCanvas(page, canvas, size.width, size.height, dpr, 6_000_000);
+    return true;
+  }, 10);
+
+  if (!didRender || generation !== state.renderGeneration || !stage.isConnected) return;
+  if (stage.dataset.wantRender === 'false') {
+    releaseViewerStage(stage);
+    return;
+  }
+
+  // Some very large embedded scan images can fail silently under browser/GPU
+  // memory pressure: PDF.js resolves, but the canvas remains solid white. A
+  // lower-resolution second render is much less demanding and is preferable to
+  // leaving an apparently missing page.
+  if (canvasLooksBlank(canvas)) {
+    ensurePageLoading(stage, 'Retrying scan…');
+    await enqueueRender(async () => {
+      if (generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
+      await renderPageToCanvas(page, canvas, size.width, size.height, 1, 2_000_000);
+      return true;
+    }, 11);
+  }
+
   if (generation !== state.renderGeneration || !stage.isConnected) return;
+  if (stage.dataset.wantRender === 'false') {
+    releaseViewerStage(stage);
+    return;
+  }
   stage.dataset.rendered = 'true';
   stage.querySelector('.page-loading')?.remove();
 }
 
-async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1) {
+async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxPixels=10_000_000) {
   const source = state.sources.get(page.sourceId);
   if (!source) throw new Error('Source file is no longer available.');
-  const targetW = Math.max(1, Math.round(cssWidth * dpr));
-  const targetH = Math.max(1, Math.round(cssHeight * dpr));
+  let targetW = Math.max(1, Math.round(cssWidth * dpr));
+  let targetH = Math.max(1, Math.round(cssHeight * dpr));
+  const pixelCount = targetW * targetH;
+  if (pixelCount > maxPixels) {
+    const f = Math.sqrt(maxPixels / pixelCount);
+    targetW = Math.max(1, Math.round(targetW * f));
+    targetH = Math.max(1, Math.round(targetH * f));
+  }
   canvas.width = targetW;
   canvas.height = targetH;
   canvas.style.width = `${cssWidth}px`;
@@ -752,7 +989,8 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1) {
     const natural = pdfPage.getViewport({ scale: 1, rotation: totalRotation });
     const scale = targetW / natural.width;
     const viewport = pdfPage.getViewport({ scale, rotation: totalRotation });
-    await pdfPage.render({ canvasContext: ctx, viewport }).promise;
+    try { await pdfPage.render({ canvasContext: ctx, viewport }).promise; }
+    finally { try { pdfPage.cleanup?.(); } catch {} }
   } else {
     const img = await getSourceImage(source);
     ctx.save();
@@ -767,8 +1005,8 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1) {
 
 function renderError(stage, err) {
   console.error(err);
-  const loading = stage.querySelector('.page-loading');
-  if (loading) loading.textContent = 'Could not render this page';
+  const loading = ensurePageLoading(stage, 'Could not render this page — scroll away and back to retry');
+  loading.title = err?.message || String(err);
   stage.dataset.rendered = 'error';
 }
 function markActivePage() {
@@ -787,17 +1025,46 @@ function goPage(delta) {
   else { markActivePage(); scrollActivePageIntoView(); updatePageCounts(); }
 }
 
+function showPresentationControls() {
+  if (!document.body.classList.contains('presentation')) return;
+  document.body.classList.add('presentation-controls-visible');
+  clearTimeout(state.presentationControlsTimer);
+  state.presentationControlsTimer = setTimeout(() => {
+    if (!els.presentationToolbar.matches(':hover') && !els.presentationToolbar.contains(document.activeElement)) {
+      document.body.classList.remove('presentation-controls-visible');
+    }
+  }, 2600);
+}
+
+function isIPadLike() {
+  const ua = navigator.userAgent || '';
+  return /iPad|iPhone|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
 async function enterPresentation() {
-  document.body.classList.add('presentation');
-  els.presentationExit.classList.remove('hidden');
-  try {
-    if (document.documentElement.requestFullscreen && !document.fullscreenElement) await document.documentElement.requestFullscreen({ navigationUI: 'hide' });
-  } catch {}
+  document.body.classList.add('presentation', 'presentation-controls-visible');
+  els.presentationToolbar.classList.remove('hidden');
+  renderDocumentSelect();
+  clearTimeout(state.presentationControlsTimer);
+  state.presentationControlsTimer = setTimeout(() => document.body.classList.remove('presentation-controls-visible'), 2600);
+
+  // iPad/iPhone native fullscreen reserves vertical swipe gestures for the OS.
+  // That conflicts directly with scrolling a PDF, so presentation mode on iOS
+  // is intentionally app-level only. Installed Home Screen PWAs still get the
+  // clean standalone window without invoking the Fullscreen API.
+  if (!isIPadLike()) {
+    try {
+      if (document.documentElement.requestFullscreen && !document.fullscreenElement) {
+        await document.documentElement.requestFullscreen({ navigationUI: 'hide' });
+      }
+    } catch {}
+  }
   renderViewer();
 }
 async function exitPresentation() {
-  document.body.classList.remove('presentation');
-  els.presentationExit.classList.add('hidden');
+  document.body.classList.remove('presentation', 'presentation-controls-visible');
+  els.presentationToolbar.classList.add('hidden');
+  clearTimeout(state.presentationControlsTimer);
   try { if (document.fullscreenElement) await document.exitFullscreen(); } catch {}
   renderViewer();
 }
@@ -829,7 +1096,7 @@ function showDialog(kind) {
       <p>After the application and PDF engine have been cached once, the app shell is designed to reopen without a network connection. Your opened documents are processed locally and are not uploaded by this app.</p>
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
-    els.dialogContent.innerHTML = `<h2>Milestone 1</h2>
+    els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
       <p>This build establishes the cross-platform viewer and non-destructive page model.</p>
       <ul><li>Open multiple PDFs and images as separate documents and switch between them.</li><li>View continuously, with page snapping, or one full page at a time.</li><li>Fit width or page and use presentation mode.</li><li>Reorder pages with a touch-friendly drag handle.</li><li>Select, rotate, duplicate, and delete pages with undo/redo.</li></ul>
       <p><strong>Not in this milestone yet:</strong> PDF export, split/merge output, page-size normalization, compression, saved projects, and pen annotation.</p>`;
@@ -837,15 +1104,30 @@ function showDialog(kind) {
   els.infoDialog.showModal();
 }
 
+function positionMoreMenu() {
+  if (els.moreMenu.classList.contains('hidden')) return;
+  const r = els.moreBtn.getBoundingClientRect();
+  const menu = els.moreMenu.getBoundingClientRect();
+  const pad = 8;
+  let left = r.right - menu.width;
+  left = clamp(left, pad, Math.max(pad, window.innerWidth - menu.width - pad));
+  let top = r.bottom + 4;
+  if (top + menu.height > window.innerHeight - pad) top = Math.max(pad, r.top - menu.height - 4);
+  els.moreMenu.style.left = `${Math.round(left)}px`;
+  els.moreMenu.style.top = `${Math.round(top)}px`;
+}
+
 function toggleMoreMenu(force) {
   const open = force ?? els.moreMenu.classList.contains('hidden');
   els.moreMenu.classList.toggle('hidden', !open);
   els.moreBtn.setAttribute('aria-expanded', String(open));
+  if (open) requestAnimationFrame(positionMoreMenu);
 }
 
 let resizeTimer;
 function onResize() {
   clearTimeout(resizeTimer);
+  if (!els.moreMenu.classList.contains('hidden')) positionMoreMenu();
   resizeTimer = setTimeout(() => { if (state.pages.length && state.workspaceMode === 'view') renderViewer(); }, 120);
 }
 
@@ -854,10 +1136,18 @@ function bindEvents() {
   els.emptyOpenBtn.addEventListener('click', () => els.fileInput.click());
   els.fileInput.addEventListener('change', () => openFiles(els.fileInput.files));
   els.documentSelect.addEventListener('change', () => loadDocumentState(els.documentSelect.value));
+  els.presentationDocumentSelect.addEventListener('change', () => { loadDocumentState(els.presentationDocumentSelect.value); showPresentationControls(); });
   els.viewModeBtn.addEventListener('click', () => showWorkspaceMode('view'));
   els.organizeModeBtn.addEventListener('click', () => showWorkspaceMode('organize'));
   els.scrollModeBtn.addEventListener('click', cycleScrollMode);
   els.fitModeBtn.addEventListener('click', cycleFitMode);
+  els.zoomOutBtn.addEventListener('click', () => zoomBy(0.8));
+  els.zoomResetBtn.addEventListener('click', resetZoom);
+  els.zoomInBtn.addEventListener('click', () => zoomBy(1.25));
+  els.presentationScrollModeBtn.addEventListener('click', () => { cycleScrollMode(); showPresentationControls(); });
+  els.presentationFitBtn.addEventListener('click', () => { cycleFitMode(); showPresentationControls(); });
+  els.presentationZoomOutBtn.addEventListener('click', () => { zoomBy(0.8); showPresentationControls(); });
+  els.presentationZoomInBtn.addEventListener('click', () => { zoomBy(1.25); showPresentationControls(); });
   els.presentBtn.addEventListener('click', enterPresentation);
   els.presentationExit.addEventListener('click', exitPresentation);
   els.prevPageBtn.addEventListener('click', () => goPage(-1));
@@ -873,10 +1163,18 @@ function bindEvents() {
   els.installHelpBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('install'); });
   els.aboutBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('about'); });
   document.addEventListener('click', (e) => { if (!els.moreMenu.contains(e.target) && e.target !== els.moreBtn) toggleMoreMenu(false); });
-  document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && document.body.classList.contains('presentation')) exitPresentation(); });
+  document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement && document.body.classList.contains('presentation') && !isIPadLike()) exitPresentation();
+  });
   window.addEventListener('resize', onResize);
 
   els.viewer.addEventListener('wheel', (e) => {
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      zoomBy(e.deltaY < 0 ? 1.12 : 1 / 1.12);
+      if (document.body.classList.contains('presentation')) showPresentationControls();
+      return;
+    }
     if (state.scrollMode !== 'single') return;
     e.preventDefault();
     const now = performance.now();
@@ -884,6 +1182,12 @@ function bindEvents() {
     state.lastWheelPageChange = now;
     goPage(e.deltaY > 0 ? 1 : -1);
   }, { passive: false });
+  els.viewer.addEventListener('pointermove', (e) => {
+    if (document.body.classList.contains('presentation') && e.pointerType !== 'touch' && e.clientY < 90) showPresentationControls();
+  });
+  els.viewer.addEventListener('pointerdown', (e) => {
+    if (document.body.classList.contains('presentation') && e.clientY < 80) showPresentationControls();
+  });
 
   let touchStart = null;
   els.viewer.addEventListener('pointerdown', (e) => {
@@ -901,6 +1205,9 @@ function bindEvents() {
     if (e.key === 'Escape' && document.body.classList.contains('presentation')) { e.preventDefault(); exitPresentation(); return; }
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); e.shiftKey ? redo() : undo(); return; }
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') { e.preventDefault(); redo(); return; }
+    if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '=')) { e.preventDefault(); zoomBy(1.25); return; }
+    if ((e.ctrlKey || e.metaKey) && e.key === '-') { e.preventDefault(); zoomBy(0.8); return; }
+    if ((e.ctrlKey || e.metaKey) && e.key === '0') { e.preventDefault(); resetZoom(); return; }
     if (state.workspaceMode === 'view' && ['ArrowDown','PageDown','ArrowRight'].includes(e.key) && state.scrollMode === 'single') { e.preventDefault(); goPage(1); }
     if (state.workspaceMode === 'view' && ['ArrowUp','PageUp','ArrowLeft'].includes(e.key) && state.scrollMode === 'single') { e.preventDefault(); goPage(-1); }
   });

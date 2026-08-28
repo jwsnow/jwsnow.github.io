@@ -37,6 +37,11 @@
         <button id="fitModeBtn" class="tool-btn" type="button" title="Change page fitting">
           <span aria-hidden="true">▣</span><span id="fitModeLabel" class="tool-label">Fit width</span>
         </button>
+        <div class="zoom-controls" role="group" aria-label="Zoom controls">
+          <button id="zoomOutBtn" class="zoom-btn" type="button" title="Zoom out" aria-label="Zoom out">−</button>
+          <button id="zoomResetBtn" class="zoom-value" type="button" title="Reset zoom"><span id="zoomLabel">100%</span></button>
+          <button id="zoomInBtn" class="zoom-btn" type="button" title="Zoom in" aria-label="Zoom in">+</button>
+        </div>
         <button id="presentBtn" class="tool-btn" type="button" title="Presentation mode">
           <span aria-hidden="true">⛶</span><span class="tool-label">Present</span>
         </button>
@@ -66,7 +71,15 @@
           <div id="pageCounter" class="page-counter">1 / 1</div>
           <button id="nextPageBtn" type="button" aria-label="Next page">›</button>
         </div>
-        <button id="presentationExit" class="presentation-exit hidden" type="button" aria-label="Exit presentation mode">×</button>
+        <div id="presentationToolbar" class="presentation-toolbar hidden" aria-label="Presentation controls">
+          <select id="presentationDocumentSelect" class="presentation-document-select" aria-label="Open document"></select>
+          <button id="presentationScrollModeBtn" type="button" title="Change scrolling mode">↕</button>
+          <button id="presentationFitBtn" type="button" title="Change page fitting">▣</button>
+          <button id="presentationZoomOutBtn" type="button" aria-label="Zoom out">−</button>
+          <span id="presentationZoomLabel" class="presentation-zoom-label">100%</span>
+          <button id="presentationZoomInBtn" type="button" aria-label="Zoom in">+</button>
+          <button id="presentationExit" type="button" aria-label="Exit presentation mode">×</button>
+        </div>
       </section>
 
       <section id="organizerPane" class="organizer-pane hidden" aria-label="Page organizer">

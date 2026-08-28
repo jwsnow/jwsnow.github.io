@@ -35,7 +35,12 @@ button:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 65%, 
 .segment { border: 0; border-radius: 0; min-height: 38px; padding: 6px 11px; }
 .segment + .segment { border-left: 1px solid var(--border); }
 .segment.active { background: var(--accent-soft); color: #163f67; font-weight: 650; }
-.popover { position: absolute; right: 8px; top: calc(100% + 4px); z-index: 80; min-width: 220px; padding: 6px; background: var(--paper); border: 1px solid var(--border); border-radius: 11px; box-shadow: 0 8px 24px rgb(0 0 0 / .16); }
+.zoom-controls { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 9px; overflow: hidden; background: var(--paper); }
+.zoom-btn, .zoom-value { min-height: 38px; border: 0; background: transparent; color: var(--text); cursor: pointer; }
+.zoom-btn { width: 38px; font-size: 20px; line-height: 1; }
+.zoom-value { min-width: 58px; padding: 0 7px; font-variant-numeric: tabular-nums; }
+.zoom-btn + .zoom-value, .zoom-value + .zoom-btn { border-left: 1px solid var(--border); }
+.popover { position: fixed; left: 8px; top: 56px; z-index: 80; min-width: 220px; padding: 6px; background: var(--paper); border: 1px solid var(--border); border-radius: 11px; box-shadow: 0 8px 24px rgb(0 0 0 / .16); }
 .popover button { display: block; width: 100%; min-height: 42px; border: 0; background: transparent; text-align: left; border-radius: 7px; padding: 8px 10px; }
 .popover button:hover { background: var(--accent-soft); }
 
@@ -58,7 +63,11 @@ button:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 65%, 
 .single-page-nav { position: absolute; left: 50%; bottom: max(10px, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 20; display: flex; align-items: center; gap: 6px; padding: 4px; background: rgb(255 255 255 / .88); border: 1px solid var(--border); border-radius: 12px; backdrop-filter: blur(8px); }
 .single-page-nav button { min-width: 42px; min-height: 42px; padding: 0; font-size: 28px; line-height: 1; }
 .page-counter { min-width: 72px; text-align: center; font-variant-numeric: tabular-nums; }
-.presentation-exit { position: absolute; top: max(8px, env(safe-area-inset-top)); right: max(8px, env(safe-area-inset-right)); z-index: 100; width: 42px; height: 42px; border-radius: 21px; border: 1px solid rgb(255 255 255 / .45); background: rgb(20 20 20 / .42); color: white; font-size: 26px; }
+.presentation-toolbar { position: absolute; top: max(7px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); z-index: 120; display: flex; align-items: center; gap: 4px; max-width: calc(100% - 16px); padding: 4px; border-radius: 11px; background: rgb(248 249 251 / .94); border: 1px solid rgb(0 0 0 / .18); box-shadow: 0 5px 18px rgb(0 0 0 / .22); backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: opacity .16s ease; }
+.presentation-toolbar button { min-width: 38px; min-height: 38px; border: 1px solid var(--border); border-radius: 8px; background: white; color: var(--text); font-size: 18px; }
+.presentation-document-select { min-width: 100px; max-width: 220px; height: 38px; border: 1px solid var(--border); border-radius: 8px; background: white; padding: 4px 26px 4px 7px; }
+.presentation-zoom-label { min-width: 48px; text-align: center; font-size: .82rem; font-variant-numeric: tabular-nums; }
+body.presentation.presentation-controls-visible .presentation-toolbar { opacity: 1; pointer-events: auto; }
 
 .organizer-pane { position: absolute; inset: 0; display: grid; grid-template-rows: auto minmax(0,1fr); background: var(--bg); }
 .organizer-toolbar { min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 10px; background: var(--panel); border-bottom: 1px solid var(--border); }
@@ -67,16 +76,16 @@ button:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 65%, 
 .organizer-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
 .organizer-actions button { min-height: 38px; padding: 6px 10px; }
 .organizer-actions button:disabled { opacity: .45; cursor: default; }
-.thumbnail-grid { min-height: 0; overflow: auto; padding: 14px; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); align-content: start; gap: 14px; -webkit-overflow-scrolling: touch; }
-.thumb-card { position: relative; min-width: 0; background: var(--panel); border: 2px solid transparent; border-radius: 11px; padding: 8px; user-select: none; }
+.thumbnail-grid { min-height: 0; overflow: auto; padding: 14px; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); align-content: start; gap: 14px; -webkit-overflow-scrolling: touch; -webkit-user-select: none; user-select: none; }
+.thumb-card { position: relative; min-width: 0; background: var(--panel); border: 2px solid transparent; border-radius: 11px; padding: 8px; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 .thumb-card.selected { border-color: var(--accent); background: var(--accent-soft); }
 .thumb-card.dragging { opacity: .65; }
-.thumb-preview { aspect-ratio: var(--page-ratio, 0.773); width: 100%; display: grid; place-items: center; overflow: hidden; background: white; border: 1px solid var(--border); box-shadow: 0 1px 5px rgb(0 0 0 / .1); }
-.thumb-preview canvas { display: block; width: 100%; height: 100%; object-fit: contain; }
+.thumb-preview { width: 100%; height: 210px; display: grid; place-items: center; overflow: hidden; background: #eef0f3; border: 1px solid var(--border); box-shadow: 0 1px 5px rgb(0 0 0 / .1); padding: 5px; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.thumb-preview canvas { display: block; max-width: 100%; max-height: 100%; background: white; box-shadow: 0 1px 3px rgb(0 0 0 / .12); pointer-events: none; -webkit-user-select: none; user-select: none; }
 .thumb-footer { min-width: 0; margin-top: 7px; display: flex; align-items: center; gap: 7px; }
 .thumb-check { width: 22px; height: 22px; flex: 0 0 auto; accent-color: var(--accent); }
 .thumb-title { min-width: 0; flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: .82rem; }
-.drag-handle { width: 40px; height: 40px; flex: 0 0 auto; display: grid; place-items: center; border: 0; background: transparent; color: var(--muted); font-size: 20px; touch-action: none; cursor: grab; border-radius: 8px; }
+.drag-handle { width: 40px; height: 40px; flex: 0 0 auto; display: grid; place-items: center; border: 0; background: transparent; color: var(--muted); font-size: 20px; touch-action: none; cursor: grab; border-radius: 8px; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-user-drag: none; }
 .drag-handle:active { cursor: grabbing; background: rgb(0 0 0 / .06); }
 
 .status-bar { min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 3px 10px calc(3px + env(safe-area-inset-bottom)); background: var(--panel); border-top: 1px solid var(--border); color: var(--muted); font-size: .78rem; overflow: hidden; }
@@ -100,8 +109,7 @@ body.presentation .viewer { padding: 0; gap: 8px; }
 body.presentation .page-stage { box-shadow: none; }
 body.presentation .single-page-nav { opacity: .12; transition: opacity .18s ease; }
 body.presentation .single-page-nav:focus-within, body.presentation .single-page-nav:hover { opacity: .95; }
-body.presentation .presentation-exit { display: block !important; opacity: .16; transition: opacity .18s ease; }
-body.presentation .presentation-exit:hover, body.presentation .presentation-exit:focus-visible { opacity: 1; }
+body.presentation .presentation-toolbar { display: flex !important; }
 
 @media (max-width: 760px) {
   .document-select { max-width: 150px; min-width: 86px; }
@@ -115,6 +123,9 @@ body.presentation .presentation-exit:hover, body.presentation .presentation-exit
   .organizer-info { min-width: 86px; }
   .organizer-actions button { min-width: 42px; }
   .thumbnail-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); padding: 10px; gap: 10px; }
+  .thumb-preview { height: 175px; }
+  .zoom-value { min-width: 50px; }
+  .presentation-document-select { max-width: 140px; }
 }
 
 @media (max-width: 470px) {
@@ -127,10 +138,10 @@ body.presentation .presentation-exit:hover, body.presentation .presentation-exit
   .organizer-actions button { flex: 0 0 auto; }
 }
 
-/* Reorder interaction: the source stays invisible in place while a ghost follows
-   the pointer and a placeholder shows the actual drop location. */
+/* Reorder interaction. The source remains normal until the pointer crosses the
+   drag threshold; only then do the ghost and placeholder appear. */
 .thumb-card.drag-source {
-  visibility: hidden;
+  display: none;
 }
 .thumb-placeholder {
   min-width: 0;
