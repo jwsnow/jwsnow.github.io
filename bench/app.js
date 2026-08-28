@@ -1,4 +1,4 @@
-const APP_VERSION = '1.7.1';
+const APP_VERSION = '1.8.0';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -44,6 +44,10 @@ const state = {
   lastWheelPageChange: 0,
   statusTimer: null,
   presentationControlsTimer: null,
+  presentationRevealPointerId: null,
+  pinchTouches: new Map(),
+  pinchGesture: null,
+  pinchRenderFrame: null,
 };
 
 function safePref(key, fallback, allowed) {
@@ -775,6 +779,31 @@ function setZoom(value) {
 }
 function zoomBy(factor) { setZoom(state.zoom * factor); }
 function resetZoom() { setZoom(1); }
+
+function queuePinchZoom(value) {
+  state.zoom = clamp(value, 0.25, 4);
+  updateViewerLabels();
+  if (state.pinchRenderFrame) return;
+  state.pinchRenderFrame = requestAnimationFrame(() => {
+    state.pinchRenderFrame = null;
+    // During a live pinch, resize the existing page surfaces instead of
+    // rebuilding/rerendering the PDF on every finger movement. The current
+    // canvas is temporarily stretched; a full-quality rerender happens when
+    // the gesture ends. This keeps Pencil/touch interaction responsive.
+    els.viewer.querySelectorAll('.page-stage[data-page-id]').forEach(stage => {
+      const page = pageById(stage.dataset.pageId);
+      if (!page) return;
+      const size = computeCssSize(page);
+      stage.style.width = `${size.width}px`;
+      stage.style.height = `${size.height}px`;
+      const canvas = stage.querySelector('canvas');
+      if (canvas) {
+        canvas.style.width = `${size.width}px`;
+        canvas.style.height = `${size.height}px`;
+      }
+    });
+  });
+}
 function updateViewerLabels() {
   const modeLabel = { continuous: 'Continuous', snap: 'Page snap', single: 'Full page' }[state.scrollMode];
   const modeIcon = { continuous: '↕', snap: '⇵', single: '▯' }[state.scrollMode];
@@ -1025,15 +1054,46 @@ function goPage(delta) {
   else { markActivePage(); scrollActivePageIntoView(); updatePageCounts(); }
 }
 
+function finePointerHoverAvailable() {
+  return !!window.matchMedia?.('(hover: hover) and (pointer: fine)').matches;
+}
+
+function hidePresentationControls() {
+  document.body.classList.remove('presentation-controls-visible');
+  clearTimeout(state.presentationControlsTimer);
+}
+
+function schedulePresentationControlsHide() {
+  clearTimeout(state.presentationControlsTimer);
+  state.presentationControlsTimer = setTimeout(() => {
+    // A real mouse hovering over the toolbar may keep it visible. On touch
+    // devices :hover can become sticky after a tap, so it must never pin the
+    // controls open there. Keyboard focus also must not pin the bar forever.
+    if (finePointerHoverAvailable() && els.presentationToolbar.matches(':hover')) {
+      schedulePresentationControlsHide();
+      return;
+    }
+    document.body.classList.remove('presentation-controls-visible');
+    if (document.activeElement instanceof HTMLElement && els.presentationToolbar.contains(document.activeElement)) {
+      document.activeElement.blur();
+    }
+  }, 2600);
+}
+
 function showPresentationControls() {
   if (!document.body.classList.contains('presentation')) return;
   document.body.classList.add('presentation-controls-visible');
-  clearTimeout(state.presentationControlsTimer);
-  state.presentationControlsTimer = setTimeout(() => {
-    if (!els.presentationToolbar.matches(':hover') && !els.presentationToolbar.contains(document.activeElement)) {
-      document.body.classList.remove('presentation-controls-visible');
-    }
-  }, 2600);
+  schedulePresentationControlsHide();
+}
+
+function restartPresentationHideAfterControl(e) {
+  if (!document.body.classList.contains('presentation')) return;
+  // Buttons keep focus after click on desktop and sticky hover can linger on
+  // touch. Neither should prevent the normal auto-hide cycle. Selects are
+  // allowed to finish their native picker first; their change handler restarts
+  // the timer separately.
+  if (e?.currentTarget instanceof HTMLButtonElement) e.currentTarget.blur();
+  showPresentationControls();
 }
 
 function isIPadLike() {
@@ -1046,7 +1106,7 @@ async function enterPresentation() {
   els.presentationToolbar.classList.remove('hidden');
   renderDocumentSelect();
   clearTimeout(state.presentationControlsTimer);
-  state.presentationControlsTimer = setTimeout(() => document.body.classList.remove('presentation-controls-visible'), 2600);
+  schedulePresentationControlsHide();
 
   // iPad/iPhone native fullscreen reserves vertical swipe gestures for the OS.
   // That conflicts directly with scrolling a PDF, so presentation mode on iOS
@@ -1065,6 +1125,9 @@ async function exitPresentation() {
   document.body.classList.remove('presentation', 'presentation-controls-visible');
   els.presentationToolbar.classList.add('hidden');
   clearTimeout(state.presentationControlsTimer);
+  state.presentationRevealPointerId = null;
+  state.pinchTouches.clear();
+  state.pinchGesture = null;
   try { if (document.fullscreenElement) await document.exitFullscreen(); } catch {}
   renderViewer();
 }
@@ -1144,12 +1207,14 @@ function bindEvents() {
   els.zoomOutBtn.addEventListener('click', () => zoomBy(0.8));
   els.zoomResetBtn.addEventListener('click', resetZoom);
   els.zoomInBtn.addEventListener('click', () => zoomBy(1.25));
-  els.presentationScrollModeBtn.addEventListener('click', () => { cycleScrollMode(); showPresentationControls(); });
-  els.presentationFitBtn.addEventListener('click', () => { cycleFitMode(); showPresentationControls(); });
-  els.presentationZoomOutBtn.addEventListener('click', () => { zoomBy(0.8); showPresentationControls(); });
-  els.presentationZoomInBtn.addEventListener('click', () => { zoomBy(1.25); showPresentationControls(); });
+  els.presentationScrollModeBtn.addEventListener('click', cycleScrollMode);
+  els.presentationFitBtn.addEventListener('click', cycleFitMode);
+  els.presentationZoomOutBtn.addEventListener('click', () => zoomBy(0.8));
+  els.presentationZoomInBtn.addEventListener('click', () => zoomBy(1.25));
   els.presentBtn.addEventListener('click', enterPresentation);
   els.presentationExit.addEventListener('click', exitPresentation);
+  els.presentationToolbar.addEventListener('click', (e) => { if (e.target instanceof HTMLButtonElement) restartPresentationHideAfterControl(e); });
+  els.presentationToolbar.addEventListener('pointerdown', () => { if (document.body.classList.contains('presentation')) clearTimeout(state.presentationControlsTimer); });
   els.prevPageBtn.addEventListener('click', () => goPage(-1));
   els.nextPageBtn.addEventListener('click', () => goPage(1));
   els.selectAllBtn.addEventListener('click', selectAllToggle);
@@ -1185,20 +1250,81 @@ function bindEvents() {
   els.viewer.addEventListener('pointermove', (e) => {
     if (document.body.classList.contains('presentation') && e.pointerType !== 'touch' && e.clientY < 90) showPresentationControls();
   });
-  els.viewer.addEventListener('pointerdown', (e) => {
-    if (document.body.classList.contains('presentation') && e.clientY < 80) showPresentationControls();
-  });
 
   let touchStart = null;
   els.viewer.addEventListener('pointerdown', (e) => {
-    if (state.scrollMode === 'single' && e.pointerType === 'touch') touchStart = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now() };
+    if (e.pointerType === 'touch') {
+      // A hidden presentation toolbar must be revealed by a dedicated tap, not
+      // materialize under the finger and receive the same gesture's click.
+      if (document.body.classList.contains('presentation') && !document.body.classList.contains('presentation-controls-visible') && e.clientY < 80) {
+        state.presentationRevealPointerId = e.pointerId;
+        touchStart = null;
+        e.preventDefault();
+        return;
+      }
+    }
+
+    if (state.scrollMode === 'single' && e.pointerType === 'touch') {
+      touchStart = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now() };
+    }
   });
-  els.viewer.addEventListener('pointerup', (e) => {
-    if (!touchStart || touchStart.id !== e.pointerId || state.scrollMode !== 'single') return;
+
+  function finishTouchPointer(e, cancelled=false) {
+    if (e.pointerType !== 'touch') return;
+    const wasReveal = state.presentationRevealPointerId === e.pointerId;
+
+    if (wasReveal) {
+      state.presentationRevealPointerId = null;
+      touchStart = null;
+      if (!cancelled) showPresentationControls();
+      e.preventDefault();
+      return;
+    }
+
+    if (!touchStart || touchStart.id !== e.pointerId || state.scrollMode !== 'single' || cancelled || state.pinchGesture) {
+      if (touchStart?.id === e.pointerId) touchStart = null;
+      return;
+    }
     const dx = e.clientX - touchStart.x, dy = e.clientY - touchStart.y, dt = performance.now() - touchStart.t;
     touchStart = null;
     if (dt < 800 && Math.abs(dy) > 55 && Math.abs(dy) > Math.abs(dx) * .7) goPage(dy < 0 ? 1 : -1);
-  });
+  }
+
+  els.viewer.addEventListener('pointerup', (e) => finishTouchPointer(e, false));
+  els.viewer.addEventListener('pointercancel', (e) => finishTouchPointer(e, true));
+
+  // iPad/Safari native pinch zoom scales the entire web app, including its
+  // toolbar, and cannot zoom below the page's initial scale. Intercept only
+  // two-finger gestures inside the document viewer and map them to PDF zoom.
+  // One-finger scrolling remains native and fluid.
+  const touchDistance = (touches) => Math.hypot(
+    touches[1].clientX - touches[0].clientX,
+    touches[1].clientY - touches[0].clientY
+  );
+  els.viewer.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 2) return;
+    state.pinchGesture = {
+      startDistance: Math.max(1, touchDistance(e.touches)),
+      startZoom: state.zoom
+    };
+    touchStart = null;
+    e.preventDefault();
+  }, { passive: false });
+  els.viewer.addEventListener('touchmove', (e) => {
+    if (!state.pinchGesture || e.touches.length !== 2) return;
+    const dist = Math.max(1, touchDistance(e.touches));
+    queuePinchZoom(state.pinchGesture.startZoom * dist / state.pinchGesture.startDistance);
+    e.preventDefault();
+  }, { passive: false });
+  const finishPinch = (e) => {
+    if (!state.pinchGesture) return;
+    if (e.touches && e.touches.length >= 2) return;
+    state.pinchGesture = null;
+    if (state.pinchRenderFrame) { cancelAnimationFrame(state.pinchRenderFrame); state.pinchRenderFrame = null; }
+    renderViewer();
+  };
+  els.viewer.addEventListener('touchend', finishPinch, { passive: true });
+  els.viewer.addEventListener('touchcancel', finishPinch, { passive: true });
 
   document.addEventListener('keydown', (e) => {
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLSelectElement) return;

@@ -1,4 +1,4 @@
-# PDF Workbench — Milestone 1.7.1
+# PDF Workbench — Milestone 1.8.0
 
 This is the first functional cross-platform PDF Workbench checkpoint, with the initial organizer fixes and separate-document handling incorporated.
 
@@ -132,3 +132,12 @@ The service worker runtime cache will cache decoder resources after they are fet
 - The About dialog now reads the build version from a single `APP_VERSION` constant.
 - The displayed version is Milestone 1.7.1 so an installed/cached build can be verified directly in the app.
 - Future builds should bump both `APP_VERSION` and the service-worker cache name.
+
+
+## Milestone 1.8.0 — presentation and iPad zoom fixes
+
+- Presentation controls are fixed app chrome rather than part of the zoomed PDF surface.
+- Tapping a hidden toolbar reveal zone is consumed; it cannot also activate a button that appears under the same finger.
+- Presentation controls resume their auto-hide timer after a button is used; touch `:hover` and keyboard focus no longer pin the toolbar open.
+- Native browser pinch zoom is disabled inside the PDF viewer and replaced with document zoom from 25% to 400%, so the PDF can be pinched below 100% without scaling the application controls.
+- About reports Milestone 1.8.0.
