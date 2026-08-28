@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f4f5f7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="PDF Workbench">
+  <title>PDF Workbench</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <header class="app-bar" aria-label="PDF Workbench controls">
+      <div class="brand" aria-label="PDF Workbench">PDF Workbench</div>
+
+      <div class="primary-actions">
+        <button id="openBtn" class="tool-btn emphasized" type="button" title="Open PDF or image files">
+          <span aria-hidden="true">＋</span><span class="tool-label">Open</span>
+        </button>
+        <input id="fileInput" class="visually-hidden" type="file" multiple accept="application/pdf,image/*">
+
+        <div class="segmented" role="group" aria-label="Workspace mode">
+          <button id="viewModeBtn" class="segment active" type="button" aria-pressed="true">View</button>
+          <button id="organizeModeBtn" class="segment" type="button" aria-pressed="false">Pages</button>
+        </div>
+        <select id="documentSelect" class="document-select hidden" aria-label="Open document"></select>
+      </div>
+
+      <div id="viewerControls" class="viewer-controls">
+        <button id="scrollModeBtn" class="tool-btn" type="button" title="Change scrolling mode">
+          <span id="scrollModeIcon" aria-hidden="true">↕</span><span id="scrollModeLabel" class="tool-label">Continuous</span>
+        </button>
+        <button id="fitModeBtn" class="tool-btn" type="button" title="Change page fitting">
+          <span aria-hidden="true">▣</span><span id="fitModeLabel" class="tool-label">Fit width</span>
+        </button>
+        <button id="presentBtn" class="tool-btn" type="button" title="Presentation mode">
+          <span aria-hidden="true">⛶</span><span class="tool-label">Present</span>
+        </button>
+      </div>
+
+      <button id="moreBtn" class="icon-btn" type="button" aria-haspopup="menu" aria-expanded="false" title="More options">⋯</button>
+      <div id="moreMenu" class="popover hidden" role="menu">
+        <button id="clearBtn" type="button" role="menuitem">Close all files</button>
+        <button id="installHelpBtn" type="button" role="menuitem">Installation / offline info</button>
+        <button id="aboutBtn" type="button" role="menuitem">About this build</button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section id="emptyState" class="empty-state" aria-labelledby="emptyTitle">
+        <div class="empty-icon" aria-hidden="true">PDF</div>
+        <h1 id="emptyTitle">Open PDFs or images</h1>
+        <p>Files stay on this device. Each opened PDF or image is kept as a separate document; use the document switcher to move between them.</p>
+        <button id="emptyOpenBtn" class="large-open" type="button">Open files</button>
+        <p class="small-note">This first build supports PDF/image viewing, page thumbnails, reordering, rotation, duplication, deletion, full-screen presentation, and multiple scrolling modes.</p>
+      </section>
+
+      <section id="viewerPane" class="viewer-pane hidden" aria-label="PDF viewer">
+        <div id="viewer" class="viewer continuous fit-width" tabindex="0" aria-label="Document pages"></div>
+        <div id="singlePageNav" class="single-page-nav hidden" aria-label="Page navigation">
+          <button id="prevPageBtn" type="button" aria-label="Previous page">‹</button>
+          <div id="pageCounter" class="page-counter">1 / 1</div>
+          <button id="nextPageBtn" type="button" aria-label="Next page">›</button>
+        </div>
+        <button id="presentationExit" class="presentation-exit hidden" type="button" aria-label="Exit presentation mode">×</button>
+      </section>
+
+      <section id="organizerPane" class="organizer-pane hidden" aria-label="Page organizer">
+        <div class="organizer-toolbar">
+          <div class="organizer-info"><strong id="pageCountLabel">0 pages</strong><span id="selectionLabel">None selected</span></div>
+          <div class="organizer-actions">
+            <button id="selectAllBtn" type="button">Select all</button>
+            <button id="rotateBtn" type="button" disabled>Rotate</button>
+            <button id="duplicateBtn" type="button" disabled>Duplicate</button>
+            <button id="deleteBtn" type="button" disabled>Delete</button>
+            <button id="undoBtn" type="button" disabled title="Undo">↶</button>
+            <button id="redoBtn" type="button" disabled title="Redo">↷</button>
+          </div>
+        </div>
+        <div id="thumbnailGrid" class="thumbnail-grid" aria-label="Page thumbnails"></div>
+      </section>
+    </main>
+
+    <div id="statusBar" class="status-bar" role="status" aria-live="polite">
+      <span id="statusText">Ready</span>
+      <span id="pdfEngineStatus" class="engine-status">Loading PDF engine…</span>
+    </div>
+
+    <dialog id="infoDialog" class="info-dialog">
+      <form method="dialog">
+        <button class="dialog-close" value="close" aria-label="Close">×</button>
+        <div id="dialogContent"></div>
+        <div class="dialog-actions"><button value="close">Close</button></div>
+      </form>
+    </dialog>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

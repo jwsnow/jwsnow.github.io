@@ -1,0 +1,55 @@
+const CACHE_NAME = 'pdf-workbench-m1.2-v2';
+const APP_SHELL = [
+  './',
+  './index.html',
+  './styles.css',
+  './app.js',
+  './manifest.webmanifest',
+  './icons/icon-192.png',
+  './icons/icon-512.png'
+];
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)));
+    await self.clients.claim();
+  })());
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data?.type !== 'CACHE_EXTERNAL' || !Array.isArray(event.data.urls)) return;
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    for (const url of event.data.urls) {
+      try {
+        const request = new Request(url, { mode: 'cors' });
+        const response = await fetch(request);
+        if (response.ok) await cache.put(request, response.clone());
+      } catch {}
+    }
+  })());
+});
+
+self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET') return;
+  event.respondWith((async () => {
+    const cached = await caches.match(event.request);
+    if (cached) return cached;
+    try {
+      const response = await fetch(event.request);
+      if (response && (response.ok || response.type === 'opaque')) {
+        const cache = await caches.open(CACHE_NAME);
+        cache.put(event.request, response.clone()).catch(() => {});
+      }
+      return response;
+    } catch (err) {
+      if (event.request.mode === 'navigate') return (await caches.match('./index.html')) || Response.error();
+      throw err;
+    }
+  })());
+});
