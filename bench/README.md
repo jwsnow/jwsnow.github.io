@@ -1,4 +1,4 @@
-# PDF Workbench — Milestone 1.8.0
+# PDF Workbench — Milestone 1.8.1
 
 This is the first functional cross-platform PDF Workbench checkpoint, with the initial organizer fixes and separate-document handling incorporated.
 
@@ -141,3 +141,11 @@ The service worker runtime cache will cache decoder resources after they are fet
 - Presentation controls resume their auto-hide timer after a button is used; touch `:hover` and keyboard focus no longer pin the toolbar open.
 - Native browser pinch zoom is disabled inside the PDF viewer and replaced with document zoom from 25% to 400%, so the PDF can be pinched below 100% without scaling the application controls.
 - About reports Milestone 1.8.0.
+
+
+## Milestone 1.8.1 — per-document viewer zoom
+
+- Each open document now remembers its own PDF zoom level.
+- Each document also remembers its own Fit Width / Fit Page choice.
+- Switching documents restores that document's zoom and fit state rather than carrying the previous document's scale across.
+- About reports Milestone 1.8.1 and the service-worker cache was bumped accordingly.

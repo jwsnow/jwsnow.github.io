@@ -1,4 +1,4 @@
-const APP_VERSION = '1.8.0';
+const APP_VERSION = '1.8.1';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -99,13 +99,19 @@ function saveCurrentDocumentState() {
   doc.activePageId = state.activePageId;
   doc.history = state.history;
   doc.future = state.future;
+  // Viewer scale is document-specific. This lets, for example, a scanned
+  // reference stay at 70% while lecture notes remain at 125% when switching.
+  doc.zoom = state.zoom;
+  doc.fitMode = state.fitMode;
 }
 
 function createDocument(name) {
   saveCurrentDocumentState();
   const doc = {
     id: uid('doc'), name: name || 'Untitled', pages: [], selected: new Set(), selectionAnchorId: null,
-    activePageId: null, history: [], future: []
+    activePageId: null, history: [], future: [],
+    // New documents start at normal zoom and the user's preferred fit mode.
+    zoom: 1, fitMode: state.fitMode
   };
   state.documents.push(doc);
   state.currentDocumentId = doc.id;
@@ -160,6 +166,8 @@ function loadDocumentState(docId, rerender=true) {
   state.activePageId = doc.activePageId || doc.pages[0]?.id || null;
   state.history = doc.history;
   state.future = doc.future;
+  state.zoom = clamp(doc.zoom ?? 1, 0.25, 4);
+  state.fitMode = ['width', 'page'].includes(doc.fitMode) ? doc.fitMode : state.fitMode;
   if (rerender) {
     state.pageObserver?.disconnect();
     state.thumbObserver?.disconnect();
