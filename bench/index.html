@@ -42,6 +42,9 @@
           <button id="zoomResetBtn" class="zoom-value" type="button" title="Reset zoom"><span id="zoomLabel">100%</span></button>
           <button id="zoomInBtn" class="zoom-btn" type="button" title="Zoom in" aria-label="Zoom in">+</button>
         </div>
+        <button id="splitViewBtn" class="tool-btn" type="button" title="Toggle side-by-side view" aria-pressed="false">
+          <span aria-hidden="true">◫</span><span id="splitViewLabel" class="tool-label">Split</span>
+        </button>
         <button id="presentBtn" class="tool-btn" type="button" title="Presentation mode">
           <span aria-hidden="true">⛶</span><span class="tool-label">Present</span>
         </button>
@@ -71,7 +74,39 @@
           <div id="pageCounter" class="page-counter">1 / 1</div>
           <button id="nextPageBtn" type="button" aria-label="Next page">›</button>
         </div>
+
+        <div id="splitViewer" class="split-view hidden" aria-label="Side-by-side document viewer">
+          <section id="splitLeftPane" class="split-pane active" data-pane-id="left" aria-label="Left document pane">
+            <div class="split-pane-bar">
+              <span class="split-pane-name">Left</span>
+              <select id="splitLeftDocumentSelect" class="split-document-select" aria-label="Document in left pane"></select>
+            </div>
+            <div id="splitLeftViewer" class="viewer split-pane-viewer continuous fit-width" tabindex="0" aria-label="Left document pages"></div>
+            <div id="splitLeftNav" class="single-page-nav hidden" aria-label="Left page navigation">
+              <button id="splitLeftPrevBtn" type="button" aria-label="Previous page in left pane">‹</button>
+              <div id="splitLeftCounter" class="page-counter">1 / 1</div>
+              <button id="splitLeftNextBtn" type="button" aria-label="Next page in left pane">›</button>
+            </div>
+          </section>
+          <section id="splitRightPane" class="split-pane" data-pane-id="right" aria-label="Right document pane">
+            <div class="split-pane-bar">
+              <span class="split-pane-name">Right</span>
+              <select id="splitRightDocumentSelect" class="split-document-select" aria-label="Document in right pane"></select>
+            </div>
+            <div id="splitRightViewer" class="viewer split-pane-viewer continuous fit-width" tabindex="0" aria-label="Right document pages"></div>
+            <div id="splitRightNav" class="single-page-nav hidden" aria-label="Right page navigation">
+              <button id="splitRightPrevBtn" type="button" aria-label="Previous page in right pane">‹</button>
+              <div id="splitRightCounter" class="page-counter">1 / 1</div>
+              <button id="splitRightNextBtn" type="button" aria-label="Next page in right pane">›</button>
+            </div>
+          </section>
+        </div>
+
         <div id="presentationToolbar" class="presentation-toolbar hidden" aria-label="Presentation controls">
+          <div id="presentationPaneChooser" class="presentation-pane-chooser hidden" role="group" aria-label="Active split pane">
+            <button id="presentationLeftPaneBtn" type="button" aria-pressed="true" title="Control left pane">L</button>
+            <button id="presentationRightPaneBtn" type="button" aria-pressed="false" title="Control right pane">R</button>
+          </div>
           <select id="presentationDocumentSelect" class="presentation-document-select" aria-label="Open document"></select>
           <button id="presentationScrollModeBtn" type="button" title="Change scrolling mode">↕</button>
           <button id="presentationFitBtn" type="button" title="Change page fitting">▣</button>

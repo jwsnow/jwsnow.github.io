@@ -1,4 +1,4 @@
-const APP_VERSION = '1.8.1';
+const APP_VERSION = '2.0.0';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -11,14 +11,16 @@ const els = {
   app: $('app'), openBtn: $('openBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), documentSelect: $('documentSelect'),
   viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), viewerControls: $('viewerControls'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
-  fitModeBtn: $('fitModeBtn'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), presentBtn: $('presentBtn'),
+  fitModeBtn: $('fitModeBtn'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), organizerPane: $('organizerPane'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'),
+  splitLeftPane: $('splitLeftPane'), splitLeftViewer: $('splitLeftViewer'), splitLeftDocumentSelect: $('splitLeftDocumentSelect'), splitLeftNav: $('splitLeftNav'), splitLeftPrevBtn: $('splitLeftPrevBtn'), splitLeftNextBtn: $('splitLeftNextBtn'), splitLeftCounter: $('splitLeftCounter'),
+  splitRightPane: $('splitRightPane'), splitRightViewer: $('splitRightViewer'), splitRightDocumentSelect: $('splitRightDocumentSelect'), splitRightNav: $('splitRightNav'), splitRightPrevBtn: $('splitRightPrevBtn'), splitRightNextBtn: $('splitRightNextBtn'), splitRightCounter: $('splitRightCounter'),
   thumbnailGrid: $('thumbnailGrid'), pageCountLabel: $('pageCountLabel'), selectionLabel: $('selectionLabel'),
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), duplicateBtn: $('duplicateBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -48,6 +50,12 @@ const state = {
   pinchTouches: new Map(),
   pinchGesture: null,
   pinchRenderFrame: null,
+  splitView: safePref('pdfwb-view-layout', 'single', ['single', 'split']) === 'split',
+  activePaneId: 'left',
+  splitPanes: {
+    left: { id: 'left', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, pinchGesture: null, pinchRenderFrame: null },
+    right: { id: 'right', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, pinchGesture: null, pinchRenderFrame: null },
+  },
 };
 
 function safePref(key, fallback, allowed) {
@@ -99,10 +107,12 @@ function saveCurrentDocumentState() {
   doc.activePageId = state.activePageId;
   doc.history = state.history;
   doc.future = state.future;
-  // Viewer scale is document-specific. This lets, for example, a scanned
-  // reference stay at 70% while lecture notes remain at 125% when switching.
-  doc.zoom = state.zoom;
-  doc.fitMode = state.fitMode;
+  // Single-view scale is document-specific. Split panes maintain their own
+  // per-document view state so two panes can show independent zooms.
+  if (!state.splitView) {
+    doc.zoom = state.zoom;
+    doc.fitMode = state.fitMode;
+  }
 }
 
 function createDocument(name) {
@@ -121,6 +131,11 @@ function createDocument(name) {
   state.activePageId = null;
   state.history = doc.history;
   state.future = doc.future;
+  if (state.splitView) {
+    const pane = splitPaneState(state.activePaneId);
+    pane.documentId = doc.id;
+    pane.views.set(doc.id, defaultPaneView(doc));
+  }
   return doc;
 }
 
@@ -139,6 +154,11 @@ function removeDocument(docId) {
     }
   }
   state.documents.splice(index, 1);
+  for (const pane of Object.values(state.splitPanes)) {
+    pane.views.delete(docId);
+    if (pane.documentId === docId) pane.documentId = null;
+  }
+  ensureSplitPaneDocuments();
   if (state.currentDocumentId === docId) {
     const next = state.documents[Math.min(index, state.documents.length - 1)] || null;
     if (next) loadDocumentState(next.id, false);
@@ -176,23 +196,119 @@ function loadDocumentState(docId, rerender=true) {
   }
 }
 
-function renderDocumentSelect() {
-  if (!els.documentSelect) return;
-  const selects = [els.documentSelect, els.presentationDocumentSelect].filter(Boolean);
-  for (const select of selects) {
-    const previous = select.value;
-    select.replaceChildren();
-    for (const doc of state.documents) {
-      const option = document.createElement('option');
-      option.value = doc.id;
-      option.textContent = doc.name;
-      select.append(option);
-    }
-    select.classList.toggle('hidden', state.documents.length === 0);
-    if (state.currentDocumentId) select.value = state.currentDocumentId;
-    else if (previous) select.value = previous;
-    select.title = state.documents.length > 1 ? 'Switch open document' : 'Current document';
+
+function paneElements(paneId) {
+  if (paneId === 'right') return {
+    pane: els.splitRightPane, viewer: els.splitRightViewer, select: els.splitRightDocumentSelect,
+    nav: els.splitRightNav, prev: els.splitRightPrevBtn, next: els.splitRightNextBtn, counter: els.splitRightCounter
+  };
+  return {
+    pane: els.splitLeftPane, viewer: els.splitLeftViewer, select: els.splitLeftDocumentSelect,
+    nav: els.splitLeftNav, prev: els.splitLeftPrevBtn, next: els.splitLeftNextBtn, counter: els.splitLeftCounter
+  };
+}
+
+function splitPaneState(paneId=state.activePaneId) { return state.splitPanes[paneId === 'right' ? 'right' : 'left']; }
+function documentById(docId) { return state.documents.find(d => d.id === docId) || null; }
+function paneDocument(paneId=state.activePaneId) { return documentById(splitPaneState(paneId).documentId); }
+
+function ensureSplitPaneDocuments() {
+  const ids = new Set(state.documents.map(d => d.id));
+  const left = state.splitPanes.left, right = state.splitPanes.right;
+  if (!ids.has(left.documentId)) left.documentId = state.currentDocumentId || state.documents[0]?.id || null;
+  if (!ids.has(right.documentId)) {
+    right.documentId = state.documents.find(d => d.id !== left.documentId)?.id || left.documentId || state.documents[0]?.id || null;
   }
+  if (!ids.has(splitPaneState(state.activePaneId).documentId)) state.activePaneId = 'left';
+}
+
+function defaultPaneView(doc) {
+  return {
+    zoom: clamp(doc?.zoom ?? 1, 0.25, 4),
+    fitMode: ['width','page'].includes(doc?.fitMode) ? doc.fitMode : state.fitMode,
+    scrollMode: state.scrollMode,
+    activePageId: doc?.activePageId || doc?.pages?.[0]?.id || null,
+    scrollTop: 0,
+    scrollLeft: 0,
+  };
+}
+
+function paneView(paneId=state.activePaneId, docId=null) {
+  const pane = splitPaneState(paneId);
+  const id = docId || pane.documentId;
+  if (!id) return null;
+  if (!pane.views.has(id)) pane.views.set(id, defaultPaneView(documentById(id)));
+  const view = pane.views.get(id);
+  const doc = documentById(id);
+  if (doc) {
+    const ids = new Set(doc.pages.map(p => p.id));
+    if (!view.activePageId || !ids.has(view.activePageId)) view.activePageId = doc.pages[0]?.id || null;
+  }
+  return view;
+}
+
+function savePaneScroll(paneId) {
+  const pane = splitPaneState(paneId), pe = paneElements(paneId), view = paneView(paneId);
+  if (!view || !pe.viewer) return;
+  view.scrollTop = pe.viewer.scrollTop;
+  view.scrollLeft = pe.viewer.scrollLeft;
+}
+
+function activateSplitPane(paneId, syncCurrent=true) {
+  state.activePaneId = paneId === 'right' ? 'right' : 'left';
+  ensureSplitPaneDocuments();
+  const pane = splitPaneState();
+  if (syncCurrent && pane.documentId && pane.documentId !== state.currentDocumentId) loadDocumentState(pane.documentId, false);
+  els.splitLeftPane?.classList.toggle('active', state.activePaneId === 'left');
+  els.splitRightPane?.classList.toggle('active', state.activePaneId === 'right');
+  if (els.presentationLeftPaneBtn) {
+    els.presentationLeftPaneBtn.setAttribute('aria-pressed', String(state.activePaneId === 'left'));
+    els.presentationRightPaneBtn.setAttribute('aria-pressed', String(state.activePaneId === 'right'));
+  }
+  if (els.presentationDocumentSelect && pane.documentId) els.presentationDocumentSelect.value = pane.documentId;
+  updateViewerLabels();
+}
+
+function setPaneDocument(paneId, docId) {
+  if (!documentById(docId)) return;
+  savePaneScroll(paneId);
+  const pane = splitPaneState(paneId);
+  pane.documentId = docId;
+  paneView(paneId, docId);
+  activateSplitPane(paneId, true);
+  renderDocumentSelect();
+  renderSplitPane(paneId);
+  setStatus(`Showing ${documentById(docId)?.name || 'document'} in ${paneId} pane`);
+}
+
+function populateDocumentSelect(select, selectedId) {
+  if (!select) return;
+  select.replaceChildren();
+  for (const doc of state.documents) {
+    const option = document.createElement('option');
+    option.value = doc.id;
+    option.textContent = doc.name;
+    select.append(option);
+  }
+  if (selectedId && documentById(selectedId)) select.value = selectedId;
+  select.disabled = state.documents.length === 0;
+}
+
+function renderDocumentSelect() {
+  ensureSplitPaneDocuments();
+  populateDocumentSelect(els.documentSelect, state.currentDocumentId);
+  els.documentSelect.classList.toggle('hidden', state.documents.length === 0 || state.splitView);
+
+  populateDocumentSelect(els.splitLeftDocumentSelect, state.splitPanes.left.documentId);
+  populateDocumentSelect(els.splitRightDocumentSelect, state.splitPanes.right.documentId);
+
+  const presentationDocId = state.splitView ? splitPaneState().documentId : state.currentDocumentId;
+  populateDocumentSelect(els.presentationDocumentSelect, presentationDocId);
+  els.presentationDocumentSelect.classList.toggle('hidden', state.documents.length === 0);
+  els.presentationPaneChooser?.classList.toggle('hidden', !state.splitView);
+
+  els.splitLeftDocumentSelect.title = state.documents.length > 1 ? 'Switch document in left pane' : 'Left pane document';
+  els.splitRightDocumentSelect.title = state.documents.length > 1 ? 'Switch document in right pane' : 'Right pane document';
 }
 
 async function registerServiceWorker() {
@@ -765,39 +881,105 @@ function beginPageDrag(event) {
 
 function openPageInViewer(pageId) {
   state.activePageId = pageId;
+  if (state.splitView) {
+    const pane = splitPaneState();
+    pane.documentId = state.currentDocumentId;
+    const view = paneView(state.activePaneId, state.currentDocumentId);
+    if (view) { view.activePageId = pageId; view.scrollTop = 0; view.scrollLeft = 0; }
+  }
   showWorkspaceMode('view');
-  requestAnimationFrame(() => scrollActivePageIntoView('auto'));
+  requestAnimationFrame(() => state.splitView ? scrollSplitActivePageIntoView(state.activePaneId, 'auto') : scrollActivePageIntoView('auto'));
+}
+
+function activeViewerSettings() {
+  if (state.splitView) {
+    const view = paneView(state.activePaneId);
+    return view ? { scrollMode: view.scrollMode, fitMode: view.fitMode, zoom: view.zoom } : { scrollMode: state.scrollMode, fitMode: state.fitMode, zoom: state.zoom };
+  }
+  return { scrollMode: state.scrollMode, fitMode: state.fitMode, zoom: state.zoom };
 }
 
 function cycleScrollMode() {
   const modes = ['continuous', 'snap', 'single'];
+  if (state.splitView) {
+    const view = paneView();
+    if (!view) return;
+    savePaneScroll(state.activePaneId);
+    view.scrollMode = modes[(modes.indexOf(view.scrollMode) + 1) % modes.length];
+    view.scrollTop = 0; view.scrollLeft = 0;
+    renderSplitPane(state.activePaneId);
+    updateViewerLabels();
+    return;
+  }
   state.scrollMode = modes[(modes.indexOf(state.scrollMode) + 1) % modes.length];
   savePref('pdfwb-scroll-mode', state.scrollMode);
   renderViewer();
 }
 function cycleFitMode() {
+  if (state.splitView) {
+    const view = paneView();
+    if (!view) return;
+    view.fitMode = view.fitMode === 'width' ? 'page' : 'width';
+    view.zoom = 1;
+    view.scrollTop = 0; view.scrollLeft = 0;
+    renderSplitPane(state.activePaneId);
+    updateViewerLabels();
+    return;
+  }
   state.fitMode = state.fitMode === 'width' ? 'page' : 'width';
   state.zoom = 1;
   savePref('pdfwb-fit-mode', state.fitMode);
   renderViewer();
 }
 function setZoom(value) {
+  if (state.splitView) {
+    const view = paneView();
+    if (!view) return;
+    view.zoom = clamp(value, 0.25, 4);
+    view.scrollTop = 0; view.scrollLeft = 0;
+    renderSplitPane(state.activePaneId);
+    updateViewerLabels();
+    return;
+  }
   state.zoom = clamp(value, 0.25, 4);
   renderViewer();
 }
-function zoomBy(factor) { setZoom(state.zoom * factor); }
+function zoomBy(factor) {
+  const settings = activeViewerSettings();
+  setZoom(settings.zoom * factor);
+}
 function resetZoom() { setZoom(1); }
 
-function queuePinchZoom(value) {
+function queuePinchZoom(value, paneId=null) {
+  if (paneId && state.splitView) {
+    const pane = splitPaneState(paneId), view = paneView(paneId), pe = paneElements(paneId);
+    if (!view) return;
+    view.zoom = clamp(value, 0.25, 4);
+    if (state.activePaneId === paneId) updateViewerLabels();
+    if (pane.pinchRenderFrame) return;
+    pane.pinchRenderFrame = requestAnimationFrame(() => {
+      pane.pinchRenderFrame = null;
+      pe.viewer.querySelectorAll('.page-stage[data-page-id]').forEach(stage => {
+        const doc = documentById(pane.documentId);
+        const page = splitPageById(doc, stage.dataset.pageId);
+        if (!page) return;
+        const size = computePaneCssSize(page, paneId, view);
+        stage.style.width = `${size.width}px`;
+        stage.style.height = `${size.height}px`;
+        const canvas = stage.querySelector('canvas');
+        if (canvas) { canvas.style.width = `${size.width}px`; canvas.style.height = `${size.height}px`; }
+      });
+    });
+    return;
+  }
+
   state.zoom = clamp(value, 0.25, 4);
   updateViewerLabels();
   if (state.pinchRenderFrame) return;
   state.pinchRenderFrame = requestAnimationFrame(() => {
     state.pinchRenderFrame = null;
     // During a live pinch, resize the existing page surfaces instead of
-    // rebuilding/rerendering the PDF on every finger movement. The current
-    // canvas is temporarily stretched; a full-quality rerender happens when
-    // the gesture ends. This keeps Pencil/touch interaction responsive.
+    // rebuilding/rerendering the PDF on every finger movement.
     els.viewer.querySelectorAll('.page-stage[data-page-id]').forEach(stage => {
       const page = pageById(stage.dataset.pageId);
       if (!page) return;
@@ -805,25 +987,47 @@ function queuePinchZoom(value) {
       stage.style.width = `${size.width}px`;
       stage.style.height = `${size.height}px`;
       const canvas = stage.querySelector('canvas');
-      if (canvas) {
-        canvas.style.width = `${size.width}px`;
-        canvas.style.height = `${size.height}px`;
-      }
+      if (canvas) { canvas.style.width = `${size.width}px`; canvas.style.height = `${size.height}px`; }
     });
   });
 }
 function updateViewerLabels() {
-  const modeLabel = { continuous: 'Continuous', snap: 'Page snap', single: 'Full page' }[state.scrollMode];
-  const modeIcon = { continuous: '↕', snap: '⇵', single: '▯' }[state.scrollMode];
+  const settings = activeViewerSettings();
+  const modeLabel = { continuous: 'Continuous', snap: 'Page snap', single: 'Full page' }[settings.scrollMode];
+  const modeIcon = { continuous: '↕', snap: '⇵', single: '▯' }[settings.scrollMode];
   els.scrollModeLabel.textContent = modeLabel;
   els.scrollModeIcon.textContent = modeIcon;
-  els.fitModeLabel.textContent = state.fitMode === 'width' ? 'Fit width' : 'Fit page';
-  const zoomText = `${Math.round(state.zoom * 100)}%`;
+  els.fitModeLabel.textContent = settings.fitMode === 'width' ? 'Fit width' : 'Fit page';
+  const zoomText = `${Math.round(settings.zoom * 100)}%`;
   els.zoomLabel.textContent = zoomText;
   if (els.presentationZoomLabel) els.presentationZoomLabel.textContent = zoomText;
   if (els.presentationScrollModeBtn) els.presentationScrollModeBtn.textContent = modeIcon;
-  els.singlePageNav.classList.toggle('hidden', state.scrollMode !== 'single' || !state.pages.length);
+  els.splitViewBtn?.setAttribute('aria-pressed', String(state.splitView));
+  if (els.splitViewLabel) els.splitViewLabel.textContent = state.splitView ? 'Single' : 'Split';
+  els.singlePageNav.classList.toggle('hidden', state.splitView || settings.scrollMode !== 'single' || !state.pages.length);
+  if (state.splitView) { updateSplitPaneNav('left'); updateSplitPaneNav('right'); }
   updatePageCounts();
+}
+
+function toggleSplitView() {
+  if (!state.documents.length) return;
+  if (!state.splitView) {
+    saveCurrentDocumentState();
+    state.splitView = true;
+    ensureSplitPaneDocuments();
+    state.splitPanes.left.documentId = state.currentDocumentId || state.splitPanes.left.documentId;
+    if (!state.splitPanes.right.documentId) state.splitPanes.right.documentId = state.documents.find(d => d.id !== state.splitPanes.left.documentId)?.id || state.splitPanes.left.documentId;
+    state.activePaneId = 'left';
+  } else {
+    const active = splitPaneState();
+    if (active.documentId) loadDocumentState(active.documentId, false);
+    state.splitView = false;
+  }
+  savePref('pdfwb-view-layout', state.splitView ? 'split' : 'single');
+  renderDocumentSelect();
+  renderViewer();
+  updateViewerLabels();
+  setStatus(state.splitView ? 'Side-by-side view' : 'Single-document view');
 }
 
 function computeCssSize(page) {
@@ -887,7 +1091,7 @@ function canvasLooksBlank(canvas) {
   }
 }
 
-function renderViewer() {
+function renderSingleViewer() {
   state.renderGeneration++;
   const generation = state.renderGeneration;
   state.pageObserver?.disconnect();
@@ -954,6 +1158,183 @@ function renderViewer() {
     }
   }
   if (state.scrollMode !== 'single') requestAnimationFrame(() => scrollActivePageIntoView('auto'));
+}
+
+
+function splitPageById(doc, id) { return doc?.pages?.find(p => p.id === id) || null; }
+function splitActiveIndex(doc, view) { return Math.max(0, doc?.pages?.findIndex(p => p.id === view?.activePageId) ?? 0); }
+
+function computePaneCssSize(page, paneId, view=paneView(paneId)) {
+  const pe = paneElements(paneId);
+  const [bw, bh] = rotatedDims(page);
+  const wAvail = Math.max(80, pe.viewer.clientWidth - (document.body.classList.contains('presentation') ? 4 : 18));
+  const hAvail = Math.max(80, pe.viewer.clientHeight - (document.body.classList.contains('presentation') ? 4 : 18));
+  let scale;
+  if (view?.fitMode === 'width') scale = wAvail / bw;
+  else scale = Math.min(wAvail / bw, hAvail / bh);
+  if (view?.scrollMode === 'single') scale = Math.min(wAvail / bw, hAvail / bh);
+  scale *= view?.zoom ?? 1;
+  scale = clamp(scale, 0.02, 8);
+  return { width: Math.max(1, bw * scale), height: Math.max(1, bh * scale) };
+}
+
+function updateSplitPaneNav(paneId) {
+  const pane = splitPaneState(paneId), doc = documentById(pane.documentId), view = paneView(paneId), pe = paneElements(paneId);
+  const count = doc?.pages?.length || 0;
+  const index = count && view ? splitActiveIndex(doc, view) : 0;
+  pe.counter.textContent = count ? `${index + 1} / ${count}` : '0 / 0';
+  pe.nav.classList.toggle('hidden', !count || view?.scrollMode !== 'single');
+}
+
+function markSplitActivePage(paneId) {
+  const pe = paneElements(paneId), view = paneView(paneId);
+  pe.viewer.querySelectorAll('.page-stage').forEach(el => el.classList.toggle('active-page', el.dataset.pageId === view?.activePageId));
+  updateSplitPaneNav(paneId);
+}
+
+function scrollSplitActivePageIntoView(paneId, behavior='smooth') {
+  const pe = paneElements(paneId), view = paneView(paneId);
+  if (!view?.activePageId) return;
+  const el = pe.viewer.querySelector(`.page-stage[data-page-id="${CSS.escape(view.activePageId)}"]`);
+  el?.scrollIntoView({ block: 'center', inline: 'center', behavior });
+}
+
+function renderSplitView() {
+  ensureSplitPaneDocuments();
+  // Cancel any single-view render work before both split panes begin sharing
+  // the bounded raster queue.
+  state.renderGeneration++;
+  state.pageObserver?.disconnect();
+  els.viewer.replaceChildren();
+  els.viewer.classList.add('hidden');
+  els.singlePageNav.classList.add('hidden');
+  els.splitViewer.classList.remove('hidden');
+  renderDocumentSelect();
+  renderSplitPane('left');
+  renderSplitPane('right');
+  activateSplitPane(state.activePaneId, true);
+}
+
+function renderSplitPane(paneId) {
+  const pane = splitPaneState(paneId), pe = paneElements(paneId), doc = documentById(pane.documentId), view = paneView(paneId);
+  pane.generation++;
+  const generation = pane.generation;
+  pane.observer?.disconnect();
+  pe.viewer.replaceChildren();
+  pe.viewer.className = `viewer split-pane-viewer ${view?.scrollMode || 'continuous'} fit-${view?.fitMode || 'width'}`;
+  updateSplitPaneNav(paneId);
+  if (!doc?.pages?.length || !view) return;
+  if (!view.activePageId) view.activePageId = doc.pages[0].id;
+
+  const pagesToBuild = view.scrollMode === 'single' ? [doc.pages[splitActiveIndex(doc, view)]] : doc.pages;
+  const observer = view.scrollMode === 'single' ? null : new IntersectionObserver((entries) => {
+    let mostVisible = null;
+    for (const entry of entries) {
+      const stage = entry.target;
+      if (entry.isIntersecting && entry.intersectionRatio > .01) {
+        stage.dataset.wantRender = 'true';
+        const page = splitPageById(doc, stage.dataset.pageId);
+        const canvas = stage.querySelector('canvas');
+        if (page && canvas && stage.dataset.rendered !== 'loading' && stage.dataset.rendered !== 'true') {
+          stage.dataset.rendered = 'loading';
+          ensurePageLoading(stage);
+          renderSplitViewerPage(paneId, page, stage, canvas, generation).catch(err => renderError(stage, err));
+        }
+        if (!mostVisible || entry.intersectionRatio > mostVisible.intersectionRatio) mostVisible = entry;
+      } else {
+        stage.dataset.wantRender = 'false';
+        if (stage.dataset.rendered === 'true' || stage.dataset.rendered === 'error') releaseViewerStage(stage);
+      }
+    }
+    if (mostVisible?.intersectionRatio > .28) {
+      const id = mostVisible.target.dataset.pageId;
+      if (id && id !== view.activePageId) {
+        view.activePageId = id;
+        markSplitActivePage(paneId);
+        if (state.activePaneId === paneId) updateViewerLabels();
+      }
+    }
+  }, { root: pe.viewer, rootMargin: '110% 0px 110% 0px', threshold: [0.01, .28, .55, .8] });
+  pane.observer = observer;
+
+  for (const page of pagesToBuild) {
+    if (!page) continue;
+    const size = computePaneCssSize(page, paneId, view);
+    const stage = document.createElement('div');
+    stage.className = `page-stage${page.id === view.activePageId ? ' active-page' : ''}`;
+    stage.dataset.pageId = page.id;
+    stage.style.width = `${size.width}px`;
+    stage.style.height = `${size.height}px`;
+    const canvas = document.createElement('canvas');
+    const loading = document.createElement('div');
+    loading.className = 'page-loading';
+    loading.textContent = 'Rendering…';
+    stage.append(canvas, loading);
+    pe.viewer.append(stage);
+    if (observer) observer.observe(stage);
+    else {
+      stage.dataset.wantRender = 'true';
+      stage.dataset.rendered = 'loading';
+      renderSplitViewerPage(paneId, page, stage, canvas, generation).catch(err => renderError(stage, err));
+    }
+  }
+
+  requestAnimationFrame(() => {
+    if (view.scrollMode !== 'single') {
+      if (view.scrollTop || view.scrollLeft) {
+        pe.viewer.scrollTop = view.scrollTop || 0;
+        pe.viewer.scrollLeft = view.scrollLeft || 0;
+      } else scrollSplitActivePageIntoView(paneId, 'auto');
+    }
+  });
+}
+
+async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
+  const pane = splitPaneState(paneId), view = paneView(paneId);
+  const size = computePaneCssSize(page, paneId, view);
+  if (generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false') return;
+  stage.style.width = `${size.width}px`;
+  stage.style.height = `${size.height}px`;
+  const dpr = clamp(window.devicePixelRatio || 1, 1, 2.1);
+  const didRender = await enqueueRender(async () => {
+    if (generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
+    await renderPageToCanvas(page, canvas, size.width, size.height, dpr, 4_500_000);
+    return true;
+  }, 10);
+  if (!didRender || generation !== pane.generation || !stage.isConnected) return;
+  if (stage.dataset.wantRender === 'false') { releaseViewerStage(stage); return; }
+  if (canvasLooksBlank(canvas)) {
+    ensurePageLoading(stage, 'Retrying scan…');
+    await enqueueRender(async () => {
+      if (generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
+      await renderPageToCanvas(page, canvas, size.width, size.height, 1, 1_800_000);
+      return true;
+    }, 11);
+  }
+  if (generation !== pane.generation || !stage.isConnected) return;
+  if (stage.dataset.wantRender === 'false') { releaseViewerStage(stage); return; }
+  stage.dataset.rendered = 'true';
+  stage.querySelector('.page-loading')?.remove();
+}
+
+function goPanePage(paneId, delta) {
+  const pane = splitPaneState(paneId), doc = documentById(pane.documentId), view = paneView(paneId);
+  if (!doc?.pages?.length || !view) return;
+  const current = splitActiveIndex(doc, view);
+  const next = clamp(current + delta, 0, doc.pages.length - 1);
+  if (next === current && doc.pages[next]?.id === view.activePageId) return;
+  view.activePageId = doc.pages[next].id;
+  if (view.scrollMode === 'single') renderSplitPane(paneId);
+  else { markSplitActivePage(paneId); scrollSplitActivePageIntoView(paneId); }
+  if (state.activePaneId === paneId) updateViewerLabels();
+}
+
+function renderViewer() {
+  if (state.splitView) return renderSplitView();
+  for (const pane of Object.values(state.splitPanes)) { pane.generation++; pane.observer?.disconnect(); }
+  els.splitViewer.classList.add('hidden');
+  els.viewer.classList.remove('hidden');
+  return renderSingleViewer();
 }
 
 async function renderViewerPage(page, stage, canvas, generation) {
@@ -1155,6 +1536,12 @@ function clearAll() {
   state.future = [];
   state.pageObserver?.disconnect();
   state.thumbObserver?.disconnect();
+  for (const pane of Object.values(state.splitPanes)) {
+    pane.observer?.disconnect();
+    pane.documentId = null;
+    pane.views.clear();
+    pane.generation++;
+  }
   renderAll();
   setStatus('Closed all files');
 }
@@ -1168,11 +1555,38 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>This build establishes the cross-platform viewer and non-destructive page model.</p>
-      <ul><li>Open multiple PDFs and images as separate documents and switch between them.</li><li>View continuously, with page snapping, or one full page at a time.</li><li>Fit width or page and use presentation mode.</li><li>Reorder pages with a touch-friendly drag handle.</li><li>Select, rotate, duplicate, and delete pages with undo/redo.</li></ul>
-      <p><strong>Not in this milestone yet:</strong> PDF export, split/merge output, page-size normalization, compression, saved projects, and pen annotation.</p>`;
+      <p>This build adds the multi-document viewer architecture while preserving the non-destructive page organizer.</p>
+      <ul><li>Open multiple PDFs and images as separate documents.</li><li>Switch quickly between documents or view two documents side by side.</li><li>Each split pane scrolls and zooms independently and can use Continuous, Page Snap, or Full Page mode.</li><li>Presentation mode supports both single and split views.</li><li>Reorder, select, rotate, duplicate, and delete pages with undo/redo.</li></ul>
+      <p><strong>Not in this milestone yet:</strong> PDF export, split/merge output, page-size normalization, compression, saved projects, and pen annotation.</p>
+      <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
+  if (kind === 'about') $('forceUpdateBtn')?.addEventListener('click', forceReloadLatest);
+}
+
+async function forceReloadLatest() {
+  const status = $('updateStatus');
+  const button = $('forceUpdateBtn');
+  if (!navigator.onLine) { if (status) status.textContent = 'You are offline. Connect to the internet, then try again.'; return; }
+  if (button) button.disabled = true;
+  if (status) status.textContent = 'Checking the hosted app and clearing the old app-shell cache…';
+  try {
+    const registration = 'serviceWorker' in navigator ? await navigator.serviceWorker.getRegistration() : null;
+    if (registration) await registration.update().catch(() => {});
+    if (registration?.waiting) registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+    if ('caches' in window) {
+      const keys = await caches.keys();
+      await Promise.all(keys.filter(k => k.startsWith('pdf-workbench-')).map(k => caches.delete(k)));
+    }
+    if (status) status.textContent = 'Reloading from the network…';
+    const url = new URL(location.href);
+    url.searchParams.set('pwaUpdate', Date.now().toString());
+    setTimeout(() => location.replace(url.href), 120);
+  } catch (err) {
+    console.error(err);
+    if (status) status.textContent = `Update could not be forced: ${err?.message || err}`;
+    if (button) button.disabled = false;
+  }
 }
 
 function positionMoreMenu() {
@@ -1202,12 +1616,125 @@ function onResize() {
   resizeTimer = setTimeout(() => { if (state.pages.length && state.workspaceMode === 'view') renderViewer(); }, 120);
 }
 
+
+function bindSplitViewerEvents(paneId) {
+  const pane = splitPaneState(paneId), pe = paneElements(paneId), viewer = pe.viewer;
+  if (!viewer) return;
+
+  const makeActive = () => { if (state.splitView && state.activePaneId !== paneId) activateSplitPane(paneId, true); };
+  pe.pane.addEventListener('pointerdown', makeActive, { capture: true });
+  viewer.addEventListener('focus', makeActive);
+  viewer.addEventListener('scroll', () => {
+    const view = paneView(paneId);
+    if (!view) return;
+    view.scrollTop = viewer.scrollTop;
+    view.scrollLeft = viewer.scrollLeft;
+  }, { passive: true });
+
+  viewer.addEventListener('wheel', (e) => {
+    makeActive();
+    const view = paneView(paneId);
+    if (!view) return;
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      setZoomForPane(paneId, view.zoom * (e.deltaY < 0 ? 1.12 : 1 / 1.12));
+      if (document.body.classList.contains('presentation')) showPresentationControls();
+      return;
+    }
+    if (view.scrollMode !== 'single') return;
+    e.preventDefault();
+    const now = performance.now();
+    if (now - pane.lastWheelPageChange < 320 || Math.abs(e.deltaY) < 8) return;
+    pane.lastWheelPageChange = now;
+    goPanePage(paneId, e.deltaY > 0 ? 1 : -1);
+  }, { passive: false });
+
+  viewer.addEventListener('pointermove', (e) => {
+    if (document.body.classList.contains('presentation') && e.pointerType !== 'touch' && e.clientY < 90) showPresentationControls();
+  });
+  viewer.addEventListener('pointerdown', (e) => {
+    makeActive();
+    const view = paneView(paneId);
+    if (e.pointerType === 'touch') {
+      if (document.body.classList.contains('presentation') && !document.body.classList.contains('presentation-controls-visible') && e.clientY < 80) {
+        state.presentationRevealPointerId = e.pointerId;
+        pane.touchStart = null;
+        e.preventDefault();
+        return;
+      }
+      if (view?.scrollMode === 'single') pane.touchStart = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now() };
+    }
+  });
+  const finishPointer = (e, cancelled=false) => {
+    if (e.pointerType !== 'touch') return;
+    const wasReveal = state.presentationRevealPointerId === e.pointerId;
+    if (wasReveal) {
+      state.presentationRevealPointerId = null;
+      pane.touchStart = null;
+      if (!cancelled) showPresentationControls();
+      e.preventDefault();
+      return;
+    }
+    const view = paneView(paneId), start = pane.touchStart;
+    if (!start || start.id !== e.pointerId || view?.scrollMode !== 'single' || cancelled || pane.pinchGesture) {
+      if (start?.id === e.pointerId) pane.touchStart = null;
+      return;
+    }
+    const dx = e.clientX - start.x, dy = e.clientY - start.y, dt = performance.now() - start.t;
+    pane.touchStart = null;
+    if (dt < 800 && Math.abs(dy) > 55 && Math.abs(dy) > Math.abs(dx) * .7) goPanePage(paneId, dy < 0 ? 1 : -1);
+  };
+  viewer.addEventListener('pointerup', (e) => finishPointer(e, false));
+  viewer.addEventListener('pointercancel', (e) => finishPointer(e, true));
+
+  const touchDistance = (touches) => Math.hypot(touches[1].clientX - touches[0].clientX, touches[1].clientY - touches[0].clientY);
+  viewer.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 2) return;
+    makeActive();
+    const view = paneView(paneId);
+    if (!view) return;
+    pane.pinchGesture = { startDistance: Math.max(1, touchDistance(e.touches)), startZoom: view.zoom };
+    pane.touchStart = null;
+    e.preventDefault();
+  }, { passive: false });
+  viewer.addEventListener('touchmove', (e) => {
+    if (!pane.pinchGesture || e.touches.length !== 2) return;
+    const dist = Math.max(1, touchDistance(e.touches));
+    queuePinchZoom(pane.pinchGesture.startZoom * dist / pane.pinchGesture.startDistance, paneId);
+    e.preventDefault();
+  }, { passive: false });
+  const finishPinch = (e) => {
+    if (!pane.pinchGesture) return;
+    if (e.touches && e.touches.length >= 2) return;
+    pane.pinchGesture = null;
+    if (pane.pinchRenderFrame) { cancelAnimationFrame(pane.pinchRenderFrame); pane.pinchRenderFrame = null; }
+    renderSplitPane(paneId);
+  };
+  viewer.addEventListener('touchend', finishPinch, { passive: true });
+  viewer.addEventListener('touchcancel', finishPinch, { passive: true });
+}
+
+function setZoomForPane(paneId, value) {
+  const view = paneView(paneId);
+  if (!view) return;
+  view.zoom = clamp(value, 0.25, 4);
+  view.scrollTop = 0; view.scrollLeft = 0;
+  renderSplitPane(paneId);
+  if (state.activePaneId === paneId) updateViewerLabels();
+}
+
 function bindEvents() {
   els.openBtn.addEventListener('click', () => els.fileInput.click());
   els.emptyOpenBtn.addEventListener('click', () => els.fileInput.click());
   els.fileInput.addEventListener('change', () => openFiles(els.fileInput.files));
   els.documentSelect.addEventListener('change', () => loadDocumentState(els.documentSelect.value));
-  els.presentationDocumentSelect.addEventListener('change', () => { loadDocumentState(els.presentationDocumentSelect.value); showPresentationControls(); });
+  els.splitLeftDocumentSelect.addEventListener('change', () => setPaneDocument('left', els.splitLeftDocumentSelect.value));
+  els.splitRightDocumentSelect.addEventListener('change', () => setPaneDocument('right', els.splitRightDocumentSelect.value));
+  els.presentationDocumentSelect.addEventListener('change', () => {
+    if (state.splitView) setPaneDocument(state.activePaneId, els.presentationDocumentSelect.value);
+    else loadDocumentState(els.presentationDocumentSelect.value);
+    showPresentationControls();
+  });
   els.viewModeBtn.addEventListener('click', () => showWorkspaceMode('view'));
   els.organizeModeBtn.addEventListener('click', () => showWorkspaceMode('organize'));
   els.scrollModeBtn.addEventListener('click', cycleScrollMode);
@@ -1215,6 +1742,9 @@ function bindEvents() {
   els.zoomOutBtn.addEventListener('click', () => zoomBy(0.8));
   els.zoomResetBtn.addEventListener('click', resetZoom);
   els.zoomInBtn.addEventListener('click', () => zoomBy(1.25));
+  els.splitViewBtn.addEventListener('click', toggleSplitView);
+  els.presentationLeftPaneBtn.addEventListener('click', () => { if (state.splitView) { activateSplitPane('left', true); showPresentationControls(); } });
+  els.presentationRightPaneBtn.addEventListener('click', () => { if (state.splitView) { activateSplitPane('right', true); showPresentationControls(); } });
   els.presentationScrollModeBtn.addEventListener('click', cycleScrollMode);
   els.presentationFitBtn.addEventListener('click', cycleFitMode);
   els.presentationZoomOutBtn.addEventListener('click', () => zoomBy(0.8));
@@ -1225,6 +1755,10 @@ function bindEvents() {
   els.presentationToolbar.addEventListener('pointerdown', () => { if (document.body.classList.contains('presentation')) clearTimeout(state.presentationControlsTimer); });
   els.prevPageBtn.addEventListener('click', () => goPage(-1));
   els.nextPageBtn.addEventListener('click', () => goPage(1));
+  els.splitLeftPrevBtn.addEventListener('click', () => { activateSplitPane('left', true); goPanePage('left', -1); });
+  els.splitLeftNextBtn.addEventListener('click', () => { activateSplitPane('left', true); goPanePage('left', 1); });
+  els.splitRightPrevBtn.addEventListener('click', () => { activateSplitPane('right', true); goPanePage('right', -1); });
+  els.splitRightNextBtn.addEventListener('click', () => { activateSplitPane('right', true); goPanePage('right', 1); });
   els.selectAllBtn.addEventListener('click', selectAllToggle);
   els.rotateBtn.addEventListener('click', rotateSelected);
   els.duplicateBtn.addEventListener('click', duplicateSelected);
@@ -1240,6 +1774,8 @@ function bindEvents() {
     if (!document.fullscreenElement && document.body.classList.contains('presentation') && !isIPadLike()) exitPresentation();
   });
   window.addEventListener('resize', onResize);
+  bindSplitViewerEvents('left');
+  bindSplitViewerEvents('right');
 
   els.viewer.addEventListener('wheel', (e) => {
     if (e.ctrlKey || e.metaKey) {
@@ -1342,8 +1878,13 @@ function bindEvents() {
     if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '=')) { e.preventDefault(); zoomBy(1.25); return; }
     if ((e.ctrlKey || e.metaKey) && e.key === '-') { e.preventDefault(); zoomBy(0.8); return; }
     if ((e.ctrlKey || e.metaKey) && e.key === '0') { e.preventDefault(); resetZoom(); return; }
-    if (state.workspaceMode === 'view' && ['ArrowDown','PageDown','ArrowRight'].includes(e.key) && state.scrollMode === 'single') { e.preventDefault(); goPage(1); }
-    if (state.workspaceMode === 'view' && ['ArrowUp','PageUp','ArrowLeft'].includes(e.key) && state.scrollMode === 'single') { e.preventDefault(); goPage(-1); }
+    if (state.workspaceMode === 'view' && state.splitView) {
+      const view = paneView();
+      if (view?.scrollMode === 'single' && ['ArrowDown','PageDown','ArrowRight'].includes(e.key)) { e.preventDefault(); goPanePage(state.activePaneId, 1); return; }
+      if (view?.scrollMode === 'single' && ['ArrowUp','PageUp','ArrowLeft'].includes(e.key)) { e.preventDefault(); goPanePage(state.activePaneId, -1); return; }
+    }
+    if (state.workspaceMode === 'view' && !state.splitView && ['ArrowDown','PageDown','ArrowRight'].includes(e.key) && state.scrollMode === 'single') { e.preventDefault(); goPage(1); }
+    if (state.workspaceMode === 'view' && !state.splitView && ['ArrowUp','PageUp','ArrowLeft'].includes(e.key) && state.scrollMode === 'single') { e.preventDefault(); goPage(-1); }
   });
 
   window.addEventListener('dragover', (e) => { if ([...e.dataTransfer.types].includes('Files')) e.preventDefault(); });

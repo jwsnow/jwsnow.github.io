@@ -167,3 +167,118 @@ body.presentation .presentation-toolbar {
   transform: translateX(-50%) !important;
   transform-origin: center top;
 }
+
+/* Milestone 2: side-by-side viewer. Each pane owns its own scroll container and
+   viewer state; the highlighted pane is the target of the compact top controls. */
+.split-view {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 2px;
+  background: #aeb3ba;
+}
+.split-pane {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: 40px minmax(0, 1fr);
+  background: #cfd2d7;
+  outline: 0 solid transparent;
+  transition: outline-color .12s ease;
+}
+.split-pane.active {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+  z-index: 2;
+}
+.split-pane-bar {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 7px;
+  background: color-mix(in srgb, var(--panel) 96%, transparent);
+  border-bottom: 1px solid var(--border);
+}
+.split-pane-name {
+  flex: 0 0 auto;
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.split-document-select {
+  min-width: 0;
+  width: 100%;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--paper);
+  color: var(--text);
+  padding: 3px 25px 3px 7px;
+  text-overflow: ellipsis;
+}
+.split-pane-viewer {
+  min-width: 0;
+  min-height: 0;
+}
+.split-pane .single-page-nav {
+  bottom: max(8px, env(safe-area-inset-bottom));
+}
+.presentation-pane-chooser {
+  display: flex;
+  gap: 2px;
+}
+.presentation-pane-chooser button[aria-pressed="true"] {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: #163f67;
+  font-weight: 750;
+}
+body.presentation .split-pane {
+  grid-template-rows: minmax(0,1fr);
+  background: #202124;
+}
+body.presentation .split-pane-bar {
+  display: none;
+}
+body.presentation .split-view {
+  gap: 1px;
+  background: #151617;
+}
+body.presentation .split-pane.active {
+  outline-color: color-mix(in srgb, var(--accent) 75%, white);
+}
+
+.update-panel {
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel);
+}
+.update-panel button {
+  min-height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--text);
+  padding: 7px 11px;
+}
+.update-status {
+  margin: 8px 0 0 !important;
+  color: var(--muted);
+  font-size: .88rem;
+}
+
+@media (max-width: 760px) {
+  .split-pane { grid-template-rows: 36px minmax(0, 1fr); }
+  .split-pane-bar { padding: 3px 4px; gap: 4px; }
+  .split-pane-name { display: none; }
+  .split-document-select { height: 30px; font-size: .82rem; }
+  .split-pane-viewer { padding: 7px; gap: 8px; }
+  .presentation-pane-chooser button { min-width: 34px; }
+}

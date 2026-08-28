@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pdf-workbench-m1.8.1-v1';
+const CACHE_NAME = 'pdf-workbench-m2.0.0-v1';
 const APP_SHELL = [
   './',
   './index.html',
@@ -22,6 +22,10 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('message', (event) => {
+  if (event.data?.type === 'SKIP_WAITING') {
+    event.waitUntil(self.skipWaiting());
+    return;
+  }
   if (event.data?.type !== 'CACHE_EXTERNAL' || !Array.isArray(event.data.urls)) return;
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
