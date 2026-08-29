@@ -63,10 +63,11 @@ button:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 65%, 
 .single-page-nav { position: absolute; left: 50%; bottom: max(10px, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 20; display: flex; align-items: center; gap: 6px; padding: 4px; background: rgb(255 255 255 / .88); border: 1px solid var(--border); border-radius: 12px; backdrop-filter: blur(8px); }
 .single-page-nav button { min-width: 42px; min-height: 42px; padding: 0; font-size: 28px; line-height: 1; }
 .page-counter { min-width: 72px; text-align: center; font-variant-numeric: tabular-nums; }
-.presentation-toolbar { position: fixed; top: max(7px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); z-index: 120; display: flex; align-items: center; gap: 4px; max-width: calc(100% - 16px); padding: 4px; border-radius: 11px; background: rgb(248 249 251 / .94); border: 1px solid rgb(0 0 0 / .18); box-shadow: 0 5px 18px rgb(0 0 0 / .22); backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: opacity .16s ease; }
-.presentation-toolbar button { min-width: 38px; min-height: 38px; border: 1px solid var(--border); border-radius: 8px; background: white; color: var(--text); font-size: 18px; }
-.presentation-document-select { min-width: 100px; max-width: 220px; height: 38px; border: 1px solid var(--border); border-radius: 8px; background: white; padding: 4px 26px 4px 7px; }
-.presentation-zoom-label { min-width: 48px; text-align: center; font-size: .82rem; font-variant-numeric: tabular-nums; }
+.presentation-toolbar { position: fixed; top: max(7px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); z-index: 120; display: flex; align-items: center; gap: 4px; max-width: calc(100% - 16px); padding: 4px; border-radius: 11px; background: rgb(248 249 251 / .94); border: 1px solid rgb(0 0 0 / .18); box-shadow: 0 5px 18px rgb(0 0 0 / .22); backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: opacity .16s ease; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -webkit-text-size-adjust: 100%; }
+.presentation-toolbar::-webkit-scrollbar { display: none; }
+.presentation-toolbar button { flex: 0 0 44px; width: 44px; min-width: 44px; min-height: 44px; border: 1px solid var(--border); border-radius: 8px; background: white; color: var(--text); font-size: 18px; padding: 0; }
+.presentation-document-select { flex: 1 1 132px; min-width: 92px; max-width: 220px; height: 44px; border: 1px solid var(--border); border-radius: 8px; background: white; padding: 4px 26px 4px 7px; font-size: 16px; }
+.presentation-zoom-label { flex: 0 0 50px; min-width: 50px; text-align: center; font-size: .82rem; font-variant-numeric: tabular-nums; }
 body.presentation.presentation-controls-visible .presentation-toolbar { opacity: 1; pointer-events: auto; }
 
 .organizer-pane { position: absolute; inset: 0; display: grid; grid-template-rows: auto minmax(0,1fr); background: var(--bg); }
@@ -280,5 +281,5 @@ body.presentation .split-pane.active {
   .split-pane-name { display: none; }
   .split-document-select { height: 30px; font-size: .82rem; }
   .split-pane-viewer { padding: 7px; gap: 8px; }
-  .presentation-pane-chooser button { min-width: 34px; }
+  .presentation-pane-chooser button { min-width: 44px; }
 }

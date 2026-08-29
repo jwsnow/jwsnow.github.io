@@ -1,112 +1,100 @@
-# PDF Workbench — Milestone 2.0.0
+# PDF Workbench — Milestone 2.1.0
 
-Milestone 2 establishes the multi-document viewer architecture before annotation is added.
+Milestone 2.1 stabilizes viewer state across Single/Split layouts and fixes the touch/presentation issues found on Windows, Surface, Chromebook, and iPad testing.
 
-## Included now
+## Included
 
-- Cross-platform PWA shell for Windows, iPad/iPadOS, Surface-style devices, and Chromebooks.
 - Local opening of PDFs and images as separate documents.
 - PDF.js 6.2.108 rendering with WASM/JBIG2, CMap, and standard-font resources configured.
-- Non-destructive page organizer with thumbnails, range/additive selection, rotation, duplication, deletion, animated drag reordering, and per-document undo/redo.
-- Single-document viewer with Continuous, Page Snap, and Full Page modes.
-- Fit Width / Fit Page, 25%–400% zoom, Ctrl+wheel desktop zoom, and iPad pinch-to-PDF zoom.
-- Per-document zoom and fit state in single view.
-- Presentation mode with temporary controls; iPad uses app-level presentation rather than native Fullscreen API.
+- Non-destructive page organizer with thumbnails, range/additive checkbox selection, rotation, duplication, deletion, animated drag reordering, and per-document undo/redo.
+- Continuous, Page Snap, and Full Page viewing.
+- Fit Width / Fit Page, 25%–400% zoom, desktop Ctrl+wheel zoom, and touch pinch-to-PDF zoom.
+- Side-by-side viewing; either pane can show any open PDF, including the same PDF in both panes.
+- Presentation mode with temporary compact controls. iPad uses app-level presentation rather than Safari native fullscreen.
+- Manual PWA refresh through **More → About this build → Reload latest version**.
 
-## New in Milestone 2.0.0
+## New/fixed in 2.1.0
 
-### Side-by-side viewer
+### Independent view-instance state
 
-- Toggle **Split** from the viewer toolbar to show two document panes.
-- Each pane has its own compact document selector.
-- Either pane can show any currently open document (including the same document in both panes).
-- Click/tap a pane to make it active. The active pane has an accent outline.
-- The main scroll/fit/zoom controls act on the active pane.
-- Each pane maintains independent:
-  - document choice
-  - zoom
-  - fit mode
-  - scroll mode
-  - active page
-  - scroll position
-- Each pane supports Continuous, Page Snap, and Full Page viewing.
-- Full Page mode has its own previous/next controls in each pane.
-- Mouse/trackpad scrolling, Ctrl+wheel zoom, touch scrolling, pinch zoom, and Full Page swipe navigation work independently in each pane.
-- Switching back to Single view uses the document in the currently active split pane.
+Document content and viewer state are now deliberately separate.
 
-### Split presentation mode
+- Left and right panes keep independent document, page, zoom, fit mode, scroll mode, and scroll position.
+- The same PDF may be shown on both sides at different pages and zooms without one pane affecting the other.
+- Single view keeps per-document view state separately from either split pane.
 
-- Presentation mode can display the side-by-side layout.
-- Pane header bars disappear in Presentation mode to preserve screen space.
-- The active pane remains indicated subtly.
-- The temporary presentation toolbar gains **L / R** controls in split view.
-- Choose L or R, then use the document selector, scrolling-mode, fit, and zoom controls on that pane.
+### Single ↔ Split state transfer
 
-### Manual PWA update
+Changing layout is treated as a layout change, not as opening a new viewing session.
 
-**More (⋯) → About this build → Reload latest version** provides a manual recovery path for an installed PWA that is still showing an older cached build.
+- Split → Single uses the active pane.
+- Single → Split returns the Single view to the pane from which it came.
+- The inactive pane is preserved exactly as an independent view.
+- The point/page near the center of the source view is transferred semantically rather than copying a raw `scrollTop`, because the viewport width changes between Single and Split.
+- Switching layouts should therefore no longer jump to a different page or cause both panes to become the same active-pane document.
 
-The command:
+### Presentation layout switching
 
-1. asks the service-worker registration to check for an update,
-2. activates a waiting worker when present,
-3. clears only PDF Workbench Cache Storage entries (not future IndexedDB/OPFS project data), and
-4. reloads the app from a cache-busted network URL.
+The temporary Presentation toolbar now includes a Single/Split toggle. Switching layout does not leave Presentation mode.
 
-The About dialog always reports the current `APP_VERSION`. This build should show **Milestone 2.0.0**.
+### Anchored pinch zoom
 
-## Important document behavior
+Pinch zoom now records the PDF point underneath the midpoint of the two fingers. As zoom changes, scroll offsets are corrected so that the same PDF location remains under the moving pinch midpoint. This is implemented independently for Single, Left, and Right viewer instances.
 
-**Open** means open another document. It does not merge documents. Combining PDFs will be an explicit operation in a later milestone.
+### Presentation toolbar fixes
 
-When Split view is active, the document in the currently active pane is the one that opens in **Pages** mode for organizing.
+- A reveal tap is suppressed from subsequently activating a control that was hidden when the gesture began.
+- Toolbar use always restarts the auto-hide timer; hover/focus no longer pins the toolbar open indefinitely.
+- Presentation buttons use fixed 44×44 CSS-pixel touch targets and do not shrink when Chromebook/Surface/iPad orientation changes. On very narrow displays the toolbar can scroll horizontally rather than making controls too small.
+- Fit Width and Fit Page now use visibly different icons.
 
-## Intentionally not included yet
+### Reload behavior
+
+Single/Split layout itself is no longer restored from `localStorage`. Until Recent Projects is implemented, reloads should not resurrect partial pane/document state. Intentional general preferences such as the preferred scrolling and fit modes may still persist.
+
+## Important scan-PDF support
+
+Do not remove the PDF.js WASM configuration. The test file `BaakeScan.pdf` contains many JBIG2-compressed scan pages; they rendered blank until the PDF.js WASM/JBIG2 resource path was supplied.
+
+## Version verification
+
+**More → About this build** must report **Milestone 2.1.0**. The visible About version and service-worker cache version are updated together for every release.
+
+## Suggested 2.1 test sequence
+
+1. Open two PDFs; put one in each split pane.
+2. Give each pane a different page, zoom, fit mode, and scroll mode.
+3. Activate the right pane → Single → Split. Confirm the right state returns to the right and the left remains unchanged.
+4. Repeat starting from the left pane.
+5. Put the **same PDF** in both panes at widely separated pages/zooms. Confirm the panes remain independent through Single ↔ Split transitions.
+6. Pinch over a recognizable word/equation on Surface, Chromebook, and iPad. The point under the finger midpoint should stay put while zooming.
+7. Enter Presentation mode and toggle Single/Split from the temporary toolbar without leaving Presentation.
+8. Let the Presentation toolbar hide, then tap directly where a hidden button would be. The first tap should reveal controls only; it must not activate that button.
+9. Press toolbar controls and wait. The toolbar should auto-hide again.
+10. Rotate Chromebook/iPad/Surface. Presentation buttons should remain practical touch size rather than shrinking.
+11. Confirm Fit Width and Fit Page have distinct icons.
+12. Reload. The app should start in Single layout rather than partially restoring an old split session.
+13. Open About and verify **Milestone 2.1.0**.
+
+## Still intentionally deferred
 
 - PDF export/rebuild.
-- Explicit merge/combine output.
-- Split-every-n-pages output.
+- Explicit merge/combine and split-every-n output.
 - Page-size/orientation normalization and crop.
 - Target-size compression.
-- Saved/recent projects.
-- Pen/highlighter/eraser annotation.
-- Palm rejection and spline/pressure ink.
-- Annotation selection, move/cut/copy/paste/duplicate/recolor.
-- Linked scrolling between split panes (possible later; independent navigation is the default).
+- Saved/Recent Projects.
+- Pen/highlighter/eraser annotation, palm rejection, spline/pressure ink, and annotation selection/editing.
 
 ## PDF.js dependency
 
-This checkpoint pins PDF.js 6.2.108 at jsDelivr because the build environment used to assemble the prototype could not vendor the npm package. The service worker caches fetched resources when possible.
-
-Before final deployment, PDF.js and its WASM/CMap/font resources should be vendored into the app so first-run/offline behavior has no third-party dependency.
+This prototype still pins PDF.js 6.2.108 at jsDelivr. Before final deployment, its JS/WASM/CMap/font resources should be vendored into the PWA so first-run/offline behavior has no third-party dependency.
 
 ## Running locally
 
-A service worker requires HTTP/HTTPS rather than `file://`.
-
-From this directory, for example:
+A service worker requires HTTP/HTTPS rather than `file://`. From the app directory:
 
 ```bash
 python -m http.server 8000
 ```
 
 Then open `http://localhost:8000`.
-
-## Suggested Milestone 2 test sequence
-
-1. Open PDF A and PDF B.
-2. Verify each still appears as a separate document.
-3. Set different zoom levels in Single view and verify they are preserved when switching documents.
-4. Click **Split**.
-5. Put A on the left and B on the right.
-6. Scroll the left pane without moving the right pane.
-7. Zoom the right pane without changing the left pane.
-8. Change the left pane to Page Snap and the right pane to Continuous.
-9. Change one pane to Full Page and use that pane's page controls.
-10. Switch the document in just one pane.
-11. Tap/click the other pane and verify the top controls now reflect that pane's zoom/mode.
-12. Enter Presentation mode in split view.
-13. Let the toolbar hide, reveal it, switch L/R, and adjust each pane independently.
-14. Exit Presentation mode and return to Single view; verify the active pane's document becomes the single document.
-15. Open **About this build** and verify **Milestone 2.0.0**.
-16. If testing an installed PWA, try **Reload latest version** only when an updated hosted build is actually available.

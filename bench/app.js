@@ -1,4 +1,4 @@
-const APP_VERSION = '2.0.0';
+const APP_VERSION = '2.1.0';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -11,7 +11,7 @@ const els = {
   app: $('app'), openBtn: $('openBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), documentSelect: $('documentSelect'),
   viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), viewerControls: $('viewerControls'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
-  fitModeBtn: $('fitModeBtn'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), presentBtn: $('presentBtn'),
+  fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), aboutBtn: $('aboutBtn'),
   emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'),
   splitLeftPane: $('splitLeftPane'), splitLeftViewer: $('splitLeftViewer'), splitLeftDocumentSelect: $('splitLeftDocumentSelect'), splitLeftNav: $('splitLeftNav'), splitLeftPrevBtn: $('splitLeftPrevBtn'), splitLeftNextBtn: $('splitLeftNextBtn'), splitLeftCounter: $('splitLeftCounter'),
@@ -20,7 +20,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), duplicateBtn: $('duplicateBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -47,11 +47,13 @@ const state = {
   statusTimer: null,
   presentationControlsTimer: null,
   presentationRevealPointerId: null,
+  presentationSuppressClicksUntil: 0,
   pinchTouches: new Map(),
   pinchGesture: null,
   pinchRenderFrame: null,
-  splitView: safePref('pdfwb-view-layout', 'single', ['single', 'split']) === 'split',
+  splitView: false,
   activePaneId: 'left',
+  singleSourcePaneId: 'left',
   splitPanes: {
     left: { id: 'left', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, pinchGesture: null, pinchRenderFrame: null },
     right: { id: 'right', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, pinchGesture: null, pinchRenderFrame: null },
@@ -107,12 +109,10 @@ function saveCurrentDocumentState() {
   doc.activePageId = state.activePageId;
   doc.history = state.history;
   doc.future = state.future;
-  // Single-view scale is document-specific. Split panes maintain their own
-  // per-document view state so two panes can show independent zooms.
-  if (!state.splitView) {
-    doc.zoom = state.zoom;
-    doc.fitMode = state.fitMode;
-  }
+  // Document content is shared, but every viewer instance owns its own view.
+  // In Single view, store that view on the document so switching documents can
+  // restore it without leaking state into either split pane.
+  if (!state.splitView) saveSingleViewFromState(doc, true);
 }
 
 function createDocument(name) {
@@ -120,8 +120,9 @@ function createDocument(name) {
   const doc = {
     id: uid('doc'), name: name || 'Untitled', pages: [], selected: new Set(), selectionAnchorId: null,
     activePageId: null, history: [], future: [],
-    // New documents start at normal zoom and the user's preferred fit mode.
-    zoom: 1, fitMode: state.fitMode
+    // Single-view state is per document. Split panes keep their own independent
+    // view-instance state, even when both panes show this same document.
+    singleView: { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: null, scrollTop: null, scrollLeft: null }
   };
   state.documents.push(doc);
   state.currentDocumentId = doc.id;
@@ -131,6 +132,7 @@ function createDocument(name) {
   state.activePageId = null;
   state.history = doc.history;
   state.future = doc.future;
+  if (!state.splitView) applySingleView(doc, doc.singleView);
   if (state.splitView) {
     const pane = splitPaneState(state.activePaneId);
     pane.documentId = doc.id;
@@ -186,8 +188,11 @@ function loadDocumentState(docId, rerender=true) {
   state.activePageId = doc.activePageId || doc.pages[0]?.id || null;
   state.history = doc.history;
   state.future = doc.future;
-  state.zoom = clamp(doc.zoom ?? 1, 0.25, 4);
-  state.fitMode = ['width', 'page'].includes(doc.fitMode) ? doc.fitMode : state.fitMode;
+  const singleView = ensureSingleView(doc);
+  state.zoom = singleView.zoom;
+  state.fitMode = singleView.fitMode;
+  state.scrollMode = singleView.scrollMode;
+  state.activePageId = singleView.activePageId || doc.activePageId || doc.pages[0]?.id || null;
   if (rerender) {
     state.pageObserver?.disconnect();
     state.thumbObserver?.disconnect();
@@ -222,14 +227,70 @@ function ensureSplitPaneDocuments() {
   if (!ids.has(splitPaneState(state.activePaneId).documentId)) state.activePaneId = 'left';
 }
 
+function ensureSingleView(doc) {
+  if (!doc) return null;
+  if (!doc.singleView) {
+    doc.singleView = {
+      zoom: 1,
+      fitMode: state.fitMode,
+      scrollMode: state.scrollMode,
+      activePageId: doc.activePageId || doc.pages?.[0]?.id || null,
+      scrollTop: null,
+      scrollLeft: null,
+    };
+  }
+  doc.singleView.zoom = clamp(doc.singleView.zoom ?? 1, 0.25, 4);
+  doc.singleView.fitMode = ['width','page'].includes(doc.singleView.fitMode) ? doc.singleView.fitMode : state.fitMode;
+  doc.singleView.scrollMode = ['continuous','snap','single'].includes(doc.singleView.scrollMode) ? doc.singleView.scrollMode : state.scrollMode;
+  const ids = new Set((doc.pages || []).map(p => p.id));
+  if (!doc.singleView.activePageId || !ids.has(doc.singleView.activePageId)) doc.singleView.activePageId = doc.activePageId || doc.pages?.[0]?.id || null;
+  return doc.singleView;
+}
+
+function saveSingleViewFromState(doc=currentDocument(), readDom=false) {
+  if (!doc) return null;
+  const view = ensureSingleView(doc);
+  view.zoom = clamp(state.zoom, 0.25, 4);
+  view.fitMode = state.fitMode;
+  view.scrollMode = state.scrollMode;
+  view.activePageId = state.activePageId || doc.pages?.[0]?.id || null;
+  if (readDom && els.viewer && !els.viewer.classList.contains('hidden')) {
+    view.scrollTop = els.viewer.scrollTop;
+    view.scrollLeft = els.viewer.scrollLeft;
+  }
+  return view;
+}
+
+function copyView(view) {
+  return view ? {
+    zoom: clamp(view.zoom ?? 1, 0.25, 4),
+    fitMode: ['width','page'].includes(view.fitMode) ? view.fitMode : state.fitMode,
+    scrollMode: ['continuous','snap','single'].includes(view.scrollMode) ? view.scrollMode : state.scrollMode,
+    activePageId: view.activePageId || null,
+    scrollTop: Number.isFinite(view.scrollTop) ? view.scrollTop : null,
+    scrollLeft: Number.isFinite(view.scrollLeft) ? view.scrollLeft : null,
+  } : null;
+}
+
+function applySingleView(doc, view=ensureSingleView(doc)) {
+  if (!doc || !view) return;
+  const v = copyView(view);
+  state.zoom = v.zoom;
+  state.fitMode = v.fitMode;
+  state.scrollMode = v.scrollMode;
+  state.activePageId = v.activePageId || doc.pages?.[0]?.id || null;
+  doc.singleView = v;
+}
+
 function defaultPaneView(doc) {
+  const source = ensureSingleView(doc);
   return {
-    zoom: clamp(doc?.zoom ?? 1, 0.25, 4),
-    fitMode: ['width','page'].includes(doc?.fitMode) ? doc.fitMode : state.fitMode,
-    scrollMode: state.scrollMode,
-    activePageId: doc?.activePageId || doc?.pages?.[0]?.id || null,
-    scrollTop: 0,
-    scrollLeft: 0,
+    zoom: source?.zoom ?? 1,
+    fitMode: source?.fitMode ?? state.fitMode,
+    scrollMode: source?.scrollMode ?? state.scrollMode,
+    activePageId: source?.activePageId || doc?.activePageId || doc?.pages?.[0]?.id || null,
+    scrollTop: null,
+    scrollLeft: null,
   };
 }
 
@@ -899,6 +960,52 @@ function activeViewerSettings() {
   return { scrollMode: state.scrollMode, fitMode: state.fitMode, zoom: state.zoom };
 }
 
+function viewerMidpoint(viewer) {
+  const r = viewer.getBoundingClientRect();
+  return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+}
+
+function captureViewerAnchor(viewer, clientX, clientY) {
+  if (!viewer) return null;
+  const stages = [...viewer.querySelectorAll('.page-stage[data-page-id]')];
+  if (!stages.length) return null;
+  let best = null, bestDist = Infinity;
+  for (const stage of stages) {
+    const r = stage.getBoundingClientRect();
+    const cx = clamp(clientX, r.left, r.right), cy = clamp(clientY, r.top, r.bottom);
+    const d = (clientX - cx) ** 2 + (clientY - cy) ** 2;
+    if (d < bestDist) { bestDist = d; best = { stage, rect: r }; }
+    if (clientX >= r.left && clientX <= r.right && clientY >= r.top && clientY <= r.bottom) break;
+  }
+  if (!best || !best.rect.width || !best.rect.height) return null;
+  return {
+    pageId: best.stage.dataset.pageId,
+    fx: clamp((clientX - best.rect.left) / best.rect.width, 0, 1),
+    fy: clamp((clientY - best.rect.top) / best.rect.height, 0, 1),
+    clientX, clientY,
+  };
+}
+
+function restoreViewerAnchor(viewer, anchor, clientX=anchor?.clientX, clientY=anchor?.clientY) {
+  if (!viewer || !anchor?.pageId || !Number.isFinite(clientX) || !Number.isFinite(clientY)) return;
+  const stage = viewer.querySelector(`.page-stage[data-page-id="${CSS.escape(anchor.pageId)}"]`);
+  if (!stage) return;
+  const r = stage.getBoundingClientRect();
+  const targetX = r.left + anchor.fx * r.width;
+  const targetY = r.top + anchor.fy * r.height;
+  viewer.scrollLeft += targetX - clientX;
+  viewer.scrollTop += targetY - clientY;
+}
+
+function updateSingleViewScrollFromDom() {
+  if (state.splitView) return;
+  const doc = currentDocument(), view = ensureSingleView(doc);
+  if (!view || els.viewer.classList.contains('hidden')) return;
+  view.scrollTop = els.viewer.scrollTop;
+  view.scrollLeft = els.viewer.scrollLeft;
+  view.activePageId = state.activePageId;
+}
+
 function cycleScrollMode() {
   const modes = ['continuous', 'snap', 'single'];
   if (state.splitView) {
@@ -906,43 +1013,51 @@ function cycleScrollMode() {
     if (!view) return;
     savePaneScroll(state.activePaneId);
     view.scrollMode = modes[(modes.indexOf(view.scrollMode) + 1) % modes.length];
-    view.scrollTop = 0; view.scrollLeft = 0;
+    view.scrollTop = null; view.scrollLeft = null;
     renderSplitPane(state.activePaneId);
     updateViewerLabels();
     return;
   }
+  updateSingleViewScrollFromDom();
   state.scrollMode = modes[(modes.indexOf(state.scrollMode) + 1) % modes.length];
   savePref('pdfwb-scroll-mode', state.scrollMode);
+  const view = ensureSingleView(currentDocument());
+  if (view) { view.scrollMode = state.scrollMode; view.scrollTop = null; view.scrollLeft = null; }
   renderViewer();
 }
 function cycleFitMode() {
   if (state.splitView) {
     const view = paneView();
     if (!view) return;
+    savePaneScroll(state.activePaneId);
     view.fitMode = view.fitMode === 'width' ? 'page' : 'width';
     view.zoom = 1;
-    view.scrollTop = 0; view.scrollLeft = 0;
+    view.scrollTop = null; view.scrollLeft = null;
     renderSplitPane(state.activePaneId);
     updateViewerLabels();
     return;
   }
+  updateSingleViewScrollFromDom();
   state.fitMode = state.fitMode === 'width' ? 'page' : 'width';
   state.zoom = 1;
   savePref('pdfwb-fit-mode', state.fitMode);
+  const view = ensureSingleView(currentDocument());
+  if (view) { view.fitMode = state.fitMode; view.zoom = 1; view.scrollTop = null; view.scrollLeft = null; }
   renderViewer();
 }
 function setZoom(value) {
-  if (state.splitView) {
-    const view = paneView();
-    if (!view) return;
-    view.zoom = clamp(value, 0.25, 4);
-    view.scrollTop = 0; view.scrollLeft = 0;
-    renderSplitPane(state.activePaneId);
-    updateViewerLabels();
-    return;
-  }
+  if (state.splitView) return setZoomForPane(state.activePaneId, value);
+  const viewer = els.viewer;
+  const point = viewerMidpoint(viewer);
+  const anchor = captureViewerAnchor(viewer, point.x, point.y);
   state.zoom = clamp(value, 0.25, 4);
+  const view = ensureSingleView(currentDocument());
+  if (view) view.zoom = state.zoom;
   renderViewer();
+  requestAnimationFrame(() => {
+    restoreViewerAnchor(viewer, anchor, point.x, point.y);
+    updateSingleViewScrollFromDom();
+  });
 }
 function zoomBy(factor) {
   const settings = activeViewerSettings();
@@ -950,83 +1065,175 @@ function zoomBy(factor) {
 }
 function resetZoom() { setZoom(1); }
 
+function applyLiveSingleZoom() {
+  state.pinchRenderFrame = null;
+  els.viewer.querySelectorAll('.page-stage[data-page-id]').forEach(stage => {
+    const page = pageById(stage.dataset.pageId);
+    if (!page) return;
+    const size = computeCssSize(page);
+    stage.style.width = `${size.width}px`;
+    stage.style.height = `${size.height}px`;
+    const canvas = stage.querySelector('canvas');
+    if (canvas) { canvas.style.width = `${size.width}px`; canvas.style.height = `${size.height}px`; }
+  });
+  const g = state.pinchGesture;
+  if (g?.anchor && g?.midpoint) restoreViewerAnchor(els.viewer, g.anchor, g.midpoint.x, g.midpoint.y);
+  updateSingleViewScrollFromDom();
+}
+
+function applyLivePaneZoom(paneId) {
+  const pane = splitPaneState(paneId), view = paneView(paneId), pe = paneElements(paneId);
+  pane.pinchRenderFrame = null;
+  if (!view) return;
+  pe.viewer.querySelectorAll('.page-stage[data-page-id]').forEach(stage => {
+    const doc = documentById(pane.documentId);
+    const page = splitPageById(doc, stage.dataset.pageId);
+    if (!page) return;
+    const size = computePaneCssSize(page, paneId, view);
+    stage.style.width = `${size.width}px`;
+    stage.style.height = `${size.height}px`;
+    const canvas = stage.querySelector('canvas');
+    if (canvas) { canvas.style.width = `${size.width}px`; canvas.style.height = `${size.height}px`; }
+  });
+  const g = pane.pinchGesture;
+  if (g?.anchor && g?.midpoint) restoreViewerAnchor(pe.viewer, g.anchor, g.midpoint.x, g.midpoint.y);
+  savePaneScroll(paneId);
+}
+
 function queuePinchZoom(value, paneId=null) {
   if (paneId && state.splitView) {
-    const pane = splitPaneState(paneId), view = paneView(paneId), pe = paneElements(paneId);
+    const pane = splitPaneState(paneId), view = paneView(paneId);
     if (!view) return;
     view.zoom = clamp(value, 0.25, 4);
     if (state.activePaneId === paneId) updateViewerLabels();
-    if (pane.pinchRenderFrame) return;
-    pane.pinchRenderFrame = requestAnimationFrame(() => {
-      pane.pinchRenderFrame = null;
-      pe.viewer.querySelectorAll('.page-stage[data-page-id]').forEach(stage => {
-        const doc = documentById(pane.documentId);
-        const page = splitPageById(doc, stage.dataset.pageId);
-        if (!page) return;
-        const size = computePaneCssSize(page, paneId, view);
-        stage.style.width = `${size.width}px`;
-        stage.style.height = `${size.height}px`;
-        const canvas = stage.querySelector('canvas');
-        if (canvas) { canvas.style.width = `${size.width}px`; canvas.style.height = `${size.height}px`; }
-      });
-    });
+    if (!pane.pinchRenderFrame) pane.pinchRenderFrame = requestAnimationFrame(() => applyLivePaneZoom(paneId));
     return;
   }
-
   state.zoom = clamp(value, 0.25, 4);
+  const view = ensureSingleView(currentDocument());
+  if (view) view.zoom = state.zoom;
   updateViewerLabels();
-  if (state.pinchRenderFrame) return;
-  state.pinchRenderFrame = requestAnimationFrame(() => {
-    state.pinchRenderFrame = null;
-    // During a live pinch, resize the existing page surfaces instead of
-    // rebuilding/rerendering the PDF on every finger movement.
-    els.viewer.querySelectorAll('.page-stage[data-page-id]').forEach(stage => {
-      const page = pageById(stage.dataset.pageId);
-      if (!page) return;
-      const size = computeCssSize(page);
-      stage.style.width = `${size.width}px`;
-      stage.style.height = `${size.height}px`;
-      const canvas = stage.querySelector('canvas');
-      if (canvas) { canvas.style.width = `${size.width}px`; canvas.style.height = `${size.height}px`; }
-    });
-  });
+  if (!state.pinchRenderFrame) state.pinchRenderFrame = requestAnimationFrame(applyLiveSingleZoom);
 }
 function updateViewerLabels() {
   const settings = activeViewerSettings();
   const modeLabel = { continuous: 'Continuous', snap: 'Page snap', single: 'Full page' }[settings.scrollMode];
   const modeIcon = { continuous: '↕', snap: '⇵', single: '▯' }[settings.scrollMode];
+  const fitLabel = settings.fitMode === 'width' ? 'Fit width' : 'Fit page';
+  const fitIcon = settings.fitMode === 'width' ? '↔' : '▣';
   els.scrollModeLabel.textContent = modeLabel;
   els.scrollModeIcon.textContent = modeIcon;
-  els.fitModeLabel.textContent = settings.fitMode === 'width' ? 'Fit width' : 'Fit page';
+  els.fitModeLabel.textContent = fitLabel;
+  if (els.fitModeIcon) els.fitModeIcon.textContent = fitIcon;
+  els.fitModeBtn.title = fitLabel;
   const zoomText = `${Math.round(settings.zoom * 100)}%`;
   els.zoomLabel.textContent = zoomText;
   if (els.presentationZoomLabel) els.presentationZoomLabel.textContent = zoomText;
   if (els.presentationScrollModeBtn) els.presentationScrollModeBtn.textContent = modeIcon;
+  if (els.presentationFitBtn) {
+    els.presentationFitBtn.textContent = fitIcon;
+    els.presentationFitBtn.title = fitLabel;
+    els.presentationFitBtn.setAttribute('aria-label', fitLabel);
+  }
   els.splitViewBtn?.setAttribute('aria-pressed', String(state.splitView));
   if (els.splitViewLabel) els.splitViewLabel.textContent = state.splitView ? 'Single' : 'Split';
+  if (els.presentationLayoutBtn) {
+    const toSplit = !state.splitView;
+    els.presentationLayoutBtn.textContent = toSplit ? '◫' : '▯';
+    els.presentationLayoutBtn.title = toSplit ? 'Switch to split view' : 'Switch to single view';
+    els.presentationLayoutBtn.setAttribute('aria-label', els.presentationLayoutBtn.title);
+  }
   els.singlePageNav.classList.toggle('hidden', state.splitView || settings.scrollMode !== 'single' || !state.pages.length);
   if (state.splitView) { updateSplitPaneNav('left'); updateSplitPaneNav('right'); }
   updatePageCounts();
 }
 
+function adoptPaneAsSingle(paneId) {
+  savePaneScroll('left');
+  savePaneScroll('right');
+  const pane = splitPaneState(paneId), doc = documentById(pane.documentId), view = copyView(paneView(paneId));
+  if (!doc || !view) return false;
+  loadDocumentState(doc.id, false);
+  state.singleSourcePaneId = paneId;
+  doc.singleView = copyView(view);
+  applySingleView(doc, view);
+  return true;
+}
+
+function adoptSingleIntoPane(paneId) {
+  const doc = currentDocument();
+  if (!doc) return false;
+  saveSingleViewFromState(doc, true);
+  const pane = splitPaneState(paneId);
+  pane.documentId = doc.id;
+  pane.views.set(doc.id, copyView(ensureSingleView(doc)));
+  state.activePaneId = paneId;
+  return true;
+}
+
 function toggleSplitView() {
   if (!state.documents.length) return;
+  let transferAnchor = null, destinationPaneId = null;
+
   if (!state.splitView) {
+    const sourcePoint = viewerMidpoint(els.viewer);
+    transferAnchor = captureViewerAnchor(els.viewer, sourcePoint.x, sourcePoint.y);
     saveCurrentDocumentState();
+    const targetPaneId = state.singleSourcePaneId === 'right' ? 'right' : 'left';
+    destinationPaneId = targetPaneId;
     state.splitView = true;
     ensureSplitPaneDocuments();
-    state.splitPanes.left.documentId = state.currentDocumentId || state.splitPanes.left.documentId;
-    if (!state.splitPanes.right.documentId) state.splitPanes.right.documentId = state.documents.find(d => d.id !== state.splitPanes.left.documentId)?.id || state.splitPanes.left.documentId;
-    state.activePaneId = 'left';
+    adoptSingleIntoPane(targetPaneId);
+    const targetView = paneView(targetPaneId);
+    if (targetView && transferAnchor?.pageId) {
+      targetView.activePageId = transferAnchor.pageId;
+      targetView.scrollTop = null;
+      targetView.scrollLeft = null;
+    }
+    // On the first split, initialize the other pane with another document when
+    // possible. On later transitions, leave its independent state untouched.
+    const otherId = targetPaneId === 'left' ? 'right' : 'left';
+    const other = splitPaneState(otherId);
+    if (!other.documentId) {
+      other.documentId = state.documents.find(d => d.id !== currentDocument()?.id)?.id || currentDocument()?.id || null;
+      if (other.documentId) paneView(otherId, other.documentId);
+    }
   } else {
-    const active = splitPaneState();
-    if (active.documentId) loadDocumentState(active.documentId, false);
+    const sourcePaneId = state.activePaneId;
+    const sourceViewer = paneElements(sourcePaneId).viewer;
+    const sourcePoint = viewerMidpoint(sourceViewer);
+    transferAnchor = captureViewerAnchor(sourceViewer, sourcePoint.x, sourcePoint.y);
+    if (!adoptPaneAsSingle(sourcePaneId)) return;
+    const doc = currentDocument(), singleView = ensureSingleView(doc);
+    if (singleView && transferAnchor?.pageId) {
+      singleView.activePageId = transferAnchor.pageId;
+      singleView.scrollTop = null;
+      singleView.scrollLeft = null;
+      state.activePageId = transferAnchor.pageId;
+    }
     state.splitView = false;
   }
-  savePref('pdfwb-view-layout', state.splitView ? 'split' : 'single');
+
   renderDocumentSelect();
   renderViewer();
   updateViewerLabels();
+
+  // Layout changes alter the viewport width, so raw scrollTop values cannot be
+  // transferred safely. Re-center the same point on the same page instead.
+  if (transferAnchor) requestAnimationFrame(() => {
+    if (state.splitView) {
+      const pe = paneElements(destinationPaneId || state.activePaneId);
+      const point = viewerMidpoint(pe.viewer);
+      restoreViewerAnchor(pe.viewer, transferAnchor, point.x, point.y);
+      savePaneScroll(destinationPaneId || state.activePaneId);
+    } else {
+      const point = viewerMidpoint(els.viewer);
+      restoreViewerAnchor(els.viewer, transferAnchor, point.x, point.y);
+      updateSingleViewScrollFromDom();
+    }
+  });
+
+  if (document.body.classList.contains('presentation')) showPresentationControls();
   setStatus(state.splitView ? 'Side-by-side view' : 'Single-document view');
 }
 
@@ -1157,7 +1364,13 @@ function renderSingleViewer() {
       renderViewerPage(page, stage, canvas, generation).catch(err => renderError(stage, err));
     }
   }
-  if (state.scrollMode !== 'single') requestAnimationFrame(() => scrollActivePageIntoView('auto'));
+  if (state.scrollMode !== 'single') requestAnimationFrame(() => {
+    const view = ensureSingleView(currentDocument());
+    if (view && (Number.isFinite(view.scrollTop) || Number.isFinite(view.scrollLeft))) {
+      els.viewer.scrollTop = Number.isFinite(view.scrollTop) ? view.scrollTop : 0;
+      els.viewer.scrollLeft = Number.isFinite(view.scrollLeft) ? view.scrollLeft : 0;
+    } else scrollActivePageIntoView('auto');
+  });
 }
 
 
@@ -1281,9 +1494,9 @@ function renderSplitPane(paneId) {
 
   requestAnimationFrame(() => {
     if (view.scrollMode !== 'single') {
-      if (view.scrollTop || view.scrollLeft) {
-        pe.viewer.scrollTop = view.scrollTop || 0;
-        pe.viewer.scrollLeft = view.scrollLeft || 0;
+      if (Number.isFinite(view.scrollTop) || Number.isFinite(view.scrollLeft)) {
+        pe.viewer.scrollTop = Number.isFinite(view.scrollTop) ? view.scrollTop : 0;
+        pe.viewer.scrollLeft = Number.isFinite(view.scrollLeft) ? view.scrollLeft : 0;
       } else scrollSplitActivePageIntoView(paneId, 'auto');
     }
   });
@@ -1455,13 +1668,8 @@ function hidePresentationControls() {
 function schedulePresentationControlsHide() {
   clearTimeout(state.presentationControlsTimer);
   state.presentationControlsTimer = setTimeout(() => {
-    // A real mouse hovering over the toolbar may keep it visible. On touch
-    // devices :hover can become sticky after a tap, so it must never pin the
-    // controls open there. Keyboard focus also must not pin the bar forever.
-    if (finePointerHoverAvailable() && els.presentationToolbar.matches(':hover')) {
-      schedulePresentationControlsHide();
-      return;
-    }
+    // Always allow the presentation chrome to clear itself. A pointer moving
+    // near the top will reveal it again; lingering hover/focus must not pin it.
     document.body.classList.remove('presentation-controls-visible');
     if (document.activeElement instanceof HTMLElement && els.presentationToolbar.contains(document.activeElement)) {
       document.activeElement.blur();
@@ -1481,7 +1689,7 @@ function restartPresentationHideAfterControl(e) {
   // touch. Neither should prevent the normal auto-hide cycle. Selects are
   // allowed to finish their native picker first; their change handler restarts
   // the timer separately.
-  if (e?.currentTarget instanceof HTMLButtonElement) e.currentTarget.blur();
+  if (e?.target instanceof HTMLButtonElement) e.target.blur();
   showPresentationControls();
 }
 
@@ -1542,6 +1750,9 @@ function clearAll() {
     pane.views.clear();
     pane.generation++;
   }
+  state.splitView = false;
+  state.activePaneId = 'left';
+  state.singleSourcePaneId = 'left';
   renderAll();
   setStatus('Closed all files');
 }
@@ -1555,8 +1766,8 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>This build adds the multi-document viewer architecture while preserving the non-destructive page organizer.</p>
-      <ul><li>Open multiple PDFs and images as separate documents.</li><li>Switch quickly between documents or view two documents side by side.</li><li>Each split pane scrolls and zooms independently and can use Continuous, Page Snap, or Full Page mode.</li><li>Presentation mode supports both single and split views.</li><li>Reorder, select, rotate, duplicate, and delete pages with undo/redo.</li></ul>
+      <p>This build stabilizes the multi-document viewer state and presentation controls.</p>
+      <ul><li>Single↔Split transfers preserve the same document location without coupling left/right pane state.</li><li>The same PDF can be viewed independently at different pages and zooms in both panes.</li><li>Pinch zoom is anchored to the point between your fingers.</li><li>Presentation mode can switch Single/Split without exiting, and hidden controls reject tap-through.</li><li>Fit Width and Fit Page use distinct icons, and presentation touch targets remain full-sized after rotation.</li><li>Reorder, select, rotate, duplicate, and delete pages with undo/redo.</li></ul>
       <p><strong>Not in this milestone yet:</strong> PDF export, split/merge output, page-size normalization, compression, saved projects, and pen annotation.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
@@ -1671,6 +1882,7 @@ function bindSplitViewerEvents(paneId) {
     if (wasReveal) {
       state.presentationRevealPointerId = null;
       pane.touchStart = null;
+      state.presentationSuppressClicksUntil = performance.now() + 700;
       if (!cancelled) showPresentationControls();
       e.preventDefault();
       return;
@@ -1688,26 +1900,35 @@ function bindSplitViewerEvents(paneId) {
   viewer.addEventListener('pointercancel', (e) => finishPointer(e, true));
 
   const touchDistance = (touches) => Math.hypot(touches[1].clientX - touches[0].clientX, touches[1].clientY - touches[0].clientY);
+  const touchMidpoint = (touches) => ({ x: (touches[0].clientX + touches[1].clientX) / 2, y: (touches[0].clientY + touches[1].clientY) / 2 });
   viewer.addEventListener('touchstart', (e) => {
     if (e.touches.length !== 2) return;
     makeActive();
     const view = paneView(paneId);
     if (!view) return;
-    pane.pinchGesture = { startDistance: Math.max(1, touchDistance(e.touches)), startZoom: view.zoom };
+    const midpoint = touchMidpoint(e.touches);
+    pane.pinchGesture = {
+      startDistance: Math.max(1, touchDistance(e.touches)),
+      startZoom: view.zoom,
+      midpoint,
+      anchor: captureViewerAnchor(viewer, midpoint.x, midpoint.y),
+    };
     pane.touchStart = null;
     e.preventDefault();
   }, { passive: false });
   viewer.addEventListener('touchmove', (e) => {
     if (!pane.pinchGesture || e.touches.length !== 2) return;
     const dist = Math.max(1, touchDistance(e.touches));
+    pane.pinchGesture.midpoint = touchMidpoint(e.touches);
     queuePinchZoom(pane.pinchGesture.startZoom * dist / pane.pinchGesture.startDistance, paneId);
     e.preventDefault();
   }, { passive: false });
   const finishPinch = (e) => {
     if (!pane.pinchGesture) return;
     if (e.touches && e.touches.length >= 2) return;
+    if (pane.pinchRenderFrame) { cancelAnimationFrame(pane.pinchRenderFrame); pane.pinchRenderFrame = null; applyLivePaneZoom(paneId); }
+    savePaneScroll(paneId);
     pane.pinchGesture = null;
-    if (pane.pinchRenderFrame) { cancelAnimationFrame(pane.pinchRenderFrame); pane.pinchRenderFrame = null; }
     renderSplitPane(paneId);
   };
   viewer.addEventListener('touchend', finishPinch, { passive: true });
@@ -1715,11 +1936,17 @@ function bindSplitViewerEvents(paneId) {
 }
 
 function setZoomForPane(paneId, value) {
-  const view = paneView(paneId);
+  const view = paneView(paneId), pe = paneElements(paneId);
   if (!view) return;
+  savePaneScroll(paneId);
+  const point = viewerMidpoint(pe.viewer);
+  const anchor = captureViewerAnchor(pe.viewer, point.x, point.y);
   view.zoom = clamp(value, 0.25, 4);
-  view.scrollTop = 0; view.scrollLeft = 0;
   renderSplitPane(paneId);
+  requestAnimationFrame(() => {
+    restoreViewerAnchor(pe.viewer, anchor, point.x, point.y);
+    savePaneScroll(paneId);
+  });
   if (state.activePaneId === paneId) updateViewerLabels();
 }
 
@@ -1743,6 +1970,7 @@ function bindEvents() {
   els.zoomResetBtn.addEventListener('click', resetZoom);
   els.zoomInBtn.addEventListener('click', () => zoomBy(1.25));
   els.splitViewBtn.addEventListener('click', toggleSplitView);
+  els.presentationLayoutBtn.addEventListener('click', toggleSplitView);
   els.presentationLeftPaneBtn.addEventListener('click', () => { if (state.splitView) { activateSplitPane('left', true); showPresentationControls(); } });
   els.presentationRightPaneBtn.addEventListener('click', () => { if (state.splitView) { activateSplitPane('right', true); showPresentationControls(); } });
   els.presentationScrollModeBtn.addEventListener('click', cycleScrollMode);
@@ -1769,6 +1997,12 @@ function bindEvents() {
   els.clearBtn.addEventListener('click', () => { toggleMoreMenu(false); clearAll(); });
   els.installHelpBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('install'); });
   els.aboutBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('about'); });
+  document.addEventListener('click', (e) => {
+    if (document.body.classList.contains('presentation') && performance.now() < state.presentationSuppressClicksUntil && els.presentationToolbar.contains(e.target)) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }
+  }, true);
   document.addEventListener('click', (e) => { if (!els.moreMenu.contains(e.target) && e.target !== els.moreBtn) toggleMoreMenu(false); });
   document.addEventListener('fullscreenchange', () => {
     if (!document.fullscreenElement && document.body.classList.contains('presentation') && !isIPadLike()) exitPresentation();
@@ -1776,6 +2010,8 @@ function bindEvents() {
   window.addEventListener('resize', onResize);
   bindSplitViewerEvents('left');
   bindSplitViewerEvents('right');
+
+  els.viewer.addEventListener('scroll', updateSingleViewScrollFromDom, { passive: true });
 
   els.viewer.addEventListener('wheel', (e) => {
     if (e.ctrlKey || e.metaKey) {
@@ -1820,6 +2056,7 @@ function bindEvents() {
     if (wasReveal) {
       state.presentationRevealPointerId = null;
       touchStart = null;
+      state.presentationSuppressClicksUntil = performance.now() + 700;
       if (!cancelled) showPresentationControls();
       e.preventDefault();
       return;
@@ -1845,11 +2082,15 @@ function bindEvents() {
     touches[1].clientX - touches[0].clientX,
     touches[1].clientY - touches[0].clientY
   );
+  const touchMidpoint = (touches) => ({ x: (touches[0].clientX + touches[1].clientX) / 2, y: (touches[0].clientY + touches[1].clientY) / 2 });
   els.viewer.addEventListener('touchstart', (e) => {
     if (e.touches.length !== 2) return;
+    const midpoint = touchMidpoint(e.touches);
     state.pinchGesture = {
       startDistance: Math.max(1, touchDistance(e.touches)),
-      startZoom: state.zoom
+      startZoom: state.zoom,
+      midpoint,
+      anchor: captureViewerAnchor(els.viewer, midpoint.x, midpoint.y),
     };
     touchStart = null;
     e.preventDefault();
@@ -1857,14 +2098,16 @@ function bindEvents() {
   els.viewer.addEventListener('touchmove', (e) => {
     if (!state.pinchGesture || e.touches.length !== 2) return;
     const dist = Math.max(1, touchDistance(e.touches));
+    state.pinchGesture.midpoint = touchMidpoint(e.touches);
     queuePinchZoom(state.pinchGesture.startZoom * dist / state.pinchGesture.startDistance);
     e.preventDefault();
   }, { passive: false });
   const finishPinch = (e) => {
     if (!state.pinchGesture) return;
     if (e.touches && e.touches.length >= 2) return;
+    if (state.pinchRenderFrame) { cancelAnimationFrame(state.pinchRenderFrame); state.pinchRenderFrame = null; applyLiveSingleZoom(); }
+    updateSingleViewScrollFromDom();
     state.pinchGesture = null;
-    if (state.pinchRenderFrame) { cancelAnimationFrame(state.pinchRenderFrame); state.pinchRenderFrame = null; }
     renderViewer();
   };
   els.viewer.addEventListener('touchend', finishPinch, { passive: true });
