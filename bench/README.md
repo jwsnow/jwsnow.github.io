@@ -1,6 +1,6 @@
-# PDF Workbench — Milestone 2.1.0
+# PDF Workbench — Milestone 2.1.1
 
-Milestone 2.1 stabilizes viewer state across Single/Split layouts and fixes the touch/presentation issues found on Windows, Surface, Chromebook, and iPad testing.
+Milestone 2.1.1 is a focused viewer-stability revision of 2.1.0. It keeps the established PDF.js/JBIG2, organizer, split-view, Presentation, and PWA-update behavior while addressing the iPad pinch/scroll and Split → Single → Split state-restoration bugs found in testing.
 
 ## Included
 
@@ -13,44 +13,42 @@ Milestone 2.1 stabilizes viewer state across Single/Split layouts and fixes the 
 - Presentation mode with temporary compact controls. iPad uses app-level presentation rather than Safari native fullscreen.
 - Manual PWA refresh through **More → About this build → Reload latest version**.
 
-## New/fixed in 2.1.0
+## Fixed in 2.1.1
 
-### Independent view-instance state
+### iPad/Safari pinch anchoring
 
-Document content and viewer state are now deliberately separate.
+Pinch zoom continues to anchor a document point to the midpoint of the fingers, but the implementation now protects that location across the final crisp re-render:
 
-- Left and right panes keep independent document, page, zoom, fit mode, scroll mode, and scroll position.
-- The same PDF may be shown on both sides at different pages and zooms without one pane affecting the other.
-- Single view keeps per-document view state separately from either split pane.
+- page geometry is measured after the new scale is applied;
+- programmatic re-render scroll events are prevented from overwriting the intended stored position;
+- browser overflow anchoring is disabled in the PDF viewer;
+- page snapping is temporarily disabled while a pinch is active;
+- the anchor is corrected on two post-layout animation frames after the final re-render to handle deferred iPad/Safari layout/scroll adjustments.
 
-### Single ↔ Split state transfer
+The same mechanism is independent in Single, Left, and Right viewer instances.
 
-Changing layout is treated as a layout change, not as opening a new viewing session.
+### Inactive split-pane scroll restoration
 
-- Split → Single uses the active pane.
-- Single → Split returns the Single view to the pane from which it came.
-- The inactive pane is preserved exactly as an independent view.
-- The point/page near the center of the source view is transferred semantically rather than copying a raw `scrollTop`, because the viewport width changes between Single and Split.
-- Switching layouts should therefore no longer jump to a different page or cause both panes to become the same active-pane document.
+A pane rebuild can temporarily set its DOM `scrollTop` to zero. Some browsers, especially iPad Safari, emit a scroll event during that rebuild. In 2.1.0 that transient event could overwrite the saved inactive-pane scroll position.
 
-### Presentation layout switching
+2.1.1 suppresses view-state writes while split panes are hidden or being rebuilt, snapshots the saved scroll coordinates before DOM replacement, and restores them after layout settles. Therefore:
 
-The temporary Presentation toolbar now includes a Single/Split toggle. Switching layout does not leave Presentation mode.
+- Split → Single preserves the inactive pane;
+- returning Single → Split restores that pane where it was left;
+- left/right state remains independent even when both panes display the same document.
 
-### Anchored pinch zoom
+### Toolbar breakpoint
 
-Pinch zoom now records the PDF point underneath the midpoint of the two fingers. As zoom changes, scroll offsets are corrected so that the same PDF location remains under the moving pinch midpoint. This is implemented independently for Single, Left, and Right viewer instances.
+Top-bar controls no longer progressively squeeze. They now have two responsive states:
 
-### Presentation toolbar fixes
+1. icon + label;
+2. icon only at the narrow breakpoint.
 
-- A reveal tap is suppressed from subsequently activating a control that was hidden when the gesture began.
-- Toolbar use always restarts the auto-hide timer; hover/focus no longer pins the toolbar open indefinitely.
-- Presentation buttons use fixed 44×44 CSS-pixel touch targets and do not shrink when Chromebook/Surface/iPad orientation changes. On very narrow displays the toolbar can scroll horizontally rather than making controls too small.
-- Fit Width and Fit Page now use visibly different icons.
+Touch targets remain stable.
 
-### Reload behavior
+### Full Page icon
 
-Single/Split layout itself is no longer restored from `localStorage`. Until Recent Projects is implemented, reloads should not resurrect partial pane/document state. Intentional general preferences such as the preferred scrolling and fit modes may still persist.
+Full Page viewing now uses a different icon from the Single-layout control, avoiding the previous visual ambiguity.
 
 ## Important scan-PDF support
 
@@ -58,23 +56,36 @@ Do not remove the PDF.js WASM configuration. The test file `BaakeScan.pdf` conta
 
 ## Version verification
 
-**More → About this build** must report **Milestone 2.1.0**. The visible About version and service-worker cache version are updated together for every release.
+**More → About this build** must report **Milestone 2.1.1**. The visible About version and service-worker cache version are updated together for every release.
 
-## Suggested 2.1 test sequence
+## Suggested 2.1.1 test sequence
 
-1. Open two PDFs; put one in each split pane.
-2. Give each pane a different page, zoom, fit mode, and scroll mode.
-3. Activate the right pane → Single → Split. Confirm the right state returns to the right and the left remains unchanged.
-4. Repeat starting from the left pane.
-5. Put the **same PDF** in both panes at widely separated pages/zooms. Confirm the panes remain independent through Single ↔ Split transitions.
-6. Pinch over a recognizable word/equation on Surface, Chromebook, and iPad. The point under the finger midpoint should stay put while zooming.
-7. Enter Presentation mode and toggle Single/Split from the temporary toolbar without leaving Presentation.
-8. Let the Presentation toolbar hide, then tap directly where a hidden button would be. The first tap should reveal controls only; it must not activate that button.
-9. Press toolbar controls and wait. The toolbar should auto-hide again.
-10. Rotate Chromebook/iPad/Surface. Presentation buttons should remain practical touch size rather than shrinking.
-11. Confirm Fit Width and Fit Page have distinct icons.
-12. Reload. The app should start in Single layout rather than partially restoring an old split session.
-13. Open About and verify **Milestone 2.1.0**.
+1. Open two PDFs and put one in each split pane.
+2. Scroll the inactive pane well down into its document.
+3. Activate the other pane → Single → Split. Confirm the inactive pane returns to the exact prior location rather than the top.
+4. Repeat with the right pane as active, then with the left pane as active.
+5. Put the **same PDF** in both panes at widely separated pages/zooms and repeat the transitions.
+6. On iPad, pinch over a recognizable word/equation in Single view. The same document point should stay under the midpoint during the pinch and after the fingers lift.
+7. Repeat pinch tests in both split panes independently.
+8. Test pinch near the top, middle, bottom, left edge, and right edge of a page.
+9. Test Continuous, Page Snap, and Full Page modes. Page Snap must not fight the pinch while the gesture is active.
+10. Rotate iPad/Chromebook/Surface or narrow the desktop window. Controls should switch directly from labels to icons without squeezed intermediate buttons.
+11. Confirm the Full Page icon is visually distinct from the Single-layout icon.
+12. Confirm hidden Presentation controls still reject tap-through.
+13. Open `BaakeScan.pdf`, including in split view, and confirm JBIG2 pages still render.
+14. Open About and verify **Milestone 2.1.1**.
+15. Use Reload latest version once deployed and confirm the new build/cache is loaded.
+
+## New features queued after viewer stabilization
+
+The next document-model work should include page insertion after the current page:
+
+- duplicate current page with annotations;
+- duplicate current page without annotations;
+- blank page matching current size/orientation;
+- light graph paper matching current size/orientation, approximately 1/4-inch squares.
+
+The same insertion choices can be exposed in Presentation, normal View, and Pages/organizer contexts. A new document should also be creatable as a single blank or graph-paper page so the application can serve as a notebook once inking is available.
 
 ## Still intentionally deferred
 
@@ -84,6 +95,7 @@ Do not remove the PDF.js WASM configuration. The test file `BaakeScan.pdf` conta
 - Target-size compression.
 - Saved/Recent Projects.
 - Pen/highlighter/eraser annotation, palm rejection, spline/pressure ink, and annotation selection/editing.
+- The queued blank/graph-paper insertion feature described above.
 
 ## PDF.js dependency
 

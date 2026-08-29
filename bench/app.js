@@ -1,4 +1,4 @@
-const APP_VERSION = '2.1.0';
+const APP_VERSION = '2.1.1';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -51,12 +51,13 @@ const state = {
   pinchTouches: new Map(),
   pinchGesture: null,
   pinchRenderFrame: null,
+  suppressSingleScrollSave: false,
   splitView: false,
   activePaneId: 'left',
   singleSourcePaneId: 'left',
   splitPanes: {
-    left: { id: 'left', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, pinchGesture: null, pinchRenderFrame: null },
-    right: { id: 'right', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, pinchGesture: null, pinchRenderFrame: null },
+    left: { id: 'left', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, pinchGesture: null, pinchRenderFrame: null, suppressScrollSave: false },
+    right: { id: 'right', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, pinchGesture: null, pinchRenderFrame: null, suppressScrollSave: false },
   },
 };
 
@@ -987,18 +988,37 @@ function captureViewerAnchor(viewer, clientX, clientY) {
 }
 
 function restoreViewerAnchor(viewer, anchor, clientX=anchor?.clientX, clientY=anchor?.clientY) {
-  if (!viewer || !anchor?.pageId || !Number.isFinite(clientX) || !Number.isFinite(clientY)) return;
+  if (!viewer || !anchor?.pageId || !Number.isFinite(clientX) || !Number.isFinite(clientY)) return false;
   const stage = viewer.querySelector(`.page-stage[data-page-id="${CSS.escape(anchor.pageId)}"]`);
-  if (!stage) return;
+  if (!stage) return false;
+  // Read the actual post-layout page rectangle. This deliberately avoids
+  // ratio-only scroll math: flex centering, gaps, viewport changes, and Safari
+  // layout behavior are all already reflected in this measured geometry.
   const r = stage.getBoundingClientRect();
+  if (!r.width || !r.height) return false;
   const targetX = r.left + anchor.fx * r.width;
   const targetY = r.top + anchor.fy * r.height;
   viewer.scrollLeft += targetX - clientX;
   viewer.scrollTop += targetY - clientY;
+  return true;
+}
+
+function restoreViewerAnchorAfterLayout(viewer, anchor, clientX, clientY, done=null) {
+  if (!viewer || !anchor) { done?.(); return; }
+  // Safari/iPad can apply a deferred scroll/layout correction after the first
+  // animation frame. Correct on two consecutive settled layouts so the PDF
+  // point under the pinch midpoint wins over that deferred adjustment.
+  requestAnimationFrame(() => {
+    restoreViewerAnchor(viewer, anchor, clientX, clientY);
+    requestAnimationFrame(() => {
+      restoreViewerAnchor(viewer, anchor, clientX, clientY);
+      done?.();
+    });
+  });
 }
 
 function updateSingleViewScrollFromDom() {
-  if (state.splitView) return;
+  if (state.splitView || state.suppressSingleScrollSave) return;
   const doc = currentDocument(), view = ensureSingleView(doc);
   if (!view || els.viewer.classList.contains('hidden')) return;
   view.scrollTop = els.viewer.scrollTop;
@@ -1054,8 +1074,9 @@ function setZoom(value) {
   const view = ensureSingleView(currentDocument());
   if (view) view.zoom = state.zoom;
   renderViewer();
-  requestAnimationFrame(() => {
-    restoreViewerAnchor(viewer, anchor, point.x, point.y);
+  state.suppressSingleScrollSave = true;
+  restoreViewerAnchorAfterLayout(viewer, anchor, point.x, point.y, () => {
+    state.suppressSingleScrollSave = false;
     updateSingleViewScrollFromDom();
   });
 }
@@ -1067,6 +1088,7 @@ function resetZoom() { setZoom(1); }
 
 function applyLiveSingleZoom() {
   state.pinchRenderFrame = null;
+  state.suppressSingleScrollSave = true;
   els.viewer.querySelectorAll('.page-stage[data-page-id]').forEach(stage => {
     const page = pageById(stage.dataset.pageId);
     if (!page) return;
@@ -1077,7 +1099,12 @@ function applyLiveSingleZoom() {
     if (canvas) { canvas.style.width = `${size.width}px`; canvas.style.height = `${size.height}px`; }
   });
   const g = state.pinchGesture;
+  // Force a layout read, then correct from the measured post-scale geometry.
+  // Scroll-state persistence is suppressed until the correction is complete so
+  // transient Safari scroll events cannot replace the intended position.
+  void els.viewer.scrollHeight;
   if (g?.anchor && g?.midpoint) restoreViewerAnchor(els.viewer, g.anchor, g.midpoint.x, g.midpoint.y);
+  state.suppressSingleScrollSave = false;
   updateSingleViewScrollFromDom();
 }
 
@@ -1085,6 +1112,7 @@ function applyLivePaneZoom(paneId) {
   const pane = splitPaneState(paneId), view = paneView(paneId), pe = paneElements(paneId);
   pane.pinchRenderFrame = null;
   if (!view) return;
+  pane.suppressScrollSave = true;
   pe.viewer.querySelectorAll('.page-stage[data-page-id]').forEach(stage => {
     const doc = documentById(pane.documentId);
     const page = splitPageById(doc, stage.dataset.pageId);
@@ -1096,7 +1124,9 @@ function applyLivePaneZoom(paneId) {
     if (canvas) { canvas.style.width = `${size.width}px`; canvas.style.height = `${size.height}px`; }
   });
   const g = pane.pinchGesture;
+  void pe.viewer.scrollHeight;
   if (g?.anchor && g?.midpoint) restoreViewerAnchor(pe.viewer, g.anchor, g.midpoint.x, g.midpoint.y);
+  pane.suppressScrollSave = false;
   savePaneScroll(paneId);
 }
 
@@ -1118,7 +1148,7 @@ function queuePinchZoom(value, paneId=null) {
 function updateViewerLabels() {
   const settings = activeViewerSettings();
   const modeLabel = { continuous: 'Continuous', snap: 'Page snap', single: 'Full page' }[settings.scrollMode];
-  const modeIcon = { continuous: '↕', snap: '⇵', single: '▯' }[settings.scrollMode];
+  const modeIcon = { continuous: '↕', snap: '⇵', single: '▤' }[settings.scrollMode];
   const fitLabel = settings.fitMode === 'width' ? 'Fit width' : 'Fit page';
   const fitIcon = settings.fitMode === 'width' ? '↔' : '▣';
   els.scrollModeLabel.textContent = modeLabel;
@@ -1301,11 +1331,15 @@ function canvasLooksBlank(canvas) {
 function renderSingleViewer() {
   state.renderGeneration++;
   const generation = state.renderGeneration;
+  const savedView = ensureSingleView(currentDocument());
+  const restoreTop = Number.isFinite(savedView?.scrollTop) ? savedView.scrollTop : null;
+  const restoreLeft = Number.isFinite(savedView?.scrollLeft) ? savedView.scrollLeft : null;
+  state.suppressSingleScrollSave = true;
   state.pageObserver?.disconnect();
   els.viewer.replaceChildren();
   els.viewer.className = `viewer ${state.scrollMode} fit-${state.fitMode}`;
   updateViewerLabels();
-  if (!state.pages.length) return;
+  if (!state.pages.length) { state.suppressSingleScrollSave = false; return; }
   if (!state.activePageId) state.activePageId = state.pages[0].id;
 
   const pagesToBuild = state.scrollMode === 'single' ? [state.pages[activeIndex()]] : state.pages;
@@ -1364,13 +1398,28 @@ function renderSingleViewer() {
       renderViewerPage(page, stage, canvas, generation).catch(err => renderError(stage, err));
     }
   }
-  if (state.scrollMode !== 'single') requestAnimationFrame(() => {
-    const view = ensureSingleView(currentDocument());
-    if (view && (Number.isFinite(view.scrollTop) || Number.isFinite(view.scrollLeft))) {
-      els.viewer.scrollTop = Number.isFinite(view.scrollTop) ? view.scrollTop : 0;
-      els.viewer.scrollLeft = Number.isFinite(view.scrollLeft) ? view.scrollLeft : 0;
-    } else scrollActivePageIntoView('auto');
-  });
+  if (state.scrollMode !== 'single') {
+    requestAnimationFrame(() => {
+      if (restoreTop !== null || restoreLeft !== null) {
+        els.viewer.scrollTop = restoreTop ?? 0;
+        els.viewer.scrollLeft = restoreLeft ?? 0;
+      } else {
+        scrollActivePageIntoView('auto');
+      }
+      // A second frame is intentional for iPad/Safari: a DOM rebuild may emit a
+      // delayed zero-scroll event or layout correction after the first frame.
+      requestAnimationFrame(() => {
+        if (restoreTop !== null || restoreLeft !== null) {
+          els.viewer.scrollTop = restoreTop ?? 0;
+          els.viewer.scrollLeft = restoreLeft ?? 0;
+        }
+        state.suppressSingleScrollSave = false;
+        updateSingleViewScrollFromDom();
+      });
+    });
+  } else {
+    requestAnimationFrame(() => { state.suppressSingleScrollSave = false; });
+  }
 }
 
 
@@ -1432,11 +1481,14 @@ function renderSplitPane(paneId) {
   const pane = splitPaneState(paneId), pe = paneElements(paneId), doc = documentById(pane.documentId), view = paneView(paneId);
   pane.generation++;
   const generation = pane.generation;
+  const restoreTop = Number.isFinite(view?.scrollTop) ? view.scrollTop : null;
+  const restoreLeft = Number.isFinite(view?.scrollLeft) ? view.scrollLeft : null;
+  pane.suppressScrollSave = true;
   pane.observer?.disconnect();
   pe.viewer.replaceChildren();
   pe.viewer.className = `viewer split-pane-viewer ${view?.scrollMode || 'continuous'} fit-${view?.fitMode || 'width'}`;
   updateSplitPaneNav(paneId);
-  if (!doc?.pages?.length || !view) return;
+  if (!doc?.pages?.length || !view) { pane.suppressScrollSave = false; return; }
   if (!view.activePageId) view.activePageId = doc.pages[0].id;
 
   const pagesToBuild = view.scrollMode === 'single' ? [doc.pages[splitActiveIndex(doc, view)]] : doc.pages;
@@ -1492,14 +1544,26 @@ function renderSplitPane(paneId) {
     }
   }
 
-  requestAnimationFrame(() => {
-    if (view.scrollMode !== 'single') {
-      if (Number.isFinite(view.scrollTop) || Number.isFinite(view.scrollLeft)) {
-        pe.viewer.scrollTop = Number.isFinite(view.scrollTop) ? view.scrollTop : 0;
-        pe.viewer.scrollLeft = Number.isFinite(view.scrollLeft) ? view.scrollLeft : 0;
-      } else scrollSplitActivePageIntoView(paneId, 'auto');
-    }
-  });
+  if (view.scrollMode !== 'single') {
+    requestAnimationFrame(() => {
+      if (restoreTop !== null || restoreLeft !== null) {
+        pe.viewer.scrollTop = restoreTop ?? 0;
+        pe.viewer.scrollLeft = restoreLeft ?? 0;
+      } else {
+        scrollSplitActivePageIntoView(paneId, 'auto');
+      }
+      requestAnimationFrame(() => {
+        if (restoreTop !== null || restoreLeft !== null) {
+          pe.viewer.scrollTop = restoreTop ?? 0;
+          pe.viewer.scrollLeft = restoreLeft ?? 0;
+        }
+        pane.suppressScrollSave = false;
+        if (state.splitView) savePaneScroll(paneId);
+      });
+    });
+  } else {
+    requestAnimationFrame(() => { pane.suppressScrollSave = false; });
+  }
 }
 
 async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
@@ -1742,6 +1806,8 @@ function clearAll() {
   state.activePageId = null;
   state.history = [];
   state.future = [];
+  state.suppressSingleScrollSave = false;
+  els.viewer?.classList.remove('pinching');
   state.pageObserver?.disconnect();
   state.thumbObserver?.disconnect();
   for (const pane of Object.values(state.splitPanes)) {
@@ -1749,6 +1815,7 @@ function clearAll() {
     pane.documentId = null;
     pane.views.clear();
     pane.generation++;
+    pane.suppressScrollSave = false;
   }
   state.splitView = false;
   state.activePaneId = 'left';
@@ -1767,7 +1834,7 @@ function showDialog(kind) {
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
       <p>This build stabilizes the multi-document viewer state and presentation controls.</p>
-      <ul><li>Single↔Split transfers preserve the same document location without coupling left/right pane state.</li><li>The same PDF can be viewed independently at different pages and zooms in both panes.</li><li>Pinch zoom is anchored to the point between your fingers.</li><li>Presentation mode can switch Single/Split without exiting, and hidden controls reject tap-through.</li><li>Fit Width and Fit Page use distinct icons, and presentation touch targets remain full-sized after rotation.</li><li>Reorder, select, rotate, duplicate, and delete pages with undo/redo.</li></ul>
+      <ul><li>Single↔Split transfers preserve both panes, including the inactive pane's exact scroll state.</li><li>The same PDF can be viewed independently at different pages and zooms in both panes.</li><li>Pinch zoom uses measured post-layout anchoring and a final iPad/Safari correction after crisp re-rendering.</li><li>Presentation mode can switch Single/Split without exiting, and hidden controls reject tap-through.</li><li>Toolbar buttons switch directly from labeled to icon-only at narrow widths; Full Page has its own distinct icon.</li><li>Reorder, select, rotate, duplicate, and delete pages with undo/redo.</li></ul>
       <p><strong>Not in this milestone yet:</strong> PDF export, split/merge output, page-size normalization, compression, saved projects, and pen annotation.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
@@ -1836,6 +1903,10 @@ function bindSplitViewerEvents(paneId) {
   pe.pane.addEventListener('pointerdown', makeActive, { capture: true });
   viewer.addEventListener('focus', makeActive);
   viewer.addEventListener('scroll', () => {
+    // Hiding/rebuilding a scroll container can transiently report scrollTop=0,
+    // especially on iPad. Never let those programmatic events overwrite the
+    // pane's stored position.
+    if (!state.splitView || pane.suppressScrollSave) return;
     const view = paneView(paneId);
     if (!view) return;
     view.scrollTop = viewer.scrollTop;
@@ -1907,6 +1978,7 @@ function bindSplitViewerEvents(paneId) {
     const view = paneView(paneId);
     if (!view) return;
     const midpoint = touchMidpoint(e.touches);
+    pe.viewer.classList.add('pinching');
     pane.pinchGesture = {
       startDistance: Math.max(1, touchDistance(e.touches)),
       startZoom: view.zoom,
@@ -1927,25 +1999,35 @@ function bindSplitViewerEvents(paneId) {
     if (!pane.pinchGesture) return;
     if (e.touches && e.touches.length >= 2) return;
     if (pane.pinchRenderFrame) { cancelAnimationFrame(pane.pinchRenderFrame); pane.pinchRenderFrame = null; applyLivePaneZoom(paneId); }
+    const finalGesture = pane.pinchGesture;
     savePaneScroll(paneId);
     pane.pinchGesture = null;
+    viewer.classList.remove('pinching');
     renderSplitPane(paneId);
+    if (finalGesture?.anchor && finalGesture?.midpoint) {
+      pane.suppressScrollSave = true;
+      restoreViewerAnchorAfterLayout(viewer, finalGesture.anchor, finalGesture.midpoint.x, finalGesture.midpoint.y, () => {
+        pane.suppressScrollSave = false;
+        if (state.splitView) savePaneScroll(paneId);
+      });
+    }
   };
   viewer.addEventListener('touchend', finishPinch, { passive: true });
   viewer.addEventListener('touchcancel', finishPinch, { passive: true });
 }
 
 function setZoomForPane(paneId, value) {
-  const view = paneView(paneId), pe = paneElements(paneId);
+  const pane = splitPaneState(paneId), view = paneView(paneId), pe = paneElements(paneId);
   if (!view) return;
   savePaneScroll(paneId);
   const point = viewerMidpoint(pe.viewer);
   const anchor = captureViewerAnchor(pe.viewer, point.x, point.y);
   view.zoom = clamp(value, 0.25, 4);
   renderSplitPane(paneId);
-  requestAnimationFrame(() => {
-    restoreViewerAnchor(pe.viewer, anchor, point.x, point.y);
-    savePaneScroll(paneId);
+  pane.suppressScrollSave = true;
+  restoreViewerAnchorAfterLayout(pe.viewer, anchor, point.x, point.y, () => {
+    pane.suppressScrollSave = false;
+    if (state.splitView) savePaneScroll(paneId);
   });
   if (state.activePaneId === paneId) updateViewerLabels();
 }
@@ -2086,6 +2168,7 @@ function bindEvents() {
   els.viewer.addEventListener('touchstart', (e) => {
     if (e.touches.length !== 2) return;
     const midpoint = touchMidpoint(e.touches);
+    els.viewer.classList.add('pinching');
     state.pinchGesture = {
       startDistance: Math.max(1, touchDistance(e.touches)),
       startZoom: state.zoom,
@@ -2106,9 +2189,18 @@ function bindEvents() {
     if (!state.pinchGesture) return;
     if (e.touches && e.touches.length >= 2) return;
     if (state.pinchRenderFrame) { cancelAnimationFrame(state.pinchRenderFrame); state.pinchRenderFrame = null; applyLiveSingleZoom(); }
+    const finalGesture = state.pinchGesture;
     updateSingleViewScrollFromDom();
     state.pinchGesture = null;
+    els.viewer.classList.remove('pinching');
     renderViewer();
+    if (finalGesture?.anchor && finalGesture?.midpoint) {
+      state.suppressSingleScrollSave = true;
+      restoreViewerAnchorAfterLayout(els.viewer, finalGesture.anchor, finalGesture.midpoint.x, finalGesture.midpoint.y, () => {
+        state.suppressSingleScrollSave = false;
+        updateSingleViewScrollFromDom();
+      });
+    }
   };
   els.viewer.addEventListener('touchend', finishPinch, { passive: true });
   els.viewer.addEventListener('touchcancel', finishPinch, { passive: true });
