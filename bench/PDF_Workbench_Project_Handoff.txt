@@ -1,3 +1,117 @@
+PDF WORKBENCH PWA — MILESTONE 3.4.0 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.4.0
+Visible About version: 3.4.0
+Service-worker/cache version: pdf-workbench-m3.4.0-v1
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.
+
+RECENT VALIDATION / BASELINE
+----------------------------
+The user reported Milestone 3.3.0 functionality working smoothly on all three tested device classes: Surface, iPad, and Chromebook. Earlier export/output testing also succeeded with the recommended curated PDFs plus BaakeScan.pdf and exported results looked correct in Adobe. Preserve the validated touch/pen/viewer/output behavior unless a specific regression is identified.
+
+The user supplied UIphotos.zip containing screenshots from Chromebook, iPad portrait/landscape, Surface, and a narrow Surface browser window. UI layout looks comfortable on the normal device sizes. The main responsive issue observed is the narrow Surface window, where the active-document selector and other top controls compete with View / Pages / Files.
+
+MILESTONE 3.4.0 — SESSION PAGE TEMPLATES
+-----------------------------------------
+Reusable page templates are now implemented as SESSION templates. They intentionally do not use persistent IndexedDB/OPFS storage yet; persistence should be added together with the later full Files/Library architecture to avoid building a temporary storage model that must later be migrated.
+
+Template workflow:
+- The shared Insert Page menu in Pages, regular View, and Presentation contains a Session templates section.
+- Choose Save current/selected page as template.
+- In regular View/Presentation, save the current page.
+- In Pages, save the selection-anchor/most recently selected page when available.
+- The naming prompt is prefilled with the first available generic name Template 1, Template 2, etc. This is deliberate so a temporary template can be saved without spending time naming it.
+- Saved templates immediately appear in the Insert Page menu and can be inserted repeatedly as fresh independent page instances.
+- Manage templates allows rename and delete.
+
+Captured template geometry/content:
+- preserve source/background page content;
+- preserve page size;
+- preserve current page rotation/orientation;
+- generated blank/graph pages can also be templates;
+- future annotation support should add an explicit save-template with/without annotations choice.
+
+Session lifetime:
+- templates remain available during the current run even after Close all files;
+- source PDF/image data needed by a session template is retained in memory while any template references it;
+- deleting the final template/document reference allows that source to be released;
+- app reload/restart intentionally clears templates in 3.4.0;
+- persistent templates belong in the later Files/Library storage milestone and should participate in Library backup/export.
+
+NARROW-WINDOW TOOLBAR POLICY
+----------------------------
+Responsive priority based on the supplied Surface screenshots:
+1. Preserve View / Pages / Files as primary workspace navigation.
+2. Shrink/truncate the active-document filename selector first.
+3. Secondary viewer controls may remain icon-only at narrow widths.
+4. Only consider collapsing workspace navigation at extremely narrow sizes if later testing proves it necessary.
+
+3.4.0 changes the toolbar flex rules so View / Pages / Files have stable minimum widths and the active-document selector can shrink to a compact ellipsized selector in narrow windows. Do not return to progressive squeezing of the workspace buttons.
+
+FILES / OUTPUT BASELINE TO PRESERVE
+-----------------------------------
+Files uses one shared checkbox list of open documents and collapsible New / Export / Extract / Split / Combine sections.
+- one checked document exports as PDF;
+- multiple checked documents export as separate PDFs inside one ZIP;
+- Combine uses checked documents but its own independent reorder list;
+- Split uses the active document and packages multiple outputs in one ZIP;
+- Extract uses selected Pages from the active document;
+- new blank/graph documents default to US Letter landscape.
+
+PAGE INSERTION BASELINE TO PRESERVE
+-----------------------------------
+Insert Page remains available in Pages, regular View, and Presentation with:
+- duplicate with annotations;
+- duplicate without annotations;
+- blank matching current displayed size/orientation;
+- graph paper matching current displayed size/orientation;
+- saved Session templates.
+
+Graph paper is generated, not rasterized: light cyan vector lines, 18-point (1/4-inch) spacing, 9-point margin, white background, based on graph-paper-reference.png.
+
+OTHER ROADMAP ITEMS RECENTLY AGREED
+-----------------------------------
+- Copy/move selected pages from one open document to another without merging whole documents; preserve page geometry/rotation and eventually allow annotation inclusion choice.
+- Full Files/Library persistence: internally retained documents/projects, Close/reopen, Recent, folders, rename/search/sort, Remove from Recent, Delete Stored Copy, backup/export, and persistent templates.
+- Split on iPad: keep multiple split results in one ZIP rather than opening many PDF previews.
+- Future inking should be available in regular View and Presentation with shared tool state; pen inks, one finger pans, two fingers pinch/zoom, visible UI remains pen-clickable, Draw with Finger default Off.
+- Once ink exists, test Full Page bottom navigation arrows for palm interference and consider auto-hide/palm-safe/optional hiding.
+
+REGRESSION-SENSITIVE BASELINE
+-----------------------------
+Do not casually alter:
+- one-finger pan/scroll and two-finger pinch/zoom;
+- pen does not pan/zoom document content;
+- pen operates visible UI controls;
+- Pages organizer pen/touch dragging;
+- hidden Presentation controls ignore pen hover/tap;
+- high-zoom horizontal pan reaches both page edges;
+- split/single independent pane state restoration;
+- same-document split panes retain independent view state;
+- iPad app-level Presentation instead of native fullscreen;
+- JBIG2/WASM/cMap/standard-font PDF.js resource configuration;
+- structural PDF export engine;
+- Split multi-output ZIP behavior and typed group filenames;
+- Pages blank-space deselection and direct Extract selected action.
+
+IMMEDIATE 3.4.0 TESTS
+---------------------
+1. Narrow Surface window: View / Pages / Files should remain readable while filename selector shrinks/truncates.
+2. Save current View page as Template 1 and insert it repeatedly.
+3. Save a selected page from Pages as another template and verify the correct selected page is captured.
+4. Save/insert rotated, landscape, graph-paper, PDF-backed, and image-backed pages as templates.
+5. Rename/delete templates.
+6. Save a PDF-backed template, Close all files, create/open another document without reloading, and insert the template successfully.
+7. Reload the app and verify session templates intentionally disappear.
+8. Regression-test touch/pen, Presentation, split view, Files export/ZIP, Combine, Split, and BaakeScan/JBIG2.
+
+DISTRIBUTION RULE
+-----------------
+Every release ZIP must contain this comprehensive handoff, README, and graph-paper reference and keep visible About version and service-worker/cache version synchronized.
+
+
 PDF WORKBENCH PWA — MILESTONE 3.3.0 CURRENT UPDATE
 =====================================================
 

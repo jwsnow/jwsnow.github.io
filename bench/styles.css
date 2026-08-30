@@ -25,8 +25,10 @@ button:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 65%, 
 .app-bar { position: relative; z-index: 40; min-width: 0; height: var(--bar-h); display: flex; align-items: center; gap: 8px; padding: max(4px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) 4px max(8px, env(safe-area-inset-left)); background: color-mix(in srgb, var(--panel) 94%, transparent); border-bottom: 1px solid var(--border); }
 .brand { font-weight: 650; white-space: nowrap; margin-right: 4px; }
 .primary-actions, .viewer-controls { display: flex; align-items: center; gap: 6px; min-width: 0; }
-.viewer-controls { margin-left: auto; }
-.document-select { min-width: 120px; max-width: min(240px, 28vw); height: 40px; border: 1px solid var(--border); border-radius: 9px; background: var(--paper); color: var(--text); padding: 6px 30px 6px 9px; text-overflow: ellipsis; }
+.primary-actions { flex: 1 1 auto; }
+.viewer-controls { margin-left: auto; flex: 0 0 auto; }
+.segmented { flex: 0 0 auto; }
+.document-select { flex: 1 1 180px; width: min(240px, 28vw); min-width: 72px; max-width: 240px; height: 40px; border: 1px solid var(--border); border-radius: 9px; background: var(--paper); color: var(--text); padding: 6px 30px 6px 9px; text-overflow: ellipsis; }
 .tool-btn, .icon-btn, .segment, .organizer-actions button, .single-page-nav button, .large-open, .dialog-actions button { border: 1px solid var(--border); background: var(--paper); color: var(--text); border-radius: 9px; min-height: 40px; padding: 7px 10px; cursor: pointer; }
 .tool-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; flex: 0 0 auto; }
 .tool-btn.emphasized, .large-open { background: var(--accent); border-color: var(--accent); color: white; }
@@ -122,12 +124,14 @@ body.presentation .presentation-toolbar { display: flex !important; }
 }
 
 @media (max-width: 760px) {
-  .document-select { max-width: 150px; min-width: 86px; }
   .brand { display: none; }
   .tool-label { display: none; }
   .app-bar { gap: 5px; }
+  .primary-actions { gap: 4px; }
+  .document-select { flex: 1 1 88px; width: 88px; min-width: 54px; max-width: 112px; padding-left: 7px; padding-right: 22px; }
+  .segmented, .segment { flex-shrink: 0; }
+  .segment { min-width: 48px; }
   .viewer-controls { margin-left: auto; }
-.document-select { min-width: 120px; max-width: min(240px, 28vw); height: 40px; border: 1px solid var(--border); border-radius: 9px; background: var(--paper); color: var(--text); padding: 6px 30px 6px 9px; text-overflow: ellipsis; }
   .tool-btn { min-width: 40px; padding: 6px 9px; }
   .organizer-toolbar { align-items: flex-start; }
   .organizer-info { min-width: 86px; }
@@ -138,10 +142,14 @@ body.presentation .presentation-toolbar { display: flex !important; }
   .presentation-document-select { max-width: 140px; }
 }
 
+@media (max-width: 560px) {
+  .document-select { flex-basis: 68px; width: 68px; min-width: 46px; max-width: 78px; }
+}
+
 @media (max-width: 470px) {
-  .document-select { max-width: 105px; }
+  .document-select { flex-basis: 58px; width: 58px; min-width: 42px; max-width: 66px; }
   .app-bar { padding-left: 5px; padding-right: 5px; }
-  .segment { padding-inline: 8px; }
+  .segment { min-width: 45px; padding-inline: 8px; }
   .organizer-toolbar { flex-direction: column; align-items: stretch; }
   .organizer-info { flex-direction: row; justify-content: space-between; }
   .organizer-actions { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px; }
@@ -375,8 +383,17 @@ body.presentation .split-pane.active {
 
 /* Milestone 3.2 shared page/document creation menus. */
 #newMenu { z-index: 130; }
-.insert-page-menu { z-index: 150; min-width: 260px; }
+.insert-page-menu { z-index: 150; min-width: 270px; max-width: min(340px, calc(100vw - 16px)); max-height: min(72vh, 520px); overflow-y: auto; }
 .insert-page-menu button, #newMenu button { white-space: nowrap; }
+.popover-section-label { padding: 6px 10px 4px; color: var(--muted); font-size: .72rem; font-weight: 750; text-transform: uppercase; letter-spacing: .045em; }
+.popover-divider { height: 1px; margin: 5px 4px; background: var(--border); }
+.insert-template-list { display: grid; gap: 1px; }
+.insert-template-empty { padding: 7px 10px; color: var(--muted); font-size: .82rem; font-style: italic; }
+.insert-page-menu button:disabled { opacity: .45; cursor: default; }
+.template-manager-list { display: grid; gap: 8px; margin-top: 14px; }
+.template-manager-row { display: grid; grid-template-columns: minmax(0,1fr) auto auto; align-items: center; gap: 7px; padding: 8px; border: 1px solid var(--border); border-radius: 9px; background: var(--panel); }
+.template-manager-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 650; }
+.template-manager-row button { min-height: 34px; border: 1px solid var(--border); border-radius: 8px; background: var(--paper); color: var(--text); padding: 5px 8px; }
 
 /* Milestone 3.3 Files workspace: one shared document selection, then compact
    expandable operations. */

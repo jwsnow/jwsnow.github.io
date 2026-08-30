@@ -1,4 +1,4 @@
-const APP_VERSION = '3.3.0';
+const APP_VERSION = '3.4.0';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -25,7 +25,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -66,6 +66,7 @@ const state = {
   pinchRenderFrame: null,
   suppressSingleScrollSave: false,
   insertMenuAnchor: null,
+  templates: [],
   splitView: false,
   activePaneId: 'left',
   singleSourcePaneId: 'left',
@@ -156,20 +157,31 @@ function createDocument(name) {
   return doc;
 }
 
+function sourceUsedByDocuments(sourceId, excludingDocumentId=null) {
+  return state.documents.some(doc => doc.id !== excludingDocumentId && doc.pages.some(page => page.sourceId === sourceId));
+}
+
+function sourceUsedByTemplates(sourceId, excludingTemplateId=null) {
+  return state.templates.some(template => template.id !== excludingTemplateId && template.page?.sourceId === sourceId);
+}
+
+function releaseSourceIfUnused(sourceId, options={}) {
+  if (!sourceId) return;
+  if (sourceUsedByDocuments(sourceId, options.excludingDocumentId || null)) return;
+  if (sourceUsedByTemplates(sourceId, options.excludingTemplateId || null)) return;
+  const source = state.sources.get(sourceId);
+  if (!source) return;
+  if (source.url) URL.revokeObjectURL(source.url);
+  try { source.pdf?.destroy?.(); } catch {}
+  state.sources.delete(sourceId);
+}
+
 function removeDocument(docId) {
   const index = state.documents.findIndex(d => d.id === docId);
   if (index < 0) return;
   const doc = state.documents[index];
   const sourceIds = new Set(doc.pages.map(p => p.sourceId).filter(Boolean));
-  for (const sourceId of sourceIds) {
-    const usedElsewhere = state.documents.some(d => d.id !== docId && d.pages.some(p => p.sourceId === sourceId));
-    if (!usedElsewhere) {
-      const source = state.sources.get(sourceId);
-      if (source?.url) URL.revokeObjectURL(source.url);
-      try { source?.pdf?.destroy?.(); } catch {}
-      state.sources.delete(sourceId);
-    }
-  }
+  for (const sourceId of sourceIds) releaseSourceIfUnused(sourceId, { excludingDocumentId: docId });
   state.documents.splice(index, 1);
   for (const pane of Object.values(state.splitPanes)) {
     pane.views.delete(docId);
@@ -579,6 +591,114 @@ function clonePageInstance(page, includeAnnotations=true) {
   return copy;
 }
 
+function templatePageForSave() {
+  if (state.splitView) synchronizeActiveSplitDocumentForEdit();
+  if (!state.pages.length) return null;
+  if (state.workspaceMode === 'organize') {
+    if (state.selectionAnchorId && state.selected.has(state.selectionAnchorId)) return pageById(state.selectionAnchorId);
+    if (state.selected.size === 1) return pageById([...state.selected][0]);
+  }
+  const targetId = insertionTargetPageId();
+  return pageById(targetId) || state.pages[0] || null;
+}
+
+function nextTemplateName() {
+  let number = 1;
+  while (state.templates.some(template => template.name === `Template ${number}`)) number++;
+  return `Template ${number}`;
+}
+
+function renderInsertTemplateList() {
+  if (!els.insertTemplateList) return;
+  els.insertTemplateList.innerHTML = '';
+  if (!state.templates.length) {
+    const empty = document.createElement('div');
+    empty.className = 'insert-template-empty';
+    empty.textContent = 'No session templates saved';
+    els.insertTemplateList.append(empty);
+  } else {
+    for (const template of state.templates) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'template-insert-button';
+      button.dataset.templateId = template.id;
+      button.setAttribute('role', 'menuitem');
+      button.textContent = template.name;
+      button.title = `Insert ${template.name} after the current page`;
+      els.insertTemplateList.append(button);
+    }
+  }
+  if (els.manageTemplatesBtn) els.manageTemplatesBtn.disabled = state.templates.length === 0;
+}
+
+function saveCurrentPageAsTemplate() {
+  const page = templatePageForSave();
+  if (!page) { setStatus('No page is available to save as a template'); return; }
+  const suggested = nextTemplateName();
+  const entered = window.prompt('Template name', suggested);
+  if (entered === null) return;
+  const name = entered.trim() || suggested;
+  const template = {
+    id: uid('template'),
+    name,
+    page: { ...page, id: null },
+    createdAt: Date.now(),
+  };
+  state.templates.push(template);
+  renderInsertTemplateList();
+  setStatus(`Saved page as ${name} (this session)`);
+}
+
+function insertTemplateAfterCurrent(templateId) {
+  const template = state.templates.find(item => item.id === templateId);
+  if (!template) { setStatus('That template is no longer available'); return; }
+  const inPresentation = document.body.classList.contains('presentation');
+  closeInsertPageMenu(false);
+  insertPageAfterCurrent('template', true, template);
+  if (inPresentation) showPresentationControls();
+}
+
+function deleteTemplate(templateId) {
+  const index = state.templates.findIndex(item => item.id === templateId);
+  if (index < 0) return;
+  const [removed] = state.templates.splice(index, 1);
+  renderInsertTemplateList();
+  releaseSourceIfUnused(removed.page?.sourceId, { excludingTemplateId: removed.id });
+}
+
+function showTemplateManager() {
+  closeInsertPageMenu(false);
+  const renderManager = () => {
+    const rows = state.templates.length
+      ? state.templates.map(template => `<div class="template-manager-row" data-template-id="${template.id}"><span class="template-manager-name"></span><button type="button" data-action="rename">Rename</button><button type="button" data-action="delete">Delete</button></div>`).join('')
+      : '<p>No session templates are saved.</p>';
+    els.dialogContent.innerHTML = `<h2>Session templates</h2><p>Templates in this build remain available only until PDF Workbench is reloaded. Persistence will be added with the Files/Library storage system.</p><div id="templateManagerList" class="template-manager-list">${rows}</div>`;
+    for (const row of els.dialogContent.querySelectorAll('.template-manager-row')) {
+      const template = state.templates.find(item => item.id === row.dataset.templateId);
+      if (!template) continue;
+      row.querySelector('.template-manager-name').textContent = template.name;
+      row.querySelector('[data-action="rename"]').addEventListener('click', () => {
+        const entered = window.prompt('Template name', template.name);
+        if (entered === null) return;
+        const name = entered.trim();
+        if (!name) return;
+        template.name = name;
+        renderInsertTemplateList();
+        renderManager();
+        setStatus(`Renamed template to ${name}`);
+      });
+      row.querySelector('[data-action="delete"]').addEventListener('click', () => {
+        if (!window.confirm(`Delete template “${template.name}”?`)) return;
+        deleteTemplate(template.id);
+        renderManager();
+        setStatus('Template deleted');
+      });
+    }
+  };
+  renderManager();
+  if (!els.infoDialog.open) els.infoDialog.showModal();
+}
+
 function pageDisplayDimensions(page) {
   const [width, height] = rotatedDims(page);
   return { width, height };
@@ -599,7 +719,7 @@ function synchronizeActiveSplitDocumentForEdit() {
   return currentDocument();
 }
 
-function insertPageAfterCurrent(kind, includeAnnotations=true) {
+function insertPageAfterCurrent(kind, includeAnnotations=true, template=null) {
   const doc = synchronizeActiveSplitDocumentForEdit();
   if (!doc?.pages?.length) return;
   const targetId = insertionTargetPageId();
@@ -612,6 +732,8 @@ function insertPageAfterCurrent(kind, includeAnnotations=true) {
   let inserted;
   if (kind === 'duplicate') {
     inserted = clonePageInstance(current, includeAnnotations);
+  } else if (kind === 'template' && template?.page) {
+    inserted = clonePageInstance(template.page, true);
   } else {
     const dims = pageDisplayDimensions(current);
     inserted = generatedPage(kind === 'graph' ? 'graph' : 'blank', dims.width, dims.height);
@@ -649,7 +771,9 @@ function insertPageAfterCurrent(kind, includeAnnotations=true) {
   }
   const label = kind === 'duplicate'
     ? `Duplicated page ${index + 1}${includeAnnotations ? '' : ' without annotations'}`
-    : `Inserted ${kind === 'graph' ? 'graph-paper' : 'blank'} page after page ${index + 1}`;
+    : kind === 'template'
+      ? `Inserted template ${template?.name || ''} after page ${index + 1}`.trim()
+      : `Inserted ${kind === 'graph' ? 'graph-paper' : 'blank'} page after page ${index + 1}`;
   setStatus(label);
 }
 
@@ -2626,11 +2750,13 @@ async function exitPresentation() {
 
 function clearAll() {
   closeInsertPageMenu(false);
-  for (const source of state.sources.values()) {
+  const templateSourceIds = new Set(state.templates.map(template => template.page?.sourceId).filter(Boolean));
+  for (const [sourceId, source] of state.sources) {
+    if (templateSourceIds.has(sourceId)) continue;
     if (source.url) URL.revokeObjectURL(source.url);
     try { source.pdf?.destroy?.(); } catch {}
+    state.sources.delete(sourceId);
   }
-  state.sources.clear();
   state.documents = [];
   state.currentDocumentId = null;
   state.pages = [];
@@ -2682,9 +2808,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 3.3.0 reorganizes Files around shared document selection and expandable operations, adds multi-document ZIP export, and keeps the validated page/export/viewer engines intact.</p>
-      <ul><li><strong>Files</strong> now shows one shared checkbox list of open documents and expandable New, Export, Extract, Split, and Combine operations.</li><li><strong>New</strong> is under Files and creates a one-page US Letter <strong>landscape</strong> blank or graph-paper document.</li><li><strong>Export</strong> writes one checked document as a PDF or several checked documents as individual PDFs inside one ZIP.</li><li><strong>Combine</strong> uses the same checked documents but keeps its own independent up/down ordering list.</li><li><strong>Extract</strong> uses selected pages from the active document; <strong>Split</strong> uses the active document.</li><li><strong>Insert</strong> remains available in Pages, regular View, and Presentation; the Presentation control uses a page icon separated from the zoom +/- cluster.</li><li>Graph paper remains generated as light vector lines on export at 1/4-inch spacing, based on the supplied writing-grid reference.</li><li>Touch/pen separation, split-pane state, Presentation behavior, structural PDF output, and JBIG2/WASM rendering are preserved.</li></ul>
-      <p><strong>Coming later:</strong> page-size normalization, fit/crop/margins, image assembly, compression, document Close, persistent Library/folders, and ink/annotations.</p>
+      <p>Milestone 3.4.0 adds reusable session page templates and improves the top toolbar at narrow desktop widths while preserving the validated Files/output and touch/pen engines.</p>
+      <ul><li><strong>Templates:</strong> save the current page (or the selection anchor in Pages) as a reusable template with a suggested name such as Template 1. Insert saved templates from the same Insert Page menu used for blank and graph paper.</li><li><strong>Session scope:</strong> templates survive closing open files during the current run, but intentionally do not persist across an app reload yet. Rename/delete are available from Manage templates.</li><li><strong>Narrow toolbar:</strong> the active-document selector truncates and shrinks before the View / Pages / Files workspace tabs are allowed to compress.</li><li><strong>Files</strong> retains shared document checkboxes, multi-document ZIP export, Extract, Split/ZIP, and ordered Combine.</li><li><strong>Insert</strong> remains available in Pages, regular View, and Presentation.</li><li>Graph paper remains generated as light vector lines on export at 1/4-inch spacing, based on the supplied writing-grid reference.</li><li>Touch/pen separation, split-pane state, Presentation behavior, structural PDF output, and JBIG2/WASM rendering are preserved.</li></ul>
+      <p><strong>Coming later:</strong> persistent Files/Library storage (including persistent templates), copy pages between documents, page-size normalization, fit/crop/margins, image assembly, compression, and ink/annotations.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -2748,6 +2874,12 @@ function closeInsertPageMenu(resumePresentation=true) {
 function openInsertPageMenu(anchor) {
   if (!state.pages.length || !anchor) return;
   toggleMoreMenu(false);
+  renderInsertTemplateList();
+  if (els.savePageTemplateBtn) {
+    const page = templatePageForSave();
+    const pageIndex = page ? state.pages.findIndex(item => item.id === page.id) + 1 : 0;
+    els.savePageTemplateBtn.textContent = pageIndex > 0 ? `Save page ${pageIndex} as template…` : 'Save current page as template…';
+  }
   const alreadyOpen = !els.insertPageMenu.classList.contains('hidden') && state.insertMenuAnchor === anchor;
   if (alreadyOpen) { closeInsertPageMenu(); return; }
   state.insertMenuAnchor = anchor;
@@ -3193,6 +3325,17 @@ function bindEvents() {
   els.insertDuplicateWithoutAnnotationsBtn.addEventListener('click', () => runInsertCommand('duplicate', false));
   els.insertBlankPageBtn.addEventListener('click', () => runInsertCommand('blank'));
   els.insertGraphPageBtn.addEventListener('click', () => runInsertCommand('graph'));
+  els.insertTemplateList?.addEventListener('click', (e) => {
+    const button = e.target.closest('[data-template-id]');
+    if (button) insertTemplateAfterCurrent(button.dataset.templateId);
+  });
+  els.savePageTemplateBtn?.addEventListener('click', () => {
+    const inPresentation = document.body.classList.contains('presentation');
+    closeInsertPageMenu(false);
+    saveCurrentPageAsTemplate();
+    if (inPresentation) showPresentationControls();
+  });
+  els.manageTemplatesBtn?.addEventListener('click', showTemplateManager);
   els.deleteBtn.addEventListener('click', deleteSelected);
   els.undoBtn.addEventListener('click', undo);
   els.redoBtn.addEventListener('click', redo);

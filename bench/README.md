@@ -1,71 +1,71 @@
-# PDF Workbench — Milestone 3.3.0
+# PDF Workbench — Milestone 3.4.0
 
-Milestone 3.3.0 reorganizes the **Files** workspace and adds multi-document export while preserving the existing structural PDF engine, page insertion model, viewer, split-pane state, touch/pen input behavior, Presentation behavior, and PDF.js JBIG2/WASM configuration.
+Milestone 3.4.0 adds **reusable session page templates** and improves the top toolbar at narrow desktop widths. It preserves the validated Files/output engine, page organizer, split-view state, Presentation behavior, touch/pen input separation, and PDF.js JBIG2/WASM configuration.
 
-## Files workspace
+## Session page templates
 
-Files now has one persistent **Open documents** list with checkboxes. Those checkboxes are shared by the multi-document operations:
+A page can now be saved as a reusable template from the shared **Insert Page** menu in Pages, regular View, or Presentation.
 
-- **Export** uses the checked documents.
-- **Combine** uses the same checked documents, but shows its own separate ordered list with up/down controls. Reordering for Combine does not rearrange the general open-document list.
-- **Extract** operates on selected pages in the active document.
-- **Split** operates on the active document.
+- In View/Presentation, the current page is saved.
+- In Pages, the most recently selected/selection-anchor page is saved.
+- The save prompt is prefilled with a frictionless generic name such as **Template 1**, **Template 2**, etc. The suggested name can simply be accepted for a temporary template.
+- Saved templates appear in **Insert Page → Session templates** and can be inserted repeatedly into the active document.
+- Template insertion creates a fresh independent page instance preserving the captured page content, page size, orientation/rotation, and source page.
+- **Manage templates…** allows rename and delete.
+- Templates are intentionally **session-only in 3.4.0**. They remain available after **Close all files** during the same run, but disappear when the app is reloaded/restarted. Persistent templates will be implemented with the later persistent Files/Library storage system.
+- Because annotations are not implemented yet, templates currently capture page/background content only. The template data model is intended to gain explicit include/exclude-annotations behavior when ink arrives.
 
-The operations themselves are expandable/collapsible **New / Export / Extract / Split / Combine** sections so the Files workspace does not become one long crowded control panel.
+Template source handling is deliberately conservative: PDF/image source data referenced by a session template is retained in memory even if all open documents using that source are closed, and is released when no document or template still references it.
 
-The Open documents list also shows which document is active and allows another document to be made active without changing the checkbox selection.
+## Narrow-window toolbar
 
-Files remains usable even when no documents are open, so New is always reachable.
+The cross-device screenshot review showed the main UI comfortable on iPad, Chromebook, and normal Surface widths, with crowding mainly in a narrow Surface window.
 
-## New documents
+Responsive priority is now:
 
-**New** has moved from the permanent top application bar into Files.
+1. Preserve the primary **View / Pages / Files** workspace buttons.
+2. Shrink and truncate the active-document selector first.
+3. Keep the existing icon-only secondary controls at narrow widths.
 
-- Blank document: one US Letter **landscape** page.
-- Graph-paper document: one US Letter **landscape** graph-paper page.
+The document selector can therefore become substantially narrower while the workspace tabs retain stable minimum widths. Long file names remain available when the selector is opened.
 
-Inserted blank/graph pages in an existing document still match the current page's displayed size and orientation.
+## Existing Files behavior preserved
 
-## Export one or several documents
+Files retains one shared checkbox list of open documents and expandable **New / Export / Extract / Split / Combine** sections.
 
-- Exactly one checked document → export a PDF.
-- Two or more checked documents → build each document as a PDF and package them together in one ZIP.
-- Each document is exported from its current working page arrangement, including reorder/delete/duplicate/rotation/generated pages.
-- PDFs inside a multi-document ZIP use the document name plus `-edited.pdf`; duplicate names are made unique automatically.
-- ZIP creation uses STORE rather than trying to recompress already-compressed PDFs, which reduces unnecessary work on iPad.
+- One checked document → export PDF.
+- Several checked documents → one ZIP containing the separate PDFs.
+- Combine uses checked documents plus its own independent up/down order list.
+- Split operates on the active document and packages multiple outputs in one ZIP.
+- Extract operates on selected pages from the active document.
+- New blank/graph-paper documents start as US Letter landscape.
 
-## Combine
-
-Combine uses the shared checked-document selection, then shows only those documents in an independent order list. Up/down controls set merge order. The general Open documents list remains unchanged. Combine still creates a new editable working document and leaves originals untouched.
-
-## Presentation insert control
-
-The Presentation Insert Page control is no longer another `+` immediately beside zoom `+`. It now uses a page-shaped `▱` icon and sits before the zoom cluster with extra separation. The underlying Insert menu is unchanged.
-
-## Existing page creation behavior preserved
+## Existing insertion behavior preserved
 
 Insert Page remains available from:
 
 - Pages toolbar: **Insert**
 - regular View toolbar: **+ Page**
-- Presentation temporary toolbar: page icon
+- Presentation temporary toolbar: page-shaped icon
 
-Choices remain duplicate with annotations, duplicate without annotations, blank page, and graph-paper page. Until annotations exist, the two duplicate choices have the same visible result.
-
-Graph paper remains generated as light cyan vector lines at 18-point (1/4-inch) spacing with a small margin. `graph-paper-reference.png` remains bundled as the visual reference.
+Built-in choices remain duplicate with annotations, duplicate without annotations, blank page, and graph-paper page. Graph paper remains generated as light cyan vector lines at 18-point (1/4-inch) spacing with a small margin. `graph-paper-reference.png` remains bundled as the visual reference.
 
 ## Version
 
-**More → About this build** must report **Milestone 3.3.0**. The service-worker cache is `pdf-workbench-m3.3.0-v1`.
+**More → About this build** must report **Milestone 3.4.0**. The service-worker cache is `pdf-workbench-m3.4.0-v1`.
 
-## Suggested 3.3.0 tests
+## Suggested 3.4.0 tests
 
-1. Enter Files with no documents open; expand New and create blank and graph-paper documents. Verify both start landscape.
-2. Open three PDFs. In Files, check only one and export; verify a PDF is produced.
-3. Check two or three documents and export; verify one ZIP is produced and contains a separate correct PDF for each checked document.
-4. Edit/reorder/rotate pages in two documents before multi-export; verify each PDF in the ZIP reflects its own working state.
-5. Check three documents, expand Combine, rearrange their order, create the combined document, and verify the general Open documents list was not itself reordered.
-6. Make a different document active from Files, then verify Split applies to that active document and Extract uses that document's selected Pages.
-7. Verify Select all and Clear affect the shared Files checkboxes correctly.
-8. In Presentation, verify the page-insert icon is visually distinct from zoom `+`, opens the same Insert menu, and does not regress hidden-toolbar pen behavior.
-9. Regression-test finger pan/pinch, pen non-navigation on document content, pen activation of visible controls, split/single restoration, Pages dragging, and BaakeScan/JBIG2 rendering.
+1. Narrow the Surface browser window to the size shown in the supplied screenshots. Confirm **View / Pages / Files** remain readable and the active-document selector truncates/shrinks instead of squeezing those tabs.
+2. In View, save a PDF page as a template, accept the default **Template 1** name, then insert it twice elsewhere in the document.
+3. In Pages, select a different page, save it as **Template 2**, and verify the selected page—not the previously viewed page—is captured.
+4. Save a rotated/landscape page as a template and confirm inserted copies preserve its geometry/orientation.
+5. Save a graph-paper page as a template and insert it into another open document.
+6. Use **Manage templates…** to rename and delete templates.
+7. Save a PDF-backed template, choose **Close all files**, open/create another document without reloading the app, and verify the template can still be inserted correctly.
+8. Reload/restart the app and confirm session templates intentionally disappear in this milestone.
+9. Regression-test iPad/Surface/Chromebook finger pan/pinch, pen non-navigation on document content, pen activation of visible controls, Presentation hidden-toolbar behavior, Pages drag/reorder, Files multi-export ZIP, Combine ordering, Split ZIP, and BaakeScan/JBIG2 rendering.
+
+## Roadmap notes
+
+The later Files/Library milestone should make both documents/projects and templates persistent, with folders/recent/close/reopen/backup behavior. Also on the roadmap: copying selected pages between open documents, page-size normalization, fit/crop/margins, improved image-to-PDF assembly, compression, and ink/annotations.
