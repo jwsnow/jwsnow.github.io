@@ -372,3 +372,8 @@ body.presentation .split-pane.active {
   .split-tool-grid { grid-template-columns: 1fr; }
   .combine-row { grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 6px; }
 }
+
+/* Milestone 3.2 shared page/document creation menus. */
+#newMenu { z-index: 130; }
+.insert-page-menu { z-index: 150; min-width: 260px; }
+.insert-page-menu button, #newMenu button { white-space: nowrap; }

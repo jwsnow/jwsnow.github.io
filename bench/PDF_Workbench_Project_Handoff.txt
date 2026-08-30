@@ -1,3 +1,102 @@
+PDF WORKBENCH PWA — MILESTONE 3.2.0 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.2.0
+Visible About version: 3.2.0
+Service-worker/cache version: pdf-workbench-m3.2.0-v1
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.
+
+MILESTONE 3.1.2 VALIDATION
+--------------------------
+The user reported that 3.1.2 seems to work after the Split layout correction. Previously validated 3.1 operations (Export, Extract, Split/ZIP, Combine) worked on Surface and iPad. Treat the 3.1 document engine as stable unless later testing exposes a specific regression.
+
+MILESTONE 3.2.0 — PAGE / DOCUMENT CREATION
+-------------------------------------------
+A top-level New button now works even with no external files open:
+- Blank document: one US Letter portrait blank page.
+- Graph-paper document: one US Letter portrait graph-paper page.
+
+A shared Insert Page After Current menu is available from:
+- Pages toolbar: Insert.
+- regular View toolbar: + Page.
+- Presentation temporary toolbar: compact + icon.
+
+Insert choices:
+1. Duplicate with annotations.
+2. Duplicate without annotations.
+3. Blank page matching current page displayed size/orientation.
+4. Graph-paper page matching current page displayed size/orientation.
+
+Annotations do not exist yet, so the two duplicate choices currently produce the same visible result. They are separate commands now so they can diverge when the annotation object model is implemented.
+
+Insertion targeting:
+- View/Presentation: current page.
+- Split View/Presentation: current page of the ACTIVE pane's document.
+- Pages: most recently selected page if it remains selected; otherwise current View page.
+- Newly inserted page becomes current. In Pages it also becomes the sole selected page.
+- Document edits are shared, so if the same document is visible in both panes the inserted page belongs to both views, while each pane's view position/state remains independent.
+
+GENERATED PAGE MODEL / EXPORT
+-----------------------------
+Blank and graph pages are generated page instances and do not require a source PDF/image. They participate in organizer editing, Combine, Extract, Split, and Export.
+
+Graph-paper specification captured from the user's supplied reference:
+- white background;
+- very light cyan/blue square grid;
+- thin unobtrusive lines;
+- approximately 1/4-inch spacing (implemented as 18 PDF points);
+- small clean margin (implemented as 9 points);
+- exported graph lines are vector PDF lines, not a raster image.
+
+`graph-paper-reference.png` remains bundled as the original visual reference.
+
+VIEW / PRESENTATION / FUTURE INK UI DECISIONS
+----------------------------------------------
+Page insertion must remain available from Pages, regular View, and Presentation. Do not require leaving Presentation to add a blank/grid page during teaching.
+
+Future inking should NOT be limited to Presentation. Regular View should support the full Pen/Eraser/Lasso/Undo/Redo annotation workflow; Presentation should use the same annotation engine/state with reduced temporary chrome. Switching View <-> Presentation should preserve active annotation tool/color/width.
+
+Established input model to preserve when ink is added:
+- pen/Pencil on document content: ink/erase/select according to active tool;
+- one finger: pan/scroll;
+- two fingers: pinch/zoom and pan;
+- pen may operate visible UI controls;
+- Pages organizer pen selection/drag remains allowed;
+- Draw with Finger setting should exist later and default Off.
+
+Full Page bottom navigation arrows may become palm targets during handwriting. Do not change them prematurely, but when ink is implemented test auto-hide, palm-safe activation, optional hiding, or other mitigation.
+
+REGRESSION-SENSITIVE BASELINE
+-----------------------------
+Do not casually alter:
+- finger pan/scroll and two-finger pinch (validated iPad, Surface, Chromebook);
+- pen does not pan/zoom document content;
+- pen operates visible UI controls;
+- hidden Presentation controls ignore pen hover/tap;
+- high-zoom horizontal pan reaches both page edges;
+- split/single independent pane state restoration;
+- iPad app-level Presentation instead of native fullscreen;
+- JBIG2/WASM/cMap/standard-font PDF.js resource configuration;
+- structural PDF export engine;
+- Split multi-output ZIP behavior;
+- typed Split filename labels;
+- Pages blank-space deselection and direct Extract selected action.
+
+NEXT WORK AFTER 3.2 TESTING
+----------------------------
+Continue Milestone 3 document/page geometry features:
+1. page-size normalization and orientation controls;
+2. fit/center/crop and margins/expanded canvas;
+3. image-to-PDF assembly improvements;
+4. compression/target maximum size;
+then move into Document Library/persistence (Close/reopen, internal copies, Recent, folders), followed by ink/annotation unless testing suggests a different ordering.
+
+DISTRIBUTION RULE
+-----------------
+Every release ZIP must contain this comprehensive handoff and keep visible About version and service-worker/cache version synchronized.
+
+
 PDF WORKBENCH PWA — MILESTONE 3.1.2 CURRENT UPDATE
 =====================================================
 

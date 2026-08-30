@@ -21,6 +21,9 @@
         <button id="openBtn" class="tool-btn emphasized" type="button" title="Open PDF or image files">
           <span aria-hidden="true">＋</span><span class="tool-label">Open</span>
         </button>
+        <button id="newBtn" class="tool-btn" type="button" title="Create a new document" aria-haspopup="menu" aria-expanded="false">
+          <span aria-hidden="true">▱</span><span class="tool-label">New</span>
+        </button>
         <input id="fileInput" class="visually-hidden" type="file" multiple accept="application/pdf,image/*">
 
         <div class="segmented" role="group" aria-label="Workspace mode">
@@ -45,6 +48,9 @@
         </div>
         <button id="splitViewBtn" class="tool-btn" type="button" title="Toggle side-by-side view" aria-pressed="false">
           <span aria-hidden="true">◫</span><span id="splitViewLabel" class="tool-label">Split</span>
+        </button>
+        <button id="viewInsertBtn" class="tool-btn" type="button" title="Insert a page after the current page" aria-haspopup="menu" aria-expanded="false">
+          <span aria-hidden="true">＋</span><span class="tool-label">Page</span>
         </button>
         <button id="presentBtn" class="tool-btn" type="button" title="Presentation mode">
           <span aria-hidden="true">⛶</span><span class="tool-label">Present</span>
@@ -115,6 +121,7 @@
           <button id="presentationZoomOutBtn" type="button" aria-label="Zoom out">−</button>
           <span id="presentationZoomLabel" class="presentation-zoom-label">100%</span>
           <button id="presentationZoomInBtn" type="button" aria-label="Zoom in">+</button>
+          <button id="presentationInsertBtn" type="button" title="Insert a page after the current page" aria-label="Insert page" aria-haspopup="menu" aria-expanded="false">＋</button>
           <button id="presentationExit" type="button" aria-label="Exit presentation mode">×</button>
         </div>
       </section>
@@ -125,6 +132,7 @@
           <div class="organizer-actions">
             <button id="selectAllBtn" type="button">Select all</button>
             <button id="rotateBtn" type="button" disabled>Rotate</button>
+            <button id="insertPageBtn" type="button" aria-haspopup="menu" aria-expanded="false">Insert</button>
             <button id="duplicateBtn" type="button" disabled>Duplicate</button>
             <button id="extractSelectedPagesBtn" type="button" disabled>Extract selected</button>
             <button id="deleteBtn" type="button" disabled>Delete</button>
@@ -137,7 +145,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 3.1</div>
+          <div class="export-kicker">Milestone 3.2</div>
           <h1>Files &amp; output</h1>
           <p class="export-summary">Document-level operations live here. Opening files still keeps them separate; combining is always an explicit operation.</p>
 
@@ -202,7 +210,7 @@
             <p id="combineProgress" class="export-progress" aria-live="polite"></p>
           </section>
 
-          <p class="small-note files-roadmap-note">Blank/graph-paper insertion, page-size normalization, image assembly, compression, closing documents, and the persistent Library/folder system remain later roadmap items.</p>
+          <p class="small-note files-roadmap-note">Page-size normalization, image assembly, compression, closing documents, and the persistent Library/folder system remain later roadmap items.</p>
         </div>
       </section>
     </main>
@@ -210,6 +218,19 @@
     <div id="statusBar" class="status-bar" role="status" aria-live="polite">
       <span id="statusText">Ready</span>
       <span id="pdfEngineStatus" class="engine-status">Loading PDF engine…</span>
+    </div>
+
+
+    <div id="newMenu" class="popover hidden" role="menu" aria-label="Create new document">
+      <button id="newBlankDocumentBtn" type="button" role="menuitem">Blank document</button>
+      <button id="newGraphDocumentBtn" type="button" role="menuitem">Graph-paper document</button>
+    </div>
+
+    <div id="insertPageMenu" class="popover insert-page-menu hidden" role="menu" aria-label="Insert page after current page">
+      <button id="insertDuplicateWithAnnotationsBtn" type="button" role="menuitem">Duplicate with annotations</button>
+      <button id="insertDuplicateWithoutAnnotationsBtn" type="button" role="menuitem">Duplicate without annotations</button>
+      <button id="insertBlankPageBtn" type="button" role="menuitem">Blank page</button>
+      <button id="insertGraphPageBtn" type="button" role="menuitem">Graph-paper page</button>
     </div>
 
     <dialog id="infoDialog" class="info-dialog">

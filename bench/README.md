@@ -1,80 +1,82 @@
-# PDF Workbench — Milestone 3.1.2
+# PDF Workbench — Milestone 3.2.0
 
-Milestone 3.1.2 is a layout-only correction built on the successfully tested 3.1.1 document operations. The stable PDF engine and viewer/input foundation remain intentionally unchanged.
+Milestone 3.2.0 adds page/document creation on top of the validated Milestone 3.1 Files engine. The viewer, split-pane state, touch/pen input model, Presentation behavior, and JBIG2/WASM configuration are intentionally preserved.
 
-## 3.1.2 layout correction
+## New document creation
 
-- The Split controls now use an explicit vertical flex layout within each split-method block.
-- Instruction/field content and the corresponding Split button occupy separate layout regions, so text cannot overlap the buttons when the two-column layout is used.
-- On narrow screens the existing one-column breakpoint is preserved.
-- No Split parsing, naming, ZIP, export, viewer, touch, or pen behavior was changed.
+A new **New** button is available in the top application bar even when no files are open. It offers:
 
-## Files workspace
+- **Blank document** — starts a new one-page US Letter portrait document.
+- **Graph-paper document** — starts a new one-page US Letter portrait document with generated graph paper.
 
-The former **Export** tab is now labeled **Files**, beginning the transition toward the planned document/library workspace. It currently contains document-level output/manipulation tools; persistent storage, folders, and Close/Reopen come later.
+These are real editable working documents in PDF Workbench and can be organized, combined, split, or exported like imported PDFs.
 
-### Export current document
+## Insert page after current
 
-Exports the current organized document and preserves:
+The same shared Insert menu is available from three places:
 
-- current page order;
-- deleted and duplicated pages;
-- quarter-turn page rotations;
-- mixed page sizes/orientations;
-- original PDF page contents without rasterizing PDF source pages.
+- **Pages** toolbar: **Insert**.
+- Regular **View** toolbar: **+ Page**.
+- **Presentation** temporary toolbar: compact **+** icon.
 
-### Extract selected pages
+The menu offers:
 
-Select pages in **Pages** and either use **Extract selected** directly in the Pages toolbar or use the matching control in **Files**. Selected pages are exported in their current Pages order.
+1. **Duplicate with annotations**.
+2. **Duplicate without annotations**.
+3. **Blank page** matching the current page's displayed size and orientation.
+4. **Graph-paper page** matching the current page's displayed size and orientation.
 
-### Split current document
+Annotations are not implemented yet, so the two duplicate choices currently look identical. They are separate commands now so their behavior can diverge cleanly when inking is added.
 
-Two split methods are available:
+In Pages, the insertion anchor is the most recently selected page when that page is still selected; otherwise the current View page is used. In View/Presentation, insertion follows the current page. In split view it affects the active pane's document and current page. The newly inserted page becomes current, which is useful for immediately writing on a newly inserted blank/grid page later.
 
-1. **Split every n pages** — for example, every 10 pages.
-3. **Split by page groups** — enter one output group per line. Within a line, commas may combine individual pages and ranges, e.g. `1-4,8,11-13`. The output filename now reflects that exact group: `3,5,7` becomes `pages-3_5_7` rather than the misleading `pages-3-7`.
+## Graph paper
 
-If a split produces multiple PDFs, they are packaged into a single ZIP. This is especially important on iPad so one split operation does not open a separate PDF preview for every part. PDFs inside the ZIP are stored without additional ZIP compression because PDF contents are generally already compressed and recompression wastes memory/time.
+Graph paper is generated rather than rasterized:
 
-### Combine open documents
+- 1/4-inch (18 point) square spacing.
+- white background.
+- very light cyan/blue thin lines.
+- small clean margin.
+- vector grid lines in exported PDFs.
 
-The Files workspace lists open documents with checkboxes and up/down ordering controls. Choose at least two and select **Create combined document**. PDF Workbench creates a new working document containing copies of the selected documents' current page arrangements, in the chosen document order. The original documents remain separate and unchanged.
+The supplied `graph-paper-reference.png` remains in the distribution as the visual reference.
 
-Combining creates an in-app working document; use Export when an external PDF is wanted.
+## Existing Files operations preserved
 
-## Small workflow improvements
+- Export current organized document.
+- Extract selected pages from Pages or Files.
+- Split every n pages.
+- Split by explicit page groups; typed groups are reflected in filenames.
+- Multiple split outputs are packaged into one ZIP.
+- Combine two or more open documents into a new editable working document.
 
-- Tapping/clicking empty space in **Pages** clears the current page selection.
-- Opening/importing files automatically returns to **View**.
-- The top workspace selector is now **View | Pages | Files**.
+Generated blank/graph pages participate in all of these operations.
 
 ## Still planned
 
-- Insert duplicate page with/without annotations.
-- Insert blank and graph-paper pages matching current page size/orientation.
-- Create new blank/graph-paper documents.
 - Page-size normalization, fit/crop/margins.
-- Multi-image PDF assembly.
+- Multi-image PDF assembly improvements.
 - Compression/target size.
 - Close/reopen documents and persistent internal storage.
 - GoodNotes-like Library/folders/search/sort/Recent.
 - Ink/annotations.
-
-`graph-paper-reference.png` is included in this distribution as the user's visual reference for the future graph-paper page style: very light cyan square grid, thin lines, modest margin, and an unobtrusive writing-friendly appearance.
+- When ink arrives, test whether Full Page bottom navigation arrows need auto-hide/palm-safe behavior.
 
 ## Version
 
-**More → About this build** must report **Milestone 3.1.2**. The service-worker cache is `pdf-workbench-m3.1.2-v1`.
+**More → About this build** must report **Milestone 3.2.0**. The service-worker cache is `pdf-workbench-m3.2.0-v1`.
 
-## Suggested 3.1.2 tests
+## Suggested 3.2.0 tests
 
-1. **Split layout:** check Files on iPad, Surface, and a narrow browser window; instructions/fields must not touch or overlap either Split button.
-2. **Export regression:** repeat a known-good export and verify it still opens correctly.
-3. **Extract from Pages:** select nonconsecutive pages and use the new Pages-toolbar **Extract selected** button; verify order/rotation/page size. Also confirm the Files extraction control still works.
-4. **Split every n:** split a 20+ page PDF into several parts; verify the ZIP and every part.
-5. **Split page groups:** try `3,5,7` and verify the filename contains `pages-3_5_7`; also try groups such as `1-3`, `4-5,8`, and `9-12` and verify each output PDF.
-6. **Combine:** open several PDFs with different sizes/orientations, reorder the document list, create a combined working document, then export it.
-7. **Edited combine:** rotate/reorder/delete pages in one source document before combining and verify the combined document uses that edited working arrangement.
-8. **Pages deselection:** select several pages and tap/click empty space beside/below thumbnails.
-9. **Open workflow:** while in Pages or Files, open another file and verify the app returns to View.
-10. Smoke-test iPad, Surface, and Chromebook finger/pen behavior, split view, Presentation, and JBIG2 rendering for regressions.
+1. Create a new blank document with no files open; export it and verify one Letter-sized blank page.
+2. Create a new graph-paper document; inspect the grid on iPad/Surface/Chromebook and export/open it in Adobe.
+3. In View, insert blank and graph pages after portrait, landscape, rotated, and unusual-sized source pages. Verify size/orientation.
+4. In Pages, select a page and use **Insert**; verify insertion occurs after the intended page and the new page is selected.
+5. In Presentation, reveal the toolbar and insert blank/graph pages; verify the inserted page becomes current and the toolbar still hides normally afterward.
+6. In split View/Presentation, insert into left and right panes separately. If the same PDF is shown in both panes, verify the document update is shared while each pane's view remains independent.
+7. Duplicate a PDF page using both duplicate choices and export. Until ink exists, both exported copies should match the source page.
+8. Rotate a generated graph page, reorder/delete/duplicate it, then export.
+9. Combine a generated document with an imported PDF, then export the combined result.
+10. Split a document containing generated pages and verify the PDF/ZIP outputs.
+11. Regression smoke-test finger pan/pinch, pen non-navigation on document content, visible pen UI activation, Presentation hidden-toolbar behavior, split/single restoration, and BaakeScan/JBIG2 rendering.

@@ -1,4 +1,4 @@
-const APP_VERSION = '3.1.2';
+const APP_VERSION = '3.2.0';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -10,10 +10,10 @@ const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 
 const $ = (id) => document.getElementById(id);
 const els = {
-  app: $('app'), openBtn: $('openBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), documentSelect: $('documentSelect'),
+  app: $('app'), openBtn: $('openBtn'), newBtn: $('newBtn'), newMenu: $('newMenu'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), documentSelect: $('documentSelect'),
   viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), exportModeBtn: $('exportModeBtn'), viewerControls: $('viewerControls'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
-  fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), presentBtn: $('presentBtn'),
+  fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), aboutBtn: $('aboutBtn'),
   emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), exportSummary: $('exportSummary'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
@@ -22,10 +22,10 @@ const els = {
   splitLeftPane: $('splitLeftPane'), splitLeftViewer: $('splitLeftViewer'), splitLeftDocumentSelect: $('splitLeftDocumentSelect'), splitLeftNav: $('splitLeftNav'), splitLeftPrevBtn: $('splitLeftPrevBtn'), splitLeftNextBtn: $('splitLeftNextBtn'), splitLeftCounter: $('splitLeftCounter'),
   splitRightPane: $('splitRightPane'), splitRightViewer: $('splitRightViewer'), splitRightDocumentSelect: $('splitRightDocumentSelect'), splitRightNav: $('splitRightNav'), splitRightPrevBtn: $('splitRightPrevBtn'), splitRightNextBtn: $('splitRightNextBtn'), splitRightCounter: $('splitRightCounter'),
   thumbnailGrid: $('thumbnailGrid'), pageCountLabel: $('pageCountLabel'), selectionLabel: $('selectionLabel'),
-  selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), deleteBtn: $('deleteBtn'),
+  selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -65,6 +65,7 @@ const state = {
   pinchNeedsRender: false,
   pinchRenderFrame: null,
   suppressSingleScrollSave: false,
+  insertMenuAnchor: null,
   splitView: false,
   activePaneId: 'left',
   singleSourcePaneId: 'left',
@@ -159,7 +160,7 @@ function removeDocument(docId) {
   const index = state.documents.findIndex(d => d.id === docId);
   if (index < 0) return;
   const doc = state.documents[index];
-  const sourceIds = new Set(doc.pages.map(p => p.sourceId));
+  const sourceIds = new Set(doc.pages.map(p => p.sourceId).filter(Boolean));
   for (const sourceId of sourceIds) {
     const usedElsewhere = state.documents.some(d => d.id !== docId && d.pages.some(p => p.sourceId === sourceId));
     if (!usedElsewhere) {
@@ -548,6 +549,170 @@ async function addImage(file) {
   return 1;
 }
 
+
+const DEFAULT_NEW_PAGE_WIDTH = 612;   // US Letter, points
+const DEFAULT_NEW_PAGE_HEIGHT = 792;
+const GRAPH_GRID_SPACING_PT = 18;     // 1/4 inch at 72 points/inch
+const GRAPH_GRID_MARGIN_PT = 9;
+
+function generatedPage(type='blank', width=DEFAULT_NEW_PAGE_WIDTH, height=DEFAULT_NEW_PAGE_HEIGHT) {
+  return {
+    id: uid('page'),
+    sourceId: null,
+    sourcePage: 1,
+    width: Math.max(1, Number(width) || DEFAULT_NEW_PAGE_WIDTH),
+    height: Math.max(1, Number(height) || DEFAULT_NEW_PAGE_HEIGHT),
+    baseRotation: 0,
+    rotation: 0,
+    kind: 'generated',
+    generatedType: type === 'graph' ? 'graph' : 'blank',
+  };
+}
+
+function clonePageInstance(page, includeAnnotations=true) {
+  const copy = { ...page, id: uid('page') };
+  // Annotation objects will be document-level objects keyed by pageId. The
+  // includeAnnotations flag is retained now so this command already has the
+  // correct semantic hook; when ink arrives, that layer will clone/re-key the
+  // current page's annotation objects only for the "with annotations" case.
+  void includeAnnotations;
+  return copy;
+}
+
+function pageDisplayDimensions(page) {
+  const [width, height] = rotatedDims(page);
+  return { width, height };
+}
+
+function insertionTargetPageId() {
+  // In Pages, the last directly selected page is the most useful insertion
+  // anchor. This takes precedence even if the viewer was previously in Split.
+  if (state.workspaceMode === 'organize' && state.selectionAnchorId && state.selected.has(state.selectionAnchorId)) return state.selectionAnchorId;
+  if (state.splitView) return paneView(state.activePaneId)?.activePageId || state.activePageId;
+  return state.activePageId || state.pages[0]?.id || null;
+}
+
+function synchronizeActiveSplitDocumentForEdit() {
+  if (!state.splitView) return currentDocument();
+  const pane = splitPaneState(state.activePaneId);
+  if (pane.documentId && pane.documentId !== state.currentDocumentId) loadDocumentState(pane.documentId, false);
+  return currentDocument();
+}
+
+function insertPageAfterCurrent(kind, includeAnnotations=true) {
+  const doc = synchronizeActiveSplitDocumentForEdit();
+  if (!doc?.pages?.length) return;
+  const targetId = insertionTargetPageId();
+  let index = state.pages.findIndex(page => page.id === targetId);
+  if (index < 0) index = Math.max(0, activeIndex());
+  const current = state.pages[index];
+  if (!current) return;
+
+  const before = snapshotPages();
+  let inserted;
+  if (kind === 'duplicate') {
+    inserted = clonePageInstance(current, includeAnnotations);
+  } else {
+    const dims = pageDisplayDimensions(current);
+    inserted = generatedPage(kind === 'graph' ? 'graph' : 'blank', dims.width, dims.height);
+  }
+
+  state.pages = [...state.pages.slice(0, index + 1), inserted, ...state.pages.slice(index + 1)];
+  state.activePageId = inserted.id;
+  if (state.workspaceMode === 'organize') {
+    state.selected = new Set([inserted.id]);
+    state.selectionAnchorId = inserted.id;
+  }
+  if (!state.splitView) {
+    const singleView = ensureSingleView(doc);
+    if (singleView) {
+      singleView.activePageId = inserted.id;
+      singleView.scrollTop = null;
+      singleView.scrollLeft = null;
+    }
+  }
+  if (state.splitView) {
+    const view = paneView(state.activePaneId, doc.id);
+    if (view) {
+      view.activePageId = inserted.id;
+      view.scrollTop = null;
+      view.scrollLeft = null;
+    }
+  }
+  commitHistory(before);
+  saveCurrentDocumentState();
+  renderAll();
+  if (state.workspaceMode === 'view') {
+    requestAnimationFrame(() => state.splitView
+      ? scrollSplitActivePageIntoView(state.activePaneId, 'auto')
+      : scrollActivePageIntoView('auto'));
+  }
+  const label = kind === 'duplicate'
+    ? `Duplicated page ${index + 1}${includeAnnotations ? '' : ' without annotations'}`
+    : `Inserted ${kind === 'graph' ? 'graph-paper' : 'blank'} page after page ${index + 1}`;
+  setStatus(label);
+}
+
+function createNewGeneratedDocument(type='blank') {
+  const isGraph = type === 'graph';
+  const doc = createDocument(isGraph ? 'Graph Paper.pdf' : 'Untitled.pdf');
+  const page = generatedPage(isGraph ? 'graph' : 'blank');
+  doc.pages = [page];
+  doc.activePageId = page.id;
+  doc.singleView = { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: page.id, scrollTop: null, scrollLeft: null };
+  state.pages = doc.pages;
+  state.selected = doc.selected;
+  state.selectionAnchorId = null;
+  state.activePageId = page.id;
+  state.history = doc.history;
+  state.future = doc.future;
+  state.workspaceMode = 'view';
+  if (state.splitView) {
+    const pane = splitPaneState(state.activePaneId);
+    pane.documentId = doc.id;
+    pane.views.set(doc.id, defaultPaneView(doc));
+  }
+  saveCurrentDocumentState();
+  renderAll();
+  setStatus(`Created new ${isGraph ? 'graph-paper' : 'blank'} document`);
+}
+
+function drawGraphPaperCanvas(ctx, targetW, targetH, pageWidth, pageHeight) {
+  const sx = targetW / pageWidth;
+  const sy = targetH / pageHeight;
+  const spacingX = GRAPH_GRID_SPACING_PT * sx;
+  const spacingY = GRAPH_GRID_SPACING_PT * sy;
+  const marginX = GRAPH_GRID_MARGIN_PT * sx;
+  const marginY = GRAPH_GRID_MARGIN_PT * sy;
+  ctx.save();
+  ctx.strokeStyle = 'rgba(92, 193, 217, 0.24)';
+  ctx.lineWidth = Math.max(0.55, Math.min(1.05, 0.6 * ((sx + sy) / 2)));
+  ctx.beginPath();
+  for (let x = marginX; x <= targetW - marginX + 0.25; x += spacingX) {
+    const px = Math.round(x) + 0.5;
+    ctx.moveTo(px, marginY);
+    ctx.lineTo(px, targetH - marginY);
+  }
+  for (let y = marginY; y <= targetH - marginY + 0.25; y += spacingY) {
+    const py = Math.round(y) + 0.5;
+    ctx.moveTo(marginX, py);
+    ctx.lineTo(targetW - marginX, py);
+  }
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawGraphPaperPdf(pdfPage, width, height, rgb) {
+  const color = rgb(0.46, 0.77, 0.87);
+  const margin = Math.min(GRAPH_GRID_MARGIN_PT, width / 4, height / 4);
+  for (let x = margin; x <= width - margin + 0.01; x += GRAPH_GRID_SPACING_PT) {
+    pdfPage.drawLine({ start: { x, y: margin }, end: { x, y: height - margin }, thickness: 0.45, color, opacity: 0.24 });
+  }
+  for (let y = margin; y <= height - margin + 0.01; y += GRAPH_GRID_SPACING_PT) {
+    pdfPage.drawLine({ start: { x: margin, y }, end: { x: width - margin, y }, thickness: 0.45, color, opacity: 0.24 });
+  }
+}
+
 async function readImageDimensions(file, url) {
   if ('createImageBitmap' in window) {
     try {
@@ -788,7 +953,7 @@ function downloadPdfBytes(bytes, filename) {
 }
 
 async function buildPdfBytes(pageList, options={}) {
-  const { PDFDocument, degrees } = await loadPdfExportEngine();
+  const { PDFDocument, degrees, rgb } = await loadPdfExportEngine();
   const output = await PDFDocument.create();
   const sourcePdfCache = options.sourcePdfCache || new Map();
   const embeddedImages = new Map();
@@ -796,11 +961,15 @@ async function buildPdfBytes(pageList, options={}) {
 
   for (let i = 0; i < total; i++) {
     const page = pageList[i];
-    const source = state.sources.get(page.sourceId);
-    if (!source) throw new Error(`Source data is missing for output page ${i + 1}.`);
+    const source = page.kind === 'generated' ? null : state.sources.get(page.sourceId);
+    if (page.kind !== 'generated' && !source) throw new Error(`Source data is missing for output page ${i + 1}.`);
     options.onProgress?.(i + 1, total);
 
-    if (source.type === 'pdf') {
+    if (page.kind === 'generated') {
+      const outPage = output.addPage([page.width, page.height]);
+      if (page.generatedType === 'graph') drawGraphPaperPdf(outPage, page.width, page.height, rgb);
+      if (page.rotation) outPage.setRotation(degrees((page.rotation + 360) % 360));
+    } else if (source.type === 'pdf') {
       let srcPdf = sourcePdfCache.get(source.id);
       if (!srcPdf) {
         srcPdf = await PDFDocument.load(source.bytes, { updateMetadata: false });
@@ -1168,7 +1337,8 @@ function renderOrganizer() {
     const title = document.createElement('div');
     title.className = 'thumb-title';
     const src = state.sources.get(page.sourceId);
-    title.textContent = `${index + 1} · ${src?.name ?? 'Page'}${src?.type === 'pdf' ? ` · p.${page.sourcePage}` : ''}`;
+    const generatedLabel = page.kind === 'generated' ? (page.generatedType === 'graph' ? 'Graph paper' : 'Blank page') : null;
+    title.textContent = generatedLabel ? `${index + 1} · ${generatedLabel}` : `${index + 1} · ${src?.name ?? 'Page'}${src?.type === 'pdf' ? ` · p.${page.sourcePage}` : ''}`;
     title.title = title.textContent;
 
     const handle = document.createElement('button');
@@ -1206,7 +1376,7 @@ async function renderThumbnail(page, canvas) {
     await renderPageToCanvas(page, canvas, cssWidth, cssHeight, 1.05, 1_100_000);
     // A scan image can occasionally fail to materialize while PDF.js still
     // resolves the render task. Retry once at a smaller raster size.
-    if (canvasLooksBlank(canvas) && preview.isConnected) {
+    if (page.kind !== 'generated' && canvasLooksBlank(canvas) && preview.isConnected) {
       await renderPageToCanvas(page, canvas, cssWidth, cssHeight, 0.8, 650_000);
     }
   }, 0);
@@ -2095,7 +2265,7 @@ async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
   }, 10);
   if (!didRender || generation !== pane.generation || !stage.isConnected) return;
   if (stage.dataset.wantRender === 'false') { releaseViewerStage(stage); return; }
-  if (canvasLooksBlank(canvas)) {
+  if (page.kind !== 'generated' && canvasLooksBlank(canvas)) {
     ensurePageLoading(stage, 'Retrying scan…');
     await enqueueRender(async () => {
       if (generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
@@ -2154,7 +2324,7 @@ async function renderViewerPage(page, stage, canvas, generation) {
   // memory pressure: PDF.js resolves, but the canvas remains solid white. A
   // lower-resolution second render is much less demanding and is preferable to
   // leaving an apparently missing page.
-  if (canvasLooksBlank(canvas)) {
+  if (page.kind !== 'generated' && canvasLooksBlank(canvas)) {
     ensurePageLoading(stage, 'Retrying scan…');
     await enqueueRender(async () => {
       if (generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
@@ -2173,8 +2343,8 @@ async function renderViewerPage(page, stage, canvas, generation) {
 }
 
 async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxPixels=10_000_000) {
-  const source = state.sources.get(page.sourceId);
-  if (!source) throw new Error('Source file is no longer available.');
+  const source = page.kind === 'generated' ? null : state.sources.get(page.sourceId);
+  if (page.kind !== 'generated' && !source) throw new Error('Source file is no longer available.');
   let targetW = Math.max(1, Math.round(cssWidth * dpr));
   let targetH = Math.max(1, Math.round(cssHeight * dpr));
   const pixelCount = targetW * targetH;
@@ -2193,7 +2363,9 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
   ctx.fillRect(0, 0, targetW, targetH);
   ctx.restore();
 
-  if (source.type === 'pdf') {
+  if (page.kind === 'generated') {
+    if (page.generatedType === 'graph') { const [displayW, displayH] = rotatedDims(page); drawGraphPaperCanvas(ctx, targetW, targetH, displayW, displayH); }
+  } else if (source.type === 'pdf') {
     const pdfPage = await getPdfPage(source, page.sourcePage);
     const totalRotation = ((page.baseRotation || 0) + page.rotation) % 360;
     const natural = pdfPage.getViewport({ scale: 1, rotation: totalRotation });
@@ -2313,6 +2485,8 @@ async function exitPresentation() {
 }
 
 function clearAll() {
+  closeInsertPageMenu(false);
+  closeNewMenu();
   for (const source of state.sources.values()) {
     if (source.url) URL.revokeObjectURL(source.url);
     try { source.pdf?.destroy?.(); } catch {}
@@ -2369,9 +2543,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 3.1.2 fixes Split control spacing while preserving the validated Files/Page workflow, document engine, and viewer behavior.</p>
-      <ul><li>The Split instructions, fields, and action buttons are now laid out in separate non-overlapping vertical regions on both wide and narrow/touch layouts.</li><li>Export preserves current page order, deleted pages, duplicated pages, page sizes, and user-applied quarter-turn rotations without rasterizing PDF source pages.</li><li>Extract saves the currently selected Pages as a new PDF and can now be started directly from the Pages toolbar.</li><li>Split supports fixed-size groups and explicit page groups; typed group filenames now preserve nonconsecutive selections such as 3_5_7 instead of misleadingly showing 3-7. Multiple outputs are packaged into one ZIP.</li><li>Combine creates a new working document from two or more open documents while leaving the originals separate.</li><li>Opening/importing a file now returns to View, and tapping empty space in Pages clears page selection.</li><li>The validated Milestone 2 viewer/input behavior and JBIG2/WASM rendering are intentionally preserved.</li></ul>
-      <p><strong>Coming later:</strong> blank/graph-paper insertion, page-size normalization, image assembly, compression, document Close, persistent Library/folders, and ink/annotations.</p>
+      <p>Milestone 3.2.0 adds page/document creation while preserving the validated 3.1 Files engine and Milestone 2 viewer/input behavior.</p>
+      <ul><li><strong>New</strong> creates a one-page US Letter blank or graph-paper document.</li><li><strong>Insert</strong> is available in Pages, regular View, and Presentation and inserts after the current page.</li><li>Insert choices are duplicate with annotations, duplicate without annotations, blank page matching the current page size/orientation, and graph-paper page matching the current page size/orientation.</li><li>The two duplicate choices are intentionally separate now; until annotations are implemented their visible results are the same.</li><li>Graph paper is generated as light vector lines on export at 1/4-inch spacing, based on the supplied writing-grid reference.</li><li>Export, Extract, Split/ZIP, Combine, touch/pen separation, split-pane state, Presentation behavior, and JBIG2/WASM rendering are preserved.</li></ul>
+      <p><strong>Coming later:</strong> page-size normalization, fit/crop/margins, image assembly, compression, document Close, persistent Library/folders, and ink/annotations.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -2403,6 +2577,71 @@ async function forceReloadLatest() {
   }
 }
 
+
+function positionAnchoredPopover(menu, anchor) {
+  if (!menu || !anchor || menu.classList.contains('hidden')) return;
+  const r = anchor.getBoundingClientRect();
+  const box = menu.getBoundingClientRect();
+  const pad = 8;
+  let left = r.left;
+  left = clamp(left, pad, Math.max(pad, window.innerWidth - box.width - pad));
+  let top = r.bottom + 5;
+  if (top + box.height > window.innerHeight - pad) top = Math.max(pad, r.top - box.height - 5);
+  menu.style.left = `${Math.round(left)}px`;
+  menu.style.top = `${Math.round(top)}px`;
+}
+
+function closeNewMenu() {
+  if (!els.newMenu) return;
+  els.newMenu.classList.add('hidden');
+  els.newBtn?.setAttribute('aria-expanded', 'false');
+}
+
+function toggleNewMenu(force) {
+  const open = force ?? els.newMenu?.classList.contains('hidden');
+  closeInsertPageMenu(false);
+  toggleMoreMenu(false);
+  els.newMenu?.classList.toggle('hidden', !open);
+  els.newBtn?.setAttribute('aria-expanded', String(Boolean(open)));
+  if (open) requestAnimationFrame(() => positionAnchoredPopover(els.newMenu, els.newBtn));
+}
+
+function setInsertButtonExpanded(expanded) {
+  for (const button of [els.viewInsertBtn, els.insertPageBtn, els.presentationInsertBtn]) {
+    button?.setAttribute('aria-expanded', String(expanded));
+  }
+}
+
+function closeInsertPageMenu(resumePresentation=true) {
+  if (!els.insertPageMenu) return;
+  const wasOpen = !els.insertPageMenu.classList.contains('hidden');
+  els.insertPageMenu.classList.add('hidden');
+  setInsertButtonExpanded(false);
+  state.insertMenuAnchor = null;
+  if (wasOpen && resumePresentation && document.body.classList.contains('presentation')) showPresentationControls();
+}
+
+function openInsertPageMenu(anchor) {
+  if (!state.pages.length || !anchor) return;
+  closeNewMenu();
+  toggleMoreMenu(false);
+  const alreadyOpen = !els.insertPageMenu.classList.contains('hidden') && state.insertMenuAnchor === anchor;
+  if (alreadyOpen) { closeInsertPageMenu(); return; }
+  state.insertMenuAnchor = anchor;
+  els.insertPageMenu.classList.remove('hidden');
+  setInsertButtonExpanded(false);
+  anchor.setAttribute('aria-expanded', 'true');
+  if (document.body.classList.contains('presentation')) clearTimeout(state.presentationControlsTimer);
+  requestAnimationFrame(() => positionAnchoredPopover(els.insertPageMenu, anchor));
+}
+
+function runInsertCommand(kind, includeAnnotations=true) {
+  const inPresentation = document.body.classList.contains('presentation');
+  closeInsertPageMenu(false);
+  insertPageAfterCurrent(kind, includeAnnotations);
+  if (inPresentation) showPresentationControls();
+}
+
 function positionMoreMenu() {
   if (els.moreMenu.classList.contains('hidden')) return;
   const r = els.moreBtn.getBoundingClientRect();
@@ -2427,6 +2666,8 @@ let resizeTimer;
 function onResize() {
   clearTimeout(resizeTimer);
   if (!els.moreMenu.classList.contains('hidden')) positionMoreMenu();
+  if (!els.newMenu?.classList.contains('hidden')) positionAnchoredPopover(els.newMenu, els.newBtn);
+  if (!els.insertPageMenu?.classList.contains('hidden') && state.insertMenuAnchor) positionAnchoredPopover(els.insertPageMenu, state.insertMenuAnchor);
   resizeTimer = setTimeout(() => { if (state.pages.length && state.workspaceMode === 'view') renderViewer(); }, 120);
 }
 
@@ -2767,7 +3008,10 @@ function setZoomForPane(paneId, value) {
 }
 
 function bindEvents() {
-  els.openBtn.addEventListener('click', () => els.fileInput.click());
+  els.openBtn.addEventListener('click', () => { closeNewMenu(); closeInsertPageMenu(); els.fileInput.click(); });
+  els.newBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleNewMenu(); });
+  els.newBlankDocumentBtn.addEventListener('click', () => { closeNewMenu(); createNewGeneratedDocument('blank'); });
+  els.newGraphDocumentBtn.addEventListener('click', () => { closeNewMenu(); createNewGeneratedDocument('graph'); });
   els.emptyOpenBtn.addEventListener('click', () => els.fileInput.click());
   els.fileInput.addEventListener('change', () => openFiles(els.fileInput.files));
   els.documentSelect.addEventListener('change', () => loadDocumentState(els.documentSelect.value));
@@ -2798,7 +3042,9 @@ function bindEvents() {
   els.zoomResetBtn.addEventListener('click', resetZoom);
   els.zoomInBtn.addEventListener('click', () => zoomBy(1.25));
   els.splitViewBtn.addEventListener('click', toggleSplitView);
+  els.viewInsertBtn.addEventListener('click', (e) => { e.stopPropagation(); openInsertPageMenu(els.viewInsertBtn); });
   els.presentationLayoutBtn.addEventListener('click', toggleSplitView);
+  els.presentationInsertBtn.addEventListener('click', (e) => { e.stopPropagation(); openInsertPageMenu(els.presentationInsertBtn); });
   els.presentationLeftPaneBtn.addEventListener('click', () => { if (state.splitView) { activateSplitPane('left', true); showPresentationControls(); } });
   els.presentationRightPaneBtn.addEventListener('click', () => { if (state.splitView) { activateSplitPane('right', true); showPresentationControls(); } });
   els.presentationScrollModeBtn.addEventListener('click', cycleScrollMode);
@@ -2807,7 +3053,7 @@ function bindEvents() {
   els.presentationZoomInBtn.addEventListener('click', () => zoomBy(1.25));
   els.presentBtn.addEventListener('click', enterPresentation);
   els.presentationExit.addEventListener('click', exitPresentation);
-  els.presentationToolbar.addEventListener('click', (e) => { if (e.target instanceof HTMLButtonElement) restartPresentationHideAfterControl(e); });
+  els.presentationToolbar.addEventListener('click', (e) => { if (e.target instanceof HTMLButtonElement && e.target !== els.presentationInsertBtn) restartPresentationHideAfterControl(e); });
   els.presentationToolbar.addEventListener('pointerdown', () => { if (document.body.classList.contains('presentation')) clearTimeout(state.presentationControlsTimer); });
   els.prevPageBtn.addEventListener('click', () => goPage(-1));
   els.nextPageBtn.addEventListener('click', () => goPage(1));
@@ -2817,12 +3063,17 @@ function bindEvents() {
   els.splitRightNextBtn.addEventListener('click', () => { activateSplitPane('right', true); goPanePage('right', 1); });
   els.selectAllBtn.addEventListener('click', selectAllToggle);
   els.rotateBtn.addEventListener('click', rotateSelected);
+  els.insertPageBtn.addEventListener('click', (e) => { e.stopPropagation(); openInsertPageMenu(els.insertPageBtn); });
   els.duplicateBtn.addEventListener('click', duplicateSelected);
   els.extractSelectedPagesBtn?.addEventListener('click', extractSelectedPdf);
+  els.insertDuplicateWithAnnotationsBtn.addEventListener('click', () => runInsertCommand('duplicate', true));
+  els.insertDuplicateWithoutAnnotationsBtn.addEventListener('click', () => runInsertCommand('duplicate', false));
+  els.insertBlankPageBtn.addEventListener('click', () => runInsertCommand('blank'));
+  els.insertGraphPageBtn.addEventListener('click', () => runInsertCommand('graph'));
   els.deleteBtn.addEventListener('click', deleteSelected);
   els.undoBtn.addEventListener('click', undo);
   els.redoBtn.addEventListener('click', redo);
-  els.moreBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMoreMenu(); });
+  els.moreBtn.addEventListener('click', (e) => { e.stopPropagation(); closeNewMenu(); closeInsertPageMenu(); toggleMoreMenu(); });
   els.clearBtn.addEventListener('click', () => { toggleMoreMenu(false); clearAll(); });
   els.installHelpBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('install'); });
   els.aboutBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('about'); });
@@ -2832,7 +3083,12 @@ function bindEvents() {
       e.stopImmediatePropagation();
     }
   }, true);
-  document.addEventListener('click', (e) => { if (!els.moreMenu.contains(e.target) && e.target !== els.moreBtn) toggleMoreMenu(false); });
+  document.addEventListener('click', (e) => {
+    if (!els.moreMenu.contains(e.target) && e.target !== els.moreBtn) toggleMoreMenu(false);
+    if (els.newMenu && !els.newMenu.contains(e.target) && e.target !== els.newBtn) closeNewMenu();
+    const insertAnchors = [els.viewInsertBtn, els.insertPageBtn, els.presentationInsertBtn];
+    if (els.insertPageMenu && !els.insertPageMenu.contains(e.target) && !insertAnchors.includes(e.target)) closeInsertPageMenu();
+  });
   document.addEventListener('fullscreenchange', () => {
     if (!document.fullscreenElement && document.body.classList.contains('presentation') && !isIPadLike()) exitPresentation();
   });
