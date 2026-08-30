@@ -1,4 +1,4 @@
-const APP_VERSION = '3.1.0';
+const APP_VERSION = '3.1.2';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -22,7 +22,7 @@ const els = {
   splitLeftPane: $('splitLeftPane'), splitLeftViewer: $('splitLeftViewer'), splitLeftDocumentSelect: $('splitLeftDocumentSelect'), splitLeftNav: $('splitLeftNav'), splitLeftPrevBtn: $('splitLeftPrevBtn'), splitLeftNextBtn: $('splitLeftNextBtn'), splitLeftCounter: $('splitLeftCounter'),
   splitRightPane: $('splitRightPane'), splitRightViewer: $('splitRightViewer'), splitRightDocumentSelect: $('splitRightDocumentSelect'), splitRightNav: $('splitRightNav'), splitRightPrevBtn: $('splitRightPrevBtn'), splitRightNextBtn: $('splitRightNextBtn'), splitRightCounter: $('splitRightCounter'),
   thumbnailGrid: $('thumbnailGrid'), pageCountLabel: $('pageCountLabel'), selectionLabel: $('selectionLabel'),
-  selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), duplicateBtn: $('duplicateBtn'), deleteBtn: $('deleteBtn'),
+  selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
   presentationToolbar: $('presentationToolbar'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
@@ -863,6 +863,10 @@ async function extractSelectedPdf() {
   saveCurrentDocumentState();
   const doc = currentDocument();
   if (!doc) return;
+  if (els.extractFilename.dataset.documentId !== doc.id) {
+    els.extractFilename.value = defaultExtractFilename(doc.name);
+    els.extractFilename.dataset.documentId = doc.id;
+  }
   const selectedPages = state.pages.filter(page => state.selected.has(page.id));
   if (!selectedPages.length) {
     els.extractProgress.textContent = 'Select one or more pages in Pages first.';
@@ -870,6 +874,7 @@ async function extractSelectedPdf() {
   }
   const filename = ensurePdfFilename(els.extractFilename.value, defaultExtractFilename(doc.name));
   els.extractPdfBtn.disabled = true;
+  if (els.extractSelectedPagesBtn) els.extractSelectedPagesBtn.disabled = true;
   els.extractProgress.textContent = 'Preparing selected pages…';
   setStatus('Extracting selected pages…', true);
   try {
@@ -886,7 +891,9 @@ async function extractSelectedPdf() {
     els.extractProgress.textContent = `Extract failed: ${err?.message || err}`;
     setStatus('Page extraction failed');
   } finally {
-    els.extractPdfBtn.disabled = state.selected.size === 0;
+    const disabled = state.selected.size === 0;
+    els.extractPdfBtn.disabled = disabled;
+    if (els.extractSelectedPagesBtn) els.extractSelectedPagesBtn.disabled = disabled;
   }
 }
 
@@ -926,14 +933,27 @@ function parsePageGroupSpec(spec, pageCount) {
   return pages;
 }
 
+function normalizedPageGroupLabel(spec) {
+  // Keep the filename faithful to what the user actually requested. A group
+  // such as 3,5,7 must not be mislabeled as the contiguous range 3-7.
+  return spec.split(',').map(rawToken => {
+    const token = rawToken.trim();
+    const match = token.match(/^(\d+)\s*(?:-\s*(\d+))?$/);
+    if (!match) return token.replace(/\s+/g, '');
+    return match[2] ? `${Number(match[1])}-${Number(match[2])}` : String(Number(match[1]));
+  }).filter(Boolean).join('_');
+}
+
 function parseSplitRangeGroups(text, pageList) {
   const lines = String(text || '').split(/\r?\n/).map(line => line.trim()).filter(Boolean);
   if (!lines.length) throw new Error('Enter at least one page group. Put each output PDF on its own line.');
   return lines.map((line, index) => {
     const pageNumbers = parsePageGroupSpec(line, pageList.length);
+    const requestedLabel = normalizedPageGroupLabel(line);
+    const groupPrefix = lines.length > 1 ? `group-${String(index + 1).padStart(2, '0')}-pages-` : 'pages-';
     return {
       pages: pageNumbers.map(pageNo => pageList[pageNo - 1]),
-      label: `group-${String(index + 1).padStart(2, '0')}-pages-${pageNumbers[0]}-${pageNumbers[pageNumbers.length - 1]}`,
+      label: `${groupPrefix}${requestedLabel}`,
     };
   });
 }
@@ -1093,6 +1113,7 @@ function updatePageCounts() {
   const hasSelection = selectedCount > 0;
   els.rotateBtn.disabled = !hasSelection;
   els.duplicateBtn.disabled = !hasSelection;
+  if (els.extractSelectedPagesBtn) els.extractSelectedPagesBtn.disabled = !hasSelection;
   els.deleteBtn.disabled = !hasSelection;
   els.selectAllBtn.textContent = selectedCount === count && count ? 'Select none' : 'Select all';
   els.pageCounter.textContent = count ? `${activeIndex() + 1} / ${count}` : '0 / 0';
@@ -2348,8 +2369,8 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 3.1 expands the document output/manipulation engine and begins turning the former Export workspace into the future Files workspace.</p>
-      <ul><li>Export preserves current page order, deleted pages, duplicated pages, page sizes, and user-applied quarter-turn rotations without rasterizing PDF source pages.</li><li>Extract saves the currently selected Pages as a new PDF.</li><li>Split supports fixed-size groups and explicit page groups; multiple outputs are packaged into one ZIP.</li><li>Combine creates a new working document from two or more open documents while leaving the originals separate.</li><li>Opening/importing a file now returns to View, and tapping empty space in Pages clears page selection.</li><li>The validated Milestone 2 viewer/input behavior and JBIG2/WASM rendering are intentionally preserved.</li></ul>
+      <p>Milestone 3.1.2 fixes Split control spacing while preserving the validated Files/Page workflow, document engine, and viewer behavior.</p>
+      <ul><li>The Split instructions, fields, and action buttons are now laid out in separate non-overlapping vertical regions on both wide and narrow/touch layouts.</li><li>Export preserves current page order, deleted pages, duplicated pages, page sizes, and user-applied quarter-turn rotations without rasterizing PDF source pages.</li><li>Extract saves the currently selected Pages as a new PDF and can now be started directly from the Pages toolbar.</li><li>Split supports fixed-size groups and explicit page groups; typed group filenames now preserve nonconsecutive selections such as 3_5_7 instead of misleadingly showing 3-7. Multiple outputs are packaged into one ZIP.</li><li>Combine creates a new working document from two or more open documents while leaving the originals separate.</li><li>Opening/importing a file now returns to View, and tapping empty space in Pages clears page selection.</li><li>The validated Milestone 2 viewer/input behavior and JBIG2/WASM rendering are intentionally preserved.</li></ul>
       <p><strong>Coming later:</strong> blank/graph-paper insertion, page-size normalization, image assembly, compression, document Close, persistent Library/folders, and ink/annotations.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
@@ -2797,6 +2818,7 @@ function bindEvents() {
   els.selectAllBtn.addEventListener('click', selectAllToggle);
   els.rotateBtn.addEventListener('click', rotateSelected);
   els.duplicateBtn.addEventListener('click', duplicateSelected);
+  els.extractSelectedPagesBtn?.addEventListener('click', extractSelectedPdf);
   els.deleteBtn.addEventListener('click', deleteSelected);
   els.undoBtn.addEventListener('click', undo);
   els.redoBtn.addEventListener('click', redo);

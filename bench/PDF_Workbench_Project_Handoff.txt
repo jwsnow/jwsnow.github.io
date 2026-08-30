@@ -1,3 +1,64 @@
+PDF WORKBENCH PWA — MILESTONE 3.1.2 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.1.2
+Visible About version: 3.1.2
+Service-worker/cache version: pdf-workbench-m3.1.2-v1
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.
+
+MILESTONE 3.1.0 / 3.1.1 DEVICE VALIDATION
+-------------------------------------------
+The user tested Combine, Extract, Split, ZIP output, Files workflow, and the 3.1.1 naming/Pages extraction improvements on Surface and iPad and reported good progress. The core document operations remain the validated baseline unless later testing exposes a specific problem.
+
+MILESTONE 3.1.2 — SPLIT LAYOUT FIX
+------------------------------------
+The user reported that in the prior Files interface the explanatory/field content for Split overlapped the Split action buttons. The cause was the split block layout: `.compact-field { height: 100%; }` could consume the block height while the button followed outside that sizing assumption.
+
+3.1.2 changes only the Split CSS layout:
+- each `.split-tool-block` is an explicit vertical flex container;
+- its field has no forced 100% height and no trailing margin;
+- the action button occupies its own flex item and is pushed below the field;
+- the existing one-column narrow-screen breakpoint remains;
+- Split parsing, filenames, ZIP creation, export, Combine, viewer, touch, pen, Presentation, pane state, and JBIG2 behavior are unchanged.
+
+NEXT WORK
+---------
+After confirming the Split layout on iPad/Surface/Chromebook, continue Milestone 3 page/document creation: duplicate/blank/graph-paper insertion and new blank/graph-paper documents, then page normalization/crop/fit/margins, image assembly, and compression.
+
+DISTRIBUTION RULE
+-----------------
+Every release ZIP must contain this comprehensive handoff and keep visible About version and service-worker/cache version synchronized. Preserve `graph-paper-reference.png` until the graph-paper generator is implemented and its visual specification is fully captured in code/docs.
+
+
+PDF WORKBENCH PWA — MILESTONE 3.1.1 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.1.1
+Visible About version: 3.1.1
+Service-worker/cache version: pdf-workbench-m3.1.1-v1
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.
+
+MILESTONE 3.1.0 DEVICE VALIDATION
+---------------------------------
+The user tested the new Combine, Extract, Split, ZIP output, and Files workflow on both Surface and iPad and reported that they seem to work. Treat the 3.1.0 document-level operations as working unless a later test exposes a specific defect.
+
+MILESTONE 3.1.1 — SMALL USABILITY POLISH
+-----------------------------------------
+- Split-by-page-groups filenames now describe the actual typed group instead of only its first/last page. Example: input `3,5,7` produces a filename label `pages-3_5_7`, not the misleading `pages-3-7`. Ranges remain ranges, so `3-7` remains `pages-3-7`; a mixed group such as `3,5-7,10` becomes `pages-3_5-7_10`.
+- Pages now has an `Extract selected` toolbar action so extraction can be started where selection is made. The existing Files extraction control remains available. Direct extraction from Pages uses the current document's normal default selected-pages filename unless the user already customized that filename for the same document in Files.
+- No viewer, touch, pen, Presentation, split-pane, JBIG2, or core PDF-writing behavior was intentionally changed in this revision.
+
+NEXT WORK
+---------
+Continue Milestone 3 page/document creation and geometry features after 3.1.1 testing: duplicate/blank/graph-paper insertion and new blank/graph-paper documents, then page normalization/crop/fit/margins, image assembly, and compression.
+
+DISTRIBUTION RULE
+-----------------
+Every release ZIP must contain this comprehensive handoff and keep visible About version and service-worker/cache version synchronized. Preserve `graph-paper-reference.png` until the graph-paper generator is implemented and its visual specification is fully captured in code/docs.
+
+
 PDF WORKBENCH PWA — MILESTONE 3.1.0 CURRENT UPDATE
 =====================================================
 
