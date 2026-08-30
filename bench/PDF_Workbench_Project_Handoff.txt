@@ -1,0 +1,1299 @@
+PDF WORKBENCH PWA — CURRENT PROJECT HANDOFF
+============================================
+
+IMPORTANT: READ THIS CURRENT-STATUS SECTION FIRST.
+The historical handoff follows after it for full architectural detail. Where a historical status statement conflicts with this section, this section is authoritative.
+
+CURRENT BUILD
+-------------
+Milestone 2.1.2
+
+Visible About version: 2.1.2
+Service-worker/cache version: pdf-workbench-m2.1.2-v1
+
+Every distributed ZIP should include this handoff file and update it for the release.
+
+CURRENT PURPOSE / ARCHITECTURE
+------------------------------
+PDF Workbench remains a cross-platform, local-processing PWA for Windows, Surface, iPad/Apple Pencil, and Chromebook. Preserve the core architecture from the historical handoff:
+
+- PDF.js viewing, including WASM/JBIG2/CMap/standard-font resource configuration.
+- Separate documents: opening a PDF never implicitly merges it.
+- Document data is shared; viewer-instance state is not.
+- Single, left, and right views each own independent document/page/zoom/fit/scroll/view-mode state.
+- The same PDF may be open in both split panes at different pages and zooms.
+- iPad Presentation is app-level chrome hiding, not Safari native fullscreen.
+- Page organizer selection/reordering/rotation/duplication/deletion behavior already established must not regress.
+- Manual PWA Reload Latest Version remains available.
+
+TEST RESULTS THROUGH 2.1.1
+--------------------------
+1. Pinch/zoom/scroll jumping was seen on Surface, Chromebook, and iPad, possibly worst on iPad. 2.1.1 changed pinch anchoring to use measured before/after layout geometry and protected saved scroll state during DOM rebuilds. Continue testing this.
+
+2. Split -> Single -> Split previously preserved the active pane but could return the inactive pane to the top. 2.1.1 snapshots and protects the inactive pane's exact scroll state during rebuild/restoration. Continue testing left-active, right-active, same-document, and different-document cases.
+
+3. Top toolbar on iPad remains in compact/icon-only form all the time at typical iPad widths. User says this is acceptable. Do not treat it as a bug unless touch targets become too small.
+
+NEW 2.1.2 FIXES
+---------------
+A. HIGH-ZOOM LEFT EDGE WAS UNREACHABLE
+On iPad, when zoomed far in, the page could be panned to the far right but not the far left.
+
+Cause identified in the viewer layout: `.viewer` used column flexbox with `align-items: center`. Once a page was wider than the scrollport, flex centering could place its left side into negative overflow which cannot be reached with a nonnegative scrollLeft.
+
+2.1.2 changes the viewer to `align-items: flex-start` and gives `.page-stage` `margin-inline: auto`.
+Expected result:
+- pages that fit stay centered;
+- pages wider than the viewport start at a real left scroll boundary;
+- both left and right edges are reachable;
+- applies to Single and Split viewers.
+
+B. PRESENTATION PEN HOVER / HIDDEN TOOLBAR
+On Surface, pen hover clearly revealed the hidden Presentation toolbar. The same behavior may have explained apparent pen tap-through on iPad: pen hover revealed the controls just before the tap, then the tap hit the now-visible control.
+
+2.1.2 changes hover reveal to MOUSE ONLY.
+Expected Presentation behavior:
+- mouse hover near top: reveal toolbar;
+- finger tap near top while hidden: reveal toolbar and consume the tap;
+- pen/stylus hover near top: do not reveal toolbar;
+- pen/stylus tap while toolbar hidden: must not activate hidden controls;
+- pen/stylus may still click toolbar controls once the toolbar is visible.
+
+ANNOTATION / INPUT POLICY — CURRENT RECOMMENDATION
+-------------------------------------------------
+Use context-sensitive pointer behavior rather than disabling stylus UI everywhere.
+
+VIEW / ANNOTATE / PRESENTATION:
+- Pen/Apple Pencil with Pen tool: ink only on document content.
+- Pen/Apple Pencil with Eraser: erase.
+- Pen/Apple Pencil with Select/Lasso: annotation selection.
+- One finger: scroll/pan while leaving the selected ink tool active.
+- Two fingers: pinch zoom/pan while leaving the selected ink tool active.
+- Pen may operate visible buttons, checkboxes, selects, etc.
+- Pen hover must not reveal hidden Presentation chrome.
+- Finger tap near top is the normal touch reveal gesture.
+
+PAGES / ORGANIZER:
+- Because there is no ink canvas, pen may continue acting like a pointer for page selection, checkboxes, and drag/reorder.
+
+ANNOTATION SETTINGS TO ADD:
+- Draw with Finger: OFF by default.
+- Finger navigation remains active even while Pen/Eraser/Select is selected.
+- Do not initially add a setting that allows pen hover to reveal Presentation controls; predictable writing is more important.
+- If a Hand/Pan tool is added later, stylus panning may be allowed when that tool is deliberately selected.
+
+NEW PAGE / NOTES FEATURES ALREADY REQUESTED
+-------------------------------------------
+After the current page, support insertion of:
+- copy of current page with annotations;
+- copy of current page without annotations;
+- blank page same size/orientation as current page;
+- graph-paper page same size/orientation as current page, with light marks and approximately 1/4-inch squares.
+
+Consider exposing the same insertion commands in Presentation, normal View, and Pages/Document view.
+
+Allow creating a new document that begins as one blank page or one graph-paper page. This lets PDF Workbench serve as a notes application once inking exists.
+
+IMMEDIATE 2.1.2 DEVICE TESTS
+----------------------------
+1. iPad high zoom (300-400%): pan to both far left and far right page edges.
+2. Repeat high-zoom pan in left and right split panes.
+3. Confirm normally sized pages remain centered.
+4. Surface Presentation: hover pen at top while toolbar hidden; toolbar must stay hidden.
+5. iPad Presentation: hover/move Pencil near top if supported; toolbar must stay hidden.
+6. Pen tap near top while toolbar hidden: no control activation.
+7. Finger tap at top: first tap reveals only; no control activation.
+8. Visible toolbar: pen may press controls normally.
+9. Desktop mouse hover at top still reveals toolbar.
+10. Re-test pinch midpoint anchoring on iPad/Surface/Chromebook.
+11. Re-test Split -> Single -> Split inactive pane scroll preservation.
+12. Re-test same PDF independently in both panes.
+13. Re-test large JBIG2 scan PDF.
+14. Verify About says 2.1.2 and Reload Latest Version updates the cache.
+
+NEXT DEVELOPMENT DIRECTION
+--------------------------
+Finish viewer stability first. Then proceed into page/output manipulation and/or the queued blank/graph-paper document model work. Annotation should follow the input policy above so navigation does not require leaving Pen/Eraser/Select.
+
+======================================================================
+HISTORICAL HANDOFF (through Milestone 2.1.0; retained for full detail)
+======================================================================
+
+PDF WORKBENCH PWA — COMPLETE PROJECT HANDOFF
+============================================
+
+Purpose of this file
+--------------------
+This file is intended to be uploaded at the start of a new ChatGPT conversation so development can continue without reconstructing the long prior chat.
+
+The project is a cross-platform PDF workbench / viewer / annotator being built incrementally as a hosted Progressive Web App (PWA). It is intended for:
+
+- Windows desktop/laptop
+- Windows Surface-style touch/stylus devices
+- iPad with Apple Pencil
+- Chromebook, including touch/stylus models where available
+
+The application should feel much lighter than Acrobat and use less permanent screen space than Goodnotes, especially in classroom projection. It should support strong PDF manipulation as well as a future annotation system.
+
+The current tested build at the end of the prior conversation is:
+
+    Milestone 2.1.0
+
+The About dialog must ALWAYS show the current build/version number, and every new build must also bump the service-worker/cache version so the user can verify which cached/deployed build is actually running.
+
+A manual PWA “reload latest version” / update function has been added and has been confirmed to work on iPad.
+
+
+====================================================================
+1. OVERALL PRODUCT GOAL
+====================================================================
+
+Build a local-processing PDF workbench with three broad working modes:
+
+1. Organize / Pages
+2. View / Annotate
+3. Export
+
+The app itself may be hosted, but PDF processing should happen locally in the browser. User PDFs do not need to be uploaded to a server.
+
+Important philosophy:
+
+- Touch-first, but excellent on Windows desktop too.
+- Support mouse, trackpad, finger, stylus, Apple Pencil.
+- Minimal permanent interface chrome.
+- Full-screen / presentation-style viewing is central.
+- Navigation and annotation tool state must be independent.
+- The user should be able to scroll, zoom, change pages, switch files, or switch panes while Pen/Eraser/Select remains active.
+- Document data and view-instance state must be separated.
+- The same PDF may be displayed in two independent panes at different pages and zoom levels.
+- Editing should be non-destructive until export.
+- Recent local projects/files are desirable.
+- The final app should be useful both for classroom presentation/annotation and general PDF assembly/cleanup.
+
+
+====================================================================
+2. ORIGINALLY REQUESTED PDF CAPABILITIES
+====================================================================
+
+The user initially asked for a general PDF tool that can:
+
+- Combine images into a PDF.
+- Combine PDFs.
+- Mix PDFs and images in one output.
+- Fix page size.
+- Fix page orientation.
+- Rotate pages.
+- Compress PDFs to a maximum target file size.
+- Rearrange pages.
+- Delete pages.
+- Duplicate pages.
+- Extract selected pages.
+- Split a PDF into groups of n pages.
+- Potentially split by specified page ranges or one page per output.
+- Normalize pages to Letter, Legal, A4, first-page size, or custom dimensions.
+- Fit/center/crop content.
+- Add margins / expand page canvas.
+- Batch-process documents.
+- Eventually support scan cleanup such as:
+  - auto-crop
+  - deskew
+  - grayscale
+  - black-and-white
+  - blank-page detection
+  - contrast/background cleanup
+- Eventually support page numbering / simple headers/footers.
+- ZIP multiple output PDFs where helpful.
+
+OCR, editing existing PDF text, redaction, forms, digital signatures, bookmarks, etc. are NOT current priorities.
+
+
+====================================================================
+3. PWA ARCHITECTURE
+====================================================================
+
+The app is being built as a PWA because the user wants one application that works on Windows, iPad, Surface, and Chromebook.
+
+Benefits/requirements:
+
+- Can be installed to Home Screen / desktop.
+- Can run in a cleaner standalone window.
+- Can cache its own app shell for offline use.
+- Can maintain persistent settings/projects in browser storage.
+- Same codebase across platforms.
+- Files themselves remain local.
+
+Important file-access design:
+
+- Chromium on Windows/Chromebook can optionally use File System Access APIs when available.
+- iPad/Safari cannot be assumed to support the same arbitrary persistent file handles.
+- Therefore cross-platform “Recent Projects” should use internal local copies/project storage in browser storage (IndexedDB/OPFS).
+- Do NOT rely on unrestricted desktop-like filesystem access.
+
+PWA update behavior:
+
+- Every release must bump the visible About version.
+- Every release must bump the service-worker/cache version.
+- The user should be able to force an update via About → Reload latest version / Check for Updates.
+- This manual update path has been tested successfully on iPad.
+- Do not require deleting/reinstalling the Home Screen PWA for updates.
+
+
+====================================================================
+4. MAJOR TECHNICAL COMPONENTS
+====================================================================
+
+Current/expected architecture:
+
+- PDF.js for PDF rendering/viewing.
+- pdf-lib or similar for eventual PDF page/output manipulation.
+- Custom annotation layer rather than relying on PDF.js annotation editor.
+- IndexedDB / OPFS for local project persistence later.
+- Service worker for PWA/offline/update behavior.
+- Pointer Events for mouse/touch/stylus unification.
+- Non-destructive document/page model.
+- View-instance state separate from document state.
+
+The downloadable test builds have been provided as ZIP files and run from a local HTTP server for desktop testing.
+
+When testing locally on Windows, the app must be served over HTTP rather than opened with file:// because service workers/PWA behavior require HTTP/HTTPS.
+
+
+====================================================================
+5. DOCUMENT MODEL — IMPORTANT ARCHITECTURAL RULES
+====================================================================
+
+Opening another PDF must NOT implicitly merge it into the current document.
+
+This bug existed in Milestone 1 and was corrected.
+
+“Open” means:
+    open another separate document.
+
+“Combine/Merge” will later be an explicit operation.
+
+Each document should have its own document-level state:
+
+- source PDF/image data
+- pages / page instances
+- page order
+- rotations
+- crops/transforms
+- deletions/duplications
+- annotations later
+- document-level undoable edits
+
+Each viewer pane/view instance should have its own independent viewing state:
+
+- which document it shows
+- current page
+- scroll position
+- zoom percentage
+- Fit Page / Fit Width / manual zoom
+- Continuous / Page Snap / Full Page mode
+- focus/active-pane state
+
+Critical rule:
+
+    THE DOCUMENT IS SHARED; THE VIEW IS NOT.
+
+This matters especially when the SAME PDF is open in both left and right panes.
+
+Example desired behavior:
+
+LEFT:
+    BaakeScan.pdf
+    page 12
+    80%
+    Continuous
+
+RIGHT:
+    BaakeScan.pdf
+    page 47
+    120%
+    Full Page
+
+Scrolling/zooming/changing pages in one pane must NOT affect the other.
+
+Later, annotations are document-level:
+- If both panes show page 20 of the same PDF and the user writes on page 20 in one pane, the annotation should appear in the other pane too.
+- But viewport position/zoom remains independent.
+
+
+====================================================================
+6. PAGE ORGANIZER / THUMBNAIL FUNCTIONALITY
+====================================================================
+
+The Pages/organizer portion has been tested fairly extensively and is currently considered largely functional across:
+
+- Windows
+- iPad
+- Surface
+- Chromebook
+
+Existing functionality includes:
+
+- thumbnails
+- page selection
+- multiple selection
+- Shift-range selection
+- checkbox-based additive selection
+- rotate
+- duplicate
+- delete
+- undo/redo
+- drag reorder
+- multiple open documents
+
+Important selection behavior agreed upon:
+
+Thumbnail checkbox:
+- Checking a page adds it to selection.
+- Checking another page adds that page too; Ctrl is not required.
+- Unchecking removes only that page.
+- Shift-clicking a checkbox applies checked/unchecked state across the range from the selection anchor.
+- Checkbox visuals must immediately match actual selection.
+
+Thumbnail/page preview selection:
+- Normal click can select one page.
+- Ctrl-click toggles individual pages on desktop.
+- Shift-click selects a range.
+
+Drag/reorder bugs already fixed:
+- Early version moved only one position at a time.
+- Added drag ghost.
+- Added visible placeholder.
+- Added long-distance/multi-row dragging.
+- Added reflow animation.
+- Added edge auto-scroll.
+- Fixed premature empty slot appearing immediately after click.
+- Drag placeholder now begins only after a drag threshold.
+- iPad native text/image selection during thumbnail dragging is suppressed.
+- iPad dragging has been tested and works.
+
+Thumbnail fit bug already fixed:
+- Thumbnails now use true contain-to-fit behavior so the whole page is visible.
+- Consistent preview wells are used for odd page sizes/orientations.
+
+
+====================================================================
+7. LARGE SCANNED PDF / JBIG2 BUG — IMPORTANT FIX
+====================================================================
+
+A large scanned PDF called:
+
+    BaakeScan.pdf
+
+was used as a test case.
+
+Initially many pages appeared completely blank:
+- in thumbnails
+- in the main viewer
+- on Windows
+- on iPad
+- rerendering/scrolling away and back did not fix them
+
+The same pages displayed normally in Adobe Acrobat and Chrome’s built-in viewer.
+
+Inspection of the actual PDF showed:
+- 58 PDF pages
+- 20 pages used ordinary JPEG images
+- 38 pages used JBIG2 compression
+
+The blank-page pattern corresponded to JBIG2 scan pages.
+
+Root cause:
+The custom PDF.js integration had configured the PDF.js worker but had NOT configured its WebAssembly decoder/resource paths.
+
+Recent PDF.js versions use a WASM-based JBIG2 decoder, so the custom integration needed the correct resource configuration.
+
+Fix implemented:
+Provide PDF.js with:
+- wasmUrl
+- packed CMaps / cMapUrl as appropriate
+- standardFontDataUrl
+- WebAssembly support / decoder resources
+
+After this change, the previously blank pages appeared normally.
+
+IMPORTANT:
+Do not remove or regress this configuration.
+JBIG2 is common in scanned PDFs, so this is a required permanent compatibility feature.
+
+Large scanned PDFs should also continue to use bounded canvas/rendering memory:
+- do not eagerly retain every page object/canvas at high resolution
+- render near the viewport
+- release far-away canvases
+- keep thumbnails lower resolution
+- avoid excessive simultaneous raster renders
+
+
+====================================================================
+8. VIEWER MODES
+====================================================================
+
+Three viewer modes are implemented/planned as primary modes:
+
+1. Continuous
+   - Normal vertical scrolling.
+   - Can stop with portions of two pages visible.
+
+2. Page Snap
+   - Free vertical scrolling.
+   - Settles/aligns to a useful page position when scrolling ends.
+
+3. Full Page
+   - One full page at a time.
+   - Swipe/wheel/page buttons move page-by-page.
+
+Fit/zoom modes:
+
+- Fit Page
+- Fit Width
+- Manual zoom percentage
+- Desktop − / percentage / + controls
+- Ctrl+wheel/trackpad zoom
+- Pinch-to-zoom on touch devices
+
+Zoom range currently roughly:
+    25% to 400%
+
+Fit Page and Fit Width should have DISTINCT icons.
+
+A current design issue:
+The Full Page viewing icon has looked too much like the Single-layout icon in Presentation mode.
+This should be corrected in the next revision with clearly different iconography.
+
+
+====================================================================
+9. PRESENTATION MODE
+====================================================================
+
+Presentation mode is central to classroom use.
+
+Goal:
+The document gets the screen; controls appear only when needed.
+
+Windows/desktop:
+- True browser fullscreen is acceptable.
+
+iPad:
+- Do NOT invoke native Safari fullscreen.
+- Native iPad fullscreen uses a downward swipe system gesture that conflicts with vertical PDF scrolling.
+- Instead use app-level “chrome hidden” Presentation mode inside the PWA/browser content area.
+- This has been tested and works much better, especially when installed from Home Screen.
+
+Presentation toolbar behavior:
+
+- Hidden by default.
+- Appears when user moves/taps near the top.
+- Auto-hides after a short delay.
+- After using a toolbar button, auto-hide timer should restart.
+- Hidden controls must NOT receive accidental clicks/taps.
+- A tap whose purpose is merely to reveal the hidden toolbar must be consumed and must not also activate a button beneath it.
+
+This tap-through bug previously existed.
+As of Milestone 2.1.0:
+- Surface testing indicates the hidden-control tap-through fix seems to work in ordinary cases.
+- However, one earlier Chromebook/Presentation test found that when scrolled all the way to the top, touching the top could still hit a hidden-menu button.
+- Milestone 2.1.0 was intended to fix this. Continue testing on iPad/Chromebook.
+
+Presentation toolbar sizing:
+
+Current requirement:
+Do NOT progressively squeeze/shrink labeled buttons.
+
+Use essentially a two-state toolbar:
+- Wide enough: icon + text label
+- Not wide enough: icon only
+
+Keep practical touch/click target size.
+Do not shrink buttons/text/padding through awkward intermediate sizes.
+
+If still too narrow:
+- remove labels
+- tighten gaps moderately
+- move secondary controls into overflow
+- only use horizontal scrolling as a last resort
+
+Surface testing of Milestone 2.1.0 found narrow-window button resizing still not acceptable.
+The user specifically requested the simpler:
+    labeled buttons → icons only
+transition.
+
+
+====================================================================
+10. MULTI-DOCUMENT / SPLIT VIEW
+====================================================================
+
+Milestone 2.0.0 added split view.
+
+Features already present:
+
+- Two documents side by side.
+- Each pane has its own document selector.
+- Tap/click pane to make it active.
+- Active pane indicated visually.
+- Main viewer controls act on active pane.
+- Each pane can have independent:
+  - document
+  - zoom
+  - fit mode
+  - current page
+  - scroll position
+  - viewing mode
+- Full Page navigation can be controlled independently.
+- Touch scrolling and pinch zoom intended to work independently.
+- Split view works in Presentation mode.
+- In split Presentation mode, L/R controls select which pane toolbar actions affect.
+
+Important desired capability:
+The SAME PDF may be open in both panes at different pages/zooms.
+This is intentionally useful for teaching and is something Goodnotes cannot easily do without iPad multitasking.
+
+Single/Split behavior required:
+
+Single → Split:
+- The current Single document should transfer into the active split pane at the same page/zoom/scroll state.
+- The other split pane should restore its previous state if available.
+- If no previous other-pane document exists, it may choose a sensible most-recently-used other document.
+
+Split → Single:
+- Whichever pane is active should become the Single view.
+- Preserve its exact visible state.
+- Preserve the inactive pane state in memory.
+
+Single → Split again:
+- The pane that had become Single should receive the updated Single state.
+- The other pane should reappear exactly where it was left.
+
+Example:
+
+Start split:
+LEFT = PDF A page 12 at 80%
+RIGHT = PDF A page 47 at 120%
+
+Make LEFT active → switch to Single.
+In Single move to page 18, zoom 90%.
+Switch back to Split.
+
+Expected:
+LEFT = PDF A page 18 at 90%
+RIGHT = PDF A page 47 at 120%
+
+Current status:
+Milestone 2.1.0 improved Single↔Split transfer considerably on Surface.
+Surface test said:
+- selecting active pane from split and transferring seems to work better
+
+However, before 2.1.0 there was a specific aliasing bug:
+- If right pane was active
+- choose a document
+- switch to Single
+- switch back to Split
+- both panes could become the original right-pane document
+
+2.1.0 was specifically intended to fix this by making left/right/single separate view instances rather than aliased state.
+
+Continue testing this on:
+- iPad
+- Chromebook
+- Surface
+
+
+====================================================================
+11. PINCH ZOOM — CURRENT UNRESOLVED BUG
+====================================================================
+
+This is the main known viewer bug after Milestone 2.1.0.
+
+Observed on:
+- Surface
+- Chromebook
+- iPad
+
+Behavior:
+When pinch-zooming, the visible scroll/document position jumps.
+
+Desired behavior:
+The PDF point under the midpoint of the user’s fingers before zoom should remain under the midpoint after zoom.
+
+Correct algorithm concept:
+
+1. Determine the pinch midpoint in viewer coordinates.
+2. Determine the exact PDF/document coordinate under that midpoint BEFORE scaling.
+3. Apply new scale.
+4. Wait until the page/layout dimensions reflect the new zoom.
+5. Measure actual post-layout geometry.
+6. Adjust scrollLeft/scrollTop so the same PDF/document coordinate returns to the same screen midpoint.
+
+Important:
+The previous 2.1.0 approach tried to anchor pinch zoom but Surface still jumps.
+Do NOT keep merely tuning the same ratio-only math.
+The next revision should use actual before/after layout measurement.
+
+Each pane must perform this independently.
+The same document shown in both panes must not have one pane’s pinch zoom affect the other.
+
+
+====================================================================
+12. ZOOM / VIEW STATE BY DOCUMENT AND BY PANE
+====================================================================
+
+Earlier builds added per-document zoom preservation in single-document viewing.
+This worked on iPad Safari.
+
+However, split view revealed the need for a more precise distinction:
+
+Document-level preferences may include:
+- perhaps preferred fit/zoom defaults
+
+But actual active view state must belong to VIEW INSTANCES, not just documents.
+
+Therefore:
+
+Single view state:
+- document
+- page
+- scroll
+- zoom
+- fit mode
+- viewer mode
+
+Left pane view state:
+- document
+- page
+- scroll
+- zoom
+- fit mode
+- viewer mode
+
+Right pane view state:
+- document
+- page
+- scroll
+- zoom
+- fit mode
+- viewer mode
+
+This prevents one pane from affecting another when the same document is shown twice.
+
+Document edits remain shared.
+
+
+====================================================================
+13. RELOAD/PERSISTENCE BEHAVIOR
+====================================================================
+
+Some versions seemed to remember split/single or viewer state inconsistently across reloads.
+
+Agreed behavior until Recent Projects exists:
+
+Only intentional app/UI preferences should persist across reloads.
+
+Transient pane/document state should NOT partially survive in confusing ways.
+
+Do not let accidental browser/session state cause:
+- random split/single mode on reload
+- stale active pane
+- pane document aliasing
+- half-restored scroll/zoom
+
+Later, when Recent Projects is implemented, project/view state persistence can be explicit and reliable.
+
+
+====================================================================
+14. ANNOTATION SYSTEM — FUTURE REQUIREMENTS
+====================================================================
+
+The user currently uses Goodnotes on iPad for comparison.
+
+Goodnotes works well, but its menus consume too much classroom screen space.
+The new app should retain a Goodnotes-quality pen experience while using much less permanent chrome.
+
+The user currently does NOT need shapes/text/arrows as primary annotation tools.
+
+Initial annotation toolbar should focus on:
+
+- Pen
+- Eraser
+- Select/Lasso
+- Undo/Redo
+
+Navigation must remain available without leaving annotation mode.
+
+Important behavior:
+
+If Pen is active:
+- stylus/Pencil writes
+- one finger scrolls/pans
+- two fingers pinch zoom
+- page buttons change pages
+- document switching works
+- pane switching works
+- scroll mode switching works
+- Pen stays active throughout
+
+Likewise for Eraser/Select.
+
+
+====================================================================
+15. INKING REQUIREMENTS
+====================================================================
+
+Ink should NOT be raw straight line segments between pointer samples.
+
+Use smooth local cubic interpolation, likely:
+- Catmull–Rom → cubic Bézier
+or a similar local spline method.
+
+Do NOT use a highly global spline that creates oscillations.
+
+For mathematical handwriting:
+- smoothing must be conservative
+- preserve sharp deliberate corners
+- do not “correct” symbols excessively
+
+Potential pipeline:
+
+raw pointer samples
+    ↓
+remove near-duplicates
+    ↓
+light positional filtering
+    ↓
+local cubic interpolation
+    ↓
+pressure smoothing
+    ↓
+render variable-width stroke
+
+Store original/sample data so strokes remain editable.
+
+Stylus data may include:
+- x
+- y
+- pressure
+- timestamp
+- potentially tilt/angle
+
+Use coalesced pointer events where available for higher-frequency input.
+Use predicted samples where available for lower visual latency.
+
+Predicted ink is temporary only and must be replaced by real samples.
+
+
+====================================================================
+16. PALM REJECTION
+====================================================================
+
+Required.
+
+Default desired behavior:
+
+Stylus/Pencil:
+    draws
+
+Finger/palm while stylus is actively drawing:
+    ignored as drawing input
+
+Finger when stylus is not drawing:
+    scroll/pan
+
+Two fingers:
+    pinch/zoom and pan
+
+Optional setting:
+    Draw with Finger = Off by default
+
+Use Pointer Events to distinguish:
+- pen
+- touch
+- mouse
+
+This needs actual testing on:
+- Apple Pencil
+- Surface pen
+- Chromebook stylus if available
+
+
+====================================================================
+17. ANNOTATION OBJECT MODEL
+====================================================================
+
+Annotations must remain editable vector-like objects in project state rather than being burned immediately into pixels/PDF.
+
+A pen stroke should conceptually store:
+
+- id
+- pageId
+- original sample points
+- smoothed path
+- color
+- opacity
+- width
+- pressure information
+- transforms
+
+Because strokes are objects, later operations should support:
+
+- tap select
+- lasso selection
+- rectangle selection
+- select several strokes
+- move
+- cut
+- copy
+- paste
+- duplicate
+- delete
+- change color
+- change width
+- change opacity
+- eventually resize
+- eventually group/ungroup if useful
+
+Internal annotation clipboard should be app-local rather than relying on system clipboard permissions.
+
+Example desired workflow:
+- Lasso handwriting.
+- Copy.
+- Change page.
+- Paste.
+- Move.
+- Recolor.
+
+The clipboard may work across open documents in the app.
+
+
+====================================================================
+18. ERASER
+====================================================================
+
+Start with stroke eraser:
+
+Touch any part of a stroke:
+    delete entire stroke
+
+Later add optional partial/path eraser:
+- geometrically cut a stroke
+- remaining portions become separate stroke objects
+
+
+====================================================================
+19. ANNOTATION EXPORT
+====================================================================
+
+Two kinds of save/output are desired:
+
+Save Project:
+- annotations remain editable
+- page manipulations remain editable/non-destructive
+
+Export PDF:
+- annotations are written into the output PDF
+
+Where practical:
+- export handwriting as vector paths rather than screenshots
+- pressure-sensitive strokes may be exported as filled vector outlines
+
+Explicit:
+    Flatten annotations
+
+may be offered.
+
+
+====================================================================
+20. RECENT FILES / PROJECTS
+====================================================================
+
+Desired later.
+
+Start screen could show:
+
+Open Files
+Recent Projects
+
+A project should eventually preserve:
+
+- source PDFs/images or internal copies
+- page order
+- rotations
+- crops
+- deleted/duplicated pages
+- annotations
+- viewer positions
+- split-pane states
+- zooms
+- scroll modes
+- export settings
+
+On iPad, because persistent arbitrary filesystem handles cannot be assumed, keep internal local working copies.
+
+Provide explicit controls:
+- Remove from Recent
+- Delete Stored Copy
+- Clear Local Projects/Storage
+
+
+====================================================================
+21. EXPORT / PDF MANIPULATION ENGINE — NEXT MAJOR FUNCTIONAL AREA
+====================================================================
+
+After Milestone 2 viewer state is stable, the planned next major phase is the actual output/manipulation engine.
+
+Priority order:
+
+1. Export current rearranged/rotated/duplicated page order.
+2. Explicit merge/combine.
+3. Extract selected pages.
+4. Split every n pages.
+5. Split by selected ranges/page numbers.
+6. Image-to-PDF.
+7. Normalize page size/orientation.
+8. Crop/fit/center/margins.
+9. Compression to target maximum size.
+10. Batch operations / ZIP outputs.
+
+Compression design:
+
+First preserve structure where possible.
+
+Progressive strategy:
+1. Least destructive pass.
+2. Recompress raster images.
+3. Adjust image resolution/JPEG quality.
+4. Iterate toward target file size.
+5. If a strict maximum cannot otherwise be met, offer explicit rasterization fallback.
+
+Important:
+Do NOT silently rasterize selectable text just to hit a target.
+If rasterization is required to guarantee file size, make it an explicit option.
+
+
+====================================================================
+22. UNDO/REDO
+====================================================================
+
+One command-history architecture should eventually cover:
+
+- draw stroke
+- move stroke
+- recolor stroke
+- delete annotation
+- move page
+- delete page
+- rotate page
+- duplicate page
+
+Do NOT store full PDF snapshots for every undo step.
+
+
+====================================================================
+23. PERFORMANCE RULES
+====================================================================
+
+Especially important for iPad and large scanned PDFs:
+
+- Render only visible/near-visible full pages.
+- Generate thumbnails separately at low resolution.
+- Do not keep every page as a high-res canvas.
+- Release far-away canvases.
+- Keep original PDF bytes only once.
+- Store page operations as references rather than copied PDF pages.
+- Store ink as vectors/sample data, not bitmap layers.
+- Use workers where practical.
+- Show genuine progress for long exports/compression.
+- Bound concurrent raster rendering.
+- Preserve the JBIG2/WASM configuration.
+
+
+====================================================================
+24. CROSS-PLATFORM TESTING STATUS
+====================================================================
+
+Windows desktop:
+- organizer largely works
+- viewer largely works
+- presentation toolbar behavior seems adequate
+- large scanned JBIG2 PDF works after decoder fix
+- split view works
+- per-document zoom worked
+- drag works
+
+iPad:
+- best experience is when installed from Home Screen
+- Presentation mode scrolling works when NOT using native iPad fullscreen
+- drag works
+- hidden presentation menu appears near top
+- menu auto-hide improved
+- manual PWA reload/update works
+- per-document zoom preservation worked in Safari
+- split view needs more testing
+- pinch zoom jump exists
+
+Surface:
+- general functionality seems to work
+- Single↔Split transfer improved in 2.1.0
+- hidden-control tap-through appears fixed in testing
+- pinch zoom still jumps
+- narrow-toolbar resizing in 2.1.0 is not acceptable
+
+Chromebook:
+- Pages/organizer functionality seems to work
+- pinch zoom jump exists
+- rotation caused menu buttons to shrink in a way the user did not like
+- user wants a simple labeled→icon-only breakpoint instead
+
+
+====================================================================
+25. MILESTONE HISTORY / IMPORTANT FIXES
+====================================================================
+
+Milestone 1:
+- basic viewer/organizer
+- multiple PDFs incorrectly appended into one document
+- drag weak/broken
+- presentation mode initially hid all controls
+- scan-heavy PDFs had blank pages
+
+Milestone 1.1:
+- improved drag ghost/placeholder/long-distance reordering
+
+Milestone 1.2:
+- separate documents instead of implicit merge
+- document selector
+- per-document page/undo state
+
+Milestone 1.3:
+- scan-memory improvements
+- thumbnail contain-to-fit
+- Shift-range selection
+- desktop zoom controls
+- presentation temporary toolbar
+- menu anchoring fixes
+
+Milestone 1.4:
+- checkbox selection fixes
+- more aggressive scan rendering retry/memory work
+
+Milestone 1.5:
+- stopped using native fullscreen on iPad Presentation mode
+
+Milestone 1.6:
+- iPad drag-selection suppression
+- PWA update behavior improvements
+
+Milestone 1.7:
+- actual JBIG2/WASM fix after inspecting BaakeScan.pdf
+
+Milestone 1.7.1:
+- About version explicitly synchronized
+
+Milestone 1.8:
+- pinch intended to control PDF zoom rather than browser page zoom
+- presentation toolbar separated from PDF scale
+- improved reveal/autohide/tap behavior
+
+Milestone 1.8.1:
+- per-document zoom/fit preservation
+
+Milestone 2.0.0:
+- split view
+- separate left/right pane controls/state
+- presentation L/R pane controls
+- manual PWA reload latest version
+
+Milestone 2.1.0:
+- attempted Single↔Split state-transfer cleanup
+- separate single/left/right view instances
+- attempted anchor-preserving pinch zoom
+- presentation Single/Split toggle
+- hidden toolbar tap-through hardening
+- toolbar sizing changes
+- distinct Fit Page/Fit Width icons
+- reduced accidental reload persistence
+
+Current test result:
+2.1.0 still has unresolved pinch jump and toolbar responsive behavior issues.
+
+
+====================================================================
+26. CURRENT KNOWN BUGS / NEXT REVISION TARGETS
+====================================================================
+
+The next revision should likely be Milestone 2.1.1 or equivalent.
+
+HIGH PRIORITY:
+
+A. PINCH ZOOM STILL JUMPS
+Observed on Surface, Chromebook, and iPad.
+Must use robust before/after layout anchoring around pinch midpoint.
+
+B. NARROW TOOLBAR RESPONSIVENESS
+Current progressive shrinking is not acceptable.
+Use a clear two-state breakpoint:
+    icon + label
+    icon only
+Keep touch targets stable.
+
+C. FULL PAGE ICON
+Must be clearly distinct from Single-layout icon.
+
+D. VERIFY SINGLE↔SPLIT STATE TRANSFER
+2.1.0 improved this on Surface but needs full testing on iPad/Chromebook.
+Especially test:
+- active left pane
+- active right pane
+- same PDF both panes
+- different PDFs
+- repeated Split→Single→Split
+
+E. VERIFY HIDDEN PRESENTATION TAP-THROUGH
+2.1.0 appears improved on Surface.
+Need iPad/Chromebook verification, especially when scrolled to the absolute top.
+
+F. VERIFY ROTATION/RESIZE
+Toolbar should switch cleanly from labels to icons.
+No intermediate squeezed appearance.
+
+
+====================================================================
+27. IMMEDIATE TESTS RECOMMENDED AFTER NEXT VIEWER REVISION
+====================================================================
+
+1. Same PDF both panes:
+   - left page 10 at 70%
+   - right page 40 at 140%
+   - scroll/zoom independently
+
+2. Split → Single from LEFT → modify view → Split
+   - right pane must remain untouched
+
+3. Split → Single from RIGHT → modify view → Split
+   - left pane must remain untouched
+
+4. Pinch over a recognizable word/equation
+   - same spot should remain under midpoint of fingers
+
+5. Pinch near:
+   - top
+   - middle
+   - bottom
+   - left edge
+   - right edge
+
+6. Pinch while same PDF is shown both panes
+   - only active/touched pane moves
+
+7. Presentation hidden toolbar:
+   - tap where a hidden button would be
+   - first tap should reveal only
+   - no button action
+
+8. Rotate:
+   - iPad portrait ↔ landscape
+   - Chromebook orientation
+   - Surface narrow window
+   - toolbar should switch directly between labeled and icon-only states
+
+9. Large BaakeScan.pdf in split view
+   - verify JBIG2 pages remain visible under two-pane memory load
+
+10. Manual PWA update:
+   - verify About changes to new version
+
+
+====================================================================
+28. DEVELOPMENT SEQUENCE AFTER VIEWER STABILIZATION
+====================================================================
+
+Recommended sequence:
+
+PHASE A — Finish Milestone 2 viewer
+- pinch anchor fix
+- responsive toolbar
+- icon distinction
+- final Single/Split state verification
+- final presentation behavior verification
+
+PHASE B — Export/manipulation engine
+- export page order
+- merge
+- extract
+- split every n
+- normalize page sizes/orientation
+- crop/fit
+- image-to-PDF
+- compression target
+- batch outputs
+
+PHASE C — Recent Projects/local persistence
+- internal working copies
+- explicit resume state
+- project save/load
+- avoid mysterious transient state
+
+PHASE D — Ink subsystem
+- basic smooth pen
+- pressure
+- coalesced samples
+- predicted samples
+- palm rejection
+- eraser
+- lasso/select
+- copy/paste/duplicate/recolor
+- annotation export
+
+
+====================================================================
+29. UI/UX PRINCIPLES TO PRESERVE
+====================================================================
+
+- Document gets the screen.
+- Controls should be easy to find but take little permanent space.
+- Presentation mode should be especially clean for classroom display.
+- No hover-only functionality.
+- Touch targets should stay comfortably tappable.
+- Do not shrink buttons progressively into unusability.
+- Prefer contextual controls.
+- Pen/eraser/select state should survive navigation.
+- Switching files should be fast.
+- Split view should be a major feature, not an afterthought.
+- Same document in both panes at different locations is explicitly desired.
+- Full Page and Single layout icons must be visually distinguishable.
+- Fit Page and Fit Width must be visually distinguishable.
+- Avoid accidental destructive editing in Presentation mode.
+
+
+====================================================================
+30. WHAT TO DO IN A NEW CHAT
+====================================================================
+
+When this file is uploaded in a new chat, continue from here rather than redesigning the project.
+
+The first task should be:
+
+1. Read this entire handoff.
+2. Treat Milestone 2.1.0 as the current baseline.
+3. Ask only if a genuinely necessary file/build is missing.
+4. Implement the next consolidated viewer revision addressing:
+   - pinch anchor jump
+   - labeled→icon-only toolbar breakpoint
+   - distinct Full Page icon
+   - any remaining Single↔Split state bugs
+   - hidden presentation tap-through if still reproducible
+5. Keep About/version and service-worker/cache version synchronized.
+6. Provide a downloadable ZIP for testing.
+7. Continue cross-platform testing on Windows, Surface, iPad, and Chromebook.
+
+Do not remove previously working fixes, especially:
+- separate-document architecture
+- independent pane/view state
+- thumbnail drag improvements
+- selection behavior
+- iPad non-native Presentation mode
+- PDF.js JBIG2/WASM resource configuration
+- manual PWA update function
+- version display in About
+
+END OF HANDOFF

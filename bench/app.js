@@ -1,4 +1,4 @@
-const APP_VERSION = '2.1.1';
+const APP_VERSION = '2.1.2';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1833,8 +1833,8 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>This build stabilizes the multi-document viewer state and presentation controls.</p>
-      <ul><li>Single↔Split transfers preserve both panes, including the inactive pane's exact scroll state.</li><li>The same PDF can be viewed independently at different pages and zooms in both panes.</li><li>Pinch zoom uses measured post-layout anchoring and a final iPad/Safari correction after crisp re-rendering.</li><li>Presentation mode can switch Single/Split without exiting, and hidden controls reject tap-through.</li><li>Toolbar buttons switch directly from labeled to icon-only at narrow widths; Full Page has its own distinct icon.</li><li>Reorder, select, rotate, duplicate, and delete pages with undo/redo.</li></ul>
+      <p>This build stabilizes multi-document view state, high-zoom panning, and presentation pointer behavior.</p>
+      <ul><li>Single↔Split transfers preserve both panes, including the inactive pane's exact scroll state.</li><li>The same PDF can be viewed independently at different pages and zooms in both panes.</li><li>Pinch zoom uses measured post-layout anchoring and a final iPad/Safari correction after crisp re-rendering.</li><li>Oversized zoomed pages keep a real left scroll boundary, so both left and right edges remain reachable.</li><li>Hidden Presentation controls may be revealed by a finger tap at the top or by mouse hover, but stylus/Pencil hover does not reveal them.</li><li>Toolbar buttons switch directly from labeled to icon-only at narrow widths; Full Page has its own distinct icon.</li><li>Reorder, select, rotate, duplicate, and delete pages with undo/redo.</li></ul>
       <p><strong>Not in this milestone yet:</strong> PDF export, split/merge output, page-size normalization, compression, saved projects, and pen annotation.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
@@ -1932,7 +1932,7 @@ function bindSplitViewerEvents(paneId) {
   }, { passive: false });
 
   viewer.addEventListener('pointermove', (e) => {
-    if (document.body.classList.contains('presentation') && e.pointerType !== 'touch' && e.clientY < 90) showPresentationControls();
+    if (document.body.classList.contains('presentation') && e.pointerType === 'mouse' && e.clientY < 90) showPresentationControls();
   });
   viewer.addEventListener('pointerdown', (e) => {
     makeActive();
@@ -2110,7 +2110,7 @@ function bindEvents() {
     goPage(e.deltaY > 0 ? 1 : -1);
   }, { passive: false });
   els.viewer.addEventListener('pointermove', (e) => {
-    if (document.body.classList.contains('presentation') && e.pointerType !== 'touch' && e.clientY < 90) showPresentationControls();
+    if (document.body.classList.contains('presentation') && e.pointerType === 'mouse' && e.clientY < 90) showPresentationControls();
   });
 
   let touchStart = null;
