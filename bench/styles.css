@@ -123,12 +123,25 @@ body.presentation .presentation-toolbar { display: flex !important; }
   .app-bar .tool-btn { min-width: 40px; padding: 6px 9px; }
 }
 
+/* Medium/narrow toolbar compression. Hide the decorative brand before the
+   primary workspace controls become crowded, and make the active-document
+   selector yield width before View / Pages / Files do. This intentionally
+   catches iPad portrait as well as narrow desktop/tablet windows. */
+@media (max-width: 920px) {
+  .brand { display: none; }
+  .app-bar { gap: 5px; }
+  .primary-actions { gap: 4px; }
+  .document-select { flex: 0 1 96px; width: 96px; min-width: 58px; max-width: 96px; padding-left: 7px; padding-right: 22px; }
+  .segmented, .segment { flex-shrink: 0; }
+  .viewer-controls { margin-left: auto; }
+}
+
 @media (max-width: 760px) {
   .brand { display: none; }
   .tool-label { display: none; }
   .app-bar { gap: 5px; }
   .primary-actions { gap: 4px; }
-  .document-select { flex: 1 1 88px; width: 88px; min-width: 54px; max-width: 112px; padding-left: 7px; padding-right: 22px; }
+  .document-select { flex: 0 1 68px; width: 68px; min-width: 44px; max-width: 76px; padding-left: 6px; padding-right: 20px; }
   .segmented, .segment { flex-shrink: 0; }
   .segment { min-width: 48px; }
   .viewer-controls { margin-left: auto; }
@@ -143,11 +156,11 @@ body.presentation .presentation-toolbar { display: flex !important; }
 }
 
 @media (max-width: 560px) {
-  .document-select { flex-basis: 68px; width: 68px; min-width: 46px; max-width: 78px; }
+  .document-select { flex-basis: 54px; width: 54px; min-width: 40px; max-width: 60px; }
 }
 
 @media (max-width: 470px) {
-  .document-select { flex-basis: 58px; width: 58px; min-width: 42px; max-width: 66px; }
+  .document-select { flex-basis: 48px; width: 48px; min-width: 38px; max-width: 54px; }
   .app-bar { padding-left: 5px; padding-right: 5px; }
   .segment { min-width: 45px; padding-inline: 8px; }
   .organizer-toolbar { flex-direction: column; align-items: stretch; }

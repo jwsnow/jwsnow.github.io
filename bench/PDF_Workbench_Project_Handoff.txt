@@ -1,3 +1,45 @@
+PDF WORKBENCH PWA — MILESTONE 3.5.3 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.5.3
+Visible About version: 3.5.3
+Service-worker/cache version: pdf-workbench-m3.5.3-v1
+
+WHY THIS REVISION EXISTS
+------------------------
+Cross-device testing of 3.5.2 reported that the UI and View/Presentation behavior look good on Chromebook portrait/landscape and iPad landscape. In iPad portrait, the active filename could sit under the page/view controls and the decorative “PDF Workbench” brand still consumed width. A narrow Surface window showed a similar filename-crowding problem. Chromebook portrait already hid the title and looked better.
+
+3.5.3 RESPONSIVE POLISH
+-----------------------
+1. Hide the decorative “PDF Workbench” brand at a wider medium/narrow breakpoint so iPad portrait gets the same space-saving behavior as narrower Chromebook/Surface layouts.
+2. Make the active-document selector yield width before the primary View / Pages / Files workspace tabs.
+3. Compress the filename selector progressively at narrower breakpoints and let its displayed filename truncate.
+4. Preserve the existing icon-only secondary-control behavior.
+5. Keep the ⋯ More button at the far right; the user explicitly said that placement is fine.
+6. Do not intentionally change viewer state, Presentation anchoring, split panes, insertion/templates, touch/pen behavior, or Files/PDF operations.
+
+CONFIRMED 3.5.2 RESULTS TO PRESERVE
+-----------------------------------
+- Surface: View ↔ Presentation preserves position in Continuous, Page Snap, and Full Page.
+- Split View preserves both panes in both directions.
+- Pages template source/capture works correctly.
+- Saving templates in Presentation stays in Presentation.
+- Chromebook portrait/landscape and iPad landscape layouts look good.
+- 3.4.4 same-document split structural-edit anchoring remains stable.
+
+IMMEDIATE 3.5.3 TESTS
+---------------------
+1. iPad portrait: title hidden; filename no longer under mode buttons.
+2. Narrow Surface: View / Pages / Files remain readable; filename compresses first.
+3. Chromebook portrait/landscape: no regression.
+4. iPad landscape: no regression.
+5. Quick View ↔ Presentation/template smoke test only; logic is unchanged.
+
+RELEASE PRACTICE
+----------------
+Every distribution ZIP must include this handoff, README, and graph-paper-reference.png and must keep the visible About version and service-worker/cache version synchronized.
+
+
 PDF WORKBENCH PWA — MILESTONE 3.5.2 CURRENT UPDATE
 =====================================================
 
