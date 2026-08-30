@@ -1,71 +1,48 @@
-# PDF Workbench — Milestone 3.4.0
+# PDF Workbench — Milestone 3.5.0
 
-Milestone 3.4.0 adds **reusable session page templates** and improves the top toolbar at narrow desktop widths. It preserves the validated Files/output engine, page organizer, split-view state, Presentation behavior, touch/pen input separation, and PDF.js JBIG2/WASM configuration.
+Milestone 3.5.0 is a **visual page/template chooser** release on top of the device-tested 3.4.4 viewer state. No intentional changes were made to page insertion semantics, split-pane anchoring, touch/pen input, or PDF output.
 
-## Session page templates
+## Visual Insert Page chooser
 
-A page can now be saved as a reusable template from the shared **Insert Page** menu in Pages, regular View, or Presentation.
+Opening **Insert** in Pages, **+ Page** in View, or the page icon in Presentation now shows compact visual cards instead of a text-only list.
 
-- In View/Presentation, the current page is saved.
-- In Pages, the most recently selected/selection-anchor page is saved.
-- The save prompt is prefilled with a frictionless generic name such as **Template 1**, **Template 2**, etc. The suggested name can simply be accepted for a temporary template.
-- Saved templates appear in **Insert Page → Session templates** and can be inserted repeatedly into the active document.
-- Template insertion creates a fresh independent page instance preserving the captured page content, page size, orientation/rotation, and source page.
-- **Manage templates…** allows rename and delete.
-- Templates are intentionally **session-only in 3.4.0**. They remain available after **Close all files** during the same run, but disappear when the app is reloaded/restarted. Persistent templates will be implemented with the later persistent Files/Library storage system.
-- Because annotations are not implemented yet, templates currently capture page/background content only. The template data model is intended to gain explicit include/exclude-annotations behavior when ink arrives.
+- **Duplicate + notes** previews the actual current/selected page. (It behaves the same as a normal duplicate until annotations exist.)
+- **Duplicate clean** previews the same page but retains the future no-annotations semantic hook.
+- **Blank** previews a blank page matching the current page's displayed size/orientation.
+- **Graph paper** previews the generated light-cyan 1/4-inch grid matching the current page's displayed size/orientation.
+- Every saved **session template** is shown as its actual page thumbnail with its name below it.
+- The existing **Save page … as template** and **Manage templates** actions remain at the bottom of the chooser.
 
-Template source handling is deliberately conservative: PDF/image source data referenced by a session template is retained in memory even if all open documents using that source are closed, and is released when no document or template still references it.
+The chooser uses four columns where room permits and two columns on narrow screens. It remains a temporary popover/drawer-style surface, so no additional permanent Presentation chrome is added.
 
-## Narrow-window toolbar
+## Visual template manager
 
-The cross-device screenshot review showed the main UI comfortable on iPad, Chromebook, and normal Surface widths, with crowding mainly in a narrow Surface window.
+**Manage templates…** now displays, for each template:
 
-Responsive priority is now:
+- a page thumbnail;
+- template name;
+- displayed page dimensions;
+- Rename;
+- Delete.
 
-1. Preserve the primary **View / Pages / Files** workspace buttons.
-2. Shrink and truncate the active-document selector first.
-3. Keep the existing icon-only secondary controls at narrow widths.
+Templates are still **session-only** in this milestone. They survive Close all files in the current running app session but are not restored after a full app reload/restart. Persistence will be added with the planned Files/Library storage system.
 
-The document selector can therefore become substantially narrower while the workspace tabs retain stable minimum widths. Long file names remain available when the selector is opened.
+## Preserved tested behavior
 
-## Existing Files behavior preserved
+Milestone 3.4.4 was tested successfully in Continuous, Page Snap, and Full Page, including Presentation, with same-document split-pane structural edits. This release deliberately leaves that state/anchoring logic unchanged.
 
-Files retains one shared checkbox list of open documents and expandable **New / Export / Extract / Split / Combine** sections.
-
-- One checked document → export PDF.
-- Several checked documents → one ZIP containing the separate PDFs.
-- Combine uses checked documents plus its own independent up/down order list.
-- Split operates on the active document and packages multiple outputs in one ZIP.
-- Extract operates on selected pages from the active document.
-- New blank/graph-paper documents start as US Letter landscape.
-
-## Existing insertion behavior preserved
-
-Insert Page remains available from:
-
-- Pages toolbar: **Insert**
-- regular View toolbar: **+ Page**
-- Presentation temporary toolbar: page-shaped icon
-
-Built-in choices remain duplicate with annotations, duplicate without annotations, blank page, and graph-paper page. Graph paper remains generated as light cyan vector lines at 18-point (1/4-inch) spacing with a small margin. `graph-paper-reference.png` remains bundled as the visual reference.
+Also preserved: multi-document Files operations, Export/ZIP, Extract, Split, Combine, blank/graph pages, finger pan/pinch, pen reserved for ink on document content, visible UI pen clicks, and PDF.js JBIG2/WASM resources.
 
 ## Version
 
-**More → About this build** must report **Milestone 3.4.0**. The service-worker cache is `pdf-workbench-m3.4.0-v1`.
+**More → About this build** reports **Milestone 3.5.0**. The service-worker cache is `pdf-workbench-m3.5.0-v1`.
 
-## Suggested 3.4.0 tests
+## Suggested 3.5.0 tests
 
-1. Narrow the Surface browser window to the size shown in the supplied screenshots. Confirm **View / Pages / Files** remain readable and the active-document selector truncates/shrinks instead of squeezing those tabs.
-2. In View, save a PDF page as a template, accept the default **Template 1** name, then insert it twice elsewhere in the document.
-3. In Pages, select a different page, save it as **Template 2**, and verify the selected page—not the previously viewed page—is captured.
-4. Save a rotated/landscape page as a template and confirm inserted copies preserve its geometry/orientation.
-5. Save a graph-paper page as a template and insert it into another open document.
-6. Use **Manage templates…** to rename and delete templates.
-7. Save a PDF-backed template, choose **Close all files**, open/create another document without reloading the app, and verify the template can still be inserted correctly.
-8. Reload/restart the app and confirm session templates intentionally disappear in this milestone.
-9. Regression-test iPad/Surface/Chromebook finger pan/pinch, pen non-navigation on document content, pen activation of visible controls, Presentation hidden-toolbar behavior, Pages drag/reorder, Files multi-export ZIP, Combine ordering, Split ZIP, and BaakeScan/JBIG2 rendering.
-
-## Roadmap notes
-
-The later Files/Library milestone should make both documents/projects and templates persistent, with folders/recent/close/reopen/backup behavior. Also on the roadmap: copying selected pages between open documents, page-size normalization, fit/crop/margins, improved image-to-PDF assembly, compression, and ink/annotations.
+1. Open Insert from Pages, normal View, and Presentation and verify the visual chooser fits comfortably.
+2. Confirm Duplicate previews the exact current page in single and split View.
+3. Confirm Blank/Graph Paper previews match portrait/landscape current-page orientation.
+4. Save several visually different templates and verify they are easy to distinguish by thumbnail.
+5. Rename/delete templates in Manage templates and confirm previews/names update.
+6. On iPad portrait/landscape and narrow Surface, verify the chooser is usable without covering controls permanently or overflowing the viewport.
+7. Regression-check repeated insertion and same-document split-pane anchoring.

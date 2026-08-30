@@ -1,4 +1,4 @@
-const APP_VERSION = '3.4.0';
+const APP_VERSION = '3.5.0';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -25,7 +25,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -65,14 +65,18 @@ const state = {
   pinchNeedsRender: false,
   pinchRenderFrame: null,
   suppressSingleScrollSave: false,
+  singleActivePageSyncFrame: null,
   insertMenuAnchor: null,
+  insertTarget: null,
+  pendingPageFocus: null,
   templates: [],
+  insertPreviewGeneration: 0,
   splitView: false,
   activePaneId: 'left',
   singleSourcePaneId: 'left',
   splitPanes: {
-    left: { id: 'left', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, suppressScrollSave: false },
-    right: { id: 'right', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, suppressScrollSave: false },
+    left: { id: 'left', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, suppressScrollSave: false, activePageSyncFrame: null, pendingStructuralAnchor: null },
+    right: { id: 'right', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, suppressScrollSave: false, activePageSyncFrame: null, pendingStructuralAnchor: null },
   },
 };
 
@@ -116,9 +120,16 @@ function currentDocument() {
   return state.documents.find(d => d.id === state.currentDocumentId) || null;
 }
 
-function saveCurrentDocumentState() {
+function saveCurrentDocumentState(options={}) {
+  const { readViewDom = true } = options;
   const doc = currentDocument();
   if (!doc) return;
+  // Before persisting a normal single-view document, make the page nearest the
+  // viewport center authoritative. This is independent of IntersectionObserver
+  // callback timing and is especially important in Page Snap mode.
+  if (readViewDom && !state.splitView && els.viewer && !els.viewer.classList.contains('hidden')) {
+    syncSingleActivePageFromViewport({ updateUi: false });
+  }
   doc.pages = state.pages;
   doc.selected = state.selected;
   doc.selectionAnchorId = state.selectionAnchorId;
@@ -127,8 +138,11 @@ function saveCurrentDocumentState() {
   doc.future = state.future;
   // Document content is shared, but every viewer instance owns its own view.
   // In Single view, store that view on the document so switching documents can
-  // restore it without leaking state into either split pane.
-  if (!state.splitView) saveSingleViewFromState(doc, true);
+  // restore it without leaking state into either split pane. Some structural
+  // edits (notably Insert) deliberately invalidate the old DOM scroll position;
+  // those callers pass readViewDom:false so the stale pre-edit scroll cannot
+  // overwrite the new page focus before the viewer is rebuilt.
+  if (!state.splitView) saveSingleViewFromState(doc, readViewDom);
 }
 
 function createDocument(name) {
@@ -206,6 +220,7 @@ function removeDocument(docId) {
 function loadDocumentState(docId, rerender=true) {
   if (docId === state.currentDocumentId && currentDocument()) return;
   saveCurrentDocumentState();
+  cancelSingleActivePageSync();
   const doc = state.documents.find(d => d.id === docId);
   if (!doc) return;
   state.currentDocumentId = doc.id;
@@ -223,7 +238,10 @@ function loadDocumentState(docId, rerender=true) {
   if (rerender) {
     state.pageObserver?.disconnect();
     state.thumbObserver?.disconnect();
-    renderAll();
+    // The DOM still contains the previously displayed document at this point.
+    // Do not let renderAll save those stale scroll offsets into the document we
+    // have just loaded.
+    renderAll({ saveState: false });
     setStatus(`Switched to ${doc.name}`);
   }
 }
@@ -338,6 +356,12 @@ function paneView(paneId=state.activePaneId, docId=null) {
 function savePaneScroll(paneId) {
   const pane = splitPaneState(paneId), pe = paneElements(paneId), view = paneView(paneId);
   if (!view || !pe.viewer) return;
+  // Keep page identity and raw scroll coordinates in sync. Split panes are
+  // independent view instances, so each pane derives its current page from
+  // its own viewport rather than from document-level or observer timing.
+  if (!pane.suppressScrollSave && view.scrollMode !== 'single') {
+    syncSplitActivePageFromViewport(paneId, { updateUi: false });
+  }
   view.scrollTop = pe.viewer.scrollTop;
   view.scrollLeft = pe.viewer.scrollLeft;
 }
@@ -345,8 +369,16 @@ function savePaneScroll(paneId) {
 function activateSplitPane(paneId, syncCurrent=true) {
   state.activePaneId = paneId === 'right' ? 'right' : 'left';
   ensureSplitPaneDocuments();
+  // A pane may have been scrolled while inactive. Make the page actually at
+  // its viewport center authoritative before toolbar/page operations use it.
+  syncSplitActivePageFromViewport(state.activePaneId, { updateUi: false });
   const pane = splitPaneState();
   if (syncCurrent && pane.documentId && pane.documentId !== state.currentDocumentId) loadDocumentState(pane.documentId, false);
+  // loadDocumentState restores that document's single-view page; split mode
+  // must immediately put the active pane's independent page identity back on
+  // the shared editing state used by document-level commands and labels.
+  const activeView = paneView(state.activePaneId);
+  if (activeView?.activePageId) state.activePageId = activeView.activePageId;
   els.splitLeftPane?.classList.toggle('active', state.activePaneId === 'left');
   els.splitRightPane?.classList.toggle('active', state.activePaneId === 'right');
   if (els.presentationLeftPaneBtn) {
@@ -500,7 +532,10 @@ async function openFiles(fileList) {
       else added = await addImage(file);
       if (!added) throw new Error('No pages were found.');
       state.activePageId = state.pages[0]?.id ?? null;
-      saveCurrentDocumentState();
+      // This newly opened document is not yet represented by the viewer DOM.
+      // Save its model/view defaults without reading scroll offsets from the
+      // previously displayed document.
+      saveCurrentDocumentState({ readViewDom: false });
       opened++;
       pagesAdded += added;
     } catch (err) {
@@ -510,7 +545,9 @@ async function openFiles(fileList) {
     }
   }
   if (opened) state.workspaceMode = 'view';
-  renderAll();
+  // During a multi-file open the DOM still belongs to the document that was
+  // visible before import; do not write that geometry into the last opened doc.
+  renderAll({ saveState: false });
   renderDocumentSelect();
   if (opened) setStatus(`Opened ${opened} document${opened === 1 ? '' : 's'} (${pagesAdded} page${pagesAdded === 1 ? '' : 's'})`);
   els.fileInput.value = '';
@@ -591,9 +628,17 @@ function clonePageInstance(page, includeAnnotations=true) {
   return copy;
 }
 
-function templatePageForSave() {
-  if (state.splitView) synchronizeActiveSplitDocumentForEdit();
+function templatePageForSave(targetContext=null) {
+  if (targetContext?.documentId && targetContext.documentId !== state.currentDocumentId) loadDocumentState(targetContext.documentId, false);
+  else if (state.splitView) {
+    synchronizeActiveSplitDocumentForEdit();
+    syncSplitActivePageFromViewport(state.activePaneId, { updateUi: false });
+  }
   if (!state.pages.length) return null;
+  if (targetContext?.pageId) {
+    const captured = pageById(targetContext.pageId);
+    if (captured) return captured;
+  }
   if (state.workspaceMode === 'organize') {
     if (state.selectionAnchorId && state.selected.has(state.selectionAnchorId)) return pageById(state.selectionAnchorId);
     if (state.selected.size === 1) return pageById([...state.selected][0]);
@@ -608,6 +653,60 @@ function nextTemplateName() {
   return `Template ${number}`;
 }
 
+async function renderCompactPagePreview(page, canvas) {
+  if (!page || !canvas?.isConnected) return;
+  const well = canvas.closest('.insert-choice-preview, .template-manager-preview');
+  if (!well) return;
+  const rect = well.getBoundingClientRect();
+  const [bw, bh] = rotatedDims(page);
+  const innerW = Math.max(42, rect.width - 10);
+  const innerH = Math.max(42, rect.height - 10);
+  const scale = Math.min(innerW / bw, innerH / bh);
+  const cssWidth = Math.max(1, bw * scale);
+  const cssHeight = Math.max(1, bh * scale);
+  await enqueueRender(async () => {
+    if (!canvas.isConnected) return;
+    try {
+      await renderPageToCanvas(page, canvas, cssWidth, cssHeight, 0.9, 260_000);
+      if (page.kind !== 'generated' && canvasLooksBlank(canvas) && canvas.isConnected) {
+        await renderPageToCanvas(page, canvas, cssWidth, cssHeight, 0.72, 160_000);
+      }
+      canvas.dataset.rendered = 'true';
+    } catch (err) {
+      console.error('Template preview failed', err);
+      well.classList.add('preview-error');
+      canvas.setAttribute('aria-label', 'Preview unavailable');
+    }
+  }, 1);
+}
+
+function currentInsertPreviewPage() {
+  const pageId = state.insertTarget?.pageId || insertionTargetPageId();
+  return pageById(pageId) || state.pages[0] || null;
+}
+
+async function renderInsertChoicePreviews() {
+  const generation = ++state.insertPreviewGeneration;
+  const current = currentInsertPreviewPage();
+  if (!current || els.insertPageMenu?.classList.contains('hidden')) return;
+  const dims = pageDisplayDimensions(current);
+  const builtIns = [
+    [current, els.insertDuplicateWithPreview],
+    [current, els.insertDuplicateWithoutPreview],
+    [generatedPage('blank', dims.width, dims.height), els.insertBlankPreview],
+    [generatedPage('graph', dims.width, dims.height), els.insertGraphPreview],
+  ];
+  for (const [page, canvas] of builtIns) {
+    if (generation !== state.insertPreviewGeneration || els.insertPageMenu?.classList.contains('hidden')) return;
+    await renderCompactPagePreview(page, canvas);
+  }
+  for (const canvas of els.insertTemplateList?.querySelectorAll('canvas[data-template-preview]') || []) {
+    if (generation !== state.insertPreviewGeneration || els.insertPageMenu?.classList.contains('hidden')) return;
+    const template = state.templates.find(item => item.id === canvas.dataset.templatePreview);
+    if (template?.page) await renderCompactPagePreview(template.page, canvas);
+  }
+}
+
 function renderInsertTemplateList() {
   if (!els.insertTemplateList) return;
   els.insertTemplateList.innerHTML = '';
@@ -620,19 +719,30 @@ function renderInsertTemplateList() {
     for (const template of state.templates) {
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = 'template-insert-button';
+      button.className = 'template-insert-button insert-choice-card';
       button.dataset.templateId = template.id;
       button.setAttribute('role', 'menuitem');
-      button.textContent = template.name;
       button.title = `Insert ${template.name} after the current page`;
+
+      const preview = document.createElement('span');
+      preview.className = 'insert-choice-preview';
+      const canvas = document.createElement('canvas');
+      canvas.dataset.templatePreview = template.id;
+      canvas.setAttribute('aria-hidden', 'true');
+      preview.append(canvas);
+
+      const label = document.createElement('span');
+      label.className = 'insert-choice-label';
+      label.textContent = template.name;
+      button.append(preview, label);
       els.insertTemplateList.append(button);
     }
   }
   if (els.manageTemplatesBtn) els.manageTemplatesBtn.disabled = state.templates.length === 0;
 }
 
-function saveCurrentPageAsTemplate() {
-  const page = templatePageForSave();
+function saveCurrentPageAsTemplate(targetContext=null) {
+  const page = templatePageForSave(targetContext);
   if (!page) { setStatus('No page is available to save as a template'); return; }
   const suggested = nextTemplateName();
   const entered = window.prompt('Template name', suggested);
@@ -653,8 +763,9 @@ function insertTemplateAfterCurrent(templateId) {
   const template = state.templates.find(item => item.id === templateId);
   if (!template) { setStatus('That template is no longer available'); return; }
   const inPresentation = document.body.classList.contains('presentation');
+  const targetContext = state.insertTarget ? { ...state.insertTarget } : null;
   closeInsertPageMenu(false);
-  insertPageAfterCurrent('template', true, template);
+  insertPageAfterCurrent('template', true, template, targetContext);
   if (inPresentation) showPresentationControls();
 }
 
@@ -668,31 +779,67 @@ function deleteTemplate(templateId) {
 
 function showTemplateManager() {
   closeInsertPageMenu(false);
+  els.infoDialog.classList.add('template-dialog');
   const renderManager = () => {
-    const rows = state.templates.length
-      ? state.templates.map(template => `<div class="template-manager-row" data-template-id="${template.id}"><span class="template-manager-name"></span><button type="button" data-action="rename">Rename</button><button type="button" data-action="delete">Delete</button></div>`).join('')
-      : '<p>No session templates are saved.</p>';
-    els.dialogContent.innerHTML = `<h2>Session templates</h2><p>Templates in this build remain available only until PDF Workbench is reloaded. Persistence will be added with the Files/Library storage system.</p><div id="templateManagerList" class="template-manager-list">${rows}</div>`;
-    for (const row of els.dialogContent.querySelectorAll('.template-manager-row')) {
-      const template = state.templates.find(item => item.id === row.dataset.templateId);
-      if (!template) continue;
-      row.querySelector('.template-manager-name').textContent = template.name;
-      row.querySelector('[data-action="rename"]').addEventListener('click', () => {
+    els.dialogContent.innerHTML = `<h2>Session templates</h2><p>Templates in this build remain available only until PDF Workbench is reloaded. Persistence will be added with the Files/Library storage system.</p><div id="templateManagerList" class="template-manager-list"></div>`;
+    const manager = $('templateManagerList');
+    if (!state.templates.length) {
+      const empty = document.createElement('p');
+      empty.textContent = 'No session templates are saved.';
+      manager.append(empty);
+      return;
+    }
+    for (const template of state.templates) {
+      const row = document.createElement('div');
+      row.className = 'template-manager-row';
+      row.dataset.templateId = template.id;
+
+      const preview = document.createElement('div');
+      preview.className = 'template-manager-preview';
+      const canvas = document.createElement('canvas');
+      canvas.setAttribute('aria-label', `Preview of ${template.name}`);
+      preview.append(canvas);
+
+      const info = document.createElement('div');
+      info.className = 'template-manager-info';
+      const name = document.createElement('div');
+      name.className = 'template-manager-name';
+      name.textContent = template.name;
+      const size = document.createElement('div');
+      size.className = 'template-manager-meta';
+      const [w, h] = rotatedDims(template.page);
+      size.textContent = `${Math.round(w)} × ${Math.round(h)} pt`;
+      info.append(name, size);
+
+      const actions = document.createElement('div');
+      actions.className = 'template-manager-actions';
+      const rename = document.createElement('button');
+      rename.type = 'button';
+      rename.textContent = 'Rename';
+      const del = document.createElement('button');
+      del.type = 'button';
+      del.textContent = 'Delete';
+      actions.append(rename, del);
+      row.append(preview, info, actions);
+      manager.append(row);
+
+      rename.addEventListener('click', () => {
         const entered = window.prompt('Template name', template.name);
         if (entered === null) return;
-        const name = entered.trim();
-        if (!name) return;
-        template.name = name;
+        const nextName = entered.trim();
+        if (!nextName) return;
+        template.name = nextName;
         renderInsertTemplateList();
         renderManager();
-        setStatus(`Renamed template to ${name}`);
+        setStatus(`Renamed template to ${nextName}`);
       });
-      row.querySelector('[data-action="delete"]').addEventListener('click', () => {
+      del.addEventListener('click', () => {
         if (!window.confirm(`Delete template “${template.name}”?`)) return;
         deleteTemplate(template.id);
         renderManager();
         setStatus('Template deleted');
       });
+      requestAnimationFrame(() => renderCompactPagePreview(template.page, canvas));
     }
   };
   renderManager();
@@ -719,14 +866,32 @@ function synchronizeActiveSplitDocumentForEdit() {
   return currentDocument();
 }
 
-function insertPageAfterCurrent(kind, includeAnnotations=true, template=null) {
-  const doc = synchronizeActiveSplitDocumentForEdit();
+function insertPageAfterCurrent(kind, includeAnnotations=true, template=null, targetContext=null) {
+  // Capture the page/document at menu-open time when possible. Intersection
+  // observers can legitimately update the live "current page" while a popover
+  // is open, so recomputing the target after the user chooses a command can
+  // otherwise insert several pages away from the page they intended.
+  const requestedDocId = targetContext?.documentId || null;
+  if (requestedDocId && requestedDocId !== state.currentDocumentId) loadDocumentState(requestedDocId, false);
+  const doc = currentDocument() || synchronizeActiveSplitDocumentForEdit();
   if (!doc?.pages?.length) return;
-  const targetId = insertionTargetPageId();
+
+  let targetId = targetContext?.pageId || insertionTargetPageId();
   let index = state.pages.findIndex(page => page.id === targetId);
+  if (index < 0) {
+    targetId = insertionTargetPageId();
+    index = state.pages.findIndex(page => page.id === targetId);
+  }
   if (index < 0) index = Math.max(0, activeIndex());
   const current = state.pages[index];
   if (!current) return;
+
+  const targetPaneId = state.splitView ? (targetContext?.paneId || state.activePaneId) : null;
+  // If the same document is visible in the other split pane, preserve that
+  // pane by logical page/content position before changing the shared page list.
+  // Otherwise an insertion above it increases the raw scroll offset needed to
+  // show the same content and makes the inactive pane appear to jump.
+  if (state.splitView && targetPaneId) queueStructuralAnchorForOtherSplitPane(doc.id, targetPaneId);
 
   const before = snapshotPages();
   let inserted;
@@ -745,6 +910,7 @@ function insertPageAfterCurrent(kind, includeAnnotations=true, template=null) {
     state.selected = new Set([inserted.id]);
     state.selectionAnchorId = inserted.id;
   }
+
   if (!state.splitView) {
     const singleView = ensureSingleView(doc);
     if (singleView) {
@@ -752,29 +918,101 @@ function insertPageAfterCurrent(kind, includeAnnotations=true, template=null) {
       singleView.scrollTop = null;
       singleView.scrollLeft = null;
     }
-  }
-  if (state.splitView) {
-    const view = paneView(state.activePaneId, doc.id);
+  } else {
+    const pane = splitPaneState(targetPaneId);
+    if (pane.documentId !== doc.id) pane.documentId = doc.id;
+    const view = paneView(targetPaneId, doc.id);
     if (view) {
       view.activePageId = inserted.id;
       view.scrollTop = null;
       view.scrollLeft = null;
     }
+    if (targetPaneId === state.activePaneId) state.activePageId = inserted.id;
   }
+
+  // Keep this exact target authoritative until the rebuilt viewer has focused
+  // and started rendering it. This prevents the observer from selecting some
+  // other page in the brief interval between DOM rebuild and programmatic
+  // scrolling.
+  state.pendingPageFocus = {
+    documentId: doc.id,
+    pageId: inserted.id,
+    paneId: targetPaneId,
+  };
+
   commitHistory(before);
-  saveCurrentDocumentState();
-  renderAll();
-  if (state.workspaceMode === 'view') {
-    requestAnimationFrame(() => state.splitView
-      ? scrollSplitActivePageIntoView(state.activePaneId, 'auto')
-      : scrollActivePageIntoView('auto'));
-  }
+  // IMPORTANT: do not read the old viewer DOM here. Its scroll offsets belong
+  // to the pre-insertion page layout and can point at a different page after
+  // the page array grows.
+  saveCurrentDocumentState({ readViewDom: false });
+  renderAll({ saveState: false });
+
+  if (state.workspaceMode === 'view') focusPageAfterRender(doc.id, inserted.id, targetPaneId);
+  else state.pendingPageFocus = null;
+
   const label = kind === 'duplicate'
     ? `Duplicated page ${index + 1}${includeAnnotations ? '' : ' without annotations'}`
     : kind === 'template'
       ? `Inserted template ${template?.name || ''} after page ${index + 1}`.trim()
       : `Inserted ${kind === 'graph' ? 'graph-paper' : 'blank'} page after page ${index + 1}`;
   setStatus(label);
+}
+
+function focusPageAfterRender(documentId, pageId, paneId=null) {
+  const finish = () => {
+    if (state.pendingPageFocus?.documentId === documentId && state.pendingPageFocus?.pageId === pageId) {
+      state.pendingPageFocus = null;
+    }
+  };
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    const doc = documentById(documentId);
+    if (!doc) { finish(); return; }
+    const page = doc.pages.find(item => item.id === pageId);
+    if (!page) { finish(); return; }
+
+    if (state.splitView && paneId) {
+      const pe = paneElements(paneId);
+      const pane = splitPaneState(paneId);
+      const view = paneView(paneId, documentId);
+      const stage = pe.viewer.querySelector(`.page-stage[data-page-id="${CSS.escape(pageId)}"]`);
+      if (view) view.activePageId = pageId;
+      if (stage) {
+        stage.scrollIntoView({ block: 'center', inline: 'center', behavior: 'auto' });
+        stage.dataset.wantRender = 'true';
+        const canvas = stage.querySelector('canvas');
+        if (canvas && stage.dataset.rendered !== 'true' && stage.dataset.rendered !== 'loading') {
+          stage.dataset.rendered = 'loading';
+          ensurePageLoading(stage);
+          renderSplitViewerPage(paneId, page, stage, canvas, pane.generation).catch(err => renderError(stage, err));
+        }
+      }
+      if (state.activePaneId === paneId) state.activePageId = pageId;
+      markSplitActivePage(paneId);
+      savePaneScroll(paneId);
+      finish();
+      return;
+    }
+
+    if (state.currentDocumentId !== documentId) { finish(); return; }
+    state.activePageId = pageId;
+    const view = ensureSingleView(doc);
+    if (view) view.activePageId = pageId;
+    const stage = els.viewer.querySelector(`.page-stage[data-page-id="${CSS.escape(pageId)}"]`);
+    if (stage) {
+      stage.scrollIntoView({ block: 'center', inline: 'center', behavior: 'auto' });
+      stage.dataset.wantRender = 'true';
+      const canvas = stage.querySelector('canvas');
+      if (canvas && stage.dataset.rendered !== 'true' && stage.dataset.rendered !== 'loading') {
+        stage.dataset.rendered = 'loading';
+        ensurePageLoading(stage);
+        renderViewerPage(page, stage, canvas, state.renderGeneration).catch(err => renderError(stage, err));
+      }
+    }
+    markActivePage();
+    updatePageCounts();
+    updateSingleViewScrollFromDom();
+    finish();
+  }));
 }
 
 function createNewGeneratedDocument(type='blank') {
@@ -799,8 +1037,8 @@ function createNewGeneratedDocument(type='blank') {
     pane.documentId = doc.id;
     pane.views.set(doc.id, defaultPaneView(doc));
   }
-  saveCurrentDocumentState();
-  renderAll();
+  saveCurrentDocumentState({ readViewDom: false });
+  renderAll({ saveState: false });
   setStatus(`Created new ${isGraph ? 'graph-paper' : 'blank'} document`);
 }
 
@@ -1507,8 +1745,8 @@ function createCombinedDocument() {
   state.history = combined.history;
   state.future = combined.future;
   state.workspaceMode = 'organize';
-  saveCurrentDocumentState();
-  renderAll();
+  saveCurrentDocumentState({ readViewDom: false });
+  renderAll({ saveState: false });
   setStatus(`Created ${name} from ${chosenDocs.length} documents (${combinedPages.length} pages)`);
 }
 
@@ -1531,8 +1769,9 @@ function showWorkspaceMode(mode) {
   if (mode === 'export') renderExportPane();
 }
 
-function renderAll() {
-  saveCurrentDocumentState();
+function renderAll(options={}) {
+  const { saveState = true } = options;
+  if (saveState) saveCurrentDocumentState();
   renderDocumentSelect();
   updatePageCounts();
   showWorkspaceMode(state.workspaceMode);
@@ -1891,15 +2130,25 @@ function beginPageDrag(event) {
 }
 
 function openPageInViewer(pageId) {
+  const doc = currentDocument();
+  if (!doc || !pageById(pageId)) return;
   state.activePageId = pageId;
+  doc.activePageId = pageId;
+  const targetPaneId = state.splitView ? state.activePaneId : null;
+
   if (state.splitView) {
-    const pane = splitPaneState();
+    const pane = splitPaneState(targetPaneId);
     pane.documentId = state.currentDocumentId;
-    const view = paneView(state.activePaneId, state.currentDocumentId);
-    if (view) { view.activePageId = pageId; view.scrollTop = 0; view.scrollLeft = 0; }
+    const view = paneView(targetPaneId, state.currentDocumentId);
+    if (view) { view.activePageId = pageId; view.scrollTop = null; view.scrollLeft = null; }
+  } else {
+    const view = ensureSingleView(doc);
+    if (view) { view.activePageId = pageId; view.scrollTop = null; view.scrollLeft = null; }
   }
+
+  state.pendingPageFocus = { documentId: doc.id, pageId, paneId: targetPaneId };
   showWorkspaceMode('view');
-  requestAnimationFrame(() => state.splitView ? scrollSplitActivePageIntoView(state.activePaneId, 'auto') : scrollActivePageIntoView('auto'));
+  focusPageAfterRender(doc.id, pageId, targetPaneId);
 }
 
 function activeViewerSettings() {
@@ -1963,6 +2212,67 @@ function restoreViewerAnchorAfterLayout(viewer, anchor, clientX, clientY, done=n
       restoreViewerAnchor(viewer, anchor, clientX, clientY);
       done?.();
     });
+  });
+}
+
+function singlePageNearestViewportCenter() {
+  if (!els.viewer || els.viewer.classList.contains('hidden')) return null;
+  const stages = [...els.viewer.querySelectorAll('.page-stage[data-page-id]')];
+  if (!stages.length) return null;
+  const centerY = els.viewer.scrollTop + els.viewer.clientHeight / 2;
+  let best = null;
+  let bestDistance = Infinity;
+  let bestCenterDistance = Infinity;
+  for (const stage of stages) {
+    const top = stage.offsetTop;
+    const height = stage.offsetHeight;
+    const bottom = top + height;
+    const distance = centerY < top ? top - centerY : centerY > bottom ? centerY - bottom : 0;
+    const centerDistance = Math.abs((top + height / 2) - centerY);
+    if (distance < bestDistance || (distance === bestDistance && centerDistance < bestCenterDistance)) {
+      best = stage;
+      bestDistance = distance;
+      bestCenterDistance = centerDistance;
+    }
+  }
+  return best?.dataset.pageId || null;
+}
+
+function syncSingleActivePageFromViewport(options={}) {
+  const { updateUi = true } = options;
+  if (state.splitView || !state.pages.length || !els.viewer || els.viewer.classList.contains('hidden')) return state.activePageId;
+  if (state.scrollMode === 'single') return state.activePageId;
+
+  const pending = state.pendingPageFocus;
+  if (pending && pending.documentId === state.currentDocumentId && pending.paneId === null) return pending.pageId;
+
+  const id = singlePageNearestViewportCenter();
+  if (!id || !pageById(id)) return state.activePageId;
+  const doc = currentDocument();
+  const view = ensureSingleView(doc);
+  state.activePageId = id;
+  if (doc) doc.activePageId = id;
+  if (view) view.activePageId = id;
+  if (updateUi) {
+    markActivePage();
+    updatePageCounts();
+  }
+  return id;
+}
+
+function cancelSingleActivePageSync() {
+  if (state.singleActivePageSyncFrame) {
+    cancelAnimationFrame(state.singleActivePageSyncFrame);
+    state.singleActivePageSyncFrame = null;
+  }
+}
+
+function scheduleSingleActivePageSync() {
+  if (state.splitView || state.suppressSingleScrollSave || state.singleActivePageSyncFrame) return;
+  state.singleActivePageSyncFrame = requestAnimationFrame(() => {
+    state.singleActivePageSyncFrame = null;
+    syncSingleActivePageFromViewport();
+    updateSingleViewScrollFromDom();
   });
 }
 
@@ -2278,6 +2588,7 @@ function canvasLooksBlank(canvas) {
 }
 
 function renderSingleViewer() {
+  cancelSingleActivePageSync();
   state.renderGeneration++;
   const generation = state.renderGeneration;
   const savedView = ensureSingleView(currentDocument());
@@ -2293,7 +2604,6 @@ function renderSingleViewer() {
 
   const pagesToBuild = state.scrollMode === 'single' ? [state.pages[activeIndex()]] : state.pages;
   const observer = state.scrollMode === 'single' ? null : new IntersectionObserver((entries) => {
-    let mostVisible = null;
     for (const entry of entries) {
       const stage = entry.target;
       if (entry.isIntersecting && entry.intersectionRatio > .01) {
@@ -2305,7 +2615,6 @@ function renderSingleViewer() {
           ensurePageLoading(stage);
           renderViewerPage(page, stage, canvas, generation).catch(err => renderError(stage, err));
         }
-        if (!mostVisible || entry.intersectionRatio > mostVisible.intersectionRatio) mostVisible = entry;
       } else {
         stage.dataset.wantRender = 'false';
         // This callback fires only after the page has left the generous root
@@ -2314,14 +2623,6 @@ function renderSingleViewer() {
         if (stage.dataset.rendered === 'true' || stage.dataset.rendered === 'error') {
           releaseViewerStage(stage);
         }
-      }
-    }
-    if (mostVisible?.intersectionRatio > .28) {
-      const id = mostVisible.target.dataset.pageId;
-      if (id && id !== state.activePageId) {
-        state.activePageId = id;
-        markActivePage();
-        updatePageCounts();
       }
     }
   }, { root: els.viewer, rootMargin: '125% 0px 125% 0px', threshold: [0.01, .28, .55, .8] });
@@ -2363,6 +2664,7 @@ function renderSingleViewer() {
           els.viewer.scrollLeft = restoreLeft ?? 0;
         }
         state.suppressSingleScrollSave = false;
+        syncSingleActivePageFromViewport();
         updateSingleViewScrollFromDom();
       });
     });
@@ -2410,6 +2712,143 @@ function scrollSplitActivePageIntoView(paneId, behavior='smooth') {
   el?.scrollIntoView({ block: 'center', inline: 'center', behavior });
 }
 
+function splitPageNearestViewportCenter(paneId) {
+  const pe = paneElements(paneId);
+  const viewer = pe?.viewer;
+  if (!viewer || viewer.classList.contains('hidden')) return null;
+  const stages = [...viewer.querySelectorAll('.page-stage[data-page-id]')];
+  if (!stages.length) return null;
+  const centerY = viewer.scrollTop + viewer.clientHeight / 2;
+  let best = null;
+  let bestDistance = Infinity;
+  let bestCenterDistance = Infinity;
+  for (const stage of stages) {
+    const top = stage.offsetTop;
+    const height = stage.offsetHeight;
+    const bottom = top + height;
+    const distance = centerY < top ? top - centerY : centerY > bottom ? centerY - bottom : 0;
+    const centerDistance = Math.abs((top + height / 2) - centerY);
+    if (distance < bestDistance || (distance === bestDistance && centerDistance < bestCenterDistance)) {
+      best = stage;
+      bestDistance = distance;
+      bestCenterDistance = centerDistance;
+    }
+  }
+  return best?.dataset.pageId || null;
+}
+
+
+function captureSplitPaneViewportAnchor(paneId, documentId) {
+  if (!state.splitView) return null;
+  const pane = splitPaneState(paneId);
+  const view = paneView(paneId, documentId);
+  const pe = paneElements(paneId);
+  if (!pane || pane.documentId !== documentId || !view || !pe?.viewer) return null;
+
+  // Full Page already identifies the view by page id rather than by a long
+  // document scroll offset. Its logical page therefore survives insertion
+  // before it without any coordinate correction.
+  if (view.scrollMode === 'single') {
+    return { documentId, pageId: view.activePageId, scrollMode: 'single' };
+  }
+
+  const pageId = splitPageNearestViewportCenter(paneId) || view.activePageId;
+  if (!pageId) return null;
+  const stage = pe.viewer.querySelector(`.page-stage[data-page-id="${CSS.escape(pageId)}"]`);
+  if (!stage) return { documentId, pageId, scrollMode: view.scrollMode, xRatio: .5, yRatio: .5 };
+
+  const centerX = pe.viewer.scrollLeft + pe.viewer.clientWidth / 2;
+  const centerY = pe.viewer.scrollTop + pe.viewer.clientHeight / 2;
+  const xRatio = stage.offsetWidth ? (centerX - stage.offsetLeft) / stage.offsetWidth : .5;
+  const yRatio = stage.offsetHeight ? (centerY - stage.offsetTop) / stage.offsetHeight : .5;
+  return { documentId, pageId, scrollMode: view.scrollMode, xRatio, yRatio };
+}
+
+function queueStructuralAnchorForOtherSplitPane(documentId, targetPaneId) {
+  if (!state.splitView) return;
+  for (const paneId of ['left', 'right']) {
+    if (paneId === targetPaneId) continue;
+    const pane = splitPaneState(paneId);
+    if (pane.documentId !== documentId) continue;
+    const anchor = captureSplitPaneViewportAnchor(paneId, documentId);
+    if (!anchor) continue;
+    pane.pendingStructuralAnchor = anchor;
+    // Raw scrollTop belongs to the pre-edit page stack. If a page is inserted
+    // above this pane, restoring that pixel value visibly moves the pane even
+    // though its logical page id has not changed. Let renderSplitPane restore
+    // from the logical page anchor instead.
+    const view = paneView(paneId, documentId);
+    if (view) {
+      view.activePageId = anchor.pageId || view.activePageId;
+      view.scrollTop = null;
+      view.scrollLeft = null;
+    }
+  }
+}
+
+function restoreSplitPaneStructuralAnchor(paneId, anchor) {
+  const pane = splitPaneState(paneId);
+  const pe = paneElements(paneId);
+  const view = paneView(paneId, anchor?.documentId);
+  if (!anchor || !view || pane.documentId !== anchor.documentId || !pe?.viewer) return false;
+  const stage = pe.viewer.querySelector(`.page-stage[data-page-id="${CSS.escape(anchor.pageId || '')}"]`);
+  if (!stage) return false;
+
+  view.activePageId = anchor.pageId;
+  if (anchor.scrollMode === 'single') return true;
+
+  // Page Snap should continue to show the same snapped page. Continuous mode
+  // preserves the same document point under the center of this pane.
+  const xRatio = Number.isFinite(anchor.xRatio) ? anchor.xRatio : .5;
+  const yRatio = anchor.scrollMode === 'snap' ? .5 : (Number.isFinite(anchor.yRatio) ? anchor.yRatio : .5);
+  pe.viewer.scrollLeft = stage.offsetLeft + stage.offsetWidth * xRatio - pe.viewer.clientWidth / 2;
+  pe.viewer.scrollTop = stage.offsetTop + stage.offsetHeight * yRatio - pe.viewer.clientHeight / 2;
+  return true;
+}
+
+function syncSplitActivePageFromViewport(paneId, options={}) {
+  const { updateUi = true } = options;
+  if (!state.splitView) return paneView(paneId)?.activePageId || null;
+  const pane = splitPaneState(paneId);
+  const doc = documentById(pane.documentId);
+  const view = paneView(paneId);
+  const pe = paneElements(paneId);
+  if (!doc?.pages?.length || !view || !pe?.viewer || view.scrollMode === 'single') return view?.activePageId || null;
+
+  const pending = state.pendingPageFocus;
+  if (pending && pending.documentId === doc.id && pending.paneId === paneId) {
+    return pending.pageId;
+  }
+
+  const id = splitPageNearestViewportCenter(paneId);
+  if (!id || !splitPageById(doc, id)) return view.activePageId;
+  view.activePageId = id;
+  if (state.activePaneId === paneId) state.activePageId = id;
+  if (updateUi) {
+    markSplitActivePage(paneId);
+    if (state.activePaneId === paneId) updateViewerLabels();
+  }
+  return id;
+}
+
+function cancelSplitActivePageSync(paneId) {
+  const pane = splitPaneState(paneId);
+  if (pane.activePageSyncFrame) {
+    cancelAnimationFrame(pane.activePageSyncFrame);
+    pane.activePageSyncFrame = null;
+  }
+}
+
+function scheduleSplitActivePageSync(paneId) {
+  const pane = splitPaneState(paneId);
+  if (!state.splitView || pane.suppressScrollSave || pane.activePageSyncFrame) return;
+  pane.activePageSyncFrame = requestAnimationFrame(() => {
+    pane.activePageSyncFrame = null;
+    syncSplitActivePageFromViewport(paneId);
+    savePaneScroll(paneId);
+  });
+}
+
 function renderSplitView() {
   ensureSplitPaneDocuments();
   // Cancel any single-view render work before both split panes begin sharing
@@ -2428,6 +2867,7 @@ function renderSplitView() {
 
 function renderSplitPane(paneId) {
   const pane = splitPaneState(paneId), pe = paneElements(paneId), doc = documentById(pane.documentId), view = paneView(paneId);
+  cancelSplitActivePageSync(paneId);
   pane.generation++;
   const generation = pane.generation;
   const restoreTop = Number.isFinite(view?.scrollTop) ? view.scrollTop : null;
@@ -2442,7 +2882,6 @@ function renderSplitPane(paneId) {
 
   const pagesToBuild = view.scrollMode === 'single' ? [doc.pages[splitActiveIndex(doc, view)]] : doc.pages;
   const observer = view.scrollMode === 'single' ? null : new IntersectionObserver((entries) => {
-    let mostVisible = null;
     for (const entry of entries) {
       const stage = entry.target;
       if (entry.isIntersecting && entry.intersectionRatio > .01) {
@@ -2454,18 +2893,9 @@ function renderSplitPane(paneId) {
           ensurePageLoading(stage);
           renderSplitViewerPage(paneId, page, stage, canvas, generation).catch(err => renderError(stage, err));
         }
-        if (!mostVisible || entry.intersectionRatio > mostVisible.intersectionRatio) mostVisible = entry;
       } else {
         stage.dataset.wantRender = 'false';
         if (stage.dataset.rendered === 'true' || stage.dataset.rendered === 'error') releaseViewerStage(stage);
-      }
-    }
-    if (mostVisible?.intersectionRatio > .28) {
-      const id = mostVisible.target.dataset.pageId;
-      if (id && id !== view.activePageId) {
-        view.activePageId = id;
-        markSplitActivePage(paneId);
-        if (state.activePaneId === paneId) updateViewerLabels();
       }
     }
   }, { root: pe.viewer, rootMargin: '110% 0px 110% 0px', threshold: [0.01, .28, .55, .8] });
@@ -2493,25 +2923,44 @@ function renderSplitPane(paneId) {
     }
   }
 
+  const structuralAnchor = pane.pendingStructuralAnchor?.documentId === doc.id
+    ? pane.pendingStructuralAnchor
+    : null;
+  if (pane.pendingStructuralAnchor && !structuralAnchor) pane.pendingStructuralAnchor = null;
+
   if (view.scrollMode !== 'single') {
     requestAnimationFrame(() => {
-      if (restoreTop !== null || restoreLeft !== null) {
+      if (structuralAnchor) {
+        restoreSplitPaneStructuralAnchor(paneId, structuralAnchor);
+      } else if (restoreTop !== null || restoreLeft !== null) {
         pe.viewer.scrollTop = restoreTop ?? 0;
         pe.viewer.scrollLeft = restoreLeft ?? 0;
       } else {
         scrollSplitActivePageIntoView(paneId, 'auto');
       }
       requestAnimationFrame(() => {
-        if (restoreTop !== null || restoreLeft !== null) {
+        if (structuralAnchor) {
+          restoreSplitPaneStructuralAnchor(paneId, structuralAnchor);
+          pane.pendingStructuralAnchor = null;
+        } else if (restoreTop !== null || restoreLeft !== null) {
           pe.viewer.scrollTop = restoreTop ?? 0;
           pe.viewer.scrollLeft = restoreLeft ?? 0;
         }
         pane.suppressScrollSave = false;
-        if (state.splitView) savePaneScroll(paneId);
+        if (state.splitView) {
+          syncSplitActivePageFromViewport(paneId);
+          savePaneScroll(paneId);
+        }
       });
     });
   } else {
-    requestAnimationFrame(() => { pane.suppressScrollSave = false; });
+    requestAnimationFrame(() => {
+      if (structuralAnchor) {
+        restoreSplitPaneStructuralAnchor(paneId, structuralAnchor);
+        pane.pendingStructuralAnchor = null;
+      }
+      pane.suppressScrollSave = false;
+    });
   }
 }
 
@@ -2769,6 +3218,7 @@ function clearAll() {
   state.fileSelectionInitialized = false;
   state.combineOrder = [];
   state.suppressSingleScrollSave = false;
+  cancelSingleActivePageSync();
   state.touchPointers.clear();
   cancelViewerTouchInertia(state);
   state.touchPan = null;
@@ -2800,6 +3250,7 @@ function clearAll() {
 }
 
 function showDialog(kind) {
+  els.infoDialog.classList.remove('template-dialog');
   const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
   if (kind === 'install') {
     els.dialogContent.innerHTML = `<h2>Installation and offline use</h2>
@@ -2808,8 +3259,8 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 3.4.0 adds reusable session page templates and improves the top toolbar at narrow desktop widths while preserving the validated Files/output and touch/pen engines.</p>
-      <ul><li><strong>Templates:</strong> save the current page (or the selection anchor in Pages) as a reusable template with a suggested name such as Template 1. Insert saved templates from the same Insert Page menu used for blank and graph paper.</li><li><strong>Session scope:</strong> templates survive closing open files during the current run, but intentionally do not persist across an app reload yet. Rename/delete are available from Manage templates.</li><li><strong>Narrow toolbar:</strong> the active-document selector truncates and shrinks before the View / Pages / Files workspace tabs are allowed to compress.</li><li><strong>Files</strong> retains shared document checkboxes, multi-document ZIP export, Extract, Split/ZIP, and ordered Combine.</li><li><strong>Insert</strong> remains available in Pages, regular View, and Presentation.</li><li>Graph paper remains generated as light vector lines on export at 1/4-inch spacing, based on the supplied writing-grid reference.</li><li>Touch/pen separation, split-pane state, Presentation behavior, structural PDF output, and JBIG2/WASM rendering are preserved.</li></ul>
+      <p>Milestone 3.5.0 adds a visual page/template chooser while preserving the view-state fixes validated in 3.4.4. Insert Page now shows thumbnail cards for the current-page duplicates, blank paper, graph paper, and every saved session template. The template manager also shows page previews beside template names and controls.</p>
+      <ul><li><strong>Visual Insert chooser:</strong> page choices use actual miniature page previews plus short labels; Blank and Graph Paper preview the current page's size/orientation.</li><li><strong>Visual template manager:</strong> saved templates show thumbnails, names, page dimensions, Rename, and Delete.</li><li><strong>Session-only templates:</strong> automatic Template 1, Template 2… naming and current-session retention are unchanged; persistence still waits for Files/Library storage.</li><li><strong>Responsive:</strong> the chooser uses a compact multi-column grid and collapses to two columns on narrow screens; Presentation uses the same chooser without permanent extra chrome.</li><li><strong>Preserved viewer behavior:</strong> 3.4.4 same-document split anchoring, visible-page targeting, touch/pen separation, Presentation behavior, structural PDF output, graph-paper generation, and JBIG2/WASM rendering remain unchanged.</li></ul>
       <p><strong>Coming later:</strong> persistent Files/Library storage (including persistent templates), copy pages between documents, page-size normalization, fit/crop/margins, image assembly, compression, and ink/annotations.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
@@ -2868,15 +3319,26 @@ function closeInsertPageMenu(resumePresentation=true) {
   els.insertPageMenu.classList.add('hidden');
   setInsertButtonExpanded(false);
   state.insertMenuAnchor = null;
+  state.insertTarget = null;
+  state.insertPreviewGeneration++;
   if (wasOpen && resumePresentation && document.body.classList.contains('presentation')) showPresentationControls();
 }
 
 function openInsertPageMenu(anchor) {
   if (!state.pages.length || !anchor) return;
   toggleMoreMenu(false);
+  if (state.splitView) {
+    synchronizeActiveSplitDocumentForEdit();
+    syncSplitActivePageFromViewport(state.activePaneId);
+  } else if (state.workspaceMode === 'view') syncSingleActivePageFromViewport();
+  state.insertTarget = {
+    documentId: state.currentDocumentId,
+    pageId: insertionTargetPageId(),
+    paneId: state.splitView ? state.activePaneId : null,
+  };
   renderInsertTemplateList();
   if (els.savePageTemplateBtn) {
-    const page = templatePageForSave();
+    const page = templatePageForSave(state.insertTarget);
     const pageIndex = page ? state.pages.findIndex(item => item.id === page.id) + 1 : 0;
     els.savePageTemplateBtn.textContent = pageIndex > 0 ? `Save page ${pageIndex} as template…` : 'Save current page as template…';
   }
@@ -2887,13 +3349,17 @@ function openInsertPageMenu(anchor) {
   setInsertButtonExpanded(false);
   anchor.setAttribute('aria-expanded', 'true');
   if (document.body.classList.contains('presentation')) clearTimeout(state.presentationControlsTimer);
-  requestAnimationFrame(() => positionAnchoredPopover(els.insertPageMenu, anchor));
+  requestAnimationFrame(() => {
+    positionAnchoredPopover(els.insertPageMenu, anchor);
+    renderInsertChoicePreviews().catch(console.error);
+  });
 }
 
 function runInsertCommand(kind, includeAnnotations=true) {
   const inPresentation = document.body.classList.contains('presentation');
+  const targetContext = state.insertTarget ? { ...state.insertTarget } : null;
   closeInsertPageMenu(false);
-  insertPageAfterCurrent(kind, includeAnnotations);
+  insertPageAfterCurrent(kind, includeAnnotations, null, targetContext);
   if (inPresentation) showPresentationControls();
 }
 
@@ -3204,6 +3670,7 @@ function bindSplitViewerEvents(paneId) {
     if (!view) return;
     view.scrollTop = viewer.scrollTop;
     view.scrollLeft = viewer.scrollLeft;
+    scheduleSplitActivePageSync(paneId);
   }, { passive: true });
 
   viewer.addEventListener('wheel', (e) => {
@@ -3331,8 +3798,9 @@ function bindEvents() {
   });
   els.savePageTemplateBtn?.addEventListener('click', () => {
     const inPresentation = document.body.classList.contains('presentation');
+    const targetContext = state.insertTarget ? { ...state.insertTarget } : null;
     closeInsertPageMenu(false);
-    saveCurrentPageAsTemplate();
+    saveCurrentPageAsTemplate(targetContext);
     if (inPresentation) showPresentationControls();
   });
   els.manageTemplatesBtn?.addEventListener('click', showTemplateManager);
@@ -3361,7 +3829,7 @@ function bindEvents() {
   bindSplitViewerEvents('left');
   bindSplitViewerEvents('right');
 
-  els.viewer.addEventListener('scroll', updateSingleViewScrollFromDom, { passive: true });
+  els.viewer.addEventListener('scroll', scheduleSingleActivePageSync, { passive: true });
 
   els.viewer.addEventListener('wheel', (e) => {
     if (e.ctrlKey || e.metaKey) {

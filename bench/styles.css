@@ -484,3 +484,130 @@ body.presentation .split-pane.active {
 @media (max-width: 620px) {
   .combine-order-row { grid-template-columns: minmax(0, 1fr) auto auto; }
 }
+
+/* Milestone 3.5 visual page/template chooser. The permanent toolbar remains
+   compact; previews appear only after Insert is deliberately opened. */
+.insert-page-menu {
+  min-width: min(500px, calc(100vw - 16px));
+  width: min(520px, calc(100vw - 16px));
+  max-width: min(520px, calc(100vw - 16px));
+  max-height: min(78vh, 650px);
+  padding: 8px;
+}
+.insert-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding: 3px 4px 7px;
+}
+.insert-template-list {
+  grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+  gap: 8px;
+}
+.insert-page-menu .insert-choice-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  width: auto;
+  min-width: 0;
+  min-height: 0;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--panel);
+  text-align: center;
+  overflow: hidden;
+}
+.insert-page-menu .insert-choice-card:hover,
+.insert-page-menu .insert-choice-card:focus-visible {
+  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+}
+.insert-choice-preview {
+  height: 88px;
+  min-width: 0;
+  display: grid;
+  place-items: center;
+  padding: 5px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #e9ebef;
+}
+.insert-choice-preview canvas,
+.template-manager-preview canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  background: white;
+  box-shadow: 0 1px 4px rgb(0 0 0 / .18);
+}
+.insert-choice-preview.preview-error::after,
+.template-manager-preview.preview-error::after {
+  content: 'Preview unavailable';
+  color: var(--muted);
+  font-size: .72rem;
+}
+.insert-choice-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: .76rem;
+  line-height: 1.15;
+  font-weight: 650;
+}
+.insert-template-empty {
+  grid-column: 1 / -1;
+  padding: 12px 10px;
+  text-align: center;
+}
+.insert-menu-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  padding: 3px 4px 2px;
+}
+.insert-page-menu .insert-text-action {
+  min-height: 38px;
+  padding: 7px 8px;
+  border: 0;
+  background: transparent;
+  text-align: center;
+  white-space: normal;
+  font-size: .8rem;
+}
+
+.info-dialog.template-dialog { width: min(760px, calc(100% - 24px)); }
+.template-manager-list { gap: 10px; }
+.template-manager-row {
+  grid-template-columns: 112px minmax(0, 1fr) auto;
+  gap: 12px;
+  padding: 10px;
+}
+.template-manager-preview {
+  width: 112px;
+  height: 92px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 5px;
+  background: #e9ebef;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+}
+.template-manager-info { min-width: 0; }
+.template-manager-meta { margin-top: 4px; color: var(--muted); font-size: .78rem; }
+.template-manager-actions { display: flex; gap: 6px; align-items: center; }
+.template-manager-row .template-manager-actions button { width: auto; }
+
+@media (max-width: 540px) {
+  .insert-page-menu { min-width: calc(100vw - 16px); width: calc(100vw - 16px); }
+  .insert-choice-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .insert-choice-preview { height: 96px; }
+  .insert-menu-actions { grid-template-columns: 1fr; }
+  .template-manager-row { grid-template-columns: 92px minmax(0, 1fr); gap: 9px; }
+  .template-manager-preview { width: 92px; height: 82px; grid-row: 1 / span 2; }
+  .template-manager-actions { grid-column: 2; justify-content: flex-start; flex-wrap: wrap; }
+}

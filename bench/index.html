@@ -142,7 +142,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 3.4</div>
+          <div class="export-kicker">Milestone 3.5</div>
           <h1>Files</h1>
           <p class="export-summary">Choose documents once below, then use the expandable operations. Export and Combine use the checked documents; Extract and Split use the active document.</p>
 
@@ -253,16 +253,32 @@
 
 
     <div id="insertPageMenu" class="popover insert-page-menu hidden" role="menu" aria-label="Insert page after current page">
-      <div class="popover-section-label">Insert built-in page</div>
-      <button id="insertDuplicateWithAnnotationsBtn" type="button" role="menuitem">Duplicate with annotations</button>
-      <button id="insertDuplicateWithoutAnnotationsBtn" type="button" role="menuitem">Duplicate without annotations</button>
-      <button id="insertBlankPageBtn" type="button" role="menuitem">Blank page</button>
-      <button id="insertGraphPageBtn" type="button" role="menuitem">Graph-paper page</button>
+      <div class="popover-section-label">Add page after current</div>
+      <div class="insert-choice-grid insert-builtins-grid" role="group" aria-label="Built-in page choices">
+        <button id="insertDuplicateWithAnnotationsBtn" class="insert-choice-card" type="button" role="menuitem" title="Insert a copy of the current page with annotations">
+          <span class="insert-choice-preview"><canvas id="insertDuplicateWithPreview" aria-hidden="true"></canvas></span>
+          <span class="insert-choice-label">Duplicate + notes</span>
+        </button>
+        <button id="insertDuplicateWithoutAnnotationsBtn" class="insert-choice-card" type="button" role="menuitem" title="Insert a copy of the current page without annotations">
+          <span class="insert-choice-preview"><canvas id="insertDuplicateWithoutPreview" aria-hidden="true"></canvas></span>
+          <span class="insert-choice-label">Duplicate clean</span>
+        </button>
+        <button id="insertBlankPageBtn" class="insert-choice-card" type="button" role="menuitem" title="Insert a blank page matching the current page size and orientation">
+          <span class="insert-choice-preview"><canvas id="insertBlankPreview" aria-hidden="true"></canvas></span>
+          <span class="insert-choice-label">Blank</span>
+        </button>
+        <button id="insertGraphPageBtn" class="insert-choice-card" type="button" role="menuitem" title="Insert graph paper matching the current page size and orientation">
+          <span class="insert-choice-preview"><canvas id="insertGraphPreview" aria-hidden="true"></canvas></span>
+          <span class="insert-choice-label">Graph paper</span>
+        </button>
+      </div>
       <div class="popover-divider" aria-hidden="true"></div>
       <div class="popover-section-label">Session templates</div>
-      <div id="insertTemplateList" class="insert-template-list" role="group" aria-label="Saved session templates"></div>
-      <button id="savePageTemplateBtn" type="button" role="menuitem">Save current page as template…</button>
-      <button id="manageTemplatesBtn" type="button" role="menuitem">Manage templates…</button>
+      <div id="insertTemplateList" class="insert-template-list insert-choice-grid" role="group" aria-label="Saved session templates"></div>
+      <div class="insert-menu-actions">
+        <button id="savePageTemplateBtn" class="insert-text-action" type="button" role="menuitem">Save current page as template…</button>
+        <button id="manageTemplatesBtn" class="insert-text-action" type="button" role="menuitem">Manage templates…</button>
+      </div>
     </div>
 
     <dialog id="infoDialog" class="info-dialog">

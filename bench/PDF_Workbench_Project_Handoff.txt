@@ -1,3 +1,239 @@
+PDF WORKBENCH PWA — MILESTONE 3.5.0 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.5.0
+Visible About version: 3.5.0
+Service-worker/cache version: pdf-workbench-m3.5.0-v1
+
+WHY THIS REVISION EXISTS
+------------------------
+The 3.4.4 same-document split-pane anchoring fix was subsequently tested successfully in all three viewer modes and all three Presentation-mode variants. With insertion/view state stable, the next requested UI improvement was to make templates and Insert Page choices visual rather than relying primarily on text names.
+
+3.5.0 VISUAL INSERT/TEMPLATE UI
+--------------------------------
+- Insert Page remains one shared command surface used from Pages, regular View, and Presentation.
+- The chooser now uses thumbnail cards for:
+  - Duplicate + notes (current/selected page preview);
+  - Duplicate clean (same current-page preview; future no-annotations semantic hook);
+  - Blank (preview matching current displayed page dimensions/orientation);
+  - Graph paper (preview matching current displayed page dimensions/orientation);
+  - every saved session template (actual page preview plus template name).
+- The visual chooser is temporary/compact rather than permanent document chrome.
+- It uses four columns when room permits and two columns at narrow widths.
+- Save current/selected page as template and Manage templates remain available in the chooser.
+
+TEMPLATE MANAGER
+----------------
+- Manage templates now shows a thumbnail for each template.
+- Each row also shows the template name, displayed page dimensions, Rename, and Delete.
+- Template names still default automatically to Template 1, Template 2, etc. so temporary template use requires no naming work.
+- Templates remain SESSION-ONLY in this milestone. They survive Close all files while the app remains loaded, but a full app reload/restart clears them.
+- Do not add separate persistence now; templates should share the later Files/Library persistence architecture with documents/projects.
+
+IMPORTANT PRESERVED TEST RESULTS
+--------------------------------
+- 3.4.4 same-document split structural-edit anchoring was reported working in Continuous, Page Snap, Full Page, and the corresponding Presentation variants.
+- Pages, single View, and split View template capture/insertion were reported working after 3.4.3/3.4.4.
+- Do not redesign those state paths as part of visual UI work.
+- Preserve finger pan/pinch, pen-reserved-for-ink behavior on PDF content, pen operation of visible UI, Presentation hidden-toolbar behavior, structural PDF output, and JBIG2/WASM rendering.
+
+ROADMAP ITEMS TO RETAIN
+------------------------
+- Persistent Files/Library with stored documents/projects, close/reopen, folders, recent files, backup/export, and persistent templates.
+- Copy/move selected pages between open documents.
+- Template persistence/organization when Library storage arrives.
+- Page-size normalization, fit/crop/margins, image-to-PDF, compression.
+- Inking in regular View and Presentation with shared tool state; pen inks, one finger pans, two fingers zoom, Draw with Finger off by default.
+- Test Full Page bottom navigation arrows for palm interference once inking exists.
+
+RELEASE PRACTICE
+----------------
+Every distribution ZIP must include this handoff, README, and graph-paper-reference.png and must keep the visible About version and service-worker/cache version synchronized.
+
+
+PDF WORKBENCH PWA — MILESTONE 3.4.4 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.4.4
+Visible About version: 3.4.4
+Service-worker/cache version: pdf-workbench-m3.4.4-v1
+
+WHY THIS REVISION EXISTS
+------------------------
+Device testing of 3.4.3 indicates that page/template source selection and insertion position now function correctly in Pages, single View, and split View across Continuous, Page Snap, and Full Page. A subtler same-document split case remained: when the same PDF was open in both panes, inserting a page in one pane before the logical page visible in the other pane changed the other pane's apparent scroll position. Inserting after/below the other pane did not move it.
+
+ROOT CAUSE
+----------
+The shared document page list changed correctly, and the inactive pane retained the same active page id. However, the inactive pane also retained a raw scrollTop measured against the old page stack. Inserting a page above that pane moves all later page stages downward, so restoring the old pixel scrollTop no longer shows the same logical content.
+
+3.4.4 FIX
+---------
+- Before insertion, if the other split pane shows the same document, capture that pane's logical page and the document point under the pane center.
+- Invalidate the inactive pane's stale raw scroll coordinates for that structural edit.
+- After rebuilding the pane, restore the same logical page/content point under the pane center.
+- In Page Snap, keep the same logical page centered.
+- In Full Page, preserve the same active page id; no continuous-scroll offset repair is required.
+- The pane receiving the insertion still focuses the inserted page exactly as in 3.4.3.
+- This change is intentionally limited to the inactive same-document split pane; the now-working Pages and single-View insertion/template paths are not redesigned.
+
+ARCHITECTURAL RULE
+------------------
+THE DOCUMENT IS SHARED; THE VIEW IS NOT. A structural document edit may change page indices, but an independent viewer instance should remain anchored to the same logical page/content whenever that page still exists.
+
+IMMEDIATE 3.4.4 TESTS
+---------------------
+1. Same PDF in both panes, right pane later in the document. Insert on the left before the right pane's page; right should not move.
+2. Insert on the left after/below the right pane's page; right should also not move.
+3. Repeat in Continuous, Page Snap, and Full Page.
+4. Reverse left/right roles.
+5. Regression-check template source/insertion in Pages, single View, and split View.
+
+RELEASE PRACTICE
+----------------
+Every distribution ZIP must include this handoff, README, and graph-paper-reference.png and must keep the visible About version and service-worker/cache version synchronized.
+
+
+PDF WORKBENCH PWA — MILESTONE 3.4.3 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.4.3
+Visible About version: 3.4.3
+Service-worker/cache version: pdf-workbench-m3.4.3-v1
+
+WHY THIS REVISION EXISTS
+------------------------
+3.4.2 fixed the recent ordinary single-View state regressions. Device testing then showed that Pages and single View copied/saved templates and inserted pages correctly, but split View remained sporadic: it could save the wrong (often neighboring) page as a template, and repeated insertions could land before, after, or several pages away from the visibly current page.
+
+IMPORTANT DIAGNOSIS
+-------------------
+The underlying page/template/insertion model is sound because Pages and single View work correctly. The remaining defect was split-pane page identity. Split mode was still using the IntersectionObserver's most-visible entry within an individual callback to update view.activePageId. That callback does not represent all currently visible pages and can fire in timing-dependent groups, so a neighboring page can become authoritative even when another page is visually centered.
+
+3.4.3 FIX
+---------
+- Added an independent viewport-center current-page calculation for each split pane.
+- Each pane's page identity now comes from its own scrollTop/clientHeight and actual page-stage geometry.
+- Split scroll events schedule this synchronization on requestAnimationFrame.
+- Activating a pane synchronizes its visible page before toolbar operations use it.
+- Opening the Insert Page menu in split mode synchronizes the active pane and then captures documentId/pageId/paneId as the immutable command target.
+- Save current page as template in split mode uses that same captured target.
+- IntersectionObserver in split mode now controls only render/release of canvases, not current-page identity.
+- Programmatic pane rebuild/restoration synchronizes the visible page after layout settles.
+- Existing pending-page-focus protection remains in place during insertion, so a rebuilt pane cannot choose a different page before the inserted page is focused.
+
+DO NOT REGRESS
+--------------
+- The previous Milestone 2 split-view requirement remains: left/right are independent VIEW INSTANCES, including when the same PDF is displayed in both panes.
+- The older split/single scroll work concerned independent pane state. The ordinary single-document switching regression seen during 3.4.1 testing was new and was fixed in 3.4.2.
+- Pages-based template saving/insertion and single-View template saving/insertion were reported working in 3.4.2 and should not be redesigned as part of this fix.
+- Preserve finger pan/pinch, pen-reserved-for-ink behavior, Presentation tap/hover behavior, export/manipulation functions, JBIG2/WASM configuration, and session templates.
+
+IMMEDIATE 3.4.3 TESTS
+---------------------
+1. Split + Page Snap: left and right on clearly different pages; save a template from each and verify exact source page.
+2. Insert 5-6 pages successively from one split pane, mixing blank, graph, duplicate, and saved template pages. Each should go directly after the visible/new current page.
+3. Repeat in the other pane.
+4. Same PDF in both panes at different page positions; template/insert must use only the active pane's page.
+5. Different PDFs in the two panes; repeat.
+6. Regression check Pages and single View.
+
+RELEASE PRACTICE
+----------------
+Every distribution ZIP must include this handoff, README, and graph-paper-reference.png and must keep the visible About version and service-worker/cache version synchronized.
+
+
+PDF WORKBENCH PWA — MILESTONE 3.4.2 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.4.2
+Visible About version: 3.4.2
+Service-worker/cache version: pdf-workbench-m3.4.2-v1
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.
+
+RECENT 3.4.1 TEST FINDINGS
+--------------------------
+The 3.4.1 insertion patch exposed/confirmed a set of ordinary single-View synchronization problems:
+- switching between ordinary open documents could apply the previous document's scroll location to the newly selected document;
+- double-clicking a thumbnail in Pages could enter View at the top instead of at the selected page;
+- in Page Snap mode, Save current page as template could capture a neighboring page (apparently often the next page);
+- the first View insertion could land correctly but subsequent insertions could use the wrong side of the visibly current page.
+
+Important diagnostic result: the same template save/insert operations work correctly when initiated from Pages. Therefore the document page model and template/page-copy machinery are considered sound; the fault is in single-View current-page/scroll synchronization.
+
+Do NOT conflate the ordinary document-switch issue with the older Milestone 2 split-view work. The earlier split work concerned preserving independent left/right pane state, including same-document and different-document panes. The ordinary single-view switch behavior reported here is a newly discovered/current regression.
+
+ROOT CAUSES / 3.4.2 FIX
+------------------------
+1. The single viewer previously let IntersectionObserver callback timing decide which page became current. In Page Snap/Continuous View, observer callback entry batches can promote a neighboring page even when another page is visibly centered.
+2. When switching documents, loadDocumentState saved the outgoing document correctly, loaded the incoming document state, and then called renderAll() while the OLD document was still in the viewer DOM. renderAll() immediately saved that stale DOM scroll position into the newly selected document.
+3. Pages double-click set activePageId but left a numeric saved scroll offset in the view. The subsequent render could restore that offset (often the top) instead of centering the requested page.
+
+3.4.2 changes:
+- in ordinary Continuous/Page Snap View, the page nearest the actual viewport center is authoritative;
+- single-view scrolling schedules a lightweight viewport-center page synchronization;
+- opening Insert in ordinary View explicitly synchronizes the visible page before capturing the page/template target;
+- saving ordinary single-view state synchronizes the visible page before persisting page identity;
+- document switching renders the incoming document with renderAll({saveState:false}), preventing the outgoing DOM from overwriting the incoming document's saved state;
+- pending single-view page-sync animation frames are cancelled during document changes/rebuilds;
+- Pages double-click clears stale single-view scroll restoration, focus-locks the chosen page, rebuilds View, and explicitly centers/renders that page;
+- the 3.4.1 exact insertion-target and post-insert focus protection remains in place;
+- no intended changes to split-pane state architecture, template session lifetime, narrow-toolbar behavior, touch/pen input, Presentation, output operations, or JBIG2/WASM configuration.
+
+IMMEDIATE 3.4.2 TESTS
+---------------------
+1. Page Snap: visibly center page N; open Insert and verify Save page N as template is shown and saves the correct page.
+2. Repeated View insertion: insert several blank/graph/template pages in succession; each should follow the page visibly current when Insert was opened and the new page should become current.
+3. Pages: double-click several thumbnails far from page 1 and verify View opens at exactly those pages.
+4. Open two documents, place them at very different scroll positions, and switch back/forth repeatedly; each must restore its own location.
+5. Reconfirm Pages-based template save/insert.
+6. Regression-test split view (same/different documents), Presentation, iPad/Surface/Chromebook finger/pen behavior, Files multi-export ZIP, Combine/Split, and BaakeScan/JBIG2.
+
+DISTRIBUTION RULE
+-----------------
+Every release ZIP must contain this comprehensive handoff, README, and graph-paper reference and keep visible About version and service-worker/cache version synchronized.
+
+
+PDF WORKBENCH PWA — MILESTONE 3.4.1 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.4.1
+Visible About version: 3.4.1
+Service-worker/cache version: pdf-workbench-m3.4.1-v1
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.
+
+RECENT TEST FINDING
+-------------------
+Milestone 3.4.0 templates worked as expected, including remaining available after Close all files during the same session. However, page insertion had a repeat-insertion bug: the first inserted page was generally correct, but subsequent inserts could appear several pages later or at the end of the document. View could also stay on “Rendering…” after insertion even though the page appeared correctly in Pages and rendered after switching away and back.
+
+ROOT CAUSE / 3.4.1 FIX
+----------------------
+The insertion path cleared the saved scroll position so the newly inserted page could become current, but then immediately saved the OLD pre-insertion View DOM scroll position back into the view state before rebuilding the viewer. Because the page list had changed, that stale scroll offset could correspond to a different page. IntersectionObserver could then promote that different page to current before the intended inserted page was focused, causing later Insert commands to use the wrong anchor and sometimes leaving the intended page unrendered until View was rebuilt.
+
+3.4.1 changes:
+- opening Insert captures the exact document/page/pane insertion target;
+- the chosen command uses that captured target rather than recomputing current page after menu/layout activity;
+- structural insertion saves document state without reading stale pre-edit viewer scroll offsets;
+- the inserted page is focus-locked while the rebuilt viewer settles so observer callbacks cannot replace it prematurely;
+- the inserted page is explicitly scrolled into view and its render is started after layout;
+- Save page as template uses the same captured-page semantics;
+- no changes to template session lifetime, narrow toolbar rules, touch/pen input, Files/output operations, split-state architecture, or JBIG2/WASM configuration.
+
+IMMEDIATE 3.4.1 TESTS
+---------------------
+1. Insert several pages successively in the middle of a document in Continuous View; each should follow the page that was current when Insert was opened.
+2. Verify every inserted page becomes current and does not remain at Rendering….
+3. Repeat in Page Snap and Full Page.
+4. Repeat from Pages using a selected page.
+5. Repeat in Presentation and Split View, including same-document split panes.
+6. Confirm session templates still save/insert/rename/delete and survive Close all files.
+7. Regression-test touch/pen, narrow Surface toolbar, Files export/ZIP, Combine/Split, and BaakeScan/JBIG2.
+
+DISTRIBUTION RULE
+-----------------
+Every release ZIP must contain this comprehensive handoff, README, and graph-paper reference and keep visible About version and service-worker/cache version synchronized.
+
+
 PDF WORKBENCH PWA — MILESTONE 3.4.0 CURRENT UPDATE
 =====================================================
 
