@@ -1,4 +1,4 @@
-const APP_VERSION = '3.0.0';
+const APP_VERSION = '3.1.0';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -6,6 +6,7 @@ const PDFJS_WASM_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/wasm/';
 const PDFJS_CMAP_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/cmaps/';
 const PDFJS_STANDARD_FONT_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/standard_fonts/';
 const PDFLIB_URL = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.esm.min.js';
+const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 
 const $ = (id) => document.getElementById(id);
 const els = {
@@ -15,6 +16,9 @@ const els = {
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), aboutBtn: $('aboutBtn'),
   emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), exportSummary: $('exportSummary'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
+  splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'),
+  combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'),
   splitLeftPane: $('splitLeftPane'), splitLeftViewer: $('splitLeftViewer'), splitLeftDocumentSelect: $('splitLeftDocumentSelect'), splitLeftNav: $('splitLeftNav'), splitLeftPrevBtn: $('splitLeftPrevBtn'), splitLeftNextBtn: $('splitLeftNextBtn'), splitLeftCounter: $('splitLeftCounter'),
   splitRightPane: $('splitRightPane'), splitRightViewer: $('splitRightViewer'), splitRightDocumentSelect: $('splitRightDocumentSelect'), splitRightNav: $('splitRightNav'), splitRightPrevBtn: $('splitRightPrevBtn'), splitRightNextBtn: $('splitRightNextBtn'), splitRightCounter: $('splitRightCounter'),
   thumbnailGrid: $('thumbnailGrid'), pageCountLabel: $('pageCountLabel'), selectionLabel: $('selectionLabel'),
@@ -27,6 +31,7 @@ const els = {
 const state = {
   pdfjs: null,
   pdfLib: null,
+  zipLib: null,
   pdfEngineError: null,
   documents: [],
   currentDocumentId: null,
@@ -41,6 +46,9 @@ const state = {
   zoom: 1,
   history: [],
   future: [],
+  combineOrder: [],
+  combineSelected: new Set(),
+  combineInitialized: false,
   renderGeneration: 0,
   pageObserver: null,
   thumbObserver: null,
@@ -400,7 +408,7 @@ async function registerServiceWorker() {
     // the service-worker/cache version whenever application files change.
     if (navigator.onLine) await registration.update().catch(() => {});
     await navigator.serviceWorker.ready;
-    navigator.serviceWorker.controller?.postMessage({ type: 'CACHE_EXTERNAL', urls: [PDFJS_URL, PDFJS_WORKER_URL, PDFLIB_URL] });
+    navigator.serviceWorker.controller?.postMessage({ type: 'CACHE_EXTERNAL', urls: [PDFJS_URL, PDFJS_WORKER_URL, PDFLIB_URL, JSZIP_URL] });
   } catch (err) { console.warn('Service worker unavailable', err); }
 }
 
@@ -488,6 +496,7 @@ async function openFiles(fileList) {
       setStatus(`Could not open ${file.name}: ${err.message || err}`);
     }
   }
+  if (opened) state.workspaceMode = 'view';
   renderAll();
   renderDocumentSelect();
   if (opened) setStatus(`Opened ${opened} document${opened === 1 ? '' : 's'} (${pagesAdded} page${pagesAdded === 1 ? '' : 's'})`);
@@ -574,10 +583,122 @@ async function getPdfPage(source, pageNumber) {
   return source.pdf.getPage(pageNumber);
 }
 
+function cleanFilenameBase(name, fallback='document') {
+  const cleaned = String(name || '').replace(/[\\/:*?"<>|]+/g, '_').trim();
+  const withoutExt = cleaned.replace(/\.(?:pdf|zip)$/i, '').replace(/\.[^.]+$/, '').trim();
+  return withoutExt || fallback;
+}
+
+function ensurePdfFilename(name, fallback='document.pdf') {
+  let filename = String(name || '').trim() || fallback;
+  if (!/\.pdf$/i.test(filename)) filename += '.pdf';
+  return filename.replace(/[\\/:*?"<>|]+/g, '_');
+}
+
 function defaultExportFilename(name) {
-  const cleaned = String(name || 'document').replace(/[\\/:*?"<>|]+/g, '_').trim() || 'document';
-  const base = cleaned.replace(/\.pdf$/i, '').replace(/\.[^.]+$/, '');
-  return `${base}-edited.pdf`;
+  return `${cleanFilenameBase(name)}-edited.pdf`;
+}
+
+function defaultExtractFilename(name) {
+  return `${cleanFilenameBase(name)}-selected.pdf`;
+}
+
+function defaultSplitBaseName(name) {
+  return cleanFilenameBase(name);
+}
+
+function reconcileCombineState() {
+  const ids = state.documents.map(doc => doc.id);
+  const valid = new Set(ids);
+  const previousOrder = new Set(state.combineOrder);
+  state.combineOrder = state.combineOrder.filter(id => valid.has(id));
+  for (const id of ids) {
+    if (!previousOrder.has(id)) {
+      state.combineOrder.push(id);
+      if (state.combineInitialized) state.combineSelected.add(id);
+    }
+  }
+  if (!state.combineInitialized && ids.length) {
+    state.combineSelected = new Set(ids);
+    state.combineInitialized = true;
+  } else {
+    state.combineSelected = new Set([...state.combineSelected].filter(id => valid.has(id)));
+  }
+  if (!ids.length) {
+    state.combineInitialized = false;
+    state.combineOrder = [];
+    state.combineSelected.clear();
+  }
+}
+
+function moveCombineDocument(docId, delta) {
+  reconcileCombineState();
+  const index = state.combineOrder.indexOf(docId);
+  const target = index + delta;
+  if (index < 0 || target < 0 || target >= state.combineOrder.length) return;
+  [state.combineOrder[index], state.combineOrder[target]] = [state.combineOrder[target], state.combineOrder[index]];
+  renderCombineList();
+}
+
+function renderCombineList() {
+  if (!els.combineList) return;
+  reconcileCombineState();
+  els.combineList.replaceChildren();
+  for (let index = 0; index < state.combineOrder.length; index++) {
+    const docId = state.combineOrder[index];
+    const doc = documentById(docId);
+    if (!doc) continue;
+    const row = document.createElement('div');
+    row.className = 'combine-row';
+
+    const check = document.createElement('input');
+    check.type = 'checkbox';
+    check.checked = state.combineSelected.has(doc.id);
+    check.setAttribute('aria-label', `Include ${doc.name}`);
+    check.addEventListener('change', () => {
+      if (check.checked) state.combineSelected.add(doc.id); else state.combineSelected.delete(doc.id);
+      if (els.combineBtn) els.combineBtn.disabled = state.combineSelected.size < 2;
+    });
+
+    const label = document.createElement('div');
+    label.className = 'combine-doc-label';
+    const name = document.createElement('span');
+    name.className = 'combine-doc-name';
+    name.textContent = doc.name;
+    name.title = doc.name;
+    const pageCount = document.createElement('span');
+    pageCount.className = 'combine-doc-pages';
+    pageCount.textContent = `${doc.pages.length} page${doc.pages.length === 1 ? '' : 's'}`;
+    label.append(name, pageCount);
+
+    const up = document.createElement('button');
+    up.type = 'button';
+    up.className = 'combine-move';
+    up.textContent = '↑';
+    up.title = `Move ${doc.name} earlier`;
+    up.setAttribute('aria-label', `Move ${doc.name} earlier`);
+    up.disabled = index === 0;
+    up.addEventListener('click', () => moveCombineDocument(doc.id, -1));
+
+    const down = document.createElement('button');
+    down.type = 'button';
+    down.className = 'combine-move';
+    down.textContent = '↓';
+    down.title = `Move ${doc.name} later`;
+    down.setAttribute('aria-label', `Move ${doc.name} later`);
+    down.disabled = index === state.combineOrder.length - 1;
+    down.addEventListener('click', () => moveCombineDocument(doc.id, 1));
+
+    row.append(check, label, up, down);
+    els.combineList.append(row);
+  }
+  if (!state.combineOrder.length) {
+    const empty = document.createElement('p');
+    empty.className = 'small-note';
+    empty.textContent = 'No documents are open.';
+    els.combineList.append(empty);
+  }
+  if (els.combineBtn) els.combineBtn.disabled = state.combineSelected.size < 2;
 }
 
 function renderExportPane() {
@@ -590,7 +711,25 @@ function renderExportPane() {
     els.exportFilename.dataset.documentId = doc.id;
     els.exportProgress.textContent = '';
   }
+  const selectedCount = state.selected.size;
+  els.extractSummary.textContent = selectedCount
+    ? `${selectedCount} selected page${selectedCount === 1 ? '' : 's'} from ${doc.name} will be saved in their current Pages order.`
+    : 'No pages are selected. Return to Pages and select the pages you want to extract.';
+  if (els.extractFilename.dataset.documentId !== doc.id) {
+    els.extractFilename.value = defaultExtractFilename(doc.name);
+    els.extractFilename.dataset.documentId = doc.id;
+    els.extractProgress.textContent = '';
+  }
+  els.extractPdfBtn.disabled = selectedCount === 0;
+  if (els.splitBaseName.dataset.documentId !== doc.id) {
+    els.splitBaseName.value = defaultSplitBaseName(doc.name);
+    els.splitBaseName.dataset.documentId = doc.id;
+    els.splitProgress.textContent = '';
+  }
   els.exportPdfBtn.disabled = false;
+  els.splitFixedBtn.disabled = count === 0;
+  els.splitRangesBtn.disabled = count === 0;
+  renderCombineList();
 }
 
 async function loadPdfExportEngine() {
@@ -599,6 +738,14 @@ async function loadPdfExportEngine() {
   const lib = await import(PDFLIB_URL);
   state.pdfLib = lib;
   return lib;
+}
+
+async function loadZipEngine() {
+  if (state.zipLib) return state.zipLib;
+  setStatus('Loading ZIP engine…', true);
+  const mod = await import(JSZIP_URL);
+  state.zipLib = mod.default || mod;
+  return state.zipLib;
 }
 
 async function embedImageForExport(outPdf, source) {
@@ -623,8 +770,7 @@ async function embedImageForExport(outPdf, source) {
   return outPdf.embedPng(new Uint8Array(await blob.arrayBuffer()));
 }
 
-function downloadPdfBytes(bytes, filename) {
-  const blob = new Blob([bytes], { type: 'application/pdf' });
+function downloadBlob(blob, filename) {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
@@ -633,64 +779,73 @@ function downloadPdfBytes(bytes, filename) {
   document.body.append(link);
   link.click();
   link.remove();
-  // iPad/Safari may take a little longer to hand the blob to the download UI.
+  // iPad/Safari may take a little longer to hand the blob to its preview/share UI.
   setTimeout(() => URL.revokeObjectURL(url), 30000);
+}
+
+function downloadPdfBytes(bytes, filename) {
+  downloadBlob(new Blob([bytes], { type: 'application/pdf' }), filename);
+}
+
+async function buildPdfBytes(pageList, options={}) {
+  const { PDFDocument, degrees } = await loadPdfExportEngine();
+  const output = await PDFDocument.create();
+  const sourcePdfCache = options.sourcePdfCache || new Map();
+  const embeddedImages = new Map();
+  const total = pageList.length;
+
+  for (let i = 0; i < total; i++) {
+    const page = pageList[i];
+    const source = state.sources.get(page.sourceId);
+    if (!source) throw new Error(`Source data is missing for output page ${i + 1}.`);
+    options.onProgress?.(i + 1, total);
+
+    if (source.type === 'pdf') {
+      let srcPdf = sourcePdfCache.get(source.id);
+      if (!srcPdf) {
+        srcPdf = await PDFDocument.load(source.bytes, { updateMetadata: false });
+        sourcePdfCache.set(source.id, srcPdf);
+      }
+      const [copied] = await output.copyPages(srcPdf, [page.sourcePage - 1]);
+      const inheritedRotation = copied.getRotation()?.angle || 0;
+      copied.setRotation(degrees((inheritedRotation + (page.rotation || 0) + 360) % 360));
+      output.addPage(copied);
+    } else if (source.type === 'image') {
+      let embedded = embeddedImages.get(source.id);
+      if (!embedded) {
+        embedded = await embedImageForExport(output, source);
+        embeddedImages.set(source.id, embedded);
+      }
+      const outPage = output.addPage([page.width, page.height]);
+      outPage.drawImage(embedded, { x: 0, y: 0, width: page.width, height: page.height });
+      if (page.rotation) outPage.setRotation(degrees((page.rotation + 360) % 360));
+    } else {
+      throw new Error(`Unsupported source type on output page ${i + 1}.`);
+    }
+
+    if (i % 4 === 3) await new Promise(resolve => setTimeout(resolve, 0));
+  }
+  return output.save({ useObjectStreams: true, addDefaultPage: false, updateFieldAppearances: false });
 }
 
 async function exportCurrentPdf() {
   saveCurrentDocumentState();
   const doc = currentDocument();
   if (!doc || !state.pages.length) return;
-  let filename = String(els.exportFilename.value || '').trim() || defaultExportFilename(doc.name);
-  if (!/\.pdf$/i.test(filename)) filename += '.pdf';
-  filename = filename.replace(/[\\/:*?"<>|]+/g, '_');
+  const filename = ensurePdfFilename(els.exportFilename.value, defaultExportFilename(doc.name));
 
   els.exportPdfBtn.disabled = true;
   els.exportProgress.textContent = 'Preparing export engine…';
   setStatus('Preparing PDF export…', true);
   try {
-    const { PDFDocument, degrees } = await loadPdfExportEngine();
-    const output = await PDFDocument.create();
-    const loadedPdfs = new Map();
-    const embeddedImages = new Map();
-
-    for (let i = 0; i < state.pages.length; i++) {
-      const page = state.pages[i];
-      const source = state.sources.get(page.sourceId);
-      if (!source) throw new Error(`Source data is missing for page ${i + 1}.`);
-      els.exportProgress.textContent = `Building page ${i + 1} of ${state.pages.length}…`;
-      setStatus(`Exporting page ${i + 1} of ${state.pages.length}…`, true);
-
-      if (source.type === 'pdf') {
-        let srcPdf = loadedPdfs.get(source.id);
-        if (!srcPdf) {
-          srcPdf = await PDFDocument.load(source.bytes, { updateMetadata: false });
-          loadedPdfs.set(source.id, srcPdf);
-        }
-        const [copied] = await output.copyPages(srcPdf, [page.sourcePage - 1]);
-        const inheritedRotation = copied.getRotation()?.angle || 0;
-        copied.setRotation(degrees((inheritedRotation + (page.rotation || 0) + 360) % 360));
-        output.addPage(copied);
-      } else if (source.type === 'image') {
-        let embedded = embeddedImages.get(source.id);
-        if (!embedded) {
-          embedded = await embedImageForExport(output, source);
-          embeddedImages.set(source.id, embedded);
-        }
-        const outPage = output.addPage([page.width, page.height]);
-        outPage.drawImage(embedded, { x: 0, y: 0, width: page.width, height: page.height });
-        if (page.rotation) outPage.setRotation(degrees((page.rotation + 360) % 360));
-      } else {
-        throw new Error(`Unsupported source type on page ${i + 1}.`);
+    const bytes = await buildPdfBytes(state.pages, {
+      onProgress: (done, total) => {
+        els.exportProgress.textContent = `Building page ${done} of ${total}…`;
+        setStatus(`Exporting page ${done} of ${total}…`, true);
       }
-
-      // Give the UI a chance to repaint progress on long documents.
-      if (i % 4 === 3) await new Promise(resolve => setTimeout(resolve, 0));
-    }
-
+    });
     els.exportProgress.textContent = 'Writing PDF…';
     setStatus('Writing exported PDF…', true);
-    const bytes = await output.save({ useObjectStreams: true, addDefaultPage: false, updateFieldAppearances: false });
     downloadPdfBytes(bytes, filename);
     const sizeMb = bytes.length / (1024 * 1024);
     els.exportProgress.textContent = `Exported ${state.pages.length} page${state.pages.length === 1 ? '' : 's'} (${sizeMb < 0.1 ? `${Math.round(bytes.length / 1024)} KB` : `${sizeMb.toFixed(1)} MB`}).`;
@@ -702,6 +857,206 @@ async function exportCurrentPdf() {
   } finally {
     els.exportPdfBtn.disabled = false;
   }
+}
+
+async function extractSelectedPdf() {
+  saveCurrentDocumentState();
+  const doc = currentDocument();
+  if (!doc) return;
+  const selectedPages = state.pages.filter(page => state.selected.has(page.id));
+  if (!selectedPages.length) {
+    els.extractProgress.textContent = 'Select one or more pages in Pages first.';
+    return;
+  }
+  const filename = ensurePdfFilename(els.extractFilename.value, defaultExtractFilename(doc.name));
+  els.extractPdfBtn.disabled = true;
+  els.extractProgress.textContent = 'Preparing selected pages…';
+  setStatus('Extracting selected pages…', true);
+  try {
+    const bytes = await buildPdfBytes(selectedPages, {
+      onProgress: (done, total) => {
+        els.extractProgress.textContent = `Building selected page ${done} of ${total}…`;
+      }
+    });
+    downloadPdfBytes(bytes, filename);
+    els.extractProgress.textContent = `Extracted ${selectedPages.length} page${selectedPages.length === 1 ? '' : 's'} to ${filename}.`;
+    setStatus(`Extracted ${selectedPages.length} page${selectedPages.length === 1 ? '' : 's'}`);
+  } catch (err) {
+    console.error(err);
+    els.extractProgress.textContent = `Extract failed: ${err?.message || err}`;
+    setStatus('Page extraction failed');
+  } finally {
+    els.extractPdfBtn.disabled = state.selected.size === 0;
+  }
+}
+
+function makeFixedSplitGroups(pageList, pagesPerFile) {
+  const n = Number(pagesPerFile);
+  if (!Number.isInteger(n) || n < 1) throw new Error('Pages per PDF must be a whole number of at least 1.');
+  const groups = [];
+  for (let start = 0; start < pageList.length; start += n) {
+    const pages = pageList.slice(start, start + n);
+    const first = start + 1;
+    const last = start + pages.length;
+    groups.push({ pages, label: `pages-${first}-${last}` });
+  }
+  return groups;
+}
+
+function parsePageGroupSpec(spec, pageCount) {
+  const pages = [];
+  const seen = new Set();
+  for (const rawToken of spec.split(',')) {
+    const token = rawToken.trim();
+    if (!token) continue;
+    const match = token.match(/^(\d+)\s*(?:-\s*(\d+))?$/);
+    if (!match) throw new Error(`Invalid page entry “${token}”. Use entries such as 4 or 7-12.`);
+    const start = Number(match[1]);
+    const end = match[2] ? Number(match[2]) : start;
+    if (start < 1 || end < 1 || start > pageCount || end > pageCount) throw new Error(`Page entry “${token}” is outside 1-${pageCount}.`);
+    if (end < start) throw new Error(`Page range “${token}” runs backward.`);
+    for (let pageNo = start; pageNo <= end; pageNo++) {
+      if (!seen.has(pageNo)) {
+        seen.add(pageNo);
+        pages.push(pageNo);
+      }
+    }
+  }
+  if (!pages.length) throw new Error('A page group cannot be empty.');
+  return pages;
+}
+
+function parseSplitRangeGroups(text, pageList) {
+  const lines = String(text || '').split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+  if (!lines.length) throw new Error('Enter at least one page group. Put each output PDF on its own line.');
+  return lines.map((line, index) => {
+    const pageNumbers = parsePageGroupSpec(line, pageList.length);
+    return {
+      pages: pageNumbers.map(pageNo => pageList[pageNo - 1]),
+      label: `group-${String(index + 1).padStart(2, '0')}-pages-${pageNumbers[0]}-${pageNumbers[pageNumbers.length - 1]}`,
+    };
+  });
+}
+
+async function savePdfGroups(groups, baseName) {
+  if (!groups.length) throw new Error('The split did not produce any output groups.');
+  const safeBase = cleanFilenameBase(baseName, 'document');
+  const sourcePdfCache = new Map();
+  if (groups.length === 1) {
+    els.splitProgress.textContent = `Building ${groups[0].pages.length}-page PDF…`;
+    const bytes = await buildPdfBytes(groups[0].pages, {
+      sourcePdfCache,
+      onProgress: (done, total) => { els.splitProgress.textContent = `Building page ${done} of ${total}…`; }
+    });
+    const filename = `${safeBase}-${groups[0].label}.pdf`;
+    downloadPdfBytes(bytes, filename);
+    return { count: 1, filename };
+  }
+
+  const JSZip = await loadZipEngine();
+  const zip = new JSZip();
+  for (let i = 0; i < groups.length; i++) {
+    const group = groups[i];
+    els.splitProgress.textContent = `Building PDF ${i + 1} of ${groups.length}…`;
+    setStatus(`Building split PDF ${i + 1} of ${groups.length}…`, true);
+    const bytes = await buildPdfBytes(group.pages, {
+      sourcePdfCache,
+      onProgress: (done, total) => { els.splitProgress.textContent = `PDF ${i + 1} of ${groups.length}: page ${done} of ${total}…`; }
+    });
+    zip.file(`${safeBase}-${group.label}.pdf`, bytes);
+    await new Promise(resolve => setTimeout(resolve, 0));
+  }
+  els.splitProgress.textContent = 'Packaging PDFs into ZIP…';
+  setStatus('Packaging split PDFs…', true);
+  // PDFs are generally already compressed. STORE avoids wasting time and memory
+  // trying to recompress their contents, which is especially useful on iPad.
+  const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'STORE', mimeType: 'application/zip' });
+  const filename = `${safeBase}-split.zip`;
+  downloadBlob(zipBlob, filename);
+  return { count: groups.length, filename };
+}
+
+async function splitEveryNPages() {
+  saveCurrentDocumentState();
+  if (!state.pages.length) return;
+  els.splitFixedBtn.disabled = true;
+  els.splitRangesBtn.disabled = true;
+  els.splitProgress.textContent = 'Preparing split…';
+  try {
+    const groups = makeFixedSplitGroups(state.pages, Number(els.splitEveryCount.value));
+    const result = await savePdfGroups(groups, els.splitBaseName.value);
+    els.splitProgress.textContent = result.count > 1
+      ? `Created ${result.count} PDFs in ${result.filename}.`
+      : `Created ${result.filename}.`;
+    setStatus(result.count > 1 ? `Created ${result.count} split PDFs` : 'Created split PDF');
+  } catch (err) {
+    console.error(err);
+    els.splitProgress.textContent = `Split failed: ${err?.message || err}`;
+    setStatus('PDF split failed');
+  } finally {
+    els.splitFixedBtn.disabled = false;
+    els.splitRangesBtn.disabled = false;
+  }
+}
+
+async function splitByPageGroups() {
+  saveCurrentDocumentState();
+  if (!state.pages.length) return;
+  els.splitFixedBtn.disabled = true;
+  els.splitRangesBtn.disabled = true;
+  els.splitProgress.textContent = 'Checking page groups…';
+  try {
+    const groups = parseSplitRangeGroups(els.splitRanges.value, state.pages);
+    const result = await savePdfGroups(groups, els.splitBaseName.value);
+    els.splitProgress.textContent = result.count > 1
+      ? `Created ${result.count} PDFs in ${result.filename}.`
+      : `Created ${result.filename}.`;
+    setStatus(result.count > 1 ? `Created ${result.count} split PDFs` : 'Created split PDF');
+  } catch (err) {
+    console.error(err);
+    els.splitProgress.textContent = `Split failed: ${err?.message || err}`;
+    setStatus('PDF split failed');
+  } finally {
+    els.splitFixedBtn.disabled = false;
+    els.splitRangesBtn.disabled = false;
+  }
+}
+
+function createCombinedDocument() {
+  saveCurrentDocumentState();
+  reconcileCombineState();
+  const chosenDocs = state.combineOrder.map(documentById).filter(doc => doc && state.combineSelected.has(doc.id));
+  if (chosenDocs.length < 2) {
+    els.combineProgress.textContent = 'Choose at least two documents to combine.';
+    return;
+  }
+  const combinedPages = [];
+  for (const doc of chosenDocs) {
+    for (const page of doc.pages) combinedPages.push({ ...page, id: uid('page') });
+  }
+  if (!combinedPages.length) {
+    els.combineProgress.textContent = 'The chosen documents contain no pages.';
+    return;
+  }
+  const name = String(els.combineName.value || '').trim().replace(/[\\/:*?"<>|]+/g, '_') || 'Combined.pdf';
+  const combined = createDocument(name);
+  combined.pages = combinedPages;
+  combined.selected = new Set();
+  combined.selectionAnchorId = null;
+  combined.activePageId = combinedPages[0].id;
+  combined.history = [];
+  combined.future = [];
+  combined.singleView = { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: combinedPages[0].id, scrollTop: null, scrollLeft: null };
+  state.pages = combined.pages;
+  state.selected = combined.selected;
+  state.selectionAnchorId = null;
+  state.activePageId = combined.activePageId;
+  state.history = combined.history;
+  state.future = combined.future;
+  state.workspaceMode = 'organize';
+  saveCurrentDocumentState();
+  renderAll();
+  setStatus(`Created ${name} from ${chosenDocs.length} documents (${combinedPages.length} pages)`);
 }
 
 function showWorkspaceMode(mode) {
@@ -1949,6 +2304,10 @@ function clearAll() {
   state.activePageId = null;
   state.history = [];
   state.future = [];
+  state.selectionAnchorId = null;
+  state.combineOrder = [];
+  state.combineSelected.clear();
+  state.combineInitialized = false;
   state.suppressSingleScrollSave = false;
   state.touchPointers.clear();
   cancelViewerTouchInertia(state);
@@ -1989,9 +2348,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 3 begins the document output/manipulation engine. The new Export workspace creates a PDF from the current organized document.</p>
-      <ul><li>Export preserves current page order, deleted pages, duplicated pages, and user-applied quarter-turn rotations.</li><li>Original PDF pages are copied structurally rather than rasterized.</li><li>Imported image documents can also be exported to PDF.</li><li>The stable Milestone 2 viewer remains intact: finger pan/pinch, pen-reserved document input, independent split-pane state, Presentation behavior, and JBIG2/WASM rendering.</li></ul>
-      <p><strong>Coming later in Milestone 3:</strong> combine, extract, split, blank/graph-paper insertion, page-size normalization, image-to-PDF assembly, and compression. Saved library/projects and ink follow in later milestones.</p>
+      <p>Milestone 3.1 expands the document output/manipulation engine and begins turning the former Export workspace into the future Files workspace.</p>
+      <ul><li>Export preserves current page order, deleted pages, duplicated pages, page sizes, and user-applied quarter-turn rotations without rasterizing PDF source pages.</li><li>Extract saves the currently selected Pages as a new PDF.</li><li>Split supports fixed-size groups and explicit page groups; multiple outputs are packaged into one ZIP.</li><li>Combine creates a new working document from two or more open documents while leaving the originals separate.</li><li>Opening/importing a file now returns to View, and tapping empty space in Pages clears page selection.</li><li>The validated Milestone 2 viewer/input behavior and JBIG2/WASM rendering are intentionally preserved.</li></ul>
+      <p><strong>Coming later:</strong> blank/graph-paper insertion, page-size normalization, image assembly, compression, document Close, persistent Library/folders, and ink/annotations.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -2402,6 +2761,16 @@ function bindEvents() {
   els.organizeModeBtn.addEventListener('click', () => showWorkspaceMode('organize'));
   els.exportModeBtn.addEventListener('click', () => showWorkspaceMode('export'));
   els.exportPdfBtn.addEventListener('click', exportCurrentPdf);
+  els.extractPdfBtn.addEventListener('click', extractSelectedPdf);
+  els.splitFixedBtn.addEventListener('click', splitEveryNPages);
+  els.splitRangesBtn.addEventListener('click', splitByPageGroups);
+  els.combineBtn.addEventListener('click', createCombinedDocument);
+  els.thumbnailGrid.addEventListener('click', (e) => {
+    if (e.target !== els.thumbnailGrid || !state.selected.size) return;
+    state.selected.clear();
+    state.selectionAnchorId = null;
+    refreshSelectionCards();
+  });
   els.scrollModeBtn.addEventListener('click', cycleScrollMode);
   els.fitModeBtn.addEventListener('click', cycleFitMode);
   els.zoomOutBtn.addEventListener('click', () => zoomBy(0.8));

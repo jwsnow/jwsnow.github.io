@@ -1,3 +1,77 @@
+PDF WORKBENCH PWA — MILESTONE 3.1.0 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.1.0
+Visible About version: 3.1.0
+Service-worker/cache version: pdf-workbench-m3.1.0-v1
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.
+
+MILESTONE 3.0.0 VALIDATION
+--------------------------
+The first export engine was tested successfully by the user on the five recommended curated PDFs plus the real BaakeScan.pdf JBIG2-heavy scan. The user opened, edited, exported, then checked the exported PDFs in Adobe; results appeared correct. Treat structural export of current page order, deletion/duplication, rotations, mixed sizes, scans, and BaakeScan as validated enough to build later manipulation tools on top of it.
+
+MILESTONE 3.1.0 — FILES / DOCUMENT OPERATIONS
+----------------------------------------------
+The top workspace selector is now View | Pages | Files. Internally the code still uses the existing export workspace identifier to minimize regression risk, but the user-facing Files workspace is the beginning of the future document/library area.
+
+Files currently provides:
+- Export current organized document (existing validated engine).
+- Extract selected Pages directly to a new PDF, in current Pages order.
+- Split every n pages.
+- Split by explicit page groups, one output PDF per line; a line may contain comma-separated pages/ranges such as 1-4,8,11-13.
+- If Split creates multiple PDFs, package all outputs into one ZIP for one save/share operation. This is the approved iPad strategy with the existing iPad save/preview/share flow.
+- Combine two or more open documents into a NEW working document. Users choose which open documents to include and order them with up/down controls. Combine uses each source document's current edited working page arrangement, clones the page instances, shares underlying source data, and leaves originals unchanged. Combining does not automatically export; the combined working document can be further edited then exported.
+
+SMALL WORKFLOW CHANGES IN 3.1.0
+--------------------------------
+- In Pages, tapping/clicking empty grid space clears all page selection.
+- Opening/importing external files automatically returns to View.
+- Open still means open a separate document; it never implicitly merges.
+- Exporting while in Files naturally leaves the user in Files.
+
+SPLIT / ZIP IMPLEMENTATION NOTE
+-------------------------------
+JSZip 3.10.1 is loaded from jsDelivr as an ES module and is included in the service-worker external-cache request alongside PDF.js/pdf-lib. Multiple split PDFs are stored in the ZIP without extra compression (STORE) because PDF contents are generally already compressed and extra compression wastes iPad memory/time.
+
+GRAPH-PAPER REFERENCE
+---------------------
+The distribution now includes `graph-paper-reference.png`, copied from the user's current blank writing slide. Use it as the visual reference for future generated graph-paper pages: white background, very light cyan/blue thin square grid, roughly quarter-inch-style spacing, small clean margin, unobtrusive enough to write over. The generated PDF grid need not be pixel-identical.
+
+REGRESSION-SENSITIVE VIEWER/INPUT STATUS
+----------------------------------------
+Confirmed before Milestone 3 work on iPad, Surface, and Chromebook:
+- finger pan/scroll and two-finger pinch work;
+- pen/Pencil does not pan or zoom PDF content;
+- pen operates visible buttons and Pages organizer;
+- hidden Presentation controls ignore pen hover/tap;
+- high-zoom horizontal pan reaches both edges;
+- split/single state and JBIG2/WASM rendering are stable in testing.
+Do not alter these paths casually during document-engine work.
+
+NEXT MILESTONE 3 ITEMS
+----------------------
+1. Insert duplicate current page with/without annotations (annotation distinction becomes meaningful once ink exists; until then copies are equivalent).
+2. Insert blank page matching current page dimensions/orientation.
+3. Insert graph-paper page matching current page dimensions/orientation.
+4. Create new one-page blank or graph-paper documents.
+5. Page-size normalization/orientation, fit/center/crop, margins.
+6. Image-to-PDF assembly improvements.
+7. Compression/target maximum size without silently rasterizing selectable text.
+
+LATER FILES/LIBRARY ROADMAP
+----------------------------
+After Milestone 3 manipulation/export, Files evolves into a lightweight GoodNotes-like Library backed by IndexedDB/OPFS: Close/reopen, internal stored working copies/projects, Recent, rename, folders, move, search/sort, Remove from Recent, Delete Stored Copy, and explicit storage cleanup. Distinguish active/open documents, internally stored projects, and external original/output files.
+
+FUTURE INKING NOTE
+------------------
+The current preferred interaction policy is stylus = ink on document content; one finger = pan/scroll; two fingers = zoom; stylus can operate visible UI. Draw with Finger should default Off. Full Page bottom navigation arrows may need auto-hide/relocation/palm-safe handling when ink is implemented.
+
+DISTRIBUTION RULE
+-----------------
+Every release ZIP must contain this comprehensive handoff and keep visible About version and service-worker/cache version synchronized. Preserve `graph-paper-reference.png` until the graph-paper generator is implemented and its visual specification is fully captured in code/docs.
+
+
 PDF WORKBENCH PWA — MILESTONE 3 CURRENT UPDATE
 ===============================================
 
