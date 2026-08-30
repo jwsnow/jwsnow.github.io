@@ -1,4 +1,4 @@
-const APP_VERSION = '3.5.0';
+const APP_VERSION = '3.5.2';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -25,7 +25,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -58,6 +58,7 @@ const state = {
   presentationControlsTimer: null,
   presentationRevealPointerId: null,
   presentationSuppressClicksUntil: 0,
+  singlePresentationTransitionActive: false,
   touchPointers: new Map(),
   touchPan: null,
   touchInertiaFrame: null,
@@ -628,20 +629,33 @@ function clonePageInstance(page, includeAnnotations=true) {
   return copy;
 }
 
+function selectedPageTargetId() {
+  if (state.workspaceMode !== 'organize' || !state.selected.size) return null;
+  // If exactly one page remains selected, that page is authoritative even if
+  // the user most recently UNchecked some other page. This avoids falling back
+  // to a stale View page after additive checkbox selection changes.
+  if (state.selected.size === 1) return [...state.selected][0];
+  if (state.selectionAnchorId && state.selected.has(state.selectionAnchorId)) return state.selectionAnchorId;
+  // Defensive fallback for an unusual selection state: use the last selected
+  // page in document order rather than any stale viewer current-page value.
+  for (let i = state.pages.length - 1; i >= 0; i--) if (state.selected.has(state.pages[i].id)) return state.pages[i].id;
+  return null;
+}
+
 function templatePageForSave(targetContext=null) {
   if (targetContext?.documentId && targetContext.documentId !== state.currentDocumentId) loadDocumentState(targetContext.documentId, false);
-  else if (state.splitView) {
+  else if (state.workspaceMode === 'view' && state.splitView) {
     synchronizeActiveSplitDocumentForEdit();
     syncSplitActivePageFromViewport(state.activePaneId, { updateUi: false });
   }
   if (!state.pages.length) return null;
+  // Pages is selection-driven. Never let a stale View current page override a
+  // real current Pages selection.
+  const selectedId = selectedPageTargetId();
+  if (selectedId) return pageById(selectedId);
   if (targetContext?.pageId) {
     const captured = pageById(targetContext.pageId);
     if (captured) return captured;
-  }
-  if (state.workspaceMode === 'organize') {
-    if (state.selectionAnchorId && state.selected.has(state.selectionAnchorId)) return pageById(state.selectionAnchorId);
-    if (state.selected.size === 1) return pageById([...state.selected][0]);
   }
   const targetId = insertionTargetPageId();
   return pageById(targetId) || state.pages[0] || null;
@@ -741,13 +755,35 @@ function renderInsertTemplateList() {
   if (els.manageTemplatesBtn) els.manageTemplatesBtn.disabled = state.templates.length === 0;
 }
 
-function saveCurrentPageAsTemplate(targetContext=null) {
+function requestTemplateName(suggested) {
+  if (!els.templateNameDialog || !els.templateNameInput) return Promise.resolve(suggested);
+  return new Promise(resolve => {
+    const dialog = els.templateNameDialog;
+    els.templateNameInput.value = suggested;
+    const finish = () => {
+      dialog.removeEventListener('close', finish);
+      const accepted = dialog.returnValue === 'save';
+      const value = els.templateNameInput.value.trim();
+      resolve(accepted ? (value || suggested) : null);
+    };
+    dialog.addEventListener('close', finish, { once: true });
+    dialog.showModal();
+    requestAnimationFrame(() => {
+      els.templateNameInput.focus({ preventScroll: true });
+      els.templateNameInput.select();
+    });
+  });
+}
+
+async function saveCurrentPageAsTemplate(targetContext=null) {
   const page = templatePageForSave(targetContext);
-  if (!page) { setStatus('No page is available to save as a template'); return; }
+  if (!page) { setStatus('No page is available to save as a template'); return false; }
   const suggested = nextTemplateName();
-  const entered = window.prompt('Template name', suggested);
-  if (entered === null) return;
-  const name = entered.trim() || suggested;
+  // Use an in-app dialog rather than window.prompt(). Native prompt can force
+  // Chromium/Surface out of Fullscreen, which previously kicked Presentation
+  // back to regular View while saving a template.
+  const name = await requestTemplateName(suggested);
+  if (name === null) return false;
   const template = {
     id: uid('template'),
     name,
@@ -757,6 +793,7 @@ function saveCurrentPageAsTemplate(targetContext=null) {
   state.templates.push(template);
   renderInsertTemplateList();
   setStatus(`Saved page as ${name} (this session)`);
+  return true;
 }
 
 function insertTemplateAfterCurrent(templateId) {
@@ -823,11 +860,9 @@ function showTemplateManager() {
       row.append(preview, info, actions);
       manager.append(row);
 
-      rename.addEventListener('click', () => {
-        const entered = window.prompt('Template name', template.name);
-        if (entered === null) return;
-        const nextName = entered.trim();
-        if (!nextName) return;
+      rename.addEventListener('click', async () => {
+        const nextName = await requestTemplateName(template.name);
+        if (nextName === null) return;
         template.name = nextName;
         renderInsertTemplateList();
         renderManager();
@@ -852,9 +887,10 @@ function pageDisplayDimensions(page) {
 }
 
 function insertionTargetPageId() {
-  // In Pages, the last directly selected page is the most useful insertion
-  // anchor. This takes precedence even if the viewer was previously in Split.
-  if (state.workspaceMode === 'organize' && state.selectionAnchorId && state.selected.has(state.selectionAnchorId)) return state.selectionAnchorId;
+  // Pages is selection-driven. Prefer the actual current selection over any
+  // page that happened to be active the last time View was shown.
+  const selectedId = selectedPageTargetId();
+  if (selectedId) return selectedId;
   if (state.splitView) return paneView(state.activePaneId)?.activePageId || state.activePageId;
   return state.activePageId || state.pages[0]?.id || null;
 }
@@ -3162,7 +3198,161 @@ function isIPadLike() {
   return /iPad|iPhone|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 }
 
+function nextAnimationFrame() {
+  return new Promise(resolve => requestAnimationFrame(resolve));
+}
+
+async function waitForViewerGeometryStable(viewer, stableFrames=3, maxFrames=18) {
+  if (!viewer) return;
+  let lastWidth = -1, lastHeight = -1, stable = 0;
+  for (let i = 0; i < maxFrames; i++) {
+    await nextAnimationFrame();
+    const width = viewer.clientWidth, height = viewer.clientHeight;
+    if (width === lastWidth && height === lastHeight && width > 0 && height > 0) stable++;
+    else stable = 0;
+    lastWidth = width;
+    lastHeight = height;
+    if (stable >= stableFrames) return;
+  }
+}
+
+async function restoreSinglePresentationEntry(snapshot) {
+  if (!snapshot || snapshot.split || state.splitView) return;
+  const doc = currentDocument();
+  const view = ensureSingleView(doc);
+  if (!view) return;
+  if (snapshot.pageId) {
+    state.activePageId = snapshot.pageId;
+    if (doc) doc.activePageId = snapshot.pageId;
+    view.activePageId = snapshot.pageId;
+  }
+  if (snapshot.scrollMode === 'single' || !snapshot.anchor) {
+    markActivePage();
+    updateViewerLabels();
+    return;
+  }
+  state.suppressSingleScrollSave = true;
+  // Surface/Chromium can resolve requestFullscreen before its final viewport
+  // geometry has stopped changing.  Re-anchor only after the Presentation
+  // viewer is stable, then repeat once more so a late fullscreen layout pass
+  // cannot move the page after restoration.
+  await waitForViewerGeometryStable(els.viewer);
+  let point = viewerMidpoint(els.viewer);
+  restoreViewerAnchor(els.viewer, snapshot.anchor, point.x, point.y);
+  await nextAnimationFrame();
+  point = viewerMidpoint(els.viewer);
+  restoreViewerAnchor(els.viewer, snapshot.anchor, point.x, point.y);
+  await waitForViewerGeometryStable(els.viewer, 2, 10);
+  point = viewerMidpoint(els.viewer);
+  restoreViewerAnchor(els.viewer, snapshot.anchor, point.x, point.y);
+  state.suppressSingleScrollSave = false;
+  syncSingleActivePageFromViewport();
+  updateSingleViewScrollFromDom();
+}
+
+function capturePresentationTransition() {
+  if (state.workspaceMode !== 'view' || !state.pages.length) return null;
+  if (state.splitView) {
+    const panes = {};
+    for (const paneId of ['left', 'right']) {
+      const pane = splitPaneState(paneId);
+      const view = paneView(paneId);
+      const pe = paneElements(paneId);
+      if (!pane?.documentId || !view || !pe?.viewer) continue;
+      syncSplitActivePageFromViewport(paneId, { updateUi: false });
+      if (view.scrollMode === 'single') {
+        panes[paneId] = { documentId: pane.documentId, scrollMode: 'single', pageId: view.activePageId, anchor: null };
+      } else {
+        const point = viewerMidpoint(pe.viewer);
+        const anchor = captureViewerAnchor(pe.viewer, point.x, point.y);
+        panes[paneId] = { documentId: pane.documentId, scrollMode: view.scrollMode, pageId: anchor?.pageId || view.activePageId, anchor };
+        if (anchor?.pageId) view.activePageId = anchor.pageId;
+        // Presentation changes the available viewport size, so the old raw
+        // pixel offsets are not portable between the two layouts.
+        view.scrollTop = null;
+        view.scrollLeft = null;
+      }
+    }
+    return { split: true, panes };
+  }
+
+  syncSingleActivePageFromViewport({ updateUi: false });
+  const doc = currentDocument();
+  const view = ensureSingleView(doc);
+  if (!view) return null;
+  if (view.scrollMode === 'single') return { split: false, scrollMode: 'single', pageId: state.activePageId, anchor: null };
+  const point = viewerMidpoint(els.viewer);
+  const anchor = captureViewerAnchor(els.viewer, point.x, point.y);
+  if (anchor?.pageId) {
+    state.activePageId = anchor.pageId;
+    if (doc) doc.activePageId = anchor.pageId;
+    view.activePageId = anchor.pageId;
+  }
+  view.scrollTop = null;
+  view.scrollLeft = null;
+  return { split: false, scrollMode: view.scrollMode, pageId: anchor?.pageId || state.activePageId, anchor };
+}
+
+function restorePresentationTransition(snapshot) {
+  if (!snapshot) return;
+  // renderViewer itself uses two animation frames for Safari-safe restoration.
+  // Wait through those frames, then make the logical page/content anchor the
+  // final authority in the newly sized Presentation/regular View viewport.
+  requestAnimationFrame(() => requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (snapshot.split && state.splitView) {
+      for (const paneId of ['left', 'right']) {
+        const saved = snapshot.panes?.[paneId];
+        const pane = splitPaneState(paneId);
+        const view = paneView(paneId);
+        const pe = paneElements(paneId);
+        if (!saved || !view || !pe?.viewer || pane.documentId !== saved.documentId) continue;
+        if (saved.pageId) view.activePageId = saved.pageId;
+        if (saved.scrollMode !== 'single' && saved.anchor) {
+          pane.suppressScrollSave = true;
+          const point = viewerMidpoint(pe.viewer);
+          restoreViewerAnchor(pe.viewer, saved.anchor, point.x, point.y);
+          requestAnimationFrame(() => {
+            restoreViewerAnchor(pe.viewer, saved.anchor, point.x, point.y);
+            pane.suppressScrollSave = false;
+            syncSplitActivePageFromViewport(paneId, { updateUi: state.activePaneId === paneId });
+            savePaneScroll(paneId);
+          });
+        }
+      }
+      return;
+    }
+    if (snapshot.split || state.splitView) return;
+    const doc = currentDocument();
+    const view = ensureSingleView(doc);
+    if (snapshot.pageId) {
+      state.activePageId = snapshot.pageId;
+      if (doc) doc.activePageId = snapshot.pageId;
+      if (view) view.activePageId = snapshot.pageId;
+    }
+    if (snapshot.scrollMode !== 'single' && snapshot.anchor) {
+      state.suppressSingleScrollSave = true;
+      const point = viewerMidpoint(els.viewer);
+      restoreViewerAnchor(els.viewer, snapshot.anchor, point.x, point.y);
+      requestAnimationFrame(() => {
+        restoreViewerAnchor(els.viewer, snapshot.anchor, point.x, point.y);
+        state.suppressSingleScrollSave = false;
+        syncSingleActivePageFromViewport();
+        updateSingleViewScrollFromDom();
+      });
+    } else {
+      markActivePage();
+      updateViewerLabels();
+    }
+  })));
+}
+
 async function enterPresentation() {
+  const transition = capturePresentationTransition();
+  const guardedSingleTransition = !!transition && !transition.split && !state.splitView;
+  if (guardedSingleTransition) {
+    state.singlePresentationTransitionActive = true;
+    clearTimeout(resizeTimer);
+  }
   document.body.classList.add('presentation', 'presentation-controls-visible');
   els.presentationToolbar.classList.remove('hidden');
   renderDocumentSelect();
@@ -3180,9 +3370,22 @@ async function enterPresentation() {
       }
     } catch {}
   }
-  renderViewer();
+
+  if (guardedSingleTransition) {
+    // Wait for native fullscreen/app-level Presentation geometry to settle
+    // before building the single viewer. Split mode already has independent
+    // pane anchoring that is working correctly and is intentionally untouched.
+    await waitForViewerGeometryStable(els.viewer);
+    renderViewer();
+    await restoreSinglePresentationEntry(transition);
+    state.singlePresentationTransitionActive = false;
+  } else {
+    renderViewer();
+    restorePresentationTransition(transition);
+  }
 }
 async function exitPresentation() {
+  const transition = capturePresentationTransition();
   document.body.classList.remove('presentation', 'presentation-controls-visible');
   els.presentationToolbar.classList.add('hidden');
   clearTimeout(state.presentationControlsTimer);
@@ -3195,6 +3398,7 @@ async function exitPresentation() {
   state.pinchNeedsRender = false;
   try { if (document.fullscreenElement) await document.exitFullscreen(); } catch {}
   renderViewer();
+  restorePresentationTransition(transition);
 }
 
 function clearAll() {
@@ -3259,8 +3463,8 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 3.5.0 adds a visual page/template chooser while preserving the view-state fixes validated in 3.4.4. Insert Page now shows thumbnail cards for the current-page duplicates, blank paper, graph paper, and every saved session template. The template manager also shows page previews beside template names and controls.</p>
-      <ul><li><strong>Visual Insert chooser:</strong> page choices use actual miniature page previews plus short labels; Blank and Graph Paper preview the current page's size/orientation.</li><li><strong>Visual template manager:</strong> saved templates show thumbnails, names, page dimensions, Rename, and Delete.</li><li><strong>Session-only templates:</strong> automatic Template 1, Template 2… naming and current-session retention are unchanged; persistence still waits for Files/Library storage.</li><li><strong>Responsive:</strong> the chooser uses a compact multi-column grid and collapses to two columns on narrow screens; Presentation uses the same chooser without permanent extra chrome.</li><li><strong>Preserved viewer behavior:</strong> 3.4.4 same-document split anchoring, visible-page targeting, touch/pen separation, Presentation behavior, structural PDF output, graph-paper generation, and JBIG2/WASM rendering remain unchanged.</li></ul>
+      <p>Milestone 3.5.2 fixes the remaining single-view View → Presentation anchoring regression found after 3.5.1. Split-view transitions were already preserving both panes correctly and are intentionally unchanged. Insert Page now shows thumbnail cards for the current-page duplicates, blank paper, graph paper, and every saved session template. The template manager also shows page previews beside template names and controls.</p>
+      <ul><li><strong>Single View → Presentation anchoring:</strong> waits for Surface/Chromium fullscreen geometry to settle, suppresses resize-triggered rebuilds during the transition, and reapplies the same logical page/content anchor after layout stabilizes.</li><li><strong>Presentation → View and split transitions:</strong> retain the already-working 3.5.1 behavior; split panes remain independently anchored in both directions.</li><li><strong>Presentation template save:</strong> template naming now uses an in-app dialog instead of the browser prompt, so saving no longer drops native-fullscreen Surface Presentation back to View.</li><li><strong>Pages selection authority:</strong> template capture/insertion honors the actual current Pages selection and cannot fall back to a stale View page after checkbox selection changes.</li><li><strong>Visual chooser/manager retained:</strong> 3.5.0 thumbnail cards and template previews remain unchanged.</li><li><strong>Preserved viewer behavior:</strong> 3.4.4 same-document split anchoring, touch/pen separation, structural PDF output, graph-paper generation, and JBIG2/WASM rendering remain unchanged.</li></ul>
       <p><strong>Coming later:</strong> persistent Files/Library storage (including persistent templates), copy pages between documents, page-size normalization, fit/crop/margins, image assembly, compression, and ink/annotations.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
@@ -3327,7 +3531,7 @@ function closeInsertPageMenu(resumePresentation=true) {
 function openInsertPageMenu(anchor) {
   if (!state.pages.length || !anchor) return;
   toggleMoreMenu(false);
-  if (state.splitView) {
+  if (state.workspaceMode === 'view' && state.splitView) {
     synchronizeActiveSplitDocumentForEdit();
     syncSplitActivePageFromViewport(state.activePaneId);
   } else if (state.workspaceMode === 'view') syncSingleActivePageFromViewport();
@@ -3388,6 +3592,12 @@ function onResize() {
   clearTimeout(resizeTimer);
   if (!els.moreMenu.classList.contains('hidden')) positionMoreMenu();
   if (!els.insertPageMenu?.classList.contains('hidden') && state.insertMenuAnchor) positionAnchoredPopover(els.insertPageMenu, state.insertMenuAnchor);
+  // Entering native fullscreen on Surface/Chromium emits resize events while
+  // the single-view Presentation transition is still restoring its logical
+  // anchor. A timer-triggered rebuild here could overwrite that restoration.
+  // Split mode is not guarded because its independent pane transitions already
+  // preserve both panes correctly in both directions.
+  if (state.singlePresentationTransitionActive) return;
   resizeTimer = setTimeout(() => { if (state.pages.length && state.workspaceMode === 'view') renderViewer(); }, 120);
 }
 
@@ -3796,12 +4006,14 @@ function bindEvents() {
     const button = e.target.closest('[data-template-id]');
     if (button) insertTemplateAfterCurrent(button.dataset.templateId);
   });
-  els.savePageTemplateBtn?.addEventListener('click', () => {
+  els.templateNameCloseBtn?.addEventListener('click', () => els.templateNameDialog?.close('cancel'));
+  els.templateNameCancelBtn?.addEventListener('click', () => els.templateNameDialog?.close('cancel'));
+  els.savePageTemplateBtn?.addEventListener('click', async () => {
     const inPresentation = document.body.classList.contains('presentation');
     const targetContext = state.insertTarget ? { ...state.insertTarget } : null;
     closeInsertPageMenu(false);
-    saveCurrentPageAsTemplate(targetContext);
-    if (inPresentation) showPresentationControls();
+    await saveCurrentPageAsTemplate(targetContext);
+    if (inPresentation && document.body.classList.contains('presentation')) showPresentationControls();
   });
   els.manageTemplatesBtn?.addEventListener('click', showTemplateManager);
   els.deleteBtn.addEventListener('click', deleteSelected);

@@ -611,3 +611,20 @@ body.presentation .split-pane.active {
   .template-manager-preview { width: 92px; height: 82px; grid-row: 1 / span 2; }
   .template-manager-actions { grid-column: 2; justify-content: flex-start; flex-wrap: wrap; }
 }
+
+/* 3.5.1: in-app naming avoids browser prompt/fullscreen interaction. */
+.template-name-dialog { width: min(430px, calc(100% - 28px)); }
+.template-name-dialog label { display: block; margin-top: 12px; font-weight: 600; }
+.template-name-help { margin-bottom: 8px; color: var(--muted); }
+.template-name-input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 42px;
+  margin-top: 6px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+  color: var(--text);
+  background: var(--paper);
+}

@@ -281,6 +281,20 @@
       </div>
     </div>
 
+    <dialog id="templateNameDialog" class="info-dialog template-name-dialog">
+      <form id="templateNameForm" method="dialog">
+        <button id="templateNameCloseBtn" class="dialog-close" type="button" aria-label="Cancel">×</button>
+        <h2>Template name</h2>
+        <p class="template-name-help">A generic name is already supplied so a temporary template can be saved immediately.</p>
+        <label for="templateNameInput">Name</label>
+        <input id="templateNameInput" class="template-name-input" type="text" autocomplete="off" maxlength="120">
+        <div class="dialog-actions">
+          <button id="templateNameCancelBtn" type="button">Cancel</button>
+          <button value="save">Save template</button>
+        </div>
+      </form>
+    </dialog>
+
     <dialog id="infoDialog" class="info-dialog">
       <form method="dialog">
         <button class="dialog-close" value="close" aria-label="Close">×</button>

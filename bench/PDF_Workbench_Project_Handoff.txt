@@ -1,3 +1,99 @@
+PDF WORKBENCH PWA — MILESTONE 3.5.2 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.5.2
+Visible About version: 3.5.2
+Service-worker/cache version: pdf-workbench-m3.5.2-v1
+
+WHY THIS REVISION EXISTS
+------------------------
+Surface testing of 3.5.1 confirmed that Pages template capture was fixed, saving a template in Presentation no longer exited Presentation, Presentation → View preserved logical position, and split View preserved both panes correctly in both transition directions. One asymmetric regression remained: regular single View → Presentation could still shift the visible scroll/content position.
+
+3.5.2 FIX
+---------
+1. SINGLE VIEW → PRESENTATION ONLY
+- Capture the logical page/content point before entering Presentation.
+- On Surface/Chromium, native requestFullscreen can resolve before the final fullscreen viewport geometry has completely settled.
+- Wait for the single viewer geometry to become stable before rebuilding it in Presentation.
+- Suppress resize-triggered viewer rebuilds during this single-view transition so a delayed fullscreen resize cannot overwrite the restored anchor.
+- Reapply the captured logical anchor after the Presentation layout settles, including a final correction after another stable-layout check.
+- Do NOT modify split-view transition logic; testing reports that split preserves both panes correctly in both directions.
+
+CONFIRMED 3.5.1 RESULTS TO PRESERVE
+-----------------------------------
+- Pages template source is correct even after additive select/unselect sequences.
+- Thumbnail previews make the selected/template source easier to verify.
+- Saving a template in Surface Presentation stays in Presentation.
+- Presentation → View preserves the logical scroll/content position.
+- Split View preserves both panes in both directions.
+- Visual Insert chooser and thumbnail template manager work.
+
+IMMEDIATE 3.5.2 TESTS
+---------------------
+1. Surface single View → Presentation in Continuous mode at a recognizable location.
+2. Repeat in Page Snap and Full Page.
+3. Presentation → View must remain correct.
+4. Quick regression check split transitions; no split code was intentionally changed.
+5. Quick regression check Presentation template Save and Pages template capture.
+
+RELEASE PRACTICE
+----------------
+Every distribution ZIP must include this handoff, README, and graph-paper-reference.png and must keep the visible About version and service-worker/cache version synchronized.
+
+
+PDF WORKBENCH PWA — MILESTONE 3.5.1 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.5.1
+Visible About version: 3.5.1
+Service-worker/cache version: pdf-workbench-m3.5.1-v1
+
+WHY THIS REVISION EXISTS
+------------------------
+Surface testing of 3.5.0 found three reproducible regressions associated with the new visual template chooser: View↔Presentation no longer preserved the visible scroll/content position; saving a template in Presentation dropped back to regular View; and Pages template capture could fall back to the last View page after a sequence of additive checkbox selections/unselections.
+
+3.5.1 FIXES
+-----------
+1. VIEW ↔ PRESENTATION LOGICAL ANCHOR
+- Before changing Presentation state, capture the logical page/content point at the center of each viewer.
+- Do not transfer raw pre-layout scroll pixels across the viewport-size change.
+- Rebuild the viewer, then restore the same page/content point after layout settles.
+- Apply independently to left/right panes in split mode.
+- Full Page preserves the same active page.
+
+2. PRESENTATION-SAFE TEMPLATE NAMING
+- Do not use window.prompt() for Save as Template or Rename Template.
+- Use an in-app modal naming dialog instead.
+- Keep the automatic generic Template 1, Template 2, ... name prefilled.
+- This avoids the browser prompt/native-fullscreen interaction that can make Surface leave Presentation.
+
+3. PAGES SELECTION IS AUTHORITATIVE
+- When Insert/Save Template is invoked from Pages, derive the source/anchor from the actual current Pages selection before any retained View/split state.
+- If exactly one selected page remains after another page is unchecked, that remaining page is authoritative.
+- Do not synchronize an old split pane merely because split mode was last used when the current workspace is Pages.
+- Do not fall back to stale View current-page state when a real Pages selection exists.
+
+IMPORTANT PRESERVED TEST RESULTS
+--------------------------------
+- 3.4.4 same-document split structural-edit anchoring was reported working in Continuous, Page Snap, Full Page, and all corresponding Presentation variants.
+- 3.4.3/3.4.4 insertion/template placement was reported correct in Pages, single View, and split View before the 3.5.0 visual-layer regressions.
+- 3.5.0 visual Insert chooser and visual template manager are retained.
+- Preserve touch/pen behavior, hidden Presentation toolbar behavior, structural PDF output, graph-paper generation, and JBIG2/WASM rendering.
+
+IMMEDIATE 3.5.1 TESTS
+---------------------
+1. Surface View→Presentation→View in Continuous/Page Snap at a recognizable location; same content should remain visible.
+2. Repeat in split mode, same and different documents.
+3. Full Page must retain the same page.
+4. Save a template while in Surface Presentation; naming should not leave Presentation.
+5. Pages checkbox sequence: select A/save; select B; unselect A; save. The second template must be B.
+6. Recheck thumbnail chooser and template manager Rename/Delete.
+
+RELEASE PRACTICE
+----------------
+Every distribution ZIP must include this handoff, README, and graph-paper-reference.png and must keep the visible About version and service-worker/cache version synchronized.
+
+
 PDF WORKBENCH PWA — MILESTONE 3.5.0 CURRENT UPDATE
 =====================================================
 
