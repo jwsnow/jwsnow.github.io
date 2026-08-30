@@ -21,7 +21,7 @@ button:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 65%, 
 .hidden { display: none !important; }
 .visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-.app-shell { height: 100%; display: grid; grid-template-rows: var(--bar-h) minmax(0,1fr) var(--status-h); }
+.app-shell { height: 100%; display: grid; grid-template-rows: var(--bar-h) minmax(0,1fr) calc(var(--status-h) + env(safe-area-inset-bottom)); }
 .app-bar { position: relative; z-index: 40; min-width: 0; height: var(--bar-h); display: flex; align-items: center; gap: 8px; padding: max(4px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) 4px max(8px, env(safe-area-inset-left)); background: color-mix(in srgb, var(--panel) 94%, transparent); border-bottom: 1px solid var(--border); }
 .brand { font-weight: 650; white-space: nowrap; margin-right: 4px; }
 .primary-actions, .viewer-controls { display: flex; align-items: center; gap: 6px; min-width: 0; }

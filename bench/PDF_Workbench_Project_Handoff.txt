@@ -6,10 +6,10 @@ The historical handoff follows after it for full architectural detail. Where a h
 
 CURRENT BUILD
 -------------
-Milestone 2.1.4
+Milestone 2.1.5
 
-Visible About version: 2.1.4
-Service-worker/cache version: pdf-workbench-m2.1.4-v1
+Visible About version: 2.1.5
+Service-worker/cache version: pdf-workbench-m2.1.5-v1
 
 Every distributed ZIP must include this handoff file and update it for the release.
 
@@ -26,76 +26,63 @@ PDF Workbench is a cross-platform, local-processing PWA for Windows, Surface, iP
 - Page organizer selection/reordering/rotation/duplication/deletion behavior must not regress.
 - Manual PWA Reload Latest Version remains available.
 
-CONFIRMED DEVICE TEST RESULTS THROUGH 2.1.3
--------------------------------------------
-1. HIGH-ZOOM PAN / PINCH
-Earlier builds jumped during pinch zoom and, at high zoom, could reach the far-right page edge but not the far-left edge. 2.1.1 changed pinch anchoring to measured before/after geometry and protected scroll state during viewer rebuilds. 2.1.2 corrected the flex-centering overflow problem by giving oversized pages a real left scroll boundary.
+CONFIRMED DEVICE RESULTS THROUGH 2.1.4
+--------------------------------------
+Testing in Safari on iPad and Chrome on Surface confirmed:
 
-User test result after 2.1.2:
-- zoom/pan works on iPad;
-- zoom/pan works on Surface.
+- one-finger pan/scroll works;
+- two-finger pinch zoom works;
+- high-zoom pan can reach both far-left and far-right page edges;
+- pen/Pencil does not pan or zoom PDF content;
+- pen operates visible buttons;
+- pen hover/tap does not reveal or activate hidden Presentation controls.
 
-Preserve these fixes.
+Preserve the 2.1.4 explicit input model:
 
-2. SPLIT -> SINGLE -> SPLIT
-Earlier, the inactive split pane could return to the top after a Split -> Single -> Split round trip. 2.1.1 protects both panes' exact page/zoom/scroll/view state during transitions and DOM rebuilds. Continue to preserve and periodically retest this behavior.
+PDF VIEWER SURFACES
+- `touch-action: none` prevents browser-native direct manipulation on PDF content.
+- Pen/Pencil on PDF content is reserved for annotation and is currently inert.
+- One finger pans/scrolls.
+- Two fingers pinch zoom and pan with the measured anchor-preserving zoom implementation.
+- Full Page uses a vertical one-finger swipe to change pages.
+- Visible controls remain operable by pen.
 
-3. PRESENTATION HIDDEN TOOLBAR
-Earlier, pen hover on Surface could reveal the toolbar; apparent pen tap-through could then occur because the button was no longer hidden by the time the pen touched down. 2.1.2 restricted hover reveal to mouse only and retained the consumed finger-tap reveal behavior.
+PAGES / ORGANIZER
+- Pen may select pages, operate checkboxes, and drag/reorder thumbnails.
 
-User test result after 2.1.2:
-- pen hover does not activate/reveal the hidden Presentation menu on iPad or Surface;
-- pen tap does not activate the hidden Presentation menu on iPad or Surface.
-
-Preserve this behavior.
-
-4. TOOLBAR WIDTH ON IPAD
-At typical iPad widths the normal toolbar remains in its compact/icon-only state all the time. The user says this is acceptable. Do not treat this as a bug unless touch targets become too small.
-
-5. 2.1.3 PEN-RESERVATION ATTEMPT FAILED
-2.1.3 tried to preserve browser-native one-finger scrolling while canceling/capturing only pen Pointer Events on the viewer.
-
-User test result after 2.1.3:
-- pen still pans/scrolls on iPad;
-- pen still pans/scrolls on Surface.
-
-Conclusion: canceling pen events is insufficient while the viewer still allows native direct manipulation through `touch-action: pan-x pan-y`.
-
-MILESTONE 2.1.4 INPUT ARCHITECTURE
-----------------------------------
-The viewer now uses the broader fallback that 2.1.3 had intentionally deferred until device testing proved it necessary.
-
-PDF VIEWER SURFACES:
-- CSS `touch-action: none` prevents Safari/Edge from owning direct-manipulation gestures on the PDF surface.
-- PDF Workbench handles touch Pointer Events explicitly.
-- Stylus/Apple Pencil contact on PDF content is reserved for the active annotation tool. Until annotation exists, pen contact is inert: it must not pan, scroll, zoom, or reveal hidden Presentation chrome.
-- One finger pans/scrolls in Continuous and Page Snap modes.
-- Continuous mode adds light inertial continuation after finger release.
-- Page Snap disables snapping while the finger is down and settles to the nearest page after release.
-- Two fingers perform PDF pinch zoom and pan using the existing measured document-anchor method.
-- The final crisp canvas rerender is deferred until the entire touch gesture ends so lifting one finger after a pinch can transition naturally into one-finger pan.
-- Full Page mode uses a vertical one-finger swipe to change pages.
-- Visible UI controls remain outside the viewer and may still be operated with pen.
-
-PAGES / ORGANIZER:
-- The organizer is not changed to `touch-action: none` globally.
-- Stylus may continue to select pages, operate checkboxes, and drag/reorder thumbnails.
-
-PRESENTATION:
+PRESENTATION
 - Mouse hover near the top may reveal controls.
 - Finger tap near the top while hidden reveals controls and consumes the gesture.
-- Pen hover/tap on hidden document content must not reveal or activate controls.
+- Pen hover/tap on hidden PDF content must not reveal or activate controls.
 - Pen may operate controls after they are visible.
 
-ANNOTATION SETTINGS / POLICY FOR LATER
---------------------------------------
+MILESTONE 2.1.5 CHANGE
+----------------------
+On iPad, footer/status text touched the top of the footer while it was vertically centered on Surface. The footer row was fixed at 28 px even though iPad safe-area bottom padding was placed inside that same fixed-height box.
+
+2.1.5 changes the app-shell footer grid row to:
+
+    calc(var(--status-h) + env(safe-area-inset-bottom))
+
+while keeping the safe-area padding on the status bar. This preserves the nominal 28 px footer content region and adds separate room for the Home-indicator inset. No gesture or viewer-state code is changed in this release.
+
+PWA UPDATE OBSERVATION
+----------------------
+During 2.1.4 testing, the installed iPad PWA temporarily failed to pick up the latest build through Reload latest version even though Safari could load it. The PWA later updated successfully. Treat this as transient unless it becomes reproducible. Do not overhaul the update mechanism solely because of this one occurrence.
+
+FULL PAGE NAVIGATION / FUTURE INKING
+------------------------------------
+The Full Page mode currently places navigation arrows at the bottom of the screen. Once inking is added, these may be vulnerable to accidental palm activation while writing. Do not change them prematurely, but explicitly test this during ink/palm-rejection work. Possible later responses include auto-hide, palm-safe activation, moving them toward edges, or allowing them to be hidden in ink mode.
+
+ANNOTATION INPUT POLICY FOR LATER
+---------------------------------
 - Draw with Finger: OFF by default.
-- Finger navigation remains active even while Pen/Eraser/Select is selected.
+- Finger navigation remains active while Pen/Eraser/Select is selected.
 - Pen + Pen tool: draw.
 - Pen + Eraser: erase.
 - Pen + Select/Lasso: select annotations.
-- Do not initially add a setting that allows pen hover to reveal Presentation controls.
-- If a Hand/Pan tool is added later, stylus panning may be allowed only when that tool is deliberately selected.
+- Do not use pen hover to reveal Presentation controls.
+- A future explicit Hand/Pan tool may optionally permit stylus panning.
 
 NEW PAGE / NOTES FEATURES ALREADY REQUESTED
 -------------------------------------------
@@ -109,26 +96,33 @@ Consider exposing the same insertion commands in Presentation, normal View, and 
 
 Allow creating a new document that begins as one blank page or one graph-paper page. This lets PDF Workbench serve as a notes application once inking exists.
 
-IMMEDIATE 2.1.4 DEVICE TESTS
-----------------------------
-1. iPad normal viewer: drag across PDF content with Apple Pencil; page must not move.
-2. Surface normal viewer: drag across PDF content with pen; page must not move.
-3. One-finger drag on iPad and Surface must scroll/pan normally in Continuous mode.
-4. Repeat finger pan and pen drag in both Split panes; finger acts only on the touched pane and pen does not pan either pane.
-5. Two-finger pinch in Single and Split views must zoom/pan normally and keep the document point under the finger midpoint stable.
-6. At high zoom, both far-left and far-right page edges must remain reachable with one-finger pan.
-7. Page Snap: drag freely while finger is down, then settle to the nearest page after release.
-8. Full Page: vertical one-finger swipe changes page.
-9. Presentation: pen drag does not scroll and does not reveal the hidden toolbar; finger navigation still works.
-10. Reveal Presentation controls with a finger; visible buttons/selects should still accept pen taps.
-11. Pages organizer must still permit pen selection and pen drag/reorder.
-12. Reconfirm Split -> Single -> Split preserves the inactive pane scroll state.
-13. Open BaakeScan.pdf and verify JBIG2 scan pages still display.
-14. About must report Milestone 2.1.4; Reload Latest Version must update the app-shell cache.
-
 NEXT DEVELOPMENT DIRECTION
 --------------------------
-If 2.1.4 successfully establishes pen/finger separation without degrading finger pan/pinch on iPad and Surface, treat the Milestone 2 viewer/input foundation as substantially stable. Then proceed to the next functional area while preserving this input architecture. Strong candidates are the queued blank/graph-paper/new-document page model and the PDF manipulation/export engine, before the full ink subsystem.
+Treat the Milestone 2 viewer/input foundation as substantially stable after 2.1.5 unless regression testing reveals a new issue.
+
+Next planned major phase: Milestone 3 document handling/export.
+
+Recommended order:
+1. Export the current edited document, preserving page order, rotations, duplicates, and deletions.
+2. Explicit combine/merge; opening documents must remain separate unless Combine is invoked.
+3. Extract selected pages and split output (every n pages, ranges, one page per output where useful).
+4. Add/insert duplicate, blank, and graph-paper pages; allow new blank/graph-paper documents.
+5. Normalize page size/orientation, fit/center/crop, and margins.
+6. Image-to-PDF.
+7. Target-size compression without silently rasterizing selectable text.
+
+Likely top-level interface remains Pages | View | Export. Pages handles structural editing; View handles reading/presentation/annotation; Export is a lightweight output/settings surface. Do not add a permanent Documents workspace unless actual use shows it is needed.
+
+IMMEDIATE 2.1.5 TESTS
+---------------------
+1. iPad PWA: footer text should be vertically centered above the Home-indicator safe area.
+2. Surface/desktop: footer should remain vertically centered.
+3. Reconfirm one-finger pan and two-finger pinch.
+4. Reconfirm pen does not pan/zoom PDF content but operates visible buttons.
+5. Reconfirm hidden Presentation controls ignore pen hover/tap.
+6. Reconfirm Pages organizer pen drag still works.
+7. About must report Milestone 2.1.5.
+8. Reload Latest Version should remain available; investigate further only if failure becomes reproducible.
 
 ======================================================================
 HISTORICAL HANDOFF (through Milestone 2.1.0; retained for full detail)
