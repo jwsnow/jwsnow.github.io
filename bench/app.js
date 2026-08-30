@@ -1,19 +1,20 @@
-const APP_VERSION = '2.1.6';
+const APP_VERSION = '3.0.0';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
 const PDFJS_WASM_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/wasm/';
 const PDFJS_CMAP_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/cmaps/';
 const PDFJS_STANDARD_FONT_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/standard_fonts/';
+const PDFLIB_URL = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.esm.min.js';
 
 const $ = (id) => document.getElementById(id);
 const els = {
   app: $('app'), openBtn: $('openBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), documentSelect: $('documentSelect'),
-  viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), viewerControls: $('viewerControls'),
+  viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), exportModeBtn: $('exportModeBtn'), viewerControls: $('viewerControls'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), exportSummary: $('exportSummary'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   splitLeftPane: $('splitLeftPane'), splitLeftViewer: $('splitLeftViewer'), splitLeftDocumentSelect: $('splitLeftDocumentSelect'), splitLeftNav: $('splitLeftNav'), splitLeftPrevBtn: $('splitLeftPrevBtn'), splitLeftNextBtn: $('splitLeftNextBtn'), splitLeftCounter: $('splitLeftCounter'),
   splitRightPane: $('splitRightPane'), splitRightViewer: $('splitRightViewer'), splitRightDocumentSelect: $('splitRightDocumentSelect'), splitRightNav: $('splitRightNav'), splitRightPrevBtn: $('splitRightPrevBtn'), splitRightNextBtn: $('splitRightNextBtn'), splitRightCounter: $('splitRightCounter'),
   thumbnailGrid: $('thumbnailGrid'), pageCountLabel: $('pageCountLabel'), selectionLabel: $('selectionLabel'),
@@ -25,6 +26,7 @@ const els = {
 
 const state = {
   pdfjs: null,
+  pdfLib: null,
   pdfEngineError: null,
   documents: [],
   currentDocumentId: null,
@@ -398,7 +400,7 @@ async function registerServiceWorker() {
     // the service-worker/cache version whenever application files change.
     if (navigator.onLine) await registration.update().catch(() => {});
     await navigator.serviceWorker.ready;
-    navigator.serviceWorker.controller?.postMessage({ type: 'CACHE_EXTERNAL', urls: [PDFJS_URL, PDFJS_WORKER_URL] });
+    navigator.serviceWorker.controller?.postMessage({ type: 'CACHE_EXTERNAL', urls: [PDFJS_URL, PDFJS_WORKER_URL, PDFLIB_URL] });
   } catch (err) { console.warn('Service worker unavailable', err); }
 }
 
@@ -572,19 +574,153 @@ async function getPdfPage(source, pageNumber) {
   return source.pdf.getPage(pageNumber);
 }
 
+function defaultExportFilename(name) {
+  const cleaned = String(name || 'document').replace(/[\\/:*?"<>|]+/g, '_').trim() || 'document';
+  const base = cleaned.replace(/\.pdf$/i, '').replace(/\.[^.]+$/, '');
+  return `${base}-edited.pdf`;
+}
+
+function renderExportPane() {
+  const doc = currentDocument();
+  const count = state.pages.length;
+  if (!doc || !count) return;
+  els.exportSummary.textContent = `${doc.name}: ${count} page${count === 1 ? '' : 's'} will be exported in the current Pages order.`;
+  if (els.exportFilename.dataset.documentId !== doc.id) {
+    els.exportFilename.value = defaultExportFilename(doc.name);
+    els.exportFilename.dataset.documentId = doc.id;
+    els.exportProgress.textContent = '';
+  }
+  els.exportPdfBtn.disabled = false;
+}
+
+async function loadPdfExportEngine() {
+  if (state.pdfLib) return state.pdfLib;
+  setStatus('Loading PDF export engine…', true);
+  const lib = await import(PDFLIB_URL);
+  state.pdfLib = lib;
+  return lib;
+}
+
+async function embedImageForExport(outPdf, source) {
+  const name = String(source.name || '').toLowerCase();
+  const type = String(source.file?.type || '').toLowerCase();
+  const raw = source.file ? new Uint8Array(await source.file.arrayBuffer()) : null;
+  if (raw && (type === 'image/jpeg' || type === 'image/jpg' || /\.jpe?g$/.test(name))) return outPdf.embedJpg(raw);
+  if (raw && (type === 'image/png' || /\.png$/.test(name))) return outPdf.embedPng(raw);
+
+  // pdf-lib embeds JPEG/PNG directly. For browser-decodable formats such as
+  // WebP/GIF/BMP, convert only the imported image page to PNG; PDF source pages
+  // are never rasterized by the export path.
+  const img = await getSourceImage(source);
+  const canvas = document.createElement('canvas');
+  canvas.width = img.naturalWidth || img.width;
+  canvas.height = img.naturalHeight || img.height;
+  const ctx = canvas.getContext('2d', { alpha: false });
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img, 0, 0);
+  const blob = await new Promise((resolve, reject) => canvas.toBlob(b => b ? resolve(b) : reject(new Error('Could not convert image for PDF export.')), 'image/png'));
+  return outPdf.embedPng(new Uint8Array(await blob.arrayBuffer()));
+}
+
+function downloadPdfBytes(bytes, filename) {
+  const blob = new Blob([bytes], { type: 'application/pdf' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.rel = 'noopener';
+  document.body.append(link);
+  link.click();
+  link.remove();
+  // iPad/Safari may take a little longer to hand the blob to the download UI.
+  setTimeout(() => URL.revokeObjectURL(url), 30000);
+}
+
+async function exportCurrentPdf() {
+  saveCurrentDocumentState();
+  const doc = currentDocument();
+  if (!doc || !state.pages.length) return;
+  let filename = String(els.exportFilename.value || '').trim() || defaultExportFilename(doc.name);
+  if (!/\.pdf$/i.test(filename)) filename += '.pdf';
+  filename = filename.replace(/[\\/:*?"<>|]+/g, '_');
+
+  els.exportPdfBtn.disabled = true;
+  els.exportProgress.textContent = 'Preparing export engine…';
+  setStatus('Preparing PDF export…', true);
+  try {
+    const { PDFDocument, degrees } = await loadPdfExportEngine();
+    const output = await PDFDocument.create();
+    const loadedPdfs = new Map();
+    const embeddedImages = new Map();
+
+    for (let i = 0; i < state.pages.length; i++) {
+      const page = state.pages[i];
+      const source = state.sources.get(page.sourceId);
+      if (!source) throw new Error(`Source data is missing for page ${i + 1}.`);
+      els.exportProgress.textContent = `Building page ${i + 1} of ${state.pages.length}…`;
+      setStatus(`Exporting page ${i + 1} of ${state.pages.length}…`, true);
+
+      if (source.type === 'pdf') {
+        let srcPdf = loadedPdfs.get(source.id);
+        if (!srcPdf) {
+          srcPdf = await PDFDocument.load(source.bytes, { updateMetadata: false });
+          loadedPdfs.set(source.id, srcPdf);
+        }
+        const [copied] = await output.copyPages(srcPdf, [page.sourcePage - 1]);
+        const inheritedRotation = copied.getRotation()?.angle || 0;
+        copied.setRotation(degrees((inheritedRotation + (page.rotation || 0) + 360) % 360));
+        output.addPage(copied);
+      } else if (source.type === 'image') {
+        let embedded = embeddedImages.get(source.id);
+        if (!embedded) {
+          embedded = await embedImageForExport(output, source);
+          embeddedImages.set(source.id, embedded);
+        }
+        const outPage = output.addPage([page.width, page.height]);
+        outPage.drawImage(embedded, { x: 0, y: 0, width: page.width, height: page.height });
+        if (page.rotation) outPage.setRotation(degrees((page.rotation + 360) % 360));
+      } else {
+        throw new Error(`Unsupported source type on page ${i + 1}.`);
+      }
+
+      // Give the UI a chance to repaint progress on long documents.
+      if (i % 4 === 3) await new Promise(resolve => setTimeout(resolve, 0));
+    }
+
+    els.exportProgress.textContent = 'Writing PDF…';
+    setStatus('Writing exported PDF…', true);
+    const bytes = await output.save({ useObjectStreams: true, addDefaultPage: false, updateFieldAppearances: false });
+    downloadPdfBytes(bytes, filename);
+    const sizeMb = bytes.length / (1024 * 1024);
+    els.exportProgress.textContent = `Exported ${state.pages.length} page${state.pages.length === 1 ? '' : 's'} (${sizeMb < 0.1 ? `${Math.round(bytes.length / 1024)} KB` : `${sizeMb.toFixed(1)} MB`}).`;
+    setStatus(`Exported ${filename}`);
+  } catch (err) {
+    console.error(err);
+    els.exportProgress.textContent = `Export failed: ${err?.message || err}`;
+    setStatus('PDF export failed');
+  } finally {
+    els.exportPdfBtn.disabled = false;
+  }
+}
+
 function showWorkspaceMode(mode) {
   state.workspaceMode = mode;
   const hasPages = state.pages.length > 0;
   els.emptyState.classList.toggle('hidden', hasPages);
   els.viewerPane.classList.toggle('hidden', !hasPages || mode !== 'view');
   els.organizerPane.classList.toggle('hidden', !hasPages || mode !== 'organize');
+  els.exportPane.classList.toggle('hidden', !hasPages || mode !== 'export');
   els.viewerControls.classList.toggle('hidden', mode !== 'view' || !hasPages);
   els.viewModeBtn.classList.toggle('active', mode === 'view');
   els.organizeModeBtn.classList.toggle('active', mode === 'organize');
+  els.exportModeBtn.classList.toggle('active', mode === 'export');
   els.viewModeBtn.setAttribute('aria-pressed', String(mode === 'view'));
   els.organizeModeBtn.setAttribute('aria-pressed', String(mode === 'organize'));
+  els.exportModeBtn.setAttribute('aria-pressed', String(mode === 'export'));
   if (hasPages && mode === 'view') renderViewer();
   if (hasPages && mode === 'organize') renderOrganizer();
+  if (hasPages && mode === 'export') renderExportPane();
 }
 
 function renderAll() {
@@ -1853,9 +1989,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>This build separates document-surface pen input from finger navigation by making PDF Workbench own touch gestures instead of allowing browser-native direct manipulation.</p>
-      <ul><li>Stylus/Pencil contact on PDF content is reserved for future ink tools and is not mapped to pan or zoom.</li><li>One finger pans/scrolls the PDF; two fingers perform anchored PDF pinch zoom and pan.</li><li>Visible controls and the Pages organizer still accept stylus input.</li><li>Single↔Split transfers preserve both panes, including the inactive pane's exact scroll state.</li><li>Oversized zoomed pages expose both far-left and far-right boundaries.</li><li>Hidden Presentation controls may be revealed by a finger tap at the top or by mouse hover, but stylus/Pencil hover does not reveal them.</li><li>Toolbar buttons switch directly from labeled to icon-only at narrow widths; Full Page has its own distinct icon.</li><li>PDF.js WASM/JBIG2 scan support and the PWA update path are preserved.</li></ul>
-      <p><strong>Not in this milestone yet:</strong> PDF export, split/merge output, page-size normalization, compression, saved projects, and pen annotation.</p>
+      <p>Milestone 3 begins the document output/manipulation engine. The new Export workspace creates a PDF from the current organized document.</p>
+      <ul><li>Export preserves current page order, deleted pages, duplicated pages, and user-applied quarter-turn rotations.</li><li>Original PDF pages are copied structurally rather than rasterized.</li><li>Imported image documents can also be exported to PDF.</li><li>The stable Milestone 2 viewer remains intact: finger pan/pinch, pen-reserved document input, independent split-pane state, Presentation behavior, and JBIG2/WASM rendering.</li></ul>
+      <p><strong>Coming later in Milestone 3:</strong> combine, extract, split, blank/graph-paper insertion, page-size normalization, image-to-PDF assembly, and compression. Saved library/projects and ink follow in later milestones.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -2264,6 +2400,8 @@ function bindEvents() {
   });
   els.viewModeBtn.addEventListener('click', () => showWorkspaceMode('view'));
   els.organizeModeBtn.addEventListener('click', () => showWorkspaceMode('organize'));
+  els.exportModeBtn.addEventListener('click', () => showWorkspaceMode('export'));
+  els.exportPdfBtn.addEventListener('click', exportCurrentPdf);
   els.scrollModeBtn.addEventListener('click', cycleScrollMode);
   els.fitModeBtn.addEventListener('click', cycleFitMode);
   els.zoomOutBtn.addEventListener('click', () => zoomBy(0.8));

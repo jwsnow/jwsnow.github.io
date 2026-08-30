@@ -292,3 +292,35 @@ body.presentation .split-pane.active {
   .split-pane-viewer { padding: 7px; gap: 8px; }
   .presentation-pane-chooser button { min-width: 44px; }
 }
+
+/* Milestone 3 export surface */
+.export-pane {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 28px 18px 40px;
+  background: var(--bg);
+}
+.export-card {
+  width: min(640px, 100%);
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: clamp(22px, 4vw, 34px);
+  box-shadow: 0 8px 30px rgba(0,0,0,.06);
+}
+.export-kicker { color: var(--muted); font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.export-card h1 { margin: 5px 0 8px; font-size: clamp(1.55rem, 4vw, 2rem); }
+.export-summary { color: var(--muted); line-height: 1.45; margin: 0 0 20px; }
+.export-field { display: grid; gap: 7px; font-weight: 650; margin-bottom: 18px; }
+.export-field input {
+  width: 100%; box-sizing: border-box; min-height: 42px; border: 1px solid var(--border);
+  border-radius: 9px; background: var(--paper); color: var(--text); padding: 8px 10px; font: inherit;
+}
+.export-details { border: 1px solid var(--border); border-radius: 11px; padding: 14px 16px; background: var(--bg); line-height: 1.4; }
+.export-details ul { margin: 8px 0 0 1.25rem; padding: 0; }
+.export-button { width: 100%; min-height: 46px; margin-top: 18px; font-size: 1rem; font-weight: 700; }
+.export-progress { min-height: 1.4em; margin: 10px 0 0; color: var(--muted); }

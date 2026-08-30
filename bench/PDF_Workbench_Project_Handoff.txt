@@ -1,3 +1,63 @@
+PDF WORKBENCH PWA — MILESTONE 3 CURRENT UPDATE
+===============================================
+
+CURRENT BUILD: Milestone 3.0.0
+Visible About version: 3.0.0
+Service-worker/cache version: pdf-workbench-m3.0.0-v1
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.
+
+MILESTONE 2 VALIDATION COMPLETE
+-------------------------------
+Testing on iPad, Surface, and Chromebook confirmed the Milestone 2 input/viewer foundation is working: finger pan and pinch work; pen/Pencil does not pan or zoom PDF content; pen operates visible controls and the Pages organizer; hidden Presentation controls ignore pen hover/tap; high-zoom horizontal pan reaches both page edges. The compact 28 px footer in 2.1.6 is acceptable on iPad. Treat these behaviors as regression-sensitive.
+
+MILESTONE 3.0.0 — FIRST EXPORT ENGINE
+--------------------------------------
+A third top-level workspace, Export, is now present alongside View and Pages. Export creates a new PDF from the current working document. The first implementation preserves current page order, deletions, duplications, and user-applied quarter-turn rotations. PDF source pages are structurally copied into the output rather than rasterized. Imported image documents can also be exported; JPEG/PNG are embedded directly, while other browser-decodable image formats may be converted to PNG for the image page only.
+
+Export uses pdf-lib 1.17.1 loaded as an ES module from jsDelivr. The service worker is asked to cache that external module along with the PDF.js main/worker resources so it can be reused after an online load. PDF.js WASM/JBIG2/CMap/standard-font configuration must remain intact.
+
+MILESTONE 3 ROADMAP
+-------------------
+Recommended sequence after validating 3.0.0 export:
+1. Explicit combine/merge; Open must continue to mean open a separate document.
+2. Extract selected pages and Split output.
+3. Insert duplicate, blank, and graph-paper pages; new blank/graph-paper documents.
+4. Page-size normalization/orientation, fit/center/crop, margins.
+5. Image-to-PDF assembly.
+6. Compression/target maximum size without silently rasterizing selectable text.
+
+SPLIT OUTPUT TARGET
+-------------------
+Default Split behavior should create external output files, not automatically load every generated part into PDF Workbench. For many outputs, ZIP is appropriate. A later optional “Open resulting files in PDF Workbench” choice may be added, but should not be the default.
+
+DOCUMENT LIBRARY / PERSISTENCE ROADMAP
+--------------------------------------
+After Milestone 3 manipulation/export, replace the minimal “Recent Projects” idea with a real lightweight Library/Home layer. This should use internal browser storage (IndexedDB/OPFS) because iPad cannot be assumed to retain arbitrary external filesystem handles. Distinguish:
+- currently open documents (active session/workspace);
+- internally stored documents/projects (persistent working copies);
+- external original/output files.
+
+Planned Library behavior:
+- Close removes a document from the active workspace without deleting a stored copy/project.
+- Reopen from Library/Recent.
+- Rename documents.
+- Create/rename/delete folders and move documents among folders.
+- Search/sort and Recent; favorites may come later.
+- Remove from Recent is separate from Delete Stored Copy.
+- Clear Local Projects/Storage remains available.
+- Library is GoodNotes-like organization, not a full replacement filesystem.
+- Project storage eventually preserves page edits, annotations, view positions, split-pane state, zoom/modes, and export settings.
+
+FUTURE INKING NOTE
+------------------
+Full Page bottom navigation arrows may be vulnerable to palm activation once handwriting is implemented. Test before deciding on auto-hide, edge relocation, palm-safe activation, or an ink-mode hide option.
+
+DISTRIBUTION RULE
+-----------------
+Every ZIP must contain this comprehensive PDF_Workbench_Project_Handoff.txt and update the current-status section, visible About version, and service-worker/cache version together.
+
+
 PDF WORKBENCH PWA — CURRENT UPDATE
 ======================================
 

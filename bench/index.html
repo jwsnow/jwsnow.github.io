@@ -26,6 +26,7 @@
         <div class="segmented" role="group" aria-label="Workspace mode">
           <button id="viewModeBtn" class="segment active" type="button" aria-pressed="true">View</button>
           <button id="organizeModeBtn" class="segment" type="button" aria-pressed="false">Pages</button>
+          <button id="exportModeBtn" class="segment" type="button" aria-pressed="false">Export</button>
         </div>
         <select id="documentSelect" class="document-select hidden" aria-label="Open document"></select>
       </div>
@@ -64,7 +65,7 @@
         <h1 id="emptyTitle">Open PDFs or images</h1>
         <p>Files stay on this device. Each opened PDF or image is kept as a separate document; use the document switcher to move between them.</p>
         <button id="emptyOpenBtn" class="large-open" type="button">Open files</button>
-        <p class="small-note">This first build supports PDF/image viewing, page thumbnails, reordering, rotation, duplication, deletion, full-screen presentation, and multiple scrolling modes.</p>
+        <p class="small-note">PDF Workbench supports PDF/image viewing, page organization, split viewing, presentation, touch/stylus navigation, and export of the current organized document.</p>
       </section>
 
       <section id="viewerPane" class="viewer-pane hidden" aria-label="PDF viewer">
@@ -131,6 +132,30 @@
           </div>
         </div>
         <div id="thumbnailGrid" class="thumbnail-grid" aria-label="Page thumbnails"></div>
+      </section>
+
+      <section id="exportPane" class="export-pane hidden" aria-label="Export PDF">
+        <div class="export-card">
+          <div class="export-kicker">Milestone 3</div>
+          <h1>Export PDF</h1>
+          <p id="exportSummary" class="export-summary">Export the current document exactly as it is organized in PDF Workbench.</p>
+          <label class="export-field">
+            <span>File name</span>
+            <input id="exportFilename" type="text" value="document-edited.pdf" autocomplete="off" spellcheck="false">
+          </label>
+          <div class="export-details">
+            <strong>This first export engine preserves:</strong>
+            <ul>
+              <li>current page order</li>
+              <li>deleted and duplicated pages</li>
+              <li>quarter-turn page rotations</li>
+              <li>original PDF page contents without rasterizing them</li>
+            </ul>
+          </div>
+          <button id="exportPdfBtn" class="export-button" type="button">Export PDF</button>
+          <p id="exportProgress" class="export-progress" aria-live="polite"></p>
+          <p class="small-note">Merge, extract, split, page-size normalization, compression, and advanced output settings will be added in later Milestone 3 revisions.</p>
+        </div>
       </section>
     </main>
 
