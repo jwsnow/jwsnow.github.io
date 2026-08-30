@@ -6,81 +6,87 @@ The historical handoff follows after it for full architectural detail. Where a h
 
 CURRENT BUILD
 -------------
-Milestone 2.1.2
+Milestone 2.1.3
 
-Visible About version: 2.1.2
-Service-worker/cache version: pdf-workbench-m2.1.2-v1
+Visible About version: 2.1.3
+Service-worker/cache version: pdf-workbench-m2.1.3-v1
 
-Every distributed ZIP should include this handoff file and update it for the release.
+Every distributed ZIP must include this handoff file and update it for the release.
 
 CURRENT PURPOSE / ARCHITECTURE
 ------------------------------
-PDF Workbench remains a cross-platform, local-processing PWA for Windows, Surface, iPad/Apple Pencil, and Chromebook. Preserve the core architecture from the historical handoff:
+PDF Workbench is a cross-platform, local-processing PWA for Windows, Surface, iPad/Apple Pencil, and Chromebook. Preserve these architectural rules:
 
 - PDF.js viewing, including WASM/JBIG2/CMap/standard-font resource configuration.
-- Separate documents: opening a PDF never implicitly merges it.
+- Opening another PDF opens a separate document; it must never implicitly merge it.
 - Document data is shared; viewer-instance state is not.
 - Single, left, and right views each own independent document/page/zoom/fit/scroll/view-mode state.
 - The same PDF may be open in both split panes at different pages and zooms.
 - iPad Presentation is app-level chrome hiding, not Safari native fullscreen.
-- Page organizer selection/reordering/rotation/duplication/deletion behavior already established must not regress.
+- Page organizer selection/reordering/rotation/duplication/deletion behavior must not regress.
 - Manual PWA Reload Latest Version remains available.
 
-TEST RESULTS THROUGH 2.1.1
---------------------------
-1. Pinch/zoom/scroll jumping was seen on Surface, Chromebook, and iPad, possibly worst on iPad. 2.1.1 changed pinch anchoring to use measured before/after layout geometry and protected saved scroll state during DOM rebuilds. Continue testing this.
+CONFIRMED DEVICE TEST RESULTS THROUGH 2.1.2
+-------------------------------------------
+1. HIGH-ZOOM PAN / PINCH
+Earlier builds jumped during pinch zoom and, at high zoom, could reach the far-right page edge but not the far-left edge. 2.1.1 changed pinch anchoring to measured before/after geometry and protected scroll state during viewer rebuilds. 2.1.2 corrected the flex-centering overflow problem by giving oversized pages a real left scroll boundary.
 
-2. Split -> Single -> Split previously preserved the active pane but could return the inactive pane to the top. 2.1.1 snapshots and protects the inactive pane's exact scroll state during rebuild/restoration. Continue testing left-active, right-active, same-document, and different-document cases.
+User test result after 2.1.2:
+- zoom/pan works on iPad;
+- zoom/pan works on Surface.
 
-3. Top toolbar on iPad remains in compact/icon-only form all the time at typical iPad widths. User says this is acceptable. Do not treat it as a bug unless touch targets become too small.
+Preserve these fixes.
 
-NEW 2.1.2 FIXES
----------------
-A. HIGH-ZOOM LEFT EDGE WAS UNREACHABLE
-On iPad, when zoomed far in, the page could be panned to the far right but not the far left.
+2. SPLIT -> SINGLE -> SPLIT
+Earlier, the inactive split pane could return to the top after a Split -> Single -> Split round trip. 2.1.1 protects both panes' exact page/zoom/scroll/view state during transitions and DOM rebuilds. Continue to preserve and periodically retest this behavior.
 
-Cause identified in the viewer layout: `.viewer` used column flexbox with `align-items: center`. Once a page was wider than the scrollport, flex centering could place its left side into negative overflow which cannot be reached with a nonnegative scrollLeft.
+3. PRESENTATION HIDDEN TOOLBAR
+Earlier, pen hover on Surface could reveal the toolbar; apparent pen tap-through could then occur because the button was no longer hidden by the time the pen touched down. 2.1.2 restricted hover reveal to mouse only and retained the consumed finger-tap reveal behavior.
 
-2.1.2 changes the viewer to `align-items: flex-start` and gives `.page-stage` `margin-inline: auto`.
-Expected result:
-- pages that fit stay centered;
-- pages wider than the viewport start at a real left scroll boundary;
-- both left and right edges are reachable;
-- applies to Single and Split viewers.
+User test result after 2.1.2:
+- pen hover does not activate/reveal the hidden Presentation menu on iPad or Surface;
+- pen tap does not activate the hidden Presentation menu on iPad or Surface.
 
-B. PRESENTATION PEN HOVER / HIDDEN TOOLBAR
-On Surface, pen hover clearly revealed the hidden Presentation toolbar. The same behavior may have explained apparent pen tap-through on iPad: pen hover revealed the controls just before the tap, then the tap hit the now-visible control.
+Preserve this behavior.
 
-2.1.2 changes hover reveal to MOUSE ONLY.
-Expected Presentation behavior:
-- mouse hover near top: reveal toolbar;
-- finger tap near top while hidden: reveal toolbar and consume the tap;
-- pen/stylus hover near top: do not reveal toolbar;
-- pen/stylus tap while toolbar hidden: must not activate hidden controls;
-- pen/stylus may still click toolbar controls once the toolbar is visible.
+4. TOOLBAR WIDTH ON IPAD
+At typical iPad widths the normal toolbar remains in its compact/icon-only state all the time. The user says this is acceptable. Do not treat this as a bug unless touch targets become too small.
 
-ANNOTATION / INPUT POLICY — CURRENT RECOMMENDATION
--------------------------------------------------
-Use context-sensitive pointer behavior rather than disabling stylus UI everywhere.
+NEW 2.1.3 INPUT CHANGE
+----------------------
+Testing after 2.1.2 showed that a pen/stylus still scrolls the PDF document on both iPad and Surface.
+
+Desired default interaction policy:
 
 VIEW / ANNOTATE / PRESENTATION:
-- Pen/Apple Pencil with Pen tool: ink only on document content.
-- Pen/Apple Pencil with Eraser: erase.
-- Pen/Apple Pencil with Select/Lasso: annotation selection.
-- One finger: scroll/pan while leaving the selected ink tool active.
-- Two fingers: pinch zoom/pan while leaving the selected ink tool active.
-- Pen may operate visible buttons, checkboxes, selects, etc.
-- Pen hover must not reveal hidden Presentation chrome.
-- Finger tap near top is the normal touch reveal gesture.
+- Stylus/Apple Pencil contact on document content is reserved for the active annotation tool.
+- Until annotation is implemented, stylus contact on PDF content should be inert rather than scroll/pan the page.
+- One finger scrolls/pans.
+- Two fingers pinch/zoom and pan.
+- Stylus may operate visible UI controls such as buttons, selects, and checkboxes.
+- Stylus hover must not reveal hidden Presentation chrome.
+- Finger tap near the top is the normal touch reveal gesture for hidden Presentation controls.
 
 PAGES / ORGANIZER:
-- Because there is no ink canvas, pen may continue acting like a pointer for page selection, checkboxes, and drag/reorder.
+- Stylus may continue to act as a pointer for page selection, checkboxes, and drag/reorder because there is no ink surface there.
 
-ANNOTATION SETTINGS TO ADD:
+2.1.3 implementation:
+- Viewer-level pen pointerdown/contact pointermove/pointerup/pointercancel events are canceled and captured on the PDF surface so the browser should not treat contacting stylus movement as document manipulation.
+- Mouse and finger behavior are otherwise left unchanged; in particular, the tested native one-finger scrolling and existing two-finger pinch implementation are preserved rather than rewritten.
+- Pen hover remains non-revealing in Presentation.
+
+Important testing note:
+This is intentionally the least invasive way to reserve the stylus while preserving native finger scrolling. Verify it on both iPad/Apple Pencil and Surface pen. If a browser still performs pen scrolling despite canceled Pointer Events, the next fallback is a more invasive input layer/manual finger-pan architecture using `touch-action: none`; do not adopt that fallback unless device testing proves it necessary because current native finger pan/zoom is working well.
+
+ANNOTATION SETTINGS / POLICY FOR LATER
+--------------------------------------
 - Draw with Finger: OFF by default.
 - Finger navigation remains active even while Pen/Eraser/Select is selected.
-- Do not initially add a setting that allows pen hover to reveal Presentation controls; predictable writing is more important.
-- If a Hand/Pan tool is added later, stylus panning may be allowed when that tool is deliberately selected.
+- Pen + Pen tool: draw.
+- Pen + Eraser: erase.
+- Pen + Select/Lasso: select annotations.
+- Do not initially add a setting that allows pen hover to reveal Presentation controls.
+- If a Hand/Pan tool is added later, stylus panning may be allowed only when that tool is deliberately selected.
 
 NEW PAGE / NOTES FEATURES ALREADY REQUESTED
 -------------------------------------------
@@ -94,26 +100,24 @@ Consider exposing the same insertion commands in Presentation, normal View, and 
 
 Allow creating a new document that begins as one blank page or one graph-paper page. This lets PDF Workbench serve as a notes application once inking exists.
 
-IMMEDIATE 2.1.2 DEVICE TESTS
+IMMEDIATE 2.1.3 DEVICE TESTS
 ----------------------------
-1. iPad high zoom (300-400%): pan to both far left and far right page edges.
-2. Repeat high-zoom pan in left and right split panes.
-3. Confirm normally sized pages remain centered.
-4. Surface Presentation: hover pen at top while toolbar hidden; toolbar must stay hidden.
-5. iPad Presentation: hover/move Pencil near top if supported; toolbar must stay hidden.
-6. Pen tap near top while toolbar hidden: no control activation.
-7. Finger tap at top: first tap reveals only; no control activation.
-8. Visible toolbar: pen may press controls normally.
-9. Desktop mouse hover at top still reveals toolbar.
-10. Re-test pinch midpoint anchoring on iPad/Surface/Chromebook.
-11. Re-test Split -> Single -> Split inactive pane scroll preservation.
-12. Re-test same PDF independently in both panes.
-13. Re-test large JBIG2 scan PDF.
-14. Verify About says 2.1.2 and Reload Latest Version updates the cache.
+1. iPad normal viewer: drag across PDF content with Apple Pencil; page should not scroll.
+2. Surface normal viewer: drag across PDF content with pen; page should not scroll.
+3. Repeat pen drag in left and right Split panes; neither pane should scroll from pen contact.
+4. Enter Presentation and repeat pen drag; PDF should not scroll and hidden toolbar should remain hidden.
+5. Finger drag in the same views must still scroll normally.
+6. Two-finger pinch must still zoom/pan normally and keep the pinch anchor stable.
+7. Visible toolbar controls must still respond to pen taps.
+8. Pages organizer must still permit pen selection and pen drag/reorder.
+9. Reconfirm high-zoom far-left and far-right edges remain reachable.
+10. Reconfirm Split -> Single -> Split preserves the inactive pane scroll state.
+11. Open BaakeScan.pdf and verify JBIG2 scan pages still display.
+12. About must report Milestone 2.1.3; Reload Latest Version must update the app-shell cache.
 
 NEXT DEVELOPMENT DIRECTION
 --------------------------
-Finish viewer stability first. Then proceed into page/output manipulation and/or the queued blank/graph-paper document model work. Annotation should follow the input policy above so navigation does not require leaving Pen/Eraser/Select.
+If 2.1.3 successfully establishes the input distinction on iPad and Surface, treat the Milestone 2 viewer/input foundation as substantially stable. Then proceed to the next functional area while preserving this input architecture. Strong candidates are the queued blank/graph-paper/new-document page model and the PDF manipulation/export engine, before the full ink subsystem.
 
 ======================================================================
 HISTORICAL HANDOFF (through Milestone 2.1.0; retained for full detail)

@@ -1,4 +1,4 @@
-const APP_VERSION = '2.1.2';
+const APP_VERSION = '2.1.3';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1833,8 +1833,8 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>This build stabilizes multi-document view state, high-zoom panning, and presentation pointer behavior.</p>
-      <ul><li>Single↔Split transfers preserve both panes, including the inactive pane's exact scroll state.</li><li>The same PDF can be viewed independently at different pages and zooms in both panes.</li><li>Pinch zoom uses measured post-layout anchoring and a final iPad/Safari correction after crisp re-rendering.</li><li>Oversized zoomed pages keep a real left scroll boundary, so both left and right edges remain reachable.</li><li>Hidden Presentation controls may be revealed by a finger tap at the top or by mouse hover, but stylus/Pencil hover does not reveal them.</li><li>Toolbar buttons switch directly from labeled to icon-only at narrow widths; Full Page has its own distinct icon.</li><li>Reorder, select, rotate, duplicate, and delete pages with undo/redo.</li></ul>
+      <p>This build stabilizes multi-document view state, high-zoom panning, presentation pointer behavior, and reserves stylus contact on PDF content for ink.</p>
+      <ul><li>Single↔Split transfers preserve both panes, including the inactive pane's exact scroll state.</li><li>The same PDF can be viewed independently at different pages and zooms in both panes.</li><li>Pinch zoom uses measured post-layout anchoring and a final iPad/Safari correction after crisp re-rendering.</li><li>Oversized zoomed pages keep a real left scroll boundary, so both left and right edges remain reachable.</li><li>Hidden Presentation controls may be revealed by a finger tap at the top or by mouse hover, but stylus/Pencil hover does not reveal them.</li><li>Stylus/Pencil contact on PDF content is reserved for future ink tools and no longer intentionally navigates the document; finger navigation is unchanged.</li><li>Toolbar buttons switch directly from labeled to icon-only at narrow widths; Full Page has its own distinct icon.</li><li>Reorder, select, rotate, duplicate, and delete pages with undo/redo.</li></ul>
       <p><strong>Not in this milestone yet:</strong> PDF export, split/merge output, page-size normalization, compression, saved projects, and pen annotation.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
@@ -1895,6 +1895,23 @@ function onResize() {
 }
 
 
+
+// Document-surface stylus input is reserved for the annotation tools.  Until
+// ink is implemented, a pen contact on the PDF should therefore be inert
+// rather than behave like a finger and drag/scroll the viewer.  Visible UI
+// controls live outside the viewer and continue to accept pen clicks; the
+// Pages organizer keeps its existing pen drag behavior.
+function reservePenForDocumentInk(viewer, e) {
+  if (e.pointerType !== 'pen') return false;
+  if (e.cancelable) e.preventDefault();
+  if (e.type === 'pointerdown') {
+    try { viewer.setPointerCapture?.(e.pointerId); } catch {}
+  } else if (e.type === 'pointerup' || e.type === 'pointercancel') {
+    try { viewer.releasePointerCapture?.(e.pointerId); } catch {}
+  }
+  return true;
+}
+
 function bindSplitViewerEvents(paneId) {
   const pane = splitPaneState(paneId), pe = paneElements(paneId), viewer = pe.viewer;
   if (!viewer) return;
@@ -1932,10 +1949,14 @@ function bindSplitViewerEvents(paneId) {
   }, { passive: false });
 
   viewer.addEventListener('pointermove', (e) => {
+    // Cancel direct-manipulation behavior for a contacting stylus. Hover is
+    // left alone (and still cannot reveal Presentation controls).
+    if (e.pointerType === 'pen' && (e.buttons || e.pressure > 0)) reservePenForDocumentInk(viewer, e);
     if (document.body.classList.contains('presentation') && e.pointerType === 'mouse' && e.clientY < 90) showPresentationControls();
-  });
+  }, { passive: false });
   viewer.addEventListener('pointerdown', (e) => {
     makeActive();
+    if (reservePenForDocumentInk(viewer, e)) return;
     const view = paneView(paneId);
     if (e.pointerType === 'touch') {
       if (document.body.classList.contains('presentation') && !document.body.classList.contains('presentation-controls-visible') && e.clientY < 80) {
@@ -1967,8 +1988,14 @@ function bindSplitViewerEvents(paneId) {
     pane.touchStart = null;
     if (dt < 800 && Math.abs(dy) > 55 && Math.abs(dy) > Math.abs(dx) * .7) goPanePage(paneId, dy < 0 ? 1 : -1);
   };
-  viewer.addEventListener('pointerup', (e) => finishPointer(e, false));
-  viewer.addEventListener('pointercancel', (e) => finishPointer(e, true));
+  viewer.addEventListener('pointerup', (e) => {
+    if (reservePenForDocumentInk(viewer, e)) return;
+    finishPointer(e, false);
+  }, { passive: false });
+  viewer.addEventListener('pointercancel', (e) => {
+    if (reservePenForDocumentInk(viewer, e)) return;
+    finishPointer(e, true);
+  }, { passive: false });
 
   const touchDistance = (touches) => Math.hypot(touches[1].clientX - touches[0].clientX, touches[1].clientY - touches[0].clientY);
   const touchMidpoint = (touches) => ({ x: (touches[0].clientX + touches[1].clientX) / 2, y: (touches[0].clientY + touches[1].clientY) / 2 });
@@ -2110,11 +2137,13 @@ function bindEvents() {
     goPage(e.deltaY > 0 ? 1 : -1);
   }, { passive: false });
   els.viewer.addEventListener('pointermove', (e) => {
+    if (e.pointerType === 'pen' && (e.buttons || e.pressure > 0)) reservePenForDocumentInk(els.viewer, e);
     if (document.body.classList.contains('presentation') && e.pointerType === 'mouse' && e.clientY < 90) showPresentationControls();
-  });
+  }, { passive: false });
 
   let touchStart = null;
   els.viewer.addEventListener('pointerdown', (e) => {
+    if (reservePenForDocumentInk(els.viewer, e)) return;
     if (e.pointerType === 'touch') {
       // A hidden presentation toolbar must be revealed by a dedicated tap, not
       // materialize under the finger and receive the same gesture's click.
@@ -2153,8 +2182,14 @@ function bindEvents() {
     if (dt < 800 && Math.abs(dy) > 55 && Math.abs(dy) > Math.abs(dx) * .7) goPage(dy < 0 ? 1 : -1);
   }
 
-  els.viewer.addEventListener('pointerup', (e) => finishTouchPointer(e, false));
-  els.viewer.addEventListener('pointercancel', (e) => finishTouchPointer(e, true));
+  els.viewer.addEventListener('pointerup', (e) => {
+    if (reservePenForDocumentInk(els.viewer, e)) return;
+    finishTouchPointer(e, false);
+  }, { passive: false });
+  els.viewer.addEventListener('pointercancel', (e) => {
+    if (reservePenForDocumentInk(els.viewer, e)) return;
+    finishTouchPointer(e, true);
+  }, { passive: false });
 
   // iPad/Safari native pinch zoom scales the entire web app, including its
   // toolbar, and cannot zoom below the page's initial scale. Intercept only

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pdf-workbench-m2.1.2-v1';
+const CACHE_NAME = 'pdf-workbench-m2.1.3-v1';
 const APP_SHELL = [
   './',
   './index.html',
