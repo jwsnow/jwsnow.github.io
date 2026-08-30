@@ -377,3 +377,93 @@ body.presentation .split-pane.active {
 #newMenu { z-index: 130; }
 .insert-page-menu { z-index: 150; min-width: 260px; }
 .insert-page-menu button, #newMenu button { white-space: nowrap; }
+
+/* Milestone 3.3 Files workspace: one shared document selection, then compact
+   expandable operations. */
+.open-documents-section {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--bg);
+}
+.open-documents-heading-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.open-documents-heading-row h2 { margin: 0 0 4px; font-size: 1.08rem; }
+.open-documents-heading-row .file-tool-summary { margin-bottom: 0; }
+.file-selection-actions { display: flex; gap: 6px; flex: 0 0 auto; }
+.file-selection-actions button, .open-document-activate {
+  min-height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--text);
+  padding: 6px 9px;
+}
+.open-document-list { display: grid; gap: 7px; margin-top: 12px; }
+.open-document-row {
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr) auto;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 8px 9px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--paper);
+}
+.open-document-row.active { border-color: color-mix(in srgb, var(--accent) 60%, var(--border)); }
+.open-document-row input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); }
+.open-document-label { min-width: 0; }
+.open-document-name { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 650; }
+.open-document-meta { display: block; color: var(--muted); font-size: .82rem; margin-top: 2px; }
+.open-document-activate { min-width: 66px; }
+.open-document-row.active .open-document-activate { background: var(--accent-soft); border-color: var(--accent); color: #163f67; font-weight: 650; }
+
+.file-tool-details { padding: 0; overflow: hidden; }
+.file-tool-details > summary {
+  list-style: none;
+  cursor: pointer;
+  min-height: 52px;
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  font-weight: 720;
+  user-select: none;
+}
+.file-tool-details > summary::-webkit-details-marker { display: none; }
+.file-tool-details > summary::after { content: '›'; font-size: 1.35rem; color: var(--muted); transform: rotate(0deg); transition: transform .12s ease; }
+.file-tool-details[open] > summary::after { transform: rotate(90deg); }
+.file-tool-details[open] > summary { border-bottom: 1px solid var(--border); }
+.operation-summary { min-width: 0; color: var(--muted); font-size: .84rem; font-weight: 500; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-tool-body { padding: 16px 18px 18px; }
+.file-tool-body .file-tool-summary:first-child { margin-top: 0; }
+.new-document-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.new-document-actions .export-button { margin-top: 0; }
+
+/* The Presentation insert-page control is intentionally separated from the
+   zoom +/- cluster and uses a page-shaped icon rather than another plus. */
+.presentation-insert-page { margin-left: 5px; margin-right: 5px; }
+
+@media (max-width: 620px) {
+  .open-documents-section { padding: 14px 12px; }
+  .open-documents-heading-row { flex-direction: column; }
+  .file-selection-actions { width: 100%; }
+  .file-selection-actions button { flex: 1 1 0; }
+  .open-document-row { grid-template-columns: auto minmax(0,1fr) auto; gap: 6px; }
+  .open-document-activate { min-width: 56px; padding-inline: 7px; }
+  .file-tool-details > summary { grid-template-columns: auto minmax(0,1fr) auto; gap: 8px; padding: 13px 12px; }
+  .operation-summary { font-size: .78rem; }
+  .file-tool-body { padding: 14px 12px 16px; }
+  .new-document-actions { grid-template-columns: 1fr; }
+}
+.combine-order-row { grid-template-columns: minmax(0, 1fr) auto auto; }
+@media (max-width: 620px) {
+  .combine-order-row { grid-template-columns: minmax(0, 1fr) auto auto; }
+}

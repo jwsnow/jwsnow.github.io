@@ -1,4 +1,4 @@
-const APP_VERSION = '3.2.0';
+const APP_VERSION = '3.3.0';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -10,15 +10,15 @@ const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 
 const $ = (id) => document.getElementById(id);
 const els = {
-  app: $('app'), openBtn: $('openBtn'), newBtn: $('newBtn'), newMenu: $('newMenu'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), documentSelect: $('documentSelect'),
+  app: $('app'), openBtn: $('openBtn'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), documentSelect: $('documentSelect'),
   viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), exportModeBtn: $('exportModeBtn'), viewerControls: $('viewerControls'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), exportSummary: $('exportSummary'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
-  splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'),
-  combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'),
+  splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
+  combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
   splitLeftPane: $('splitLeftPane'), splitLeftViewer: $('splitLeftViewer'), splitLeftDocumentSelect: $('splitLeftDocumentSelect'), splitLeftNav: $('splitLeftNav'), splitLeftPrevBtn: $('splitLeftPrevBtn'), splitLeftNextBtn: $('splitLeftNextBtn'), splitLeftCounter: $('splitLeftCounter'),
   splitRightPane: $('splitRightPane'), splitRightViewer: $('splitRightViewer'), splitRightDocumentSelect: $('splitRightDocumentSelect'), splitRightNav: $('splitRightNav'), splitRightPrevBtn: $('splitRightPrevBtn'), splitRightNextBtn: $('splitRightNextBtn'), splitRightCounter: $('splitRightCounter'),
   thumbnailGrid: $('thumbnailGrid'), pageCountLabel: $('pageCountLabel'), selectionLabel: $('selectionLabel'),
@@ -46,9 +46,9 @@ const state = {
   zoom: 1,
   history: [],
   future: [],
+  fileSelected: new Set(),
+  fileSelectionInitialized: false,
   combineOrder: [],
-  combineSelected: new Set(),
-  combineInitialized: false,
   renderGeneration: 0,
   pageObserver: null,
   thumbObserver: null,
@@ -550,8 +550,8 @@ async function addImage(file) {
 }
 
 
-const DEFAULT_NEW_PAGE_WIDTH = 612;   // US Letter, points
-const DEFAULT_NEW_PAGE_HEIGHT = 792;
+const DEFAULT_NEW_PAGE_WIDTH = 792;   // US Letter landscape, points
+const DEFAULT_NEW_PAGE_HEIGHT = 612;
 const GRAPH_GRID_SPACING_PT = 18;     // 1/4 inch at 72 points/inch
 const GRAPH_GRID_MARGIN_PT = 9;
 
@@ -656,6 +656,9 @@ function insertPageAfterCurrent(kind, includeAnnotations=true) {
 function createNewGeneratedDocument(type='blank') {
   const isGraph = type === 'graph';
   const doc = createDocument(isGraph ? 'Graph Paper.pdf' : 'Untitled.pdf');
+  state.fileSelected = new Set([doc.id]);
+  state.fileSelectionInitialized = true;
+  state.combineOrder = [doc.id];
   const page = generatedPage(isGraph ? 'graph' : 'blank');
   doc.pages = [page];
   doc.activePageId = page.id;
@@ -760,6 +763,21 @@ function ensurePdfFilename(name, fallback='document.pdf') {
   return filename.replace(/[\\/:*?"<>|]+/g, '_');
 }
 
+function ensureZipFilename(name, fallback='PDF-Workbench-Export.zip') {
+  let filename = String(name || '').trim() || fallback;
+  if (!/\.zip$/i.test(filename)) filename += '.zip';
+  return filename.replace(/[\\/:*?"<>|]+/g, '_');
+}
+
+function uniqueZipPdfName(doc, used) {
+  const base = cleanFilenameBase(doc.name, 'document');
+  let candidate = `${base}-edited.pdf`;
+  let n = 2;
+  while (used.has(candidate.toLowerCase())) candidate = `${base}-edited-${n++}.pdf`;
+  used.add(candidate.toLowerCase());
+  return candidate;
+}
+
 function defaultExportFilename(name) {
   return `${cleanFilenameBase(name)}-edited.pdf`;
 }
@@ -772,32 +790,93 @@ function defaultSplitBaseName(name) {
   return cleanFilenameBase(name);
 }
 
-function reconcileCombineState() {
-  const ids = state.documents.map(doc => doc.id);
-  const valid = new Set(ids);
-  const previousOrder = new Set(state.combineOrder);
-  state.combineOrder = state.combineOrder.filter(id => valid.has(id));
-  for (const id of ids) {
-    if (!previousOrder.has(id)) {
-      state.combineOrder.push(id);
-      if (state.combineInitialized) state.combineSelected.add(id);
-    }
+function reconcileFileSelection() {
+  const valid = new Set(state.documents.map(doc => doc.id));
+  state.fileSelected = new Set([...state.fileSelected].filter(id => valid.has(id)));
+  if (!state.fileSelectionInitialized && state.documents.length) {
+    const initial = valid.has(state.currentDocumentId) ? state.currentDocumentId : state.documents[0].id;
+    state.fileSelected = new Set([initial]);
+    state.fileSelectionInitialized = true;
   }
-  if (!state.combineInitialized && ids.length) {
-    state.combineSelected = new Set(ids);
-    state.combineInitialized = true;
-  } else {
-    state.combineSelected = new Set([...state.combineSelected].filter(id => valid.has(id)));
+  if (!state.documents.length) {
+    state.fileSelected.clear();
+    state.fileSelectionInitialized = false;
   }
-  if (!ids.length) {
-    state.combineInitialized = false;
-    state.combineOrder = [];
-    state.combineSelected.clear();
+}
+
+function reconcileCombineOrder() {
+  reconcileFileSelection();
+  const selectedIds = state.documents.filter(doc => state.fileSelected.has(doc.id)).map(doc => doc.id);
+  const selectedSet = new Set(selectedIds);
+  state.combineOrder = state.combineOrder.filter(id => selectedSet.has(id));
+  for (const id of selectedIds) if (!state.combineOrder.includes(id)) state.combineOrder.push(id);
+}
+
+function selectedFileDocuments() {
+  reconcileFileSelection();
+  return state.documents.filter(doc => state.fileSelected.has(doc.id));
+}
+
+function setFileSelected(docId, selected) {
+  state.fileSelectionInitialized = true;
+  if (selected) state.fileSelected.add(docId); else state.fileSelected.delete(docId);
+  reconcileCombineOrder();
+  renderExportPane();
+}
+
+function renderOpenDocumentList() {
+  if (!els.openDocumentList) return;
+  reconcileFileSelection();
+  els.openDocumentList.replaceChildren();
+  const chosen = selectedFileDocuments();
+  els.fileSelectionSummary.textContent = state.documents.length
+    ? `${chosen.length} of ${state.documents.length} document${state.documents.length === 1 ? '' : 's'} checked for multi-document operations.`
+    : 'No documents are open.';
+  els.selectAllFilesBtn.disabled = !state.documents.length || chosen.length === state.documents.length;
+  els.clearFileSelectionBtn.disabled = !chosen.length;
+
+  for (const doc of state.documents) {
+    const row = document.createElement('div');
+    row.className = `open-document-row${doc.id === state.currentDocumentId ? ' active' : ''}`;
+
+    const check = document.createElement('input');
+    check.type = 'checkbox';
+    check.checked = state.fileSelected.has(doc.id);
+    check.setAttribute('aria-label', `Select ${doc.name} for file operations`);
+    check.addEventListener('change', () => setFileSelected(doc.id, check.checked));
+
+    const label = document.createElement('div');
+    label.className = 'open-document-label';
+    const name = document.createElement('span');
+    name.className = 'open-document-name';
+    name.textContent = doc.name;
+    name.title = doc.name;
+    const meta = document.createElement('span');
+    meta.className = 'open-document-meta';
+    meta.textContent = `${doc.pages.length} page${doc.pages.length === 1 ? '' : 's'}${doc.id === state.currentDocumentId ? ' · active' : ''}`;
+    label.append(name, meta);
+
+    const activate = document.createElement('button');
+    activate.type = 'button';
+    activate.className = 'open-document-activate';
+    activate.textContent = doc.id === state.currentDocumentId ? 'Active' : 'Use';
+    activate.disabled = doc.id === state.currentDocumentId;
+    activate.title = doc.id === state.currentDocumentId ? 'This is the active document' : `Make ${doc.name} the active document`;
+    activate.addEventListener('click', () => loadDocumentState(doc.id));
+
+    row.append(check, label, activate);
+    els.openDocumentList.append(row);
+  }
+  if (!state.documents.length) {
+    const empty = document.createElement('p');
+    empty.className = 'small-note';
+    empty.textContent = 'Use Open in the top bar, or expand New below to start a blank or graph-paper document.';
+    els.openDocumentList.append(empty);
   }
 }
 
 function moveCombineDocument(docId, delta) {
-  reconcileCombineState();
+  reconcileCombineOrder();
   const index = state.combineOrder.indexOf(docId);
   const target = index + delta;
   if (index < 0 || target < 0 || target >= state.combineOrder.length) return;
@@ -807,23 +886,13 @@ function moveCombineDocument(docId, delta) {
 
 function renderCombineList() {
   if (!els.combineList) return;
-  reconcileCombineState();
+  reconcileCombineOrder();
   els.combineList.replaceChildren();
   for (let index = 0; index < state.combineOrder.length; index++) {
-    const docId = state.combineOrder[index];
-    const doc = documentById(docId);
+    const doc = documentById(state.combineOrder[index]);
     if (!doc) continue;
     const row = document.createElement('div');
-    row.className = 'combine-row';
-
-    const check = document.createElement('input');
-    check.type = 'checkbox';
-    check.checked = state.combineSelected.has(doc.id);
-    check.setAttribute('aria-label', `Include ${doc.name}`);
-    check.addEventListener('change', () => {
-      if (check.checked) state.combineSelected.add(doc.id); else state.combineSelected.delete(doc.id);
-      if (els.combineBtn) els.combineBtn.disabled = state.combineSelected.size < 2;
-    });
+    row.className = 'combine-row combine-order-row';
 
     const label = document.createElement('div');
     label.className = 'combine-doc-label';
@@ -854,46 +923,87 @@ function renderCombineList() {
     down.disabled = index === state.combineOrder.length - 1;
     down.addEventListener('click', () => moveCombineDocument(doc.id, 1));
 
-    row.append(check, label, up, down);
+    row.append(label, up, down);
     els.combineList.append(row);
   }
   if (!state.combineOrder.length) {
     const empty = document.createElement('p');
     empty.className = 'small-note';
-    empty.textContent = 'No documents are open.';
+    empty.textContent = 'Check two or more documents in Open documents above.';
     els.combineList.append(empty);
   }
-  if (els.combineBtn) els.combineBtn.disabled = state.combineSelected.size < 2;
+  const combineCount = state.combineOrder.length;
+  els.combineBtn.disabled = combineCount < 2;
+  els.combineOperationSummary.textContent = combineCount >= 2
+    ? `${combineCount} checked documents · arrange order below`
+    : 'Select two or more documents above';
 }
 
 function renderExportPane() {
+  saveCurrentDocumentState();
+  renderOpenDocumentList();
   const doc = currentDocument();
   const count = state.pages.length;
-  if (!doc || !count) return;
-  els.exportSummary.textContent = `${doc.name}: ${count} page${count === 1 ? '' : 's'} will be exported in the current Pages order.`;
-  if (els.exportFilename.dataset.documentId !== doc.id) {
-    els.exportFilename.value = defaultExportFilename(doc.name);
-    els.exportFilename.dataset.documentId = doc.id;
-    els.exportProgress.textContent = '';
+  const chosenDocs = selectedFileDocuments();
+  const selectionKey = chosenDocs.map(d => d.id).join('|');
+
+  if (chosenDocs.length === 0) {
+    els.exportSummary.textContent = 'Select one or more open documents above.';
+    els.exportOperationSummary.textContent = 'Select one or more documents above';
+    els.exportFilenameLabel.textContent = 'File name';
+    els.exportFilename.disabled = true;
+    els.exportPdfBtn.disabled = true;
+    els.exportPdfBtn.textContent = 'Export selected';
+  } else if (chosenDocs.length === 1) {
+    const only = chosenDocs[0];
+    els.exportSummary.textContent = `${only.name}: ${only.pages.length} page${only.pages.length === 1 ? '' : 's'} will be exported in its current Pages order.`;
+    els.exportOperationSummary.textContent = `1 checked document · export PDF`;
+    els.exportFilenameLabel.textContent = 'PDF file name';
+    els.exportFilename.disabled = false;
+    if (els.exportFilename.dataset.selectionKey !== selectionKey) {
+      els.exportFilename.value = defaultExportFilename(only.name);
+      els.exportFilename.dataset.selectionKey = selectionKey;
+      els.exportProgress.textContent = '';
+    }
+    els.exportPdfBtn.disabled = false;
+    els.exportPdfBtn.textContent = 'Export PDF';
+  } else {
+    els.exportSummary.textContent = `${chosenDocs.length} checked documents will be exported as individual PDFs inside one ZIP.`;
+    els.exportOperationSummary.textContent = `${chosenDocs.length} checked documents · export ZIP`;
+    els.exportFilenameLabel.textContent = 'ZIP file name';
+    els.exportFilename.disabled = false;
+    if (els.exportFilename.dataset.selectionKey !== selectionKey) {
+      els.exportFilename.value = 'PDF-Workbench-Export.zip';
+      els.exportFilename.dataset.selectionKey = selectionKey;
+      els.exportProgress.textContent = '';
+    }
+    els.exportPdfBtn.disabled = false;
+    els.exportPdfBtn.textContent = `Export ${chosenDocs.length} PDFs as ZIP`;
   }
+
   const selectedCount = state.selected.size;
-  els.extractSummary.textContent = selectedCount
-    ? `${selectedCount} selected page${selectedCount === 1 ? '' : 's'} from ${doc.name} will be saved in their current Pages order.`
-    : 'No pages are selected. Return to Pages and select the pages you want to extract.';
-  if (els.extractFilename.dataset.documentId !== doc.id) {
-    els.extractFilename.value = defaultExtractFilename(doc.name);
-    els.extractFilename.dataset.documentId = doc.id;
-    els.extractProgress.textContent = '';
+  if (doc) {
+    els.extractSummary.textContent = selectedCount
+      ? `${selectedCount} selected page${selectedCount === 1 ? '' : 's'} from active document ${doc.name} will be saved in their current Pages order.`
+      : `Active document: ${doc.name}. No pages are selected; select pages in Pages first.`;
+    if (els.extractFilename.dataset.documentId !== doc.id) {
+      els.extractFilename.value = defaultExtractFilename(doc.name);
+      els.extractFilename.dataset.documentId = doc.id;
+      els.extractProgress.textContent = '';
+    }
+    if (els.splitBaseName.dataset.documentId !== doc.id) {
+      els.splitBaseName.value = defaultSplitBaseName(doc.name);
+      els.splitBaseName.dataset.documentId = doc.id;
+      els.splitProgress.textContent = '';
+    }
+    els.splitOperationSummary.textContent = `Active: ${doc.name}`;
+  } else {
+    els.extractSummary.textContent = 'No active document.';
+    els.splitOperationSummary.textContent = 'No active document';
   }
-  els.extractPdfBtn.disabled = selectedCount === 0;
-  if (els.splitBaseName.dataset.documentId !== doc.id) {
-    els.splitBaseName.value = defaultSplitBaseName(doc.name);
-    els.splitBaseName.dataset.documentId = doc.id;
-    els.splitProgress.textContent = '';
-  }
-  els.exportPdfBtn.disabled = false;
-  els.splitFixedBtn.disabled = count === 0;
-  els.splitRangesBtn.disabled = count === 0;
+  els.extractPdfBtn.disabled = !doc || selectedCount === 0;
+  els.splitFixedBtn.disabled = !doc || count === 0;
+  els.splitRangesBtn.disabled = !doc || count === 0;
   renderCombineList();
 }
 
@@ -997,34 +1107,61 @@ async function buildPdfBytes(pageList, options={}) {
   return output.save({ useObjectStreams: true, addDefaultPage: false, updateFieldAppearances: false });
 }
 
-async function exportCurrentPdf() {
+async function exportSelectedDocuments() {
   saveCurrentDocumentState();
-  const doc = currentDocument();
-  if (!doc || !state.pages.length) return;
-  const filename = ensurePdfFilename(els.exportFilename.value, defaultExportFilename(doc.name));
-
+  const docs = selectedFileDocuments();
+  if (!docs.length) return;
   els.exportPdfBtn.disabled = true;
   els.exportProgress.textContent = 'Preparing export engine…';
   setStatus('Preparing PDF export…', true);
   try {
-    const bytes = await buildPdfBytes(state.pages, {
-      onProgress: (done, total) => {
-        els.exportProgress.textContent = `Building page ${done} of ${total}…`;
-        setStatus(`Exporting page ${done} of ${total}…`, true);
+    const sourcePdfCache = new Map();
+    if (docs.length === 1) {
+      const doc = docs[0];
+      const filename = ensurePdfFilename(els.exportFilename.value, defaultExportFilename(doc.name));
+      const bytes = await buildPdfBytes(doc.pages, {
+        sourcePdfCache,
+        onProgress: (done, total) => {
+          els.exportProgress.textContent = `Building page ${done} of ${total}…`;
+          setStatus(`Exporting page ${done} of ${total}…`, true);
+        }
+      });
+      els.exportProgress.textContent = 'Writing PDF…';
+      downloadPdfBytes(bytes, filename);
+      const sizeMb = bytes.length / (1024 * 1024);
+      els.exportProgress.textContent = `Exported ${doc.pages.length} page${doc.pages.length === 1 ? '' : 's'} (${sizeMb < 0.1 ? `${Math.round(bytes.length / 1024)} KB` : `${sizeMb.toFixed(1)} MB`}).`;
+      setStatus(`Exported ${filename}`);
+    } else {
+      const JSZip = await loadZipEngine();
+      const zip = new JSZip();
+      const usedNames = new Set();
+      for (let i = 0; i < docs.length; i++) {
+        const doc = docs[i];
+        els.exportProgress.textContent = `Building PDF ${i + 1} of ${docs.length}: ${doc.name}…`;
+        setStatus(`Exporting document ${i + 1} of ${docs.length}…`, true);
+        const bytes = await buildPdfBytes(doc.pages, {
+          sourcePdfCache,
+          onProgress: (done, total) => {
+            els.exportProgress.textContent = `PDF ${i + 1} of ${docs.length}: page ${done} of ${total}…`;
+          }
+        });
+        zip.file(uniqueZipPdfName(doc, usedNames), bytes);
+        await new Promise(resolve => setTimeout(resolve, 0));
       }
-    });
-    els.exportProgress.textContent = 'Writing PDF…';
-    setStatus('Writing exported PDF…', true);
-    downloadPdfBytes(bytes, filename);
-    const sizeMb = bytes.length / (1024 * 1024);
-    els.exportProgress.textContent = `Exported ${state.pages.length} page${state.pages.length === 1 ? '' : 's'} (${sizeMb < 0.1 ? `${Math.round(bytes.length / 1024)} KB` : `${sizeMb.toFixed(1)} MB`}).`;
-    setStatus(`Exported ${filename}`);
+      els.exportProgress.textContent = 'Packaging PDFs into ZIP…';
+      setStatus('Packaging exported PDFs…', true);
+      const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'STORE', mimeType: 'application/zip' });
+      const filename = ensureZipFilename(els.exportFilename.value);
+      downloadBlob(zipBlob, filename);
+      els.exportProgress.textContent = `Exported ${docs.length} PDFs in ${filename}.`;
+      setStatus(`Exported ${docs.length} PDFs`);
+    }
   } catch (err) {
     console.error(err);
     els.exportProgress.textContent = `Export failed: ${err?.message || err}`;
     setStatus('PDF export failed');
   } finally {
-    els.exportPdfBtn.disabled = false;
+    renderExportPane();
   }
 }
 
@@ -1213,8 +1350,8 @@ async function splitByPageGroups() {
 
 function createCombinedDocument() {
   saveCurrentDocumentState();
-  reconcileCombineState();
-  const chosenDocs = state.combineOrder.map(documentById).filter(doc => doc && state.combineSelected.has(doc.id));
+  reconcileCombineOrder();
+  const chosenDocs = state.combineOrder.map(documentById).filter(Boolean);
   if (chosenDocs.length < 2) {
     els.combineProgress.textContent = 'Choose at least two documents to combine.';
     return;
@@ -1229,6 +1366,9 @@ function createCombinedDocument() {
   }
   const name = String(els.combineName.value || '').trim().replace(/[\\/:*?"<>|]+/g, '_') || 'Combined.pdf';
   const combined = createDocument(name);
+  state.fileSelected = new Set([combined.id]);
+  state.fileSelectionInitialized = true;
+  state.combineOrder = [combined.id];
   combined.pages = combinedPages;
   combined.selected = new Set();
   combined.selectionAnchorId = null;
@@ -1251,10 +1391,10 @@ function createCombinedDocument() {
 function showWorkspaceMode(mode) {
   state.workspaceMode = mode;
   const hasPages = state.pages.length > 0;
-  els.emptyState.classList.toggle('hidden', hasPages);
+  els.emptyState.classList.toggle('hidden', hasPages || mode === 'export');
   els.viewerPane.classList.toggle('hidden', !hasPages || mode !== 'view');
   els.organizerPane.classList.toggle('hidden', !hasPages || mode !== 'organize');
-  els.exportPane.classList.toggle('hidden', !hasPages || mode !== 'export');
+  els.exportPane.classList.toggle('hidden', mode !== 'export');
   els.viewerControls.classList.toggle('hidden', mode !== 'view' || !hasPages);
   els.viewModeBtn.classList.toggle('active', mode === 'view');
   els.organizeModeBtn.classList.toggle('active', mode === 'organize');
@@ -1264,7 +1404,7 @@ function showWorkspaceMode(mode) {
   els.exportModeBtn.setAttribute('aria-pressed', String(mode === 'export'));
   if (hasPages && mode === 'view') renderViewer();
   if (hasPages && mode === 'organize') renderOrganizer();
-  if (hasPages && mode === 'export') renderExportPane();
+  if (mode === 'export') renderExportPane();
 }
 
 function renderAll() {
@@ -2486,7 +2626,6 @@ async function exitPresentation() {
 
 function clearAll() {
   closeInsertPageMenu(false);
-  closeNewMenu();
   for (const source of state.sources.values()) {
     if (source.url) URL.revokeObjectURL(source.url);
     try { source.pdf?.destroy?.(); } catch {}
@@ -2500,9 +2639,9 @@ function clearAll() {
   state.history = [];
   state.future = [];
   state.selectionAnchorId = null;
+  state.fileSelected.clear();
+  state.fileSelectionInitialized = false;
   state.combineOrder = [];
-  state.combineSelected.clear();
-  state.combineInitialized = false;
   state.suppressSingleScrollSave = false;
   state.touchPointers.clear();
   cancelViewerTouchInertia(state);
@@ -2543,8 +2682,8 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 3.2.0 adds page/document creation while preserving the validated 3.1 Files engine and Milestone 2 viewer/input behavior.</p>
-      <ul><li><strong>New</strong> creates a one-page US Letter blank or graph-paper document.</li><li><strong>Insert</strong> is available in Pages, regular View, and Presentation and inserts after the current page.</li><li>Insert choices are duplicate with annotations, duplicate without annotations, blank page matching the current page size/orientation, and graph-paper page matching the current page size/orientation.</li><li>The two duplicate choices are intentionally separate now; until annotations are implemented their visible results are the same.</li><li>Graph paper is generated as light vector lines on export at 1/4-inch spacing, based on the supplied writing-grid reference.</li><li>Export, Extract, Split/ZIP, Combine, touch/pen separation, split-pane state, Presentation behavior, and JBIG2/WASM rendering are preserved.</li></ul>
+      <p>Milestone 3.3.0 reorganizes Files around shared document selection and expandable operations, adds multi-document ZIP export, and keeps the validated page/export/viewer engines intact.</p>
+      <ul><li><strong>Files</strong> now shows one shared checkbox list of open documents and expandable New, Export, Extract, Split, and Combine operations.</li><li><strong>New</strong> is under Files and creates a one-page US Letter <strong>landscape</strong> blank or graph-paper document.</li><li><strong>Export</strong> writes one checked document as a PDF or several checked documents as individual PDFs inside one ZIP.</li><li><strong>Combine</strong> uses the same checked documents but keeps its own independent up/down ordering list.</li><li><strong>Extract</strong> uses selected pages from the active document; <strong>Split</strong> uses the active document.</li><li><strong>Insert</strong> remains available in Pages, regular View, and Presentation; the Presentation control uses a page icon separated from the zoom +/- cluster.</li><li>Graph paper remains generated as light vector lines on export at 1/4-inch spacing, based on the supplied writing-grid reference.</li><li>Touch/pen separation, split-pane state, Presentation behavior, structural PDF output, and JBIG2/WASM rendering are preserved.</li></ul>
       <p><strong>Coming later:</strong> page-size normalization, fit/crop/margins, image assembly, compression, document Close, persistent Library/folders, and ink/annotations.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
@@ -2591,21 +2730,6 @@ function positionAnchoredPopover(menu, anchor) {
   menu.style.top = `${Math.round(top)}px`;
 }
 
-function closeNewMenu() {
-  if (!els.newMenu) return;
-  els.newMenu.classList.add('hidden');
-  els.newBtn?.setAttribute('aria-expanded', 'false');
-}
-
-function toggleNewMenu(force) {
-  const open = force ?? els.newMenu?.classList.contains('hidden');
-  closeInsertPageMenu(false);
-  toggleMoreMenu(false);
-  els.newMenu?.classList.toggle('hidden', !open);
-  els.newBtn?.setAttribute('aria-expanded', String(Boolean(open)));
-  if (open) requestAnimationFrame(() => positionAnchoredPopover(els.newMenu, els.newBtn));
-}
-
 function setInsertButtonExpanded(expanded) {
   for (const button of [els.viewInsertBtn, els.insertPageBtn, els.presentationInsertBtn]) {
     button?.setAttribute('aria-expanded', String(expanded));
@@ -2623,7 +2747,6 @@ function closeInsertPageMenu(resumePresentation=true) {
 
 function openInsertPageMenu(anchor) {
   if (!state.pages.length || !anchor) return;
-  closeNewMenu();
   toggleMoreMenu(false);
   const alreadyOpen = !els.insertPageMenu.classList.contains('hidden') && state.insertMenuAnchor === anchor;
   if (alreadyOpen) { closeInsertPageMenu(); return; }
@@ -2666,7 +2789,6 @@ let resizeTimer;
 function onResize() {
   clearTimeout(resizeTimer);
   if (!els.moreMenu.classList.contains('hidden')) positionMoreMenu();
-  if (!els.newMenu?.classList.contains('hidden')) positionAnchoredPopover(els.newMenu, els.newBtn);
   if (!els.insertPageMenu?.classList.contains('hidden') && state.insertMenuAnchor) positionAnchoredPopover(els.insertPageMenu, state.insertMenuAnchor);
   resizeTimer = setTimeout(() => { if (state.pages.length && state.workspaceMode === 'view') renderViewer(); }, 120);
 }
@@ -3008,10 +3130,9 @@ function setZoomForPane(paneId, value) {
 }
 
 function bindEvents() {
-  els.openBtn.addEventListener('click', () => { closeNewMenu(); closeInsertPageMenu(); els.fileInput.click(); });
-  els.newBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleNewMenu(); });
-  els.newBlankDocumentBtn.addEventListener('click', () => { closeNewMenu(); createNewGeneratedDocument('blank'); });
-  els.newGraphDocumentBtn.addEventListener('click', () => { closeNewMenu(); createNewGeneratedDocument('graph'); });
+  els.openBtn.addEventListener('click', () => { closeInsertPageMenu(); els.fileInput.click(); });
+  els.newBlankDocumentBtn.addEventListener('click', () => createNewGeneratedDocument('blank'));
+  els.newGraphDocumentBtn.addEventListener('click', () => createNewGeneratedDocument('graph'));
   els.emptyOpenBtn.addEventListener('click', () => els.fileInput.click());
   els.fileInput.addEventListener('change', () => openFiles(els.fileInput.files));
   els.documentSelect.addEventListener('change', () => loadDocumentState(els.documentSelect.value));
@@ -3025,7 +3146,9 @@ function bindEvents() {
   els.viewModeBtn.addEventListener('click', () => showWorkspaceMode('view'));
   els.organizeModeBtn.addEventListener('click', () => showWorkspaceMode('organize'));
   els.exportModeBtn.addEventListener('click', () => showWorkspaceMode('export'));
-  els.exportPdfBtn.addEventListener('click', exportCurrentPdf);
+  els.selectAllFilesBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; state.fileSelected = new Set(state.documents.map(doc => doc.id)); reconcileCombineOrder(); renderExportPane(); });
+  els.clearFileSelectionBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; state.fileSelected.clear(); reconcileCombineOrder(); renderExportPane(); });
+  els.exportPdfBtn.addEventListener('click', exportSelectedDocuments);
   els.extractPdfBtn.addEventListener('click', extractSelectedPdf);
   els.splitFixedBtn.addEventListener('click', splitEveryNPages);
   els.splitRangesBtn.addEventListener('click', splitByPageGroups);
@@ -3073,7 +3196,7 @@ function bindEvents() {
   els.deleteBtn.addEventListener('click', deleteSelected);
   els.undoBtn.addEventListener('click', undo);
   els.redoBtn.addEventListener('click', redo);
-  els.moreBtn.addEventListener('click', (e) => { e.stopPropagation(); closeNewMenu(); closeInsertPageMenu(); toggleMoreMenu(); });
+  els.moreBtn.addEventListener('click', (e) => { e.stopPropagation(); closeInsertPageMenu(); toggleMoreMenu(); });
   els.clearBtn.addEventListener('click', () => { toggleMoreMenu(false); clearAll(); });
   els.installHelpBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('install'); });
   els.aboutBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('about'); });
@@ -3085,7 +3208,6 @@ function bindEvents() {
   }, true);
   document.addEventListener('click', (e) => {
     if (!els.moreMenu.contains(e.target) && e.target !== els.moreBtn) toggleMoreMenu(false);
-    if (els.newMenu && !els.newMenu.contains(e.target) && e.target !== els.newBtn) closeNewMenu();
     const insertAnchors = [els.viewInsertBtn, els.insertPageBtn, els.presentationInsertBtn];
     if (els.insertPageMenu && !els.insertPageMenu.contains(e.target) && !insertAnchors.includes(e.target)) closeInsertPageMenu();
   });

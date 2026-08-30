@@ -1,82 +1,71 @@
-# PDF Workbench — Milestone 3.2.0
+# PDF Workbench — Milestone 3.3.0
 
-Milestone 3.2.0 adds page/document creation on top of the validated Milestone 3.1 Files engine. The viewer, split-pane state, touch/pen input model, Presentation behavior, and JBIG2/WASM configuration are intentionally preserved.
+Milestone 3.3.0 reorganizes the **Files** workspace and adds multi-document export while preserving the existing structural PDF engine, page insertion model, viewer, split-pane state, touch/pen input behavior, Presentation behavior, and PDF.js JBIG2/WASM configuration.
 
-## New document creation
+## Files workspace
 
-A new **New** button is available in the top application bar even when no files are open. It offers:
+Files now has one persistent **Open documents** list with checkboxes. Those checkboxes are shared by the multi-document operations:
 
-- **Blank document** — starts a new one-page US Letter portrait document.
-- **Graph-paper document** — starts a new one-page US Letter portrait document with generated graph paper.
+- **Export** uses the checked documents.
+- **Combine** uses the same checked documents, but shows its own separate ordered list with up/down controls. Reordering for Combine does not rearrange the general open-document list.
+- **Extract** operates on selected pages in the active document.
+- **Split** operates on the active document.
 
-These are real editable working documents in PDF Workbench and can be organized, combined, split, or exported like imported PDFs.
+The operations themselves are expandable/collapsible **New / Export / Extract / Split / Combine** sections so the Files workspace does not become one long crowded control panel.
 
-## Insert page after current
+The Open documents list also shows which document is active and allows another document to be made active without changing the checkbox selection.
 
-The same shared Insert menu is available from three places:
+Files remains usable even when no documents are open, so New is always reachable.
 
-- **Pages** toolbar: **Insert**.
-- Regular **View** toolbar: **+ Page**.
-- **Presentation** temporary toolbar: compact **+** icon.
+## New documents
 
-The menu offers:
+**New** has moved from the permanent top application bar into Files.
 
-1. **Duplicate with annotations**.
-2. **Duplicate without annotations**.
-3. **Blank page** matching the current page's displayed size and orientation.
-4. **Graph-paper page** matching the current page's displayed size and orientation.
+- Blank document: one US Letter **landscape** page.
+- Graph-paper document: one US Letter **landscape** graph-paper page.
 
-Annotations are not implemented yet, so the two duplicate choices currently look identical. They are separate commands now so their behavior can diverge cleanly when inking is added.
+Inserted blank/graph pages in an existing document still match the current page's displayed size and orientation.
 
-In Pages, the insertion anchor is the most recently selected page when that page is still selected; otherwise the current View page is used. In View/Presentation, insertion follows the current page. In split view it affects the active pane's document and current page. The newly inserted page becomes current, which is useful for immediately writing on a newly inserted blank/grid page later.
+## Export one or several documents
 
-## Graph paper
+- Exactly one checked document → export a PDF.
+- Two or more checked documents → build each document as a PDF and package them together in one ZIP.
+- Each document is exported from its current working page arrangement, including reorder/delete/duplicate/rotation/generated pages.
+- PDFs inside a multi-document ZIP use the document name plus `-edited.pdf`; duplicate names are made unique automatically.
+- ZIP creation uses STORE rather than trying to recompress already-compressed PDFs, which reduces unnecessary work on iPad.
 
-Graph paper is generated rather than rasterized:
+## Combine
 
-- 1/4-inch (18 point) square spacing.
-- white background.
-- very light cyan/blue thin lines.
-- small clean margin.
-- vector grid lines in exported PDFs.
+Combine uses the shared checked-document selection, then shows only those documents in an independent order list. Up/down controls set merge order. The general Open documents list remains unchanged. Combine still creates a new editable working document and leaves originals untouched.
 
-The supplied `graph-paper-reference.png` remains in the distribution as the visual reference.
+## Presentation insert control
 
-## Existing Files operations preserved
+The Presentation Insert Page control is no longer another `+` immediately beside zoom `+`. It now uses a page-shaped `▱` icon and sits before the zoom cluster with extra separation. The underlying Insert menu is unchanged.
 
-- Export current organized document.
-- Extract selected pages from Pages or Files.
-- Split every n pages.
-- Split by explicit page groups; typed groups are reflected in filenames.
-- Multiple split outputs are packaged into one ZIP.
-- Combine two or more open documents into a new editable working document.
+## Existing page creation behavior preserved
 
-Generated blank/graph pages participate in all of these operations.
+Insert Page remains available from:
 
-## Still planned
+- Pages toolbar: **Insert**
+- regular View toolbar: **+ Page**
+- Presentation temporary toolbar: page icon
 
-- Page-size normalization, fit/crop/margins.
-- Multi-image PDF assembly improvements.
-- Compression/target size.
-- Close/reopen documents and persistent internal storage.
-- GoodNotes-like Library/folders/search/sort/Recent.
-- Ink/annotations.
-- When ink arrives, test whether Full Page bottom navigation arrows need auto-hide/palm-safe behavior.
+Choices remain duplicate with annotations, duplicate without annotations, blank page, and graph-paper page. Until annotations exist, the two duplicate choices have the same visible result.
+
+Graph paper remains generated as light cyan vector lines at 18-point (1/4-inch) spacing with a small margin. `graph-paper-reference.png` remains bundled as the visual reference.
 
 ## Version
 
-**More → About this build** must report **Milestone 3.2.0**. The service-worker cache is `pdf-workbench-m3.2.0-v1`.
+**More → About this build** must report **Milestone 3.3.0**. The service-worker cache is `pdf-workbench-m3.3.0-v1`.
 
-## Suggested 3.2.0 tests
+## Suggested 3.3.0 tests
 
-1. Create a new blank document with no files open; export it and verify one Letter-sized blank page.
-2. Create a new graph-paper document; inspect the grid on iPad/Surface/Chromebook and export/open it in Adobe.
-3. In View, insert blank and graph pages after portrait, landscape, rotated, and unusual-sized source pages. Verify size/orientation.
-4. In Pages, select a page and use **Insert**; verify insertion occurs after the intended page and the new page is selected.
-5. In Presentation, reveal the toolbar and insert blank/graph pages; verify the inserted page becomes current and the toolbar still hides normally afterward.
-6. In split View/Presentation, insert into left and right panes separately. If the same PDF is shown in both panes, verify the document update is shared while each pane's view remains independent.
-7. Duplicate a PDF page using both duplicate choices and export. Until ink exists, both exported copies should match the source page.
-8. Rotate a generated graph page, reorder/delete/duplicate it, then export.
-9. Combine a generated document with an imported PDF, then export the combined result.
-10. Split a document containing generated pages and verify the PDF/ZIP outputs.
-11. Regression smoke-test finger pan/pinch, pen non-navigation on document content, visible pen UI activation, Presentation hidden-toolbar behavior, split/single restoration, and BaakeScan/JBIG2 rendering.
+1. Enter Files with no documents open; expand New and create blank and graph-paper documents. Verify both start landscape.
+2. Open three PDFs. In Files, check only one and export; verify a PDF is produced.
+3. Check two or three documents and export; verify one ZIP is produced and contains a separate correct PDF for each checked document.
+4. Edit/reorder/rotate pages in two documents before multi-export; verify each PDF in the ZIP reflects its own working state.
+5. Check three documents, expand Combine, rearrange their order, create the combined document, and verify the general Open documents list was not itself reordered.
+6. Make a different document active from Files, then verify Split applies to that active document and Extract uses that document's selected Pages.
+7. Verify Select all and Clear affect the shared Files checkboxes correctly.
+8. In Presentation, verify the page-insert icon is visually distinct from zoom `+`, opens the same Insert menu, and does not regress hidden-toolbar pen behavior.
+9. Regression-test finger pan/pinch, pen non-navigation on document content, pen activation of visible controls, split/single restoration, Pages dragging, and BaakeScan/JBIG2 rendering.

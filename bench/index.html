@@ -21,9 +21,6 @@
         <button id="openBtn" class="tool-btn emphasized" type="button" title="Open PDF or image files">
           <span aria-hidden="true">＋</span><span class="tool-label">Open</span>
         </button>
-        <button id="newBtn" class="tool-btn" type="button" title="Create a new document" aria-haspopup="menu" aria-expanded="false">
-          <span aria-hidden="true">▱</span><span class="tool-label">New</span>
-        </button>
         <input id="fileInput" class="visually-hidden" type="file" multiple accept="application/pdf,image/*">
 
         <div class="segmented" role="group" aria-label="Workspace mode">
@@ -118,10 +115,10 @@
           <button id="presentationLayoutBtn" type="button" title="Switch to split view" aria-label="Switch to split view">◫</button>
           <button id="presentationScrollModeBtn" type="button" title="Change scrolling mode">↕</button>
           <button id="presentationFitBtn" type="button" title="Fit width" aria-label="Fit width">↔</button>
+          <button id="presentationInsertBtn" class="presentation-insert-page" type="button" title="Insert a page after the current page" aria-label="Insert page" aria-haspopup="menu" aria-expanded="false">▱</button>
           <button id="presentationZoomOutBtn" type="button" aria-label="Zoom out">−</button>
           <span id="presentationZoomLabel" class="presentation-zoom-label">100%</span>
           <button id="presentationZoomInBtn" type="button" aria-label="Zoom in">+</button>
-          <button id="presentationInsertBtn" type="button" title="Insert a page after the current page" aria-label="Insert page" aria-haspopup="menu" aria-expanded="false">＋</button>
           <button id="presentationExit" type="button" aria-label="Exit presentation mode">×</button>
         </div>
       </section>
@@ -145,70 +142,104 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 3.2</div>
-          <h1>Files &amp; output</h1>
-          <p class="export-summary">Document-level operations live here. Opening files still keeps them separate; combining is always an explicit operation.</p>
+          <div class="export-kicker">Milestone 3.3</div>
+          <h1>Files</h1>
+          <p class="export-summary">Choose documents once below, then use the expandable operations. Export and Combine use the checked documents; Extract and Split use the active document.</p>
 
-          <section class="file-tool-section" aria-labelledby="exportCurrentHeading">
-            <h2 id="exportCurrentHeading">Export current document</h2>
-            <p id="exportSummary" class="file-tool-summary">Export the current document exactly as it is organized in PDF Workbench.</p>
-            <label class="export-field">
-              <span>File name</span>
-              <input id="exportFilename" type="text" value="document-edited.pdf" autocomplete="off" spellcheck="false">
-            </label>
-            <button id="exportPdfBtn" class="export-button" type="button">Export PDF</button>
-            <p id="exportProgress" class="export-progress" aria-live="polite"></p>
-          </section>
-
-          <section class="file-tool-section" aria-labelledby="extractHeading">
-            <h2 id="extractHeading">Extract selected pages</h2>
-            <p id="extractSummary" class="file-tool-summary">Select pages in Pages, then save just those pages as a new PDF.</p>
-            <label class="export-field">
-              <span>File name</span>
-              <input id="extractFilename" type="text" value="selected-pages.pdf" autocomplete="off" spellcheck="false">
-            </label>
-            <button id="extractPdfBtn" class="export-button" type="button">Extract selected pages</button>
-            <p id="extractProgress" class="export-progress" aria-live="polite"></p>
-          </section>
-
-          <section class="file-tool-section" aria-labelledby="splitHeading">
-            <h2 id="splitHeading">Split current document</h2>
-            <p class="file-tool-summary">Split outputs are saved directly. When a split creates multiple PDFs, PDF Workbench packages them into one ZIP for a single save/share operation.</p>
-            <label class="export-field">
-              <span>Base file name</span>
-              <input id="splitBaseName" type="text" value="document" autocomplete="off" spellcheck="false">
-            </label>
-            <div class="split-tool-grid">
-              <div class="split-tool-block">
-                <label class="export-field compact-field">
-                  <span>Pages per PDF</span>
-                  <input id="splitEveryCount" type="number" min="1" step="1" value="10" inputmode="numeric">
-                </label>
-                <button id="splitFixedBtn" class="export-button secondary-output-button" type="button">Split every n pages</button>
+          <section class="open-documents-section" aria-labelledby="openDocumentsHeading">
+            <div class="open-documents-heading-row">
+              <div>
+                <h2 id="openDocumentsHeading">Open documents</h2>
+                <p id="fileSelectionSummary" class="file-tool-summary">No documents are open.</p>
               </div>
-              <div class="split-tool-block">
-                <label class="export-field compact-field">
-                  <span>Page groups — one output PDF per line</span>
-                  <textarea id="splitRanges" rows="4" spellcheck="false" placeholder="1-5&#10;6-10&#10;11-15,20"></textarea>
-                </label>
-                <button id="splitRangesBtn" class="export-button secondary-output-button" type="button">Split by page groups</button>
+              <div class="file-selection-actions">
+                <button id="selectAllFilesBtn" type="button">Select all</button>
+                <button id="clearFileSelectionBtn" type="button">Clear</button>
               </div>
             </div>
-            <p class="small-note">Within a line, use commas for additional pages/ranges, for example <strong>1-4,8,11-13</strong>. Page numbers refer to the current Pages order.</p>
-            <p id="splitProgress" class="export-progress" aria-live="polite"></p>
+            <div id="openDocumentList" class="open-document-list" aria-label="Open documents"></div>
           </section>
 
-          <section class="file-tool-section" aria-labelledby="combineHeading">
-            <h2 id="combineHeading">Combine open documents</h2>
-            <p class="file-tool-summary">Choose two or more open documents and arrange their order. This creates a new working document; it does not alter the originals.</p>
-            <label class="export-field">
-              <span>New document name</span>
-              <input id="combineName" type="text" value="Combined.pdf" autocomplete="off" spellcheck="false">
-            </label>
-            <div id="combineList" class="combine-list" aria-label="Documents to combine"></div>
-            <button id="combineBtn" class="export-button" type="button">Create combined document</button>
-            <p id="combineProgress" class="export-progress" aria-live="polite"></p>
-          </section>
+          <details class="file-tool-section file-tool-details" id="newFilesSection">
+            <summary><span>New</span><span class="operation-summary">Create a blank or graph-paper document</span></summary>
+            <div class="file-tool-body">
+              <p class="file-tool-summary">New writing documents start as US Letter landscape. Pages inserted into an existing document still match the current page size and orientation.</p>
+              <div class="new-document-actions">
+                <button id="newBlankDocumentBtn" class="export-button secondary-output-button" type="button">Blank document</button>
+                <button id="newGraphDocumentBtn" class="export-button secondary-output-button" type="button">Graph-paper document</button>
+              </div>
+            </div>
+          </details>
+
+          <details class="file-tool-section file-tool-details" id="exportFilesSection">
+            <summary><span>Export</span><span id="exportOperationSummary" class="operation-summary">Select one or more documents above</span></summary>
+            <div class="file-tool-body">
+              <p id="exportSummary" class="file-tool-summary">Select one or more open documents above.</p>
+              <label class="export-field">
+                <span id="exportFilenameLabel">File name</span>
+                <input id="exportFilename" type="text" value="document-edited.pdf" autocomplete="off" spellcheck="false">
+              </label>
+              <button id="exportPdfBtn" class="export-button" type="button" disabled>Export selected</button>
+              <p class="small-note">One checked document exports as a PDF. Two or more checked documents are exported together in one ZIP; each PDF keeps its own current page order and edits.</p>
+              <p id="exportProgress" class="export-progress" aria-live="polite"></p>
+            </div>
+          </details>
+
+          <details class="file-tool-section file-tool-details" id="extractFilesSection">
+            <summary><span>Extract</span><span class="operation-summary">Selected pages from the active document</span></summary>
+            <div class="file-tool-body">
+              <p id="extractSummary" class="file-tool-summary">Select pages in Pages, then save just those pages as a new PDF.</p>
+              <label class="export-field">
+                <span>File name</span>
+                <input id="extractFilename" type="text" value="selected-pages.pdf" autocomplete="off" spellcheck="false">
+              </label>
+              <button id="extractPdfBtn" class="export-button" type="button">Extract selected pages</button>
+              <p id="extractProgress" class="export-progress" aria-live="polite"></p>
+            </div>
+          </details>
+
+          <details class="file-tool-section file-tool-details" id="splitFilesSection">
+            <summary><span>Split</span><span id="splitOperationSummary" class="operation-summary">Split the active document</span></summary>
+            <div class="file-tool-body">
+              <p class="file-tool-summary">Split operates on the active document. Multiple output PDFs are packaged into one ZIP for a single save/share operation.</p>
+              <label class="export-field">
+                <span>Base file name</span>
+                <input id="splitBaseName" type="text" value="document" autocomplete="off" spellcheck="false">
+              </label>
+              <div class="split-tool-grid">
+                <div class="split-tool-block">
+                  <label class="export-field compact-field">
+                    <span>Pages per PDF</span>
+                    <input id="splitEveryCount" type="number" min="1" step="1" value="10" inputmode="numeric">
+                  </label>
+                  <button id="splitFixedBtn" class="export-button secondary-output-button" type="button">Split every n pages</button>
+                </div>
+                <div class="split-tool-block">
+                  <label class="export-field compact-field">
+                    <span>Page groups — one output PDF per line</span>
+                    <textarea id="splitRanges" rows="4" spellcheck="false" placeholder="1-5&#10;6-10&#10;11-15,20"></textarea>
+                  </label>
+                  <button id="splitRangesBtn" class="export-button secondary-output-button" type="button">Split by page groups</button>
+                </div>
+              </div>
+              <p class="small-note">Within a line, use commas for additional pages/ranges, for example <strong>1-4,8,11-13</strong>. Page numbers refer to the current Pages order.</p>
+              <p id="splitProgress" class="export-progress" aria-live="polite"></p>
+            </div>
+          </details>
+
+          <details class="file-tool-section file-tool-details" id="combineFilesSection">
+            <summary><span>Combine</span><span id="combineOperationSummary" class="operation-summary">Select two or more documents above</span></summary>
+            <div class="file-tool-body">
+              <p class="file-tool-summary">The checked documents appear below. Arrange their combine order without changing the general Open documents list. Combining creates a new working document and leaves the originals unchanged.</p>
+              <label class="export-field">
+                <span>New document name</span>
+                <input id="combineName" type="text" value="Combined.pdf" autocomplete="off" spellcheck="false">
+              </label>
+              <div id="combineList" class="combine-list" aria-label="Order of documents to combine"></div>
+              <button id="combineBtn" class="export-button" type="button">Create combined document</button>
+              <p id="combineProgress" class="export-progress" aria-live="polite"></p>
+            </div>
+          </details>
 
           <p class="small-note files-roadmap-note">Page-size normalization, image assembly, compression, closing documents, and the persistent Library/folder system remain later roadmap items.</p>
         </div>
@@ -220,11 +251,6 @@
       <span id="pdfEngineStatus" class="engine-status">Loading PDF engine…</span>
     </div>
 
-
-    <div id="newMenu" class="popover hidden" role="menu" aria-label="Create new document">
-      <button id="newBlankDocumentBtn" type="button" role="menuitem">Blank document</button>
-      <button id="newGraphDocumentBtn" type="button" role="menuitem">Graph-paper document</button>
-    </div>
 
     <div id="insertPageMenu" class="popover insert-page-menu hidden" role="menu" aria-label="Insert page after current page">
       <button id="insertDuplicateWithAnnotationsBtn" type="button" role="menuitem">Duplicate with annotations</button>

@@ -1,3 +1,115 @@
+PDF WORKBENCH PWA — MILESTONE 3.3.0 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.3.0
+Visible About version: 3.3.0
+Service-worker/cache version: pdf-workbench-m3.3.0-v1
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.
+
+RECENT VALIDATION / BASELINE
+----------------------------
+Milestone 3.1.2 document operations were tested successfully on Surface and iPad. The earlier viewer/input baseline was also reported working on Chromebook: finger pan/pinch works; pen does not pan/zoom document content; pen can operate visible controls. Structural export was previously validated against multiple curated PDFs plus BaakeScan.pdf and checked in Adobe. Preserve these behaviors unless a specific regression is identified.
+
+MILESTONE 3.3.0 — FILES WORKSPACE REORGANIZATION
+-------------------------------------------------
+Files is now the document-level workspace and is available even when no document is open.
+
+The workspace has one always-visible Open documents list with shared checkboxes, followed by expandable/collapsible operation sections:
+- New
+- Export
+- Extract
+- Split
+- Combine
+
+Shared selection rule:
+- Export uses the checked open documents.
+- Combine uses the same checked documents, but presents them again in a separate combine-order list with up/down controls. Reordering the Combine list DOES NOT change the general Open documents list.
+- Extract is a page-level operation and uses selected pages from the ACTIVE document.
+- Split is a single-document operation and uses the ACTIVE document.
+
+The Open documents list marks the active document and allows another document to be made active independently of checkbox selection. It also has Select all and Clear selection actions.
+
+MULTI-DOCUMENT EXPORT
+---------------------
+Export behavior in Files:
+- zero checked documents: export disabled;
+- one checked document: export one PDF using the normal structural PDF writer;
+- two or more checked documents: export each checked document as its own PDF and package all resulting PDFs into one ZIP.
+
+This ZIP approach is specifically appropriate for iPad, where one PDF naturally enters the iPad preview/share/save flow but a sequence of separate preview windows would be undesirable.
+
+Each PDF in a multi-export uses the document's current working page arrangement. ZIP entry names are based on each document name plus `-edited.pdf`; duplicate names are made unique. ZIP uses STORE compression because PDFs are already compressed and recompressing wastes time/memory.
+
+NEW DOCUMENT LOCATION / DEFAULT ORIENTATION
+--------------------------------------------
+The permanent top-bar New button has been removed. New document creation now lives under the expandable New section in Files.
+
+New generated documents now default to US Letter LANDSCAPE:
+- width 792 PDF points;
+- height 612 PDF points.
+
+This affects only brand-new blank/graph-paper documents. Blank/graph pages inserted into existing documents continue to match the current page's displayed size and orientation.
+
+PRESENTATION INSERT CONTROL
+---------------------------
+The Presentation Insert Page button was formerly a `+` immediately beside the zoom `+`, which was visually ambiguous. It now uses a page-shaped `▱` icon, is placed before the zoom cluster, and has added spacing from the zoom controls. The underlying shared Insert menu and insertion behavior are unchanged.
+
+FILES UI DESIGN PRINCIPLE
+-------------------------
+Do not make Files one long crowded form. Keep the document list visible and document-level operations compact/collapsible. Reuse shared document selection rather than duplicating a different set of checkboxes inside every operation. Operations may still have their own operation-specific ordering/options (Combine is the key example).
+
+3.2 PAGE CREATION / INSERTION TO PRESERVE
+-----------------------------------------
+Insert Page remains available from Pages, regular View, and Presentation with the shared choices:
+1. Duplicate with annotations.
+2. Duplicate without annotations.
+3. Blank page matching current displayed size/orientation.
+4. Graph-paper page matching current displayed size/orientation.
+
+Until the annotation subsystem exists, the two duplicate choices produce the same visible page but remain distinct commands for future annotation cloning semantics.
+
+Graph paper remains generated, not rasterized: light cyan/blue vector lines, 18-point (1/4-inch) square spacing, 9-point margin, white background. `graph-paper-reference.png` remains bundled.
+
+REGRESSION-SENSITIVE BASELINE
+-----------------------------
+Do not casually alter:
+- one-finger pan/scroll and two-finger pinch/zoom;
+- pen does not pan/zoom document content;
+- pen operates visible UI controls;
+- Pages organizer pen/touch dragging;
+- hidden Presentation controls ignore pen hover/tap;
+- high-zoom horizontal pan reaches both page edges;
+- split/single independent pane state restoration;
+- same-document split panes retain independent view state;
+- iPad app-level Presentation instead of native fullscreen;
+- JBIG2/WASM/cMap/standard-font PDF.js resource configuration;
+- structural PDF export engine;
+- Split multi-output ZIP behavior and typed group filenames;
+- Pages blank-space deselection and direct Extract selected action.
+
+FUTURE FILE/LIBRARY ROADMAP
+---------------------------
+Open documents are currently runtime working documents. A later Library/persistence milestone should add internal stored copies/projects, Close/reopen, Recent, folders, rename/search/sort, Remove from Recent, Delete Stored Copy, and explicit project persistence. Long-term top-level structure remains Files | Pages | View, with Presentation as a low-chrome form of View.
+
+FUTURE INK UI DECISIONS
+-----------------------
+Inking should work in regular View and Presentation using the same annotation engine and tool state. Default input model: pen/Pencil inks; one finger pans; two fingers pinch/zoom; pen can operate visible UI; Draw with Finger should default Off. When ink exists, test Full Page bottom navigation controls for accidental palm activation and consider auto-hide/palm-safe/optional hiding if necessary.
+
+NEXT WORK AFTER 3.3 TESTING
+---------------------------
+Continue Milestone 3 geometry/output features unless testing identifies a regression:
+1. page-size normalization and orientation controls;
+2. fit/center/crop and margins/expanded canvas;
+3. image-to-PDF assembly improvements;
+4. compression/target maximum size;
+then Library/persistence and later ink/annotations.
+
+DISTRIBUTION RULE
+-----------------
+Every release ZIP must contain this comprehensive handoff, README, and graph-paper reference and keep visible About version and service-worker/cache version synchronized.
+
+
 PDF WORKBENCH PWA — MILESTONE 3.2.0 CURRENT UPDATE
 =====================================================
 
