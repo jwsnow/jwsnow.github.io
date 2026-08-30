@@ -1,3 +1,184 @@
+PDF WORKBENCH PWA — MILESTONE 3.7.1 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.7.1
+Visible About version: 3.7.1
+Service-worker/cache version: pdf-workbench-m3.7.1-v1
+
+WHY THIS REVISION EXISTS
+------------------------
+Milestone 3.7.0 page-size/orientation normalization was tested successfully on mixed-size, pre-rotated, and CropBox/MediaBox PDFs. Exports reopened correctly in Adobe with the expected properties. The next requested geometry feature is crop/margins, and the user prefers these relatively rare tools to remain confined to Pages.
+
+3.7.1 CROP / MARGINS
+---------------------
+1. Add a Pages-only “Crop / margins…” command.
+2. Scope can be selected pages or all pages.
+3. Operations: Add margins / expand canvas, or Crop page edges.
+4. Presets: 1/4 inch, 1/2 inch, 1 inch; Custom permits independent Top/Right/Bottom/Left values.
+5. Edge names are visual: Top/Right/Bottom/Left mean the sides as currently viewed, even after Workbench rotation. Internally these are mapped back to the page's pre-Workbench base orientation so later rotation carries the crop/margins with the page.
+6. Margins add white page canvas and do not scale current content. Crop moves the page boundary inward and clips content; it also does not scale content.
+7. Repeated edge operations accumulate and participate in normal Pages Undo/Redo.
+8. “Reset crop/margins” clears edge adjustments while preserving 3.7.0 Page-size normalization.
+9. Page size establishes an exact new target canvas and clears prior edge adjustments. Apply Page size first, then Crop/margins, when both are desired.
+10. Page instances carry edge adjustments through duplicate, templates, Copy to…, Combine, Extract, Split, and Export.
+11. PDF export preserves vector/text structure: after any 3.7.0 normalization, page boxes are expanded/cropped structurally. Do not rasterize PDF pages for these operations.
+12. Image and generated pages use the same final canvas/edge model; graph paper remains generated vector content in export.
+13. Geometry changes invalidate stale raw viewer scroll offsets while retaining logical page identity.
+
+PRESERVE
+--------
+Do not regress the validated 3.7.0 normalization/export path or the stable 3.5.x/3.6.x viewer, split, Presentation, template, transfer, Files, touch/pen, and JBIG2/WASM behavior.
+
+TEST PRIORITIES
+---------------
+- Symmetric and one-sided margins on ordinary, rotated, and normalized pages.
+- One-sided crop; verify clipping rather than scaling.
+- Source-rotated pages and Workbench-rotated pages.
+- CropBox/MediaBox PDFs.
+- Graph paper and image/scan pages.
+- Export/reopen in Adobe and verify final page dimensions.
+- Undo/Redo and Reset crop/margins.
+- Copy/template/Combine/Extract/Split with adjusted pages.
+
+RELEASE PRACTICE
+----------------
+Every distribution ZIP must include this handoff, README, and graph-paper-reference.png and keep About/service-worker versions synchronized.
+
+
+PDF WORKBENCH PWA — MILESTONE 3.7.0 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.7.0
+Visible About version: 3.7.0
+Service-worker/cache version: pdf-workbench-m3.7.0-v1
+
+WHY THIS REVISION EXISTS
+------------------------
+3.6.1 page copying tested successfully. The next roadmap area is page geometry/normalization. The user noted these tools will be used relatively rarely, so they should remain confined to Pages rather than adding permanent controls to View/Presentation/Files.
+
+3.7.0 PAGE SIZE / CANVAS NORMALIZATION
+--------------------------------------
+1. Add a Pages-only “Page size…” command.
+2. Scope can be selected pages or all pages. If nothing is selected, all pages is the default.
+3. Target size presets: US Letter, US Legal, A4, match first-page size, and custom dimensions in inches.
+4. Orientation: preserve each page orientation, force portrait, or force landscape.
+5. Placement in 3.7.0 is intentionally simple: preserve aspect ratio, fit proportionally, center, and do not crop.
+6. Store the target canvas non-destructively on each page (`canvasWidth` / `canvasHeight`) rather than replacing source dimensions. This means Undo/Redo and later resizing can reuse original source geometry.
+7. The target canvas follows page copies/templates/Combine because page instances are cloned structurally.
+8. Viewer, thumbnails, split panes, and template previews use the normalized page canvas dimensions.
+9. PDF export does not rasterize PDF source pages for normalization. It scales copied page content and annotations and adjusts page boxes to produce the target canvas. Images remain image content; generated graph paper remains vector generated content.
+10. Crop, margin expansion, and more advanced placement controls remain for a later 3.7.x revision.
+
+PRESERVE
+--------
+Do not regress the stable 3.5.x/3.6.x behavior: responsive toolbar, View↔Presentation anchoring, independent split panes, same-document structural-edit anchoring, visual template chooser/manager, session templates, pen/finger separation, Files operations, and JBIG2/WASM support.
+
+TEST PRIORITIES
+---------------
+- Mixed page sizes/orientations: selected-only and all-page normalization.
+- Pre-rotated PDF pages.
+- CropBox/MediaBox edge case.
+- Graph paper, images/scans, and ordinary selectable-text PDF pages.
+- Export/reopen in Adobe; verify page size/orientation and centered content.
+- Undo/Redo; copy a normalized page to another document; templates from normalized pages.
+
+RELEASE PRACTICE
+----------------
+Every distribution ZIP must include this handoff, README, and graph-paper-reference.png and keep About/service-worker versions synchronized.
+
+
+PDF WORKBENCH PWA — MILESTONE 3.6.1 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.6.1
+Visible About version: 3.6.1
+Service-worker/cache version: pdf-workbench-m3.6.1-v1
+
+WHY THIS REVISION EXISTS
+------------------------
+3.6.0 page copying tested successfully. The user reported only a dialog-layout issue: “Insert location” could appear at the end of the destination-dropdown line, with its dropdown below, and requested a visual style closer to Files/template management.
+
+3.6.1 PAGE-TRANSFER DIALOG POLISH
+---------------------------------
+1. Keep the 3.6.0 Copy-to-document engine unchanged.
+2. Lay the transfer fields out strictly vertically: Destination document label, destination dropdown, Insert location label, location dropdown, then optional After page number.
+3. Put the transfer fields in a bordered panel visually consistent with Files/template-management cards.
+4. Present the transfer summary in a compact bordered status card.
+5. Remove malformed escaped line-break text that had been appended with the 3.6.0 transfer CSS and replace it with normal parsed CSS.
+6. Preserve all viewer, split, Presentation, template, touch/pen, export, and PDF behavior.
+
+MOVE / DRAG POLICY
+------------------
+The user said a separate Move command may not be needed: copying pages and then deleting the originals is adequate. Cross-document drag-and-drop is also not a priority. Keep the explicit Copy workflow unless later use shows a need for more.
+
+CONFIRMED BEHAVIOR TO PRESERVE
+------------------------------
+- 3.6.0 page copying works.
+- 3.5.x viewer/Presentation/template behavior is stable across Surface, iPad, and Chromebook.
+- Same-document split structural edits preserve the inactive pane.
+- Export/Extract/Split/Combine and structural PDF export remain validated.
+
+RELEASE PRACTICE
+----------------
+Every distribution ZIP must include this handoff, README, and graph-paper-reference.png and must keep the visible About version and service-worker/cache version synchronized.
+
+
+PDF WORKBENCH PWA — MILESTONE 3.6.0 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.6.0
+Visible About version: 3.6.0
+Service-worker/cache version: pdf-workbench-m3.6.0-v1
+
+WHY THIS REVISION EXISTS
+------------------------
+After 3.5.3 was visually stable across Surface, iPad, and Chromebook, the next requested document-manipulation feature was copying selected pages from one open document to another. The user explicitly said cross-document drag-and-drop is not needed now and can be deferred.
+
+3.6.0 PAGE COPY BETWEEN DOCUMENTS
+---------------------------------
+1. Pages now has a **Copy to…** action when one or more pages are selected and at least one other document is open.
+2. The transfer dialog chooses another open destination document.
+3. Destination placement options are:
+   - beginning of document
+   - end of document
+   - after a specified destination page number
+4. Selected pages are copied in their current source Pages order.
+5. The source document is unchanged.
+6. Copies preserve the page model: PDF/image/generated content reference, dimensions, base rotation, and user rotation. No rasterization is introduced.
+7. Source data remains shared safely through the existing source-reference model, so closing the original document does not invalidate copied pages that remain in another open document.
+8. Copy changes only the destination and is recorded as one destination-document history operation, so normal Undo/Redo remains coherent.
+9. Stored destination view state retains its logical active page. If the copy is inserted before that page, stale raw scroll offsets are invalidated so a later render does not jump to the wrong logical content.
+
+MOVE / DRAG POLICY
+------------------
+- Do NOT add cross-document thumbnail drag-and-drop unless later use shows a real need.
+- A true Move-to-document command is also deferred for now. Move changes source and destination simultaneously; add it when the undo architecture can represent an atomic cross-document transaction rather than allowing one document to undo only half of a move.
+
+CONFIRMED BEHAVIOR TO PRESERVE
+------------------------------
+- 3.5.3 responsive toolbar looks substantially better in iPad portrait and narrow Surface windows; Chromebook portrait/landscape and iPad landscape were already good.
+- View ↔ Presentation preserves logical position in all three modes on Surface.
+- Split View preserves both panes in both directions.
+- Same-document split structural edits preserve the inactive pane.
+- Pages/template source selection and visual thumbnails work.
+- Saving a template in Presentation stays in Presentation.
+- Finger pan/pinch and pen-reserved-for-ink behavior remain stable across tested devices.
+- Export/Extract/Split/Combine and structural PDF export remain validated.
+
+IMMEDIATE 3.6.0 TESTS
+---------------------
+1. Copy one page between two open documents to Beginning, End, and After page N.
+2. Copy several nonconsecutive pages and confirm source-order preservation.
+3. Switch to the destination and test Undo/Redo.
+4. Copy rotated, mixed-size, graph-paper, scan, and JBIG2-backed pages and export the destination.
+5. Verify the source document is unchanged.
+6. Quick cross-device smoke tests only for viewer/template/touch behavior; those systems are intentionally unchanged.
+
+RELEASE PRACTICE
+----------------
+Every distribution ZIP must include this handoff, README, and graph-paper-reference.png and must keep the visible About version and service-worker/cache version synchronized.
+
+
 PDF WORKBENCH PWA — MILESTONE 3.5.3 CURRENT UPDATE
 =====================================================
 

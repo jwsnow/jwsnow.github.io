@@ -129,9 +129,12 @@
           <div class="organizer-actions">
             <button id="selectAllBtn" type="button">Select all</button>
             <button id="rotateBtn" type="button" disabled>Rotate</button>
+            <button id="pageGeometryBtn" type="button">Page size…</button>
+            <button id="pageEdgeBtn" type="button">Crop / margins…</button>
             <button id="insertPageBtn" type="button" aria-haspopup="menu" aria-expanded="false">Insert</button>
             <button id="duplicateBtn" type="button" disabled>Duplicate</button>
             <button id="extractSelectedPagesBtn" type="button" disabled>Extract selected</button>
+            <button id="copyPagesBtn" type="button" disabled>Copy to…</button>
             <button id="deleteBtn" type="button" disabled>Delete</button>
             <button id="undoBtn" type="button" disabled title="Undo">↶</button>
             <button id="redoBtn" type="button" disabled title="Redo">↷</button>
@@ -142,7 +145,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 3.5</div>
+          <div class="export-kicker">Milestone 3.7</div>
           <h1>Files</h1>
           <p class="export-summary">Choose documents once below, then use the expandable operations. Export and Combine use the checked documents; Extract and Split use the active document.</p>
 
@@ -241,7 +244,7 @@
             </div>
           </details>
 
-          <p class="small-note files-roadmap-note">Page-size normalization, image assembly, compression, closing documents, and the persistent Library/folder system remain later roadmap items.</p>
+          <p class="small-note files-roadmap-note">Image assembly, compression, closing documents, and the persistent Library/folder system remain later roadmap items.</p>
         </div>
       </section>
     </main>
@@ -280,6 +283,164 @@
         <button id="manageTemplatesBtn" class="insert-text-action" type="button" role="menuitem">Manage templates…</button>
       </div>
     </div>
+
+
+    <dialog id="pageGeometryDialog" class="info-dialog page-geometry-dialog">
+      <form id="pageGeometryForm">
+        <button id="pageGeometryCloseBtn" class="dialog-close" type="button" aria-label="Cancel">×</button>
+        <h2>Page size / canvas</h2>
+        <p id="pageGeometrySummary" class="page-transfer-summary"></p>
+
+        <div class="page-geometry-layout">
+          <div class="page-geometry-fields">
+            <label class="page-transfer-field" for="pageGeometryScope">
+              <span>Apply to</span>
+              <select id="pageGeometryScope">
+                <option value="selected">Selected pages</option>
+                <option value="all">All pages</option>
+              </select>
+            </label>
+
+            <label class="page-transfer-field" for="pageGeometryPreset">
+              <span>Target size</span>
+              <select id="pageGeometryPreset">
+                <option value="letter" selected>US Letter (8.5 × 11 in)</option>
+                <option value="legal">US Legal (8.5 × 14 in)</option>
+                <option value="a4">A4 (210 × 297 mm)</option>
+                <option value="first">Match first page size</option>
+                <option value="custom">Custom size…</option>
+              </select>
+            </label>
+
+            <div id="pageGeometryCustomFields" class="page-geometry-custom hidden">
+              <label class="page-transfer-field" for="pageGeometryCustomWidth">
+                <span>Custom width (inches)</span>
+                <input id="pageGeometryCustomWidth" type="number" min="0.1" max="200" step="0.01" inputmode="decimal" value="8.5">
+              </label>
+              <label class="page-transfer-field" for="pageGeometryCustomHeight">
+                <span>Custom height (inches)</span>
+                <input id="pageGeometryCustomHeight" type="number" min="0.1" max="200" step="0.01" inputmode="decimal" value="11">
+              </label>
+            </div>
+
+            <label class="page-transfer-field" for="pageGeometryOrientation">
+              <span>Orientation</span>
+              <select id="pageGeometryOrientation">
+                <option value="preserve" selected>Preserve each page orientation</option>
+                <option value="portrait">Portrait</option>
+                <option value="landscape">Landscape</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="page-geometry-preview" aria-label="Target page preview">
+            <div id="pageGeometryPreviewPaper" class="page-geometry-preview-paper"><span>Content</span></div>
+            <div id="pageGeometryPreviewLabel" class="small-note"></div>
+          </div>
+        </div>
+
+        <p class="small-note"><strong>Fit &amp; center:</strong> existing page content keeps its aspect ratio and is scaled proportionally to fit inside the new page. No cropping is performed. Setting an exact Page size clears earlier Crop / margins adjustments; apply Crop / margins afterward when both are desired. The source file is unchanged; use Undo to reverse the operation.</p>
+        <div class="dialog-actions">
+          <button id="pageGeometryCancelBtn" type="button">Cancel</button>
+          <button id="pageGeometryApplyBtn" type="submit">Apply page size</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="pageEdgeDialog" class="info-dialog page-edge-dialog">
+      <form id="pageEdgeForm">
+        <button id="pageEdgeCloseBtn" class="dialog-close" type="button" aria-label="Cancel">×</button>
+        <h2>Crop / margins</h2>
+        <p id="pageEdgeSummary" class="page-transfer-summary"></p>
+
+        <div class="page-edge-layout">
+          <div class="page-edge-fields">
+            <label class="page-transfer-field" for="pageEdgeScope">
+              <span>Apply to</span>
+              <select id="pageEdgeScope">
+                <option value="selected">Selected pages</option>
+                <option value="all">All pages</option>
+              </select>
+            </label>
+
+            <label class="page-transfer-field" for="pageEdgeOperation">
+              <span>Operation</span>
+              <select id="pageEdgeOperation">
+                <option value="margin" selected>Add margins / expand canvas</option>
+                <option value="crop">Crop page edges</option>
+              </select>
+            </label>
+
+            <label class="page-transfer-field" for="pageEdgePreset">
+              <span>Amount preset</span>
+              <select id="pageEdgePreset">
+                <option value="0.25" selected>¼ inch on all sides</option>
+                <option value="0.5">½ inch on all sides</option>
+                <option value="1">1 inch on all sides</option>
+                <option value="custom">Custom edges…</option>
+              </select>
+            </label>
+
+            <div class="page-edge-values" aria-label="Edge amounts in inches">
+              <label class="page-transfer-field" for="pageEdgeTop"><span>Top</span><input id="pageEdgeTop" type="number" min="0" max="100" step="0.01" inputmode="decimal" value="0.25"></label>
+              <label class="page-transfer-field" for="pageEdgeRight"><span>Right</span><input id="pageEdgeRight" type="number" min="0" max="100" step="0.01" inputmode="decimal" value="0.25"></label>
+              <label class="page-transfer-field" for="pageEdgeBottom"><span>Bottom</span><input id="pageEdgeBottom" type="number" min="0" max="100" step="0.01" inputmode="decimal" value="0.25"></label>
+              <label class="page-transfer-field" for="pageEdgeLeft"><span>Left</span><input id="pageEdgeLeft" type="number" min="0" max="100" step="0.01" inputmode="decimal" value="0.25"></label>
+            </div>
+          </div>
+
+          <div class="page-edge-preview" aria-label="Crop or margin preview">
+            <div id="pageEdgePreviewPaper" class="page-edge-preview-paper">
+              <div id="pageEdgePreviewContent" class="page-edge-preview-content"><span>Current page</span></div>
+            </div>
+            <div id="pageEdgePreviewLabel" class="small-note"></div>
+          </div>
+        </div>
+
+        <p class="small-note"><strong>Margins</strong> add white canvas without scaling the current page. <strong>Crop</strong> moves the page boundary inward without scaling the content. Values apply to the edges as currently viewed, even on rotated pages. Repeated operations accumulate and can be reversed with Undo.</p>
+        <div class="dialog-actions page-edge-actions">
+          <button id="pageEdgeResetBtn" type="button">Reset crop/margins</button>
+          <span class="dialog-action-spacer"></span>
+          <button id="pageEdgeCancelBtn" type="button">Cancel</button>
+          <button id="pageEdgeApplyBtn" type="submit">Apply</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="pageTransferDialog" class="info-dialog page-transfer-dialog">
+      <form id="pageTransferForm">
+        <button id="pageTransferCloseBtn" class="dialog-close" type="button" aria-label="Cancel">×</button>
+        <h2>Copy selected pages</h2>
+        <p id="pageTransferSummary" class="page-transfer-summary"></p>
+
+        <div class="page-transfer-fields" aria-label="Copy destination options">
+          <label class="page-transfer-field" for="pageTransferDestination">
+            <span>Destination document</span>
+            <select id="pageTransferDestination"></select>
+          </label>
+
+          <label class="page-transfer-field" for="pageTransferPosition">
+            <span>Insert location</span>
+            <select id="pageTransferPosition">
+              <option value="end" selected>End of document</option>
+              <option value="beginning">Beginning of document</option>
+              <option value="after">After page…</option>
+            </select>
+          </label>
+
+          <label id="pageTransferAfterField" class="page-transfer-field hidden" for="pageTransferAfterPage">
+            <span>After page number</span>
+            <input id="pageTransferAfterPage" type="number" min="1" step="1" inputmode="numeric">
+          </label>
+        </div>
+
+        <p class="small-note">Copies keep their original page size, rotation, and content. The source document is not changed.</p>
+        <div class="dialog-actions">
+          <button id="pageTransferCancelBtn" type="button">Cancel</button>
+          <button id="pageTransferCopyBtn" type="submit">Copy pages</button>
+        </div>
+      </form>
+    </dialog>
 
     <dialog id="templateNameDialog" class="info-dialog template-name-dialog">
       <form id="templateNameForm" method="dialog">

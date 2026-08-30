@@ -641,3 +641,97 @@ body.presentation .split-pane.active {
   color: var(--text);
   background: var(--paper);
 }
+
+/* Milestone 3.6.1 page-transfer dialog polish. Keep transfer choices in a
+   clear vertical panel, visually consistent with Files/template management. */
+.page-transfer-dialog { width: min(520px, calc(100% - 28px)); }
+.page-transfer-dialog h2 { margin-bottom: 7px; }
+.page-transfer-summary {
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--muted);
+  line-height: 1.4;
+}
+.page-transfer-fields {
+  display: grid;
+  gap: 13px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--panel);
+}
+.page-transfer-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+  margin: 0;
+  min-width: 0;
+  font-weight: 650;
+}
+.page-transfer-field > span { display: block; }
+.page-transfer-field select,
+.page-transfer-field input {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--paper);
+  color: var(--text);
+  padding: 7px 9px;
+  font: inherit;
+  font-weight: 400;
+}
+.page-transfer-dialog .small-note { margin: 12px 2px 0; color: var(--muted); }
+.page-transfer-dialog .dialog-actions { gap: 7px; }
+.page-transfer-dialog .dialog-actions button { min-height: 38px; }
+
+@media (max-width: 540px) {
+  .page-transfer-dialog form { padding: 18px 16px 16px; }
+  .page-transfer-fields { padding: 12px; }
+}
+
+
+
+/* Milestone 3.7: page-size/canvas normalization lives only in Pages. */
+.page-geometry-dialog { width: min(720px, calc(100% - 28px)); }
+.page-geometry-layout { display: grid; grid-template-columns: minmax(0, 1fr) 190px; gap: 18px; align-items: stretch; margin-top: 12px; }
+.page-geometry-fields { min-width: 0; display: grid; gap: 12px; padding: 14px; border: 1px solid var(--border); border-radius: 11px; background: var(--panel); }
+.page-geometry-custom { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.page-geometry-preview { min-height: 230px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 14px; border: 1px solid var(--border); border-radius: 11px; background: #eef0f3; text-align: center; }
+.page-geometry-preview-paper { display: grid; place-items: center; max-width: 154px; max-height: 154px; min-width: 44px; min-height: 44px; background: white; border: 1px solid #b9bec6; box-shadow: 0 2px 7px rgb(0 0 0 / .12); transition: width .12s ease, height .12s ease; }
+.page-geometry-preview-paper span { display: inline-block; padding: 4px 6px; color: var(--muted); border: 1px dashed #c4c8ce; border-radius: 4px; font-size: .75rem; }
+.page-geometry-dialog select, .page-geometry-dialog input { width: 100%; min-height: 42px; border: 1px solid var(--border); border-radius: 8px; background: white; padding: 7px 9px; color: var(--text); }
+@media (max-width: 620px) {
+  .page-geometry-layout { grid-template-columns: 1fr; }
+  .page-geometry-preview { min-height: 185px; }
+  .page-geometry-custom { grid-template-columns: 1fr; }
+}
+
+/* Milestone 3.7.1: crop / margins, kept entirely in Pages. */
+.page-edge-dialog { width: min(760px, calc(100% - 28px)); max-height: calc(100dvh - 24px); overflow: auto; }
+.page-edge-layout { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 18px; align-items: stretch; margin-top: 12px; }
+.page-edge-fields { min-width: 0; display: grid; gap: 12px; padding: 14px; border: 1px solid var(--border); border-radius: 11px; background: var(--panel); }
+.page-edge-values { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.page-edge-dialog select, .page-edge-dialog input { width: 100%; min-height: 42px; border: 1px solid var(--border); border-radius: 8px; background: white; padding: 7px 9px; color: var(--text); }
+.page-edge-preview { min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 14px; border: 1px solid var(--border); border-radius: 11px; background: #eef0f3; text-align: center; overflow: hidden; }
+.page-edge-preview-paper { position: relative; overflow: hidden; width: 150px; height: 150px; min-width: 44px; min-height: 44px; background: white; border: 1px solid #b9bec6; box-shadow: 0 2px 7px rgb(0 0 0 / .12); transition: width .12s ease, height .12s ease; }
+.page-edge-preview-content { position: absolute; display: grid; place-items: center; border: 1px dashed #8f969f; background: rgb(245 246 247 / .72); color: var(--muted); font-size: .72rem; overflow: hidden; }
+.page-edge-preview-content span { padding: 3px 5px; white-space: nowrap; }
+.page-edge-actions { align-items: center; }
+.dialog-action-spacer { flex: 1 1 auto; }
+@media (max-width: 620px) {
+  .page-edge-layout { grid-template-columns: 1fr; }
+  .page-edge-preview { min-height: 195px; }
+  .page-edge-values { grid-template-columns: 1fr 1fr; }
+  .page-edge-actions { flex-wrap: wrap; }
+  .dialog-action-spacer { display: none; }
+}
+@media (max-width: 420px) {
+  .page-edge-values { grid-template-columns: 1fr; }
+}

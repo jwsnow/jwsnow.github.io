@@ -1,45 +1,52 @@
-# PDF Workbench — Milestone 3.5.3
+# PDF Workbench — Milestone 3.7.1
 
-Milestone 3.5.3 is a responsive-toolbar polish release based on device testing of 3.5.2. No viewer, template, insertion, Presentation, split-state, or PDF-manipulation logic is intentionally changed.
+Milestone 3.7.1 adds **crop and margin / expanded-canvas controls** as a Pages-only tool. It builds on the validated 3.7.0 page-size normalization while keeping View, Presentation, and Files uncluttered.
 
-## Changes in 3.5.3
+## New in 3.7.1
 
-### Narrow toolbar behavior
+In **Pages**, choose **Crop / margins…**. The dialog can apply to selected pages or all pages.
 
-Cross-device screenshots and follow-up testing showed that Chromebook portrait behaved well, but iPad portrait and a narrow Surface window could let the active-document filename compete with or appear beneath the View / Pages / Files and viewer-mode controls. The decorative **PDF Workbench** brand also remained visible on iPad portrait even though hiding it would free useful width.
+Choose either:
 
-The responsive hierarchy is now:
+- **Add margins / expand canvas** — adds white space without scaling the current page content.
+- **Crop page edges** — moves the page boundary inward without scaling the content.
 
-1. At medium/narrow widths, hide the **PDF Workbench** brand first.
-2. Compress and truncate the active-document selector before shrinking the primary **View / Pages / Files** workspace controls.
-3. At still narrower widths, compress the filename selector further.
-4. Preserve the existing icon-only behavior for secondary toolbar controls.
-5. Keep the **⋯ More** button at the far right.
+Amount presets are **¼ inch**, **½ inch**, and **1 inch** on all sides. Choose **Custom edges…** to enter independent Top, Right, Bottom, and Left values in inches. The four fields can also be edited after choosing a preset.
 
-This is intentionally based on available viewport width rather than device type.
+Top/Right/Bottom/Left always refer to the page **as currently viewed**, including pages rotated in PDF Workbench. Repeated crop/margin operations accumulate and are covered by normal Pages Undo/Redo. **Reset crop/margins** removes only those edge adjustments and leaves any Page-size normalization intact.
+
+Changing **Page size…** establishes a new exact target canvas and therefore clears earlier crop/margin adjustments; apply Crop / margins after Page size when both are desired.
+
+## Export behavior
+
+For PDF source pages, crop/margins remain structural/vector operations. PDF Workbench adjusts copied page boxes rather than rasterizing the page. Existing 3.7.0 fit-and-center normalization remains vector-preserving as well. Image pages remain images; generated graph paper remains generated vector content.
+
+Crop clips content at the new page boundary. Margins expose extra white canvas around the existing page.
 
 ## Preserved behavior
 
-- 3.5.2 View ↔ Presentation logical-position preservation in Continuous, Page Snap, and Full Page.
-- Independent split-pane position preservation in both directions.
-- Visual thumbnail Insert Page chooser.
-- Thumbnail template manager and session-only reusable templates.
-- Pages selection-driven template capture.
-- Presentation-safe in-app template naming.
-- Same-document split structural-edit anchoring.
-- Finger pan/pinch and pen-reserved-for-ink behavior.
-- Files operations: Export, multi-file ZIP export, Extract, Split, Combine.
-- Blank/graph-paper pages and structural PDF export.
-- PDF.js JBIG2/WASM resource configuration.
+- 3.7.0 page-size/orientation normalization and export behavior.
+- 3.6.x copy-selected-pages workflow.
+- 3.5.x responsive toolbar and visual Insert/template chooser.
+- View ↔ Presentation logical-position preservation.
+- Independent split-pane state and same-document structural-edit anchoring.
+- Session templates.
+- Finger pan/pinch with stylus reserved for future ink on the PDF surface.
+- Export, multi-document ZIP export, Extract, Split, Combine.
+- Blank/graph-paper pages.
+- PDF.js JBIG2/WASM rendering configuration.
 
 ## Version
 
-**More → About this build** reports **Milestone 3.5.3**. The service-worker cache is `pdf-workbench-m3.5.3-v1`.
+**More → About this build** reports **Milestone 3.7.1**. The service-worker cache is `pdf-workbench-m3.7.1-v1`.
 
-## Suggested 3.5.3 tests
+## Suggested tests
 
-1. iPad portrait: confirm **PDF Workbench** is hidden and the filename no longer runs under the mode controls.
-2. iPad landscape: confirm the normal wider layout still looks comfortable.
-3. Narrow Surface window: confirm View / Pages / Files remain readable and the filename yields width first.
-4. Chromebook portrait/landscape: confirm the already-good layout remains good.
-5. Quick regression check View ↔ Presentation and template insertion; those systems were not intentionally changed.
+1. On an ordinary Letter PDF, add ½-inch margins on all four sides; export and verify the larger page size in Adobe.
+2. Add a margin on only the left side, then rotate the page and verify that the margin rotates with the page.
+3. Crop ¼ inch from one or more edges and verify content is clipped rather than scaled.
+4. Test `04_pre_rotated_pages.pdf` so edge labels remain visual on source-rotated pages.
+5. Test `15_cropbox_vs_mediabox.pdf`, export, and inspect the result in Adobe.
+6. Normalize a page to Letter first, then add margins; confirm both operations survive export.
+7. Test Undo/Redo and **Reset crop/margins**.
+8. Copy a cropped/margined page to another document and save it as a session template.

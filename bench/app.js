@@ -1,4 +1,4 @@
-const APP_VERSION = '3.5.3';
+const APP_VERSION = '3.7.1';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -22,10 +22,10 @@ const els = {
   splitLeftPane: $('splitLeftPane'), splitLeftViewer: $('splitLeftViewer'), splitLeftDocumentSelect: $('splitLeftDocumentSelect'), splitLeftNav: $('splitLeftNav'), splitLeftPrevBtn: $('splitLeftPrevBtn'), splitLeftNextBtn: $('splitLeftNextBtn'), splitLeftCounter: $('splitLeftCounter'),
   splitRightPane: $('splitRightPane'), splitRightViewer: $('splitRightViewer'), splitRightDocumentSelect: $('splitRightDocumentSelect'), splitRightNav: $('splitRightNav'), splitRightPrevBtn: $('splitRightPrevBtn'), splitRightNextBtn: $('splitRightNextBtn'), splitRightCounter: $('splitRightCounter'),
   thumbnailGrid: $('thumbnailGrid'), pageCountLabel: $('pageCountLabel'), selectionLabel: $('selectionLabel'),
-  selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), deleteBtn: $('deleteBtn'),
+  selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -113,6 +113,59 @@ function pumpRenderQueue() {
   }
 }
 function rotatedDims(page) { return page.rotation % 180 === 0 ? [page.width, page.height] : [page.height, page.width]; }
+function hasPageCanvasOverride(page) { return Number.isFinite(page?.canvasWidth) && page.canvasWidth > 0 && Number.isFinite(page?.canvasHeight) && page.canvasHeight > 0; }
+function pageCoreCanvasBaseDimensions(page) {
+  return hasPageCanvasOverride(page) ? { width: page.canvasWidth, height: page.canvasHeight } : { width: page.width, height: page.height };
+}
+function pageEdgeAdjustments(page) {
+  const clean = (value) => Number.isFinite(value) ? value : 0;
+  return {
+    top: clean(page?.edgeTop),
+    right: clean(page?.edgeRight),
+    bottom: clean(page?.edgeBottom),
+    left: clean(page?.edgeLeft),
+  };
+}
+function hasPageEdgeAdjustments(page) {
+  const edge = pageEdgeAdjustments(page);
+  return Math.abs(edge.top) > 0.001 || Math.abs(edge.right) > 0.001 || Math.abs(edge.bottom) > 0.001 || Math.abs(edge.left) > 0.001;
+}
+function pageCanvasBaseDimensions(page) {
+  const core = pageCoreCanvasBaseDimensions(page);
+  const edge = pageEdgeAdjustments(page);
+  return {
+    width: Math.max(1, core.width + edge.left + edge.right),
+    height: Math.max(1, core.height + edge.top + edge.bottom),
+  };
+}
+function pageDisplayDimensions(page) {
+  const base = pageCanvasBaseDimensions(page);
+  return page.rotation % 180 === 0 ? base : { width: base.height, height: base.width };
+}
+function displayEdgeAdjustments(page) {
+  const e = pageEdgeAdjustments(page);
+  const rotation = ((page?.rotation || 0) % 360 + 360) % 360;
+  if (rotation === 90) return { top: e.left, right: e.top, bottom: e.right, left: e.bottom };
+  if (rotation === 180) return { top: e.bottom, right: e.left, bottom: e.top, left: e.right };
+  if (rotation === 270) return { top: e.right, right: e.bottom, bottom: e.left, left: e.top };
+  return { ...e };
+}
+function displayedEdgesToBase(page, displayed) {
+  const d = displayed;
+  const rotation = ((page?.rotation || 0) % 360 + 360) % 360;
+  if (rotation === 90) return { top: d.right, right: d.bottom, bottom: d.left, left: d.top };
+  if (rotation === 180) return { top: d.bottom, right: d.left, bottom: d.top, left: d.right };
+  if (rotation === 270) return { top: d.left, right: d.top, bottom: d.right, left: d.bottom };
+  return { ...d };
+}
+function displayedEdgesToRawPdf(displayed, inheritedRotation=0) {
+  const d = displayed;
+  const rotation = ((inheritedRotation || 0) % 360 + 360) % 360;
+  if (rotation === 90) return { top: d.right, right: d.bottom, bottom: d.left, left: d.top };
+  if (rotation === 180) return { top: d.bottom, right: d.left, bottom: d.top, left: d.right };
+  if (rotation === 270) return { top: d.left, right: d.top, bottom: d.right, left: d.bottom };
+  return { ...d };
+}
 function activeIndex() { return Math.max(0, state.pages.findIndex(p => p.id === state.activePageId)); }
 function pageById(id) { return state.pages.find(p => p.id === id); }
 
@@ -672,7 +725,7 @@ async function renderCompactPagePreview(page, canvas) {
   const well = canvas.closest('.insert-choice-preview, .template-manager-preview');
   if (!well) return;
   const rect = well.getBoundingClientRect();
-  const [bw, bh] = rotatedDims(page);
+  const { width: bw, height: bh } = pageDisplayDimensions(page);
   const innerW = Math.max(42, rect.width - 10);
   const innerH = Math.max(42, rect.height - 10);
   const scale = Math.min(innerW / bw, innerH / bh);
@@ -844,7 +897,7 @@ function showTemplateManager() {
       name.textContent = template.name;
       const size = document.createElement('div');
       size.className = 'template-manager-meta';
-      const [w, h] = rotatedDims(template.page);
+      const { width: w, height: h } = pageDisplayDimensions(template.page);
       size.textContent = `${Math.round(w)} × ${Math.round(h)} pt`;
       info.append(name, size);
 
@@ -879,11 +932,6 @@ function showTemplateManager() {
   };
   renderManager();
   if (!els.infoDialog.open) els.infoDialog.showModal();
-}
-
-function pageDisplayDimensions(page) {
-  const [width, height] = rotatedDims(page);
-  return { width, height };
 }
 
 function insertionTargetPageId() {
@@ -1111,6 +1159,22 @@ function drawGraphPaperPdf(pdfPage, width, height, rgb) {
   }
   for (let y = margin; y <= height - margin + 0.01; y += GRAPH_GRID_SPACING_PT) {
     pdfPage.drawLine({ start: { x: margin, y }, end: { x: width - margin, y }, thickness: 0.45, color, opacity: 0.24 });
+  }
+}
+
+function drawGraphPaperPdfInRect(pdfPage, sourceWidth, sourceHeight, x, y, width, height, rgb) {
+  const color = rgb(0.46, 0.77, 0.87);
+  const sx = width / sourceWidth;
+  const sy = height / sourceHeight;
+  const marginX = Math.min(GRAPH_GRID_MARGIN_PT, sourceWidth / 4) * sx;
+  const marginY = Math.min(GRAPH_GRID_MARGIN_PT, sourceHeight / 4) * sy;
+  const spacingX = GRAPH_GRID_SPACING_PT * sx;
+  const spacingY = GRAPH_GRID_SPACING_PT * sy;
+  for (let gx = marginX; gx <= width - marginX + 0.01; gx += spacingX) {
+    pdfPage.drawLine({ start: { x: x + gx, y: y + marginY }, end: { x: x + gx, y: y + height - marginY }, thickness: 0.45 * Math.min(sx, sy), color, opacity: 0.24 });
+  }
+  for (let gy = marginY; gy <= height - marginY + 0.01; gy += spacingY) {
+    pdfPage.drawLine({ start: { x: x + marginX, y: y + gy }, end: { x: x + width - marginX, y: y + gy }, thickness: 0.45 * Math.min(sx, sy), color, opacity: 0.24 });
   }
 }
 
@@ -1474,8 +1538,20 @@ async function buildPdfBytes(pageList, options={}) {
     options.onProgress?.(i + 1, total);
 
     if (page.kind === 'generated') {
-      const outPage = output.addPage([page.width, page.height]);
-      if (page.generatedType === 'graph') drawGraphPaperPdf(outPage, page.width, page.height, rgb);
+      const base = pageCanvasBaseDimensions(page);
+      const core = pageCoreCanvasBaseDimensions(page);
+      const edge = pageEdgeAdjustments(page);
+      const outPage = output.addPage([base.width, base.height]);
+      if (page.generatedType === 'graph') {
+        if (hasPageCanvasOverride(page)) {
+          const fit = Math.min(core.width / page.width, core.height / page.height);
+          const contentW = page.width * fit;
+          const contentH = page.height * fit;
+          drawGraphPaperPdfInRect(outPage, page.width, page.height, edge.left + (core.width - contentW) / 2, edge.bottom + (core.height - contentH) / 2, contentW, contentH, rgb);
+        } else {
+          drawGraphPaperPdfInRect(outPage, page.width, page.height, edge.left, edge.bottom, core.width, core.height, rgb);
+        }
+      }
       if (page.rotation) outPage.setRotation(degrees((page.rotation + 360) % 360));
     } else if (source.type === 'pdf') {
       let srcPdf = sourcePdfCache.get(source.id);
@@ -1485,6 +1561,49 @@ async function buildPdfBytes(pageList, options={}) {
       }
       const [copied] = await output.copyPages(srcPdf, [page.sourcePage - 1]);
       const inheritedRotation = copied.getRotation()?.angle || 0;
+      if (hasPageCanvasOverride(page)) {
+        // canvasWidth/canvasHeight are stored in the source page's displayed
+        // orientation (after inherited /Rotate, before Workbench rotation).
+        // Convert that desired core canvas back to raw PDF page coordinates,
+        // scale content/annotations proportionally, then center by moving the
+        // page boxes rather than rasterizing the source.
+        const core = pageCoreCanvasBaseDimensions(page);
+        const oddInherited = ((inheritedRotation % 180) + 180) % 180 !== 0;
+        const rawTargetW = oddInherited ? core.height : core.width;
+        const rawTargetH = oddInherited ? core.width : core.height;
+        const sourceBox = copied.getCropBox?.() || copied.getMediaBox?.() || { x: 0, y: 0, width: copied.getWidth(), height: copied.getHeight() };
+        const fit = Math.min(rawTargetW / sourceBox.width, rawTargetH / sourceBox.height);
+        copied.scaleContent(fit, fit);
+        copied.scaleAnnotations?.(fit, fit);
+        const scaledX = sourceBox.x * fit;
+        const scaledY = sourceBox.y * fit;
+        const scaledW = sourceBox.width * fit;
+        const scaledH = sourceBox.height * fit;
+        const x = scaledX - (rawTargetW - scaledW) / 2;
+        const y = scaledY - (rawTargetH - scaledH) / 2;
+        copied.setMediaBox(x, y, rawTargetW, rawTargetH);
+        copied.setCropBox?.(x, y, rawTargetW, rawTargetH);
+        copied.setBleedBox?.(x, y, rawTargetW, rawTargetH);
+        copied.setTrimBox?.(x, y, rawTargetW, rawTargetH);
+        copied.setArtBox?.(x, y, rawTargetW, rawTargetH);
+      }
+      if (hasPageEdgeAdjustments(page)) {
+        // Crop/margins change only the page boundary around the current core
+        // canvas. Positive values expand a side; negative values crop it. The
+        // values are stored after inherited PDF rotation but before Workbench
+        // rotation, so map them back to raw PDF box edges before updating boxes.
+        const edge = displayedEdgesToRawPdf(pageEdgeAdjustments(page), inheritedRotation);
+        const box = copied.getCropBox?.() || copied.getMediaBox?.() || { x: 0, y: 0, width: copied.getWidth(), height: copied.getHeight() };
+        const x = box.x - edge.left;
+        const y = box.y - edge.bottom;
+        const width = box.width + edge.left + edge.right;
+        const height = box.height + edge.top + edge.bottom;
+        copied.setMediaBox(x, y, width, height);
+        copied.setCropBox?.(x, y, width, height);
+        copied.setBleedBox?.(x, y, width, height);
+        copied.setTrimBox?.(x, y, width, height);
+        copied.setArtBox?.(x, y, width, height);
+      }
       copied.setRotation(degrees((inheritedRotation + (page.rotation || 0) + 360) % 360));
       output.addPage(copied);
     } else if (source.type === 'image') {
@@ -1493,8 +1612,15 @@ async function buildPdfBytes(pageList, options={}) {
         embedded = await embedImageForExport(output, source);
         embeddedImages.set(source.id, embedded);
       }
-      const outPage = output.addPage([page.width, page.height]);
-      outPage.drawImage(embedded, { x: 0, y: 0, width: page.width, height: page.height });
+      const base = pageCanvasBaseDimensions(page);
+      const core = pageCoreCanvasBaseDimensions(page);
+      const edge = pageEdgeAdjustments(page);
+      const outPage = output.addPage([base.width, base.height]);
+      if (hasPageCanvasOverride(page)) {
+        const fit = Math.min(core.width / page.width, core.height / page.height);
+        const width = page.width * fit, height = page.height * fit;
+        outPage.drawImage(embedded, { x: edge.left + (core.width - width) / 2, y: edge.bottom + (core.height - height) / 2, width, height });
+      } else outPage.drawImage(embedded, { x: edge.left, y: edge.bottom, width: page.width, height: page.height });
       if (page.rotation) outPage.setRotation(degrees((page.rotation + 360) % 360));
     } else {
       throw new Error(`Unsupported source type on output page ${i + 1}.`);
@@ -1820,8 +1946,11 @@ function updatePageCounts() {
   els.selectionLabel.textContent = selectedCount ? `${selectedCount} selected` : 'None selected';
   const hasSelection = selectedCount > 0;
   els.rotateBtn.disabled = !hasSelection;
+  if (els.pageGeometryBtn) els.pageGeometryBtn.disabled = !count;
+  if (els.pageEdgeBtn) els.pageEdgeBtn.disabled = !count;
   els.duplicateBtn.disabled = !hasSelection;
   if (els.extractSelectedPagesBtn) els.extractSelectedPagesBtn.disabled = !hasSelection;
+  if (els.copyPagesBtn) els.copyPagesBtn.disabled = !hasSelection || state.documents.length < 2;
   els.deleteBtn.disabled = !hasSelection;
   els.selectAllBtn.textContent = selectedCount === count && count ? 'Select none' : 'Select all';
   els.pageCounter.textContent = count ? `${activeIndex() + 1} / ${count}` : '0 / 0';
@@ -1845,7 +1974,7 @@ function renderOrganizer() {
   state.thumbObserver = observer;
 
   state.pages.forEach((page, index) => {
-    const [w, h] = rotatedDims(page);
+    const { width: w, height: h } = pageDisplayDimensions(page);
     const card = document.createElement('article');
     card.className = `thumb-card${state.selected.has(page.id) ? ' selected' : ''}`;
     card.dataset.pageId = page.id;
@@ -1903,7 +2032,7 @@ function renderOrganizer() {
 async function renderThumbnail(page, canvas) {
   const preview = canvas.closest('.thumb-preview');
   if (!preview || !preview.isConnected) return;
-  const [bw, bh] = rotatedDims(page);
+  const { width: bw, height: bh } = pageDisplayDimensions(page);
   const rect = preview.getBoundingClientRect();
   const innerW = Math.max(40, rect.width - 12);
   const innerH = Math.max(40, rect.height - 12);
@@ -1985,6 +2114,460 @@ function selectAllToggle() {
   if (state.selected.size === state.pages.length) { state.selected.clear(); state.selectionAnchorId = null; }
   else { state.pages.forEach(p => state.selected.add(p.id)); state.selectionAnchorId = state.pages[0]?.id || null; }
   renderOrganizer();
+}
+
+function copySelectedPagesToDocument() {
+  const sourceDoc = currentDocument();
+  if (!sourceDoc || !state.selected.size) return;
+  const destinationId = els.pageTransferDestination?.value || '';
+  const destination = documentById(destinationId);
+  if (!destination || destination.id === sourceDoc.id) {
+    setStatus('Choose another open document as the destination');
+    return;
+  }
+
+  const sourcePages = sourceDoc.pages.filter(page => state.selected.has(page.id));
+  if (!sourcePages.length) return;
+
+  let insertIndex = destination.pages.length;
+  const position = els.pageTransferPosition?.value || 'end';
+  if (position === 'beginning') insertIndex = 0;
+  else if (position === 'after') {
+    const pageNo = Number(els.pageTransferAfterPage?.value);
+    if (!Number.isInteger(pageNo) || pageNo < 1 || pageNo > destination.pages.length) {
+      setStatus(`Enter a destination page number from 1 to ${Math.max(1, destination.pages.length)}`);
+      els.pageTransferAfterPage?.focus();
+      return;
+    }
+    insertIndex = pageNo;
+  }
+
+  const before = destination.pages.map(page => ({ ...page }));
+  const copies = sourcePages.map(page => clonePageInstance(page, true));
+  const oldPages = destination.pages;
+  destination.pages = [
+    ...oldPages.slice(0, insertIndex),
+    ...copies,
+    ...oldPages.slice(insertIndex),
+  ];
+
+  // Destination undo remains document-local: because Copy changes only the
+  // destination, its existing page-history model can undo the operation safely
+  // after the user switches to that document. A true cross-document Move is
+  // intentionally deferred until there is an atomic multi-document undo model.
+  destination.history.push(before);
+  if (destination.history.length > 50) destination.history.shift();
+  destination.future = [];
+
+  if (!destination.activePageId && destination.pages.length) destination.activePageId = copies[0]?.id || destination.pages[0].id;
+  const singleView = ensureSingleView(destination);
+  if (!singleView.activePageId && destination.pages.length) singleView.activePageId = destination.activePageId || destination.pages[0].id;
+
+  // If pages were inserted before a stored view's logical current page, its raw
+  // scroll offsets belong to the old page stack. Keep page identity, but let the
+  // next render restore that logical page instead of applying stale pixels.
+  const invalidateViewIfNeeded = (view) => {
+    if (!view?.activePageId) return;
+    const oldActiveIndex = oldPages.findIndex(page => page.id === view.activePageId);
+    if (oldActiveIndex >= 0 && insertIndex <= oldActiveIndex) {
+      view.scrollTop = null;
+      view.scrollLeft = null;
+    }
+  };
+  invalidateViewIfNeeded(singleView);
+  for (const pane of Object.values(state.splitPanes)) {
+    const view = pane.views.get(destination.id);
+    if (view) invalidateViewIfNeeded(view);
+  }
+
+  els.pageTransferDialog?.close();
+  renderDocumentSelect();
+  setStatus(`Copied ${copies.length} page${copies.length === 1 ? '' : 's'} to ${destination.name}`);
+}
+
+function updatePageTransferPositionUi() {
+  const destination = documentById(els.pageTransferDestination?.value || '');
+  const pageCount = destination?.pages?.length || 0;
+  const after = els.pageTransferPosition?.value === 'after';
+  els.pageTransferAfterField?.classList.toggle('hidden', !after);
+  if (els.pageTransferAfterPage) {
+    els.pageTransferAfterPage.max = String(Math.max(1, pageCount));
+    els.pageTransferAfterPage.disabled = !after || pageCount === 0;
+    if (!Number.isInteger(Number(els.pageTransferAfterPage.value)) || Number(els.pageTransferAfterPage.value) < 1 || Number(els.pageTransferAfterPage.value) > pageCount) {
+      els.pageTransferAfterPage.value = pageCount ? String(pageCount) : '';
+    }
+  }
+  const afterOption = els.pageTransferPosition?.querySelector('option[value="after"]');
+  if (afterOption) afterOption.disabled = pageCount === 0;
+  if (pageCount === 0 && after) els.pageTransferPosition.value = 'end';
+}
+
+function openPageTransferDialog() {
+  saveCurrentDocumentState({ readViewDom: false });
+  const sourceDoc = currentDocument();
+  const selectedPages = sourceDoc?.pages?.filter(page => state.selected.has(page.id)) || [];
+  const destinations = state.documents.filter(doc => doc.id !== sourceDoc?.id);
+  if (!sourceDoc || !selectedPages.length) {
+    setStatus('Select one or more pages first');
+    return;
+  }
+  if (!destinations.length) {
+    setStatus('Open another document before copying pages');
+    return;
+  }
+
+  els.pageTransferDestination.replaceChildren();
+  for (const doc of destinations) {
+    const option = document.createElement('option');
+    option.value = doc.id;
+    option.textContent = `${doc.name} (${doc.pages.length} page${doc.pages.length === 1 ? '' : 's'})`;
+    els.pageTransferDestination.append(option);
+  }
+  if (els.pageTransferSummary) {
+    els.pageTransferSummary.textContent = `${selectedPages.length} selected page${selectedPages.length === 1 ? '' : 's'} from ${sourceDoc.name}.`;
+  }
+  els.pageTransferPosition.value = 'end';
+  updatePageTransferPositionUi();
+  els.pageTransferDialog.showModal();
+}
+
+const PAGE_SIZE_PRESETS = {
+  letter: { label: 'US Letter', width: 612, height: 792 },
+  legal: { label: 'US Legal', width: 612, height: 1008 },
+  a4: { label: 'A4', width: 595.28, height: 841.89 },
+};
+
+function geometryAffectedPages(scope=null) {
+  const chosenScope = scope || els.pageGeometryScope?.value || (state.selected.size ? 'selected' : 'all');
+  return chosenScope === 'selected' && state.selected.size ? state.pages.filter(page => state.selected.has(page.id)) : [...state.pages];
+}
+
+function geometryBaseSizeFromDialog() {
+  const preset = els.pageGeometryPreset?.value || 'letter';
+  if (preset === 'first') {
+    const first = state.pages[0];
+    if (!first) return null;
+    return pageDisplayDimensions(first);
+  }
+  if (preset === 'custom') {
+    const widthIn = Number(els.pageGeometryCustomWidth?.value);
+    const heightIn = Number(els.pageGeometryCustomHeight?.value);
+    if (!(widthIn > 0) || !(heightIn > 0) || widthIn > 200 || heightIn > 200) return null;
+    return { width: widthIn * 72, height: heightIn * 72 };
+  }
+  return PAGE_SIZE_PRESETS[preset] || PAGE_SIZE_PRESETS.letter;
+}
+
+function orientedGeometrySize(base, orientation, page) {
+  let small = Math.min(base.width, base.height);
+  let large = Math.max(base.width, base.height);
+  if (Math.abs(base.width - base.height) < 0.01) return { width: base.width, height: base.height };
+  let landscape;
+  if (orientation === 'landscape') landscape = true;
+  else if (orientation === 'portrait') landscape = false;
+  else {
+    const current = pageDisplayDimensions(page);
+    landscape = current.width > current.height;
+  }
+  return landscape ? { width: large, height: small } : { width: small, height: large };
+}
+
+function geometryCanvasBaseFromDisplayed(page, displayed) {
+  return page.rotation % 180 === 0
+    ? { width: displayed.width, height: displayed.height }
+    : { width: displayed.height, height: displayed.width };
+}
+
+function updatePageGeometryDialog() {
+  if (!els.pageGeometryDialog?.open) return;
+  const selectedCount = state.selected.size;
+  if (els.pageGeometryScope) {
+    const selectedOption = els.pageGeometryScope.querySelector('option[value="selected"]');
+    if (selectedOption) {
+      selectedOption.disabled = !selectedCount;
+      selectedOption.textContent = selectedCount ? `Selected pages (${selectedCount})` : 'Selected pages (none)';
+    }
+    if (!selectedCount && els.pageGeometryScope.value === 'selected') els.pageGeometryScope.value = 'all';
+  }
+  const scope = els.pageGeometryScope?.value || (selectedCount ? 'selected' : 'all');
+  const pages = geometryAffectedPages(scope);
+  if (els.pageGeometrySummary) {
+    els.pageGeometrySummary.textContent = scope === 'selected'
+      ? `${pages.length} selected page${pages.length === 1 ? '' : 's'} will be resized non-destructively.`
+      : `All ${pages.length} page${pages.length === 1 ? '' : 's'} will be resized non-destructively.`;
+  }
+  const custom = els.pageGeometryPreset?.value === 'custom';
+  els.pageGeometryCustomFields?.classList.toggle('hidden', !custom);
+
+  const base = geometryBaseSizeFromDialog();
+  const sample = pages[0] || state.pages[0];
+  if (!base || !sample) {
+    if (els.pageGeometryApplyBtn) els.pageGeometryApplyBtn.disabled = true;
+    return;
+  }
+  const displayed = orientedGeometrySize(base, els.pageGeometryOrientation?.value || 'preserve', sample);
+  if (els.pageGeometryApplyBtn) els.pageGeometryApplyBtn.disabled = false;
+  if (els.pageGeometryPreviewPaper) {
+    const ratio = clamp(displayed.width / displayed.height, 0.28, 3.5);
+    if (ratio >= 1) {
+      els.pageGeometryPreviewPaper.style.width = '154px';
+      els.pageGeometryPreviewPaper.style.height = `${154 / ratio}px`;
+    } else {
+      els.pageGeometryPreviewPaper.style.height = '154px';
+      els.pageGeometryPreviewPaper.style.width = `${154 * ratio}px`;
+    }
+  }
+  if (els.pageGeometryPreviewLabel) {
+    els.pageGeometryPreviewLabel.textContent = `${(displayed.width / 72).toFixed(2).replace(/\.00$/, '')} × ${(displayed.height / 72).toFixed(2).replace(/\.00$/, '')} in · fit & center`;
+  }
+}
+
+function openPageGeometryDialog() {
+  if (!state.pages.length || !els.pageGeometryDialog) return;
+  if (els.pageGeometryPreset) els.pageGeometryPreset.value = 'letter';
+  if (els.pageGeometryScope) els.pageGeometryScope.value = state.selected.size ? 'selected' : 'all';
+  if (els.pageGeometryOrientation) els.pageGeometryOrientation.value = 'preserve';
+  if (els.pageGeometryCustomWidth) els.pageGeometryCustomWidth.value = '8.5';
+  if (els.pageGeometryCustomHeight) els.pageGeometryCustomHeight.value = '11';
+  els.pageGeometryDialog.showModal();
+  updatePageGeometryDialog();
+}
+
+function applyPageGeometry() {
+  const scope = els.pageGeometryScope?.value || (state.selected.size ? 'selected' : 'all');
+  let pages = scope === 'selected' ? state.pages.filter(page => state.selected.has(page.id)) : [...state.pages];
+  if (!pages.length) return;
+  const base = geometryBaseSizeFromDialog();
+  if (!base) {
+    setStatus('Enter a valid custom width and height.');
+    return;
+  }
+  const orientation = els.pageGeometryOrientation?.value || 'preserve';
+  const before = snapshotPages();
+  for (const page of pages) {
+    const displayed = orientedGeometrySize(base, orientation, page);
+    const canvas = geometryCanvasBaseFromDisplayed(page, displayed);
+    page.canvasWidth = Math.max(1, canvas.width);
+    page.canvasHeight = Math.max(1, canvas.height);
+    page.canvasPlacement = 'fit-center';
+    // Setting an exact page size starts a fresh canvas. Any prior edge crop or
+    // added margins are intentionally cleared so the resulting dimensions are
+    // exactly the requested preset/custom size. Apply Crop / margins afterward
+    // when both operations are desired.
+    page.edgeTop = 0;
+    page.edgeRight = 0;
+    page.edgeBottom = 0;
+    page.edgeLeft = 0;
+  }
+  commitHistory(before);
+  els.pageGeometryDialog?.close();
+
+  // Changing page canvas sizes changes the height of the document stack. Raw
+  // scroll offsets from the old geometry are no longer meaningful. Preserve
+  // each view instance's logical active page, but let the rebuilt viewer center
+  // that page instead of restoring stale pre-resize pixels. This applies
+  // independently to same-document split panes.
+  const doc = currentDocument();
+  if (doc) {
+    const single = ensureSingleView(doc);
+    if (single) { single.scrollTop = null; single.scrollLeft = null; }
+    for (const paneId of ['left', 'right']) {
+      const pane = splitPaneState(paneId);
+      if (pane.documentId !== doc.id) continue;
+      const view = paneView(paneId, doc.id);
+      if (view) { view.scrollTop = null; view.scrollLeft = null; }
+    }
+  }
+  saveCurrentDocumentState({ readViewDom: false });
+  renderAll({ saveState: false });
+  setStatus(`Resized ${pages.length} page${pages.length === 1 ? '' : 's'} · fit & center`);
+}
+
+
+const MIN_PAGE_EDGE_RESULT_PT = 18; // keep at least 1/4 inch in each dimension
+
+function pageEdgeAffectedPages(scope=null) {
+  const chosen = scope || els.pageEdgeScope?.value || (state.selected.size ? 'selected' : 'all');
+  return chosen === 'selected' ? state.pages.filter(page => state.selected.has(page.id)) : [...state.pages];
+}
+
+function pageEdgeAmountsFromDialog() {
+  const parse = (input) => Number(input?.value);
+  const values = {
+    top: parse(els.pageEdgeTop),
+    right: parse(els.pageEdgeRight),
+    bottom: parse(els.pageEdgeBottom),
+    left: parse(els.pageEdgeLeft),
+  };
+  if (Object.values(values).some(value => !Number.isFinite(value) || value < 0 || value > 100)) return null;
+  return {
+    top: values.top * 72,
+    right: values.right * 72,
+    bottom: values.bottom * 72,
+    left: values.left * 72,
+  };
+}
+
+function setPageEdgePreset(value) {
+  const amount = Number(value);
+  if (!Number.isFinite(amount)) return;
+  for (const input of [els.pageEdgeTop, els.pageEdgeRight, els.pageEdgeBottom, els.pageEdgeLeft]) {
+    if (input) input.value = String(amount);
+  }
+}
+
+function proposedDisplayedEdgeDelta() {
+  const amount = pageEdgeAmountsFromDialog();
+  if (!amount) return null;
+  const sign = els.pageEdgeOperation?.value === 'crop' ? -1 : 1;
+  return {
+    top: amount.top * sign,
+    right: amount.right * sign,
+    bottom: amount.bottom * sign,
+    left: amount.left * sign,
+  };
+}
+
+function pageEdgesWouldRemainValid(page, displayedDelta) {
+  if (!page || !displayedDelta) return false;
+  const current = pageDisplayDimensions(page);
+  return current.width + displayedDelta.left + displayedDelta.right >= MIN_PAGE_EDGE_RESULT_PT
+    && current.height + displayedDelta.top + displayedDelta.bottom >= MIN_PAGE_EDGE_RESULT_PT;
+}
+
+function updatePageEdgeDialog() {
+  if (!els.pageEdgeDialog?.open) return;
+  const selectedCount = state.selected.size;
+  if (els.pageEdgeScope) {
+    const selectedOption = els.pageEdgeScope.querySelector('option[value="selected"]');
+    if (selectedOption) {
+      selectedOption.disabled = !selectedCount;
+      selectedOption.textContent = selectedCount ? `Selected pages (${selectedCount})` : 'Selected pages (none)';
+    }
+    if (!selectedCount && els.pageEdgeScope.value === 'selected') els.pageEdgeScope.value = 'all';
+  }
+  const scope = els.pageEdgeScope?.value || (selectedCount ? 'selected' : 'all');
+  const pages = pageEdgeAffectedPages(scope);
+  const operation = els.pageEdgeOperation?.value === 'crop' ? 'crop' : 'margin';
+  if (els.pageEdgeSummary) {
+    const verb = operation === 'crop' ? 'Crop' : 'Add margins to';
+    els.pageEdgeSummary.textContent = `${verb} ${scope === 'selected' ? `${pages.length} selected` : `all ${pages.length}`} page${pages.length === 1 ? '' : 's'}.`;
+  }
+
+  const delta = proposedDisplayedEdgeDelta();
+  const sample = pages[0] || state.pages[0];
+  const valid = !!delta && pages.length > 0 && pages.every(page => pageEdgesWouldRemainValid(page, delta));
+  if (els.pageEdgeApplyBtn) els.pageEdgeApplyBtn.disabled = !valid;
+  if (!sample || !delta) return;
+
+  const current = pageDisplayDimensions(sample);
+  const nextW = current.width + delta.left + delta.right;
+  const nextH = current.height + delta.top + delta.bottom;
+  const ratio = clamp(nextW / nextH, 0.28, 3.5);
+  let paperW, paperH;
+  if (ratio >= 1) { paperW = 158; paperH = 158 / ratio; }
+  else { paperH = 158; paperW = 158 * ratio; }
+  if (els.pageEdgePreviewPaper) {
+    els.pageEdgePreviewPaper.style.width = `${paperW}px`;
+    els.pageEdgePreviewPaper.style.height = `${paperH}px`;
+  }
+  if (els.pageEdgePreviewContent) {
+    // The inner rectangle represents the current page. Positive margins move it
+    // inward; crop uses negative offsets so the current page extends beyond the
+    // new boundary and is clipped by the preview paper.
+    const left = paperW * delta.left / nextW;
+    const top = paperH * delta.top / nextH;
+    const width = paperW * current.width / nextW;
+    const height = paperH * current.height / nextH;
+    els.pageEdgePreviewContent.style.left = `${left}px`;
+    els.pageEdgePreviewContent.style.top = `${top}px`;
+    els.pageEdgePreviewContent.style.width = `${width}px`;
+    els.pageEdgePreviewContent.style.height = `${height}px`;
+  }
+  if (els.pageEdgePreviewLabel) {
+    const fmt = value => (value / 72).toFixed(2).replace(/\.00$/, '').replace(/(\.\d)0$/, '$1');
+    els.pageEdgePreviewLabel.textContent = valid
+      ? `${fmt(nextW)} × ${fmt(nextH)} in · ${operation === 'crop' ? 'crop without scaling' : 'white canvas added'}`
+      : 'Crop is too large for at least one affected page.';
+  }
+}
+
+function openPageEdgeDialog() {
+  if (!state.pages.length || !els.pageEdgeDialog) return;
+  if (els.pageEdgeScope) els.pageEdgeScope.value = state.selected.size ? 'selected' : 'all';
+  if (els.pageEdgeOperation) els.pageEdgeOperation.value = 'margin';
+  if (els.pageEdgePreset) els.pageEdgePreset.value = '0.25';
+  setPageEdgePreset(0.25);
+  els.pageEdgeDialog.showModal();
+  updatePageEdgeDialog();
+}
+
+function invalidateCurrentDocumentGeometryScroll() {
+  const doc = currentDocument();
+  if (!doc) return;
+  const single = ensureSingleView(doc);
+  if (single) { single.scrollTop = null; single.scrollLeft = null; }
+  for (const paneId of ['left', 'right']) {
+    const pane = splitPaneState(paneId);
+    if (pane.documentId !== doc.id) continue;
+    const view = paneView(paneId, doc.id);
+    if (view) { view.scrollTop = null; view.scrollLeft = null; }
+  }
+}
+
+function applyPageEdgeChange() {
+  const scope = els.pageEdgeScope?.value || (state.selected.size ? 'selected' : 'all');
+  const pages = pageEdgeAffectedPages(scope);
+  const displayedDelta = proposedDisplayedEdgeDelta();
+  if (!pages.length || !displayedDelta) {
+    setStatus('Enter valid nonnegative edge amounts.');
+    return;
+  }
+  if (!pages.every(page => pageEdgesWouldRemainValid(page, displayedDelta))) {
+    setStatus('Crop is too large for at least one affected page.');
+    return;
+  }
+
+  const before = snapshotPages();
+  for (const page of pages) {
+    const baseDelta = displayedEdgesToBase(page, displayedDelta);
+    const edge = pageEdgeAdjustments(page);
+    page.edgeTop = edge.top + baseDelta.top;
+    page.edgeRight = edge.right + baseDelta.right;
+    page.edgeBottom = edge.bottom + baseDelta.bottom;
+    page.edgeLeft = edge.left + baseDelta.left;
+  }
+  commitHistory(before);
+  els.pageEdgeDialog?.close();
+  invalidateCurrentDocumentGeometryScroll();
+  saveCurrentDocumentState({ readViewDom: false });
+  renderAll({ saveState: false });
+  const operation = els.pageEdgeOperation?.value === 'crop' ? 'Cropped' : 'Added margins to';
+  setStatus(`${operation} ${pages.length} page${pages.length === 1 ? '' : 's'}`);
+}
+
+function resetPageEdgeAdjustments() {
+  const scope = els.pageEdgeScope?.value || (state.selected.size ? 'selected' : 'all');
+  const pages = pageEdgeAffectedPages(scope);
+  if (!pages.length) return;
+  const changed = pages.some(hasPageEdgeAdjustments);
+  if (!changed) {
+    setStatus('No crop or margin adjustments to reset.');
+    return;
+  }
+  const before = snapshotPages();
+  for (const page of pages) {
+    page.edgeTop = 0;
+    page.edgeRight = 0;
+    page.edgeBottom = 0;
+    page.edgeLeft = 0;
+  }
+  commitHistory(before);
+  els.pageEdgeDialog?.close();
+  invalidateCurrentDocumentGeometryScroll();
+  saveCurrentDocumentState({ readViewDom: false });
+  renderAll({ saveState: false });
+  setStatus(`Reset crop/margins on ${pages.length} page${pages.length === 1 ? '' : 's'}`);
 }
 
 function rotateSelected() {
@@ -2563,7 +3146,7 @@ function toggleSplitView() {
 }
 
 function computeCssSize(page) {
-  const [bw, bh] = rotatedDims(page);
+  const { width: bw, height: bh } = pageDisplayDimensions(page);
   const wAvail = Math.max(120, els.viewer.clientWidth - (document.body.classList.contains('presentation') ? 4 : 30));
   const hAvail = Math.max(120, els.viewer.clientHeight - (document.body.classList.contains('presentation') ? 4 : 30));
   let scale;
@@ -2715,7 +3298,7 @@ function splitActiveIndex(doc, view) { return Math.max(0, doc?.pages?.findIndex(
 
 function computePaneCssSize(page, paneId, view=paneView(paneId)) {
   const pe = paneElements(paneId);
-  const [bw, bh] = rotatedDims(page);
+  const { width: bw, height: bh } = pageDisplayDimensions(page);
   const wAvail = Math.max(80, pe.viewer.clientWidth - (document.body.classList.contains('presentation') ? 4 : 18));
   const hAvail = Math.max(80, pe.viewer.clientHeight - (document.body.classList.contains('presentation') ? 4 : 18));
   let scale;
@@ -3112,26 +3695,81 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
   ctx.fillRect(0, 0, targetW, targetH);
   ctx.restore();
 
-  if (page.kind === 'generated') {
-    if (page.generatedType === 'graph') { const [displayW, displayH] = rotatedDims(page); drawGraphPaperCanvas(ctx, targetW, targetH, displayW, displayH); }
-  } else if (source.type === 'pdf') {
-    const pdfPage = await getPdfPage(source, page.sourcePage);
-    const totalRotation = ((page.baseRotation || 0) + page.rotation) % 360;
-    const natural = pdfPage.getViewport({ scale: 1, rotation: totalRotation });
-    const scale = targetW / natural.width;
-    const viewport = pdfPage.getViewport({ scale, rotation: totalRotation });
-    try { await pdfPage.render({ canvasContext: ctx, viewport }).promise; }
-    finally { try { pdfPage.cleanup?.(); } catch {} }
-  } else {
-    const img = await getSourceImage(source);
-    ctx.save();
-    const rotation = page.rotation % 360;
-    if (rotation === 90) { ctx.translate(targetW, 0); ctx.rotate(Math.PI / 2); ctx.drawImage(img, 0, 0, targetH, targetW); }
-    else if (rotation === 180) { ctx.translate(targetW, targetH); ctx.rotate(Math.PI); ctx.drawImage(img, 0, 0, targetW, targetH); }
-    else if (rotation === 270) { ctx.translate(0, targetH); ctx.rotate(-Math.PI / 2); ctx.drawImage(img, 0, 0, targetH, targetW); }
-    else ctx.drawImage(img, 0, 0, targetW, targetH);
-    ctx.restore();
+  const drawNaturalContent = async (targetCtx, contentW, contentH) => {
+    if (page.kind === 'generated') {
+      if (page.generatedType === 'graph') {
+        const [displayW, displayH] = rotatedDims(page);
+        drawGraphPaperCanvas(targetCtx, contentW, contentH, displayW, displayH);
+      }
+    } else if (source.type === 'pdf') {
+      const pdfPage = await getPdfPage(source, page.sourcePage);
+      const totalRotation = ((page.baseRotation || 0) + page.rotation) % 360;
+      const natural = pdfPage.getViewport({ scale: 1, rotation: totalRotation });
+      const scale = contentW / natural.width;
+      const viewport = pdfPage.getViewport({ scale, rotation: totalRotation });
+      try { await pdfPage.render({ canvasContext: targetCtx, viewport }).promise; }
+      finally { try { pdfPage.cleanup?.(); } catch {} }
+    } else {
+      const img = await getSourceImage(source);
+      targetCtx.save();
+      const rotation = page.rotation % 360;
+      if (rotation === 90) { targetCtx.translate(contentW, 0); targetCtx.rotate(Math.PI / 2); targetCtx.drawImage(img, 0, 0, contentH, contentW); }
+      else if (rotation === 180) { targetCtx.translate(contentW, contentH); targetCtx.rotate(Math.PI); targetCtx.drawImage(img, 0, 0, contentW, contentH); }
+      else if (rotation === 270) { targetCtx.translate(0, contentH); targetCtx.rotate(-Math.PI / 2); targetCtx.drawImage(img, 0, 0, contentH, contentW); }
+      else targetCtx.drawImage(img, 0, 0, contentW, contentH);
+      targetCtx.restore();
+    }
+  };
+
+  // Render the page's core canvas first. Page-size normalization fits the
+  // natural source proportionally into that core canvas. Crop / margin changes
+  // are a second, independent edge transform around the core: positive edge
+  // values add white canvas; negative values crop without rescaling content.
+  const coreBase = pageCoreCanvasBaseDimensions(page);
+  const coreDisplay = page.rotation % 180 === 0 ? coreBase : { width: coreBase.height, height: coreBase.width };
+  const finalDisplay = pageDisplayDimensions(page);
+  const edges = displayEdgeAdjustments(page);
+
+  const renderCore = async (targetCtx, corePixelW, corePixelH) => {
+    targetCtx.save();
+    targetCtx.fillStyle = '#fff';
+    targetCtx.fillRect(0, 0, corePixelW, corePixelH);
+    targetCtx.restore();
+    if (!hasPageCanvasOverride(page)) {
+      await drawNaturalContent(targetCtx, corePixelW, corePixelH);
+      return;
+    }
+    const [contentDisplayW, contentDisplayH] = rotatedDims(page);
+    const fit = Math.min(coreDisplay.width / contentDisplayW, coreDisplay.height / contentDisplayH);
+    const contentW = Math.max(1, Math.round(corePixelW * (contentDisplayW * fit) / coreDisplay.width));
+    const contentH = Math.max(1, Math.round(corePixelH * (contentDisplayH * fit) / coreDisplay.height));
+    const contentCanvas = document.createElement('canvas');
+    contentCanvas.width = contentW;
+    contentCanvas.height = contentH;
+    const contentCtx = contentCanvas.getContext('2d', { alpha: false });
+    contentCtx.fillStyle = '#fff';
+    contentCtx.fillRect(0, 0, contentW, contentH);
+    await drawNaturalContent(contentCtx, contentW, contentH);
+    const x = Math.round((corePixelW - contentW) / 2);
+    const y = Math.round((corePixelH - contentH) / 2);
+    targetCtx.drawImage(contentCanvas, x, y);
+  };
+
+  if (!hasPageEdgeAdjustments(page)) {
+    await renderCore(ctx, targetW, targetH);
+    return;
   }
+
+  const corePixelW = Math.max(1, Math.round(targetW * coreDisplay.width / finalDisplay.width));
+  const corePixelH = Math.max(1, Math.round(targetH * coreDisplay.height / finalDisplay.height));
+  const coreCanvas = document.createElement('canvas');
+  coreCanvas.width = corePixelW;
+  coreCanvas.height = corePixelH;
+  const coreCtx = coreCanvas.getContext('2d', { alpha: false });
+  await renderCore(coreCtx, corePixelW, corePixelH);
+  const x = Math.round(targetW * edges.left / finalDisplay.width);
+  const y = Math.round(targetH * edges.top / finalDisplay.height);
+  ctx.drawImage(coreCanvas, x, y);
 }
 
 function renderError(stage, err) {
@@ -3463,9 +4101,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 3.5.3 is a responsive-toolbar polish release based on cross-device testing. The viewer, Presentation anchoring, split state, templates, and PDF manipulation logic are unchanged from the working 3.5.2 build.</p>
-      <ul><li><strong>Earlier brand collapse:</strong> the decorative “PDF Workbench” title now disappears at a wider narrow-layout breakpoint so iPad portrait behaves more like Chromebook portrait and narrow Surface windows.</li><li><strong>Filename yields first:</strong> the active-document selector compresses and truncates more aggressively before the primary View / Pages / Files workspace buttons are allowed to crowd one another.</li><li><strong>Very narrow widths:</strong> the filename selector gets progressively smaller while the workspace tabs remain protected.</li><li><strong>More menu:</strong> the ⋯ button remains at the far right of the toolbar.</li><li><strong>Preserved 3.5.2 behavior:</strong> View ↔ Presentation anchoring, independent split panes, visual Insert/template chooser, template manager, touch/pen separation, structural PDF output, graph-paper generation, and JBIG2/WASM rendering are unchanged.</li></ul>
-      <p><strong>Coming later:</strong> persistent Files/Library storage (including persistent templates), copy pages between documents, page-size normalization, fit/crop/margins, image assembly, compression, and ink/annotations.</p>
+      <p>Milestone 3.7.1 adds non-destructive <strong>Crop / margins</strong> controls in Pages on top of the validated 3.7.0 page-size normalization.</p>
+      <ul><li><strong>Crop / margins…:</strong> apply to selected pages or all pages.</li><li><strong>Add margins:</strong> expand any combination of top/right/bottom/left edges by ¼ in, ½ in, 1 in, or custom values without scaling existing content.</li><li><strong>Crop:</strong> move chosen page boundaries inward without scaling content.</li><li><strong>Rotated pages:</strong> Top/Right/Bottom/Left refer to the page as currently viewed.</li><li><strong>Reset:</strong> remove accumulated crop/margin adjustments while leaving Page size normalization intact.</li><li><strong>Vector-preserving export:</strong> PDF pages use structural page-box changes rather than rasterization.</li></ul>
+      <p><strong>Coming later:</strong> improved image assembly, compression, persistent Files/Library storage (including persistent templates), and ink/annotations.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -3995,9 +4633,41 @@ function bindEvents() {
   els.splitRightNextBtn.addEventListener('click', () => { activateSplitPane('right', true); goPanePage('right', 1); });
   els.selectAllBtn.addEventListener('click', selectAllToggle);
   els.rotateBtn.addEventListener('click', rotateSelected);
+  els.pageGeometryBtn?.addEventListener('click', openPageGeometryDialog);
+  els.pageGeometryCloseBtn?.addEventListener('click', () => els.pageGeometryDialog?.close());
+  els.pageGeometryCancelBtn?.addEventListener('click', () => els.pageGeometryDialog?.close());
+  els.pageGeometryPreset?.addEventListener('change', updatePageGeometryDialog);
+  els.pageGeometryOrientation?.addEventListener('change', updatePageGeometryDialog);
+  els.pageGeometryCustomWidth?.addEventListener('input', updatePageGeometryDialog);
+  els.pageGeometryCustomHeight?.addEventListener('input', updatePageGeometryDialog);
+  els.pageGeometryScope?.addEventListener('change', updatePageGeometryDialog);
+  els.pageGeometryForm?.addEventListener('submit', (e) => { e.preventDefault(); applyPageGeometry(); });
+  els.pageEdgeBtn?.addEventListener('click', openPageEdgeDialog);
+  els.pageEdgeCloseBtn?.addEventListener('click', () => els.pageEdgeDialog?.close());
+  els.pageEdgeCancelBtn?.addEventListener('click', () => els.pageEdgeDialog?.close());
+  els.pageEdgeScope?.addEventListener('change', updatePageEdgeDialog);
+  els.pageEdgeOperation?.addEventListener('change', updatePageEdgeDialog);
+  els.pageEdgePreset?.addEventListener('change', () => {
+    if (els.pageEdgePreset.value !== 'custom') setPageEdgePreset(els.pageEdgePreset.value);
+    updatePageEdgeDialog();
+  });
+  for (const input of [els.pageEdgeTop, els.pageEdgeRight, els.pageEdgeBottom, els.pageEdgeLeft]) {
+    input?.addEventListener('input', () => {
+      if (els.pageEdgePreset) els.pageEdgePreset.value = 'custom';
+      updatePageEdgeDialog();
+    });
+  }
+  els.pageEdgeResetBtn?.addEventListener('click', resetPageEdgeAdjustments);
+  els.pageEdgeForm?.addEventListener('submit', (e) => { e.preventDefault(); applyPageEdgeChange(); });
   els.insertPageBtn.addEventListener('click', (e) => { e.stopPropagation(); openInsertPageMenu(els.insertPageBtn); });
   els.duplicateBtn.addEventListener('click', duplicateSelected);
   els.extractSelectedPagesBtn?.addEventListener('click', extractSelectedPdf);
+  els.copyPagesBtn?.addEventListener('click', openPageTransferDialog);
+  els.pageTransferDestination?.addEventListener('change', updatePageTransferPositionUi);
+  els.pageTransferPosition?.addEventListener('change', updatePageTransferPositionUi);
+  els.pageTransferCloseBtn?.addEventListener('click', () => els.pageTransferDialog?.close());
+  els.pageTransferCancelBtn?.addEventListener('click', () => els.pageTransferDialog?.close());
+  els.pageTransferForm?.addEventListener('submit', (e) => { e.preventDefault(); copySelectedPagesToDocument(); });
   els.insertDuplicateWithAnnotationsBtn.addEventListener('click', () => runInsertCommand('duplicate', true));
   els.insertDuplicateWithoutAnnotationsBtn.addEventListener('click', () => runInsertCommand('duplicate', false));
   els.insertBlankPageBtn.addEventListener('click', () => runInsertCommand('blank'));
