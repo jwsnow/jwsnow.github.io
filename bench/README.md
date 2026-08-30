@@ -1,44 +1,40 @@
-# PDF Workbench — Milestone 2.1.3
+# PDF Workbench — Milestone 2.1.4
 
-Milestone 2.1.3 is a focused stylus-input revision of 2.1.2. It preserves the now-tested high-zoom pan/pinch behavior, split-view state separation, iPad app-level Presentation mode, PDF.js/JBIG2 support, organizer behavior, and PWA update mechanism.
+Milestone 2.1.4 is a focused viewer-input revision of 2.1.3. It preserves the confirmed 2.1.2 zoom/pan, split-state, Presentation-toolbar, PDF.js/JBIG2, organizer, and PWA-update fixes while changing how finger and stylus input are handled on PDF viewer surfaces.
 
-## Confirmed from 2.1.2 testing
+## Why 2.1.4 was necessary
 
-- Zoom/pan works on iPad and Surface, including the high-zoom horizontal-boundary fix.
+Device testing of 2.1.3 showed that canceling/capturing pen Pointer Events did **not** stop document panning: Apple Pencil on iPad and the Surface pen could still pan/scroll the PDF. The browser's native direct-manipulation behavior was still active because the viewer advertised `touch-action: pan-x pan-y`.
+
+## Changed in 2.1.4 — explicit finger navigation
+
+The PDF viewer now uses `touch-action: none`. This prevents Safari/Edge from interpreting either finger or pen contact as browser-owned panning/zooming. PDF Workbench then implements the intended input roles explicitly with Pointer Events:
+
+- stylus/Pencil on document content: reserved for future Pen/Eraser/Select and currently inert;
+- one finger in Continuous/Page Snap: pan/scroll;
+- two fingers: anchored PDF pinch zoom and pan;
+- Full Page: one-finger vertical swipe changes page;
+- stylus: still operates visible UI controls;
+- Pages organizer: stylus still selects and drags/reorders pages.
+
+Continuous finger panning includes light inertial continuation. Page Snap disables snapping while the finger is down, then settles to the nearest page when the gesture ends. Two-finger pinch retains the measured document-anchor approach from 2.1.1/2.1.2 and defers the final crisp canvas rerender until the entire touch gesture ends.
+
+## Confirmed behavior from earlier testing
+
+- High-zoom pan/pinch works on iPad and Surface.
+- Both far-left and far-right edges of an oversized zoomed page are reachable.
 - Pen hover does not reveal/activate the hidden Presentation toolbar.
-- Pen taps do not activate the hidden Presentation toolbar.
+- Pen taps do not activate the hidden Presentation toolbar while it is hidden.
 - The compact/icon-only toolbar at normal iPad widths is acceptable.
-
-## Changed in 2.1.3 — stylus reserved for ink
-
-A pen/stylus was still able to scroll the PDF surface. The desired annotation architecture separates input roles:
-
-- stylus/Pencil on document content: reserved for Pen/Eraser/Select;
-- one finger: pan/scroll;
-- two fingers: pinch zoom/pan;
-- stylus: may still operate visible UI controls;
-- Pages organizer: stylus may still select and drag pages.
-
-Because ink is not implemented yet, stylus contact on PDF content should now be inert rather than navigate the document. Viewer pen `pointerdown`, contacting `pointermove`, `pointerup`, and `pointercancel` events are canceled/captured to prevent direct document manipulation while leaving finger behavior unchanged.
-
-This is intentionally a narrow change. The viewer keeps `touch-action: pan-x pan-y` and the already-tested native one-finger scrolling rather than replacing finger navigation with a custom implementation. If device testing shows that either Safari/iPadOS or Edge/Windows ignores the canceled pen Pointer Events for scrolling, a later fallback can use a dedicated manual navigation layer; do not make that broader change unless needed.
+- Split → Single → Split preserves independent pane state in the revised architecture; continue regression testing it.
 
 ## Presentation behavior
 
 - Mouse hover near the top may reveal controls.
-- Finger tap near the top while hidden reveals controls and consumes the tap.
+- Finger tap near the top while hidden reveals controls and consumes that gesture.
 - Pen hover does not reveal controls.
-- Pen tap/drag on hidden document content does not reveal/activate controls.
+- Pen contact on hidden document content does not reveal controls.
 - Pen can operate controls once they are visible.
-
-## Preserved viewer fixes
-
-- Split → Single → Split preserves both panes, including the inactive pane's scroll state.
-- Same PDF can be shown independently in both panes.
-- Pinch zoom uses measured before/after geometry and final post-layout correction.
-- Oversized pages expose both far-left and far-right boundaries.
-- Toolbar switches directly between labeled and icon-only forms.
-- Full Page and Single-layout controls have distinct icons.
 
 ## Important scan-PDF support
 
@@ -46,24 +42,26 @@ Do not remove the PDF.js WASM/JBIG2/CMap/standard-font resource configuration. I
 
 ## Version verification
 
-**More → About this build** must report **Milestone 2.1.3**. The service-worker cache is `pdf-workbench-m2.1.3-v1`.
+**More → About this build** must report **Milestone 2.1.4**. The service-worker cache is `pdf-workbench-m2.1.4-v1`.
 
 Every distributed ZIP includes `PDF_Workbench_Project_Handoff.txt`; update it with every release.
 
-## Suggested 2.1.3 test sequence
+## Suggested 2.1.4 test sequence
 
-1. Drag the PDF with Apple Pencil on iPad: it should not scroll.
-2. Drag the PDF with Surface pen: it should not scroll.
-3. Repeat in each Split pane.
-4. Repeat in Presentation with controls hidden.
-5. Scroll the same PDF with one finger: it should still work normally.
-6. Pinch with two fingers: zoom/pan and anchor behavior should remain correct.
-7. Reveal Presentation controls with a finger and tap visible controls with the pen.
-8. Use the pen in Pages view to select and drag/reorder thumbnails.
-9. Verify high-zoom left and right page edges remain reachable.
-10. Verify Split → Single → Split preserves the inactive pane position.
-11. Verify JBIG2 scan pages still render.
-12. Verify About says **2.1.3**.
+1. Drag PDF content with Apple Pencil on iPad: the page must not move.
+2. Drag PDF content with Surface pen: the page must not move.
+3. Scroll with one finger on iPad and Surface in Continuous mode; verify vertical and high-zoom horizontal panning.
+4. Repeat one-finger scrolling independently in both Split panes.
+5. Pinch with two fingers in Single and Split viewing; zoom/pan should remain anchored and stable.
+6. At high zoom, verify both far-left and far-right page edges remain reachable.
+7. Test Page Snap: finger drag should be free while touching, then settle to a nearby page after release.
+8. Test Full Page: a vertical finger swipe should change pages.
+9. Enter Presentation; pen drag must not scroll or reveal the hidden toolbar, while finger navigation must still work.
+10. Reveal Presentation controls with a finger and verify visible controls still respond to pen taps.
+11. In Pages view, verify pen selection and pen drag/reorder still work.
+12. Reconfirm Split → Single → Split preserves the inactive pane scroll position.
+13. Open `BaakeScan.pdf` and verify JBIG2 pages render normally.
+14. Verify About says **2.1.4** and Reload Latest Version picks up the new app-shell cache.
 
 ## Queued page/notes features
 
@@ -75,6 +73,16 @@ After the current page, support:
 - light 1/4-inch graph paper matching current size/orientation.
 
 Also allow a new document to start as a single blank or graph-paper page, so the application can become a notes program once inking is available.
+
+## Annotation input policy for later
+
+- Draw with Finger: OFF by default.
+- Finger navigation remains active while Pen/Eraser/Select is selected.
+- Pen + Pen tool: draw.
+- Pen + Eraser: erase.
+- Pen + Select/Lasso: select annotations.
+- Do not use pen hover to reveal Presentation controls.
+- A future explicit Hand/Pan tool may optionally permit stylus panning.
 
 ## Still deferred
 
@@ -94,4 +102,4 @@ Serve the folder through HTTP/HTTPS rather than opening `index.html` with `file:
 python -m http.server 8000
 ```
 
-Then browse to the served `pdf-workbench-m2.1.3/` directory.
+Then browse to the served `pdf-workbench-m2.1.4/` directory.

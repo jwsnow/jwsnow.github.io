@@ -1,4 +1,4 @@
-const APP_VERSION = '2.1.3';
+const APP_VERSION = '2.1.4';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -48,16 +48,19 @@ const state = {
   presentationControlsTimer: null,
   presentationRevealPointerId: null,
   presentationSuppressClicksUntil: 0,
-  pinchTouches: new Map(),
+  touchPointers: new Map(),
+  touchPan: null,
+  touchInertiaFrame: null,
   pinchGesture: null,
+  pinchNeedsRender: false,
   pinchRenderFrame: null,
   suppressSingleScrollSave: false,
   splitView: false,
   activePaneId: 'left',
   singleSourcePaneId: 'left',
   splitPanes: {
-    left: { id: 'left', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, pinchGesture: null, pinchRenderFrame: null, suppressScrollSave: false },
-    right: { id: 'right', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, pinchGesture: null, pinchRenderFrame: null, suppressScrollSave: false },
+    left: { id: 'left', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, suppressScrollSave: false },
+    right: { id: 'right', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, suppressScrollSave: false },
   },
 };
 
@@ -1787,8 +1790,12 @@ async function exitPresentation() {
   els.presentationToolbar.classList.add('hidden');
   clearTimeout(state.presentationControlsTimer);
   state.presentationRevealPointerId = null;
-  state.pinchTouches.clear();
+  state.touchPointers.clear();
+  cancelViewerTouchInertia(state);
+  state.touchPan = null;
+  state.touchStart = null;
   state.pinchGesture = null;
+  state.pinchNeedsRender = false;
   try { if (document.fullscreenElement) await document.exitFullscreen(); } catch {}
   renderViewer();
 }
@@ -1807,7 +1814,13 @@ function clearAll() {
   state.history = [];
   state.future = [];
   state.suppressSingleScrollSave = false;
-  els.viewer?.classList.remove('pinching');
+  state.touchPointers.clear();
+  cancelViewerTouchInertia(state);
+  state.touchPan = null;
+  state.touchStart = null;
+  state.pinchGesture = null;
+  state.pinchNeedsRender = false;
+  els.viewer?.classList.remove('pinching', 'manual-touching');
   state.pageObserver?.disconnect();
   state.thumbObserver?.disconnect();
   for (const pane of Object.values(state.splitPanes)) {
@@ -1816,6 +1829,13 @@ function clearAll() {
     pane.views.clear();
     pane.generation++;
     pane.suppressScrollSave = false;
+    pane.touchPointers.clear();
+    cancelViewerTouchInertia(pane);
+    pane.touchPan = null;
+    pane.touchStart = null;
+    pane.pinchGesture = null;
+    pane.pinchNeedsRender = false;
+    paneElements(pane.id).viewer?.classList.remove('pinching', 'manual-touching');
   }
   state.splitView = false;
   state.activePaneId = 'left';
@@ -1833,8 +1853,8 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>This build stabilizes multi-document view state, high-zoom panning, presentation pointer behavior, and reserves stylus contact on PDF content for ink.</p>
-      <ul><li>Single↔Split transfers preserve both panes, including the inactive pane's exact scroll state.</li><li>The same PDF can be viewed independently at different pages and zooms in both panes.</li><li>Pinch zoom uses measured post-layout anchoring and a final iPad/Safari correction after crisp re-rendering.</li><li>Oversized zoomed pages keep a real left scroll boundary, so both left and right edges remain reachable.</li><li>Hidden Presentation controls may be revealed by a finger tap at the top or by mouse hover, but stylus/Pencil hover does not reveal them.</li><li>Stylus/Pencil contact on PDF content is reserved for future ink tools and no longer intentionally navigates the document; finger navigation is unchanged.</li><li>Toolbar buttons switch directly from labeled to icon-only at narrow widths; Full Page has its own distinct icon.</li><li>Reorder, select, rotate, duplicate, and delete pages with undo/redo.</li></ul>
+      <p>This build separates document-surface pen input from finger navigation by making PDF Workbench own touch gestures instead of allowing browser-native direct manipulation.</p>
+      <ul><li>Stylus/Pencil contact on PDF content is reserved for future ink tools and is not mapped to pan or zoom.</li><li>One finger pans/scrolls the PDF; two fingers perform anchored PDF pinch zoom and pan.</li><li>Visible controls and the Pages organizer still accept stylus input.</li><li>Single↔Split transfers preserve both panes, including the inactive pane's exact scroll state.</li><li>Oversized zoomed pages expose both far-left and far-right boundaries.</li><li>Hidden Presentation controls may be revealed by a finger tap at the top or by mouse hover, but stylus/Pencil hover does not reveal them.</li><li>Toolbar buttons switch directly from labeled to icon-only at narrow widths; Full Page has its own distinct icon.</li><li>PDF.js WASM/JBIG2 scan support and the PWA update path are preserved.</li></ul>
       <p><strong>Not in this milestone yet:</strong> PDF export, split/merge output, page-size normalization, compression, saved projects, and pen annotation.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
@@ -1912,6 +1932,251 @@ function reservePenForDocumentInk(viewer, e) {
   return true;
 }
 
+
+function cancelViewerTouchInertia(owner) {
+  if (owner.touchInertiaFrame) cancelAnimationFrame(owner.touchInertiaFrame);
+  owner.touchInertiaFrame = null;
+}
+
+function startViewerTouchPan(owner, point) {
+  owner.touchPan = {
+    id: point.id,
+    lastX: point.x,
+    lastY: point.y,
+    lastT: performance.now(),
+    vx: 0,
+    vy: 0,
+  };
+}
+
+function moveViewerTouchPan(viewer, owner, point) {
+  const pan = owner.touchPan;
+  if (!pan || pan.id !== point.id) {
+    startViewerTouchPan(owner, point);
+    return;
+  }
+  const now = performance.now();
+  const dt = Math.max(1, now - pan.lastT);
+  const dx = point.x - pan.lastX;
+  const dy = point.y - pan.lastY;
+  viewer.scrollLeft -= dx;
+  viewer.scrollTop -= dy;
+  const instVX = dx / dt, instVY = dy / dt;
+  pan.vx = pan.vx * .58 + instVX * .42;
+  pan.vy = pan.vy * .58 + instVY * .42;
+  pan.lastX = point.x;
+  pan.lastY = point.y;
+  pan.lastT = now;
+}
+
+function settleViewerSnap(viewer) {
+  const stages = [...viewer.querySelectorAll('.page-stage[data-page-id]')];
+  if (!stages.length) return;
+  const vr = viewer.getBoundingClientRect();
+  const centerY = vr.top + vr.height / 2;
+  let best = stages[0], bestDistance = Infinity;
+  for (const stage of stages) {
+    const r = stage.getBoundingClientRect();
+    const distance = Math.abs((r.top + r.height / 2) - centerY);
+    if (distance < bestDistance) { best = stage; bestDistance = distance; }
+  }
+  best.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'smooth' });
+}
+
+function startViewerTouchInertia(viewer, owner, scrollMode, vx, vy) {
+  cancelViewerTouchInertia(owner);
+  if (scrollMode !== 'continuous' || Math.hypot(vx, vy) < .035) return;
+  let last = performance.now();
+  const step = (now) => {
+    const dt = Math.min(32, Math.max(1, now - last));
+    last = now;
+    const beforeX = viewer.scrollLeft, beforeY = viewer.scrollTop;
+    viewer.scrollLeft -= vx * dt;
+    viewer.scrollTop -= vy * dt;
+    const decay = Math.pow(.91, dt / 16.67);
+    vx *= decay; vy *= decay;
+    const moved = Math.abs(viewer.scrollLeft - beforeX) + Math.abs(viewer.scrollTop - beforeY) > .05;
+    if (Math.hypot(vx, vy) < .018 || !moved) {
+      owner.touchInertiaFrame = null;
+      return;
+    }
+    owner.touchInertiaFrame = requestAnimationFrame(step);
+  };
+  owner.touchInertiaFrame = requestAnimationFrame(step);
+}
+
+function pointerPair(owner) {
+  return [...owner.touchPointers.values()].slice(0, 2);
+}
+function pointerDistance(points) {
+  return points.length < 2 ? 0 : Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y);
+}
+function pointerMidpoint(points) {
+  return points.length < 2 ? null : { x: (points[0].x + points[1].x) / 2, y: (points[0].y + points[1].y) / 2 };
+}
+
+// The PDF surface uses touch-action:none so browsers never get permission to
+// turn a Pencil/stylus stroke into native scrolling. Finger navigation is then
+// implemented explicitly here: one finger pans, two fingers pinch/zoom, while
+// a pen pointer is reserved for the future ink layer. This is intentionally
+// scoped to viewer surfaces; organizer dragging and visible UI controls keep
+// their normal pen behavior.
+function bindManualViewerTouch(viewer, owner, config) {
+  if (!owner.touchPointers) owner.touchPointers = new Map();
+
+  const beginPinch = () => {
+    const points = pointerPair(owner);
+    if (points.length < 2) return;
+    const midpoint = pointerMidpoint(points);
+    owner.pinchGesture = {
+      startDistance: Math.max(1, pointerDistance(points)),
+      startZoom: config.getZoom(),
+      midpoint,
+      anchor: captureViewerAnchor(viewer, midpoint.x, midpoint.y),
+    };
+    owner.pinchNeedsRender = true;
+    owner.touchPan = null;
+    owner.touchStart = null;
+    viewer.classList.add('pinching', 'manual-touching');
+  };
+
+  const flushLivePinch = () => {
+    if (!owner.pinchGesture) return;
+    config.flushLiveZoom?.();
+    config.saveScroll?.();
+  };
+
+  const finishAllTouches = (lastEvent, cancelled) => {
+    viewer.classList.remove('manual-touching', 'pinching');
+    const mode = config.getScrollMode();
+
+    if (owner.pinchNeedsRender) {
+      flushLivePinch();
+      owner.pinchGesture = null;
+      owner.pinchNeedsRender = false;
+      owner.touchPan = null;
+      owner.touchStart = null;
+      config.finalizePinch?.();
+      return;
+    }
+
+    if (mode === 'single' && owner.touchStart && !cancelled) {
+      const dx = lastEvent.clientX - owner.touchStart.x;
+      const dy = lastEvent.clientY - owner.touchStart.y;
+      const dt = performance.now() - owner.touchStart.t;
+      if (dt < 800 && Math.abs(dy) > 55 && Math.abs(dy) > Math.abs(dx) * .7) {
+        config.goPage?.(dy < 0 ? 1 : -1);
+      }
+    } else if (!cancelled && owner.touchPan) {
+      if (mode === 'snap') settleViewerSnap(viewer);
+      else startViewerTouchInertia(viewer, owner, mode, owner.touchPan.vx, owner.touchPan.vy);
+    }
+    owner.touchStart = null;
+    owner.touchPan = null;
+    config.saveScroll?.();
+  };
+
+  viewer.addEventListener('pointermove', (e) => {
+    if (e.pointerType === 'pen' && (e.buttons || e.pressure > 0)) {
+      reservePenForDocumentInk(viewer, e);
+      return;
+    }
+    if (document.body.classList.contains('presentation') && e.pointerType === 'mouse' && e.clientY < 90) {
+      showPresentationControls();
+    }
+    if (e.pointerType !== 'touch' || !owner.touchPointers.has(e.pointerId)) return;
+    e.preventDefault();
+    const point = owner.touchPointers.get(e.pointerId);
+    point.x = e.clientX; point.y = e.clientY;
+
+    if (owner.touchPointers.size >= 2) {
+      if (!owner.pinchGesture) beginPinch();
+      const points = pointerPair(owner);
+      const dist = Math.max(1, pointerDistance(points));
+      const midpoint = pointerMidpoint(points);
+      if (owner.pinchGesture && midpoint) {
+        owner.pinchGesture.midpoint = midpoint;
+        config.queueZoom(owner.pinchGesture.startZoom * dist / owner.pinchGesture.startDistance);
+      }
+      return;
+    }
+
+    if (!owner.pinchGesture && config.getScrollMode() !== 'single') {
+      moveViewerTouchPan(viewer, owner, point);
+    }
+  }, { passive: false });
+
+  viewer.addEventListener('pointerdown', (e) => {
+    config.activate?.();
+    if (reservePenForDocumentInk(viewer, e)) return;
+    if (e.pointerType !== 'touch') return;
+    cancelViewerTouchInertia(owner);
+    e.preventDefault();
+    try { viewer.setPointerCapture?.(e.pointerId); } catch {}
+
+    if (document.body.classList.contains('presentation') &&
+        !document.body.classList.contains('presentation-controls-visible') &&
+        owner.touchPointers.size === 0 && e.clientY < 80) {
+      state.presentationRevealPointerId = e.pointerId;
+      owner.touchStart = null;
+      owner.touchPan = null;
+      return;
+    }
+
+    const point = { id: e.pointerId, x: e.clientX, y: e.clientY };
+    owner.touchPointers.set(e.pointerId, point);
+    viewer.classList.add('manual-touching');
+
+    if (owner.touchPointers.size === 1) {
+      owner.touchStart = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now() };
+      if (config.getScrollMode() !== 'single') startViewerTouchPan(owner, point);
+    } else if (owner.touchPointers.size === 2) {
+      beginPinch();
+    }
+  }, { passive: false });
+
+  const finishPointer = (e, cancelled=false) => {
+    if (e.pointerType === 'pen') {
+      reservePenForDocumentInk(viewer, e);
+      return;
+    }
+    if (e.pointerType !== 'touch') return;
+    e.preventDefault();
+
+    if (state.presentationRevealPointerId === e.pointerId) {
+      state.presentationRevealPointerId = null;
+      state.presentationSuppressClicksUntil = performance.now() + 700;
+      if (!cancelled) showPresentationControls();
+      try { viewer.releasePointerCapture?.(e.pointerId); } catch {}
+      return;
+    }
+
+    const lastPoint = owner.touchPointers.get(e.pointerId) || { id: e.pointerId, x: e.clientX, y: e.clientY };
+    lastPoint.x = e.clientX; lastPoint.y = e.clientY;
+    const hadActivePinch = !!owner.pinchGesture;
+    owner.touchPointers.delete(e.pointerId);
+
+    if (hadActivePinch && owner.touchPointers.size < 2) {
+      // Commit the last live pinch geometry while its anchor is still valid.
+      // If one finger remains, let it pan the already-scaled pages; defer the
+      // expensive crisp rerender until the whole gesture has ended.
+      flushLivePinch();
+      owner.pinchGesture = null;
+      if (owner.touchPointers.size === 1 && config.getScrollMode() !== 'single') {
+        startViewerTouchPan(owner, [...owner.touchPointers.values()][0]);
+      }
+    } else if (owner.touchPointers.size >= 2) {
+      beginPinch();
+    }
+
+    try { viewer.releasePointerCapture?.(e.pointerId); } catch {}
+    if (owner.touchPointers.size === 0) finishAllTouches(e, cancelled);
+  };
+
+  viewer.addEventListener('pointerup', (e) => finishPointer(e, false), { passive: false });
+  viewer.addEventListener('pointercancel', (e) => finishPointer(e, true), { passive: false });
+}
+
 function bindSplitViewerEvents(paneId) {
   const pane = splitPaneState(paneId), pe = paneElements(paneId), viewer = pe.viewer;
   if (!viewer) return;
@@ -1948,99 +2213,25 @@ function bindSplitViewerEvents(paneId) {
     goPanePage(paneId, e.deltaY > 0 ? 1 : -1);
   }, { passive: false });
 
-  viewer.addEventListener('pointermove', (e) => {
-    // Cancel direct-manipulation behavior for a contacting stylus. Hover is
-    // left alone (and still cannot reveal Presentation controls).
-    if (e.pointerType === 'pen' && (e.buttons || e.pressure > 0)) reservePenForDocumentInk(viewer, e);
-    if (document.body.classList.contains('presentation') && e.pointerType === 'mouse' && e.clientY < 90) showPresentationControls();
-  }, { passive: false });
-  viewer.addEventListener('pointerdown', (e) => {
-    makeActive();
-    if (reservePenForDocumentInk(viewer, e)) return;
-    const view = paneView(paneId);
-    if (e.pointerType === 'touch') {
-      if (document.body.classList.contains('presentation') && !document.body.classList.contains('presentation-controls-visible') && e.clientY < 80) {
-        state.presentationRevealPointerId = e.pointerId;
-        pane.touchStart = null;
-        e.preventDefault();
-        return;
+  bindManualViewerTouch(viewer, pane, {
+    activate: makeActive,
+    getScrollMode: () => paneView(paneId)?.scrollMode || 'continuous',
+    getZoom: () => paneView(paneId)?.zoom || 1,
+    queueZoom: (value) => queuePinchZoom(value, paneId),
+    flushLiveZoom: () => {
+      if (pane.pinchRenderFrame) {
+        cancelAnimationFrame(pane.pinchRenderFrame);
+        pane.pinchRenderFrame = null;
       }
-      if (view?.scrollMode === 'single') pane.touchStart = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now() };
-    }
+      applyLivePaneZoom(paneId);
+    },
+    saveScroll: () => savePaneScroll(paneId),
+    finalizePinch: () => {
+      savePaneScroll(paneId);
+      renderSplitPane(paneId);
+    },
+    goPage: (delta) => goPanePage(paneId, delta),
   });
-  const finishPointer = (e, cancelled=false) => {
-    if (e.pointerType !== 'touch') return;
-    const wasReveal = state.presentationRevealPointerId === e.pointerId;
-    if (wasReveal) {
-      state.presentationRevealPointerId = null;
-      pane.touchStart = null;
-      state.presentationSuppressClicksUntil = performance.now() + 700;
-      if (!cancelled) showPresentationControls();
-      e.preventDefault();
-      return;
-    }
-    const view = paneView(paneId), start = pane.touchStart;
-    if (!start || start.id !== e.pointerId || view?.scrollMode !== 'single' || cancelled || pane.pinchGesture) {
-      if (start?.id === e.pointerId) pane.touchStart = null;
-      return;
-    }
-    const dx = e.clientX - start.x, dy = e.clientY - start.y, dt = performance.now() - start.t;
-    pane.touchStart = null;
-    if (dt < 800 && Math.abs(dy) > 55 && Math.abs(dy) > Math.abs(dx) * .7) goPanePage(paneId, dy < 0 ? 1 : -1);
-  };
-  viewer.addEventListener('pointerup', (e) => {
-    if (reservePenForDocumentInk(viewer, e)) return;
-    finishPointer(e, false);
-  }, { passive: false });
-  viewer.addEventListener('pointercancel', (e) => {
-    if (reservePenForDocumentInk(viewer, e)) return;
-    finishPointer(e, true);
-  }, { passive: false });
-
-  const touchDistance = (touches) => Math.hypot(touches[1].clientX - touches[0].clientX, touches[1].clientY - touches[0].clientY);
-  const touchMidpoint = (touches) => ({ x: (touches[0].clientX + touches[1].clientX) / 2, y: (touches[0].clientY + touches[1].clientY) / 2 });
-  viewer.addEventListener('touchstart', (e) => {
-    if (e.touches.length !== 2) return;
-    makeActive();
-    const view = paneView(paneId);
-    if (!view) return;
-    const midpoint = touchMidpoint(e.touches);
-    pe.viewer.classList.add('pinching');
-    pane.pinchGesture = {
-      startDistance: Math.max(1, touchDistance(e.touches)),
-      startZoom: view.zoom,
-      midpoint,
-      anchor: captureViewerAnchor(viewer, midpoint.x, midpoint.y),
-    };
-    pane.touchStart = null;
-    e.preventDefault();
-  }, { passive: false });
-  viewer.addEventListener('touchmove', (e) => {
-    if (!pane.pinchGesture || e.touches.length !== 2) return;
-    const dist = Math.max(1, touchDistance(e.touches));
-    pane.pinchGesture.midpoint = touchMidpoint(e.touches);
-    queuePinchZoom(pane.pinchGesture.startZoom * dist / pane.pinchGesture.startDistance, paneId);
-    e.preventDefault();
-  }, { passive: false });
-  const finishPinch = (e) => {
-    if (!pane.pinchGesture) return;
-    if (e.touches && e.touches.length >= 2) return;
-    if (pane.pinchRenderFrame) { cancelAnimationFrame(pane.pinchRenderFrame); pane.pinchRenderFrame = null; applyLivePaneZoom(paneId); }
-    const finalGesture = pane.pinchGesture;
-    savePaneScroll(paneId);
-    pane.pinchGesture = null;
-    viewer.classList.remove('pinching');
-    renderSplitPane(paneId);
-    if (finalGesture?.anchor && finalGesture?.midpoint) {
-      pane.suppressScrollSave = true;
-      restoreViewerAnchorAfterLayout(viewer, finalGesture.anchor, finalGesture.midpoint.x, finalGesture.midpoint.y, () => {
-        pane.suppressScrollSave = false;
-        if (state.splitView) savePaneScroll(paneId);
-      });
-    }
-  };
-  viewer.addEventListener('touchend', finishPinch, { passive: true });
-  viewer.addEventListener('touchcancel', finishPinch, { passive: true });
 }
 
 function setZoomForPane(paneId, value) {
@@ -2136,109 +2327,24 @@ function bindEvents() {
     state.lastWheelPageChange = now;
     goPage(e.deltaY > 0 ? 1 : -1);
   }, { passive: false });
-  els.viewer.addEventListener('pointermove', (e) => {
-    if (e.pointerType === 'pen' && (e.buttons || e.pressure > 0)) reservePenForDocumentInk(els.viewer, e);
-    if (document.body.classList.contains('presentation') && e.pointerType === 'mouse' && e.clientY < 90) showPresentationControls();
-  }, { passive: false });
-
-  let touchStart = null;
-  els.viewer.addEventListener('pointerdown', (e) => {
-    if (reservePenForDocumentInk(els.viewer, e)) return;
-    if (e.pointerType === 'touch') {
-      // A hidden presentation toolbar must be revealed by a dedicated tap, not
-      // materialize under the finger and receive the same gesture's click.
-      if (document.body.classList.contains('presentation') && !document.body.classList.contains('presentation-controls-visible') && e.clientY < 80) {
-        state.presentationRevealPointerId = e.pointerId;
-        touchStart = null;
-        e.preventDefault();
-        return;
+  bindManualViewerTouch(els.viewer, state, {
+    getScrollMode: () => state.scrollMode,
+    getZoom: () => state.zoom,
+    queueZoom: (value) => queuePinchZoom(value),
+    flushLiveZoom: () => {
+      if (state.pinchRenderFrame) {
+        cancelAnimationFrame(state.pinchRenderFrame);
+        state.pinchRenderFrame = null;
       }
-    }
-
-    if (state.scrollMode === 'single' && e.pointerType === 'touch') {
-      touchStart = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now() };
-    }
+      applyLiveSingleZoom();
+    },
+    saveScroll: () => updateSingleViewScrollFromDom(),
+    finalizePinch: () => {
+      updateSingleViewScrollFromDom();
+      renderViewer();
+    },
+    goPage: (delta) => goPage(delta),
   });
-
-  function finishTouchPointer(e, cancelled=false) {
-    if (e.pointerType !== 'touch') return;
-    const wasReveal = state.presentationRevealPointerId === e.pointerId;
-
-    if (wasReveal) {
-      state.presentationRevealPointerId = null;
-      touchStart = null;
-      state.presentationSuppressClicksUntil = performance.now() + 700;
-      if (!cancelled) showPresentationControls();
-      e.preventDefault();
-      return;
-    }
-
-    if (!touchStart || touchStart.id !== e.pointerId || state.scrollMode !== 'single' || cancelled || state.pinchGesture) {
-      if (touchStart?.id === e.pointerId) touchStart = null;
-      return;
-    }
-    const dx = e.clientX - touchStart.x, dy = e.clientY - touchStart.y, dt = performance.now() - touchStart.t;
-    touchStart = null;
-    if (dt < 800 && Math.abs(dy) > 55 && Math.abs(dy) > Math.abs(dx) * .7) goPage(dy < 0 ? 1 : -1);
-  }
-
-  els.viewer.addEventListener('pointerup', (e) => {
-    if (reservePenForDocumentInk(els.viewer, e)) return;
-    finishTouchPointer(e, false);
-  }, { passive: false });
-  els.viewer.addEventListener('pointercancel', (e) => {
-    if (reservePenForDocumentInk(els.viewer, e)) return;
-    finishTouchPointer(e, true);
-  }, { passive: false });
-
-  // iPad/Safari native pinch zoom scales the entire web app, including its
-  // toolbar, and cannot zoom below the page's initial scale. Intercept only
-  // two-finger gestures inside the document viewer and map them to PDF zoom.
-  // One-finger scrolling remains native and fluid.
-  const touchDistance = (touches) => Math.hypot(
-    touches[1].clientX - touches[0].clientX,
-    touches[1].clientY - touches[0].clientY
-  );
-  const touchMidpoint = (touches) => ({ x: (touches[0].clientX + touches[1].clientX) / 2, y: (touches[0].clientY + touches[1].clientY) / 2 });
-  els.viewer.addEventListener('touchstart', (e) => {
-    if (e.touches.length !== 2) return;
-    const midpoint = touchMidpoint(e.touches);
-    els.viewer.classList.add('pinching');
-    state.pinchGesture = {
-      startDistance: Math.max(1, touchDistance(e.touches)),
-      startZoom: state.zoom,
-      midpoint,
-      anchor: captureViewerAnchor(els.viewer, midpoint.x, midpoint.y),
-    };
-    touchStart = null;
-    e.preventDefault();
-  }, { passive: false });
-  els.viewer.addEventListener('touchmove', (e) => {
-    if (!state.pinchGesture || e.touches.length !== 2) return;
-    const dist = Math.max(1, touchDistance(e.touches));
-    state.pinchGesture.midpoint = touchMidpoint(e.touches);
-    queuePinchZoom(state.pinchGesture.startZoom * dist / state.pinchGesture.startDistance);
-    e.preventDefault();
-  }, { passive: false });
-  const finishPinch = (e) => {
-    if (!state.pinchGesture) return;
-    if (e.touches && e.touches.length >= 2) return;
-    if (state.pinchRenderFrame) { cancelAnimationFrame(state.pinchRenderFrame); state.pinchRenderFrame = null; applyLiveSingleZoom(); }
-    const finalGesture = state.pinchGesture;
-    updateSingleViewScrollFromDom();
-    state.pinchGesture = null;
-    els.viewer.classList.remove('pinching');
-    renderViewer();
-    if (finalGesture?.anchor && finalGesture?.midpoint) {
-      state.suppressSingleScrollSave = true;
-      restoreViewerAnchorAfterLayout(els.viewer, finalGesture.anchor, finalGesture.midpoint.x, finalGesture.midpoint.y, () => {
-        state.suppressSingleScrollSave = false;
-        updateSingleViewScrollFromDom();
-      });
-    }
-  };
-  els.viewer.addEventListener('touchend', finishPinch, { passive: true });
-  els.viewer.addEventListener('touchcancel', finishPinch, { passive: true });
 
   document.addEventListener('keydown', (e) => {
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLSelectElement) return;
