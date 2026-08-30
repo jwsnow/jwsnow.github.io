@@ -1,3 +1,32 @@
+PDF WORKBENCH PWA — CURRENT UPDATE
+======================================
+
+CURRENT BUILD: Milestone 2.1.6
+Visible About version: 2.1.6
+Service-worker/cache version: pdf-workbench-m2.1.6-v1
+
+MILESTONE 2.1.6 CHANGE
+----------------------
+Testing of 2.1.5 on iPad showed that adding the entire bottom safe-area inset to the footer row made the visible footer taller than desired. 2.1.6 returns the status/footer row to its normal 28 px height and removes safe-area bottom padding from the status bar. Text remains vertically centered and the footer consumes minimal document space. No viewer gesture, pen/finger, split-state, Presentation, or rendering code is changed.
+
+CONFIRMED INPUT STATUS
+----------------------
+- iPad Safari/PWA and Surface Chrome: finger pan and pinch work.
+- Pen/Pencil does not pan or zoom the PDF.
+- Pen/Pencil operates visible UI controls.
+- Pen hover/tap does not reveal/activate the hidden Presentation toolbar.
+- High-zoom horizontal pan reaches both left and right page edges.
+- iPad PWA ultimately updated after a transient Reload Latest Version issue.
+
+FUTURE INKING NOTE
+------------------
+Full Page bottom navigation arrows may be vulnerable to palm activation when handwriting is added. Test this during the ink milestone before choosing auto-hide, optional hiding, palm-safe activation, or alternate placement.
+
+NEXT MAJOR PHASE
+----------------
+After confirming the compact footer, proceed to Milestone 3 document handling/export.
+
+
 PDF WORKBENCH PWA — CURRENT PROJECT HANDOFF
 ============================================
 
@@ -6,10 +35,10 @@ The historical handoff follows after it for full architectural detail. Where a h
 
 CURRENT BUILD
 -------------
-Milestone 2.1.5
+Milestone 2.1.6
 
-Visible About version: 2.1.5
-Service-worker/cache version: pdf-workbench-m2.1.5-v1
+Visible About version: 2.1.6
+Service-worker/cache version: pdf-workbench-m2.1.6-v1
 
 Every distributed ZIP must include this handoff file and update it for the release.
 
@@ -121,7 +150,7 @@ IMMEDIATE 2.1.5 TESTS
 4. Reconfirm pen does not pan/zoom PDF content but operates visible buttons.
 5. Reconfirm hidden Presentation controls ignore pen hover/tap.
 6. Reconfirm Pages organizer pen drag still works.
-7. About must report Milestone 2.1.5.
+7. About must report Milestone 2.1.6.
 8. Reload Latest Version should remain available; investigate further only if failure becomes reproducible.
 
 ======================================================================
