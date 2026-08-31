@@ -22,6 +22,7 @@
           <span aria-hidden="true">＋</span><span class="tool-label">Open</span>
         </button>
         <input id="fileInput" class="visually-hidden" type="file" multiple accept="application/pdf,image/*">
+        <input id="imageAssemblyInput" class="visually-hidden" type="file" multiple accept="image/*">
 
         <div class="segmented" role="group" aria-label="Workspace mode">
           <button id="viewModeBtn" class="segment active" type="button" aria-pressed="true">View</button>
@@ -145,9 +146,31 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 3.7</div>
+          <div class="export-kicker">Milestone 4.0</div>
           <h1>Files</h1>
-          <p class="export-summary">Choose documents once below, then use the expandable operations. Export and Combine use the checked documents; Extract and Split use the active document.</p>
+          <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
+
+          <section class="library-section" aria-labelledby="libraryHeading">
+            <div class="open-documents-heading-row">
+              <div>
+                <h2 id="libraryHeading">Local Library</h2>
+                <p id="librarySummary" class="file-tool-summary">Loading local Library…</p>
+              </div>
+              <div class="file-selection-actions">
+                <button id="libraryRefreshBtn" type="button">Refresh</button>
+              </div>
+            </div>
+            <div id="libraryDocumentList" class="library-document-list" aria-label="Persistent local documents"></div>
+            <p id="libraryStorageSummary" class="small-note"></p>
+          </section>
+
+          <details class="file-tool-section file-tool-details" id="trashFilesSection">
+            <summary><span>Trash</span><span id="trashSummary" class="operation-summary">No documents in Trash</span></summary>
+            <div class="file-tool-body">
+              <p class="file-tool-summary">Documents moved to Trash are removed from the active workspace but remain recoverable until permanently deleted.</p>
+              <div id="trashDocumentList" class="library-document-list trash-document-list" aria-label="Documents in Trash"></div>
+            </div>
+          </details>
 
           <section class="open-documents-section" aria-labelledby="openDocumentsHeading">
             <div class="open-documents-heading-row">
@@ -164,13 +187,54 @@
           </section>
 
           <details class="file-tool-section file-tool-details" id="newFilesSection">
-            <summary><span>New</span><span class="operation-summary">Create a blank or graph-paper document</span></summary>
+            <summary><span>New</span><span class="operation-summary">Create a blank, graph-paper, or template document</span></summary>
             <div class="file-tool-body">
               <p class="file-tool-summary">New writing documents start as US Letter landscape. Pages inserted into an existing document still match the current page size and orientation.</p>
               <div class="new-document-actions">
                 <button id="newBlankDocumentBtn" class="export-button secondary-output-button" type="button">Blank document</button>
                 <button id="newGraphDocumentBtn" class="export-button secondary-output-button" type="button">Graph-paper document</button>
+                <button id="newTemplateDocumentBtn" class="export-button secondary-output-button" type="button" disabled>From template…</button>
               </div>
+            </div>
+          </details>
+
+
+          <details class="file-tool-section file-tool-details" id="imagePdfFilesSection">
+            <summary><span>Images → PDF</span><span id="imageAssemblyOperationSummary" class="operation-summary">Assemble several images as one document</span></summary>
+            <div class="file-tool-body">
+              <p class="file-tool-summary">Choose several images, arrange them below, then create one working document. The ordinary Open command still opens each image as its own document.</p>
+              <div class="image-assembly-actions">
+                <button id="imageAssemblyChooseBtn" class="export-button secondary-output-button" type="button">Add images…</button>
+                <button id="imageAssemblyClearBtn" class="export-button secondary-output-button" type="button" disabled>Clear images</button>
+              </div>
+              <p id="imageAssemblySummary" class="image-assembly-summary">No images selected.</p>
+              <div id="imageAssemblyList" class="image-assembly-list" aria-label="Images to assemble"></div>
+              <div class="image-assembly-options">
+                <label class="export-field">
+                  <span>New document name</span>
+                  <input id="imageAssemblyName" type="text" value="Images 1.pdf" autocomplete="off" spellcheck="false">
+                </label>
+                <label class="export-field">
+                  <span>Page size</span>
+                  <select id="imageAssemblyPageSize">
+                    <option value="letter" selected>US Letter</option>
+                    <option value="a4">A4</option>
+                    <option value="legal">US Legal</option>
+                    <option value="image">Match image aspect (long edge 11 in)</option>
+                  </select>
+                </label>
+                <label class="export-field">
+                  <span>Orientation</span>
+                  <select id="imageAssemblyOrientation">
+                    <option value="auto" selected>Auto for each image</option>
+                    <option value="portrait">Portrait</option>
+                    <option value="landscape">Landscape</option>
+                  </select>
+                </label>
+              </div>
+              <p class="small-note">Images are fit proportionally and centered without cropping. Auto orientation chooses portrait or landscape from each image. After creation, Pages can reorder, rotate, normalize, crop, add margins, copy, extract, split, combine, or export the image pages normally.</p>
+              <button id="imageAssemblyCreateBtn" class="export-button" type="button" disabled>Create image document</button>
+              <p id="imageAssemblyProgress" class="export-progress" aria-live="polite"></p>
             </div>
           </details>
 
@@ -185,6 +249,47 @@
               <button id="exportPdfBtn" class="export-button" type="button" disabled>Export selected</button>
               <p class="small-note">One checked document exports as a PDF. Two or more checked documents are exported together in one ZIP; each PDF keeps its own current page order and edits.</p>
               <p id="exportProgress" class="export-progress" aria-live="polite"></p>
+            </div>
+          </details>
+
+          <details class="file-tool-section file-tool-details" id="compressFilesSection">
+            <summary><span>Compress</span><span id="compressOperationSummary" class="operation-summary">Select one or more documents above</span></summary>
+            <div class="file-tool-body">
+              <p id="compressSummary" class="file-tool-summary">Select one or more open documents above.</p>
+              <div class="compression-options">
+                <label class="export-field">
+                  <span>Method</span>
+                  <select id="compressionMethod">
+                    <option value="preserve" selected>Preserve text / vector content</option>
+                    <option value="raster">Rasterize pages — smaller, but text is no longer selectable</option>
+                  </select>
+                </label>
+                <label class="export-field">
+                  <span>Compression level</span>
+                  <select id="compressionLevel">
+                    <option value="light">Light</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="strong">Strong</option>
+                    <option value="target">Maximum file size…</option>
+                  </select>
+                </label>
+                <label id="compressionTargetField" class="export-field hidden">
+                  <span>Maximum size per PDF (MB)</span>
+                  <input id="compressionTargetMb" type="number" min="0.1" max="2048" step="0.1" value="10" inputmode="decimal">
+                </label>
+                <label class="export-field">
+                  <span id="compressionFilenameLabel">File name</span>
+                  <input id="compressionFilename" type="text" value="document-compressed.pdf" autocomplete="off" spellcheck="false">
+                </label>
+                <label class="compression-check">
+                  <input id="compressionNormalizeLetter" type="checkbox">
+                  <span><strong>Normalize pages to Letter canvas</strong><small>Use 8.5 × 11 in or 11 × 8.5 in to match each page orientation. Oversized pages are reduced to fit; smaller pages keep their size and are centered.</small></span>
+                </label>
+              </div>
+              <div id="compressionMethodNote" class="compression-method-note"></div>
+              <button id="compressBtn" class="export-button" type="button" disabled>Compress selected</button>
+              <p class="small-note">Preserve mode keeps PDF text/vector pages structural and recompresses imported image pages. Existing raster images embedded inside an opened PDF are left intact in this first structure-preserving pass. Rasterize is explicit because it turns every output page into a JPEG image and removes selectable text.</p>
+              <p id="compressionProgress" class="export-progress" aria-live="polite"></p>
             </div>
           </details>
 
@@ -244,7 +349,20 @@
             </div>
           </details>
 
-          <p class="small-note files-roadmap-note">Image assembly, compression, closing documents, and the persistent Library/folder system remain later roadmap items.</p>
+          <details class="file-tool-section file-tool-details" id="storageFilesSection">
+            <summary><span>Storage & reset</span><span class="operation-summary">Library recovery and development reset tools</span></summary>
+            <div class="file-tool-body">
+              <p class="file-tool-summary">The Library is stored separately from the service-worker app cache. Normal PDF Workbench updates should not erase it.</p>
+              <div class="new-document-actions">
+                <button id="requestPersistentStorageBtn" class="export-button secondary-output-button" type="button">Request persistent storage</button>
+                <button id="purgeLibraryBtn" class="export-button danger-output-button" type="button">Delete local Library…</button>
+                <button id="factoryResetBtn" class="export-button danger-output-button" type="button">Factory reset all local data…</button>
+              </div>
+              <p id="storageActionStatus" class="export-progress" aria-live="polite"></p>
+            </div>
+          </details>
+
+          <p class="small-note files-roadmap-note">Folders/subfolders, rename/duplicate, Favorites, search/sort/grid-list, persistent templates, full Library backup/restore, and bulk Library management are planned for the next Milestone 4 revisions. Trash/recovery is available now.</p>
         </div>
       </section>
     </main>
@@ -452,6 +570,20 @@
         <div class="dialog-actions">
           <button id="templateNameCancelBtn" type="button">Cancel</button>
           <button value="save">Save template</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="closeDocumentDialog" class="info-dialog close-document-dialog">
+      <form id="closeDocumentForm" method="dialog">
+        <button id="closeDocumentXBtn" class="dialog-close" type="button" aria-label="Cancel">×</button>
+        <h2 id="closeDocumentTitle">Delete document</h2>
+        <p id="closeDocumentMessage"></p>
+        <p class="small-note">Permanent deletion removes the editable Library copy and cannot be undone. Moving a document to Trash is recoverable.</p>
+        <div class="dialog-actions close-document-actions">
+          <button id="closeDocumentCancelBtn" type="button">Cancel</button>
+          <button id="closeDocumentWithoutExportBtn" type="button">Delete permanently</button>
+          <button id="closeDocumentExportBtn" type="button">Export PDF & delete</button>
         </div>
       </form>
     </dialog>

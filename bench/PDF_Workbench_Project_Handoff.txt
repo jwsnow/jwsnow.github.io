@@ -1,3 +1,238 @@
+PDF WORKBENCH PWA — CURRENT PROJECT HANDOFF
+==============================================
+
+CURRENT BUILD: Milestone 4.0.1
+Visible About version: 4.0.1
+Service-worker/cache version: pdf-workbench-m4.0.1-v1
+Library schema version: 2
+
+Milestone 4.0.1 refines the Milestone 4 persistent Local Library foundation.
+
+CURRENT LIBRARY SEMANTICS
+-------------------------
+- Imported/created working documents persist in IndexedDB separately from the service-worker cache.
+- Close and More → Close all files affect only the active workspace. They do NOT prompt for PDF export because the editable Library copy is automatically persisted.
+- Local Library has per-document Trash. Moving to Trash closes an open copy if necessary but remains recoverable.
+- Trash persists across app restarts and trashed documents are excluded from automatic session reopening.
+- Trash supports Restore and Delete permanently.
+- If a permanently deleted document has changes not exported to PDF, offer Export PDF & delete, Delete permanently, or Cancel. This is where the export/loss warning belongs.
+- Storage & reset still includes request persistent storage, usage/quota reporting, Delete local Library, and Factory reset all local data.
+- The Library uses a versioned schema. Schema 2 adds trashedAt while remaining backward-compatible with schema-1 records from 4.0.0.
+
+NEW FROM TEMPLATE
+-----------------
+Files → New now offers Blank document, Graph-paper document, and From template…. From template is enabled when session templates exist and uses a visual thumbnail chooser. The new document starts with an independent copy of the selected template page and immediately becomes a normal persistent Library document. Templates themselves remain session-only until the planned persistent-template work in Milestone 4.1.
+
+MILESTONE 4 ROADMAP
+-------------------
+4.1 — Library organization/daily management:
+- folders and subfolders
+- rename and duplicate documents
+- move documents/folders
+- Favorites
+- filename/folder search
+- sort by name/modified/created
+- grid/list Library views
+- bulk Library actions
+- persistent templates
+- page bookmarks/document outlines foundation
+
+4.2 — Backup/portability/storage hardening:
+- export entire Library as PDFs in hierarchy-preserving ZIP
+- full editable PDF Workbench Library backup/restore
+- schema migrations/version checks
+- backup-first reset flow
+- hyperlink/outline preservation audit
+- future PDF-text/OCR/handwriting search-index fields
+- orphaned-source cleanup/storage hardening
+
+MILESTONE 5 INKING ROADMAP
+--------------------------
+Pen/Eraser/Lasso/Undo/Redo plus Highlighter, a few configurable pen presets, explicit View/Hand mode, auto-return eraser, optional multi-finger undo/redo, Laser Pointer for Presentation, pressure/coalesced/predicted smooth ink, palm rejection, editable annotation objects, vector PDF export, and an annotated-pages filter later. Stylus writes; one finger pans; two fingers pinch/zoom; Draw with Finger defaults off.
+
+PRESERVE / DO NOT REGRESS
+-------------------------
+Do not regress validated Milestone 3 features: PDF export/ZIP, Extract/Split/Combine, compression and Letter-canvas normalization, Images → PDF, page copy between documents, Page size and Crop/margins, blank/graph/template insertion, thumbnail template chooser/manager, Continuous/Page Snap/Full Page, Single/Split, Presentation, same-document split anchoring, finger/pen separation, and PDF.js JBIG2/WASM configuration.
+
+RELEASE PRACTICE
+----------------
+Every distribution ZIP must include this handoff, README, and graph-paper-reference.png. About version and service-worker cache version must stay synchronized.
+
+-------------------------------------------------------------------------------
+PREVIOUS COMPREHENSIVE HANDOFF FOLLOWS
+-------------------------------------------------------------------------------
+
+PDF WORKBENCH PWA — MILESTONE 3.9.1 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.9.1
+Visible About version: 3.9.1
+Service-worker/cache version: pdf-workbench-m3.9.1-v1
+
+WHY THIS REVISION EXISTS
+------------------------
+Milestone 3.9.0 compression was tested successfully, especially explicit Rasterize mode on student scans. Already-optimized PDFs can remain the same size or become larger after raster rebuilding; that is acceptable and should not cause silent destructive behavior. The user's common compression workflow is standardizing student-submitted scans, which may have inconsistent page dimensions.
+
+3.9.1 LETTER-CANVAS NORMALIZATION DURING COMPRESSION
+-----------------------------------------------------
+1. Add an optional Files → Compress checkbox: Normalize pages to Letter canvas.
+2. The checkbox affects only the compressed output and does not modify the open workbench document.
+3. Every output page becomes US Letter in the page's current orientation: 612×792 pt portrait or 792×612 pt landscape.
+4. Oversized pages are scaled down proportionally to fit within Letter without cropping.
+5. Smaller pages are NOT enlarged; their existing physical content size is retained and centered on the Letter canvas with white space around it.
+6. Mixed portrait/landscape documents choose Letter orientation independently per page.
+7. The option works with both Preserve and Rasterize compression. Preserve keeps page content structural/vector where the existing compressor does; Rasterize applies the normalized Letter canvas before rendering the final JPEG-backed pages.
+8. Preserve target-size accounting and Raster target-size accounting use the normalized output when the checkbox is enabled.
+9. Keep the option off by default so ordinary compression does not silently change page dimensions.
+
+PRESERVE
+--------
+Do not regress validated 3.9.0 compression, 3.8 image assembly, 3.7 page geometry/crop/export, 3.6 page copy, 3.5 templates/Presentation/view state, split-pane independence, touch/pen separation, Files Export/Extract/Split/Combine, page insertion, or PDF.js JBIG2/WASM configuration.
+
+TEST PRIORITIES
+---------------
+- Student-scan PDF with mixed scanner page sizes: Rasterize Medium + Letter normalization.
+- Verify every output page reports 8.5×11 or 11×8.5 in in Adobe.
+- Small page: verify centered and not enlarged.
+- Oversized/Legal page: verify reduced proportionally and centered.
+- Mixed portrait/landscape pages: verify per-page orientation choice.
+- Preserve-mode selectable-text PDF + Letter normalization: verify text remains selectable.
+- Checkbox off: verify 3.9.0 output behavior is unchanged.
+
+NEXT ROADMAP
+------------
+After compression is stable, begin Milestone 4 persistent Files/Library: stored working documents/projects, close/reopen, Recent, folders, rename/move/delete, persistent templates, and backup/restore. Inking/annotations follows.
+
+RELEASE PRACTICE
+----------------
+Every distribution ZIP must include this handoff, README, and graph-paper-reference.png and keep About/service-worker versions synchronized.
+
+
+PDF WORKBENCH PWA — MILESTONE 3.9.0 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.9.0
+Visible About version: 3.9.0
+Service-worker/cache version: pdf-workbench-m3.9.0-v1
+
+WHY THIS REVISION EXISTS
+------------------------
+Milestone 3.8.1 Images → PDF is working. The next planned manipulation feature is compression/target file size. Compression must not silently rasterize selectable text merely to reduce file size.
+
+3.9.0 COMPRESSION
+-----------------
+1. Add a Files → Compress expandable operation that uses the same checked-document selection model as Export and Combine.
+2. One checked document saves one compressed PDF. Multiple checked documents are compressed individually and packaged into one ZIP for one save/share action, especially on iPad.
+3. Methods:
+   - Preserve text / vector content (default/recommended).
+   - Rasterize pages (explicit destructive option).
+4. Preserve mode keeps opened PDF source pages structural. It downscales/recompresses imported image pages as JPEG according to the selected level. In this first structure-preserving implementation, raster images already embedded inside an opened PDF are retained as-is; scan-heavy opened PDFs may therefore shrink little unless Rasterize is explicitly selected.
+5. Rasterize mode renders each final edited page and rebuilds the PDF from JPEG page images. This can strongly compress scans but removes selectable/searchable text, live links/forms, and vector sharpness. Never invoke this path silently.
+6. Levels: Light, Medium, Strong, and Maximum file size. Maximum size is interpreted per output PDF when multiple documents are selected.
+7. Target-size Preserve mode progressively lowers imported-image settings. If the target still cannot be met, stop without downloading and tell the user to choose Rasterize explicitly.
+8. Target-size Rasterize mode progressively lowers raster DPI/JPEG quality. If even the lowest safe setting cannot meet the target, stop rather than falsely claiming the maximum was achieved.
+9. Raster work is page-at-a-time with bounded canvas pixel count to reduce iPad/Chromebook/Surface memory pressure.
+10. Keep all processing local in the browser.
+
+PRESERVE
+--------
+Do not regress the validated 3.8 image assembly and numbered names, 3.7 page geometry/crop/export, 3.6 page copy, 3.5 templates/Presentation/view state, split-pane independence, touch/pen separation, Files Export/Extract/Split/Combine, page insertion, or PDF.js JBIG2/WASM configuration.
+
+TEST PRIORITIES
+---------------
+- Images → PDF document: compare Preserve Light/Medium/Strong size and quality.
+- Ordinary selectable-text PDF in Preserve: verify text remains selectable.
+- Scan-heavy PDF (including BaakeScan if available) with explicit Rasterize: verify size reduction and visual correctness.
+- Strict target in Preserve that cannot be met: verify no silent rasterization/download.
+- Strict target in Rasterize: verify output is <= target when feasible.
+- Multi-document compression: verify one ZIP with one compressed PDF per checked document.
+- iPad/Surface/Chromebook memory/progress behavior on raster compression.
+
+NEXT ROADMAP
+------------
+After compression is stable, begin Milestone 4 persistent Files/Library: stored working documents/projects, close/reopen, Recent, folders, rename/move/delete, persistent templates, and backup/restore. Inking/annotations follows.
+
+RELEASE PRACTICE
+----------------
+Every distribution ZIP must include this handoff, README, and graph-paper-reference.png and keep About/service-worker versions synchronized.
+
+
+PDF WORKBENCH PWA — MILESTONE 3.8.1 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.8.1
+Visible About version: 3.8.1
+Service-worker/cache version: pdf-workbench-m3.8.1-v1
+
+WHY THIS REVISION EXISTS
+------------------------
+Milestone 3.8.0 Images → PDF was tested successfully. One usability issue remained: every newly assembled image document defaulted to the same name, Images.pdf.
+
+3.8.1 NUMBERED IMAGE-ASSEMBLY DEFAULT NAMES
+---------------------------------------------
+1. The first suggested Images → PDF document name is Images 1.pdf.
+2. After each successful image assembly, the suggested name advances to Images 2.pdf, Images 3.pdf, and so on for the current app session.
+3. The user can still replace the suggested name with any desired filename before creation.
+4. This is a naming-only revision. Preserve the validated 3.8.0 image assembly, 3.7.x geometry/export, 3.6 copy, 3.5 viewer/Presentation/template, touch/pen, Files, split-view, and JBIG2/WASM behavior.
+
+TEST PRIORITY
+-------------
+Create several image documents successively and verify the default names advance without affecting image assembly or export.
+
+RELEASE PRACTICE
+----------------
+Every distribution ZIP must include this handoff, README, and graph-paper-reference.png and keep About/service-worker versions synchronized.
+
+
+PDF WORKBENCH PWA — MILESTONE 3.8.0 CURRENT UPDATE
+=====================================================
+
+CURRENT BUILD: Milestone 3.8.0
+Visible About version: 3.8.0
+Service-worker/cache version: pdf-workbench-m3.8.0-v1
+
+WHY THIS REVISION EXISTS
+------------------------
+Milestone 3.7.1 crop/margins was tested successfully, including multiple sizes/orientations and export verification in Adobe. The Pages interface also remains comfortable on iPad in both orientations, and the user prefers keeping its expanded rows of page-operation buttons. The next roadmap item is improved image-to-PDF assembly.
+
+3.8.0 IMAGES → PDF
+------------------
+1. Add a dedicated Files → Images → PDF expandable section. Do not change the normal Open semantics: Open continues to treat separately selected images as separate documents.
+2. The image-assembly picker accepts multiple browser-readable images and can be used repeatedly to append additional images before creation.
+3. Show a thumbnail, filename, and pixel dimensions for every pending image.
+4. Allow up/down ordering and removal before document creation; Clear images removes the pending list.
+5. New document settings: document name; US Letter, A4, US Legal, or image-aspect page size; Auto/Portrait/Landscape orientation.
+6. Auto orientation chooses portrait/landscape separately from each image's natural aspect. Forced orientation changes the target page canvas; it does not rotate/crop the source image.
+7. Image-aspect pages preserve the source aspect ratio and bound the long page edge to 11 inches (792 pt), avoiding unbounded PDF pages based directly on camera pixel dimensions.
+8. Imported images are fit proportionally and centered with no cropping. Existing Pages geometry tools can subsequently normalize/crop/add margins if desired.
+9. Creating the assembly produces one normal editable working document and switches to Pages for further arrangement.
+10. Each image remains a source object rather than being pre-rasterized into a whole PDF page. JPEG/PNG export can embed the original image bytes; other browser-readable formats may be converted to PNG at image-page export time.
+11. Resulting image pages must continue to participate in reorder/rotate/duplicate/delete, Page size, Crop/margins, Copy to…, templates, Combine, Extract, Split, and Export.
+
+PRESERVE
+--------
+Do not regress the validated 3.7.x geometry/export path, the expanded iPad Pages interface, 3.6 copy workflow, 3.5 viewer/Presentation/template behavior, independent split state, finger/pen separation, multi-document Files operations, or JBIG2/WASM support.
+
+TEST PRIORITIES
+---------------
+- Multiple JPEG/PNG images selected in one picker action.
+- Add a second batch before creating the document.
+- Reorder/remove/clear pending images.
+- Mixed portrait/landscape images with Auto orientation.
+- Forced portrait/landscape, Letter/A4/Legal/image-aspect page sizes.
+- Export/reopen in Adobe and verify page sizes/orientations/content.
+- iPad/Surface/Chromebook multi-image picker and thumbnail-list layout.
+- Resulting pages with normal Pages geometry/transfer/template/output operations.
+
+NEXT ROADMAP
+------------
+After image assembly is stable, the next planned manipulation area is compression/target file size, followed by the persistent Files/Library system (stored documents, close/reopen, folders, recent items, persistent templates, backup/restore), then inking/annotations.
+
+RELEASE PRACTICE
+----------------
+Every distribution ZIP must include this handoff, README, and graph-paper-reference.png and keep About/service-worker versions synchronized.
+
+
 PDF WORKBENCH PWA — MILESTONE 3.7.1 CURRENT UPDATE
 =====================================================
 

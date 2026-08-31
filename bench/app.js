@@ -1,4 +1,4 @@
-const APP_VERSION = '3.7.1';
+const APP_VERSION = '4.0.1';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -8,24 +8,30 @@ const PDFJS_STANDARD_FONT_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108
 const PDFLIB_URL = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.esm.min.js';
 const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 
+const LIBRARY_DB_NAME = 'pdf-workbench-library';
+const LIBRARY_DB_VERSION = 1;
+const LIBRARY_SCHEMA_VERSION = 2;
+
 const $ = (id) => document.getElementById(id);
 const els = {
-  app: $('app'), openBtn: $('openBtn'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), documentSelect: $('documentSelect'),
+  app: $('app'), openBtn: $('openBtn'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), newTemplateDocumentBtn: $('newTemplateDocumentBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), imageAssemblyInput: $('imageAssemblyInput'), documentSelect: $('documentSelect'),
   viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), exportModeBtn: $('exportModeBtn'), viewerControls: $('viewerControls'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
+  imageAssemblyChooseBtn: $('imageAssemblyChooseBtn'), imageAssemblyClearBtn: $('imageAssemblyClearBtn'), imageAssemblySummary: $('imageAssemblySummary'), imageAssemblyList: $('imageAssemblyList'), imageAssemblyName: $('imageAssemblyName'), imageAssemblyPageSize: $('imageAssemblyPageSize'), imageAssemblyOrientation: $('imageAssemblyOrientation'), imageAssemblyCreateBtn: $('imageAssemblyCreateBtn'), imageAssemblyProgress: $('imageAssemblyProgress'), imageAssemblyOperationSummary: $('imageAssemblyOperationSummary'),
+  compressOperationSummary: $('compressOperationSummary'), compressSummary: $('compressSummary'), compressionMethod: $('compressionMethod'), compressionLevel: $('compressionLevel'), compressionTargetField: $('compressionTargetField'), compressionTargetMb: $('compressionTargetMb'), compressionFilenameLabel: $('compressionFilenameLabel'), compressionFilename: $('compressionFilename'), compressionNormalizeLetter: $('compressionNormalizeLetter'), compressionMethodNote: $('compressionMethodNote'), compressBtn: $('compressBtn'), compressionProgress: $('compressionProgress'),
   splitLeftPane: $('splitLeftPane'), splitLeftViewer: $('splitLeftViewer'), splitLeftDocumentSelect: $('splitLeftDocumentSelect'), splitLeftNav: $('splitLeftNav'), splitLeftPrevBtn: $('splitLeftPrevBtn'), splitLeftNextBtn: $('splitLeftNextBtn'), splitLeftCounter: $('splitLeftCounter'),
   splitRightPane: $('splitRightPane'), splitRightViewer: $('splitRightViewer'), splitRightDocumentSelect: $('splitRightDocumentSelect'), splitRightNav: $('splitRightNav'), splitRightPrevBtn: $('splitRightPrevBtn'), splitRightNextBtn: $('splitRightNextBtn'), splitRightCounter: $('splitRightCounter'),
   thumbnailGrid: $('thumbnailGrid'), pageCountLabel: $('pageCountLabel'), selectionLabel: $('selectionLabel'),
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -71,7 +77,16 @@ const state = {
   insertTarget: null,
   pendingPageFocus: null,
   templates: [],
+  imageAssemblyItems: [],
+  imageAssemblySequence: 1,
   insertPreviewGeneration: 0,
+  libraryDb: null,
+  libraryReady: false,
+  libraryRecords: new Map(),
+  libraryPersistTimer: null,
+  libraryPersisting: false,
+  libraryPersistAgain: false,
+  librarySuppressPersist: false,
   splitView: false,
   activePaneId: 'left',
   singleSourcePaneId: 'left',
@@ -90,6 +105,341 @@ function safePref(key, fallback, allowed) {
 function savePref(key, value) { try { localStorage.setItem(key, value); } catch {} }
 function uid(prefix='id') { return `${prefix}-${crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`}`; }
 function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+
+// ---------------------------------------------------------------------------
+// Milestone 4.0 persistent local Library
+// ---------------------------------------------------------------------------
+function idbRequest(request) {
+  return new Promise((resolve, reject) => {
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error || new Error('IndexedDB request failed'));
+  });
+}
+function idbTransactionDone(tx) {
+  return new Promise((resolve, reject) => {
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error || new Error('IndexedDB transaction failed'));
+    tx.onabort = () => reject(tx.error || new Error('IndexedDB transaction aborted'));
+  });
+}
+async function openLibraryDatabase() {
+  if (!('indexedDB' in window)) throw new Error('This browser does not provide IndexedDB storage.');
+  const request = indexedDB.open(LIBRARY_DB_NAME, LIBRARY_DB_VERSION);
+  request.onupgradeneeded = () => {
+    const db = request.result;
+    if (!db.objectStoreNames.contains('documents')) db.createObjectStore('documents', { keyPath: 'id' });
+    if (!db.objectStoreNames.contains('sources')) db.createObjectStore('sources', { keyPath: 'id' });
+    if (!db.objectStoreNames.contains('meta')) db.createObjectStore('meta', { keyPath: 'key' });
+  };
+  const db = await idbRequest(request);
+  db.onversionchange = () => db.close();
+  return db;
+}
+function libraryStore(name, mode='readonly') {
+  if (!state.libraryDb) throw new Error('Local Library is not ready.');
+  const tx = state.libraryDb.transaction(name, mode);
+  return { tx, store: tx.objectStore(name) };
+}
+async function libraryGet(storeName, key) {
+  const { store } = libraryStore(storeName);
+  return idbRequest(store.get(key));
+}
+async function libraryGetAll(storeName) {
+  const { store } = libraryStore(storeName);
+  return idbRequest(store.getAll());
+}
+async function libraryPut(storeName, value) {
+  const { tx, store } = libraryStore(storeName, 'readwrite');
+  store.put(value);
+  await idbTransactionDone(tx);
+}
+async function libraryDelete(storeName, key) {
+  const { tx, store } = libraryStore(storeName, 'readwrite');
+  store.delete(key);
+  await idbTransactionDone(tx);
+}
+async function libraryClearStore(storeName) {
+  const { tx, store } = libraryStore(storeName, 'readwrite');
+  store.clear();
+  await idbTransactionDone(tx);
+}
+function clonePlain(value) {
+  if (value == null) return value;
+  try { return structuredClone(value); } catch { return JSON.parse(JSON.stringify(value)); }
+}
+function serializeDocumentForLibrary(doc) {
+  return {
+    id: doc.id,
+    schemaVersion: LIBRARY_SCHEMA_VERSION,
+    name: doc.name || 'Untitled.pdf',
+    pages: doc.pages.map(page => ({ ...page })),
+    selected: [...(doc.selected || [])],
+    selectionAnchorId: doc.selectionAnchorId || null,
+    activePageId: doc.activePageId || doc.pages[0]?.id || null,
+    history: (doc.history || []).map(snapshot => snapshot.map(page => ({ ...page }))),
+    future: (doc.future || []).map(snapshot => snapshot.map(page => ({ ...page }))),
+    singleView: copyView(doc.singleView || ensureSingleView(doc)),
+    createdAt: doc.createdAt || Date.now(),
+    modifiedAt: doc.modifiedAt || Date.now(),
+    needsExport: !!doc.needsExport,
+    lastExportedAt: doc.lastExportedAt || null,
+    folderId: doc.folderId || null,
+    favorite: !!doc.favorite,
+    trashedAt: doc.trashedAt || null,
+  };
+}
+function hydrateDocumentFromLibrary(record) {
+  const pages = (record.pages || []).map(page => ({ ...page }));
+  const pageIds = new Set(pages.map(page => page.id));
+  const doc = {
+    id: record.id,
+    name: record.name || 'Untitled.pdf',
+    pages,
+    selected: new Set((record.selected || []).filter(id => pageIds.has(id))),
+    selectionAnchorId: pageIds.has(record.selectionAnchorId) ? record.selectionAnchorId : null,
+    activePageId: pageIds.has(record.activePageId) ? record.activePageId : pages[0]?.id || null,
+    history: (record.history || []).map(snapshot => snapshot.map(page => ({ ...page }))),
+    future: (record.future || []).map(snapshot => snapshot.map(page => ({ ...page }))),
+    singleView: copyView(record.singleView) || { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: pages[0]?.id || null, scrollTop: null, scrollLeft: null },
+    createdAt: record.createdAt || Date.now(),
+    modifiedAt: record.modifiedAt || record.createdAt || Date.now(),
+    needsExport: !!record.needsExport,
+    lastExportedAt: record.lastExportedAt || null,
+    folderId: record.folderId || null,
+    favorite: !!record.favorite,
+    trashedAt: record.trashedAt || null,
+    libraryManaged: true,
+  };
+  return doc;
+}
+async function persistSourceToLibrary(sourceId) {
+  const source = state.sources.get(sourceId);
+  if (!source || source.libraryPersisted) return;
+  let blob = null;
+  if (source.type === 'pdf') {
+    if (source.bytes) blob = new Blob([source.bytes], { type: 'application/pdf' });
+    else if (source.blob instanceof Blob) blob = source.blob;
+  } else if (source.type === 'image') {
+    if (source.file instanceof Blob) blob = source.file;
+    else if (source.blob instanceof Blob) blob = source.blob;
+  }
+  if (!blob) return;
+  await libraryPut('sources', {
+    id: source.id,
+    schemaVersion: LIBRARY_SCHEMA_VERSION,
+    type: source.type,
+    name: source.name || 'source',
+    size: blob.size,
+    mimeType: blob.type || (source.type === 'pdf' ? 'application/pdf' : 'application/octet-stream'),
+    blob,
+  });
+  source.libraryPersisted = true;
+}
+async function ensureLibrarySourceLoaded(sourceId) {
+  if (!sourceId) return null;
+  if (state.sources.has(sourceId)) return state.sources.get(sourceId);
+  const record = await libraryGet('sources', sourceId);
+  if (!record?.blob) throw new Error(`Stored source ${sourceId} is missing from the local Library.`);
+  if (record.type === 'pdf') {
+    if (!state.pdfjs) throw new Error('The PDF engine is not available to reopen this stored document.');
+    const bytes = new Uint8Array(await record.blob.arrayBuffer());
+    const pdf = await state.pdfjs.getDocument({
+      data: bytes.slice(), wasmUrl: PDFJS_WASM_URL, cMapUrl: PDFJS_CMAP_URL,
+      cMapPacked: true, standardFontDataUrl: PDFJS_STANDARD_FONT_URL, useWasm: true,
+    }).promise;
+    const source = { id: sourceId, type: 'pdf', name: record.name, size: record.size, bytes, pdf, blob: record.blob, libraryPersisted: true };
+    state.sources.set(sourceId, source);
+    return source;
+  }
+  const blob = record.blob;
+  const url = URL.createObjectURL(blob);
+  const source = { id: sourceId, type: 'image', name: record.name, size: record.size, file: blob, blob, url, image: null, libraryPersisted: true };
+  state.sources.set(sourceId, source);
+  return source;
+}
+function serializeLibrarySession() {
+  const paneState = pane => ({
+    documentId: pane.documentId || null,
+    views: [...pane.views.entries()].map(([id, view]) => [id, copyView(view)]),
+  });
+  return {
+    key: 'session', schemaVersion: LIBRARY_SCHEMA_VERSION,
+    openIds: state.documents.map(doc => doc.id),
+    currentDocumentId: state.currentDocumentId,
+    workspaceMode: state.workspaceMode,
+    splitView: !!state.splitView,
+    activePaneId: state.activePaneId,
+    singleSourcePaneId: state.singleSourcePaneId,
+    splitPanes: { left: paneState(state.splitPanes.left), right: paneState(state.splitPanes.right) },
+    updatedAt: Date.now(),
+  };
+}
+async function persistLibraryNow(options={}) {
+  if (!state.libraryReady || state.librarySuppressPersist || !state.libraryDb) return;
+  if (state.libraryPersisting) { state.libraryPersistAgain = true; return; }
+  state.libraryPersisting = true;
+  try {
+    saveCurrentDocumentState({ readViewDom: options.readViewDom !== false, skipLibrarySchedule: true });
+    for (const doc of state.documents) {
+      const sourceIds = new Set(doc.pages.map(page => page.sourceId).filter(Boolean));
+      for (const sourceId of sourceIds) await persistSourceToLibrary(sourceId);
+      const record = serializeDocumentForLibrary(doc);
+      await libraryPut('documents', record);
+      state.libraryRecords.set(doc.id, record);
+    }
+    await libraryPut('meta', serializeLibrarySession());
+    renderLibraryDocumentList();
+    updateLibraryStorageSummary();
+  } catch (err) {
+    console.error('Library persist failed', err);
+    if (els.librarySummary) els.librarySummary.textContent = `Local Library save warning: ${err?.message || err}`;
+  } finally {
+    state.libraryPersisting = false;
+    if (state.libraryPersistAgain) {
+      state.libraryPersistAgain = false;
+      scheduleLibraryPersist(80);
+    }
+  }
+}
+function scheduleLibraryPersist(delay=550) {
+  if (!state.libraryReady || state.librarySuppressPersist) return;
+  clearTimeout(state.libraryPersistTimer);
+  state.libraryPersistTimer = setTimeout(() => persistLibraryNow(), delay);
+}
+function markDocumentDirty(doc=currentDocument()) {
+  if (!doc) return;
+  doc.needsExport = true;
+  doc.modifiedAt = Date.now();
+  scheduleLibraryPersist(180);
+}
+function markDocumentExported(doc) {
+  if (!doc) return;
+  doc.needsExport = false;
+  doc.lastExportedAt = Date.now();
+  scheduleLibraryPersist(100);
+}
+async function refreshLibraryRecords() {
+  if (!state.libraryDb) return;
+  const records = await libraryGetAll('documents');
+  state.libraryRecords = new Map(records.map(record => [record.id, record]));
+  renderLibraryDocumentList();
+  updateLibraryStorageSummary();
+}
+async function reopenLibraryDocument(docId, options={}) {
+  const already = documentById(docId);
+  if (already) {
+    if (options.makeActive !== false) loadDocumentState(docId);
+    return already;
+  }
+  const record = state.libraryRecords.get(docId) || await libraryGet('documents', docId);
+  if (!record) throw new Error('That Library document is no longer available.');
+  if (record.trashedAt) throw new Error('That document is in Trash. Restore it before opening.');
+  const sourceIds = new Set((record.pages || []).map(page => page.sourceId).filter(Boolean));
+  for (const sourceId of sourceIds) await ensureLibrarySourceLoaded(sourceId);
+  const doc = hydrateDocumentFromLibrary(record);
+  state.documents.push(doc);
+  if (options.makeActive !== false) {
+    state.currentDocumentId = doc.id;
+    state.pages = doc.pages;
+    state.selected = doc.selected;
+    state.selectionAnchorId = doc.selectionAnchorId;
+    state.activePageId = doc.activePageId;
+    state.history = doc.history;
+    state.future = doc.future;
+    applySingleView(doc, doc.singleView);
+    state.workspaceMode = 'view';
+  }
+  if (!state.fileSelectionInitialized) {
+    state.fileSelected = new Set([doc.id]);
+    state.fileSelectionInitialized = true;
+  }
+  ensureSplitPaneDocuments();
+  scheduleLibraryPersist(80);
+  if (options.render !== false) renderAll({ saveState: false });
+  return doc;
+}
+async function initializePersistentLibrary() {
+  try {
+    state.libraryDb = await openLibraryDatabase();
+    state.libraryReady = true;
+    await refreshLibraryRecords();
+    const incompatible = [...state.libraryRecords.values()].find(record => Number(record.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION);
+    if (incompatible) throw new Error(`This local Library uses schema ${incompatible.schemaVersion}, newer than this build understands (${LIBRARY_SCHEMA_VERSION}). Use a newer PDF Workbench build or reset the local Library.`);
+    const session = await libraryGet('meta', 'session');
+    if (Number(session?.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION) throw new Error(`The saved Library session uses a newer schema (${session.schemaVersion}).`);
+    const openIds = Array.isArray(session?.openIds) ? session.openIds.filter(id => state.libraryRecords.has(id) && !state.libraryRecords.get(id)?.trashedAt) : [];
+    if (['view','organize','export'].includes(session?.workspaceMode)) state.workspaceMode = session.workspaceMode;
+    state.librarySuppressPersist = true;
+    for (const id of openIds) {
+      try { await reopenLibraryDocument(id, { makeActive: false, render: false }); }
+      catch (err) { console.error(`Could not restore Library document ${id}`, err); }
+    }
+    if (state.documents.length) {
+      const currentId = state.documents.some(doc => doc.id === session?.currentDocumentId) ? session.currentDocumentId : state.documents[0].id;
+      state.currentDocumentId = null;
+      loadDocumentState(currentId, false);
+      state.splitView = !!session?.splitView;
+      state.activePaneId = session?.activePaneId === 'right' ? 'right' : 'left';
+      state.singleSourcePaneId = session?.singleSourcePaneId === 'right' ? 'right' : 'left';
+      for (const paneId of ['left','right']) {
+        const saved = session?.splitPanes?.[paneId];
+        const pane = state.splitPanes[paneId];
+        if (!saved) continue;
+        pane.documentId = state.documents.some(doc => doc.id === saved.documentId) ? saved.documentId : null;
+        pane.views = new Map((saved.views || []).filter(([id]) => state.documents.some(doc => doc.id === id)).map(([id, view]) => [id, copyView(view)]));
+      }
+      ensureSplitPaneDocuments();
+    }
+    state.librarySuppressPersist = false;
+    renderAll({ saveState: false });
+    renderLibraryDocumentList();
+    updateLibraryStorageSummary();
+    if (els.librarySummary) {
+      const activeCount = [...state.libraryRecords.values()].filter(record => !record.trashedAt).length;
+      els.librarySummary.textContent = activeCount
+        ? `${activeCount} document${activeCount === 1 ? '' : 's'} in Library. ${state.documents.length} currently open.`
+        : 'The local Library is empty. Open or create a document and it will be stored automatically.';
+    }
+    scheduleLibraryPersist(250);
+  } catch (err) {
+    state.libraryReady = false;
+    console.error('Persistent Library unavailable', err);
+    if (els.librarySummary) els.librarySummary.textContent = `Persistent Library unavailable: ${err?.message || err}`;
+    if (els.libraryStorageSummary) els.libraryStorageSummary.textContent = 'Documents still work in this session, but they cannot be restored after the app is closed.';
+  }
+}
+async function updateLibraryStorageSummary() {
+  if (!els.libraryStorageSummary) return;
+  try {
+    if (!navigator.storage?.estimate) {
+      els.libraryStorageSummary.textContent = 'Local Library uses browser storage on this device.';
+      return;
+    }
+    const estimate = await navigator.storage.estimate();
+    const used = formatFileSize(estimate.usage || 0);
+    const quota = formatFileSize(estimate.quota || 0);
+    let persisted = '';
+    if (navigator.storage.persisted) persisted = (await navigator.storage.persisted()) ? ' · persistent-storage protection granted' : ' · browser-managed storage';
+    els.libraryStorageSummary.textContent = `${used} used of approximately ${quota} available${persisted}.`;
+  } catch {
+    els.libraryStorageSummary.textContent = 'Local Library uses browser storage on this device.';
+  }
+}
+async function requestPersistentLibraryStorage() {
+  if (!navigator.storage?.persist) {
+    els.storageActionStatus.textContent = 'This browser does not expose a persistent-storage request API.';
+    return;
+  }
+  try {
+    const granted = await navigator.storage.persist();
+    els.storageActionStatus.textContent = granted
+      ? 'Persistent-storage protection is enabled for this site/app.'
+      : 'The browser kept storage under its normal management policy. The Library still works, but the browser may reclaim site data under storage pressure.';
+    updateLibraryStorageSummary();
+  } catch (err) {
+    els.storageActionStatus.textContent = `Could not request persistent storage: ${err?.message || err}`;
+  }
+}
 
 // Keep raster work bounded. Image-only PDFs can require large temporary bitmaps;
 // letting many pages render at once can exhaust browser/GPU memory and leave
@@ -175,7 +525,7 @@ function currentDocument() {
 }
 
 function saveCurrentDocumentState(options={}) {
-  const { readViewDom = true } = options;
+  const { readViewDom = true, skipLibrarySchedule = false } = options;
   const doc = currentDocument();
   if (!doc) return;
   // Before persisting a normal single-view document, make the page nearest the
@@ -197,6 +547,7 @@ function saveCurrentDocumentState(options={}) {
   // those callers pass readViewDom:false so the stale pre-edit scroll cannot
   // overwrite the new page focus before the viewer is rebuilt.
   if (!state.splitView) saveSingleViewFromState(doc, readViewDom);
+  if (!skipLibrarySchedule) scheduleLibraryPersist(850);
 }
 
 function createDocument(name) {
@@ -204,6 +555,7 @@ function createDocument(name) {
   const doc = {
     id: uid('doc'), name: name || 'Untitled', pages: [], selected: new Set(), selectionAnchorId: null,
     activePageId: null, history: [], future: [],
+    createdAt: Date.now(), modifiedAt: Date.now(), needsExport: true, lastExportedAt: null, folderId: null, favorite: false, trashedAt: null, libraryManaged: true,
     // Single-view state is per document. Split panes keep their own independent
     // view-instance state, even when both panes show this same document.
     singleView: { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: null, scrollTop: null, scrollLeft: null }
@@ -418,6 +770,7 @@ function savePaneScroll(paneId) {
   }
   view.scrollTop = pe.viewer.scrollTop;
   view.scrollLeft = pe.viewer.scrollLeft;
+  scheduleLibraryPersist(1200);
 }
 
 function activateSplitPane(paneId, syncCurrent=true) {
@@ -540,6 +893,7 @@ function commitHistory(before) {
   state.history.push(before);
   if (state.history.length > 50) state.history.shift();
   state.future = [];
+  markDocumentDirty();
   updateHistoryButtons();
 }
 function restorePages(snapshot) {
@@ -554,6 +908,7 @@ function undo() {
   const previous = state.history.pop();
   state.future.push(snapshotPages());
   restorePages(previous);
+  markDocumentDirty();
   updateHistoryButtons();
 }
 function redo() {
@@ -561,6 +916,7 @@ function redo() {
   const next = state.future.pop();
   state.history.push(snapshotPages());
   restorePages(next);
+  markDocumentDirty();
   updateHistoryButtons();
 }
 function updateHistoryButtons() {
@@ -589,7 +945,12 @@ async function openFiles(fileList) {
       // This newly opened document is not yet represented by the viewer DOM.
       // Save its model/view defaults without reading scroll offsets from the
       // previously displayed document.
+      const openedAsPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+      doc.needsExport = !openedAsPdf;
+      doc.lastExportedAt = openedAsPdf ? Date.now() : null;
+      doc.modifiedAt = Date.now();
       saveCurrentDocumentState({ readViewDom: false });
+      await persistLibraryNow({ readViewDom: false });
       opened++;
       pagesAdded += added;
     } catch (err) {
@@ -622,7 +983,7 @@ async function addPdf(file) {
     standardFontDataUrl: PDFJS_STANDARD_FONT_URL,
     useWasm: true,
   }).promise;
-  const source = { id: sourceId, type: 'pdf', name: file.name, size: file.size, bytes, pdf };
+  const source = { id: sourceId, type: 'pdf', name: file.name, size: file.size, bytes, pdf, libraryPersisted: false };
   state.sources.set(sourceId, source);
 
   const newPages = [];
@@ -647,9 +1008,207 @@ async function addImage(file) {
   const sourceId = uid('src');
   const url = URL.createObjectURL(file);
   const dims = await readImageDimensions(file, url);
-  state.sources.set(sourceId, { id: sourceId, type: 'image', name: file.name, size: file.size, file, url, image: null });
+  state.sources.set(sourceId, { id: sourceId, type: 'image', name: file.name, size: file.size, file, url, image: null, libraryPersisted: false });
   state.pages.push({ id: uid('page'), sourceId, sourcePage: 1, width: dims.width, height: dims.height, baseRotation: 0, rotation: 0, kind: 'image' });
   return 1;
+}
+
+function clearImageAssembly(options={}) {
+  const { revoke = true } = options;
+  if (revoke) {
+    for (const item of state.imageAssemblyItems) {
+      try { URL.revokeObjectURL(item.url); } catch {}
+    }
+  }
+  state.imageAssemblyItems = [];
+  if (els.imageAssemblyInput) els.imageAssemblyInput.value = '';
+  renderImageAssemblyList();
+}
+
+async function addImageAssemblyFiles(fileList) {
+  const files = [...(fileList || [])].filter(file => file?.type?.startsWith('image/'));
+  if (!files.length) {
+    setStatus('Choose one or more image files');
+    if (els.imageAssemblyInput) els.imageAssemblyInput.value = '';
+    return;
+  }
+  if (els.imageAssemblyProgress) els.imageAssemblyProgress.textContent = `Reading ${files.length} image${files.length === 1 ? '' : 's'}…`;
+  let added = 0;
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const url = URL.createObjectURL(file);
+    try {
+      const dims = await readImageDimensions(file, url);
+      state.imageAssemblyItems.push({ id: uid('img'), file, url, width: dims.width, height: dims.height });
+      added++;
+      if (els.imageAssemblyProgress) els.imageAssemblyProgress.textContent = `Reading image ${i + 1} of ${files.length}…`;
+    } catch (err) {
+      try { URL.revokeObjectURL(url); } catch {}
+      console.error(err);
+      setStatus(`Could not read ${file.name}`);
+    }
+  }
+  if (els.imageAssemblyInput) els.imageAssemblyInput.value = '';
+  renderImageAssemblyList();
+  if (els.imageAssemblyProgress) els.imageAssemblyProgress.textContent = added
+    ? `${state.imageAssemblyItems.length} image${state.imageAssemblyItems.length === 1 ? '' : 's'} ready. Arrange them, choose page settings, then create the document.`
+    : 'No readable images were added.';
+  if (added) setStatus(`Added ${added} image${added === 1 ? '' : 's'} to image assembly`);
+}
+
+function imageAssemblyTargetSize(item) {
+  const preset = els.imageAssemblyPageSize?.value || 'letter';
+  const orientation = els.imageAssemblyOrientation?.value || 'auto';
+  const naturalLandscape = Number(item?.width) >= Number(item?.height);
+  let width, height;
+  if (preset === 'a4') [width, height] = [595.28, 841.89];
+  else if (preset === 'legal') [width, height] = [612, 1008];
+  else if (preset === 'image') {
+    const iw = Math.max(1, Number(item?.width) || 1);
+    const ih = Math.max(1, Number(item?.height) || 1);
+    const longEdge = 792; // 11 inches: bounded, predictable PDF page geometry.
+    if (iw >= ih) [width, height] = [longEdge, longEdge * ih / iw];
+    else [width, height] = [longEdge * iw / ih, longEdge];
+  } else [width, height] = [612, 792];
+
+  const wantLandscape = orientation === 'auto' ? naturalLandscape : orientation === 'landscape';
+  const isLandscape = width >= height;
+  if (wantLandscape !== isLandscape) [width, height] = [height, width];
+  return { width: Math.max(1, width), height: Math.max(1, height) };
+}
+
+function renderImageAssemblyList() {
+  if (!els.imageAssemblyList) return;
+  els.imageAssemblyList.replaceChildren();
+  const items = state.imageAssemblyItems;
+  items.forEach((item, index) => {
+    const row = document.createElement('div');
+    row.className = 'image-assembly-row';
+    row.dataset.itemId = item.id;
+
+    const preview = document.createElement('div');
+    preview.className = 'image-assembly-preview';
+    const img = document.createElement('img');
+    img.src = item.url;
+    img.alt = '';
+    preview.append(img);
+
+    const info = document.createElement('div');
+    info.className = 'image-assembly-info';
+    const name = document.createElement('span');
+    name.className = 'image-assembly-name';
+    name.textContent = item.file.name;
+    name.title = item.file.name;
+    const meta = document.createElement('span');
+    meta.className = 'image-assembly-meta';
+    meta.textContent = `${Math.round(item.width)} × ${Math.round(item.height)} px`;
+    info.append(name, meta);
+
+    const up = document.createElement('button');
+    up.type = 'button'; up.className = 'image-assembly-move'; up.textContent = '↑'; up.title = 'Move image earlier'; up.setAttribute('aria-label', `Move ${item.file.name} earlier`); up.disabled = index === 0; up.dataset.action = 'up';
+    const down = document.createElement('button');
+    down.type = 'button'; down.className = 'image-assembly-move'; down.textContent = '↓'; down.title = 'Move image later'; down.setAttribute('aria-label', `Move ${item.file.name} later`); down.disabled = index === items.length - 1; down.dataset.action = 'down';
+    const remove = document.createElement('button');
+    remove.type = 'button'; remove.className = 'image-assembly-remove'; remove.textContent = '×'; remove.title = 'Remove image'; remove.setAttribute('aria-label', `Remove ${item.file.name}`); remove.dataset.action = 'remove';
+    row.append(preview, info, up, down, remove);
+    els.imageAssemblyList.append(row);
+  });
+  updateImageAssemblyUi();
+}
+
+function updateImageAssemblyUi() {
+  const count = state.imageAssemblyItems.length;
+  if (els.imageAssemblySummary) els.imageAssemblySummary.textContent = count
+    ? `${count} image${count === 1 ? '' : 's'} selected. This order will become the initial Pages order.`
+    : 'No images selected.';
+  if (els.imageAssemblyOperationSummary) els.imageAssemblyOperationSummary.textContent = count
+    ? `${count} image${count === 1 ? '' : 's'} ready`
+    : 'Assemble several images as one document';
+  if (els.imageAssemblyCreateBtn) els.imageAssemblyCreateBtn.disabled = count === 0;
+  if (els.imageAssemblyClearBtn) els.imageAssemblyClearBtn.disabled = count === 0;
+  if (!count && els.imageAssemblyProgress && !/Could not|No readable/i.test(els.imageAssemblyProgress.textContent || '')) els.imageAssemblyProgress.textContent = '';
+}
+
+function moveImageAssemblyItem(itemId, delta) {
+  const index = state.imageAssemblyItems.findIndex(item => item.id === itemId);
+  if (index < 0) return;
+  const next = clamp(index + delta, 0, state.imageAssemblyItems.length - 1);
+  if (next === index) return;
+  const [item] = state.imageAssemblyItems.splice(index, 1);
+  state.imageAssemblyItems.splice(next, 0, item);
+  renderImageAssemblyList();
+}
+
+function removeImageAssemblyItem(itemId) {
+  const index = state.imageAssemblyItems.findIndex(item => item.id === itemId);
+  if (index < 0) return;
+  const [item] = state.imageAssemblyItems.splice(index, 1);
+  try { URL.revokeObjectURL(item.url); } catch {}
+  renderImageAssemblyList();
+}
+
+function createImageAssemblyDocument() {
+  const items = [...state.imageAssemblyItems];
+  if (!items.length) return;
+  const name = ensurePdfFilename(els.imageAssemblyName?.value, `Images ${state.imageAssemblySequence}.pdf`);
+  if (els.imageAssemblyCreateBtn) els.imageAssemblyCreateBtn.disabled = true;
+  if (els.imageAssemblyProgress) els.imageAssemblyProgress.textContent = `Creating ${items.length}-page image document…`;
+  const doc = createDocument(name);
+  const pages = [];
+  try {
+    for (const item of items) {
+      const sourceId = uid('src');
+      state.sources.set(sourceId, { id: sourceId, type: 'image', name: item.file.name, size: item.file.size, file: item.file, url: item.url, image: null, libraryPersisted: false });
+      const target = imageAssemblyTargetSize(item);
+      pages.push({
+        id: uid('page'), sourceId, sourcePage: 1,
+        width: item.width, height: item.height,
+        canvasWidth: target.width, canvasHeight: target.height,
+        baseRotation: 0, rotation: 0, kind: 'image'
+      });
+    }
+    doc.pages = pages;
+    doc.selected = new Set();
+    doc.selectionAnchorId = null;
+    doc.activePageId = pages[0]?.id || null;
+    doc.history = [];
+    doc.future = [];
+    doc.singleView = { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: doc.activePageId, scrollTop: null, scrollLeft: null };
+    state.pages = doc.pages;
+    state.selected = doc.selected;
+    state.selectionAnchorId = null;
+    state.activePageId = doc.activePageId;
+    state.history = doc.history;
+    state.future = doc.future;
+    state.fileSelected = new Set([doc.id]);
+    state.fileSelectionInitialized = true;
+    state.combineOrder = [doc.id];
+    state.workspaceMode = 'organize';
+    if (state.splitView) {
+      const pane = splitPaneState(state.activePaneId);
+      pane.documentId = doc.id;
+      pane.views.set(doc.id, defaultPaneView(doc));
+    }
+    // Ownership of the blob URLs has moved from the pending assembly into
+    // state.sources. Clear the pending list without revoking those URLs.
+    state.imageAssemblyItems = [];
+    if (els.imageAssemblyInput) els.imageAssemblyInput.value = '';
+    saveCurrentDocumentState({ readViewDom: false });
+    renderImageAssemblyList();
+    renderAll({ saveState: false });
+    if (els.imageAssemblyProgress) els.imageAssemblyProgress.textContent = `Created ${name} with ${pages.length} image page${pages.length === 1 ? '' : 's'}.`;
+    state.imageAssemblySequence += 1;
+    if (els.imageAssemblyName) els.imageAssemblyName.value = `Images ${state.imageAssemblySequence}.pdf`;
+    setStatus(`Created ${name} from ${pages.length} image${pages.length === 1 ? '' : 's'}`);
+    scheduleLibraryPersist(120);
+  } catch (err) {
+    console.error(err);
+    removeDocument(doc.id);
+    if (els.imageAssemblyProgress) els.imageAssemblyProgress.textContent = `Could not create image document: ${err?.message || err}`;
+    setStatus('Could not create image document');
+  } finally {
+    updateImageAssemblyUi();
+  }
 }
 
 
@@ -806,6 +1365,7 @@ function renderInsertTemplateList() {
     }
   }
   if (els.manageTemplatesBtn) els.manageTemplatesBtn.disabled = state.templates.length === 0;
+  if (els.newTemplateDocumentBtn) els.newTemplateDocumentBtn.disabled = state.templates.length === 0;
 }
 
 function requestTemplateName(suggested) {
@@ -1124,6 +1684,76 @@ function createNewGeneratedDocument(type='blank') {
   saveCurrentDocumentState({ readViewDom: false });
   renderAll({ saveState: false });
   setStatus(`Created new ${isGraph ? 'graph-paper' : 'blank'} document`);
+  scheduleLibraryPersist(120);
+}
+
+function uniqueLibraryDocumentName(baseName) {
+  const raw = String(baseName || 'Untitled').trim() || 'Untitled';
+  const withExt = /\.pdf$/i.test(raw) ? raw : `${raw}.pdf`;
+  const names = new Set([...state.libraryRecords.values()].map(record => String(record.name || '').toLowerCase()));
+  for (const doc of state.documents) names.add(String(doc.name || '').toLowerCase());
+  if (!names.has(withExt.toLowerCase())) return withExt;
+  const stem = withExt.replace(/\.pdf$/i, '');
+  let n = 2;
+  while (names.has(`${stem} ${n}.pdf`.toLowerCase())) n++;
+  return `${stem} ${n}.pdf`;
+}
+
+function createNewDocumentFromTemplate(templateId) {
+  const template = state.templates.find(item => item.id === templateId);
+  if (!template?.page) { setStatus('That template is no longer available'); return; }
+  const doc = createDocument(uniqueLibraryDocumentName(template.name || 'Template'));
+  state.fileSelected = new Set([doc.id]);
+  state.fileSelectionInitialized = true;
+  state.combineOrder = [doc.id];
+  const page = clonePageInstance(template.page, true);
+  doc.pages = [page];
+  doc.activePageId = page.id;
+  doc.singleView = { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: page.id, scrollTop: null, scrollLeft: null };
+  state.pages = doc.pages;
+  state.selected = doc.selected;
+  state.selectionAnchorId = null;
+  state.activePageId = page.id;
+  state.history = doc.history;
+  state.future = doc.future;
+  state.workspaceMode = 'view';
+  if (state.splitView) {
+    const pane = splitPaneState(state.activePaneId);
+    pane.documentId = doc.id;
+    pane.views.set(doc.id, defaultPaneView(doc));
+  }
+  saveCurrentDocumentState({ readViewDom: false });
+  renderAll({ saveState: false });
+  setStatus(`Created new document from template ${template.name}`);
+  scheduleLibraryPersist(120);
+}
+
+function showNewFromTemplateChooser() {
+  if (!state.templates.length) { setStatus('No session templates are saved yet'); return; }
+  els.infoDialog.classList.add('template-dialog');
+  els.dialogContent.innerHTML = `<h2>New from template</h2><p>Choose a saved session template. The new document starts with one independent copy of that page.</p><div id="newTemplateChoiceGrid" class="insert-choice-grid" role="group" aria-label="Templates for new document"></div>`;
+  const grid = $('newTemplateChoiceGrid');
+  for (const template of state.templates) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'insert-choice-card';
+    const preview = document.createElement('span');
+    preview.className = 'insert-choice-preview';
+    const canvas = document.createElement('canvas');
+    canvas.setAttribute('aria-hidden', 'true');
+    preview.append(canvas);
+    const label = document.createElement('span');
+    label.className = 'insert-choice-label';
+    label.textContent = template.name;
+    button.append(preview, label);
+    button.addEventListener('click', () => {
+      try { els.infoDialog.close(); } catch {}
+      createNewDocumentFromTemplate(template.id);
+    });
+    grid.append(button);
+    requestAnimationFrame(() => renderCompactPagePreview(template.page, canvas));
+  }
+  if (!els.infoDialog.open) els.infoDialog.showModal();
 }
 
 function drawGraphPaperCanvas(ctx, targetW, targetH, pageWidth, pageHeight) {
@@ -1252,6 +1882,42 @@ function defaultSplitBaseName(name) {
   return cleanFilenameBase(name);
 }
 
+function defaultCompressionFilename(name) {
+  return `${cleanFilenameBase(name)}-compressed.pdf`;
+}
+
+function formatFileSize(bytes) {
+  const n = Math.max(0, Number(bytes) || 0);
+  if (n < 1024) return `${Math.round(n)} B`;
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(n < 100 * 1024 ? 1 : 0)} KB`;
+  return `${(n / (1024 * 1024)).toFixed(n < 10 * 1024 * 1024 ? 2 : 1)} MB`;
+}
+
+const COMPRESSION_PROFILES = {
+  light: { maxDpi: 200, jpegQuality: 0.84, rasterDpi: 170, rasterQuality: 0.82, label: 'Light' },
+  medium: { maxDpi: 150, jpegQuality: 0.72, rasterDpi: 130, rasterQuality: 0.70, label: 'Medium' },
+  strong: { maxDpi: 110, jpegQuality: 0.58, rasterDpi: 96, rasterQuality: 0.56, label: 'Strong' },
+};
+
+const TARGET_PRESERVE_PROFILES = [
+  { maxDpi: 180, jpegQuality: 0.82 },
+  { maxDpi: 150, jpegQuality: 0.72 },
+  { maxDpi: 120, jpegQuality: 0.62 },
+  { maxDpi: 96, jpegQuality: 0.52 },
+  { maxDpi: 72, jpegQuality: 0.44 },
+];
+
+const TARGET_RASTER_PROFILES = [
+  { rasterDpi: 160, rasterQuality: 0.80 },
+  { rasterDpi: 135, rasterQuality: 0.72 },
+  { rasterDpi: 115, rasterQuality: 0.64 },
+  { rasterDpi: 96, rasterQuality: 0.56 },
+  { rasterDpi: 82, rasterQuality: 0.48 },
+  { rasterDpi: 72, rasterQuality: 0.42 },
+  { rasterDpi: 60, rasterQuality: 0.34 },
+  { rasterDpi: 50, rasterQuality: 0.30 },
+];
+
 function reconcileFileSelection() {
   const valid = new Set(state.documents.map(doc => doc.id));
   state.fileSelected = new Set([...state.fileSelected].filter(id => valid.has(id)));
@@ -1286,6 +1952,347 @@ function setFileSelected(docId, selected) {
   renderExportPane();
 }
 
+function isDocumentOpen(docId) { return state.documents.some(doc => doc.id === docId); }
+
+function activeLibraryRecords() {
+  const merged = new Map(state.libraryRecords);
+  for (const doc of state.documents) merged.set(doc.id, serializeDocumentForLibrary(doc));
+  return [...merged.values()].filter(record => !record.trashedAt)
+    .sort((a, b) => (b.modifiedAt || 0) - (a.modifiedAt || 0) || String(a.name).localeCompare(String(b.name)));
+}
+
+function trashedLibraryRecords() {
+  return [...state.libraryRecords.values()].filter(record => !!record.trashedAt)
+    .sort((a, b) => (b.trashedAt || 0) - (a.trashedAt || 0) || String(a.name).localeCompare(String(b.name)));
+}
+
+function renderLibraryDocumentList() {
+  if (!els.libraryDocumentList) return;
+  const records = activeLibraryRecords();
+  els.libraryDocumentList.replaceChildren();
+  if (els.librarySummary) {
+    els.librarySummary.textContent = state.libraryReady
+      ? (records.length ? `${records.length} document${records.length === 1 ? '' : 's'} in Library · ${state.documents.length} open` : 'The local Library is empty. Open or create a document and it will be stored automatically.')
+      : 'Persistent Library is not available in this browser/session.';
+  }
+  if (!records.length) {
+    const empty = document.createElement('p');
+    empty.className = 'small-note';
+    empty.textContent = 'Stored documents will appear here. Folders/subfolders, rename, duplicate, Favorites, search, and persistent templates are planned for later Milestone 4 revisions.';
+    els.libraryDocumentList.append(empty);
+  } else {
+    for (const record of records) {
+      const open = isDocumentOpen(record.id);
+      const row = document.createElement('div');
+      row.className = `library-document-row${open ? ' open' : ''}`;
+      row.dataset.documentId = record.id;
+      const label = document.createElement('div');
+      label.className = 'library-document-label';
+      const name = document.createElement('span');
+      name.className = 'library-document-name';
+      name.textContent = record.name;
+      name.title = record.name;
+      const meta = document.createElement('span');
+      meta.className = 'library-document-meta';
+      const pages = record.pages?.length || 0;
+      const changed = record.needsExport ? ' · changes not exported' : '';
+      meta.textContent = `${pages} page${pages === 1 ? '' : 's'} · ${open ? 'open' : 'closed'}${changed}`;
+      label.append(name, meta);
+      const actions = document.createElement('div');
+      actions.className = 'library-document-actions';
+      const action = document.createElement('button');
+      action.type = 'button';
+      action.className = 'primary-library-action';
+      action.textContent = open ? (record.id === state.currentDocumentId ? 'Active' : 'Use') : 'Open';
+      action.disabled = open && record.id === state.currentDocumentId;
+      action.addEventListener('click', async () => {
+        try {
+          if (open) loadDocumentState(record.id);
+          else {
+            setStatus(`Opening ${record.name} from Library…`, true);
+            await reopenLibraryDocument(record.id);
+            setStatus(`Opened ${record.name} from Library`);
+          }
+        } catch (err) {
+          console.error(err);
+          setStatus(`Could not reopen ${record.name}: ${err?.message || err}`);
+        }
+      });
+      actions.append(action);
+      if (open) {
+        const close = document.createElement('button');
+        close.type = 'button';
+        close.textContent = 'Close';
+        close.title = `Close ${record.name} but keep it in the local Library`;
+        close.addEventListener('click', () => closeOneOpenDocument(record.id));
+        actions.append(close);
+      }
+      const trash = document.createElement('button');
+      trash.type = 'button';
+      trash.className = 'trash-action';
+      trash.textContent = 'Trash';
+      trash.title = `Move ${record.name} to Trash`;
+      trash.addEventListener('click', () => moveLibraryDocumentToTrash(record.id));
+      actions.append(trash);
+      row.append(label, actions);
+      els.libraryDocumentList.append(row);
+    }
+  }
+  renderTrashDocumentList();
+}
+
+function renderTrashDocumentList() {
+  if (!els.trashDocumentList) return;
+  const records = trashedLibraryRecords();
+  els.trashDocumentList.replaceChildren();
+  if (els.trashSummary) els.trashSummary.textContent = records.length
+    ? `${records.length} document${records.length === 1 ? '' : 's'}`
+    : 'No documents in Trash';
+  if (!records.length) {
+    const empty = document.createElement('p');
+    empty.className = 'small-note';
+    empty.textContent = 'Trash is empty.';
+    els.trashDocumentList.append(empty);
+    return;
+  }
+  for (const record of records) {
+    const row = document.createElement('div');
+    row.className = 'library-document-row';
+    row.dataset.documentId = record.id;
+    const label = document.createElement('div');
+    label.className = 'library-document-label';
+    const name = document.createElement('span');
+    name.className = 'library-document-name';
+    name.textContent = record.name;
+    const meta = document.createElement('span');
+    meta.className = 'library-document-meta';
+    const pages = record.pages?.length || 0;
+    const changed = record.needsExport ? ' · changes not exported' : '';
+    meta.textContent = `${pages} page${pages === 1 ? '' : 's'} · in Trash${changed}`;
+    label.append(name, meta);
+    const actions = document.createElement('div');
+    actions.className = 'library-document-actions';
+    const restore = document.createElement('button');
+    restore.type = 'button';
+    restore.className = 'primary-library-action';
+    restore.textContent = 'Restore';
+    restore.addEventListener('click', () => restoreLibraryDocument(record.id));
+    const del = document.createElement('button');
+    del.type = 'button';
+    del.className = 'trash-action';
+    del.textContent = 'Delete permanently…';
+    del.addEventListener('click', () => permanentlyDeleteLibraryDocument(record.id));
+    actions.append(restore, del);
+    row.append(label, actions);
+    els.trashDocumentList.append(row);
+  }
+}
+
+async function closeOneOpenDocument(docId) {
+  const doc = documentById(docId);
+  if (!doc) return;
+  saveCurrentDocumentState();
+  await persistLibraryNow();
+  removeDocument(docId);
+  state.fileSelected.delete(docId);
+  reconcileCombineOrder();
+  renderAll({ saveState: false });
+  await persistLibraryNow();
+  await refreshLibraryRecords();
+  setStatus(`Closed ${doc.name} · kept in local Library`);
+}
+
+async function closeAllOpenDocuments() {
+  if (!state.documents.length) return;
+  saveCurrentDocumentState();
+  await persistLibraryNow();
+  clearAll();
+  await persistLibraryNow();
+  await refreshLibraryRecords();
+}
+
+async function moveLibraryDocumentToTrash(docId) {
+  try {
+    const openDoc = documentById(docId);
+    if (openDoc) {
+      if (openDoc.id === state.currentDocumentId) saveCurrentDocumentState();
+      await persistLibraryNow();
+    }
+    const base = openDoc ? serializeDocumentForLibrary(openDoc) : (state.libraryRecords.get(docId) || await libraryGet('documents', docId));
+    if (!base) throw new Error('That Library document is no longer available.');
+    const record = { ...base, schemaVersion: LIBRARY_SCHEMA_VERSION, trashedAt: Date.now() };
+    await libraryPut('documents', record);
+    state.libraryRecords.set(docId, record);
+    if (openDoc) {
+      removeDocument(docId);
+      state.fileSelected.delete(docId);
+      reconcileCombineOrder();
+      renderAll({ saveState: false });
+      await persistLibraryNow();
+    }
+    renderLibraryDocumentList();
+    setStatus(`Moved ${record.name} to Trash`);
+  } catch (err) {
+    console.error(err);
+    setStatus(`Could not move document to Trash: ${err?.message || err}`);
+  }
+}
+
+async function restoreLibraryDocument(docId) {
+  try {
+    const record = state.libraryRecords.get(docId) || await libraryGet('documents', docId);
+    if (!record) throw new Error('That Trash item is no longer available.');
+    const restored = { ...record, schemaVersion: LIBRARY_SCHEMA_VERSION, trashedAt: null };
+    await libraryPut('documents', restored);
+    state.libraryRecords.set(docId, restored);
+    renderLibraryDocumentList();
+    setStatus(`Restored ${restored.name} to Local Library`);
+  } catch (err) {
+    console.error(err);
+    setStatus(`Could not restore document: ${err?.message || err}`);
+  }
+}
+
+function askPermanentDeleteAction(record) {
+  if (!record?.needsExport) {
+    return Promise.resolve(window.confirm(`Permanently delete “${record?.name || 'this document'}” from the local Library? This cannot be undone.`) ? 'delete' : 'cancel');
+  }
+  return new Promise(resolve => {
+    els.closeDocumentTitle.textContent = `Permanently delete ${record.name}?`;
+    els.closeDocumentMessage.textContent = `${record.name} has changes that have not been exported to PDF.`;
+    els.closeDocumentExportBtn.textContent = 'Export PDF & delete';
+    els.closeDocumentWithoutExportBtn.textContent = 'Delete permanently';
+    const finish = action => {
+      try { els.closeDocumentDialog.close(); } catch {}
+      resolve(action);
+    };
+    els.closeDocumentExportBtn.onclick = () => finish('export');
+    els.closeDocumentWithoutExportBtn.onclick = () => finish('delete');
+    els.closeDocumentCancelBtn.onclick = () => finish('cancel');
+    els.closeDocumentXBtn.onclick = () => finish('cancel');
+    els.closeDocumentDialog.oncancel = e => { e.preventDefault(); finish('cancel'); };
+    els.closeDocumentDialog.showModal();
+  });
+}
+
+async function exportLibraryRecordBeforeDelete(record) {
+  try {
+    const sourceIds = new Set((record.pages || []).map(page => page.sourceId).filter(Boolean));
+    for (const sourceId of sourceIds) await ensureLibrarySourceLoaded(sourceId);
+    setStatus(`Exporting ${record.name} before permanent deletion…`, true);
+    const bytes = await buildPdfBytes(record.pages || [], { sourcePdfCache: new Map() });
+    downloadPdfBytes(bytes, defaultExportFilename(record.name));
+    return true;
+  } catch (err) {
+    console.error(err);
+    setStatus(`Export before deletion failed: ${err?.message || err}`);
+    return false;
+  }
+}
+
+function librarySourceStillReferenced(sourceId) {
+  if (!sourceId) return false;
+  for (const record of state.libraryRecords.values()) {
+    if ((record.pages || []).some(page => page.sourceId === sourceId)) return true;
+  }
+  if (state.templates.some(template => template.page?.sourceId === sourceId)) return true;
+  return false;
+}
+
+async function removeUnusedPersistentSources(sourceIds) {
+  for (const sourceId of sourceIds) {
+    if (librarySourceStillReferenced(sourceId)) continue;
+    await libraryDelete('sources', sourceId).catch(() => {});
+    const source = state.sources.get(sourceId);
+    if (source?.url) URL.revokeObjectURL(source.url);
+    try { source?.pdf?.destroy?.(); } catch {}
+    state.sources.delete(sourceId);
+  }
+}
+
+async function permanentlyDeleteLibraryDocument(docId) {
+  try {
+    if (isDocumentOpen(docId)) throw new Error('Close or move the document to Trash before permanently deleting it.');
+    const record = state.libraryRecords.get(docId) || await libraryGet('documents', docId);
+    if (!record) throw new Error('That Library document is no longer available.');
+    const action = await askPermanentDeleteAction(record);
+    if (action === 'cancel') return;
+    if (action === 'export' && !(await exportLibraryRecordBeforeDelete(record))) return;
+    const sourceIds = new Set((record.pages || []).map(page => page.sourceId).filter(Boolean));
+    await libraryDelete('documents', docId);
+    state.libraryRecords.delete(docId);
+    await removeUnusedPersistentSources(sourceIds);
+    renderLibraryDocumentList();
+    updateLibraryStorageSummary();
+    setStatus(`Permanently deleted ${record.name}`);
+  } catch (err) {
+    console.error(err);
+    setStatus(`Could not permanently delete document: ${err?.message || err}`);
+  }
+}
+
+async function purgeLocalLibrary() {
+  const ok = confirm('Delete the entire local PDF Workbench Library on this device? This removes stored documents and cannot be undone. Export anything you need first.');
+  if (!ok) return;
+  try {
+    state.librarySuppressPersist = true;
+    clearAll();
+    state.templates = [];
+    for (const [sourceId, source] of state.sources) {
+      if (source.url) URL.revokeObjectURL(source.url);
+      try { source.pdf?.destroy?.(); } catch {}
+      state.sources.delete(sourceId);
+    }
+    await libraryClearStore('documents');
+    await libraryClearStore('sources');
+    await libraryClearStore('meta');
+    state.libraryRecords.clear();
+    state.librarySuppressPersist = false;
+    await libraryPut('meta', serializeLibrarySession());
+    renderLibraryDocumentList();
+    updateLibraryStorageSummary();
+    els.storageActionStatus.textContent = 'Local Library deleted. Application code/cache and preferences were left intact.';
+    setStatus('Local Library deleted');
+  } catch (err) {
+    state.librarySuppressPersist = false;
+    console.error(err);
+    els.storageActionStatus.textContent = `Could not delete the Library: ${err?.message || err}`;
+  }
+}
+
+async function factoryResetAllLocalData() {
+  const ok = confirm('Factory reset PDF Workbench on this device? This deletes the local Library, templates/session data, preferences, and PDF Workbench app caches. This cannot be undone.');
+  if (!ok) return;
+  try {
+    state.librarySuppressPersist = true;
+    clearAll();
+    state.libraryDb?.close?.();
+    state.libraryDb = null;
+    await new Promise((resolve, reject) => {
+      const req = indexedDB.deleteDatabase(LIBRARY_DB_NAME);
+      req.onsuccess = () => resolve();
+      req.onerror = () => reject(req.error);
+      req.onblocked = () => reject(new Error('Close other PDF Workbench tabs/windows and try again.'));
+    });
+    try { localStorage.clear(); } catch {}
+    if ('caches' in window) {
+      const keys = await caches.keys();
+      await Promise.all(keys.filter(key => key.startsWith('pdf-workbench-')).map(key => caches.delete(key)));
+    }
+    if ('serviceWorker' in navigator) {
+      const regs = await navigator.serviceWorker.getRegistrations().catch(() => []);
+      await Promise.all(regs.map(reg => reg.unregister().catch(() => false)));
+    }
+    els.storageActionStatus.textContent = 'Factory reset complete. Reloading…';
+    const url = new URL(location.href);
+    url.searchParams.set('reset', Date.now().toString());
+    setTimeout(() => location.replace(url.href), 150);
+  } catch (err) {
+    console.error(err);
+    els.storageActionStatus.textContent = `Factory reset could not complete: ${err?.message || err}`;
+  }
+}
+
 function renderOpenDocumentList() {
   if (!els.openDocumentList) return;
   reconcileFileSelection();
@@ -1315,7 +2322,7 @@ function renderOpenDocumentList() {
     name.title = doc.name;
     const meta = document.createElement('span');
     meta.className = 'open-document-meta';
-    meta.textContent = `${doc.pages.length} page${doc.pages.length === 1 ? '' : 's'}${doc.id === state.currentDocumentId ? ' · active' : ''}`;
+    meta.textContent = `${doc.pages.length} page${doc.pages.length === 1 ? '' : 's'}${doc.id === state.currentDocumentId ? ' · active' : ''}${doc.needsExport ? ' · changes not exported' : ''}`;
     label.append(name, meta);
 
     const activate = document.createElement('button');
@@ -1326,13 +2333,20 @@ function renderOpenDocumentList() {
     activate.title = doc.id === state.currentDocumentId ? 'This is the active document' : `Make ${doc.name} the active document`;
     activate.addEventListener('click', () => loadDocumentState(doc.id));
 
-    row.append(check, label, activate);
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'open-document-close';
+    close.textContent = 'Close';
+    close.title = `Close ${doc.name} but keep it in the local Library`;
+    close.addEventListener('click', () => closeOneOpenDocument(doc.id));
+
+    row.append(check, label, activate, close);
     els.openDocumentList.append(row);
   }
   if (!state.documents.length) {
     const empty = document.createElement('p');
     empty.className = 'small-note';
-    empty.textContent = 'Use Open in the top bar, or expand New below to start a blank or graph-paper document.';
+    empty.textContent = state.libraryRecords.size ? 'No documents are currently open. Reopen one from Local Library above, use Open, or create a new document.' : 'Use Open in the top bar, or expand New below to start a blank or graph-paper document.';
     els.openDocumentList.append(empty);
   }
 }
@@ -1401,9 +2415,52 @@ function renderCombineList() {
     : 'Select two or more documents above';
 }
 
+function updateCompressionUi(chosenDocs = selectedFileDocuments()) {
+  if (!els.compressBtn) return;
+  const selectionKey = chosenDocs.map(d => d.id).join('|');
+  const method = els.compressionMethod?.value || 'preserve';
+  const level = els.compressionLevel?.value || 'medium';
+  const targetMode = level === 'target';
+  const normalizeLetter = !!els.compressionNormalizeLetter?.checked;
+  els.compressionTargetField?.classList.toggle('hidden', !targetMode);
+
+  if (!chosenDocs.length) {
+    els.compressOperationSummary.textContent = 'Select one or more documents above';
+    els.compressSummary.textContent = 'Select one or more open documents above.';
+    els.compressionFilename.disabled = true;
+    els.compressBtn.disabled = true;
+    els.compressBtn.textContent = 'Compress selected';
+  } else {
+    const count = chosenDocs.length;
+    const targetText = targetMode ? ` · target ${Number(els.compressionTargetMb?.value || 0).toFixed(1)} MB per PDF` : '';
+    const letterText = normalizeLetter ? ' · Letter canvas' : '';
+    els.compressOperationSummary.textContent = `${count} checked document${count === 1 ? '' : 's'} · ${method === 'raster' ? 'raster' : 'preserve'}${letterText}${targetText}`;
+    els.compressSummary.textContent = count === 1
+      ? `${chosenDocs[0].name}: create a compressed copy while keeping the current Pages order and edits.`
+      : `${count} checked documents will be compressed individually and packaged together in one ZIP.`;
+    els.compressionFilename.disabled = false;
+    if (els.compressionFilename.dataset.selectionKey !== selectionKey) {
+      els.compressionFilename.value = count === 1 ? defaultCompressionFilename(chosenDocs[0].name) : 'PDF-Workbench-Compressed.zip';
+      els.compressionFilename.dataset.selectionKey = selectionKey;
+      els.compressionProgress.textContent = '';
+    }
+    const targetValue = Number(els.compressionTargetMb?.value);
+    els.compressBtn.disabled = targetMode && (!Number.isFinite(targetValue) || targetValue <= 0);
+    els.compressBtn.textContent = count === 1 ? 'Compress PDF' : `Compress ${count} PDFs as ZIP`;
+  }
+
+  if (method === 'raster') {
+    els.compressionMethodNote.innerHTML = '<strong>Rasterize pages:</strong> every output page becomes a JPEG image. This usually gives much stronger compression for scans, but selectable/searchable text, links, form fields, and vector sharpness are lost.';
+  } else {
+    els.compressionMethodNote.innerHTML = '<strong>Preserve text / vector:</strong> PDF pages stay structural. Imported image pages are downsampled/recompressed; raster images already embedded inside an opened PDF are retained as-is. A strict target may therefore require the explicit Rasterize method.';
+  }
+}
+
 function renderExportPane() {
   saveCurrentDocumentState();
+  renderLibraryDocumentList();
   renderOpenDocumentList();
+  updateImageAssemblyUi();
   const doc = currentDocument();
   const count = state.pages.length;
   const chosenDocs = selectedFileDocuments();
@@ -1442,6 +2499,8 @@ function renderExportPane() {
     els.exportPdfBtn.disabled = false;
     els.exportPdfBtn.textContent = `Export ${chosenDocs.length} PDFs as ZIP`;
   }
+
+  updateCompressionUi(chosenDocs);
 
   const selectedCount = state.selected.size;
   if (doc) {
@@ -1485,26 +2544,59 @@ async function loadZipEngine() {
   return state.zipLib;
 }
 
-async function embedImageForExport(outPdf, source) {
+async function embedImageForExport(outPdf, source, options={}) {
   const name = String(source.name || '').toLowerCase();
   const type = String(source.file?.type || '').toLowerCase();
-  const raw = source.file ? new Uint8Array(await source.file.arrayBuffer()) : null;
-  if (raw && (type === 'image/jpeg' || type === 'image/jpg' || /\.jpe?g$/.test(name))) return outPdf.embedJpg(raw);
-  if (raw && (type === 'image/png' || /\.png$/.test(name))) return outPdf.embedPng(raw);
+  const compress = !!options.compress;
 
-  // pdf-lib embeds JPEG/PNG directly. For browser-decodable formats such as
-  // WebP/GIF/BMP, convert only the imported image page to PNG; PDF source pages
-  // are never rasterized by the export path.
+  if (!compress) {
+    const raw = source.file ? new Uint8Array(await source.file.arrayBuffer()) : null;
+    if (raw && (type === 'image/jpeg' || type === 'image/jpg' || /\.jpe?g$/.test(name))) return outPdf.embedJpg(raw);
+    if (raw && (type === 'image/png' || /\.png$/.test(name))) return outPdf.embedPng(raw);
+  }
+
+  // pdf-lib embeds JPEG/PNG directly for normal export. Compression deliberately
+  // redraws imported image pages at the requested effective resolution and JPEG
+  // quality. Other browser-decodable formats also use this path.
   const img = await getSourceImage(source);
+  const naturalW = Math.max(1, img.naturalWidth || img.width || 1);
+  const naturalH = Math.max(1, img.naturalHeight || img.height || 1);
+  let pixelW = naturalW;
+  let pixelH = naturalH;
+  let mime = 'image/png';
+  let quality;
+
+  if (compress) {
+    const maxDpi = Math.max(36, Number(options.maxDpi) || 150);
+    const targetWidthPts = Math.max(1, Number(options.targetWidthPts) || naturalW);
+    const targetHeightPts = Math.max(1, Number(options.targetHeightPts) || naturalH);
+    const maxW = Math.max(1, Math.ceil(targetWidthPts / 72 * maxDpi));
+    const maxH = Math.max(1, Math.ceil(targetHeightPts / 72 * maxDpi));
+    let scale = Math.min(1, maxW / naturalW, maxH / naturalH);
+    const maxPixels = 12_000_000; // bound temporary canvas memory on iPad
+    if (naturalW * naturalH * scale * scale > maxPixels) scale *= Math.sqrt(maxPixels / (naturalW * naturalH * scale * scale));
+    pixelW = Math.max(1, Math.round(naturalW * scale));
+    pixelH = Math.max(1, Math.round(naturalH * scale));
+    mime = 'image/jpeg';
+    quality = clamp(Number(options.jpegQuality) || 0.72, 0.25, 0.95);
+  }
+
   const canvas = document.createElement('canvas');
-  canvas.width = img.naturalWidth || img.width;
-  canvas.height = img.naturalHeight || img.height;
+  canvas.width = pixelW;
+  canvas.height = pixelH;
   const ctx = canvas.getContext('2d', { alpha: false });
+  if (!ctx) throw new Error('Could not create image compression canvas.');
   ctx.fillStyle = '#fff';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(img, 0, 0);
-  const blob = await new Promise((resolve, reject) => canvas.toBlob(b => b ? resolve(b) : reject(new Error('Could not convert image for PDF export.')), 'image/png'));
-  return outPdf.embedPng(new Uint8Array(await blob.arrayBuffer()));
+  ctx.fillRect(0, 0, pixelW, pixelH);
+  ctx.drawImage(img, 0, 0, pixelW, pixelH);
+  const blob = await new Promise((resolve, reject) => canvas.toBlob(
+    b => b ? resolve(b) : reject(new Error('Could not encode image for PDF export.')),
+    mime,
+    quality,
+  ));
+  canvas.width = canvas.height = 1;
+  const bytes = new Uint8Array(await blob.arrayBuffer());
+  return mime === 'image/jpeg' ? outPdf.embedJpg(bytes) : outPdf.embedPng(bytes);
 }
 
 function downloadBlob(blob, filename) {
@@ -1607,20 +2699,35 @@ async function buildPdfBytes(pageList, options={}) {
       copied.setRotation(degrees((inheritedRotation + (page.rotation || 0) + 360) % 360));
       output.addPage(copied);
     } else if (source.type === 'image') {
-      let embedded = embeddedImages.get(source.id);
-      if (!embedded) {
-        embedded = await embedImageForExport(output, source);
-        embeddedImages.set(source.id, embedded);
-      }
       const base = pageCanvasBaseDimensions(page);
       const core = pageCoreCanvasBaseDimensions(page);
       const edge = pageEdgeAdjustments(page);
-      const outPage = output.addPage([base.width, base.height]);
+      let drawWidth = page.width;
+      let drawHeight = page.height;
       if (hasPageCanvasOverride(page)) {
         const fit = Math.min(core.width / page.width, core.height / page.height);
-        const width = page.width * fit, height = page.height * fit;
-        outPage.drawImage(embedded, { x: edge.left + (core.width - width) / 2, y: edge.bottom + (core.height - height) / 2, width, height });
-      } else outPage.drawImage(embedded, { x: edge.left, y: edge.bottom, width: page.width, height: page.height });
+        drawWidth = page.width * fit;
+        drawHeight = page.height * fit;
+      }
+      const imageCompression = options.imageCompression || null;
+      const cacheKey = imageCompression
+        ? `${source.id}:${Math.round(drawWidth)}x${Math.round(drawHeight)}:${imageCompression.maxDpi}:${imageCompression.jpegQuality}`
+        : source.id;
+      let embedded = embeddedImages.get(cacheKey);
+      if (!embedded) {
+        embedded = await embedImageForExport(output, source, imageCompression ? {
+          compress: true,
+          maxDpi: imageCompression.maxDpi,
+          jpegQuality: imageCompression.jpegQuality,
+          targetWidthPts: drawWidth,
+          targetHeightPts: drawHeight,
+        } : {});
+        embeddedImages.set(cacheKey, embedded);
+      }
+      const outPage = output.addPage([base.width, base.height]);
+      if (hasPageCanvasOverride(page)) {
+        outPage.drawImage(embedded, { x: edge.left + (core.width - drawWidth) / 2, y: edge.bottom + (core.height - drawHeight) / 2, width: drawWidth, height: drawHeight });
+      } else outPage.drawImage(embedded, { x: edge.left, y: edge.bottom, width: drawWidth, height: drawHeight });
       if (page.rotation) outPage.setRotation(degrees((page.rotation + 360) % 360));
     } else {
       throw new Error(`Unsupported source type on output page ${i + 1}.`);
@@ -1629,6 +2736,264 @@ async function buildPdfBytes(pageList, options={}) {
     if (i % 4 === 3) await new Promise(resolve => setTimeout(resolve, 0));
   }
   return output.save({ useObjectStreams: true, addDefaultPage: false, updateFieldAppearances: false });
+}
+
+
+async function normalizePdfBytesToLetter(inputBytes, options={}) {
+  const { PDFDocument } = await loadPdfExportEngine();
+  const pdf = await PDFDocument.load(inputBytes, { updateMetadata: false });
+  const pages = pdf.getPages();
+  const portrait = { width: 612, height: 792 };
+  const landscape = { width: 792, height: 612 };
+
+  for (let i = 0; i < pages.length; i++) {
+    const page = pages[i];
+    options.onProgress?.(i + 1, pages.length);
+    const rotation = ((page.getRotation?.().angle || 0) % 360 + 360) % 360;
+    const oddRotation = rotation === 90 || rotation === 270;
+    const box = page.getCropBox?.() || page.getMediaBox?.() || { x: 0, y: 0, width: page.getWidth(), height: page.getHeight() };
+    const displayWidth = oddRotation ? box.height : box.width;
+    const displayHeight = oddRotation ? box.width : box.height;
+    const targetDisplay = displayWidth > displayHeight ? landscape : portrait;
+    const rawTargetWidth = oddRotation ? targetDisplay.height : targetDisplay.width;
+    const rawTargetHeight = oddRotation ? targetDisplay.width : targetDisplay.height;
+
+    // Never enlarge smaller scans/pages. Larger pages are reduced just enough
+    // to fit the Letter canvas, then every page is centered on that canvas.
+    const fit = Math.min(1, rawTargetWidth / box.width, rawTargetHeight / box.height);
+    if (fit < 0.999999) {
+      page.scaleContent(fit, fit);
+      page.scaleAnnotations?.(fit, fit);
+    }
+    const scaledX = box.x * fit;
+    const scaledY = box.y * fit;
+    const scaledWidth = box.width * fit;
+    const scaledHeight = box.height * fit;
+    const x = scaledX - (rawTargetWidth - scaledWidth) / 2;
+    const y = scaledY - (rawTargetHeight - scaledHeight) / 2;
+    page.setMediaBox(x, y, rawTargetWidth, rawTargetHeight);
+    page.setCropBox?.(x, y, rawTargetWidth, rawTargetHeight);
+    page.setBleedBox?.(x, y, rawTargetWidth, rawTargetHeight);
+    page.setTrimBox?.(x, y, rawTargetWidth, rawTargetHeight);
+    page.setArtBox?.(x, y, rawTargetWidth, rawTargetHeight);
+    if (i % 6 === 5) await new Promise(resolve => setTimeout(resolve, 0));
+  }
+  return pdf.save({ useObjectStreams: true, addDefaultPage: false, updateFieldAppearances: false });
+}
+
+
+async function rasterizePdfBytes(inputBytes, profile, options={}) {
+  if (!state.pdfjs) await loadPdfEngine();
+  if (!state.pdfjs) throw new Error('The PDF rendering engine is unavailable for raster compression.');
+  const { PDFDocument } = await loadPdfExportEngine();
+  const dpi = Math.max(36, Number(profile.rasterDpi) || 120);
+  const quality = clamp(Number(profile.rasterQuality) || 0.65, 0.25, 0.95);
+  const input = await state.pdfjs.getDocument({
+    data: inputBytes.slice(),
+    wasmUrl: PDFJS_WASM_URL,
+    cMapUrl: PDFJS_CMAP_URL,
+    cMapPacked: true,
+    standardFontDataUrl: PDFJS_STANDARD_FONT_URL,
+    useWasm: true,
+  }).promise;
+  const output = await PDFDocument.create();
+  const maxPixels = 12_000_000;
+  try {
+    for (let n = 1; n <= input.numPages; n++) {
+      options.onProgress?.(n, input.numPages, `Rasterizing page ${n} of ${input.numPages}…`);
+      const pdfPage = await input.getPage(n);
+      const baseViewport = pdfPage.getViewport({ scale: 1 });
+      let scale = dpi / 72;
+      let viewport = pdfPage.getViewport({ scale });
+      if (viewport.width * viewport.height > maxPixels) {
+        scale *= Math.sqrt(maxPixels / (viewport.width * viewport.height));
+        viewport = pdfPage.getViewport({ scale });
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(viewport.width));
+      canvas.height = Math.max(1, Math.round(viewport.height));
+      const ctx = canvas.getContext('2d', { alpha: false });
+      if (!ctx) throw new Error('Could not create raster compression canvas.');
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      await pdfPage.render({ canvasContext: ctx, viewport, background: '#ffffff' }).promise;
+      const blob = await new Promise((resolve, reject) => canvas.toBlob(
+        b => b ? resolve(b) : reject(new Error(`Could not encode rasterized page ${n}.`)),
+        'image/jpeg',
+        quality,
+      ));
+      const jpg = await output.embedJpg(new Uint8Array(await blob.arrayBuffer()));
+      const outPage = output.addPage([baseViewport.width, baseViewport.height]);
+      outPage.drawImage(jpg, { x: 0, y: 0, width: baseViewport.width, height: baseViewport.height });
+      canvas.width = canvas.height = 1;
+      try { pdfPage.cleanup?.(); } catch {}
+      if (n % 2 === 0) await new Promise(resolve => setTimeout(resolve, 0));
+    }
+  } finally {
+    try { await input.cleanup?.(); } catch {}
+    try { await input.destroy?.(); } catch {}
+  }
+  return output.save({ useObjectStreams: true, addDefaultPage: false, updateFieldAppearances: false });
+}
+
+function documentHasImportedImagePages(doc) {
+  return doc.pages.some(page => page.kind === 'image' || state.sources.get(page.sourceId)?.type === 'image');
+}
+
+function targetStartIndexForRaster(structuralSize, targetBytes) {
+  const ratio = targetBytes > 0 ? structuralSize / targetBytes : 1;
+  if (ratio > 4) return 2;
+  if (ratio > 2) return 1;
+  return 0;
+}
+
+async function compressDocumentBytes(doc, settings, options={}) {
+  const method = settings.method || 'preserve';
+  const level = settings.level || 'medium';
+  const targetBytes = settings.targetBytes || null;
+  const sourcePdfCache = new Map();
+  const report = (text) => options.onProgress?.(text);
+
+  if (method === 'preserve') {
+    const profiles = level === 'target'
+      ? (documentHasImportedImagePages(doc) ? TARGET_PRESERVE_PROFILES : [TARGET_PRESERVE_PROFILES[0]])
+      : [COMPRESSION_PROFILES[level] || COMPRESSION_PROFILES.medium];
+    let best = null;
+    for (let i = 0; i < profiles.length; i++) {
+      const profile = profiles[i];
+      report(level === 'target' ? `Structure-preserving pass ${i + 1} of ${profiles.length}…` : `Compressing imported images (${COMPRESSION_PROFILES[level]?.label || 'Medium'})…`);
+      let bytes = await buildPdfBytes(doc.pages, {
+        sourcePdfCache,
+        imageCompression: { maxDpi: profile.maxDpi, jpegQuality: profile.jpegQuality },
+        onProgress: (done, total) => options.onPageProgress?.(done, total),
+      });
+      if (settings.normalizeLetter) {
+        report('Normalizing pages to Letter canvas…');
+        bytes = await normalizePdfBytesToLetter(bytes, {
+          onProgress: (done, total) => options.onNormalizeProgress?.(done, total),
+        });
+      }
+      if (!best || bytes.length < best.length) best = bytes;
+      if (!targetBytes || bytes.length <= targetBytes) return { bytes, metTarget: true };
+      await new Promise(resolve => setTimeout(resolve, 0));
+    }
+    return { bytes: best, metTarget: !targetBytes || best.length <= targetBytes };
+  }
+
+  report('Building the edited PDF before raster compression…');
+  let structural = await buildPdfBytes(doc.pages, {
+    sourcePdfCache,
+    onProgress: (done, total) => options.onPageProgress?.(done, total),
+  });
+  if (settings.normalizeLetter) {
+    report('Normalizing pages to Letter canvas…');
+    structural = await normalizePdfBytesToLetter(structural, {
+      onProgress: (done, total) => options.onNormalizeProgress?.(done, total),
+    });
+  }
+  const profiles = level === 'target'
+    ? TARGET_RASTER_PROFILES.slice(targetStartIndexForRaster(structural.length, targetBytes))
+    : [{ rasterDpi: COMPRESSION_PROFILES[level]?.rasterDpi || COMPRESSION_PROFILES.medium.rasterDpi, rasterQuality: COMPRESSION_PROFILES[level]?.rasterQuality || COMPRESSION_PROFILES.medium.rasterQuality }];
+  let best = null;
+  for (let i = 0; i < profiles.length; i++) {
+    const profile = profiles[i];
+    report(level === 'target'
+      ? `Raster pass ${i + 1} of ${profiles.length} · ${profile.rasterDpi} dpi…`
+      : `Rasterizing at ${profile.rasterDpi} dpi…`);
+    const bytes = await rasterizePdfBytes(structural, profile, {
+      onProgress: (done, total, text) => options.onRasterProgress?.(done, total, text),
+    });
+    if (!best || bytes.length < best.length) best = bytes;
+    if (!targetBytes || bytes.length <= targetBytes) return { bytes, metTarget: true };
+    await new Promise(resolve => setTimeout(resolve, 0));
+  }
+  return { bytes: best, metTarget: !targetBytes || best.length <= targetBytes };
+}
+
+function uniqueCompressedZipName(doc, used) {
+  const base = cleanFilenameBase(doc.name, 'document');
+  let candidate = `${base}-compressed.pdf`;
+  let n = 2;
+  while (used.has(candidate.toLowerCase())) candidate = `${base}-compressed-${n++}.pdf`;
+  used.add(candidate.toLowerCase());
+  return candidate;
+}
+
+async function compressSelectedDocuments() {
+  saveCurrentDocumentState();
+  const docs = selectedFileDocuments();
+  if (!docs.length) return;
+  const method = els.compressionMethod?.value || 'preserve';
+  const level = els.compressionLevel?.value || 'medium';
+  const targetMb = Number(els.compressionTargetMb?.value);
+  const targetBytes = level === 'target' ? Math.round(targetMb * 1024 * 1024) : null;
+  const normalizeLetter = !!els.compressionNormalizeLetter?.checked;
+  if (level === 'target' && (!Number.isFinite(targetMb) || targetMb <= 0)) {
+    els.compressionProgress.textContent = 'Enter a maximum file size greater than 0 MB.';
+    return;
+  }
+
+  els.compressBtn.disabled = true;
+  els.compressionProgress.textContent = 'Preparing compression…';
+  setStatus('Compressing PDF…', true);
+  try {
+    const results = [];
+    for (let i = 0; i < docs.length; i++) {
+      const doc = docs[i];
+      const prefix = docs.length > 1 ? `${i + 1} of ${docs.length} · ${doc.name}: ` : '';
+      const result = await compressDocumentBytes(doc, { method, level, targetBytes, normalizeLetter }, {
+        onProgress: text => {
+          els.compressionProgress.textContent = `${prefix}${text}`;
+          setStatus(`Compressing ${doc.name}…`, true);
+        },
+        onPageProgress: (done, total) => {
+          els.compressionProgress.textContent = `${prefix}building page ${done} of ${total}…`;
+        },
+        onRasterProgress: (done, total, text) => {
+          els.compressionProgress.textContent = `${prefix}${text || `rasterizing page ${done} of ${total}…`}`;
+        },
+        onNormalizeProgress: (done, total) => {
+          els.compressionProgress.textContent = `${prefix}normalizing page ${done} of ${total} to Letter…`;
+        },
+      });
+      if (targetBytes && !result.metTarget) {
+        const advice = method === 'preserve'
+          ? 'Choose “Rasterize pages” for a stronger, destructive compression pass.'
+          : 'The requested maximum is smaller than the lowest raster setting could reach.';
+        throw new Error(`${doc.name}: best result was ${formatFileSize(result.bytes.length)}, above the ${targetMb} MB target. ${advice}`);
+      }
+      results.push({ doc, bytes: result.bytes });
+    }
+
+    if (results.length === 1) {
+      const { doc, bytes } = results[0];
+      const filename = ensurePdfFilename(els.compressionFilename.value, defaultCompressionFilename(doc.name));
+      downloadPdfBytes(bytes, filename);
+      markDocumentExported(doc);
+      els.compressionProgress.textContent = `Compressed ${doc.name} to ${formatFileSize(bytes.length)} as ${filename}.`;
+      setStatus(`Compressed ${filename}`);
+    } else {
+      const JSZip = await loadZipEngine();
+      const zip = new JSZip();
+      const used = new Set();
+      for (const { doc, bytes } of results) {
+        zip.file(uniqueCompressedZipName(doc, used), bytes);
+        markDocumentExported(doc);
+      }
+      els.compressionProgress.textContent = 'Packaging compressed PDFs into ZIP…';
+      const blob = await zip.generateAsync({ type: 'blob', compression: 'STORE', mimeType: 'application/zip' });
+      const filename = ensureZipFilename(els.compressionFilename.value, 'PDF-Workbench-Compressed.zip');
+      downloadBlob(blob, filename);
+      els.compressionProgress.textContent = `Compressed ${results.length} PDFs and saved ${filename} (${formatFileSize(blob.size)}).`;
+      setStatus(`Compressed ${results.length} PDFs`);
+    }
+  } catch (err) {
+    console.error(err);
+    els.compressionProgress.textContent = `Compression stopped: ${err?.message || err}`;
+    setStatus('PDF compression stopped');
+  } finally {
+    updateCompressionUi(selectedFileDocuments());
+  }
 }
 
 async function exportSelectedDocuments() {
@@ -1652,6 +3017,7 @@ async function exportSelectedDocuments() {
       });
       els.exportProgress.textContent = 'Writing PDF…';
       downloadPdfBytes(bytes, filename);
+      markDocumentExported(doc);
       const sizeMb = bytes.length / (1024 * 1024);
       els.exportProgress.textContent = `Exported ${doc.pages.length} page${doc.pages.length === 1 ? '' : 's'} (${sizeMb < 0.1 ? `${Math.round(bytes.length / 1024)} KB` : `${sizeMb.toFixed(1)} MB`}).`;
       setStatus(`Exported ${filename}`);
@@ -1670,6 +3036,7 @@ async function exportSelectedDocuments() {
           }
         });
         zip.file(uniqueZipPdfName(doc, usedNames), bytes);
+        markDocumentExported(doc);
         await new Promise(resolve => setTimeout(resolve, 0));
       }
       els.exportProgress.textContent = 'Packaging PDFs into ZIP…';
@@ -1910,6 +3277,7 @@ function createCombinedDocument() {
   saveCurrentDocumentState({ readViewDom: false });
   renderAll({ saveState: false });
   setStatus(`Created ${name} from ${chosenDocs.length} documents (${combinedPages.length} pages)`);
+  scheduleLibraryPersist(120);
 }
 
 function showWorkspaceMode(mode) {
@@ -2158,6 +3526,9 @@ function copySelectedPagesToDocument() {
   destination.history.push(before);
   if (destination.history.length > 50) destination.history.shift();
   destination.future = [];
+  destination.needsExport = true;
+  destination.modifiedAt = Date.now();
+  scheduleLibraryPersist(180);
 
   if (!destination.activePageId && destination.pages.length) destination.activePageId = copies[0]?.id || destination.pages[0].id;
   const singleView = ensureSingleView(destination);
@@ -2902,6 +4273,7 @@ function updateSingleViewScrollFromDom() {
   view.scrollTop = els.viewer.scrollTop;
   view.scrollLeft = els.viewer.scrollLeft;
   view.activePageId = state.activePageId;
+  scheduleLibraryPersist(1200);
 }
 
 function cycleScrollMode() {
@@ -4087,7 +5459,9 @@ function clearAll() {
   state.splitView = false;
   state.activePaneId = 'left';
   state.singleSourcePaneId = 'left';
-  renderAll();
+  renderAll({ saveState: false });
+  renderLibraryDocumentList();
+  scheduleLibraryPersist(120);
   setStatus('Closed all files');
 }
 
@@ -4101,9 +5475,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 3.7.1 adds non-destructive <strong>Crop / margins</strong> controls in Pages on top of the validated 3.7.0 page-size normalization.</p>
-      <ul><li><strong>Crop / margins…:</strong> apply to selected pages or all pages.</li><li><strong>Add margins:</strong> expand any combination of top/right/bottom/left edges by ¼ in, ½ in, 1 in, or custom values without scaling existing content.</li><li><strong>Crop:</strong> move chosen page boundaries inward without scaling content.</li><li><strong>Rotated pages:</strong> Top/Right/Bottom/Left refer to the page as currently viewed.</li><li><strong>Reset:</strong> remove accumulated crop/margin adjustments while leaving Page size normalization intact.</li><li><strong>Vector-preserving export:</strong> PDF pages use structural page-box changes rather than rasterization.</li></ul>
-      <p><strong>Coming later:</strong> improved image assembly, compression, persistent Files/Library storage (including persistent templates), and ink/annotations.</p>
+      <p>Milestone 4.0.1 refines the persistent <strong>Local Library</strong>. Imported and created working documents are stored locally in IndexedDB and can be restored after the app is closed or the device is restarted.</p>
+      <ul><li><strong>Automatic persistence:</strong> document source data, page order, rotations, inserted/generated pages, page geometry edits, undo history, and single/split view state are saved locally.</li><li><strong>Close / reopen:</strong> Close and Close All only remove documents from the active workspace; they do not prompt for PDF export because the editable Library copy is already safe.</li><li><strong>Trash:</strong> individual Library documents can be moved to Trash, restored, or permanently deleted. An unexported-changes warning appears at permanent deletion, where data can actually be lost.</li><li><strong>New from template:</strong> Files → New can start a one-page document from any saved session template.</li><li><strong>Storage protection:</strong> Files → Storage &amp; reset can request persistent-storage protection, show browser storage usage, delete the Library, or factory-reset local app data.</li><li><strong>App updates:</strong> the service-worker cache and persistent Library are separate; normal updates should not erase stored documents.</li></ul>
+      <p><strong>Coming in Milestone 4:</strong> folders/subfolders, rename/duplicate, Favorites, search/sort/grid-list, persistent templates, Library PDF ZIP export, editable backup/restore, and schema migrations; then inking/annotations.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -4580,8 +5954,23 @@ function bindEvents() {
   els.openBtn.addEventListener('click', () => { closeInsertPageMenu(); els.fileInput.click(); });
   els.newBlankDocumentBtn.addEventListener('click', () => createNewGeneratedDocument('blank'));
   els.newGraphDocumentBtn.addEventListener('click', () => createNewGeneratedDocument('graph'));
+  els.newTemplateDocumentBtn?.addEventListener('click', showNewFromTemplateChooser);
   els.emptyOpenBtn.addEventListener('click', () => els.fileInput.click());
   els.fileInput.addEventListener('change', () => openFiles(els.fileInput.files));
+  els.imageAssemblyChooseBtn?.addEventListener('click', () => els.imageAssemblyInput?.click());
+  els.imageAssemblyInput?.addEventListener('change', () => addImageAssemblyFiles(els.imageAssemblyInput.files));
+  els.imageAssemblyClearBtn?.addEventListener('click', () => { clearImageAssembly(); if (els.imageAssemblyProgress) els.imageAssemblyProgress.textContent = ''; });
+  els.imageAssemblyList?.addEventListener('click', (e) => {
+    const row = e.target.closest('.image-assembly-row');
+    const action = e.target.closest('[data-action]')?.dataset.action;
+    if (!row || !action) return;
+    if (action === 'up') moveImageAssemblyItem(row.dataset.itemId, -1);
+    else if (action === 'down') moveImageAssemblyItem(row.dataset.itemId, 1);
+    else if (action === 'remove') removeImageAssemblyItem(row.dataset.itemId);
+  });
+  els.imageAssemblyCreateBtn?.addEventListener('click', createImageAssemblyDocument);
+  els.imageAssemblyPageSize?.addEventListener('change', updateImageAssemblyUi);
+  els.imageAssemblyOrientation?.addEventListener('change', updateImageAssemblyUi);
   els.documentSelect.addEventListener('change', () => loadDocumentState(els.documentSelect.value));
   els.splitLeftDocumentSelect.addEventListener('change', () => setPaneDocument('left', els.splitLeftDocumentSelect.value));
   els.splitRightDocumentSelect.addEventListener('change', () => setPaneDocument('right', els.splitRightDocumentSelect.value));
@@ -4595,7 +5984,16 @@ function bindEvents() {
   els.exportModeBtn.addEventListener('click', () => showWorkspaceMode('export'));
   els.selectAllFilesBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; state.fileSelected = new Set(state.documents.map(doc => doc.id)); reconcileCombineOrder(); renderExportPane(); });
   els.clearFileSelectionBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; state.fileSelected.clear(); reconcileCombineOrder(); renderExportPane(); });
+  els.libraryRefreshBtn?.addEventListener('click', async () => { await persistLibraryNow(); await refreshLibraryRecords(); setStatus('Local Library refreshed'); });
+  els.requestPersistentStorageBtn?.addEventListener('click', requestPersistentLibraryStorage);
+  els.purgeLibraryBtn?.addEventListener('click', purgeLocalLibrary);
+  els.factoryResetBtn?.addEventListener('click', factoryResetAllLocalData);
   els.exportPdfBtn.addEventListener('click', exportSelectedDocuments);
+  els.compressionMethod?.addEventListener('change', () => updateCompressionUi(selectedFileDocuments()));
+  els.compressionLevel?.addEventListener('change', () => updateCompressionUi(selectedFileDocuments()));
+  els.compressionTargetMb?.addEventListener('input', () => updateCompressionUi(selectedFileDocuments()));
+  els.compressionNormalizeLetter?.addEventListener('change', () => updateCompressionUi(selectedFileDocuments()));
+  els.compressBtn?.addEventListener('click', compressSelectedDocuments);
   els.extractPdfBtn.addEventListener('click', extractSelectedPdf);
   els.splitFixedBtn.addEventListener('click', splitEveryNPages);
   els.splitRangesBtn.addEventListener('click', splitByPageGroups);
@@ -4690,7 +6088,7 @@ function bindEvents() {
   els.undoBtn.addEventListener('click', undo);
   els.redoBtn.addEventListener('click', redo);
   els.moreBtn.addEventListener('click', (e) => { e.stopPropagation(); closeInsertPageMenu(); toggleMoreMenu(); });
-  els.clearBtn.addEventListener('click', () => { toggleMoreMenu(false); clearAll(); });
+  els.clearBtn.addEventListener('click', () => { toggleMoreMenu(false); closeAllOpenDocuments(); });
   els.installHelpBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('install'); });
   els.aboutBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('about'); });
   document.addEventListener('click', (e) => {
@@ -4765,6 +6163,8 @@ function bindEvents() {
 
   window.addEventListener('dragover', (e) => { if ([...e.dataTransfer.types].includes('Files')) e.preventDefault(); });
   window.addEventListener('drop', (e) => { if (e.dataTransfer?.files?.length) { e.preventDefault(); openFiles(e.dataTransfer.files); } });
+  window.addEventListener('pagehide', () => { saveCurrentDocumentState(); persistLibraryNow(); });
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') { saveCurrentDocumentState(); persistLibraryNow(); } });
 }
 
 async function init() {
@@ -4773,6 +6173,9 @@ async function init() {
   renderAll();
   await registerServiceWorker();
   await loadPdfEngine();
+  setStatus('Restoring local Library…', true);
+  await initializePersistentLibrary();
+  setStatus(state.documents.length ? `Restored ${state.documents.length} open document${state.documents.length === 1 ? '' : 's'} from local Library` : 'Ready');
 }
 
 init();
