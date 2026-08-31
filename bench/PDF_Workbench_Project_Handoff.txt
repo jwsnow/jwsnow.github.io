@@ -1,13 +1,19 @@
-PDF WORKBENCH PWA — MILESTONE 4.1.0 CURRENT UPDATE
+PDF WORKBENCH PWA — MILESTONE 4.1.1 CURRENT UPDATE
 ====================================================
 
-CURRENT BUILD: Milestone 4.1.0
-Visible About version: 4.1.0
-Service-worker/cache version: pdf-workbench-m4.1.0-v1
-IndexedDB database version: 2
-Local Library schema version: 3
+CURRENT BUILD: Milestone 4.1.1
+Visible About version: 4.1.1
+Service-worker/cache version: pdf-workbench-m4.1.1-v1
 
-MILESTONE 4.1.0 — LIBRARY ORGANIZATION
+4.1.1 HOTFIX
+-------------
+- Fixes 4.1.0 failing at JavaScript parse time because `uniqueLibraryDocumentName` was declared twice.
+- Keeps the newer folder-aware naming helper and removes the obsolete duplicate.
+- New-from-template still ensures the created working document receives a .pdf filename.
+- Adds `<meta name="mobile-web-app-capable" content="yes">`; retains the Apple-specific meta for iPad PWA compatibility.
+- No intended Library feature or schema changes from 4.1.0. Existing 4.0.x/4.1.0 persisted data should remain intact.
+
+MILESTONE 4.1.0/4.1.1 — LIBRARY ORGANIZATION
 --------------------------------------
 Milestone 4.0.2 persistence was tested successfully on Surface, iPad Safari, and the installed iPad Home Screen PWA. Documents can be opened, closed/reopened, trashed/restored, and retained across repeated app closes/reopens. Persistent templates also survive. Existing Safari Library data survived application upgrades.
 
@@ -71,7 +77,7 @@ MILESTONE 5 INKING ROADMAP (PRESERVE)
 - Eventually annotated-pages filter in Pages.
 - Full Page bottom navigation controls must be tested for palm interference once inking exists.
 
-TEST PRIORITY FOR 4.1.0
+TEST PRIORITY FOR 4.1.1
 -----------------------
 - Upgrade an existing 4.0.2 Library without losing documents/templates.
 - Nested folders on Surface, iPad Safari/PWA, Chromebook.

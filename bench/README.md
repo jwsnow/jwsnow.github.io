@@ -1,8 +1,8 @@
-# PDF Workbench — Milestone 4.1.0
+# PDF Workbench — Milestone 4.1.1
 
-Milestone 4.1.0 builds the first real organization layer on top of the persistent Local Library introduced in Milestone 4.0.
+Milestone 4.1.1 is a hotfix for 4.1.0 and retains the first real organization layer on top of the persistent Local Library introduced in Milestone 4.0.
 
-## New in 4.1.0
+## Hotfix in 4.1.1
 
 ### Folders and subfolders
 - Files → Local Library now supports folders and arbitrarily nested subfolders.
@@ -46,4 +46,6 @@ Favorites, broad Library search/sorting controls, folder Trash/permanent-delete 
 7. Verify Open Documents and Local Library start collapsed after a fresh page load.
 8. Open the Template Manager from Files, then from Insert Page, and confirm both show the same templates.
 
-**More → About this build** reports **Milestone 4.1.0**. The service-worker cache is `pdf-workbench-m4.1.0-v1`.
+**More → About this build** reports **Milestone 4.1.1**. The service-worker cache is `pdf-workbench-m4.1.1-v1`.
+
+4.1.1 fixes a parse-time JavaScript failure in 4.1.0 caused by an accidentally duplicated `uniqueLibraryDocumentName` helper. It also adds the standard `mobile-web-app-capable` meta declaration alongside the iOS-specific declaration.

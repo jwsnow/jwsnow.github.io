@@ -1,4 +1,4 @@
-const APP_VERSION = '4.1.0';
+const APP_VERSION = '4.1.1';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1923,22 +1923,12 @@ function createNewGeneratedDocument(type='blank') {
   scheduleLibraryPersist(120);
 }
 
-function uniqueLibraryDocumentName(baseName) {
-  const raw = String(baseName || 'Untitled').trim() || 'Untitled';
-  const withExt = /\.pdf$/i.test(raw) ? raw : `${raw}.pdf`;
-  const names = new Set([...state.libraryRecords.values()].map(record => String(record.name || '').toLowerCase()));
-  for (const doc of state.documents) names.add(String(doc.name || '').toLowerCase());
-  if (!names.has(withExt.toLowerCase())) return withExt;
-  const stem = withExt.replace(/\.pdf$/i, '');
-  let n = 2;
-  while (names.has(`${stem} ${n}.pdf`.toLowerCase())) n++;
-  return `${stem} ${n}.pdf`;
-}
-
 function createNewDocumentFromTemplate(templateId) {
   const template = state.templates.find(item => item.id === templateId);
   if (!template?.page) { setStatus('That template is no longer available'); return; }
-  const doc = createDocument(uniqueLibraryDocumentName(template.name || 'Template'));
+  const templateBaseName = String(template.name || 'Template').trim() || 'Template';
+  const templatePdfName = /\.pdf$/i.test(templateBaseName) ? templateBaseName : `${templateBaseName}.pdf`;
+  const doc = createDocument(uniqueLibraryDocumentName(templatePdfName));
   state.fileSelected = new Set([doc.id]);
   state.fileSelectionInitialized = true;
   state.combineOrder = [doc.id];
@@ -5978,7 +5968,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 4.1.0 adds <strong>Library organization</strong>: folders and subfolders, document rename/duplicate/move, first-page thumbnails, and Grid/List browsing, while retaining the persistent iPad PWA storage fixes from 4.0.2.</p>
+      <p>Milestone 4.1.1 hotfix retains <strong>Library organization</strong>: folders and subfolders, document rename/duplicate/move, first-page thumbnails, and Grid/List browsing, while retaining the persistent iPad PWA storage fixes from 4.0.2.</p>
       <ul><li><strong>Automatic persistence:</strong> document source data, page order, rotations, inserted/generated pages, page geometry edits, undo history, and single/split view state are saved locally.</li><li><strong>Close / reopen:</strong> Close and Close All only remove documents from the active workspace; they do not prompt for PDF export because the editable Library copy is already safe.</li><li><strong>Trash:</strong> individual Library documents can be moved to Trash, restored, or permanently deleted. An unexported-changes warning appears at permanent deletion, where data can actually be lost.</li><li><strong>Persistent templates:</strong> saved page templates now live with the Local Library and can be used by Files → New → From template after reopening the app.</li><li><strong>Storage protection:</strong> Files → Storage &amp; reset can request persistent-storage protection, show browser storage usage, delete the Library, or factory-reset local app data.</li><li><strong>App updates:</strong> the service-worker cache and persistent Library are separate; normal updates should not erase stored documents.</li></ul>
       <p><strong>Coming in Milestone 4:</strong> folders/subfolders, rename/duplicate, Favorites, search/sort/grid-list, Library PDF ZIP export, editable backup/restore, and schema migrations; then inking/annotations.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
