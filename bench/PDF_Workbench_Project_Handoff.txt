@@ -1,3 +1,90 @@
+PDF WORKBENCH PWA — MILESTONE 4.1.0 CURRENT UPDATE
+====================================================
+
+CURRENT BUILD: Milestone 4.1.0
+Visible About version: 4.1.0
+Service-worker/cache version: pdf-workbench-m4.1.0-v1
+IndexedDB database version: 2
+Local Library schema version: 3
+
+MILESTONE 4.1.0 — LIBRARY ORGANIZATION
+--------------------------------------
+Milestone 4.0.2 persistence was tested successfully on Surface, iPad Safari, and the installed iPad Home Screen PWA. Documents can be opened, closed/reopened, trashed/restored, and retained across repeated app closes/reopens. Persistent templates also survive. Existing Safari Library data survived application upgrades.
+
+4.1.0 adds the first organization layer:
+- Files → Local Library is collapsible and CLOSED by default.
+- Files → Open Documents is collapsible and CLOSED by default.
+- Local Library supports folders and nested subfolders.
+- New folder creates inside the currently viewed folder.
+- Breadcrumb navigation exposes Library root and ancestors.
+- Folders can be renamed and moved to root/another folder. Folder moves cannot target the folder itself or one of its descendants.
+- Documents can be renamed, duplicated, and moved between folders/root.
+- Duplicate creates a separate editable Library record with fresh document/page IDs and no shared undo history. It intentionally reuses immutable source PDF/image data internally instead of duplicating source bytes.
+- Documents retain the existing Open/Use/Close/Trash behavior.
+- Library Grid and List views are available; Grid is the default and is remembered locally.
+- First-page thumbnails are rendered lazily for Library documents, including closed documents, so the Library is visually recognizable without eagerly opening every source.
+- Files now includes a Templates section linking to the persistent Template Manager.
+- Manage templates remains in Insert Page; both entry points open the same manager.
+
+PERSISTENCE / MIGRATION
+-----------------------
+- IndexedDB database version increased from 1 to 2 solely to add a `folders` object store.
+- Library schema increased from 2 to 3 for folder-aware organization.
+- Existing 4.0.x document records remain valid; documents with no folderId remain at Library root.
+- Normal upgrades must preserve the Local Library. Do NOT make purge/reset part of ordinary upgrade flow.
+- Service-worker/application cache remains separate from persistent Library data.
+
+UI PRIORITIES CONFIRMED
+-----------------------
+- User prefers expanded page-operation rows in Pages on iPad rather than hiding page tools behind More.
+- Favorites, search, and sophisticated sorting are lower priorities.
+- First-page thumbnails are considered worthwhile; they motivated implementing Grid/List now.
+- Folder/subfolder organization, rename, duplicate, move, close/reopen, export, backup, and eventual annotation persistence are primary Library goals.
+
+MILESTONE 4 ROADMAP AFTER 4.1.0
+-------------------------------
+High priority remaining:
+1. Whole-Library PDF export as a ZIP preserving folder/subfolder hierarchy.
+2. Full editable PDF Workbench Library backup and restore, preserving sources, page edits, templates, annotations later, folder hierarchy, and relevant view/project state.
+3. Stronger schema migration/recovery and storage cleanup tools.
+4. Folder Trash/recovery semantics if needed; current document Trash remains working.
+5. Page bookmarks/outlines foundation and audit preservation of existing PDF hyperlinks/outlines through structural editing/export.
+6. Crash-safe incremental persistence, storage reporting/persistent-storage request remain permanent requirements.
+
+Lower priority / can defer:
+- Favorites.
+- richer search and sorting controls.
+- advanced bulk Library actions.
+- future content/OCR/handwriting search index.
+
+MILESTONE 5 INKING ROADMAP (PRESERVE)
+-------------------------------------
+- Pen, Eraser, Lasso/Select, Undo/Redo.
+- Highlighter as first-class tool.
+- A small number of configurable pen presets.
+- Explicit View/Hand (non-writing) state.
+- Pen/stylus inks on document content; one finger pans; two fingers pinch/zoom; pen can operate visible UI.
+- Draw with Finger OFF by default.
+- Auto-return from eraser option.
+- Optional multi-finger undo/redo gestures.
+- Laser Pointer for Presentation.
+- Eventually annotated-pages filter in Pages.
+- Full Page bottom navigation controls must be tested for palm interference once inking exists.
+
+TEST PRIORITY FOR 4.1.0
+-----------------------
+- Upgrade an existing 4.0.2 Library without losing documents/templates.
+- Nested folders on Surface, iPad Safari/PWA, Chromebook.
+- Close/reopen documents after moving them into folders.
+- Duplicate an edited document; verify copy is independent and exports correctly.
+- First-page thumbnails for PDFs, scans/JBIG2, generated pages, and image documents.
+- Grid/List responsiveness on iPad portrait/landscape and narrow Surface.
+- Folder move + breadcrumb navigation.
+
+====================================================================
+PREVIOUS HANDOFF / FULL PROJECT HISTORY FOLLOWS
+====================================================================
+
 PDF WORKBENCH PWA — CURRENT PROJECT HANDOFF
 ==============================================
 

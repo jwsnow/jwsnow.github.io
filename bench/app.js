@@ -1,4 +1,4 @@
-const APP_VERSION = '4.0.2';
+const APP_VERSION = '4.1.0';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -9,8 +9,8 @@ const PDFLIB_URL = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.esm
 const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 
 const LIBRARY_DB_NAME = 'pdf-workbench-library';
-const LIBRARY_DB_VERSION = 1;
-const LIBRARY_SCHEMA_VERSION = 2;
+const LIBRARY_DB_VERSION = 2;
+const LIBRARY_SCHEMA_VERSION = 3;
 
 const $ = (id) => document.getElementById(id);
 const els = {
@@ -19,7 +19,7 @@ const els = {
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), filesManageTemplatesBtn: $('filesManageTemplatesBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
@@ -31,7 +31,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -83,6 +83,11 @@ const state = {
   libraryDb: null,
   libraryReady: false,
   libraryRecords: new Map(),
+  libraryFolders: new Map(),
+  libraryFolderId: null,
+  libraryViewMode: safePref('pdfwb-library-view', 'grid', ['grid','list']),
+  libraryPreviewObserver: null,
+  pendingLibraryMove: null,
   libraryPersistTimer: null,
   libraryPersisting: false,
   libraryPersistAgain: false,
@@ -167,6 +172,7 @@ function openLibraryDatabaseOnce(timeoutMs=4500) {
         if (!db.objectStoreNames.contains('documents')) db.createObjectStore('documents', { keyPath: 'id' });
         if (!db.objectStoreNames.contains('sources')) db.createObjectStore('sources', { keyPath: 'id' });
         if (!db.objectStoreNames.contains('meta')) db.createObjectStore('meta', { keyPath: 'key' });
+        if (!db.objectStoreNames.contains('folders')) db.createObjectStore('folders', { keyPath: 'id' });
       };
       request.onsuccess = () => finishResolve(request.result);
       request.onerror = () => finishReject(request.error || new Error('IndexedDB open failed'));
@@ -491,8 +497,13 @@ function markDocumentExported(doc) {
 }
 async function refreshLibraryRecords() {
   if (!state.libraryDb) return;
-  const records = await libraryGetAll('documents');
+  const [records, folders] = await Promise.all([
+    libraryGetAll('documents'),
+    state.libraryDb.objectStoreNames.contains('folders') ? libraryGetAll('folders') : Promise.resolve([]),
+  ]);
   state.libraryRecords = new Map(records.map(record => [record.id, record]));
+  state.libraryFolders = new Map(folders.map(folder => [folder.id, folder]));
+  if (state.libraryFolderId && !state.libraryFolders.has(state.libraryFolderId)) state.libraryFolderId = null;
   renderLibraryDocumentList();
   updateLibraryStorageSummary();
 }
@@ -537,6 +548,8 @@ async function initializePersistentLibrary() {
     await restorePersistentTemplates();
     const incompatible = [...state.libraryRecords.values()].find(record => Number(record.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION);
     if (incompatible) throw new Error(`This local Library uses schema ${incompatible.schemaVersion}, newer than this build understands (${LIBRARY_SCHEMA_VERSION}). Use a newer PDF Workbench build or reset the local Library.`);
+    const incompatibleFolder = [...state.libraryFolders.values()].find(folder => Number(folder.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION);
+    if (incompatibleFolder) throw new Error(`This local Library folder data uses schema ${incompatibleFolder.schemaVersion}, newer than this build understands (${LIBRARY_SCHEMA_VERSION}).`);
     const session = await libraryGet('meta', 'session');
     if (Number(session?.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION) throw new Error(`The saved Library session uses a newer schema (${session.schemaVersion}).`);
     const openIds = Array.isArray(session?.openIds) ? session.openIds.filter(id => state.libraryRecords.has(id) && !state.libraryRecords.get(id)?.trashedAt) : [];
@@ -566,12 +579,6 @@ async function initializePersistentLibrary() {
     renderAll({ saveState: false });
     renderLibraryDocumentList();
     updateLibraryStorageSummary();
-    if (els.librarySummary) {
-      const activeCount = [...state.libraryRecords.values()].filter(record => !record.trashedAt).length;
-      els.librarySummary.textContent = activeCount
-        ? `${activeCount} document${activeCount === 1 ? '' : 's'} in Library. ${state.documents.length} currently open.`
-        : 'The local Library is empty. Open or create a document and it will be stored automatically.';
-    }
     scheduleLibraryPersist(250);
   } catch (err) {
     state.libraryReady = false;
@@ -600,7 +607,7 @@ async function retryPersistentLibraryAfterFailure() {
     if (state.documents.length) {
       await persistLibraryNow({ readViewDom: false, _reconnected: true });
       renderLibraryDocumentList();
-      if (els.librarySummary) els.librarySummary.textContent = `${[...state.libraryRecords.values()].filter(record => !record.trashedAt).length} document(s) in Library. ${state.documents.length} currently open.`;
+      renderLibraryDocumentList();
     } else {
       try { state.libraryDb?.close?.(); } catch {}
       state.libraryDb = null;
@@ -1501,7 +1508,7 @@ function nextTemplateName() {
 
 async function renderCompactPagePreview(page, canvas) {
   if (!page || !canvas?.isConnected) return;
-  const well = canvas.closest('.insert-choice-preview, .template-manager-preview');
+  const well = canvas.closest('.insert-choice-preview, .template-manager-preview, .library-document-preview');
   if (!well) return;
   const rect = well.getBoundingClientRect();
   const { width: bw, height: bh } = pageDisplayDimensions(page);
@@ -1586,6 +1593,10 @@ function renderInsertTemplateList() {
   }
   if (els.manageTemplatesBtn) els.manageTemplatesBtn.disabled = state.templates.length === 0;
   if (els.newTemplateDocumentBtn) els.newTemplateDocumentBtn.disabled = state.templates.length === 0;
+  if (els.filesTemplatesSummary) els.filesTemplatesSummary.textContent = state.templates.length
+    ? `${state.templates.length} template${state.templates.length === 1 ? '' : 's'}`
+    : 'No templates saved';
+  if (els.filesManageTemplatesBtn) els.filesManageTemplatesBtn.disabled = false;
 }
 
 function requestTemplateName(suggested) {
@@ -2182,8 +2193,7 @@ function isDocumentOpen(docId) { return state.documents.some(doc => doc.id === d
 function activeLibraryRecords() {
   const merged = new Map(state.libraryRecords);
   for (const doc of state.documents) merged.set(doc.id, serializeDocumentForLibrary(doc));
-  return [...merged.values()].filter(record => !record.trashedAt)
-    .sort((a, b) => (b.modifiedAt || 0) - (a.modifiedAt || 0) || String(a.name).localeCompare(String(b.name)));
+  return [...merged.values()].filter(record => !record.trashedAt);
 }
 
 function trashedLibraryRecords() {
@@ -2191,77 +2201,340 @@ function trashedLibraryRecords() {
     .sort((a, b) => (b.trashedAt || 0) - (a.trashedAt || 0) || String(a.name).localeCompare(String(b.name)));
 }
 
+function activeLibraryFolders() {
+  return [...state.libraryFolders.values()].filter(folder => !folder.trashedAt);
+}
+
+function libraryFolderById(id) { return id ? state.libraryFolders.get(id) || null : null; }
+function libraryFolderChildren(parentId=null) {
+  return activeLibraryFolders().filter(folder => (folder.parentId || null) === (parentId || null))
+    .sort((a,b) => String(a.name).localeCompare(String(b.name), undefined, { sensitivity: 'base' }));
+}
+function libraryDocumentsInFolder(folderId=null) {
+  return activeLibraryRecords().filter(record => (record.folderId || null) === (folderId || null))
+    .sort((a,b) => String(a.name).localeCompare(String(b.name), undefined, { sensitivity: 'base' }));
+}
+function libraryFolderPath(folderId=state.libraryFolderId) {
+  const path = [];
+  const seen = new Set();
+  let id = folderId;
+  while (id && !seen.has(id)) {
+    seen.add(id);
+    const folder = libraryFolderById(id);
+    if (!folder) break;
+    path.unshift(folder);
+    id = folder.parentId || null;
+  }
+  return path;
+}
+function libraryFolderDescendantIds(folderId) {
+  const result = new Set();
+  const visit = id => {
+    for (const child of activeLibraryFolders().filter(folder => (folder.parentId || null) === id)) {
+      if (result.has(child.id)) continue;
+      result.add(child.id); visit(child.id);
+    }
+  };
+  visit(folderId);
+  return result;
+}
+function librarySiblingNameExists(name, parentId, excludingId=null) {
+  const target = String(name || '').trim().toLocaleLowerCase();
+  return activeLibraryFolders().some(folder => folder.id !== excludingId && (folder.parentId || null) === (parentId || null) && String(folder.name || '').trim().toLocaleLowerCase() === target);
+}
+function uniqueLibraryDocumentName(baseName, folderId=null, excludingId=null) {
+  const records = activeLibraryRecords().filter(record => record.id !== excludingId && (record.folderId || null) === (folderId || null));
+  const names = new Set(records.map(record => String(record.name || '').toLocaleLowerCase()));
+  const raw = String(baseName || 'Untitled.pdf').trim() || 'Untitled.pdf';
+  if (!names.has(raw.toLocaleLowerCase())) return raw;
+  const dot = raw.lastIndexOf('.');
+  const stem = dot > 0 ? raw.slice(0, dot) : raw;
+  const ext = dot > 0 ? raw.slice(dot) : '';
+  let n = 2;
+  let candidate = `${stem} ${n}${ext}`;
+  while (names.has(candidate.toLocaleLowerCase())) candidate = `${stem} ${++n}${ext}`;
+  return candidate;
+}
+function defaultDuplicateDocumentName(name, folderId=null) {
+  const raw = String(name || 'Untitled.pdf').trim() || 'Untitled.pdf';
+  const dot = raw.lastIndexOf('.');
+  const stem = dot > 0 ? raw.slice(0, dot) : raw;
+  const ext = dot > 0 ? raw.slice(dot) : '';
+  const records = activeLibraryRecords().filter(record => (record.folderId || null) === (folderId || null));
+  const names = new Set(records.map(record => String(record.name || '').toLocaleLowerCase()));
+  let candidate = `${stem} copy${ext}`;
+  let n = 2;
+  while (names.has(candidate.toLocaleLowerCase())) candidate = `${stem} copy ${n++}${ext}`;
+  return candidate;
+}
+
+function setLibraryFolder(folderId=null) {
+  if (folderId && !state.libraryFolders.has(folderId)) folderId = null;
+  state.libraryFolderId = folderId || null;
+  renderLibraryDocumentList();
+}
+function setLibraryViewMode(mode) {
+  state.libraryViewMode = mode === 'list' ? 'list' : 'grid';
+  savePref('pdfwb-library-view', state.libraryViewMode);
+  renderLibraryDocumentList();
+}
+
+function renderLibraryBreadcrumb() {
+  if (!els.libraryBreadcrumb) return;
+  els.libraryBreadcrumb.replaceChildren();
+  const root = document.createElement('button');
+  root.type = 'button'; root.textContent = 'Library'; root.className = 'library-breadcrumb-button';
+  root.disabled = !state.libraryFolderId;
+  root.addEventListener('click', () => setLibraryFolder(null));
+  els.libraryBreadcrumb.append(root);
+  for (const folder of libraryFolderPath()) {
+    const sep = document.createElement('span'); sep.className = 'library-breadcrumb-separator'; sep.textContent = '›';
+    const button = document.createElement('button');
+    button.type = 'button'; button.textContent = folder.name; button.className = 'library-breadcrumb-button';
+    button.disabled = folder.id === state.libraryFolderId;
+    button.addEventListener('click', () => setLibraryFolder(folder.id));
+    els.libraryBreadcrumb.append(sep, button);
+  }
+}
+
+function ensureLibraryPreviewObserver() {
+  if (state.libraryPreviewObserver || !('IntersectionObserver' in window)) return state.libraryPreviewObserver;
+  state.libraryPreviewObserver = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      const canvas = entry.target;
+      state.libraryPreviewObserver.unobserve(canvas);
+      const record = activeLibraryRecords().find(item => item.id === canvas.dataset.libraryPreview) || state.libraryRecords.get(canvas.dataset.libraryPreview);
+      if (record) renderLibraryFirstPagePreview(record, canvas);
+    }
+  }, { root: null, rootMargin: '240px 0px', threshold: 0.01 });
+  return state.libraryPreviewObserver;
+}
+async function renderLibraryFirstPagePreview(record, canvas) {
+  const page = record?.pages?.[0];
+  if (!page || !canvas?.isConnected) return;
+  try {
+    if (page.sourceId && !state.sources.has(page.sourceId)) await ensureLibrarySourceLoaded(page.sourceId);
+    if (!canvas.isConnected) return;
+    await renderCompactPagePreview(page, canvas);
+  } catch (err) {
+    console.warn(`Could not render Library preview for ${record?.name || record?.id}`, err);
+    canvas.closest('.library-document-preview')?.classList.add('preview-error');
+  }
+}
+function queueLibraryPreview(record, canvas) {
+  canvas.dataset.libraryPreview = record.id;
+  const observer = ensureLibraryPreviewObserver();
+  if (observer) observer.observe(canvas);
+  else requestAnimationFrame(() => renderLibraryFirstPagePreview(record, canvas));
+}
+
+function requestLibraryName({ title='Name', help='', suggested='', saveLabel='Save' }={}) {
+  if (!els.libraryNameDialog || !els.libraryNameInput) return Promise.resolve(window.prompt(title, suggested));
+  return new Promise(resolve => {
+    els.libraryNameTitle.textContent = title;
+    els.libraryNameHelp.textContent = help;
+    els.libraryNameInput.value = suggested;
+    els.libraryNameSaveBtn.textContent = saveLabel;
+    let finished = false;
+    const finish = value => {
+      if (finished) return; finished = true;
+      try { els.libraryNameDialog.close(); } catch {}
+      resolve(value);
+    };
+    const onSubmit = e => {
+      e.preventDefault();
+      const value = els.libraryNameInput.value.trim();
+      if (!value) { els.libraryNameInput.focus(); return; }
+      finish(value);
+    };
+    els.libraryNameForm.onsubmit = onSubmit;
+    els.libraryNameCloseBtn.onclick = () => finish(null);
+    els.libraryNameCancelBtn.onclick = () => finish(null);
+    els.libraryNameDialog.oncancel = e => { e.preventDefault(); finish(null); };
+    els.libraryNameDialog.showModal();
+    requestAnimationFrame(() => { els.libraryNameInput.focus({ preventScroll: true }); els.libraryNameInput.select(); });
+  });
+}
+
+async function createLibraryFolder() {
+  if (!state.libraryReady) { setStatus('Local Library is not ready'); return; }
+  const name = await requestLibraryName({ title: 'New folder', help: 'The new folder will be created inside the folder currently being viewed.', suggested: 'New Folder', saveLabel: 'Create folder' });
+  if (!name) return;
+  if (librarySiblingNameExists(name, state.libraryFolderId)) { setStatus('A folder with that name already exists here'); return; }
+  const folder = { id: uid('folder'), schemaVersion: LIBRARY_SCHEMA_VERSION, name, parentId: state.libraryFolderId || null, createdAt: Date.now(), modifiedAt: Date.now(), trashedAt: null };
+  try {
+    await libraryPut('folders', folder); state.libraryFolders.set(folder.id, folder); renderLibraryDocumentList(); setStatus(`Created folder ${name}`);
+  } catch (err) { console.error(err); setStatus(`Could not create folder: ${err?.message || err}`); }
+}
+async function renameLibraryFolder(folderId) {
+  const folder = libraryFolderById(folderId); if (!folder) return;
+  const name = await requestLibraryName({ title: 'Rename folder', suggested: folder.name, saveLabel: 'Rename' });
+  if (!name || name === folder.name) return;
+  if (librarySiblingNameExists(name, folder.parentId, folder.id)) { setStatus('A folder with that name already exists there'); return; }
+  const updated = { ...folder, name, modifiedAt: Date.now(), schemaVersion: LIBRARY_SCHEMA_VERSION };
+  await libraryPut('folders', updated); state.libraryFolders.set(folder.id, updated); renderLibraryDocumentList(); setStatus(`Renamed folder to ${name}`);
+}
+async function renameLibraryDocument(docId) {
+  const openDoc = documentById(docId);
+  const record = openDoc ? serializeDocumentForLibrary(openDoc) : state.libraryRecords.get(docId);
+  if (!record) return;
+  const name = await requestLibraryName({ title: 'Rename document', suggested: record.name, saveLabel: 'Rename' });
+  if (!name || name === record.name) return;
+  const unique = uniqueLibraryDocumentName(name, record.folderId, record.id);
+  if (unique !== name) { setStatus(`A document named ${name} already exists here`); return; }
+  const modifiedAt = Date.now();
+  if (openDoc) { openDoc.name = name; openDoc.modifiedAt = modifiedAt; }
+  const updated = { ...record, name, modifiedAt, schemaVersion: LIBRARY_SCHEMA_VERSION };
+  await libraryPut('documents', updated); state.libraryRecords.set(docId, updated);
+  renderAll({ saveState: false }); renderLibraryDocumentList(); setStatus(`Renamed document to ${name}`);
+}
+function cloneDocumentPagesForDuplicate(record) {
+  const idMap = new Map();
+  const pages = (record.pages || []).map(page => { const id = uid('page'); idMap.set(page.id, id); return { ...clonePlain(page), id }; });
+  const remap = id => idMap.get(id) || pages[0]?.id || null;
+  return { pages, remap };
+}
+async function duplicateLibraryDocument(docId) {
+  try {
+    const openDoc = documentById(docId); if (openDoc) saveCurrentDocumentState();
+    if (openDoc) await persistLibraryNow();
+    const record = openDoc ? serializeDocumentForLibrary(openDoc) : (state.libraryRecords.get(docId) || await libraryGet('documents', docId));
+    if (!record) throw new Error('Document is no longer available.');
+    const { pages, remap } = cloneDocumentPagesForDuplicate(record);
+    const now = Date.now();
+    const copy = {
+      ...clonePlain(record), id: uid('doc'), schemaVersion: LIBRARY_SCHEMA_VERSION,
+      name: defaultDuplicateDocumentName(record.name, record.folderId), pages,
+      selected: [], selectionAnchorId: null, activePageId: remap(record.activePageId), history: [], future: [],
+      singleView: { ...copyView(record.singleView), activePageId: remap(record.singleView?.activePageId), scrollTop: null, scrollLeft: null },
+      createdAt: now, modifiedAt: now, needsExport: true, lastExportedAt: null, trashedAt: null,
+    };
+    await libraryPut('documents', copy); state.libraryRecords.set(copy.id, copy); renderLibraryDocumentList(); updateLibraryStorageSummary(); setStatus(`Duplicated ${record.name} as ${copy.name}`);
+  } catch (err) { console.error(err); setStatus(`Could not duplicate document: ${err?.message || err}`); }
+}
+
+function libraryFolderOptions(excludeFolderId=null) {
+  const excluded = excludeFolderId ? libraryFolderDescendantIds(excludeFolderId) : new Set();
+  if (excludeFolderId) excluded.add(excludeFolderId);
+  const options = [{ id: '', label: 'Library (root)' }];
+  const walk = (parentId, depth) => {
+    for (const folder of libraryFolderChildren(parentId)) {
+      if (excluded.has(folder.id)) continue;
+      options.push({ id: folder.id, label: `${'— '.repeat(depth)}${folder.name}` });
+      walk(folder.id, depth + 1);
+    }
+  };
+  walk(null, 0);
+  return options;
+}
+function openLibraryMoveDialog(kind, id) {
+  if (!els.libraryMoveDialog) return;
+  const isFolder = kind === 'folder';
+  const item = isFolder ? libraryFolderById(id) : (documentById(id) || state.libraryRecords.get(id));
+  if (!item) return;
+  state.pendingLibraryMove = { kind, id };
+  els.libraryMoveTitle.textContent = `Move ${isFolder ? 'folder' : 'document'}`;
+  els.libraryMoveHelp.textContent = `Choose a destination for “${item.name}”.`;
+  els.libraryMoveDestination.replaceChildren();
+  for (const optionData of libraryFolderOptions(isFolder ? id : null)) {
+    const option = document.createElement('option'); option.value = optionData.id; option.textContent = optionData.label;
+    els.libraryMoveDestination.append(option);
+  }
+  const currentParent = isFolder ? (item.parentId || '') : (item.folderId || '');
+  if ([...els.libraryMoveDestination.options].some(option => option.value === currentParent)) els.libraryMoveDestination.value = currentParent;
+  els.libraryMoveDialog.showModal();
+}
+async function applyPendingLibraryMove() {
+  const pending = state.pendingLibraryMove; if (!pending) return;
+  const destination = els.libraryMoveDestination.value || null;
+  try {
+    if (pending.kind === 'folder') {
+      const folder = libraryFolderById(pending.id); if (!folder) throw new Error('Folder is no longer available.');
+      if ((folder.parentId || null) === destination) return;
+      if (librarySiblingNameExists(folder.name, destination, folder.id)) throw new Error('A folder with that name already exists in the destination.');
+      const updated = { ...folder, parentId: destination, modifiedAt: Date.now(), schemaVersion: LIBRARY_SCHEMA_VERSION };
+      await libraryPut('folders', updated); state.libraryFolders.set(folder.id, updated);
+      setStatus(`Moved folder ${folder.name}`);
+    } else {
+      const openDoc = documentById(pending.id);
+      const record = openDoc ? serializeDocumentForLibrary(openDoc) : state.libraryRecords.get(pending.id);
+      if (!record) throw new Error('Document is no longer available.');
+      if ((record.folderId || null) === destination) return;
+      if (openDoc) { openDoc.folderId = destination; openDoc.modifiedAt = Date.now(); }
+      const updated = { ...record, folderId: destination, modifiedAt: Date.now(), schemaVersion: LIBRARY_SCHEMA_VERSION };
+      await libraryPut('documents', updated); state.libraryRecords.set(record.id, updated); scheduleLibraryPersist(80);
+      setStatus(`Moved ${record.name}`);
+    }
+    renderLibraryDocumentList();
+  } catch (err) { console.error(err); setStatus(`Could not move item: ${err?.message || err}`); }
+  finally { state.pendingLibraryMove = null; }
+}
+
+function createLibraryFolderRow(folder) {
+  const row = document.createElement('div'); row.className = 'library-document-row library-folder-row'; row.dataset.folderId = folder.id;
+  const preview = document.createElement('button'); preview.type = 'button'; preview.className = 'library-folder-preview'; preview.setAttribute('aria-label', `Open folder ${folder.name}`); preview.innerHTML = '<span class="library-folder-icon" aria-hidden="true"></span>';
+  preview.addEventListener('click', () => setLibraryFolder(folder.id));
+  const label = document.createElement('div'); label.className = 'library-document-label';
+  const name = document.createElement('span'); name.className = 'library-document-name'; name.textContent = folder.name; name.title = folder.name;
+  const childFolders = libraryFolderChildren(folder.id).length;
+  const childDocs = libraryDocumentsInFolder(folder.id).length;
+  const meta = document.createElement('span'); meta.className = 'library-document-meta'; meta.textContent = `${childDocs} document${childDocs===1?'':'s'} · ${childFolders} subfolder${childFolders===1?'':'s'}`;
+  label.append(name, meta);
+  const actions = document.createElement('div'); actions.className = 'library-document-actions';
+  const open = document.createElement('button'); open.type='button'; open.className='primary-library-action'; open.textContent='Open'; open.addEventListener('click',()=>setLibraryFolder(folder.id));
+  const rename = document.createElement('button'); rename.type='button'; rename.textContent='Rename'; rename.addEventListener('click',()=>renameLibraryFolder(folder.id));
+  const move = document.createElement('button'); move.type='button'; move.textContent='Move…'; move.addEventListener('click',()=>openLibraryMoveDialog('folder', folder.id));
+  actions.append(open, rename, move); row.append(preview, label, actions); return row;
+}
+
+function createLibraryDocumentRow(record) {
+  const open = isDocumentOpen(record.id);
+  const row = document.createElement('div'); row.className = `library-document-row library-file-row${open ? ' open' : ''}`; row.dataset.documentId = record.id;
+  const preview = document.createElement('div'); preview.className = 'library-document-preview';
+  const canvas = document.createElement('canvas'); canvas.setAttribute('aria-label', `First page preview of ${record.name}`); preview.append(canvas);
+  const label = document.createElement('div'); label.className = 'library-document-label';
+  const name = document.createElement('span'); name.className = 'library-document-name'; name.textContent = record.name; name.title = record.name;
+  const meta = document.createElement('span'); meta.className = 'library-document-meta';
+  const pages = record.pages?.length || 0; const changed = record.needsExport ? ' · changes not exported' : '';
+  meta.textContent = `${pages} page${pages === 1 ? '' : 's'} · ${open ? 'open' : 'closed'}${changed}`; label.append(name, meta);
+  const actions = document.createElement('div'); actions.className = 'library-document-actions';
+  const action = document.createElement('button'); action.type='button'; action.className='primary-library-action'; action.textContent = open ? (record.id===state.currentDocumentId?'Active':'Use') : 'Open'; action.disabled = open && record.id===state.currentDocumentId;
+  action.addEventListener('click', async()=>{ try { if(open) loadDocumentState(record.id); else { setStatus(`Opening ${record.name} from Library…`, true); await reopenLibraryDocument(record.id); setStatus(`Opened ${record.name} from Library`); } } catch(err){ console.error(err); setStatus(`Could not reopen ${record.name}: ${err?.message||err}`); } });
+  actions.append(action);
+  if (open) { const close=document.createElement('button'); close.type='button'; close.textContent='Close'; close.title=`Close ${record.name} but keep it in the local Library`; close.addEventListener('click',()=>closeOneOpenDocument(record.id)); actions.append(close); }
+  const rename=document.createElement('button'); rename.type='button'; rename.textContent='Rename'; rename.addEventListener('click',()=>renameLibraryDocument(record.id));
+  const duplicate=document.createElement('button'); duplicate.type='button'; duplicate.textContent='Duplicate'; duplicate.addEventListener('click',()=>duplicateLibraryDocument(record.id));
+  const move=document.createElement('button'); move.type='button'; move.textContent='Move…'; move.addEventListener('click',()=>openLibraryMoveDialog('document', record.id));
+  const trash=document.createElement('button'); trash.type='button'; trash.className='trash-action'; trash.textContent='Trash'; trash.title=`Move ${record.name} to Trash`; trash.addEventListener('click',()=>moveLibraryDocumentToTrash(record.id));
+  actions.append(rename, duplicate, move, trash); row.append(preview, label, actions); queueLibraryPreview(record, canvas); return row;
+}
+
 function renderLibraryDocumentList() {
   if (!els.libraryDocumentList) return;
-  const records = activeLibraryRecords();
+  state.libraryPreviewObserver?.disconnect();
+  const allRecords = activeLibraryRecords();
+  const folders = libraryFolderChildren(state.libraryFolderId);
+  const records = libraryDocumentsInFolder(state.libraryFolderId);
   els.libraryDocumentList.replaceChildren();
+  els.libraryDocumentList.classList.toggle('grid-view', state.libraryViewMode === 'grid');
+  els.libraryDocumentList.classList.toggle('list-view', state.libraryViewMode === 'list');
+  els.libraryGridViewBtn?.classList.toggle('active', state.libraryViewMode === 'grid');
+  els.libraryListViewBtn?.classList.toggle('active', state.libraryViewMode === 'list');
+  els.libraryGridViewBtn?.setAttribute('aria-pressed', String(state.libraryViewMode === 'grid'));
+  els.libraryListViewBtn?.setAttribute('aria-pressed', String(state.libraryViewMode === 'list'));
+  renderLibraryBreadcrumb();
   if (els.librarySummary) {
     els.librarySummary.textContent = state.libraryReady
-      ? (records.length ? `${records.length} document${records.length === 1 ? '' : 's'} in Library · ${state.documents.length} open` : 'The local Library is empty. Open or create a document and it will be stored automatically.')
+      ? (allRecords.length ? `${allRecords.length} document${allRecords.length === 1 ? '' : 's'} · ${activeLibraryFolders().length} folder${activeLibraryFolders().length === 1 ? '' : 's'} · ${state.documents.length} open` : 'The local Library is empty. Open or create a document and it will be stored automatically.')
       : 'Persistent Library is not available in this browser/session.';
   }
-  if (!records.length) {
-    const empty = document.createElement('p');
-    empty.className = 'small-note';
-    empty.textContent = 'Stored documents will appear here. Folders/subfolders, rename, duplicate, Favorites, search, and persistent templates are planned for later Milestone 4 revisions.';
+  for (const folder of folders) els.libraryDocumentList.append(createLibraryFolderRow(folder));
+  for (const record of records) els.libraryDocumentList.append(createLibraryDocumentRow(record));
+  if (!folders.length && !records.length) {
+    const empty = document.createElement('p'); empty.className='small-note library-empty-note';
+    empty.textContent = state.libraryFolderId ? 'This folder is empty.' : 'The Library is empty. Open or create a document, or create a folder.';
     els.libraryDocumentList.append(empty);
-  } else {
-    for (const record of records) {
-      const open = isDocumentOpen(record.id);
-      const row = document.createElement('div');
-      row.className = `library-document-row${open ? ' open' : ''}`;
-      row.dataset.documentId = record.id;
-      const label = document.createElement('div');
-      label.className = 'library-document-label';
-      const name = document.createElement('span');
-      name.className = 'library-document-name';
-      name.textContent = record.name;
-      name.title = record.name;
-      const meta = document.createElement('span');
-      meta.className = 'library-document-meta';
-      const pages = record.pages?.length || 0;
-      const changed = record.needsExport ? ' · changes not exported' : '';
-      meta.textContent = `${pages} page${pages === 1 ? '' : 's'} · ${open ? 'open' : 'closed'}${changed}`;
-      label.append(name, meta);
-      const actions = document.createElement('div');
-      actions.className = 'library-document-actions';
-      const action = document.createElement('button');
-      action.type = 'button';
-      action.className = 'primary-library-action';
-      action.textContent = open ? (record.id === state.currentDocumentId ? 'Active' : 'Use') : 'Open';
-      action.disabled = open && record.id === state.currentDocumentId;
-      action.addEventListener('click', async () => {
-        try {
-          if (open) loadDocumentState(record.id);
-          else {
-            setStatus(`Opening ${record.name} from Library…`, true);
-            await reopenLibraryDocument(record.id);
-            setStatus(`Opened ${record.name} from Library`);
-          }
-        } catch (err) {
-          console.error(err);
-          setStatus(`Could not reopen ${record.name}: ${err?.message || err}`);
-        }
-      });
-      actions.append(action);
-      if (open) {
-        const close = document.createElement('button');
-        close.type = 'button';
-        close.textContent = 'Close';
-        close.title = `Close ${record.name} but keep it in the local Library`;
-        close.addEventListener('click', () => closeOneOpenDocument(record.id));
-        actions.append(close);
-      }
-      const trash = document.createElement('button');
-      trash.type = 'button';
-      trash.className = 'trash-action';
-      trash.textContent = 'Trash';
-      trash.title = `Move ${record.name} to Trash`;
-      trash.addEventListener('click', () => moveLibraryDocumentToTrash(record.id));
-      actions.append(trash);
-      row.append(label, actions);
-      els.libraryDocumentList.append(row);
-    }
   }
   renderTrashDocumentList();
 }
@@ -2471,7 +2744,10 @@ async function purgeLocalLibrary() {
     await libraryClearStore('documents');
     await libraryClearStore('sources');
     await libraryClearStore('meta');
+    if (state.libraryDb?.objectStoreNames.contains('folders')) await libraryClearStore('folders');
     state.libraryRecords.clear();
+    state.libraryFolders.clear();
+    state.libraryFolderId = null;
     state.librarySuppressPersist = false;
     await libraryPut('meta', serializeTemplatesForLibrary());
     await libraryPut('meta', serializeLibrarySession());
@@ -5702,7 +5978,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 4.0.2 hardens the persistent <strong>Local Library</strong>, especially for installed iPad Home Screen PWAs. Imported and created working documents are stored locally and can be restored after the app is closed or the device is restarted.</p>
+      <p>Milestone 4.1.0 adds <strong>Library organization</strong>: folders and subfolders, document rename/duplicate/move, first-page thumbnails, and Grid/List browsing, while retaining the persistent iPad PWA storage fixes from 4.0.2.</p>
       <ul><li><strong>Automatic persistence:</strong> document source data, page order, rotations, inserted/generated pages, page geometry edits, undo history, and single/split view state are saved locally.</li><li><strong>Close / reopen:</strong> Close and Close All only remove documents from the active workspace; they do not prompt for PDF export because the editable Library copy is already safe.</li><li><strong>Trash:</strong> individual Library documents can be moved to Trash, restored, or permanently deleted. An unexported-changes warning appears at permanent deletion, where data can actually be lost.</li><li><strong>Persistent templates:</strong> saved page templates now live with the Local Library and can be used by Files → New → From template after reopening the app.</li><li><strong>Storage protection:</strong> Files → Storage &amp; reset can request persistent-storage protection, show browser storage usage, delete the Library, or factory-reset local app data.</li><li><strong>App updates:</strong> the service-worker cache and persistent Library are separate; normal updates should not erase stored documents.</li></ul>
       <p><strong>Coming in Milestone 4:</strong> folders/subfolders, rename/duplicate, Favorites, search/sort/grid-list, Library PDF ZIP export, editable backup/restore, and schema migrations; then inking/annotations.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -6224,6 +6500,19 @@ function bindEvents() {
       setStatus(`Local Library refresh failed: ${err?.message || err}`);
       if (els.librarySummary) els.librarySummary.textContent = `Local Library refresh failed: ${err?.message || err}`;
     }
+  });
+  els.libraryNewFolderBtn?.addEventListener('click', createLibraryFolder);
+  els.libraryListViewBtn?.addEventListener('click', () => setLibraryViewMode('list'));
+  els.libraryGridViewBtn?.addEventListener('click', () => setLibraryViewMode('grid'));
+  els.filesManageTemplatesBtn?.addEventListener('click', showTemplateManager);
+  els.libraryNameCloseBtn?.addEventListener('click', () => els.libraryNameDialog?.close());
+  els.libraryNameCancelBtn?.addEventListener('click', () => els.libraryNameDialog?.close());
+  els.libraryMoveCloseBtn?.addEventListener('click', () => { state.pendingLibraryMove = null; els.libraryMoveDialog?.close(); });
+  els.libraryMoveCancelBtn?.addEventListener('click', () => { state.pendingLibraryMove = null; els.libraryMoveDialog?.close(); });
+  els.libraryMoveForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    try { els.libraryMoveDialog?.close(); } catch {}
+    await applyPendingLibraryMove();
   });
   els.requestPersistentStorageBtn?.addEventListener('click', requestPersistentLibraryStorage);
   els.purgeLibraryBtn?.addEventListener('click', purgeLocalLibrary);

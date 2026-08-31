@@ -146,18 +146,28 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 4.0.2</div>
+          <div class="export-kicker">Milestone 4.1.0</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
-          <details class="library-section file-tool-details library-overview-details" id="localLibrarySection" open>
+          <details class="library-section file-tool-details library-overview-details" id="localLibrarySection">
             <summary><span>Local Library</span><span id="librarySummary" class="operation-summary">Loading local Library…</span></summary>
             <div class="file-tool-body">
               <div class="library-toolbar-row">
-                <p class="file-tool-summary">Stored working documents on this device.</p>
-                <button id="libraryRefreshBtn" type="button">Refresh</button>
+                <p class="file-tool-summary">Stored working documents on this device. Organize them into folders and subfolders.</p>
+                <div class="library-top-actions">
+                  <button id="libraryNewFolderBtn" type="button">New folder</button>
+                  <button id="libraryRefreshBtn" type="button">Refresh</button>
+                </div>
               </div>
-              <div id="libraryDocumentList" class="library-document-list" aria-label="Persistent local documents"></div>
+              <div class="library-browser-toolbar">
+                <nav id="libraryBreadcrumb" class="library-breadcrumb" aria-label="Current Library folder"></nav>
+                <div class="library-view-toggle" role="group" aria-label="Library display style">
+                  <button id="libraryListViewBtn" type="button">List</button>
+                  <button id="libraryGridViewBtn" type="button">Grid</button>
+                </div>
+              </div>
+              <div id="libraryDocumentList" class="library-document-list" aria-label="Persistent local documents and folders"></div>
               <p id="libraryStorageSummary" class="small-note"></p>
             </div>
           </details>
@@ -170,7 +180,7 @@
             </div>
           </details>
 
-          <details class="open-documents-section file-tool-details library-overview-details" id="openDocumentsSection" open>
+          <details class="open-documents-section file-tool-details library-overview-details" id="openDocumentsSection">
             <summary><span>Open documents</span><span id="fileSelectionSummary" class="operation-summary">No documents are open.</span></summary>
             <div class="file-tool-body">
               <div class="library-toolbar-row">
@@ -196,6 +206,13 @@
             </div>
           </details>
 
+          <details class="file-tool-section file-tool-details" id="templatesFilesSection">
+            <summary><span>Templates</span><span id="filesTemplatesSummary" class="operation-summary">No templates saved</span></summary>
+            <div class="file-tool-body">
+              <p class="file-tool-summary">Manage reusable page templates stored with the Local Library. The same manager remains available from Insert Page.</p>
+              <button id="filesManageTemplatesBtn" class="export-button secondary-output-button" type="button">Manage templates…</button>
+            </div>
+          </details>
 
           <details class="file-tool-section file-tool-details" id="imagePdfFilesSection">
             <summary><span>Images → PDF</span><span id="imageAssemblyOperationSummary" class="operation-summary">Assemble several images as one document</span></summary>
@@ -360,7 +377,7 @@
             </div>
           </details>
 
-          <p class="small-note files-roadmap-note">Folders/subfolders, rename/duplicate, Favorites, search/sort/grid-list, full Library backup/restore, and bulk Library management are planned for the next Milestone 4 revisions. Trash/recovery and persistent templates are available now.</p>
+          <p class="small-note files-roadmap-note">Folders/subfolders, rename/duplicate/move, first-page thumbnails, Grid/List Library views, Trash/recovery, and persistent templates are available now. Favorites/search/sort, whole-Library export, editable backup/restore, and broader bulk Library management remain on the Milestone 4 roadmap.</p>
         </div>
       </section>
     </main>
@@ -554,6 +571,34 @@
         <div class="dialog-actions">
           <button id="pageTransferCancelBtn" type="button">Cancel</button>
           <button id="pageTransferCopyBtn" type="submit">Copy pages</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="libraryNameDialog" class="info-dialog template-name-dialog">
+      <form id="libraryNameForm" method="dialog">
+        <button id="libraryNameCloseBtn" class="dialog-close" type="button" aria-label="Cancel">×</button>
+        <h2 id="libraryNameTitle">Name</h2>
+        <p id="libraryNameHelp" class="template-name-help"></p>
+        <label for="libraryNameInput">Name</label>
+        <input id="libraryNameInput" class="template-name-input" type="text" autocomplete="off" maxlength="160">
+        <div class="dialog-actions">
+          <button id="libraryNameCancelBtn" type="button">Cancel</button>
+          <button id="libraryNameSaveBtn" value="save">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="libraryMoveDialog" class="info-dialog template-name-dialog">
+      <form id="libraryMoveForm" method="dialog">
+        <button id="libraryMoveCloseBtn" class="dialog-close" type="button" aria-label="Cancel">×</button>
+        <h2 id="libraryMoveTitle">Move</h2>
+        <p id="libraryMoveHelp" class="template-name-help">Choose a destination folder.</p>
+        <label for="libraryMoveDestination">Destination</label>
+        <select id="libraryMoveDestination" class="library-move-select"></select>
+        <div class="dialog-actions">
+          <button id="libraryMoveCancelBtn" type="button">Cancel</button>
+          <button id="libraryMoveSaveBtn" value="move">Move</button>
         </div>
       </form>
     </dialog>

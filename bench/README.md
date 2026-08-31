@@ -1,59 +1,49 @@
-# PDF Workbench — Milestone 4.0.2
+# PDF Workbench — Milestone 4.1.0
 
-Milestone 4.0.2 is a focused persistence/reliability revision of the Milestone 4 Local Library foundation.
+Milestone 4.1.0 builds the first real organization layer on top of the persistent Local Library introduced in Milestone 4.0.
 
-## Changes in 4.0.2
+## New in 4.1.0
 
-### iPad Home Screen PWA Local Library hardening
+### Folders and subfolders
+- Files → Local Library now supports folders and arbitrarily nested subfolders.
+- `New folder` creates a folder inside the folder currently being viewed.
+- Breadcrumb navigation returns to parent folders or the Library root.
+- Folders can be renamed and moved to another folder/root.
+- Documents can be moved between folders/root.
 
-Testing showed that the 4.0.1 Library worked on Surface and in iPad Safari, but an installed iPad Home Screen PWA could remain stuck with an empty/non-persistent Local Library. This build hardens the IndexedDB path for WebKit/Home Screen use:
+### Document management
+- Library documents can be renamed.
+- Library documents can be duplicated. A duplicate is an independent editable project but safely reuses immutable source PDF/image data internally rather than storing redundant source bytes.
+- Existing Open / Use / Close / Trash behavior remains.
 
-- Performs a harmless IndexedDB warm-up before the real Library open on Apple WebKit.
-- Uses bounded open timeouts and automatic retries so a WebKit first-open request cannot leave Library initialization pending forever.
-- Reconnects and retries once if the IndexedDB server connection is lost during a save.
-- Rechecks/reconnects Library storage when the app returns to the foreground.
-- Files → Local Library → Refresh now also acts as an explicit storage reconnect/retry control.
-- IndexedDB write/delete/clear operations attach transaction-completion handlers before issuing the request, avoiding a transaction-completion race.
-- New source data is stored as ArrayBuffer records rather than Blob/File records; older 4.0.0/4.0.1 Blob-based records remain readable.
+### Visual Library
+- Library documents show a lazy-rendered thumbnail of their first page.
+- Grid and List views are available. Grid is the default and the choice is remembered on the device.
+- Folder cards are shown before documents in each folder.
 
-The Library remains separate from the service-worker/app-shell cache.
+### Files UI cleanup
+- Open Documents and Local Library are collapsed by default.
+- Files now has a direct Templates section with a `Manage templates…` button.
+- `Manage templates…` remains in the Insert Page chooser as well; both open the same persistent-template manager.
 
-### Persistent templates
+## Persistence/storage
+- IndexedDB database version: 2.
+- PDF Workbench Library schema version: 3.
+- Existing 4.0.x document records migrate forward without requiring the Library to be erased.
+- The database adds a `folders` object store; documents already stored by 4.0.x remain at the Library root (`folderId = null`).
+- The service-worker/application cache remains separate from Library data.
 
-Templates now use the same Local Library persistence layer:
+## Intentionally deferred
+Favorites, broad Library search/sorting controls, folder Trash/permanent-delete workflow, whole-Library PDF ZIP export, editable Library backup/restore, stronger schema migration tooling, and bulk Library actions beyond the existing open-document selection are still planned for later Milestone 4 work.
 
-- Saved templates return after an app reload/restart.
-- Template thumbnails, rename/delete, Insert Page → Templates, and Files → New → From template work from the restored template set.
-- PDF/image source data referenced by a template is retained in persistent Library storage.
-- Deleting the Local Library or factory-resetting local data removes persistent templates too.
+## Suggested tests
+1. Upgrade a device that already has a 4.0.2 Library and verify existing documents remain at Library root.
+2. Create Folder A → Subfolder B; move documents into each and reopen them.
+3. Close/reopen the PWA/browser and confirm the folder hierarchy and moved documents persist.
+4. Rename and duplicate both open and closed Library documents.
+5. Switch between Grid and List views and verify first-page thumbnails appear for closed documents.
+6. Move a folder containing subfolders to another folder and verify breadcrumb navigation.
+7. Verify Open Documents and Local Library start collapsed after a fresh page load.
+8. Open the Template Manager from Files, then from Insert Page, and confirm both show the same templates.
 
-### Files UI polish
-
-**Local Library** and **Open documents** are now collapsible sections, open by default, matching the rest of the Files workspace.
-
-## Existing 4.0/4.0.1 behavior retained
-
-- Open/imported and internally created working documents can persist in IndexedDB.
-- Closing a document removes it from the active workspace but keeps it in Local Library.
-- Close All closes the active working set without deleting Library documents.
-- Local Library documents can be reopened without locating the original external file.
-- Trash / Restore / Delete permanently are available.
-- Permanent deletion of a document with unexported changes offers Export PDF & delete / Delete permanently / Cancel.
-- Files → New supports Blank, Graph paper, and From template.
-- Storage & reset includes persistent-storage request, usage estimate, Delete local Library, and Factory reset.
-- Existing viewer, Presentation, split-view, page editing, export/combine/extract/split, templates, geometry, Images → PDF, and compression behavior is otherwise unchanged.
-
-## Important iPad PWA test
-
-1. Install/open the hosted 4.0.2 build from the iPad Home Screen.
-2. Open a disposable PDF in the PWA itself.
-3. Verify Files → Local Library shows the document immediately.
-4. Save a page as a template; verify Files → New → From template is enabled.
-5. Fully leave/close the PWA and return.
-6. Verify the document and template are still present.
-7. Close the document, reopen it from Local Library, and verify edits remain.
-8. If Library storage does not initialize, tap **Refresh** in Local Library and note the exact status text.
-
-## Version
-
-**More → About this build** reports **Milestone 4.0.2**. The service-worker cache is `pdf-workbench-m4.0.2-v1`.
+**More → About this build** reports **Milestone 4.1.0**. The service-worker cache is `pdf-workbench-m4.1.0-v1`.
