@@ -146,23 +146,21 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 4.0</div>
+          <div class="export-kicker">Milestone 4.0.2</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
-          <section class="library-section" aria-labelledby="libraryHeading">
-            <div class="open-documents-heading-row">
-              <div>
-                <h2 id="libraryHeading">Local Library</h2>
-                <p id="librarySummary" class="file-tool-summary">Loading local Library…</p>
-              </div>
-              <div class="file-selection-actions">
+          <details class="library-section file-tool-details library-overview-details" id="localLibrarySection" open>
+            <summary><span>Local Library</span><span id="librarySummary" class="operation-summary">Loading local Library…</span></summary>
+            <div class="file-tool-body">
+              <div class="library-toolbar-row">
+                <p class="file-tool-summary">Stored working documents on this device.</p>
                 <button id="libraryRefreshBtn" type="button">Refresh</button>
               </div>
+              <div id="libraryDocumentList" class="library-document-list" aria-label="Persistent local documents"></div>
+              <p id="libraryStorageSummary" class="small-note"></p>
             </div>
-            <div id="libraryDocumentList" class="library-document-list" aria-label="Persistent local documents"></div>
-            <p id="libraryStorageSummary" class="small-note"></p>
-          </section>
+          </details>
 
           <details class="file-tool-section file-tool-details" id="trashFilesSection">
             <summary><span>Trash</span><span id="trashSummary" class="operation-summary">No documents in Trash</span></summary>
@@ -172,19 +170,19 @@
             </div>
           </details>
 
-          <section class="open-documents-section" aria-labelledby="openDocumentsHeading">
-            <div class="open-documents-heading-row">
-              <div>
-                <h2 id="openDocumentsHeading">Open documents</h2>
-                <p id="fileSelectionSummary" class="file-tool-summary">No documents are open.</p>
+          <details class="open-documents-section file-tool-details library-overview-details" id="openDocumentsSection" open>
+            <summary><span>Open documents</span><span id="fileSelectionSummary" class="operation-summary">No documents are open.</span></summary>
+            <div class="file-tool-body">
+              <div class="library-toolbar-row">
+                <p class="file-tool-summary">Currently open working set. Check documents here for Export, Compress, or Combine.</p>
+                <div class="file-selection-actions">
+                  <button id="selectAllFilesBtn" type="button">Select all</button>
+                  <button id="clearFileSelectionBtn" type="button">Clear</button>
+                </div>
               </div>
-              <div class="file-selection-actions">
-                <button id="selectAllFilesBtn" type="button">Select all</button>
-                <button id="clearFileSelectionBtn" type="button">Clear</button>
-              </div>
+              <div id="openDocumentList" class="open-document-list" aria-label="Open documents"></div>
             </div>
-            <div id="openDocumentList" class="open-document-list" aria-label="Open documents"></div>
-          </section>
+          </details>
 
           <details class="file-tool-section file-tool-details" id="newFilesSection">
             <summary><span>New</span><span class="operation-summary">Create a blank, graph-paper, or template document</span></summary>
@@ -362,7 +360,7 @@
             </div>
           </details>
 
-          <p class="small-note files-roadmap-note">Folders/subfolders, rename/duplicate, Favorites, search/sort/grid-list, persistent templates, full Library backup/restore, and bulk Library management are planned for the next Milestone 4 revisions. Trash/recovery is available now.</p>
+          <p class="small-note files-roadmap-note">Folders/subfolders, rename/duplicate, Favorites, search/sort/grid-list, full Library backup/restore, and bulk Library management are planned for the next Milestone 4 revisions. Trash/recovery and persistent templates are available now.</p>
         </div>
       </section>
     </main>
@@ -394,8 +392,8 @@
         </button>
       </div>
       <div class="popover-divider" aria-hidden="true"></div>
-      <div class="popover-section-label">Session templates</div>
-      <div id="insertTemplateList" class="insert-template-list insert-choice-grid" role="group" aria-label="Saved session templates"></div>
+      <div class="popover-section-label">Templates</div>
+      <div id="insertTemplateList" class="insert-template-list insert-choice-grid" role="group" aria-label="Saved templates"></div>
       <div class="insert-menu-actions">
         <button id="savePageTemplateBtn" class="insert-text-action" type="button" role="menuitem">Save current page as template…</button>
         <button id="manageTemplatesBtn" class="insert-text-action" type="button" role="menuitem">Manage templates…</button>

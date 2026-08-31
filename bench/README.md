@@ -1,83 +1,59 @@
-# PDF Workbench — Milestone 4.0.1
+# PDF Workbench — Milestone 4.0.2
 
-Milestone 4.0.1 refines the persistent **Local Library** introduced in 4.0.0.
+Milestone 4.0.2 is a focused persistence/reliability revision of the Milestone 4 Local Library foundation.
 
-## Close, Library, and Trash semantics
+## Changes in 4.0.2
 
-The application now keeps three concepts separate:
+### iPad Home Screen PWA Local Library hardening
 
-- **Close / Close All** only remove documents from the active workspace. They do not prompt for PDF export, because the editable working state has already been saved in Local Library.
-- **Trash** removes a document from the active Library view but keeps it recoverable.
-- **Delete permanently** is the destructive action. If the Library copy has changes not exported to PDF, PDF Workbench offers **Export PDF & delete**, **Delete permanently**, or **Cancel**.
+Testing showed that the 4.0.1 Library worked on Surface and in iPad Safari, but an installed iPad Home Screen PWA could remain stuck with an empty/non-persistent Local Library. This build hardens the IndexedDB path for WebKit/Home Screen use:
 
-Files → **Local Library** shows each stored document with Open/Use/Active, Close when open, and Trash. Files → **Trash** shows recoverable documents with Restore and Delete permanently.
+- Performs a harmless IndexedDB warm-up before the real Library open on Apple WebKit.
+- Uses bounded open timeouts and automatic retries so a WebKit first-open request cannot leave Library initialization pending forever.
+- Reconnects and retries once if the IndexedDB server connection is lost during a save.
+- Rechecks/reconnects Library storage when the app returns to the foreground.
+- Files → Local Library → Refresh now also acts as an explicit storage reconnect/retry control.
+- IndexedDB write/delete/clear operations attach transaction-completion handlers before issuing the request, avoiding a transaction-completion race.
+- New source data is stored as ArrayBuffer records rather than Blob/File records; older 4.0.0/4.0.1 Blob-based records remain readable.
 
-Trash state persists across app restarts. Documents in Trash are never automatically reopened by the saved session.
+The Library remains separate from the service-worker/app-shell cache.
 
-## New from template
+### Persistent templates
 
-Files → **New** now offers:
+Templates now use the same Local Library persistence layer:
 
-- Blank document
-- Graph-paper document
-- From template…
+- Saved templates return after an app reload/restart.
+- Template thumbnails, rename/delete, Insert Page → Templates, and Files → New → From template work from the restored template set.
+- PDF/image source data referenced by a template is retained in persistent Library storage.
+- Deleting the Local Library or factory-resetting local data removes persistent templates too.
 
-**From template…** is enabled whenever session templates exist and opens a visual thumbnail chooser. The resulting one-page document is an independent copy of the template page and becomes a normal persistent Library document. Session templates themselves remain session-only until the later Library-organization milestone.
+### Files UI polish
 
-## Persistent Library foundation retained
+**Local Library** and **Open documents** are now collapsible sections, open by default, matching the rest of the Files workspace.
 
-Imported PDFs/images and internally created documents are stored in IndexedDB separately from the service-worker/app-shell cache. Persisted editable state includes source data, page order, rotation, generated pages, Page size, Crop/margins, undo/redo page snapshots, and saved single/split view state.
+## Existing 4.0/4.0.1 behavior retained
 
-The Library schema is now version 2, adding recoverable Trash state while remaining able to read schema-1 records from 4.0.0.
+- Open/imported and internally created working documents can persist in IndexedDB.
+- Closing a document removes it from the active workspace but keeps it in Local Library.
+- Close All closes the active working set without deleting Library documents.
+- Local Library documents can be reopened without locating the original external file.
+- Trash / Restore / Delete permanently are available.
+- Permanent deletion of a document with unexported changes offers Export PDF & delete / Delete permanently / Cancel.
+- Files → New supports Blank, Graph paper, and From template.
+- Storage & reset includes persistent-storage request, usage estimate, Delete local Library, and Factory reset.
+- Existing viewer, Presentation, split-view, page editing, export/combine/extract/split, templates, geometry, Images → PDF, and compression behavior is otherwise unchanged.
 
-## Storage & reset
+## Important iPad PWA test
 
-Files → **Storage & reset** still provides:
-
-- Request persistent storage
-- approximate browser storage usage/quota
-- Delete local Library
-- Factory reset all local data
-
-Normal app updates should not erase Local Library data. The full purge remains a development/recovery tool.
-
-## Next Milestone 4 work
-
-### 4.1 — Library organization and daily management
-
-- folders and subfolders
-- rename and duplicate documents
-- move documents/folders
-- Favorites
-- filename/folder search
-- sort by name / modified / created
-- grid/list Library views
-- bulk Library actions
-- persistent templates
-- page bookmarks and document outlines foundation
-
-### 4.2 — Backup, portability, and storage hardening
-
-- Export entire Library as PDFs in a ZIP while preserving folder hierarchy
-- editable PDF Workbench Library backup/restore
-- schema migrations/version checks
-- backup-first affordances around destructive reset
-- audit/preservation of existing PDF hyperlinks/outlines
-- future PDF-text/OCR/handwriting search-index fields
-- orphaned-source cleanup/storage hardening
+1. Install/open the hosted 4.0.2 build from the iPad Home Screen.
+2. Open a disposable PDF in the PWA itself.
+3. Verify Files → Local Library shows the document immediately.
+4. Save a page as a template; verify Files → New → From template is enabled.
+5. Fully leave/close the PWA and return.
+6. Verify the document and template are still present.
+7. Close the document, reopen it from Local Library, and verify edits remain.
+8. If Library storage does not initialize, tap **Refresh** in Local Library and note the exact status text.
 
 ## Version
 
-**More → About this build** reports **Milestone 4.0.1**. The service-worker cache is `pdf-workbench-m4.0.1-v1`.
-
-## Suggested tests
-
-1. Edit a PDF, press Close, and confirm it closes immediately without an export prompt and remains in Local Library.
-2. Reopen it from Local Library and verify its edits remain.
-3. Use More → Close all files and confirm all documents close without prompting or deleting Library copies.
-4. Move an open document to Trash; verify it closes and appears in Trash.
-5. Restore it; verify it returns to Local Library and can reopen normally.
-6. Permanently delete an unchanged disposable document and verify it disappears.
-7. Permanently delete a changed disposable document and test Export PDF & delete / Cancel / Delete permanently.
-8. Save a session template, use Files → New → From template…, and verify the new one-page document persists in the Library.
-9. Restart the app with a document in Trash and verify it remains in Trash rather than reopening.
+**More → About this build** reports **Milestone 4.0.2**. The service-worker cache is `pdf-workbench-m4.0.2-v1`.

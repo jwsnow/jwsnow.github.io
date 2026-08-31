@@ -890,3 +890,30 @@ body.presentation .split-pane.active {
 
 .trash-document-list .library-document-row { background: color-mix(in srgb, var(--panel) 88%, #ddd); }
 .library-document-actions .trash-action { border-color: color-mix(in srgb, #a66 45%, var(--border)); }
+
+/* Milestone 4.0.2: Local Library and Open Documents use the same collapsible
+   visual language as the rest of Files. */
+.library-overview-details { padding: 0; }
+.library-overview-details > .file-tool-body { padding-top: 14px; }
+.library-toolbar-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.library-toolbar-row .file-tool-summary { margin: 0; }
+.library-toolbar-row > button {
+  min-height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--text);
+  padding: 6px 10px;
+  flex: 0 0 auto;
+}
+@media (max-width: 620px) {
+  .library-overview-details { padding: 0; }
+  .library-toolbar-row { flex-direction: column; }
+  .library-toolbar-row > button { width: 100%; }
+  .library-toolbar-row .file-selection-actions { width: 100%; }
+}

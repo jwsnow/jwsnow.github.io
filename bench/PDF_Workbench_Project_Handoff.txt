@@ -1,27 +1,50 @@
 PDF WORKBENCH PWA — CURRENT PROJECT HANDOFF
 ==============================================
 
-CURRENT BUILD: Milestone 4.0.1
-Visible About version: 4.0.1
-Service-worker/cache version: pdf-workbench-m4.0.1-v1
+CURRENT BUILD: Milestone 4.0.2
+Visible About version: 4.0.2
+Service-worker/cache version: pdf-workbench-m4.0.2-v1
 Library schema version: 2
 
-Milestone 4.0.1 refines the Milestone 4 persistent Local Library foundation.
+WHY 4.0.2 EXISTS
+----------------
+Milestone 4.0.1 persistent Library testing succeeded on Surface and in iPad Safari, but the installed iPad Home Screen PWA could fail to initialize the Local Library: the Library stayed empty, documents disappeared after leaving/reopening the PWA, and templates were unavailable after relaunch. 4.0.2 is a focused WebKit/PWA persistence hardening release plus small Files UI cleanup.
+
+PERSISTENCE HARDENING
+---------------------
+- Keep IndexedDB as the primary Local Library store and keep it separate from the service-worker/app-shell cache.
+- On Apple WebKit, issue a harmless IndexedDB warm-up open before the real Library database. This targets a documented WebKit first-open/home-screen race where indexedDB.open() can remain pending.
+- Use bounded database-open timeouts and automatic retries rather than allowing Library initialization to hang indefinitely.
+- Reconnect and retry once if the IndexedDB server connection is lost during persistence.
+- On returning to the foreground/pageshow, recheck/reconnect Local Library storage and commit current state.
+- Files → Local Library → Refresh also acts as an explicit reconnect/retry control.
+- Attach transaction completion handlers before issuing writes/deletes/clears to avoid WebKit transaction timing races.
+- New PDF/image source payloads are stored as ArrayBuffer structured-clone data rather than Blob/File records. Blob records from 4.0.0/4.0.1 remain readable for backward compatibility.
+- If the first PWA Library initialization fails, automatically retry shortly afterward and show a useful status instead of silently operating without persistence.
+
+PERSISTENT TEMPLATES
+--------------------
+- Templates now persist through the same Local Library layer; they are no longer session-only.
+- Template names/page records and any PDF/image source bytes they reference are persisted.
+- Restored templates return in Insert Page, Manage Templates, and Files → New → From template after reopening the app.
+- Rename/delete changes are persisted.
+- Delete local Library / Factory reset removes persistent templates.
+
+FILES UI
+--------
+- Local Library is now collapsible (open by default).
+- Open Documents is now collapsible (open by default).
+- Trash and all document-level operations remain separate collapsible sections.
 
 CURRENT LIBRARY SEMANTICS
 -------------------------
-- Imported/created working documents persist in IndexedDB separately from the service-worker cache.
-- Close and More → Close all files affect only the active workspace. They do NOT prompt for PDF export because the editable Library copy is automatically persisted.
-- Local Library has per-document Trash. Moving to Trash closes an open copy if necessary but remains recoverable.
-- Trash persists across app restarts and trashed documents are excluded from automatic session reopening.
-- Trash supports Restore and Delete permanently.
-- If a permanently deleted document has changes not exported to PDF, offer Export PDF & delete, Delete permanently, or Cancel. This is where the export/loss warning belongs.
-- Storage & reset still includes request persistent storage, usage/quota reporting, Delete local Library, and Factory reset all local data.
-- The Library uses a versioned schema. Schema 2 adds trashedAt while remaining backward-compatible with schema-1 records from 4.0.0.
-
-NEW FROM TEMPLATE
------------------
-Files → New now offers Blank document, Graph-paper document, and From template…. From template is enabled when session templates exist and uses a visual thumbnail chooser. The new document starts with an independent copy of the selected template page and immediately becomes a normal persistent Library document. Templates themselves remain session-only until the planned persistent-template work in Milestone 4.1.
+- Imported/created working documents persist locally.
+- Close and More → Close all files affect only the active workspace and do not prompt for PDF export.
+- Local Library supports Open/Use/Close and per-document Trash.
+- Trash persists across app restarts and supports Restore and Delete permanently.
+- Permanent deletion of a document with unexported changes offers Export PDF & delete, Delete permanently, or Cancel.
+- Storage & reset includes request persistent storage, usage/quota reporting, Delete local Library, and Factory reset all local data.
+- Library schema remains 2 (trashedAt). 4.0.2 extends meta/source storage compatibly without requiring a schema-number bump.
 
 MILESTONE 4 ROADMAP
 -------------------
@@ -34,7 +57,6 @@ MILESTONE 4 ROADMAP
 - sort by name/modified/created
 - grid/list Library views
 - bulk Library actions
-- persistent templates
 - page bookmarks/document outlines foundation
 
 4.2 — Backup/portability/storage hardening:
@@ -53,6 +75,10 @@ Pen/Eraser/Lasso/Undo/Redo plus Highlighter, a few configurable pen presets, exp
 PRESERVE / DO NOT REGRESS
 -------------------------
 Do not regress validated Milestone 3 features: PDF export/ZIP, Extract/Split/Combine, compression and Letter-canvas normalization, Images → PDF, page copy between documents, Page size and Crop/margins, blank/graph/template insertion, thumbnail template chooser/manager, Continuous/Page Snap/Full Page, Single/Split, Presentation, same-document split anchoring, finger/pen separation, and PDF.js JBIG2/WASM configuration.
+
+TEST PRIORITY FOR 4.0.2
+-----------------------
+On the installed iPad Home Screen PWA itself: open a disposable PDF, verify it immediately appears in Local Library, save a template, fully leave/reopen the PWA, verify both document and template return, Close/Reopen the document from Local Library, and test Trash/Restore. If storage does not initialize, press Local Library → Refresh and record the exact status text.
 
 RELEASE PRACTICE
 ----------------

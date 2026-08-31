@@ -1,4 +1,4 @@
-const APP_VERSION = '4.0.1';
+const APP_VERSION = '4.0.2';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -86,6 +86,7 @@ const state = {
   libraryPersistTimer: null,
   libraryPersisting: false,
   libraryPersistAgain: false,
+  libraryRecoveryTimer: null,
   librarySuppressPersist: false,
   splitView: false,
   activePaneId: 'left',
@@ -105,6 +106,14 @@ function safePref(key, fallback, allowed) {
 function savePref(key, value) { try { localStorage.setItem(key, value); } catch {} }
 function uid(prefix='id') { return `${prefix}-${crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`}`; }
 function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+function isStandalonePwa() {
+  try { return !!navigator.standalone || window.matchMedia?.('(display-mode: standalone)')?.matches; } catch { return false; }
+}
+function isAppleWebKit() {
+  const ua = navigator.userAgent || '';
+  return /AppleWebKit/i.test(ua) && !/Android/i.test(ua);
+}
 
 // ---------------------------------------------------------------------------
 // Milestone 4.0 persistent local Library
@@ -122,18 +131,77 @@ function idbTransactionDone(tx) {
     tx.onabort = () => reject(tx.error || new Error('IndexedDB transaction aborted'));
   });
 }
+function kickIndexedDbWarmup() {
+  // WebKit has had a long-standing first-open race in Safari/Home Screen apps.
+  // Issuing a harmless warm-up open before the real database materially reduces
+  // the chance that the first useful indexedDB.open() remains pending forever.
+  try {
+    const request = indexedDB.open('pdf-workbench-idb-warmup', 1);
+    request.onupgradeneeded = () => {};
+    request.onsuccess = () => { try { request.result.close(); } catch {} };
+    request.onerror = () => {};
+    request.onblocked = () => {};
+  } catch {}
+}
+function openLibraryDatabaseOnce(timeoutMs=4500) {
+  return new Promise((resolve, reject) => {
+    let settled = false;
+    let request;
+    const finishReject = err => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      reject(err instanceof Error ? err : new Error(String(err || 'IndexedDB open failed')));
+    };
+    const finishResolve = db => {
+      if (settled) { try { db?.close?.(); } catch {} return; }
+      settled = true;
+      clearTimeout(timer);
+      resolve(db);
+    };
+    const timer = setTimeout(() => finishReject(new Error('IndexedDB did not become ready in time.')), timeoutMs);
+    try {
+      request = indexedDB.open(LIBRARY_DB_NAME, LIBRARY_DB_VERSION);
+      request.onupgradeneeded = () => {
+        const db = request.result;
+        if (!db.objectStoreNames.contains('documents')) db.createObjectStore('documents', { keyPath: 'id' });
+        if (!db.objectStoreNames.contains('sources')) db.createObjectStore('sources', { keyPath: 'id' });
+        if (!db.objectStoreNames.contains('meta')) db.createObjectStore('meta', { keyPath: 'key' });
+      };
+      request.onsuccess = () => finishResolve(request.result);
+      request.onerror = () => finishReject(request.error || new Error('IndexedDB open failed'));
+      request.onblocked = () => finishReject(new Error('IndexedDB open is blocked by another PDF Workbench window. Close the other window and retry.'));
+    } catch (err) {
+      finishReject(err);
+    }
+  });
+}
 async function openLibraryDatabase() {
   if (!('indexedDB' in window)) throw new Error('This browser does not provide IndexedDB storage.');
-  const request = indexedDB.open(LIBRARY_DB_NAME, LIBRARY_DB_VERSION);
-  request.onupgradeneeded = () => {
-    const db = request.result;
-    if (!db.objectStoreNames.contains('documents')) db.createObjectStore('documents', { keyPath: 'id' });
-    if (!db.objectStoreNames.contains('sources')) db.createObjectStore('sources', { keyPath: 'id' });
-    if (!db.objectStoreNames.contains('meta')) db.createObjectStore('meta', { keyPath: 'key' });
-  };
-  const db = await idbRequest(request);
-  db.onversionchange = () => db.close();
-  return db;
+  if (isAppleWebKit()) {
+    kickIndexedDbWarmup();
+    await sleep(120);
+  }
+  let lastError = null;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const db = await openLibraryDatabaseOnce(3500 + attempt * 1200);
+      db.onversionchange = () => db.close();
+      db.onclose = () => {
+        if (state.libraryDb === db) {
+          state.libraryDb = null;
+          state.libraryReady = false;
+        }
+      };
+      return db;
+    } catch (err) {
+      lastError = err;
+      console.warn(`Local Library open attempt ${attempt} failed`, err);
+      if (isAppleWebKit()) kickIndexedDbWarmup();
+      await sleep(180 * attempt);
+    }
+  }
+  throw lastError || new Error('Could not open the local Library.');
 }
 function libraryStore(name, mode='readonly') {
   if (!state.libraryDb) throw new Error('Local Library is not ready.');
@@ -150,18 +218,51 @@ async function libraryGetAll(storeName) {
 }
 async function libraryPut(storeName, value) {
   const { tx, store } = libraryStore(storeName, 'readwrite');
-  store.put(value);
-  await idbTransactionDone(tx);
+  const done = idbTransactionDone(tx);
+  await idbRequest(store.put(value));
+  await done;
 }
 async function libraryDelete(storeName, key) {
   const { tx, store } = libraryStore(storeName, 'readwrite');
-  store.delete(key);
-  await idbTransactionDone(tx);
+  const done = idbTransactionDone(tx);
+  await idbRequest(store.delete(key));
+  await done;
 }
 async function libraryClearStore(storeName) {
   const { tx, store } = libraryStore(storeName, 'readwrite');
-  store.clear();
-  await idbTransactionDone(tx);
+  const done = idbTransactionDone(tx);
+  await idbRequest(store.clear());
+  await done;
+}
+async function reconnectLibraryDatabase() {
+  try { state.libraryDb?.close?.(); } catch {}
+  state.libraryDb = null;
+  state.libraryReady = false;
+  const db = await openLibraryDatabase();
+  state.libraryDb = db;
+  state.libraryReady = true;
+  return db;
+}
+async function pingLibraryDatabase() {
+  if (!state.libraryDb) return false;
+  try {
+    const { store } = libraryStore('meta');
+    await idbRequest(store.get('__ping__'));
+    return true;
+  } catch {
+    return false;
+  }
+}
+async function ensureLibraryConnection() {
+  if (state.libraryReady && await pingLibraryDatabase()) return true;
+  try {
+    await reconnectLibraryDatabase();
+    return true;
+  } catch (err) {
+    console.error('Could not reconnect Local Library', err);
+    state.libraryReady = false;
+    return false;
+  }
 }
 function clonePlain(value) {
   if (value == null) return value;
@@ -215,23 +316,36 @@ function hydrateDocumentFromLibrary(record) {
 async function persistSourceToLibrary(sourceId) {
   const source = state.sources.get(sourceId);
   if (!source || source.libraryPersisted) return;
-  let blob = null;
+  let data = null;
+  let mimeType = source.type === 'pdf' ? 'application/pdf' : 'application/octet-stream';
   if (source.type === 'pdf') {
-    if (source.bytes) blob = new Blob([source.bytes], { type: 'application/pdf' });
-    else if (source.blob instanceof Blob) blob = source.blob;
+    if (source.bytes) {
+      const bytes = source.bytes;
+      data = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
+    } else if (source.blob instanceof Blob) {
+      data = await source.blob.arrayBuffer();
+      mimeType = source.blob.type || mimeType;
+    }
   } else if (source.type === 'image') {
-    if (source.file instanceof Blob) blob = source.file;
-    else if (source.blob instanceof Blob) blob = source.blob;
+    const blob = source.file instanceof Blob ? source.file : (source.blob instanceof Blob ? source.blob : null);
+    if (blob) {
+      data = await blob.arrayBuffer();
+      mimeType = blob.type || mimeType;
+    }
   }
-  if (!blob) return;
+  if (!data) return;
+  // Store binary source payloads as ArrayBuffers. WebKit has historically had
+  // more edge cases around Blob/File persistence in Home Screen apps; plain
+  // ArrayBuffer structured-clone records are simpler and remain compatible
+  // with the Blob-based records written by 4.0.0/4.0.1.
   await libraryPut('sources', {
     id: source.id,
     schemaVersion: LIBRARY_SCHEMA_VERSION,
     type: source.type,
     name: source.name || 'source',
-    size: blob.size,
-    mimeType: blob.type || (source.type === 'pdf' ? 'application/pdf' : 'application/octet-stream'),
-    blob,
+    size: data.byteLength,
+    mimeType,
+    data,
   });
   source.libraryPersisted = true;
 }
@@ -239,21 +353,26 @@ async function ensureLibrarySourceLoaded(sourceId) {
   if (!sourceId) return null;
   if (state.sources.has(sourceId)) return state.sources.get(sourceId);
   const record = await libraryGet('sources', sourceId);
-  if (!record?.blob) throw new Error(`Stored source ${sourceId} is missing from the local Library.`);
+  if (!record) throw new Error(`Stored source ${sourceId} is missing from the local Library.`);
+  let data = record.data || null;
+  if (!data && record.blob instanceof Blob) data = await record.blob.arrayBuffer(); // 4.0.0/4.0.1 compatibility
+  if (!data) throw new Error(`Stored source ${sourceId} has no readable binary data.`);
+  const mimeType = record.mimeType || (record.type === 'pdf' ? 'application/pdf' : 'application/octet-stream');
   if (record.type === 'pdf') {
     if (!state.pdfjs) throw new Error('The PDF engine is not available to reopen this stored document.');
-    const bytes = new Uint8Array(await record.blob.arrayBuffer());
+    const bytes = new Uint8Array(data.slice ? data.slice(0) : data);
     const pdf = await state.pdfjs.getDocument({
       data: bytes.slice(), wasmUrl: PDFJS_WASM_URL, cMapUrl: PDFJS_CMAP_URL,
       cMapPacked: true, standardFontDataUrl: PDFJS_STANDARD_FONT_URL, useWasm: true,
     }).promise;
-    const source = { id: sourceId, type: 'pdf', name: record.name, size: record.size, bytes, pdf, blob: record.blob, libraryPersisted: true };
+    const blob = new Blob([bytes], { type: mimeType });
+    const source = { id: sourceId, type: 'pdf', name: record.name, size: record.size || bytes.byteLength, bytes, pdf, blob, libraryPersisted: true };
     state.sources.set(sourceId, source);
     return source;
   }
-  const blob = record.blob;
+  const blob = new Blob([data], { type: mimeType });
   const url = URL.createObjectURL(blob);
-  const source = { id: sourceId, type: 'image', name: record.name, size: record.size, file: blob, blob, url, image: null, libraryPersisted: true };
+  const source = { id: sourceId, type: 'image', name: record.name, size: record.size || blob.size, file: blob, blob, url, image: null, libraryPersisted: true };
   state.sources.set(sourceId, source);
   return source;
 }
@@ -274,10 +393,44 @@ function serializeLibrarySession() {
     updatedAt: Date.now(),
   };
 }
+function serializeTemplatesForLibrary() {
+  return {
+    key: 'templates', schemaVersion: LIBRARY_SCHEMA_VERSION,
+    templates: state.templates.map(template => ({
+      id: template.id,
+      name: template.name,
+      page: template.page ? { ...template.page } : null,
+      createdAt: template.createdAt || Date.now(),
+      modifiedAt: template.modifiedAt || template.createdAt || Date.now(),
+    })),
+    updatedAt: Date.now(),
+  };
+}
+async function restorePersistentTemplates() {
+  if (!state.libraryReady) return;
+  const saved = await libraryGet('meta', 'templates');
+  if (Number(saved?.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION) throw new Error(`Saved templates use a newer Library schema (${saved.schemaVersion}).`);
+  state.templates = Array.isArray(saved?.templates)
+    ? saved.templates.filter(item => item?.page).map(item => ({
+        id: item.id || uid('template'), name: item.name || 'Template', page: { ...item.page },
+        createdAt: item.createdAt || Date.now(), modifiedAt: item.modifiedAt || item.createdAt || Date.now(),
+      }))
+    : [];
+  const sourceIds = new Set(state.templates.map(template => template.page?.sourceId).filter(Boolean));
+  for (const sourceId of sourceIds) {
+    try { await ensureLibrarySourceLoaded(sourceId); }
+    catch (err) { console.warn(`Could not preload template source ${sourceId}`, err); }
+  }
+  renderInsertTemplateList();
+}
 async function persistLibraryNow(options={}) {
-  if (!state.libraryReady || state.librarySuppressPersist || !state.libraryDb) return;
+  if (state.librarySuppressPersist) return;
+  if (!state.libraryReady || !state.libraryDb) {
+    if (!(await ensureLibraryConnection())) return;
+  }
   if (state.libraryPersisting) { state.libraryPersistAgain = true; return; }
   state.libraryPersisting = true;
+  let failed = null;
   try {
     saveCurrentDocumentState({ readViewDom: options.readViewDom !== false, skipLibrarySchedule: true });
     for (const doc of state.documents) {
@@ -287,22 +440,40 @@ async function persistLibraryNow(options={}) {
       await libraryPut('documents', record);
       state.libraryRecords.set(doc.id, record);
     }
+    const templateSourceIds = new Set(state.templates.map(template => template.page?.sourceId).filter(Boolean));
+    for (const sourceId of templateSourceIds) await persistSourceToLibrary(sourceId);
+    await libraryPut('meta', serializeTemplatesForLibrary());
     await libraryPut('meta', serializeLibrarySession());
     renderLibraryDocumentList();
     updateLibraryStorageSummary();
   } catch (err) {
+    failed = err;
     console.error('Library persist failed', err);
     if (els.librarySummary) els.librarySummary.textContent = `Local Library save warning: ${err?.message || err}`;
+    state.libraryReady = false;
   } finally {
     state.libraryPersisting = false;
-    if (state.libraryPersistAgain) {
-      state.libraryPersistAgain = false;
-      scheduleLibraryPersist(80);
+  }
+  // WebKit can lose an IndexedDB server connection when a Home Screen app is
+  // suspended/resumed. Reconnect once and retry rather than silently losing the
+  // first save after resume.
+  if (failed && !options._reconnected) {
+    try {
+      if (await ensureLibraryConnection()) {
+        await persistLibraryNow({ ...options, _reconnected: true, readViewDom: false });
+        failed = null;
+      }
+    } catch (retryErr) {
+      console.error('Library persist retry failed', retryErr);
     }
+  }
+  if (state.libraryPersistAgain) {
+    state.libraryPersistAgain = false;
+    scheduleLibraryPersist(80);
   }
 }
 function scheduleLibraryPersist(delay=550) {
-  if (!state.libraryReady || state.librarySuppressPersist) return;
+  if (state.librarySuppressPersist) return;
   clearTimeout(state.libraryPersistTimer);
   state.libraryPersistTimer = setTimeout(() => persistLibraryNow(), delay);
 }
@@ -363,6 +534,7 @@ async function initializePersistentLibrary() {
     state.libraryDb = await openLibraryDatabase();
     state.libraryReady = true;
     await refreshLibraryRecords();
+    await restorePersistentTemplates();
     const incompatible = [...state.libraryRecords.values()].find(record => Number(record.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION);
     if (incompatible) throw new Error(`This local Library uses schema ${incompatible.schemaVersion}, newer than this build understands (${LIBRARY_SCHEMA_VERSION}). Use a newer PDF Workbench build or reset the local Library.`);
     const session = await libraryGet('meta', 'session');
@@ -403,9 +575,57 @@ async function initializePersistentLibrary() {
     scheduleLibraryPersist(250);
   } catch (err) {
     state.libraryReady = false;
+    try { state.libraryDb?.close?.(); } catch {}
+    state.libraryDb = null;
     console.error('Persistent Library unavailable', err);
-    if (els.librarySummary) els.librarySummary.textContent = `Persistent Library unavailable: ${err?.message || err}`;
-    if (els.libraryStorageSummary) els.libraryStorageSummary.textContent = 'Documents still work in this session, but they cannot be restored after the app is closed.';
+    const pwaHint = isAppleWebKit() && isStandalonePwa() ? ' Home Screen storage will be retried automatically and can also be retried with Refresh.' : '';
+    if (els.librarySummary) els.librarySummary.textContent = `Persistent Library unavailable: ${err?.message || err}.${pwaHint}`;
+    if (els.libraryStorageSummary) els.libraryStorageSummary.textContent = 'Documents still work in this session, but persistence is not active until Local Library reconnects.';
+    if (isAppleWebKit() && isStandalonePwa()) {
+      clearTimeout(state.libraryRecoveryTimer);
+      state.libraryRecoveryTimer = setTimeout(() => retryPersistentLibraryAfterFailure(), 900);
+    }
+  }
+}
+async function retryPersistentLibraryAfterFailure() {
+  if (state.libraryReady || state.librarySuppressPersist) return;
+  try {
+    if (els.librarySummary) els.librarySummary.textContent = 'Retrying Local Library storage…';
+    await reconnectLibraryDatabase();
+    await refreshLibraryRecords();
+    await restorePersistentTemplates();
+    // If documents are already open from the current session, commit them now.
+    // If nothing is open, rerun normal initialization so a saved prior session
+    // can be restored after a WebKit first-open failure.
+    if (state.documents.length) {
+      await persistLibraryNow({ readViewDom: false, _reconnected: true });
+      renderLibraryDocumentList();
+      if (els.librarySummary) els.librarySummary.textContent = `${[...state.libraryRecords.values()].filter(record => !record.trashedAt).length} document(s) in Library. ${state.documents.length} currently open.`;
+    } else {
+      try { state.libraryDb?.close?.(); } catch {}
+      state.libraryDb = null;
+      state.libraryReady = false;
+      await initializePersistentLibrary();
+    }
+  } catch (err) {
+    state.libraryReady = false;
+    console.error('Local Library retry failed', err);
+    if (els.librarySummary) els.librarySummary.textContent = `Local Library retry failed: ${err?.message || err}. Tap Refresh to try again.`;
+  }
+}
+async function resumePersistentLibraryConnection() {
+  if (document.visibilityState === 'hidden' || state.librarySuppressPersist) return;
+  const ok = await ensureLibraryConnection();
+  if (!ok) {
+    if (els.librarySummary) els.librarySummary.textContent = 'Local Library connection is unavailable. Tap Refresh to retry.';
+    return;
+  }
+  try {
+    await refreshLibraryRecords();
+    await restorePersistentTemplates();
+    await persistLibraryNow({ readViewDom: false, _reconnected: true });
+  } catch (err) {
+    console.warn('Local Library resume refresh failed', err);
   }
 }
 async function updateLibraryStorageSummary() {
@@ -1339,7 +1559,7 @@ function renderInsertTemplateList() {
   if (!state.templates.length) {
     const empty = document.createElement('div');
     empty.className = 'insert-template-empty';
-    empty.textContent = 'No session templates saved';
+    empty.textContent = 'No templates saved';
     els.insertTemplateList.append(empty);
   } else {
     for (const template of state.templates) {
@@ -1402,10 +1622,12 @@ async function saveCurrentPageAsTemplate(targetContext=null) {
     name,
     page: { ...page, id: null },
     createdAt: Date.now(),
+    modifiedAt: Date.now(),
   };
   state.templates.push(template);
   renderInsertTemplateList();
-  setStatus(`Saved page as ${name} (this session)`);
+  scheduleLibraryPersist(80);
+  setStatus(`Saved page as ${name}`);
   return true;
 }
 
@@ -1425,17 +1647,18 @@ function deleteTemplate(templateId) {
   const [removed] = state.templates.splice(index, 1);
   renderInsertTemplateList();
   releaseSourceIfUnused(removed.page?.sourceId, { excludingTemplateId: removed.id });
+  scheduleLibraryPersist(80);
 }
 
 function showTemplateManager() {
   closeInsertPageMenu(false);
   els.infoDialog.classList.add('template-dialog');
   const renderManager = () => {
-    els.dialogContent.innerHTML = `<h2>Session templates</h2><p>Templates in this build remain available only until PDF Workbench is reloaded. Persistence will be added with the Files/Library storage system.</p><div id="templateManagerList" class="template-manager-list"></div>`;
+    els.dialogContent.innerHTML = `<h2>Templates</h2><p>Templates are stored with the Local Library on this device and return when PDF Workbench is reopened.</p><div id="templateManagerList" class="template-manager-list"></div>`;
     const manager = $('templateManagerList');
     if (!state.templates.length) {
       const empty = document.createElement('p');
-      empty.textContent = 'No session templates are saved.';
+      empty.textContent = 'No templates are saved.';
       manager.append(empty);
       return;
     }
@@ -1477,7 +1700,9 @@ function showTemplateManager() {
         const nextName = await requestTemplateName(template.name);
         if (nextName === null) return;
         template.name = nextName;
+        template.modifiedAt = Date.now();
         renderInsertTemplateList();
+        scheduleLibraryPersist(80);
         renderManager();
         setStatus(`Renamed template to ${nextName}`);
       });
@@ -1729,9 +1954,9 @@ function createNewDocumentFromTemplate(templateId) {
 }
 
 function showNewFromTemplateChooser() {
-  if (!state.templates.length) { setStatus('No session templates are saved yet'); return; }
+  if (!state.templates.length) { setStatus('No templates are saved yet'); return; }
   els.infoDialog.classList.add('template-dialog');
-  els.dialogContent.innerHTML = `<h2>New from template</h2><p>Choose a saved session template. The new document starts with one independent copy of that page.</p><div id="newTemplateChoiceGrid" class="insert-choice-grid" role="group" aria-label="Templates for new document"></div>`;
+  els.dialogContent.innerHTML = `<h2>New from template</h2><p>Choose a saved template. The new document starts with one independent copy of that page.</p><div id="newTemplateChoiceGrid" class="insert-choice-grid" role="group" aria-label="Templates for new document"></div>`;
   const grid = $('newTemplateChoiceGrid');
   for (const template of state.templates) {
     const button = document.createElement('button');
@@ -2248,7 +2473,9 @@ async function purgeLocalLibrary() {
     await libraryClearStore('meta');
     state.libraryRecords.clear();
     state.librarySuppressPersist = false;
+    await libraryPut('meta', serializeTemplatesForLibrary());
     await libraryPut('meta', serializeLibrarySession());
+    renderInsertTemplateList();
     renderLibraryDocumentList();
     updateLibraryStorageSummary();
     els.storageActionStatus.textContent = 'Local Library deleted. Application code/cache and preferences were left intact.';
@@ -5475,9 +5702,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 4.0.1 refines the persistent <strong>Local Library</strong>. Imported and created working documents are stored locally in IndexedDB and can be restored after the app is closed or the device is restarted.</p>
-      <ul><li><strong>Automatic persistence:</strong> document source data, page order, rotations, inserted/generated pages, page geometry edits, undo history, and single/split view state are saved locally.</li><li><strong>Close / reopen:</strong> Close and Close All only remove documents from the active workspace; they do not prompt for PDF export because the editable Library copy is already safe.</li><li><strong>Trash:</strong> individual Library documents can be moved to Trash, restored, or permanently deleted. An unexported-changes warning appears at permanent deletion, where data can actually be lost.</li><li><strong>New from template:</strong> Files → New can start a one-page document from any saved session template.</li><li><strong>Storage protection:</strong> Files → Storage &amp; reset can request persistent-storage protection, show browser storage usage, delete the Library, or factory-reset local app data.</li><li><strong>App updates:</strong> the service-worker cache and persistent Library are separate; normal updates should not erase stored documents.</li></ul>
-      <p><strong>Coming in Milestone 4:</strong> folders/subfolders, rename/duplicate, Favorites, search/sort/grid-list, persistent templates, Library PDF ZIP export, editable backup/restore, and schema migrations; then inking/annotations.</p>
+      <p>Milestone 4.0.2 hardens the persistent <strong>Local Library</strong>, especially for installed iPad Home Screen PWAs. Imported and created working documents are stored locally and can be restored after the app is closed or the device is restarted.</p>
+      <ul><li><strong>Automatic persistence:</strong> document source data, page order, rotations, inserted/generated pages, page geometry edits, undo history, and single/split view state are saved locally.</li><li><strong>Close / reopen:</strong> Close and Close All only remove documents from the active workspace; they do not prompt for PDF export because the editable Library copy is already safe.</li><li><strong>Trash:</strong> individual Library documents can be moved to Trash, restored, or permanently deleted. An unexported-changes warning appears at permanent deletion, where data can actually be lost.</li><li><strong>Persistent templates:</strong> saved page templates now live with the Local Library and can be used by Files → New → From template after reopening the app.</li><li><strong>Storage protection:</strong> Files → Storage &amp; reset can request persistent-storage protection, show browser storage usage, delete the Library, or factory-reset local app data.</li><li><strong>App updates:</strong> the service-worker cache and persistent Library are separate; normal updates should not erase stored documents.</li></ul>
+      <p><strong>Coming in Milestone 4:</strong> folders/subfolders, rename/duplicate, Favorites, search/sort/grid-list, Library PDF ZIP export, editable backup/restore, and schema migrations; then inking/annotations.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -5984,7 +6211,20 @@ function bindEvents() {
   els.exportModeBtn.addEventListener('click', () => showWorkspaceMode('export'));
   els.selectAllFilesBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; state.fileSelected = new Set(state.documents.map(doc => doc.id)); reconcileCombineOrder(); renderExportPane(); });
   els.clearFileSelectionBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; state.fileSelected.clear(); reconcileCombineOrder(); renderExportPane(); });
-  els.libraryRefreshBtn?.addEventListener('click', async () => { await persistLibraryNow(); await refreshLibraryRecords(); setStatus('Local Library refreshed'); });
+  els.libraryRefreshBtn?.addEventListener('click', async () => {
+    try {
+      if (!(await ensureLibraryConnection())) throw new Error('Could not connect to local storage.');
+      await persistLibraryNow({ readViewDom: false, _reconnected: true });
+      await refreshLibraryRecords();
+      await restorePersistentTemplates();
+      renderLibraryDocumentList();
+      setStatus('Local Library refreshed');
+    } catch (err) {
+      console.error(err);
+      setStatus(`Local Library refresh failed: ${err?.message || err}`);
+      if (els.librarySummary) els.librarySummary.textContent = `Local Library refresh failed: ${err?.message || err}`;
+    }
+  });
   els.requestPersistentStorageBtn?.addEventListener('click', requestPersistentLibraryStorage);
   els.purgeLibraryBtn?.addEventListener('click', purgeLocalLibrary);
   els.factoryResetBtn?.addEventListener('click', factoryResetAllLocalData);
@@ -6164,7 +6404,15 @@ function bindEvents() {
   window.addEventListener('dragover', (e) => { if ([...e.dataTransfer.types].includes('Files')) e.preventDefault(); });
   window.addEventListener('drop', (e) => { if (e.dataTransfer?.files?.length) { e.preventDefault(); openFiles(e.dataTransfer.files); } });
   window.addEventListener('pagehide', () => { saveCurrentDocumentState(); persistLibraryNow(); });
-  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') { saveCurrentDocumentState(); persistLibraryNow(); } });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+      saveCurrentDocumentState();
+      persistLibraryNow();
+    } else {
+      resumePersistentLibraryConnection();
+    }
+  });
+  window.addEventListener('pageshow', () => { resumePersistentLibraryConnection(); });
 }
 
 async function init() {
