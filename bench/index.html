@@ -24,6 +24,7 @@
         </button>
         <input id="fileInput" class="visually-hidden" type="file" multiple accept="application/pdf,image/*">
         <input id="imageAssemblyInput" class="visually-hidden" type="file" multiple accept="image/*">
+        <input id="libraryRestoreInput" class="visually-hidden" type="file" accept=".pwbbackup,.zip,application/zip">
 
         <div class="segmented" role="group" aria-label="Workspace mode">
           <button id="viewModeBtn" class="segment active" type="button" aria-pressed="true">View</button>
@@ -147,7 +148,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 4.1.1</div>
+          <div class="export-kicker">Milestone 4.2.0</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -365,6 +366,20 @@
             </div>
           </details>
 
+          <details class="file-tool-section file-tool-details" id="libraryBackupFilesSection">
+            <summary><span>Library backup &amp; export</span><span class="operation-summary">PDF archive and editable restore</span></summary>
+            <div class="file-tool-body">
+              <p class="file-tool-summary">Export a conventional PDF copy of the whole active Library, or create a complete editable backup that can restore PDF Workbench on this or another device.</p>
+              <div class="library-backup-actions">
+                <button id="libraryPdfArchiveBtn" class="export-button secondary-output-button" type="button">Export Library as PDFs (.zip)</button>
+                <button id="libraryEditableBackupBtn" class="export-button secondary-output-button" type="button">Back up editable Library</button>
+                <button id="libraryRestoreBackupBtn" class="export-button secondary-output-button" type="button">Restore Library backup…</button>
+              </div>
+              <p class="small-note">The PDF archive preserves the Library folder/subfolder structure and includes saved templates as one-page PDFs. Trash is omitted. The editable backup includes documents, folders, Trash, templates, source files, and the saved open/view session.</p>
+              <p id="libraryBackupProgress" class="export-progress" aria-live="polite"></p>
+            </div>
+          </details>
+
           <details class="file-tool-section file-tool-details" id="storageFilesSection">
             <summary><span>Storage & reset</span><span class="operation-summary">Library recovery and development reset tools</span></summary>
             <div class="file-tool-body">
@@ -378,7 +393,7 @@
             </div>
           </details>
 
-          <p class="small-note files-roadmap-note">Folders/subfolders, rename/duplicate/move, first-page thumbnails, Grid/List Library views, Trash/recovery, and persistent templates are available now. Favorites/search/sort, whole-Library export, editable backup/restore, and broader bulk Library management remain on the Milestone 4 roadmap.</p>
+          <p class="small-note files-roadmap-note">Persistent documents, folders/subfolders, rename/duplicate/move, thumbnails, Trash/recovery, templates, whole-Library PDF ZIP export, and editable backup/restore are available now. Favorites/search/sort and broader bulk Library conveniences remain lower priority; schema/recovery hardening and PDF link/outline preservation still need dedicated testing.</p>
         </div>
       </section>
     </main>

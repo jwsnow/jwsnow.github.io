@@ -1066,3 +1066,8 @@ body.presentation .split-pane.active {
 @media (max-width: 390px) {
   .library-document-list.grid-view { grid-template-columns: 1fr; }
 }
+
+/* Milestone 4.2 — Library backup / portability */
+.library-backup-actions { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+.library-backup-actions .export-button { margin-top:0; flex:0 1 auto; }
+@media (max-width: 620px) { .library-backup-actions { flex-direction:column; align-items:stretch; } .library-backup-actions .export-button { width:100%; } }

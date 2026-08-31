@@ -1,51 +1,86 @@
-# PDF Workbench — Milestone 4.1.1
+# PDF Workbench — Milestone 4.2.0
 
-Milestone 4.1.1 is a hotfix for 4.1.0 and retains the first real organization layer on top of the persistent Local Library introduced in Milestone 4.0.
+Milestone 4.2.0 adds Library backup and portability on top of the persistent folder/subfolder Library validated in Milestone 4.1.1.
 
-## Hotfix in 4.1.1
+## New in 4.2.0
 
-### Folders and subfolders
-- Files → Local Library now supports folders and arbitrarily nested subfolders.
-- `New folder` creates a folder inside the folder currently being viewed.
-- Breadcrumb navigation returns to parent folders or the Library root.
-- Folders can be renamed and moved to another folder/root.
-- Documents can be moved between folders/root.
+### Export the whole Library as PDFs
+Files → **Library backup & export** now includes **Export Library as PDFs (.zip)**.
 
-### Document management
-- Library documents can be renamed.
-- Library documents can be duplicated. A duplicate is an independent editable project but safely reuses immutable source PDF/image data internally rather than storing redundant source bytes.
-- Existing Open / Use / Close / Trash behavior remains.
+- Exports every non-Trash Library document as a conventional PDF.
+- Preserves the Local Library folder/subfolder hierarchy inside the ZIP.
+- Keeps empty Library folders as directory entries where ZIP viewers support them.
+- Includes persistent page templates as one-page PDFs under `_Templates`.
+- Uses the same structural PDF export engine already validated for page order, rotations, generated pages, page geometry, scans, and image documents.
+- Does not modify `needsExport` state merely because a whole-Library archive was created.
+- Trash is deliberately omitted from the human-readable PDF archive.
 
-### Visual Library
-- Library documents show a lazy-rendered thumbnail of their first page.
-- Grid and List views are available. Grid is the default and the choice is remembered on the device.
-- Folder cards are shown before documents in each folder.
+This ZIP is a conventional PDF archive, not a restoreable editable project backup.
 
-### Files UI cleanup
-- Open Documents and Local Library are collapsed by default.
-- Files now has a direct Templates section with a `Manage templates…` button.
-- `Manage templates…` remains in the Insert Page chooser as well; both open the same persistent-template manager.
+### Full editable Library backup
+**Back up editable Library** creates a ZIP-based file with a `.pwbbackup` extension. It contains:
 
-## Persistence/storage
-- IndexedDB database version: 2.
-- PDF Workbench Library schema version: 3.
-- Existing 4.0.x document records migrate forward without requiring the Library to be erased.
-- The database adds a `folders` object store; documents already stored by 4.0.x remain at the Library root (`folderId = null`).
-- The service-worker/application cache remains separate from Library data.
+- all Library document records, including Trash state;
+- folder/subfolder hierarchy;
+- persistent page templates;
+- original source PDF/image bytes;
+- page order, rotations, generated pages, page-size/crop/margin edits, undo/redo page snapshots, and other persisted project state;
+- saved open-document/session and split/single view state;
+- the small set of current PDF Workbench preferences stored in localStorage.
 
-## Intentionally deferred
-Favorites, broad Library search/sorting controls, folder Trash/permanent-delete workflow, whole-Library PDF ZIP export, editable Library backup/restore, stronger schema migration tooling, and bulk Library actions beyond the existing open-document selection are still planned for later Milestone 4 work.
+The backup includes `manifest.json` plus binary source payloads. It is intended for PDF Workbench restore, not manual editing.
+
+### Restore editable Library
+**Restore Library backup…** accepts `.pwbbackup` (and ZIP) files created by PDF Workbench.
+
+Before replacing anything, restore:
+
+1. reads and validates the manifest;
+2. rejects unsupported future backup/schema versions;
+3. verifies every source payload required by documents/templates exists;
+4. asks for explicit confirmation because restore replaces the current Local Library;
+5. reads every source payload before touching current data;
+6. replaces documents/sources/folders/meta in one IndexedDB read-write transaction;
+7. restores supported preferences and reloads the application into the restored saved session.
+
+This makes the actual replacement atomic at the IndexedDB transaction level after validation, reducing the chance of a half-restored Library.
+
+## Existing Library behavior retained
+- Persistent imported/created documents.
+- iPad Home Screen PWA IndexedDB retry/reconnect hardening.
+- Close/reopen and Close All.
+- Trash/Restore/Permanent delete.
+- Folders and arbitrarily nested subfolders.
+- Rename, duplicate, and move documents/folders.
+- Lazy first-page thumbnails.
+- Grid/List Library views.
+- Persistent templates, with the same Template Manager reachable from Files and Insert Page.
+- Storage usage / persistent-storage request / Library purge / full factory reset.
+
+## Storage/versioning
+- IndexedDB database version remains **2**; no new object store is required.
+- Library schema remains **3**.
+- Editable backup format version is **1**.
+- Existing 4.0.x/4.1.x Library data is not intentionally rewritten or purged on upgrade.
+- Service-worker/application cache remains separate from persistent Library data.
 
 ## Suggested tests
-1. Upgrade a device that already has a 4.0.2 Library and verify existing documents remain at Library root.
-2. Create Folder A → Subfolder B; move documents into each and reopen them.
-3. Close/reopen the PWA/browser and confirm the folder hierarchy and moved documents persist.
-4. Rename and duplicate both open and closed Library documents.
-5. Switch between Grid and List views and verify first-page thumbnails appear for closed documents.
-6. Move a folder containing subfolders to another folder and verify breadcrumb navigation.
-7. Verify Open Documents and Local Library start collapsed after a fresh page load.
-8. Open the Template Manager from Files, then from Insert Page, and confirm both show the same templates.
+1. Upgrade a device with an existing 4.1.1 Library and verify all documents/folders/templates remain.
+2. Create nested folders with several documents at root and several levels deep; export Library as PDFs and inspect ZIP paths.
+3. Include a scan/JBIG2 PDF, generated graph/blank pages, normalized/cropped pages, and an image document in the PDF archive; open exported PDFs in Adobe.
+4. Confirm a persistent template appears in `_Templates` as a one-page PDF.
+5. Create an editable `.pwbbackup`.
+6. Make obvious changes to the current Library (rename/move/delete/add documents), then restore the backup and verify the prior hierarchy/state returns.
+7. Verify documents that were in Trash at backup time return to Trash after restore.
+8. Verify persistent templates return after restore.
+9. Verify the open-document set and relevant View/Split state restore after reload.
+10. Repeat backup/restore on iPad PWA because that is the most important IndexedDB portability test.
 
-**More → About this build** reports **Milestone 4.1.1**. The service-worker cache is `pdf-workbench-m4.1.1-v1`.
+## Still planned before Milestone 5
+- Dedicated schema migration/recovery hardening as the Library evolves.
+- Audit preservation of existing PDF hyperlinks and outlines/bookmarks through structural edits and export.
+- Page bookmark/outline foundation if it remains useful before inking.
+- Final Files/Library UI placement cleanup.
+- Favorites/search/sorting and broader bulk Library actions remain lower priority unless actual use shows a need.
 
-4.1.1 fixes a parse-time JavaScript failure in 4.1.0 caused by an accidentally duplicated `uniqueLibraryDocumentName` helper. It also adds the standard `mobile-web-app-capable` meta declaration alongside the iOS-specific declaration.
+**More → About this build** reports **Milestone 4.2.0**. The service-worker cache is `pdf-workbench-m4.2.0-v1`.

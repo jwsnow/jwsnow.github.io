@@ -1,3 +1,69 @@
+PDF WORKBENCH PWA — MILESTONE 4.2.0 CURRENT UPDATE
+====================================================
+
+CURRENT BUILD: Milestone 4.2.0
+Visible About version: 4.2.0
+Service-worker/cache version: pdf-workbench-m4.2.0-v1
+IndexedDB database version: 2
+Library schema version: 3
+Editable backup format version: 1
+
+MILESTONE 4.2.0 — LIBRARY BACKUP / PORTABILITY
+----------------------------------------------
+Milestone 4.1.1 was tested successfully on Surface and iPad, including migration of older Library data, folders/subfolders, rename, move, duplicate, thumbnails, and persistence. 4.2.0 builds on that validated Library.
+
+New Files → Library backup & export section:
+- Export Library as PDFs (.zip): exports every non-Trash Library document as a conventional PDF while preserving folder/subfolder paths inside the ZIP.
+- Persistent templates are included as one-page PDFs in an `_Templates` folder.
+- Empty Library folders are represented as ZIP directories where supported.
+- This PDF archive is human-readable/software-independent and is NOT the editable restore format.
+
+Editable Library backup:
+- `Back up editable Library` creates a ZIP-based `.pwbbackup` file.
+- Backup contains all Library document records INCLUDING Trash state, folder hierarchy, persistent templates, original PDF/image source bytes, page edits/geometry/generated pages, undo/redo page snapshots, and saved open/single/split view session state.
+- Current small local preferences (scroll mode, fit mode, Library Grid/List choice) are included.
+- Backup file contains `manifest.json` plus binary source payloads under `sources/`.
+
+Editable restore:
+- Restore validates the backup format/schema before touching the current Library.
+- Future/unsupported backup/schema versions are refused rather than guessed.
+- Every document/template source reference is checked against the manifest.
+- Every binary payload is read successfully before replacement begins.
+- User receives an explicit warning that restore REPLACES the current Local Library and should back up first if needed.
+- After validation, documents/sources/folders/meta are replaced in one IndexedDB transaction, then supported preferences are restored and PDF Workbench reloads into the backup's saved session.
+- Pagehide persistence is suppressed during the restore reload so the pre-restore in-memory session cannot overwrite the restored session.
+
+Milestone 4 UI status:
+- Open Documents and Local Library remain collapsed by default.
+- Template Manager is available both from Files and Insert Page.
+- New Folder/Refresh placement is intentionally not finalized; user said it can wait until the Files system is more complete.
+- Favorites/search/sophisticated sorting remain lower priority.
+
+NEXT MILESTONE 4 HARDENING
+--------------------------
+1. Test whole-Library PDF archive and editable backup/restore across Surface, iPad Safari/PWA, and Chromebook.
+2. Continue schema migration/recovery hardening as schema changes become necessary.
+3. Audit preservation of existing PDF hyperlinks and outlines/bookmarks through structural edits/exports.
+4. Consider page bookmark/outline UI foundation.
+5. Final Files/Library UI cleanup after functionality settles.
+6. Then move to Milestone 5 inking/annotation.
+
+MILESTONE 5 INKING ROADMAP (PRESERVE)
+-------------------------------------
+- Pen, Eraser, Lasso/Select, Undo/Redo.
+- Highlighter as first-class tool.
+- A small number of configurable pen presets.
+- Explicit View/Hand non-writing state.
+- Pen/stylus inks; one finger pans; two fingers pinch/zoom; pen operates visible UI.
+- Draw with Finger OFF by default.
+- Auto-return from eraser option.
+- Optional multi-finger undo/redo gestures.
+- Laser Pointer for Presentation.
+- Eventually annotated-pages filter in Pages.
+- Full Page bottom navigation controls must be tested for palm interference once inking exists.
+
+====================================================================
+
 PDF WORKBENCH PWA — MILESTONE 4.1.1 CURRENT UPDATE
 ====================================================
 

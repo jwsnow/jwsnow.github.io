@@ -1,4 +1,4 @@
-const APP_VERSION = '4.1.1';
+const APP_VERSION = '4.2.0';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -11,6 +11,7 @@ const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 const LIBRARY_DB_NAME = 'pdf-workbench-library';
 const LIBRARY_DB_VERSION = 2;
 const LIBRARY_SCHEMA_VERSION = 3;
+const LIBRARY_BACKUP_FORMAT_VERSION = 1;
 
 const $ = (id) => document.getElementById(id);
 const els = {
@@ -19,7 +20,7 @@ const els = {
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), filesManageTemplatesBtn: $('filesManageTemplatesBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), filesManageTemplatesBtn: $('filesManageTemplatesBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
@@ -665,6 +666,319 @@ async function requestPersistentLibraryStorage() {
     updateLibraryStorageSummary();
   } catch (err) {
     els.storageActionStatus.textContent = `Could not request persistent storage: ${err?.message || err}`;
+  }
+}
+
+
+// ---------------------------------------------------------------------------
+// Milestone 4.2 — whole-Library PDF archive and editable backup / restore
+// ---------------------------------------------------------------------------
+function portableTimestamp() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}_${pad(d.getHours())}-${pad(d.getMinutes())}`;
+}
+
+function zipSafeSegment(name, fallback='Item') {
+  const cleaned = String(name || '').replace(/[\\/:*?"<>|\x00-\x1f]+/g, '_').replace(/[. ]+$/g, '').trim();
+  return cleaned || fallback;
+}
+
+function buildPortableFolderPaths(folders) {
+  const byId = new Map(folders.filter(folder => folder && !folder.trashedAt).map(folder => [folder.id, folder]));
+  const children = new Map();
+  for (const folder of byId.values()) {
+    const parent = byId.has(folder.parentId) ? folder.parentId : null;
+    if (!children.has(parent)) children.set(parent, []);
+    children.get(parent).push(folder);
+  }
+  for (const list of children.values()) list.sort((a,b) => String(a.name).localeCompare(String(b.name), undefined, { sensitivity: 'base' }));
+  const paths = new Map();
+  const visit = (parentId, parentPath='') => {
+    const used = new Set();
+    for (const folder of children.get(parentId) || []) {
+      let segment = zipSafeSegment(folder.name, 'Folder');
+      const base = segment;
+      let n = 2;
+      while (used.has(segment.toLocaleLowerCase())) segment = `${base} ${n++}`;
+      used.add(segment.toLocaleLowerCase());
+      const path = parentPath ? `${parentPath}/${segment}` : segment;
+      paths.set(folder.id, path);
+      visit(folder.id, path);
+    }
+  };
+  visit(null, '');
+  return paths;
+}
+
+async function ensureRecordSourcesLoaded(record) {
+  const ids = new Set((record?.pages || []).map(page => page.sourceId).filter(Boolean));
+  for (const sourceId of ids) await ensureLibrarySourceLoaded(sourceId);
+  return ids;
+}
+
+async function exportWholeLibraryAsPdfs() {
+  if (!state.libraryReady && !(await ensureLibraryConnection())) {
+    setStatus('Local Library is not available');
+    return;
+  }
+  try {
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Saving current Library state…';
+    await persistLibraryNow();
+    await refreshLibraryRecords();
+    const records = [...state.libraryRecords.values()].filter(record => !record.trashedAt)
+      .sort((a,b) => String(a.name).localeCompare(String(b.name), undefined, { sensitivity: 'base' }));
+    const folders = [...state.libraryFolders.values()].filter(folder => !folder.trashedAt);
+    const templates = state.templates.slice();
+    if (!records.length && !templates.length && !folders.length) {
+      if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'The Local Library is empty.';
+      return;
+    }
+    const JSZip = await loadZipEngine();
+    const zip = new JSZip();
+    const folderPaths = buildPortableFolderPaths(folders);
+    for (const path of folderPaths.values()) zip.folder(path); // keep empty folders in the archive
+
+    let completed = 0;
+    const total = records.length + templates.length;
+    for (const record of records) {
+      completed++;
+      if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Exporting ${record.name} (${completed} of ${Math.max(1,total)})…`;
+      await ensureRecordSourcesLoaded(record);
+      const bytes = await buildPdfBytes(record.pages || [], { sourcePdfCache: new Map() });
+      const folderPath = record.folderId ? (folderPaths.get(record.folderId) || '') : '';
+      const filename = ensurePdfFilename(zipSafeSegment(record.name, 'Document.pdf'));
+      zip.file(folderPath ? `${folderPath}/${filename}` : filename, bytes);
+    }
+    if (templates.length) {
+      zip.folder('_Templates');
+      const used = new Set();
+      for (const template of templates) {
+        completed++;
+        if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Exporting template ${template.name} (${completed} of ${total})…`;
+        const record = { pages: template.page ? [template.page] : [] };
+        await ensureRecordSourcesLoaded(record);
+        const bytes = await buildPdfBytes(record.pages, { sourcePdfCache: new Map() });
+        let base = zipSafeSegment(template.name, 'Template');
+        let filename = ensurePdfFilename(base);
+        let n = 2;
+        while (used.has(filename.toLocaleLowerCase())) filename = ensurePdfFilename(`${base} ${n++}`);
+        used.add(filename.toLocaleLowerCase());
+        zip.file(`_Templates/${filename}`, bytes);
+      }
+    }
+    zip.file('PDF_Workbench_Library_Export.txt', [
+      'PDF Workbench Library PDF Archive',
+      `Created: ${new Date().toISOString()}`,
+      `Application version: ${APP_VERSION}`,
+      '',
+      'This ZIP contains conventional PDF exports of all non-Trash Library documents.',
+      'Folder/subfolder paths mirror the PDF Workbench Local Library.',
+      'Saved page templates are included as one-page PDFs under _Templates.',
+      'This archive is not an editable PDF Workbench backup. Use Back up editable Library for restoration.',
+      ''
+    ].join('\n'));
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Building Library PDF ZIP…';
+    const blob = await zip.generateAsync({ type: 'blob', compression: 'STORE', mimeType: 'application/zip' });
+    downloadBlob(blob, `PDF-Workbench-Library-PDFs-${portableTimestamp()}.zip`);
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Exported ${records.length} document${records.length === 1 ? '' : 's'}${templates.length ? ` and ${templates.length} template${templates.length === 1 ? '' : 's'}` : ''}.`;
+    setStatus('Library PDF archive created');
+  } catch (err) {
+    console.error('Whole Library PDF export failed', err);
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Library PDF export failed: ${err?.message || err}`;
+    setStatus(`Library PDF export failed: ${err?.message || err}`);
+  }
+}
+
+async function sourceRecordPayload(record) {
+  if (!record) return null;
+  if (record.data instanceof ArrayBuffer) return new Uint8Array(record.data);
+  if (ArrayBuffer.isView(record.data)) return new Uint8Array(record.data.buffer, record.data.byteOffset, record.data.byteLength);
+  if (record.blob instanceof Blob) return new Uint8Array(await record.blob.arrayBuffer());
+  return null;
+}
+
+async function createEditableLibraryBackup() {
+  if (!state.libraryReady && !(await ensureLibraryConnection())) {
+    setStatus('Local Library is not available');
+    return;
+  }
+  try {
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Saving current editable state…';
+    await persistLibraryNow();
+    const [documents, sources, folders, session, templatesMeta] = await Promise.all([
+      libraryGetAll('documents'),
+      libraryGetAll('sources'),
+      libraryGetAll('folders'),
+      libraryGet('meta', 'session'),
+      libraryGet('meta', 'templates'),
+    ]);
+    const JSZip = await loadZipEngine();
+    const zip = new JSZip();
+    const sourceManifest = [];
+    let index = 0;
+    for (const source of sources) {
+      index++;
+      if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Packing source ${index} of ${sources.length}…`;
+      const payload = await sourceRecordPayload(source);
+      if (!payload) throw new Error(`Stored source ${source.name || source.id} has no readable binary data.`);
+      const path = `sources/${encodeURIComponent(source.id)}.bin`;
+      zip.file(path, payload);
+      sourceManifest.push({
+        id: source.id,
+        schemaVersion: Number(source.schemaVersion || 1),
+        type: source.type,
+        name: source.name,
+        size: payload.byteLength,
+        mimeType: source.mimeType || (source.type === 'pdf' ? 'application/pdf' : 'application/octet-stream'),
+        path,
+      });
+    }
+    const preferences = {};
+    for (const key of ['pdfwb-scroll-mode','pdfwb-fit-mode','pdfwb-library-view']) {
+      try { const value = localStorage.getItem(key); if (value != null) preferences[key] = value; } catch {}
+    }
+    const manifest = {
+      format: 'PDF Workbench Editable Library Backup',
+      backupFormatVersion: LIBRARY_BACKUP_FORMAT_VERSION,
+      applicationVersion: APP_VERSION,
+      librarySchemaVersion: LIBRARY_SCHEMA_VERSION,
+      createdAt: new Date().toISOString(),
+      documents,
+      folders,
+      sources: sourceManifest,
+      meta: { session: session || serializeLibrarySession(), templates: templatesMeta || serializeTemplatesForLibrary() },
+      preferences,
+    };
+    zip.file('manifest.json', JSON.stringify(manifest, null, 2));
+    zip.file('README.txt', [
+      'PDF Workbench Editable Library Backup',
+      '',
+      'This is a ZIP-based PDF Workbench backup container.',
+      'Restore it from Files > Library backup & export > Restore Library backup.',
+      'It contains editable document state, folder hierarchy, Trash state, templates, source PDFs/images, and the saved open/view session.',
+      'Do not edit the contents if you intend to restore the backup.',
+      ''
+    ].join('\n'));
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Building editable backup…';
+    const blob = await zip.generateAsync({ type: 'blob', compression: 'STORE', mimeType: 'application/zip' });
+    downloadBlob(blob, `PDF-Workbench-Library-${portableTimestamp()}.pwbbackup`);
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Editable backup created: ${documents.length} documents, ${folders.length} folders, ${sourceManifest.length} source files, ${(manifest.meta.templates?.templates || []).length} templates.`;
+    setStatus('Editable Library backup created');
+  } catch (err) {
+    console.error('Editable Library backup failed', err);
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Editable backup failed: ${err?.message || err}`;
+    setStatus(`Editable backup failed: ${err?.message || err}`);
+  }
+}
+
+async function replaceLibraryStoresAtomically({ documents, sources, folders, templatesMeta, sessionMeta }) {
+  if (!state.libraryDb) throw new Error('Local Library is not ready.');
+  const tx = state.libraryDb.transaction(['documents','sources','folders','meta'], 'readwrite');
+  const done = idbTransactionDone(tx);
+  const documentStore = tx.objectStore('documents');
+  const sourceStore = tx.objectStore('sources');
+  const folderStore = tx.objectStore('folders');
+  const metaStore = tx.objectStore('meta');
+  documentStore.clear(); sourceStore.clear(); folderStore.clear(); metaStore.clear();
+  for (const value of sources) sourceStore.put(value);
+  for (const value of folders) folderStore.put(value);
+  for (const value of documents) documentStore.put(value);
+  metaStore.put(templatesMeta);
+  metaStore.put(sessionMeta);
+  await done;
+}
+
+function validateLibraryBackupManifest(manifest) {
+  if (!manifest || manifest.format !== 'PDF Workbench Editable Library Backup') throw new Error('This file is not a PDF Workbench editable Library backup.');
+  const formatVersion = Number(manifest.backupFormatVersion || 0);
+  if (formatVersion < 1 || formatVersion > LIBRARY_BACKUP_FORMAT_VERSION) throw new Error(`Backup format ${formatVersion} is not supported by this build.`);
+  const schemaVersion = Number(manifest.librarySchemaVersion || 1);
+  if (schemaVersion > LIBRARY_SCHEMA_VERSION) throw new Error(`This backup uses Library schema ${schemaVersion}, newer than this build understands (${LIBRARY_SCHEMA_VERSION}).`);
+  if (!Array.isArray(manifest.documents) || !Array.isArray(manifest.folders) || !Array.isArray(manifest.sources)) throw new Error('The backup manifest is incomplete.');
+  const sourceIds = new Set(manifest.sources.map(source => source?.id).filter(Boolean));
+  for (const record of manifest.documents) {
+    if (!record?.id || !Array.isArray(record.pages)) throw new Error('The backup contains an invalid document record.');
+    for (const page of record.pages) if (page?.sourceId && !sourceIds.has(page.sourceId)) throw new Error(`Backup source ${page.sourceId} required by ${record.name || record.id} is missing.`);
+  }
+  const templates = manifest.meta?.templates?.templates || [];
+  for (const template of templates) if (template?.page?.sourceId && !sourceIds.has(template.page.sourceId)) throw new Error(`Backup source ${template.page.sourceId} required by template ${template.name || template.id} is missing.`);
+  return true;
+}
+
+async function restoreEditableLibraryBackup(file) {
+  if (!file) return;
+  try {
+    const JSZip = await loadZipEngine();
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Reading editable Library backup…';
+    const zip = await JSZip.loadAsync(file);
+    const manifestFile = zip.file('manifest.json');
+    if (!manifestFile) throw new Error('The backup does not contain manifest.json.');
+    const manifest = JSON.parse(await manifestFile.async('string'));
+    validateLibraryBackupManifest(manifest);
+    const documentCount = manifest.documents.length;
+    const folderCount = manifest.folders.length;
+    const templateCount = manifest.meta?.templates?.templates?.length || 0;
+    const ok = window.confirm(`Restore this PDF Workbench Library backup?\n\n${documentCount} document(s), ${folderCount} folder(s), ${templateCount} template(s).\n\nThis will REPLACE the current Local Library on this device. Export or back up the current Library first if you need it.`);
+    if (!ok) { if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Restore cancelled.'; return; }
+    if (!(await ensureLibraryConnection())) throw new Error('Could not connect to Local Library storage.');
+
+    // Validate every binary payload before touching the current Library.
+    const restoredSources = [];
+    let i = 0;
+    for (const source of manifest.sources) {
+      i++;
+      if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Checking source ${i} of ${manifest.sources.length}…`;
+      const entry = zip.file(source.path);
+      if (!entry) throw new Error(`Backup payload ${source.path} is missing.`);
+      const data = await entry.async('arraybuffer');
+      if (!data.byteLength && Number(source.size || 0) > 0) throw new Error(`Backup payload for ${source.name || source.id} is empty.`);
+      restoredSources.push({
+        id: source.id,
+        schemaVersion: Math.min(Number(source.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION),
+        type: source.type,
+        name: source.name || 'source',
+        size: data.byteLength,
+        mimeType: source.mimeType || (source.type === 'pdf' ? 'application/pdf' : 'application/octet-stream'),
+        data,
+      });
+    }
+
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Replacing Local Library…';
+    state.librarySuppressPersist = true;
+    clearAll();
+    state.libraryPreviewObserver?.disconnect();
+    state.libraryPreviewObserver = null;
+    els.libraryDocumentList?.replaceChildren();
+    state.templates = [];
+    for (const source of state.sources.values()) {
+      if (source.url) URL.revokeObjectURL(source.url);
+      try { source.pdf?.destroy?.(); } catch {}
+    }
+    state.sources.clear();
+    const restoredFolders = manifest.folders.map(folder => ({ ...folder, schemaVersion: Math.min(Number(folder.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION) }));
+    const restoredDocuments = manifest.documents.map(documentRecord => ({ ...documentRecord, schemaVersion: Math.min(Number(documentRecord.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION) }));
+    const templatesMetaRaw = manifest.meta?.templates || { key:'templates', schemaVersion: manifest.librarySchemaVersion || 1, templates: [] };
+    const sessionMetaRaw = manifest.meta?.session || { key:'session', schemaVersion: manifest.librarySchemaVersion || 1, openIds: [], currentDocumentId: null, workspaceMode:'export', splitView:false, splitPanes:{ left:{documentId:null,views:[]}, right:{documentId:null,views:[]} } };
+    const templatesMeta = { ...templatesMetaRaw, key:'templates', schemaVersion: Math.min(Number(templatesMetaRaw.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION) };
+    const sessionMeta = { ...sessionMetaRaw, key:'session', schemaVersion: Math.min(Number(sessionMetaRaw.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION) };
+    await replaceLibraryStoresAtomically({ documents: restoredDocuments, sources: restoredSources, folders: restoredFolders, templatesMeta, sessionMeta });
+    for (const [key, value] of Object.entries(manifest.preferences || {})) {
+      if (['pdfwb-scroll-mode','pdfwb-fit-mode','pdfwb-library-view'].includes(key)) { try { localStorage.setItem(key, String(value)); } catch {} }
+    }
+    state.librarySuppressPersist = true; // pagehide must not overwrite the restored session
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Restore complete. Reloading PDF Workbench…';
+    setStatus('Library restored · reloading…', true);
+    const url = new URL(location.href);
+    url.searchParams.set('restore', Date.now().toString());
+    setTimeout(() => location.replace(url.href), 180);
+  } catch (err) {
+    state.librarySuppressPersist = false;
+    console.error('Editable Library restore failed', err);
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Restore failed: ${err?.message || err}`;
+    setStatus(`Library restore failed: ${err?.message || err}`);
+  } finally {
+    if (els.libraryRestoreInput) els.libraryRestoreInput.value = '';
   }
 }
 
@@ -5968,9 +6282,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 4.1.1 hotfix retains <strong>Library organization</strong>: folders and subfolders, document rename/duplicate/move, first-page thumbnails, and Grid/List browsing, while retaining the persistent iPad PWA storage fixes from 4.0.2.</p>
-      <ul><li><strong>Automatic persistence:</strong> document source data, page order, rotations, inserted/generated pages, page geometry edits, undo history, and single/split view state are saved locally.</li><li><strong>Close / reopen:</strong> Close and Close All only remove documents from the active workspace; they do not prompt for PDF export because the editable Library copy is already safe.</li><li><strong>Trash:</strong> individual Library documents can be moved to Trash, restored, or permanently deleted. An unexported-changes warning appears at permanent deletion, where data can actually be lost.</li><li><strong>Persistent templates:</strong> saved page templates now live with the Local Library and can be used by Files → New → From template after reopening the app.</li><li><strong>Storage protection:</strong> Files → Storage &amp; reset can request persistent-storage protection, show browser storage usage, delete the Library, or factory-reset local app data.</li><li><strong>App updates:</strong> the service-worker cache and persistent Library are separate; normal updates should not erase stored documents.</li></ul>
-      <p><strong>Coming in Milestone 4:</strong> folders/subfolders, rename/duplicate, Favorites, search/sort/grid-list, Library PDF ZIP export, editable backup/restore, and schema migrations; then inking/annotations.</p>
+      <p>Milestone 4.2.0 adds <strong>Library backup and portability</strong> on top of the persistent folder/subfolder Library.</p>
+      <ul><li><strong>Automatic persistence:</strong> document source data, page order, rotations, inserted/generated pages, page geometry edits, undo history, and single/split view state are saved locally.</li><li><strong>Library PDF archive:</strong> export every non-Trash Library document as a conventional PDF inside one ZIP while preserving folder/subfolder paths; persistent templates are included as one-page PDFs.</li><li><strong>Editable backup:</strong> create a complete ZIP-based <code>.pwbbackup</code> containing documents, folders, Trash state, templates, original source PDFs/images, and the saved open/view session.</li><li><strong>Restore:</strong> validate the whole backup before touching local data, then replace the Library in one IndexedDB transaction and reload into the restored session.</li><li><strong>Close / reopen:</strong> Close and Close All only remove documents from the active workspace; the editable Library copy remains safe.</li><li><strong>Storage protection:</strong> Files → Storage &amp; reset can request persistent-storage protection, show browser storage usage, delete the Library, or factory-reset local app data.</li><li><strong>App updates:</strong> the service-worker cache and persistent Library remain separate; normal updates should not erase stored documents.</li></ul>
+      <p><strong>Remaining Milestone 4 hardening:</strong> broader schema migration/recovery testing, hyperlink/outline preservation audit, optional bulk/search/favorites conveniences, and final Files UI cleanup; then inking/annotations.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -6491,6 +6805,10 @@ function bindEvents() {
       if (els.librarySummary) els.librarySummary.textContent = `Local Library refresh failed: ${err?.message || err}`;
     }
   });
+  els.libraryPdfArchiveBtn?.addEventListener('click', exportWholeLibraryAsPdfs);
+  els.libraryEditableBackupBtn?.addEventListener('click', createEditableLibraryBackup);
+  els.libraryRestoreBackupBtn?.addEventListener('click', () => els.libraryRestoreInput?.click());
+  els.libraryRestoreInput?.addEventListener('change', () => restoreEditableLibraryBackup(els.libraryRestoreInput.files?.[0]));
   els.libraryNewFolderBtn?.addEventListener('click', createLibraryFolder);
   els.libraryListViewBtn?.addEventListener('click', () => setLibraryViewMode('list'));
   els.libraryGridViewBtn?.addEventListener('click', () => setLibraryViewMode('grid'));
