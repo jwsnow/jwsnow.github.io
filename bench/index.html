@@ -24,7 +24,8 @@
         </button>
         <input id="fileInput" class="visually-hidden" type="file" multiple accept="application/pdf,image/*">
         <input id="imageAssemblyInput" class="visually-hidden" type="file" multiple accept="image/*">
-        <input id="libraryRestoreInput" class="visually-hidden" type="file" accept=".pwbbackup,.zip,application/zip">
+        <input id="libraryZipImportInput" class="visually-hidden" type="file" accept=".zip,application/zip">
+        <input id="libraryRestoreInput" class="visually-hidden" type="file" accept=".zip,application/zip">
 
         <div class="segmented" role="group" aria-label="Workspace mode">
           <button id="viewModeBtn" class="segment active" type="button" aria-pressed="true">View</button>
@@ -148,7 +149,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 4.2.0</div>
+          <div class="export-kicker">Milestone 4.2.1</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -158,6 +159,8 @@
               <div class="library-toolbar-row">
                 <p class="file-tool-summary">Stored working documents on this device. Organize them into folders and subfolders.</p>
                 <div class="library-top-actions">
+                  <button id="libraryImportBtn" type="button">Import files…</button>
+                  <button id="libraryImportZipBtn" type="button">Import PDF folder ZIP…</button>
                   <button id="libraryNewFolderBtn" type="button">New folder</button>
                   <button id="libraryRefreshBtn" type="button">Refresh</button>
                 </div>
@@ -374,8 +377,9 @@
                 <button id="libraryPdfArchiveBtn" class="export-button secondary-output-button" type="button">Export Library as PDFs (.zip)</button>
                 <button id="libraryEditableBackupBtn" class="export-button secondary-output-button" type="button">Back up editable Library</button>
                 <button id="libraryRestoreBackupBtn" class="export-button secondary-output-button" type="button">Restore Library backup…</button>
+                <button id="libraryImportBackupBtn" class="export-button secondary-output-button" type="button">Import backup as folder…</button>
               </div>
-              <p class="small-note">The PDF archive preserves the Library folder/subfolder structure and includes saved templates as one-page PDFs. Trash is omitted. The editable backup includes documents, folders, Trash, templates, source files, and the saved open/view session.</p>
+              <p class="small-note">The PDF archive preserves the Library folder/subfolder structure and includes saved templates as one-page PDFs. Trash is omitted. Editable backups are written as .pwbbackup.zip. Restore replaces the current Library; Import backup as folder keeps the current Library and adds the backup as a new subtree.</p>
               <p id="libraryBackupProgress" class="export-progress" aria-live="polite"></p>
             </div>
           </details>
@@ -393,7 +397,7 @@
             </div>
           </details>
 
-          <p class="small-note files-roadmap-note">Persistent documents, folders/subfolders, rename/duplicate/move, thumbnails, Trash/recovery, templates, whole-Library PDF ZIP export, and editable backup/restore are available now. Favorites/search/sort and broader bulk Library conveniences remain lower priority; schema/recovery hardening and PDF link/outline preservation still need dedicated testing.</p>
+          <p class="small-note files-roadmap-note">Persistent documents, folders/subfolders, direct-to-folder import, folder ZIP import/export, folder-tree Trash/recovery, rename/duplicate/move, thumbnails, templates, whole-Library PDF ZIP export, and editable backup/restore/import-as-subtree are available now. Favorites/search/sort remain lower priority; schema/recovery hardening and PDF link/outline preservation still need dedicated testing.</p>
         </div>
       </section>
     </main>

@@ -1,4 +1,4 @@
-const APP_VERSION = '4.2.0';
+const APP_VERSION = '4.2.1';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -10,17 +10,17 @@ const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 
 const LIBRARY_DB_NAME = 'pdf-workbench-library';
 const LIBRARY_DB_VERSION = 2;
-const LIBRARY_SCHEMA_VERSION = 3;
+const LIBRARY_SCHEMA_VERSION = 4;
 const LIBRARY_BACKUP_FORMAT_VERSION = 1;
 
 const $ = (id) => document.getElementById(id);
 const els = {
-  app: $('app'), openBtn: $('openBtn'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), newTemplateDocumentBtn: $('newTemplateDocumentBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), imageAssemblyInput: $('imageAssemblyInput'), documentSelect: $('documentSelect'),
+  app: $('app'), openBtn: $('openBtn'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), newTemplateDocumentBtn: $('newTemplateDocumentBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), libraryZipImportInput: $('libraryZipImportInput'), imageAssemblyInput: $('imageAssemblyInput'), documentSelect: $('documentSelect'),
   viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), exportModeBtn: $('exportModeBtn'), viewerControls: $('viewerControls'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), filesManageTemplatesBtn: $('filesManageTemplatesBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), filesManageTemplatesBtn: $('filesManageTemplatesBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
@@ -89,6 +89,7 @@ const state = {
   libraryViewMode: safePref('pdfwb-library-view', 'grid', ['grid','list']),
   libraryPreviewObserver: null,
   pendingLibraryMove: null,
+  pendingBackupImportMode: 'replace',
   libraryPersistTimer: null,
   libraryPersisting: false,
   libraryPersistAgain: false,
@@ -294,6 +295,7 @@ function serializeDocumentForLibrary(doc) {
     folderId: doc.folderId || null,
     favorite: !!doc.favorite,
     trashedAt: doc.trashedAt || null,
+    trashBatchId: doc.trashBatchId || null,
   };
 }
 function hydrateDocumentFromLibrary(record) {
@@ -316,6 +318,7 @@ function hydrateDocumentFromLibrary(record) {
     folderId: record.folderId || null,
     favorite: !!record.favorite,
     trashedAt: record.trashedAt || null,
+    trashBatchId: record.trashBatchId || null,
     libraryManaged: true,
   };
   return doc;
@@ -862,7 +865,7 @@ async function createEditableLibraryBackup() {
     ].join('\n'));
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Building editable backup…';
     const blob = await zip.generateAsync({ type: 'blob', compression: 'STORE', mimeType: 'application/zip' });
-    downloadBlob(blob, `PDF-Workbench-Library-${portableTimestamp()}.pwbbackup`);
+    downloadBlob(blob, `PDF-Workbench-Library-${portableTimestamp()}.pwbbackup.zip`);
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Editable backup created: ${documents.length} documents, ${folders.length} folders, ${sourceManifest.length} source files, ${(manifest.meta.templates?.templates || []).length} templates.`;
     setStatus('Editable Library backup created');
   } catch (err) {
@@ -980,6 +983,158 @@ async function restoreEditableLibraryBackup(file) {
   } finally {
     if (els.libraryRestoreInput) els.libraryRestoreInput.value = '';
   }
+}
+
+// ---------------------------------------------------------------------------
+// Milestone 4.2.1 — folder ZIP import and non-destructive backup import
+// ---------------------------------------------------------------------------
+function safeArchivePathParts(path) {
+  const normalized = String(path || '').replace(/\\/g, '/').replace(/^\/+/, '');
+  const parts = normalized.split('/').filter(Boolean);
+  if (parts.some(part => part === '.' || part === '..')) throw new Error(`Unsafe archive path: ${path}`);
+  if (parts.length > 24) throw new Error(`Archive path is nested too deeply: ${path}`);
+  return parts;
+}
+
+async function ensureLibraryChildFolder(name, parentId) {
+  const clean = zipSafeSegment(name, 'Folder');
+  const existing = activeLibraryFolders().find(folder => (folder.parentId || null) === (parentId || null) && String(folder.name).toLocaleLowerCase() === clean.toLocaleLowerCase());
+  if (existing) return existing.id;
+  let finalName = clean; let n = 2;
+  while (librarySiblingNameExists(finalName, parentId)) finalName = `${clean} ${n++}`;
+  const folder = { id: uid('folder'), schemaVersion: LIBRARY_SCHEMA_VERSION, name: finalName, parentId: parentId || null, createdAt: Date.now(), modifiedAt: Date.now(), trashedAt: null, trashBatchId: null };
+  await libraryPut('folders', folder); state.libraryFolders.set(folder.id, folder); return folder.id;
+}
+async function createLibraryChildFolderAlways(name, parentId) {
+  const clean = zipSafeSegment(name, 'Folder');
+  let finalName = clean; let n = 2;
+  while (librarySiblingNameExists(finalName, parentId)) finalName = `${clean} ${n++}`;
+  const folder = { id: uid('folder'), schemaVersion: LIBRARY_SCHEMA_VERSION, name: finalName, parentId: parentId || null, createdAt: Date.now(), modifiedAt: Date.now(), trashedAt: null, trashBatchId: null };
+  await libraryPut('folders', folder); state.libraryFolders.set(folder.id, folder); return folder.id;
+}
+
+async function importPdfFileDirectToLibrary(file, folderId) {
+  const previousCurrent = state.currentDocumentId;
+  const previousWorkspace = state.workspaceMode;
+  const doc = createDocument(uniqueLibraryDocumentName(file.name, folderId));
+  doc.folderId = folderId || null;
+  try {
+    const added = await addPdf(file);
+    if (!added) throw new Error('No pages were found.');
+    state.activePageId = state.pages[0]?.id || null;
+    doc.needsExport = false; doc.lastExportedAt = Date.now(); doc.modifiedAt = Date.now();
+    saveCurrentDocumentState({ readViewDom:false });
+    await persistLibraryNow({ readViewDom:false });
+    removeDocument(doc.id); state.fileSelected.delete(doc.id); reconcileCombineOrder();
+    if (previousCurrent && documentById(previousCurrent)) loadDocumentState(previousCurrent, false);
+    state.workspaceMode = previousWorkspace;
+    return doc.id;
+  } catch (err) {
+    if (documentById(doc.id)) removeDocument(doc.id);
+    if (previousCurrent && documentById(previousCurrent)) loadDocumentState(previousCurrent, false);
+    state.workspaceMode = previousWorkspace;
+    throw err;
+  }
+}
+
+async function importPdfDirectoryZip(file) {
+  if (!file) return;
+  try {
+    if (!(await ensureLibraryConnection())) throw new Error('Local Library is not available.');
+    const JSZip = await loadZipEngine();
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Reading PDF folder ZIP…';
+    const zip = await JSZip.loadAsync(file);
+    const entries = Object.values(zip.files).filter(entry => !entry.dir && /\.pdf$/i.test(entry.name) && !entry.name.startsWith('__MACOSX/'));
+    if (!entries.length) throw new Error('No PDF files were found in this ZIP.');
+    if (entries.length > 1000) throw new Error('This ZIP contains more than 1000 PDFs; split it into smaller archives before importing.');
+    const baseFolderId = state.libraryFolderId || null;
+    const pathFolderIds = new Map([['', baseFolderId]]);
+    let completed = 0;
+    const sorted = entries.sort((a,b) => a.name.localeCompare(b.name));
+    for (const entry of sorted) {
+      const parts = safeArchivePathParts(entry.unsafeOriginalName || entry.name);
+      const filename = parts.pop();
+      let path = ''; let parentId = baseFolderId;
+      for (const segment of parts) {
+        path = path ? `${path}/${segment}` : segment;
+        if (!pathFolderIds.has(path)) pathFolderIds.set(path, await ensureLibraryChildFolder(segment, parentId));
+        parentId = pathFolderIds.get(path);
+      }
+      completed++;
+      if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Importing PDF ${completed} of ${sorted.length}: ${filename}`;
+      const bytes = await entry.async('uint8array');
+      const pdfFile = new File([bytes], filename, { type:'application/pdf' });
+      await importPdfFileDirectToLibrary(pdfFile, parentId);
+      await new Promise(resolve => setTimeout(resolve, 0));
+    }
+    state.workspaceMode='export'; await refreshLibraryRecords(); renderAll({saveState:false}); renderLibraryDocumentList();
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Imported ${completed} PDF${completed===1?'':'s'} and recreated their folder structure.`;
+    setStatus(`Imported ${completed} PDFs from ZIP`);
+  } catch(err) {
+    console.error(err); if(els.libraryBackupProgress) els.libraryBackupProgress.textContent=`PDF ZIP import failed: ${err?.message||err}`; setStatus(`PDF ZIP import failed: ${err?.message||err}`);
+  } finally { if(els.libraryZipImportInput) els.libraryZipImportInput.value=''; }
+}
+
+function remapPageForImportedBackup(page, sourceMap, pageIdMap) {
+  if (!page) return page;
+  const oldId = page.id || uid('legacy-page');
+  if (!pageIdMap.has(oldId)) pageIdMap.set(oldId, uid('page'));
+  return { ...page, id: pageIdMap.get(oldId), sourceId: page.sourceId ? sourceMap.get(page.sourceId) || null : null };
+}
+
+async function importEditableBackupAsSubtree(file) {
+  if (!file) return;
+  try {
+    const JSZip=await loadZipEngine();
+    if(els.libraryBackupProgress) els.libraryBackupProgress.textContent='Reading backup for subtree import…';
+    const zip=await JSZip.loadAsync(file); const manifestFile=zip.file('manifest.json'); if(!manifestFile) throw new Error('The ZIP does not contain a PDF Workbench manifest.json.');
+    const manifest=JSON.parse(await manifestFile.async('string')); validateLibraryBackupManifest(manifest);
+    if(!(await ensureLibraryConnection())) throw new Error('Local Library is not available.');
+    const stem=String(file.name||'Imported Backup').replace(/\.pwbbackup\.zip$/i,'').replace(/\.zip$/i,'') || 'Imported Backup';
+    const rootName=await requestLibraryName({title:'Import backup as folder',help:'The backup will be added beneath the current Library folder without replacing existing documents.',suggested:stem,saveLabel:'Import backup'});
+    if(!rootName) return;
+    const rootId=await createLibraryChildFolderAlways(rootName,state.libraryFolderId||null);
+    const sourceMap=new Map(); const sourceRecords=[];
+    let i=0;
+    for(const source of manifest.sources){
+      i++; if(els.libraryBackupProgress) els.libraryBackupProgress.textContent=`Reading backup source ${i} of ${manifest.sources.length}…`;
+      const entry=zip.file(source.path); if(!entry) throw new Error(`Backup payload ${source.path} is missing.`);
+      const data=await entry.async('arraybuffer'); const newId=uid('src'); sourceMap.set(source.id,newId);
+      sourceRecords.push({id:newId,schemaVersion:LIBRARY_SCHEMA_VERSION,type:source.type,name:source.name||'source',size:data.byteLength,mimeType:source.mimeType||(source.type==='pdf'?'application/pdf':'application/octet-stream'),data});
+    }
+    const folderMap=new Map();
+    for(const folder of manifest.folders) folderMap.set(folder.id,uid('folder'));
+    const importedFolders=manifest.folders.map(folder=>({
+      ...folder,id:folderMap.get(folder.id),schemaVersion:LIBRARY_SCHEMA_VERSION,
+      parentId:folder.parentId ? (folderMap.get(folder.parentId)||rootId) : rootId,
+      trashBatchId:folder.trashBatchId ? (folderMap.get(folder.trashBatchId)||null) : null,
+    }));
+    const documentMap=new Map(manifest.documents.map(record=>[record.id,uid('doc')]));
+    const importedDocuments=manifest.documents.map(record=>{
+      const pageIdMap=new Map(); const pages=(record.pages||[]).map(page=>remapPageForImportedBackup(page,sourceMap,pageIdMap));
+      const remapSnapshot=snapshot=>(snapshot||[]).map(page=>remapPageForImportedBackup(page,sourceMap,pageIdMap));
+      const folderId=record.folderId ? (folderMap.get(record.folderId)||rootId) : rootId;
+      return {...record,id:documentMap.get(record.id),schemaVersion:LIBRARY_SCHEMA_VERSION,folderId,
+        pages,selected:(record.selected||[]).map(id=>pageIdMap.get(id)).filter(Boolean),selectionAnchorId:pageIdMap.get(record.selectionAnchorId)||null,
+        activePageId:pageIdMap.get(record.activePageId)||pages[0]?.id||null,history:(record.history||[]).map(remapSnapshot),future:(record.future||[]).map(remapSnapshot),
+        singleView:record.singleView?{...record.singleView,activePageId:pageIdMap.get(record.singleView.activePageId)||pages[0]?.id||null}:record.singleView,
+        trashBatchId:record.trashBatchId ? (folderMap.get(record.trashBatchId)||null) : null,
+      };
+    });
+    const existingTemplateNames=new Set(state.templates.map(t=>String(t.name).toLocaleLowerCase()));
+    const importedTemplates=[];
+    for(const template of manifest.meta?.templates?.templates||[]){
+      let base=String(template.name||'Template'); let name=base; let n=2; while(existingTemplateNames.has(name.toLocaleLowerCase())) name=`${base} ${n++}`; existingTemplateNames.add(name.toLocaleLowerCase());
+      importedTemplates.push({id:uid('template'),name,page:remapPageForImportedBackup(template.page,sourceMap,new Map()),createdAt:Date.now(),modifiedAt:Date.now()});
+    }
+    const tx=state.libraryDb.transaction(['documents','sources','folders'],'readwrite'); const done=idbTransactionDone(tx); const ds=tx.objectStore('documents'),ss=tx.objectStore('sources'),fs=tx.objectStore('folders');
+    for(const source of sourceRecords) ss.put(source); for(const folder of importedFolders) fs.put(folder); for(const record of importedDocuments) ds.put(record); await done;
+    state.templates.push(...importedTemplates); await libraryPut('meta',serializeTemplatesForLibrary());
+    await refreshLibraryRecords(); renderInsertTemplateList(); renderLibraryDocumentList();
+    if(els.libraryBackupProgress) els.libraryBackupProgress.textContent=`Imported backup as “${libraryFolderById(rootId)?.name||rootName}”: ${importedDocuments.length} documents, ${importedFolders.length} subfolders, ${importedTemplates.length} templates.`;
+    setStatus('Backup imported as Library subtree');
+  } catch(err){console.error(err);if(els.libraryBackupProgress) els.libraryBackupProgress.textContent=`Backup subtree import failed: ${err?.message||err}`;setStatus(`Backup import failed: ${err?.message||err}`);}
+  finally { if(els.libraryRestoreInput) els.libraryRestoreInput.value=''; state.pendingBackupImportMode='replace'; }
 }
 
 // Keep raster work bounded. Image-only PDFs can require large temporary bitmaps;
@@ -1465,9 +1620,13 @@ function updateHistoryButtons() {
   els.redoBtn.disabled = !state.future.length;
 }
 
-async function openFiles(fileList) {
+async function openFiles(fileList, options={}) {
   const files = [...fileList];
   if (!files.length) return;
+  const invokedFromFiles = options.fromFiles ?? (state.workspaceMode === 'export');
+  const destinationFolderId = options.folderId !== undefined
+    ? (options.folderId || null)
+    : (invokedFromFiles ? (state.libraryFolderId || null) : null);
   setStatus(`Opening ${files.length} file${files.length === 1 ? '' : 's'}…`, true);
   let opened = 0;
   let pagesAdded = 0;
@@ -1477,15 +1636,14 @@ async function openFiles(fileList) {
     const supported = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf') || file.type.startsWith('image/');
     if (!supported) { setStatus(`Skipped unsupported file: ${file.name}`); continue; }
     const doc = createDocument(file.name);
+    doc.folderId = destinationFolderId;
+    doc.name = uniqueLibraryDocumentName(file.name, destinationFolderId, doc.id);
     try {
       let added = 0;
       if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) added = await addPdf(file);
       else added = await addImage(file);
       if (!added) throw new Error('No pages were found.');
       state.activePageId = state.pages[0]?.id ?? null;
-      // This newly opened document is not yet represented by the viewer DOM.
-      // Save its model/view defaults without reading scroll offsets from the
-      // previously displayed document.
       const openedAsPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
       doc.needsExport = !openedAsPdf;
       doc.lastExportedAt = openedAsPdf ? Date.now() : null;
@@ -1500,12 +1658,17 @@ async function openFiles(fileList) {
       setStatus(`Could not open ${file.name}: ${err.message || err}`);
     }
   }
-  if (opened) state.workspaceMode = 'view';
-  // During a multi-file open the DOM still belongs to the document that was
-  // visible before import; do not write that geometry into the last opened doc.
+  // File-management imports should not interrupt the Library task. Opening from
+  // View/Pages retains the existing convenience of going to the newly opened PDF.
+  if (opened && !invokedFromFiles) state.workspaceMode = 'view';
+  else if (invokedFromFiles) state.workspaceMode = 'export';
   renderAll({ saveState: false });
   renderDocumentSelect();
-  if (opened) setStatus(`Opened ${opened} document${opened === 1 ? '' : 's'} (${pagesAdded} page${pagesAdded === 1 ? '' : 's'})`);
+  if (opened) {
+    renderLibraryDocumentList();
+    const where = invokedFromFiles && destinationFolderId ? ` into ${libraryFolderById(destinationFolderId)?.name || 'the current folder'}` : '';
+    setStatus(`Opened ${opened} document${opened === 1 ? '' : 's'}${where} (${pagesAdded} page${pagesAdded === 1 ? '' : 's'})`);
+  }
   els.fileInput.value = '';
 }
 
@@ -2542,6 +2705,19 @@ function libraryFolderDescendantIds(folderId) {
   visit(folderId);
   return result;
 }
+function libraryFolderSubtreeIds(folderId) {
+  const ids = libraryFolderDescendantIds(folderId);
+  ids.add(folderId);
+  return ids;
+}
+function libraryFolderSubtreeDocuments(folderId) {
+  const ids = libraryFolderSubtreeIds(folderId);
+  return activeLibraryRecords().filter(record => ids.has(record.folderId || ''));
+}
+function trashedFolderRoots() {
+  return [...state.libraryFolders.values()].filter(folder => folder.trashedAt && folder.trashBatchId === folder.id)
+    .sort((a,b) => (b.trashedAt || 0) - (a.trashedAt || 0) || String(a.name).localeCompare(String(b.name)));
+}
 function librarySiblingNameExists(name, parentId, excludingId=null) {
   const target = String(name || '').trim().toLocaleLowerCase();
   return activeLibraryFolders().some(folder => folder.id !== excludingId && (folder.parentId || null) === (parentId || null) && String(folder.name || '').trim().toLocaleLowerCase() === target);
@@ -2775,36 +2951,178 @@ async function applyPendingLibraryMove() {
   finally { state.pendingLibraryMove = null; }
 }
 
+async function openLibraryRecordInView(record) {
+  try {
+    if (!record) return;
+    if (isDocumentOpen(record.id)) loadDocumentState(record.id);
+    else {
+      setStatus(`Opening ${record.name} from Library…`, true);
+      await reopenLibraryDocument(record.id);
+    }
+    state.workspaceMode = 'view';
+    renderAll({ saveState: false });
+    setStatus(`Opened ${record.name}`);
+  } catch (err) {
+    console.error(err);
+    setStatus(`Could not open ${record?.name || 'document'}: ${err?.message || err}`);
+  }
+}
+
+async function exportPdfRecordsToZip(records, folders, filename, rootFolderId=null) {
+  const JSZip = await loadZipEngine();
+  const zip = new JSZip();
+  const relevantFolders = folders.filter(folder => folder && !folder.trashedAt);
+  let folderPaths;
+  if (rootFolderId) {
+    const root = relevantFolders.find(folder => folder.id === rootFolderId);
+    const rootIds = new Set([rootFolderId]);
+    let changed = true;
+    while (changed) {
+      changed = false;
+      for (const folder of relevantFolders) if (rootIds.has(folder.parentId) && !rootIds.has(folder.id)) { rootIds.add(folder.id); changed = true; }
+    }
+    const subset = relevantFolders.filter(folder => rootIds.has(folder.id));
+    const byId = new Map(subset.map(folder => [folder.id, folder]));
+    folderPaths = new Map();
+    const build = id => {
+      if (folderPaths.has(id)) return folderPaths.get(id);
+      const folder = byId.get(id); if (!folder) return '';
+      const own = zipSafeSegment(folder.name, 'Folder');
+      const parentPath = folder.parentId && byId.has(folder.parentId) ? build(folder.parentId) : '';
+      const path = parentPath ? `${parentPath}/${own}` : own;
+      folderPaths.set(id, path); return path;
+    };
+    for (const folder of subset) { const path = build(folder.id); if (path) zip.folder(path); }
+  } else {
+    folderPaths = buildPortableFolderPaths(relevantFolders);
+    for (const path of folderPaths.values()) zip.folder(path);
+  }
+  let n = 0;
+  for (const record of records) {
+    n++;
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Exporting ${record.name} (${n} of ${records.length})…`;
+    await ensureRecordSourcesLoaded(record);
+    const bytes = await buildPdfBytes(record.pages || [], { sourcePdfCache: new Map() });
+    const path = record.folderId ? (folderPaths.get(record.folderId) || '') : '';
+    zip.file(path ? `${path}/${ensurePdfFilename(zipSafeSegment(record.name, 'Document.pdf'))}` : ensurePdfFilename(zipSafeSegment(record.name, 'Document.pdf')), bytes);
+  }
+  const blob = await zip.generateAsync({ type:'blob', compression:'STORE', mimeType:'application/zip' });
+  downloadBlob(blob, filename);
+  return records.length;
+}
+
+async function exportLibraryFolderAsPdfs(folderId) {
+  const folder = libraryFolderById(folderId); if (!folder) return;
+  try {
+    await persistLibraryNow(); await refreshLibraryRecords();
+    const ids = libraryFolderSubtreeIds(folderId);
+    const folders = activeLibraryFolders().filter(item => ids.has(item.id));
+    const records = activeLibraryRecords().filter(record => ids.has(record.folderId || ''));
+    if (!records.length && !folders.length) throw new Error('This folder is empty.');
+    const filename = `${zipSafeSegment(folder.name, 'Folder')}-PDFs.zip`;
+    await exportPdfRecordsToZip(records, folders, filename, folderId);
+    setStatus(`Exported ${folder.name} as PDF ZIP`);
+  } catch (err) { console.error(err); setStatus(`Folder export failed: ${err?.message || err}`); }
+}
+
+async function moveLibraryFolderToTrash(folderId) {
+  const root = libraryFolderById(folderId); if (!root) return;
+  try {
+    await persistLibraryNow(); await refreshLibraryRecords();
+    const ids = libraryFolderSubtreeIds(folderId);
+    const stamp = Date.now();
+    const folders = activeLibraryFolders().filter(folder => ids.has(folder.id));
+    const records = activeLibraryRecords().filter(record => ids.has(record.folderId || ''));
+    const tx = state.libraryDb.transaction(['documents','folders'], 'readwrite');
+    const done = idbTransactionDone(tx); const ds=tx.objectStore('documents'), fs=tx.objectStore('folders');
+    for (const folder of folders) {
+      const updated={...folder,schemaVersion:LIBRARY_SCHEMA_VERSION,trashedAt:stamp,trashBatchId:folderId}; fs.put(updated); state.libraryFolders.set(folder.id,updated);
+    }
+    for (const record of records) {
+      const updated={...record,schemaVersion:LIBRARY_SCHEMA_VERSION,trashedAt:stamp,trashBatchId:folderId}; ds.put(updated); state.libraryRecords.set(record.id,updated);
+    }
+    await done;
+    for (const record of records) if (isDocumentOpen(record.id)) { removeDocument(record.id); state.fileSelected.delete(record.id); }
+    reconcileCombineOrder();
+    if (ids.has(state.libraryFolderId)) state.libraryFolderId = root.parentId && state.libraryFolders.get(root.parentId)?.trashedAt == null ? root.parentId : null;
+    renderAll({saveState:false}); renderLibraryDocumentList(); await persistLibraryNow();
+    setStatus(`Moved folder ${root.name} and its contents to Trash`);
+  } catch(err){ console.error(err); setStatus(`Could not trash folder: ${err?.message||err}`); }
+}
+
+async function restoreLibraryFolderTree(folderId) {
+  const root=state.libraryFolders.get(folderId); if(!root) return;
+  try {
+    const batch=folderId;
+    const folders=[...state.libraryFolders.values()].filter(folder=>folder.trashBatchId===batch);
+    const records=[...state.libraryRecords.values()].filter(record=>record.trashBatchId===batch);
+    const tx=state.libraryDb.transaction(['documents','folders'],'readwrite'); const done=idbTransactionDone(tx); const ds=tx.objectStore('documents'),fs=tx.objectStore('folders');
+    for(const folder of folders){let parentId=folder.parentId||null;let name=folder.name;if(folder.id===folderId){if(parentId && (!state.libraryFolders.has(parentId) || state.libraryFolders.get(parentId)?.trashedAt)) parentId=null;const base=String(name||'Folder');let candidate=base,n=2;while(activeLibraryFolders().some(item=>item.id!==folder.id&&(item.parentId||null)===(parentId||null)&&String(item.name).toLocaleLowerCase()===candidate.toLocaleLowerCase())) candidate=`${base} ${n++}`;name=candidate;}const updated={...folder,name,parentId,schemaVersion:LIBRARY_SCHEMA_VERSION,trashedAt:null,trashBatchId:null};fs.put(updated);state.libraryFolders.set(folder.id,updated);}
+    for(const record of records){const updated={...record,schemaVersion:LIBRARY_SCHEMA_VERSION,trashedAt:null,trashBatchId:null};ds.put(updated);state.libraryRecords.set(record.id,updated);}
+    await done; renderLibraryDocumentList(); setStatus(`Restored folder ${root.name}`);
+  } catch(err){console.error(err);setStatus(`Could not restore folder: ${err?.message||err}`);}
+}
+
+async function permanentlyDeleteLibraryFolderTree(folderId) {
+  const root=state.libraryFolders.get(folderId); if(!root) return;
+  const folders=[...state.libraryFolders.values()].filter(folder=>folder.trashBatchId===folderId);
+  const records=[...state.libraryRecords.values()].filter(record=>record.trashBatchId===folderId);
+  const changed=records.some(record=>record.needsExport);
+  let action='delete';
+  if(changed){ action=await askPermanentDeleteAction({name:`folder ${root.name}`,needsExport:true}, 'Export PDFs ZIP & delete'); if(action==='cancel') return; }
+  else if(!confirm(`Permanently delete folder “${root.name}” and all of its contents? This cannot be undone.`)) return;
+  try{
+    if(action==='export'){
+      // Temporarily describe the trashed tree as active for the ZIP path builder.
+      const cleanFolders=folders.map(folder=>({...folder,trashedAt:null}));
+      const cleanRecords=records.map(record=>({...record,trashedAt:null}));
+      await exportPdfRecordsToZip(cleanRecords,cleanFolders,`${zipSafeSegment(root.name,'Folder')}-before-delete.zip`,folderId);
+    }
+    const sourceIds=new Set(records.flatMap(record=>(record.pages||[]).map(page=>page.sourceId).filter(Boolean)));
+    const tx=state.libraryDb.transaction(['documents','folders'],'readwrite'); const done=idbTransactionDone(tx); const ds=tx.objectStore('documents'),fs=tx.objectStore('folders');
+    for(const record of records){ds.delete(record.id);state.libraryRecords.delete(record.id);}
+    for(const folder of folders){fs.delete(folder.id);state.libraryFolders.delete(folder.id);}
+    await done; await removeUnusedPersistentSources(sourceIds); renderLibraryDocumentList(); updateLibraryStorageSummary(); setStatus(`Permanently deleted folder ${root.name}`);
+  }catch(err){console.error(err);setStatus(`Could not permanently delete folder: ${err?.message||err}`);}
+}
+
 function createLibraryFolderRow(folder) {
   const row = document.createElement('div'); row.className = 'library-document-row library-folder-row'; row.dataset.folderId = folder.id;
   const preview = document.createElement('button'); preview.type = 'button'; preview.className = 'library-folder-preview'; preview.setAttribute('aria-label', `Open folder ${folder.name}`); preview.innerHTML = '<span class="library-folder-icon" aria-hidden="true"></span>';
   preview.addEventListener('click', () => setLibraryFolder(folder.id));
-  const label = document.createElement('div'); label.className = 'library-document-label';
+  const label = document.createElement('div'); label.className = 'library-document-label library-open-target'; label.tabIndex = 0; label.setAttribute('role','button'); label.setAttribute('aria-label',`Open folder ${folder.name}`);
   const name = document.createElement('span'); name.className = 'library-document-name'; name.textContent = folder.name; name.title = folder.name;
-  const childFolders = libraryFolderChildren(folder.id).length;
-  const childDocs = libraryDocumentsInFolder(folder.id).length;
+  const subtreeIds = libraryFolderSubtreeIds(folder.id);
+  const childFolders = subtreeIds.size - 1;
+  const childDocs = activeLibraryRecords().filter(record => subtreeIds.has(record.folderId || '')).length;
   const meta = document.createElement('span'); meta.className = 'library-document-meta'; meta.textContent = `${childDocs} document${childDocs===1?'':'s'} · ${childFolders} subfolder${childFolders===1?'':'s'}`;
   label.append(name, meta);
+  label.addEventListener('click',()=>setLibraryFolder(folder.id)); label.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setLibraryFolder(folder.id);}});
   const actions = document.createElement('div'); actions.className = 'library-document-actions';
   const open = document.createElement('button'); open.type='button'; open.className='primary-library-action'; open.textContent='Open'; open.addEventListener('click',()=>setLibraryFolder(folder.id));
+  const exportBtn=document.createElement('button'); exportBtn.type='button'; exportBtn.textContent='Export PDFs'; exportBtn.addEventListener('click',()=>exportLibraryFolderAsPdfs(folder.id));
   const rename = document.createElement('button'); rename.type='button'; rename.textContent='Rename'; rename.addEventListener('click',()=>renameLibraryFolder(folder.id));
   const move = document.createElement('button'); move.type='button'; move.textContent='Move…'; move.addEventListener('click',()=>openLibraryMoveDialog('folder', folder.id));
-  actions.append(open, rename, move); row.append(preview, label, actions); return row;
+  const trash=document.createElement('button'); trash.type='button'; trash.className='trash-action'; trash.textContent='Trash'; trash.addEventListener('click',()=>moveLibraryFolderToTrash(folder.id));
+  actions.append(open, exportBtn, rename, move, trash); row.append(preview, label, actions); return row;
 }
 
 function createLibraryDocumentRow(record) {
   const open = isDocumentOpen(record.id);
   const row = document.createElement('div'); row.className = `library-document-row library-file-row${open ? ' open' : ''}`; row.dataset.documentId = record.id;
-  const preview = document.createElement('div'); preview.className = 'library-document-preview';
+  const preview = document.createElement('div'); preview.className = 'library-document-preview library-open-target'; preview.tabIndex=0; preview.setAttribute('role','button'); preview.setAttribute('aria-label',`Open ${record.name}`);
   const canvas = document.createElement('canvas'); canvas.setAttribute('aria-label', `First page preview of ${record.name}`); preview.append(canvas);
-  const label = document.createElement('div'); label.className = 'library-document-label';
+  const label = document.createElement('div'); label.className = 'library-document-label library-open-target'; label.tabIndex=0; label.setAttribute('role','button'); label.setAttribute('aria-label',`Open ${record.name}`);
   const name = document.createElement('span'); name.className = 'library-document-name'; name.textContent = record.name; name.title = record.name;
   const meta = document.createElement('span'); meta.className = 'library-document-meta';
   const pages = record.pages?.length || 0; const changed = record.needsExport ? ' · changes not exported' : '';
   meta.textContent = `${pages} page${pages === 1 ? '' : 's'} · ${open ? 'open' : 'closed'}${changed}`; label.append(name, meta);
+  const openFromMain = () => openLibraryRecordInView(record);
+  preview.addEventListener('click',openFromMain); label.addEventListener('click',openFromMain);
+  for(const el of [preview,label]) el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openFromMain();}});
   const actions = document.createElement('div'); actions.className = 'library-document-actions';
   const action = document.createElement('button'); action.type='button'; action.className='primary-library-action'; action.textContent = open ? (record.id===state.currentDocumentId?'Active':'Use') : 'Open'; action.disabled = open && record.id===state.currentDocumentId;
-  action.addEventListener('click', async()=>{ try { if(open) loadDocumentState(record.id); else { setStatus(`Opening ${record.name} from Library…`, true); await reopenLibraryDocument(record.id); setStatus(`Opened ${record.name} from Library`); } } catch(err){ console.error(err); setStatus(`Could not reopen ${record.name}: ${err?.message||err}`); } });
+  action.addEventListener('click', () => openLibraryRecordInView(record));
   actions.append(action);
   if (open) { const close=document.createElement('button'); close.type='button'; close.textContent='Close'; close.title=`Close ${record.name} but keep it in the local Library`; close.addEventListener('click',()=>closeOneOpenDocument(record.id)); actions.append(close); }
   const rename=document.createElement('button'); rename.type='button'; rename.textContent='Rename'; rename.addEventListener('click',()=>renameLibraryDocument(record.id));
@@ -2845,48 +3163,39 @@ function renderLibraryDocumentList() {
 
 function renderTrashDocumentList() {
   if (!els.trashDocumentList) return;
-  const records = trashedLibraryRecords();
+  const folderRoots = trashedFolderRoots();
+  const records = trashedLibraryRecords().filter(record => !record.trashBatchId);
   els.trashDocumentList.replaceChildren();
-  if (els.trashSummary) els.trashSummary.textContent = records.length
-    ? `${records.length} document${records.length === 1 ? '' : 's'}`
-    : 'No documents in Trash';
-  if (!records.length) {
-    const empty = document.createElement('p');
-    empty.className = 'small-note';
-    empty.textContent = 'Trash is empty.';
-    els.trashDocumentList.append(empty);
-    return;
+  const total = folderRoots.length + records.length;
+  if (els.trashSummary) els.trashSummary.textContent = total
+    ? `${folderRoots.length ? `${folderRoots.length} folder${folderRoots.length===1?'':'s'}` : ''}${folderRoots.length && records.length ? ' · ' : ''}${records.length ? `${records.length} document${records.length===1?'':'s'}` : ''}`
+    : 'Trash is empty';
+  if (!total) {
+    const empty = document.createElement('p'); empty.className = 'small-note'; empty.textContent = 'Trash is empty.'; els.trashDocumentList.append(empty); return;
+  }
+  for (const folder of folderRoots) {
+    const row=document.createElement('div'); row.className='library-document-row library-folder-row';
+    const label=document.createElement('div'); label.className='library-document-label';
+    const name=document.createElement('span'); name.className='library-document-name'; name.textContent=folder.name;
+    const docCount=[...state.libraryRecords.values()].filter(record=>record.trashBatchId===folder.id).length;
+    const folderCount=[...state.libraryFolders.values()].filter(item=>item.trashBatchId===folder.id).length-1;
+    const meta=document.createElement('span'); meta.className='library-document-meta'; meta.textContent=`Folder tree · ${docCount} document${docCount===1?'':'s'} · ${Math.max(0,folderCount)} subfolder${folderCount===1?'':'s'}`; label.append(name,meta);
+    const actions=document.createElement('div'); actions.className='library-document-actions';
+    const restore=document.createElement('button'); restore.type='button'; restore.className='primary-library-action'; restore.textContent='Restore'; restore.addEventListener('click',()=>restoreLibraryFolderTree(folder.id));
+    const del=document.createElement('button'); del.type='button'; del.className='trash-action'; del.textContent='Delete permanently…'; del.addEventListener('click',()=>permanentlyDeleteLibraryFolderTree(folder.id));
+    actions.append(restore,del); row.append(label,actions); els.trashDocumentList.append(row);
   }
   for (const record of records) {
-    const row = document.createElement('div');
-    row.className = 'library-document-row';
-    row.dataset.documentId = record.id;
-    const label = document.createElement('div');
-    label.className = 'library-document-label';
-    const name = document.createElement('span');
-    name.className = 'library-document-name';
-    name.textContent = record.name;
-    const meta = document.createElement('span');
-    meta.className = 'library-document-meta';
-    const pages = record.pages?.length || 0;
-    const changed = record.needsExport ? ' · changes not exported' : '';
-    meta.textContent = `${pages} page${pages === 1 ? '' : 's'} · in Trash${changed}`;
-    label.append(name, meta);
-    const actions = document.createElement('div');
-    actions.className = 'library-document-actions';
-    const restore = document.createElement('button');
-    restore.type = 'button';
-    restore.className = 'primary-library-action';
-    restore.textContent = 'Restore';
-    restore.addEventListener('click', () => restoreLibraryDocument(record.id));
-    const del = document.createElement('button');
-    del.type = 'button';
-    del.className = 'trash-action';
-    del.textContent = 'Delete permanently…';
-    del.addEventListener('click', () => permanentlyDeleteLibraryDocument(record.id));
-    actions.append(restore, del);
-    row.append(label, actions);
-    els.trashDocumentList.append(row);
+    const row = document.createElement('div'); row.className = 'library-document-row'; row.dataset.documentId = record.id;
+    const label = document.createElement('div'); label.className = 'library-document-label';
+    const name = document.createElement('span'); name.className = 'library-document-name'; name.textContent = record.name;
+    const meta = document.createElement('span'); meta.className = 'library-document-meta';
+    const pages = record.pages?.length || 0; const changed = record.needsExport ? ' · changes not exported' : '';
+    meta.textContent = `${pages} page${pages === 1 ? '' : 's'} · in Trash${changed}`; label.append(name, meta);
+    const actions = document.createElement('div'); actions.className = 'library-document-actions';
+    const restore = document.createElement('button'); restore.type = 'button'; restore.className = 'primary-library-action'; restore.textContent = 'Restore'; restore.addEventListener('click', () => restoreLibraryDocument(record.id));
+    const del = document.createElement('button'); del.type = 'button'; del.className = 'trash-action'; del.textContent = 'Delete permanently…'; del.addEventListener('click', () => permanentlyDeleteLibraryDocument(record.id));
+    actions.append(restore, del); row.append(label, actions); els.trashDocumentList.append(row);
   }
 }
 
@@ -2922,7 +3231,7 @@ async function moveLibraryDocumentToTrash(docId) {
     }
     const base = openDoc ? serializeDocumentForLibrary(openDoc) : (state.libraryRecords.get(docId) || await libraryGet('documents', docId));
     if (!base) throw new Error('That Library document is no longer available.');
-    const record = { ...base, schemaVersion: LIBRARY_SCHEMA_VERSION, trashedAt: Date.now() };
+    const record = { ...base, schemaVersion: LIBRARY_SCHEMA_VERSION, trashedAt: Date.now(), trashBatchId: null };
     await libraryPut('documents', record);
     state.libraryRecords.set(docId, record);
     if (openDoc) {
@@ -2944,7 +3253,7 @@ async function restoreLibraryDocument(docId) {
   try {
     const record = state.libraryRecords.get(docId) || await libraryGet('documents', docId);
     if (!record) throw new Error('That Trash item is no longer available.');
-    const restored = { ...record, schemaVersion: LIBRARY_SCHEMA_VERSION, trashedAt: null };
+    const restored = { ...record, schemaVersion: LIBRARY_SCHEMA_VERSION, trashedAt: null, trashBatchId: null };
     await libraryPut('documents', restored);
     state.libraryRecords.set(docId, restored);
     renderLibraryDocumentList();
@@ -2955,14 +3264,14 @@ async function restoreLibraryDocument(docId) {
   }
 }
 
-function askPermanentDeleteAction(record) {
+function askPermanentDeleteAction(record, exportLabel='Export PDF & delete') {
   if (!record?.needsExport) {
     return Promise.resolve(window.confirm(`Permanently delete “${record?.name || 'this document'}” from the local Library? This cannot be undone.`) ? 'delete' : 'cancel');
   }
   return new Promise(resolve => {
     els.closeDocumentTitle.textContent = `Permanently delete ${record.name}?`;
     els.closeDocumentMessage.textContent = `${record.name} has changes that have not been exported to PDF.`;
-    els.closeDocumentExportBtn.textContent = 'Export PDF & delete';
+    els.closeDocumentExportBtn.textContent = exportLabel;
     els.closeDocumentWithoutExportBtn.textContent = 'Delete permanently';
     const finish = action => {
       try { els.closeDocumentDialog.close(); } catch {}
@@ -3423,12 +3732,64 @@ function downloadPdfBytes(bytes, filename) {
   downloadBlob(new Blob([bytes], { type: 'application/pdf' }), filename);
 }
 
+function unchangedSingleSourcePdfBytes(pageList) {
+  if (!Array.isArray(pageList) || !pageList.length) return null;
+  const first = pageList[0];
+  if (first?.kind !== 'pdf' || !first.sourceId) return null;
+  const source = state.sources.get(first.sourceId);
+  if (!source || source.type !== 'pdf' || !(source.bytes instanceof Uint8Array)) return null;
+  const sourcePageCount = Number(source.pdf?.numPages || 0);
+  if (!sourcePageCount || pageList.length !== sourcePageCount) return null;
+  for (let i = 0; i < pageList.length; i++) {
+    const page = pageList[i];
+    if (page?.kind !== 'pdf' || page.sourceId !== first.sourceId || Number(page.sourcePage) !== i + 1) return null;
+    if ((page.rotation || 0) !== 0 || hasPageCanvasOverride(page) || hasPageEdgeAdjustments(page)) return null;
+  }
+  return source.bytes.slice();
+}
+
 async function buildPdfBytes(pageList, options={}) {
+  // The most efficient and faithful export of an untouched imported PDF is the
+  // original byte stream. View state, Library placement, and open/close state do
+  // not require rewriting the PDF at all.
+  if (!options.forceRewrite) {
+    const passthrough = unchangedSingleSourcePdfBytes(pageList);
+    if (passthrough) {
+      options.onProgress?.(pageList.length, pageList.length);
+      return passthrough;
+    }
+  }
+
   const { PDFDocument, degrees, rgb } = await loadPdfExportEngine();
   const output = await PDFDocument.create();
   const sourcePdfCache = options.sourcePdfCache || new Map();
   const embeddedImages = new Map();
   const total = pageList.length;
+
+  // Import all occurrences from each source PDF in ONE copyPages call. pdf-lib
+  // then uses one copier/resource map for that source, preserving shared images,
+  // fonts, color profiles, etc. The former page-at-a-time copy loop duplicated
+  // shared resources dramatically (for example, one slide background 43 times).
+  const pdfEntriesBySource = new Map();
+  for (let i = 0; i < total; i++) {
+    const page = pageList[i];
+    if (page?.kind !== 'pdf') continue;
+    if (!pdfEntriesBySource.has(page.sourceId)) pdfEntriesBySource.set(page.sourceId, []);
+    pdfEntriesBySource.get(page.sourceId).push({ outputIndex: i, page });
+  }
+  const copiedPdfPages = new Map();
+  for (const [sourceId, entries] of pdfEntriesBySource) {
+    const source = state.sources.get(sourceId);
+    if (!source) throw new Error(`Source data is missing for PDF pages from ${sourceId}.`);
+    let srcPdf = sourcePdfCache.get(sourceId);
+    if (!srcPdf) {
+      srcPdf = await PDFDocument.load(source.bytes, { updateMetadata: false });
+      sourcePdfCache.set(sourceId, srcPdf);
+    }
+    const copies = await output.copyPages(srcPdf, entries.map(entry => entry.page.sourcePage - 1));
+    entries.forEach((entry, j) => copiedPdfPages.set(entry.outputIndex, copies[j]));
+    await new Promise(resolve => setTimeout(resolve, 0));
+  }
 
   for (let i = 0; i < total; i++) {
     const page = pageList[i];
@@ -3453,19 +3814,10 @@ async function buildPdfBytes(pageList, options={}) {
       }
       if (page.rotation) outPage.setRotation(degrees((page.rotation + 360) % 360));
     } else if (source.type === 'pdf') {
-      let srcPdf = sourcePdfCache.get(source.id);
-      if (!srcPdf) {
-        srcPdf = await PDFDocument.load(source.bytes, { updateMetadata: false });
-        sourcePdfCache.set(source.id, srcPdf);
-      }
-      const [copied] = await output.copyPages(srcPdf, [page.sourcePage - 1]);
+      const copied = copiedPdfPages.get(i);
+      if (!copied) throw new Error(`Could not import source PDF page ${page.sourcePage}.`);
       const inheritedRotation = copied.getRotation()?.angle || 0;
       if (hasPageCanvasOverride(page)) {
-        // canvasWidth/canvasHeight are stored in the source page's displayed
-        // orientation (after inherited /Rotate, before Workbench rotation).
-        // Convert that desired core canvas back to raw PDF page coordinates,
-        // scale content/annotations proportionally, then center by moving the
-        // page boxes rather than rasterizing the source.
         const core = pageCoreCanvasBaseDimensions(page);
         const oddInherited = ((inheritedRotation % 180) + 180) % 180 !== 0;
         const rawTargetW = oddInherited ? core.height : core.width;
@@ -3487,10 +3839,6 @@ async function buildPdfBytes(pageList, options={}) {
         copied.setArtBox?.(x, y, rawTargetW, rawTargetH);
       }
       if (hasPageEdgeAdjustments(page)) {
-        // Crop/margins change only the page boundary around the current core
-        // canvas. Positive values expand a side; negative values crop it. The
-        // values are stored after inherited PDF rotation but before Workbench
-        // rotation, so map them back to raw PDF box edges before updating boxes.
         const edge = displayedEdgesToRawPdf(pageEdgeAdjustments(page), inheritedRotation);
         const box = copied.getCropBox?.() || copied.getMediaBox?.() || { x: 0, y: 0, width: copied.getWidth(), height: copied.getHeight() };
         const x = box.x - edge.left;
@@ -3544,7 +3892,6 @@ async function buildPdfBytes(pageList, options={}) {
   }
   return output.save({ useObjectStreams: true, addDefaultPage: false, updateFieldAppearances: false });
 }
-
 
 async function normalizePdfBytesToLetter(inputBytes, options={}) {
   const { PDFDocument } = await loadPdfExportEngine();
@@ -6282,9 +6629,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 4.2.0 adds <strong>Library backup and portability</strong> on top of the persistent folder/subfolder Library.</p>
-      <ul><li><strong>Automatic persistence:</strong> document source data, page order, rotations, inserted/generated pages, page geometry edits, undo history, and single/split view state are saved locally.</li><li><strong>Library PDF archive:</strong> export every non-Trash Library document as a conventional PDF inside one ZIP while preserving folder/subfolder paths; persistent templates are included as one-page PDFs.</li><li><strong>Editable backup:</strong> create a complete ZIP-based <code>.pwbbackup</code> containing documents, folders, Trash state, templates, original source PDFs/images, and the saved open/view session.</li><li><strong>Restore:</strong> validate the whole backup before touching local data, then replace the Library in one IndexedDB transaction and reload into the restored session.</li><li><strong>Close / reopen:</strong> Close and Close All only remove documents from the active workspace; the editable Library copy remains safe.</li><li><strong>Storage protection:</strong> Files → Storage &amp; reset can request persistent-storage protection, show browser storage usage, delete the Library, or factory-reset local app data.</li><li><strong>App updates:</strong> the service-worker cache and persistent Library remain separate; normal updates should not erase stored documents.</li></ul>
-      <p><strong>Remaining Milestone 4 hardening:</strong> broader schema migration/recovery testing, hyperlink/outline preservation audit, optional bulk/search/favorites conveniences, and final Files UI cleanup; then inking/annotations.</p>
+      <p>Milestone 4.2.1 completes the main <strong>folder-level Library workflows</strong> and fixes structural PDF export bloat.</p>
+      <ul><li><strong>Efficient PDF export:</strong> untouched imported PDFs pass through byte-for-byte, while edited PDFs copy pages from each source in batches so shared images/fonts/resources remain shared instead of being duplicated page-by-page.</li><li><strong>Folder operations:</strong> export any folder/subtree as a hierarchy-preserving PDF ZIP; Trash/Restore/Permanent Delete operate on complete folder trees.</li><li><strong>Import into folders:</strong> importing while browsing Files stores documents in the current Library folder and stays in Files; a ZIP directory tree of PDFs can be imported with its hierarchy recreated.</li><li><strong>Direct Library open:</strong> tap/click a document thumbnail or title to open it in View.</li><li><strong>Backup portability:</strong> editable backups are written as <code>.pwbbackup.zip</code>; Restore accepts ZIP backups, and Import backup as folder adds a remapped editable subtree without replacing the current Library.</li><li><strong>Persistence:</strong> the Library remains separate from the service-worker cache and continues using versioned IndexedDB storage.</li></ul>
+      <p><strong>Still to harden before inking:</strong> hyperlink/outline preservation audit, final Files UI cleanup, and broader migration/recovery testing. Favorites/search remain optional lower-priority conveniences.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -6807,8 +7154,12 @@ function bindEvents() {
   });
   els.libraryPdfArchiveBtn?.addEventListener('click', exportWholeLibraryAsPdfs);
   els.libraryEditableBackupBtn?.addEventListener('click', createEditableLibraryBackup);
-  els.libraryRestoreBackupBtn?.addEventListener('click', () => els.libraryRestoreInput?.click());
-  els.libraryRestoreInput?.addEventListener('change', () => restoreEditableLibraryBackup(els.libraryRestoreInput.files?.[0]));
+  els.libraryRestoreBackupBtn?.addEventListener('click', () => { state.pendingBackupImportMode='replace'; els.libraryRestoreInput?.click(); });
+  els.libraryImportBackupBtn?.addEventListener('click', () => { state.pendingBackupImportMode='subtree'; els.libraryRestoreInput?.click(); });
+  els.libraryRestoreInput?.addEventListener('change', () => { const file=els.libraryRestoreInput.files?.[0]; if(state.pendingBackupImportMode==='subtree') importEditableBackupAsSubtree(file); else restoreEditableLibraryBackup(file); });
+  els.libraryImportBtn?.addEventListener('click', () => els.fileInput?.click());
+  els.libraryImportZipBtn?.addEventListener('click', () => els.libraryZipImportInput?.click());
+  els.libraryZipImportInput?.addEventListener('change', () => importPdfDirectoryZip(els.libraryZipImportInput.files?.[0]));
   els.libraryNewFolderBtn?.addEventListener('click', createLibraryFolder);
   els.libraryListViewBtn?.addEventListener('click', () => setLibraryViewMode('list'));
   els.libraryGridViewBtn?.addEventListener('click', () => setLibraryViewMode('grid'));

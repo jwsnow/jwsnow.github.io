@@ -1,7 +1,51 @@
+PDF WORKBENCH PWA — MILESTONE 4.2.1 CURRENT UPDATE
+====================================================
+
+CURRENT BUILD: Milestone 4.2.1
+Visible About version: 4.2.1
+Service-worker/cache version: pdf-workbench-m4.2.1-v1
+IndexedDB database version: 2
+Library schema version: 4
+Editable backup format version: 1
+
+MILESTONE 4.2.1 — EXPORT EFFICIENCY + DIRECTORY WORKFLOWS
+---------------------------------------------------------
+Cross-platform 4.2.0 testing succeeded on desktop, Surface, Chromebook, and iPad. Editable backups exported on one device restored correctly on another, and whole-Library PDF ZIP export worked. iPad required a `.zip` extension for selecting backup files, so editable backups now use `.pwbbackup.zip`; Restore accepts ZIP files and validates the manifest rather than relying on a custom extension.
+
+PDF EXPORT SIZE REGRESSION / FIX:
+- Testing found that an imported PDF could become dramatically larger on export even with no meaningful content change.
+- Concrete regression case: a 44-page slide deck stores one large background/grid image once and references it from 43 pages; the previous Workbench exporter called pdf-lib `copyPages()` separately for each output page, causing shared resources to be recopied repeatedly.
+- 4.2.1 returns original source bytes unchanged when a document is a completely untouched, full, in-order single-source PDF.
+- For edited PDFs, all page occurrences from each source PDF are now copied in one batch per source so pdf-lib uses one resource-copy map and preserves sharing of repeated images/fonts/resources.
+- This common build path benefits Export, Extract, Split, Combine, Library PDF ZIP export, and Preserve compression. Rasterize compression is intentionally different.
+
+DIRECTORY / LIBRARY WORKFLOWS ADDED:
+- Import/Open while in Files stays in Files and stores imported files in the currently browsed Library folder.
+- Local Library has an Import files entry plus Import PDF folder ZIP; the latter recreates ZIP directory/subdirectory paths beneath the current folder.
+- Clicking/tapping a Library PDF thumbnail/title opens that document and switches to View.
+- Folder rows support Export PDFs (ZIP preserving the selected folder hierarchy) and Trash.
+- Trashing a folder moves its complete subtree together; Restore restores the subtree; Permanent Delete removes the subtree and can export changed documents as a ZIP first.
+- Editable backup can now be imported non-destructively as a new Library subtree. All internal IDs/source IDs/page IDs are remapped; existing Library data is retained; imported templates receive duplicate-safe names.
+
+BACKUP NAMING:
+- Write editable backups as `.pwbbackup.zip`.
+- Restore picker accepts `.zip`; validation is based on `manifest.json`. Bare `.pwbbackup` support is intentionally not carried forward.
+
+PENDING BEFORE INKING:
+- Audit preservation of existing PDF hyperlinks and outlines/bookmarks through edits/export.
+- Final Files UI placement cleanup (New Folder / Refresh and other actions may move once the feature set is final).
+- Broader schema migration/recovery testing.
+- Favorites/search/sophisticated sorting remain lower priority.
+- Then Milestone 5: Pen, Highlighter, Eraser, Select/Lasso transforms, presets/View-Hand mode, laser pointer, and later image annotations.
+
+
+LEGACY / HISTORICAL HANDOFF FOLLOWS
+====================================
+
 PDF WORKBENCH PWA — MILESTONE 4.2.0 CURRENT UPDATE
 ====================================================
 
-CURRENT BUILD: Milestone 4.2.0
+CURRENT BUILD: Milestone 4.2.1
 Visible About version: 4.2.0
 Service-worker/cache version: pdf-workbench-m4.2.0-v1
 IndexedDB database version: 2

@@ -1,86 +1,47 @@
-# PDF Workbench — Milestone 4.2.0
+# PDF Workbench — Milestone 4.2.1
 
-Milestone 4.2.0 adds Library backup and portability on top of the persistent folder/subfolder Library validated in Milestone 4.1.1.
+Milestone 4.2.1 consolidates the remaining folder-level Library workflows and fixes excessive PDF growth during structural export.
 
-## New in 4.2.0
+## Efficient PDF export
+- An untouched imported PDF is exported by returning its original byte stream rather than rebuilding it.
+- For edited PDFs, all page occurrences from each source PDF are imported in one `copyPages()` batch. This lets pdf-lib reuse shared images, fonts, color profiles, and other resources instead of copying them once per output page.
+- The change is shared by normal Export, Extract, Split, Combine, Library PDF ZIP export, and Preserve compression.
+- Rasterize compression remains intentionally page-image based.
 
-### Export the whole Library as PDFs
-Files → **Library backup & export** now includes **Export Library as PDFs (.zip)**.
+A key regression case is the 44-page Chapter 4.2 slide deck: the source stores one background image shared by 43 pages, while the old page-at-a-time export duplicated that image dozens of times and grew dramatically.
 
-- Exports every non-Trash Library document as a conventional PDF.
-- Preserves the Local Library folder/subfolder hierarchy inside the ZIP.
-- Keeps empty Library folders as directory entries where ZIP viewers support them.
-- Includes persistent page templates as one-page PDFs under `_Templates`.
-- Uses the same structural PDF export engine already validated for page order, rotations, generated pages, page geometry, scans, and image documents.
-- Does not modify `needsExport` state merely because a whole-Library archive was created.
-- Trash is deliberately omitted from the human-readable PDF archive.
+## Folder-level Library operations
+- Folder rows now provide **Export PDFs**, **Rename**, **Move**, and **Trash**.
+- Folder export creates one ZIP preserving the selected folder and all nested subfolder paths.
+- Trashing a folder moves its complete document/subfolder tree together. Restore restores the complete tree. Permanent deletion removes the whole tree; when any contained document has unexported changes, PDF Workbench can export the tree as a PDF ZIP first.
 
-This ZIP is a conventional PDF archive, not a restoreable editable project backup.
+## Import directly into the Library
+- **Files → Local Library → Import files…** uses the current Library folder as the destination.
+- Using the main Open command while already in Files does the same and leaves the user in Files instead of jumping to View.
+- **Import PDF folder ZIP…** reads a ZIP containing PDFs and recreates its directory hierarchy beneath the current Library folder.
+- Tapping/clicking a Library document thumbnail or title deliberately opens that document and switches to View.
 
-### Full editable Library backup
-**Back up editable Library** creates a ZIP-based file with a `.pwbbackup` extension. It contains:
-
-- all Library document records, including Trash state;
-- folder/subfolder hierarchy;
-- persistent page templates;
-- original source PDF/image bytes;
-- page order, rotations, generated pages, page-size/crop/margin edits, undo/redo page snapshots, and other persisted project state;
-- saved open-document/session and split/single view state;
-- the small set of current PDF Workbench preferences stored in localStorage.
-
-The backup includes `manifest.json` plus binary source payloads. It is intended for PDF Workbench restore, not manual editing.
-
-### Restore editable Library
-**Restore Library backup…** accepts `.pwbbackup` (and ZIP) files created by PDF Workbench.
-
-Before replacing anything, restore:
-
-1. reads and validates the manifest;
-2. rejects unsupported future backup/schema versions;
-3. verifies every source payload required by documents/templates exists;
-4. asks for explicit confirmation because restore replaces the current Local Library;
-5. reads every source payload before touching current data;
-6. replaces documents/sources/folders/meta in one IndexedDB read-write transaction;
-7. restores supported preferences and reloads the application into the restored saved session.
-
-This makes the actual replacement atomic at the IndexedDB transaction level after validation, reducing the chance of a half-restored Library.
-
-## Existing Library behavior retained
-- Persistent imported/created documents.
-- iPad Home Screen PWA IndexedDB retry/reconnect hardening.
-- Close/reopen and Close All.
-- Trash/Restore/Permanent delete.
-- Folders and arbitrarily nested subfolders.
-- Rename, duplicate, and move documents/folders.
-- Lazy first-page thumbnails.
-- Grid/List Library views.
-- Persistent templates, with the same Template Manager reachable from Files and Insert Page.
-- Storage usage / persistent-storage request / Library purge / full factory reset.
+## Backup portability
+- Editable backups are now written with an explicit `.pwbbackup.zip` filename.
+- Restore accepts ZIP files and validates `manifest.json` rather than depending on a custom extension.
+- **Import backup as folder…** keeps the current Library and imports a backup as a new editable subtree, remapping document/folder/source/page IDs to avoid collisions. Imported templates receive duplicate-safe names.
+- Full Restore still replaces the Local Library and remains the exact recovery path.
 
 ## Storage/versioning
-- IndexedDB database version remains **2**; no new object store is required.
-- Library schema remains **3**.
-- Editable backup format version is **1**.
-- Existing 4.0.x/4.1.x Library data is not intentionally rewritten or purged on upgrade.
-- Service-worker/application cache remains separate from persistent Library data.
+- IndexedDB database version: **2**
+- Library schema version: **4** (adds folder-tree Trash metadata; existing schema-3 records remain readable)
+- Editable backup format version: **1**
+- Service-worker cache: `pdf-workbench-m4.2.1-v1`
 
 ## Suggested tests
-1. Upgrade a device with an existing 4.1.1 Library and verify all documents/folders/templates remain.
-2. Create nested folders with several documents at root and several levels deep; export Library as PDFs and inspect ZIP paths.
-3. Include a scan/JBIG2 PDF, generated graph/blank pages, normalized/cropped pages, and an image document in the PDF archive; open exported PDFs in Adobe.
-4. Confirm a persistent template appears in `_Templates` as a one-page PDF.
-5. Create an editable `.pwbbackup`.
-6. Make obvious changes to the current Library (rename/move/delete/add documents), then restore the backup and verify the prior hierarchy/state returns.
-7. Verify documents that were in Trash at backup time return to Trash after restore.
-8. Verify persistent templates return after restore.
-9. Verify the open-document set and relevant View/Split state restore after reload.
-10. Repeat backup/restore on iPad PWA because that is the most important IndexedDB portability test.
+1. Export an untouched PDF and compare its byte size to the original; it should be identical.
+2. Reorder/rotate/duplicate a few pages in the Chapter 4.2 slide deck and export; verify that the file no longer expands by an order of magnitude.
+3. In Files, browse into a subfolder, import several PDFs, and verify they land there while Files remains visible.
+4. Tap a document thumbnail/title and verify it opens in View.
+5. Create a nested folder tree, export that folder as PDFs, and inspect the ZIP hierarchy.
+6. Trash the folder tree, restart, restore it, then Trash it again and permanently delete it.
+7. Import a ZIP containing nested PDF folders into the current Library folder.
+8. Create a `.pwbbackup.zip`, then use **Import backup as folder…** and verify the existing Library remains intact while an editable imported subtree appears.
+9. Repeat the backup/import and folder ZIP workflows on iPad PWA because its file-picker/share behavior is the most restrictive target.
 
-## Still planned before Milestone 5
-- Dedicated schema migration/recovery hardening as the Library evolves.
-- Audit preservation of existing PDF hyperlinks and outlines/bookmarks through structural edits and export.
-- Page bookmark/outline foundation if it remains useful before inking.
-- Final Files/Library UI placement cleanup.
-- Favorites/search/sorting and broader bulk Library actions remain lower priority unless actual use shows a need.
-
-**More → About this build** reports **Milestone 4.2.0**. The service-worker cache is `pdf-workbench-m4.2.0-v1`.
+**More → About this build** reports **Milestone 4.2.1**.
