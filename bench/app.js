@@ -1,4 +1,4 @@
-const APP_VERSION = '5.0.6';
+const APP_VERSION = '5.0.7';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -19,7 +19,7 @@ const els = {
   viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), exportModeBtn: $('exportModeBtn'), viewerControls: $('viewerControls'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
-  moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), aboutBtn: $('aboutBtn'),
+  moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), aboutBtn: $('aboutBtn'),
   emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), filesManageTemplatesBtn: $('filesManageTemplatesBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
@@ -70,6 +70,8 @@ const state = {
   penColor: safePref('pdfwb-pen-color', '#111111', ['#111111','#1565c0','#d32f2f','#2e7d32','#ef6c00']),
   penWidth: Number(safePref('pdfwb-pen-width', '3', ['1.5','3','5.5'])),
   inkGesture: null,
+  inkDiagnostics: [],
+  inkDiagnosticPointers: new Map(),
   touchPointers: new Map(),
   touchPan: null,
   touchInertiaFrame: null,
@@ -1421,11 +1423,11 @@ function beginInkGesture(viewer, event) {
   // pointerdown from a pen is sufficient evidence of a contact here; Surface
   // barrel-button behavior can be specialized later if needed.
   const stage = inkStageForEvent(viewer, event);
-  if (!stage) return true;
+  if (!stage) { addInkDiagnostic('handler-begin-stage-miss', event); return true; }
   const page = pageById(stage.dataset.pageId);
-  if (!page) return true;
+  if (!page) { addInkDiagnostic('handler-begin-page-miss', event); return true; }
   const first = eventPointOnPage(stage, page, event);
-  if (!first) return true;
+  if (!first) { addInkDiagnostic('handler-begin-point-miss', event); return true; }
   const stroke = {
     id: uid('ink'),
     type: 'ink',
@@ -1442,6 +1444,7 @@ function beginInkGesture(viewer, event) {
   if (event.cancelable) event.preventDefault();
   try { viewer.setPointerCapture?.(event.pointerId); } catch {}
   drawLiveInkSegment(stage, page, stroke, first, first);
+  addInkDiagnostic('handler-begin-accepted', event, { strokeId:stroke.id });
   return true;
 }
 function continueInkGesture(viewer, event) {
@@ -1461,6 +1464,7 @@ function finishInkGesture(viewer, event) {
   try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
   state.inkGesture = null;
   if (!gesture.stroke.points.length) return true;
+  addInkDiagnostic('handler-finish-accepted', event, { strokeId:gesture.stroke.id, points:gesture.stroke.points.length });
   commitHistory(gesture.before);
   saveCurrentDocumentState({ readViewDom: false });
   return true;
@@ -1484,6 +1488,7 @@ function handleDocumentInkPointer(viewer, event) {
       // retargeted by WebKit. Once a contact-bearing move reaches the viewer,
       // begin the stroke at that point rather than discarding the whole contact.
       if (state.annotationTool === 'pen' && (event.buttons || event.pressure > 0)) {
+        addInkDiagnostic('handler-move-recovery-attempt', event);
         if (beginInkGesture(viewer, event)) continueInkGesture(viewer, event);
       }
       return true;
@@ -1498,6 +1503,7 @@ function handleDocumentInkPointer(viewer, event) {
       // iPad/WebKit routing hiccup. Preserve an up-only contact as a dot rather
       // than losing it completely. Do not synthesize on pointercancel.
       if (event.type === 'pointerup' && state.annotationTool === 'pen') {
+        addInkDiagnostic('handler-up-only-recovery-attempt', event);
         if (beginInkGesture(viewer, event)) finishInkGesture(viewer, event);
       }
       try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
@@ -1506,7 +1512,7 @@ function handleDocumentInkPointer(viewer, event) {
   }
   return false;
 }
-// Milestone 5.0.6: while an ink tool is active in the viewer, Pencil input must
+// Milestone 5.0.7: while an ink tool is active in the viewer, Pencil input must
 // win over WebKit's native text-selection machinery. iPadOS was first observed
 // selecting a toolbar glyph and, after that region was protected, selecting
 // footer text instead. That shows the failure is not tied to one element: a
@@ -4143,6 +4149,112 @@ function downloadBlob(blob, filename) {
 
 function downloadPdfBytes(bytes, filename) {
   downloadBlob(new Blob([bytes], { type: 'application/pdf' }), filename);
+}
+
+
+// Milestone 5.0.7 diagnostic instrumentation. This is deliberately lightweight:
+// it records contact boundaries and handler decisions, not every Pencil sample,
+// so the logger itself should not materially change short-stroke timing.
+function inkDiagnosticTarget(event) {
+  const target = event?.target instanceof Element ? event.target : null;
+  const parts = [];
+  if (target) {
+    parts.push(target.tagName?.toLowerCase?.() || 'element');
+    if (target.id) parts.push(`#${target.id}`);
+    const classes = [...(target.classList || [])].slice(0, 3);
+    if (classes.length) parts.push(`.${classes.join('.')}`);
+  }
+  return parts.join('') || '(none)';
+}
+function inkDiagnosticLocation(event) {
+  const target = event?.target instanceof Element ? event.target : null;
+  let stage = target?.closest?.('.page-stage[data-page-id]') || null;
+  if (!stage && Number.isFinite(event?.clientX) && Number.isFinite(event?.clientY)) {
+    const hit = document.elementFromPoint?.(event.clientX, event.clientY);
+    stage = hit instanceof Element ? hit.closest('.page-stage[data-page-id]') : null;
+  }
+  const viewer = target?.closest?.('.viewer, .split-pane-viewer') || stage?.closest?.('.viewer, .split-pane-viewer') || null;
+  return { pageId: stage?.dataset?.pageId || null, viewer: viewer?.id || viewer?.className || null };
+}
+function addInkDiagnostic(kind, event=null, extra={}) {
+  const location = event ? inkDiagnosticLocation(event) : { pageId:null, viewer:null };
+  const record = {
+    n: state.inkDiagnostics.length + 1,
+    t: Math.round(performance.now() * 10) / 10,
+    kind,
+    event: event?.type || null,
+    pointerType: event?.pointerType || null,
+    pointerId: event?.pointerId ?? null,
+    isPrimary: event?.isPrimary ?? null,
+    button: event?.button ?? null,
+    buttons: event?.buttons ?? null,
+    pressure: Number.isFinite(event?.pressure) ? Math.round(event.pressure * 1000) / 1000 : null,
+    x: Number.isFinite(event?.clientX) ? Math.round(event.clientX) : null,
+    y: Number.isFinite(event?.clientY) ? Math.round(event.clientY) : null,
+    target: event ? inkDiagnosticTarget(event) : null,
+    pageId: location.pageId,
+    viewer: location.viewer,
+    tool: state.annotationTool,
+    activeGesture: state.inkGesture ? { pointerId: state.inkGesture.pointerId, pageId: state.inkGesture.pageId, points: state.inkGesture.stroke?.points?.length || 0 } : null,
+    ...extra,
+  };
+  state.inkDiagnostics.push(record);
+  if (state.inkDiagnostics.length > 1200) state.inkDiagnostics.splice(0, state.inkDiagnostics.length - 1200);
+}
+function bindInkDiagnostics() {
+  const relevant = (event) => {
+    if (state.annotationTool !== 'pen') return false;
+    if (event.pointerType === 'pen') return true;
+    if (event.pointerType !== 'touch') return false;
+    const target = event.target instanceof Element ? event.target : null;
+    if (target?.closest?.('.viewer, .split-pane-viewer, .page-stage')) return true;
+    if (Number.isFinite(event.clientX) && Number.isFinite(event.clientY)) {
+      const hit = document.elementFromPoint?.(event.clientX, event.clientY);
+      return !!(hit instanceof Element && hit.closest('.viewer, .split-pane-viewer, .page-stage'));
+    }
+    return false;
+  };
+  document.addEventListener('pointerdown', (event) => {
+    if (!relevant(event)) return;
+    state.inkDiagnosticPointers.set(event.pointerId, { sawDown:true, moves:0, pointerType:event.pointerType });
+    addInkDiagnostic('raw-down', event);
+  }, { capture:true, passive:true });
+  document.addEventListener('pointermove', (event) => {
+    if (!relevant(event)) return;
+    if (!(event.buttons || event.pressure > 0 || state.inkGesture?.pointerId === event.pointerId)) return;
+    let info = state.inkDiagnosticPointers.get(event.pointerId);
+    if (!info) {
+      info = { sawDown:false, moves:0, pointerType:event.pointerType };
+      state.inkDiagnosticPointers.set(event.pointerId, info);
+      addInkDiagnostic('raw-first-contact-move-without-seen-down', event);
+    }
+    info.moves += 1;
+  }, { capture:true, passive:true });
+  const finish = (event, kind) => {
+    if (!relevant(event) && !state.inkDiagnosticPointers.has(event.pointerId)) return;
+    const info = state.inkDiagnosticPointers.get(event.pointerId) || { sawDown:false, moves:0, pointerType:event.pointerType };
+    addInkDiagnostic(kind, event, { rawSawDown:info.sawDown, rawMoveEvents:info.moves });
+    state.inkDiagnosticPointers.delete(event.pointerId);
+  };
+  document.addEventListener('pointerup', event => finish(event, 'raw-up'), { capture:true, passive:true });
+  document.addEventListener('pointercancel', event => finish(event, 'raw-cancel'), { capture:true, passive:true });
+  document.addEventListener('gotpointercapture', event => { if (event.pointerType === 'pen') addInkDiagnostic('got-pointer-capture', event); }, { capture:true, passive:true });
+  document.addEventListener('lostpointercapture', event => { if (event.pointerType === 'pen') addInkDiagnostic('lost-pointer-capture', event); }, { capture:true, passive:true });
+}
+function downloadInkDiagnostics() {
+  const header = {
+    appVersion: APP_VERSION,
+    generatedAt: new Date().toISOString(),
+    userAgent: navigator.userAgent,
+    platform: navigator.platform || null,
+    standalone: isStandalonePwa(),
+    note: 'Pointer-boundary diagnostics for Apple Pencil dropped-stroke investigation. No document contents are included.',
+  };
+  const lines = [JSON.stringify(header), ...state.inkDiagnostics.map(item => JSON.stringify(item))];
+  const blob = new Blob([lines.join('\n') + '\n'], { type:'text/plain;charset=utf-8' });
+  downloadBlob(blob, `PDF-Workbench-Pencil-Diagnostics-${portableTimestamp()}.txt`);
+  setStatus(`Downloaded Pencil diagnostics (${state.inkDiagnostics.length} records)`);
+  toggleMoreMenu(false);
 }
 
 function unchangedSingleSourcePdfBytes(pageList) {
@@ -7051,7 +7163,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.0.6 continues the annotation subsystem on the validated 4.2.2 viewer/Library baseline. While Pen is active in the viewer, native WebKit text selection and Copy / Look Up callouts are suppressed across the document workspace so Apple Pencil strokes cannot leak into selection of toolbar, footer, or PDF text. Hand/View mode remains outside that guard. The 5.0.2 continuous-path PDF ink export fix remains intact.</p>
+      <p>Milestone 5.0.7 is a diagnostic Apple Pencil build. It retains the 5.0.6 Pen-mode selection suppression and adds lightweight logging of Pencil contact boundaries and ink-handler decisions so intermittent whole-stroke loss on iPad can be identified from the actual WebKit event stream rather than guessed at. Use More → Download Pencil diagnostics immediately after a short handwriting test.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Basic pen:</strong> Hand/View and Pen modes, five direct pen colors (black, blue, red, green, orange), and three direct width choices. Finger scrolling/pinch remains navigation-only.</li><li><strong>Editable ink:</strong> strokes are stored as page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and are copied with page duplication/copy/combine operations.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
       <p><strong>Next annotation steps after testing:</strong> partial-stroke eraser, lasso selection with move/resize/delete/duplicate, then highlighter with its own yellow/pink/blue/green palette. Image annotations follow the annotation milestone.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -7550,6 +7662,7 @@ function bindEvents() {
       if (els.librarySummary) els.librarySummary.textContent = `Local Library refresh failed: ${err?.message || err}`;
     }
   });
+  els.inkDiagnosticsBtn?.addEventListener('click', downloadInkDiagnostics);
   els.libraryPdfArchiveBtn?.addEventListener('click', exportWholeLibraryAsPdfs);
   els.libraryEditableBackupBtn?.addEventListener('click', createEditableLibraryBackup);
   els.libraryRestoreBackupBtn?.addEventListener('click', () => { state.pendingBackupImportMode='replace'; els.libraryRestoreInput?.click(); });
@@ -7608,6 +7721,7 @@ function bindEvents() {
   els.presentBtn.addEventListener('click', enterPresentation);
   els.presentationExit.addEventListener('click', exitPresentation);
   bindInkNativeSelectionGuard();
+  bindInkDiagnostics();
   els.presentationToolbar.addEventListener('click', (e) => { if (e.target instanceof HTMLButtonElement && e.target !== els.presentationInsertBtn) restartPresentationHideAfterControl(e); });
   els.presentationToolbar.addEventListener('pointerdown', () => { if (document.body.classList.contains('presentation')) clearTimeout(state.presentationControlsTimer); });
   els.prevPageBtn.addEventListener('click', () => goPage(-1));
