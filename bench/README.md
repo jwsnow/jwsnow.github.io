@@ -1,36 +1,80 @@
-# PDF Workbench — Milestone 4.2.2
+# PDF Workbench — Milestone 5.0.2
 
-Milestone 4.2.2 is a deliberately low-risk UI organization pass on top of the validated Milestone 4.2.1 Library/export build. It does not change the PDF export engine, IndexedDB schema, Library persistence logic, backup/restore logic, document model, or view-state machinery.
+Milestone 5.0.2 is the first annotation/inking build plus the Presentation-toolbar positioning fix and a PDF ink-export join/cap fix. It starts from the cross-platform-tested Milestone 4.2.2 viewer, Library, export, backup, and UI baseline and deliberately adds only the smallest useful annotation slice so stylus behavior can be validated before eraser, lasso, and highlighter work begins.
 
-## Files UI cleanup
-- **Local Library** and **Open documents** now stay together at the top of Files.
-- The Local Library's primary actions are arranged as one compact action row: **Import files…**, **Import PDF folder ZIP…**, and **New folder**.
-- **Refresh** now sits beside the **List / Grid** browser controls rather than with creation/import actions.
-- The remaining Files operations are visually grouped without adding nested accordions:
-  - **Create:** New, Templates, Images → PDF
-  - **PDF tools:** Export, Compress, Extract, Split, Combine
-  - **Library management:** Trash, Library backup & export, Storage & reset
-- Existing expandable tool sections and their element IDs/handlers are retained.
 
-## View / Presentation toolbar consistency
-- Shared controls now follow the same logical order in both modes: **Scroll → Fit → Zoom → Split → Insert**.
-- Presentation keeps its document/pane selectors first and Exit last.
-- **Insert Page** uses the same page-with-plus SVG icon in View and Presentation. This avoids the previous mismatch between a plus sign in View and a different page symbol in Presentation.
 
-## Validated 4.2.1 functionality retained
-The previous build was tested successfully on Surface and iPad for Library creation/moving, import/export, editable backup, full restore, backup import as a folder/subtree, Trash/Restore/Permanent Delete, and cross-platform backup portability. The export-size regression fix is unchanged: untouched source PDFs pass through byte-for-byte, while edited PDFs preserve shared source resources through batched page copying.
+## 5.0.2 PDF ink export fix
+- Fixed the white wedges/slits that could appear on the inside of wider curved pen strokes in exported PDFs.
+- Cause: each sampled point pair was exported as an independent PDF line segment. The separate flat-ended segments did not form a true joined path at turns.
+- Export now writes each stored pen stroke as one continuous vector path with **round joins and round end caps**, matching the completed-stroke Canvas renderer much more closely.
+- Stored annotation points, on-screen drawing, Undo/Redo, Library persistence, and editable backup data are unchanged. This is deliberately **not** the later interpolation/smoothing pass.
+- Keeping each exported stroke continuous also avoids the joint-overlap darkening that would result from simply putting a round cap on every independent segment; that matters for future translucent tools such as Highlighter.
+
+## 5.0.1 Presentation toolbar fix
+- Fixed a regression in Presentation mode where the new full-width annotation toolbar was translated left by 50%, leaving roughly half of the bar off-screen.
+- Cause: a legacy rule for the older centered floating Presentation palette (`translateX(-50%)`) was still winning the CSS cascade after the toolbar was converted to an edge-docked full-width strip.
+- The unified Presentation annotation toolbar now explicitly uses `transform: none` and remains docked to the full viewport width.
+- No annotation data, PDF export, Library, backup, or view-state behavior was intentionally changed in this bug-fix build.
+
+## Unified annotation toolbar
+- View now has a thin, full-width annotation strip immediately above the PDF viewport.
+- Presentation uses the **same strip at the very top edge**; its existing document/view/page controls are appended to the right rather than appearing in a separate floating palette.
+- The annotation controls keep the same left-to-right positions in View and Presentation.
+- For this first annotation build the Presentation strip stays **always visible** so tool/color/width changes are one tap away. A later setting will offer always-visible vs. auto-hide after the core ink interactions are proven.
+- The document viewport is reduced by the toolbar height; the strip does not cover the PDF.
+
+## Basic pen
+- **Hand/View** mode preserves the previous safe behavior: stylus contact on the document does not draw. Finger navigation continues to pan/scroll/pinch as before.
+- **Pen** mode draws with Surface Pen / Apple Pencil style pointer input. Primary-button mouse drawing is also supported for desktop testing.
+- Five direct pen colors, in order: **black, blue, red, green, orange**.
+- Three direct pen widths: **thin, medium, thick** (1.5 pt, 3 pt, 5.5 pt).
+- Choosing a color or width also selects Pen, so common changes require one tap.
+- Pen tool, color, and width are remembered locally across navigation/relaunches.
+- Coalesced pointer samples are used when the browser provides them.
+- Finger drawing is intentionally **off**; touch remains navigation-only.
+
+## Editable ink model
+- Ink is stored non-destructively as page-local vector stroke data in Workbench page/PDF coordinates, not as screen pixels.
+- Zooming, fitting, View/Presentation changes, page rotation, and split-pane viewing do not change the stored stroke coordinates.
+- Same-document split panes share the annotation data; a live stroke is mirrored to another rendered instance of the same page.
+- Ink is included in Local Library persistence and editable `.pwbbackup.zip` backups.
+- Ink participates in the existing Undo/Redo history.
+- Page duplication/copy/combine operations carry ink. **Duplicate clean** now omits Workbench ink as its label implies.
+- Page-size fit/center and crop/margin operations apply corresponding basic transforms to Workbench ink so existing strokes remain attached to the page when those operations are used after writing.
+
+## PDF export
+- Workbench pen strokes are written into exported PDFs as vector linework rather than rasterizing the page.
+- A source PDF with no Workbench ink remains eligible for the exact-byte untouched export path introduced in 4.2.1.
+- Once ink is present, the structural export path is used and the annotations are added to the copied/generated/image page.
+- The 4.2.1 batched source-page copying/resource-sharing fix remains intact.
+
+## Not in this build yet
+- Partial-stroke eraser (required next; whole-stroke-only is not the final design)
+- Lasso/select, move, resize, delete, duplicate
+- Highlighter and its separate yellow/pink/blue/green palette/widths
+- Recolor selected strokes
+- Annotation-toolbar auto-hide/edge-placement setting
+- Draw with Finger setting
+- Pressure-sensitive width
+- Images as annotation objects
 
 ## Storage/versioning
 - IndexedDB database version: **2**
-- Library schema version: **4**
+- Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m4.2.2-v1`
+- Service-worker cache: `pdf-workbench-m5.0.2-v1`
 
-## Suggested smoke tests
-1. Open Files and confirm Local Library and Open documents appear together before the Create heading.
-2. Expand Local Library and check the Import/ZIP/New Folder action row plus Refresh/List/Grid row on desktop, Surface, iPad, and Chromebook widths.
-3. Enter View and Presentation and confirm the shared control order is Scroll, Fit, Zoom, Split, Insert.
-4. Confirm the same page-plus icon appears for Insert Page in View and Presentation.
-5. Quickly exercise Import, open-from-Library, Export, Trash/Restore, and backup/restore to confirm this layout-only revision did not alter behavior.
+## High-priority smoke tests
+1. On Surface, open a PDF, choose Pen, write at several zoom levels, switch colors and widths, then use Undo/Redo.
+2. Repeat with Apple Pencil on iPad. Confirm one finger still pans and two fingers still pinch without creating ink.
+3. Switch between View and Presentation. Confirm the annotation controls stay in the same order and Presentation's full-width bar remains at the top without covering the page.
+4. In split view, show the same document in both panes at different pages/zoom positions. Write in one pane; verify view states remain independent and shared ink appears correctly when the same annotated page is visible.
+5. Close/reopen the document and relaunch the app to confirm ink persistence.
+6. Back up on one device and restore on another; confirm ink survives the editable backup.
+7. Export an annotated PDF and inspect it in Adobe Acrobat or another viewer. Check placement, color, width, rotation, and file size.
+8. Re-test the previously problematic slide deck unchanged; it should still export byte-for-byte. Add a short pen stroke and export again; the file should remain reasonably sized.
+9. In Pages, use Duplicate + notes and Duplicate clean and confirm the first carries ink and the second does not.
+10. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
 
-**More → About this build** reports **Milestone 4.2.2**.
+**More → About this build** reports **Milestone 5.0.2**.

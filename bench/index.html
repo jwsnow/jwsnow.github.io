@@ -110,20 +110,41 @@
           </section>
         </div>
 
-        <div id="presentationToolbar" class="presentation-toolbar hidden" aria-label="Presentation controls">
-          <div id="presentationPaneChooser" class="presentation-pane-chooser hidden" role="group" aria-label="Active split pane">
+        <div id="presentationToolbar" class="presentation-toolbar annotation-toolbar" aria-label="Annotation and presentation controls">
+          <div class="annotation-primary" role="group" aria-label="Annotation tools">
+            <button id="inkHandBtn" class="annotation-tool-btn active" type="button" aria-pressed="true" title="Hand / view mode (stylus does not draw)" aria-label="Hand / view mode">✋</button>
+            <button id="inkPenBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Pen" aria-label="Pen">✎</button>
+          </div>
+          <div id="penColorGroup" class="ink-option-group" role="group" aria-label="Pen color">
+            <button class="ink-color-btn" type="button" data-ink-color="#111111" style="--swatch:#111111" title="Black pen" aria-label="Black pen"></button>
+            <button class="ink-color-btn" type="button" data-ink-color="#1565c0" style="--swatch:#1565c0" title="Blue pen" aria-label="Blue pen"></button>
+            <button class="ink-color-btn" type="button" data-ink-color="#d32f2f" style="--swatch:#d32f2f" title="Red pen" aria-label="Red pen"></button>
+            <button class="ink-color-btn" type="button" data-ink-color="#2e7d32" style="--swatch:#2e7d32" title="Green pen" aria-label="Green pen"></button>
+            <button class="ink-color-btn" type="button" data-ink-color="#ef6c00" style="--swatch:#ef6c00" title="Orange pen" aria-label="Orange pen"></button>
+          </div>
+          <div id="penWidthGroup" class="ink-option-group ink-width-group" role="group" aria-label="Pen width">
+            <button class="ink-width-btn" type="button" data-ink-width="1.5" title="Thin pen" aria-label="Thin pen"><span style="--sample-width:1.5px"></span></button>
+            <button class="ink-width-btn" type="button" data-ink-width="3" title="Medium pen" aria-label="Medium pen"><span style="--sample-width:3px"></span></button>
+            <button class="ink-width-btn" type="button" data-ink-width="5.5" title="Thick pen" aria-label="Thick pen"><span style="--sample-width:5.5px"></span></button>
+          </div>
+          <div class="annotation-history" role="group" aria-label="Annotation undo and redo">
+            <button id="inkUndoBtn" type="button" title="Undo" aria-label="Undo" disabled>↶</button>
+            <button id="inkRedoBtn" type="button" title="Redo" aria-label="Redo" disabled>↷</button>
+          </div>
+          <span class="annotation-separator presentation-only" aria-hidden="true"></span>
+          <div id="presentationPaneChooser" class="presentation-pane-chooser presentation-only hidden" role="group" aria-label="Active split pane">
             <button id="presentationLeftPaneBtn" type="button" aria-pressed="true" title="Control left pane">L</button>
             <button id="presentationRightPaneBtn" type="button" aria-pressed="false" title="Control right pane">R</button>
           </div>
-          <select id="presentationDocumentSelect" class="presentation-document-select" aria-label="Open document"></select>
-          <button id="presentationScrollModeBtn" type="button" title="Change scrolling mode">↕</button>
-          <button id="presentationFitBtn" type="button" title="Fit width" aria-label="Fit width">↔</button>
-          <button id="presentationZoomOutBtn" type="button" aria-label="Zoom out">−</button>
-          <span id="presentationZoomLabel" class="presentation-zoom-label">100%</span>
-          <button id="presentationZoomInBtn" type="button" aria-label="Zoom in">+</button>
-          <button id="presentationLayoutBtn" type="button" title="Switch to split view" aria-label="Switch to split view">◫</button>
-          <button id="presentationInsertBtn" class="presentation-insert-page" type="button" title="Insert a page after the current page" aria-label="Insert page" aria-haspopup="menu" aria-expanded="false"><span class="page-plus-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 3h8l4 4v5M6 3v18h7M14 3v5h4"/><path d="M14 17h7M17.5 13.5v7"/></svg></span></button>
-          <button id="presentationExit" type="button" aria-label="Exit presentation mode">×</button>
+          <select id="presentationDocumentSelect" class="presentation-document-select presentation-only" aria-label="Open document"></select>
+          <button id="presentationScrollModeBtn" class="presentation-only" type="button" title="Change scrolling mode">↕</button>
+          <button id="presentationFitBtn" class="presentation-only" type="button" title="Fit width" aria-label="Fit width">↔</button>
+          <button id="presentationZoomOutBtn" class="presentation-only" type="button" aria-label="Zoom out">−</button>
+          <span id="presentationZoomLabel" class="presentation-zoom-label presentation-only">100%</span>
+          <button id="presentationZoomInBtn" class="presentation-only" type="button" aria-label="Zoom in">+</button>
+          <button id="presentationLayoutBtn" class="presentation-only" type="button" title="Switch to split view" aria-label="Switch to split view">◫</button>
+          <button id="presentationInsertBtn" class="presentation-insert-page presentation-only" type="button" title="Insert a page after the current page" aria-label="Insert page" aria-haspopup="menu" aria-expanded="false"><span class="page-plus-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 3h8l4 4v5M6 3v18h7M14 3v5h4"/><path d="M14 17h7M17.5 13.5v7"/></svg></span></button>
+          <button id="presentationExit" class="presentation-only" type="button" aria-label="Exit presentation mode">×</button>
         </div>
       </section>
 
@@ -149,7 +170,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 4.2.2</div>
+          <div class="export-kicker">Milestone 5.0.2</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 

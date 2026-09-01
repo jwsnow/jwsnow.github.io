@@ -1,3 +1,159 @@
+PDF WORKBENCH PWA — MILESTONE 5.0.2 CURRENT UPDATE
+====================================================================
+CURRENT BUILD: Milestone 5.0.2
+Visible About version: 5.0.2
+Service-worker/cache version: pdf-workbench-m5.0.2-v1
+IndexedDB database version: 2
+Library schema version: 5
+Editable backup format version: 1
+
+====================================================================
+MILESTONE 5.0.2 — PDF INK EXPORT JOIN/CAP FIX
+====================================================================
+
+User-reported export defect after initial 5.0.1 pen testing:
+- Wider curved strokes showed repeated white wedges/slits on the inside of turns in the exported PDF. The effect was especially visible in the thick black and green sample curves.
+- This was distinct from the planned later interpolation/smoothing work. The stored stroke was a sampled polyline, but the immediate white-gap defect came from how that polyline was emitted to PDF.
+
+Root cause and fix:
+- 5.0.0/5.0.1 exported every adjacent sampled point pair as a separate `drawLine` operation, then added circles only at the two overall stroke ends. Separate PDF line segments do not form a joined stroke at their interior endpoints, so wider turns could expose triangular white gaps.
+- 5.0.2 maps the same stored points to PDF coordinates but emits the complete stroke as ONE `drawSvgPath` polyline. The path is stroked with round line joins and round end caps.
+- The enclosing PDF graphics state sets a round line join; `drawSvgPath` supplies the round cap and the existing stroke opacity. This preserves a single transparency operation for the stroke and avoids dark overlap nodes, which is useful groundwork for a future translucent Highlighter.
+- Single-point taps still export as filled circles.
+- No smoothing/interpolation is added here. Raw stored points and on-screen completed-stroke rendering remain unchanged.
+
+IMMEDIATE RETEST:
+- Make several thick loops, S-curves, and tight turns with the 5.5 pt Pen, then export. Inspect the PDF at high zoom; the white wedges between sampled segments should be gone.
+- Also verify thin/medium widths and all pen colors.
+- Recheck at least one rotated/CropBox page if convenient, because coordinate mapping itself was intentionally left unchanged.
+- The on-screen handwriting may still look somewhat polygonal. That is the separate planned interpolation/smoothing pass.
+
+NEXT ANNOTATION WORK AFTER BASIC PEN CORRECTNESS:
+1. Deliberate stroke smoothing/interpolation while preserving raw sample points.
+2. Partial-stroke eraser built against the stable stroke geometry/data model.
+3. Lasso/select with move + resize + delete + duplicate.
+4. Highlighter with its own remembered palette/widths.
+
+====================================================================
+PRIOR MILESTONE 5.0.1 HANDOFF FOLLOWS
+====================================================================
+
+PDF WORKBENCH PWA — MILESTONE 5.0.1 CURRENT UPDATE
+====================================================================
+CURRENT BUILD: Milestone 5.0.1
+Visible About version: 5.0.1
+Service-worker/cache version: pdf-workbench-m5.0.1-v1
+IndexedDB database version: 2
+Library schema version: 5
+Editable backup format version: 1
+
+====================================================================
+MILESTONE 5.0.1 — PRESENTATION TOOLBAR POSITIONING FIX
+====================================================================
+
+User-reported regression found immediately after the 5.0.0 annotation-toolbar change:
+- In Presentation mode, roughly the left half of the top toolbar could be shifted outside the viewport. The screenshot showed only the right-hand Presentation controls while the annotation tools/colors/widths were off-screen.
+- Root cause: a legacy CSS rule from the former centered floating Presentation palette still applied `transform: translateX(-50%)`. Milestone 5 changed the same element into a full-width bar anchored with left: 0, so that old transform translated the entire full-width bar left by half its own width.
+- Fix: the Milestone 5 Presentation annotation-toolbar rule now explicitly sets `transform: none !important` (and top-left transform origin), keeping the unified strip edge-docked across the full viewport.
+- This is intentionally a narrow UI bug fix. No ink model, export, Library, backup, history, or viewer-state logic was changed.
+
+IMMEDIATE RETEST:
+- Enter Presentation on the same device/layout that produced the screenshot. Confirm Hand, Pen, all five color dots, all three widths, Undo/Redo, and the appended Presentation controls are reachable across the top strip rather than starting off-screen.
+- Check both Single and Split Presentation.
+- Recheck View -> Presentation -> View anchoring after this CSS-only fix.
+
+NEXT ANNOTATION PRIORITY AFTER THIS RETEST:
+1. Partial-stroke eraser.
+2. Lasso/select with move + resize + delete + duplicate.
+3. Highlighter with its own remembered palette/widths.
+
+====================================================================
+PRIOR MILESTONE 5.0.0 HANDOFF FOLLOWS
+====================================================================
+
+PDF WORKBENCH PWA — MILESTONE 5.0.0 CURRENT UPDATE
+====================================================================
+CURRENT BUILD: Milestone 5.0.0
+Visible About version: 5.0.0
+Service-worker/cache version: pdf-workbench-m5.0.0-v1
+IndexedDB database version: 2
+Library schema version: 5
+Editable backup format version: 1
+
+====================================================================
+MILESTONE 5.0.0 — FIRST ANNOTATION / INKING SLICE
+====================================================================
+
+Baseline:
+- Milestone 4.2.2 is the preferred validated Milestone 4 baseline. Its Files UI was approved on Surface and iPad in wide and narrow layouts.
+- Milestone 4.2.1 Library/export functionality was broadly validated on Surface and iPad: create/move/import/export, editable backup, full restore, backup import as subtree, Trash/Restore/Permanent Delete, and cross-platform backup portability.
+- The former export-size defect is fixed: the test slide deck exports byte-for-byte when untouched and slightly smaller after structural edits. Do not regress unchanged-byte passthrough or batched source-page copy/resource sharing.
+
+Annotation-control decisions:
+- Use one thin edge-docked toolbar architecture, defaulting to the full top edge. Do not put annotation controls at the bottom because of palm/hand rejection.
+- Do not permanently favor left- or right-handed users with a required side toolbar. Edge placement may become a setting later.
+- The same annotation controls and ordering should appear in ordinary View and Presentation. Presentation's former floating control palette is folded into this top strip.
+- Presentation 5.0.0 keeps the bar always visible so Pen/color/width changes are immediate. Add an Always visible / Auto-hide setting later, after core annotation behavior is validated.
+- Normal View retains its existing app bar; the annotation strip sits directly beneath it. Presentation hides the app bar and docks this same strip at the absolute top.
+
+5.0.0 implemented tool slice:
+- Hand/View tool: stylus does not draw; finger navigation remains one-finger pan/scroll and two-finger pinch.
+- Pen tool. Primary mouse drawing is also allowed for desktop testing.
+- Direct Pen palette: black, blue, red, green, orange.
+- Three direct Pen widths: 1.5 pt, 3 pt, 5.5 pt.
+- Color and width are selected independently; selecting either activates Pen. Pen tool/color/width are remembered locally.
+- Undo/Redo buttons are in the annotation strip and share the existing document history.
+- Coalesced pointer samples are consumed where available. Draw-with-Finger remains off.
+
+Ink data architecture:
+- Workbench ink is non-destructive page-local vector stroke data stored with each page. Each stroke contains an id, tool/type, color, width, opacity, and page-local point list.
+- Stored coordinates are in the Workbench page's unrotated base-canvas coordinate system (PDF points, top-left origin), not screen pixels. Rendering maps those coordinates through current Workbench page rotation and zoom. Export maps them back through the source PDF's inherited page rotation/crop box.
+- Same-document split panes share document content but preserve independent view state. Live strokes are mirrored into another rendered instance of the same page.
+- Page state cloning was made annotation-aware so history, persistence, templates, duplication, page copy, Combine, backup restore, and backup-as-subtree do not accidentally alias mutable stroke arrays.
+- Duplicate + notes carries Workbench ink. Duplicate clean omits Workbench ink.
+- Page-size fit/center applies a proportional fit/center transform to existing Workbench ink. Margin/crop changes shift ink with the page content; resetting edge adjustments shifts it back. Page rotation needs no data mutation because rendering/export applies rotation to the page-local coordinates.
+
+Export:
+- Any page containing Workbench ink prevents untouched-byte passthrough for that document. An unannotated untouched source PDF remains byte-for-byte passthrough.
+- Structural export adds Workbench strokes as vector PDF line/circle drawing operations; pages are not rasterized just to export ink.
+- Source PDFs still use one batched copyPages call per source, preserving shared resources.
+- Generated pages and image pages also receive Workbench ink before final page rotation is applied.
+
+NEXT ANNOTATION PRIORITIES (user-confirmed):
+1. Partial-stroke eraser. The user definitely wants erasing portions of strokes eventually; whole-stroke-only erasing is not an acceptable final endpoint.
+2. Lasso/select with move and RESIZE as a high priority. Resizing is frequently used. Include delete and copy/duplicate.
+3. Highlighter with its own quick palette: yellow, pinkish, bluish/cyan, greenish, and its own three widths. Pen and Highlighter remember separate color/width state.
+4. Recolor selected annotations is useful but low-frequency.
+5. Do NOT prioritize changing selected-stroke width or opacity; the user says they never use those operations.
+6. Images as annotation objects come after annotation tools are mature. Eventually images should be movable/resizable/copyable/deletable/rotatable.
+7. Future toolbar options: Always visible vs Auto-hide; possibly Top/Left/Right edge placement. Do not make the toolbar freely draggable initially.
+8. Future optional light pen colors/color picker for dark PDF backgrounds.
+9. Future Presentation Laser Pointer and possible palm-safe handling/auto-hide of Full Page bottom navigation.
+
+HIGH-PRIORITY 5.0.0 TESTS:
+- Surface Pen and Apple Pencil strokes at Fit Width/Fit Page and multiple zoom levels.
+- Finger pan/pinch while Pen is selected; touch must not draw.
+- Pen UI controls must accept stylus taps.
+- View <-> Presentation with annotated pages; logical page/scroll anchors must remain stable.
+- Single/Split and same-document split with independent page/zoom/scroll state.
+- Library persistence and cross-platform editable backup restore of annotations.
+- PDF export placement/color/width on ordinary, rotated, mixed-size, CropBox, generated graph/blank, and image pages.
+- Re-run the 44-page slide-deck size regression unannotated and with a small annotation.
+- Pages thumbnails and Insert previews should display Workbench ink; Duplicate clean preview should omit it.
+
+KNOWN INTENTIONAL LIMITS OF 5.0.0:
+- No eraser yet.
+- No lasso/select/resize yet.
+- No highlighter yet.
+- No pressure-sensitive width yet.
+- No finger drawing.
+- Presentation annotation strip is always visible; auto-hide setting is deferred.
+- Hand/View prevents stylus ink but does not yet promise stylus-drag panning; finger navigation remains the established navigation path.
+
+====================================================================
+PRIOR MILESTONE 4.2.2 HANDOFF FOLLOWS
+====================================================================
+
 PDF WORKBENCH PWA — MILESTONE 4.2.2 CURRENT UPDATE
 ====================================================
 

@@ -1106,3 +1106,179 @@ body.presentation .split-pane.active {
 /* Milestone 4.2.2 UI-polish baseline; direct-open affordance retained from 4.2.1. */
 .library-open-target { cursor: pointer; }
 .library-open-target:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 6px; }
+
+/* Milestone 5.0: first annotation toolbar. The same edge-docked control strip is
+   used in ordinary View and Presentation. Annotation controls stay in the same
+   left-to-right positions; Presentation-only viewing controls are appended to
+   the right. The bar occupies real viewport space instead of covering the PDF. */
+:root { --annotation-bar-h: 46px; }
+
+.presentation-toolbar.annotation-toolbar {
+  position: absolute;
+  inset: 0 0 auto 0;
+  width: 100%;
+  max-width: none;
+  height: var(--annotation-bar-h);
+  transform: none !important;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  padding: 4px 6px;
+  border: 0;
+  border-bottom: 1px solid rgb(0 0 0 / .18);
+  border-radius: 0;
+  background: rgb(248 249 251 / .97);
+  box-shadow: none;
+  backdrop-filter: blur(8px);
+  opacity: 1;
+  pointer-events: auto;
+  transition: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.presentation-toolbar.annotation-toolbar::-webkit-scrollbar { display: none; }
+.presentation-toolbar.annotation-toolbar button {
+  flex: 0 0 36px;
+  width: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: white;
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1;
+  padding: 0;
+}
+.presentation-toolbar.annotation-toolbar button:disabled { opacity: .38; }
+.presentation-toolbar.annotation-toolbar .annotation-tool-btn.active,
+.presentation-toolbar.annotation-toolbar .ink-color-btn.active,
+.presentation-toolbar.annotation-toolbar .ink-width-btn.active {
+  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 72%, var(--border));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.annotation-primary,
+.annotation-history,
+.ink-option-group,
+.presentation-pane-chooser {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex: 0 0 auto;
+}
+.ink-option-group { padding-left: 2px; }
+.presentation-toolbar.annotation-toolbar .ink-color-btn {
+  position: relative;
+  width: 30px;
+  min-width: 30px;
+  flex-basis: 30px;
+  border-color: transparent;
+  background: transparent;
+}
+.presentation-toolbar.annotation-toolbar .ink-color-btn::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--swatch);
+  border: 1px solid rgb(0 0 0 / .22);
+}
+.presentation-toolbar.annotation-toolbar .ink-color-btn.active::after {
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+}
+.presentation-toolbar.annotation-toolbar .ink-width-btn {
+  width: 32px;
+  min-width: 32px;
+  flex-basis: 32px;
+  display: grid;
+  place-items: center;
+}
+.presentation-toolbar.annotation-toolbar .ink-width-btn span {
+  display: block;
+  width: 20px;
+  height: var(--sample-width);
+  min-height: 1px;
+  border-radius: 999px;
+  background: currentColor;
+}
+.annotation-separator {
+  width: 1px;
+  height: 27px;
+  flex: 0 0 1px;
+  margin: 0 2px;
+  background: var(--border);
+}
+.presentation-only { display: none !important; }
+.presentation-toolbar.annotation-toolbar .presentation-document-select {
+  flex: 0 0 120px;
+  width: 120px;
+  min-width: 88px;
+  max-width: 150px;
+  height: 36px;
+  border-radius: 7px;
+  font-size: 14px;
+}
+.presentation-toolbar.annotation-toolbar .presentation-zoom-label {
+  flex: 0 0 46px;
+  min-width: 46px;
+  font-size: .78rem;
+}
+
+/* Reserve space for the annotation strip instead of overlaying page content. */
+.viewer-pane > .viewer {
+  position: absolute;
+  inset: var(--annotation-bar-h) 0 0 0;
+  width: auto;
+  height: auto;
+}
+.viewer-pane > .split-view { top: var(--annotation-bar-h); }
+
+body.presentation .presentation-toolbar.annotation-toolbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  /* Milestone 5.0.1: override the legacy centered Presentation palette rule
+     above. With left:0, translateX(-50%) shifted half of this full-width bar
+     off-screen. The unified annotation bar is edge-docked, not centered. */
+  transform: none !important;
+  transform-origin: top left;
+  height: calc(var(--annotation-bar-h) + env(safe-area-inset-top));
+  padding-top: calc(4px + env(safe-area-inset-top));
+  background: rgb(248 249 251 / .96);
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+body.presentation button.presentation-only:not(.hidden),
+body.presentation select.presentation-only:not(.hidden),
+body.presentation span.presentation-only:not(.hidden) { display: block !important; }
+body.presentation .presentation-pane-chooser.presentation-only:not(.hidden) { display: flex !important; }
+body.presentation .viewer-pane > .viewer {
+  inset: calc(var(--annotation-bar-h) + env(safe-area-inset-top)) 0 0 0;
+}
+body.presentation .split-view { top: calc(var(--annotation-bar-h) + env(safe-area-inset-top)); }
+
+@media (max-width: 620px) {
+  .presentation-toolbar.annotation-toolbar { gap: 2px; padding-left: 4px; padding-right: 4px; }
+  .presentation-toolbar.annotation-toolbar button { width: 34px; min-width: 34px; flex-basis: 34px; }
+  .presentation-toolbar.annotation-toolbar .ink-color-btn { width: 28px; min-width: 28px; flex-basis: 28px; }
+  .presentation-toolbar.annotation-toolbar .ink-width-btn { width: 30px; min-width: 30px; flex-basis: 30px; }
+}
+body.ink-pen-active .page-stage { cursor: crosshair; }

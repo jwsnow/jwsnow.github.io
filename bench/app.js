@@ -1,4 +1,4 @@
-const APP_VERSION = '4.2.2';
+const APP_VERSION = '5.0.2';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -10,7 +10,7 @@ const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 
 const LIBRARY_DB_NAME = 'pdf-workbench-library';
 const LIBRARY_DB_VERSION = 2;
-const LIBRARY_SCHEMA_VERSION = 4;
+const LIBRARY_SCHEMA_VERSION = 5;
 const LIBRARY_BACKUP_FORMAT_VERSION = 1;
 
 const $ = (id) => document.getElementById(id);
@@ -32,7 +32,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -66,6 +66,10 @@ const state = {
   presentationRevealPointerId: null,
   presentationSuppressClicksUntil: 0,
   singlePresentationTransitionActive: false,
+  annotationTool: safePref('pdfwb-annotation-tool', 'hand', ['hand', 'pen']),
+  penColor: safePref('pdfwb-pen-color', '#111111', ['#111111','#1565c0','#d32f2f','#2e7d32','#ef6c00']),
+  penWidth: Number(safePref('pdfwb-pen-width', '3', ['1.5','3','5.5'])),
+  inkGesture: null,
   touchPointers: new Map(),
   touchPan: null,
   touchInertiaFrame: null,
@@ -276,17 +280,31 @@ function clonePlain(value) {
   if (value == null) return value;
   try { return structuredClone(value); } catch { return JSON.parse(JSON.stringify(value)); }
 }
+function cloneInkStroke(stroke) {
+  return {
+    ...stroke,
+    points: Array.isArray(stroke?.points) ? stroke.points.map(point => ({ x: Number(point.x) || 0, y: Number(point.y) || 0 })) : [],
+  };
+}
+function clonePageState(page, options={}) {
+  if (!page) return page;
+  const includeAnnotations = options.includeAnnotations !== false;
+  const copy = { ...page };
+  copy.annotations = includeAnnotations && Array.isArray(page.annotations) ? page.annotations.map(cloneInkStroke) : [];
+  if (options.newId) copy.id = uid('page');
+  return copy;
+}
 function serializeDocumentForLibrary(doc) {
   return {
     id: doc.id,
     schemaVersion: LIBRARY_SCHEMA_VERSION,
     name: doc.name || 'Untitled.pdf',
-    pages: doc.pages.map(page => ({ ...page })),
+    pages: doc.pages.map(page => clonePageState(page)),
     selected: [...(doc.selected || [])],
     selectionAnchorId: doc.selectionAnchorId || null,
     activePageId: doc.activePageId || doc.pages[0]?.id || null,
-    history: (doc.history || []).map(snapshot => snapshot.map(page => ({ ...page }))),
-    future: (doc.future || []).map(snapshot => snapshot.map(page => ({ ...page }))),
+    history: (doc.history || []).map(snapshot => snapshot.map(page => clonePageState(page))),
+    future: (doc.future || []).map(snapshot => snapshot.map(page => clonePageState(page))),
     singleView: copyView(doc.singleView || ensureSingleView(doc)),
     createdAt: doc.createdAt || Date.now(),
     modifiedAt: doc.modifiedAt || Date.now(),
@@ -299,7 +317,7 @@ function serializeDocumentForLibrary(doc) {
   };
 }
 function hydrateDocumentFromLibrary(record) {
-  const pages = (record.pages || []).map(page => ({ ...page }));
+  const pages = (record.pages || []).map(page => clonePageState(page));
   const pageIds = new Set(pages.map(page => page.id));
   const doc = {
     id: record.id,
@@ -308,8 +326,8 @@ function hydrateDocumentFromLibrary(record) {
     selected: new Set((record.selected || []).filter(id => pageIds.has(id))),
     selectionAnchorId: pageIds.has(record.selectionAnchorId) ? record.selectionAnchorId : null,
     activePageId: pageIds.has(record.activePageId) ? record.activePageId : pages[0]?.id || null,
-    history: (record.history || []).map(snapshot => snapshot.map(page => ({ ...page }))),
-    future: (record.future || []).map(snapshot => snapshot.map(page => ({ ...page }))),
+    history: (record.history || []).map(snapshot => snapshot.map(page => clonePageState(page))),
+    future: (record.future || []).map(snapshot => snapshot.map(page => clonePageState(page))),
     singleView: copyView(record.singleView) || { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: pages[0]?.id || null, scrollTop: null, scrollLeft: null },
     createdAt: record.createdAt || Date.now(),
     modifiedAt: record.modifiedAt || record.createdAt || Date.now(),
@@ -409,7 +427,7 @@ function serializeTemplatesForLibrary() {
     templates: state.templates.map(template => ({
       id: template.id,
       name: template.name,
-      page: template.page ? { ...template.page } : null,
+      page: template.page ? clonePageState(template.page) : null,
       createdAt: template.createdAt || Date.now(),
       modifiedAt: template.modifiedAt || template.createdAt || Date.now(),
     })),
@@ -422,7 +440,7 @@ async function restorePersistentTemplates() {
   if (Number(saved?.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION) throw new Error(`Saved templates use a newer Library schema (${saved.schemaVersion}).`);
   state.templates = Array.isArray(saved?.templates)
     ? saved.templates.filter(item => item?.page).map(item => ({
-        id: item.id || uid('template'), name: item.name || 'Template', page: { ...item.page },
+        id: item.id || uid('template'), name: item.name || 'Template', page: clonePageState(item.page),
         createdAt: item.createdAt || Date.now(), modifiedAt: item.modifiedAt || item.createdAt || Date.now(),
       }))
     : [];
@@ -1079,7 +1097,7 @@ function remapPageForImportedBackup(page, sourceMap, pageIdMap) {
   if (!page) return page;
   const oldId = page.id || uid('legacy-page');
   if (!pageIdMap.has(oldId)) pageIdMap.set(oldId, uid('page'));
-  return { ...page, id: pageIdMap.get(oldId), sourceId: page.sourceId ? sourceMap.get(page.sourceId) || null : null };
+  return { ...clonePageState(page), id: pageIdMap.get(oldId), sourceId: page.sourceId ? sourceMap.get(page.sourceId) || null : null };
 }
 
 async function importEditableBackupAsSubtree(file) {
@@ -1211,6 +1229,339 @@ function displayedEdgesToRawPdf(displayed, inheritedRotation=0) {
   if (rotation === 180) return { top: d.bottom, right: d.left, bottom: d.top, left: d.right };
   if (rotation === 270) return { top: d.left, right: d.top, bottom: d.right, left: d.bottom };
   return { ...d };
+}
+
+
+// ---------------------------------------------------------------------------
+// Milestone 5.0 annotation core
+// ---------------------------------------------------------------------------
+const PEN_COLORS = ['#111111','#1565c0','#d32f2f','#2e7d32','#ef6c00'];
+const PEN_WIDTHS = [1.5, 3, 5.5];
+
+function normalizedQuarterTurn(value=0) {
+  return (((Math.round(Number(value) || 0) % 360) + 360) % 360);
+}
+function annotationsForPage(page) {
+  if (!Array.isArray(page?.annotations)) page.annotations = [];
+  return page.annotations;
+}
+function hasPageAnnotations(page) {
+  return Array.isArray(page?.annotations) && page.annotations.some(stroke => Array.isArray(stroke?.points) && stroke.points.length);
+}
+function basePointToDisplay(page, point) {
+  const base = pageCanvasBaseDimensions(page);
+  const x = Number(point?.x) || 0, y = Number(point?.y) || 0;
+  const rotation = normalizedQuarterTurn(page?.rotation);
+  if (rotation === 90) return { x: base.height - y, y: x };
+  if (rotation === 180) return { x: base.width - x, y: base.height - y };
+  if (rotation === 270) return { x: y, y: base.width - x };
+  return { x, y };
+}
+function displayPointToBase(page, point) {
+  const base = pageCanvasBaseDimensions(page);
+  const x = Number(point?.x) || 0, y = Number(point?.y) || 0;
+  const rotation = normalizedQuarterTurn(page?.rotation);
+  if (rotation === 90) return { x: y, y: base.height - x };
+  if (rotation === 180) return { x: base.width - x, y: base.height - y };
+  if (rotation === 270) return { x: base.width - y, y: x };
+  return { x, y };
+}
+function eventPointOnPage(stage, page, event) {
+  const rect = stage?.getBoundingClientRect?.();
+  if (!rect || rect.width <= 0 || rect.height <= 0) return null;
+  const display = pageDisplayDimensions(page);
+  const dx = clamp((event.clientX - rect.left) * display.width / rect.width, 0, display.width);
+  const dy = clamp((event.clientY - rect.top) * display.height / rect.height, 0, display.height);
+  const point = displayPointToBase(page, { x: dx, y: dy });
+  const base = pageCanvasBaseDimensions(page);
+  return { x: clamp(point.x, 0, base.width), y: clamp(point.y, 0, base.height) };
+}
+function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight) {
+  if (!ctx || !hasPageAnnotations(page)) return;
+  const display = pageDisplayDimensions(page);
+  const sx = pixelWidth / Math.max(1, display.width);
+  const sy = pixelHeight / Math.max(1, display.height);
+  ctx.save();
+  ctx.scale(sx, sy);
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  for (const stroke of page.annotations) {
+    const points = Array.isArray(stroke?.points) ? stroke.points : [];
+    if (!points.length) continue;
+    const width = Math.max(.25, Number(stroke.width) || 3);
+    const color = stroke.color || '#111111';
+    const opacity = clamp(Number(stroke.opacity ?? 1), 0, 1);
+    ctx.globalAlpha = opacity;
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = width;
+    const first = basePointToDisplay(page, points[0]);
+    if (points.length === 1) {
+      ctx.beginPath();
+      ctx.arc(first.x, first.y, width / 2, 0, Math.PI * 2);
+      ctx.fill();
+      continue;
+    }
+    ctx.beginPath();
+    ctx.moveTo(first.x, first.y);
+    for (let i = 1; i < points.length; i++) {
+      const p = basePointToDisplay(page, points[i]);
+      ctx.lineTo(p.x, p.y);
+    }
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
+  const drawOnStage = targetStage => {
+    const canvas = targetStage?.querySelector?.('canvas');
+    if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const display = pageDisplayDimensions(page);
+    const sx = canvas.width / Math.max(1, display.width);
+    const sy = canvas.height / Math.max(1, display.height);
+    const a = basePointToDisplay(page, fromPoint);
+    const b = basePointToDisplay(page, toPoint);
+    ctx.save();
+    ctx.scale(sx, sy);
+    ctx.globalAlpha = clamp(Number(stroke.opacity ?? 1), 0, 1);
+    ctx.strokeStyle = stroke.color || '#111111';
+    ctx.fillStyle = stroke.color || '#111111';
+    ctx.lineWidth = Math.max(.25, Number(stroke.width) || 3);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    if (Math.hypot(b.x - a.x, b.y - a.y) < .001) {
+      ctx.beginPath();
+      ctx.arc(a.x, a.y, ctx.lineWidth / 2, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    }
+    ctx.restore();
+  };
+  drawOnStage(stage);
+  // Same-document split panes share document content but retain independent
+  // view state. Mirror the live stroke into any other rendered instance of the
+  // same page so both panes remain visually synchronized while writing.
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const other of document.querySelectorAll(selector)) if (other !== stage) drawOnStage(other);
+}
+
+function updateInkToolbar() {
+  const tool = state.annotationTool === 'pen' ? 'pen' : 'hand';
+  els.inkHandBtn?.classList.toggle('active', tool === 'hand');
+  els.inkPenBtn?.classList.toggle('active', tool === 'pen');
+  els.inkHandBtn?.setAttribute('aria-pressed', String(tool === 'hand'));
+  els.inkPenBtn?.setAttribute('aria-pressed', String(tool === 'pen'));
+  document.body.classList.toggle('ink-pen-active', tool === 'pen');
+  for (const button of els.penColorGroup?.querySelectorAll?.('[data-ink-color]') || []) {
+    const active = button.dataset.inkColor === state.penColor;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  }
+  for (const button of els.penWidthGroup?.querySelectorAll?.('[data-ink-width]') || []) {
+    const active = Math.abs(Number(button.dataset.inkWidth) - Number(state.penWidth)) < .01;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  }
+}
+function setAnnotationTool(tool) {
+  state.annotationTool = tool === 'pen' ? 'pen' : 'hand';
+  savePref('pdfwb-annotation-tool', state.annotationTool);
+  updateInkToolbar();
+}
+function setPenColor(color) {
+  if (!PEN_COLORS.includes(color)) return;
+  state.penColor = color;
+  savePref('pdfwb-pen-color', color);
+  setAnnotationTool('pen');
+}
+function setPenWidth(width) {
+  const chosen = PEN_WIDTHS.find(value => Math.abs(value - Number(width)) < .01);
+  if (!chosen) return;
+  state.penWidth = chosen;
+  savePref('pdfwb-pen-width', String(chosen));
+  setAnnotationTool('pen');
+}
+function appendInkPoint(gesture, event) {
+  const page = pageById(gesture.pageId);
+  if (!page || page !== gesture.page || !gesture.stage?.isConnected) return;
+  const next = eventPointOnPage(gesture.stage, page, event);
+  if (!next) return;
+  const points = gesture.stroke.points;
+  const previous = points[points.length - 1];
+  if (previous && Math.hypot(next.x - previous.x, next.y - previous.y) < .18) return;
+  points.push(next);
+  drawLiveInkSegment(gesture.stage, page, gesture.stroke, previous || next, next);
+}
+function beginInkGesture(viewer, event) {
+  if (state.annotationTool !== 'pen') return false;
+  if (event.pointerType === 'mouse' && event.button !== 0) return false;
+  if (event.pointerType === 'pen' && ![0, -1].includes(event.button)) return false;
+  const stage = event.target instanceof Element ? event.target.closest('.page-stage[data-page-id]') : null;
+  if (!stage || !viewer.contains(stage) || stage.dataset.rendered !== 'true') return true;
+  const page = pageById(stage.dataset.pageId);
+  if (!page) return true;
+  const first = eventPointOnPage(stage, page, event);
+  if (!first) return true;
+  const stroke = {
+    id: uid('ink'),
+    type: 'ink',
+    tool: 'pen',
+    color: state.penColor,
+    width: state.penWidth,
+    opacity: 1,
+    points: [first],
+  };
+  const before = snapshotPages();
+  annotationsForPage(page).push(stroke);
+  state.activePageId = page.id;
+  state.inkGesture = { pointerId: event.pointerId, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, before };
+  if (event.cancelable) event.preventDefault();
+  try { viewer.setPointerCapture?.(event.pointerId); } catch {}
+  drawLiveInkSegment(stage, page, stroke, first, first);
+  return true;
+}
+function continueInkGesture(viewer, event) {
+  const gesture = state.inkGesture;
+  if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
+  if (event.cancelable) event.preventDefault();
+  const samples = typeof event.getCoalescedEvents === 'function' ? event.getCoalescedEvents() : null;
+  if (samples?.length) for (const sample of samples) appendInkPoint(gesture, sample);
+  else appendInkPoint(gesture, event);
+  return true;
+}
+function finishInkGesture(viewer, event) {
+  const gesture = state.inkGesture;
+  if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
+  if (event.cancelable) event.preventDefault();
+  appendInkPoint(gesture, event);
+  try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
+  state.inkGesture = null;
+  if (!gesture.stroke.points.length) return true;
+  commitHistory(gesture.before);
+  saveCurrentDocumentState({ readViewDom: false });
+  return true;
+}
+function handleDocumentInkPointer(viewer, event) {
+  if (event.pointerType === 'touch') return false;
+  if (event.type === 'pointerdown') {
+    if (event.pointerType === 'pen' && state.annotationTool !== 'pen') {
+      if (event.cancelable) event.preventDefault();
+      try { viewer.setPointerCapture?.(event.pointerId); } catch {}
+      return true;
+    }
+    if (event.pointerType === 'pen' || event.pointerType === 'mouse') return beginInkGesture(viewer, event);
+    return false;
+  }
+  if (event.type === 'pointermove') {
+    if (continueInkGesture(viewer, event)) return true;
+    if (event.pointerType === 'pen') {
+      if (event.cancelable && (event.buttons || event.pressure > 0)) event.preventDefault();
+      return true;
+    }
+    return false;
+  }
+  if (event.type === 'pointerup' || event.type === 'pointercancel') {
+    if (finishInkGesture(viewer, event)) return true;
+    if (event.pointerType === 'pen') {
+      if (event.cancelable) event.preventDefault();
+      try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
+      return true;
+    }
+  }
+  return false;
+}
+function shiftPageAnnotations(page, dx, dy) {
+  if (!hasPageAnnotations(page)) return;
+  for (const stroke of page.annotations) for (const point of stroke.points || []) {
+    point.x += dx;
+    point.y += dy;
+  }
+}
+function fitPageAnnotationsToCanvas(page, oldBase, newBase) {
+  if (!hasPageAnnotations(page) || !oldBase || !newBase) return;
+  const fit = Math.min(newBase.width / Math.max(1, oldBase.width), newBase.height / Math.max(1, oldBase.height));
+  const offsetX = (newBase.width - oldBase.width * fit) / 2;
+  const offsetY = (newBase.height - oldBase.height * fit) / 2;
+  for (const stroke of page.annotations) {
+    for (const point of stroke.points || []) {
+      point.x = point.x * fit + offsetX;
+      point.y = point.y * fit + offsetY;
+    }
+    stroke.width = Math.max(.25, Number(stroke.width || 3) * fit);
+  }
+}
+function hexToPdfRgb(hex, rgb) {
+  const value = String(hex || '#111111').replace('#','');
+  const normalized = value.length === 3 ? value.split('').map(ch => ch + ch).join('') : value.padEnd(6,'0').slice(0,6);
+  const n = Number.parseInt(normalized, 16);
+  return rgb(((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255);
+}
+function annotationPointToRawPdf(page, point, pdfPage, inheritedRotation=0) {
+  const box = pdfPage.getCropBox?.() || pdfPage.getMediaBox?.() || { x: 0, y: 0, width: pdfPage.getWidth(), height: pdfPage.getHeight() };
+  const rotation = normalizedQuarterTurn(inheritedRotation);
+  const orientedW = rotation === 90 || rotation === 270 ? box.height : box.width;
+  const orientedH = rotation === 90 || rotation === 270 ? box.width : box.height;
+  const base = pageCanvasBaseDimensions(page);
+  const u = clamp(Number(point?.x) || 0, 0, base.width) * orientedW / Math.max(1, base.width);
+  const v = clamp(Number(point?.y) || 0, 0, base.height) * orientedH / Math.max(1, base.height);
+  if (rotation === 90) return { x: box.x + v, y: box.y + u };
+  if (rotation === 180) return { x: box.x + box.width - u, y: box.y + v };
+  if (rotation === 270) return { x: box.x + box.width - v, y: box.y + box.height - u };
+  return { x: box.x + u, y: box.y + box.height - v };
+}
+function drawPageAnnotationsPdf(pdfPage, page, inheritedRotation, pdfLib) {
+  if (!hasPageAnnotations(page)) return;
+  const { rgb, pushGraphicsState, popGraphicsState, setLineJoin, LineJoinStyle, LineCapStyle } = pdfLib;
+  const pathNumber = value => {
+    const n = Number(value) || 0;
+    const rounded = Math.round(n * 10000) / 10000;
+    return Object.is(rounded, -0) ? '0' : String(rounded);
+  };
+  for (const stroke of page.annotations) {
+    const points = Array.isArray(stroke?.points) ? stroke.points : [];
+    if (!points.length) continue;
+    const color = hexToPdfRgb(stroke.color, rgb);
+    const thickness = Math.max(.25, Number(stroke.width) || 3);
+    const opacity = clamp(Number(stroke.opacity ?? 1), 0, 1);
+    if (points.length === 1) {
+      const p = annotationPointToRawPdf(page, points[0], pdfPage, inheritedRotation);
+      pdfPage.drawCircle({ x: p.x, y: p.y, size: thickness / 2, color, opacity });
+      continue;
+    }
+
+    // Export a pen stroke as ONE continuous PDF path. Milestone 5.0.0/5.0.1
+    // emitted every sampled pair as an independent drawLine operation. At a
+    // turn, the flat ends of those separate segments meet only at the center
+    // line and can leave a visible white wedge on the inside of a wide curve.
+    // drawSvgPath gives us a single stroked subpath; an enclosing round line
+    // join plus a round cap makes its geometry match the Canvas renderer.
+    // pdf-lib flips SVG Y coordinates internally, so negate the already-mapped
+    // raw PDF y value to land at the same PDF coordinate after that transform.
+    const pdfPoints = points.map(point => annotationPointToRawPdf(page, point, pdfPage, inheritedRotation));
+    const first = pdfPoints[0];
+    let path = `M ${pathNumber(first.x)} ${pathNumber(-first.y)}`;
+    for (let i = 1; i < pdfPoints.length; i++) {
+      const p = pdfPoints[i];
+      path += ` L ${pathNumber(p.x)} ${pathNumber(-p.y)}`;
+    }
+
+    pdfPage.pushOperators(pushGraphicsState(), setLineJoin(LineJoinStyle.Round));
+    pdfPage.drawSvgPath(path, {
+      x: 0,
+      y: 0,
+      borderColor: color,
+      borderWidth: thickness,
+      borderOpacity: opacity,
+      borderLineCap: LineCapStyle.Round,
+    });
+    pdfPage.pushOperators(popGraphicsState());
+  }
 }
 function activeIndex() { return Math.max(0, state.pages.findIndex(p => p.id === state.activePageId)); }
 function pageById(id) { return state.pages.find(p => p.id === id); }
@@ -1583,7 +1934,7 @@ function setStatus(text, sticky=false) {
 }
 
 function snapshotPages() {
-  return state.pages.map(p => ({ ...p }));
+  return state.pages.map(page => clonePageState(page));
 }
 function commitHistory(before) {
   state.history.push(before);
@@ -1593,7 +1944,7 @@ function commitHistory(before) {
   updateHistoryButtons();
 }
 function restorePages(snapshot) {
-  state.pages = snapshot.map(p => ({ ...p }));
+  state.pages = snapshot.map(page => clonePageState(page));
   const ids = new Set(state.pages.map(p => p.id));
   state.selected = new Set([...state.selected].filter(id => ids.has(id)));
   if (!state.activePageId || !ids.has(state.activePageId)) state.activePageId = state.pages[0]?.id ?? null;
@@ -1616,8 +1967,12 @@ function redo() {
   updateHistoryButtons();
 }
 function updateHistoryButtons() {
-  els.undoBtn.disabled = !state.history.length;
-  els.redoBtn.disabled = !state.future.length;
+  const noUndo = !state.history.length;
+  const noRedo = !state.future.length;
+  els.undoBtn.disabled = noUndo;
+  els.redoBtn.disabled = noRedo;
+  if (els.inkUndoBtn) els.inkUndoBtn.disabled = noUndo;
+  if (els.inkRedoBtn) els.inkRedoBtn.disabled = noRedo;
 }
 
 async function openFiles(fileList, options={}) {
@@ -1936,13 +2291,7 @@ function generatedPage(type='blank', width=DEFAULT_NEW_PAGE_WIDTH, height=DEFAUL
 }
 
 function clonePageInstance(page, includeAnnotations=true) {
-  const copy = { ...page, id: uid('page') };
-  // Annotation objects will be document-level objects keyed by pageId. The
-  // includeAnnotations flag is retained now so this command already has the
-  // correct semantic hook; when ink arrives, that layer will clone/re-key the
-  // current page's annotation objects only for the "with annotations" case.
-  void includeAnnotations;
-  return copy;
+  return clonePageState(page, { newId: true, includeAnnotations });
 }
 
 function selectedPageTargetId() {
@@ -2001,6 +2350,7 @@ async function renderCompactPagePreview(page, canvas) {
       if (page.kind !== 'generated' && canvasLooksBlank(canvas) && canvas.isConnected) {
         await renderPageToCanvas(page, canvas, cssWidth, cssHeight, 0.72, 160_000);
       }
+      drawPageAnnotationsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
       canvas.dataset.rendered = 'true';
     } catch (err) {
       console.error('Template preview failed', err);
@@ -2022,7 +2372,7 @@ async function renderInsertChoicePreviews() {
   const dims = pageDisplayDimensions(current);
   const builtIns = [
     [current, els.insertDuplicateWithPreview],
-    [current, els.insertDuplicateWithoutPreview],
+    [clonePageState(current, { includeAnnotations: false }), els.insertDuplicateWithoutPreview],
     [generatedPage('blank', dims.width, dims.height), els.insertBlankPreview],
     [generatedPage('graph', dims.width, dims.height), els.insertGraphPreview],
   ];
@@ -2108,7 +2458,7 @@ async function saveCurrentPageAsTemplate(targetContext=null) {
   const template = {
     id: uid('template'),
     name,
-    page: { ...page, id: null },
+    page: { ...clonePageState(page), id: null },
     createdAt: Date.now(),
     modifiedAt: Date.now(),
   };
@@ -3743,7 +4093,7 @@ function unchangedSingleSourcePdfBytes(pageList) {
   for (let i = 0; i < pageList.length; i++) {
     const page = pageList[i];
     if (page?.kind !== 'pdf' || page.sourceId !== first.sourceId || Number(page.sourcePage) !== i + 1) return null;
-    if ((page.rotation || 0) !== 0 || hasPageCanvasOverride(page) || hasPageEdgeAdjustments(page)) return null;
+    if ((page.rotation || 0) !== 0 || hasPageCanvasOverride(page) || hasPageEdgeAdjustments(page) || hasPageAnnotations(page)) return null;
   }
   return source.bytes.slice();
 }
@@ -3760,7 +4110,8 @@ async function buildPdfBytes(pageList, options={}) {
     }
   }
 
-  const { PDFDocument, degrees, rgb } = await loadPdfExportEngine();
+  const pdfLib = await loadPdfExportEngine();
+  const { PDFDocument, degrees, rgb } = pdfLib;
   const output = await PDFDocument.create();
   const sourcePdfCache = options.sourcePdfCache || new Map();
   const embeddedImages = new Map();
@@ -3812,6 +4163,7 @@ async function buildPdfBytes(pageList, options={}) {
           drawGraphPaperPdfInRect(outPage, page.width, page.height, edge.left, edge.bottom, core.width, core.height, rgb);
         }
       }
+      drawPageAnnotationsPdf(outPage, page, 0, pdfLib);
       if (page.rotation) outPage.setRotation(degrees((page.rotation + 360) % 360));
     } else if (source.type === 'pdf') {
       const copied = copiedPdfPages.get(i);
@@ -3851,6 +4203,7 @@ async function buildPdfBytes(pageList, options={}) {
         copied.setTrimBox?.(x, y, width, height);
         copied.setArtBox?.(x, y, width, height);
       }
+      drawPageAnnotationsPdf(copied, page, inheritedRotation, pdfLib);
       copied.setRotation(degrees((inheritedRotation + (page.rotation || 0) + 360) % 360));
       output.addPage(copied);
     } else if (source.type === 'image') {
@@ -3883,6 +4236,7 @@ async function buildPdfBytes(pageList, options={}) {
       if (hasPageCanvasOverride(page)) {
         outPage.drawImage(embedded, { x: edge.left + (core.width - drawWidth) / 2, y: edge.bottom + (core.height - drawHeight) / 2, width: drawWidth, height: drawHeight });
       } else outPage.drawImage(embedded, { x: edge.left, y: edge.bottom, width: drawWidth, height: drawHeight });
+      drawPageAnnotationsPdf(outPage, page, 0, pdfLib);
       if (page.rotation) outPage.setRotation(degrees((page.rotation + 360) % 360));
     } else {
       throw new Error(`Unsupported source type on output page ${i + 1}.`);
@@ -4403,7 +4757,7 @@ function createCombinedDocument() {
   }
   const combinedPages = [];
   for (const doc of chosenDocs) {
-    for (const page of doc.pages) combinedPages.push({ ...page, id: uid('page') });
+    for (const page of doc.pages) combinedPages.push(clonePageState(page, { newId: true, includeAnnotations: true }));
   }
   if (!combinedPages.length) {
     els.combineProgress.textContent = 'The chosen documents contain no pages.';
@@ -4569,6 +4923,7 @@ async function renderThumbnail(page, canvas) {
     if (page.kind !== 'generated' && canvasLooksBlank(canvas) && preview.isConnected) {
       await renderPageToCanvas(page, canvas, cssWidth, cssHeight, 0.8, 650_000);
     }
+    drawPageAnnotationsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
   }, 0);
 }
 
@@ -4664,7 +5019,7 @@ function copySelectedPagesToDocument() {
     insertIndex = pageNo;
   }
 
-  const before = destination.pages.map(page => ({ ...page }));
+  const before = destination.pages.map(page => clonePageState(page));
   const copies = sourcePages.map(page => clonePageInstance(page, true));
   const oldPages = destination.pages;
   destination.pages = [
@@ -4870,8 +5225,10 @@ function applyPageGeometry() {
   const orientation = els.pageGeometryOrientation?.value || 'preserve';
   const before = snapshotPages();
   for (const page of pages) {
+    const oldBase = pageCanvasBaseDimensions(page);
     const displayed = orientedGeometrySize(base, orientation, page);
     const canvas = geometryCanvasBaseFromDisplayed(page, displayed);
+    fitPageAnnotationsToCanvas(page, oldBase, canvas);
     page.canvasWidth = Math.max(1, canvas.width);
     page.canvasHeight = Math.max(1, canvas.height);
     page.canvasPlacement = 'fit-center';
@@ -5057,6 +5414,7 @@ function applyPageEdgeChange() {
   for (const page of pages) {
     const baseDelta = displayedEdgesToBase(page, displayedDelta);
     const edge = pageEdgeAdjustments(page);
+    shiftPageAnnotations(page, baseDelta.left, baseDelta.top);
     page.edgeTop = edge.top + baseDelta.top;
     page.edgeRight = edge.right + baseDelta.right;
     page.edgeBottom = edge.bottom + baseDelta.bottom;
@@ -5082,6 +5440,8 @@ function resetPageEdgeAdjustments() {
   }
   const before = snapshotPages();
   for (const page of pages) {
+    const edge = pageEdgeAdjustments(page);
+    shiftPageAnnotations(page, -edge.left, -edge.top);
     page.edgeTop = 0;
     page.edgeRight = 0;
     page.edgeBottom = 0;
@@ -5110,7 +5470,7 @@ function duplicateSelected() {
   for (const page of state.pages) {
     result.push(page);
     if (state.selected.has(page.id)) {
-      const copy = { ...page, id: uid('page') };
+      const copy = clonePageState(page, { newId: true, includeAnnotations: true });
       result.push(copy);
       newSelection.add(copy.id);
     }
@@ -6133,6 +6493,7 @@ async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
   }
   if (generation !== pane.generation || !stage.isConnected) return;
   if (stage.dataset.wantRender === 'false') { releaseViewerStage(stage); return; }
+  drawPageAnnotationsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
   stage.dataset.rendered = 'true';
   stage.querySelector('.page-loading')?.remove();
 }
@@ -6196,6 +6557,7 @@ async function renderViewerPage(page, stage, canvas, generation) {
     releaseViewerStage(stage);
     return;
   }
+  drawPageAnnotationsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
   stage.dataset.rendered = 'true';
   stage.querySelector('.page-loading')?.remove();
 }
@@ -6330,15 +6692,11 @@ function hidePresentationControls() {
 }
 
 function schedulePresentationControlsHide() {
+  // Milestone 5 starts with the unified annotation bar always visible in
+  // Presentation so pen color/width/tool changes are genuinely one tap away.
+  // Auto-hide will return as an explicit user setting after the core ink tools
+  // have been exercised on Surface and iPad.
   clearTimeout(state.presentationControlsTimer);
-  state.presentationControlsTimer = setTimeout(() => {
-    // Always allow the presentation chrome to clear itself. A pointer moving
-    // near the top will reveal it again; lingering hover/focus must not pin it.
-    document.body.classList.remove('presentation-controls-visible');
-    if (document.activeElement instanceof HTMLElement && els.presentationToolbar.contains(document.activeElement)) {
-      document.activeElement.blur();
-    }
-  }, 2600);
 }
 
 function showPresentationControls() {
@@ -6551,7 +6909,7 @@ async function enterPresentation() {
 async function exitPresentation() {
   const transition = capturePresentationTransition();
   document.body.classList.remove('presentation', 'presentation-controls-visible');
-  els.presentationToolbar.classList.add('hidden');
+  els.presentationToolbar.classList.remove('hidden');
   clearTimeout(state.presentationControlsTimer);
   state.presentationRevealPointerId = null;
   state.touchPointers.clear();
@@ -6629,9 +6987,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 4.2.2 is a <strong>low-risk UI organization pass</strong> on top of the cross-platform-tested 4.2.1 Library/export build. The PDF, Library, backup, persistence, and view-state engines are unchanged.</p>
-      <ul><li><strong>Library toolbar:</strong> Import files, Import PDF folder ZIP, and New folder share one compact action row; Refresh now sits with the List/Grid browser controls.</li><li><strong>View / Presentation consistency:</strong> shared controls follow the same Scroll → Fit → Zoom → Split → Insert order, and Insert Page uses the same page-plus icon in both modes.</li><li><strong>Files organization:</strong> Local Library and Open documents stay together at the top; New/Templates/Images → PDF are grouped under Create; Export/Compress/Extract/Split/Combine under PDF tools; Trash/Backup/Storage under Library management.</li><li><strong>No workflow changes:</strong> existing element IDs and handlers are retained; the 4.2.1 structural export-size fix and Library operations remain intact.</li></ul>
-      <p><strong>Next substantive work:</strong> hyperlink/outline preservation audit and then Milestone 5 annotation/inking work. Favorites/search remain optional lower-priority conveniences.</p>
+      <p>Milestone 5.0.2 continues the annotation subsystem on the validated 4.2.2 viewer/Library baseline. This bug-fix build changes PDF ink export so each pen stroke is emitted as one continuous vector path with round joins and round caps, eliminating the white wedges that could appear inside wider curves.</p>
+      <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Basic pen:</strong> Hand/View and Pen modes, five direct pen colors (black, blue, red, green, orange), and three direct width choices. Finger scrolling/pinch remains navigation-only.</li><li><strong>Editable ink:</strong> strokes are stored as page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and are copied with page duplication/copy/combine operations.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
+      <p><strong>Next annotation steps after testing:</strong> partial-stroke eraser, lasso selection with move/resize/delete/duplicate, then highlighter with its own yellow/pink/blue/green palette. Image annotations follow the annotation milestone.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -6765,24 +7123,6 @@ function onResize() {
   // preserve both panes correctly in both directions.
   if (state.singlePresentationTransitionActive) return;
   resizeTimer = setTimeout(() => { if (state.pages.length && state.workspaceMode === 'view') renderViewer(); }, 120);
-}
-
-
-
-// Document-surface stylus input is reserved for the annotation tools.  Until
-// ink is implemented, a pen contact on the PDF should therefore be inert
-// rather than behave like a finger and drag/scroll the viewer.  Visible UI
-// controls live outside the viewer and continue to accept pen clicks; the
-// Pages organizer keeps its existing pen drag behavior.
-function reservePenForDocumentInk(viewer, e) {
-  if (e.pointerType !== 'pen') return false;
-  if (e.cancelable) e.preventDefault();
-  if (e.type === 'pointerdown') {
-    try { viewer.setPointerCapture?.(e.pointerId); } catch {}
-  } else if (e.type === 'pointerup' || e.type === 'pointercancel') {
-    try { viewer.releasePointerCapture?.(e.pointerId); } catch {}
-  }
-  return true;
 }
 
 
@@ -6930,10 +7270,7 @@ function bindManualViewerTouch(viewer, owner, config) {
   };
 
   viewer.addEventListener('pointermove', (e) => {
-    if (e.pointerType === 'pen' && (e.buttons || e.pressure > 0)) {
-      reservePenForDocumentInk(viewer, e);
-      return;
-    }
+    if (handleDocumentInkPointer(viewer, e)) return;
     if (document.body.classList.contains('presentation') && e.pointerType === 'mouse' && e.clientY < 90) {
       showPresentationControls();
     }
@@ -6961,7 +7298,7 @@ function bindManualViewerTouch(viewer, owner, config) {
 
   viewer.addEventListener('pointerdown', (e) => {
     config.activate?.();
-    if (reservePenForDocumentInk(viewer, e)) return;
+    if (handleDocumentInkPointer(viewer, e)) return;
     if (e.pointerType !== 'touch') return;
     cancelViewerTouchInertia(owner);
     e.preventDefault();
@@ -6989,10 +7326,7 @@ function bindManualViewerTouch(viewer, owner, config) {
   }, { passive: false });
 
   const finishPointer = (e, cancelled=false) => {
-    if (e.pointerType === 'pen') {
-      reservePenForDocumentInk(viewer, e);
-      return;
-    }
+    if (handleDocumentInkPointer(viewer, e)) return;
     if (e.pointerType !== 'touch') return;
     e.preventDefault();
 
@@ -7275,6 +7609,18 @@ function bindEvents() {
   els.deleteBtn.addEventListener('click', deleteSelected);
   els.undoBtn.addEventListener('click', undo);
   els.redoBtn.addEventListener('click', redo);
+  els.inkUndoBtn?.addEventListener('click', undo);
+  els.inkRedoBtn?.addEventListener('click', redo);
+  els.inkHandBtn?.addEventListener('click', () => setAnnotationTool('hand'));
+  els.inkPenBtn?.addEventListener('click', () => setAnnotationTool('pen'));
+  els.penColorGroup?.addEventListener('click', (event) => {
+    const button = event.target instanceof Element ? event.target.closest('[data-ink-color]') : null;
+    if (button) setPenColor(button.dataset.inkColor);
+  });
+  els.penWidthGroup?.addEventListener('click', (event) => {
+    const button = event.target instanceof Element ? event.target.closest('[data-ink-width]') : null;
+    if (button) setPenWidth(Number(button.dataset.inkWidth));
+  });
   els.moreBtn.addEventListener('click', (e) => { e.stopPropagation(); closeInsertPageMenu(); toggleMoreMenu(); });
   els.clearBtn.addEventListener('click', () => { toggleMoreMenu(false); closeAllOpenDocuments(); });
   els.installHelpBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('install'); });
@@ -7365,6 +7711,7 @@ function bindEvents() {
 
 async function init() {
   bindEvents();
+  updateInkToolbar();
   updateViewerLabels();
   renderAll();
   await registerServiceWorker();
