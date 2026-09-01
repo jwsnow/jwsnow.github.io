@@ -1,4 +1,4 @@
-const APP_VERSION = '5.0.2';
+const APP_VERSION = '5.0.3';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -70,6 +70,9 @@ const state = {
   penColor: safePref('pdfwb-pen-color', '#111111', ['#111111','#1565c0','#d32f2f','#2e7d32','#ef6c00']),
   penWidth: Number(safePref('pdfwb-pen-width', '3', ['1.5','3','5.5'])),
   inkGesture: null,
+  lastDocumentPenActivity: -Infinity,
+  toolbarPointerSequence: null,
+  lastVerifiedToolbarPointerUp: null,
   touchPointers: new Map(),
   touchPan: null,
   touchInertiaFrame: null,
@@ -1448,6 +1451,7 @@ function finishInkGesture(viewer, event) {
   return true;
 }
 function handleDocumentInkPointer(viewer, event) {
+  if (event.pointerType === 'pen') state.lastDocumentPenActivity = performance.now();
   if (event.pointerType === 'touch') return false;
   if (event.type === 'pointerdown') {
     if (event.pointerType === 'pen' && state.annotationTool !== 'pen') {
@@ -1476,6 +1480,94 @@ function handleDocumentInkPointer(viewer, event) {
   }
   return false;
 }
+
+// iPad/WebKit can occasionally synthesize a compatibility click at a stale UI
+// target when an Apple Pencil pointer stream over the document is interrupted.
+// A stray click on the always-visible annotation bar is especially destructive:
+// it can switch Pen to Hand and make the next handwriting stroke disappear.
+// Authenticate toolbar pointer clicks by requiring a real down/up sequence whose
+// coordinates actually lie inside the visible control. Keyboard/programmatic
+// accessibility clicks (detail === 0) remain unaffected.
+function toolbarControlFromEvent(event) {
+  const target = event.target instanceof Element ? event.target.closest('button, select') : null;
+  return target && els.presentationToolbar?.contains(target) ? target : null;
+}
+function pointInsideRect(event, rect, padding=1) {
+  const x = Number(event.clientX), y = Number(event.clientY);
+  if (!Number.isFinite(x) || !Number.isFinite(y) || !rect) return false;
+  return x >= rect.left - padding && x <= rect.right + padding &&
+         y >= rect.top - padding && y <= rect.bottom + padding;
+}
+function toolbarPointerHitIsPhysical(event, control) {
+  if (!control || !els.presentationToolbar) return false;
+  if (!pointInsideRect(event, els.presentationToolbar.getBoundingClientRect(), 2)) return false;
+  if (!pointInsideRect(event, control.getBoundingClientRect(), 3)) return false;
+  const hit = document.elementFromPoint?.(event.clientX, event.clientY);
+  return !hit || hit === control || control.contains(hit);
+}
+function bindAnnotationToolbarPointerGuard() {
+  const toolbar = els.presentationToolbar;
+  if (!toolbar) return;
+
+  toolbar.addEventListener('pointerdown', (event) => {
+    const control = toolbarControlFromEvent(event);
+    if (!control) return;
+    if (!toolbarPointerHitIsPhysical(event, control)) {
+      state.toolbarPointerSequence = null;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
+    state.toolbarPointerSequence = {
+      pointerId: event.pointerId,
+      pointerType: event.pointerType || '',
+      control,
+      startedAt: performance.now(),
+    };
+  }, { capture: true, passive: false });
+
+  toolbar.addEventListener('pointerup', (event) => {
+    const seq = state.toolbarPointerSequence;
+    const control = toolbarControlFromEvent(event);
+    const valid = !!seq && seq.pointerId === event.pointerId && seq.control === control &&
+      toolbarPointerHitIsPhysical(event, control) && performance.now() - seq.startedAt < 1800;
+    state.toolbarPointerSequence = null;
+    if (!valid) {
+      if (control && (event.pointerType === 'pen' || performance.now() - state.lastDocumentPenActivity < 900)) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+      return;
+    }
+    state.lastVerifiedToolbarPointerUp = {
+      control,
+      pointerType: event.pointerType || seq.pointerType || '',
+      endedAt: performance.now(),
+    };
+  }, { capture: true, passive: false });
+
+  toolbar.addEventListener('pointercancel', (event) => {
+    if (state.toolbarPointerSequence?.pointerId === event.pointerId) state.toolbarPointerSequence = null;
+  }, { capture: true });
+
+  toolbar.addEventListener('click', (event) => {
+    const control = toolbarControlFromEvent(event);
+    if (!control || event.detail === 0) return;
+    const verified = state.lastVerifiedToolbarPointerUp;
+    const recentVerified = !!verified && verified.control === control && performance.now() - verified.endedAt < 650;
+    if (recentVerified) {
+      state.lastVerifiedToolbarPointerUp = null;
+      return;
+    }
+    const clickPointerType = typeof event.pointerType === 'string' ? event.pointerType : '';
+    const followsDocumentPen = performance.now() - state.lastDocumentPenActivity < 1200;
+    if (clickPointerType === 'pen' || followsDocumentPen || !pointInsideRect(event, control.getBoundingClientRect(), 3)) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  }, { capture: true });
+}
+
 function shiftPageAnnotations(page, dx, dy) {
   if (!hasPageAnnotations(page)) return;
   for (const stroke of page.annotations) for (const point of stroke.points || []) {
@@ -6987,7 +7079,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.0.2 continues the annotation subsystem on the validated 4.2.2 viewer/Library baseline. This bug-fix build changes PDF ink export so each pen stroke is emitted as one continuous vector path with round joins and round caps, eliminating the white wedges that could appear inside wider curves.</p>
+      <p>Milestone 5.0.3 continues the annotation subsystem on the validated 4.2.2 viewer/Library baseline. This iPad-focused bug-fix build hardens the annotation toolbar against stray Apple Pencil compatibility clicks: a pointer-driven toolbar action must now be preceded by a physical down/up sequence inside the visible control. The 5.0.2 continuous-path PDF ink export fix remains intact.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Basic pen:</strong> Hand/View and Pen modes, five direct pen colors (black, blue, red, green, orange), and three direct width choices. Finger scrolling/pinch remains navigation-only.</li><li><strong>Editable ink:</strong> strokes are stored as page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and are copied with page duplication/copy/combine operations.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
       <p><strong>Next annotation steps after testing:</strong> partial-stroke eraser, lasso selection with move/resize/delete/duplicate, then highlighter with its own yellow/pink/blue/green palette. Image annotations follow the annotation milestone.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -7543,6 +7635,7 @@ function bindEvents() {
   els.presentationZoomInBtn.addEventListener('click', () => zoomBy(1.25));
   els.presentBtn.addEventListener('click', enterPresentation);
   els.presentationExit.addEventListener('click', exitPresentation);
+  bindAnnotationToolbarPointerGuard();
   els.presentationToolbar.addEventListener('click', (e) => { if (e.target instanceof HTMLButtonElement && e.target !== els.presentationInsertBtn) restartPresentationHideAfterControl(e); });
   els.presentationToolbar.addEventListener('pointerdown', () => { if (document.body.classList.contains('presentation')) clearTimeout(state.presentationControlsTimer); });
   els.prevPageBtn.addEventListener('click', () => goPage(-1));

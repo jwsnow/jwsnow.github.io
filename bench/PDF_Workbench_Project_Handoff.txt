@@ -1,3 +1,47 @@
+PDF WORKBENCH PWA — MILESTONE 5.0.3 CURRENT UPDATE
+====================================================================
+CURRENT BUILD: Milestone 5.0.3
+Visible About version: 5.0.3
+Service-worker/cache version: pdf-workbench-m5.0.3-v1
+IndexedDB database version: 2
+Library schema version: 5
+Editable backup format version: 1
+
+====================================================================
+MILESTONE 5.0.3 — IPAD / APPLE PENCIL STRAY TOOLBAR ACTIVATION FIX
+====================================================================
+
+Latest iPad test results:
+- Apple Pencil handwriting quality looked substantially better than expected.
+- Same-document split-pane annotation synchronization worked as planned: ink created in one pane appeared in the other pane when the same page was visible.
+- High-priority defect: every few characters, a Pencil stroke could be skipped and a control in the top annotation toolbar would activate instead, usually Hand. This happened while writing far down the page, both with and without palm contact, so it does not behave like normal palm rejection.
+- Surface Pen retest is still pending; the user will not have access to the Surface during this test session.
+
+5.0.3 defensive input-routing fix:
+- The annotation toolbar now authenticates pointer-driven actions. A button/select activation is accepted only after a real pointerdown/pointerup sequence on that same visible control, with the pointer coordinates inside the toolbar/control and a matching elementFromPoint hit test.
+- Document Apple Pencil activity is time-stamped. If WebKit/iPad produces a stray/stale compatibility click aimed at a toolbar control shortly after a Pencil event on the document, that click is suppressed unless a genuine toolbar pointer sequence was verified first.
+- Intentional Apple Pencil taps on the toolbar remain supported because they produce their own verified down/up sequence on the actual control.
+- Keyboard/accessibility clicks (click detail 0) remain allowed.
+- This is intentionally narrow: no changes were made to stored points, coalesced-event sampling, stroke geometry, Canvas ink rendering, PDF export, split-pane annotation sharing, or finger navigation.
+
+IMMEDIATE IPAD RETEST:
+1. In Presentation with Pen selected, write continuously for several lines, especially repeated short characters/strokes. Confirm Pen stays selected and no toolbar button activates on its own.
+2. Repeat with the page scrolled so the writing area is far below the toolbar.
+3. Repeat both with the palm resting normally and with the hand lifted.
+4. Intentionally tap Hand, Pen, several colors, and widths with the Apple Pencil. Confirm real Pencil toolbar taps still work immediately.
+5. Repeat in ordinary View and in Split Presentation/Viewer mode; verify same-document ink still mirrors between panes.
+6. Finger pan and two-finger pinch should remain unchanged.
+
+KNOWN FOLLOW-UP ITEMS AFTER CURRENT TEST ROUND:
+- Session-restoration regression: closing/restarting the app currently appears to leave previously open documents closed. Intended behavior is to restore the open workspace/session.
+- Template creation currently includes annotations. Add an explicit clean/no-annotations template option, analogous to Duplicate + notes vs Duplicate clean.
+- Continue Pen testing, including Surface Pen when available.
+- After input correctness is stable, add deliberate stroke smoothing/interpolation while preserving raw sample points, then partial-stroke eraser, lasso/select, and Highlighter.
+
+====================================================================
+PRIOR MILESTONE 5.0.2 HANDOFF FOLLOWS
+====================================================================
+
 PDF WORKBENCH PWA — MILESTONE 5.0.2 CURRENT UPDATE
 ====================================================================
 CURRENT BUILD: Milestone 5.0.2

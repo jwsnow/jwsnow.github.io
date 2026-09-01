@@ -1,8 +1,17 @@
-# PDF Workbench — Milestone 5.0.2
+# PDF Workbench — Milestone 5.0.3
 
-Milestone 5.0.2 is the first annotation/inking build plus the Presentation-toolbar positioning fix and a PDF ink-export join/cap fix. It starts from the cross-platform-tested Milestone 4.2.2 viewer, Library, export, backup, and UI baseline and deliberately adds only the smallest useful annotation slice so stylus behavior can be validated before eraser, lasso, and highlighter work begins.
+Milestone 5.0.3 is the first annotation/inking build plus the Presentation-toolbar positioning fix, the PDF ink-export join/cap fix, and an iPad/Apple Pencil toolbar-routing guard. It starts from the cross-platform-tested Milestone 4.2.2 viewer, Library, export, backup, and UI baseline and deliberately adds only the smallest useful annotation slice so stylus behavior can be validated before eraser, lasso, and highlighter work begins.
 
 
+
+
+## 5.0.3 iPad / Apple Pencil stray-toolbar fix
+- During iPad testing, Apple Pencil inking quality was good and same-document split-pane synchronization worked, but every few characters a document stroke could be skipped while an annotation-toolbar control was activated instead, most often **Hand**. The problem occurred even when writing far below the toolbar and with no palm contact.
+- This build treats that as an input-routing/compatibility-click defect rather than palm rejection.
+- Pointer-driven toolbar actions are now authenticated: a toolbar button/select click must be preceded by a real pointer down/up sequence on that same visible control, with coordinates inside both the toolbar and the control and a matching hit test.
+- A click aimed at the toolbar shortly after Apple Pencil activity on the document is ignored unless that physical toolbar interaction was verified. This is designed to reject WebKit/iPad stray or stale compatibility clicks without preventing intentional Pencil taps on toolbar controls.
+- Keyboard/accessibility activation remains allowed, and ordinary mouse/touch toolbar interaction is unchanged when it has a normal physical pointer sequence.
+- The stored ink model, point sampling, rendering, PDF export, split-pane synchronization, and finger pan/pinch code are otherwise unchanged in 5.0.3.
 
 ## 5.0.2 PDF ink export fix
 - Fixed the white wedges/slits that could appear on the inside of wider curved pen strokes in exported PDFs.
@@ -63,7 +72,7 @@ Milestone 5.0.2 is the first annotation/inking build plus the Presentation-toolb
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.0.2-v1`
+- Service-worker cache: `pdf-workbench-m5.0.3-v1`
 
 ## High-priority smoke tests
 1. On Surface, open a PDF, choose Pen, write at several zoom levels, switch colors and widths, then use Undo/Redo.
@@ -77,4 +86,4 @@ Milestone 5.0.2 is the first annotation/inking build plus the Presentation-toolb
 9. In Pages, use Duplicate + notes and Duplicate clean and confirm the first carries ink and the second does not.
 10. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
 
-**More → About this build** reports **Milestone 5.0.2**.
+**More → About this build** reports **Milestone 5.0.3**.
