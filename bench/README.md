@@ -1,17 +1,17 @@
-# PDF Workbench — Milestone 5.0.3
+# PDF Workbench — Milestone 5.0.4
 
-Milestone 5.0.3 is the first annotation/inking build plus the Presentation-toolbar positioning fix, the PDF ink-export join/cap fix, and an iPad/Apple Pencil toolbar-routing guard. It starts from the cross-platform-tested Milestone 4.2.2 viewer, Library, export, backup, and UI baseline and deliberately adds only the smallest useful annotation slice so stylus behavior can be validated before eraser, lasso, and highlighter work begins.
+Milestone 5.0.4 is the first annotation/inking build plus the Presentation-toolbar positioning fix, the PDF ink-export join/cap fix, and an iPad/Apple Pencil native-selection guard. It starts from the cross-platform-tested Milestone 4.2.2 viewer, Library, export, backup, and UI baseline and deliberately adds only the smallest useful annotation slice so stylus behavior can be validated before eraser, lasso, and highlighter work begins.
 
+## 5.0.4 iPad / Apple Pencil native toolbar-selection fix
+- Clarification from iPad testing: the Hand tool was **not being activated**. Instead, while writing on the page, iPadOS would occasionally **select the visible Hand glyph as text** and show the native **Copy / Look Up / …** selection callout. The current Pencil stroke was skipped/cancelled at the same time.
+- This can happen even with the writing area far below the toolbar and with or without palm contact, so it is not ordinary palm rejection and not an intentional toolbar tap.
+- The annotation toolbar and all of its descendants are now explicitly non-selectable with both standard and WebKit CSS, and the iOS touch callout is disabled for that app-chrome region.
+- A defensive `selectstart`/`contextmenu` guard prevents the browser from opening native selection/callout UI on the annotation toolbar, and any selection that WebKit nevertheless anchors inside the toolbar is immediately cleared.
+- The 5.0.3 compatibility-click authentication experiment has been removed because the user's clarification showed that a tool-switch click was not the observed failure mode. Normal Hand/Pen/color/width taps therefore use the ordinary control event path again.
+- Stored ink points, coalesced-event sampling, stroke geometry, Canvas rendering, PDF export, split-pane synchronization, and finger pan/pinch are unchanged in 5.0.4.
 
-
-
-## 5.0.3 iPad / Apple Pencil stray-toolbar fix
-- During iPad testing, Apple Pencil inking quality was good and same-document split-pane synchronization worked, but every few characters a document stroke could be skipped while an annotation-toolbar control was activated instead, most often **Hand**. The problem occurred even when writing far below the toolbar and with no palm contact.
-- This build treats that as an input-routing/compatibility-click defect rather than palm rejection.
-- Pointer-driven toolbar actions are now authenticated: a toolbar button/select click must be preceded by a real pointer down/up sequence on that same visible control, with coordinates inside both the toolbar and the control and a matching hit test.
-- A click aimed at the toolbar shortly after Apple Pencil activity on the document is ignored unless that physical toolbar interaction was verified. This is designed to reject WebKit/iPad stray or stale compatibility clicks without preventing intentional Pencil taps on toolbar controls.
-- Keyboard/accessibility activation remains allowed, and ordinary mouse/touch toolbar interaction is unchanged when it has a normal physical pointer sequence.
-- The stored ink model, point sampling, rendering, PDF export, split-pane synchronization, and finger pan/pinch code are otherwise unchanged in 5.0.3.
+## 5.0.3 diagnostic note
+- 5.0.3 attempted to guard against stray compatibility clicks because the initial symptom was described as the Hand icon being selected. Further testing clarified that “selected” meant **native text selection with Copy / Look Up**, not activation of the Hand tool. 5.0.4 supersedes that diagnosis and removes the unnecessary click-authentication layer.
 
 ## 5.0.2 PDF ink export fix
 - Fixed the white wedges/slits that could appear on the inside of wider curved pen strokes in exported PDFs.
@@ -72,11 +72,11 @@ Milestone 5.0.3 is the first annotation/inking build plus the Presentation-toolb
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.0.3-v1`
+- Service-worker cache: `pdf-workbench-m5.0.4-v1`
 
 ## High-priority smoke tests
 1. On Surface, open a PDF, choose Pen, write at several zoom levels, switch colors and widths, then use Undo/Redo.
-2. Repeat with Apple Pencil on iPad. Confirm one finger still pans and two fingers still pinch without creating ink.
+2. Repeat with Apple Pencil on iPad for several lines of handwriting. Confirm the native **Copy / Look Up / …** selection callout never appears on Hand, Pen, or any toolbar glyph; confirm one finger still pans and two fingers still pinch without creating ink.
 3. Switch between View and Presentation. Confirm the annotation controls stay in the same order and Presentation's full-width bar remains at the top without covering the page.
 4. In split view, show the same document in both panes at different pages/zoom positions. Write in one pane; verify view states remain independent and shared ink appears correctly when the same annotated page is visible.
 5. Close/reopen the document and relaunch the app to confirm ink persistence.
@@ -86,4 +86,4 @@ Milestone 5.0.3 is the first annotation/inking build plus the Presentation-toolb
 9. In Pages, use Duplicate + notes and Duplicate clean and confirm the first carries ink and the second does not.
 10. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
 
-**More → About this build** reports **Milestone 5.0.3**.
+**More → About this build** reports **Milestone 5.0.4**.

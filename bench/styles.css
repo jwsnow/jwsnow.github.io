@@ -1142,6 +1142,18 @@ body.presentation .split-pane.active {
   -webkit-overflow-scrolling: touch;
 }
 .presentation-toolbar.annotation-toolbar::-webkit-scrollbar { display: none; }
+/* Milestone 5.0.4: annotation controls are app chrome, never selectable text.
+   In iPadOS a Pencil stream could otherwise trigger native selection of a
+   toolbar glyph (notably the Hand emoji) and open Copy / Look Up, cancelling
+   the current stroke even when writing far below the toolbar. */
+.presentation-toolbar.annotation-toolbar,
+.presentation-toolbar.annotation-toolbar * {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-drag: none;
+}
+
 .presentation-toolbar.annotation-toolbar button {
   flex: 0 0 36px;
   width: 36px;

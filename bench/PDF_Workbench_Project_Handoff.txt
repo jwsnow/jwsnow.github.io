@@ -1,3 +1,51 @@
+PDF WORKBENCH PWA — MILESTONE 5.0.4 CURRENT UPDATE
+====================================================================
+CURRENT BUILD: Milestone 5.0.4
+Visible About version: 5.0.4
+Service-worker/cache version: pdf-workbench-m5.0.4-v1
+IndexedDB database version: 2
+Library schema version: 5
+Editable backup format version: 1
+
+====================================================================
+MILESTONE 5.0.4 — IPAD / APPLE PENCIL NATIVE TOOLBAR-SELECTION FIX
+====================================================================
+
+Clarified iPad symptom:
+- The Hand tool was NOT actually changing to active mode.
+- While Apple Pencil was writing on the PDF, every few characters iPadOS could instead select the visible Hand glyph (or another toolbar glyph) as text and display the native Copy / Look Up / … selection callout.
+- The Pencil stroke being written at that moment was skipped/cancelled.
+- This occurred even when writing far below the toolbar and both with and without palm contact.
+- Apple Pencil ink quality otherwise looked much better than expected.
+- Same-document split-pane synchronization worked as planned: ink appeared in both panes.
+- Surface Pen retest remains pending because the user does not have access to the Surface during this test session.
+
+5.0.4 fix:
+- The full annotation toolbar and every descendant are explicitly marked non-selectable with `-webkit-user-select: none` and `user-select: none`.
+- `-webkit-touch-callout: none` disables the iOS native touch/Pencil callout for this application-chrome region.
+- A capture-phase `selectstart` guard prevents native selection from starting on the toolbar; a `contextmenu` guard suppresses the associated native callout path.
+- A defensive `selectionchange` listener clears any selection WebKit nevertheless anchors in the toolbar.
+- The 5.0.3 pointer/click-authentication experiment is REMOVED. It targeted a stray tool-activation hypothesis, but the user's clarification established that the actual failure was native text selection rather than a Hand-button click. Normal intentional toolbar taps now use the ordinary control path again.
+- No changes were made to ink sampling, raw points, stroke geometry, Canvas/PDF rendering, split-pane annotation sharing, or finger navigation.
+
+IMMEDIATE IPAD RETEST:
+1. Select Pen and write several lines of normal handwriting, including many short separate strokes/characters.
+2. Confirm no toolbar glyph becomes text-selected and no Copy / Look Up / … menu appears.
+3. Repeat with the writing area far below the toolbar, with palm resting normally, and with the hand lifted.
+4. Intentionally tap Hand, Pen, colors, widths, Undo, and Redo with Apple Pencil; normal toolbar actions should still work.
+5. Repeat in ordinary View and Presentation, and briefly in Split mode to make sure shared ink still mirrors normally.
+6. Confirm finger pan and two-finger pinch are unchanged.
+
+KNOWN FOLLOW-UP ITEMS AFTER CURRENT TEST ROUND:
+- Session-restoration regression: closing/restarting the app currently appears to leave previously open documents closed. Intended behavior is to restore the open workspace/session.
+- Template creation currently includes annotations. Add an explicit clean/no-annotations template option, analogous to Duplicate + notes vs Duplicate clean.
+- Continue Pen testing, including Surface Pen when available.
+- After input correctness is stable, add deliberate stroke smoothing/interpolation while preserving raw sample points, then partial-stroke eraser, lasso/select, and Highlighter.
+
+====================================================================
+PRIOR MILESTONE 5.0.3 HANDOFF FOLLOWS
+====================================================================
+
 PDF WORKBENCH PWA — MILESTONE 5.0.3 CURRENT UPDATE
 ====================================================================
 CURRENT BUILD: Milestone 5.0.3
