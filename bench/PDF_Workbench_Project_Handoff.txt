@@ -1,3 +1,48 @@
+PDF WORKBENCH PWA — MILESTONE 5.0.10 CURRENT UPDATE
+====================================================================
+CURRENT BUILD: Milestone 5.0.10
+Visible About version: 5.0.10
+Service-worker/cache version: pdf-workbench-m5.0.10-v1
+IndexedDB database version: 2
+Library schema version: 5
+Editable backup format version: 1
+
+
+MILESTONE 5.0.10 — STABLE CROSS-PLATFORM INPUT CLEANUP
+====================================================================
+
+Cross-platform result before this cleanup:
+- iPad: Apple Pencil is stable without skipped strokes; native Copy/Look Up selection leakage remains suppressed; deliberate finger navigation still works.
+- Surface: pen writes reliably; 5.0.9 removed the distracting hover crosshair/plus cursor; finger navigation remains usable.
+- Chromebook: 5.0.9 palm suppression stopped the canvas jumping while preserving deliberate finger scroll/pan/pinch.
+
+5.0.10 cleanup decisions:
+- KEEP Safari Apple Pencil stylus TouchEvent fallback plus PointerEvent/TouchEvent deduplication.
+- KEEP ChromeOS palm suppression / short touch-intent gate and extra-contact filtering.
+- KEEP Pen-mode native selection/callout suppression.
+- KEEP geometric page hit-testing for a retargeted pen start.
+- KEEP pen-hover cursor suppression.
+- REMOVE the speculative 5.0.6 move-start recovery. An unowned contact-bearing pen `pointermove` is suppressed but never starts ink.
+- REMOVE the speculative 5.0.6 pointerup-only-dot recovery. An unmatched pen `pointerup` never invents ink.
+- RESTORE tip-only pen starts: pen pointerdown must have `button === 0`; normal iPad, Surface, and Chromebook tip contacts have all been observed with button 0. Non-tip/barrel-button starts are suppressed and logged.
+- KEEP diagnostics available while eraser/lasso work begins.
+- No changes to stored stroke geometry, raw/coalesced sample storage, Canvas/PDF rendering, export, split-pane synchronization, persistence formats, or palm-rejection timing.
+
+Annotation design requirement clarified after 5.0.9 testing:
+- Eraser must support fine-grained deletion of portions of strokes/objects; whole-stroke-only erasing is not sufficient.
+- Lasso/selection may operate at whole-stroke/object granularity; sub-stroke selection is not required.
+
+NEXT PRIORITIES AFTER 5.0.10:
+- Session-restoration regression.
+- Template creation option: with annotations vs clean/no annotations.
+- End-of-document upward-swipe/new-page behavior design.
+- Deliberate stroke smoothing/interpolation while preserving raw sample points.
+- Fine-grained partial-stroke eraser, then whole-stroke/object lasso/select with move/resize/delete/copy/duplicate, then Highlighter.
+
+====================================================================
+PRIOR MILESTONE 5.0.9 HANDOFF FOLLOWS
+====================================================================
+
 PDF WORKBENCH PWA — MILESTONE 5.0.9 CURRENT UPDATE
 ====================================================================
 CURRENT BUILD: Milestone 5.0.9

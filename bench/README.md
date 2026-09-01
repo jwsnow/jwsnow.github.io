@@ -1,4 +1,17 @@
-# PDF Workbench — Milestone 5.0.9
+# PDF Workbench — Milestone 5.0.10
+
+Milestone 5.0.10 is a cleanup of the stable cross-platform pen/touch input path after successful testing on iPad, Surface, and Chromebook. It deliberately removes speculative recovery behavior rather than adding a new input feature.
+
+## 5.0.10 stable-input cleanup
+
+- Keep the 5.0.8 Safari Apple Pencil `Touch.touchType === "stylus"` fallback and PointerEvent/TouchEvent deduplication.
+- Keep the 5.0.9 ChromeOS palm suppression and deliberate one-/two-finger navigation admission logic.
+- Keep Pen-mode native text-selection/callout suppression, geometric page hit-testing for retargeted starts, and pen-hover cursor suppression.
+- Remove the 5.0.6 **move-start recovery** that could create a stroke from a contact-bearing `pointermove` when no stroke owned that pointer. Real strokes now start only from `pointerdown` or the Safari stylus TouchEvent fallback.
+- Remove the 5.0.6 **pointerup-only dot recovery** so an unmatched pen `pointerup` can no longer invent an annotation dot.
+- Restore **tip-only pen starts**: normal pen `pointerdown` must have `button === 0`. Cross-platform diagnostics showed ordinary iPad Pencil, Surface Pen, and ChromeOS stylus tips using button 0; non-tip/barrel-button starts are suppressed and diagnostic-logged instead of drawing.
+- Diagnostics remain available for the next annotation-tool phase.
+
 
 Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and focuses on two cross-platform input/UI issues found in broader hardware testing: ChromeOS palm contacts causing the viewer to jump while writing, and the distracting crosshair/plus cursor shown while a Surface Pen hovers over the PDF.
 
@@ -108,7 +121,7 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.0.9-v1`
+- Service-worker cache: `pdf-workbench-m5.0.10-v1`
 
 ## High-priority smoke tests
 1. On Surface, open a PDF, choose Pen, hover the pen over the page and confirm the browser crosshair/plus cursor is hidden. Write at several zoom levels, switch colors and widths, then use Undo/Redo.
@@ -123,4 +136,4 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 10. In Pages, use Duplicate + notes and Duplicate clean and confirm the first carries ink and the second does not.
 11. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
 
-**More → About this build** reports **Milestone 5.0.9**.
+**More → About this build** reports **Milestone 5.0.10**.

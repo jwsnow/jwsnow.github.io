@@ -1,4 +1,4 @@
-const APP_VERSION = '5.0.9';
+const APP_VERSION = '5.0.10';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1422,6 +1422,15 @@ function inkStageForEvent(viewer, event) {
 function beginInkGesture(viewer, event) {
   if (state.annotationTool !== 'pen') return false;
   if (event.pointerType === 'mouse' && event.button !== 0) return false;
+  // Cross-platform testing now shows ordinary Apple Pencil, Surface Pen, and
+  // ChromeOS stylus tip contacts arriving as button 0. Do not treat a barrel/
+  // secondary pen button as a normal ink start. The Safari stylus TouchEvent
+  // fallback also synthesizes button 0 for a real Pencil tip contact.
+  if (event.pointerType === 'pen' && event.button !== 0) {
+    if (event.cancelable) event.preventDefault();
+    addInkDiagnostic('handler-begin-non-tip-pen-button', event);
+    return true;
+  }
   // If a TouchEvent fallback already owns this Apple Pencil contact, ignore the
   // duplicate PointerEvent stream instead of creating a second stroke.
   if (event.pointerType === 'pen' && state.inkGesture?.inputSource === 'stylus-touch' && !event._inkStylusTouch) {
@@ -1429,11 +1438,6 @@ function beginInkGesture(viewer, event) {
     addInkDiagnostic('pointer-shadowed-by-stylus-touch', event);
     return true;
   }
-  // Do not reject a pen pointerdown solely because of event.button. Safari on
-  // iPad has produced intermittent Pencil contacts whose button value does not
-  // match the desktop-pen convention even though the tip is on the page. A
-  // pointerdown from a pen is sufficient evidence of a contact here; Surface
-  // barrel-button behavior can be specialized later if needed.
   const stage = inkStageForEvent(viewer, event);
   if (!stage) { addInkDiagnostic('handler-begin-stage-miss', event); return true; }
   const page = pageById(stage.dataset.pageId);
@@ -1507,14 +1511,10 @@ function handleDocumentInkPointer(viewer, event) {
   if (event.type === 'pointermove') {
     if (continueInkGesture(viewer, event)) return true;
     if (event.pointerType === 'pen') {
+      // No synthetic move-start recovery: a real stroke begins on pointerdown or
+      // on Safari's stylus TouchEvent fallback. Contact-bearing hover/move events
+      // without an owned gesture are suppressed but never turned into ink.
       if (event.cancelable && (event.buttons || event.pressure > 0)) event.preventDefault();
-      // Recovery path for an iPad Pencil stream whose pointerdown was dropped or
-      // retargeted by WebKit. Once a contact-bearing move reaches the viewer,
-      // begin the stroke at that point rather than discarding the whole contact.
-      if (state.annotationTool === 'pen' && (event.buttons || event.pressure > 0)) {
-        addInkDiagnostic('handler-move-recovery-attempt', event);
-        if (beginInkGesture(viewer, event)) continueInkGesture(viewer, event);
-      }
       return true;
     }
     return false;
@@ -1522,14 +1522,9 @@ function handleDocumentInkPointer(viewer, event) {
   if (event.type === 'pointerup' || event.type === 'pointercancel') {
     if (finishInkGesture(viewer, event)) return true;
     if (event.pointerType === 'pen') {
+      // No synthetic up-only dot recovery. If no owned PointerEvent or stylus
+      // TouchEvent gesture exists, ending a contact must not invent annotation.
       if (event.cancelable) event.preventDefault();
-      // A very short Pencil mark may arrive with no usable down/move after an
-      // iPad/WebKit routing hiccup. Preserve an up-only contact as a dot rather
-      // than losing it completely. Do not synthesize on pointercancel.
-      if (event.type === 'pointerup' && state.annotationTool === 'pen') {
-        addInkDiagnostic('handler-up-only-recovery-attempt', event);
-        if (beginInkGesture(viewer, event)) finishInkGesture(viewer, event);
-      }
       try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
       return true;
     }
@@ -7284,7 +7279,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.0.9 keeps the stable 5.0.8 pen-input path intact and adds viewer-level palm rejection for ChromeOS-style bursts of touch contacts while Pen is active. Deliberate one- and two-finger navigation is admitted after a short intent window when the pen is away. Pen hover over the PDF also hides the browser cursor so Surface Pen no longer shows the distracting crosshair.</p>
+      <p>Milestone 5.0.10 cleans up the now-stable cross-platform pen path after successful iPad, Surface, and Chromebook testing. It keeps the Safari stylus TouchEvent fallback, ChromeOS palm suppression, Pen-mode native-selection guard, page hit-test fallback, and pen-hover cursor suppression, while removing the older speculative move-start and up-only-dot recoveries. Normal pen ink now starts only from a tip pointerdown (button 0) or the Safari stylus fallback.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Basic pen:</strong> Hand/View and Pen modes, five direct pen colors (black, blue, red, green, orange), and three direct width choices. Finger scrolling/pinch remains navigation-only.</li><li><strong>Editable ink:</strong> strokes are stored as page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and are copied with page duplication/copy/combine operations.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
       <p><strong>Next annotation steps after testing:</strong> partial-stroke eraser, lasso selection with move/resize/delete/duplicate, then highlighter with its own yellow/pink/blue/green palette. Image annotations follow the annotation milestone.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
