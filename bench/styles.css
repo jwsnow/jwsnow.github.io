@@ -1315,3 +1315,9 @@ body.presentation .split-view { top: calc(var(--annotation-bar-h) + env(safe-are
   .presentation-toolbar.annotation-toolbar .ink-width-btn { width: 30px; min-width: 30px; flex-basis: 30px; }
 }
 body.ink-pen-active .page-stage { cursor: crosshair; }
+
+/* Milestone 5.0.8: #moreMenu lives inside .app-bar. A child z-index cannot escape
+   its parent's stacking context, so keep the app-bar context above the annotation
+   strip; the regions do not overlap in normal layout, while the fixed popover can. */
+.app-bar { z-index: 220; }
+#moreMenu { z-index: 260; }

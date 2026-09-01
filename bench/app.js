@@ -1,4 +1,4 @@
-const APP_VERSION = '5.0.7';
+const APP_VERSION = '5.0.8';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -72,6 +72,7 @@ const state = {
   inkGesture: null,
   inkDiagnostics: [],
   inkDiagnosticPointers: new Map(),
+  stylusTouchContacts: new Map(),
   touchPointers: new Map(),
   touchPan: null,
   touchInertiaFrame: null,
@@ -1417,6 +1418,13 @@ function inkStageForEvent(viewer, event) {
 function beginInkGesture(viewer, event) {
   if (state.annotationTool !== 'pen') return false;
   if (event.pointerType === 'mouse' && event.button !== 0) return false;
+  // If a TouchEvent fallback already owns this Apple Pencil contact, ignore the
+  // duplicate PointerEvent stream instead of creating a second stroke.
+  if (event.pointerType === 'pen' && state.inkGesture?.inputSource === 'stylus-touch' && !event._inkStylusTouch) {
+    if (event.cancelable) event.preventDefault();
+    addInkDiagnostic('pointer-shadowed-by-stylus-touch', event);
+    return true;
+  }
   // Do not reject a pen pointerdown solely because of event.button. Safari on
   // iPad has produced intermittent Pencil contacts whose button value does not
   // match the desktop-pen convention even though the tip is on the page. A
@@ -1440,9 +1448,12 @@ function beginInkGesture(viewer, event) {
   const before = snapshotPages();
   annotationsForPage(page).push(stroke);
   state.activePageId = page.id;
-  state.inkGesture = { pointerId: event.pointerId, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, before };
+  const inputSource = event._inkStylusTouch ? 'stylus-touch' : 'pointer';
+  state.inkGesture = { pointerId: event.pointerId, inputSource, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, before };
   if (event.cancelable) event.preventDefault();
-  try { viewer.setPointerCapture?.(event.pointerId); } catch {}
+  if (inputSource === 'pointer') {
+    try { viewer.setPointerCapture?.(event.pointerId); } catch {}
+  }
   drawLiveInkSegment(stage, page, stroke, first, first);
   addInkDiagnostic('handler-begin-accepted', event, { strokeId:stroke.id });
   return true;
@@ -1461,7 +1472,9 @@ function finishInkGesture(viewer, event) {
   if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
   if (event.cancelable) event.preventDefault();
   appendInkPoint(gesture, event);
-  try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
+  if (gesture.inputSource === 'pointer') {
+    try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
+  }
   state.inkGesture = null;
   if (!gesture.stroke.points.length) return true;
   addInkDiagnostic('handler-finish-accepted', event, { strokeId:gesture.stroke.id, points:gesture.stroke.points.length });
@@ -1471,6 +1484,13 @@ function finishInkGesture(viewer, event) {
 }
 function handleDocumentInkPointer(viewer, event) {
   if (event.pointerType === 'touch') return false;
+  if (event.pointerType === 'pen' && state.inkGesture?.inputSource === 'stylus-touch') {
+    if (event.cancelable) event.preventDefault();
+    if (event.type === 'pointerdown' || event.type === 'pointerup' || event.type === 'pointercancel') {
+      addInkDiagnostic('pointer-shadowed-by-stylus-touch', event);
+    }
+    return true;
+  }
   if (event.type === 'pointerdown') {
     if (event.pointerType === 'pen' && state.annotationTool !== 'pen') {
       if (event.cancelable) event.preventDefault();
@@ -1512,6 +1532,103 @@ function handleDocumentInkPointer(viewer, event) {
   }
   return false;
 }
+// Milestone 5.0.8: iPad Safari fallback for whole Apple Pencil contacts that
+// never appear in the PointerEvent stream. Safari also exposes Touch Events and
+// identifies Apple Pencil touches with Touch.touchType === 'stylus'. Pointer
+// Events remain the normal path. A stylus TouchEvent starts ink only when no
+// pointer-owned ink gesture is already active; if the TouchEvent arrives first,
+// the corresponding PointerEvents are shadowed until that touch ends.
+function stylusTouchEventLike(touchEvent, touch, type) {
+  const ending = type === 'touchend' || type === 'touchcancel';
+  return {
+    type,
+    pointerType: 'pen',
+    pointerId: `stylus-touch-${touch.identifier}`,
+    isPrimary: true,
+    button: 0,
+    buttons: ending ? 0 : 1,
+    pressure: Number.isFinite(touch.force) ? touch.force : (ending ? 0 : .08),
+    clientX: touch.clientX,
+    clientY: touch.clientY,
+    target: touch.target || touchEvent.target,
+    cancelable: touchEvent.cancelable,
+    preventDefault: () => { if (touchEvent.cancelable) touchEvent.preventDefault(); },
+    _inkStylusTouch: true,
+  };
+}
+function viewerForStylusTouch(touch) {
+  let target = touch?.target instanceof Element ? touch.target : null;
+  if ((!target || !target.closest?.('.viewer, .split-pane-viewer')) && Number.isFinite(touch?.clientX) && Number.isFinite(touch?.clientY)) {
+    const hit = document.elementFromPoint?.(touch.clientX, touch.clientY);
+    if (hit instanceof Element) target = hit;
+  }
+  return target?.closest?.('.viewer, .split-pane-viewer') || null;
+}
+function bindStylusTouchInkFallback() {
+  if (!('TouchEvent' in window)) return;
+  document.addEventListener('touchstart', (event) => {
+    if (state.annotationTool !== 'pen') return;
+    for (const touch of event.changedTouches || []) {
+      if (touch.touchType !== 'stylus') continue;
+      const viewer = viewerForStylusTouch(touch);
+      if (!viewer) continue;
+      if (event.cancelable) event.preventDefault();
+      const synthetic = stylusTouchEventLike(event, touch, 'touchstart');
+      addInkDiagnostic('raw-stylus-touch-start', synthetic, { touchId:touch.identifier });
+      if (state.inkGesture) {
+        // PointerEvent arrived first for this contact. Keep Pointer Events as the
+        // owner, but remember this TouchEvent so its move/end do not create a
+        // second stroke.
+        state.stylusTouchContacts.set(touch.identifier, { mode:'shadow', viewer });
+        addInkDiagnostic('stylus-touch-shadowed-by-pointer', synthetic, { touchId:touch.identifier });
+        continue;
+      }
+      state.stylusTouchContacts.set(touch.identifier, { mode:'fallback', viewer });
+      if (beginInkGesture(viewer, synthetic)) {
+        addInkDiagnostic('stylus-touch-fallback-begin', synthetic, { touchId:touch.identifier });
+      }
+    }
+  }, { capture:true, passive:false });
+
+  document.addEventListener('touchmove', (event) => {
+    let handled = false;
+    for (const touch of event.changedTouches || []) {
+      const contact = state.stylusTouchContacts.get(touch.identifier);
+      if (!contact) continue;
+      handled = true;
+      if (contact.mode !== 'fallback') continue;
+      const synthetic = stylusTouchEventLike(event, touch, 'touchmove');
+      continueInkGesture(contact.viewer, synthetic);
+    }
+    if (handled && event.cancelable) event.preventDefault();
+  }, { capture:true, passive:false });
+
+  const finish = (event, cancelled) => {
+    let handled = false;
+    for (const touch of event.changedTouches || []) {
+      const contact = state.stylusTouchContacts.get(touch.identifier);
+      if (!contact) continue;
+      handled = true;
+      const synthetic = stylusTouchEventLike(event, touch, cancelled ? 'touchcancel' : 'touchend');
+      addInkDiagnostic(cancelled ? 'raw-stylus-touch-cancel' : 'raw-stylus-touch-end', synthetic, { touchId:touch.identifier, mode:contact.mode });
+      if (contact.mode === 'fallback') {
+        if (cancelled) {
+          const gesture = state.inkGesture;
+          if (gesture?.inputSource === 'stylus-touch' && gesture.pointerId === synthetic.pointerId) {
+            finishInkGesture(contact.viewer, synthetic);
+          }
+        } else {
+          finishInkGesture(contact.viewer, synthetic);
+        }
+      }
+      state.stylusTouchContacts.delete(touch.identifier);
+    }
+    if (handled && event.cancelable) event.preventDefault();
+  };
+  document.addEventListener('touchend', event => finish(event, false), { capture:true, passive:false });
+  document.addEventListener('touchcancel', event => finish(event, true), { capture:true, passive:false });
+}
+
 // Milestone 5.0.7: while an ink tool is active in the viewer, Pencil input must
 // win over WebKit's native text-selection machinery. iPadOS was first observed
 // selecting a toolbar glyph and, after that region was protected, selecting
@@ -4195,7 +4312,7 @@ function addInkDiagnostic(kind, event=null, extra={}) {
     pageId: location.pageId,
     viewer: location.viewer,
     tool: state.annotationTool,
-    activeGesture: state.inkGesture ? { pointerId: state.inkGesture.pointerId, pageId: state.inkGesture.pageId, points: state.inkGesture.stroke?.points?.length || 0 } : null,
+    activeGesture: state.inkGesture ? { pointerId: state.inkGesture.pointerId, inputSource: state.inkGesture.inputSource || 'pointer', pageId: state.inkGesture.pageId, points: state.inkGesture.stroke?.points?.length || 0 } : null,
     ...extra,
   };
   state.inkDiagnostics.push(record);
@@ -7163,7 +7280,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.0.7 is a diagnostic Apple Pencil build. It retains the 5.0.6 Pen-mode selection suppression and adds lightweight logging of Pencil contact boundaries and ink-handler decisions so intermittent whole-stroke loss on iPad can be identified from the actual WebKit event stream rather than guessed at. Use More → Download Pencil diagnostics immediately after a short handwriting test.</p>
+      <p>Milestone 5.0.8 uses the 5.0.7 diagnostics to address intermittent whole Apple Pencil contacts that never reach the PointerEvent handler. Pointer Events remain the normal ink path, with an iPad Safari TouchEvent fallback for touches identified as stylus input. It also fixes the More-menu stacking context so the menu stays above the annotation toolbar.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Basic pen:</strong> Hand/View and Pen modes, five direct pen colors (black, blue, red, green, orange), and three direct width choices. Finger scrolling/pinch remains navigation-only.</li><li><strong>Editable ink:</strong> strokes are stored as page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and are copied with page duplication/copy/combine operations.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
       <p><strong>Next annotation steps after testing:</strong> partial-stroke eraser, lasso selection with move/resize/delete/duplicate, then highlighter with its own yellow/pink/blue/green palette. Image annotations follow the annotation milestone.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -7721,6 +7838,7 @@ function bindEvents() {
   els.presentBtn.addEventListener('click', enterPresentation);
   els.presentationExit.addEventListener('click', exitPresentation);
   bindInkNativeSelectionGuard();
+  bindStylusTouchInkFallback();
   bindInkDiagnostics();
   els.presentationToolbar.addEventListener('click', (e) => { if (e.target instanceof HTMLButtonElement && e.target !== els.presentationInsertBtn) restartPresentationHideAfterControl(e); });
   els.presentationToolbar.addEventListener('pointerdown', () => { if (document.body.classList.contains('presentation')) clearTimeout(state.presentationControlsTimer); });

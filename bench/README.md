@@ -1,14 +1,20 @@
-# PDF Workbench — Milestone 5.0.7
+# PDF Workbench — Milestone 5.0.8
 
-Milestone 5.0.7 is the first annotation/inking build plus the Presentation-toolbar positioning fix, the PDF ink-export join/cap fix, and a broader iPad/Apple Pencil native-selection guard. It starts from the cross-platform-tested Milestone 4.2.2 viewer, Library, export, backup, and UI baseline and deliberately adds only the smallest useful annotation slice so stylus behavior can be validated before eraser, lasso, and highlighter work begins.
+Milestone 5.0.8 follows the 5.0.7 Apple Pencil diagnostics. Those diagnostics showed that every page Pencil `pointerdown` actually delivered to Workbench was accepted and completed, while the visibly missing short contacts never appeared in the PointerEvent stream. 5.0.8 therefore adds an iPad Safari TouchEvent fallback for `Touch.touchType === "stylus"`; Pointer Events remain the normal path and Surface/desktop behavior is unchanged. It also fixes the More-menu stacking context so the three-dots popover appears above the annotation toolbar.
 
-## 5.0.7 Apple Pencil dropped-stroke diagnostic
-- A controlled iPad sample showed a strong multi-contact pattern: one-stroke `s` characters were largely preserved, while many `+`, `i`, `=`, and separately tailed `Q` characters lost one complete contact. This points to whole Pencil contacts being lost rather than point sampling within an accepted stroke.
-- This build intentionally does **not** make another speculative routing change. It records raw Pencil/touch contact boundaries plus the Workbench ink handler's begin/finish/recovery decisions. It does not record document contents.
-- After reproducing the problem, use **More → Download Pencil diagnostics**, then provide the generated text file together with the exported handwriting sample.
-- Logging is deliberately lightweight: it does not record every move sample, only contact boundaries, a first contact-bearing move when a down was not seen, pointer-capture transitions, and handler decisions.
+## 5.0.8 Apple Pencil contact fallback
 
-## 5.0.7 iPad / Apple Pencil Pen-mode selection suppression
+- Pointer Events remain the preferred ink input.
+- Safari Touch Events are watched only for touches explicitly identified as `stylus`.
+- If a stylus TouchEvent arrives for a contact that has no active pointer-owned stroke, it can supply the missing stroke.
+- If both event streams arrive, one owns the stroke and the other is shadowed to avoid duplicates.
+- Diagnostic download remains available and now records the stylus-TouchEvent fallback path too.
+
+## 5.0.8 More-menu stacking fix
+
+- The app bar now owns a stacking context above the annotation toolbar, allowing its fixed More popover to render in front rather than behind.
+
+## 5.0.8 iPad / Apple Pencil Pen-mode selection suppression
 - Follow-up testing of 5.0.4 showed that after toolbar text was made non-selectable, iPadOS occasionally selected **footer text** instead while Apple Pencil was writing. This confirms that the problem is not a particular toolbar glyph; WebKit can leak a Pencil interaction into native text selection and retarget the selection to another selectable region.
 - While **Pen** is active in the document viewer, PDF Workbench now suppresses native `selectstart`, selection ranges, context-menu/touch-callout behavior, and user selection across the viewer plus adjacent app chrome (top bar, annotation bar, and status/footer bar).
 - The guard is tied to **Pen + viewer mode**, not permanently to the whole app. In **Hand/View** mode the document-wide JavaScript selection guard is off so deliberate text-selection behavior can be supported there later.
@@ -85,7 +91,7 @@ Milestone 5.0.7 is the first annotation/inking build plus the Presentation-toolb
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.0.7-v1`
+- Service-worker cache: `pdf-workbench-m5.0.8-v1`
 
 ## High-priority smoke tests
 1. On Surface, open a PDF, choose Pen, write at several zoom levels, switch colors and widths, then use Undo/Redo.
@@ -99,4 +105,4 @@ Milestone 5.0.7 is the first annotation/inking build plus the Presentation-toolb
 9. In Pages, use Duplicate + notes and Duplicate clean and confirm the first carries ink and the second does not.
 10. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
 
-**More → About this build** reports **Milestone 5.0.7**.
+**More → About this build** reports **Milestone 5.0.8**.

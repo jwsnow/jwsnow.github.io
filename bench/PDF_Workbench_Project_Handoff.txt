@@ -1,12 +1,19 @@
-PDF WORKBENCH PWA — MILESTONE 5.0.7 CURRENT UPDATE
+PDF WORKBENCH PWA — MILESTONE 5.0.8 CURRENT UPDATE
 ====================================================================
-CURRENT BUILD: Milestone 5.0.7
-Visible About version: 5.0.7
-Service-worker/cache version: pdf-workbench-m5.0.7-v1
+CURRENT BUILD: Milestone 5.0.8
+Visible About version: 5.0.8
+Service-worker/cache version: pdf-workbench-m5.0.8-v1
 IndexedDB database version: 2
 Library schema version: 5
 Editable backup format version: 1
 
+
+MILESTONE 5.0.8 — APPLE PENCIL TOUCH-EVENT FALLBACK / MORE-MENU STACKING FIX
+
+- 5.0.7 diagnostic result: all 80 page Pencil contacts that produced a raw `pointerdown` were accepted and finished by the ink handler; no stage-miss, move-recovery, up-only-recovery, or pointer-cancel records appeared. Missing handwritten strokes therefore occurred before Workbench received a usable PointerEvent contact.
+- 5.0.8 keeps Pointer Events as the normal path but also listens for Safari Touch Events explicitly identified by `Touch.touchType === "stylus"`. A stylus TouchEvent may recover a contact when Safari omits its PointerEvent. When both streams exist they are deduplicated so only one stroke is created.
+- Diagnostic download remains available and records the stylus-touch path.
+- The recurring More-menu-behind-toolbar bug was a stacking-context problem: `#moreMenu` is a child of `.app-bar`, whose z-index was below the annotation toolbar. 5.0.8 raises the app-bar stacking context above the annotation bar so its popover can render in front.
 
 MILESTONE 5.0.7 — APPLE PENCIL DROPPED-STROKE DIAGNOSTIC
 - Controlled iPad handwriting showed that multi-contact symbols lose whole contacts: many +, i, =, and Q marks lose one component, while one-stroke s characters are mostly preserved.
@@ -3227,3 +3234,7 @@ Milestone 5.0.7 test/fix note (2026-09-01)
 - Local Library rename/export naming: export/compress/extract/split suggestion cache keys now include the current document name, not only document ID. Renaming an already-selected/open Library document should therefore immediately affect the next default export name.
 - More (...) menu: raised above the Milestone 5 annotation toolbar so it no longer renders behind the tool strip.
 - Still pending after current testing: restore prior open session/workspace after restart; add clean-template creation option; discuss bottom-of-document upward-swipe page creation and what page/template/background it should append; later stroke smoothing/interpolation; partial-stroke eraser and lasso/select.
+
+Milestone 5.0.8 test note (2026-09-01)
+- Re-test rapid two-contact writing on iPad (rows of +, i, =, and Q tails are especially useful). If strokes still drop, download diagnostics again; 5.0.8 now reveals whether the missing contact exists in Safari's stylus TouchEvent stream even when absent from Pointer Events.
+- Verify More > menu is visually above the annotation toolbar in ordinary View and Presentation.
