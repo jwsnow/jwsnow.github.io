@@ -1,14 +1,14 @@
-PDF WORKBENCH PWA — MILESTONE 5.0.5 CURRENT UPDATE
+PDF WORKBENCH PWA — MILESTONE 5.0.6 CURRENT UPDATE
 ====================================================================
-CURRENT BUILD: Milestone 5.0.5
-Visible About version: 5.0.5
-Service-worker/cache version: pdf-workbench-m5.0.5-v1
+CURRENT BUILD: Milestone 5.0.6
+Visible About version: 5.0.6
+Service-worker/cache version: pdf-workbench-m5.0.6-v1
 IndexedDB database version: 2
 Library schema version: 5
 Editable backup format version: 1
 
 ====================================================================
-MILESTONE 5.0.5 — IPAD / APPLE PENCIL PEN-MODE NATIVE-SELECTION FIX
+MILESTONE 5.0.6 — IPAD / APPLE PENCIL PEN-MODE NATIVE-SELECTION FIX
 ====================================================================
 
 New iPad result after 5.0.4:
@@ -16,7 +16,7 @@ New iPad result after 5.0.4:
 - This confirms the failure is a WebKit/Pencil native-selection leak/retargeting problem, not a specific Hand-glyph problem and not a real tool activation.
 - The user also noted that GoodNotes can occasionally select underlying PDF text while inking; PDF Workbench should NOT accept that behavior as normal. Ink-tool input should win over native text selection.
 
-5.0.5 fix:
+5.0.6 fix:
 - Native selection suppression now follows the input mode instead of a single DOM element.
 - While Pen is active in the document viewer, a document-level capture listener prevents `selectstart` and `contextmenu`/touch-callout activation, and any selection range WebKit nevertheless creates is immediately cleared on `selectionchange`.
 - CSS also marks the viewer pane, annotation/presentation bar, app bar, and status/footer bar non-selectable/non-callout while Pen is active, so WebKit does not simply move the selection to the next available piece of UI text.
@@ -3214,3 +3214,9 @@ Do not remove previously working fixes, especially:
 - version display in About
 
 END OF HANDOFF
+
+Milestone 5.0.6 test/fix note (2026-09-01)
+- iPad Apple Pencil: 5.0.5 stopped the errant native Copy / Look Up selections, but testing still showed intermittent whole short strokes being missed. A user export (Graph Paper-edited (1).pdf) visibly demonstrates dropped Pencil contacts. 5.0.6 makes pen-start capture more defensive: it no longer rejects Pencil pointerdown based solely on the browser's `button` value, resolves a page stage by hit-testing when WebKit retargets the event, can recover a down-missed contact from a pressure/buttons-bearing pointermove, and preserves an otherwise up-only very short contact as a dot. This is intentionally not a smoothing/interpolation change.
+- Local Library rename/export naming: export/compress/extract/split suggestion cache keys now include the current document name, not only document ID. Renaming an already-selected/open Library document should therefore immediately affect the next default export name.
+- More (...) menu: raised above the Milestone 5 annotation toolbar so it no longer renders behind the tool strip.
+- Still pending after current testing: restore prior open session/workspace after restart; add clean-template creation option; discuss bottom-of-document upward-swipe page creation and what page/template/background it should append; later stroke smoothing/interpolation; partial-stroke eraser and lasso/select.

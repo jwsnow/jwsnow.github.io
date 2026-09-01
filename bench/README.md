@@ -1,8 +1,8 @@
-# PDF Workbench — Milestone 5.0.5
+# PDF Workbench — Milestone 5.0.6
 
-Milestone 5.0.5 is the first annotation/inking build plus the Presentation-toolbar positioning fix, the PDF ink-export join/cap fix, and a broader iPad/Apple Pencil native-selection guard. It starts from the cross-platform-tested Milestone 4.2.2 viewer, Library, export, backup, and UI baseline and deliberately adds only the smallest useful annotation slice so stylus behavior can be validated before eraser, lasso, and highlighter work begins.
+Milestone 5.0.6 is the first annotation/inking build plus the Presentation-toolbar positioning fix, the PDF ink-export join/cap fix, and a broader iPad/Apple Pencil native-selection guard. It starts from the cross-platform-tested Milestone 4.2.2 viewer, Library, export, backup, and UI baseline and deliberately adds only the smallest useful annotation slice so stylus behavior can be validated before eraser, lasso, and highlighter work begins.
 
-## 5.0.5 iPad / Apple Pencil Pen-mode selection suppression
+## 5.0.6 iPad / Apple Pencil Pen-mode selection suppression
 - Follow-up testing of 5.0.4 showed that after toolbar text was made non-selectable, iPadOS occasionally selected **footer text** instead while Apple Pencil was writing. This confirms that the problem is not a particular toolbar glyph; WebKit can leak a Pencil interaction into native text selection and retarget the selection to another selectable region.
 - While **Pen** is active in the document viewer, PDF Workbench now suppresses native `selectstart`, selection ranges, context-menu/touch-callout behavior, and user selection across the viewer plus adjacent app chrome (top bar, annotation bar, and status/footer bar).
 - The guard is tied to **Pen + viewer mode**, not permanently to the whole app. In **Hand/View** mode the document-wide JavaScript selection guard is off so deliberate text-selection behavior can be supported there later.
@@ -79,7 +79,7 @@ Milestone 5.0.5 is the first annotation/inking build plus the Presentation-toolb
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.0.5-v1`
+- Service-worker cache: `pdf-workbench-m5.0.6-v1`
 
 ## High-priority smoke tests
 1. On Surface, open a PDF, choose Pen, write at several zoom levels, switch colors and widths, then use Undo/Redo.
@@ -93,4 +93,4 @@ Milestone 5.0.5 is the first annotation/inking build plus the Presentation-toolb
 9. In Pages, use Duplicate + notes and Duplicate clean and confirm the first carries ink and the second does not.
 10. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
 
-**More → About this build** reports **Milestone 5.0.5**.
+**More → About this build** reports **Milestone 5.0.6**.

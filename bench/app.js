@@ -1,4 +1,4 @@
-const APP_VERSION = '5.0.5';
+const APP_VERSION = '5.0.6';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1399,12 +1399,29 @@ function appendInkPoint(gesture, event) {
   points.push(next);
   drawLiveInkSegment(gesture.stage, page, gesture.stroke, previous || next, next);
 }
+function inkStageForEvent(viewer, event) {
+  let stage = event.target instanceof Element ? event.target.closest('.page-stage[data-page-id]') : null;
+  // iPad/WebKit can occasionally retarget the first event of a Pencil contact
+  // to the scrolling viewer rather than the page child beneath the Pencil.
+  // Resolve the page geometrically as a fallback so that one retargeted event
+  // does not cost the entire short stroke.
+  if (!stage && Number.isFinite(event.clientX) && Number.isFinite(event.clientY)) {
+    const hit = document.elementFromPoint?.(event.clientX, event.clientY);
+    stage = hit instanceof Element ? hit.closest('.page-stage[data-page-id]') : null;
+  }
+  if (!stage || !viewer.contains(stage) || stage.dataset.rendered !== 'true') return null;
+  return stage;
+}
 function beginInkGesture(viewer, event) {
   if (state.annotationTool !== 'pen') return false;
   if (event.pointerType === 'mouse' && event.button !== 0) return false;
-  if (event.pointerType === 'pen' && ![0, -1].includes(event.button)) return false;
-  const stage = event.target instanceof Element ? event.target.closest('.page-stage[data-page-id]') : null;
-  if (!stage || !viewer.contains(stage) || stage.dataset.rendered !== 'true') return true;
+  // Do not reject a pen pointerdown solely because of event.button. Safari on
+  // iPad has produced intermittent Pencil contacts whose button value does not
+  // match the desktop-pen convention even though the tip is on the page. A
+  // pointerdown from a pen is sufficient evidence of a contact here; Surface
+  // barrel-button behavior can be specialized later if needed.
+  const stage = inkStageForEvent(viewer, event);
+  if (!stage) return true;
   const page = pageById(stage.dataset.pageId);
   if (!page) return true;
   const first = eventPointOnPage(stage, page, event);
@@ -1463,6 +1480,12 @@ function handleDocumentInkPointer(viewer, event) {
     if (continueInkGesture(viewer, event)) return true;
     if (event.pointerType === 'pen') {
       if (event.cancelable && (event.buttons || event.pressure > 0)) event.preventDefault();
+      // Recovery path for an iPad Pencil stream whose pointerdown was dropped or
+      // retargeted by WebKit. Once a contact-bearing move reaches the viewer,
+      // begin the stroke at that point rather than discarding the whole contact.
+      if (state.annotationTool === 'pen' && (event.buttons || event.pressure > 0)) {
+        if (beginInkGesture(viewer, event)) continueInkGesture(viewer, event);
+      }
       return true;
     }
     return false;
@@ -1471,13 +1494,19 @@ function handleDocumentInkPointer(viewer, event) {
     if (finishInkGesture(viewer, event)) return true;
     if (event.pointerType === 'pen') {
       if (event.cancelable) event.preventDefault();
+      // A very short Pencil mark may arrive with no usable down/move after an
+      // iPad/WebKit routing hiccup. Preserve an up-only contact as a dot rather
+      // than losing it completely. Do not synthesize on pointercancel.
+      if (event.type === 'pointerup' && state.annotationTool === 'pen') {
+        if (beginInkGesture(viewer, event)) finishInkGesture(viewer, event);
+      }
       try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
       return true;
     }
   }
   return false;
 }
-// Milestone 5.0.5: while an ink tool is active in the viewer, Pencil input must
+// Milestone 5.0.6: while an ink tool is active in the viewer, Pencil input must
 // win over WebKit's native text-selection machinery. iPadOS was first observed
 // selecting a toolbar glyph and, after that region was protected, selecting
 // footer text instead. That shows the failure is not tied to one element: a
@@ -3916,7 +3945,7 @@ function renderCombineList() {
 
 function updateCompressionUi(chosenDocs = selectedFileDocuments()) {
   if (!els.compressBtn) return;
-  const selectionKey = chosenDocs.map(d => d.id).join('|');
+  const selectionKey = chosenDocs.map(d => `${d.id}\n${d.name}`).join('|');
   const method = els.compressionMethod?.value || 'preserve';
   const level = els.compressionLevel?.value || 'medium';
   const targetMode = level === 'target';
@@ -3963,7 +3992,7 @@ function renderExportPane() {
   const doc = currentDocument();
   const count = state.pages.length;
   const chosenDocs = selectedFileDocuments();
-  const selectionKey = chosenDocs.map(d => d.id).join('|');
+  const selectionKey = chosenDocs.map(d => `${d.id}\n${d.name}`).join('|');
 
   if (chosenDocs.length === 0) {
     els.exportSummary.textContent = 'Select one or more open documents above.';
@@ -4006,14 +4035,15 @@ function renderExportPane() {
     els.extractSummary.textContent = selectedCount
       ? `${selectedCount} selected page${selectedCount === 1 ? '' : 's'} from active document ${doc.name} will be saved in their current Pages order.`
       : `Active document: ${doc.name}. No pages are selected; select pages in Pages first.`;
-    if (els.extractFilename.dataset.documentId !== doc.id) {
+    const exportDocumentKey = `${doc.id}\n${doc.name}`;
+    if (els.extractFilename.dataset.documentKey !== exportDocumentKey) {
       els.extractFilename.value = defaultExtractFilename(doc.name);
-      els.extractFilename.dataset.documentId = doc.id;
+      els.extractFilename.dataset.documentKey = exportDocumentKey;
       els.extractProgress.textContent = '';
     }
-    if (els.splitBaseName.dataset.documentId !== doc.id) {
+    if (els.splitBaseName.dataset.documentKey !== exportDocumentKey) {
       els.splitBaseName.value = defaultSplitBaseName(doc.name);
-      els.splitBaseName.dataset.documentId = doc.id;
+      els.splitBaseName.dataset.documentKey = exportDocumentKey;
       els.splitProgress.textContent = '';
     }
     els.splitOperationSummary.textContent = `Active: ${doc.name}`;
@@ -4601,9 +4631,10 @@ async function extractSelectedPdf() {
   saveCurrentDocumentState();
   const doc = currentDocument();
   if (!doc) return;
-  if (els.extractFilename.dataset.documentId !== doc.id) {
+  const extractDocumentKey = `${doc.id}\n${doc.name}`;
+  if (els.extractFilename.dataset.documentKey !== extractDocumentKey) {
     els.extractFilename.value = defaultExtractFilename(doc.name);
-    els.extractFilename.dataset.documentId = doc.id;
+    els.extractFilename.dataset.documentKey = extractDocumentKey;
   }
   const selectedPages = state.pages.filter(page => state.selected.has(page.id));
   if (!selectedPages.length) {
@@ -7020,7 +7051,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.0.5 continues the annotation subsystem on the validated 4.2.2 viewer/Library baseline. While Pen is active in the viewer, native WebKit text selection and Copy / Look Up callouts are suppressed across the document workspace so Apple Pencil strokes cannot leak into selection of toolbar, footer, or PDF text. Hand/View mode remains outside that guard. The 5.0.2 continuous-path PDF ink export fix remains intact.</p>
+      <p>Milestone 5.0.6 continues the annotation subsystem on the validated 4.2.2 viewer/Library baseline. While Pen is active in the viewer, native WebKit text selection and Copy / Look Up callouts are suppressed across the document workspace so Apple Pencil strokes cannot leak into selection of toolbar, footer, or PDF text. Hand/View mode remains outside that guard. The 5.0.2 continuous-path PDF ink export fix remains intact.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Basic pen:</strong> Hand/View and Pen modes, five direct pen colors (black, blue, red, green, orange), and three direct width choices. Finger scrolling/pinch remains navigation-only.</li><li><strong>Editable ink:</strong> strokes are stored as page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and are copied with page duplication/copy/combine operations.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
       <p><strong>Next annotation steps after testing:</strong> partial-stroke eraser, lasso selection with move/resize/delete/duplicate, then highlighter with its own yellow/pink/blue/green palette. Image annotations follow the annotation milestone.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

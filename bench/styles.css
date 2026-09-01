@@ -48,6 +48,10 @@ button:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 65%, 
 .popover button { display: block; width: 100%; min-height: 42px; border: 0; background: transparent; text-align: left; border-radius: 7px; padding: 8px 10px; }
 .popover button:hover { background: var(--accent-soft); }
 
+/* Milestone 5.0.6: the app-bar More popover must remain above the always-visible
+   annotation strip. The generic popover level (80) sits below the strip (120). */
+#moreMenu { z-index: 180; }
+
 .workspace { min-height: 0; position: relative; overflow: hidden; }
 .empty-state { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 28px; }
 .empty-state h1 { margin: 12px 0 8px; font-size: clamp(1.5rem, 4vw, 2.2rem); }
@@ -1154,7 +1158,7 @@ body.presentation .split-pane.active {
   -webkit-user-drag: none;
 }
 
-/* Milestone 5.0.5: Pen mode owns Pencil interaction across the viewer and its
+/* Milestone 5.0.6: Pen mode owns Pencil interaction across the viewer and its
    adjacent chrome. WebKit has been observed retargeting an accidental native
    selection from the page to the toolbar and then to the footer, so do not
    leave another selectable fallback target while inking. The JS selectstart /
