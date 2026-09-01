@@ -1,6 +1,23 @@
-# PDF Workbench — Milestone 5.0.8
+# PDF Workbench — Milestone 5.0.9
 
-Milestone 5.0.8 follows the 5.0.7 Apple Pencil diagnostics. Those diagnostics showed that every page Pencil `pointerdown` actually delivered to Workbench was accepted and completed, while the visibly missing short contacts never appeared in the PointerEvent stream. 5.0.8 therefore adds an iPad Safari TouchEvent fallback for `Touch.touchType === "stylus"`; Pointer Events remain the normal path and Surface/desktop behavior is unchanged. It also fixes the More-menu stacking context so the three-dots popover appears above the annotation toolbar.
+Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and focuses on two cross-platform input/UI issues found in broader hardware testing: ChromeOS palm contacts causing the viewer to jump while writing, and the distracting crosshair/plus cursor shown while a Surface Pen hovers over the PDF.
+
+## 5.0.9 ChromeOS palm suppression
+
+- The 5.0.8 Chromebook diagnostic showed ChromeOS reporting a resting palm as a rapid burst of many ordinary `pointerType: "touch"` contacts while Pen mode was active.
+- In Pen mode, one/two-finger navigation now has a short 120 ms intent window before pan/pinch begins. This gives a 3+ contact palm burst time to identify itself before the page is moved.
+- Three or more contacts during that pending window classify the gesture as palm and suppress it until those contacts lift.
+- When the platform exposes pen hover/in-range or a recent pen contact, new touch contacts are also treated as probable palm contacts.
+- Once a deliberate two-finger navigation gesture has been accepted, extra contacts are ignored instead of redefining the gesture.
+- Hand mode keeps the previous immediate one-finger pan / two-finger pinch behavior.
+- The existing 5.0.8 Apple Pencil PointerEvent + stylus TouchEvent ink path is unchanged.
+- Diagnostics remain enabled and now include `palm-touch-suppressed`, `touch-navigation-intentional`, and `extra-touch-ignored-during-navigation` records so Chromebook behavior can be checked directly.
+
+## 5.0.9 Surface Pen hover cursor
+
+- A real `pointerType: "pen"` hovering over a viewer now hides the browser cursor on the PDF surface.
+- This removes the distracting plus/crosshair seen with Surface Pen hover.
+- Normal mouse behavior remains available for desktop testing.
 
 ## 5.0.8 Apple Pencil contact fallback
 
@@ -91,18 +108,19 @@ Milestone 5.0.8 follows the 5.0.7 Apple Pencil diagnostics. Those diagnostics sh
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.0.8-v1`
+- Service-worker cache: `pdf-workbench-m5.0.9-v1`
 
 ## High-priority smoke tests
-1. On Surface, open a PDF, choose Pen, write at several zoom levels, switch colors and widths, then use Undo/Redo.
-2. Repeat with Apple Pencil on iPad for several lines of handwriting. Confirm the native **Copy / Look Up / …** selection callout never appears on toolbar, footer/status text, or page/PDF text; confirm one finger still pans and two fingers still pinch without creating ink.
-3. Switch between View and Presentation. Confirm the annotation controls stay in the same order and Presentation's full-width bar remains at the top without covering the page.
-4. In split view, show the same document in both panes at different pages/zoom positions. Write in one pane; verify view states remain independent and shared ink appears correctly when the same annotated page is visible.
-5. Close/reopen the document and relaunch the app to confirm ink persistence.
-6. Back up on one device and restore on another; confirm ink survives the editable backup.
-7. Export an annotated PDF and inspect it in Adobe Acrobat or another viewer. Check placement, color, width, rotation, and file size.
-8. Re-test the previously problematic slide deck unchanged; it should still export byte-for-byte. Add a short pen stroke and export again; the file should remain reasonably sized.
-9. In Pages, use Duplicate + notes and Duplicate clean and confirm the first carries ink and the second does not.
-10. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
+1. On Surface, open a PDF, choose Pen, hover the pen over the page and confirm the browser crosshair/plus cursor is hidden. Write at several zoom levels, switch colors and widths, then use Undo/Redo.
+2. On Chromebook in Pen mode, rest the palm naturally while writing. Confirm the page no longer jumps or repeatedly changes zoom. Then move the pen away and deliberately test one-finger pan and two-finger pinch; both should still work after the brief intent delay.
+3. Repeat with Apple Pencil on iPad for several lines of handwriting. Confirm the native **Copy / Look Up / …** selection callout never appears on toolbar, footer/status text, or page/PDF text; confirm deliberate finger navigation still works when the Pencil is away.
+4. Switch between View and Presentation. Confirm the annotation controls stay in the same order and Presentation's full-width bar remains at the top without covering the page.
+5. In split view, show the same document in both panes at different pages/zoom positions. Write in one pane; verify view states remain independent and shared ink appears correctly when the same annotated page is visible.
+6. Close/reopen the document and relaunch the app to check ink persistence; note that open-session restoration remains a separate known regression to fix.
+7. Back up on one device and restore on another; confirm ink survives the editable backup.
+8. Export an annotated PDF and inspect it in Adobe Acrobat or another viewer. Check placement, color, width, rotation, and file size.
+9. Re-test the previously problematic slide deck unchanged; it should still export byte-for-byte. Add a short pen stroke and export again; the file should remain reasonably sized.
+10. In Pages, use Duplicate + notes and Duplicate clean and confirm the first carries ink and the second does not.
+11. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
 
-**More → About this build** reports **Milestone 5.0.8**.
+**More → About this build** reports **Milestone 5.0.9**.

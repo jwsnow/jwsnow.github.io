@@ -1,4 +1,4 @@
-const APP_VERSION = '5.0.8';
+const APP_VERSION = '5.0.9';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -73,6 +73,10 @@ const state = {
   inkDiagnostics: [],
   inkDiagnosticPointers: new Map(),
   stylusTouchContacts: new Map(),
+  penHoverPointers: new Map(),
+  penContactPointers: new Map(),
+  penPalmGuardViewer: null,
+  penPalmGuardUntil: 0,
   touchPointers: new Map(),
   touchPan: null,
   touchInertiaFrame: null,
@@ -7280,7 +7284,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.0.8 uses the 5.0.7 diagnostics to address intermittent whole Apple Pencil contacts that never reach the PointerEvent handler. Pointer Events remain the normal ink path, with an iPad Safari TouchEvent fallback for touches identified as stylus input. It also fixes the More-menu stacking context so the menu stays above the annotation toolbar.</p>
+      <p>Milestone 5.0.9 keeps the stable 5.0.8 pen-input path intact and adds viewer-level palm rejection for ChromeOS-style bursts of touch contacts while Pen is active. Deliberate one- and two-finger navigation is admitted after a short intent window when the pen is away. Pen hover over the PDF also hides the browser cursor so Surface Pen no longer shows the distracting crosshair.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Basic pen:</strong> Hand/View and Pen modes, five direct pen colors (black, blue, red, green, orange), and three direct width choices. Finger scrolling/pinch remains navigation-only.</li><li><strong>Editable ink:</strong> strokes are stored as page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and are copied with page duplication/copy/combine operations.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
       <p><strong>Next annotation steps after testing:</strong> partial-stroke eraser, lasso selection with move/resize/delete/duplicate, then highlighter with its own yellow/pink/blue/green palette. Image annotations follow the annotation milestone.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -7501,14 +7505,122 @@ function pointerMidpoint(points) {
   return points.length < 2 ? null : { x: (points[0].x + points[1].x) / 2, y: (points[0].y + points[1].y) / 2 };
 }
 
+// Milestone 5.0.9: pen proximity and palm suppression. ChromeOS can report a
+// resting palm as a rapid burst of several ordinary touch pointers. If those
+// touches are immediately treated as one-finger pan / two-finger pinch, the
+// page jumps while the user is trying to write. Track real pen proximity where
+// the platform exposes it, and give Pen-mode touch input a very short intent
+// window so a 3+ contact palm burst can be rejected before navigation starts.
+// Pointer/stylus ink itself remains on the 5.0.8 path.
+const PEN_TOUCH_INTENT_DELAY_MS = 120;
+const PEN_PALM_GUARD_AFTER_CONTACT_MS = 420;
+const PEN_PALM_GUARD_AFTER_HOVER_MS = 220;
+
+function mapHasViewer(map, viewer) {
+  for (const value of map.values()) if ((value?.viewer || value) === viewer) return true;
+  return false;
+}
+function mapHasRecentViewer(map, viewer, maxAgeMs) {
+  const now = performance.now();
+  for (const value of map.values()) {
+    if ((value?.viewer || value) !== viewer) continue;
+    if (!Number.isFinite(value?.lastSeen) || now - value.lastSeen <= maxAgeMs) return true;
+  }
+  return false;
+}
+function setPenPalmGuard(viewer, ms) {
+  if (!viewer) return;
+  state.penPalmGuardViewer = viewer;
+  state.penPalmGuardUntil = Math.max(state.penPalmGuardUntil || 0, performance.now() + ms);
+}
+function penPalmGuardActive(viewer) {
+  if (state.annotationTool !== 'pen') return false;
+  if (mapHasViewer(state.penContactPointers, viewer)) return true;
+  // Do not let a stale missing pointerleave permanently disable deliberate
+  // finger navigation. Fresh hover events still provide strong palm evidence.
+  if (mapHasRecentViewer(state.penHoverPointers, viewer, 700)) return true;
+  return state.penPalmGuardViewer === viewer && performance.now() < state.penPalmGuardUntil;
+}
+function updateViewerPenCursor(viewer) {
+  const present = mapHasViewer(state.penHoverPointers, viewer) || mapHasViewer(state.penContactPointers, viewer);
+  viewer.classList.toggle('pen-pointer-present', present);
+}
+function bindViewerPenProximity(viewer) {
+  if (!viewer || viewer.dataset.penProximityBound === 'true') return;
+  viewer.dataset.penProximityBound = 'true';
+
+  const enterOrMove = (event) => {
+    if (event.pointerType !== 'pen') return;
+    state.penHoverPointers.set(event.pointerId, { viewer, lastSeen:performance.now() });
+    if (event.buttons || event.pressure > 0) {
+      state.penContactPointers.set(event.pointerId, { viewer, lastSeen:performance.now() });
+      setPenPalmGuard(viewer, PEN_PALM_GUARD_AFTER_CONTACT_MS);
+    } else {
+      setPenPalmGuard(viewer, PEN_PALM_GUARD_AFTER_HOVER_MS);
+    }
+    updateViewerPenCursor(viewer);
+  };
+  viewer.addEventListener('pointerenter', enterOrMove, { passive:true });
+  viewer.addEventListener('pointermove', enterOrMove, { passive:true });
+  const restoreMouseCursor = (event) => {
+    if (event.pointerType === 'mouse') viewer.classList.remove('pen-pointer-present');
+  };
+  viewer.addEventListener('pointerenter', restoreMouseCursor, { passive:true });
+  viewer.addEventListener('pointermove', restoreMouseCursor, { passive:true });
+  viewer.addEventListener('pointerdown', (event) => {
+    if (event.pointerType !== 'pen') return;
+    state.penHoverPointers.set(event.pointerId, { viewer, lastSeen:performance.now() });
+    state.penContactPointers.set(event.pointerId, { viewer, lastSeen:performance.now() });
+    setPenPalmGuard(viewer, PEN_PALM_GUARD_AFTER_CONTACT_MS);
+    updateViewerPenCursor(viewer);
+  }, { passive:true });
+  viewer.addEventListener('pointerup', (event) => {
+    if (event.pointerType !== 'pen') return;
+    state.penContactPointers.delete(event.pointerId);
+    // A pen that has just lifted is normally still in range; keep the hover
+    // entry until pointerleave so the Surface/Chromebook pen cursor stays hidden.
+    state.penHoverPointers.set(event.pointerId, { viewer, lastSeen:performance.now() });
+    setPenPalmGuard(viewer, PEN_PALM_GUARD_AFTER_CONTACT_MS);
+    updateViewerPenCursor(viewer);
+  }, { passive:true });
+  viewer.addEventListener('pointercancel', (event) => {
+    if (event.pointerType !== 'pen') return;
+    state.penContactPointers.delete(event.pointerId);
+    state.penHoverPointers.delete(event.pointerId);
+    setPenPalmGuard(viewer, PEN_PALM_GUARD_AFTER_CONTACT_MS);
+    updateViewerPenCursor(viewer);
+  }, { passive:true });
+  viewer.addEventListener('pointerleave', (event) => {
+    if (event.pointerType !== 'pen') return;
+    state.penContactPointers.delete(event.pointerId);
+    state.penHoverPointers.delete(event.pointerId);
+    setPenPalmGuard(viewer, PEN_PALM_GUARD_AFTER_HOVER_MS);
+    updateViewerPenCursor(viewer);
+  }, { passive:true });
+}
+
 // The PDF surface uses touch-action:none so browsers never get permission to
 // turn a Pencil/stylus stroke into native scrolling. Finger navigation is then
-// implemented explicitly here: one finger pans, two fingers pinch/zoom, while
-// a pen pointer is reserved for the future ink layer. This is intentionally
-// scoped to viewer surfaces; organizer dragging and visible UI controls keep
-// their normal pen behavior.
+// implemented explicitly here: one finger pans, two fingers pinch/zoom. In Pen
+// mode, 5.0.9 adds a short touch-intent gate so palm bursts do not become page
+// navigation, while deliberate one/two-finger navigation still works once the
+// pen is away. This is scoped to viewer surfaces only.
 function bindManualViewerTouch(viewer, owner, config) {
   if (!owner.touchPointers) owner.touchPointers = new Map();
+  if (!owner.palmIgnoredPointers) owner.palmIgnoredPointers = new Set();
+  if (!owner.touchIntent) owner.touchIntent = 'idle';
+  if (!('touchIntentTimer' in owner)) owner.touchIntentTimer = null;
+  bindViewerPenProximity(viewer);
+
+  const clearTouchIntentTimer = () => {
+    if (owner.touchIntentTimer) clearTimeout(owner.touchIntentTimer);
+    owner.touchIntentTimer = null;
+  };
+  const resetTouchIntent = () => {
+    clearTouchIntentTimer();
+    owner.touchIntent = 'idle';
+    owner.palmIgnoredPointers.clear();
+  };
 
   const beginPinch = () => {
     const points = pointerPair(owner);
@@ -7524,6 +7636,57 @@ function bindManualViewerTouch(viewer, owner, config) {
     owner.touchPan = null;
     owner.touchStart = null;
     viewer.classList.add('pinching', 'manual-touching');
+  };
+
+  const startIntentionalTouchNavigation = (event=null) => {
+    clearTouchIntentTimer();
+    if (!owner.touchPointers.size) { resetTouchIntent(); return; }
+    owner.touchIntent = 'intentional';
+    viewer.classList.add('manual-touching');
+    const points = [...owner.touchPointers.values()];
+    if (points.length >= 2) {
+      beginPinch();
+    } else {
+      const point = points[0];
+      owner.touchStart = { id: point.id, x: point.x, y: point.y, t: performance.now() };
+      if (config.getScrollMode() !== 'single') startViewerTouchPan(owner, point);
+    }
+    if (event) addInkDiagnostic('touch-navigation-intentional', event, { touchCount:owner.touchPointers.size });
+  };
+
+  const markPalmTouch = (event, reason) => {
+    if (owner.touchIntent === 'palm') return;
+    clearTouchIntentTimer();
+    owner.touchIntent = 'palm';
+    owner.touchStart = null;
+    owner.touchPan = null;
+    // The short intent delay normally catches a palm before a pinch begins.
+    // If a late classification occurs, stop further navigation rather than
+    // repeatedly switching pan/pinch modes as more palm contacts arrive.
+    owner.pinchGesture = null;
+    owner.pinchNeedsRender = false;
+    viewer.classList.remove('pinching', 'manual-touching');
+    addInkDiagnostic('palm-touch-suppressed', event, { reason, touchCount:owner.touchPointers.size });
+  };
+
+  const scheduleTouchIntentDecision = (event) => {
+    if (owner.touchIntentTimer) return;
+    owner.touchIntent = 'pending';
+    owner.touchIntentTimer = setTimeout(() => {
+      owner.touchIntentTimer = null;
+      if (!owner.touchPointers.size) { resetTouchIntent(); return; }
+      if (state.annotationTool === 'pen') {
+        if (owner.touchPointers.size >= 3) {
+          markPalmTouch(event, 'three-or-more-contacts');
+          return;
+        }
+        if (penPalmGuardActive(viewer)) {
+          markPalmTouch(event, 'pen-in-range-or-recent');
+          return;
+        }
+      }
+      startIntentionalTouchNavigation(event);
+    }, PEN_TOUCH_INTENT_DELAY_MS);
   };
 
   const flushLivePinch = () => {
@@ -7543,6 +7706,7 @@ function bindManualViewerTouch(viewer, owner, config) {
       owner.touchPan = null;
       owner.touchStart = null;
       config.finalizePinch?.();
+      resetTouchIntent();
       return;
     }
 
@@ -7560,6 +7724,7 @@ function bindManualViewerTouch(viewer, owner, config) {
     owner.touchStart = null;
     owner.touchPan = null;
     config.saveScroll?.();
+    resetTouchIntent();
   };
 
   viewer.addEventListener('pointermove', (e) => {
@@ -7567,10 +7732,21 @@ function bindManualViewerTouch(viewer, owner, config) {
     if (document.body.classList.contains('presentation') && e.pointerType === 'mouse' && e.clientY < 90) {
       showPresentationControls();
     }
-    if (e.pointerType !== 'touch' || !owner.touchPointers.has(e.pointerId)) return;
+    if (e.pointerType !== 'touch') return;
+    if (owner.palmIgnoredPointers.has(e.pointerId)) { if (e.cancelable) e.preventDefault(); return; }
+    if (!owner.touchPointers.has(e.pointerId)) return;
     e.preventDefault();
     const point = owner.touchPointers.get(e.pointerId);
     point.x = e.clientX; point.y = e.clientY;
+
+    if (state.annotationTool === 'pen') {
+      if (owner.touchIntent === 'palm') return;
+      if (owner.touchIntent === 'pending') {
+        if (owner.touchPointers.size >= 3) markPalmTouch(e, 'three-or-more-contacts');
+        else if (penPalmGuardActive(viewer)) markPalmTouch(e, 'pen-in-range-or-recent');
+        return;
+      }
+    }
 
     if (owner.touchPointers.size >= 2) {
       if (!owner.pinchGesture) beginPinch();
@@ -7606,10 +7782,34 @@ function bindManualViewerTouch(viewer, owner, config) {
       return;
     }
 
+    // Once a deliberate two-finger gesture has been accepted, ignore any extra
+    // contacts instead of allowing a third finger/palm edge to redefine it.
+    if (state.annotationTool === 'pen' && owner.touchIntent === 'intentional' && owner.touchPointers.size >= 2) {
+      owner.palmIgnoredPointers.add(e.pointerId);
+      addInkDiagnostic('extra-touch-ignored-during-navigation', e, { touchCount:owner.touchPointers.size + 1 });
+      return;
+    }
+
     const point = { id: e.pointerId, x: e.clientX, y: e.clientY };
     owner.touchPointers.set(e.pointerId, point);
-    viewer.classList.add('manual-touching');
 
+    if (state.annotationTool === 'pen') {
+      if (owner.touchIntent === 'palm') return;
+      if (penPalmGuardActive(viewer)) {
+        markPalmTouch(e, 'pen-in-range-or-recent');
+        return;
+      }
+      if (owner.touchPointers.size >= 3) {
+        markPalmTouch(e, 'three-or-more-contacts');
+        return;
+      }
+      scheduleTouchIntentDecision(e);
+      return;
+    }
+
+    // Hand mode and other non-inking modes retain the immediate navigation path.
+    owner.touchIntent = 'intentional';
+    viewer.classList.add('manual-touching');
     if (owner.touchPointers.size === 1) {
       owner.touchStart = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now() };
       if (config.getScrollMode() !== 'single') startViewerTouchPan(owner, point);
@@ -7631,10 +7831,29 @@ function bindManualViewerTouch(viewer, owner, config) {
       return;
     }
 
+    if (owner.palmIgnoredPointers.has(e.pointerId)) {
+      owner.palmIgnoredPointers.delete(e.pointerId);
+      try { viewer.releasePointerCapture?.(e.pointerId); } catch {}
+      return;
+    }
+
     const lastPoint = owner.touchPointers.get(e.pointerId) || { id: e.pointerId, x: e.clientX, y: e.clientY };
     lastPoint.x = e.clientX; lastPoint.y = e.clientY;
     const hadActivePinch = !!owner.pinchGesture;
     owner.touchPointers.delete(e.pointerId);
+
+    if (state.annotationTool === 'pen' && (owner.touchIntent === 'pending' || owner.touchIntent === 'palm')) {
+      try { viewer.releasePointerCapture?.(e.pointerId); } catch {}
+      if (owner.touchPointers.size === 0) {
+        viewer.classList.remove('manual-touching', 'pinching');
+        owner.touchStart = null;
+        owner.touchPan = null;
+        owner.pinchGesture = null;
+        owner.pinchNeedsRender = false;
+        resetTouchIntent();
+      }
+      return;
+    }
 
     if (hadActivePinch && owner.touchPointers.size < 2) {
       // Commit the last live pinch geometry while its anchor is still valid.
@@ -7656,7 +7875,6 @@ function bindManualViewerTouch(viewer, owner, config) {
   viewer.addEventListener('pointerup', (e) => finishPointer(e, false), { passive: false });
   viewer.addEventListener('pointercancel', (e) => finishPointer(e, true), { passive: false });
 }
-
 function bindSplitViewerEvents(paneId) {
   const pane = splitPaneState(paneId), pe = paneElements(paneId), viewer = pe.viewer;
   if (!viewer) return;

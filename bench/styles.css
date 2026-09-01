@@ -1314,7 +1314,14 @@ body.presentation .split-view { top: calc(var(--annotation-bar-h) + env(safe-are
   .presentation-toolbar.annotation-toolbar .ink-color-btn { width: 28px; min-width: 28px; flex-basis: 28px; }
   .presentation-toolbar.annotation-toolbar .ink-width-btn { width: 30px; min-width: 30px; flex-basis: 30px; }
 }
+/* Milestone 5.0.9: keep the ordinary mouse crosshair available for desktop
+   testing, but hide the browser cursor while a real pen pointer is in range over
+   a viewer. This removes the distracting Surface Pen '+' hover cursor without
+   affecting normal mouse use. */
 body.ink-pen-active .page-stage { cursor: crosshair; }
+.viewer.pen-pointer-present,
+.viewer.pen-pointer-present .page-stage,
+.viewer.pen-pointer-present .page-stage * { cursor: none !important; }
 
 /* Milestone 5.0.8: #moreMenu lives inside .app-bar. A child z-index cannot escape
    its parent's stacking context, so keep the app-bar context above the annotation

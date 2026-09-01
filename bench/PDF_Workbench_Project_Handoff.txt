@@ -1,13 +1,25 @@
-PDF WORKBENCH PWA — MILESTONE 5.0.8 CURRENT UPDATE
+PDF WORKBENCH PWA — MILESTONE 5.0.9 CURRENT UPDATE
 ====================================================================
-CURRENT BUILD: Milestone 5.0.8
-Visible About version: 5.0.8
-Service-worker/cache version: pdf-workbench-m5.0.8-v1
+CURRENT BUILD: Milestone 5.0.9
+Visible About version: 5.0.9
+Service-worker/cache version: pdf-workbench-m5.0.9-v1
 IndexedDB database version: 2
 Library schema version: 5
 Editable backup format version: 1
 
 
+MILESTONE 5.0.9 — CHROMEOS PALM SUPPRESSION / PEN-HOVER CURSOR
+====================================================================
+
+- Cross-platform testing of 5.0.8: Apple Pencil on iPad is stable; Surface Pen writes without skipping; Chromebook pen writing is accepted, but a resting palm can make the canvas jump badly.
+- The Chromebook diagnostic shows why: ChromeOS reports the palm as a rapid burst of many ordinary `pointerType: "touch"` contacts while Pen mode is active. The existing manual viewer navigation immediately interpreted those as alternating one-finger pan and two-finger pinch gestures.
+- 5.0.9 leaves the successful 5.0.8 pen/stylus ink path unchanged. In Pen mode only, touch navigation now waits 120 ms before committing to pan/pinch. Three or more contacts during the pending interval classify the gesture as palm and suppress it until the contacts lift.
+- Pen hover/contact proximity, when exposed by the platform, also suppresses new touch contacts for palm rejection. Once a deliberate two-finger navigation gesture has been accepted, additional contacts are ignored rather than changing the gesture. Hand mode retains immediate finger navigation.
+- Surface test also showed a distracting plus/crosshair while the pen hovered. A real pen pointer over the viewer now hides the browser cursor; normal mouse behavior is unchanged.
+- Diagnostics remain available and include palm-suppression / deliberate-touch-navigation markers.
+- GoodNotes Web on the same Chromebook did not show the palm-jump problem, supporting the conclusion that browser-side palm filtering is feasible on this hardware rather than an unavoidable ChromeOS limitation.
+
+====================================================================
 MILESTONE 5.0.8 — APPLE PENCIL TOUCH-EVENT FALLBACK / MORE-MENU STACKING FIX
 
 - 5.0.7 diagnostic result: all 80 page Pencil contacts that produced a raw `pointerdown` were accepted and finished by the ink handler; no stage-miss, move-recovery, up-only-recovery, or pointer-cancel records appeared. Missing handwritten strokes therefore occurred before Workbench received a usable PointerEvent contact.
@@ -51,7 +63,7 @@ KNOWN FOLLOW-UP ITEMS AFTER CURRENT TEST ROUND:
 - Template creation currently includes annotations. Add an explicit clean/no-annotations template option, analogous to Duplicate + notes vs Duplicate clean.
 - End-of-document behavior: discuss whether an upward swipe at the bottom should append a new page and decide what page/template/background should be used.
 - Continue Pen testing, including Surface Pen when available.
-- After input correctness is stable, add deliberate stroke smoothing/interpolation while preserving raw sample points, then partial-stroke eraser, lasso/select, and Highlighter.
+- After input correctness is stable, add deliberate stroke smoothing/interpolation while preserving raw sample points, then a fine-grained eraser that can remove portions of strokes/objects, lasso/select at whole-stroke/object granularity (sub-stroke selection is not required), and Highlighter.
 
 ====================================================================
 PRIOR MILESTONE 5.0.4 HANDOFF FOLLOWS
@@ -3238,3 +3250,9 @@ Milestone 5.0.7 test/fix note (2026-09-01)
 Milestone 5.0.8 test note (2026-09-01)
 - Re-test rapid two-contact writing on iPad (rows of +, i, =, and Q tails are especially useful). If strokes still drop, download diagnostics again; 5.0.8 now reveals whether the missing contact exists in Safari's stylus TouchEvent stream even when absent from Pointer Events.
 - Verify More > menu is visually above the annotation toolbar in ordinary View and Presentation.
+
+
+Milestone 5.0.9 test note (2026-09-01)
+- Surface: verify Pen hover no longer shows the plus/crosshair cursor; verify writing remains stable.
+- Chromebook: in Pen mode, write naturally with palm resting on the display. The page should remain stable. Then move the pen away and verify deliberate one-finger pan and two-finger pinch still work after the short touch-intent delay. Download diagnostics if a palm still moves the page; look for `palm-touch-suppressed` and `touch-navigation-intentional`.
+- iPad: confirm the 5.0.8 Apple Pencil reliability and native-selection suppression remain unchanged.
