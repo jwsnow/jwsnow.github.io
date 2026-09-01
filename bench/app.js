@@ -1,4 +1,4 @@
-const APP_VERSION = '4.2.1';
+const APP_VERSION = '4.2.2';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -6629,9 +6629,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 4.2.1 completes the main <strong>folder-level Library workflows</strong> and fixes structural PDF export bloat.</p>
-      <ul><li><strong>Efficient PDF export:</strong> untouched imported PDFs pass through byte-for-byte, while edited PDFs copy pages from each source in batches so shared images/fonts/resources remain shared instead of being duplicated page-by-page.</li><li><strong>Folder operations:</strong> export any folder/subtree as a hierarchy-preserving PDF ZIP; Trash/Restore/Permanent Delete operate on complete folder trees.</li><li><strong>Import into folders:</strong> importing while browsing Files stores documents in the current Library folder and stays in Files; a ZIP directory tree of PDFs can be imported with its hierarchy recreated.</li><li><strong>Direct Library open:</strong> tap/click a document thumbnail or title to open it in View.</li><li><strong>Backup portability:</strong> editable backups are written as <code>.pwbbackup.zip</code>; Restore accepts ZIP backups, and Import backup as folder adds a remapped editable subtree without replacing the current Library.</li><li><strong>Persistence:</strong> the Library remains separate from the service-worker cache and continues using versioned IndexedDB storage.</li></ul>
-      <p><strong>Still to harden before inking:</strong> hyperlink/outline preservation audit, final Files UI cleanup, and broader migration/recovery testing. Favorites/search remain optional lower-priority conveniences.</p>
+      <p>Milestone 4.2.2 is a <strong>low-risk UI organization pass</strong> on top of the cross-platform-tested 4.2.1 Library/export build. The PDF, Library, backup, persistence, and view-state engines are unchanged.</p>
+      <ul><li><strong>Library toolbar:</strong> Import files, Import PDF folder ZIP, and New folder share one compact action row; Refresh now sits with the List/Grid browser controls.</li><li><strong>View / Presentation consistency:</strong> shared controls follow the same Scroll → Fit → Zoom → Split → Insert order, and Insert Page uses the same page-plus icon in both modes.</li><li><strong>Files organization:</strong> Local Library and Open documents stay together at the top; New/Templates/Images → PDF are grouped under Create; Export/Compress/Extract/Split/Combine under PDF tools; Trash/Backup/Storage under Library management.</li><li><strong>No workflow changes:</strong> existing element IDs and handlers are retained; the 4.2.1 structural export-size fix and Library operations remain intact.</li></ul>
+      <p><strong>Next substantive work:</strong> hyperlink/outline preservation audit and then Milestone 5 annotation/inking work. Favorites/search remain optional lower-priority conveniences.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();

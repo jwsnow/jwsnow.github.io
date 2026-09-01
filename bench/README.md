@@ -1,47 +1,36 @@
-# PDF Workbench — Milestone 4.2.1
+# PDF Workbench — Milestone 4.2.2
 
-Milestone 4.2.1 consolidates the remaining folder-level Library workflows and fixes excessive PDF growth during structural export.
+Milestone 4.2.2 is a deliberately low-risk UI organization pass on top of the validated Milestone 4.2.1 Library/export build. It does not change the PDF export engine, IndexedDB schema, Library persistence logic, backup/restore logic, document model, or view-state machinery.
 
-## Efficient PDF export
-- An untouched imported PDF is exported by returning its original byte stream rather than rebuilding it.
-- For edited PDFs, all page occurrences from each source PDF are imported in one `copyPages()` batch. This lets pdf-lib reuse shared images, fonts, color profiles, and other resources instead of copying them once per output page.
-- The change is shared by normal Export, Extract, Split, Combine, Library PDF ZIP export, and Preserve compression.
-- Rasterize compression remains intentionally page-image based.
+## Files UI cleanup
+- **Local Library** and **Open documents** now stay together at the top of Files.
+- The Local Library's primary actions are arranged as one compact action row: **Import files…**, **Import PDF folder ZIP…**, and **New folder**.
+- **Refresh** now sits beside the **List / Grid** browser controls rather than with creation/import actions.
+- The remaining Files operations are visually grouped without adding nested accordions:
+  - **Create:** New, Templates, Images → PDF
+  - **PDF tools:** Export, Compress, Extract, Split, Combine
+  - **Library management:** Trash, Library backup & export, Storage & reset
+- Existing expandable tool sections and their element IDs/handlers are retained.
 
-A key regression case is the 44-page Chapter 4.2 slide deck: the source stores one background image shared by 43 pages, while the old page-at-a-time export duplicated that image dozens of times and grew dramatically.
+## View / Presentation toolbar consistency
+- Shared controls now follow the same logical order in both modes: **Scroll → Fit → Zoom → Split → Insert**.
+- Presentation keeps its document/pane selectors first and Exit last.
+- **Insert Page** uses the same page-with-plus SVG icon in View and Presentation. This avoids the previous mismatch between a plus sign in View and a different page symbol in Presentation.
 
-## Folder-level Library operations
-- Folder rows now provide **Export PDFs**, **Rename**, **Move**, and **Trash**.
-- Folder export creates one ZIP preserving the selected folder and all nested subfolder paths.
-- Trashing a folder moves its complete document/subfolder tree together. Restore restores the complete tree. Permanent deletion removes the whole tree; when any contained document has unexported changes, PDF Workbench can export the tree as a PDF ZIP first.
-
-## Import directly into the Library
-- **Files → Local Library → Import files…** uses the current Library folder as the destination.
-- Using the main Open command while already in Files does the same and leaves the user in Files instead of jumping to View.
-- **Import PDF folder ZIP…** reads a ZIP containing PDFs and recreates its directory hierarchy beneath the current Library folder.
-- Tapping/clicking a Library document thumbnail or title deliberately opens that document and switches to View.
-
-## Backup portability
-- Editable backups are now written with an explicit `.pwbbackup.zip` filename.
-- Restore accepts ZIP files and validates `manifest.json` rather than depending on a custom extension.
-- **Import backup as folder…** keeps the current Library and imports a backup as a new editable subtree, remapping document/folder/source/page IDs to avoid collisions. Imported templates receive duplicate-safe names.
-- Full Restore still replaces the Local Library and remains the exact recovery path.
+## Validated 4.2.1 functionality retained
+The previous build was tested successfully on Surface and iPad for Library creation/moving, import/export, editable backup, full restore, backup import as a folder/subtree, Trash/Restore/Permanent Delete, and cross-platform backup portability. The export-size regression fix is unchanged: untouched source PDFs pass through byte-for-byte, while edited PDFs preserve shared source resources through batched page copying.
 
 ## Storage/versioning
 - IndexedDB database version: **2**
-- Library schema version: **4** (adds folder-tree Trash metadata; existing schema-3 records remain readable)
+- Library schema version: **4**
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m4.2.1-v1`
+- Service-worker cache: `pdf-workbench-m4.2.2-v1`
 
-## Suggested tests
-1. Export an untouched PDF and compare its byte size to the original; it should be identical.
-2. Reorder/rotate/duplicate a few pages in the Chapter 4.2 slide deck and export; verify that the file no longer expands by an order of magnitude.
-3. In Files, browse into a subfolder, import several PDFs, and verify they land there while Files remains visible.
-4. Tap a document thumbnail/title and verify it opens in View.
-5. Create a nested folder tree, export that folder as PDFs, and inspect the ZIP hierarchy.
-6. Trash the folder tree, restart, restore it, then Trash it again and permanently delete it.
-7. Import a ZIP containing nested PDF folders into the current Library folder.
-8. Create a `.pwbbackup.zip`, then use **Import backup as folder…** and verify the existing Library remains intact while an editable imported subtree appears.
-9. Repeat the backup/import and folder ZIP workflows on iPad PWA because its file-picker/share behavior is the most restrictive target.
+## Suggested smoke tests
+1. Open Files and confirm Local Library and Open documents appear together before the Create heading.
+2. Expand Local Library and check the Import/ZIP/New Folder action row plus Refresh/List/Grid row on desktop, Surface, iPad, and Chromebook widths.
+3. Enter View and Presentation and confirm the shared control order is Scroll, Fit, Zoom, Split, Insert.
+4. Confirm the same page-plus icon appears for Insert Page in View and Presentation.
+5. Quickly exercise Import, open-from-Library, Export, Trash/Restore, and backup/restore to confirm this layout-only revision did not alter behavior.
 
-**More → About this build** reports **Milestone 4.2.1**.
+**More → About this build** reports **Milestone 4.2.2**.

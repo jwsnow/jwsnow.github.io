@@ -31,6 +31,8 @@ button:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 65%, 
 .document-select { flex: 1 1 180px; width: min(240px, 28vw); min-width: 72px; max-width: 240px; height: 40px; border: 1px solid var(--border); border-radius: 9px; background: var(--paper); color: var(--text); padding: 6px 30px 6px 9px; text-overflow: ellipsis; }
 .tool-btn, .icon-btn, .segment, .organizer-actions button, .single-page-nav button, .large-open, .dialog-actions button { border: 1px solid var(--border); background: var(--paper); color: var(--text); border-radius: 9px; min-height: 40px; padding: 7px 10px; cursor: pointer; }
 .tool-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; flex: 0 0 auto; }
+.page-plus-icon { display: inline-grid; place-items: center; width: 20px; height: 20px; flex: 0 0 20px; }
+.page-plus-icon svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .tool-btn.emphasized, .large-open { background: var(--accent); border-color: var(--accent); color: white; }
 .icon-btn { min-width: 40px; font-size: 24px; line-height: 1; padding: 0 9px; }
 .segmented { display: flex; border: 1px solid var(--border); border-radius: 9px; overflow: hidden; background: var(--paper); }
@@ -385,6 +387,17 @@ body.presentation .split-pane.active {
 }
 .combine-move:disabled { opacity: .38; }
 .files-roadmap-note { margin-top: 18px; }
+.file-tool-group-label {
+  margin: 25px 2px 0;
+  padding: 0 2px 7px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: .74rem;
+  font-weight: 800;
+  letter-spacing: .075em;
+  text-transform: uppercase;
+}
+.file-tool-group-label + .file-tool-details { margin-top: 8px; }
 
 @media (max-width: 620px) {
   .export-pane { padding: 14px 10px 28px; }
@@ -477,9 +490,8 @@ body.presentation .split-pane.active {
 .new-document-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .new-document-actions .export-button { margin-top: 0; }
 
-/* The Presentation insert-page control is intentionally separated from the
-   zoom +/- cluster and uses a page-shaped icon rather than another plus. */
-.presentation-insert-page { margin-left: 5px; margin-right: 5px; }
+/* View and Presentation use the same page-plus glyph for Insert Page. */
+.presentation-insert-page .page-plus-icon { margin: 0 auto; }
 
 @media (max-width: 620px) {
   .open-documents-section { padding: 14px 12px; }
@@ -926,7 +938,24 @@ body.presentation .split-pane.active {
   gap: 7px;
   flex-wrap: wrap;
 }
+.library-primary-toolbar {
+  display: grid;
+  gap: 9px;
+}
+.library-primary-toolbar .file-tool-summary { margin: 0; }
+.library-primary-toolbar .library-top-actions {
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+}
+.library-browser-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+  flex: 0 0 auto;
+}
 .library-top-actions button,
+.library-browser-actions > button,
 .library-view-toggle button,
 .library-breadcrumb-button {
   min-height: 36px;
@@ -1051,9 +1080,11 @@ body.presentation .split-pane.active {
 }
 @media (max-width: 620px) {
   .library-browser-toolbar { align-items: stretch; flex-direction: column; }
+  .library-browser-actions { width: 100%; justify-content: flex-end; }
   .library-view-toggle { justify-content: flex-end; }
   .library-top-actions { width: 100%; }
-  .library-top-actions button { flex: 1 1 0; }
+  .library-primary-toolbar .library-top-actions { flex-wrap: wrap; }
+  .library-top-actions button { flex: 1 1 150px; }
   .library-document-list.grid-view { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 9px; }
   .library-document-list.grid-view .library-document-preview,
   .library-document-list.grid-view .library-folder-preview { height: 112px; }
@@ -1072,6 +1103,6 @@ body.presentation .split-pane.active {
 .library-backup-actions .export-button { margin-top:0; flex:0 1 auto; }
 @media (max-width: 620px) { .library-backup-actions { flex-direction:column; align-items:stretch; } .library-backup-actions .export-button { width:100%; } }
 
-/* Milestone 4.2.1 Library direct-open affordance */
+/* Milestone 4.2.2 UI-polish baseline; direct-open affordance retained from 4.2.1. */
 .library-open-target { cursor: pointer; }
 .library-open-target:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 6px; }

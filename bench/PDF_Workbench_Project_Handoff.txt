@@ -1,3 +1,50 @@
+PDF WORKBENCH PWA — MILESTONE 4.2.2 CURRENT UPDATE
+====================================================
+
+CURRENT BUILD: Milestone 4.2.2
+Visible About version: 4.2.2
+Service-worker/cache version: pdf-workbench-m4.2.2-v1
+IndexedDB database version: 2
+Library schema version: 4
+Editable backup format version: 1
+
+MILESTONE 4.2.2 — LOW-RISK UI ORGANIZATION PASS
+------------------------------------------------
+Milestone 4.2.1 was broadly validated on Surface and iPad. The previously problematic 44-page slide deck now exports byte-for-byte when untouched and slightly smaller after edits, confirming the structural resource-sharing fix. Folder/document creation and movement, PDF/ZIP import/export, editable backup, full restore, backup import as subtree, Trash/Restore, and Permanent Delete were also exercised successfully on both devices.
+
+4.2.2 intentionally changes presentation/order only. Do not alter the validated PDF, Library, backup, persistence, or view-state behavior as part of this UI pass.
+
+FILES UI CHANGES:
+- Local Library and Open documents are adjacent at the top of Files.
+- Local Library primary actions are one compact row: Import files…, Import PDF folder ZIP…, New folder.
+- Refresh is moved beside List/Grid because it is a browser/view control rather than a content-creation/import action.
+- Remaining Files sections are visually grouped with plain headings, NOT nested expandable groups:
+  CREATE: New; Templates; Images → PDF.
+  PDF TOOLS: Export; Compress; Extract; Split; Combine.
+  LIBRARY MANAGEMENT: Trash; Library backup & export; Storage & reset.
+- Existing details/accordion sections retain their IDs and handlers.
+
+VIEW / PRESENTATION TOOLBAR CHANGES:
+- Shared controls now use the same logical order: Scroll → Fit → Zoom → Split → Insert.
+- Presentation-specific pane/document selection remains before those controls and Exit remains last.
+- Insert Page uses one shared page-with-plus SVG glyph in View and Presentation. Do not revert to separate symbols.
+
+NO BEHAVIOR CHANGE INTENDED:
+- PDF export-size fix from 4.2.1 remains unchanged.
+- IndexedDB DB version remains 2; Library schema remains 4.
+- Backup format remains version 1 and editable backups remain .pwbbackup.zip.
+- Direct-to-current-folder import, stay-in-Files import behavior, direct Library click/tap open, folder subtree operations, ZIP hierarchy import/export, and backup import-as-subtree remain unchanged.
+- Same-document split independence, View↔Presentation anchoring, touch/stylus rules, and PWA update behavior must not regress.
+
+NEXT SUBSTANTIVE WORK:
+- Audit preservation of existing PDF hyperlinks and outlines/bookmarks through structural edits/export.
+- Then Milestone 5 annotation/inking: Pen, Highlighter, Eraser, Select/Lasso, presets/View-Hand mode, laser pointer, later image annotations.
+- Favorites/search/sophisticated sorting remain lower priority.
+
+
+PRIOR MILESTONE 4.2.1 HANDOFF FOLLOWS
+======================================
+
 PDF WORKBENCH PWA — MILESTONE 4.2.1 CURRENT UPDATE
 ====================================================
 
