@@ -1154,6 +1154,23 @@ body.presentation .split-pane.active {
   -webkit-user-drag: none;
 }
 
+/* Milestone 5.0.5: Pen mode owns Pencil interaction across the viewer and its
+   adjacent chrome. WebKit has been observed retargeting an accidental native
+   selection from the page to the toolbar and then to the footer, so do not
+   leave another selectable fallback target while inking. The JS selectstart /
+   selectionchange guard is the stronger backstop; these CSS rules prevent the
+   native selection/callout path from starting in the first place. */
+body.ink-pen-active .viewer-pane,
+body.ink-pen-active .viewer-pane *,
+body.ink-pen-active .app-bar,
+body.ink-pen-active .app-bar *,
+body.ink-pen-active .status-bar,
+body.ink-pen-active .status-bar * {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+
 .presentation-toolbar.annotation-toolbar button {
   flex: 0 0 36px;
   width: 36px;

@@ -1,6 +1,13 @@
-# PDF Workbench — Milestone 5.0.4
+# PDF Workbench — Milestone 5.0.5
 
-Milestone 5.0.4 is the first annotation/inking build plus the Presentation-toolbar positioning fix, the PDF ink-export join/cap fix, and an iPad/Apple Pencil native-selection guard. It starts from the cross-platform-tested Milestone 4.2.2 viewer, Library, export, backup, and UI baseline and deliberately adds only the smallest useful annotation slice so stylus behavior can be validated before eraser, lasso, and highlighter work begins.
+Milestone 5.0.5 is the first annotation/inking build plus the Presentation-toolbar positioning fix, the PDF ink-export join/cap fix, and a broader iPad/Apple Pencil native-selection guard. It starts from the cross-platform-tested Milestone 4.2.2 viewer, Library, export, backup, and UI baseline and deliberately adds only the smallest useful annotation slice so stylus behavior can be validated before eraser, lasso, and highlighter work begins.
+
+## 5.0.5 iPad / Apple Pencil Pen-mode selection suppression
+- Follow-up testing of 5.0.4 showed that after toolbar text was made non-selectable, iPadOS occasionally selected **footer text** instead while Apple Pencil was writing. This confirms that the problem is not a particular toolbar glyph; WebKit can leak a Pencil interaction into native text selection and retarget the selection to another selectable region.
+- While **Pen** is active in the document viewer, PDF Workbench now suppresses native `selectstart`, selection ranges, context-menu/touch-callout behavior, and user selection across the viewer plus adjacent app chrome (top bar, annotation bar, and status/footer bar).
+- The guard is tied to **Pen + viewer mode**, not permanently to the whole app. In **Hand/View** mode the document-wide JavaScript selection guard is off so deliberate text-selection behavior can be supported there later.
+- Intentional toolbar taps still use normal button behavior; finger pan/pinch, stored ink points, coalesced-event sampling, Canvas rendering, PDF export, and split-pane annotation synchronization are unchanged.
+- This supersedes the narrower 5.0.4 toolbar-only guard.
 
 ## 5.0.4 iPad / Apple Pencil native toolbar-selection fix
 - Clarification from iPad testing: the Hand tool was **not being activated**. Instead, while writing on the page, iPadOS would occasionally **select the visible Hand glyph as text** and show the native **Copy / Look Up / …** selection callout. The current Pencil stroke was skipped/cancelled at the same time.
@@ -72,11 +79,11 @@ Milestone 5.0.4 is the first annotation/inking build plus the Presentation-toolb
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.0.4-v1`
+- Service-worker cache: `pdf-workbench-m5.0.5-v1`
 
 ## High-priority smoke tests
 1. On Surface, open a PDF, choose Pen, write at several zoom levels, switch colors and widths, then use Undo/Redo.
-2. Repeat with Apple Pencil on iPad for several lines of handwriting. Confirm the native **Copy / Look Up / …** selection callout never appears on Hand, Pen, or any toolbar glyph; confirm one finger still pans and two fingers still pinch without creating ink.
+2. Repeat with Apple Pencil on iPad for several lines of handwriting. Confirm the native **Copy / Look Up / …** selection callout never appears on toolbar, footer/status text, or page/PDF text; confirm one finger still pans and two fingers still pinch without creating ink.
 3. Switch between View and Presentation. Confirm the annotation controls stay in the same order and Presentation's full-width bar remains at the top without covering the page.
 4. In split view, show the same document in both panes at different pages/zoom positions. Write in one pane; verify view states remain independent and shared ink appears correctly when the same annotated page is visible.
 5. Close/reopen the document and relaunch the app to confirm ink persistence.
@@ -86,4 +93,4 @@ Milestone 5.0.4 is the first annotation/inking build plus the Presentation-toolb
 9. In Pages, use Duplicate + notes and Duplicate clean and confirm the first carries ink and the second does not.
 10. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
 
-**More → About this build** reports **Milestone 5.0.4**.
+**More → About this build** reports **Milestone 5.0.5**.

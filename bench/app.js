@@ -1,4 +1,4 @@
-const APP_VERSION = '5.0.4';
+const APP_VERSION = '5.0.5';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1358,6 +1358,7 @@ function updateInkToolbar() {
   els.inkHandBtn?.setAttribute('aria-pressed', String(tool === 'hand'));
   els.inkPenBtn?.setAttribute('aria-pressed', String(tool === 'pen'));
   document.body.classList.toggle('ink-pen-active', tool === 'pen');
+  if (tool === 'pen') clearNativeSelection();
   for (const button of els.penColorGroup?.querySelectorAll?.('[data-ink-color]') || []) {
     const active = button.dataset.inkColor === state.penColor;
     button.classList.toggle('active', active);
@@ -1476,32 +1477,35 @@ function handleDocumentInkPointer(viewer, event) {
   }
   return false;
 }
-// iPadOS can occasionally begin native text selection on toolbar glyphs while
-// Apple Pencil is writing elsewhere in the document. That produces the system
-// Copy / Look Up callout and can cancel the current Pencil stroke. The toolbar
-// is application chrome, not selectable document text, so suppress selection
-// and native callouts there. CSS provides the primary guard; these listeners
-// are a defensive fallback for WebKit selection behavior.
-function bindAnnotationToolbarSelectionGuard() {
-  const toolbar = els.presentationToolbar;
-  if (!toolbar) return;
-  toolbar.addEventListener('selectstart', (event) => {
+// Milestone 5.0.5: while an ink tool is active in the viewer, Pencil input must
+// win over WebKit's native text-selection machinery. iPadOS was first observed
+// selecting a toolbar glyph and, after that region was protected, selecting
+// footer text instead. That shows the failure is not tied to one element: a
+// Pencil stream can leak into native selection and WebKit may retarget the
+// selection elsewhere in the app. Suppress selection/callouts at the input-mode
+// level while Pen is active. Hand/View mode deliberately does not use this
+// document-wide guard so future intentional text selection can remain possible.
+function inkBlocksNativeSelection() {
+  return state.annotationTool === 'pen' &&
+    (state.workspaceMode === 'view' || document.body.classList.contains('presentation'));
+}
+function clearNativeSelection() {
+  const selection = document.getSelection?.();
+  if (selection?.rangeCount) selection.removeAllRanges();
+}
+function bindInkNativeSelectionGuard() {
+  document.addEventListener('selectstart', (event) => {
+    if (!inkBlocksNativeSelection()) return;
     event.preventDefault();
+    clearNativeSelection();
   }, { capture: true, passive: false });
-  toolbar.addEventListener('contextmenu', (event) => {
+  document.addEventListener('contextmenu', (event) => {
+    if (!inkBlocksNativeSelection()) return;
     event.preventDefault();
+    clearNativeSelection();
   }, { capture: true, passive: false });
   document.addEventListener('selectionchange', () => {
-    const selection = document.getSelection?.();
-    if (!selection || selection.rangeCount === 0) return;
-    const nodeInsideToolbar = (node) => {
-      if (!node) return false;
-      const element = node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
-      return !!element && toolbar.contains(element);
-    };
-    if (nodeInsideToolbar(selection.anchorNode) || nodeInsideToolbar(selection.focusNode)) {
-      selection.removeAllRanges();
-    }
+    if (inkBlocksNativeSelection()) clearNativeSelection();
   });
 }
 
@@ -7016,7 +7020,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.0.4 continues the annotation subsystem on the validated 4.2.2 viewer/Library baseline. This iPad-focused bug-fix build prevents the native text-selection / Copy-Look Up callout from treating annotation-toolbar glyphs such as the Hand icon as selectable text while writing with Apple Pencil. The 5.0.2 continuous-path PDF ink export fix remains intact.</p>
+      <p>Milestone 5.0.5 continues the annotation subsystem on the validated 4.2.2 viewer/Library baseline. While Pen is active in the viewer, native WebKit text selection and Copy / Look Up callouts are suppressed across the document workspace so Apple Pencil strokes cannot leak into selection of toolbar, footer, or PDF text. Hand/View mode remains outside that guard. The 5.0.2 continuous-path PDF ink export fix remains intact.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Basic pen:</strong> Hand/View and Pen modes, five direct pen colors (black, blue, red, green, orange), and three direct width choices. Finger scrolling/pinch remains navigation-only.</li><li><strong>Editable ink:</strong> strokes are stored as page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and are copied with page duplication/copy/combine operations.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
       <p><strong>Next annotation steps after testing:</strong> partial-stroke eraser, lasso selection with move/resize/delete/duplicate, then highlighter with its own yellow/pink/blue/green palette. Image annotations follow the annotation milestone.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -7572,7 +7576,7 @@ function bindEvents() {
   els.presentationZoomInBtn.addEventListener('click', () => zoomBy(1.25));
   els.presentBtn.addEventListener('click', enterPresentation);
   els.presentationExit.addEventListener('click', exitPresentation);
-  bindAnnotationToolbarSelectionGuard();
+  bindInkNativeSelectionGuard();
   els.presentationToolbar.addEventListener('click', (e) => { if (e.target instanceof HTMLButtonElement && e.target !== els.presentationInsertBtn) restartPresentationHideAfterControl(e); });
   els.presentationToolbar.addEventListener('pointerdown', () => { if (document.body.classList.contains('presentation')) clearTimeout(state.presentationControlsTimer); });
   els.prevPageBtn.addEventListener('click', () => goPage(-1));
