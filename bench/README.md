@@ -1,6 +1,25 @@
-# PDF Workbench — Milestone 5.3.0
+# PDF Workbench — Milestone 5.4.0
 
-Milestone 5.3.0 adds a dedicated **Highlighter** tool on top of the stable 5.2.2 cross-device annotation baseline. Highlighter marks use the same page-local vector object model as Pen strokes, with their own remembered palette, widths, and translucent opacity. They can be partially erased, selected/moved/resized/deleted/duplicated/copied/pasted, persisted, and exported to PDF without changing the proven Pen/Surface/ChromeOS/iPad input pipeline.
+Milestone 5.4.0 adds a first **handwriting smoothing** pass on top of the stable 5.3.0 Pen/Highlighter editing baseline. Every raw/coalesced stylus sample remains stored exactly as before; smoothing is derived only for screen rendering and PDF export so partial erasing, lasso manipulation, Undo/Redo, persistence, and future editing continue to use the unchanged raw geometry.
+
+## 5.4.0 smoothing
+
+- Pen and Highlighter strokes render as restrained continuous cardinal splines instead of straight line segments between every raw sample.
+- The spline passes through the stored sample points and caps control handles relative to each raw segment, reducing polygonal corners without allowing large loops or overshoot away from editable geometry.
+- Raw input points are **not replaced, filtered, simplified, or rewritten**. Existing documents automatically receive the smoother rendering without a data migration.
+- Live Pen drawing remains incremental: each new sample finalizes the preceding cubic segment, leaving at most one raw-sample interval of visual tail latency rather than redrawing the whole page for every pen sample. The completed stroke is redrawn once at pen-up through the exact final smoothing path.
+- Highlighter keeps its existing full-current-stroke redraw per pointer event to preserve uniform translucency; that redraw now uses the same smooth curve.
+- PDF export writes the same continuous cubic path used by the on-screen completed stroke, with existing round caps/joins and Highlighter opacity.
+- Partial Eraser and Lasso/Select continue to operate on raw stroke points. Because stylus samples are dense and spline handles are restrained, the rendered path stays close to that editable source geometry.
+- No changes to Apple Pencil fallback, Surface/ChromeOS pen routing, palm rejection, finger navigation, PWA caching, session restoration, templates, automatic pages, or live pinch scaling.
+
+### Test priority for 5.4.0
+
+1. Compare rapid handwriting against 5.3.0 on iPad and Surface. Confirm the stroke follows the pen without a noticeable new delay and curves look less polygonal after pen-up.
+2. Draw tight loops, sharp corners, dots, very short marks, and fast long strokes. Look for loops/overshoot or a visible jump when lifting the pen.
+3. Mix Pen and Highlighter, erase through curved sections, then lasso/move/resize/duplicate/copy/paste the surviving objects.
+4. Export mixed smoothed Pen + Highlighter content and compare Acrobat with the Workbench display, including erased gaps.
+5. Recheck split-view live ink, pinch zoom, session restart, and installed iPad PWA update behavior. Chromebook remains a later compatibility check if unavailable.
 
 ## 5.3.0 highlighter
 
@@ -188,18 +207,17 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - The 4.2.1 batched source-page copying/resource-sharing fix remains intact.
 
 ## Not in this build yet
-- Highlighter and its separate yellow/pink/blue/green palette/widths
+- Images as annotation objects
 - Recolor selected strokes
 - Annotation-toolbar auto-hide/edge-placement setting
 - Draw with Finger setting
 - Pressure-sensitive width
-- Images as annotation objects
 
 ## Storage/versioning
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.3.0-v1`
+- Service-worker cache: `pdf-workbench-m5.4.0-v1`
 
 ## High-priority smoke tests
 1. On iPad, Surface, and Chromebook, draw several separate strokes, choose Select, lasso one stroke and then a group. Verify the selected objects get one bounding box and that unselected strokes remain untouched.
@@ -220,4 +238,4 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 16. Re-test the previously problematic slide deck unchanged; it should still export byte-for-byte. Add a short pen stroke and export again; the file should remain reasonably sized.
 17. Save one template **With annotations** and one **Clean**; confirm their previews/content differ correctly. In Template Manager set the automatic last page to Graph, Blank, and then a saved template, and test pull/scroll-past-end creation for each.
 18. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
-**More → About this build** reports **Milestone 5.3.0**.
+**More → About this build** reports **Milestone 5.4.0**.

@@ -1,3 +1,40 @@
+PDF WORKBENCH PWA — MILESTONE 5.4.0 CURRENT UPDATE
+
+CURRENT BUILD: Milestone 5.4.0
+Visible About version: 5.4.0
+Service-worker/cache version: pdf-workbench-m5.4.0-v1
+Baseline: 5.3.0, confirmed working on iPad and Surface; Chromebook retest deferred because the device was not available.
+
+MILESTONE 5.4.0 — FIRST HANDWRITING SMOOTHING PASS
+- Raw/coalesced Pen and Highlighter samples remain the authoritative editable object data; no storage/schema migration.
+- Completed strokes render/export with a restrained cardinal spline converted to continuous cubic Bézier segments. The curve passes through source samples.
+- Control handles are capped relative to each raw segment to reduce overshoot/loops around tight handwriting corners and keep the displayed curve close to raw eraser/lasso geometry.
+- Live Pen stays incremental rather than full-page-redrawing on every sample. A newly arrived sample finalizes the preceding cubic segment; final pen-up redraw clears the tiny provisional first segment/tail.
+- Highlighter retains full-current-path redraw per pointer event for uniform transparency, now using the same smooth curve.
+- PDF export uses cubic `C` path commands corresponding to the screen smoothing; round caps/joins and opacity are retained.
+- Partial Eraser, Lasso/Select manipulation, Undo/Redo, copy/paste, persistence, and backups continue to operate on unchanged raw points.
+- No intentional changes to Apple Pencil fallback, Surface/ChromeOS Pointer Events, palm rejection, finger navigation, session restoration, templates, automatic appended pages, live pinch scaling, or PWA asset-cache behavior.
+
+TEST PRIORITY FOR 5.4.0:
+1. iPad and Surface: rapid handwriting and short multi-stroke symbols; compare latency with 5.3.0 and inspect smoothing on pen-up.
+2. Tight loops/sharp corners/fast strokes/dots: check for spline overshoot or end-of-stroke snapping.
+3. Partial erase and lasso move/resize/copy/paste smoothed-looking strokes; raw edit geometry should remain robust.
+4. Export mixed Pen + Highlighter annotations and verify Acrobat matches the smoothed Workbench rendering and erased regions stay gone.
+5. Split view, pinch zoom, PWA restart/session restore, and installed-iPad update regression smoke tests.
+6. Chromebook compatibility can be tested later; it is not the primary target.
+
+FUTURE NEW-DOCUMENT SIZE REQUEST (2026-09-02):
+- Blank/Graph document creation should eventually offer US Letter plus device-derived Presentation canvas sizes.
+- Proposed choices: Presentation canvas, slightly smaller than Presentation canvas, and Letter.
+- Compute Presentation-derived dimensions from the actual usable Presentation viewport on the current device rather than hard-coding a device size.
+
+NEXT MAJOR FEATURE AFTER THIS PASS:
+- Image insertion as annotation objects integrated with the existing selection/manipulation system.
+
+====================================================================
+PRIOR MILESTONE 5.3.0 HANDOFF FOLLOWS
+====================================================================
+
 PDF WORKBENCH PWA — MILESTONE 5.3.0 CURRENT UPDATE
 
 CURRENT BUILD: Milestone 5.3.0

@@ -1,4 +1,4 @@
-const APP_VERSION = '5.3.0';
+const APP_VERSION = '5.4.0';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1425,6 +1425,63 @@ function eventPointOnPage(stage, page, event) {
   const base = pageCanvasBaseDimensions(page);
   return { x: clamp(point.x, 0, base.width), y: clamp(point.y, 0, base.height) };
 }
+// Milestone 5.4.0: restrained cardinal-spline rendering. Raw sampled points
+// remain the authoritative editable geometry for erasing, lasso transforms,
+// persistence, Undo/Redo, and future editing. Smoothing is derived only when
+// drawing/exporting so the input path and object model stay unchanged.
+const INK_SMOOTHING_FACTOR = 0.13;
+const INK_SMOOTHING_HANDLE_CAP = 0.58;
+function smoothStrokeControls(points, segmentIndex) {
+  const count = points?.length || 0;
+  if (count < 2 || segmentIndex < 0 || segmentIndex >= count - 1) return null;
+  const p0 = points[Math.max(0, segmentIndex - 1)];
+  const p1 = points[segmentIndex];
+  const p2 = points[segmentIndex + 1];
+  const p3 = points[Math.min(count - 1, segmentIndex + 2)];
+  let c1 = {
+    x: p1.x + (p2.x - p0.x) * INK_SMOOTHING_FACTOR,
+    y: p1.y + (p2.y - p0.y) * INK_SMOOTHING_FACTOR,
+  };
+  let c2 = {
+    x: p2.x - (p3.x - p1.x) * INK_SMOOTHING_FACTOR,
+    y: p2.y - (p3.y - p1.y) * INK_SMOOTHING_FACTOR,
+  };
+  // Dense stylus samples normally keep these handles short already. Cap them
+  // relative to the current raw segment so a very uneven sample interval or a
+  // sharp reversal cannot create a loop/large overshoot away from the eraser's
+  // underlying raw geometry.
+  const segmentLength = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+  const maxHandle = segmentLength * INK_SMOOTHING_HANDLE_CAP;
+  const capFrom = (anchor, control) => {
+    const dx = control.x - anchor.x, dy = control.y - anchor.y;
+    const length = Math.hypot(dx, dy);
+    if (!maxHandle || length <= maxHandle || length < 1e-9) return control;
+    const scale = maxHandle / length;
+    return { x: anchor.x + dx * scale, y: anchor.y + dy * scale };
+  };
+  c1 = capFrom(p1, c1);
+  c2 = capFrom(p2, c2);
+  return { p1, p2, c1, c2 };
+}
+function traceSmoothedStrokeCanvas(ctx, page, points) {
+  if (!ctx || !Array.isArray(points) || !points.length) return;
+  const first = basePointToDisplay(page, points[0]);
+  ctx.moveTo(first.x, first.y);
+  if (points.length === 1) return;
+  if (points.length === 2) {
+    const second = basePointToDisplay(page, points[1]);
+    ctx.lineTo(second.x, second.y);
+    return;
+  }
+  for (let i = 0; i < points.length - 1; i++) {
+    const controls = smoothStrokeControls(points, i);
+    if (!controls) continue;
+    const c1 = basePointToDisplay(page, controls.c1);
+    const c2 = basePointToDisplay(page, controls.c2);
+    const p2 = basePointToDisplay(page, controls.p2);
+    ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, p2.x, p2.y);
+  }
+}
 function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight) {
   if (!ctx || !hasPageAnnotations(page)) return;
   const display = pageDisplayDimensions(page);
@@ -1452,11 +1509,7 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight) {
       continue;
     }
     ctx.beginPath();
-    ctx.moveTo(first.x, first.y);
-    for (let i = 1; i < points.length; i++) {
-      const p = basePointToDisplay(page, points[i]);
-      ctx.lineTo(p.x, p.y);
-    }
+    traceSmoothedStrokeCanvas(ctx, page, points);
     ctx.stroke();
   }
   ctx.restore();
@@ -1494,6 +1547,9 @@ function redrawPageAnnotationOverlays(page) {
   for (const stage of document.querySelectorAll(selector)) redrawStageAnnotations(stage, page);
 }
 function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
+  // Retained for the immediate first two samples of an opaque Pen stroke. From
+  // the third sample onward drawLiveSmoothedInkProgress() adds finalized cubic
+  // segments, keeping latency essentially identical to the raw polyline path.
   const drawOnStage = targetStage => {
     const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas)');
     const canvas = ensureAnnotationOverlay(targetStage, baseCanvas);
@@ -1526,9 +1582,56 @@ function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
     ctx.restore();
   };
   drawOnStage(stage);
-  // Same-document split panes share document content but retain independent
-  // view state. Mirror the live stroke into any other rendered instance of the
-  // same page so both panes remain visually synchronized while writing.
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const other of document.querySelectorAll(selector)) if (other !== stage) drawOnStage(other);
+}
+function drawLiveSmoothedInkProgress(stage, page, stroke) {
+  const points = stroke?.points || [];
+  const count = points.length;
+  if (!count) return;
+  // A dot must appear immediately. With two samples, show the first tiny line
+  // immediately; its opaque overdraw is cleared by the final smooth redraw.
+  if (count === 1) {
+    drawLiveInkSegment(stage, page, stroke, points[0], points[0]);
+    return;
+  }
+  if (count === 2) {
+    drawLiveInkSegment(stage, page, stroke, points[0], points[1]);
+    return;
+  }
+  // The newly arrived point finalizes the preceding cardinal segment. This
+  // leaves only one raw-sample interval of visual tail latency (typically a
+  // few milliseconds), avoiding a whole-page redraw while handwriting.
+  const segmentIndex = count - 3;
+  const controls = smoothStrokeControls(points, segmentIndex);
+  if (!controls) return;
+  const drawOnStage = targetStage => {
+    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas)');
+    const canvas = ensureAnnotationOverlay(targetStage, baseCanvas);
+    if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const display = pageDisplayDimensions(page);
+    const sx = canvas.width / Math.max(1, display.width);
+    const sy = canvas.height / Math.max(1, display.height);
+    const p1 = basePointToDisplay(page, controls.p1);
+    const p2 = basePointToDisplay(page, controls.p2);
+    const c1 = basePointToDisplay(page, controls.c1);
+    const c2 = basePointToDisplay(page, controls.c2);
+    ctx.save();
+    ctx.scale(sx, sy);
+    ctx.globalAlpha = clamp(Number(stroke.opacity ?? 1), 0, 1);
+    ctx.strokeStyle = stroke.color || '#111111';
+    ctx.lineWidth = Math.max(.25, Number(stroke.width) || 3);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.beginPath();
+    ctx.moveTo(p1.x, p1.y);
+    ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, p2.x, p2.y);
+    ctx.stroke();
+    ctx.restore();
+  };
+  drawOnStage(stage);
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const other of document.querySelectorAll(selector)) if (other !== stage) drawOnStage(other);
 }
@@ -2147,7 +2250,7 @@ function appendInkPoint(gesture, event, drawLive=true) {
   const previous = points[points.length - 1];
   if (previous && Math.hypot(next.x - previous.x, next.y - previous.y) < .18) return;
   points.push(next);
-  if (drawLive) drawLiveInkSegment(gesture.stage, page, gesture.stroke, previous || next, next);
+  if (drawLive) drawLiveSmoothedInkProgress(gesture.stage, page, gesture.stroke);
 }
 function inkStageForEvent(viewer, event) {
   let stage = event.target instanceof Element ? event.target.closest('.page-stage[data-page-id]') : null;
@@ -2232,7 +2335,9 @@ function finishInkGesture(viewer, event) {
   if (event.cancelable) event.preventDefault();
   const translucent = gesture.stroke?.tool === 'highlighter';
   appendInkPoint(gesture, event, !translucent);
-  if (translucent) redrawPageAnnotationOverlays(gesture.page);
+  // Clear the tiny provisional first segment/tail and render the completed raw
+  // sample set through the exact same smooth path used for persistence/export.
+  redrawPageAnnotationOverlays(gesture.page);
   if (gesture.inputSource === 'pointer') {
     try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
   }
@@ -2690,20 +2795,28 @@ function drawPageAnnotationsPdf(pdfPage, page, inheritedRotation, pdfLib) {
       continue;
     }
 
-    // Export a pen stroke as ONE continuous PDF path. Milestone 5.0.0/5.0.1
-    // emitted every sampled pair as an independent drawLine operation. At a
+    // Export each annotation as ONE continuous smoothed PDF path. Before 5.0.2,
+    // export emitted every sampled pair as an independent drawLine operation. At a
     // turn, the flat ends of those separate segments meet only at the center
     // line and can leave a visible white wedge on the inside of a wide curve.
     // drawSvgPath gives us a single stroked subpath; an enclosing round line
     // join plus a round cap makes its geometry match the Canvas renderer.
     // pdf-lib flips SVG Y coordinates internally, so negate the already-mapped
     // raw PDF y value to land at the same PDF coordinate after that transform.
-    const pdfPoints = points.map(point => annotationPointToRawPdf(page, point, pdfPage, inheritedRotation));
-    const first = pdfPoints[0];
+    const first = annotationPointToRawPdf(page, points[0], pdfPage, inheritedRotation);
     let path = `M ${pathNumber(first.x)} ${pathNumber(-first.y)}`;
-    for (let i = 1; i < pdfPoints.length; i++) {
-      const p = pdfPoints[i];
-      path += ` L ${pathNumber(p.x)} ${pathNumber(-p.y)}`;
+    if (points.length === 2) {
+      const second = annotationPointToRawPdf(page, points[1], pdfPage, inheritedRotation);
+      path += ` L ${pathNumber(second.x)} ${pathNumber(-second.y)}`;
+    } else {
+      for (let i = 0; i < points.length - 1; i++) {
+        const controls = smoothStrokeControls(points, i);
+        if (!controls) continue;
+        const c1 = annotationPointToRawPdf(page, controls.c1, pdfPage, inheritedRotation);
+        const c2 = annotationPointToRawPdf(page, controls.c2, pdfPage, inheritedRotation);
+        const p2 = annotationPointToRawPdf(page, controls.p2, pdfPage, inheritedRotation);
+        path += ` C ${pathNumber(c1.x)} ${pathNumber(-c1.y)} ${pathNumber(c2.x)} ${pathNumber(-c2.y)} ${pathNumber(p2.x)} ${pathNumber(-p2.y)}`;
+      }
     }
 
     pdfPage.pushOperators(pushGraphicsState(), setLineJoin(LineJoinStyle.Round));
@@ -8455,9 +8568,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.3.0 adds a dedicated translucent Highlighter tool with its own remembered palette and widths. Highlighter marks remain editable vector annotation objects, work with the partial eraser and lasso manipulation system, and export to PDF with transparency. The proven 5.2.2 input, cache, and live-pinch behavior is retained.</p>
+      <p>Milestone 5.4.0 adds restrained cardinal-spline rendering for Pen and Highlighter strokes while preserving every raw stylus sample as the editable source geometry. Live Pen ink is smoothed incrementally with essentially the same low-latency path; completed strokes and PDF export use the same continuous cubic curves. Erasing, selection, persistence, and the proven 5.3.0 input behavior remain based on the unchanged raw points.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes. Pen retains five direct colors and three widths; Highlighter has its own yellow/pink/cyan/green palette and three widths; Eraser cuts only touched portions; Select works on whole annotation objects.</li><li><strong>Editable ink:</strong> strokes and eraser-created fragments remain page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and can now be moved, resized, deleted, duplicated, copied, and pasted as whole objects.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
-      <p><strong>Next annotation step:</strong> smoothing designed to preserve the current low-latency input feel and raw editable sample points. Image insertion remains on the roadmap after the first smoothing pass.</p>
+      <p><strong>Next annotation step:</strong> image insertion as selectable annotation objects. The future new-document size refinement will also offer device-derived Presentation canvas sizes alongside US Letter.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
