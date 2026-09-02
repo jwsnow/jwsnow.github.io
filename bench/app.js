@@ -1,4 +1,4 @@
-const APP_VERSION = '5.4.0';
+const APP_VERSION = '5.4.1';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1482,8 +1482,18 @@ function traceSmoothedStrokeCanvas(ctx, page, points) {
     ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, p2.x, p2.y);
   }
 }
-function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight) {
+function traceRawStrokeCanvas(ctx, page, points) {
+  if (!ctx || !Array.isArray(points) || !points.length) return;
+  const first = basePointToDisplay(page, points[0]);
+  ctx.moveTo(first.x, first.y);
+  for (let i = 1; i < points.length; i++) {
+    const point = basePointToDisplay(page, points[i]);
+    ctx.lineTo(point.x, point.y);
+  }
+}
+function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={}) {
   if (!ctx || !hasPageAnnotations(page)) return;
+  const smooth = options.smooth !== false;
   const display = pageDisplayDimensions(page);
   const sx = pixelWidth / Math.max(1, display.width);
   const sy = pixelHeight / Math.max(1, display.height);
@@ -1509,7 +1519,8 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight) {
       continue;
     }
     ctx.beginPath();
-    traceSmoothedStrokeCanvas(ctx, page, points);
+    if (smooth) traceSmoothedStrokeCanvas(ctx, page, points);
+    else traceRawStrokeCanvas(ctx, page, points);
     ctx.stroke();
   }
   ctx.restore();
@@ -1531,20 +1542,20 @@ function ensureAnnotationOverlay(stage, baseCanvas=null) {
   overlay.style.height = base.style.height || '100%';
   return overlay;
 }
-function redrawStageAnnotations(stage, page) {
+function redrawStageAnnotations(stage, page, options={}) {
   if (!stage || !page) return;
   const base = stage.querySelector('canvas:not(.annotation-canvas)');
   const overlay = ensureAnnotationOverlay(stage, base);
   if (!overlay) return;
   const ctx = overlay.getContext('2d');
   ctx.clearRect(0, 0, overlay.width, overlay.height);
-  drawPageAnnotationsCanvas(page, ctx, overlay.width, overlay.height);
+  drawPageAnnotationsCanvas(page, ctx, overlay.width, overlay.height, options);
   redrawStageAnnotationSelection(stage, page);
 }
-function redrawPageAnnotationOverlays(page) {
+function redrawPageAnnotationOverlays(page, options={}) {
   if (!page?.id) return;
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
-  for (const stage of document.querySelectorAll(selector)) redrawStageAnnotations(stage, page);
+  for (const stage of document.querySelectorAll(selector)) redrawStageAnnotations(stage, page, options);
 }
 function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
   // Retained for the immediate first two samples of an opaque Pen stroke. From
@@ -2516,7 +2527,11 @@ function beginEraserGesture(viewer, event) {
   if (inputSource === 'pointer') { try { viewer.setPointerCapture?.(event.pointerId); } catch {} }
   if (erasePageAnnotationsAlong(page, first, first)) {
     state.eraserGesture.changed = true;
-    redrawPageAnnotationOverlays(page);
+    // Erasing repeatedly clears and redraws the annotation overlay. During the
+    // gesture use the authoritative raw polyline geometry (the same geometry
+    // the eraser edits) so iPad does not have to recompute every cubic spline
+    // on every Pencil move. The completed smooth appearance is restored on up.
+    redrawPageAnnotationOverlays(page, { smooth:false });
   }
   addInkDiagnostic('eraser-begin-accepted', event, { changed:state.eraserGesture.changed, size:state.eraserSize });
   return true;
@@ -2540,7 +2555,7 @@ function continueEraserGesture(viewer, event) {
   const samples = typeof event.getCoalescedEvents === 'function' ? event.getCoalescedEvents() : null;
   if (samples?.length) for (const sample of samples) changed = appendEraserPoint(gesture, sample) || changed;
   else changed = appendEraserPoint(gesture, event);
-  if (changed) redrawPageAnnotationOverlays(gesture.page);
+  if (changed) redrawPageAnnotationOverlays(gesture.page, { smooth:false });
   return true;
 }
 function finishEraserGesture(viewer, event) {
@@ -2548,7 +2563,9 @@ function finishEraserGesture(viewer, event) {
   if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
   if (event.cancelable) event.preventDefault();
   const finalChanged = appendEraserPoint(gesture, event);
-  if (finalChanged) redrawPageAnnotationOverlays(gesture.page);
+  // Always restore the normal smoothed render at the end of an eraser pass.
+  // This keeps the low-cost raw redraw strictly transient.
+  if (gesture.changed || finalChanged) redrawPageAnnotationOverlays(gesture.page);
   if (gesture.inputSource === 'pointer') { try { viewer.releasePointerCapture?.(event.pointerId); } catch {} }
   state.eraserGesture = null;
   addInkDiagnostic('eraser-finish-accepted', event, { changed:gesture.changed, size:state.eraserSize });
@@ -8568,7 +8585,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.4.0 adds restrained cardinal-spline rendering for Pen and Highlighter strokes while preserving every raw stylus sample as the editable source geometry. Live Pen ink is smoothed incrementally with essentially the same low-latency path; completed strokes and PDF export use the same continuous cubic curves. Erasing, selection, persistence, and the proven 5.3.0 input behavior remain based on the unchanged raw points.</p>
+      <p>Milestone 5.4.1 keeps the 5.4.0 restrained cardinal-spline Pen/Highlighter rendering, but restores fast iPad erasing on annotation-heavy/highlighted pages. While an eraser gesture is active, the overlay is redrawn from the authoritative raw polylines; the normal smoothed appearance is restored immediately when the eraser lifts. Stored geometry, eraser cuts, selection, PDF export, and the proven input behavior are unchanged.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes. Pen retains five direct colors and three widths; Highlighter has its own yellow/pink/cyan/green palette and three widths; Eraser cuts only touched portions; Select works on whole annotation objects.</li><li><strong>Editable ink:</strong> strokes and eraser-created fragments remain page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and can now be moved, resized, deleted, duplicated, copied, and pasted as whole objects.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
       <p><strong>Next annotation step:</strong> image insertion as selectable annotation objects. The future new-document size refinement will also offer device-derived Presentation canvas sizes alongside US Letter.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

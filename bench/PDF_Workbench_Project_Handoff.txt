@@ -1,9 +1,17 @@
-PDF WORKBENCH PWA — MILESTONE 5.4.0 CURRENT UPDATE
+PDF WORKBENCH PWA — MILESTONE 5.4.1 CURRENT UPDATE
 
-CURRENT BUILD: Milestone 5.4.0
-Visible About version: 5.4.0
-Service-worker/cache version: pdf-workbench-m5.4.0-v1
+CURRENT BUILD: Milestone 5.4.1
+Visible About version: 5.4.1
+Service-worker/cache version: pdf-workbench-m5.4.1-v1
 Baseline: 5.3.0, confirmed working on iPad and Surface; Chromebook retest deferred because the device was not available.
+
+MILESTONE 5.4.1 — IPAD ERASER PERFORMANCE FIX
+
+- 5.4.0 smoothing remains the normal on-screen and PDF-export rendering.
+- During an active partial-eraser gesture, overlay redraws temporarily use the authoritative raw polylines instead of recomputing every smoothed cubic path on every move.
+- On eraser release, surviving annotations are immediately redrawn smoothed.
+- No Pen/Highlighter input routing or stored annotation geometry changed.
+- Motivation: user testing found erasing on iPad became unusably slow on highlighted pages after 5.4.0, while Surface remained acceptable.
 
 MILESTONE 5.4.0 — FIRST HANDWRITING SMOOTHING PASS
 - Raw/coalesced Pen and Highlighter samples remain the authoritative editable object data; no storage/schema migration.

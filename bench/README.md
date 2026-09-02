@@ -1,6 +1,24 @@
-# PDF Workbench — Milestone 5.4.0
+# PDF Workbench — Milestone 5.4.1
 
-Milestone 5.4.0 adds a first **handwriting smoothing** pass on top of the stable 5.3.0 Pen/Highlighter editing baseline. Every raw/coalesced stylus sample remains stored exactly as before; smoothing is derived only for screen rendering and PDF export so partial erasing, lasso manipulation, Undo/Redo, persistence, and future editing continue to use the unchanged raw geometry.
+Milestone 5.4.1 is a focused performance fix for partial erasing on iPad after smoothing was introduced. During an active eraser gesture only, annotation overlays are redrawn from the stored raw polylines rather than recomputing all smoothed cubic paths on every Pencil move. On release, the page immediately returns to the normal 5.4.0 smoothed rendering. No annotation geometry, PDF export geometry, Pen/Highlighter sampling, selection behavior, or input routing is changed.
+
+## 5.4.1 iPad eraser performance fix
+
+- Active eraser redraws use raw polyline rendering as a transient preview.
+- Eraser hit-testing and partial-stroke splitting still use the same raw vector points as before.
+- Releasing the eraser immediately redraws all surviving annotations with the normal smoothed 5.4.0 curves.
+- PDF export remains smoothed; no raw-preview geometry is exported.
+- This specifically avoids repeatedly recalculating cubic control points for every annotation during high-frequency iPad Pencil erasing.
+
+### Test priority for 5.4.1
+
+1. On iPad, erase repeatedly on a page containing both Pen and Highlighter strokes.
+2. Confirm the eraser tracks the Pencil responsively and surviving strokes return to their smoothed appearance on release.
+3. Confirm the same behavior remains correct on Surface.
+4. Continue watching for any Apple Pencil dropped contacts; the 5.4.0 diagnostic supplied for this investigation recorded all browser-visible stylus contacts as accepted, so no speculative Pen input change is included here.
+
+
+Milestone 5.4.1 adds a first **handwriting smoothing** pass on top of the stable 5.3.0 Pen/Highlighter editing baseline. Every raw/coalesced stylus sample remains stored exactly as before; smoothing is derived only for screen rendering and PDF export so partial erasing, lasso manipulation, Undo/Redo, persistence, and future editing continue to use the unchanged raw geometry.
 
 ## 5.4.0 smoothing
 
@@ -217,7 +235,7 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.4.0-v1`
+- Service-worker cache: `pdf-workbench-m5.4.1-v1`
 
 ## High-priority smoke tests
 1. On iPad, Surface, and Chromebook, draw several separate strokes, choose Select, lasso one stroke and then a group. Verify the selected objects get one bounding box and that unselected strokes remain untouched.
@@ -238,4 +256,4 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 16. Re-test the previously problematic slide deck unchanged; it should still export byte-for-byte. Add a short pen stroke and export again; the file should remain reasonably sized.
 17. Save one template **With annotations** and one **Clean**; confirm their previews/content differ correctly. In Template Manager set the automatic last page to Graph, Blank, and then a saved template, and test pull/scroll-past-end creation for each.
 18. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
-**More → About this build** reports **Milestone 5.4.0**.
+**More → About this build** reports **Milestone 5.4.1**.
