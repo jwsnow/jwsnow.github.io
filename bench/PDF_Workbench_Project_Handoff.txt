@@ -1,12 +1,12 @@
-PDF WORKBENCH PWA — MILESTONE 5.4.4 CURRENT UPDATE
+PDF WORKBENCH PWA — MILESTONE 5.4.5 CURRENT UPDATE
 
-CURRENT BUILD: Milestone 5.4.4
-Visible About version: 5.4.4
-Service-worker/cache version: pdf-workbench-m5.4.4-v1
+CURRENT BUILD: Milestone 5.4.5
+Visible About version: 5.4.5
+Service-worker/cache version: pdf-workbench-m5.4.5-v1
 Baseline: 5.3.0, confirmed working on iPad and Surface; Chromebook retest deferred because the device was not available.
 
 
-MILESTONE 5.4.4 — DENSE-PAGE GESTURE ACCELERATION
+MILESTONE 5.4.5 — HIGHLIGHTER PDF EXPORT CLEANUP
 - Lasso move/resize no longer redraws or remaps every selected/page stroke on every Pencil move. Selected objects are rendered once to a temporary live-selection canvas; the live canvas and selection frame are transformed with CSS. Authoritative vector points are committed once on pointer-up.
 - Partial Eraser no longer performs vector stroke splitting and a page redraw for every coalesced Pencil sample. During contact it gives immediate `destination-out` raster feedback on the annotation overlay while collecting the eraser path.
 - On Eraser pointer-up the path is compacted, nearby annotation objects are preselected by bounds, and the existing partial-stroke vector erasure algorithm commits the authoritative edit once, followed by one normal redraw.

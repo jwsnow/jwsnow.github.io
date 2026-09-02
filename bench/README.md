@@ -1,15 +1,15 @@
-# PDF Workbench — Milestone 5.4.4
+# PDF Workbench — Milestone 5.4.5
 
-Milestone 5.4.4 is a dense-annotation performance pass on top of 5.4.3. It does not change Pen smoothing, Highlighter appearance/export, selection semantics, or partial-stroke eraser semantics.
+Milestone 5.4.5 keeps the 5.4.4 dense-page performance work and adds a narrow Highlighter PDF-export cleanup. It does not change stored annotation geometry, Pen smoothing, on-screen Highlighter behavior, selection semantics, or partial-stroke eraser semantics.
 
-## 5.4.4 dense-page gesture acceleration
+## 5.4.5 Highlighter PDF export cleanup
 
 - **Move/resize selection preview is isolated.** At gesture start, selected annotations are rendered once to a temporary canvas and removed from the frozen ordinary annotation overlay. Pointer moves use a CSS transform on that temporary canvas and the selection frame; vector point arrays are committed once on pointer-up. This prevents hundreds of unrelated smoothed strokes from being redrawn on every drag sample.
 - **Eraser feedback is decoupled from vector splitting.** While the stylus is down, the visible annotation overlay is erased directly with `destination-out` and the eraser path is collected. On pointer-up the path is compacted, nearby annotation objects are identified, the existing partial-stroke vector splitting algorithm is applied, and the page is redrawn once.
 - **Diagnostics now report** whether selection used the optimized preview and, for Eraser gestures, raw/compacted path counts, candidate object count, and vector-commit time.
 - The 5.4.3 dedicated live Highlighter layer and same-ID duplicate-open repair remain unchanged.
 
-### Test priority for 5.4.4
+### Test priority for 5.4.5
 
 On iPad, use a page containing hundreds of handwritten stroke objects. Move a large lasso selection and erase across dense writing. Drag motion should remain responsive as page density increases. A brief exact redraw may occur on pen-up because authoritative vector geometry is committed then. Also regression-test Undo/Redo, split view, PDF export, Pen, and Highlighter.
 
@@ -275,7 +275,7 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.4.4-v1`
+- Service-worker cache: `pdf-workbench-m5.4.5-v1`
 
 ## High-priority smoke tests
 1. On iPad, Surface, and Chromebook, draw several separate strokes, choose Select, lasso one stroke and then a group. Verify the selected objects get one bounding box and that unselected strokes remain untouched.
@@ -296,4 +296,4 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 16. Re-test the previously problematic slide deck unchanged; it should still export byte-for-byte. Add a short pen stroke and export again; the file should remain reasonably sized.
 17. Save one template **With annotations** and one **Clean**; confirm their previews/content differ correctly. In Template Manager set the automatic last page to Graph, Blank, and then a saved template, and test pull/scroll-past-end creation for each.
 18. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
-**More → About this build** reports **Milestone 5.4.4**.
+**More → About this build** reports **Milestone 5.4.5**.

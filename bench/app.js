@@ -1,4 +1,4 @@
-const APP_VERSION = '5.4.4';
+const APP_VERSION = '5.4.5';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -3200,6 +3200,62 @@ function annotationPointToRawPdf(page, point, pdfPage, inheritedRotation=0) {
   if (rotation === 270) return { x: box.x + box.width - v, y: box.y + box.height - u };
   return { x: box.x + u, y: box.y + box.height - v };
 }
+function simplifyHighlighterExportPoints(stroke, sourcePoints) {
+  const source = Array.isArray(sourcePoints) ? sourcePoints : [];
+  if (source.length <= 2) return source;
+
+  // Apple Pencil coalescing can leave well over a thousand samples in a single
+  // broad highlight. The on-screen compositor isolates that stroke before
+  // applying translucency, so tiny sub-pixel reversals do not darken it. PDF
+  // transparency renderers can expose those microscopic self-overlaps. For
+  // export only, collapse geometry that is far smaller than the highlighter
+  // width. Stored/editable points remain completely unchanged.
+  const width = Math.max(1, Number(stroke?.width) || 14);
+  const minSpacing = Math.max(.45, width * .035);
+  const tolerance = Math.max(.5, width * .055);
+
+  const spaced = [source[0]];
+  let last = source[0];
+  for (let i = 1; i < source.length - 1; i++) {
+    const point = source[i];
+    if (Math.hypot((Number(point?.x)||0) - (Number(last?.x)||0), (Number(point?.y)||0) - (Number(last?.y)||0)) >= minSpacing) {
+      spaced.push(point);
+      last = point;
+    }
+  }
+  const finalPoint = source[source.length - 1];
+  if (spaced[spaced.length - 1] !== finalPoint) spaced.push(finalPoint);
+  if (spaced.length <= 2) return spaced;
+
+  const keep = new Uint8Array(spaced.length);
+  keep[0] = 1;
+  keep[spaced.length - 1] = 1;
+  const stack = [[0, spaced.length - 1]];
+  while (stack.length) {
+    const [start, end] = stack.pop();
+    if (end <= start + 1) continue;
+    let bestIndex = -1;
+    let bestDistance = -1;
+    const a = spaced[start];
+    const b = spaced[end];
+    for (let i = start + 1; i < end; i++) {
+      const distance = pointSegmentDistance(spaced[i], a, b);
+      if (distance > bestDistance) {
+        bestDistance = distance;
+        bestIndex = i;
+      }
+    }
+    if (bestIndex > start && bestDistance > tolerance) {
+      keep[bestIndex] = 1;
+      stack.push([start, bestIndex], [bestIndex, end]);
+    }
+  }
+
+  const simplified = [];
+  for (let i = 0; i < spaced.length; i++) if (keep[i]) simplified.push(spaced[i]);
+  return simplified.length >= 2 ? simplified : [source[0], finalPoint];
+}
+
 function drawPageAnnotationsPdf(pdfPage, page, inheritedRotation, pdfLib) {
   if (!hasPageAnnotations(page)) return;
   const { rgb, pushGraphicsState, popGraphicsState, setLineJoin, LineJoinStyle, LineCapStyle } = pdfLib;
@@ -3232,11 +3288,15 @@ function drawPageAnnotationsPdf(pdfPage, page, inheritedRotation, pdfLib) {
     const first = annotationPointToRawPdf(page, points[0], pdfPage, inheritedRotation);
     let path = `M ${pathNumber(first.x)} ${pathNumber(-first.y)}`;
     if (stroke.tool === 'highlighter') {
-      // Keep the highlighter as one continuous raw polyline in the PDF as well.
-      // A single stroked path preserves round joins/caps and uniform opacity
-      // without paying the cubic-spline cost that is useful for thin Pen ink.
-      for (let i = 1; i < points.length; i++) {
-        const point = annotationPointToRawPdf(page, points[i], pdfPage, inheritedRotation);
+      // Highlighter stays a raw-style polyline, but export uses a centerline
+      // simplified far below the stroke width. This removes microscopic Pencil
+      // backtracks that some PDF transparency renderers otherwise show as dark
+      // beads/patches. The document's stored annotation points are untouched.
+      const exportPoints = simplifyHighlighterExportPoints(stroke, points);
+      const exportFirst = annotationPointToRawPdf(page, exportPoints[0], pdfPage, inheritedRotation);
+      path = `M ${pathNumber(exportFirst.x)} ${pathNumber(-exportFirst.y)}`;
+      for (let i = 1; i < exportPoints.length; i++) {
+        const point = annotationPointToRawPdf(page, exportPoints[i], pdfPage, inheritedRotation);
         path += ` L ${pathNumber(point.x)} ${pathNumber(-point.y)}`;
       }
     } else if (points.length === 2) {
@@ -9066,7 +9126,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.4.4 keeps the 5.4.3 live Highlighter and duplicate-open fixes, and adds dense-page gesture acceleration: selected annotations move/resize on a temporary composited layer instead of redrawing all page ink on every Pencil move, while the Eraser gives immediate raster feedback and defers vector stroke splitting until pen-up. Pen smoothing, Highlighter export, partial-stroke eraser semantics, Undo/Redo, and the proven input routing remain intact.</p>
+      <p>Milestone 5.4.5 keeps the 5.4.4 dense-page gesture acceleration and adds a Highlighter PDF-export cleanup: only the exported Highlighter centerline is simplified below the visible stroke width so microscopic Pencil backtracks do not produce darker transparency patches in PDF viewers. Stored/editable points, Pen smoothing, on-screen Highlighter rendering, partial-stroke eraser semantics, Undo/Redo, and the proven input routing remain intact.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes. Pen retains five direct colors and three widths; Highlighter has its own yellow/pink/cyan/green palette and three widths; Eraser cuts only touched portions; Select works on whole annotation objects.</li><li><strong>Editable ink:</strong> strokes and eraser-created fragments remain page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and can now be moved, resized, deleted, duplicated, copied, and pasted as whole objects.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
       <p><strong>Next annotation step:</strong> image insertion as selectable annotation objects. The future new-document size refinement will also offer device-derived Presentation canvas sizes alongside US Letter.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
