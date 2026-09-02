@@ -1,4 +1,4 @@
-const APP_VERSION = '5.4.1';
+const APP_VERSION = '5.4.2';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1519,7 +1519,12 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
       continue;
     }
     ctx.beginPath();
-    if (smooth) traceSmoothedStrokeCanvas(ctx, page, points);
+    // Highlighter strokes are intentionally left as raw continuous polylines.
+    // Their wide round translucent geometry already hides sample-scale jitter,
+    // and avoiding cubic reconstruction keeps live iPad highlighting responsive.
+    // Pen strokes retain the 5.4.0 cardinal-spline smoothing. The eraser can
+    // still force all annotations to raw geometry temporarily via smooth:false.
+    if (smooth && stroke.tool !== 'highlighter') traceSmoothedStrokeCanvas(ctx, page, points);
     else traceRawStrokeCanvas(ctx, page, points);
     ctx.stroke();
   }
@@ -2346,8 +2351,9 @@ function finishInkGesture(viewer, event) {
   if (event.cancelable) event.preventDefault();
   const translucent = gesture.stroke?.tool === 'highlighter';
   appendInkPoint(gesture, event, !translucent);
-  // Clear the tiny provisional first segment/tail and render the completed raw
-  // sample set through the exact same smooth path used for persistence/export.
+  // Clear the provisional live tail and render the completed stroke using its
+  // normal tool-specific path: smoothed for Pen, raw continuous polyline for
+  // Highlighter. Raw sampled points remain authoritative for both.
   redrawPageAnnotationOverlays(gesture.page);
   if (gesture.inputSource === 'pointer') {
     try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
@@ -2812,7 +2818,8 @@ function drawPageAnnotationsPdf(pdfPage, page, inheritedRotation, pdfLib) {
       continue;
     }
 
-    // Export each annotation as ONE continuous smoothed PDF path. Before 5.0.2,
+    // Export each annotation as ONE continuous PDF path: smoothed cubic geometry
+    // for Pen and the raw continuous polyline for Highlighter. Before 5.0.2,
     // export emitted every sampled pair as an independent drawLine operation. At a
     // turn, the flat ends of those separate segments meet only at the center
     // line and can leave a visible white wedge on the inside of a wide curve.
@@ -2822,7 +2829,15 @@ function drawPageAnnotationsPdf(pdfPage, page, inheritedRotation, pdfLib) {
     // raw PDF y value to land at the same PDF coordinate after that transform.
     const first = annotationPointToRawPdf(page, points[0], pdfPage, inheritedRotation);
     let path = `M ${pathNumber(first.x)} ${pathNumber(-first.y)}`;
-    if (points.length === 2) {
+    if (stroke.tool === 'highlighter') {
+      // Keep the highlighter as one continuous raw polyline in the PDF as well.
+      // A single stroked path preserves round joins/caps and uniform opacity
+      // without paying the cubic-spline cost that is useful for thin Pen ink.
+      for (let i = 1; i < points.length; i++) {
+        const point = annotationPointToRawPdf(page, points[i], pdfPage, inheritedRotation);
+        path += ` L ${pathNumber(point.x)} ${pathNumber(-point.y)}`;
+      }
+    } else if (points.length === 2) {
       const second = annotationPointToRawPdf(page, points[1], pdfPage, inheritedRotation);
       path += ` L ${pathNumber(second.x)} ${pathNumber(-second.y)}`;
     } else {
@@ -8585,7 +8600,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.4.1 keeps the 5.4.0 restrained cardinal-spline Pen/Highlighter rendering, but restores fast iPad erasing on annotation-heavy/highlighted pages. While an eraser gesture is active, the overlay is redrawn from the authoritative raw polylines; the normal smoothed appearance is restored immediately when the eraser lifts. Stored geometry, eraser cuts, selection, PDF export, and the proven input behavior are unchanged.</p>
+      <p>Milestone 5.4.2 keeps restrained cardinal-spline smoothing for Pen ink but renders Highlighter strokes as continuous raw polylines on screen and in PDF export. Wide translucent highlighter strokes do not benefit enough from cubic reconstruction to justify its live iPad cost. The 5.4.1 fast eraser redraw remains in place; stored raw geometry, eraser cuts, selection, and the proven input routing are unchanged.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes. Pen retains five direct colors and three widths; Highlighter has its own yellow/pink/cyan/green palette and three widths; Eraser cuts only touched portions; Select works on whole annotation objects.</li><li><strong>Editable ink:</strong> strokes and eraser-created fragments remain page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and can now be moved, resized, deleted, duplicated, copied, and pasted as whole objects.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
       <p><strong>Next annotation step:</strong> image insertion as selectable annotation objects. The future new-document size refinement will also offer device-derived Presentation canvas sizes alongside US Letter.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

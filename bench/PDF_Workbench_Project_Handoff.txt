@@ -1,9 +1,17 @@
-PDF WORKBENCH PWA — MILESTONE 5.4.1 CURRENT UPDATE
+PDF WORKBENCH PWA — MILESTONE 5.4.2 CURRENT UPDATE
 
-CURRENT BUILD: Milestone 5.4.1
-Visible About version: 5.4.1
-Service-worker/cache version: pdf-workbench-m5.4.1-v1
+CURRENT BUILD: Milestone 5.4.2
+Visible About version: 5.4.2
+Service-worker/cache version: pdf-workbench-m5.4.2-v1
 Baseline: 5.3.0, confirmed working on iPad and Surface; Chromebook retest deferred because the device was not available.
+
+
+MILESTONE 5.4.2 — HIGHLIGHTER PERFORMANCE REFINEMENT
+- Pen retains the 5.4.x restrained cardinal-spline screen/PDF smoothing.
+- Highlighter now uses the authoritative raw sampled points as one continuous round-joined/round-capped polyline on screen and in PDF export.
+- Rationale: wide translucent highlighter ink gains little from cubic smoothing, while full-path cubic reconstruction on every live pointer update caused noticeable iPad lag.
+- Highlighter still redraws its complete current path once per pointer event to avoid opacity buildup/dark joints.
+- 5.4.1 raw-overlay eraser optimization remains. Input routing and annotation data model are unchanged.
 
 MILESTONE 5.4.1 — IPAD ERASER PERFORMANCE FIX
 
