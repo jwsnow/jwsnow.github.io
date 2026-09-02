@@ -1,11 +1,26 @@
-PDF WORKBENCH PWA — MILESTONE 5.2.0 CURRENT UPDATE
+PDF WORKBENCH PWA — MILESTONE 5.2.2 CURRENT UPDATE
 ====================================================================
-CURRENT BUILD: Milestone 5.2.0
-Visible About version: 5.2.0
-Service-worker/cache version: pdf-workbench-m5.2.0-v1
+CURRENT BUILD: Milestone 5.2.2
+Visible About version: 5.2.2
+Service-worker/cache version: pdf-workbench-m5.2.2-v1
 IndexedDB database version: 2
 Library schema version: 5
 Editable backup format version: 1
+
+
+MILESTONE 5.2.2 — LIVE PINCH ANNOTATION SCALING FIX
+- Root cause: Milestone 5.1.0 separated annotations onto a transparent overlay canvas. Live pinch zoom resized only the first/base PDF canvas, leaving the annotation overlay at the old CSS dimensions until the final rerender.
+- Fix: live single-view and split-pane zoom now resize every canvas in each page stage, so PDF raster and annotation overlay scale together throughout the gesture.
+- Final crisp rerender remains unchanged.
+- 5.2.1 PWA cache consistency/versioned asset behavior retained.
+- No input pipeline, eraser geometry, lasso manipulation, export, template, automatic-page, or session-restoration behavior changed.
+
+MILESTONE 5.2.1 — INSTALLED-PWA CACHE CONSISTENCY HOTFIX
+- iPad Safari tab testing of 5.2.0 worked, but the installed PWA showed the new Select button with no lasso icon and clicking it did nothing. That combination is diagnostic of mixed release assets: new HTML plus older cached CSS/JavaScript.
+- The lasso/selection implementation is unchanged.
+- `index.html` now fingerprints first-party `styles.css` and `app.js` with the release version.
+- Service-worker install explicitly fetches the app shell with `cache: reload`, then caches those exact versioned requests, preventing stale browser HTTP-cache entries from contaminating a new PWA release cache.
+- Existing controller-change reload/update behavior remains in place.
 
 MILESTONE 5.2.0 — LASSO / OBJECT SELECTION AND MANIPULATION
 ====================================================================

@@ -1,6 +1,18 @@
-# PDF Workbench — Milestone 5.2.0
+# PDF Workbench — Milestone 5.2.2
 
-Milestone 5.2.0 adds whole-stroke/object lasso selection and manipulation on top of the cross-device-tested 5.1.1 baseline. The established pen, partial-stroke eraser, palm-rejection, finger-navigation, template, automatic-page, export, and session-restoration paths are intentionally retained.
+Milestone 5.2.2 is a focused live-pinch annotation-scaling fix built on 5.2.1. During a pinch, both the PDF raster canvas and the transparent annotation canvas now resize together on every live zoom frame, so ink and selected annotation geometry stay registered with the page throughout the gesture instead of snapping to the correct size only after release. The 5.2.1 installed-PWA cache-consistency fix remains in place.
+
+## 5.2.2 live-pinch annotation scaling
+
+- Resize every page canvas (PDF raster + annotation overlay) during live single-view and split-pane pinch zoom.
+- Keep final crisp rerender behavior unchanged.
+- No changes to pen sampling, eraser geometry, selection manipulation, palm rejection, session restoration, templates, or automatic new-page behavior.
+
+## 5.2.1 installed-PWA cache-consistency hotfix
+- First-party `styles.css` and `app.js` are referenced with the release version in their URLs.
+- Service-worker installation fetches the release shell with `cache: reload` before placing it in the Workbench cache.
+- This addresses the iPad installed-PWA symptom where the new Select button from 5.2.0 HTML appeared, but its lasso icon CSS and Select click handler came from older cached assets.
+- Lasso behavior, pen/eraser input, palm rejection, session restoration, templates, automatic new pages, and export are otherwise unchanged.
 
 ## 5.2.0 lasso selection and object manipulation
 
@@ -171,7 +183,7 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.2.0-v1`
+- Service-worker cache: `pdf-workbench-m5.2.2-v1`
 
 ## High-priority smoke tests
 1. On iPad, Surface, and Chromebook, draw several separate strokes, choose Select, lasso one stroke and then a group. Verify the selected objects get one bounding box and that unselected strokes remain untouched.
@@ -192,4 +204,4 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 16. Re-test the previously problematic slide deck unchanged; it should still export byte-for-byte. Add a short pen stroke and export again; the file should remain reasonably sized.
 17. Save one template **With annotations** and one **Clean**; confirm their previews/content differ correctly. In Template Manager set the automatic last page to Graph, Blank, and then a saved template, and test pull/scroll-past-end creation for each.
 18. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
-**More → About this build** reports **Milestone 5.2.0**.
+**More → About this build** reports **Milestone 5.2.2**.

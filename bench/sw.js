@@ -1,16 +1,28 @@
-const CACHE_NAME = 'pdf-workbench-m5.2.0-v1';
+const CACHE_NAME = 'pdf-workbench-m5.2.2-v1';
 const APP_SHELL = [
   './',
   './index.html',
-  './styles.css',
-  './app.js',
+  './styles.css?v=5.2.2',
+  './app.js?v=5.2.2',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    // Force the release shell to come from the network rather than a stale
+    // browser HTTP cache. This keeps installed PWAs from combining a newer
+    // index.html with older CSS/JavaScript after an update.
+    for (const url of APP_SHELL) {
+      const request = new Request(url, { cache: 'reload' });
+      const response = await fetch(request);
+      if (!response || !response.ok) throw new Error(`Failed to cache ${url}`);
+      await cache.put(request, response.clone());
+    }
+    await self.skipWaiting();
+  })());
 });
 
 self.addEventListener('activate', (event) => {
@@ -52,7 +64,9 @@ self.addEventListener('fetch', (event) => {
       }
       return response;
     } catch (err) {
-      if (event.request.mode === 'navigate') return (await caches.match('./index.html')) || Response.error();
+      if (event.request.mode === 'navigate') {
+        return (await caches.match('./')) || (await caches.match('./index.html')) || Response.error();
+      }
       throw err;
     }
   })());

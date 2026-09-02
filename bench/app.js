@@ -1,4 +1,4 @@
-const APP_VERSION = '5.2.0';
+const APP_VERSION = '5.2.2';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -7255,8 +7255,14 @@ function applyLiveSingleZoom() {
     const size = computeCssSize(page);
     stage.style.width = `${size.width}px`;
     stage.style.height = `${size.height}px`;
-    const canvas = stage.querySelector('canvas');
-    if (canvas) { canvas.style.width = `${size.width}px`; canvas.style.height = `${size.height}px`; }
+    // The PDF raster and annotation overlay are separate canvases. Resize
+    // both during the live pinch preview so annotations track page geometry
+    // continuously instead of remaining at their pre-pinch CSS size until the
+    // final crisp rerender.
+    stage.querySelectorAll('canvas').forEach(canvas => {
+      canvas.style.width = `${size.width}px`;
+      canvas.style.height = `${size.height}px`;
+    });
   });
   const g = state.pinchGesture;
   // Force a layout read, then correct from the measured post-scale geometry.
@@ -7280,8 +7286,14 @@ function applyLivePaneZoom(paneId) {
     const size = computePaneCssSize(page, paneId, view);
     stage.style.width = `${size.width}px`;
     stage.style.height = `${size.height}px`;
-    const canvas = stage.querySelector('canvas');
-    if (canvas) { canvas.style.width = `${size.width}px`; canvas.style.height = `${size.height}px`; }
+    // The PDF raster and annotation overlay are separate canvases. Resize
+    // both during the live pinch preview so annotations track page geometry
+    // continuously instead of remaining at their pre-pinch CSS size until the
+    // final crisp rerender.
+    stage.querySelectorAll('canvas').forEach(canvas => {
+      canvas.style.width = `${size.width}px`;
+      canvas.style.height = `${size.height}px`;
+    });
   });
   const g = pane.pinchGesture;
   void pe.viewer.scrollHeight;
@@ -8400,7 +8412,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.2.0 adds stroke/object-level lasso selection with move, resize, delete, duplicate, copy, and paste. Selection works on whole annotation objects; the partial-stroke eraser remains the fine-grained editing tool.</p>
+      <p>Milestone 5.2.2 fixes live pinch scaling of annotation overlays. Pen/eraser/selection geometry now follows the PDF continuously during a pinch instead of snapping to the new size only when the gesture ends. It retains the 5.2.1 installed-PWA cache-consistency fix.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Pen, partial eraser, and selection:</strong> Hand/View, Pen, Eraser, and Lasso/Select modes. Pen retains five direct colors and three widths; Eraser has three direct sizes and cuts only touched portions; Select works on whole annotation objects.</li><li><strong>Editable ink:</strong> strokes and eraser-created fragments remain page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and can now be moved, resized, deleted, duplicated, copied, and pasted as whole objects.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
       <p><strong>Next annotation steps after selection testing:</strong> highlighter with its own yellow/pink/blue/green palette, then smoothing designed to preserve the current low-latency input feel and raw editable sample points.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
