@@ -1,4 +1,4 @@
-const APP_VERSION = '5.4.5';
+const APP_VERSION = '5.4.6';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -600,6 +600,22 @@ async function persistLibraryNow(options={}) {
     scheduleLibraryPersist(80);
   }
 }
+function annotationGestureActiveForAutosave() {
+  return !!(state.inkGesture || state.eraserGesture || state.selectionGesture);
+}
+function runScheduledLibraryPersist() {
+  state.libraryPersistTimer = null;
+  // A dense annotated document can take noticeable main-thread time to clone
+  // and serialize. Never let that autosave work begin in the middle of a Pen,
+  // Highlighter, Eraser, or Selection gesture; postpone it until the user has
+  // lifted the stylus. Explicit lifecycle saves still call persistLibraryNow()
+  // directly and are not suppressed.
+  if (annotationGestureActiveForAutosave()) {
+    state.libraryPersistTimer = setTimeout(runScheduledLibraryPersist, 650);
+    return;
+  }
+  persistLibraryNow();
+}
 function scheduleLibraryPersist(delay=550) {
   if (state.librarySuppressPersist) return;
   // IndexedDB writes can be interrupted when an installed PWA is suspended or
@@ -607,7 +623,7 @@ function scheduleLibraryPersist(delay=550) {
   // as well; pagehide/visibilitychange force an immediate final checkpoint.
   scheduleSessionCheckpoint();
   clearTimeout(state.libraryPersistTimer);
-  state.libraryPersistTimer = setTimeout(() => persistLibraryNow(), delay);
+  state.libraryPersistTimer = setTimeout(runScheduledLibraryPersist, delay);
 }
 function markDocumentDirty(doc=currentDocument()) {
   if (!doc) return;
@@ -1429,15 +1445,24 @@ function displayPointToBase(page, point) {
   if (rotation === 270) return { x: base.width - y, y: x };
   return { x, y };
 }
-function eventPointOnPage(stage, page, event) {
-  const rect = stage?.getBoundingClientRect?.();
+function eventPointOnPage(stage, page, event, geometry=null) {
+  // Coalesced Pencil batches may contain dozens of samples. Re-reading layout
+  // for every sample can force repeated WebKit layout work, especially after a
+  // dense page has accumulated many annotation objects. Callers processing a
+  // batch can pass one cached rect/display/base geometry for the whole event.
+  const rect = geometry?.rect || stage?.getBoundingClientRect?.();
   if (!rect || rect.width <= 0 || rect.height <= 0) return null;
-  const display = pageDisplayDimensions(page);
+  const display = geometry?.display || pageDisplayDimensions(page);
   const dx = clamp((event.clientX - rect.left) * display.width / rect.width, 0, display.width);
   const dy = clamp((event.clientY - rect.top) * display.height / rect.height, 0, display.height);
   const point = displayPointToBase(page, { x: dx, y: dy });
-  const base = pageCanvasBaseDimensions(page);
+  const base = geometry?.base || pageCanvasBaseDimensions(page);
   return { x: clamp(point.x, 0, base.width), y: clamp(point.y, 0, base.height) };
+}
+function gestureEventGeometry(stage, page) {
+  const rect = stage?.getBoundingClientRect?.();
+  if (!rect || rect.width <= 0 || rect.height <= 0) return null;
+  return { rect, display:pageDisplayDimensions(page), base:pageCanvasBaseDimensions(page) };
 }
 // Milestone 5.4.0: restrained cardinal-spline rendering. Raw sampled points
 // remain the authoritative editable geometry for erasing, lasso transforms,
@@ -1683,12 +1708,13 @@ function clearLiveHighlighterOverlays(page) {
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"] > canvas.live-highlighter-canvas`;
   for (const overlay of document.querySelectorAll(selector)) overlay.remove();
 }
-function drawLiveHighlighterSegment(stage, page, stroke, fromPoint, toPoint) {
-  // The live Highlighter has its own temporary canvas. Its geometry is drawn
-  // opaquely and the canvas element carries the stroke opacity, so overlapping
-  // incremental segments do not create dark sample joints. This also avoids
-  // clearing/redrawing every Pen and Highlighter already on the page for every
-  // Pencil move.
+function drawLiveHighlighterPoints(stage, page, stroke, points) {
+  // Draw one whole coalesced Pencil batch at a time. 5.4.3 already isolated the
+  // active Highlighter from the dense persistent annotation layer; 5.4.6 also
+  // removes the per-sample DOM query/context setup that became visible during
+  // long stress tests.
+  const source = Array.isArray(points) ? points : [];
+  if (!source.length) return;
   const drawOnStage = targetStage => {
     const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
     const canvas = ensureLiveHighlighterOverlay(targetStage, baseCanvas, stroke.opacity);
@@ -1698,8 +1724,6 @@ function drawLiveHighlighterSegment(stage, page, stroke, fromPoint, toPoint) {
     const display = pageDisplayDimensions(page);
     const sx = canvas.width / Math.max(1, display.width);
     const sy = canvas.height / Math.max(1, display.height);
-    const a = basePointToDisplay(page, fromPoint);
-    const b = basePointToDisplay(page, toPoint);
     ctx.save();
     ctx.scale(sx, sy);
     ctx.globalAlpha = 1;
@@ -1708,14 +1732,19 @@ function drawLiveHighlighterSegment(stage, page, stroke, fromPoint, toPoint) {
     ctx.lineWidth = Math.max(.25, Number(stroke.width) || 14);
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    if (Math.hypot(b.x-a.x,b.y-a.y) < .001) {
+    if (source.length === 1) {
+      const point = basePointToDisplay(page, source[0]);
       ctx.beginPath();
-      ctx.arc(a.x, a.y, ctx.lineWidth / 2, 0, Math.PI * 2);
+      ctx.arc(point.x, point.y, ctx.lineWidth / 2, 0, Math.PI * 2);
       ctx.fill();
     } else {
+      const first = basePointToDisplay(page, source[0]);
       ctx.beginPath();
-      ctx.moveTo(a.x, a.y);
-      ctx.lineTo(b.x, b.y);
+      ctx.moveTo(first.x, first.y);
+      for (let i=1; i<source.length; i++) {
+        const point = basePointToDisplay(page, source[i]);
+        ctx.lineTo(point.x, point.y);
+      }
       ctx.stroke();
     }
     ctx.restore();
@@ -1723,6 +1752,30 @@ function drawLiveHighlighterSegment(stage, page, stroke, fromPoint, toPoint) {
   drawOnStage(stage);
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const other of document.querySelectorAll(selector)) if (other !== stage) drawOnStage(other);
+}
+function drawLiveHighlighterSegment(stage, page, stroke, fromPoint, toPoint) {
+  drawLiveHighlighterPoints(stage, page, stroke, [fromPoint, toPoint]);
+}
+function commitLiveHighlighterOverlays(page, opacity=HIGHLIGHTER_OPACITY) {
+  // The persistent annotation canvas already contains every completed object.
+  // Composite only the just-finished live Highlighter layer instead of
+  // rebuilding every dense-page stroke on each Highlighter release.
+  if (!page?.id) return;
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const stage of document.querySelectorAll(selector)) {
+    const live = stage.querySelector('canvas.live-highlighter-canvas');
+    if (!live?.width || !live?.height) continue;
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+    const overlay = ensureAnnotationOverlay(stage, base);
+    const ctx = overlay?.getContext?.('2d');
+    if (ctx) {
+      ctx.save();
+      ctx.globalAlpha = clamp(Number(opacity ?? HIGHLIGHTER_OPACITY), 0, 1);
+      ctx.drawImage(live, 0, 0, overlay.width, overlay.height);
+      ctx.restore();
+    }
+    live.remove();
+  }
 }
 
 function drawLiveSmoothedInkProgress(stage, page, stroke) {
@@ -2536,10 +2589,10 @@ function setEraserSize(size) {
   savePref('pdfwb-eraser-size', String(chosen));
   setAnnotationTool('eraser');
 }
-function appendInkPoint(gesture, event, drawLive=true) {
+function appendInkPoint(gesture, event, drawLive=true, geometry=null) {
   const page = pageById(gesture.pageId);
   if (!page || page !== gesture.page || !gesture.stage?.isConnected) return null;
-  const next = eventPointOnPage(gesture.stage, page, event);
+  const next = eventPointOnPage(gesture.stage, page, event, geometry);
   if (!next) return null;
   const points = gesture.stroke.points;
   const previous = points[points.length - 1];
@@ -2606,12 +2659,12 @@ function beginInkGesture(viewer, event) {
     try { viewer.setPointerCapture?.(event.pointerId); } catch {}
   }
   if (drawingTool === 'highlighter') {
-    // Keep existing annotations frozen on the persistent overlay while this
-    // translucent stroke is drawn incrementally on its own temporary layer.
-    redrawPageAnnotationOverlays(page, { excludeStrokeId: stroke.id });
-    drawLiveHighlighterSegment(stage, page, stroke, first, first);
+    // The persistent annotation overlay already contains every completed
+    // object, so do not rebuild the dense page just to start a temporary
+    // Highlighter layer.
+    drawLiveHighlighterPoints(stage, page, stroke, [first]);
   } else drawLiveInkSegment(stage, page, stroke, first, first);
-  addInkDiagnostic('handler-begin-accepted', event, { strokeId:stroke.id });
+  addInkDiagnostic('handler-begin-accepted', event, { strokeId:stroke.id, liveBatchOptimized:drawingTool === 'highlighter' });
   return true;
 }
 function continueInkGesture(viewer, event) {
@@ -2620,13 +2673,23 @@ function continueInkGesture(viewer, event) {
   if (event.cancelable) event.preventDefault();
   const samples = typeof event.getCoalescedEvents === 'function' ? event.getCoalescedEvents() : null;
   const translucent = gesture.stroke?.tool === 'highlighter';
-  const appendSample = sample => {
-    const previous = gesture.stroke.points[gesture.stroke.points.length - 1] || null;
-    const added = appendInkPoint(gesture, sample, !translucent);
-    if (translucent && added) drawLiveHighlighterSegment(gesture.stage, gesture.page, gesture.stroke, previous || added, added);
-  };
-  if (samples?.length) for (const sample of samples) appendSample(sample);
-  else appendSample(event);
+  const geometry = translucent ? gestureEventGeometry(gesture.stage, gesture.page) : null;
+  if (translucent) {
+    const batch = [];
+    const first = gesture.stroke.points[gesture.stroke.points.length - 1] || null;
+    if (first) batch.push(first);
+    const appendSample = sample => {
+      const added = appendInkPoint(gesture, sample, false, geometry);
+      if (added) batch.push(added);
+    };
+    if (samples?.length) for (const sample of samples) appendSample(sample);
+    else appendSample(event);
+    if (batch.length > 1) drawLiveHighlighterPoints(gesture.stage, gesture.page, gesture.stroke, batch);
+  } else {
+    const appendSample = sample => appendInkPoint(gesture, sample, true);
+    if (samples?.length) for (const sample of samples) appendSample(sample);
+    else appendSample(event);
+  }
   return true;
 }
 function finishInkGesture(viewer, event) {
@@ -2634,18 +2697,26 @@ function finishInkGesture(viewer, event) {
   if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
   if (event.cancelable) event.preventDefault();
   const translucent = gesture.stroke?.tool === 'highlighter';
-  appendInkPoint(gesture, event, !translucent);
+  const previous = gesture.stroke.points[gesture.stroke.points.length - 1] || null;
+  const geometry = translucent ? gestureEventGeometry(gesture.stage, gesture.page) : null;
+  const finalPoint = appendInkPoint(gesture, event, !translucent, geometry);
+  if (translucent && finalPoint) {
+    drawLiveHighlighterPoints(gesture.stage, gesture.page, gesture.stroke, previous ? [previous, finalPoint] : [finalPoint]);
+  }
   // Commit a live Highlighter stroke to the persistent annotation layer only
   // once, on release/cancel. Pen still clears its provisional tail here and
   // receives the normal completed smoothed redraw.
-  if (translucent) clearLiveHighlighterOverlays(gesture.page);
-  redrawPageAnnotationOverlays(gesture.page);
+  if (translucent) {
+    commitLiveHighlighterOverlays(gesture.page, gesture.stroke.opacity);
+  } else {
+    redrawPageAnnotationOverlays(gesture.page);
+  }
   if (gesture.inputSource === 'pointer') {
     try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
   }
   state.inkGesture = null;
   if (!gesture.stroke.points.length) return true;
-  addInkDiagnostic('handler-finish-accepted', event, { strokeId:gesture.stroke.id, points:gesture.stroke.points.length });
+  addInkDiagnostic('handler-finish-accepted', event, { strokeId:gesture.stroke.id, points:gesture.stroke.points.length, liveBatchOptimized:translucent, liveCompositeCommit:translucent });
   commitHistory(gesture.before);
   saveCurrentDocumentState({ readViewDom: false });
   return true;
@@ -2854,10 +2925,11 @@ function drawLiveEraserPreview(page, points, eraserDiameter=state.eraserSize) {
 function appendEraserPreviewSamples(gesture, event) {
   if (!gesture?.page || !gesture.stage?.isConnected) return [];
   const added = [gesture.lastPoint];
+  const geometry = gestureEventGeometry(gesture.stage, gesture.page);
   const samples = typeof event.getCoalescedEvents === 'function' ? event.getCoalescedEvents() : null;
   const source = samples?.length ? [...samples, event] : [event];
   for (const sample of source) {
-    const next = eventPointOnPage(gesture.stage,gesture.page,sample);
+    const next = eventPointOnPage(gesture.stage,gesture.page,sample,geometry);
     if (!next) continue;
     if (Math.hypot(next.x-gesture.lastPoint.x,next.y-gesture.lastPoint.y) < .12) continue;
     gesture.path.push(next);
@@ -9126,7 +9198,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.4.5 keeps the 5.4.4 dense-page gesture acceleration and adds a Highlighter PDF-export cleanup: only the exported Highlighter centerline is simplified below the visible stroke width so microscopic Pencil backtracks do not produce darker transparency patches in PDF viewers. Stored/editable points, Pen smoothing, on-screen Highlighter rendering, partial-stroke eraser semantics, Undo/Redo, and the proven input routing remain intact.</p>
+      <p>Milestone 5.4.6 keeps the 5.4.5 Highlighter export cleanup and further protects dense-page responsiveness: scheduled Local Library serialization is deferred while a stylus gesture is active, live Highlighter samples are batched per PointerEvent, completed Highlighter strokes are composited directly without a full-page rebuild, and Highlighter/Eraser coalesced samples reuse one page-geometry measurement per event. Stored/editable points, Pen smoothing, partial-stroke eraser semantics, Undo/Redo, and the proven input routing remain intact.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes. Pen retains five direct colors and three widths; Highlighter has its own yellow/pink/cyan/green palette and three widths; Eraser cuts only touched portions; Select works on whole annotation objects.</li><li><strong>Editable ink:</strong> strokes and eraser-created fragments remain page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and can now be moved, resized, deleted, duplicated, copied, and pasted as whole objects.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
       <p><strong>Next annotation step:</strong> image insertion as selectable annotation objects. The future new-document size refinement will also offer device-derived Presentation canvas sizes alongside US Letter.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

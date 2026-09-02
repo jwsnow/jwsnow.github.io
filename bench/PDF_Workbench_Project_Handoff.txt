@@ -1,18 +1,18 @@
-PDF WORKBENCH PWA — MILESTONE 5.4.5 CURRENT UPDATE
+PDF WORKBENCH PWA — MILESTONE 5.4.6 CURRENT UPDATE
 
-CURRENT BUILD: Milestone 5.4.5
-Visible About version: 5.4.5
-Service-worker/cache version: pdf-workbench-m5.4.5-v1
+CURRENT BUILD: Milestone 5.4.6
+Visible About version: 5.4.6
+Service-worker/cache version: pdf-workbench-m5.4.6-v1
 Baseline: 5.3.0, confirmed working on iPad and Surface; Chromebook retest deferred because the device was not available.
 
 
-MILESTONE 5.4.5 — HIGHLIGHTER PDF EXPORT CLEANUP
-- Lasso move/resize no longer redraws or remaps every selected/page stroke on every Pencil move. Selected objects are rendered once to a temporary live-selection canvas; the live canvas and selection frame are transformed with CSS. Authoritative vector points are committed once on pointer-up.
-- Partial Eraser no longer performs vector stroke splitting and a page redraw for every coalesced Pencil sample. During contact it gives immediate `destination-out` raster feedback on the annotation overlay while collecting the eraser path.
-- On Eraser pointer-up the path is compacted, nearby annotation objects are preselected by bounds, and the existing partial-stroke vector erasure algorithm commits the authoritative edit once, followed by one normal redraw.
-- Undo/Redo remains one history action per move/resize/eraser gesture. Export still uses authoritative vector annotations; transient gesture layers are never exported.
-- Diagnostics report selection live-layer use plus Eraser raw/compacted path counts, candidate count, and vector commit time.
-- 5.4.3 live Highlighter behavior and duplicate-open repair are retained unchanged.
+MILESTONE 5.4.6 — DENSE-PAGE LIVE GESTURE SCHEDULING
+- Scheduled Local Library persistence is deferred while any Pen/Highlighter/Eraser/Select gesture is active. This prevents dense document cloning/serialization from starting midway through a stylus drag. Explicit lifecycle persistence remains available.
+- Highlighter start no longer performs a redundant full-page annotation redraw.
+- Highlighter coalesced samples are drawn as one batch path per PointerEvent rather than one Canvas/DOM setup per raw sample.
+- Finished Highlighter strokes are composited directly from the live temporary layer into the persistent annotation canvas rather than rebuilding all existing page annotations.
+- Highlighter and Eraser reuse one stage geometry measurement for an entire coalesced PointerEvent batch, avoiding repeated layout reads.
+- 5.4.5 PDF Highlighter centerline simplification, 5.4.4 selection/eraser acceleration, 5.4.3 duplicate-open repair, Pen smoothing, and authoritative raw annotation geometry are retained.
 
 MILESTONE 5.4.3 — LIVE HIGHLIGHTER + DUPLICATE-OPEN REPAIR
 - Live Highlighter uses a dedicated temporary overlay canvas and incremental opaque drawing with canvas-element opacity. It no longer redraws all existing annotations on every Pencil move.
