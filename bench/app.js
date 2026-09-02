@@ -1,4 +1,4 @@
-const APP_VERSION = '5.1.0';
+const APP_VERSION = '5.1.1';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1532,8 +1532,8 @@ function updateInkToolbar() {
   els.inkEraserBtn?.setAttribute('aria-pressed', String(tool === 'eraser'));
   document.body.classList.toggle('ink-pen-active', isStylusAnnotationTool(tool));
   document.body.classList.toggle('ink-eraser-active', tool === 'eraser');
-  els.penColorGroup?.classList.toggle('hidden', tool === 'eraser');
-  els.penWidthGroup?.classList.toggle('hidden', tool === 'eraser');
+  els.penColorGroup?.classList.toggle('hidden', tool !== 'pen');
+  els.penWidthGroup?.classList.toggle('hidden', tool !== 'pen');
   els.eraserSizeGroup?.classList.toggle('hidden', tool !== 'eraser');
   if (isStylusAnnotationTool(tool)) clearNativeSelection();
   if (tool !== 'eraser') hideEraserCursor();
@@ -7855,7 +7855,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.1.0 adds the first partial-stroke eraser while preserving the stable cross-platform pen/touch path, palm rejection, automatic last-page behavior, and restart session restoration.</p>
+      <p>Milestone 5.1.1 makes annotation settings contextual: Hand shows no pen/eraser settings, Pen shows only pen color/width, and Eraser shows only eraser size. The tested 5.1.0 ink/eraser behavior is otherwise unchanged.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Pen and partial eraser:</strong> Hand/View, Pen, and Eraser modes. Pen retains five direct colors and three widths; Eraser has three direct sizes and cuts only the touched portions of vector strokes.</li><li><strong>Editable ink:</strong> strokes and eraser-created fragments remain page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and are copied with page duplication/copy/combine operations.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
       <p><strong>Next annotation steps after eraser testing:</strong> lasso selection with move/resize/delete/duplicate/copy/paste, then highlighter with its own yellow/pink/blue/green palette. Smoothing remains later so it can be added without sacrificing input responsiveness.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

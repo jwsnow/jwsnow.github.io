@@ -1,6 +1,14 @@
-# PDF Workbench — Milestone 5.1.0
+# PDF Workbench — Milestone 5.1.1
 
-Milestone 5.1.0 adds a true partial-stroke vector eraser on top of the cross-device 5.0.12 baseline. The user has confirmed 5.0.12 session restoration on iPad, Surface, and Chromebook; the tested pen/Pencil input, ChromeOS palm rejection, finger navigation, templates, and automatic new-last-page behavior remain in place.
+Milestone 5.1.1 is a focused annotation-toolbar cleanup on top of the tested 5.1.0 partial-stroke eraser build. Pen/eraser geometry, cross-device input handling, ChromeOS palm rejection, finger navigation, templates, automatic new-last-page behavior, export, and session restoration are unchanged.
+
+## 5.1.1 contextual annotation toolbar
+
+- Hand selected: Pen color/width and Eraser size controls are hidden.
+- Pen selected: only Pen color and width controls are shown.
+- Eraser selected: only Eraser size controls are shown.
+- Tool buttons, Undo, and Redo remain available as before.
+
 
 ## 5.1.0 partial-stroke eraser
 
@@ -152,7 +160,7 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.1.0-v1`
+- Service-worker cache: `pdf-workbench-m5.1.1-v1`
 
 ## High-priority smoke tests
 1. On each device, draw several long and short crossing strokes, choose each Eraser size, and erase through the middle of strokes. Confirm only the touched portions disappear, surviving fragments remain, and Undo restores the original stroke in one step. Test a dot/very short stroke as well.
@@ -170,4 +178,4 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 13. Save one template **With annotations** and one **Clean**; confirm their previews/content differ correctly. In Template Manager set the automatic last page to Graph, Blank, and then a saved template, and test pull/scroll-past-end creation for each.
 14. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
 
-**More → About this build** reports **Milestone 5.1.0**.
+**More → About this build** reports **Milestone 5.1.1**.

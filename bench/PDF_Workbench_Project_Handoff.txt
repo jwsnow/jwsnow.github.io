@@ -1,12 +1,20 @@
-PDF WORKBENCH PWA — MILESTONE 5.1.0 CURRENT UPDATE
+PDF WORKBENCH PWA — MILESTONE 5.1.1 CURRENT UPDATE
 ====================================================================
-CURRENT BUILD: Milestone 5.1.0
-Visible About version: 5.1.0
-Service-worker/cache version: pdf-workbench-m5.1.0-v1
+CURRENT BUILD: Milestone 5.1.1
+Visible About version: 5.1.1
+Service-worker/cache version: pdf-workbench-m5.1.1-v1
 IndexedDB database version: 2
 Library schema version: 5
 Editable backup format version: 1
 
+
+
+MILESTONE 5.1.1 — CONTEXTUAL ANNOTATION TOOLBAR
+
+- Hand mode hides Pen color/width controls and Eraser size controls.
+- Pen mode shows only Pen color/width controls.
+- Eraser mode shows only Eraser size controls.
+- No pen sampling, eraser geometry, touch/palm routing, export, split-view, template, auto-page, or session-restoration behavior changed.
 
 MILESTONE 5.1.0 — PARTIAL-STROKE VECTOR ERASER
 ====================================================================
