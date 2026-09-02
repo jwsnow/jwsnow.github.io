@@ -1,3 +1,41 @@
+PDF WORKBENCH PWA — MILESTONE 5.0.12 CURRENT UPDATE
+====================================================================
+CURRENT BUILD: Milestone 5.0.12
+Visible About version: 5.0.12
+Service-worker/cache version: pdf-workbench-m5.0.12-v1
+IndexedDB database version: 2
+Library schema version: 5
+Editable backup format version: 1
+
+
+MILESTONE 5.0.12 — SESSION RESTORATION STARTUP-RACE FIX
+====================================================================
+
+User test result from 5.0.11:
+- Template creation with/without annotations works on iPad, Surface, and Chromebook.
+- Automatic last-page append and configured page source work on all three devices.
+- Session restoration failed on all three devices.
+
+5.0.12 restoration correction:
+- Keep the stable 5.0.10 input/palm/cursor path completely unchanged.
+- Keep the working 5.0.11 template/end-of-document features unchanged.
+- Root architectural weakness addressed: event handlers are bound before persistent Library restoration, so a startup visibility/page-lifecycle event could synchronously checkpoint the transient empty workspace and make it newer than the real saved session. 5.0.12 blocks session writes until startup has read/restored the previous session.
+- Synchronous checkpoint key advanced to `pdfwb-session-checkpoint-v2` so an empty/stale v1 checkpoint from 5.0.11 cannot dominate the corrected logic.
+- Session records now carry `explicitEmpty`. A newer empty record may override a non-empty record only when the user deliberately closed the last/all documents.
+- Once hydrated, open/close/current-document/workspace-mode/split changes checkpoint immediately, while IndexedDB continues to receive the full durable session through normal persistence.
+- Restoration attempts saved document IDs directly via Library/IndexedDB; stale deleted/trashed IDs are ignored.
+- A startup Library reconnection re-enters restoration instead of persisting an empty workspace.
+
+TEST PRIORITY:
+1. In 5.0.12, manually open at least two Library documents, leave one active, close/restart the app, and confirm both reopen with the same active document.
+2. Repeat with Split view and different documents/pages in the two panes.
+3. Use Close all files, restart, and confirm the workspace intentionally stays empty while the documents remain in Local Library.
+4. Reconfirm one quick inking/palm test only as a regression check; the input code was not intentionally changed.
+
+====================================================================
+PRIOR MILESTONE 5.0.11 HANDOFF FOLLOWS
+====================================================================
+
 PDF WORKBENCH PWA — MILESTONE 5.0.11 CURRENT UPDATE
 ====================================================================
 CURRENT BUILD: Milestone 5.0.11

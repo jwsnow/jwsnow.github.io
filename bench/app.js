@@ -1,4 +1,4 @@
-const APP_VERSION = '5.0.11';
+const APP_VERSION = '5.0.12';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -12,7 +12,7 @@ const LIBRARY_DB_NAME = 'pdf-workbench-library';
 const LIBRARY_DB_VERSION = 2;
 const LIBRARY_SCHEMA_VERSION = 5;
 const LIBRARY_BACKUP_FORMAT_VERSION = 1;
-const SESSION_CHECKPOINT_KEY = 'pdfwb-session-checkpoint-v1';
+const SESSION_CHECKPOINT_KEY = 'pdfwb-session-checkpoint-v2';
 
 const $ = (id) => document.getElementById(id);
 const els = {
@@ -106,6 +106,10 @@ const state = {
   pendingBackupImportMode: 'replace',
   libraryPersistTimer: null,
   sessionCheckpointTimer: null,
+  // Do not allow lifecycle events during startup to overwrite the previously
+  // saved workspace before restoration has had a chance to read it.
+  sessionRestoreHydrated: false,
+  sessionExplicitEmpty: false,
   libraryPersisting: false,
   libraryPersistAgain: false,
   libraryRecoveryTimer: null,
@@ -429,11 +433,20 @@ function serializeLibrarySession() {
     activePaneId: state.activePaneId,
     singleSourcePaneId: state.singleSourcePaneId,
     splitPanes: { left: paneState(state.splitPanes.left), right: paneState(state.splitPanes.right) },
+    // An empty workspace is authoritative only when the user deliberately
+    // closed the last/all open documents. This distinguishes that from a
+    // transient empty startup state before restoration has completed.
+    explicitEmpty: state.documents.length === 0 && !!state.sessionExplicitEmpty,
     updatedAt: Date.now(),
   };
 }
-function writeSessionCheckpoint(session=null) {
+function writeSessionCheckpoint(session=null, options={}) {
   if (state.librarySuppressPersist) return;
+  // bindEvents() runs before IndexedDB restoration. Browsers can emit
+  // visibility/page lifecycle events during PWA startup; never let one of
+  // those write an empty, newer checkpoint over the session we are about to
+  // restore.
+  if (!state.sessionRestoreHydrated && !options.force) return;
   try {
     const snapshot = session || serializeLibrarySession();
     localStorage.setItem(SESSION_CHECKPOINT_KEY, JSON.stringify(snapshot));
@@ -450,12 +463,15 @@ function readSessionCheckpoint() {
   } catch { return null; }
 }
 function scheduleSessionCheckpoint(delay=220) {
-  if (state.librarySuppressPersist) return;
+  if (state.librarySuppressPersist || !state.sessionRestoreHydrated) return;
   clearTimeout(state.sessionCheckpointTimer);
   state.sessionCheckpointTimer = setTimeout(() => {
     state.sessionCheckpointTimer = null;
     writeSessionCheckpoint();
   }, delay);
+}
+function sessionHasOpenDocuments(session) {
+  return Array.isArray(session?.openIds) && session.openIds.length > 0;
 }
 function newestSavedSession(indexedSession) {
   const checkpoint = readSessionCheckpoint();
@@ -463,7 +479,18 @@ function newestSavedSession(indexedSession) {
   if (!indexedSession) return checkpoint;
   const checkpointTime = Number(checkpoint.updatedAt || 0);
   const indexedTime = Number(indexedSession.updatedAt || 0);
-  return checkpointTime > indexedTime ? checkpoint : indexedSession;
+  const newer = checkpointTime > indexedTime ? checkpoint : indexedSession;
+  const older = newer === checkpoint ? indexedSession : checkpoint;
+  // A lifecycle/startup race can produce an empty record. Do not let a newer
+  // empty record erase a known non-empty workspace unless that empty state was
+  // explicitly created by Close/Close all.
+  if (!sessionHasOpenDocuments(newer) && sessionHasOpenDocuments(older) && newer?.explicitEmpty !== true) return older;
+  return newer;
+}
+function checkpointWorkspaceNow(options={}) {
+  if (options.explicitEmpty === true) state.sessionExplicitEmpty = true;
+  else if (state.documents.length) state.sessionExplicitEmpty = false;
+  writeSessionCheckpoint();
 }
 function serializeTemplatesForLibrary() {
   return {
@@ -525,7 +552,11 @@ async function persistLibraryNow(options={}) {
     const templateSourceIds = new Set(state.templates.map(template => template.page?.sourceId).filter(Boolean));
     for (const sourceId of templateSourceIds) await persistSourceToLibrary(sourceId);
     await libraryPut('meta', serializeTemplatesForLibrary());
-    await libraryPut('meta', serializeLibrarySession());
+    // Do not overwrite the saved workspace with the intentionally empty
+    // pre-restore startup state. Document/template persistence may still run.
+    if (state.sessionRestoreHydrated || options.allowUnhydratedSessionPersist) {
+      await libraryPut('meta', serializeLibrarySession());
+    }
     renderLibraryDocumentList();
     updateLibraryStorageSummary();
   } catch (err) {
@@ -616,6 +647,8 @@ async function reopenLibraryDocument(docId, options={}) {
     state.fileSelectionInitialized = true;
   }
   ensureSplitPaneDocuments();
+  state.sessionExplicitEmpty = false;
+  checkpointWorkspaceNow();
   scheduleLibraryPersist(80);
   if (options.render !== false) renderAll({ saveState: false });
   return doc;
@@ -637,12 +670,21 @@ async function initializePersistentLibrary() {
     // which pagehide starts an IndexedDB write but the OS terminates the app
     // before that small session record commits.
     const session = newestSavedSession(indexedSession);
-    const openIds = Array.isArray(session?.openIds) ? session.openIds.filter(id => state.libraryRecords.has(id) && !state.libraryRecords.get(id)?.trashedAt) : [];
+    // Do not require the in-memory records map as a precondition.
+    // reopenLibraryDocument() can fall back to a direct IndexedDB read, which
+    // makes restoration resilient to a temporarily incomplete list refresh.
+    const openIds = Array.isArray(session?.openIds) ? [...new Set(session.openIds.filter(Boolean))] : [];
     if (['view','organize','export'].includes(session?.workspaceMode)) state.workspaceMode = session.workspaceMode;
     state.librarySuppressPersist = true;
+    let restoreFailures = 0;
     for (const id of openIds) {
-      try { await reopenLibraryDocument(id, { makeActive: false, render: false }); }
-      catch (err) { console.error(`Could not restore Library document ${id}`, err); }
+      try {
+        const record = state.libraryRecords.get(id) || await libraryGet('documents', id);
+        // A stale session reference to a deleted/trashed Library item is
+        // already resolved and should not block future session persistence.
+        if (!record || record.trashedAt) continue;
+        await reopenLibraryDocument(id, { makeActive: false, render: false });
+      } catch (err) { restoreFailures++; console.error(`Could not restore Library document ${id}`, err); }
     }
     if (state.documents.length) {
       const currentId = state.documents.some(doc => doc.id === session?.currentDocumentId) ? session.currentDocumentId : state.documents[0].id;
@@ -660,11 +702,18 @@ async function initializePersistentLibrary() {
       }
       ensureSplitPaneDocuments();
     }
+    // Only begin writing session checkpoints after the prior session has been
+    // read and its requested documents have been accounted for. If a document
+    // could not be reopened, preserve the old saved session for retry instead
+    // of immediately replacing it with a partial/empty one.
+    state.sessionRestoreHydrated = restoreFailures === 0;
+    state.sessionExplicitEmpty = state.documents.length === 0 && session?.explicitEmpty === true;
     state.librarySuppressPersist = false;
+    if (state.sessionRestoreHydrated) writeSessionCheckpoint();
     renderAll({ saveState: false });
     renderLibraryDocumentList();
     updateLibraryStorageSummary();
-    scheduleLibraryPersist(250);
+    if (state.sessionRestoreHydrated) scheduleLibraryPersist(250);
   } catch (err) {
     state.librarySuppressPersist = false;
     state.libraryReady = false;
@@ -691,6 +740,9 @@ async function retryPersistentLibraryAfterFailure() {
     // If nothing is open, rerun normal initialization so a saved prior session
     // can be restored after a WebKit first-open failure.
     if (state.documents.length) {
+      state.sessionRestoreHydrated = true;
+      state.sessionExplicitEmpty = false;
+      writeSessionCheckpoint();
       await persistLibraryNow({ readViewDom: false, _reconnected: true });
       renderLibraryDocumentList();
       renderLibraryDocumentList();
@@ -716,6 +768,20 @@ async function resumePersistentLibraryConnection() {
   try {
     await refreshLibraryRecords();
     await restorePersistentTemplates();
+    if (!state.sessionRestoreHydrated && !state.documents.length) {
+      // The first startup restore did not complete. Re-enter the normal restore
+      // path instead of saving an empty workspace over the prior session.
+      try { state.libraryDb?.close?.(); } catch {}
+      state.libraryDb = null;
+      state.libraryReady = false;
+      await initializePersistentLibrary();
+      return;
+    }
+    if (!state.sessionRestoreHydrated && state.documents.length) {
+      state.sessionRestoreHydrated = true;
+      state.sessionExplicitEmpty = false;
+      writeSessionCheckpoint();
+    }
     await persistLibraryNow({ readViewDom: false, _reconnected: true });
   } catch (err) {
     console.warn('Local Library resume refresh failed', err);
@@ -1052,7 +1118,7 @@ async function restoreEditableLibraryBackup(file) {
       if (['pdfwb-scroll-mode','pdfwb-fit-mode','pdfwb-library-view'].includes(key)) { try { localStorage.setItem(key, String(value)); } catch {} }
     }
     state.librarySuppressPersist = true; // pagehide must not overwrite the restored session
-    try { localStorage.removeItem(SESSION_CHECKPOINT_KEY); } catch {}
+    try { localStorage.removeItem(SESSION_CHECKPOINT_KEY); localStorage.removeItem('pdfwb-session-checkpoint-v1'); } catch {}
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Restore complete. Reloading PDF Workbench…';
     setStatus('Library restored · reloading…', true);
     const url = new URL(location.href);
@@ -1863,6 +1929,8 @@ function createDocument(name) {
     pane.documentId = doc.id;
     pane.views.set(doc.id, defaultPaneView(doc));
   }
+  state.sessionExplicitEmpty = false;
+  checkpointWorkspaceNow();
   return doc;
 }
 
@@ -1939,6 +2007,7 @@ function loadDocumentState(docId, rerender=true) {
     renderAll({ saveState: false });
     setStatus(`Switched to ${doc.name}`);
   }
+  checkpointWorkspaceNow();
 }
 
 
@@ -2083,6 +2152,7 @@ function activateSplitPane(paneId, syncCurrent=true) {
   }
   if (els.presentationDocumentSelect && pane.documentId) els.presentationDocumentSelect.value = pane.documentId;
   updateViewerLabels();
+  checkpointWorkspaceNow();
 }
 
 function setPaneDocument(paneId, docId) {
@@ -3955,6 +4025,8 @@ async function closeOneOpenDocument(docId) {
   removeDocument(docId);
   state.fileSelected.delete(docId);
   reconcileCombineOrder();
+  state.sessionExplicitEmpty = state.documents.length === 0;
+  checkpointWorkspaceNow({ explicitEmpty: state.sessionExplicitEmpty });
   renderAll({ saveState: false });
   await persistLibraryNow();
   await refreshLibraryRecords();
@@ -3966,6 +4038,8 @@ async function closeAllOpenDocuments() {
   saveCurrentDocumentState();
   await persistLibraryNow();
   clearAll();
+  state.sessionExplicitEmpty = true;
+  checkpointWorkspaceNow({ explicitEmpty: true });
   await persistLibraryNow();
   await refreshLibraryRecords();
 }
@@ -4110,6 +4184,9 @@ async function purgeLocalLibrary() {
     state.libraryFolders.clear();
     state.libraryFolderId = null;
     state.librarySuppressPersist = false;
+    state.sessionRestoreHydrated = true;
+    state.sessionExplicitEmpty = true;
+    writeSessionCheckpoint();
     await libraryPut('meta', serializeTemplatesForLibrary());
     await libraryPut('meta', serializeLibrarySession());
     renderInsertTemplateList();
@@ -5311,6 +5388,7 @@ function showWorkspaceMode(mode) {
   if (hasPages && mode === 'view') renderViewer();
   if (hasPages && mode === 'organize') renderOrganizer();
   if (mode === 'export') renderExportPane();
+  checkpointWorkspaceNow();
 }
 
 function renderAll(options={}) {
@@ -6535,6 +6613,7 @@ function toggleSplitView() {
 
   if (document.body.classList.contains('presentation')) showPresentationControls();
   setStatus(state.splitView ? 'Side-by-side view' : 'Single-document view');
+  checkpointWorkspaceNow();
 }
 
 function computeCssSize(page) {
@@ -7504,7 +7583,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.0.11 keeps the stable 5.0.10 cross-platform pen/touch input path and returns to deferred workspace behavior. Session restoration now has a synchronous shutdown checkpoint in addition to IndexedDB, templates can be saved with or without annotations, and scrolling/pulling past the final page can append a configurable Graph, Blank, or saved-template page.</p>
+      <p>Milestone 5.0.12 keeps the stable 5.0.10 cross-platform pen/touch path and the working 5.0.11 template/end-of-document features unchanged. Session restoration is corrected so startup lifecycle events cannot overwrite the saved open workspace before restoration reads it; open/close/switch/layout changes also checkpoint synchronously after restoration is hydrated.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Basic pen:</strong> Hand/View and Pen modes, five direct pen colors (black, blue, red, green, orange), and three direct width choices. Finger scrolling/pinch remains navigation-only.</li><li><strong>Editable ink:</strong> strokes are stored as page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and are copied with page duplication/copy/combine operations.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
       <p><strong>Next annotation steps after testing:</strong> partial-stroke eraser, lasso selection with move/resize/delete/duplicate, then highlighter with its own yellow/pink/blue/green palette. Image annotations follow the annotation milestone.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

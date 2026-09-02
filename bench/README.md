@@ -1,6 +1,16 @@
-# PDF Workbench — Milestone 5.0.11
+# PDF Workbench — Milestone 5.0.12
 
-Milestone 5.0.11 keeps the stable 5.0.10 cross-platform pen/touch path unchanged and returns to deferred workspace/page-flow behavior. It hardens restart restoration, adds clean-vs-annotated template creation, and adds configurable pull/scroll-past-end page creation.
+Milestone 5.0.12 is a focused restart-restoration correction. The stable 5.0.10 cross-platform pen/touch path and the successfully tested 5.0.11 template creation and automatic-last-page behavior are unchanged.
+
+## 5.0.12 session restoration correction
+
+- Session checkpointing now has a **startup hydration guard**. `bindEvents()` is installed before IndexedDB restoration, and browsers/PWAs can emit `visibilitychange`/`pagehide` events during startup. Those lifecycle events are no longer allowed to write the transient empty startup workspace over the previously saved session before restoration reads it.
+- The synchronous checkpoint key is now `pdfwb-session-checkpoint-v2`, avoiding a possibly poisoned 5.0.11 transient checkpoint. IndexedDB session metadata remains the durable source and is compared with the v2 checkpoint after startup has hydrated.
+- An empty saved workspace is authoritative only when explicitly produced by closing the last document or **Close all files**. A newer accidental empty session cannot override an older known non-empty session unless it carries that explicit-empty marker.
+- Open/close/current-document/workspace-mode/split-layout changes checkpoint synchronously once restoration is hydrated; the existing throttled IndexedDB persistence remains in place for durability and document/view state.
+- Startup restoration now attempts saved document IDs directly against IndexedDB instead of requiring the in-memory Library listing as a precondition. Missing or trashed stale IDs are ignored rather than disabling future session persistence.
+- If Local Library startup fails and reconnects later, the app re-enters the restoration path instead of saving an empty workspace over the old session.
+- The 5.0.10 input path, 5.0.11 clean/annotated templates, Template Manager default-last-page setting, and pull/scroll-to-append behavior are unchanged.
 
 ## 5.0.11 workspace restoration and automatic last page
 
@@ -131,7 +141,7 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.0.11-v1`
+- Service-worker cache: `pdf-workbench-m5.0.12-v1`
 
 ## High-priority smoke tests
 1. On Surface, open a PDF, choose Pen, hover the pen over the page and confirm the browser crosshair/plus cursor is hidden. Write at several zoom levels, switch colors and widths, then use Undo/Redo.
@@ -146,4 +156,4 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 10. Save one template **With annotations** and one **Clean**; confirm their previews/content differ correctly. In Template Manager set the automatic last page to Graph, Blank, and then a saved template, and test pull/scroll-past-end creation for each.
 11. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
 
-**More → About this build** reports **Milestone 5.0.11**.
+**More → About this build** reports **Milestone 5.0.12**.
