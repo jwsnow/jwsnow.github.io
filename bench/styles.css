@@ -73,6 +73,7 @@ button:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 65%, 
 .end-page-pull-secondary { font-size: 12px; }
 .viewer.single .end-page-pull { display: none; }
 .page-stage canvas { display: block; width: 100%; height: 100%; }
+.page-stage > canvas.annotation-canvas { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: transparent; }
 .page-loading { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: .85rem; }
 .single-page-nav { position: absolute; left: 50%; bottom: max(10px, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 20; display: flex; align-items: center; gap: 6px; padding: 4px; background: rgb(255 255 255 / .88); border: 1px solid var(--border); border-radius: 12px; backdrop-filter: blur(8px); }
 .single-page-nav button { min-width: 42px; min-height: 42px; padding: 0; font-size: 28px; line-height: 1; }
@@ -1207,7 +1208,8 @@ body.ink-pen-active .status-bar * {
 .presentation-toolbar.annotation-toolbar button:disabled { opacity: .38; }
 .presentation-toolbar.annotation-toolbar .annotation-tool-btn.active,
 .presentation-toolbar.annotation-toolbar .ink-color-btn.active,
-.presentation-toolbar.annotation-toolbar .ink-width-btn.active {
+.presentation-toolbar.annotation-toolbar .ink-width-btn.active,
+.presentation-toolbar.annotation-toolbar .eraser-size-btn.active {
   background: var(--accent-soft);
   border-color: color-mix(in srgb, var(--accent) 72%, var(--border));
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
@@ -1268,6 +1270,41 @@ body.ink-pen-active .status-bar * {
   border-radius: 999px;
   background: currentColor;
 }
+.presentation-toolbar.annotation-toolbar .eraser-size-btn {
+  width: 32px;
+  min-width: 32px;
+  flex-basis: 32px;
+  display: grid;
+  place-items: center;
+}
+.presentation-toolbar.annotation-toolbar .eraser-size-btn span {
+  display: block;
+  width: var(--eraser-sample);
+  height: var(--eraser-sample);
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  background: transparent;
+}
+.eraser-tool-icon {
+  display: inline-block;
+  width: 17px;
+  height: 11px;
+  border: 2px solid currentColor;
+  border-radius: 3px;
+  transform: rotate(-24deg);
+  box-sizing: border-box;
+}
+.eraser-cursor {
+  position: fixed;
+  z-index: 10000;
+  pointer-events: none;
+  border: 1.5px solid rgb(20 20 20 / .72);
+  background: rgb(255 255 255 / .20);
+  border-radius: 50%;
+  box-sizing: border-box;
+  transform: translateZ(0);
+}
+.eraser-cursor.hidden { display: none !important; }
 .annotation-separator {
   width: 1px;
   height: 27px;
@@ -1327,13 +1364,16 @@ body.presentation .split-view { top: calc(var(--annotation-bar-h) + env(safe-are
   .presentation-toolbar.annotation-toolbar { gap: 2px; padding-left: 4px; padding-right: 4px; }
   .presentation-toolbar.annotation-toolbar button { width: 34px; min-width: 34px; flex-basis: 34px; }
   .presentation-toolbar.annotation-toolbar .ink-color-btn { width: 28px; min-width: 28px; flex-basis: 28px; }
-  .presentation-toolbar.annotation-toolbar .ink-width-btn { width: 30px; min-width: 30px; flex-basis: 30px; }
+  .presentation-toolbar.annotation-toolbar .ink-width-btn,
+  .presentation-toolbar.annotation-toolbar .eraser-size-btn { width: 30px; min-width: 30px; flex-basis: 30px; }
 }
 /* Milestone 5.0.9: keep the ordinary mouse crosshair available for desktop
    testing, but hide the browser cursor while a real pen pointer is in range over
    a viewer. This removes the distracting Surface Pen '+' hover cursor without
    affecting normal mouse use. */
 body.ink-pen-active .page-stage { cursor: crosshair; }
+body.ink-eraser-active .page-stage,
+body.ink-eraser-active .page-stage * { cursor: none !important; }
 .viewer.pen-pointer-present,
 .viewer.pen-pointer-present .page-stage,
 .viewer.pen-pointer-present .page-stage * { cursor: none !important; }

@@ -1,12 +1,45 @@
-PDF WORKBENCH PWA — MILESTONE 5.0.12 CURRENT UPDATE
+PDF WORKBENCH PWA — MILESTONE 5.1.0 CURRENT UPDATE
 ====================================================================
-CURRENT BUILD: Milestone 5.0.12
-Visible About version: 5.0.12
-Service-worker/cache version: pdf-workbench-m5.0.12-v1
+CURRENT BUILD: Milestone 5.1.0
+Visible About version: 5.1.0
+Service-worker/cache version: pdf-workbench-m5.1.0-v1
 IndexedDB database version: 2
 Library schema version: 5
 Editable backup format version: 1
 
+
+MILESTONE 5.1.0 — PARTIAL-STROKE VECTOR ERASER
+====================================================================
+
+Confirmed baseline before this build:
+- 5.0.10 stable pen/Pencil input works on iPad, Surface, and Chromebook.
+- Surface hover '+' cursor suppression and ChromeOS palm rejection work; deliberate finger scrolling/panning/zooming still work on all three.
+- 5.0.11 template creation (with annotations / clean) and automatic new-last-page creation work on all three.
+- 5.0.12 session restoration works on all three.
+- User specifically requires erasing portions of strokes/objects; selection may remain whole-stroke/object based.
+
+5.1.0 implementation:
+- New Eraser tool with remembered 12/24/40 pt circular sizes.
+- Partial erasure edits vector stroke geometry: an eraser pass cuts intersected polylines and stores surviving portions as ordinary stroke fragments. It does not paint white and does not delete the whole stroke unless all of it is erased.
+- Eraser hit radius includes half of each stroke's width so the visible erased swath matches the requested eraser footprint after round end caps are drawn.
+- One eraser contact commits one Undo/Redo history step. Fragments persist/export through the existing annotation model.
+- Viewer annotations are now drawn on a transparent overlay canvas above the unchanged page raster. This permits low-latency eraser redraw without PDF/image rerendering on every move and prepares the viewer for selection/highlighter overlays.
+- Same page in split panes redraws live in both panes.
+- Existing Apple Pencil stylus TouchEvent fallback is generalized to Eraser; Pointer Events remain primary. Existing 5.0.9 palm suppression applies to Pen and Eraser.
+- Circular custom eraser cursor added for mouse/stylus hover; native Surface pen cursor remains hidden.
+- Pen sampling/storage/export behavior was not otherwise changed. Smoothing is still deferred.
+
+TEST PRIORITY:
+1. On iPad, Surface, and Chromebook: draw crossing lines and handwriting, erase only middle portions using all three sizes, and verify no whole-stroke deletion unless fully covered.
+2. Undo immediately after a multi-cut eraser gesture; the entire gesture should restore in one step. Redo should reapply it.
+3. Same-document split view: erase while the same page is visible in both panes and confirm live shared update.
+4. Export after erasing and verify the PDF contains the surviving vector fragments/gaps.
+5. Confirm palm rejection and deliberate finger pan/pinch remain correct in Eraser mode.
+6. Quick regression: restart with multiple open documents/split view and confirm session restoration still works.
+
+====================================================================
+PRIOR MILESTONE 5.0.12 HANDOFF FOLLOWS
+====================================================================
 
 MILESTONE 5.0.12 — SESSION RESTORATION STARTUP-RACE FIX
 ====================================================================

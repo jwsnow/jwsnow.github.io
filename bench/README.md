@@ -1,6 +1,18 @@
-# PDF Workbench — Milestone 5.0.12
+# PDF Workbench — Milestone 5.1.0
 
-Milestone 5.0.12 is a focused restart-restoration correction. The stable 5.0.10 cross-platform pen/touch path and the successfully tested 5.0.11 template creation and automatic-last-page behavior are unchanged.
+Milestone 5.1.0 adds a true partial-stroke vector eraser on top of the cross-device 5.0.12 baseline. The user has confirmed 5.0.12 session restoration on iPad, Surface, and Chromebook; the tested pen/Pencil input, ChromeOS palm rejection, finger navigation, templates, and automatic new-last-page behavior remain in place.
+
+## 5.1.0 partial-stroke eraser
+
+- Adds an **Eraser** tool beside Hand and Pen, with three direct eraser sizes: 12 pt, 24 pt, and 40 pt diameter. The last-used eraser size is remembered.
+- The eraser removes only the touched portion of Workbench vector ink. Crossing a stroke splits it into surviving vector fragments rather than deleting the whole object or painting white pixels.
+- Eraser geometry accounts for the visible stroke width so the resulting gap corresponds closely to the circular eraser footprint, including round-capped surviving fragments.
+- Erasing is one Undo/Redo history action per eraser contact. The surviving fragments persist to Local Library/backups and export as ordinary vector ink.
+- Same-document split panes redraw the edited annotation overlay live, so erasure is shared just like pen ink while pane view state remains independent.
+- Viewer annotation rendering now uses a transparent annotation overlay canvas above the unmodified page raster. This allows erasure to reveal the original PDF/image/generated-page content immediately without rerendering the PDF for every eraser sample, and provides a cleaner base for later lasso/highlighter work.
+- Apple Pencil's stylus TouchEvent fallback is generalized to both Pen and Eraser. Surface/ChromeOS remain on Pointer Events. Existing palm rejection and deliberate finger pan/pinch behavior apply to Eraser mode as well.
+- A circular eraser cursor follows mouse/stylus hover over the page; the native Surface hover cursor remains suppressed.
+- Pen sampling, raw stored point behavior, PDF pen export, session restoration, templates, and automatic end-page append are otherwise unchanged.
 
 ## 5.0.12 session restoration correction
 
@@ -128,8 +140,7 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - The 4.2.1 batched source-page copying/resource-sharing fix remains intact.
 
 ## Not in this build yet
-- Partial-stroke eraser (required next; whole-stroke-only is not the final design)
-- Lasso/select, move, resize, delete, duplicate
+- Lasso/select with move, resize, delete, duplicate, copy, and paste
 - Highlighter and its separate yellow/pink/blue/green palette/widths
 - Recolor selected strokes
 - Annotation-toolbar auto-hide/edge-placement setting
@@ -141,19 +152,22 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.0.12-v1`
+- Service-worker cache: `pdf-workbench-m5.1.0-v1`
 
 ## High-priority smoke tests
-1. On Surface, open a PDF, choose Pen, hover the pen over the page and confirm the browser crosshair/plus cursor is hidden. Write at several zoom levels, switch colors and widths, then use Undo/Redo.
-2. On Chromebook in Pen mode, rest the palm naturally while writing. Confirm the page no longer jumps or repeatedly changes zoom. Then move the pen away and deliberately test one-finger pan and two-finger pinch; both should still work after the brief intent delay.
-3. Repeat with Apple Pencil on iPad for several lines of handwriting. Confirm the native **Copy / Look Up / …** selection callout never appears on toolbar, footer/status text, or page/PDF text; confirm deliberate finger navigation still works when the Pencil is away.
-4. Switch between View and Presentation. Confirm the annotation controls stay in the same order and Presentation's full-width bar remains at the top without covering the page.
-5. In split view, show the same document in both panes at different pages/zoom positions. Write in one pane; verify view states remain independent and shared ink appears correctly when the same annotated page is visible.
-6. Relaunch the app with several documents open (including split view) and confirm the open workspace, active document/pane, and viewer positions restore. Then use **Close all files**, relaunch, and confirm the active workspace stays empty while Library documents remain available.
-7. Back up on one device and restore on another; confirm ink survives the editable backup.
-8. Export an annotated PDF and inspect it in Adobe Acrobat or another viewer. Check placement, color, width, rotation, and file size.
-9. Re-test the previously problematic slide deck unchanged; it should still export byte-for-byte. Add a short pen stroke and export again; the file should remain reasonably sized.
-10. Save one template **With annotations** and one **Clean**; confirm their previews/content differ correctly. In Template Manager set the automatic last page to Graph, Blank, and then a saved template, and test pull/scroll-past-end creation for each.
-11. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
+1. On each device, draw several long and short crossing strokes, choose each Eraser size, and erase through the middle of strokes. Confirm only the touched portions disappear, surviving fragments remain, and Undo restores the original stroke in one step. Test a dot/very short stroke as well.
+2. Erase in one pane while the same page is visible in the other split pane; confirm both panes update. Export the erased page and confirm the gaps remain in the PDF.
+3. On iPad/Surface/Chromebook in Eraser mode, rest the palm naturally and verify deliberate finger pan/pinch still works when the stylus is away.
+4. On Surface, open a PDF, choose Pen, hover the pen over the page and confirm the browser crosshair/plus cursor is hidden. Write at several zoom levels, switch colors and widths, then use Undo/Redo.
+5. On Chromebook in Pen mode, rest the palm naturally while writing. Confirm the page no longer jumps or repeatedly changes zoom. Then move the pen away and deliberately test one-finger pan and two-finger pinch; both should still work after the brief intent delay.
+6. Repeat with Apple Pencil on iPad for several lines of handwriting. Confirm the native **Copy / Look Up / …** selection callout never appears on toolbar, footer/status text, or page/PDF text; confirm deliberate finger navigation still works when the Pencil is away.
+7. Switch between View and Presentation. Confirm the annotation controls stay in the same order and Presentation's full-width bar remains at the top without covering the page.
+8. In split view, show the same document in both panes at different pages/zoom positions. Write in one pane; verify view states remain independent and shared ink appears correctly when the same annotated page is visible.
+9. Relaunch the app with several documents open (including split view) and confirm the open workspace, active document/pane, and viewer positions restore. Then use **Close all files**, relaunch, and confirm the active workspace stays empty while Library documents remain available.
+10. Back up on one device and restore on another; confirm ink survives the editable backup.
+11. Export an annotated PDF and inspect it in Adobe Acrobat or another viewer. Check placement, color, width, rotation, and file size.
+12. Re-test the previously problematic slide deck unchanged; it should still export byte-for-byte. Add a short pen stroke and export again; the file should remain reasonably sized.
+13. Save one template **With annotations** and one **Clean**; confirm their previews/content differ correctly. In Template Manager set the automatic last page to Graph, Blank, and then a saved template, and test pull/scroll-past-end creation for each.
+14. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
 
-**More → About this build** reports **Milestone 5.0.12**.
+**More → About this build** reports **Milestone 5.1.0**.

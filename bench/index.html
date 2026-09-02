@@ -115,6 +115,7 @@
           <div class="annotation-primary" role="group" aria-label="Annotation tools">
             <button id="inkHandBtn" class="annotation-tool-btn active" type="button" aria-pressed="true" title="Hand / view mode (stylus does not draw)" aria-label="Hand / view mode">✋</button>
             <button id="inkPenBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Pen" aria-label="Pen">✎</button>
+            <button id="inkEraserBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Partial-stroke eraser" aria-label="Partial-stroke eraser"><span class="eraser-tool-icon" aria-hidden="true"></span></button>
           </div>
           <div id="penColorGroup" class="ink-option-group" role="group" aria-label="Pen color">
             <button class="ink-color-btn" type="button" data-ink-color="#111111" style="--swatch:#111111" title="Black pen" aria-label="Black pen"></button>
@@ -127,6 +128,11 @@
             <button class="ink-width-btn" type="button" data-ink-width="1.5" title="Thin pen" aria-label="Thin pen"><span style="--sample-width:1.5px"></span></button>
             <button class="ink-width-btn" type="button" data-ink-width="3" title="Medium pen" aria-label="Medium pen"><span style="--sample-width:3px"></span></button>
             <button class="ink-width-btn" type="button" data-ink-width="5.5" title="Thick pen" aria-label="Thick pen"><span style="--sample-width:5.5px"></span></button>
+          </div>
+          <div id="eraserSizeGroup" class="ink-option-group eraser-size-group hidden" role="group" aria-label="Eraser size">
+            <button class="eraser-size-btn" type="button" data-eraser-size="12" title="Small eraser" aria-label="Small eraser"><span style="--eraser-sample:10px"></span></button>
+            <button class="eraser-size-btn" type="button" data-eraser-size="24" title="Medium eraser" aria-label="Medium eraser"><span style="--eraser-sample:16px"></span></button>
+            <button class="eraser-size-btn" type="button" data-eraser-size="40" title="Large eraser" aria-label="Large eraser"><span style="--eraser-sample:23px"></span></button>
           </div>
           <div class="annotation-history" role="group" aria-label="Annotation undo and redo">
             <button id="inkUndoBtn" type="button" title="Undo" aria-label="Undo" disabled>↶</button>
@@ -171,7 +177,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.0.12</div>
+          <div class="export-kicker">Milestone 5.1.0</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 

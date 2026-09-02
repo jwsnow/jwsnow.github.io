@@ -1,4 +1,4 @@
-const APP_VERSION = '5.0.12';
+const APP_VERSION = '5.1.0';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -33,7 +33,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkEraserBtn: $('inkEraserBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -67,10 +67,13 @@ const state = {
   presentationRevealPointerId: null,
   presentationSuppressClicksUntil: 0,
   singlePresentationTransitionActive: false,
-  annotationTool: safePref('pdfwb-annotation-tool', 'hand', ['hand', 'pen']),
+  annotationTool: safePref('pdfwb-annotation-tool', 'hand', ['hand', 'pen', 'eraser']),
   penColor: safePref('pdfwb-pen-color', '#111111', ['#111111','#1565c0','#d32f2f','#2e7d32','#ef6c00']),
   penWidth: Number(safePref('pdfwb-pen-width', '3', ['1.5','3','5.5'])),
+  eraserSize: Number(safePref('pdfwb-eraser-size', '24', ['12','24','40'])),
   inkGesture: null,
+  eraserGesture: null,
+  eraserCursor: null,
   inkDiagnostics: [],
   inkDiagnosticPointers: new Map(),
   stylusTouchContacts: new Map(),
@@ -1368,6 +1371,11 @@ function displayedEdgesToRawPdf(displayed, inheritedRotation=0) {
 // ---------------------------------------------------------------------------
 const PEN_COLORS = ['#111111','#1565c0','#d32f2f','#2e7d32','#ef6c00'];
 const PEN_WIDTHS = [1.5, 3, 5.5];
+const ERASER_SIZES = [12, 24, 40];
+
+function isStylusAnnotationTool(tool=state.annotationTool) {
+  return tool === 'pen' || tool === 'eraser';
+}
 
 function normalizedQuarterTurn(value=0) {
   return (((Math.round(Number(value) || 0) % 360) + 360) % 360);
@@ -1443,9 +1451,41 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight) {
   }
   ctx.restore();
 }
+function ensureAnnotationOverlay(stage, baseCanvas=null) {
+  if (!stage) return null;
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas)');
+  if (!base?.width || !base?.height) return null;
+  let overlay = stage.querySelector('canvas.annotation-canvas');
+  if (!overlay) {
+    overlay = document.createElement('canvas');
+    overlay.className = 'annotation-canvas';
+    overlay.setAttribute('aria-hidden', 'true');
+    stage.append(overlay);
+  }
+  if (overlay.width !== base.width) overlay.width = base.width;
+  if (overlay.height !== base.height) overlay.height = base.height;
+  overlay.style.width = base.style.width || '100%';
+  overlay.style.height = base.style.height || '100%';
+  return overlay;
+}
+function redrawStageAnnotations(stage, page) {
+  if (!stage || !page) return;
+  const base = stage.querySelector('canvas:not(.annotation-canvas)');
+  const overlay = ensureAnnotationOverlay(stage, base);
+  if (!overlay) return;
+  const ctx = overlay.getContext('2d');
+  ctx.clearRect(0, 0, overlay.width, overlay.height);
+  drawPageAnnotationsCanvas(page, ctx, overlay.width, overlay.height);
+}
+function redrawPageAnnotationOverlays(page) {
+  if (!page?.id) return;
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const stage of document.querySelectorAll(selector)) redrawStageAnnotations(stage, page);
+}
 function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
   const drawOnStage = targetStage => {
-    const canvas = targetStage?.querySelector?.('canvas');
+    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas)');
+    const canvas = ensureAnnotationOverlay(targetStage, baseCanvas);
     if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -1483,13 +1523,20 @@ function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
 }
 
 function updateInkToolbar() {
-  const tool = state.annotationTool === 'pen' ? 'pen' : 'hand';
+  const tool = ['hand','pen','eraser'].includes(state.annotationTool) ? state.annotationTool : 'hand';
   els.inkHandBtn?.classList.toggle('active', tool === 'hand');
   els.inkPenBtn?.classList.toggle('active', tool === 'pen');
+  els.inkEraserBtn?.classList.toggle('active', tool === 'eraser');
   els.inkHandBtn?.setAttribute('aria-pressed', String(tool === 'hand'));
   els.inkPenBtn?.setAttribute('aria-pressed', String(tool === 'pen'));
-  document.body.classList.toggle('ink-pen-active', tool === 'pen');
-  if (tool === 'pen') clearNativeSelection();
+  els.inkEraserBtn?.setAttribute('aria-pressed', String(tool === 'eraser'));
+  document.body.classList.toggle('ink-pen-active', isStylusAnnotationTool(tool));
+  document.body.classList.toggle('ink-eraser-active', tool === 'eraser');
+  els.penColorGroup?.classList.toggle('hidden', tool === 'eraser');
+  els.penWidthGroup?.classList.toggle('hidden', tool === 'eraser');
+  els.eraserSizeGroup?.classList.toggle('hidden', tool !== 'eraser');
+  if (isStylusAnnotationTool(tool)) clearNativeSelection();
+  if (tool !== 'eraser') hideEraserCursor();
   for (const button of els.penColorGroup?.querySelectorAll?.('[data-ink-color]') || []) {
     const active = button.dataset.inkColor === state.penColor;
     button.classList.toggle('active', active);
@@ -1500,9 +1547,14 @@ function updateInkToolbar() {
     button.classList.toggle('active', active);
     button.setAttribute('aria-pressed', String(active));
   }
+  for (const button of els.eraserSizeGroup?.querySelectorAll?.('[data-eraser-size]') || []) {
+    const active = Math.abs(Number(button.dataset.eraserSize) - Number(state.eraserSize)) < .01;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  }
 }
 function setAnnotationTool(tool) {
-  state.annotationTool = tool === 'pen' ? 'pen' : 'hand';
+  state.annotationTool = ['pen','eraser'].includes(tool) ? tool : 'hand';
   savePref('pdfwb-annotation-tool', state.annotationTool);
   updateInkToolbar();
 }
@@ -1518,6 +1570,13 @@ function setPenWidth(width) {
   state.penWidth = chosen;
   savePref('pdfwb-pen-width', String(chosen));
   setAnnotationTool('pen');
+}
+function setEraserSize(size) {
+  const chosen = ERASER_SIZES.find(value => Math.abs(value - Number(size)) < .01);
+  if (!chosen) return;
+  state.eraserSize = chosen;
+  savePref('pdfwb-eraser-size', String(chosen));
+  setAnnotationTool('eraser');
 }
 function appendInkPoint(gesture, event) {
   const page = pageById(gesture.pageId);
@@ -1614,30 +1673,251 @@ function finishInkGesture(viewer, event) {
   saveCurrentDocumentState({ readViewDom: false });
   return true;
 }
+// Milestone 5.1.0: partial-stroke vector eraser. The eraser edits the
+// stored page-local polyline geometry instead of painting white pixels. A pass
+// splits any intersected stroke into ordinary surviving stroke fragments, so
+// Undo/Redo, PDF export, duplication, and the upcoming selection tool continue
+// to operate on real vector objects.
+function pointSegmentDistance(point, a, b) {
+  const vx = b.x - a.x, vy = b.y - a.y;
+  const wx = point.x - a.x, wy = point.y - a.y;
+  const vv = vx * vx + vy * vy;
+  if (vv < 1e-12) return Math.hypot(wx, wy);
+  const t = clamp((wx * vx + wy * vy) / vv, 0, 1);
+  return Math.hypot(point.x - (a.x + vx * t), point.y - (a.y + vy * t));
+}
+function cross2(a, b, c) {
+  return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+}
+function pointOnSegment2(point, a, b, eps=1e-7) {
+  return Math.abs(cross2(a, b, point)) <= eps &&
+    point.x >= Math.min(a.x,b.x) - eps && point.x <= Math.max(a.x,b.x) + eps &&
+    point.y >= Math.min(a.y,b.y) - eps && point.y <= Math.max(a.y,b.y) + eps;
+}
+function segmentsIntersect2(a, b, c, d) {
+  const c1 = cross2(a,b,c), c2 = cross2(a,b,d), c3 = cross2(c,d,a), c4 = cross2(c,d,b);
+  if (((c1 > 0 && c2 < 0) || (c1 < 0 && c2 > 0)) && ((c3 > 0 && c4 < 0) || (c3 < 0 && c4 > 0))) return true;
+  return pointOnSegment2(c,a,b) || pointOnSegment2(d,a,b) || pointOnSegment2(a,c,d) || pointOnSegment2(b,c,d);
+}
+function segmentSegmentDistance(a, b, c, d) {
+  if (segmentsIntersect2(a,b,c,d)) return 0;
+  return Math.min(pointSegmentDistance(a,c,d), pointSegmentDistance(b,c,d), pointSegmentDistance(c,a,b), pointSegmentDistance(d,a,b));
+}
+function interpolatePoint(a, b, t) {
+  return { x:a.x + (b.x-a.x)*t, y:a.y + (b.y-a.y)*t };
+}
+function appendDistinctPoint(points, point) {
+  const prev = points[points.length - 1];
+  if (!prev || Math.hypot(point.x-prev.x, point.y-prev.y) > .01) points.push({ x:point.x, y:point.y });
+}
+function eraserBoundaryPoint(a, b, aInside, eraseA, eraseB, radius) {
+  let lo = 0, hi = 1;
+  for (let i=0; i<10; i++) {
+    const mid = (lo + hi) / 2;
+    const inside = pointSegmentDistance(interpolatePoint(a,b,mid), eraseA, eraseB) <= radius;
+    if (inside === aInside) lo = mid; else hi = mid;
+  }
+  return interpolatePoint(a,b,(lo+hi)/2);
+}
+function eraseStrokeAlongSegment(stroke, eraseA, eraseB, eraserRadius) {
+  const source = Array.isArray(stroke?.points) ? stroke.points : [];
+  if (!source.length) return { changed:false, fragments:[stroke] };
+  const cutRadius = Math.max(.1, eraserRadius + Math.max(.125, Number(stroke.width) || 3) / 2);
+  if (source.length === 1) {
+    if (pointSegmentDistance(source[0], eraseA, eraseB) > cutRadius) return { changed:false, fragments:[stroke] };
+    return { changed:true, fragments:[] };
+  }
+
+  const expanded = [{ x:source[0].x, y:source[0].y }];
+  for (let i=1; i<source.length; i++) {
+    const a = source[i-1], b = source[i];
+    if (segmentSegmentDistance(a,b,eraseA,eraseB) > cutRadius) {
+      appendDistinctPoint(expanded, b);
+      continue;
+    }
+    const length = Math.hypot(b.x-a.x, b.y-a.y);
+    const spacing = clamp(cutRadius / 5, .65, 1.5);
+    const pieces = clamp(Math.ceil(length / spacing), 2, 80);
+    for (let j=1; j<=pieces; j++) appendDistinctPoint(expanded, interpolatePoint(a,b,j/pieces));
+  }
+
+  const inside = expanded.map(point => pointSegmentDistance(point, eraseA, eraseB) <= cutRadius);
+  if (!inside.some(Boolean)) return { changed:false, fragments:[stroke] };
+
+  const pointRuns = [];
+  let run = [];
+  for (let i=0; i<expanded.length; i++) {
+    const pnt = expanded[i];
+    if (!inside[i]) {
+      if (!run.length && i > 0 && inside[i-1]) {
+        appendDistinctPoint(run, eraserBoundaryPoint(expanded[i-1], pnt, true, eraseA, eraseB, cutRadius));
+      }
+      appendDistinctPoint(run, pnt);
+      continue;
+    }
+    if (run.length) {
+      if (i > 0 && !inside[i-1]) appendDistinctPoint(run, eraserBoundaryPoint(expanded[i-1], pnt, false, eraseA, eraseB, cutRadius));
+      pointRuns.push(run);
+      run = [];
+    }
+  }
+  if (run.length) pointRuns.push(run);
+
+  const fragments = pointRuns
+    .filter(points => points.length && (points.length > 1 || pointSegmentDistance(points[0], eraseA, eraseB) > cutRadius))
+    .map((points, index) => ({ ...stroke, id:index === 0 ? stroke.id : uid('ink'), points }));
+  return { changed:true, fragments };
+}
+function erasePageAnnotationsAlong(page, eraseA, eraseB, eraserDiameter=state.eraserSize) {
+  if (!page || !hasPageAnnotations(page)) return false;
+  const radius = Math.max(1, Number(eraserDiameter) || 24) / 2;
+  let changed = false;
+  const next = [];
+  for (const annotation of annotationsForPage(page)) {
+    if (!Array.isArray(annotation?.points) || !annotation.points.length || annotation.type !== 'ink') {
+      next.push(annotation);
+      continue;
+    }
+    const result = eraseStrokeAlongSegment(annotation, eraseA, eraseB, radius);
+    if (result.changed) changed = true;
+    next.push(...result.fragments);
+  }
+  if (!changed) return false;
+  page.annotations = next;
+  return true;
+}
+function ensureEraserCursor() {
+  if (state.eraserCursor?.isConnected) return state.eraserCursor;
+  const cursor = document.createElement('div');
+  cursor.className = 'eraser-cursor hidden';
+  cursor.setAttribute('aria-hidden','true');
+  document.body.append(cursor);
+  state.eraserCursor = cursor;
+  return cursor;
+}
+function hideEraserCursor() {
+  state.eraserCursor?.classList.add('hidden');
+}
+function updateEraserCursor(viewer, event) {
+  if (state.annotationTool !== 'eraser' || event.pointerType === 'touch') { hideEraserCursor(); return; }
+  const stage = inkStageForEvent(viewer, event);
+  if (!stage) { hideEraserCursor(); return; }
+  const page = pageById(stage.dataset.pageId);
+  const rect = stage.getBoundingClientRect();
+  if (!page || !rect.width) { hideEraserCursor(); return; }
+  const display = pageDisplayDimensions(page);
+  const cssDiameter = Math.max(5, state.eraserSize * rect.width / Math.max(1, display.width));
+  const cursor = ensureEraserCursor();
+  cursor.style.width = `${cssDiameter}px`;
+  cursor.style.height = `${cssDiameter}px`;
+  cursor.style.left = `${event.clientX - cssDiameter/2}px`;
+  cursor.style.top = `${event.clientY - cssDiameter/2}px`;
+  cursor.classList.remove('hidden');
+}
+function beginEraserGesture(viewer, event) {
+  if (state.annotationTool !== 'eraser') return false;
+  if (event.pointerType === 'mouse' && event.button !== 0) return false;
+  if (event.pointerType === 'pen' && event.button !== 0) {
+    if (event.cancelable) event.preventDefault();
+    addInkDiagnostic('eraser-begin-non-tip-pen-button', event);
+    return true;
+  }
+  if (event.pointerType === 'pen' && state.eraserGesture?.inputSource === 'stylus-touch' && !event._inkStylusTouch) {
+    if (event.cancelable) event.preventDefault();
+    addInkDiagnostic('pointer-shadowed-by-stylus-touch', event, { gesture:'eraser' });
+    return true;
+  }
+  const stage = inkStageForEvent(viewer, event);
+  if (!stage) { addInkDiagnostic('eraser-begin-stage-miss', event); return true; }
+  const page = pageById(stage.dataset.pageId);
+  if (!page) return true;
+  const first = eventPointOnPage(stage, page, event);
+  if (!first) return true;
+  const inputSource = event._inkStylusTouch ? 'stylus-touch' : 'pointer';
+  const before = snapshotPages();
+  state.activePageId = page.id;
+  state.eraserGesture = { pointerId:event.pointerId, inputSource, viewer, stage, page, pageId:page.id, documentId:state.currentDocumentId, before, lastPoint:first, changed:false };
+  if (event.cancelable) event.preventDefault();
+  if (inputSource === 'pointer') { try { viewer.setPointerCapture?.(event.pointerId); } catch {} }
+  if (erasePageAnnotationsAlong(page, first, first)) {
+    state.eraserGesture.changed = true;
+    redrawPageAnnotationOverlays(page);
+  }
+  addInkDiagnostic('eraser-begin-accepted', event, { changed:state.eraserGesture.changed, size:state.eraserSize });
+  return true;
+}
+function appendEraserPoint(gesture, event) {
+  const page = pageById(gesture.pageId);
+  if (!page || page !== gesture.page || !gesture.stage?.isConnected) return false;
+  const next = eventPointOnPage(gesture.stage, page, event);
+  if (!next) return false;
+  if (Math.hypot(next.x-gesture.lastPoint.x, next.y-gesture.lastPoint.y) < .12) return false;
+  const changed = erasePageAnnotationsAlong(page, gesture.lastPoint, next);
+  if (changed) gesture.changed = true;
+  gesture.lastPoint = next;
+  return changed;
+}
+function continueEraserGesture(viewer, event) {
+  const gesture = state.eraserGesture;
+  if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
+  if (event.cancelable) event.preventDefault();
+  let changed = false;
+  const samples = typeof event.getCoalescedEvents === 'function' ? event.getCoalescedEvents() : null;
+  if (samples?.length) for (const sample of samples) changed = appendEraserPoint(gesture, sample) || changed;
+  else changed = appendEraserPoint(gesture, event);
+  if (changed) redrawPageAnnotationOverlays(gesture.page);
+  return true;
+}
+function finishEraserGesture(viewer, event) {
+  const gesture = state.eraserGesture;
+  if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
+  if (event.cancelable) event.preventDefault();
+  const finalChanged = appendEraserPoint(gesture, event);
+  if (finalChanged) redrawPageAnnotationOverlays(gesture.page);
+  if (gesture.inputSource === 'pointer') { try { viewer.releasePointerCapture?.(event.pointerId); } catch {} }
+  state.eraserGesture = null;
+  addInkDiagnostic('eraser-finish-accepted', event, { changed:gesture.changed, size:state.eraserSize });
+  if (gesture.changed) {
+    commitHistory(gesture.before);
+    saveCurrentDocumentState({ readViewDom:false });
+    // Thumbnail previews are not live overlays; refresh them after a completed
+    // eraser gesture rather than during every eraser sample.
+    if (state.workspaceMode === 'organize') renderOrganizer();
+  }
+  return true;
+}
+function activeStylusTouchGesture() {
+  if (state.inkGesture?.inputSource === 'stylus-touch') return state.inkGesture;
+  if (state.eraserGesture?.inputSource === 'stylus-touch') return state.eraserGesture;
+  return null;
+}
+
 function handleDocumentInkPointer(viewer, event) {
   if (event.pointerType === 'touch') return false;
-  if (event.pointerType === 'pen' && state.inkGesture?.inputSource === 'stylus-touch') {
+  updateEraserCursor(viewer, event);
+  if (event.pointerType === 'pen' && activeStylusTouchGesture()) {
     if (event.cancelable) event.preventDefault();
     if (event.type === 'pointerdown' || event.type === 'pointerup' || event.type === 'pointercancel') {
-      addInkDiagnostic('pointer-shadowed-by-stylus-touch', event);
+      addInkDiagnostic('pointer-shadowed-by-stylus-touch', event, { gesture:state.annotationTool });
     }
     return true;
   }
   if (event.type === 'pointerdown') {
-    if (event.pointerType === 'pen' && state.annotationTool !== 'pen') {
+    if (event.pointerType === 'pen' && !isStylusAnnotationTool()) {
       if (event.cancelable) event.preventDefault();
       try { viewer.setPointerCapture?.(event.pointerId); } catch {}
       return true;
     }
-    if (event.pointerType === 'pen' || event.pointerType === 'mouse') return beginInkGesture(viewer, event);
+    if (event.pointerType === 'pen' || event.pointerType === 'mouse') {
+      if (state.annotationTool === 'eraser') return beginEraserGesture(viewer, event);
+      if (state.annotationTool === 'pen') return beginInkGesture(viewer, event);
+    }
     return false;
   }
   if (event.type === 'pointermove') {
     if (continueInkGesture(viewer, event)) return true;
+    if (continueEraserGesture(viewer, event)) return true;
     if (event.pointerType === 'pen') {
-      // No synthetic move-start recovery: a real stroke begins on pointerdown or
-      // on Safari's stylus TouchEvent fallback. Contact-bearing hover/move events
-      // without an owned gesture are suppressed but never turned into ink.
       if (event.cancelable && (event.buttons || event.pressure > 0)) event.preventDefault();
       return true;
     }
@@ -1645,9 +1925,8 @@ function handleDocumentInkPointer(viewer, event) {
   }
   if (event.type === 'pointerup' || event.type === 'pointercancel') {
     if (finishInkGesture(viewer, event)) return true;
+    if (finishEraserGesture(viewer, event)) return true;
     if (event.pointerType === 'pen') {
-      // No synthetic up-only dot recovery. If no owned PointerEvent or stylus
-      // TouchEvent gesture exists, ending a contact must not invent annotation.
       if (event.cancelable) event.preventDefault();
       try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
       return true;
@@ -1689,26 +1968,29 @@ function viewerForStylusTouch(touch) {
 }
 function bindStylusTouchInkFallback() {
   if (!('TouchEvent' in window)) return;
+  const activeGesture = () => state.inkGesture || state.eraserGesture;
+  const beginForTool = (tool, viewer, synthetic) => tool === 'eraser' ? beginEraserGesture(viewer, synthetic) : beginInkGesture(viewer, synthetic);
+  const continueForTool = (tool, viewer, synthetic) => tool === 'eraser' ? continueEraserGesture(viewer, synthetic) : continueInkGesture(viewer, synthetic);
+  const finishForTool = (tool, viewer, synthetic) => tool === 'eraser' ? finishEraserGesture(viewer, synthetic) : finishInkGesture(viewer, synthetic);
+
   document.addEventListener('touchstart', (event) => {
-    if (state.annotationTool !== 'pen') return;
+    if (!isStylusAnnotationTool()) return;
     for (const touch of event.changedTouches || []) {
       if (touch.touchType !== 'stylus') continue;
       const viewer = viewerForStylusTouch(touch);
       if (!viewer) continue;
       if (event.cancelable) event.preventDefault();
       const synthetic = stylusTouchEventLike(event, touch, 'touchstart');
-      addInkDiagnostic('raw-stylus-touch-start', synthetic, { touchId:touch.identifier });
-      if (state.inkGesture) {
-        // PointerEvent arrived first for this contact. Keep Pointer Events as the
-        // owner, but remember this TouchEvent so its move/end do not create a
-        // second stroke.
-        state.stylusTouchContacts.set(touch.identifier, { mode:'shadow', viewer });
-        addInkDiagnostic('stylus-touch-shadowed-by-pointer', synthetic, { touchId:touch.identifier });
+      const tool = state.annotationTool;
+      addInkDiagnostic('raw-stylus-touch-start', synthetic, { touchId:touch.identifier, gesture:tool });
+      if (activeGesture()) {
+        state.stylusTouchContacts.set(touch.identifier, { mode:'shadow', viewer, tool });
+        addInkDiagnostic('stylus-touch-shadowed-by-pointer', synthetic, { touchId:touch.identifier, gesture:tool });
         continue;
       }
-      state.stylusTouchContacts.set(touch.identifier, { mode:'fallback', viewer });
-      if (beginInkGesture(viewer, synthetic)) {
-        addInkDiagnostic('stylus-touch-fallback-begin', synthetic, { touchId:touch.identifier });
+      state.stylusTouchContacts.set(touch.identifier, { mode:'fallback', viewer, tool });
+      if (beginForTool(tool, viewer, synthetic)) {
+        addInkDiagnostic('stylus-touch-fallback-begin', synthetic, { touchId:touch.identifier, gesture:tool });
       }
     }
   }, { capture:true, passive:false });
@@ -1721,7 +2003,7 @@ function bindStylusTouchInkFallback() {
       handled = true;
       if (contact.mode !== 'fallback') continue;
       const synthetic = stylusTouchEventLike(event, touch, 'touchmove');
-      continueInkGesture(contact.viewer, synthetic);
+      continueForTool(contact.tool, contact.viewer, synthetic);
     }
     if (handled && event.cancelable) event.preventDefault();
   }, { capture:true, passive:false });
@@ -1733,17 +2015,8 @@ function bindStylusTouchInkFallback() {
       if (!contact) continue;
       handled = true;
       const synthetic = stylusTouchEventLike(event, touch, cancelled ? 'touchcancel' : 'touchend');
-      addInkDiagnostic(cancelled ? 'raw-stylus-touch-cancel' : 'raw-stylus-touch-end', synthetic, { touchId:touch.identifier, mode:contact.mode });
-      if (contact.mode === 'fallback') {
-        if (cancelled) {
-          const gesture = state.inkGesture;
-          if (gesture?.inputSource === 'stylus-touch' && gesture.pointerId === synthetic.pointerId) {
-            finishInkGesture(contact.viewer, synthetic);
-          }
-        } else {
-          finishInkGesture(contact.viewer, synthetic);
-        }
-      }
+      addInkDiagnostic(cancelled ? 'raw-stylus-touch-cancel' : 'raw-stylus-touch-end', synthetic, { touchId:touch.identifier, mode:contact.mode, gesture:contact.tool });
+      if (contact.mode === 'fallback') finishForTool(contact.tool, contact.viewer, synthetic);
       state.stylusTouchContacts.delete(touch.identifier);
     }
     if (handled && event.cancelable) event.preventDefault();
@@ -1761,7 +2034,7 @@ function bindStylusTouchInkFallback() {
 // level while Pen is active. Hand/View mode deliberately does not use this
 // document-wide guard so future intentional text selection can remain possible.
 function inkBlocksNativeSelection() {
-  return state.annotationTool === 'pen' &&
+  return isStylusAnnotationTool() &&
     (state.workspaceMode === 'view' || document.body.classList.contains('presentation'));
 }
 function clearNativeSelection() {
@@ -4602,7 +4875,7 @@ function addInkDiagnostic(kind, event=null, extra={}) {
     pageId: location.pageId,
     viewer: location.viewer,
     tool: state.annotationTool,
-    activeGesture: state.inkGesture ? { pointerId: state.inkGesture.pointerId, inputSource: state.inkGesture.inputSource || 'pointer', pageId: state.inkGesture.pageId, points: state.inkGesture.stroke?.points?.length || 0 } : null,
+    activeGesture: state.inkGesture ? { kind:'pen', pointerId: state.inkGesture.pointerId, inputSource: state.inkGesture.inputSource || 'pointer', pageId: state.inkGesture.pageId, points: state.inkGesture.stroke?.points?.length || 0 } : state.eraserGesture ? { kind:'eraser', pointerId:state.eraserGesture.pointerId, inputSource:state.eraserGesture.inputSource || 'pointer', pageId:state.eraserGesture.pageId, changed:!!state.eraserGesture.changed } : null,
     ...extra,
   };
   state.inkDiagnostics.push(record);
@@ -4610,7 +4883,7 @@ function addInkDiagnostic(kind, event=null, extra={}) {
 }
 function bindInkDiagnostics() {
   const relevant = (event) => {
-    if (state.annotationTool !== 'pen') return false;
+    if (!isStylusAnnotationTool()) return false;
     if (event.pointerType === 'pen') return true;
     if (event.pointerType !== 'touch') return false;
     const target = event.target instanceof Element ? event.target : null;
@@ -6641,8 +6914,7 @@ function ensurePageLoading(stage, text='Rendering…') {
 }
 
 function releaseViewerStage(stage) {
-  const canvas = stage.querySelector('canvas');
-  if (canvas) {
+  for (const canvas of stage.querySelectorAll('canvas')) {
     // Resetting width/height releases the browser/GPU backing store. This is
     // essential for long scan-only PDFs, where each visible page can otherwise
     // keep several megabytes (or much more) of decoded raster memory alive.
@@ -7080,7 +7352,7 @@ async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
   }
   if (generation !== pane.generation || !stage.isConnected) return;
   if (stage.dataset.wantRender === 'false') { releaseViewerStage(stage); return; }
-  drawPageAnnotationsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
+  redrawStageAnnotations(stage, page);
   stage.dataset.rendered = 'true';
   stage.querySelector('.page-loading')?.remove();
 }
@@ -7148,7 +7420,7 @@ async function renderViewerPage(page, stage, canvas, generation) {
     releaseViewerStage(stage);
     return;
   }
-  drawPageAnnotationsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
+  redrawStageAnnotations(stage, page);
   stage.dataset.rendered = 'true';
   stage.querySelector('.page-loading')?.remove();
 }
@@ -7583,9 +7855,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.0.12 keeps the stable 5.0.10 cross-platform pen/touch path and the working 5.0.11 template/end-of-document features unchanged. Session restoration is corrected so startup lifecycle events cannot overwrite the saved open workspace before restoration reads it; open/close/switch/layout changes also checkpoint synchronously after restoration is hydrated.</p>
-      <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Basic pen:</strong> Hand/View and Pen modes, five direct pen colors (black, blue, red, green, orange), and three direct width choices. Finger scrolling/pinch remains navigation-only.</li><li><strong>Editable ink:</strong> strokes are stored as page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and are copied with page duplication/copy/combine operations.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
-      <p><strong>Next annotation steps after testing:</strong> partial-stroke eraser, lasso selection with move/resize/delete/duplicate, then highlighter with its own yellow/pink/blue/green palette. Image annotations follow the annotation milestone.</p>
+      <p>Milestone 5.1.0 adds the first partial-stroke eraser while preserving the stable cross-platform pen/touch path, palm rejection, automatic last-page behavior, and restart session restoration.</p>
+      <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Pen and partial eraser:</strong> Hand/View, Pen, and Eraser modes. Pen retains five direct colors and three widths; Eraser has three direct sizes and cuts only the touched portions of vector strokes.</li><li><strong>Editable ink:</strong> strokes and eraser-created fragments remain page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and are copied with page duplication/copy/combine operations.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
+      <p><strong>Next annotation steps after eraser testing:</strong> lasso selection with move/resize/delete/duplicate/copy/paste, then highlighter with its own yellow/pink/blue/green palette. Smoothing remains later so it can be added without sacrificing input responsiveness.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -7833,7 +8105,7 @@ function setPenPalmGuard(viewer, ms) {
   state.penPalmGuardUntil = Math.max(state.penPalmGuardUntil || 0, performance.now() + ms);
 }
 function penPalmGuardActive(viewer) {
-  if (state.annotationTool !== 'pen') return false;
+  if (!isStylusAnnotationTool()) return false;
   if (mapHasViewer(state.penContactPointers, viewer)) return true;
   // Do not let a stale missing pointerleave permanently disable deliberate
   // finger navigation. Fresh hover events still provide strong palm evidence.
@@ -7883,6 +8155,7 @@ function bindViewerPenProximity(viewer) {
     updateViewerPenCursor(viewer);
   }, { passive:true });
   viewer.addEventListener('pointercancel', (event) => {
+    if (state.annotationTool === 'eraser') hideEraserCursor();
     if (event.pointerType !== 'pen') return;
     state.penContactPointers.delete(event.pointerId);
     state.penHoverPointers.delete(event.pointerId);
@@ -7890,6 +8163,7 @@ function bindViewerPenProximity(viewer) {
     updateViewerPenCursor(viewer);
   }, { passive:true });
   viewer.addEventListener('pointerleave', (event) => {
+    if (state.annotationTool === 'eraser') hideEraserCursor();
     if (event.pointerType !== 'pen') return;
     state.penContactPointers.delete(event.pointerId);
     state.penHoverPointers.delete(event.pointerId);
@@ -7974,7 +8248,7 @@ function bindManualViewerTouch(viewer, owner, config) {
     owner.touchIntentTimer = setTimeout(() => {
       owner.touchIntentTimer = null;
       if (!owner.touchPointers.size) { resetTouchIntent(); return; }
-      if (state.annotationTool === 'pen') {
+      if (isStylusAnnotationTool()) {
         if (owner.touchPointers.size >= 3) {
           markPalmTouch(event, 'three-or-more-contacts');
           return;
@@ -8049,7 +8323,7 @@ function bindManualViewerTouch(viewer, owner, config) {
     const point = owner.touchPointers.get(e.pointerId);
     point.x = e.clientX; point.y = e.clientY;
 
-    if (state.annotationTool === 'pen') {
+    if (isStylusAnnotationTool()) {
       if (owner.touchIntent === 'palm') return;
       if (owner.touchIntent === 'pending') {
         if (owner.touchPointers.size >= 3) markPalmTouch(e, 'three-or-more-contacts');
@@ -8095,7 +8369,7 @@ function bindManualViewerTouch(viewer, owner, config) {
 
     // Once a deliberate two-finger gesture has been accepted, ignore any extra
     // contacts instead of allowing a third finger/palm edge to redefine it.
-    if (state.annotationTool === 'pen' && owner.touchIntent === 'intentional' && owner.touchPointers.size >= 2) {
+    if (isStylusAnnotationTool() && owner.touchIntent === 'intentional' && owner.touchPointers.size >= 2) {
       owner.palmIgnoredPointers.add(e.pointerId);
       addInkDiagnostic('extra-touch-ignored-during-navigation', e, { touchCount:owner.touchPointers.size + 1 });
       return;
@@ -8104,7 +8378,7 @@ function bindManualViewerTouch(viewer, owner, config) {
     const point = { id: e.pointerId, x: e.clientX, y: e.clientY };
     owner.touchPointers.set(e.pointerId, point);
 
-    if (state.annotationTool === 'pen') {
+    if (isStylusAnnotationTool()) {
       if (owner.touchIntent === 'palm') return;
       if (penPalmGuardActive(viewer)) {
         markPalmTouch(e, 'pen-in-range-or-recent');
@@ -8153,7 +8427,7 @@ function bindManualViewerTouch(viewer, owner, config) {
     const hadActivePinch = !!owner.pinchGesture;
     owner.touchPointers.delete(e.pointerId);
 
-    if (state.annotationTool === 'pen' && (owner.touchIntent === 'pending' || owner.touchIntent === 'palm')) {
+    if (isStylusAnnotationTool() && (owner.touchIntent === 'pending' || owner.touchIntent === 'palm')) {
       try { viewer.releasePointerCapture?.(e.pointerId); } catch {}
       if (owner.touchPointers.size === 0) {
         viewer.classList.remove('manual-touching', 'pinching');
@@ -8444,6 +8718,7 @@ function bindEvents() {
   els.inkRedoBtn?.addEventListener('click', redo);
   els.inkHandBtn?.addEventListener('click', () => setAnnotationTool('hand'));
   els.inkPenBtn?.addEventListener('click', () => setAnnotationTool('pen'));
+  els.inkEraserBtn?.addEventListener('click', () => setAnnotationTool('eraser'));
   els.penColorGroup?.addEventListener('click', (event) => {
     const button = event.target instanceof Element ? event.target.closest('[data-ink-color]') : null;
     if (button) setPenColor(button.dataset.inkColor);
@@ -8451,6 +8726,10 @@ function bindEvents() {
   els.penWidthGroup?.addEventListener('click', (event) => {
     const button = event.target instanceof Element ? event.target.closest('[data-ink-width]') : null;
     if (button) setPenWidth(Number(button.dataset.inkWidth));
+  });
+  els.eraserSizeGroup?.addEventListener('click', (event) => {
+    const button = event.target instanceof Element ? event.target.closest('[data-eraser-size]') : null;
+    if (button) setEraserSize(Number(button.dataset.eraserSize));
   });
   els.moreBtn.addEventListener('click', (e) => { e.stopPropagation(); closeInsertPageMenu(); toggleMoreMenu(); });
   els.clearBtn.addEventListener('click', () => { toggleMoreMenu(false); closeAllOpenDocuments(); });
