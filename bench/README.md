@@ -1,6 +1,22 @@
-# PDF Workbench — Milestone 5.2.2
+# PDF Workbench — Milestone 5.3.0
 
-Milestone 5.2.2 is a focused live-pinch annotation-scaling fix built on 5.2.1. During a pinch, both the PDF raster canvas and the transparent annotation canvas now resize together on every live zoom frame, so ink and selected annotation geometry stay registered with the page throughout the gesture instead of snapping to the correct size only after release. The 5.2.1 installed-PWA cache-consistency fix remains in place.
+Milestone 5.3.0 adds a dedicated **Highlighter** tool on top of the stable 5.2.2 cross-device annotation baseline. Highlighter marks use the same page-local vector object model as Pen strokes, with their own remembered palette, widths, and translucent opacity. They can be partially erased, selected/moved/resized/deleted/duplicated/copied/pasted, persisted, and exported to PDF without changing the proven Pen/Surface/ChromeOS/iPad input pipeline.
+
+## 5.3.0 highlighter
+
+- Adds a contextual **Highlighter** tool beside Pen, with its own direct palette: yellow, pink, cyan/blue, and green.
+- Adds three remembered Highlighter widths: 8 pt, 14 pt, and 22 pt; factory default is 14 pt yellow.
+- Highlighter strokes are stored as ordinary vector annotation objects with `tool: highlighter` and 34% opacity. Raw/coalesced input samples are preserved just as they are for Pen.
+- Live translucent drawing redraws the complete current highlighter path once per pointer event rather than compositing every translucent segment separately, preventing dark beads at sample joins while retaining coalesced points.
+- The partial-stroke Eraser cuts Highlighter marks as well as Pen ink because both remain editable vector strokes.
+- Lasso/Select treats Highlighter marks as normal whole objects, including move, resize, delete, duplicate, cross-page/document copy, and paste.
+- PDF export preserves Highlighter color, width, geometry, and transparency. Selection/lasso UI remains non-exported.
+- Highlighter has its own remembered state; switching back to Pen restores the Pen's last color/width, and switching back to Highlighter restores its own last color/width.
+- The 5.2.2 live-pinch overlay scaling and 5.2.1 installed-PWA cache consistency behavior remain unchanged.
+
+### Future new-document sizing request
+
+For a later document-creation refinement, offer **Presentation canvas**, **slightly smaller than presentation canvas**, and **US Letter** as graph/blank page-size choices. Presentation-derived sizes should be computed from the current device's usable Presentation viewport rather than hard-coded, so a newly created page can closely match the area that will actually be displayed on that device.
 
 ## 5.2.2 live-pinch annotation scaling
 
@@ -183,7 +199,7 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.2.2-v1`
+- Service-worker cache: `pdf-workbench-m5.3.0-v1`
 
 ## High-priority smoke tests
 1. On iPad, Surface, and Chromebook, draw several separate strokes, choose Select, lasso one stroke and then a group. Verify the selected objects get one bounding box and that unselected strokes remain untouched.
@@ -204,4 +220,4 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 16. Re-test the previously problematic slide deck unchanged; it should still export byte-for-byte. Add a short pen stroke and export again; the file should remain reasonably sized.
 17. Save one template **With annotations** and one **Clean**; confirm their previews/content differ correctly. In Template Manager set the automatic last page to Graph, Blank, and then a saved template, and test pull/scroll-past-end creation for each.
 18. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
-**More → About this build** reports **Milestone 5.2.2**.
+**More → About this build** reports **Milestone 5.3.0**.

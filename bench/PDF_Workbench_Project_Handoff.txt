@@ -1,12 +1,38 @@
-PDF WORKBENCH PWA — MILESTONE 5.2.2 CURRENT UPDATE
-====================================================================
-CURRENT BUILD: Milestone 5.2.2
-Visible About version: 5.2.2
-Service-worker/cache version: pdf-workbench-m5.2.2-v1
-IndexedDB database version: 2
-Library schema version: 5
-Editable backup format version: 1
+PDF WORKBENCH PWA — MILESTONE 5.3.0 CURRENT UPDATE
 
+CURRENT BUILD: Milestone 5.3.0
+Visible About version: 5.3.0
+Service-worker/cache version: pdf-workbench-m5.3.0-v1
+Baseline: 5.2.2, confirmed working after iPad installed-PWA cache and live-pinch annotation fixes.
+
+MILESTONE 5.3.0 — HIGHLIGHTER
+- Adds a dedicated contextual Highlighter tool without replacing or changing the stable Pen input path.
+- Highlighter remembers its own color and width independently from Pen.
+- Direct palette: yellow (#ffeb3b), pink (#ff80ab), cyan (#4dd0e1), green (#81c784).
+- Direct widths: 8 / 14 / 22 pt; default 14 pt yellow; opacity 0.34.
+- Stored as editable vector ink objects (`type: ink`, `tool: highlighter`) so existing persistence/history/export/selection infrastructure remains shared.
+- Partial-stroke Eraser works on Highlighter marks as well as Pen strokes.
+- Lasso/Select treats Highlighter marks as whole objects and supports move/resize/delete/duplicate/copy/paste.
+- PDF export uses the existing vector-path exporter with the object's transparency.
+- To avoid dark translucent beads at coalesced sample joins, live Highlighter drawing appends all raw/coalesced points but redraws the complete current path once per pointer event. Pen retains the lower-overhead segment-by-segment live path.
+- Existing Apple Pencil TouchEvent fallback, Surface/ChromeOS Pointer Events, palm rejection, pen-hover cursor suppression, session restoration, templates, auto-append pages, and live pinch scaling are intentionally unchanged.
+
+TEST PRIORITY FOR 5.3.0:
+1. iPad PWA + Safari, Surface, Chromebook: draw with each Highlighter color and width; verify responsive live drawing and remembered Highlighter settings independent from Pen.
+2. Finger pan/pinch while Highlighter is selected; confirm the same palm rejection/navigation behavior as Pen.
+3. Partially erase Highlighter strokes and Undo/Redo.
+4. Select Highlighter strokes and test move/resize/delete/duplicate/copy/paste, including split view and cross-page/document paste.
+5. Export mixed Pen + Highlighter content and verify Acrobat shows translucent highlights and no erased portions/selection UI.
+6. Restart app with highlighted documents open and confirm session/Library restoration.
+
+FUTURE NEW-DOCUMENT SIZE REQUEST (2026-09-02):
+- When creating a new blank or graph document, add page-size choices for US Letter plus device-derived Presentation sizes.
+- Proposed choices: Presentation canvas, slightly smaller than Presentation canvas, and Letter.
+- Presentation-derived dimensions should be computed from the usable Presentation viewport on the current device so the resulting page closely matches classroom display space; do not hard-code one device's size.
+
+====================================================================
+PRIOR MILESTONE 5.2.2 HANDOFF FOLLOWS
+====================================================================
 
 MILESTONE 5.2.2 — LIVE PINCH ANNOTATION SCALING FIX
 - Root cause: Milestone 5.1.0 separated annotations onto a transparent overlay canvas. Live pinch zoom resized only the first/base PDF canvas, leaving the annotation overlay at the old CSS dimensions until the final rerender.

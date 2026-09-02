@@ -1,9 +1,9 @@
-const CACHE_NAME = 'pdf-workbench-m5.2.2-v1';
+const CACHE_NAME = 'pdf-workbench-m5.3.0-v1';
 const APP_SHELL = [
   './',
   './index.html',
-  './styles.css?v=5.2.2',
-  './app.js?v=5.2.2',
+  './styles.css?v=5.3.0',
+  './app.js?v=5.3.0',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png'

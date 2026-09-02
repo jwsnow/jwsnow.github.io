@@ -1,4 +1,4 @@
-const APP_VERSION = '5.2.2';
+const APP_VERSION = '5.3.0';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -33,7 +33,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionPasteBtn: $('selectionPasteBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionPasteBtn: $('selectionPasteBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -67,9 +67,11 @@ const state = {
   presentationRevealPointerId: null,
   presentationSuppressClicksUntil: 0,
   singlePresentationTransitionActive: false,
-  annotationTool: safePref('pdfwb-annotation-tool', 'hand', ['hand', 'pen', 'eraser', 'select']),
+  annotationTool: safePref('pdfwb-annotation-tool', 'hand', ['hand', 'pen', 'highlighter', 'eraser', 'select']),
   penColor: safePref('pdfwb-pen-color', '#111111', ['#111111','#1565c0','#d32f2f','#2e7d32','#ef6c00']),
   penWidth: Number(safePref('pdfwb-pen-width', '3', ['1.5','3','5.5'])),
+  highlighterColor: safePref('pdfwb-highlighter-color', '#ffeb3b', ['#ffeb3b','#ff80ab','#4dd0e1','#81c784']),
+  highlighterWidth: Number(safePref('pdfwb-highlighter-width', '14', ['8','14','22'])),
   eraserSize: Number(safePref('pdfwb-eraser-size', '24', ['12','24','40'])),
   inkGesture: null,
   eraserGesture: null,
@@ -1376,10 +1378,13 @@ function displayedEdgesToRawPdf(displayed, inheritedRotation=0) {
 // ---------------------------------------------------------------------------
 const PEN_COLORS = ['#111111','#1565c0','#d32f2f','#2e7d32','#ef6c00'];
 const PEN_WIDTHS = [1.5, 3, 5.5];
+const HIGHLIGHTER_COLORS = ['#ffeb3b','#ff80ab','#4dd0e1','#81c784'];
+const HIGHLIGHTER_WIDTHS = [8, 14, 22];
+const HIGHLIGHTER_OPACITY = 0.34;
 const ERASER_SIZES = [12, 24, 40];
 
 function isStylusAnnotationTool(tool=state.annotationTool) {
-  return tool === 'pen' || tool === 'eraser' || tool === 'select';
+  return tool === 'pen' || tool === 'highlighter' || tool === 'eraser' || tool === 'select';
 }
 
 function normalizedQuarterTurn(value=0) {
@@ -2037,20 +2042,25 @@ function updateSelectionToolbar() {
 }
 
 function updateInkToolbar() {
-  const tool = ['hand','pen','eraser','select'].includes(state.annotationTool) ? state.annotationTool : 'hand';
+  const tool = ['hand','pen','highlighter','eraser','select'].includes(state.annotationTool) ? state.annotationTool : 'hand';
   els.inkHandBtn?.classList.toggle('active', tool === 'hand');
   els.inkPenBtn?.classList.toggle('active', tool === 'pen');
+  els.inkHighlighterBtn?.classList.toggle('active', tool === 'highlighter');
   els.inkEraserBtn?.classList.toggle('active', tool === 'eraser');
   els.inkSelectBtn?.classList.toggle('active', tool === 'select');
   els.inkHandBtn?.setAttribute('aria-pressed', String(tool === 'hand'));
   els.inkPenBtn?.setAttribute('aria-pressed', String(tool === 'pen'));
+  els.inkHighlighterBtn?.setAttribute('aria-pressed', String(tool === 'highlighter'));
   els.inkEraserBtn?.setAttribute('aria-pressed', String(tool === 'eraser'));
   els.inkSelectBtn?.setAttribute('aria-pressed', String(tool === 'select'));
   document.body.classList.toggle('ink-pen-active', isStylusAnnotationTool(tool));
+  document.body.classList.toggle('ink-highlighter-active', tool === 'highlighter');
   document.body.classList.toggle('ink-eraser-active', tool === 'eraser');
   document.body.classList.toggle('ink-select-active', tool === 'select');
   els.penColorGroup?.classList.toggle('hidden', tool !== 'pen');
   els.penWidthGroup?.classList.toggle('hidden', tool !== 'pen');
+  els.highlighterColorGroup?.classList.toggle('hidden', tool !== 'highlighter');
+  els.highlighterWidthGroup?.classList.toggle('hidden', tool !== 'highlighter');
   els.eraserSizeGroup?.classList.toggle('hidden', tool !== 'eraser');
   if (isStylusAnnotationTool(tool)) clearNativeSelection();
   if (tool !== 'eraser') hideEraserCursor();
@@ -2064,6 +2074,16 @@ function updateInkToolbar() {
     button.classList.toggle('active', active);
     button.setAttribute('aria-pressed', String(active));
   }
+  for (const button of els.highlighterColorGroup?.querySelectorAll?.('[data-highlighter-color]') || []) {
+    const active = button.dataset.highlighterColor === state.highlighterColor;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  }
+  for (const button of els.highlighterWidthGroup?.querySelectorAll?.('[data-highlighter-width]') || []) {
+    const active = Math.abs(Number(button.dataset.highlighterWidth) - Number(state.highlighterWidth)) < .01;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  }
   for (const button of els.eraserSizeGroup?.querySelectorAll?.('[data-eraser-size]') || []) {
     const active = Math.abs(Number(button.dataset.eraserSize) - Number(state.eraserSize)) < .01;
     button.classList.toggle('active', active);
@@ -2072,7 +2092,7 @@ function updateInkToolbar() {
   updateSelectionToolbar();
 }
 function setAnnotationTool(tool) {
-  const next = ['pen','eraser','select'].includes(tool) ? tool : 'hand';
+  const next = ['pen','highlighter','eraser','select'].includes(tool) ? tool : 'hand';
   if (state.annotationTool === 'select' && next !== 'select') {
     state.selectionGesture = null;
     clearAnnotationSelection(true);
@@ -2098,6 +2118,19 @@ function setPenWidth(width) {
   savePref('pdfwb-pen-width', String(chosen));
   setAnnotationTool('pen');
 }
+function setHighlighterColor(color) {
+  if (!HIGHLIGHTER_COLORS.includes(color)) return;
+  state.highlighterColor = color;
+  savePref('pdfwb-highlighter-color', color);
+  setAnnotationTool('highlighter');
+}
+function setHighlighterWidth(width) {
+  const chosen = HIGHLIGHTER_WIDTHS.find(value => Math.abs(value - Number(width)) < .01);
+  if (!chosen) return;
+  state.highlighterWidth = chosen;
+  savePref('pdfwb-highlighter-width', String(chosen));
+  setAnnotationTool('highlighter');
+}
 function setEraserSize(size) {
   const chosen = ERASER_SIZES.find(value => Math.abs(value - Number(size)) < .01);
   if (!chosen) return;
@@ -2105,7 +2138,7 @@ function setEraserSize(size) {
   savePref('pdfwb-eraser-size', String(chosen));
   setAnnotationTool('eraser');
 }
-function appendInkPoint(gesture, event) {
+function appendInkPoint(gesture, event, drawLive=true) {
   const page = pageById(gesture.pageId);
   if (!page || page !== gesture.page || !gesture.stage?.isConnected) return;
   const next = eventPointOnPage(gesture.stage, page, event);
@@ -2114,7 +2147,7 @@ function appendInkPoint(gesture, event) {
   const previous = points[points.length - 1];
   if (previous && Math.hypot(next.x - previous.x, next.y - previous.y) < .18) return;
   points.push(next);
-  drawLiveInkSegment(gesture.stage, page, gesture.stroke, previous || next, next);
+  if (drawLive) drawLiveInkSegment(gesture.stage, page, gesture.stroke, previous || next, next);
 }
 function inkStageForEvent(viewer, event) {
   let stage = event.target instanceof Element ? event.target.closest('.page-stage[data-page-id]') : null;
@@ -2130,7 +2163,7 @@ function inkStageForEvent(viewer, event) {
   return stage;
 }
 function beginInkGesture(viewer, event) {
-  if (state.annotationTool !== 'pen') return false;
+  if (state.annotationTool !== 'pen' && state.annotationTool !== 'highlighter') return false;
   if (event.pointerType === 'mouse' && event.button !== 0) return false;
   // Cross-platform testing now shows ordinary Apple Pencil, Surface Pen, and
   // ChromeOS stylus tip contacts arriving as button 0. Do not treat a barrel/
@@ -2154,13 +2187,14 @@ function beginInkGesture(viewer, event) {
   if (!page) { addInkDiagnostic('handler-begin-page-miss', event); return true; }
   const first = eventPointOnPage(stage, page, event);
   if (!first) { addInkDiagnostic('handler-begin-point-miss', event); return true; }
+  const drawingTool = state.annotationTool;
   const stroke = {
     id: uid('ink'),
     type: 'ink',
-    tool: 'pen',
-    color: state.penColor,
-    width: state.penWidth,
-    opacity: 1,
+    tool: drawingTool,
+    color: drawingTool === 'highlighter' ? state.highlighterColor : state.penColor,
+    width: drawingTool === 'highlighter' ? state.highlighterWidth : state.penWidth,
+    opacity: drawingTool === 'highlighter' ? HIGHLIGHTER_OPACITY : 1,
     points: [first],
   };
   const before = snapshotPages();
@@ -2172,7 +2206,8 @@ function beginInkGesture(viewer, event) {
   if (inputSource === 'pointer') {
     try { viewer.setPointerCapture?.(event.pointerId); } catch {}
   }
-  drawLiveInkSegment(stage, page, stroke, first, first);
+  if (drawingTool === 'highlighter') redrawPageAnnotationOverlays(page);
+  else drawLiveInkSegment(stage, page, stroke, first, first);
   addInkDiagnostic('handler-begin-accepted', event, { strokeId:stroke.id });
   return true;
 }
@@ -2181,15 +2216,23 @@ function continueInkGesture(viewer, event) {
   if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
   if (event.cancelable) event.preventDefault();
   const samples = typeof event.getCoalescedEvents === 'function' ? event.getCoalescedEvents() : null;
-  if (samples?.length) for (const sample of samples) appendInkPoint(gesture, sample);
-  else appendInkPoint(gesture, event);
+  const translucent = gesture.stroke?.tool === 'highlighter';
+  if (samples?.length) for (const sample of samples) appendInkPoint(gesture, sample, !translucent);
+  else appendInkPoint(gesture, event, !translucent);
+  // A translucent stroke cannot be safely accumulated segment-by-segment on
+  // the shared annotation canvas because overlapping round caps would darken
+  // every sample join. Redraw the complete highlighter path once per pointer
+  // event instead; coalesced samples are still stored in full.
+  if (translucent) redrawPageAnnotationOverlays(gesture.page);
   return true;
 }
 function finishInkGesture(viewer, event) {
   const gesture = state.inkGesture;
   if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
   if (event.cancelable) event.preventDefault();
-  appendInkPoint(gesture, event);
+  const translucent = gesture.stroke?.tool === 'highlighter';
+  appendInkPoint(gesture, event, !translucent);
+  if (translucent) redrawPageAnnotationOverlays(gesture.page);
   if (gesture.inputSource === 'pointer') {
     try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
   }
@@ -2439,7 +2482,7 @@ function handleDocumentInkPointer(viewer, event) {
     if (event.pointerType === 'pen' || event.pointerType === 'mouse') {
       if (state.annotationTool === 'eraser') return beginEraserGesture(viewer, event);
       if (state.annotationTool === 'select') return beginSelectionGesture(viewer, event);
-      if (state.annotationTool === 'pen') return beginInkGesture(viewer, event);
+      if (state.annotationTool === 'pen' || state.annotationTool === 'highlighter') return beginInkGesture(viewer, event);
     }
     return false;
   }
@@ -5411,7 +5454,7 @@ function addInkDiagnostic(kind, event=null, extra={}) {
     pageId: location.pageId,
     viewer: location.viewer,
     tool: state.annotationTool,
-    activeGesture: state.inkGesture ? { kind:'pen', pointerId: state.inkGesture.pointerId, inputSource: state.inkGesture.inputSource || 'pointer', pageId: state.inkGesture.pageId, points: state.inkGesture.stroke?.points?.length || 0 } : state.eraserGesture ? { kind:'eraser', pointerId:state.eraserGesture.pointerId, inputSource:state.eraserGesture.inputSource || 'pointer', pageId:state.eraserGesture.pageId, changed:!!state.eraserGesture.changed } : state.selectionGesture ? { kind:'select', pointerId:state.selectionGesture.pointerId, inputSource:state.selectionGesture.inputSource || 'pointer', pageId:state.selectionGesture.pageId, mode:state.selectionGesture.mode, changed:!!state.selectionGesture.changed } : null,
+    activeGesture: state.inkGesture ? { kind:state.inkGesture.stroke?.tool || 'pen', pointerId: state.inkGesture.pointerId, inputSource: state.inkGesture.inputSource || 'pointer', pageId: state.inkGesture.pageId, points: state.inkGesture.stroke?.points?.length || 0 } : state.eraserGesture ? { kind:'eraser', pointerId:state.eraserGesture.pointerId, inputSource:state.eraserGesture.inputSource || 'pointer', pageId:state.eraserGesture.pageId, changed:!!state.eraserGesture.changed } : state.selectionGesture ? { kind:'select', pointerId:state.selectionGesture.pointerId, inputSource:state.selectionGesture.inputSource || 'pointer', pageId:state.selectionGesture.pageId, mode:state.selectionGesture.mode, changed:!!state.selectionGesture.changed } : null,
     ...extra,
   };
   state.inkDiagnostics.push(record);
@@ -8412,9 +8455,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.2.2 fixes live pinch scaling of annotation overlays. Pen/eraser/selection geometry now follows the PDF continuously during a pinch instead of snapping to the new size only when the gesture ends. It retains the 5.2.1 installed-PWA cache-consistency fix.</p>
-      <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Pen, partial eraser, and selection:</strong> Hand/View, Pen, Eraser, and Lasso/Select modes. Pen retains five direct colors and three widths; Eraser has three direct sizes and cuts only touched portions; Select works on whole annotation objects.</li><li><strong>Editable ink:</strong> strokes and eraser-created fragments remain page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and can now be moved, resized, deleted, duplicated, copied, and pasted as whole objects.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
-      <p><strong>Next annotation steps after selection testing:</strong> highlighter with its own yellow/pink/blue/green palette, then smoothing designed to preserve the current low-latency input feel and raw editable sample points.</p>
+      <p>Milestone 5.3.0 adds a dedicated translucent Highlighter tool with its own remembered palette and widths. Highlighter marks remain editable vector annotation objects, work with the partial eraser and lasso manipulation system, and export to PDF with transparency. The proven 5.2.2 input, cache, and live-pinch behavior is retained.</p>
+      <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes. Pen retains five direct colors and three widths; Highlighter has its own yellow/pink/cyan/green palette and three widths; Eraser cuts only touched portions; Select works on whole annotation objects.</li><li><strong>Editable ink:</strong> strokes and eraser-created fragments remain page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and can now be moved, resized, deleted, duplicated, copied, and pasted as whole objects.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
+      <p><strong>Next annotation step:</strong> smoothing designed to preserve the current low-latency input feel and raw editable sample points. Image insertion remains on the roadmap after the first smoothing pass.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -9275,6 +9318,7 @@ function bindEvents() {
   els.inkRedoBtn?.addEventListener('click', redo);
   els.inkHandBtn?.addEventListener('click', () => setAnnotationTool('hand'));
   els.inkPenBtn?.addEventListener('click', () => setAnnotationTool('pen'));
+  els.inkHighlighterBtn?.addEventListener('click', () => setAnnotationTool('highlighter'));
   els.inkEraserBtn?.addEventListener('click', () => setAnnotationTool('eraser'));
   els.inkSelectBtn?.addEventListener('click', () => setAnnotationTool('select'));
   els.selectionDeleteBtn?.addEventListener('click', deleteSelectedAnnotations);
@@ -9288,6 +9332,14 @@ function bindEvents() {
   els.penWidthGroup?.addEventListener('click', (event) => {
     const button = event.target instanceof Element ? event.target.closest('[data-ink-width]') : null;
     if (button) setPenWidth(Number(button.dataset.inkWidth));
+  });
+  els.highlighterColorGroup?.addEventListener('click', (event) => {
+    const button = event.target instanceof Element ? event.target.closest('[data-highlighter-color]') : null;
+    if (button) setHighlighterColor(button.dataset.highlighterColor);
+  });
+  els.highlighterWidthGroup?.addEventListener('click', (event) => {
+    const button = event.target instanceof Element ? event.target.closest('[data-highlighter-width]') : null;
+    if (button) setHighlighterWidth(Number(button.dataset.highlighterWidth));
   });
   els.eraserSizeGroup?.addEventListener('click', (event) => {
     const button = event.target instanceof Element ? event.target.closest('[data-eraser-size]') : null;

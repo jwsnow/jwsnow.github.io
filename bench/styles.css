@@ -1285,6 +1285,17 @@ body.ink-pen-active .status-bar * {
   border-radius: 50%;
   background: transparent;
 }
+.highlighter-tool-icon {
+  display: inline-block;
+  width: 17px;
+  height: 9px;
+  border: 1.8px solid currentColor;
+  border-radius: 2px;
+  transform: rotate(-18deg);
+  box-sizing: border-box;
+  background: linear-gradient(to right, transparent 0 58%, currentColor 58% 100%);
+  opacity: .85;
+}
 .eraser-tool-icon {
   display: inline-block;
   width: 17px;
@@ -1422,6 +1433,7 @@ body.presentation .split-view { top: calc(var(--annotation-bar-h) + env(safe-are
    a viewer. This removes the distracting Surface Pen '+' hover cursor without
    affecting normal mouse use. */
 body.ink-pen-active .page-stage { cursor: crosshair; }
+body.ink-highlighter-active .page-stage { cursor: crosshair; }
 body.ink-select-active .page-stage { cursor: crosshair; }
 body.ink-eraser-active .page-stage,
 body.ink-eraser-active .page-stage * { cursor: none !important; }
