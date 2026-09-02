@@ -1,3 +1,50 @@
+PDF WORKBENCH PWA — MILESTONE 5.0.11 CURRENT UPDATE
+====================================================================
+CURRENT BUILD: Milestone 5.0.11
+Visible About version: 5.0.11
+Service-worker/cache version: pdf-workbench-m5.0.11-v1
+IndexedDB database version: 2
+Library schema version: 5
+Editable backup format version: 1
+
+
+MILESTONE 5.0.11 — SESSION RESTORE / TEMPLATES / AUTOMATIC LAST PAGE
+====================================================================
+
+Cross-device input baseline:
+- 5.0.10 tested successfully on iPad, Surface, and Chromebook. Keep its PointerEvent/Apple Pencil TouchEvent path, ChromeOS palm rejection, finger navigation, selection suppression, and pen-hover cursor handling unchanged unless a new regression appears.
+- User reports Chromebook raw inking is currently more responsive than GoodNotes Web; smoothing is deliberately deferred so later smoothing must preserve this low-latency feel.
+
+Session restoration hardening:
+- Existing IndexedDB session metadata remains authoritative durable storage.
+- Added a small throttled synchronous localStorage checkpoint (`pdfwb-session-checkpoint-v1`) containing the same workspace/session metadata. pagehide and visibility hidden force an immediate checkpoint before the asynchronous IndexedDB save.
+- On startup, choose the newer valid IndexedDB session or localStorage checkpoint. This targets the installed-PWA shutdown race that could leave Library documents present but reopen with an empty active workspace.
+- Session includes open documents, current document, workspace mode, split state, active pane, single-source pane, pane document assignments, and pane view maps.
+- Close-one and Close-all still persist the intentionally closed workspace. Backup restore clears the transient localStorage checkpoint before reload so restored backup session metadata is not overridden by a stale checkpoint.
+
+Template changes:
+- Save-current-page-as-template now offers **With annotations** (default/current behavior) or **Clean page (no annotations)**.
+- Template Manager now includes **Automatic new last page** preference. Factory default is Graph paper. Choices: Graph paper, Blank, or a saved template.
+- Graph/Blank automatic pages use the display dimensions of the preceding last page; saved templates keep their own dimensions.
+- If the selected automatic template is deleted/missing, preference falls back to Graph paper. Preference is stored with template metadata and therefore travels in editable Library backups.
+
+End-of-document append:
+- Continuous/Page Snap viewers receive an end-of-document pull strip after the final page. Pull/scroll until it reaches the ready threshold and says Release to add, then release to append one page.
+- Wheel/trackpad downward scrolling can trigger the same threshold.
+- Full Page mode uses one additional forward swipe/wheel action from the final page to append. Ordinary Next buttons/keyboard page navigation do not silently create pages.
+- Automatic append uses the existing normal insertion/history/persistence path and focuses the new page. In split view it edits the shared document in the pane that initiated the gesture.
+- A short append lock prevents momentum scrolling from rapidly creating multiple pages.
+
+NEXT PRIORITIES AFTER 5.0.11 TESTING:
+- Confirm session restart behavior, including Split→restart and intentional Close all files→restart.
+- Confirm automatic append on iPad, Surface, and Chromebook in Continuous, Page Snap, and Full Page modes and with Graph/Blank/template defaults.
+- Then proceed to deliberate stroke smoothing/interpolation while preserving raw sample points and current latency.
+- Fine-grained partial-stroke eraser, then whole-stroke/object lasso/select with move/resize/delete/copy/duplicate, then Highlighter.
+
+====================================================================
+PRIOR MILESTONE 5.0.10 HANDOFF FOLLOWS
+====================================================================
+
 PDF WORKBENCH PWA — MILESTONE 5.0.10 CURRENT UPDATE
 ====================================================================
 CURRENT BUILD: Milestone 5.0.10

@@ -1,4 +1,4 @@
-const APP_VERSION = '5.0.10';
+const APP_VERSION = '5.0.11';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -12,6 +12,7 @@ const LIBRARY_DB_NAME = 'pdf-workbench-library';
 const LIBRARY_DB_VERSION = 2;
 const LIBRARY_SCHEMA_VERSION = 5;
 const LIBRARY_BACKUP_FORMAT_VERSION = 1;
+const SESSION_CHECKPOINT_KEY = 'pdfwb-session-checkpoint-v1';
 
 const $ = (id) => document.getElementById(id);
 const els = {
@@ -89,6 +90,8 @@ const state = {
   insertTarget: null,
   pendingPageFocus: null,
   templates: [],
+  newLastPageDefault: { kind: 'graph', templateId: null },
+  autoAppendLock: false,
   imageAssemblyItems: [],
   imageAssemblySequence: 1,
   insertPreviewGeneration: 0,
@@ -102,6 +105,7 @@ const state = {
   pendingLibraryMove: null,
   pendingBackupImportMode: 'replace',
   libraryPersistTimer: null,
+  sessionCheckpointTimer: null,
   libraryPersisting: false,
   libraryPersistAgain: false,
   libraryRecoveryTimer: null,
@@ -428,6 +432,39 @@ function serializeLibrarySession() {
     updatedAt: Date.now(),
   };
 }
+function writeSessionCheckpoint(session=null) {
+  if (state.librarySuppressPersist) return;
+  try {
+    const snapshot = session || serializeLibrarySession();
+    localStorage.setItem(SESSION_CHECKPOINT_KEY, JSON.stringify(snapshot));
+  } catch {}
+}
+function readSessionCheckpoint() {
+  try {
+    const raw = localStorage.getItem(SESSION_CHECKPOINT_KEY);
+    if (!raw) return null;
+    const value = JSON.parse(raw);
+    if (!value || value.key !== 'session') return null;
+    if (Number(value.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION) return null;
+    return value;
+  } catch { return null; }
+}
+function scheduleSessionCheckpoint(delay=220) {
+  if (state.librarySuppressPersist) return;
+  clearTimeout(state.sessionCheckpointTimer);
+  state.sessionCheckpointTimer = setTimeout(() => {
+    state.sessionCheckpointTimer = null;
+    writeSessionCheckpoint();
+  }, delay);
+}
+function newestSavedSession(indexedSession) {
+  const checkpoint = readSessionCheckpoint();
+  if (!checkpoint) return indexedSession || null;
+  if (!indexedSession) return checkpoint;
+  const checkpointTime = Number(checkpoint.updatedAt || 0);
+  const indexedTime = Number(indexedSession.updatedAt || 0);
+  return checkpointTime > indexedTime ? checkpoint : indexedSession;
+}
 function serializeTemplatesForLibrary() {
   return {
     key: 'templates', schemaVersion: LIBRARY_SCHEMA_VERSION,
@@ -438,6 +475,10 @@ function serializeTemplatesForLibrary() {
       createdAt: template.createdAt || Date.now(),
       modifiedAt: template.modifiedAt || template.createdAt || Date.now(),
     })),
+    newLastPageDefault: {
+      kind: ['graph','blank','template'].includes(state.newLastPageDefault?.kind) ? state.newLastPageDefault.kind : 'graph',
+      templateId: state.newLastPageDefault?.kind === 'template' ? (state.newLastPageDefault.templateId || null) : null,
+    },
     updatedAt: Date.now(),
   };
 }
@@ -451,6 +492,11 @@ async function restorePersistentTemplates() {
         createdAt: item.createdAt || Date.now(), modifiedAt: item.modifiedAt || item.createdAt || Date.now(),
       }))
     : [];
+  const savedDefault = saved?.newLastPageDefault;
+  if (savedDefault?.kind === 'blank') state.newLastPageDefault = { kind:'blank', templateId:null };
+  else if (savedDefault?.kind === 'template' && state.templates.some(template => template.id === savedDefault.templateId)) {
+    state.newLastPageDefault = { kind:'template', templateId:savedDefault.templateId };
+  } else state.newLastPageDefault = { kind:'graph', templateId:null };
   const sourceIds = new Set(state.templates.map(template => template.page?.sourceId).filter(Boolean));
   for (const sourceId of sourceIds) {
     try { await ensureLibrarySourceLoaded(sourceId); }
@@ -468,6 +514,7 @@ async function persistLibraryNow(options={}) {
   let failed = null;
   try {
     saveCurrentDocumentState({ readViewDom: options.readViewDom !== false, skipLibrarySchedule: true });
+    writeSessionCheckpoint();
     for (const doc of state.documents) {
       const sourceIds = new Set(doc.pages.map(page => page.sourceId).filter(Boolean));
       for (const sourceId of sourceIds) await persistSourceToLibrary(sourceId);
@@ -509,6 +556,10 @@ async function persistLibraryNow(options={}) {
 }
 function scheduleLibraryPersist(delay=550) {
   if (state.librarySuppressPersist) return;
+  // IndexedDB writes can be interrupted when an installed PWA is suspended or
+  // closed. Keep a throttled tiny workspace/session snapshot in localStorage
+  // as well; pagehide/visibilitychange force an immediate final checkpoint.
+  scheduleSessionCheckpoint();
   clearTimeout(state.libraryPersistTimer);
   state.libraryPersistTimer = setTimeout(() => persistLibraryNow(), delay);
 }
@@ -579,8 +630,13 @@ async function initializePersistentLibrary() {
     if (incompatible) throw new Error(`This local Library uses schema ${incompatible.schemaVersion}, newer than this build understands (${LIBRARY_SCHEMA_VERSION}). Use a newer PDF Workbench build or reset the local Library.`);
     const incompatibleFolder = [...state.libraryFolders.values()].find(folder => Number(folder.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION);
     if (incompatibleFolder) throw new Error(`This local Library folder data uses schema ${incompatibleFolder.schemaVersion}, newer than this build understands (${LIBRARY_SCHEMA_VERSION}).`);
-    const session = await libraryGet('meta', 'session');
-    if (Number(session?.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION) throw new Error(`The saved Library session uses a newer schema (${session.schemaVersion}).`);
+    const indexedSession = await libraryGet('meta', 'session');
+    if (Number(indexedSession?.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION) throw new Error(`The saved Library session uses a newer schema (${indexedSession.schemaVersion}).`);
+    // Prefer the newest of the durable IndexedDB session and the synchronous
+    // localStorage checkpoint. The checkpoint closes the PWA shutdown race in
+    // which pagehide starts an IndexedDB write but the OS terminates the app
+    // before that small session record commits.
+    const session = newestSavedSession(indexedSession);
     const openIds = Array.isArray(session?.openIds) ? session.openIds.filter(id => state.libraryRecords.has(id) && !state.libraryRecords.get(id)?.trashedAt) : [];
     if (['view','organize','export'].includes(session?.workspaceMode)) state.workspaceMode = session.workspaceMode;
     state.librarySuppressPersist = true;
@@ -610,6 +666,7 @@ async function initializePersistentLibrary() {
     updateLibraryStorageSummary();
     scheduleLibraryPersist(250);
   } catch (err) {
+    state.librarySuppressPersist = false;
     state.libraryReady = false;
     try { state.libraryDb?.close?.(); } catch {}
     state.libraryDb = null;
@@ -995,6 +1052,7 @@ async function restoreEditableLibraryBackup(file) {
       if (['pdfwb-scroll-mode','pdfwb-fit-mode','pdfwb-library-view'].includes(key)) { try { localStorage.setItem(key, String(value)); } catch {} }
     }
     state.librarySuppressPersist = true; // pagehide must not overwrite the restored session
+    try { localStorage.removeItem(SESSION_CHECKPOINT_KEY); } catch {}
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Restore complete. Reloading PDF Workbench…';
     setStatus('Library restored · reloading…', true);
     const url = new URL(location.href);
@@ -2610,16 +2668,26 @@ function renderInsertTemplateList() {
   if (els.filesManageTemplatesBtn) els.filesManageTemplatesBtn.disabled = false;
 }
 
-function requestTemplateName(suggested) {
-  if (!els.templateNameDialog || !els.templateNameInput) return Promise.resolve(suggested);
+function requestTemplateName(suggested, options={}) {
+  if (!els.templateNameDialog || !els.templateNameInput) return Promise.resolve(options.chooseAnnotations ? { name:suggested, includeAnnotations:true } : suggested);
   return new Promise(resolve => {
     const dialog = els.templateNameDialog;
+    const annotationChoice = $('templateAnnotationChoice');
     els.templateNameInput.value = suggested;
+    annotationChoice?.classList.toggle('hidden', !options.chooseAnnotations);
+    if (options.chooseAnnotations) {
+      const withAnnotations = dialog.querySelector('input[name="templateAnnotationMode"][value="with"]');
+      if (withAnnotations) withAnnotations.checked = true;
+    }
     const finish = () => {
       dialog.removeEventListener('close', finish);
       const accepted = dialog.returnValue === 'save';
       const value = els.templateNameInput.value.trim();
-      resolve(accepted ? (value || suggested) : null);
+      if (!accepted) { resolve(null); return; }
+      const name = value || suggested;
+      if (!options.chooseAnnotations) { resolve(name); return; }
+      const mode = dialog.querySelector('input[name="templateAnnotationMode"]:checked')?.value || 'with';
+      resolve({ name, includeAnnotations: mode !== 'clean' });
     };
     dialog.addEventListener('close', finish, { once: true });
     dialog.showModal();
@@ -2637,19 +2705,19 @@ async function saveCurrentPageAsTemplate(targetContext=null) {
   // Use an in-app dialog rather than window.prompt(). Native prompt can force
   // Chromium/Surface out of Fullscreen, which previously kicked Presentation
   // back to regular View while saving a template.
-  const name = await requestTemplateName(suggested);
-  if (name === null) return false;
+  const details = await requestTemplateName(suggested, { chooseAnnotations:true });
+  if (details === null) return false;
   const template = {
     id: uid('template'),
-    name,
-    page: { ...clonePageState(page), id: null },
+    name: details.name,
+    page: { ...clonePageState(page, { includeAnnotations:details.includeAnnotations }), id: null },
     createdAt: Date.now(),
     modifiedAt: Date.now(),
   };
   state.templates.push(template);
   renderInsertTemplateList();
   scheduleLibraryPersist(80);
-  setStatus(`Saved page as ${name}`);
+  setStatus(`Saved page as ${details.name}${details.includeAnnotations ? '' : ' (clean)'}`);
   return true;
 }
 
@@ -2667,6 +2735,9 @@ function deleteTemplate(templateId) {
   const index = state.templates.findIndex(item => item.id === templateId);
   if (index < 0) return;
   const [removed] = state.templates.splice(index, 1);
+  if (state.newLastPageDefault?.kind === 'template' && state.newLastPageDefault.templateId === removed.id) {
+    state.newLastPageDefault = { kind:'graph', templateId:null };
+  }
   renderInsertTemplateList();
   releaseSourceIfUnused(removed.page?.sourceId, { excludingTemplateId: removed.id });
   scheduleLibraryPersist(80);
@@ -2676,7 +2747,45 @@ function showTemplateManager() {
   closeInsertPageMenu(false);
   els.infoDialog.classList.add('template-dialog');
   const renderManager = () => {
-    els.dialogContent.innerHTML = `<h2>Templates</h2><p>Templates are stored with the Local Library on this device and return when PDF Workbench is reopened.</p><div id="templateManagerList" class="template-manager-list"></div>`;
+    els.dialogContent.innerHTML = `<h2>Templates</h2>
+      <p>Templates are stored with the Local Library on this device and return when PDF Workbench is reopened.</p>
+      <section class="template-default-section">
+        <h3>Automatic new last page</h3>
+        <p class="small-note">When you pull/scroll past the last page, PDF Workbench can append one page. Graph and Blank match the dimensions of the preceding last page; a saved template keeps its own dimensions. The factory default is Graph paper.</p>
+        <label for="newLastPageDefaultSelect">Default page</label>
+        <select id="newLastPageDefaultSelect"></select>
+      </section>
+      <h3>Saved templates</h3>
+      <div id="templateManagerList" class="template-manager-list"></div>`;
+
+    const select = $('newLastPageDefaultSelect');
+    const addOption = (value, label) => {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = label;
+      select.append(option);
+    };
+    addOption('graph', 'Graph paper — same size as last page');
+    addOption('blank', 'Blank — same size as last page');
+    for (const template of state.templates) addOption(`template:${template.id}`, `Template: ${template.name}`);
+    const selectedValue = state.newLastPageDefault?.kind === 'template'
+      ? `template:${state.newLastPageDefault.templateId}`
+      : (state.newLastPageDefault?.kind === 'blank' ? 'blank' : 'graph');
+    select.value = [...select.options].some(option => option.value === selectedValue) ? selectedValue : 'graph';
+    select.addEventListener('change', () => {
+      const value = select.value;
+      if (value.startsWith('template:')) {
+        const templateId = value.slice('template:'.length);
+        state.newLastPageDefault = state.templates.some(template => template.id === templateId)
+          ? { kind:'template', templateId }
+          : { kind:'graph', templateId:null };
+      } else {
+        state.newLastPageDefault = { kind:value === 'blank' ? 'blank' : 'graph', templateId:null };
+      }
+      scheduleLibraryPersist(80);
+      setStatus(`Automatic last page: ${select.options[select.selectedIndex]?.textContent || 'Graph paper'}`);
+    });
+
     const manager = $('templateManagerList');
     if (!state.templates.length) {
       const empty = document.createElement('p');
@@ -2703,7 +2812,8 @@ function showTemplateManager() {
       const size = document.createElement('div');
       size.className = 'template-manager-meta';
       const { width: w, height: h } = pageDisplayDimensions(template.page);
-      size.textContent = `${Math.round(w)} × ${Math.round(h)} pt`;
+      const annotationCount = Array.isArray(template.page?.annotations) ? template.page.annotations.length : 0;
+      size.textContent = `${Math.round(w)} × ${Math.round(h)} pt${annotationCount ? ` · ${annotationCount} annotation object${annotationCount === 1 ? '' : 's'}` : ' · clean'}`;
       info.append(name, size);
 
       const actions = document.createElement('div');
@@ -2847,6 +2957,110 @@ function insertPageAfterCurrent(kind, includeAnnotations=true, template=null, ta
       ? `Inserted template ${template?.name || ''} after page ${index + 1}`.trim()
       : `Inserted ${kind === 'graph' ? 'graph-paper' : 'blank'} page after page ${index + 1}`;
   setStatus(label);
+}
+
+
+const END_APPEND_READY_PX = 58;
+const END_APPEND_LOCK_MS = 1100;
+
+function automaticLastPageLabel() {
+  const pref = state.newLastPageDefault || { kind:'graph', templateId:null };
+  if (pref.kind === 'blank') return 'blank page';
+  if (pref.kind === 'template') {
+    const template = state.templates.find(item => item.id === pref.templateId);
+    if (template) return template.name;
+  }
+  return 'graph paper';
+}
+
+function appendEndOfDocumentPullTarget(viewer, documentId, scrollMode) {
+  if (!viewer || scrollMode === 'single') return;
+  const doc = documentById(documentId);
+  if (!doc?.pages?.length) return;
+  const target = document.createElement('div');
+  target.className = 'end-page-pull';
+  target.dataset.documentId = documentId;
+  target.setAttribute('aria-hidden', 'true');
+  const primary = document.createElement('div');
+  primary.className = 'end-page-pull-primary';
+  primary.textContent = `Pull to add ${automaticLastPageLabel()}`;
+  const secondary = document.createElement('div');
+  secondary.className = 'end-page-pull-secondary';
+  secondary.textContent = 'Keep scrolling, then release';
+  target.append(primary, secondary);
+  viewer.append(target);
+}
+
+function endAppendProgress(viewer) {
+  const target = viewer?.querySelector('.end-page-pull');
+  if (!target) return { target:null, visible:0, ready:false };
+  const vr = viewer.getBoundingClientRect();
+  const tr = target.getBoundingClientRect();
+  const visible = Math.max(0, Math.min(vr.bottom, tr.bottom) - Math.max(vr.top, tr.top));
+  const ready = visible >= END_APPEND_READY_PX;
+  target.classList.toggle('ready', ready);
+  const primary = target.querySelector('.end-page-pull-primary');
+  const secondary = target.querySelector('.end-page-pull-secondary');
+  if (primary) primary.textContent = ready ? `Release to add ${automaticLastPageLabel()}` : `Pull to add ${automaticLastPageLabel()}`;
+  if (secondary) secondary.textContent = ready ? 'One new page will be appended' : 'Keep scrolling, then release';
+  return { target, visible, ready };
+}
+
+function appendAutomaticLastPage(documentId, paneId=null) {
+  if (state.autoAppendLock) return false;
+  const doc = documentById(documentId);
+  if (!doc?.pages?.length) return false;
+  const lastPage = doc.pages[doc.pages.length - 1];
+  if (!lastPage) return false;
+
+  if (documentId !== state.currentDocumentId) loadDocumentState(documentId, false);
+  const pref = state.newLastPageDefault || { kind:'graph', templateId:null };
+  let kind = pref.kind;
+  let template = null;
+  if (kind === 'template') {
+    template = state.templates.find(item => item.id === pref.templateId) || null;
+    if (!template) {
+      state.newLastPageDefault = { kind:'graph', templateId:null };
+      kind = 'graph';
+      scheduleLibraryPersist(80);
+    }
+  }
+  if (kind !== 'blank' && kind !== 'template') kind = 'graph';
+
+  state.autoAppendLock = true;
+  try {
+    insertPageAfterCurrent(kind, true, template, {
+      documentId,
+      pageId: lastPage.id,
+      paneId: state.splitView ? (paneId || state.activePaneId) : null,
+    });
+  } finally {
+    setTimeout(() => { state.autoAppendLock = false; }, END_APPEND_LOCK_MS);
+  }
+  return true;
+}
+
+function maybeAppendAtDocumentEnd(viewer, documentId, paneId=null, force=false) {
+  if (state.autoAppendLock) return false;
+  if (!force) {
+    const progress = endAppendProgress(viewer);
+    if (!progress.ready) return false;
+  }
+  return appendAutomaticLastPage(documentId, paneId);
+}
+
+function handleEndAppendWheel(viewer, documentId, paneId=null) {
+  if (!viewer) return;
+  clearTimeout(viewer._endAppendWheelResetTimer);
+  viewer._endAppendWheelResetTimer = setTimeout(() => {
+    viewer._endAppendWheelConsumed = false;
+    viewer._endAppendWheelResetTimer = null;
+  }, 520);
+  if (viewer._endAppendWheelConsumed) return;
+  requestAnimationFrame(() => {
+    if (viewer._endAppendWheelConsumed) return;
+    if (maybeAppendAtDocumentEnd(viewer, documentId, paneId)) viewer._endAppendWheelConsumed = true;
+  });
 }
 
 function focusPageAfterRender(documentId, pageId, paneId=null) {
@@ -6445,6 +6659,7 @@ function renderSingleViewer() {
       renderViewerPage(page, stage, canvas, generation).catch(err => renderError(stage, err));
     }
   }
+  appendEndOfDocumentPullTarget(els.viewer, state.currentDocumentId, state.scrollMode);
   if (state.scrollMode !== 'single') {
     requestAnimationFrame(() => {
       if (restoreTop !== null || restoreLeft !== null) {
@@ -6719,6 +6934,7 @@ function renderSplitPane(paneId) {
       renderSplitViewerPage(paneId, page, stage, canvas, generation).catch(err => renderError(stage, err));
     }
   }
+  appendEndOfDocumentPullTarget(pe.viewer, doc.id, view.scrollMode);
 
   const structuralAnchor = pane.pendingStructuralAnchor?.documentId === doc.id
     ? pane.pendingStructuralAnchor
@@ -6790,10 +7006,14 @@ async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
   stage.querySelector('.page-loading')?.remove();
 }
 
-function goPanePage(paneId, delta) {
+function goPanePage(paneId, delta, allowAppend=false) {
   const pane = splitPaneState(paneId), doc = documentById(pane.documentId), view = paneView(paneId);
   if (!doc?.pages?.length || !view) return;
   const current = splitActiveIndex(doc, view);
+  if (allowAppend && delta > 0 && current >= doc.pages.length - 1) {
+    appendAutomaticLastPage(doc.id, paneId);
+    return;
+  }
   const next = clamp(current + delta, 0, doc.pages.length - 1);
   if (next === current && doc.pages[next]?.id === view.activePageId) return;
   view.activePageId = doc.pages[next].id;
@@ -6965,10 +7185,15 @@ function scrollActivePageIntoView(behavior='smooth') {
   const el = els.viewer.querySelector(`.page-stage[data-page-id="${CSS.escape(state.activePageId || '')}"]`);
   el?.scrollIntoView({ block: 'center', inline: 'center', behavior });
 }
-function goPage(delta) {
+function goPage(delta, allowAppend=false) {
   if (!state.pages.length) return;
-  const next = clamp(activeIndex() + delta, 0, state.pages.length - 1);
-  if (next === activeIndex() && state.pages[next]?.id === state.activePageId) return;
+  const current = activeIndex();
+  if (allowAppend && delta > 0 && current >= state.pages.length - 1) {
+    appendAutomaticLastPage(state.currentDocumentId, null);
+    return;
+  }
+  const next = clamp(current + delta, 0, state.pages.length - 1);
+  if (next === current && state.pages[next]?.id === state.activePageId) return;
   state.activePageId = state.pages[next].id;
   if (state.scrollMode === 'single') renderViewer();
   else { markActivePage(); scrollActivePageIntoView(); updatePageCounts(); }
@@ -7279,8 +7504,8 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.0.10 cleans up the now-stable cross-platform pen path after successful iPad, Surface, and Chromebook testing. It keeps the Safari stylus TouchEvent fallback, ChromeOS palm suppression, Pen-mode native-selection guard, page hit-test fallback, and pen-hover cursor suppression, while removing the older speculative move-start and up-only-dot recoveries. Normal pen ink now starts only from a tip pointerdown (button 0) or the Safari stylus fallback.</p>
-      <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Basic pen:</strong> Hand/View and Pen modes, five direct pen colors (black, blue, red, green, orange), and three direct width choices. Finger scrolling/pinch remains navigation-only.</li><li><strong>Editable ink:</strong> strokes are stored as page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and are copied with page duplication/copy/combine operations.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
+      <p>Milestone 5.0.11 keeps the stable 5.0.10 cross-platform pen/touch input path and returns to deferred workspace behavior. Session restoration now has a synchronous shutdown checkpoint in addition to IndexedDB, templates can be saved with or without annotations, and scrolling/pulling past the final page can append a configurable Graph, Blank, or saved-template page.</p>
+      <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Basic pen:</strong> Hand/View and Pen modes, five direct pen colors (black, blue, red, green, orange), and three direct width choices. Finger scrolling/pinch remains navigation-only.</li><li><strong>Editable ink:</strong> strokes are stored as page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and are copied with page duplication/copy/combine operations.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
       <p><strong>Next annotation steps after testing:</strong> partial-stroke eraser, lasso selection with move/resize/delete/duplicate, then highlighter with its own yellow/pink/blue/green palette. Image annotations follow the annotation milestone.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
@@ -7691,8 +7916,12 @@ function bindManualViewerTouch(viewer, owner, config) {
   };
 
   const finishAllTouches = (lastEvent, cancelled) => {
-    viewer.classList.remove('manual-touching', 'pinching');
     const mode = config.getScrollMode();
+    // Capture the pull threshold before removing manual-touching. In Page Snap
+    // mode that class temporarily disables CSS snapping; once removed the
+    // browser is free to snap back toward the last page.
+    const appendReadyOnRelease = !cancelled && mode !== 'single' && !!owner.touchPan && endAppendProgress(viewer).ready;
+    viewer.classList.remove('manual-touching', 'pinching');
 
     if (owner.pinchNeedsRender) {
       flushLivePinch();
@@ -7701,6 +7930,13 @@ function bindManualViewerTouch(viewer, owner, config) {
       owner.touchPan = null;
       owner.touchStart = null;
       config.finalizePinch?.();
+      resetTouchIntent();
+      return;
+    }
+
+    if (appendReadyOnRelease && config.maybeAppendEnd?.(true)) {
+      owner.touchStart = null;
+      owner.touchPan = null;
       resetTouchIntent();
       return;
     }
@@ -7757,6 +7993,7 @@ function bindManualViewerTouch(viewer, owner, config) {
 
     if (!owner.pinchGesture && config.getScrollMode() !== 'single') {
       moveViewerTouchPan(viewer, owner, point);
+      endAppendProgress(viewer);
     }
   }, { passive: false });
 
@@ -7886,6 +8123,7 @@ function bindSplitViewerEvents(paneId) {
     if (!view) return;
     view.scrollTop = viewer.scrollTop;
     view.scrollLeft = viewer.scrollLeft;
+    endAppendProgress(viewer);
     scheduleSplitActivePageSync(paneId);
   }, { passive: true });
 
@@ -7899,12 +8137,15 @@ function bindSplitViewerEvents(paneId) {
       if (document.body.classList.contains('presentation')) showPresentationControls();
       return;
     }
-    if (view.scrollMode !== 'single') return;
+    if (view.scrollMode !== 'single') {
+      if (e.deltaY > 0) handleEndAppendWheel(viewer, pane.documentId, paneId);
+      return;
+    }
     e.preventDefault();
     const now = performance.now();
     if (now - pane.lastWheelPageChange < 320 || Math.abs(e.deltaY) < 8) return;
     pane.lastWheelPageChange = now;
-    goPanePage(paneId, e.deltaY > 0 ? 1 : -1);
+    goPanePage(paneId, e.deltaY > 0 ? 1 : -1, true);
   }, { passive: false });
 
   bindManualViewerTouch(viewer, pane, {
@@ -7924,7 +8165,8 @@ function bindSplitViewerEvents(paneId) {
       savePaneScroll(paneId);
       renderSplitPane(paneId);
     },
-    goPage: (delta) => goPanePage(paneId, delta),
+    goPage: (delta) => goPanePage(paneId, delta, true),
+    maybeAppendEnd: (force=false) => maybeAppendAtDocumentEnd(viewer, pane.documentId, paneId, force),
   });
 }
 
@@ -8153,7 +8395,10 @@ function bindEvents() {
   bindSplitViewerEvents('left');
   bindSplitViewerEvents('right');
 
-  els.viewer.addEventListener('scroll', scheduleSingleActivePageSync, { passive: true });
+  els.viewer.addEventListener('scroll', () => {
+    scheduleSingleActivePageSync();
+    endAppendProgress(els.viewer);
+  }, { passive: true });
 
   els.viewer.addEventListener('wheel', (e) => {
     if (e.ctrlKey || e.metaKey) {
@@ -8162,12 +8407,15 @@ function bindEvents() {
       if (document.body.classList.contains('presentation')) showPresentationControls();
       return;
     }
-    if (state.scrollMode !== 'single') return;
+    if (state.scrollMode !== 'single') {
+      if (e.deltaY > 0) handleEndAppendWheel(els.viewer, state.currentDocumentId, null);
+      return;
+    }
     e.preventDefault();
     const now = performance.now();
     if (now - state.lastWheelPageChange < 320 || Math.abs(e.deltaY) < 8) return;
     state.lastWheelPageChange = now;
-    goPage(e.deltaY > 0 ? 1 : -1);
+    goPage(e.deltaY > 0 ? 1 : -1, true);
   }, { passive: false });
   bindManualViewerTouch(els.viewer, state, {
     getScrollMode: () => state.scrollMode,
@@ -8185,7 +8433,8 @@ function bindEvents() {
       updateSingleViewScrollFromDom();
       renderViewer();
     },
-    goPage: (delta) => goPage(delta),
+    goPage: (delta) => goPage(delta, true),
+    maybeAppendEnd: (force=false) => maybeAppendAtDocumentEnd(els.viewer, state.currentDocumentId, null, force),
   });
 
   document.addEventListener('keydown', (e) => {
@@ -8207,10 +8456,15 @@ function bindEvents() {
 
   window.addEventListener('dragover', (e) => { if ([...e.dataTransfer.types].includes('Files')) e.preventDefault(); });
   window.addEventListener('drop', (e) => { if (e.dataTransfer?.files?.length) { e.preventDefault(); openFiles(e.dataTransfer.files); } });
-  window.addEventListener('pagehide', () => { saveCurrentDocumentState(); persistLibraryNow(); });
+  window.addEventListener('pagehide', () => {
+    saveCurrentDocumentState();
+    writeSessionCheckpoint();
+    persistLibraryNow();
+  });
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') {
       saveCurrentDocumentState();
+      writeSessionCheckpoint();
       persistLibraryNow();
     } else {
       resumePersistentLibraryConnection();

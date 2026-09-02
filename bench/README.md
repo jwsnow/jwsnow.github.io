@@ -1,6 +1,16 @@
-# PDF Workbench — Milestone 5.0.10
+# PDF Workbench — Milestone 5.0.11
 
-Milestone 5.0.10 is a cleanup of the stable cross-platform pen/touch input path after successful testing on iPad, Surface, and Chromebook. It deliberately removes speculative recovery behavior rather than adding a new input feature.
+Milestone 5.0.11 keeps the stable 5.0.10 cross-platform pen/touch path unchanged and returns to deferred workspace/page-flow behavior. It hardens restart restoration, adds clean-vs-annotated template creation, and adds configurable pull/scroll-past-end page creation.
+
+## 5.0.11 workspace restoration and automatic last page
+
+- The open-workspace session is still stored in IndexedDB, but is now also checkpointed to a small throttled `localStorage` record. On restart, Workbench chooses the newer valid session record. `pagehide` and hidden visibility transitions force an immediate checkpoint, avoiding the shutdown race where the OS can terminate an installed PWA before the final IndexedDB session write commits.
+- The restart snapshot includes open document IDs, active document, workspace mode, split/single layout, active pane, per-pane document assignments, and saved view state. Closing a document or **Close all files** still updates the checkpoint, so intentionally closed workspaces stay closed.
+- Saving the current page as a template now offers **With annotations** or **Clean page (no annotations)**. Existing behavior remains the default.
+- Template Manager now contains **Automatic new last page**. Choices are **Graph paper** (factory default), **Blank**, or any saved template. Graph/Blank match the dimensions of the preceding last page; a saved template retains its own dimensions.
+- In Continuous/Page Snap view, scroll/pull into the end-of-document strip until it says **Release to add …**, then release to append exactly one page. Wheel/trackpad scrolling can trigger the same threshold. In Full Page mode, an additional forward swipe/wheel action from the final page appends one page.
+- Automatic append uses the normal page-insertion/history path, so Undo/Redo, Local Library persistence, split-pane shared content, export, and template sources remain consistent.
+- The 5.0.10 pen/palm/cursor pipeline is unchanged.
 
 ## 5.0.10 stable-input cleanup
 
@@ -121,7 +131,7 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.0.10-v1`
+- Service-worker cache: `pdf-workbench-m5.0.11-v1`
 
 ## High-priority smoke tests
 1. On Surface, open a PDF, choose Pen, hover the pen over the page and confirm the browser crosshair/plus cursor is hidden. Write at several zoom levels, switch colors and widths, then use Undo/Redo.
@@ -129,11 +139,11 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 3. Repeat with Apple Pencil on iPad for several lines of handwriting. Confirm the native **Copy / Look Up / …** selection callout never appears on toolbar, footer/status text, or page/PDF text; confirm deliberate finger navigation still works when the Pencil is away.
 4. Switch between View and Presentation. Confirm the annotation controls stay in the same order and Presentation's full-width bar remains at the top without covering the page.
 5. In split view, show the same document in both panes at different pages/zoom positions. Write in one pane; verify view states remain independent and shared ink appears correctly when the same annotated page is visible.
-6. Close/reopen the document and relaunch the app to check ink persistence; note that open-session restoration remains a separate known regression to fix.
+6. Relaunch the app with several documents open (including split view) and confirm the open workspace, active document/pane, and viewer positions restore. Then use **Close all files**, relaunch, and confirm the active workspace stays empty while Library documents remain available.
 7. Back up on one device and restore on another; confirm ink survives the editable backup.
 8. Export an annotated PDF and inspect it in Adobe Acrobat or another viewer. Check placement, color, width, rotation, and file size.
 9. Re-test the previously problematic slide deck unchanged; it should still export byte-for-byte. Add a short pen stroke and export again; the file should remain reasonably sized.
-10. In Pages, use Duplicate + notes and Duplicate clean and confirm the first carries ink and the second does not.
+10. Save one template **With annotations** and one **Clean**; confirm their previews/content differ correctly. In Template Manager set the automatic last page to Graph, Blank, and then a saved template, and test pull/scroll-past-end creation for each.
 11. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
 
-**More → About this build** reports **Milestone 5.0.10**.
+**More → About this build** reports **Milestone 5.0.11**.

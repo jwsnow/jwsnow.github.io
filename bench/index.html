@@ -171,7 +171,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.0.10</div>
+          <div class="export-kicker">Milestone 5.0.11</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -660,6 +660,11 @@
         <p class="template-name-help">A generic name is already supplied so a temporary template can be saved immediately.</p>
         <label for="templateNameInput">Name</label>
         <input id="templateNameInput" class="template-name-input" type="text" autocomplete="off" maxlength="120">
+        <fieldset id="templateAnnotationChoice" class="template-annotation-choice hidden">
+          <legend>Page content</legend>
+          <label><input type="radio" name="templateAnnotationMode" value="with" checked> With annotations</label>
+          <label><input type="radio" name="templateAnnotationMode" value="clean"> Clean page (no annotations)</label>
+        </fieldset>
         <div class="dialog-actions">
           <button id="templateNameCancelBtn" type="button">Cancel</button>
           <button value="save">Save template</button>
