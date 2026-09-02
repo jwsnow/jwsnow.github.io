@@ -1,9 +1,18 @@
-PDF WORKBENCH PWA — MILESTONE 5.4.2 CURRENT UPDATE
+PDF WORKBENCH PWA — MILESTONE 5.4.3 CURRENT UPDATE
 
-CURRENT BUILD: Milestone 5.4.2
-Visible About version: 5.4.2
-Service-worker/cache version: pdf-workbench-m5.4.2-v1
+CURRENT BUILD: Milestone 5.4.3
+Visible About version: 5.4.3
+Service-worker/cache version: pdf-workbench-m5.4.3-v1
 Baseline: 5.3.0, confirmed working on iPad and Surface; Chromebook retest deferred because the device was not available.
+
+
+MILESTONE 5.4.3 — LIVE HIGHLIGHTER + DUPLICATE-OPEN REPAIR
+- Live Highlighter uses a dedicated temporary overlay canvas and incremental opaque drawing with canvas-element opacity. It no longer redraws all existing annotations on every Pencil move.
+- Completed Highlighter strokes remain raw polylines but are isolated/composited once per stroke on the persistent Canvas overlay to avoid darker sample beads caused by raw-path self-overlap.
+- PDF export remains unchanged from 5.4.2.
+- Same-id open-document duplicates are prevented by a post-await reopen recheck and repaired before open-document UI rendering/Library persistence.
+- Duplicate repair prefers the actual live active document object, then newer/richer state, so annotations are not discarded in favor of a stale clean copy.
+- Pen smoothing, eraser fast preview, selection, palm rejection, session restoration, templates, and automatic new-page behavior are unchanged.
 
 
 MILESTONE 5.4.2 — HIGHLIGHTER PERFORMANCE REFINEMENT

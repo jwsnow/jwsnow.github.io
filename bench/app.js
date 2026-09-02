@@ -1,4 +1,4 @@
-const APP_VERSION = '5.4.2';
+const APP_VERSION = '5.4.3';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -550,6 +550,11 @@ async function persistLibraryNow(options={}) {
   state.libraryPersisting = true;
   let failed = null;
   try {
+    // Repair any same-id duplicate that may have been created by an older
+    // build's asynchronous reopen race before serializing. Without this, the
+    // later duplicate could overwrite the same IndexedDB record and multi-file
+    // export could list the logical document twice.
+    deduplicateOpenDocuments();
     saveCurrentDocumentState({ readViewDom: options.readViewDom !== false, skipLibrarySchedule: true });
     writeSessionCheckpoint();
     for (const doc of state.documents) {
@@ -639,6 +644,15 @@ async function reopenLibraryDocument(docId, options={}) {
   if (record.trashedAt) throw new Error('That document is in Trash. Restore it before opening.');
   const sourceIds = new Set((record.pages || []).map(page => page.sourceId).filter(Boolean));
   for (const sourceId of sourceIds) await ensureLibrarySourceLoaded(sourceId);
+  // Two rapid Open actions (or an Open racing startup restoration) can both
+  // pass the first already-open check before source hydration yields. Recheck
+  // after the asynchronous work so only one in-memory object with this Library
+  // id can be inserted.
+  const racedOpen = documentById(docId);
+  if (racedOpen) {
+    if (options.makeActive !== false) loadDocumentState(docId);
+    return racedOpen;
+  }
   const doc = hydrateDocumentFromLibrary(record);
   state.documents.push(doc);
   if (options.makeActive !== false) {
@@ -1494,45 +1508,82 @@ function traceRawStrokeCanvas(ctx, page, points) {
 function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={}) {
   if (!ctx || !hasPageAnnotations(page)) return;
   const smooth = options.smooth !== false;
+  const isolateHighlighter = smooth && options.isolateHighlighter !== false;
+  const excludedStrokeId = options.excludeStrokeId || null;
   const display = pageDisplayDimensions(page);
   const sx = pixelWidth / Math.max(1, display.width);
   const sy = pixelHeight / Math.max(1, display.height);
-  ctx.save();
-  ctx.scale(sx, sy);
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-  for (const stroke of page.annotations) {
-    const points = Array.isArray(stroke?.points) ? stroke.points : [];
-    if (!points.length) continue;
+  let highlighterScratch = null;
+  let highlighterScratchCtx = null;
+
+  const ensureHighlighterScratch = () => {
+    if (!highlighterScratch) {
+      highlighterScratch = document.createElement('canvas');
+      highlighterScratch.width = pixelWidth;
+      highlighterScratch.height = pixelHeight;
+      highlighterScratchCtx = highlighterScratch.getContext('2d');
+    }
+    return highlighterScratchCtx;
+  };
+  const drawStrokeGeometry = (targetCtx, stroke, points, useSmooth, opacity) => {
     const width = Math.max(.25, Number(stroke.width) || 3);
     const color = stroke.color || '#111111';
-    const opacity = clamp(Number(stroke.opacity ?? 1), 0, 1);
-    ctx.globalAlpha = opacity;
-    ctx.strokeStyle = color;
-    ctx.fillStyle = color;
-    ctx.lineWidth = width;
     const first = basePointToDisplay(page, points[0]);
+    targetCtx.save();
+    targetCtx.scale(sx, sy);
+    targetCtx.globalAlpha = opacity;
+    targetCtx.strokeStyle = color;
+    targetCtx.fillStyle = color;
+    targetCtx.lineWidth = width;
+    targetCtx.lineCap = 'round';
+    targetCtx.lineJoin = 'round';
     if (points.length === 1) {
-      ctx.beginPath();
-      ctx.arc(first.x, first.y, width / 2, 0, Math.PI * 2);
-      ctx.fill();
-      continue;
+      targetCtx.beginPath();
+      targetCtx.arc(first.x, first.y, width / 2, 0, Math.PI * 2);
+      targetCtx.fill();
+    } else {
+      targetCtx.beginPath();
+      if (useSmooth) traceSmoothedStrokeCanvas(targetCtx, page, points);
+      else traceRawStrokeCanvas(targetCtx, page, points);
+      targetCtx.stroke();
     }
-    ctx.beginPath();
-    // Highlighter strokes are intentionally left as raw continuous polylines.
-    // Their wide round translucent geometry already hides sample-scale jitter,
-    // and avoiding cubic reconstruction keeps live iPad highlighting responsive.
-    // Pen strokes retain the 5.4.0 cardinal-spline smoothing. The eraser can
-    // still force all annotations to raw geometry temporarily via smooth:false.
-    if (smooth && stroke.tool !== 'highlighter') traceSmoothedStrokeCanvas(ctx, page, points);
-    else traceRawStrokeCanvas(ctx, page, points);
-    ctx.stroke();
+    targetCtx.restore();
+  };
+
+  for (const stroke of page.annotations) {
+    if (excludedStrokeId && stroke?.id === excludedStrokeId) continue;
+    const points = Array.isArray(stroke?.points) ? stroke.points : [];
+    if (!points.length) continue;
+    const opacity = clamp(Number(stroke.opacity ?? 1), 0, 1);
+
+    // A highlighter stroke is composited once as a translucent object. Drawing
+    // its raw sampled geometry directly with globalAlpha can darken tiny
+    // backtracks/self-overlaps on Canvas, producing the visible sample "beads"
+    // that do not appear in the PDF. Build that one stroke opaquely on a scratch
+    // canvas, then alpha-composite the finished stroke once onto the annotation
+    // layer. During an active eraser gesture smooth:false bypasses this more
+    // expensive polish path in favor of the established fast redraw.
+    if (stroke.tool === 'highlighter' && opacity < 1 && isolateHighlighter) {
+      const scratchCtx = ensureHighlighterScratch();
+      if (scratchCtx) {
+        scratchCtx.clearRect(0, 0, pixelWidth, pixelHeight);
+        drawStrokeGeometry(scratchCtx, stroke, points, false, 1);
+        ctx.save();
+        ctx.globalAlpha = opacity;
+        ctx.drawImage(highlighterScratch, 0, 0);
+        ctx.restore();
+        continue;
+      }
+    }
+
+    // Pen retains restrained cardinal-spline smoothing. Highlighter remains a
+    // continuous raw polyline; eraser fast redraw can force every tool raw.
+    drawStrokeGeometry(ctx, stroke, points, smooth && stroke.tool !== 'highlighter', opacity);
   }
-  ctx.restore();
 }
 function ensureAnnotationOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.live-highlighter-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.annotation-canvas');
   if (!overlay) {
@@ -1549,7 +1600,7 @@ function ensureAnnotationOverlay(stage, baseCanvas=null) {
 }
 function redrawStageAnnotations(stage, page, options={}) {
   if (!stage || !page) return;
-  const base = stage.querySelector('canvas:not(.annotation-canvas)');
+  const base = stage.querySelector('canvas:not(.annotation-canvas):not(.live-highlighter-canvas)');
   const overlay = ensureAnnotationOverlay(stage, base);
   if (!overlay) return;
   const ctx = overlay.getContext('2d');
@@ -1567,7 +1618,7 @@ function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
   // the third sample onward drawLiveSmoothedInkProgress() adds finalized cubic
   // segments, keeping latency essentially identical to the raw polyline path.
   const drawOnStage = targetStage => {
-    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas)');
+    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.live-highlighter-canvas)');
     const canvas = ensureAnnotationOverlay(targetStage, baseCanvas);
     if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
     const ctx = canvas.getContext('2d');
@@ -1601,6 +1652,71 @@ function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const other of document.querySelectorAll(selector)) if (other !== stage) drawOnStage(other);
 }
+function ensureLiveHighlighterOverlay(stage, baseCanvas=null, opacity=HIGHLIGHTER_OPACITY) {
+  if (!stage) return null;
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.live-highlighter-canvas)');
+  if (!base?.width || !base?.height) return null;
+  let overlay = stage.querySelector('canvas.live-highlighter-canvas');
+  if (!overlay) {
+    overlay = document.createElement('canvas');
+    overlay.className = 'live-highlighter-canvas';
+    overlay.setAttribute('aria-hidden', 'true');
+    stage.append(overlay);
+  }
+  if (overlay.width !== base.width) overlay.width = base.width;
+  if (overlay.height !== base.height) overlay.height = base.height;
+  overlay.style.width = base.style.width || '100%';
+  overlay.style.height = base.style.height || '100%';
+  overlay.style.opacity = String(clamp(Number(opacity ?? HIGHLIGHTER_OPACITY), 0, 1));
+  return overlay;
+}
+function clearLiveHighlighterOverlays(page) {
+  if (!page?.id) return;
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"] > canvas.live-highlighter-canvas`;
+  for (const overlay of document.querySelectorAll(selector)) overlay.remove();
+}
+function drawLiveHighlighterSegment(stage, page, stroke, fromPoint, toPoint) {
+  // The live Highlighter has its own temporary canvas. Its geometry is drawn
+  // opaquely and the canvas element carries the stroke opacity, so overlapping
+  // incremental segments do not create dark sample joints. This also avoids
+  // clearing/redrawing every Pen and Highlighter already on the page for every
+  // Pencil move.
+  const drawOnStage = targetStage => {
+    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.live-highlighter-canvas)');
+    const canvas = ensureLiveHighlighterOverlay(targetStage, baseCanvas, stroke.opacity);
+    if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const display = pageDisplayDimensions(page);
+    const sx = canvas.width / Math.max(1, display.width);
+    const sy = canvas.height / Math.max(1, display.height);
+    const a = basePointToDisplay(page, fromPoint);
+    const b = basePointToDisplay(page, toPoint);
+    ctx.save();
+    ctx.scale(sx, sy);
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = stroke.color || '#ffeb3b';
+    ctx.fillStyle = stroke.color || '#ffeb3b';
+    ctx.lineWidth = Math.max(.25, Number(stroke.width) || 14);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    if (Math.hypot(b.x-a.x,b.y-a.y) < .001) {
+      ctx.beginPath();
+      ctx.arc(a.x, a.y, ctx.lineWidth / 2, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    }
+    ctx.restore();
+  };
+  drawOnStage(stage);
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const other of document.querySelectorAll(selector)) if (other !== stage) drawOnStage(other);
+}
+
 function drawLiveSmoothedInkProgress(stage, page, stroke) {
   const points = stroke?.points || [];
   const count = points.length;
@@ -1622,7 +1738,7 @@ function drawLiveSmoothedInkProgress(stage, page, stroke) {
   const controls = smoothStrokeControls(points, segmentIndex);
   if (!controls) return;
   const drawOnStage = targetStage => {
-    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas)');
+    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.live-highlighter-canvas)');
     const canvas = ensureAnnotationOverlay(targetStage, baseCanvas);
     if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
     const ctx = canvas.getContext('2d');
@@ -2259,14 +2375,15 @@ function setEraserSize(size) {
 }
 function appendInkPoint(gesture, event, drawLive=true) {
   const page = pageById(gesture.pageId);
-  if (!page || page !== gesture.page || !gesture.stage?.isConnected) return;
+  if (!page || page !== gesture.page || !gesture.stage?.isConnected) return null;
   const next = eventPointOnPage(gesture.stage, page, event);
-  if (!next) return;
+  if (!next) return null;
   const points = gesture.stroke.points;
   const previous = points[points.length - 1];
-  if (previous && Math.hypot(next.x - previous.x, next.y - previous.y) < .18) return;
+  if (previous && Math.hypot(next.x - previous.x, next.y - previous.y) < .18) return null;
   points.push(next);
   if (drawLive) drawLiveSmoothedInkProgress(gesture.stage, page, gesture.stroke);
+  return next;
 }
 function inkStageForEvent(viewer, event) {
   let stage = event.target instanceof Element ? event.target.closest('.page-stage[data-page-id]') : null;
@@ -2325,8 +2442,12 @@ function beginInkGesture(viewer, event) {
   if (inputSource === 'pointer') {
     try { viewer.setPointerCapture?.(event.pointerId); } catch {}
   }
-  if (drawingTool === 'highlighter') redrawPageAnnotationOverlays(page);
-  else drawLiveInkSegment(stage, page, stroke, first, first);
+  if (drawingTool === 'highlighter') {
+    // Keep existing annotations frozen on the persistent overlay while this
+    // translucent stroke is drawn incrementally on its own temporary layer.
+    redrawPageAnnotationOverlays(page, { excludeStrokeId: stroke.id });
+    drawLiveHighlighterSegment(stage, page, stroke, first, first);
+  } else drawLiveInkSegment(stage, page, stroke, first, first);
   addInkDiagnostic('handler-begin-accepted', event, { strokeId:stroke.id });
   return true;
 }
@@ -2336,13 +2457,13 @@ function continueInkGesture(viewer, event) {
   if (event.cancelable) event.preventDefault();
   const samples = typeof event.getCoalescedEvents === 'function' ? event.getCoalescedEvents() : null;
   const translucent = gesture.stroke?.tool === 'highlighter';
-  if (samples?.length) for (const sample of samples) appendInkPoint(gesture, sample, !translucent);
-  else appendInkPoint(gesture, event, !translucent);
-  // A translucent stroke cannot be safely accumulated segment-by-segment on
-  // the shared annotation canvas because overlapping round caps would darken
-  // every sample join. Redraw the complete highlighter path once per pointer
-  // event instead; coalesced samples are still stored in full.
-  if (translucent) redrawPageAnnotationOverlays(gesture.page);
+  const appendSample = sample => {
+    const previous = gesture.stroke.points[gesture.stroke.points.length - 1] || null;
+    const added = appendInkPoint(gesture, sample, !translucent);
+    if (translucent && added) drawLiveHighlighterSegment(gesture.stage, gesture.page, gesture.stroke, previous || added, added);
+  };
+  if (samples?.length) for (const sample of samples) appendSample(sample);
+  else appendSample(event);
   return true;
 }
 function finishInkGesture(viewer, event) {
@@ -2351,9 +2472,10 @@ function finishInkGesture(viewer, event) {
   if (event.cancelable) event.preventDefault();
   const translucent = gesture.stroke?.tool === 'highlighter';
   appendInkPoint(gesture, event, !translucent);
-  // Clear the provisional live tail and render the completed stroke using its
-  // normal tool-specific path: smoothed for Pen, raw continuous polyline for
-  // Highlighter. Raw sampled points remain authoritative for both.
+  // Commit a live Highlighter stroke to the persistent annotation layer only
+  // once, on release/cancel. Pen still clears its provisional tail here and
+  // receives the normal completed smoothed redraw.
+  if (translucent) clearLiveHighlighterOverlays(gesture.page);
   redrawPageAnnotationOverlays(gesture.page);
   if (gesture.inputSource === 'pointer') {
     try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
@@ -3020,6 +3142,69 @@ function paneElements(paneId) {
 
 function splitPaneState(paneId=state.activePaneId) { return state.splitPanes[paneId === 'right' ? 'right' : 'left']; }
 function documentById(docId) { return state.documents.find(d => d.id === docId) || null; }
+
+function documentAnnotationCount(doc) {
+  return (doc?.pages || []).reduce((sum,page) => sum + (Array.isArray(page?.annotations) ? page.annotations.length : 0), 0);
+}
+function preferredOpenDocumentDuplicate(a,b) {
+  // If one duplicate is the actual live object currently backing the viewer,
+  // preserve it first. This is important if a reopen race created a second
+  // copy and the user subsequently annotated the live copy.
+  const aLive = a?.id === state.currentDocumentId && state.pages === a.pages;
+  const bLive = b?.id === state.currentDocumentId && state.pages === b.pages;
+  if (aLive !== bLive) return aLive ? a : b;
+  const aModified = Number(a?.modifiedAt || 0), bModified = Number(b?.modifiedAt || 0);
+  if (aModified !== bModified) return aModified > bModified ? a : b;
+  const aAnnotations = documentAnnotationCount(a), bAnnotations = documentAnnotationCount(b);
+  if (aAnnotations !== bAnnotations) return aAnnotations > bAnnotations ? a : b;
+  const aHistory = Array.isArray(a?.history) ? a.history.length : 0;
+  const bHistory = Array.isArray(b?.history) ? b.history.length : 0;
+  if (aHistory !== bHistory) return aHistory > bHistory ? a : b;
+  return b?.needsExport && !a?.needsExport ? b : a;
+}
+function deduplicateOpenDocuments() {
+  if (state.documents.length < 2) return false;
+  const byId = new Map();
+  const order = [];
+  let changed = false;
+  for (const doc of state.documents) {
+    if (!doc?.id) { order.push(doc); continue; }
+    if (!byId.has(doc.id)) {
+      byId.set(doc.id, doc);
+      order.push(doc);
+      continue;
+    }
+    changed = true;
+    const existing = byId.get(doc.id);
+    const preferred = preferredOpenDocumentDuplicate(existing, doc);
+    if (preferred !== existing) {
+      byId.set(doc.id, preferred);
+      const index = order.indexOf(existing);
+      if (index >= 0) order[index] = preferred;
+    }
+  }
+  if (!changed) return false;
+  state.documents = order;
+  const active = state.currentDocumentId ? byId.get(state.currentDocumentId) : null;
+  if (active) {
+    state.pages = active.pages;
+    state.selected = active.selected;
+    state.selectionAnchorId = active.selectionAnchorId;
+    state.activePageId = active.activePageId;
+    state.history = active.history;
+    state.future = active.future;
+  } else if (state.documents.length) {
+    state.currentDocumentId = state.documents[0].id;
+    const first = state.documents[0];
+    state.pages = first.pages;
+    state.selected = first.selected;
+    state.selectionAnchorId = first.selectionAnchorId;
+    state.activePageId = first.activePageId;
+    state.history = first.history;
+    state.future = first.future;
+  }
+  return true;
+}
 function paneDocument(paneId=state.activePaneId) { return documentById(splitPaneState(paneId).documentId); }
 
 function ensureSplitPaneDocuments() {
@@ -5233,6 +5418,7 @@ async function factoryResetAllLocalData() {
 
 function renderOpenDocumentList() {
   if (!els.openDocumentList) return;
+  deduplicateOpenDocuments();
   reconcileFileSelection();
   els.openDocumentList.replaceChildren();
   const chosen = selectedFileDocuments();
@@ -8600,7 +8786,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.4.2 keeps restrained cardinal-spline smoothing for Pen ink but renders Highlighter strokes as continuous raw polylines on screen and in PDF export. Wide translucent highlighter strokes do not benefit enough from cubic reconstruction to justify its live iPad cost. The 5.4.1 fast eraser redraw remains in place; stored raw geometry, eraser cuts, selection, and the proven input routing are unchanged.</p>
+      <p>Milestone 5.4.3 keeps restrained Pen smoothing while moving live Highlighter ink to a dedicated incremental canvas so highlighting no longer redraws every existing annotation on each Pencil move. Completed Highlighter strokes are composited once per stroke for cleaner on-screen transparency. This build also prevents and repairs same-id duplicate open documents caused by overlapping asynchronous Library-open requests.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes. Pen retains five direct colors and three widths; Highlighter has its own yellow/pink/cyan/green palette and three widths; Eraser cuts only touched portions; Select works on whole annotation objects.</li><li><strong>Editable ink:</strong> strokes and eraser-created fragments remain page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and can now be moved, resized, deleted, duplicated, copied, and pasted as whole objects.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
       <p><strong>Next annotation step:</strong> image insertion as selectable annotation objects. The future new-document size refinement will also offer device-derived Presentation canvas sizes alongside US Letter.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

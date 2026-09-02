@@ -74,6 +74,7 @@ button:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 65%, 
 .viewer.single .end-page-pull { display: none; }
 .page-stage canvas { display: block; width: 100%; height: 100%; }
 .page-stage > canvas.annotation-canvas { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: transparent; }
+.page-stage > canvas.live-highlighter-canvas { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: transparent; }
 .page-loading { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: .85rem; }
 .single-page-nav { position: absolute; left: 50%; bottom: max(10px, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 20; display: flex; align-items: center; gap: 6px; padding: 4px; background: rgb(255 255 255 / .88); border: 1px solid var(--border); border-radius: 12px; backdrop-filter: blur(8px); }
 .single-page-nav button { min-width: 42px; min-height: 42px; padding: 0; font-size: 28px; line-height: 1; }

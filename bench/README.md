@@ -1,22 +1,30 @@
-# PDF Workbench — Milestone 5.4.2
+# PDF Workbench — Milestone 5.4.3
 
-Milestone 5.4.2 is a focused Highlighter performance refinement on top of 5.4.1. Pen ink keeps the restrained 5.4.0 cardinal-spline smoothing. Highlighter ink now renders and exports as one continuous raw-point polyline with round joins/caps and the existing transparency. Its authoritative sampled geometry is unchanged.
+Milestone 5.4.3 is a focused iPad Highlighter responsiveness and Local Library consistency fix on top of 5.4.2. Pen smoothing, stored raw geometry, eraser behavior, selection, export semantics, and the proven cross-device input routing remain intact.
 
-## 5.4.2 Highlighter performance refinement
+## 5.4.3 Highlighter live-layer + duplicate-open repair
 
-- Pen rendering/export remains smoothed exactly as in 5.4.1.
-- Highlighter rendering no longer computes cubic spline controls; its wide translucent stroke uses the stored point sequence directly.
-- Live Highlighter still redraws the complete current path once per pointer event so overlapping translucent segment caps cannot create dark joints.
-- PDF export likewise emits each Highlighter as one continuous line path, preserving round joins/caps and opacity.
-- The 5.4.1 fast raw redraw during an eraser gesture remains unchanged.
-- No changes to input routing, palm rejection, raw/coalesced sample storage, eraser geometry, selection, session restoration, templates, or automatic new pages.
+- Live Highlighter no longer clears and redraws every existing page annotation on every Pencil move.
+- The active Highlighter stroke uses a dedicated temporary canvas and is drawn incrementally with opaque internal geometry plus element-level opacity. That keeps one stroke uniformly translucent without dark sample joints while avoiding work proportional to the amount of existing handwriting on the page.
+- On release, the live layer is removed and the completed Highlighter is committed to the normal persistent annotation overlay once.
+- Completed on-screen Highlighter strokes are composited one stroke at a time through a reusable scratch canvas. This prevents tiny raw-sample backtracks from producing the darker circular “beads” seen in iPad screenshots; separate Highlighter strokes can still overlap and darken normally.
+- PDF export is unchanged from 5.4.2: Highlighter remains one continuous raw polyline with round joins/caps and opacity; Pen remains smoothed.
+- The 5.4.1 fast eraser redraw remains in place.
 
-### Test priority for 5.4.2
+### Local Library/open-document repair
 
-1. On iPad, draw several long Highlighter strokes and compare live responsiveness with 5.4.0/5.4.1.
-2. Erase Pen and Highlighter strokes on the same page and verify the 5.4.1 responsiveness improvement remains.
-3. Export mixed Pen/Highlighter pages and verify Pen stays smoothed while Highlighter remains visually continuous and translucent.
-4. Confirm Surface behavior is unchanged.
+- `reopenLibraryDocument()` now rechecks whether a document became open after its asynchronous source load. This closes a race where two rapid/opening requests could insert two in-memory document objects with the same Library id.
+- Open-document rendering and Library persistence also deduplicate any same-id objects left by an older build.
+- When repairing an existing duplicate, Workbench prefers the object currently backing the active viewer; otherwise it prefers the newer/richer copy. This is intended to preserve live annotations rather than a stale clean duplicate.
+- This prevents two same-name/same-id rows from sharing one checkbox and prevents multi-document export from producing two copies of what is logically one Library document.
+
+### Test priority for 5.4.3
+
+1. iPad: draw a long Highlighter stroke on a blank page, add substantial Pen writing, then draw another equally long Highlighter stroke. Live responsiveness should remain similar rather than degrading with page content.
+2. Compare the completed top and bottom Highlighter strokes on screen; the dark circular sample “beads” should be substantially reduced or absent.
+3. Export the page and verify the PDF still matches the intended continuous translucent Highlighter geometry.
+4. Open the same Local Library document repeatedly/rapidly and verify only one open-document row exists; a pre-existing same-id duplicate should self-heal to one row.
+5. Confirm Pen smoothing and the 5.4.1 eraser responsiveness are unchanged on iPad and Surface.
 
 
 Milestone 5.4.1 is a focused performance fix for partial erasing on iPad after smoothing was introduced. During an active eraser gesture only, annotation overlays are redrawn from the stored raw polylines rather than recomputing all smoothed cubic paths on every Pencil move. On release, the page immediately returns to the normal 5.4.0 smoothed rendering. No annotation geometry, PDF export geometry, Pen/Highlighter sampling, selection behavior, or input routing is changed.
@@ -254,7 +262,7 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.4.2-v1`
+- Service-worker cache: `pdf-workbench-m5.4.3-v1`
 
 ## High-priority smoke tests
 1. On iPad, Surface, and Chromebook, draw several separate strokes, choose Select, lasso one stroke and then a group. Verify the selected objects get one bounding box and that unselected strokes remain untouched.
@@ -275,4 +283,4 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 16. Re-test the previously problematic slide deck unchanged; it should still export byte-for-byte. Add a short pen stroke and export again; the file should remain reasonably sized.
 17. Save one template **With annotations** and one **Clean**; confirm their previews/content differ correctly. In Template Manager set the automatic last page to Graph, Blank, and then a saved template, and test pull/scroll-past-end creation for each.
 18. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
-**More → About this build** reports **Milestone 5.4.2**.
+**More → About this build** reports **Milestone 5.4.3**.
