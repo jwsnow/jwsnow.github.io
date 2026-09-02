@@ -1,4 +1,19 @@
-# PDF Workbench — Milestone 5.4.6
+# PDF Workbench — Milestone 5.4.7
+
+Milestone 5.4.7 is a dense-page history/persistence performance fix on top of 5.4.6. iPad stress testing showed that the eraser vector commit itself had become fast, but the whole UI could still freeze shortly after a gesture on a heavily annotated page. The cause was the Undo/Redo representation: each history entry cloned the entire page with thousands of `{x,y}` point objects, and Local Library autosave then cloned and persisted all of those snapshots again.
+
+## 5.4.7 Dense-page history and autosave fix
+
+- Undo/Redo point coordinates are packed into `Float32Array` pairs while stored in session history, sharply reducing object count, memory pressure, and garbage collection on dense pages.
+- Local Library records now persist the current editable vector document state only; Undo/Redo history is session-local and is reset when the app is reopened.
+- Existing 5.4.6 live Highlighter batching/composite commit, deferred Eraser vector commit, and autosave-during-gesture suppression are retained.
+- Pencil diagnostics now record Local Library persistence start/finish and serialization/total timing so dense-page stalls can be correlated directly with autosave.
+- No change to Pen smoothing, Highlighter appearance/export, eraser semantics, lasso semantics, raw editable points, split view, palm rejection, or PDF export.
+
+### Test priority for 5.4.7
+
+Repeat the dense-page iPad stress test. After filling/duplicating enough ink to make the page busy, verify that repeated Eraser strokes remain responsive and, especially, that toolbar/More buttons remain responsive about one second after the last edit when autosave normally runs.
+
 
 Milestone 5.4.6 is a dense-page interaction scheduling refinement on top of 5.4.5. It keeps the same annotation data, Pen smoothing, Highlighter PDF-export simplification, selection semantics, and partial-stroke eraser semantics.
 
@@ -277,7 +292,7 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.4.6-v1`
+- Service-worker cache: `pdf-workbench-m5.4.7-v1`
 
 ## High-priority smoke tests
 1. On iPad, Surface, and Chromebook, draw several separate strokes, choose Select, lasso one stroke and then a group. Verify the selected objects get one bounding box and that unselected strokes remain untouched.
@@ -298,4 +313,4 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 16. Re-test the previously problematic slide deck unchanged; it should still export byte-for-byte. Add a short pen stroke and export again; the file should remain reasonably sized.
 17. Save one template **With annotations** and one **Clean**; confirm their previews/content differ correctly. In Template Manager set the automatic last page to Graph, Blank, and then a saved template, and test pull/scroll-past-end creation for each.
 18. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
-**More → About this build** reports **Milestone 5.4.6**.
+**More → About this build** reports **Milestone 5.4.7**.

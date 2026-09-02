@@ -1,10 +1,18 @@
-PDF WORKBENCH PWA — MILESTONE 5.4.6 CURRENT UPDATE
+PDF WORKBENCH PWA — MILESTONE 5.4.7 CURRENT UPDATE
 
-CURRENT BUILD: Milestone 5.4.6
-Visible About version: 5.4.6
-Service-worker/cache version: pdf-workbench-m5.4.6-v1
+CURRENT BUILD: Milestone 5.4.7
+Visible About version: 5.4.7
+Service-worker/cache version: pdf-workbench-m5.4.7-v1
 Baseline: 5.3.0, confirmed working on iPad and Surface; Chromebook retest deferred because the device was not available.
 
+
+MILESTONE 5.4.7 — DENSE-PAGE HISTORY / AUTOSAVE MEMORY FIX
+- iPad stress test plus GoodNotes comparison confirmed that hundreds of page marks are a reasonable workload and that remaining slowdown was Workbench-specific, not a device limit.
+- Root cause found in Undo/Redo + persistence architecture: snapshotPages() cloned every page/annotation point into ordinary JS objects for each undo step (up to 50), and serializeDocumentForLibrary() then cloned/persisted the entire history and future arrays on every autosave. This created large memory/GC pressure and multi-second post-gesture UI stalls on dense pages.
+- History snapshots now pack annotation point coordinates into Float32Array x/y pairs. restorePages() transparently inflates them only when Undo/Redo is actually used.
+- Durable Local Library persistence now stores only the current editable document state; history/future are written empty and legacy persisted history is deliberately not hydrated. Undo/Redo remains fully available during the current app session, but starts fresh after restart.
+- Added library-persist-start/library-persist-finish diagnostics including serializeMs and totalMs to verify that autosave no longer causes UI stalls.
+- 5.4.6 live Highlighter batching, direct composite commit, geometry reuse, autosave gesture deferral, 5.4.4 optimized selection/eraser previews, and 5.4.5 Highlighter PDF cleanup are retained.
 
 MILESTONE 5.4.6 — DENSE-PAGE LIVE GESTURE SCHEDULING
 - Scheduled Local Library persistence is deferred while any Pen/Highlighter/Eraser/Select gesture is active. This prevents dense document cloning/serialization from starting midway through a stylus drag. Explicit lifecycle persistence remains available.

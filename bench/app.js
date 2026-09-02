@@ -1,4 +1,4 @@
-const APP_VERSION = '5.4.6';
+const APP_VERSION = '5.4.7';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -306,10 +306,35 @@ function clonePlain(value) {
   try { return structuredClone(value); } catch { return JSON.parse(JSON.stringify(value)); }
 }
 function cloneInkStroke(stroke) {
-  return {
-    ...stroke,
-    points: Array.isArray(stroke?.points) ? stroke.points.map(point => ({ x: Number(point.x) || 0, y: Number(point.y) || 0 })) : [],
-  };
+  const source = stroke?.points;
+  let points = [];
+  if (Array.isArray(source)) {
+    points = source.map(point => ({ x: Number(point.x) || 0, y: Number(point.y) || 0 }));
+  } else if (ArrayBuffer.isView(source)) {
+    // Undo/Redo snapshots use packed Float32 coordinate pairs to avoid retaining
+    // millions of tiny {x,y} objects on dense handwritten pages. Inflate only
+    // when a snapshot is actually restored.
+    points = new Array(Math.floor(source.length / 2));
+    for (let i = 0, j = 0; i + 1 < source.length; i += 2, j += 1) {
+      points[j] = { x: Number(source[i]) || 0, y: Number(source[i + 1]) || 0 };
+    }
+  }
+  return { ...stroke, points };
+}
+function cloneInkStrokeForHistory(stroke) {
+  const source = Array.isArray(stroke?.points) ? stroke.points : [];
+  const packed = new Float32Array(source.length * 2);
+  for (let i = 0; i < source.length; i += 1) {
+    packed[i * 2] = Number(source[i]?.x) || 0;
+    packed[i * 2 + 1] = Number(source[i]?.y) || 0;
+  }
+  return { ...stroke, points: packed };
+}
+function clonePageStateForHistory(page) {
+  if (!page) return page;
+  const copy = { ...page };
+  copy.annotations = Array.isArray(page.annotations) ? page.annotations.map(cloneInkStrokeForHistory) : [];
+  return copy;
 }
 function clonePageState(page, options={}) {
   if (!page) return page;
@@ -328,8 +353,12 @@ function serializeDocumentForLibrary(doc) {
     selected: [...(doc.selected || [])],
     selectionAnchorId: doc.selectionAnchorId || null,
     activePageId: doc.activePageId || doc.pages[0]?.id || null,
-    history: (doc.history || []).map(snapshot => snapshot.map(page => clonePageState(page))),
-    future: (doc.future || []).map(snapshot => snapshot.map(page => clonePageState(page))),
+    // Undo/Redo is intentionally session-local. Persisting dozens of complete
+    // dense-page snapshots made every autosave grow roughly with history depth
+    // and could stall iPad Safari for seconds. The durable Library record stores
+    // the current editable vector state only.
+    history: [],
+    future: [],
     singleView: copyView(doc.singleView || ensureSingleView(doc)),
     createdAt: doc.createdAt || Date.now(),
     modifiedAt: doc.modifiedAt || Date.now(),
@@ -351,8 +380,11 @@ function hydrateDocumentFromLibrary(record) {
     selected: new Set((record.selected || []).filter(id => pageIds.has(id))),
     selectionAnchorId: pageIds.has(record.selectionAnchorId) ? record.selectionAnchorId : null,
     activePageId: pageIds.has(record.activePageId) ? record.activePageId : pages[0]?.id || null,
-    history: (record.history || []).map(snapshot => snapshot.map(page => clonePageState(page))),
-    future: (record.future || []).map(snapshot => snapshot.map(page => clonePageState(page))),
+    // Legacy builds persisted full Undo/Redo page snapshots. Do not hydrate
+    // those potentially huge arrays; the next save rewrites the record with
+    // current-state-only persistence.
+    history: [],
+    future: [],
     singleView: copyView(record.singleView) || { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: pages[0]?.id || null, scrollTop: null, scrollLeft: null },
     createdAt: record.createdAt || Date.now(),
     modifiedAt: record.modifiedAt || record.createdAt || Date.now(),
@@ -543,6 +575,9 @@ async function restorePersistentTemplates() {
 }
 async function persistLibraryNow(options={}) {
   if (state.librarySuppressPersist) return;
+  const persistStarted = performance.now();
+  let persistSerializeMs = 0;
+  addInkDiagnostic('library-persist-start', null, { documents:state.documents.length, historyPersisted:false });
   if (!state.libraryReady || !state.libraryDb) {
     if (!(await ensureLibraryConnection())) return;
   }
@@ -560,7 +595,9 @@ async function persistLibraryNow(options={}) {
     for (const doc of state.documents) {
       const sourceIds = new Set(doc.pages.map(page => page.sourceId).filter(Boolean));
       for (const sourceId of sourceIds) await persistSourceToLibrary(sourceId);
+      const serializeStarted = performance.now();
       const record = serializeDocumentForLibrary(doc);
+      persistSerializeMs += performance.now() - serializeStarted;
       await libraryPut('documents', record);
       state.libraryRecords.set(doc.id, record);
     }
@@ -581,6 +618,13 @@ async function persistLibraryNow(options={}) {
     state.libraryReady = false;
   } finally {
     state.libraryPersisting = false;
+    addInkDiagnostic('library-persist-finish', null, {
+      documents:state.documents.length,
+      historyPersisted:false,
+      serializeMs:Math.round(persistSerializeMs * 10) / 10,
+      totalMs:Math.round((performance.now() - persistStarted) * 10) / 10,
+      failed:!!failed,
+    });
   }
   // WebKit can lose an IndexedDB server connection when a Home Screen app is
   // suspended/resumed. Reconnect once and retry rather than silently losing the
@@ -3839,7 +3883,10 @@ function setStatus(text, sticky=false) {
 }
 
 function snapshotPages() {
-  return state.pages.map(page => clonePageState(page));
+  // History remains fully editable/accurate, but point coordinates are packed
+  // into typed arrays. Dense-page tests exposed severe GC/memory pressure from
+  // keeping 50 full histories as millions of individual point objects.
+  return state.pages.map(page => clonePageStateForHistory(page));
 }
 function commitHistory(before) {
   state.history.push(before);
@@ -9198,7 +9245,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.4.6 keeps the 5.4.5 Highlighter export cleanup and further protects dense-page responsiveness: scheduled Local Library serialization is deferred while a stylus gesture is active, live Highlighter samples are batched per PointerEvent, completed Highlighter strokes are composited directly without a full-page rebuild, and Highlighter/Eraser coalesced samples reuse one page-geometry measurement per event. Stored/editable points, Pen smoothing, partial-stroke eraser semantics, Undo/Redo, and the proven input routing remain intact.</p>
+      <p>Milestone 5.4.7 fixes a dense-page memory/persistence bottleneck exposed by iPad stress testing. Undo/Redo snapshots now pack point coordinates into typed arrays in memory, and Local Library autosave stores only the current editable document state rather than serializing the entire Undo/Redo history on every save. Undo/Redo remains available during the active session; reopening the app starts a fresh Undo/Redo history. 5.4.6 live Highlighter/Eraser optimizations and 5.4.5 export cleanup remain intact.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes. Pen retains five direct colors and three widths; Highlighter has its own yellow/pink/cyan/green palette and three widths; Eraser cuts only touched portions; Select works on whole annotation objects.</li><li><strong>Editable ink:</strong> strokes and eraser-created fragments remain page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and can now be moved, resized, deleted, duplicated, copied, and pasted as whole objects.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
       <p><strong>Next annotation step:</strong> image insertion as selectable annotation objects. The future new-document size refinement will also offer device-derived Presentation canvas sizes alongside US Letter.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
