@@ -1,13 +1,45 @@
-PDF WORKBENCH PWA — MILESTONE 5.1.1 CURRENT UPDATE
+PDF WORKBENCH PWA — MILESTONE 5.2.0 CURRENT UPDATE
 ====================================================================
-CURRENT BUILD: Milestone 5.1.1
-Visible About version: 5.1.1
-Service-worker/cache version: pdf-workbench-m5.1.1-v1
+CURRENT BUILD: Milestone 5.2.0
+Visible About version: 5.2.0
+Service-worker/cache version: pdf-workbench-m5.2.0-v1
 IndexedDB database version: 2
 Library schema version: 5
 Editable backup format version: 1
 
+MILESTONE 5.2.0 — LASSO / OBJECT SELECTION AND MANIPULATION
+====================================================================
 
+Confirmed baseline before this build:
+- 5.1.1 works on iPad, Surface, and Chromebook.
+- Pen input remains stable on all three; Chromebook inking was reported more responsive than GoodNotes Web before smoothing.
+- Partial-stroke eraser works in single/split view and Presentation/non-Presentation on all three; exported PDFs contain only surviving vector ink and no deleted stroke remnants.
+- Contextual annotation toolbar works on all three.
+- Template creation, automatic new page, and session restoration are all confirmed working on all three.
+- Automatic end-page append has minor trackpad sensitivity / prompt-linger tuning issues, but these are deliberately deferred until normal use shows whether they are bothersome.
+
+5.2.0 implementation:
+- Adds Lasso / Select as a fourth annotation tool. Stylus/mouse performs selection; finger navigation continues through the existing stylus-aware pan/pinch/palm-rejection path.
+- Lasso selection is object-grained: if a stroke/object is intersected or enclosed, the whole object is selected. Partial editing remains the job of the 5.1.0 eraser.
+- Selected objects get a visible SVG bounding box and four corner resize handles. Dragging inside the box moves the group; dragging a handle resizes the group proportionally in page coordinates and scales stroke widths with the geometry.
+- Contextual Select actions: Delete, Duplicate, Copy, Paste.
+- Copy/Paste uses an internal annotation clipboard. It supports same-page, other-page, and other-open-document workflows. Pasted/duplicated annotations receive independent IDs and become the new selection.
+- Keyboard shortcuts while Select is active: Delete/Backspace, Ctrl/Cmd+C, Ctrl/Cmd+V, Ctrl/Cmd+D.
+- Move, resize, delete, duplicate, and paste are normal Undo/Redo operations and use the same persisted/exported vector annotation model.
+- Same-page split-view instances redraw live during move/resize. Selection UI is a separate overlay and is never exported.
+- Existing 5.1.1 pen/eraser input, ChromeOS palm rejection, Surface hover suppression, session restore, templates, automatic page append, and PDF export paths are intentionally unchanged.
+
+TEST PRIORITY:
+1. Lasso one stroke and a multi-stroke group on iPad, Surface, and Chromebook; verify selection is whole-object and finger pan/pinch remains usable.
+2. Move and resize selected groups, including each corner handle; verify Undo/Redo and same-page split-view live synchronization.
+3. Delete and Duplicate selected objects; verify Undo/Redo and export.
+4. Copy/Paste on the same page, another page, and another open document; verify independent objects and reasonable paste offset/placement.
+5. Export after every manipulation type and confirm no lasso/bounding-box UI is present in Adobe Acrobat.
+6. Quick pen/eraser/palm/session regression only; those subsystems were not intentionally changed.
+
+====================================================================
+PRIOR MILESTONE 5.1.1 HANDOFF FOLLOWS
+====================================================================
 
 MILESTONE 5.1.1 — CONTEXTUAL ANNOTATION TOOLBAR
 

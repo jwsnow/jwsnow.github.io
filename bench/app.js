@@ -1,4 +1,4 @@
-const APP_VERSION = '5.1.1';
+const APP_VERSION = '5.2.0';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -33,7 +33,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkEraserBtn: $('inkEraserBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionPasteBtn: $('selectionPasteBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -67,12 +67,17 @@ const state = {
   presentationRevealPointerId: null,
   presentationSuppressClicksUntil: 0,
   singlePresentationTransitionActive: false,
-  annotationTool: safePref('pdfwb-annotation-tool', 'hand', ['hand', 'pen', 'eraser']),
+  annotationTool: safePref('pdfwb-annotation-tool', 'hand', ['hand', 'pen', 'eraser', 'select']),
   penColor: safePref('pdfwb-pen-color', '#111111', ['#111111','#1565c0','#d32f2f','#2e7d32','#ef6c00']),
   penWidth: Number(safePref('pdfwb-pen-width', '3', ['1.5','3','5.5'])),
   eraserSize: Number(safePref('pdfwb-eraser-size', '24', ['12','24','40'])),
   inkGesture: null,
   eraserGesture: null,
+  selectionGesture: null,
+  annotationSelection: { documentId: null, pageId: null, ids: new Set() },
+  annotationClipboard: null,
+  annotationPasteSerial: 0,
+  annotationPasteTargetKey: null,
   eraserCursor: null,
   inkDiagnostics: [],
   inkDiagnosticPointers: new Map(),
@@ -1374,7 +1379,7 @@ const PEN_WIDTHS = [1.5, 3, 5.5];
 const ERASER_SIZES = [12, 24, 40];
 
 function isStylusAnnotationTool(tool=state.annotationTool) {
-  return tool === 'pen' || tool === 'eraser';
+  return tool === 'pen' || tool === 'eraser' || tool === 'select';
 }
 
 function normalizedQuarterTurn(value=0) {
@@ -1476,6 +1481,7 @@ function redrawStageAnnotations(stage, page) {
   const ctx = overlay.getContext('2d');
   ctx.clearRect(0, 0, overlay.width, overlay.height);
   drawPageAnnotationsCanvas(page, ctx, overlay.width, overlay.height);
+  redrawStageAnnotationSelection(stage, page);
 }
 function redrawPageAnnotationOverlays(page) {
   if (!page?.id) return;
@@ -1522,16 +1528,527 @@ function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
   for (const other of document.querySelectorAll(selector)) if (other !== stage) drawOnStage(other);
 }
 
+
+// ---------------------------------------------------------------------------
+// Milestone 5.2 annotation selection / lasso / manipulation
+// ---------------------------------------------------------------------------
+function selectedAnnotationPage() {
+  const sel = state.annotationSelection;
+  if (!sel?.pageId || sel.documentId !== state.currentDocumentId) return null;
+  return pageById(sel.pageId);
+}
+function selectedAnnotations(page=selectedAnnotationPage()) {
+  if (!page) return [];
+  const ids = state.annotationSelection?.ids || new Set();
+  return annotationsForPage(page).filter(annotation => ids.has(annotation.id));
+}
+function clearAnnotationSelection(redraw=true) {
+  const oldPageId = state.annotationSelection?.pageId || null;
+  state.annotationSelection = { documentId:null, pageId:null, ids:new Set() };
+  if (redraw && oldPageId) {
+    for (const stage of document.querySelectorAll(`.page-stage[data-page-id="${CSS.escape(oldPageId)}"]`)) {
+      const page = pageById(oldPageId);
+      if (page) redrawStageAnnotationSelection(stage, page);
+      else stage.querySelector('svg.annotation-selection-layer')?.remove();
+    }
+  }
+  updateSelectionToolbar();
+}
+function setAnnotationSelection(page, ids, options={}) {
+  const normalized = new Set(ids || []);
+  const existing = new Set(annotationsForPage(page).map(annotation => annotation.id));
+  for (const id of [...normalized]) if (!existing.has(id)) normalized.delete(id);
+  state.annotationSelection = {
+    documentId: state.currentDocumentId,
+    pageId: normalized.size ? page.id : null,
+    ids: normalized,
+  };
+  if (options.redraw !== false) redrawPageAnnotationSelectionOverlays(page);
+  updateSelectionToolbar();
+}
+function reconcileAnnotationSelection() {
+  const page = selectedAnnotationPage();
+  if (!page) {
+    if (state.annotationSelection?.ids?.size) clearAnnotationSelection(false);
+    updateSelectionToolbar();
+    return;
+  }
+  const available = new Set(annotationsForPage(page).map(annotation => annotation.id));
+  const ids = new Set([...state.annotationSelection.ids].filter(id => available.has(id)));
+  if (ids.size !== state.annotationSelection.ids.size) setAnnotationSelection(page, ids);
+  else updateSelectionToolbar();
+}
+function annotationDisplayBounds(page, annotations) {
+  const list = annotations || [];
+  let minX=Infinity, minY=Infinity, maxX=-Infinity, maxY=-Infinity;
+  for (const annotation of list) {
+    const half = Math.max(.125, Number(annotation?.width) || 0) / 2;
+    for (const raw of annotation?.points || []) {
+      const point = basePointToDisplay(page, raw);
+      minX = Math.min(minX, point.x-half);
+      minY = Math.min(minY, point.y-half);
+      maxX = Math.max(maxX, point.x+half);
+      maxY = Math.max(maxY, point.y+half);
+    }
+  }
+  return Number.isFinite(minX) ? { minX, minY, maxX, maxY, width:maxX-minX, height:maxY-minY } : null;
+}
+function annotationBaseBounds(annotations) {
+  let minX=Infinity, minY=Infinity, maxX=-Infinity, maxY=-Infinity;
+  for (const annotation of annotations || []) {
+    const half = Math.max(.125, Number(annotation?.width) || 0) / 2;
+    for (const point of annotation?.points || []) {
+      minX = Math.min(minX, point.x-half);
+      minY = Math.min(minY, point.y-half);
+      maxX = Math.max(maxX, point.x+half);
+      maxY = Math.max(maxY, point.y+half);
+    }
+  }
+  return Number.isFinite(minX) ? { minX, minY, maxX, maxY, width:maxX-minX, height:maxY-minY } : null;
+}
+function ensureSelectionOverlay(stage, page) {
+  if (!stage || !page) return null;
+  let svg = stage.querySelector('svg.annotation-selection-layer');
+  if (!svg) {
+    svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.classList.add('annotation-selection-layer');
+    svg.setAttribute('aria-hidden','true');
+    stage.append(svg);
+  }
+  const display = pageDisplayDimensions(page);
+  svg.setAttribute('viewBox', `0 0 ${display.width} ${display.height}`);
+  svg.setAttribute('preserveAspectRatio', 'none');
+  return svg;
+}
+function redrawStageAnnotationSelection(stage, page) {
+  if (!stage || !page) return;
+  const activeSelection = state.annotationTool === 'select' &&
+    state.annotationSelection?.documentId === state.currentDocumentId &&
+    state.annotationSelection?.pageId === page.id;
+  const activeLasso = state.annotationTool === 'select' &&
+    state.selectionGesture?.mode === 'lasso' &&
+    state.selectionGesture?.pageId === page.id;
+  let svg = stage.querySelector('svg.annotation-selection-layer');
+  if (!activeSelection && !activeLasso) {
+    svg?.remove();
+    return;
+  }
+  svg = ensureSelectionOverlay(stage, page);
+  if (!svg) return;
+  svg.replaceChildren();
+  const display = pageDisplayDimensions(page);
+  const rect = stage.getBoundingClientRect();
+  const cssToDisplay = display.width / Math.max(1, rect.width);
+
+  if (activeLasso) {
+    const points = state.selectionGesture.points || [];
+    if (points.length) {
+      const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      const d = points.map((raw,index) => {
+        const point = basePointToDisplay(page, raw);
+        return `${index ? 'L' : 'M'} ${point.x.toFixed(2)} ${point.y.toFixed(2)}`;
+      }).join(' ');
+      path.setAttribute('d', d + (points.length > 2 ? ' Z' : ''));
+      path.setAttribute('class','annotation-lasso-path');
+      svg.append(path);
+    }
+  }
+
+  if (activeSelection) {
+    const annotations = selectedAnnotations(page);
+    const bounds = annotationDisplayBounds(page, annotations);
+    if (!bounds) return;
+    const box = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    box.setAttribute('x', String(bounds.minX));
+    box.setAttribute('y', String(bounds.minY));
+    box.setAttribute('width', String(Math.max(.01,bounds.width)));
+    box.setAttribute('height', String(Math.max(.01,bounds.height)));
+    box.setAttribute('rx', String(2.5 * cssToDisplay));
+    box.setAttribute('class','annotation-selection-box');
+    svg.append(box);
+    const radius = Math.max(4 * cssToDisplay, 6.5 * cssToDisplay);
+    for (const [name,x,y] of [
+      ['nw',bounds.minX,bounds.minY], ['ne',bounds.maxX,bounds.minY],
+      ['sw',bounds.minX,bounds.maxY], ['se',bounds.maxX,bounds.maxY],
+    ]) {
+      const handle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      handle.setAttribute('cx', String(x));
+      handle.setAttribute('cy', String(y));
+      handle.setAttribute('r', String(radius));
+      handle.setAttribute('class','annotation-selection-handle');
+      handle.dataset.handle = name;
+      svg.append(handle);
+    }
+  }
+}
+function redrawPageAnnotationSelectionOverlays(page) {
+  if (!page?.id) return;
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const stage of document.querySelectorAll(selector)) redrawStageAnnotationSelection(stage, page);
+}
+function selectionDisplayHit(stage, page, event) {
+  if (state.annotationSelection?.pageId !== page.id || state.annotationSelection?.documentId !== state.currentDocumentId) return null;
+  const bounds = annotationDisplayBounds(page, selectedAnnotations(page));
+  if (!bounds) return null;
+  const display = pageDisplayDimensions(page);
+  const rect = stage.getBoundingClientRect();
+  const px = event.clientX, py = event.clientY;
+  const clientPoint = (x,y) => ({
+    x: rect.left + x * rect.width / Math.max(1,display.width),
+    y: rect.top + y * rect.height / Math.max(1,display.height),
+  });
+  const corners = {
+    nw:clientPoint(bounds.minX,bounds.minY), ne:clientPoint(bounds.maxX,bounds.minY),
+    sw:clientPoint(bounds.minX,bounds.maxY), se:clientPoint(bounds.maxX,bounds.maxY),
+  };
+  for (const [name,point] of Object.entries(corners)) {
+    if (Math.hypot(px-point.x, py-point.y) <= 15) return { mode:'resize', handle:name, bounds };
+  }
+  const left = rect.left + bounds.minX * rect.width / Math.max(1,display.width);
+  const right = rect.left + bounds.maxX * rect.width / Math.max(1,display.width);
+  const top = rect.top + bounds.minY * rect.height / Math.max(1,display.height);
+  const bottom = rect.top + bounds.maxY * rect.height / Math.max(1,display.height);
+  if (px >= left-4 && px <= right+4 && py >= top-4 && py <= bottom+4) return { mode:'move', bounds };
+  return null;
+}
+function pointInPolygon(point, polygon) {
+  if (!polygon?.length) return false;
+  let inside = false;
+  for (let i=0,j=polygon.length-1; i<polygon.length; j=i++) {
+    const a=polygon[i], b=polygon[j];
+    if (pointOnSegment2(point,a,b,1e-5)) return true;
+    const crosses = ((a.y > point.y) !== (b.y > point.y)) &&
+      (point.x < (b.x-a.x) * (point.y-a.y) / ((b.y-a.y) || 1e-12) + a.x);
+    if (crosses) inside = !inside;
+  }
+  return inside;
+}
+function strokeIntersectsPolygon(annotation, polygon) {
+  const points = annotation?.points || [];
+  if (!points.length || !polygon?.length) return false;
+  if (points.some(point => pointInPolygon(point, polygon))) return true;
+  const bounds = annotationBaseBounds([annotation]);
+  if (bounds && pointInPolygon({x:(bounds.minX+bounds.maxX)/2,y:(bounds.minY+bounds.maxY)/2}, polygon)) return true;
+  if (points.length < 2 || polygon.length < 2) return false;
+  for (let i=1; i<points.length; i++) {
+    for (let j=0; j<polygon.length; j++) {
+      if (segmentsIntersect2(points[i-1], points[i], polygon[j], polygon[(j+1)%polygon.length])) return true;
+    }
+  }
+  return false;
+}
+function annotationHitAt(page, point, radius) {
+  let best=null, bestDistance=Infinity;
+  for (const annotation of annotationsForPage(page)) {
+    const points = annotation?.points || [];
+    if (!points.length) continue;
+    const tolerance = Math.max(2, radius + (Number(annotation.width)||0)/2);
+    let distance = Infinity;
+    if (points.length === 1) distance = Math.hypot(point.x-points[0].x, point.y-points[0].y);
+    else for (let i=1; i<points.length; i++) distance = Math.min(distance, pointSegmentDistance(point, points[i-1], points[i]));
+    if (distance <= tolerance && distance < bestDistance) { best=annotation; bestDistance=distance; }
+  }
+  return best;
+}
+function selectionOriginals(page) {
+  const ids = state.annotationSelection?.ids || new Set();
+  return annotationsForPage(page).filter(annotation => ids.has(annotation.id)).map(cloneInkStroke);
+}
+function applyMoveSelectionGesture(gesture, event) {
+  const page = gesture.page;
+  const next = eventPointOnPage(gesture.stage, page, event);
+  if (!next) return;
+  const base = pageCanvasBaseDimensions(page);
+  let dx = next.x - gesture.startPoint.x;
+  let dy = next.y - gesture.startPoint.y;
+  const bounds = gesture.baseBounds;
+  dx = clamp(dx, -bounds.minX, base.width-bounds.maxX);
+  dy = clamp(dy, -bounds.minY, base.height-bounds.maxY);
+  const current = new Map(annotationsForPage(page).map(annotation => [annotation.id,annotation]));
+  for (const original of gesture.originals) {
+    const annotation = current.get(original.id);
+    if (!annotation) continue;
+    annotation.points = original.points.map(point => ({x:point.x+dx,y:point.y+dy}));
+  }
+  gesture.changed = Math.hypot(dx,dy) > .02;
+  gesture.lastDelta = {dx,dy};
+  redrawPageAnnotationOverlays(page);
+}
+function resizeCornerPoints(bounds, handle) {
+  if (handle === 'nw') return { corner:{x:bounds.minX,y:bounds.minY}, anchor:{x:bounds.maxX,y:bounds.maxY} };
+  if (handle === 'ne') return { corner:{x:bounds.maxX,y:bounds.minY}, anchor:{x:bounds.minX,y:bounds.maxY} };
+  if (handle === 'sw') return { corner:{x:bounds.minX,y:bounds.maxY}, anchor:{x:bounds.maxX,y:bounds.minY} };
+  return { corner:{x:bounds.maxX,y:bounds.maxY}, anchor:{x:bounds.minX,y:bounds.minY} };
+}
+function applyResizeSelectionGesture(gesture, event) {
+  const page = gesture.page;
+  const nextBase = eventPointOnPage(gesture.stage, page, event);
+  if (!nextBase) return;
+  const next = basePointToDisplay(page,nextBase);
+  const { corner, anchor } = gesture.resizeFrame;
+  const dx0 = corner.x-anchor.x, dy0 = corner.y-anchor.y;
+  const denom = dx0*dx0 + dy0*dy0;
+  if (denom < 1e-8) return;
+  // Corner resize is proportional: handwriting and grouped objects keep their
+  // shape instead of being independently stretched in x/y. Project the pointer
+  // onto the original corner diagonal, then cap expansion at the page edges.
+  const projected = ((next.x-anchor.x)*dx0 + (next.y-anchor.y)*dy0) / denom;
+  const display = pageDisplayDimensions(page);
+  const maxX = dx0 > 0 ? (display.width-anchor.x)/dx0 : (0-anchor.x)/dx0;
+  const maxY = dy0 > 0 ? (display.height-anchor.y)/dy0 : (0-anchor.y)/dy0;
+  const scale = clamp(projected, .08, Math.max(.08, Math.min(20,maxX,maxY)));
+  const current = new Map(annotationsForPage(page).map(annotation => [annotation.id,annotation]));
+  for (const original of gesture.originals) {
+    const annotation = current.get(original.id);
+    if (!annotation) continue;
+    annotation.points = original.points.map(raw => {
+      const point = basePointToDisplay(page,raw);
+      return displayPointToBase(page,{x:anchor.x+(point.x-anchor.x)*scale,y:anchor.y+(point.y-anchor.y)*scale});
+    });
+    annotation.width = Math.max(.25,(Number(original.width)||3)*scale);
+  }
+  gesture.changed = Math.abs(scale-1) > .002;
+  gesture.lastScale = {scale};
+  redrawPageAnnotationOverlays(page);
+}
+function beginSelectionGesture(viewer,event) {
+  if (state.annotationTool !== 'select') return false;
+  if (event.pointerType === 'mouse' && event.button !== 0) return false;
+  if (event.pointerType === 'pen' && event.button !== 0) {
+    if (event.cancelable) event.preventDefault();
+    addInkDiagnostic('selection-begin-non-tip-pen-button',event);
+    return true;
+  }
+  if (event.pointerType === 'pen' && state.selectionGesture?.inputSource === 'stylus-touch' && !event._inkStylusTouch) {
+    if (event.cancelable) event.preventDefault();
+    addInkDiagnostic('pointer-shadowed-by-stylus-touch',event,{gesture:'select'});
+    return true;
+  }
+  const stage=inkStageForEvent(viewer,event);
+  if (!stage) return true;
+  const page=pageById(stage.dataset.pageId);
+  if (!page) return true;
+  const first=eventPointOnPage(stage,page,event);
+  if (!first) return true;
+  const inputSource=event._inkStylusTouch?'stylus-touch':'pointer';
+  const hit=selectionDisplayHit(stage,page,event);
+  let gesture;
+  if (hit?.mode === 'move' && selectedAnnotations(page).length) {
+    const originals=selectionOriginals(page);
+    gesture={mode:'move',pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id,documentId:state.currentDocumentId,startPoint:first,originals,baseBounds:annotationBaseBounds(originals),before:snapshotPages(),changed:false};
+  } else if (hit?.mode === 'resize' && selectedAnnotations(page).length) {
+    const originals=selectionOriginals(page);
+    const bounds=annotationDisplayBounds(page,originals);
+    gesture={mode:'resize',pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id,documentId:state.currentDocumentId,startPoint:first,originals,before:snapshotPages(),changed:false,handle:hit.handle,resizeFrame:resizeCornerPoints(bounds,hit.handle)};
+  } else {
+    const additive=!!(event.shiftKey||event.ctrlKey||event.metaKey);
+    if (!additive && state.annotationSelection?.ids?.size) clearAnnotationSelection(true);
+    gesture={mode:'lasso',pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id,documentId:state.currentDocumentId,points:[first],startClient:{x:event.clientX,y:event.clientY},maxClientDistance:0,additive};
+  }
+  state.activePageId=page.id;
+  state.selectionGesture=gesture;
+  if (event.cancelable) event.preventDefault();
+  if (inputSource==='pointer') { try{viewer.setPointerCapture?.(event.pointerId);}catch{} }
+  redrawPageAnnotationSelectionOverlays(page);
+  addInkDiagnostic('selection-begin-accepted',event,{mode:gesture.mode});
+  return true;
+}
+function continueSelectionGesture(viewer,event) {
+  const gesture=state.selectionGesture;
+  if (!gesture||gesture.pointerId!==event.pointerId||gesture.viewer!==viewer) return false;
+  if (event.cancelable) event.preventDefault();
+  if (gesture.mode==='move') applyMoveSelectionGesture(gesture,event);
+  else if (gesture.mode==='resize') applyResizeSelectionGesture(gesture,event);
+  else {
+    const next=eventPointOnPage(gesture.stage,gesture.page,event);
+    if (next) {
+      const prev=gesture.points[gesture.points.length-1];
+      if (!prev||Math.hypot(next.x-prev.x,next.y-prev.y)>.35) gesture.points.push(next);
+      gesture.maxClientDistance=Math.max(gesture.maxClientDistance,Math.hypot(event.clientX-gesture.startClient.x,event.clientY-gesture.startClient.y));
+      redrawPageAnnotationSelectionOverlays(gesture.page);
+    }
+  }
+  return true;
+}
+function finishSelectionGesture(viewer,event) {
+  const gesture=state.selectionGesture;
+  if (!gesture||gesture.pointerId!==event.pointerId||gesture.viewer!==viewer) return false;
+  if (event.cancelable) event.preventDefault();
+  if (event.type==='pointercancel'||event.type==='touchcancel') {
+    state.selectionGesture=null;
+    if ((gesture.mode==='move'||gesture.mode==='resize')&&gesture.changed) restorePages(gesture.before);
+    const restoredPage=pageById(gesture.pageId);
+    if (restoredPage) redrawPageAnnotationSelectionOverlays(restoredPage);
+    return true;
+  }
+  continueSelectionGesture(viewer,event);
+  if (gesture.inputSource==='pointer') { try{viewer.releasePointerCapture?.(event.pointerId);}catch{} }
+  state.selectionGesture=null;
+  if (gesture.mode==='lasso') {
+    let ids=new Set(gesture.additive&&state.annotationSelection?.pageId===gesture.page.id?[...state.annotationSelection.ids]:[]);
+    if (gesture.maxClientDistance < 7) {
+      const point=eventPointOnPage(gesture.stage,gesture.page,event)||gesture.points[0];
+      const display=pageDisplayDimensions(gesture.page), rect=gesture.stage.getBoundingClientRect();
+      const radius=11*display.width/Math.max(1,rect.width);
+      const hit=annotationHitAt(gesture.page,point,radius);
+      if (hit) {
+        if (gesture.additive&&ids.has(hit.id)) ids.delete(hit.id); else ids.add(hit.id);
+      } else if (!gesture.additive) ids.clear();
+    } else if (gesture.points.length>=3) {
+      for (const annotation of annotationsForPage(gesture.page)) if (strokeIntersectsPolygon(annotation,gesture.points)) ids.add(annotation.id);
+    }
+    setAnnotationSelection(gesture.page,ids);
+    const count=ids.size;
+    setStatus(count?`${count} annotation object${count===1?'':'s'} selected`:'No annotations selected');
+  } else if (gesture.changed) {
+    commitHistory(gesture.before);
+    saveCurrentDocumentState({readViewDom:false});
+    redrawPageAnnotationOverlays(gesture.page);
+    setStatus(gesture.mode==='move'?'Moved selected annotations':'Resized selected annotations');
+  } else {
+    redrawPageAnnotationSelectionOverlays(gesture.page);
+  }
+  addInkDiagnostic('selection-finish-accepted',event,{mode:gesture.mode,changed:!!gesture.changed,selected:state.annotationSelection?.ids?.size||0});
+  return true;
+}
+function annotationPayloadFromSelection(page=selectedAnnotationPage()) {
+  const annotations=selectedAnnotations(page);
+  const bounds=annotationDisplayBounds(page,annotations);
+  if (!page||!annotations.length||!bounds) return null;
+  const display=pageDisplayDimensions(page);
+  return {
+    sourceDocumentId:state.currentDocumentId,
+    sourcePageId:page.id,
+    sourceDisplay:{width:display.width,height:display.height},
+    origin:{x:bounds.minX,y:bounds.minY},
+    size:{width:bounds.width,height:bounds.height},
+    items:annotations.map(annotation=>({
+      ...cloneInkStroke(annotation),
+      id:null,
+      points:(annotation.points||[]).map(raw=>{
+        const point=basePointToDisplay(page,raw);
+        return {x:point.x-bounds.minX,y:point.y-bounds.minY};
+      }),
+    })),
+  };
+}
+function instantiateAnnotationPayload(payload,page,origin) {
+  if (!payload||!page) return [];
+  const display=pageDisplayDimensions(page);
+  let ox=Number(origin?.x)||0, oy=Number(origin?.y)||0;
+  const width=Number(payload.size?.width)||0, height=Number(payload.size?.height)||0;
+  ox=clamp(ox,0,Math.max(0,display.width-width));
+  oy=clamp(oy,0,Math.max(0,display.height-height));
+  return (payload.items||[]).map(item=>({
+    ...item,
+    id:uid(item.type==='ink'?'ink':'annotation'),
+    points:(item.points||[]).map(point=>displayPointToBase(page,{x:ox+point.x,y:oy+point.y})),
+  }));
+}
+function deleteSelectedAnnotations() {
+  const page=selectedAnnotationPage();
+  const ids=state.annotationSelection?.ids;
+  if (!page||!ids?.size) return;
+  const before=snapshotPages();
+  page.annotations=annotationsForPage(page).filter(annotation=>!ids.has(annotation.id));
+  const count=ids.size;
+  clearAnnotationSelection(false);
+  commitHistory(before);
+  saveCurrentDocumentState({readViewDom:false});
+  redrawPageAnnotationOverlays(page);
+  updateSelectionToolbar();
+  setStatus(`Deleted ${count} selected annotation${count===1?'':'s'}`);
+}
+function duplicateSelectedAnnotations() {
+  const page=selectedAnnotationPage();
+  const payload=annotationPayloadFromSelection(page);
+  if (!page||!payload) return;
+  const before=snapshotPages();
+  const display=pageDisplayDimensions(page);
+  const offset=Math.max(12,Math.min(22,display.width*.03));
+  let origin={x:payload.origin.x+offset,y:payload.origin.y+offset};
+  if (origin.x+payload.size.width>display.width&&payload.origin.x-offset>=0) origin.x=payload.origin.x-offset;
+  if (origin.y+payload.size.height>display.height&&payload.origin.y-offset>=0) origin.y=payload.origin.y-offset;
+  const clones=instantiateAnnotationPayload(payload,page,origin);
+  annotationsForPage(page).push(...clones);
+  setAnnotationSelection(page,new Set(clones.map(item=>item.id)),{redraw:false});
+  commitHistory(before);
+  saveCurrentDocumentState({readViewDom:false});
+  redrawPageAnnotationOverlays(page);
+  setStatus(`Duplicated ${clones.length} annotation object${clones.length===1?'':'s'}`);
+}
+function copySelectedAnnotations() {
+  const payload=annotationPayloadFromSelection();
+  if (!payload) return;
+  state.annotationClipboard=payload;
+  state.annotationPasteSerial=0;
+  state.annotationPasteTargetKey=null;
+  updateSelectionToolbar();
+  const count=payload.items.length;
+  setStatus(`Copied ${count} annotation object${count===1?'':'s'}`);
+}
+function activeAnnotationTargetPage() {
+  if (state.splitView) {
+    const pane=splitPaneState(state.activePaneId), view=paneView(state.activePaneId);
+    if (pane?.documentId&&pane.documentId!==state.currentDocumentId) loadDocumentState(pane.documentId,false);
+    if (view?.activePageId) state.activePageId=view.activePageId;
+  }
+  return pageById(state.activePageId)||state.pages[0]||null;
+}
+function pasteCopiedAnnotations() {
+  const payload=state.annotationClipboard;
+  const page=activeAnnotationTargetPage();
+  if (!payload||!page) return;
+  const before=snapshotPages();
+  const display=pageDisplayDimensions(page);
+  const samePage=payload.sourceDocumentId===state.currentDocumentId&&payload.sourcePageId===page.id;
+  const targetKey=`${state.currentDocumentId || ''}:${page.id}`;
+  if (state.annotationPasteTargetKey===targetKey) state.annotationPasteSerial += 1;
+  else { state.annotationPasteTargetKey=targetKey; state.annotationPasteSerial=1; }
+  const serial=state.annotationPasteSerial;
+  const step=Math.max(12,Math.min(22,display.width*.03));
+  let origin;
+  if (samePage) {
+    origin={x:payload.origin.x+step*serial,y:payload.origin.y+step*serial};
+    if (origin.x+payload.size.width>display.width&&payload.origin.x-step*serial>=0) origin.x=payload.origin.x-step*serial;
+    if (origin.y+payload.size.height>display.height&&payload.origin.y-step*serial>=0) origin.y=payload.origin.y-step*serial;
+  } else {
+    origin={
+      x:(payload.origin.x/Math.max(1,payload.sourceDisplay.width))*display.width+step*Math.max(0,serial-1),
+      y:(payload.origin.y/Math.max(1,payload.sourceDisplay.height))*display.height+step*Math.max(0,serial-1),
+    };
+  }
+  const clones=instantiateAnnotationPayload(payload,page,origin);
+  annotationsForPage(page).push(...clones);
+  setAnnotationSelection(page,new Set(clones.map(item=>item.id)),{redraw:false});
+  commitHistory(before);
+  saveCurrentDocumentState({readViewDom:false});
+  redrawPageAnnotationOverlays(page);
+  setStatus(`Pasted ${clones.length} annotation object${clones.length===1?'':'s'}`);
+}
+function updateSelectionToolbar() {
+  const active=state.annotationTool==='select';
+  els.selectionActionGroup?.classList.toggle('hidden',!active);
+  const count=state.annotationSelection?.documentId===state.currentDocumentId?(state.annotationSelection?.ids?.size||0):0;
+  if (els.selectionDeleteBtn) els.selectionDeleteBtn.disabled=!count;
+  if (els.selectionDuplicateBtn) els.selectionDuplicateBtn.disabled=!count;
+  if (els.selectionCopyBtn) els.selectionCopyBtn.disabled=!count;
+  if (els.selectionPasteBtn) els.selectionPasteBtn.disabled=!state.annotationClipboard?.items?.length;
+}
+
 function updateInkToolbar() {
-  const tool = ['hand','pen','eraser'].includes(state.annotationTool) ? state.annotationTool : 'hand';
+  const tool = ['hand','pen','eraser','select'].includes(state.annotationTool) ? state.annotationTool : 'hand';
   els.inkHandBtn?.classList.toggle('active', tool === 'hand');
   els.inkPenBtn?.classList.toggle('active', tool === 'pen');
   els.inkEraserBtn?.classList.toggle('active', tool === 'eraser');
+  els.inkSelectBtn?.classList.toggle('active', tool === 'select');
   els.inkHandBtn?.setAttribute('aria-pressed', String(tool === 'hand'));
   els.inkPenBtn?.setAttribute('aria-pressed', String(tool === 'pen'));
   els.inkEraserBtn?.setAttribute('aria-pressed', String(tool === 'eraser'));
+  els.inkSelectBtn?.setAttribute('aria-pressed', String(tool === 'select'));
   document.body.classList.toggle('ink-pen-active', isStylusAnnotationTool(tool));
   document.body.classList.toggle('ink-eraser-active', tool === 'eraser');
+  document.body.classList.toggle('ink-select-active', tool === 'select');
   els.penColorGroup?.classList.toggle('hidden', tool !== 'pen');
   els.penWidthGroup?.classList.toggle('hidden', tool !== 'pen');
   els.eraserSizeGroup?.classList.toggle('hidden', tool !== 'eraser');
@@ -1552,11 +2069,21 @@ function updateInkToolbar() {
     button.classList.toggle('active', active);
     button.setAttribute('aria-pressed', String(active));
   }
+  updateSelectionToolbar();
 }
 function setAnnotationTool(tool) {
-  state.annotationTool = ['pen','eraser'].includes(tool) ? tool : 'hand';
+  const next = ['pen','eraser','select'].includes(tool) ? tool : 'hand';
+  if (state.annotationTool === 'select' && next !== 'select') {
+    state.selectionGesture = null;
+    clearAnnotationSelection(true);
+  }
+  state.annotationTool = next;
   savePref('pdfwb-annotation-tool', state.annotationTool);
   updateInkToolbar();
+  if (next === 'select') {
+    const page = selectedAnnotationPage();
+    if (page) redrawPageAnnotationSelectionOverlays(page);
+  }
 }
 function setPenColor(color) {
   if (!PEN_COLORS.includes(color)) return;
@@ -1889,6 +2416,7 @@ function finishEraserGesture(viewer, event) {
 function activeStylusTouchGesture() {
   if (state.inkGesture?.inputSource === 'stylus-touch') return state.inkGesture;
   if (state.eraserGesture?.inputSource === 'stylus-touch') return state.eraserGesture;
+  if (state.selectionGesture?.inputSource === 'stylus-touch') return state.selectionGesture;
   return null;
 }
 
@@ -1910,6 +2438,7 @@ function handleDocumentInkPointer(viewer, event) {
     }
     if (event.pointerType === 'pen' || event.pointerType === 'mouse') {
       if (state.annotationTool === 'eraser') return beginEraserGesture(viewer, event);
+      if (state.annotationTool === 'select') return beginSelectionGesture(viewer, event);
       if (state.annotationTool === 'pen') return beginInkGesture(viewer, event);
     }
     return false;
@@ -1917,6 +2446,7 @@ function handleDocumentInkPointer(viewer, event) {
   if (event.type === 'pointermove') {
     if (continueInkGesture(viewer, event)) return true;
     if (continueEraserGesture(viewer, event)) return true;
+    if (continueSelectionGesture(viewer, event)) return true;
     if (event.pointerType === 'pen') {
       if (event.cancelable && (event.buttons || event.pressure > 0)) event.preventDefault();
       return true;
@@ -1926,6 +2456,7 @@ function handleDocumentInkPointer(viewer, event) {
   if (event.type === 'pointerup' || event.type === 'pointercancel') {
     if (finishInkGesture(viewer, event)) return true;
     if (finishEraserGesture(viewer, event)) return true;
+    if (finishSelectionGesture(viewer, event)) return true;
     if (event.pointerType === 'pen') {
       if (event.cancelable) event.preventDefault();
       try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
@@ -1968,10 +2499,10 @@ function viewerForStylusTouch(touch) {
 }
 function bindStylusTouchInkFallback() {
   if (!('TouchEvent' in window)) return;
-  const activeGesture = () => state.inkGesture || state.eraserGesture;
-  const beginForTool = (tool, viewer, synthetic) => tool === 'eraser' ? beginEraserGesture(viewer, synthetic) : beginInkGesture(viewer, synthetic);
-  const continueForTool = (tool, viewer, synthetic) => tool === 'eraser' ? continueEraserGesture(viewer, synthetic) : continueInkGesture(viewer, synthetic);
-  const finishForTool = (tool, viewer, synthetic) => tool === 'eraser' ? finishEraserGesture(viewer, synthetic) : finishInkGesture(viewer, synthetic);
+  const activeGesture = () => state.inkGesture || state.eraserGesture || state.selectionGesture;
+  const beginForTool = (tool, viewer, synthetic) => tool === 'eraser' ? beginEraserGesture(viewer, synthetic) : tool === 'select' ? beginSelectionGesture(viewer, synthetic) : beginInkGesture(viewer, synthetic);
+  const continueForTool = (tool, viewer, synthetic) => tool === 'eraser' ? continueEraserGesture(viewer, synthetic) : tool === 'select' ? continueSelectionGesture(viewer, synthetic) : continueInkGesture(viewer, synthetic);
+  const finishForTool = (tool, viewer, synthetic) => tool === 'eraser' ? finishEraserGesture(viewer, synthetic) : tool === 'select' ? finishSelectionGesture(viewer, synthetic) : finishInkGesture(viewer, synthetic);
 
   document.addEventListener('touchstart', (event) => {
     if (!isStylusAnnotationTool()) return;
@@ -2229,6 +2760,8 @@ function releaseSourceIfUnused(sourceId, options={}) {
 function removeDocument(docId) {
   const index = state.documents.findIndex(d => d.id === docId);
   if (index < 0) return;
+  if (state.annotationSelection?.documentId === docId) clearAnnotationSelection(true);
+  state.selectionGesture = null;
   const doc = state.documents[index];
   const sourceIds = new Set(doc.pages.map(p => p.sourceId).filter(Boolean));
   for (const sourceId of sourceIds) releaseSourceIfUnused(sourceId, { excludingDocumentId: docId });
@@ -2255,6 +2788,8 @@ function removeDocument(docId) {
 
 function loadDocumentState(docId, rerender=true) {
   if (docId === state.currentDocumentId && currentDocument()) return;
+  if (state.annotationSelection?.ids?.size) clearAnnotationSelection(true);
+  state.selectionGesture = null;
   saveCurrentDocumentState();
   cancelSingleActivePageSync();
   const doc = state.documents.find(d => d.id === docId);
@@ -2533,6 +3068,7 @@ function restorePages(snapshot) {
   const ids = new Set(state.pages.map(p => p.id));
   state.selected = new Set([...state.selected].filter(id => ids.has(id)));
   if (!state.activePageId || !ids.has(state.activePageId)) state.activePageId = state.pages[0]?.id ?? null;
+  reconcileAnnotationSelection();
   renderAll();
 }
 function undo() {
@@ -4875,7 +5411,7 @@ function addInkDiagnostic(kind, event=null, extra={}) {
     pageId: location.pageId,
     viewer: location.viewer,
     tool: state.annotationTool,
-    activeGesture: state.inkGesture ? { kind:'pen', pointerId: state.inkGesture.pointerId, inputSource: state.inkGesture.inputSource || 'pointer', pageId: state.inkGesture.pageId, points: state.inkGesture.stroke?.points?.length || 0 } : state.eraserGesture ? { kind:'eraser', pointerId:state.eraserGesture.pointerId, inputSource:state.eraserGesture.inputSource || 'pointer', pageId:state.eraserGesture.pageId, changed:!!state.eraserGesture.changed } : null,
+    activeGesture: state.inkGesture ? { kind:'pen', pointerId: state.inkGesture.pointerId, inputSource: state.inkGesture.inputSource || 'pointer', pageId: state.inkGesture.pageId, points: state.inkGesture.stroke?.points?.length || 0 } : state.eraserGesture ? { kind:'eraser', pointerId:state.eraserGesture.pointerId, inputSource:state.eraserGesture.inputSource || 'pointer', pageId:state.eraserGesture.pageId, changed:!!state.eraserGesture.changed } : state.selectionGesture ? { kind:'select', pointerId:state.selectionGesture.pointerId, inputSource:state.selectionGesture.inputSource || 'pointer', pageId:state.selectionGesture.pageId, mode:state.selectionGesture.mode, changed:!!state.selectionGesture.changed } : null,
     ...extra,
   };
   state.inkDiagnostics.push(record);
@@ -5646,6 +6182,8 @@ function createCombinedDocument() {
 
 function showWorkspaceMode(mode) {
   state.workspaceMode = mode;
+  if (mode !== 'view' && state.annotationSelection?.ids?.size) clearAnnotationSelection(false);
+  if (mode !== 'view') state.selectionGesture = null;
   const hasPages = state.pages.length > 0;
   els.emptyState.classList.toggle('hidden', hasPages || mode === 'export');
   els.viewerPane.classList.toggle('hidden', !hasPages || mode !== 'view');
@@ -5688,6 +6226,7 @@ function updatePageCounts() {
   els.selectAllBtn.textContent = selectedCount === count && count ? 'Select none' : 'Select all';
   els.pageCounter.textContent = count ? `${activeIndex() + 1} / ${count}` : '0 / 0';
   updateHistoryButtons();
+  updateSelectionToolbar();
 }
 
 function renderOrganizer() {
@@ -6921,6 +7460,7 @@ function releaseViewerStage(stage) {
     canvas.width = 1;
     canvas.height = 1;
   }
+  stage.querySelector('svg.annotation-selection-layer')?.remove();
   delete stage.dataset.rendered;
   ensurePageLoading(stage, 'Rendering…');
 }
@@ -7808,6 +8348,11 @@ function clearAll() {
   state.history = [];
   state.future = [];
   state.selectionAnchorId = null;
+  state.selectionGesture = null;
+  state.annotationSelection = { documentId:null, pageId:null, ids:new Set() };
+  state.annotationClipboard = null;
+  state.annotationPasteSerial = 0;
+  state.annotationPasteTargetKey = null;
   state.fileSelected.clear();
   state.fileSelectionInitialized = false;
   state.combineOrder = [];
@@ -7855,9 +8400,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.1.1 makes annotation settings contextual: Hand shows no pen/eraser settings, Pen shows only pen color/width, and Eraser shows only eraser size. The tested 5.1.0 ink/eraser behavior is otherwise unchanged.</p>
-      <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Pen and partial eraser:</strong> Hand/View, Pen, and Eraser modes. Pen retains five direct colors and three widths; Eraser has three direct sizes and cuts only the touched portions of vector strokes.</li><li><strong>Editable ink:</strong> strokes and eraser-created fragments remain page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and are copied with page duplication/copy/combine operations.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
-      <p><strong>Next annotation steps after eraser testing:</strong> lasso selection with move/resize/delete/duplicate/copy/paste, then highlighter with its own yellow/pink/blue/green palette. Smoothing remains later so it can be added without sacrificing input responsiveness.</p>
+      <p>Milestone 5.2.0 adds stroke/object-level lasso selection with move, resize, delete, duplicate, copy, and paste. Selection works on whole annotation objects; the partial-stroke eraser remains the fine-grained editing tool.</p>
+      <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Pen, partial eraser, and selection:</strong> Hand/View, Pen, Eraser, and Lasso/Select modes. Pen retains five direct colors and three widths; Eraser has three direct sizes and cuts only touched portions; Select works on whole annotation objects.</li><li><strong>Editable ink:</strong> strokes and eraser-created fragments remain page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and can now be moved, resized, deleted, duplicated, copied, and pasted as whole objects.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
+      <p><strong>Next annotation steps after selection testing:</strong> highlighter with its own yellow/pink/blue/green palette, then smoothing designed to preserve the current low-latency input feel and raw editable sample points.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -8719,6 +9264,11 @@ function bindEvents() {
   els.inkHandBtn?.addEventListener('click', () => setAnnotationTool('hand'));
   els.inkPenBtn?.addEventListener('click', () => setAnnotationTool('pen'));
   els.inkEraserBtn?.addEventListener('click', () => setAnnotationTool('eraser'));
+  els.inkSelectBtn?.addEventListener('click', () => setAnnotationTool('select'));
+  els.selectionDeleteBtn?.addEventListener('click', deleteSelectedAnnotations);
+  els.selectionDuplicateBtn?.addEventListener('click', duplicateSelectedAnnotations);
+  els.selectionCopyBtn?.addEventListener('click', copySelectedAnnotations);
+  els.selectionPasteBtn?.addEventListener('click', pasteCopiedAnnotations);
   els.penColorGroup?.addEventListener('click', (event) => {
     const button = event.target instanceof Element ? event.target.closest('[data-ink-color]') : null;
     if (button) setPenColor(button.dataset.inkColor);
@@ -8746,6 +9296,32 @@ function bindEvents() {
     const insertAnchors = [els.viewInsertBtn, els.insertPageBtn, els.presentationInsertBtn];
     if (els.insertPageMenu && !els.insertPageMenu.contains(e.target) && !insertAnchors.includes(e.target)) closeInsertPageMenu();
   });
+  document.addEventListener('keydown', (event) => {
+    if (state.annotationTool !== 'select') return;
+    const target = event.target;
+    if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement || target?.isContentEditable) return;
+    const accel = event.ctrlKey || event.metaKey;
+    if ((event.key === 'Delete' || event.key === 'Backspace') && state.annotationSelection?.ids?.size) {
+      event.preventDefault();
+      deleteSelectedAnnotations();
+      return;
+    }
+    if (accel && event.key.toLowerCase() === 'c' && state.annotationSelection?.ids?.size) {
+      event.preventDefault();
+      copySelectedAnnotations();
+      return;
+    }
+    if (accel && event.key.toLowerCase() === 'v' && state.annotationClipboard?.items?.length) {
+      event.preventDefault();
+      pasteCopiedAnnotations();
+      return;
+    }
+    if (accel && event.key.toLowerCase() === 'd' && state.annotationSelection?.ids?.size) {
+      event.preventDefault();
+      duplicateSelectedAnnotations();
+    }
+  });
+
   document.addEventListener('fullscreenchange', () => {
     if (!document.fullscreenElement && document.body.classList.contains('presentation') && !isIPadLike()) exitPresentation();
   });

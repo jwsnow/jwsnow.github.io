@@ -116,6 +116,7 @@
             <button id="inkHandBtn" class="annotation-tool-btn active" type="button" aria-pressed="true" title="Hand / view mode (stylus does not draw)" aria-label="Hand / view mode">✋</button>
             <button id="inkPenBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Pen" aria-label="Pen">✎</button>
             <button id="inkEraserBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Partial-stroke eraser" aria-label="Partial-stroke eraser"><span class="eraser-tool-icon" aria-hidden="true"></span></button>
+            <button id="inkSelectBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Lasso / select annotations" aria-label="Lasso / select annotations"><span class="lasso-tool-icon" aria-hidden="true"></span></button>
           </div>
           <div id="penColorGroup" class="ink-option-group" role="group" aria-label="Pen color">
             <button class="ink-color-btn" type="button" data-ink-color="#111111" style="--swatch:#111111" title="Black pen" aria-label="Black pen"></button>
@@ -133,6 +134,12 @@
             <button class="eraser-size-btn" type="button" data-eraser-size="12" title="Small eraser" aria-label="Small eraser"><span style="--eraser-sample:10px"></span></button>
             <button class="eraser-size-btn" type="button" data-eraser-size="24" title="Medium eraser" aria-label="Medium eraser"><span style="--eraser-sample:16px"></span></button>
             <button class="eraser-size-btn" type="button" data-eraser-size="40" title="Large eraser" aria-label="Large eraser"><span style="--eraser-sample:23px"></span></button>
+          </div>
+          <div id="selectionActionGroup" class="ink-option-group selection-action-group hidden" role="group" aria-label="Selected annotation actions">
+            <button id="selectionDeleteBtn" class="selection-action-btn" type="button" title="Delete selected annotations" aria-label="Delete selected annotations">Delete</button>
+            <button id="selectionDuplicateBtn" class="selection-action-btn" type="button" title="Duplicate selected annotations" aria-label="Duplicate selected annotations">Duplicate</button>
+            <button id="selectionCopyBtn" class="selection-action-btn" type="button" title="Copy selected annotations" aria-label="Copy selected annotations">Copy</button>
+            <button id="selectionPasteBtn" class="selection-action-btn" type="button" title="Paste copied annotations" aria-label="Paste copied annotations">Paste</button>
           </div>
           <div class="annotation-history" role="group" aria-label="Annotation undo and redo">
             <button id="inkUndoBtn" type="button" title="Undo" aria-label="Undo" disabled>↶</button>
@@ -177,7 +184,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.1.1</div>
+          <div class="export-kicker">Milestone 5.2.0</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
