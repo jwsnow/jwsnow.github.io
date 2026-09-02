@@ -1,4 +1,21 @@
-# PDF Workbench — Milestone 5.4.7
+# PDF Workbench — Milestone 5.4.8
+
+Milestone 5.4.8 is a cleanup/performance-polish pass on the successful 5.4.7 dense-page fix. It removes superseded 5.4-era rendering plumbing, makes the session-local Undo/Redo policy consistent across the Local Library and editable-backup paths, and addresses the small cross-platform pause noticed immediately after a dense-page Eraser swipe without changing eraser semantics or stored geometry.
+
+## 5.4.8 cleanup after dense-page fix
+
+- Durable Library document records now omit `history`/`future` fields entirely rather than writing empty arrays. Undo/Redo remains in-memory for the active app session and resets after a true restart.
+- Existing closed Library records left by older builds are pruned once when Library metadata is refreshed, so legacy persisted Undo/Redo snapshots do not keep occupying IndexedDB storage merely because a document has not been reopened.
+- Restoring an older editable Library backup or importing one as a folder now discards any legacy persisted Undo/Redo arrays before writing the records to the current Library.
+- Removed the unused 5.4.1 `smooth:false` eraser-redraw plumbing and a dead eraser preview flag. Since 5.4.4, live erasing removes pixels directly from the already-rendered overlay while the Pencil is down.
+- The exact dense-page annotation repaint after Eraser release is now deferred until the browser is idle. The live erased pixels remain on screen immediately, while the authoritative vector model is still committed synchronously on release. Cancelled eraser gestures still repaint immediately because their temporary pixel removal must be restored.
+- Annotation autosave is now debounced to about 1.4 seconds after the last edit. A 5.4.7 diagnostic showed an 850 ms autosave beginning just before the next eraser gesture and finishing while that gesture was active; the longer idle window reduces that cross-gesture contention while lifecycle saves still protect suspend/close.
+- The successful 5.4.7 compact in-session history representation, 5.4.6 live Highlighter batching, 5.4.5 Highlighter PDF cleanup, and 5.4.4 selection/eraser preview architecture remain otherwise unchanged.
+- Pencil diagnostics are retained for Surface/Chromebook regression testing and later dense-page performance follow-up.
+
+### Test priority for 5.4.8
+
+Regression-test on Surface and Chromebook: Pen, Highlighter, partial Eraser, lasso move/resize/copy/paste, finger pan/scroll/pinch, split view, export, and restart/session restoration. Pay particular attention to whether there is still a pause immediately after releasing a dense-page Eraser swipe and whether rapid consecutive erase strokes remain smooth. After some normal real-world use, revisit dense-page responsiveness and decide whether the current 50-step in-session Undo limit needs a count/memory cap.
 
 Milestone 5.4.7 is a dense-page history/persistence performance fix on top of 5.4.6. iPad stress testing showed that the eraser vector commit itself had become fast, but the whole UI could still freeze shortly after a gesture on a heavily annotated page. The cause was the Undo/Redo representation: each history entry cloned the entire page with thousands of `{x,y}` point objects, and Local Library autosave then cloned and persisted all of those snapshots again.
 
@@ -292,7 +309,7 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - IndexedDB database version: **2**
 - Library schema version: **5** (page records can now contain Workbench annotation stroke data)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.4.7-v1`
+- Service-worker cache: `pdf-workbench-m5.4.8-v1`
 
 ## High-priority smoke tests
 1. On iPad, Surface, and Chromebook, draw several separate strokes, choose Select, lasso one stroke and then a group. Verify the selected objects get one bounding box and that unselected strokes remain untouched.
@@ -313,4 +330,4 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 16. Re-test the previously problematic slide deck unchanged; it should still export byte-for-byte. Add a short pen stroke and export again; the file should remain reasonably sized.
 17. Save one template **With annotations** and one **Clean**; confirm their previews/content differ correctly. In Template Manager set the automatic last page to Graph, Blank, and then a saved template, and test pull/scroll-past-end creation for each.
 18. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
-**More → About this build** reports **Milestone 5.4.7**.
+**More → About this build** reports **Milestone 5.4.8**.

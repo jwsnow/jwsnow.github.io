@@ -1,4 +1,4 @@
-const APP_VERSION = '5.4.7';
+const APP_VERSION = '5.4.8';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -115,6 +115,7 @@ const state = {
   pendingLibraryMove: null,
   pendingBackupImportMode: 'replace',
   libraryPersistTimer: null,
+  annotationRedrawJobs: new Map(),
   sessionCheckpointTimer: null,
   // Do not allow lifecycle events during startup to overwrite the previously
   // saved workspace before restoration has had a chance to read it.
@@ -355,10 +356,8 @@ function serializeDocumentForLibrary(doc) {
     activePageId: doc.activePageId || doc.pages[0]?.id || null,
     // Undo/Redo is intentionally session-local. Persisting dozens of complete
     // dense-page snapshots made every autosave grow roughly with history depth
-    // and could stall iPad Safari for seconds. The durable Library record stores
-    // the current editable vector state only.
-    history: [],
-    future: [],
+    // and could stall iPad Safari for seconds. Durable Library records therefore
+    // omit history/future entirely and store only the current editable state.
     singleView: copyView(doc.singleView || ensureSingleView(doc)),
     createdAt: doc.createdAt || Date.now(),
     modifiedAt: doc.modifiedAt || Date.now(),
@@ -369,6 +368,16 @@ function serializeDocumentForLibrary(doc) {
     trashedAt: doc.trashedAt || null,
     trashBatchId: doc.trashBatchId || null,
   };
+}
+function stripPersistentHistory(record) {
+  if (!record || typeof record !== 'object') return record;
+  const hasHistory = Object.prototype.hasOwnProperty.call(record, 'history');
+  const hasFuture = Object.prototype.hasOwnProperty.call(record, 'future');
+  if (!hasHistory && !hasFuture) return record;
+  const clean = { ...record };
+  delete clean.history;
+  delete clean.future;
+  return clean;
 }
 function hydrateDocumentFromLibrary(record) {
   const pages = (record.pages || []).map(page => clonePageState(page));
@@ -673,7 +682,12 @@ function markDocumentDirty(doc=currentDocument()) {
   if (!doc) return;
   doc.needsExport = true;
   doc.modifiedAt = Date.now();
-  scheduleLibraryPersist(180);
+  // Dense-page persistence is intentionally debounced well beyond normal
+  // handwriting/erasing cadence. A 5.4.7 diagnostic caught an IndexedDB save
+  // that began 850 ms after one eraser swipe and was still finishing when the
+  // next swipe started. Session checkpoints remain much cheaper and lifecycle
+  // events still force a durable save when the app is backgrounded/closed.
+  scheduleLibraryPersist(1400);
 }
 function markDocumentExported(doc) {
   if (!doc) return;
@@ -687,8 +701,29 @@ async function refreshLibraryRecords() {
     libraryGetAll('documents'),
     state.libraryDb.objectStoreNames.contains('folders') ? libraryGetAll('folders') : Promise.resolve([]),
   ]);
-  state.libraryRecords = new Map(records.map(record => [record.id, record]));
+  const legacyHistoryRecords = records.filter(record =>
+    Object.prototype.hasOwnProperty.call(record || {}, 'history') ||
+    Object.prototype.hasOwnProperty.call(record || {}, 'future')
+  );
+  const cleanRecords = records.map(stripPersistentHistory);
+  state.libraryRecords = new Map(cleanRecords.map(record => [record.id, record]));
   state.libraryFolders = new Map(folders.map(folder => [folder.id, folder]));
+  // 5.4.8 one-time cleanup: older builds could leave full Undo/Redo snapshots
+  // inside closed Library records. Remove those fields even if the document is
+  // never reopened, so old history cannot keep consuming IndexedDB space.
+  if (legacyHistoryRecords.length) {
+    try {
+      const legacyIds = new Set(legacyHistoryRecords.map(record => record.id));
+      const tx = state.libraryDb.transaction(['documents'], 'readwrite');
+      const done = idbTransactionDone(tx);
+      const store = tx.objectStore('documents');
+      for (const record of cleanRecords) if (legacyIds.has(record.id)) store.put(record);
+      await done;
+      addInkDiagnostic('library-history-pruned', null, { documents:legacyHistoryRecords.length });
+    } catch (err) {
+      console.warn('Could not prune legacy persisted Undo/Redo history', err);
+    }
+  }
   if (state.libraryFolderId && !state.libraryFolders.has(state.libraryFolderId)) state.libraryFolderId = null;
   renderLibraryDocumentList();
   updateLibraryStorageSummary();
@@ -1192,7 +1227,10 @@ async function restoreEditableLibraryBackup(file) {
     }
     state.sources.clear();
     const restoredFolders = manifest.folders.map(folder => ({ ...folder, schemaVersion: Math.min(Number(folder.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION) }));
-    const restoredDocuments = manifest.documents.map(documentRecord => ({ ...documentRecord, schemaVersion: Math.min(Number(documentRecord.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION) }));
+    const restoredDocuments = manifest.documents.map(documentRecord => ({
+      ...stripPersistentHistory(documentRecord),
+      schemaVersion: Math.min(Number(documentRecord.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION),
+    }));
     const templatesMetaRaw = manifest.meta?.templates || { key:'templates', schemaVersion: manifest.librarySchemaVersion || 1, templates: [] };
     const sessionMetaRaw = manifest.meta?.session || { key:'session', schemaVersion: manifest.librarySchemaVersion || 1, openIds: [], currentDocumentId: null, workspaceMode:'export', splitView:false, splitPanes:{ left:{documentId:null,views:[]}, right:{documentId:null,views:[]} } };
     const templatesMeta = { ...templatesMetaRaw, key:'templates', schemaVersion: Math.min(Number(templatesMetaRaw.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION) };
@@ -1344,14 +1382,14 @@ async function importEditableBackupAsSubtree(file) {
     }));
     const documentMap=new Map(manifest.documents.map(record=>[record.id,uid('doc')]));
     const importedDocuments=manifest.documents.map(record=>{
-      const pageIdMap=new Map(); const pages=(record.pages||[]).map(page=>remapPageForImportedBackup(page,sourceMap,pageIdMap));
-      const remapSnapshot=snapshot=>(snapshot||[]).map(page=>remapPageForImportedBackup(page,sourceMap,pageIdMap));
-      const folderId=record.folderId ? (folderMap.get(record.folderId)||rootId) : rootId;
-      return {...record,id:documentMap.get(record.id),schemaVersion:LIBRARY_SCHEMA_VERSION,folderId,
-        pages,selected:(record.selected||[]).map(id=>pageIdMap.get(id)).filter(Boolean),selectionAnchorId:pageIdMap.get(record.selectionAnchorId)||null,
-        activePageId:pageIdMap.get(record.activePageId)||pages[0]?.id||null,history:(record.history||[]).map(remapSnapshot),future:(record.future||[]).map(remapSnapshot),
-        singleView:record.singleView?{...record.singleView,activePageId:pageIdMap.get(record.singleView.activePageId)||pages[0]?.id||null}:record.singleView,
-        trashBatchId:record.trashBatchId ? (folderMap.get(record.trashBatchId)||null) : null,
+      const cleanRecord=stripPersistentHistory(record);
+      const pageIdMap=new Map(); const pages=(cleanRecord.pages||[]).map(page=>remapPageForImportedBackup(page,sourceMap,pageIdMap));
+      const folderId=cleanRecord.folderId ? (folderMap.get(cleanRecord.folderId)||rootId) : rootId;
+      return {...cleanRecord,id:documentMap.get(cleanRecord.id),schemaVersion:LIBRARY_SCHEMA_VERSION,folderId,
+        pages,selected:(cleanRecord.selected||[]).map(id=>pageIdMap.get(id)).filter(Boolean),selectionAnchorId:pageIdMap.get(cleanRecord.selectionAnchorId)||null,
+        activePageId:pageIdMap.get(cleanRecord.activePageId)||pages[0]?.id||null,
+        singleView:cleanRecord.singleView?{...cleanRecord.singleView,activePageId:pageIdMap.get(cleanRecord.singleView.activePageId)||pages[0]?.id||null}:cleanRecord.singleView,
+        trashBatchId:cleanRecord.trashBatchId ? (folderMap.get(cleanRecord.trashBatchId)||null) : null,
       };
     });
     const existingTemplateNames=new Set(state.templates.map(t=>String(t.name).toLocaleLowerCase()));
@@ -1576,8 +1614,6 @@ function traceRawStrokeCanvas(ctx, page, points) {
 }
 function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={}) {
   if (!ctx || !hasPageAnnotations(page)) return;
-  const smooth = options.smooth !== false;
-  const isolateHighlighter = smooth && options.isolateHighlighter !== false;
   const excludedStrokeId = options.excludeStrokeId || null;
   const excludedStrokeIds = options.excludeStrokeIds instanceof Set
     ? options.excludeStrokeIds
@@ -1638,9 +1674,9 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
     // backtracks/self-overlaps on Canvas, producing the visible sample "beads"
     // that do not appear in the PDF. Build that one stroke opaquely on a scratch
     // canvas, then alpha-composite the finished stroke once onto the annotation
-    // layer. During an active eraser gesture smooth:false bypasses this more
-    // expensive polish path in favor of the established fast redraw.
-    if (stroke.tool === 'highlighter' && opacity < 1 && isolateHighlighter) {
+    // layer. The live Eraser no longer redraws this layer while in contact; it
+    // removes pixels directly and performs one exact vector redraw on release.
+    if (stroke.tool === 'highlighter' && opacity < 1) {
       const scratchCtx = ensureHighlighterScratch();
       if (scratchCtx) {
         scratchCtx.clearRect(0, 0, pixelWidth, pixelHeight);
@@ -1654,8 +1690,8 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
     }
 
     // Pen retains restrained cardinal-spline smoothing. Highlighter remains a
-    // continuous raw polyline; eraser fast redraw can force every tool raw.
-    drawStrokeGeometry(ctx, stroke, points, smooth && stroke.tool !== 'highlighter', opacity);
+    // continuous raw polyline.
+    drawStrokeGeometry(ctx, stroke, points, stroke.tool !== 'highlighter', opacity);
   }
 }
 function ensureAnnotationOverlay(stage, baseCanvas=null) {
@@ -1689,6 +1725,35 @@ function redrawPageAnnotationOverlays(page, options={}) {
   if (!page?.id) return;
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const stage of document.querySelectorAll(selector)) redrawStageAnnotations(stage, page, options);
+}
+function scheduleExactAnnotationRedraw(page, reason='edit') {
+  if (!page?.id) return;
+  const key = page.id;
+  const existing = state.annotationRedrawJobs.get(key);
+  if (existing) {
+    if (existing.kind === 'idle' && typeof cancelIdleCallback === 'function') cancelIdleCallback(existing.id);
+    else clearTimeout(existing.id);
+  }
+  const run = () => {
+    state.annotationRedrawJobs.delete(key);
+    // The transient Eraser pixels already match the user's gesture closely.
+    // Never spend a dense full-page redraw while another annotation gesture is
+    // active; postpone the exact smoothed/vector-derived repaint until idle.
+    if (annotationGestureActiveForAutosave()) {
+      state.annotationRedrawJobs.set(key, { kind:'timer', id:setTimeout(run, 120) });
+      return;
+    }
+    const started = performance.now();
+    redrawPageAnnotationOverlays(page);
+    addInkDiagnostic('annotation-redraw-finish', null, {
+      pageId:key, reason, redrawMs:Math.round((performance.now()-started)*10)/10, deferred:true,
+    });
+  };
+  if (typeof requestIdleCallback === 'function') {
+    state.annotationRedrawJobs.set(key, { kind:'idle', id:requestIdleCallback(run, { timeout:700 }) });
+  } else {
+    state.annotationRedrawJobs.set(key, { kind:'timer', id:setTimeout(run, 90) });
+  }
 }
 function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
   // Retained for the immediate first two samples of an opaque Pen stroke. From
@@ -3036,7 +3101,7 @@ function beginEraserGesture(viewer, event) {
   // erase pixels directly from the already-rendered annotation overlay and
   // merely collect the path. The authoritative stroke splitting is committed
   // once on pointer-up, avoiding O(all page ink × every coalesced sample).
-  state.eraserGesture = { pointerId:event.pointerId, inputSource, viewer, stage, page, pageId:page.id, documentId:state.currentDocumentId, before, lastPoint:first, path:[first], changed:false, previewDrawn:true };
+  state.eraserGesture = { pointerId:event.pointerId, inputSource, viewer, stage, page, pageId:page.id, documentId:state.currentDocumentId, before, lastPoint:first, path:[first], changed:false };
   if (event.cancelable) event.preventDefault();
   if (inputSource === 'pointer') { try { viewer.setPointerCapture?.(event.pointerId); } catch {} }
   drawLiveEraserPreview(page,[first],state.eraserSize);
@@ -3081,11 +3146,13 @@ function finishEraserGesture(viewer, event) {
   }
   const commitMs = performance.now() - started;
   gesture.changed = changed;
-  // One exact redraw restores normal Pen smoothing/Highlighter compositing and
-  // replaces the transient raster eraser preview with committed vector state.
-  redrawPageAnnotationOverlays(gesture.page);
   if (gesture.inputSource === 'pointer') { try { viewer.releasePointerCapture?.(event.pointerId); } catch {} }
   state.eraserGesture = null;
+  // The live raster preview is already visually erased. A dense-page exact
+  // redraw can be much more expensive than the vector cut itself, so do that
+  // repaint after release when the browser is idle rather than blocking the
+  // pointerup/UI response. Cancelled gestures still redraw immediately above.
+  scheduleExactAnnotationRedraw(gesture.page, 'eraser-release');
   addInkDiagnostic('eraser-finish-accepted', event, {
     changed,
     size:state.eraserSize,
@@ -3094,6 +3161,7 @@ function finishEraserGesture(viewer, event) {
     commitPathPoints:compactPath.length,
     candidateObjects:candidateIds.size,
     commitMs:Math.round(commitMs*10)/10,
+    exactRedrawDeferred:true,
   });
   if (changed) {
     commitHistory(gesture.before);
@@ -3472,7 +3540,7 @@ function saveCurrentDocumentState(options={}) {
   // those callers pass readViewDom:false so the stale pre-edit scroll cannot
   // overwrite the new page focus before the viewer is rebuilt.
   if (!state.splitView) saveSingleViewFromState(doc, readViewDom);
-  if (!skipLibrarySchedule) scheduleLibraryPersist(850);
+  if (!skipLibrarySchedule) scheduleLibraryPersist(1400);
 }
 
 function createDocument(name) {
@@ -5342,11 +5410,12 @@ async function duplicateLibraryDocument(docId) {
     if (!record) throw new Error('Document is no longer available.');
     const { pages, remap } = cloneDocumentPagesForDuplicate(record);
     const now = Date.now();
+    const cleanRecord = stripPersistentHistory(record);
     const copy = {
-      ...clonePlain(record), id: uid('doc'), schemaVersion: LIBRARY_SCHEMA_VERSION,
-      name: defaultDuplicateDocumentName(record.name, record.folderId), pages,
-      selected: [], selectionAnchorId: null, activePageId: remap(record.activePageId), history: [], future: [],
-      singleView: { ...copyView(record.singleView), activePageId: remap(record.singleView?.activePageId), scrollTop: null, scrollLeft: null },
+      ...clonePlain(cleanRecord), id: uid('doc'), schemaVersion: LIBRARY_SCHEMA_VERSION,
+      name: defaultDuplicateDocumentName(cleanRecord.name, cleanRecord.folderId), pages,
+      selected: [], selectionAnchorId: null, activePageId: remap(cleanRecord.activePageId),
+      singleView: { ...copyView(cleanRecord.singleView), activePageId: remap(cleanRecord.singleView?.activePageId), scrollTop: null, scrollLeft: null },
       createdAt: now, modifiedAt: now, needsExport: true, lastExportedAt: null, trashedAt: null,
     };
     await libraryPut('documents', copy); state.libraryRecords.set(copy.id, copy); renderLibraryDocumentList(); updateLibraryStorageSummary(); setStatus(`Duplicated ${record.name} as ${copy.name}`);
@@ -9245,9 +9314,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.4.7 fixes a dense-page memory/persistence bottleneck exposed by iPad stress testing. Undo/Redo snapshots now pack point coordinates into typed arrays in memory, and Local Library autosave stores only the current editable document state rather than serializing the entire Undo/Redo history on every save. Undo/Redo remains available during the active session; reopening the app starts a fresh Undo/Redo history. 5.4.6 live Highlighter/Eraser optimizations and 5.4.5 export cleanup remain intact.</p>
+      <p>Milestone 5.4.8 is a cleanup/performance-polish pass on the successful 5.4.7 dense-page fix. Durable Library records and restored/imported backups omit legacy Undo/Redo history, existing closed Library records are pruned once when encountered, and obsolete Eraser rendering remnants are removed. Dense-page Eraser release now leaves the already-correct live pixel preview in place and defers the exact full annotation repaint until browser idle; annotation autosave also waits longer after the last edit to avoid colliding with a rapid next gesture. Undo/Redo remains session-local.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes. Pen retains five direct colors and three widths; Highlighter has its own yellow/pink/cyan/green palette and three widths; Eraser cuts only touched portions; Select works on whole annotation objects.</li><li><strong>Editable ink:</strong> strokes and eraser-created fragments remain page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and can now be moved, resized, deleted, duplicated, copied, and pasted as whole objects.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
-      <p><strong>Next annotation step:</strong> image insertion as selectable annotation objects. The future new-document size refinement will also offer device-derived Presentation canvas sizes alongside US Letter.</p>
+      <p><strong>Next annotation step:</strong> image insertion as selectable annotation objects. The future new-document size refinement will offer US Letter plus a Presentation-ratio page whose long edge is normalized to 11 inches.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();

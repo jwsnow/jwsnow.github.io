@@ -1,16 +1,35 @@
-PDF WORKBENCH PWA — MILESTONE 5.4.7 CURRENT UPDATE
+PDF WORKBENCH PWA — MILESTONE 5.4.8 CURRENT UPDATE
 
-CURRENT BUILD: Milestone 5.4.7
-Visible About version: 5.4.7
-Service-worker/cache version: pdf-workbench-m5.4.7-v1
-Baseline: 5.3.0, confirmed working on iPad and Surface; Chromebook retest deferred because the device was not available.
+CURRENT BUILD: Milestone 5.4.8
+Visible About version: 5.4.8
+Service-worker/cache version: pdf-workbench-m5.4.8-v1
+Baseline: 5.4.7, whose dense-page iPad stress test was reported immensely better; Surface and Chromebook regression testing is next.
+
+
+MILESTONE 5.4.8 — POST-PERFORMANCE CLEANUP
+- Cleanup/performance-polish release; no change to Pen/Highlighter geometry, partial-erasure semantics, Select semantics, input routing, PDF export, finger navigation, split view, session restoration, templates, or automatic page append.
+- Durable Library document records now omit history/future entirely. Undo/Redo remains session-local and resets after a true app restart.
+- Library refresh performs a one-time prune of legacy persisted history/future fields from closed records, so old dense histories do not remain in IndexedDB simply because those documents were never reopened under 5.4.7.
+- Restore backup and Import backup as folder both strip legacy persisted Undo/Redo arrays before writing document records. New 5.4.8 backups therefore contain current editable state but no cross-restart Undo stack.
+- Removed superseded 5.4.1 smooth:false eraser-redraw plumbing and a dead preview flag. Current live Eraser remains the 5.4.4 architecture: transient raster destination-out feedback during contact and compacted/candidate-filtered vector surgery once on release. The exact full annotation repaint is now deferred until browser idle so pointerup/UI response is not blocked by a dense-page redraw; cancelled gestures still repaint immediately.
+- Retain the useful optimizations discovered during 5.4: dedicated live Highlighter layer, raw Highlighter geometry, batched coalesced samples, optimized selection preview, deferred Eraser vector commit, Highlighter PDF centerline simplification, and gesture-aware autosave scheduling.
+- 5.4.7 diagnostics showed a scheduled Library save could begin about 850 ms after one Eraser release and still be finishing when the next swipe began. Annotation autosave is now debounced to about 1.4 seconds after the last edit; lifecycle persistence remains immediate.
+- Diagnostics now also report the deferred exact annotation redraw time after an Eraser release.
+- Retain detailed diagnostics through Surface/Chromebook regression testing.
+- FOLLOW-UP: after additional normal use and later feature work, explicitly ask about dense-page performance again. If degradation returns, consider a 20-step or memory-aware in-session Undo cap; do not change the current 50-step limit yet.
+
+TEST PRIORITY FOR 5.4.8
+1. Surface: regression-test Pen hover/cursor suppression, Pen/Highlighter responsiveness, Eraser, lasso manipulation, finger navigation, split view, export, and restart/session restoration.
+2. Chromebook: regression-test palm rejection, finger pan/scroll/pinch, Pen/Highlighter/Eraser/Select responsiveness, split view, export, and restart/session restoration. Specifically check the small post-Eraser-release pause reported there as well as on iPad.
+3. No special iPad retest is required beyond ordinary use unless a regression appears; iPad remains the primary target and 5.4.7 dense-page testing was a major improvement.
+4. Later, ask again about dense-page performance under normal real work before deciding whether to limit Undo by count or memory.
 
 
 MILESTONE 5.4.7 — DENSE-PAGE HISTORY / AUTOSAVE MEMORY FIX
 - iPad stress test plus GoodNotes comparison confirmed that hundreds of page marks are a reasonable workload and that remaining slowdown was Workbench-specific, not a device limit.
 - Root cause found in Undo/Redo + persistence architecture: snapshotPages() cloned every page/annotation point into ordinary JS objects for each undo step (up to 50), and serializeDocumentForLibrary() then cloned/persisted the entire history and future arrays on every autosave. This created large memory/GC pressure and multi-second post-gesture UI stalls on dense pages.
 - History snapshots now pack annotation point coordinates into Float32Array x/y pairs. restorePages() transparently inflates them only when Undo/Redo is actually used.
-- Durable Local Library persistence now stores only the current editable document state; history/future are written empty and legacy persisted history is deliberately not hydrated. Undo/Redo remains fully available during the current app session, but starts fresh after restart.
+- Durable Local Library persistence stores only the current editable document state; 5.4.7 wrote history/future empty and deliberately did not hydrate legacy history. 5.4.8 subsequently removes those durable fields entirely and prunes old records. Undo/Redo remains fully available during the current app session, but starts fresh after restart.
 - Added library-persist-start/library-persist-finish diagnostics including serializeMs and totalMs to verify that autosave no longer causes UI stalls.
 - 5.4.6 live Highlighter batching, direct composite commit, geometry reuse, autosave gesture deferral, 5.4.4 optimized selection/eraser previews, and 5.4.5 Highlighter PDF cleanup are retained.
 
@@ -65,9 +84,10 @@ TEST PRIORITY FOR 5.4.0:
 6. Chromebook compatibility can be tested later; it is not the primary target.
 
 FUTURE NEW-DOCUMENT SIZE REQUEST (2026-09-02):
-- Blank/Graph document creation should eventually offer US Letter plus device-derived Presentation canvas sizes.
-- Proposed choices: Presentation canvas, slightly smaller than Presentation canvas, and Letter.
-- Compute Presentation-derived dimensions from the actual usable Presentation viewport on the current device rather than hard-coding a device size.
+- Blank/Graph document creation should eventually offer US Letter plus a Presentation-ratio option.
+- The Presentation option only needs to match the current usable Presentation canvas aspect ratio; it does not need to represent the device's physical screen size.
+- Normalize the generated Presentation-ratio page so its long edge is 11 inches, then derive the short edge from the measured canvas aspect ratio.
+- A slightly-smaller presentation option is optional and can be discussed later.
 
 NEXT MAJOR FEATURE AFTER THIS PASS:
 - Image insertion as annotation objects integrated with the existing selection/manipulation system.
