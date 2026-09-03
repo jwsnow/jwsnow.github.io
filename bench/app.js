@@ -1,4 +1,4 @@
-const APP_VERSION = '5.4.8';
+const APP_VERSION = '5.5.1';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -10,13 +10,13 @@ const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 
 const LIBRARY_DB_NAME = 'pdf-workbench-library';
 const LIBRARY_DB_VERSION = 2;
-const LIBRARY_SCHEMA_VERSION = 5;
+const LIBRARY_SCHEMA_VERSION = 6;
 const LIBRARY_BACKUP_FORMAT_VERSION = 1;
 const SESSION_CHECKPOINT_KEY = 'pdfwb-session-checkpoint-v2';
 
 const $ = (id) => document.getElementById(id);
 const els = {
-  app: $('app'), openBtn: $('openBtn'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), newTemplateDocumentBtn: $('newTemplateDocumentBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), libraryZipImportInput: $('libraryZipImportInput'), imageAssemblyInput: $('imageAssemblyInput'), documentSelect: $('documentSelect'),
+  app: $('app'), openBtn: $('openBtn'), annotationImageInput: $('annotationImageInput'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), newTemplateDocumentBtn: $('newTemplateDocumentBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), libraryZipImportInput: $('libraryZipImportInput'), imageAssemblyInput: $('imageAssemblyInput'), documentSelect: $('documentSelect'),
   viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), exportModeBtn: $('exportModeBtn'), viewerControls: $('viewerControls'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
@@ -33,7 +33,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionPasteBtn: $('selectionPasteBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionPasteBtn: $('selectionPasteBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -345,6 +345,23 @@ function clonePageState(page, options={}) {
   if (options.newId) copy.id = uid('page');
   return copy;
 }
+function annotationImageSourceIds(page) {
+  const ids = new Set();
+  for (const annotation of page?.annotations || []) {
+    if (annotation?.type === 'image' && annotation.sourceId) ids.add(annotation.sourceId);
+  }
+  return ids;
+}
+function pageReferencedSourceIds(page) {
+  const ids = annotationImageSourceIds(page);
+  if (page?.sourceId) ids.add(page.sourceId);
+  return ids;
+}
+function pagesReferencedSourceIds(pages) {
+  const ids = new Set();
+  for (const page of pages || []) for (const sourceId of pageReferencedSourceIds(page)) ids.add(sourceId);
+  return ids;
+}
 function serializeDocumentForLibrary(doc) {
   return {
     id: doc.id,
@@ -575,7 +592,7 @@ async function restorePersistentTemplates() {
   else if (savedDefault?.kind === 'template' && state.templates.some(template => template.id === savedDefault.templateId)) {
     state.newLastPageDefault = { kind:'template', templateId:savedDefault.templateId };
   } else state.newLastPageDefault = { kind:'graph', templateId:null };
-  const sourceIds = new Set(state.templates.map(template => template.page?.sourceId).filter(Boolean));
+  const sourceIds = pagesReferencedSourceIds(state.templates.map(template => template.page));
   for (const sourceId of sourceIds) {
     try { await ensureLibrarySourceLoaded(sourceId); }
     catch (err) { console.warn(`Could not preload template source ${sourceId}`, err); }
@@ -602,7 +619,7 @@ async function persistLibraryNow(options={}) {
     saveCurrentDocumentState({ readViewDom: options.readViewDom !== false, skipLibrarySchedule: true });
     writeSessionCheckpoint();
     for (const doc of state.documents) {
-      const sourceIds = new Set(doc.pages.map(page => page.sourceId).filter(Boolean));
+      const sourceIds = pagesReferencedSourceIds(doc.pages);
       for (const sourceId of sourceIds) await persistSourceToLibrary(sourceId);
       const serializeStarted = performance.now();
       const record = serializeDocumentForLibrary(doc);
@@ -610,7 +627,7 @@ async function persistLibraryNow(options={}) {
       await libraryPut('documents', record);
       state.libraryRecords.set(doc.id, record);
     }
-    const templateSourceIds = new Set(state.templates.map(template => template.page?.sourceId).filter(Boolean));
+    const templateSourceIds = pagesReferencedSourceIds(state.templates.map(template => template.page));
     for (const sourceId of templateSourceIds) await persistSourceToLibrary(sourceId);
     await libraryPut('meta', serializeTemplatesForLibrary());
     // Do not overwrite the saved workspace with the intentionally empty
@@ -737,7 +754,7 @@ async function reopenLibraryDocument(docId, options={}) {
   const record = state.libraryRecords.get(docId) || await libraryGet('documents', docId);
   if (!record) throw new Error('That Library document is no longer available.');
   if (record.trashedAt) throw new Error('That document is in Trash. Restore it before opening.');
-  const sourceIds = new Set((record.pages || []).map(page => page.sourceId).filter(Boolean));
+  const sourceIds = pagesReferencedSourceIds(record.pages || []);
   for (const sourceId of sourceIds) await ensureLibrarySourceLoaded(sourceId);
   // Two rapid Open actions (or an Open racing startup restoration) can both
   // pass the first already-open check before source hydration yields. Recheck
@@ -982,7 +999,7 @@ function buildPortableFolderPaths(folders) {
 }
 
 async function ensureRecordSourcesLoaded(record) {
-  const ids = new Set((record?.pages || []).map(page => page.sourceId).filter(Boolean));
+  const ids = pagesReferencedSourceIds(record?.pages || []);
   for (const sourceId of ids) await ensureLibrarySourceLoaded(sourceId);
   return ids;
 }
@@ -1169,10 +1186,18 @@ function validateLibraryBackupManifest(manifest) {
   const sourceIds = new Set(manifest.sources.map(source => source?.id).filter(Boolean));
   for (const record of manifest.documents) {
     if (!record?.id || !Array.isArray(record.pages)) throw new Error('The backup contains an invalid document record.');
-    for (const page of record.pages) if (page?.sourceId && !sourceIds.has(page.sourceId)) throw new Error(`Backup source ${page.sourceId} required by ${record.name || record.id} is missing.`);
+    for (const page of record.pages) {
+      for (const requiredSourceId of pageReferencedSourceIds(page)) {
+        if (!sourceIds.has(requiredSourceId)) throw new Error(`Backup source ${requiredSourceId} required by ${record.name || record.id} is missing.`);
+      }
+    }
   }
   const templates = manifest.meta?.templates?.templates || [];
-  for (const template of templates) if (template?.page?.sourceId && !sourceIds.has(template.page.sourceId)) throw new Error(`Backup source ${template.page.sourceId} required by template ${template.name || template.id} is missing.`);
+  for (const template of templates) {
+    for (const requiredSourceId of pageReferencedSourceIds(template?.page)) {
+      if (!sourceIds.has(requiredSourceId)) throw new Error(`Backup source ${requiredSourceId} required by template ${template.name || template.id} is missing.`);
+    }
+  }
   return true;
 }
 
@@ -1350,7 +1375,14 @@ function remapPageForImportedBackup(page, sourceMap, pageIdMap) {
   if (!page) return page;
   const oldId = page.id || uid('legacy-page');
   if (!pageIdMap.has(oldId)) pageIdMap.set(oldId, uid('page'));
-  return { ...clonePageState(page), id: pageIdMap.get(oldId), sourceId: page.sourceId ? sourceMap.get(page.sourceId) || null : null };
+  const copy = clonePageState(page);
+  copy.id = pageIdMap.get(oldId);
+  copy.sourceId = page.sourceId ? sourceMap.get(page.sourceId) || null : null;
+  copy.annotations = (copy.annotations || []).map(annotation => {
+    if (annotation?.type !== 'image' || !annotation.sourceId) return annotation;
+    return { ...annotation, sourceId: sourceMap.get(annotation.sourceId) || null };
+  });
+  return copy;
 }
 
 async function importEditableBackupAsSubtree(file) {
@@ -1507,7 +1539,48 @@ function annotationsForPage(page) {
   return page.annotations;
 }
 function hasPageAnnotations(page) {
-  return Array.isArray(page?.annotations) && page.annotations.some(stroke => Array.isArray(stroke?.points) && stroke.points.length);
+  return Array.isArray(page?.annotations) && page.annotations.some(annotation => (
+    annotation?.type === 'image'
+      ? !!annotation.sourceId && Number(annotation.width) > 0 && Number(annotation.height) > 0
+      : Array.isArray(annotation?.points) && annotation.points.length
+  ));
+}
+function isImageAnnotation(annotation) {
+  return annotation?.type === 'image' && !!annotation.sourceId;
+}
+function imageAnnotationBaseRect(annotation) {
+  if (!isImageAnnotation(annotation)) return null;
+  const x = Number(annotation.x) || 0;
+  const y = Number(annotation.y) || 0;
+  const width = Math.max(.01, Number(annotation.width) || 0);
+  const height = Math.max(.01, Number(annotation.height) || 0);
+  return { x, y, width, height, minX:x, minY:y, maxX:x+width, maxY:y+height };
+}
+function imageAnnotationDisplayBounds(page, annotation) {
+  const rect = imageAnnotationBaseRect(annotation);
+  if (!rect) return null;
+  const corners = [
+    basePointToDisplay(page,{x:rect.x,y:rect.y}),
+    basePointToDisplay(page,{x:rect.x+rect.width,y:rect.y}),
+    basePointToDisplay(page,{x:rect.x,y:rect.y+rect.height}),
+    basePointToDisplay(page,{x:rect.x+rect.width,y:rect.y+rect.height}),
+  ];
+  const xs = corners.map(p=>p.x), ys = corners.map(p=>p.y);
+  const minX=Math.min(...xs), minY=Math.min(...ys), maxX=Math.max(...xs), maxY=Math.max(...ys);
+  return { minX,minY,maxX,maxY,width:maxX-minX,height:maxY-minY };
+}
+function displayRectToBaseImageRect(page, rect) {
+  const x = Number(rect?.x) || 0, y = Number(rect?.y) || 0;
+  const width = Math.max(.01, Number(rect?.width) || 0), height = Math.max(.01, Number(rect?.height) || 0);
+  const corners = [
+    displayPointToBase(page,{x,y}),
+    displayPointToBase(page,{x:x+width,y}),
+    displayPointToBase(page,{x,y:y+height}),
+    displayPointToBase(page,{x:x+width,y:y+height}),
+  ];
+  const xs=corners.map(p=>p.x), ys=corners.map(p=>p.y);
+  const minX=Math.min(...xs), minY=Math.min(...ys), maxX=Math.max(...xs), maxY=Math.max(...ys);
+  return { x:minX,y:minY,width:maxX-minX,height:maxY-minY };
 }
 function basePointToDisplay(page, point) {
   const base = pageCanvasBaseDimensions(page);
@@ -1612,6 +1685,46 @@ function traceRawStrokeCanvas(ctx, page, points) {
     ctx.lineTo(point.x, point.y);
   }
 }
+function applyBaseToDisplayCanvasTransform(ctx, page) {
+  const base = pageCanvasBaseDimensions(page);
+  const rotation = normalizedQuarterTurn(page?.rotation);
+  if (rotation === 90) ctx.transform(0, 1, -1, 0, base.height, 0);
+  else if (rotation === 180) ctx.transform(-1, 0, 0, -1, base.width, base.height);
+  else if (rotation === 270) ctx.transform(0, -1, 1, 0, 0, base.width);
+}
+function requestImageAnnotationRedraw(page, sourceId) {
+  const source = state.sources.get(sourceId);
+  if (source) {
+    getSourceImage(source)
+      .then(() => redrawPageAnnotationOverlays(page))
+      .catch(err => console.warn(`Could not render inserted image ${source.name || sourceId}`, err));
+    return;
+  }
+  ensureLibrarySourceLoaded(sourceId)
+    .then(loaded => loaded ? getSourceImage(loaded) : null)
+    .then(() => redrawPageAnnotationOverlays(page))
+    .catch(err => console.warn(`Could not restore inserted image ${sourceId}`, err));
+}
+function drawImageAnnotationCanvas(page, ctx, pixelWidth, pixelHeight, annotation) {
+  const rect = imageAnnotationBaseRect(annotation);
+  if (!rect) return false;
+  const source = state.sources.get(annotation.sourceId);
+  const img = source?.image || null;
+  if (!img) {
+    requestImageAnnotationRedraw(page, annotation.sourceId);
+    return false;
+  }
+  const display = pageDisplayDimensions(page);
+  const sx = pixelWidth / Math.max(1, display.width);
+  const sy = pixelHeight / Math.max(1, display.height);
+  ctx.save();
+  ctx.scale(sx, sy);
+  applyBaseToDisplayCanvasTransform(ctx, page);
+  ctx.globalAlpha = clamp(Number(annotation.opacity ?? 1), 0, 1);
+  ctx.drawImage(img, rect.x, rect.y, rect.width, rect.height);
+  ctx.restore();
+  return true;
+}
 function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={}) {
   if (!ctx || !hasPageAnnotations(page)) return;
   const excludedStrokeId = options.excludeStrokeId || null;
@@ -1621,6 +1734,8 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
   const includedStrokeIds = options.includeStrokeIds instanceof Set
     ? options.includeStrokeIds
     : (Array.isArray(options.includeStrokeIds) ? new Set(options.includeStrokeIds) : null);
+  const imageOnly = !!options.imageOnly;
+  const inkOnly = !!options.inkOnly;
   const display = pageDisplayDimensions(page);
   const sx = pixelWidth / Math.max(1, display.width);
   const sy = pixelHeight / Math.max(1, display.height);
@@ -1665,17 +1780,20 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
     if (excludedStrokeId && stroke?.id === excludedStrokeId) continue;
     if (excludedStrokeIds.has(stroke?.id)) continue;
     if (includedStrokeIds && !includedStrokeIds.has(stroke?.id)) continue;
+
+    if (isImageAnnotation(stroke)) {
+      if (!inkOnly) drawImageAnnotationCanvas(page, ctx, pixelWidth, pixelHeight, stroke);
+      continue;
+    }
+    if (imageOnly) continue;
+
     const points = Array.isArray(stroke?.points) ? stroke.points : [];
     if (!points.length) continue;
     const opacity = clamp(Number(stroke.opacity ?? 1), 0, 1);
 
     // A highlighter stroke is composited once as a translucent object. Drawing
     // its raw sampled geometry directly with globalAlpha can darken tiny
-    // backtracks/self-overlaps on Canvas, producing the visible sample "beads"
-    // that do not appear in the PDF. Build that one stroke opaquely on a scratch
-    // canvas, then alpha-composite the finished stroke once onto the annotation
-    // layer. The live Eraser no longer redraws this layer while in contact; it
-    // removes pixels directly and performs one exact vector redraw on release.
+    // backtracks/self-overlaps on Canvas, producing visible sample "beads".
     if (stroke.tool === 'highlighter' && opacity < 1) {
       const scratchCtx = ensureHighlighterScratch();
       if (scratchCtx) {
@@ -1696,7 +1814,7 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
 }
 function ensureAnnotationOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.annotation-canvas');
   if (!overlay) {
@@ -1711,14 +1829,46 @@ function ensureAnnotationOverlay(stage, baseCanvas=null) {
   overlay.style.height = base.style.height || '100%';
   return overlay;
 }
+function ensureImageAnnotationOverlay(stage, baseCanvas=null) {
+  if (!stage) return null;
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+  if (!base?.width || !base?.height) return null;
+  let overlay = stage.querySelector('canvas.annotation-image-canvas');
+  if (!overlay) {
+    overlay = document.createElement('canvas');
+    overlay.className = 'annotation-image-canvas';
+    overlay.setAttribute('aria-hidden', 'true');
+    const ink = stage.querySelector('canvas.annotation-canvas');
+    if (ink) stage.insertBefore(overlay, ink);
+    else stage.append(overlay);
+  }
+  if (overlay.width !== base.width) overlay.width = base.width;
+  if (overlay.height !== base.height) overlay.height = base.height;
+  overlay.style.width = base.style.width || '100%';
+  overlay.style.height = base.style.height || '100%';
+  return overlay;
+}
 function redrawStageAnnotations(stage, page, options={}) {
   if (!stage || !page) return;
-  const base = stage.querySelector('canvas:not(.annotation-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+  const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
   const overlay = ensureAnnotationOverlay(stage, base);
   if (!overlay) return;
+  const hasImages = (page.annotations || []).some(annotation => isImageAnnotation(annotation));
+  let imageOverlay = stage.querySelector('canvas.annotation-image-canvas');
+  if (hasImages) imageOverlay = ensureImageAnnotationOverlay(stage, base);
+  else if (imageOverlay) {
+    imageOverlay.width = imageOverlay.height = 1;
+    imageOverlay.remove();
+    imageOverlay = null;
+  }
+  if (imageOverlay) {
+    const imageCtx = imageOverlay.getContext('2d');
+    imageCtx.clearRect(0, 0, imageOverlay.width, imageOverlay.height);
+    drawPageAnnotationsCanvas(page, imageCtx, imageOverlay.width, imageOverlay.height, { ...options, imageOnly:true });
+  }
   const ctx = overlay.getContext('2d');
   ctx.clearRect(0, 0, overlay.width, overlay.height);
-  drawPageAnnotationsCanvas(page, ctx, overlay.width, overlay.height, options);
+  drawPageAnnotationsCanvas(page, ctx, overlay.width, overlay.height, { ...options, inkOnly:true });
   redrawStageAnnotationSelection(stage, page);
 }
 function redrawPageAnnotationOverlays(page, options={}) {
@@ -1760,7 +1910,7 @@ function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
   // the third sample onward drawLiveSmoothedInkProgress() adds finalized cubic
   // segments, keeping latency essentially identical to the raw polyline path.
   const drawOnStage = targetStage => {
-    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
     const canvas = ensureAnnotationOverlay(targetStage, baseCanvas);
     if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
     const ctx = canvas.getContext('2d');
@@ -1796,7 +1946,7 @@ function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
 }
 function ensureLiveHighlighterOverlay(stage, baseCanvas=null, opacity=HIGHLIGHTER_OPACITY) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.live-highlighter-canvas');
   if (!overlay) {
@@ -1825,7 +1975,7 @@ function drawLiveHighlighterPoints(stage, page, stroke, points) {
   const source = Array.isArray(points) ? points : [];
   if (!source.length) return;
   const drawOnStage = targetStage => {
-    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
     const canvas = ensureLiveHighlighterOverlay(targetStage, baseCanvas, stroke.opacity);
     if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
     const ctx = canvas.getContext('2d');
@@ -1874,7 +2024,7 @@ function commitLiveHighlighterOverlays(page, opacity=HIGHLIGHTER_OPACITY) {
   for (const stage of document.querySelectorAll(selector)) {
     const live = stage.querySelector('canvas.live-highlighter-canvas');
     if (!live?.width || !live?.height) continue;
-    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
     const overlay = ensureAnnotationOverlay(stage, base);
     const ctx = overlay?.getContext?.('2d');
     if (ctx) {
@@ -1908,7 +2058,7 @@ function drawLiveSmoothedInkProgress(stage, page, stroke) {
   const controls = smoothStrokeControls(points, segmentIndex);
   if (!controls) return;
   const drawOnStage = targetStage => {
-    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
     const canvas = ensureAnnotationOverlay(targetStage, baseCanvas);
     if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
     const ctx = canvas.getContext('2d');
@@ -1992,6 +2142,15 @@ function annotationDisplayBounds(page, annotations) {
   const list = annotations || [];
   let minX=Infinity, minY=Infinity, maxX=-Infinity, maxY=-Infinity;
   for (const annotation of list) {
+    if (isImageAnnotation(annotation)) {
+      const bounds = imageAnnotationDisplayBounds(page, annotation);
+      if (!bounds) continue;
+      minX = Math.min(minX, bounds.minX);
+      minY = Math.min(minY, bounds.minY);
+      maxX = Math.max(maxX, bounds.maxX);
+      maxY = Math.max(maxY, bounds.maxY);
+      continue;
+    }
     const half = Math.max(.125, Number(annotation?.width) || 0) / 2;
     for (const raw of annotation?.points || []) {
       const point = basePointToDisplay(page, raw);
@@ -2006,6 +2165,15 @@ function annotationDisplayBounds(page, annotations) {
 function annotationBaseBounds(annotations) {
   let minX=Infinity, minY=Infinity, maxX=-Infinity, maxY=-Infinity;
   for (const annotation of annotations || []) {
+    if (isImageAnnotation(annotation)) {
+      const rect = imageAnnotationBaseRect(annotation);
+      if (!rect) continue;
+      minX = Math.min(minX, rect.minX);
+      minY = Math.min(minY, rect.minY);
+      maxX = Math.max(maxX, rect.maxX);
+      maxY = Math.max(maxY, rect.maxY);
+      continue;
+    }
     const half = Math.max(.125, Number(annotation?.width) || 0) / 2;
     for (const point of annotation?.points || []) {
       minX = Math.min(minX, point.x-half);
@@ -2134,8 +2302,24 @@ function pointInPolygon(point, polygon) {
   return inside;
 }
 function strokeIntersectsPolygon(annotation, polygon) {
+  if (!polygon?.length) return false;
+  if (isImageAnnotation(annotation)) {
+    const rect = imageAnnotationBaseRect(annotation);
+    if (!rect) return false;
+    const corners = [
+      {x:rect.minX,y:rect.minY},{x:rect.maxX,y:rect.minY},
+      {x:rect.maxX,y:rect.maxY},{x:rect.minX,y:rect.maxY},
+    ];
+    if (corners.some(point => pointInPolygon(point, polygon))) return true;
+    if (polygon.some(point => point.x >= rect.minX && point.x <= rect.maxX && point.y >= rect.minY && point.y <= rect.maxY)) return true;
+    for (let i=0; i<polygon.length; i++) {
+      const a=polygon[i], b=polygon[(i+1)%polygon.length];
+      for (let j=0; j<4; j++) if (segmentsIntersect2(a,b,corners[j],corners[(j+1)%4])) return true;
+    }
+    return false;
+  }
   const points = annotation?.points || [];
-  if (!points.length || !polygon?.length) return false;
+  if (!points.length) return false;
   if (points.some(point => pointInPolygon(point, polygon))) return true;
   const bounds = annotationBaseBounds([annotation]);
   if (bounds && pointInPolygon({x:(bounds.minX+bounds.maxX)/2,y:(bounds.minY+bounds.maxY)/2}, polygon)) return true;
@@ -2148,17 +2332,35 @@ function strokeIntersectsPolygon(annotation, polygon) {
   return false;
 }
 function annotationHitAt(page, point, radius) {
+  const annotations = annotationsForPage(page);
   let best=null, bestDistance=Infinity;
-  for (const annotation of annotationsForPage(page)) {
-    const points = annotation?.points || [];
+
+  // Ink/highlighter is visually above inserted images. Give it first chance so
+  // tapping handwriting on top of a photo selects the handwriting, while a tap
+  // on clear photo area still selects the image.
+  for (let index=annotations.length-1; index>=0; index--) {
+    const annotation=annotations[index];
+    if (isImageAnnotation(annotation)) continue;
+    const points=annotation?.points || [];
     if (!points.length) continue;
-    const tolerance = Math.max(2, radius + (Number(annotation.width)||0)/2);
-    let distance = Infinity;
-    if (points.length === 1) distance = Math.hypot(point.x-points[0].x, point.y-points[0].y);
-    else for (let i=1; i<points.length; i++) distance = Math.min(distance, pointSegmentDistance(point, points[i-1], points[i]));
-    if (distance <= tolerance && distance < bestDistance) { best=annotation; bestDistance=distance; }
+    const tolerance=Math.max(2,radius+(Number(annotation.width)||0)/2);
+    let distance=Infinity;
+    if (points.length===1) distance=Math.hypot(point.x-points[0].x,point.y-points[0].y);
+    else for (let i=1;i<points.length;i++) distance=Math.min(distance,pointSegmentDistance(point,points[i-1],points[i]));
+    if (distance<=tolerance && distance<bestDistance) { best=annotation; bestDistance=distance; }
   }
-  return best;
+  if (best) return best;
+
+  for (let index=annotations.length-1; index>=0; index--) {
+    const annotation=annotations[index];
+    if (!isImageAnnotation(annotation)) continue;
+    const rect=imageAnnotationBaseRect(annotation);
+    if (!rect) continue;
+    const dx=Math.max(rect.minX-point.x,0,point.x-rect.maxX);
+    const dy=Math.max(rect.minY-point.y,0,point.y-rect.maxY);
+    if (Math.hypot(dx,dy)<=Math.max(2,radius)) return annotation;
+  }
+  return null;
 }
 function selectionOriginals(page) {
   const ids = state.annotationSelection?.ids || new Set();
@@ -2166,7 +2368,7 @@ function selectionOriginals(page) {
 }
 function ensureLiveSelectionOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.live-selection-canvas');
   if (!overlay) {
@@ -2207,7 +2409,7 @@ function prepareSelectionGestureLayers(gesture) {
   for (const stage of document.querySelectorAll(selector)) {
     if (stage.dataset.rendered !== 'true') continue;
     renderedCount++;
-    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
     const live = ensureLiveSelectionOverlay(stage, base);
     if (!live) continue;
     const ctx = live.getContext('2d');
@@ -2275,7 +2477,12 @@ function commitSelectionGestureTransform(gesture) {
     for (const original of gesture.originals || []) {
       const annotation = current.get(original.id);
       if (!annotation) continue;
-      annotation.points = original.points.map(point => ({ x:point.x+dx, y:point.y+dy }));
+      if (isImageAnnotation(original)) {
+        annotation.x = (Number(original.x)||0) + dx;
+        annotation.y = (Number(original.y)||0) + dy;
+      } else {
+        annotation.points = original.points.map(point => ({ x:point.x+dx, y:point.y+dy }));
+      }
     }
     return;
   }
@@ -2286,11 +2493,23 @@ function commitSelectionGestureTransform(gesture) {
     for (const original of gesture.originals || []) {
       const annotation = current.get(original.id);
       if (!annotation) continue;
-      annotation.points = original.points.map(raw => {
-        const point = basePointToDisplay(page, raw);
-        return displayPointToBase(page, { x:anchor.x+(point.x-anchor.x)*scale, y:anchor.y+(point.y-anchor.y)*scale });
-      });
-      annotation.width = Math.max(.25, (Number(original.width)||3) * scale);
+      if (isImageAnnotation(original)) {
+        const topLeft = basePointToDisplay(page, {x:Number(original.x)||0,y:Number(original.y)||0});
+        const nextTopLeft = displayPointToBase(page, {
+          x:anchor.x+(topLeft.x-anchor.x)*scale,
+          y:anchor.y+(topLeft.y-anchor.y)*scale,
+        });
+        annotation.x = nextTopLeft.x;
+        annotation.y = nextTopLeft.y;
+        annotation.width = Math.max(.25, (Number(original.width)||1) * scale);
+        annotation.height = Math.max(.25, (Number(original.height)||1) * scale);
+      } else {
+        annotation.points = original.points.map(raw => {
+          const point = basePointToDisplay(page, raw);
+          return displayPointToBase(page, { x:anchor.x+(point.x-anchor.x)*scale, y:anchor.y+(point.y-anchor.y)*scale });
+        });
+        annotation.width = Math.max(.25, (Number(original.width)||3) * scale);
+      }
     }
   }
 }
@@ -2314,7 +2533,12 @@ function applyMoveSelectionGesture(gesture, event) {
     for (const original of gesture.originals) {
       const annotation = current.get(original.id);
       if (!annotation) continue;
-      annotation.points = original.points.map(point => ({x:point.x+dx,y:point.y+dy}));
+      if (isImageAnnotation(original)) {
+        annotation.x = (Number(original.x)||0) + dx;
+        annotation.y = (Number(original.y)||0) + dy;
+      } else {
+        annotation.points = original.points.map(point => ({x:point.x+dx,y:point.y+dy}));
+      }
     }
     redrawPageAnnotationOverlays(page);
   }
@@ -2350,11 +2574,23 @@ function applyResizeSelectionGesture(gesture, event) {
     for (const original of gesture.originals) {
       const annotation = current.get(original.id);
       if (!annotation) continue;
-      annotation.points = original.points.map(raw => {
-        const point = basePointToDisplay(page,raw);
-        return displayPointToBase(page,{x:anchor.x+(point.x-anchor.x)*scale,y:anchor.y+(point.y-anchor.y)*scale});
-      });
-      annotation.width = Math.max(.25,(Number(original.width)||3)*scale);
+      if (isImageAnnotation(original)) {
+        const topLeft = basePointToDisplay(page,{x:Number(original.x)||0,y:Number(original.y)||0});
+        const nextTopLeft = displayPointToBase(page,{
+          x:anchor.x+(topLeft.x-anchor.x)*scale,
+          y:anchor.y+(topLeft.y-anchor.y)*scale,
+        });
+        annotation.x = nextTopLeft.x;
+        annotation.y = nextTopLeft.y;
+        annotation.width = Math.max(.25,(Number(original.width)||1)*scale);
+        annotation.height = Math.max(.25,(Number(original.height)||1)*scale);
+      } else {
+        annotation.points = original.points.map(raw => {
+          const point = basePointToDisplay(page,raw);
+          return displayPointToBase(page,{x:anchor.x+(point.x-anchor.x)*scale,y:anchor.y+(point.y-anchor.y)*scale});
+        });
+        annotation.width = Math.max(.25,(Number(original.width)||3)*scale);
+      }
     }
     redrawPageAnnotationOverlays(page);
   }
@@ -2487,14 +2723,22 @@ function annotationPayloadFromSelection(page=selectedAnnotationPage()) {
     sourceDisplay:{width:display.width,height:display.height},
     origin:{x:bounds.minX,y:bounds.minY},
     size:{width:bounds.width,height:bounds.height},
-    items:annotations.map(annotation=>({
-      ...cloneInkStroke(annotation),
-      id:null,
-      points:(annotation.points||[]).map(raw=>{
-        const point=basePointToDisplay(page,raw);
-        return {x:point.x-bounds.minX,y:point.y-bounds.minY};
-      }),
-    })),
+    items:annotations.map(annotation=>{
+      const copy={...cloneInkStroke(annotation),id:null};
+      if (isImageAnnotation(annotation)) {
+        const rect=imageAnnotationDisplayBounds(page,annotation);
+        copy.displayRect=rect?{
+          x:rect.minX-bounds.minX,y:rect.minY-bounds.minY,width:rect.width,height:rect.height
+        }:null;
+        copy.points=[];
+      } else {
+        copy.points=(annotation.points||[]).map(raw=>{
+          const point=basePointToDisplay(page,raw);
+          return {x:point.x-bounds.minX,y:point.y-bounds.minY};
+        });
+      }
+      return copy;
+    }),
   };
 }
 function instantiateAnnotationPayload(payload,page,origin) {
@@ -2504,11 +2748,21 @@ function instantiateAnnotationPayload(payload,page,origin) {
   const width=Number(payload.size?.width)||0, height=Number(payload.size?.height)||0;
   ox=clamp(ox,0,Math.max(0,display.width-width));
   oy=clamp(oy,0,Math.max(0,display.height-height));
-  return (payload.items||[]).map(item=>({
-    ...item,
-    id:uid(item.type==='ink'?'ink':'annotation'),
-    points:(item.points||[]).map(point=>displayPointToBase(page,{x:ox+point.x,y:oy+point.y})),
-  }));
+  return (payload.items||[]).map(item=>{
+    if (isImageAnnotation(item) && item.displayRect) {
+      const rect=displayRectToBaseImageRect(page,{
+        x:ox+item.displayRect.x,y:oy+item.displayRect.y,
+        width:item.displayRect.width,height:item.displayRect.height,
+      });
+      const {displayRect,...rest}=item;
+      return {...rest,id:uid('image'),x:rect.x,y:rect.y,width:rect.width,height:rect.height,points:[]};
+    }
+    return {
+      ...item,
+      id:uid(item.type==='ink'?'ink':'annotation'),
+      points:(item.points||[]).map(point=>displayPointToBase(page,{x:ox+point.x,y:oy+point.y})),
+    };
+  });
 }
 function deleteSelectedAnnotations() {
   const page=selectedAnnotationPage();
@@ -2613,6 +2867,7 @@ function updateInkToolbar() {
   els.inkHighlighterBtn?.setAttribute('aria-pressed', String(tool === 'highlighter'));
   els.inkEraserBtn?.setAttribute('aria-pressed', String(tool === 'eraser'));
   els.inkSelectBtn?.setAttribute('aria-pressed', String(tool === 'select'));
+  if (els.inkImageBtn) els.inkImageBtn.disabled = !state.pages.length;
   document.body.classList.toggle('ink-pen-active', isStylusAnnotationTool(tool));
   document.body.classList.toggle('ink-highlighter-active', tool === 'highlighter');
   document.body.classList.toggle('ink-eraser-active', tool === 'eraser');
@@ -2996,7 +3251,7 @@ function drawLiveEraserPreview(page, points, eraserDiameter=state.eraserSize) {
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const stage of document.querySelectorAll(selector)) {
     if (stage.dataset.rendered !== 'true') continue;
-    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
     const overlay = ensureAnnotationOverlay(stage, base);
     if (!overlay?.width || !overlay?.height) continue;
     const ctx = overlay.getContext('2d');
@@ -3347,9 +3602,16 @@ function bindInkNativeSelectionGuard() {
 
 function shiftPageAnnotations(page, dx, dy) {
   if (!hasPageAnnotations(page)) return;
-  for (const stroke of page.annotations) for (const point of stroke.points || []) {
-    point.x += dx;
-    point.y += dy;
+  for (const annotation of page.annotations) {
+    if (isImageAnnotation(annotation)) {
+      annotation.x = (Number(annotation.x)||0) + dx;
+      annotation.y = (Number(annotation.y)||0) + dy;
+      continue;
+    }
+    for (const point of annotation.points || []) {
+      point.x += dx;
+      point.y += dy;
+    }
   }
 }
 function fitPageAnnotationsToCanvas(page, oldBase, newBase) {
@@ -3357,12 +3619,19 @@ function fitPageAnnotationsToCanvas(page, oldBase, newBase) {
   const fit = Math.min(newBase.width / Math.max(1, oldBase.width), newBase.height / Math.max(1, oldBase.height));
   const offsetX = (newBase.width - oldBase.width * fit) / 2;
   const offsetY = (newBase.height - oldBase.height * fit) / 2;
-  for (const stroke of page.annotations) {
-    for (const point of stroke.points || []) {
+  for (const annotation of page.annotations) {
+    if (isImageAnnotation(annotation)) {
+      annotation.x = (Number(annotation.x)||0) * fit + offsetX;
+      annotation.y = (Number(annotation.y)||0) * fit + offsetY;
+      annotation.width = Math.max(.25, Number(annotation.width||1) * fit);
+      annotation.height = Math.max(.25, Number(annotation.height||1) * fit);
+      continue;
+    }
+    for (const point of annotation.points || []) {
       point.x = point.x * fit + offsetX;
       point.y = point.y * fit + offsetY;
     }
-    stroke.width = Math.max(.25, Number(stroke.width || 3) * fit);
+    annotation.width = Math.max(.25, Number(annotation.width || 3) * fit);
   }
 }
 function hexToPdfRgb(hex, rgb) {
@@ -3440,15 +3709,60 @@ function simplifyHighlighterExportPoints(stroke, sourcePoints) {
   return simplified.length >= 2 ? simplified : [source[0], finalPoint];
 }
 
-function drawPageAnnotationsPdf(pdfPage, page, inheritedRotation, pdfLib) {
+function imageAnnotationRawPdfPlacement(page, annotation, pdfPage, inheritedRotation=0) {
+  const rect=imageAnnotationBaseRect(annotation);
+  if (!rect) return null;
+  const box=pdfPage.getCropBox?.() || pdfPage.getMediaBox?.() || {x:0,y:0,width:pdfPage.getWidth(),height:pdfPage.getHeight()};
+  const rotation=normalizedQuarterTurn(inheritedRotation);
+  const orientedW=rotation===90||rotation===270?box.height:box.width;
+  const orientedH=rotation===90||rotation===270?box.width:box.height;
+  const base=pageCanvasBaseDimensions(page);
+  const width=rect.width*orientedW/Math.max(1,base.width);
+  const height=rect.height*orientedH/Math.max(1,base.height);
+  const lowerLeft=annotationPointToRawPdf(page,{x:rect.x,y:rect.y+rect.height},pdfPage,inheritedRotation);
+  return {x:lowerLeft.x,y:lowerLeft.y,width,height,rotation};
+}
+async function drawPageAnnotationsPdf(outputPdf, pdfPage, page, inheritedRotation, pdfLib, embeddedImages=new Map(), imageCompression=null) {
   if (!hasPageAnnotations(page)) return;
-  const { rgb, pushGraphicsState, popGraphicsState, setLineJoin, LineJoinStyle, LineCapStyle } = pdfLib;
+  const { rgb, degrees, pushGraphicsState, popGraphicsState, setLineJoin, LineJoinStyle, LineCapStyle } = pdfLib;
+
+  // Inserted images sit below Workbench ink/highlighter on screen, so reproduce
+  // that same compositing order in the exported PDF.
+  for (const annotation of page.annotations || []) {
+    if (!isImageAnnotation(annotation)) continue;
+    let source=state.sources.get(annotation.sourceId);
+    if (!source) source=await ensureLibrarySourceLoaded(annotation.sourceId);
+    if (!source) throw new Error(`Inserted image source ${annotation.sourceId} is missing.`);
+    const placement=imageAnnotationRawPdfPlacement(page,annotation,pdfPage,inheritedRotation);
+    if (!placement) continue;
+    const cacheKey=imageCompression
+      ? `annotation:${annotation.sourceId}:${Math.round(placement.width)}x${Math.round(placement.height)}:${imageCompression.maxDpi}:${imageCompression.jpegQuality}`
+      : `annotation:${annotation.sourceId}`;
+    let embedded=embeddedImages.get(cacheKey);
+    if (!embedded) {
+      embedded=await embedImageForExport(outputPdf,source,imageCompression?{
+        compress:true,
+        maxDpi:imageCompression.maxDpi,
+        jpegQuality:imageCompression.jpegQuality,
+        targetWidthPts:placement.width,
+        targetHeightPts:placement.height,
+      }:{});
+      embeddedImages.set(cacheKey,embedded);
+    }
+    pdfPage.drawImage(embedded,{
+      x:placement.x,y:placement.y,width:placement.width,height:placement.height,
+      rotate:degrees(placement.rotation),
+      opacity:clamp(Number(annotation.opacity ?? 1),0,1),
+    });
+  }
+
   const pathNumber = value => {
     const n = Number(value) || 0;
     const rounded = Math.round(n * 10000) / 10000;
     return Object.is(rounded, -0) ? '0' : String(rounded);
   };
   for (const stroke of page.annotations) {
+    if (isImageAnnotation(stroke)) continue;
     const points = Array.isArray(stroke?.points) ? stroke.points : [];
     if (!points.length) continue;
     const color = hexToPdfRgb(stroke.color, rgb);
@@ -3460,22 +3774,10 @@ function drawPageAnnotationsPdf(pdfPage, page, inheritedRotation, pdfLib) {
       continue;
     }
 
-    // Export each annotation as ONE continuous PDF path: smoothed cubic geometry
-    // for Pen and the raw continuous polyline for Highlighter. Before 5.0.2,
-    // export emitted every sampled pair as an independent drawLine operation. At a
-    // turn, the flat ends of those separate segments meet only at the center
-    // line and can leave a visible white wedge on the inside of a wide curve.
-    // drawSvgPath gives us a single stroked subpath; an enclosing round line
-    // join plus a round cap makes its geometry match the Canvas renderer.
-    // pdf-lib flips SVG Y coordinates internally, so negate the already-mapped
-    // raw PDF y value to land at the same PDF coordinate after that transform.
+    // Export each ink annotation as one continuous PDF path.
     const first = annotationPointToRawPdf(page, points[0], pdfPage, inheritedRotation);
     let path = `M ${pathNumber(first.x)} ${pathNumber(-first.y)}`;
     if (stroke.tool === 'highlighter') {
-      // Highlighter stays a raw-style polyline, but export uses a centerline
-      // simplified far below the stroke width. This removes microscopic Pencil
-      // backtracks that some PDF transparency renderers otherwise show as dark
-      // beads/patches. The document's stored annotation points are untouched.
       const exportPoints = simplifyHighlighterExportPoints(stroke, points);
       const exportFirst = annotationPointToRawPdf(page, exportPoints[0], pdfPage, inheritedRotation);
       path = `M ${pathNumber(exportFirst.x)} ${pathNumber(-exportFirst.y)}`;
@@ -3573,11 +3875,11 @@ function createDocument(name) {
 }
 
 function sourceUsedByDocuments(sourceId, excludingDocumentId=null) {
-  return state.documents.some(doc => doc.id !== excludingDocumentId && doc.pages.some(page => page.sourceId === sourceId));
+  return state.documents.some(doc => doc.id !== excludingDocumentId && doc.pages.some(page => pageReferencedSourceIds(page).has(sourceId)));
 }
 
 function sourceUsedByTemplates(sourceId, excludingTemplateId=null) {
-  return state.templates.some(template => template.id !== excludingTemplateId && template.page?.sourceId === sourceId);
+  return state.templates.some(template => template.id !== excludingTemplateId && pageReferencedSourceIds(template.page).has(sourceId));
 }
 
 function releaseSourceIfUnused(sourceId, options={}) {
@@ -3597,7 +3899,7 @@ function removeDocument(docId) {
   if (state.annotationSelection?.documentId === docId) clearAnnotationSelection(true);
   state.selectionGesture = null;
   const doc = state.documents[index];
-  const sourceIds = new Set(doc.pages.map(p => p.sourceId).filter(Boolean));
+  const sourceIds = pagesReferencedSourceIds(doc.pages);
   for (const sourceId of sourceIds) releaseSourceIfUnused(sourceId, { excludingDocumentId: docId });
   state.documents.splice(index, 1);
   for (const pane of Object.values(state.splitPanes)) {
@@ -4093,6 +4395,65 @@ async function addImage(file) {
   return 1;
 }
 
+async function insertImageAnnotation(file) {
+  if (!file) return false;
+  if (!String(file.type || '').startsWith('image/')) {
+    setStatus('Choose an image file to insert');
+    return false;
+  }
+  const page = activeAnnotationTargetPage();
+  if (!page) {
+    setStatus('Open a document page before inserting an image');
+    return false;
+  }
+  const sourceId = uid('src');
+  const url = URL.createObjectURL(file);
+  try {
+    const dims = await readImageDimensions(file, url);
+    const source = { id:sourceId, type:'image', name:file.name || 'Inserted image', size:file.size, file, url, image:null, libraryPersisted:false };
+    state.sources.set(sourceId, source);
+    // Decode before committing the annotation so the image appears immediately
+    // rather than briefly showing an empty selection rectangle.
+    await getSourceImage(source);
+
+    const base = pageCanvasBaseDimensions(page);
+    const maxWidth = Math.max(48, base.width * .62);
+    const maxHeight = Math.max(48, base.height * .62);
+    const scale = Math.min(1, maxWidth / Math.max(1,dims.width), maxHeight / Math.max(1,dims.height));
+    const width = Math.max(.25, dims.width * scale);
+    const height = Math.max(.25, dims.height * scale);
+    const annotation = {
+      id:uid('image'),
+      type:'image',
+      sourceId,
+      x:(base.width-width)/2,
+      y:(base.height-height)/2,
+      width,
+      height,
+      opacity:1,
+      createdAt:Date.now(),
+    };
+
+    const before = snapshotPages();
+    annotationsForPage(page).push(annotation);
+    state.activePageId = page.id;
+    setAnnotationTool('select');
+    setAnnotationSelection(page, new Set([annotation.id]), { redraw:false });
+    commitHistory(before);
+    saveCurrentDocumentState({readViewDom:false});
+    redrawPageAnnotationOverlays(page);
+    setStatus('Inserted image — drag to move or use a corner handle to resize');
+    return true;
+  } catch (err) {
+    const source = state.sources.get(sourceId);
+    if (source?.url) URL.revokeObjectURL(source.url);
+    state.sources.delete(sourceId);
+    console.error('Could not insert image annotation', err);
+    setStatus(`Could not insert image: ${err?.message || err}`);
+    return false;
+  }
+}
+
 function clearImageAssembly(options={}) {
   const { revoke = true } = options;
   if (revoke) {
@@ -4518,7 +4879,7 @@ function deleteTemplate(templateId) {
     state.newLastPageDefault = { kind:'graph', templateId:null };
   }
   renderInsertTemplateList();
-  releaseSourceIfUnused(removed.page?.sourceId, { excludingTemplateId: removed.id });
+  for (const sourceId of pageReferencedSourceIds(removed.page)) releaseSourceIfUnused(sourceId, { excludingTemplateId: removed.id });
   scheduleLibraryPersist(80);
 }
 
@@ -5057,13 +5418,19 @@ async function readImageDimensions(file, url) {
 
 async function getSourceImage(source) {
   if (source.image) return source.image;
-  source.image = await new Promise((resolve, reject) => {
+  if (source.imagePromise) return source.imagePromise;
+  source.imagePromise = new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => resolve(img);
     img.onerror = () => reject(new Error(`Could not decode ${source.name}`));
     img.src = source.url;
+  }).then(img => {
+    source.image = img;
+    return img;
+  }).finally(() => {
+    source.imagePromise = null;
   });
-  return source.image;
+  return source.imagePromise;
 }
 
 async function getPdfPage(source, pageNumber) {
@@ -5321,7 +5688,10 @@ async function renderLibraryFirstPagePreview(record, canvas) {
   const page = record?.pages?.[0];
   if (!page || !canvas?.isConnected) return;
   try {
-    if (page.sourceId && !state.sources.has(page.sourceId)) await ensureLibrarySourceLoaded(page.sourceId);
+    for (const sourceId of pageReferencedSourceIds(page)) {
+      const source=state.sources.get(sourceId) || await ensureLibrarySourceLoaded(sourceId);
+      if (source?.type==='image') await getSourceImage(source);
+    }
     if (!canvas.isConnected) return;
     await renderCompactPagePreview(page, canvas);
   } catch (err) {
@@ -5606,7 +5976,7 @@ async function permanentlyDeleteLibraryFolderTree(folderId) {
       const cleanRecords=records.map(record=>({...record,trashedAt:null}));
       await exportPdfRecordsToZip(cleanRecords,cleanFolders,`${zipSafeSegment(root.name,'Folder')}-before-delete.zip`,folderId);
     }
-    const sourceIds=new Set(records.flatMap(record=>(record.pages||[]).map(page=>page.sourceId).filter(Boolean)));
+    const sourceIds=pagesReferencedSourceIds(records.flatMap(record=>record.pages||[]));
     const tx=state.libraryDb.transaction(['documents','folders'],'readwrite'); const done=idbTransactionDone(tx); const ds=tx.objectStore('documents'),fs=tx.objectStore('folders');
     for(const record of records){ds.delete(record.id);state.libraryRecords.delete(record.id);}
     for(const folder of folders){fs.delete(folder.id);state.libraryFolders.delete(folder.id);}
@@ -5820,7 +6190,7 @@ function askPermanentDeleteAction(record, exportLabel='Export PDF & delete') {
 
 async function exportLibraryRecordBeforeDelete(record) {
   try {
-    const sourceIds = new Set((record.pages || []).map(page => page.sourceId).filter(Boolean));
+    const sourceIds = pagesReferencedSourceIds(record.pages || []);
     for (const sourceId of sourceIds) await ensureLibrarySourceLoaded(sourceId);
     setStatus(`Exporting ${record.name} before permanent deletion…`, true);
     const bytes = await buildPdfBytes(record.pages || [], { sourcePdfCache: new Map() });
@@ -5836,9 +6206,9 @@ async function exportLibraryRecordBeforeDelete(record) {
 function librarySourceStillReferenced(sourceId) {
   if (!sourceId) return false;
   for (const record of state.libraryRecords.values()) {
-    if ((record.pages || []).some(page => page.sourceId === sourceId)) return true;
+    if ((record.pages || []).some(page => pageReferencedSourceIds(page).has(sourceId))) return true;
   }
-  if (state.templates.some(template => template.page?.sourceId === sourceId)) return true;
+  if (state.templates.some(template => pageReferencedSourceIds(template.page).has(sourceId))) return true;
   return false;
 }
 
@@ -5861,7 +6231,7 @@ async function permanentlyDeleteLibraryDocument(docId) {
     const action = await askPermanentDeleteAction(record);
     if (action === 'cancel') return;
     if (action === 'export' && !(await exportLibraryRecordBeforeDelete(record))) return;
-    const sourceIds = new Set((record.pages || []).map(page => page.sourceId).filter(Boolean));
+    const sourceIds = pagesReferencedSourceIds(record.pages || []);
     await libraryDelete('documents', docId);
     state.libraryRecords.delete(docId);
     await removeUnusedPersistentSources(sourceIds);
@@ -6456,7 +6826,7 @@ async function buildPdfBytes(pageList, options={}) {
           drawGraphPaperPdfInRect(outPage, page.width, page.height, edge.left, edge.bottom, core.width, core.height, rgb);
         }
       }
-      drawPageAnnotationsPdf(outPage, page, 0, pdfLib);
+      await drawPageAnnotationsPdf(output, outPage, page, 0, pdfLib, embeddedImages, options.imageCompression || null);
       if (page.rotation) outPage.setRotation(degrees((page.rotation + 360) % 360));
     } else if (source.type === 'pdf') {
       const copied = copiedPdfPages.get(i);
@@ -6496,7 +6866,7 @@ async function buildPdfBytes(pageList, options={}) {
         copied.setTrimBox?.(x, y, width, height);
         copied.setArtBox?.(x, y, width, height);
       }
-      drawPageAnnotationsPdf(copied, page, inheritedRotation, pdfLib);
+      await drawPageAnnotationsPdf(output, copied, page, inheritedRotation, pdfLib, embeddedImages, options.imageCompression || null);
       copied.setRotation(degrees((inheritedRotation + (page.rotation || 0) + 360) % 360));
       output.addPage(copied);
     } else if (source.type === 'image') {
@@ -6529,7 +6899,7 @@ async function buildPdfBytes(pageList, options={}) {
       if (hasPageCanvasOverride(page)) {
         outPage.drawImage(embedded, { x: edge.left + (core.width - drawWidth) / 2, y: edge.bottom + (core.height - drawHeight) / 2, width: drawWidth, height: drawHeight });
       } else outPage.drawImage(embedded, { x: edge.left, y: edge.bottom, width: drawWidth, height: drawHeight });
-      drawPageAnnotationsPdf(outPage, page, 0, pdfLib);
+      await drawPageAnnotationsPdf(output, outPage, page, 0, pdfLib, embeddedImages, options.imageCompression || null);
       if (page.rotation) outPage.setRotation(degrees((page.rotation + 360) % 360));
     } else {
       throw new Error(`Unsupported source type on output page ${i + 1}.`);
@@ -6638,7 +7008,11 @@ async function rasterizePdfBytes(inputBytes, profile, options={}) {
 }
 
 function documentHasImportedImagePages(doc) {
-  return doc.pages.some(page => page.kind === 'image' || state.sources.get(page.sourceId)?.type === 'image');
+  return doc.pages.some(page =>
+    page.kind === 'image' ||
+    state.sources.get(page.sourceId)?.type === 'image' ||
+    (page.annotations || []).some(annotation => isImageAnnotation(annotation))
+  );
 }
 
 function targetStartIndexForRaster(structuralSize, targetBytes) {
@@ -7129,6 +7503,12 @@ function updatePageCounts() {
   els.pageCounter.textContent = count ? `${activeIndex() + 1} / ${count}` : '0 / 0';
   updateHistoryButtons();
   updateSelectionToolbar();
+  // Page-dependent annotation actions must refresh whenever document/page state
+  // changes, including after asynchronous Local Library session restoration.
+  // At initial startup updateInkToolbar() runs before restored pages exist, so
+  // without this refresh the Insert Image action can remain incorrectly disabled
+  // until the user taps another annotation tool.
+  if (els.inkImageBtn) els.inkImageBtn.disabled = !count;
 }
 
 function renderOrganizer() {
@@ -9247,7 +9627,7 @@ async function exitPresentation() {
 
 function clearAll() {
   closeInsertPageMenu(false);
-  const templateSourceIds = new Set(state.templates.map(template => template.page?.sourceId).filter(Boolean));
+  const templateSourceIds = pagesReferencedSourceIds(state.templates.map(template => template.page));
   for (const [sourceId, source] of state.sources) {
     if (templateSourceIds.has(sourceId)) continue;
     if (source.url) URL.revokeObjectURL(source.url);
@@ -9314,9 +9694,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.4.8 is a cleanup/performance-polish pass on the successful 5.4.7 dense-page fix. Durable Library records and restored/imported backups omit legacy Undo/Redo history, existing closed Library records are pruned once when encountered, and obsolete Eraser rendering remnants are removed. Dense-page Eraser release now leaves the already-correct live pixel preview in place and defers the exact full annotation repaint until browser idle; annotation autosave also waits longer after the last edit to avoid colliding with a rapid next gesture. Undo/Redo remains session-local.</p>
-      <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes. Pen retains five direct colors and three widths; Highlighter has its own yellow/pink/cyan/green palette and three widths; Eraser cuts only touched portions; Select works on whole annotation objects.</li><li><strong>Editable ink:</strong> strokes and eraser-created fragments remain page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and can now be moved, resized, deleted, duplicated, copied, and pasted as whole objects.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. At the document end, pull/scroll beyond the last page and release to append the Template Manager's configured default; Graph paper is the factory default.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
-      <p><strong>Next annotation step:</strong> image insertion as selectable annotation objects. The future new-document size refinement will offer US Letter plus a Presentation-ratio page whose long edge is normalized to 11 inches.</p>
+      <p>Milestone 5.5.1 fixes the Insert Image button startup state after Local Library/session restoration. Milestone 5.5.0 added inserted images as editable page annotation objects on top of the stable 5.4.8 annotation/performance baseline. Use the picture button in the annotation strip to choose an image from the device, then move or proportionally resize it with Select. Inserted images persist in the Local Library and editable backups, participate in session Undo/Redo and annotation copy/duplicate/paste, and are embedded in PDF export beneath Workbench ink/highlighter.</p>
+      <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
+      <p><strong>Image scope in 5.5.1:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. The future new-document size refinement will offer US Letter plus a Presentation-ratio page whose long edge is normalized to 11 inches.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -10180,6 +10560,8 @@ function bindEvents() {
   els.inkHighlighterBtn?.addEventListener('click', () => setAnnotationTool('highlighter'));
   els.inkEraserBtn?.addEventListener('click', () => setAnnotationTool('eraser'));
   els.inkSelectBtn?.addEventListener('click', () => setAnnotationTool('select'));
+  els.inkImageBtn?.addEventListener('click', () => els.annotationImageInput?.click());
+  els.annotationImageInput?.addEventListener('change', async () => { const file=els.annotationImageInput.files?.[0]; await insertImageAnnotation(file); els.annotationImageInput.value=''; });
   els.selectionDeleteBtn?.addEventListener('click', deleteSelectedAnnotations);
   els.selectionDuplicateBtn?.addEventListener('click', duplicateSelectedAnnotations);
   els.selectionCopyBtn?.addEventListener('click', copySelectedAnnotations);

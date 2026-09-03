@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.4.8">
+  <link rel="stylesheet" href="styles.css?v=5.5.1">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -24,6 +24,7 @@
         </button>
         <input id="fileInput" class="visually-hidden" type="file" multiple accept="application/pdf,image/*">
         <input id="imageAssemblyInput" class="visually-hidden" type="file" multiple accept="image/*">
+        <input id="annotationImageInput" class="visually-hidden" type="file" accept="image/*">
         <input id="libraryZipImportInput" class="visually-hidden" type="file" accept=".zip,application/zip">
         <input id="libraryRestoreInput" class="visually-hidden" type="file" accept=".zip,application/zip">
 
@@ -118,6 +119,7 @@
             <button id="inkHighlighterBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Highlighter" aria-label="Highlighter"><span class="highlighter-tool-icon" aria-hidden="true"></span></button>
             <button id="inkEraserBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Partial-stroke eraser" aria-label="Partial-stroke eraser"><span class="eraser-tool-icon" aria-hidden="true"></span></button>
             <button id="inkSelectBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Lasso / select annotations" aria-label="Lasso / select annotations"><span class="lasso-tool-icon" aria-hidden="true"></span></button>
+            <button id="inkImageBtn" class="annotation-tool-btn annotation-action-btn" type="button" title="Insert image on current page" aria-label="Insert image on current page"><span class="image-tool-icon" aria-hidden="true"></span></button>
           </div>
           <div id="penColorGroup" class="ink-option-group" role="group" aria-label="Pen color">
             <button class="ink-color-btn" type="button" data-ink-color="#111111" style="--swatch:#111111" title="Black pen" aria-label="Black pen"></button>
@@ -196,7 +198,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.4.8</div>
+          <div class="export-kicker">Milestone 5.5.1</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -720,6 +722,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.4.8"></script>
+  <script type="module" src="app.js?v=5.5.1"></script>
 </body>
 </html>

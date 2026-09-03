@@ -1,6 +1,49 @@
-# PDF Workbench — Milestone 5.4.8
+# PDF Workbench — Milestone 5.5.1
 
-Milestone 5.4.8 is a cleanup/performance-polish pass on the successful 5.4.7 dense-page fix. It removes superseded 5.4-era rendering plumbing, makes the session-local Undo/Redo policy consistent across the Local Library and editable-backup paths, and addresses the small cross-platform pause noticed immediately after a dense-page Eraser swipe without changing eraser semantics or stored geometry.
+## 5.5.1 restored-document image-button state
+
+- Fixed a startup-state bug in 5.5.0 where the **Insert Image** picture button could remain disabled after an open document was restored from the Local Library/session.
+- The cause was initialization order: the annotation toolbar was first updated while `state.pages` was still empty, and the later asynchronous document restore refreshed page counts but not the page-dependent picture action.
+- Page-count refresh now also refreshes the Insert Image button's enabled state, so it is immediately available whenever the restored/current document has pages.
+- No image-annotation behavior, Pen/Highlighter/Eraser behavior, history policy, persistence format, or PDF export behavior changed from 5.5.0.
+
+================ PRIOR README HISTORY ================
+
+# PDF Workbench — Milestone 5.5.0
+
+Milestone 5.5.0 adds **inserted images as selectable annotation objects** on top of the stable 5.4.8 cross-device annotation/performance baseline. The existing Pen, Highlighter, partial Eraser, Select/lasso, session-only Undo/Redo, split-view, persistence, and dense-page performance behavior are intentionally retained.
+
+## 5.5.0 image annotations
+
+- A new **picture button** in the annotation strip opens the device image picker. On iPad this can be used with Photos/Files; Surface and Chromebook use their normal browser file picker.
+- One chosen image is inserted on the active page, centered and proportionally scaled to fit comfortably.
+- The inserted image becomes selected immediately and the toolbar switches to **Select**.
+- Images participate in the existing selection model: move, proportional corner resize, Delete, Duplicate, Copy, Paste, lasso selection, mixed image+ink selections, Undo, and Redo.
+- Image geometry is stored in the same unrotated page coordinate system used by editable ink, so page rotation, split view, page duplication, templates, and page-size/crop transformations can reuse the existing annotation infrastructure.
+- Inserted image binaries are stored once as Local Library image sources and annotation objects reference those source ids. Duplicating/copying an image does not duplicate the binary payload.
+- Library reopen, editable backup/restore, backup-as-folder import, Library PDF archive, template persistence, and persistent-source cleanup now understand image-annotation source references.
+- On screen, inserted images are rendered on a dedicated layer **below** Workbench ink/highlighter. The partial Eraser continues to affect ink only and does not destructively erase image pixels.
+- PDF export embeds inserted images below Workbench vector ink/highlighter. Structure-preserving compression can also downsample inserted image annotations using the selected image-compression profile.
+- Untouched-PDF byte passthrough is disabled whenever a page contains an inserted image, just as it is for ink.
+
+### Deliberately deferred from 5.5.0
+
+- Cropping an inserted image.
+- Independent image rotation.
+- Pasting an image directly from the system clipboard.
+- Opacity controls or other image editing.
+- Layer-order controls (inserted images currently sit below Workbench ink/highlighter).
+
+### Test priority for 5.5.0
+
+1. iPad: insert from Photos/Files, then move and resize repeatedly with Apple Pencil; verify finger pan/pinch remains normal.
+2. Surface and Chromebook: insert an image, move/resize/delete/duplicate/copy/paste it, including paste to a different page and document.
+3. Lasso a mixed group containing handwriting plus an image; move and resize the group and verify proportional alignment.
+4. Draw/highlight over an inserted image, then erase across that area. Ink should erase while the image remains intact.
+5. Duplicate a page containing images, save it as a template with annotations, close/reopen the app, and verify the image returns.
+6. Export generated, imported-PDF, and imported-image pages containing inserted images; compare screen and PDF placement, including rotated pages.
+7. Back up the editable Library, restore/import it, and verify inserted image objects and their binaries survive.
+8. Regression-test the 5.4.8 dense-page workload and later ask again about long-term performance in normal use.
 
 ## 5.4.8 cleanup after dense-page fix
 
@@ -299,7 +342,6 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - The 4.2.1 batched source-page copying/resource-sharing fix remains intact.
 
 ## Not in this build yet
-- Images as annotation objects
 - Recolor selected strokes
 - Annotation-toolbar auto-hide/edge-placement setting
 - Draw with Finger setting
@@ -307,9 +349,9 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 
 ## Storage/versioning
 - IndexedDB database version: **2**
-- Library schema version: **5** (page records can now contain Workbench annotation stroke data)
+- Library schema version: **6** (page annotations can reference inserted-image source records)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.4.8-v1`
+- Service-worker cache: `pdf-workbench-m5.5.1-v1`
 
 ## High-priority smoke tests
 1. On iPad, Surface, and Chromebook, draw several separate strokes, choose Select, lasso one stroke and then a group. Verify the selected objects get one bounding box and that unselected strokes remain untouched.
@@ -330,4 +372,4 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 16. Re-test the previously problematic slide deck unchanged; it should still export byte-for-byte. Add a short pen stroke and export again; the file should remain reasonably sized.
 17. Save one template **With annotations** and one **Clean**; confirm their previews/content differ correctly. In Template Manager set the automatic last page to Graph, Blank, and then a saved template, and test pull/scroll-past-end creation for each.
 18. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
-**More → About this build** reports **Milestone 5.4.8**.
+**More → About this build** reports **Milestone 5.5.1**.

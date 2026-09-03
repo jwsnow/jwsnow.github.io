@@ -1,3 +1,62 @@
+PDF WORKBENCH PWA — MILESTONE 5.5.1 CURRENT UPDATE
+
+CURRENT BUILD: Milestone 5.5.1
+Visible About version: 5.5.1
+Library schema version: 6
+Service-worker/cache version: pdf-workbench-m5.5.1-v1
+Baseline: 5.5.0 image annotations on the validated 5.4.8 cross-device performance baseline.
+
+MILESTONE 5.5.1 — RESTORED-DOCUMENT IMAGE-BUTTON STATE
+- Fixed the Insert Image picture button remaining disabled immediately after app startup/session restoration.
+- Root cause: the annotation toolbar initialized before restored pages were hydrated; the later page-count refresh did not update this page-dependent action.
+- `updatePageCounts()` now refreshes the Insert Image disabled state from the current page count.
+- No image object semantics, annotation input behavior, Undo/Redo policy, persistence schema, or export behavior changed.
+
+================ PRIOR HANDOFF HISTORY ================
+
+PDF WORKBENCH PWA — MILESTONE 5.5.0 CURRENT UPDATE
+
+CURRENT BUILD: Milestone 5.5.0
+Visible About version: 5.5.0
+Library schema version: 6
+Service-worker/cache version: pdf-workbench-m5.5.0-v1
+Baseline: 5.4.8, validated under heavy annotation load on iPad, Surface, and Chromebook.
+
+MILESTONE 5.5.0 — INSERTED IMAGE ANNOTATIONS
+- Added a picture action button to the annotation strip plus a dedicated image picker input (`accept=image/*`).
+- Inserted images are annotation objects: `{ type:'image', sourceId, x, y, width, height, opacity }`, with geometry in unrotated page coordinates.
+- New images are centered/scaled to fit, selected immediately, and Select mode becomes active.
+- Selection/lasso infrastructure is image-aware: hit testing, polygon selection, group bounds, optimized move preview, proportional resize, Delete, Duplicate, Copy, Paste, Undo/Redo, and mixed ink+image groups.
+- Screen rendering uses a dedicated `.annotation-image-canvas` at z-index 1, below the existing ink/highlighter canvas at z-index 2. This preserves the 5.4 eraser architecture: live partial erasing only modifies ink, not inserted image pixels.
+- Inserted image binaries reuse the existing Local Library `sources` store. Annotation objects hold source ids, so duplicate/copy/paste/page duplication does not duplicate binary data.
+- All source-reference plumbing now includes annotation-image sources: current persistence, reopen, previews, templates, backup validation/restore, backup-as-folder source-id remapping, Library PDF export, source-release checks, and permanent folder/document deletion cleanup.
+- PDF export is image-aware. Inserted images are embedded below Workbench ink/highlighter and follow inherited PDF rotation plus Workbench page rotation. Preserve-mode image compression can downsample inserted image annotations too.
+- `hasPageAnnotations()` now treats inserted images as Workbench annotations, so untouched-byte passthrough is correctly disabled.
+- Page geometry transformations (canvas resize/crop/margins) now shift/fit image rectangles along with ink.
+- The 5.4.8 stable Pen/Highlighter/Eraser/input/performance behavior is intentionally unchanged.
+- Undo/Redo remains session-local and starts fresh after a true restart.
+- Keep the reminder to ask about dense-page performance later after normal use.
+
+TEST PRIORITY FOR 5.5.0
+1. iPad first: insert from Photos/Files; move/resize with Pencil; draw/highlight over the image; erase ink across it; export.
+2. Surface + Chromebook: same operations with mouse/pen/touch; regression-test finger navigation and palm behavior.
+3. Copy/paste and duplicate images within page, across pages, and across open documents.
+4. Mixed lasso: select image plus ink, move and resize together.
+5. Rotate page 90/180/270, then move/resize image and export; compare screen to PDF.
+6. Save page with inserted image as template, duplicate the page, close/reopen app, and confirm persistence.
+7. Editable backup/restore and backup-as-folder import must preserve image binaries and source references.
+8. Re-run dense-page stress briefly to ensure the added image layer did not disturb 5.4.8 performance.
+
+DEFERRED IMAGE FEATURES
+- Crop.
+- Independent image rotation.
+- System clipboard image paste.
+- Image opacity/editing controls.
+- Layer-order controls; images are below ink/highlighter in 5.5.0.
+
+
+================ PRIOR HANDOFF HISTORY ================
+
 PDF WORKBENCH PWA — MILESTONE 5.4.8 CURRENT UPDATE
 
 CURRENT BUILD: Milestone 5.4.8
