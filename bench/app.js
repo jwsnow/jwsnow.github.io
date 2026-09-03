@@ -1,4 +1,4 @@
-const APP_VERSION = '5.5.2';
+const APP_VERSION = '5.5.3';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1623,29 +1623,38 @@ function gestureEventGeometry(stage, page) {
 // remain the authoritative editable geometry for erasing, lasso transforms,
 // persistence, Undo/Redo, and future editing. Smoothing is derived only when
 // drawing/exporting so the input path and object model stay unchanged.
-const INK_SMOOTHING_FACTOR = 0.13;
-const INK_SMOOTHING_HANDLE_CAP = 0.58;
-function smoothStrokeControls(points, segmentIndex) {
+// Pen smoothing is intentionally width-aware. Thin strokes reveal small hand
+// jitter much more clearly, so they get a little more curve continuity while
+// the broad pen stays close to the established 5.4/5.5 feel. These settings
+// affect rendering/export only; raw points remain the editable geometry.
+function penSmoothingSettings(width=3) {
+  const w = Math.max(.25, Number(width) || 3);
+  if (w <= 1.75) return { factor:0.18, handleCap:0.68 };
+  if (w <= 3.5) return { factor:0.155, handleCap:0.62 };
+  return { factor:0.135, handleCap:0.58 };
+}
+function smoothStrokeControls(points, segmentIndex, width=3) {
   const count = points?.length || 0;
   if (count < 2 || segmentIndex < 0 || segmentIndex >= count - 1) return null;
   const p0 = points[Math.max(0, segmentIndex - 1)];
   const p1 = points[segmentIndex];
   const p2 = points[segmentIndex + 1];
   const p3 = points[Math.min(count - 1, segmentIndex + 2)];
+  const { factor, handleCap } = penSmoothingSettings(width);
   let c1 = {
-    x: p1.x + (p2.x - p0.x) * INK_SMOOTHING_FACTOR,
-    y: p1.y + (p2.y - p0.y) * INK_SMOOTHING_FACTOR,
+    x: p1.x + (p2.x - p0.x) * factor,
+    y: p1.y + (p2.y - p0.y) * factor,
   };
   let c2 = {
-    x: p2.x - (p3.x - p1.x) * INK_SMOOTHING_FACTOR,
-    y: p2.y - (p3.y - p1.y) * INK_SMOOTHING_FACTOR,
+    x: p2.x - (p3.x - p1.x) * factor,
+    y: p2.y - (p3.y - p1.y) * factor,
   };
   // Dense stylus samples normally keep these handles short already. Cap them
   // relative to the current raw segment so a very uneven sample interval or a
   // sharp reversal cannot create a loop/large overshoot away from the eraser's
   // underlying raw geometry.
   const segmentLength = Math.hypot(p2.x - p1.x, p2.y - p1.y);
-  const maxHandle = segmentLength * INK_SMOOTHING_HANDLE_CAP;
+  const maxHandle = segmentLength * handleCap;
   const capFrom = (anchor, control) => {
     const dx = control.x - anchor.x, dy = control.y - anchor.y;
     const length = Math.hypot(dx, dy);
@@ -1657,7 +1666,7 @@ function smoothStrokeControls(points, segmentIndex) {
   c2 = capFrom(p2, c2);
   return { p1, p2, c1, c2 };
 }
-function traceSmoothedStrokeCanvas(ctx, page, points) {
+function traceSmoothedStrokeCanvas(ctx, page, points, width=3) {
   if (!ctx || !Array.isArray(points) || !points.length) return;
   const first = basePointToDisplay(page, points[0]);
   ctx.moveTo(first.x, first.y);
@@ -1668,7 +1677,7 @@ function traceSmoothedStrokeCanvas(ctx, page, points) {
     return;
   }
   for (let i = 0; i < points.length - 1; i++) {
-    const controls = smoothStrokeControls(points, i);
+    const controls = smoothStrokeControls(points, i, width);
     if (!controls) continue;
     const c1 = basePointToDisplay(page, controls.c1);
     const c2 = basePointToDisplay(page, controls.c2);
@@ -1769,7 +1778,7 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
       targetCtx.fill();
     } else {
       targetCtx.beginPath();
-      if (useSmooth) traceSmoothedStrokeCanvas(targetCtx, page, points);
+      if (useSmooth) traceSmoothedStrokeCanvas(targetCtx, page, points, width);
       else traceRawStrokeCanvas(targetCtx, page, points);
       targetCtx.stroke();
     }
@@ -2055,7 +2064,7 @@ function drawLiveSmoothedInkProgress(stage, page, stroke) {
   // leaves only one raw-sample interval of visual tail latency (typically a
   // few milliseconds), avoiding a whole-page redraw while handwriting.
   const segmentIndex = count - 3;
-  const controls = smoothStrokeControls(points, segmentIndex);
+  const controls = smoothStrokeControls(points, segmentIndex, stroke.width);
   if (!controls) return;
   const drawOnStage = targetStage => {
     const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
@@ -3790,7 +3799,7 @@ async function drawPageAnnotationsPdf(outputPdf, pdfPage, page, inheritedRotatio
       path += ` L ${pathNumber(second.x)} ${pathNumber(-second.y)}`;
     } else {
       for (let i = 0; i < points.length - 1; i++) {
-        const controls = smoothStrokeControls(points, i);
+        const controls = smoothStrokeControls(points, i, thickness);
         if (!controls) continue;
         const c1 = annotationPointToRawPdf(page, controls.c1, pdfPage, inheritedRotation);
         const c2 = annotationPointToRawPdf(page, controls.c2, pdfPage, inheritedRotation);
@@ -9694,7 +9703,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.5.2 gives touch scrolling a little more inertial coast by changing only the cross-platform continuous-scroll decay from 0.91 to 0.94 per 60 Hz frame. Finger/Pencil routing, release-velocity estimation, pinch behavior, and scroll snapping are unchanged. Milestone 5.5.1 fixed the Insert Image button startup state after Local Library/session restoration, and Milestone 5.5.0 added inserted images as editable page annotation objects on top of the stable 5.4.8 annotation/performance baseline.</p>
+      <p>Milestone 5.5.3 makes Pen smoothing width-aware: the 1.5 pt pen gets the largest increase in curve smoothing, the 3 pt pen gets a smaller increase, and the 5.5 pt pen remains close to the established feel. Raw sampled points, eraser/lasso geometry, persistence, and Undo/Redo are unchanged; the same width-aware curve is used on screen and in PDF export. The accepted 5.5.2 cross-platform touch-scroll momentum setting of 0.94 is unchanged.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image scope in 5.5.2:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. The future new-document size refinement will offer US Letter plus a Presentation-ratio page whose long edge is normalized to 11 inches.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

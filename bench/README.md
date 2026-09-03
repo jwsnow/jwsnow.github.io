@@ -1,3 +1,17 @@
+# PDF Workbench — Milestone 5.5.3
+
+## 5.5.3 width-aware Pen smoothing
+
+- Increased Pen curve smoothing most for the **1.5 pt** pen, somewhat for the **3 pt** pen, while leaving the **5.5 pt** pen close to the established 5.4/5.5 feel.
+- Width-specific rendering settings are now: 1.5 pt `factor 0.18 / handle cap 0.68`; 3 pt `0.155 / 0.62`; 5.5 pt `0.135 / 0.58` (the previous common setting was `0.13 / 0.58`).
+- The change is rendering-only. Raw stylus samples remain authoritative for Eraser, lasso/selection, persistence, and session Undo/Redo.
+- Live Pen rendering, completed on-screen rendering, and PDF export use the same width-aware smoothing so the exported curve matches the displayed curve.
+- Highlighter remains an unsmoothed continuous raw polyline.
+- The accepted 5.5.2 cross-platform touch-scroll momentum (`0.94` decay per nominal 60 Hz frame) is unchanged.
+- No Laser Pointer tool is included in this milestone.
+
+================ PRIOR README HISTORY ================
+
 # PDF Workbench — Milestone 5.5.2
 
 ## 5.5.2 touch-scroll momentum tuning

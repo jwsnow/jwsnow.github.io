@@ -1,3 +1,25 @@
+PDF WORKBENCH PWA — MILESTONE 5.5.3 CURRENT UPDATE
+
+CURRENT BUILD: Milestone 5.5.3
+Visible About version: 5.5.3
+Library schema version: 6
+Service-worker/cache version: pdf-workbench-m5.5.3-v1
+Baseline: 5.5.2 image annotations + accepted cross-platform touch-scroll momentum on the validated 5.4.8 performance baseline.
+
+MILESTONE 5.5.3 — WIDTH-AWARE PEN SMOOTHING
+- Pen smoothing is now width-aware rather than using one curve setting for every Pen width.
+- 1.5 pt Pen: factor 0.18, handle cap 0.68 (largest smoothing increase).
+- 3 pt Pen: factor 0.155, handle cap 0.62 (moderate increase).
+- 5.5 pt Pen: factor 0.135, handle cap 0.58 (kept close to previous 0.13/0.58 behavior).
+- Raw sampled points remain unchanged and authoritative for Eraser, lasso/selection, persistence, and session-only Undo/Redo.
+- Live Pen rendering, final canvas redraws, and PDF export all pass the stroke width through the same smoothing-control calculation.
+- Highlighter behavior is unchanged and remains unsmoothed.
+- Keep 5.5.2 continuous touch-scroll decay at 0.94 cross-platform; user reported it much better on iPad and not too fast on Surface.
+- Laser Pointer is deferred by user choice for now.
+- Continue to revisit dense-page performance later after normal use.
+
+================ PRIOR HANDOFF HISTORY ================
+
 PDF WORKBENCH PWA — MILESTONE 5.5.2 CURRENT UPDATE
 
 CURRENT BUILD: Milestone 5.5.2
