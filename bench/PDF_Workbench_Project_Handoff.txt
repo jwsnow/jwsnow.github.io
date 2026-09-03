@@ -1,3 +1,23 @@
+PDF WORKBENCH PWA — MILESTONE 5.5.4 CURRENT UPDATE
+
+CURRENT BUILD: Milestone 5.5.4
+Visible About version: 5.5.4
+Library schema version: 6
+Service-worker/cache version: pdf-workbench-m5.5.4-v1
+Baseline: 5.5.3 width-aware Pen smoothing + accepted 5.5.2 cross-platform touch-scroll momentum on the validated 5.4.8 performance baseline.
+
+MILESTONE 5.5.4 — THIN-PEN SMOOTHING REFINEMENT
+- 1.5 pt Pen smoothing increased from factor 0.18 / handle cap 0.68 to factor 0.205 / handle cap 0.72.
+- 3 pt remains 0.155 / 0.62; 5.5 pt remains 0.135 / 0.58.
+- Raw points remain authoritative for editing, Eraser, lasso, persistence, and session-only Undo/Redo.
+- Live Canvas, completed Canvas redraw, and PDF export use the same spline-control calculation.
+- User observed the Surface PDF export looking slightly smoother than the app. Treat this as expected vector-vs-raster antialiasing unless a geometry mismatch is demonstrated; do not raise annotation-canvas resolution casually because dense-page performance is a priority.
+- Keep touch-scroll inertia decay at 0.94 cross-platform.
+- Laser Pointer remains deferred by user choice.
+- Revisit dense-page performance after normal use.
+
+================ PRIOR HANDOFF HISTORY ================
+
 PDF WORKBENCH PWA — MILESTONE 5.5.3 CURRENT UPDATE
 
 CURRENT BUILD: Milestone 5.5.3

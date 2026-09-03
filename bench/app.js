@@ -1,4 +1,4 @@
-const APP_VERSION = '5.5.3';
+const APP_VERSION = '5.5.4';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1629,7 +1629,7 @@ function gestureEventGeometry(stage, page) {
 // affect rendering/export only; raw points remain the editable geometry.
 function penSmoothingSettings(width=3) {
   const w = Math.max(.25, Number(width) || 3);
-  if (w <= 1.75) return { factor:0.18, handleCap:0.68 };
+  if (w <= 1.75) return { factor:0.205, handleCap:0.72 };
   if (w <= 3.5) return { factor:0.155, handleCap:0.62 };
   return { factor:0.135, handleCap:0.58 };
 }
@@ -9703,7 +9703,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.5.3 makes Pen smoothing width-aware: the 1.5 pt pen gets the largest increase in curve smoothing, the 3 pt pen gets a smaller increase, and the 5.5 pt pen remains close to the established feel. Raw sampled points, eraser/lasso geometry, persistence, and Undo/Redo are unchanged; the same width-aware curve is used on screen and in PDF export. The accepted 5.5.2 cross-platform touch-scroll momentum setting of 0.94 is unchanged.</p>
+      <p>Milestone 5.5.4 increases smoothing one more step for the 1.5 pt Pen while leaving the 3 pt and 5.5 pt settings unchanged. Raw sampled points, eraser/lasso geometry, persistence, and Undo/Redo remain unchanged. Screen rendering and PDF export continue to use the same spline geometry; the PDF may still appear slightly smoother because it is vector-rendered while the in-app annotation layer is rasterized. The accepted 5.5.2 cross-platform touch-scroll momentum setting of 0.94 is unchanged.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image scope in 5.5.2:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. The future new-document size refinement will offer US Letter plus a Presentation-ratio page whose long edge is normalized to 11 inches.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

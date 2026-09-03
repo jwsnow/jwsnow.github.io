@@ -1,3 +1,17 @@
+# PDF Workbench — Milestone 5.5.4
+
+## 5.5.4 thin-Pen smoothing refinement
+
+- Increased smoothing only for the **1.5 pt** Pen: `factor 0.205 / handle cap 0.72` (from `0.18 / 0.68` in 5.5.3).
+- The **3 pt** Pen remains `0.155 / 0.62`; the **5.5 pt** Pen remains `0.135 / 0.58`.
+- Raw stylus samples remain authoritative for Eraser, lasso/selection, persistence, and session Undo/Redo.
+- Live Pen rendering, completed on-screen rendering, and PDF export still use the same width-aware spline geometry. A PDF can nevertheless look slightly smoother because the PDF viewer rasterizes vector curves independently, whereas Workbench draws the same curve to its page-aligned Canvas annotation layer.
+- No annotation-canvas resolution increase was made, specifically to avoid trading dense-page performance for a small anti-aliasing difference.
+- The accepted 5.5.2 cross-platform touch-scroll momentum (`0.94` decay per nominal 60 Hz frame) is unchanged.
+- No Laser Pointer tool is included.
+
+================ PRIOR README HISTORY ================
+
 # PDF Workbench — Milestone 5.5.3
 
 ## 5.5.3 width-aware Pen smoothing
