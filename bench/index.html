@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.5.5">
+  <link rel="stylesheet" href="styles.css?v=5.5.6">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -198,7 +198,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.5.5</div>
+          <div class="export-kicker">Milestone 5.5.6</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -247,7 +247,15 @@
           <details class="file-tool-section file-tool-details" id="newFilesSection">
             <summary><span>New</span><span class="operation-summary">Create a blank, graph-paper, or template document</span></summary>
             <div class="file-tool-body">
-              <p class="file-tool-summary">New writing documents start as US Letter landscape. Pages inserted into an existing document still match the current page size and orientation.</p>
+              <p class="file-tool-summary">Choose US Letter landscape or a page shaped to the current Presentation viewport. Presentation Ratio uses the current device/orientation and fixes the long page edge at 11 inches. Pages inserted into an existing document still match the current page size and orientation.</p>
+              <label class="export-field new-document-size-field">
+                <span>Page size</span>
+                <select id="newDocumentPageSize">
+                  <option value="letter" selected>US Letter landscape</option>
+                  <option value="presentation">Presentation Ratio · long side 11 in</option>
+                </select>
+              </label>
+              <p id="newDocumentPageSizeHint" class="small-note new-document-size-hint">US Letter landscape · 11 × 8.5 in.</p>
               <div class="new-document-actions">
                 <button id="newBlankDocumentBtn" class="export-button secondary-output-button" type="button">Blank document</button>
                 <button id="newGraphDocumentBtn" class="export-button secondary-output-button" type="button">Graph-paper document</button>
@@ -722,6 +730,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.5.5"></script>
+  <script type="module" src="app.js?v=5.5.6"></script>
 </body>
 </html>

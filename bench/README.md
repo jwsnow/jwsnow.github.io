@@ -1,3 +1,16 @@
+# PDF Workbench — Milestone 5.5.6
+
+## 5.5.6 Presentation-ratio new documents
+
+- The **New** section now offers a page-size selector for both Blank and Graph-paper documents: existing **US Letter landscape** or **Presentation Ratio · long side 11 in**.
+- Presentation Ratio derives its aspect ratio from the **current device/orientation's single Presentation viewport**. On iPad this predicts the app-level Presentation viewport; on Surface/Chromebook it predicts the native-fullscreen Presentation viewport. The reserved annotation-toolbar height and top safe-area inset are excluded from the target canvas.
+- The long PDF page edge is exactly **11 inches (792 pt)**; the short edge is computed from that Presentation viewport ratio. Portrait orientation is supported automatically if the current device orientation is portrait.
+- The UI shows the currently predicted physical page dimensions before creation and updates them when the window/orientation changes.
+- Existing-document insertion behavior is unchanged: blank/graph pages inserted into a document continue to match the current page's size and orientation.
+- Fit Page, Presentation rendering, Pen stabilization, image annotations, Undo policy, and the accepted cross-platform 0.94 touch-scroll momentum are unchanged.
+
+================ PRIOR README HISTORY ================
+
 # PDF Workbench 5.5.5
 
 ## Thin/medium pen edge stabilization

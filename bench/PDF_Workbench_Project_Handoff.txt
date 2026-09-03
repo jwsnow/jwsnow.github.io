@@ -1,3 +1,22 @@
+MILESTONE 5.5.6 — PRESENTATION-RATIO NEW DOCUMENTS
+
+CURRENT BUILD: Milestone 5.5.6
+Visible About version: 5.5.6
+Library schema version: 6
+Service-worker/cache version: pdf-workbench-m5.5.6-v1
+Baseline: stable 5.5.5 Pen stabilization + 5.5.1 image annotations + accepted 5.5.2 cross-platform touch-scroll momentum.
+
+MILESTONE 5.5.6 — PRESENTATION-RATIO PAGE SIZE
+- New Blank and Graph-paper documents can now be created as either US Letter landscape or Presentation Ratio.
+- Presentation Ratio is calculated from the current device/orientation's predicted single-view Presentation canvas, not from physical viewport inches. iPad uses the current visual viewport because Presentation is app-level there; Surface/Chromebook use screen geometry because Presentation requests native fullscreen.
+- The unified annotation-toolbar height and measured top safe-area inset are removed from the target Presentation height before calculating the ratio.
+- The page long edge is normalized to exactly 11 in = 792 pt; the short edge follows the target aspect ratio. Current orientation determines landscape vs portrait.
+- The New panel previews the resulting dimensions and refreshes on resize/orientation changes.
+- Existing-document inserted blank/graph pages still match the current page geometry. No Fit Page behavior changed.
+- Do not dynamically resize an existing Presentation-ratio page when the device later rotates; the ratio is captured at document creation time.
+
+================ PRIOR HANDOFF HISTORY ================
+
 MILESTONE 5.5.5 — THIN/MEDIUM PEN EDGE STABILIZATION
 
 Completed Pen rendering/export now lightly stabilizes thin and medium raw anchor points before constructing the existing spline. The raw editable point arrays remain unchanged. Sharp turns taper the stabilization so deliberate handwriting corners remain intact. Live input routing, eraser/lasso geometry, persistence, Undo/Redo, highlighter behavior, image annotations, and the 0.94 scroll momentum are unchanged.

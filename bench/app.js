@@ -1,4 +1,4 @@
-const APP_VERSION = '5.5.5';
+const APP_VERSION = '5.5.6';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -16,7 +16,7 @@ const SESSION_CHECKPOINT_KEY = 'pdfwb-session-checkpoint-v2';
 
 const $ = (id) => document.getElementById(id);
 const els = {
-  app: $('app'), openBtn: $('openBtn'), annotationImageInput: $('annotationImageInput'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), newTemplateDocumentBtn: $('newTemplateDocumentBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), libraryZipImportInput: $('libraryZipImportInput'), imageAssemblyInput: $('imageAssemblyInput'), documentSelect: $('documentSelect'),
+  app: $('app'), openBtn: $('openBtn'), annotationImageInput: $('annotationImageInput'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), newTemplateDocumentBtn: $('newTemplateDocumentBtn'), newDocumentPageSize: $('newDocumentPageSize'), newDocumentPageSizeHint: $('newDocumentPageSizeHint'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), libraryZipImportInput: $('libraryZipImportInput'), imageAssemblyInput: $('imageAssemblyInput'), documentSelect: $('documentSelect'),
   viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), exportModeBtn: $('exportModeBtn'), viewerControls: $('viewerControls'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
@@ -4711,8 +4711,81 @@ function createImageAssemblyDocument() {
 
 const DEFAULT_NEW_PAGE_WIDTH = 792;   // US Letter landscape, points
 const DEFAULT_NEW_PAGE_HEIGHT = 612;
+const PRESENTATION_PAGE_LONG_EDGE_PT = 11 * 72;
 const GRAPH_GRID_SPACING_PT = 18;     // 1/4 inch at 72 points/inch
 const GRAPH_GRID_MARGIN_PT = 9;
+
+function cssSafeAreaTopPx() {
+  // Presentation reserves the unified annotation bar plus the top safe-area
+  // inset. Measure env(safe-area-inset-top) instead of guessing device chrome.
+  const probe = document.createElement('div');
+  probe.style.cssText = 'position:fixed;visibility:hidden;pointer-events:none;padding-top:env(safe-area-inset-top);';
+  document.body.append(probe);
+  const value = Number.parseFloat(getComputedStyle(probe).paddingTop) || 0;
+  probe.remove();
+  return Math.max(0, value);
+}
+
+function presentationTargetViewportDimensions() {
+  // If Presentation is already active, use its exact single-viewer geometry.
+  if (document.body.classList.contains('presentation') && els.viewer?.clientWidth > 0 && els.viewer?.clientHeight > 0) {
+    return { width: els.viewer.clientWidth, height: els.viewer.clientHeight };
+  }
+
+  // iPad uses app-level Presentation, so its current visual viewport predicts
+  // Presentation size. Surface/Chromebook request native fullscreen, so use the
+  // screen dimensions while preserving the device's current orientation.
+  const visualWidth = Math.max(1, Number(window.visualViewport?.width) || Number(window.innerWidth) || 1);
+  const visualHeight = Math.max(1, Number(window.visualViewport?.height) || Number(window.innerHeight) || 1);
+  const currentLandscape = visualWidth >= visualHeight;
+  let width = visualWidth;
+  let height = visualHeight;
+
+  if (!isIPadLike()) {
+    let screenWidth = Math.max(1, Number(window.screen?.width) || visualWidth);
+    let screenHeight = Math.max(1, Number(window.screen?.height) || visualHeight);
+    const orientationType = String(window.screen?.orientation?.type || '');
+    const targetLandscape = orientationType
+      ? orientationType.startsWith('landscape')
+      : currentLandscape;
+    if ((screenWidth >= screenHeight) !== targetLandscape) [screenWidth, screenHeight] = [screenHeight, screenWidth];
+    width = screenWidth;
+    height = screenHeight;
+  }
+
+  const rootStyle = getComputedStyle(document.documentElement);
+  const annotationBarHeight = Number.parseFloat(rootStyle.getPropertyValue('--annotation-bar-h')) || 46;
+  height = Math.max(1, height - annotationBarHeight - cssSafeAreaTopPx());
+  return { width, height };
+}
+
+function presentationPageDimensions() {
+  const viewport = presentationTargetViewportDimensions();
+  const width = Math.max(1, viewport.width);
+  const height = Math.max(1, viewport.height);
+  const longEdge = PRESENTATION_PAGE_LONG_EDGE_PT;
+  if (width >= height) {
+    return { width: longEdge, height: longEdge * (height / width), viewportWidth: width, viewportHeight: height };
+  }
+  return { width: longEdge * (width / height), height: longEdge, viewportWidth: width, viewportHeight: height };
+}
+
+function selectedNewDocumentPageDimensions() {
+  if (els.newDocumentPageSize?.value === 'presentation') return presentationPageDimensions();
+  return { width: DEFAULT_NEW_PAGE_WIDTH, height: DEFAULT_NEW_PAGE_HEIGHT };
+}
+
+function updateNewDocumentPageSizeUi() {
+  if (!els.newDocumentPageSizeHint) return;
+  if (els.newDocumentPageSize?.value !== 'presentation') {
+    els.newDocumentPageSizeHint.textContent = 'US Letter landscape · 11 × 8.5 in.';
+    return;
+  }
+  const dims = presentationPageDimensions();
+  const widthIn = dims.width / 72;
+  const heightIn = dims.height / 72;
+  els.newDocumentPageSizeHint.textContent = `Current Presentation ratio · ${widthIn.toFixed(2)} × ${heightIn.toFixed(2)} in · long side 11 in.`;
+}
 
 function generatedPage(type='blank', width=DEFAULT_NEW_PAGE_WIDTH, height=DEFAULT_NEW_PAGE_HEIGHT) {
   return {
@@ -5318,11 +5391,13 @@ function focusPageAfterRender(documentId, pageId, paneId=null) {
 
 function createNewGeneratedDocument(type='blank') {
   const isGraph = type === 'graph';
-  const doc = createDocument(isGraph ? 'Graph Paper.pdf' : 'Untitled.pdf');
+  const presentationSized = els.newDocumentPageSize?.value === 'presentation';
+  const dimensions = selectedNewDocumentPageDimensions();
+  const doc = createDocument(isGraph ? (presentationSized ? 'Presentation Graph Paper.pdf' : 'Graph Paper.pdf') : (presentationSized ? 'Presentation Blank.pdf' : 'Untitled.pdf'));
   state.fileSelected = new Set([doc.id]);
   state.fileSelectionInitialized = true;
   state.combineOrder = [doc.id];
-  const page = generatedPage(isGraph ? 'graph' : 'blank');
+  const page = generatedPage(isGraph ? 'graph' : 'blank', dimensions.width, dimensions.height);
   doc.pages = [page];
   doc.activePageId = page.id;
   doc.singleView = { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: page.id, scrollTop: null, scrollLeft: null };
@@ -5340,7 +5415,7 @@ function createNewGeneratedDocument(type='blank') {
   }
   saveCurrentDocumentState({ readViewDom: false });
   renderAll({ saveState: false });
-  setStatus(`Created new ${isGraph ? 'graph-paper' : 'blank'} document`);
+  setStatus(`Created new ${isGraph ? 'graph-paper' : 'blank'} document${presentationSized ? ' at the current Presentation ratio' : ''}`);
   scheduleLibraryPersist(120);
 }
 
@@ -9750,9 +9825,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.5.5 adds light render-only anchor stabilization for the 1.5 pt and 3 pt Pens before the existing spline is drawn. This targets fine sample-to-sample waviness while preserving deliberate corners and the established overall stroke shape. Raw sampled points, eraser/lasso geometry, persistence, and Undo/Redo remain unchanged, and screen rendering and PDF export use the same stabilized spline geometry. The 5.5.4 thin-pen spline settings and accepted 5.5.2 cross-platform touch-scroll momentum setting of 0.94 are unchanged.</p>
+      <p>Milestone 5.5.6 adds a Presentation Ratio option for new blank and graph-paper documents. The page aspect ratio is derived from the current device/orientation's single Presentation viewport, including the space reserved for the annotation toolbar, and the long page edge is normalized to exactly 11 inches. US Letter landscape remains available and existing-document inserted pages still match their current page geometry. Pen stabilization, image annotations, and the accepted 0.94 touch-scroll momentum are unchanged.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
-      <p><strong>Image scope in 5.5.2:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. The future new-document size refinement will offer US Letter plus a Presentation-ratio page whose long edge is normalized to 11 inches.</p>
+      <p><strong>Image scope in 5.5.2:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -9876,6 +9951,7 @@ function toggleMoreMenu(force) {
 
 let resizeTimer;
 function onResize() {
+  updateNewDocumentPageSizeUi();
   clearTimeout(resizeTimer);
   if (!els.moreMenu.classList.contains('hidden')) positionMoreMenu();
   if (!els.insertPageMenu?.classList.contains('hidden') && state.insertMenuAnchor) positionAnchoredPopover(els.insertPageMenu, state.insertMenuAnchor);
@@ -10438,6 +10514,8 @@ function bindEvents() {
   els.openBtn.addEventListener('click', () => { closeInsertPageMenu(); els.fileInput.click(); });
   els.newBlankDocumentBtn.addEventListener('click', () => createNewGeneratedDocument('blank'));
   els.newGraphDocumentBtn.addEventListener('click', () => createNewGeneratedDocument('graph'));
+  els.newDocumentPageSize?.addEventListener('change', updateNewDocumentPageSizeUi);
+  updateNewDocumentPageSizeUi();
   els.newTemplateDocumentBtn?.addEventListener('click', showNewFromTemplateChooser);
   els.emptyOpenBtn.addEventListener('click', () => els.fileInput.click());
   els.fileInput.addEventListener('change', () => openFiles(els.fileInput.files));

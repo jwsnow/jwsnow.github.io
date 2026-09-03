@@ -499,6 +499,9 @@ body.presentation .split-pane.active {
 .operation-summary { min-width: 0; color: var(--muted); font-size: .84rem; font-weight: 500; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .file-tool-body { padding: 16px 18px 18px; }
 .file-tool-body .file-tool-summary:first-child { margin-top: 0; }
+.new-document-size-field { max-width: 390px; margin-bottom: 6px !important; }
+.new-document-size-field select { width: 100%; min-height: 40px; border: 1px solid var(--border); border-radius: 9px; background: var(--paper); color: var(--text); padding: 7px 30px 7px 9px; font: inherit; }
+.new-document-size-hint { margin: 0 0 12px; }
 .new-document-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .new-document-actions .export-button { margin-top: 0; }
 
