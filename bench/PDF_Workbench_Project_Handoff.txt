@@ -1,3 +1,66 @@
+MILESTONE 5.6.4 — EXPERIMENTAL THIN/MEDIUM TRAJECTORY FITTING
+
+CURRENT BUILD: Milestone 5.6.4
+Visible About version: 5.6.4
+Service-worker/cache version: pdf-workbench-m5.6.4-v1
+Library schema version: unchanged
+
+WHY THIS REVISION EXISTS
+------------------------
+Real iPad comparison of 5.6.3 showed that constant-width filled outlines were not markedly smoother than the 5.6.2 centerline renderer and occasionally produced tiny white holes/pinholes where a closed offset contour folded across itself. The exported 5.6.3 PDF showed the same holes, so this was geometry rather than merely screenshot antialiasing. The user judged the added outline complexity not worthwhile and suspected a more fundamental trajectory issue. The next experiment therefore attacks the sampled centerline rather than stroke-edge construction.
+
+5.6.4 EXPERIMENT
+----------------
+- REMOVE the 5.6.3 filled-outline renderer from the active Thin/Medium Pen path. Thin and Medium are again ordinary constant-width, round-capped/round-joined CENTERLINE strokes on screen and in PDF export.
+- Preserve the 5.6.2 strong anchor-stabilization prepass for this experiment, but STOP forcing the rendered path through nearly every stabilized Pencil sample.
+- Thin and Medium now use recursive cubic Bezier trajectory fitting. All stabilized samples contribute to the fit, but a curve is accepted when it stays within a width-aware error tolerance rather than creating one cubic segment per sample interval.
+- Initial tolerances: Thin 0.62 PDF point; Medium 0.82 PDF point. These are experimental and intentionally easy to tune.
+- At recursive split points, strongly localized sharp turns can use independent incoming/outgoing tangents so deliberate corners are not forced into C1-smooth rounding. Ordinary smooth curvature remains smooth.
+- 5.5 pt Thick Pen remains EXACTLY on the prior cardinal-spline renderer and serves as the unchanged in-app control.
+- Raw sampled points remain authoritative and unchanged for Eraser, Select/Lasso, hit testing, transforms, persistence, Undo/Redo, backup, and page operations.
+- No pressure/tapering, velocity width, filled outlines, or supersampling are introduced in 5.6.4.
+
+LIVE INK / LATENCY ARCHITECTURE
+--------------------------------
+- Preserve the 5.6.1 O(current stroke) Pen-up rule. No dense-page full-overlay repaint is reintroduced.
+- Thin/Medium coalesced Pencil samples are appended as one event batch, then the isolated live stroke is fit and redrawn ONCE PER POINTER EVENT, not once per raw/coalesced sample. This also permits one cached event geometry/layout read for the whole batch.
+- The live layer contains only the current Pen stroke, so clearing/refitting it never touches persistent page ink.
+- Pencil-up builds the final fitted centerline once and reuses it for all visible instances of the page, including same-document split view.
+- Thick retains the prior incremental live-segment renderer as the control.
+- High-zoom safety: the fitted live preview clears only its previous dirty bounding rectangle before redrawing, not the entire page-sized live canvas on every pointer event. A full live-layer clear still occurs once at final commit.
+
+PRE-FLIGHT VALIDATION
+---------------------
+- JavaScript syntax check passes.
+- Synthetic 100–140-sample noisy line/S/V trajectories fit to about 3–4 cubic segments with the initial tolerances instead of roughly one cubic per sample interval.
+- A randomized 1,000-stroke geometry stress test produced no NaN/invalid control points; typical fitted curve counts remained far below raw point counts.
+- Isolated Node geometry timing is sub-millisecond for ordinary 100–140-point strokes, but real iPad Canvas/live latency remains the authoritative test.
+
+DIAGNOSTICS
+-----------
+Completed Pen diagnostics now report:
+- `liveRenderMs` and `liveRenderCalls`;
+- `liveFitMs`;
+- `liveFitCurvesLast` and `liveFitInputPointsLast`;
+- `penRenderer` (`trajectory-fit` or `centerline-stroke`);
+- `penFitMs`, `penFitCurves`, and `penFitInputPoints`;
+- existing `penCommitMs`, `penCommitStages`, page annotation count, and history depth.
+The 5.6.3 outline-specific diagnostic fields are retired.
+
+REAL-WORLD TEST REQUEST
+-----------------------
+Compare ordinary small mathematical handwriting in Thin and Medium with 5.6.2/5.6.3 and GoodNotes. Look especially for (1) smoother long edges without micro-wobble, (2) faithful x/k/z/fraction-bar corners, (3) whether a live stroke visibly changes at Pencil-up, and (4) any live latency. The key diagnostic comparison is raw input-point count versus fitted cubic count. A successful fit should normally use substantially fewer cubics than input points.
+
+5.6.3 OUTLINE EXPERIMENT RESULT
+-------------------------------
+The 5.6.3 filled-outline approach should be considered REJECTED for now: little visible gain, substantially greater path complexity, and occasional white pinholes/self-intersection artifacts. Do not revive it unless later evidence gives a specific reason.
+
+DEPLOYMENT NOTE
+---------------
+External-library bundling remains POSTPONED while Pen rendering is being tuned. 5.6.4 keeps the same external library versions/caching behavior as 5.6.3.
+
+================ PRIOR HANDOFF HISTORY ================
+
 MILESTONE 5.6.3 — EXPERIMENTAL FILLED-OUTLINE THIN/MEDIUM PEN
 
 CURRENT BUILD: Milestone 5.6.3

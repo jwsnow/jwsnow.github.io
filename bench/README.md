@@ -1,16 +1,15 @@
-# PDF Workbench — Milestone 5.6.3
+# PDF Workbench — Milestone 5.6.4
 
+## 5.6.4 experimental trajectory-fit Pen rendering
 
-## 5.6.3 experimental filled-outline Pen edges
+Thin and Medium Pen are back to ordinary round-capped centerline strokes. Instead of interpolating nearly every stabilized Pencil sample, Workbench now recursively fits a smaller set of cubic Bezier curves within a width-aware error tolerance (0.62 pt Thin, 0.82 pt Medium). Sharp split points can use independent incoming/outgoing tangents when the local turn is abrupt. Raw points remain unchanged for editing. Thick Pen remains the unchanged control.
 
-- Keeps the **5.6.2 aggressive centerline smoothing** unchanged for the 1.5 pt and 3 pt Pen.
-- Thin and Medium now render as **constant-width filled outlines** whose left/right contours are smoothed independently. This isolates edge quality from pressure/tapering.
-- **No pressure variation, tapering, or canvas supersampling** is introduced in this experiment.
-- The **5.5 pt Thick Pen is unchanged** and remains the centerline-stroked control.
-- The live Pen layer still commits only the current stroke, preserving the 5.6.1 dense-page O(current-stroke) architecture. Thin/Medium live rendering builds only the newly finalized cubic segment outline rather than redrawing the whole live stroke.
-- PDF export uses the same filled-outline geometry for Thin/Medium, while raw centerline points remain authoritative for Eraser, Lasso/Select, persistence, Undo/Redo, and hit testing.
-- Pencil diagnostics now report accumulated `liveRenderMs`, `liveRenderCalls`, `liveOutlineBuildMs`, completed-stroke `penOutlineBuildMs`, outline command count, renderer type, and Pen commit time.
-- External-library bundling remains postponed until Pen rendering/performance is settled.
+The 5.6.3 filled-outline renderer has been removed from the active path because real testing showed little visual gain and occasional tiny white holes from self-intersecting closed contours. No pressure/tapering or supersampling is introduced.
+
+For Thin/Medium live ink, coalesced Pencil samples are collected first and the isolated live stroke is refit/redrawn once per pointer event, rather than rendering once per sample. Pencil-up fits/commits only the current stroke, preserving the 5.6.1 O(current stroke) dense-page architecture. Diagnostics report `liveFitMs`, latest live curve/input counts, `penFitMs`, `penFitCurves`, and `penFitInputPoints`.
+The live preview clears only its previous dirty footprint rather than the entire page-sized live canvas on every pointer event, which is important at high zoom. Synthetic 100–140-sample tests fit to roughly 3–4 cubics and the fitting geometry itself remained sub-millisecond in Node; iPad testing is still authoritative.
+
+External-library bundling remains postponed while Pen rendering is being tuned.
 
 ## 5.6.2 experimental thin/medium Pen smoothing
 

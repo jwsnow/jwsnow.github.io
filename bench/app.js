@@ -1,4 +1,4 @@
-const APP_VERSION = '5.6.3';
+const APP_VERSION = '5.6.4';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1749,180 +1749,185 @@ function traceRawStrokeCanvas(ctx, page, points) {
     ctx.lineTo(point.x, point.y);
   }
 }
-// Milestone 5.6.3 EXPERIMENT: thin and medium Pen strokes are rendered as
-// constant-width filled outlines rather than asking Canvas/PDF to stroke a
-// smoothed centerline. The centerline itself is still the 5.6.2 stabilized
-// cardinal spline and remains the only authoritative editable geometry. The
-// goal is to let the two visible stroke edges have their own smooth contours,
-// closer to Goodnotes, without introducing pressure/tapering or supersampling.
-function penUsesFilledOutline(width=3) {
+// Milestone 5.6.4 EXPERIMENT: thin/medium Pen rendering returns to an
+// ordinary round-capped centerline stroke, but the visible centerline is no
+// longer forced through nearly every sampled Pencil point. A recursive cubic
+// Bezier fitter uses all stabilized samples as evidence and emits only as many
+// curves as are needed to stay within a width-aware error tolerance. Raw input
+// points remain authoritative for erasing, selection, persistence, and Undo.
+function penUsesTrajectoryFit(width=3) {
   const w = Math.max(.25, Number(width) || 3);
   return w <= 3.5;
 }
-function cubicPointAt(p0, c1, c2, p3, t) {
-  const mt = 1 - t;
-  const a = mt * mt * mt;
-  const b = 3 * mt * mt * t;
-  const c = 3 * mt * t * t;
-  const d = t * t * t;
+function penTrajectoryFitTolerance(width=3) {
+  const w = Math.max(.25, Number(width) || 3);
+  // Deliberately visible first experiment. These are PDF-page points, not
+  // screen pixels. Thin gets the tighter fit; Medium can ignore slightly more
+  // sub-point wobble because its wider stroke masks the same geometric error.
+  if (w <= 1.75) return 0.62;
+  if (w <= 3.5) return 0.82;
+  return 0;
+}
+function fitVecAdd(a,b) { return {x:a.x+b.x,y:a.y+b.y}; }
+function fitVecSub(a,b) { return {x:a.x-b.x,y:a.y-b.y}; }
+function fitVecScale(v,s) { return {x:v.x*s,y:v.y*s}; }
+function fitVecDot(a,b) { return a.x*b.x+a.y*b.y; }
+function fitVecLength(v) { return Math.hypot(v.x,v.y); }
+function fitVecNormalize(v,fallback={x:1,y:0}) {
+  const len=fitVecLength(v);
+  return len>1e-9 ? {x:v.x/len,y:v.y/len} : {x:fallback.x,y:fallback.y};
+}
+function cubicBezierPoint(curve,t) {
+  const mt=1-t, b0=mt*mt*mt, b1=3*mt*mt*t, b2=3*mt*t*t, b3=t*t*t;
   return {
-    x: a * p0.x + b * c1.x + c * c2.x + d * p3.x,
-    y: a * p0.y + b * c1.y + c * c2.y + d * p3.y,
+    x:curve.p0.x*b0+curve.c1.x*b1+curve.c2.x*b2+curve.p3.x*b3,
+    y:curve.p0.y*b0+curve.c1.y*b1+curve.c2.y*b2+curve.p3.y*b3,
   };
 }
-function samplePenCubicControls(controls, width=3) {
-  if (!controls) return [];
-  const { p1, p2, c1, c2 } = controls;
-  const estimate = Math.hypot(c1.x-p1.x, c1.y-p1.y)
-    + Math.hypot(c2.x-c1.x, c2.y-c1.y)
-    + Math.hypot(p2.x-c2.x, p2.y-c2.y);
-  const w = Math.max(.25, Number(width) || 3);
-  const spacing = w <= 1.75 ? .72 : 1.05;
-  const steps = clamp(Math.ceil(estimate / spacing), 1, 5);
-  const out = [p1];
-  for (let i=1; i<=steps; i++) out.push(cubicPointAt(p1, c1, c2, p2, i/steps));
+function cubicBezierDerivative(curve,t) {
+  const mt=1-t;
+  return {
+    x:3*mt*mt*(curve.c1.x-curve.p0.x)+6*mt*t*(curve.c2.x-curve.c1.x)+3*t*t*(curve.p3.x-curve.c2.x),
+    y:3*mt*mt*(curve.c1.y-curve.p0.y)+6*mt*t*(curve.c2.y-curve.c1.y)+3*t*t*(curve.p3.y-curve.c2.y),
+  };
+}
+function cubicBezierSecondDerivative(curve,t) {
+  return {
+    x:6*(1-t)*(curve.c2.x-2*curve.c1.x+curve.p0.x)+6*t*(curve.p3.x-2*curve.c2.x+curve.c1.x),
+    y:6*(1-t)*(curve.c2.y-2*curve.c1.y+curve.p0.y)+6*t*(curve.p3.y-2*curve.c2.y+curve.c1.y),
+  };
+}
+function chordLengthParameters(points, first, last) {
+  const u=[0];
+  let total=0;
+  for (let i=first+1;i<=last;i++) {
+    total+=Math.hypot(points[i].x-points[i-1].x,points[i].y-points[i-1].y);
+    u.push(total);
+  }
+  if (total<1e-9) return u.map((_,i)=>i/Math.max(1,u.length-1));
+  return u.map(v=>v/total);
+}
+function generatePenBezier(points,first,last,u,tan1,tan2) {
+  const p0=points[first], p3=points[last];
+  let c00=0,c01=0,c11=0,x0=0,x1=0;
+  for (let i=0;i<=last-first;i++) {
+    const t=u[i], mt=1-t;
+    const b0=mt*mt*mt, b1=3*mt*mt*t, b2=3*mt*t*t, b3=t*t*t;
+    const a0=fitVecScale(tan1,b1), a1=fitVecScale(tan2,b2);
+    const base={x:p0.x*(b0+b1)+p3.x*(b2+b3),y:p0.y*(b0+b1)+p3.y*(b2+b3)};
+    const tmp=fitVecSub(points[first+i],base);
+    c00+=fitVecDot(a0,a0); c01+=fitVecDot(a0,a1); c11+=fitVecDot(a1,a1);
+    x0+=fitVecDot(a0,tmp); x1+=fitVecDot(a1,tmp);
+  }
+  const det=c00*c11-c01*c01;
+  let alpha1=0,alpha2=0;
+  if (Math.abs(det)>1e-12) {
+    alpha1=(x0*c11-x1*c01)/det;
+    alpha2=(c00*x1-c01*x0)/det;
+  }
+  const segLength=Math.hypot(p3.x-p0.x,p3.y-p0.y);
+  const epsilon=1e-6*segLength;
+  if (!(alpha1>epsilon) || !(alpha2>epsilon) || !Number.isFinite(alpha1) || !Number.isFinite(alpha2)) {
+    alpha1=alpha2=segLength/3;
+  }
+  return {p0,c1:fitVecAdd(p0,fitVecScale(tan1,alpha1)),c2:fitVecAdd(p3,fitVecScale(tan2,alpha2)),p3};
+}
+function penFitMaxError(points,first,last,curve,u) {
+  let maxError=0, split=Math.floor((first+last)/2);
+  for (let i=first+1;i<last;i++) {
+    const q=cubicBezierPoint(curve,u[i-first]);
+    const dx=q.x-points[i].x,dy=q.y-points[i].y;
+    const err=dx*dx+dy*dy;
+    if (err>maxError) { maxError=err; split=i; }
+  }
+  return {maxError,split};
+}
+function reparameterizePenFit(points,first,last,u,curve) {
+  const out=[];
+  let previous=0;
+  for (let i=first;i<=last;i++) {
+    let t=u[i-first];
+    const q=cubicBezierPoint(curve,t), q1=cubicBezierDerivative(curve,t), q2=cubicBezierSecondDerivative(curve,t);
+    const diff=fitVecSub(q,points[i]);
+    const denominator=fitVecDot(q1,q1)+fitVecDot(diff,q2);
+    if (Math.abs(denominator)>1e-9) t-=fitVecDot(diff,q1)/denominator;
+    t=clamp(t,0,1);
+    if (i>first) t=Math.max(previous+1e-5,t);
+    if (i<last) t=Math.min(t,1-(last-i)*1e-5);
+    previous=t; out.push(t);
+  }
+  out[0]=0; out[out.length-1]=1;
   return out;
 }
-function sampleSmoothedPenCenterline(points, width=3) {
-  if (!Array.isArray(points) || !points.length) return [];
-  if (points.length === 1) return [{ x:points[0].x, y:points[0].y }];
-  const renderPoints = stabilizedPenRenderPoints(points, width);
-  if (renderPoints.length === 2) return renderPoints.map(p => ({ x:p.x, y:p.y }));
-  const out = [];
-  for (let i=0; i<renderPoints.length-1; i++) {
-    const sampled = samplePenCubicControls(smoothStrokeControls(renderPoints, i, width), width);
-    for (let j=0; j<sampled.length; j++) {
-      if (i && j === 0) continue;
-      const p = sampled[j];
-      const prev = out[out.length-1];
-      if (!prev || Math.hypot(p.x-prev.x, p.y-prev.y) > .025) out.push(p);
+function penFitSharpTurn(points,index) {
+  if (index<=0 || index>=points.length-1) return false;
+  const incoming=fitVecNormalize(fitVecSub(points[index],points[index-1]));
+  const outgoing=fitVecNormalize(fitVecSub(points[index+1],points[index]));
+  const immediate=fitVecDot(incoming,outgoing);
+  if (immediate>0.36) return false; // less than about a 69-degree turn
+  const span=2;
+  const a=points[Math.max(0,index-span)],b=points[Math.min(points.length-1,index+span)];
+  const broadIn=fitVecNormalize(fitVecSub(points[index],a),incoming);
+  const broadOut=fitVecNormalize(fitVecSub(b,points[index]),outgoing);
+  // A smooth U can have a large broad turn while adjacent tangents remain
+  // fairly gentle. Require both tests before allowing an actual cusp.
+  return fitVecDot(broadIn,broadOut)<0.30;
+}
+function fitPenCubicRecursive(points,first,last,tan1,tan2,errorSq,curves,depth=0) {
+  const count=last-first+1;
+  if (count<=1) return;
+  if (count===2 || depth>18) {
+    const p0=points[first],p3=points[last],dist=Math.hypot(p3.x-p0.x,p3.y-p0.y)/3;
+    curves.push({p0,c1:fitVecAdd(p0,fitVecScale(tan1,dist)),c2:fitVecAdd(p3,fitVecScale(tan2,dist)),p3});
+    return;
+  }
+  let u=chordLengthParameters(points,first,last);
+  let curve=generatePenBezier(points,first,last,u,tan1,tan2);
+  let measured=penFitMaxError(points,first,last,curve,u);
+  if (measured.maxError<=errorSq) { curves.push(curve); return; }
+  if (measured.maxError<=errorSq*6) {
+    for (let i=0;i<4;i++) {
+      u=reparameterizePenFit(points,first,last,u,curve);
+      curve=generatePenBezier(points,first,last,u,tan1,tan2);
+      measured=penFitMaxError(points,first,last,curve,u);
+      if (measured.maxError<=errorSq) { curves.push(curve); return; }
     }
   }
-  return out.length ? out : renderPoints.map(p => ({ x:p.x, y:p.y }));
-}
-function smoothOutlineEdgeControls(points, segmentIndex) {
-  const count = points?.length || 0;
-  if (count < 2 || segmentIndex < 0 || segmentIndex >= count-1) return null;
-  const p0 = points[Math.max(0, segmentIndex-1)];
-  const p1 = points[segmentIndex];
-  const p2 = points[segmentIndex+1];
-  const p3 = points[Math.min(count-1, segmentIndex+2)];
-  // Slightly restrained Catmull-Rom conversion. The offset samples already
-  // follow a smooth trajectory; these handles remove the remaining tiny edge
-  // facets without allowing a sharp handwriting corner to balloon outward.
-  const factor = .155;
-  let c1 = { x:p1.x + (p2.x-p0.x)*factor, y:p1.y + (p2.y-p0.y)*factor };
-  let c2 = { x:p2.x - (p3.x-p1.x)*factor, y:p2.y - (p3.y-p1.y)*factor };
-  const seg = Math.hypot(p2.x-p1.x, p2.y-p1.y);
-  const cap = seg * .58;
-  const limit = (anchor, control) => {
-    const dx=control.x-anchor.x, dy=control.y-anchor.y;
-    const len=Math.hypot(dx,dy);
-    if (!cap || len <= cap || len < 1e-9) return control;
-    const scale=cap/len;
-    return { x:anchor.x+dx*scale, y:anchor.y+dy*scale };
-  };
-  c1=limit(p1,c1); c2=limit(p2,c2);
-  return { p1,p2,c1,c2 };
-}
-function normalizedVector(dx, dy, fallback={x:1,y:0}) {
-  const len = Math.hypot(dx,dy);
-  if (len < 1e-9) return { x:fallback.x, y:fallback.y };
-  return { x:dx/len, y:dy/len };
-}
-function buildConstantWidthPenOutlineFromCenterline(centerline, width=3) {
-  const center = Array.isArray(centerline) ? centerline : [];
-  const w = Math.max(.25, Number(width) || 3);
-  const r = w/2;
-  if (!center.length) return [];
-  if (center.length === 1) {
-    const c=center[0], k=.5522847498307936*r;
-    return [
-      {op:'M',p:{x:c.x+r,y:c.y}},
-      {op:'C',c1:{x:c.x+r,y:c.y+k},c2:{x:c.x+k,y:c.y+r},p:{x:c.x,y:c.y+r}},
-      {op:'C',c1:{x:c.x-k,y:c.y+r},c2:{x:c.x-r,y:c.y+k},p:{x:c.x-r,y:c.y}},
-      {op:'C',c1:{x:c.x-r,y:c.y-k},c2:{x:c.x-k,y:c.y-r},p:{x:c.x,y:c.y-r}},
-      {op:'C',c1:{x:c.x+k,y:c.y-r},c2:{x:c.x+r,y:c.y-k},p:{x:c.x+r,y:c.y}},
-      {op:'Z'},
-    ];
-  }
-  const tangentSpan = w <= 1.75 ? 3 : 2;
-  const tangents = new Array(center.length);
-  let fallback={x:1,y:0};
-  for (let i=0;i<center.length;i++) {
-    const a=center[Math.max(0,i-tangentSpan)];
-    const b=center[Math.min(center.length-1,i+tangentSpan)];
-    const t=normalizedVector(b.x-a.x,b.y-a.y,fallback);
-    tangents[i]=t; fallback=t;
-  }
-  const left=new Array(center.length), right=new Array(center.length);
-  for (let i=0;i<center.length;i++) {
-    const n={x:-tangents[i].y,y:tangents[i].x};
-    left[i]={x:center[i].x+n.x*r,y:center[i].y+n.y*r};
-    right[i]={x:center[i].x-n.x*r,y:center[i].y-n.y*r};
-  }
-  const commands=[{op:'M',p:left[0]}];
-  const appendEdge = pts => {
-    for (let i=0;i<pts.length-1;i++) {
-      const c=smoothOutlineEdgeControls(pts,i);
-      if (c) commands.push({op:'C',c1:c.c1,c2:c.c2,p:c.p2});
-    }
-  };
-  appendEdge(left);
-  const end=center[center.length-1], endT=tangents[tangents.length-1];
-  const capK=1.3333333333333333*r;
-  commands.push({
-    op:'C',
-    c1:{x:left[left.length-1].x+endT.x*capK,y:left[left.length-1].y+endT.y*capK},
-    c2:{x:right[right.length-1].x+endT.x*capK,y:right[right.length-1].y+endT.y*capK},
-    p:right[right.length-1],
-  });
-  appendEdge([...right].reverse());
-  const start=center[0], startT=tangents[0];
-  commands.push({
-    op:'C',
-    c1:{x:right[0].x-startT.x*capK,y:right[0].y-startT.y*capK},
-    c2:{x:left[0].x-startT.x*capK,y:left[0].y-startT.y*capK},
-    p:left[0],
-  });
-  commands.push({op:'Z'});
-  return commands;
-}
-function buildConstantWidthPenOutlinePath(points, width=3) {
-  return buildConstantWidthPenOutlineFromCenterline(sampleSmoothedPenCenterline(points,width),width);
-}
-function buildConstantWidthPenSegmentOutlinePath(controls, width=3) {
-  return buildConstantWidthPenOutlineFromCenterline(samplePenCubicControls(controls,width),width);
-}
-function tracePenOutlinePathCanvas(ctx, page, commands) {
-  if (!ctx || !Array.isArray(commands) || !commands.length) return;
-  for (const command of commands) {
-    if (command.op === 'Z') { ctx.closePath(); continue; }
-    const p=command.p ? basePointToDisplay(page,command.p) : null;
-    if (command.op === 'M') ctx.moveTo(p.x,p.y);
-    else if (command.op === 'L') ctx.lineTo(p.x,p.y);
-    else if (command.op === 'C') {
-      const c1=basePointToDisplay(page,command.c1);
-      const c2=basePointToDisplay(page,command.c2);
-      ctx.bezierCurveTo(c1.x,c1.y,c2.x,c2.y,p.x,p.y);
-    }
+  let split=measured.split;
+  if (!(split>first && split<last)) split=Math.floor((first+last)/2);
+  if (penFitSharpTurn(points,split)) {
+    const leftTan=fitVecNormalize(fitVecSub(points[split-1],points[split]),fitVecScale(tan1,-1));
+    const rightTan=fitVecNormalize(fitVecSub(points[split+1],points[split]),fitVecScale(tan2,-1));
+    fitPenCubicRecursive(points,first,split,tan1,leftTan,errorSq,curves,depth+1);
+    fitPenCubicRecursive(points,split,last,rightTan,tan2,errorSq,curves,depth+1);
+  } else {
+    const center=fitVecNormalize(fitVecSub(points[split-1],points[split+1]),fitVecScale(tan1,-1));
+    fitPenCubicRecursive(points,first,split,tan1,center,errorSq,curves,depth+1);
+    fitPenCubicRecursive(points,split,last,fitVecScale(center,-1),tan2,errorSq,curves,depth+1);
   }
 }
-function penOutlineCommandsToSvgPath(commands, mapPoint, numberText) {
-  if (!Array.isArray(commands) || !commands.length) return '';
-  let path='';
-  const mapped = point => mapPoint(point);
-  for (const command of commands) {
-    if (command.op === 'Z') { path += ' Z'; continue; }
-    const p=mapped(command.p);
-    if (command.op === 'M') path += `${path ? ' ' : ''}M ${numberText(p.x)} ${numberText(-p.y)}`;
-    else if (command.op === 'L') path += ` L ${numberText(p.x)} ${numberText(-p.y)}`;
-    else if (command.op === 'C') {
-      const c1=mapped(command.c1), c2=mapped(command.c2);
-      path += ` C ${numberText(c1.x)} ${numberText(-c1.y)} ${numberText(c2.x)} ${numberText(-c2.y)} ${numberText(p.x)} ${numberText(-p.y)}`;
-    }
+function buildPenTrajectoryFit(points,width=3) {
+  const started=performance.now();
+  const source=Array.isArray(points)?points:[];
+  if (!source.length) return {segments:[],fitMs:performance.now()-started,inputPoints:0};
+  if (source.length===1) return {segments:[],fitMs:performance.now()-started,inputPoints:1};
+  const renderPoints=stabilizedPenRenderPoints(source,width);
+  const tolerance=penTrajectoryFitTolerance(width);
+  const firstTan=fitVecNormalize(fitVecSub(renderPoints[1],renderPoints[0]));
+  const lastTan=fitVecNormalize(fitVecSub(renderPoints[renderPoints.length-2],renderPoints[renderPoints.length-1]),fitVecScale(firstTan,-1));
+  const segments=[];
+  fitPenCubicRecursive(renderPoints,0,renderPoints.length-1,firstTan,lastTan,tolerance*tolerance,segments);
+  return {segments,fitMs:performance.now()-started,inputPoints:source.length,tolerance};
+}
+function tracePenFitCanvas(ctx,page,fit) {
+  const segments=fit?.segments||[];
+  if (!segments.length) return;
+  const first=basePointToDisplay(page,segments[0].p0);
+  ctx.moveTo(first.x,first.y);
+  for (const segment of segments) {
+    const c1=basePointToDisplay(page,segment.c1),c2=basePointToDisplay(page,segment.c2),p3=basePointToDisplay(page,segment.p3);
+    ctx.bezierCurveTo(c1.x,c1.y,c2.x,c2.y,p3.x,p3.y);
   }
-  return path;
 }
 function applyBaseToDisplayCanvasTransform(ctx, page) {
   const base = pageCanvasBaseDimensions(page);
@@ -2002,18 +2007,14 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
     targetCtx.lineWidth = width;
     targetCtx.lineCap = 'round';
     targetCtx.lineJoin = 'round';
-    if (useSmooth && penUsesFilledOutline(width)) {
-      const outline = buildConstantWidthPenOutlinePath(points, width);
-      targetCtx.beginPath();
-      tracePenOutlinePathCanvas(targetCtx, page, outline);
-      targetCtx.fill();
-    } else if (points.length === 1) {
+    if (points.length === 1) {
       targetCtx.beginPath();
       targetCtx.arc(first.x, first.y, width / 2, 0, Math.PI * 2);
       targetCtx.fill();
     } else {
       targetCtx.beginPath();
-      if (useSmooth) traceSmoothedStrokeCanvas(targetCtx, page, points, width);
+      if (useSmooth && penUsesTrajectoryFit(width)) tracePenFitCanvas(targetCtx, page, buildPenTrajectoryFit(points, width));
+      else if (useSmooth) traceSmoothedStrokeCanvas(targetCtx, page, points, width);
       else traceRawStrokeCanvas(targetCtx, page, points);
       targetCtx.stroke();
     }
@@ -2164,20 +2165,11 @@ function scheduleExactAnnotationRedraw(page, reason='edit') {
   }
 }
 function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
-  // Retained for the immediate first two samples of an opaque Pen stroke. From
-  // the third sample onward drawLiveSmoothedInkProgress() adds finalized cubic
-  // segments. 5.6.3 uses the filled-outline renderer here for thin/medium Pen
-  // so the live stroke does not switch renderer until Pencil-up.
+  // Immediate/incremental helper retained for Thick Pen, which remains the
+  // unchanged 5.6.2/5.6.1 control. Thin/Medium use one fitted live preview per
+  // pointer event instead of committing a path segment for every raw sample.
   const started=performance.now();
   const width=Math.max(.25,Number(stroke.width)||3);
-  const outlineMode=penUsesFilledOutline(width);
-  let outline=null, outlineBuildMs=0;
-  if (outlineMode) {
-    const buildStarted=performance.now();
-    const same=Math.hypot((toPoint?.x??0)-(fromPoint?.x??0),(toPoint?.y??0)-(fromPoint?.y??0))<.001;
-    outline=buildConstantWidthPenOutlineFromCenterline(same?[fromPoint]:[fromPoint,toPoint],width);
-    outlineBuildMs=performance.now()-buildStarted;
-  }
   const drawOnStage = targetStage => {
     const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
     const canvas = ensureLivePenOverlay(targetStage, baseCanvas);
@@ -2185,38 +2177,23 @@ function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     const display = pageDisplayDimensions(page);
-    const sx = canvas.width / Math.max(1, display.width);
-    const sy = canvas.height / Math.max(1, display.height);
-    const a = basePointToDisplay(page, fromPoint);
-    const b = basePointToDisplay(page, toPoint);
-    ctx.save();
-    ctx.scale(sx, sy);
+    const sx = canvas.width / Math.max(1, display.width), sy = canvas.height / Math.max(1, display.height);
+    const a = basePointToDisplay(page, fromPoint), b = basePointToDisplay(page, toPoint);
+    ctx.save(); ctx.scale(sx, sy);
     ctx.globalAlpha = clamp(Number(stroke.opacity ?? 1), 0, 1);
-    ctx.strokeStyle = stroke.color || '#111111';
-    ctx.fillStyle = stroke.color || '#111111';
-    ctx.lineWidth = width;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    if (outlineMode) {
-      ctx.beginPath();
-      tracePenOutlinePathCanvas(ctx,page,outline);
-      ctx.fill();
-    } else if (Math.hypot(b.x - a.x, b.y - a.y) < .001) {
-      ctx.beginPath();
-      ctx.arc(a.x, a.y, ctx.lineWidth / 2, 0, Math.PI * 2);
-      ctx.fill();
+    ctx.strokeStyle = stroke.color || '#111111'; ctx.fillStyle = stroke.color || '#111111';
+    ctx.lineWidth = width; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    if (Math.hypot(b.x-a.x,b.y-a.y)<.001) {
+      ctx.beginPath(); ctx.arc(a.x,a.y,width/2,0,Math.PI*2); ctx.fill();
     } else {
-      ctx.beginPath();
-      ctx.moveTo(a.x, a.y);
-      ctx.lineTo(b.x, b.y);
-      ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
     }
     ctx.restore();
   };
   drawOnStage(stage);
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const other of document.querySelectorAll(selector)) if (other !== stage) drawOnStage(other);
-  return { renderMs:performance.now()-started, outlineBuildMs, outlineMode };
+  return { renderMs:performance.now()-started, fitMs:0, fitMode:false, fitCurves:0 };
 }
 
 function ensureLivePenOverlay(stage, baseCanvas=null) {
@@ -2242,62 +2219,92 @@ function clearLivePenOverlays(page) {
   for (const overlay of document.querySelectorAll(selector)) {
     const ctx = overlay.getContext?.('2d');
     if (ctx && overlay.width && overlay.height) ctx.clearRect(0, 0, overlay.width, overlay.height);
+    overlay._pdfwbPenFitDirty=null;
   }
 }
+function drawLiveFittedPenPreview(stage,page,stroke) {
+  const started=performance.now();
+  const width=Math.max(.25,Number(stroke?.width)||3);
+  const fit=buildPenTrajectoryFit(stroke?.points||[],width);
+  const drawOnStage = targetStage => {
+    const baseCanvas=targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const canvas=ensureLivePenOverlay(targetStage,baseCanvas);
+    if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
+    const ctx=canvas.getContext('2d'); if (!ctx) return;
+    // Clear only the previous live-stroke footprint. At high zoom the live
+    // canvas can contain millions of pixels; clearing the whole page on every
+    // pointermove would squander the fitting algorithm's CPU savings.
+    const oldDirty=canvas._pdfwbPenFitDirty;
+    if (oldDirty) ctx.clearRect(oldDirty.x,oldDirty.y,oldDirty.w,oldDirty.h);
+    const display=pageDisplayDimensions(page),sx=canvas.width/Math.max(1,display.width),sy=canvas.height/Math.max(1,display.height);
+    const boundPoints=[];
+    if (fit.segments.length) for (const seg of fit.segments) boundPoints.push(seg.p0,seg.c1,seg.c2,seg.p3);
+    else if ((stroke?.points||[]).length) boundPoints.push(...stroke.points);
+    if (boundPoints.length) {
+      let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+      for (const bp of boundPoints) { const dp=basePointToDisplay(page,bp); minX=Math.min(minX,dp.x);minY=Math.min(minY,dp.y);maxX=Math.max(maxX,dp.x);maxY=Math.max(maxY,dp.y); }
+      const margin=Math.max(4,width*3);
+      const x=Math.max(0,Math.floor((minX-margin)*sx)-2),y=Math.max(0,Math.floor((minY-margin)*sy)-2);
+      const right=Math.min(canvas.width,Math.ceil((maxX+margin)*sx)+2),bottom=Math.min(canvas.height,Math.ceil((maxY+margin)*sy)+2);
+      canvas._pdfwbPenFitDirty={x,y,w:Math.max(1,right-x),h:Math.max(1,bottom-y)};
+    } else canvas._pdfwbPenFitDirty=null;
+    ctx.save(); ctx.scale(sx,sy);
+    ctx.globalAlpha=clamp(Number(stroke.opacity??1),0,1);
+    ctx.strokeStyle=stroke.color||'#111111'; ctx.fillStyle=stroke.color||'#111111';
+    ctx.lineWidth=width; ctx.lineCap='round'; ctx.lineJoin='round';
+    const points=stroke?.points||[];
+    if (points.length===1) {
+      const p=basePointToDisplay(page,points[0]); ctx.beginPath(); ctx.arc(p.x,p.y,width/2,0,Math.PI*2); ctx.fill();
+    } else if (fit.segments.length) {
+      ctx.beginPath(); tracePenFitCanvas(ctx,page,fit); ctx.stroke();
+    }
+    ctx.restore();
+  };
+  drawOnStage(stage);
+  const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const other of document.querySelectorAll(selector)) if (other!==stage) drawOnStage(other);
+  return {renderMs:performance.now()-started,fitMs:fit.fitMs,fitMode:true,fitCurves:fit.segments.length,fitInputPoints:fit.inputPoints};
+}
+
 function commitLivePenOverlays(page, stroke) {
-  // The permanent annotation canvas already contains every previously finished
-  // annotation. Draw only the newly finished Pen stroke onto that canvas, then
-  // clear the reusable live layer. 5.6.3 prebuilds a thin/medium filled outline
-  // once and reuses it across all visible instances of the page, preserving the
-  // 5.6.1 O(current stroke) release behavior even in same-document split view.
-  if (!page?.id || !stroke?.id) return { commitMs:0, stages:0, outlineBuildMs:0, outlineCommands:0 };
-  const started = performance.now();
+  // Preserve the 5.6.1 O(current stroke) release rule. Thin/Medium build one
+  // fitted centerline once, reuse it across visible page instances, and commit
+  // only that stroke. Thick keeps the established single-stroke renderer.
+  if (!page?.id || !stroke?.id) return {commitMs:0,stages:0,fitMs:0,fitCurves:0,fitInputPoints:0,fitMode:false};
+  const started=performance.now();
   const width=Math.max(.25,Number(stroke.width)||3);
-  const outlineMode=penUsesFilledOutline(width);
-  let outline=null, outlineBuildMs=0;
-  if (outlineMode) {
-    const buildStarted=performance.now();
-    outline=buildConstantWidthPenOutlinePath(stroke.points||[],width);
-    outlineBuildMs=performance.now()-buildStarted;
-  }
-  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
-  let stages = 0;
+  const fitMode=penUsesTrajectoryFit(width);
+  const fit=fitMode?buildPenTrajectoryFit(stroke.points||[],width):null;
+  const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  let stages=0;
   for (const stage of document.querySelectorAll(selector)) {
-    const live = stage.querySelector('canvas.live-pen-canvas');
-    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
-    const overlay = ensureAnnotationOverlay(stage, base);
-    const ctx = overlay?.getContext?.('2d');
+    const live=stage.querySelector('canvas.live-pen-canvas');
+    const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const overlay=ensureAnnotationOverlay(stage,base),ctx=overlay?.getContext?.('2d');
     if (ctx && overlay.width && overlay.height) {
-      if (outlineMode) {
-        const display=pageDisplayDimensions(page);
-        const sx=overlay.width/Math.max(1,display.width);
-        const sy=overlay.height/Math.max(1,display.height);
-        ctx.save();
-        ctx.scale(sx,sy);
+      if (fitMode) {
+        const display=pageDisplayDimensions(page),sx=overlay.width/Math.max(1,display.width),sy=overlay.height/Math.max(1,display.height);
+        ctx.save(); ctx.scale(sx,sy);
         ctx.globalAlpha=clamp(Number(stroke.opacity??1),0,1);
-        ctx.fillStyle=stroke.color||'#111111';
-        ctx.beginPath();
-        tracePenOutlinePathCanvas(ctx,page,outline);
-        ctx.fill();
+        ctx.strokeStyle=stroke.color||'#111111'; ctx.fillStyle=stroke.color||'#111111';
+        ctx.lineWidth=width; ctx.lineCap='round'; ctx.lineJoin='round';
+        if ((stroke.points||[]).length===1) {
+          const p=basePointToDisplay(page,stroke.points[0]); ctx.beginPath(); ctx.arc(p.x,p.y,width/2,0,Math.PI*2); ctx.fill();
+        } else if (fit?.segments?.length) {
+          ctx.beginPath(); tracePenFitCanvas(ctx,page,fit); ctx.stroke();
+        }
         ctx.restore();
       } else {
-        // Present drawPageAnnotationsCanvas with a one-annotation page view so
-        // filtering/iteration does not grow with the number of older strokes.
-        const singleStrokePage = { ...page, annotations:[stroke] };
-        drawPageAnnotationsCanvas(singleStrokePage, ctx, overlay.width, overlay.height, { inkOnly:true });
+        const singleStrokePage={...page,annotations:[stroke]};
+        drawPageAnnotationsCanvas(singleStrokePage,ctx,overlay.width,overlay.height,{inkOnly:true});
       }
       stages++;
     }
-    const liveCtx = live?.getContext?.('2d');
-    if (liveCtx && live.width && live.height) liveCtx.clearRect(0, 0, live.width, live.height);
+    const liveCtx=live?.getContext?.('2d');
+    if (liveCtx && live.width && live.height) liveCtx.clearRect(0,0,live.width,live.height);
+    if (live) live._pdfwbPenFitDirty=null;
   }
-  return {
-    commitMs:performance.now()-started,
-    stages,
-    outlineBuildMs,
-    outlineCommands:outline?.length||0,
-    outlineMode,
-  };
+  return {commitMs:performance.now()-started,stages,fitMs:fit?.fitMs||0,fitCurves:fit?.segments?.length||0,fitInputPoints:fit?.inputPoints||0,fitMode};
 }
 
 function ensureLiveHighlighterOverlay(stage, baseCanvas=null, opacity=HIGHLIGHTER_OPACITY) {
@@ -2394,66 +2401,29 @@ function commitLiveHighlighterOverlays(page, opacity=HIGHLIGHTER_OPACITY) {
 }
 
 function drawLiveSmoothedInkProgress(stage, page, stroke) {
-  const started=performance.now();
-  const points = stroke?.points || [];
-  const count = points.length;
-  if (!count) return {renderMs:0,outlineBuildMs:0,outlineMode:penUsesFilledOutline(stroke?.width)};
-  // A dot must appear immediately. With two samples, show the first tiny line
-  // immediately; its opaque overdraw is cleared by the final smooth commit.
-  if (count === 1) return drawLiveInkSegment(stage, page, stroke, points[0], points[0]);
-  if (count === 2) return drawLiveInkSegment(stage, page, stroke, points[0], points[1]);
-  // The newly arrived point finalizes the preceding cardinal segment. This
-  // leaves only one raw-sample interval of visual tail latency. Thin/medium Pen
-  // converts just this newly finalized cubic segment to a small filled outline;
-  // it never rebuilds the full current stroke or the already-finished page ink.
-  const segmentIndex = count - 3;
-  const controls = smoothStrokeControls(points, segmentIndex, stroke.width);
-  if (!controls) return {renderMs:performance.now()-started,outlineBuildMs:0,outlineMode:penUsesFilledOutline(stroke?.width)};
+  // Thick Pen control path: retain the established incremental cardinal spline.
+  const started=performance.now(),points=stroke?.points||[],count=points.length;
+  if (!count) return {renderMs:0,fitMs:0,fitMode:false,fitCurves:0};
+  if (count===1) return drawLiveInkSegment(stage,page,stroke,points[0],points[0]);
+  if (count===2) return drawLiveInkSegment(stage,page,stroke,points[0],points[1]);
+  const controls=smoothStrokeControls(points,count-3,stroke.width);
+  if (!controls) return {renderMs:performance.now()-started,fitMs:0,fitMode:false,fitCurves:0};
   const width=Math.max(.25,Number(stroke.width)||3);
-  const outlineMode=penUsesFilledOutline(width);
-  let outline=null, outlineBuildMs=0;
-  if (outlineMode) {
-    const buildStarted=performance.now();
-    outline=buildConstantWidthPenSegmentOutlinePath(controls,width);
-    outlineBuildMs=performance.now()-buildStarted;
-  }
-  const drawOnStage = targetStage => {
-    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
-    const canvas = ensureLivePenOverlay(targetStage, baseCanvas);
-    if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    const display = pageDisplayDimensions(page);
-    const sx = canvas.width / Math.max(1, display.width);
-    const sy = canvas.height / Math.max(1, display.height);
-    ctx.save();
-    ctx.scale(sx, sy);
-    ctx.globalAlpha = clamp(Number(stroke.opacity ?? 1), 0, 1);
-    ctx.strokeStyle = stroke.color || '#111111';
-    ctx.fillStyle = stroke.color || '#111111';
-    ctx.lineWidth = width;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    if (outlineMode) {
-      ctx.beginPath();
-      tracePenOutlinePathCanvas(ctx,page,outline);
-      ctx.fill();
-    } else {
-      const p1 = basePointToDisplay(page, controls.p1);
-      const p2 = basePointToDisplay(page, controls.p2);
-      const c1 = basePointToDisplay(page, controls.c1);
-      const c2 = basePointToDisplay(page, controls.c2);
-      ctx.beginPath();
-      ctx.moveTo(p1.x, p1.y);
-      ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, p2.x, p2.y);
-      ctx.stroke();
-    }
-    ctx.restore();
+  const drawOnStage=targetStage=>{
+    const baseCanvas=targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const canvas=ensureLivePenOverlay(targetStage,baseCanvas);
+    if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered!=='true') return;
+    const ctx=canvas.getContext('2d'); if (!ctx) return;
+    const display=pageDisplayDimensions(page),sx=canvas.width/Math.max(1,display.width),sy=canvas.height/Math.max(1,display.height);
+    const p1=basePointToDisplay(page,controls.p1),p2=basePointToDisplay(page,controls.p2),c1=basePointToDisplay(page,controls.c1),c2=basePointToDisplay(page,controls.c2);
+    ctx.save(); ctx.scale(sx,sy); ctx.globalAlpha=clamp(Number(stroke.opacity??1),0,1);
+    ctx.strokeStyle=stroke.color||'#111111'; ctx.lineWidth=width; ctx.lineCap='round'; ctx.lineJoin='round';
+    ctx.beginPath(); ctx.moveTo(p1.x,p1.y); ctx.bezierCurveTo(c1.x,c1.y,c2.x,c2.y,p2.x,p2.y); ctx.stroke(); ctx.restore();
   };
   drawOnStage(stage);
-  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
-  for (const other of document.querySelectorAll(selector)) if (other !== stage) drawOnStage(other);
-  return { renderMs:performance.now()-started, outlineBuildMs, outlineMode };
+  const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const other of document.querySelectorAll(selector)) if (other!==stage) drawOnStage(other);
+  return {renderMs:performance.now()-started,fitMs:0,fitMode:false,fitCurves:0};
 }
 
 
@@ -3324,9 +3294,11 @@ function setEraserSize(size) {
 function accumulatePenLiveTiming(gesture, timing) {
   if (!gesture || !timing) return;
   gesture.liveRenderMs=(gesture.liveRenderMs||0)+(Number(timing.renderMs)||0);
-  gesture.liveOutlineBuildMs=(gesture.liveOutlineBuildMs||0)+(Number(timing.outlineBuildMs)||0);
+  gesture.liveFitMs=(gesture.liveFitMs||0)+(Number(timing.fitMs)||0);
   gesture.liveRenderCalls=(gesture.liveRenderCalls||0)+1;
-  if (timing.outlineMode) gesture.liveOutlineMode=true;
+  if (timing.fitMode) gesture.liveFitMode=true;
+  if (Number.isFinite(timing.fitCurves)) gesture.liveFitCurvesLast=timing.fitCurves;
+  if (Number.isFinite(timing.fitInputPoints)) gesture.liveFitInputPointsLast=timing.fitInputPoints;
 }
 function appendInkPoint(gesture, event, drawLive=true, geometry=null) {
   const page = pageById(gesture.pageId);
@@ -3392,7 +3364,7 @@ function beginInkGesture(viewer, event) {
   annotationsForPage(page).push(stroke);
   state.activePageId = page.id;
   const inputSource = event._inkStylusTouch ? 'stylus-touch' : 'pointer';
-  state.inkGesture = { pointerId: event.pointerId, inputSource, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, before, liveRenderMs:0, liveOutlineBuildMs:0, liveRenderCalls:0, liveOutlineMode:false };
+  state.inkGesture = { pointerId: event.pointerId, inputSource, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, before, liveRenderMs:0, liveFitMs:0, liveRenderCalls:0, liveFitMode:false, liveFitCurvesLast:0, liveFitInputPointsLast:0 };
   if (event.cancelable) event.preventDefault();
   if (inputSource === 'pointer') {
     try { viewer.setPointerCapture?.(event.pointerId); } catch {}
@@ -3403,10 +3375,12 @@ function beginInkGesture(viewer, event) {
     // Highlighter layer.
     drawLiveHighlighterPoints(stage, page, stroke, [first]);
   } else {
-    // 5.6.1 gives Pen the same dense-page isolation principle: the in-progress
-    // stroke lives on a temporary overlay and never dirties the persistent
-    // annotation canvas until it is complete.
-    accumulatePenLiveTiming(state.inkGesture,drawLiveInkSegment(stage, page, stroke, first, first));
+    // Thin/Medium 5.6.4 preview is refit once per pointer event on the isolated
+    // live layer. Thick retains the established incremental control renderer.
+    accumulatePenLiveTiming(state.inkGesture,
+      penUsesTrajectoryFit(stroke.width)
+        ? drawLiveFittedPenPreview(stage,page,stroke)
+        : drawLiveInkSegment(stage,page,stroke,first,first));
   }
   addInkDiagnostic('handler-begin-accepted', event, {
     strokeId:stroke.id, liveBatchOptimized:true, liveLayer:drawingTool === 'highlighter' ? 'highlighter' : 'pen',
@@ -3415,38 +3389,41 @@ function beginInkGesture(viewer, event) {
   return true;
 }
 function continueInkGesture(viewer, event) {
-  const gesture = state.inkGesture;
-  if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
+  const gesture=state.inkGesture;
+  if (!gesture || gesture.pointerId!==event.pointerId || gesture.viewer!==viewer) return false;
   if (event.cancelable) event.preventDefault();
-  const samples = typeof event.getCoalescedEvents === 'function' ? event.getCoalescedEvents() : null;
-  const translucent = gesture.stroke?.tool === 'highlighter';
-  const geometry = translucent ? gestureEventGeometry(gesture.stage, gesture.page) : null;
+  const samples=typeof event.getCoalescedEvents==='function'?event.getCoalescedEvents():null;
+  const translucent=gesture.stroke?.tool==='highlighter';
+  const fitPreview=!translucent && penUsesTrajectoryFit(gesture.stroke?.width);
+  const geometry=(translucent||fitPreview)?gestureEventGeometry(gesture.stage,gesture.page):null;
   if (translucent) {
-    const batch = [];
-    const first = gesture.stroke.points[gesture.stroke.points.length - 1] || null;
+    const batch=[],first=gesture.stroke.points[gesture.stroke.points.length-1]||null;
     if (first) batch.push(first);
-    const appendSample = sample => {
-      const added = appendInkPoint(gesture, sample, false, geometry);
-      if (added) batch.push(added);
-    };
-    if (samples?.length) for (const sample of samples) appendSample(sample);
-    else appendSample(event);
-    if (batch.length > 1) drawLiveHighlighterPoints(gesture.stage, gesture.page, gesture.stroke, batch);
+    const appendSample=sample=>{const added=appendInkPoint(gesture,sample,false,geometry);if(added)batch.push(added);};
+    if (samples?.length) for (const sample of samples) appendSample(sample); else appendSample(event);
+    if (batch.length>1) drawLiveHighlighterPoints(gesture.stage,gesture.page,gesture.stroke,batch);
+  } else if (fitPreview) {
+    // Append the whole coalesced batch first, then fit/render ONCE. This both
+    // avoids repeated layout reads and makes live cost track pointer events,
+    // not the much larger number of Pencil samples inside those events.
+    const appendSample=sample=>appendInkPoint(gesture,sample,false,geometry);
+    if (samples?.length) for (const sample of samples) appendSample(sample); else appendSample(event);
+    accumulatePenLiveTiming(gesture,drawLiveFittedPenPreview(gesture.stage,gesture.page,gesture.stroke));
   } else {
-    const appendSample = sample => appendInkPoint(gesture, sample, true);
-    if (samples?.length) for (const sample of samples) appendSample(sample);
-    else appendSample(event);
+    const appendSample=sample=>appendInkPoint(gesture,sample,true);
+    if (samples?.length) for (const sample of samples) appendSample(sample); else appendSample(event);
   }
   return true;
 }
+
 function finishInkGesture(viewer, event) {
   const gesture = state.inkGesture;
   if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
   if (event.cancelable) event.preventDefault();
   const translucent = gesture.stroke?.tool === 'highlighter';
   const previous = gesture.stroke.points[gesture.stroke.points.length - 1] || null;
-  const geometry = translucent ? gestureEventGeometry(gesture.stage, gesture.page) : null;
-  const finalPoint = appendInkPoint(gesture, event, !translucent, geometry);
+  const geometry = (translucent || penUsesTrajectoryFit(gesture.stroke?.width)) ? gestureEventGeometry(gesture.stage, gesture.page) : null;
+  const finalPoint = appendInkPoint(gesture, event, !translucent && !penUsesTrajectoryFit(gesture.stroke?.width), geometry);
   if (translucent && finalPoint) {
     drawLiveHighlighterPoints(gesture.stage, gesture.page, gesture.stroke, previous ? [previous, finalPoint] : [finalPoint]);
   }
@@ -3471,10 +3448,13 @@ function finishInkGesture(viewer, event) {
     liveLayer:translucent ? 'highlighter' : 'pen', liveCommitMs:Math.round(liveCommitMs*10)/10,
     liveRenderMs:translucent ? null : Math.round((gesture.liveRenderMs||0)*10)/10,
     liveRenderCalls:translucent ? null : (gesture.liveRenderCalls||0),
-    liveOutlineBuildMs:translucent ? null : Math.round((gesture.liveOutlineBuildMs||0)*10)/10,
-    penRenderer:translucent ? null : (penCommit?.outlineMode ? 'filled-outline' : 'centerline-stroke'),
-    penOutlineBuildMs:penCommit ? Math.round((penCommit.outlineBuildMs||0)*10)/10 : null,
-    penOutlineCommands:penCommit?.outlineCommands ?? null,
+    liveFitMs:translucent ? null : Math.round((gesture.liveFitMs||0)*10)/10,
+    liveFitCurvesLast:translucent ? null : (gesture.liveFitCurvesLast||0),
+    liveFitInputPointsLast:translucent ? null : (gesture.liveFitInputPointsLast||0),
+    penRenderer:translucent ? null : (penCommit?.fitMode ? 'trajectory-fit' : 'centerline-stroke'),
+    penFitMs:penCommit ? Math.round((penCommit.fitMs||0)*10)/10 : null,
+    penFitCurves:penCommit?.fitCurves ?? null,
+    penFitInputPoints:penCommit?.fitInputPoints ?? null,
     penCommitMs:penCommit ? Math.round(penCommit.commitMs*10)/10 : null, penCommitStages:penCommit?.stages ?? null,
     pageAnnotationCount:(gesture.page.annotations || []).length, historyDepth:state.history.length,
   });
@@ -4171,20 +4151,6 @@ async function drawPageAnnotationsPdf(outputPdf, pdfPage, page, inheritedRotatio
       continue;
     }
 
-    // 5.6.3 experimental thin/medium Pen output mirrors the Canvas renderer:
-    // a constant-width closed filled outline with separately smoothed edges.
-    // No tapering/pressure width is introduced, and Thick remains the existing
-    // centerline-stroked control.
-    if (stroke.tool !== 'highlighter' && penUsesFilledOutline(thickness)) {
-      const outline = buildConstantWidthPenOutlinePath(points, thickness);
-      const path = penOutlineCommandsToSvgPath(
-        outline,
-        point => annotationPointToRawPdf(page, point, pdfPage, inheritedRotation),
-        pathNumber,
-      );
-      if (path) pdfPage.drawSvgPath(path, { x:0, y:0, color, opacity });
-      continue;
-    }
 
     // Export each remaining ink annotation as one continuous PDF path.
     const first = annotationPointToRawPdf(page, points[0], pdfPage, inheritedRotation);
@@ -4196,6 +4162,21 @@ async function drawPageAnnotationsPdf(outputPdf, pdfPage, page, inheritedRotatio
       for (let i = 1; i < exportPoints.length; i++) {
         const point = annotationPointToRawPdf(page, exportPoints[i], pdfPage, inheritedRotation);
         path += ` L ${pathNumber(point.x)} ${pathNumber(-point.y)}`;
+      }
+    } else if (penUsesTrajectoryFit(thickness)) {
+      const fit = buildPenTrajectoryFit(points, thickness);
+      if (fit.segments.length) {
+        const fitFirst = annotationPointToRawPdf(page, fit.segments[0].p0, pdfPage, inheritedRotation);
+        path = `M ${pathNumber(fitFirst.x)} ${pathNumber(-fitFirst.y)}`;
+        for (const segment of fit.segments) {
+          const c1 = annotationPointToRawPdf(page, segment.c1, pdfPage, inheritedRotation);
+          const c2 = annotationPointToRawPdf(page, segment.c2, pdfPage, inheritedRotation);
+          const p3 = annotationPointToRawPdf(page, segment.p3, pdfPage, inheritedRotation);
+          path += ` C ${pathNumber(c1.x)} ${pathNumber(-c1.y)} ${pathNumber(c2.x)} ${pathNumber(-c2.y)} ${pathNumber(p3.x)} ${pathNumber(-p3.y)}`;
+        }
+      } else {
+        const second = annotationPointToRawPdf(page, points[points.length-1], pdfPage, inheritedRotation);
+        path += ` L ${pathNumber(second.x)} ${pathNumber(-second.y)}`;
       }
     } else if (points.length === 2) {
       const second = annotationPointToRawPdf(page, points[1], pdfPage, inheritedRotation);
@@ -10370,7 +10351,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.6.3 is an experimental thin/medium filled-outline Pen renderer. It keeps the aggressive 5.6.2 centerline smoothing but renders the 1.5 pt and 3 pt Pen as constant-width filled contours with separately smoothed left/right edges; no pressure, tapering, or supersampling is introduced. The 5.5 pt Pen remains the unchanged centerline-stroked control. New diagnostics report live-render, outline-build, and Pen commit timing. The 5.6.1 dense-page live-Pen optimization, 5.6.0 black blank pages, and 5.5.9 rebuilt-PDF link policy remain in place.</p>
+      <p>Milestone 5.6.4 replaces the 5.6.3 filled-outline experiment with thin/medium trajectory fitting. Thin and Medium are again ordinary constant-width round-capped strokes, but their rendered centerline is fit with a much smaller set of cubic Bezier curves within a width-aware error tolerance instead of interpolating nearly every Pencil sample. Raw points remain authoritative for editing. Thick remains the unchanged control. Thin/Medium live preview is refit once per pointer event (after coalesced samples are collected), and diagnostics report fit/render/commit timing and curve counts. The 5.6.1 dense-page live-Pen optimization, 5.6.0 black blank pages, and 5.5.9 rebuilt-PDF link policy remain in place.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image scope in 5.5.2:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
