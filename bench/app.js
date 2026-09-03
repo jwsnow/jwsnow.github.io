@@ -1,4 +1,4 @@
-const APP_VERSION = '5.5.6';
+const APP_VERSION = '5.5.8';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -4321,13 +4321,57 @@ function commitHistory(before) {
   markDocumentDirty();
   updateHistoryButtons();
 }
+function historyPageViewerStructureEquivalent(a, b) {
+  if (!a || !b) return false;
+  // Undo/Redo of annotation-only edits should not rebuild the PDF/page canvases.
+  // These are the page properties that affect the base viewer geometry/content.
+  // Annotation arrays are deliberately excluded; those can be repainted in-place.
+  const fields = [
+    'id', 'sourceId', 'sourcePage', 'width', 'height', 'baseRotation', 'rotation',
+    'kind', 'generatedType', 'canvasWidth', 'canvasHeight', 'canvasPlacement',
+    'edgeTop', 'edgeRight', 'edgeBottom', 'edgeLeft',
+  ];
+  return fields.every(key => Object.is(a[key], b[key]));
+}
+function historyViewerStructureEquivalent(currentPages, nextPages) {
+  return currentPages.length === nextPages.length &&
+    currentPages.every((page, index) => historyPageViewerStructureEquivalent(page, nextPages[index]));
+}
+function cancelPendingAnnotationRedraws() {
+  for (const job of state.annotationRedrawJobs.values()) {
+    if (job?.kind === 'idle' && typeof cancelIdleCallback === 'function') cancelIdleCallback(job.id);
+    else if (job?.id != null) clearTimeout(job.id);
+  }
+  state.annotationRedrawJobs.clear();
+}
 function restorePages(snapshot) {
-  state.pages = snapshot.map(page => clonePageState(page));
+  const previousPages = state.pages;
+  const nextPages = snapshot.map(page => clonePageState(page));
+  const overlayOnly = historyViewerStructureEquivalent(previousPages, nextPages);
+
+  // A deferred exact Eraser repaint may still reference the pre-Undo page object.
+  // Cancel it before replacing state so it cannot later repaint stale annotations.
+  cancelPendingAnnotationRedraws();
+  state.pages = nextPages;
   const ids = new Set(state.pages.map(p => p.id));
   state.selected = new Set([...state.selected].filter(id => ids.has(id)));
   if (!state.activePageId || !ids.has(state.activePageId)) state.activePageId = state.pages[0]?.id ?? null;
   reconcileAnnotationSelection();
-  renderAll();
+
+  if (overlayOnly) {
+    // Keep the already-rendered PDF/generated-page canvases in the DOM. Repaint
+    // only Workbench annotation layers. This removes the visible whole-viewer
+    // flash that annotation Undo/Redo used to cause on all three target devices.
+    saveCurrentDocumentState({ readViewDom:false, skipLibrarySchedule:true });
+    for (const page of state.pages) redrawPageAnnotationOverlays(page);
+    updatePageCounts();
+    addInkDiagnostic('history-restore-finish', null, { overlayOnly:true, pages:state.pages.length });
+  } else {
+    // Page insertion/deletion/reorder/resize/rotation still requires a structural
+    // viewer rebuild because the underlying page canvases genuinely changed.
+    renderAll();
+    addInkDiagnostic('history-restore-finish', null, { overlayOnly:false, pages:state.pages.length });
+  }
 }
 function undo() {
   if (!state.history.length) return;
@@ -4712,8 +4756,30 @@ function createImageAssemblyDocument() {
 const DEFAULT_NEW_PAGE_WIDTH = 792;   // US Letter landscape, points
 const DEFAULT_NEW_PAGE_HEIGHT = 612;
 const PRESENTATION_PAGE_LONG_EDGE_PT = 11 * 72;
-const GRAPH_GRID_SPACING_PT = 18;     // 1/4 inch at 72 points/inch
-const GRAPH_GRID_MARGIN_PT = 9;
+const GRAPH_GRID_TARGET_SPACING_PT = 17.25; // Slightly smaller than the former 1/4-inch (18 pt) grid.
+const GRAPH_GRID_MIN_MARGIN_PT = 7;       // Small centered remainder margin keeps every visible cell complete.
+
+function graphGridLayout(width, height) {
+  const w = Math.max(1, Number(width) || 1);
+  const h = Math.max(1, Number(height) || 1);
+  const maxMargin = Math.min(GRAPH_GRID_MIN_MARGIN_PT, w / 4, h / 4);
+  const usableW = Math.max(1, w - 2 * maxMargin);
+  const usableH = Math.max(1, h - 2 * maxMargin);
+  const columns = Math.max(1, Math.floor(usableW / GRAPH_GRID_TARGET_SPACING_PT));
+  const rows = Math.max(1, Math.floor(usableH / GRAPH_GRID_TARGET_SPACING_PT));
+  // Use one common spacing in both directions so the cells remain true squares.
+  // The tiny leftover in each dimension is split evenly around the bounded grid.
+  const spacing = Math.max(1, Math.min(usableW / columns, usableH / rows));
+  const gridWidth = columns * spacing;
+  const gridHeight = rows * spacing;
+  return {
+    columns, rows, spacing,
+    left: (w - gridWidth) / 2,
+    right: (w + gridWidth) / 2,
+    top: (h - gridHeight) / 2,
+    bottom: (h + gridHeight) / 2,
+  };
+}
 
 function cssSafeAreaTopPx() {
   // Presentation reserves the unified annotation bar plus the top safe-area
@@ -4727,11 +4793,8 @@ function cssSafeAreaTopPx() {
 }
 
 function presentationTargetViewportDimensions() {
-  // If Presentation is already active, use its exact single-viewer geometry.
-  if (document.body.classList.contains('presentation') && els.viewer?.clientWidth > 0 && els.viewer?.clientHeight > 0) {
-    return { width: els.viewer.clientWidth, height: els.viewer.clientHeight };
-  }
-
+  // New/page-size commands are available outside Presentation mode, so always
+  // predict the usable Presentation viewport from the current device/window.
   // iPad uses app-level Presentation, so its current visual viewport predicts
   // Presentation size. Surface/Chromebook request native fullscreen, so use the
   // screen dimensions while preserving the device's current orientation.
@@ -5481,53 +5544,87 @@ function showNewFromTemplateChooser() {
 function drawGraphPaperCanvas(ctx, targetW, targetH, pageWidth, pageHeight) {
   const sx = targetW / pageWidth;
   const sy = targetH / pageHeight;
-  const spacingX = GRAPH_GRID_SPACING_PT * sx;
-  const spacingY = GRAPH_GRID_SPACING_PT * sy;
-  const marginX = GRAPH_GRID_MARGIN_PT * sx;
-  const marginY = GRAPH_GRID_MARGIN_PT * sy;
+  const layout = graphGridLayout(pageWidth, pageHeight);
+  const left = layout.left * sx;
+  const right = layout.right * sx;
+  const top = layout.top * sy;
+  const bottom = layout.bottom * sy;
+  const spacingX = layout.spacing * sx;
+  const spacingY = layout.spacing * sy;
+  const scale = (sx + sy) / 2;
+
   ctx.save();
   ctx.strokeStyle = 'rgba(92, 193, 217, 0.24)';
-  ctx.lineWidth = Math.max(0.55, Math.min(1.05, 0.6 * ((sx + sy) / 2)));
+  ctx.lineWidth = Math.max(0.55, Math.min(1.05, 0.6 * scale));
   ctx.beginPath();
-  for (let x = marginX; x <= targetW - marginX + 0.25; x += spacingX) {
-    const px = Math.round(x) + 0.5;
-    ctx.moveTo(px, marginY);
-    ctx.lineTo(px, targetH - marginY);
+  for (let col = 1; col < layout.columns; col++) {
+    const px = Math.round(left + col * spacingX) + 0.5;
+    ctx.moveTo(px, top);
+    ctx.lineTo(px, bottom);
   }
-  for (let y = marginY; y <= targetH - marginY + 0.25; y += spacingY) {
-    const py = Math.round(y) + 0.5;
-    ctx.moveTo(marginX, py);
-    ctx.lineTo(targetW - marginX, py);
+  for (let row = 1; row < layout.rows; row++) {
+    const py = Math.round(top + row * spacingY) + 0.5;
+    ctx.moveTo(left, py);
+    ctx.lineTo(right, py);
   }
   ctx.stroke();
+
+  // A slightly stronger boundary makes the complete outer row/column obvious
+  // without turning the graph paper into a boxed worksheet.
+  ctx.strokeStyle = 'rgba(72, 166, 193, 0.34)';
+  ctx.lineWidth = Math.max(0.8, Math.min(1.28, 0.76 * scale));
+  const half = ctx.lineWidth / 2;
+  ctx.strokeRect(left + half, top + half, Math.max(0, right - left - ctx.lineWidth), Math.max(0, bottom - top - ctx.lineWidth));
   ctx.restore();
 }
 
 function drawGraphPaperPdf(pdfPage, width, height, rgb) {
   const color = rgb(0.46, 0.77, 0.87);
-  const margin = Math.min(GRAPH_GRID_MARGIN_PT, width / 4, height / 4);
-  for (let x = margin; x <= width - margin + 0.01; x += GRAPH_GRID_SPACING_PT) {
-    pdfPage.drawLine({ start: { x, y: margin }, end: { x, y: height - margin }, thickness: 0.45, color, opacity: 0.24 });
+  const edgeColor = rgb(0.36, 0.69, 0.79);
+  const layout = graphGridLayout(width, height);
+  for (let col = 1; col < layout.columns; col++) {
+    const x = layout.left + col * layout.spacing;
+    pdfPage.drawLine({ start: { x, y: layout.top }, end: { x, y: layout.bottom }, thickness: 0.45, color, opacity: 0.24 });
   }
-  for (let y = margin; y <= height - margin + 0.01; y += GRAPH_GRID_SPACING_PT) {
-    pdfPage.drawLine({ start: { x: margin, y }, end: { x: width - margin, y }, thickness: 0.45, color, opacity: 0.24 });
+  for (let row = 1; row < layout.rows; row++) {
+    const y = layout.top + row * layout.spacing;
+    pdfPage.drawLine({ start: { x: layout.left, y }, end: { x: layout.right, y }, thickness: 0.45, color, opacity: 0.24 });
   }
+  const edgeThickness = 0.58;
+  const edgeOpacity = 0.34;
+  pdfPage.drawLine({ start: { x: layout.left, y: layout.top }, end: { x: layout.right, y: layout.top }, thickness: edgeThickness, color: edgeColor, opacity: edgeOpacity });
+  pdfPage.drawLine({ start: { x: layout.left, y: layout.bottom }, end: { x: layout.right, y: layout.bottom }, thickness: edgeThickness, color: edgeColor, opacity: edgeOpacity });
+  pdfPage.drawLine({ start: { x: layout.left, y: layout.top }, end: { x: layout.left, y: layout.bottom }, thickness: edgeThickness, color: edgeColor, opacity: edgeOpacity });
+  pdfPage.drawLine({ start: { x: layout.right, y: layout.top }, end: { x: layout.right, y: layout.bottom }, thickness: edgeThickness, color: edgeColor, opacity: edgeOpacity });
 }
 
 function drawGraphPaperPdfInRect(pdfPage, sourceWidth, sourceHeight, x, y, width, height, rgb) {
   const color = rgb(0.46, 0.77, 0.87);
+  const edgeColor = rgb(0.36, 0.69, 0.79);
   const sx = width / sourceWidth;
   const sy = height / sourceHeight;
-  const marginX = Math.min(GRAPH_GRID_MARGIN_PT, sourceWidth / 4) * sx;
-  const marginY = Math.min(GRAPH_GRID_MARGIN_PT, sourceHeight / 4) * sy;
-  const spacingX = GRAPH_GRID_SPACING_PT * sx;
-  const spacingY = GRAPH_GRID_SPACING_PT * sy;
-  for (let gx = marginX; gx <= width - marginX + 0.01; gx += spacingX) {
-    pdfPage.drawLine({ start: { x: x + gx, y: y + marginY }, end: { x: x + gx, y: y + height - marginY }, thickness: 0.45 * Math.min(sx, sy), color, opacity: 0.24 });
+  const layout = graphGridLayout(sourceWidth, sourceHeight);
+  const left = x + layout.left * sx;
+  const right = x + layout.right * sx;
+  const bottom = y + layout.top * sy;
+  const top = y + layout.bottom * sy;
+  const spacingX = layout.spacing * sx;
+  const spacingY = layout.spacing * sy;
+  const lineScale = Math.min(sx, sy);
+  for (let col = 1; col < layout.columns; col++) {
+    const gx = left + col * spacingX;
+    pdfPage.drawLine({ start: { x: gx, y: bottom }, end: { x: gx, y: top }, thickness: 0.45 * lineScale, color, opacity: 0.24 });
   }
-  for (let gy = marginY; gy <= height - marginY + 0.01; gy += spacingY) {
-    pdfPage.drawLine({ start: { x: x + marginX, y: y + gy }, end: { x: x + width - marginX, y: y + gy }, thickness: 0.45 * Math.min(sx, sy), color, opacity: 0.24 });
+  for (let row = 1; row < layout.rows; row++) {
+    const gy = bottom + row * spacingY;
+    pdfPage.drawLine({ start: { x: left, y: gy }, end: { x: right, y: gy }, thickness: 0.45 * lineScale, color, opacity: 0.24 });
   }
+  const edgeThickness = 0.58 * lineScale;
+  const edgeOpacity = 0.34;
+  pdfPage.drawLine({ start: { x: left, y: bottom }, end: { x: right, y: bottom }, thickness: edgeThickness, color: edgeColor, opacity: edgeOpacity });
+  pdfPage.drawLine({ start: { x: left, y: top }, end: { x: right, y: top }, thickness: edgeThickness, color: edgeColor, opacity: edgeOpacity });
+  pdfPage.drawLine({ start: { x: left, y: bottom }, end: { x: left, y: top }, thickness: edgeThickness, color: edgeColor, opacity: edgeOpacity });
+  pdfPage.drawLine({ start: { x: right, y: bottom }, end: { x: right, y: top }, thickness: edgeThickness, color: edgeColor, opacity: edgeOpacity });
 }
 
 async function readImageDimensions(file, url) {
@@ -7933,6 +8030,10 @@ function geometryAffectedPages(scope=null) {
 
 function geometryBaseSizeFromDialog() {
   const preset = els.pageGeometryPreset?.value || 'letter';
+  if (preset === 'presentation') {
+    const dims = presentationPageDimensions();
+    return { width: dims.width, height: dims.height };
+  }
   if (preset === 'first') {
     const first = state.pages[0];
     if (!first) return null;
@@ -9825,7 +9926,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.5.6 adds a Presentation Ratio option for new blank and graph-paper documents. The page aspect ratio is derived from the current device/orientation's single Presentation viewport, including the space reserved for the annotation toolbar, and the long page edge is normalized to exactly 11 inches. US Letter landscape remains available and existing-document inserted pages still match their current page geometry. Pen stabilization, image annotations, and the accepted 0.94 touch-scroll momentum are unchanged.</p>
+      <p>Milestone 5.5.8 removes the whole-viewer flash from annotation-only Undo/Redo. When page structure is unchanged, history restore now keeps the existing PDF/generated-page canvases and repaints only Workbench annotation overlays; structural page history still performs the normal full rebuild. Presentation-ratio sizing, complete-square graph paper, Pen stabilization, image annotations, and the accepted 0.94 touch-scroll momentum are unchanged.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image scope in 5.5.2:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -9952,6 +10053,7 @@ function toggleMoreMenu(force) {
 let resizeTimer;
 function onResize() {
   updateNewDocumentPageSizeUi();
+  updatePageGeometryDialog();
   clearTimeout(resizeTimer);
   if (!els.moreMenu.classList.contains('hidden')) positionMoreMenu();
   if (!els.insertPageMenu?.classList.contains('hidden') && state.insertMenuAnchor) positionAnchoredPopover(els.insertPageMenu, state.insertMenuAnchor);

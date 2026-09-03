@@ -1,3 +1,27 @@
+# PDF Workbench — Milestone 5.5.8
+
+## 5.5.8 Undo/Redo repaint cleanup
+
+- Annotation-only **Undo/Redo no longer rebuilds the PDF/generated-page viewer canvases**. If page IDs/order/geometry/source are unchanged, Workbench keeps the existing page DOM and repaints only the annotation overlays.
+- Structural history operations (page insert/delete/reorder/resize/rotation/crop/margins) still use the normal full viewer rebuild because the base page canvases genuinely change.
+- Pending deferred Eraser redraw jobs are cancelled before a history restore so an old page object cannot repaint stale annotations after Undo/Redo.
+- Diagnostics now record `history-restore-finish` with `overlayOnly:true/false`.
+- Presentation-ratio sizing, complete-square graph paper, Pen stabilization, image annotations, session-only Undo policy, and 0.94 touch-scroll inertia are unchanged.
+
+================ PRIOR README HISTORY ================
+
+# PDF Workbench — Milestone 5.5.7
+
+## 5.5.7 Presentation sizing + graph-paper refinement
+
+- Presentation-ratio sizing now always **predicts the usable Presentation viewport from the current device/window outside Presentation mode**. The calculation reserves the unified annotation toolbar height and top safe-area inset; it no longer contains an unreachable "create while already in Presentation" measurement path.
+- **Pages → Page size…** now includes **Presentation Ratio · long side 11 in**. It uses the same current-device ratio calculation as New documents, while the existing orientation selector still controls whether selected/all pages preserve orientation, become portrait, or become landscape.
+- New graph paper uses a nominal **17.25 pt** square target (slightly smaller than the former 18 pt / 1/4-inch grid). For each generated page size, Workbench chooses an integer row/column count and one common spacing so every visible grid cell is a complete square. Any tiny remainder is centered as a small outer margin.
+- The graph pattern now has a **slightly darker/thicker outer boundary** so the edge of the complete-square grid is distinguishable from interior lines. Screen rendering, previews, and PDF export use the same grid layout.
+- Fit Page behavior, Presentation viewer behavior, Pen stabilization, image annotations, session-only Undo, and the accepted 0.94 touch-scroll momentum are unchanged.
+
+================ PRIOR README HISTORY ================
+
 # PDF Workbench — Milestone 5.5.6
 
 ## 5.5.6 Presentation-ratio new documents

@@ -1,3 +1,30 @@
+MILESTONE 5.5.8 — UNDO/REDO REPAINT CLEANUP
+
+CURRENT BUILD: Milestone 5.5.8
+Visible About version: 5.5.8
+Service-worker/cache version: pdf-workbench-m5.5.8-v1
+
+- Annotation-only Undo/Redo now detects whether page viewer structure is unchanged. If IDs/order/source/page geometry are identical, it restores the history snapshot and redraws only Workbench annotation overlays, preserving the already-rendered PDF/generated-page canvases and eliminating the visible whole-viewer flash.
+- Page-structural Undo/Redo continues to call the full render path.
+- Any pending deferred exact annotation redraw is cancelled before history restoration so stale pre-Undo page objects cannot repaint later.
+- Diagnostic event `history-restore-finish` reports whether the fast overlay-only path was used.
+- No changes to the 50-step session-only Undo stack, Presentation-ratio sizing, graph paper, Pen stabilization, image annotations, PDF export, or 0.94 touch-scroll inertia.
+
+================ PRIOR HANDOFF HISTORY ================
+
+MILESTONE 5.5.7 — PRESENTATION SIZING + GRAPH-PAPER REFINEMENT
+
+CURRENT BUILD: Milestone 5.5.7
+Visible About version: 5.5.7
+Service-worker/cache version: pdf-workbench-m5.5.7-v1
+
+- Presentation-ratio page geometry is predicted from the current device/window outside Presentation mode. The usable target subtracts the 46 px unified annotation toolbar plus top safe-area inset. iPad uses the current visual viewport; Surface/Chromebook use screen dimensions in the current orientation to predict native-fullscreen Presentation.
+- Pages → Page size… now offers Presentation Ratio · long side 11 in using the same predictor as New documents. Existing Preserve/Portrait/Landscape controls remain available.
+- Generated graph paper now targets 17.25 pt cells, chooses integer rows/columns with one common adjusted spacing, centers the small leftover margin, and draws a subtly darker outer grid boundary. This prevents partial edge cells while keeping cells square. Screen/PDF paths share the layout helper.
+- Fit Page, annotation input, Pen stabilization, images, session-only Undo, and 0.94 touch-scroll inertia remain unchanged.
+
+================ PRIOR HANDOFF HISTORY ================
+
 MILESTONE 5.5.6 — PRESENTATION-RATIO NEW DOCUMENTS
 
 CURRENT BUILD: Milestone 5.5.6
