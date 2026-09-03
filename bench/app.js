@@ -1,4 +1,4 @@
-const APP_VERSION = '5.6.1';
+const APP_VERSION = '5.6.2';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1625,14 +1625,19 @@ function gestureEventGeometry(stage, page) {
 // remain the authoritative editable geometry for erasing, lasso transforms,
 // persistence, Undo/Redo, and future editing. Smoothing is derived only when
 // drawing/exporting so the input path and object model stay unchanged.
-// Pen smoothing is intentionally width-aware. Thin strokes reveal small hand
-// jitter much more clearly, so they get a little more curve continuity while
-// the broad pen stays close to the established 5.4/5.5 feel. These settings
-// affect rendering/export only; raw points remain the editable geometry.
+// Pen smoothing is intentionally width-aware. Milestone 5.6.2 temporarily
+// pushes thin/medium smoothing much harder for a Goodnotes comparison while
+// the broad pen stays at the established 5.4/5.5 feel as a control. These
+// settings affect rendering/export only; raw points remain editable geometry.
 function penSmoothingSettings(width=3) {
   const w = Math.max(.25, Number(width) || 3);
-  if (w <= 1.75) return { factor:0.205, handleCap:0.72 };
-  if (w <= 3.5) return { factor:0.155, handleCap:0.62 };
+  // Milestone 5.6.2 EXPERIMENT: deliberately push the thin and medium pens
+  // well past the conservative 5.5.x tuning so real handwriting can be
+  // compared against Goodnotes.  The 5.5 pt pen is intentionally unchanged
+  // and serves as a built-in control.  Expect to tune these values back after
+  // the visual experiment if corners/letterforms become too rounded.
+  if (w <= 1.75) return { factor:0.27, handleCap:0.90 };
+  if (w <= 3.5) return { factor:0.225, handleCap:0.82 };
   return { factor:0.135, handleCap:0.58 };
 }
 // Milestone 5.5.5: the spline itself can be smooth while still following tiny
@@ -1646,7 +1651,10 @@ function stabilizedPenRenderPoints(points, width=3) {
   const count = points?.length || 0;
   if (!Array.isArray(points) || count < 5) return points;
   const w = Math.max(.25, Number(width) || 3);
-  const baseStrength = w <= 1.75 ? 0.58 : (w <= 3.5 ? 0.36 : 0);
+  // 5.6.2 EXPERIMENT: intentionally strong completed-stroke anchor
+  // stabilization for thin/medium Pen.  This is a visual trial, not yet the
+  // presumed final tuning.  Thick Pen remains at zero stabilization.
+  const baseStrength = w <= 1.75 ? 0.86 : (w <= 3.5 ? 0.68 : 0);
   if (!baseStrength) return points;
   const out = new Array(count);
   out[0] = points[0];
@@ -1668,8 +1676,9 @@ function stabilizedPenRenderPoints(points, width=3) {
     let strength = baseStrength;
     if (inLen > 1e-6 && outLen > 1e-6) {
       const cosine = clamp((inx * outx + iny * outy) / (inLen * outLen), -1, 1);
-      // Above ~45 degrees of turn, taper stabilization rapidly toward zero.
-      if (cosine < 0.72) strength *= Math.max(0.08, (cosine + 1) / 1.72);
+      // With the stronger 5.6.2 experiment, protect deliberate turns sooner.
+      // Above roughly 35 degrees of turn, taper stabilization rapidly toward zero.
+      if (cosine < 0.82) strength *= Math.max(0.06, (cosine + 1) / 1.82);
     }
     out[i] = {
       x: p.x + (ax - p.x) * strength,
@@ -10095,7 +10104,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.6.1 fixes a dense-page Pen release bottleneck found during real scratch-work testing. In-progress Pen ink now uses its own reusable live canvas, and Pencil-up commits only the newly finished stabilized stroke instead of repainting every annotation already on the page. Highlighter keeps its established live-layer path. Milestone 5.6.0 black blank pages and the 5.5.9 rebuilt-PDF link policy are unchanged.</p>
+      <p>Milestone 5.6.2 is an intentionally aggressive thin/medium Pen smoothing experiment for side-by-side comparison with Goodnotes. Thin and medium use substantially stronger curve continuity and completed-stroke anchor stabilization; the 5.5 pt Pen is unchanged as a control. This tuning is expected to be revisited after handwriting tests. The 5.6.1 dense-page live-Pen optimization, 5.6.0 black blank pages, and 5.5.9 rebuilt-PDF link policy remain in place.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image scope in 5.5.2:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

@@ -1,15 +1,15 @@
-# PDF Workbench — Milestone 5.6.1
+# PDF Workbench — Milestone 5.6.2
 
 
-## 5.6.1 dense-page Pen release optimization
+## 5.6.2 experimental thin/medium Pen smoothing
 
-- Real scratch-work testing on a heavily annotated graph-paper page exposed a Pen slowdown even though Apple Pencil pointer delivery remained healthy.
-- Pen now draws the in-progress stroke on a dedicated reusable **live Pen canvas**, separate from the persistent annotation canvas.
-- On Pencil-up, Workbench draws only that one completed, stabilized Pen stroke onto the persistent overlay and clears the live canvas for reuse. It no longer clears and redraws every existing page annotation merely to finalize the newest Pen stroke.
-- This changes the critical Pen-release repaint from roughly **O(all ink on the page)** to **O(the current stroke)**.
-- Exact redraws requested asynchronously while Pen/Highlighter is live exclude the active stroke from the persistent layer, preventing accidental double commits.
-- Pencil diagnostics now report page annotation count and history depth and live-commit timing (`liveCommitMs`, `penCommitMs`, `penCommitStages`) at stroke completion.
-- The 50-step session-only Undo policy is unchanged; this revision does not preemptively impose a memory cap.
+- This build deliberately makes the **1.5 pt and 3 pt Pen much smoother** for a side-by-side handwriting comparison with Goodnotes. It is an experiment and is expected to be tuned back if letterforms/corners become too rounded.
+- Thin Pen curve factor / handle cap: **0.27 / 0.90** (was 0.205 / 0.72); completed-stroke anchor stabilization: **0.86** (was 0.58).
+- Medium Pen curve factor / handle cap: **0.225 / 0.82** (was 0.155 / 0.62); completed-stroke anchor stabilization: **0.68** (was 0.36).
+- The **5.5 pt Pen is unchanged** at 0.135 / 0.58 with no anchor stabilization, so it serves as a control.
+- Sharp-turn protection begins sooner under the stronger stabilization to reduce rounding of deliberate corners.
+- Raw sampled points remain authoritative for Eraser, Select/Lasso, persistence, Undo/Redo, and hit testing. PDF export uses the same experimental completed-stroke geometry as the screen.
+- The 5.6.1 live-Pen dense-page performance optimization remains intact. External-library bundling remains postponed.
 - External-library bundling is explicitly postponed until this performance fix has been field-tested.
 - Milestone 5.6.0 black blank-page behavior and the 5.5.9 rebuilt-PDF link policy are unchanged.
 - Pre-release browser validation showed flat Pen-up cost across a 220-stroke synthetic dense-page test, exact completed-canvas pixel equivalence with 5.6.0 for identical strokes, working annotation Undo/Redo, and unchanged Highlighter live-layer behavior.

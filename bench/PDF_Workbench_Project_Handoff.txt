@@ -1,3 +1,41 @@
+MILESTONE 5.6.2 — EXPERIMENTAL STRONG THIN/MEDIUM PEN SMOOTHING
+
+CURRENT BUILD: Milestone 5.6.2
+Visible About version: 5.6.2
+Service-worker/cache version: pdf-workbench-m5.6.2-v1
+Library schema version: unchanged
+
+WHY THIS REVISION EXISTS
+------------------------
+During side-by-side real handwriting use, the user reported that Goodnotes inking still looks noticeably smoother than PDF Workbench. The user explicitly requested a MAJOR thin/medium Pen tuning experiment with the expectation that the final settings may later be backed off. This revision is therefore intentionally more aggressive than the conservative 5.5.x smoothing work.
+
+5.6.2 EXPERIMENT
+----------------
+- 1.5 pt Thin Pen curve factor / handle cap changes from 0.205 / 0.72 to 0.27 / 0.90.
+- 1.5 pt completed-stroke anchor stabilization changes from 0.58 to 0.86.
+- 3 pt Medium Pen curve factor / handle cap changes from 0.155 / 0.62 to 0.225 / 0.82.
+- 3 pt completed-stroke anchor stabilization changes from 0.36 to 0.68.
+- 5.5 pt Thick Pen remains EXACTLY at 0.135 / 0.58 with zero anchor stabilization. Use it as an in-app control when comparing the experiment.
+- Because the thin/medium stabilization is much stronger, deliberate-turn protection now begins around a 35-degree change in direction instead of roughly 45 degrees and can taper to a slightly lower minimum contribution. The goal is to suppress shallow edge wobble while still allowing mathematical symbols and handwriting corners to stay recognizable.
+- Raw sampled points remain authoritative and unchanged. Eraser, Select/Lasso, persistence, session-only Undo/Redo, hit testing, and object transforms still operate on the same raw geometry.
+- Live Pen drawing uses the stronger width-aware spline settings. Completed screen rendering and PDF export additionally use the stronger anchor stabilization, so a stroke may settle slightly smoother when the Pencil lifts.
+- This is explicitly NOT presumed final tuning. After real handwriting comparison, expect to keep, reduce, or partly revert the thin and medium changes independently.
+
+UNCHANGED / REGRESSION-SENSITIVE
+--------------------------------
+- Milestone 5.6.1 dedicated reusable live-Pen layer and O(current-stroke) Pen-up commit remain intact. Do not reintroduce dense-page full-overlay repaint on each Pen release.
+- Highlighter behavior is unchanged.
+- Thick Pen is unchanged and serves as a control.
+- 5.6.0 White/Black blank pages remain unchanged.
+- 5.5.9 rebuilt-PDF link policy remains unchanged.
+- External-library bundling remains POSTPONED while Pen behavior is being field-tested.
+
+TEST REQUEST
+------------
+Compare 1.5 pt and 3 pt handwriting directly with Goodnotes using ordinary lecture/scratch-work writing, especially small letters, fractions, parentheses, long algebraic strokes, and tight corners. Pay attention to both (a) whether shallow wobble/rough edges are visibly improved and (b) whether the smoothing begins to distort intentional corners or makes the stroke feel as if it changes too much on Pencil-up. The 5.5 pt Pen provides an unchanged Workbench reference.
+
+================ PRIOR HANDOFF HISTORY ================
+
 MILESTONE 5.6.1 — DENSE-PAGE PEN RELEASE OPTIMIZATION
 
 CURRENT BUILD: Milestone 5.6.1
