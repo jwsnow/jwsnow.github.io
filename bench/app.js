@@ -1,4 +1,4 @@
-const APP_VERSION = '5.5.1';
+const APP_VERSION = '5.5.2';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -9694,9 +9694,9 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.5.1 fixes the Insert Image button startup state after Local Library/session restoration. Milestone 5.5.0 added inserted images as editable page annotation objects on top of the stable 5.4.8 annotation/performance baseline. Use the picture button in the annotation strip to choose an image from the device, then move or proportionally resize it with Select. Inserted images persist in the Local Library and editable backups, participate in session Undo/Redo and annotation copy/duplicate/paste, and are embedded in PDF export beneath Workbench ink/highlighter.</p>
+      <p>Milestone 5.5.2 gives touch scrolling a little more inertial coast by changing only the cross-platform continuous-scroll decay from 0.91 to 0.94 per 60 Hz frame. Finger/Pencil routing, release-velocity estimation, pinch behavior, and scroll snapping are unchanged. Milestone 5.5.1 fixed the Insert Image button startup state after Local Library/session restoration, and Milestone 5.5.0 added inserted images as editable page annotation objects on top of the stable 5.4.8 annotation/performance baseline.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
-      <p><strong>Image scope in 5.5.1:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. The future new-document size refinement will offer US Letter plus a Presentation-ratio page whose long edge is normalized to 11 inches.</p>
+      <p><strong>Image scope in 5.5.2:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. The future new-document size refinement will offer US Letter plus a Presentation-ratio page whose long edge is normalized to 11 inches.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -9893,7 +9893,7 @@ function startViewerTouchInertia(viewer, owner, scrollMode, vx, vy) {
     const beforeX = viewer.scrollLeft, beforeY = viewer.scrollTop;
     viewer.scrollLeft -= vx * dt;
     viewer.scrollTop -= vy * dt;
-    const decay = Math.pow(.91, dt / 16.67);
+    const decay = Math.pow(.94, dt / 16.67);
     vx *= decay; vy *= decay;
     const moved = Math.abs(viewer.scrollLeft - beforeX) + Math.abs(viewer.scrollTop - beforeY) > .05;
     if (Math.hypot(vx, vy) < .018 || !moved) {

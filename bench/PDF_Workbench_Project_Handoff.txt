@@ -1,3 +1,19 @@
+PDF WORKBENCH PWA — MILESTONE 5.5.2 CURRENT UPDATE
+
+CURRENT BUILD: Milestone 5.5.2
+Visible About version: 5.5.2
+Library schema version: 6
+Service-worker/cache version: pdf-workbench-m5.5.2-v1
+Baseline: 5.5.1 image annotations/startup state on the validated 5.4.8 cross-device performance baseline.
+
+MILESTONE 5.5.2 — TOUCH-SCROLL MOMENTUM TUNING
+- Continuous touch-scroll inertia now decays at 0.94 rather than 0.91 per nominal 60 Hz frame, giving finger flicks more coast after release.
+- The change is intentionally cross-platform for this test; no iPad/Surface/Chromebook branch has been added.
+- Release-velocity estimation, finger/Pencil routing, pinch anchoring, single-page snapping, and all annotation behavior are unchanged.
+- If Surface or Chromebook feels too loose, consider platform-specific inertia only after comparative testing.
+
+================ PRIOR HANDOFF HISTORY ================
+
 PDF WORKBENCH PWA — MILESTONE 5.5.1 CURRENT UPDATE
 
 CURRENT BUILD: Milestone 5.5.1
@@ -11,8 +27,6 @@ MILESTONE 5.5.1 — RESTORED-DOCUMENT IMAGE-BUTTON STATE
 - Root cause: the annotation toolbar initialized before restored pages were hydrated; the later page-count refresh did not update this page-dependent action.
 - `updatePageCounts()` now refreshes the Insert Image disabled state from the current page count.
 - No image object semantics, annotation input behavior, Undo/Redo policy, persistence schema, or export behavior changed.
-
-================ PRIOR HANDOFF HISTORY ================
 
 PDF WORKBENCH PWA — MILESTONE 5.5.0 CURRENT UPDATE
 

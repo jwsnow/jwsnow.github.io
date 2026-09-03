@@ -1,3 +1,14 @@
+# PDF Workbench — Milestone 5.5.2
+
+## 5.5.2 touch-scroll momentum tuning
+
+- Increased the cross-platform continuous touch-scroll inertia decay from **0.91** to **0.94** per nominal 60 Hz frame, so a finger flick coasts farther after release.
+- This is deliberately **not platform-specific**. iPad, Surface, and Chromebook use the same value for this test build.
+- Finger/Pencil discrimination, touch-pan release-velocity estimation, pinch-to-zoom anchoring, single-page snapping, and scroll-end page creation are unchanged.
+- The 5.5.1 image-button startup fix and all 5.5.0 image-annotation behavior are unchanged.
+
+================ PRIOR README HISTORY ================
+
 # PDF Workbench — Milestone 5.5.1
 
 ## 5.5.1 restored-document image-button state
@@ -6,8 +17,6 @@
 - The cause was initialization order: the annotation toolbar was first updated while `state.pages` was still empty, and the later asynchronous document restore refreshed page counts but not the page-dependent picture action.
 - Page-count refresh now also refreshes the Insert Image button's enabled state, so it is immediately available whenever the restored/current document has pages.
 - No image-annotation behavior, Pen/Highlighter/Eraser behavior, history policy, persistence format, or PDF export behavior changed from 5.5.0.
-
-================ PRIOR README HISTORY ================
 
 # PDF Workbench — Milestone 5.5.0
 
@@ -351,7 +360,7 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - IndexedDB database version: **2**
 - Library schema version: **6** (page annotations can reference inserted-image source records)
 - Editable backup format version: **1**
-- Service-worker cache: `pdf-workbench-m5.5.1-v1`
+- Service-worker cache: `pdf-workbench-m5.5.2-v1`
 
 ## High-priority smoke tests
 1. On iPad, Surface, and Chromebook, draw several separate strokes, choose Select, lasso one stroke and then a group. Verify the selected objects get one bounding box and that unselected strokes remain untouched.
@@ -372,4 +381,4 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 16. Re-test the previously problematic slide deck unchanged; it should still export byte-for-byte. Add a short pen stroke and export again; the file should remain reasonably sized.
 17. Save one template **With annotations** and one **Clean**; confirm their previews/content differ correctly. In Template Manager set the automatic last page to Graph, Blank, and then a saved template, and test pull/scroll-past-end creation for each.
 18. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
-**More → About this build** reports **Milestone 5.5.1**.
+**More → About this build** reports **Milestone 5.5.2**.
