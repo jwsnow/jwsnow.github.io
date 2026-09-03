@@ -1,6 +1,17 @@
-# PDF Workbench — Milestone 5.5.4
+# PDF Workbench 5.5.5
 
-## 5.5.4 thin-Pen smoothing refinement
+## Thin/medium pen edge stabilization
+
+- Adds a light render-only local stabilization pass before the existing Pen spline for 1.5 pt and 3 pt strokes.
+- Targets fine centerline waviness without changing the overall handwriting shape.
+- Preserves sharp turns by tapering stabilization around deliberate corners.
+- Raw points remain authoritative for eraser, lasso, Undo/Redo, persistence, and hit testing.
+- Completed on-screen Pen rendering and PDF export use the same stabilized geometry.
+- 5.5.4 thin-pen spline tuning and 5.5.2 scroll momentum are unchanged.
+
+# PDF Workbench — Milestone 5.5.5
+
+## 5.5.5 thin-Pen smoothing refinement
 
 - Increased smoothing only for the **1.5 pt** Pen: `factor 0.205 / handle cap 0.72` (from `0.18 / 0.68` in 5.5.3).
 - The **3 pt** Pen remains `0.155 / 0.62`; the **5.5 pt** Pen remains `0.135 / 0.58`.

@@ -1,12 +1,16 @@
-PDF WORKBENCH PWA — MILESTONE 5.5.4 CURRENT UPDATE
+MILESTONE 5.5.5 — THIN/MEDIUM PEN EDGE STABILIZATION
 
-CURRENT BUILD: Milestone 5.5.4
-Visible About version: 5.5.4
+Completed Pen rendering/export now lightly stabilizes thin and medium raw anchor points before constructing the existing spline. The raw editable point arrays remain unchanged. Sharp turns taper the stabilization so deliberate handwriting corners remain intact. Live input routing, eraser/lasso geometry, persistence, Undo/Redo, highlighter behavior, image annotations, and the 0.94 scroll momentum are unchanged.
+
+PDF WORKBENCH PWA — MILESTONE 5.5.5 CURRENT UPDATE
+
+CURRENT BUILD: Milestone 5.5.5
+Visible About version: 5.5.5
 Library schema version: 6
-Service-worker/cache version: pdf-workbench-m5.5.4-v1
+Service-worker/cache version: pdf-workbench-m5.5.5-v1
 Baseline: 5.5.3 width-aware Pen smoothing + accepted 5.5.2 cross-platform touch-scroll momentum on the validated 5.4.8 performance baseline.
 
-MILESTONE 5.5.4 — THIN-PEN SMOOTHING REFINEMENT
+MILESTONE 5.5.5 — THIN-PEN SMOOTHING REFINEMENT
 - 1.5 pt Pen smoothing increased from factor 0.18 / handle cap 0.68 to factor 0.205 / handle cap 0.72.
 - 3 pt remains 0.155 / 0.62; 5.5 pt remains 0.135 / 0.58.
 - Raw points remain authoritative for editing, Eraser, lasso, persistence, and session-only Undo/Redo.

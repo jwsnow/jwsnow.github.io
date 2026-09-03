@@ -1,4 +1,4 @@
-const APP_VERSION = '5.5.4';
+const APP_VERSION = '5.5.5';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1633,6 +1633,49 @@ function penSmoothingSettings(width=3) {
   if (w <= 3.5) return { factor:0.155, handleCap:0.62 };
   return { factor:0.135, handleCap:0.58 };
 }
+// Milestone 5.5.5: the spline itself can be smooth while still following tiny
+// sample-to-sample stylus wobble because the cardinal curve interpolates every
+// raw point.  For completed Pen rendering/export only, lightly stabilize the
+// anchor points before constructing the spline.  The authoritative raw points
+// remain completely unchanged for erasing, lasso, persistence, Undo/Redo, and
+// hit testing.  Sharp turns are protected so small handwriting does not become
+// rounded merely to remove edge waviness.
+function stabilizedPenRenderPoints(points, width=3) {
+  const count = points?.length || 0;
+  if (!Array.isArray(points) || count < 5) return points;
+  const w = Math.max(.25, Number(width) || 3);
+  const baseStrength = w <= 1.75 ? 0.58 : (w <= 3.5 ? 0.36 : 0);
+  if (!baseStrength) return points;
+  const out = new Array(count);
+  out[0] = points[0];
+  out[1] = points[1];
+  out[count - 2] = points[count - 2];
+  out[count - 1] = points[count - 1];
+  for (let i = 2; i < count - 2; i++) {
+    const pm2 = points[i - 2], pm1 = points[i - 1], p = points[i], pp1 = points[i + 1], pp2 = points[i + 2];
+    // Weighted local mean.  This is deliberately small enough that the curve
+    // stays inside the visual footprint of the original stroke.
+    const ax = (pm2.x + 2 * pm1.x + 3 * p.x + 2 * pp1.x + pp2.x) / 9;
+    const ay = (pm2.y + 2 * pm1.y + 3 * p.y + 2 * pp1.y + pp2.y) / 9;
+    // Preserve deliberate corners.  Compare the incoming/outgoing direction
+    // over a two-sample span so individual noisy samples do not trigger the
+    // corner guard by themselves.
+    const inx = p.x - pm2.x, iny = p.y - pm2.y;
+    const outx = pp2.x - p.x, outy = pp2.y - p.y;
+    const inLen = Math.hypot(inx, iny), outLen = Math.hypot(outx, outy);
+    let strength = baseStrength;
+    if (inLen > 1e-6 && outLen > 1e-6) {
+      const cosine = clamp((inx * outx + iny * outy) / (inLen * outLen), -1, 1);
+      // Above ~45 degrees of turn, taper stabilization rapidly toward zero.
+      if (cosine < 0.72) strength *= Math.max(0.08, (cosine + 1) / 1.72);
+    }
+    out[i] = {
+      x: p.x + (ax - p.x) * strength,
+      y: p.y + (ay - p.y) * strength,
+    };
+  }
+  return out;
+}
 function smoothStrokeControls(points, segmentIndex, width=3) {
   const count = points?.length || 0;
   if (count < 2 || segmentIndex < 0 || segmentIndex >= count - 1) return null;
@@ -1668,16 +1711,17 @@ function smoothStrokeControls(points, segmentIndex, width=3) {
 }
 function traceSmoothedStrokeCanvas(ctx, page, points, width=3) {
   if (!ctx || !Array.isArray(points) || !points.length) return;
-  const first = basePointToDisplay(page, points[0]);
+  const renderPoints = stabilizedPenRenderPoints(points, width);
+  const first = basePointToDisplay(page, renderPoints[0]);
   ctx.moveTo(first.x, first.y);
-  if (points.length === 1) return;
-  if (points.length === 2) {
-    const second = basePointToDisplay(page, points[1]);
+  if (renderPoints.length === 1) return;
+  if (renderPoints.length === 2) {
+    const second = basePointToDisplay(page, renderPoints[1]);
     ctx.lineTo(second.x, second.y);
     return;
   }
-  for (let i = 0; i < points.length - 1; i++) {
-    const controls = smoothStrokeControls(points, i, width);
+  for (let i = 0; i < renderPoints.length - 1; i++) {
+    const controls = smoothStrokeControls(renderPoints, i, width);
     if (!controls) continue;
     const c1 = basePointToDisplay(page, controls.c1);
     const c2 = basePointToDisplay(page, controls.c2);
@@ -3798,8 +3842,11 @@ async function drawPageAnnotationsPdf(outputPdf, pdfPage, page, inheritedRotatio
       const second = annotationPointToRawPdf(page, points[1], pdfPage, inheritedRotation);
       path += ` L ${pathNumber(second.x)} ${pathNumber(-second.y)}`;
     } else {
-      for (let i = 0; i < points.length - 1; i++) {
-        const controls = smoothStrokeControls(points, i, thickness);
+      const renderPoints = stabilizedPenRenderPoints(points, thickness);
+      const renderFirst = annotationPointToRawPdf(page, renderPoints[0], pdfPage, inheritedRotation);
+      path = `M ${pathNumber(renderFirst.x)} ${pathNumber(-renderFirst.y)}`;
+      for (let i = 0; i < renderPoints.length - 1; i++) {
+        const controls = smoothStrokeControls(renderPoints, i, thickness);
         if (!controls) continue;
         const c1 = annotationPointToRawPdf(page, controls.c1, pdfPage, inheritedRotation);
         const c2 = annotationPointToRawPdf(page, controls.c2, pdfPage, inheritedRotation);
@@ -9703,7 +9750,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.5.4 increases smoothing one more step for the 1.5 pt Pen while leaving the 3 pt and 5.5 pt settings unchanged. Raw sampled points, eraser/lasso geometry, persistence, and Undo/Redo remain unchanged. Screen rendering and PDF export continue to use the same spline geometry; the PDF may still appear slightly smoother because it is vector-rendered while the in-app annotation layer is rasterized. The accepted 5.5.2 cross-platform touch-scroll momentum setting of 0.94 is unchanged.</p>
+      <p>Milestone 5.5.5 adds light render-only anchor stabilization for the 1.5 pt and 3 pt Pens before the existing spline is drawn. This targets fine sample-to-sample waviness while preserving deliberate corners and the established overall stroke shape. Raw sampled points, eraser/lasso geometry, persistence, and Undo/Redo remain unchanged, and screen rendering and PDF export use the same stabilized spline geometry. The 5.5.4 thin-pen spline settings and accepted 5.5.2 cross-platform touch-scroll momentum setting of 0.94 are unchanged.</p>
       <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image scope in 5.5.2:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. The future new-document size refinement will offer US Letter plus a Presentation-ratio page whose long edge is normalized to 11 inches.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
