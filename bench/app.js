@@ -1,4 +1,4 @@
-const APP_VERSION = '5.6.2';
+const APP_VERSION = '5.6.3';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1749,6 +1749,181 @@ function traceRawStrokeCanvas(ctx, page, points) {
     ctx.lineTo(point.x, point.y);
   }
 }
+// Milestone 5.6.3 EXPERIMENT: thin and medium Pen strokes are rendered as
+// constant-width filled outlines rather than asking Canvas/PDF to stroke a
+// smoothed centerline. The centerline itself is still the 5.6.2 stabilized
+// cardinal spline and remains the only authoritative editable geometry. The
+// goal is to let the two visible stroke edges have their own smooth contours,
+// closer to Goodnotes, without introducing pressure/tapering or supersampling.
+function penUsesFilledOutline(width=3) {
+  const w = Math.max(.25, Number(width) || 3);
+  return w <= 3.5;
+}
+function cubicPointAt(p0, c1, c2, p3, t) {
+  const mt = 1 - t;
+  const a = mt * mt * mt;
+  const b = 3 * mt * mt * t;
+  const c = 3 * mt * t * t;
+  const d = t * t * t;
+  return {
+    x: a * p0.x + b * c1.x + c * c2.x + d * p3.x,
+    y: a * p0.y + b * c1.y + c * c2.y + d * p3.y,
+  };
+}
+function samplePenCubicControls(controls, width=3) {
+  if (!controls) return [];
+  const { p1, p2, c1, c2 } = controls;
+  const estimate = Math.hypot(c1.x-p1.x, c1.y-p1.y)
+    + Math.hypot(c2.x-c1.x, c2.y-c1.y)
+    + Math.hypot(p2.x-c2.x, p2.y-c2.y);
+  const w = Math.max(.25, Number(width) || 3);
+  const spacing = w <= 1.75 ? .72 : 1.05;
+  const steps = clamp(Math.ceil(estimate / spacing), 1, 5);
+  const out = [p1];
+  for (let i=1; i<=steps; i++) out.push(cubicPointAt(p1, c1, c2, p2, i/steps));
+  return out;
+}
+function sampleSmoothedPenCenterline(points, width=3) {
+  if (!Array.isArray(points) || !points.length) return [];
+  if (points.length === 1) return [{ x:points[0].x, y:points[0].y }];
+  const renderPoints = stabilizedPenRenderPoints(points, width);
+  if (renderPoints.length === 2) return renderPoints.map(p => ({ x:p.x, y:p.y }));
+  const out = [];
+  for (let i=0; i<renderPoints.length-1; i++) {
+    const sampled = samplePenCubicControls(smoothStrokeControls(renderPoints, i, width), width);
+    for (let j=0; j<sampled.length; j++) {
+      if (i && j === 0) continue;
+      const p = sampled[j];
+      const prev = out[out.length-1];
+      if (!prev || Math.hypot(p.x-prev.x, p.y-prev.y) > .025) out.push(p);
+    }
+  }
+  return out.length ? out : renderPoints.map(p => ({ x:p.x, y:p.y }));
+}
+function smoothOutlineEdgeControls(points, segmentIndex) {
+  const count = points?.length || 0;
+  if (count < 2 || segmentIndex < 0 || segmentIndex >= count-1) return null;
+  const p0 = points[Math.max(0, segmentIndex-1)];
+  const p1 = points[segmentIndex];
+  const p2 = points[segmentIndex+1];
+  const p3 = points[Math.min(count-1, segmentIndex+2)];
+  // Slightly restrained Catmull-Rom conversion. The offset samples already
+  // follow a smooth trajectory; these handles remove the remaining tiny edge
+  // facets without allowing a sharp handwriting corner to balloon outward.
+  const factor = .155;
+  let c1 = { x:p1.x + (p2.x-p0.x)*factor, y:p1.y + (p2.y-p0.y)*factor };
+  let c2 = { x:p2.x - (p3.x-p1.x)*factor, y:p2.y - (p3.y-p1.y)*factor };
+  const seg = Math.hypot(p2.x-p1.x, p2.y-p1.y);
+  const cap = seg * .58;
+  const limit = (anchor, control) => {
+    const dx=control.x-anchor.x, dy=control.y-anchor.y;
+    const len=Math.hypot(dx,dy);
+    if (!cap || len <= cap || len < 1e-9) return control;
+    const scale=cap/len;
+    return { x:anchor.x+dx*scale, y:anchor.y+dy*scale };
+  };
+  c1=limit(p1,c1); c2=limit(p2,c2);
+  return { p1,p2,c1,c2 };
+}
+function normalizedVector(dx, dy, fallback={x:1,y:0}) {
+  const len = Math.hypot(dx,dy);
+  if (len < 1e-9) return { x:fallback.x, y:fallback.y };
+  return { x:dx/len, y:dy/len };
+}
+function buildConstantWidthPenOutlineFromCenterline(centerline, width=3) {
+  const center = Array.isArray(centerline) ? centerline : [];
+  const w = Math.max(.25, Number(width) || 3);
+  const r = w/2;
+  if (!center.length) return [];
+  if (center.length === 1) {
+    const c=center[0], k=.5522847498307936*r;
+    return [
+      {op:'M',p:{x:c.x+r,y:c.y}},
+      {op:'C',c1:{x:c.x+r,y:c.y+k},c2:{x:c.x+k,y:c.y+r},p:{x:c.x,y:c.y+r}},
+      {op:'C',c1:{x:c.x-k,y:c.y+r},c2:{x:c.x-r,y:c.y+k},p:{x:c.x-r,y:c.y}},
+      {op:'C',c1:{x:c.x-r,y:c.y-k},c2:{x:c.x-k,y:c.y-r},p:{x:c.x,y:c.y-r}},
+      {op:'C',c1:{x:c.x+k,y:c.y-r},c2:{x:c.x+r,y:c.y-k},p:{x:c.x+r,y:c.y}},
+      {op:'Z'},
+    ];
+  }
+  const tangentSpan = w <= 1.75 ? 3 : 2;
+  const tangents = new Array(center.length);
+  let fallback={x:1,y:0};
+  for (let i=0;i<center.length;i++) {
+    const a=center[Math.max(0,i-tangentSpan)];
+    const b=center[Math.min(center.length-1,i+tangentSpan)];
+    const t=normalizedVector(b.x-a.x,b.y-a.y,fallback);
+    tangents[i]=t; fallback=t;
+  }
+  const left=new Array(center.length), right=new Array(center.length);
+  for (let i=0;i<center.length;i++) {
+    const n={x:-tangents[i].y,y:tangents[i].x};
+    left[i]={x:center[i].x+n.x*r,y:center[i].y+n.y*r};
+    right[i]={x:center[i].x-n.x*r,y:center[i].y-n.y*r};
+  }
+  const commands=[{op:'M',p:left[0]}];
+  const appendEdge = pts => {
+    for (let i=0;i<pts.length-1;i++) {
+      const c=smoothOutlineEdgeControls(pts,i);
+      if (c) commands.push({op:'C',c1:c.c1,c2:c.c2,p:c.p2});
+    }
+  };
+  appendEdge(left);
+  const end=center[center.length-1], endT=tangents[tangents.length-1];
+  const capK=1.3333333333333333*r;
+  commands.push({
+    op:'C',
+    c1:{x:left[left.length-1].x+endT.x*capK,y:left[left.length-1].y+endT.y*capK},
+    c2:{x:right[right.length-1].x+endT.x*capK,y:right[right.length-1].y+endT.y*capK},
+    p:right[right.length-1],
+  });
+  appendEdge([...right].reverse());
+  const start=center[0], startT=tangents[0];
+  commands.push({
+    op:'C',
+    c1:{x:right[0].x-startT.x*capK,y:right[0].y-startT.y*capK},
+    c2:{x:left[0].x-startT.x*capK,y:left[0].y-startT.y*capK},
+    p:left[0],
+  });
+  commands.push({op:'Z'});
+  return commands;
+}
+function buildConstantWidthPenOutlinePath(points, width=3) {
+  return buildConstantWidthPenOutlineFromCenterline(sampleSmoothedPenCenterline(points,width),width);
+}
+function buildConstantWidthPenSegmentOutlinePath(controls, width=3) {
+  return buildConstantWidthPenOutlineFromCenterline(samplePenCubicControls(controls,width),width);
+}
+function tracePenOutlinePathCanvas(ctx, page, commands) {
+  if (!ctx || !Array.isArray(commands) || !commands.length) return;
+  for (const command of commands) {
+    if (command.op === 'Z') { ctx.closePath(); continue; }
+    const p=command.p ? basePointToDisplay(page,command.p) : null;
+    if (command.op === 'M') ctx.moveTo(p.x,p.y);
+    else if (command.op === 'L') ctx.lineTo(p.x,p.y);
+    else if (command.op === 'C') {
+      const c1=basePointToDisplay(page,command.c1);
+      const c2=basePointToDisplay(page,command.c2);
+      ctx.bezierCurveTo(c1.x,c1.y,c2.x,c2.y,p.x,p.y);
+    }
+  }
+}
+function penOutlineCommandsToSvgPath(commands, mapPoint, numberText) {
+  if (!Array.isArray(commands) || !commands.length) return '';
+  let path='';
+  const mapped = point => mapPoint(point);
+  for (const command of commands) {
+    if (command.op === 'Z') { path += ' Z'; continue; }
+    const p=mapped(command.p);
+    if (command.op === 'M') path += `${path ? ' ' : ''}M ${numberText(p.x)} ${numberText(-p.y)}`;
+    else if (command.op === 'L') path += ` L ${numberText(p.x)} ${numberText(-p.y)}`;
+    else if (command.op === 'C') {
+      const c1=mapped(command.c1), c2=mapped(command.c2);
+      path += ` C ${numberText(c1.x)} ${numberText(-c1.y)} ${numberText(c2.x)} ${numberText(-c2.y)} ${numberText(p.x)} ${numberText(-p.y)}`;
+    }
+  }
+  return path;
+}
 function applyBaseToDisplayCanvasTransform(ctx, page) {
   const base = pageCanvasBaseDimensions(page);
   const rotation = normalizedQuarterTurn(page?.rotation);
@@ -1827,7 +2002,12 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
     targetCtx.lineWidth = width;
     targetCtx.lineCap = 'round';
     targetCtx.lineJoin = 'round';
-    if (points.length === 1) {
+    if (useSmooth && penUsesFilledOutline(width)) {
+      const outline = buildConstantWidthPenOutlinePath(points, width);
+      targetCtx.beginPath();
+      tracePenOutlinePathCanvas(targetCtx, page, outline);
+      targetCtx.fill();
+    } else if (points.length === 1) {
       targetCtx.beginPath();
       targetCtx.arc(first.x, first.y, width / 2, 0, Math.PI * 2);
       targetCtx.fill();
@@ -1986,7 +2166,18 @@ function scheduleExactAnnotationRedraw(page, reason='edit') {
 function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
   // Retained for the immediate first two samples of an opaque Pen stroke. From
   // the third sample onward drawLiveSmoothedInkProgress() adds finalized cubic
-  // segments, keeping latency essentially identical to the raw polyline path.
+  // segments. 5.6.3 uses the filled-outline renderer here for thin/medium Pen
+  // so the live stroke does not switch renderer until Pencil-up.
+  const started=performance.now();
+  const width=Math.max(.25,Number(stroke.width)||3);
+  const outlineMode=penUsesFilledOutline(width);
+  let outline=null, outlineBuildMs=0;
+  if (outlineMode) {
+    const buildStarted=performance.now();
+    const same=Math.hypot((toPoint?.x??0)-(fromPoint?.x??0),(toPoint?.y??0)-(fromPoint?.y??0))<.001;
+    outline=buildConstantWidthPenOutlineFromCenterline(same?[fromPoint]:[fromPoint,toPoint],width);
+    outlineBuildMs=performance.now()-buildStarted;
+  }
   const drawOnStage = targetStage => {
     const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
     const canvas = ensureLivePenOverlay(targetStage, baseCanvas);
@@ -2003,10 +2194,14 @@ function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
     ctx.globalAlpha = clamp(Number(stroke.opacity ?? 1), 0, 1);
     ctx.strokeStyle = stroke.color || '#111111';
     ctx.fillStyle = stroke.color || '#111111';
-    ctx.lineWidth = Math.max(.25, Number(stroke.width) || 3);
+    ctx.lineWidth = width;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    if (Math.hypot(b.x - a.x, b.y - a.y) < .001) {
+    if (outlineMode) {
+      ctx.beginPath();
+      tracePenOutlinePathCanvas(ctx,page,outline);
+      ctx.fill();
+    } else if (Math.hypot(b.x - a.x, b.y - a.y) < .001) {
       ctx.beginPath();
       ctx.arc(a.x, a.y, ctx.lineWidth / 2, 0, Math.PI * 2);
       ctx.fill();
@@ -2021,7 +2216,9 @@ function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
   drawOnStage(stage);
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const other of document.querySelectorAll(selector)) if (other !== stage) drawOnStage(other);
+  return { renderMs:performance.now()-started, outlineBuildMs, outlineMode };
 }
+
 function ensureLivePenOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
   const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
@@ -2049,14 +2246,20 @@ function clearLivePenOverlays(page) {
 }
 function commitLivePenOverlays(page, stroke) {
   // The permanent annotation canvas already contains every previously finished
-  // annotation. Draw only the newly finished, fully stabilized Pen stroke onto
-  // that canvas, then clear the reusable live layer. This makes Pen release
-  // O(current stroke) instead of O(all ink already accumulated on the page).
-  if (!page?.id || !stroke?.id) return { commitMs:0, stages:0 };
+  // annotation. Draw only the newly finished Pen stroke onto that canvas, then
+  // clear the reusable live layer. 5.6.3 prebuilds a thin/medium filled outline
+  // once and reuses it across all visible instances of the page, preserving the
+  // 5.6.1 O(current stroke) release behavior even in same-document split view.
+  if (!page?.id || !stroke?.id) return { commitMs:0, stages:0, outlineBuildMs:0, outlineCommands:0 };
   const started = performance.now();
-  // Present drawPageAnnotationsCanvas with a one-annotation page view so even
-  // filtering/iteration does not grow with the number of older page strokes.
-  const singleStrokePage = { ...page, annotations:[stroke] };
+  const width=Math.max(.25,Number(stroke.width)||3);
+  const outlineMode=penUsesFilledOutline(width);
+  let outline=null, outlineBuildMs=0;
+  if (outlineMode) {
+    const buildStarted=performance.now();
+    outline=buildConstantWidthPenOutlinePath(stroke.points||[],width);
+    outlineBuildMs=performance.now()-buildStarted;
+  }
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   let stages = 0;
   for (const stage of document.querySelectorAll(selector)) {
@@ -2065,13 +2268,36 @@ function commitLivePenOverlays(page, stroke) {
     const overlay = ensureAnnotationOverlay(stage, base);
     const ctx = overlay?.getContext?.('2d');
     if (ctx && overlay.width && overlay.height) {
-      drawPageAnnotationsCanvas(singleStrokePage, ctx, overlay.width, overlay.height, { inkOnly:true });
+      if (outlineMode) {
+        const display=pageDisplayDimensions(page);
+        const sx=overlay.width/Math.max(1,display.width);
+        const sy=overlay.height/Math.max(1,display.height);
+        ctx.save();
+        ctx.scale(sx,sy);
+        ctx.globalAlpha=clamp(Number(stroke.opacity??1),0,1);
+        ctx.fillStyle=stroke.color||'#111111';
+        ctx.beginPath();
+        tracePenOutlinePathCanvas(ctx,page,outline);
+        ctx.fill();
+        ctx.restore();
+      } else {
+        // Present drawPageAnnotationsCanvas with a one-annotation page view so
+        // filtering/iteration does not grow with the number of older strokes.
+        const singleStrokePage = { ...page, annotations:[stroke] };
+        drawPageAnnotationsCanvas(singleStrokePage, ctx, overlay.width, overlay.height, { inkOnly:true });
+      }
       stages++;
     }
     const liveCtx = live?.getContext?.('2d');
     if (liveCtx && live.width && live.height) liveCtx.clearRect(0, 0, live.width, live.height);
   }
-  return { commitMs:performance.now()-started, stages };
+  return {
+    commitMs:performance.now()-started,
+    stages,
+    outlineBuildMs,
+    outlineCommands:outline?.length||0,
+    outlineMode,
+  };
 }
 
 function ensureLiveHighlighterOverlay(stage, baseCanvas=null, opacity=HIGHLIGHTER_OPACITY) {
@@ -2168,25 +2394,29 @@ function commitLiveHighlighterOverlays(page, opacity=HIGHLIGHTER_OPACITY) {
 }
 
 function drawLiveSmoothedInkProgress(stage, page, stroke) {
+  const started=performance.now();
   const points = stroke?.points || [];
   const count = points.length;
-  if (!count) return;
+  if (!count) return {renderMs:0,outlineBuildMs:0,outlineMode:penUsesFilledOutline(stroke?.width)};
   // A dot must appear immediately. With two samples, show the first tiny line
-  // immediately; its opaque overdraw is cleared by the final smooth redraw.
-  if (count === 1) {
-    drawLiveInkSegment(stage, page, stroke, points[0], points[0]);
-    return;
-  }
-  if (count === 2) {
-    drawLiveInkSegment(stage, page, stroke, points[0], points[1]);
-    return;
-  }
+  // immediately; its opaque overdraw is cleared by the final smooth commit.
+  if (count === 1) return drawLiveInkSegment(stage, page, stroke, points[0], points[0]);
+  if (count === 2) return drawLiveInkSegment(stage, page, stroke, points[0], points[1]);
   // The newly arrived point finalizes the preceding cardinal segment. This
-  // leaves only one raw-sample interval of visual tail latency (typically a
-  // few milliseconds), avoiding a whole-page redraw while handwriting.
+  // leaves only one raw-sample interval of visual tail latency. Thin/medium Pen
+  // converts just this newly finalized cubic segment to a small filled outline;
+  // it never rebuilds the full current stroke or the already-finished page ink.
   const segmentIndex = count - 3;
   const controls = smoothStrokeControls(points, segmentIndex, stroke.width);
-  if (!controls) return;
+  if (!controls) return {renderMs:performance.now()-started,outlineBuildMs:0,outlineMode:penUsesFilledOutline(stroke?.width)};
+  const width=Math.max(.25,Number(stroke.width)||3);
+  const outlineMode=penUsesFilledOutline(width);
+  let outline=null, outlineBuildMs=0;
+  if (outlineMode) {
+    const buildStarted=performance.now();
+    outline=buildConstantWidthPenSegmentOutlinePath(controls,width);
+    outlineBuildMs=performance.now()-buildStarted;
+  }
   const drawOnStage = targetStage => {
     const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
     const canvas = ensureLivePenOverlay(targetStage, baseCanvas);
@@ -2196,26 +2426,34 @@ function drawLiveSmoothedInkProgress(stage, page, stroke) {
     const display = pageDisplayDimensions(page);
     const sx = canvas.width / Math.max(1, display.width);
     const sy = canvas.height / Math.max(1, display.height);
-    const p1 = basePointToDisplay(page, controls.p1);
-    const p2 = basePointToDisplay(page, controls.p2);
-    const c1 = basePointToDisplay(page, controls.c1);
-    const c2 = basePointToDisplay(page, controls.c2);
     ctx.save();
     ctx.scale(sx, sy);
     ctx.globalAlpha = clamp(Number(stroke.opacity ?? 1), 0, 1);
     ctx.strokeStyle = stroke.color || '#111111';
-    ctx.lineWidth = Math.max(.25, Number(stroke.width) || 3);
+    ctx.fillStyle = stroke.color || '#111111';
+    ctx.lineWidth = width;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    ctx.beginPath();
-    ctx.moveTo(p1.x, p1.y);
-    ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, p2.x, p2.y);
-    ctx.stroke();
+    if (outlineMode) {
+      ctx.beginPath();
+      tracePenOutlinePathCanvas(ctx,page,outline);
+      ctx.fill();
+    } else {
+      const p1 = basePointToDisplay(page, controls.p1);
+      const p2 = basePointToDisplay(page, controls.p2);
+      const c1 = basePointToDisplay(page, controls.c1);
+      const c2 = basePointToDisplay(page, controls.c2);
+      ctx.beginPath();
+      ctx.moveTo(p1.x, p1.y);
+      ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, p2.x, p2.y);
+      ctx.stroke();
+    }
     ctx.restore();
   };
   drawOnStage(stage);
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const other of document.querySelectorAll(selector)) if (other !== stage) drawOnStage(other);
+  return { renderMs:performance.now()-started, outlineBuildMs, outlineMode };
 }
 
 
@@ -3083,6 +3321,13 @@ function setEraserSize(size) {
   savePref('pdfwb-eraser-size', String(chosen));
   setAnnotationTool('eraser');
 }
+function accumulatePenLiveTiming(gesture, timing) {
+  if (!gesture || !timing) return;
+  gesture.liveRenderMs=(gesture.liveRenderMs||0)+(Number(timing.renderMs)||0);
+  gesture.liveOutlineBuildMs=(gesture.liveOutlineBuildMs||0)+(Number(timing.outlineBuildMs)||0);
+  gesture.liveRenderCalls=(gesture.liveRenderCalls||0)+1;
+  if (timing.outlineMode) gesture.liveOutlineMode=true;
+}
 function appendInkPoint(gesture, event, drawLive=true, geometry=null) {
   const page = pageById(gesture.pageId);
   if (!page || page !== gesture.page || !gesture.stage?.isConnected) return null;
@@ -3092,7 +3337,7 @@ function appendInkPoint(gesture, event, drawLive=true, geometry=null) {
   const previous = points[points.length - 1];
   if (previous && Math.hypot(next.x - previous.x, next.y - previous.y) < .18) return null;
   points.push(next);
-  if (drawLive) drawLiveSmoothedInkProgress(gesture.stage, page, gesture.stroke);
+  if (drawLive) accumulatePenLiveTiming(gesture,drawLiveSmoothedInkProgress(gesture.stage, page, gesture.stroke));
   return next;
 }
 function inkStageForEvent(viewer, event) {
@@ -3147,7 +3392,7 @@ function beginInkGesture(viewer, event) {
   annotationsForPage(page).push(stroke);
   state.activePageId = page.id;
   const inputSource = event._inkStylusTouch ? 'stylus-touch' : 'pointer';
-  state.inkGesture = { pointerId: event.pointerId, inputSource, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, before };
+  state.inkGesture = { pointerId: event.pointerId, inputSource, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, before, liveRenderMs:0, liveOutlineBuildMs:0, liveRenderCalls:0, liveOutlineMode:false };
   if (event.cancelable) event.preventDefault();
   if (inputSource === 'pointer') {
     try { viewer.setPointerCapture?.(event.pointerId); } catch {}
@@ -3161,7 +3406,7 @@ function beginInkGesture(viewer, event) {
     // 5.6.1 gives Pen the same dense-page isolation principle: the in-progress
     // stroke lives on a temporary overlay and never dirties the persistent
     // annotation canvas until it is complete.
-    drawLiveInkSegment(stage, page, stroke, first, first);
+    accumulatePenLiveTiming(state.inkGesture,drawLiveInkSegment(stage, page, stroke, first, first));
   }
   addInkDiagnostic('handler-begin-accepted', event, {
     strokeId:stroke.id, liveBatchOptimized:true, liveLayer:drawingTool === 'highlighter' ? 'highlighter' : 'pen',
@@ -3224,6 +3469,12 @@ function finishInkGesture(viewer, event) {
   addInkDiagnostic('handler-finish-accepted', event, {
     strokeId:gesture.stroke.id, points:gesture.stroke.points.length, liveBatchOptimized:true, liveCompositeCommit:true,
     liveLayer:translucent ? 'highlighter' : 'pen', liveCommitMs:Math.round(liveCommitMs*10)/10,
+    liveRenderMs:translucent ? null : Math.round((gesture.liveRenderMs||0)*10)/10,
+    liveRenderCalls:translucent ? null : (gesture.liveRenderCalls||0),
+    liveOutlineBuildMs:translucent ? null : Math.round((gesture.liveOutlineBuildMs||0)*10)/10,
+    penRenderer:translucent ? null : (penCommit?.outlineMode ? 'filled-outline' : 'centerline-stroke'),
+    penOutlineBuildMs:penCommit ? Math.round((penCommit.outlineBuildMs||0)*10)/10 : null,
+    penOutlineCommands:penCommit?.outlineCommands ?? null,
     penCommitMs:penCommit ? Math.round(penCommit.commitMs*10)/10 : null, penCommitStages:penCommit?.stages ?? null,
     pageAnnotationCount:(gesture.page.annotations || []).length, historyDepth:state.history.length,
   });
@@ -3920,7 +4171,22 @@ async function drawPageAnnotationsPdf(outputPdf, pdfPage, page, inheritedRotatio
       continue;
     }
 
-    // Export each ink annotation as one continuous PDF path.
+    // 5.6.3 experimental thin/medium Pen output mirrors the Canvas renderer:
+    // a constant-width closed filled outline with separately smoothed edges.
+    // No tapering/pressure width is introduced, and Thick remains the existing
+    // centerline-stroked control.
+    if (stroke.tool !== 'highlighter' && penUsesFilledOutline(thickness)) {
+      const outline = buildConstantWidthPenOutlinePath(points, thickness);
+      const path = penOutlineCommandsToSvgPath(
+        outline,
+        point => annotationPointToRawPdf(page, point, pdfPage, inheritedRotation),
+        pathNumber,
+      );
+      if (path) pdfPage.drawSvgPath(path, { x:0, y:0, color, opacity });
+      continue;
+    }
+
+    // Export each remaining ink annotation as one continuous PDF path.
     const first = annotationPointToRawPdf(page, points[0], pdfPage, inheritedRotation);
     let path = `M ${pathNumber(first.x)} ${pathNumber(-first.y)}`;
     if (stroke.tool === 'highlighter') {
@@ -10104,7 +10370,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.6.2 is an intentionally aggressive thin/medium Pen smoothing experiment for side-by-side comparison with Goodnotes. Thin and medium use substantially stronger curve continuity and completed-stroke anchor stabilization; the 5.5 pt Pen is unchanged as a control. This tuning is expected to be revisited after handwriting tests. The 5.6.1 dense-page live-Pen optimization, 5.6.0 black blank pages, and 5.5.9 rebuilt-PDF link policy remain in place.</p>
+      <p>Milestone 5.6.3 is an experimental thin/medium filled-outline Pen renderer. It keeps the aggressive 5.6.2 centerline smoothing but renders the 1.5 pt and 3 pt Pen as constant-width filled contours with separately smoothed left/right edges; no pressure, tapering, or supersampling is introduced. The 5.5 pt Pen remains the unchanged centerline-stroked control. New diagnostics report live-render, outline-build, and Pen commit timing. The 5.6.1 dense-page live-Pen optimization, 5.6.0 black blank pages, and 5.5.9 rebuilt-PDF link policy remain in place.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image scope in 5.5.2:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

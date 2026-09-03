@@ -1,5 +1,16 @@
-# PDF Workbench — Milestone 5.6.2
+# PDF Workbench — Milestone 5.6.3
 
+
+## 5.6.3 experimental filled-outline Pen edges
+
+- Keeps the **5.6.2 aggressive centerline smoothing** unchanged for the 1.5 pt and 3 pt Pen.
+- Thin and Medium now render as **constant-width filled outlines** whose left/right contours are smoothed independently. This isolates edge quality from pressure/tapering.
+- **No pressure variation, tapering, or canvas supersampling** is introduced in this experiment.
+- The **5.5 pt Thick Pen is unchanged** and remains the centerline-stroked control.
+- The live Pen layer still commits only the current stroke, preserving the 5.6.1 dense-page O(current-stroke) architecture. Thin/Medium live rendering builds only the newly finalized cubic segment outline rather than redrawing the whole live stroke.
+- PDF export uses the same filled-outline geometry for Thin/Medium, while raw centerline points remain authoritative for Eraser, Lasso/Select, persistence, Undo/Redo, and hit testing.
+- Pencil diagnostics now report accumulated `liveRenderMs`, `liveRenderCalls`, `liveOutlineBuildMs`, completed-stroke `penOutlineBuildMs`, outline command count, renderer type, and Pen commit time.
+- External-library bundling remains postponed until Pen rendering/performance is settled.
 
 ## 5.6.2 experimental thin/medium Pen smoothing
 

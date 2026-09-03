@@ -1,3 +1,51 @@
+MILESTONE 5.6.3 — EXPERIMENTAL FILLED-OUTLINE THIN/MEDIUM PEN
+
+CURRENT BUILD: Milestone 5.6.3
+Visible About version: 5.6.3
+Service-worker/cache version: pdf-workbench-m5.6.3-v1
+Library schema version: unchanged
+
+WHY THIS REVISION EXISTS
+------------------------
+Direct comparison of the same handwriting in Workbench 5.6.2 and GoodNotes showed that the aggressive 5.6.2 centerline smoothing materially improved Workbench, but GoodNotes still had visibly smoother stroke EDGES even apart from its tapering/width variation. Inspection of the extracted GoodNotes PDF also showed its ink represented as filled closed vector outlines rather than simple constant-width stroked centerlines. The user asked to isolate that edge-rendering difference before experimenting with pressure/tapering or higher-resolution canvases.
+
+5.6.3 EXPERIMENT
+----------------
+- Keep ALL 5.6.2 thin/medium centerline smoothing and completed-stroke anchor stabilization values unchanged. This revision does not turn the smoothing knob further.
+- 1.5 pt Thin and 3 pt Medium Pen now render as CONSTANT-WIDTH CLOSED FILLED OUTLINES. The left and right offset contours are smoothed independently around the existing smoothed centerline.
+- No pressure-based width variation, no velocity-based width variation, no tapering, and no annotation-canvas supersampling are introduced. This intentionally isolates edge construction from those other possible GoodNotes differences.
+- 5.5 pt Thick Pen is unchanged and continues to use the existing centerline-stroked renderer as an in-app control.
+- Raw sampled centerline points remain the authoritative editable data. Eraser, Select/Lasso, hit testing, transforms, persistence, Undo/Redo, backup, and page operations are unchanged.
+- PDF export mirrors screen geometry: Thin/Medium are emitted as filled closed vector paths; Thick remains a stroked centerline.
+
+LATENCY / DENSE-PAGE ARCHITECTURE
+----------------------------------
+- Preserve the 5.6.1 rule that Pen release is O(current stroke), never O(all page ink).
+- Thin/Medium live rendering constructs only the newly finalized cubic-segment outline on each incremental live update; it does NOT redraw the full in-progress stroke or persistent page ink.
+- On Pencil-up the final Thin/Medium outline is built once and reused across every visible instance of the page, including same-document split view.
+- Canvas internal resolution is unchanged in 5.6.3. Supersampling is explicitly deferred until the filled-outline experiment shows whether it is needed.
+
+DIAGNOSTICS ADDED
+-----------------
+For completed Pen strokes, `handler-finish-accepted` now additionally records:
+- `liveRenderMs` and `liveRenderCalls`;
+- `liveOutlineBuildMs`;
+- `penRenderer` (`filled-outline` or `centerline-stroke`);
+- `penOutlineBuildMs`;
+- `penOutlineCommands`;
+- existing `penCommitMs` / `penCommitStages`.
+These fields are intended to determine whether smoother filled edges materially affect Apple Pencil latency in real use.
+
+TEST REQUEST
+------------
+Compare ordinary small mathematical handwriting in Thin and Medium against both 5.6.2 and GoodNotes. Judge (1) visible edge smoothness, (2) whether corners/letterforms remain faithful, (3) whether the live stroke feels delayed, and (4) whether Pencil-up causes any visible settling. Thick remains the unchanged control. If latency or geometry is unacceptable, back off/revert the outline experiment before considering supersampling or pressure/tapering.
+
+DEPLOYMENT NOTE
+---------------
+External-library bundling remains POSTPONED while Pen rendering is being tuned. 5.6.3 uses the same pinned external libraries/caching behavior as 5.6.2.
+
+================ PRIOR HANDOFF HISTORY ================
+
 MILESTONE 5.6.2 — EXPERIMENTAL STRONG THIN/MEDIUM PEN SMOOTHING
 
 CURRENT BUILD: Milestone 5.6.2
