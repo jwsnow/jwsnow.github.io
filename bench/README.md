@@ -1,3 +1,39 @@
+# PDF Workbench — Milestone 5.6.1
+
+
+## 5.6.1 dense-page Pen release optimization
+
+- Real scratch-work testing on a heavily annotated graph-paper page exposed a Pen slowdown even though Apple Pencil pointer delivery remained healthy.
+- Pen now draws the in-progress stroke on a dedicated reusable **live Pen canvas**, separate from the persistent annotation canvas.
+- On Pencil-up, Workbench draws only that one completed, stabilized Pen stroke onto the persistent overlay and clears the live canvas for reuse. It no longer clears and redraws every existing page annotation merely to finalize the newest Pen stroke.
+- This changes the critical Pen-release repaint from roughly **O(all ink on the page)** to **O(the current stroke)**.
+- Exact redraws requested asynchronously while Pen/Highlighter is live exclude the active stroke from the persistent layer, preventing accidental double commits.
+- Pencil diagnostics now report page annotation count and history depth and live-commit timing (`liveCommitMs`, `penCommitMs`, `penCommitStages`) at stroke completion.
+- The 50-step session-only Undo policy is unchanged; this revision does not preemptively impose a memory cap.
+- External-library bundling is explicitly postponed until this performance fix has been field-tested.
+- Milestone 5.6.0 black blank-page behavior and the 5.5.9 rebuilt-PDF link policy are unchanged.
+- Pre-release browser validation showed flat Pen-up cost across a 220-stroke synthetic dense-page test, exact completed-canvas pixel equivalence with 5.6.0 for identical strokes, working annotation Undo/Redo, and unchanged Highlighter live-layer behavior.
+
+
+## 5.6.0 black blank-page backgrounds
+
+- New blank documents can use a **White** or **Black** page background. White remains the default and the selector resets to White after creating a blank document.
+- Insert Page keeps its existing compact four-card layout and adds one short **Blank background** White/Black selector row. A freshly opened Insert Page menu always defaults to White.
+- Black is stored as generated-page data and rendered as actual page content, not as a viewer theme. It therefore survives Local Library persistence, templates, page duplication/reordering, normal PDF export, and rasterized compression.
+- Existing Pen/Highlighter palettes are unchanged. Black Pen remains available even though it is naturally invisible on a black page; no automatic annotation-color switching is introduced.
+- The 5.5.9 rebuilt-PDF link policy is unchanged: preserve external URI links and strip internal/document-navigation links.
+
+## 5.5.9 deterministic existing-link export policy
+
+- Completely untouched full single-source PDF exports still return the original source bytes unchanged, preserving all original PDF structures exactly.
+- Whenever Workbench rebuilds a PDF, copied source-page **Link** annotations are filtered deliberately: standard external **URI** actions are preserved; internal/document-navigation links (`/Dest`, `/GoTo`, and other non-URI link actions) are removed.
+- This prevents stale or incorrect internal destinations after page reordering, deletion, extraction, combining, duplication, or other structural changes.
+- Non-Link PDF annotations are not removed by this filter. Existing source outlines/bookmarks are still not rebuilt by pdf-lib's page-copy export path.
+- Rasterized compression still removes all interactive PDF structures because every page becomes an image.
+- Milestone 5.5.8's annotation-only Undo/Redo repaint optimization and all established annotation/input behavior are unchanged.
+
+================ PRIOR README HISTORY ================
+
 # PDF Workbench — Milestone 5.5.8
 
 ## 5.5.8 Undo/Redo repaint cleanup

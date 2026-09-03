@@ -1,3 +1,144 @@
+MILESTONE 5.6.1 — DENSE-PAGE PEN RELEASE OPTIMIZATION
+
+CURRENT BUILD: Milestone 5.6.1
+Visible About version: 5.6.1
+Service-worker/cache version: pdf-workbench-m5.6.1-v1
+Library schema version: unchanged
+
+WHY THIS REVISION EXISTS
+------------------------
+A real scratch-work session in 5.5.8 exposed progressively sluggish/non-responsive Pen behavior on page 2 after ordinary mathematical handwriting/highlighting had accumulated. The exported page was not pathologically dense for the intended classroom use. Diagnostics showed healthy Apple Pencil pointer delivery (no characteristic dropped-contact/page-stage failure signatures) but increasing synchronous Pen-up cost. The root cause was the opaque Pen finalization path: live Pen geometry was drawn directly onto the persistent annotation canvas, so every Pencil-up had to clear provisional tail geometry by repainting every annotation on the page.
+
+5.6.1 FIX
+---------
+- Pen now has a dedicated reusable `live-pen-canvas`, parallel in principle to the already-optimized live Highlighter layer.
+- During contact, all immediate/raw and finalized smoothed Pen progress is drawn only onto this temporary live layer. The persistent annotation canvas remains frozen with previously completed annotations.
+- On Pencil-up/cancel, Workbench draws only the just-finished Pen stroke's exact completed/stabilized geometry onto the persistent annotation canvas, then clears the live Pen canvas for reuse.
+- Pen release therefore changes from roughly O(all existing page annotations) to O(the just-finished stroke). A page with hundreds of prior strokes should not become progressively more expensive merely because another short stroke is completed.
+- Same-page split instances receive the live Pen stroke and one-stroke commit independently, preserving the established shared-document/independent-view behavior.
+- If an unrelated asynchronous exact annotation repaint occurs during an active Pen or Highlighter gesture, that active stroke is excluded from the persistent repaint so it cannot be accidentally committed twice.
+- Existing Highlighter live-layer behavior is retained. Eraser deferred exact redraw, selection optimization, Pen smoothing/stabilization, raw editable points, export geometry, and annotation ordering are otherwise unchanged.
+
+DIAGNOSTICS ADDED
+-----------------
+`handler-begin-accepted` and `handler-finish-accepted` now identify the live layer and include the current page annotation count and history depth. Pen completion additionally reports `liveCommitMs`, `penCommitMs`, and `penCommitStages`. These are intended to verify during classroom use that Pen release remains nearly independent of page density.
+
+PRE-RELEASE VALIDATION
+----------------------
+- Browser smoke testing created a black generated page, drew Pen ink, verified the reusable live Pen canvas is empty after release, and confirmed annotation Undo -> Redo restores the exact same annotation-canvas pixels. Highlighter still removes its temporary live layer normally.
+- A synthetic dense-page comparison used 220 opaque Pen strokes with about 30 sampled points per stroke. On the same headless Chromium run, 5.6.0 average synchronous pointer-up processing rose from about 0.87 ms early to 2.62 ms late; 5.6.1 measured about 0.30 ms early and 0.29 ms late. This is not an iPad performance guarantee, but it confirms that the old page-density growth is removed from the Pen-release drawing path.
+- An identical 30-stroke synthetic drawing produced byte-for-byte identical PNG data from the completed persistent annotation canvas in 5.6.0 and 5.6.1. Completed Pen appearance therefore remains unchanged by the live-layer architecture in this test.
+
+FIELD-TEST / DISTRIBUTION DECISION
+----------------------------------
+- External-library/CDN bundling was considered for the classroom test but is POSTPONED at the user's request until this newly discovered Pen performance defect is addressed and field-tested. Do not treat 5.6.1 as the bundled/self-contained build.
+- Continue using the existing pinned external library versions/caching behavior from 5.6.0 for this revision.
+- The user plans a multi-day real-world classroom test after the Pen fix is validated.
+
+UNCHANGED
+---------
+- 5.6.0 White/Black blank-page creation/insertion.
+- 5.5.9 rebuilt-PDF link policy: preserve external URI links, strip internal/document-navigation links.
+- 50-step session-only Undo stack; no memory cap has been added preemptively.
+- Apple Pencil/Surface/Chromebook input architecture, partial Eraser, Select/Lasso, Highlighter, images, persistence/export, 0.94 touch-scroll inertia, Presentation ratio, graph paper, and end-of-document behavior.
+
+CURRENT ROADMAP NOTE
+--------------------
+The roadmap list below remains authoritative. Its first item (performance/stability checkpoint) is now actively being exercised by this 5.6.1 Pen fix. After real-world validation, return to the remaining possibilities rather than treating external-library bundling as feature work. Bundling remains a deployment hardening task to revisit before/after the classroom field test as appropriate.
+
+================ PRIOR HANDOFF HISTORY ================
+
+MILESTONE 5.6.0 — BLACK BLANK-PAGE BACKGROUNDS
+
+CURRENT BUILD: Milestone 5.6.0
+Visible About version: 5.6.0
+Service-worker/cache version: pdf-workbench-m5.6.0-v1
+Library schema version: unchanged (generated-page records tolerate the new optional field without a schema migration)
+
+- New blank documents now offer a compact Blank background selector: White or Black. White is the default. After a blank document is created, the New selector resets to White so Black never becomes an accidental persistent default.
+- Insert Page keeps the existing four built-in page-choice cards and adds only one short Blank background selector row beneath them. Each freshly opened Insert Page popover resets the blank-page choice to White.
+- Black is not a viewer/theme effect. Generated blank pages now carry `generatedBackground: 'white' | 'black'`, and black pages render/export as real black page content.
+- Black generated pages therefore survive Local Library persistence/restoration, page duplication, saved templates, page reordering/transfers, ordinary PDF export, and rasterized compression. Older generated-page records without `generatedBackground` naturally continue to render as White.
+- Graph-paper pages remain white; this change applies only to blank pages. Automatic end-of-document blank-page append also remains White because Black is intentionally not remembered as a global/default page preference.
+- The existing Pen and Highlighter palettes are unchanged. User testing established that the current non-black Pen colors and current Highlighter colors are satisfactory on black pages. Black Pen remains available and is naturally invisible on a black page; Workbench does not silently change annotation colors.
+- A future White Pen color remains an optional convenience, not a prerequisite for black pages.
+- History structure comparison now includes `generatedBackground`, so any future background-changing edit would correctly trigger a full base-page repaint rather than annotation-overlay-only Undo/Redo.
+- Milestone 5.5.9 PDF-link policy is unchanged: untouched pass-through preserves everything; rebuilt PDFs preserve external URI links and strip internal/document-navigation Link annotations.
+
+CURRENT ROADMAP / FUTURE POSSIBILITIES — PRESERVE EXPLICITLY
+
+User priority note (2026-09-03): existing PDF hyperlinks and document outlines/bookmarks are NOT important to the user's normal PDF Workbench use. Do not make hyperlink/outline preservation a major milestone unless requirements change. Current rebuilt-export policy is intentionally simple: preserve standard external URI links, strip internal/document-navigation links, and accept that source outlines/bookmarks are not rebuilt.
+
+Current Milestone 5/5.6 status:
+- The original core annotation roadmap is essentially complete: Pen, Highlighter, true partial-stroke vector Eraser, Lasso/Select with transforms and clipboard operations, Undo/Redo, smoothing/stabilization, image annotations, persistence/export, and the major Apple Pencil/Surface/Chromebook input/performance work are in place.
+- Session/workspace restoration, clean vs annotated templates, automatic end-of-document page creation, export-name suggestions after Library renames, More-menu layering, Presentation-ratio page creation, refined graph paper, deterministic rebuilt-PDF link handling, and White/Black blank-page creation/insertion are implemented and should not be treated as pending roadmap work.
+- The old combined configurable-pen-preset idea has been superseded by the accepted direct color/width controls.
+
+Future possibilities, roughly in current consideration order:
+1. Performance/stability checkpoint after ordinary dense-document use. Reassess whether the 50-step session-only Undo history needs a memory-based cap in addition to the count limit; do not change preemptively without evidence.
+2. Annotated-pages navigation/filter in Pages, initially something simple such as All | Annotated for pages containing any Workbench annotation.
+3. Selection refinement: allow recoloring selected Workbench annotations. Selected-stroke width/opacity remain lower priority unless actual use calls for them.
+4. Image annotations phase 2: independent rotation, system-clipboard image paste, crop, opacity/image editing, and layer ordering. Rotation and clipboard paste are the strongest candidates among these.
+5. Annotation-toolbar convenience options: Always Visible/Auto-hide and possibly Top/Left/Right placement. Continue watching Full Page bottom navigation for palm interference, but do not change unless it becomes a real problem.
+6. Small workflow conveniences: optional auto-return from Eraser, optional multi-finger Undo/Redo gestures, optional White/light Pen colors or a fuller color picker for dark/black pages and dark PDFs, and Draw with Finger. Pressure-sensitive Pen width remains low priority because it adds rendering/editing complexity.
+7. Library enhancements: Search, user-selectable sorting, Favorites, and final Library UI cleanup. Schema/recovery hardening remains an ongoing responsibility rather than a single feature.
+8. Minor end-of-document tuning: automatic page append is implemented; revisit trackpad threshold/prompt-linger behavior only if normal use shows it is annoying.
+9. Optional PDF fidelity work only if a future use case demands it. Current policy is settled for normal use: external URI links are preserved on rebuilt exports; internal links are deliberately stripped; outlines/bookmarks are not rebuilt.
+10. Laser Pointer remains intentionally deferred by user choice.
+
+Superseded/settled sizing note:
+- The older proposed Presentation canvas / smaller Presentation canvas / Letter choices evolved into the current Presentation Ratio · long side 11 in design. Treat the older three-choice proposal as superseded unless a separate smaller presentation size later proves useful.
+
+================ PRIOR HANDOFF HISTORY ================
+
+MILESTONE 5.5.9 — DETERMINISTIC EXISTING-LINK EXPORT POLICY
+
+CURRENT BUILD: Milestone 5.5.9
+Visible About version: 5.5.9
+Service-worker/cache version: pdf-workbench-m5.5.9-v1
+
+- Completely untouched full single-source PDF export still uses the original byte stream unchanged. In that pass-through case, all original links, destinations, outlines/bookmarks, forms, metadata, and other PDF structures remain exactly as supplied.
+- Whenever Workbench rebuilds a PDF, copied source-page Link annotations are now filtered deliberately. Standard external URI (`/A << /S /URI ... >>`) links are preserved. Internal/document-navigation links (`/Dest`, `/GoTo`, and any other non-URI Link action) are removed.
+- Rationale: an internal link that silently points to the wrong page after reordering/deleting/extracting/combining/duplicating pages is worse than no link. Workbench does not maintain or remap PDF destination structures, so rebuilt PDFs should not contain navigation links whose validity is accidental.
+- Non-Link PDF annotations are left untouched by this filter.
+- Existing document outlines/bookmarks remain absent from rebuilt exports because the current pdf-lib copyPages-based export path does not reconstruct catalog-level outlines.
+- Rasterize compression continues to remove all live links and other interactive structures by converting each page to an image.
+- The viewer still does not create a PDF.js annotation layer or outline UI, so existing source links are not clickable inside Workbench and source outlines/bookmarks are not shown while editing.
+- Milestone 5.5.8 annotation-only Undo/Redo overlay repaint optimization is unchanged.
+
+CURRENT ROADMAP / FUTURE POSSIBILITIES — PRESERVE EXPLICITLY
+
+User priority note (2026-09-03): existing PDF hyperlinks and document outlines/bookmarks are NOT important to the user's normal PDF Workbench use. Do not make hyperlink/outline preservation a major milestone unless requirements change. Link handling is intentionally simple: preserve standard external URI links on rebuilt exports, strip internal/document-navigation links, and accept that source outlines/bookmarks are not rebuilt.
+
+Current Milestone 5 status:
+- The original core annotation roadmap is essentially complete: Pen, Highlighter, true partial-stroke vector Eraser, Lasso/Select with transforms and clipboard operations, Undo/Redo, smoothing/stabilization, image annotations, persistence/export, and the major Apple Pencil/Surface/Chromebook input/performance work are in place.
+- Session/workspace restoration, clean vs annotated templates, automatic end-of-document page creation, export-name suggestions after Library renames, and More-menu layering are already implemented/fixed and should not be treated as pending roadmap work.
+- The old combined configurable-pen-preset idea has been superseded by the accepted direct color/width controls.
+
+Future possibilities, roughly in current consideration order:
+1. Performance/stability checkpoint after ordinary dense-document use. Reassess whether the 50-step session-only Undo history needs a memory-based cap in addition to the count limit; do not change preemptively without evidence.
+2. Annotated-pages navigation/filter in Pages, initially something simple such as All | Annotated for pages containing any Workbench annotation.
+3. Selection refinement: allow recoloring selected Workbench annotations. Selected-stroke width/opacity remain lower priority unless actual use calls for them.
+4. Image annotations phase 2: independent rotation, system-clipboard image paste, crop, opacity/image editing, and layer ordering. Rotation and clipboard paste are the strongest candidates among these.
+5. Annotation-toolbar convenience options: Always Visible/Auto-hide and possibly Top/Left/Right placement. Continue watching Full Page bottom navigation for palm interference, but do not change unless it becomes a real problem.
+6. Small workflow conveniences: optional auto-return from Eraser, optional multi-finger Undo/Redo gestures, optional lighter Pen colors/full color picker for dark PDFs, and Draw with Finger. Pressure-sensitive Pen width remains low priority because it adds rendering/editing complexity.
+7. Library enhancements: Search, user-selectable sorting, Favorites, and final Library UI cleanup. Schema/recovery hardening remains an ongoing responsibility rather than a single feature.
+8. Minor end-of-document tuning: automatic page append is implemented; revisit trackpad threshold/prompt-linger behavior only if normal use shows it is annoying.
+9. Optional PDF fidelity work only if a future use case demands it. Current policy is settled for normal use: external URI links may survive rebuilt exports; internal links are deliberately stripped; outlines/bookmarks are not rebuilt.
+10. Laser Pointer remains intentionally deferred by user choice.
+
+Superseded/settled sizing note:
+- The older proposed Presentation canvas / smaller Presentation canvas / Letter choices evolved into the current Presentation Ratio · long side 11 in design. Treat the older three-choice proposal as superseded unless a separate smaller presentation size later proves useful.
+
+CURRENT EXISTING-PDF LINK / OUTLINE BEHAVIOR (5.5.9)
+- Viewer: Workbench renders PDF pages to canvas but does not construct a PDF.js annotation layer or outline/bookmark UI. Existing link annotations are therefore not exposed as clickable overlays in Workbench, and document outlines/bookmarks are not shown or used while editing. Visible link text that is part of the page artwork still renders like ordinary page content.
+- Completely untouched full single-source PDF export: Workbench returns the original source byte stream unchanged, preserving all original PDF structures exactly.
+- Rebuilt export: source page annotations are copied, then every copied Link annotation is inspected. Standard external URI actions are retained. Internal destinations, GoTo actions, and other non-URI Link annotations are removed before the page is added to the rebuilt document.
+- Outlines/bookmarks on rebuilt export: the source document's catalog-level outline tree is not reconstructed and is therefore expected to be absent.
+- Rasterize compression: intentionally converts every page to an image and removes live links/forms and other interactive PDF structures.
+
+================ PRIOR HANDOFF HISTORY ================
+
 MILESTONE 5.5.8 — UNDO/REDO REPAINT CLEANUP
 
 CURRENT BUILD: Milestone 5.5.8
@@ -9,6 +150,38 @@ Service-worker/cache version: pdf-workbench-m5.5.8-v1
 - Any pending deferred exact annotation redraw is cancelled before history restoration so stale pre-Undo page objects cannot repaint later.
 - Diagnostic event `history-restore-finish` reports whether the fast overlay-only path was used.
 - No changes to the 50-step session-only Undo stack, Presentation-ratio sizing, graph paper, Pen stabilization, image annotations, PDF export, or 0.94 touch-scroll inertia.
+
+CURRENT ROADMAP / FUTURE POSSIBILITIES — PRESERVE EXPLICITLY
+
+User priority note (2026-09-03): existing PDF hyperlinks and document outlines/bookmarks are NOT important to the user's normal PDF Workbench use. Do not make hyperlink/outline preservation the next major milestone unless requirements change. The existing preservation audit remains a low-priority fidelity question only.
+
+Current Milestone 5 status:
+- The original core annotation roadmap is essentially complete: Pen, Highlighter, true partial-stroke vector Eraser, Lasso/Select with transforms and clipboard operations, Undo/Redo, smoothing/stabilization, image annotations, persistence/export, and the major Apple Pencil/Surface/Chromebook input/performance work are in place.
+- Session/workspace restoration, clean vs annotated templates, automatic end-of-document page creation, export-name suggestions after Library renames, and More-menu layering are already implemented/fixed and should not be treated as pending roadmap work.
+- The old combined configurable-pen-preset idea has been superseded by the accepted direct color/width controls.
+
+Future possibilities, roughly in current consideration order:
+1. Performance/stability checkpoint after ordinary dense-document use. Reassess whether the 50-step session-only Undo history needs a memory-based cap in addition to the count limit; do not change preemptively without evidence.
+2. Annotated-pages navigation/filter in Pages, initially something simple such as All | Annotated for pages containing any Workbench annotation.
+3. Selection refinement: allow recoloring selected Workbench annotations. Selected-stroke width/opacity remain lower priority unless actual use calls for them.
+4. Image annotations phase 2: independent rotation, system-clipboard image paste, crop, opacity/image editing, and layer ordering. Rotation and clipboard paste are the strongest candidates among these.
+5. Annotation-toolbar convenience options: Always Visible/Auto-hide and possibly Top/Left/Right placement. Continue watching Full Page bottom navigation for palm interference, but do not change unless it becomes a real problem.
+6. Small workflow conveniences: optional auto-return from Eraser, optional multi-finger Undo/Redo gestures, optional lighter Pen colors/full color picker for dark PDFs, and Draw with Finger. Pressure-sensitive Pen width remains low priority because it adds rendering/editing complexity.
+7. Library enhancements: Search, user-selectable sorting, Favorites, and final Library UI cleanup. Schema/recovery hardening remains an ongoing responsibility rather than a single feature.
+8. Minor end-of-document tuning: automatic page append is implemented; revisit trackpad threshold/prompt-linger behavior only if normal use shows it is annoying.
+9. PDF hyperlink/outline/bookmark fidelity audit: LOW PRIORITY FOR THIS USER. Current behavior is documented below; only pursue if a future use case requires it.
+10. Laser Pointer remains intentionally deferred by user choice.
+
+Superseded/settled sizing note:
+- The older proposed Presentation canvas / smaller Presentation canvas / Letter choices evolved into the current Presentation Ratio · long side 11 in design. Treat the older three-choice proposal as superseded unless a separate smaller presentation size later proves useful.
+
+CURRENT EXISTING-PDF LINK / OUTLINE BEHAVIOR (5.5.8)
+- Viewer: Workbench renders PDF pages to canvas but does not construct a PDF.js annotation layer or outline/bookmark UI. Existing link annotations are therefore not exposed as clickable overlays in Workbench, and document outlines/bookmarks are not shown or used while editing. Visible link text that is part of the page artwork still renders like ordinary page content.
+- Completely untouched full single-source PDF export: Workbench returns the original source byte stream unchanged. In this special pass-through case, links, outlines/bookmarks, forms, destinations, metadata, and other PDF structures remain exactly as in the source file.
+- Rewritten export: if Workbench must rebuild the PDF because of annotations or other edits, it creates a new PDF and copies source pages with pdf-lib copyPages(). Page annotations are generally copied, so ordinary external URI hyperlink annotations may survive. Workbench does not explicitly inspect, remap, repair, or validate link destinations. Internal page links and named destinations therefore must NOT be assumed reliable after reordering/deleting/combining/subsetting/duplicating pages or other structural edits.
+- Outlines/bookmarks on rewritten export: pdf-lib copyPages() does not copy the source document's catalog-level outlines/bookmarks into the newly created output PDF. Therefore existing outlines/bookmarks are expected to be lost whenever Workbench takes the rewrite path.
+- Rasterize compression: intentionally converts every page to an image and therefore removes live links/forms and other interactive PDF structures.
+- Because links/outlines are not needed for the user's normal workflow, preserving or repairing these structures is not currently an active roadmap priority.
 
 ================ PRIOR HANDOFF HISTORY ================
 

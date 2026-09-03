@@ -1,4 +1,4 @@
-const APP_VERSION = '5.5.8';
+const APP_VERSION = '5.6.1';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -16,7 +16,7 @@ const SESSION_CHECKPOINT_KEY = 'pdfwb-session-checkpoint-v2';
 
 const $ = (id) => document.getElementById(id);
 const els = {
-  app: $('app'), openBtn: $('openBtn'), annotationImageInput: $('annotationImageInput'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), newTemplateDocumentBtn: $('newTemplateDocumentBtn'), newDocumentPageSize: $('newDocumentPageSize'), newDocumentPageSizeHint: $('newDocumentPageSizeHint'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), libraryZipImportInput: $('libraryZipImportInput'), imageAssemblyInput: $('imageAssemblyInput'), documentSelect: $('documentSelect'),
+  app: $('app'), openBtn: $('openBtn'), annotationImageInput: $('annotationImageInput'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), newTemplateDocumentBtn: $('newTemplateDocumentBtn'), newDocumentPageSize: $('newDocumentPageSize'), newDocumentPageSizeHint: $('newDocumentPageSizeHint'), newBlankWhiteBtn: $('newBlankWhiteBtn'), newBlankBlackBtn: $('newBlankBlackBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), libraryZipImportInput: $('libraryZipImportInput'), imageAssemblyInput: $('imageAssemblyInput'), documentSelect: $('documentSelect'),
   viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), exportModeBtn: $('exportModeBtn'), viewerControls: $('viewerControls'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
@@ -33,7 +33,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionPasteBtn: $('selectionPasteBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionPasteBtn: $('selectionPasteBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -57,6 +57,8 @@ const state = {
   fileSelected: new Set(),
   fileSelectionInitialized: false,
   combineOrder: [],
+  newBlankBackground: 'white',
+  insertBlankBackground: 'white',
   renderGeneration: 0,
   pageObserver: null,
   thumbObserver: null,
@@ -1867,7 +1869,7 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
 }
 function ensureAnnotationOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.annotation-canvas');
   if (!overlay) {
@@ -1884,7 +1886,7 @@ function ensureAnnotationOverlay(stage, baseCanvas=null) {
 }
 function ensureImageAnnotationOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.annotation-image-canvas');
   if (!overlay) {
@@ -1903,7 +1905,21 @@ function ensureImageAnnotationOverlay(stage, baseCanvas=null) {
 }
 function redrawStageAnnotations(stage, page, options={}) {
   if (!stage || !page) return;
-  const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+  const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  // A live Pen/Highlighter stroke is already isolated on its temporary canvas.
+  // If an unrelated async event (for example an image decode) requests an exact
+  // annotation repaint during contact, keep that active stroke out of the
+  // persistent overlay so release can commit it exactly once.
+  let effectiveOptions = options;
+  const activeStrokeId = state.inkGesture?.pageId === page.id ? state.inkGesture?.stroke?.id : null;
+  if (activeStrokeId) {
+    const excluded = options.excludeStrokeIds instanceof Set
+      ? new Set(options.excludeStrokeIds)
+      : new Set(Array.isArray(options.excludeStrokeIds) ? options.excludeStrokeIds : []);
+    if (options.excludeStrokeId) excluded.add(options.excludeStrokeId);
+    excluded.add(activeStrokeId);
+    effectiveOptions = { ...options, excludeStrokeId:null, excludeStrokeIds:excluded };
+  }
   const overlay = ensureAnnotationOverlay(stage, base);
   if (!overlay) return;
   const hasImages = (page.annotations || []).some(annotation => isImageAnnotation(annotation));
@@ -1917,11 +1933,11 @@ function redrawStageAnnotations(stage, page, options={}) {
   if (imageOverlay) {
     const imageCtx = imageOverlay.getContext('2d');
     imageCtx.clearRect(0, 0, imageOverlay.width, imageOverlay.height);
-    drawPageAnnotationsCanvas(page, imageCtx, imageOverlay.width, imageOverlay.height, { ...options, imageOnly:true });
+    drawPageAnnotationsCanvas(page, imageCtx, imageOverlay.width, imageOverlay.height, { ...effectiveOptions, imageOnly:true });
   }
   const ctx = overlay.getContext('2d');
   ctx.clearRect(0, 0, overlay.width, overlay.height);
-  drawPageAnnotationsCanvas(page, ctx, overlay.width, overlay.height, { ...options, inkOnly:true });
+  drawPageAnnotationsCanvas(page, ctx, overlay.width, overlay.height, { ...effectiveOptions, inkOnly:true });
   redrawStageAnnotationSelection(stage, page);
 }
 function redrawPageAnnotationOverlays(page, options={}) {
@@ -1963,8 +1979,8 @@ function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
   // the third sample onward drawLiveSmoothedInkProgress() adds finalized cubic
   // segments, keeping latency essentially identical to the raw polyline path.
   const drawOnStage = targetStage => {
-    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
-    const canvas = ensureAnnotationOverlay(targetStage, baseCanvas);
+    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const canvas = ensureLivePenOverlay(targetStage, baseCanvas);
     if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -1997,9 +2013,61 @@ function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const other of document.querySelectorAll(selector)) if (other !== stage) drawOnStage(other);
 }
+function ensureLivePenOverlay(stage, baseCanvas=null) {
+  if (!stage) return null;
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  if (!base?.width || !base?.height) return null;
+  let overlay = stage.querySelector('canvas.live-pen-canvas');
+  if (!overlay) {
+    overlay = document.createElement('canvas');
+    overlay.className = 'live-pen-canvas';
+    overlay.setAttribute('aria-hidden', 'true');
+    stage.append(overlay);
+  }
+  if (overlay.width !== base.width) overlay.width = base.width;
+  if (overlay.height !== base.height) overlay.height = base.height;
+  overlay.style.width = base.style.width || '100%';
+  overlay.style.height = base.style.height || '100%';
+  return overlay;
+}
+function clearLivePenOverlays(page) {
+  if (!page?.id) return;
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"] > canvas.live-pen-canvas`;
+  for (const overlay of document.querySelectorAll(selector)) {
+    const ctx = overlay.getContext?.('2d');
+    if (ctx && overlay.width && overlay.height) ctx.clearRect(0, 0, overlay.width, overlay.height);
+  }
+}
+function commitLivePenOverlays(page, stroke) {
+  // The permanent annotation canvas already contains every previously finished
+  // annotation. Draw only the newly finished, fully stabilized Pen stroke onto
+  // that canvas, then clear the reusable live layer. This makes Pen release
+  // O(current stroke) instead of O(all ink already accumulated on the page).
+  if (!page?.id || !stroke?.id) return { commitMs:0, stages:0 };
+  const started = performance.now();
+  // Present drawPageAnnotationsCanvas with a one-annotation page view so even
+  // filtering/iteration does not grow with the number of older page strokes.
+  const singleStrokePage = { ...page, annotations:[stroke] };
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  let stages = 0;
+  for (const stage of document.querySelectorAll(selector)) {
+    const live = stage.querySelector('canvas.live-pen-canvas');
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const overlay = ensureAnnotationOverlay(stage, base);
+    const ctx = overlay?.getContext?.('2d');
+    if (ctx && overlay.width && overlay.height) {
+      drawPageAnnotationsCanvas(singleStrokePage, ctx, overlay.width, overlay.height, { inkOnly:true });
+      stages++;
+    }
+    const liveCtx = live?.getContext?.('2d');
+    if (liveCtx && live.width && live.height) liveCtx.clearRect(0, 0, live.width, live.height);
+  }
+  return { commitMs:performance.now()-started, stages };
+}
+
 function ensureLiveHighlighterOverlay(stage, baseCanvas=null, opacity=HIGHLIGHTER_OPACITY) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.live-highlighter-canvas');
   if (!overlay) {
@@ -2028,7 +2096,7 @@ function drawLiveHighlighterPoints(stage, page, stroke, points) {
   const source = Array.isArray(points) ? points : [];
   if (!source.length) return;
   const drawOnStage = targetStage => {
-    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
     const canvas = ensureLiveHighlighterOverlay(targetStage, baseCanvas, stroke.opacity);
     if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
     const ctx = canvas.getContext('2d');
@@ -2077,7 +2145,7 @@ function commitLiveHighlighterOverlays(page, opacity=HIGHLIGHTER_OPACITY) {
   for (const stage of document.querySelectorAll(selector)) {
     const live = stage.querySelector('canvas.live-highlighter-canvas');
     if (!live?.width || !live?.height) continue;
-    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
     const overlay = ensureAnnotationOverlay(stage, base);
     const ctx = overlay?.getContext?.('2d');
     if (ctx) {
@@ -2111,8 +2179,8 @@ function drawLiveSmoothedInkProgress(stage, page, stroke) {
   const controls = smoothStrokeControls(points, segmentIndex, stroke.width);
   if (!controls) return;
   const drawOnStage = targetStage => {
-    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
-    const canvas = ensureAnnotationOverlay(targetStage, baseCanvas);
+    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const canvas = ensureLivePenOverlay(targetStage, baseCanvas);
     if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -2421,7 +2489,7 @@ function selectionOriginals(page) {
 }
 function ensureLiveSelectionOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.live-selection-canvas');
   if (!overlay) {
@@ -2462,7 +2530,7 @@ function prepareSelectionGestureLayers(gesture) {
   for (const stage of document.querySelectorAll(selector)) {
     if (stage.dataset.rendered !== 'true') continue;
     renderedCount++;
-    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
     const live = ensureLiveSelectionOverlay(stage, base);
     if (!live) continue;
     const ctx = live.getContext('2d');
@@ -3080,8 +3148,16 @@ function beginInkGesture(viewer, event) {
     // object, so do not rebuild the dense page just to start a temporary
     // Highlighter layer.
     drawLiveHighlighterPoints(stage, page, stroke, [first]);
-  } else drawLiveInkSegment(stage, page, stroke, first, first);
-  addInkDiagnostic('handler-begin-accepted', event, { strokeId:stroke.id, liveBatchOptimized:drawingTool === 'highlighter' });
+  } else {
+    // 5.6.1 gives Pen the same dense-page isolation principle: the in-progress
+    // stroke lives on a temporary overlay and never dirties the persistent
+    // annotation canvas until it is complete.
+    drawLiveInkSegment(stage, page, stroke, first, first);
+  }
+  addInkDiagnostic('handler-begin-accepted', event, {
+    strokeId:stroke.id, liveBatchOptimized:true, liveLayer:drawingTool === 'highlighter' ? 'highlighter' : 'pen',
+    pageAnnotationCount:(page.annotations || []).length, historyDepth:state.history.length,
+  });
   return true;
 }
 function continueInkGesture(viewer, event) {
@@ -3120,20 +3196,28 @@ function finishInkGesture(viewer, event) {
   if (translucent && finalPoint) {
     drawLiveHighlighterPoints(gesture.stage, gesture.page, gesture.stroke, previous ? [previous, finalPoint] : [finalPoint]);
   }
-  // Commit a live Highlighter stroke to the persistent annotation layer only
-  // once, on release/cancel. Pen still clears its provisional tail here and
-  // receives the normal completed smoothed redraw.
+  // Commit only the just-finished live stroke. Highlighter composites its one
+  // translucent live object; Pen draws its exact stabilized completed geometry
+  // once onto the persistent overlay. Neither path redraws unrelated page ink.
+  const commitStarted = performance.now();
+  let penCommit = null;
   if (translucent) {
     commitLiveHighlighterOverlays(gesture.page, gesture.stroke.opacity);
   } else {
-    redrawPageAnnotationOverlays(gesture.page);
+    penCommit = commitLivePenOverlays(gesture.page, gesture.stroke);
   }
+  const liveCommitMs = performance.now() - commitStarted;
   if (gesture.inputSource === 'pointer') {
     try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
   }
   state.inkGesture = null;
   if (!gesture.stroke.points.length) return true;
-  addInkDiagnostic('handler-finish-accepted', event, { strokeId:gesture.stroke.id, points:gesture.stroke.points.length, liveBatchOptimized:translucent, liveCompositeCommit:translucent });
+  addInkDiagnostic('handler-finish-accepted', event, {
+    strokeId:gesture.stroke.id, points:gesture.stroke.points.length, liveBatchOptimized:true, liveCompositeCommit:true,
+    liveLayer:translucent ? 'highlighter' : 'pen', liveCommitMs:Math.round(liveCommitMs*10)/10,
+    penCommitMs:penCommit ? Math.round(penCommit.commitMs*10)/10 : null, penCommitStages:penCommit?.stages ?? null,
+    pageAnnotationCount:(gesture.page.annotations || []).length, historyDepth:state.history.length,
+  });
   commitHistory(gesture.before);
   saveCurrentDocumentState({ readViewDom: false });
   return true;
@@ -3304,7 +3388,7 @@ function drawLiveEraserPreview(page, points, eraserDiameter=state.eraserSize) {
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const stage of document.querySelectorAll(selector)) {
     if (stage.dataset.rendered !== 'true') continue;
-    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-selection-canvas)');
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
     const overlay = ensureAnnotationOverlay(stage, base);
     if (!overlay?.width || !overlay?.height) continue;
     const ctx = overlay.getContext('2d');
@@ -4328,7 +4412,7 @@ function historyPageViewerStructureEquivalent(a, b) {
   // Annotation arrays are deliberately excluded; those can be repainted in-place.
   const fields = [
     'id', 'sourceId', 'sourcePage', 'width', 'height', 'baseRotation', 'rotation',
-    'kind', 'generatedType', 'canvasWidth', 'canvasHeight', 'canvasPlacement',
+    'kind', 'generatedType', 'generatedBackground', 'canvasWidth', 'canvasHeight', 'canvasPlacement',
     'edgeTop', 'edgeRight', 'edgeBottom', 'edgeLeft',
   ];
   return fields.every(key => Object.is(a[key], b[key]));
@@ -4850,7 +4934,35 @@ function updateNewDocumentPageSizeUi() {
   els.newDocumentPageSizeHint.textContent = `Current Presentation ratio · ${widthIn.toFixed(2)} × ${heightIn.toFixed(2)} in · long side 11 in.`;
 }
 
-function generatedPage(type='blank', width=DEFAULT_NEW_PAGE_WIDTH, height=DEFAULT_NEW_PAGE_HEIGHT) {
+function normalizeBlankPageBackground(value) {
+  return value === 'black' ? 'black' : 'white';
+}
+
+function updateBlankBackgroundControls(scope='all') {
+  const updatePair = (whiteButton, blackButton, value) => {
+    const black = normalizeBlankPageBackground(value) === 'black';
+    whiteButton?.classList.toggle('active', !black);
+    blackButton?.classList.toggle('active', black);
+    whiteButton?.setAttribute('aria-pressed', String(!black));
+    blackButton?.setAttribute('aria-pressed', String(black));
+  };
+  if (scope === 'all' || scope === 'new') updatePair(els.newBlankWhiteBtn, els.newBlankBlackBtn, state.newBlankBackground);
+  if (scope === 'all' || scope === 'insert') updatePair(els.insertBlankWhiteBtn, els.insertBlankBlackBtn, state.insertBlankBackground);
+}
+
+function setNewBlankBackground(value) {
+  state.newBlankBackground = normalizeBlankPageBackground(value);
+  updateBlankBackgroundControls('new');
+}
+
+function setInsertBlankBackground(value) {
+  state.insertBlankBackground = normalizeBlankPageBackground(value);
+  updateBlankBackgroundControls('insert');
+  if (!els.insertPageMenu?.classList.contains('hidden')) renderInsertChoicePreviews().catch(console.error);
+}
+
+function generatedPage(type='blank', width=DEFAULT_NEW_PAGE_WIDTH, height=DEFAULT_NEW_PAGE_HEIGHT, background='white') {
+  const generatedType = type === 'graph' ? 'graph' : 'blank';
   return {
     id: uid('page'),
     sourceId: null,
@@ -4860,7 +4972,8 @@ function generatedPage(type='blank', width=DEFAULT_NEW_PAGE_WIDTH, height=DEFAUL
     baseRotation: 0,
     rotation: 0,
     kind: 'generated',
-    generatedType: type === 'graph' ? 'graph' : 'blank',
+    generatedType,
+    generatedBackground: generatedType === 'blank' ? normalizeBlankPageBackground(background) : 'white',
   };
 }
 
@@ -4947,7 +5060,7 @@ async function renderInsertChoicePreviews() {
   const builtIns = [
     [current, els.insertDuplicateWithPreview],
     [clonePageState(current, { includeAnnotations: false }), els.insertDuplicateWithoutPreview],
-    [generatedPage('blank', dims.width, dims.height), els.insertBlankPreview],
+    [generatedPage('blank', dims.width, dims.height, state.insertBlankBackground), els.insertBlankPreview],
     [generatedPage('graph', dims.width, dims.height), els.insertGraphPreview],
   ];
   for (const [page, canvas] of builtIns) {
@@ -5199,7 +5312,7 @@ function synchronizeActiveSplitDocumentForEdit() {
   return currentDocument();
 }
 
-function insertPageAfterCurrent(kind, includeAnnotations=true, template=null, targetContext=null) {
+function insertPageAfterCurrent(kind, includeAnnotations=true, template=null, targetContext=null, options={}) {
   // Capture the page/document at menu-open time when possible. Intersection
   // observers can legitimately update the live "current page" while a popover
   // is open, so recomputing the target after the user chooses a command can
@@ -5234,7 +5347,7 @@ function insertPageAfterCurrent(kind, includeAnnotations=true, template=null, ta
     inserted = clonePageInstance(template.page, true);
   } else {
     const dims = pageDisplayDimensions(current);
-    inserted = generatedPage(kind === 'graph' ? 'graph' : 'blank', dims.width, dims.height);
+    inserted = generatedPage(kind === 'graph' ? 'graph' : 'blank', dims.width, dims.height, kind === 'blank' ? options.blankBackground : 'white');
   }
 
   state.pages = [...state.pages.slice(0, index + 1), inserted, ...state.pages.slice(index + 1)];
@@ -5287,7 +5400,7 @@ function insertPageAfterCurrent(kind, includeAnnotations=true, template=null, ta
     ? `Duplicated page ${index + 1}${includeAnnotations ? '' : ' without annotations'}`
     : kind === 'template'
       ? `Inserted template ${template?.name || ''} after page ${index + 1}`.trim()
-      : `Inserted ${kind === 'graph' ? 'graph-paper' : 'blank'} page after page ${index + 1}`;
+      : `Inserted ${kind === 'graph' ? 'graph-paper' : (inserted.generatedBackground === 'black' ? 'black blank' : 'blank')} page after page ${index + 1}`;
   setStatus(label);
 }
 
@@ -5460,7 +5573,8 @@ function createNewGeneratedDocument(type='blank') {
   state.fileSelected = new Set([doc.id]);
   state.fileSelectionInitialized = true;
   state.combineOrder = [doc.id];
-  const page = generatedPage(isGraph ? 'graph' : 'blank', dimensions.width, dimensions.height);
+  const blankBackground = isGraph ? 'white' : state.newBlankBackground;
+  const page = generatedPage(isGraph ? 'graph' : 'blank', dimensions.width, dimensions.height, blankBackground);
   doc.pages = [page];
   doc.activePageId = page.id;
   doc.singleView = { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: page.id, scrollTop: null, scrollLeft: null };
@@ -5478,7 +5592,8 @@ function createNewGeneratedDocument(type='blank') {
   }
   saveCurrentDocumentState({ readViewDom: false });
   renderAll({ saveState: false });
-  setStatus(`Created new ${isGraph ? 'graph-paper' : 'blank'} document${presentationSized ? ' at the current Presentation ratio' : ''}`);
+  setStatus(`Created new ${isGraph ? 'graph-paper' : (blankBackground === 'black' ? 'black-background blank' : 'blank')} document${presentationSized ? ' at the current Presentation ratio' : ''}`);
+  if (!isGraph) setNewBlankBackground('white');
   scheduleLibraryPersist(120);
 }
 
@@ -6989,6 +7104,48 @@ function unchangedSingleSourcePdfBytes(pageList) {
   return source.bytes.slice();
 }
 
+function stripNonUriPdfLinkAnnotations(pdfPage, pdfLib) {
+  // Rebuilt Workbench PDFs preserve standard external URI links, but remove
+  // internal/document-navigation links rather than risk stale destinations
+  // after page reordering, deletion, extraction, combining, or duplication.
+  // Non-Link annotations (forms, comments, etc.) are left untouched.
+  const { PDFDict, PDFName } = pdfLib || {};
+  const annots = pdfPage?.node?.Annots?.();
+  if (!annots || !PDFDict || !PDFName) return 0;
+
+  const subtypeKey = PDFName.of('Subtype');
+  const actionKey = PDFName.of('A');
+  const actionTypeKey = PDFName.of('S');
+  const destinationKey = PDFName.of('Dest');
+  const nextActionKey = PDFName.of('Next');
+  const linkName = PDFName.of('Link').toString();
+  const uriName = PDFName.of('URI').toString();
+  let removed = 0;
+
+  for (let i = annots.size() - 1; i >= 0; i--) {
+    const annotation = annots.lookupMaybe(i, PDFDict);
+    if (!annotation) continue;
+    const subtype = annotation.lookupMaybe(subtypeKey, PDFName);
+    if (subtype?.toString() !== linkName) continue;
+
+    const action = annotation.lookupMaybe(actionKey, PDFDict);
+    const actionType = action?.lookupMaybe(actionTypeKey, PDFName);
+    const isExternalUri = actionType?.toString() === uriName;
+    if (!isExternalUri) {
+      annots.remove(i);
+      removed += 1;
+      continue;
+    }
+
+    // A standard URI action is the only Link action retained. Remove any
+    // malformed/legacy competing destination and chained actions so a retained
+    // external link cannot also trigger document navigation.
+    annotation.delete(destinationKey);
+    action.delete(nextActionKey);
+  }
+  return removed;
+}
+
 async function buildPdfBytes(pageList, options={}) {
   // The most efficient and faithful export of an untouched imported PDF is the
   // original byte stream. View state, Library placement, and open/close state do
@@ -7029,6 +7186,10 @@ async function buildPdfBytes(pageList, options={}) {
       sourcePdfCache.set(sourceId, srcPdf);
     }
     const copies = await output.copyPages(srcPdf, entries.map(entry => entry.page.sourcePage - 1));
+    // On any rewrite, keep only standard external URI link annotations. Internal
+    // PDF navigation links are deliberately removed because copied destinations
+    // can become stale or invalid after structural editing.
+    for (const copiedPage of copies) stripNonUriPdfLinkAnnotations(copiedPage, pdfLib);
     entries.forEach((entry, j) => copiedPdfPages.set(entry.outputIndex, copies[j]));
     await new Promise(resolve => setTimeout(resolve, 0));
   }
@@ -7044,6 +7205,9 @@ async function buildPdfBytes(pageList, options={}) {
       const core = pageCoreCanvasBaseDimensions(page);
       const edge = pageEdgeAdjustments(page);
       const outPage = output.addPage([base.width, base.height]);
+      if (page.generatedType === 'blank' && page.generatedBackground === 'black') {
+        outPage.drawRectangle({ x: 0, y: 0, width: base.width, height: base.height, color: rgb(0, 0, 0), borderWidth: 0 });
+      }
       if (page.generatedType === 'graph') {
         if (hasPageCanvasOverride(page)) {
           const fit = Math.min(core.width / page.width, core.height / page.height);
@@ -7139,7 +7303,8 @@ async function buildPdfBytes(pageList, options={}) {
 }
 
 async function normalizePdfBytesToLetter(inputBytes, options={}) {
-  const { PDFDocument } = await loadPdfExportEngine();
+  const pdfLib = await loadPdfExportEngine();
+  const { PDFDocument } = pdfLib;
   const pdf = await PDFDocument.load(inputBytes, { updateMetadata: false });
   const pages = pdf.getPages();
   const portrait = { width: 612, height: 792 };
@@ -7147,6 +7312,9 @@ async function normalizePdfBytesToLetter(inputBytes, options={}) {
 
   for (let i = 0; i < pages.length; i++) {
     const page = pages[i];
+    // Normalizing an otherwise untouched PDF is still a rewrite, so apply the
+    // same external-URI-only link policy used by buildPdfBytes().
+    stripNonUriPdfLinkAnnotations(page, pdfLib);
     options.onProgress?.(i + 1, pages.length);
     const rotation = ((page.getRotation?.().angle || 0) % 360 + 360) % 360;
     const oddRotation = rotation === 90 || rotation === 270;
@@ -7787,7 +7955,7 @@ function renderOrganizer() {
     const title = document.createElement('div');
     title.className = 'thumb-title';
     const src = state.sources.get(page.sourceId);
-    const generatedLabel = page.kind === 'generated' ? (page.generatedType === 'graph' ? 'Graph paper' : 'Blank page') : null;
+    const generatedLabel = page.kind === 'generated' ? (page.generatedType === 'graph' ? 'Graph paper' : (page.generatedBackground === 'black' ? 'Black blank page' : 'Blank page')) : null;
     title.textContent = generatedLabel ? `${index + 1} · ${generatedLabel}` : `${index + 1} · ${src?.name ?? 'Page'}${src?.type === 'pdf' ? ` · p.${page.sourcePage}` : ''}`;
     title.title = title.textContent;
 
@@ -9507,8 +9675,9 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
   canvas.style.width = `${cssWidth}px`;
   canvas.style.height = `${cssHeight}px`;
   const ctx = canvas.getContext('2d', { alpha: false });
+  const generatedFill = page.kind === 'generated' && page.generatedType === 'blank' && page.generatedBackground === 'black' ? '#000' : '#fff';
   ctx.save();
-  ctx.fillStyle = '#fff';
+  ctx.fillStyle = generatedFill;
   ctx.fillRect(0, 0, targetW, targetH);
   ctx.restore();
 
@@ -9549,7 +9718,7 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
 
   const renderCore = async (targetCtx, corePixelW, corePixelH) => {
     targetCtx.save();
-    targetCtx.fillStyle = '#fff';
+    targetCtx.fillStyle = generatedFill;
     targetCtx.fillRect(0, 0, corePixelW, corePixelH);
     targetCtx.restore();
     if (!hasPageCanvasOverride(page)) {
@@ -9564,7 +9733,7 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
     contentCanvas.width = contentW;
     contentCanvas.height = contentH;
     const contentCtx = contentCanvas.getContext('2d', { alpha: false });
-    contentCtx.fillStyle = '#fff';
+    contentCtx.fillStyle = generatedFill;
     contentCtx.fillRect(0, 0, contentW, contentH);
     await drawNaturalContent(contentCtx, contentW, contentH);
     const x = Math.round((corePixelW - contentW) / 2);
@@ -9926,8 +10095,8 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.5.8 removes the whole-viewer flash from annotation-only Undo/Redo. When page structure is unchanged, history restore now keeps the existing PDF/generated-page canvases and repaints only Workbench annotation overlays; structural page history still performs the normal full rebuild. Presentation-ratio sizing, complete-square graph paper, Pen stabilization, image annotations, and the accepted 0.94 touch-scroll momentum are unchanged.</p>
-      <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
+      <p>Milestone 5.6.1 fixes a dense-page Pen release bottleneck found during real scratch-work testing. In-progress Pen ink now uses its own reusable live canvas, and Pencil-up commits only the newly finished stabilized stroke instead of repainting every annotation already on the page. Highlighter keeps its established live-layer path. Milestone 5.6.0 black blank pages and the 5.5.9 rebuilt-PDF link policy are unchanged.</p>
+      <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image scope in 5.5.2:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
@@ -9998,6 +10167,8 @@ function openInsertPageMenu(anchor) {
     synchronizeActiveSplitDocumentForEdit();
     syncSplitActivePageFromViewport(state.activePaneId);
   } else if (state.workspaceMode === 'view') syncSingleActivePageFromViewport();
+  const openingFresh = els.insertPageMenu?.classList.contains('hidden') || state.insertMenuAnchor !== anchor;
+  if (openingFresh) setInsertBlankBackground('white');
   state.insertTarget = {
     documentId: state.currentDocumentId,
     pageId: insertionTargetPageId(),
@@ -10026,7 +10197,7 @@ function runInsertCommand(kind, includeAnnotations=true) {
   const inPresentation = document.body.classList.contains('presentation');
   const targetContext = state.insertTarget ? { ...state.insertTarget } : null;
   closeInsertPageMenu(false);
-  insertPageAfterCurrent(kind, includeAnnotations, null, targetContext);
+  insertPageAfterCurrent(kind, includeAnnotations, null, targetContext, { blankBackground: kind === 'blank' ? state.insertBlankBackground : 'white' });
   if (inPresentation) showPresentationControls();
 }
 
@@ -10616,6 +10787,8 @@ function bindEvents() {
   els.openBtn.addEventListener('click', () => { closeInsertPageMenu(); els.fileInput.click(); });
   els.newBlankDocumentBtn.addEventListener('click', () => createNewGeneratedDocument('blank'));
   els.newGraphDocumentBtn.addEventListener('click', () => createNewGeneratedDocument('graph'));
+  els.newBlankWhiteBtn?.addEventListener('click', () => setNewBlankBackground('white'));
+  els.newBlankBlackBtn?.addEventListener('click', () => setNewBlankBackground('black'));
   els.newDocumentPageSize?.addEventListener('change', updateNewDocumentPageSizeUi);
   updateNewDocumentPageSizeUi();
   els.newTemplateDocumentBtn?.addEventListener('click', showNewFromTemplateChooser);
@@ -10772,6 +10945,8 @@ function bindEvents() {
   els.insertDuplicateWithoutAnnotationsBtn.addEventListener('click', () => runInsertCommand('duplicate', false));
   els.insertBlankPageBtn.addEventListener('click', () => runInsertCommand('blank'));
   els.insertGraphPageBtn.addEventListener('click', () => runInsertCommand('graph'));
+  els.insertBlankWhiteBtn?.addEventListener('click', (e) => { e.stopPropagation(); setInsertBlankBackground('white'); });
+  els.insertBlankBlackBtn?.addEventListener('click', (e) => { e.stopPropagation(); setInsertBlankBackground('black'); });
   els.insertTemplateList?.addEventListener('click', (e) => {
     const button = e.target.closest('[data-template-id]');
     if (button) insertTemplateAfterCurrent(button.dataset.templateId);

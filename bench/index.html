@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.5.8">
+  <link rel="stylesheet" href="styles.css?v=5.6.1">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -198,7 +198,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.5.8</div>
+          <div class="export-kicker">Milestone 5.6.1</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -256,6 +256,11 @@
                 </select>
               </label>
               <p id="newDocumentPageSizeHint" class="small-note new-document-size-hint">US Letter landscape · 11 × 8.5 in.</p>
+              <div class="page-background-chooser new-blank-background-chooser" role="group" aria-label="Blank document background">
+                <span class="page-background-label">Blank background</span>
+                <button id="newBlankWhiteBtn" class="page-background-choice active" type="button" aria-pressed="true" title="Create blank documents with a white background"><span class="page-background-swatch white" aria-hidden="true"></span><span>White</span></button>
+                <button id="newBlankBlackBtn" class="page-background-choice" type="button" aria-pressed="false" title="Create blank documents with a black background"><span class="page-background-swatch black" aria-hidden="true"></span><span>Black</span></button>
+              </div>
               <div class="new-document-actions">
                 <button id="newBlankDocumentBtn" class="export-button secondary-output-button" type="button">Blank document</button>
                 <button id="newGraphDocumentBtn" class="export-button secondary-output-button" type="button">Graph-paper document</button>
@@ -492,6 +497,11 @@
           <span class="insert-choice-preview"><canvas id="insertGraphPreview" aria-hidden="true"></canvas></span>
           <span class="insert-choice-label">Graph paper</span>
         </button>
+      </div>
+      <div class="page-background-chooser insert-blank-background-chooser" role="group" aria-label="Inserted blank page background">
+        <span class="page-background-label">Blank background</span>
+        <button id="insertBlankWhiteBtn" class="page-background-choice active" type="button" aria-pressed="true" title="Insert a white blank page"><span class="page-background-swatch white" aria-hidden="true"></span><span>White</span></button>
+        <button id="insertBlankBlackBtn" class="page-background-choice" type="button" aria-pressed="false" title="Insert a black blank page"><span class="page-background-swatch black" aria-hidden="true"></span><span>Black</span></button>
       </div>
       <div class="popover-divider" aria-hidden="true"></div>
       <div class="popover-section-label">Templates</div>
@@ -731,6 +741,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.5.8"></script>
+  <script type="module" src="app.js?v=5.6.1"></script>
 </body>
 </html>

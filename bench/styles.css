@@ -76,6 +76,7 @@ button:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 65%, 
 .page-stage > canvas.annotation-image-canvas { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: transparent; }
 .page-stage > canvas.annotation-canvas { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: transparent; }
 .page-stage > canvas.live-highlighter-canvas { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: transparent; }
+.page-stage > canvas.live-pen-canvas { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: transparent; }
 .page-loading { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: .85rem; }
 .single-page-nav { position: absolute; left: 50%; bottom: max(10px, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 20; display: flex; align-items: center; gap: 6px; padding: 4px; background: rgb(255 255 255 / .88); border: 1px solid var(--border); border-radius: 12px; backdrop-filter: blur(8px); }
 .single-page-nav button { min-width: 42px; min-height: 42px; padding: 0; font-size: 28px; line-height: 1; }
@@ -501,7 +502,44 @@ body.presentation .split-pane.active {
 .file-tool-body .file-tool-summary:first-child { margin-top: 0; }
 .new-document-size-field { max-width: 390px; margin-bottom: 6px !important; }
 .new-document-size-field select { width: 100%; min-height: 40px; border: 1px solid var(--border); border-radius: 9px; background: var(--paper); color: var(--text); padding: 7px 30px 7px 9px; font: inherit; }
-.new-document-size-hint { margin: 0 0 12px; }
+.new-document-size-hint { margin: 0 0 10px; }
+.page-background-chooser {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+}
+.new-blank-background-chooser { margin: 0 0 12px; }
+.page-background-label { margin-right: 2px; color: var(--muted); font-size: .79rem; font-weight: 650; }
+.page-background-choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 30px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--text);
+  font: inherit;
+  font-size: .78rem;
+  cursor: pointer;
+}
+.page-background-choice.active {
+  border-color: color-mix(in srgb, var(--accent) 62%, var(--border));
+  background: var(--accent-soft);
+}
+.page-background-swatch {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+  border: 1px solid #777;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .18);
+}
+.page-background-swatch.white { background: #fff; }
+.page-background-swatch.black { background: #000; }
 .new-document-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .new-document-actions .export-button { margin-top: 0; }
 
@@ -603,6 +641,25 @@ body.presentation .split-pane.active {
   padding: 12px 10px;
   text-align: center;
 }
+.insert-blank-background-chooser {
+  justify-content: center;
+  padding: 0 4px 4px;
+}
+.insert-page-menu .insert-blank-background-chooser .page-background-choice {
+  display: inline-flex;
+  width: auto;
+  min-height: 30px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  background: var(--paper);
+  text-align: center;
+  white-space: nowrap;
+}
+.insert-page-menu .insert-blank-background-chooser .page-background-choice.active {
+  border-color: color-mix(in srgb, var(--accent) 62%, var(--border));
+  background: var(--accent-soft);
+}
+.insert-page-menu .insert-blank-background-chooser .page-background-choice:hover { background: var(--accent-soft); }
 .insert-menu-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
