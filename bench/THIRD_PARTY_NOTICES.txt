@@ -1,18 +1,47 @@
-PDF Workbench 5.6.6 modeled-input experiment
+PDF Workbench 5.6.7 — Third-Party Notices
+==========================================
 
-Google Ink Stroke Modeler
-Project: https://github.com/google/ink-stroke-modeler
-License: Apache License 2.0
-Copyright 2022 Google LLC
-A copy of the Apache License 2.0 is included as
+PDF Workbench uses or is informed by the following third-party projects.
+Project names are used only for attribution/identification; no endorsement is
+implied.
+
+1. PDF.js 6.2.108
+   Project: https://github.com/mozilla/pdf.js
+   Copyright: Mozilla Foundation and contributors
+   License: Apache License 2.0
+   Runtime use: PDF rendering/parsing. PDF.js worker, WASM resources, CMaps,
+   and standard-font resources are currently loaded from the pinned pdfjs-dist
+   6.2.108 CDN package and may be cached locally by the Workbench service worker.
+
+2. pdf-lib 1.17.1
+   Project: https://github.com/Hopding/pdf-lib
+   Copyright (c) 2019 Andrew Dillon
+   License: MIT License
+   Runtime use: structural PDF writing/editing/export.
+
+3. JSZip 3.10.1
+   Project: https://github.com/Stuk/jszip
+   Copyright (c) 2009-2016 Stuart Knightley, David Duponchel,
+   Franz Buchinger, António Afonso
+   Upstream licensing: MIT or GPLv3, at the user's choice.
+   PDF Workbench uses JSZip under the MIT License option.
+   Runtime use: ZIP import/export and backup packaging.
+
+4. Google Ink Stroke Modeler
+   Project: https://github.com/google/ink-stroke-modeler
+   Copyright 2022 Google LLC
+   License: Apache License 2.0
+   PDF Workbench's local google-ink-modeler.js is an independent JavaScript
+   implementation based on the published model, algorithm descriptions,
+   tuning guidance, and starting parameters. Google's C++ source is not bundled.
+   Runtime use: positional modeling/prediction for Thin and Medium Pen ink.
+
+Research reference (not bundled; not a runtime dependency):
+   WhiteboardCX/ink-stroke-modeler-ts
+   https://github.com/WhiteboardCX/ink-stroke-modeler-ts
+   Apache License 2.0
+   Used only as a behavioral/reference cross-check during research.
+
+Full applicable license text is bundled in THIRD_PARTY_LICENSES.txt.
+A standalone copy of Apache License 2.0 is also included as
 APACHE-2.0-Google-Ink-Stroke-Modeler.txt.
-
-PDF Workbench's google-ink-modeler.js is an independent JavaScript
-implementation based on the algorithms and default/example parameters
-published by the Google project. The Google C++ source is not bundled.
-
-Research cross-check:
-WhiteboardCX/ink-stroke-modeler-ts
-https://github.com/WhiteboardCX/ink-stroke-modeler-ts
-Apache License 2.0
-The TypeScript package is not bundled into PDF Workbench.

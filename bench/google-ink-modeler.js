@@ -1,5 +1,5 @@
 /*
- * PDF Workbench Google-style handwriting modeler experiment.
+ * PDF Workbench Google-style handwriting modeler.
  *
  * This is an independent JavaScript implementation of the position-modeling
  * algorithms published by Google's Ink Stroke Modeler project:

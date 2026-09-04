@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.6.6';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.6.7';
 
-const APP_VERSION = '5.6.6';
+const APP_VERSION = '5.6.7';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -22,7 +22,7 @@ const els = {
   viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), exportModeBtn: $('exportModeBtn'), viewerControls: $('viewerControls'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
-  moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), aboutBtn: $('aboutBtn'),
+  moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
   emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), filesManageTemplatesBtn: $('filesManageTemplatesBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
@@ -1639,94 +1639,30 @@ function gestureEventGeometry(stage, page) {
   if (!rect || rect.width <= 0 || rect.height <= 0) return null;
   return { rect, display:pageDisplayDimensions(page), base:pageCanvasBaseDimensions(page) };
 }
-// Milestone 5.4.0: restrained cardinal-spline rendering. Raw sampled points
-// remain the authoritative editable geometry for erasing, lasso transforms,
-// persistence, Undo/Redo, and future editing. Smoothing is derived only when
-// drawing/exporting so the input path and object model stay unchanged.
-// Pen smoothing is intentionally width-aware. Milestone 5.6.2 temporarily
-// pushes thin/medium smoothing much harder for a Goodnotes comparison while
-// the broad pen stays at the established 5.4/5.5 feel as a control. These
-// settings affect rendering/export only; raw points remain editable geometry.
-function penSmoothingSettings(width=3) {
-  const w = Math.max(.25, Number(width) || 3);
-  // Milestone 5.6.2 EXPERIMENT: deliberately push the thin and medium pens
-  // well past the conservative 5.5.x tuning so real handwriting can be
-  // compared against Goodnotes.  The 5.5 pt pen is intentionally unchanged
-  // and serves as a built-in control.  Expect to tune these values back after
-  // the visual experiment if corners/letterforms become too rounded.
-  if (w <= 1.75) return { factor:0.27, handleCap:0.90 };
-  if (w <= 3.5) return { factor:0.225, handleCap:0.82 };
-  return { factor:0.135, handleCap:0.58 };
-}
-// Milestone 5.5.5: the spline itself can be smooth while still following tiny
-// sample-to-sample stylus wobble because the cardinal curve interpolates every
-// raw point.  For completed Pen rendering/export only, lightly stabilize the
-// anchor points before constructing the spline.  The authoritative raw points
-// remain completely unchanged for erasing, lasso, persistence, Undo/Redo, and
-// hit testing.  Sharp turns are protected so small handwriting does not become
-// rounded merely to remove edge waviness.
-function stabilizedPenRenderPoints(points, width=3) {
-  const count = points?.length || 0;
-  if (!Array.isArray(points) || count < 5) return points;
-  const w = Math.max(.25, Number(width) || 3);
-  // 5.6.2 EXPERIMENT: intentionally strong completed-stroke anchor
-  // stabilization for thin/medium Pen.  This is a visual trial, not yet the
-  // presumed final tuning.  Thick Pen remains at zero stabilization.
-  const baseStrength = w <= 1.75 ? 0.86 : (w <= 3.5 ? 0.68 : 0);
-  if (!baseStrength) return points;
-  const out = new Array(count);
-  out[0] = points[0];
-  out[1] = points[1];
-  out[count - 2] = points[count - 2];
-  out[count - 1] = points[count - 1];
-  for (let i = 2; i < count - 2; i++) {
-    const pm2 = points[i - 2], pm1 = points[i - 1], p = points[i], pp1 = points[i + 1], pp2 = points[i + 2];
-    // Weighted local mean.  This is deliberately small enough that the curve
-    // stays inside the visual footprint of the original stroke.
-    const ax = (pm2.x + 2 * pm1.x + 3 * p.x + 2 * pp1.x + pp2.x) / 9;
-    const ay = (pm2.y + 2 * pm1.y + 3 * p.y + 2 * pp1.y + pp2.y) / 9;
-    // Preserve deliberate corners.  Compare the incoming/outgoing direction
-    // over a two-sample span so individual noisy samples do not trigger the
-    // corner guard by themselves.
-    const inx = p.x - pm2.x, iny = p.y - pm2.y;
-    const outx = pp2.x - p.x, outy = pp2.y - p.y;
-    const inLen = Math.hypot(inx, iny), outLen = Math.hypot(outx, outy);
-    let strength = baseStrength;
-    if (inLen > 1e-6 && outLen > 1e-6) {
-      const cosine = clamp((inx * outx + iny * outy) / (inLen * outLen), -1, 1);
-      // With the stronger 5.6.2 experiment, protect deliberate turns sooner.
-      // Above roughly 35 degrees of turn, taper stabilization rapidly toward zero.
-      if (cosine < 0.82) strength *= Math.max(0.06, (cosine + 1) / 1.82);
-    }
-    out[i] = {
-      x: p.x + (ax - p.x) * strength,
-      y: p.y + (ay - p.y) * strength,
-    };
-  }
-  return out;
-}
-function smoothStrokeControls(points, segmentIndex, width=3) {
+// Thick Pen keeps the established restrained cardinal-spline renderer.
+// Thin and Medium Pen are modeled by google-ink-modeler.js; the abandoned
+// 5.6.2-5.6.5 stabilization / filled-outline / trajectory-fit experiments have
+// been removed rather than kept as compatibility code. Raw sampled points
+// remain authoritative for erasing, lasso transforms, persistence, and Undo.
+const THICK_PEN_CURVE_FACTOR = 0.135;
+const THICK_PEN_HANDLE_CAP = 0.58;
+function thickPenStrokeControls(points, segmentIndex) {
   const count = points?.length || 0;
   if (count < 2 || segmentIndex < 0 || segmentIndex >= count - 1) return null;
   const p0 = points[Math.max(0, segmentIndex - 1)];
   const p1 = points[segmentIndex];
   const p2 = points[segmentIndex + 1];
   const p3 = points[Math.min(count - 1, segmentIndex + 2)];
-  const { factor, handleCap } = penSmoothingSettings(width);
   let c1 = {
-    x: p1.x + (p2.x - p0.x) * factor,
-    y: p1.y + (p2.y - p0.y) * factor,
+    x: p1.x + (p2.x - p0.x) * THICK_PEN_CURVE_FACTOR,
+    y: p1.y + (p2.y - p0.y) * THICK_PEN_CURVE_FACTOR,
   };
   let c2 = {
-    x: p2.x - (p3.x - p1.x) * factor,
-    y: p2.y - (p3.y - p1.y) * factor,
+    x: p2.x - (p3.x - p1.x) * THICK_PEN_CURVE_FACTOR,
+    y: p2.y - (p3.y - p1.y) * THICK_PEN_CURVE_FACTOR,
   };
-  // Dense stylus samples normally keep these handles short already. Cap them
-  // relative to the current raw segment so a very uneven sample interval or a
-  // sharp reversal cannot create a loop/large overshoot away from the eraser's
-  // underlying raw geometry.
   const segmentLength = Math.hypot(p2.x - p1.x, p2.y - p1.y);
-  const maxHandle = segmentLength * handleCap;
+  const maxHandle = segmentLength * THICK_PEN_HANDLE_CAP;
   const capFrom = (anchor, control) => {
     const dx = control.x - anchor.x, dy = control.y - anchor.y;
     const length = Math.hypot(dx, dy);
@@ -1738,19 +1674,18 @@ function smoothStrokeControls(points, segmentIndex, width=3) {
   c2 = capFrom(p2, c2);
   return { p1, p2, c1, c2 };
 }
-function traceSmoothedStrokeCanvas(ctx, page, points, width=3) {
+function traceThickPenCanvas(ctx, page, points) {
   if (!ctx || !Array.isArray(points) || !points.length) return;
-  const renderPoints = stabilizedPenRenderPoints(points, width);
-  const first = basePointToDisplay(page, renderPoints[0]);
+  const first = basePointToDisplay(page, points[0]);
   ctx.moveTo(first.x, first.y);
-  if (renderPoints.length === 1) return;
-  if (renderPoints.length === 2) {
-    const second = basePointToDisplay(page, renderPoints[1]);
+  if (points.length === 1) return;
+  if (points.length === 2) {
+    const second = basePointToDisplay(page, points[1]);
     ctx.lineTo(second.x, second.y);
     return;
   }
-  for (let i = 0; i < renderPoints.length - 1; i++) {
-    const controls = smoothStrokeControls(renderPoints, i, width);
+  for (let i = 0; i < points.length - 1; i++) {
+    const controls = thickPenStrokeControls(points, i);
     if (!controls) continue;
     const c1 = basePointToDisplay(page, controls.c1);
     const c2 = basePointToDisplay(page, controls.c2);
@@ -1767,353 +1702,10 @@ function traceRawStrokeCanvas(ctx, page, points) {
     ctx.lineTo(point.x, point.y);
   }
 }
-// Milestone 5.6.5 EXPERIMENT: thin/medium Pen trajectory fitting now begins
-// by reducing the raw Pencil sample stream to a much smaller geometric path.
-// Samples are resampled by distance along the stroke, deliberate localized
-// corners are retained explicitly, and only a mild averaging pass is applied
-// between those corners before cubic fitting. Raw input points remain
-// authoritative for erasing, selection, persistence, and Undo/Redo.
-function penUsesTrajectoryFit(width=3) {
-  const w = Math.max(.25, Number(width) || 3);
-  return w <= 3.5;
-}
-function penTrajectoryFitTolerance(width=3) {
-  const w = Math.max(.25, Number(width) || 3);
-  // The reduced trajectory has already discarded sub-point sample chatter, so
-  // the fitter can be a little more permissive than 5.6.5 without blurring
-  // intentional corners; detected corners are fitted as separate spans.
-  if (w <= 1.75) return 0.72;
-  if (w <= 3.5) return 0.95;
-  return 0;
-}
-function penTrajectoryPreprocessSettings(width=3) {
-  const w=Math.max(.25,Number(width)||3);
-  if (w<=1.75) return {
-    spacing:.85,
-    cornerWindow:1.35,
-    localCornerWindow:.58,
-    cornerAngle:Math.PI*56/180,
-    cornerConcentration:.68,
-    cornerSeparation:1.15,
-    averageStrength:.38,
-  };
-  if (w<=3.5) return {
-    spacing:1.05,
-    cornerWindow:1.55,
-    localCornerWindow:.68,
-    cornerAngle:Math.PI*58/180,
-    cornerConcentration:.68,
-    cornerSeparation:1.35,
-    averageStrength:.30,
-  };
-  return {spacing:0,cornerWindow:0,localCornerWindow:0,cornerAngle:Math.PI,cornerConcentration:1,cornerSeparation:0,averageStrength:0};
-}
-function fitVecAdd(a,b) { return {x:a.x+b.x,y:a.y+b.y}; }
-function fitVecSub(a,b) { return {x:a.x-b.x,y:a.y-b.y}; }
-function fitVecScale(v,s) { return {x:v.x*s,y:v.y*s}; }
-function fitVecDot(a,b) { return a.x*b.x+a.y*b.y; }
-function fitVecLength(v) { return Math.hypot(v.x,v.y); }
-function fitVecNormalize(v,fallback={x:1,y:0}) {
-  const len=fitVecLength(v);
-  return len>1e-9 ? {x:v.x/len,y:v.y/len} : {x:fallback.x,y:fallback.y};
-}
-function penStrokeCumulativeDistances(points) {
-  const cumulative=new Array(points.length).fill(0);
-  for (let i=1;i<points.length;i++) cumulative[i]=cumulative[i-1]+Math.hypot(points[i].x-points[i-1].x,points[i].y-points[i-1].y);
-  return cumulative;
-}
-function penPointAtArcDistance(points,cumulative,distance) {
-  if (!points.length) return null;
-  const total=cumulative[cumulative.length-1]||0;
-  const target=clamp(Number(distance)||0,0,total);
-  if (target<=0) return {...points[0]};
-  if (target>=total) return {...points[points.length-1]};
-  let lo=0,hi=cumulative.length-1;
-  while (lo+1<hi) {
-    const mid=(lo+hi)>>1;
-    if (cumulative[mid]<target) lo=mid; else hi=mid;
-  }
-  const span=cumulative[hi]-cumulative[lo];
-  if (span<1e-9) return {...points[hi]};
-  const t=(target-cumulative[lo])/span;
-  return {
-    x:points[lo].x+(points[hi].x-points[lo].x)*t,
-    y:points[lo].y+(points[hi].y-points[lo].y)*t,
-  };
-}
-function penTurnAngleAtDistance(points,cumulative,index,distance) {
-  if (index<=0||index>=points.length-1||distance<=0) return 0;
-  const centerDistance=cumulative[index], total=cumulative[cumulative.length-1]||0;
-  if (centerDistance<distance||total-centerDistance<distance) return 0;
-  const before=penPointAtArcDistance(points,cumulative,centerDistance-distance);
-  const after=penPointAtArcDistance(points,cumulative,centerDistance+distance);
-  const incoming=fitVecNormalize(fitVecSub(points[index],before));
-  const outgoing=fitVecNormalize(fitVecSub(after,points[index]));
-  return Math.acos(clamp(fitVecDot(incoming,outgoing),-1,1));
-}
-function detectPenTrajectoryCorners(points,cumulative,settings) {
-  const candidates=[];
-  const total=cumulative[cumulative.length-1]||0;
-  if (points.length<5||total<settings.cornerWindow*2) return [];
-  for (let i=1;i<points.length-1;i++) {
-    const s=cumulative[i];
-    if (s<settings.cornerWindow||total-s<settings.cornerWindow) continue;
-    const broad=penTurnAngleAtDistance(points,cumulative,i,settings.cornerWindow);
-    if (broad<settings.cornerAngle) continue;
-    const local=penTurnAngleAtDistance(points,cumulative,i,settings.localCornerWindow);
-    if (local<settings.cornerAngle*.82) continue;
-    // A true cusp keeps most of its turn even when measured in a much shorter
-    // neighborhood. A smooth U/arc spreads the turn across distance and fails
-    // this concentration test, so it remains smooth rather than becoming a V.
-    const concentration=broad>1e-6?local/broad:0;
-    if (concentration<settings.cornerConcentration) continue;
-    candidates.push({index:i,s,score:local+broad*.30,broad,local});
-  }
-  // Several adjacent raw samples can describe the same physical corner. Keep
-  // the strongest candidate in each small arc-length neighborhood.
-  candidates.sort((a,b)=>b.score-a.score);
-  const accepted=[];
-  for (const candidate of candidates) {
-    if (accepted.some(other=>Math.abs(other.s-candidate.s)<settings.cornerSeparation)) continue;
-    accepted.push(candidate);
-  }
-  accepted.sort((a,b)=>a.s-b.s);
-  return accepted;
-}
-function preprocessPenTrajectory(points,width=3) {
-  const source=Array.isArray(points)?points:[];
-  const settings=penTrajectoryPreprocessSettings(width);
-  if (source.length<=2||!settings.spacing) return {
-    points:source.map(p=>({...p})),cornerPositions:[0,Math.max(0,source.length-1)],cornerCount:0,
-    rawPoints:source.length,retainedPoints:source.length,spacing:settings.spacing,averageStrength:settings.averageStrength,
-  };
-  const cumulative=penStrokeCumulativeDistances(source), total=cumulative[cumulative.length-1]||0;
-  if (total<settings.spacing*.75) return {
-    points:[{...source[0]},{...source[source.length-1]}],cornerPositions:[0,1],cornerCount:0,
-    rawPoints:source.length,retainedPoints:2,spacing:settings.spacing,averageStrength:settings.averageStrength,
-  };
-  const corners=detectPenTrajectoryCorners(source,cumulative,settings);
-  const targets=[{s:0,endpoint:true},{s:total,endpoint:true}];
-  for (const corner of corners) targets.push({s:corner.s,corner:true,sourceIndex:corner.index});
-  for (let s=settings.spacing;s<total;s+=settings.spacing) {
-    // Do not place a regular resample anchor almost on top of an explicitly
-    // retained corner. The corner itself is the better geometric anchor.
-    if (corners.some(c=>Math.abs(c.s-s)<settings.spacing*.42)) continue;
-    targets.push({s});
-  }
-  targets.sort((a,b)=>a.s-b.s);
-  const reduced=[];
-  const cornerPositions=[];
-  for (const target of targets) {
-    let point;
-    if (target.corner&&Number.isInteger(target.sourceIndex)) point={...source[target.sourceIndex]};
-    else point=penPointAtArcDistance(source,cumulative,target.s);
-    if (!point) continue;
-    const previous=reduced[reduced.length-1];
-    if (previous&&Math.hypot(point.x-previous.x,point.y-previous.y)<1e-5) {
-      if (target.corner||target.endpoint) previous._corner=true;
-      continue;
-    }
-    point._corner=!!(target.corner||target.endpoint);
-    reduced.push(point);
-  }
-  if (!reduced.length) reduced.push({...source[0],_corner:true});
-  if (reduced.length===1) reduced.push({...source[source.length-1],_corner:true});
-  reduced[0]._corner=true; reduced[reduced.length-1]._corner=true;
-  for (let i=0;i<reduced.length;i++) if (reduced[i]._corner) cornerPositions.push(i);
-  // Mild three-point averaging only inside the spans bounded by retained
-  // corners. This is intentionally much lighter than the 5.6.2/5.6.5 five-
-  // sample anchor stabilization; point selection now does most of the cleanup.
-  const averaged=reduced.map(p=>({x:p.x,y:p.y,_corner:p._corner}));
-  for (let span=0;span<cornerPositions.length-1;span++) {
-    const first=cornerPositions[span], last=cornerPositions[span+1];
-    for (let i=first+1;i<last;i++) {
-      const prev=reduced[i-1],p=reduced[i],next=reduced[i+1];
-      const ax=(prev.x+2*p.x+next.x)/4, ay=(prev.y+2*p.y+next.y)/4;
-      averaged[i].x=p.x+(ax-p.x)*settings.averageStrength;
-      averaged[i].y=p.y+(ay-p.y)*settings.averageStrength;
-    }
-  }
-  return {
-    points:averaged,
-    cornerPositions,
-    cornerCount:Math.max(0,cornerPositions.length-2),
-    rawPoints:source.length,
-    retainedPoints:averaged.length,
-    spacing:settings.spacing,
-    averageStrength:settings.averageStrength,
-  };
-}
-function cubicBezierPoint(curve,t) {
-  const mt=1-t, b0=mt*mt*mt, b1=3*mt*mt*t, b2=3*mt*t*t, b3=t*t*t;
-  return {
-    x:curve.p0.x*b0+curve.c1.x*b1+curve.c2.x*b2+curve.p3.x*b3,
-    y:curve.p0.y*b0+curve.c1.y*b1+curve.c2.y*b2+curve.p3.y*b3,
-  };
-}
-function cubicBezierDerivative(curve,t) {
-  const mt=1-t;
-  return {
-    x:3*mt*mt*(curve.c1.x-curve.p0.x)+6*mt*t*(curve.c2.x-curve.c1.x)+3*t*t*(curve.p3.x-curve.c2.x),
-    y:3*mt*mt*(curve.c1.y-curve.p0.y)+6*mt*t*(curve.c2.y-curve.c1.y)+3*t*t*(curve.p3.y-curve.c2.y),
-  };
-}
-function cubicBezierSecondDerivative(curve,t) {
-  return {
-    x:6*(1-t)*(curve.c2.x-2*curve.c1.x+curve.p0.x)+6*t*(curve.p3.x-2*curve.c2.x+curve.c1.x),
-    y:6*(1-t)*(curve.c2.y-2*curve.c1.y+curve.p0.y)+6*t*(curve.p3.y-2*curve.c2.y+curve.c1.y),
-  };
-}
-function chordLengthParameters(points, first, last) {
-  const u=[0];
-  let total=0;
-  for (let i=first+1;i<=last;i++) {
-    total+=Math.hypot(points[i].x-points[i-1].x,points[i].y-points[i-1].y);
-    u.push(total);
-  }
-  if (total<1e-9) return u.map((_,i)=>i/Math.max(1,u.length-1));
-  return u.map(v=>v/total);
-}
-function generatePenBezier(points,first,last,u,tan1,tan2) {
-  const p0=points[first], p3=points[last];
-  let c00=0,c01=0,c11=0,x0=0,x1=0;
-  for (let i=0;i<=last-first;i++) {
-    const t=u[i], mt=1-t;
-    const b0=mt*mt*mt, b1=3*mt*mt*t, b2=3*mt*t*t, b3=t*t*t;
-    const a0=fitVecScale(tan1,b1), a1=fitVecScale(tan2,b2);
-    const base={x:p0.x*(b0+b1)+p3.x*(b2+b3),y:p0.y*(b0+b1)+p3.y*(b2+b3)};
-    const tmp=fitVecSub(points[first+i],base);
-    c00+=fitVecDot(a0,a0); c01+=fitVecDot(a0,a1); c11+=fitVecDot(a1,a1);
-    x0+=fitVecDot(a0,tmp); x1+=fitVecDot(a1,tmp);
-  }
-  const det=c00*c11-c01*c01;
-  let alpha1=0,alpha2=0;
-  if (Math.abs(det)>1e-12) {
-    alpha1=(x0*c11-x1*c01)/det;
-    alpha2=(c00*x1-c01*x0)/det;
-  }
-  const segLength=Math.hypot(p3.x-p0.x,p3.y-p0.y);
-  const epsilon=1e-6*segLength;
-  if (!(alpha1>epsilon) || !(alpha2>epsilon) || !Number.isFinite(alpha1) || !Number.isFinite(alpha2)) {
-    alpha1=alpha2=segLength/3;
-  }
-  return {p0,c1:fitVecAdd(p0,fitVecScale(tan1,alpha1)),c2:fitVecAdd(p3,fitVecScale(tan2,alpha2)),p3};
-}
-function penFitMaxError(points,first,last,curve,u) {
-  let maxError=0, split=Math.floor((first+last)/2);
-  for (let i=first+1;i<last;i++) {
-    const q=cubicBezierPoint(curve,u[i-first]);
-    const dx=q.x-points[i].x,dy=q.y-points[i].y;
-    const err=dx*dx+dy*dy;
-    if (err>maxError) { maxError=err; split=i; }
-  }
-  return {maxError,split};
-}
-function reparameterizePenFit(points,first,last,u,curve) {
-  const out=[];
-  let previous=0;
-  for (let i=first;i<=last;i++) {
-    let t=u[i-first];
-    const q=cubicBezierPoint(curve,t), q1=cubicBezierDerivative(curve,t), q2=cubicBezierSecondDerivative(curve,t);
-    const diff=fitVecSub(q,points[i]);
-    const denominator=fitVecDot(q1,q1)+fitVecDot(diff,q2);
-    if (Math.abs(denominator)>1e-9) t-=fitVecDot(diff,q1)/denominator;
-    t=clamp(t,0,1);
-    if (i>first) t=Math.max(previous+1e-5,t);
-    if (i<last) t=Math.min(t,1-(last-i)*1e-5);
-    previous=t; out.push(t);
-  }
-  out[0]=0; out[out.length-1]=1;
-  return out;
-}
-function penFitSharpTurn(points,index) {
-  if (index<=0 || index>=points.length-1) return false;
-  const incoming=fitVecNormalize(fitVecSub(points[index],points[index-1]));
-  const outgoing=fitVecNormalize(fitVecSub(points[index+1],points[index]));
-  const immediate=fitVecDot(incoming,outgoing);
-  if (immediate>0.36) return false;
-  const span=2;
-  const a=points[Math.max(0,index-span)],b=points[Math.min(points.length-1,index+span)];
-  const broadIn=fitVecNormalize(fitVecSub(points[index],a),incoming);
-  const broadOut=fitVecNormalize(fitVecSub(b,points[index]),outgoing);
-  return fitVecDot(broadIn,broadOut)<0.30;
-}
-function fitPenCubicRecursive(points,first,last,tan1,tan2,errorSq,curves,depth=0) {
-  const count=last-first+1;
-  if (count<=1) return;
-  if (count===2 || depth>18) {
-    const p0=points[first],p3=points[last],dist=Math.hypot(p3.x-p0.x,p3.y-p0.y)/3;
-    curves.push({p0,c1:fitVecAdd(p0,fitVecScale(tan1,dist)),c2:fitVecAdd(p3,fitVecScale(tan2,dist)),p3});
-    return;
-  }
-  let u=chordLengthParameters(points,first,last);
-  let curve=generatePenBezier(points,first,last,u,tan1,tan2);
-  let measured=penFitMaxError(points,first,last,curve,u);
-  if (measured.maxError<=errorSq) { curves.push(curve); return; }
-  if (measured.maxError<=errorSq*6) {
-    for (let i=0;i<4;i++) {
-      u=reparameterizePenFit(points,first,last,u,curve);
-      curve=generatePenBezier(points,first,last,u,tan1,tan2);
-      measured=penFitMaxError(points,first,last,curve,u);
-      if (measured.maxError<=errorSq) { curves.push(curve); return; }
-    }
-  }
-  let split=measured.split;
-  if (!(split>first && split<last)) split=Math.floor((first+last)/2);
-  if (penFitSharpTurn(points,split)) {
-    const leftTan=fitVecNormalize(fitVecSub(points[split-1],points[split]),fitVecScale(tan1,-1));
-    const rightTan=fitVecNormalize(fitVecSub(points[split+1],points[split]),fitVecScale(tan2,-1));
-    fitPenCubicRecursive(points,first,split,tan1,leftTan,errorSq,curves,depth+1);
-    fitPenCubicRecursive(points,split,last,rightTan,tan2,errorSq,curves,depth+1);
-  } else {
-    const center=fitVecNormalize(fitVecSub(points[split-1],points[split+1]),fitVecScale(tan1,-1));
-    fitPenCubicRecursive(points,first,split,tan1,center,errorSq,curves,depth+1);
-    fitPenCubicRecursive(points,split,last,fitVecScale(center,-1),tan2,errorSq,curves,depth+1);
-  }
-}
-function buildPenTrajectoryFit(points,width=3) {
-  const started=performance.now();
-  const source=Array.isArray(points)?points:[];
-  if (!source.length) return {segments:[],fitMs:performance.now()-started,inputPoints:0,retainedPoints:0,cornerCount:0};
-  if (source.length===1) return {segments:[],fitMs:performance.now()-started,inputPoints:1,retainedPoints:1,cornerCount:0};
-  const prep=preprocessPenTrajectory(source,width);
-  const renderPoints=prep.points;
-  const tolerance=penTrajectoryFitTolerance(width);
-  const segments=[];
-  const cornerPositions=(prep.cornerPositions?.length>=2?prep.cornerPositions:[0,renderPoints.length-1]);
-  for (let span=0;span<cornerPositions.length-1;span++) {
-    const first=cornerPositions[span], last=cornerPositions[span+1];
-    if (!(last>first)) continue;
-    const firstTan=fitVecNormalize(fitVecSub(renderPoints[Math.min(last,first+1)],renderPoints[first]));
-    const lastTan=fitVecNormalize(fitVecSub(renderPoints[Math.max(first,last-1)],renderPoints[last]),fitVecScale(firstTan,-1));
-    fitPenCubicRecursive(renderPoints,first,last,firstTan,lastTan,tolerance*tolerance,segments);
-  }
-  return {
-    segments,
-    fitMs:performance.now()-started,
-    inputPoints:source.length,
-    retainedPoints:prep.retainedPoints,
-    cornerCount:prep.cornerCount,
-    spacing:prep.spacing,
-    averageStrength:prep.averageStrength,
-    tolerance,
-  };
-}
-function tracePenFitCanvas(ctx,page,fit) {
-  const segments=fit?.segments||[];
-  if (!segments.length) return;
-  const first=basePointToDisplay(page,segments[0].p0);
-  ctx.moveTo(first.x,first.y);
-  for (const segment of segments) {
-    const c1=basePointToDisplay(page,segment.c1),c2=basePointToDisplay(page,segment.c2),p3=basePointToDisplay(page,segment.p3);
-    ctx.bezierCurveTo(c1.x,c1.y,c2.x,c2.y,p3.x,p3.y);
-  }
-}
-// Milestone 5.6.6 EXPERIMENT: new Thin/Medium Pen strokes use a
-// Google Ink Stroke Modeler-style physical trajectory model. Existing
-// trajectory-fit annotations remain on their original renderer so opening a
-// document never changes already-written ink. Raw points (including relative
-// timestamps for newly modeled strokes) remain the editable/persistent model.
+// Thin/Medium Pen strokes use the Google Ink Stroke Modeler-style physical
+// trajectory model introduced in 5.6.6. The abandoned custom Thin/Medium
+// renderers are intentionally not retained in 5.6.7. Raw points (including
+// relative timestamps for modeled strokes) remain the editable/persistent model.
 const googleInkRenderCache = new WeakMap();
 function penWidthUsesGoogleInk(width=3) {
   const w=Math.max(.25,Number(width)||3);
@@ -2278,8 +1870,7 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
         const modeled=buildGoogleInkRender(stroke).points;
         if (modeled.length) traceGoogleInkCanvas(targetCtx,page,modeled);
         else traceRawStrokeCanvas(targetCtx,page,points);
-      } else if (useSmooth && penUsesTrajectoryFit(width)) tracePenFitCanvas(targetCtx, page, buildPenTrajectoryFit(points, width));
-      else if (useSmooth) traceSmoothedStrokeCanvas(targetCtx, page, points, width);
+      } else if (useSmooth) traceThickPenCanvas(targetCtx, page, points);
       else traceRawStrokeCanvas(targetCtx, page, points);
       targetCtx.stroke();
     }
@@ -2317,8 +1908,8 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
       }
     }
 
-    // Pen retains restrained cardinal-spline smoothing. Highlighter remains a
-    // continuous raw polyline.
+    // Modeled Thin/Medium Pen uses Google-style positional output; Thick Pen
+    // keeps the restrained cardinal renderer. Highlighter remains raw polyline.
     drawStrokeGeometry(ctx, stroke, points, stroke.tool !== 'highlighter', opacity);
   }
 }
@@ -2431,8 +2022,8 @@ function scheduleExactAnnotationRedraw(page, reason='edit') {
 }
 function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
   // Immediate/incremental helper retained for Thick Pen, which remains the
-  // unchanged 5.6.2/5.6.1 control. Thin/Medium use one fitted live preview per
-  // pointer event instead of committing a path segment for every raw sample.
+  // established Thick-Pen control path. Thin/Medium use the modeled live layer
+  // instead of committing a raw path segment for every sample.
   const started=performance.now();
   const width=Math.max(.25,Number(stroke.width)||3);
   const drawOnStage = targetStage => {
@@ -2458,7 +2049,7 @@ function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
   drawOnStage(stage);
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const other of document.querySelectorAll(selector)) if (other !== stage) drawOnStage(other);
-  return { renderMs:performance.now()-started, fitMs:0, fitMode:false, fitCurves:0 };
+  return { renderMs:performance.now()-started };
 }
 
 function ensureLivePenOverlay(stage, baseCanvas=null) {
@@ -2484,7 +2075,7 @@ function clearLivePenOverlays(page) {
   for (const overlay of document.querySelectorAll(selector)) {
     const ctx = overlay.getContext?.('2d');
     if (ctx && overlay.width && overlay.height) ctx.clearRect(0, 0, overlay.width, overlay.height);
-    overlay._pdfwbPenFitDirty=null;
+    overlay._pdfwbLivePenDirty=null;
   }
 }
 function drawLiveGoogleInkPreview(stage,page,stroke,stablePoints,predictionPoints=[]) {
@@ -2498,7 +2089,7 @@ function drawLiveGoogleInkPreview(stage,page,stroke,stablePoints,predictionPoint
     const canvas=ensureLivePenOverlay(targetStage,baseCanvas);
     if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered!=='true') return;
     const ctx=canvas.getContext('2d'); if (!ctx) return;
-    const oldDirty=canvas._pdfwbPenFitDirty;
+    const oldDirty=canvas._pdfwbLivePenDirty;
     if (oldDirty) ctx.clearRect(oldDirty.x,oldDirty.y,oldDirty.w,oldDirty.h);
     const display=pageDisplayDimensions(page),sx=canvas.width/Math.max(1,display.width),sy=canvas.height/Math.max(1,display.height);
     if (renderPoints.length) {
@@ -2507,8 +2098,8 @@ function drawLiveGoogleInkPreview(stage,page,stroke,stablePoints,predictionPoint
       const margin=Math.max(4,width*3);
       const x=Math.max(0,Math.floor((minX-margin)*sx)-2),y=Math.max(0,Math.floor((minY-margin)*sy)-2);
       const right=Math.min(canvas.width,Math.ceil((maxX+margin)*sx)+2),bottom=Math.min(canvas.height,Math.ceil((maxY+margin)*sy)+2);
-      canvas._pdfwbPenFitDirty={x,y,w:Math.max(1,right-x),h:Math.max(1,bottom-y)};
-    } else canvas._pdfwbPenFitDirty=null;
+      canvas._pdfwbLivePenDirty={x,y,w:Math.max(1,right-x),h:Math.max(1,bottom-y)};
+    } else canvas._pdfwbLivePenDirty=null;
     ctx.save();ctx.scale(sx,sy);
     ctx.globalAlpha=clamp(Number(stroke.opacity??1),0,1);
     ctx.strokeStyle=stroke.color||'#111111';ctx.fillStyle=stroke.color||'#111111';
@@ -2526,56 +2117,11 @@ function drawLiveGoogleInkPreview(stage,page,stroke,stablePoints,predictionPoint
   return {renderMs:performance.now()-started,googleMode:true,googleStablePoints:stable.length,googlePredictionPoints:prediction.length};
 }
 
-function drawLiveFittedPenPreview(stage,page,stroke) {
-  const started=performance.now();
-  const width=Math.max(.25,Number(stroke?.width)||3);
-  const fit=buildPenTrajectoryFit(stroke?.points||[],width);
-  const drawOnStage = targetStage => {
-    const baseCanvas=targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
-    const canvas=ensureLivePenOverlay(targetStage,baseCanvas);
-    if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
-    const ctx=canvas.getContext('2d'); if (!ctx) return;
-    // Clear only the previous live-stroke footprint. At high zoom the live
-    // canvas can contain millions of pixels; clearing the whole page on every
-    // pointermove would squander the fitting algorithm's CPU savings.
-    const oldDirty=canvas._pdfwbPenFitDirty;
-    if (oldDirty) ctx.clearRect(oldDirty.x,oldDirty.y,oldDirty.w,oldDirty.h);
-    const display=pageDisplayDimensions(page),sx=canvas.width/Math.max(1,display.width),sy=canvas.height/Math.max(1,display.height);
-    const boundPoints=[];
-    if (fit.segments.length) for (const seg of fit.segments) boundPoints.push(seg.p0,seg.c1,seg.c2,seg.p3);
-    else if ((stroke?.points||[]).length) boundPoints.push(...stroke.points);
-    if (boundPoints.length) {
-      let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
-      for (const bp of boundPoints) { const dp=basePointToDisplay(page,bp); minX=Math.min(minX,dp.x);minY=Math.min(minY,dp.y);maxX=Math.max(maxX,dp.x);maxY=Math.max(maxY,dp.y); }
-      const margin=Math.max(4,width*3);
-      const x=Math.max(0,Math.floor((minX-margin)*sx)-2),y=Math.max(0,Math.floor((minY-margin)*sy)-2);
-      const right=Math.min(canvas.width,Math.ceil((maxX+margin)*sx)+2),bottom=Math.min(canvas.height,Math.ceil((maxY+margin)*sy)+2);
-      canvas._pdfwbPenFitDirty={x,y,w:Math.max(1,right-x),h:Math.max(1,bottom-y)};
-    } else canvas._pdfwbPenFitDirty=null;
-    ctx.save(); ctx.scale(sx,sy);
-    ctx.globalAlpha=clamp(Number(stroke.opacity??1),0,1);
-    ctx.strokeStyle=stroke.color||'#111111'; ctx.fillStyle=stroke.color||'#111111';
-    ctx.lineWidth=width; ctx.lineCap='round'; ctx.lineJoin='round';
-    const points=stroke?.points||[];
-    if (points.length===1) {
-      const p=basePointToDisplay(page,points[0]); ctx.beginPath(); ctx.arc(p.x,p.y,width/2,0,Math.PI*2); ctx.fill();
-    } else if (fit.segments.length) {
-      ctx.beginPath(); tracePenFitCanvas(ctx,page,fit); ctx.stroke();
-    }
-    ctx.restore();
-  };
-  drawOnStage(stage);
-  const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
-  for (const other of document.querySelectorAll(selector)) if (other!==stage) drawOnStage(other);
-  return {renderMs:performance.now()-started,fitMs:fit.fitMs,fitMode:true,fitCurves:fit.segments.length,fitInputPoints:fit.inputPoints,fitRetainedPoints:fit.retainedPoints,fitCornerCount:fit.cornerCount,fitSpacing:fit.spacing};
-}
-
 function commitLivePenOverlays(page, stroke, options={}) {
-  // Preserve the 5.6.1 O(current stroke) release rule. New 5.6.6 Google-modeled
-  // Thin/Medium strokes commit their already-modeled stable trajectory exactly
-  // once; old Thin/Medium strokes retain 5.6.5 trajectory fitting; Thick keeps
-  // the established control renderer.
-  if (!page?.id || !stroke?.id) return {commitMs:0,stages:0,fitMode:false,googleMode:false};
+  // Preserve the 5.6.1 O(current stroke) release rule. Modeled Thin/Medium
+  // commits its stable modeled trajectory once; Thick commits only the current
+  // cardinal-spline stroke. No abandoned trajectory-fit compatibility path.
+  if (!page?.id || !stroke?.id) return {commitMs:0,stages:0,googleMode:false};
   const started=performance.now();
   const width=Math.max(.25,Number(stroke.width)||3);
   const googleMode=penStrokeUsesGoogleInk(stroke);
@@ -2584,8 +2130,6 @@ function commitLivePenOverlays(page, stroke, options={}) {
       ? {points:options.googlePoints,modelMs:0,inputPoints:(stroke.points||[]).length,outputPoints:options.googlePoints.length,...(options.googleMetrics||{})}
       : buildGoogleInkRender(stroke))
     : null;
-  const fitMode=!googleMode && penUsesTrajectoryFit(width);
-  const fit=fitMode?buildPenTrajectoryFit(stroke.points||[],width):null;
   const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   let stages=0;
   for (const stage of document.querySelectorAll(selector)) {
@@ -2593,7 +2137,7 @@ function commitLivePenOverlays(page, stroke, options={}) {
     const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
     const overlay=ensureAnnotationOverlay(stage,base),ctx=overlay?.getContext?.('2d');
     if (ctx && overlay.width && overlay.height) {
-      if (googleMode || fitMode) {
+      if (googleMode) {
         const display=pageDisplayDimensions(page),sx=overlay.width/Math.max(1,display.width),sy=overlay.height/Math.max(1,display.height);
         ctx.save();ctx.scale(sx,sy);
         ctx.globalAlpha=clamp(Number(stroke.opacity??1),0,1);
@@ -2601,10 +2145,8 @@ function commitLivePenOverlays(page, stroke, options={}) {
         ctx.lineWidth=width;ctx.lineCap='round';ctx.lineJoin='round';
         if ((stroke.points||[]).length===1) {
           const p=basePointToDisplay(page,stroke.points[0]);ctx.beginPath();ctx.arc(p.x,p.y,width/2,0,Math.PI*2);ctx.fill();
-        } else if (googleMode && googleResult?.points?.length) {
+        } else if (googleResult?.points?.length) {
           ctx.beginPath();traceGoogleInkCanvas(ctx,page,googleResult.points);ctx.stroke();
-        } else if (fit?.segments?.length) {
-          ctx.beginPath();tracePenFitCanvas(ctx,page,fit);ctx.stroke();
         }
         ctx.restore();
       } else {
@@ -2615,19 +2157,17 @@ function commitLivePenOverlays(page, stroke, options={}) {
     }
     const liveCtx=live?.getContext?.('2d');
     if (liveCtx && live.width && live.height) liveCtx.clearRect(0,0,live.width,live.height);
-    if (live) live._pdfwbPenFitDirty=null;
+    if (live) live._pdfwbLivePenDirty=null;
   }
   if (googleMode && Array.isArray(options.googlePoints)) cacheGoogleInkRender(stroke,options.googlePoints,options.googleMetrics||{});
   return {
-    commitMs:performance.now()-started,stages,googleMode,fitMode,
+    commitMs:performance.now()-started,stages,googleMode,
     googleModelMs:googleResult?.modelMs||0,
     googleInputPoints:googleResult?.inputPoints||0,
     googleOutputPoints:googleResult?.outputPoints||googleResult?.points?.length||0,
     googleEndLagPoints:googleResult?.endLagPoints??googleResult?.lagPoints??0,
     googleWobbleSpeed:googleResult?.wobbleSpeed||0,
     googleWobbleBlend:googleResult?.wobbleBlend||0,
-    fitMs:fit?.fitMs||0,fitCurves:fit?.segments?.length||0,fitInputPoints:fit?.inputPoints||0,
-    fitRetainedPoints:fit?.retainedPoints||0,fitCornerCount:fit?.cornerCount||0,fitSpacing:fit?.spacing||0,
   };
 }
 
@@ -2724,14 +2264,14 @@ function commitLiveHighlighterOverlays(page, opacity=HIGHLIGHTER_OPACITY) {
   }
 }
 
-function drawLiveSmoothedInkProgress(stage, page, stroke) {
-  // Thick Pen control path: retain the established incremental cardinal spline.
+function drawLiveThickPenProgress(stage, page, stroke) {
+  // Thick Pen path: retain the established incremental cardinal spline.
   const started=performance.now(),points=stroke?.points||[],count=points.length;
-  if (!count) return {renderMs:0,fitMs:0,fitMode:false,fitCurves:0};
+  if (!count) return {renderMs:0};
   if (count===1) return drawLiveInkSegment(stage,page,stroke,points[0],points[0]);
   if (count===2) return drawLiveInkSegment(stage,page,stroke,points[0],points[1]);
-  const controls=smoothStrokeControls(points,count-3,stroke.width);
-  if (!controls) return {renderMs:performance.now()-started,fitMs:0,fitMode:false,fitCurves:0};
+  const controls=thickPenStrokeControls(points,count-3);
+  if (!controls) return {renderMs:performance.now()-started};
   const width=Math.max(.25,Number(stroke.width)||3);
   const drawOnStage=targetStage=>{
     const baseCanvas=targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
@@ -2747,7 +2287,7 @@ function drawLiveSmoothedInkProgress(stage, page, stroke) {
   drawOnStage(stage);
   const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const other of document.querySelectorAll(selector)) if (other!==stage) drawOnStage(other);
-  return {renderMs:performance.now()-started,fitMs:0,fitMode:false,fitCurves:0};
+  return {renderMs:performance.now()-started};
 }
 
 
@@ -3620,15 +3160,8 @@ function setEraserSize(size) {
 function accumulatePenLiveTiming(gesture, timing) {
   if (!gesture || !timing) return;
   gesture.liveRenderMs=(gesture.liveRenderMs||0)+(Number(timing.renderMs)||0);
-  gesture.liveFitMs=(gesture.liveFitMs||0)+(Number(timing.fitMs)||0);
   gesture.liveRenderCalls=(gesture.liveRenderCalls||0)+1;
-  if (timing.fitMode) gesture.liveFitMode=true;
   if (timing.googleMode) gesture.googleLiveMode=true;
-  if (Number.isFinite(timing.fitCurves)) gesture.liveFitCurvesLast=timing.fitCurves;
-  if (Number.isFinite(timing.fitInputPoints)) gesture.liveFitInputPointsLast=timing.fitInputPoints;
-  if (Number.isFinite(timing.fitRetainedPoints)) gesture.liveFitRetainedPointsLast=timing.fitRetainedPoints;
-  if (Number.isFinite(timing.fitCornerCount)) gesture.liveFitCornerCountLast=timing.fitCornerCount;
-  if (Number.isFinite(timing.fitSpacing)) gesture.liveFitSpacingLast=timing.fitSpacing;
   if (Number.isFinite(timing.googleStablePoints)) gesture.googleStablePointsLast=timing.googleStablePoints;
   if (Number.isFinite(timing.googlePredictionPoints)) gesture.googlePredictionPointsLast=timing.googlePredictionPoints;
 }
@@ -3644,7 +3177,7 @@ function appendInkPoint(gesture, event, drawLive=true, geometry=null, force=fals
   const threshold=googleMode ? .02 : .18;
   if (!force && previous && Math.hypot(next.x - previous.x, next.y - previous.y) < threshold) return null;
   points.push(next);
-  if (drawLive) accumulatePenLiveTiming(gesture,drawLiveSmoothedInkProgress(gesture.stage, page, gesture.stroke));
+  if (drawLive) accumulatePenLiveTiming(gesture,drawLiveThickPenProgress(gesture.stage, page, gesture.stroke));
   return next;
 }
 function inkStageForEvent(viewer, event) {
@@ -3702,7 +3235,7 @@ function beginInkGesture(viewer, event) {
   annotationsForPage(page).push(stroke);
   state.activePageId = page.id;
   const inputSource = event._inkStylusTouch ? 'stylus-touch' : 'pointer';
-  state.inkGesture = { pointerId: event.pointerId, inputSource, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, before, liveRenderMs:0, liveFitMs:0, liveRenderCalls:0, liveFitMode:false, liveFitCurvesLast:0, liveFitInputPointsLast:0, liveFitRetainedPointsLast:0, liveFitCornerCountLast:0, liveFitSpacingLast:0, googleTimeOriginMs:useGoogleInk?(Number.isFinite(Number(event.timeStamp))?Number(event.timeStamp):performance.now()):null, googleModeler:useGoogleInk?new GoogleInkStrokeModeler():null, googleStablePoints:[], googleLiveModelMs:0, googlePredictionMs:0, googlePredictionPointsLast:0, googleWobbleSpeedLast:0, googleWobbleBlendLast:0, googleLagPointsLast:0 };
+  state.inkGesture = { pointerId: event.pointerId, inputSource, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, before, liveRenderMs:0, liveRenderCalls:0, googleTimeOriginMs:useGoogleInk?(Number.isFinite(Number(event.timeStamp))?Number(event.timeStamp):performance.now()):null, googleModeler:useGoogleInk?new GoogleInkStrokeModeler():null, googleStablePoints:[], googleLiveModelMs:0, googlePredictionMs:0, googlePredictionPointsLast:0, googleWobbleSpeedLast:0, googleWobbleBlendLast:0, googleLagPointsLast:0 };
   if (event.cancelable) event.preventDefault();
   if (inputSource === 'pointer') {
     try { viewer.setPointerCapture?.(event.pointerId); } catch {}
@@ -3713,17 +3246,14 @@ function beginInkGesture(viewer, event) {
     // Highlighter layer.
     drawLiveHighlighterPoints(stage, page, stroke, [first]);
   } else {
-    // New Thin/Medium strokes use the 5.6.6 modeled-input live layer. Legacy
-    // Thin/Medium objects keep their 5.6.5 fitter; Thick remains the control.
+    // Thin/Medium uses the modeled-input live layer; Thick remains on the
+    // established incremental cardinal renderer.
     if (useGoogleInk) {
       consumeGoogleInkPoint(state.inkGesture,first,'down');
       const prediction=googleInkPrediction(state.inkGesture);
       accumulatePenLiveTiming(state.inkGesture,drawLiveGoogleInkPreview(stage,page,stroke,state.inkGesture.googleStablePoints,prediction));
     } else {
-      accumulatePenLiveTiming(state.inkGesture,
-        penUsesTrajectoryFit(stroke.width)
-          ? drawLiveFittedPenPreview(stage,page,stroke)
-          : drawLiveInkSegment(stage,page,stroke,first,first));
+      accumulatePenLiveTiming(state.inkGesture,drawLiveInkSegment(stage,page,stroke,first,first));
     }
   }
   addInkDiagnostic('handler-begin-accepted', event, {
@@ -3739,8 +3269,7 @@ function continueInkGesture(viewer, event) {
   const samples=typeof event.getCoalescedEvents==='function'?event.getCoalescedEvents():null;
   const translucent=gesture.stroke?.tool==='highlighter';
   const googlePreview=!translucent && penStrokeUsesGoogleInk(gesture.stroke);
-  const fitPreview=!translucent && !googlePreview && penUsesTrajectoryFit(gesture.stroke?.width);
-  const geometry=(translucent||fitPreview||googlePreview)?gestureEventGeometry(gesture.stage,gesture.page):null;
+  const geometry=(translucent||googlePreview)?gestureEventGeometry(gesture.stage,gesture.page):null;
   if (translucent) {
     const batch=[],first=gesture.stroke.points[gesture.stroke.points.length-1]||null;
     if (first) batch.push(first);
@@ -3748,19 +3277,10 @@ function continueInkGesture(viewer, event) {
     if (samples?.length) for (const sample of samples) appendSample(sample); else appendSample(event);
     if (batch.length>1) drawLiveHighlighterPoints(gesture.stage,gesture.page,gesture.stroke,batch);
   } else if (googlePreview) {
-    // Feed accepted raw/coalesced samples incrementally through the modeled
-    // physical pen, then redraw the temporary live layer once per pointer event
-    // using stable modeled output plus a replaceable stroke-end prediction.
     const appendSample=sample=>{const added=appendInkPoint(gesture,sample,false,geometry);if(added)consumeGoogleInkPoint(gesture,added,'move');};
     if (samples?.length) for (const sample of samples) appendSample(sample); else appendSample(event);
     const prediction=googleInkPrediction(gesture);
     accumulatePenLiveTiming(gesture,drawLiveGoogleInkPreview(gesture.stage,gesture.page,gesture.stroke,gesture.googleStablePoints,prediction));
-  } else if (fitPreview) {
-    // Legacy 5.6.5 renderer for annotations created before the modeled-input
-    // experiment: append the whole coalesced batch, then fit/render once.
-    const appendSample=sample=>appendInkPoint(gesture,sample,false,geometry);
-    if (samples?.length) for (const sample of samples) appendSample(sample); else appendSample(event);
-    accumulatePenLiveTiming(gesture,drawLiveFittedPenPreview(gesture.stage,gesture.page,gesture.stroke));
   } else {
     const appendSample=sample=>appendInkPoint(gesture,sample,true);
     if (samples?.length) for (const sample of samples) appendSample(sample); else appendSample(event);
@@ -3774,18 +3294,17 @@ function finishInkGesture(viewer, event) {
   if (event.cancelable) event.preventDefault();
   const translucent = gesture.stroke?.tool === 'highlighter';
   const googleMode=!translucent && penStrokeUsesGoogleInk(gesture.stroke);
-  const legacyFit=!translucent && !googleMode && penUsesTrajectoryFit(gesture.stroke?.width);
   const previous = gesture.stroke.points[gesture.stroke.points.length - 1] || null;
-  const geometry = (translucent || legacyFit || googleMode) ? gestureEventGeometry(gesture.stage, gesture.page) : null;
-  const finalPoint = appendInkPoint(gesture, event, !translucent && !legacyFit && !googleMode, geometry, googleMode);
+  const geometry = (translucent || googleMode) ? gestureEventGeometry(gesture.stage, gesture.page) : null;
+  const finalPoint = appendInkPoint(gesture, event, !translucent && !googleMode, geometry, googleMode);
   if (translucent && finalPoint) {
     drawLiveHighlighterPoints(gesture.stage, gesture.page, gesture.stroke, previous ? [previous, finalPoint] : [finalPoint]);
   } else if (googleMode && finalPoint) {
     consumeGoogleInkPoint(gesture,finalPoint,'up');
   }
   // Commit only the just-finished live stroke. Highlighter composites its one
-  // translucent live object; Pen draws its exact stabilized completed geometry
-  // once onto the persistent overlay. Neither path redraws unrelated page ink.
+  // translucent live object; Pen commits the modeled Thin/Medium trajectory or
+  // the Thick cardinal stroke. Neither path redraws unrelated page ink.
   const commitStarted = performance.now();
   let penCommit = null;
   if (translucent) {
@@ -3805,13 +3324,7 @@ function finishInkGesture(viewer, event) {
     liveLayer:translucent ? 'highlighter' : 'pen', liveCommitMs:Math.round(liveCommitMs*10)/10,
     liveRenderMs:translucent ? null : Math.round((gesture.liveRenderMs||0)*10)/10,
     liveRenderCalls:translucent ? null : (gesture.liveRenderCalls||0),
-    liveFitMs:translucent ? null : Math.round((gesture.liveFitMs||0)*10)/10,
-    liveFitCurvesLast:translucent ? null : (gesture.liveFitCurvesLast||0),
-    liveFitInputPointsLast:translucent ? null : (gesture.liveFitInputPointsLast||0),
-    liveFitRetainedPointsLast:translucent ? null : (gesture.liveFitRetainedPointsLast||0),
-    liveFitCornerCountLast:translucent ? null : (gesture.liveFitCornerCountLast||0),
-    liveFitSpacingLast:translucent ? null : Math.round((gesture.liveFitSpacingLast||0)*100)/100,
-    penRenderer:translucent ? null : (penCommit?.googleMode ? GOOGLE_INK_RENDERER : (penCommit?.fitMode ? 'trajectory-fit' : 'centerline-stroke')),
+    penRenderer:translucent ? null : (penCommit?.googleMode ? GOOGLE_INK_RENDERER : 'thick-cardinal'),
     googleLiveModelMs:googleMode ? Math.round((gesture.googleLiveModelMs||0)*10)/10 : null,
     googlePredictionMs:googleMode ? Math.round((gesture.googlePredictionMs||0)*10)/10 : null,
     googleStablePoints:googleMode ? (gesture.googleStablePoints?.length||0) : null,
@@ -3821,12 +3334,6 @@ function finishInkGesture(viewer, event) {
     googleLagPointsLast:googleMode ? Math.round((gesture.googleLagPointsLast||0)*100)/100 : null,
     googleOutputPoints:penCommit?.googleOutputPoints ?? null,
     googleEndLagPoints:penCommit?.googleMode ? Math.round((penCommit.googleEndLagPoints||0)*100)/100 : null,
-    penFitMs:penCommit ? Math.round((penCommit.fitMs||0)*10)/10 : null,
-    penFitCurves:penCommit?.fitCurves ?? null,
-    penFitInputPoints:penCommit?.fitInputPoints ?? null,
-    penFitRetainedPoints:penCommit?.fitRetainedPoints ?? null,
-    penFitCornerCount:penCommit?.fitCornerCount ?? null,
-    penFitSpacing:penCommit ? Math.round((penCommit.fitSpacing||0)*100)/100 : null,
     penCommitMs:penCommit ? Math.round(penCommit.commitMs*10)/10 : null, penCommitStages:penCommit?.stages ?? null,
     pageAnnotationCount:(gesture.page.annotations || []).length, historyDepth:state.history.length,
   });
@@ -4555,30 +4062,14 @@ async function drawPageAnnotationsPdf(outputPdf, pdfPage, page, inheritedRotatio
         const second=annotationPointToRawPdf(page,points[points.length-1],pdfPage,inheritedRotation);
         path += ` L ${pathNumber(second.x)} ${pathNumber(-second.y)}`;
       }
-    } else if (penUsesTrajectoryFit(thickness)) {
-      const fit = buildPenTrajectoryFit(points, thickness);
-      if (fit.segments.length) {
-        const fitFirst = annotationPointToRawPdf(page, fit.segments[0].p0, pdfPage, inheritedRotation);
-        path = `M ${pathNumber(fitFirst.x)} ${pathNumber(-fitFirst.y)}`;
-        for (const segment of fit.segments) {
-          const c1 = annotationPointToRawPdf(page, segment.c1, pdfPage, inheritedRotation);
-          const c2 = annotationPointToRawPdf(page, segment.c2, pdfPage, inheritedRotation);
-          const p3 = annotationPointToRawPdf(page, segment.p3, pdfPage, inheritedRotation);
-          path += ` C ${pathNumber(c1.x)} ${pathNumber(-c1.y)} ${pathNumber(c2.x)} ${pathNumber(-c2.y)} ${pathNumber(p3.x)} ${pathNumber(-p3.y)}`;
-        }
-      } else {
-        const second = annotationPointToRawPdf(page, points[points.length-1], pdfPage, inheritedRotation);
-        path += ` L ${pathNumber(second.x)} ${pathNumber(-second.y)}`;
-      }
     } else if (points.length === 2) {
       const second = annotationPointToRawPdf(page, points[1], pdfPage, inheritedRotation);
       path += ` L ${pathNumber(second.x)} ${pathNumber(-second.y)}`;
     } else {
-      const renderPoints = stabilizedPenRenderPoints(points, thickness);
-      const renderFirst = annotationPointToRawPdf(page, renderPoints[0], pdfPage, inheritedRotation);
+      const renderFirst = annotationPointToRawPdf(page, points[0], pdfPage, inheritedRotation);
       path = `M ${pathNumber(renderFirst.x)} ${pathNumber(-renderFirst.y)}`;
-      for (let i = 0; i < renderPoints.length - 1; i++) {
-        const controls = smoothStrokeControls(renderPoints, i, thickness);
+      for (let i = 0; i < points.length - 1; i++) {
+        const controls = thickPenStrokeControls(points, i);
         if (!controls) continue;
         const c1 = annotationPointToRawPdf(page, controls.c1, pdfPage, inheritedRotation);
         const c2 = annotationPointToRawPdf(page, controls.c2, pdfPage, inheritedRotation);
@@ -10741,9 +10232,21 @@ function showDialog(kind) {
       <p>This build is a Progressive Web App. When served over HTTPS, Windows/ChromeOS browsers can install it from the browser's install control. On iPad, use Safari's <strong>Share → Add to Home Screen</strong>.</p>
       <p>After the application and PDF engine have been cached once, the app shell is designed to reopen without a network connection. Your opened documents are processed locally and are not uploaded by this app.</p>
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
+  } else if (kind === 'attributions') {
+    els.dialogContent.innerHTML = `<h2>Attributions &amp; licenses</h2>
+      <p>PDF Workbench uses the following third-party projects. Full bundled license text is included with this build.</p>
+      <ul class="dependency-list">
+        <li><strong>PDF.js 6.2.108</strong> — Mozilla Foundation and contributors — Apache License 2.0.</li>
+        <li><strong>pdf-lib 1.17.1</strong> — Copyright © 2019 Andrew Dillon — MIT License.</li>
+        <li><strong>JSZip 3.10.1</strong> — Copyright © 2009–2016 Stuart Knightley, David Duponchel, Franz Buchinger, António Afonso — used under the MIT License option.</li>
+        <li><strong>Google Ink Stroke Modeler</strong> — Copyright 2022 Google LLC — Apache License 2.0. Workbench's <code>google-ink-modeler.js</code> is an independent JavaScript implementation based on the published model/parameters; Google's C++ source is not bundled.</li>
+      </ul>
+      <p><a href="./THIRD_PARTY_NOTICES.txt" target="_blank" rel="noopener">Open third-party notices</a><br>
+      <a href="./THIRD_PARTY_LICENSES.txt" target="_blank" rel="noopener">Open full bundled license text</a></p>
+      <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.6.6 is a modeled-input Pen experiment. Newly written Thin/Medium Pen strokes use a Google Ink Stroke Modeler-style physical trajectory model with velocity-aware wobble filtering, spring/mass/drag motion modeling, 180 Hz modeled output, live stroke-end prediction, and end-of-stroke catch-up. Raw Pencil points and relative timestamps remain authoritative for editing/persistence. Existing pre-5.6.6 Thin/Medium ink keeps its prior renderer, and Thick remains the unchanged control. The 5.6.1 dense-page live-Pen optimization, 5.6.0 black blank pages, and 5.5.9 rebuilt-PDF link policy remain in place.</p>
+      <p>Milestone 5.6.7 makes the 5.6.6 Google-style modeled-input path the sole Thin/Medium Pen renderer and removes the abandoned custom stabilization, filled-outline, distance/corner filtering, and Bezier-fit code. Thick retains its established cardinal renderer. Raw Pencil points and relative timestamps remain authoritative for editing/persistence. The 5.6.1 dense-page live-Pen optimization, 5.6.0 black blank pages, and 5.5.9 rebuilt-PDF link policy remain in place.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image scope in 5.5.2:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -11648,6 +11151,7 @@ function bindEvents() {
   els.moreBtn.addEventListener('click', (e) => { e.stopPropagation(); closeInsertPageMenu(); toggleMoreMenu(); });
   els.clearBtn.addEventListener('click', () => { toggleMoreMenu(false); closeAllOpenDocuments(); });
   els.installHelpBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('install'); });
+  els.attributionsBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('attributions'); });
   els.aboutBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('about'); });
   document.addEventListener('click', (e) => {
     if (document.body.classList.contains('presentation') && performance.now() < state.presentationSuppressClicksUntil && els.presentationToolbar.contains(e.target)) {

@@ -1,3 +1,30 @@
+# PDF Workbench — Milestone 5.6.7
+
+## 5.6.7 modeled-ink cleanup + attribution UI
+
+Milestone 5.6.7 keeps the usable Google-style Thin/Medium Pen behavior from 5.6.6 and removes the abandoned experimental rendering machinery instead of carrying it as compatibility code.
+
+- Thin and Medium Pen use only `google-ink-v1` modeled input: velocity-aware wobble filtering, spring/mass/drag modeling, 180 Hz modeled output, live stroke-end prediction, and end-of-stroke catch-up.
+- Thick Pen keeps only the established restrained cardinal-spline renderer (`factor 0.135`, handle cap `0.58`).
+- Removed from active/source Pen rendering: the 5.6.2 aggressive Thin/Medium anchor stabilization, the rejected 5.6.3 filled-outline experiment, and the 5.6.4/5.6.5 custom distance/corner/Bezier trajectory fitter and its live/commit/export compatibility paths.
+- Pre-5.6.6 experimental Thin/Medium strokes are intentionally not supported as a separate renderer. The user plans to delete those test documents, so no legacy renderer is retained.
+- Removed the retired trajectory-fit telemetry fields from new Pencil diagnostics. Google model/prediction timing and point-count/lag fields remain.
+- The 5.6.1 O(current-stroke) live-Pen/commit architecture remains intact.
+
+### Attributions and licenses
+
+The **⋯ → Attributions & licenses** menu item now lists runtime dependencies and the modeled-ink attribution. The package includes:
+
+- `THIRD_PARTY_NOTICES.txt` — dependency/version/copyright/license summary;
+- `THIRD_PARTY_LICENSES.txt` — full applicable MIT and Apache 2.0 license text;
+- `APACHE-2.0-Google-Ink-Stroke-Modeler.txt` — standalone Apache 2.0 copy retained from 5.6.6.
+
+Listed dependencies are PDF.js 6.2.108 (Apache 2.0), pdf-lib 1.17.1 (MIT), JSZip 3.10.1 (used under its MIT option), and Google Ink Stroke Modeler (Apache 2.0 attribution/reference for Workbench's independent JavaScript model implementation). The notice/license files are precached with the PWA shell so they remain available offline after installation/cache fill.
+
+External PDF.js/pdf-lib/JSZip bundling remains postponed; 5.6.7 keeps the same pinned CDN versions and service-worker caching behavior as 5.6.6.
+
+================ PRIOR README HISTORY ================
+
 # PDF Workbench — Milestone 5.6.6
 
 ## 5.6.6 Google-style modeled-input Thin/Medium Pen experiment

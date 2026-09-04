@@ -1,3 +1,54 @@
+MILESTONE 5.6.7 — MODELED-INK CLEANUP + ATTRIBUTIONS
+
+CURRENT BUILD: Milestone 5.6.7
+Visible About version: 5.6.7
+Service-worker/cache version: pdf-workbench-m5.6.7-v1
+Library schema version: unchanged
+
+WHY THIS REVISION EXISTS
+------------------------
+Real iPad testing of 5.6.6 judged the Google-style modeled Thin/Medium Pen usable and materially better than the custom smoothing/fitting experiments. The user explicitly does not need compatibility for the pre-5.6.6 test strokes and plans to delete those test documents. This revision therefore removes dead experimental code now, before classroom field testing, rather than keeping multiple renderers indefinitely.
+
+5.6.7 CLEANUP
+-------------
+- Thin and Medium Pen have ONE active renderer: `google-ink-v1`.
+- Thick Pen keeps the established cardinal spline only: factor 0.135, handle cap 0.58, no Thin/Medium experimental anchor stabilization.
+- REMOVED the 5.6.2 aggressive Thin/Medium smoothing/stabilization code.
+- The 5.6.3 filled-outline experiment was already rejected; no outline renderer remains.
+- REMOVED the complete 5.6.4/5.6.5 distance resampling, corner detection, mild averaging, recursive Bezier fitter, live fitted preview, fitted commit/export path, and fit-specific diagnostics.
+- REMOVED the pre-5.6.6 trajectory-renderer compatibility branch. Untagged old Thin/Medium experimental strokes are not a compatibility target for this build.
+- Renamed the live-Pen dirty-region bookkeeping to neutral modeled/live terminology rather than retaining the old `PenFit` name.
+- Raw Pencil points remain authoritative for Eraser, Lasso/Select, hit testing, transforms, persistence, Undo/Redo, backup, and page operations. Modeled Thin/Medium points retain relative timestamps `t` for deterministic model reconstruction.
+- The 5.6.1 O(current-stroke) live layer and Pen-up commit architecture remains unchanged.
+
+DIAGNOSTICS TO KEEP
+-------------------
+For modeled Thin/Medium Pen, retain `penRenderer`, `googleLiveModelMs`, `googlePredictionMs`, `googleStablePoints`, `googlePredictionPointsLast`, `googleWobbleSpeedLast`, `googleWobbleBlendLast`, `googleLagPointsLast`, `googleOutputPoints`, `googleEndLagPoints`, live render/commit timing, page annotation count, and history depth. The old `liveFit*` / `penFit*` fields are removed.
+
+ATTRIBUTIONS / LICENSES
+-----------------------
+The three-dots menu now includes **Attributions & licenses** near About. It lists:
+- PDF.js 6.2.108 — Mozilla Foundation and contributors — Apache License 2.0;
+- pdf-lib 1.17.1 — Copyright (c) 2019 Andrew Dillon — MIT License;
+- JSZip 3.10.1 — Copyright (c) 2009-2016 Stuart Knightley, David Duponchel, Franz Buchinger, Antonio Afonso — Workbench uses the MIT option of its MIT/GPLv3 dual license;
+- Google Ink Stroke Modeler — Copyright 2022 Google LLC — Apache License 2.0; Workbench's `google-ink-modeler.js` remains an independent JavaScript implementation based on the published model/parameters, not a bundled copy of Google's C++ source.
+
+Bundled legal/supporting files:
+- `THIRD_PARTY_NOTICES.txt`;
+- `THIRD_PARTY_LICENSES.txt`;
+- `APACHE-2.0-Google-Ink-Stroke-Modeler.txt`.
+These files are in the service-worker app shell so they remain readable offline after caching. Project names are for attribution/identification only; no endorsement is implied.
+
+DEPLOYMENT NOTE
+---------------
+External PDF.js/pdf-lib/JSZip bundling remains POSTPONED. 5.6.7 keeps the same pinned external versions and caching behavior as 5.6.6. When true vendoring is resumed, re-audit the exact vendored pdfjs-dist resource notices (including any resource-specific notices) against the bundled package.
+
+NEXT FIELD TEST
+---------------
+Use 5.6.7 in normal work/class use. The inking behavior is intended to match 5.6.6; this revision should be judged mainly for regressions caused by cleanup. If modeled ink remains stable, the next deployment task can return to making the runtime dependencies fully self-contained.
+
+================ PRIOR HANDOFF HISTORY ================
+
 MILESTONE 5.6.6 — GOOGLE-STYLE MODELED-INPUT THIN/MEDIUM PEN EXPERIMENT
 
 CURRENT BUILD: Milestone 5.6.6
