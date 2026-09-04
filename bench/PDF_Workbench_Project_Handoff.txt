@@ -1,3 +1,48 @@
+MILESTONE 5.6.8 — UNIFIED MODELED PEN RENDERER
+
+CURRENT BUILD: Milestone 5.6.8
+Visible About version: 5.6.8
+Service-worker/cache version: pdf-workbench-m5.6.8-v1
+Library schema version: unchanged
+
+WHY THIS REVISION EXISTS
+------------------------
+The 5.5 pt Thick Pen already looked acceptable, but keeping it on a separate cardinal-spline renderer meant Pen behavior still had two live/render/commit/export pipelines. The user explicitly preferred one algorithm for all widths, both to simplify the present code and to make future additional or continuously adjustable widths easier.
+
+5.6.8 UNIFICATION
+-----------------
+- ALL Pen widths now use `google-ink-v1` modeled input. Thin, Medium, and Thick differ only by their numeric `width` value.
+- REMOVED the remaining Thick-only cardinal renderer: `THICK_PEN_CURVE_FACTOR`, `THICK_PEN_HANDLE_CAP`, `thickPenStrokeControls`, `traceThickPenCanvas`, the raw/incremental Thick live helpers, and the Thick PDF-export Bezier branch.
+- REMOVED renderer-selection-by-width. New Pen input always creates a Google modeler and stores relative input timestamp `t` on raw Pen points.
+- Screen redraw and PDF export now route every Pen annotation through `buildGoogleInkRender`; Highlighter remains the separate raw/translucent path.
+- Pen-up still commits only the just-finished modeled stroke to the persistent overlay, preserving the 5.6.1 O(current-stroke) dense-page performance rule.
+- Diagnostics now report `penRenderer: "google-ink-v1"` for every Pen width; the retired `thick-cardinal` identity no longer exists.
+- Raw Pencil points remain authoritative for Eraser, Lasso/Select, hit testing, transforms, persistence, Undo/Redo, backup, and page operations.
+- There is no compatibility target for experimental pre-5.6.6 renderer appearance; those test documents can be deleted.
+
+WHY THIS HELPS FUTURE WIDTHS
+----------------------------
+Width no longer selects an algorithm. Adding another fixed width, changing the current three widths, or later replacing the three choices with a slider can operate on the same modeled trajectory/rendering code and only change the numeric line width. Width-specific model tuning should be introduced only if real testing demonstrates a need.
+
+ATTRIBUTIONS / LICENSES
+-----------------------
+The 5.6.7 legal/UI work remains intact:
+- **⋯ → Attributions & licenses**;
+- `THIRD_PARTY_NOTICES.txt`;
+- `THIRD_PARTY_LICENSES.txt`;
+- `APACHE-2.0-Google-Ink-Stroke-Modeler.txt`.
+The notice now describes Google-style positional modeling/prediction as applying to all Pen widths. PDF.js 6.2.108, pdf-lib 1.17.1, JSZip 3.10.1, and Google Ink Stroke Modeler remain the listed third-party projects/licenses.
+
+DEPLOYMENT NOTE
+---------------
+External PDF.js/pdf-lib/JSZip bundling remains POSTPONED. 5.6.8 keeps the same pinned external versions and service-worker caching behavior as 5.6.7. True vendoring can resume after the unified Pen path has had a short real-use regression test.
+
+TEST REQUEST
+------------
+Write normally with Thin, Medium, and Thick. Thick is the only behavior newly changed in this revision. Confirm that it still looks/feels acceptable and that Thin/Medium remain unchanged in responsiveness/appearance. If so, treat one modeled Pen pipeline as the new baseline for future width options.
+
+================ PRIOR HANDOFF HISTORY ================
+
 MILESTONE 5.6.7 — MODELED-INK CLEANUP + ATTRIBUTIONS
 
 CURRENT BUILD: Milestone 5.6.7

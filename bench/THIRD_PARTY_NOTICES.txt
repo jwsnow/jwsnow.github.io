@@ -1,4 +1,4 @@
-PDF Workbench 5.6.7 — Third-Party Notices
+PDF Workbench 5.6.8 — Third-Party Notices
 ==========================================
 
 PDF Workbench uses or is informed by the following third-party projects.
@@ -34,7 +34,7 @@ implied.
    PDF Workbench's local google-ink-modeler.js is an independent JavaScript
    implementation based on the published model, algorithm descriptions,
    tuning guidance, and starting parameters. Google's C++ source is not bundled.
-   Runtime use: positional modeling/prediction for Thin and Medium Pen ink.
+   Runtime use: positional modeling/prediction for all Pen widths.
 
 Research reference (not bundled; not a runtime dependency):
    WhiteboardCX/ink-stroke-modeler-ts

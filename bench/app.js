@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.6.7';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.6.8';
 
-const APP_VERSION = '5.6.7';
+const APP_VERSION = '5.6.8';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -321,7 +321,7 @@ function cloneInkStroke(stroke) {
     });
   } else if (ArrayBuffer.isView(source)) {
     // Undo/Redo snapshots pack x/y plus the relative input timestamp used by
-    // the Google-style Thin/Medium modeler. Older in-memory snapshots without
+    // the Google-style Pen modeler. Older in-memory snapshots without
     // pointStride are still interpreted as x/y pairs.
     const stride = Number(stroke?.pointStride) === 3 ? 3 : 2;
     points = new Array(Math.floor(source.length / stride));
@@ -337,10 +337,9 @@ function cloneInkStroke(stroke) {
 }
 function cloneInkStrokeForHistory(stroke) {
   const source = Array.isArray(stroke?.points) ? stroke.points : [];
-  // Preserve the pre-5.6.6 compact x/y history representation for ordinary
-  // strokes. Only modeled strokes (or any future timed stroke) pay for a third
-  // timestamp float; this avoids a 50% history-memory regression for existing
-  // Pen/Highlighter ink.
+  // Highlighter snapshots keep the compact x/y representation. Modeled Pen
+  // strokes carry a third relative-time float so their trajectory can be
+  // reconstructed deterministically after Undo/Redo.
   const timed = stroke?.renderer === GOOGLE_INK_RENDERER || source.some(point => Number.isFinite(Number(point?.t)));
   const stride = timed ? 3 : 2;
   const packed = new Float32Array(source.length * stride);
@@ -1639,60 +1638,9 @@ function gestureEventGeometry(stage, page) {
   if (!rect || rect.width <= 0 || rect.height <= 0) return null;
   return { rect, display:pageDisplayDimensions(page), base:pageCanvasBaseDimensions(page) };
 }
-// Thick Pen keeps the established restrained cardinal-spline renderer.
-// Thin and Medium Pen are modeled by google-ink-modeler.js; the abandoned
-// 5.6.2-5.6.5 stabilization / filled-outline / trajectory-fit experiments have
-// been removed rather than kept as compatibility code. Raw sampled points
-// remain authoritative for erasing, lasso transforms, persistence, and Undo.
-const THICK_PEN_CURVE_FACTOR = 0.135;
-const THICK_PEN_HANDLE_CAP = 0.58;
-function thickPenStrokeControls(points, segmentIndex) {
-  const count = points?.length || 0;
-  if (count < 2 || segmentIndex < 0 || segmentIndex >= count - 1) return null;
-  const p0 = points[Math.max(0, segmentIndex - 1)];
-  const p1 = points[segmentIndex];
-  const p2 = points[segmentIndex + 1];
-  const p3 = points[Math.min(count - 1, segmentIndex + 2)];
-  let c1 = {
-    x: p1.x + (p2.x - p0.x) * THICK_PEN_CURVE_FACTOR,
-    y: p1.y + (p2.y - p0.y) * THICK_PEN_CURVE_FACTOR,
-  };
-  let c2 = {
-    x: p2.x - (p3.x - p1.x) * THICK_PEN_CURVE_FACTOR,
-    y: p2.y - (p3.y - p1.y) * THICK_PEN_CURVE_FACTOR,
-  };
-  const segmentLength = Math.hypot(p2.x - p1.x, p2.y - p1.y);
-  const maxHandle = segmentLength * THICK_PEN_HANDLE_CAP;
-  const capFrom = (anchor, control) => {
-    const dx = control.x - anchor.x, dy = control.y - anchor.y;
-    const length = Math.hypot(dx, dy);
-    if (!maxHandle || length <= maxHandle || length < 1e-9) return control;
-    const scale = maxHandle / length;
-    return { x: anchor.x + dx * scale, y: anchor.y + dy * scale };
-  };
-  c1 = capFrom(p1, c1);
-  c2 = capFrom(p2, c2);
-  return { p1, p2, c1, c2 };
-}
-function traceThickPenCanvas(ctx, page, points) {
-  if (!ctx || !Array.isArray(points) || !points.length) return;
-  const first = basePointToDisplay(page, points[0]);
-  ctx.moveTo(first.x, first.y);
-  if (points.length === 1) return;
-  if (points.length === 2) {
-    const second = basePointToDisplay(page, points[1]);
-    ctx.lineTo(second.x, second.y);
-    return;
-  }
-  for (let i = 0; i < points.length - 1; i++) {
-    const controls = thickPenStrokeControls(points, i);
-    if (!controls) continue;
-    const c1 = basePointToDisplay(page, controls.c1);
-    const c2 = basePointToDisplay(page, controls.c2);
-    const p2 = basePointToDisplay(page, controls.p2);
-    ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, p2.x, p2.y);
-  }
-}
+// All Pen widths use the Google Ink Stroke Modeler-style physical trajectory
+// path introduced in 5.6.6. Width is now only a rendering parameter, which
+// keeps future additional/continuous Pen widths independent of renderer choice.
 function traceRawStrokeCanvas(ctx, page, points) {
   if (!ctx || !Array.isArray(points) || !points.length) return;
   const first = basePointToDisplay(page, points[0]);
@@ -1702,19 +1650,12 @@ function traceRawStrokeCanvas(ctx, page, points) {
     ctx.lineTo(point.x, point.y);
   }
 }
-// Thin/Medium Pen strokes use the Google Ink Stroke Modeler-style physical
-// trajectory model introduced in 5.6.6. The abandoned custom Thin/Medium
-// renderers are intentionally not retained in 5.6.7. Raw points (including
-// relative timestamps for modeled strokes) remain the editable/persistent model.
+// Every Pen width uses the Google Ink Stroke Modeler-style physical trajectory
+// model. Raw points (including relative timestamps) remain the editable/
+// persistent model; displayed width does not select a different renderer.
 const googleInkRenderCache = new WeakMap();
-function penWidthUsesGoogleInk(width=3) {
-  const w=Math.max(.25,Number(width)||3);
-  return w<=3.5;
-}
 function penStrokeUsesGoogleInk(stroke) {
-  // Renderer identity is sticky. Width only decides which renderer a NEW Pen
-  // stroke receives; selection resizing must not silently swap renderers.
-  return stroke?.tool==='pen' && stroke?.renderer===GOOGLE_INK_RENDERER;
+  return stroke?.tool==='pen';
 }
 function buildGoogleInkRender(stroke) {
   const source=Array.isArray(stroke?.points)?stroke.points:[];
@@ -1848,7 +1789,7 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
     }
     return highlighterScratchCtx;
   };
-  const drawStrokeGeometry = (targetCtx, stroke, points, useSmooth, opacity) => {
+  const drawStrokeGeometry = (targetCtx, stroke, points, opacity) => {
     const width = Math.max(.25, Number(stroke.width) || 3);
     const color = stroke.color || '#111111';
     const first = basePointToDisplay(page, points[0]);
@@ -1866,12 +1807,11 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
       targetCtx.fill();
     } else {
       targetCtx.beginPath();
-      if (useSmooth && penStrokeUsesGoogleInk(stroke)) {
+      if (penStrokeUsesGoogleInk(stroke)) {
         const modeled=buildGoogleInkRender(stroke).points;
         if (modeled.length) traceGoogleInkCanvas(targetCtx,page,modeled);
         else traceRawStrokeCanvas(targetCtx,page,points);
-      } else if (useSmooth) traceThickPenCanvas(targetCtx, page, points);
-      else traceRawStrokeCanvas(targetCtx, page, points);
+      } else traceRawStrokeCanvas(targetCtx, page, points);
       targetCtx.stroke();
     }
     targetCtx.restore();
@@ -1899,7 +1839,7 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
       const scratchCtx = ensureHighlighterScratch();
       if (scratchCtx) {
         scratchCtx.clearRect(0, 0, pixelWidth, pixelHeight);
-        drawStrokeGeometry(scratchCtx, stroke, points, false, 1);
+        drawStrokeGeometry(scratchCtx, stroke, points, 1);
         ctx.save();
         ctx.globalAlpha = opacity;
         ctx.drawImage(highlighterScratch, 0, 0);
@@ -1908,9 +1848,9 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
       }
     }
 
-    // Modeled Thin/Medium Pen uses Google-style positional output; Thick Pen
-    // keeps the restrained cardinal renderer. Highlighter remains raw polyline.
-    drawStrokeGeometry(ctx, stroke, points, stroke.tool !== 'highlighter', opacity);
+    // Every Pen width uses Google-style modeled positional output. Highlighter
+    // remains a raw polyline on its own translucent compositing path.
+    drawStrokeGeometry(ctx, stroke, points, opacity);
   }
 }
 function ensureAnnotationOverlay(stage, baseCanvas=null) {
@@ -2020,38 +1960,6 @@ function scheduleExactAnnotationRedraw(page, reason='edit') {
     state.annotationRedrawJobs.set(key, { kind:'timer', id:setTimeout(run, 90) });
   }
 }
-function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
-  // Immediate/incremental helper retained for Thick Pen, which remains the
-  // established Thick-Pen control path. Thin/Medium use the modeled live layer
-  // instead of committing a raw path segment for every sample.
-  const started=performance.now();
-  const width=Math.max(.25,Number(stroke.width)||3);
-  const drawOnStage = targetStage => {
-    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
-    const canvas = ensureLivePenOverlay(targetStage, baseCanvas);
-    if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    const display = pageDisplayDimensions(page);
-    const sx = canvas.width / Math.max(1, display.width), sy = canvas.height / Math.max(1, display.height);
-    const a = basePointToDisplay(page, fromPoint), b = basePointToDisplay(page, toPoint);
-    ctx.save(); ctx.scale(sx, sy);
-    ctx.globalAlpha = clamp(Number(stroke.opacity ?? 1), 0, 1);
-    ctx.strokeStyle = stroke.color || '#111111'; ctx.fillStyle = stroke.color || '#111111';
-    ctx.lineWidth = width; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    if (Math.hypot(b.x-a.x,b.y-a.y)<.001) {
-      ctx.beginPath(); ctx.arc(a.x,a.y,width/2,0,Math.PI*2); ctx.fill();
-    } else {
-      ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
-    }
-    ctx.restore();
-  };
-  drawOnStage(stage);
-  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
-  for (const other of document.querySelectorAll(selector)) if (other !== stage) drawOnStage(other);
-  return { renderMs:performance.now()-started };
-}
-
 function ensureLivePenOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
   const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
@@ -2118,18 +2026,14 @@ function drawLiveGoogleInkPreview(stage,page,stroke,stablePoints,predictionPoint
 }
 
 function commitLivePenOverlays(page, stroke, options={}) {
-  // Preserve the 5.6.1 O(current stroke) release rule. Modeled Thin/Medium
-  // commits its stable modeled trajectory once; Thick commits only the current
-  // cardinal-spline stroke. No abandoned trajectory-fit compatibility path.
-  if (!page?.id || !stroke?.id) return {commitMs:0,stages:0,googleMode:false};
+  // Preserve the 5.6.1 O(current stroke) release rule. Every Pen width commits
+  // only its stable modeled trajectory; unrelated page ink is never redrawn.
+  if (!page?.id || !stroke?.id) return {commitMs:0,stages:0,googleMode:true};
   const started=performance.now();
   const width=Math.max(.25,Number(stroke.width)||3);
-  const googleMode=penStrokeUsesGoogleInk(stroke);
-  const googleResult=googleMode
-    ? (Array.isArray(options.googlePoints)
-      ? {points:options.googlePoints,modelMs:0,inputPoints:(stroke.points||[]).length,outputPoints:options.googlePoints.length,...(options.googleMetrics||{})}
-      : buildGoogleInkRender(stroke))
-    : null;
+  const googleResult=Array.isArray(options.googlePoints)
+    ? {points:options.googlePoints,modelMs:0,inputPoints:(stroke.points||[]).length,outputPoints:options.googlePoints.length,...(options.googleMetrics||{})}
+    : buildGoogleInkRender(stroke);
   const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   let stages=0;
   for (const stage of document.querySelectorAll(selector)) {
@@ -2137,31 +2041,26 @@ function commitLivePenOverlays(page, stroke, options={}) {
     const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
     const overlay=ensureAnnotationOverlay(stage,base),ctx=overlay?.getContext?.('2d');
     if (ctx && overlay.width && overlay.height) {
-      if (googleMode) {
-        const display=pageDisplayDimensions(page),sx=overlay.width/Math.max(1,display.width),sy=overlay.height/Math.max(1,display.height);
-        ctx.save();ctx.scale(sx,sy);
-        ctx.globalAlpha=clamp(Number(stroke.opacity??1),0,1);
-        ctx.strokeStyle=stroke.color||'#111111';ctx.fillStyle=stroke.color||'#111111';
-        ctx.lineWidth=width;ctx.lineCap='round';ctx.lineJoin='round';
-        if ((stroke.points||[]).length===1) {
-          const p=basePointToDisplay(page,stroke.points[0]);ctx.beginPath();ctx.arc(p.x,p.y,width/2,0,Math.PI*2);ctx.fill();
-        } else if (googleResult?.points?.length) {
-          ctx.beginPath();traceGoogleInkCanvas(ctx,page,googleResult.points);ctx.stroke();
-        }
-        ctx.restore();
-      } else {
-        const singleStrokePage={...page,annotations:[stroke]};
-        drawPageAnnotationsCanvas(singleStrokePage,ctx,overlay.width,overlay.height,{inkOnly:true});
+      const display=pageDisplayDimensions(page),sx=overlay.width/Math.max(1,display.width),sy=overlay.height/Math.max(1,display.height);
+      ctx.save();ctx.scale(sx,sy);
+      ctx.globalAlpha=clamp(Number(stroke.opacity??1),0,1);
+      ctx.strokeStyle=stroke.color||'#111111';ctx.fillStyle=stroke.color||'#111111';
+      ctx.lineWidth=width;ctx.lineCap='round';ctx.lineJoin='round';
+      if ((stroke.points||[]).length===1) {
+        const p=basePointToDisplay(page,stroke.points[0]);ctx.beginPath();ctx.arc(p.x,p.y,width/2,0,Math.PI*2);ctx.fill();
+      } else if (googleResult?.points?.length) {
+        ctx.beginPath();traceGoogleInkCanvas(ctx,page,googleResult.points);ctx.stroke();
       }
+      ctx.restore();
       stages++;
     }
     const liveCtx=live?.getContext?.('2d');
     if (liveCtx && live.width && live.height) liveCtx.clearRect(0,0,live.width,live.height);
     if (live) live._pdfwbLivePenDirty=null;
   }
-  if (googleMode && Array.isArray(options.googlePoints)) cacheGoogleInkRender(stroke,options.googlePoints,options.googleMetrics||{});
+  if (Array.isArray(options.googlePoints)) cacheGoogleInkRender(stroke,options.googlePoints,options.googleMetrics||{});
   return {
-    commitMs:performance.now()-started,stages,googleMode,
+    commitMs:performance.now()-started,stages,googleMode:true,
     googleModelMs:googleResult?.modelMs||0,
     googleInputPoints:googleResult?.inputPoints||0,
     googleOutputPoints:googleResult?.outputPoints||googleResult?.points?.length||0,
@@ -2263,33 +2162,6 @@ function commitLiveHighlighterOverlays(page, opacity=HIGHLIGHTER_OPACITY) {
     live.remove();
   }
 }
-
-function drawLiveThickPenProgress(stage, page, stroke) {
-  // Thick Pen path: retain the established incremental cardinal spline.
-  const started=performance.now(),points=stroke?.points||[],count=points.length;
-  if (!count) return {renderMs:0};
-  if (count===1) return drawLiveInkSegment(stage,page,stroke,points[0],points[0]);
-  if (count===2) return drawLiveInkSegment(stage,page,stroke,points[0],points[1]);
-  const controls=thickPenStrokeControls(points,count-3);
-  if (!controls) return {renderMs:performance.now()-started};
-  const width=Math.max(.25,Number(stroke.width)||3);
-  const drawOnStage=targetStage=>{
-    const baseCanvas=targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
-    const canvas=ensureLivePenOverlay(targetStage,baseCanvas);
-    if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered!=='true') return;
-    const ctx=canvas.getContext('2d'); if (!ctx) return;
-    const display=pageDisplayDimensions(page),sx=canvas.width/Math.max(1,display.width),sy=canvas.height/Math.max(1,display.height);
-    const p1=basePointToDisplay(page,controls.p1),p2=basePointToDisplay(page,controls.p2),c1=basePointToDisplay(page,controls.c1),c2=basePointToDisplay(page,controls.c2);
-    ctx.save(); ctx.scale(sx,sy); ctx.globalAlpha=clamp(Number(stroke.opacity??1),0,1);
-    ctx.strokeStyle=stroke.color||'#111111'; ctx.lineWidth=width; ctx.lineCap='round'; ctx.lineJoin='round';
-    ctx.beginPath(); ctx.moveTo(p1.x,p1.y); ctx.bezierCurveTo(c1.x,c1.y,c2.x,c2.y,p2.x,p2.y); ctx.stroke(); ctx.restore();
-  };
-  drawOnStage(stage);
-  const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
-  for (const other of document.querySelectorAll(selector)) if (other!==stage) drawOnStage(other);
-  return {renderMs:performance.now()-started};
-}
-
 
 // ---------------------------------------------------------------------------
 // Milestone 5.2 annotation selection / lasso / manipulation
@@ -3165,19 +3037,18 @@ function accumulatePenLiveTiming(gesture, timing) {
   if (Number.isFinite(timing.googleStablePoints)) gesture.googleStablePointsLast=timing.googleStablePoints;
   if (Number.isFinite(timing.googlePredictionPoints)) gesture.googlePredictionPointsLast=timing.googlePredictionPoints;
 }
-function appendInkPoint(gesture, event, drawLive=true, geometry=null, force=false) {
+function appendInkPoint(gesture, event, geometry=null, force=false) {
   const page = pageById(gesture.pageId);
   if (!page || page !== gesture.page || !gesture.stage?.isConnected) return null;
   const next = eventPointOnPage(gesture.stage, page, event, geometry);
   if (!next) return null;
-  const googleMode=penStrokeUsesGoogleInk(gesture.stroke);
-  if (googleMode) next.t=googleInkEventTime(gesture,event);
+  const modeledPen=penStrokeUsesGoogleInk(gesture.stroke);
+  if (modeledPen) next.t=googleInkEventTime(gesture,event);
   const points = gesture.stroke.points;
   const previous = points[points.length - 1];
-  const threshold=googleMode ? .02 : .18;
+  const threshold=modeledPen ? .02 : .18;
   if (!force && previous && Math.hypot(next.x - previous.x, next.y - previous.y) < threshold) return null;
   points.push(next);
-  if (drawLive) accumulatePenLiveTiming(gesture,drawLiveThickPenProgress(gesture.stage, page, gesture.stroke));
   return next;
 }
 function inkStageForEvent(viewer, event) {
@@ -3219,7 +3090,7 @@ function beginInkGesture(viewer, event) {
   const first = eventPointOnPage(stage, page, event);
   if (!first) { addInkDiagnostic('handler-begin-point-miss', event); return true; }
   const drawingTool = state.annotationTool;
-  const useGoogleInk=drawingTool==='pen' && penWidthUsesGoogleInk(state.penWidth);
+  const useGoogleInk=drawingTool==='pen';
   if (useGoogleInk) first.t=0;
   const stroke = {
     id: uid('ink'),
@@ -3246,15 +3117,9 @@ function beginInkGesture(viewer, event) {
     // Highlighter layer.
     drawLiveHighlighterPoints(stage, page, stroke, [first]);
   } else {
-    // Thin/Medium uses the modeled-input live layer; Thick remains on the
-    // established incremental cardinal renderer.
-    if (useGoogleInk) {
-      consumeGoogleInkPoint(state.inkGesture,first,'down');
-      const prediction=googleInkPrediction(state.inkGesture);
-      accumulatePenLiveTiming(state.inkGesture,drawLiveGoogleInkPreview(stage,page,stroke,state.inkGesture.googleStablePoints,prediction));
-    } else {
-      accumulatePenLiveTiming(state.inkGesture,drawLiveInkSegment(stage,page,stroke,first,first));
-    }
+    consumeGoogleInkPoint(state.inkGesture,first,'down');
+    const prediction=googleInkPrediction(state.inkGesture);
+    accumulatePenLiveTiming(state.inkGesture,drawLiveGoogleInkPreview(stage,page,stroke,state.inkGesture.googleStablePoints,prediction));
   }
   addInkDiagnostic('handler-begin-accepted', event, {
     strokeId:stroke.id, liveBatchOptimized:true, liveLayer:drawingTool === 'highlighter' ? 'highlighter' : 'pen',
@@ -3268,22 +3133,18 @@ function continueInkGesture(viewer, event) {
   if (event.cancelable) event.preventDefault();
   const samples=typeof event.getCoalescedEvents==='function'?event.getCoalescedEvents():null;
   const translucent=gesture.stroke?.tool==='highlighter';
-  const googlePreview=!translucent && penStrokeUsesGoogleInk(gesture.stroke);
-  const geometry=(translucent||googlePreview)?gestureEventGeometry(gesture.stage,gesture.page):null;
+  const geometry=gestureEventGeometry(gesture.stage,gesture.page);
   if (translucent) {
     const batch=[],first=gesture.stroke.points[gesture.stroke.points.length-1]||null;
     if (first) batch.push(first);
-    const appendSample=sample=>{const added=appendInkPoint(gesture,sample,false,geometry);if(added)batch.push(added);};
+    const appendSample=sample=>{const added=appendInkPoint(gesture,sample,geometry);if(added)batch.push(added);};
     if (samples?.length) for (const sample of samples) appendSample(sample); else appendSample(event);
     if (batch.length>1) drawLiveHighlighterPoints(gesture.stage,gesture.page,gesture.stroke,batch);
-  } else if (googlePreview) {
-    const appendSample=sample=>{const added=appendInkPoint(gesture,sample,false,geometry);if(added)consumeGoogleInkPoint(gesture,added,'move');};
+  } else {
+    const appendSample=sample=>{const added=appendInkPoint(gesture,sample,geometry);if(added)consumeGoogleInkPoint(gesture,added,'move');};
     if (samples?.length) for (const sample of samples) appendSample(sample); else appendSample(event);
     const prediction=googleInkPrediction(gesture);
     accumulatePenLiveTiming(gesture,drawLiveGoogleInkPreview(gesture.stage,gesture.page,gesture.stroke,gesture.googleStablePoints,prediction));
-  } else {
-    const appendSample=sample=>appendInkPoint(gesture,sample,true);
-    if (samples?.length) for (const sample of samples) appendSample(sample); else appendSample(event);
   }
   return true;
 }
@@ -3293,25 +3154,25 @@ function finishInkGesture(viewer, event) {
   if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
   if (event.cancelable) event.preventDefault();
   const translucent = gesture.stroke?.tool === 'highlighter';
-  const googleMode=!translucent && penStrokeUsesGoogleInk(gesture.stroke);
+  const googleMode=!translucent;
   const previous = gesture.stroke.points[gesture.stroke.points.length - 1] || null;
-  const geometry = (translucent || googleMode) ? gestureEventGeometry(gesture.stage, gesture.page) : null;
-  const finalPoint = appendInkPoint(gesture, event, !translucent && !googleMode, geometry, googleMode);
+  const geometry = gestureEventGeometry(gesture.stage, gesture.page);
+  const finalPoint = appendInkPoint(gesture, event, geometry, googleMode);
   if (translucent && finalPoint) {
     drawLiveHighlighterPoints(gesture.stage, gesture.page, gesture.stroke, previous ? [previous, finalPoint] : [finalPoint]);
   } else if (googleMode && finalPoint) {
     consumeGoogleInkPoint(gesture,finalPoint,'up');
   }
   // Commit only the just-finished live stroke. Highlighter composites its one
-  // translucent live object; Pen commits the modeled Thin/Medium trajectory or
-  // the Thick cardinal stroke. Neither path redraws unrelated page ink.
+  // translucent live object; every Pen width commits its modeled trajectory.
+  // Neither path redraws unrelated page ink.
   const commitStarted = performance.now();
   let penCommit = null;
   if (translucent) {
     commitLiveHighlighterOverlays(gesture.page, gesture.stroke.opacity);
   } else {
-    const googleMetrics=googleMode?(gesture.googleModeler?.metrics?.()||{}):null;
-    penCommit = commitLivePenOverlays(gesture.page, gesture.stroke, googleMode?{googlePoints:gesture.googleStablePoints,googleMetrics}:{});
+    const googleMetrics=gesture.googleModeler?.metrics?.()||{};
+    penCommit = commitLivePenOverlays(gesture.page, gesture.stroke, {googlePoints:gesture.googleStablePoints,googleMetrics});
   }
   const liveCommitMs = performance.now() - commitStarted;
   if (gesture.inputSource === 'pointer') {
@@ -3324,7 +3185,7 @@ function finishInkGesture(viewer, event) {
     liveLayer:translucent ? 'highlighter' : 'pen', liveCommitMs:Math.round(liveCommitMs*10)/10,
     liveRenderMs:translucent ? null : Math.round((gesture.liveRenderMs||0)*10)/10,
     liveRenderCalls:translucent ? null : (gesture.liveRenderCalls||0),
-    penRenderer:translucent ? null : (penCommit?.googleMode ? GOOGLE_INK_RENDERER : 'thick-cardinal'),
+    penRenderer:translucent ? null : GOOGLE_INK_RENDERER,
     googleLiveModelMs:googleMode ? Math.round((gesture.googleLiveModelMs||0)*10)/10 : null,
     googlePredictionMs:googleMode ? Math.round((gesture.googlePredictionMs||0)*10)/10 : null,
     googleStablePoints:googleMode ? (gesture.googleStablePoints?.length||0) : null,
@@ -4049,7 +3910,7 @@ async function drawPageAnnotationsPdf(outputPdf, pdfPage, page, inheritedRotatio
         const point = annotationPointToRawPdf(page, exportPoints[i], pdfPage, inheritedRotation);
         path += ` L ${pathNumber(point.x)} ${pathNumber(-point.y)}`;
       }
-    } else if (penStrokeUsesGoogleInk(stroke)) {
+    } else {
       const modeled=buildGoogleInkRender(stroke).points;
       if (modeled.length) {
         const modeledFirst=annotationPointToRawPdf(page,modeled[0],pdfPage,inheritedRotation);
@@ -4061,20 +3922,6 @@ async function drawPageAnnotationsPdf(outputPdf, pdfPage, page, inheritedRotatio
       } else {
         const second=annotationPointToRawPdf(page,points[points.length-1],pdfPage,inheritedRotation);
         path += ` L ${pathNumber(second.x)} ${pathNumber(-second.y)}`;
-      }
-    } else if (points.length === 2) {
-      const second = annotationPointToRawPdf(page, points[1], pdfPage, inheritedRotation);
-      path += ` L ${pathNumber(second.x)} ${pathNumber(-second.y)}`;
-    } else {
-      const renderFirst = annotationPointToRawPdf(page, points[0], pdfPage, inheritedRotation);
-      path = `M ${pathNumber(renderFirst.x)} ${pathNumber(-renderFirst.y)}`;
-      for (let i = 0; i < points.length - 1; i++) {
-        const controls = thickPenStrokeControls(points, i);
-        if (!controls) continue;
-        const c1 = annotationPointToRawPdf(page, controls.c1, pdfPage, inheritedRotation);
-        const c2 = annotationPointToRawPdf(page, controls.c2, pdfPage, inheritedRotation);
-        const p2 = annotationPointToRawPdf(page, controls.p2, pdfPage, inheritedRotation);
-        path += ` C ${pathNumber(c1.x)} ${pathNumber(-c1.y)} ${pathNumber(c2.x)} ${pathNumber(-c2.y)} ${pathNumber(p2.x)} ${pathNumber(-p2.y)}`;
       }
     }
 
@@ -10246,7 +10093,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.6.7 makes the 5.6.6 Google-style modeled-input path the sole Thin/Medium Pen renderer and removes the abandoned custom stabilization, filled-outline, distance/corner filtering, and Bezier-fit code. Thick retains its established cardinal renderer. Raw Pencil points and relative timestamps remain authoritative for editing/persistence. The 5.6.1 dense-page live-Pen optimization, 5.6.0 black blank pages, and 5.5.9 rebuilt-PDF link policy remain in place.</p>
+      <p>Milestone 5.6.8 unifies all three Pen widths on the Google-style modeled-input path. Width is now only a rendering parameter, so future additional or continuously adjustable widths do not require another Pen renderer. The remaining Thick-only cardinal-spline path has been removed. Raw Pencil points and relative timestamps remain authoritative for editing/persistence. The 5.6.1 dense-page live-Pen optimization, 5.6.0 black blank pages, and 5.5.9 rebuilt-PDF link policy remain in place.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image scope in 5.5.2:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

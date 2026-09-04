@@ -1,3 +1,20 @@
+# PDF Workbench — Milestone 5.6.8
+
+## 5.6.8 unified modeled Pen renderer
+
+Milestone 5.6.8 moves **all three current Pen widths** onto the same `google-ink-v1` modeled-input pipeline. The 5.5 pt Thick Pen no longer has a separate cardinal-spline renderer.
+
+- Thin, Medium, and Thick now share the same velocity-aware wobble filtering, spring/mass/drag modeling, 180 Hz modeled output, live stroke-end prediction, end-of-stroke catch-up, live canvas, commit path, redraw path, and PDF export path.
+- Pen width is now only a numeric rendering parameter. This deliberately makes future extra widths or a continuously adjustable Pen width much easier to add without another renderer-selection branch.
+- Removed the remaining Thick-only cardinal-spline constants, control-point generator, Canvas tracer, incremental live-progress renderer, commit fallback, PDF-export Bezier branch, and `thick-cardinal` diagnostics identity.
+- Raw sampled x/y/t points remain authoritative for editing, Eraser, Lasso/Select, persistence, Undo/Redo, backup, and deterministic modeled redraw/export.
+- The 5.6.1 O(current-stroke) dense-page architecture is unchanged. Highlighter remains on its separate translucent raw-polyline compositing path.
+- There is intentionally no compatibility guarantee for the experimental pre-5.6.6 Pen renderers; the user plans to delete those test documents.
+- **⋯ → Attributions & licenses** and the bundled third-party notice/license files from 5.6.7 remain in place.
+- External PDF.js/pdf-lib/JSZip bundling remains postponed.
+
+================ PRIOR README HISTORY ================
+
 # PDF Workbench — Milestone 5.6.7
 
 ## 5.6.7 modeled-ink cleanup + attribution UI

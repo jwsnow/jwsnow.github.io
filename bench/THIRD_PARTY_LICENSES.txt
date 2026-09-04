@@ -1,4 +1,4 @@
-PDF Workbench 5.6.7 — Third-Party License Text
+PDF Workbench 5.6.8 — Third-Party License Text
 ==============================================
 
 PDF.js 6.2.108
