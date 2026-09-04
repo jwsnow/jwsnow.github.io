@@ -1,4 +1,4 @@
-const APP_VERSION = '5.6.4';
+const APP_VERSION = '5.6.5';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1749,24 +1749,46 @@ function traceRawStrokeCanvas(ctx, page, points) {
     ctx.lineTo(point.x, point.y);
   }
 }
-// Milestone 5.6.4 EXPERIMENT: thin/medium Pen rendering returns to an
-// ordinary round-capped centerline stroke, but the visible centerline is no
-// longer forced through nearly every sampled Pencil point. A recursive cubic
-// Bezier fitter uses all stabilized samples as evidence and emits only as many
-// curves as are needed to stay within a width-aware error tolerance. Raw input
-// points remain authoritative for erasing, selection, persistence, and Undo.
+// Milestone 5.6.5 EXPERIMENT: thin/medium Pen trajectory fitting now begins
+// by reducing the raw Pencil sample stream to a much smaller geometric path.
+// Samples are resampled by distance along the stroke, deliberate localized
+// corners are retained explicitly, and only a mild averaging pass is applied
+// between those corners before cubic fitting. Raw input points remain
+// authoritative for erasing, selection, persistence, and Undo/Redo.
 function penUsesTrajectoryFit(width=3) {
   const w = Math.max(.25, Number(width) || 3);
   return w <= 3.5;
 }
 function penTrajectoryFitTolerance(width=3) {
   const w = Math.max(.25, Number(width) || 3);
-  // Deliberately visible first experiment. These are PDF-page points, not
-  // screen pixels. Thin gets the tighter fit; Medium can ignore slightly more
-  // sub-point wobble because its wider stroke masks the same geometric error.
-  if (w <= 1.75) return 0.62;
-  if (w <= 3.5) return 0.82;
+  // The reduced trajectory has already discarded sub-point sample chatter, so
+  // the fitter can be a little more permissive than 5.6.5 without blurring
+  // intentional corners; detected corners are fitted as separate spans.
+  if (w <= 1.75) return 0.72;
+  if (w <= 3.5) return 0.95;
   return 0;
+}
+function penTrajectoryPreprocessSettings(width=3) {
+  const w=Math.max(.25,Number(width)||3);
+  if (w<=1.75) return {
+    spacing:.85,
+    cornerWindow:1.35,
+    localCornerWindow:.58,
+    cornerAngle:Math.PI*56/180,
+    cornerConcentration:.68,
+    cornerSeparation:1.15,
+    averageStrength:.38,
+  };
+  if (w<=3.5) return {
+    spacing:1.05,
+    cornerWindow:1.55,
+    localCornerWindow:.68,
+    cornerAngle:Math.PI*58/180,
+    cornerConcentration:.68,
+    cornerSeparation:1.35,
+    averageStrength:.30,
+  };
+  return {spacing:0,cornerWindow:0,localCornerWindow:0,cornerAngle:Math.PI,cornerConcentration:1,cornerSeparation:0,averageStrength:0};
 }
 function fitVecAdd(a,b) { return {x:a.x+b.x,y:a.y+b.y}; }
 function fitVecSub(a,b) { return {x:a.x-b.x,y:a.y-b.y}; }
@@ -1776,6 +1798,133 @@ function fitVecLength(v) { return Math.hypot(v.x,v.y); }
 function fitVecNormalize(v,fallback={x:1,y:0}) {
   const len=fitVecLength(v);
   return len>1e-9 ? {x:v.x/len,y:v.y/len} : {x:fallback.x,y:fallback.y};
+}
+function penStrokeCumulativeDistances(points) {
+  const cumulative=new Array(points.length).fill(0);
+  for (let i=1;i<points.length;i++) cumulative[i]=cumulative[i-1]+Math.hypot(points[i].x-points[i-1].x,points[i].y-points[i-1].y);
+  return cumulative;
+}
+function penPointAtArcDistance(points,cumulative,distance) {
+  if (!points.length) return null;
+  const total=cumulative[cumulative.length-1]||0;
+  const target=clamp(Number(distance)||0,0,total);
+  if (target<=0) return {...points[0]};
+  if (target>=total) return {...points[points.length-1]};
+  let lo=0,hi=cumulative.length-1;
+  while (lo+1<hi) {
+    const mid=(lo+hi)>>1;
+    if (cumulative[mid]<target) lo=mid; else hi=mid;
+  }
+  const span=cumulative[hi]-cumulative[lo];
+  if (span<1e-9) return {...points[hi]};
+  const t=(target-cumulative[lo])/span;
+  return {
+    x:points[lo].x+(points[hi].x-points[lo].x)*t,
+    y:points[lo].y+(points[hi].y-points[lo].y)*t,
+  };
+}
+function penTurnAngleAtDistance(points,cumulative,index,distance) {
+  if (index<=0||index>=points.length-1||distance<=0) return 0;
+  const centerDistance=cumulative[index], total=cumulative[cumulative.length-1]||0;
+  if (centerDistance<distance||total-centerDistance<distance) return 0;
+  const before=penPointAtArcDistance(points,cumulative,centerDistance-distance);
+  const after=penPointAtArcDistance(points,cumulative,centerDistance+distance);
+  const incoming=fitVecNormalize(fitVecSub(points[index],before));
+  const outgoing=fitVecNormalize(fitVecSub(after,points[index]));
+  return Math.acos(clamp(fitVecDot(incoming,outgoing),-1,1));
+}
+function detectPenTrajectoryCorners(points,cumulative,settings) {
+  const candidates=[];
+  const total=cumulative[cumulative.length-1]||0;
+  if (points.length<5||total<settings.cornerWindow*2) return [];
+  for (let i=1;i<points.length-1;i++) {
+    const s=cumulative[i];
+    if (s<settings.cornerWindow||total-s<settings.cornerWindow) continue;
+    const broad=penTurnAngleAtDistance(points,cumulative,i,settings.cornerWindow);
+    if (broad<settings.cornerAngle) continue;
+    const local=penTurnAngleAtDistance(points,cumulative,i,settings.localCornerWindow);
+    if (local<settings.cornerAngle*.82) continue;
+    // A true cusp keeps most of its turn even when measured in a much shorter
+    // neighborhood. A smooth U/arc spreads the turn across distance and fails
+    // this concentration test, so it remains smooth rather than becoming a V.
+    const concentration=broad>1e-6?local/broad:0;
+    if (concentration<settings.cornerConcentration) continue;
+    candidates.push({index:i,s,score:local+broad*.30,broad,local});
+  }
+  // Several adjacent raw samples can describe the same physical corner. Keep
+  // the strongest candidate in each small arc-length neighborhood.
+  candidates.sort((a,b)=>b.score-a.score);
+  const accepted=[];
+  for (const candidate of candidates) {
+    if (accepted.some(other=>Math.abs(other.s-candidate.s)<settings.cornerSeparation)) continue;
+    accepted.push(candidate);
+  }
+  accepted.sort((a,b)=>a.s-b.s);
+  return accepted;
+}
+function preprocessPenTrajectory(points,width=3) {
+  const source=Array.isArray(points)?points:[];
+  const settings=penTrajectoryPreprocessSettings(width);
+  if (source.length<=2||!settings.spacing) return {
+    points:source.map(p=>({...p})),cornerPositions:[0,Math.max(0,source.length-1)],cornerCount:0,
+    rawPoints:source.length,retainedPoints:source.length,spacing:settings.spacing,averageStrength:settings.averageStrength,
+  };
+  const cumulative=penStrokeCumulativeDistances(source), total=cumulative[cumulative.length-1]||0;
+  if (total<settings.spacing*.75) return {
+    points:[{...source[0]},{...source[source.length-1]}],cornerPositions:[0,1],cornerCount:0,
+    rawPoints:source.length,retainedPoints:2,spacing:settings.spacing,averageStrength:settings.averageStrength,
+  };
+  const corners=detectPenTrajectoryCorners(source,cumulative,settings);
+  const targets=[{s:0,endpoint:true},{s:total,endpoint:true}];
+  for (const corner of corners) targets.push({s:corner.s,corner:true,sourceIndex:corner.index});
+  for (let s=settings.spacing;s<total;s+=settings.spacing) {
+    // Do not place a regular resample anchor almost on top of an explicitly
+    // retained corner. The corner itself is the better geometric anchor.
+    if (corners.some(c=>Math.abs(c.s-s)<settings.spacing*.42)) continue;
+    targets.push({s});
+  }
+  targets.sort((a,b)=>a.s-b.s);
+  const reduced=[];
+  const cornerPositions=[];
+  for (const target of targets) {
+    let point;
+    if (target.corner&&Number.isInteger(target.sourceIndex)) point={...source[target.sourceIndex]};
+    else point=penPointAtArcDistance(source,cumulative,target.s);
+    if (!point) continue;
+    const previous=reduced[reduced.length-1];
+    if (previous&&Math.hypot(point.x-previous.x,point.y-previous.y)<1e-5) {
+      if (target.corner||target.endpoint) previous._corner=true;
+      continue;
+    }
+    point._corner=!!(target.corner||target.endpoint);
+    reduced.push(point);
+  }
+  if (!reduced.length) reduced.push({...source[0],_corner:true});
+  if (reduced.length===1) reduced.push({...source[source.length-1],_corner:true});
+  reduced[0]._corner=true; reduced[reduced.length-1]._corner=true;
+  for (let i=0;i<reduced.length;i++) if (reduced[i]._corner) cornerPositions.push(i);
+  // Mild three-point averaging only inside the spans bounded by retained
+  // corners. This is intentionally much lighter than the 5.6.2/5.6.5 five-
+  // sample anchor stabilization; point selection now does most of the cleanup.
+  const averaged=reduced.map(p=>({x:p.x,y:p.y,_corner:p._corner}));
+  for (let span=0;span<cornerPositions.length-1;span++) {
+    const first=cornerPositions[span], last=cornerPositions[span+1];
+    for (let i=first+1;i<last;i++) {
+      const prev=reduced[i-1],p=reduced[i],next=reduced[i+1];
+      const ax=(prev.x+2*p.x+next.x)/4, ay=(prev.y+2*p.y+next.y)/4;
+      averaged[i].x=p.x+(ax-p.x)*settings.averageStrength;
+      averaged[i].y=p.y+(ay-p.y)*settings.averageStrength;
+    }
+  }
+  return {
+    points:averaged,
+    cornerPositions,
+    cornerCount:Math.max(0,cornerPositions.length-2),
+    rawPoints:source.length,
+    retainedPoints:averaged.length,
+    spacing:settings.spacing,
+    averageStrength:settings.averageStrength,
+  };
 }
 function cubicBezierPoint(curve,t) {
   const mt=1-t, b0=mt*mt*mt, b1=3*mt*mt*t, b2=3*mt*t*t, b3=t*t*t;
@@ -1864,13 +2013,11 @@ function penFitSharpTurn(points,index) {
   const incoming=fitVecNormalize(fitVecSub(points[index],points[index-1]));
   const outgoing=fitVecNormalize(fitVecSub(points[index+1],points[index]));
   const immediate=fitVecDot(incoming,outgoing);
-  if (immediate>0.36) return false; // less than about a 69-degree turn
+  if (immediate>0.36) return false;
   const span=2;
   const a=points[Math.max(0,index-span)],b=points[Math.min(points.length-1,index+span)];
   const broadIn=fitVecNormalize(fitVecSub(points[index],a),incoming);
   const broadOut=fitVecNormalize(fitVecSub(b,points[index]),outgoing);
-  // A smooth U can have a large broad turn while adjacent tangents remain
-  // fairly gentle. Require both tests before allowing an actual cusp.
   return fitVecDot(broadIn,broadOut)<0.30;
 }
 function fitPenCubicRecursive(points,first,last,tan1,tan2,errorSq,curves,depth=0) {
@@ -1909,15 +2056,30 @@ function fitPenCubicRecursive(points,first,last,tan1,tan2,errorSq,curves,depth=0
 function buildPenTrajectoryFit(points,width=3) {
   const started=performance.now();
   const source=Array.isArray(points)?points:[];
-  if (!source.length) return {segments:[],fitMs:performance.now()-started,inputPoints:0};
-  if (source.length===1) return {segments:[],fitMs:performance.now()-started,inputPoints:1};
-  const renderPoints=stabilizedPenRenderPoints(source,width);
+  if (!source.length) return {segments:[],fitMs:performance.now()-started,inputPoints:0,retainedPoints:0,cornerCount:0};
+  if (source.length===1) return {segments:[],fitMs:performance.now()-started,inputPoints:1,retainedPoints:1,cornerCount:0};
+  const prep=preprocessPenTrajectory(source,width);
+  const renderPoints=prep.points;
   const tolerance=penTrajectoryFitTolerance(width);
-  const firstTan=fitVecNormalize(fitVecSub(renderPoints[1],renderPoints[0]));
-  const lastTan=fitVecNormalize(fitVecSub(renderPoints[renderPoints.length-2],renderPoints[renderPoints.length-1]),fitVecScale(firstTan,-1));
   const segments=[];
-  fitPenCubicRecursive(renderPoints,0,renderPoints.length-1,firstTan,lastTan,tolerance*tolerance,segments);
-  return {segments,fitMs:performance.now()-started,inputPoints:source.length,tolerance};
+  const cornerPositions=(prep.cornerPositions?.length>=2?prep.cornerPositions:[0,renderPoints.length-1]);
+  for (let span=0;span<cornerPositions.length-1;span++) {
+    const first=cornerPositions[span], last=cornerPositions[span+1];
+    if (!(last>first)) continue;
+    const firstTan=fitVecNormalize(fitVecSub(renderPoints[Math.min(last,first+1)],renderPoints[first]));
+    const lastTan=fitVecNormalize(fitVecSub(renderPoints[Math.max(first,last-1)],renderPoints[last]),fitVecScale(firstTan,-1));
+    fitPenCubicRecursive(renderPoints,first,last,firstTan,lastTan,tolerance*tolerance,segments);
+  }
+  return {
+    segments,
+    fitMs:performance.now()-started,
+    inputPoints:source.length,
+    retainedPoints:prep.retainedPoints,
+    cornerCount:prep.cornerCount,
+    spacing:prep.spacing,
+    averageStrength:prep.averageStrength,
+    tolerance,
+  };
 }
 function tracePenFitCanvas(ctx,page,fit) {
   const segments=fit?.segments||[];
@@ -2263,14 +2425,14 @@ function drawLiveFittedPenPreview(stage,page,stroke) {
   drawOnStage(stage);
   const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const other of document.querySelectorAll(selector)) if (other!==stage) drawOnStage(other);
-  return {renderMs:performance.now()-started,fitMs:fit.fitMs,fitMode:true,fitCurves:fit.segments.length,fitInputPoints:fit.inputPoints};
+  return {renderMs:performance.now()-started,fitMs:fit.fitMs,fitMode:true,fitCurves:fit.segments.length,fitInputPoints:fit.inputPoints,fitRetainedPoints:fit.retainedPoints,fitCornerCount:fit.cornerCount,fitSpacing:fit.spacing};
 }
 
 function commitLivePenOverlays(page, stroke) {
   // Preserve the 5.6.1 O(current stroke) release rule. Thin/Medium build one
   // fitted centerline once, reuse it across visible page instances, and commit
   // only that stroke. Thick keeps the established single-stroke renderer.
-  if (!page?.id || !stroke?.id) return {commitMs:0,stages:0,fitMs:0,fitCurves:0,fitInputPoints:0,fitMode:false};
+  if (!page?.id || !stroke?.id) return {commitMs:0,stages:0,fitMs:0,fitCurves:0,fitInputPoints:0,fitRetainedPoints:0,fitCornerCount:0,fitSpacing:0,fitMode:false};
   const started=performance.now();
   const width=Math.max(.25,Number(stroke.width)||3);
   const fitMode=penUsesTrajectoryFit(width);
@@ -2304,7 +2466,7 @@ function commitLivePenOverlays(page, stroke) {
     if (liveCtx && live.width && live.height) liveCtx.clearRect(0,0,live.width,live.height);
     if (live) live._pdfwbPenFitDirty=null;
   }
-  return {commitMs:performance.now()-started,stages,fitMs:fit?.fitMs||0,fitCurves:fit?.segments?.length||0,fitInputPoints:fit?.inputPoints||0,fitMode};
+  return {commitMs:performance.now()-started,stages,fitMs:fit?.fitMs||0,fitCurves:fit?.segments?.length||0,fitInputPoints:fit?.inputPoints||0,fitRetainedPoints:fit?.retainedPoints||0,fitCornerCount:fit?.cornerCount||0,fitSpacing:fit?.spacing||0,fitMode};
 }
 
 function ensureLiveHighlighterOverlay(stage, baseCanvas=null, opacity=HIGHLIGHTER_OPACITY) {
@@ -3299,6 +3461,9 @@ function accumulatePenLiveTiming(gesture, timing) {
   if (timing.fitMode) gesture.liveFitMode=true;
   if (Number.isFinite(timing.fitCurves)) gesture.liveFitCurvesLast=timing.fitCurves;
   if (Number.isFinite(timing.fitInputPoints)) gesture.liveFitInputPointsLast=timing.fitInputPoints;
+  if (Number.isFinite(timing.fitRetainedPoints)) gesture.liveFitRetainedPointsLast=timing.fitRetainedPoints;
+  if (Number.isFinite(timing.fitCornerCount)) gesture.liveFitCornerCountLast=timing.fitCornerCount;
+  if (Number.isFinite(timing.fitSpacing)) gesture.liveFitSpacingLast=timing.fitSpacing;
 }
 function appendInkPoint(gesture, event, drawLive=true, geometry=null) {
   const page = pageById(gesture.pageId);
@@ -3364,7 +3529,7 @@ function beginInkGesture(viewer, event) {
   annotationsForPage(page).push(stroke);
   state.activePageId = page.id;
   const inputSource = event._inkStylusTouch ? 'stylus-touch' : 'pointer';
-  state.inkGesture = { pointerId: event.pointerId, inputSource, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, before, liveRenderMs:0, liveFitMs:0, liveRenderCalls:0, liveFitMode:false, liveFitCurvesLast:0, liveFitInputPointsLast:0 };
+  state.inkGesture = { pointerId: event.pointerId, inputSource, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, before, liveRenderMs:0, liveFitMs:0, liveRenderCalls:0, liveFitMode:false, liveFitCurvesLast:0, liveFitInputPointsLast:0, liveFitRetainedPointsLast:0, liveFitCornerCountLast:0, liveFitSpacingLast:0 };
   if (event.cancelable) event.preventDefault();
   if (inputSource === 'pointer') {
     try { viewer.setPointerCapture?.(event.pointerId); } catch {}
@@ -3375,7 +3540,7 @@ function beginInkGesture(viewer, event) {
     // Highlighter layer.
     drawLiveHighlighterPoints(stage, page, stroke, [first]);
   } else {
-    // Thin/Medium 5.6.4 preview is refit once per pointer event on the isolated
+    // Thin/Medium 5.6.5 preview is reduced/fitted once per pointer event on the isolated
     // live layer. Thick retains the established incremental control renderer.
     accumulatePenLiveTiming(state.inkGesture,
       penUsesTrajectoryFit(stroke.width)
@@ -3451,10 +3616,16 @@ function finishInkGesture(viewer, event) {
     liveFitMs:translucent ? null : Math.round((gesture.liveFitMs||0)*10)/10,
     liveFitCurvesLast:translucent ? null : (gesture.liveFitCurvesLast||0),
     liveFitInputPointsLast:translucent ? null : (gesture.liveFitInputPointsLast||0),
+    liveFitRetainedPointsLast:translucent ? null : (gesture.liveFitRetainedPointsLast||0),
+    liveFitCornerCountLast:translucent ? null : (gesture.liveFitCornerCountLast||0),
+    liveFitSpacingLast:translucent ? null : Math.round((gesture.liveFitSpacingLast||0)*100)/100,
     penRenderer:translucent ? null : (penCommit?.fitMode ? 'trajectory-fit' : 'centerline-stroke'),
     penFitMs:penCommit ? Math.round((penCommit.fitMs||0)*10)/10 : null,
     penFitCurves:penCommit?.fitCurves ?? null,
     penFitInputPoints:penCommit?.fitInputPoints ?? null,
+    penFitRetainedPoints:penCommit?.fitRetainedPoints ?? null,
+    penFitCornerCount:penCommit?.fitCornerCount ?? null,
+    penFitSpacing:penCommit ? Math.round((penCommit.fitSpacing||0)*100)/100 : null,
     penCommitMs:penCommit ? Math.round(penCommit.commitMs*10)/10 : null, penCommitStages:penCommit?.stages ?? null,
     pageAnnotationCount:(gesture.page.annotations || []).length, historyDepth:state.history.length,
   });
@@ -10351,7 +10522,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.6.4 replaces the 5.6.3 filled-outline experiment with thin/medium trajectory fitting. Thin and Medium are again ordinary constant-width round-capped strokes, but their rendered centerline is fit with a much smaller set of cubic Bezier curves within a width-aware error tolerance instead of interpolating nearly every Pencil sample. Raw points remain authoritative for editing. Thick remains the unchanged control. Thin/Medium live preview is refit once per pointer event (after coalesced samples are collected), and diagnostics report fit/render/commit timing and curve counts. The 5.6.1 dense-page live-Pen optimization, 5.6.0 black blank pages, and 5.5.9 rebuilt-PDF link policy remain in place.</p>
+      <p>Milestone 5.6.5 keeps the responsive Thin/Medium trajectory-fit architecture but now reduces Pencil samples geometrically before fitting: distance-based resampling, explicit localized-corner retention, mild averaging between corners, then cubic Bezier fitting. Raw points remain authoritative for editing. Thick remains the unchanged control. Diagnostics report raw versus retained point counts, corner count, fitted curves, and fit/render/commit timing. The 5.6.1 dense-page live-Pen optimization, 5.6.0 black blank pages, and 5.5.9 rebuilt-PDF link policy remain in place.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image scope in 5.5.2:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

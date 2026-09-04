@@ -1,15 +1,23 @@
-# PDF Workbench — Milestone 5.6.4
+# PDF Workbench — Milestone 5.6.5
 
-## 5.6.4 experimental trajectory-fit Pen rendering
+## 5.6.5 distance-filtered trajectory fitting experiment
 
-Thin and Medium Pen are back to ordinary round-capped centerline strokes. Instead of interpolating nearly every stabilized Pencil sample, Workbench now recursively fits a smaller set of cubic Bezier curves within a width-aware error tolerance (0.62 pt Thin, 0.82 pt Medium). Sharp split points can use independent incoming/outgoing tangents when the local turn is abrupt. Raw points remain unchanged for editing. Thick Pen remains the unchanged control.
+Thin and Medium Pen keep the responsive 5.6.4 live fitting architecture, but the fitter no longer uses every raw/stabilized Pencil sample as evidence. Rendering now follows this experimental pipeline:
 
-The 5.6.3 filled-outline renderer has been removed from the active path because real testing showed little visual gain and occasional tiny white holes from self-intersecting closed contours. No pressure/tapering or supersampling is introduced.
+**raw Pencil samples → distance-based resampling → explicit localized-corner retention → mild averaging between corners → cubic Bezier fit**
 
-For Thin/Medium live ink, coalesced Pencil samples are collected first and the isolated live stroke is refit/redrawn once per pointer event, rather than rendering once per sample. Pencil-up fits/commits only the current stroke, preserving the 5.6.1 O(current stroke) dense-page architecture. Diagnostics report `liveFitMs`, latest live curve/input counts, `penFitMs`, `penFitCurves`, and `penFitInputPoints`.
-The live preview clears only its previous dirty footprint rather than the entire page-sized live canvas on every pointer event, which is important at high zoom. Synthetic 100–140-sample tests fit to roughly 3–4 cubics and the fitting geometry itself remained sub-millisecond in Node; iPad testing is still authoritative.
+- Thin resample spacing: **0.85 PDF pt**; Medium: **1.05 PDF pt**.
+- Endpoints are always retained. Strong localized turns are retained explicitly and fitted as separate spans. The corner detector compares a short-window turn with a broader turn so a true cusp is preserved while a smooth U/arc is not automatically converted into a corner.
+- The heavy 5.6.2/5.6.4 five-sample stabilization is no longer used in the Thin/Medium fit path. Instead the reduced trajectory gets a deliberately mild three-point averaging pass: **0.38 Thin / 0.30 Medium**.
+- Fit tolerance is slightly relaxed to **0.72 pt Thin / 0.95 pt Medium**, because sample chatter has already been removed before fitting.
+- Raw points remain unchanged and authoritative for Eraser, Lasso/Select, hit testing, persistence, Undo/Redo, backup, and page operations.
+- Thick Pen remains the unchanged control. No pressure/tapering, filled outlines, or supersampling are introduced.
 
-External-library bundling remains postponed while Pen rendering is being tuned.
+The 5.6.1 dense-page rule is preserved: live Thin/Medium ink is reduced/fitted once per pointer event on the isolated live layer, and Pencil-up commits only the current stroke. Diagnostics now report raw input points, retained trajectory points, detected-corner count, resample spacing, fitted cubic count, and fit/render/commit timing.
+
+Synthetic checks show the intended behavior: a 120-sample noisy straight trajectory reduces to about 54–67 retained points and ~2 cubics, a 120-sample smooth U retains no false corners and fits as one cubic in the test geometry, and a noisy Z retains its two deliberate corners and fits as three spans. A repeated-growing-stroke benchmark was also faster than the 5.6.4 fitter in Node despite the added preprocessing, because substantially fewer points reach the recursive fit. Real iPad feel remains authoritative.
+
+The 5.6.3 filled-outline experiment remains rejected. External-library bundling remains postponed while Pen rendering is being tuned.
 
 ## 5.6.2 experimental thin/medium Pen smoothing
 

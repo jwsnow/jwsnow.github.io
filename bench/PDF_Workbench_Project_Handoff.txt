@@ -1,3 +1,66 @@
+MILESTONE 5.6.5 — DISTANCE-FILTERED THIN/MEDIUM TRAJECTORY FITTING
+
+CURRENT BUILD: Milestone 5.6.5
+Visible About version: 5.6.5
+Service-worker/cache version: pdf-workbench-m5.6.5-v1
+Library schema version: unchanged
+
+WHY THIS REVISION EXISTS
+------------------------
+Real iPad testing of 5.6.4 showed two useful things: the new live-fitting architecture FELT more responsive, and the orange trajectory-fit handwriting was somewhat smoother, but still not close enough to GoodNotes. Diagnostics showed ordinary strokes still feeding 39–107 raw points into the fitter and often producing 6–14 Bezier curves. The user proposed averaging/filtering consecutive points and, especially, retaining only points that are meaningful by distance or as corners. This revision tests that idea directly.
+
+5.6.5 EXPERIMENT
+----------------
+Thin and Medium rendering/export now use this pipeline:
+RAW PENCIL POINTS -> DISTANCE RESAMPLING -> EXPLICIT CORNER RETENTION -> MILD AVERAGING -> BEZIER FIT.
+
+- Raw stored annotation points are NOT changed. They remain authoritative for Eraser, Select/Lasso, hit testing, transforms, persistence, Undo/Redo, backup, and page operations.
+- Thin resample spacing: 0.85 PDF point. Medium: 1.05 PDF point. This makes trajectory representation depend on geometric distance rather than Pencil sample frequency.
+- Endpoints are always retained.
+- Corner detection is distance-based rather than adjacent-sample based. It compares turn angle over a short window with the turn over a broader window. A true cusp retains most of its turn at both scales; a smooth U/arc spreads its turn over distance. This is intended to preserve x/k/z-style corners without making rounded handwriting angular.
+- Nearby corner candidates are merged so one physical corner does not create several retained anchors.
+- Regular distance anchors too close to a retained corner are omitted in favor of the corner itself.
+- Between retained corners, apply only a mild 3-point averaging pass (strength 0.38 Thin / 0.30 Medium). This REPLACES the very strong 5.6.2/5.6.4 five-point stabilization in the Thin/Medium fit path.
+- Fit tolerances are 0.72 pt Thin / 0.95 pt Medium. Because sub-point sampling chatter has already been filtered, the fitter can be looser without relying on low tolerance to preserve corners.
+- Each explicitly retained corner starts a new fitted span with independent incoming/outgoing tangents. The recursive fitter retains its sharp-turn fallback as a safety net.
+- 5.5 pt Thick Pen remains the unchanged control.
+- No pressure/tapering, velocity width, filled outlines, or supersampling in 5.6.5.
+
+LIVE INK / LATENCY
+------------------
+- Preserve the 5.6.1 O(current stroke) commit architecture and 5.6.4 once-per-pointer-event fit/redraw.
+- The live layer remains isolated from persistent page ink and clears only its previous dirty footprint at high zoom.
+- The new preprocessing reduces the point set before recursive fitting. Synthetic repeated-growing-stroke benchmarking was faster than the 5.6.4 fitting block in Node (about 0.24 ms vs 0.38 ms per fit in that test), despite corner detection and resampling. This is not a substitute for iPad testing.
+
+DIAGNOSTICS
+-----------
+Completed Thin/Medium Pen diagnostics now include:
+- raw input: `penFitInputPoints`;
+- reduced trajectory: `penFitRetainedPoints`;
+- explicit corners: `penFitCornerCount`;
+- resample spacing: `penFitSpacing`;
+- fitted cubic count: `penFitCurves`;
+- fit/commit timing: `penFitMs`, `penCommitMs`;
+- corresponding latest-live values: `liveFitInputPointsLast`, `liveFitRetainedPointsLast`, `liveFitCornerCountLast`, `liveFitSpacingLast`, `liveFitCurvesLast`, plus accumulated live fit/render timing.
+
+PRE-FLIGHT CHECKS
+-----------------
+- JavaScript syntax passes.
+- Synthetic noisy straight line: no false corners; approximately 2 fitted cubics.
+- Synthetic smooth U: no false corner; one fitted cubic in the test geometry.
+- Synthetic noisy Z: both deliberate corners retained; three fitted spans.
+- Distance reduction materially lowers points reaching the fitter.
+
+TEST REQUEST
+------------
+Use ordinary small mathematical handwriting, especially U/u, y, k, z, x, parentheses, superscripts, fraction bars, and short equals/minus strokes. Compare smooth long contours, preservation of intentional corners, whether the live stroke visibly settles at Pencil-up, and responsiveness. Export diagnostics after a representative sample so raw -> retained -> curves can be inspected.
+
+DEPLOYMENT NOTE
+---------------
+External-library bundling remains POSTPONED while Pen rendering is being tuned. 5.6.5 keeps the same external dependency/caching setup.
+
+================ PRIOR HANDOFF HISTORY ================
+
 MILESTONE 5.6.4 — EXPERIMENTAL THIN/MEDIUM TRAJECTORY FITTING
 
 CURRENT BUILD: Milestone 5.6.4
