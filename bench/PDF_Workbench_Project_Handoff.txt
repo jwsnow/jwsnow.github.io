@@ -1,3 +1,105 @@
+MILESTONE 5.6.6 — GOOGLE-STYLE MODELED-INPUT THIN/MEDIUM PEN EXPERIMENT
+
+CURRENT BUILD: Milestone 5.6.6
+Visible About version: 5.6.6
+Service-worker/cache version: pdf-workbench-m5.6.6-v1
+Library schema version: unchanged
+
+WHY THIS REVISION EXISTS
+------------------------
+Real iPad testing of 5.6.5 showed visible improvement and a more responsive feel, but the custom distance/corner/Bezier pipeline still did not approach GoodNotes closely enough. The full 5.6.5 diagnostic set also showed that the heuristic preprocessor was not doing what its synthetic tests suggested on real handwriting: across 122 completed Thin/Medium strokes the median stroke had 46 raw points, 47 retained/resampled points, 9.5 detected corners, and 10.5 fitted cubics. A representative 107-point stroke retained 105 points and reported 25 corners. Ordinary curvature/noise was therefore being classified as a succession of explicit corners, creating an increasingly hand-tuned heuristic problem.
+
+Open-source research found Google's Ink Stroke Modeler, which was designed specifically for handwriting/stylus smoothing and treats raw positions as noisy estimates of an idealized physical pen. The published/default approach combines velocity-aware wobble filtering, spring/mass/drag position modeling, minimum-rate resampling, live prediction to hide model lag, and end-of-stroke catch-up. Rnote uses a Rust reimplementation of this family of modeling ideas. 5.6.6 tests that modeling approach instead of adding more custom point/corner heuristics.
+
+5.6.6 EXPERIMENT
+----------------
+- NEW Thin and Medium Pen strokes are tagged `renderer: "google-ink-v1"` and use the modeled-input path.
+- Existing Thin/Medium annotations created before 5.6.6 are NOT retagged and continue to render/export through the 5.6.5 trajectory fitter. This prevents a new experiment from changing previously written documents merely by opening them.
+- Thick Pen remains on the established cardinal-spline renderer and is still the in-app control.
+- Raw Pencil points remain the authoritative editable geometry for Eraser, Lasso/Select, hit testing, transforms, persistence, Undo/Redo, backup, and page operations.
+- New modeled strokes additionally store a RELATIVE INPUT TIMESTAMP `t` with each raw point. This makes redraw/export after reload deterministic from the raw input stream rather than requiring derived modeled points to be persisted.
+- Undo-history packing stores x/y/t triples only for modeled/timed strokes; ordinary Pen/Highlighter snapshots keep the existing compact x/y-pair packing so this experiment does not increase history memory for all legacy ink. Old in-memory x/y-pair snapshots remain readable during the same runtime.
+- Move/resize, copy/paste, duplication, and partial-stroke erasing preserve/interpolate `t` so edited modeled strokes can be reconstructed later.
+- Renderer identity is sticky after creation: resizing a modeled stroke changes its width/geometry but does not silently switch it to the legacy renderer.
+
+MODELER / RENDERING
+-------------------
+The local `google-ink-modeler.js` module is an independent JavaScript implementation based on the mathematical algorithms and tuning guidance published by Google's Apache-2.0 Ink Stroke Modeler project. It does not vendor the full Google C++ library or the third-party TypeScript port.
+
+5.6.6 models directly in native PDF points and seconds. Google's model is explicitly unit-agnostic and says its wobble parameters should be tuned to the client's input rate/speed. The latest 5.6.5 classroom/iPad sample gives us an unusually good calibration set: the 122 new blue strokes have a median stored-input rate of about 409 points/s and an approximate median rendered path speed of 287 PDF pt/s. Following Google's starting guidance (wobble timeout about 2.5 / expected input rate; speed floor/ceiling about 2% / 3% of expected speed), the first Workbench-specific parameters are:
+- wobble timeout: 0.006 s;
+- wobble speed floor / ceiling: 6 / 9 PDF pt/s;
+- spring mass constant: 11 / 32400 (upstream starting value);
+- drag constant: 72 (upstream starting value);
+- minimum modeled output rate: 180 Hz;
+- end-of-stroke stopping distance: 0.001 PDF pt;
+- end-of-stroke max iterations: 20;
+- live predictor: stroke-end prediction.
+
+These are deliberately starting values, not presumed final tuning. The core 5.6.6 experiment implements the pieces relevant to constant-width positional ink: wobble smoothing, the spring/mass/drag position model, minimum-rate resampling, stroke-end catch-up, and StrokeEnd prediction. It does NOT yet implement pressure/tilt stylus-state modeling, the optional loop-contraction mitigation, or Google's optional Kalman predictor.
+
+The rendered Thin/Medium stroke is deliberately SIMPLE for this experiment:
+- constant width;
+- ordinary round caps and joins;
+- no pressure/tapering;
+- no filled-outline construction;
+- no supersampling;
+- no extra Bezier fitter after the modeler.
+The modeled 180 Hz positions are connected directly. This isolates whether the modeled trajectory itself improves handwriting.
+
+LIVE INK / LATENCY
+------------------
+- Preserve the 5.6.1 O(current stroke) release architecture: no whole-page annotation redraw on each Pen lift.
+- Coalesced accepted input samples are fed incrementally into one live modeler instance.
+- Stable modeled output is accumulated. On each pointer event, Workbench requests a temporary stroke-end prediction and redraws only the current live stroke (stable modeled output + replaceable prediction) on the isolated live-Pen canvas.
+- When the next real input arrives, the old prediction is discarded; previously produced stable model output is never recomputed.
+- Pencil-up feeds one final Up sample, runs the model's end-of-stroke catch-up, and commits only that completed modeled stroke to the persistent annotation overlay.
+- The live canvas still clears only its previous dirty footprint at high zoom.
+
+DIAGNOSTICS
+-----------
+For new `google-ink-v1` strokes, completed diagnostics add:
+- `penRenderer: "google-ink-v1"`;
+- `googleLiveModelMs`;
+- `googlePredictionMs`;
+- `googleStablePoints`;
+- `googlePredictionPointsLast`;
+- `googleWobbleSpeedLast`;
+- `googleWobbleBlendLast`;
+- `googleLagPointsLast`;
+- `googleOutputPoints`;
+- `googleEndLagPoints`;
+plus the existing live render, commit, page-annotation-count, and history-depth fields. Legacy trajectory-fit diagnostic fields remain for old strokes.
+
+PRE-FLIGHT CHECKS
+-----------------
+- `app.js` and `google-ink-modeler.js` pass JavaScript syntax checks.
+- Offline reconstruction and incremental live processing were compared on identical timed input and produced identical stable modeled samples.
+- A randomized 1,000-stroke model stress test produced no NaN/invalid modeled points. Typical ~99-input-point strokes produced ~155 modeled samples at the 180 Hz target rate; model computation was very small in the Node test (about 0.06 ms/stroke average, max ~2.2 ms in that run). Browser/iPad Canvas behavior remains the authoritative performance test.
+- Live stroke-end prediction was stress-tested independently and remained finite.
+- The end-of-stroke state/lag metric was verified against the final modeled tip (including early stop exits); a 1,000-stroke randomized stress run stayed finite with maximum residual end lag about 0.15 PDF pt in that synthetic set.
+
+TEST REQUEST
+------------
+Use normal small mathematical handwriting in Thin and Medium and compare it to the blue 5.6.5 sample and GoodNotes. Pay attention to:
+1. long-edge smoothness rather than just centerline shape;
+2. whether small loops/corners (x, z, k, superscripts, radicals, fractions) retain intent;
+3. whether the live stroke appears to trail the Pencil or prediction keeps it visually caught up;
+4. whether the final stroke visibly snaps/settles at Pencil-up;
+5. whether stroke endings appear shortened (watch `googleEndLagPoints` if so);
+6. any latency as the page grows dense.
+Export diagnostics after a representative test.
+
+SOURCE / ATTRIBUTION NOTE
+-------------------------
+Google Ink Stroke Modeler: https://github.com/google/ink-stroke-modeler (Apache License 2.0; Copyright 2022 Google LLC). The Workbench module is an independent implementation from the published mathematical description/defaults. The WhiteboardCX TypeScript port was used as a behavioral/reference cross-check during research but is not bundled as a dependency.
+
+DEPLOYMENT NOTE
+---------------
+External PDF.js/pdf-lib/JSZip bundling remains POSTPONED while Pen rendering is being tuned. 5.6.6 keeps the same CDN versions and service-worker caching behavior as 5.6.5. The new `google-ink-modeler.js` is local Workbench code and is precached in the app shell.
+
+================ PRIOR HANDOFF HISTORY ================
+
 MILESTONE 5.6.5 — DISTANCE-FILTERED THIN/MEDIUM TRAJECTORY FITTING
 
 CURRENT BUILD: Milestone 5.6.5

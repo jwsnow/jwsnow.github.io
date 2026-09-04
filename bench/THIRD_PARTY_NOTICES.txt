@@ -1,0 +1,18 @@
+PDF Workbench 5.6.6 modeled-input experiment
+
+Google Ink Stroke Modeler
+Project: https://github.com/google/ink-stroke-modeler
+License: Apache License 2.0
+Copyright 2022 Google LLC
+A copy of the Apache License 2.0 is included as
+APACHE-2.0-Google-Ink-Stroke-Modeler.txt.
+
+PDF Workbench's google-ink-modeler.js is an independent JavaScript
+implementation based on the algorithms and default/example parameters
+published by the Google project. The Google C++ source is not bundled.
+
+Research cross-check:
+WhiteboardCX/ink-stroke-modeler-ts
+https://github.com/WhiteboardCX/ink-stroke-modeler-ts
+Apache License 2.0
+The TypeScript package is not bundled into PDF Workbench.

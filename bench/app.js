@@ -1,4 +1,6 @@
-const APP_VERSION = '5.6.5';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.6.6';
+
+const APP_VERSION = '5.6.6';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -312,26 +314,42 @@ function cloneInkStroke(stroke) {
   const source = stroke?.points;
   let points = [];
   if (Array.isArray(source)) {
-    points = source.map(point => ({ x: Number(point.x) || 0, y: Number(point.y) || 0 }));
+    points = source.map(point => {
+      const copy = { x: Number(point?.x) || 0, y: Number(point?.y) || 0 };
+      if (Number.isFinite(Number(point?.t))) copy.t = Number(point.t);
+      return copy;
+    });
   } else if (ArrayBuffer.isView(source)) {
-    // Undo/Redo snapshots use packed Float32 coordinate pairs to avoid retaining
-    // millions of tiny {x,y} objects on dense handwritten pages. Inflate only
-    // when a snapshot is actually restored.
-    points = new Array(Math.floor(source.length / 2));
-    for (let i = 0, j = 0; i + 1 < source.length; i += 2, j += 1) {
-      points[j] = { x: Number(source[i]) || 0, y: Number(source[i + 1]) || 0 };
+    // Undo/Redo snapshots pack x/y plus the relative input timestamp used by
+    // the Google-style Thin/Medium modeler. Older in-memory snapshots without
+    // pointStride are still interpreted as x/y pairs.
+    const stride = Number(stroke?.pointStride) === 3 ? 3 : 2;
+    points = new Array(Math.floor(source.length / stride));
+    for (let i = 0, j = 0; i + 1 < source.length; i += stride, j += 1) {
+      const point = { x: Number(source[i]) || 0, y: Number(source[i + 1]) || 0 };
+      if (stride === 3 && Number.isFinite(Number(source[i + 2]))) point.t = Number(source[i + 2]);
+      points[j] = point;
     }
   }
-  return { ...stroke, points };
+  const copy = { ...stroke, points };
+  delete copy.pointStride;
+  return copy;
 }
 function cloneInkStrokeForHistory(stroke) {
   const source = Array.isArray(stroke?.points) ? stroke.points : [];
-  const packed = new Float32Array(source.length * 2);
+  // Preserve the pre-5.6.6 compact x/y history representation for ordinary
+  // strokes. Only modeled strokes (or any future timed stroke) pay for a third
+  // timestamp float; this avoids a 50% history-memory regression for existing
+  // Pen/Highlighter ink.
+  const timed = stroke?.renderer === GOOGLE_INK_RENDERER || source.some(point => Number.isFinite(Number(point?.t)));
+  const stride = timed ? 3 : 2;
+  const packed = new Float32Array(source.length * stride);
   for (let i = 0; i < source.length; i += 1) {
-    packed[i * 2] = Number(source[i]?.x) || 0;
-    packed[i * 2 + 1] = Number(source[i]?.y) || 0;
+    packed[i * stride] = Number(source[i]?.x) || 0;
+    packed[i * stride + 1] = Number(source[i]?.y) || 0;
+    if (timed) packed[i * stride + 2] = Number.isFinite(Number(source[i]?.t)) ? Number(source[i].t) : NaN;
   }
-  return { ...stroke, points: packed };
+  return timed ? { ...stroke, points: packed, pointStride: 3 } : { ...stroke, points: packed };
 }
 function clonePageStateForHistory(page) {
   if (!page) return page;
@@ -2091,6 +2109,87 @@ function tracePenFitCanvas(ctx,page,fit) {
     ctx.bezierCurveTo(c1.x,c1.y,c2.x,c2.y,p3.x,p3.y);
   }
 }
+// Milestone 5.6.6 EXPERIMENT: new Thin/Medium Pen strokes use a
+// Google Ink Stroke Modeler-style physical trajectory model. Existing
+// trajectory-fit annotations remain on their original renderer so opening a
+// document never changes already-written ink. Raw points (including relative
+// timestamps for newly modeled strokes) remain the editable/persistent model.
+const googleInkRenderCache = new WeakMap();
+function penWidthUsesGoogleInk(width=3) {
+  const w=Math.max(.25,Number(width)||3);
+  return w<=3.5;
+}
+function penStrokeUsesGoogleInk(stroke) {
+  // Renderer identity is sticky. Width only decides which renderer a NEW Pen
+  // stroke receives; selection resizing must not silently swap renderers.
+  return stroke?.tool==='pen' && stroke?.renderer===GOOGLE_INK_RENDERER;
+}
+function buildGoogleInkRender(stroke) {
+  const source=Array.isArray(stroke?.points)?stroke.points:[];
+  const cached=googleInkRenderCache.get(stroke);
+  if (cached && cached.pointsRef===source && cached.length===source.length) return cached.result;
+  const result=modelGoogleInkStroke(source);
+  googleInkRenderCache.set(stroke,{pointsRef:source,length:source.length,result});
+  return result;
+}
+function cacheGoogleInkRender(stroke, modeledPoints, metrics={}) {
+  if (!stroke || !Array.isArray(stroke.points)) return;
+  const result={
+    points:Array.isArray(modeledPoints)?modeledPoints.map(p=>({...p})):[],
+    modelMs:Number(metrics.modelMs)||0,
+    inputPoints:stroke.points.length,
+    outputPoints:Array.isArray(modeledPoints)?modeledPoints.length:0,
+    endLagPoints:Number(metrics.lagPoints)||0,
+    wobbleSpeed:Number(metrics.wobbleSpeed)||0,
+    wobbleBlend:Number(metrics.wobbleBlend)||0,
+  };
+  googleInkRenderCache.set(stroke,{pointsRef:stroke.points,length:stroke.points.length,result});
+}
+function traceGoogleInkCanvas(ctx,page,modeledPoints) {
+  if (!ctx || !Array.isArray(modeledPoints) || !modeledPoints.length) return;
+  const first=basePointToDisplay(page,modeledPoints[0]);
+  ctx.moveTo(first.x,first.y);
+  for (let i=1;i<modeledPoints.length;i++) {
+    const p=basePointToDisplay(page,modeledPoints[i]);
+    ctx.lineTo(p.x,p.y);
+  }
+}
+function googleInkEventTime(gesture,event) {
+  const stamp=Number(event?.timeStamp);
+  const now=Number.isFinite(stamp)?stamp:performance.now();
+  if (!Number.isFinite(gesture.googleTimeOriginMs)) gesture.googleTimeOriginMs=now;
+  let t=Math.max(0,(now-gesture.googleTimeOriginMs)/1000);
+  const last=gesture.stroke?.points?.[gesture.stroke.points.length-1];
+  if (last && Number.isFinite(Number(last.t)) && t<=Number(last.t)) t=Number(last.t)+1e-4;
+  return t;
+}
+function consumeGoogleInkPoint(gesture,point,eventType='move') {
+  if (!gesture?.googleModeler || !point) return [];
+  const started=performance.now();
+  const output=gesture.googleModeler.update(point,Number(point.t)||0,eventType)||[];
+  gesture.googleLiveModelMs=(gesture.googleLiveModelMs||0)+(performance.now()-started);
+  if (!Array.isArray(gesture.googleStablePoints)) gesture.googleStablePoints=[];
+  for (const modeled of output) {
+    const prev=gesture.googleStablePoints[gesture.googleStablePoints.length-1];
+    if (!prev || Math.hypot(modeled.x-prev.x,modeled.y-prev.y)>.0001 || Math.abs((modeled.t||0)-(prev.t||0))>1e-6) {
+      gesture.googleStablePoints.push(modeled);
+    }
+  }
+  const metrics=gesture.googleModeler.metrics?.()||{};
+  gesture.googleWobbleSpeedLast=Number(metrics.wobbleSpeed)||0;
+  gesture.googleWobbleBlendLast=Number(metrics.wobbleBlend)||0;
+  gesture.googleLagPointsLast=Number(metrics.lagPoints)||0;
+  return output;
+}
+function googleInkPrediction(gesture) {
+  if (!gesture?.googleModeler) return [];
+  const started=performance.now();
+  const prediction=gesture.googleModeler.predict?.()||[];
+  gesture.googlePredictionMs=(gesture.googlePredictionMs||0)+(performance.now()-started);
+  gesture.googlePredictionPointsLast=prediction.length;
+  return prediction;
+}
+
 function applyBaseToDisplayCanvasTransform(ctx, page) {
   const base = pageCanvasBaseDimensions(page);
   const rotation = normalizedQuarterTurn(page?.rotation);
@@ -2175,7 +2274,11 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
       targetCtx.fill();
     } else {
       targetCtx.beginPath();
-      if (useSmooth && penUsesTrajectoryFit(width)) tracePenFitCanvas(targetCtx, page, buildPenTrajectoryFit(points, width));
+      if (useSmooth && penStrokeUsesGoogleInk(stroke)) {
+        const modeled=buildGoogleInkRender(stroke).points;
+        if (modeled.length) traceGoogleInkCanvas(targetCtx,page,modeled);
+        else traceRawStrokeCanvas(targetCtx,page,points);
+      } else if (useSmooth && penUsesTrajectoryFit(width)) tracePenFitCanvas(targetCtx, page, buildPenTrajectoryFit(points, width));
       else if (useSmooth) traceSmoothedStrokeCanvas(targetCtx, page, points, width);
       else traceRawStrokeCanvas(targetCtx, page, points);
       targetCtx.stroke();
@@ -2384,6 +2487,45 @@ function clearLivePenOverlays(page) {
     overlay._pdfwbPenFitDirty=null;
   }
 }
+function drawLiveGoogleInkPreview(stage,page,stroke,stablePoints,predictionPoints=[]) {
+  const started=performance.now();
+  const width=Math.max(.25,Number(stroke?.width)||3);
+  const stable=Array.isArray(stablePoints)?stablePoints:[];
+  const prediction=Array.isArray(predictionPoints)?predictionPoints:[];
+  const renderPoints=prediction.length ? stable.concat(prediction) : stable;
+  const drawOnStage=targetStage=>{
+    const baseCanvas=targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const canvas=ensureLivePenOverlay(targetStage,baseCanvas);
+    if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered!=='true') return;
+    const ctx=canvas.getContext('2d'); if (!ctx) return;
+    const oldDirty=canvas._pdfwbPenFitDirty;
+    if (oldDirty) ctx.clearRect(oldDirty.x,oldDirty.y,oldDirty.w,oldDirty.h);
+    const display=pageDisplayDimensions(page),sx=canvas.width/Math.max(1,display.width),sy=canvas.height/Math.max(1,display.height);
+    if (renderPoints.length) {
+      let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+      for (const bp of renderPoints) { const dp=basePointToDisplay(page,bp); minX=Math.min(minX,dp.x);minY=Math.min(minY,dp.y);maxX=Math.max(maxX,dp.x);maxY=Math.max(maxY,dp.y); }
+      const margin=Math.max(4,width*3);
+      const x=Math.max(0,Math.floor((minX-margin)*sx)-2),y=Math.max(0,Math.floor((minY-margin)*sy)-2);
+      const right=Math.min(canvas.width,Math.ceil((maxX+margin)*sx)+2),bottom=Math.min(canvas.height,Math.ceil((maxY+margin)*sy)+2);
+      canvas._pdfwbPenFitDirty={x,y,w:Math.max(1,right-x),h:Math.max(1,bottom-y)};
+    } else canvas._pdfwbPenFitDirty=null;
+    ctx.save();ctx.scale(sx,sy);
+    ctx.globalAlpha=clamp(Number(stroke.opacity??1),0,1);
+    ctx.strokeStyle=stroke.color||'#111111';ctx.fillStyle=stroke.color||'#111111';
+    ctx.lineWidth=width;ctx.lineCap='round';ctx.lineJoin='round';
+    if (renderPoints.length===1) {
+      const p=basePointToDisplay(page,renderPoints[0]);ctx.beginPath();ctx.arc(p.x,p.y,width/2,0,Math.PI*2);ctx.fill();
+    } else if (renderPoints.length>1) {
+      ctx.beginPath();traceGoogleInkCanvas(ctx,page,renderPoints);ctx.stroke();
+    }
+    ctx.restore();
+  };
+  drawOnStage(stage);
+  const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const other of document.querySelectorAll(selector)) if (other!==stage) drawOnStage(other);
+  return {renderMs:performance.now()-started,googleMode:true,googleStablePoints:stable.length,googlePredictionPoints:prediction.length};
+}
+
 function drawLiveFittedPenPreview(stage,page,stroke) {
   const started=performance.now();
   const width=Math.max(.25,Number(stroke?.width)||3);
@@ -2428,14 +2570,21 @@ function drawLiveFittedPenPreview(stage,page,stroke) {
   return {renderMs:performance.now()-started,fitMs:fit.fitMs,fitMode:true,fitCurves:fit.segments.length,fitInputPoints:fit.inputPoints,fitRetainedPoints:fit.retainedPoints,fitCornerCount:fit.cornerCount,fitSpacing:fit.spacing};
 }
 
-function commitLivePenOverlays(page, stroke) {
-  // Preserve the 5.6.1 O(current stroke) release rule. Thin/Medium build one
-  // fitted centerline once, reuse it across visible page instances, and commit
-  // only that stroke. Thick keeps the established single-stroke renderer.
-  if (!page?.id || !stroke?.id) return {commitMs:0,stages:0,fitMs:0,fitCurves:0,fitInputPoints:0,fitRetainedPoints:0,fitCornerCount:0,fitSpacing:0,fitMode:false};
+function commitLivePenOverlays(page, stroke, options={}) {
+  // Preserve the 5.6.1 O(current stroke) release rule. New 5.6.6 Google-modeled
+  // Thin/Medium strokes commit their already-modeled stable trajectory exactly
+  // once; old Thin/Medium strokes retain 5.6.5 trajectory fitting; Thick keeps
+  // the established control renderer.
+  if (!page?.id || !stroke?.id) return {commitMs:0,stages:0,fitMode:false,googleMode:false};
   const started=performance.now();
   const width=Math.max(.25,Number(stroke.width)||3);
-  const fitMode=penUsesTrajectoryFit(width);
+  const googleMode=penStrokeUsesGoogleInk(stroke);
+  const googleResult=googleMode
+    ? (Array.isArray(options.googlePoints)
+      ? {points:options.googlePoints,modelMs:0,inputPoints:(stroke.points||[]).length,outputPoints:options.googlePoints.length,...(options.googleMetrics||{})}
+      : buildGoogleInkRender(stroke))
+    : null;
+  const fitMode=!googleMode && penUsesTrajectoryFit(width);
   const fit=fitMode?buildPenTrajectoryFit(stroke.points||[],width):null;
   const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   let stages=0;
@@ -2444,16 +2593,18 @@ function commitLivePenOverlays(page, stroke) {
     const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
     const overlay=ensureAnnotationOverlay(stage,base),ctx=overlay?.getContext?.('2d');
     if (ctx && overlay.width && overlay.height) {
-      if (fitMode) {
+      if (googleMode || fitMode) {
         const display=pageDisplayDimensions(page),sx=overlay.width/Math.max(1,display.width),sy=overlay.height/Math.max(1,display.height);
-        ctx.save(); ctx.scale(sx,sy);
+        ctx.save();ctx.scale(sx,sy);
         ctx.globalAlpha=clamp(Number(stroke.opacity??1),0,1);
-        ctx.strokeStyle=stroke.color||'#111111'; ctx.fillStyle=stroke.color||'#111111';
-        ctx.lineWidth=width; ctx.lineCap='round'; ctx.lineJoin='round';
+        ctx.strokeStyle=stroke.color||'#111111';ctx.fillStyle=stroke.color||'#111111';
+        ctx.lineWidth=width;ctx.lineCap='round';ctx.lineJoin='round';
         if ((stroke.points||[]).length===1) {
-          const p=basePointToDisplay(page,stroke.points[0]); ctx.beginPath(); ctx.arc(p.x,p.y,width/2,0,Math.PI*2); ctx.fill();
+          const p=basePointToDisplay(page,stroke.points[0]);ctx.beginPath();ctx.arc(p.x,p.y,width/2,0,Math.PI*2);ctx.fill();
+        } else if (googleMode && googleResult?.points?.length) {
+          ctx.beginPath();traceGoogleInkCanvas(ctx,page,googleResult.points);ctx.stroke();
         } else if (fit?.segments?.length) {
-          ctx.beginPath(); tracePenFitCanvas(ctx,page,fit); ctx.stroke();
+          ctx.beginPath();tracePenFitCanvas(ctx,page,fit);ctx.stroke();
         }
         ctx.restore();
       } else {
@@ -2466,7 +2617,18 @@ function commitLivePenOverlays(page, stroke) {
     if (liveCtx && live.width && live.height) liveCtx.clearRect(0,0,live.width,live.height);
     if (live) live._pdfwbPenFitDirty=null;
   }
-  return {commitMs:performance.now()-started,stages,fitMs:fit?.fitMs||0,fitCurves:fit?.segments?.length||0,fitInputPoints:fit?.inputPoints||0,fitRetainedPoints:fit?.retainedPoints||0,fitCornerCount:fit?.cornerCount||0,fitSpacing:fit?.spacing||0,fitMode};
+  if (googleMode && Array.isArray(options.googlePoints)) cacheGoogleInkRender(stroke,options.googlePoints,options.googleMetrics||{});
+  return {
+    commitMs:performance.now()-started,stages,googleMode,fitMode,
+    googleModelMs:googleResult?.modelMs||0,
+    googleInputPoints:googleResult?.inputPoints||0,
+    googleOutputPoints:googleResult?.outputPoints||googleResult?.points?.length||0,
+    googleEndLagPoints:googleResult?.endLagPoints??googleResult?.lagPoints??0,
+    googleWobbleSpeed:googleResult?.wobbleSpeed||0,
+    googleWobbleBlend:googleResult?.wobbleBlend||0,
+    fitMs:fit?.fitMs||0,fitCurves:fit?.segments?.length||0,fitInputPoints:fit?.inputPoints||0,
+    fitRetainedPoints:fit?.retainedPoints||0,fitCornerCount:fit?.cornerCount||0,fitSpacing:fit?.spacing||0,
+  };
 }
 
 function ensureLiveHighlighterOverlay(stage, baseCanvas=null, opacity=HIGHLIGHTER_OPACITY) {
@@ -2981,7 +3143,7 @@ function commitSelectionGestureTransform(gesture) {
         annotation.x = (Number(original.x)||0) + dx;
         annotation.y = (Number(original.y)||0) + dy;
       } else {
-        annotation.points = original.points.map(point => ({ x:point.x+dx, y:point.y+dy }));
+        annotation.points = original.points.map(point => ({ ...point, x:point.x+dx, y:point.y+dy }));
       }
     }
     return;
@@ -3006,7 +3168,8 @@ function commitSelectionGestureTransform(gesture) {
       } else {
         annotation.points = original.points.map(raw => {
           const point = basePointToDisplay(page, raw);
-          return displayPointToBase(page, { x:anchor.x+(point.x-anchor.x)*scale, y:anchor.y+(point.y-anchor.y)*scale });
+          const mapped=displayPointToBase(page, { x:anchor.x+(point.x-anchor.x)*scale, y:anchor.y+(point.y-anchor.y)*scale });
+          return Number.isFinite(Number(raw.t)) ? {...mapped,t:Number(raw.t)} : mapped;
         });
         annotation.width = Math.max(.25, (Number(original.width)||3) * scale);
       }
@@ -3037,7 +3200,7 @@ function applyMoveSelectionGesture(gesture, event) {
         annotation.x = (Number(original.x)||0) + dx;
         annotation.y = (Number(original.y)||0) + dy;
       } else {
-        annotation.points = original.points.map(point => ({x:point.x+dx,y:point.y+dy}));
+        annotation.points = original.points.map(point => ({...point,x:point.x+dx,y:point.y+dy}));
       }
     }
     redrawPageAnnotationOverlays(page);
@@ -3087,7 +3250,8 @@ function applyResizeSelectionGesture(gesture, event) {
       } else {
         annotation.points = original.points.map(raw => {
           const point = basePointToDisplay(page,raw);
-          return displayPointToBase(page,{x:anchor.x+(point.x-anchor.x)*scale,y:anchor.y+(point.y-anchor.y)*scale});
+          const mapped=displayPointToBase(page,{x:anchor.x+(point.x-anchor.x)*scale,y:anchor.y+(point.y-anchor.y)*scale});
+          return Number.isFinite(Number(raw.t)) ? {...mapped,t:Number(raw.t)} : mapped;
         });
         annotation.width = Math.max(.25,(Number(original.width)||3)*scale);
       }
@@ -3234,7 +3398,7 @@ function annotationPayloadFromSelection(page=selectedAnnotationPage()) {
       } else {
         copy.points=(annotation.points||[]).map(raw=>{
           const point=basePointToDisplay(page,raw);
-          return {x:point.x-bounds.minX,y:point.y-bounds.minY};
+          return Number.isFinite(Number(raw.t)) ? {x:point.x-bounds.minX,y:point.y-bounds.minY,t:Number(raw.t)} : {x:point.x-bounds.minX,y:point.y-bounds.minY};
         });
       }
       return copy;
@@ -3260,7 +3424,7 @@ function instantiateAnnotationPayload(payload,page,origin) {
     return {
       ...item,
       id:uid(item.type==='ink'?'ink':'annotation'),
-      points:(item.points||[]).map(point=>displayPointToBase(page,{x:ox+point.x,y:oy+point.y})),
+      points:(item.points||[]).map(point=>{const mapped=displayPointToBase(page,{x:ox+point.x,y:oy+point.y});return Number.isFinite(Number(point.t))?{...mapped,t:Number(point.t)}:mapped;}),
     };
   });
 }
@@ -3459,20 +3623,26 @@ function accumulatePenLiveTiming(gesture, timing) {
   gesture.liveFitMs=(gesture.liveFitMs||0)+(Number(timing.fitMs)||0);
   gesture.liveRenderCalls=(gesture.liveRenderCalls||0)+1;
   if (timing.fitMode) gesture.liveFitMode=true;
+  if (timing.googleMode) gesture.googleLiveMode=true;
   if (Number.isFinite(timing.fitCurves)) gesture.liveFitCurvesLast=timing.fitCurves;
   if (Number.isFinite(timing.fitInputPoints)) gesture.liveFitInputPointsLast=timing.fitInputPoints;
   if (Number.isFinite(timing.fitRetainedPoints)) gesture.liveFitRetainedPointsLast=timing.fitRetainedPoints;
   if (Number.isFinite(timing.fitCornerCount)) gesture.liveFitCornerCountLast=timing.fitCornerCount;
   if (Number.isFinite(timing.fitSpacing)) gesture.liveFitSpacingLast=timing.fitSpacing;
+  if (Number.isFinite(timing.googleStablePoints)) gesture.googleStablePointsLast=timing.googleStablePoints;
+  if (Number.isFinite(timing.googlePredictionPoints)) gesture.googlePredictionPointsLast=timing.googlePredictionPoints;
 }
-function appendInkPoint(gesture, event, drawLive=true, geometry=null) {
+function appendInkPoint(gesture, event, drawLive=true, geometry=null, force=false) {
   const page = pageById(gesture.pageId);
   if (!page || page !== gesture.page || !gesture.stage?.isConnected) return null;
   const next = eventPointOnPage(gesture.stage, page, event, geometry);
   if (!next) return null;
+  const googleMode=penStrokeUsesGoogleInk(gesture.stroke);
+  if (googleMode) next.t=googleInkEventTime(gesture,event);
   const points = gesture.stroke.points;
   const previous = points[points.length - 1];
-  if (previous && Math.hypot(next.x - previous.x, next.y - previous.y) < .18) return null;
+  const threshold=googleMode ? .02 : .18;
+  if (!force && previous && Math.hypot(next.x - previous.x, next.y - previous.y) < threshold) return null;
   points.push(next);
   if (drawLive) accumulatePenLiveTiming(gesture,drawLiveSmoothedInkProgress(gesture.stage, page, gesture.stroke));
   return next;
@@ -3516,6 +3686,8 @@ function beginInkGesture(viewer, event) {
   const first = eventPointOnPage(stage, page, event);
   if (!first) { addInkDiagnostic('handler-begin-point-miss', event); return true; }
   const drawingTool = state.annotationTool;
+  const useGoogleInk=drawingTool==='pen' && penWidthUsesGoogleInk(state.penWidth);
+  if (useGoogleInk) first.t=0;
   const stroke = {
     id: uid('ink'),
     type: 'ink',
@@ -3524,12 +3696,13 @@ function beginInkGesture(viewer, event) {
     width: drawingTool === 'highlighter' ? state.highlighterWidth : state.penWidth,
     opacity: drawingTool === 'highlighter' ? HIGHLIGHTER_OPACITY : 1,
     points: [first],
+    ...(useGoogleInk ? {renderer:GOOGLE_INK_RENDERER} : {}),
   };
   const before = snapshotPages();
   annotationsForPage(page).push(stroke);
   state.activePageId = page.id;
   const inputSource = event._inkStylusTouch ? 'stylus-touch' : 'pointer';
-  state.inkGesture = { pointerId: event.pointerId, inputSource, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, before, liveRenderMs:0, liveFitMs:0, liveRenderCalls:0, liveFitMode:false, liveFitCurvesLast:0, liveFitInputPointsLast:0, liveFitRetainedPointsLast:0, liveFitCornerCountLast:0, liveFitSpacingLast:0 };
+  state.inkGesture = { pointerId: event.pointerId, inputSource, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, before, liveRenderMs:0, liveFitMs:0, liveRenderCalls:0, liveFitMode:false, liveFitCurvesLast:0, liveFitInputPointsLast:0, liveFitRetainedPointsLast:0, liveFitCornerCountLast:0, liveFitSpacingLast:0, googleTimeOriginMs:useGoogleInk?(Number.isFinite(Number(event.timeStamp))?Number(event.timeStamp):performance.now()):null, googleModeler:useGoogleInk?new GoogleInkStrokeModeler():null, googleStablePoints:[], googleLiveModelMs:0, googlePredictionMs:0, googlePredictionPointsLast:0, googleWobbleSpeedLast:0, googleWobbleBlendLast:0, googleLagPointsLast:0 };
   if (event.cancelable) event.preventDefault();
   if (inputSource === 'pointer') {
     try { viewer.setPointerCapture?.(event.pointerId); } catch {}
@@ -3540,12 +3713,18 @@ function beginInkGesture(viewer, event) {
     // Highlighter layer.
     drawLiveHighlighterPoints(stage, page, stroke, [first]);
   } else {
-    // Thin/Medium 5.6.5 preview is reduced/fitted once per pointer event on the isolated
-    // live layer. Thick retains the established incremental control renderer.
-    accumulatePenLiveTiming(state.inkGesture,
-      penUsesTrajectoryFit(stroke.width)
-        ? drawLiveFittedPenPreview(stage,page,stroke)
-        : drawLiveInkSegment(stage,page,stroke,first,first));
+    // New Thin/Medium strokes use the 5.6.6 modeled-input live layer. Legacy
+    // Thin/Medium objects keep their 5.6.5 fitter; Thick remains the control.
+    if (useGoogleInk) {
+      consumeGoogleInkPoint(state.inkGesture,first,'down');
+      const prediction=googleInkPrediction(state.inkGesture);
+      accumulatePenLiveTiming(state.inkGesture,drawLiveGoogleInkPreview(stage,page,stroke,state.inkGesture.googleStablePoints,prediction));
+    } else {
+      accumulatePenLiveTiming(state.inkGesture,
+        penUsesTrajectoryFit(stroke.width)
+          ? drawLiveFittedPenPreview(stage,page,stroke)
+          : drawLiveInkSegment(stage,page,stroke,first,first));
+    }
   }
   addInkDiagnostic('handler-begin-accepted', event, {
     strokeId:stroke.id, liveBatchOptimized:true, liveLayer:drawingTool === 'highlighter' ? 'highlighter' : 'pen',
@@ -3559,18 +3738,26 @@ function continueInkGesture(viewer, event) {
   if (event.cancelable) event.preventDefault();
   const samples=typeof event.getCoalescedEvents==='function'?event.getCoalescedEvents():null;
   const translucent=gesture.stroke?.tool==='highlighter';
-  const fitPreview=!translucent && penUsesTrajectoryFit(gesture.stroke?.width);
-  const geometry=(translucent||fitPreview)?gestureEventGeometry(gesture.stage,gesture.page):null;
+  const googlePreview=!translucent && penStrokeUsesGoogleInk(gesture.stroke);
+  const fitPreview=!translucent && !googlePreview && penUsesTrajectoryFit(gesture.stroke?.width);
+  const geometry=(translucent||fitPreview||googlePreview)?gestureEventGeometry(gesture.stage,gesture.page):null;
   if (translucent) {
     const batch=[],first=gesture.stroke.points[gesture.stroke.points.length-1]||null;
     if (first) batch.push(first);
     const appendSample=sample=>{const added=appendInkPoint(gesture,sample,false,geometry);if(added)batch.push(added);};
     if (samples?.length) for (const sample of samples) appendSample(sample); else appendSample(event);
     if (batch.length>1) drawLiveHighlighterPoints(gesture.stage,gesture.page,gesture.stroke,batch);
+  } else if (googlePreview) {
+    // Feed accepted raw/coalesced samples incrementally through the modeled
+    // physical pen, then redraw the temporary live layer once per pointer event
+    // using stable modeled output plus a replaceable stroke-end prediction.
+    const appendSample=sample=>{const added=appendInkPoint(gesture,sample,false,geometry);if(added)consumeGoogleInkPoint(gesture,added,'move');};
+    if (samples?.length) for (const sample of samples) appendSample(sample); else appendSample(event);
+    const prediction=googleInkPrediction(gesture);
+    accumulatePenLiveTiming(gesture,drawLiveGoogleInkPreview(gesture.stage,gesture.page,gesture.stroke,gesture.googleStablePoints,prediction));
   } else if (fitPreview) {
-    // Append the whole coalesced batch first, then fit/render ONCE. This both
-    // avoids repeated layout reads and makes live cost track pointer events,
-    // not the much larger number of Pencil samples inside those events.
+    // Legacy 5.6.5 renderer for annotations created before the modeled-input
+    // experiment: append the whole coalesced batch, then fit/render once.
     const appendSample=sample=>appendInkPoint(gesture,sample,false,geometry);
     if (samples?.length) for (const sample of samples) appendSample(sample); else appendSample(event);
     accumulatePenLiveTiming(gesture,drawLiveFittedPenPreview(gesture.stage,gesture.page,gesture.stroke));
@@ -3586,11 +3773,15 @@ function finishInkGesture(viewer, event) {
   if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
   if (event.cancelable) event.preventDefault();
   const translucent = gesture.stroke?.tool === 'highlighter';
+  const googleMode=!translucent && penStrokeUsesGoogleInk(gesture.stroke);
+  const legacyFit=!translucent && !googleMode && penUsesTrajectoryFit(gesture.stroke?.width);
   const previous = gesture.stroke.points[gesture.stroke.points.length - 1] || null;
-  const geometry = (translucent || penUsesTrajectoryFit(gesture.stroke?.width)) ? gestureEventGeometry(gesture.stage, gesture.page) : null;
-  const finalPoint = appendInkPoint(gesture, event, !translucent && !penUsesTrajectoryFit(gesture.stroke?.width), geometry);
+  const geometry = (translucent || legacyFit || googleMode) ? gestureEventGeometry(gesture.stage, gesture.page) : null;
+  const finalPoint = appendInkPoint(gesture, event, !translucent && !legacyFit && !googleMode, geometry, googleMode);
   if (translucent && finalPoint) {
     drawLiveHighlighterPoints(gesture.stage, gesture.page, gesture.stroke, previous ? [previous, finalPoint] : [finalPoint]);
+  } else if (googleMode && finalPoint) {
+    consumeGoogleInkPoint(gesture,finalPoint,'up');
   }
   // Commit only the just-finished live stroke. Highlighter composites its one
   // translucent live object; Pen draws its exact stabilized completed geometry
@@ -3600,7 +3791,8 @@ function finishInkGesture(viewer, event) {
   if (translucent) {
     commitLiveHighlighterOverlays(gesture.page, gesture.stroke.opacity);
   } else {
-    penCommit = commitLivePenOverlays(gesture.page, gesture.stroke);
+    const googleMetrics=googleMode?(gesture.googleModeler?.metrics?.()||{}):null;
+    penCommit = commitLivePenOverlays(gesture.page, gesture.stroke, googleMode?{googlePoints:gesture.googleStablePoints,googleMetrics}:{});
   }
   const liveCommitMs = performance.now() - commitStarted;
   if (gesture.inputSource === 'pointer') {
@@ -3619,7 +3811,16 @@ function finishInkGesture(viewer, event) {
     liveFitRetainedPointsLast:translucent ? null : (gesture.liveFitRetainedPointsLast||0),
     liveFitCornerCountLast:translucent ? null : (gesture.liveFitCornerCountLast||0),
     liveFitSpacingLast:translucent ? null : Math.round((gesture.liveFitSpacingLast||0)*100)/100,
-    penRenderer:translucent ? null : (penCommit?.fitMode ? 'trajectory-fit' : 'centerline-stroke'),
+    penRenderer:translucent ? null : (penCommit?.googleMode ? GOOGLE_INK_RENDERER : (penCommit?.fitMode ? 'trajectory-fit' : 'centerline-stroke')),
+    googleLiveModelMs:googleMode ? Math.round((gesture.googleLiveModelMs||0)*10)/10 : null,
+    googlePredictionMs:googleMode ? Math.round((gesture.googlePredictionMs||0)*10)/10 : null,
+    googleStablePoints:googleMode ? (gesture.googleStablePoints?.length||0) : null,
+    googlePredictionPointsLast:googleMode ? (gesture.googlePredictionPointsLast||0) : null,
+    googleWobbleSpeedLast:googleMode ? Math.round((gesture.googleWobbleSpeedLast||0)*10)/10 : null,
+    googleWobbleBlendLast:googleMode ? Math.round((gesture.googleWobbleBlendLast||0)*1000)/1000 : null,
+    googleLagPointsLast:googleMode ? Math.round((gesture.googleLagPointsLast||0)*100)/100 : null,
+    googleOutputPoints:penCommit?.googleOutputPoints ?? null,
+    googleEndLagPoints:penCommit?.googleMode ? Math.round((penCommit.googleEndLagPoints||0)*100)/100 : null,
     penFitMs:penCommit ? Math.round((penCommit.fitMs||0)*10)/10 : null,
     penFitCurves:penCommit?.fitCurves ?? null,
     penFitInputPoints:penCommit?.fitInputPoints ?? null,
@@ -3664,11 +3865,17 @@ function segmentSegmentDistance(a, b, c, d) {
   return Math.min(pointSegmentDistance(a,c,d), pointSegmentDistance(b,c,d), pointSegmentDistance(c,a,b), pointSegmentDistance(d,a,b));
 }
 function interpolatePoint(a, b, t) {
-  return { x:a.x + (b.x-a.x)*t, y:a.y + (b.y-a.y)*t };
+  const point={ x:a.x + (b.x-a.x)*t, y:a.y + (b.y-a.y)*t };
+  if (Number.isFinite(Number(a?.t)) && Number.isFinite(Number(b?.t))) point.t=Number(a.t)+(Number(b.t)-Number(a.t))*t;
+  return point;
 }
 function appendDistinctPoint(points, point) {
   const prev = points[points.length - 1];
-  if (!prev || Math.hypot(point.x-prev.x, point.y-prev.y) > .01) points.push({ x:point.x, y:point.y });
+  if (!prev || Math.hypot(point.x-prev.x, point.y-prev.y) > .01) {
+    const copy={x:point.x,y:point.y};
+    if (Number.isFinite(Number(point?.t))) copy.t=Number(point.t);
+    points.push(copy);
+  }
 }
 function eraserBoundaryPoint(a, b, aInside, eraseA, eraseB, radius) {
   let lo = 0, hi = 1;
@@ -3688,7 +3895,7 @@ function eraseStrokeAlongSegment(stroke, eraseA, eraseB, eraserRadius) {
     return { changed:true, fragments:[] };
   }
 
-  const expanded = [{ x:source[0].x, y:source[0].y }];
+  const expanded = [{ ...source[0], x:source[0].x, y:source[0].y }];
   for (let i=1; i<source.length; i++) {
     const a = source[i-1], b = source[i];
     if (segmentSegmentDistance(a,b,eraseA,eraseB) > cutRadius) {
@@ -4041,6 +4248,7 @@ function stylusTouchEventLike(touchEvent, touch, type) {
     button: 0,
     buttons: ending ? 0 : 1,
     pressure: Number.isFinite(touch.force) ? touch.force : (ending ? 0 : .08),
+    timeStamp: Number.isFinite(Number(touchEvent.timeStamp)) ? Number(touchEvent.timeStamp) : performance.now(),
     clientX: touch.clientX,
     clientY: touch.clientY,
     target: touch.target || touchEvent.target,
@@ -4333,6 +4541,19 @@ async function drawPageAnnotationsPdf(outputPdf, pdfPage, page, inheritedRotatio
       for (let i = 1; i < exportPoints.length; i++) {
         const point = annotationPointToRawPdf(page, exportPoints[i], pdfPage, inheritedRotation);
         path += ` L ${pathNumber(point.x)} ${pathNumber(-point.y)}`;
+      }
+    } else if (penStrokeUsesGoogleInk(stroke)) {
+      const modeled=buildGoogleInkRender(stroke).points;
+      if (modeled.length) {
+        const modeledFirst=annotationPointToRawPdf(page,modeled[0],pdfPage,inheritedRotation);
+        path=`M ${pathNumber(modeledFirst.x)} ${pathNumber(-modeledFirst.y)}`;
+        for (let i=1;i<modeled.length;i++) {
+          const point=annotationPointToRawPdf(page,modeled[i],pdfPage,inheritedRotation);
+          path += ` L ${pathNumber(point.x)} ${pathNumber(-point.y)}`;
+        }
+      } else {
+        const second=annotationPointToRawPdf(page,points[points.length-1],pdfPage,inheritedRotation);
+        path += ` L ${pathNumber(second.x)} ${pathNumber(-second.y)}`;
       }
     } else if (penUsesTrajectoryFit(thickness)) {
       const fit = buildPenTrajectoryFit(points, thickness);
@@ -10522,7 +10743,7 @@ function showDialog(kind) {
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.6.5 keeps the responsive Thin/Medium trajectory-fit architecture but now reduces Pencil samples geometrically before fitting: distance-based resampling, explicit localized-corner retention, mild averaging between corners, then cubic Bezier fitting. Raw points remain authoritative for editing. Thick remains the unchanged control. Diagnostics report raw versus retained point counts, corner count, fitted curves, and fit/render/commit timing. The 5.6.1 dense-page live-Pen optimization, 5.6.0 black blank pages, and 5.5.9 rebuilt-PDF link policy remain in place.</p>
+      <p>Milestone 5.6.6 is a modeled-input Pen experiment. Newly written Thin/Medium Pen strokes use a Google Ink Stroke Modeler-style physical trajectory model with velocity-aware wobble filtering, spring/mass/drag motion modeling, 180 Hz modeled output, live stroke-end prediction, and end-of-stroke catch-up. Raw Pencil points and relative timestamps remain authoritative for editing/persistence. Existing pre-5.6.6 Thin/Medium ink keeps its prior renderer, and Thick remains the unchanged control. The 5.6.1 dense-page live-Pen optimization, 5.6.0 black blank pages, and 5.5.9 rebuilt-PDF link policy remain in place.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image scope in 5.5.2:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

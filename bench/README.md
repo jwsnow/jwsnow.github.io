@@ -1,3 +1,28 @@
+# PDF Workbench — Milestone 5.6.6
+
+## 5.6.6 Google-style modeled-input Thin/Medium Pen experiment
+
+Newly written Thin and Medium Pen strokes no longer use the custom 5.6.5 distance/corner/Bezier pipeline. They are tagged `google-ink-v1` and use a local Google Ink Stroke Modeler-style physical trajectory model: velocity-aware wobble filtering, spring/mass/drag position modeling, 180 Hz modeled output, live stroke-end prediction, and end-of-stroke catch-up.
+
+- Raw Pencil x/y points remain authoritative for editing; new modeled strokes also store relative input timestamps so the modeled path can be reconstructed after reload/export.
+- Existing pre-5.6.6 Thin/Medium strokes keep their old trajectory-fit renderer. Thick remains unchanged as the control.
+- The displayed/exported experiment remains constant-width with round caps/joins. There is no pressure/tapering, filled outline, supersampling, or post-model Bezier fitting.
+- Live prediction is temporary: each new real input replaces the old prediction. Stable modeled samples accumulate without refitting the whole stroke.
+- The 5.6.1 dense-page O(current-stroke) commit rule remains intact.
+- Diagnostics now report modeled-input timing, stable/predicted/output point counts, wobble blend/speed, and model lag.
+
+The local `google-ink-modeler.js` is an independent JavaScript implementation of the positional pieces relevant to this experiment: Google's wobble smoother, spring/mass/drag position model, minimum-rate resampling, stroke-end catch-up, and StrokeEnd prediction. It does not bundle Google's C++ library and does not yet implement pressure/tilt state modeling, optional loop-contraction mitigation, or the optional Kalman predictor.
+
+The model works in native PDF points/seconds. Google documents the model as unit-agnostic and recommends tuning wobble parameters to the client's input rate and speed. From the 122 blue 5.6.5 iPad strokes we measured roughly 409 stored inputs/s and 287 PDF pt/s median path speed, so 5.6.6 starts at a **0.006 s** wobble window and **6–9 PDF pt/s** wobble range, while retaining Google's spring/drag starting values, 180 Hz minimum output rate, and StrokeEnd predictor. These are experimental starting values, not presumed final tuning.
+
+The latest 5.6.5 real-world diagnostics motivated this switch: across 122 completed trajectory-fit strokes, median raw input was 46 points but median retained/resampled trajectory was 47 points, with 9.5 detected corners and 10.5 fitted cubics. A 107-point real stroke retained 105 points and detected 25 corners. The custom corner heuristic was therefore mostly not simplifying actual handwriting despite synthetic tests.
+
+External PDF.js/pdf-lib/JSZip bundling remains postponed while Pen rendering is being tuned.
+
+Google Ink Stroke Modeler: https://github.com/google/ink-stroke-modeler (Apache License 2.0, Copyright 2022 Google LLC).
+
+================ PRIOR README HISTORY ================
+
 # PDF Workbench — Milestone 5.6.5
 
 ## 5.6.5 distance-filtered trajectory fitting experiment
