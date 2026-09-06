@@ -1,3 +1,29 @@
+# PDF Workbench — Milestone 5.7.4
+
+## 5.7.4 iPad Asset naming focus hardening
+
+5.7.4 is a narrow iPad/Safari interaction fix after real-device testing showed that the 5.7.3 yield/restore approach was not sufficient: Asset-folder Rename and Asset Rename still lost keyboard focus after each keypress. The Asset data model, nested-folder behavior, Quick Image path, visible-view insertion, Pen/Highlighter geometry, and the validated 5.6.9 pinch/scroll behavior are unchanged.
+
+- **No second native naming dialog on iPad:** Asset New folder, Rename folder, Keep, and Rename asset still yield the native Assets dialog, but iPad now uses a small blocking non-native naming overlay instead of reopening the shared native `<dialog>` immediately afterward.
+- **Keyboard-friendly focus timing:** the new iPad overlay is shown and focused synchronously inside the initiating Rename/New Folder tap so iPadOS is still allowed to raise the software keyboard. A delayed second focus pass catches late Safari focus restoration from the just-closed Assets dialog without re-selecting text the user may already be typing.
+- **Focus guard:** while the iPad Asset naming overlay is active, an unexpected Safari blur back to the page is immediately returned to the naming field. Save/Cancel pointer actions explicitly disable that guard so their taps behave normally.
+- **Other platforms unchanged:** desktop/Surface/Chromebook Asset naming continues to use the established shared Local Library naming dialog. Local Library naming itself is unchanged.
+- **Context restoration unchanged:** when naming finishes, Workbench restores the same Asset manage/insert mode, Library/Recent tab, and nested folder.
+- **No data migration:** IndexedDB remains version 4 and Library schema remains 8.
+
+### Test priority
+
+1. On iPad, Assets → Library → Rename an Asset folder. Type a multi-character name continuously with the onscreen keyboard without retapping the field.
+2. Repeat Rename asset, New folder, and Keep from Recent.
+3. Confirm Save and Cancel work normally, and that Assets returns to the same Library/Recent tab and folder afterward.
+4. Continue normal grading use; Pen, pinch, finger scroll, Quick Image, and visible-view placement should be unchanged.
+
+### Agreed next work after this settles
+
+Once Asset naming is stable in real iPad use, implement **Copy Region → Image** as another Recent producer, including original-size and current-zoom-size capture/paste behavior. Manual Google Drive synchronization follows after the Asset/capture data model is stable. Selection rotation remains on the backlog.
+
+================ PRIOR README HISTORY ================
+
 # PDF Workbench — Milestone 5.7.3
 
 ## 5.7.3 iPad Asset naming focus fix

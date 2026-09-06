@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.3';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.4';
 
-const APP_VERSION = '5.7.3';
+const APP_VERSION = '5.7.4';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -6609,21 +6609,160 @@ function requestLibraryName({ title='Name', help='', suggested='', saveLabel='Sa
   });
 }
 
+function ensureAssetNameOverlay() {
+  let overlay = document.getElementById('assetNameOverlay');
+  if (overlay) return {
+    overlay,
+    form: document.getElementById('assetNameOverlayForm'),
+    title: document.getElementById('assetNameOverlayTitle'),
+    help: document.getElementById('assetNameOverlayHelp'),
+    input: document.getElementById('assetNameOverlayInput'),
+    closeBtn: document.getElementById('assetNameOverlayCloseBtn'),
+    cancelBtn: document.getElementById('assetNameOverlayCancelBtn'),
+    saveBtn: document.getElementById('assetNameOverlaySaveBtn'),
+  };
+  overlay = document.createElement('div');
+  overlay.id = 'assetNameOverlay';
+  overlay.className = 'asset-name-overlay hidden';
+  overlay.setAttribute('role', 'presentation');
+  overlay.setAttribute('aria-hidden', 'true');
+  overlay.innerHTML = `
+    <section class="asset-name-overlay-card info-dialog template-name-dialog" role="dialog" aria-modal="true" aria-labelledby="assetNameOverlayTitle" aria-describedby="assetNameOverlayHelp">
+      <form id="assetNameOverlayForm" autocomplete="off">
+        <button id="assetNameOverlayCloseBtn" class="dialog-close" type="button" aria-label="Cancel">×</button>
+        <h2 id="assetNameOverlayTitle">Name</h2>
+        <p id="assetNameOverlayHelp" class="template-name-help"></p>
+        <label for="assetNameOverlayInput">Name</label>
+        <input id="assetNameOverlayInput" class="template-name-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="160">
+        <div class="dialog-actions">
+          <button id="assetNameOverlayCancelBtn" type="button">Cancel</button>
+          <button id="assetNameOverlaySaveBtn" type="submit">Save</button>
+        </div>
+      </form>
+    </section>`;
+  document.body.append(overlay);
+  return {
+    overlay,
+    form: document.getElementById('assetNameOverlayForm'),
+    title: document.getElementById('assetNameOverlayTitle'),
+    help: document.getElementById('assetNameOverlayHelp'),
+    input: document.getElementById('assetNameOverlayInput'),
+    closeBtn: document.getElementById('assetNameOverlayCloseBtn'),
+    cancelBtn: document.getElementById('assetNameOverlayCancelBtn'),
+    saveBtn: document.getElementById('assetNameOverlaySaveBtn'),
+  };
+}
+
+function requestAssetNameOverlay({ title='Name', help='', suggested='', saveLabel='Save' }={}) {
+  const ui = ensureAssetNameOverlay();
+  if (!ui.input || !ui.form) return Promise.resolve(window.prompt(title, suggested));
+  return new Promise(resolve => {
+    ui.title.textContent = title;
+    ui.help.textContent = help;
+    ui.input.value = suggested;
+    ui.saveBtn.textContent = saveLabel;
+    let finished = false;
+    let actionPointerDown = false;
+    const cleanup = () => {
+      ui.form.onsubmit = null;
+      ui.closeBtn.onclick = null;
+      ui.cancelBtn.onclick = null;
+      ui.closeBtn.onpointerdown = null;
+      ui.cancelBtn.onpointerdown = null;
+      ui.saveBtn.onpointerdown = null;
+      ui.input.onblur = null;
+      ui.overlay.onkeydown = null;
+      ui.overlay.classList.add('hidden');
+      ui.overlay.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('asset-name-overlay-open');
+    };
+    const finish = value => {
+      if (finished) return;
+      finished = true;
+      cleanup();
+      resolve(value);
+    };
+    const markAction = () => { actionPointerDown = true; };
+    ui.closeBtn.onpointerdown = markAction;
+    ui.cancelBtn.onpointerdown = markAction;
+    ui.saveBtn.onpointerdown = markAction;
+    ui.closeBtn.onclick = () => finish(null);
+    ui.cancelBtn.onclick = () => finish(null);
+    ui.overlay.onkeydown = event => {
+      if (event.key === 'Escape') { event.preventDefault(); finish(null); }
+    };
+    ui.form.onsubmit = event => {
+      event.preventDefault();
+      const value = ui.input.value.trim();
+      if (!value) {
+        actionPointerDown = false;
+        ui.input.focus({ preventScroll: true });
+        return;
+      }
+      finish(value);
+    };
+    // iPad Safari occasionally drops the focused text field after a software-keyboard
+    // keypress when focus was preceded by closing a native modal dialog. This overlay
+    // intentionally avoids another native <dialog>; if Safari still blurs the field to
+    // the page, immediately restore it. Pointer-down on our own action buttons disables
+    // that guard so Save/Cancel remain ordinary taps.
+    ui.input.onblur = () => {
+      if (finished || actionPointerDown) return;
+      setTimeout(() => {
+        if (!finished && !actionPointerDown && document.activeElement !== ui.input) {
+          try { ui.input.focus({ preventScroll: true }); } catch {}
+        }
+      }, 0);
+    };
+    ui.overlay.classList.remove('hidden');
+    ui.overlay.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('asset-name-overlay-open');
+    // Focus synchronously while the Rename/New Folder tap still counts as a user
+    // gesture so iPadOS is allowed to raise the software keyboard. Then reinforce
+    // focus after Safari has had time to finish restoring focus from the closed
+    // native Assets dialog; do not re-select on the delayed pass because the user
+    // may already have started typing.
+    try {
+      ui.input.focus({ preventScroll: true });
+      ui.input.select();
+    } catch {}
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (!finished && !actionPointerDown && document.activeElement !== ui.input) {
+        try { ui.input.focus({ preventScroll: true }); } catch {}
+      }
+    }));
+  });
+}
+
 async function requestAssetName(options={}) {
-  // iPad/Safari can fight keyboard focus when a text-entry modal is opened on top of
-  // the already-modal Assets browser. Temporarily yield the Assets modal while the
-  // shared naming dialog owns focus, then restore the exact Assets context.
+  // 5.7.4: iPad Safari can retain native-dialog focus restoration after the
+  // Assets modal has been closed. Merely waiting one animation frame (5.7.3)
+  // was not sufficient on real iPad hardware. Yield the Assets native dialog,
+  // then use a non-native blocking naming overlay on iPad so no second native
+  // dialog participates in focus trapping/restoration. Other platforms retain
+  // the established shared Local Library naming dialog.
   const restoreAssetDialog = Boolean(els.assetDialog?.open);
   const restoreMode = state.assetDialogMode;
   const restoreView = state.assetDialogView;
   const restoreFolderId = state.assetFolderId;
   if (restoreAssetDialog) {
     try { els.assetDialog.close(); } catch {}
-    await new Promise(resolve => requestAnimationFrame(() => resolve()));
   }
-  const value = await requestLibraryName(options);
+  let value;
+  if (isIPadLike()) {
+    // Open/focus the non-native overlay immediately so the keyboard request stays
+    // inside the initiating tap gesture. Its blur guard + delayed focus pass deal
+    // with any late Safari focus restoration from the just-closed Assets dialog.
+    value = await requestAssetNameOverlay(options);
+  } else {
+    // Other platforms keep the 5.7.3 yield before opening the shared native
+    // naming dialog, which avoids stacking native modals and is already stable.
+    if (restoreAssetDialog) await new Promise(resolve => requestAnimationFrame(resolve));
+    value = await requestLibraryName(options);
+  }
   if (restoreAssetDialog) {
-    await new Promise(resolve => requestAnimationFrame(() => resolve()));
+    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise(resolve => requestAnimationFrame(resolve));
     state.assetDialogMode = restoreMode;
     state.assetDialogView = restoreView;
     state.assetFolderId = restoreFolderId && state.assetFolders.has(restoreFolderId) ? restoreFolderId : null;
@@ -10774,7 +10913,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.7.3 fixes iPad keyboard focus during Asset naming while retaining the nested Reusable Asset Library introduced in 5.7.2. Asset browsing now follows the Local Library model: folders open in-place, breadcrumbs show the current location, New folder creates beneath the current folder, and permanent assets/folders can be renamed, moved, or deleted. Recent remains a flat clipboard history. Quick Image, visible-view insertion, Pen/Highlighter geometry, and the field-tested 5.6.9 pinch/scroll behavior are unchanged.</p>
+      <p>Milestone 5.7.4 hardens iPad Asset naming keyboard focus by avoiding a second native modal dialog while retaining the nested Reusable Asset Library introduced in 5.7.2. Asset browsing now follows the Local Library model: folders open in-place, breadcrumbs show the current location, New folder creates beneath the current folder, and permanent assets/folders can be renamed, moved, or deleted. Recent remains a flat clipboard history. Quick Image, visible-view insertion, Pen/Highlighter geometry, and the field-tested 5.6.9 pinch/scroll behavior are unchanged.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable insertion.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
