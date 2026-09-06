@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.7.14">
+  <link rel="stylesheet" href="styles.css?v=5.7.15">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -155,6 +155,7 @@
           <div id="selectionActionGroup" class="ink-option-group selection-action-group hidden" role="group" aria-label="Selected annotation actions">
             <button id="selectionDeleteBtn" class="selection-action-btn" type="button" title="Delete selected annotations" aria-label="Delete selected annotations"><span class="selection-action-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M4.5 5.5h11"/><path d="M7.5 5.5v-1.2c0-.9.7-1.6 1.6-1.6h1.8c.9 0 1.6.7 1.6 1.6v1.2"/><path d="M6.2 5.5l.7 10.1c.1.9.8 1.6 1.7 1.6h2.8c.9 0 1.6-.7 1.7-1.6l.7-10.1"/><path d="M8.2 8.3v5.8"/><path d="M11.8 8.3v5.8"/></svg></span></button>
             <button id="selectionDuplicateBtn" class="selection-action-btn" type="button" title="Duplicate selected annotations" aria-label="Duplicate selected annotations"><span class="selection-action-icon selection-action-icon-stack" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><rect x="4.2" y="5.2" width="8.6" height="9.1" rx="1.2"/><rect x="7.2" y="7.7" width="8.6" height="9.1" rx="1.2"/></svg><span class="selection-action-icon-badge">+</span></span></button>
+            <button id="selectionRotateBtn" class="selection-action-btn" type="button" title="Rotate selected annotations 90° clockwise" aria-label="Rotate selected annotations 90 degrees clockwise"><span class="selection-action-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M15.7 8.1a6.1 6.1 0 1 0 .1 4.1"/><path d="M12.4 4.1h3.8v3.8"/></svg></span></button>
             <button id="selectionCopyBtn" class="selection-action-btn" type="button" title="Copy selected annotations" aria-label="Copy selected annotations"><span class="selection-action-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><rect x="4.2" y="5.2" width="8.6" height="9.1" rx="1.2"/><rect x="7.2" y="7.7" width="8.6" height="9.1" rx="1.2"/></svg></span></button>
             <button id="selectionCopyRegionBtn" class="selection-action-btn" type="button" aria-pressed="false" title="Copy a rectangular page region to Recent" aria-label="Copy a rectangular page region to Recent"><span class="selection-action-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><rect x="4" y="4" width="12" height="12" rx="1.4" stroke-dasharray="2.1 2.1"/><path d="M7 7h6v6"/></svg></span></button>
             <button id="selectionPasteBtn" class="selection-action-btn" type="button" title="Paste copied annotations or copied region" aria-label="Paste copied annotations or copied region"><span class="selection-action-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><rect x="5.3" y="4.8" width="9.4" height="11.5" rx="1.5"/><path d="M7.4 4.8v-1c0-.6.5-1.1 1.1-1.1h3c.6 0 1.1.5 1.1 1.1v1"/><path d="M8.2 9h3.8"/><path d="M8.2 11.8h4.6"/></svg></span></button>
@@ -202,7 +203,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.7.14</div>
+          <div class="export-kicker">Milestone 5.7.15</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -772,6 +773,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.7.14"></script>
+  <script type="module" src="app.js?v=5.7.15"></script>
 </body>
 </html>

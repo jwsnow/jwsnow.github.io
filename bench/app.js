@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.14';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.15';
 
-const APP_VERSION = '5.7.14';
+const APP_VERSION = '5.7.15';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -36,7 +36,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -863,7 +863,19 @@ async function drawSnippetThumbnail(canvas, asset) {
     const r=item.displayRect;
     try {
       const source=await ensureLibrarySourceLoaded(item.sourceId); const image=await getSourceImage(source);
-      ctx.drawImage(image,ox+r.x*scale,oy+r.y*scale,r.width*scale,r.height*scale);
+      const rotation=normalizedQuarterTurn(item.displayRotation ?? item.rotation ?? 0);
+      if (rotation) {
+        const boxW=r.width*scale, boxH=r.height*scale;
+        const drawW=rotation===90||rotation===270?boxH:boxW;
+        const drawH=rotation===90||rotation===270?boxW:boxH;
+        ctx.save();
+        ctx.translate(ox+(r.x+r.width/2)*scale,oy+(r.y+r.height/2)*scale);
+        ctx.rotate(rotation*Math.PI/180);
+        ctx.drawImage(image,-drawW/2,-drawH/2,drawW,drawH);
+        ctx.restore();
+      } else {
+        ctx.drawImage(image,ox+r.x*scale,oy+r.y*scale,r.width*scale,r.height*scale);
+      }
     } catch {
       ctx.save(); ctx.strokeStyle='rgba(80,80,80,.55)'; ctx.setLineDash([4,3]); ctx.strokeRect(ox+r.x*scale,oy+r.y*scale,r.width*scale,r.height*scale); ctx.restore();
     }
@@ -2247,6 +2259,9 @@ function hasPageAnnotations(page) {
 function isImageAnnotation(annotation) {
   return annotation?.type === 'image' && !!annotation.sourceId;
 }
+function imageAnnotationRotation(annotation) {
+  return normalizedQuarterTurn(annotation?.rotation || 0);
+}
 function imageAnnotationBaseRect(annotation) {
   if (!isImageAnnotation(annotation)) return null;
   const x = Number(annotation.x) || 0;
@@ -2455,7 +2470,16 @@ function drawImageAnnotationCanvas(page, ctx, pixelWidth, pixelHeight, annotatio
   ctx.scale(sx, sy);
   applyBaseToDisplayCanvasTransform(ctx, page);
   ctx.globalAlpha = clamp(Number(annotation.opacity ?? 1), 0, 1);
-  ctx.drawImage(img, rect.x, rect.y, rect.width, rect.height);
+  const rotation = imageAnnotationRotation(annotation);
+  if (rotation) {
+    const drawWidth = rotation === 90 || rotation === 270 ? rect.height : rect.width;
+    const drawHeight = rotation === 90 || rotation === 270 ? rect.width : rect.height;
+    ctx.translate(rect.x + rect.width / 2, rect.y + rect.height / 2);
+    ctx.rotate(rotation * Math.PI / 180);
+    ctx.drawImage(img, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
+  } else {
+    ctx.drawImage(img, rect.x, rect.y, rect.width, rect.height);
+  }
   ctx.restore();
   return true;
 }
@@ -3663,6 +3687,7 @@ function annotationPayloadFromSelection(page=selectedAnnotationPage()) {
         copy.displayRect=rect?{
           x:rect.minX-bounds.minX,y:rect.minY-bounds.minY,width:rect.width,height:rect.height
         }:null;
+        copy.displayRotation=normalizedQuarterTurn(imageAnnotationRotation(annotation)+normalizedQuarterTurn(page.rotation));
         copy.points=[];
       } else {
         copy.points=(annotation.points||[]).map(raw=>{
@@ -3687,8 +3712,11 @@ function instantiateAnnotationPayload(payload,page,origin) {
         x:ox+item.displayRect.x,y:oy+item.displayRect.y,
         width:item.displayRect.width,height:item.displayRect.height,
       });
-      const {displayRect,...rest}=item;
-      return {...rest,id:uid('image'),x:rect.x,y:rect.y,width:rect.width,height:rect.height,points:[]};
+      const {displayRect,displayRotation,...rest}=item;
+      const rotation=Number.isFinite(Number(displayRotation))
+        ? normalizedQuarterTurn(Number(displayRotation)-normalizedQuarterTurn(page.rotation))
+        : imageAnnotationRotation(item);
+      return {...rest,id:uid('image'),x:rect.x,y:rect.y,width:rect.width,height:rect.height,rotation,points:[]};
     }
     return {
       ...item,
@@ -3728,6 +3756,54 @@ function duplicateSelectedAnnotations() {
   saveCurrentDocumentState({readViewDom:false});
   redrawPageAnnotationOverlays(page);
   setStatus(`Duplicated ${clones.length} annotation object${clones.length===1?'':'s'}`);
+}
+function rotateDisplayPointClockwise90(point, center) {
+  const dx=(Number(point?.x)||0)-(Number(center?.x)||0);
+  const dy=(Number(point?.y)||0)-(Number(center?.y)||0);
+  return { x:(Number(center?.x)||0)-dy, y:(Number(center?.y)||0)+dx };
+}
+function rotateSelectedAnnotationsClockwise() {
+  const page=selectedAnnotationPage();
+  const annotations=selectedAnnotations(page);
+  const bounds=annotationDisplayBounds(page,annotations);
+  if (!page||!annotations.length||!bounds) return;
+  const before=snapshotPages();
+  const center={x:(bounds.minX+bounds.maxX)/2,y:(bounds.minY+bounds.maxY)/2};
+  const current=new Map(annotationsForPage(page).map(annotation=>[annotation.id,annotation]));
+  for (const original of annotations.map(cloneInkStroke)) {
+    const annotation=current.get(original.id);
+    if (!annotation) continue;
+    if (isImageAnnotation(original)) {
+      const rect=imageAnnotationDisplayBounds(page,original);
+      if (!rect) continue;
+      const oldCenter={x:(rect.minX+rect.maxX)/2,y:(rect.minY+rect.maxY)/2};
+      const nextCenter=rotateDisplayPointClockwise90(oldCenter,center);
+      const nextDisplayRect={
+        x:nextCenter.x-rect.height/2,
+        y:nextCenter.y-rect.width/2,
+        width:rect.height,
+        height:rect.width,
+      };
+      const nextBaseRect=displayRectToBaseImageRect(page,nextDisplayRect);
+      annotation.x=nextBaseRect.x;
+      annotation.y=nextBaseRect.y;
+      annotation.width=Math.max(.25,nextBaseRect.width);
+      annotation.height=Math.max(.25,nextBaseRect.height);
+      annotation.rotation=normalizedQuarterTurn(imageAnnotationRotation(original)+90);
+    } else {
+      annotation.points=(original.points||[]).map(raw=>{
+        const displayPoint=basePointToDisplay(page,raw);
+        const rotated=rotateDisplayPointClockwise90(displayPoint,center);
+        const mapped=displayPointToBase(page,rotated);
+        return Number.isFinite(Number(raw.t))?{...mapped,t:Number(raw.t)}:mapped;
+      });
+    }
+  }
+  commitHistory(before);
+  saveCurrentDocumentState({readViewDom:false});
+  redrawPageAnnotationOverlays(page);
+  redrawPageAnnotationSelectionOverlays(page);
+  setStatus(`Rotated ${annotations.length} selected annotation object${annotations.length===1?'':'s'} 90° clockwise`);
 }
 function copySelectedAnnotations() {
   const payload=annotationPayloadFromSelection();
@@ -3807,6 +3883,7 @@ function updateSelectionToolbar() {
   const canPaste = !!state.annotationClipboard?.items?.length || imageClipboard?.type === 'image';
   if (els.selectionDeleteBtn) els.selectionDeleteBtn.disabled=!count;
   if (els.selectionDuplicateBtn) els.selectionDuplicateBtn.disabled=!count;
+  if (els.selectionRotateBtn) els.selectionRotateBtn.disabled=!count;
   if (els.selectionCopyBtn) els.selectionCopyBtn.disabled=!count;
   if (els.selectionCopyRegionBtn) {
     els.selectionCopyRegionBtn.disabled=!state.pages.length;
@@ -4726,15 +4803,34 @@ function simplifyHighlighterExportPoints(stroke, sourcePoints) {
 function imageAnnotationRawPdfPlacement(page, annotation, pdfPage, inheritedRotation=0) {
   const rect=imageAnnotationBaseRect(annotation);
   if (!rect) return null;
-  const box=pdfPage.getCropBox?.() || pdfPage.getMediaBox?.() || {x:0,y:0,width:pdfPage.getWidth(),height:pdfPage.getHeight()};
-  const rotation=normalizedQuarterTurn(inheritedRotation);
-  const orientedW=rotation===90||rotation===270?box.height:box.width;
-  const orientedH=rotation===90||rotation===270?box.width:box.height;
-  const base=pageCanvasBaseDimensions(page);
-  const width=rect.width*orientedW/Math.max(1,base.width);
-  const height=rect.height*orientedH/Math.max(1,base.height);
-  const lowerLeft=annotationPointToRawPdf(page,{x:rect.x,y:rect.y+rect.height},pdfPage,inheritedRotation);
-  return {x:lowerLeft.x,y:lowerLeft.y,width,height,rotation};
+  const rotation=imageAnnotationRotation(annotation);
+  let anchor, widthEnd, heightEnd;
+  if (rotation===90) {
+    anchor={x:rect.x,y:rect.y};
+    widthEnd={x:rect.x,y:rect.y+rect.height};
+    heightEnd={x:rect.x+rect.width,y:rect.y};
+  } else if (rotation===180) {
+    anchor={x:rect.x+rect.width,y:rect.y};
+    widthEnd={x:rect.x,y:rect.y};
+    heightEnd={x:rect.x+rect.width,y:rect.y+rect.height};
+  } else if (rotation===270) {
+    anchor={x:rect.x+rect.width,y:rect.y+rect.height};
+    widthEnd={x:rect.x+rect.width,y:rect.y};
+    heightEnd={x:rect.x,y:rect.y+rect.height};
+  } else {
+    anchor={x:rect.x,y:rect.y+rect.height};
+    widthEnd={x:rect.x+rect.width,y:rect.y+rect.height};
+    heightEnd={x:rect.x,y:rect.y};
+  }
+  const rawAnchor=annotationPointToRawPdf(page,anchor,pdfPage,inheritedRotation);
+  const rawWidthEnd=annotationPointToRawPdf(page,widthEnd,pdfPage,inheritedRotation);
+  const rawHeightEnd=annotationPointToRawPdf(page,heightEnd,pdfPage,inheritedRotation);
+  const wx=rawWidthEnd.x-rawAnchor.x, wy=rawWidthEnd.y-rawAnchor.y;
+  const hx=rawHeightEnd.x-rawAnchor.x, hy=rawHeightEnd.y-rawAnchor.y;
+  const width=Math.max(.01,Math.hypot(wx,wy));
+  const height=Math.max(.01,Math.hypot(hx,hy));
+  const pdfRotation=normalizedQuarterTurn(Math.round(Math.atan2(wy,wx)*180/Math.PI));
+  return {x:rawAnchor.x,y:rawAnchor.y,width,height,rotation:pdfRotation};
 }
 async function drawPageAnnotationsPdf(outputPdf, pdfPage, page, inheritedRotation, pdfLib, embeddedImages=new Map(), imageCompression=null) {
   if (!hasPageAnnotations(page)) return;
@@ -10896,9 +10992,9 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.7.14 is a layout-only follow-up to the validated 5.7.11 paste behavior. The Copy Region size-choice dialog now gives Original size and Current zoom size separate columns with Cancel on its own row, and Select-mode text action buttons remain content-sized in compact Presentation mode instead of being forced into 34-pixel icon widths. Paste placement, Assets/Recent return behavior, Copy Region capture logic, and the Pen/touch/viewer machinery are unchanged.</p>
-      <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
-      <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
+      <p>Milestone 5.7.15 is a layout-only follow-up to the validated 5.7.11 paste behavior. The Copy Region size-choice dialog now gives Original size and Current zoom size separate columns with Cancel on its own row, and Select-mode text action buttons remain content-sized in compact Presentation mode instead of being forced into 34-pixel icon widths. Paste placement, Assets/Recent return behavior, Copy Region capture logic, and the Pen/touch/viewer machinery are unchanged.</p>
+      <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
+      <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -11909,6 +12005,7 @@ function bindEvents() {
   });
   els.selectionDeleteBtn?.addEventListener('click', deleteSelectedAnnotations);
   els.selectionDuplicateBtn?.addEventListener('click', duplicateSelectedAnnotations);
+  els.selectionRotateBtn?.addEventListener('click', rotateSelectedAnnotationsClockwise);
   els.selectionCopyBtn?.addEventListener('click', copySelectedAnnotations);
   els.selectionCopyRegionBtn?.addEventListener('click', toggleRegionCopyMode);
   els.selectionPasteBtn?.addEventListener('click', pasteCopiedAnnotations);
