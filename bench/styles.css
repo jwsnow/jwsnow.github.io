@@ -742,7 +742,7 @@ body.presentation .split-pane.active {
 .template-default-section { margin: 14px 0 18px; padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: color-mix(in srgb, var(--panel) 92%, var(--accent) 8%); }
 .template-default-section h3 { margin: 0 0 6px; }
 .template-default-section label { display: block; margin: 10px 0 5px; font-weight: 600; }
-.template-default-section select { width: 100%; max-width: 520px; }
+.template-default-section select { width: 100%; max-width: 520px; min-height: 40px; border: 1px solid var(--border); border-radius: 9px; background: var(--paper); color: var(--text); padding: 7px 30px 7px 9px; font: inherit; }
 
 .template-name-dialog label { display: block; margin-top: 12px; font-weight: 600; }
 

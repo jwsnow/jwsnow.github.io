@@ -1,10 +1,15 @@
-CURRENT MILESTONE 5.7.13 — LAYOUT-ONLY POLISH
+CURRENT MILESTONE 5.7.14 — TEMPLATE DROPDOWN CONSISTENCY
+
+- Styling-only fix: Files → Templates → Automatic new last page now uses the same border/radius/background/padding/font/height treatment as the standard Files dropdowns.
+- No behavior changes. 5.7.13 selection icons, Presentation Files round-trip behavior, paste placement, Copy Region, and Pen/touch/viewer behavior are unchanged.
+
+CURRENT MILESTONE 5.7.14 — LAYOUT-ONLY POLISH
 
 - **Copy Region dialog:** Original size and Current zoom size now use two explicit equal columns; Cancel occupies a separate full-width row. The three actions no longer compete in one narrow flex row.
 - **Presentation Select actions:** Delete / Duplicate / Copy / Region / Paste remain content-sized even under the tablet compact Presentation rule; the 34 px rule continues to apply only to ordinary icon-style toolbar buttons.
 - This release changes layout/CSS only apart from version/About text. The validated 5.7.11 centered Paste behavior, Asset/Recent view-center capture, 5.7.10 Files return-state fix, 5.7.9 Copy Region capture logic, 5.7.8 naming keyboard path, and Pen/touch/pinch/viewer machinery are unchanged.
 
-TEST PRIORITIES FOR 5.7.13
+TEST PRIORITIES FOR 5.7.14
 
 - Open Copy Region, draw a rectangle, and confirm Original size / Current zoom size are clearly separated and Cancel is visible below them without overlap.
 - In Presentation → Select, confirm Delete / Duplicate / Copy / Region / Paste each contain their full labels and the right-side Presentation controls remain usable.
@@ -58,9 +63,9 @@ RETURN HERE AFTER A BREAK — CURRENT STATUS
 
 AUTHORITATIVE WORKING BASELINE
 ------------------------------
-- Use **Milestone 5.7.13** as the current source/build.
-- Visible About version: 5.7.13.
-- Service-worker/cache version: `pdf-workbench-m5.7.13-v1`.
+- Use **Milestone 5.7.14** as the current source/build.
+- Visible About version: 5.7.14.
+- Service-worker/cache version: `pdf-workbench-m5.7.14-v1`.
 - IndexedDB remains version 4; Library schema remains version 8. No persistence migration.
 - Pen/Highlighter rendering, 5.6.9 pinch/scroll behavior, finger-scroll engagement, inertia, split/single viewer rendering, and annotation geometry are intentionally unchanged.
 
