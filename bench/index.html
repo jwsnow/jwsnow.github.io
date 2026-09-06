@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.7.11">
+  <link rel="stylesheet" href="styles.css?v=5.7.12">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -202,7 +202,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.7.11</div>
+          <div class="export-kicker">Milestone 5.7.12</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -726,10 +726,10 @@
         <button id="regionCaptureCloseBtn" class="dialog-close" type="button" aria-label="Cancel">×</button>
         <h2>Copy selected region</h2>
         <p id="regionCaptureSummary" class="template-name-help">Choose how large the pasted image should be.</p>
-        <div class="dialog-actions">
-          <button id="regionCaptureCancelBtn" type="button">Cancel</button>
+        <div class="dialog-actions region-capture-actions">
           <button id="regionCaptureOriginalBtn" type="button">Original size</button>
           <button id="regionCaptureZoomBtn" type="button">Current zoom size</button>
+          <button id="regionCaptureCancelBtn" type="button">Cancel</button>
         </div>
       </form>
     </dialog>
@@ -772,6 +772,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.7.11"></script>
+  <script type="module" src="app.js?v=5.7.12"></script>
 </body>
 </html>

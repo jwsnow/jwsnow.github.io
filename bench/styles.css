@@ -744,6 +744,16 @@ body.presentation .split-pane.active {
 .template-default-section select { width: 100%; max-width: 520px; }
 
 .template-name-dialog label { display: block; margin-top: 12px; font-weight: 600; }
+
+/* 5.7.12: Copy Region has two primary size choices plus Cancel. Use an
+   explicit grid so long labels never compete for the same narrow flex row. */
+.region-capture-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.region-capture-actions button { min-width: 0; white-space: normal; }
+#regionCaptureCancelBtn { grid-column: 1 / -1; }
 .template-name-help { margin-bottom: 8px; color: var(--muted); }
 .template-annotation-choice { margin: 14px 0 0; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; }
 .template-annotation-choice legend { padding: 0 5px; font-weight: 600; }
@@ -1444,6 +1454,17 @@ body.ink-pen-active .status-bar * {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: .01em;
+}
+/* Text actions must remain content-sized even when Presentation's tablet
+   compact rule makes ordinary toolbar icon buttons 34px wide. */
+body.presentation .presentation-toolbar.annotation-toolbar .selection-action-btn {
+  width: auto;
+  min-width: max-content;
+  flex: 0 0 auto;
+  flex-basis: auto;
+  padding-left: 6px;
+  padding-right: 6px;
+  white-space: nowrap;
 }
 .presentation-toolbar.annotation-toolbar .selection-action-btn:disabled {
   opacity: .34;
