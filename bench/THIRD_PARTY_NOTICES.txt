@@ -1,4 +1,4 @@
-PDF Workbench 5.6.9 — Third-Party Notices
+PDF Workbench 5.7.0 — Third-Party Notices
 ==========================================
 
 PDF Workbench uses or is informed by the following third-party projects.

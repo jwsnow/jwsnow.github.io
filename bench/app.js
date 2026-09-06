@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.6.9';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.0';
 
-const APP_VERSION = '5.6.9';
+const APP_VERSION = '5.7.0';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -11,19 +11,20 @@ const PDFLIB_URL = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.esm
 const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 
 const LIBRARY_DB_NAME = 'pdf-workbench-library';
-const LIBRARY_DB_VERSION = 2;
-const LIBRARY_SCHEMA_VERSION = 6;
+const LIBRARY_DB_VERSION = 3;
+const LIBRARY_SCHEMA_VERSION = 7;
 const LIBRARY_BACKUP_FORMAT_VERSION = 1;
 const SESSION_CHECKPOINT_KEY = 'pdfwb-session-checkpoint-v2';
+const RECENT_ASSET_LIMIT = 30;
 
 const $ = (id) => document.getElementById(id);
 const els = {
-  app: $('app'), openBtn: $('openBtn'), annotationImageInput: $('annotationImageInput'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), newTemplateDocumentBtn: $('newTemplateDocumentBtn'), newDocumentPageSize: $('newDocumentPageSize'), newDocumentPageSizeHint: $('newDocumentPageSizeHint'), newBlankWhiteBtn: $('newBlankWhiteBtn'), newBlankBlackBtn: $('newBlankBlackBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), libraryZipImportInput: $('libraryZipImportInput'), imageAssemblyInput: $('imageAssemblyInput'), documentSelect: $('documentSelect'),
+  app: $('app'), openBtn: $('openBtn'), annotationImageInput: $('annotationImageInput'), assetImageInput: $('assetImageInput'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), newTemplateDocumentBtn: $('newTemplateDocumentBtn'), newDocumentPageSize: $('newDocumentPageSize'), newDocumentPageSizeHint: $('newDocumentPageSizeHint'), newBlankWhiteBtn: $('newBlankWhiteBtn'), newBlankBlackBtn: $('newBlankBlackBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), libraryZipImportInput: $('libraryZipImportInput'), imageAssemblyInput: $('imageAssemblyInput'), documentSelect: $('documentSelect'),
   viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), exportModeBtn: $('exportModeBtn'), viewerControls: $('viewerControls'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), filesManageTemplatesBtn: $('filesManageTemplatesBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), filesManageTemplatesBtn: $('filesManageTemplatesBtn'), assetsSummary: $('assetsSummary'), filesManageAssetsBtn: $('filesManageAssetsBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
@@ -35,7 +36,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionPasteBtn: $('selectionPasteBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionPasteBtn: $('selectionPasteBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), assetDialog: $('assetDialog'), assetDialogTitle: $('assetDialogTitle'), assetDialogHelp: $('assetDialogHelp'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), assetDialogCloseBtn: $('assetDialogCloseBtn'), assetDialogDoneBtn: $('assetDialogDoneBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -82,6 +83,7 @@ const state = {
   selectionGesture: null,
   annotationSelection: { documentId: null, pageId: null, ids: new Set() },
   annotationClipboard: null,
+  annotationClipboardAssetId: null,
   annotationPasteSerial: 0,
   annotationPasteTargetKey: null,
   eraserCursor: null,
@@ -113,6 +115,9 @@ const state = {
   libraryReady: false,
   libraryRecords: new Map(),
   libraryFolders: new Map(),
+  assetRecords: new Map(),
+  assetDialogMode: 'manage',
+  assetDialogView: 'library',
   libraryFolderId: null,
   libraryViewMode: safePref('pdfwb-library-view', 'grid', ['grid','list']),
   libraryPreviewObserver: null,
@@ -209,6 +214,7 @@ function openLibraryDatabaseOnce(timeoutMs=4500) {
         if (!db.objectStoreNames.contains('sources')) db.createObjectStore('sources', { keyPath: 'id' });
         if (!db.objectStoreNames.contains('meta')) db.createObjectStore('meta', { keyPath: 'key' });
         if (!db.objectStoreNames.contains('folders')) db.createObjectStore('folders', { keyPath: 'id' });
+        if (!db.objectStoreNames.contains('assets')) db.createObjectStore('assets', { keyPath: 'id' });
       };
       request.onsuccess = () => finishResolve(request.result);
       request.onerror = () => finishReject(request.error || new Error('IndexedDB open failed'));
@@ -506,6 +512,293 @@ async function ensureLibrarySourceLoaded(sourceId) {
   state.sources.set(sourceId, source);
   return source;
 }
+
+// ---------------------------------------------------------------------------
+// Milestone 5.7 — reusable Assets + browsable local clipboard history
+// ---------------------------------------------------------------------------
+function assetReferencedSourceIds(asset) {
+  const ids = new Set();
+  if (!asset) return ids;
+  if (asset.type === 'image' && asset.sourceId) ids.add(asset.sourceId);
+  if (asset.type === 'snippet') {
+    for (const item of asset.payload?.items || []) {
+      if (isImageAnnotation(item) && item.sourceId) ids.add(item.sourceId);
+    }
+  }
+  return ids;
+}
+function sourceUsedByAssets(sourceId, excludingAssetId=null) {
+  if (!sourceId) return false;
+  for (const asset of state.assetRecords.values()) {
+    if (asset.id === excludingAssetId) continue;
+    if (assetReferencedSourceIds(asset).has(sourceId)) return true;
+  }
+  return false;
+}
+function assetTypeLabel(asset) {
+  return asset?.type === 'image' ? 'Image' : 'Editable snippet';
+}
+function defaultAssetName(type='snippet') {
+  const prefix = type === 'image' ? 'Image' : 'Snippet';
+  const used = new Set([...state.assetRecords.values()].filter(asset => asset.pinned).map(asset => String(asset.name || '').toLocaleLowerCase()));
+  let n = 1;
+  while (used.has(`${prefix} ${n}`.toLocaleLowerCase())) n += 1;
+  return `${prefix} ${n}`;
+}
+function recentAssets() {
+  return [...state.assetRecords.values()].filter(asset => !asset.pinned).sort((a,b) => Number(b.createdAt||0)-Number(a.createdAt||0));
+}
+function permanentAssets() {
+  return [...state.assetRecords.values()].filter(asset => !!asset.pinned).sort((a,b) => String(a.name||'').localeCompare(String(b.name||''), undefined, {numeric:true,sensitivity:'base'}));
+}
+function updateAssetsSummary() {
+  if (!els.assetsSummary) return;
+  const permanent = permanentAssets().length;
+  const recent = recentAssets().length;
+  els.assetsSummary.textContent = `${permanent} saved · ${recent} recent`;
+}
+async function refreshAssetRecords() {
+  if (!state.libraryDb || !state.libraryDb.objectStoreNames.contains('assets')) {
+    state.assetRecords = new Map();
+    updateAssetsSummary();
+    return;
+  }
+  const inMemory = [...state.assetRecords.values()];
+  const assets = await libraryGetAll('assets');
+  const merged = new Map(assets.map(asset => [asset.id, asset]));
+  for (const asset of inMemory) if (!merged.has(asset.id)) merged.set(asset.id, asset);
+  state.assetRecords = merged;
+  const incompatible = [...merged.values()].find(asset => Number(asset.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION);
+  if (incompatible) throw new Error(`Saved Assets use a newer Library schema (${incompatible.schemaVersion}).`);
+  for (const asset of inMemory) {
+    if (assets.some(saved => saved.id === asset.id)) continue;
+    for (const sourceId of assetReferencedSourceIds(asset)) await persistSourceToLibrary(sourceId);
+    await libraryPut('assets', asset);
+  }
+  if (!state.annotationClipboard) {
+    const latest = recentAssets().find(asset => asset.type === 'snippet' && asset.payload?.items?.length);
+    if (latest) {
+      state.annotationClipboard = clonePlain(latest.payload);
+      state.annotationClipboardAssetId = latest.id;
+    }
+  }
+  updateAssetsSummary();
+  updateSelectionToolbar();
+}
+async function persistAssetRecord(asset) {
+  state.assetRecords.set(asset.id, asset);
+  updateAssetsSummary();
+  if (state.libraryReady && await ensureLibraryConnection()) {
+    for (const sourceId of assetReferencedSourceIds(asset)) await persistSourceToLibrary(sourceId);
+    await libraryPut('assets', asset);
+  }
+  if (els.assetDialog?.open) renderAssetDialog();
+  return asset;
+}
+async function persistAllAssetsNow() {
+  if (!state.libraryReady && !(await ensureLibraryConnection())) return;
+  for (const asset of state.assetRecords.values()) {
+    for (const sourceId of assetReferencedSourceIds(asset)) await persistSourceToLibrary(sourceId);
+    await libraryPut('assets', asset);
+  }
+}
+async function pruneRecentAssets() {
+  const recents = recentAssets();
+  for (const asset of recents.slice(RECENT_ASSET_LIMIT)) await deleteAssetRecord(asset.id, {quiet:true});
+}
+async function createRecentSnippetAsset(payload) {
+  if (!payload?.items?.length) return null;
+  const asset = {
+    id: uid('asset'), schemaVersion: LIBRARY_SCHEMA_VERSION, type:'snippet', pinned:false,
+    name:`Recent copy ${new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}`,
+    payload: clonePlain(payload), createdAt:Date.now(), modifiedAt:Date.now(), lastUsedAt:Date.now(),
+  };
+  await persistAssetRecord(asset);
+  await pruneRecentAssets();
+  return asset;
+}
+async function importImageAsset(file, options={}) {
+  if (!file || !String(file.type || '').startsWith('image/')) throw new Error('Choose an image file.');
+  const canPersist = state.libraryReady || await ensureLibraryConnection();
+  const sourceId = uid('src');
+  const url = URL.createObjectURL(file);
+  try {
+    const dims = await readImageDimensions(file, url);
+    const source = { id:sourceId, type:'image', name:file.name || 'Image', size:file.size, file, blob:file, url, image:null, libraryPersisted:false };
+    state.sources.set(sourceId, source);
+    await getSourceImage(source);
+    if (canPersist) await persistSourceToLibrary(sourceId);
+    const asset = {
+      id:uid('asset'), schemaVersion:LIBRARY_SCHEMA_VERSION, type:'image', pinned:true,
+      name:String(options.name || file.name || defaultAssetName('image')).replace(/\.[^.]+$/, '') || defaultAssetName('image'),
+      sourceId, pixelWidth:dims.width, pixelHeight:dims.height,
+      createdAt:Date.now(), modifiedAt:Date.now(), lastUsedAt:Date.now(),
+    };
+    await persistAssetRecord(asset);
+    return asset;
+  } catch (err) {
+    const source = state.sources.get(sourceId);
+    if (source?.url) URL.revokeObjectURL(source.url);
+    state.sources.delete(sourceId);
+    await libraryDelete('sources', sourceId).catch(()=>{});
+    throw err;
+  }
+}
+async function keepAsset(assetId) {
+  const asset = state.assetRecords.get(assetId);
+  if (!asset) return;
+  const suggested = asset.pinned ? asset.name : defaultAssetName(asset.type);
+  const name = await requestLibraryName({title:asset.pinned?'Rename asset':'Keep in Asset Library',help:asset.type==='snippet'?'Editable snippets retain their Pen, Highlighter, and inserted-image objects when reused.':'Images remain reusable source assets.',suggested,saveLabel:asset.pinned?'Rename':'Keep'});
+  if (!name) return;
+  asset.name = name;
+  asset.pinned = true;
+  asset.modifiedAt = Date.now();
+  await persistAssetRecord(asset);
+  setStatus(`Saved ${name} in Assets`);
+}
+async function renameAsset(assetId) {
+  const asset = state.assetRecords.get(assetId);
+  if (!asset) return;
+  const name = await requestLibraryName({title:'Rename asset',help:'Choose the name shown in the Asset Library.',suggested:asset.name || defaultAssetName(asset.type),saveLabel:'Rename'});
+  if (!name) return;
+  asset.name = name; asset.modifiedAt = Date.now();
+  await persistAssetRecord(asset);
+}
+async function deleteAssetRecord(assetId, options={}) {
+  const asset = state.assetRecords.get(assetId);
+  if (!asset) return;
+  if (!options.quiet && asset.pinned && !confirm(`Delete “${asset.name || 'this asset'}” from the Asset Library?`)) return;
+  const sourceIds = assetReferencedSourceIds(asset);
+  state.assetRecords.delete(assetId);
+  if (state.annotationClipboardAssetId === assetId) state.annotationClipboardAssetId = null;
+  if (state.libraryReady && state.libraryDb?.objectStoreNames.contains('assets')) await libraryDelete('assets', assetId).catch(()=>{});
+  await removeUnusedPersistentSources(sourceIds);
+  updateAssetsSummary();
+  updateSelectionToolbar();
+  if (els.assetDialog?.open) renderAssetDialog();
+}
+async function preloadAssetSources(asset) {
+  for (const sourceId of assetReferencedSourceIds(asset)) await ensureLibrarySourceLoaded(sourceId);
+}
+async function drawSnippetThumbnail(canvas, asset) {
+  const ctx = canvas.getContext('2d');
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const cssW = 180, cssH = 112;
+  canvas.width = Math.round(cssW*dpr); canvas.height = Math.round(cssH*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,cssW,cssH);
+  const payload = asset.payload || {};
+  const w = Math.max(1, Number(payload.size?.width)||1), h = Math.max(1, Number(payload.size?.height)||1);
+  const scale = Math.min((cssW-18)/w,(cssH-18)/h);
+  const ox=(cssW-w*scale)/2, oy=(cssH-h*scale)/2;
+  // Image annotations live below Workbench ink in the viewer; preserve that
+  // layering in the thumbnail so mixed reusable snippets are recognizable.
+  for (const item of payload.items || []) {
+    if (!isImageAnnotation(item) || !item.displayRect || !item.sourceId) continue;
+    const r=item.displayRect;
+    try {
+      const source=await ensureLibrarySourceLoaded(item.sourceId); const image=await getSourceImage(source);
+      ctx.drawImage(image,ox+r.x*scale,oy+r.y*scale,r.width*scale,r.height*scale);
+    } catch {
+      ctx.save(); ctx.strokeStyle='rgba(80,80,80,.55)'; ctx.setLineDash([4,3]); ctx.strokeRect(ox+r.x*scale,oy+r.y*scale,r.width*scale,r.height*scale); ctx.restore();
+    }
+  }
+  for (const item of payload.items || []) {
+    if (isImageAnnotation(item)) continue;
+    const points=item.points||[]; if (!points.length) continue;
+    ctx.save(); ctx.beginPath(); ctx.lineCap='round'; ctx.lineJoin='round'; ctx.strokeStyle=item.color||'#111'; ctx.globalAlpha=Number.isFinite(Number(item.opacity))?Number(item.opacity):1; ctx.lineWidth=Math.max(1,Number(item.width||2)*scale);
+    ctx.moveTo(ox+points[0].x*scale,oy+points[0].y*scale); for (let i=1;i<points.length;i++) ctx.lineTo(ox+points[i].x*scale,oy+points[i].y*scale); ctx.stroke(); ctx.restore();
+  }
+}
+
+async function drawImageAssetThumbnail(canvas, asset) {
+  const ctx = canvas.getContext('2d');
+  const dpr = Math.min(2, window.devicePixelRatio || 1), cssW=180, cssH=112;
+  canvas.width=Math.round(cssW*dpr); canvas.height=Math.round(cssH*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,cssW,cssH);
+  try {
+    const source=await ensureLibrarySourceLoaded(asset.sourceId); const image=await getSourceImage(source);
+    const iw=image.naturalWidth||image.width||asset.pixelWidth||1, ih=image.naturalHeight||image.height||asset.pixelHeight||1;
+    const scale=Math.min((cssW-12)/iw,(cssH-12)/ih); const w=iw*scale,h=ih*scale;
+    ctx.drawImage(image,(cssW-w)/2,(cssH-h)/2,w,h);
+  } catch (err) { console.warn('Could not render asset thumbnail',err); }
+}
+function renderAssetDialog() {
+  if (!els.assetGrid) return;
+  const view = state.assetDialogView === 'recent' ? 'recent' : 'library';
+  const assets = view === 'recent' ? recentAssets() : permanentAssets();
+  els.assetLibraryTab?.classList.toggle('active', view==='library');
+  els.assetRecentTab?.classList.toggle('active', view==='recent');
+  els.assetLibraryTab?.setAttribute('aria-pressed',String(view==='library'));
+  els.assetRecentTab?.setAttribute('aria-pressed',String(view==='recent'));
+  if (els.assetDialogTitle) els.assetDialogTitle.textContent = state.assetDialogMode === 'insert' ? 'Insert asset' : 'Assets';
+  if (els.assetDialogHelp) els.assetDialogHelp.textContent = state.assetDialogMode === 'insert'
+    ? 'Insert a saved image or editable snippet. Importing an image also saves it in the Asset Library.'
+    : 'Library items are permanent. Recent is the local clipboard history; keep useful copies to promote them into the Library.';
+  if (els.assetEmpty) {
+    els.assetEmpty.classList.toggle('hidden', assets.length>0);
+    els.assetEmpty.textContent = view==='recent' ? 'No recent copies yet.' : 'No saved assets yet. Import an image or copy a selection, then keep it.';
+  }
+  els.assetGrid.replaceChildren();
+  for (const asset of assets) {
+    const card=document.createElement('article'); card.className='asset-card'; card.dataset.assetId=asset.id;
+    const preview=document.createElement('div'); preview.className='asset-preview';
+    const canvas=document.createElement('canvas'); preview.append(canvas);
+    const body=document.createElement('div'); body.className='asset-card-body';
+    const name=document.createElement('strong'); name.className='asset-name'; name.textContent=asset.name||assetTypeLabel(asset);
+    const meta=document.createElement('span'); meta.className='asset-meta'; meta.textContent=assetTypeLabel(asset);
+    const actions=document.createElement('div'); actions.className='asset-card-actions';
+    if (state.pages.length) {
+      const insert=document.createElement('button'); insert.type='button'; insert.dataset.assetAction='insert'; insert.textContent=asset.type==='snippet'?'Paste':'Insert'; actions.append(insert);
+    }
+    if (!asset.pinned) { const keep=document.createElement('button'); keep.type='button'; keep.dataset.assetAction='keep'; keep.textContent='Keep'; actions.append(keep); }
+    else { const rename=document.createElement('button'); rename.type='button'; rename.dataset.assetAction='rename'; rename.textContent='Rename'; actions.append(rename); }
+    const del=document.createElement('button'); del.type='button'; del.dataset.assetAction='delete'; del.textContent='Delete'; actions.append(del);
+    body.append(name,meta,actions); card.append(preview,body); els.assetGrid.append(card);
+    if (asset.type==='image') drawImageAssetThumbnail(canvas,asset); else drawSnippetThumbnail(canvas,asset);
+  }
+}
+function openAssetDialog(mode='manage', view=null) {
+  state.assetDialogMode = mode === 'insert' ? 'insert' : 'manage';
+  if (view) state.assetDialogView = view;
+  else if (!['library','recent'].includes(state.assetDialogView)) state.assetDialogView='library';
+  renderAssetDialog();
+  els.assetDialog?.showModal();
+}
+async function insertImageAsset(asset) {
+  const page=activeAnnotationTargetPage(); if (!page) throw new Error('Open a document page before inserting an image.');
+  await preloadAssetSources(asset);
+  const source=await ensureLibrarySourceLoaded(asset.sourceId); const image=await getSourceImage(source);
+  const dims={width:image.naturalWidth||image.width||asset.pixelWidth||1,height:image.naturalHeight||image.height||asset.pixelHeight||1};
+  const base=pageCanvasBaseDimensions(page);
+  let width, height;
+  if (Number(asset.defaultWidth)>0 && Number(asset.defaultHeight)>0) {
+    width=Number(asset.defaultWidth); height=Number(asset.defaultHeight);
+    const fit=Math.min(1,(base.width*.92)/Math.max(.01,width),(base.height*.92)/Math.max(.01,height)); width*=fit; height*=fit;
+  } else {
+    const maxWidth=Math.max(48,base.width*.62),maxHeight=Math.max(48,base.height*.62);
+    const scale=Math.min(1,maxWidth/Math.max(1,dims.width),maxHeight/Math.max(1,dims.height)); width=Math.max(.25,dims.width*scale); height=Math.max(.25,dims.height*scale);
+  }
+  const annotation={id:uid('image'),type:'image',sourceId:asset.sourceId,x:(base.width-width)/2,y:(base.height-height)/2,width,height,opacity:1,createdAt:Date.now()};
+  const before=snapshotPages(); annotationsForPage(page).push(annotation); state.activePageId=page.id; setAnnotationTool('select'); setAnnotationSelection(page,new Set([annotation.id]),{redraw:false}); commitHistory(before); saveCurrentDocumentState({readViewDom:false}); redrawPageAnnotationOverlays(page);
+  asset.lastUsedAt=Date.now(); asset.modifiedAt=Date.now(); await persistAssetRecord(asset);
+  setStatus(`Inserted ${asset.name || 'image'}`);
+}
+async function insertSnippetAsset(asset) {
+  const page=activeAnnotationTargetPage(); if (!page) throw new Error('Open a document page before pasting a snippet.');
+  await preloadAssetSources(asset);
+  state.annotationClipboard=clonePlain(asset.payload); state.annotationClipboardAssetId=asset.id; state.annotationPasteSerial=0; state.annotationPasteTargetKey=null;
+  pasteAnnotationPayload(state.annotationClipboard,{center:true});
+  asset.lastUsedAt=Date.now(); asset.modifiedAt=Date.now(); await persistAssetRecord(asset);
+}
+async function activateAsset(assetId) {
+  const asset=state.assetRecords.get(assetId); if (!asset) return;
+  try {
+    if (asset.type==='image') await insertImageAsset(asset); else await insertSnippetAsset(asset);
+    els.assetDialog?.close();
+    if (!document.body.classList.contains('presentation') && state.workspaceMode !== 'view') showWorkspaceMode('view');
+  } catch (err) { console.error(err); setStatus(`Could not insert asset: ${err?.message||err}`); }
+}
+
 function serializeLibrarySession() {
   const paneState = pane => ({
     documentId: pane.documentId || null,
@@ -814,6 +1107,7 @@ async function initializePersistentLibrary() {
     state.libraryReady = true;
     await refreshLibraryRecords();
     await restorePersistentTemplates();
+    await refreshAssetRecords();
     const incompatible = [...state.libraryRecords.values()].find(record => Number(record.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION);
     if (incompatible) throw new Error(`This local Library uses schema ${incompatible.schemaVersion}, newer than this build understands (${LIBRARY_SCHEMA_VERSION}). Use a newer PDF Workbench build or reset the local Library.`);
     const incompatibleFolder = [...state.libraryFolders.values()].find(folder => Number(folder.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION);
@@ -891,6 +1185,7 @@ async function retryPersistentLibraryAfterFailure() {
     await reconnectLibraryDatabase();
     await refreshLibraryRecords();
     await restorePersistentTemplates();
+    await refreshAssetRecords();
     // If documents are already open from the current session, commit them now.
     // If nothing is open, rerun normal initialization so a saved prior session
     // can be restored after a WebKit first-open failure.
@@ -923,6 +1218,7 @@ async function resumePersistentLibraryConnection() {
   try {
     await refreshLibraryRecords();
     await restorePersistentTemplates();
+    await refreshAssetRecords();
     if (!state.sessionRestoreHydrated && !state.documents.length) {
       // The first startup restore did not complete. Re-enter the normal restore
       // path instead of saving an empty workspace over the prior session.
@@ -1112,10 +1408,12 @@ async function createEditableLibraryBackup() {
   try {
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Saving current editable state…';
     await persistLibraryNow();
-    const [documents, sources, folders, session, templatesMeta] = await Promise.all([
+    await persistAllAssetsNow();
+    const [documents, sources, folders, assets, session, templatesMeta] = await Promise.all([
       libraryGetAll('documents'),
       libraryGetAll('sources'),
       libraryGetAll('folders'),
+      libraryGetAll('assets'),
       libraryGet('meta', 'session'),
       libraryGet('meta', 'templates'),
     ]);
@@ -1152,6 +1450,7 @@ async function createEditableLibraryBackup() {
       createdAt: new Date().toISOString(),
       documents,
       folders,
+      assets,
       sources: sourceManifest,
       meta: { session: session || serializeLibrarySession(), templates: templatesMeta || serializeTemplatesForLibrary() },
       preferences,
@@ -1162,14 +1461,14 @@ async function createEditableLibraryBackup() {
       '',
       'This is a ZIP-based PDF Workbench backup container.',
       'Restore it from Files > Library backup & export > Restore Library backup.',
-      'It contains editable document state, folder hierarchy, Trash state, templates, source PDFs/images, and the saved open/view session.',
+      'It contains editable document state, folder hierarchy, Trash state, templates, reusable Assets/clipboard history, source PDFs/images, and the saved open/view session.',
       'Do not edit the contents if you intend to restore the backup.',
       ''
     ].join('\n'));
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Building editable backup…';
     const blob = await zip.generateAsync({ type: 'blob', compression: 'STORE', mimeType: 'application/zip' });
     downloadBlob(blob, `PDF-Workbench-Library-${portableTimestamp()}.pwbbackup.zip`);
-    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Editable backup created: ${documents.length} documents, ${folders.length} folders, ${sourceManifest.length} source files, ${(manifest.meta.templates?.templates || []).length} templates.`;
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Editable backup created: ${documents.length} documents, ${folders.length} folders, ${assets.length} assets, ${sourceManifest.length} source files, ${(manifest.meta.templates?.templates || []).length} templates.`;
     setStatus('Editable Library backup created');
   } catch (err) {
     console.error('Editable Library backup failed', err);
@@ -1178,18 +1477,20 @@ async function createEditableLibraryBackup() {
   }
 }
 
-async function replaceLibraryStoresAtomically({ documents, sources, folders, templatesMeta, sessionMeta }) {
+async function replaceLibraryStoresAtomically({ documents, sources, folders, assets, templatesMeta, sessionMeta }) {
   if (!state.libraryDb) throw new Error('Local Library is not ready.');
-  const tx = state.libraryDb.transaction(['documents','sources','folders','meta'], 'readwrite');
+  const tx = state.libraryDb.transaction(['documents','sources','folders','assets','meta'], 'readwrite');
   const done = idbTransactionDone(tx);
   const documentStore = tx.objectStore('documents');
   const sourceStore = tx.objectStore('sources');
   const folderStore = tx.objectStore('folders');
+  const assetStore = tx.objectStore('assets');
   const metaStore = tx.objectStore('meta');
-  documentStore.clear(); sourceStore.clear(); folderStore.clear(); metaStore.clear();
+  documentStore.clear(); sourceStore.clear(); folderStore.clear(); assetStore.clear(); metaStore.clear();
   for (const value of sources) sourceStore.put(value);
   for (const value of folders) folderStore.put(value);
   for (const value of documents) documentStore.put(value);
+  for (const value of assets || []) assetStore.put(value);
   metaStore.put(templatesMeta);
   metaStore.put(sessionMeta);
   await done;
@@ -1202,6 +1503,7 @@ function validateLibraryBackupManifest(manifest) {
   const schemaVersion = Number(manifest.librarySchemaVersion || 1);
   if (schemaVersion > LIBRARY_SCHEMA_VERSION) throw new Error(`This backup uses Library schema ${schemaVersion}, newer than this build understands (${LIBRARY_SCHEMA_VERSION}).`);
   if (!Array.isArray(manifest.documents) || !Array.isArray(manifest.folders) || !Array.isArray(manifest.sources)) throw new Error('The backup manifest is incomplete.');
+  if (manifest.assets != null && !Array.isArray(manifest.assets)) throw new Error('The backup Assets record is invalid.');
   const sourceIds = new Set(manifest.sources.map(source => source?.id).filter(Boolean));
   for (const record of manifest.documents) {
     if (!record?.id || !Array.isArray(record.pages)) throw new Error('The backup contains an invalid document record.');
@@ -1209,6 +1511,12 @@ function validateLibraryBackupManifest(manifest) {
       for (const requiredSourceId of pageReferencedSourceIds(page)) {
         if (!sourceIds.has(requiredSourceId)) throw new Error(`Backup source ${requiredSourceId} required by ${record.name || record.id} is missing.`);
       }
+    }
+  }
+  for (const asset of manifest.assets || []) {
+    if (!asset?.id || !['image','snippet'].includes(asset.type)) throw new Error('The backup contains an invalid Asset record.');
+    for (const requiredSourceId of assetReferencedSourceIds(asset)) {
+      if (!sourceIds.has(requiredSourceId)) throw new Error(`Backup source ${requiredSourceId} required by asset ${asset.name || asset.id} is missing.`);
     }
   }
   const templates = manifest.meta?.templates?.templates || [];
@@ -1232,8 +1540,9 @@ async function restoreEditableLibraryBackup(file) {
     validateLibraryBackupManifest(manifest);
     const documentCount = manifest.documents.length;
     const folderCount = manifest.folders.length;
+    const assetCount = manifest.assets?.length || 0;
     const templateCount = manifest.meta?.templates?.templates?.length || 0;
-    const ok = window.confirm(`Restore this PDF Workbench Library backup?\n\n${documentCount} document(s), ${folderCount} folder(s), ${templateCount} template(s).\n\nThis will REPLACE the current Local Library on this device. Export or back up the current Library first if you need it.`);
+    const ok = window.confirm(`Restore this PDF Workbench Library backup?\n\n${documentCount} document(s), ${folderCount} folder(s), ${assetCount} asset(s), ${templateCount} template(s).\n\nThis will REPLACE the current Local Library on this device. Export or back up the current Library first if you need it.`);
     if (!ok) { if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Restore cancelled.'; return; }
     if (!(await ensureLibraryConnection())) throw new Error('Could not connect to Local Library storage.');
 
@@ -1265,6 +1574,9 @@ async function restoreEditableLibraryBackup(file) {
     state.libraryPreviewObserver = null;
     els.libraryDocumentList?.replaceChildren();
     state.templates = [];
+    state.assetRecords.clear();
+    state.annotationClipboard = null;
+    state.annotationClipboardAssetId = null;
     for (const source of state.sources.values()) {
       if (source.url) URL.revokeObjectURL(source.url);
       try { source.pdf?.destroy?.(); } catch {}
@@ -1275,11 +1587,14 @@ async function restoreEditableLibraryBackup(file) {
       ...stripPersistentHistory(documentRecord),
       schemaVersion: Math.min(Number(documentRecord.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION),
     }));
+    const restoredAssets = (manifest.assets || []).map(asset => ({
+      ...asset, schemaVersion: Math.min(Number(asset.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION),
+    }));
     const templatesMetaRaw = manifest.meta?.templates || { key:'templates', schemaVersion: manifest.librarySchemaVersion || 1, templates: [] };
     const sessionMetaRaw = manifest.meta?.session || { key:'session', schemaVersion: manifest.librarySchemaVersion || 1, openIds: [], currentDocumentId: null, workspaceMode:'export', splitView:false, splitPanes:{ left:{documentId:null,views:[]}, right:{documentId:null,views:[]} } };
     const templatesMeta = { ...templatesMetaRaw, key:'templates', schemaVersion: Math.min(Number(templatesMetaRaw.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION) };
     const sessionMeta = { ...sessionMetaRaw, key:'session', schemaVersion: Math.min(Number(sessionMetaRaw.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION) };
-    await replaceLibraryStoresAtomically({ documents: restoredDocuments, sources: restoredSources, folders: restoredFolders, templatesMeta, sessionMeta });
+    await replaceLibraryStoresAtomically({ documents: restoredDocuments, sources: restoredSources, folders: restoredFolders, assets: restoredAssets, templatesMeta, sessionMeta });
     for (const [key, value] of Object.entries(manifest.preferences || {})) {
       if (['pdfwb-scroll-mode','pdfwb-fit-mode','pdfwb-library-view'].includes(key)) { try { localStorage.setItem(key, String(value)); } catch {} }
     }
@@ -1404,6 +1719,22 @@ function remapPageForImportedBackup(page, sourceMap, pageIdMap) {
   return copy;
 }
 
+function remapAssetForImportedBackup(asset, sourceMap) {
+  const copy = clonePlain(asset || {});
+  copy.id = uid('asset');
+  copy.schemaVersion = LIBRARY_SCHEMA_VERSION;
+  copy.pinned = true;
+  copy.createdAt = Date.now();
+  copy.modifiedAt = Date.now();
+  copy.lastUsedAt = null;
+  if (copy.type === 'image') copy.sourceId = copy.sourceId ? (sourceMap.get(copy.sourceId) || null) : null;
+  if (copy.type === 'snippet' && copy.payload?.items) {
+    copy.payload = clonePlain(copy.payload);
+    copy.payload.items = copy.payload.items.map(item => isImageAnnotation(item) && item.sourceId ? { ...item, sourceId:sourceMap.get(item.sourceId) || null } : item);
+  }
+  return copy;
+}
+
 async function importEditableBackupAsSubtree(file) {
   if (!file) return;
   try {
@@ -1449,11 +1780,18 @@ async function importEditableBackupAsSubtree(file) {
       let base=String(template.name||'Template'); let name=base; let n=2; while(existingTemplateNames.has(name.toLocaleLowerCase())) name=`${base} ${n++}`; existingTemplateNames.add(name.toLocaleLowerCase());
       importedTemplates.push({id:uid('template'),name,page:remapPageForImportedBackup(template.page,sourceMap,new Map()),createdAt:Date.now(),modifiedAt:Date.now()});
     }
-    const tx=state.libraryDb.transaction(['documents','sources','folders'],'readwrite'); const done=idbTransactionDone(tx); const ds=tx.objectStore('documents'),ss=tx.objectStore('sources'),fs=tx.objectStore('folders');
-    for(const source of sourceRecords) ss.put(source); for(const folder of importedFolders) fs.put(folder); for(const record of importedDocuments) ds.put(record); await done;
+    const existingAssetNames=new Set(permanentAssets().map(asset=>String(asset.name||'').toLocaleLowerCase()));
+    const importedAssets=[];
+    for (const sourceAsset of manifest.assets || []) {
+      const asset=remapAssetForImportedBackup(sourceAsset,sourceMap);
+      let base=String(asset.name||defaultAssetName(asset.type)); let name=base; let n=2; while(existingAssetNames.has(name.toLocaleLowerCase())) name=`${base} ${n++}`; existingAssetNames.add(name.toLocaleLowerCase()); asset.name=name;
+      importedAssets.push(asset);
+    }
+    const tx=state.libraryDb.transaction(['documents','sources','folders','assets'],'readwrite'); const done=idbTransactionDone(tx); const ds=tx.objectStore('documents'),ss=tx.objectStore('sources'),fs=tx.objectStore('folders'),as=tx.objectStore('assets');
+    for(const source of sourceRecords) ss.put(source); for(const folder of importedFolders) fs.put(folder); for(const record of importedDocuments) ds.put(record); for(const asset of importedAssets) as.put(asset); await done;
     state.templates.push(...importedTemplates); await libraryPut('meta',serializeTemplatesForLibrary());
-    await refreshLibraryRecords(); renderInsertTemplateList(); renderLibraryDocumentList();
-    if(els.libraryBackupProgress) els.libraryBackupProgress.textContent=`Imported backup as “${libraryFolderById(rootId)?.name||rootName}”: ${importedDocuments.length} documents, ${importedFolders.length} subfolders, ${importedTemplates.length} templates.`;
+    await refreshLibraryRecords(); await refreshAssetRecords(); renderInsertTemplateList(); renderLibraryDocumentList();
+    if(els.libraryBackupProgress) els.libraryBackupProgress.textContent=`Imported backup as “${libraryFolderById(rootId)?.name||rootName}”: ${importedDocuments.length} documents, ${importedFolders.length} subfolders, ${importedTemplates.length} templates, ${importedAssets.length} assets.`;
     setStatus('Backup imported as Library subtree');
   } catch(err){console.error(err);if(els.libraryBackupProgress) els.libraryBackupProgress.textContent=`Backup subtree import failed: ${err?.message||err}`;setStatus(`Backup import failed: ${err?.message||err}`);}
   finally { if(els.libraryRestoreInput) els.libraryRestoreInput.value=''; state.pendingBackupImportMode='replace'; }
@@ -2876,11 +3214,16 @@ function copySelectedAnnotations() {
   const payload=annotationPayloadFromSelection();
   if (!payload) return;
   state.annotationClipboard=payload;
+  state.annotationClipboardAssetId=null;
   state.annotationPasteSerial=0;
   state.annotationPasteTargetKey=null;
+  state.assetDialogView='recent';
   updateSelectionToolbar();
+  createRecentSnippetAsset(payload).then(asset => {
+    if (asset && state.annotationClipboard === payload) state.annotationClipboardAssetId = asset.id;
+  }).catch(err => console.warn('Could not add copy to Recent Assets', err));
   const count=payload.items.length;
-  setStatus(`Copied ${count} annotation object${count===1?'':'s'}`);
+  setStatus(`Copied ${count} annotation object${count===1?'':'s'} · added to Recent`);
 }
 function activeAnnotationTargetPage() {
   if (state.splitView) {
@@ -2890,10 +3233,9 @@ function activeAnnotationTargetPage() {
   }
   return pageById(state.activePageId)||state.pages[0]||null;
 }
-function pasteCopiedAnnotations() {
-  const payload=state.annotationClipboard;
+function pasteAnnotationPayload(payload, options={}) {
   const page=activeAnnotationTargetPage();
-  if (!payload||!page) return;
+  if (!payload||!page) return [];
   const before=snapshotPages();
   const display=pageDisplayDimensions(page);
   const samePage=payload.sourceDocumentId===state.currentDocumentId&&payload.sourcePageId===page.id;
@@ -2903,7 +3245,9 @@ function pasteCopiedAnnotations() {
   const serial=state.annotationPasteSerial;
   const step=Math.max(12,Math.min(22,display.width*.03));
   let origin;
-  if (samePage) {
+  if (options.center) {
+    origin={x:(display.width-(Number(payload.size?.width)||0))/2,y:(display.height-(Number(payload.size?.height)||0))/2};
+  } else if (samePage) {
     origin={x:payload.origin.x+step*serial,y:payload.origin.y+step*serial};
     if (origin.x+payload.size.width>display.width&&payload.origin.x-step*serial>=0) origin.x=payload.origin.x-step*serial;
     if (origin.y+payload.size.height>display.height&&payload.origin.y-step*serial>=0) origin.y=payload.origin.y-step*serial;
@@ -2915,11 +3259,16 @@ function pasteCopiedAnnotations() {
   }
   const clones=instantiateAnnotationPayload(payload,page,origin);
   annotationsForPage(page).push(...clones);
+  setAnnotationTool('select');
   setAnnotationSelection(page,new Set(clones.map(item=>item.id)),{redraw:false});
   commitHistory(before);
   saveCurrentDocumentState({readViewDom:false});
   redrawPageAnnotationOverlays(page);
   setStatus(`Pasted ${clones.length} annotation object${clones.length===1?'':'s'}`);
+  return clones;
+}
+function pasteCopiedAnnotations() {
+  pasteAnnotationPayload(state.annotationClipboard);
 }
 function updateSelectionToolbar() {
   const active=state.annotationTool==='select';
@@ -4014,6 +4363,11 @@ function releaseSourceIfUnused(sourceId, options={}) {
   if (sourceUsedByTemplates(sourceId, options.excludingTemplateId || null)) return;
   const source = state.sources.get(sourceId);
   if (!source) return;
+  // An Asset can lazy-load a source again from IndexedDB, so a persisted Asset
+  // should not keep image binaries/decoded images resident after the document
+  // using them closes. During the brief pre-persistence window, however, keep
+  // the source alive so a freshly copied mixed snippet cannot lose its image.
+  if (sourceUsedByAssets(sourceId, options.excludingAssetId || null) && !source.libraryPersisted) return;
   if (source.url) URL.revokeObjectURL(source.url);
   try { source.pdf?.destroy?.(); } catch {}
   state.sources.delete(sourceId);
@@ -4567,57 +4921,11 @@ async function addImage(file) {
 
 async function insertImageAnnotation(file) {
   if (!file) return false;
-  if (!String(file.type || '').startsWith('image/')) {
-    setStatus('Choose an image file to insert');
-    return false;
-  }
-  const page = activeAnnotationTargetPage();
-  if (!page) {
-    setStatus('Open a document page before inserting an image');
-    return false;
-  }
-  const sourceId = uid('src');
-  const url = URL.createObjectURL(file);
   try {
-    const dims = await readImageDimensions(file, url);
-    const source = { id:sourceId, type:'image', name:file.name || 'Inserted image', size:file.size, file, url, image:null, libraryPersisted:false };
-    state.sources.set(sourceId, source);
-    // Decode before committing the annotation so the image appears immediately
-    // rather than briefly showing an empty selection rectangle.
-    await getSourceImage(source);
-
-    const base = pageCanvasBaseDimensions(page);
-    const maxWidth = Math.max(48, base.width * .62);
-    const maxHeight = Math.max(48, base.height * .62);
-    const scale = Math.min(1, maxWidth / Math.max(1,dims.width), maxHeight / Math.max(1,dims.height));
-    const width = Math.max(.25, dims.width * scale);
-    const height = Math.max(.25, dims.height * scale);
-    const annotation = {
-      id:uid('image'),
-      type:'image',
-      sourceId,
-      x:(base.width-width)/2,
-      y:(base.height-height)/2,
-      width,
-      height,
-      opacity:1,
-      createdAt:Date.now(),
-    };
-
-    const before = snapshotPages();
-    annotationsForPage(page).push(annotation);
-    state.activePageId = page.id;
-    setAnnotationTool('select');
-    setAnnotationSelection(page, new Set([annotation.id]), { redraw:false });
-    commitHistory(before);
-    saveCurrentDocumentState({readViewDom:false});
-    redrawPageAnnotationOverlays(page);
-    setStatus('Inserted image — drag to move or use a corner handle to resize');
+    const asset = await importImageAsset(file);
+    await insertImageAsset(asset);
     return true;
   } catch (err) {
-    const source = state.sources.get(sourceId);
-    if (source?.url) URL.revokeObjectURL(source.url);
-    state.sources.delete(sourceId);
     console.error('Could not insert image annotation', err);
     setStatus(`Could not insert image: ${err?.message || err}`);
     return false;
@@ -6534,10 +6842,12 @@ async function exportLibraryRecordBeforeDelete(record) {
 
 function librarySourceStillReferenced(sourceId) {
   if (!sourceId) return false;
+  if (sourceUsedByDocuments(sourceId)) return true;
   for (const record of state.libraryRecords.values()) {
     if ((record.pages || []).some(page => pageReferencedSourceIds(page).has(sourceId))) return true;
   }
   if (state.templates.some(template => pageReferencedSourceIds(template.page).has(sourceId))) return true;
+  if (sourceUsedByAssets(sourceId)) return true;
   return false;
 }
 
@@ -6580,6 +6890,9 @@ async function purgeLocalLibrary() {
     state.librarySuppressPersist = true;
     clearAll();
     state.templates = [];
+    state.assetRecords.clear();
+    state.annotationClipboard = null;
+    state.annotationClipboardAssetId = null;
     for (const [sourceId, source] of state.sources) {
       if (source.url) URL.revokeObjectURL(source.url);
       try { source.pdf?.destroy?.(); } catch {}
@@ -6589,6 +6902,7 @@ async function purgeLocalLibrary() {
     await libraryClearStore('sources');
     await libraryClearStore('meta');
     if (state.libraryDb?.objectStoreNames.contains('folders')) await libraryClearStore('folders');
+    if (state.libraryDb?.objectStoreNames.contains('assets')) await libraryClearStore('assets');
     state.libraryRecords.clear();
     state.libraryFolders.clear();
     state.libraryFolderId = null;
@@ -6600,6 +6914,7 @@ async function purgeLocalLibrary() {
     await libraryPut('meta', serializeLibrarySession());
     renderInsertTemplateList();
     renderLibraryDocumentList();
+    updateAssetsSummary();
     updateLibraryStorageSummary();
     els.storageActionStatus.textContent = 'Local Library deleted. Application code/cache and preferences were left intact.';
     setStatus('Local Library deleted');
@@ -10132,6 +10447,7 @@ function clearAll() {
   state.selectionGesture = null;
   state.annotationSelection = { documentId:null, pageId:null, ids:new Set() };
   state.annotationClipboard = null;
+  state.annotationClipboardAssetId = null;
   state.annotationPasteSerial = 0;
   state.annotationPasteTargetKey = null;
   state.fileSelected.clear();
@@ -10193,9 +10509,9 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.6.9 is a touch-navigation polish release based on the unified modeled-Pen 5.6.8 baseline. Post-pinch crisp rendering now refreshes page rasters in place so the live-scaled page remains visible instead of flashing through a rebuilt viewer. Deliberate finger drags in annotation modes can engage as soon as clear movement is detected rather than always waiting the full palm-intent window, while the stricter Surface/ChromeOS pen-proximity guard remains in place. Continuous-scroll release momentum is increased slightly. Pen/Highlighter geometry and the 5.6.1 dense-page live-Pen architecture are unchanged.</p>
-      <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
-      <p><strong>Image scope in 5.5.2:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
+      <p>Milestone 5.7.0 adds the first Reusable Assets system on top of the field-tested 5.6.9 navigation baseline. Ordinary Lasso/Select Copy now also enters a browsable local Recent history as a true editable snippet; useful copies can be promoted to the permanent Asset Library without rasterizing Pen, Highlighter, or inserted-image objects. Images can be imported as permanent reusable assets and inserted on any page. Assets participate in editable Library backup/restore. Pen/Highlighter geometry, pinch finalization, finger-scroll engagement, and 5.6.9 momentum are unchanged.</p>
+      <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button now opens Assets so a saved image, editable snippet, recent copy, or newly imported image can be inserted on the active page.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets. Recent is a capped local clipboard history (30 entries). Keep promotes a recent true copy into the permanent library; Delete removes only that Asset unless its source data is genuinely unused elsewhere.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
+      <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -11018,6 +11334,7 @@ function bindEvents() {
       await persistLibraryNow({ readViewDom: false, _reconnected: true });
       await refreshLibraryRecords();
       await restorePersistentTemplates();
+      await refreshAssetRecords();
       renderLibraryDocumentList();
       setStatus('Local Library refreshed');
     } catch (err) {
@@ -11039,6 +11356,7 @@ function bindEvents() {
   els.libraryListViewBtn?.addEventListener('click', () => setLibraryViewMode('list'));
   els.libraryGridViewBtn?.addEventListener('click', () => setLibraryViewMode('grid'));
   els.filesManageTemplatesBtn?.addEventListener('click', showTemplateManager);
+  els.filesManageAssetsBtn?.addEventListener('click', () => openAssetDialog('manage','library'));
   els.libraryNameCloseBtn?.addEventListener('click', () => els.libraryNameDialog?.close());
   els.libraryNameCancelBtn?.addEventListener('click', () => els.libraryNameDialog?.close());
   els.libraryMoveCloseBtn?.addEventListener('click', () => { state.pendingLibraryMove = null; els.libraryMoveDialog?.close(); });
@@ -11162,8 +11480,39 @@ function bindEvents() {
   els.inkHighlighterBtn?.addEventListener('click', () => setAnnotationTool('highlighter'));
   els.inkEraserBtn?.addEventListener('click', () => setAnnotationTool('eraser'));
   els.inkSelectBtn?.addEventListener('click', () => setAnnotationTool('select'));
-  els.inkImageBtn?.addEventListener('click', () => els.annotationImageInput?.click());
+  els.inkImageBtn?.addEventListener('click', () => openAssetDialog('insert'));
   els.annotationImageInput?.addEventListener('change', async () => { const file=els.annotationImageInput.files?.[0]; await insertImageAnnotation(file); els.annotationImageInput.value=''; });
+  els.assetImportImageBtn?.addEventListener('click', () => els.assetImageInput?.click());
+  els.assetImageInput?.addEventListener('change', async () => {
+    const files=[...(els.assetImageInput.files||[])];
+    try {
+      const added=[];
+      for (let i=0;i<files.length;i++) {
+        setStatus(`Adding image asset ${i+1} of ${files.length}…`, true);
+        added.push(await importImageAsset(files[i]));
+      }
+      if (added.length && state.assetDialogMode==='insert' && state.pages.length) {
+        await insertImageAsset(added[0]);
+        els.assetDialog?.close();
+        if (added.length>1) setStatus(`Inserted ${added[0].name}; added ${added.length-1} more image asset${added.length===2?'':'s'} to the Library`);
+      } else if (added.length) {
+        renderAssetDialog(); setStatus(`Added ${added.length} image asset${added.length===1?'':'s'}`);
+      }
+    } catch (err) { console.error(err); setStatus(`Could not add image asset: ${err?.message||err}`); }
+    if (els.assetImageInput) els.assetImageInput.value='';
+  });
+  els.assetLibraryTab?.addEventListener('click', () => { state.assetDialogView='library'; renderAssetDialog(); });
+  els.assetRecentTab?.addEventListener('click', () => { state.assetDialogView='recent'; renderAssetDialog(); });
+  els.assetDialogCloseBtn?.addEventListener('click', () => els.assetDialog?.close());
+  els.assetDialogDoneBtn?.addEventListener('click', () => els.assetDialog?.close());
+  els.assetGrid?.addEventListener('click', async (event) => {
+    const button=event.target.closest('[data-asset-action]'); const card=event.target.closest('[data-asset-id]');
+    if (!button||!card) return; const id=card.dataset.assetId; const action=button.dataset.assetAction;
+    if (action==='insert') await activateAsset(id);
+    else if (action==='keep') await keepAsset(id);
+    else if (action==='rename') await renameAsset(id);
+    else if (action==='delete') await deleteAssetRecord(id);
+  });
   els.selectionDeleteBtn?.addEventListener('click', deleteSelectedAnnotations);
   els.selectionDuplicateBtn?.addEventListener('click', duplicateSelectedAnnotations);
   els.selectionCopyBtn?.addEventListener('click', copySelectedAnnotations);

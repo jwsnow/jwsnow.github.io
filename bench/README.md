@@ -1,4 +1,26 @@
-# PDF Workbench — Milestone 5.6.9
+# PDF Workbench — Milestone 5.7.0
+
+## 5.7.0 Reusable Assets + Recent clipboard
+
+5.7.0 builds the common storage/browser foundation for the planned reusable image library, clipboard history, future region captures, and later manual Drive sync. The validated 5.6.9 pinch/scroll behavior and all Pen/Highlighter geometry are intentionally unchanged.
+
+- **Assets browser:** Files → Assets → Open Assets… manages reusable content. The annotation-strip picture button opens the same browser for insertion.
+- **Reusable images:** Import images… creates one persistent image Asset whose original source can be inserted into any page/document as the existing editable image annotation.
+- **True editable snippets:** ordinary Lasso/Select Copy now also creates a Recent snippet containing the actual selected Workbench objects. Pen/Highlighter strokes stay vector/editable; inserted images preserve their source references.
+- **Browsable clipboard:** Recent keeps up to 30 local copied selections, newest first. Current Paste/Ctrl+V semantics remain; selecting an older Recent item makes it reusable again.
+- **Keep:** promotes a recent true-copy snippet to the permanent Asset Library without rasterizing it. Permanent Assets can be renamed or deleted.
+- **Persistence/backup:** Assets live in a dedicated IndexedDB store (DB v3 / Library schema 7) and are included in editable Library backup/restore. Source cleanup understands Asset references so a shared image binary is never removed while a document/template/other Asset still needs it.
+- **Mixed thumbnails:** reusable snippets can contain both inserted images and ink; thumbnails preserve image-below-ink layering.
+- **Next Asset producer:** region-to-image capture is deliberately deferred until this foundation is tested. The planned capture supports both original-size and current-zoom-size output so zoomed source regions can intentionally paste back enlarged.
+- **After capture:** manual, explicit Google Drive synchronization remains the intended next major feature; Workbench stays local-first.
+
+### Real-use baseline retained
+
+The user reported that 5.6.9 made a large practical difference while grading. Keep its in-place post-pinch crisp refresh, early deliberate finger-scroll engagement, and 0.95 release momentum. Do not retune those merely because 5.7.0 adds Assets.
+
+---
+
+## Prior 5.6.9 notes
 
 ## 5.6.9 touch navigation / pinch polish
 

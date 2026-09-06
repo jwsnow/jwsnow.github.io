@@ -3,72 +3,89 @@ RETURN HERE AFTER A BREAK — CURRENT STATUS
 
 AUTHORITATIVE WORKING BASELINE
 ------------------------------
-- Use **Milestone 5.6.9** as the current source/build. Do not restart from an older milestone merely because the history below is long.
-- Visible About version: 5.6.9.
-- Service-worker/cache version: `pdf-workbench-m5.6.9-v1`.
-- Library schema version: unchanged.
-- This top block is the quick-resume summary; the detailed milestone history below is archival context.
+- Use **Milestone 5.7.0** as the current source/build.
+- Visible About version: 5.7.0.
+- Service-worker/cache version: `pdf-workbench-m5.7.0-v1`.
+- IndexedDB version: 3; Library schema version: 7. The upgrade only adds the `assets` object store / Asset records; existing documents remain compatible.
+- 5.6.9 navigation fixes are the interaction baseline. During real grading use the user reported that 5.6.9 **made a big difference**; do not casually revert the in-place pinch finalization, early deliberate-scroll engagement, or 0.95 inertia.
 
 WHERE THE PROJECT IS RIGHT NOW
 ------------------------------
-- The user is doing **real daily/grading work** in PDF Workbench as a Goodnotes replacement. Most current functionality is working well. The current job is field validation, not broad feature expansion.
-- During that grading use, three distracting navigation issues were reported in 5.6.8: (1) a brief flash/blip immediately after pinch zoom ends; (2) occasional fraction-of-a-second hesitation before one-finger scrolling engages; and (3) slightly too little coast after finger release.
-- 5.6.9 addresses those three observations only. Pen/Highlighter geometry is deliberately unchanged.
-- All Pen widths continue to use the unified `google-ink-v1` modeled-input path established in 5.6.8. Width remains only a numeric rendering parameter.
-- If 5.6.9 survives normal use without regressions, continue to treat the unified modeled Pen and current annotation subsystem as the stable baseline.
+- The user is actively grading/doing normal daily work in Workbench and considers the current core feature set close to adequate unless real testing exposes weaknesses.
+- 5.7.0 begins the next agreed feature family: **Reusable Assets**. This deliberately unifies the planned image library and browsable clipboard rather than building separate storage systems.
+- Pen/Highlighter/Eraser/Select rendering/input geometry is unchanged from 5.6.9. The Google-modeled Pen remains the stable baseline for all widths.
 
-5.6.9 TOUCH / PINCH FIXES — IMPORTANT DETAILS
-----------------------------------------------
-- **Post-pinch flash root cause:** 5.6.8 called `renderViewer()` / `renderSplitPane()` after pinch release. Those functions replace the viewer's page DOM immediately, so the live-scaled canvas disappeared before the new PDF raster was ready. The temporary blank/`Rendering…` interval was the visible blip.
-- **5.6.9 pinch finalization:** do NOT rebuild the viewer DOM after a pinch. Keep the current live-scaled base/annotation canvases visible. Render the crisp page into a temporary canvas through the bounded render queue, then synchronously replace the base canvas pixels and redraw annotation overlays in the existing page stage. Stale refreshes are invalidated by a pinch token and by stage-size/current-view checks. This applies to single and split viewers. If the crisp refresh fails, leave the scaled bitmap visible rather than replacing it with a blank/error stage.
-- **Finger-scroll hesitation root cause:** while any stylus annotation tool was active, 5.6.8 always waited the full `PEN_TOUCH_INTENT_DELAY_MS = 120` before accepting ordinary touch navigation unless Hand mode was selected. That exactly matches the reported fraction-of-a-second hesitation.
-- **5.6.9 touch-intent change:** retain the 120 ms stationary palm-burst window, but allow obvious motion to promote itself before the timer: 5 CSS px for ordinary one-finger drag/two-finger geometry change when no pen guard is active. Reconstruct/replay the movement from the original touch-down location so motion that occurred during the pending interval is not thrown away.
-- On iPad only, a soft nearby/recent Pencil guard can be overridden by a stronger deliberate movement (10 CSS px after at least 35 ms). Surface/ChromeOS keep the stricter pen-proximity behavior because that guard was added to prevent ChromeOS palm bursts from moving the page. Do not casually weaken the Surface/ChromeOS guard without testing.
-- Touch diagnostics now add `touchIntentDelayMs` and `penPalmGuardActive` to the `touch-navigation-intentional` event.
-- **Momentum:** continuous touch inertia decay changes from 0.94 to **0.95** per nominal 60 Hz frame. This is intentionally modest and independent of the touch-engagement change.
+5.7.0 REUSABLE ASSETS + RECENT CLIPBOARD
+-----------------------------------------
+- New persistent IndexedDB `assets` store. Asset records have stable IDs and are either `image` or `snippet`.
+- **Permanent Asset Library:** Files → Assets → Open Assets…; the annotation-strip picture button now opens the same Assets browser in insertion mode.
+- **Image assets:** Import images… stores the original image source once, shows it as a reusable Asset, and can insert it on any page as the existing editable image-annotation type.
+- **Editable snippet assets:** ordinary Lasso/Select Copy still fills the normal clipboard, but also adds a true-copy `snippet` to **Recent**. The snippet stores the selected Workbench objects, not a rasterization. Pen/Highlighter remain editable strokes; inserted images retain source references.
+- **Recent clipboard history:** capped at 30 entries, newest first, stored locally so recent copies remain browsable across restarts. Normal Ctrl/Cmd+C and the Copy button feed Recent. Ctrl/Cmd+V / Paste still use the current clipboard.
+- **Promote without flattening:** Recent → Keep asks for a name and promotes the same snippet record to the permanent Asset Library. No rasterization occurs for normal selection copies.
+- Asset cards provide Paste/Insert, Keep or Rename, and Delete. Permanent deletion of an Asset never deletes a shared image binary if any document/template/other Asset still references it.
+- Mixed snippets can include Workbench ink/highlighter and inserted images. Thumbnail rendering preserves image-below-ink layering.
+- Assets participate in editable Library backup/restore. Backup-as-folder import remaps source IDs and imports saved Assets safely with new IDs/names.
+- The existing whole-Library conventional-PDF ZIP remains document/template oriented; Assets are preserved by the editable backup, not converted into arbitrary PDF pages.
 
-CURRENT PEN / INPUT ARCHITECTURE — DO NOT ACCIDENTALLY REINTRODUCE OLD EXPERIMENTS
-----------------------------------------------------------------------------------
-- All Pen widths use `google-ink-v1` positional modeling/prediction. The local `google-ink-modeler.js` is an independent JavaScript implementation based on Google's published Ink Stroke Modeler algorithms/parameters.
-- New Pen raw points store relative input timestamp `t`; raw Pencil points remain authoritative for Eraser, Lasso/Select, hit testing, transforms, persistence, Undo/Redo, backup, and page operations. Modeled points are rendering geometry, not the editable source of truth.
-- The live Pen layer and Pen-up commit remain the 5.6.1 architecture: Pencil-up commits only the just-finished stroke, roughly O(current stroke), and must **not** regress to a whole-page annotation repaint on every stroke release.
-- Highlighter keeps its separate optimized translucent/raw path; Eraser and Select/Lasso keep their established vector/editing behavior.
-- The following experiments were intentionally removed and are **not active code paths**: 5.6.2 aggressive Thin/Medium cardinal smoothing, 5.6.3 filled-outline ink, and 5.6.4/5.6.5 distance/corner/Bezier trajectory fitting. Do not revive them merely to continue smoothing work; only reconsider with specific new evidence.
-- There is no requirement to preserve the appearance of experimental pre-5.6.6 Pen strokes; those test documents are disposable.
+NEXT AGREED STEPS AFTER 5.7.0 TESTING
+-------------------------------------
+1. **Region → image capture** using this Asset system as the destination. Captures should enter Recent as raster image assets.
+   - Support an original-size mode and a **current-zoom-size** mode, because the user often deliberately zooms a small source region, screen-captures/crops it, and pastes it back enlarged.
+   - Prefer an offscreen page-coordinate render over literal screen pixels so the captured result can be clean while still honoring the chosen zoom-derived output/paste scale.
+   - A region capture is intentionally raster; an ordinary copied selection remains a true editable snippet.
+2. **Manual Google Drive synchronization** after Assets/capture are settled. Explicit `Sync with Drive`, local-first, no background service requirement. Workbench itself remains the file/asset manager; Drive transports Workbench state between machines. Synchronize documents, folders, templates, permanent Assets and required sources, preserving both copies on conflicts. Recent clipboard history should be local-only by default for Drive sync unless later use suggests otherwise.
+3. Selection rotation remains a separate explicit backlog item.
 
-FIELD-TEST OBSERVATIONS TO COLLECT
-----------------------------------
-- For 5.6.9 specifically: note any remaining post-pinch flash, scroll-start hesitation, unnatural amount of coast, or palm-triggered page movement.
-- For Pen quality: note width, whether ink feels attached to the Pencil tip, visible lag, end-of-stroke settling/snapping, loss of deliberate corners, or rough edges.
-- For performance: if Pen becomes sluggish/non-responsive again, export Pencil diagnostics immediately and provide the edited PDF/screenshot when useful. Dense-page responsiveness is regression-sensitive.
-- Keep the 50-step Undo stack **session-only**. Do not add a memory cap preemptively; reconsider only if ordinary dense-document use provides evidence that it is needed.
+CURRENT INPUT / PERFORMANCE BASELINE — DO NOT REGRESS
+-----------------------------------------------------
+- 5.6.9 post-pinch finalization keeps the live-scaled page visible while a crisp replacement renders offscreen, then swaps pixels in place. Do not return to a full viewer DOM rebuild at pinch-up.
+- Annotation-mode finger navigation retains the stationary 120 ms palm-intent window but promotes clear deliberate movement early and replays pending movement. iPad can override the softer recent-Pencil guard with stronger deliberate motion; Surface/ChromeOS keep the strict pen-proximity guard.
+- Continuous touch inertia decay is 0.95.
+- Pen release remains O(current stroke) through the dedicated live-Pen layer; do not reintroduce whole-page repaint on every Pencil-up.
+- All Pen widths use `google-ink-v1`; raw timed Pencil points remain authoritative for editing while modeled positions are rendering geometry.
+- Removed smoothing experiments (5.6.2 cardinal stabilization, 5.6.3 filled outline, 5.6.4/5.6.5 custom trajectory fitter) remain dead and should not be revived without specific evidence.
 
-CURRENT FEATURE / ROADMAP DECISIONS
------------------------------------
-- The user currently considers Workbench **just about adequate for normal use unless testing exposes weaknesses**. Do not turn the Goodnotes/Notability comparison into a mandate to implement every competitor feature.
-- After the current 5.6.9 field test, the agreed next feature is a **persistent reusable Image Library**: named/organized image assets with thumbnails, insert-from-library, and normal backup/restore participation. This is particularly useful for reusable diagrams/screenshots prepared on one machine.
-- After the Image Library, implement **manual Google Drive synchronization**. Initial design: explicit `Sync with Drive` action, not background sync. Workbench remains local-first and Workbench itself manages/imports documents and images; Drive transports Workbench state between machines. Synchronize documents, folder organization, templates, reusable images, and required source binaries. Detect divergent edits and preserve both copies rather than silently overwriting one.
-- The user does **not** currently need a Drive folder to act as a general external inbox; the simpler expected workflow is to use Workbench on the PC to import/manage material, then sync it. Direct Drive importing can be reconsidered later if useful.
-- **Rotate selections** is now an explicit future possibility. Ideally rotation would work on selected Pen/Highlighter strokes and images, including mixed selections, and participate in Undo/Redo, persistence, copy/paste, and PDF export.
-- Existing backlog also includes straight-line/shapes, Annotated-pages filtering, Library search, selection recoloring, image phase-2 operations, adjustable Pen width/full color picker, and other conveniences, but these are optional and should be prioritized from real use.
-
-OTHER CURRENTLY SETTLED BEHAVIOR
+OTHER SETTLED ROADMAP / BEHAVIOR
 --------------------------------
-- Black-background blank pages are implemented for New blank documents and Insert Page; White remains the default. Black is actual generated PDF page content, not a display theme.
-- Rebuilt-PDF link policy is settled for this user's needs: preserve standard external URI links, deliberately strip internal/document-navigation links; source outlines/bookmarks are not rebuilt. Untouched byte-for-byte PDF pass-through preserves the source exactly.
-- Existing source PDF links/outlines are not exposed in the Workbench viewer UI.
-- Attributions/licensing are available at **⋯ → Attributions & licenses** and are bundled in `THIRD_PARTY_NOTICES.txt`, `THIRD_PARTY_LICENSES.txt`, and `APACHE-2.0-Google-Ink-Stroke-Modeler.txt`.
-- Listed third-party projects: PDF.js 6.2.108, pdf-lib 1.17.1, JSZip 3.10.1, and Google Ink Stroke Modeler.
-- External PDF.js/pdf-lib/JSZip bundling remains postponed. Do not make vendoring the next feature by default; the user has set Image Library then manual Drive sync as the intended post-test sequence.
+- Workbench is intentionally PDF/teaching-workstation centered rather than a mandate to clone every Goodnotes/Notability feature.
+- Backlog possibilities include straight-line/shapes, Annotated-pages filtering, Library search, selection recoloring/rotation, image crop/rotation/system-clipboard paste/layer order, adjustable Pen width/full color picker, and other conveniences.
+- Black generated pages, templates, automatic end-page append, split viewing, Images → PDF, page geometry/crop/margins, PDF split/combine/extract/compress, Local Library folders/backups/trash, session restoration, and Presentation behavior are established features.
+- Rebuilt-PDF link policy: preserve standard external URI links; deliberately strip internal/document-navigation links; outlines/bookmarks are not rebuilt. Untouched pass-through preserves source bytes exactly.
+- Attributions/licenses remain under ⋯ → Attributions & licenses; PDF.js/pdf-lib/JSZip are still externally pinned/cached rather than fully vendored.
 
 RESUME PROCEDURE AFTER AN EXTENDED BREAK
 ----------------------------------------
-1. Start from **5.6.9** and read this block first.
-2. Ask for/consider the results of the user's real grading/daily-use test before changing interaction or Pen behavior.
-3. If a regression remains, fix that concrete issue while preserving the unified modeled-Pen and O(current-stroke) architecture where possible.
-4. If the field test is satisfactory, proceed to the **Image Library**, then **manual Google Drive sync**, unless the user reprioritizes.
-5. Keep **selection rotation** and the feature-gap CSV as backlog inputs, not automatic next tasks.
-6. Treat the detailed history below as context and evidence, not as a list of still-pending work. Later milestone sections supersede older status statements when they conflict.
+1. Start from **5.7.0** and read this block first.
+2. Ask for the user's real-use results with Assets/Recent before expanding the subsystem.
+3. If 5.7.0 is sound, implement region-to-image capture into Recent (including current-zoom enlargement behavior), then manual Google Drive sync unless the user reprioritizes.
+4. Preserve the validated 5.6.9 pinch/scroll behavior and unified Pen architecture while doing Asset work.
+5. Treat older milestone sections below as history/context; later sections supersede older status statements when they conflict.
+
+MILESTONE 5.7.0 — REUSABLE ASSETS + RECENT CLIPBOARD
+=====================================================
+
+CURRENT BUILD: Milestone 5.7.0
+Visible About version: 5.7.0
+Service-worker/cache version: pdf-workbench-m5.7.0-v1
+IndexedDB version: 3
+Library schema version: 7
+
+WHY THIS REVISION EXISTS
+------------------------
+After 5.6.9 substantially improved real grading navigation, the user began planning a reusable image library, a browsable clipboard/history, true-copy promotion of normal copied selections, region-to-image capture, and later Google Drive synchronization. The user correctly observed that clipboard history can be a view of the same Asset Library rather than a separate subsystem. 5.7.0 builds that common foundation first.
+
+IMPLEMENTATION / TEST PRIORITY
+------------------------------
+- Test importing a reusable image in Files → Assets, then insert it into multiple documents/pages; close/reopen and confirm it remains available.
+- Copy several Pen/Highlighter selections. Confirm Recent shows multiple prior copies and Paste produces editable objects, not flattened images.
+- Copy a mixed selection containing an inserted image plus ink; Keep it, reopen Workbench, paste it into another page/document, then move/resize/erase the ink independently.
+- Promote a recent snippet with Keep, rename it, delete it, and verify source images used elsewhere remain intact.
+- Create an editable Library backup, restore it, and verify permanent Assets and Recent history return with valid image sources.
+- Regression check ordinary grading: Pen, Highlighter, Eraser, pinch, finger scroll start, and 0.95 momentum should feel exactly like 5.6.9.
+- Region-to-image capture is deliberately **not** in 5.7.0; it should be the next Asset producer once this storage/browser foundation is validated.
+
+================ PRIOR HANDOFF HISTORY ================
 
 MILESTONE 5.6.9 — TOUCH NAVIGATION / PINCH POLISH
 =================================================
