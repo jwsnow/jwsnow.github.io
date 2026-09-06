@@ -1,8 +1,8 @@
-# PDF Workbench — Milestone 5.7.8
+# PDF Workbench — Milestone 5.7.9
 
-## 5.7.8 restore proven iPad naming keyboard path
+## 5.7.9 copy rectangular page region to Recent Assets
 
-5.7.8 is deliberately narrow. iPad testing found that 5.7.7's generalized naming dialog caused every naming operation to summon the Scribble mini-keyboard instead of the full software keyboard that worked in 5.7.6. The fix restores the exact simple 5.7.6 `libraryNameDialog` markup and `requestLibraryName()` focus path, and every Library/Asset/Template naming operation calls that same proven primitive.
+5.7.9 adds Copy Region using the smallest architecture that fits the existing Workbench model. In Select mode, the new Region action arms a one-shot rectangular capture. Drag a rectangle on a page, choose Original size or Current zoom size, and Workbench renders that region (page content plus visible Workbench annotations, excluding UI chrome) to a PNG, stores it in Recent, and makes it the current paste image. The user can paste immediately with the existing image-annotation path or Keep it later into the permanent Asset Library.
 
 Template Save no longer adds With/Clean controls to the naming dialog. Insert Page instead shows **Save page N as template:** followed by two explicit link-like choices: **With annotations…** and **Without annotations…**. Either choice then opens the same ordinary naming dialog used everywhere else.
 

@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.7.8">
+  <link rel="stylesheet" href="styles.css?v=5.7.9">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -156,7 +156,8 @@
             <button id="selectionDeleteBtn" class="selection-action-btn" type="button" title="Delete selected annotations" aria-label="Delete selected annotations">Delete</button>
             <button id="selectionDuplicateBtn" class="selection-action-btn" type="button" title="Duplicate selected annotations" aria-label="Duplicate selected annotations">Duplicate</button>
             <button id="selectionCopyBtn" class="selection-action-btn" type="button" title="Copy selected annotations" aria-label="Copy selected annotations">Copy</button>
-            <button id="selectionPasteBtn" class="selection-action-btn" type="button" title="Paste copied annotations" aria-label="Paste copied annotations">Paste</button>
+            <button id="selectionCopyRegionBtn" class="selection-action-btn" type="button" aria-pressed="false" title="Copy a rectangular page region to Recent" aria-label="Copy a rectangular page region to Recent">Region</button>
+            <button id="selectionPasteBtn" class="selection-action-btn" type="button" title="Paste copied annotations or copied region" aria-label="Paste copied annotations or copied region">Paste</button>
           </div>
           <div class="annotation-history" role="group" aria-label="Annotation undo and redo">
             <button id="inkUndoBtn" type="button" title="Undo" aria-label="Undo" disabled>↶</button>
@@ -201,7 +202,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.7.8</div>
+          <div class="export-kicker">Milestone 5.7.9</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -720,6 +721,19 @@
       </form>
     </dialog>
 
+    <dialog id="regionCaptureDialog" class="info-dialog template-name-dialog">
+      <form id="regionCaptureForm" method="dialog">
+        <button id="regionCaptureCloseBtn" class="dialog-close" type="button" aria-label="Cancel">×</button>
+        <h2>Copy selected region</h2>
+        <p id="regionCaptureSummary" class="template-name-help">Choose how large the pasted image should be.</p>
+        <div class="dialog-actions">
+          <button id="regionCaptureCancelBtn" type="button">Cancel</button>
+          <button id="regionCaptureOriginalBtn" type="button">Original size</button>
+          <button id="regionCaptureZoomBtn" type="button">Current zoom size</button>
+        </div>
+      </form>
+    </dialog>
+
     <dialog id="folderMoveDialog" class="info-dialog template-name-dialog">
       <form id="folderMoveForm" method="dialog">
         <button id="folderMoveCloseBtn" class="dialog-close" type="button" aria-label="Cancel">×</button>
@@ -758,6 +772,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.7.8"></script>
+  <script type="module" src="app.js?v=5.7.9"></script>
 </body>
 </html>

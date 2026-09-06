@@ -1448,6 +1448,17 @@ body.ink-pen-active .status-bar * {
 .presentation-toolbar.annotation-toolbar .selection-action-btn:disabled {
   opacity: .34;
 }
+.presentation-toolbar.annotation-toolbar .selection-action-btn.active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+.annotation-region-copy-box {
+  fill: rgb(46 125 50 / .05);
+  stroke: #2e7d32;
+  stroke-width: 1.4;
+  stroke-dasharray: 5 4;
+  vector-effect: non-scaling-stroke;
+}
 .page-stage > svg.annotation-selection-layer {
   position: absolute;
   inset: 0;
@@ -1599,7 +1610,7 @@ body.ink-eraser-active .page-stage * { cursor: none !important; }
 }
 
 /* Milestone 5.7.2 — nested Asset Library folders */
-/* Milestone 5.7.7: Assets use the ordinary Files workspace instead of a separate modal. */
+/* Milestone 5.7.9: Copy Region adds a Recent-image capture path; Assets still use the ordinary Files workspace. */
 .asset-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 10px 0 12px; }
 .asset-tabs { display: inline-flex; border: 1px solid var(--border); border-radius: 9px; overflow: hidden; background: var(--paper); }
 .asset-tabs button, .asset-toolbar > button, .asset-card-actions button { min-height: 36px; border: 0; background: var(--paper); color: var(--text); padding: 6px 10px; cursor: pointer; }

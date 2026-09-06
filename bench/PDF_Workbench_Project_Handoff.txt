@@ -1,21 +1,31 @@
+CURRENT MILESTONE 5.7.9 — COPY REGION
+
+- Added **Copy Region** in **Select** mode as a new action button labeled **Region** beside Copy/Paste.
+- Workflow: tap **Region** → drag a page rectangle → choose **Original size** or **Current zoom size** → Workbench stores the result in **Recent** and makes it the current paste image.
+- The capture reuses the existing image-asset / image-annotation path. It does **not** create a new asset type. Paste, move/resize, export, backup, and Keep all continue to use the existing machinery.
+- Captured content includes the underlying PDF/generated page plus visible Workbench image/ink/highlighter annotations. Transient selection UI, handles, and toolbar chrome are excluded.
+- **Original size** pastes at the source rectangle's original page dimensions. **Current zoom size** converts the current viewer zoom into the pasted image's dimensions, so a zoomed-in capture pastes back enlarged on the page.
+- Region copies go to **Recent**, not directly into the permanent Asset Library. Use **Keep** later if desired.
+- Keyboard regression fix from 5.7.8 remains intact and unchanged.
+
 RETURN HERE AFTER A BREAK — CURRENT STATUS
 ==========================================
 
 AUTHORITATIVE WORKING BASELINE
 ------------------------------
-- Use **Milestone 5.7.8** as the current source/build for the iPad keyboard regression test.
-- Visible About version: 5.7.8.
-- Service-worker/cache version: `pdf-workbench-m5.7.8-v1`.
+- Use **Milestone 5.7.9** as the current source/build.
+- Visible About version: 5.7.9.
+- Service-worker/cache version: `pdf-workbench-m5.7.9-v1`.
 - IndexedDB remains version 4; Library schema remains version 8. No persistence migration.
 - Pen/Highlighter rendering, 5.6.9 pinch/scroll behavior, finger-scroll engagement, inertia, split/single viewer rendering, and annotation geometry are intentionally unchanged.
 
-WHY 5.7.8 EXISTS
+WHY 5.7.9 EXISTS
 ----------------
 - Real iPad testing of 5.7.7 showed that all naming operations could type continuously, but the 5.7.7 generalized naming dialog summoned the small Scribble keyboard instead of the full software keyboard that appeared with the proven 5.7.6 Local Library naming path.
 - The 5.7.7 test otherwise looked healthy: current-folder targeting for newly created documents works, folders/subfolders can be created, and Library/Asset move operations work.
 - The user requested a narrow keyboard correction only. **Do not start Copy Rectangle yet.**
 
-MILESTONE 5.7.8 — RESTORE PROVEN NAMING DIALOG / KEYBOARD PATH
+MILESTONE 5.7.9 — RESTORE PROVEN NAMING DIALOG / KEYBOARD PATH
 ===============================================================
 
 NAMING DIALOG
@@ -47,9 +57,9 @@ PRESERVED FROM 5.7.7
 VALIDATION PERFORMED
 --------------------
 - `app.js`, `sw.js`, and `google-ink-modeler.js` pass JavaScript syntax checks.
-- `release-check.mjs` reports release consistency OK for 5.7.8.
-- Static comparison confirms 5.7.8 `requestLibraryName()` is byte-for-byte identical to the 5.7.6 function body.
-- Static comparison confirms 5.7.8 `libraryNameDialog` markup is identical to 5.7.6.
+- `release-check.mjs` reports release consistency OK for 5.7.9.
+- Static comparison confirms 5.7.9 `requestLibraryName()` is byte-for-byte identical to the 5.7.6 function body.
+- Static comparison confirms 5.7.9 `libraryNameDialog` markup is identical to 5.7.6.
 - No references remain to the 5.7.7 conditional naming fieldset, generalized `requestNameDialog()`, or `requestTemplateSaveDetails()`.
 
 TEST PRIORITY
@@ -62,7 +72,7 @@ TEST PRIORITY
 
 NEXT AGREED WORK
 ----------------
-- Do **not** start Copy Rectangle until 5.7.8 keyboard behavior is confirmed and any other stabilization issues are addressed.
+- Do **not** start Copy Rectangle until 5.7.9 keyboard behavior is confirmed and any other stabilization issues are addressed.
 - After stabilization, the planned Copy Region → Image design remains: raster capture into Recent, then ordinary Keep/Paste behavior; original-size and current-zoom-size modes.
 - Manual Google Drive synchronization follows later. Selection rotation remains on the backlog.
 
