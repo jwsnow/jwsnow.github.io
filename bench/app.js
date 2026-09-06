@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.0';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.1';
 
-const APP_VERSION = '5.7.0';
+const APP_VERSION = '5.7.1';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -36,7 +36,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionPasteBtn: $('selectionPasteBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), assetDialog: $('assetDialog'), assetDialogTitle: $('assetDialogTitle'), assetDialogHelp: $('assetDialogHelp'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), assetDialogCloseBtn: $('assetDialogCloseBtn'), assetDialogDoneBtn: $('assetDialogDoneBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionPasteBtn: $('selectionPasteBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), assetDialog: $('assetDialog'), assetDialogTitle: $('assetDialogTitle'), assetDialogHelp: $('assetDialogHelp'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), assetDialogCloseBtn: $('assetDialogCloseBtn'), assetDialogDoneBtn: $('assetDialogDoneBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -620,6 +620,7 @@ async function createRecentSnippetAsset(payload) {
 async function importImageAsset(file, options={}) {
   if (!file || !String(file.type || '').startsWith('image/')) throw new Error('Choose an image file.');
   const canPersist = state.libraryReady || await ensureLibraryConnection();
+  const pinned = options.pinned !== false;
   const sourceId = uid('src');
   const url = URL.createObjectURL(file);
   try {
@@ -628,13 +629,17 @@ async function importImageAsset(file, options={}) {
     state.sources.set(sourceId, source);
     await getSourceImage(source);
     if (canPersist) await persistSourceToLibrary(sourceId);
+    const fallbackName = pinned
+      ? defaultAssetName('image')
+      : `Recent image ${new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}`;
     const asset = {
-      id:uid('asset'), schemaVersion:LIBRARY_SCHEMA_VERSION, type:'image', pinned:true,
-      name:String(options.name || file.name || defaultAssetName('image')).replace(/\.[^.]+$/, '') || defaultAssetName('image'),
+      id:uid('asset'), schemaVersion:LIBRARY_SCHEMA_VERSION, type:'image', pinned,
+      name:String(options.name || file.name || fallbackName).replace(/\.[^.]+$/, '') || fallbackName,
       sourceId, pixelWidth:dims.width, pixelHeight:dims.height,
       createdAt:Date.now(), modifiedAt:Date.now(), lastUsedAt:Date.now(),
     };
     await persistAssetRecord(asset);
+    if (!pinned) await pruneRecentAssets();
     return asset;
   } catch (err) {
     const source = state.sources.get(sourceId);
@@ -764,6 +769,39 @@ function openAssetDialog(mode='manage', view=null) {
   renderAssetDialog();
   els.assetDialog?.showModal();
 }
+function activeAnnotationViewerElement() {
+  if (state.splitView) return paneElements(state.activePaneId)?.viewer || null;
+  return els.viewer || null;
+}
+function annotationViewportCenterDisplay(page) {
+  const display=pageDisplayDimensions(page);
+  const fallback={x:display.width/2,y:display.height/2};
+  const viewer=activeAnnotationViewerElement();
+  if (!viewer || !page?.id) return fallback;
+  const stage=viewer.querySelector(`.page-stage[data-page-id="${CSS.escape(page.id)}"]`);
+  if (!stage) return fallback;
+  const vr=viewer.getBoundingClientRect(), sr=stage.getBoundingClientRect();
+  if (!(sr.width>0&&sr.height>0&&vr.width>0&&vr.height>0)) return fallback;
+  const left=Math.max(vr.left,sr.left), right=Math.min(vr.right,sr.right);
+  const top=Math.max(vr.top,sr.top), bottom=Math.min(vr.bottom,sr.bottom);
+  let clientX,clientY;
+  if (right>left&&bottom>top) {
+    // Center the new object in the portion of this page that is actually visible.
+    // At high zoom the visible intersection is the viewport, so this matches the
+    // user's current working area rather than the center of the full PDF page.
+    clientX=(left+right)/2; clientY=(top+bottom)/2;
+  } else {
+    const mid=viewerMidpoint(viewer);
+    clientX=clamp(mid.x,sr.left,sr.right); clientY=clamp(mid.y,sr.top,sr.bottom);
+  }
+  return {
+    x:clamp((clientX-sr.left)*display.width/sr.width,0,display.width),
+    y:clamp((clientY-sr.top)*display.height/sr.height,0,display.height),
+  };
+}
+function annotationViewportCenterBase(page) {
+  return displayPointToBase(page,annotationViewportCenterDisplay(page));
+}
 async function insertImageAsset(asset) {
   const page=activeAnnotationTargetPage(); if (!page) throw new Error('Open a document page before inserting an image.');
   await preloadAssetSources(asset);
@@ -778,7 +816,9 @@ async function insertImageAsset(asset) {
     const maxWidth=Math.max(48,base.width*.62),maxHeight=Math.max(48,base.height*.62);
     const scale=Math.min(1,maxWidth/Math.max(1,dims.width),maxHeight/Math.max(1,dims.height)); width=Math.max(.25,dims.width*scale); height=Math.max(.25,dims.height*scale);
   }
-  const annotation={id:uid('image'),type:'image',sourceId:asset.sourceId,x:(base.width-width)/2,y:(base.height-height)/2,width,height,opacity:1,createdAt:Date.now()};
+  const center=annotationViewportCenterBase(page);
+  const maxX=Math.max(0,base.width-width), maxY=Math.max(0,base.height-height);
+  const annotation={id:uid('image'),type:'image',sourceId:asset.sourceId,x:clamp(center.x-width/2,0,maxX),y:clamp(center.y-height/2,0,maxY),width,height,opacity:1,createdAt:Date.now()};
   const before=snapshotPages(); annotationsForPage(page).push(annotation); state.activePageId=page.id; setAnnotationTool('select'); setAnnotationSelection(page,new Set([annotation.id]),{redraw:false}); commitHistory(before); saveCurrentDocumentState({readViewDom:false}); redrawPageAnnotationOverlays(page);
   asset.lastUsedAt=Date.now(); asset.modifiedAt=Date.now(); await persistAssetRecord(asset);
   setStatus(`Inserted ${asset.name || 'image'}`);
@@ -787,7 +827,7 @@ async function insertSnippetAsset(asset) {
   const page=activeAnnotationTargetPage(); if (!page) throw new Error('Open a document page before pasting a snippet.');
   await preloadAssetSources(asset);
   state.annotationClipboard=clonePlain(asset.payload); state.annotationClipboardAssetId=asset.id; state.annotationPasteSerial=0; state.annotationPasteTargetKey=null;
-  pasteAnnotationPayload(state.annotationClipboard,{center:true});
+  pasteAnnotationPayload(state.annotationClipboard,{center:'view'});
   asset.lastUsedAt=Date.now(); asset.modifiedAt=Date.now(); await persistAssetRecord(asset);
 }
 async function activateAsset(assetId) {
@@ -3246,7 +3286,9 @@ function pasteAnnotationPayload(payload, options={}) {
   const step=Math.max(12,Math.min(22,display.width*.03));
   let origin;
   if (options.center) {
-    origin={x:(display.width-(Number(payload.size?.width)||0))/2,y:(display.height-(Number(payload.size?.height)||0))/2};
+    const center=options.center==='view' ? annotationViewportCenterDisplay(page) : {x:display.width/2,y:display.height/2};
+    const pw=Number(payload.size?.width)||0, ph=Number(payload.size?.height)||0;
+    origin={x:clamp(center.x-pw/2,0,Math.max(0,display.width-pw)),y:clamp(center.y-ph/2,0,Math.max(0,display.height-ph))};
   } else if (samePage) {
     origin={x:payload.origin.x+step*serial,y:payload.origin.y+step*serial};
     if (origin.x+payload.size.width>display.width&&payload.origin.x-step*serial>=0) origin.x=payload.origin.x-step*serial;
@@ -3293,6 +3335,7 @@ function updateInkToolbar() {
   els.inkEraserBtn?.setAttribute('aria-pressed', String(tool === 'eraser'));
   els.inkSelectBtn?.setAttribute('aria-pressed', String(tool === 'select'));
   if (els.inkImageBtn) els.inkImageBtn.disabled = !state.pages.length;
+  if (els.inkAssetsBtn) els.inkAssetsBtn.disabled = !state.pages.length;
   document.body.classList.toggle('ink-pen-active', isStylusAnnotationTool(tool));
   document.body.classList.toggle('ink-highlighter-active', tool === 'highlighter');
   document.body.classList.toggle('ink-eraser-active', tool === 'eraser');
@@ -4922,8 +4965,10 @@ async function addImage(file) {
 async function insertImageAnnotation(file) {
   if (!file) return false;
   try {
-    const asset = await importImageAsset(file);
+    const asset = await importImageAsset(file,{pinned:false});
+    state.assetDialogView='recent';
     await insertImageAsset(asset);
+    setStatus(`Inserted ${asset.name || 'image'} · added to Recent`);
     return true;
   } catch (err) {
     console.error('Could not insert image annotation', err);
@@ -8206,6 +8251,7 @@ function updatePageCounts() {
   // without this refresh the Insert Image action can remain incorrectly disabled
   // until the user taps another annotation tool.
   if (els.inkImageBtn) els.inkImageBtn.disabled = !count;
+  if (els.inkAssetsBtn) els.inkAssetsBtn.disabled = !count;
 }
 
 function renderOrganizer() {
@@ -10509,8 +10555,8 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.7.0 adds the first Reusable Assets system on top of the field-tested 5.6.9 navigation baseline. Ordinary Lasso/Select Copy now also enters a browsable local Recent history as a true editable snippet; useful copies can be promoted to the permanent Asset Library without rasterizing Pen, Highlighter, or inserted-image objects. Images can be imported as permanent reusable assets and inserted on any page. Assets participate in editable Library backup/restore. Pen/Highlighter geometry, pinch finalization, finger-scroll engagement, and 5.6.9 momentum are unchanged.</p>
-      <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button now opens Assets so a saved image, editable snippet, recent copy, or newly imported image can be inserted on the active page.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets. Recent is a capped local clipboard history (30 entries). Keep promotes a recent true copy into the permanent library; Delete removes only that Asset unless its source data is genuinely unused elsewhere.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
+      <p>Milestone 5.7.1 polishes Reusable Assets during real grading use. Asset cards now keep their controls reachable in multi-row dialogs; the annotation strip has a one-tap Quick Image picker that inserts directly and records the image in Recent, plus a separate Assets button for browsing saved/recent items. Newly inserted images and reusable snippets are centered in the currently visible portion of the active page rather than the full page. Pen/Highlighter geometry and the field-tested 5.6.9 pinch/scroll behavior are unchanged.</p>
+      <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button now quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable insertion.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets. Recent is a capped local clipboard history (30 entries). Keep promotes a recent true copy into the permanent library; Delete removes only that Asset unless its source data is genuinely unused elsewhere.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
@@ -11480,7 +11526,8 @@ function bindEvents() {
   els.inkHighlighterBtn?.addEventListener('click', () => setAnnotationTool('highlighter'));
   els.inkEraserBtn?.addEventListener('click', () => setAnnotationTool('eraser'));
   els.inkSelectBtn?.addEventListener('click', () => setAnnotationTool('select'));
-  els.inkImageBtn?.addEventListener('click', () => openAssetDialog('insert'));
+  els.inkImageBtn?.addEventListener('click', () => els.annotationImageInput?.click());
+  els.inkAssetsBtn?.addEventListener('click', () => openAssetDialog('insert'));
   els.annotationImageInput?.addEventListener('change', async () => { const file=els.annotationImageInput.files?.[0]; await insertImageAnnotation(file); els.annotationImageInput.value=''; });
   els.assetImportImageBtn?.addEventListener('click', () => els.assetImageInput?.click());
   els.assetImageInput?.addEventListener('change', async () => {

@@ -3,6 +3,66 @@ RETURN HERE AFTER A BREAK — CURRENT STATUS
 
 AUTHORITATIVE WORKING BASELINE
 ------------------------------
+- Use **Milestone 5.7.1** as the current source/build.
+- Visible About version: 5.7.1.
+- Service-worker/cache version: `pdf-workbench-m5.7.1-v1`.
+- IndexedDB version remains 3; Library schema remains 7. No Asset schema migration in this polish release.
+- 5.6.9 pinch/scroll interaction fixes and 5.6.8 unified modeled Pen remain the performance/input baseline and are intentionally unchanged.
+
+WHERE THE PROJECT IS RIGHT NOW
+------------------------------
+- The user is actively grading with Workbench and reports the core application is working well.
+- First 5.7.0 Asset testing exposed three usability issues, all addressed in 5.7.1: multi-row Asset cards could hide their bottom action buttons; inserting a one-off image required unnecessary Asset-browser interaction; and inserted images landed at page center instead of the current visible working area.
+- The annotation-strip picture button is now **Quick Image**: choose one image, insert immediately, and record it in Recent. A separate adjacent **Assets** button opens the Library/Recent browser.
+- Quick-inserted images are unpinned Recent assets; Assets → Import images… still creates permanent Library images. Recent remains capped at 30 and useful entries can be promoted with Keep.
+- Image and reusable-snippet insertion centers on the visible portion of the active page. This is especially important when grading while zoomed in.
+- Asset dialog layout now gives the grid its own scroll area with natural-height rows and a fixed footer so card actions remain reachable.
+
+NEXT AGREED STEPS
+-----------------
+1. Continue real-use grading test of 5.7.1 Assets/Recent and placement.
+2. If sound, implement **Copy Region → Image** as another Recent producer, with both original-size and current-zoom-size capture/paste behavior.
+3. Then implement explicit/manual **Google Drive sync** for Workbench-managed documents/folders/templates/permanent Assets and required sources. Workbench remains local-first; Recent stays local-only by default.
+4. Selection rotation remains on the explicit backlog.
+
+RESUME RULES
+------------
+- Do not retune Pen, pinch, finger-scroll engagement, or 0.95 momentum during Asset work without a specific real-use regression.
+- Ordinary copied selections remain true editable snippets; do not rasterize them when promoted. Region capture is intentionally raster.
+- Use the later milestone text above older history when statements conflict.
+
+MILESTONE 5.7.1 — ASSETS USABILITY POLISH
+==========================================
+
+CURRENT BUILD: Milestone 5.7.1
+Visible About version: 5.7.1
+Service-worker/cache version: pdf-workbench-m5.7.1-v1
+IndexedDB version: 3
+Library schema version: 7
+
+CHANGES
+-------
+- Fixed multi-row Asset dialog clipping by making the dialog height explicit, the Asset grid independently scrollable, and grid rows natural-height.
+- Quick Image now bypasses the Asset dialog, imports one image directly to Recent, inserts it, and leaves it available for later reuse/Keep.
+- Added a separate Assets toolbar button for Library/Recent browsing.
+- New images and Asset snippets center in the visible portion of the active page rather than the full page center.
+- Permanent image import from inside Assets remains unchanged.
+- No Pen/Highlighter/input-navigation algorithm changes.
+
+TEST PRIORITY
+-------------
+- Put enough Assets/Recent items in the dialog to create two or more rows and confirm Insert/Paste, Keep/Rename and Delete are all reachable.
+- Use Quick Image while grading; confirm there is no Asset-dialog step and the image appears in Recent.
+- While zoomed well into a page, quick-insert an image and insert one from Assets; confirm it appears centered in the visible working area. Repeat in split view if convenient.
+- Regression check 5.6.9 pinch/scroll behavior only if something feels different; the relevant code was not intentionally changed.
+
+================ PRIOR HANDOFF HISTORY ================
+
+RETURN HERE AFTER A BREAK — CURRENT STATUS
+==========================================
+
+AUTHORITATIVE WORKING BASELINE
+------------------------------
 - Use **Milestone 5.7.0** as the current source/build.
 - Visible About version: 5.7.0.
 - Service-worker/cache version: `pdf-workbench-m5.7.0-v1`.

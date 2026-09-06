@@ -1,3 +1,23 @@
+# PDF Workbench — Milestone 5.7.1
+
+## 5.7.1 Assets usability polish
+
+5.7.1 is a focused response to the first real-use Asset Library test. The 5.7.0 storage model and the validated 5.6.9 navigation/Pen baseline remain intact.
+
+- **Asset dialog overflow:** the dialog now owns a fixed viewport-relative height, the thumbnail grid is the only flexible scrolling region, grid rows size to their content, and the footer remains fixed. Multi-row cards no longer lose their Keep/Rename/Delete controls below the dialog edge.
+- **Quick Image:** the annotation strip picture button now opens the device image picker directly. The chosen image is inserted immediately without opening Assets and is recorded as an unpinned **Recent** image.
+- **Separate Assets button:** a new adjacent Assets/grid button opens the existing Library/Recent browser for reusable insertion. Files → Assets remains available as before.
+- **Visible-view placement:** inserted images and reusable snippets are centered in the **visible portion of the active page**. At high zoom this means the current viewport rather than the center of the entire PDF page; at zoom-out, where the whole page is visible, page center remains natural.
+- Permanent **Import images…** inside Assets still imports directly to the permanent Library. Quick Image is the path that intentionally goes to Recent.
+- Recent remains capped at 30 items. A quick-inserted image can later be promoted with **Keep**.
+- Pen/Highlighter rendering, partial Eraser, Select mechanics, pinch finalization, early finger-scroll engagement, and 0.95 momentum are unchanged.
+
+### Next after this test
+
+Continue ordinary grading. If Assets/Recent now feels right, the next planned producer is **Copy Region → Image**, including original-size and current-zoom-size capture behavior. Manual Google Drive sync follows after the Asset/capture model is settled.
+
+================ PRIOR README HISTORY ================
+
 # PDF Workbench — Milestone 5.7.0
 
 ## 5.7.0 Reusable Assets + Recent clipboard
