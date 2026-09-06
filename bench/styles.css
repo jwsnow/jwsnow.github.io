@@ -1516,6 +1516,21 @@ body.presentation .viewer-pane > .viewer {
 }
 body.presentation .split-view { top: calc(var(--annotation-bar-h) + env(safe-area-inset-top)); }
 
+@media (max-width: 1100px) and (min-width: 621px) {
+  body.presentation .presentation-toolbar.annotation-toolbar { gap: 2px; padding-left: 4px; padding-right: 4px; }
+  body.presentation .presentation-toolbar.annotation-toolbar button { width: 34px; min-width: 34px; flex-basis: 34px; }
+  body.presentation .presentation-toolbar.annotation-toolbar .ink-color-btn { width: 28px; min-width: 28px; flex-basis: 28px; }
+  body.presentation .presentation-toolbar.annotation-toolbar .ink-width-btn,
+  body.presentation .presentation-toolbar.annotation-toolbar .eraser-size-btn { width: 30px; min-width: 30px; flex-basis: 30px; }
+  body.presentation .presentation-toolbar.annotation-toolbar .presentation-document-select { width: 104px; min-width: 80px; flex-basis: 104px; }
+  body.presentation .presentation-toolbar.annotation-toolbar .presentation-zoom-label { flex-basis: 42px; min-width: 42px; }
+  body.presentation .annotation-primary,
+  body.presentation .annotation-history,
+  body.presentation .ink-option-group,
+  body.presentation .presentation-pane-chooser { gap: 2px; }
+  body.presentation .annotation-separator { margin-left: 1px; margin-right: 1px; }
+}
+
 @media (max-width: 620px) {
   .presentation-toolbar.annotation-toolbar { gap: 2px; padding-left: 4px; padding-right: 4px; }
   .presentation-toolbar.annotation-toolbar button { width: 34px; min-width: 34px; flex-basis: 34px; }
@@ -1557,16 +1572,14 @@ body.ink-eraser-active .page-stage * { cursor: none !important; }
 }
 
 /* Milestone 5.7.2 — nested Asset Library folders */
-.info-dialog.asset-dialog { width: min(920px, calc(100% - 24px)); height: min(760px, calc(100dvh - 24px)); max-height: calc(100dvh - 24px); overflow: hidden; }
-.asset-dialog form { display: flex; flex-direction: column; height: 100%; max-height: none; min-height: 0; box-sizing: border-box; }
-.asset-dialog-help { margin: -4px 36px 12px 0; color: var(--muted); }
-.asset-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+/* Milestone 5.7.6: Assets use the ordinary Files workspace instead of a separate modal. */
+.asset-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 10px 0 12px; }
 .asset-tabs { display: inline-flex; border: 1px solid var(--border); border-radius: 9px; overflow: hidden; background: var(--paper); }
 .asset-tabs button, .asset-toolbar > button, .asset-card-actions button { min-height: 36px; border: 0; background: var(--paper); color: var(--text); padding: 6px 10px; cursor: pointer; }
 .asset-tabs button + button { border-left: 1px solid var(--border); }
 .asset-tabs button.active { background: var(--accent-soft); font-weight: 650; }
 .asset-toolbar > button { border: 1px solid var(--border); border-radius: 9px; }
-.asset-grid { flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; display: grid; grid-template-columns: repeat(auto-fill, minmax(205px, 1fr)); grid-auto-rows: max-content; align-content: start; gap: 12px; padding: 2px 2px 12px; -webkit-overflow-scrolling: touch; }
+.asset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(205px, 1fr)); grid-auto-rows: max-content; align-content: start; gap: 12px; padding: 2px 2px 12px; }
 .asset-empty { padding: 20px 8px; color: var(--muted); text-align: center; }
 .asset-card { min-width: 0; align-self: start; border: 1px solid var(--border); border-radius: 11px; background: var(--panel); overflow: hidden; display: flex; flex-direction: column; }
 .asset-preview { height: 132px; padding: 8px; display: grid; place-items: center; background: var(--paper); border-bottom: 1px solid var(--border); }
@@ -1577,35 +1590,27 @@ body.ink-eraser-active .page-stage * { cursor: none !important; }
 .asset-card-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 5px; }
 .asset-card-actions button { flex: 1 1 auto; border: 1px solid var(--border); border-radius: 8px; min-width: 58px; }
 .asset-card-actions button:hover { background: var(--accent-soft); }
-.asset-dialog .dialog-actions { flex: 0 0 auto; margin-top: 10px; }
-
 .asset-library-browser { display:flex; align-items:center; justify-content:space-between; gap:10px; margin:-2px 0 10px; min-width:0; }
 .asset-library-browser .library-breadcrumb { flex:1 1 auto; }
 .asset-library-browser-actions { flex:0 0 auto; }
-.asset-library-browser-actions button { min-height:36px; border:1px solid var(--border); border-radius:8px; background:var(--paper); color:var(--text); padding:6px 10px; font:inherit; }
+.asset-library-browser-actions button, .asset-insert-mode-bar > button { min-height:36px; border:1px solid var(--border); border-radius:8px; background:var(--paper); color:var(--text); padding:6px 10px; font:inherit; }
 .asset-folder-preview { width:100%; border:0; border-bottom:1px solid var(--border); border-radius:0; cursor:pointer; background:color-mix(in srgb, var(--accent-soft) 45%, var(--paper)); }
 .asset-folder-preview .library-folder-icon { width:56px; height:40px; }
 .asset-folder-card .asset-card-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
 .asset-folder-card .asset-card-actions button { width:100%; min-width:0; }
 .asset-card-actions .trash-action { border-color:color-mix(in srgb, #a66 45%, var(--border)); }
-
-/* Milestone 5.7.5: Asset naming stays inside the already-open Assets dialog. */
-.asset-name-panel { flex: 1 1 auto; min-height: 0; max-width: 430px; width: 100%; align-self: center; padding-top: 8px; }
-.asset-name-panel label { display: block; margin-top: 12px; font-weight: 600; }
-@media (max-width:620px) {
-  .asset-library-browser { align-items:stretch; flex-direction:column; }
-  .asset-library-browser-actions { display:flex; justify-content:flex-end; }
-  .asset-library-browser-actions button { width:100%; }
-}
+.asset-insert-mode-bar { display:flex; align-items:center; justify-content:space-between; gap:10px; margin:0 0 10px; padding:9px 10px; border:1px solid var(--border); border-radius:9px; background:var(--accent-soft); }
+.asset-insert-mode-bar .file-tool-summary { margin:0; }
 @media (max-width: 620px) {
-  .asset-toolbar { align-items: stretch; flex-direction: column; }
-  .asset-tabs { width: 100%; }
-  .asset-tabs button { flex: 1 1 50%; }
-  .asset-toolbar > button { width: 100%; }
-  .asset-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-  .asset-preview { height: 108px; }
-  .asset-card-actions button { font-size: .86rem; padding-inline: 7px; }
+  .asset-library-browser, .asset-toolbar, .asset-insert-mode-bar { align-items:stretch; flex-direction:column; }
+  .asset-library-browser-actions { display:flex; justify-content:flex-end; }
+  .asset-library-browser-actions button, .asset-toolbar > button, .asset-insert-mode-bar > button { width:100%; }
+  .asset-tabs { width:100%; }
+  .asset-tabs button { flex:1 1 50%; }
+  .asset-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap:8px; }
+  .asset-preview { height:108px; }
+  .asset-card-actions button { font-size:.86rem; padding-inline:7px; }
 }
-@media (max-width: 430px) { .asset-grid { grid-template-columns: 1fr; } }
+@media (max-width: 430px) { .asset-grid { grid-template-columns:1fr; } }
 
 

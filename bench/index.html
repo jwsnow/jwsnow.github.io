@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.7.5">
+  <link rel="stylesheet" href="styles.css?v=5.7.6">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -201,7 +201,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.7.5</div>
+          <div class="export-kicker">Milestone 5.7.6</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -283,8 +283,24 @@
           <details class="file-tool-section file-tool-details" id="assetsFilesSection">
             <summary><span>Assets</span><span id="assetsSummary" class="operation-summary">Reusable images and snippets</span></summary>
             <div class="file-tool-body">
-              <p class="file-tool-summary">Browse reusable images and editable annotation snippets. Recent copies are kept as a local clipboard history and can be promoted into the permanent Asset Library.</p>
-              <button id="filesManageAssetsBtn" class="export-button secondary-output-button" type="button">Open Assets…</button>
+              <div id="assetInsertModeBar" class="asset-insert-mode-bar hidden">
+                <p id="assetInsertModeHelp" class="file-tool-summary">Choose an asset to insert, or return to the document.</p>
+                <button id="assetInsertCancelBtn" type="button">Back to document</button>
+              </div>
+              <p id="assetBrowserHelp" class="file-tool-summary">Browse reusable images and editable annotation snippets. Recent copies are kept as a local clipboard history and can be promoted into the permanent Asset Library.</p>
+              <div id="assetToolbar" class="asset-toolbar">
+                <div class="asset-tabs" role="tablist" aria-label="Asset view">
+                  <button id="assetLibraryTab" type="button" class="active" aria-pressed="true">Library</button>
+                  <button id="assetRecentTab" type="button" aria-pressed="false">Recent</button>
+                </div>
+                <button id="assetImportImageBtn" type="button">Import images…</button>
+              </div>
+              <div id="assetLibraryBrowser" class="asset-library-browser">
+                <nav id="assetBreadcrumb" class="library-breadcrumb" aria-label="Current Asset folder"></nav>
+                <div class="asset-library-browser-actions"><button id="assetNewFolderBtn" type="button">New folder</button></div>
+              </div>
+              <p id="assetEmpty" class="asset-empty hidden"></p>
+              <div id="assetGrid" class="asset-grid asset-files-grid" aria-live="polite"></div>
             </div>
           </details>
 
@@ -743,38 +759,6 @@
       </form>
     </dialog>
 
-    <dialog id="assetDialog" class="info-dialog asset-dialog">
-      <form method="dialog">
-        <button id="assetDialogCloseBtn" class="dialog-close" type="button" aria-label="Close">×</button>
-        <h2 id="assetDialogTitle">Assets</h2>
-        <p id="assetDialogHelp" class="asset-dialog-help">Reusable images and editable snippets stored on this device.</p>
-        <div id="assetNamePanel" class="asset-name-panel hidden">
-          <p id="assetNameHelp" class="template-name-help"></p>
-          <label for="assetNameInput">Name</label>
-          <input id="assetNameInput" class="template-name-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="160" enterkeyhint="done">
-          <div class="dialog-actions">
-            <button id="assetNameCancelBtn" type="button">Cancel</button>
-            <button id="assetNameSaveBtn" type="button">Save</button>
-          </div>
-        </div>
-        <div id="assetToolbar" class="asset-toolbar">
-          <div class="asset-tabs" role="tablist" aria-label="Asset view">
-            <button id="assetLibraryTab" type="button" class="active" aria-pressed="true">Library</button>
-            <button id="assetRecentTab" type="button" aria-pressed="false">Recent</button>
-          </div>
-          <button id="assetImportImageBtn" type="button">Import images…</button>
-        </div>
-        <div id="assetLibraryBrowser" class="asset-library-browser">
-          <nav id="assetBreadcrumb" class="library-breadcrumb" aria-label="Current Asset folder"></nav>
-          <div class="asset-library-browser-actions"><button id="assetNewFolderBtn" type="button">New folder</button></div>
-        </div>
-        <p id="assetEmpty" class="asset-empty hidden"></p>
-        <div id="assetGrid" class="asset-grid" aria-live="polite"></div>
-        <div id="assetDialogActions" class="dialog-actions"><button id="assetDialogDoneBtn" type="button">Done</button></div>
-      </form>
-    </dialog>
-
-
     <dialog id="assetMoveDialog" class="info-dialog template-name-dialog">
       <form id="assetMoveForm" method="dialog">
         <button id="assetMoveCloseBtn" class="dialog-close" type="button" aria-label="Cancel">×</button>
@@ -798,6 +782,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.7.5"></script>
+  <script type="module" src="app.js?v=5.7.6"></script>
 </body>
 </html>

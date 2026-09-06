@@ -3,6 +3,88 @@ RETURN HERE AFTER A BREAK — CURRENT STATUS
 
 AUTHORITATIVE WORKING BASELINE
 ------------------------------
+- Use **Milestone 5.7.6** as the current source/build.
+- Visible About version: 5.7.6.
+- Service-worker/cache version: `pdf-workbench-m5.7.6-v1`.
+- IndexedDB version remains 4; Library schema remains 8. No persistence migration in this interaction/UI release.
+- 5.6.9 pinch/scroll fixes and 5.6.8 unified modeled Pen remain the performance/input baseline and are intentionally unchanged.
+
+WHY 5.7.6 EXISTS
+----------------
+- Real iPad testing of 5.7.5 showed that Asset naming from **Files → Assets** finally retained keyboard focus, but the same naming operation entered through the annotation-strip **Insert Asset** path still lost focus after every keypress.
+- 5.7.5 also exposed an architectural mismatch: Local Library browsing already lives directly in the Files workspace, while Assets had been implemented as a separate large modal browser. The naming form therefore inherited the large Asset-modal geometry and the Insert Asset path still ran through a modal layered over the viewer.
+- The user explicitly set a project design rule: favor simpler interaction models/code paths that already work rather than accumulating platform-specific focus workarounds.
+- A separate iPad Presentation screenshot showed the Pen-mode control strip slightly wider than the logical iPad viewport, putting the Exit (×) button partly offscreen.
+- Newly generated Workbench documents (Blank/Graph/etc.) were also being created at Local Library root rather than in the folder currently being browsed.
+
+MILESTONE 5.7.6 — SIMPLER ASSETS WORKSPACE + TOOLBAR + NEW-DOCUMENT DESTINATION
+===============================================================================
+
+ASSETS — REMOVE THE EXTRA MODAL
+-------------------------------
+- Removed the large native `assetDialog` entirely.
+- Assets now browse directly inside **Files → Assets**, structurally parallel to Local Library rather than opening another modal browser.
+- The existing Asset Library/Recent tabs, nested Asset folders, breadcrumbs, Import images, New folder, Rename/Move/Delete, Keep, thumbnails, and insertion actions all live in that one Files-workspace browser.
+- Asset New folder / Rename folder / Keep / Rename now call the **exact same `requestLibraryName()` / `libraryNameDialog` path** used by Local Library naming. There is no Asset-specific text-entry UI, no iPad-specific overlay, no focus-recapture guard, and no close/yield/reopen cycle.
+- The annotation-strip **Insert Asset** button now switches to the same Files → Assets browser in insertion mode. A small insertion banner provides **Back to document**.
+- Choosing an Asset returns to the document first and then inserts/pastes it, so the existing visible-view placement code sees the real viewer geometry. This preserves the 5.7.1 behavior that images/snippets land in the current visible working area rather than page center.
+- If Insert Asset was invoked from Presentation, Back/Insert restores Presentation after returning to the document.
+- Files → Assets remains usable as the ordinary management browser. When an open document exists, its Insert/Paste actions still return to View after insertion.
+
+PRESENTATION TOOLBAR
+--------------------
+- Added a tablet-width compact Presentation rule for logical viewports up to 1100 CSS px (above the existing phone/narrow rule).
+- In that range the existing controls are only modestly compressed: 34 px main buttons, 28 px color buttons, 30 px width/eraser buttons, slightly smaller gaps, 104 px document selector, and 42 px zoom label.
+- Nothing is hidden or moved into another menu.
+- Static Chromium layout check at a 1024 CSS-px viewport (matching the iPad screenshot's likely logical width): 5.7.5 required 1100 px of toolbar content and placed Exit at x=1094; 5.7.6 fits without horizontal overflow (`scrollWidth=clientWidth=1024`) and places Exit at x=983.
+
+NEW WORKBENCH-CREATED DOCUMENT DESTINATION
+------------------------------------------
+- The currently browsed Local Library folder is now the destination for Workbench-created documents.
+- Applied to **Blank**, **Graph Paper**, **From Template**, **Images → PDF**, and **Combine** output documents.
+- Root is used only when Local Library is actually at root (or the remembered folder is no longer active).
+- Existing PDF/image **import/open behavior is intentionally unchanged**; it was already placing imports correctly when invoked from Files/Library workflows.
+- The low-level `createDocument()` default remains unchanged. A narrow helper assigns the current Library folder only in explicit user-created-document workflows, avoiding hidden side effects in import/restore/internal operations.
+
+VALIDATION PERFORMED
+--------------------
+- `app.js` and `google-ink-modeler.js` pass JavaScript syntax checks.
+- DOM/source scan confirms there is no runtime `assetDialog`, `assetNamePanel`, or `filesManageAssetsBtn` path left.
+- Isolated browser harness confirmed Asset naming opens `libraryNameDialog`, continuous typing keeps `libraryNameInput` focused, and the complete name resolves correctly.
+- Isolated browser harness confirmed Insert Asset switches to Files, opens the same Assets section in insertion mode, has no Asset dialog, and returns to View.
+- Generated Graph Paper document test with a selected Local Library folder confirmed the new document receives that folder ID and contains one generated page.
+- Presentation toolbar static layout was checked at 1024, 1112, and 1366 CSS-px widths; the 1024 case now fits the Exit control onscreen.
+
+TEST PRIORITY ON THE ACTUAL IPAD
+--------------------------------
+1. Files → Assets: Rename folder / Rename asset / New folder / Keep; confirm the small Local Library-style naming dialog and continuous keyboard focus.
+2. Annotation toolbar → Insert Asset: confirm it opens the same Files → Assets interface, naming behaves identically, Back returns to the same document, and Insert/Paste returns and places the item in the visible working area.
+3. Repeat Insert Asset from Presentation; confirm return to Presentation and correct placement.
+4. Pen mode in Presentation: confirm the Exit (×) button is fully onscreen without needing horizontal scrolling.
+5. Open a nested Local Library folder, create Blank/Graph/From Template documents, and confirm they appear in that folder rather than root. Existing imports should remain unchanged.
+
+NEXT AGREED STEPS AFTER 5.7.6 IS STABLE
+---------------------------------------
+1. Implement **Copy Region → Image** as another Recent producer, with original-size and current-zoom-size capture/paste behavior. Current-zoom capture intentionally preserves enlarged paste scale when the source was zoomed in.
+2. Then implement explicit/manual **Google Drive sync** for Workbench-managed documents/folders/templates/permanent Assets/Asset folders and required source binaries. Workbench remains local-first; Recent stays local-only by default.
+3. Selection rotation remains on the explicit backlog.
+
+RESUME RULES
+------------
+- Prefer the simplest proven Workbench interaction model. Reuse Local Library-style workflows before inventing a second subsystem or platform-specific workaround.
+- Do not reintroduce a separate modal Asset browser unless a concrete requirement cannot be met in Files.
+- Do not retune Pen, pinch, finger-scroll engagement, or 0.95 momentum during Asset work without a specific real-use regression.
+- Keep permanent images and editable snippets unified in one Asset Library; Recent is temporary local history.
+- Asset folders remain nested.
+- Use the latest milestone text above older history when statements conflict.
+
+================ PRIOR HANDOFF HISTORY ================
+
+RETURN HERE AFTER A BREAK — CURRENT STATUS
+==========================================
+
+AUTHORITATIVE WORKING BASELINE
+------------------------------
 - Use **Milestone 5.7.5** as the current source/build.
 - Visible About version: 5.7.5.
 - Service-worker/cache version: `pdf-workbench-m5.7.5-v1`.

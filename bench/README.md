@@ -1,4 +1,12 @@
-# PDF Workbench — Milestone 5.7.5
+# PDF Workbench — Milestone 5.7.6
+
+## 5.7.6 simpler Assets workspace + iPad toolbar + New-document destination
+
+5.7.6 removes the separate Assets modal instead of continuing to work around it. Assets now live directly inside the ordinary Files workspace, parallel to Local Library. The annotation-strip Insert Asset button switches to that exact same Files → Assets browser in insertion mode; inserting or choosing Back to document returns to the prior document, including Presentation mode. Asset New folder/Rename/Keep/Rename use the exact same small `libraryNameDialog` that already works for Local Library naming.
+
+Presentation gets a tablet-width compact layout at iPad-class landscape widths so all Pen controls plus the Exit button fit onscreen. The underlying Pen/pinch/scroll algorithms are unchanged.
+
+Workbench-created documents now inherit the Local Library folder currently being browsed. This applies to Blank, Graph Paper, From Template, Images → PDF, and Combine-created documents. Existing PDF/image import behavior is unchanged.
 
 ## 5.7.5 simpler one-dialog Asset naming
 
