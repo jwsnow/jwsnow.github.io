@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.10';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.11';
 
-const APP_VERSION = '5.7.10';
+const APP_VERSION = '5.7.11';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -900,9 +900,9 @@ function renderAssetBrowser() {
   els.assetLibraryBrowser?.classList.toggle('hidden',view!=='library');
   els.assetInsertModeBar?.classList.toggle('hidden', !insertMode);
   if (view==='library') renderAssetBreadcrumb();
-  if (els.assetInsertModeHelp) els.assetInsertModeHelp.textContent = 'Choose a saved image or editable snippet to insert, or return to the document.';
+  if (els.assetInsertModeHelp) els.assetInsertModeHelp.textContent = 'Choose a saved image or editable snippet to paste, or return to the document.';
   if (els.assetBrowserHelp) els.assetBrowserHelp.textContent = insertMode
-    ? 'This is the same Assets browser used in Files. Asset folders can be nested like Local Library folders; Recent remains a flat clipboard history.'
+    ? 'This is the same Assets browser used in Files. Choose any saved or recent item to paste. Asset folders can be nested like Local Library folders; Recent remains a flat clipboard history.'
     : (view==='recent' ? `Recent is the flat local clipboard history. Keep promotes a useful copy into ${assetFolderLocationLabel()}.` : 'Browse reusable images and editable snippets. Library items can be organized in nested folders like the Local Library.');
   const itemCount=folders.length+assets.length;
   if (els.assetEmpty) {
@@ -920,7 +920,7 @@ function renderAssetBrowser() {
     const meta=document.createElement('span'); meta.className='asset-meta'; meta.textContent=assetTypeLabel(asset);
     const actions=document.createElement('div'); actions.className='asset-card-actions';
     if (state.pages.length) {
-      const insert=document.createElement('button'); insert.type='button'; insert.dataset.assetAction='insert'; insert.textContent=asset.type==='snippet'?'Paste':'Insert'; actions.append(insert);
+      const insert=document.createElement('button'); insert.type='button'; insert.dataset.assetAction='insert'; insert.textContent='Paste'; actions.append(insert);
     }
     if (!asset.pinned) { const keep=document.createElement('button'); keep.type='button'; keep.dataset.assetAction='keep'; keep.textContent='Keep'; actions.append(keep); }
     else {
@@ -974,8 +974,26 @@ function restoreFilesViewState(snapshot) {
     if (snapshot.activePageId) state.activePageId=snapshot.activePageId;
   }
 }
+function captureAnnotationPlacementContext() {
+  if (state.workspaceMode !== 'view' || !state.pages.length) return null;
+  const page = activeAnnotationTargetPage();
+  if (!page) return null;
+  const centerDisplay = annotationViewportCenterDisplay(page);
+  return {
+    documentId: state.currentDocumentId || null,
+    pageId: page.id,
+    centerDisplay: { x:Number(centerDisplay.x)||0, y:Number(centerDisplay.y)||0 },
+  };
+}
+function placementCenterDisplayForPage(placement, page) {
+  if (!placement || !page) return null;
+  if (placement.documentId !== state.currentDocumentId || placement.pageId !== page.id) return null;
+  const x=Number(placement.centerDisplay?.x), y=Number(placement.centerDisplay?.y);
+  return Number.isFinite(x)&&Number.isFinite(y) ? {x,y} : null;
+}
+
 async function beginFilesRoundTrip(owner) {
-  const context={owner,...captureWorkspaceContext(),viewState:null};
+  const context={owner,...captureWorkspaceContext(),viewState:null,annotationPlacement:owner==='assets'?captureAnnotationPlacementContext():null};
   // Presentation changes viewer geometry. First use its already-proven exit
   // transition to establish the equivalent regular View position; then freeze
   // that regular-view state for the Files round trip.
@@ -996,17 +1014,24 @@ async function endFilesRoundTrip(owner,{forceView=false}={}) {
   if (context) state.filesReturnContext=null;
   if (!context && !forceView) return;
   if (context?.viewState) restoreFilesViewState(context.viewState);
-  showWorkspaceMode(context?.workspaceMode==='organize' ? 'organize' : 'view');
+  const targetMode=context?.workspaceMode==='organize' ? 'organize' : 'view';
+  showWorkspaceMode(targetMode);
+  if (targetMode==='view') {
+    // The viewer restores scroll over two animation frames. Let that ordinary
+    // restoration finish before the Files round trip resolves. Placement does
+    // not depend on this timing (we froze the visible center before leaving),
+    // but the returned document should itself already be back at the saved view.
+    await nextAnimationFrame();
+    await nextAnimationFrame();
+    await nextAnimationFrame();
+  }
   if (context?.presentation) {
-    // renderViewer restores continuous/snap scroll over two animation frames.
-    // Do not re-enter Presentation until that restoration is complete, or the
-    // freshly rebuilt first page can accidentally become the new anchor.
-    await nextAnimationFrame();
-    await nextAnimationFrame();
-    await nextAnimationFrame();
     saveCurrentDocumentState();
     await enterPresentation();
+    await nextAnimationFrame();
+    await nextAnimationFrame();
   }
+  return context;
 }
 async function openAssetBrowser(mode='manage', view=null) {
   const insertMode = mode === 'insert';
@@ -1024,7 +1049,7 @@ async function openAssetBrowser(mode='manage', view=null) {
 async function returnFromAssetBrowser({ forceView=false }={}) {
   state.assetBrowserMode = 'manage';
   renderAssetBrowser();
-  await endFilesRoundTrip('assets',{forceView});
+  return await endFilesRoundTrip('assets',{forceView});
 }
 function activeAnnotationViewerElement() {
   if (state.splitView) return paneElements(state.activePaneId)?.viewer || null;
@@ -1059,7 +1084,7 @@ function annotationViewportCenterDisplay(page) {
 function annotationViewportCenterBase(page) {
   return displayPointToBase(page,annotationViewportCenterDisplay(page));
 }
-async function insertImageAsset(asset) {
+async function insertImageAsset(asset, options={}) {
   const page=activeAnnotationTargetPage(); if (!page) throw new Error('Open a document page before inserting an image.');
   await preloadAssetSources(asset);
   const source=await ensureLibrarySourceLoaded(asset.sourceId); const image=await getSourceImage(source);
@@ -1073,18 +1098,20 @@ async function insertImageAsset(asset) {
     const maxWidth=Math.max(48,base.width*.62),maxHeight=Math.max(48,base.height*.62);
     const scale=Math.min(1,maxWidth/Math.max(1,dims.width),maxHeight/Math.max(1,dims.height)); width=Math.max(.25,dims.width*scale); height=Math.max(.25,dims.height*scale);
   }
-  const center=annotationViewportCenterBase(page);
+  const capturedCenter=placementCenterDisplayForPage(options.placement,page);
+  const center=capturedCenter ? displayPointToBase(page,capturedCenter) : annotationViewportCenterBase(page);
   const maxX=Math.max(0,base.width-width), maxY=Math.max(0,base.height-height);
   const annotation={id:uid('image'),type:'image',sourceId:asset.sourceId,x:clamp(center.x-width/2,0,maxX),y:clamp(center.y-height/2,0,maxY),width,height,opacity:1,createdAt:Date.now()};
   const before=snapshotPages(); annotationsForPage(page).push(annotation); state.activePageId=page.id; setAnnotationTool('select'); setAnnotationSelection(page,new Set([annotation.id]),{redraw:false}); commitHistory(before); saveCurrentDocumentState({readViewDom:false}); redrawPageAnnotationOverlays(page);
   asset.lastUsedAt=Date.now(); asset.modifiedAt=Date.now(); await persistAssetRecord(asset);
-  setStatus(`Inserted ${asset.name || 'image'}`);
+  setStatus(`${options.statusVerb || 'Inserted'} ${asset.name || 'image'}`);
 }
-async function insertSnippetAsset(asset) {
+async function insertSnippetAsset(asset, options={}) {
   const page=activeAnnotationTargetPage(); if (!page) throw new Error('Open a document page before pasting a snippet.');
   await preloadAssetSources(asset);
   state.annotationClipboard=clonePlain(asset.payload); state.annotationClipboardAssetId=asset.id; state.annotationPasteSerial=0; state.annotationPasteTargetKey=null;
-  pasteAnnotationPayload(state.annotationClipboard,{center:'view'});
+  const capturedCenter=placementCenterDisplayForPage(options.placement,page);
+  pasteAnnotationPayload(state.annotationClipboard,capturedCenter?{centerDisplay:capturedCenter}:{center:'view'});
   asset.lastUsedAt=Date.now(); asset.modifiedAt=Date.now(); await persistAssetRecord(asset);
 }
 async function activateAsset(assetId) {
@@ -1093,9 +1120,11 @@ async function activateAsset(assetId) {
     // Return to the document before inserting so the existing visible-view
     // placement logic sees the real viewer geometry, just as it did before
     // Assets moved into Files.
-    await returnFromAssetBrowser({ forceView:true });
-    if (asset.type==='image') await insertImageAsset(asset); else await insertSnippetAsset(asset);
-  } catch (err) { console.error(err); setStatus(`Could not insert asset: ${err?.message||err}`); }
+    const context=await returnFromAssetBrowser({ forceView:true });
+    const placement=context?.annotationPlacement||null;
+    if (asset.type==='image') await insertImageAsset(asset,{placement,statusVerb:'Pasted'});
+    else await insertSnippetAsset(asset,{placement});
+  } catch (err) { console.error(err); setStatus(`Could not paste asset: ${err?.message||err}`); }
 }
 
 function serializeLibrarySession() {
@@ -3739,8 +3768,8 @@ function pasteAnnotationPayload(payload, options={}) {
   const serial=state.annotationPasteSerial;
   const step=Math.max(12,Math.min(22,display.width*.03));
   let origin;
-  if (options.center) {
-    const center=options.center==='view' ? annotationViewportCenterDisplay(page) : {x:display.width/2,y:display.height/2};
+  if (options.centerDisplay || options.center) {
+    const center=options.centerDisplay || (options.center==='view' ? annotationViewportCenterDisplay(page) : {x:display.width/2,y:display.height/2});
     const pw=Number(payload.size?.width)||0, ph=Number(payload.size?.height)||0;
     origin={x:clamp(center.x-pw/2,0,Math.max(0,display.width-pw)),y:clamp(center.y-ph/2,0,Math.max(0,display.height-ph))};
   } else if (samePage) {
@@ -3765,7 +3794,7 @@ function pasteAnnotationPayload(payload, options={}) {
 }
 async function pasteCopiedAnnotations() {
   if (state.annotationClipboard?.items?.length) {
-    pasteAnnotationPayload(state.annotationClipboard);
+    pasteAnnotationPayload(state.annotationClipboard,{center:'view'});
     return;
   }
   const asset = state.annotationClipboardAssetId ? state.assetRecords.get(state.annotationClipboardAssetId) : null;
@@ -10866,8 +10895,8 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.7.10 fixes the Files/Assets return-position regression while retaining Copy Region from 5.7.9: in Select mode, tap Region, drag a rectangle on the page, choose Original size or Current zoom size, and Workbench stores the capture in Recent and makes it the current paste image. Local Library, Assets, Template Rename, and Template Save again use the exact simple naming-dialog markup and focus path from 5.7.6. Template Save chooses With annotations or Without annotations before naming, so the text-entry dialog has no conditional controls. The 5.7.7 Files-based Templates/folder/move/document-creation cleanup remains intact. Pen/Highlighter geometry and the field-tested 5.6.9 pinch/scroll/viewer machinery are unchanged.</p>
-      <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable insertion.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
+      <p>Milestone 5.7.11 makes Paste placement consistent: copied annotations paste at the center of the current visible view, and Assets/Recent capture the visible center before entering Files and paste back at that exact location after returning. Image and snippet cards both use the label Paste. Duplicate remains an offset copy near the original. The 5.7.10 Files return-state fix and 5.7.9 Copy Region remain intact.</p>
+      <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
@@ -11850,9 +11879,9 @@ function bindEvents() {
         added.push(await importImageAsset(files[i],{pinned:true,folderId:state.assetFolderId||null}));
       }
       if (added.length && state.assetBrowserMode==='insert' && state.pages.length) {
-        await returnFromAssetBrowser({ forceView:true });
-        await insertImageAsset(added[0]);
-        if (added.length>1) setStatus(`Inserted ${added[0].name}; added ${added.length-1} more image asset${added.length===2?'':'s'} to the Library`);
+        const context=await returnFromAssetBrowser({ forceView:true });
+        await insertImageAsset(added[0],{placement:context?.annotationPlacement||null,statusVerb:'Pasted'});
+        if (added.length>1) setStatus(`Pasted ${added[0].name}; added ${added.length-1} more image asset${added.length===2?'':'s'} to the Library`);
       } else if (added.length) {
         renderAssetBrowser(); setStatus(`Added ${added.length} image asset${added.length===1?'':'s'}`);
       }

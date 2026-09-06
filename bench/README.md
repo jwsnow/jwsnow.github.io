@@ -1,4 +1,7 @@
-# PDF Workbench — Milestone 5.7.10
+# PDF Workbench — Milestone 5.7.11
+## 5.7.11 centered Paste / Asset placement
+
+5.7.11 makes placement semantics uniform. Ordinary Paste now centers copied annotation snippets in the current visible page area. When Assets/Recent is opened from the annotation toolbar, Workbench freezes the active page and visible-center point before switching to Files; choosing either an image or an editable snippet pastes it back at that saved visible center. Asset cards use one action label, **Paste**, for both types. Duplicate remains deliberately different: it creates an offset copy near the original selection. The 5.7.10 Files return-state fix and 5.7.9 Copy Region remain intact.
 
 ## 5.7.10 preserve viewer position across Files / Asset insertion
 

@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.7.10">
+  <link rel="stylesheet" href="styles.css?v=5.7.11">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -122,7 +122,7 @@
             <button id="inkEraserBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Partial-stroke eraser" aria-label="Partial-stroke eraser"><span class="eraser-tool-icon" aria-hidden="true"></span></button>
             <button id="inkSelectBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Lasso / select annotations" aria-label="Lasso / select annotations"><span class="lasso-tool-icon" aria-hidden="true"></span></button>
             <button id="inkImageBtn" class="annotation-tool-btn annotation-action-btn" type="button" title="Quick insert image" aria-label="Quick insert image"><span class="image-tool-icon" aria-hidden="true"></span></button>
-            <button id="inkAssetsBtn" class="annotation-tool-btn annotation-action-btn" type="button" title="Insert from Assets or Recent" aria-label="Insert from Assets or Recent"><span class="assets-tool-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><rect x="2.5" y="2.5" width="6" height="6" rx="1"/><rect x="11.5" y="2.5" width="6" height="6" rx="1"/><rect x="2.5" y="11.5" width="6" height="6" rx="1"/><rect x="11.5" y="11.5" width="6" height="6" rx="1"/></svg></span></button>
+            <button id="inkAssetsBtn" class="annotation-tool-btn annotation-action-btn" type="button" title="Paste from Assets or Recent" aria-label="Paste from Assets or Recent"><span class="assets-tool-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><rect x="2.5" y="2.5" width="6" height="6" rx="1"/><rect x="11.5" y="2.5" width="6" height="6" rx="1"/><rect x="2.5" y="11.5" width="6" height="6" rx="1"/><rect x="11.5" y="11.5" width="6" height="6" rx="1"/></svg></span></button>
           </div>
           <div id="penColorGroup" class="ink-option-group" role="group" aria-label="Pen color">
             <button class="ink-color-btn" type="button" data-ink-color="#111111" style="--swatch:#111111" title="Black pen" aria-label="Black pen"></button>
@@ -202,7 +202,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.7.10</div>
+          <div class="export-kicker">Milestone 5.7.11</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -289,7 +289,7 @@
             <summary><span>Assets</span><span id="assetsSummary" class="operation-summary">Reusable images and snippets</span></summary>
             <div class="file-tool-body">
               <div id="assetInsertModeBar" class="asset-insert-mode-bar hidden">
-                <p id="assetInsertModeHelp" class="file-tool-summary">Choose an asset to insert, or return to the document.</p>
+                <p id="assetInsertModeHelp" class="file-tool-summary">Choose an asset to paste, or return to the document.</p>
                 <button id="assetInsertCancelBtn" type="button">Back to document</button>
               </div>
               <p id="assetBrowserHelp" class="file-tool-summary">Browse reusable images and editable annotation snippets. Recent copies are kept as a local clipboard history and can be promoted into the permanent Asset Library.</p>
@@ -772,6 +772,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.7.10"></script>
+  <script type="module" src="app.js?v=5.7.11"></script>
 </body>
 </html>

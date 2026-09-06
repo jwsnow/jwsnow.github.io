@@ -1,3 +1,20 @@
+CURRENT MILESTONE 5.7.11 — CENTERED PASTE / ASSET PLACEMENT
+
+- **Paste semantics are now uniform:** an ordinary copied annotation snippet pastes at the center of the current visible page area, rather than preserving/offsetting the source location.
+- **Assets/Recent insertion now freezes the visible-center target before entering Files.** The selected image or editable snippet pastes back at that exact page/view center after the Files round trip. This avoids depending on viewer-rebuild timing.
+- Asset cards now use the single action label **Paste** for both images and editable snippets; the toolbar/help text also says Paste from Assets or Recent.
+- **Duplicate is intentionally unchanged:** it remains an offset duplicate near the source selection.
+- 5.7.10 page/scroll return-state protection remains in place. 5.7.9 Copy Region and 5.7.8 naming keyboard path remain intact.
+- No Pen/Highlighter/touch/pinch/rendering algorithm changes in this milestone.
+
+TEST PRIORITIES FOR 5.7.11
+
+- On a later page and while scrolled/zoomed away from the page top, copy a selected annotation object and press Paste. It should appear centered in the currently visible portion of that page.
+- From the same kind of view, open Assets/Recent from the annotation toolbar and Paste both (a) a Recent item and (b) a saved Asset. Both should return to the same page/view and place the object at the center of the pre-Assets visible area.
+- Repeat once in Presentation and once in ordinary View. If convenient, repeat in split view on the active pane.
+- Confirm all Asset cards say Paste, regardless of image vs editable snippet.
+- Confirm Duplicate still creates an offset copy near the source rather than centering it.
+
 CURRENT MILESTONE 5.7.10 — PRESERVE POSITION WHEN RETURNING FROM FILES / ASSETS
 
 - Fixes the regression observed after 5.7.9 testing: inserting a Recent image or a saved Asset could return the document to page 1.
@@ -29,9 +46,9 @@ RETURN HERE AFTER A BREAK — CURRENT STATUS
 
 AUTHORITATIVE WORKING BASELINE
 ------------------------------
-- Use **Milestone 5.7.10** as the current source/build.
-- Visible About version: 5.7.10.
-- Service-worker/cache version: `pdf-workbench-m5.7.10-v1`.
+- Use **Milestone 5.7.11** as the current source/build.
+- Visible About version: 5.7.11.
+- Service-worker/cache version: `pdf-workbench-m5.7.11-v1`.
 - IndexedDB remains version 4; Library schema remains version 8. No persistence migration.
 - Pen/Highlighter rendering, 5.6.9 pinch/scroll behavior, finger-scroll engagement, inertia, split/single viewer rendering, and annotation geometry are intentionally unchanged.
 
