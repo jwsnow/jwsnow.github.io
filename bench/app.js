@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.6.8';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.6.9';
 
-const APP_VERSION = '5.6.8';
+const APP_VERSION = '5.6.9';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -8985,6 +8985,106 @@ function queuePinchZoom(value, paneId=null) {
   updateViewerLabels();
   if (!state.pinchRenderFrame) state.pinchRenderFrame = requestAnimationFrame(applyLiveSingleZoom);
 }
+// Finish a pinch without rebuilding the viewer DOM. 5.6.8 called
+// renderViewer()/renderSplitPane() at release, which immediately removed the
+// live-scaled canvases and exposed a blank/"Rendering…" stage while PDF.js
+// produced the crisp raster. That was visible as a distracting post-pinch
+// blip. Render into a temporary canvas instead, keep the scaled bitmap visible,
+// then swap the new pixels synchronously once they are ready.
+async function refreshPinchStageRasterInPlace(stage, page, size, options={}) {
+  if (!stage?.isConnected || !page || stage.dataset.wantRender === 'false') return false;
+  if (stage.dataset.rendered !== 'true') return false;
+  const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  if (!base) return false;
+
+  const expectedWidth = Number(size?.width) || 0;
+  const expectedHeight = Number(size?.height) || 0;
+  const stillCurrent = () => {
+    if (!stage.isConnected || stage.dataset.wantRender === 'false') return false;
+    if (typeof options.isCurrent === 'function' && !options.isCurrent()) return false;
+    const currentWidth = parseFloat(stage.style.width) || stage.getBoundingClientRect().width;
+    const currentHeight = parseFloat(stage.style.height) || stage.getBoundingClientRect().height;
+    return Math.abs(currentWidth - expectedWidth) < .75 && Math.abs(currentHeight - expectedHeight) < .75;
+  };
+
+  const temp = document.createElement('canvas');
+  try {
+    const didRender = await enqueueRender(async () => {
+      if (!stillCurrent()) return false;
+      await renderPageToCanvas(page, temp, expectedWidth, expectedHeight, options.dpr || 1, options.maxPixels || 6_000_000);
+      return true;
+    }, 12);
+    if (!didRender || !stillCurrent() || !temp.width || !temp.height) return false;
+
+    if (page.kind !== 'generated' && canvasLooksBlank(temp)) {
+      const didFallbackRender = await enqueueRender(async () => {
+        if (!stillCurrent()) return false;
+        await renderPageToCanvas(page, temp, expectedWidth, expectedHeight, 1, options.fallbackPixels || 2_000_000);
+        return true;
+      }, 12);
+      if (!didFallbackRender || !stillCurrent() || !temp.width || !temp.height) return false;
+    }
+
+    // Width/height assignment clears the destination, but the replacement draw
+    // and annotation repaint occur in this same JS turn, so the browser never
+    // paints the cleared canvas between them.
+    base.width = temp.width;
+    base.height = temp.height;
+    base.style.width = `${expectedWidth}px`;
+    base.style.height = `${expectedHeight}px`;
+    const ctx = base.getContext('2d', { alpha:false });
+    ctx.drawImage(temp, 0, 0);
+    redrawStageAnnotations(stage, page);
+    stage.dataset.rendered = 'true';
+    stage.querySelector('.page-loading')?.remove();
+    return true;
+  } catch (err) {
+    // The scaled pre-pinch bitmap is still valid and preferable to replacing it
+    // with an error/blank stage. A later normal render can retry.
+    console.warn('Post-pinch crisp raster refresh failed', err);
+    return false;
+  }
+}
+
+function refreshSinglePinchRasterInPlace() {
+  const token = state.pinchCrispToken || 0;
+  const jobs = [];
+  for (const stage of els.viewer.querySelectorAll('.page-stage[data-page-id]')) {
+    if (stage.dataset.rendered !== 'true' || stage.dataset.wantRender === 'false') continue;
+    const page = pageById(stage.dataset.pageId);
+    if (!page) continue;
+    const size = computeCssSize(page);
+    jobs.push(refreshPinchStageRasterInPlace(stage, page, size, {
+      dpr:clamp(window.devicePixelRatio || 1, 1, 2.25),
+      maxPixels:6_000_000,
+      fallbackPixels:2_000_000,
+      isCurrent:() => !state.splitView && (state.pinchCrispToken || 0) === token,
+    }));
+  }
+  Promise.allSettled(jobs).catch(() => {});
+}
+
+function refreshPanePinchRasterInPlace(paneId) {
+  const pane = splitPaneState(paneId), view = paneView(paneId), pe = paneElements(paneId);
+  const doc = documentById(pane.documentId);
+  if (!pane || !view || !pe?.viewer || !doc) return;
+  const token = pane.pinchCrispToken || 0;
+  const jobs = [];
+  for (const stage of pe.viewer.querySelectorAll('.page-stage[data-page-id]')) {
+    if (stage.dataset.rendered !== 'true' || stage.dataset.wantRender === 'false') continue;
+    const page = splitPageById(doc, stage.dataset.pageId);
+    if (!page) continue;
+    const size = computePaneCssSize(page, paneId, view);
+    jobs.push(refreshPinchStageRasterInPlace(stage, page, size, {
+      dpr:clamp(window.devicePixelRatio || 1, 1, 2.1),
+      maxPixels:4_500_000,
+      fallbackPixels:1_800_000,
+      isCurrent:() => state.splitView && pane.documentId === doc.id && (pane.pinchCrispToken || 0) === token,
+    }));
+  }
+  Promise.allSettled(jobs).catch(() => {});
+}
+
 function updateViewerLabels() {
   const settings = activeViewerSettings();
   const modeLabel = { continuous: 'Continuous', snap: 'Page snap', single: 'Full page' }[settings.scrollMode];
@@ -10093,7 +10193,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.6.8 unifies all three Pen widths on the Google-style modeled-input path. Width is now only a rendering parameter, so future additional or continuously adjustable widths do not require another Pen renderer. The remaining Thick-only cardinal-spline path has been removed. Raw Pencil points and relative timestamps remain authoritative for editing/persistence. The 5.6.1 dense-page live-Pen optimization, 5.6.0 black blank pages, and 5.5.9 rebuilt-PDF link policy remain in place.</p>
+      <p>Milestone 5.6.9 is a touch-navigation polish release based on the unified modeled-Pen 5.6.8 baseline. Post-pinch crisp rendering now refreshes page rasters in place so the live-scaled page remains visible instead of flashing through a rebuilt viewer. Deliberate finger drags in annotation modes can engage as soon as clear movement is detected rather than always waiting the full palm-intent window, while the stricter Surface/ChromeOS pen-proximity guard remains in place. Continuous-scroll release momentum is increased slightly. Pen/Highlighter geometry and the 5.6.1 dense-page live-Pen architecture are unchanged.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The new picture button inserts an image on the active page without becoming a drawing mode.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image scope in 5.5.2:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -10296,7 +10396,10 @@ function startViewerTouchInertia(viewer, owner, scrollMode, vx, vy) {
     const beforeX = viewer.scrollLeft, beforeY = viewer.scrollTop;
     viewer.scrollLeft -= vx * dt;
     viewer.scrollTop -= vy * dt;
-    const decay = Math.pow(.94, dt / 16.67);
+    // A slightly longer coast than 5.6.8. Keep this independent of the
+    // touch-intent engagement logic so we can tune release feel without
+    // changing when a deliberate finger drag is recognized.
+    const decay = Math.pow(.95, dt / 16.67);
     vx *= decay; vy *= decay;
     const moved = Math.abs(viewer.scrollLeft - beforeX) + Math.abs(viewer.scrollTop - beforeY) > .05;
     if (Math.hypot(vx, vy) < .018 || !moved) {
@@ -10326,6 +10429,14 @@ function pointerMidpoint(points) {
 // window so a 3+ contact palm burst can be rejected before navigation starts.
 // Pointer/stylus ink itself remains on the 5.0.8 path.
 const PEN_TOUCH_INTENT_DELAY_MS = 120;
+// Keep the full 120 ms stationary palm-burst window, but do not make an
+// obviously deliberate finger drag wait for it. A single touch that moves a
+// few CSS pixels, or a two-finger pair whose geometry changes clearly, can
+// promote itself to navigation early when no pen/palm guard is active.
+const PEN_TOUCH_INTENT_MOVE_PX = 5;
+const PEN_TOUCH_INTENT_PINCH_PX = 5;
+const PEN_TOUCH_GUARDED_MOVE_PX = 10;
+const PEN_TOUCH_GUARDED_MIN_MS = 35;
 const PEN_PALM_GUARD_AFTER_CONTACT_MS = 420;
 const PEN_PALM_GUARD_AFTER_HOVER_MS = 220;
 
@@ -10437,36 +10548,99 @@ function bindManualViewerTouch(viewer, owner, config) {
     owner.palmIgnoredPointers.clear();
   };
 
-  const beginPinch = () => {
+  const pendingTouchMotionQualifies = (guarded=false) => {
+    const points = [...owner.touchPointers.values()];
+    if (!points.length || points.length > 2) return false;
+    // Keep the stricter established hover/recent-pen palm guard on Surface and
+    // ChromeOS. iPad already distinguishes Apple Pencil from finger input well
+    // enough that a deliberate moving finger can safely override the soft
+    // recent/hover guard after a larger threshold.
+    if (guarded && !isIPadLike()) return false;
+    const now = performance.now();
+    const threshold = guarded ? PEN_TOUCH_GUARDED_MOVE_PX : PEN_TOUCH_INTENT_MOVE_PX;
+    const newestStart = Math.max(...points.map(point => Number(point.startT) || now));
+    if (guarded && now - newestStart < PEN_TOUCH_GUARDED_MIN_MS) return false;
+    if (points.length === 1) {
+      const point = points[0];
+      return Math.hypot(point.x - (point.startX ?? point.x), point.y - (point.startY ?? point.y)) >= threshold;
+    }
+    const initial = points.map(point => ({ x:point.startX ?? point.x, y:point.startY ?? point.y }));
+    const distanceChange = Math.abs(pointerDistance(points) - pointerDistance(initial));
+    const initialMidpoint = pointerMidpoint(initial);
+    const currentMidpoint = pointerMidpoint(points);
+    const midpointMove = initialMidpoint && currentMidpoint
+      ? Math.hypot(currentMidpoint.x - initialMidpoint.x, currentMidpoint.y - initialMidpoint.y)
+      : 0;
+    const pinchThreshold = guarded ? PEN_TOUCH_GUARDED_MOVE_PX : PEN_TOUCH_INTENT_PINCH_PX;
+    return Math.max(distanceChange, midpointMove) >= pinchThreshold;
+  };
+
+  const beginPinch = (replayPendingMotion=false) => {
     const points = pointerPair(owner);
     if (points.length < 2) return;
+    // Any crisp-raster refresh from a previous pinch is now stale. The old
+    // scaled canvas remains visible until the current gesture finishes.
+    owner.pinchCrispToken = (owner.pinchCrispToken || 0) + 1;
+    const initialPoints = replayPendingMotion
+      ? points.map(point => ({ x:point.startX ?? point.x, y:point.startY ?? point.y }))
+      : points;
+    const anchorMidpoint = pointerMidpoint(initialPoints);
     const midpoint = pointerMidpoint(points);
     owner.pinchGesture = {
-      startDistance: Math.max(1, pointerDistance(points)),
+      startDistance: Math.max(1, pointerDistance(initialPoints)),
       startZoom: config.getZoom(),
       midpoint,
-      anchor: captureViewerAnchor(viewer, midpoint.x, midpoint.y),
+      anchor: captureViewerAnchor(viewer, anchorMidpoint.x, anchorMidpoint.y),
     };
     owner.pinchNeedsRender = true;
     owner.touchPan = null;
     owner.touchStart = null;
     viewer.classList.add('pinching', 'manual-touching');
+    // If an inking-mode gesture crossed the deliberate-motion threshold before
+    // the palm-intent timer expired, immediately replay that already-observed
+    // pinch movement instead of making the page wait for the next PointerEvent.
+    if (replayPendingMotion && midpoint) {
+      const dist = Math.max(1, pointerDistance(points));
+      config.queueZoom(owner.pinchGesture.startZoom * dist / owner.pinchGesture.startDistance);
+    }
   };
 
-  const startIntentionalTouchNavigation = (event=null) => {
+  const startIntentionalTouchNavigation = (event=null, replayPendingMotion=false) => {
     clearTouchIntentTimer();
     if (!owner.touchPointers.size) { resetTouchIntent(); return; }
     owner.touchIntent = 'intentional';
     viewer.classList.add('manual-touching');
     const points = [...owner.touchPointers.values()];
     if (points.length >= 2) {
-      beginPinch();
+      beginPinch(replayPendingMotion);
     } else {
       const point = points[0];
-      owner.touchStart = { id: point.id, x: point.x, y: point.y, t: performance.now() };
-      if (config.getScrollMode() !== 'single') startViewerTouchPan(owner, point);
+      const startPoint = replayPendingMotion
+        ? { id:point.id, x:point.startX ?? point.x, y:point.startY ?? point.y }
+        : point;
+      owner.touchStart = {
+        id:point.id,
+        x:startPoint.x,
+        y:startPoint.y,
+        t:replayPendingMotion ? (point.startT ?? performance.now()) : performance.now(),
+      };
+      if (config.getScrollMode() !== 'single') {
+        startViewerTouchPan(owner, startPoint);
+        if (replayPendingMotion && (point.x !== startPoint.x || point.y !== startPoint.y)) {
+          moveViewerTouchPan(viewer, owner, point);
+        }
+      }
     }
-    if (event) addInkDiagnostic('touch-navigation-intentional', event, { touchCount:owner.touchPointers.size });
+    if (event) {
+      const starts = points.map(point => Number(point.startT)).filter(Number.isFinite);
+      const firstStart = starts.length ? Math.min(...starts) : performance.now();
+      addInkDiagnostic('touch-navigation-intentional', event, {
+        touchCount:owner.touchPointers.size,
+        replayPendingMotion,
+        touchIntentDelayMs:Math.max(0, Math.round(performance.now() - firstStart)),
+        penPalmGuardActive:penPalmGuardActive(viewer),
+      });
+    }
   };
 
   const markPalmTouch = (event, reason) => {
@@ -10495,12 +10669,13 @@ function bindManualViewerTouch(viewer, owner, config) {
           markPalmTouch(event, 'three-or-more-contacts');
           return;
         }
-        if (penPalmGuardActive(viewer)) {
+        const guarded = penPalmGuardActive(viewer);
+        if (guarded && !pendingTouchMotionQualifies(true)) {
           markPalmTouch(event, 'pen-in-range-or-recent');
           return;
         }
       }
-      startIntentionalTouchNavigation(event);
+      startIntentionalTouchNavigation(event, true);
     }, PEN_TOUCH_INTENT_DELAY_MS);
   };
 
@@ -10568,8 +10743,20 @@ function bindManualViewerTouch(viewer, owner, config) {
     if (isStylusAnnotationTool()) {
       if (owner.touchIntent === 'palm') return;
       if (owner.touchIntent === 'pending') {
-        if (owner.touchPointers.size >= 3) markPalmTouch(e, 'three-or-more-contacts');
-        else if (penPalmGuardActive(viewer)) markPalmTouch(e, 'pen-in-range-or-recent');
+        if (owner.touchPointers.size >= 3) {
+          markPalmTouch(e, 'three-or-more-contacts');
+          return;
+        }
+        // 5.6.8 always waited the full 120 ms palm-intent window in Pen,
+        // Highlighter, Eraser, and Select modes. That was directly perceptible
+        // as a short dead period at the start of ordinary finger scrolling.
+        // Preserve the stationary palm-burst window, but promote clear motion
+        // immediately and replay the movement already seen while pending. When
+        // a pen is hovering or has just lifted, require a little more travel and
+        // a few tens of milliseconds rather than rejecting the finger outright;
+        // this lets intentional navigation work while the Pencil is still nearby.
+        const guarded = penPalmGuardActive(viewer);
+        if (pendingTouchMotionQualifies(guarded)) startIntentionalTouchNavigation(e, true);
         return;
       }
     }
@@ -10617,19 +10804,25 @@ function bindManualViewerTouch(viewer, owner, config) {
       return;
     }
 
-    const point = { id: e.pointerId, x: e.clientX, y: e.clientY };
+    const point = {
+      id:e.pointerId,
+      x:e.clientX,
+      y:e.clientY,
+      startX:e.clientX,
+      startY:e.clientY,
+      startT:performance.now(),
+    };
     owner.touchPointers.set(e.pointerId, point);
 
     if (isStylusAnnotationTool()) {
       if (owner.touchIntent === 'palm') return;
-      if (penPalmGuardActive(viewer)) {
-        markPalmTouch(e, 'pen-in-range-or-recent');
-        return;
-      }
       if (owner.touchPointers.size >= 3) {
         markPalmTouch(e, 'three-or-more-contacts');
         return;
       }
+      // Even with a nearby/recent pen, defer classification briefly instead of
+      // rejecting the touch immediately. A clearly moving finger can then
+      // promote itself through the guarded threshold above.
       scheduleTouchIntentDecision(e);
       return;
     }
@@ -10758,7 +10951,7 @@ function bindSplitViewerEvents(paneId) {
     saveScroll: () => savePaneScroll(paneId),
     finalizePinch: () => {
       savePaneScroll(paneId);
-      renderSplitPane(paneId);
+      refreshPanePinchRasterInPlace(paneId);
     },
     goPage: (delta) => goPanePage(paneId, delta, true),
     maybeAppendEnd: (force=false) => maybeAppendAtDocumentEnd(viewer, pane.documentId, paneId, force),
@@ -11080,7 +11273,7 @@ function bindEvents() {
     saveScroll: () => updateSingleViewScrollFromDom(),
     finalizePinch: () => {
       updateSingleViewScrollFromDom();
-      renderViewer();
+      refreshSinglePinchRasterInPlace();
     },
     goPage: (delta) => goPage(delta, true),
     maybeAppendEnd: (force=false) => maybeAppendAtDocumentEnd(els.viewer, state.currentDocumentId, null, force),

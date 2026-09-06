@@ -1,3 +1,31 @@
+# PDF Workbench — Milestone 5.6.9
+
+## 5.6.9 touch navigation / pinch polish
+
+Milestone 5.6.9 is a focused interaction fix discovered during ordinary grading use. Pen/Highlighter geometry and the unified 5.6.8 modeled-Pen renderer are intentionally unchanged.
+
+- **Post-pinch flash:** 5.6.8 finished a pinch by rebuilding the viewer DOM. That immediately removed the live-scaled page canvases and could briefly expose a blank/`Rendering…` stage while PDF.js rebuilt the crisp raster. 5.6.9 keeps the scaled bitmap visible, renders the crisp replacement into a temporary canvas, then swaps the completed raster into the existing page stage in one synchronous step. The same in-place finalization is used in single and split view.
+- **Finger-scroll engagement:** in Pen/Highlighter/Eraser/Select modes, 5.6.8 always held finger navigation behind a 120 ms palm-intent window. 5.6.9 retains that stationary palm-burst window but lets a clearly moving one-finger drag or two-finger pinch promote itself immediately and replays the movement already observed while pending. On iPad, a deliberate larger movement can also override the soft recent/hover Pencil guard; Surface/ChromeOS keep the stricter proximity guard that was introduced for palm rejection.
+- **Scroll momentum:** continuous-scroll release decay changes modestly from `0.94` to `0.95`, giving a little more coast after finger release without changing the drag response itself.
+- Touch diagnostics now report the delay before a touch was accepted as intentional navigation and whether the pen/palm guard was active at acceptance.
+- No change to Pen modeling, Highlighter geometry/compositing, Eraser semantics, Lasso/Select semantics, PDF export, page structure, persistence, or the 5.6.1 O(current-stroke) Pen-up architecture.
+
+### Current field test
+
+Use Workbench normally for grading/classroom work. Specifically watch for: (1) any remaining flash when a pinch ends; (2) whether one-finger scrolling engages promptly while an annotation tool is still selected; (3) whether the slightly longer momentum feels natural; and (4) any palm-rejection regression, especially on Surface/Chromebook when those devices are next exercised.
+
+### Agreed near-term roadmap after the field test
+
+The application is considered close to adequate for the user's normal workflow unless testing exposes weaknesses. Do not add features merely to match Goodnotes/Notability. After the current field test, the agreed sequence is:
+
+1. **Reusable Image Library** — persistent named/organized images that can be inserted into documents and included in backup/restore.
+2. **Manual Google Drive sync** — explicit user-triggered synchronization of the Workbench Library rather than background syncing; Workbench remains local-first and manages documents/folders/templates/image assets itself, while Drive acts as the transport between machines. Conflicts must preserve both changed copies rather than silently overwriting one.
+3. Other backlog items remain optional. **Rotate selections** has been added to the feature-gap list as a natural extension of existing Lasso/Select manipulation.
+
+External PDF.js/pdf-lib/JSZip vendoring remains postponed; do not make it the next feature by default unless deployment needs change.
+
+================ PRIOR README HISTORY ================
+
 # PDF Workbench — Milestone 5.6.8
 
 ## 5.6.8 unified modeled Pen renderer

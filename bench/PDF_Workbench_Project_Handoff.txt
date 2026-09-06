@@ -1,3 +1,108 @@
+RETURN HERE AFTER A BREAK — CURRENT STATUS
+==========================================
+
+AUTHORITATIVE WORKING BASELINE
+------------------------------
+- Use **Milestone 5.6.9** as the current source/build. Do not restart from an older milestone merely because the history below is long.
+- Visible About version: 5.6.9.
+- Service-worker/cache version: `pdf-workbench-m5.6.9-v1`.
+- Library schema version: unchanged.
+- This top block is the quick-resume summary; the detailed milestone history below is archival context.
+
+WHERE THE PROJECT IS RIGHT NOW
+------------------------------
+- The user is doing **real daily/grading work** in PDF Workbench as a Goodnotes replacement. Most current functionality is working well. The current job is field validation, not broad feature expansion.
+- During that grading use, three distracting navigation issues were reported in 5.6.8: (1) a brief flash/blip immediately after pinch zoom ends; (2) occasional fraction-of-a-second hesitation before one-finger scrolling engages; and (3) slightly too little coast after finger release.
+- 5.6.9 addresses those three observations only. Pen/Highlighter geometry is deliberately unchanged.
+- All Pen widths continue to use the unified `google-ink-v1` modeled-input path established in 5.6.8. Width remains only a numeric rendering parameter.
+- If 5.6.9 survives normal use without regressions, continue to treat the unified modeled Pen and current annotation subsystem as the stable baseline.
+
+5.6.9 TOUCH / PINCH FIXES — IMPORTANT DETAILS
+----------------------------------------------
+- **Post-pinch flash root cause:** 5.6.8 called `renderViewer()` / `renderSplitPane()` after pinch release. Those functions replace the viewer's page DOM immediately, so the live-scaled canvas disappeared before the new PDF raster was ready. The temporary blank/`Rendering…` interval was the visible blip.
+- **5.6.9 pinch finalization:** do NOT rebuild the viewer DOM after a pinch. Keep the current live-scaled base/annotation canvases visible. Render the crisp page into a temporary canvas through the bounded render queue, then synchronously replace the base canvas pixels and redraw annotation overlays in the existing page stage. Stale refreshes are invalidated by a pinch token and by stage-size/current-view checks. This applies to single and split viewers. If the crisp refresh fails, leave the scaled bitmap visible rather than replacing it with a blank/error stage.
+- **Finger-scroll hesitation root cause:** while any stylus annotation tool was active, 5.6.8 always waited the full `PEN_TOUCH_INTENT_DELAY_MS = 120` before accepting ordinary touch navigation unless Hand mode was selected. That exactly matches the reported fraction-of-a-second hesitation.
+- **5.6.9 touch-intent change:** retain the 120 ms stationary palm-burst window, but allow obvious motion to promote itself before the timer: 5 CSS px for ordinary one-finger drag/two-finger geometry change when no pen guard is active. Reconstruct/replay the movement from the original touch-down location so motion that occurred during the pending interval is not thrown away.
+- On iPad only, a soft nearby/recent Pencil guard can be overridden by a stronger deliberate movement (10 CSS px after at least 35 ms). Surface/ChromeOS keep the stricter pen-proximity behavior because that guard was added to prevent ChromeOS palm bursts from moving the page. Do not casually weaken the Surface/ChromeOS guard without testing.
+- Touch diagnostics now add `touchIntentDelayMs` and `penPalmGuardActive` to the `touch-navigation-intentional` event.
+- **Momentum:** continuous touch inertia decay changes from 0.94 to **0.95** per nominal 60 Hz frame. This is intentionally modest and independent of the touch-engagement change.
+
+CURRENT PEN / INPUT ARCHITECTURE — DO NOT ACCIDENTALLY REINTRODUCE OLD EXPERIMENTS
+----------------------------------------------------------------------------------
+- All Pen widths use `google-ink-v1` positional modeling/prediction. The local `google-ink-modeler.js` is an independent JavaScript implementation based on Google's published Ink Stroke Modeler algorithms/parameters.
+- New Pen raw points store relative input timestamp `t`; raw Pencil points remain authoritative for Eraser, Lasso/Select, hit testing, transforms, persistence, Undo/Redo, backup, and page operations. Modeled points are rendering geometry, not the editable source of truth.
+- The live Pen layer and Pen-up commit remain the 5.6.1 architecture: Pencil-up commits only the just-finished stroke, roughly O(current stroke), and must **not** regress to a whole-page annotation repaint on every stroke release.
+- Highlighter keeps its separate optimized translucent/raw path; Eraser and Select/Lasso keep their established vector/editing behavior.
+- The following experiments were intentionally removed and are **not active code paths**: 5.6.2 aggressive Thin/Medium cardinal smoothing, 5.6.3 filled-outline ink, and 5.6.4/5.6.5 distance/corner/Bezier trajectory fitting. Do not revive them merely to continue smoothing work; only reconsider with specific new evidence.
+- There is no requirement to preserve the appearance of experimental pre-5.6.6 Pen strokes; those test documents are disposable.
+
+FIELD-TEST OBSERVATIONS TO COLLECT
+----------------------------------
+- For 5.6.9 specifically: note any remaining post-pinch flash, scroll-start hesitation, unnatural amount of coast, or palm-triggered page movement.
+- For Pen quality: note width, whether ink feels attached to the Pencil tip, visible lag, end-of-stroke settling/snapping, loss of deliberate corners, or rough edges.
+- For performance: if Pen becomes sluggish/non-responsive again, export Pencil diagnostics immediately and provide the edited PDF/screenshot when useful. Dense-page responsiveness is regression-sensitive.
+- Keep the 50-step Undo stack **session-only**. Do not add a memory cap preemptively; reconsider only if ordinary dense-document use provides evidence that it is needed.
+
+CURRENT FEATURE / ROADMAP DECISIONS
+-----------------------------------
+- The user currently considers Workbench **just about adequate for normal use unless testing exposes weaknesses**. Do not turn the Goodnotes/Notability comparison into a mandate to implement every competitor feature.
+- After the current 5.6.9 field test, the agreed next feature is a **persistent reusable Image Library**: named/organized image assets with thumbnails, insert-from-library, and normal backup/restore participation. This is particularly useful for reusable diagrams/screenshots prepared on one machine.
+- After the Image Library, implement **manual Google Drive synchronization**. Initial design: explicit `Sync with Drive` action, not background sync. Workbench remains local-first and Workbench itself manages/imports documents and images; Drive transports Workbench state between machines. Synchronize documents, folder organization, templates, reusable images, and required source binaries. Detect divergent edits and preserve both copies rather than silently overwriting one.
+- The user does **not** currently need a Drive folder to act as a general external inbox; the simpler expected workflow is to use Workbench on the PC to import/manage material, then sync it. Direct Drive importing can be reconsidered later if useful.
+- **Rotate selections** is now an explicit future possibility. Ideally rotation would work on selected Pen/Highlighter strokes and images, including mixed selections, and participate in Undo/Redo, persistence, copy/paste, and PDF export.
+- Existing backlog also includes straight-line/shapes, Annotated-pages filtering, Library search, selection recoloring, image phase-2 operations, adjustable Pen width/full color picker, and other conveniences, but these are optional and should be prioritized from real use.
+
+OTHER CURRENTLY SETTLED BEHAVIOR
+--------------------------------
+- Black-background blank pages are implemented for New blank documents and Insert Page; White remains the default. Black is actual generated PDF page content, not a display theme.
+- Rebuilt-PDF link policy is settled for this user's needs: preserve standard external URI links, deliberately strip internal/document-navigation links; source outlines/bookmarks are not rebuilt. Untouched byte-for-byte PDF pass-through preserves the source exactly.
+- Existing source PDF links/outlines are not exposed in the Workbench viewer UI.
+- Attributions/licensing are available at **⋯ → Attributions & licenses** and are bundled in `THIRD_PARTY_NOTICES.txt`, `THIRD_PARTY_LICENSES.txt`, and `APACHE-2.0-Google-Ink-Stroke-Modeler.txt`.
+- Listed third-party projects: PDF.js 6.2.108, pdf-lib 1.17.1, JSZip 3.10.1, and Google Ink Stroke Modeler.
+- External PDF.js/pdf-lib/JSZip bundling remains postponed. Do not make vendoring the next feature by default; the user has set Image Library then manual Drive sync as the intended post-test sequence.
+
+RESUME PROCEDURE AFTER AN EXTENDED BREAK
+----------------------------------------
+1. Start from **5.6.9** and read this block first.
+2. Ask for/consider the results of the user's real grading/daily-use test before changing interaction or Pen behavior.
+3. If a regression remains, fix that concrete issue while preserving the unified modeled-Pen and O(current-stroke) architecture where possible.
+4. If the field test is satisfactory, proceed to the **Image Library**, then **manual Google Drive sync**, unless the user reprioritizes.
+5. Keep **selection rotation** and the feature-gap CSV as backlog inputs, not automatic next tasks.
+6. Treat the detailed history below as context and evidence, not as a list of still-pending work. Later milestone sections supersede older status statements when they conflict.
+
+MILESTONE 5.6.9 — TOUCH NAVIGATION / PINCH POLISH
+=================================================
+
+CURRENT BUILD: Milestone 5.6.9
+Visible About version: 5.6.9
+Service-worker/cache version: pdf-workbench-m5.6.9-v1
+Library schema version: unchanged
+
+WHY THIS REVISION EXISTS
+------------------------
+During real grading use of 5.6.8, the user reported that most functionality was working well but three navigation details were distracting: a flash/blip after pinch zoom, occasional finger-scroll engagement delay, and insufficient release momentum. Inspection found concrete causes for the first two rather than treating them as vague performance complaints.
+
+IMPLEMENTATION
+--------------
+- Replace the post-pinch full viewer rebuild with in-place crisp raster refresh using temporary canvases; keep the live-scaled page visible until the replacement is ready.
+- Keep pinch anchoring and final zoom values unchanged.
+- Add stale-refresh protection so another pinch/view change cannot commit an obsolete raster.
+- Preserve the 120 ms palm-intent window for stationary/ambiguous touches, but promote clear deliberate motion early and replay pending movement.
+- On iPad, permit stronger deliberate finger motion to override the soft recent/hover Pencil guard; preserve stricter Surface/ChromeOS guarded behavior.
+- Increase continuous-scroll inertia decay from 0.94 to 0.95.
+- Add touch-intent timing/guard telemetry.
+- No Pen/Highlighter/eraser/selection geometry changes.
+
+TEST PRIORITY
+-------------
+1. iPad grading use: pinch repeatedly at different zoom levels and confirm there is no blank/Rendering flash at release.
+2. With Pen, Highlighter, Eraser, and Select left active, begin ordinary one-finger scrolls and check that the page engages promptly. Try this both after the Pencil has been away and immediately after writing/while the Pencil is still nearby.
+3. Judge whether 0.95 momentum is a modest improvement rather than excessive coast.
+4. When convenient, regression-test Surface and Chromebook palm rejection because the touch-intent code changed; their strict pen-proximity guard is intentionally retained.
+5. Confirm split-view pinch finalization also remains anchored and flash-free.
+
+================ PRIOR HANDOFF HISTORY ================
+
 MILESTONE 5.6.8 — UNIFIED MODELED PEN RENDERER
 
 CURRENT BUILD: Milestone 5.6.8
