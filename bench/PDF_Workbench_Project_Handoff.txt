@@ -3,6 +3,82 @@ RETURN HERE AFTER A BREAK — CURRENT STATUS
 
 AUTHORITATIVE WORKING BASELINE
 ------------------------------
+- Use **Milestone 5.7.8** as the current source/build for the iPad keyboard regression test.
+- Visible About version: 5.7.8.
+- Service-worker/cache version: `pdf-workbench-m5.7.8-v1`.
+- IndexedDB remains version 4; Library schema remains version 8. No persistence migration.
+- Pen/Highlighter rendering, 5.6.9 pinch/scroll behavior, finger-scroll engagement, inertia, split/single viewer rendering, and annotation geometry are intentionally unchanged.
+
+WHY 5.7.8 EXISTS
+----------------
+- Real iPad testing of 5.7.7 showed that all naming operations could type continuously, but the 5.7.7 generalized naming dialog summoned the small Scribble keyboard instead of the full software keyboard that appeared with the proven 5.7.6 Local Library naming path.
+- The 5.7.7 test otherwise looked healthy: current-folder targeting for newly created documents works, folders/subfolders can be created, and Library/Asset move operations work.
+- The user requested a narrow keyboard correction only. **Do not start Copy Rectangle yet.**
+
+MILESTONE 5.7.8 — RESTORE PROVEN NAMING DIALOG / KEYBOARD PATH
+===============================================================
+
+NAMING DIALOG
+-------------
+- Restored the **exact 5.7.6 `libraryNameDialog` markup**: title/help, one Name field, Cancel, Save. The conditional Template Page-content fieldset added in 5.7.7 is removed.
+- Restored the **exact 5.7.6 `requestLibraryName()` implementation and focus/select sequence**.
+- Local Library document/folder naming, Asset folder/asset naming, Template Rename, and Template Save all call that same primitive. There is no generalized `requestNameDialog()` and no template-specific text-entry mode.
+- This intentionally follows the project rule: share by calling the proven primitive rather than replacing it with a broader abstraction that changes behavior.
+
+SAVE TEMPLATE CONTENT CHOICE
+----------------------------
+- The With/Without annotations choice is no longer inside the text-entry dialog.
+- Insert Page now displays plain text **Save page N as template:** followed by only two link-like choices:
+  - **With annotations…**
+  - **Without annotations…**
+- Either choice closes the Insert Page popover, records only the boolean content choice, temporarily uses the existing Files round-trip, and opens the ordinary shared naming dialog.
+- Both choices therefore have exactly the same keyboard/name-entry path; only `includeAnnotations` differs when the page is cloned into the saved template.
+
+PRESERVED FROM 5.7.7
+--------------------
+- Templates remain managed directly in Files rather than a modal Template Manager.
+- Assets remain directly in Files and Insert Asset routes to that same browser.
+- Shared Library/Asset folder-tree helpers and shared Move dialog remain.
+- Workbench-created Blank/Graph/Template/Images/Combine documents continue to use the currently browsed Local Library folder.
+- The 5.7.6 compact Presentation toolbar remains.
+- Release consistency checks remain.
+- Copy Rectangle has **not** been implemented or started.
+
+VALIDATION PERFORMED
+--------------------
+- `app.js`, `sw.js`, and `google-ink-modeler.js` pass JavaScript syntax checks.
+- `release-check.mjs` reports release consistency OK for 5.7.8.
+- Static comparison confirms 5.7.8 `requestLibraryName()` is byte-for-byte identical to the 5.7.6 function body.
+- Static comparison confirms 5.7.8 `libraryNameDialog` markup is identical to 5.7.6.
+- No references remain to the 5.7.7 conditional naming fieldset, generalized `requestNameDialog()`, or `requestTemplateSaveDetails()`.
+
+TEST PRIORITY
+-------------
+1. On iPad, Rename a Local Library document/folder. Tap the name and confirm the full keyboard behavior matches 5.7.6.
+2. Repeat Asset New/Rename and Template Rename; all should behave identically.
+3. Open Insert Page and confirm the row reads **Save page N as template: With annotations… Without annotations…**, with only the two choices acting like links.
+4. Save once through each choice and confirm the same full keyboard appears for the template name and that the resulting template respectively contains/omits Workbench annotations.
+5. Continue ordinary 5.7.7 regression checks only as convenient; the successful new-document destination and Move behavior are intentionally unchanged.
+
+NEXT AGREED WORK
+----------------
+- Do **not** start Copy Rectangle until 5.7.8 keyboard behavior is confirmed and any other stabilization issues are addressed.
+- After stabilization, the planned Copy Region → Image design remains: raster capture into Recent, then ordinary Keep/Paste behavior; original-size and current-zoom-size modes.
+- Manual Google Drive synchronization follows later. Selection rotation remains on the backlog.
+
+RESUME RULES
+------------
+- Favor the simplest proven Workbench interaction path over generalized or platform-specific alternatives.
+- Do not refactor Pen, touch, pinch, scrolling, or viewer rendering while those systems remain stable.
+- Use later milestone text above older handoff history when statements conflict.
+
+================ PRIOR HANDOFF HISTORY ================
+
+RETURN HERE AFTER A BREAK — CURRENT STATUS
+==========================================
+
+AUTHORITATIVE WORKING BASELINE
+------------------------------
 - Use **Milestone 5.7.7** as the current source/build for the architecture-audit test.
 - Visible About version: 5.7.7.
 - Service-worker/cache version: `pdf-workbench-m5.7.7-v1`.

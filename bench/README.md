@@ -1,3 +1,21 @@
+# PDF Workbench — Milestone 5.7.8
+
+## 5.7.8 restore proven iPad naming keyboard path
+
+5.7.8 is deliberately narrow. iPad testing found that 5.7.7's generalized naming dialog caused every naming operation to summon the Scribble mini-keyboard instead of the full software keyboard that worked in 5.7.6. The fix restores the exact simple 5.7.6 `libraryNameDialog` markup and `requestLibraryName()` focus path, and every Library/Asset/Template naming operation calls that same proven primitive.
+
+Template Save no longer adds With/Clean controls to the naming dialog. Insert Page instead shows **Save page N as template:** followed by two explicit link-like choices: **With annotations…** and **Without annotations…**. Either choice then opens the same ordinary naming dialog used everywhere else.
+
+The successful 5.7.7 architecture cleanup remains intact: Templates and Assets live directly in Files, Library/Asset folder navigation and Move plumbing stay shared, and user-created documents retain the current Local Library folder. Pen/touch/pinch/viewer machinery is unchanged. Copy Rectangle has not been started.
+
+### iPad test priority
+
+- Rename a Local Library document/folder and confirm tapping the name field summons the same full keyboard behavior as 5.7.6.
+- Repeat Asset folder/asset naming and Template Rename.
+- From Insert Page, test both **With annotations…** and **Without annotations…**, then type the template name continuously.
+- Confirm the annotation choice affects saved template content and does not alter the naming UI.
+
+================ PRIOR README HISTORY ================
 # PDF Workbench — Milestone 5.7.7
 
 ## 5.7.7 architecture simplification / consistency audit

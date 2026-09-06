@@ -675,6 +675,32 @@ body.presentation .split-pane.active {
   white-space: normal;
   font-size: .8rem;
 }
+.insert-menu-actions.template-save-area { grid-template-columns: 1fr; }
+.template-save-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px 7px;
+  flex-wrap: wrap;
+  padding: 6px 8px 2px;
+  font-size: .8rem;
+  text-align: center;
+}
+.template-save-label { color: var(--text); }
+.template-save-link {
+  width: auto;
+  min-height: 0;
+  padding: 1px 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.template-save-link:hover { background: transparent; text-decoration-thickness: 2px; }
 
 .info-dialog.template-dialog { width: min(760px, calc(100% - 24px)); }
 .template-manager-list { gap: 10px; }

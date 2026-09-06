@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.7.7">
+  <link rel="stylesheet" href="styles.css?v=5.7.8">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -201,7 +201,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.7.7</div>
+          <div class="export-kicker">Milestone 5.7.8</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -537,8 +537,12 @@
       <div class="popover-divider" aria-hidden="true"></div>
       <div class="popover-section-label">Templates</div>
       <div id="insertTemplateList" class="insert-template-list insert-choice-grid" role="group" aria-label="Saved templates"></div>
-      <div class="insert-menu-actions">
-        <button id="savePageTemplateBtn" class="insert-text-action" type="button" role="menuitem">Save current page as template…</button>
+      <div class="insert-menu-actions template-save-area">
+        <div class="template-save-row" role="group" aria-label="Save current page as template">
+          <span id="savePageTemplateLabel" class="template-save-label">Save current page as template:</span>
+          <button id="savePageTemplateWithBtn" class="template-save-link" type="button">With annotations…</button>
+          <button id="savePageTemplateCleanBtn" class="template-save-link" type="button">Without annotations…</button>
+        </div>
         <button id="manageTemplatesBtn" class="insert-text-action" type="button" role="menuitem">Manage templates…</button>
       </div>
     </div>
@@ -709,11 +713,6 @@
         <p id="libraryNameHelp" class="template-name-help"></p>
         <label for="libraryNameInput">Name</label>
         <input id="libraryNameInput" class="template-name-input" type="text" autocomplete="off" maxlength="160">
-        <fieldset id="nameDialogTemplateAnnotationChoice" class="template-annotation-choice hidden">
-          <legend>Page content</legend>
-          <label><input type="radio" name="nameDialogTemplateAnnotationMode" value="with" checked> With annotations</label>
-          <label><input type="radio" name="nameDialogTemplateAnnotationMode" value="clean"> Clean page (no annotations)</label>
-        </fieldset>
         <div class="dialog-actions">
           <button id="libraryNameCancelBtn" type="button">Cancel</button>
           <button id="libraryNameSaveBtn" value="save">Save</button>
@@ -759,6 +758,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.7.7"></script>
+  <script type="module" src="app.js?v=5.7.8"></script>
 </body>
 </html>

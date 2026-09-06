@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.7';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.8';
 
-const APP_VERSION = '5.7.7';
+const APP_VERSION = '5.7.8';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -24,7 +24,7 @@ const els = {
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), nameDialogTemplateAnnotationChoice: $('nameDialogTemplateAnnotationChoice'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
@@ -36,7 +36,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionPasteBtn: $('selectionPasteBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionPasteBtn: $('selectionPasteBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -5669,27 +5669,32 @@ function renderInsertTemplateList() {
   if (els.templatesFilesSection?.open) renderFilesTemplateManager();
 }
 
-async function saveCurrentPageAsTemplate(targetContext=null) {
+async function saveCurrentPageAsTemplate(targetContext=null, includeAnnotations=true) {
   const page=templatePageForSave(targetContext);
   if (!page) { setStatus('No page is available to save as a template'); return false; }
   const suggested=nextTemplateName();
-  // Text entry follows the same proven Files-based path as Local Library and
-  // Assets. This keeps iPad's software-keyboard viewport changes away from the
-  // live viewer while still using one small shared naming dialog.
+  // Keep all text entry on the exact small naming path proven in 5.7.6.
+  // The With/Without annotations choice is made before this step in Insert Page.
   await beginFilesRoundTrip('template-save');
-  let details=null;
-  try { details=await requestTemplateSaveDetails(suggested); }
-  finally { await endFilesRoundTrip('template-save'); }
-  if (details===null) return false;
+  let name=null;
+  try {
+    name=await requestLibraryName({
+      title:'Template name',
+      help:'A generic name is already supplied so a temporary template can be saved immediately.',
+      suggested,
+      saveLabel:'Save template',
+    });
+  } finally { await endFilesRoundTrip('template-save'); }
+  if (name===null) return false;
   const template={
-    id:uid('template'), name:details.name,
-    page:{...clonePageState(page,{includeAnnotations:details.includeAnnotations}),id:null},
+    id:uid('template'), name,
+    page:{...clonePageState(page,{includeAnnotations}),id:null},
     createdAt:Date.now(), modifiedAt:Date.now(),
   };
   state.templates.push(template);
   renderInsertTemplateList(); renderFilesTemplateManager();
   scheduleLibraryPersist(80);
-  setStatus(`Saved page as ${details.name}${details.includeAnnotations ? '' : ' (clean)'}`);
+  setStatus(`Saved page as ${name}${includeAnnotations ? '' : ' (clean)'}`);
   return true;
 }
 
@@ -6450,52 +6455,36 @@ function queueLibraryPreview(record, canvas) {
   else requestAnimationFrame(() => renderLibraryFirstPagePreview(record, canvas));
 }
 
-function requestNameDialog({ title='Name', help='', suggested='', saveLabel='Save', templateAnnotationChoice=false }={}) {
-  if (!els.libraryNameDialog || !els.libraryNameInput) {
-    const name=window.prompt(title,suggested);
-    if (name===null) return Promise.resolve(null);
-    return Promise.resolve(templateAnnotationChoice ? {name,includeAnnotations:true} : name);
-  }
+function requestLibraryName({ title='Name', help='', suggested='', saveLabel='Save' }={}) {
+  if (!els.libraryNameDialog || !els.libraryNameInput) return Promise.resolve(window.prompt(title, suggested));
   return new Promise(resolve => {
-    const dialog=els.libraryNameDialog;
-    const choice=els.nameDialogTemplateAnnotationChoice;
-    els.libraryNameTitle.textContent=title;
-    els.libraryNameHelp.textContent=help;
-    els.libraryNameInput.value=suggested;
-    els.libraryNameSaveBtn.textContent=saveLabel;
-    choice?.classList.toggle('hidden',!templateAnnotationChoice);
-    if (templateAnnotationChoice) {
-      const withAnnotations=dialog.querySelector('input[name="nameDialogTemplateAnnotationMode"][value="with"]');
-      if (withAnnotations) withAnnotations.checked=true;
-    }
-    let finished=false;
-    const cleanup=()=>{
-      els.libraryNameForm.onsubmit=null; els.libraryNameCloseBtn.onclick=null; els.libraryNameCancelBtn.onclick=null; dialog.oncancel=null;
-      choice?.classList.add('hidden');
-    };
-    const finish=value=>{
-      if (finished) return; finished=true; cleanup();
-      try { dialog.close(); } catch {}
+    els.libraryNameTitle.textContent = title;
+    els.libraryNameHelp.textContent = help;
+    els.libraryNameInput.value = suggested;
+    els.libraryNameSaveBtn.textContent = saveLabel;
+    let finished = false;
+    const finish = value => {
+      if (finished) return; finished = true;
+      try { els.libraryNameDialog.close(); } catch {}
       resolve(value);
     };
-    els.libraryNameForm.onsubmit=e=>{
-      e.preventDefault(); const name=els.libraryNameInput.value.trim();
-      if (!name) { els.libraryNameInput.focus(); return; }
-      if (!templateAnnotationChoice) { finish(name); return; }
-      const mode=dialog.querySelector('input[name="nameDialogTemplateAnnotationMode"]:checked')?.value || 'with';
-      finish({name,includeAnnotations:mode!=='clean'});
+    const onSubmit = e => {
+      e.preventDefault();
+      const value = els.libraryNameInput.value.trim();
+      if (!value) { els.libraryNameInput.focus(); return; }
+      finish(value);
     };
-    els.libraryNameCloseBtn.onclick=()=>finish(null);
-    els.libraryNameCancelBtn.onclick=()=>finish(null);
-    dialog.oncancel=e=>{e.preventDefault();finish(null);};
-    dialog.showModal();
-    requestAnimationFrame(()=>{els.libraryNameInput.focus({preventScroll:true});els.libraryNameInput.select();});
+    els.libraryNameForm.onsubmit = onSubmit;
+    els.libraryNameCloseBtn.onclick = () => finish(null);
+    els.libraryNameCancelBtn.onclick = () => finish(null);
+    els.libraryNameDialog.oncancel = e => { e.preventDefault(); finish(null); };
+    els.libraryNameDialog.showModal();
+    requestAnimationFrame(() => { els.libraryNameInput.focus({ preventScroll: true }); els.libraryNameInput.select(); });
   });
 }
-function requestLibraryName(options={}) { return requestNameDialog(options); }
-function requestAssetName(options={}) { return requestNameDialog(options); }
-function requestTemplateSaveDetails(suggested) {
-  return requestNameDialog({title:'Template name',help:'A generic name is already supplied so a temporary template can be saved immediately.',suggested,saveLabel:'Save template',templateAnnotationChoice:true});
+
+function requestAssetName({ title='Name', help='', suggested='', saveLabel='Save' }={}) {
+  return requestLibraryName({ title, help, suggested, saveLabel });
 }
 
 async function createLibraryFolder() {
@@ -10622,7 +10611,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.7.7 is an architecture/stability cleanup. Templates now manage directly in Files rather than through a modal manager, and Local Library, Assets, and Templates share the same small naming dialog; Save Template conditionally adds only the With annotations / Clean page choice. Local Library and Asset folder trees now share the same simple breadcrumb/tree primitives and one Move dialog. User-created documents share one activation path so current-folder placement cannot drift between Blank, Graph, Template, Images, and Combine. Pen/Highlighter geometry and the field-tested 5.6.9 pinch/scroll/viewer machinery are unchanged.</p>
+      <p>Milestone 5.7.8 is a narrow iPad keyboard regression fix. Local Library, Assets, Template Rename, and Template Save again use the exact simple naming-dialog markup and focus path from 5.7.6. Template Save chooses With annotations or Without annotations before naming, so the text-entry dialog has no conditional controls. The 5.7.7 Files-based Templates/folder/move/document-creation cleanup remains intact. Pen/Highlighter geometry and the field-tested 5.6.9 pinch/scroll/viewer machinery are unchanged.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable insertion.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -10702,10 +10691,10 @@ function openInsertPageMenu(anchor) {
     paneId: state.splitView ? state.activePaneId : null,
   };
   renderInsertTemplateList();
-  if (els.savePageTemplateBtn) {
+  if (els.savePageTemplateLabel) {
     const page = templatePageForSave(state.insertTarget);
     const pageIndex = page ? state.pages.findIndex(item => item.id === page.id) + 1 : 0;
-    els.savePageTemplateBtn.textContent = pageIndex > 0 ? `Save page ${pageIndex} as template…` : 'Save current page as template…';
+    els.savePageTemplateLabel.textContent = pageIndex > 0 ? `Save page ${pageIndex} as template:` : 'Save current page as template:';
   }
   const alreadyOpen = !els.insertPageMenu.classList.contains('hidden') && state.insertMenuAnchor === anchor;
   if (alreadyOpen) { closeInsertPageMenu(); return; }
@@ -11571,12 +11560,14 @@ function bindEvents() {
     const button = e.target.closest('[data-template-id]');
     if (button) insertTemplateAfterCurrent(button.dataset.templateId);
   });
-  els.savePageTemplateBtn?.addEventListener('click', async () => {
+  const saveTemplateFromInsertMenu = async (includeAnnotations) => {
     const targetContext = state.insertTarget ? { ...state.insertTarget } : null;
     closeInsertPageMenu(false);
-    await saveCurrentPageAsTemplate(targetContext);
+    await saveCurrentPageAsTemplate(targetContext, includeAnnotations);
     if (document.body.classList.contains('presentation')) showPresentationControls();
-  });
+  };
+  els.savePageTemplateWithBtn?.addEventListener('click', () => saveTemplateFromInsertMenu(true));
+  els.savePageTemplateCleanBtn?.addEventListener('click', () => saveTemplateFromInsertMenu(false));
   els.manageTemplatesBtn?.addEventListener('click', () => { openTemplateManager({returnToDocument:true}); });
   els.templatesFilesSection?.addEventListener('toggle',()=>{if(els.templatesFilesSection.open)renderFilesTemplateManager();});
   els.templateManageBackBtn?.addEventListener('click',()=>{returnFromTemplateManager();});
