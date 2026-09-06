@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.2';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.3';
 
-const APP_VERSION = '5.7.2';
+const APP_VERSION = '5.7.3';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -608,7 +608,7 @@ async function persistAssetFolderRecord(folder) {
 }
 async function createAssetFolder() {
   if (!state.libraryReady && !(await ensureLibraryConnection())) { setStatus('Local Library is not ready'); return; }
-  const name=await requestLibraryName({title:'New asset folder',help:'The new folder will be created inside the Asset folder currently being viewed.',suggested:'New Folder',saveLabel:'Create folder'});
+  const name=await requestAssetName({title:'New asset folder',help:'The new folder will be created inside the Asset folder currently being viewed.',suggested:'New Folder',saveLabel:'Create folder'});
   if (!name) return;
   if (assetFolderSiblingNameExists(name,state.assetFolderId)) { setStatus('An Asset folder with that name already exists here'); return; }
   const folder={id:uid('asset-folder'),schemaVersion:LIBRARY_SCHEMA_VERSION,name,parentId:state.assetFolderId||null,createdAt:Date.now(),modifiedAt:Date.now()};
@@ -616,7 +616,7 @@ async function createAssetFolder() {
 }
 async function renameAssetFolder(folderId) {
   const folder=assetFolderById(folderId); if (!folder) return;
-  const name=await requestLibraryName({title:'Rename asset folder',suggested:folder.name,saveLabel:'Rename'});
+  const name=await requestAssetName({title:'Rename asset folder',suggested:folder.name,saveLabel:'Rename'});
   if (!name||name===folder.name) return;
   if (assetFolderSiblingNameExists(name,folder.parentId,folder.id)) { setStatus('An Asset folder with that name already exists there'); return; }
   await persistAssetFolderRecord({...folder,name,modifiedAt:Date.now(),schemaVersion:LIBRARY_SCHEMA_VERSION}); setStatus(`Renamed Asset folder to ${name}`);
@@ -818,7 +818,7 @@ async function keepAsset(assetId) {
   if (!asset) return;
   const targetFolder = asset.pinned ? (asset.folderId || null) : (state.assetFolderId || null);
   const suggested = asset.pinned ? asset.name : defaultAssetName(asset.type,targetFolder);
-  const name = await requestLibraryName({title:asset.pinned?'Rename asset':'Keep in Asset Library',help:asset.type==='snippet'?'Editable snippets retain their Pen, Highlighter, and inserted-image objects when reused.':'Images remain reusable source assets.',suggested,saveLabel:asset.pinned?'Rename':'Keep'});
+  const name = await requestAssetName({title:asset.pinned?'Rename asset':'Keep in Asset Library',help:asset.type==='snippet'?'Editable snippets retain their Pen, Highlighter, and inserted-image objects when reused.':'Images remain reusable source assets.',suggested,saveLabel:asset.pinned?'Rename':'Keep'});
   if (!name) return;
   asset.name = uniqueAssetName(name,targetFolder,asset.id);
   asset.pinned = true;
@@ -830,7 +830,7 @@ async function keepAsset(assetId) {
 async function renameAsset(assetId) {
   const asset = state.assetRecords.get(assetId);
   if (!asset) return;
-  const name = await requestLibraryName({title:'Rename asset',help:'Choose the name shown in the Asset Library.',suggested:asset.name || defaultAssetName(asset.type),saveLabel:'Rename'});
+  const name = await requestAssetName({title:'Rename asset',help:'Choose the name shown in the Asset Library.',suggested:asset.name || defaultAssetName(asset.type),saveLabel:'Rename'});
   if (!name) return;
   asset.name = asset.pinned ? uniqueAssetName(name,asset.folderId||null,asset.id) : name; asset.modifiedAt = Date.now();
   await persistAssetRecord(asset);
@@ -6609,6 +6609,30 @@ function requestLibraryName({ title='Name', help='', suggested='', saveLabel='Sa
   });
 }
 
+async function requestAssetName(options={}) {
+  // iPad/Safari can fight keyboard focus when a text-entry modal is opened on top of
+  // the already-modal Assets browser. Temporarily yield the Assets modal while the
+  // shared naming dialog owns focus, then restore the exact Assets context.
+  const restoreAssetDialog = Boolean(els.assetDialog?.open);
+  const restoreMode = state.assetDialogMode;
+  const restoreView = state.assetDialogView;
+  const restoreFolderId = state.assetFolderId;
+  if (restoreAssetDialog) {
+    try { els.assetDialog.close(); } catch {}
+    await new Promise(resolve => requestAnimationFrame(() => resolve()));
+  }
+  const value = await requestLibraryName(options);
+  if (restoreAssetDialog) {
+    await new Promise(resolve => requestAnimationFrame(() => resolve()));
+    state.assetDialogMode = restoreMode;
+    state.assetDialogView = restoreView;
+    state.assetFolderId = restoreFolderId && state.assetFolders.has(restoreFolderId) ? restoreFolderId : null;
+    renderAssetDialog();
+    if (!els.assetDialog.open) els.assetDialog.showModal();
+  }
+  return value;
+}
+
 async function createLibraryFolder() {
   if (!state.libraryReady) { setStatus('Local Library is not ready'); return; }
   const name = await requestLibraryName({ title: 'New folder', help: 'The new folder will be created inside the folder currently being viewed.', suggested: 'New Folder', saveLabel: 'Create folder' });
@@ -10750,7 +10774,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.7.2 adds nested folders to the permanent Reusable Asset Library. Asset browsing now follows the Local Library model: folders open in-place, breadcrumbs show the current location, New folder creates beneath the current folder, and permanent assets/folders can be renamed, moved, or deleted. Recent remains a flat clipboard history. Quick Image, visible-view insertion, Pen/Highlighter geometry, and the field-tested 5.6.9 pinch/scroll behavior are unchanged.</p>
+      <p>Milestone 5.7.3 fixes iPad keyboard focus during Asset naming while retaining the nested Reusable Asset Library introduced in 5.7.2. Asset browsing now follows the Local Library model: folders open in-place, breadcrumbs show the current location, New folder creates beneath the current folder, and permanent assets/folders can be renamed, moved, or deleted. Recent remains a flat clipboard history. Quick Image, visible-view insertion, Pen/Highlighter geometry, and the field-tested 5.6.9 pinch/scroll behavior are unchanged.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable insertion.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

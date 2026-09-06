@@ -1,3 +1,26 @@
+# PDF Workbench — Milestone 5.7.3
+
+## 5.7.3 iPad Asset naming focus fix
+
+5.7.3 is a narrow iPad/Safari interaction fix discovered while testing the new nested Asset folders. The Asset data model, nested-folder behavior, Quick Image path, visible-view insertion, Pen/Highlighter geometry, and the validated 5.6.9 pinch/scroll behavior are unchanged.
+
+- **Asset naming no longer nests modal dialogs:** New folder, Rename folder, Keep, and Rename asset temporarily yield the Assets modal while the shared text-entry dialog owns focus, then restore the exact Asset Library/Recent view and folder afterward.
+- **Reason:** iPad Safari could bounce keyboard focus between the already-modal Assets browser and the second naming modal after each keystroke. Local Library naming did not normally have this nesting.
+- **No data migration:** IndexedDB remains version 4 and Library schema remains 8.
+- **iPad keyboard note:** Workbench cannot force iPadOS floating/full keyboard state. For a miniature floating keyboard, spread two fingers on it or use More (…) → Full. If Apple Pencil/Scribble shows its small toolbar, use the keyboard button first.
+
+### Test priority
+
+1. In Assets, create or rename a folder using the onscreen keyboard and type several characters continuously; focus should remain in the name field.
+2. Repeat Rename asset and Keep from Recent. After the naming dialog closes, confirm Workbench returns to the same Asset folder/view.
+3. Confirm nested folders, Quick Image, visible-view insertion, pinch behavior, and finger scrolling remain unchanged.
+
+### Agreed next work after this settles
+
+Continue normal grading/use. Once Assets/folders are stable, implement **Copy Region → Image** as another Recent producer, including original-size and current-zoom-size capture/paste behavior. Manual Google Drive synchronization follows after the Asset/capture data model is stable. Selection rotation remains on the backlog.
+
+================ PRIOR README HISTORY ================
+
 # PDF Workbench — Milestone 5.7.2
 
 ## 5.7.2 nested Asset Library folders

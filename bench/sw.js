@@ -1,10 +1,10 @@
-const CACHE_NAME = 'pdf-workbench-m5.7.2-v1';
+const CACHE_NAME = 'pdf-workbench-m5.7.3-v1';
 const APP_SHELL = [
   './',
   './index.html',
-  './styles.css?v=5.7.2',
-  './app.js?v=5.7.2',
-  './google-ink-modeler.js?v=5.7.2',
+  './styles.css?v=5.7.3',
+  './app.js?v=5.7.3',
+  './google-ink-modeler.js?v=5.7.3',
   './THIRD_PARTY_NOTICES.txt',
   './THIRD_PARTY_LICENSES.txt',
   './APACHE-2.0-Google-Ink-Stroke-Modeler.txt',

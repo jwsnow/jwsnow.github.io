@@ -3,6 +3,65 @@ RETURN HERE AFTER A BREAK — CURRENT STATUS
 
 AUTHORITATIVE WORKING BASELINE
 ------------------------------
+- Use **Milestone 5.7.3** as the current source/build.
+- Visible About version: 5.7.3.
+- Service-worker/cache version: `pdf-workbench-m5.7.3-v1`.
+- IndexedDB version remains 4; Library schema remains 8. No persistence migration in this interaction-only fix.
+- 5.6.9 pinch/scroll fixes and 5.6.8 unified modeled Pen remain the performance/input baseline and are intentionally unchanged.
+
+WHERE THE PROJECT IS RIGHT NOW
+------------------------------
+- The user is actively grading with Workbench. Core functionality and the 5.6.9 navigation polish are working well.
+- Reusable Assets now have persistent nested folders modeled after the Local Library; Quick Image goes directly to Recent; inserted images/snippets center in the visible working area.
+- During 5.7.2 testing, Asset folder Rename on iPad exposed a Safari focus problem: typing in the naming dialog lost focus after each key because the naming modal was opened on top of the already-modal Assets browser. Apple Pencil/Scribble interaction could work around it, confirming the data operation itself was sound.
+- 5.7.3 fixes this by temporarily closing/yielding the Assets modal while New folder / Rename folder / Keep / Rename asset uses the shared naming dialog, then restoring the exact Assets mode, tab, and folder afterward.
+- iPadOS keyboard size is OS-controlled, not controllable by Workbench. If the miniature floating QWERTY keyboard appears, spread two fingers on it or use More (…) → Full. If the Scribble toolbar is showing, its keyboard button opens the onscreen keyboard.
+
+NEXT AGREED STEPS
+-----------------
+1. Continue real-use test of 5.7.3 Assets/folders and verify keyboard focus during naming.
+2. Once stable, implement **Copy Region → Image** as another Recent producer, with both original-size and current-zoom-size capture/paste behavior. Current-zoom capture must intentionally preserve the user's desire to paste an enlarged image when the source was zoomed in.
+3. Then implement explicit/manual **Google Drive sync** for Workbench-managed documents/folders/templates/permanent Assets/Asset folders and required source binaries. Workbench remains local-first; Recent stays local-only by default.
+4. Selection rotation remains on the explicit backlog.
+
+RESUME RULES
+------------
+- Do not retune Pen, pinch, finger-scroll engagement, or 0.95 momentum during Asset work without a specific real-use regression.
+- Keep the Asset system unified: permanent images and editable snippets share one Asset Library; Recent is temporary history.
+- Asset folders may be nested; do not simplify them back to one level.
+- Do not reopen a second text-entry modal over the Assets modal on iPad; use the 5.7.3 yield/restore naming path.
+- Use the latest milestone text above older history when statements conflict.
+
+MILESTONE 5.7.3 — IPAD ASSET NAMING FOCUS FIX
+===============================================
+
+CURRENT BUILD: Milestone 5.7.3
+Visible About version: 5.7.3
+Service-worker/cache version: pdf-workbench-m5.7.3-v1
+IndexedDB version: 4
+Library schema version: 8
+
+CHANGES
+-------
+- Added `requestAssetName()` wrapper around the existing shared naming dialog.
+- When Assets is open, the wrapper records Asset dialog mode/view/folder, closes the Assets modal, waits one animation frame, opens the naming dialog alone, then after completion waits one frame and restores the same Asset context.
+- New Asset folder, Rename Asset folder, Keep, and Rename Asset all use this path.
+- This avoids nested modal focus traps on iPad Safari without changing Local Library naming behavior.
+- No changes to Asset storage, nested-folder persistence, Quick Image, visible-view insertion, Pen/Highlighter geometry, pinch finalization, finger-scroll engagement, or 0.95 momentum.
+
+TEST PRIORITY
+-------------
+- Type several characters continuously when creating/renaming an Asset folder on iPad; the field should keep focus.
+- Repeat for Rename asset and Keep from Recent.
+- Confirm returning from the naming dialog preserves the same Asset folder and Library/Recent tab.
+
+================ PRIOR HANDOFF HISTORY ================
+
+RETURN HERE AFTER A BREAK — CURRENT STATUS
+==========================================
+
+AUTHORITATIVE WORKING BASELINE
+------------------------------
 - Use **Milestone 5.7.2** as the current source/build.
 - Visible About version: 5.7.2.
 - Service-worker/cache version: `pdf-workbench-m5.7.2-v1`.
