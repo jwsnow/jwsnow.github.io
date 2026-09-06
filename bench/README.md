@@ -1,3 +1,34 @@
+# PDF Workbench — Milestone 5.7.2
+
+## 5.7.2 nested Asset Library folders
+
+5.7.2 extends the tested Reusable Assets foundation with a folder browser intentionally modeled after the Local Library. The 5.7.1 Quick Image / visible-view placement behavior, the 5.6.9 pinch-scroll interaction baseline, and all Pen/Highlighter geometry are unchanged.
+
+- **Nested folders:** the permanent Asset Library now supports folders and arbitrarily nested subfolders.
+- **Local-Library-style navigation:** Library view has a breadcrumb path plus **New folder** in the current location. Folder cards are shown before asset cards and open in place.
+- **Folder management:** permanent Asset folders can be renamed, moved to another Asset folder (while preventing self/descendant moves), or deleted recursively after confirmation.
+- **Asset movement:** permanent image/snippet Assets have **Move…** and can be moved anywhere in the nested Asset hierarchy. Name conflicts in a destination receive a duplicate-safe name.
+- **Recent remains flat:** clipboard history is intentionally not organized into folders. **Keep** promotes a recent true-copy snippet/image into the currently selected Asset Library folder.
+- **Permanent image import:** **Assets → Import images…** always switches to Library view and imports into the currently selected Asset folder. **Quick Image** remains the fast Recent path.
+- **Persistence migration:** IndexedDB advances to DB version 4 / Library schema 8 and adds an `assetFolders` store. Existing 5.7.0/5.7.1 Assets without `folderId` naturally remain at the Asset Library root.
+- **Backup/restore:** editable Library backup now includes the full nested Asset-folder hierarchy. Full restore recreates it. **Import backup as folder** preserves imported Asset hierarchy beneath a new top-level Asset folder rather than flattening the imported Assets.
+- **No change to insertion:** images and snippets still insert at the center of the visible portion of the active page.
+
+### Test priority
+
+1. Create a class folder, create a subfolder inside it, navigate with breadcrumbs, close/reopen Workbench, and confirm the hierarchy persists.
+2. Import images into different folders and move an existing image/snippet between folders.
+3. Switch to Recent while inside a class folder, use **Keep**, and confirm the saved item appears in that current Library folder.
+4. Rename and move nested folders; confirm descendants follow the folder.
+5. Delete a test folder tree and confirm the warning/counts are sensible and unrelated Assets remain intact.
+6. If convenient, make and restore an editable backup to verify the Asset hierarchy survives.
+
+### Agreed next work after this settles
+
+Continue normal grading/use. The next planned Asset producer is **Copy Region → Image**, including original-size and current-zoom-size capture/paste behavior. Manual Google Drive synchronization follows after the Asset/capture data model is stable. Selection rotation remains on the backlog.
+
+================ PRIOR README HISTORY ================
+
 # PDF Workbench — Milestone 5.7.1
 
 ## 5.7.1 Assets usability polish

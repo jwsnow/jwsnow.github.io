@@ -1556,7 +1556,7 @@ body.ink-eraser-active .page-stage * { cursor: none !important; }
   will-change: transform;
 }
 
-/* Milestone 5.7.1 — Reusable Assets usability polish */
+/* Milestone 5.7.2 — nested Asset Library folders */
 .info-dialog.asset-dialog { width: min(920px, calc(100% - 24px)); height: min(760px, calc(100dvh - 24px)); max-height: calc(100dvh - 24px); overflow: hidden; }
 .asset-dialog form { display: flex; flex-direction: column; height: 100%; max-height: none; min-height: 0; box-sizing: border-box; }
 .asset-dialog-help { margin: -4px 36px 12px 0; color: var(--muted); }
@@ -1578,6 +1578,21 @@ body.ink-eraser-active .page-stage * { cursor: none !important; }
 .asset-card-actions button { flex: 1 1 auto; border: 1px solid var(--border); border-radius: 8px; min-width: 58px; }
 .asset-card-actions button:hover { background: var(--accent-soft); }
 .asset-dialog .dialog-actions { flex: 0 0 auto; margin-top: 10px; }
+
+.asset-library-browser { display:flex; align-items:center; justify-content:space-between; gap:10px; margin:-2px 0 10px; min-width:0; }
+.asset-library-browser .library-breadcrumb { flex:1 1 auto; }
+.asset-library-browser-actions { flex:0 0 auto; }
+.asset-library-browser-actions button { min-height:36px; border:1px solid var(--border); border-radius:8px; background:var(--paper); color:var(--text); padding:6px 10px; font:inherit; }
+.asset-folder-preview { width:100%; border:0; border-bottom:1px solid var(--border); border-radius:0; cursor:pointer; background:color-mix(in srgb, var(--accent-soft) 45%, var(--paper)); }
+.asset-folder-preview .library-folder-icon { width:56px; height:40px; }
+.asset-folder-card .asset-card-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
+.asset-folder-card .asset-card-actions button { width:100%; min-width:0; }
+.asset-card-actions .trash-action { border-color:color-mix(in srgb, #a66 45%, var(--border)); }
+@media (max-width:620px) {
+  .asset-library-browser { align-items:stretch; flex-direction:column; }
+  .asset-library-browser-actions { display:flex; justify-content:flex-end; }
+  .asset-library-browser-actions button { width:100%; }
+}
 @media (max-width: 620px) {
   .asset-toolbar { align-items: stretch; flex-direction: column; }
   .asset-tabs { width: 100%; }

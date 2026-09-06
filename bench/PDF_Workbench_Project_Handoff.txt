@@ -3,6 +3,71 @@ RETURN HERE AFTER A BREAK — CURRENT STATUS
 
 AUTHORITATIVE WORKING BASELINE
 ------------------------------
+- Use **Milestone 5.7.2** as the current source/build.
+- Visible About version: 5.7.2.
+- Service-worker/cache version: `pdf-workbench-m5.7.2-v1`.
+- IndexedDB version: 4; Library schema version: 8. The migration adds persistent nested Asset folders; pre-5.7.2 permanent Assets with no `folderId` remain at the Asset Library root.
+- 5.6.9 pinch/scroll fixes and 5.6.8 unified modeled Pen remain the performance/input baseline and are intentionally unchanged.
+
+WHERE THE PROJECT IS RIGHT NOW
+------------------------------
+- The user is actively grading with Workbench and reports that the core application is working well. 5.6.9 made the pinch/scroll experience materially better, and 5.7.1 Quick Image / visible-view placement works nicely.
+- The current feature being tested is **Reusable Assets organization**. 5.7.2 adds nested Asset folders modeled after the Local Library interface.
+- Permanent Asset Library: nested folders, breadcrumbs, New folder, folder Open/Rename/Move/Delete, and asset Move between folders.
+- Recent: remains a flat capped clipboard history. Keep promotes a recent image/snippet into the currently selected permanent Asset folder. Ordinary copied selections remain true editable snippets; do not rasterize them when promoted.
+- Quick Image: still bypasses the Asset browser, inserts at the visible-view center, and records the image directly in Recent.
+- Permanent Assets and nested Asset folders are included in editable backup/restore. Import-backup-as-folder preserves Asset folder hierarchy beneath a new top-level Asset folder.
+
+NEXT AGREED STEPS
+-----------------
+1. Continue real-use test of 5.7.2 nested Asset folders while grading.
+2. Once stable, implement **Copy Region → Image** as another Recent producer, with both original-size and current-zoom-size capture/paste behavior. Current-zoom capture must intentionally preserve the user's desire to paste an enlarged image when the source was zoomed in.
+3. Then implement explicit/manual **Google Drive sync** for Workbench-managed documents/folders/templates/permanent Assets/Asset folders and required source binaries. Workbench remains local-first; Recent stays local-only by default.
+4. Selection rotation remains on the explicit backlog.
+
+RESUME RULES
+------------
+- Do not retune Pen, pinch, finger-scroll engagement, or 0.95 momentum during Asset work without a specific real-use regression.
+- Keep the Asset system unified: permanent images and editable snippets share one Asset Library; Recent is a view of temporary history, not a separate storage subsystem.
+- Asset folders may be nested; do not simplify them back to one level.
+- Use the latest milestone text above older history when statements conflict.
+
+MILESTONE 5.7.2 — NESTED ASSET LIBRARY FOLDERS
+===============================================
+
+CURRENT BUILD: Milestone 5.7.2
+Visible About version: 5.7.2
+Service-worker/cache version: pdf-workbench-m5.7.2-v1
+IndexedDB version: 4
+Library schema version: 8
+
+CHANGES
+-------
+- Added dedicated persistent `assetFolders` records with stable IDs and `parentId`, allowing arbitrary nesting independent of the document Local Library folder tree.
+- Asset Library view now mirrors the Local Library interaction model: breadcrumb navigation, folder cards before content, and New folder in the current location.
+- Folders support Open, Rename, Move…, and confirmed recursive Delete. Move destinations exclude the folder itself and all descendants.
+- Permanent Assets now carry optional `folderId`; old Assets without it remain at root. Permanent Asset cards add Move….
+- Recent remains flat/local and does not acquire folders. Keep saves into the current remembered Asset Library folder; the Recent help text identifies that destination.
+- Assets → Import images… is a permanent-library operation and imports into the current Asset folder. Quick Image remains unchanged and goes directly to Recent.
+- Asset-folder hierarchy is included in editable backups/full restore. Non-destructive backup-as-folder import creates a corresponding top-level Asset folder and preserves the imported nested Asset hierarchy below it.
+- DB v4 / schema 8 migration adds `assetFolders`; no document/page/annotation migration is required.
+- No changes to Pen/Highlighter rendering, partial Eraser, selection geometry, Quick Image insertion position, pinch finalization, finger-scroll engagement, or 0.95 momentum.
+
+TEST PRIORITY
+-------------
+- Create nested class/subclass folders and confirm breadcrumb navigation/persistence.
+- Import and Move image/snippet Assets between levels.
+- Keep a Recent item while a nested Library folder is selected and confirm destination.
+- Exercise nested folder rename/move/delete and backup/restore if convenient.
+- Continue normal grading; report any interaction regression rather than tuning preemptively.
+
+================ PRIOR HANDOFF HISTORY ================
+
+RETURN HERE AFTER A BREAK — CURRENT STATUS
+==========================================
+
+AUTHORITATIVE WORKING BASELINE
+------------------------------
 - Use **Milestone 5.7.1** as the current source/build.
 - Visible About version: 5.7.1.
 - Service-worker/cache version: `pdf-workbench-m5.7.1-v1`.

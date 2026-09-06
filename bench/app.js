@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.1';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.2';
 
-const APP_VERSION = '5.7.1';
+const APP_VERSION = '5.7.2';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -11,8 +11,8 @@ const PDFLIB_URL = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.esm
 const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 
 const LIBRARY_DB_NAME = 'pdf-workbench-library';
-const LIBRARY_DB_VERSION = 3;
-const LIBRARY_SCHEMA_VERSION = 7;
+const LIBRARY_DB_VERSION = 4;
+const LIBRARY_SCHEMA_VERSION = 8;
 const LIBRARY_BACKUP_FORMAT_VERSION = 1;
 const SESSION_CHECKPOINT_KEY = 'pdfwb-session-checkpoint-v2';
 const RECENT_ASSET_LIMIT = 30;
@@ -36,7 +36,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionPasteBtn: $('selectionPasteBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), assetDialog: $('assetDialog'), assetDialogTitle: $('assetDialogTitle'), assetDialogHelp: $('assetDialogHelp'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), assetDialogCloseBtn: $('assetDialogCloseBtn'), assetDialogDoneBtn: $('assetDialogDoneBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionPasteBtn: $('selectionPasteBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), assetDialog: $('assetDialog'), assetDialogTitle: $('assetDialogTitle'), assetDialogHelp: $('assetDialogHelp'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), assetDialogCloseBtn: $('assetDialogCloseBtn'), assetDialogDoneBtn: $('assetDialogDoneBtn'), assetMoveDialog: $('assetMoveDialog'), assetMoveForm: $('assetMoveForm'), assetMoveTitle: $('assetMoveTitle'), assetMoveHelp: $('assetMoveHelp'), assetMoveDestination: $('assetMoveDestination'), assetMoveCloseBtn: $('assetMoveCloseBtn'), assetMoveCancelBtn: $('assetMoveCancelBtn'), assetMoveSaveBtn: $('assetMoveSaveBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -116,6 +116,9 @@ const state = {
   libraryRecords: new Map(),
   libraryFolders: new Map(),
   assetRecords: new Map(),
+  assetFolders: new Map(),
+  assetFolderId: null,
+  pendingAssetMove: null,
   assetDialogMode: 'manage',
   assetDialogView: 'library',
   libraryFolderId: null,
@@ -215,6 +218,7 @@ function openLibraryDatabaseOnce(timeoutMs=4500) {
         if (!db.objectStoreNames.contains('meta')) db.createObjectStore('meta', { keyPath: 'key' });
         if (!db.objectStoreNames.contains('folders')) db.createObjectStore('folders', { keyPath: 'id' });
         if (!db.objectStoreNames.contains('assets')) db.createObjectStore('assets', { keyPath: 'id' });
+        if (!db.objectStoreNames.contains('assetFolders')) db.createObjectStore('assetFolders', { keyPath: 'id' });
       };
       request.onsuccess = () => finishResolve(request.result);
       request.onerror = () => finishReject(request.error || new Error('IndexedDB open failed'));
@@ -535,12 +539,162 @@ function sourceUsedByAssets(sourceId, excludingAssetId=null) {
   }
   return false;
 }
+function activeAssetFolders() {
+  return [...state.assetFolders.values()];
+}
+function assetFolderById(id) { return id ? state.assetFolders.get(id) || null : null; }
+function assetFolderChildren(parentId=null) {
+  return activeAssetFolders().filter(folder => (folder.parentId || null) === (parentId || null))
+    .sort((a,b) => String(a.name||'').localeCompare(String(b.name||''), undefined, {sensitivity:'base',numeric:true}));
+}
+function permanentAssetsInFolder(folderId=null) {
+  return permanentAssets().filter(asset => (asset.folderId || null) === (folderId || null));
+}
+function assetFolderPath(folderId=state.assetFolderId) {
+  const path=[]; const seen=new Set(); let id=folderId;
+  while (id && !seen.has(id)) {
+    seen.add(id); const folder=assetFolderById(id); if (!folder) break;
+    path.unshift(folder); id=folder.parentId||null;
+  }
+  return path;
+}
+function assetFolderDescendantIds(folderId) {
+  const result=new Set();
+  const visit=id=>{ for (const child of assetFolderChildren(id)) { if (result.has(child.id)) continue; result.add(child.id); visit(child.id); } };
+  visit(folderId); return result;
+}
+function assetFolderSubtreeIds(folderId) { const ids=assetFolderDescendantIds(folderId); ids.add(folderId); return ids; }
+function assetFolderSiblingNameExists(name,parentId,excludingId=null) {
+  const target=String(name||'').trim().toLocaleLowerCase();
+  return activeAssetFolders().some(folder=>folder.id!==excludingId&&(folder.parentId||null)===(parentId||null)&&String(folder.name||'').trim().toLocaleLowerCase()===target);
+}
+function assetNameExists(name,folderId=null,excludingId=null) {
+  const target=String(name||'').trim().toLocaleLowerCase();
+  return permanentAssets().some(asset=>asset.id!==excludingId&&(asset.folderId||null)===(folderId||null)&&String(asset.name||'').trim().toLocaleLowerCase()===target);
+}
+function uniqueAssetName(baseName,folderId=null,excludingId=null) {
+  const raw=String(baseName||'Asset').trim()||'Asset';
+  if (!assetNameExists(raw,folderId,excludingId)) return raw;
+  let n=2,candidate=`${raw} ${n}`;
+  while (assetNameExists(candidate,folderId,excludingId)) candidate=`${raw} ${++n}`;
+  return candidate;
+}
+function setAssetFolder(folderId=null) {
+  if (folderId && !state.assetFolders.has(folderId)) folderId=null;
+  state.assetFolderId=folderId||null;
+  if (state.assetDialogView==='library') renderAssetDialog();
+}
+function assetFolderLocationLabel(folderId=state.assetFolderId) {
+  const names=assetFolderPath(folderId).map(folder=>folder.name);
+  return names.length ? `Assets / ${names.join(' / ')}` : 'Assets';
+}
+function renderAssetBreadcrumb() {
+  if (!els.assetBreadcrumb) return;
+  els.assetBreadcrumb.replaceChildren();
+  const root=document.createElement('button'); root.type='button'; root.textContent='Assets'; root.className='library-breadcrumb-button'; root.disabled=!state.assetFolderId; root.addEventListener('click',()=>setAssetFolder(null));
+  els.assetBreadcrumb.append(root);
+  for (const folder of assetFolderPath()) {
+    const sep=document.createElement('span'); sep.className='library-breadcrumb-separator'; sep.textContent='›';
+    const button=document.createElement('button'); button.type='button'; button.textContent=folder.name; button.className='library-breadcrumb-button'; button.disabled=folder.id===state.assetFolderId; button.addEventListener('click',()=>setAssetFolder(folder.id));
+    els.assetBreadcrumb.append(sep,button);
+  }
+}
+async function persistAssetFolderRecord(folder) {
+  state.assetFolders.set(folder.id,folder);
+  if (await ensureLibraryConnection()) await libraryPut('assetFolders',folder);
+  updateAssetsSummary();
+  if (els.assetDialog?.open) renderAssetDialog();
+  return folder;
+}
+async function createAssetFolder() {
+  if (!state.libraryReady && !(await ensureLibraryConnection())) { setStatus('Local Library is not ready'); return; }
+  const name=await requestLibraryName({title:'New asset folder',help:'The new folder will be created inside the Asset folder currently being viewed.',suggested:'New Folder',saveLabel:'Create folder'});
+  if (!name) return;
+  if (assetFolderSiblingNameExists(name,state.assetFolderId)) { setStatus('An Asset folder with that name already exists here'); return; }
+  const folder={id:uid('asset-folder'),schemaVersion:LIBRARY_SCHEMA_VERSION,name,parentId:state.assetFolderId||null,createdAt:Date.now(),modifiedAt:Date.now()};
+  await persistAssetFolderRecord(folder); setStatus(`Created Asset folder ${name}`);
+}
+async function renameAssetFolder(folderId) {
+  const folder=assetFolderById(folderId); if (!folder) return;
+  const name=await requestLibraryName({title:'Rename asset folder',suggested:folder.name,saveLabel:'Rename'});
+  if (!name||name===folder.name) return;
+  if (assetFolderSiblingNameExists(name,folder.parentId,folder.id)) { setStatus('An Asset folder with that name already exists there'); return; }
+  await persistAssetFolderRecord({...folder,name,modifiedAt:Date.now(),schemaVersion:LIBRARY_SCHEMA_VERSION}); setStatus(`Renamed Asset folder to ${name}`);
+}
+function assetMoveFolderOptions(excludingFolderId=null) {
+  const excluded=excludingFolderId ? assetFolderSubtreeIds(excludingFolderId) : new Set();
+  const options=[{id:'',label:'Assets (top level)'}];
+  const walk=(parentId=null,depth=0)=>{
+    for (const folder of assetFolderChildren(parentId)) {
+      if (excluded.has(folder.id)) continue;
+      options.push({id:folder.id,label:`${'— '.repeat(depth)}${folder.name}`}); walk(folder.id,depth+1);
+    }
+  };
+  walk(null,0); return options;
+}
+function openAssetMoveDialog(kind,id) {
+  const isFolder=kind==='folder'; const item=isFolder?assetFolderById(id):state.assetRecords.get(id); if (!item) return;
+  state.pendingAssetMove={kind,id};
+  const options=assetMoveFolderOptions(isFolder?id:null);
+  els.assetMoveDestination.replaceChildren(...options.map(entry=>{const option=document.createElement('option');option.value=entry.id;option.textContent=entry.label;return option;}));
+  const currentParent=isFolder?(item.parentId||''):(item.folderId||'');
+  els.assetMoveDestination.value=options.some(entry=>entry.id===currentParent)?currentParent:'';
+  els.assetMoveTitle.textContent=`Move ${isFolder?'asset folder':'asset'}`;
+  els.assetMoveHelp.textContent=`Choose a destination inside the Asset Library for “${item.name||'this item'}”.`;
+  els.assetMoveDialog.showModal();
+}
+async function completeAssetMove() {
+  const pending=state.pendingAssetMove; if (!pending) return;
+  const destination=els.assetMoveDestination.value||null;
+  if (pending.kind==='folder') {
+    const folder=assetFolderById(pending.id); if (!folder) return;
+    if ((folder.parentId||null)===destination) return;
+    if (assetFolderSiblingNameExists(folder.name,destination,folder.id)) throw new Error('An Asset folder with that name already exists in the destination.');
+    await persistAssetFolderRecord({...folder,parentId:destination,modifiedAt:Date.now(),schemaVersion:LIBRARY_SCHEMA_VERSION});
+    setStatus(`Moved Asset folder ${folder.name}`);
+  } else {
+    const asset=state.assetRecords.get(pending.id); if (!asset) return;
+    if ((asset.folderId||null)===destination) return;
+    const name=uniqueAssetName(asset.name||defaultAssetName(asset.type,destination),destination,asset.id);
+    await persistAssetRecord({...asset,name,folderId:destination,modifiedAt:Date.now(),schemaVersion:LIBRARY_SCHEMA_VERSION});
+    setStatus(`Moved ${name}`);
+  }
+}
+async function deleteAssetFolderTree(folderId) {
+  const root=assetFolderById(folderId); if (!root) return;
+  const ids=assetFolderSubtreeIds(folderId);
+  const folders=activeAssetFolders().filter(folder=>ids.has(folder.id));
+  const assets=permanentAssets().filter(asset=>ids.has(asset.folderId||''));
+  const details=[]; if(assets.length) details.push(`${assets.length} asset${assets.length===1?'':'s'}`); if(folders.length>1) details.push(`${folders.length-1} subfolder${folders.length===2?'':'s'}`);
+  const message=`Delete Asset folder “${root.name}”${details.length?` and its ${details.join(' and ')}`:''}? This cannot be undone.`;
+  if (!confirm(message)) return;
+  const sourceIds=new Set(); for (const asset of assets) for (const sourceId of assetReferencedSourceIds(asset)) sourceIds.add(sourceId);
+  if (await ensureLibraryConnection()) {
+    const tx=state.libraryDb.transaction(['assets','assetFolders'],'readwrite'); const done=idbTransactionDone(tx); const as=tx.objectStore('assets'),fs=tx.objectStore('assetFolders');
+    for (const asset of assets) as.delete(asset.id); for (const folder of folders) fs.delete(folder.id); await done;
+  }
+  for (const asset of assets) { state.assetRecords.delete(asset.id); if (state.annotationClipboardAssetId===asset.id) state.annotationClipboardAssetId=null; }
+  for (const folder of folders) state.assetFolders.delete(folder.id);
+  if (ids.has(state.assetFolderId)) state.assetFolderId=root.parentId&&state.assetFolders.has(root.parentId)?root.parentId:null;
+  await removeUnusedPersistentSources(sourceIds); updateAssetsSummary(); updateSelectionToolbar(); renderAssetDialog(); setStatus(`Deleted Asset folder ${root.name}`);
+}
+function createAssetFolderCard(folder) {
+  const card=document.createElement('article'); card.className='asset-card asset-folder-card'; card.dataset.assetFolderId=folder.id;
+  const preview=document.createElement('button'); preview.type='button'; preview.className='asset-preview asset-folder-preview'; preview.dataset.assetFolderAction='open'; preview.setAttribute('aria-label',`Open folder ${folder.name}`); preview.innerHTML='<span class="library-folder-icon" aria-hidden="true"></span>';
+  const body=document.createElement('div'); body.className='asset-card-body';
+  const name=document.createElement('strong'); name.className='asset-name'; name.textContent=folder.name; name.title=folder.name;
+  const ids=assetFolderSubtreeIds(folder.id); const subfolders=ids.size-1; const count=permanentAssets().filter(asset=>ids.has(asset.folderId||'')).length;
+  const meta=document.createElement('span'); meta.className='asset-meta'; meta.textContent=`${count} asset${count===1?'':'s'} · ${subfolders} subfolder${subfolders===1?'':'s'}`;
+  const actions=document.createElement('div'); actions.className='asset-card-actions';
+  for (const [action,label] of [['open','Open'],['rename','Rename'],['move','Move…'],['delete','Delete…']]) { const button=document.createElement('button');button.type='button';button.dataset.assetFolderAction=action;button.textContent=label;if(action==='delete')button.className='trash-action';actions.append(button); }
+  body.append(name,meta,actions); card.append(preview,body); return card;
+}
 function assetTypeLabel(asset) {
   return asset?.type === 'image' ? 'Image' : 'Editable snippet';
 }
-function defaultAssetName(type='snippet') {
+function defaultAssetName(type='snippet', folderId=state.assetFolderId) {
   const prefix = type === 'image' ? 'Image' : 'Snippet';
-  const used = new Set([...state.assetRecords.values()].filter(asset => asset.pinned).map(asset => String(asset.name || '').toLocaleLowerCase()));
+  const used = new Set(permanentAssets().filter(asset => (asset.folderId || null) === (folderId || null)).map(asset => String(asset.name || '').toLocaleLowerCase()));
   let n = 1;
   while (used.has(`${prefix} ${n}`.toLocaleLowerCase())) n += 1;
   return `${prefix} ${n}`;
@@ -554,22 +708,28 @@ function permanentAssets() {
 function updateAssetsSummary() {
   if (!els.assetsSummary) return;
   const permanent = permanentAssets().length;
+  const folders = activeAssetFolders().length;
   const recent = recentAssets().length;
-  els.assetsSummary.textContent = `${permanent} saved · ${recent} recent`;
+  els.assetsSummary.textContent = `${permanent} saved · ${folders} folder${folders===1?'':'s'} · ${recent} recent`;
 }
 async function refreshAssetRecords() {
   if (!state.libraryDb || !state.libraryDb.objectStoreNames.contains('assets')) {
-    state.assetRecords = new Map();
-    updateAssetsSummary();
-    return;
+    state.assetRecords = new Map(); state.assetFolders = new Map();
+    updateAssetsSummary(); return;
   }
   const inMemory = [...state.assetRecords.values()];
-  const assets = await libraryGetAll('assets');
+  const inMemoryFolders = [...state.assetFolders.values()];
+  const [assets, folders] = await Promise.all([libraryGetAll('assets'), libraryGetAll('assetFolders')]);
   const merged = new Map(assets.map(asset => [asset.id, asset]));
   for (const asset of inMemory) if (!merged.has(asset.id)) merged.set(asset.id, asset);
   state.assetRecords = merged;
-  const incompatible = [...merged.values()].find(asset => Number(asset.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION);
+  const mergedFolders = new Map(folders.map(folder => [folder.id, folder]));
+  for (const folder of inMemoryFolders) if (!mergedFolders.has(folder.id)) mergedFolders.set(folder.id, folder);
+  state.assetFolders = mergedFolders;
+  if (state.assetFolderId && !state.assetFolders.has(state.assetFolderId)) state.assetFolderId=null;
+  const incompatible = [...merged.values(), ...mergedFolders.values()].find(item => Number(item.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION);
   if (incompatible) throw new Error(`Saved Assets use a newer Library schema (${incompatible.schemaVersion}).`);
+  for (const folder of inMemoryFolders) if (!folders.some(saved=>saved.id===folder.id)) await libraryPut('assetFolders',folder);
   for (const asset of inMemory) {
     if (assets.some(saved => saved.id === asset.id)) continue;
     for (const sourceId of assetReferencedSourceIds(asset)) await persistSourceToLibrary(sourceId);
@@ -588,7 +748,7 @@ async function refreshAssetRecords() {
 async function persistAssetRecord(asset) {
   state.assetRecords.set(asset.id, asset);
   updateAssetsSummary();
-  if (state.libraryReady && await ensureLibraryConnection()) {
+  if (await ensureLibraryConnection()) {
     for (const sourceId of assetReferencedSourceIds(asset)) await persistSourceToLibrary(sourceId);
     await libraryPut('assets', asset);
   }
@@ -597,6 +757,7 @@ async function persistAssetRecord(asset) {
 }
 async function persistAllAssetsNow() {
   if (!state.libraryReady && !(await ensureLibraryConnection())) return;
+  for (const folder of state.assetFolders.values()) await libraryPut('assetFolders',folder);
   for (const asset of state.assetRecords.values()) {
     for (const sourceId of assetReferencedSourceIds(asset)) await persistSourceToLibrary(sourceId);
     await libraryPut('assets', asset);
@@ -632,9 +793,12 @@ async function importImageAsset(file, options={}) {
     const fallbackName = pinned
       ? defaultAssetName('image')
       : `Recent image ${new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}`;
+    const targetFolder=pinned ? (options.folderId ?? state.assetFolderId ?? null) : null;
+    const rawName=String(options.name || file.name || fallbackName).replace(/\.[^.]+$/, '') || fallbackName;
     const asset = {
       id:uid('asset'), schemaVersion:LIBRARY_SCHEMA_VERSION, type:'image', pinned,
-      name:String(options.name || file.name || fallbackName).replace(/\.[^.]+$/, '') || fallbackName,
+      name:pinned ? uniqueAssetName(rawName,targetFolder) : rawName,
+      folderId:targetFolder,
       sourceId, pixelWidth:dims.width, pixelHeight:dims.height,
       createdAt:Date.now(), modifiedAt:Date.now(), lastUsedAt:Date.now(),
     };
@@ -652,21 +816,23 @@ async function importImageAsset(file, options={}) {
 async function keepAsset(assetId) {
   const asset = state.assetRecords.get(assetId);
   if (!asset) return;
-  const suggested = asset.pinned ? asset.name : defaultAssetName(asset.type);
+  const targetFolder = asset.pinned ? (asset.folderId || null) : (state.assetFolderId || null);
+  const suggested = asset.pinned ? asset.name : defaultAssetName(asset.type,targetFolder);
   const name = await requestLibraryName({title:asset.pinned?'Rename asset':'Keep in Asset Library',help:asset.type==='snippet'?'Editable snippets retain their Pen, Highlighter, and inserted-image objects when reused.':'Images remain reusable source assets.',suggested,saveLabel:asset.pinned?'Rename':'Keep'});
   if (!name) return;
-  asset.name = name;
+  asset.name = uniqueAssetName(name,targetFolder,asset.id);
   asset.pinned = true;
+  asset.folderId = targetFolder;
   asset.modifiedAt = Date.now();
   await persistAssetRecord(asset);
-  setStatus(`Saved ${name} in Assets`);
+  setStatus(`Saved ${asset.name} in ${assetFolderLocationLabel(targetFolder)}`);
 }
 async function renameAsset(assetId) {
   const asset = state.assetRecords.get(assetId);
   if (!asset) return;
   const name = await requestLibraryName({title:'Rename asset',help:'Choose the name shown in the Asset Library.',suggested:asset.name || defaultAssetName(asset.type),saveLabel:'Rename'});
   if (!name) return;
-  asset.name = name; asset.modifiedAt = Date.now();
+  asset.name = asset.pinned ? uniqueAssetName(name,asset.folderId||null,asset.id) : name; asset.modifiedAt = Date.now();
   await persistAssetRecord(asset);
 }
 async function deleteAssetRecord(assetId, options={}) {
@@ -676,7 +842,7 @@ async function deleteAssetRecord(assetId, options={}) {
   const sourceIds = assetReferencedSourceIds(asset);
   state.assetRecords.delete(assetId);
   if (state.annotationClipboardAssetId === assetId) state.annotationClipboardAssetId = null;
-  if (state.libraryReady && state.libraryDb?.objectStoreNames.contains('assets')) await libraryDelete('assets', assetId).catch(()=>{});
+  if ((await ensureLibraryConnection()) && state.libraryDb?.objectStoreNames.contains('assets')) await libraryDelete('assets', assetId).catch(()=>{});
   await removeUnusedPersistentSources(sourceIds);
   updateAssetsSummary();
   updateSelectionToolbar();
@@ -730,20 +896,25 @@ async function drawImageAssetThumbnail(canvas, asset) {
 function renderAssetDialog() {
   if (!els.assetGrid) return;
   const view = state.assetDialogView === 'recent' ? 'recent' : 'library';
-  const assets = view === 'recent' ? recentAssets() : permanentAssets();
+  const folders = view==='library' ? assetFolderChildren(state.assetFolderId) : [];
+  const assets = view === 'recent' ? recentAssets() : permanentAssetsInFolder(state.assetFolderId);
   els.assetLibraryTab?.classList.toggle('active', view==='library');
   els.assetRecentTab?.classList.toggle('active', view==='recent');
   els.assetLibraryTab?.setAttribute('aria-pressed',String(view==='library'));
   els.assetRecentTab?.setAttribute('aria-pressed',String(view==='recent'));
+  els.assetLibraryBrowser?.classList.toggle('hidden',view!=='library');
+  if (view==='library') renderAssetBreadcrumb();
   if (els.assetDialogTitle) els.assetDialogTitle.textContent = state.assetDialogMode === 'insert' ? 'Insert asset' : 'Assets';
   if (els.assetDialogHelp) els.assetDialogHelp.textContent = state.assetDialogMode === 'insert'
-    ? 'Insert a saved image or editable snippet. Importing an image also saves it in the Asset Library.'
-    : 'Library items are permanent. Recent is the local clipboard history; keep useful copies to promote them into the Library.';
+    ? 'Insert a saved image or editable snippet. Asset folders can be nested like Local Library folders; Recent remains a flat clipboard history.'
+    : (view==='recent' ? `Recent is the flat local clipboard history. Keep promotes a useful copy into ${assetFolderLocationLabel()}.` : 'Library items can be organized in nested folders comparable to the Local Library.');
+  const itemCount=folders.length+assets.length;
   if (els.assetEmpty) {
-    els.assetEmpty.classList.toggle('hidden', assets.length>0);
-    els.assetEmpty.textContent = view==='recent' ? 'No recent copies yet.' : 'No saved assets yet. Import an image or copy a selection, then keep it.';
+    els.assetEmpty.classList.toggle('hidden', itemCount>0);
+    els.assetEmpty.textContent = view==='recent' ? 'No recent copies yet.' : (state.assetFolderId ? 'This Asset folder is empty.' : 'No saved assets yet. Import an image, create a folder, or keep a recent copy.');
   }
   els.assetGrid.replaceChildren();
+  for (const folder of folders) els.assetGrid.append(createAssetFolderCard(folder));
   for (const asset of assets) {
     const card=document.createElement('article'); card.className='asset-card'; card.dataset.assetId=asset.id;
     const preview=document.createElement('div'); preview.className='asset-preview';
@@ -756,7 +927,10 @@ function renderAssetDialog() {
       const insert=document.createElement('button'); insert.type='button'; insert.dataset.assetAction='insert'; insert.textContent=asset.type==='snippet'?'Paste':'Insert'; actions.append(insert);
     }
     if (!asset.pinned) { const keep=document.createElement('button'); keep.type='button'; keep.dataset.assetAction='keep'; keep.textContent='Keep'; actions.append(keep); }
-    else { const rename=document.createElement('button'); rename.type='button'; rename.dataset.assetAction='rename'; rename.textContent='Rename'; actions.append(rename); }
+    else {
+      const rename=document.createElement('button'); rename.type='button'; rename.dataset.assetAction='rename'; rename.textContent='Rename'; actions.append(rename);
+      const move=document.createElement('button'); move.type='button'; move.dataset.assetAction='move'; move.textContent='Move…'; actions.append(move);
+    }
     const del=document.createElement('button'); del.type='button'; del.dataset.assetAction='delete'; del.textContent='Delete'; actions.append(del);
     body.append(name,meta,actions); card.append(preview,body); els.assetGrid.append(card);
     if (asset.type==='image') drawImageAssetThumbnail(canvas,asset); else drawSnippetThumbnail(canvas,asset);
@@ -766,6 +940,7 @@ function openAssetDialog(mode='manage', view=null) {
   state.assetDialogMode = mode === 'insert' ? 'insert' : 'manage';
   if (view) state.assetDialogView = view;
   else if (!['library','recent'].includes(state.assetDialogView)) state.assetDialogView='library';
+  if (state.assetFolderId && !state.assetFolders.has(state.assetFolderId)) state.assetFolderId=null;
   renderAssetDialog();
   els.assetDialog?.showModal();
 }
@@ -1449,11 +1624,12 @@ async function createEditableLibraryBackup() {
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Saving current editable state…';
     await persistLibraryNow();
     await persistAllAssetsNow();
-    const [documents, sources, folders, assets, session, templatesMeta] = await Promise.all([
+    const [documents, sources, folders, assets, assetFolders, session, templatesMeta] = await Promise.all([
       libraryGetAll('documents'),
       libraryGetAll('sources'),
       libraryGetAll('folders'),
       libraryGetAll('assets'),
+      libraryGetAll('assetFolders'),
       libraryGet('meta', 'session'),
       libraryGet('meta', 'templates'),
     ]);
@@ -1491,6 +1667,7 @@ async function createEditableLibraryBackup() {
       documents,
       folders,
       assets,
+      assetFolders,
       sources: sourceManifest,
       meta: { session: session || serializeLibrarySession(), templates: templatesMeta || serializeTemplatesForLibrary() },
       preferences,
@@ -1501,14 +1678,14 @@ async function createEditableLibraryBackup() {
       '',
       'This is a ZIP-based PDF Workbench backup container.',
       'Restore it from Files > Library backup & export > Restore Library backup.',
-      'It contains editable document state, folder hierarchy, Trash state, templates, reusable Assets/clipboard history, source PDFs/images, and the saved open/view session.',
+      'It contains editable document state, folder hierarchy, Trash state, templates, reusable Assets/clipboard history and nested Asset folders, source PDFs/images, and the saved open/view session.',
       'Do not edit the contents if you intend to restore the backup.',
       ''
     ].join('\n'));
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Building editable backup…';
     const blob = await zip.generateAsync({ type: 'blob', compression: 'STORE', mimeType: 'application/zip' });
     downloadBlob(blob, `PDF-Workbench-Library-${portableTimestamp()}.pwbbackup.zip`);
-    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Editable backup created: ${documents.length} documents, ${folders.length} folders, ${assets.length} assets, ${sourceManifest.length} source files, ${(manifest.meta.templates?.templates || []).length} templates.`;
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Editable backup created: ${documents.length} documents, ${folders.length} folders, ${assets.length} assets in ${assetFolders.length} Asset folders, ${sourceManifest.length} source files, ${(manifest.meta.templates?.templates || []).length} templates.`;
     setStatus('Editable Library backup created');
   } catch (err) {
     console.error('Editable Library backup failed', err);
@@ -1517,20 +1694,22 @@ async function createEditableLibraryBackup() {
   }
 }
 
-async function replaceLibraryStoresAtomically({ documents, sources, folders, assets, templatesMeta, sessionMeta }) {
+async function replaceLibraryStoresAtomically({ documents, sources, folders, assets, assetFolders, templatesMeta, sessionMeta }) {
   if (!state.libraryDb) throw new Error('Local Library is not ready.');
-  const tx = state.libraryDb.transaction(['documents','sources','folders','assets','meta'], 'readwrite');
+  const tx = state.libraryDb.transaction(['documents','sources','folders','assets','assetFolders','meta'], 'readwrite');
   const done = idbTransactionDone(tx);
   const documentStore = tx.objectStore('documents');
   const sourceStore = tx.objectStore('sources');
   const folderStore = tx.objectStore('folders');
   const assetStore = tx.objectStore('assets');
+  const assetFolderStore = tx.objectStore('assetFolders');
   const metaStore = tx.objectStore('meta');
-  documentStore.clear(); sourceStore.clear(); folderStore.clear(); assetStore.clear(); metaStore.clear();
+  documentStore.clear(); sourceStore.clear(); folderStore.clear(); assetStore.clear(); assetFolderStore.clear(); metaStore.clear();
   for (const value of sources) sourceStore.put(value);
   for (const value of folders) folderStore.put(value);
   for (const value of documents) documentStore.put(value);
   for (const value of assets || []) assetStore.put(value);
+  for (const value of assetFolders || []) assetFolderStore.put(value);
   metaStore.put(templatesMeta);
   metaStore.put(sessionMeta);
   await done;
@@ -1544,6 +1723,7 @@ function validateLibraryBackupManifest(manifest) {
   if (schemaVersion > LIBRARY_SCHEMA_VERSION) throw new Error(`This backup uses Library schema ${schemaVersion}, newer than this build understands (${LIBRARY_SCHEMA_VERSION}).`);
   if (!Array.isArray(manifest.documents) || !Array.isArray(manifest.folders) || !Array.isArray(manifest.sources)) throw new Error('The backup manifest is incomplete.');
   if (manifest.assets != null && !Array.isArray(manifest.assets)) throw new Error('The backup Assets record is invalid.');
+  if (manifest.assetFolders != null && !Array.isArray(manifest.assetFolders)) throw new Error('The backup Asset folders record is invalid.');
   const sourceIds = new Set(manifest.sources.map(source => source?.id).filter(Boolean));
   for (const record of manifest.documents) {
     if (!record?.id || !Array.isArray(record.pages)) throw new Error('The backup contains an invalid document record.');
@@ -1553,8 +1733,11 @@ function validateLibraryBackupManifest(manifest) {
       }
     }
   }
+  const assetFolderIds=new Set((manifest.assetFolders||[]).map(folder=>folder?.id).filter(Boolean));
+  for (const folder of manifest.assetFolders||[]) { if (!folder?.id || !String(folder.name||'').trim()) throw new Error('The backup contains an invalid Asset folder record.'); if (folder.parentId && !assetFolderIds.has(folder.parentId)) throw new Error(`Asset folder ${folder.name||folder.id} has a missing parent.`); }
   for (const asset of manifest.assets || []) {
     if (!asset?.id || !['image','snippet'].includes(asset.type)) throw new Error('The backup contains an invalid Asset record.');
+    if (asset.folderId && !assetFolderIds.has(asset.folderId)) throw new Error(`Asset ${asset.name||asset.id} refers to a missing Asset folder.`);
     for (const requiredSourceId of assetReferencedSourceIds(asset)) {
       if (!sourceIds.has(requiredSourceId)) throw new Error(`Backup source ${requiredSourceId} required by asset ${asset.name || asset.id} is missing.`);
     }
@@ -1581,8 +1764,9 @@ async function restoreEditableLibraryBackup(file) {
     const documentCount = manifest.documents.length;
     const folderCount = manifest.folders.length;
     const assetCount = manifest.assets?.length || 0;
+    const assetFolderCount = manifest.assetFolders?.length || 0;
     const templateCount = manifest.meta?.templates?.templates?.length || 0;
-    const ok = window.confirm(`Restore this PDF Workbench Library backup?\n\n${documentCount} document(s), ${folderCount} folder(s), ${assetCount} asset(s), ${templateCount} template(s).\n\nThis will REPLACE the current Local Library on this device. Export or back up the current Library first if you need it.`);
+    const ok = window.confirm(`Restore this PDF Workbench Library backup?\n\n${documentCount} document(s), ${folderCount} folder(s), ${assetCount} asset(s) in ${assetFolderCount} Asset folder(s), ${templateCount} template(s).\n\nThis will REPLACE the current Local Library on this device. Export or back up the current Library first if you need it.`);
     if (!ok) { if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Restore cancelled.'; return; }
     if (!(await ensureLibraryConnection())) throw new Error('Could not connect to Local Library storage.');
 
@@ -1615,6 +1799,7 @@ async function restoreEditableLibraryBackup(file) {
     els.libraryDocumentList?.replaceChildren();
     state.templates = [];
     state.assetRecords.clear();
+    state.assetFolders.clear(); state.assetFolderId=null;
     state.annotationClipboard = null;
     state.annotationClipboardAssetId = null;
     for (const source of state.sources.values()) {
@@ -1627,14 +1812,15 @@ async function restoreEditableLibraryBackup(file) {
       ...stripPersistentHistory(documentRecord),
       schemaVersion: Math.min(Number(documentRecord.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION),
     }));
+    const restoredAssetFolders = (manifest.assetFolders || []).map(folder => ({ ...folder, schemaVersion: Math.min(Number(folder.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION) }));
     const restoredAssets = (manifest.assets || []).map(asset => ({
-      ...asset, schemaVersion: Math.min(Number(asset.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION),
+      ...asset, folderId:asset.folderId||null, schemaVersion: Math.min(Number(asset.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION),
     }));
     const templatesMetaRaw = manifest.meta?.templates || { key:'templates', schemaVersion: manifest.librarySchemaVersion || 1, templates: [] };
     const sessionMetaRaw = manifest.meta?.session || { key:'session', schemaVersion: manifest.librarySchemaVersion || 1, openIds: [], currentDocumentId: null, workspaceMode:'export', splitView:false, splitPanes:{ left:{documentId:null,views:[]}, right:{documentId:null,views:[]} } };
     const templatesMeta = { ...templatesMetaRaw, key:'templates', schemaVersion: Math.min(Number(templatesMetaRaw.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION) };
     const sessionMeta = { ...sessionMetaRaw, key:'session', schemaVersion: Math.min(Number(sessionMetaRaw.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION) };
-    await replaceLibraryStoresAtomically({ documents: restoredDocuments, sources: restoredSources, folders: restoredFolders, assets: restoredAssets, templatesMeta, sessionMeta });
+    await replaceLibraryStoresAtomically({ documents: restoredDocuments, sources: restoredSources, folders: restoredFolders, assets: restoredAssets, assetFolders:restoredAssetFolders, templatesMeta, sessionMeta });
     for (const [key, value] of Object.entries(manifest.preferences || {})) {
       if (['pdfwb-scroll-mode','pdfwb-fit-mode','pdfwb-library-view'].includes(key)) { try { localStorage.setItem(key, String(value)); } catch {} }
     }
@@ -1759,7 +1945,7 @@ function remapPageForImportedBackup(page, sourceMap, pageIdMap) {
   return copy;
 }
 
-function remapAssetForImportedBackup(asset, sourceMap) {
+function remapAssetForImportedBackup(asset, sourceMap, assetFolderMap=null, assetRootId=null) {
   const copy = clonePlain(asset || {});
   copy.id = uid('asset');
   copy.schemaVersion = LIBRARY_SCHEMA_VERSION;
@@ -1767,6 +1953,7 @@ function remapAssetForImportedBackup(asset, sourceMap) {
   copy.createdAt = Date.now();
   copy.modifiedAt = Date.now();
   copy.lastUsedAt = null;
+  copy.folderId = copy.folderId ? (assetFolderMap?.get(copy.folderId) || assetRootId || null) : (assetRootId || null);
   if (copy.type === 'image') copy.sourceId = copy.sourceId ? (sourceMap.get(copy.sourceId) || null) : null;
   if (copy.type === 'snippet' && copy.payload?.items) {
     copy.payload = clonePlain(copy.payload);
@@ -1820,18 +2007,24 @@ async function importEditableBackupAsSubtree(file) {
       let base=String(template.name||'Template'); let name=base; let n=2; while(existingTemplateNames.has(name.toLocaleLowerCase())) name=`${base} ${n++}`; existingTemplateNames.add(name.toLocaleLowerCase());
       importedTemplates.push({id:uid('template'),name,page:remapPageForImportedBackup(template.page,sourceMap,new Map()),createdAt:Date.now(),modifiedAt:Date.now()});
     }
-    const existingAssetNames=new Set(permanentAssets().map(asset=>String(asset.name||'').toLocaleLowerCase()));
-    const importedAssets=[];
-    for (const sourceAsset of manifest.assets || []) {
-      const asset=remapAssetForImportedBackup(sourceAsset,sourceMap);
-      let base=String(asset.name||defaultAssetName(asset.type)); let name=base; let n=2; while(existingAssetNames.has(name.toLocaleLowerCase())) name=`${base} ${n++}`; existingAssetNames.add(name.toLocaleLowerCase()); asset.name=name;
-      importedAssets.push(asset);
+    let assetRootId=null; const importedAssetFolders=[]; const assetFolderMap=new Map();
+    if ((manifest.assets||[]).length || (manifest.assetFolders||[]).length) {
+      let assetRootName=rootName, n=2; while(assetFolderSiblingNameExists(assetRootName,null)) assetRootName=`${rootName} ${n++}`;
+      assetRootId=uid('asset-folder'); importedAssetFolders.push({id:assetRootId,schemaVersion:LIBRARY_SCHEMA_VERSION,name:assetRootName,parentId:null,createdAt:Date.now(),modifiedAt:Date.now()});
+      for (const folder of manifest.assetFolders||[]) assetFolderMap.set(folder.id,uid('asset-folder'));
+      for (const folder of manifest.assetFolders||[]) importedAssetFolders.push({...folder,id:assetFolderMap.get(folder.id),schemaVersion:LIBRARY_SCHEMA_VERSION,parentId:folder.parentId?(assetFolderMap.get(folder.parentId)||assetRootId):assetRootId,createdAt:Date.now(),modifiedAt:Date.now()});
     }
-    const tx=state.libraryDb.transaction(['documents','sources','folders','assets'],'readwrite'); const done=idbTransactionDone(tx); const ds=tx.objectStore('documents'),ss=tx.objectStore('sources'),fs=tx.objectStore('folders'),as=tx.objectStore('assets');
-    for(const source of sourceRecords) ss.put(source); for(const folder of importedFolders) fs.put(folder); for(const record of importedDocuments) ds.put(record); for(const asset of importedAssets) as.put(asset); await done;
+    const importedAssets=[]; const namesByFolder=new Map();
+    for (const sourceAsset of manifest.assets || []) {
+      const asset=remapAssetForImportedBackup(sourceAsset,sourceMap,assetFolderMap,assetRootId);
+      const folderKey=asset.folderId||''; if(!namesByFolder.has(folderKey)) namesByFolder.set(folderKey,new Set(permanentAssets().filter(item=>(item.folderId||'')===folderKey).map(item=>String(item.name||'').toLocaleLowerCase())));
+      const used=namesByFolder.get(folderKey); let base=String(asset.name||defaultAssetName(asset.type,asset.folderId)); let name=base; let n=2; while(used.has(name.toLocaleLowerCase())) name=`${base} ${n++}`; used.add(name.toLocaleLowerCase()); asset.name=name; importedAssets.push(asset);
+    }
+    const tx=state.libraryDb.transaction(['documents','sources','folders','assets','assetFolders'],'readwrite'); const done=idbTransactionDone(tx); const ds=tx.objectStore('documents'),ss=tx.objectStore('sources'),fs=tx.objectStore('folders'),as=tx.objectStore('assets'),afs=tx.objectStore('assetFolders');
+    for(const source of sourceRecords) ss.put(source); for(const folder of importedFolders) fs.put(folder); for(const record of importedDocuments) ds.put(record); for(const folder of importedAssetFolders) afs.put(folder); for(const asset of importedAssets) as.put(asset); await done;
     state.templates.push(...importedTemplates); await libraryPut('meta',serializeTemplatesForLibrary());
     await refreshLibraryRecords(); await refreshAssetRecords(); renderInsertTemplateList(); renderLibraryDocumentList();
-    if(els.libraryBackupProgress) els.libraryBackupProgress.textContent=`Imported backup as “${libraryFolderById(rootId)?.name||rootName}”: ${importedDocuments.length} documents, ${importedFolders.length} subfolders, ${importedTemplates.length} templates, ${importedAssets.length} assets.`;
+    if(els.libraryBackupProgress) els.libraryBackupProgress.textContent=`Imported backup as “${libraryFolderById(rootId)?.name||rootName}”: ${importedDocuments.length} documents, ${importedFolders.length} subfolders, ${importedTemplates.length} templates, ${importedAssets.length} assets in ${importedAssetFolders.length} Asset folders.`;
     setStatus('Backup imported as Library subtree');
   } catch(err){console.error(err);if(els.libraryBackupProgress) els.libraryBackupProgress.textContent=`Backup subtree import failed: ${err?.message||err}`;setStatus(`Backup import failed: ${err?.message||err}`);}
   finally { if(els.libraryRestoreInput) els.libraryRestoreInput.value=''; state.pendingBackupImportMode='replace'; }
@@ -6948,6 +7141,8 @@ async function purgeLocalLibrary() {
     await libraryClearStore('meta');
     if (state.libraryDb?.objectStoreNames.contains('folders')) await libraryClearStore('folders');
     if (state.libraryDb?.objectStoreNames.contains('assets')) await libraryClearStore('assets');
+    if (state.libraryDb?.objectStoreNames.contains('assetFolders')) await libraryClearStore('assetFolders');
+    state.assetRecords.clear(); state.assetFolders.clear(); state.assetFolderId=null;
     state.libraryRecords.clear();
     state.libraryFolders.clear();
     state.libraryFolderId = null;
@@ -10555,8 +10750,8 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.7.1 polishes Reusable Assets during real grading use. Asset cards now keep their controls reachable in multi-row dialogs; the annotation strip has a one-tap Quick Image picker that inserts directly and records the image in Recent, plus a separate Assets button for browsing saved/recent items. Newly inserted images and reusable snippets are centered in the currently visible portion of the active page rather than the full page. Pen/Highlighter geometry and the field-tested 5.6.9 pinch/scroll behavior are unchanged.</p>
-      <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button now quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable insertion.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets. Recent is a capped local clipboard history (30 entries). Keep promotes a recent true copy into the permanent library; Delete removes only that Asset unless its source data is genuinely unused elsewhere.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
+      <p>Milestone 5.7.2 adds nested folders to the permanent Reusable Asset Library. Asset browsing now follows the Local Library model: folders open in-place, breadcrumbs show the current location, New folder creates beneath the current folder, and permanent assets/folders can be renamed, moved, or deleted. Recent remains a flat clipboard history. Quick Image, visible-view insertion, Pen/Highlighter geometry, and the field-tested 5.6.9 pinch/scroll behavior are unchanged.</p>
+      <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable insertion.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
@@ -11529,14 +11724,15 @@ function bindEvents() {
   els.inkImageBtn?.addEventListener('click', () => els.annotationImageInput?.click());
   els.inkAssetsBtn?.addEventListener('click', () => openAssetDialog('insert'));
   els.annotationImageInput?.addEventListener('change', async () => { const file=els.annotationImageInput.files?.[0]; await insertImageAnnotation(file); els.annotationImageInput.value=''; });
-  els.assetImportImageBtn?.addEventListener('click', () => els.assetImageInput?.click());
+  els.assetImportImageBtn?.addEventListener('click', () => { state.assetDialogView='library'; renderAssetDialog(); els.assetImageInput?.click(); });
+  els.assetNewFolderBtn?.addEventListener('click', createAssetFolder);
   els.assetImageInput?.addEventListener('change', async () => {
     const files=[...(els.assetImageInput.files||[])];
     try {
       const added=[];
       for (let i=0;i<files.length;i++) {
         setStatus(`Adding image asset ${i+1} of ${files.length}…`, true);
-        added.push(await importImageAsset(files[i]));
+        added.push(await importImageAsset(files[i],{pinned:true,folderId:state.assetFolderId||null}));
       }
       if (added.length && state.assetDialogMode==='insert' && state.pages.length) {
         await insertImageAsset(added[0]);
@@ -11553,13 +11749,23 @@ function bindEvents() {
   els.assetDialogCloseBtn?.addEventListener('click', () => els.assetDialog?.close());
   els.assetDialogDoneBtn?.addEventListener('click', () => els.assetDialog?.close());
   els.assetGrid?.addEventListener('click', async (event) => {
+    const folderButton=event.target.closest('[data-asset-folder-action]'); const folderCard=event.target.closest('[data-asset-folder-id]');
+    if (folderButton&&folderCard) {
+      const id=folderCard.dataset.assetFolderId, action=folderButton.dataset.assetFolderAction;
+      if(action==='open') setAssetFolder(id); else if(action==='rename') await renameAssetFolder(id); else if(action==='move') openAssetMoveDialog('folder',id); else if(action==='delete') await deleteAssetFolderTree(id); return;
+    }
     const button=event.target.closest('[data-asset-action]'); const card=event.target.closest('[data-asset-id]');
     if (!button||!card) return; const id=card.dataset.assetId; const action=button.dataset.assetAction;
     if (action==='insert') await activateAsset(id);
     else if (action==='keep') await keepAsset(id);
     else if (action==='rename') await renameAsset(id);
+    else if (action==='move') openAssetMoveDialog('asset',id);
     else if (action==='delete') await deleteAssetRecord(id);
   });
+  els.assetMoveCloseBtn?.addEventListener('click',()=>{state.pendingAssetMove=null;els.assetMoveDialog?.close();});
+  els.assetMoveCancelBtn?.addEventListener('click',()=>{state.pendingAssetMove=null;els.assetMoveDialog?.close();});
+  els.assetMoveDialog?.addEventListener('cancel',event=>{event.preventDefault();state.pendingAssetMove=null;els.assetMoveDialog.close();});
+  els.assetMoveForm?.addEventListener('submit',async event=>{event.preventDefault();try{await completeAssetMove();els.assetMoveDialog.close();state.pendingAssetMove=null;renderAssetDialog();}catch(err){console.error(err);setStatus(`Could not move Asset item: ${err?.message||err}`);}});
   els.selectionDeleteBtn?.addEventListener('click', deleteSelectedAnnotations);
   els.selectionDuplicateBtn?.addEventListener('click', duplicateSelectedAnnotations);
   els.selectionCopyBtn?.addEventListener('click', copySelectedAnnotations);
