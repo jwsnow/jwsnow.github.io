@@ -1,3 +1,19 @@
+CURRENT MILESTONE 5.7.10 — PRESERVE POSITION WHEN RETURNING FROM FILES / ASSETS
+
+- Fixes the regression observed after 5.7.9 testing: inserting a Recent image or a saved Asset could return the document to page 1.
+- Root cause area: the generalized Files round-trip from the 5.7.7 cleanup relied on mutable live viewer state while the View DOM was hidden/rebuilt, and Presentation could be re-entered before renderViewer's normal two-frame scroll restoration had finished.
+- The Files round-trip now captures an immutable copy of the current single/split view state, restores it before rebuilding View, and waits three animation frames before re-entering Presentation.
+- Asset insertion also avoids a redundant second `showWorkspaceMode('export')` call after the shared round-trip has already entered Files.
+- No Pen, touch, pinch, annotation-rendering, or viewer-navigation algorithm was changed.
+- Copy Region from 5.7.9 is retained unchanged.
+
+TEST PRIORITIES FOR 5.7.10
+1. From a page well beyond page 1, Insert from Assets → insert a Recent image; confirm the same page/working position returns.
+2. Repeat with a permanent saved image Asset.
+3. Repeat both in Presentation mode.
+4. Repeat at non-100% zoom and, if convenient, in Split view.
+5. Confirm Copy Region still copies to Recent and pastes normally.
+
 CURRENT MILESTONE 5.7.9 — COPY REGION
 
 - Added **Copy Region** in **Select** mode as a new action button labeled **Region** beside Copy/Paste.
@@ -13,9 +29,9 @@ RETURN HERE AFTER A BREAK — CURRENT STATUS
 
 AUTHORITATIVE WORKING BASELINE
 ------------------------------
-- Use **Milestone 5.7.9** as the current source/build.
-- Visible About version: 5.7.9.
-- Service-worker/cache version: `pdf-workbench-m5.7.9-v1`.
+- Use **Milestone 5.7.10** as the current source/build.
+- Visible About version: 5.7.10.
+- Service-worker/cache version: `pdf-workbench-m5.7.10-v1`.
 - IndexedDB remains version 4; Library schema remains version 8. No persistence migration.
 - Pen/Highlighter rendering, 5.6.9 pinch/scroll behavior, finger-scroll engagement, inertia, split/single viewer rendering, and annotation geometry are intentionally unchanged.
 

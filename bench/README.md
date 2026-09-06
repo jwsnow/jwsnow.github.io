@@ -1,6 +1,9 @@
-# PDF Workbench — Milestone 5.7.9
+# PDF Workbench — Milestone 5.7.10
 
-## 5.7.9 copy rectangular page region to Recent Assets
+## 5.7.10 preserve viewer position across Files / Asset insertion
+
+5.7.10 fixes a regression found after 5.7.9 testing: inserting either a Recent image or a saved Asset could return the document viewer to page 1. The shared Files round-trip now freezes the current single/split view state before entering Files, restores it before rebuilding View, and waits for the viewer's ordinary multi-frame position restoration before returning to Presentation. The Asset browser no longer performs a redundant second Files-workspace rebuild on entry. Copy Region from 5.7.9 is retained unchanged.
+
 
 5.7.9 adds Copy Region using the smallest architecture that fits the existing Workbench model. In Select mode, the new Region action arms a one-shot rectangular capture. Drag a rectangle on a page, choose Original size or Current zoom size, and Workbench renders that region (page content plus visible Workbench annotations, excluding UI chrome) to a PNG, stores it in Recent, and makes it the current paste image. The user can paste immediately with the existing image-annotation path or Keep it later into the permanent Asset Library.
 

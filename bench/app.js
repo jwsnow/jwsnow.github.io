@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.9';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.10';
 
-const APP_VERSION = '5.7.9';
+const APP_VERSION = '5.7.10';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -936,12 +936,57 @@ function isFilesWorkspace() { return state.workspaceMode === 'export'; } // lega
 function captureWorkspaceContext() {
   return { workspaceMode:state.workspaceMode, presentation:document.body.classList.contains('presentation') };
 }
+function captureFilesViewState() {
+  if (state.workspaceMode !== 'view' || !state.pages.length) return null;
+  if (state.splitView) {
+    const panes={};
+    for (const paneId of ['left','right']) {
+      const pane=splitPaneState(paneId);
+      const view=paneView(paneId);
+      panes[paneId]={documentId:pane?.documentId||null,view:view?copyView(view):null};
+    }
+    return {split:true,currentDocumentId:state.currentDocumentId,activePaneId:state.activePaneId,activePageId:state.activePageId,panes};
+  }
+  const doc=currentDocument();
+  const view=doc?ensureSingleView(doc):null;
+  return {split:false,currentDocumentId:state.currentDocumentId,activePageId:state.activePageId,view:view?copyView(view):null};
+}
+function restoreFilesViewState(snapshot) {
+  if (!snapshot) return;
+  if (snapshot.currentDocumentId && snapshot.currentDocumentId !== state.currentDocumentId) loadDocumentState(snapshot.currentDocumentId,false);
+  if (snapshot.split && state.splitView) {
+    for (const paneId of ['left','right']) {
+      const saved=snapshot.panes?.[paneId];
+      const pane=splitPaneState(paneId);
+      if (!saved||!pane) continue;
+      if (saved.documentId) pane.documentId=saved.documentId;
+      if (saved.documentId&&saved.view) pane.views.set(saved.documentId,copyView(saved.view));
+    }
+    state.activePaneId=snapshot.activePaneId==='right'?'right':'left';
+    if (snapshot.activePageId) state.activePageId=snapshot.activePageId;
+    return;
+  }
+  if (snapshot.split || state.splitView) return;
+  const doc=currentDocument();
+  if (doc&&snapshot.view) {
+    doc.activePageId=snapshot.activePageId||snapshot.view.activePageId||doc.activePageId;
+    applySingleView(doc,snapshot.view);
+    if (snapshot.activePageId) state.activePageId=snapshot.activePageId;
+  }
+}
 async function beginFilesRoundTrip(owner) {
+  const context={owner,...captureWorkspaceContext(),viewState:null};
+  // Presentation changes viewer geometry. First use its already-proven exit
+  // transition to establish the equivalent regular View position; then freeze
+  // that regular-view state for the Files round trip.
+  if (context.presentation) {
+    await exitPresentation();
+    await nextAnimationFrame();
+    await nextAnimationFrame();
+    await nextAnimationFrame();
+  }
   saveCurrentDocumentState();
-  const context={owner,...captureWorkspaceContext()};
-  // Exit Presentation before registering the round trip: exitPresentation may
-  // itself restore View, which should not be mistaken for a user cancellation.
-  if (context.presentation) await exitPresentation();
+  context.viewState=captureFilesViewState();
   state.filesReturnContext=context;
   showWorkspaceMode('export');
   return context;
@@ -950,8 +995,18 @@ async function endFilesRoundTrip(owner,{forceView=false}={}) {
   const context=state.filesReturnContext?.owner===owner ? state.filesReturnContext : null;
   if (context) state.filesReturnContext=null;
   if (!context && !forceView) return;
+  if (context?.viewState) restoreFilesViewState(context.viewState);
   showWorkspaceMode(context?.workspaceMode==='organize' ? 'organize' : 'view');
-  if (context?.presentation) await enterPresentation();
+  if (context?.presentation) {
+    // renderViewer restores continuous/snap scroll over two animation frames.
+    // Do not re-enter Presentation until that restoration is complete, or the
+    // freshly rebuilt first page can accidentally become the new anchor.
+    await nextAnimationFrame();
+    await nextAnimationFrame();
+    await nextAnimationFrame();
+    saveCurrentDocumentState();
+    await enterPresentation();
+  }
 }
 async function openAssetBrowser(mode='manage', view=null) {
   const insertMode = mode === 'insert';
@@ -961,7 +1016,7 @@ async function openAssetBrowser(mode='manage', view=null) {
   if (view) state.assetBrowserView = view;
   else if (!['library','recent'].includes(state.assetBrowserView)) state.assetBrowserView='library';
   if (state.assetFolderId && !state.assetFolders.has(state.assetFolderId)) state.assetFolderId=null;
-  showWorkspaceMode('export');
+  if (!isFilesWorkspace()) showWorkspaceMode('export');
   if (els.assetsFilesSection) els.assetsFilesSection.open = true;
   renderAssetBrowser();
   requestAnimationFrame(() => els.assetsFilesSection?.scrollIntoView({ block:'start' }));
@@ -10811,7 +10866,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.7.9 adds Copy Region: in Select mode, tap Region, drag a rectangle on the page, choose Original size or Current zoom size, and Workbench stores the capture in Recent and makes it the current paste image. Local Library, Assets, Template Rename, and Template Save again use the exact simple naming-dialog markup and focus path from 5.7.6. Template Save chooses With annotations or Without annotations before naming, so the text-entry dialog has no conditional controls. The 5.7.7 Files-based Templates/folder/move/document-creation cleanup remains intact. Pen/Highlighter geometry and the field-tested 5.6.9 pinch/scroll/viewer machinery are unchanged.</p>
+      <p>Milestone 5.7.10 fixes the Files/Assets return-position regression while retaining Copy Region from 5.7.9: in Select mode, tap Region, drag a rectangle on the page, choose Original size or Current zoom size, and Workbench stores the capture in Recent and makes it the current paste image. Local Library, Assets, Template Rename, and Template Save again use the exact simple naming-dialog markup and focus path from 5.7.6. Template Save chooses With annotations or Without annotations before naming, so the text-entry dialog has no conditional controls. The 5.7.7 Files-based Templates/folder/move/document-creation cleanup remains intact. Pen/Highlighter geometry and the field-tested 5.6.9 pinch/scroll/viewer machinery are unchanged.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable insertion.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
