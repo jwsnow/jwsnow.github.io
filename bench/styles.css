@@ -87,6 +87,7 @@ button:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 65%, 
 .presentation-document-select { flex: 1 1 132px; min-width: 92px; max-width: 220px; height: 44px; border: 1px solid var(--border); border-radius: 8px; background: white; padding: 4px 26px 4px 7px; font-size: 16px; }
 .presentation-zoom-label { flex: 0 0 50px; min-width: 50px; text-align: center; font-size: .82rem; font-variant-numeric: tabular-nums; }
 body.presentation.presentation-controls-visible .presentation-toolbar { opacity: 1; pointer-events: auto; }
+body.presentation.files-roundtrip .presentation-toolbar { display: none !important; opacity: 0 !important; pointer-events: none !important; }
 
 .organizer-pane { position: absolute; inset: 0; display: grid; grid-template-rows: auto minmax(0,1fr); background: var(--bg); }
 .organizer-toolbar { min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 10px; background: var(--panel); border-bottom: 1px solid var(--border); }
@@ -1447,24 +1448,17 @@ body.ink-pen-active .status-bar * {
  .assets-tool-icon { display:inline-grid; place-items:center; width:19px; height:19px; }
 .assets-tool-icon svg { width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:1.6; }
 .presentation-toolbar.annotation-toolbar .selection-action-btn {
-  width: auto;
+  width: 38px;
   min-width: 38px;
-  flex: 0 0 auto;
-  padding: 0 7px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .01em;
+  flex: 0 0 38px;
+  padding: 0;
 }
-/* Text actions must remain content-sized even when Presentation's tablet
-   compact rule makes ordinary toolbar icon buttons 34px wide. */
 body.presentation .presentation-toolbar.annotation-toolbar .selection-action-btn {
-  width: auto;
-  min-width: max-content;
-  flex: 0 0 auto;
-  flex-basis: auto;
-  padding-left: 6px;
-  padding-right: 6px;
-  white-space: nowrap;
+  width: 34px !important;
+  min-width: 34px;
+  flex: 0 0 34px;
+  flex-basis: 34px !important;
+  padding: 0;
 }
 .presentation-toolbar.annotation-toolbar .selection-action-btn:disabled {
   opacity: .34;
@@ -1472,6 +1466,40 @@ body.presentation .presentation-toolbar.annotation-toolbar .selection-action-btn
 .presentation-toolbar.annotation-toolbar .selection-action-btn.active {
   background: var(--accent-soft);
   border-color: var(--accent);
+}
+.selection-action-icon {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  color: currentColor;
+}
+.selection-action-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.selection-action-icon-stack .selection-action-icon-badge {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  min-width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 9px;
+  line-height: 1;
+  font-weight: 800;
+  color: white;
+  background: var(--accent);
+  border: 1px solid white;
+  padding: 0 1px;
 }
 .annotation-region-copy-box {
   fill: rgb(46 125 50 / .05);

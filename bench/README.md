@@ -1,8 +1,8 @@
-# PDF Workbench — Milestone 5.7.12
+# PDF Workbench — Milestone 5.7.13
 
-## 5.7.12 layout polish
+## 5.7.13 layout polish
 
-5.7.12 is a narrow layout-only follow-up to the validated 5.7.11 paste behavior. The Copy Region size-choice dialog now uses a two-column choice grid with Cancel on its own row, and Select-mode text action buttons remain content-sized in compact Presentation mode instead of being forced into 34-pixel icon-button widths. Paste placement, Assets round-trip behavior, Copy Region capture logic, and Pen/touch/viewer machinery are unchanged.
+5.7.13 is a narrow layout-only follow-up to the validated 5.7.11 paste behavior. The Copy Region size-choice dialog now uses a two-column choice grid with Cancel on its own row, and Select-mode text action buttons remain content-sized in compact Presentation mode instead of being forced into 34-pixel icon-button widths. Paste placement, Assets round-trip behavior, Copy Region capture logic, and Pen/touch/viewer machinery are unchanged.
 ## 5.7.11 centered Paste / Asset placement
 
 5.7.11 makes placement semantics uniform. Ordinary Paste now centers copied annotation snippets in the current visible page area. When Assets/Recent is opened from the annotation toolbar, Workbench freezes the active page and visible-center point before switching to Files; choosing either an image or an editable snippet pastes it back at that saved visible center. Asset cards use one action label, **Paste**, for both types. Duplicate remains deliberately different: it creates an offset copy near the original selection. The 5.7.10 Files return-state fix and 5.7.9 Copy Region remain intact.
@@ -792,3 +792,6 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 17. Save one template **With annotations** and one **Clean**; confirm their previews/content differ correctly. In Template Manager set the automatic last page to Graph, Blank, and then a saved template, and test pull/scroll-past-end creation for each.
 18. Rotate an annotated page and, separately, try Page size and Crop/margins after ink to verify stroke alignment remains sensible.
 **More → About this build** reports **Milestone 5.5.2**.
+
+- Selection action icons now replace the text labels for Delete / Duplicate / Copy / Region / Paste, with full tooltip and aria labels preserved.
+- Presentation-mode temporary Files round trips (Assets / Template Manager) no longer exit and re-enter Presentation, which removes the visible blip when going to Files and back.

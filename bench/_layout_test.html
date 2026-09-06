@@ -1,0 +1,12 @@
+<!doctype html><html><head><meta charset='utf-8'><link rel='stylesheet' href='styles.css'></head>
+<body class='presentation'>
+<div id='presentationToolbar' class='presentation-toolbar annotation-toolbar'>
+<div class='annotation-primary'><button class='annotation-tool-btn'>✋</button><button class='annotation-tool-btn'>✎</button><button class='annotation-tool-btn'>H</button><button class='annotation-tool-btn'>E</button><button class='annotation-tool-btn active'>S</button><button class='annotation-tool-btn'>I</button><button class='annotation-tool-btn'>A</button></div>
+<div id='selectionActionGroup' class='ink-option-group selection-action-group'><button id='d' class='selection-action-btn'>Delete</button><button id='du' class='selection-action-btn'>Duplicate</button><button id='c' class='selection-action-btn'>Copy</button><button id='r' class='selection-action-btn'>Region</button><button id='p' class='selection-action-btn'>Paste</button></div>
+<div class='annotation-history'><button>↶</button><button>↷</button></div><span class='annotation-separator'></span><select class='presentation-document-select'><option>Slides - Chapter</option></select><button>↕</button><button>↔</button><button>−</button><span class='presentation-zoom-label'>100%</span><button>+</button><button>◫</button><button>+</button><button>×</button>
+</div>
+<dialog id='regionCaptureDialog' class='info-dialog template-name-dialog' open><form><h2>Copy selected region</h2><p class='template-name-help'>Choose how large the pasted image should be.</p><div class='dialog-actions region-capture-actions'><button id='o'>Original size</button><button id='z'>Current zoom size</button><button id='x'>Cancel</button></div></form></dialog>
+<script>
+const q=id=>document.getElementById(id).getBoundingClientRect();
+const out=document.createElement('pre'); out.id='metrics'; out.textContent=JSON.stringify({toolbar:q('presentationToolbar'),delete:q('d'),duplicate:q('du'),copy:q('c'),region:q('r'),paste:q('p'),dialog:q('regionCaptureDialog'),original:q('o'),zoom:q('z'),cancel:q('x')}); document.body.append(out);
+</script></body></html>
