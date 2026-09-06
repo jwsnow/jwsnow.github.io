@@ -1,3 +1,23 @@
+# PDF Workbench — Milestone 5.7.7
+
+## 5.7.7 architecture simplification / consistency audit
+
+5.7.7 applies the post-Assets architecture audit without changing the field-tested Pen/touch/viewer machinery. Templates now manage directly inside Files instead of a modal Template Manager. Template rename, Local Library naming, and Asset naming all use one small shared naming dialog; Save Template uses that same dialog with one conditional Page content fieldset for With annotations / Clean page.
+
+Local Library and Asset folder trees now share the same small tree primitives (children/path/descendants/sibling-name checks/breadcrumb rendering) and one Move dialog. Blank/Graph/Template/Images/Combine document creation now shares one activation path, preserving the current Local Library destination consistently. Page Size now reuses the existing Crop/Margins scroll-invalidation helper. A `release-check.mjs` script verifies that release/cache/query-string version identifiers stay synchronized.
+
+The internal legacy workspace value `export` still means Files; this release adds an `isFilesWorkspace()` helper in touched code rather than performing a risky mass rename.
+
+### Validation focus
+
+- iPad keyboard typing in Files → Templates → Rename.
+- Save current page as template with both With annotations and Clean page, including from Presentation.
+- Insert Page → Manage templates routes to the same Files → Templates manager and returns to the document.
+- Library and Asset Move actions use the same destination dialog.
+- Blank/Graph/Template/Images/Combine creation still lands in the currently browsed Local Library folder.
+- Pen, Highlighter, pinch, finger scrolling, split/single rendering, and the 5.6.9 interaction baseline are intentionally unchanged.
+
+================ PRIOR README HISTORY ================
 # PDF Workbench — Milestone 5.7.6
 
 ## 5.7.6 simpler Assets workspace + iPad toolbar + New-document destination

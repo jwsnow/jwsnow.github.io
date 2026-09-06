@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.6';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.7';
 
-const APP_VERSION = '5.7.6';
+const APP_VERSION = '5.7.7';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -24,7 +24,7 @@ const els = {
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), filesManageTemplatesBtn: $('filesManageTemplatesBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), nameDialogTemplateAnnotationChoice: $('nameDialogTemplateAnnotationChoice'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
@@ -36,7 +36,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionPasteBtn: $('selectionPasteBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), assetMoveDialog: $('assetMoveDialog'), assetMoveForm: $('assetMoveForm'), assetMoveTitle: $('assetMoveTitle'), assetMoveHelp: $('assetMoveHelp'), assetMoveDestination: $('assetMoveDestination'), assetMoveCloseBtn: $('assetMoveCloseBtn'), assetMoveCancelBtn: $('assetMoveCancelBtn'), assetMoveSaveBtn: $('assetMoveSaveBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionPasteBtn: $('selectionPasteBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -118,14 +118,13 @@ const state = {
   assetRecords: new Map(),
   assetFolders: new Map(),
   assetFolderId: null,
-  pendingAssetMove: null,
   assetBrowserMode: 'manage',
   assetBrowserView: 'library',
-  assetReturnContext: null,
+  filesReturnContext: null,
   libraryFolderId: null,
   libraryViewMode: safePref('pdfwb-library-view', 'grid', ['grid','list']),
   libraryPreviewObserver: null,
-  pendingLibraryMove: null,
+  pendingFolderMove: null,
   pendingBackupImportMode: 'replace',
   libraryPersistTimer: null,
   annotationRedrawJobs: new Map(),
@@ -519,6 +518,59 @@ async function ensureLibrarySourceLoaded(sourceId) {
 }
 
 // ---------------------------------------------------------------------------
+// Shared folder/browser primitives. Local Library and Assets intentionally use
+// the same simple tree model: parentId, sorted children, breadcrumb path,
+// descendant exclusion, and sibling-name checks.
+// ---------------------------------------------------------------------------
+function sortedFolderChildren(folders, parentId=null) {
+  return folders.filter(folder => (folder.parentId || null) === (parentId || null))
+    .sort((a,b) => String(a.name || '').localeCompare(String(b.name || ''), undefined, { sensitivity:'base', numeric:true }));
+}
+function folderPathFrom(getFolder, folderId) {
+  const path=[]; const seen=new Set(); let id=folderId;
+  while (id && !seen.has(id)) {
+    seen.add(id); const folder=getFolder(id); if (!folder) break;
+    path.unshift(folder); id=folder.parentId || null;
+  }
+  return path;
+}
+function folderDescendantIdsFrom(childFolders, folderId) {
+  const result=new Set();
+  const visit=id=>{ for (const child of childFolders(id)) { if (result.has(child.id)) continue; result.add(child.id); visit(child.id); } };
+  visit(folderId); return result;
+}
+function siblingFolderNameExists(folders, name, parentId, excludingId=null) {
+  const target=String(name || '').trim().toLocaleLowerCase();
+  return folders.some(folder => folder.id !== excludingId && (folder.parentId || null) === (parentId || null) && String(folder.name || '').trim().toLocaleLowerCase() === target);
+}
+function buildFolderMoveOptions({ rootLabel, childFolders, excludeFolderId=null }) {
+  const excluded=excludeFolderId ? folderDescendantIdsFrom(childFolders, excludeFolderId) : new Set();
+  if (excludeFolderId) excluded.add(excludeFolderId);
+  const options=[{id:'',label:rootLabel}];
+  const walk=(parentId=null,depth=0)=>{
+    for (const folder of childFolders(parentId)) {
+      if (excluded.has(folder.id)) continue;
+      options.push({id:folder.id,label:`${'— '.repeat(depth)}${folder.name}`});
+      walk(folder.id,depth+1);
+    }
+  };
+  walk(); return options;
+}
+function renderFolderBreadcrumb(container, { rootLabel, currentFolderId, path, setFolder }) {
+  if (!container) return;
+  container.replaceChildren();
+  const root=document.createElement('button');
+  root.type='button'; root.textContent=rootLabel; root.className='library-breadcrumb-button'; root.disabled=!currentFolderId;
+  root.addEventListener('click',()=>setFolder(null)); container.append(root);
+  for (const folder of path) {
+    const sep=document.createElement('span'); sep.className='library-breadcrumb-separator'; sep.textContent='›';
+    const button=document.createElement('button'); button.type='button'; button.textContent=folder.name; button.className='library-breadcrumb-button';
+    button.disabled=folder.id===currentFolderId; button.addEventListener('click',()=>setFolder(folder.id));
+    container.append(sep,button);
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Milestone 5.7 — reusable Assets + browsable local clipboard history
 // ---------------------------------------------------------------------------
 function assetReferencedSourceIds(asset) {
@@ -544,31 +596,14 @@ function activeAssetFolders() {
   return [...state.assetFolders.values()];
 }
 function assetFolderById(id) { return id ? state.assetFolders.get(id) || null : null; }
-function assetFolderChildren(parentId=null) {
-  return activeAssetFolders().filter(folder => (folder.parentId || null) === (parentId || null))
-    .sort((a,b) => String(a.name||'').localeCompare(String(b.name||''), undefined, {sensitivity:'base',numeric:true}));
-}
+function assetFolderChildren(parentId=null) { return sortedFolderChildren(activeAssetFolders(), parentId); }
 function permanentAssetsInFolder(folderId=null) {
   return permanentAssets().filter(asset => (asset.folderId || null) === (folderId || null));
 }
-function assetFolderPath(folderId=state.assetFolderId) {
-  const path=[]; const seen=new Set(); let id=folderId;
-  while (id && !seen.has(id)) {
-    seen.add(id); const folder=assetFolderById(id); if (!folder) break;
-    path.unshift(folder); id=folder.parentId||null;
-  }
-  return path;
-}
-function assetFolderDescendantIds(folderId) {
-  const result=new Set();
-  const visit=id=>{ for (const child of assetFolderChildren(id)) { if (result.has(child.id)) continue; result.add(child.id); visit(child.id); } };
-  visit(folderId); return result;
-}
+function assetFolderPath(folderId=state.assetFolderId) { return folderPathFrom(assetFolderById, folderId); }
+function assetFolderDescendantIds(folderId) { return folderDescendantIdsFrom(assetFolderChildren, folderId); }
 function assetFolderSubtreeIds(folderId) { const ids=assetFolderDescendantIds(folderId); ids.add(folderId); return ids; }
-function assetFolderSiblingNameExists(name,parentId,excludingId=null) {
-  const target=String(name||'').trim().toLocaleLowerCase();
-  return activeAssetFolders().some(folder=>folder.id!==excludingId&&(folder.parentId||null)===(parentId||null)&&String(folder.name||'').trim().toLocaleLowerCase()===target);
-}
+function assetFolderSiblingNameExists(name,parentId,excludingId=null) { return siblingFolderNameExists(activeAssetFolders(),name,parentId,excludingId); }
 function assetNameExists(name,folderId=null,excludingId=null) {
   const target=String(name||'').trim().toLocaleLowerCase();
   return permanentAssets().some(asset=>asset.id!==excludingId&&(asset.folderId||null)===(folderId||null)&&String(asset.name||'').trim().toLocaleLowerCase()===target);
@@ -590,21 +625,13 @@ function assetFolderLocationLabel(folderId=state.assetFolderId) {
   return names.length ? `Assets / ${names.join(' / ')}` : 'Assets';
 }
 function renderAssetBreadcrumb() {
-  if (!els.assetBreadcrumb) return;
-  els.assetBreadcrumb.replaceChildren();
-  const root=document.createElement('button'); root.type='button'; root.textContent='Assets'; root.className='library-breadcrumb-button'; root.disabled=!state.assetFolderId; root.addEventListener('click',()=>setAssetFolder(null));
-  els.assetBreadcrumb.append(root);
-  for (const folder of assetFolderPath()) {
-    const sep=document.createElement('span'); sep.className='library-breadcrumb-separator'; sep.textContent='›';
-    const button=document.createElement('button'); button.type='button'; button.textContent=folder.name; button.className='library-breadcrumb-button'; button.disabled=folder.id===state.assetFolderId; button.addEventListener('click',()=>setAssetFolder(folder.id));
-    els.assetBreadcrumb.append(sep,button);
-  }
+  renderFolderBreadcrumb(els.assetBreadcrumb,{rootLabel:'Assets',currentFolderId:state.assetFolderId,path:assetFolderPath(),setFolder:setAssetFolder});
 }
 async function persistAssetFolderRecord(folder) {
   state.assetFolders.set(folder.id,folder);
   if (await ensureLibraryConnection()) await libraryPut('assetFolders',folder);
   updateAssetsSummary();
-  if (state.workspaceMode === 'export' && els.assetsFilesSection?.open) renderAssetBrowser();
+  if (isFilesWorkspace() && els.assetsFilesSection?.open) renderAssetBrowser();
   return folder;
 }
 async function createAssetFolder() {
@@ -622,45 +649,7 @@ async function renameAssetFolder(folderId) {
   if (assetFolderSiblingNameExists(name,folder.parentId,folder.id)) { setStatus('An Asset folder with that name already exists there'); return; }
   await persistAssetFolderRecord({...folder,name,modifiedAt:Date.now(),schemaVersion:LIBRARY_SCHEMA_VERSION}); setStatus(`Renamed Asset folder to ${name}`);
 }
-function assetMoveFolderOptions(excludingFolderId=null) {
-  const excluded=excludingFolderId ? assetFolderSubtreeIds(excludingFolderId) : new Set();
-  const options=[{id:'',label:'Assets (top level)'}];
-  const walk=(parentId=null,depth=0)=>{
-    for (const folder of assetFolderChildren(parentId)) {
-      if (excluded.has(folder.id)) continue;
-      options.push({id:folder.id,label:`${'— '.repeat(depth)}${folder.name}`}); walk(folder.id,depth+1);
-    }
-  };
-  walk(null,0); return options;
-}
-function openAssetMoveDialog(kind,id) {
-  const isFolder=kind==='folder'; const item=isFolder?assetFolderById(id):state.assetRecords.get(id); if (!item) return;
-  state.pendingAssetMove={kind,id};
-  const options=assetMoveFolderOptions(isFolder?id:null);
-  els.assetMoveDestination.replaceChildren(...options.map(entry=>{const option=document.createElement('option');option.value=entry.id;option.textContent=entry.label;return option;}));
-  const currentParent=isFolder?(item.parentId||''):(item.folderId||'');
-  els.assetMoveDestination.value=options.some(entry=>entry.id===currentParent)?currentParent:'';
-  els.assetMoveTitle.textContent=`Move ${isFolder?'asset folder':'asset'}`;
-  els.assetMoveHelp.textContent=`Choose a destination inside the Asset Library for “${item.name||'this item'}”.`;
-  els.assetMoveDialog.showModal();
-}
-async function completeAssetMove() {
-  const pending=state.pendingAssetMove; if (!pending) return;
-  const destination=els.assetMoveDestination.value||null;
-  if (pending.kind==='folder') {
-    const folder=assetFolderById(pending.id); if (!folder) return;
-    if ((folder.parentId||null)===destination) return;
-    if (assetFolderSiblingNameExists(folder.name,destination,folder.id)) throw new Error('An Asset folder with that name already exists in the destination.');
-    await persistAssetFolderRecord({...folder,parentId:destination,modifiedAt:Date.now(),schemaVersion:LIBRARY_SCHEMA_VERSION});
-    setStatus(`Moved Asset folder ${folder.name}`);
-  } else {
-    const asset=state.assetRecords.get(pending.id); if (!asset) return;
-    if ((asset.folderId||null)===destination) return;
-    const name=uniqueAssetName(asset.name||defaultAssetName(asset.type,destination),destination,asset.id);
-    await persistAssetRecord({...asset,name,folderId:destination,modifiedAt:Date.now(),schemaVersion:LIBRARY_SCHEMA_VERSION});
-    setStatus(`Moved ${name}`);
-  }
-}
+function openAssetMoveDialog(kind,id) { openFolderMoveDialog('asset',kind,id); }
 async function deleteAssetFolderTree(folderId) {
   const root=assetFolderById(folderId); if (!root) return;
   const ids=assetFolderSubtreeIds(folderId);
@@ -753,7 +742,7 @@ async function persistAssetRecord(asset) {
     for (const sourceId of assetReferencedSourceIds(asset)) await persistSourceToLibrary(sourceId);
     await libraryPut('assets', asset);
   }
-  if (state.workspaceMode === 'export' && els.assetsFilesSection?.open) renderAssetBrowser();
+  if (isFilesWorkspace() && els.assetsFilesSection?.open) renderAssetBrowser();
   return asset;
 }
 async function persistAllAssetsNow() {
@@ -847,7 +836,7 @@ async function deleteAssetRecord(assetId, options={}) {
   await removeUnusedPersistentSources(sourceIds);
   updateAssetsSummary();
   updateSelectionToolbar();
-  if (state.workspaceMode === 'export' && els.assetsFilesSection?.open) renderAssetBrowser();
+  if (isFilesWorkspace() && els.assetsFilesSection?.open) renderAssetBrowser();
 }
 async function preloadAssetSources(asset) {
   for (const sourceId of assetReferencedSourceIds(asset)) await ensureLibrarySourceLoaded(sourceId);
@@ -939,18 +928,31 @@ function renderAssetBrowser() {
     if (asset.type==='image') drawImageAssetThumbnail(canvas,asset); else drawSnippetThumbnail(canvas,asset);
   }
 }
+function isFilesWorkspace() { return state.workspaceMode === 'export'; } // legacy internal name for Files
+function captureWorkspaceContext() {
+  return { workspaceMode:state.workspaceMode, presentation:document.body.classList.contains('presentation') };
+}
+async function beginFilesRoundTrip(owner) {
+  saveCurrentDocumentState();
+  const context={owner,...captureWorkspaceContext()};
+  // Exit Presentation before registering the round trip: exitPresentation may
+  // itself restore View, which should not be mistaken for a user cancellation.
+  if (context.presentation) await exitPresentation();
+  state.filesReturnContext=context;
+  showWorkspaceMode('export');
+  return context;
+}
+async function endFilesRoundTrip(owner,{forceView=false}={}) {
+  const context=state.filesReturnContext?.owner===owner ? state.filesReturnContext : null;
+  if (context) state.filesReturnContext=null;
+  if (!context && !forceView) return;
+  showWorkspaceMode(context?.workspaceMode==='organize' ? 'organize' : 'view');
+  if (context?.presentation) await enterPresentation();
+}
 async function openAssetBrowser(mode='manage', view=null) {
   const insertMode = mode === 'insert';
-  if (insertMode) {
-    saveCurrentDocumentState();
-    state.assetReturnContext = {
-      workspaceMode: state.workspaceMode,
-      presentation: document.body.classList.contains('presentation'),
-    };
-    if (state.assetReturnContext.presentation) await exitPresentation();
-  } else {
-    state.assetReturnContext = null;
-  }
+  if (insertMode) await beginFilesRoundTrip('assets');
+  else state.filesReturnContext = null;
   state.assetBrowserMode = insertMode ? 'insert' : 'manage';
   if (view) state.assetBrowserView = view;
   else if (!['library','recent'].includes(state.assetBrowserView)) state.assetBrowserView='library';
@@ -961,13 +963,9 @@ async function openAssetBrowser(mode='manage', view=null) {
   requestAnimationFrame(() => els.assetsFilesSection?.scrollIntoView({ block:'start' }));
 }
 async function returnFromAssetBrowser({ forceView=false }={}) {
-  const context = state.assetReturnContext;
-  state.assetReturnContext = null;
   state.assetBrowserMode = 'manage';
   renderAssetBrowser();
-  if (!context && !forceView) return;
-  showWorkspaceMode(context?.workspaceMode === 'organize' ? 'organize' : 'view');
-  if (context?.presentation) await enterPresentation();
+  await endFilesRoundTrip('assets',{forceView});
 }
 function activeAnnotationViewerElement() {
   if (state.splitView) return paneElements(state.activePaneId)?.viewer || null;
@@ -4620,6 +4618,19 @@ function placeCreatedDocumentInCurrentLibraryFolder(doc) {
   doc.name = uniqueLibraryDocumentName(doc.name, folderId, doc.id);
   return doc;
 }
+function activateCreatedDocument(doc,pages,{workspaceMode='view'}={}) {
+  if (!doc) return null;
+  const pageList=Array.isArray(pages)?pages:[]; const firstPageId=pageList[0]?.id||null;
+  doc.pages=pageList; doc.selected=new Set(); doc.selectionAnchorId=null; doc.activePageId=firstPageId; doc.history=[]; doc.future=[];
+  doc.singleView={zoom:1,fitMode:state.fitMode,scrollMode:state.scrollMode,activePageId:firstPageId,scrollTop:null,scrollLeft:null};
+  state.pages=doc.pages; state.selected=doc.selected; state.selectionAnchorId=null; state.activePageId=firstPageId; state.history=doc.history; state.future=doc.future;
+  state.fileSelected=new Set([doc.id]); state.fileSelectionInitialized=true; state.combineOrder=[doc.id]; state.workspaceMode=workspaceMode;
+  if (state.splitView) { const pane=splitPaneState(state.activePaneId); pane.documentId=doc.id; pane.views.set(doc.id,defaultPaneView(doc)); }
+  saveCurrentDocumentState({readViewDom:false}); renderAll({saveState:false}); return doc;
+}
+function createUserDocument(name,pages,options={}) {
+  return activateCreatedDocument(placeCreatedDocumentInCurrentLibraryFolder(createDocument(name)),pages,options);
+}
 
 function sourceUsedByDocuments(sourceId, excludingDocumentId=null) {
   return state.documents.some(doc => doc.id !== excludingDocumentId && doc.pages.some(page => pageReferencedSourceIds(page).has(sourceId)));
@@ -5097,7 +5108,7 @@ function updateHistoryButtons() {
 async function openFiles(fileList, options={}) {
   const files = [...fileList];
   if (!files.length) return;
-  const invokedFromFiles = options.fromFiles ?? (state.workspaceMode === 'export');
+  const invokedFromFiles = options.fromFiles ?? isFilesWorkspace();
   const destinationFolderId = options.folderId !== undefined
     ? (options.folderId || null)
     : (invokedFromFiles ? (state.libraryFolderId || null) : null);
@@ -5128,7 +5139,7 @@ async function openFiles(fileList, options={}) {
       pagesAdded += added;
     } catch (err) {
       console.error(err);
-      removeDocument(doc.id);
+      if (doc) removeDocument(doc.id);
       setStatus(`Could not open ${file.name}: ${err.message || err}`);
     }
   }
@@ -5346,7 +5357,7 @@ function createImageAssemblyDocument() {
   const name = ensurePdfFilename(els.imageAssemblyName?.value, `Images ${state.imageAssemblySequence}.pdf`);
   if (els.imageAssemblyCreateBtn) els.imageAssemblyCreateBtn.disabled = true;
   if (els.imageAssemblyProgress) els.imageAssemblyProgress.textContent = `Creating ${items.length}-page image document…`;
-  const doc = placeCreatedDocumentInCurrentLibraryFolder(createDocument(name));
+  let doc=null;
   const pages = [];
   try {
     for (const item of items) {
@@ -5360,35 +5371,12 @@ function createImageAssemblyDocument() {
         baseRotation: 0, rotation: 0, kind: 'image'
       });
     }
-    doc.pages = pages;
-    doc.selected = new Set();
-    doc.selectionAnchorId = null;
-    doc.activePageId = pages[0]?.id || null;
-    doc.history = [];
-    doc.future = [];
-    doc.singleView = { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: doc.activePageId, scrollTop: null, scrollLeft: null };
-    state.pages = doc.pages;
-    state.selected = doc.selected;
-    state.selectionAnchorId = null;
-    state.activePageId = doc.activePageId;
-    state.history = doc.history;
-    state.future = doc.future;
-    state.fileSelected = new Set([doc.id]);
-    state.fileSelectionInitialized = true;
-    state.combineOrder = [doc.id];
-    state.workspaceMode = 'organize';
-    if (state.splitView) {
-      const pane = splitPaneState(state.activePaneId);
-      pane.documentId = doc.id;
-      pane.views.set(doc.id, defaultPaneView(doc));
-    }
+    doc=createUserDocument(name,pages,{workspaceMode:'organize'});
     // Ownership of the blob URLs has moved from the pending assembly into
     // state.sources. Clear the pending list without revoking those URLs.
     state.imageAssemblyItems = [];
     if (els.imageAssemblyInput) els.imageAssemblyInput.value = '';
-    saveCurrentDocumentState({ readViewDom: false });
     renderImageAssemblyList();
-    renderAll({ saveState: false });
     if (els.imageAssemblyProgress) els.imageAssemblyProgress.textContent = `Created ${name} with ${pages.length} image page${pages.length === 1 ? '' : 's'}.`;
     state.imageAssemblySequence += 1;
     if (els.imageAssemblyName) els.imageAssemblyName.value = `Images ${state.imageAssemblySequence}.pdf`;
@@ -5396,7 +5384,7 @@ function createImageAssemblyDocument() {
     scheduleLibraryPersist(120);
   } catch (err) {
     console.error(err);
-    removeDocument(doc.id);
+    if (doc) removeDocument(doc.id);
     if (els.imageAssemblyProgress) els.imageAssemblyProgress.textContent = `Could not create image document: ${err?.message || err}`;
     setStatus('Could not create image document');
   } finally {
@@ -5678,57 +5666,28 @@ function renderInsertTemplateList() {
   if (els.filesTemplatesSummary) els.filesTemplatesSummary.textContent = state.templates.length
     ? `${state.templates.length} template${state.templates.length === 1 ? '' : 's'}`
     : 'No templates saved';
-  if (els.filesManageTemplatesBtn) els.filesManageTemplatesBtn.disabled = false;
-}
-
-function requestTemplateName(suggested, options={}) {
-  if (!els.templateNameDialog || !els.templateNameInput) return Promise.resolve(options.chooseAnnotations ? { name:suggested, includeAnnotations:true } : suggested);
-  return new Promise(resolve => {
-    const dialog = els.templateNameDialog;
-    const annotationChoice = $('templateAnnotationChoice');
-    els.templateNameInput.value = suggested;
-    annotationChoice?.classList.toggle('hidden', !options.chooseAnnotations);
-    if (options.chooseAnnotations) {
-      const withAnnotations = dialog.querySelector('input[name="templateAnnotationMode"][value="with"]');
-      if (withAnnotations) withAnnotations.checked = true;
-    }
-    const finish = () => {
-      dialog.removeEventListener('close', finish);
-      const accepted = dialog.returnValue === 'save';
-      const value = els.templateNameInput.value.trim();
-      if (!accepted) { resolve(null); return; }
-      const name = value || suggested;
-      if (!options.chooseAnnotations) { resolve(name); return; }
-      const mode = dialog.querySelector('input[name="templateAnnotationMode"]:checked')?.value || 'with';
-      resolve({ name, includeAnnotations: mode !== 'clean' });
-    };
-    dialog.addEventListener('close', finish, { once: true });
-    dialog.showModal();
-    requestAnimationFrame(() => {
-      els.templateNameInput.focus({ preventScroll: true });
-      els.templateNameInput.select();
-    });
-  });
+  if (els.templatesFilesSection?.open) renderFilesTemplateManager();
 }
 
 async function saveCurrentPageAsTemplate(targetContext=null) {
-  const page = templatePageForSave(targetContext);
+  const page=templatePageForSave(targetContext);
   if (!page) { setStatus('No page is available to save as a template'); return false; }
-  const suggested = nextTemplateName();
-  // Use an in-app dialog rather than window.prompt(). Native prompt can force
-  // Chromium/Surface out of Fullscreen, which previously kicked Presentation
-  // back to regular View while saving a template.
-  const details = await requestTemplateName(suggested, { chooseAnnotations:true });
-  if (details === null) return false;
-  const template = {
-    id: uid('template'),
-    name: details.name,
-    page: { ...clonePageState(page, { includeAnnotations:details.includeAnnotations }), id: null },
-    createdAt: Date.now(),
-    modifiedAt: Date.now(),
+  const suggested=nextTemplateName();
+  // Text entry follows the same proven Files-based path as Local Library and
+  // Assets. This keeps iPad's software-keyboard viewport changes away from the
+  // live viewer while still using one small shared naming dialog.
+  await beginFilesRoundTrip('template-save');
+  let details=null;
+  try { details=await requestTemplateSaveDetails(suggested); }
+  finally { await endFilesRoundTrip('template-save'); }
+  if (details===null) return false;
+  const template={
+    id:uid('template'), name:details.name,
+    page:{...clonePageState(page,{includeAnnotations:details.includeAnnotations}),id:null},
+    createdAt:Date.now(), modifiedAt:Date.now(),
   };
   state.templates.push(template);
-  renderInsertTemplateList();
+  renderInsertTemplateList(); renderFilesTemplateManager();
   scheduleLibraryPersist(80);
   setStatus(`Saved page as ${details.name}${details.includeAnnotations ? '' : ' (clean)'}`);
   return true;
@@ -5756,112 +5715,68 @@ function deleteTemplate(templateId) {
   scheduleLibraryPersist(80);
 }
 
-function showTemplateManager() {
-  closeInsertPageMenu(false);
-  els.infoDialog.classList.add('template-dialog');
-  const renderManager = () => {
-    els.dialogContent.innerHTML = `<h2>Templates</h2>
-      <p>Templates are stored with the Local Library on this device and return when PDF Workbench is reopened.</p>
-      <section class="template-default-section">
-        <h3>Automatic new last page</h3>
-        <p class="small-note">When you pull/scroll past the last page, PDF Workbench can append one page. Graph and Blank match the dimensions of the preceding last page; a saved template keeps its own dimensions. The factory default is Graph paper.</p>
-        <label for="newLastPageDefaultSelect">Default page</label>
-        <select id="newLastPageDefaultSelect"></select>
-      </section>
-      <h3>Saved templates</h3>
-      <div id="templateManagerList" class="template-manager-list"></div>`;
-
-    const select = $('newLastPageDefaultSelect');
-    const addOption = (value, label) => {
-      const option = document.createElement('option');
-      option.value = value;
-      option.textContent = label;
-      select.append(option);
-    };
-    addOption('graph', 'Graph paper — same size as last page');
-    addOption('blank', 'Blank — same size as last page');
-    for (const template of state.templates) addOption(`template:${template.id}`, `Template: ${template.name}`);
-    const selectedValue = state.newLastPageDefault?.kind === 'template'
-      ? `template:${state.newLastPageDefault.templateId}`
-      : (state.newLastPageDefault?.kind === 'blank' ? 'blank' : 'graph');
-    select.value = [...select.options].some(option => option.value === selectedValue) ? selectedValue : 'graph';
-    select.addEventListener('change', () => {
-      const value = select.value;
-      if (value.startsWith('template:')) {
-        const templateId = value.slice('template:'.length);
-        state.newLastPageDefault = state.templates.some(template => template.id === templateId)
-          ? { kind:'template', templateId }
-          : { kind:'graph', templateId:null };
-      } else {
-        state.newLastPageDefault = { kind:value === 'blank' ? 'blank' : 'graph', templateId:null };
-      }
-      scheduleLibraryPersist(80);
-      setStatus(`Automatic last page: ${select.options[select.selectedIndex]?.textContent || 'Graph paper'}`);
+function renderFilesTemplateManager() {
+  const container=els.filesTemplateManager;
+  if (!container || !els.templatesFilesSection?.open) return;
+  container.replaceChildren();
+  const defaultSection=document.createElement('section'); defaultSection.className='template-default-section';
+  defaultSection.innerHTML=`<h3>Automatic new last page</h3><p class="small-note">When you pull/scroll past the last page, PDF Workbench can append one page. Graph and Blank match the dimensions of the preceding last page; a saved template keeps its own dimensions. The factory default is Graph paper.</p><label for="newLastPageDefaultSelect">Default page</label><select id="newLastPageDefaultSelect"></select>`;
+  container.append(defaultSection);
+  const select=defaultSection.querySelector('#newLastPageDefaultSelect');
+  const addOption=(value,label)=>{const option=document.createElement('option');option.value=value;option.textContent=label;select.append(option);};
+  addOption('graph','Graph paper — same size as last page'); addOption('blank','Blank — same size as last page');
+  for (const template of state.templates) addOption(`template:${template.id}`,`Template: ${template.name}`);
+  const selectedValue=state.newLastPageDefault?.kind==='template' ? `template:${state.newLastPageDefault.templateId}` : (state.newLastPageDefault?.kind==='blank'?'blank':'graph');
+  select.value=[...select.options].some(option=>option.value===selectedValue)?selectedValue:'graph';
+  select.addEventListener('change',()=>{
+    const value=select.value;
+    if (value.startsWith('template:')) {
+      const templateId=value.slice('template:'.length);
+      state.newLastPageDefault=state.templates.some(template=>template.id===templateId)?{kind:'template',templateId}:{kind:'graph',templateId:null};
+    } else state.newLastPageDefault={kind:value==='blank'?'blank':'graph',templateId:null};
+    scheduleLibraryPersist(80); setStatus(`Automatic last page: ${select.options[select.selectedIndex]?.textContent||'Graph paper'}`);
+  });
+  const heading=document.createElement('h3'); heading.textContent='Saved templates'; container.append(heading);
+  const manager=document.createElement('div'); manager.className='template-manager-list'; container.append(manager);
+  if (!state.templates.length) { const empty=document.createElement('p'); empty.textContent='No templates are saved.'; manager.append(empty); return; }
+  for (const template of state.templates) {
+    const row=document.createElement('div'); row.className='template-manager-row'; row.dataset.templateId=template.id;
+    const preview=document.createElement('div'); preview.className='template-manager-preview';
+    const canvas=document.createElement('canvas'); canvas.setAttribute('aria-label',`Preview of ${template.name}`); preview.append(canvas);
+    const info=document.createElement('div'); info.className='template-manager-info';
+    const name=document.createElement('div'); name.className='template-manager-name'; name.textContent=template.name;
+    const size=document.createElement('div'); size.className='template-manager-meta';
+    const {width:w,height:h}=pageDisplayDimensions(template.page); const annotationCount=Array.isArray(template.page?.annotations)?template.page.annotations.length:0;
+    size.textContent=`${Math.round(w)} × ${Math.round(h)} pt${annotationCount?` · ${annotationCount} annotation object${annotationCount===1?'':'s'}`:' · clean'}`;
+    info.append(name,size);
+    const actions=document.createElement('div'); actions.className='template-manager-actions';
+    const rename=document.createElement('button'); rename.type='button'; rename.textContent='Rename';
+    const del=document.createElement('button'); del.type='button'; del.textContent='Delete'; actions.append(rename,del);
+    row.append(preview,info,actions); manager.append(row);
+    rename.addEventListener('click',async()=>{
+      const nextName=await requestLibraryName({title:'Rename template',suggested:template.name,saveLabel:'Rename'});
+      if (nextName===null || nextName===template.name) return;
+      template.name=nextName; template.modifiedAt=Date.now(); renderInsertTemplateList(); scheduleLibraryPersist(80); renderFilesTemplateManager(); setStatus(`Renamed template to ${nextName}`);
     });
-
-    const manager = $('templateManagerList');
-    if (!state.templates.length) {
-      const empty = document.createElement('p');
-      empty.textContent = 'No templates are saved.';
-      manager.append(empty);
-      return;
-    }
-    for (const template of state.templates) {
-      const row = document.createElement('div');
-      row.className = 'template-manager-row';
-      row.dataset.templateId = template.id;
-
-      const preview = document.createElement('div');
-      preview.className = 'template-manager-preview';
-      const canvas = document.createElement('canvas');
-      canvas.setAttribute('aria-label', `Preview of ${template.name}`);
-      preview.append(canvas);
-
-      const info = document.createElement('div');
-      info.className = 'template-manager-info';
-      const name = document.createElement('div');
-      name.className = 'template-manager-name';
-      name.textContent = template.name;
-      const size = document.createElement('div');
-      size.className = 'template-manager-meta';
-      const { width: w, height: h } = pageDisplayDimensions(template.page);
-      const annotationCount = Array.isArray(template.page?.annotations) ? template.page.annotations.length : 0;
-      size.textContent = `${Math.round(w)} × ${Math.round(h)} pt${annotationCount ? ` · ${annotationCount} annotation object${annotationCount === 1 ? '' : 's'}` : ' · clean'}`;
-      info.append(name, size);
-
-      const actions = document.createElement('div');
-      actions.className = 'template-manager-actions';
-      const rename = document.createElement('button');
-      rename.type = 'button';
-      rename.textContent = 'Rename';
-      const del = document.createElement('button');
-      del.type = 'button';
-      del.textContent = 'Delete';
-      actions.append(rename, del);
-      row.append(preview, info, actions);
-      manager.append(row);
-
-      rename.addEventListener('click', async () => {
-        const nextName = await requestTemplateName(template.name);
-        if (nextName === null) return;
-        template.name = nextName;
-        template.modifiedAt = Date.now();
-        renderInsertTemplateList();
-        scheduleLibraryPersist(80);
-        renderManager();
-        setStatus(`Renamed template to ${nextName}`);
-      });
-      del.addEventListener('click', () => {
-        if (!window.confirm(`Delete template “${template.name}”?`)) return;
-        deleteTemplate(template.id);
-        renderManager();
-        setStatus('Template deleted');
-      });
-      requestAnimationFrame(() => renderCompactPagePreview(template.page, canvas));
-    }
-  };
-  renderManager();
-  if (!els.infoDialog.open) els.infoDialog.showModal();
+    del.addEventListener('click',()=>{
+      if (!window.confirm(`Delete template “${template.name}”?`)) return;
+      deleteTemplate(template.id); renderFilesTemplateManager(); setStatus('Template deleted');
+    });
+    requestAnimationFrame(()=>renderCompactPagePreview(template.page,canvas));
+  }
+}
+async function openTemplateManager({returnToDocument=false}={}) {
+  closeInsertPageMenu(false);
+  if (returnToDocument) await beginFilesRoundTrip('templates');
+  else { state.filesReturnContext=null; showWorkspaceMode('export'); }
+  if (els.templatesFilesSection) els.templatesFilesSection.open=true;
+  els.templateManageModeBar?.classList.toggle('hidden',state.filesReturnContext?.owner!=='templates');
+  renderFilesTemplateManager();
+  requestAnimationFrame(()=>els.templatesFilesSection?.scrollIntoView({block:'start'}));
+}
+async function returnFromTemplateManager() {
+  els.templateManageModeBar?.classList.add('hidden');
+  await endFilesRoundTrip('templates',{forceView:true});
 }
 
 function insertionTargetPageId() {
@@ -6137,29 +6052,9 @@ function createNewGeneratedDocument(type='blank') {
   const isGraph = type === 'graph';
   const presentationSized = els.newDocumentPageSize?.value === 'presentation';
   const dimensions = selectedNewDocumentPageDimensions();
-  const doc = placeCreatedDocumentInCurrentLibraryFolder(createDocument(isGraph ? (presentationSized ? 'Presentation Graph Paper.pdf' : 'Graph Paper.pdf') : (presentationSized ? 'Presentation Blank.pdf' : 'Untitled.pdf')));
-  state.fileSelected = new Set([doc.id]);
-  state.fileSelectionInitialized = true;
-  state.combineOrder = [doc.id];
   const blankBackground = isGraph ? 'white' : state.newBlankBackground;
   const page = generatedPage(isGraph ? 'graph' : 'blank', dimensions.width, dimensions.height, blankBackground);
-  doc.pages = [page];
-  doc.activePageId = page.id;
-  doc.singleView = { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: page.id, scrollTop: null, scrollLeft: null };
-  state.pages = doc.pages;
-  state.selected = doc.selected;
-  state.selectionAnchorId = null;
-  state.activePageId = page.id;
-  state.history = doc.history;
-  state.future = doc.future;
-  state.workspaceMode = 'view';
-  if (state.splitView) {
-    const pane = splitPaneState(state.activePaneId);
-    pane.documentId = doc.id;
-    pane.views.set(doc.id, defaultPaneView(doc));
-  }
-  saveCurrentDocumentState({ readViewDom: false });
-  renderAll({ saveState: false });
+  const doc=createUserDocument(isGraph ? (presentationSized ? 'Presentation Graph Paper.pdf' : 'Graph Paper.pdf') : (presentationSized ? 'Presentation Blank.pdf' : 'Untitled.pdf'),[page],{workspaceMode:'view'});
   setStatus(`Created new ${isGraph ? 'graph-paper' : (blankBackground === 'black' ? 'black-background blank' : 'blank')} document${presentationSized ? ' at the current Presentation ratio' : ''}`);
   if (!isGraph) setNewBlankBackground('white');
   scheduleLibraryPersist(120);
@@ -6170,28 +6065,8 @@ function createNewDocumentFromTemplate(templateId) {
   if (!template?.page) { setStatus('That template is no longer available'); return; }
   const templateBaseName = String(template.name || 'Template').trim() || 'Template';
   const templatePdfName = /\.pdf$/i.test(templateBaseName) ? templateBaseName : `${templateBaseName}.pdf`;
-  const doc = placeCreatedDocumentInCurrentLibraryFolder(createDocument(templatePdfName));
-  state.fileSelected = new Set([doc.id]);
-  state.fileSelectionInitialized = true;
-  state.combineOrder = [doc.id];
   const page = clonePageInstance(template.page, true);
-  doc.pages = [page];
-  doc.activePageId = page.id;
-  doc.singleView = { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: page.id, scrollTop: null, scrollLeft: null };
-  state.pages = doc.pages;
-  state.selected = doc.selected;
-  state.selectionAnchorId = null;
-  state.activePageId = page.id;
-  state.history = doc.history;
-  state.future = doc.future;
-  state.workspaceMode = 'view';
-  if (state.splitView) {
-    const pane = splitPaneState(state.activePaneId);
-    pane.documentId = doc.id;
-    pane.views.set(doc.id, defaultPaneView(doc));
-  }
-  saveCurrentDocumentState({ readViewDom: false });
-  renderAll({ saveState: false });
+  const doc=createUserDocument(templatePdfName,[page],{workspaceMode:'view'});
   setStatus(`Created new document from template ${template.name}`);
   scheduleLibraryPersist(120);
 }
@@ -6478,38 +6353,13 @@ function activeLibraryFolders() {
 }
 
 function libraryFolderById(id) { return id ? state.libraryFolders.get(id) || null : null; }
-function libraryFolderChildren(parentId=null) {
-  return activeLibraryFolders().filter(folder => (folder.parentId || null) === (parentId || null))
-    .sort((a,b) => String(a.name).localeCompare(String(b.name), undefined, { sensitivity: 'base' }));
-}
+function libraryFolderChildren(parentId=null) { return sortedFolderChildren(activeLibraryFolders(), parentId); }
 function libraryDocumentsInFolder(folderId=null) {
   return activeLibraryRecords().filter(record => (record.folderId || null) === (folderId || null))
     .sort((a,b) => String(a.name).localeCompare(String(b.name), undefined, { sensitivity: 'base' }));
 }
-function libraryFolderPath(folderId=state.libraryFolderId) {
-  const path = [];
-  const seen = new Set();
-  let id = folderId;
-  while (id && !seen.has(id)) {
-    seen.add(id);
-    const folder = libraryFolderById(id);
-    if (!folder) break;
-    path.unshift(folder);
-    id = folder.parentId || null;
-  }
-  return path;
-}
-function libraryFolderDescendantIds(folderId) {
-  const result = new Set();
-  const visit = id => {
-    for (const child of activeLibraryFolders().filter(folder => (folder.parentId || null) === id)) {
-      if (result.has(child.id)) continue;
-      result.add(child.id); visit(child.id);
-    }
-  };
-  visit(folderId);
-  return result;
-}
+function libraryFolderPath(folderId=state.libraryFolderId) { return folderPathFrom(libraryFolderById, folderId); }
+function libraryFolderDescendantIds(folderId) { return folderDescendantIdsFrom(libraryFolderChildren, folderId); }
 function libraryFolderSubtreeIds(folderId) {
   const ids = libraryFolderDescendantIds(folderId);
   ids.add(folderId);
@@ -6523,10 +6373,7 @@ function trashedFolderRoots() {
   return [...state.libraryFolders.values()].filter(folder => folder.trashedAt && folder.trashBatchId === folder.id)
     .sort((a,b) => (b.trashedAt || 0) - (a.trashedAt || 0) || String(a.name).localeCompare(String(b.name)));
 }
-function librarySiblingNameExists(name, parentId, excludingId=null) {
-  const target = String(name || '').trim().toLocaleLowerCase();
-  return activeLibraryFolders().some(folder => folder.id !== excludingId && (folder.parentId || null) === (parentId || null) && String(folder.name || '').trim().toLocaleLowerCase() === target);
-}
+function librarySiblingNameExists(name,parentId,excludingId=null) { return siblingFolderNameExists(activeLibraryFolders(),name,parentId,excludingId); }
 function uniqueLibraryDocumentName(baseName, folderId=null, excludingId=null) {
   const records = activeLibraryRecords().filter(record => record.id !== excludingId && (record.folderId || null) === (folderId || null));
   const names = new Set(records.map(record => String(record.name || '').toLocaleLowerCase()));
@@ -6565,21 +6412,7 @@ function setLibraryViewMode(mode) {
 }
 
 function renderLibraryBreadcrumb() {
-  if (!els.libraryBreadcrumb) return;
-  els.libraryBreadcrumb.replaceChildren();
-  const root = document.createElement('button');
-  root.type = 'button'; root.textContent = 'Library'; root.className = 'library-breadcrumb-button';
-  root.disabled = !state.libraryFolderId;
-  root.addEventListener('click', () => setLibraryFolder(null));
-  els.libraryBreadcrumb.append(root);
-  for (const folder of libraryFolderPath()) {
-    const sep = document.createElement('span'); sep.className = 'library-breadcrumb-separator'; sep.textContent = '›';
-    const button = document.createElement('button');
-    button.type = 'button'; button.textContent = folder.name; button.className = 'library-breadcrumb-button';
-    button.disabled = folder.id === state.libraryFolderId;
-    button.addEventListener('click', () => setLibraryFolder(folder.id));
-    els.libraryBreadcrumb.append(sep, button);
-  }
+  renderFolderBreadcrumb(els.libraryBreadcrumb,{rootLabel:'Library',currentFolderId:state.libraryFolderId,path:libraryFolderPath(),setFolder:setLibraryFolder});
 }
 
 function ensureLibraryPreviewObserver() {
@@ -6617,38 +6450,52 @@ function queueLibraryPreview(record, canvas) {
   else requestAnimationFrame(() => renderLibraryFirstPagePreview(record, canvas));
 }
 
-function requestLibraryName({ title='Name', help='', suggested='', saveLabel='Save' }={}) {
-  if (!els.libraryNameDialog || !els.libraryNameInput) return Promise.resolve(window.prompt(title, suggested));
+function requestNameDialog({ title='Name', help='', suggested='', saveLabel='Save', templateAnnotationChoice=false }={}) {
+  if (!els.libraryNameDialog || !els.libraryNameInput) {
+    const name=window.prompt(title,suggested);
+    if (name===null) return Promise.resolve(null);
+    return Promise.resolve(templateAnnotationChoice ? {name,includeAnnotations:true} : name);
+  }
   return new Promise(resolve => {
-    els.libraryNameTitle.textContent = title;
-    els.libraryNameHelp.textContent = help;
-    els.libraryNameInput.value = suggested;
-    els.libraryNameSaveBtn.textContent = saveLabel;
-    let finished = false;
-    const finish = value => {
-      if (finished) return; finished = true;
-      try { els.libraryNameDialog.close(); } catch {}
+    const dialog=els.libraryNameDialog;
+    const choice=els.nameDialogTemplateAnnotationChoice;
+    els.libraryNameTitle.textContent=title;
+    els.libraryNameHelp.textContent=help;
+    els.libraryNameInput.value=suggested;
+    els.libraryNameSaveBtn.textContent=saveLabel;
+    choice?.classList.toggle('hidden',!templateAnnotationChoice);
+    if (templateAnnotationChoice) {
+      const withAnnotations=dialog.querySelector('input[name="nameDialogTemplateAnnotationMode"][value="with"]');
+      if (withAnnotations) withAnnotations.checked=true;
+    }
+    let finished=false;
+    const cleanup=()=>{
+      els.libraryNameForm.onsubmit=null; els.libraryNameCloseBtn.onclick=null; els.libraryNameCancelBtn.onclick=null; dialog.oncancel=null;
+      choice?.classList.add('hidden');
+    };
+    const finish=value=>{
+      if (finished) return; finished=true; cleanup();
+      try { dialog.close(); } catch {}
       resolve(value);
     };
-    const onSubmit = e => {
-      e.preventDefault();
-      const value = els.libraryNameInput.value.trim();
-      if (!value) { els.libraryNameInput.focus(); return; }
-      finish(value);
+    els.libraryNameForm.onsubmit=e=>{
+      e.preventDefault(); const name=els.libraryNameInput.value.trim();
+      if (!name) { els.libraryNameInput.focus(); return; }
+      if (!templateAnnotationChoice) { finish(name); return; }
+      const mode=dialog.querySelector('input[name="nameDialogTemplateAnnotationMode"]:checked')?.value || 'with';
+      finish({name,includeAnnotations:mode!=='clean'});
     };
-    els.libraryNameForm.onsubmit = onSubmit;
-    els.libraryNameCloseBtn.onclick = () => finish(null);
-    els.libraryNameCancelBtn.onclick = () => finish(null);
-    els.libraryNameDialog.oncancel = e => { e.preventDefault(); finish(null); };
-    els.libraryNameDialog.showModal();
-    requestAnimationFrame(() => { els.libraryNameInput.focus({ preventScroll: true }); els.libraryNameInput.select(); });
+    els.libraryNameCloseBtn.onclick=()=>finish(null);
+    els.libraryNameCancelBtn.onclick=()=>finish(null);
+    dialog.oncancel=e=>{e.preventDefault();finish(null);};
+    dialog.showModal();
+    requestAnimationFrame(()=>{els.libraryNameInput.focus({preventScroll:true});els.libraryNameInput.select();});
   });
 }
-
-function requestAssetName({ title='Name', help='', suggested='', saveLabel='Save' }={}) {
-  // Assets now live directly in the Files workspace, so use the exact same
-  // small naming dialog that already works for Local Library folders/documents.
-  return requestLibraryName({ title, help, suggested, saveLabel });
+function requestLibraryName(options={}) { return requestNameDialog(options); }
+function requestAssetName(options={}) { return requestNameDialog(options); }
+function requestTemplateSaveDetails(suggested) {
+  return requestNameDialog({title:'Template name',help:'A generic name is already supplied so a temporary template can be saved immediately.',suggested,saveLabel:'Save template',templateAnnotationChoice:true});
 }
 
 async function createLibraryFolder() {
@@ -6709,61 +6556,68 @@ async function duplicateLibraryDocument(docId) {
   } catch (err) { console.error(err); setStatus(`Could not duplicate document: ${err?.message || err}`); }
 }
 
-function libraryFolderOptions(excludeFolderId=null) {
-  const excluded = excludeFolderId ? libraryFolderDescendantIds(excludeFolderId) : new Set();
-  if (excludeFolderId) excluded.add(excludeFolderId);
-  const options = [{ id: '', label: 'Library (root)' }];
-  const walk = (parentId, depth) => {
-    for (const folder of libraryFolderChildren(parentId)) {
-      if (excluded.has(folder.id)) continue;
-      options.push({ id: folder.id, label: `${'— '.repeat(depth)}${folder.name}` });
-      walk(folder.id, depth + 1);
-    }
-  };
-  walk(null, 0);
-  return options;
+function moveOptionsForDomain(domain,excludeFolderId=null) {
+  return domain==='asset'
+    ? buildFolderMoveOptions({rootLabel:'Assets (top level)',childFolders:assetFolderChildren,excludeFolderId})
+    : buildFolderMoveOptions({rootLabel:'Library (root)',childFolders:libraryFolderChildren,excludeFolderId});
 }
-function openLibraryMoveDialog(kind, id) {
-  if (!els.libraryMoveDialog) return;
-  const isFolder = kind === 'folder';
-  const item = isFolder ? libraryFolderById(id) : (documentById(id) || state.libraryRecords.get(id));
-  if (!item) return;
-  state.pendingLibraryMove = { kind, id };
-  els.libraryMoveTitle.textContent = `Move ${isFolder ? 'folder' : 'document'}`;
-  els.libraryMoveHelp.textContent = `Choose a destination for “${item.name}”.`;
-  els.libraryMoveDestination.replaceChildren();
-  for (const optionData of libraryFolderOptions(isFolder ? id : null)) {
-    const option = document.createElement('option'); option.value = optionData.id; option.textContent = optionData.label;
-    els.libraryMoveDestination.append(option);
+function openFolderMoveDialog(domain,kind,id) {
+  const isAsset=domain==='asset'; const isFolder=kind==='folder';
+  const item=isAsset
+    ? (isFolder ? assetFolderById(id) : state.assetRecords.get(id))
+    : (isFolder ? libraryFolderById(id) : (documentById(id) || state.libraryRecords.get(id)));
+  if (!item || !els.folderMoveDialog) return;
+  state.pendingFolderMove={domain,kind,id};
+  const options=moveOptionsForDomain(domain,isFolder?id:null);
+  els.folderMoveDestination.replaceChildren(...options.map(entry=>{const option=document.createElement('option');option.value=entry.id;option.textContent=entry.label;return option;}));
+  const currentParent=isFolder ? (item.parentId||'') : (item.folderId||'');
+  if (options.some(entry=>entry.id===currentParent)) els.folderMoveDestination.value=currentParent;
+  els.folderMoveTitle.textContent=`Move ${isFolder ? (isAsset?'asset folder':'folder') : (isAsset?'asset':'document')}`;
+  els.folderMoveHelp.textContent=isAsset
+    ? `Choose a destination inside the Asset Library for “${item.name||'this item'}”.`
+    : `Choose a destination for “${item.name||'this item'}”.`;
+  els.folderMoveDialog.showModal();
+}
+function openLibraryMoveDialog(kind,id) { openFolderMoveDialog('library',kind,id); }
+async function applyLibraryMove(pending,destination) {
+  if (pending.kind==='folder') {
+    const folder=libraryFolderById(pending.id); if (!folder) throw new Error('Folder is no longer available.');
+    if ((folder.parentId||null)===destination) return;
+    if (librarySiblingNameExists(folder.name,destination,folder.id)) throw new Error('A folder with that name already exists in the destination.');
+    const updated={...folder,parentId:destination,modifiedAt:Date.now(),schemaVersion:LIBRARY_SCHEMA_VERSION};
+    await libraryPut('folders',updated); state.libraryFolders.set(folder.id,updated); setStatus(`Moved folder ${folder.name}`);
+  } else {
+    const openDoc=documentById(pending.id);
+    const record=openDoc ? serializeDocumentForLibrary(openDoc) : state.libraryRecords.get(pending.id);
+    if (!record) throw new Error('Document is no longer available.');
+    if ((record.folderId||null)===destination) return;
+    if (openDoc) { openDoc.folderId=destination; openDoc.modifiedAt=Date.now(); }
+    const updated={...record,folderId:destination,modifiedAt:Date.now(),schemaVersion:LIBRARY_SCHEMA_VERSION};
+    await libraryPut('documents',updated); state.libraryRecords.set(record.id,updated); scheduleLibraryPersist(80); setStatus(`Moved ${record.name}`);
   }
-  const currentParent = isFolder ? (item.parentId || '') : (item.folderId || '');
-  if ([...els.libraryMoveDestination.options].some(option => option.value === currentParent)) els.libraryMoveDestination.value = currentParent;
-  els.libraryMoveDialog.showModal();
+  renderLibraryDocumentList();
 }
-async function applyPendingLibraryMove() {
-  const pending = state.pendingLibraryMove; if (!pending) return;
-  const destination = els.libraryMoveDestination.value || null;
-  try {
-    if (pending.kind === 'folder') {
-      const folder = libraryFolderById(pending.id); if (!folder) throw new Error('Folder is no longer available.');
-      if ((folder.parentId || null) === destination) return;
-      if (librarySiblingNameExists(folder.name, destination, folder.id)) throw new Error('A folder with that name already exists in the destination.');
-      const updated = { ...folder, parentId: destination, modifiedAt: Date.now(), schemaVersion: LIBRARY_SCHEMA_VERSION };
-      await libraryPut('folders', updated); state.libraryFolders.set(folder.id, updated);
-      setStatus(`Moved folder ${folder.name}`);
-    } else {
-      const openDoc = documentById(pending.id);
-      const record = openDoc ? serializeDocumentForLibrary(openDoc) : state.libraryRecords.get(pending.id);
-      if (!record) throw new Error('Document is no longer available.');
-      if ((record.folderId || null) === destination) return;
-      if (openDoc) { openDoc.folderId = destination; openDoc.modifiedAt = Date.now(); }
-      const updated = { ...record, folderId: destination, modifiedAt: Date.now(), schemaVersion: LIBRARY_SCHEMA_VERSION };
-      await libraryPut('documents', updated); state.libraryRecords.set(record.id, updated); scheduleLibraryPersist(80);
-      setStatus(`Moved ${record.name}`);
-    }
-    renderLibraryDocumentList();
-  } catch (err) { console.error(err); setStatus(`Could not move item: ${err?.message || err}`); }
-  finally { state.pendingLibraryMove = null; }
+async function applyAssetMove(pending,destination) {
+  if (pending.kind==='folder') {
+    const folder=assetFolderById(pending.id); if (!folder) throw new Error('Asset folder is no longer available.');
+    if ((folder.parentId||null)===destination) return;
+    if (assetFolderSiblingNameExists(folder.name,destination,folder.id)) throw new Error('An Asset folder with that name already exists in the destination.');
+    await persistAssetFolderRecord({...folder,parentId:destination,modifiedAt:Date.now(),schemaVersion:LIBRARY_SCHEMA_VERSION});
+    setStatus(`Moved Asset folder ${folder.name}`);
+  } else {
+    const asset=state.assetRecords.get(pending.id); if (!asset) throw new Error('Asset is no longer available.');
+    if ((asset.folderId||null)===destination) return;
+    const name=uniqueAssetName(asset.name||defaultAssetName(asset.type,destination),destination,asset.id);
+    await persistAssetRecord({...asset,name,folderId:destination,modifiedAt:Date.now(),schemaVersion:LIBRARY_SCHEMA_VERSION});
+    setStatus(`Moved ${name}`);
+  }
+  renderAssetBrowser();
+}
+async function applyPendingFolderMove() {
+  const pending=state.pendingFolderMove; if (!pending) return;
+  const destination=els.folderMoveDestination?.value || null;
+  if (pending.domain==='asset') await applyAssetMove(pending,destination);
+  else await applyLibraryMove(pending,destination);
 }
 
 async function openLibraryRecordInView(record) {
@@ -7408,6 +7262,7 @@ function renderExportPane() {
   saveCurrentDocumentState();
   renderLibraryDocumentList();
   renderOpenDocumentList();
+  if (els.templatesFilesSection?.open) renderFilesTemplateManager();
   if (els.assetsFilesSection?.open || state.assetBrowserMode === 'insert') renderAssetBrowser();
   updateImageAssemblyUi();
   const doc = currentDocument();
@@ -8412,37 +8267,18 @@ function createCombinedDocument() {
     return;
   }
   const name = String(els.combineName.value || '').trim().replace(/[\\/:*?"<>|]+/g, '_') || 'Combined.pdf';
-  const combined = placeCreatedDocumentInCurrentLibraryFolder(createDocument(name));
-  state.fileSelected = new Set([combined.id]);
-  state.fileSelectionInitialized = true;
-  state.combineOrder = [combined.id];
-  combined.pages = combinedPages;
-  combined.selected = new Set();
-  combined.selectionAnchorId = null;
-  combined.activePageId = combinedPages[0].id;
-  combined.history = [];
-  combined.future = [];
-  combined.singleView = { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: combinedPages[0].id, scrollTop: null, scrollLeft: null };
-  state.pages = combined.pages;
-  state.selected = combined.selected;
-  state.selectionAnchorId = null;
-  state.activePageId = combined.activePageId;
-  state.history = combined.history;
-  state.future = combined.future;
-  state.workspaceMode = 'organize';
-  saveCurrentDocumentState({ readViewDom: false });
-  renderAll({ saveState: false });
+  const combined=createUserDocument(name,combinedPages,{workspaceMode:'organize'});
   setStatus(`Created ${name} from ${chosenDocs.length} documents (${combinedPages.length} pages)`);
   scheduleLibraryPersist(120);
 }
 
 function showWorkspaceMode(mode) {
-  // If the user leaves Files by some route other than the insertion banner,
-  // treat that as cancelling the transient Insert Asset trip so the next
-  // ordinary Files visit is back in manage mode.
-  if (mode !== 'export' && state.assetBrowserMode === 'insert' && state.assetReturnContext) {
-    state.assetReturnContext = null;
-    state.assetBrowserMode = 'manage';
+  // Leaving Files by an ordinary workspace control cancels any transient
+  // Files round trip (Insert Asset / Manage Templates / template naming).
+  if (mode !== 'export' && state.filesReturnContext) {
+    if (state.filesReturnContext.owner==='assets') state.assetBrowserMode='manage';
+    state.filesReturnContext=null;
+    els.templateManageModeBar?.classList.add('hidden');
   }
   state.workspaceMode = mode;
   if (mode !== 'view' && state.annotationSelection?.ids?.size) clearAnnotationSelection(false);
@@ -8914,22 +8750,8 @@ function applyPageGeometry() {
   commitHistory(before);
   els.pageGeometryDialog?.close();
 
-  // Changing page canvas sizes changes the height of the document stack. Raw
-  // scroll offsets from the old geometry are no longer meaningful. Preserve
-  // each view instance's logical active page, but let the rebuilt viewer center
-  // that page instead of restoring stale pre-resize pixels. This applies
-  // independently to same-document split panes.
-  const doc = currentDocument();
-  if (doc) {
-    const single = ensureSingleView(doc);
-    if (single) { single.scrollTop = null; single.scrollLeft = null; }
-    for (const paneId of ['left', 'right']) {
-      const pane = splitPaneState(paneId);
-      if (pane.documentId !== doc.id) continue;
-      const view = paneView(paneId, doc.id);
-      if (view) { view.scrollTop = null; view.scrollLeft = null; }
-    }
-  }
+  // Page Size and Crop/Margins share one view-state invalidation rule.
+  invalidateCurrentDocumentGeometryScroll();
   saveCurrentDocumentState({ readViewDom: false });
   renderAll({ saveState: false });
   setStatus(`Resized ${pages.length} page${pages.length === 1 ? '' : 's'} · fit & center`);
@@ -10800,7 +10622,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.7.6 removes the separate Assets modal: Assets now browse directly inside Files, alongside Local Library, and Asset naming uses the exact same small naming dialog as Local Library. The Insert Asset toolbar button opens that same Files → Assets browser in insertion mode and returns to the document after insertion/cancel. Workbench-created documents now inherit the currently browsed Local Library folder, and Presentation controls use a compact iPad-width layout so the Exit button remains onscreen. Pen/Highlighter geometry and the field-tested 5.6.9 pinch/scroll behavior are unchanged.</p>
+      <p>Milestone 5.7.7 is an architecture/stability cleanup. Templates now manage directly in Files rather than through a modal manager, and Local Library, Assets, and Templates share the same small naming dialog; Save Template conditionally adds only the With annotations / Clean page choice. Local Library and Asset folder trees now share the same simple breadcrumb/tree primitives and one Move dialog. User-created documents share one activation path so current-folder placement cannot drift between Blank, Graph, Template, Images, and Combine. Pen/Highlighter geometry and the field-tested 5.6.9 pinch/scroll/viewer machinery are unchanged.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable insertion.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, independent image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -11646,15 +11468,14 @@ function bindEvents() {
   els.libraryNewFolderBtn?.addEventListener('click', createLibraryFolder);
   els.libraryListViewBtn?.addEventListener('click', () => setLibraryViewMode('list'));
   els.libraryGridViewBtn?.addEventListener('click', () => setLibraryViewMode('grid'));
-  els.filesManageTemplatesBtn?.addEventListener('click', showTemplateManager);
-  els.libraryNameCloseBtn?.addEventListener('click', () => els.libraryNameDialog?.close());
-  els.libraryNameCancelBtn?.addEventListener('click', () => els.libraryNameDialog?.close());
-  els.libraryMoveCloseBtn?.addEventListener('click', () => { state.pendingLibraryMove = null; els.libraryMoveDialog?.close(); });
-  els.libraryMoveCancelBtn?.addEventListener('click', () => { state.pendingLibraryMove = null; els.libraryMoveDialog?.close(); });
-  els.libraryMoveForm?.addEventListener('submit', async (e) => {
+  const cancelFolderMove=()=>{state.pendingFolderMove=null;try{els.folderMoveDialog?.close();}catch{}};
+  els.folderMoveCloseBtn?.addEventListener('click',cancelFolderMove);
+  els.folderMoveCancelBtn?.addEventListener('click',cancelFolderMove);
+  els.folderMoveDialog?.addEventListener('cancel',e=>{e.preventDefault();cancelFolderMove();});
+  els.folderMoveForm?.addEventListener('submit',async e=>{
     e.preventDefault();
-    try { els.libraryMoveDialog?.close(); } catch {}
-    await applyPendingLibraryMove();
+    try { await applyPendingFolderMove(); state.pendingFolderMove=null; els.folderMoveDialog?.close(); }
+    catch(err) { console.error(err); setStatus(`Could not move item: ${err?.message||err}`); }
   });
   els.requestPersistentStorageBtn?.addEventListener('click', requestPersistentLibraryStorage);
   els.purgeLibraryBtn?.addEventListener('click', purgeLocalLibrary);
@@ -11750,16 +11571,15 @@ function bindEvents() {
     const button = e.target.closest('[data-template-id]');
     if (button) insertTemplateAfterCurrent(button.dataset.templateId);
   });
-  els.templateNameCloseBtn?.addEventListener('click', () => els.templateNameDialog?.close('cancel'));
-  els.templateNameCancelBtn?.addEventListener('click', () => els.templateNameDialog?.close('cancel'));
   els.savePageTemplateBtn?.addEventListener('click', async () => {
-    const inPresentation = document.body.classList.contains('presentation');
     const targetContext = state.insertTarget ? { ...state.insertTarget } : null;
     closeInsertPageMenu(false);
     await saveCurrentPageAsTemplate(targetContext);
-    if (inPresentation && document.body.classList.contains('presentation')) showPresentationControls();
+    if (document.body.classList.contains('presentation')) showPresentationControls();
   });
-  els.manageTemplatesBtn?.addEventListener('click', showTemplateManager);
+  els.manageTemplatesBtn?.addEventListener('click', () => { openTemplateManager({returnToDocument:true}); });
+  els.templatesFilesSection?.addEventListener('toggle',()=>{if(els.templatesFilesSection.open)renderFilesTemplateManager();});
+  els.templateManageBackBtn?.addEventListener('click',()=>{returnFromTemplateManager();});
   els.deleteBtn.addEventListener('click', deleteSelected);
   els.undoBtn.addEventListener('click', undo);
   els.redoBtn.addEventListener('click', redo);
@@ -11811,10 +11631,6 @@ function bindEvents() {
     else if (action==='move') openAssetMoveDialog('asset',id);
     else if (action==='delete') await deleteAssetRecord(id);
   });
-  els.assetMoveCloseBtn?.addEventListener('click',()=>{state.pendingAssetMove=null;els.assetMoveDialog?.close();});
-  els.assetMoveCancelBtn?.addEventListener('click',()=>{state.pendingAssetMove=null;els.assetMoveDialog?.close();});
-  els.assetMoveDialog?.addEventListener('cancel',event=>{event.preventDefault();state.pendingAssetMove=null;els.assetMoveDialog.close();});
-  els.assetMoveForm?.addEventListener('submit',async event=>{event.preventDefault();try{await completeAssetMove();els.assetMoveDialog.close();state.pendingAssetMove=null;renderAssetBrowser();}catch(err){console.error(err);setStatus(`Could not move Asset item: ${err?.message||err}`);}});
   els.selectionDeleteBtn?.addEventListener('click', deleteSelectedAnnotations);
   els.selectionDuplicateBtn?.addEventListener('click', duplicateSelectedAnnotations);
   els.selectionCopyBtn?.addEventListener('click', copySelectedAnnotations);

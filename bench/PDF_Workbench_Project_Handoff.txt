@@ -3,6 +3,88 @@ RETURN HERE AFTER A BREAK — CURRENT STATUS
 
 AUTHORITATIVE WORKING BASELINE
 ------------------------------
+- Use **Milestone 5.7.7** as the current source/build for the architecture-audit test.
+- Visible About version: 5.7.7.
+- Service-worker/cache version: `pdf-workbench-m5.7.7-v1`.
+- IndexedDB remains version 4; Library schema remains version 8. This is a code/UI simplification release, not a persistence migration.
+- Pen/Highlighter rendering, 5.6.9 pinch/scroll behavior, finger-scroll engagement, inertia, split/single viewer rendering, and annotation geometry are intentionally unchanged.
+
+WHY 5.7.7 EXISTS
+----------------
+- 5.7.6 removed the separate Assets modal and made Assets parallel to Local Library in Files. During follow-up testing, the user confirmed that Template rename/save dialogs also lose keyboard focus on iPad; pen/Scribble input had hidden the problem earlier.
+- The user explicitly set a design rule for Workbench: prefer simpler interaction models and code paths that already work, especially when the same task appears in more than one subsystem.
+- A focused architecture audit found several places where Library/Assets/Templates or user-created documents had parallel implementations that could drift. 5.7.7 consolidates those without entering the stable input/viewer machinery.
+
+MILESTONE 5.7.7 — ARCHITECTURE SIMPLIFICATION / CONSISTENCY AUDIT
+==================================================================
+
+TEMPLATES
+---------
+- Template management is no longer a modal Template Manager. It now renders directly inside **Files → Templates**, parallel to Local Library and Assets.
+- **Insert Page → Manage templates…** switches to that exact same Files → Templates manager. When launched from the document, a **Back to document** bar returns to the prior View/Pages/Presentation context.
+- There is now one small shared naming dialog for Local Library names, Asset names, and Template names.
+- **Rename template** uses the ordinary shared Name field with no extra controls.
+- **Save current page as template** uses that same shared dialog but conditionally shows the existing **Page content: With annotations / Clean page** choice. The option was preserved rather than creating a second naming dialog.
+- Save Template temporarily performs text entry over the Files workspace and then returns to the prior document/Presentation context, so iPad software-keyboard viewport changes do not occur over the live viewer.
+- The old dedicated `templateNameDialog` and modal Template Manager path are removed.
+
+SHARED LIBRARY / ASSET FOLDER MODEL
+-----------------------------------
+- Local Library folders and Asset folders now share small primitives for sorted children, breadcrumb paths, descendants, sibling-name collision checks, breadcrumb rendering, and move-destination tree construction.
+- This is deliberately a small set of helpers, not a generic folder framework.
+- Library and Assets now use **one shared Move dialog**. Their actual persistence operations remain domain-specific where the data semantics genuinely differ.
+- The old separate `libraryMoveDialog` and `assetMoveDialog` are removed.
+
+USER-CREATED DOCUMENTS
+----------------------
+- Blank, Graph Paper, From Template, Images → PDF, and Combine now share one created-document activation path.
+- That path applies the currently browsed Local Library folder, unique naming within that folder, page/document initialization, active selection, split-pane attachment when relevant, and the requested View/Pages destination.
+- This removes the previous opportunity for one creation feature to forget the current-folder placement rule.
+- PDF import/open behavior is intentionally unchanged; it already had its own correct destination semantics.
+
+SMALL AUDIT CLEANUPS
+--------------------
+- Page Size now calls the same `invalidateCurrentDocumentGeometryScroll()` helper already used by Crop/Margins instead of carrying a second copy of that logic.
+- Added `isFilesWorkspace()` in touched code to make the legacy internal workspace value `export` less misleading without doing a risky mass rename.
+- Added `release-check.mjs`, a development-time consistency check that verifies APP_VERSION, resource query strings, the visible milestone label, service-worker cache name, and README release heading all agree. It is not part of the runtime/service-worker app shell.
+
+TEST PRIORITY
+-------------
+1. **iPad keyboard focus:** Files → Templates → Rename; type a long name continuously with the onscreen keyboard.
+2. **Save Template:** from View and, if convenient, Presentation, save once With annotations and once Clean page. Confirm continuous keyboard focus and return to the same document context.
+3. **Insert Page → Manage templates:** confirm it opens Files → Templates (not a modal), Rename works there, and Back to document returns properly.
+4. **Shared Move dialog:** move one Local Library folder/document and one Asset folder/asset, including a nested destination if convenient.
+5. **Created-document destination:** browse into a Local Library folder and create Blank, Graph, From Template, Images → PDF, and/or Combine. Each should land in that folder; root should still be used when root is the current Library location.
+6. **Presentation toolbar:** retain the 5.7.6 compact iPad-width behavior and confirm the Exit × remains fully onscreen in Pen mode.
+7. Continue normal grading. Pen, Highlighter, Eraser, Select, pinch, finger scrolling, split view, and rendering should feel exactly like 5.7.6/5.6.9 because those paths were not intentionally changed.
+
+ARCHITECTURE AUDIT RESULT
+-------------------------
+- No second subsystem as duplicated as the pre-5.7.6 Assets modal remains in the audited management UI.
+- Remaining separate dialogs (page transfer, page geometry, crop/margins, close/delete, generic information/new-from-template chooser) represent genuinely different operations rather than duplicate naming/folder browsers.
+- Single/split rendering and the annotation canvas stack still contain some maintainability duplication, but they are deliberately left alone while real-use behavior is stable. Refactor those only when a concrete bug or feature requires entering that code.
+
+NEXT AGREED FEATURE WORK AFTER STABILIZATION
+--------------------------------------------
+1. Continue field-testing 5.7.7 until the simplified naming/management architecture is trustworthy.
+2. Then implement **Copy Region → Image** as another Recent producer, supporting original-size and current-zoom-size behavior.
+3. Then implement explicit/manual **Google Drive sync** for Workbench-managed documents/folders/templates/permanent Assets/Asset folders and required source binaries. Workbench remains local-first; Recent stays local-only by default.
+4. Selection rotation remains on the explicit backlog.
+
+RESUME RULES
+------------
+- Favor reuse of an existing proven Workbench interaction over creating a second platform-specific or subsystem-specific path.
+- Do not retune or refactor Pen, touch, pinch, scrolling, or viewer rendering without a specific real-use regression or requirement.
+- Keep Templates, Assets, and Local Library management structurally parallel where their operations are actually the same.
+- Use later milestone text above older handoff history when statements conflict.
+
+================ PRIOR HANDOFF HISTORY ================
+
+RETURN HERE AFTER A BREAK — CURRENT STATUS
+==========================================
+
+AUTHORITATIVE WORKING BASELINE
+------------------------------
 - Use **Milestone 5.7.6** as the current source/build.
 - Visible About version: 5.7.6.
 - Service-worker/cache version: `pdf-workbench-m5.7.6-v1`.

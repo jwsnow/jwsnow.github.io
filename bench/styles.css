@@ -678,6 +678,7 @@ body.presentation .split-pane.active {
 
 .info-dialog.template-dialog { width: min(760px, calc(100% - 24px)); }
 .template-manager-list { gap: 10px; }
+.files-template-manager { margin-top: 4px; }
 .template-manager-row {
   grid-template-columns: 112px minmax(0, 1fr) auto;
   gap: 12px;
@@ -1572,7 +1573,7 @@ body.ink-eraser-active .page-stage * { cursor: none !important; }
 }
 
 /* Milestone 5.7.2 — nested Asset Library folders */
-/* Milestone 5.7.6: Assets use the ordinary Files workspace instead of a separate modal. */
+/* Milestone 5.7.7: Assets use the ordinary Files workspace instead of a separate modal. */
 .asset-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 10px 0 12px; }
 .asset-tabs { display: inline-flex; border: 1px solid var(--border); border-radius: 9px; overflow: hidden; background: var(--paper); }
 .asset-tabs button, .asset-toolbar > button, .asset-card-actions button { min-height: 36px; border: 0; background: var(--paper); color: var(--text); padding: 6px 10px; cursor: pointer; }
