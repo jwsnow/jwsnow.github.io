@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.7.4">
+  <link rel="stylesheet" href="styles.css?v=5.7.5">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -201,7 +201,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.7.4</div>
+          <div class="export-kicker">Milestone 5.7.5</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -748,7 +748,16 @@
         <button id="assetDialogCloseBtn" class="dialog-close" type="button" aria-label="Close">×</button>
         <h2 id="assetDialogTitle">Assets</h2>
         <p id="assetDialogHelp" class="asset-dialog-help">Reusable images and editable snippets stored on this device.</p>
-        <div class="asset-toolbar">
+        <div id="assetNamePanel" class="asset-name-panel hidden">
+          <p id="assetNameHelp" class="template-name-help"></p>
+          <label for="assetNameInput">Name</label>
+          <input id="assetNameInput" class="template-name-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="160" enterkeyhint="done">
+          <div class="dialog-actions">
+            <button id="assetNameCancelBtn" type="button">Cancel</button>
+            <button id="assetNameSaveBtn" type="button">Save</button>
+          </div>
+        </div>
+        <div id="assetToolbar" class="asset-toolbar">
           <div class="asset-tabs" role="tablist" aria-label="Asset view">
             <button id="assetLibraryTab" type="button" class="active" aria-pressed="true">Library</button>
             <button id="assetRecentTab" type="button" aria-pressed="false">Recent</button>
@@ -761,7 +770,7 @@
         </div>
         <p id="assetEmpty" class="asset-empty hidden"></p>
         <div id="assetGrid" class="asset-grid" aria-live="polite"></div>
-        <div class="dialog-actions"><button id="assetDialogDoneBtn" type="button">Done</button></div>
+        <div id="assetDialogActions" class="dialog-actions"><button id="assetDialogDoneBtn" type="button">Done</button></div>
       </form>
     </dialog>
 
@@ -789,6 +798,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.7.4"></script>
+  <script type="module" src="app.js?v=5.7.5"></script>
 </body>
 </html>

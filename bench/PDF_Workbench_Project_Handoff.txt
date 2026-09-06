@@ -3,6 +3,80 @@ RETURN HERE AFTER A BREAK — CURRENT STATUS
 
 AUTHORITATIVE WORKING BASELINE
 ------------------------------
+- Use **Milestone 5.7.5** as the current source/build.
+- Visible About version: 5.7.5.
+- Service-worker/cache version: `pdf-workbench-m5.7.5-v1`.
+- IndexedDB version remains 4; Library schema remains 8. No persistence migration in this interaction-only simplification.
+- 5.6.9 pinch/scroll fixes and 5.6.8 unified modeled Pen remain the performance/input baseline and are intentionally unchanged.
+
+WHERE THE PROJECT IS RIGHT NOW
+------------------------------
+- The user is actively grading with Workbench. Core functionality and the 5.6.9 navigation polish are working well.
+- Reusable Assets have persistent nested folders modeled after the Local Library; Quick Image goes directly to Recent; inserted images/snippets center in the visible working area.
+- Real iPad testing showed that 5.7.3 still lost keyboard focus after each keypress in Rename Asset folder and Rename Asset despite closing/yielding Assets before opening the shared naming dialog.
+- 5.7.4 attempted a special iPad-only non-native naming overlay with focus reinforcement/blur recovery. Before field testing that build, the user correctly identified that this had become much more complicated than the Local Library folder rename interaction that already worked.
+- The explicit design rule is now: **favor simpler models and existing proven Workbench interaction patterns over new special-case mechanisms.**
+- 5.7.5 therefore removes the 5.7.4 overlay and the 5.7.3 close/yield/restore naming path. Asset naming now occurs inside the already-open Assets dialog itself. The same modal remains open; its browser controls are temporarily replaced by Name / Cancel / Save and restored immediately afterward.
+
+NEXT AGREED STEPS
+-----------------
+1. Test 5.7.5 on the actual iPad: continuously type several characters in Rename Asset folder and Rename Asset without retapping the field. Also test New folder and Keep from Recent.
+2. Confirm Cancel/Save return directly to the same Asset manage/insert mode, Library/Recent tab, and nested folder.
+3. Once stable, implement **Copy Region → Image** as another Recent producer, with both original-size and current-zoom-size capture/paste behavior. Current-zoom capture must intentionally preserve the user's desire to paste an enlarged image when the source was zoomed in.
+4. Then implement explicit/manual **Google Drive sync** for Workbench-managed documents/folders/templates/permanent Assets/Asset folders and required source binaries. Workbench remains local-first; Recent stays local-only by default.
+5. Selection rotation remains on the explicit backlog.
+
+RESUME RULES
+------------
+- Prefer reusing a simple interaction pattern already proven elsewhere in Workbench before adding a new special-case implementation.
+- Do not retune Pen, pinch, finger-scroll engagement, or 0.95 momentum during Asset work without a specific real-use regression.
+- Keep the Asset system unified: permanent images and editable snippets share one Asset Library; Recent is temporary history.
+- Asset folders may be nested; do not simplify them back to one level.
+- Asset naming should remain a one-dialog operation unless real-device evidence proves that model itself cannot work.
+- Use the latest milestone text above older history when statements conflict.
+
+MILESTONE 5.7.5 — SIMPLER ONE-DIALOG ASSET NAMING
+===================================================
+
+CURRENT BUILD: Milestone 5.7.5
+Visible About version: 5.7.5
+Service-worker/cache version: pdf-workbench-m5.7.5-v1
+IndexedDB version: 4
+Library schema version: 8
+
+CHANGES
+-------
+- Removed the complete 5.7.4 dynamically-created `assetNameOverlay` path, including iPad-only branching, delayed focus reinforcement, blur-refocus guard, and overlay CSS.
+- Removed the 5.7.3/5.7.4 Assets close/yield/naming/restore sequence from `requestAssetName()`.
+- Added a small naming panel directly inside the existing `assetDialog` containing the same basic controls used by the proven Library naming model: Name field, Cancel, and Save.
+- While naming, the Assets dialog stays open and temporarily hides its browser toolbar, breadcrumbs/grid, Done button, and close X. The dialog title changes to New asset folder / Rename asset folder / Keep in Asset Library / Rename asset as appropriate.
+- The name field is populated and focused/selected once on the next animation frame, matching the established Local Library naming timing rather than trying to chase Safari focus after each keypress.
+- Enter saves; Escape/Cancel cancels the naming state without closing the Assets dialog.
+- After completion, `renderAssetDialog()` restores the same manage/insert mode, Library/Recent tab, and nested folder naturally because those state values never had to be saved/restored around a modal close.
+- If Asset naming is ever invoked without the Assets dialog open, it falls back to the established shared Local Library naming dialog.
+- No changes to Asset persistence/schema, nested folders, Quick Image, visible-view insertion, Pen/Highlighter geometry, pinch finalization, finger-scroll engagement, or 0.95 momentum.
+
+VALIDATION
+----------
+- `app.js`, `sw.js`, and `google-ink-modeler.js` pass JavaScript syntax checks.
+- Removed-code scan confirms there is no `asset-name-overlay`, `requestAssetNameOverlay`, or `ensureAssetNameOverlay` path left in the 5.7.5 runtime files.
+- An isolated Chromium DOM smoke test using the new one-dialog model kept `assetNameInput` focused while inserting the multi-character text `Folder ABC`, saved the complete string, hid the naming panel, and left the original Assets dialog open throughout.
+- The actual iPad Safari keyboard remains the authoritative real-device test.
+
+TEST PRIORITY
+-------------
+- Rename an Asset folder on iPad and type a long multi-character name continuously.
+- Repeat Rename Asset, New folder, and Keep from Recent.
+- Confirm no retap is needed between characters.
+- Confirm Save and Cancel return directly to the same Asset tab/folder.
+- Continue ordinary grading and report only actual Pen/navigation regressions; those systems were intentionally untouched.
+
+================ PRIOR HANDOFF HISTORY ================
+RETURN HERE AFTER A BREAK — CURRENT STATUS
+==========================================
+
+AUTHORITATIVE WORKING BASELINE
+------------------------------
 - Use **Milestone 5.7.4** as the current source/build.
 - Visible About version: 5.7.4.
 - Service-worker/cache version: `pdf-workbench-m5.7.4-v1`.
