@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.17';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.18';
 
-const APP_VERSION = '5.7.17';
+const APP_VERSION = '5.7.18';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -24,8 +24,8 @@ const els = {
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), libraryExportSelectionSummary: $('libraryExportSelectionSummary'), libraryExportSelectionClearBtn: $('libraryExportSelectionClearBtn'), libraryExportSelectionBtn: $('libraryExportSelectionBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
-  extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  extractOperationSummary: $('extractOperationSummary'), extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
   imageAssemblyChooseBtn: $('imageAssemblyChooseBtn'), imageAssemblyClearBtn: $('imageAssemblyClearBtn'), imageAssemblySummary: $('imageAssemblySummary'), imageAssemblyList: $('imageAssemblyList'), imageAssemblyName: $('imageAssemblyName'), imageAssemblyPageSize: $('imageAssemblyPageSize'), imageAssemblyOrientation: $('imageAssemblyOrientation'), imageAssemblyCreateBtn: $('imageAssemblyCreateBtn'), imageAssemblyProgress: $('imageAssemblyProgress'), imageAssemblyOperationSummary: $('imageAssemblyOperationSummary'),
@@ -124,7 +124,6 @@ const state = {
   libraryFolderId: null,
   libraryViewMode: safePref('pdfwb-library-view', 'grid', ['grid','list']),
   libraryPreviewObserver: null,
-  libraryExportSelected: new Set(),
   pendingFolderMove: null,
   pendingBackupImportMode: 'replace',
   libraryPersistTimer: null,
@@ -1361,6 +1360,22 @@ function markDocumentExported(doc) {
   doc.lastExportedAt = Date.now();
   scheduleLibraryPersist(100);
 }
+async function prepareDocumentForFileOperation(doc) {
+  if (!doc) return;
+  if (!isDocumentOpen(doc.id)) await ensureRecordSourcesLoaded(doc);
+}
+async function markSelectedDocumentExported(doc) {
+  if (!doc) return;
+  const open = documentById(doc.id);
+  if (open) {
+    markDocumentExported(open);
+    return;
+  }
+  const stamp = Date.now();
+  const updated = { ...doc, needsExport:false, lastExportedAt:stamp };
+  state.libraryRecords.set(doc.id, updated);
+  if (state.libraryReady) await libraryPut('documents', updated);
+}
 async function refreshLibraryRecords() {
   if (!state.libraryDb) return;
   const [records, folders] = await Promise.all([
@@ -1994,6 +2009,9 @@ async function createLibraryChildFolderAlways(name, parentId) {
 async function importPdfFileDirectToLibrary(file, folderId) {
   const previousCurrent = state.currentDocumentId;
   const previousWorkspace = state.workspaceMode;
+  const previousFileSelection = new Set(state.fileSelected);
+  const previousFileSelectionInitialized = state.fileSelectionInitialized;
+  const previousCombineOrder = state.combineOrder.slice();
   const doc = createDocument(uniqueLibraryDocumentName(file.name, folderId));
   doc.folderId = folderId || null;
   try {
@@ -2003,12 +2021,20 @@ async function importPdfFileDirectToLibrary(file, folderId) {
     doc.needsExport = false; doc.lastExportedAt = Date.now(); doc.modifiedAt = Date.now();
     saveCurrentDocumentState({ readViewDom:false });
     await persistLibraryNow({ readViewDom:false });
-    removeDocument(doc.id); state.fileSelected.delete(doc.id); reconcileCombineOrder();
+    removeDocument(doc.id);
+    state.fileSelected = previousFileSelection;
+    state.fileSelectionInitialized = previousFileSelectionInitialized;
+    state.combineOrder = previousCombineOrder;
+    reconcileFileSelection(); reconcileCombineOrder();
     if (previousCurrent && documentById(previousCurrent)) loadDocumentState(previousCurrent, false);
     state.workspaceMode = previousWorkspace;
     return doc.id;
   } catch (err) {
     if (documentById(doc.id)) removeDocument(doc.id);
+    state.fileSelected = previousFileSelection;
+    state.fileSelectionInitialized = previousFileSelectionInitialized;
+    state.combineOrder = previousCombineOrder;
+    reconcileFileSelection(); reconcileCombineOrder();
     if (previousCurrent && documentById(previousCurrent)) loadDocumentState(previousCurrent, false);
     state.workspaceMode = previousWorkspace;
     throw err;
@@ -6691,31 +6717,38 @@ const TARGET_RASTER_PROFILES = [
   { rasterDpi: 50, rasterQuality: 0.30 },
 ];
 
+function selectableDocumentById(docId) {
+  const open = documentById(docId);
+  if (open && !open.trashedAt) return open;
+  const record = state.libraryRecords.get(docId);
+  return record && !record.trashedAt ? record : null;
+}
+function selectableDocumentIds() {
+  const ids = new Set();
+  for (const [id, record] of state.libraryRecords) if (record && !record.trashedAt) ids.add(id);
+  for (const doc of state.documents) if (doc && !doc.trashedAt) ids.add(doc.id);
+  return ids;
+}
 function reconcileFileSelection() {
-  const valid = new Set(state.documents.map(doc => doc.id));
+  const valid = selectableDocumentIds();
   state.fileSelected = new Set([...state.fileSelected].filter(id => valid.has(id)));
   if (!state.fileSelectionInitialized && state.documents.length) {
     const initial = valid.has(state.currentDocumentId) ? state.currentDocumentId : state.documents[0].id;
     state.fileSelected = new Set([initial]);
     state.fileSelectionInitialized = true;
   }
-  if (!state.documents.length) {
-    state.fileSelected.clear();
-    state.fileSelectionInitialized = false;
-  }
-}
-
-function reconcileCombineOrder() {
-  reconcileFileSelection();
-  const selectedIds = state.documents.filter(doc => state.fileSelected.has(doc.id)).map(doc => doc.id);
-  const selectedSet = new Set(selectedIds);
-  state.combineOrder = state.combineOrder.filter(id => selectedSet.has(id));
-  for (const id of selectedIds) if (!state.combineOrder.includes(id)) state.combineOrder.push(id);
 }
 
 function selectedFileDocuments() {
   reconcileFileSelection();
-  return state.documents.filter(doc => state.fileSelected.has(doc.id));
+  return [...state.fileSelected].map(selectableDocumentById).filter(Boolean);
+}
+
+function reconcileCombineOrder() {
+  const selectedIds = selectedFileDocuments().map(doc => doc.id);
+  const selectedSet = new Set(selectedIds);
+  state.combineOrder = state.combineOrder.filter(id => selectedSet.has(id));
+  for (const id of selectedIds) if (!state.combineOrder.includes(id)) state.combineOrder.push(id);
 }
 
 function setFileSelected(docId, selected) {
@@ -7085,7 +7118,7 @@ async function moveLibraryFolderToTrash(folderId) {
       const updated={...record,schemaVersion:LIBRARY_SCHEMA_VERSION,trashedAt:stamp,trashBatchId:folderId}; ds.put(updated); state.libraryRecords.set(record.id,updated);
     }
     await done;
-    for (const record of records) if (isDocumentOpen(record.id)) { removeDocument(record.id); state.fileSelected.delete(record.id); }
+    for (const record of records) { if (isDocumentOpen(record.id)) removeDocument(record.id); state.fileSelected.delete(record.id); }
     reconcileCombineOrder();
     if (ids.has(state.libraryFolderId)) state.libraryFolderId = root.parentId && state.libraryFolders.get(root.parentId)?.trashedAt == null ? root.parentId : null;
     renderAll({saveState:false}); renderLibraryDocumentList(); await persistLibraryNow();
@@ -7150,98 +7183,17 @@ function createLibraryFolderRow(folder) {
   actions.append(open, exportBtn, rename, move, trash); row.append(preview, label, actions); return row;
 }
 
-function reconcileLibraryExportSelection() {
-  const activeIds = new Set(activeLibraryRecords().map(record => record.id));
-  for (const id of [...state.libraryExportSelected]) if (!activeIds.has(id)) state.libraryExportSelected.delete(id);
-}
-function selectedLibraryExportRecords() {
-  reconcileLibraryExportSelection();
-  return [...state.libraryExportSelected].map(id => state.libraryRecords.get(id)).filter(record => record && !record.trashedAt);
-}
-function updateLibraryExportSelectionUi() {
-  const records = selectedLibraryExportRecords();
-  const count = records.length;
-  if (els.libraryExportSelectionSummary) els.libraryExportSelectionSummary.textContent = count
-    ? `${count} file${count === 1 ? '' : 's'} selected for export.`
-    : 'No files selected for export.';
-  if (els.libraryExportSelectionClearBtn) els.libraryExportSelectionClearBtn.disabled = !count;
-  if (els.libraryExportSelectionBtn) {
-    els.libraryExportSelectionBtn.disabled = !count;
-    els.libraryExportSelectionBtn.textContent = count > 1 ? `Export ${count} selected` : 'Export selected';
-  }
-}
-function setLibraryExportSelected(recordId, selected) {
-  if (selected) state.libraryExportSelected.add(recordId); else state.libraryExportSelected.delete(recordId);
-  updateLibraryExportSelectionUi();
-}
-async function markLibraryRecordExported(record) {
-  if (!record) return;
-  const stamp = Date.now();
-  const openDoc = documentById(record.id);
-  if (openDoc) {
-    openDoc.needsExport = false;
-    openDoc.lastExportedAt = stamp;
-  }
-  const updated = { ...record, needsExport:false, lastExportedAt:stamp, modifiedAt:record.modifiedAt || stamp };
-  state.libraryRecords.set(record.id, updated);
-  if (state.libraryReady) await libraryPut('documents', updated);
-}
-async function exportSelectedLibraryRecords() {
-  if (!state.libraryExportSelected.size) return;
-  try {
-    if (els.libraryExportSelectionBtn) els.libraryExportSelectionBtn.disabled = true;
-    setStatus('Preparing selected Library files…', true);
-    await persistLibraryNow();
-    await refreshLibraryRecords();
-    const records = selectedLibraryExportRecords();
-    if (!records.length) { setStatus('No Library files are selected'); return; }
-    const sourcePdfCache = new Map();
-    if (records.length === 1) {
-      const record = records[0];
-      await ensureRecordSourcesLoaded(record);
-      const bytes = await buildPdfBytes(record.pages || [], { sourcePdfCache });
-      const filename = ensurePdfFilename(zipSafeSegment(record.name, 'Document.pdf'));
-      downloadPdfBytes(bytes, filename);
-      await markLibraryRecordExported(record);
-      setStatus(`Exported ${filename}`);
-    } else {
-      const JSZip = await loadZipEngine();
-      const zip = new JSZip();
-      const usedNames = new Set();
-      for (let i=0; i<records.length; i++) {
-        const record = records[i];
-        setStatus(`Exporting Library file ${i+1} of ${records.length}…`, true);
-        await ensureRecordSourcesLoaded(record);
-        const bytes = await buildPdfBytes(record.pages || [], { sourcePdfCache });
-        zip.file(uniqueZipPdfName(record, usedNames), bytes);
-        await markLibraryRecordExported(record);
-        await new Promise(resolve => setTimeout(resolve, 0));
-      }
-      setStatus('Packaging selected Library files…', true);
-      const blob = await zip.generateAsync({ type:'blob', compression:'STORE', mimeType:'application/zip' });
-      downloadBlob(blob, 'PDF-Workbench-Selected.zip');
-      setStatus(`Exported ${records.length} Library files`);
-    }
-    state.libraryExportSelected.clear();
-    renderLibraryDocumentList();
-  } catch (err) {
-    console.error(err);
-    setStatus(`Library export failed: ${err?.message || err}`);
-    updateLibraryExportSelectionUi();
-  }
-}
-
 function createLibraryDocumentRow(record) {
   const open = isDocumentOpen(record.id);
   const row = document.createElement('div'); row.className = `library-document-row library-file-row${open ? ' open' : ''}`; row.dataset.documentId = record.id;
   const preview = document.createElement('div'); preview.className = 'library-document-preview library-open-target'; preview.tabIndex=0; preview.setAttribute('role','button'); preview.setAttribute('aria-label',`Open ${record.name}`);
   const canvas = document.createElement('canvas'); canvas.setAttribute('aria-label', `First page preview of ${record.name}`); preview.append(canvas);
-  const exportCheck = document.createElement('input'); exportCheck.type='checkbox'; exportCheck.className='library-export-check'; exportCheck.checked=state.libraryExportSelected.has(record.id); exportCheck.setAttribute('aria-label',`Select ${record.name} for export`); exportCheck.title='Select for export';
-  exportCheck.addEventListener('pointerdown', e => e.stopPropagation());
-  exportCheck.addEventListener('click', e => e.stopPropagation());
-  exportCheck.addEventListener('keydown', e => e.stopPropagation());
-  exportCheck.addEventListener('change', e => { e.stopPropagation(); setLibraryExportSelected(record.id, exportCheck.checked); });
-  preview.append(exportCheck);
+  const selectCheck = document.createElement('input'); selectCheck.type='checkbox'; selectCheck.className='library-export-check'; selectCheck.checked=state.fileSelected.has(record.id); selectCheck.setAttribute('aria-label',`Select ${record.name} for PDF Tools`); selectCheck.title='Select for PDF Tools';
+  selectCheck.addEventListener('pointerdown', e => e.stopPropagation());
+  selectCheck.addEventListener('click', e => e.stopPropagation());
+  selectCheck.addEventListener('keydown', e => e.stopPropagation());
+  selectCheck.addEventListener('change', e => { e.stopPropagation(); setFileSelected(record.id, selectCheck.checked); });
+  preview.append(selectCheck);
   const label = document.createElement('div'); label.className = 'library-document-label library-open-target'; label.tabIndex=0; label.setAttribute('role','button'); label.setAttribute('aria-label',`Open ${record.name}`);
   const name = document.createElement('span'); name.className = 'library-document-name'; name.textContent = record.name; name.title = record.name;
   const meta = document.createElement('span'); meta.className = 'library-document-meta';
@@ -7276,8 +7228,6 @@ function renderLibraryDocumentList() {
   els.libraryGridViewBtn?.setAttribute('aria-pressed', String(state.libraryViewMode === 'grid'));
   els.libraryListViewBtn?.setAttribute('aria-pressed', String(state.libraryViewMode === 'list'));
   renderLibraryBreadcrumb();
-  reconcileLibraryExportSelection();
-  updateLibraryExportSelectionUi();
   if (els.librarySummary) {
     els.librarySummary.textContent = state.libraryReady
       ? (allRecords.length ? `${allRecords.length} document${allRecords.length === 1 ? '' : 's'} · ${activeLibraryFolders().length} folder${activeLibraryFolders().length === 1 ? '' : 's'} · ${state.documents.length} open` : 'The local Library is empty. Open or create a document and it will be stored automatically.')
@@ -7337,7 +7287,6 @@ async function closeOneOpenDocument(docId) {
   saveCurrentDocumentState();
   await persistLibraryNow();
   removeDocument(docId);
-  state.fileSelected.delete(docId);
   reconcileCombineOrder();
   state.sessionExplicitEmpty = state.documents.length === 0;
   checkpointWorkspaceNow({ explicitEmpty: state.sessionExplicitEmpty });
@@ -7351,7 +7300,13 @@ async function closeAllOpenDocuments() {
   if (!state.documents.length) return;
   saveCurrentDocumentState();
   await persistLibraryNow();
+  const selectedBeforeClose = new Set(state.fileSelected);
+  const selectionWasInitialized = state.fileSelectionInitialized;
   clearAll();
+  state.fileSelected = selectedBeforeClose;
+  state.fileSelectionInitialized = selectionWasInitialized;
+  reconcileFileSelection();
+  reconcileCombineOrder();
   state.sessionExplicitEmpty = true;
   checkpointWorkspaceNow({ explicitEmpty: true });
   await persistLibraryNow();
@@ -7372,12 +7327,12 @@ async function moveLibraryDocumentToTrash(docId) {
     state.libraryRecords.set(docId, record);
     if (openDoc) {
       removeDocument(docId);
-      state.fileSelected.delete(docId);
-      reconcileCombineOrder();
       renderAll({ saveState: false });
       await persistLibraryNow();
     }
-    renderLibraryDocumentList();
+    state.fileSelected.delete(docId);
+    reconcileCombineOrder();
+    if (state.workspaceMode === 'export') renderExportPane(); else renderLibraryDocumentList();
     setStatus(`Moved ${record.name} to Trash`);
   } catch (err) {
     console.error(err);
@@ -7503,7 +7458,6 @@ async function purgeLocalLibrary() {
     if (state.libraryDb?.objectStoreNames.contains('assetFolders')) await libraryClearStore('assetFolders');
     state.assetRecords.clear(); state.assetFolders.clear(); state.assetFolderId=null;
     state.libraryRecords.clear();
-    state.libraryExportSelected.clear();
     state.libraryFolders.clear();
     state.libraryFolderId = null;
     state.librarySuppressPersist = false;
@@ -7563,12 +7517,13 @@ function renderOpenDocumentList() {
   deduplicateOpenDocuments();
   reconcileFileSelection();
   els.openDocumentList.replaceChildren();
-  const chosen = selectedFileDocuments();
+  const openSelected = state.documents.filter(doc => state.fileSelected.has(doc.id));
+  const totalSelected = selectedFileDocuments().length;
   els.fileSelectionSummary.textContent = state.documents.length
-    ? `${chosen.length} of ${state.documents.length} document${state.documents.length === 1 ? '' : 's'} checked for multi-document operations.`
-    : 'No documents are open.';
-  els.selectAllFilesBtn.disabled = !state.documents.length || chosen.length === state.documents.length;
-  els.clearFileSelectionBtn.disabled = !chosen.length;
+    ? `${openSelected.length} of ${state.documents.length} open selected${totalSelected !== openSelected.length ? ` · ${totalSelected} selected total` : ''}.`
+    : (totalSelected ? `No documents are open · ${totalSelected} selected total.` : 'No documents are open.');
+  els.selectAllFilesBtn.disabled = !state.documents.length || openSelected.length === state.documents.length;
+  els.clearFileSelectionBtn.disabled = !openSelected.length;
 
   for (const doc of state.documents) {
     const row = document.createElement('div');
@@ -7577,7 +7532,7 @@ function renderOpenDocumentList() {
     const check = document.createElement('input');
     check.type = 'checkbox';
     check.checked = state.fileSelected.has(doc.id);
-    check.setAttribute('aria-label', `Select ${doc.name} for file operations`);
+    check.setAttribute('aria-label', `Select ${doc.name} for PDF Tools`);
     check.addEventListener('change', () => setFileSelected(doc.id, check.checked));
 
     const label = document.createElement('div');
@@ -7617,6 +7572,44 @@ function renderOpenDocumentList() {
   }
 }
 
+function renderSelectedDocumentList() {
+  if (!els.selectedDocumentList) return;
+  reconcileFileSelection();
+  const docs = selectedFileDocuments();
+  els.selectedDocumentList.replaceChildren();
+  if (els.selectedDocumentsSummary) els.selectedDocumentsSummary.textContent = docs.length
+    ? `${docs.length} document${docs.length === 1 ? '' : 's'} selected.`
+    : 'No documents selected.';
+  for (const doc of docs) {
+    const row=document.createElement('div');
+    row.className='open-document-row selected-document-row';
+    const check=document.createElement('input');
+    check.type='checkbox';
+    check.checked=true;
+    check.setAttribute('aria-label',`Remove ${doc.name} from Selected Documents`);
+    check.addEventListener('change',()=>{ if (!check.checked) setFileSelected(doc.id,false); });
+    const label=document.createElement('div');
+    label.className='open-document-label';
+    const name=document.createElement('span');
+    name.className='open-document-name';
+    name.textContent=doc.name;
+    name.title=doc.name;
+    const meta=document.createElement('span');
+    meta.className='open-document-meta';
+    const open=isDocumentOpen(doc.id);
+    meta.textContent=`${doc.pages?.length || 0} page${(doc.pages?.length || 0) === 1 ? '' : 's'} · ${open ? 'open' : 'closed'}${doc.id===state.currentDocumentId ? ' · active' : ''}${doc.needsExport ? ' · changes not exported' : ''}`;
+    label.append(name,meta);
+    row.append(check,label);
+    els.selectedDocumentList.append(row);
+  }
+  if (!docs.length) {
+    const empty=document.createElement('p');
+    empty.className='small-note';
+    empty.textContent='Check a document in Open Documents or Local Library to add it here.';
+    els.selectedDocumentList.append(empty);
+  }
+}
+
 function moveCombineDocument(docId, delta) {
   reconcileCombineOrder();
   const index = state.combineOrder.indexOf(docId);
@@ -7631,7 +7624,7 @@ function renderCombineList() {
   reconcileCombineOrder();
   els.combineList.replaceChildren();
   for (let index = 0; index < state.combineOrder.length; index++) {
-    const doc = documentById(state.combineOrder[index]);
+    const doc = selectableDocumentById(state.combineOrder[index]);
     if (!doc) continue;
     const row = document.createElement('div');
     row.className = 'combine-row combine-order-row';
@@ -7671,13 +7664,13 @@ function renderCombineList() {
   if (!state.combineOrder.length) {
     const empty = document.createElement('p');
     empty.className = 'small-note';
-    empty.textContent = 'Check two or more documents in Open documents above.';
+    empty.textContent = 'Select two or more documents above.';
     els.combineList.append(empty);
   }
   const combineCount = state.combineOrder.length;
   els.combineBtn.disabled = combineCount < 2;
   els.combineOperationSummary.textContent = combineCount >= 2
-    ? `${combineCount} checked documents · arrange order below`
+    ? `${combineCount} selected documents · arrange order below`
     : 'Select two or more documents above';
 }
 
@@ -7692,7 +7685,7 @@ function updateCompressionUi(chosenDocs = selectedFileDocuments()) {
 
   if (!chosenDocs.length) {
     els.compressOperationSummary.textContent = 'Select one or more documents above';
-    els.compressSummary.textContent = 'Select one or more open documents above.';
+    els.compressSummary.textContent = 'Select one or more documents above.';
     els.compressionFilename.disabled = true;
     els.compressBtn.disabled = true;
     els.compressBtn.textContent = 'Compress selected';
@@ -7700,10 +7693,10 @@ function updateCompressionUi(chosenDocs = selectedFileDocuments()) {
     const count = chosenDocs.length;
     const targetText = targetMode ? ` · target ${Number(els.compressionTargetMb?.value || 0).toFixed(1)} MB per PDF` : '';
     const letterText = normalizeLetter ? ' · Letter canvas' : '';
-    els.compressOperationSummary.textContent = `${count} checked document${count === 1 ? '' : 's'} · ${method === 'raster' ? 'raster' : 'preserve'}${letterText}${targetText}`;
+    els.compressOperationSummary.textContent = `${count} selected document${count === 1 ? '' : 's'} · ${method === 'raster' ? 'raster' : 'preserve'}${letterText}${targetText}`;
     els.compressSummary.textContent = count === 1
       ? `${chosenDocs[0].name}: create a compressed copy while keeping the current Pages order and edits.`
-      : `${count} checked documents will be compressed individually and packaged together in one ZIP.`;
+      : `${count} selected documents will be compressed individually and packaged together in one ZIP.`;
     els.compressionFilename.disabled = false;
     if (els.compressionFilename.dataset.selectionKey !== selectionKey) {
       els.compressionFilename.value = count === 1 ? defaultCompressionFilename(chosenDocs[0].name) : 'PDF-Workbench-Compressed.zip';
@@ -7724,8 +7717,10 @@ function updateCompressionUi(chosenDocs = selectedFileDocuments()) {
 
 function renderExportPane() {
   saveCurrentDocumentState();
+  reconcileFileSelection();
   renderLibraryDocumentList();
   renderOpenDocumentList();
+  renderSelectedDocumentList();
   if (els.templatesFilesSection?.open) renderFilesTemplateManager();
   if (els.assetsFilesSection?.open || state.assetBrowserMode === 'insert') renderAssetBrowser();
   updateImageAssemblyUi();
@@ -7735,7 +7730,7 @@ function renderExportPane() {
   const selectionKey = chosenDocs.map(d => `${d.id}\n${d.name}`).join('|');
 
   if (chosenDocs.length === 0) {
-    els.exportSummary.textContent = 'Select one or more open documents above.';
+    els.exportSummary.textContent = 'Select one or more documents above.';
     els.exportOperationSummary.textContent = 'Select one or more documents above';
     els.exportFilenameLabel.textContent = 'File name';
     els.exportFilename.disabled = true;
@@ -7744,7 +7739,7 @@ function renderExportPane() {
   } else if (chosenDocs.length === 1) {
     const only = chosenDocs[0];
     els.exportSummary.textContent = `${only.name}: ${only.pages.length} page${only.pages.length === 1 ? '' : 's'} will be exported in its current Pages order.`;
-    els.exportOperationSummary.textContent = `1 checked document · export PDF`;
+    els.exportOperationSummary.textContent = `1 selected document · export PDF`;
     els.exportFilenameLabel.textContent = 'PDF file name';
     els.exportFilename.disabled = false;
     if (els.exportFilename.dataset.selectionKey !== selectionKey) {
@@ -7755,8 +7750,8 @@ function renderExportPane() {
     els.exportPdfBtn.disabled = false;
     els.exportPdfBtn.textContent = 'Export PDF';
   } else {
-    els.exportSummary.textContent = `${chosenDocs.length} checked documents will be exported as individual PDFs inside one ZIP.`;
-    els.exportOperationSummary.textContent = `${chosenDocs.length} checked documents · export ZIP`;
+    els.exportSummary.textContent = `${chosenDocs.length} selected documents will be exported as individual PDFs inside one ZIP.`;
+    els.exportOperationSummary.textContent = `${chosenDocs.length} selected documents · export ZIP`;
     els.exportFilenameLabel.textContent = 'ZIP file name';
     els.exportFilename.disabled = false;
     if (els.exportFilename.dataset.selectionKey !== selectionKey) {
@@ -7772,9 +7767,10 @@ function renderExportPane() {
 
   const selectedCount = state.selected.size;
   if (doc) {
+    if (els.extractOperationSummary) els.extractOperationSummary.textContent = `Active: ${doc.name}`;
     els.extractSummary.textContent = selectedCount
-      ? `${selectedCount} selected page${selectedCount === 1 ? '' : 's'} from active document ${doc.name} will be saved in their current Pages order.`
-      : `Active document: ${doc.name}. No pages are selected; select pages in Pages first.`;
+      ? `${selectedCount} selected page${selectedCount === 1 ? '' : 's'} from ${doc.name} will be saved in their current Pages order.`
+      : `Active: ${doc.name}. No pages are selected; select pages in Pages first.`;
     const exportDocumentKey = `${doc.id}\n${doc.name}`;
     if (els.extractFilename.dataset.documentKey !== exportDocumentKey) {
       els.extractFilename.value = defaultExtractFilename(doc.name);
@@ -7788,6 +7784,7 @@ function renderExportPane() {
     }
     els.splitOperationSummary.textContent = `Active: ${doc.name}`;
   } else {
+    if (els.extractOperationSummary) els.extractOperationSummary.textContent = 'No active document';
     els.extractSummary.textContent = 'No active document.';
     els.splitOperationSummary.textContent = 'No active document';
   }
@@ -8414,6 +8411,7 @@ async function compressSelectedDocuments() {
     const results = [];
     for (let i = 0; i < docs.length; i++) {
       const doc = docs[i];
+      await prepareDocumentForFileOperation(doc);
       const prefix = docs.length > 1 ? `${i + 1} of ${docs.length} · ${doc.name}: ` : '';
       const result = await compressDocumentBytes(doc, { method, level, targetBytes, normalizeLetter }, {
         onProgress: text => {
@@ -8443,7 +8441,7 @@ async function compressSelectedDocuments() {
       const { doc, bytes } = results[0];
       const filename = ensurePdfFilename(els.compressionFilename.value, defaultCompressionFilename(doc.name));
       downloadPdfBytes(bytes, filename);
-      markDocumentExported(doc);
+      await markSelectedDocumentExported(doc);
       els.compressionProgress.textContent = `Compressed ${doc.name} to ${formatFileSize(bytes.length)} as ${filename}.`;
       setStatus(`Compressed ${filename}`);
     } else {
@@ -8452,7 +8450,7 @@ async function compressSelectedDocuments() {
       const used = new Set();
       for (const { doc, bytes } of results) {
         zip.file(uniqueCompressedZipName(doc, used), bytes);
-        markDocumentExported(doc);
+        await markSelectedDocumentExported(doc);
       }
       els.compressionProgress.textContent = 'Packaging compressed PDFs into ZIP…';
       const blob = await zip.generateAsync({ type: 'blob', compression: 'STORE', mimeType: 'application/zip' });
@@ -8481,6 +8479,7 @@ async function exportSelectedDocuments() {
     const sourcePdfCache = new Map();
     if (docs.length === 1) {
       const doc = docs[0];
+      await prepareDocumentForFileOperation(doc);
       const filename = ensurePdfFilename(els.exportFilename.value, defaultExportFilename(doc.name));
       const bytes = await buildPdfBytes(doc.pages, {
         sourcePdfCache,
@@ -8491,7 +8490,7 @@ async function exportSelectedDocuments() {
       });
       els.exportProgress.textContent = 'Writing PDF…';
       downloadPdfBytes(bytes, filename);
-      markDocumentExported(doc);
+      await markSelectedDocumentExported(doc);
       const sizeMb = bytes.length / (1024 * 1024);
       els.exportProgress.textContent = `Exported ${doc.pages.length} page${doc.pages.length === 1 ? '' : 's'} (${sizeMb < 0.1 ? `${Math.round(bytes.length / 1024)} KB` : `${sizeMb.toFixed(1)} MB`}).`;
       setStatus(`Exported ${filename}`);
@@ -8501,6 +8500,7 @@ async function exportSelectedDocuments() {
       const usedNames = new Set();
       for (let i = 0; i < docs.length; i++) {
         const doc = docs[i];
+        await prepareDocumentForFileOperation(doc);
         els.exportProgress.textContent = `Building PDF ${i + 1} of ${docs.length}: ${doc.name}…`;
         setStatus(`Exporting document ${i + 1} of ${docs.length}…`, true);
         const bytes = await buildPdfBytes(doc.pages, {
@@ -8510,7 +8510,7 @@ async function exportSelectedDocuments() {
           }
         });
         zip.file(uniqueZipPdfName(doc, usedNames), bytes);
-        markDocumentExported(doc);
+        await markSelectedDocumentExported(doc);
         await new Promise(resolve => setTimeout(resolve, 0));
       }
       els.exportProgress.textContent = 'Packaging PDFs into ZIP…';
@@ -8714,26 +8714,39 @@ async function splitByPageGroups() {
   }
 }
 
-function createCombinedDocument() {
+async function createCombinedDocument() {
   saveCurrentDocumentState();
   reconcileCombineOrder();
-  const chosenDocs = state.combineOrder.map(documentById).filter(Boolean);
+  const chosenDocs = state.combineOrder.map(selectableDocumentById).filter(Boolean);
   if (chosenDocs.length < 2) {
     els.combineProgress.textContent = 'Choose at least two documents to combine.';
     return;
   }
-  const combinedPages = [];
-  for (const doc of chosenDocs) {
-    for (const page of doc.pages) combinedPages.push(clonePageState(page, { newId: true, includeAnnotations: true }));
+  els.combineBtn.disabled = true;
+  els.combineProgress.textContent = 'Preparing selected documents…';
+  try {
+    const combinedPages = [];
+    for (let i = 0; i < chosenDocs.length; i++) {
+      const doc = chosenDocs[i];
+      els.combineProgress.textContent = `Preparing ${i + 1} of ${chosenDocs.length}: ${doc.name}…`;
+      await prepareDocumentForFileOperation(doc);
+      for (const page of doc.pages) combinedPages.push(clonePageState(page, { newId: true, includeAnnotations: true }));
+    }
+    if (!combinedPages.length) {
+      els.combineProgress.textContent = 'The chosen documents contain no pages.';
+      return;
+    }
+    const name = String(els.combineName.value || '').trim().replace(/[\/:*?"<>|]+/g, '_') || 'Combined.pdf';
+    createUserDocument(name, combinedPages, { workspaceMode:'organize' });
+    setStatus(`Created ${name} from ${chosenDocs.length} documents (${combinedPages.length} pages)`);
+    scheduleLibraryPersist(120);
+  } catch (err) {
+    console.error(err);
+    els.combineProgress.textContent = `Combine failed: ${err?.message || err}`;
+    setStatus('Combine failed');
+  } finally {
+    if (state.workspaceMode === 'export') renderCombineList();
   }
-  if (!combinedPages.length) {
-    els.combineProgress.textContent = 'The chosen documents contain no pages.';
-    return;
-  }
-  const name = String(els.combineName.value || '').trim().replace(/[\\/:*?"<>|]+/g, '_') || 'Combined.pdf';
-  const combined=createUserDocument(name,combinedPages,{workspaceMode:'organize'});
-  setStatus(`Created ${name} from ${chosenDocs.length} documents (${combinedPages.length} pages)`);
-  scheduleLibraryPersist(120);
 }
 
 function showWorkspaceMode(mode) {
@@ -11091,7 +11104,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.7.17 is a layout-only follow-up to the validated 5.7.11 paste behavior. The Copy Region size-choice dialog now gives Original size and Current zoom size separate columns with Cancel on its own row, and Select-mode text action buttons remain content-sized in compact Presentation mode instead of being forced into 34-pixel icon widths. Paste placement, Assets/Recent return behavior, Copy Region capture logic, and the Pen/touch/viewer machinery are unchanged.</p>
+      <p>Milestone 5.7.18 unifies document selection across Open Documents and Local Library. Selected Documents now mirrors that one shared selection, while the existing PDF Tools handle Export, Compress, and Combine for both open and closed Library documents. Combine now sits above the active-document Extract and Split tools, whose summaries use the same Active-document wording. Existing folder export and the Pen/touch/viewer/annotation machinery are unchanged.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -11908,8 +11921,8 @@ function bindEvents() {
   els.viewModeBtn.addEventListener('click', () => showWorkspaceMode('view'));
   els.organizeModeBtn.addEventListener('click', () => showWorkspaceMode('organize'));
   els.exportModeBtn.addEventListener('click', () => showWorkspaceMode('export'));
-  els.selectAllFilesBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; state.fileSelected = new Set(state.documents.map(doc => doc.id)); reconcileCombineOrder(); renderExportPane(); });
-  els.clearFileSelectionBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; state.fileSelected.clear(); reconcileCombineOrder(); renderExportPane(); });
+  els.selectAllFilesBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; for (const doc of state.documents) state.fileSelected.add(doc.id); reconcileCombineOrder(); renderExportPane(); });
+  els.clearFileSelectionBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; for (const doc of state.documents) state.fileSelected.delete(doc.id); reconcileCombineOrder(); renderExportPane(); });
   els.libraryRefreshBtn?.addEventListener('click', async () => {
     try {
       if (!(await ensureLibraryConnection())) throw new Error('Could not connect to local storage.');
@@ -11926,8 +11939,6 @@ function bindEvents() {
     }
   });
   els.inkDiagnosticsBtn?.addEventListener('click', downloadInkDiagnostics);
-  els.libraryExportSelectionBtn?.addEventListener('click', exportSelectedLibraryRecords);
-  els.libraryExportSelectionClearBtn?.addEventListener('click', () => { state.libraryExportSelected.clear(); renderLibraryDocumentList(); });
   els.libraryPdfArchiveBtn?.addEventListener('click', exportWholeLibraryAsPdfs);
   els.libraryEditableBackupBtn?.addEventListener('click', createEditableLibraryBackup);
   els.libraryRestoreBackupBtn?.addEventListener('click', () => { state.pendingBackupImportMode='replace'; els.libraryRestoreInput?.click(); });

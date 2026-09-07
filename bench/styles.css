@@ -1005,6 +1005,7 @@ body.presentation .split-pane.active {
 }
 .library-document-actions .primary-library-action { background:var(--accent-soft); border-color:var(--accent); color:#163f67; font-weight:650; }
 .open-document-row { grid-template-columns: auto minmax(0,1fr) auto auto; }
+.selected-document-row { grid-template-columns: auto minmax(0,1fr); }
 .open-document-close {
   min-height:36px; border:1px solid var(--border); border-radius:8px; background:var(--paper); color:var(--text); padding:6px 9px;
 }
@@ -1017,6 +1018,7 @@ body.presentation .split-pane.active {
   .library-document-actions { width:100%; }
   .library-document-actions button { flex:1 1 0; }
   .open-document-row { grid-template-columns:auto minmax(0,1fr) auto auto; }
+  .selected-document-row { grid-template-columns:auto minmax(0,1fr); }
   .open-document-close { padding-inline:7px; }
 }
 

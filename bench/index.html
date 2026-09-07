@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.7.17">
+  <link rel="stylesheet" href="styles.css?v=5.7.18">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -203,7 +203,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.7.17</div>
+          <div class="export-kicker">Milestone 5.7.18</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -228,13 +228,6 @@
                   </div>
                 </div>
               </div>
-              <div class="library-export-selection-toolbar" aria-label="Export selected Library files">
-                <span id="libraryExportSelectionSummary" class="small-note">No files selected for export.</span>
-                <div class="library-export-selection-actions">
-                  <button id="libraryExportSelectionClearBtn" type="button" disabled>Clear</button>
-                  <button id="libraryExportSelectionBtn" type="button" disabled>Export selected</button>
-                </div>
-              </div>
               <div id="libraryDocumentList" class="library-document-list" aria-label="Persistent local documents and folders"></div>
               <p id="libraryStorageSummary" class="small-note"></p>
             </div>
@@ -244,13 +237,21 @@
             <summary><span>Open documents</span><span id="fileSelectionSummary" class="operation-summary">No documents are open.</span></summary>
             <div class="file-tool-body">
               <div class="library-toolbar-row">
-                <p class="file-tool-summary">Currently open working set. Check documents here for Export, Compress, or Combine.</p>
+                <p class="file-tool-summary">Currently open working set. A checked document is selected globally for PDF Tools, whether it is checked here or in Local Library.</p>
                 <div class="file-selection-actions">
                   <button id="selectAllFilesBtn" type="button">Select all</button>
                   <button id="clearFileSelectionBtn" type="button">Clear</button>
                 </div>
               </div>
               <div id="openDocumentList" class="open-document-list" aria-label="Open documents"></div>
+            </div>
+          </details>
+
+          <details class="selected-documents-section file-tool-details library-overview-details" id="selectedDocumentsSection" open>
+            <summary><span>Selected documents</span><span id="selectedDocumentsSummary" class="operation-summary">No documents selected.</span></summary>
+            <div class="file-tool-body">
+              <p class="file-tool-summary">The same selection is shown in Open Documents and Local Library. Uncheck a document here to remove it from the shared PDF Tools selection everywhere.</p>
+              <div id="selectedDocumentList" class="open-document-list selected-document-list" aria-label="Selected documents"></div>
             </div>
           </details>
 
@@ -361,13 +362,13 @@
           <details class="file-tool-section file-tool-details" id="exportFilesSection">
             <summary><span>Export</span><span id="exportOperationSummary" class="operation-summary">Select one or more documents above</span></summary>
             <div class="file-tool-body">
-              <p id="exportSummary" class="file-tool-summary">Select one or more open documents above.</p>
+              <p id="exportSummary" class="file-tool-summary">Select one or more documents above.</p>
               <label class="export-field">
                 <span id="exportFilenameLabel">File name</span>
                 <input id="exportFilename" type="text" value="document-edited.pdf" autocomplete="off" spellcheck="false">
               </label>
               <button id="exportPdfBtn" class="export-button" type="button" disabled>Export selected</button>
-              <p class="small-note">One checked document exports as a PDF. Two or more checked documents are exported together in one ZIP; each PDF keeps its own current page order and edits.</p>
+              <p class="small-note">One selected document exports as a PDF. Two or more selected documents are exported together in one ZIP; each PDF keeps its own current page order and edits.</p>
               <p id="exportProgress" class="export-progress" aria-live="polite"></p>
             </div>
           </details>
@@ -375,7 +376,7 @@
           <details class="file-tool-section file-tool-details" id="compressFilesSection">
             <summary><span>Compress</span><span id="compressOperationSummary" class="operation-summary">Select one or more documents above</span></summary>
             <div class="file-tool-body">
-              <p id="compressSummary" class="file-tool-summary">Select one or more open documents above.</p>
+              <p id="compressSummary" class="file-tool-summary">Select one or more documents above.</p>
               <div class="compression-options">
                 <label class="export-field">
                   <span>Method</span>
@@ -413,8 +414,22 @@
             </div>
           </details>
 
+          <details class="file-tool-section file-tool-details" id="combineFilesSection">
+            <summary><span>Combine</span><span id="combineOperationSummary" class="operation-summary">Select two or more documents above</span></summary>
+            <div class="file-tool-body">
+              <p class="file-tool-summary">The selected documents appear below. Arrange their combine order without changing the shared Selected Documents list. Combining creates a new working document and leaves the originals unchanged.</p>
+              <label class="export-field">
+                <span>New document name</span>
+                <input id="combineName" type="text" value="Combined.pdf" autocomplete="off" spellcheck="false">
+              </label>
+              <div id="combineList" class="combine-list" aria-label="Order of documents to combine"></div>
+              <button id="combineBtn" class="export-button" type="button">Create combined document</button>
+              <p id="combineProgress" class="export-progress" aria-live="polite"></p>
+            </div>
+          </details>
+
           <details class="file-tool-section file-tool-details" id="extractFilesSection">
-            <summary><span>Extract</span><span class="operation-summary">Selected pages from the active document</span></summary>
+            <summary><span>Extract</span><span id="extractOperationSummary" class="operation-summary">No active document</span></summary>
             <div class="file-tool-body">
               <p id="extractSummary" class="file-tool-summary">Select pages in Pages, then save just those pages as a new PDF.</p>
               <label class="export-field">
@@ -427,7 +442,7 @@
           </details>
 
           <details class="file-tool-section file-tool-details" id="splitFilesSection">
-            <summary><span>Split</span><span id="splitOperationSummary" class="operation-summary">Split the active document</span></summary>
+            <summary><span>Split</span><span id="splitOperationSummary" class="operation-summary">No active document</span></summary>
             <div class="file-tool-body">
               <p class="file-tool-summary">Split operates on the active document. Multiple output PDFs are packaged into one ZIP for a single save/share operation.</p>
               <label class="export-field">
@@ -452,20 +467,6 @@
               </div>
               <p class="small-note">Within a line, use commas for additional pages/ranges, for example <strong>1-4,8,11-13</strong>. Page numbers refer to the current Pages order.</p>
               <p id="splitProgress" class="export-progress" aria-live="polite"></p>
-            </div>
-          </details>
-
-          <details class="file-tool-section file-tool-details" id="combineFilesSection">
-            <summary><span>Combine</span><span id="combineOperationSummary" class="operation-summary">Select two or more documents above</span></summary>
-            <div class="file-tool-body">
-              <p class="file-tool-summary">The checked documents appear below. Arrange their combine order without changing the general Open documents list. Combining creates a new working document and leaves the originals unchanged.</p>
-              <label class="export-field">
-                <span>New document name</span>
-                <input id="combineName" type="text" value="Combined.pdf" autocomplete="off" spellcheck="false">
-              </label>
-              <div id="combineList" class="combine-list" aria-label="Order of documents to combine"></div>
-              <button id="combineBtn" class="export-button" type="button">Create combined document</button>
-              <p id="combineProgress" class="export-progress" aria-live="polite"></p>
             </div>
           </details>
 
@@ -780,6 +781,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.7.17"></script>
+  <script type="module" src="app.js?v=5.7.18"></script>
 </body>
 </html>

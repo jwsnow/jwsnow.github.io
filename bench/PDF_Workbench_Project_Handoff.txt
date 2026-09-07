@@ -1,5 +1,27 @@
+CURRENT MILESTONE 5.7.18 — UNIFIED SELECTED DOCUMENTS
+=====================================================
 
-## Milestone 5.7.17 — annotation anchoring during page geometry changes
+- One canonical document-selection set now drives Open Documents, Local Library, Selected Documents, and the multi-document PDF Tools.
+- Local Library checkboxes are no longer an export-only selection; they select documents for Export, Compress, and Combine just like Open Documents checkboxes.
+- Added a Selected documents section that only mirrors the shared selection. It has no duplicate PDF Tool buttons. Unchecking there removes the document from the shared selection everywhere.
+- A selected document remains selected when it is closed; the same stored Library record can then be used by PDF Tools without reopening it in the viewer.
+- Export / Compress / Combine now accept closed Local Library documents. Stored source data is lazy-loaded for the operation.
+- Open Documents Select all / Clear affect the open-document subset while preserving any closed Library documents already selected.
+- PDF Tools order: Export, Compress, Combine, Extract, Split.
+- Extract and Split now use parallel summary text: `Active: <name>` or `No active document`.
+- Existing folder PDF export is unchanged.
+- No changes to Pen/touch/pinch/viewer, page geometry, Assets/Templates, Copy Region, or annotation rendering.
+
+TEST PRIORITIES FOR 5.7.18
+--------------------------
+- Synchronization of checkboxes among Local Library / Open Documents / Selected Documents.
+- Export, Compress, Combine with mixtures of open and closed documents.
+- Close a selected open document and verify it stays selected.
+- Uncheck from Selected Documents and verify all corresponding check marks clear.
+- Confirm Extract/Split remain active-document-only and show parallel active-document summaries.
+
+
+## Milestone 5.7.18 — annotation anchoring during page geometry changes
 
 - Fixed Pen strokes appearing to drift when Page Size or Crop/Margins changes page geometry.
 - Root cause: those geometry helpers mutate editable stroke points in place, while the Google Ink modeled-path cache used object/array identity and could retain the pre-transform path.
@@ -7,18 +29,18 @@
 - Editable annotation data remains editable; image/highlighter behavior and page-geometry semantics are unchanged.
 - Pen input, touch/pinch navigation, selection rotation, Asset placement, and Presentation round-trip behavior are otherwise unchanged.
 
-CURRENT MILESTONE 5.7.17 — TEMPLATE DROPDOWN CONSISTENCY
+CURRENT MILESTONE 5.7.18 — TEMPLATE DROPDOWN CONSISTENCY
 
 - Styling-only fix: Files → Templates → Automatic new last page now uses the same border/radius/background/padding/font/height treatment as the standard Files dropdowns.
 - No behavior changes. 5.7.13 selection icons, Presentation Files round-trip behavior, paste placement, Copy Region, and Pen/touch/viewer behavior are unchanged.
 
-CURRENT MILESTONE 5.7.17 — LAYOUT-ONLY POLISH
+CURRENT MILESTONE 5.7.18 — LAYOUT-ONLY POLISH
 
 - **Copy Region dialog:** Original size and Current zoom size now use two explicit equal columns; Cancel occupies a separate full-width row. The three actions no longer compete in one narrow flex row.
 - **Presentation Select actions:** Delete / Duplicate / Copy / Region / Paste remain content-sized even under the tablet compact Presentation rule; the 34 px rule continues to apply only to ordinary icon-style toolbar buttons.
 - This release changes layout/CSS only apart from version/About text. The validated 5.7.11 centered Paste behavior, Asset/Recent view-center capture, 5.7.10 Files return-state fix, 5.7.9 Copy Region capture logic, 5.7.8 naming keyboard path, and Pen/touch/pinch/viewer machinery are unchanged.
 
-TEST PRIORITIES FOR 5.7.17
+TEST PRIORITIES FOR 5.7.18
 
 - Open Copy Region, draw a rectangle, and confirm Original size / Current zoom size are clearly separated and Cancel is visible below them without overlap.
 - In Presentation → Select, confirm Delete / Duplicate / Copy / Region / Paste each contain their full labels and the right-side Presentation controls remain usable.
@@ -72,9 +94,9 @@ RETURN HERE AFTER A BREAK — CURRENT STATUS
 
 AUTHORITATIVE WORKING BASELINE
 ------------------------------
-- Use **Milestone 5.7.17** as the current source/build.
-- Visible About version: 5.7.17.
-- Service-worker/cache version: `pdf-workbench-m5.7.17-v1`.
+- Use **Milestone 5.7.18** as the current source/build.
+- Visible About version: 5.7.18.
+- Service-worker/cache version: `pdf-workbench-m5.7.18-v1`.
 - IndexedDB remains version 4; Library schema remains version 8. No persistence migration.
 - Pen/Highlighter rendering, 5.6.9 pinch/scroll behavior, finger-scroll engagement, inertia, split/single viewer rendering, and annotation geometry are intentionally unchanged.
 
@@ -5115,7 +5137,7 @@ Milestone 5.0.9 test note (2026-09-01)
 - Presentation-mode temporary Files round trips (Assets / Template Manager) no longer exit and re-enter Presentation, which removes the visible blip when going to Files and back.
 
 
-## Milestone 5.7.17 — editable 90° selection rotation
+## Milestone 5.7.18 — editable 90° selection rotation
 
 - Select now includes a compact clockwise-rotate action. One tap rotates the entire current selection 90° clockwise around the selection center.
 - Ink and Highlighter remain editable vector/stroke annotations; their stored points are transformed rather than rasterized.
@@ -5123,7 +5145,7 @@ Milestone 5.0.9 test note (2026-09-01)
 - Mixed selections rotate as one group. No Pen, touch, pinch, or viewer-navigation machinery was changed.
 
 
-## Milestone 5.7.17 — Local Library multi-file export
+## Milestone 5.7.18 — Local Library multi-file export
 - Local Library document cards now have export-selection checkboxes.
 - Multiple Library files can be exported directly without opening them first; one selected file exports as PDF, multiple selected files export as a ZIP of PDFs.
 - Existing folder PDF export behavior is unchanged.
