@@ -437,7 +437,8 @@ body.presentation .split-pane.active {
 
 /* Milestone 3.3 Files workspace: one shared document selection, then compact
    expandable operations. */
-.open-documents-section {
+.open-documents-section,
+.selected-documents-section {
   margin-top: 18px;
   padding: 16px 18px;
   border: 1px solid var(--border);
@@ -548,7 +549,8 @@ body.presentation .split-pane.active {
 .presentation-insert-page .page-plus-icon { margin: 0 auto; }
 
 @media (max-width: 620px) {
-  .open-documents-section { padding: 14px 12px; }
+  .open-documents-section,
+  .selected-documents-section { padding: 14px 12px; }
   .open-documents-heading-row { flex-direction: column; }
   .file-selection-actions { width: 100%; }
   .file-selection-actions button { flex: 1 1 0; }

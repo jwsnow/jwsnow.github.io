@@ -1,8 +1,8 @@
-# PDF Workbench — Milestone 5.7.19
+# PDF Workbench — Milestone 5.7.20
 
 ## Unified Selected Documents for PDF Tools
 
-5.7.19 replaces the separate Open Documents selection and Local Library export-only selection with one shared document selection. A checkbox in either Open Documents or Local Library updates the same selected-document set. The new **Selected documents** section is only a synchronized list of that set; it intentionally does not duplicate Export / Compress / Combine controls.
+5.7.20 replaces the separate Open Documents selection and Local Library export-only selection with one shared document selection. A checkbox in either Open Documents or Local Library updates the same selected-document set. The new **Selected documents** section is only a synchronized list of that set; it intentionally does not duplicate Export / Compress / Combine controls.
 
 - **PDF Tools are the single operation surface.** Export, Compress, and Combine now operate on the same selected documents whether those documents are open or closed in Local Library.
 - **Selection is synchronized.** If an open document is checked in Local Library, its Open Documents checkbox is checked too, and vice versa. Unchecking it in Selected documents clears it everywhere.
@@ -23,7 +23,7 @@
 6. Confirm Combine is above Extract/Split and Extract/Split both show the active-document name in the same format.
 
 
-## Milestone 5.7.19 — annotation anchoring during page geometry changes
+## Milestone 5.7.20 — annotation anchoring during page geometry changes
 
 - Fixed Pen strokes appearing to drift when Page Size or Crop/Margins changes page geometry.
 - Root cause: those geometry helpers mutate editable stroke points in place, while the Google Ink modeled-path cache used object/array identity and could retain the pre-transform path.
@@ -31,11 +31,11 @@
 - Editable annotation data remains editable; image/highlighter behavior and page-geometry semantics are unchanged.
 - Pen input, touch/pinch navigation, selection rotation, Asset placement, and Presentation round-trip behavior are otherwise unchanged.
 
-# PDF Workbench — Milestone 5.7.19
+# PDF Workbench — Milestone 5.7.20
 
-## 5.7.19 layout polish
+## 5.7.20 layout polish
 
-5.7.19 is a narrow layout-only follow-up to the validated 5.7.11 paste behavior. The Copy Region size-choice dialog now uses a two-column choice grid with Cancel on its own row, and Select-mode text action buttons remain content-sized in compact Presentation mode instead of being forced into 34-pixel icon-button widths. Paste placement, Assets round-trip behavior, Copy Region capture logic, and Pen/touch/viewer machinery are unchanged.
+5.7.20 is a narrow layout-only follow-up to the validated 5.7.11 paste behavior. The Copy Region size-choice dialog now uses a two-column choice grid with Cancel on its own row, and Select-mode text action buttons remain content-sized in compact Presentation mode instead of being forced into 34-pixel icon-button widths. Paste placement, Assets round-trip behavior, Copy Region capture logic, and Pen/touch/viewer machinery are unchanged.
 ## 5.7.11 centered Paste / Asset placement
 
 5.7.11 makes placement semantics uniform. Ordinary Paste now centers copied annotation snippets in the current visible page area. When Assets/Recent is opened from the annotation toolbar, Workbench freezes the active page and visible-center point before switching to Files; choosing either an image or an editable snippet pastes it back at that saved visible center. Asset cards use one action label, **Paste**, for both types. Duplicate remains deliberately different: it creates an offset copy near the original selection. The 5.7.10 Files return-state fix and 5.7.9 Copy Region remain intact.
@@ -830,12 +830,12 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - Presentation-mode temporary Files round trips (Assets / Template Manager) no longer exit and re-enter Presentation, which removes the visible blip when going to Files and back.
 
 
-## 5.7.19 dropdown consistency
+## 5.7.20 dropdown consistency
 
 - The **Automatic new last page** dropdown under Files → Templates now uses the same standard Files select styling as the New-document and other dropdown controls. Behavior is unchanged.
 
 
-## Milestone 5.7.19 — editable 90° selection rotation
+## Milestone 5.7.20 — editable 90° selection rotation
 
 - Select now includes a compact clockwise-rotate action. One tap rotates the entire current selection 90° clockwise around the selection center.
 - Ink and Highlighter remain editable vector/stroke annotations; their stored points are transformed rather than rasterized.
@@ -843,7 +843,10 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - Mixed selections rotate as one group. No Pen, touch, pinch, or viewer-navigation machinery was changed.
 
 
-## Milestone 5.7.19 — Local Library multi-file export
+## Milestone 5.7.20 — Local Library multi-file export
 - Local Library document cards now have export-selection checkboxes.
 - Multiple Library files can be exported directly without opening them first; one selected file exports as PDF, multiple selected files export as a ZIP of PDFs.
 - Existing folder PDF export behavior is unchanged.
+
+
+Milestone 5.7.20: Selected Documents now has the same boxed Files-panel styling as Open Documents while remaining collapsible. No behavior changes.
