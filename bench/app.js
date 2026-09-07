@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.16';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.17';
 
-const APP_VERSION = '5.7.16';
+const APP_VERSION = '5.7.17';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -24,7 +24,7 @@ const els = {
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), libraryExportSelectionSummary: $('libraryExportSelectionSummary'), libraryExportSelectionClearBtn: $('libraryExportSelectionClearBtn'), libraryExportSelectionBtn: $('libraryExportSelectionBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
@@ -124,6 +124,7 @@ const state = {
   libraryFolderId: null,
   libraryViewMode: safePref('pdfwb-library-view', 'grid', ['grid','list']),
   libraryPreviewObserver: null,
+  libraryExportSelected: new Set(),
   pendingFolderMove: null,
   pendingBackupImportMode: 'replace',
   libraryPersistTimer: null,
@@ -7149,11 +7150,98 @@ function createLibraryFolderRow(folder) {
   actions.append(open, exportBtn, rename, move, trash); row.append(preview, label, actions); return row;
 }
 
+function reconcileLibraryExportSelection() {
+  const activeIds = new Set(activeLibraryRecords().map(record => record.id));
+  for (const id of [...state.libraryExportSelected]) if (!activeIds.has(id)) state.libraryExportSelected.delete(id);
+}
+function selectedLibraryExportRecords() {
+  reconcileLibraryExportSelection();
+  return [...state.libraryExportSelected].map(id => state.libraryRecords.get(id)).filter(record => record && !record.trashedAt);
+}
+function updateLibraryExportSelectionUi() {
+  const records = selectedLibraryExportRecords();
+  const count = records.length;
+  if (els.libraryExportSelectionSummary) els.libraryExportSelectionSummary.textContent = count
+    ? `${count} file${count === 1 ? '' : 's'} selected for export.`
+    : 'No files selected for export.';
+  if (els.libraryExportSelectionClearBtn) els.libraryExportSelectionClearBtn.disabled = !count;
+  if (els.libraryExportSelectionBtn) {
+    els.libraryExportSelectionBtn.disabled = !count;
+    els.libraryExportSelectionBtn.textContent = count > 1 ? `Export ${count} selected` : 'Export selected';
+  }
+}
+function setLibraryExportSelected(recordId, selected) {
+  if (selected) state.libraryExportSelected.add(recordId); else state.libraryExportSelected.delete(recordId);
+  updateLibraryExportSelectionUi();
+}
+async function markLibraryRecordExported(record) {
+  if (!record) return;
+  const stamp = Date.now();
+  const openDoc = documentById(record.id);
+  if (openDoc) {
+    openDoc.needsExport = false;
+    openDoc.lastExportedAt = stamp;
+  }
+  const updated = { ...record, needsExport:false, lastExportedAt:stamp, modifiedAt:record.modifiedAt || stamp };
+  state.libraryRecords.set(record.id, updated);
+  if (state.libraryReady) await libraryPut('documents', updated);
+}
+async function exportSelectedLibraryRecords() {
+  if (!state.libraryExportSelected.size) return;
+  try {
+    if (els.libraryExportSelectionBtn) els.libraryExportSelectionBtn.disabled = true;
+    setStatus('Preparing selected Library files…', true);
+    await persistLibraryNow();
+    await refreshLibraryRecords();
+    const records = selectedLibraryExportRecords();
+    if (!records.length) { setStatus('No Library files are selected'); return; }
+    const sourcePdfCache = new Map();
+    if (records.length === 1) {
+      const record = records[0];
+      await ensureRecordSourcesLoaded(record);
+      const bytes = await buildPdfBytes(record.pages || [], { sourcePdfCache });
+      const filename = ensurePdfFilename(zipSafeSegment(record.name, 'Document.pdf'));
+      downloadPdfBytes(bytes, filename);
+      await markLibraryRecordExported(record);
+      setStatus(`Exported ${filename}`);
+    } else {
+      const JSZip = await loadZipEngine();
+      const zip = new JSZip();
+      const usedNames = new Set();
+      for (let i=0; i<records.length; i++) {
+        const record = records[i];
+        setStatus(`Exporting Library file ${i+1} of ${records.length}…`, true);
+        await ensureRecordSourcesLoaded(record);
+        const bytes = await buildPdfBytes(record.pages || [], { sourcePdfCache });
+        zip.file(uniqueZipPdfName(record, usedNames), bytes);
+        await markLibraryRecordExported(record);
+        await new Promise(resolve => setTimeout(resolve, 0));
+      }
+      setStatus('Packaging selected Library files…', true);
+      const blob = await zip.generateAsync({ type:'blob', compression:'STORE', mimeType:'application/zip' });
+      downloadBlob(blob, 'PDF-Workbench-Selected.zip');
+      setStatus(`Exported ${records.length} Library files`);
+    }
+    state.libraryExportSelected.clear();
+    renderLibraryDocumentList();
+  } catch (err) {
+    console.error(err);
+    setStatus(`Library export failed: ${err?.message || err}`);
+    updateLibraryExportSelectionUi();
+  }
+}
+
 function createLibraryDocumentRow(record) {
   const open = isDocumentOpen(record.id);
   const row = document.createElement('div'); row.className = `library-document-row library-file-row${open ? ' open' : ''}`; row.dataset.documentId = record.id;
   const preview = document.createElement('div'); preview.className = 'library-document-preview library-open-target'; preview.tabIndex=0; preview.setAttribute('role','button'); preview.setAttribute('aria-label',`Open ${record.name}`);
   const canvas = document.createElement('canvas'); canvas.setAttribute('aria-label', `First page preview of ${record.name}`); preview.append(canvas);
+  const exportCheck = document.createElement('input'); exportCheck.type='checkbox'; exportCheck.className='library-export-check'; exportCheck.checked=state.libraryExportSelected.has(record.id); exportCheck.setAttribute('aria-label',`Select ${record.name} for export`); exportCheck.title='Select for export';
+  exportCheck.addEventListener('pointerdown', e => e.stopPropagation());
+  exportCheck.addEventListener('click', e => e.stopPropagation());
+  exportCheck.addEventListener('keydown', e => e.stopPropagation());
+  exportCheck.addEventListener('change', e => { e.stopPropagation(); setLibraryExportSelected(record.id, exportCheck.checked); });
+  preview.append(exportCheck);
   const label = document.createElement('div'); label.className = 'library-document-label library-open-target'; label.tabIndex=0; label.setAttribute('role','button'); label.setAttribute('aria-label',`Open ${record.name}`);
   const name = document.createElement('span'); name.className = 'library-document-name'; name.textContent = record.name; name.title = record.name;
   const meta = document.createElement('span'); meta.className = 'library-document-meta';
@@ -7188,6 +7276,8 @@ function renderLibraryDocumentList() {
   els.libraryGridViewBtn?.setAttribute('aria-pressed', String(state.libraryViewMode === 'grid'));
   els.libraryListViewBtn?.setAttribute('aria-pressed', String(state.libraryViewMode === 'list'));
   renderLibraryBreadcrumb();
+  reconcileLibraryExportSelection();
+  updateLibraryExportSelectionUi();
   if (els.librarySummary) {
     els.librarySummary.textContent = state.libraryReady
       ? (allRecords.length ? `${allRecords.length} document${allRecords.length === 1 ? '' : 's'} · ${activeLibraryFolders().length} folder${activeLibraryFolders().length === 1 ? '' : 's'} · ${state.documents.length} open` : 'The local Library is empty. Open or create a document and it will be stored automatically.')
@@ -7413,6 +7503,7 @@ async function purgeLocalLibrary() {
     if (state.libraryDb?.objectStoreNames.contains('assetFolders')) await libraryClearStore('assetFolders');
     state.assetRecords.clear(); state.assetFolders.clear(); state.assetFolderId=null;
     state.libraryRecords.clear();
+    state.libraryExportSelected.clear();
     state.libraryFolders.clear();
     state.libraryFolderId = null;
     state.librarySuppressPersist = false;
@@ -11000,7 +11091,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.7.16 is a layout-only follow-up to the validated 5.7.11 paste behavior. The Copy Region size-choice dialog now gives Original size and Current zoom size separate columns with Cancel on its own row, and Select-mode text action buttons remain content-sized in compact Presentation mode instead of being forced into 34-pixel icon widths. Paste placement, Assets/Recent return behavior, Copy Region capture logic, and the Pen/touch/viewer machinery are unchanged.</p>
+      <p>Milestone 5.7.17 is a layout-only follow-up to the validated 5.7.11 paste behavior. The Copy Region size-choice dialog now gives Original size and Current zoom size separate columns with Cancel on its own row, and Select-mode text action buttons remain content-sized in compact Presentation mode instead of being forced into 34-pixel icon widths. Paste placement, Assets/Recent return behavior, Copy Region capture logic, and the Pen/touch/viewer machinery are unchanged.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -11835,6 +11926,8 @@ function bindEvents() {
     }
   });
   els.inkDiagnosticsBtn?.addEventListener('click', downloadInkDiagnostics);
+  els.libraryExportSelectionBtn?.addEventListener('click', exportSelectedLibraryRecords);
+  els.libraryExportSelectionClearBtn?.addEventListener('click', () => { state.libraryExportSelected.clear(); renderLibraryDocumentList(); });
   els.libraryPdfArchiveBtn?.addEventListener('click', exportWholeLibraryAsPdfs);
   els.libraryEditableBackupBtn?.addEventListener('click', createEditableLibraryBackup);
   els.libraryRestoreBackupBtn?.addEventListener('click', () => { state.pendingBackupImportMode='replace'; els.libraryRestoreInput?.click(); });

@@ -1074,6 +1074,34 @@ body.presentation .split-pane.active {
   gap: 7px;
   flex: 0 0 auto;
 }
+.library-export-selection-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+  padding: 7px 8px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--panel) 55%, var(--paper));
+}
+.library-export-selection-toolbar .small-note { margin: 0; }
+.library-export-selection-actions { display:flex; gap:7px; flex:0 0 auto; }
+.library-export-selection-actions button {
+  min-height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--text);
+  padding: 6px 10px;
+  font: inherit;
+}
+.library-export-selection-actions button:last-child:not(:disabled) {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: #163f67;
+  font-weight: 650;
+}
 .library-top-actions button,
 .library-browser-actions > button,
 .library-view-toggle button,
@@ -1146,6 +1174,7 @@ body.presentation .split-pane.active {
   gap: 10px;
 }
 .library-document-preview {
+  position: relative;
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -1157,6 +1186,20 @@ body.presentation .split-pane.active {
 .library-document-list.grid-view .library-document-preview { height: 132px; }
 .library-document-list.list-view .library-document-preview { width: 58px; height: 70px; }
 .library-document-preview canvas { display: block; max-width: 100%; max-height: 100%; }
+.library-export-check {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  accent-color: var(--accent);
+  background: var(--paper);
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgb(0 0 0 / .18);
+  cursor: pointer;
+  z-index: 2;
+}
 .library-document-preview.preview-error::after {
   content: 'Preview unavailable';
   color: var(--muted);
@@ -1201,6 +1244,9 @@ body.presentation .split-pane.active {
 @media (max-width: 620px) {
   .library-browser-toolbar { align-items: stretch; flex-direction: column; }
   .library-browser-actions { width: 100%; justify-content: flex-end; }
+  .library-export-selection-toolbar { align-items: stretch; flex-direction: column; }
+  .library-export-selection-actions { width: 100%; }
+  .library-export-selection-actions button { flex: 1 1 0; }
   .library-view-toggle { justify-content: flex-end; }
   .library-top-actions { width: 100%; }
   .library-primary-toolbar .library-top-actions { flex-wrap: wrap; }

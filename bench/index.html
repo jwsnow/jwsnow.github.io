@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.7.16">
+  <link rel="stylesheet" href="styles.css?v=5.7.17">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -203,7 +203,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.7.16</div>
+          <div class="export-kicker">Milestone 5.7.17</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -226,6 +226,13 @@
                     <button id="libraryListViewBtn" type="button">List</button>
                     <button id="libraryGridViewBtn" type="button">Grid</button>
                   </div>
+                </div>
+              </div>
+              <div class="library-export-selection-toolbar" aria-label="Export selected Library files">
+                <span id="libraryExportSelectionSummary" class="small-note">No files selected for export.</span>
+                <div class="library-export-selection-actions">
+                  <button id="libraryExportSelectionClearBtn" type="button" disabled>Clear</button>
+                  <button id="libraryExportSelectionBtn" type="button" disabled>Export selected</button>
                 </div>
               </div>
               <div id="libraryDocumentList" class="library-document-list" aria-label="Persistent local documents and folders"></div>
@@ -773,6 +780,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.7.16"></script>
+  <script type="module" src="app.js?v=5.7.17"></script>
 </body>
 </html>

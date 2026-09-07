@@ -1,5 +1,5 @@
 
-## Milestone 5.7.16 — annotation anchoring during page geometry changes
+## Milestone 5.7.17 — annotation anchoring during page geometry changes
 
 - Fixed Pen strokes appearing to drift when Page Size or Crop/Margins changes page geometry.
 - Root cause: those geometry helpers mutate editable stroke points in place, while the Google Ink modeled-path cache used object/array identity and could retain the pre-transform path.
@@ -7,11 +7,11 @@
 - Editable annotation data remains editable; image/highlighter behavior and page-geometry semantics are unchanged.
 - Pen input, touch/pinch navigation, selection rotation, Asset placement, and Presentation round-trip behavior are otherwise unchanged.
 
-# PDF Workbench — Milestone 5.7.16
+# PDF Workbench — Milestone 5.7.17
 
-## 5.7.16 layout polish
+## 5.7.17 layout polish
 
-5.7.16 is a narrow layout-only follow-up to the validated 5.7.11 paste behavior. The Copy Region size-choice dialog now uses a two-column choice grid with Cancel on its own row, and Select-mode text action buttons remain content-sized in compact Presentation mode instead of being forced into 34-pixel icon-button widths. Paste placement, Assets round-trip behavior, Copy Region capture logic, and Pen/touch/viewer machinery are unchanged.
+5.7.17 is a narrow layout-only follow-up to the validated 5.7.11 paste behavior. The Copy Region size-choice dialog now uses a two-column choice grid with Cancel on its own row, and Select-mode text action buttons remain content-sized in compact Presentation mode instead of being forced into 34-pixel icon-button widths. Paste placement, Assets round-trip behavior, Copy Region capture logic, and Pen/touch/viewer machinery are unchanged.
 ## 5.7.11 centered Paste / Asset placement
 
 5.7.11 makes placement semantics uniform. Ordinary Paste now centers copied annotation snippets in the current visible page area. When Assets/Recent is opened from the annotation toolbar, Workbench freezes the active page and visible-center point before switching to Files; choosing either an image or an editable snippet pastes it back at that saved visible center. Asset cards use one action label, **Paste**, for both types. Duplicate remains deliberately different: it creates an offset copy near the original selection. The 5.7.10 Files return-state fix and 5.7.9 Copy Region remain intact.
@@ -806,14 +806,20 @@ Milestone 5.0.9 keeps the successful 5.0.8 pen-input architecture intact and foc
 - Presentation-mode temporary Files round trips (Assets / Template Manager) no longer exit and re-enter Presentation, which removes the visible blip when going to Files and back.
 
 
-## 5.7.16 dropdown consistency
+## 5.7.17 dropdown consistency
 
 - The **Automatic new last page** dropdown under Files → Templates now uses the same standard Files select styling as the New-document and other dropdown controls. Behavior is unchanged.
 
 
-## Milestone 5.7.16 — editable 90° selection rotation
+## Milestone 5.7.17 — editable 90° selection rotation
 
 - Select now includes a compact clockwise-rotate action. One tap rotates the entire current selection 90° clockwise around the selection center.
 - Ink and Highlighter remain editable vector/stroke annotations; their stored points are transformed rather than rasterized.
 - Image annotations remain editable image objects. A quarter-turn rotation field preserves orientation through movement, proportional resize, copy/paste, Assets/snippets, Local Library persistence, Undo/Redo, and PDF export.
 - Mixed selections rotate as one group. No Pen, touch, pinch, or viewer-navigation machinery was changed.
+
+
+## Milestone 5.7.17 — Local Library multi-file export
+- Local Library document cards now have export-selection checkboxes.
+- Multiple Library files can be exported directly without opening them first; one selected file exports as PDF, multiple selected files export as a ZIP of PDFs.
+- Existing folder PDF export behavior is unchanged.
