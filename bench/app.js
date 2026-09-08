@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.21';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.22';
 
-const APP_VERSION = '5.7.21';
+const APP_VERSION = '5.7.22';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -24,7 +24,7 @@ const els = {
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractOperationSummary: $('extractOperationSummary'), extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
@@ -1975,6 +1975,209 @@ async function restoreEditableLibraryBackup(file) {
     setStatus(`Library restore failed: ${err?.message || err}`);
   } finally {
     if (els.libraryRestoreInput) els.libraryRestoreInput.value = '';
+  }
+}
+
+
+function documentMergeTimestamp(record) {
+  const modified = Number(record?.modifiedAt || 0);
+  if (Number.isFinite(modified) && modified > 0) return modified;
+  const created = Number(record?.createdAt || 0);
+  return Number.isFinite(created) && created > 0 ? created : 0;
+}
+
+function mergedDocumentFolderId(backupRecord, localRecord=null) {
+  const backupFolderId = backupRecord?.folderId || null;
+  const backupFolder = backupFolderId ? state.libraryFolders.get(backupFolderId) : null;
+  if (backupFolder && !backupFolder.trashedAt) return backupFolder.id;
+  const localFolderId = localRecord?.folderId || null;
+  const localFolder = localFolderId ? state.libraryFolders.get(localFolderId) : null;
+  return localFolder && !localFolder.trashedAt ? localFolder.id : null;
+}
+
+function normalizeMergedBackupDocument(record, localRecord=null) {
+  const clean = clonePlain(stripPersistentHistory(record));
+  return {
+    ...clean,
+    schemaVersion: Math.min(Number(clean.schemaVersion || LIBRARY_SCHEMA_VERSION), LIBRARY_SCHEMA_VERSION),
+    folderId: mergedDocumentFolderId(clean, localRecord),
+    trashedAt: null,
+    trashBatchId: null,
+  };
+}
+
+async function mergeEditableBackupDocuments(file) {
+  if (!file) return;
+  let previousSuppressPersist = state.librarySuppressPersist;
+  try {
+    const JSZip = await loadZipEngine();
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Reading backup for experimental document merge…';
+    const zip = await JSZip.loadAsync(file);
+    const manifestFile = zip.file('manifest.json');
+    if (!manifestFile) throw new Error('The backup does not contain manifest.json.');
+    const manifest = JSON.parse(await manifestFile.async('string'));
+    validateLibraryBackupManifest(manifest);
+    if (!(await ensureLibraryConnection())) throw new Error('Local Library is not available.');
+
+    // Make the in-memory/open documents authoritative before comparing dates.
+    await persistLibraryNow();
+    await refreshLibraryRecords();
+
+    const localById = new Map(state.libraryRecords);
+    const replacements = [];
+    const additions = [];
+    let localNewer = 0;
+    let equalTime = 0;
+    let backupTrashIgnored = 0;
+    let protectedByLocalTrash = 0;
+
+    for (const rawBackupRecord of manifest.documents) {
+      const backupRecord = stripPersistentHistory(rawBackupRecord);
+      if (backupRecord?.trashedAt) {
+        backupTrashIgnored++;
+        continue;
+      }
+      const localRecord = localById.get(backupRecord.id) || null;
+      if (!localRecord) {
+        additions.push(normalizeMergedBackupDocument(backupRecord));
+        continue;
+      }
+      // This first experiment never resurrects a document that is already in
+      // the local Trash. Trash/deletion reconciliation needs its own rules.
+      if (localRecord.trashedAt) {
+        protectedByLocalTrash++;
+        continue;
+      }
+      const backupTime = documentMergeTimestamp(backupRecord);
+      const localTime = documentMergeTimestamp(localRecord);
+      if (backupTime > localTime) replacements.push({ localRecord, backupRecord: normalizeMergedBackupDocument(backupRecord, localRecord) });
+      else if (backupTime < localTime) localNewer++;
+      else equalTime++;
+    }
+
+    const changes = replacements.length + additions.length;
+    const summary = [
+      `Newer backup documents that will replace local copies: ${replacements.length}`,
+      `Backup-only documents that will be added: ${additions.length}`,
+      `Local documents newer than backup: ${localNewer}`,
+      `Matching timestamps (local kept): ${equalTime}`,
+      `Backup documents already in backup Trash (ignored): ${backupTrashIgnored}`,
+      `Matching documents already in local Trash (left in Trash): ${protectedByLocalTrash}`,
+      '',
+      'When a newer backup document replaces a local document, the displaced local copy is moved to Trash under a new internal ID so it can still be restored.',
+      '',
+      'This experimental merge does NOT merge Templates, Assets, folder structure, or Trash/deletion state.'
+    ].join('\n');
+
+    if (!changes) {
+      if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Merge check complete. No document changes are needed. ${localNewer} local newer, ${equalTime} equal, ${backupTrashIgnored} backup-Trash ignored, ${protectedByLocalTrash} protected by local Trash.`;
+      setStatus('Merge check complete · no document changes needed');
+      return;
+    }
+    const ok = window.confirm(`Merge documents from this backup?\n\n${summary}\n\nContinue?`);
+    if (!ok) {
+      if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Experimental merge cancelled.';
+      return;
+    }
+
+    // Read every missing source needed by a document that will actually be
+    // accepted before touching the current Library.
+    const sourceManifestById = new Map(manifest.sources.map(source => [source.id, source]));
+    const requiredSourceIds = new Set();
+    for (const { backupRecord } of replacements) for (const sourceId of pagesReferencedSourceIds(backupRecord.pages || [])) requiredSourceIds.add(sourceId);
+    for (const record of additions) for (const sourceId of pagesReferencedSourceIds(record.pages || [])) requiredSourceIds.add(sourceId);
+    const newSourceRecords = [];
+    let sourceIndex = 0;
+    for (const sourceId of requiredSourceIds) {
+      sourceIndex++;
+      if (await libraryGet('sources', sourceId)) continue;
+      const source = sourceManifestById.get(sourceId);
+      if (!source) throw new Error(`Backup source ${sourceId} required by a merged document is missing.`);
+      if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Reading required backup source ${sourceIndex} of ${requiredSourceIds.size}…`;
+      const entry = zip.file(source.path);
+      if (!entry) throw new Error(`Backup payload ${source.path} is missing.`);
+      const data = await entry.async('arraybuffer');
+      if (!data.byteLength && Number(source.size || 0) > 0) throw new Error(`Backup payload for ${source.name || source.id} is empty.`);
+      newSourceRecords.push({
+        id: source.id,
+        schemaVersion: Math.min(Number(source.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION),
+        type: source.type,
+        name: source.name || 'source',
+        size: data.byteLength,
+        mimeType: source.mimeType || (source.type === 'pdf' ? 'application/pdf' : 'application/octet-stream'),
+        data,
+      });
+    }
+
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Merging document records…';
+    clearTimeout(state.libraryPersistTimer);
+    state.libraryPersistTimer = null;
+    state.libraryPersistAgain = false;
+    state.librarySuppressPersist = true;
+
+    const mergeTime = Date.now();
+    const displacedTrashRecords = replacements.map(({ localRecord }) => ({
+      ...clonePlain(stripPersistentHistory(localRecord)),
+      id: uid('doc'),
+      schemaVersion: LIBRARY_SCHEMA_VERSION,
+      trashedAt: mergeTime,
+      trashBatchId: null,
+    }));
+
+    const tx = state.libraryDb.transaction(['documents','sources'], 'readwrite');
+    const done = idbTransactionDone(tx);
+    const documentStore = tx.objectStore('documents');
+    const sourceStore = tx.objectStore('sources');
+    for (const source of newSourceRecords) sourceStore.put(source);
+    for (const trashRecord of displacedTrashRecords) documentStore.put(trashRecord);
+    for (const { backupRecord } of replacements) documentStore.put(backupRecord);
+    for (const record of additions) documentStore.put(record);
+    await done;
+
+    // If a replaced document is open, keep it open but swap in the accepted
+    // backup state. This avoids a subsequent autosave writing the older object
+    // back over the merged record.
+    const replacementById = new Map(replacements.map(item => [item.backupRecord.id, item.backupRecord]));
+    for (let i = 0; i < state.documents.length; i++) {
+      const replacement = replacementById.get(state.documents[i].id);
+      if (!replacement) continue;
+      if (state.annotationSelection?.documentId === replacement.id) clearAnnotationSelection(true);
+      for (const sourceId of pagesReferencedSourceIds(replacement.pages || [])) await ensureLibrarySourceLoaded(sourceId);
+      const hydrated = hydrateDocumentFromLibrary(replacement);
+      state.documents[i] = hydrated;
+      for (const pane of Object.values(state.splitPanes)) {
+        if (pane.documentId === hydrated.id || pane.views.has(hydrated.id)) pane.views.set(hydrated.id, defaultPaneView(hydrated));
+      }
+    }
+    const current = documentById(state.currentDocumentId);
+    if (current && replacementById.has(current.id)) {
+      state.pages = current.pages;
+      state.selected = current.selected;
+      state.selectionAnchorId = current.selectionAnchorId;
+      state.activePageId = current.activePageId;
+      state.history = current.history;
+      state.future = current.future;
+      if (!state.splitView) applySingleView(current, current.singleView);
+    }
+
+    await refreshLibraryRecords();
+    reconcileFileSelection();
+    reconcileCombineOrder();
+    ensureSplitPaneDocuments();
+    checkpointWorkspaceNow();
+    await libraryPut('meta', serializeLibrarySession());
+    renderAll({ saveState:false });
+
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Experimental document merge complete: ${replacements.length} newer backup document${replacements.length===1?'':'s'} accepted (${displacedTrashRecords.length} older local cop${displacedTrashRecords.length===1?'y':'ies'} moved to Trash), ${additions.length} backup-only document${additions.length===1?'':'s'} added, ${localNewer} newer local document${localNewer===1?'':'s'} kept, ${equalTime} equal-time match${equalTime===1?'':'es'} kept local.`;
+    setStatus(`Merged backup documents · ${replacements.length} replaced · ${additions.length} added`);
+  } catch (err) {
+    console.error('Experimental backup merge failed', err);
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Experimental merge failed: ${err?.message || err}`;
+    setStatus(`Backup merge failed: ${err?.message || err}`);
+  } finally {
+    state.librarySuppressPersist = previousSuppressPersist;
+    if (els.libraryRestoreInput) els.libraryRestoreInput.value = '';
+    state.pendingBackupImportMode = 'replace';
   }
 }
 
@@ -11107,7 +11310,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.7.20 keeps the unified document-selection model and gives Selected Documents the same bordered, rounded Files-section panel treatment as Open Documents, while preserving its collapsible behavior. Export, Compress, and Combine remain unchanged.</p>
+      <p><strong>Experimental branch:</strong> official PDF Workbench remains 5.7.21. Milestone 5.7.22 adds a document-only <strong>Merge with backup</strong> test. Matching uses stable Library document IDs and saved modification times. A newer backup document replaces the local record while the displaced older local version is retained in Trash; a newer or equal local document is kept. Templates, Assets, folder structure, and Trash/deletion reconciliation are intentionally not merged.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -11946,7 +12149,13 @@ function bindEvents() {
   els.libraryEditableBackupBtn?.addEventListener('click', createEditableLibraryBackup);
   els.libraryRestoreBackupBtn?.addEventListener('click', () => { state.pendingBackupImportMode='replace'; els.libraryRestoreInput?.click(); });
   els.libraryImportBackupBtn?.addEventListener('click', () => { state.pendingBackupImportMode='subtree'; els.libraryRestoreInput?.click(); });
-  els.libraryRestoreInput?.addEventListener('change', () => { const file=els.libraryRestoreInput.files?.[0]; if(state.pendingBackupImportMode==='subtree') importEditableBackupAsSubtree(file); else restoreEditableLibraryBackup(file); });
+  els.libraryMergeBackupBtn?.addEventListener('click', () => { state.pendingBackupImportMode='merge'; els.libraryRestoreInput?.click(); });
+  els.libraryRestoreInput?.addEventListener('change', () => {
+    const file=els.libraryRestoreInput.files?.[0];
+    if(state.pendingBackupImportMode==='subtree') importEditableBackupAsSubtree(file);
+    else if(state.pendingBackupImportMode==='merge') mergeEditableBackupDocuments(file);
+    else restoreEditableLibraryBackup(file);
+  });
   els.libraryImportBtn?.addEventListener('click', () => els.fileInput?.click());
   els.libraryImportZipBtn?.addEventListener('click', () => els.libraryZipImportInput?.click());
   els.libraryZipImportInput?.addEventListener('change', () => importPdfDirectoryZip(els.libraryZipImportInput.files?.[0]));

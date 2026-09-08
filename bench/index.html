@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.7.21">
+  <link rel="stylesheet" href="styles.css?v=5.7.22">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -203,7 +203,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.7.21</div>
+          <div class="export-kicker">Milestone 5.7.22 · experimental</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -489,8 +489,9 @@
                 <button id="libraryEditableBackupBtn" class="export-button secondary-output-button" type="button">Back up editable Library</button>
                 <button id="libraryRestoreBackupBtn" class="export-button secondary-output-button" type="button">Restore Library backup…</button>
                 <button id="libraryImportBackupBtn" class="export-button secondary-output-button" type="button">Import backup as folder…</button>
+                <button id="libraryMergeBackupBtn" class="export-button secondary-output-button" type="button">Merge with backup… <span aria-hidden="true">β</span></button>
               </div>
-              <p class="small-note">The PDF archive preserves the Library folder/subfolder structure and includes saved templates as one-page PDFs. Trash is omitted. Editable backups are written as .pwbbackup.zip. Restore replaces the current Library; Import backup as folder keeps the current Library and adds the backup as a new subtree.</p>
+              <p class="small-note">The PDF archive preserves the Library folder/subfolder structure and includes saved templates as one-page PDFs. Trash is omitted. Editable backups are written as .pwbbackup.zip. Restore replaces the current Library; Import backup as folder keeps the current Library and adds the backup as a new subtree. <strong>Merge with backup (experimental)</strong> compares matching document IDs and keeps the newer modified document; a displaced older local copy is moved to Trash. This first experiment merges documents only—not Templates, Assets, or folder structure.</p>
               <p id="libraryBackupProgress" class="export-progress" aria-live="polite"></p>
             </div>
           </details>
@@ -781,6 +782,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.7.21"></script>
+  <script type="module" src="app.js?v=5.7.22"></script>
 </body>
 </html>

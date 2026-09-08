@@ -1,3 +1,9 @@
+# PDF Workbench — Milestone 5.7.22 (EXPERIMENTAL)
+
+**Official current release remains 5.7.21.** This branch tests a document-only **Merge with backup** operation using the existing `.pwbbackup.zip` format. Matching is by stable Library document ID, not filename. The newer document `modifiedAt` timestamp wins (falling back to `createdAt` if needed). If the backup copy wins, the displaced older local version is copied to Trash under a new internal document ID before the newer backup record takes over the original stable ID.
+
+This first experiment intentionally does **not** merge Templates, Assets, folder structure, or Trash/deletion state. Backup documents already in Trash are ignored, and a same-ID document already in local Trash is not resurrected. Folder placement is conservative: an existing backup folder ID is used only if the same folder already exists locally; otherwise a replaced document keeps its local folder and a backup-only document is added at Library root.
+
 # PDF Workbench — Milestone 5.7.21
 
 ## Unified Selected Documents for PDF Tools

@@ -1,3 +1,30 @@
+CURRENT EXPERIMENTAL BRANCH 5.7.22 — MERGE WITH BACKUP
+
+OFFICIAL RELEASE STATUS
+- Official current PDF Workbench release remains **5.7.21**.
+- 5.7.22 is an experimental branch only. Do not use it as the release baseline unless the merge experiment is explicitly promoted later.
+
+EXPERIMENTAL MERGE RULES
+- Files → Library backup & export → **Merge with backup… β** uses the existing `.pwbbackup.zip` format.
+- Documents are matched by their preserved stable Library document ID, never by filename.
+- Compare `modifiedAt`; use `createdAt` only as a fallback when `modifiedAt` is unavailable.
+- Backup newer: accept the backup record under the original stable document ID and copy the displaced older local version to Trash under a new internal document ID.
+- Local newer: keep local and ignore the backup record.
+- Equal timestamp: keep local.
+- Backup-only active document: add it under its original stable document ID.
+- Backup documents already in backup Trash are ignored. A same-ID document already in local Trash is left in Trash and blocks resurrection in this first experiment.
+- Folder handling is deliberately conservative: if the backup document points to a folder ID that already exists locally, use it; otherwise a replacement keeps its existing local folder and a backup-only document goes to Library root.
+- Templates, Assets, folder structure, and Trash/deletion reconciliation are not merged in this experiment.
+- Replaced documents that are currently open remain open, but their in-memory state is swapped to the accepted newer backup state so a later autosave cannot overwrite the merge.
+- Pen/touch/viewer/annotation machinery is unchanged.
+
+TEST PRIORITIES
+1. Make a backup, modify one document locally, then merge the older backup: local version should remain.
+2. Make a backup, modify a document after the backup on another copy/device, then merge that newer backup: backup version should become active and the displaced local version should appear in Trash.
+3. Add a document only to the backup-side Library: merge should add it locally without opening it.
+4. Verify a replaced document that was already open remains open and editable after the merge.
+5. Verify Restore from Trash can recover the displaced older local version.
+
 CURRENT MILESTONE 5.7.21 — SELECTED DOCUMENTS PANEL STYLING
 
 - Selected Documents remains collapsible and uses the unified global document-selection state.
