@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.20';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.21';
 
-const APP_VERSION = '5.7.20';
+const APP_VERSION = '5.7.21';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -6661,16 +6661,19 @@ function ensureZipFilename(name, fallback='PDF-Workbench-Export.zip') {
 }
 
 function uniqueZipPdfName(doc, used) {
-  const base = cleanFilenameBase(doc.name, 'document');
-  let candidate = `${base}-edited.pdf`;
-  let n = 2;
-  while (used.has(candidate.toLowerCase())) candidate = `${base}-edited-${n++}.pdf`;
+  const original = ensurePdfFilename(doc?.name, 'document.pdf');
+  let candidate = original;
+  if (used.has(candidate.toLowerCase())) {
+    const base = cleanFilenameBase(original, 'document');
+    let n = 2;
+    do { candidate = `${base} (${n++}).pdf`; } while (used.has(candidate.toLowerCase()));
+  }
   used.add(candidate.toLowerCase());
   return candidate;
 }
 
 function defaultExportFilename(name) {
-  return `${cleanFilenameBase(name)}-edited.pdf`;
+  return ensurePdfFilename(name, 'document.pdf');
 }
 
 function defaultExtractFilename(name) {
