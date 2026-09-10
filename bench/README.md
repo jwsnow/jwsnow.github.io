@@ -1,4 +1,44 @@
-# PDF Workbench — Milestone 5.7.24 (EXPERIMENTAL)
+# PDF Workbench — Milestone 5.7.26 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+**Official current release remains 5.7.21 until this branch is promoted.**
+
+## 5.7.26 permanent page-navigation/background features
+
+### Presentation thumbnail navigation is retained
+- The right-side, button-activated Presentation thumbnail drawer from 5.7.23 is now treated as a permanent Workbench feature, not an experiment.
+- It remains available in Continuous, Page Snap, Full Page, and Split Presentation modes.
+- Memory hygiene is tightened: unrendered drawer canvases start at 1×1 rather than the browser default 300×150 backing store, and all drawer canvas backing stores are explicitly released when the drawer closes.
+
+### Add graph paper background
+- Pages now includes **Add graph paper background**. It applies to the currently selected pages.
+- The background is stored as structured page metadata (`background.type = "graph-paper"`, style/version/settings), not as an image and not as an annotation. This deliberately leaves room for a later Remove/Change command and controls for spacing, line color, opacity, line width, margins, or additional background styles.
+- The default appearance reuses the existing Workbench procedural graph-paper geometry/style.
+- On screen, the grid is drawn directly into the existing page rendering path; no full-page graph-paper bitmap is stored.
+- For imported PDFs, PDF.js is asked to preserve transparent PDF areas while Workbench supplies the graph layer underneath. Opaque source content still covers the background normally.
+- Standard PDF export forces a rewrite when a Workbench background is present. For imported PDF pages the grid is inserted as vector PDF content **before** the copied source page content, so transparent areas reveal the graph paper while opaque text/shapes remain above it. Image and generated pages use the same procedural/vector grid primitive.
+- The background survives Undo/Redo, page duplication/reordering/copying, Local Library persistence, editable backup/restore/import, and PDF export because it is part of the page record.
+- 5.7.26 intentionally exposes only **Add graph paper background**. The stored model is already reversible/extensible, but a Remove/Change UI is deferred until requested.
+
+### Preserved diagnostic branch features
+- 5.7.24 one-tap Presentation diagnostic snapshots and expanded resource/render/event-loop diagnostics remain.
+- 5.7.25 selected-document editable backup remains.
+- The 5.7.22 document-only Merge with backup experiment remains.
+- Highlighter/Eraser color cues remain.
+- Pen/Pencil sampling/modeling, Eraser behavior, selection geometry, and 5.6.9 touch/pinch behavior are not changed by 5.7.26.
+
+
+---
+
+# PDF Workbench — Milestone 5.7.25 (EXPERIMENTAL)
+
+
+## 5.7.25 selected-document editable backup
+- Added **Files → Library backup & export → Back up selected documents (editable)**. It uses the same global document selection already shared by Local Library, Open Documents, Selected Documents, and PDF Tools.
+- The package keeps the selected documents' durable editable Workbench records and includes **only source PDF/image binaries referenced by those documents**, plus their non-Trash ancestor Library folder records. It does not pack unrelated sources, so a large whole-Library backup is no longer required just to inspect or transfer a few editable documents.
+- Templates, reusable Assets/Recent, Trash, unrelated documents, preferences, and the saved workspace session are intentionally omitted from this partial package.
+- The file remains a `.pwbbackup.zip` container and may be used with **Import backup as folder** or the experimental **Merge with backup** path. For safety, **Restore Library backup refuses selected-document packages**, so a partial package cannot accidentally replace the whole Local Library.
+- Source payloads are read one at a time from IndexedDB instead of loading the entire source store into memory before packaging.
+- No changes were made to Pen/Highlighter/Pencil/touch/pinch behavior, viewer rendering, render retention, or the 5.7.24 diagnostic logger.
 
 ## 5.7.24 classroom diagnostics + tool-icon distinction
 - Official release remains **5.7.21**. This experimental branch continues from the field-tested 5.7.23 Presentation thumbnail drawer and retains the 5.7.22 Merge with backup experiment.

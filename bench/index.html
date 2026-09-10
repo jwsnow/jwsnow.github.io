@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.7.24">
+  <link rel="stylesheet" href="styles.css?v=5.7.26">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -195,6 +195,7 @@
           <div class="organizer-actions">
             <button id="selectAllBtn" type="button">Select all</button>
             <button id="rotateBtn" type="button" disabled>Rotate</button>
+            <button id="pageGraphBackgroundBtn" type="button" disabled>Add graph paper background</button>
             <button id="pageGeometryBtn" type="button">Page size…</button>
             <button id="pageEdgeBtn" type="button">Crop / margins…</button>
             <button id="insertPageBtn" type="button" aria-haspopup="menu" aria-expanded="false">Insert</button>
@@ -211,7 +212,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.7.24 · experimental</div>
+          <div class="export-kicker">Milestone 5.7.26 · experimental diagnostics branch</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -495,11 +496,12 @@
               <div class="library-backup-actions">
                 <button id="libraryPdfArchiveBtn" class="export-button secondary-output-button" type="button">Export Library as PDFs (.zip)</button>
                 <button id="libraryEditableBackupBtn" class="export-button secondary-output-button" type="button">Back up editable Library</button>
+                <button id="librarySelectedEditableBackupBtn" class="export-button secondary-output-button" type="button" disabled>Back up selected documents (editable)</button>
                 <button id="libraryRestoreBackupBtn" class="export-button secondary-output-button" type="button">Restore Library backup…</button>
                 <button id="libraryImportBackupBtn" class="export-button secondary-output-button" type="button">Import backup as folder…</button>
                 <button id="libraryMergeBackupBtn" class="export-button secondary-output-button" type="button">Merge with backup… <span aria-hidden="true">β</span></button>
               </div>
-              <p class="small-note">The PDF archive preserves the Library folder/subfolder structure and includes saved templates as one-page PDFs. Trash is omitted. Editable backups are written as .pwbbackup.zip. Restore replaces the current Library; Import backup as folder keeps the current Library and adds the backup as a new subtree. <strong>Merge with backup (experimental)</strong> compares matching document IDs and keeps the newer modified document; a displaced older local copy is moved to Trash. This first experiment merges documents only—not Templates, Assets, or folder structure.</p>
+              <p class="small-note">The PDF archive preserves the Library folder/subfolder structure and includes saved templates as one-page PDFs. Trash is omitted. Editable backups are written as .pwbbackup.zip. <strong>Back up selected documents (editable)</strong> writes only the globally selected documents and the source files they actually reference; it intentionally omits Templates, Assets, Trash, unrelated documents, and the workspace session. A selected-document package cannot replace the whole Library, but it can be imported as a folder or used with Merge. Restore replaces the current Library; Import backup as folder keeps the current Library and adds the backup as a new subtree. <strong>Merge with backup (experimental)</strong> compares matching document IDs and keeps the newer modified document; a displaced older local copy is moved to Trash.</p>
               <p id="libraryBackupProgress" class="export-progress" aria-live="polite"></p>
               <div class="saved-diagnostics-tools">
                 <p id="savedDiagnosticsSummary" class="small-note">No locally saved diagnostics.</p>
@@ -797,6 +799,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.7.24"></script>
+  <script type="module" src="app.js?v=5.7.26"></script>
 </body>
 </html>

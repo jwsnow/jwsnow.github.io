@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.24';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.26';
 
-const APP_VERSION = '5.7.24';
+const APP_VERSION = '5.7.26';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -24,7 +24,7 @@ const els = {
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), savedDiagnosticsSummary: $('savedDiagnosticsSummary'), exportSavedDiagnosticsBtn: $('exportSavedDiagnosticsBtn'), clearSavedDiagnosticsBtn: $('clearSavedDiagnosticsBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), librarySelectedEditableBackupBtn: $('librarySelectedEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), savedDiagnosticsSummary: $('savedDiagnosticsSummary'), exportSavedDiagnosticsBtn: $('exportSavedDiagnosticsBtn'), clearSavedDiagnosticsBtn: $('clearSavedDiagnosticsBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractOperationSummary: $('extractOperationSummary'), extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
@@ -33,7 +33,7 @@ const els = {
   splitLeftPane: $('splitLeftPane'), splitLeftViewer: $('splitLeftViewer'), splitLeftDocumentSelect: $('splitLeftDocumentSelect'), splitLeftNav: $('splitLeftNav'), splitLeftPrevBtn: $('splitLeftPrevBtn'), splitLeftNextBtn: $('splitLeftNextBtn'), splitLeftCounter: $('splitLeftCounter'),
   splitRightPane: $('splitRightPane'), splitRightViewer: $('splitRightViewer'), splitRightDocumentSelect: $('splitRightDocumentSelect'), splitRightNav: $('splitRightNav'), splitRightPrevBtn: $('splitRightPrevBtn'), splitRightNextBtn: $('splitRightNextBtn'), splitRightCounter: $('splitRightCounter'),
   thumbnailGrid: $('thumbnailGrid'), pageCountLabel: $('pageCountLabel'), selectionLabel: $('selectionLabel'),
-  selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
+  selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGraphBackgroundBtn: $('pageGraphBackgroundBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
   presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationPagesBtn: $('presentationPagesBtn'), presentationPageDrawerLayer: $('presentationPageDrawerLayer'), presentationPageDrawer: $('presentationPageDrawer'), presentationPageDrawerScroller: $('presentationPageDrawerScroller'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), presentationDiagnosticsBtn: $('presentationDiagnosticsBtn'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
@@ -1833,6 +1833,120 @@ async function createEditableLibraryBackup() {
   }
 }
 
+
+function selectedEditableBackupFolderRecords(documents) {
+  const needed = new Set();
+  for (const record of documents || []) {
+    let folderId = record?.folderId || null;
+    const seen = new Set();
+    while (folderId && !seen.has(folderId)) {
+      seen.add(folderId);
+      const folder = state.libraryFolders.get(folderId);
+      if (!folder || folder.trashedAt) break;
+      needed.add(folder.id);
+      folderId = folder.parentId || null;
+    }
+  }
+  return [...needed].map(id => clonePlain(state.libraryFolders.get(id))).filter(Boolean);
+}
+
+async function createSelectedEditableDocumentsBackup() {
+  if (!state.libraryReady && !(await ensureLibraryConnection())) {
+    setStatus('Local Library is not available');
+    return;
+  }
+  try {
+    const selectedIds = selectedFileDocuments().map(doc => doc.id);
+    if (!selectedIds.length) {
+      if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Select one or more documents first.';
+      setStatus('No documents selected for editable backup');
+      return;
+    }
+
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Saving selected editable state…';
+    await persistLibraryNow();
+
+    // Reuse the exact durable Library document representation. Open documents
+    // were just persisted above; closed selected documents already live here.
+    const documents = selectedIds.map(id => state.libraryRecords.get(id)).filter(record => record && !record.trashedAt)
+      .map(record => clonePlain(stripPersistentHistory(record)));
+    if (!documents.length) throw new Error('The selected documents are no longer available in the Local Library.');
+
+    const requiredSourceIds = new Set();
+    for (const record of documents) for (const sourceId of pagesReferencedSourceIds(record.pages || [])) requiredSourceIds.add(sourceId);
+
+    const JSZip = await loadZipEngine();
+    const zip = new JSZip();
+    const sourceManifest = [];
+    let index = 0;
+    for (const sourceId of requiredSourceIds) {
+      index++;
+      if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Packing selected source ${index} of ${requiredSourceIds.size}…`;
+      const stored = await libraryGet('sources', sourceId);
+      if (!stored) throw new Error(`Stored source ${sourceId} required by the selected documents is missing.`);
+      const payload = await sourceRecordPayload(stored);
+      if (!payload) throw new Error(`Stored source ${stored.name || sourceId} has no readable binary data.`);
+      const path = `sources/${encodeURIComponent(sourceId)}.bin`;
+      zip.file(path, payload);
+      sourceManifest.push({
+        id: sourceId,
+        schemaVersion: Number(stored.schemaVersion || 1),
+        type: stored.type,
+        name: stored.name,
+        size: payload.byteLength,
+        mimeType: stored.mimeType || (stored.type === 'pdf' ? 'application/pdf' : 'application/octet-stream'),
+        path,
+      });
+      // Give iPad Safari a chance to reclaim temporary IndexedDB clone memory
+      // between source payloads instead of constructing one giant sources array.
+      await new Promise(resolve => setTimeout(resolve, 0));
+    }
+
+    const folders = selectedEditableBackupFolderRecords(documents);
+    const manifest = {
+      format: 'PDF Workbench Editable Library Backup',
+      backupFormatVersion: LIBRARY_BACKUP_FORMAT_VERSION,
+      applicationVersion: APP_VERSION,
+      librarySchemaVersion: LIBRARY_SCHEMA_VERSION,
+      createdAt: new Date().toISOString(),
+      scope: 'selected-documents',
+      documents,
+      folders,
+      assets: [],
+      assetFolders: [],
+      sources: sourceManifest,
+      meta: {
+        session: null,
+        templates: { key:'templates', schemaVersion:LIBRARY_SCHEMA_VERSION, templates:[], newLastPageDefault:{ kind:'graph', templateId:null }, updatedAt:Date.now() },
+      },
+      preferences: {},
+    };
+    zip.file('manifest.json', JSON.stringify(manifest, null, 2));
+    zip.file('README.txt', [
+      'PDF Workbench Selected Editable Documents',
+      '',
+      `Created by PDF Workbench ${APP_VERSION}`,
+      `${documents.length} selected document(s); ${sourceManifest.length} referenced source file(s).`,
+      '',
+      'This is a PARTIAL editable backup containing only the selected documents, their editable page/annotation state, required source PDFs/images, and the ancestor folder records needed to describe their Library placement.',
+      'Templates, reusable Assets, Recent items, unrelated Library documents/sources, Trash, and the saved workspace session are intentionally omitted.',
+      'Do not use Restore Library backup with this partial package. PDF Workbench will refuse a destructive full restore from it.',
+      'It may be imported non-destructively with Import backup as folder or used by the experimental document Merge with backup operation.',
+      ''
+    ].join('\n'));
+
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Building selected editable backup…';
+    const blob = await zip.generateAsync({ type:'blob', compression:'STORE', mimeType:'application/zip' });
+    downloadBlob(blob, `PDF-Workbench-Selected-Editable-${portableTimestamp()}.pwbbackup.zip`);
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Selected editable backup created: ${documents.length} document${documents.length===1?'':'s'}, ${sourceManifest.length} referenced source file${sourceManifest.length===1?'':'s'}, ${(blob.size/1024/1024).toFixed(1)} MB.`;
+    setStatus(`Selected editable backup created · ${documents.length} document${documents.length===1?'':'s'}`);
+  } catch (err) {
+    console.error('Selected editable backup failed', err);
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Selected editable backup failed: ${err?.message || err}`;
+    setStatus(`Selected editable backup failed: ${err?.message || err}`);
+  }
+}
+
 async function replaceLibraryStoresAtomically({ documents, sources, folders, assets, assetFolders, templatesMeta, sessionMeta }) {
   if (!state.libraryDb) throw new Error('Local Library is not ready.');
   const tx = state.libraryDb.transaction(['documents','sources','folders','assets','assetFolders','meta'], 'readwrite');
@@ -1900,6 +2014,7 @@ async function restoreEditableLibraryBackup(file) {
     if (!manifestFile) throw new Error('The backup does not contain manifest.json.');
     const manifest = JSON.parse(await manifestFile.async('string'));
     validateLibraryBackupManifest(manifest);
+    if (manifest.scope === 'selected-documents') throw new Error('This is a selected-document editable backup, not a complete Library backup. Use Import backup as folder or Merge with backup instead.');
     const documentCount = manifest.documents.length;
     const folderCount = manifest.folders.length;
     const assetCount = manifest.assets?.length || 0;
@@ -5651,7 +5766,7 @@ function historyPageViewerStructureEquivalent(a, b) {
   // Annotation arrays are deliberately excluded; those can be repainted in-place.
   const fields = [
     'id', 'sourceId', 'sourcePage', 'width', 'height', 'baseRotation', 'rotation',
-    'kind', 'generatedType', 'generatedBackground', 'canvasWidth', 'canvasHeight', 'canvasPlacement',
+    'kind', 'generatedType', 'generatedBackground', 'background', 'canvasWidth', 'canvasHeight', 'canvasPlacement',
     'edgeTop', 'edgeRight', 'edgeBottom', 'edgeLeft',
   ];
   return fields.every(key => Object.is(a[key], b[key]));
@@ -6014,15 +6129,75 @@ const DEFAULT_NEW_PAGE_HEIGHT = 612;
 const PRESENTATION_PAGE_LONG_EDGE_PT = 11 * 72;
 const GRAPH_GRID_TARGET_SPACING_PT = 17.25; // Slightly smaller than the former 1/4-inch (18 pt) grid.
 const GRAPH_GRID_MIN_MARGIN_PT = 7;       // Small centered remainder margin keeps every visible cell complete.
+const GRAPH_PAPER_STYLE_ID = 'workbench-graph-v1';
 
-function graphGridLayout(width, height) {
+// Page backgrounds are intentionally stored as structured metadata rather than a
+// one-off boolean. 5.7.26 only exposes "Add graph paper background", but this
+// shape leaves room for Remove / Change / spacing / color / opacity controls
+// later without changing how pages are identified or stored.
+function defaultGraphPaperSettings() {
+  return {
+    targetSpacingPt: GRAPH_GRID_TARGET_SPACING_PT,
+    minMarginPt: GRAPH_GRID_MIN_MARGIN_PT,
+    lineColor: [0.46, 0.77, 0.87],
+    lineOpacity: 0.24,
+    lineWidthPt: 0.45,
+    edgeColor: [0.36, 0.69, 0.79],
+    edgeOpacity: 0.34,
+    edgeWidthPt: 0.58,
+  };
+}
+function finiteBetween(value, fallback, min, max) {
+  const n = Number(value);
+  return Number.isFinite(n) ? Math.max(min, Math.min(max, n)) : fallback;
+}
+function normalizeGraphPaperColor(value, fallback) {
+  if (!Array.isArray(value) || value.length < 3) return [...fallback];
+  return [
+    finiteBetween(value[0], fallback[0], 0, 1),
+    finiteBetween(value[1], fallback[1], 0, 1),
+    finiteBetween(value[2], fallback[2], 0, 1),
+  ];
+}
+function normalizeGraphPaperSettings(settings=null) {
+  const d = defaultGraphPaperSettings();
+  const s = settings && typeof settings === 'object' ? settings : {};
+  return {
+    targetSpacingPt: finiteBetween(s.targetSpacingPt, d.targetSpacingPt, 2, 144),
+    minMarginPt: finiteBetween(s.minMarginPt, d.minMarginPt, 0, 72),
+    lineColor: normalizeGraphPaperColor(s.lineColor, d.lineColor),
+    lineOpacity: finiteBetween(s.lineOpacity, d.lineOpacity, 0, 1),
+    lineWidthPt: finiteBetween(s.lineWidthPt, d.lineWidthPt, 0.05, 6),
+    edgeColor: normalizeGraphPaperColor(s.edgeColor, d.edgeColor),
+    edgeOpacity: finiteBetween(s.edgeOpacity, d.edgeOpacity, 0, 1),
+    edgeWidthPt: finiteBetween(s.edgeWidthPt, d.edgeWidthPt, 0.05, 8),
+  };
+}
+function makeGraphPaperBackground(settings=null) {
+  return {
+    type: 'graph-paper',
+    style: GRAPH_PAPER_STYLE_ID,
+    version: 1,
+    settings: normalizeGraphPaperSettings(settings),
+  };
+}
+function pageGraphPaperSettings(page) {
+  const background = page?.background;
+  if (!background || background.type !== 'graph-paper') return null;
+  return normalizeGraphPaperSettings(background.settings);
+}
+function pageHasGraphPaperBackground(page) {
+  return !!pageGraphPaperSettings(page);
+}
+function graphGridLayout(width, height, settings=null) {
+  const s = normalizeGraphPaperSettings(settings);
   const w = Math.max(1, Number(width) || 1);
   const h = Math.max(1, Number(height) || 1);
-  const maxMargin = Math.min(GRAPH_GRID_MIN_MARGIN_PT, w / 4, h / 4);
+  const maxMargin = Math.min(s.minMarginPt, w / 4, h / 4);
   const usableW = Math.max(1, w - 2 * maxMargin);
   const usableH = Math.max(1, h - 2 * maxMargin);
-  const columns = Math.max(1, Math.floor(usableW / GRAPH_GRID_TARGET_SPACING_PT));
-  const rows = Math.max(1, Math.floor(usableH / GRAPH_GRID_TARGET_SPACING_PT));
+  const columns = Math.max(1, Math.floor(usableW / s.targetSpacingPt));
+  const rows = Math.max(1, Math.floor(usableH / s.targetSpacingPt));
   // Use one common spacing in both directions so the cells remain true squares.
   // The tiny leftover in each dimension is split evenly around the bounded grid.
   const spacing = Math.max(1, Math.min(usableW / columns, usableH / rows));
@@ -6720,10 +6895,17 @@ function showNewFromTemplateChooser() {
   if (!els.infoDialog.open) els.infoDialog.showModal();
 }
 
-function drawGraphPaperCanvas(ctx, targetW, targetH, pageWidth, pageHeight) {
+function graphPaperCssRgba(color, opacity) {
+  const c = normalizeGraphPaperColor(color, [0.46, 0.77, 0.87]);
+  const to255 = value => Math.round(value * 255);
+  return `rgba(${to255(c[0])}, ${to255(c[1])}, ${to255(c[2])}, ${finiteBetween(opacity, 1, 0, 1)})`;
+}
+
+function drawGraphPaperCanvas(ctx, targetW, targetH, pageWidth, pageHeight, settings=null) {
+  const s = normalizeGraphPaperSettings(settings);
   const sx = targetW / pageWidth;
   const sy = targetH / pageHeight;
-  const layout = graphGridLayout(pageWidth, pageHeight);
+  const layout = graphGridLayout(pageWidth, pageHeight, s);
   const left = layout.left * sx;
   const right = layout.right * sx;
   const top = layout.top * sy;
@@ -6733,8 +6915,8 @@ function drawGraphPaperCanvas(ctx, targetW, targetH, pageWidth, pageHeight) {
   const scale = (sx + sy) / 2;
 
   ctx.save();
-  ctx.strokeStyle = 'rgba(92, 193, 217, 0.24)';
-  ctx.lineWidth = Math.max(0.55, Math.min(1.05, 0.6 * scale));
+  ctx.strokeStyle = graphPaperCssRgba(s.lineColor, s.lineOpacity);
+  ctx.lineWidth = Math.max(0.55, Math.min(1.05, s.lineWidthPt * scale * (0.6 / 0.45)));
   ctx.beginPath();
   for (let col = 1; col < layout.columns; col++) {
     const px = Math.round(left + col * spacingX) + 0.5;
@@ -6750,39 +6932,39 @@ function drawGraphPaperCanvas(ctx, targetW, targetH, pageWidth, pageHeight) {
 
   // A slightly stronger boundary makes the complete outer row/column obvious
   // without turning the graph paper into a boxed worksheet.
-  ctx.strokeStyle = 'rgba(72, 166, 193, 0.34)';
-  ctx.lineWidth = Math.max(0.8, Math.min(1.28, 0.76 * scale));
+  ctx.strokeStyle = graphPaperCssRgba(s.edgeColor, s.edgeOpacity);
+  ctx.lineWidth = Math.max(0.8, Math.min(1.28, s.edgeWidthPt * scale * (0.76 / 0.58)));
   const half = ctx.lineWidth / 2;
   ctx.strokeRect(left + half, top + half, Math.max(0, right - left - ctx.lineWidth), Math.max(0, bottom - top - ctx.lineWidth));
   ctx.restore();
 }
 
-function drawGraphPaperPdf(pdfPage, width, height, rgb) {
-  const color = rgb(0.46, 0.77, 0.87);
-  const edgeColor = rgb(0.36, 0.69, 0.79);
-  const layout = graphGridLayout(width, height);
+function drawGraphPaperPdf(pdfPage, width, height, rgb, settings=null) {
+  const s = normalizeGraphPaperSettings(settings);
+  const color = rgb(...s.lineColor);
+  const edgeColor = rgb(...s.edgeColor);
+  const layout = graphGridLayout(width, height, s);
   for (let col = 1; col < layout.columns; col++) {
     const x = layout.left + col * layout.spacing;
-    pdfPage.drawLine({ start: { x, y: layout.top }, end: { x, y: layout.bottom }, thickness: 0.45, color, opacity: 0.24 });
+    pdfPage.drawLine({ start: { x, y: layout.top }, end: { x, y: layout.bottom }, thickness: s.lineWidthPt, color, opacity: s.lineOpacity });
   }
   for (let row = 1; row < layout.rows; row++) {
     const y = layout.top + row * layout.spacing;
-    pdfPage.drawLine({ start: { x: layout.left, y }, end: { x: layout.right, y }, thickness: 0.45, color, opacity: 0.24 });
+    pdfPage.drawLine({ start: { x: layout.left, y }, end: { x: layout.right, y }, thickness: s.lineWidthPt, color, opacity: s.lineOpacity });
   }
-  const edgeThickness = 0.58;
-  const edgeOpacity = 0.34;
-  pdfPage.drawLine({ start: { x: layout.left, y: layout.top }, end: { x: layout.right, y: layout.top }, thickness: edgeThickness, color: edgeColor, opacity: edgeOpacity });
-  pdfPage.drawLine({ start: { x: layout.left, y: layout.bottom }, end: { x: layout.right, y: layout.bottom }, thickness: edgeThickness, color: edgeColor, opacity: edgeOpacity });
-  pdfPage.drawLine({ start: { x: layout.left, y: layout.top }, end: { x: layout.left, y: layout.bottom }, thickness: edgeThickness, color: edgeColor, opacity: edgeOpacity });
-  pdfPage.drawLine({ start: { x: layout.right, y: layout.top }, end: { x: layout.right, y: layout.bottom }, thickness: edgeThickness, color: edgeColor, opacity: edgeOpacity });
+  pdfPage.drawLine({ start: { x: layout.left, y: layout.top }, end: { x: layout.right, y: layout.top }, thickness: s.edgeWidthPt, color: edgeColor, opacity: s.edgeOpacity });
+  pdfPage.drawLine({ start: { x: layout.left, y: layout.bottom }, end: { x: layout.right, y: layout.bottom }, thickness: s.edgeWidthPt, color: edgeColor, opacity: s.edgeOpacity });
+  pdfPage.drawLine({ start: { x: layout.left, y: layout.top }, end: { x: layout.left, y: layout.bottom }, thickness: s.edgeWidthPt, color: edgeColor, opacity: s.edgeOpacity });
+  pdfPage.drawLine({ start: { x: layout.right, y: layout.top }, end: { x: layout.right, y: layout.bottom }, thickness: s.edgeWidthPt, color: edgeColor, opacity: s.edgeOpacity });
 }
 
-function drawGraphPaperPdfInRect(pdfPage, sourceWidth, sourceHeight, x, y, width, height, rgb) {
-  const color = rgb(0.46, 0.77, 0.87);
-  const edgeColor = rgb(0.36, 0.69, 0.79);
+function drawGraphPaperPdfInRect(pdfPage, sourceWidth, sourceHeight, x, y, width, height, rgb, settings=null) {
+  const s = normalizeGraphPaperSettings(settings);
+  const color = rgb(...s.lineColor);
+  const edgeColor = rgb(...s.edgeColor);
   const sx = width / sourceWidth;
   const sy = height / sourceHeight;
-  const layout = graphGridLayout(sourceWidth, sourceHeight);
+  const layout = graphGridLayout(sourceWidth, sourceHeight, s);
   const left = x + layout.left * sx;
   const right = x + layout.right * sx;
   const bottom = y + layout.top * sy;
@@ -6792,18 +6974,80 @@ function drawGraphPaperPdfInRect(pdfPage, sourceWidth, sourceHeight, x, y, width
   const lineScale = Math.min(sx, sy);
   for (let col = 1; col < layout.columns; col++) {
     const gx = left + col * spacingX;
-    pdfPage.drawLine({ start: { x: gx, y: bottom }, end: { x: gx, y: top }, thickness: 0.45 * lineScale, color, opacity: 0.24 });
+    pdfPage.drawLine({ start: { x: gx, y: bottom }, end: { x: gx, y: top }, thickness: s.lineWidthPt * lineScale, color, opacity: s.lineOpacity });
   }
   for (let row = 1; row < layout.rows; row++) {
     const gy = bottom + row * spacingY;
-    pdfPage.drawLine({ start: { x: left, y: gy }, end: { x: right, y: gy }, thickness: 0.45 * lineScale, color, opacity: 0.24 });
+    pdfPage.drawLine({ start: { x: left, y: gy }, end: { x: right, y: gy }, thickness: s.lineWidthPt * lineScale, color, opacity: s.lineOpacity });
   }
-  const edgeThickness = 0.58 * lineScale;
-  const edgeOpacity = 0.34;
-  pdfPage.drawLine({ start: { x: left, y: bottom }, end: { x: right, y: bottom }, thickness: edgeThickness, color: edgeColor, opacity: edgeOpacity });
-  pdfPage.drawLine({ start: { x: left, y: top }, end: { x: right, y: top }, thickness: edgeThickness, color: edgeColor, opacity: edgeOpacity });
-  pdfPage.drawLine({ start: { x: left, y: bottom }, end: { x: left, y: top }, thickness: edgeThickness, color: edgeColor, opacity: edgeOpacity });
-  pdfPage.drawLine({ start: { x: right, y: bottom }, end: { x: right, y: top }, thickness: edgeThickness, color: edgeColor, opacity: edgeOpacity });
+  const edgeThickness = s.edgeWidthPt * lineScale;
+  pdfPage.drawLine({ start: { x: left, y: bottom }, end: { x: right, y: bottom }, thickness: edgeThickness, color: edgeColor, opacity: s.edgeOpacity });
+  pdfPage.drawLine({ start: { x: left, y: top }, end: { x: right, y: top }, thickness: edgeThickness, color: edgeColor, opacity: s.edgeOpacity });
+  pdfPage.drawLine({ start: { x: left, y: bottom }, end: { x: left, y: top }, thickness: edgeThickness, color: edgeColor, opacity: s.edgeOpacity });
+  pdfPage.drawLine({ start: { x: right, y: bottom }, end: { x: right, y: top }, thickness: edgeThickness, color: edgeColor, opacity: s.edgeOpacity });
+}
+
+function graphPaperPdfToken(value) {
+  const n = Number(value) || 0;
+  return n.toFixed(4).replace(/\.?0+$/, '') || '0';
+}
+function graphPaperOpaqueBlend(color, opacity) {
+  const c = normalizeGraphPaperColor(color, [0.46, 0.77, 0.87]);
+  const a = finiteBetween(opacity, 1, 0, 1);
+  // The Workbench page beneath the grid is white. Pre-blending here lets the
+  // prepended PDF stream avoid an ExtGState resource while matching the
+  // translucent on-screen grid over white.
+  return c.map(component => 1 - a + a * component);
+}
+function graphPaperPdfBackgroundStream(box, settings=null) {
+  const s = normalizeGraphPaperSettings(settings);
+  const width = Math.max(1, Number(box?.width) || 1);
+  const height = Math.max(1, Number(box?.height) || 1);
+  const x0 = Number(box?.x) || 0;
+  const y0 = Number(box?.y) || 0;
+  const layout = graphGridLayout(width, height, s);
+  const left = x0 + layout.left;
+  const right = x0 + layout.right;
+  const bottom = y0 + layout.top;
+  const top = y0 + layout.bottom;
+  const line = graphPaperOpaqueBlend(s.lineColor, s.lineOpacity);
+  const edge = graphPaperOpaqueBlend(s.edgeColor, s.edgeOpacity);
+  const t = graphPaperPdfToken;
+  const parts = ['q', `${t(line[0])} ${t(line[1])} ${t(line[2])} RG`, `${t(s.lineWidthPt)} w`];
+  for (let col = 1; col < layout.columns; col++) {
+    const gx = left + col * layout.spacing;
+    parts.push(`${t(gx)} ${t(bottom)} m ${t(gx)} ${t(top)} l`);
+  }
+  for (let row = 1; row < layout.rows; row++) {
+    const gy = bottom + row * layout.spacing;
+    parts.push(`${t(left)} ${t(gy)} m ${t(right)} ${t(gy)} l`);
+  }
+  parts.push('S', `${t(edge[0])} ${t(edge[1])} ${t(edge[2])} RG`, `${t(s.edgeWidthPt)} w`);
+  parts.push(`${t(left)} ${t(bottom)} m ${t(right)} ${t(bottom)} l`);
+  parts.push(`${t(left)} ${t(top)} m ${t(right)} ${t(top)} l`);
+  parts.push(`${t(left)} ${t(bottom)} m ${t(left)} ${t(top)} l`);
+  parts.push(`${t(right)} ${t(bottom)} m ${t(right)} ${t(top)} l`);
+  parts.push('S', 'Q');
+  return parts.join('\n') + '\n';
+}
+function prependGraphPaperPdfBackground(pdfPage, pdfLib, settings=null) {
+  const context = pdfPage?.doc?.context;
+  const node = pdfPage?.node;
+  const PDFName = pdfLib?.PDFName;
+  if (!context || !node || !PDFName) throw new Error('PDF background stream support is unavailable.');
+  const box = pdfPage.getCropBox?.() || pdfPage.getMediaBox?.() || { x:0, y:0, width:pdfPage.getWidth(), height:pdfPage.getHeight() };
+  const bytes = new TextEncoder().encode(graphPaperPdfBackgroundStream(box, settings));
+  const stream = typeof context.flateStream === 'function' ? context.flateStream(bytes) : context.stream(bytes);
+  const ref = context.register(stream);
+
+  node.normalize?.();
+  let contents = node.normalizedEntries?.().Contents;
+  if (!contents) {
+    contents = context.obj([]);
+    node.set(PDFName.of('Contents'), contents);
+  }
+  if (typeof contents.insert !== 'function') throw new Error('Could not prepend the PDF page background.');
+  contents.insert(0, ref);
 }
 
 async function readImageDimensions(file, url) {
@@ -7935,6 +8179,7 @@ function renderExportPane() {
   const doc = currentDocument();
   const count = state.pages.length;
   const chosenDocs = selectedFileDocuments();
+  if (els.librarySelectedEditableBackupBtn) els.librarySelectedEditableBackupBtn.disabled = chosenDocs.length === 0;
   const selectionKey = chosenDocs.map(d => `${d.id}\n${d.name}`).join('|');
 
   if (chosenDocs.length === 0) {
@@ -8464,7 +8709,7 @@ function unchangedSingleSourcePdfBytes(pageList) {
   for (let i = 0; i < pageList.length; i++) {
     const page = pageList[i];
     if (page?.kind !== 'pdf' || page.sourceId !== first.sourceId || Number(page.sourcePage) !== i + 1) return null;
-    if ((page.rotation || 0) !== 0 || hasPageCanvasOverride(page) || hasPageEdgeAdjustments(page) || hasPageAnnotations(page)) return null;
+    if ((page.rotation || 0) !== 0 || hasPageCanvasOverride(page) || hasPageEdgeAdjustments(page) || hasPageAnnotations(page) || pageHasGraphPaperBackground(page)) return null;
   }
   return source.bytes.slice();
 }
@@ -8582,6 +8827,9 @@ async function buildPdfBytes(pageList, options={}) {
         } else {
           drawGraphPaperPdfInRect(outPage, page.width, page.height, edge.left, edge.bottom, core.width, core.height, rgb);
         }
+      } else {
+        const graphBackground = pageGraphPaperSettings(page);
+        if (graphBackground) drawGraphPaperPdfInRect(outPage, base.width, base.height, 0, 0, base.width, base.height, rgb, graphBackground);
       }
       await drawPageAnnotationsPdf(output, outPage, page, 0, pdfLib, embeddedImages, options.imageCompression || null);
       if (page.rotation) outPage.setRotation(degrees((page.rotation + 360) % 360));
@@ -8623,6 +8871,8 @@ async function buildPdfBytes(pageList, options={}) {
         copied.setTrimBox?.(x, y, width, height);
         copied.setArtBox?.(x, y, width, height);
       }
+      const graphBackground = pageGraphPaperSettings(page);
+      if (graphBackground) prependGraphPaperPdfBackground(copied, pdfLib, graphBackground);
       await drawPageAnnotationsPdf(output, copied, page, inheritedRotation, pdfLib, embeddedImages, options.imageCompression || null);
       copied.setRotation(degrees((inheritedRotation + (page.rotation || 0) + 360) % 360));
       output.addPage(copied);
@@ -8653,6 +8903,8 @@ async function buildPdfBytes(pageList, options={}) {
         embeddedImages.set(cacheKey, embedded);
       }
       const outPage = output.addPage([base.width, base.height]);
+      const graphBackground = pageGraphPaperSettings(page);
+      if (graphBackground) drawGraphPaperPdfInRect(outPage, base.width, base.height, 0, 0, base.width, base.height, rgb, graphBackground);
       if (hasPageCanvasOverride(page)) {
         outPage.drawImage(embedded, { x: edge.left + (core.width - drawWidth) / 2, y: edge.bottom + (core.height - drawHeight) / 2, width: drawWidth, height: drawHeight });
       } else outPage.drawImage(embedded, { x: edge.left, y: edge.bottom, width: drawWidth, height: drawHeight });
@@ -9263,6 +9515,7 @@ function updatePageCounts() {
   els.selectionLabel.textContent = selectedCount ? `${selectedCount} selected` : 'None selected';
   const hasSelection = selectedCount > 0;
   els.rotateBtn.disabled = !hasSelection;
+  if (els.pageGraphBackgroundBtn) els.pageGraphBackgroundBtn.disabled = !hasSelection;
   if (els.pageGeometryBtn) els.pageGeometryBtn.disabled = !count;
   if (els.pageEdgeBtn) els.pageEdgeBtn.disabled = !count;
   els.duplicateBtn.disabled = !hasSelection;
@@ -9309,6 +9562,10 @@ function renderOrganizer() {
     const preview = document.createElement('div');
     preview.className = 'thumb-preview';
     const canvas = document.createElement('canvas');
+    // Avoid the browser's default 300×150 backing store for every offscreen
+    // thumbnail. IntersectionObserver expands only the nearby thumbnails.
+    canvas.width = 1;
+    canvas.height = 1;
     canvas.setAttribute('aria-label', `Preview of page ${index + 1}`);
     preview.append(canvas);
 
@@ -9901,6 +10158,25 @@ function rotateSelected() {
   commitHistory(before);
   renderAll();
 }
+
+function addGraphPaperBackgroundToSelected() {
+  if (!state.selected.size) return;
+  const targets = state.pages.filter(page =>
+    state.selected.has(page.id) &&
+    !(page.kind === 'generated' && page.generatedType === 'graph') &&
+    !pageHasGraphPaperBackground(page)
+  );
+  if (!targets.length) {
+    setStatus('Selected pages already have graph paper.');
+    return;
+  }
+  const before = snapshotPages();
+  for (const page of targets) page.background = makeGraphPaperBackground();
+  commitHistory(before);
+  renderAll();
+  setStatus(`Added graph paper background to ${targets.length} page${targets.length === 1 ? '' : 's'}`);
+}
+
 function duplicateSelected() {
   if (!state.selected.size) return;
   const before = snapshotPages();
@@ -11137,9 +11413,21 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
   canvas.style.height = `${cssHeight}px`;
   const ctx = canvas.getContext('2d', { alpha: false });
   const generatedFill = page.kind === 'generated' && page.generatedType === 'blank' && page.generatedBackground === 'black' ? '#000' : '#fff';
+  const graphBackgroundSettings = pageGraphPaperSettings(page);
+
+  // Page-size normalization and crop/margin geometry are calculated before the
+  // base layer so an added background always belongs to the final visible page,
+  // not to the imported PDF's source rectangle. The imported PDF itself is then
+  // painted transparently over that background.
+  const coreBase = pageCoreCanvasBaseDimensions(page);
+  const coreDisplay = page.rotation % 180 === 0 ? coreBase : { width: coreBase.height, height: coreBase.width };
+  const finalDisplay = pageDisplayDimensions(page);
+  const edges = displayEdgeAdjustments(page);
+
   ctx.save();
   ctx.fillStyle = generatedFill;
   ctx.fillRect(0, 0, targetW, targetH);
+  if (graphBackgroundSettings) drawGraphPaperCanvas(ctx, targetW, targetH, finalDisplay.width, finalDisplay.height, graphBackgroundSettings);
   ctx.restore();
 
   const drawNaturalContent = async (targetCtx, contentW, contentH) => {
@@ -11154,7 +11442,12 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
       const natural = pdfPage.getViewport({ scale: 1, rotation: totalRotation });
       const scale = contentW / natural.width;
       const viewport = pdfPage.getViewport({ scale, rotation: totalRotation });
-      try { await pdfPage.render({ canvasContext: targetCtx, viewport }).promise; }
+      const renderOptions = { canvasContext: targetCtx, viewport };
+      // PDF.js normally paints an opaque white page background before the PDF
+      // operators. When Workbench supplies a background, keep transparent source
+      // areas transparent so the Workbench layer remains visible underneath.
+      if (graphBackgroundSettings) renderOptions.background = 'rgba(255,255,255,0)';
+      try { await pdfPage.render(renderOptions).promise; }
       finally { try { pdfPage.cleanup?.(); } catch {} }
     } else {
       const img = await getSourceImage(source);
@@ -11172,16 +11465,13 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
   // natural source proportionally into that core canvas. Crop / margin changes
   // are a second, independent edge transform around the core: positive edge
   // values add white canvas; negative values crop without rescaling content.
-  const coreBase = pageCoreCanvasBaseDimensions(page);
-  const coreDisplay = page.rotation % 180 === 0 ? coreBase : { width: coreBase.height, height: coreBase.width };
-  const finalDisplay = pageDisplayDimensions(page);
-  const edges = displayEdgeAdjustments(page);
-
   const renderCore = async (targetCtx, corePixelW, corePixelH) => {
-    targetCtx.save();
-    targetCtx.fillStyle = generatedFill;
-    targetCtx.fillRect(0, 0, corePixelW, corePixelH);
-    targetCtx.restore();
+    if (!graphBackgroundSettings) {
+      targetCtx.save();
+      targetCtx.fillStyle = generatedFill;
+      targetCtx.fillRect(0, 0, corePixelW, corePixelH);
+      targetCtx.restore();
+    }
     if (!hasPageCanvasOverride(page)) {
       await drawNaturalContent(targetCtx, corePixelW, corePixelH);
       return;
@@ -11193,13 +11483,20 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
     const contentCanvas = document.createElement('canvas');
     contentCanvas.width = contentW;
     contentCanvas.height = contentH;
-    const contentCtx = contentCanvas.getContext('2d', { alpha: false });
-    contentCtx.fillStyle = generatedFill;
-    contentCtx.fillRect(0, 0, contentW, contentH);
+    const contentCtx = contentCanvas.getContext('2d', { alpha: !!graphBackgroundSettings });
+    if (!graphBackgroundSettings) {
+      contentCtx.fillStyle = generatedFill;
+      contentCtx.fillRect(0, 0, contentW, contentH);
+    } else {
+      contentCtx.clearRect(0, 0, contentW, contentH);
+    }
     await drawNaturalContent(contentCtx, contentW, contentH);
     const x = Math.round((corePixelW - contentW) / 2);
     const y = Math.round((corePixelH - contentH) / 2);
     targetCtx.drawImage(contentCanvas, x, y);
+    // Release this temporary backing store promptly on memory-constrained iPads.
+    contentCanvas.width = 0;
+    contentCanvas.height = 0;
   };
 
   if (!hasPageEdgeAdjustments(page)) {
@@ -11212,11 +11509,14 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
   const coreCanvas = document.createElement('canvas');
   coreCanvas.width = corePixelW;
   coreCanvas.height = corePixelH;
-  const coreCtx = coreCanvas.getContext('2d', { alpha: false });
+  const coreCtx = coreCanvas.getContext('2d', { alpha: !!graphBackgroundSettings });
+  if (graphBackgroundSettings) coreCtx.clearRect(0, 0, corePixelW, corePixelH);
   await renderCore(coreCtx, corePixelW, corePixelH);
   const x = Math.round(targetW * edges.left / finalDisplay.width);
   const y = Math.round(targetH * edges.top / finalDisplay.height);
   ctx.drawImage(coreCanvas, x, y);
+  coreCanvas.width = 0;
+  coreCanvas.height = 0;
 }
 
 function renderError(stage, err) {
@@ -11271,6 +11571,17 @@ function presentationPageDrawerOpen() {
 function closePresentationPageDrawer() {
   state.presentationThumbObserver?.disconnect();
   state.presentationThumbObserver = null;
+  // A canvas defaults to a 300×150 backing store even before its lazy thumbnail
+  // render runs. Release both rendered and never-rendered drawer canvases as soon
+  // as the drawer closes so repeated Presentation navigation does not leave
+  // hidden bitmap memory resident on iPad.
+  if (els.presentationPageDrawerScroller) {
+    for (const canvas of els.presentationPageDrawerScroller.querySelectorAll('canvas')) {
+      canvas.width = 0;
+      canvas.height = 0;
+    }
+    els.presentationPageDrawerScroller.replaceChildren();
+  }
   els.presentationPageDrawerLayer?.classList.add('hidden');
   els.presentationPageDrawerLayer?.setAttribute('aria-hidden', 'true');
   els.presentationPagesBtn?.setAttribute('aria-expanded', 'false');
@@ -11707,7 +12018,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Experimental branch:</strong> official PDF Workbench remains 5.7.21. Milestone 5.7.24 retains the tested Presentation page-thumbnail drawer and document-only Merge with backup experiment, adds small color cues to distinguish Highlighter/Eraser, and adds a temporary far-right Presentation diagnostics button. Diagnostics can be saved locally without leaving class workflow, then exported later from Files → Library backup &amp; export. The logger now records abnormal event-loop gaps, slow/erroring renders, render-queue state, active render ages, lifecycle changes, and browser-exposed/estimated memory proxies. Pen/touch/pinch input behavior itself is unchanged.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. The Presentation page-thumbnail navigator and Pages graph-paper background are now permanent Workbench features to retain. Milestone 5.7.26 adds a non-destructive, structured page background layer and a Pages action to apply the existing Workbench graph-paper style to selected pages. Transparent PDF areas reveal the procedural grid underneath; standard export writes the grid as vector PDF content behind imported PDF content. The temporary diagnostics and document-only Merge with backup remain experimental support features. Pen/Pencil sampling, touch/pinch navigation, and annotation geometry are unchanged.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -12547,6 +12858,7 @@ function bindEvents() {
   els.clearSavedDiagnosticsBtn?.addEventListener('click', clearSavedDiagnostics);
   els.libraryPdfArchiveBtn?.addEventListener('click', exportWholeLibraryAsPdfs);
   els.libraryEditableBackupBtn?.addEventListener('click', createEditableLibraryBackup);
+  els.librarySelectedEditableBackupBtn?.addEventListener('click', createSelectedEditableDocumentsBackup);
   els.libraryRestoreBackupBtn?.addEventListener('click', () => { state.pendingBackupImportMode='replace'; els.libraryRestoreInput?.click(); });
   els.libraryImportBackupBtn?.addEventListener('click', () => { state.pendingBackupImportMode='subtree'; els.libraryRestoreInput?.click(); });
   els.libraryMergeBackupBtn?.addEventListener('click', () => { state.pendingBackupImportMode='merge'; els.libraryRestoreInput?.click(); });
@@ -12623,6 +12935,7 @@ function bindEvents() {
   els.splitRightNextBtn.addEventListener('click', () => { activateSplitPane('right', true); goPanePage('right', 1); });
   els.selectAllBtn.addEventListener('click', selectAllToggle);
   els.rotateBtn.addEventListener('click', rotateSelected);
+  els.pageGraphBackgroundBtn?.addEventListener('click', addGraphPaperBackgroundToSelected);
   els.pageGeometryBtn?.addEventListener('click', openPageGeometryDialog);
   els.pageGeometryCloseBtn?.addEventListener('click', () => els.pageGeometryDialog?.close());
   els.pageGeometryCancelBtn?.addEventListener('click', () => els.pageGeometryDialog?.close());

@@ -1,3 +1,64 @@
+PDF WORKBENCH PWA — MILESTONE 5.7.26 DEVELOPMENT / DIAGNOSTIC UPDATE
+=======================================================================
+
+OFFICIAL RELEASE STATUS
+-----------------------
+- Official current release remains 5.7.21 until this development branch is promoted.
+- The Presentation thumbnail navigator (introduced in 5.7.23) is now explicitly a PERMANENT feature to retain.
+- The new Pages graph-paper background is also a PERMANENT feature to retain.
+- Temporary diagnostics, selected-document editable backup, and Merge with backup remain support/experimental features and should not be confused with the permanent UI decisions above.
+
+MILESTONE 5.7.26 — ADD GRAPH PAPER BACKGROUND
+---------------------------------------------
+- Pages toolbar adds **Add graph paper background**; it is enabled when one or more pages are selected and applies directly to those selected pages.
+- Background is NOT an image annotation and NOT a raster asset. It is structured page metadata:
+  `background: { type: 'graph-paper', style: 'workbench-graph-v1', version: 1, settings: {...} }`
+- Settings currently store target spacing, minimum margin, line/edge RGB colors, opacities, and line widths even though 5.7.26 does not expose controls for them. This is deliberate so later Remove / Change / style editing can replace metadata instead of migrating to a new model.
+- Existing generated graph-paper pages are unchanged. Applying Add to an intrinsic generated graph page is treated as already graph paper rather than adding a duplicate layer.
+- Screen rendering reuses the current procedural graph-paper drawing primitive. Imported PDF content is rendered with a transparent PDF.js background only when a Workbench graph background is active, so the underlying grid shows through transparent source areas. No separate full-page graph bitmap is introduced.
+- Page-size normalization and crop/margin geometry remain compatible: the background belongs to the final visible page while source content is painted over it.
+- Export: background pages cannot use untouched-passthrough PDF export. For imported PDF pages, a compact vector grid content stream is prepended before copied source content. This keeps the graph behind source content without rasterizing the slide or flattening its URI annotations. Generated/image pages draw the same procedural vector grid before their normal content.
+- Page duplication, copy-to, Undo/Redo, Local Library persistence, editable backup and restore naturally retain the background because page cloning/persistence carries the structured field.
+- 5.7.26 exposes Add only. No Remove/Change/settings UI yet.
+
+PRESENTATION THUMBNAIL MEMORY HYGIENE
+-------------------------------------
+- User reported the thumbnail navigator worked very well in real classroom use and asked whether it could add to iPad memory pressure.
+- Yes, modestly: the original drawer created one `<canvas>` per document page; a newly-created canvas defaults to a 300×150 backing store even before lazy rendering, and the hidden drawer retained those backing stores after closing.
+- 5.7.26 starts unrendered drawer canvases at 1×1 and explicitly zeros/removes every drawer canvas on close. Nearby thumbnails are still lazily rendered through the existing render queue when the drawer is opened.
+- This is a targeted memory-hygiene change only. The thumbnail UI, navigation semantics, and page-jump behavior are unchanged.
+- The drawer alone is not considered sufficient evidence for the observed 2–4 second iPad stalls; continue collecting 5.7.24+ diagnostics before changing Pen/PDF rendering algorithms.
+
+PRESERVE
+--------
+- Do not remove the Presentation thumbnail navigator in a future cleanup; it is now a validated classroom feature.
+- Do not collapse page backgrounds into image annotations. Keep the structured page-background layer.
+- Do not change Pen/Pencil modeler, touch/pinch behavior, or annotation geometry in response to the current stall investigation without diagnostic evidence.
+- DB version remains 4 and Library schema remains 8; optional page metadata requires no migration.
+
+
+PDF WORKBENCH PWA — MILESTONE 5.7.25 EXPERIMENTAL UPDATE
+======================================================================
+
+OFFICIAL RELEASE REMAINS 5.7.21.
+
+5.7.25 adds one diagnostic/transfer convenience on top of experimental 5.7.24:
+- Files → Library backup & export → Back up selected documents (editable).
+- Uses the existing global selected-document set.
+- Saves current editable state, packages only those document records and the source PDF/image binaries their pages/image annotations reference, plus needed ancestor folder records.
+- Does not include unrelated documents/sources, Templates, Assets/Recent, Trash, preferences, or session state.
+- Output is a partial `.pwbbackup.zip`. Import backup as folder and experimental Merge may consume it. Full Restore explicitly refuses it to prevent replacing the Library with a subset.
+- Source payloads are fetched one at a time from IndexedDB to avoid cloning the entire (potentially 200 MB+) source store into memory.
+- 5.7.24 diagnostics and colored Highlighter/Eraser icon cues remain unchanged.
+- Presentation thumbnail drawer from 5.7.23 remains unchanged.
+- Pen/touch/pinch/viewer/render behavior is unchanged.
+
+USER CONTEXT FOR THIS CHANGE
+----------------------------
+The user's whole editable Local Library backup had grown beyond 200 MB and iPad upload to Drive was no longer practical. Three PDFs involved in classroom rendering/stall symptoms were available as conventional Workbench exports, but those exports cannot reveal the original source records and editable annotation/page state. This selected-document editable package exists so only the implicated documents can be captured and uploaded for diagnosis.
+
+======================================================================
+
 CURRENT EXPERIMENTAL BRANCH 5.7.24 — CLASSROOM DIAGNOSTICS / ICON COLOR CUES
 ============================================================================
 
