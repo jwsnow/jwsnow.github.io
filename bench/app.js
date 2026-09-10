@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.26';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.27';
 
-const APP_VERSION = '5.7.26';
+const APP_VERSION = '5.7.27';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -33,7 +33,7 @@ const els = {
   splitLeftPane: $('splitLeftPane'), splitLeftViewer: $('splitLeftViewer'), splitLeftDocumentSelect: $('splitLeftDocumentSelect'), splitLeftNav: $('splitLeftNav'), splitLeftPrevBtn: $('splitLeftPrevBtn'), splitLeftNextBtn: $('splitLeftNextBtn'), splitLeftCounter: $('splitLeftCounter'),
   splitRightPane: $('splitRightPane'), splitRightViewer: $('splitRightViewer'), splitRightDocumentSelect: $('splitRightDocumentSelect'), splitRightNav: $('splitRightNav'), splitRightPrevBtn: $('splitRightPrevBtn'), splitRightNextBtn: $('splitRightNextBtn'), splitRightCounter: $('splitRightCounter'),
   thumbnailGrid: $('thumbnailGrid'), pageCountLabel: $('pageCountLabel'), selectionLabel: $('selectionLabel'),
-  selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGraphBackgroundBtn: $('pageGraphBackgroundBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
+  selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGraphBackgroundBtn: $('pageGraphBackgroundBtn'), pagePurgeLegacyGraphBackgroundBtn: $('pagePurgeLegacyGraphBackgroundBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
   presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationPagesBtn: $('presentationPagesBtn'), presentationPageDrawerLayer: $('presentationPageDrawerLayer'), presentationPageDrawer: $('presentationPageDrawer'), presentationPageDrawerScroller: $('presentationPageDrawerScroller'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), presentationDiagnosticsBtn: $('presentationDiagnosticsBtn'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
@@ -6130,9 +6130,95 @@ const PRESENTATION_PAGE_LONG_EDGE_PT = 11 * 72;
 const GRAPH_GRID_TARGET_SPACING_PT = 17.25; // Slightly smaller than the former 1/4-inch (18 pt) grid.
 const GRAPH_GRID_MIN_MARGIN_PT = 7;       // Small centered remainder margin keeps every visible cell complete.
 const GRAPH_PAPER_STYLE_ID = 'workbench-graph-v1';
+const LEGACY_POWERPOINT_GRAPH_BACKGROUND = Object.freeze({
+  // Temporary migration fingerprint for the repeated graph-paper JPEG used in
+  // the user's older PowerPoint slide decks. Exact-byte matching is deliberate:
+  // never guess that another large page image is a background.
+  width: 2048,
+  height: 1536,
+  byteLength: 200613,
+  sha256: 'bb72bdfa722481c2bee58ff3d9d54a1646607d9f1aeccdd316404411fa9e8530',
+});
+
+async function sha256Hex(bytes) {
+  if (!globalThis.crypto?.subtle) throw new Error('Secure browser hashing is unavailable on this device.');
+  const view = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes || 0);
+  const exact = view.byteOffset === 0 && view.byteLength === view.buffer.byteLength
+    ? view.buffer
+    : view.buffer.slice(view.byteOffset, view.byteOffset + view.byteLength);
+  const digest = await crypto.subtle.digest('SHA-256', exact);
+  return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+function pdfNumberValue(value) {
+  const n = value?.asNumber?.();
+  return Number.isFinite(n) ? n : Number.NaN;
+}
+
+async function purgeKnownPowerPointGraphImageBytes(sourceBytes) {
+  const pdfLib = await loadPdfExportEngine();
+  const { PDFDocument, PDFRawStream, PDFName } = pdfLib;
+  if (!PDFRawStream || !PDFName) throw new Error('The PDF cleanup engine is missing low-level stream support.');
+  const pdfDoc = await PDFDocument.load(sourceBytes, { updateMetadata:false });
+  let matches = 0;
+  const widthKey = PDFName.of('Width');
+  const heightKey = PDFName.of('Height');
+  const subtypeKey = PDFName.of('Subtype');
+  for (const [ref, object] of pdfDoc.context.enumerateIndirectObjects()) {
+    if (!(object instanceof PDFRawStream)) continue;
+    if (String(object.dict.get(subtypeKey)) !== '/Image') continue;
+    if (pdfNumberValue(object.dict.get(widthKey)) !== LEGACY_POWERPOINT_GRAPH_BACKGROUND.width) continue;
+    if (pdfNumberValue(object.dict.get(heightKey)) !== LEGACY_POWERPOINT_GRAPH_BACKGROUND.height) continue;
+    const raw = object.contents;
+    if (!(raw instanceof Uint8Array) || raw.byteLength !== LEGACY_POWERPOINT_GRAPH_BACKGROUND.byteLength) continue;
+    if (await sha256Hex(raw) !== LEGACY_POWERPOINT_GRAPH_BACKGROUND.sha256) continue;
+
+    // Keep every page's existing content stream intact. Replacing only the
+    // exact shared image XObject with an empty Form XObject means existing
+    // /ImageN Do calls become no-ops. This is both narrower and safer than
+    // parsing/rebuilding arbitrary page drawing commands.
+    const emptyForm = pdfDoc.context.stream(new Uint8Array(0), {
+      Type:'XObject', Subtype:'Form', FormType:1,
+      BBox:[0, 0, 1, 1], Matrix:[1, 0, 0, 1, 0, 0], Resources:{},
+    });
+    pdfDoc.context.assign(ref, emptyForm);
+    matches++;
+  }
+  if (!matches) return { bytes:null, matches:0 };
+  return { bytes:new Uint8Array(await pdfDoc.save()), matches };
+}
+
+async function createDerivedPdfSource(originalSource, bytes) {
+  if (!state.pdfjs) throw new Error('The PDF engine is unavailable.');
+  const sourceBytes = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+  const sourceId = uid('src');
+  const pdf = await state.pdfjs.getDocument({
+    data: sourceBytes.slice(),
+    wasmUrl: PDFJS_WASM_URL,
+    cMapUrl: PDFJS_CMAP_URL,
+    cMapPacked: true,
+    standardFontDataUrl: PDFJS_STANDARD_FONT_URL,
+    useWasm: true,
+  }).promise;
+  try { await pdf.cleanup(); } catch {}
+  const blob = new Blob([sourceBytes], { type:'application/pdf' });
+  const source = {
+    id: sourceId,
+    type: 'pdf',
+    name: originalSource?.name || 'PDF.pdf',
+    size: sourceBytes.byteLength,
+    bytes: sourceBytes,
+    blob,
+    pdf,
+    libraryPersisted: false,
+  };
+  state.sources.set(sourceId, source);
+  return source;
+}
+
 
 // Page backgrounds are intentionally stored as structured metadata rather than a
-// one-off boolean. 5.7.26 only exposes "Add graph paper background", but this
+// one-off boolean. The permanent UI currently exposes "Add graph paper background"; this
 // shape leaves room for Remove / Change / spacing / color / opacity controls
 // later without changing how pages are identified or stored.
 function defaultGraphPaperSettings() {
@@ -9516,6 +9602,7 @@ function updatePageCounts() {
   const hasSelection = selectedCount > 0;
   els.rotateBtn.disabled = !hasSelection;
   if (els.pageGraphBackgroundBtn) els.pageGraphBackgroundBtn.disabled = !hasSelection;
+  if (els.pagePurgeLegacyGraphBackgroundBtn) els.pagePurgeLegacyGraphBackgroundBtn.disabled = !hasSelection;
   if (els.pageGeometryBtn) els.pageGeometryBtn.disabled = !count;
   if (els.pageEdgeBtn) els.pageEdgeBtn.disabled = !count;
   els.duplicateBtn.disabled = !hasSelection;
@@ -10175,6 +10262,76 @@ function addGraphPaperBackgroundToSelected() {
   commitHistory(before);
   renderAll();
   setStatus(`Added graph paper background to ${targets.length} page${targets.length === 1 ? '' : 's'}`);
+}
+
+
+async function purgeLegacyGraphBackgroundFromSelected() {
+  if (!state.selected.size) return;
+  const selectedPdfPages = state.pages.filter(page => state.selected.has(page.id) && page.kind === 'pdf' && page.sourceId);
+  if (!selectedPdfPages.length) {
+    setStatus('No selected PDF pages to purge.');
+    return;
+  }
+  const confirmed = window.confirm(
+    'Purge the old PowerPoint graph-paper image from the selected PDF pages?\n\n' +
+    'This temporary migration tool only removes the one exact graph-paper image Workbench recognizes. Other images are left alone. The original source remains available to Undo during this session.'
+  );
+  if (!confirmed) return;
+
+  const before = snapshotPages();
+  const pagesBySource = new Map();
+  for (const page of selectedPdfPages) {
+    if (!pagesBySource.has(page.sourceId)) pagesBySource.set(page.sourceId, []);
+    pagesBySource.get(page.sourceId).push(page);
+  }
+
+  let changedPages = 0;
+  let matchedSources = 0;
+  let createdSources = 0;
+  try {
+    setStatus('Checking selected pages for the old PowerPoint graph background…', true);
+    for (const [sourceId, pages] of pagesBySource) {
+      const source = state.sources.get(sourceId) || await ensureLibrarySourceLoaded(sourceId);
+      if (!source || source.type !== 'pdf') continue;
+      const bytes = source.bytes
+        ? source.bytes.slice()
+        : source.blob instanceof Blob
+          ? new Uint8Array(await source.blob.arrayBuffer())
+          : null;
+      if (!bytes?.byteLength) continue;
+
+      const cleaned = await purgeKnownPowerPointGraphImageBytes(bytes);
+      if (!cleaned.matches || !cleaned.bytes) continue;
+      matchedSources++;
+      const derived = await createDerivedPdfSource(source, cleaned.bytes);
+      createdSources++;
+      for (const page of pages) {
+        page.sourceId = derived.id;
+        changedPages++;
+      }
+    }
+
+    if (!changedPages) {
+      setStatus('The known old PowerPoint graph-paper image was not found on the selected pages.');
+      return;
+    }
+    commitHistory(before);
+    saveCurrentDocumentState({ readViewDom:false });
+    renderAll({ saveState:false });
+    scheduleLibraryPersist(100);
+    setStatus(`Purged old graph image from ${changedPages} selected page${changedPages === 1 ? '' : 's'} (${matchedSources} source PDF${matchedSources === 1 ? '' : 's'} cleaned).`);
+  } catch (err) {
+    console.error('Could not purge old graph background', err);
+    // Do not leave a partially repointed document if a later source fails.
+    restorePages(before);
+    for (const [sourceId, source] of [...state.sources.entries()]) {
+      if (!source?.libraryPersisted && source.type === 'pdf' && !librarySourceStillReferenced(sourceId)) {
+        try { source.pdf?.destroy?.(); } catch {}
+        state.sources.delete(sourceId);
+      }
+    }
+    setStatus(`Could not purge old graph image: ${err?.message || err}`);
+  }
 }
 
 function duplicateSelected() {
@@ -12018,7 +12175,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. The Presentation page-thumbnail navigator and Pages graph-paper background are now permanent Workbench features to retain. Milestone 5.7.26 adds a non-destructive, structured page background layer and a Pages action to apply the existing Workbench graph-paper style to selected pages. Transparent PDF areas reveal the procedural grid underneath; standard export writes the grid as vector PDF content behind imported PDF content. The temporary diagnostics and document-only Merge with backup remain experimental support features. Pen/Pencil sampling, touch/pinch navigation, and annotation geometry are unchanged.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. The Presentation page-thumbnail navigator and Pages graph-paper background are now permanent Workbench features to retain. Milestone 5.7.27 retains the permanent Presentation thumbnail navigator and structured Pages graph-paper background, and adds a temporary Pages migration button that removes only the exact legacy PowerPoint graph-paper JPEG from selected PDF pages. Transparent PDF areas reveal the procedural grid underneath; standard export writes the grid as vector PDF content behind imported PDF content. The temporary diagnostics and document-only Merge with backup remain experimental support features. Pen/Pencil sampling, touch/pinch navigation, and annotation geometry are unchanged.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -12936,6 +13093,7 @@ function bindEvents() {
   els.selectAllBtn.addEventListener('click', selectAllToggle);
   els.rotateBtn.addEventListener('click', rotateSelected);
   els.pageGraphBackgroundBtn?.addEventListener('click', addGraphPaperBackgroundToSelected);
+  els.pagePurgeLegacyGraphBackgroundBtn?.addEventListener('click', purgeLegacyGraphBackgroundFromSelected);
   els.pageGeometryBtn?.addEventListener('click', openPageGeometryDialog);
   els.pageGeometryCloseBtn?.addEventListener('click', () => els.pageGeometryDialog?.close());
   els.pageGeometryCancelBtn?.addEventListener('click', () => els.pageGeometryDialog?.close());

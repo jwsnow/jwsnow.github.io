@@ -1,3 +1,22 @@
+PDF WORKBENCH — MILESTONE 5.7.27 DEVELOPMENT HANDOFF
+======================================================
+
+OFFICIAL RELEASE
+----------------
+- 5.7.21 remains the official current release.
+- 5.7.27 is the current development/diagnostic branch.
+
+5.7.27 TEMPORARY LEGACY POWERPOINT GRAPH-BACKGROUND PURGE
+---------------------------------------------------------
+- Pages now has a temporary **Purge old graph image** action for selected PDF pages.
+- It is intentionally a migration aid, not a permanent feature.
+- Matching is exact: 2048×1536 JPEG, 200,613 compressed bytes, SHA-256 bb72bdfa722481c2bee58ff3d9d54a1646607d9f1aeccdd316404411fa9e8530. This is the same shared graph-paper image verified in the user's older PowerPoint PDFs. No generic background guessing is performed.
+- The cleanup uses pdf-lib low-level objects to replace only that exact image XObject with an empty Form XObject. It does not parse or rewrite the rest of the page drawing commands.
+- A cleaned derived PDF source is created per affected source PDF and only selected Workbench pages are repointed to it. Unselected pages retain the original source. The original source remains present for Undo during the session.
+- The permanent Presentation thumbnail drawer and permanent structured Add graph paper background feature must be retained going forward.
+- Temporary/experimental items remain: classroom diagnostics, selected editable backup, document-only Merge with backup, and the legacy graph-image purge button.
+- Do not change Pen/Pencil/touch/pinch behavior based on this migration feature.
+
 PDF WORKBENCH PWA — MILESTONE 5.7.26 DEVELOPMENT / DIAGNOSTIC UPDATE
 =======================================================================
 

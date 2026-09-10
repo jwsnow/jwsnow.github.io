@@ -1,3 +1,18 @@
+# PDF Workbench — Milestone 5.7.27 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+**Official current release remains 5.7.21 until this branch is promoted.**
+
+## 5.7.27 temporary legacy graph-background purge
+- Added a temporary **Pages → Purge old graph image** button. This is a migration convenience for older PowerPoint slide PDFs and is not intended as a permanent Workbench feature.
+- It operates on selected PDF pages. Workbench recognizes only the exact 2048×1536 graph-paper JPEG already verified in the user's older slide decks (SHA-256 fingerprint match); it does not guess based on page coverage, dimensions alone, or generic image heuristics.
+- For each selected source PDF containing that exact image, Workbench creates a cleaned derived PDF source in which the matching image XObject is replaced by an empty Form XObject. Existing text, vector content, page geometry, annotations, and page content streams are otherwise untouched.
+- Only the selected Workbench pages are repointed to the cleaned source, so unselected pages continue to use the original source. The original source remains available for normal session Undo.
+- The permanent **Add graph paper background** feature from 5.7.26 remains unchanged and can be applied afterward.
+- The Presentation thumbnail navigator remains a permanent feature. The diagnostics button, selected-editable backup, Merge-with-backup, and this purge button remain temporary/experimental support tools.
+- Pen/Pencil sampling/modeling, touch/pinch navigation, annotation geometry, and ordinary PDF rendering algorithms are unchanged.
+
+---
+
 # PDF Workbench — Milestone 5.7.26 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 **Official current release remains 5.7.21 until this branch is promoted.**
