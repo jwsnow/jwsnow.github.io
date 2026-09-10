@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.7.23">
+  <link rel="stylesheet" href="styles.css?v=5.7.24">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -64,7 +64,7 @@
       <div id="moreMenu" class="popover hidden" role="menu">
         <button id="clearBtn" type="button" role="menuitem">Close all files</button>
         <button id="installHelpBtn" type="button" role="menuitem">Installation / offline info</button>
-        <button id="inkDiagnosticsBtn" type="button" role="menuitem">Download Pencil diagnostics</button>
+        <button id="inkDiagnosticsBtn" type="button" role="menuitem">Download diagnostics</button>
         <button id="attributionsBtn" type="button" role="menuitem">Attributions &amp; licenses</button>
         <button id="aboutBtn" type="button" role="menuitem">About this build</button>
       </div>
@@ -179,6 +179,7 @@
           <button id="presentationLayoutBtn" class="presentation-only" type="button" title="Switch to split view" aria-label="Switch to split view">◫</button>
           <button id="presentationInsertBtn" class="presentation-insert-page presentation-only" type="button" title="Insert a page after the current page" aria-label="Insert page" aria-haspopup="menu" aria-expanded="false"><span class="page-plus-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 3h8l4 4v5M6 3v18h7M14 3v5h4"/><path d="M14 17h7M17.5 13.5v7"/></svg></span></button>
           <button id="presentationExit" class="presentation-only" type="button" aria-label="Exit presentation mode">×</button>
+          <button id="presentationDiagnosticsBtn" class="presentation-only presentation-diagnostics-btn" type="button" title="Save diagnostics locally" aria-label="Save diagnostics locally"><span class="presentation-diagnostics-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 3.5h9l4 4V20.5H5z"/><path d="M14 3.5v4h4"/><path d="M7.5 14h2l1.4-3 2.2 6 1.4-3h2"/></svg></span></button>
         </div>
 
         <div id="presentationPageDrawerLayer" class="presentation-page-drawer-layer hidden" aria-hidden="true">
@@ -210,7 +211,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.7.23 · experimental</div>
+          <div class="export-kicker">Milestone 5.7.24 · experimental</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -500,6 +501,13 @@
               </div>
               <p class="small-note">The PDF archive preserves the Library folder/subfolder structure and includes saved templates as one-page PDFs. Trash is omitted. Editable backups are written as .pwbbackup.zip. Restore replaces the current Library; Import backup as folder keeps the current Library and adds the backup as a new subtree. <strong>Merge with backup (experimental)</strong> compares matching document IDs and keeps the newer modified document; a displaced older local copy is moved to Trash. This first experiment merges documents only—not Templates, Assets, or folder structure.</p>
               <p id="libraryBackupProgress" class="export-progress" aria-live="polite"></p>
+              <div class="saved-diagnostics-tools">
+                <p id="savedDiagnosticsSummary" class="small-note">No locally saved diagnostics.</p>
+                <div class="library-backup-actions">
+                  <button id="exportSavedDiagnosticsBtn" class="export-button secondary-output-button" type="button" disabled>Export saved diagnostics</button>
+                  <button id="clearSavedDiagnosticsBtn" class="export-button secondary-output-button" type="button" disabled>Clear saved diagnostics</button>
+                </div>
+              </div>
             </div>
           </details>
 
@@ -789,6 +797,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.7.23"></script>
+  <script type="module" src="app.js?v=5.7.24"></script>
 </body>
 </html>

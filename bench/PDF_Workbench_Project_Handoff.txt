@@ -1,3 +1,83 @@
+CURRENT EXPERIMENTAL BRANCH 5.7.24 — CLASSROOM DIAGNOSTICS / ICON COLOR CUES
+============================================================================
+
+OFFICIAL RELEASE BASELINE
+-------------------------
+- Official current PDF Workbench remains **5.7.21**.
+- 5.7.24 is experimental and is based on 5.7.23. Keep the successful 5.7.23 Presentation page-thumbnail drawer and the dormant/tested 5.7.22 Merge with backup code.
+- User reported many ~2 second Pen nonresponsive incidents in class, a couple whole-iPad/App freezes around 3–4 seconds, and three cases where a page remained stuck Rendering while three documents were in use/rendering. This makes temporary expanded diagnostics appropriate; do not change the Pen model based on these symptoms yet.
+
+5.7.24 TOOL ICON COLOR CUES
+----------------------------
+- Keep the existing Highlighter and Eraser silhouettes.
+- Highlighter: fill the formerly clear portion of the icon yellow (`#ffeb3b`).
+- Eraser: fill the interior pink (`#ff80ab`).
+- This is a student-requested distinction cue only; tool behavior and palettes are unchanged.
+
+5.7.24 QUICK LOCAL DIAGNOSTIC SNAPSHOT
+--------------------------------------
+- Temporary compact diagnostics button is at the far right of the Presentation toolbar.
+- Tapping it saves immediately into Workbench local IndexedDB; it does NOT invoke download/share UI and does NOT leave Presentation.
+- Diagnostics are stored using the existing `meta` object store, one record per snapshot plus a small index; no DB/schema migration.
+- Up to 12 snapshots are retained. Saving a new snapshot does not clone/rewrite the payloads of earlier snapshots.
+- Files → Library backup & export shows the saved count and provides Export saved diagnostics / Clear saved diagnostics. One saved snapshot exports as TXT; multiple export as ZIP.
+- Saved diagnostics are device-local and intentionally not part of the editable Library backup format.
+
+EXPANDED DIAGNOSTIC COVERAGE
+----------------------------
+Existing Pencil boundary diagnostics remain. Added:
+- event-loop heartbeat every 250 ms, logging only gaps >=700 ms;
+- focus/blur and visibility changes;
+- window errors and unhandled promise rejections;
+- render wrapper for every `renderPageToCanvas` call, maintaining an in-memory active-render map;
+- slow-render records >=750 ms and render-error records;
+- snapshot-time renderQueue active/queued/max, active-render age/page/source/context, page-stage loading/rendered/error counts;
+- open document names/IDs/page counts and loaded source counts/byte sizes;
+- live DOM canvas count/pixels and approximate 4-byte-per-pixel RGBA backing estimate;
+- decoded image approximate RGBA bytes where an image is decoded;
+- viewport/DPR and navigator hardware concurrency/deviceMemory where exposed;
+- `performance.memory` heap fields only where the browser exposes that nonstandard API;
+- navigator.storage estimate for context (storage, not RAM).
+
+MEMORY-DIAGNOSIS LIMITATION
+---------------------------
+- iPad Safari does not expose a reliable webpage API for total Safari/PWA process RAM, PDF.js worker RAM, decoded PDF image RAM, or GPU/canvas backing-store RAM. Direct heap fields will likely be null on iPad.
+- Therefore these diagnostics can identify strong memory-pressure patterns (many/large live canvases, active/queued renders, long/stuck render promises, large loaded sources, event-loop stalls) but cannot prove a specific total-memory number or an iPadOS memory-pressure event.
+- Do not describe approximate canvas/source byte counts as total memory usage.
+
+HOW TO USE IN CLASS
+-------------------
+1. After a ~2 second Pen pause, tap the far-right diagnostics button as soon as practical. The save-request record acts as an incident marker immediately after the symptom.
+2. If the whole app/iPad freezes for several seconds, tap after it recovers; the heartbeat should show whether the JavaScript event loop itself paused.
+3. If a page remains on Rendering, tap before scrolling away or otherwise forcing a retry when possible. Active-render age and queue state are especially useful then.
+4. After class, Files → Library backup & export → Export saved diagnostics. Upload the TXT/ZIP plus the PDFs involved in any stuck-render incident.
+
+INTERPRETATION GUIDE
+--------------------
+- Pen gap + heartbeat continues normally + no raw Pencil events: points again toward WebKit/iPad Pencil event delivery rather than Workbench handler rejection.
+- Pen/app freeze + matching event-loop-gap: main JavaScript/browser process was stalled or suspended for that interval.
+- Page stuck Rendering + one/two active renders with large age and queued work behind them: render/PDF.js/resource pressure becomes a strong suspect.
+- Many large live canvases / large DPR raster targets at the same time strengthen a memory/GPU-pressure hypothesis, but remain indirect evidence.
+- A slow Library persist overlapping the incident will still be visible through the existing library-persist diagnostics.
+
+PRESERVE
+--------
+- 5.7.23 page thumbnail drawer behavior and current button arrangement. User liked it on first test and wants more real-world use before rearranging controls.
+- 5.7.22 merge code stays but sync-via-full-backup is on hold because transfer size is tedious; merge logic itself was validated iPad → Surface.
+- Pen/Highlighter/eraser algorithms, Google Ink model, 5.6.9 touch/pinch behavior, viewer navigation, page geometry, and Library schema must not change for this diagnostic experiment.
+
+TEST PRIORITIES
+---------------
+- Confirm yellow Highlighter cue and pink Eraser fill remain legible in compact iPad Presentation.
+- Confirm diagnostics button is reachable at the far right in ordinary single-pane Pen Presentation at iPad landscape width.
+- Tap diagnostics during normal use and confirm it returns immediately with a Saved diagnostics locally status and no iPad share sheet.
+- Open Files → Library backup & export and confirm count appears; export one snapshot as TXT and several as ZIP; Clear deletes them after confirmation.
+- Induce ordinary page rendering/navigation and confirm no new visible performance regression from the lightweight instrumentation.
+
+============================================================================
+PRIOR 5.7.23 EXPERIMENTAL HANDOFF FOLLOWS
+============================================================================
+
 CURRENT EXPERIMENTAL BRANCH 5.7.23 — PRESENTATION PAGE THUMBNAIL DRAWER
 =====================================================================
 

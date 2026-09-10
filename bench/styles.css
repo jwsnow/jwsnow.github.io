@@ -1443,7 +1443,7 @@ body.ink-pen-active .status-bar * {
   border-radius: 2px;
   transform: rotate(-18deg);
   box-sizing: border-box;
-  background: linear-gradient(to right, transparent 0 58%, currentColor 58% 100%);
+  background: linear-gradient(to right, #ffeb3b 0 58%, currentColor 58% 100%);
   opacity: .85;
 }
 .eraser-tool-icon {
@@ -1454,6 +1454,7 @@ body.ink-pen-active .status-bar * {
   border-radius: 3px;
   transform: rotate(-24deg);
   box-sizing: border-box;
+  background: #ff80ab;
 }
 .lasso-tool-icon {
   display: inline-block;
@@ -1748,7 +1749,10 @@ body.presentation .split-view { top: calc(var(--annotation-bar-h) + env(safe-are
   body.presentation .presentation-toolbar.annotation-toolbar .ink-width-btn,
   body.presentation .presentation-toolbar.annotation-toolbar .eraser-size-btn { width: 30px; min-width: 30px; flex-basis: 30px; }
   body.presentation .presentation-toolbar.annotation-toolbar .presentation-document-select { width: 82px; min-width: 70px; flex-basis: 82px; }
-  body.presentation .presentation-toolbar.annotation-toolbar .presentation-zoom-label { flex-basis: 36px; min-width: 36px; }
+  body.presentation .presentation-toolbar.annotation-toolbar .presentation-zoom-label { flex-basis: 34px; min-width: 34px; }
+  body.presentation .presentation-toolbar.annotation-toolbar .presentation-diagnostics-btn { width: 28px; min-width: 28px; flex-basis: 28px; }
+  body.presentation .presentation-toolbar.annotation-toolbar .presentation-diagnostics-icon,
+  body.presentation .presentation-toolbar.annotation-toolbar .presentation-diagnostics-icon svg { width:17px; height:17px; }
   body.presentation .annotation-primary,
   body.presentation .annotation-history,
   body.presentation .ink-option-group,
@@ -1839,3 +1843,9 @@ body.ink-eraser-active .page-stage * { cursor: none !important; }
 @media (max-width: 430px) { .asset-grid { grid-template-columns:1fr; } }
 
 
+
+/* Milestone 5.7.24 experimental diagnostics capture. */
+.presentation-diagnostics-icon { display:grid; place-items:center; width:20px; height:20px; margin:auto; }
+.presentation-diagnostics-icon svg { width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.saved-diagnostics-tools { margin-top:10px; padding-top:8px; border-top:1px solid var(--border); }
+.saved-diagnostics-tools .small-note { margin-top:0; margin-bottom:7px; }

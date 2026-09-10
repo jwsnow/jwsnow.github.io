@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.23';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.24';
 
-const APP_VERSION = '5.7.23';
+const APP_VERSION = '5.7.24';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -24,7 +24,7 @@ const els = {
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), savedDiagnosticsSummary: $('savedDiagnosticsSummary'), exportSavedDiagnosticsBtn: $('exportSavedDiagnosticsBtn'), clearSavedDiagnosticsBtn: $('clearSavedDiagnosticsBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractOperationSummary: $('extractOperationSummary'), extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
@@ -36,7 +36,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationPagesBtn: $('presentationPagesBtn'), presentationPageDrawerLayer: $('presentationPageDrawerLayer'), presentationPageDrawer: $('presentationPageDrawer'), presentationPageDrawerScroller: $('presentationPageDrawerScroller'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationPagesBtn: $('presentationPagesBtn'), presentationPageDrawerLayer: $('presentationPageDrawerLayer'), presentationPageDrawer: $('presentationPageDrawer'), presentationPageDrawerScroller: $('presentationPageDrawerScroller'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), presentationDiagnosticsBtn: $('presentationDiagnosticsBtn'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -89,6 +89,7 @@ const state = {
   annotationPasteTargetKey: null,
   eraserCursor: null,
   inkDiagnostics: [],
+  inkDiagnosticSequence: 0,
   inkDiagnosticPointers: new Map(),
   stylusTouchContacts: new Map(),
   penHoverPointers: new Map(),
@@ -3651,7 +3652,7 @@ async function createRecentRegionImageAsset(page, displayRect, options={}) {
   const pasteScale = options.sizeMode === 'zoom' ? zoomScale : 1;
   const renderScale = clamp((options.sizeMode === 'zoom' ? zoomScale : 1) * 2.5, 1.5, 6);
   const fullCanvas = document.createElement('canvas');
-  await renderPageToCanvas(page, fullCanvas, display.width, display.height, renderScale, 12_000_000);
+  await renderPageToCanvasDiagnostic(page, fullCanvas, display.width, display.height, renderScale, 12_000_000);
   const fullCtx = fullCanvas.getContext('2d', { alpha: false });
   drawPageAnnotationsCanvas(page, fullCtx, fullCanvas.width, fullCanvas.height);
   const scaleX = fullCanvas.width / Math.max(1, display.width);
@@ -6204,9 +6205,9 @@ async function renderCompactPagePreview(page, canvas) {
   await enqueueRender(async () => {
     if (!canvas.isConnected) return;
     try {
-      await renderPageToCanvas(page, canvas, cssWidth, cssHeight, 0.9, 260_000);
+      await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 0.9, 260_000);
       if (page.kind !== 'generated' && canvasLooksBlank(canvas) && canvas.isConnected) {
-        await renderPageToCanvas(page, canvas, cssWidth, cssHeight, 0.72, 160_000);
+        await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 0.72, 160_000);
       }
       drawPageAnnotationsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
       canvas.dataset.rendered = 'true';
@@ -8090,9 +8091,21 @@ function downloadPdfBytes(bytes, filename) {
 }
 
 
-// Milestone 5.0.7 diagnostic instrumentation. This is deliberately lightweight:
-// it records contact boundaries and handler decisions, not every Pencil sample,
-// so the logger itself should not materially change short-stroke timing.
+// Milestone 5.0.7 diagnostic instrumentation, expanded experimentally in 5.7.24.
+// Pointer logging remains intentionally light. The added instrumentation records only
+// abnormal event-loop stalls, slow/erroring renders, lifecycle changes, and a runtime
+// snapshot when the user explicitly saves diagnostics. It never records document contents.
+const DIAGNOSTICS_META_KEY = 'saved-diagnostics';
+const MAX_SAVED_DIAGNOSTIC_SNAPSHOTS = 12;
+const MAX_IN_MEMORY_DIAGNOSTIC_RECORDS = 2400;
+const diagnosticActiveRenders = new Map();
+let diagnosticRenderSequence = 0;
+function diagnosticPortableTimestamp() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}_${pad(d.getHours())}-${pad(d.getMinutes())}-${pad(d.getSeconds())}`;
+}
+
 function inkDiagnosticTarget(event) {
   const target = event?.target instanceof Element ? event.target : null;
   const parts = [];
@@ -8114,10 +8127,80 @@ function inkDiagnosticLocation(event) {
   const viewer = target?.closest?.('.viewer, .split-pane-viewer') || stage?.closest?.('.viewer, .split-pane-viewer') || null;
   return { pageId: stage?.dataset?.pageId || null, viewer: viewer?.id || viewer?.className || null };
 }
+function diagnosticActiveRenderSnapshot(now=performance.now()) {
+  return [...diagnosticActiveRenders.values()].map(info => ({
+    ...info,
+    ageMs: Math.round((now - info.startedAt) * 10) / 10,
+    startedAt: undefined,
+  }));
+}
+function diagnosticRuntimeSnapshot() {
+  const canvases = [...document.querySelectorAll('canvas')].filter(canvas => canvas.width > 0 && canvas.height > 0);
+  let canvasPixels = 0;
+  let largestCanvasPixels = 0;
+  let largestCanvas = null;
+  for (const canvas of canvases) {
+    const pixels = canvas.width * canvas.height;
+    canvasPixels += pixels;
+    if (pixels > largestCanvasPixels) {
+      largestCanvasPixels = pixels;
+      largestCanvas = { width: canvas.width, height: canvas.height, pixels };
+    }
+  }
+  let decodedImagePixels = 0;
+  let sourceStoredBytes = 0;
+  let pdfSources = 0;
+  let imageSources = 0;
+  for (const source of state.sources.values()) {
+    if (source?.type === 'pdf') pdfSources++;
+    if (source?.type === 'image') imageSources++;
+    sourceStoredBytes += Number(source?.bytes?.byteLength || source?.file?.size || source?.blob?.size || source?.size || 0);
+    const w = Number(source?.image?.naturalWidth || source?.image?.width || 0);
+    const h = Number(source?.image?.naturalHeight || source?.image?.height || 0);
+    if (w > 0 && h > 0) decodedImagePixels += w * h;
+  }
+  const heap = performance?.memory ? {
+    usedJSHeapSize: Number(performance.memory.usedJSHeapSize || 0),
+    totalJSHeapSize: Number(performance.memory.totalJSHeapSize || 0),
+    jsHeapSizeLimit: Number(performance.memory.jsHeapSizeLimit || 0),
+  } : null;
+  const now = performance.now();
+  return {
+    visibilityState: document.visibilityState,
+    documentHasFocus: document.hasFocus?.() ?? null,
+    workspaceMode: state.workspaceMode,
+    presentation: document.body.classList.contains('presentation'),
+    splitView: !!state.splitView,
+    activePaneId: state.activePaneId || null,
+    currentDocumentId: state.currentDocumentId || null,
+    viewport: { width:window.innerWidth, height:window.innerHeight, devicePixelRatio:Number(window.devicePixelRatio || 1), visualWidth:Number(window.visualViewport?.width || 0) || null, visualHeight:Number(window.visualViewport?.height || 0) || null, visualScale:Number(window.visualViewport?.scale || 0) || null },
+    openDocuments: state.documents.map(doc => ({ id:doc.id, name:doc.name, pages:doc.pages?.length || 0, modifiedAt:doc.modifiedAt || null })),
+    sources: { total:state.sources.size, pdf:pdfSources, image:imageSources, storedBytes:sourceStoredBytes, decodedImageApproxRGBABytes:decodedImagePixels * 4 },
+    renderQueue: { active:renderQueue.active, queued:renderQueue.jobs.length, max:renderQueue.max },
+    activeRenders: diagnosticActiveRenderSnapshot(now),
+    canvases: { count:canvases.length, totalPixels:canvasPixels, approxRGBABytes:canvasPixels * 4, largest:largestCanvas },
+    pageStages: {
+      total: document.querySelectorAll('.page-stage').length,
+      loading: document.querySelectorAll('.page-stage[data-rendered="loading"]').length,
+      rendered: document.querySelectorAll('.page-stage[data-rendered="true"]').length,
+      errors: document.querySelectorAll('.page-stage[data-rendered="error"]').length,
+    },
+    javascriptHeap: heap,
+    deviceMemoryGB: Number.isFinite(Number(navigator.deviceMemory)) ? Number(navigator.deviceMemory) : null,
+    hardwareConcurrency: Number.isFinite(Number(navigator.hardwareConcurrency)) ? Number(navigator.hardwareConcurrency) : null,
+  };
+}
+async function diagnosticStorageSnapshot() {
+  try {
+    const estimate = await navigator.storage?.estimate?.();
+    if (!estimate) return null;
+    return { usage:Number(estimate.usage || 0), quota:Number(estimate.quota || 0) };
+  } catch { return null; }
+}
 function addInkDiagnostic(kind, event=null, extra={}) {
   const location = event ? inkDiagnosticLocation(event) : { pageId:null, viewer:null };
   const record = {
-    n: state.inkDiagnostics.length + 1,
+    n: ++state.inkDiagnosticSequence,
     t: Math.round(performance.now() * 10) / 10,
     kind,
     event: event?.type || null,
@@ -8137,7 +8220,7 @@ function addInkDiagnostic(kind, event=null, extra={}) {
     ...extra,
   };
   state.inkDiagnostics.push(record);
-  if (state.inkDiagnostics.length > 1200) state.inkDiagnostics.splice(0, state.inkDiagnostics.length - 1200);
+  if (state.inkDiagnostics.length > MAX_IN_MEMORY_DIAGNOSTIC_RECORDS) state.inkDiagnostics.splice(0, state.inkDiagnostics.length - MAX_IN_MEMORY_DIAGNOSTIC_RECORDS);
 }
 function bindInkDiagnostics() {
   const relevant = (event) => {
@@ -8178,21 +8261,196 @@ function bindInkDiagnostics() {
   document.addEventListener('pointercancel', event => finish(event, 'raw-cancel'), { capture:true, passive:true });
   document.addEventListener('gotpointercapture', event => { if (event.pointerType === 'pen') addInkDiagnostic('got-pointer-capture', event); }, { capture:true, passive:true });
   document.addEventListener('lostpointercapture', event => { if (event.pointerType === 'pen') addInkDiagnostic('lost-pointer-capture', event); }, { capture:true, passive:true });
+
+  // Heartbeat: only abnormal gaps are logged. A multi-second iPad/UI freeze should
+  // therefore leave a clear event-loop-gap record after the browser resumes.
+  const heartbeatMs = 250;
+  let lastHeartbeat = performance.now();
+  setInterval(() => {
+    const now = performance.now();
+    const gap = now - lastHeartbeat;
+    lastHeartbeat = now;
+    if (gap >= 700) {
+      addInkDiagnostic('event-loop-gap', null, {
+        gapMs: Math.round(gap * 10) / 10,
+        visibilityState: document.visibilityState,
+        renderQueue: { active:renderQueue.active, queued:renderQueue.jobs.length, max:renderQueue.max },
+        activeRenders: diagnosticActiveRenderSnapshot(now),
+      });
+    }
+  }, heartbeatMs);
+
+  window.addEventListener('focus', () => addInkDiagnostic('window-focus'));
+  window.addEventListener('blur', () => addInkDiagnostic('window-blur'));
+  document.addEventListener('visibilitychange', () => addInkDiagnostic('visibility-change', null, { visibilityState:document.visibilityState }));
+  window.addEventListener('error', event => addInkDiagnostic('window-error', null, { message:String(event?.message || event?.error?.message || 'unknown error') }));
+  window.addEventListener('unhandledrejection', event => addInkDiagnostic('unhandled-rejection', null, { message:String(event?.reason?.message || event?.reason || 'unknown rejection') }));
 }
-function downloadInkDiagnostics() {
+
+async function renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, dpr=1, maxPixels=10_000_000) {
+  const startedAt = performance.now();
+  const token = ++diagnosticRenderSequence;
+  const source = page?.kind === 'generated' ? null : state.sources.get(page?.sourceId);
+  const doc = state.documents.find(item => item.pages?.some(candidate => candidate.id === page?.id)) || null;
+  let targetW = Math.max(1, Math.round(cssWidth * dpr));
+  let targetH = Math.max(1, Math.round(cssHeight * dpr));
+  const rawPixels = targetW * targetH;
+  if (rawPixels > maxPixels) {
+    const f = Math.sqrt(maxPixels / rawPixels);
+    targetW = Math.max(1, Math.round(targetW * f));
+    targetH = Math.max(1, Math.round(targetH * f));
+  }
+  const info = {
+    token,
+    startedAt,
+    documentId: doc?.id || null,
+    documentName: doc?.name || null,
+    pageId: page?.id || null,
+    pageKind: page?.kind || null,
+    sourceId: page?.sourceId || null,
+    sourceType: source?.type || null,
+    sourcePage: page?.sourcePage || null,
+    cssWidth: Math.round(Number(cssWidth) || 0),
+    cssHeight: Math.round(Number(cssHeight) || 0),
+    targetWidth: targetW,
+    targetHeight: targetH,
+    targetPixels: targetW * targetH,
+    dpr: Math.round((Number(dpr) || 1) * 100) / 100,
+    maxPixels,
+  };
+  diagnosticActiveRenders.set(token, info);
+  let error = null;
+  try {
+    return await renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr, maxPixels);
+  } catch (err) {
+    error = err;
+    addInkDiagnostic('render-error', null, { ...info, startedAt:undefined, durationMs:Math.round((performance.now()-startedAt)*10)/10, message:String(err?.message || err) });
+    throw err;
+  } finally {
+    const durationMs = performance.now() - startedAt;
+    diagnosticActiveRenders.delete(token);
+    if (!error && durationMs >= 750) {
+      addInkDiagnostic('render-slow', null, { ...info, startedAt:undefined, durationMs:Math.round(durationMs*10)/10 });
+    }
+  }
+}
+
+async function buildInkDiagnosticsText() {
+  const runtime = diagnosticRuntimeSnapshot();
+  const storage = await diagnosticStorageSnapshot();
   const header = {
     appVersion: APP_VERSION,
     generatedAt: new Date().toISOString(),
     userAgent: navigator.userAgent,
     platform: navigator.platform || null,
     standalone: isStandalonePwa(),
-    note: 'Pointer-boundary diagnostics for Apple Pencil dropped-stroke investigation. No document contents are included.',
+    diagnosticVersion: 2,
+    runtime,
+    storage,
+    note: 'Pointer-boundary, event-loop-stall, and rendering diagnostics. No document contents are included; document/file names and internal IDs may be included for correlation. JavaScript heap memory is recorded only on browsers that expose performance.memory. Canvas/source byte figures are estimates/proxies, not total iPad memory.',
   };
   const lines = [JSON.stringify(header), ...state.inkDiagnostics.map(item => JSON.stringify(item))];
-  const blob = new Blob([lines.join('\n') + '\n'], { type:'text/plain;charset=utf-8' });
-  downloadBlob(blob, `PDF-Workbench-Pencil-Diagnostics-${portableTimestamp()}.txt`);
-  setStatus(`Downloaded Pencil diagnostics (${state.inkDiagnostics.length} records)`);
+  return lines.join('\n') + '\n';
+}
+async function downloadInkDiagnostics() {
+  addInkDiagnostic('diagnostic-download-request');
+  const text = await buildInkDiagnosticsText();
+  const blob = new Blob([text], { type:'text/plain;charset=utf-8' });
+  downloadBlob(blob, `PDF-Workbench-Diagnostics-${diagnosticPortableTimestamp()}.txt`);
+  setStatus(`Downloaded diagnostics (${state.inkDiagnostics.length} records)`);
   toggleMoreMenu(false);
+}
+async function getSavedDiagnosticsMeta() {
+  if (!state.libraryReady || !state.libraryDb) return { key:DIAGNOSTICS_META_KEY, schemaVersion:LIBRARY_SCHEMA_VERSION, snapshots:[] };
+  const saved = await libraryGet('meta', DIAGNOSTICS_META_KEY).catch(() => null);
+  return { key:DIAGNOSTICS_META_KEY, schemaVersion:LIBRARY_SCHEMA_VERSION, snapshots:Array.isArray(saved?.snapshots) ? saved.snapshots : [] };
+}
+function updateSavedDiagnosticsUi(meta) {
+  const snapshots = Array.isArray(meta?.snapshots) ? meta.snapshots : [];
+  if (els.savedDiagnosticsSummary) {
+    if (!snapshots.length) els.savedDiagnosticsSummary.textContent = 'No locally saved diagnostics.';
+    else {
+      const last = snapshots[snapshots.length - 1];
+      const when = last?.createdAt ? new Date(last.createdAt).toLocaleString() : 'unknown time';
+      els.savedDiagnosticsSummary.textContent = `${snapshots.length} locally saved diagnostic snapshot${snapshots.length===1?'':'s'} · latest ${when}.`;
+    }
+  }
+  if (els.exportSavedDiagnosticsBtn) els.exportSavedDiagnosticsBtn.disabled = !snapshots.length;
+  if (els.clearSavedDiagnosticsBtn) els.clearSavedDiagnosticsBtn.disabled = !snapshots.length;
+}
+async function refreshSavedDiagnosticsUi() {
+  try { updateSavedDiagnosticsUi(await getSavedDiagnosticsMeta()); }
+  catch { updateSavedDiagnosticsUi(null); }
+}
+async function saveDiagnosticsToLocalLibrary() {
+  try {
+    addInkDiagnostic('diagnostic-local-save-request', null, { runtime:diagnosticRuntimeSnapshot() });
+    if (!(await ensureLibraryConnection())) throw new Error('Local Library is not available.');
+    const createdAt = Date.now();
+    const id = uid('diag');
+    const recordKey = `saved-diagnostic:${id}`;
+    const name = `PDF-Workbench-Diagnostics-${diagnosticPortableTimestamp()}.txt`;
+    const text = await buildInkDiagnosticsText();
+
+    // Store each snapshot in its own meta record. The small index is rewritten,
+    // but earlier diagnostic payloads are not reread/recloned on every classroom tap.
+    await libraryPut('meta', { key:recordKey, schemaVersion:LIBRARY_SCHEMA_VERSION, id, name, createdAt, text });
+    const meta = await getSavedDiagnosticsMeta();
+    const snapshots = meta.snapshots.slice();
+    snapshots.push({ key:recordKey, id, name, createdAt, bytes:new Blob([text]).size });
+    const expired = snapshots.length > MAX_SAVED_DIAGNOSTIC_SNAPSHOTS
+      ? snapshots.splice(0, snapshots.length - MAX_SAVED_DIAGNOSTIC_SNAPSHOTS)
+      : [];
+    const updated = { key:DIAGNOSTICS_META_KEY, schemaVersion:LIBRARY_SCHEMA_VERSION, snapshots, updatedAt:createdAt };
+    await libraryPut('meta', updated);
+    for (const item of expired) if (item?.key) await libraryDelete('meta', item.key).catch(() => {});
+    updateSavedDiagnosticsUi(updated);
+    addInkDiagnostic('diagnostic-local-save-finish', null, { name, bytes:new Blob([text]).size });
+    setStatus(`Saved diagnostics locally (${snapshots.length} stored)`);
+  } catch (err) {
+    console.error('Could not save diagnostics locally', err);
+    addInkDiagnostic('diagnostic-local-save-error', null, { message:String(err?.message || err) });
+    setStatus(`Could not save diagnostics: ${err?.message || err}`);
+  }
+}
+async function readSavedDiagnosticSnapshots() {
+  const meta = await getSavedDiagnosticsMeta();
+  const out = [];
+  for (const item of meta.snapshots || []) {
+    if (!item?.key) continue;
+    const record = await libraryGet('meta', item.key).catch(() => null);
+    if (record?.text) out.push({ ...item, text:record.text, name:record.name || item.name });
+  }
+  return out;
+}
+async function exportSavedDiagnostics() {
+  try {
+    const snapshots = await readSavedDiagnosticSnapshots();
+    if (!snapshots.length) return;
+    if (snapshots.length === 1) {
+      downloadBlob(new Blob([snapshots[0].text], {type:'text/plain;charset=utf-8'}), snapshots[0].name);
+    } else {
+      const JSZip = await loadZipEngine();
+      const zip = new JSZip();
+      for (const item of snapshots) zip.file(item.name, item.text);
+      const blob = await zip.generateAsync({ type:'blob', compression:'DEFLATE', compressionOptions:{level:6} });
+      downloadBlob(blob, `PDF-Workbench-Saved-Diagnostics-${portableTimestamp()}.zip`);
+    }
+    setStatus(`Exported ${snapshots.length} saved diagnostic snapshot${snapshots.length===1?'':'s'}`);
+  } catch (err) {
+    console.error(err);
+    setStatus(`Could not export saved diagnostics: ${err?.message || err}`);
+  }
+}
+async function clearSavedDiagnostics() {
+  const meta = await getSavedDiagnosticsMeta();
+  const count = meta.snapshots?.length || 0;
+  if (!count) return;
+  if (!confirm(`Delete ${count} locally saved diagnostic snapshot${count===1?'':'s'}?`)) return;
+  for (const item of meta.snapshots) if (item?.key) await libraryDelete('meta', item.key).catch(() => {});
+  await libraryDelete('meta', DIAGNOSTICS_META_KEY).catch(() => {});
+  updateSavedDiagnosticsUi(null);
+  setStatus('Cleared locally saved diagnostics');
 }
 
 function unchangedSingleSourcePdfBytes(pageList) {
@@ -9108,11 +9366,11 @@ async function renderThumbnail(page, canvas) {
   const cssHeight = Math.max(1, bh * scale);
   await enqueueRender(async () => {
     if (!preview.isConnected || !canvas.isConnected) return;
-    await renderPageToCanvas(page, canvas, cssWidth, cssHeight, 1.05, 1_100_000);
+    await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 1.05, 1_100_000);
     // A scan image can occasionally fail to materialize while PDF.js still
     // resolves the render task. Retry once at a smaller raster size.
     if (page.kind !== 'generated' && canvasLooksBlank(canvas) && preview.isConnected) {
-      await renderPageToCanvas(page, canvas, cssWidth, cssHeight, 0.8, 650_000);
+      await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 0.8, 650_000);
     }
     drawPageAnnotationsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
   }, 0);
@@ -10128,7 +10386,7 @@ async function refreshPinchStageRasterInPlace(stage, page, size, options={}) {
   try {
     const didRender = await enqueueRender(async () => {
       if (!stillCurrent()) return false;
-      await renderPageToCanvas(page, temp, expectedWidth, expectedHeight, options.dpr || 1, options.maxPixels || 6_000_000);
+      await renderPageToCanvasDiagnostic(page, temp, expectedWidth, expectedHeight, options.dpr || 1, options.maxPixels || 6_000_000);
       return true;
     }, 12);
     if (!didRender || !stillCurrent() || !temp.width || !temp.height) return false;
@@ -10136,7 +10394,7 @@ async function refreshPinchStageRasterInPlace(stage, page, size, options={}) {
     if (page.kind !== 'generated' && canvasLooksBlank(temp)) {
       const didFallbackRender = await enqueueRender(async () => {
         if (!stillCurrent()) return false;
-        await renderPageToCanvas(page, temp, expectedWidth, expectedHeight, 1, options.fallbackPixels || 2_000_000);
+        await renderPageToCanvasDiagnostic(page, temp, expectedWidth, expectedHeight, 1, options.fallbackPixels || 2_000_000);
         return true;
       }, 12);
       if (!didFallbackRender || !stillCurrent() || !temp.width || !temp.height) return false;
@@ -10774,7 +11032,7 @@ async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
   const dpr = clamp(window.devicePixelRatio || 1, 1, 2.1);
   const didRender = await enqueueRender(async () => {
     if (generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
-    await renderPageToCanvas(page, canvas, size.width, size.height, dpr, 4_500_000);
+    await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, 4_500_000);
     return true;
   }, 10);
   if (!didRender || generation !== pane.generation || !stage.isConnected) return;
@@ -10783,7 +11041,7 @@ async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
     ensurePageLoading(stage, 'Retrying scan…');
     await enqueueRender(async () => {
       if (generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
-      await renderPageToCanvas(page, canvas, size.width, size.height, 1, 1_800_000);
+      await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, 1, 1_800_000);
       return true;
     }, 11);
   }
@@ -10829,7 +11087,7 @@ async function renderViewerPage(page, stage, canvas, generation) {
     // Stale/offscreen jobs may sit in the queue for a while. Check again at
     // execution time so they do not consume memory after the user has moved on.
     if (generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
-    await renderPageToCanvas(page, canvas, size.width, size.height, dpr, 6_000_000);
+    await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, 6_000_000);
     return true;
   }, 10);
 
@@ -10847,7 +11105,7 @@ async function renderViewerPage(page, stage, canvas, generation) {
     ensurePageLoading(stage, 'Retrying scan…');
     await enqueueRender(async () => {
       if (generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
-      await renderPageToCanvas(page, canvas, size.width, size.height, 1, 2_000_000);
+      await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, 1, 2_000_000);
       return true;
     }, 11);
   }
@@ -11449,7 +11707,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Experimental branch:</strong> official PDF Workbench remains 5.7.21. Milestone 5.7.23 retains the 5.7.22 document-only <strong>Merge with backup</strong> test and adds a Presentation <strong>page-thumbnail drawer</strong>. The drawer opens from the Pages button beside the document/pane controls, stays inside Presentation mode, and jumps directly to a chosen page in Continuous, Page snap, or Full page view. Pen/touch/pinch viewer input paths are unchanged.</p>
+      <p><strong>Experimental branch:</strong> official PDF Workbench remains 5.7.21. Milestone 5.7.24 retains the tested Presentation page-thumbnail drawer and document-only Merge with backup experiment, adds small color cues to distinguish Highlighter/Eraser, and adds a temporary far-right Presentation diagnostics button. Diagnostics can be saved locally without leaving class workflow, then exported later from Files → Library backup &amp; export. The logger now records abnormal event-loop gaps, slow/erroring renders, render-queue state, active render ages, lifecycle changes, and browser-exposed/estimated memory proxies. Pen/touch/pinch input behavior itself is unchanged.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -12285,6 +12543,8 @@ function bindEvents() {
     }
   });
   els.inkDiagnosticsBtn?.addEventListener('click', downloadInkDiagnostics);
+  els.exportSavedDiagnosticsBtn?.addEventListener('click', exportSavedDiagnostics);
+  els.clearSavedDiagnosticsBtn?.addEventListener('click', clearSavedDiagnostics);
   els.libraryPdfArchiveBtn?.addEventListener('click', exportWholeLibraryAsPdfs);
   els.libraryEditableBackupBtn?.addEventListener('click', createEditableLibraryBackup);
   els.libraryRestoreBackupBtn?.addEventListener('click', () => { state.pendingBackupImportMode='replace'; els.libraryRestoreInput?.click(); });
@@ -12349,6 +12609,7 @@ function bindEvents() {
   els.presentationZoomInBtn.addEventListener('click', () => zoomBy(1.25));
   els.presentBtn.addEventListener('click', enterPresentation);
   els.presentationExit.addEventListener('click', exitPresentation);
+  els.presentationDiagnosticsBtn?.addEventListener('click', saveDiagnosticsToLocalLibrary);
   bindInkNativeSelectionGuard();
   bindStylusTouchInkFallback();
   bindInkDiagnostics();
@@ -12638,6 +12899,7 @@ async function init() {
   await loadPdfEngine();
   setStatus('Restoring local Library…', true);
   await initializePersistentLibrary();
+  await refreshSavedDiagnosticsUi();
   setStatus(state.documents.length ? `Restored ${state.documents.length} open document${state.documents.length === 1 ? '' : 's'} from local Library` : 'Ready');
 }
 

@@ -1,12 +1,17 @@
-<!doctype html><html><head><meta charset='utf-8'><link rel='stylesheet' href='styles.css'></head>
+<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><link rel='stylesheet' href='styles.css'></head>
 <body class='presentation'>
 <div id='presentationToolbar' class='presentation-toolbar annotation-toolbar'>
-<div class='annotation-primary'><button class='annotation-tool-btn'>✋</button><button class='annotation-tool-btn'>✎</button><button class='annotation-tool-btn'>H</button><button class='annotation-tool-btn'>E</button><button class='annotation-tool-btn active'>S</button><button class='annotation-tool-btn'>I</button><button class='annotation-tool-btn'>A</button></div>
-<div id='selectionActionGroup' class='ink-option-group selection-action-group'><button id='d' class='selection-action-btn'>Delete</button><button id='du' class='selection-action-btn'>Duplicate</button><button id='c' class='selection-action-btn'>Copy</button><button id='r' class='selection-action-btn'>Region</button><button id='p' class='selection-action-btn'>Paste</button></div>
-<div class='annotation-history'><button>↶</button><button>↷</button></div><span class='annotation-separator'></span><select class='presentation-document-select'><option>Slides - Chapter</option></select><button id='pages'>▤</button><button>↕</button><button>↔</button><button>−</button><span class='presentation-zoom-label'>100%</span><button>+</button><button>◫</button><button>+</button><button>×</button>
+<div class='annotation-primary'>
+<button class='annotation-tool-btn'>H</button><button class='annotation-tool-btn active'>P</button><button class='annotation-tool-btn'><span class='highlighter-tool-icon'></span></button><button class='annotation-tool-btn'><span class='eraser-tool-icon'></span></button><button class='annotation-tool-btn'>S</button><button class='annotation-tool-btn'>I</button><button class='annotation-tool-btn'>A</button>
 </div>
-<dialog id='regionCaptureDialog' class='info-dialog template-name-dialog' open><form><h2>Copy selected region</h2><p class='template-name-help'>Choose how large the pasted image should be.</p><div class='dialog-actions region-capture-actions'><button id='o'>Original size</button><button id='z'>Current zoom size</button><button id='x'>Cancel</button></div></form></dialog>
+<div class='ink-option-group'><button class='ink-color-btn' style='--swatch:#111'></button><button class='ink-color-btn' style='--swatch:#1565c0'></button><button class='ink-color-btn' style='--swatch:#d32f2f'></button><button class='ink-color-btn' style='--swatch:#2e7d32'></button><button class='ink-color-btn' style='--swatch:#ef6c00'></button></div>
+<div class='ink-option-group ink-width-group'><button class='ink-width-btn'><span style='--sample-width:1.5px'></span></button><button class='ink-width-btn'><span style='--sample-width:3px'></span></button><button class='ink-width-btn'><span style='--sample-width:5.5px'></span></button></div>
+<div class='annotation-history'><button>↶</button><button>↷</button></div><span class='annotation-separator presentation-only'></span>
+<select class='presentation-document-select presentation-only'><option>Slides - Chapter</option></select>
+<button id='pages' class='presentation-only'>▤</button><button class='presentation-only'>↕</button><button class='presentation-only'>↔</button><button class='presentation-only'>−</button><span class='presentation-zoom-label presentation-only'>100%</span><button class='presentation-only'>+</button><button class='presentation-only'>◫</button><button class='presentation-only'>+</button><button id='exit' class='presentation-only'>×</button><button id='diag' class='presentation-only presentation-diagnostics-btn'><span class='presentation-diagnostics-icon'><svg viewBox='0 0 24 24'><path d='M5 3.5h9l4 4V20.5H5z'/><path d='M14 3.5v4h4'/><path d='M7.5 14h2l1.4-3 2.2 6 1.4-3h2'/></svg></span></button>
+</div>
+<pre id='metrics'></pre>
 <script>
-const q=id=>document.getElementById(id).getBoundingClientRect();
-const out=document.createElement('pre'); out.id='metrics'; out.textContent=JSON.stringify({toolbar:q('presentationToolbar'),pages:q('pages'),delete:q('d'),duplicate:q('du'),copy:q('c'),region:q('r'),paste:q('p'),dialog:q('regionCaptureDialog'),original:q('o'),zoom:q('z'),cancel:q('x')}); document.body.append(out);
+const t=document.getElementById('presentationToolbar'); const q=id=>document.getElementById(id).getBoundingClientRect();
+document.getElementById('metrics').textContent=JSON.stringify({viewport:innerWidth,clientWidth:t.clientWidth,scrollWidth:t.scrollWidth,scrollLeft:t.scrollLeft,pages:q('pages'),exit:q('exit'),diag:q('diag')});
 </script></body></html>
