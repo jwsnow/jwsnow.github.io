@@ -1,4 +1,16 @@
-# PDF Workbench — Milestone 5.7.22 (EXPERIMENTAL)
+# PDF Workbench — Milestone 5.7.23 (EXPERIMENTAL)
+
+## 5.7.23 experimental Presentation page navigator
+- Official release remains **5.7.21**. This experimental branch retains the 5.7.22 Merge with backup test.
+- Presentation now has a compact **Pages** icon immediately after the document/pane controls and before Scroll.
+- The button opens a temporary **right-side vertical thumbnail drawer** without leaving Presentation mode.
+- The current/active page is highlighted and automatically centered in the drawer when it opens.
+- Tap a thumbnail to jump directly to that page; the drawer then closes. The jump works in Continuous, Page snap, and Full page modes, including the active pane in Split view.
+- Tapping outside the drawer, pressing the Pages button again, or pressing Escape closes it.
+- The drawer reuses the existing page-thumbnail rendering primitive, including Workbench annotations. It does not create a second page-rendering model.
+- Pen, Highlighter, Eraser, Select, Pencil/touch/pinch handling, and the viewer navigation algorithms are not changed.
+- No IndexedDB or Library schema migration.
+
 
 **Official current release remains 5.7.21.** This branch tests a document-only **Merge with backup** operation using the existing `.pwbbackup.zip` format. Matching is by stable Library document ID, not filename. The newer document `modifiedAt` timestamp wins (falling back to `createdAt` if needed). If the backup copy wins, the displaced older local version is copied to Trash under a new internal document ID before the newer backup record takes over the original stable ID.
 

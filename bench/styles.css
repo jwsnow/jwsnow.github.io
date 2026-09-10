@@ -1621,6 +1621,94 @@ body.presentation .presentation-toolbar.annotation-toolbar .selection-action-btn
   font-size: .78rem;
 }
 
+
+.presentation-pages-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+}
+.presentation-pages-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.presentation-page-drawer-layer {
+  display: none;
+  position: fixed;
+  inset: calc(var(--annotation-bar-h) + env(safe-area-inset-top)) 0 0 0;
+  z-index: 115;
+  background: rgb(0 0 0 / .12);
+  pointer-events: auto;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+body.presentation .presentation-page-drawer-layer:not(.hidden) { display: block; }
+.presentation-page-drawer {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: clamp(164px, 22vw, 224px);
+  background: rgb(248 249 251 / .98);
+  border-left: 1px solid var(--border);
+  box-shadow: -5px 0 18px rgb(0 0 0 / .18);
+  overflow: hidden;
+}
+.presentation-page-drawer-scroller {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+}
+.presentation-page-thumb {
+  flex: 0 0 auto;
+  width: 100%;
+  margin: 0;
+  padding: 6px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  box-sizing: border-box;
+  font: inherit;
+  text-align: center;
+}
+.presentation-page-thumb.current {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.presentation-page-thumb:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.presentation-page-thumb-preview {
+  height: 152px;
+  padding: 4px;
+  pointer-events: none;
+}
+.presentation-page-thumb-label {
+  display: block;
+  padding-top: 4px;
+  font-size: .75rem;
+  line-height: 1.1;
+  color: var(--muted);
+  pointer-events: none;
+}
+@media (max-width: 620px) {
+  .presentation-page-drawer { width: clamp(146px, 42vw, 190px); }
+  .presentation-page-drawer-scroller { padding: 8px; gap: 8px; }
+  .presentation-page-thumb-preview { height: 132px; }
+}
+
 /* Reserve space for the annotation strip instead of overlaying page content. */
 .viewer-pane > .viewer {
   position: absolute;
@@ -1653,14 +1741,14 @@ body.presentation .viewer-pane > .viewer {
 }
 body.presentation .split-view { top: calc(var(--annotation-bar-h) + env(safe-area-inset-top)); }
 
-@media (max-width: 1100px) and (min-width: 621px) {
+@media (max-width: 1150px) and (min-width: 621px) {
   body.presentation .presentation-toolbar.annotation-toolbar { gap: 2px; padding-left: 4px; padding-right: 4px; }
   body.presentation .presentation-toolbar.annotation-toolbar button { width: 34px; min-width: 34px; flex-basis: 34px; }
   body.presentation .presentation-toolbar.annotation-toolbar .ink-color-btn { width: 28px; min-width: 28px; flex-basis: 28px; }
   body.presentation .presentation-toolbar.annotation-toolbar .ink-width-btn,
   body.presentation .presentation-toolbar.annotation-toolbar .eraser-size-btn { width: 30px; min-width: 30px; flex-basis: 30px; }
-  body.presentation .presentation-toolbar.annotation-toolbar .presentation-document-select { width: 104px; min-width: 80px; flex-basis: 104px; }
-  body.presentation .presentation-toolbar.annotation-toolbar .presentation-zoom-label { flex-basis: 42px; min-width: 42px; }
+  body.presentation .presentation-toolbar.annotation-toolbar .presentation-document-select { width: 82px; min-width: 70px; flex-basis: 82px; }
+  body.presentation .presentation-toolbar.annotation-toolbar .presentation-zoom-label { flex-basis: 36px; min-width: 36px; }
   body.presentation .annotation-primary,
   body.presentation .annotation-history,
   body.presentation .ink-option-group,

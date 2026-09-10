@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.22';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.23';
 
-const APP_VERSION = '5.7.22';
+const APP_VERSION = '5.7.23';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -36,7 +36,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationPagesBtn: $('presentationPagesBtn'), presentationPageDrawerLayer: $('presentationPageDrawerLayer'), presentationPageDrawer: $('presentationPageDrawer'), presentationPageDrawerScroller: $('presentationPageDrawerScroller'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -69,6 +69,7 @@ const state = {
   lastWheelPageChange: 0,
   statusTimer: null,
   presentationControlsTimer: null,
+  presentationThumbObserver: null,
   presentationRevealPointerId: null,
   presentationSuppressClicksUntil: 0,
   singlePresentationTransitionActive: false,
@@ -10987,6 +10988,142 @@ function goPage(delta, allowAppend=false) {
   else { markActivePage(); scrollActivePageIntoView(); updatePageCounts(); }
 }
 
+function presentationNavigationContext() {
+  if (!document.body.classList.contains('presentation')) return null;
+  if (state.splitView) {
+    const paneId = state.activePaneId;
+    syncSplitActivePageFromViewport(paneId, { updateUi: false });
+    const pane = splitPaneState(paneId);
+    const doc = documentById(pane.documentId);
+    const view = paneView(paneId);
+    if (!doc?.pages?.length || !view) return null;
+    return { documentId: doc.id, doc, paneId, pageId: view.activePageId || doc.pages[0].id };
+  }
+  syncSingleActivePageFromViewport({ updateUi: false });
+  const doc = currentDocument();
+  const view = ensureSingleView(doc);
+  if (!doc?.pages?.length || !view) return null;
+  return { documentId: doc.id, doc, paneId: null, pageId: state.activePageId || view.activePageId || doc.pages[0].id };
+}
+
+function presentationPageDrawerOpen() {
+  return !!els.presentationPageDrawerLayer && !els.presentationPageDrawerLayer.classList.contains('hidden');
+}
+
+function closePresentationPageDrawer() {
+  state.presentationThumbObserver?.disconnect();
+  state.presentationThumbObserver = null;
+  els.presentationPageDrawerLayer?.classList.add('hidden');
+  els.presentationPageDrawerLayer?.setAttribute('aria-hidden', 'true');
+  els.presentationPagesBtn?.setAttribute('aria-expanded', 'false');
+}
+
+function renderPresentationPageDrawer() {
+  const scroller = els.presentationPageDrawerScroller;
+  const context = presentationNavigationContext();
+  if (!scroller || !context) return false;
+
+  state.presentationThumbObserver?.disconnect();
+  scroller.replaceChildren();
+
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      const card = entry.target;
+      observer.unobserve(card);
+      const page = context.doc.pages.find(item => item.id === card.dataset.pageId);
+      const canvas = card.querySelector('canvas');
+      if (page && canvas) renderThumbnail(page, canvas).catch(console.error);
+    }
+  }, { root: scroller, rootMargin: '260px 0px' });
+  state.presentationThumbObserver = observer;
+
+  context.doc.pages.forEach((page, index) => {
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = `presentation-page-thumb${page.id === context.pageId ? ' current' : ''}`;
+    card.dataset.pageId = page.id;
+    card.setAttribute('aria-label', `Go to page ${index + 1}`);
+    if (page.id === context.pageId) card.setAttribute('aria-current', 'page');
+
+    const preview = document.createElement('div');
+    preview.className = 'thumb-preview presentation-page-thumb-preview';
+    const canvas = document.createElement('canvas');
+    canvas.setAttribute('aria-label', `Preview of page ${index + 1}`);
+    preview.append(canvas);
+
+    const label = document.createElement('span');
+    label.className = 'presentation-page-thumb-label';
+    label.textContent = String(index + 1);
+
+    card.append(preview, label);
+    card.addEventListener('click', () => jumpPresentationToPage(context.documentId, page.id, context.paneId));
+    scroller.append(card);
+    observer.observe(card);
+  });
+
+  requestAnimationFrame(() => {
+    const current = scroller.querySelector('.presentation-page-thumb.current');
+    if (!current) return;
+    const target = current.offsetTop - Math.max(0, (scroller.clientHeight - current.offsetHeight) / 2);
+    scroller.scrollTop = Math.max(0, target);
+  });
+  return true;
+}
+
+function openPresentationPageDrawer() {
+  if (!document.body.classList.contains('presentation') || !els.presentationPageDrawerLayer) return;
+  if (!renderPresentationPageDrawer()) return;
+  els.presentationPageDrawerLayer.classList.remove('hidden');
+  els.presentationPageDrawerLayer.setAttribute('aria-hidden', 'false');
+  els.presentationPagesBtn?.setAttribute('aria-expanded', 'true');
+  showPresentationControls();
+}
+
+function togglePresentationPageDrawer() {
+  if (presentationPageDrawerOpen()) closePresentationPageDrawer();
+  else openPresentationPageDrawer();
+}
+
+function jumpPresentationToPage(documentId, pageId, paneId=null) {
+  const doc = documentById(documentId);
+  if (!doc?.pages?.some(page => page.id === pageId)) return;
+
+  if (state.splitView) {
+    if (!paneId) return;
+    const pane = splitPaneState(paneId);
+    if (pane.documentId !== documentId) return;
+    const view = paneView(paneId, documentId);
+    if (!view) return;
+    view.activePageId = pageId;
+    if (state.activePaneId === paneId) state.activePageId = pageId;
+    if (view.scrollMode === 'single') {
+      renderSplitPane(paneId);
+    } else {
+      markSplitActivePage(paneId);
+      scrollSplitActivePageIntoView(paneId, 'auto');
+      requestAnimationFrame(() => savePaneScroll(paneId));
+    }
+    if (state.activePaneId === paneId) updateViewerLabels();
+  } else {
+    if (state.currentDocumentId !== documentId) return;
+    const view = ensureSingleView(doc);
+    state.activePageId = pageId;
+    doc.activePageId = pageId;
+    if (view) view.activePageId = pageId;
+    if (view?.scrollMode === 'single') {
+      renderViewer();
+    } else {
+      markActivePage();
+      scrollActivePageIntoView('auto');
+      updatePageCounts();
+      requestAnimationFrame(updateSingleViewScrollFromDom);
+    }
+    updateViewerLabels();
+  }
+  closePresentationPageDrawer();
+}
+
 function finePointerHoverAvailable() {
   return !!window.matchMedia?.('(hover: hover) and (pointer: fine)').matches;
 }
@@ -11174,6 +11311,7 @@ function restorePresentationTransition(snapshot) {
 }
 
 async function enterPresentation() {
+  closePresentationPageDrawer();
   const transition = capturePresentationTransition();
   const guardedSingleTransition = !!transition && !transition.split && !state.splitView;
   if (guardedSingleTransition) {
@@ -11212,6 +11350,7 @@ async function enterPresentation() {
   }
 }
 async function exitPresentation() {
+  closePresentationPageDrawer();
   const transition = capturePresentationTransition();
   document.body.classList.remove('presentation', 'presentation-controls-visible');
   els.presentationToolbar.classList.remove('hidden');
@@ -11310,7 +11449,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Experimental branch:</strong> official PDF Workbench remains 5.7.21. Milestone 5.7.22 adds a document-only <strong>Merge with backup</strong> test. Matching uses stable Library document IDs and saved modification times. A newer backup document replaces the local record while the displaced older local version is retained in Trash; a newer or equal local document is kept. Templates, Assets, folder structure, and Trash/deletion reconciliation are intentionally not merged.</p>
+      <p><strong>Experimental branch:</strong> official PDF Workbench remains 5.7.21. Milestone 5.7.23 retains the 5.7.22 document-only <strong>Merge with backup</strong> test and adds a Presentation <strong>page-thumbnail drawer</strong>. The drawer opens from the Pages button beside the document/pane controls, stays inside Presentation mode, and jumps directly to a chosen page in Continuous, Page snap, or Full page view. Pen/touch/pinch viewer input paths are unchanged.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -12120,6 +12259,7 @@ function bindEvents() {
   els.splitLeftDocumentSelect.addEventListener('change', () => setPaneDocument('left', els.splitLeftDocumentSelect.value));
   els.splitRightDocumentSelect.addEventListener('change', () => setPaneDocument('right', els.splitRightDocumentSelect.value));
   els.presentationDocumentSelect.addEventListener('change', () => {
+    closePresentationPageDrawer();
     if (state.splitView) setPaneDocument(state.activePaneId, els.presentationDocumentSelect.value);
     else loadDocumentState(els.presentationDocumentSelect.value);
     showPresentationControls();
@@ -12197,10 +12337,12 @@ function bindEvents() {
   els.zoomInBtn.addEventListener('click', () => zoomBy(1.25));
   els.splitViewBtn.addEventListener('click', toggleSplitView);
   els.viewInsertBtn.addEventListener('click', (e) => { e.stopPropagation(); openInsertPageMenu(els.viewInsertBtn); });
-  els.presentationLayoutBtn.addEventListener('click', toggleSplitView);
-  els.presentationInsertBtn.addEventListener('click', (e) => { e.stopPropagation(); openInsertPageMenu(els.presentationInsertBtn); });
-  els.presentationLeftPaneBtn.addEventListener('click', () => { if (state.splitView) { activateSplitPane('left', true); showPresentationControls(); } });
-  els.presentationRightPaneBtn.addEventListener('click', () => { if (state.splitView) { activateSplitPane('right', true); showPresentationControls(); } });
+  els.presentationLayoutBtn.addEventListener('click', () => { closePresentationPageDrawer(); toggleSplitView(); });
+  els.presentationPagesBtn?.addEventListener('click', (e) => { e.stopPropagation(); togglePresentationPageDrawer(); });
+  els.presentationPageDrawerLayer?.addEventListener('click', (e) => { if (e.target === els.presentationPageDrawerLayer) closePresentationPageDrawer(); });
+  els.presentationInsertBtn.addEventListener('click', (e) => { e.stopPropagation(); closePresentationPageDrawer(); openInsertPageMenu(els.presentationInsertBtn); });
+  els.presentationLeftPaneBtn.addEventListener('click', () => { if (state.splitView) { closePresentationPageDrawer(); activateSplitPane('left', true); showPresentationControls(); } });
+  els.presentationRightPaneBtn.addEventListener('click', () => { if (state.splitView) { closePresentationPageDrawer(); activateSplitPane('right', true); showPresentationControls(); } });
   els.presentationScrollModeBtn.addEventListener('click', cycleScrollMode);
   els.presentationFitBtn.addEventListener('click', cycleFitMode);
   els.presentationZoomOutBtn.addEventListener('click', () => zoomBy(0.8));
@@ -12452,6 +12594,7 @@ function bindEvents() {
 
   document.addEventListener('keydown', (e) => {
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLSelectElement) return;
+    if (e.key === 'Escape' && presentationPageDrawerOpen()) { e.preventDefault(); closePresentationPageDrawer(); return; }
     if (e.key === 'Escape' && document.body.classList.contains('presentation')) { e.preventDefault(); exitPresentation(); return; }
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); e.shiftKey ? redo() : undo(); return; }
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') { e.preventDefault(); redo(); return; }

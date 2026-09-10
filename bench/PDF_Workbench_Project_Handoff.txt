@@ -1,3 +1,40 @@
+CURRENT EXPERIMENTAL BRANCH 5.7.23 — PRESENTATION PAGE THUMBNAIL DRAWER
+=====================================================================
+
+OFFICIAL RELEASE BASELINE
+-------------------------
+- Official current PDF Workbench remains **5.7.21**.
+- 5.7.23 is experimental. It is based on the 5.7.22 experimental branch so the already-tested document-only Merge with backup code is retained.
+- The iPad → Surface merge logic was reported working; full-backup transfer size makes that sync workflow tedious, so no further sync architecture work is implied by this branch.
+
+5.7.23 PRESENTATION NAVIGATION EXPERIMENT
+-----------------------------------------
+- Adds one compact Pages/thumbnails button in Presentation, immediately after the document/pane controls and before Scroll.
+- The button is visible in Continuous, Page snap, and Full page Presentation modes.
+- It opens a right-side vertical overlay drawer; Presentation remains logically active throughout. There is no View/Pages workspace switch and no exit/re-enter Presentation cycle.
+- The drawer shows a single scrolling column of page thumbnails. The current page is highlighted and scrolled into view automatically.
+- Tap a thumbnail to jump directly to that page and close the drawer.
+- In Split view, the drawer belongs to the active pane/document and jumps only that pane.
+- Button again, outside tap, or Escape closes the drawer.
+- There is intentionally no Page X of N text-entry field in this first experiment.
+- Thumbnail images reuse the existing renderThumbnail() path and include Workbench annotations.
+- Pen/touch/pinch/annotation geometry and existing viewer input machinery are intentionally untouched.
+- IndexedDB remains version 4; Library schema remains version 8.
+
+TEST PRIORITIES
+---------------
+1. iPad Presentation Continuous: open drawer on a later page, confirm current thumbnail is highlighted/visible, tap a distant page, and confirm direct jump + drawer close.
+2. Repeat in Page snap and Full page.
+3. Repeat once in Split view, switching active L/R pane before opening the drawer.
+4. Confirm drawer scroll is comfortable with a finger and thumbnail taps work with finger and Apple Pencil.
+5. Confirm tapping outside, Pages again, and Escape close only the drawer (Escape a second time exits Presentation).
+6. At iPad landscape width, confirm the added Pages button does not push Exit offscreen.
+7. Continue ordinary inking/navigation briefly; there should be no Pen/touch/pinch change.
+
+=====================================================================
+PRIOR 5.7.22 EXPERIMENTAL HANDOFF FOLLOWS
+=====================================================================
+
 CURRENT EXPERIMENTAL BRANCH 5.7.22 — MERGE WITH BACKUP
 
 OFFICIAL RELEASE STATUS
