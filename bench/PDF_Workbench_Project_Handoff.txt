@@ -1,10 +1,19 @@
-PDF WORKBENCH — MILESTONE 5.7.27 DEVELOPMENT HANDOFF
+PDF WORKBENCH — MILESTONE 5.7.28 DEVELOPMENT HANDOFF
 ======================================================
 
 OFFICIAL RELEASE
 ----------------
 - 5.7.21 remains the official current release.
-- 5.7.27 is the current development/diagnostic branch.
+- 5.7.28 is the current development/diagnostic branch.
+
+
+5.7.28 LIGHTWEIGHT PENCIL-BATCH DIAGNOSTICS + COMPRESSED EDITABLE BACKUPS
+
+- Added lightweight per-stroke raw/coalesced Pencil diagnostics so ordinary class use can reveal whether Safari is replaying batches or Workbench is simply oversampling.
+- Each stroke now records bounded counters for raw samples seen, accepted points, threshold rejections, exact recent raw-sample repeats, repeats from the immediately previous batch, exact whole-batch replays, and non-increasing raw timestamps. The active stroke summary is included in a saved runtime diagnostic snapshot; completed strokes also emit a summary in the normal diagnostic log.
+- The instrumentation is intentionally lightweight: no extra persistence during drawing, no additional geometry/DOM reads, and only small bounded arrays kept in memory.
+- Editable full-Library backups and selected-document editable backups now use ZIP DEFLATE compression (level 6) instead of STORE. The backup format is unchanged, so Restore / Import backup as folder / Merge continue to work normally while the files become much smaller.
+- Pen/Pencil behavior itself, touch/pinch navigation, and annotation geometry remain unchanged in this revision.
 
 5.7.27 TEMPORARY LEGACY POWERPOINT GRAPH-BACKGROUND PURGE
 ---------------------------------------------------------
