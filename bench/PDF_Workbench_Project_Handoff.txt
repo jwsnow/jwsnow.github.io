@@ -1,10 +1,21 @@
-PDF WORKBENCH — MILESTONE 5.7.30 DEVELOPMENT HANDOFF
+PDF WORKBENCH — MILESTONE 5.7.31 DEVELOPMENT HANDOFF
 ======================================================
 
 OFFICIAL RELEASE
 ----------------
 - 5.7.21 remains the official current release.
-- 5.7.30 is the current development/diagnostic branch.
+- 5.7.31 is the current development/diagnostic branch.
+
+
+5.7.31 EXACT PENCIL-BATCH REPLAY GUARD + UNDO SNAPSHOT TIMING
+----------------------------------------------------------------
+- Classroom diagnostics from 2026-09-11 showed that Safari can replay an entire coalesced Apple Pencil batch verbatim. 5.7.31 rejects only an exact replay of the immediately previous coalesced move batch. Every raw `(timestamp, clientX, clientY, pressure)` value must match exactly; there is no rounding, tolerance, or path-similarity test.
+- The replay decision occurs before `appendInkPoint()`, Google Ink modeler ingestion, live preview processing, or annotation storage. Counters record exact previous-batch replays, replay batches skipped, and replay samples skipped.
+- Removed the 5.7.28 temporary per-batch summary arrays, recent raw-sample window/set, overlapping-batch bookkeeping, and per-stroke anomaly arrays. Completed/active stroke diagnostics now retain compact counters only.
+- `snapshotPages()` is timed on every call. Runtime diagnostics retain calls, last/average/max milliseconds, >=16 ms and >=50 ms counts, and last page count. Pen/Highlighter begin and finish diagnostics include that stroke's snapshot time.
+- Undo granularity is NOT changed: one completed stroke still creates one Undo step; history remains capped at 50 and still uses packed Float32Array point storage. Do not group multiple strokes merely to mask snapshot cost.
+- Existing Library documents are NOT cleaned or rewritten in this build. The live replay fix should be tested first. A later one-time cleanup should be tested only on a copy/backup and visually compared before touching the real Library.
+- Pen geometry/model parameters, Highlighter geometry, touch/pinch behavior, 5.7.30 Files/Pages scroll preservation, permanent Presentation thumbnails, structured graph-paper backgrounds, and ZIP-DEFLATE backups are unchanged.
 
 
 

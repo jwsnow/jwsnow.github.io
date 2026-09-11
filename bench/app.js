@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.30';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.31';
 
-const APP_VERSION = '5.7.30';
+const APP_VERSION = '5.7.31';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -92,6 +92,7 @@ const state = {
   inkDiagnosticSequence: 0,
   inkDiagnosticPointers: new Map(),
   latestCompletedInkGestureDiagnostics: [],
+  snapshotPagesDiagnostics: { calls:0, totalMs:0, lastMs:0, maxMs:0, over16Ms:0, over50Ms:0, lastPageCount:0 },
   stylusTouchContacts: new Map(),
   penHoverPointers: new Map(),
   penContactPointers: new Map(),
@@ -4425,10 +4426,11 @@ function beginInkGesture(viewer, event) {
     ...(useGoogleInk ? {renderer:GOOGLE_INK_RENDERER} : {}),
   };
   const before = snapshotPages();
+  const snapshotPagesMs = Number(state.snapshotPagesDiagnostics?.lastMs || 0);
   annotationsForPage(page).push(stroke);
   state.activePageId = page.id;
   const inputSource = event._inkStylusTouch ? 'stylus-touch' : 'pointer';
-  state.inkGesture = { pointerId: event.pointerId, inputSource, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, before, liveRenderMs:0, liveRenderCalls:0, googleTimeOriginMs:useGoogleInk?(Number.isFinite(Number(event.timeStamp))?Number(event.timeStamp):performance.now()):null, googleModeler:useGoogleInk?new GoogleInkStrokeModeler():null, googleStablePoints:[], googleLiveModelMs:0, googlePredictionMs:0, googlePredictionPointsLast:0, googleWobbleSpeedLast:0, googleWobbleBlendLast:0, googleLagPointsLast:0, sampleDiagnostics:createInkGestureDiagnostics(stroke) };
+  state.inkGesture = { pointerId: event.pointerId, inputSource, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, before, snapshotPagesMs, liveRenderMs:0, liveRenderCalls:0, googleTimeOriginMs:useGoogleInk?(Number.isFinite(Number(event.timeStamp))?Number(event.timeStamp):performance.now()):null, googleModeler:useGoogleInk?new GoogleInkStrokeModeler():null, googleStablePoints:[], googleLiveModelMs:0, googlePredictionMs:0, googlePredictionPointsLast:0, googleWobbleSpeedLast:0, googleWobbleBlendLast:0, googleLagPointsLast:0, sampleDiagnostics:createInkGestureDiagnostics(stroke) };
   recordInkGestureSampleBatch(state.inkGesture, event, [event], 'down');
   if (event.cancelable) event.preventDefault();
   if (inputSource === 'pointer') {
@@ -4447,6 +4449,7 @@ function beginInkGesture(viewer, event) {
   addInkDiagnostic('handler-begin-accepted', event, {
     strokeId:stroke.id, liveBatchOptimized:true, liveLayer:drawingTool === 'highlighter' ? 'highlighter' : 'pen',
     pageAnnotationCount:(page.annotations || []).length, historyDepth:state.history.length,
+    snapshotPagesMs:Math.round(snapshotPagesMs*10)/10,
   });
   return true;
 }
@@ -4456,7 +4459,11 @@ function continueInkGesture(viewer, event) {
   if (event.cancelable) event.preventDefault();
   const samples=typeof event.getCoalescedEvents==='function'?event.getCoalescedEvents():null;
   const sourceSamples=samples?.length ? [...samples] : [event];
-  recordInkGestureSampleBatch(gesture, event, sourceSamples, 'move');
+  const batchDiagnostics=recordInkGestureSampleBatch(gesture, event, sourceSamples, 'move');
+  // Safari can replay an entire coalesced Pencil batch verbatim. Reject only
+  // an exact four-field replay of the immediately previous coalesced batch,
+  // before it can reach appendInkPoint(), the Google modeler, or stroke storage.
+  if (batchDiagnostics?.replayBatchSkipped) return true;
   const translucent=gesture.stroke?.tool==='highlighter';
   const geometry=gestureEventGeometry(gesture.stage,gesture.page);
   if (translucent) {
@@ -4524,6 +4531,7 @@ function finishInkGesture(viewer, event) {
     googleEndLagPoints:penCommit?.googleMode ? Math.round((penCommit.googleEndLagPoints||0)*100)/100 : null,
     penCommitMs:penCommit ? Math.round(penCommit.commitMs*10)/10 : null, penCommitStages:penCommit?.stages ?? null,
     pageAnnotationCount:(gesture.page.annotations || []).length, historyDepth:state.history.length,
+    snapshotPagesMs:Math.round((gesture.snapshotPagesMs||0)*10)/10,
     sampleDiagnostics: sampleDiagnosticSummary,
   });
   commitHistory(gesture.before);
@@ -5771,7 +5779,20 @@ function snapshotPages() {
   // History remains fully editable/accurate, but point coordinates are packed
   // into typed arrays. Dense-page tests exposed severe GC/memory pressure from
   // keeping 50 full histories as millions of individual point objects.
-  return state.pages.map(page => clonePageStateForHistory(page));
+  // 5.7.31 times the clone itself so Pen-start stalls can be separated from
+  // live ink/modeler work without changing Undo granularity.
+  const started = performance.now();
+  const snapshot = state.pages.map(page => clonePageStateForHistory(page));
+  const elapsed = performance.now() - started;
+  const diag = state.snapshotPagesDiagnostics || (state.snapshotPagesDiagnostics = { calls:0, totalMs:0, lastMs:0, maxMs:0, over16Ms:0, over50Ms:0, lastPageCount:0 });
+  diag.calls += 1;
+  diag.totalMs += elapsed;
+  diag.lastMs = elapsed;
+  diag.maxMs = Math.max(diag.maxMs || 0, elapsed);
+  if (elapsed >= 16) diag.over16Ms += 1;
+  if (elapsed >= 50) diag.over50Ms += 1;
+  diag.lastPageCount = state.pages.length;
+  return snapshot;
 }
 function commitHistory(before) {
   state.history.push(before);
@@ -8450,26 +8471,29 @@ function downloadPdfBytes(bytes, filename) {
 const DIAGNOSTICS_META_KEY = 'saved-diagnostics';
 const MAX_SAVED_DIAGNOSTIC_SNAPSHOTS = 12;
 const MAX_IN_MEMORY_DIAGNOSTIC_RECORDS = 2400;
-const MAX_RAW_SAMPLE_DIAGNOSTIC_WINDOW = 96;
-const MAX_STROKE_BATCH_DIAGNOSTIC_SUMMARIES = 24;
-const MAX_COMPLETED_INK_DIAGNOSTIC_SUMMARIES = 32;
-const MAX_STROKE_DIAGNOSTIC_ANOMALIES = 12;
+const MAX_COMPLETED_INK_DIAGNOSTIC_SUMMARIES = 24;
 const diagnosticActiveRenders = new Map();
 let diagnosticRenderSequence = 0;
 let inkBatchDiagnosticFailureLogged = false;
 
-function roundedDiagnosticValue(value, digits=3) {
-  const num = Number(value);
-  if (!Number.isFinite(num)) return null;
-  const scale = 10 ** digits;
-  return Math.round(num * scale) / scale;
+function exactInkReplayTuple(sample) {
+  // Deliberately no rounding: replay rejection requires exact equality of the
+  // browser-supplied timestamp, x, y, and pressure values for every sample.
+  return [
+    Number(sample?.timeStamp),
+    Number(sample?.clientX),
+    Number(sample?.clientY),
+    Number(sample?.pressure),
+  ];
 }
-function rawInkSampleDiagnosticKey(sample) {
-  const t = roundedDiagnosticValue(sample?.timeStamp, 3);
-  const x = roundedDiagnosticValue(sample?.clientX, 3);
-  const y = roundedDiagnosticValue(sample?.clientY, 3);
-  const pressure = roundedDiagnosticValue(sample?.pressure, 3);
-  return `${t ?? 'na'}|${x ?? 'na'}|${y ?? 'na'}|${pressure ?? 'na'}`;
+function exactInkBatchReplay(previous, current) {
+  if (!Array.isArray(previous) || !Array.isArray(current) || !current.length || previous.length !== current.length) return false;
+  for (let i = 0; i < current.length; i += 1) {
+    const a = previous[i], b = current[i];
+    if (!Array.isArray(a) || !Array.isArray(b) || a.length !== 4 || b.length !== 4) return false;
+    for (let j = 0; j < 4; j += 1) if (!Object.is(a[j], b[j])) return false;
+  }
+  return true;
 }
 function createInkGestureDiagnostics(stroke=null) {
   return {
@@ -8486,37 +8510,14 @@ function createInkGestureDiagnostics(stroke=null) {
     rejectedDistanceSamples: 0,
     forcedSamples: 0,
     nonIncreasingRawTimestamps: 0,
-    exactRecentRawRepeats: 0,
-    repeatsFromPreviousBatch: 0,
     exactPreviousBatchReplays: 0,
-    partialPreviousBatchMatches: 0,
-    batchSummaries: [],
-    anomalies: [],
-    recentRawKeys: [],
-    recentRawKeySet: new Set(),
-    previousBatchKeys: [],
-    previousBatchKeySet: null,
+    replayBatchesSkipped: 0,
+    replaySamplesSkipped: 0,
+    previousBatchTuples: null,
   };
 }
-function pushInkGestureDiagnosticRecentKey(diag, key) {
-  if (!diag || !key) return;
-  diag.recentRawKeys.push(key);
-  diag.recentRawKeySet.add(key);
-  if (diag.recentRawKeys.length > MAX_RAW_SAMPLE_DIAGNOSTIC_WINDOW) {
-    const removed = diag.recentRawKeys.shift();
-    if (removed && !diag.recentRawKeys.includes(removed)) diag.recentRawKeySet.delete(removed);
-  }
-}
-function pushInkGestureDiagnosticAnomaly(diag, kind, payload) {
-  if (!diag || !kind) return;
-  if (!Array.isArray(diag.anomalies)) diag.anomalies = [];
-  if (diag.anomalies.length >= MAX_STROKE_DIAGNOSTIC_ANOMALIES) return;
-  diag.anomalies.push({ kind, ...payload });
-}
-function summarizeInkGestureDiagnostics(diag, options={}) {
+function summarizeInkGestureDiagnostics(diag) {
   if (!diag) return null;
-  const includeBatches = options.includeBatches !== false;
-  const includeAnomalies = options.includeAnomalies !== false;
   return {
     tool: diag.tool || null,
     batches: diag.batches || 0,
@@ -8530,12 +8531,9 @@ function summarizeInkGestureDiagnostics(diag, options={}) {
     rejectedDistanceSamples: diag.rejectedDistanceSamples || 0,
     forcedSamples: diag.forcedSamples || 0,
     nonIncreasingRawTimestamps: diag.nonIncreasingRawTimestamps || 0,
-    exactRecentRawRepeats: diag.exactRecentRawRepeats || 0,
-    repeatsFromPreviousBatch: diag.repeatsFromPreviousBatch || 0,
     exactPreviousBatchReplays: diag.exactPreviousBatchReplays || 0,
-    partialPreviousBatchMatches: diag.partialPreviousBatchMatches || 0,
-    batchSummaries: includeBatches ? (diag.batchSummaries || []) : undefined,
-    anomalies: includeAnomalies ? (diag.anomalies || []) : undefined,
+    replayBatchesSkipped: diag.replayBatchesSkipped || 0,
+    replaySamplesSkipped: diag.replaySamplesSkipped || 0,
   };
 }
 function recordCompletedInkGestureDiagnostics(gesture, event=null) {
@@ -8546,6 +8544,7 @@ function recordCompletedInkGestureDiagnostics(gesture, event=null) {
   summary.documentId = gesture?.documentId || state.currentDocumentId || null;
   summary.finishedAt = Math.round(performance.now() * 10) / 10;
   summary.finishEvent = event?.type || null;
+  summary.snapshotPagesMs = Math.round((gesture?.snapshotPagesMs || 0) * 10) / 10;
   state.latestCompletedInkGestureDiagnostics.push(summary);
   if (state.latestCompletedInkGestureDiagnostics.length > MAX_COMPLETED_INK_DIAGNOSTIC_SUMMARIES) {
     state.latestCompletedInkGestureDiagnostics.splice(0, state.latestCompletedInkGestureDiagnostics.length - MAX_COMPLETED_INK_DIAGNOSTIC_SUMMARIES);
@@ -8557,25 +8556,18 @@ function recordInkGestureSampleBatch(gesture, parentEvent, samples, phase='move'
     const diag = gesture?.sampleDiagnostics;
     const source = Array.isArray(samples) ? samples.filter(Boolean) : [];
     if (!diag || !source.length) return null;
-    const previousKeys = Array.isArray(diag.previousBatchKeys) ? diag.previousBatchKeys : [];
-    const previousKeySet = diag.previousBatchKeySet instanceof Set ? diag.previousBatchKeySet : null;
-    const keys = [];
+    const tuples = source.map(exactInkReplayTuple);
+    const exactReplay = exactInkBatchReplay(diag.previousBatchTuples, tuples);
+    const replayBatchSkipped = phase === 'move' && source.length > 1 && exactReplay;
     let nonIncreasing = 0;
-    let exactRecentRepeats = 0;
-    let previousBatchMatches = 0;
     let previousTs = null;
     for (const sample of source) {
-      const key = rawInkSampleDiagnosticKey(sample);
-      keys.push(key);
       const ts = Number(sample?.timeStamp);
       if (Number.isFinite(ts)) {
-        if (previousTs != null && ts <= previousTs) nonIncreasing++;
+        if (previousTs != null && ts <= previousTs) nonIncreasing += 1;
         previousTs = ts;
       }
-      if (diag.recentRawKeySet?.has?.(key)) exactRecentRepeats++;
-      if (previousKeySet?.has?.(key)) previousBatchMatches++;
     }
-    const exactReplay = !!(previousKeys.length && previousKeys.length === keys.length && previousKeys.every((value, index) => value === keys[index]));
     diag.batches += 1;
     if (phase === 'move') diag.moveEvents += 1;
     if (source.length > 1) {
@@ -8587,31 +8579,17 @@ function recordInkGestureSampleBatch(gesture, parentEvent, samples, phase='move'
     }
     diag.rawSamplesSeen += source.length;
     diag.nonIncreasingRawTimestamps += nonIncreasing;
-    diag.exactRecentRawRepeats += exactRecentRepeats;
-    diag.repeatsFromPreviousBatch += previousBatchMatches;
     if (exactReplay) diag.exactPreviousBatchReplays += 1;
-    else if (previousBatchMatches) diag.partialPreviousBatchMatches += 1;
-    const summary = {
-      phase,
-      event: parentEvent?.type || null,
-      source: source.length > 1 ? 'coalesced' : 'direct',
-      sampleCount: source.length,
-      nonIncreasingRawTimestamps: nonIncreasing,
-      exactRecentRawRepeats: exactRecentRepeats,
-      previousBatchMatches,
-      exactPreviousBatchReplay: exactReplay,
-    };
-    if (diag.batchSummaries.length < MAX_STROKE_BATCH_DIAGNOSTIC_SUMMARIES) diag.batchSummaries.push(summary);
-    if (exactReplay) pushInkGestureDiagnosticAnomaly(diag, 'exact-batch-replay', summary);
-    else if (previousBatchMatches) pushInkGestureDiagnosticAnomaly(diag, 'overlapping-batch-samples', summary);
-    if (nonIncreasing) pushInkGestureDiagnosticAnomaly(diag, 'non-increasing-raw-timestamps', summary);
-    if (exactRecentRepeats) pushInkGestureDiagnosticAnomaly(diag, 'recent-raw-sample-repeat', summary);
-    for (const key of keys) pushInkGestureDiagnosticRecentKey(diag, key);
-    diag.previousBatchKeys = keys;
-    diag.previousBatchKeySet = new Set(keys);
-    return summary;
+    if (replayBatchSkipped) {
+      diag.replayBatchesSkipped += 1;
+      diag.replaySamplesSkipped += source.length;
+    }
+    // Keep only the immediately previous four-field sequence needed for exact
+    // replay detection. Per-batch summaries/recent-sample windows are gone.
+    diag.previousBatchTuples = tuples;
+    return { exactPreviousBatchReplay:exactReplay, replayBatchSkipped, sampleCount:source.length };
   } catch (err) {
-    // Diagnostic instrumentation must never be able to interrupt drawing.
+    // Diagnostic/replay instrumentation must never be able to interrupt drawing.
     if (!inkBatchDiagnosticFailureLogged) {
       inkBatchDiagnosticFailureLogged = true;
       addInkDiagnostic('sample-diagnostics-error', null, { message:String(err?.message || err) });
@@ -8707,6 +8685,18 @@ function diagnosticRuntimeSnapshot() {
     javascriptHeap: heap,
     deviceMemoryGB: Number.isFinite(Number(navigator.deviceMemory)) ? Number(navigator.deviceMemory) : null,
     hardwareConcurrency: Number.isFinite(Number(navigator.hardwareConcurrency)) ? Number(navigator.hardwareConcurrency) : null,
+    snapshotPagesDiagnostics: (() => {
+      const d=state.snapshotPagesDiagnostics || {};
+      return {
+        calls:d.calls||0,
+        lastMs:Math.round((d.lastMs||0)*10)/10,
+        averageMs:d.calls ? Math.round((d.totalMs/d.calls)*10)/10 : 0,
+        maxMs:Math.round((d.maxMs||0)*10)/10,
+        over16Ms:d.over16Ms||0,
+        over50Ms:d.over50Ms||0,
+        lastPageCount:d.lastPageCount||0,
+      };
+    })(),
     activeInkGestureDiagnostics: summarizeInkGestureDiagnostics(state.inkGesture?.sampleDiagnostics),
     recentCompletedInkGestureDiagnostics: state.latestCompletedInkGestureDiagnostics.slice(-8),
   };
@@ -12378,7 +12368,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. The Presentation page-thumbnail navigator and Pages graph-paper background are now permanent Workbench features to retain. Milestone 5.7.30 retains the permanent Presentation thumbnail navigator and structured Pages graph-paper background, plus ZIP-DEFLATE editable backups and the 5.7.29 Pen/Highlighter diagnostic hardening. It fixes the remaining direct View → Files/Pages → View scroll regression: Files hid the viewer through its parent pane, but a later save still treated the child viewer element as readable and overwrote the saved position with the hidden container's zero scroll value. Viewer scroll is now read only while the View workspace and its parent pane are actually visible. The temporary legacy graph-image purge and document-only Merge with backup remain support/experimental tools. Pen modeling, diagnostics, touch/pinch navigation, and annotation geometry are otherwise unchanged.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.7.31 adds a conservative Apple Pencil replay guard: an incoming coalesced move batch is discarded only when every raw <code>(timestamp, x, y, pressure)</code> value exactly matches the immediately previous batch. The replay is rejected before stored points or the Google Ink modeler see it. The heavy per-batch diagnostic summaries are removed in favor of counters, and <code>snapshotPages()</code> now records timing so remaining Pen-start delay can be separated from Undo snapshot construction. Undo granularity remains one completed stroke per undo step; Pen geometry/model parameters, touch/pinch navigation, Presentation thumbnails, structured graph-paper backgrounds, ZIP-DEFLATE backups, and the 5.7.30 Files/Pages scroll fix are otherwise unchanged.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

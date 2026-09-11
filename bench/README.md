@@ -1,6 +1,15 @@
-# PDF Workbench — Milestone 5.7.30 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.7.31 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 **Official current release remains 5.7.21 until this branch is promoted.**
+
+## 5.7.31 exact Pencil-batch replay guard + Undo snapshot timing
+
+- Added a deliberately conservative live-input guard for the replay pattern confirmed by classroom diagnostics. A coalesced Pen/Highlighter move batch is skipped only when the entire raw sequence of `(timestamp, clientX, clientY, pressure)` values exactly matches the immediately previous batch. No rounding or geometric similarity test is used.
+- The skip occurs before `appendInkPoint()`, the Google Ink modeler, live preview processing, or annotation storage, so replayed samples cannot inflate the current stroke. Legitimate retracing later has different timestamps and is unaffected.
+- Reduced the temporary Pencil instrumentation now that the replay mechanism is identified. Per-batch summaries, recent-sample windows, and anomaly arrays are no longer retained. Per-stroke counters remain, including exact replay detections, replay batches skipped, and replay samples skipped.
+- `snapshotPages()` now records call count, last/average/max duration, slow-call counters, and last page count. Pen/Highlighter begin records also include the exact snapshot duration for that stroke, allowing remaining start latency to be compared directly with Undo snapshot construction.
+- Undo behavior is intentionally unchanged: one completed stroke remains one Undo action, the 50-entry history limit remains, and the existing packed `Float32Array` history representation remains in place. Existing documents are not rewritten or cleaned in this revision.
+- Pen geometry/model parameters, Highlighter behavior, Eraser/selection, touch/pinch navigation, graph-paper backgrounds, Presentation thumbnails, backup format, and the 5.7.30 Files/Pages scroll fix are unchanged.
 
 ## 5.7.30 direct Files/Pages round-trip scroll preservation
 
