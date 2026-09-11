@@ -1,10 +1,24 @@
-PDF WORKBENCH — MILESTONE 5.7.31 DEVELOPMENT HANDOFF
+PDF WORKBENCH — MILESTONE 5.7.32 DEVELOPMENT HANDOFF
 ======================================================
 
 OFFICIAL RELEASE
 ----------------
 - 5.7.21 remains the official current release.
-- 5.7.31 is the current development/diagnostic branch.
+- 5.7.32 is the current development/diagnostic branch.
+
+
+5.7.32 LIGHTWEIGHT RENDER / NAVIGATION DIAGNOSTICS
+---------------------------------------------------
+- The second 2026-09-11 classroom session with 5.7.31 produced no Pen stalls. The exact replay guard was active in ordinary writing, while `snapshotPages()` timing remained far below the prior multi-second stalls (1,105 calls, about 11.9 ms average, 60 ms maximum). Undo granularity therefore remains one completed stroke per Undo step.
+- A late-class rendering incident was reproduced by ordinary scrolling in the Chapter 5.2 slides: the next page remained at `page-loading`; nearby pages appeared frozen while scrolling; switching documents and back restored normal display. An earlier report also caught a page still marked loading while the render queue and active-render set were idle.
+- 5.7.32 intentionally does NOT change render scheduling yet. Instead it keeps a bounded rolling history of the last 96 viewer-render transitions (request/start/complete/release/retry/skip), plus a separate 24-entry anomaly buffer for renders that return while a connected stage is still marked loading or that error. This anomaly buffer survives a document round-trip long enough to be present in a report saved immediately afterward.
+- Loading-stage diagnostics include page/document identity, page number, graph-background presence, request ID, loading age, `wantRender`, and queue state. Render request IDs tie the stage state to the rolling render history.
+- Added a specific diagnostic for a page that leaves the observer margin while still marked loading. This is important because the current queue can legitimately skip stale/offscreen work; the next classroom occurrence should show whether a skipped queued render is leaving the stage in an orphaned loading state.
+- Added compact pinch start/finish diagnostics: start/final zoom, finger separation, midpoint, anchor page, and viewer scroll offsets. Navigation behavior itself is unchanged.
+- Presentation document changes now record exact from/to document IDs and names. This removes the ambiguity seen in the 5.7.31 report, where two selector taps were visible but the intermediate document (`rolls.pdf`) could only be inferred.
+- Explicit diagnostic snapshots now count structured graph-paper-background pages per open document and identify whether any loading/rendering page has that background. The graph-paper renderer itself is unchanged.
+- Positive classroom validation to preserve: Presentation thumbnail navigation works well; ZIP-DEFLATE Library backup compression works well; the colored Highlighter/Eraser icon cues are effective; and the structured Add graph paper background feature appears to be working well in real use.
+- No changes to Pen/Highlighter geometry, Google Ink model parameters, replay filtering, Undo history, touch/pinch behavior, render scheduling, thumbnail navigation, backup compression, graph-paper rendering/export, or annotation icon behavior.
 
 
 5.7.31 EXACT PENCIL-BATCH REPLAY GUARD + UNDO SNAPSHOT TIMING

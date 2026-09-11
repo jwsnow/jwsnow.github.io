@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.31';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.32';
 
-const APP_VERSION = '5.7.31';
+const APP_VERSION = '5.7.32';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -93,6 +93,10 @@ const state = {
   inkDiagnosticPointers: new Map(),
   latestCompletedInkGestureDiagnostics: [],
   snapshotPagesDiagnostics: { calls:0, totalMs:0, lastMs:0, maxMs:0, over16Ms:0, over50Ms:0, lastPageCount:0 },
+  renderDiagnosticEvents: [],
+  renderDiagnosticAnomalies: [],
+  renderDiagnosticSequence: 0,
+  pinchDiagnosticSequence: 0,
   stylusTouchContacts: new Map(),
   penHoverPointers: new Map(),
   penContactPointers: new Map(),
@@ -8475,6 +8479,57 @@ const MAX_COMPLETED_INK_DIAGNOSTIC_SUMMARIES = 24;
 const diagnosticActiveRenders = new Map();
 let diagnosticRenderSequence = 0;
 let inkBatchDiagnosticFailureLogged = false;
+const MAX_RENDER_DIAGNOSTIC_EVENTS = 96;
+
+function diagnosticDocumentForPage(page) {
+  return state.documents.find(doc => doc.pages?.some(candidate => candidate.id === page?.id)) || null;
+}
+function diagnosticStageState(stage) {
+  return stage ? {
+    connected: !!stage.isConnected,
+    wantRender: stage.dataset.wantRender ?? null,
+    rendered: stage.dataset.rendered ?? null,
+    requestId: Number(stage.dataset.renderDiagnosticRequestId || 0) || null,
+  } : null;
+}
+function recordRenderDiagnostic(kind, page=null, extra={}) {
+  const doc = diagnosticDocumentForPage(page);
+  const record = {
+    n: ++state.renderDiagnosticSequence,
+    t: Math.round(performance.now() * 10) / 10,
+    kind,
+    documentId: doc?.id || extra.documentId || null,
+    documentName: doc?.name || extra.documentName || null,
+    pageId: page?.id || extra.pageId || null,
+    pageIndex: doc && page ? doc.pages.findIndex(candidate => candidate.id === page.id) + 1 : (extra.pageIndex || null),
+    graphBackground: page ? page?.background?.type === 'graph-paper' : (extra.graphBackground ?? null),
+    queueActive: renderQueue.active,
+    queueQueued: renderQueue.jobs.length,
+    ...extra,
+  };
+  state.renderDiagnosticEvents.push(record);
+  if (state.renderDiagnosticEvents.length > MAX_RENDER_DIAGNOSTIC_EVENTS) {
+    state.renderDiagnosticEvents.splice(0, state.renderDiagnosticEvents.length - MAX_RENDER_DIAGNOSTIC_EVENTS);
+  }
+  if (kind === 'viewer-render-left-loading' || kind === 'viewer-render-error') {
+    state.renderDiagnosticAnomalies.push(record);
+    if (state.renderDiagnosticAnomalies.length > 24) state.renderDiagnosticAnomalies.splice(0, state.renderDiagnosticAnomalies.length - 24);
+  }
+  return record;
+}
+function markStageRenderRequested(stage, page, reason, extra={}) {
+  const record = recordRenderDiagnostic('viewer-render-request', page, { reason, ...extra });
+  if (stage) {
+    stage.dataset.renderDiagnosticRequestId = String(record.n);
+    stage.dataset.renderDiagnosticSince = String(performance.now());
+  }
+  return record;
+}
+function clearStageRenderDiagnostic(stage) {
+  if (!stage) return;
+  delete stage.dataset.renderDiagnosticRequestId;
+  delete stage.dataset.renderDiagnosticSince;
+}
 
 function exactInkReplayTuple(sample) {
   // Deliberately no rounding: replay rejection requires exact equality of the
@@ -8671,7 +8726,13 @@ function diagnosticRuntimeSnapshot() {
     activePaneId: state.activePaneId || null,
     currentDocumentId: state.currentDocumentId || null,
     viewport: { width:window.innerWidth, height:window.innerHeight, devicePixelRatio:Number(window.devicePixelRatio || 1), visualWidth:Number(window.visualViewport?.width || 0) || null, visualHeight:Number(window.visualViewport?.height || 0) || null, visualScale:Number(window.visualViewport?.scale || 0) || null },
-    openDocuments: state.documents.map(doc => ({ id:doc.id, name:doc.name, pages:doc.pages?.length || 0, modifiedAt:doc.modifiedAt || null })),
+    openDocuments: state.documents.map(doc => ({
+      id:doc.id,
+      name:doc.name,
+      pages:doc.pages?.length || 0,
+      modifiedAt:doc.modifiedAt || null,
+      graphBackgroundPages:(doc.pages || []).reduce((count, page) => count + (pageHasGraphPaperBackground(page) ? 1 : 0), 0),
+    })),
     sources: { total:state.sources.size, pdf:pdfSources, image:imageSources, storedBytes:sourceStoredBytes, decodedImageApproxRGBABytes:decodedImagePixels * 4 },
     renderQueue: { active:renderQueue.active, queued:renderQueue.jobs.length, max:renderQueue.max },
     activeRenders: diagnosticActiveRenderSnapshot(now),
@@ -8681,7 +8742,25 @@ function diagnosticRuntimeSnapshot() {
       loading: document.querySelectorAll('.page-stage[data-rendered="loading"]').length,
       rendered: document.querySelectorAll('.page-stage[data-rendered="true"]').length,
       errors: document.querySelectorAll('.page-stage[data-rendered="error"]').length,
+      loadingDetails:[...document.querySelectorAll('.page-stage[data-rendered="loading"]')].slice(0, 12).map(stage => {
+        const pageId=stage.dataset.pageId || null;
+        const doc=state.documents.find(item => item.pages?.some(page => page.id === pageId)) || null;
+        const page=doc?.pages?.find(item => item.id === pageId) || null;
+        const since=Number(stage.dataset.renderDiagnosticSince);
+        return {
+          documentId:doc?.id || null,
+          documentName:doc?.name || null,
+          pageId,
+          pageIndex:doc && page ? doc.pages.indexOf(page) + 1 : null,
+          graphBackground:page ? pageHasGraphPaperBackground(page) : null,
+          wantRender:stage.dataset.wantRender ?? null,
+          requestId:Number(stage.dataset.renderDiagnosticRequestId || 0) || null,
+          loadingAgeMs:Number.isFinite(since) ? Math.round((performance.now()-since)*10)/10 : null,
+        };
+      }),
     },
+    recentRenderEvents: state.renderDiagnosticEvents.slice(-MAX_RENDER_DIAGNOSTIC_EVENTS),
+    recentRenderAnomalies: state.renderDiagnosticAnomalies.slice(-24),
     javascriptHeap: heap,
     deviceMemoryGB: Number.isFinite(Number(navigator.deviceMemory)) ? Number(navigator.deviceMemory) : null,
     hardwareConcurrency: Number.isFinite(Number(navigator.hardwareConcurrency)) ? Number(navigator.hardwareConcurrency) : null,
@@ -8802,7 +8881,7 @@ async function renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, d
   const startedAt = performance.now();
   const token = ++diagnosticRenderSequence;
   const source = page?.kind === 'generated' ? null : state.sources.get(page?.sourceId);
-  const doc = state.documents.find(item => item.pages?.some(candidate => candidate.id === page?.id)) || null;
+  const doc = diagnosticDocumentForPage(page);
   let targetW = Math.max(1, Math.round(cssWidth * dpr));
   let targetH = Math.max(1, Math.round(cssHeight * dpr));
   const rawPixels = targetW * targetH;
@@ -8821,6 +8900,7 @@ async function renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, d
     sourceId: page?.sourceId || null,
     sourceType: source?.type || null,
     sourcePage: page?.sourcePage || null,
+    graphBackground: page ? page?.background?.type === 'graph-paper' : null,
     cssWidth: Math.round(Number(cssWidth) || 0),
     cssHeight: Math.round(Number(cssHeight) || 0),
     targetWidth: targetW,
@@ -8855,10 +8935,10 @@ async function buildInkDiagnosticsText() {
     userAgent: navigator.userAgent,
     platform: navigator.platform || null,
     standalone: isStandalonePwa(),
-    diagnosticVersion: 3,
+    diagnosticVersion: 4,
     runtime,
     storage,
-    note: 'Pointer-boundary, event-loop-stall, rendering, and Pencil raw/coalesced-batch diagnostics. No document contents are included; document/file names and internal IDs may be included for correlation. JavaScript heap memory is recorded only on browsers that expose performance.memory. Canvas/source byte figures are estimates/proxies, not total iPad memory.',
+    note: 'Pointer-boundary, event-loop-stall, bounded viewer-render history/anomalies, Presentation document switches, pinch geometry, and Pencil replay diagnostics. No document contents are included; document/file names and internal IDs may be included for correlation. JavaScript heap memory is recorded only on browsers that expose performance.memory. Canvas/source byte figures are estimates/proxies, not total iPad memory.',
   };
   const lines = [JSON.stringify(header), ...state.inkDiagnostics.map(item => JSON.stringify(item))];
   return lines.join('\n') + '\n';
@@ -11234,6 +11314,10 @@ function ensurePageLoading(stage, text='Rendering…') {
 }
 
 function releaseViewerStage(stage) {
+  const pageId = stage?.dataset?.pageId || null;
+  const doc = state.documents.find(item => item.pages?.some(page => page.id === pageId)) || null;
+  const page = doc?.pages?.find(item => item.id === pageId) || null;
+  recordRenderDiagnostic('viewer-stage-release', page, { stage:diagnosticStageState(stage) });
   for (const canvas of stage.querySelectorAll('canvas')) {
     // Resetting width/height releases the browser/GPU backing store. This is
     // essential for long scan-only PDFs, where each visible page can otherwise
@@ -11243,6 +11327,7 @@ function releaseViewerStage(stage) {
   }
   stage.querySelector('svg.annotation-selection-layer')?.remove();
   delete stage.dataset.rendered;
+  clearStageRenderDiagnostic(stage);
   ensurePageLoading(stage, 'Rendering…');
 }
 
@@ -11296,10 +11381,15 @@ function renderSingleViewer() {
         if (page && canvas && stage.dataset.rendered !== 'loading' && stage.dataset.rendered !== 'true') {
           stage.dataset.rendered = 'loading';
           ensurePageLoading(stage);
+          markStageRenderRequested(stage, page, 'intersection', { generation, viewer:'single' });
           renderViewerPage(page, stage, canvas, generation).catch(err => renderError(stage, err));
         }
       } else {
         stage.dataset.wantRender = 'false';
+        if (stage.dataset.rendered === 'loading') {
+          const page = pageById(stage.dataset.pageId);
+          if (page) recordRenderDiagnostic('viewer-loading-left-viewport', page, { generation, viewer:'single', stage:diagnosticStageState(stage) });
+        }
         // This callback fires only after the page has left the generous root
         // margin, so releasing it does not cause normal nearby scrolling to
         // constantly render/evict the same page.
@@ -11328,6 +11418,7 @@ function renderSingleViewer() {
     else {
       stage.dataset.wantRender = 'true';
       stage.dataset.rendered = 'loading';
+      markStageRenderRequested(stage, page, 'single-page-initial', { generation, viewer:'single' });
       renderViewerPage(page, stage, canvas, generation).catch(err => renderError(stage, err));
     }
   }
@@ -11575,10 +11666,15 @@ function renderSplitPane(paneId) {
         if (page && canvas && stage.dataset.rendered !== 'loading' && stage.dataset.rendered !== 'true') {
           stage.dataset.rendered = 'loading';
           ensurePageLoading(stage);
+          markStageRenderRequested(stage, page, 'intersection', { generation, viewer:`split-${paneId}`, paneId });
           renderSplitViewerPage(paneId, page, stage, canvas, generation).catch(err => renderError(stage, err));
         }
       } else {
         stage.dataset.wantRender = 'false';
+        if (stage.dataset.rendered === 'loading') {
+          const page = splitPageById(doc, stage.dataset.pageId);
+          if (page) recordRenderDiagnostic('viewer-loading-left-viewport', page, { generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
+        }
         if (stage.dataset.rendered === 'true' || stage.dataset.rendered === 'error') releaseViewerStage(stage);
       }
     }
@@ -11603,6 +11699,7 @@ function renderSplitPane(paneId) {
     else {
       stage.dataset.wantRender = 'true';
       stage.dataset.rendered = 'loading';
+      markStageRenderRequested(stage, page, 'single-page-initial', { generation, viewer:`split-${paneId}`, paneId });
       renderSplitViewerPage(paneId, page, stage, canvas, generation).catch(err => renderError(stage, err));
     }
   }
@@ -11652,18 +11749,33 @@ function renderSplitPane(paneId) {
 async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
   const pane = splitPaneState(paneId), view = paneView(paneId);
   const size = computePaneCssSize(page, paneId, view);
-  if (generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false') return;
+  const requestId = Number(stage?.dataset?.renderDiagnosticRequestId || 0) || null;
+  if (generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false') {
+    recordRenderDiagnostic('viewer-render-precheck-skip', page, { requestId, generation, currentGeneration:pane.generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
+    return;
+  }
   stage.style.width = `${size.width}px`;
   stage.style.height = `${size.height}px`;
   const dpr = clamp(window.devicePixelRatio || 1, 1, 2.1);
   const didRender = await enqueueRender(async () => {
-    if (generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
+    const stale = generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false';
+    if (stale) {
+      recordRenderDiagnostic('viewer-render-queue-skip', page, { requestId, generation, currentGeneration:pane.generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
+      return false;
+    }
+    recordRenderDiagnostic('viewer-render-start', page, { requestId, generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
     await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, 4_500_000);
     return true;
   }, 10);
-  if (!didRender || generation !== pane.generation || !stage.isConnected) return;
+  if (!didRender || generation !== pane.generation || !stage.isConnected) {
+    if (stage?.isConnected && stage.dataset.rendered === 'loading') {
+      recordRenderDiagnostic('viewer-render-left-loading', page, { requestId, generation, currentGeneration:pane.generation, viewer:`split-${paneId}`, paneId, didRender:!!didRender, stage:diagnosticStageState(stage) });
+    }
+    return;
+  }
   if (stage.dataset.wantRender === 'false') { releaseViewerStage(stage); return; }
   if (page.kind !== 'generated' && canvasLooksBlank(canvas)) {
+    recordRenderDiagnostic('viewer-render-retry-blank', page, { requestId, generation, viewer:`split-${paneId}`, paneId });
     ensurePageLoading(stage, 'Retrying scan…');
     await enqueueRender(async () => {
       if (generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
@@ -11676,6 +11788,8 @@ async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
   redrawStageAnnotations(stage, page);
   stage.dataset.rendered = 'true';
   stage.querySelector('.page-loading')?.remove();
+  recordRenderDiagnostic('viewer-render-complete', page, { requestId, generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
+  clearStageRenderDiagnostic(stage);
 }
 
 function goPanePage(paneId, delta, allowAppend=false) {
@@ -11704,7 +11818,11 @@ function renderViewer() {
 
 async function renderViewerPage(page, stage, canvas, generation) {
   const size = computeCssSize(page);
-  if (generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false') return;
+  const requestId = Number(stage?.dataset?.renderDiagnosticRequestId || 0) || null;
+  if (generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false') {
+    recordRenderDiagnostic('viewer-render-precheck-skip', page, { requestId, generation, currentGeneration:state.renderGeneration, viewer:'single', stage:diagnosticStageState(stage) });
+    return;
+  }
   stage.style.width = `${size.width}px`;
   stage.style.height = `${size.height}px`;
   const dpr = clamp(window.devicePixelRatio || 1, 1, 2.25);
@@ -11712,12 +11830,22 @@ async function renderViewerPage(page, stage, canvas, generation) {
   const didRender = await enqueueRender(async () => {
     // Stale/offscreen jobs may sit in the queue for a while. Check again at
     // execution time so they do not consume memory after the user has moved on.
-    if (generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
+    const stale = generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false';
+    if (stale) {
+      recordRenderDiagnostic('viewer-render-queue-skip', page, { requestId, generation, currentGeneration:state.renderGeneration, viewer:'single', stage:diagnosticStageState(stage) });
+      return false;
+    }
+    recordRenderDiagnostic('viewer-render-start', page, { requestId, generation, viewer:'single', stage:diagnosticStageState(stage) });
     await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, 6_000_000);
     return true;
   }, 10);
 
-  if (!didRender || generation !== state.renderGeneration || !stage.isConnected) return;
+  if (!didRender || generation !== state.renderGeneration || !stage.isConnected) {
+    if (stage?.isConnected && stage.dataset.rendered === 'loading') {
+      recordRenderDiagnostic('viewer-render-left-loading', page, { requestId, generation, currentGeneration:state.renderGeneration, viewer:'single', didRender:!!didRender, stage:diagnosticStageState(stage) });
+    }
+    return;
+  }
   if (stage.dataset.wantRender === 'false') {
     releaseViewerStage(stage);
     return;
@@ -11728,6 +11856,7 @@ async function renderViewerPage(page, stage, canvas, generation) {
   // lower-resolution second render is much less demanding and is preferable to
   // leaving an apparently missing page.
   if (page.kind !== 'generated' && canvasLooksBlank(canvas)) {
+    recordRenderDiagnostic('viewer-render-retry-blank', page, { requestId, generation, viewer:'single' });
     ensurePageLoading(stage, 'Retrying scan…');
     await enqueueRender(async () => {
       if (generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
@@ -11744,6 +11873,8 @@ async function renderViewerPage(page, stage, canvas, generation) {
   redrawStageAnnotations(stage, page);
   stage.dataset.rendered = 'true';
   stage.querySelector('.page-loading')?.remove();
+  recordRenderDiagnostic('viewer-render-complete', page, { requestId, generation, viewer:'single', stage:diagnosticStageState(stage) });
+  clearStageRenderDiagnostic(stage);
 }
 
 async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxPixels=10_000_000) {
@@ -11871,9 +12002,14 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
 
 function renderError(stage, err) {
   console.error(err);
+  const pageId = stage?.dataset?.pageId || null;
+  const doc = state.documents.find(item => item.pages?.some(page => page.id === pageId)) || null;
+  const page = doc?.pages?.find(item => item.id === pageId) || null;
+  recordRenderDiagnostic('viewer-render-error', page, { message:String(err?.message || err), stage:diagnosticStageState(stage) });
   const loading = ensurePageLoading(stage, 'Could not render this page — scroll away and back to retry');
   loading.title = err?.message || String(err);
   stage.dataset.rendered = 'error';
+  clearStageRenderDiagnostic(stage);
 }
 function markActivePage() {
   els.viewer.querySelectorAll('.page-stage').forEach(el => el.classList.toggle('active-page', el.dataset.pageId === state.activePageId));
@@ -12368,7 +12504,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.7.31 adds a conservative Apple Pencil replay guard: an incoming coalesced move batch is discarded only when every raw <code>(timestamp, x, y, pressure)</code> value exactly matches the immediately previous batch. The replay is rejected before stored points or the Google Ink modeler see it. The heavy per-batch diagnostic summaries are removed in favor of counters, and <code>snapshotPages()</code> now records timing so remaining Pen-start delay can be separated from Undo snapshot construction. Undo granularity remains one completed stroke per undo step; Pen geometry/model parameters, touch/pinch navigation, Presentation thumbnails, structured graph-paper backgrounds, ZIP-DEFLATE backups, and the 5.7.30 Files/Pages scroll fix are otherwise unchanged.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.7.32 retains the validated exact Apple Pencil replay guard and lightweight Undo snapshot timing from 5.7.31, and adds bounded renderer/navigation diagnostics only: the last 96 viewer-render transitions, loading-stage age/ownership, exact Presentation document changes, compact pinch before/after geometry, and graph-background presence in diagnostic snapshots. No Pen geometry/model, Undo granularity, render scheduling, touch/pinch behavior, Presentation thumbnail navigation, structured graph-paper rendering, colored Highlighter/Eraser cues, or ZIP-DEFLATE backup behavior is changed.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -12766,7 +12902,23 @@ function bindManualViewerTouch(viewer, owner, config) {
       startZoom: config.getZoom(),
       midpoint,
       anchor: captureViewerAnchor(viewer, anchorMidpoint.x, anchorMidpoint.y),
+      diagnosticId: ++state.pinchDiagnosticSequence,
+      startScrollTop: Math.round(viewer.scrollTop * 10) / 10,
+      startScrollLeft: Math.round(viewer.scrollLeft * 10) / 10,
+      startMidpoint: anchorMidpoint ? { x:Math.round(anchorMidpoint.x), y:Math.round(anchorMidpoint.y) } : null,
     };
+    addInkDiagnostic('pinch-start', null, {
+      pinchId:owner.pinchGesture.diagnosticId,
+      viewer:viewer.id || viewer.className || null,
+      startZoom:Math.round(owner.pinchGesture.startZoom*1000)/1000,
+      startDistance:Math.round(owner.pinchGesture.startDistance*10)/10,
+      startMidpoint:owner.pinchGesture.startMidpoint,
+      startScrollTop:owner.pinchGesture.startScrollTop,
+      startScrollLeft:owner.pinchGesture.startScrollLeft,
+      anchorPageId:owner.pinchGesture.anchor?.pageId || null,
+      currentDocumentId:state.currentDocumentId || null,
+      activePaneId:state.activePaneId || null,
+    });
     owner.pinchNeedsRender = true;
     owner.touchPan = null;
     owner.touchStart = null;
@@ -13035,6 +13187,7 @@ function bindManualViewerTouch(viewer, owner, config) {
     const lastPoint = owner.touchPointers.get(e.pointerId) || { id: e.pointerId, x: e.clientX, y: e.clientY };
     lastPoint.x = e.clientX; lastPoint.y = e.clientY;
     const hadActivePinch = !!owner.pinchGesture;
+    const finalPinchDistance = hadActivePinch && owner.touchPointers.size >= 2 ? pointerDistance(pointerPair(owner)) : null;
     owner.touchPointers.delete(e.pointerId);
 
     if (isStylusAnnotationTool() && (owner.touchIntent === 'pending' || owner.touchIntent === 'palm')) {
@@ -13054,7 +13207,26 @@ function bindManualViewerTouch(viewer, owner, config) {
       // Commit the last live pinch geometry while its anchor is still valid.
       // If one finger remains, let it pan the already-scaled pages; defer the
       // expensive crisp rerender until the whole gesture has ended.
+      const finishedPinch = owner.pinchGesture;
       flushLivePinch();
+      addInkDiagnostic('pinch-finish', e, {
+        pinchId:finishedPinch?.diagnosticId || null,
+        viewer:viewer.id || viewer.className || null,
+        cancelled:!!cancelled,
+        startZoom:Math.round((finishedPinch?.startZoom || 0)*1000)/1000,
+        finalZoom:Math.round((config.getZoom() || 0)*1000)/1000,
+        startDistance:Math.round((finishedPinch?.startDistance || 0)*10)/10,
+        finalDistance:Number.isFinite(finalPinchDistance) ? Math.round(finalPinchDistance*10)/10 : null,
+        startMidpoint:finishedPinch?.startMidpoint || null,
+        finalMidpoint:finishedPinch?.midpoint ? { x:Math.round(finishedPinch.midpoint.x), y:Math.round(finishedPinch.midpoint.y) } : null,
+        startScrollTop:finishedPinch?.startScrollTop ?? null,
+        startScrollLeft:finishedPinch?.startScrollLeft ?? null,
+        finalScrollTop:Math.round(viewer.scrollTop*10)/10,
+        finalScrollLeft:Math.round(viewer.scrollLeft*10)/10,
+        anchorPageId:finishedPinch?.anchor?.pageId || null,
+        currentDocumentId:state.currentDocumentId || null,
+        activePaneId:state.activePaneId || null,
+      });
       owner.pinchGesture = null;
       if (owner.touchPointers.size === 1 && config.getScrollMode() !== 'single') {
         startViewerTouchPan(owner, [...owner.touchPointers.values()][0]);
@@ -13179,8 +13351,18 @@ function bindEvents() {
   els.splitRightDocumentSelect.addEventListener('change', () => setPaneDocument('right', els.splitRightDocumentSelect.value));
   els.presentationDocumentSelect.addEventListener('change', () => {
     closePresentationPageDrawer();
-    if (state.splitView) setPaneDocument(state.activePaneId, els.presentationDocumentSelect.value);
-    else loadDocumentState(els.presentationDocumentSelect.value);
+    const beforeId = state.splitView ? splitPaneState(state.activePaneId)?.documentId : state.currentDocumentId;
+    const afterId = els.presentationDocumentSelect.value;
+    addInkDiagnostic('presentation-document-change', null, {
+      fromDocumentId:beforeId || null,
+      fromDocumentName:documentById(beforeId)?.name || null,
+      toDocumentId:afterId || null,
+      toDocumentName:documentById(afterId)?.name || null,
+      splitView:!!state.splitView,
+      activePaneId:state.activePaneId || null,
+    });
+    if (state.splitView) setPaneDocument(state.activePaneId, afterId);
+    else loadDocumentState(afterId);
     showPresentationControls();
   });
   els.viewModeBtn.addEventListener('click', () => showWorkspaceMode('view'));

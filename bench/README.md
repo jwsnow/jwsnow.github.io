@@ -1,6 +1,15 @@
-# PDF Workbench — Milestone 5.7.31 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.7.32 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 **Official current release remains 5.7.21 until this branch is promoted.**
+
+## 5.7.32 lightweight render/navigation diagnostics
+
+- Adds a fixed-size rolling history of viewer render requests, starts, completions, releases, retries, and stale/offscreen skips. A separate 24-entry anomaly buffer preserves `loading`-state failures through a quick document switch and back.
+- Diagnostic snapshots identify loading page/document, page number, loading age, request ownership, render queue state, and whether the page has a structured graph-paper background.
+- Adds low-frequency pinch start/finish telemetry (zoom, finger separation, midpoint, anchor page, and scroll before/after) without changing touch or pinch behavior.
+- Presentation document changes now record exact from/to document names and IDs.
+- The renderer is intentionally not changed in this build; the purpose is to determine why an ordinary scroll can leave a page stuck at `Rendering…` even when switching documents and back clears it.
+- The validated 5.7.31 Pencil replay guard and Undo snapshot timing remain unchanged. Presentation thumbnail navigation, ZIP-DEFLATE backups, colored Highlighter/Eraser icons, and structured graph-paper backgrounds are also unchanged.
 
 ## 5.7.31 exact Pencil-batch replay guard + Undo snapshot timing
 
