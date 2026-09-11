@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.7.32">
+  <link rel="stylesheet" href="styles.css?v=5.7.34">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -54,6 +54,9 @@
         </button>
         <button id="viewInsertBtn" class="tool-btn" type="button" title="Insert a page after the current page" aria-label="Insert page" aria-haspopup="menu" aria-expanded="false">
           <span class="page-plus-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 3h8l4 4v5M6 3v18h7M14 3v5h4"/><path d="M14 17h7M17.5 13.5v7"/></svg></span><span class="tool-label">Page</span>
+        </button>
+        <button id="viewDiagnosticsBtn" class="tool-btn view-diagnostics-btn" type="button" title="Save diagnostics locally" aria-label="Save diagnostics locally">
+          <span class="presentation-diagnostics-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 3.5h9l4 4V20.5H5z"/><path d="M14 3.5v4h4"/><path d="M7.5 14h2l1.4-3 2.2 6 1.4-3h2"/></svg></span>
         </button>
         <button id="presentBtn" class="tool-btn" type="button" title="Presentation mode">
           <span aria-hidden="true">⛶</span><span class="tool-label">Present</span>
@@ -117,6 +120,7 @@
         <div id="presentationToolbar" class="presentation-toolbar annotation-toolbar" aria-label="Annotation and presentation controls">
           <div class="annotation-primary" role="group" aria-label="Annotation tools">
             <button id="inkHandBtn" class="annotation-tool-btn active" type="button" aria-pressed="true" title="Hand / view mode (stylus does not draw)" aria-label="Hand / view mode">✋</button>
+            <button id="inkLaserBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Laser pointer (screen only)" aria-label="Laser pointer"><span class="laser-tool-icon" aria-hidden="true"></span></button>
             <button id="inkPenBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Pen" aria-label="Pen">✎</button>
             <button id="inkHighlighterBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Highlighter" aria-label="Highlighter"><span class="highlighter-tool-icon" aria-hidden="true"></span></button>
             <button id="inkEraserBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Partial-stroke eraser" aria-label="Partial-stroke eraser"><span class="eraser-tool-icon" aria-hidden="true"></span></button>
@@ -213,7 +217,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.7.32 · experimental diagnostics branch</div>
+          <div class="export-kicker">Milestone 5.7.34 · diagnostic input/render branch</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -800,6 +804,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.7.32"></script>
+  <script type="module" src="app.js?v=5.7.34"></script>
 </body>
 </html>

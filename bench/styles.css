@@ -1771,6 +1771,30 @@ body.presentation .split-view { top: calc(var(--annotation-bar-h) + env(safe-are
    testing, but hide the browser cursor while a real pen pointer is in range over
    a viewer. This removes the distracting Surface Pen '+' hover cursor without
    affecting normal mouse use. */
+body.ink-laser-active .page-stage { cursor: crosshair; }
+.laser-tool-icon {
+  display: block;
+  width: 15px;
+  height: 15px;
+  margin: auto;
+  border-radius: 50%;
+  background: radial-gradient(circle at 42% 38%, #fff 0 8%, #ff6b6b 18%, #e00000 52%, #980000 100%);
+  box-shadow: 0 0 0 1px rgb(120 0 0 / .32), 0 0 5px rgb(255 0 0 / .55);
+}
+.laser-pointer-dot {
+  position: fixed;
+  z-index: 260;
+  width: 20px;
+  height: 20px;
+  margin-left: -10px;
+  margin-top: -10px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, #fff 0 8%, #ff5a5a 18%, #ef0000 43%, rgb(239 0 0 / .72) 58%, rgb(239 0 0 / 0) 76%);
+  filter: drop-shadow(0 0 4px rgb(255 0 0 / .9));
+  transform: translateZ(0);
+}
+.laser-pointer-dot.hidden { display: none !important; }
 body.ink-pen-active .page-stage { cursor: crosshair; }
 body.ink-highlighter-active .page-stage { cursor: crosshair; }
 body.ink-select-active .page-stage { cursor: crosshair; }
@@ -1849,3 +1873,8 @@ body.ink-eraser-active .page-stage * { cursor: none !important; }
 .presentation-diagnostics-icon svg { width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .saved-diagnostics-tools { margin-top:10px; padding-top:8px; border-top:1px solid var(--border); }
 .saved-diagnostics-tools .small-note { margin-top:0; margin-bottom:7px; }
+
+/* 5.7.34: compact one-tap diagnostic capture in ordinary View. */
+.view-diagnostics-btn { min-width:38px; padding-inline:8px; }
+.view-diagnostics-btn .presentation-diagnostics-icon { width:18px; height:18px; }
+.view-diagnostics-btn .presentation-diagnostics-icon svg { width:18px; height:18px; }

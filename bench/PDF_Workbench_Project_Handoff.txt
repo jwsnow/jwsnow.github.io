@@ -1,3 +1,52 @@
+PDF WORKBENCH — MILESTONE 5.7.34 DEVELOPMENT HANDOFF
+======================================================
+
+OFFICIAL RELEASE
+----------------
+- 5.7.21 remains the official current release.
+- 5.7.34 is the current development/diagnostic branch.
+
+5.7.34 ALL-CLASSIFICATION VIEWER-CONTACT DIAGNOSTICS + VIEW SAVE BUTTON
+-----------------------------------------------------------------------
+- Two classroom Pen-nonresponse episodes on 5.7.32 showed the last accepted stroke completing normally, pointer capture releasing normally, no active gesture remaining, no render/event-loop/snapshot stall, and then no Pen-classified viewer contact at all during the user's attempted marks. The next Pencil input appeared on UI controls.
+- The old global raw logger intentionally recorded `pointerType=pen` everywhere and touch contacts in the viewer, but did not retain an unexpected viewer `pointerType=mouse`/other classification. Therefore the evidence could not distinguish "Safari delivered nothing" from "Safari delivered the Pencil under a different identity."
+- 5.7.34 adds a second, boundary-only viewer-contact diagnostic path while Laser/Pen/Highlighter/Eraser/Select is active. It records every viewer pointer down/up/cancel regardless of `pointerType`; it does NOT retain an extra move stream. Each boundary includes classification, viewer, event-target relationship, and the top hit-tested element with pointer-events/position/z-index so an intercepting overlay can be recognized.
+- Adds one compact viewer `touchstart` summary containing only changed/active touch IDs, Safari `touchType`, coordinates, target, and viewer. Existing stylus TouchEvent fallback remains unchanged.
+- Adds an icon-only Save diagnostics locally button in ordinary View immediately before Present. It calls the same local-save path as the Presentation diagnostic button, so the user no longer needs to change modes before capturing a Pen failure.
+- Diagnostic bounds are unchanged: 2,400 general in-memory records, 96 recent render transitions, and 24 preserved render anomalies. The 5.7.33 pinch fix, Laser tool, render diagnostics, exact Pencil replay filtering, Undo granularity, Presentation thumbnail navigation, structured graph-paper handling, colored Highlighter/Eraser cues, and ZIP-DEFLATE backups are unchanged.
+
+VALIDATION TARGET
+-----------------
+- Update to 5.7.34 and use normally. If Pen stops responding, tap the new View diagnostic button immediately, before switching modes or documents if practical. If failed Pencil contacts arrive as `touch`, `mouse`, or another classification, `viewer-contact-*` / `viewer-touchstart-summary` should expose it; if nothing is logged, the absence itself is stronger evidence that Safari/iPadOS did not deliver a viewer contact to the page.
+
+
+PDF WORKBENCH — MILESTONE 5.7.33 DEVELOPMENT HANDOFF
+======================================================
+
+OFFICIAL RELEASE
+----------------
+- 5.7.21 remains the official current release.
+- 5.7.33 is the current development/diagnostic branch.
+
+5.7.33 PINCH-RELEASE STABILIZATION + LASER POINTER
+-------------------------------------------------
+- 5.7.32 diagnostics captured a real split-view pinch jump: live pinch finalization correctly preserved the page-67 anchor, then Safari/iPad applied a deferred layout/scroll correction about one to two frames later and Workbench landed around pages 85–89.
+- The live pinch calculation is therefore unchanged. At the end of the whole touch gesture, Workbench now retains the final pinch page anchor/midpoint and reasserts it on two consecutive animation frames using the existing proven `restoreViewerAnchorAfterLayout()` strategy. Scroll-state persistence is suppressed during those two frames, then the settled position becomes authoritative.
+- If one finger intentionally continues panning after the pinch, more than 8 px of accumulated post-pinch pan disables the delayed re-anchor so the user's deliberate movement is preserved.
+- 5.7.32 lightweight renderer/navigation diagnostics remain enabled, including the 96-event rolling render history and 24 preserved render anomalies. A compact `pinch-anchor-settled` event records whether the delayed anchor was applied and the resulting scroll position.
+- Added a Laser pointer tool directly between Hand and Pen. Laser is transient screen chrome only: a bright red dot appears at the stylus/mouse contact while down and disappears immediately on release/cancel/tool change. It creates no document annotation, Undo/Redo entry, autosave state, Library content, or PDF output. Apple Pencil TouchEvent fallback is supported as well as normal PointerEvents.
+- Finger navigation remains available in Laser mode under the existing stylus/palm-intent rules.
+- Validated classroom features remain unchanged: Presentation thumbnail navigation, ZIP-DEFLATE Library compression/backups, colored Highlighter/Eraser icons, and structured Add graph paper background.
+- Exact Pencil replay filtering and Undo snapshot timing from 5.7.31 remain unchanged. No render scheduling fix is included yet; keep diagnostics active for the intermittent orphaned `Rendering…` investigation.
+
+VALIDATION TARGETS
+------------------
+1. In Presentation Split view, repeatedly pinch in/out in either pane and verify release stays on the same logical page/anchor instead of jumping many pages.
+2. After pinching, deliberately keep one finger down and pan; verify the continued pan is preserved rather than snapped back.
+3. Select Laser: Pencil-down shows a bright red dot following the tip; Pencil-up hides it. Verify no Undo entry is added and exported PDF/Library state is unchanged.
+4. Continue collecting diagnostics if any page remains stuck at `Rendering…`; switch documents and back if needed, then save diagnostics as before.
+
+
 PDF WORKBENCH — MILESTONE 5.7.32 DEVELOPMENT HANDOFF
 ======================================================
 

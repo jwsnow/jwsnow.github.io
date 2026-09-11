@@ -1,6 +1,23 @@
-# PDF Workbench — Milestone 5.7.32 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.7.34 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 **Official current release remains 5.7.21 until this branch is promoted.**
+
+## 5.7.34 lightweight all-classification viewer-contact diagnostics
+
+- Keeps 5.7.33 pinch-release stabilization, Laser pointer, Pencil replay filtering, Undo behavior, and 5.7.32 render/anomaly diagnostics unchanged.
+- Adds boundary-only viewer diagnostics for **every PointerEvent classification** while Laser/Pen/Highlighter/Eraser/Select is active. Down/up/cancel records include Safari's `pointerType`, viewer/pane identity, event target, the top hit-tested element, and that element's `pointer-events`/position/z-index. No additional pointer-move stream is retained.
+- Adds one compact summary for each viewer `touchstart`, retaining only changed/active touch IDs, `touchType`, coordinates, target, and viewer. This should distinguish a completely missing Apple Pencil contact from a Pencil contact delivered as a non-stylus touch or another unexpected classification.
+- Adds an icon-only **Save diagnostics locally** button to ordinary View, immediately before Present, so a Pen failure can be captured without changing workspace mode first. Presentation's existing diagnostic button remains.
+- Diagnostic payload remains bounded: existing 2,400-record rolling log, 96 render-event history, and 24 preserved render anomalies are unchanged.
+
+
+## 5.7.33 pinch-release stabilization + Laser pointer
+
+- Fixes the split/single-view pinch jump confirmed by 5.7.32 diagnostics. The live pinch geometry remains unchanged; when the gesture fully ends, Workbench preserves the final page anchor/midpoint and reasserts it on two consecutive animation frames so a deferred Safari/iPad layout correction cannot move the viewport several pages afterward.
+- If the user deliberately continues panning with the remaining finger after a pinch, the delayed re-anchor is suppressed after a small movement threshold so intentional post-pinch navigation is not undone.
+- Retains the complete lightweight 5.7.32 renderer/navigation diagnostics and adds one compact `pinch-anchor-settled` record showing whether delayed anchor restoration was applied.
+- Adds a **Laser pointer** tool between Hand and Pen. While selected, a bright red screen-only dot follows the stylus (or pressed mouse) only during contact. It creates no annotation object, Undo entry, autosave/persistence data, Asset, Library content, or PDF export content. Finger pan/pinch remains available.
+- Presentation thumbnail navigation, ZIP-DEFLATE Library backups, colored Highlighter/Eraser icon cues, structured graph-paper backgrounds, exact Pencil replay filtering, and Undo snapshot timing remain unchanged.
 
 ## 5.7.32 lightweight render/navigation diagnostics
 
