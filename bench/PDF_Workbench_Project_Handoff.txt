@@ -1,10 +1,10 @@
-PDF WORKBENCH — MILESTONE 5.7.29 DEVELOPMENT HANDOFF
+PDF WORKBENCH — MILESTONE 5.7.30 DEVELOPMENT HANDOFF
 ======================================================
 
 OFFICIAL RELEASE
 ----------------
 - 5.7.21 remains the official current release.
-- 5.7.29 is the current development/diagnostic branch.
+- 5.7.30 is the current development/diagnostic branch.
 
 
 
@@ -15,6 +15,14 @@ OFFICIAL RELEASE
 - Fixed the older direct View -> Files/Pages -> View scroll reset: `showWorkspaceMode()` now saves the visible single-view scroll state before the viewer is hidden, or both pane scroll states in Split view. This is separate from the already-fixed Assets/Templates transient Files round-trip path.
 - Graph-paper backgrounds created by 5.7.26+ do not render in 5.7.21 because 5.7.21 predates that renderer. The older page cloning path spreads unknown page properties, so the structured background metadata is preserved, but old builds should not be used to judge/export this feature.
 - Permanent post-5.7.21 features to carry forward: Presentation thumbnail navigator; structured Pages graph-paper background; Highlighter/Eraser icon color cues; ZIP-DEFLATE editable backups. Temporary/support items: exact legacy graph-image purge; classroom diagnostic controls. Experimental: document-only Merge with backup.
+
+
+5.7.30 DIRECT FILES/PAGES ROUND-TRIP SCROLL PRESERVATION
+
+- Fixed the remaining ordinary View → Files/Pages → View scroll-to-top regression.
+- Root cause: 5.7.29 saved the current viewer position before hiding View, but Files rendering immediately ran a normal state save. The parent `viewerPane` was hidden while the child `viewer` itself was not marked hidden, so the later save read the hidden-layout scrollTop (typically 0) and overwrote the correct saved position.
+- The single-view state saver now reads DOM scroll only while `workspaceMode === 'view'` and both `viewerPane` and `viewer` are actually visible.
+- This is a narrow viewer-state fix. Pen/Highlighter, Pencil diagnostics, rendering, touch/pinch, graph-paper background, thumbnail navigation, and backup compression are unchanged from 5.7.29.
 
 5.7.28 LIGHTWEIGHT PENCIL-BATCH DIAGNOSTICS + COMPRESSED EDITABLE BACKUPS
 

@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.29';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.30';
 
-const APP_VERSION = '5.7.29';
+const APP_VERSION = '5.7.30';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -5300,6 +5300,13 @@ function currentDocument() {
   return state.documents.find(d => d.id === state.currentDocumentId) || null;
 }
 
+function singleViewerDomPositionIsReadable() {
+  return state.workspaceMode === 'view' &&
+    !!els.viewer && !!els.viewerPane &&
+    !els.viewer.classList.contains('hidden') &&
+    !els.viewerPane.classList.contains('hidden');
+}
+
 function saveCurrentDocumentState(options={}) {
   const { readViewDom = true, skipLibrarySchedule = false } = options;
   const doc = currentDocument();
@@ -5307,7 +5314,7 @@ function saveCurrentDocumentState(options={}) {
   // Before persisting a normal single-view document, make the page nearest the
   // viewport center authoritative. This is independent of IntersectionObserver
   // callback timing and is especially important in Page Snap mode.
-  if (readViewDom && !state.splitView && els.viewer && !els.viewer.classList.contains('hidden')) {
+  if (readViewDom && !state.splitView && singleViewerDomPositionIsReadable()) {
     syncSingleActivePageFromViewport({ updateUi: false });
   }
   doc.pages = state.pages;
@@ -5578,7 +5585,7 @@ function saveSingleViewFromState(doc=currentDocument(), readDom=false) {
   view.fitMode = state.fitMode;
   view.scrollMode = state.scrollMode;
   view.activePageId = state.activePageId || doc.pages?.[0]?.id || null;
-  if (readDom && els.viewer && !els.viewer.classList.contains('hidden')) {
+  if (readDom && singleViewerDomPositionIsReadable()) {
     view.scrollTop = els.viewer.scrollTop;
     view.scrollLeft = els.viewer.scrollLeft;
   }
@@ -12371,7 +12378,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. The Presentation page-thumbnail navigator and Pages graph-paper background are now permanent Workbench features to retain. Milestone 5.7.29 retains the permanent Presentation thumbnail navigator and structured Pages graph-paper background, plus ZIP-DEFLATE editable backups. It fixes the 5.7.28 diagnostic typo that prevented Pen and Highlighter move events from being processed, hardens the temporary Pencil batch diagnostics so diagnostic errors cannot interrupt drawing, and fixes direct View → Files/Pages → View navigation so the current scroll position is saved before the viewer is hidden. The temporary legacy graph-image purge and document-only Merge with backup remain support/experimental tools. Pen modeling, touch/pinch navigation, and annotation geometry are otherwise unchanged.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. The Presentation page-thumbnail navigator and Pages graph-paper background are now permanent Workbench features to retain. Milestone 5.7.30 retains the permanent Presentation thumbnail navigator and structured Pages graph-paper background, plus ZIP-DEFLATE editable backups and the 5.7.29 Pen/Highlighter diagnostic hardening. It fixes the remaining direct View → Files/Pages → View scroll regression: Files hid the viewer through its parent pane, but a later save still treated the child viewer element as readable and overwrote the saved position with the hidden container's zero scroll value. Viewer scroll is now read only while the View workspace and its parent pane are actually visible. The temporary legacy graph-image purge and document-only Merge with backup remain support/experimental tools. Pen modeling, diagnostics, touch/pinch navigation, and annotation geometry are otherwise unchanged.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

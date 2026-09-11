@@ -1,6 +1,14 @@
-# PDF Workbench — Milestone 5.7.29 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.7.30 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 **Official current release remains 5.7.21 until this branch is promoted.**
+
+## 5.7.30 direct Files/Pages round-trip scroll preservation
+
+- Fixed the remaining ordinary **View → Files/Pages → View** scroll-to-top regression.
+- 5.7.29 correctly saved the visible position before hiding View, but `renderExportPane()` immediately called the normal state saver after the parent `viewerPane` had been hidden. The child `viewer` element itself did not carry the `hidden` class, so the saver still read its hidden-layout `scrollTop` (typically 0) and overwrote the just-saved position.
+- Single-view DOM scroll is now considered readable only while the workspace is actually **View** and both the viewer and its parent viewer pane are visible. Hidden Files/Pages renders can no longer overwrite the stored viewer position.
+- Pen/Highlighter behavior and the 5.7.28/5.7.29 Pencil diagnostics are unchanged from 5.7.29.
+
 
 
 ## 5.7.29 Pen regression fix + direct Files scroll preservation
