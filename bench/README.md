@@ -1,6 +1,24 @@
-# PDF Workbench — Milestone 5.7.27 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.7.29 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 **Official current release remains 5.7.21 until this branch is promoted.**
+
+
+## 5.7.29 Pen regression fix + direct Files scroll preservation
+
+- Fixed a 5.7.28-only diagnostic instrumentation typo (`exactRecentRawRepeats`) that threw on every Pen/Highlighter move event. Eraser was unaffected because it uses a different gesture path. This is why Pen and Highlighter appeared selectable but would not draw.
+- Pencil-batch diagnostics are now **fail-safe**: if the temporary diagnostic collector itself encounters an error, the error is logged once and drawing continues. Diagnostic instrumentation must not be able to break the Pen path.
+- Fixed a separate, older **View → Files/Pages → View scroll-position** bug. The ordinary workspace buttons now save the current single-view or split-pane scroll state before hiding the viewer. The existing special Assets/Templates Files-round-trip restoration remains unchanged.
+- The permanent post-5.7.21 features remain permanent: Presentation thumbnail navigation, Pages graph-paper background, Highlighter/Eraser icon color distinction, and compressed editable backups. The exact-legacy-graph-image purge and diagnostics controls remain temporary; Merge with backup remains experimental.
+- A graph-paper background stored by 5.7.26+ is expected not to render in 5.7.21 because that older build predates the background renderer. The page metadata is preserved by the older clone/persistence path, but 5.7.21 should not be used to judge or export the new background feature.
+
+## 5.7.28 lightweight Pencil-batch diagnostics + compressed editable backups
+
+- Added lightweight **raw/coalesced Pencil batch diagnostics** to help determine whether Safari is replaying Apple Pencil sample batches or Workbench is storing redundant points.
+- Each Pen/Highlighter gesture now tracks bounded per-stroke counters: number of direct/coalesced batches, raw samples seen, accepted points, points rejected by the ordinary distance threshold, exact raw-sample repeats seen in a recent window, raw samples repeated from the immediately previous batch, exact whole-batch replays, and non-increasing raw timestamps.
+- The diagnostics are intentionally lightweight: no persistent writes occur during drawing, no extra DOM reads are introduced, and only a small bounded in-memory summary is retained. A finished stroke writes one summary record into the ordinary diagnostic log; if a diagnostic snapshot is saved mid-stroke, the active gesture summary is included in the runtime snapshot.
+- Editable **full Library backups** and **selected-document editable backups** now use ZIP **DEFLATE** compression (level 6) instead of STORE. The backup format is unchanged; restore/import/merge continue to work normally while the packages become substantially smaller.
+- Pen/Pencil behavior itself, Google Ink modeling, touch/pinch navigation, and annotation geometry are unchanged in this revision.
+
 
 ## 5.7.27 temporary legacy graph-background purge
 - Added a temporary **Pages → Purge old graph image** button. This is a migration convenience for older PowerPoint slide PDFs and is not intended as a permanent Workbench feature.

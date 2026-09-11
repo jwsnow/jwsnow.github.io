@@ -1,10 +1,28 @@
-PDF WORKBENCH — MILESTONE 5.7.27 DEVELOPMENT HANDOFF
+PDF WORKBENCH — MILESTONE 5.7.29 DEVELOPMENT HANDOFF
 ======================================================
 
 OFFICIAL RELEASE
 ----------------
 - 5.7.21 remains the official current release.
-- 5.7.27 is the current development/diagnostic branch.
+- 5.7.29 is the current development/diagnostic branch.
+
+
+
+5.7.29 PEN REGRESSION FIX + DIRECT FILES SCROLL PRESERVATION
+
+- Fixed a 5.7.28-only typo in the new Pencil-batch diagnostic collector. `recordInkGestureSampleBatch()` referenced `exactRecentRawRepeats` instead of the local `exactRecentRepeats`, causing a ReferenceError on every Pen/Highlighter move event. Eraser was unaffected because it uses a separate gesture path. Diagnostics from 2026-09-11 confirmed thousands of this exact ReferenceError and an active stroke stuck at one accepted point.
+- Hardened the temporary batch diagnostics so an instrumentation exception is caught/logged once and can never stop Pen/Highlighter drawing.
+- Fixed the older direct View -> Files/Pages -> View scroll reset: `showWorkspaceMode()` now saves the visible single-view scroll state before the viewer is hidden, or both pane scroll states in Split view. This is separate from the already-fixed Assets/Templates transient Files round-trip path.
+- Graph-paper backgrounds created by 5.7.26+ do not render in 5.7.21 because 5.7.21 predates that renderer. The older page cloning path spreads unknown page properties, so the structured background metadata is preserved, but old builds should not be used to judge/export this feature.
+- Permanent post-5.7.21 features to carry forward: Presentation thumbnail navigator; structured Pages graph-paper background; Highlighter/Eraser icon color cues; ZIP-DEFLATE editable backups. Temporary/support items: exact legacy graph-image purge; classroom diagnostic controls. Experimental: document-only Merge with backup.
+
+5.7.28 LIGHTWEIGHT PENCIL-BATCH DIAGNOSTICS + COMPRESSED EDITABLE BACKUPS
+
+- Added lightweight per-stroke raw/coalesced Pencil diagnostics so ordinary class use can reveal whether Safari is replaying batches or Workbench is simply oversampling.
+- Each stroke now records bounded counters for raw samples seen, accepted points, threshold rejections, exact recent raw-sample repeats, repeats from the immediately previous batch, exact whole-batch replays, and non-increasing raw timestamps. The active stroke summary is included in a saved runtime diagnostic snapshot; completed strokes also emit a summary in the normal diagnostic log.
+- The instrumentation is intentionally lightweight: no extra persistence during drawing, no additional geometry/DOM reads, and only small bounded arrays kept in memory.
+- Editable full-Library backups and selected-document editable backups now use ZIP DEFLATE compression (level 6) instead of STORE. The backup format is unchanged, so Restore / Import backup as folder / Merge continue to work normally while the files become much smaller.
+- Pen/Pencil behavior itself, touch/pinch navigation, and annotation geometry remain unchanged in this revision.
 
 5.7.27 TEMPORARY LEGACY POWERPOINT GRAPH-BACKGROUND PURGE
 ---------------------------------------------------------
