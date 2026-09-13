@@ -1,28 +1,3 @@
-PDF WORKBENCH — MILESTONE 5.7.35 DEVELOPMENT HANDOFF
-======================================================
-
-OFFICIAL RELEASE
-----------------
-- 5.7.21 remains the official current release.
-- 5.7.35 is the current development/diagnostic branch.
-
-5.7.35 LIBRARY BULK MANAGEMENT + GLOBAL BUTTON PRESS FEEDBACK
--------------------------------------------------------------
-- Adds one global CSS `button:not(:disabled):active` treatment so enabled buttons visibly darken/inset while finger, Apple Pencil, or mouse is physically down. This is visual acknowledgement only; no command timing or async behavior changes.
-- Local Library now has a compact selection row: Select all (documents in the currently viewed Library folder), Clear (the shared global document selection), Move selected to…, and Move selected to Trash. The move chooser reuses the existing Library folder hierarchy. Bulk document moves preserve selection and work for open or closed documents; bulk Trash closes any selected open documents and clears those IDs from the shared selection.
-- Adds Trash → Empty Trash…. It permanently removes everything already in Trash, including complete trashed folder trees and individually trashed documents. If any trashed document has unexported changes, the user can export all trashed PDFs as a ZIP before deletion, permanently empty without export, or cancel.
-- No List/Grid redesign was made; the existing remembered List/Grid Library view remains unchanged.
-- 5.7.34 all-pointer viewer-contact diagnostics, View diagnostic button, 5.7.33 pinch-release stabilization/Laser, render diagnostics, Pencil replay filter, annotation model, PDF output, backup format, DB/schema versions, and diagnostics bounds are unchanged.
-
-VALIDATION TARGETS
-------------------
-1. Confirm every enabled button gives an obvious pressed appearance on iPad Pencil/finger and desktop mouse without disturbing layout.
-2. In Local Library, select documents in one or multiple folders; Move selected to… should move all to the chosen folder and preserve their checked selection.
-3. Move selected to Trash should close selected open documents, remove them from the shared selection, and place them in Trash.
-4. Empty Trash with only exported documents should show a simple irreversible confirmation. With at least one changed document, verify Export PDFs ZIP & empty Trash / Empty Trash permanently / Cancel.
-5. Regression-check individual Rename/Duplicate/Move/Trash, folder subtree Trash/Restore/Delete, List/Grid, selected editable backup, and normal PDF export.
-
-
 PDF WORKBENCH — MILESTONE 5.7.34 DEVELOPMENT HANDOFF
 ======================================================
 

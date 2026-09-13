@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.35';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.34';
 
-const APP_VERSION = '5.7.35';
+const APP_VERSION = '5.7.34';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -24,7 +24,7 @@ const els = {
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), librarySelectionSummary: $('librarySelectionSummary'), librarySelectAllBtn: $('librarySelectAllBtn'), libraryClearSelectionBtn: $('libraryClearSelectionBtn'), libraryMoveSelectedBtn: $('libraryMoveSelectedBtn'), libraryTrashSelectedBtn: $('libraryTrashSelectedBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), emptyTrashBtn: $('emptyTrashBtn'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), librarySelectedEditableBackupBtn: $('librarySelectedEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), savedDiagnosticsSummary: $('savedDiagnosticsSummary'), exportSavedDiagnosticsBtn: $('exportSavedDiagnosticsBtn'), clearSavedDiagnosticsBtn: $('clearSavedDiagnosticsBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), librarySelectedEditableBackupBtn: $('librarySelectedEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), savedDiagnosticsSummary: $('savedDiagnosticsSummary'), exportSavedDiagnosticsBtn: $('exportSavedDiagnosticsBtn'), clearSavedDiagnosticsBtn: $('clearSavedDiagnosticsBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractOperationSummary: $('extractOperationSummary'), extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
@@ -1702,7 +1702,7 @@ async function exportWholeLibraryAsPdfs() {
     const JSZip = await loadZipEngine();
     const zip = new JSZip();
     const folderPaths = buildPortableFolderPaths(folders);
-    if (createFolderEntries) for (const path of folderPaths.values()) zip.folder(path); // keep empty folders in the archive
+    for (const path of folderPaths.values()) zip.folder(path); // keep empty folders in the archive
 
     let completed = 0;
     const total = records.length + templates.length;
@@ -7402,38 +7402,6 @@ function selectedFileDocuments() {
   return [...state.fileSelected].map(selectableDocumentById).filter(Boolean);
 }
 
-function updateLibraryBulkSelectionControls() {
-  const selected = selectedFileDocuments();
-  const folderRecords = libraryDocumentsInFolder(state.libraryFolderId);
-  const selectedHere = folderRecords.reduce((count, record) => count + (state.fileSelected.has(record.id) ? 1 : 0), 0);
-  if (els.librarySelectionSummary) {
-    els.librarySelectionSummary.textContent = selected.length
-      ? `${selected.length} selected total${folderRecords.length ? ` · ${selectedHere} of ${folderRecords.length} in this folder` : ''}`
-      : 'No documents selected.';
-  }
-  if (els.librarySelectAllBtn) els.librarySelectAllBtn.disabled = !folderRecords.length || selectedHere === folderRecords.length;
-  if (els.libraryClearSelectionBtn) els.libraryClearSelectionBtn.disabled = !selected.length;
-  if (els.libraryMoveSelectedBtn) els.libraryMoveSelectedBtn.disabled = !selected.length;
-  if (els.libraryTrashSelectedBtn) els.libraryTrashSelectedBtn.disabled = !selected.length;
-}
-
-function selectAllDocumentsInCurrentLibraryFolder() {
-  const records = libraryDocumentsInFolder(state.libraryFolderId);
-  if (!records.length) return;
-  state.fileSelectionInitialized = true;
-  for (const record of records) state.fileSelected.add(record.id);
-  reconcileCombineOrder();
-  renderExportPane();
-}
-
-function clearGlobalFileSelection() {
-  if (!state.fileSelected.size) return;
-  state.fileSelectionInitialized = true;
-  state.fileSelected.clear();
-  reconcileCombineOrder();
-  renderExportPane();
-}
-
 function reconcileCombineOrder() {
   const selectedIds = selectedFileDocuments().map(doc => doc.id);
   const selectedSet = new Set(selectedIds);
@@ -7676,44 +7644,7 @@ function openFolderMoveDialog(domain,kind,id) {
   els.folderMoveDialog.showModal();
 }
 function openLibraryMoveDialog(kind,id) { openFolderMoveDialog('library',kind,id); }
-function openLibrarySelectedMoveDialog() {
-  const documents = selectedFileDocuments();
-  if (!documents.length || !els.folderMoveDialog) return;
-  state.pendingFolderMove = { domain:'library', kind:'documents', ids:documents.map(doc => doc.id) };
-  const options = moveOptionsForDomain('library');
-  els.folderMoveDestination.replaceChildren(...options.map(entry => { const option=document.createElement('option'); option.value=entry.id; option.textContent=entry.label; return option; }));
-  const parents = new Set(documents.map(doc => doc.folderId || ''));
-  const preferred = parents.size === 1 ? [...parents][0] : (state.libraryFolderId || '');
-  if (options.some(entry => entry.id === preferred)) els.folderMoveDestination.value = preferred;
-  els.folderMoveTitle.textContent = `Move ${documents.length} selected document${documents.length === 1 ? '' : 's'}`;
-  els.folderMoveHelp.textContent = `Choose one destination for the ${documents.length} selected document${documents.length === 1 ? '' : 's'}.`;
-  els.folderMoveDialog.showModal();
-}
 async function applyLibraryMove(pending,destination) {
-  if (pending.kind === 'documents') {
-    const ids = [...new Set(pending.ids || [])].filter(id => selectableDocumentById(id));
-    if (!ids.length) throw new Error('The selected documents are no longer available.');
-    saveCurrentDocumentState();
-    await persistLibraryNow();
-    const now = Date.now();
-    const tx = state.libraryDb.transaction(['documents'], 'readwrite');
-    const done = idbTransactionDone(tx);
-    const store = tx.objectStore('documents');
-    let moved = 0;
-    for (const id of ids) {
-      const openDoc = documentById(id);
-      const record = openDoc ? serializeDocumentForLibrary(openDoc) : state.libraryRecords.get(id);
-      if (!record || record.trashedAt || (record.folderId || null) === destination) continue;
-      if (openDoc) { openDoc.folderId = destination; openDoc.modifiedAt = now; }
-      const updated = { ...record, folderId:destination, modifiedAt:now, schemaVersion:LIBRARY_SCHEMA_VERSION };
-      store.put(updated); state.libraryRecords.set(id, updated); moved++;
-    }
-    await done;
-    scheduleLibraryPersist(80);
-    renderLibraryDocumentList();
-    setStatus(moved ? `Moved ${moved} selected document${moved === 1 ? '' : 's'}` : 'Selected documents are already in that folder');
-    return;
-  }
   if (pending.kind==='folder') {
     const folder=libraryFolderById(pending.id); if (!folder) throw new Error('Folder is no longer available.');
     if ((folder.parentId||null)===destination) return;
@@ -7771,7 +7702,7 @@ async function openLibraryRecordInView(record) {
   }
 }
 
-async function exportPdfRecordsToZip(records, folders, filename, rootFolderId=null, { createFolderEntries=true }={}) {
+async function exportPdfRecordsToZip(records, folders, filename, rootFolderId=null) {
   const JSZip = await loadZipEngine();
   const zip = new JSZip();
   const relevantFolders = folders.filter(folder => folder && !folder.trashedAt);
@@ -7795,7 +7726,7 @@ async function exportPdfRecordsToZip(records, folders, filename, rootFolderId=nu
       const path = parentPath ? `${parentPath}/${own}` : own;
       folderPaths.set(id, path); return path;
     };
-    for (const folder of subset) { const path = build(folder.id); if (path && createFolderEntries) zip.folder(path); }
+    for (const folder of subset) { const path = build(folder.id); if (path) zip.folder(path); }
   } else {
     folderPaths = buildPortableFolderPaths(relevantFolders);
     for (const path of folderPaths.values()) zip.folder(path);
@@ -7967,7 +7898,6 @@ function renderLibraryDocumentList() {
     empty.textContent = state.libraryFolderId ? 'This folder is empty.' : 'The Library is empty. Open or create a document, or create a folder.';
     els.libraryDocumentList.append(empty);
   }
-  updateLibraryBulkSelectionControls();
   renderTrashDocumentList();
 }
 
@@ -7977,7 +7907,6 @@ function renderTrashDocumentList() {
   const records = trashedLibraryRecords().filter(record => !record.trashBatchId);
   els.trashDocumentList.replaceChildren();
   const total = folderRoots.length + records.length;
-  if (els.emptyTrashBtn) els.emptyTrashBtn.disabled = !total;
   if (els.trashSummary) els.trashSummary.textContent = total
     ? `${folderRoots.length ? `${folderRoots.length} folder${folderRoots.length===1?'':'s'}` : ''}${folderRoots.length && records.length ? ' · ' : ''}${records.length ? `${records.length} document${records.length===1?'':'s'}` : ''}`
     : 'Trash is empty';
@@ -8066,37 +7995,6 @@ async function moveLibraryDocumentToTrash(docId) {
   } catch (err) {
     console.error(err);
     setStatus(`Could not move document to Trash: ${err?.message || err}`);
-  }
-}
-
-async function moveSelectedLibraryDocumentsToTrash() {
-  const ids = selectedFileDocuments().map(doc => doc.id);
-  if (!ids.length) return;
-  try {
-    saveCurrentDocumentState();
-    await persistLibraryNow();
-    const records = ids.map(id => state.libraryRecords.get(id) || (documentById(id) ? serializeDocumentForLibrary(documentById(id)) : null)).filter(record => record && !record.trashedAt);
-    if (!records.length) throw new Error('The selected documents are no longer available.');
-    const stamp = Date.now();
-    const tx = state.libraryDb.transaction(['documents'], 'readwrite');
-    const done = idbTransactionDone(tx); const store = tx.objectStore('documents');
-    for (const record of records) {
-      const updated = { ...record, schemaVersion:LIBRARY_SCHEMA_VERSION, trashedAt:stamp, trashBatchId:null };
-      store.put(updated); state.libraryRecords.set(record.id, updated);
-    }
-    await done;
-    for (const record of records) {
-      if (isDocumentOpen(record.id)) removeDocument(record.id);
-      state.fileSelected.delete(record.id);
-    }
-    reconcileCombineOrder();
-    renderAll({ saveState:false });
-    await persistLibraryNow();
-    renderLibraryDocumentList();
-    setStatus(`Moved ${records.length} selected document${records.length === 1 ? '' : 's'} to Trash`);
-  } catch (err) {
-    console.error(err);
-    setStatus(`Could not move selected documents to Trash: ${err?.message || err}`);
   }
 }
 
@@ -8192,55 +8090,6 @@ async function permanentlyDeleteLibraryDocument(docId) {
   } catch (err) {
     console.error(err);
     setStatus(`Could not permanently delete document: ${err?.message || err}`);
-  }
-}
-
-function askEmptyTrashAction(changedCount) {
-  if (!changedCount) {
-    return Promise.resolve(window.confirm('Permanently delete everything currently in Trash? This cannot be undone.') ? 'delete' : 'cancel');
-  }
-  return new Promise(resolve => {
-    els.closeDocumentTitle.textContent = 'Empty Trash permanently?';
-    els.closeDocumentMessage.textContent = `${changedCount} document${changedCount === 1 ? '' : 's'} in Trash ${changedCount === 1 ? 'has' : 'have'} changes that have not been exported to PDF.`;
-    els.closeDocumentExportBtn.textContent = 'Export PDFs ZIP & empty Trash';
-    els.closeDocumentWithoutExportBtn.textContent = 'Empty Trash permanently';
-    const finish = action => { try { els.closeDocumentDialog.close(); } catch {} resolve(action); };
-    els.closeDocumentExportBtn.onclick = () => finish('export');
-    els.closeDocumentWithoutExportBtn.onclick = () => finish('delete');
-    els.closeDocumentCancelBtn.onclick = () => finish('cancel');
-    els.closeDocumentXBtn.onclick = () => finish('cancel');
-    els.closeDocumentDialog.oncancel = e => { e.preventDefault(); finish('cancel'); };
-    els.closeDocumentDialog.showModal();
-  });
-}
-
-async function emptyLibraryTrash() {
-  const records = [...state.libraryRecords.values()].filter(record => record?.trashedAt);
-  const folders = [...state.libraryFolders.values()].filter(folder => folder?.trashedAt);
-  if (!records.length && !folders.length) return;
-  const changedCount = records.filter(record => record.needsExport).length;
-  const action = await askEmptyTrashAction(changedCount);
-  if (action === 'cancel') return;
-  try {
-    if (action === 'export' && records.length) {
-      const cleanRecords = records.map(record => ({ ...record, trashedAt:null }));
-      const pathFolders = [...state.libraryFolders.values()].map(folder => ({ ...folder, trashedAt:null }));
-      await exportPdfRecordsToZip(cleanRecords, pathFolders, 'PDF-Workbench-Trash-before-delete.zip', null, { createFolderEntries:false });
-    }
-    const sourceIds = pagesReferencedSourceIds(records.flatMap(record => record.pages || []));
-    const tx = state.libraryDb.transaction(['documents','folders'], 'readwrite');
-    const done = idbTransactionDone(tx); const ds = tx.objectStore('documents'), fs = tx.objectStore('folders');
-    for (const record of records) { ds.delete(record.id); state.libraryRecords.delete(record.id); state.fileSelected.delete(record.id); }
-    for (const folder of folders) { fs.delete(folder.id); state.libraryFolders.delete(folder.id); }
-    await done;
-    reconcileCombineOrder();
-    await removeUnusedPersistentSources(sourceIds);
-    renderLibraryDocumentList();
-    updateLibraryStorageSummary();
-    setStatus(`Emptied Trash · permanently deleted ${records.length} document${records.length === 1 ? '' : 's'}${folders.length ? ` and ${folders.length} folder${folders.length === 1 ? '' : 's'}` : ''}`);
-  } catch (err) {
-    console.error(err);
-    setStatus(`Could not empty Trash: ${err?.message || err}`);
   }
 }
 
@@ -12824,7 +12673,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.7.35 keeps the 5.7.34 diagnostic branch intact and adds three narrowly scoped Files improvements: immediate global CSS pressed-state feedback for enabled buttons, bulk Move selected to… / Move selected to Trash actions for the shared Library document selection, and Empty Trash… with export-first protection when trashed documents have unexported changes.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.7.34 keeps the 5.7.33 pinch stabilization, Laser tool, Pencil replay guard, and lightweight renderer diagnostics unchanged, while adding boundary-only viewer contact diagnostics for every PointerEvent classification plus compact viewer TouchEvent type summaries. Ordinary View now has a one-tap Save diagnostics control so a Pen failure can be captured without entering Presentation. No extra pointer/touch move stream is retained.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -13752,11 +13601,6 @@ function bindEvents() {
   els.libraryImportZipBtn?.addEventListener('click', () => els.libraryZipImportInput?.click());
   els.libraryZipImportInput?.addEventListener('change', () => importPdfDirectoryZip(els.libraryZipImportInput.files?.[0]));
   els.libraryNewFolderBtn?.addEventListener('click', createLibraryFolder);
-  els.librarySelectAllBtn?.addEventListener('click', selectAllDocumentsInCurrentLibraryFolder);
-  els.libraryClearSelectionBtn?.addEventListener('click', clearGlobalFileSelection);
-  els.libraryMoveSelectedBtn?.addEventListener('click', openLibrarySelectedMoveDialog);
-  els.libraryTrashSelectedBtn?.addEventListener('click', moveSelectedLibraryDocumentsToTrash);
-  els.emptyTrashBtn?.addEventListener('click', emptyLibraryTrash);
   els.libraryListViewBtn?.addEventListener('click', () => setLibraryViewMode('list'));
   els.libraryGridViewBtn?.addEventListener('click', () => setLibraryViewMode('grid'));
   const cancelFolderMove=()=>{state.pendingFolderMove=null;try{els.folderMoveDialog?.close();}catch{}};

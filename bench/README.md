@@ -1,13 +1,6 @@
-# PDF Workbench — Milestone 5.7.35 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.7.34 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 **Official current release remains 5.7.21 until this branch is promoted.**
-
-## 5.7.35 Library bulk-management + button press feedback
-
-- Adds an immediate global CSS pressed-state treatment for enabled buttons so finger, Apple Pencil, and mouse taps visibly register while held down. No command behavior or async workflow is changed by this CSS.
-- Adds Local Library bulk controls tied to the existing shared document selection: **Select all** for the current Library folder, **Clear** for the global selection, **Move selected to…**, and **Move selected to Trash**. Bulk moves reuse the existing folder chooser and persistent Library records; selected folders themselves remain managed individually.
-- Adds **Empty Trash…**. Emptying permanently removes every document/folder already in Trash. If any trashed document has unexported changes, the existing safety pattern offers **Export PDFs ZIP & empty Trash**, **Empty Trash permanently**, or **Cancel**.
-- The 5.7.34 Pencil/contact diagnostics, render diagnostics, pinch stabilization, Laser tool, annotation behavior, PDF output, backup formats, and Library schema are unchanged.
 
 ## 5.7.34 lightweight all-classification viewer-contact diagnostics
 
