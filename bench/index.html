@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.7.34">
+  <link rel="stylesheet" href="styles.css?v=5.7.35">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -217,7 +217,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.7.34 · diagnostic input/render branch</div>
+          <div class="export-kicker">Milestone 5.7.35 · Library bulk-management polish</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -240,6 +240,15 @@
                     <button id="libraryListViewBtn" type="button">List</button>
                     <button id="libraryGridViewBtn" type="button">Grid</button>
                   </div>
+                </div>
+              </div>
+              <div class="library-export-selection-toolbar library-bulk-selection-toolbar" aria-label="Selected Library document actions">
+                <p id="librarySelectionSummary" class="small-note">No documents selected.</p>
+                <div class="library-export-selection-actions">
+                  <button id="librarySelectAllBtn" type="button">Select all</button>
+                  <button id="libraryClearSelectionBtn" type="button">Clear</button>
+                  <button id="libraryMoveSelectedBtn" type="button" disabled>Move selected to…</button>
+                  <button id="libraryTrashSelectedBtn" class="trash-action" type="button" disabled>Move selected to Trash</button>
                 </div>
               </div>
               <div id="libraryDocumentList" class="library-document-list" aria-label="Persistent local documents and folders"></div>
@@ -489,7 +498,10 @@
           <details class="file-tool-section file-tool-details" id="trashFilesSection">
             <summary><span>Trash</span><span id="trashSummary" class="operation-summary">No documents in Trash</span></summary>
             <div class="file-tool-body">
-              <p class="file-tool-summary">Documents moved to Trash are removed from the active workspace but remain recoverable until permanently deleted.</p>
+              <div class="library-toolbar-row">
+                <p class="file-tool-summary">Documents moved to Trash are removed from the active workspace but remain recoverable until permanently deleted.</p>
+                <button id="emptyTrashBtn" class="danger-output-button" type="button" disabled>Empty Trash…</button>
+              </div>
               <div id="trashDocumentList" class="library-document-list trash-document-list" aria-label="Documents in Trash"></div>
             </div>
           </details>
@@ -804,6 +816,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.7.34"></script>
+  <script type="module" src="app.js?v=5.7.35"></script>
 </body>
 </html>
