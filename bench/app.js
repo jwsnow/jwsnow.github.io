@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.35';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.36';
 
-const APP_VERSION = '5.7.35';
+const APP_VERSION = '5.7.36';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1702,7 +1702,7 @@ async function exportWholeLibraryAsPdfs() {
     const JSZip = await loadZipEngine();
     const zip = new JSZip();
     const folderPaths = buildPortableFolderPaths(folders);
-    if (createFolderEntries) for (const path of folderPaths.values()) zip.folder(path); // keep empty folders in the archive
+    for (const path of folderPaths.values()) zip.folder(path); // keep empty Library folders in the archive
 
     let completed = 0;
     const total = records.length + templates.length;
@@ -1820,7 +1820,7 @@ async function createEditableLibraryBackup() {
       meta: { session: session || serializeLibrarySession(), templates: templatesMeta || serializeTemplatesForLibrary() },
       preferences,
     };
-    zip.file('manifest.json', JSON.stringify(manifest, null, 2));
+    zip.file('manifest.json', JSON.stringify(manifest));
     zip.file('README.txt', [
       'PDF Workbench Editable Library Backup',
       '',
@@ -1930,7 +1930,7 @@ async function createSelectedEditableDocumentsBackup() {
       },
       preferences: {},
     };
-    zip.file('manifest.json', JSON.stringify(manifest, null, 2));
+    zip.file('manifest.json', JSON.stringify(manifest));
     zip.file('README.txt', [
       'PDF Workbench Selected Editable Documents',
       '',
@@ -8070,8 +8070,15 @@ async function moveLibraryDocumentToTrash(docId) {
 }
 
 async function moveSelectedLibraryDocumentsToTrash() {
-  const ids = selectedFileDocuments().map(doc => doc.id);
+  const selectedDocs = selectedFileDocuments();
+  const ids = selectedDocs.map(doc => doc.id);
   if (!ids.length) return;
+  const folderIds = new Set(selectedDocs.map(doc => doc.folderId || ''));
+  const spansFolders = folderIds.size > 1;
+  const prompt = spansFolders
+    ? `Move ${ids.length} selected documents from multiple folders to Trash? You can restore them from Trash.`
+    : `Move ${ids.length} selected document${ids.length === 1 ? '' : 's'} to Trash? You can restore ${ids.length === 1 ? 'it' : 'them'} from Trash.`;
+  if (!window.confirm(prompt)) return;
   try {
     saveCurrentDocumentState();
     await persistLibraryNow();
@@ -8911,6 +8918,118 @@ function diagnosticActiveRenderSnapshot(now=performance.now()) {
     startedAt: undefined,
   }));
 }
+function diagnosticElementDescriptor(element) {
+  if (!(element instanceof Element)) return null;
+  return {
+    tag: element.tagName?.toLowerCase?.() || null,
+    id: element.id || null,
+    classes: [...(element.classList || [])].slice(0, 6),
+    role: element.getAttribute?.('role') || null,
+  };
+}
+function diagnosticGestureSummary(kind, gesture) {
+  if (!gesture) return null;
+  let hasPointerCapture = null;
+  if (gesture.inputSource === 'pointer' && Number.isFinite(Number(gesture.pointerId))) {
+    try { hasPointerCapture = !!gesture.viewer?.hasPointerCapture?.(Number(gesture.pointerId)); } catch {}
+  }
+  return {
+    kind,
+    pointerId: gesture.pointerId ?? null,
+    inputSource: gesture.inputSource || null,
+    viewer: gesture.viewer?.id || gesture.viewer?.className || null,
+    pageId: gesture.pageId || gesture.page?.id || null,
+    mode: gesture.mode || null,
+    changed: gesture.changed ?? null,
+    points: gesture.stroke?.points?.length ?? gesture.points?.length ?? gesture.path?.length ?? null,
+    hasPointerCapture,
+  };
+}
+function diagnosticTransientInputSnapshot() {
+  return {
+    activeElement: diagnosticElementDescriptor(document.activeElement),
+    gestures: {
+      ink: diagnosticGestureSummary(state.inkGesture?.stroke?.tool || 'ink', state.inkGesture),
+      eraser: diagnosticGestureSummary('eraser', state.eraserGesture),
+      select: diagnosticGestureSummary('select', state.selectionGesture),
+      laser: diagnosticGestureSummary('laser', state.laserGesture),
+      regionCopy: diagnosticGestureSummary('region-copy', state.regionCopyGesture),
+      regionCopyArmed: !!state.regionCopyArmed,
+    },
+    annotationSelection: {
+      documentId: state.annotationSelection?.documentId || null,
+      pageId: state.annotationSelection?.pageId || null,
+      count: state.annotationSelection?.ids?.size || 0,
+    },
+    trackedContacts: {
+      stylusTouchContacts: [...state.stylusTouchContacts.entries()].slice(0, 12).map(([id, value]) => ({ id, mode:value?.mode || null, tool:value?.tool || null, viewer:value?.viewer?.id || value?.viewer?.className || null })),
+      inkDiagnosticPointers: [...state.inkDiagnosticPointers.keys()].slice(0, 12),
+      viewerDiagnosticPointers: [...state.viewerDiagnosticPointers.entries()].slice(0, 12).map(([id, value]) => ({ id, pointerType:value?.pointerType || null, viewerId:value?.viewerId || null })),
+      penContactPointers: [...state.penContactPointers.keys()].slice(0, 12),
+      penHoverPointers: [...state.penHoverPointers.keys()].slice(0, 12),
+      touchPointers: [...state.touchPointers.keys()].slice(0, 12),
+    },
+  };
+}
+function releaseKnownGesturePointerCapture(gesture) {
+  if (!gesture || gesture.inputSource !== 'pointer') return;
+  const pointerId = Number(gesture.pointerId);
+  if (!Number.isFinite(pointerId)) return;
+  try { if (gesture.viewer?.hasPointerCapture?.(pointerId)) gesture.viewer.releasePointerCapture(pointerId); } catch {}
+}
+function recoverTransientInputStateAfterDiagnosticSave() {
+  const had = diagnosticTransientInputSnapshot();
+  const ink = state.inkGesture;
+  const eraser = state.eraserGesture;
+  const selection = state.selectionGesture;
+  const laser = state.laserGesture;
+  const region = state.regionCopyGesture;
+
+  releaseKnownGesturePointerCapture(ink);
+  releaseKnownGesturePointerCapture(eraser);
+  releaseKnownGesturePointerCapture(selection);
+  releaseKnownGesturePointerCapture(laser);
+  releaseKnownGesturePointerCapture(region);
+
+  if (ink?.page && ink?.stroke?.id) {
+    ink.page.annotations = annotationsForPage(ink.page).filter(annotation => annotation.id !== ink.stroke.id);
+    clearLivePenOverlays(ink.page);
+    clearLiveHighlighterOverlays(ink.page);
+    redrawPageAnnotationOverlays(ink.page);
+  }
+  state.inkGesture = null;
+
+  if (eraser?.page) redrawPageAnnotationOverlays(eraser.page);
+  state.eraserGesture = null;
+  hideEraserCursor();
+
+  if (selection) {
+    if ((selection.mode === 'move' || selection.mode === 'resize') && selection.changed) {
+      if (!selection.previewOptimized && selection.before) restorePages(selection.before);
+      clearSelectionGestureLayers(selection.page);
+      const restoredPage = pageById(selection.pageId);
+      if (restoredPage) redrawPageAnnotationOverlays(restoredPage);
+    } else if (selection.page) {
+      redrawPageAnnotationSelectionOverlays(selection.page);
+    }
+  }
+  state.selectionGesture = null;
+
+  if (region?.page) redrawPageAnnotationSelectionOverlays(region.page);
+  state.regionCopyGesture = null;
+  state.regionCopyArmed = false;
+  hideLaserPointer();
+  state.laserGesture = null;
+  updateSelectionToolbar();
+
+  state.stylusTouchContacts.clear();
+  state.inkDiagnosticPointers.clear();
+  state.viewerDiagnosticPointers.clear();
+  state.penContactPointers.clear();
+  state.penHoverPointers.clear();
+
+  addInkDiagnostic('diagnostic-transient-input-recovery', null, { beforeRecovery:had });
+}
 function diagnosticRuntimeSnapshot() {
   const canvases = [...document.querySelectorAll('canvas')].filter(canvas => canvas.width > 0 && canvas.height > 0);
   let canvasPixels = 0;
@@ -8945,6 +9064,7 @@ function diagnosticRuntimeSnapshot() {
   return {
     visibilityState: document.visibilityState,
     documentHasFocus: document.hasFocus?.() ?? null,
+    transientInput: diagnosticTransientInputSnapshot(),
     workspaceMode: state.workspaceMode,
     presentation: document.body.classList.contains('presentation'),
     splitView: !!state.splitView,
@@ -9031,7 +9151,7 @@ function addInkDiagnostic(kind, event=null, extra={}) {
     pageId: location.pageId,
     viewer: location.viewer,
     tool: state.annotationTool,
-    activeGesture: state.inkGesture ? { kind:state.inkGesture.stroke?.tool || 'pen', pointerId: state.inkGesture.pointerId, inputSource: state.inkGesture.inputSource || 'pointer', pageId: state.inkGesture.pageId, points: state.inkGesture.stroke?.points?.length || 0 } : state.eraserGesture ? { kind:'eraser', pointerId:state.eraserGesture.pointerId, inputSource:state.eraserGesture.inputSource || 'pointer', pageId:state.eraserGesture.pageId, changed:!!state.eraserGesture.changed } : state.selectionGesture ? { kind:'select', pointerId:state.selectionGesture.pointerId, inputSource:state.selectionGesture.inputSource || 'pointer', pageId:state.selectionGesture.pageId, mode:state.selectionGesture.mode, changed:!!state.selectionGesture.changed } : null,
+    activeGesture: state.inkGesture ? { kind:state.inkGesture.stroke?.tool || 'pen', pointerId: state.inkGesture.pointerId, inputSource: state.inkGesture.inputSource || 'pointer', pageId: state.inkGesture.pageId, points: state.inkGesture.stroke?.points?.length || 0 } : state.eraserGesture ? { kind:'eraser', pointerId:state.eraserGesture.pointerId, inputSource:state.eraserGesture.inputSource || 'pointer', pageId:state.eraserGesture.pageId, changed:!!state.eraserGesture.changed } : state.selectionGesture ? { kind:'select', pointerId:state.selectionGesture.pointerId, inputSource:state.selectionGesture.inputSource || 'pointer', pageId:state.selectionGesture.pageId, mode:state.selectionGesture.mode, changed:!!state.selectionGesture.changed } : state.regionCopyGesture ? { kind:'region-copy', pointerId:state.regionCopyGesture.pointerId, inputSource:state.regionCopyGesture.inputSource || 'pointer', pageId:state.regionCopyGesture.pageId } : state.laserGesture ? { kind:'laser', pointerId:state.laserGesture.pointerId, inputSource:state.laserGesture.inputSource || 'pointer' } : null,
     ...extra,
   };
   state.inkDiagnostics.push(record);
@@ -9255,10 +9375,10 @@ async function buildInkDiagnosticsText() {
     userAgent: navigator.userAgent,
     platform: navigator.platform || null,
     standalone: isStandalonePwa(),
-    diagnosticVersion: 5,
+    diagnosticVersion: 6,
     runtime,
     storage,
-    note: 'Pointer-boundary, all-classification viewer contact boundaries, viewer touch-type summaries, event-loop-stall, bounded viewer-render history/anomalies, document switches, pinch geometry, and Pencil replay diagnostics. Viewer all-classification telemetry records down/up/cancel boundaries only; no extra move stream is retained. No document contents are included; document/file names and internal IDs may be included for correlation. JavaScript heap memory is recorded only on browsers that expose performance.memory. Canvas/source byte figures are estimates/proxies, not total iPad memory.',
+    note: 'Pointer-boundary, all-classification viewer contact boundaries, transient annotation/input state, viewer touch-type summaries, event-loop-stall, bounded viewer-render history/anomalies, document switches, pinch geometry, and Pencil replay diagnostics. Viewer all-classification telemetry records down/up/cancel boundaries only; no extra move stream is retained. Saving diagnostics captures transient state before a safe input-state cleanup intended to recover from a stuck gesture. No document contents are included; document/file names and internal IDs may be included for correlation. JavaScript heap memory is recorded only on browsers that expose performance.memory. Canvas/source byte figures are estimates/proxies, not total iPad memory.',
   };
   const lines = [JSON.stringify(header), ...state.inkDiagnostics.map(item => JSON.stringify(item))];
   return lines.join('\n') + '\n';
@@ -9317,6 +9437,7 @@ async function saveDiagnosticsToLocalLibrary() {
     for (const item of expired) if (item?.key) await libraryDelete('meta', item.key).catch(() => {});
     updateSavedDiagnosticsUi(updated);
     addInkDiagnostic('diagnostic-local-save-finish', null, { name, bytes:new Blob([text]).size });
+    recoverTransientInputStateAfterDiagnosticSave();
     setStatus(`Saved diagnostics locally (${snapshots.length} stored)`);
   } catch (err) {
     console.error('Could not save diagnostics locally', err);
@@ -12824,7 +12945,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.7.35 keeps the 5.7.34 diagnostic branch intact and adds three narrowly scoped Files improvements: immediate global CSS pressed-state feedback for enabled buttons, bulk Move selected to… / Move selected to Trash actions for the shared Library document selection, and Empty Trash… with export-first protection when trashed documents have unexported changes.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.7.36 is a focused stability/known-fix revision: it repairs whole-Library PDF ZIP export, compacts editable-backup manifests to reduce peak memory pressure, adds a cross-folder bulk-Trash confirmation, removes the Safari-sensitive CSS brightness filter while preserving pressed-button feedback, and expands diagnostics so the save button captures then safely clears transient annotation/input state.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

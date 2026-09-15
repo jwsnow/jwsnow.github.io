@@ -1,3 +1,233 @@
+PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-15 — MILESTONE 5.7.36-exp
+====================================================================
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.
+Continue from the packaged 5.7.36-exp build, not an older branch.
+
+CURRENT BASELINE
+----------------
+- Official release remains 5.7.21.
+- Current experimental/code baseline is 5.7.36-exp.
+- 5.7.36 is intentionally a focused stability/known-fix build after the 2026-09-15 iPad classroom diagnostics.
+
+2026-09-15 CLASSROOM RESULT / INTERPRETATION
+---------------------------------------------
+- Otherwise smooth iPad classes produced at least two ink/input freezes and one freeze during Select/copy/paste.
+- Ordinary toolbar button taps did not reliably revive the frozen interaction, while tapping Save diagnostics locally did.
+- Saved diagnostics did not show a >=700 ms event-loop gap, render backlog, or an obvious long JavaScript computation.
+- Because a similar freeze occurred during Select/copy/paste, do not treat the remaining issue as Pen-pipeline-specific.
+- Current leading interpretation is an iPadOS/WebKit input-delivery/compositing-state problem or a stale transient input state near the browser/app boundary. Do not broadly rewrite the Pen algorithm without new evidence.
+
+5.7.36 CHANGES
+--------------
+1. WHOLE-LIBRARY PDF ZIP REGRESSION FIX
+   - Removes the stray undefined `createFolderEntries` reference accidentally introduced into ordinary whole-Library PDF export in 5.7.35.
+   - Normal Library folder entries are emitted unconditionally in this path, preserving empty folders.
+
+2. EDITABLE-BACKUP MEMORY REDUCTION
+   - Editable backup manifests now use compact `JSON.stringify(manifest)` rather than pretty-printed JSON.
+   - Backup schema/format is unchanged. Restore/Import/Merge compatibility is unchanged.
+   - This applies to full and selected-document editable backup manifests for consistency.
+   - Re-test full editable backup on iPad and Surface. If iPad still reloads under pressure, investigate streaming/chunking next rather than changing the data model.
+
+3. GLOBAL-SELECTION SAFETY
+   - Existing total/current-folder selection count remains and is preserved.
+   - Existing Move selected to... dialog already states the total selected count and is preserved.
+   - Move selected to Trash now confirms before acting; when the selected documents span multiple folders the confirmation explicitly says so.
+   - Cross-folder selection remains intentional and useful; do not weaken it.
+
+4. SAFER PRESSED-BUTTON FEEDBACK
+   - Removes the 5.7.35 global CSS `filter: brightness(.80)` from `button:active`.
+   - Keeps visible pressed acknowledgement using an inset box shadow only.
+   - Reason: current Safari/WebKit 26.x evidence makes CSS filter/compositing changes during active interactions a plausible contributor to broader gesture/input disruption. This is an A/B stability test, not proof of causation.
+
+5. EXPANDED TRANSIENT INPUT DIAGNOSTICS + RECOVERY
+   - Diagnostic version increases to 6.
+   - Runtime snapshot now includes DOM focus, active Pen/Highlighter/Eraser/Select/Laser/region-copy state, region-copy armed state, annotation selection count, selected tracked stylus/pointer contact maps, and known pointer-capture state for active gestures.
+   - A locally saved diagnostic is fully built and stored BEFORE recovery is attempted.
+   - After successful local save, Workbench conservatively clears transient annotation/input bookkeeping and known captures. Incomplete live ink is discarded rather than committed; transient Eraser preview is restored; unfinished Select transforms are restored/cancelled as appropriate; region-copy and Laser transient state is cleared.
+   - The diagnostic button therefore remains the preferred recovery button during a freeze because it preserves the evidence first.
+
+UNCHANGED / DO NOT DISTURB WITHOUT EVIDENCE
+-------------------------------------------
+- 5.7.31 exact Pencil replay guard.
+- One completed stroke per Undo step; 50-step session-only history.
+- Google-modeled Pen geometry and live Pen O(current-stroke) release architecture.
+- 5.7.33 delayed pinch-anchor settling.
+- 5.7.32 lightweight render/anomaly diagnostics.
+- Presentation thumbnail navigation, Laser semantics, graph-paper background, Assets/Recent, Library organization, backup format/schema, PDF rebuilt-link policy.
+
+5.7.36 FIELD TEST PRIORITIES
+----------------------------
+1. iPad: normal classroom use. If input freezes, tap Save diagnostics locally once and continue; note whether the cleanup revives input.
+2. Verify button-down acknowledgement still feels obvious without the brightness filter.
+3. Full editable Library backup on iPad and Surface; compare whether iPad still reloads.
+4. Whole-Library PDF archive export, including a Library containing an empty folder.
+5. Cross-folder bulk selection: confirm count/current-folder cue, Move selected to..., and the new multi-folder Trash warning.
+6. Quick regressions: individual folder/document Move/Trash, Empty Trash, selected editable backup + Merge, Presentation, Pen/Highlighter/Eraser/Select, pinch/scroll.
+
+NEXT DECISION
+-------------
+- Do not add roadmap features until this stability build has ordinary classroom mileage.
+- External PDF.js/pdf-lib/JSZip vendoring remains deployment hardening to revisit after the input/backup stability checkpoint.
+- If 5.7.36 materially reduces or eliminates freezes, keep the safer button active-state CSS. If freezes remain, the new pre-recovery transient snapshot should give more direct evidence of stale app state versus missing WebKit delivery.
+
+
+================ PRIOR AUTHORITATIVE HANDOFF (2026-09-13) ================
+
+PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-13
+===================================================
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.
+The full 5.7.35 development handoff is preserved after this update.
+
+CURRENT BASELINE
+----------------
+- Official release remains 5.7.21.
+- Current experimental/code baseline is 5.7.35-exp.
+- Do NOT rebuild from an older branch. Continue from the existing 5.7.35-exp ZIP.
+- 5.7.35 added only: global button-down CSS feedback; document-only bulk Move selected to...; document-only Move selected to Trash; and Trash -> Empty Trash....
+- The user plans additional real-world classroom testing on Surface as well as iPad.
+- iPadOS is now normally used in full-screen-app mode. Workbench Split view replaced the user's prior need for iPad windowed multitasking.
+
+WHAT WAS VALIDATED AFTER 5.7.35 WAS PACKAGED
+---------------------------------------------
+1. Global button-down visual feedback works well.
+2. Bulk Move selected to... works in testing.
+3. Bulk Move selected to Trash works in testing.
+4. Global document selection across folders is useful and SHOULD BE PRESERVED. It allows selecting documents in several folders and moving them all to one destination in one operation.
+5. Selected-document editable backup plus Merge was tested across different devices and worked.
+6. Existing Grid/List Library view is fine; no change is needed there.
+7. Bulk operations remain DOCUMENT-ONLY. Folders retain their existing individual Move/Trash behavior. This simplification is intentional.
+8. Empty Trash may permanently remove everything already in Trash, including folder subtrees, subject to the existing export-first safety for unexported changes.
+
+GLOBAL SELECTION SAFETY — IMPORTANT FOLLOW-UP
+---------------------------------------------
+The global cross-folder selection is valuable, but the UI currently makes it possible to forget that off-screen documents remain selected. The user accidentally bulk-trashed a document in another folder during testing.
+
+Do NOT remove cross-folder selection. Instead, add modest safeguards in a later pass:
+- Always show a visible total selection count in Local Library, e.g. "7 selected".
+- Prefer also showing current-folder context when useful, e.g. "7 selected · 3 in this folder".
+- "Select all" should continue to select documents in the CURRENTLY VIEWED folder only.
+- "Clear" should continue to clear the entire shared/global selection.
+- Move selected to... should clearly display the total number of globally selected documents being moved.
+- Move selected to Trash should require a confirmation showing the total count and, when applicable, that the selection spans multiple folders.
+- Keep the safeguards lightweight; do not weaken the useful cross-folder workflow.
+
+HOMEWORK / TEST 1 INCIDENT — FORENSIC RESULT
+--------------------------------------------
+The user created Analysis/Homework with five files to test bulk delete. Later Homework appeared in Trash, and the user initially believed its five documents had moved into Analysis/Test 1.
+
+Record-level comparison of three editable backups showed:
+- The older 2026-09-11 09:59 backup was created by Workbench 5.7.30.
+- The 2026-09-13 13:20 backup was created by 5.7.35.
+- The 2026-09-13 13:31 backup was created by 5.7.34 after switching back.
+- The two 2026-09-13 backups have the same Library structure; switching back to 5.7.34 did not repair or further alter folder assignments.
+- The five Homework documents DID NOT move to Test 1. Their stored folderId still points to Homework.
+- Homework and those five documents share the same Trash timestamp and the same trashBatchId equal to the Homework folder ID.
+- That marker is written by the EXISTING folder-Trade/Trash subtree path, not by the new 5.7.35 document-only Move selected to Trash implementation (which does not assign that folder batch ID).
+- Test 1 already contained a different set of files before Homework existed.
+
+Conclusion: stored data shows the existing Homework-folder Trash operation ran and trashed the folder subtree. The backups do not prove whether the user tapped that folder Trash control accidentally or whether some UI event invoked the handler, but there is NO evidence of silent document reassignment/corruption into Test 1. Do not chase a folderId corruption theory unless it reproduces.
+
+FULL EDITABLE LIBRARY BACKUP — iPAD MEMORY/RELOAD ISSUE
+-------------------------------------------------------
+This problem predates 5.7.35.
+
+Observed behavior:
+- On iPad PWA, full editable Library backup sometimes hangs, the PWA is killed/reloaded, and on relaunch the footer shows the normal startup message "Restoring local Library...".
+- The user clarified that each failed attempt was a separate backup attempt followed by app reload/relaunch; this was NOT repeated tapping that started overlapping jobs.
+- The same full editable backup behavior reproduced on 5.7.34, so it is not caused by the 5.7.35 bulk-management changes.
+- On Surface, the same full editable backup completed on the first attempt, but with a noticeable delay.
+- Successful full backups restore/merge correctly, so the backup data model itself appears sound.
+
+Strong memory-pressure evidence from the successful current backup:
+- Final ZIP is only about 45.8 MB.
+- The uncompressed manifest.json is about 236.6 MB because backup code currently uses JSON.stringify(manifest, null, 2).
+- The actual source PDF/image payloads total only about 29.8 MB uncompressed.
+- A compact JSON.stringify(manifest) would be about 99.5 MB for the same data.
+- The older 5.7.30 backup already had a manifest around 216.3 MB, proving the scalability weakness predates 5.7.35.
+
+Likely mechanism:
+- During backup creation the PWA may simultaneously hold the live Library object graph, a 200+ MB JSON string, source ArrayBuffers, JSZip structures, and compression/output buffers.
+- Surface has enough memory headroom to finish, albeit slowly.
+- iPad/WebKit sometimes kills/reloads the PWA under that peak memory pressure.
+
+Recommended FIRST backup fix:
+- Change full editable backup manifest serialization from JSON.stringify(manifest, null, 2) to compact JSON.stringify(manifest).
+- This is low risk: JSON whitespace is semantically irrelevant to Restore/Import/Merge and requires no backup format/schema bump.
+- Re-test full backup on iPad and Surface before attempting more invasive streaming/chunked ZIP work.
+- If compact JSON is still insufficient, then investigate streaming/chunking and duplicate in-memory representations.
+
+DEFINITE 5.7.35 REGRESSION — WHOLE-LIBRARY PDF EXPORT
+------------------------------------------------------
+A coding error was found in 5.7.35 while adding Empty Trash export support:
+- An option/variable intended for the Empty Trash export path leaked into the ordinary whole-Library PDF export function as an undefined variable (`createFolderEntries`).
+- Ordinary whole-Library PDF export in 5.7.35 can therefore throw.
+- This is definitely a 5.7.35 bug and must be fixed in the next code revision.
+- Do not conflate it with the full editable-backup iPad reload issue; they are separate problems.
+
+BUTTON FEEDBACK
+---------------
+The user asked for better acknowledgement that a button was actually pressed. 5.7.35 added only the low-risk global CSS pressed/down state. It works well in testing.
+Do NOT add busy spinners, success toasts, or per-command async feedback unless later requested. The user explicitly chose only the CSS button-down feedback for this pass.
+
+CURRENT PEN / INPUT DIAGNOSTIC STATUS TO PRESERVE
+-------------------------------------------------
+- 5.7.31 exact replay guard is real and useful. Classroom diagnostics showed Safari can replay exact coalesced Pencil batches; the filter removes only exact immediately repeated batches before model/storage ingestion.
+- Undo remains one completed stroke per Undo step. snapshotPages() timing was small enough that Undo granularity should NOT be changed based on current evidence.
+- Earlier true Pen nonresponse episodes on 5.7.32 showed the last stroke ending normally, then attempted marks with no Pen-classified page events until Pencil later appeared on UI.
+- 5.7.34 viewer-level all-pointer/touch-start diagnostics were added to distinguish misclassification from no browser-delivered contact.
+- A later fast-writing "skip" on 5.7.34 looked like a very brief/light contact: every delivered stylus contact was accepted normally.
+- A stronger later dropped-strokes case showed a roughly 1.9-second gap where the expected marks were absent and NO pointerdown/touchstart/contact of any type reached Workbench. Surrounding Pencil contacts were normal pen/stylus and accepted.
+- Therefore at least some dropped-stroke incidents appear upstream of the Workbench Pen pipeline (Safari/iPadOS/hardware contact), not Workbench discarding valid Pencil input.
+- Do not broadly rewrite Pen code without new evidence.
+- A future very narrow diagnostic, only if needed, could record the anomalous case where a pen pointermove/rawupdate indicates tip-down pressure/buttons WITHOUT a preceding pointerdown. Do not add a general move log.
+
+RENDER / PINCH STATUS TO PRESERVE
+---------------------------------
+- Intermittent orphaned page "Rendering..." state remains a real issue. Diagnostics previously caught a connected page still marked loading while render queue/active render sets were idle. Keep the lightweight render diagnostics until root cause is confirmed/fixed.
+- A real post-pinch jump was captured on iPad: live pinch anchoring was correct at finger-up, then Safari applied a delayed layout/scroll correction. 5.7.33 added two-frame anchor settling after pinch release; keep it.
+- Laser tool from 5.7.33 is transient screen-only and should remain non-persistent/non-exported.
+- Presentation thumbnail navigation has tested well and should remain permanent.
+
+5.7.35 NEXT-REVISION PRIORITY ORDER
+-----------------------------------
+Recommended order when coding resumes:
+1. Start from 5.7.35-exp, not an older build.
+2. Fix the definite whole-Library PDF export `createFolderEntries` regression.
+3. Compact full editable-backup manifest JSON (remove pretty-print whitespace) and test iPad/Surface backup reliability and time.
+4. Add lightweight global-selection safety cues/confirmations, preserving cross-folder selection.
+5. Re-run quick regressions for bulk Move, bulk Trash, individual folder Move/Trash, Empty Trash, selected editable backup + Merge, whole-Library PDF export, and full editable backup.
+6. Continue ordinary classroom testing on Surface and iPad; do not disturb proven Pen/render/pinch instrumentation unless evidence requires it.
+
+IMPORTANT 5.7.35 TESTING INTERPRETATION
+---------------------------------------
+- The new bulk document Move/Trash mechanics themselves have tested successfully so far.
+- The accidental off-screen delete is a UI-safety problem caused by persistent global selection, not evidence that the bulk implementation moved/trashes the wrong IDs.
+- The Homework incident is consistent with the existing folder subtree Trash path, not the new bulk document Trash path.
+- The full editable-backup PWA reload is a preexisting scalability/memory problem, not a 5.7.35 bulk-management regression.
+- The whole-Library PDF export undefined-variable issue IS a genuine new 5.7.35 regression.
+
+FILES / BACKUPS USED IN THE 2026-09-13 FORENSIC CHECK
+------------------------------------------------------
+- PDF-Workbench-Library-2026-09-13_13-20.pwbbackup.zip — created by 5.7.35.
+- PDF-Workbench-Library-2026-09-13_13-31.pwbbackup.zip — created by 5.7.34.
+- PDF-Workbench-Library-2026-09-11_09-59.pwbbackup(1).zip — created by 5.7.30.
+
+NEW-CHAT INSTRUCTION
+--------------------
+When continuing in a new chat:
+- Read this authoritative continuation section first.
+- Use the existing 5.7.35-exp ZIP as the code baseline.
+- Treat the full historical handoff below as implementation history, not current status where it conflicts with this section.
+- Do not ask the user to reconstruct the Sept. 13 testing; the results are recorded above.
+
+
+====================================================================
+FULL 5.7.35 HANDOFF AS IT EXISTED BEFORE THE 2026-09-13 TESTING UPDATE
+====================================================================
+
 PDF WORKBENCH — MILESTONE 5.7.35 DEVELOPMENT HANDOFF
 ======================================================
 

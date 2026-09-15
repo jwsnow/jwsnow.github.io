@@ -1,3 +1,17 @@
+# PDF Workbench — Milestone 5.7.36 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+**Official current release remains 5.7.21 until this branch is promoted.**
+
+## 5.7.36 stability + diagnostic recovery
+
+- Fixes the 5.7.35 whole-Library PDF ZIP regression caused by an undefined `createFolderEntries` reference. Empty Library folders are again emitted normally.
+- Writes editable-backup manifests as compact JSON rather than pretty-printed JSON. The backup schema/format is unchanged; this substantially lowers temporary manifest-string size during large full-Library backups.
+- Preserves global cross-folder document selection, but **Move selected to Trash** now confirms the total count and explicitly warns when the selection spans multiple folders. Existing total/current-folder selection counts remain.
+- Retains pressed-button feedback using an inset shadow only and removes the global CSS `filter: brightness(...)` active-state effect, avoiding a Safari/WebKit-sensitive compositing change.
+- Diagnostic snapshots now include active Pen/Highlighter/Eraser/Select/Laser/region-copy gestures, DOM focus, annotation-selection counts, tracked stylus/pointer contact maps, and known pointer-capture state.
+- After a local diagnostic snapshot is successfully stored, Workbench performs a conservative transient-input cleanup: known captures are released, incomplete live ink is discarded, transient Eraser/Select/region-copy/Laser state is cleared/restored, and stylus diagnostic contact maps are reset. The snapshot is built **before** cleanup so the stuck state remains available for analysis.
+- Pen geometry/modeling, render scheduling, pinch stabilization, PDF annotation output, Library schema, and backup format are otherwise unchanged.
+
 # PDF Workbench — Milestone 5.7.35 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 **Official current release remains 5.7.21 until this branch is promoted.**
