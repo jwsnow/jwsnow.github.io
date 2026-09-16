@@ -1,3 +1,77 @@
+PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-16 — MILESTONE 5.7.37-exp
+====================================================================
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.
+Continue from the packaged 5.7.37-exp build, not an older branch.
+
+CURRENT BASELINE
+----------------
+- Official release remains 5.7.21.
+- Current experimental/code baseline is 5.7.37-exp.
+- 5.7.37 is deliberately a narrow iPad viewer-memory + Presentation document-selector stability revision built from 5.7.36-exp.
+
+2026-09-16 CLASSROOM DIAGNOSTIC RESULT
+--------------------------------------
+- A Pen nonresponse episode recovered after tapping a Pen color button; diagnostics were saved immediately afterward.
+- A second nonresponse episode occurred after Select and recovered after tapping a toolbar button; diagnostics were then saved.
+- In both episodes the preceding viewer gesture ended normally and known pointer capture was released. There was then a multi-second interval in which no attempted viewer pointer/touch contact reached Workbench before a toolbar Pencil event arrived.
+- No event-loop stall or render backlog accompanied those pre-restart freezes. Keep treating at least this class of nonresponse as upstream browser/iPadOS input delivery rather than a Pen/Select algorithm stall.
+- Removing the 5.7.35 CSS brightness filter in 5.7.36 did not eliminate the problem; do not pursue that as the root cause.
+- In Presentation Split, the document selector visibly accepted a different document but one pane did not change. Leaving Split and returning restored normal switching. Diagnostics showed selector interactions without a corresponding `presentation-document-change`, followed by a normal change after the layout round trip.
+- Switching to already-open 209-page `AnalysisText.pdf` caused the entire iPad PWA to restart. Saved snapshots from earlier in class survived; only the final unsaved in-memory ring immediately before termination was lost.
+- The pre-restart 09:31 snapshot showed Split already OFF but 25 page stages / 75 canvases still attached, with an estimated ~263 MB RGBA backing footprint while the displayed document had only 9 pages. Code review confirmed leaving Split hid/disconnected split viewers but did not explicitly collapse/detach their canvas backing stores.
+- The first post-restart snapshot (~10 seconds into the fresh runtime) showed AnalysisText active, 217 canvases, slow initial 6 MP page renders, an ~835 ms event-loop gap, and a ~1.3 s Library persist. This is consistent with WebKit memory pressure, though not proof of the exact termination mechanism.
+
+5.7.37 CHANGES
+--------------
+1. VIEWER CANVAS BACKING-STORE RELEASE
+   - Adds `releaseViewerDom(viewer, reason)`.
+   - Before an outgoing single viewer or split-pane viewer DOM is replaced, every canvas backing store is explicitly collapsed to 1×1, then the old DOM is detached.
+   - Entering Split releases the outgoing single-view canvases first.
+   - Leaving Split releases BOTH hidden split-pane viewer DOM/canvas stores instead of merely hiding them.
+   - Rebuilding a split pane for a document/zoom/layout change releases that pane's outgoing canvases first.
+   - Rebuilding the single viewer for a document/zoom/layout change does the same.
+   - A compact `viewer-dom-release` diagnostic records reason, canvas count, page-stage count, outgoing backing pixels, and an estimated RGBA MB footprint.
+
+2. LAZY PAGE CANVASES START AT 1×1
+   - Newly created single/split page canvases explicitly start at 1×1 rather than the HTML canvas default 300×150.
+   - This avoids roughly 180 KB of unused RGBA backing memory per unrendered canvas; on a 209-page document the default backing stores alone would otherwise be roughly 38 MB before visible pages render.
+   - Visible pages still resize to the same existing bounded raster targets when their render actually begins.
+
+3. PRESENTATION DOCUMENT SELECTOR HARDENING
+   - Presentation document switching now listens to BOTH native `input` and `change`.
+   - A blur-time reconciliation compares the select's visible value with the document actually assigned to the active pane/single viewer and repairs a mismatch if needed.
+   - Duplicate native events are harmless because the selected id is compared with the actual displayed document before switching.
+   - New diagnostics: `presentation-document-select-event` includes event source/value/context; `presentation-document-select-reconcile` records visible select value vs actual document and whether the repair path is needed.
+   - Keep the native selector for now. Replace it with a Workbench popover/list only if this hardening still fails in real iPad use.
+
+UNCHANGED / PRESERVE
+--------------------
+- 5.7.36 pre-recovery diagnostic snapshot + conservative transient-input cleanup.
+- Pen/Highlighter Google-modeled geometry, exact Pencil replay filtering, partial Eraser, Select semantics, one-stroke Undo granularity, and live Pen release architecture.
+- 5.7.33 pinch-release settling and current finger/stylus routing.
+- PDF render pixel caps and bounded render queue; this revision changes disposal/allocation timing, not raster fidelity.
+- Backup schema/format, compact 5.7.36 backup manifest, Library bulk-safety changes, PDF rebuilt-link policy, Assets/Recent, graph paper, Laser, Presentation thumbnails.
+
+5.7.37 FIELD TEST PRIORITIES
+----------------------------
+1. iPad classroom use: watch for any full PWA restart when switching to/from large already-open PDFs, especially after using Split.
+2. Repeat Single -> Split -> Single several times, then switch to a large document. A saved diagnostic should now show `viewer-dom-release` events and substantially lower hidden-viewer canvas retention.
+3. In Presentation Split, repeatedly change each pane's document from the single native document selector. If a visible selection again fails to switch the pane, save diagnostics immediately; the input/change/reconcile events should identify where delivery stopped.
+4. Continue using the diagnostic button after any Pen/Select nonresponse. Do not rewrite the Pen/Select pipeline unless a future snapshot shows Workbench receiving and rejecting the missing contact.
+5. Regression-check page zoom/pinch, Full Page/Continuous/Page Snap, same-document split, View <-> Presentation transitions, and document scroll-position preservation after the new release-before-rebuild path.
+6. Re-test full editable Library backup separately; 5.7.37 does not change the 5.7.36 compact-manifest backup path.
+
+NEXT DECISION
+-------------
+- If large-document restarts materially improve, keep explicit viewer canvas release as permanent iPad hardening.
+- If restarts continue, next memory work should inspect PDF.js/source-page caches and simultaneous active render/source buffers rather than weakening annotation history blindly.
+- If Presentation document switching still fails despite input/change/blur reconciliation, replace that native select with a controlled Workbench menu.
+- Persistent Pen/Select nonresponse remains a separate upstream-input investigation unless evidence connects it to memory pressure.
+
+
+================ PRIOR AUTHORITATIVE HANDOFF (2026-09-15) ================
+
 PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-15 — MILESTONE 5.7.36-exp
 ====================================================================
 

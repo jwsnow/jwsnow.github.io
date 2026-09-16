@@ -17,7 +17,7 @@
 html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: var(--bg); color: var(--text); }
 button, input { font: inherit; }
 button { -webkit-tap-highlight-color: transparent; }
-/* 5.7.36: pressed acknowledgement without CSS filter/compositing changes on iPad Safari. */
+/* 5.7.37: pressed acknowledgement without CSS filter/compositing changes on iPad Safari. */
 button:not(:disabled):active { box-shadow: inset 0 2px 4px rgb(0 0 0 / .32); }
 button:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 65%, white); outline-offset: 2px; }
 .hidden { display: none !important; }

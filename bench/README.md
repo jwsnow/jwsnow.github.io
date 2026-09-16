@@ -1,8 +1,18 @@
-# PDF Workbench — Milestone 5.7.36 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.7.37 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.7.37 iPad viewer-memory + Presentation selector hardening
+
+- Before a single viewer or split pane is rebuilt/replaced, all outgoing canvas backing stores are explicitly collapsed to 1×1 before their DOM is detached. This targets iPad/WebKit memory-pressure restarts when switching layouts or large documents.
+- Leaving Split now releases both hidden split-pane viewer DOM/canvas backing stores instead of merely hiding them. Entering Split likewise releases the outgoing single-view canvases first.
+- Lazy page canvases are initialized at 1×1 rather than the browser default 300×150, avoiding tens of megabytes of idle backing-store allocation in 200+ page documents before those pages render.
+- Viewer-DOM release diagnostics record stage count, canvas count, outgoing backing pixels, and an estimated RGBA footprint.
+- Presentation document switching now accepts native `input` and `change` events and performs a blur-time reconciliation. Diagnostic events identify the native source and whether a mismatch required repair.
+- Pen, Highlighter, Select, pinch behavior, PDF export geometry, 5.7.36 diagnostic recovery, and persistence/backup formats are unchanged.
+
 
 **Official current release remains 5.7.21 until this branch is promoted.**
 
-## 5.7.36 stability + diagnostic recovery
+## 5.7.37 stability + diagnostic recovery
 
 - Fixes the 5.7.35 whole-Library PDF ZIP regression caused by an undefined `createFolderEntries` reference. Empty Library folders are again emitted normally.
 - Writes editable-backup manifests as compact JSON rather than pretty-printed JSON. The backup schema/format is unchanged; this substantially lowers temporary manifest-string size during large full-Library backups.

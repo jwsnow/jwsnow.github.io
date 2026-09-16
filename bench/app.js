@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.36';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.37';
 
-const APP_VERSION = '5.7.36';
+const APP_VERSION = '5.7.37';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -11772,6 +11772,36 @@ function releaseViewerStage(stage) {
   ensurePageLoading(stage, 'Rendering…');
 }
 
+
+function releaseViewerDom(viewer, reason='viewer-rebuild') {
+  if (!viewer) return { canvasCount:0, backingPixels:0, stageCount:0 };
+  const canvases = [...viewer.querySelectorAll('canvas')];
+  const stages = viewer.querySelectorAll('.page-stage[data-page-id]').length;
+  let backingPixels = 0;
+  for (const canvas of canvases) {
+    backingPixels += Math.max(0, Number(canvas.width) || 0) * Math.max(0, Number(canvas.height) || 0);
+    // On iPad/WebKit, merely removing a canvas node does not guarantee prompt
+    // release of its CPU/GPU backing store. Collapse every outgoing bitmap
+    // before detaching the old viewer DOM so document/layout switches do not
+    // temporarily retain both the old and new page rasters.
+    try {
+      canvas.width = 1;
+      canvas.height = 1;
+    } catch {}
+  }
+  if (canvases.length || stages) {
+    addInkDiagnostic('viewer-dom-release', null, {
+      reason,
+      canvasCount:canvases.length,
+      stageCount:stages,
+      backingPixels,
+      estimatedRgbaMb:Math.round((backingPixels * 4 / 1048576) * 10) / 10,
+    });
+  }
+  viewer.replaceChildren();
+  return { canvasCount:canvases.length, backingPixels, stageCount:stages };
+}
+
 function canvasLooksBlank(canvas) {
   if (!canvas.width || !canvas.height) return true;
   try {
@@ -11805,7 +11835,7 @@ function renderSingleViewer() {
   const restoreLeft = Number.isFinite(savedView?.scrollLeft) ? savedView.scrollLeft : null;
   state.suppressSingleScrollSave = true;
   state.pageObserver?.disconnect();
-  els.viewer.replaceChildren();
+  releaseViewerDom(els.viewer, 'single-viewer-rebuild');
   els.viewer.className = `viewer ${state.scrollMode} fit-${state.fitMode}`;
   updateViewerLabels();
   if (!state.pages.length) { state.suppressSingleScrollSave = false; return; }
@@ -11850,6 +11880,10 @@ function renderSingleViewer() {
     stage.style.width = `${size.width}px`;
     stage.style.height = `${size.height}px`;
     const canvas = document.createElement('canvas');
+    // Avoid the browser's default 300x150 backing store for every lazy page.
+    // A 200+ page document otherwise consumes tens of MB before rendering.
+    canvas.width = 1;
+    canvas.height = 1;
     const loading = document.createElement('div');
     loading.className = 'page-loading';
     loading.textContent = 'Rendering…';
@@ -12071,7 +12105,7 @@ function renderSplitView() {
   // the bounded raster queue.
   state.renderGeneration++;
   state.pageObserver?.disconnect();
-  els.viewer.replaceChildren();
+  releaseViewerDom(els.viewer, 'enter-split-release-single');
   els.viewer.classList.add('hidden');
   els.singlePageNav.classList.add('hidden');
   els.splitViewer.classList.remove('hidden');
@@ -12090,7 +12124,7 @@ function renderSplitPane(paneId) {
   const restoreLeft = Number.isFinite(view?.scrollLeft) ? view.scrollLeft : null;
   pane.suppressScrollSave = true;
   pane.observer?.disconnect();
-  pe.viewer.replaceChildren();
+  releaseViewerDom(pe.viewer, `split-${paneId}-rebuild`);
   pe.viewer.className = `viewer split-pane-viewer ${view?.scrollMode || 'continuous'} fit-${view?.fitMode || 'width'}`;
   updateSplitPaneNav(paneId);
   if (!doc?.pages?.length || !view) { pane.suppressScrollSave = false; return; }
@@ -12131,6 +12165,10 @@ function renderSplitPane(paneId) {
     stage.style.width = `${size.width}px`;
     stage.style.height = `${size.height}px`;
     const canvas = document.createElement('canvas');
+    // Avoid the browser's default 300x150 backing store for every lazy page.
+    // A 200+ page document otherwise consumes tens of MB before rendering.
+    canvas.width = 1;
+    canvas.height = 1;
     const loading = document.createElement('div');
     loading.className = 'page-loading';
     loading.textContent = 'Rendering…';
@@ -12251,7 +12289,12 @@ function goPanePage(paneId, delta, allowAppend=false) {
 
 function renderViewer() {
   if (state.splitView) return renderSplitView();
-  for (const pane of Object.values(state.splitPanes)) { pane.generation++; pane.observer?.disconnect(); }
+  for (const [paneId, pane] of Object.entries(state.splitPanes)) {
+    pane.generation++;
+    pane.observer?.disconnect();
+    const pe = paneElements(paneId);
+    if (pe?.viewer) releaseViewerDom(pe.viewer, `leave-split-release-${paneId}`);
+  }
   els.splitViewer.classList.add('hidden');
   els.viewer.classList.remove('hidden');
   return renderSingleViewer();
@@ -12945,7 +12988,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.7.36 is a focused stability/known-fix revision: it repairs whole-Library PDF ZIP export, compacts editable-backup manifests to reduce peak memory pressure, adds a cross-folder bulk-Trash confirmation, removes the Safari-sensitive CSS brightness filter while preserving pressed-button feedback, and expands diagnostics so the save button captures then safely clears transient annotation/input state.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.7.37 is a focused iPad stability revision: viewer/layout/document switches explicitly collapse outgoing canvas backing stores before detaching them, lazy page canvases start at 1×1 instead of the browser default 300×150, and the Presentation document selector now accepts both input/change events with blur reconciliation diagnostics. Existing Pen/Select behavior and 5.7.36 input diagnostics remain unchanged.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -13818,22 +13861,56 @@ function bindEvents() {
   els.documentSelect.addEventListener('change', () => loadDocumentState(els.documentSelect.value));
   els.splitLeftDocumentSelect.addEventListener('change', () => setPaneDocument('left', els.splitLeftDocumentSelect.value));
   els.splitRightDocumentSelect.addEventListener('change', () => setPaneDocument('right', els.splitRightDocumentSelect.value));
-  els.presentationDocumentSelect.addEventListener('change', () => {
+  const applyPresentationDocumentSelection = (source='change') => {
     closePresentationPageDrawer();
     const beforeId = state.splitView ? splitPaneState(state.activePaneId)?.documentId : state.currentDocumentId;
     const afterId = els.presentationDocumentSelect.value;
-    addInkDiagnostic('presentation-document-change', null, {
+    addInkDiagnostic('presentation-document-select-event', null, {
+      source,
       fromDocumentId:beforeId || null,
       fromDocumentName:documentById(beforeId)?.name || null,
-      toDocumentId:afterId || null,
-      toDocumentName:documentById(afterId)?.name || null,
+      selectedDocumentId:afterId || null,
+      selectedDocumentName:documentById(afterId)?.name || null,
       splitView:!!state.splitView,
       activePaneId:state.activePaneId || null,
     });
-    if (state.splitView) setPaneDocument(state.activePaneId, afterId);
-    else loadDocumentState(afterId);
+    if (!afterId || !documentById(afterId)) { showPresentationControls(); return; }
+    if (afterId !== beforeId) {
+      addInkDiagnostic('presentation-document-change', null, {
+        source,
+        fromDocumentId:beforeId || null,
+        fromDocumentName:documentById(beforeId)?.name || null,
+        toDocumentId:afterId,
+        toDocumentName:documentById(afterId)?.name || null,
+        splitView:!!state.splitView,
+        activePaneId:state.activePaneId || null,
+      });
+      if (state.splitView) setPaneDocument(state.activePaneId, afterId);
+      else loadDocumentState(afterId);
+    }
     showPresentationControls();
-  });
+  };
+  const reconcilePresentationDocumentSelection = (source='blur') => {
+    const selectedId = els.presentationDocumentSelect.value;
+    const actualId = state.splitView ? splitPaneState(state.activePaneId)?.documentId : state.currentDocumentId;
+    addInkDiagnostic('presentation-document-select-reconcile', null, {
+      source,
+      selectedDocumentId:selectedId || null,
+      actualDocumentId:actualId || null,
+      splitView:!!state.splitView,
+      activePaneId:state.activePaneId || null,
+    });
+    if (selectedId && selectedId !== actualId && documentById(selectedId)) {
+      applyPresentationDocumentSelection(`${source}-repair`);
+    }
+  };
+  // iPad Safari's native <select> picker has occasionally updated the visible
+  // option without delivering the change event. Accept input as well, and
+  // reconcile once focus leaves the control. apply... is idempotent because it
+  // compares the selected id with the document actually shown in the pane.
+  els.presentationDocumentSelect.addEventListener('input', () => applyPresentationDocumentSelection('input'));
+  els.presentationDocumentSelect.addEventListener('change', () => applyPresentationDocumentSelection('change'));
+  els.presentationDocumentSelect.addEventListener('blur', () => reconcilePresentationDocumentSelection('blur'));
   els.viewModeBtn.addEventListener('click', () => showWorkspaceMode('view'));
   els.organizeModeBtn.addEventListener('click', () => showWorkspaceMode('organize'));
   els.exportModeBtn.addEventListener('click', () => showWorkspaceMode('export'));
