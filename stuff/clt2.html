@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sampling Distributions Lab</title>
+<style>
+  :root {
+    color-scheme: light;
+    --ink: #162033;
+    --muted: #64748b;
+    --line: #dbe3ee;
+    --panel: #ffffff;
+    --page: #f5f7fb;
+    --accent: #3157d5;
+    --accent-soft: #e9edff;
+    --sample: #df4b55;
+    --sample-soft: rgba(223, 75, 85, .18);
+    --population: #667085;
+    --population-soft: rgba(102, 112, 133, .19);
+    --target: #138a68;
+    --shadow: 0 12px 30px rgba(31, 41, 55, .08);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 15% 0%, rgba(49,87,213,.09), transparent 27rem),
+      var(--page);
+  }
+  button, input { font: inherit; }
+  button { cursor: pointer; }
+  .app { width: min(1180px, calc(100% - 28px)); margin: 26px auto 44px; }
+  .hero { display:flex; gap:24px; align-items:flex-end; justify-content:space-between; margin-bottom:18px; }
+  h1 { margin:0; font-size: clamp(1.85rem, 3vw, 2.7rem); letter-spacing:-.04em; line-height:1.02; }
+  .subtitle { margin:.55rem 0 0; color:var(--muted); max-width:760px; line-height:1.5; }
+  .mode-tabs {
+    display:inline-flex; padding:5px; background:#e9edf5; border-radius:14px; gap:4px; flex-wrap:wrap;
+  }
+  .mode-tabs button {
+    border:0; background:transparent; color:#4b5563; border-radius:10px; padding:9px 14px; font-weight:700;
+  }
+  .mode-tabs button.active { background:white; color:var(--ink); box-shadow:0 2px 8px rgba(20,30,50,.08); }
+  .grid { display:grid; grid-template-columns: minmax(0,1.05fr) minmax(330px,.95fr); gap:18px; align-items:start; }
+  .card { background:var(--panel); border:1px solid rgba(219,227,238,.95); border-radius:20px; box-shadow:var(--shadow); overflow:hidden; }
+  .card-header { padding:18px 20px 12px; display:flex; gap:14px; justify-content:space-between; align-items:flex-start; }
+  .card-title { font-weight:800; font-size:1.05rem; }
+  .card-subtitle { color:var(--muted); font-size:.9rem; margin-top:4px; line-height:1.4; }
+  .canvas-wrap { padding:0 16px 16px; }
+  canvas { width:100%; display:block; border-radius:14px; background:linear-gradient(#fff,#fbfcff); touch-action:none; }
+  #populationCanvas { height:300px; border:1px solid var(--line); cursor:crosshair; }
+  #samplingCanvas { height:390px; border:1px solid var(--line); }
+  .toolbar { padding:0 20px 18px; display:flex; flex-wrap:wrap; gap:8px; }
+  .ghost, .preset {
+    border:1px solid var(--line); background:white; color:#344054; border-radius:10px; padding:8px 11px; font-weight:650;
+  }
+  .ghost:hover, .preset:hover { background:#f8fafc; }
+  .control-card { padding:18px 20px 20px; }
+  .control-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  label { font-size:.84rem; color:#475467; font-weight:700; display:block; margin-bottom:6px; }
+  input[type="number"] { width:100%; border:1px solid #ccd5e2; border-radius:10px; padding:10px 11px; color:var(--ink); background:white; }
+  input[type="range"] { width:100%; accent-color:var(--accent); }
+  .run-row { display:flex; gap:9px; margin-top:16px; align-items:center; }
+  .primary { border:0; border-radius:11px; padding:11px 16px; background:var(--accent); color:white; font-weight:800; box-shadow:0 5px 14px rgba(49,87,213,.2); }
+  .primary:hover { filter:brightness(.97); }
+  .primary:disabled { opacity:.55; cursor:not-allowed; }
+  .secondary { border:1px solid var(--line); border-radius:11px; padding:10px 14px; background:white; color:#344054; font-weight:750; }
+  .checkbox { display:flex; align-items:center; gap:8px; margin-left:auto; color:#475467; font-size:.88rem; font-weight:650; }
+  .checkbox input { width:17px; height:17px; accent-color:var(--accent); }
+  .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:0 20px 20px; }
+  .stat { background:#f8fafc; border:1px solid #edf1f6; border-radius:13px; padding:12px; min-height:71px; }
+  .stat-label { color:var(--muted); font-size:.76rem; font-weight:700; text-transform:uppercase; letter-spacing:.045em; }
+  .stat-value { margin-top:5px; font-size:1.05rem; font-weight:800; font-variant-numeric: tabular-nums; }
+  .sampling-card { grid-column:1 / -1; }
+  .sampling-top { padding:18px 20px 8px; display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:12px; }
+  .legend { display:flex; gap:14px; color:#667085; font-size:.82rem; align-items:center; flex-wrap:wrap; }
+  .legend-item { display:inline-flex; align-items:center; gap:6px; }
+  .swatch { width:17px; height:9px; border-radius:3px; background:var(--sample); }
+  .swatch.population { background:rgba(102,112,133,.35); }
+  .swatch.target { width:2px; height:14px; border-radius:0; background:var(--target); }
+  .sampling-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; padding:0 20px 20px; }
+  .note { padding:0 20px 18px; color:var(--muted); font-size:.85rem; line-height:1.45; }
+  .proportion-panel { padding:4px 20px 20px; }
+  .p-row { display:grid; grid-template-columns:1fr 95px; gap:13px; align-items:center; }
+  .p-number { font-size:1.35rem !important; font-weight:800; text-align:center; }
+  .binary-preview { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; }
+  .binary-box { border:1px solid var(--line); border-radius:14px; padding:14px; background:#fbfcff; }
+  .binary-bar-area { height:125px; display:flex; align-items:flex-end; justify-content:center; }
+  .binary-bar { width:min(70px,55%); border-radius:9px 9px 3px 3px; background:rgba(102,112,133,.35); transition:height .15s; }
+  .binary-label { text-align:center; color:#475467; font-size:.86rem; margin-top:7px; font-weight:700; }
+  .hidden { display:none !important; }
+  .error { color:#b42318; font-size:.84rem; font-weight:650; min-height:1.2em; margin-top:10px; }
+  .tiny { color:var(--muted); font-size:.78rem; margin-top:7px; }
+  @media (max-width: 820px) {
+    .hero { align-items:flex-start; flex-direction:column; }
+    .grid { grid-template-columns:1fr; }
+    .sampling-card { grid-column:auto; }
+    .stats, .sampling-stats { grid-template-columns:repeat(2,1fr); }
+  }
+  @media (max-width: 520px) {
+    .app { width:min(100% - 16px,1180px); margin-top:12px; }
+    .control-grid { grid-template-columns:1fr; }
+    .sampling-stats, .stats { grid-template-columns:1fr 1fr; }
+    #populationCanvas { height:250px; }
+    #samplingCanvas { height:340px; }
+    .checkbox { width:100%; margin:4px 0 0; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hero">
+    <div>
+      <h1>Sampling Distributions Lab</h1>
+      <p class="subtitle">Draw a population, repeatedly sample from it, and watch the sampling distribution form. Compare sampling distributions for means, variances, standard deviations, proportions, and other statistics.</p>
+    </div>
+    <div class="mode-tabs" role="tablist" aria-label="Statistic">
+      <button class="active" data-mode="mean" role="tab">Mean</button>
+      <button data-mode="variance" role="tab">Variance</button>
+      <button data-mode="sd" role="tab">Std. Dev.</button>
+      <button data-mode="proportion" role="tab">Proportion</button>
+      <button data-mode="min" role="tab">Minimum</button>
+      <button data-mode="max" role="tab">Maximum</button>
+      <button data-mode="range" role="tab">Range</button>
+      <button data-mode="midrange" role="tab">Midrange</button>
+      <button data-mode="median" role="tab">Median</button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <section class="card" id="populationCard">
+      <div class="card-header">
+        <div>
+          <div class="card-title">1. Create a population</div>
+          <div class="card-subtitle">Drag across the graph to draw relative frequencies on a 0–100 scale.</div>
+        </div>
+      </div>
+      <div class="canvas-wrap"><canvas id="populationCanvas"></canvas></div>
+      <div class="toolbar">
+        <button class="preset" data-preset="clear">Clear</button>
+        <button class="preset" data-preset="uniform">Uniform</button>
+        <button class="preset" data-preset="bell">Bell-shaped</button>
+        <button class="preset" data-preset="right">Right-skewed</button>
+        <button class="preset" data-preset="twopeaked">Two-peaked</button>
+        <button class="preset" data-preset="rare">Rare extremes</button>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="stat-label">Population mean μ</div><div class="stat-value" id="popMean">—</div></div>
+        <div class="stat"><div class="stat-label">Population variance σ²</div><div class="stat-value" id="popVar">—</div></div>
+        <div class="stat"><div class="stat-label">Population SD σ</div><div class="stat-value" id="popSD">—</div></div>
+      </div>
+    </section>
+
+    <section class="card hidden" id="proportionCard">
+      <div class="card-header">
+        <div>
+          <div class="card-title">1. Specify the population proportion</div>
+          <div class="card-subtitle">Each observation is a success (1) with probability <em>p</em> and a failure (0) with probability 1 − <em>p</em>.</div>
+        </div>
+      </div>
+      <div class="proportion-panel">
+        <label for="pSlider">Population proportion p</label>
+        <div class="p-row">
+          <input id="pSlider" type="range" min="0.01" max="0.99" step="0.01" value="0.35">
+          <input id="pNumber" class="p-number" type="number" min="0.01" max="0.99" step="0.01" value="0.35">
+        </div>
+        <div class="binary-preview" aria-label="Bernoulli population distribution">
+          <div class="binary-box"><div class="binary-bar-area"><div class="binary-bar" id="failureBar"></div></div><div class="binary-label">0 (failure): <span id="qText"></span></div></div>
+          <div class="binary-box"><div class="binary-bar-area"><div class="binary-bar" id="successBar"></div></div><div class="binary-label">1 (success): <span id="pText"></span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">2. Sample repeatedly</div>
+          <div class="card-subtitle" id="controlSubtitle">Each sample produces one sample mean.</div>
+        </div>
+      </div>
+      <div class="control-card">
+        <div class="control-grid">
+          <div>
+            <label for="sampleSize">Sample size n</label>
+            <input id="sampleSize" type="number" min="1" max="1000" value="10" inputmode="numeric">
+          </div>
+          <div>
+            <label for="resamples">Number of samples</label>
+            <input id="resamples" type="number" min="1" max="20000" value="100" inputmode="numeric">
+          </div>
+        </div>
+        <div class="run-row">
+          <button class="primary" id="runButton">Generate samples</button>
+          <button class="secondary" id="resetButton">Clear results</button>
+          <label class="checkbox"><input id="animateToggle" type="checkbox" checked> Animate small runs</label>
+        </div>
+        <div class="tiny">Runs of 250 samples or fewer can fall into the graph one at a time.</div>
+        <div class="error" id="errorText"></div>
+      </div>
+    </section>
+
+    <section class="card sampling-card">
+      <div class="sampling-top">
+        <div>
+          <div class="card-title" id="samplingTitle">Sampling distribution of x̄</div>
+          <div class="card-subtitle" id="samplingSubtitle">The original population stays faintly visible behind the sampling distribution.</div>
+        </div>
+        <div class="legend">
+          <span class="legend-item" id="populationLegend"><span class="swatch population"></span>Population</span>
+          <span class="legend-item"><span class="swatch"></span>Simulated statistics</span>
+          <span class="legend-item"><span class="swatch target"></span>Population value</span>
+        </div>
+      </div>
+      <div class="canvas-wrap" id="samplingCanvasWrap"><canvas id="samplingCanvas"></canvas></div>
+      <div class="sampling-stats">
+        <div class="stat"><div class="stat-label" id="targetLabel">Population mean</div><div class="stat-value" id="targetValue">—</div></div>
+        <div class="stat"><div class="stat-label" id="simCenterLabel">Mean of simulated x̄</div><div class="stat-value" id="simMean">—</div></div>
+        <div class="stat" id="theorySdStat"><div class="stat-label" id="theorySdLabel">Theoretical SD</div><div class="stat-value" id="theorySD">—</div></div>
+        <div class="stat"><div class="stat-label">Simulated SD</div><div class="stat-value" id="simSD">—</div></div>
+      </div>
+      <div class="note" id="samplingNote">The reference line marks the corresponding population quantity.</div>
+    </section>
+  </div>
+</div>
+<script>
+(() => {
+  'use strict';
+
+  const BINS = 121;
+  const X_MIN = 0;
+  const X_MAX = 100;
+  const ANIMATION_LIMIT = 250;
+  const weights = new Float64Array(BINS);
+  const values = Float64Array.from({ length: BINS }, (_, i) => X_MIN + (X_MAX - X_MIN) * i / (BINS - 1));
+
+  let mode = 'mean';
+  let drawing = false;
+  let lastDraw = null;
+  let simulation = null;
+  let runToken = 0;
+
+  const $ = id => document.getElementById(id);
+  const popCanvas = $('populationCanvas');
+  const sampleCanvas = $('samplingCanvas');
+  const samplingCanvasWrap = $('samplingCanvasWrap');
+  const popCtx = popCanvas.getContext('2d');
+  const sampleCtx = sampleCanvas.getContext('2d');
+
+  const state = {
+    p: 0.35,
+    population: null,
+    results: [],
+    shownResults: [],
+    falling: [],
+    axisMin: 0,
+    axisMax: 100,
+    histEdges: [],
+    histCounts: [],
+    finalHistMax: 1,
+    completed: false
+  };
+
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function resizeCanvas(canvas, ctx) {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    const w = Math.max(1, Math.round(rect.width * dpr));
+    const h = Math.max(1, Math.round(rect.height * dpr));
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width = w; canvas.height = h;
+    }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { w: rect.width, h: rect.height };
+  }
+
+  function fmt(x, digits = 3) {
+    if (!Number.isFinite(x)) return '—';
+    const abs = Math.abs(x);
+    if (abs !== 0 && (abs >= 10000 || abs < 0.001)) return x.toExponential(2);
+    return x.toFixed(digits).replace(/\.000$/, '').replace(/(\.\d*?)0+$/, '$1');
+  }
+
+  function setPreset(name) {
+    for (let i = 0; i < BINS; i++) {
+      const t = i / (BINS - 1);
+      if (name === 'clear') weights[i] = 0;
+      else if (name === 'uniform') weights[i] = 0.58;
+      else if (name === 'bell') {
+        const z = (t - 0.5) / 0.16;
+        weights[i] = 0.88 * Math.exp(-0.5 * z * z);
+      } else if (name === 'right') {
+        weights[i] = Math.min(0.95, 1.02 * Math.exp(-4.2 * t) + 0.015);
+      } else if (name === 'twopeaked') {
+        const z1 = (t - 0.3) / 0.105;
+        const z2 = (t - 0.72) / 0.13;
+        weights[i] = Math.min(0.95, 0.72 * Math.exp(-0.5 * z1 * z1) + 0.9 * Math.exp(-0.5 * z2 * z2));
+      } else if (name === 'rare') {
+        // About 96% of the population is concentrated near 28 and about 4% near 88.
+        // This makes the downward bias of sample standard deviation easy to see for small n:
+        // many samples miss the rare extreme cluster entirely.
+        const zMain = (t - 0.28) / 0.07;
+        const zRare = (t - 0.88) / 0.018;
+        weights[i] = Math.min(0.95,
+          0.90 * Math.exp(-0.5 * zMain * zMain) +
+          0.16 * Math.exp(-0.5 * zRare * zRare));
+      }
+    }
+    updatePopulationStats();
+    clearResults();
+    drawPopulation();
+  }
+
+  function populationStats() {
+    let total = 0, mean = 0;
+    for (let i = 0; i < BINS; i++) { total += weights[i]; mean += weights[i] * values[i]; }
+    if (total <= 1e-12) return null;
+    mean /= total;
+    let variance = 0, mu4 = 0;
+    for (let i = 0; i < BINS; i++) {
+      const d = values[i] - mean;
+      variance += weights[i] * d * d;
+      mu4 += weights[i] * d * d * d * d;
+    }
+    variance /= total;
+    mu4 /= total;
+    const cdf = new Float64Array(BINS);
+    let acc = 0;
+    for (let i = 0; i < BINS; i++) { acc += weights[i] / total; cdf[i] = acc; }
+    cdf[BINS - 1] = 1;
+    let min = null, max = null;
+    for (let i = 0; i < BINS; i++) if (weights[i] > 1e-12) { min = values[i]; break; }
+    for (let i = BINS - 1; i >= 0; i--) if (weights[i] > 1e-12) { max = values[i]; break; }
+    let median = values[BINS - 1];
+    for (let i = 0; i < BINS; i++) if (cdf[i] >= 0.5) { median = values[i]; break; }
+    const range = max - min;
+    const midrange = (min + max) / 2;
+    return { total, mean, variance, sd: Math.sqrt(variance), mu4, cdf, min, max, range, midrange, median };
+  }
+
+  function updatePopulationStats() {
+    state.population = populationStats();
+    $('popMean').textContent = state.population ? fmt(state.population.mean) : '—';
+    $('popVar').textContent = state.population ? fmt(state.population.variance) : '—';
+    $('popSD').textContent = state.population ? fmt(state.population.sd) : '—';
+  }
+
+  function drawAxes(ctx, box, xMin, xMax, xlabel) {
+    const { left, top, width, height } = box;
+    const bottom = top + height;
+    ctx.save();
+    ctx.strokeStyle = '#cfd8e5'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(left, top); ctx.lineTo(left, bottom); ctx.lineTo(left + width, bottom); ctx.stroke();
+    ctx.fillStyle = '#667085'; ctx.font = '12px system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    const ticks = 5;
+    for (let i = 0; i <= ticks; i++) {
+      const t = i / ticks;
+      const x = left + width * t;
+      ctx.strokeStyle = '#e8edf4';
+      ctx.beginPath(); ctx.moveTo(x, top); ctx.lineTo(x, bottom); ctx.stroke();
+      ctx.fillStyle = '#667085';
+      ctx.fillText(axisFmt(xMin + (xMax - xMin) * t, xMax - xMin), x, bottom + 7);
+    }
+    ctx.font = '600 12px system-ui, sans-serif';
+    ctx.fillText(xlabel, left + width / 2, bottom + 28);
+    ctx.restore();
+  }
+
+  function axisFmt(x, range) {
+    if (range <= 1.1) return x.toFixed(2).replace(/0+$/, '').replace(/\.$/, '');
+    if (range <= 20) return x.toFixed(1).replace(/\.0$/, '');
+    if (Math.abs(x) >= 1000) return Math.round(x).toLocaleString();
+    return Math.round(x).toString();
+  }
+
+  function plotBox(w, h) { return { left: 52, top: 22, width: Math.max(20, w - 75), height: Math.max(30, h - 78) }; }
+
+  function drawPopulation() {
+    const { w, h } = resizeCanvas(popCanvas, popCtx);
+    popCtx.clearRect(0, 0, w, h);
+    const box = plotBox(w, h);
+    drawAxes(popCtx, box, X_MIN, X_MAX, 'Population value');
+    const bottom = box.top + box.height;
+    const dx = box.width / (BINS - 1);
+
+    popCtx.save();
+    popCtx.beginPath(); popCtx.rect(box.left, box.top, box.width, box.height); popCtx.clip();
+    popCtx.beginPath();
+    popCtx.moveTo(box.left, bottom);
+    for (let i = 0; i < BINS; i++) {
+      const x = box.left + i * dx;
+      const y = bottom - weights[i] * box.height * .92;
+      popCtx.lineTo(x, y);
+    }
+    popCtx.lineTo(box.left + box.width, bottom); popCtx.closePath();
+    popCtx.fillStyle = 'rgba(49,87,213,.22)'; popCtx.fill();
+    popCtx.strokeStyle = '#3157d5'; popCtx.lineWidth = 2; popCtx.stroke();
+    popCtx.restore();
+
+    if (!state.population) {
+      popCtx.fillStyle = '#667085'; popCtx.textAlign = 'center'; popCtx.font = '600 14px system-ui, sans-serif';
+      popCtx.fillText('Draw here or choose a preset', box.left + box.width / 2, box.top + box.height / 2);
+    }
+  }
+
+  function canvasPoint(e, canvas) {
+    const r = canvas.getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top, w: r.width, h: r.height };
+  }
+
+  function applyDrawPoint(pt) {
+    const box = plotBox(pt.w, pt.h);
+    const t = Math.max(0, Math.min(1, (pt.x - box.left) / box.width));
+    const idx = Math.round(t * (BINS - 1));
+    const val = Math.max(0, Math.min(1, (box.top + box.height - pt.y) / box.height / .92));
+    if (lastDraw) {
+      const a = lastDraw.idx, b = idx;
+      const lo = Math.min(a,b), hi = Math.max(a,b);
+      for (let j = lo; j <= hi; j++) {
+        const u = a === b ? 1 : (j - a) / (b - a);
+        weights[j] = Math.max(0, Math.min(1, lastDraw.val + u * (val - lastDraw.val)));
+      }
+    } else weights[idx] = val;
+    lastDraw = { idx, val };
+    updatePopulationStats();
+    drawPopulation();
+    clearResults(false);
+  }
+
+  popCanvas.addEventListener('pointerdown', e => {
+    if (mode === 'proportion') return;
+    drawing = true; lastDraw = null; popCanvas.setPointerCapture(e.pointerId); applyDrawPoint(canvasPoint(e,popCanvas));
+  });
+  popCanvas.addEventListener('pointermove', e => { if (drawing) applyDrawPoint(canvasPoint(e,popCanvas)); });
+  function stopDraw() { drawing = false; lastDraw = null; }
+  popCanvas.addEventListener('pointerup', stopDraw);
+  popCanvas.addEventListener('pointercancel', stopDraw);
+
+  function updateProportionUI() {
+    const p = state.p, q = 1 - p;
+    $('pSlider').value = p.toFixed(2); $('pNumber').value = p.toFixed(2);
+    $('pText').textContent = p.toFixed(2); $('qText').textContent = q.toFixed(2);
+    $('successBar').style.height = `${Math.max(3, p * 100)}%`;
+    $('failureBar').style.height = `${Math.max(3, q * 100)}%`;
+  }
+
+  function setP(raw) {
+    let p = Number(raw);
+    if (!Number.isFinite(p)) return;
+    state.p = Math.max(.01, Math.min(.99, p));
+    updateProportionUI(); clearResults();
+  }
+
+  $('pSlider').addEventListener('input', e => setP(e.target.value));
+  $('pNumber').addEventListener('change', e => setP(e.target.value));
+
+  function setMode(next) {
+    mode = next;
+    document.querySelectorAll('.mode-tabs button').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+    $('populationCard').classList.toggle('hidden', mode === 'proportion');
+    $('proportionCard').classList.toggle('hidden', mode !== 'proportion');
+    const needsTwo = mode === 'variance' || mode === 'sd';
+    if (needsTwo && Number($('sampleSize').value) < 2) $('sampleSize').value = 2;
+    $('sampleSize').min = needsTwo ? '2' : '1';
+
+    const texts = {
+      mean: ['Each sample produces one sample mean.', 'Sampling distribution of x̄', 'The original population stays faintly visible behind the sampling distribution.', 'Population mean', 'Mean of simulated x̄', 'The reference line marks the population mean μ. The theoretical sampling SD is σ/√n.'],
+      variance: ['Each sample produces one unbiased sample variance s².', 'Sampling distribution of s²', 'Variance is measured on a different scale, so the original population is not overlaid.', 'Population variance', 'Mean of simulated s²', 'The reference line marks the population variance σ². The sample variance uses denominator n − 1, so E(s²) = σ².'],
+      sd: ['Each sample produces one sample standard deviation s.', 'Sampling distribution of s', 'Standard deviation is a derived quantity, so the original population is not overlaid.', 'Population standard deviation', 'Mean of simulated s', 'The reference line marks the population standard deviation σ. Unlike s², the sample standard deviation s is generally biased downward as an estimator of σ.'],
+      proportion: ['Each sample produces one sample proportion p̂.', 'Sampling distribution of p̂', 'The Bernoulli population at 0 and 1 stays faintly visible behind the sampling distribution.', 'Population proportion', 'Mean of simulated p̂', 'The reference line marks the population proportion p. The theoretical sampling SD is √[p(1−p)/n].'],
+      min: ['Each sample produces one sample minimum.', 'Sampling distribution of the minimum', 'The population is not overlaid; the green line marks the population minimum.', 'Population minimum', 'Mean of simulated minima', 'Sample minima are typically above the population minimum. Their sampling distribution is often strongly skewed rather than bell-shaped.'],
+      max: ['Each sample produces one sample maximum.', 'Sampling distribution of the maximum', 'The population is not overlaid; the green line marks the population maximum.', 'Population maximum', 'Mean of simulated maxima', 'Sample maxima are typically below the population maximum. Their sampling distribution is often strongly skewed rather than bell-shaped.'],
+      range: ['Each sample produces one sample range.', 'Sampling distribution of the range', 'Range is a derived quantity, so the original population is not overlaid.', 'Population range', 'Mean of simulated ranges', 'Sample ranges are usually smaller than the population range for finite samples and need not have a bell-shaped sampling distribution.'],
+      midrange: ['Each sample produces one sample midrange: (minimum + maximum)/2.', 'Sampling distribution of the midrange', 'The population is not overlaid; the green line marks the population midrange.', 'Population midrange', 'Mean of simulated midranges', 'The midrange depends entirely on the two sample extremes, so its sampling distribution can behave very differently from that of the mean.'],
+      median: ['Each sample produces one sample median.', 'Sampling distribution of the median', 'The population is not overlaid; the green line marks the population median.', 'Population median', 'Mean of simulated medians', 'The sample median estimates the population median, but for small samples its sampling distribution can be discrete, skewed, or otherwise far from bell-shaped.']
+    }[mode];
+    $('controlSubtitle').textContent = texts[0];
+    $('samplingTitle').textContent = texts[1];
+    $('samplingSubtitle').textContent = texts[2];
+    $('targetLabel').textContent = texts[3];
+    $('simCenterLabel').textContent = texts[4];
+    $('samplingNote').textContent = texts[5];
+    const hasTheorySD = ['mean','variance','proportion'].includes(mode);
+    $('theorySdStat').classList.toggle('hidden', !hasTheorySD);
+    $('populationLegend').classList.toggle('hidden', !['mean','proportion'].includes(mode));
+    clearResults(); drawPopulation(); drawSampling();
+  }
+  document.querySelectorAll('.mode-tabs button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+  document.querySelectorAll('.preset').forEach(b => b.addEventListener('click', () => setPreset(b.dataset.preset)));
+
+  function drawFromPopulation(cdf) {
+    const r = Math.random();
+    let lo = 0, hi = cdf.length - 1;
+    while (lo < hi) { const mid = (lo + hi) >> 1; if (cdf[mid] >= r) hi = mid; else lo = mid + 1; }
+    return values[lo];
+  }
+
+  function sampleOrderStatisticFromCounts(counts, rank) {
+    let cumulative = 0;
+    for (let i = 0; i < counts.length; i++) {
+      cumulative += counts[i];
+      if (cumulative > rank) return values[i];
+    }
+    return values[values.length - 1];
+  }
+
+  function simulate(n, k) {
+    const out = new Float64Array(k);
+    if (mode === 'proportion') {
+      const p = state.p;
+      for (let r = 0; r < k; r++) {
+        let successes = 0;
+        for (let i = 0; i < n; i++) if (Math.random() < p) successes++;
+        out[r] = successes / n;
+      }
+      return Array.from(out);
+    }
+
+    const pop = state.population;
+    if (!pop) return [];
+    const orderMode = ['min','max','range','midrange','median'].includes(mode);
+    const counts = orderMode ? new Uint16Array(BINS) : null;
+
+    for (let r = 0; r < k; r++) {
+      let mean = 0, M2 = 0;
+      let sampleMin = Infinity, sampleMax = -Infinity;
+      if (counts) counts.fill(0);
+
+      for (let i = 1; i <= n; i++) {
+        const x = drawFromPopulation(pop.cdf);
+        if (orderMode) {
+          const idx = Math.max(0, Math.min(BINS - 1, Math.round((x - X_MIN) / (X_MAX - X_MIN) * (BINS - 1))));
+          counts[idx]++;
+          if (x < sampleMin) sampleMin = x;
+          if (x > sampleMax) sampleMax = x;
+        } else {
+          const d = x - mean;
+          mean += d / i;
+          M2 += d * (x - mean);
+        }
+      }
+
+      if (mode === 'mean') out[r] = mean;
+      else if (mode === 'variance') out[r] = M2 / (n - 1);
+      else if (mode === 'sd') out[r] = Math.sqrt(M2 / (n - 1));
+      else if (mode === 'min') out[r] = sampleMin;
+      else if (mode === 'max') out[r] = sampleMax;
+      else if (mode === 'range') out[r] = sampleMax - sampleMin;
+      else if (mode === 'midrange') out[r] = (sampleMin + sampleMax) / 2;
+      else if (mode === 'median') {
+        if (n % 2 === 1) out[r] = sampleOrderStatisticFromCounts(counts, (n - 1) / 2);
+        else {
+          const a = sampleOrderStatisticFromCounts(counts, n / 2 - 1);
+          const b = sampleOrderStatisticFromCounts(counts, n / 2);
+          out[r] = (a + b) / 2;
+        }
+      }
+    }
+    return Array.from(out);
+  }
+
+  function resultTheory(n) {
+    if (mode === 'proportion') {
+      const p = state.p;
+      return { target: p, sd: Math.sqrt(p * (1-p) / n) };
+    }
+    const pop = state.population;
+    if (mode === 'mean') return { target: pop.mean, sd: pop.sd / Math.sqrt(n) };
+    if (mode === 'variance') {
+      const sigma2 = pop.variance;
+      const varianceOfS2 = (pop.mu4 - ((n - 3) / (n - 1)) * sigma2 * sigma2) / n;
+      return { target: sigma2, sd: Math.sqrt(Math.max(0, varianceOfS2)) };
+    }
+    if (mode === 'sd') return { target: pop.sd, sd: null };
+    const targets = {
+      min: pop.min,
+      max: pop.max,
+      range: pop.range,
+      midrange: pop.midrange,
+      median: pop.median
+    };
+    return { target: targets[mode], sd: null };
+  }
+
+  function summary(arr) {
+    if (!arr.length) return null;
+    let mean = 0, M2 = 0;
+    for (let i = 1; i <= arr.length; i++) { const d = arr[i-1] - mean; mean += d/i; M2 += d*(arr[i-1]-mean); }
+    return { mean, sd: arr.length > 1 ? Math.sqrt(M2/(arr.length-1)) : 0 };
+  }
+
+  function configureHistogram(results, target) {
+    let min, max;
+    if (mode === 'proportion') { min = 0; max = 1; }
+    else if (mode === 'variance' || mode === 'sd') {
+      min = 0;
+      const observedMax = Math.max(target, ...results, 0);
+      max = observedMax <= 0 ? 1 : observedMax * 1.08;
+      if (max < target * 1.25) max = target * 1.25;
+    } else {
+      // Mean, minimum, maximum, range, midrange, and median all stay
+      // on the original 0–100 measurement scale.
+      min = 0; max = 100;
+    }
+    state.axisMin = min; state.axisMax = max;
+    let binCount;
+    if (mode === 'proportion') {
+      const n = Math.max(1, Math.floor(Number($('sampleSize').value)));
+      binCount = n + 1;
+    } else binCount = 42;
+    state.histCounts = new Array(binCount).fill(0);
+    state.histEdges = Array.from({ length: binCount + 1 }, (_, i) => min + (max-min)*i/binCount);
+    const finalCounts = new Array(binCount).fill(0);
+    results.forEach(v => finalCounts[binIndex(v, binCount)]++);
+    state.finalHistMax = Math.max(1, ...finalCounts);
+  }
+
+  function binIndex(v, count = state.histCounts.length) {
+    if (mode === 'proportion') {
+      const n = Math.max(1, Math.floor(Number($('sampleSize').value)));
+      return Math.max(0, Math.min(n, Math.round(v * n)));
+    }
+    const t = (v - state.axisMin) / (state.axisMax - state.axisMin || 1);
+    return Math.max(0, Math.min(count - 1, Math.floor(t * count)));
+  }
+
+  function drawPopulationOverlay(ctx, box) {
+    if (!['mean','proportion'].includes(mode)) return;
+    const bottom = box.top + box.height;
+    ctx.save(); ctx.beginPath(); ctx.rect(box.left,box.top,box.width,box.height); ctx.clip();
+    if (mode === 'mean' && state.population) {
+      const maxWeight = Math.max(...weights, 1e-9);
+      ctx.beginPath(); ctx.moveTo(box.left,bottom);
+      for (let i=0;i<BINS;i++) {
+        const x = box.left + (values[i]-state.axisMin)/(state.axisMax-state.axisMin)*box.width;
+        const y = bottom - (weights[i]/maxWeight) * box.height * .32;
+        ctx.lineTo(x,y);
+      }
+      ctx.lineTo(box.left+box.width,bottom); ctx.closePath();
+      ctx.fillStyle = 'rgba(102,112,133,.16)'; ctx.fill();
+      ctx.strokeStyle = 'rgba(102,112,133,.45)'; ctx.lineWidth = 1.5; ctx.stroke();
+    } else if (mode === 'proportion') {
+      const p = state.p, q = 1-p;
+      const barW = Math.max(8, box.width*.025);
+      ctx.fillStyle = 'rgba(102,112,133,.20)';
+      ctx.fillRect(box.left, bottom - q*box.height*.32, barW, q*box.height*.32);
+      ctx.fillRect(box.left+box.width-barW, bottom - p*box.height*.32, barW, p*box.height*.32);
+    }
+    ctx.restore();
+  }
+
+
+  function syncSamplingCanvasWidth() {
+    if (mode === 'mean') {
+      const popWidth = popCanvas.getBoundingClientRect().width;
+      if (popWidth > 0) {
+        sampleCanvas.style.width = `${Math.round(popWidth)}px`;
+        sampleCanvas.style.maxWidth = '100%';
+        sampleCanvas.style.marginInline = 'auto';
+      }
+    } else {
+      sampleCanvas.style.width = '100%';
+      sampleCanvas.style.maxWidth = '';
+      sampleCanvas.style.marginInline = '';
+    }
+  }
+
+  function drawSampling() {
+    syncSamplingCanvasWidth();
+    const { w, h } = resizeCanvas(sampleCanvas, sampleCtx);
+    sampleCtx.clearRect(0,0,w,h);
+    const box = plotBox(w,h);
+    const xLabels = {
+      mean: 'Sample mean x̄',
+      variance: 'Sample variance s²',
+      sd: 'Sample standard deviation s',
+      proportion: 'Sample proportion p̂',
+      min: 'Sample minimum',
+      max: 'Sample maximum',
+      range: 'Sample range',
+      midrange: 'Sample midrange',
+      median: 'Sample median'
+    };
+    const xLabel = xLabels[mode];
+    drawAxes(sampleCtx, box, state.axisMin, state.axisMax, xLabel);
+    drawPopulationOverlay(sampleCtx, box);
+    const bottom = box.top + box.height;
+
+    if (!state.results.length && !state.falling.length) {
+      sampleCtx.fillStyle = '#98a2b3'; sampleCtx.font = '600 15px system-ui, sans-serif'; sampleCtx.textAlign='center';
+      sampleCtx.fillText('Generate samples to build the sampling distribution', box.left+box.width/2, box.top+box.height*.48);
+      return;
+    }
+
+    const counts = state.histCounts;
+    const barWidth = box.width / counts.length;
+    const maxCount = state.finalHistMax || 1;
+    const smallAnimated = state.results.length <= ANIMATION_LIMIT && $('animateToggle').checked;
+    const proportionN = mode === 'proportion' ? Math.max(1, Math.floor(Number($('sampleSize').value))) : null;
+    const supportSpacing = mode === 'proportion' ? box.width / proportionN : barWidth;
+    const proportionBarWidth = mode === 'proportion'
+      ? Math.max(1, Math.min(30, supportSpacing * 0.64))
+      : barWidth;
+    const dotBaseWidth = mode === 'proportion' ? supportSpacing : barWidth;
+
+    sampleCtx.save(); sampleCtx.beginPath(); sampleCtx.rect(box.left,box.top,box.width,box.height); sampleCtx.clip();
+    if (smallAnimated) {
+      const dotR = Math.max(2.8, Math.min(6, dotBaseWidth*.34));
+      const unit = Math.min(dotR*2.1, box.height*.82/maxCount);
+      sampleCtx.fillStyle = css('--sample');
+      for (let b=0;b<counts.length;b++) {
+        const x = mode === 'proportion'
+          ? box.left + (b / proportionN) * box.width
+          : box.left + (b+.5)*barWidth;
+        for (let j=0;j<counts[b];j++) {
+          const y = bottom - dotR - j*unit;
+          sampleCtx.beginPath(); sampleCtx.arc(x,y,dotR,0,Math.PI*2); sampleCtx.fill();
+        }
+      }
+    } else {
+      sampleCtx.fillStyle = css('--sample-soft'); sampleCtx.strokeStyle = css('--sample'); sampleCtx.lineWidth=1;
+      for (let b=0;b<counts.length;b++) {
+        const bh = counts[b]/maxCount * box.height*.84;
+        if (mode === 'proportion') {
+          const center = box.left + (b / proportionN) * box.width;
+          const width = proportionBarWidth;
+          const x = center - width / 2;
+          sampleCtx.fillRect(x,bottom-bh,width,bh);
+          if (counts[b]) sampleCtx.strokeRect(x,bottom-bh,width,bh);
+        } else {
+          const x = box.left+b*barWidth+1;
+          sampleCtx.fillRect(x,bottom-bh,Math.max(1,barWidth-2),bh);
+          if (counts[b]) sampleCtx.strokeRect(x,bottom-bh,Math.max(1,barWidth-2),bh);
+        }
+      }
+    }
+
+    const target = simulation?.theory?.target;
+    if (Number.isFinite(target)) {
+      const x = box.left + (target-state.axisMin)/(state.axisMax-state.axisMin||1)*box.width;
+      sampleCtx.strokeStyle = css('--target'); sampleCtx.lineWidth=2; sampleCtx.setLineDash([6,5]);
+      sampleCtx.beginPath(); sampleCtx.moveTo(x,box.top); sampleCtx.lineTo(x,bottom); sampleCtx.stroke(); sampleCtx.setLineDash([]);
+    }
+
+    sampleCtx.fillStyle = css('--sample');
+    for (const dot of state.falling) {
+      const x = box.left + (dot.value-state.axisMin)/(state.axisMax-state.axisMin||1)*box.width;
+      const dotR = Math.max(2.8, Math.min(6, dotBaseWidth*.34));
+      const unit = Math.min(dotR*2.1, box.height*.82/maxCount);
+      const targetY = bottom - dotR - dot.slot*unit;
+      const y = box.top + (targetY-box.top)*dot.progress;
+      sampleCtx.beginPath(); sampleCtx.arc(x,y,dotR,0,Math.PI*2); sampleCtx.fill();
+    }
+    sampleCtx.restore();
+  }
+
+  function updateResultStats() {
+    if (!simulation) {
+      $('targetValue').textContent='—'; $('simMean').textContent='—'; $('theorySD').textContent='—'; $('simSD').textContent='—'; return;
+    }
+    const s = summary(state.shownResults);
+    $('targetValue').textContent = fmt(simulation.theory.target);
+    $('theorySD').textContent = Number.isFinite(simulation.theory.sd) ? fmt(simulation.theory.sd) : '—';
+    $('simMean').textContent = s ? fmt(s.mean) : '—';
+    $('simSD').textContent = s ? fmt(s.sd) : '—';
+  }
+
+  async function animateResults(token) {
+    state.shownResults = [];
+    state.histCounts.fill(0);
+    state.falling = [];
+    const vals = state.results;
+    const start = performance.now();
+    const stagger = vals.length <= 25 ? 125
+      : vals.length <= 50 ? 80
+      : vals.length <= 100 ? 45
+      : vals.length <= 175 ? 27
+      : 18;
+    const duration = vals.length <= 50 ? 460 : vals.length <= 100 ? 420 : 360;
+    let next = 0;
+    const plannedCounts = new Array(state.histCounts.length).fill(0);
+
+    return new Promise(resolve => {
+      function frame(now) {
+        if (token !== runToken) return resolve();
+        const elapsed = now-start;
+        while (next < vals.length && elapsed >= next*stagger) {
+          const value = vals[next];
+          const bin = binIndex(value);
+          const slot = plannedCounts[bin]++;
+          state.falling.push({ value, bin, slot, born: start+next*stagger, progress:0 }); next++;
+        }
+        const still = [];
+        for (const d of state.falling) {
+          const t = Math.max(0, Math.min(1,(now-d.born)/duration));
+          d.progress = 1-Math.pow(1-t,3);
+          if (t >= 1) {
+            state.histCounts[d.bin]++; state.shownResults.push(d.value);
+          } else still.push(d);
+        }
+        state.falling = still;
+        updateResultStats(); drawSampling();
+        if (next < vals.length || state.falling.length) requestAnimationFrame(frame);
+        else { state.completed=true; resolve(); }
+      }
+      requestAnimationFrame(frame);
+    });
+  }
+
+  function showAllResults() {
+    state.histCounts.fill(0);
+    state.results.forEach(v => state.histCounts[binIndex(v)]++);
+    state.shownResults = state.results.slice(); state.falling=[]; state.completed=true;
+    updateResultStats(); drawSampling();
+  }
+
+  async function runSimulation() {
+    const token = ++runToken;
+    $('errorText').textContent='';
+    const n = Math.floor(Number($('sampleSize').value));
+    const k = Math.floor(Number($('resamples').value));
+    const minN = (mode === 'variance' || mode === 'sd') ? 2 : 1;
+    if (!Number.isFinite(n) || n < minN || n > 1000) { $('errorText').textContent = `Sample size must be between ${minN} and 1000.`; return; }
+    if (!Number.isFinite(k) || k < 1 || k > 20000) { $('errorText').textContent='Number of samples must be between 1 and 20,000.'; return; }
+    if (mode !== 'proportion') {
+      updatePopulationStats();
+      if (!state.population) { $('errorText').textContent='Draw a population or choose a preset first.'; return; }
+    }
+    $('runButton').disabled=true;
+    try {
+      const theory = resultTheory(n);
+      const results = simulate(n,k);
+      simulation = { n,k,theory };
+      state.results = results; state.shownResults=[]; state.completed=false; state.falling=[];
+      configureHistogram(results,theory.target);
+      $('targetValue').textContent=fmt(theory.target); $('theorySD').textContent=Number.isFinite(theory.sd) ? fmt(theory.sd) : '—'; $('simMean').textContent='—'; $('simSD').textContent='—';
+      drawSampling();
+      requestAnimationFrame(() => {
+        document.querySelector('.sampling-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      if ($('animateToggle').checked && k <= ANIMATION_LIMIT) await animateResults(token);
+      else if (token === runToken) showAllResults();
+    } finally {
+      if (token === runToken) $('runButton').disabled=false;
+    }
+  }
+
+  function clearResults(redraw=true) {
+    runToken++;
+    simulation=null; state.results=[]; state.shownResults=[]; state.falling=[]; state.histCounts=[]; state.histEdges=[]; state.completed=false;
+    if (mode === 'proportion') { state.axisMin=0; state.axisMax=1; }
+    else if (mode === 'variance') { state.axisMin=0; state.axisMax=state.population ? Math.max(1,state.population.variance*2) : 1; }
+    else if (mode === 'sd') { state.axisMin=0; state.axisMax=state.population ? Math.max(1,state.population.sd*2) : 1; }
+    else { state.axisMin=0; state.axisMax=100; }
+    $('runButton').disabled=false; $('errorText').textContent=''; updateResultStats(); if(redraw) drawSampling();
+  }
+
+  $('runButton').addEventListener('click', runSimulation);
+  $('resetButton').addEventListener('click', () => clearResults());
+  $('sampleSize').addEventListener('change', () => clearResults());
+  $('resamples').addEventListener('change', () => clearResults());
+  $('animateToggle').addEventListener('change', () => {
+    if (state.results.length) {
+      runToken++;
+      $('runButton').disabled=false;
+      showAllResults();
+    }
+  });
+
+  new ResizeObserver(() => { drawPopulation(); drawSampling(); }).observe(document.querySelector('.app'));
+
+  setPreset('right');
+  updateProportionUI();
+  setMode('mean');
+})();
+</script>
+</body>
+</html>
