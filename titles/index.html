@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nonsense Title Lab</title>
+<style>
+  :root{
+    color-scheme: light dark;
+    --bg:#f4f6fb; --panel:#ffffff; --panel2:#f8f9fc; --text:#172033; --muted:#687289;
+    --line:#dfe4ee; --accent:#5a55d6; --accent2:#ecebff; --shadow:0 12px 36px rgba(28,39,64,.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{--bg:#111520;--panel:#191f2c;--panel2:#141a26;--text:#edf1f8;--muted:#a7b0c3;--line:#30384a;--accent:#9a96ff;--accent2:#29274a;--shadow:0 12px 36px rgba(0,0,0,.25)}
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+  body{min-height:100dvh;overflow:hidden}
+  button,input,select{font:inherit}
+  button{cursor:pointer}
+  .app{height:100dvh;max-width:1480px;margin:auto;padding:18px 22px;display:grid;grid-template-rows:auto auto 1fr;gap:14px}
+  header{display:flex;align-items:end;justify-content:space-between;gap:18px}
+  h1{font-size:clamp(1.55rem,2.2vw,2.25rem);line-height:1;margin:0 0 7px;letter-spacing:-.035em}
+  .tagline{color:var(--muted);font-size:.92rem;margin:0}
+  .count{color:var(--muted);font-size:.78rem;white-space:nowrap}
+  .toolbar{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:10px 12px;box-shadow:var(--shadow)}
+  .tabs{display:flex;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:3px}
+  .tab{border:0;background:transparent;color:var(--muted);padding:8px 13px;border-radius:9px;font-weight:700}
+  .tab.active{background:var(--panel);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+  .controls{min-width:0;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .toggle{display:inline-flex;align-items:center;gap:7px;font-size:.78rem;color:var(--muted);font-weight:750;white-space:nowrap;cursor:pointer;user-select:none}
+  .toggle input{position:absolute;opacity:0;pointer-events:none}
+  .toggle-track{width:36px;height:21px;border-radius:999px;background:var(--line);position:relative;transition:.18s}
+  .toggle-track::after{content:"";position:absolute;width:15px;height:15px;left:3px;top:3px;border-radius:50%;background:var(--panel);box-shadow:0 1px 4px rgba(0,0,0,.22);transition:.18s}
+  .toggle input:checked + .toggle-track{background:var(--accent)}
+  .toggle input:checked + .toggle-track::after{transform:translateX(15px)}
+  .toggle input:focus-visible + .toggle-track{outline:3px solid color-mix(in srgb,var(--accent) 20%,transparent);outline-offset:2px}
+  .picker-only{display:none}
+  .picker-mode .picker-only{display:flex}
+  .field{display:flex;align-items:center;gap:7px;min-width:0}
+  .field label{font-size:.78rem;color:var(--muted);font-weight:700;white-space:nowrap}
+  select,input{height:38px;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;padding:0 10px;outline:none}
+  select:focus,input:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 16%,transparent)}
+  #fixedInput{width:min(250px,24vw)}
+  .primary{height:40px;border:0;border-radius:11px;background:var(--accent);color:#fff;padding:0 18px;font-weight:800;box-shadow:0 6px 14px color-mix(in srgb,var(--accent) 25%,transparent)}
+  .results{min-height:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:12px}
+  .group{min-height:0;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:13px 15px;display:grid;grid-template-rows:auto 1fr;box-shadow:var(--shadow);overflow:hidden}
+  .group-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+  .animal-name{font-size:1rem;font-weight:850;letter-spacing:-.015em;text-transform:capitalize}
+  .badge{font-size:.69rem;color:var(--muted);border:1px solid var(--line);background:var(--panel2);padding:4px 7px;border-radius:999px;white-space:nowrap}
+  .group-body{min-height:0;display:grid;grid-template-columns:1.25fr .9fr;gap:12px}
+  .section{min-width:0;background:var(--panel2);border:1px solid var(--line);border-radius:13px;padding:8px 10px;overflow:hidden}
+  .section h3{font-size:.69rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin:0 0 5px}
+  .title-list{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+  .title-item{position:relative;min-width:0}
+  .title-btn{width:100%;border:0;background:transparent;color:var(--text);text-align:left;padding:5px 28px 5px 4px;border-radius:7px;font-weight:650;font-size:clamp(.82rem,1.15vw,1rem);line-height:1.16;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .title-btn:hover{background:var(--accent2);color:var(--accent)}
+  .title-btn::after{content:"copy";position:absolute;right:5px;top:50%;transform:translateY(-50%);font-size:.58rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);opacity:0;transition:.15s}
+  .title-btn:hover::after{opacity:1}
+  .picker-results{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr))}
+  .picker-results .group{padding:12px}
+  .picker-results .group-body{grid-template-columns:1fr}
+  .picker-results .section{height:100%}
+  .picker-results .title-btn{font-size:clamp(.8rem,1vw,.95rem)}
+  .hint{display:none;font-size:.72rem;color:var(--muted);margin-left:2px}
+  .picker-mode .hint{display:inline}
+  .toast{position:fixed;left:50%;bottom:18px;transform:translate(-50%,12px);background:#151a25;color:white;padding:8px 12px;border-radius:10px;font-size:.78rem;opacity:0;pointer-events:none;transition:.2s;box-shadow:var(--shadow)}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+  @media(max-width:900px){
+    body{overflow:auto}.app{height:auto;min-height:100dvh}.toolbar{grid-template-columns:1fr auto}.controls{grid-column:1/-1;grid-row:2}.results,.picker-results{grid-template-columns:1fr;grid-template-rows:none}.group{min-height:180px}#fixedInput{width:min(320px,60vw)}
+  }
+  @media(max-height:720px) and (min-width:901px){
+    .app{padding:10px 16px;gap:9px}.toolbar{padding:7px 9px}.group{padding:9px 11px}.group-head{margin-bottom:5px}.section{padding:6px 8px}.title-btn{padding-top:3px;padding-bottom:3px}.tagline{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header>
+    <div>
+      <h1>Nonsense Title Lab</h1>
+      <p class="tagline">Useful when a sensible title would be entirely inappropriate.</p>
+    </div>
+    <div class="count" id="wordCount"></div>
+  </header>
+
+  <section class="toolbar" aria-label="Title controls">
+    <div class="tabs" role="tablist" aria-label="Generator mode">
+      <button class="tab active" id="randomTab" data-mode="random">Random</button>
+      <button class="tab" id="pickerTab" data-mode="picker">Picker</button>
+    </div>
+
+    <div class="controls">
+      <span id="randomHelp" class="count">Four animals · both title styles · grouped by animal</span>
+      <label class="toggle" title="Make every word in each title begin with the same letter">
+        <input type="checkbox" id="alliterationToggle">
+        <span class="toggle-track" aria-hidden="true"></span>
+        <span>Alliteration</span>
+      </label>
+      <div class="field picker-only">
+        <label for="lockType">Fix</label>
+        <select id="lockType">
+          <option value="adjective">Adjective</option>
+          <option value="animal">Animal</option>
+          <option value="noun">Noun</option>
+        </select>
+      </div>
+      <div class="field picker-only">
+        <label for="category">Group</label>
+        <select id="category"></select>
+      </div>
+      <div class="field picker-only">
+        <label for="fixedInput">Word</label>
+        <input id="fixedInput" autocomplete="off" spellcheck="false" placeholder="Type or choose below" list="wordSuggestions">
+        <datalist id="wordSuggestions"></datalist>
+      </div>
+      <span class="hint" id="pickerHint"></span>
+    </div>
+
+    <button class="primary" id="generateBtn">New titles</button>
+  </section>
+
+  <main class="results" id="results" aria-live="polite"></main>
+</div>
+<div class="toast" id="toast">Copied</div>
+<script src="adjectives.js"></script>
+<script src="nouns.js"></script>
+<script src="animals.js"></script>
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const results = $('#results');
+  const app = $('#app');
+  const lockType = $('#lockType');
+  const category = $('#category');
+  const fixedInput = $('#fixedInput');
+  const suggestions = $('#wordSuggestions');
+  const pickerHint = $('#pickerHint');
+  let mode = 'random';
+
+  const clean = arr => [...new Set(arr.map(x => String(x).trim()).filter(Boolean))];
+  const ADJ = clean(adjectives).filter(x => !['a','an','all','any','another'].includes(x.toLowerCase()));
+  const NOUN = clean(nouns);
+  const ANIMAL = clean(animals);
+
+  const initial = word => (String(word).toLowerCase().match(/[a-z]/) || [''])[0];
+  const indexByInitial = bank => bank.reduce((m, word) => {
+    const c = initial(word);
+    if(c) (m[c] ||= []).push(word);
+    return m;
+  }, {});
+  const ADJ_BY = indexByInitial(ADJ);
+  const NOUN_BY = indexByInitial(NOUN);
+  const ANIMAL_BY = indexByInitial(ANIMAL);
+
+  $('#wordCount').textContent = `${ADJ.length.toLocaleString()} adjectives · ${ANIMAL.length.toLocaleString()} animals · ${NOUN.length.toLocaleString()} nouns`;
+
+  const rand = arr => arr[Math.floor(Math.random() * arr.length)];
+  const possessive = animal => `${animal}'s`; // preserve the original title rule exactly
+  const three = (a,b,n) => `${a} ${possessive(b)} ${n}`.toLowerCase();
+  const two = (a,b) => `${a} ${b}`.toLowerCase();
+
+  function sampleUnique(arr, n, exclude = new Set()){
+    const out = [], used = new Set(exclude);
+    let guard = 0;
+    while(out.length < n && guard++ < n * 50){
+      const v = rand(arr);
+      if(!used.has(v)){ used.add(v); out.push(v); }
+    }
+    return out;
+  }
+
+  function titleButton(text){
+    const li = document.createElement('li');
+    li.className = 'title-item';
+    const b = document.createElement('button');
+    b.className = 'title-btn';
+    b.type = 'button';
+    b.textContent = text;
+    b.title = `Copy “${text}”`;
+    b.addEventListener('click', async () => {
+      try{
+        if(navigator.clipboard && window.isSecureContext){
+          await navigator.clipboard.writeText(text);
+        } else {
+          const ta = document.createElement('textarea');
+          ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+        }
+        showToast('Copied');
+      } catch{ showToast('Copy unavailable'); }
+    });
+    li.appendChild(b);
+    return li;
+  }
+
+  function section(label, titles){
+    const box = document.createElement('div');
+    box.className = 'section';
+    const h = document.createElement('h3'); h.textContent = label; box.appendChild(h);
+    const ul = document.createElement('ul'); ul.className = 'title-list';
+    titles.forEach(t => ul.appendChild(titleButton(t)));
+    box.appendChild(ul); return box;
+  }
+
+  function groupCard(animal, leftTitles, rightTitles){
+    const card = document.createElement('article'); card.className = 'group';
+    const head = document.createElement('div'); head.className = 'group-head';
+    const name = document.createElement('div'); name.className = 'animal-name'; name.textContent = animal;
+    const badge = document.createElement('span'); badge.className = 'badge'; badge.textContent = 'same animal';
+    head.append(name,badge);
+    const body = document.createElement('div'); body.className = 'group-body';
+    body.append(section('Adjective animal’s noun',leftTitles), section('Adjective animal',rightTitles));
+    card.append(head,body); return card;
+  }
+
+  function renderRandom(){
+    results.className = 'results';
+    results.replaceChildren();
+    const allit = alliterationToggle.checked;
+    const animalPool = allit
+      ? ANIMAL.filter(animal => {
+          const c = initial(animal);
+          return (ADJ_BY[c]?.length || 0) >= 6 && (NOUN_BY[c]?.length || 0) >= 3;
+        })
+      : ANIMAL;
+
+    sampleUnique(animalPool, 4).forEach(animal => {
+      const c = initial(animal);
+      const adjPool = allit ? ADJ_BY[c] : ADJ;
+      const nounPool = allit ? NOUN_BY[c] : NOUN;
+      const a1 = sampleUnique(adjPool, 3);
+      const n1 = sampleUnique(nounPool, 3);
+      const a2 = sampleUnique(adjPool, 3, new Set(a1));
+      const left = a1.map((a,i) => three(a,animal,n1[i]));
+      const right = a2.map(a => two(a,animal));
+      results.appendChild(groupCard(animal,left,right));
+    });
+  }
+
+  function pickerCategories(type){
+    if(type === 'animal') return ['All animals', ...Object.keys(animalCategories)];
+    return ['All', 'A–D','E–H','I–L','M–P','Q–T','U–Z'];
+  }
+
+  function bankForType(type){ return type === 'adjective' ? ADJ : type === 'animal' ? ANIMAL : NOUN; }
+
+  function letterBucket(word){
+    const c = word[0]?.toUpperCase() || '';
+    if(c >= 'A' && c <= 'D') return 'A–D';
+    if(c >= 'E' && c <= 'H') return 'E–H';
+    if(c >= 'I' && c <= 'L') return 'I–L';
+    if(c >= 'M' && c <= 'P') return 'M–P';
+    if(c >= 'Q' && c <= 'T') return 'Q–T';
+    return 'U–Z';
+  }
+
+  function filteredBank(){
+    const type = lockType.value;
+    const bank = bankForType(type);
+    const cat = category.value;
+    if(type === 'animal' && cat !== 'All animals') return animalCategories[cat] || bank;
+    if(type !== 'animal' && cat !== 'All') return bank.filter(w => letterBucket(w) === cat);
+    return bank;
+  }
+
+  function refreshCategory(){
+    category.replaceChildren(...pickerCategories(lockType.value).map(v => {
+      const o = document.createElement('option'); o.value = o.textContent = v; return o;
+    }));
+    fixedInput.value = '';
+    refreshSuggestions();
+    updatePickerHint();
+  }
+
+  function refreshSuggestions(){
+    const q = fixedInput.value.trim().toLowerCase();
+    let list = filteredBank();
+    if(q) list = list.filter(x => x.toLowerCase().includes(q));
+    list = list.slice(0, 120);
+    suggestions.replaceChildren(...list.map(v => {
+      const o = document.createElement('option'); o.value = v; return o;
+    }));
+  }
+
+  function updatePickerHint(){
+    const type = lockType.value;
+    pickerHint.textContent = type === 'noun' ? 'Noun fixing uses the possessive form.' : 'Type any custom word, or choose a suggestion.';
+  }
+
+  function chosenFixed(){
+    const typed = fixedInput.value.trim();
+    if(typed) return typed;
+    const bank = filteredBank();
+    const v = rand(bank.length ? bank : bankForType(lockType.value));
+    fixedInput.value = v;
+    return v;
+  }
+
+  function showAlliterationUnavailable(word){
+    const c = initial(word);
+    const card = document.createElement('article');
+    card.className = 'group';
+    card.style.gridColumn = '1 / -1';
+    const head = document.createElement('div'); head.className = 'group-head';
+    const name = document.createElement('div'); name.className = 'animal-name';
+    name.textContent = 'No alliterative set available';
+    head.appendChild(name);
+    const body = document.createElement('div'); body.className = 'section';
+    body.style.display = 'grid'; body.style.placeItems = 'center'; body.style.textAlign = 'center';
+    body.textContent = c
+      ? `There are not enough adjective, animal, and noun choices beginning with “${c}”. Try another fixed word or turn off Alliteration.`
+      : 'The fixed word needs at least one letter for alliteration.';
+    card.append(head, body);
+    results.appendChild(card);
+  }
+
+  function renderPicker(){
+    const type = lockType.value;
+    const fixed = chosenFixed();
+    const allit = alliterationToggle.checked;
+    const c = initial(fixed);
+    results.className = 'results picker-results';
+    results.replaceChildren();
+
+    const adjPool = allit ? (ADJ_BY[c] || []) : ADJ;
+    const animalPool = allit ? (ANIMAL_BY[c] || []) : ANIMAL;
+    const nounPool = allit ? (NOUN_BY[c] || []) : NOUN;
+
+    if(allit && (!c || !adjPool.length || !animalPool.length || (type !== 'noun' && !nounPool.length))){
+      showAlliterationUnavailable(fixed);
+      return;
+    }
+
+    const titles = [];
+    if(type === 'adjective'){
+      for(let i=0;i<18;i++){
+        const animal = rand(animalPool);
+        titles.push(i % 2 === 0 ? three(fixed, animal, rand(nounPool)) : two(fixed, animal));
+      }
+    } else if(type === 'animal'){
+      for(let i=0;i<18;i++) titles.push(i % 2 === 0 ? three(rand(adjPool), fixed, rand(nounPool)) : two(rand(adjPool), fixed));
+    } else {
+      for(let i=0;i<18;i++) titles.push(three(rand(adjPool), rand(animalPool), fixed));
+    }
+
+    for(let cardIndex=0;cardIndex<6;cardIndex++){
+      const card = document.createElement('article'); card.className = 'group';
+      const head = document.createElement('div'); head.className = 'group-head';
+      const name = document.createElement('div'); name.className = 'animal-name';
+      name.textContent = cardIndex === 0 ? `Fixed ${type}: ${fixed}` : `More with ${fixed}`;
+      const badge = document.createElement('span'); badge.className = 'badge'; badge.textContent = `${cardIndex*3+1}–${cardIndex*3+3}`;
+      head.append(name,badge);
+      const body = document.createElement('div'); body.className = 'group-body';
+      body.append(section(type === 'noun' ? 'Possessive titles' : 'Generated titles', titles.slice(cardIndex*3,cardIndex*3+3)));
+      card.append(head,body); results.appendChild(card);
+    }
+  }
+
+  function generate(){ mode === 'random' ? renderRandom() : renderPicker(); }
+  function setMode(next){
+    mode = next;
+    app.classList.toggle('picker-mode', mode === 'picker');
+    $('#randomHelp').style.display = mode === 'random' ? '' : 'none';
+    document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+    generate();
+  }
+
+  function showToast(msg){
+    const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(showToast.timer); showToast.timer = setTimeout(() => t.classList.remove('show'), 900);
+  }
+
+  document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+  $('#generateBtn').addEventListener('click', generate);
+  alliterationToggle.addEventListener('change', generate);
+  lockType.addEventListener('change', refreshCategory);
+  category.addEventListener('change', () => { fixedInput.value = ''; refreshSuggestions(); });
+  fixedInput.addEventListener('input', refreshSuggestions);
+  fixedInput.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); renderPicker(); } });
+
+  refreshCategory();
+  renderRandom();
+})();
+</script>
+</body>
+</html>
