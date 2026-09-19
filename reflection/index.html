@@ -918,5 +918,460 @@ Do not do this unless you mean it. This image is slower to generate. Note, the i
 	This is the seed that was last used to generate an image. Sometimes, you may want to generate an image using the same
 	seed or color mapping after you have changed other options. Use this button  for that.
 </div></div>
+
+<div><div class='box'>
+<button class='option'  onclick=''>Submit images.</button><br>
+After you have generated a high resolution image, click this button to submit the image. You will be submitting the generated image and the seed image along with your name, a title, and the title and author of the seed image.
+</div></div>
+
+<!-- BEGIN ADDED SUBMISSION CODE: Google Apps Script image/text submission -->
+<script>
+(function () {
+  'use strict';
+
+  // After deploying Reflection_Submission_AppsScript.gs as a Google Apps Script
+  // Web app, paste its /exec URL between the quotes below.
+  const REFLECTION_SUBMIT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwYlPsSmsaIgNbA9tPL9pZFkt9U9UJNumgt89YvpzwO1n39kGxrZH_pBwVOozPNTWnH/exec';
+  const SUBMISSION_MESSAGE_TYPE = 'reflectionSubmissionResult';
+  const SUBMISSION_TIMEOUT_MS = 180000;
+
+  let submitImagesButton = null;
+  let modalBackdrop = null;
+  let submitForm = null;
+  let formSubmitButton = null;
+  let formCancelButton = null;
+  let formStatus = null;
+  let currentRequestId = null;
+  let submissionTimer = null;
+
+  function findSubmitImagesButton() {
+    const buttons = document.querySelectorAll('button');
+    for (let i = 0; i < buttons.length; i++) {
+      if (buttons[i].textContent.trim().toLowerCase() === 'submit images.') {
+        return buttons[i];
+      }
+    }
+    return null;
+  }
+
+  function addSubmissionStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+      #reflectionSubmitBackdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 100000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+        background: rgba(0,0,0,.55);
+        box-sizing: border-box;
+      }
+      #reflectionSubmitDialog {
+        width: min(620px, 100%);
+        max-height: calc(100vh - 36px);
+        overflow: auto;
+        box-sizing: border-box;
+        border-radius: 14px;
+        background: white;
+        box-shadow: 0 18px 60px rgba(0,0,0,.32);
+        padding: 22px;
+        color: #222;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      #reflectionSubmitDialog h2 {
+        margin: 0 0 8px 0;
+        font-size: 1.45rem;
+      }
+      #reflectionSubmitDialog p.reflectionSubmitIntro {
+        margin: 0 0 18px 0;
+        line-height: 1.4;
+      }
+      #reflectionSubmitDialog label {
+        display: block;
+        margin: 13px 0 5px 0;
+        font-weight: 600;
+      }
+      #reflectionSubmitDialog input,
+      #reflectionSubmitDialog textarea {
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #999;
+        border-radius: 7px;
+        padding: 9px 10px;
+        font: inherit;
+        background: white;
+        color: #222;
+      }
+      #reflectionSubmitDialog textarea {
+        min-height: 95px;
+        resize: vertical;
+      }
+      #reflectionSubmitDialog .reflectionSubmitOptional {
+        font-weight: normal;
+        color: #666;
+      }
+      #reflectionSubmitActions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      #reflectionSubmitActions button {
+        border: 1px solid #777;
+        border-radius: 8px;
+        padding: 9px 16px;
+        font: inherit;
+        cursor: pointer;
+      }
+      #reflectionSubmitActions button:disabled {
+        cursor: wait;
+        opacity: .6;
+      }
+      #reflectionSubmitPrimary {
+        background: #222;
+        color: white;
+      }
+      #reflectionSubmitCancel {
+        background: #f3f3f3;
+        color: #222;
+      }
+      #reflectionSubmitStatus {
+        min-height: 1.4em;
+        margin-top: 14px;
+        line-height: 1.4;
+      }
+      #reflectionSubmitStatus[data-kind="error"] { color: #9b1c1c; }
+      #reflectionSubmitStatus[data-kind="success"] { color: #176b2c; }
+      #reflectionSubmitStatus[data-kind="working"] { color: #444; }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function makeField(labelText, name, options) {
+    const opts = options || {};
+    const label = document.createElement('label');
+    label.htmlFor = 'reflectionSubmit_' + name;
+    label.appendChild(document.createTextNode(labelText));
+    if (opts.optional) {
+      const optional = document.createElement('span');
+      optional.className = 'reflectionSubmitOptional';
+      optional.textContent = ' (optional)';
+      label.appendChild(optional);
+    }
+
+    const field = opts.textarea ? document.createElement('textarea') : document.createElement('input');
+    field.id = 'reflectionSubmit_' + name;
+    field.name = name;
+    field.required = !opts.optional;
+    field.maxLength = opts.maxLength || 300;
+    if (!opts.textarea) field.type = 'text';
+    if (opts.autocomplete) field.autocomplete = opts.autocomplete;
+
+    return { label: label, field: field };
+  }
+
+  function buildSubmissionDialog() {
+    addSubmissionStyles();
+
+    modalBackdrop = document.createElement('div');
+    modalBackdrop.id = 'reflectionSubmitBackdrop';
+    modalBackdrop.setAttribute('role', 'presentation');
+
+    const dialog = document.createElement('div');
+    dialog.id = 'reflectionSubmitDialog';
+    dialog.setAttribute('role', 'dialog');
+    dialog.setAttribute('aria-modal', 'true');
+    dialog.setAttribute('aria-labelledby', 'reflectionSubmitHeading');
+
+    const heading = document.createElement('h2');
+    heading.id = 'reflectionSubmitHeading';
+    heading.textContent = 'Submit images';
+    dialog.appendChild(heading);
+
+    const intro = document.createElement('p');
+    intro.className = 'reflectionSubmitIntro';
+    intro.textContent = 'The current generated image and the currently selected source image will be submitted with the information below.';
+    dialog.appendChild(intro);
+
+    submitForm = document.createElement('form');
+    submitForm.id = 'reflectionSubmitForm';
+
+    const fields = [
+      makeField('Your name', 'studentName', { maxLength: 150, autocomplete: 'name' }),
+      makeField('Title of your generated image', 'generatedTitle', { maxLength: 300 }),
+      makeField('Title of the source image', 'sourceTitle', { maxLength: 300 }),
+      makeField('Author of the source image', 'sourceAuthor', { maxLength: 300, optional: true }),
+      makeField('Other comments', 'comments', { maxLength: 5000, optional: true, textarea: true })
+    ];
+
+    for (let i = 0; i < fields.length; i++) {
+      submitForm.appendChild(fields[i].label);
+      submitForm.appendChild(fields[i].field);
+    }
+
+    formStatus = document.createElement('div');
+    formStatus.id = 'reflectionSubmitStatus';
+    formStatus.setAttribute('aria-live', 'polite');
+    submitForm.appendChild(formStatus);
+
+    const actions = document.createElement('div');
+    actions.id = 'reflectionSubmitActions';
+
+    formCancelButton = document.createElement('button');
+    formCancelButton.type = 'button';
+    formCancelButton.id = 'reflectionSubmitCancel';
+    formCancelButton.textContent = 'Cancel';
+
+    formSubmitButton = document.createElement('button');
+    formSubmitButton.type = 'submit';
+    formSubmitButton.id = 'reflectionSubmitPrimary';
+    formSubmitButton.textContent = 'Submit';
+
+    actions.appendChild(formCancelButton);
+    actions.appendChild(formSubmitButton);
+    submitForm.appendChild(actions);
+    dialog.appendChild(submitForm);
+    modalBackdrop.appendChild(dialog);
+    document.body.appendChild(modalBackdrop);
+
+    formCancelButton.addEventListener('click', closeSubmissionDialog);
+    modalBackdrop.addEventListener('click', function (event) {
+      if (event.target === modalBackdrop && !formSubmitButton.disabled) closeSubmissionDialog();
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && modalBackdrop.style.display !== 'none' && !formSubmitButton.disabled) {
+        closeSubmissionDialog();
+      }
+    });
+    submitForm.addEventListener('submit', submitImagesToGoogle);
+  }
+
+  function setStatus(message, kind) {
+    formStatus.textContent = message || '';
+    if (kind) formStatus.dataset.kind = kind;
+    else delete formStatus.dataset.kind;
+  }
+
+  function setSubmitting(isSubmitting) {
+    formSubmitButton.disabled = isSubmitting;
+    formCancelButton.disabled = isSubmitting;
+    if (submitImagesButton) submitImagesButton.disabled = isSubmitting;
+  }
+
+  function openSubmissionDialog() {
+    if (typeof sourceImage === 'undefined' || !sourceImage || !sourceImage.src) {
+      alert('Please select a source image before submitting.');
+      return;
+    }
+    const drawingCanvas = document.getElementById('drawing');
+    if (!drawingCanvas || typeof drawingCanvas.toDataURL !== 'function') {
+      alert('The generated image canvas is not available.');
+      return;
+    }
+    if (REFLECTION_SUBMIT_WEB_APP_URL.indexOf('PASTE_YOUR_APPS_SCRIPT') !== -1) {
+      alert('The Google Apps Script Web app URL has not been added to this page yet.');
+      return;
+    }
+
+    setStatus('', '');
+    modalBackdrop.style.display = 'flex';
+    const nameField = document.getElementById('reflectionSubmit_studentName');
+    window.setTimeout(function () { nameField.focus(); }, 0);
+  }
+
+  function closeSubmissionDialog() {
+    if (formSubmitButton.disabled) return;
+    modalBackdrop.style.display = 'none';
+    setStatus('', '');
+  }
+
+  function blobToDataUrl(blob) {
+    return new Promise(function (resolve, reject) {
+      const reader = new FileReader();
+      reader.onload = function () { resolve(reader.result); };
+      reader.onerror = function () { reject(new Error('The source image could not be read.')); };
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  async function sourceImageToDataUrl(img) {
+    const src = img.currentSrc || img.src;
+    if (!src) throw new Error('No source image is selected.');
+
+    if (/^data:image\//i.test(src)) return src;
+
+    // Prefer the original image bytes when the browser can read the image URL.
+    try {
+      const response = await fetch(src, { cache: 'force-cache' });
+      if (!response.ok) throw new Error('Image request failed.');
+      const blob = await response.blob();
+      if (!/^image\//i.test(blob.type)) throw new Error('The selected source is not an image.');
+      return await blobToDataUrl(blob);
+    } catch (fetchError) {
+      // Local file:// pages can block fetch(). Fall back to copying the displayed
+      // image into an off-screen canvas at its natural resolution.
+      try {
+        const w = img.naturalWidth || img.width;
+        const h = img.naturalHeight || img.height;
+        if (!w || !h) throw new Error('The source image has no readable dimensions.');
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        return canvas.toDataURL('image/png');
+      } catch (canvasError) {
+        throw new Error('The selected source image could not be prepared for submission. Please select or upload it again.');
+      }
+    }
+  }
+
+  function makeClientRequestId() {
+    const randomPart = Math.random().toString(36).slice(2, 10);
+    return 'req-' + Date.now().toString(36) + '-' + randomPart;
+  }
+
+  function addHiddenField(form, name, value) {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  }
+
+  function postToAppsScript(payload) {
+    const iframeName = 'reflectionSubmitTarget_' + payload.clientRequestId.replace(/[^A-Za-z0-9_-]/g, '');
+    const iframe = document.createElement('iframe');
+    iframe.name = iframeName;
+    iframe.style.display = 'none';
+    iframe.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(iframe);
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = REFLECTION_SUBMIT_WEB_APP_URL;
+    form.target = iframeName;
+    form.enctype = 'multipart/form-data';
+    form.style.display = 'none';
+
+    Object.keys(payload).forEach(function (key) {
+      addHiddenField(form, key, String(payload[key] == null ? '' : payload[key]));
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
+
+    // Leave the target iframe in place long enough to receive the Apps Script
+    // response, then clean it up.
+    window.setTimeout(function () {
+      if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+    }, SUBMISSION_TIMEOUT_MS + 15000);
+  }
+
+  async function submitImagesToGoogle(event) {
+    event.preventDefault();
+    if (!submitForm.reportValidity()) return;
+
+    if (typeof sourceImage === 'undefined' || !sourceImage || !sourceImage.src) {
+      setStatus('Please select a source image before submitting.', 'error');
+      return;
+    }
+
+    const drawingCanvas = document.getElementById('drawing');
+    if (!drawingCanvas) {
+      setStatus('The generated image canvas is not available.', 'error');
+      return;
+    }
+
+    setSubmitting(true);
+    setStatus('Preparing the two images.', 'working');
+
+    try {
+      const generatedImageData = drawingCanvas.toDataURL('image/png');
+      const sourceImageData = await sourceImageToDataUrl(sourceImage);
+
+      currentRequestId = makeClientRequestId();
+
+      const payload = {
+        clientRequestId: currentRequestId,
+        studentName: document.getElementById('reflectionSubmit_studentName').value.trim(),
+        generatedTitle: document.getElementById('reflectionSubmit_generatedTitle').value.trim(),
+        sourceTitle: document.getElementById('reflectionSubmit_sourceTitle').value.trim(),
+        sourceAuthor: document.getElementById('reflectionSubmit_sourceAuthor').value.trim(),
+        comments: document.getElementById('reflectionSubmit_comments').value.trim(),
+        generatedImageData: generatedImageData,
+        sourceImageData: sourceImageData,
+        generatedWidth: drawingCanvas.width,
+        generatedHeight: drawingCanvas.height,
+        sourceWidth: sourceImage.naturalWidth || sourceImage.width || '',
+        sourceHeight: sourceImage.naturalHeight || sourceImage.height || ''
+      };
+
+      setStatus('Uploading images and responses. Please keep this page open.', 'working');
+      postToAppsScript(payload);
+
+      if (submissionTimer) window.clearTimeout(submissionTimer);
+      submissionTimer = window.setTimeout(function () {
+        submissionTimer = null;
+        setSubmitting(false);
+        setStatus('No confirmation was received from Google. The submission may still have arrived; please check with your instructor before submitting it again.', 'error');
+        currentRequestId = null;
+      }, SUBMISSION_TIMEOUT_MS);
+    } catch (error) {
+      setSubmitting(false);
+      setStatus(error && error.message ? error.message : 'The images could not be prepared for submission.', 'error');
+      currentRequestId = null;
+    }
+  }
+
+  window.addEventListener('message', function (event) {
+    const data = event.data;
+    if (!data || data.type !== SUBMISSION_MESSAGE_TYPE) return;
+    if (!currentRequestId || data.clientRequestId !== currentRequestId) return;
+
+    if (submissionTimer) {
+      window.clearTimeout(submissionTimer);
+      submissionTimer = null;
+    }
+
+    if (data.ok) {
+      setSubmitting(false);
+      setStatus('Submission received. Confirmation ID: ' + data.submissionId, 'success');
+      currentRequestId = null;
+      formSubmitButton.textContent = 'Submitted';
+      formSubmitButton.disabled = true;
+      formCancelButton.disabled = false;
+      formCancelButton.textContent = 'Close';
+      if (submitImagesButton) submitImagesButton.disabled = false;
+      formCancelButton.onclick = function () {
+        modalBackdrop.style.display = 'none';
+        submitForm.reset();
+        formSubmitButton.textContent = 'Submit';
+        formSubmitButton.disabled = false;
+        formCancelButton.textContent = 'Cancel';
+        formCancelButton.onclick = null;
+        setStatus('', '');
+      };
+    } else {
+      setSubmitting(false);
+      setStatus(data.message || 'Google reported an error while saving the submission.', 'error');
+      currentRequestId = null;
+    }
+  });
+
+  buildSubmissionDialog();
+  submitImagesButton = findSubmitImagesButton();
+  if (submitImagesButton) {
+    submitImagesButton.addEventListener('click', openSubmissionDialog);
+  } else {
+    console.error('Reflection submission code could not find the “Submit images.” button.');
+  }
+}());
+</script>
+<!-- END ADDED SUBMISSION CODE -->
+
 </body>
 </html>
