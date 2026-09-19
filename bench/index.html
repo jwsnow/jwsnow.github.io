@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=5.7.37">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -24,6 +24,8 @@
         </button>
         <input id="fileInput" class="visually-hidden" type="file" multiple accept="application/pdf,image/*">
         <input id="imageAssemblyInput" class="visually-hidden" type="file" multiple accept="image/*">
+        <input id="annotationImageInput" class="visually-hidden" type="file" accept="image/*">
+        <input id="assetImageInput" class="visually-hidden" type="file" multiple accept="image/*">
         <input id="libraryZipImportInput" class="visually-hidden" type="file" accept=".zip,application/zip">
         <input id="libraryRestoreInput" class="visually-hidden" type="file" accept=".zip,application/zip">
 
@@ -53,6 +55,9 @@
         <button id="viewInsertBtn" class="tool-btn" type="button" title="Insert a page after the current page" aria-label="Insert page" aria-haspopup="menu" aria-expanded="false">
           <span class="page-plus-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 3h8l4 4v5M6 3v18h7M14 3v5h4"/><path d="M14 17h7M17.5 13.5v7"/></svg></span><span class="tool-label">Page</span>
         </button>
+        <button id="viewDiagnosticsBtn" class="tool-btn view-diagnostics-btn" type="button" title="Save diagnostics locally" aria-label="Save diagnostics locally">
+          <span class="presentation-diagnostics-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 3.5h9l4 4V20.5H5z"/><path d="M14 3.5v4h4"/><path d="M7.5 14h2l1.4-3 2.2 6 1.4-3h2"/></svg></span>
+        </button>
         <button id="presentBtn" class="tool-btn" type="button" title="Presentation mode">
           <span aria-hidden="true">⛶</span><span class="tool-label">Present</span>
         </button>
@@ -62,6 +67,8 @@
       <div id="moreMenu" class="popover hidden" role="menu">
         <button id="clearBtn" type="button" role="menuitem">Close all files</button>
         <button id="installHelpBtn" type="button" role="menuitem">Installation / offline info</button>
+        <button id="inkDiagnosticsBtn" type="button" role="menuitem">Download diagnostics</button>
+        <button id="attributionsBtn" type="button" role="menuitem">Attributions &amp; licenses</button>
         <button id="aboutBtn" type="button" role="menuitem">About this build</button>
       </div>
     </header>
@@ -113,7 +120,13 @@
         <div id="presentationToolbar" class="presentation-toolbar annotation-toolbar" aria-label="Annotation and presentation controls">
           <div class="annotation-primary" role="group" aria-label="Annotation tools">
             <button id="inkHandBtn" class="annotation-tool-btn active" type="button" aria-pressed="true" title="Hand / view mode (stylus does not draw)" aria-label="Hand / view mode">✋</button>
+            <button id="inkLaserBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Laser pointer (screen only)" aria-label="Laser pointer"><span class="laser-tool-icon" aria-hidden="true"></span></button>
             <button id="inkPenBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Pen" aria-label="Pen">✎</button>
+            <button id="inkHighlighterBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Highlighter" aria-label="Highlighter"><span class="highlighter-tool-icon" aria-hidden="true"></span></button>
+            <button id="inkEraserBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Partial-stroke eraser" aria-label="Partial-stroke eraser"><span class="eraser-tool-icon" aria-hidden="true"></span></button>
+            <button id="inkSelectBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Lasso / select annotations" aria-label="Lasso / select annotations"><span class="lasso-tool-icon" aria-hidden="true"></span></button>
+            <button id="inkImageBtn" class="annotation-tool-btn annotation-action-btn" type="button" title="Quick insert image" aria-label="Quick insert image"><span class="image-tool-icon" aria-hidden="true"></span></button>
+            <button id="inkAssetsBtn" class="annotation-tool-btn annotation-action-btn" type="button" title="Paste from Assets or Recent" aria-label="Paste from Assets or Recent"><span class="assets-tool-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><rect x="2.5" y="2.5" width="6" height="6" rx="1"/><rect x="11.5" y="2.5" width="6" height="6" rx="1"/><rect x="2.5" y="11.5" width="6" height="6" rx="1"/><rect x="11.5" y="11.5" width="6" height="6" rx="1"/></svg></span></button>
           </div>
           <div id="penColorGroup" class="ink-option-group" role="group" aria-label="Pen color">
             <button class="ink-color-btn" type="button" data-ink-color="#111111" style="--swatch:#111111" title="Black pen" aria-label="Black pen"></button>
@@ -127,6 +140,30 @@
             <button class="ink-width-btn" type="button" data-ink-width="3" title="Medium pen" aria-label="Medium pen"><span style="--sample-width:3px"></span></button>
             <button class="ink-width-btn" type="button" data-ink-width="5.5" title="Thick pen" aria-label="Thick pen"><span style="--sample-width:5.5px"></span></button>
           </div>
+          <div id="highlighterColorGroup" class="ink-option-group hidden" role="group" aria-label="Highlighter color">
+            <button class="ink-color-btn" type="button" data-highlighter-color="#ffeb3b" style="--swatch:#ffeb3b" title="Yellow highlighter" aria-label="Yellow highlighter"></button>
+            <button class="ink-color-btn" type="button" data-highlighter-color="#ff80ab" style="--swatch:#ff80ab" title="Pink highlighter" aria-label="Pink highlighter"></button>
+            <button class="ink-color-btn" type="button" data-highlighter-color="#4dd0e1" style="--swatch:#4dd0e1" title="Cyan highlighter" aria-label="Cyan highlighter"></button>
+            <button class="ink-color-btn" type="button" data-highlighter-color="#81c784" style="--swatch:#81c784" title="Green highlighter" aria-label="Green highlighter"></button>
+          </div>
+          <div id="highlighterWidthGroup" class="ink-option-group ink-width-group hidden" role="group" aria-label="Highlighter width">
+            <button class="ink-width-btn" type="button" data-highlighter-width="8" title="Narrow highlighter" aria-label="Narrow highlighter"><span style="--sample-width:5px"></span></button>
+            <button class="ink-width-btn" type="button" data-highlighter-width="14" title="Medium highlighter" aria-label="Medium highlighter"><span style="--sample-width:8px"></span></button>
+            <button class="ink-width-btn" type="button" data-highlighter-width="22" title="Wide highlighter" aria-label="Wide highlighter"><span style="--sample-width:12px"></span></button>
+          </div>
+          <div id="eraserSizeGroup" class="ink-option-group eraser-size-group hidden" role="group" aria-label="Eraser size">
+            <button class="eraser-size-btn" type="button" data-eraser-size="12" title="Small eraser" aria-label="Small eraser"><span style="--eraser-sample:10px"></span></button>
+            <button class="eraser-size-btn" type="button" data-eraser-size="24" title="Medium eraser" aria-label="Medium eraser"><span style="--eraser-sample:16px"></span></button>
+            <button class="eraser-size-btn" type="button" data-eraser-size="40" title="Large eraser" aria-label="Large eraser"><span style="--eraser-sample:23px"></span></button>
+          </div>
+          <div id="selectionActionGroup" class="ink-option-group selection-action-group hidden" role="group" aria-label="Selected annotation actions">
+            <button id="selectionDeleteBtn" class="selection-action-btn" type="button" title="Delete selected annotations" aria-label="Delete selected annotations"><span class="selection-action-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M4.5 5.5h11"/><path d="M7.5 5.5v-1.2c0-.9.7-1.6 1.6-1.6h1.8c.9 0 1.6.7 1.6 1.6v1.2"/><path d="M6.2 5.5l.7 10.1c.1.9.8 1.6 1.7 1.6h2.8c.9 0 1.6-.7 1.7-1.6l.7-10.1"/><path d="M8.2 8.3v5.8"/><path d="M11.8 8.3v5.8"/></svg></span></button>
+            <button id="selectionDuplicateBtn" class="selection-action-btn" type="button" title="Duplicate selected annotations" aria-label="Duplicate selected annotations"><span class="selection-action-icon selection-action-icon-stack" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><rect x="4.2" y="5.2" width="8.6" height="9.1" rx="1.2"/><rect x="7.2" y="7.7" width="8.6" height="9.1" rx="1.2"/></svg><span class="selection-action-icon-badge">+</span></span></button>
+            <button id="selectionRotateBtn" class="selection-action-btn" type="button" title="Rotate selected annotations 90° clockwise" aria-label="Rotate selected annotations 90 degrees clockwise"><span class="selection-action-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M15.7 8.1a6.1 6.1 0 1 0 .1 4.1"/><path d="M12.4 4.1h3.8v3.8"/></svg></span></button>
+            <button id="selectionCopyBtn" class="selection-action-btn" type="button" title="Copy selected annotations" aria-label="Copy selected annotations"><span class="selection-action-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><rect x="4.2" y="5.2" width="8.6" height="9.1" rx="1.2"/><rect x="7.2" y="7.7" width="8.6" height="9.1" rx="1.2"/></svg></span></button>
+            <button id="selectionCopyRegionBtn" class="selection-action-btn" type="button" aria-pressed="false" title="Copy a rectangular page region to Recent" aria-label="Copy a rectangular page region to Recent"><span class="selection-action-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><rect x="4" y="4" width="12" height="12" rx="1.4" stroke-dasharray="2.1 2.1"/><path d="M7 7h6v6"/></svg></span></button>
+            <button id="selectionPasteBtn" class="selection-action-btn" type="button" title="Paste copied annotations or copied region" aria-label="Paste copied annotations or copied region"><span class="selection-action-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><rect x="5.3" y="4.8" width="9.4" height="11.5" rx="1.5"/><path d="M7.4 4.8v-1c0-.6.5-1.1 1.1-1.1h3c.6 0 1.1.5 1.1 1.1v1"/><path d="M8.2 9h3.8"/><path d="M8.2 11.8h4.6"/></svg></span></button>
+          </div>
           <div class="annotation-history" role="group" aria-label="Annotation undo and redo">
             <button id="inkUndoBtn" type="button" title="Undo" aria-label="Undo" disabled>↶</button>
             <button id="inkRedoBtn" type="button" title="Redo" aria-label="Redo" disabled>↷</button>
@@ -137,6 +174,7 @@
             <button id="presentationRightPaneBtn" type="button" aria-pressed="false" title="Control right pane">R</button>
           </div>
           <select id="presentationDocumentSelect" class="presentation-document-select presentation-only" aria-label="Open document"></select>
+          <button id="presentationPagesBtn" class="presentation-only presentation-pages-btn" type="button" title="Browse pages" aria-label="Browse page thumbnails" aria-controls="presentationPageDrawerLayer" aria-expanded="false"><span class="presentation-pages-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="4" y="3.5" width="13" height="17" rx="1.5"/><path d="M7.2 7h6.7M7.2 10.3h6.7M7.2 13.6h6.7"/><path d="M19.2 6.2v11.6"/></svg></span></button>
           <button id="presentationScrollModeBtn" class="presentation-only" type="button" title="Change scrolling mode">↕</button>
           <button id="presentationFitBtn" class="presentation-only" type="button" title="Fit width" aria-label="Fit width">↔</button>
           <button id="presentationZoomOutBtn" class="presentation-only" type="button" aria-label="Zoom out">−</button>
@@ -145,6 +183,13 @@
           <button id="presentationLayoutBtn" class="presentation-only" type="button" title="Switch to split view" aria-label="Switch to split view">◫</button>
           <button id="presentationInsertBtn" class="presentation-insert-page presentation-only" type="button" title="Insert a page after the current page" aria-label="Insert page" aria-haspopup="menu" aria-expanded="false"><span class="page-plus-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 3h8l4 4v5M6 3v18h7M14 3v5h4"/><path d="M14 17h7M17.5 13.5v7"/></svg></span></button>
           <button id="presentationExit" class="presentation-only" type="button" aria-label="Exit presentation mode">×</button>
+          <button id="presentationDiagnosticsBtn" class="presentation-only presentation-diagnostics-btn" type="button" title="Save diagnostics locally" aria-label="Save diagnostics locally"><span class="presentation-diagnostics-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 3.5h9l4 4V20.5H5z"/><path d="M14 3.5v4h4"/><path d="M7.5 14h2l1.4-3 2.2 6 1.4-3h2"/></svg></span></button>
+        </div>
+
+        <div id="presentationPageDrawerLayer" class="presentation-page-drawer-layer hidden" aria-hidden="true">
+          <aside id="presentationPageDrawer" class="presentation-page-drawer" aria-label="Page thumbnails">
+            <div id="presentationPageDrawerScroller" class="presentation-page-drawer-scroller"></div>
+          </aside>
         </div>
       </section>
 
@@ -154,6 +199,8 @@
           <div class="organizer-actions">
             <button id="selectAllBtn" type="button">Select all</button>
             <button id="rotateBtn" type="button" disabled>Rotate</button>
+            <button id="pageGraphBackgroundBtn" type="button" disabled>Add graph paper background</button>
+            <button id="pagePurgeLegacyGraphBackgroundBtn" type="button" disabled title="Temporary migration tool: remove the known PowerPoint graph-paper image from selected PDF pages">Purge old graph image</button>
             <button id="pageGeometryBtn" type="button">Page size…</button>
             <button id="pageEdgeBtn" type="button">Crop / margins…</button>
             <button id="insertPageBtn" type="button" aria-haspopup="menu" aria-expanded="false">Insert</button>
@@ -170,7 +217,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.0.2</div>
+          <div class="export-kicker">Milestone 5.7.37 · iPad canvas-memory stability</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -195,6 +242,15 @@
                   </div>
                 </div>
               </div>
+              <div class="library-export-selection-toolbar library-bulk-selection-toolbar" aria-label="Selected Library document actions">
+                <p id="librarySelectionSummary" class="small-note">No documents selected.</p>
+                <div class="library-export-selection-actions">
+                  <button id="librarySelectAllBtn" type="button">Select all</button>
+                  <button id="libraryClearSelectionBtn" type="button">Clear</button>
+                  <button id="libraryMoveSelectedBtn" type="button" disabled>Move selected to…</button>
+                  <button id="libraryTrashSelectedBtn" class="trash-action" type="button" disabled>Move selected to Trash</button>
+                </div>
+              </div>
               <div id="libraryDocumentList" class="library-document-list" aria-label="Persistent local documents and folders"></div>
               <p id="libraryStorageSummary" class="small-note"></p>
             </div>
@@ -204,7 +260,7 @@
             <summary><span>Open documents</span><span id="fileSelectionSummary" class="operation-summary">No documents are open.</span></summary>
             <div class="file-tool-body">
               <div class="library-toolbar-row">
-                <p class="file-tool-summary">Currently open working set. Check documents here for Export, Compress, or Combine.</p>
+                <p class="file-tool-summary">Currently open working set. A checked document is selected globally for PDF Tools, whether it is checked here or in Local Library.</p>
                 <div class="file-selection-actions">
                   <button id="selectAllFilesBtn" type="button">Select all</button>
                   <button id="clearFileSelectionBtn" type="button">Clear</button>
@@ -214,12 +270,33 @@
             </div>
           </details>
 
+          <details class="selected-documents-section file-tool-details library-overview-details" id="selectedDocumentsSection">
+            <summary><span>Selected documents</span><span id="selectedDocumentsSummary" class="operation-summary">No documents selected.</span></summary>
+            <div class="file-tool-body">
+              <p class="file-tool-summary">The same selection is shown in Open Documents and Local Library. Uncheck a document here to remove it from the shared PDF Tools selection everywhere.</p>
+              <div id="selectedDocumentList" class="open-document-list selected-document-list" aria-label="Selected documents"></div>
+            </div>
+          </details>
+
           <h2 class="file-tool-group-label">Create</h2>
 
           <details class="file-tool-section file-tool-details" id="newFilesSection">
             <summary><span>New</span><span class="operation-summary">Create a blank, graph-paper, or template document</span></summary>
             <div class="file-tool-body">
-              <p class="file-tool-summary">New writing documents start as US Letter landscape. Pages inserted into an existing document still match the current page size and orientation.</p>
+              <p class="file-tool-summary">Choose US Letter landscape or a page shaped to the current Presentation viewport. Presentation Ratio uses the current device/orientation and fixes the long page edge at 11 inches. Pages inserted into an existing document still match the current page size and orientation.</p>
+              <label class="export-field new-document-size-field">
+                <span>Page size</span>
+                <select id="newDocumentPageSize">
+                  <option value="letter" selected>US Letter landscape</option>
+                  <option value="presentation">Presentation Ratio · long side 11 in</option>
+                </select>
+              </label>
+              <p id="newDocumentPageSizeHint" class="small-note new-document-size-hint">US Letter landscape · 11 × 8.5 in.</p>
+              <div class="page-background-chooser new-blank-background-chooser" role="group" aria-label="Blank document background">
+                <span class="page-background-label">Blank background</span>
+                <button id="newBlankWhiteBtn" class="page-background-choice active" type="button" aria-pressed="true" title="Create blank documents with a white background"><span class="page-background-swatch white" aria-hidden="true"></span><span>White</span></button>
+                <button id="newBlankBlackBtn" class="page-background-choice" type="button" aria-pressed="false" title="Create blank documents with a black background"><span class="page-background-swatch black" aria-hidden="true"></span><span>Black</span></button>
+              </div>
               <div class="new-document-actions">
                 <button id="newBlankDocumentBtn" class="export-button secondary-output-button" type="button">Blank document</button>
                 <button id="newGraphDocumentBtn" class="export-button secondary-output-button" type="button">Graph-paper document</button>
@@ -231,8 +308,36 @@
           <details class="file-tool-section file-tool-details" id="templatesFilesSection">
             <summary><span>Templates</span><span id="filesTemplatesSummary" class="operation-summary">No templates saved</span></summary>
             <div class="file-tool-body">
-              <p class="file-tool-summary">Manage reusable page templates stored with the Local Library. The same manager remains available from Insert Page.</p>
-              <button id="filesManageTemplatesBtn" class="export-button secondary-output-button" type="button">Manage templates…</button>
+              <div id="templateManageModeBar" class="asset-insert-mode-bar hidden">
+                <p class="file-tool-summary">Manage templates here, or return to the document when finished.</p>
+                <button id="templateManageBackBtn" type="button">Back to document</button>
+              </div>
+              <p class="file-tool-summary">Manage reusable page templates stored with the Local Library. Template naming uses the same small naming dialog as Local Library folders and documents.</p>
+              <div id="filesTemplateManager" class="files-template-manager"></div>
+            </div>
+          </details>
+
+          <details class="file-tool-section file-tool-details" id="assetsFilesSection">
+            <summary><span>Assets</span><span id="assetsSummary" class="operation-summary">Reusable images and snippets</span></summary>
+            <div class="file-tool-body">
+              <div id="assetInsertModeBar" class="asset-insert-mode-bar hidden">
+                <p id="assetInsertModeHelp" class="file-tool-summary">Choose an asset to paste, or return to the document.</p>
+                <button id="assetInsertCancelBtn" type="button">Back to document</button>
+              </div>
+              <p id="assetBrowserHelp" class="file-tool-summary">Browse reusable images and editable annotation snippets. Recent copies are kept as a local clipboard history and can be promoted into the permanent Asset Library.</p>
+              <div id="assetToolbar" class="asset-toolbar">
+                <div class="asset-tabs" role="tablist" aria-label="Asset view">
+                  <button id="assetLibraryTab" type="button" class="active" aria-pressed="true">Library</button>
+                  <button id="assetRecentTab" type="button" aria-pressed="false">Recent</button>
+                </div>
+                <button id="assetImportImageBtn" type="button">Import images…</button>
+              </div>
+              <div id="assetLibraryBrowser" class="asset-library-browser">
+                <nav id="assetBreadcrumb" class="library-breadcrumb" aria-label="Current Asset folder"></nav>
+                <div class="asset-library-browser-actions"><button id="assetNewFolderBtn" type="button">New folder</button></div>
+              </div>
+              <p id="assetEmpty" class="asset-empty hidden"></p>
+              <div id="assetGrid" class="asset-grid asset-files-grid" aria-live="polite"></div>
             </div>
           </details>
 
@@ -280,13 +385,13 @@
           <details class="file-tool-section file-tool-details" id="exportFilesSection">
             <summary><span>Export</span><span id="exportOperationSummary" class="operation-summary">Select one or more documents above</span></summary>
             <div class="file-tool-body">
-              <p id="exportSummary" class="file-tool-summary">Select one or more open documents above.</p>
+              <p id="exportSummary" class="file-tool-summary">Select one or more documents above.</p>
               <label class="export-field">
                 <span id="exportFilenameLabel">File name</span>
                 <input id="exportFilename" type="text" value="document-edited.pdf" autocomplete="off" spellcheck="false">
               </label>
               <button id="exportPdfBtn" class="export-button" type="button" disabled>Export selected</button>
-              <p class="small-note">One checked document exports as a PDF. Two or more checked documents are exported together in one ZIP; each PDF keeps its own current page order and edits.</p>
+              <p class="small-note">One selected document exports as a PDF. Two or more selected documents are exported together in one ZIP; each PDF keeps its own current page order and edits.</p>
               <p id="exportProgress" class="export-progress" aria-live="polite"></p>
             </div>
           </details>
@@ -294,7 +399,7 @@
           <details class="file-tool-section file-tool-details" id="compressFilesSection">
             <summary><span>Compress</span><span id="compressOperationSummary" class="operation-summary">Select one or more documents above</span></summary>
             <div class="file-tool-body">
-              <p id="compressSummary" class="file-tool-summary">Select one or more open documents above.</p>
+              <p id="compressSummary" class="file-tool-summary">Select one or more documents above.</p>
               <div class="compression-options">
                 <label class="export-field">
                   <span>Method</span>
@@ -332,8 +437,22 @@
             </div>
           </details>
 
+          <details class="file-tool-section file-tool-details" id="combineFilesSection">
+            <summary><span>Combine</span><span id="combineOperationSummary" class="operation-summary">Select two or more documents above</span></summary>
+            <div class="file-tool-body">
+              <p class="file-tool-summary">The selected documents appear below. Arrange their combine order without changing the shared Selected Documents list. Combining creates a new working document and leaves the originals unchanged.</p>
+              <label class="export-field">
+                <span>New document name</span>
+                <input id="combineName" type="text" value="Combined.pdf" autocomplete="off" spellcheck="false">
+              </label>
+              <div id="combineList" class="combine-list" aria-label="Order of documents to combine"></div>
+              <button id="combineBtn" class="export-button" type="button">Create combined document</button>
+              <p id="combineProgress" class="export-progress" aria-live="polite"></p>
+            </div>
+          </details>
+
           <details class="file-tool-section file-tool-details" id="extractFilesSection">
-            <summary><span>Extract</span><span class="operation-summary">Selected pages from the active document</span></summary>
+            <summary><span>Extract</span><span id="extractOperationSummary" class="operation-summary">No active document</span></summary>
             <div class="file-tool-body">
               <p id="extractSummary" class="file-tool-summary">Select pages in Pages, then save just those pages as a new PDF.</p>
               <label class="export-field">
@@ -346,7 +465,7 @@
           </details>
 
           <details class="file-tool-section file-tool-details" id="splitFilesSection">
-            <summary><span>Split</span><span id="splitOperationSummary" class="operation-summary">Split the active document</span></summary>
+            <summary><span>Split</span><span id="splitOperationSummary" class="operation-summary">No active document</span></summary>
             <div class="file-tool-body">
               <p class="file-tool-summary">Split operates on the active document. Multiple output PDFs are packaged into one ZIP for a single save/share operation.</p>
               <label class="export-field">
@@ -374,26 +493,15 @@
             </div>
           </details>
 
-          <details class="file-tool-section file-tool-details" id="combineFilesSection">
-            <summary><span>Combine</span><span id="combineOperationSummary" class="operation-summary">Select two or more documents above</span></summary>
-            <div class="file-tool-body">
-              <p class="file-tool-summary">The checked documents appear below. Arrange their combine order without changing the general Open documents list. Combining creates a new working document and leaves the originals unchanged.</p>
-              <label class="export-field">
-                <span>New document name</span>
-                <input id="combineName" type="text" value="Combined.pdf" autocomplete="off" spellcheck="false">
-              </label>
-              <div id="combineList" class="combine-list" aria-label="Order of documents to combine"></div>
-              <button id="combineBtn" class="export-button" type="button">Create combined document</button>
-              <p id="combineProgress" class="export-progress" aria-live="polite"></p>
-            </div>
-          </details>
-
           <h2 class="file-tool-group-label">Library management</h2>
 
           <details class="file-tool-section file-tool-details" id="trashFilesSection">
             <summary><span>Trash</span><span id="trashSummary" class="operation-summary">No documents in Trash</span></summary>
             <div class="file-tool-body">
-              <p class="file-tool-summary">Documents moved to Trash are removed from the active workspace but remain recoverable until permanently deleted.</p>
+              <div class="library-toolbar-row">
+                <p class="file-tool-summary">Documents moved to Trash are removed from the active workspace but remain recoverable until permanently deleted.</p>
+                <button id="emptyTrashBtn" class="danger-output-button" type="button" disabled>Empty Trash…</button>
+              </div>
               <div id="trashDocumentList" class="library-document-list trash-document-list" aria-label="Documents in Trash"></div>
             </div>
           </details>
@@ -405,11 +513,20 @@
               <div class="library-backup-actions">
                 <button id="libraryPdfArchiveBtn" class="export-button secondary-output-button" type="button">Export Library as PDFs (.zip)</button>
                 <button id="libraryEditableBackupBtn" class="export-button secondary-output-button" type="button">Back up editable Library</button>
+                <button id="librarySelectedEditableBackupBtn" class="export-button secondary-output-button" type="button" disabled>Back up selected documents (editable)</button>
                 <button id="libraryRestoreBackupBtn" class="export-button secondary-output-button" type="button">Restore Library backup…</button>
                 <button id="libraryImportBackupBtn" class="export-button secondary-output-button" type="button">Import backup as folder…</button>
+                <button id="libraryMergeBackupBtn" class="export-button secondary-output-button" type="button">Merge with backup… <span aria-hidden="true">β</span></button>
               </div>
-              <p class="small-note">The PDF archive preserves the Library folder/subfolder structure and includes saved templates as one-page PDFs. Trash is omitted. Editable backups are written as .pwbbackup.zip. Restore replaces the current Library; Import backup as folder keeps the current Library and adds the backup as a new subtree.</p>
+              <p class="small-note">The PDF archive preserves the Library folder/subfolder structure and includes saved templates as one-page PDFs. Trash is omitted. Editable backups are written as .pwbbackup.zip. <strong>Back up selected documents (editable)</strong> writes only the globally selected documents and the source files they actually reference; it intentionally omits Templates, Assets, Trash, unrelated documents, and the workspace session. A selected-document package cannot replace the whole Library, but it can be imported as a folder or used with Merge. Restore replaces the current Library; Import backup as folder keeps the current Library and adds the backup as a new subtree. <strong>Merge with backup (experimental)</strong> compares matching document IDs and keeps the newer modified document; a displaced older local copy is moved to Trash.</p>
               <p id="libraryBackupProgress" class="export-progress" aria-live="polite"></p>
+              <div class="saved-diagnostics-tools">
+                <p id="savedDiagnosticsSummary" class="small-note">No locally saved diagnostics.</p>
+                <div class="library-backup-actions">
+                  <button id="exportSavedDiagnosticsBtn" class="export-button secondary-output-button" type="button" disabled>Export saved diagnostics</button>
+                  <button id="clearSavedDiagnosticsBtn" class="export-button secondary-output-button" type="button" disabled>Clear saved diagnostics</button>
+                </div>
+              </div>
             </div>
           </details>
 
@@ -457,11 +574,20 @@
           <span class="insert-choice-label">Graph paper</span>
         </button>
       </div>
+      <div class="page-background-chooser insert-blank-background-chooser" role="group" aria-label="Inserted blank page background">
+        <span class="page-background-label">Blank background</span>
+        <button id="insertBlankWhiteBtn" class="page-background-choice active" type="button" aria-pressed="true" title="Insert a white blank page"><span class="page-background-swatch white" aria-hidden="true"></span><span>White</span></button>
+        <button id="insertBlankBlackBtn" class="page-background-choice" type="button" aria-pressed="false" title="Insert a black blank page"><span class="page-background-swatch black" aria-hidden="true"></span><span>Black</span></button>
+      </div>
       <div class="popover-divider" aria-hidden="true"></div>
       <div class="popover-section-label">Templates</div>
       <div id="insertTemplateList" class="insert-template-list insert-choice-grid" role="group" aria-label="Saved templates"></div>
-      <div class="insert-menu-actions">
-        <button id="savePageTemplateBtn" class="insert-text-action" type="button" role="menuitem">Save current page as template…</button>
+      <div class="insert-menu-actions template-save-area">
+        <div class="template-save-row" role="group" aria-label="Save current page as template">
+          <span id="savePageTemplateLabel" class="template-save-label">Save current page as template:</span>
+          <button id="savePageTemplateWithBtn" class="template-save-link" type="button">With annotations…</button>
+          <button id="savePageTemplateCleanBtn" class="template-save-link" type="button">Without annotations…</button>
+        </div>
         <button id="manageTemplatesBtn" class="insert-text-action" type="button" role="menuitem">Manage templates…</button>
       </div>
     </div>
@@ -487,6 +613,7 @@
               <span>Target size</span>
               <select id="pageGeometryPreset">
                 <option value="letter" selected>US Letter (8.5 × 11 in)</option>
+                <option value="presentation">Presentation Ratio · long side 11 in</option>
                 <option value="legal">US Legal (8.5 × 14 in)</option>
                 <option value="a4">A4 (210 × 297 mm)</option>
                 <option value="first">Match first page size</option>
@@ -638,30 +765,29 @@
       </form>
     </dialog>
 
-    <dialog id="libraryMoveDialog" class="info-dialog template-name-dialog">
-      <form id="libraryMoveForm" method="dialog">
-        <button id="libraryMoveCloseBtn" class="dialog-close" type="button" aria-label="Cancel">×</button>
-        <h2 id="libraryMoveTitle">Move</h2>
-        <p id="libraryMoveHelp" class="template-name-help">Choose a destination folder.</p>
-        <label for="libraryMoveDestination">Destination</label>
-        <select id="libraryMoveDestination" class="library-move-select"></select>
-        <div class="dialog-actions">
-          <button id="libraryMoveCancelBtn" type="button">Cancel</button>
-          <button id="libraryMoveSaveBtn" value="move">Move</button>
+    <dialog id="regionCaptureDialog" class="info-dialog template-name-dialog">
+      <form id="regionCaptureForm" method="dialog">
+        <button id="regionCaptureCloseBtn" class="dialog-close" type="button" aria-label="Cancel">×</button>
+        <h2>Copy selected region</h2>
+        <p id="regionCaptureSummary" class="template-name-help">Choose how large the pasted image should be.</p>
+        <div class="dialog-actions region-capture-actions">
+          <button id="regionCaptureOriginalBtn" type="button">Original size</button>
+          <button id="regionCaptureZoomBtn" type="button">Current zoom size</button>
+          <button id="regionCaptureCancelBtn" type="button">Cancel</button>
         </div>
       </form>
     </dialog>
 
-    <dialog id="templateNameDialog" class="info-dialog template-name-dialog">
-      <form id="templateNameForm" method="dialog">
-        <button id="templateNameCloseBtn" class="dialog-close" type="button" aria-label="Cancel">×</button>
-        <h2>Template name</h2>
-        <p class="template-name-help">A generic name is already supplied so a temporary template can be saved immediately.</p>
-        <label for="templateNameInput">Name</label>
-        <input id="templateNameInput" class="template-name-input" type="text" autocomplete="off" maxlength="120">
+    <dialog id="folderMoveDialog" class="info-dialog template-name-dialog">
+      <form id="folderMoveForm" method="dialog">
+        <button id="folderMoveCloseBtn" class="dialog-close" type="button" aria-label="Cancel">×</button>
+        <h2 id="folderMoveTitle">Move</h2>
+        <p id="folderMoveHelp" class="template-name-help">Choose a destination folder.</p>
+        <label for="folderMoveDestination">Destination</label>
+        <select id="folderMoveDestination" class="library-move-select"></select>
         <div class="dialog-actions">
-          <button id="templateNameCancelBtn" type="button">Cancel</button>
-          <button value="save">Save template</button>
+          <button id="folderMoveCancelBtn" type="button">Cancel</button>
+          <button id="folderMoveSaveBtn" value="move">Move</button>
         </div>
       </form>
     </dialog>
@@ -680,6 +806,7 @@
       </form>
     </dialog>
 
+
     <dialog id="infoDialog" class="info-dialog">
       <form method="dialog">
         <button class="dialog-close" value="close" aria-label="Close">×</button>
@@ -689,6 +816,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js"></script>
+  <script type="module" src="app.js?v=5.7.37"></script>
 </body>
 </html>

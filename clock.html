@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Full Screen Clock</title>
+  <style>
+    :root {
+      --bg: #f5f5f5;
+      --fg: #111111;
+      --panel: rgba(255,255,255,0.82);
+      --border: rgba(0,0,0,0.14);
+      --button-hover: rgba(0,0,0,0.07);
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #050505;
+      --fg: #f4f4f4;
+      --panel: rgba(20,20,20,0.82);
+      --border: rgba(255,255,255,0.16);
+      --button-hover: rgba(255,255,255,0.10);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    .clock-page {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      display: grid;
+      place-items: center;
+      background: var(--bg);
+      color: var(--fg);
+      transition: background-color 160ms ease, color 160ms ease;
+    }
+
+    .clock-wrap {
+      width: 100%;
+      min-width: 0;
+      text-align: center;
+      padding: 1.5vw;
+      user-select: none;
+    }
+
+    #clock {
+      margin: 0;
+      font-family: ui-monospace, "SFMono-Regular", "Cascadia Mono", "Roboto Mono",
+                   "Courier New", monospace;
+      font-size: 24vw;
+      font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: -0.06em;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .controls {
+      position: absolute;
+      top: max(14px, env(safe-area-inset-top));
+      right: max(14px, env(safe-area-inset-right));
+      display: flex;
+      gap: 8px;
+      padding: 6px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--panel);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: opacity 180ms ease, background-color 160ms ease;
+      z-index: 10;
+    }
+
+    .controls button {
+      min-width: 44px;
+      min-height: 44px;
+      border: 0;
+      border-radius: 8px;
+      padding: 0 12px;
+      background: transparent;
+      color: var(--fg);
+      font: inherit;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    .controls button:hover,
+    .controls button:focus-visible {
+      background: var(--button-hover);
+    }
+
+    .controls button[aria-pressed="true"] {
+      outline: 2px solid currentColor;
+      outline-offset: -3px;
+    }
+
+    body.fullscreen-active .controls {
+      opacity: 0.18;
+    }
+
+    body.fullscreen-active .controls:hover,
+    body.fullscreen-active .controls:focus-within {
+      opacity: 1;
+    }
+
+    @media (max-width: 700px) {
+      #clock { font-size: 23vw; }
+
+      .controls button {
+        padding: 0 10px;
+        font-size: 14px;
+      }
+    }
+
+    @media (orientation: portrait) {
+      #clock { font-size: 24vw; }
+    }
+  </style>
+</head>
+<body>
+  <main class="clock-page" id="clockPage">
+    <div class="controls" aria-label="Clock controls">
+      <button type="button" id="lightBtn" aria-pressed="false" title="Light mode">Light</button>
+      <button type="button" id="darkBtn" aria-pressed="false" title="Dark mode">Dark</button>
+      <button type="button" id="fullscreenBtn" title="Enter full screen">Full screen</button>
+    </div>
+
+    <section class="clock-wrap" aria-live="off">
+      <div id="clock" aria-label="Current time">--:--</div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const clock = document.getElementById("clock");
+      const lightBtn = document.getElementById("lightBtn");
+      const darkBtn = document.getElementById("darkBtn");
+      const fullscreenBtn = document.getElementById("fullscreenBtn");
+      const clockPage = document.getElementById("clockPage");
+
+      function updateTime() {
+        const now = new Date();
+
+        clock.textContent = new Intl.DateTimeFormat(undefined, {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false
+        }).format(now);
+
+        fitClock();
+      }
+
+      function fitClock() {
+        const available = Math.max(100, window.innerWidth * 0.965);
+        let size = window.innerWidth * 0.24;
+        clock.style.fontSize = `${size}px`;
+
+        const measured = clock.scrollWidth;
+        if (measured > available) {
+          size *= available / measured;
+          clock.style.fontSize = `${size}px`;
+        }
+
+        const maxByHeight = window.innerHeight * 0.55;
+        if (size > maxByHeight) {
+          clock.style.fontSize = `${maxByHeight}px`;
+        }
+      }
+
+      function applyTheme(theme) {
+        root.dataset.theme = theme;
+        lightBtn.setAttribute("aria-pressed", String(theme === "light"));
+        darkBtn.setAttribute("aria-pressed", String(theme === "dark"));
+      }
+
+      lightBtn.addEventListener("click", () => applyTheme("light"));
+      darkBtn.addEventListener("click", () => applyTheme("dark"));
+
+      fullscreenBtn.addEventListener("click", async () => {
+        try {
+          if (!document.fullscreenElement) {
+            await clockPage.requestFullscreen();
+          } else {
+            await document.exitFullscreen();
+          }
+        } catch {}
+      });
+
+      document.addEventListener("fullscreenchange", () => {
+        const active = Boolean(document.fullscreenElement);
+        document.body.classList.toggle("fullscreen-active", active);
+        fullscreenBtn.textContent = active ? "Exit full screen" : "Full screen";
+        fullscreenBtn.title = active ? "Exit full screen" : "Enter full screen";
+        setTimeout(fitClock, 50);
+      });
+
+      window.addEventListener("resize", fitClock);
+
+      document.addEventListener("keydown", async (event) => {
+        if (event.target.matches("input, textarea, select, button")) return;
+
+        const key = event.key.toLowerCase();
+        if (key === "l") applyTheme("light");
+        if (key === "d") applyTheme("dark");
+
+        if (key === "f") {
+          try {
+            if (!document.fullscreenElement) {
+              await clockPage.requestFullscreen();
+            } else {
+              await document.exitFullscreen();
+            }
+          } catch {}
+        }
+      });
+
+      const startsDark =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+      applyTheme(startsDark ? "dark" : "light");
+
+      updateTime();
+      setInterval(updateTime, 1000);
+    })();
+  </script>
+</body>
+</html>

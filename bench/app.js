@@ -1,4 +1,6 @@
-const APP_VERSION = '5.0.2';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.37';
+
+const APP_VERSION = '5.7.37';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -9,19 +11,21 @@ const PDFLIB_URL = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.esm
 const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 
 const LIBRARY_DB_NAME = 'pdf-workbench-library';
-const LIBRARY_DB_VERSION = 2;
-const LIBRARY_SCHEMA_VERSION = 5;
+const LIBRARY_DB_VERSION = 4;
+const LIBRARY_SCHEMA_VERSION = 8;
 const LIBRARY_BACKUP_FORMAT_VERSION = 1;
+const SESSION_CHECKPOINT_KEY = 'pdfwb-session-checkpoint-v2';
+const RECENT_ASSET_LIMIT = 30;
 
 const $ = (id) => document.getElementById(id);
 const els = {
-  app: $('app'), openBtn: $('openBtn'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), newTemplateDocumentBtn: $('newTemplateDocumentBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), libraryZipImportInput: $('libraryZipImportInput'), imageAssemblyInput: $('imageAssemblyInput'), documentSelect: $('documentSelect'),
+  app: $('app'), openBtn: $('openBtn'), annotationImageInput: $('annotationImageInput'), assetImageInput: $('assetImageInput'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), newTemplateDocumentBtn: $('newTemplateDocumentBtn'), newDocumentPageSize: $('newDocumentPageSize'), newDocumentPageSizeHint: $('newDocumentPageSizeHint'), newBlankWhiteBtn: $('newBlankWhiteBtn'), newBlankBlackBtn: $('newBlankBlackBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), libraryZipImportInput: $('libraryZipImportInput'), imageAssemblyInput: $('imageAssemblyInput'), documentSelect: $('documentSelect'),
   viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), exportModeBtn: $('exportModeBtn'), viewerControls: $('viewerControls'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
-  moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), filesTemplatesSummary: $('filesTemplatesSummary'), filesManageTemplatesBtn: $('filesManageTemplatesBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
-  extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
+  moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), librarySelectionSummary: $('librarySelectionSummary'), librarySelectAllBtn: $('librarySelectAllBtn'), libraryClearSelectionBtn: $('libraryClearSelectionBtn'), libraryMoveSelectedBtn: $('libraryMoveSelectedBtn'), libraryTrashSelectedBtn: $('libraryTrashSelectedBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), emptyTrashBtn: $('emptyTrashBtn'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), librarySelectedEditableBackupBtn: $('librarySelectedEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), savedDiagnosticsSummary: $('savedDiagnosticsSummary'), exportSavedDiagnosticsBtn: $('exportSavedDiagnosticsBtn'), clearSavedDiagnosticsBtn: $('clearSavedDiagnosticsBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  extractOperationSummary: $('extractOperationSummary'), extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
   imageAssemblyChooseBtn: $('imageAssemblyChooseBtn'), imageAssemblyClearBtn: $('imageAssemblyClearBtn'), imageAssemblySummary: $('imageAssemblySummary'), imageAssemblyList: $('imageAssemblyList'), imageAssemblyName: $('imageAssemblyName'), imageAssemblyPageSize: $('imageAssemblyPageSize'), imageAssemblyOrientation: $('imageAssemblyOrientation'), imageAssemblyCreateBtn: $('imageAssemblyCreateBtn'), imageAssemblyProgress: $('imageAssemblyProgress'), imageAssemblyOperationSummary: $('imageAssemblyOperationSummary'),
@@ -29,10 +33,10 @@ const els = {
   splitLeftPane: $('splitLeftPane'), splitLeftViewer: $('splitLeftViewer'), splitLeftDocumentSelect: $('splitLeftDocumentSelect'), splitLeftNav: $('splitLeftNav'), splitLeftPrevBtn: $('splitLeftPrevBtn'), splitLeftNextBtn: $('splitLeftNextBtn'), splitLeftCounter: $('splitLeftCounter'),
   splitRightPane: $('splitRightPane'), splitRightViewer: $('splitRightViewer'), splitRightDocumentSelect: $('splitRightDocumentSelect'), splitRightNav: $('splitRightNav'), splitRightPrevBtn: $('splitRightPrevBtn'), splitRightNextBtn: $('splitRightNextBtn'), splitRightCounter: $('splitRightCounter'),
   thumbnailGrid: $('thumbnailGrid'), pageCountLabel: $('pageCountLabel'), selectionLabel: $('selectionLabel'),
-  selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
+  selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGraphBackgroundBtn: $('pageGraphBackgroundBtn'), pagePurgeLegacyGraphBackgroundBtn: $('pagePurgeLegacyGraphBackgroundBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkPenBtn: $('inkPenBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertTemplateList: $('insertTemplateList'), savePageTemplateBtn: $('savePageTemplateBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), templateNameDialog: $('templateNameDialog'), templateNameForm: $('templateNameForm'), templateNameInput: $('templateNameInput'), templateNameCloseBtn: $('templateNameCloseBtn'), templateNameCancelBtn: $('templateNameCancelBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), libraryMoveDialog: $('libraryMoveDialog'), libraryMoveForm: $('libraryMoveForm'), libraryMoveTitle: $('libraryMoveTitle'), libraryMoveHelp: $('libraryMoveHelp'), libraryMoveDestination: $('libraryMoveDestination'), libraryMoveCloseBtn: $('libraryMoveCloseBtn'), libraryMoveCancelBtn: $('libraryMoveCancelBtn'), libraryMoveSaveBtn: $('libraryMoveSaveBtn'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkLaserBtn: $('inkLaserBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationPagesBtn: $('presentationPagesBtn'), presentationPageDrawerLayer: $('presentationPageDrawerLayer'), presentationPageDrawer: $('presentationPageDrawer'), presentationPageDrawerScroller: $('presentationPageDrawerScroller'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), viewDiagnosticsBtn: $('viewDiagnosticsBtn'), presentationDiagnosticsBtn: $('presentationDiagnosticsBtn'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -56,6 +60,8 @@ const state = {
   fileSelected: new Set(),
   fileSelectionInitialized: false,
   combineOrder: [],
+  newBlankBackground: 'white',
+  insertBlankBackground: 'white',
   renderGeneration: 0,
   pageObserver: null,
   thumbObserver: null,
@@ -63,13 +69,42 @@ const state = {
   lastWheelPageChange: 0,
   statusTimer: null,
   presentationControlsTimer: null,
+  presentationThumbObserver: null,
   presentationRevealPointerId: null,
   presentationSuppressClicksUntil: 0,
   singlePresentationTransitionActive: false,
-  annotationTool: safePref('pdfwb-annotation-tool', 'hand', ['hand', 'pen']),
+  annotationTool: safePref('pdfwb-annotation-tool', 'hand', ['hand', 'laser', 'pen', 'highlighter', 'eraser', 'select']),
   penColor: safePref('pdfwb-pen-color', '#111111', ['#111111','#1565c0','#d32f2f','#2e7d32','#ef6c00']),
   penWidth: Number(safePref('pdfwb-pen-width', '3', ['1.5','3','5.5'])),
+  highlighterColor: safePref('pdfwb-highlighter-color', '#ffeb3b', ['#ffeb3b','#ff80ab','#4dd0e1','#81c784']),
+  highlighterWidth: Number(safePref('pdfwb-highlighter-width', '14', ['8','14','22'])),
+  eraserSize: Number(safePref('pdfwb-eraser-size', '24', ['12','24','40'])),
   inkGesture: null,
+  eraserGesture: null,
+  selectionGesture: null,
+  annotationSelection: { documentId: null, pageId: null, ids: new Set() },
+  annotationClipboard: null,
+  annotationClipboardAssetId: null,
+  annotationPasteSerial: 0,
+  annotationPasteTargetKey: null,
+  eraserCursor: null,
+  laserGesture: null,
+  laserPointer: null,
+  inkDiagnostics: [],
+  inkDiagnosticSequence: 0,
+  inkDiagnosticPointers: new Map(),
+  viewerDiagnosticPointers: new Map(),
+  latestCompletedInkGestureDiagnostics: [],
+  snapshotPagesDiagnostics: { calls:0, totalMs:0, lastMs:0, maxMs:0, over16Ms:0, over50Ms:0, lastPageCount:0 },
+  renderDiagnosticEvents: [],
+  renderDiagnosticAnomalies: [],
+  renderDiagnosticSequence: 0,
+  pinchDiagnosticSequence: 0,
+  stylusTouchContacts: new Map(),
+  penHoverPointers: new Map(),
+  penContactPointers: new Map(),
+  penPalmGuardViewer: null,
+  penPalmGuardUntil: 0,
   touchPointers: new Map(),
   touchPan: null,
   touchInertiaFrame: null,
@@ -82,6 +117,8 @@ const state = {
   insertTarget: null,
   pendingPageFocus: null,
   templates: [],
+  newLastPageDefault: { kind: 'graph', templateId: null },
+  autoAppendLock: false,
   imageAssemblyItems: [],
   imageAssemblySequence: 1,
   insertPreviewGeneration: 0,
@@ -89,12 +126,26 @@ const state = {
   libraryReady: false,
   libraryRecords: new Map(),
   libraryFolders: new Map(),
+  assetRecords: new Map(),
+  assetFolders: new Map(),
+  assetFolderId: null,
+  assetBrowserMode: 'manage',
+  assetBrowserView: 'library',
+  filesReturnContext: null,
   libraryFolderId: null,
   libraryViewMode: safePref('pdfwb-library-view', 'grid', ['grid','list']),
   libraryPreviewObserver: null,
-  pendingLibraryMove: null,
+  pendingFolderMove: null,
   pendingBackupImportMode: 'replace',
   libraryPersistTimer: null,
+  annotationRedrawJobs: new Map(),
+  regionCopyArmed: false,
+  regionCopyGesture: null,
+  sessionCheckpointTimer: null,
+  // Do not allow lifecycle events during startup to overwrite the previously
+  // saved workspace before restoration has had a chance to read it.
+  sessionRestoreHydrated: false,
+  sessionExplicitEmpty: false,
   libraryPersisting: false,
   libraryPersistAgain: false,
   libraryRecoveryTimer: null,
@@ -179,6 +230,8 @@ function openLibraryDatabaseOnce(timeoutMs=4500) {
         if (!db.objectStoreNames.contains('sources')) db.createObjectStore('sources', { keyPath: 'id' });
         if (!db.objectStoreNames.contains('meta')) db.createObjectStore('meta', { keyPath: 'key' });
         if (!db.objectStoreNames.contains('folders')) db.createObjectStore('folders', { keyPath: 'id' });
+        if (!db.objectStoreNames.contains('assets')) db.createObjectStore('assets', { keyPath: 'id' });
+        if (!db.objectStoreNames.contains('assetFolders')) db.createObjectStore('assetFolders', { keyPath: 'id' });
       };
       request.onsuccess = () => finishResolve(request.result);
       request.onerror = () => finishReject(request.error || new Error('IndexedDB open failed'));
@@ -281,10 +334,50 @@ function clonePlain(value) {
   try { return structuredClone(value); } catch { return JSON.parse(JSON.stringify(value)); }
 }
 function cloneInkStroke(stroke) {
-  return {
-    ...stroke,
-    points: Array.isArray(stroke?.points) ? stroke.points.map(point => ({ x: Number(point.x) || 0, y: Number(point.y) || 0 })) : [],
-  };
+  const source = stroke?.points;
+  let points = [];
+  if (Array.isArray(source)) {
+    points = source.map(point => {
+      const copy = { x: Number(point?.x) || 0, y: Number(point?.y) || 0 };
+      if (Number.isFinite(Number(point?.t))) copy.t = Number(point.t);
+      return copy;
+    });
+  } else if (ArrayBuffer.isView(source)) {
+    // Undo/Redo snapshots pack x/y plus the relative input timestamp used by
+    // the Google-style Pen modeler. Older in-memory snapshots without
+    // pointStride are still interpreted as x/y pairs.
+    const stride = Number(stroke?.pointStride) === 3 ? 3 : 2;
+    points = new Array(Math.floor(source.length / stride));
+    for (let i = 0, j = 0; i + 1 < source.length; i += stride, j += 1) {
+      const point = { x: Number(source[i]) || 0, y: Number(source[i + 1]) || 0 };
+      if (stride === 3 && Number.isFinite(Number(source[i + 2]))) point.t = Number(source[i + 2]);
+      points[j] = point;
+    }
+  }
+  const copy = { ...stroke, points };
+  delete copy.pointStride;
+  return copy;
+}
+function cloneInkStrokeForHistory(stroke) {
+  const source = Array.isArray(stroke?.points) ? stroke.points : [];
+  // Highlighter snapshots keep the compact x/y representation. Modeled Pen
+  // strokes carry a third relative-time float so their trajectory can be
+  // reconstructed deterministically after Undo/Redo.
+  const timed = stroke?.renderer === GOOGLE_INK_RENDERER || source.some(point => Number.isFinite(Number(point?.t)));
+  const stride = timed ? 3 : 2;
+  const packed = new Float32Array(source.length * stride);
+  for (let i = 0; i < source.length; i += 1) {
+    packed[i * stride] = Number(source[i]?.x) || 0;
+    packed[i * stride + 1] = Number(source[i]?.y) || 0;
+    if (timed) packed[i * stride + 2] = Number.isFinite(Number(source[i]?.t)) ? Number(source[i].t) : NaN;
+  }
+  return timed ? { ...stroke, points: packed, pointStride: 3 } : { ...stroke, points: packed };
+}
+function clonePageStateForHistory(page) {
+  if (!page) return page;
+  const copy = { ...page };
+  copy.annotations = Array.isArray(page.annotations) ? page.annotations.map(cloneInkStrokeForHistory) : [];
+  return copy;
 }
 function clonePageState(page, options={}) {
   if (!page) return page;
@@ -293,6 +386,23 @@ function clonePageState(page, options={}) {
   copy.annotations = includeAnnotations && Array.isArray(page.annotations) ? page.annotations.map(cloneInkStroke) : [];
   if (options.newId) copy.id = uid('page');
   return copy;
+}
+function annotationImageSourceIds(page) {
+  const ids = new Set();
+  for (const annotation of page?.annotations || []) {
+    if (annotation?.type === 'image' && annotation.sourceId) ids.add(annotation.sourceId);
+  }
+  return ids;
+}
+function pageReferencedSourceIds(page) {
+  const ids = annotationImageSourceIds(page);
+  if (page?.sourceId) ids.add(page.sourceId);
+  return ids;
+}
+function pagesReferencedSourceIds(pages) {
+  const ids = new Set();
+  for (const page of pages || []) for (const sourceId of pageReferencedSourceIds(page)) ids.add(sourceId);
+  return ids;
 }
 function serializeDocumentForLibrary(doc) {
   return {
@@ -303,8 +413,10 @@ function serializeDocumentForLibrary(doc) {
     selected: [...(doc.selected || [])],
     selectionAnchorId: doc.selectionAnchorId || null,
     activePageId: doc.activePageId || doc.pages[0]?.id || null,
-    history: (doc.history || []).map(snapshot => snapshot.map(page => clonePageState(page))),
-    future: (doc.future || []).map(snapshot => snapshot.map(page => clonePageState(page))),
+    // Undo/Redo is intentionally session-local. Persisting dozens of complete
+    // dense-page snapshots made every autosave grow roughly with history depth
+    // and could stall iPad Safari for seconds. Durable Library records therefore
+    // omit history/future entirely and store only the current editable state.
     singleView: copyView(doc.singleView || ensureSingleView(doc)),
     createdAt: doc.createdAt || Date.now(),
     modifiedAt: doc.modifiedAt || Date.now(),
@@ -316,6 +428,16 @@ function serializeDocumentForLibrary(doc) {
     trashBatchId: doc.trashBatchId || null,
   };
 }
+function stripPersistentHistory(record) {
+  if (!record || typeof record !== 'object') return record;
+  const hasHistory = Object.prototype.hasOwnProperty.call(record, 'history');
+  const hasFuture = Object.prototype.hasOwnProperty.call(record, 'future');
+  if (!hasHistory && !hasFuture) return record;
+  const clean = { ...record };
+  delete clean.history;
+  delete clean.future;
+  return clean;
+}
 function hydrateDocumentFromLibrary(record) {
   const pages = (record.pages || []).map(page => clonePageState(page));
   const pageIds = new Set(pages.map(page => page.id));
@@ -326,8 +448,11 @@ function hydrateDocumentFromLibrary(record) {
     selected: new Set((record.selected || []).filter(id => pageIds.has(id))),
     selectionAnchorId: pageIds.has(record.selectionAnchorId) ? record.selectionAnchorId : null,
     activePageId: pageIds.has(record.activePageId) ? record.activePageId : pages[0]?.id || null,
-    history: (record.history || []).map(snapshot => snapshot.map(page => clonePageState(page))),
-    future: (record.future || []).map(snapshot => snapshot.map(page => clonePageState(page))),
+    // Legacy builds persisted full Undo/Redo page snapshots. Do not hydrate
+    // those potentially huge arrays; the next save rewrites the record with
+    // current-state-only persistence.
+    history: [],
+    future: [],
     singleView: copyView(record.singleView) || { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: pages[0]?.id || null, scrollTop: null, scrollLeft: null },
     createdAt: record.createdAt || Date.now(),
     modifiedAt: record.modifiedAt || record.createdAt || Date.now(),
@@ -404,6 +529,623 @@ async function ensureLibrarySourceLoaded(sourceId) {
   state.sources.set(sourceId, source);
   return source;
 }
+
+// ---------------------------------------------------------------------------
+// Shared folder/browser primitives. Local Library and Assets intentionally use
+// the same simple tree model: parentId, sorted children, breadcrumb path,
+// descendant exclusion, and sibling-name checks.
+// ---------------------------------------------------------------------------
+function sortedFolderChildren(folders, parentId=null) {
+  return folders.filter(folder => (folder.parentId || null) === (parentId || null))
+    .sort((a,b) => String(a.name || '').localeCompare(String(b.name || ''), undefined, { sensitivity:'base', numeric:true }));
+}
+function folderPathFrom(getFolder, folderId) {
+  const path=[]; const seen=new Set(); let id=folderId;
+  while (id && !seen.has(id)) {
+    seen.add(id); const folder=getFolder(id); if (!folder) break;
+    path.unshift(folder); id=folder.parentId || null;
+  }
+  return path;
+}
+function folderDescendantIdsFrom(childFolders, folderId) {
+  const result=new Set();
+  const visit=id=>{ for (const child of childFolders(id)) { if (result.has(child.id)) continue; result.add(child.id); visit(child.id); } };
+  visit(folderId); return result;
+}
+function siblingFolderNameExists(folders, name, parentId, excludingId=null) {
+  const target=String(name || '').trim().toLocaleLowerCase();
+  return folders.some(folder => folder.id !== excludingId && (folder.parentId || null) === (parentId || null) && String(folder.name || '').trim().toLocaleLowerCase() === target);
+}
+function buildFolderMoveOptions({ rootLabel, childFolders, excludeFolderId=null }) {
+  const excluded=excludeFolderId ? folderDescendantIdsFrom(childFolders, excludeFolderId) : new Set();
+  if (excludeFolderId) excluded.add(excludeFolderId);
+  const options=[{id:'',label:rootLabel}];
+  const walk=(parentId=null,depth=0)=>{
+    for (const folder of childFolders(parentId)) {
+      if (excluded.has(folder.id)) continue;
+      options.push({id:folder.id,label:`${'— '.repeat(depth)}${folder.name}`});
+      walk(folder.id,depth+1);
+    }
+  };
+  walk(); return options;
+}
+function renderFolderBreadcrumb(container, { rootLabel, currentFolderId, path, setFolder }) {
+  if (!container) return;
+  container.replaceChildren();
+  const root=document.createElement('button');
+  root.type='button'; root.textContent=rootLabel; root.className='library-breadcrumb-button'; root.disabled=!currentFolderId;
+  root.addEventListener('click',()=>setFolder(null)); container.append(root);
+  for (const folder of path) {
+    const sep=document.createElement('span'); sep.className='library-breadcrumb-separator'; sep.textContent='›';
+    const button=document.createElement('button'); button.type='button'; button.textContent=folder.name; button.className='library-breadcrumb-button';
+    button.disabled=folder.id===currentFolderId; button.addEventListener('click',()=>setFolder(folder.id));
+    container.append(sep,button);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Milestone 5.7 — reusable Assets + browsable local clipboard history
+// ---------------------------------------------------------------------------
+function assetReferencedSourceIds(asset) {
+  const ids = new Set();
+  if (!asset) return ids;
+  if (asset.type === 'image' && asset.sourceId) ids.add(asset.sourceId);
+  if (asset.type === 'snippet') {
+    for (const item of asset.payload?.items || []) {
+      if (isImageAnnotation(item) && item.sourceId) ids.add(item.sourceId);
+    }
+  }
+  return ids;
+}
+function sourceUsedByAssets(sourceId, excludingAssetId=null) {
+  if (!sourceId) return false;
+  for (const asset of state.assetRecords.values()) {
+    if (asset.id === excludingAssetId) continue;
+    if (assetReferencedSourceIds(asset).has(sourceId)) return true;
+  }
+  return false;
+}
+function activeAssetFolders() {
+  return [...state.assetFolders.values()];
+}
+function assetFolderById(id) { return id ? state.assetFolders.get(id) || null : null; }
+function assetFolderChildren(parentId=null) { return sortedFolderChildren(activeAssetFolders(), parentId); }
+function permanentAssetsInFolder(folderId=null) {
+  return permanentAssets().filter(asset => (asset.folderId || null) === (folderId || null));
+}
+function assetFolderPath(folderId=state.assetFolderId) { return folderPathFrom(assetFolderById, folderId); }
+function assetFolderDescendantIds(folderId) { return folderDescendantIdsFrom(assetFolderChildren, folderId); }
+function assetFolderSubtreeIds(folderId) { const ids=assetFolderDescendantIds(folderId); ids.add(folderId); return ids; }
+function assetFolderSiblingNameExists(name,parentId,excludingId=null) { return siblingFolderNameExists(activeAssetFolders(),name,parentId,excludingId); }
+function assetNameExists(name,folderId=null,excludingId=null) {
+  const target=String(name||'').trim().toLocaleLowerCase();
+  return permanentAssets().some(asset=>asset.id!==excludingId&&(asset.folderId||null)===(folderId||null)&&String(asset.name||'').trim().toLocaleLowerCase()===target);
+}
+function uniqueAssetName(baseName,folderId=null,excludingId=null) {
+  const raw=String(baseName||'Asset').trim()||'Asset';
+  if (!assetNameExists(raw,folderId,excludingId)) return raw;
+  let n=2,candidate=`${raw} ${n}`;
+  while (assetNameExists(candidate,folderId,excludingId)) candidate=`${raw} ${++n}`;
+  return candidate;
+}
+function setAssetFolder(folderId=null) {
+  if (folderId && !state.assetFolders.has(folderId)) folderId=null;
+  state.assetFolderId=folderId||null;
+  if (state.assetBrowserView==='library') renderAssetBrowser();
+}
+function assetFolderLocationLabel(folderId=state.assetFolderId) {
+  const names=assetFolderPath(folderId).map(folder=>folder.name);
+  return names.length ? `Assets / ${names.join(' / ')}` : 'Assets';
+}
+function renderAssetBreadcrumb() {
+  renderFolderBreadcrumb(els.assetBreadcrumb,{rootLabel:'Assets',currentFolderId:state.assetFolderId,path:assetFolderPath(),setFolder:setAssetFolder});
+}
+async function persistAssetFolderRecord(folder) {
+  state.assetFolders.set(folder.id,folder);
+  if (await ensureLibraryConnection()) await libraryPut('assetFolders',folder);
+  updateAssetsSummary();
+  if (isFilesWorkspace() && els.assetsFilesSection?.open) renderAssetBrowser();
+  return folder;
+}
+async function createAssetFolder() {
+  if (!state.libraryReady && !(await ensureLibraryConnection())) { setStatus('Local Library is not ready'); return; }
+  const name=await requestAssetName({title:'New asset folder',help:'The new folder will be created inside the Asset folder currently being viewed.',suggested:'New Folder',saveLabel:'Create folder'});
+  if (!name) return;
+  if (assetFolderSiblingNameExists(name,state.assetFolderId)) { setStatus('An Asset folder with that name already exists here'); return; }
+  const folder={id:uid('asset-folder'),schemaVersion:LIBRARY_SCHEMA_VERSION,name,parentId:state.assetFolderId||null,createdAt:Date.now(),modifiedAt:Date.now()};
+  await persistAssetFolderRecord(folder); setStatus(`Created Asset folder ${name}`);
+}
+async function renameAssetFolder(folderId) {
+  const folder=assetFolderById(folderId); if (!folder) return;
+  const name=await requestAssetName({title:'Rename asset folder',suggested:folder.name,saveLabel:'Rename'});
+  if (!name||name===folder.name) return;
+  if (assetFolderSiblingNameExists(name,folder.parentId,folder.id)) { setStatus('An Asset folder with that name already exists there'); return; }
+  await persistAssetFolderRecord({...folder,name,modifiedAt:Date.now(),schemaVersion:LIBRARY_SCHEMA_VERSION}); setStatus(`Renamed Asset folder to ${name}`);
+}
+function openAssetMoveDialog(kind,id) { openFolderMoveDialog('asset',kind,id); }
+async function deleteAssetFolderTree(folderId) {
+  const root=assetFolderById(folderId); if (!root) return;
+  const ids=assetFolderSubtreeIds(folderId);
+  const folders=activeAssetFolders().filter(folder=>ids.has(folder.id));
+  const assets=permanentAssets().filter(asset=>ids.has(asset.folderId||''));
+  const details=[]; if(assets.length) details.push(`${assets.length} asset${assets.length===1?'':'s'}`); if(folders.length>1) details.push(`${folders.length-1} subfolder${folders.length===2?'':'s'}`);
+  const message=`Delete Asset folder “${root.name}”${details.length?` and its ${details.join(' and ')}`:''}? This cannot be undone.`;
+  if (!confirm(message)) return;
+  const sourceIds=new Set(); for (const asset of assets) for (const sourceId of assetReferencedSourceIds(asset)) sourceIds.add(sourceId);
+  if (await ensureLibraryConnection()) {
+    const tx=state.libraryDb.transaction(['assets','assetFolders'],'readwrite'); const done=idbTransactionDone(tx); const as=tx.objectStore('assets'),fs=tx.objectStore('assetFolders');
+    for (const asset of assets) as.delete(asset.id); for (const folder of folders) fs.delete(folder.id); await done;
+  }
+  for (const asset of assets) { state.assetRecords.delete(asset.id); if (state.annotationClipboardAssetId===asset.id) state.annotationClipboardAssetId=null; }
+  for (const folder of folders) state.assetFolders.delete(folder.id);
+  if (ids.has(state.assetFolderId)) state.assetFolderId=root.parentId&&state.assetFolders.has(root.parentId)?root.parentId:null;
+  await removeUnusedPersistentSources(sourceIds); updateAssetsSummary(); updateSelectionToolbar(); renderAssetBrowser(); setStatus(`Deleted Asset folder ${root.name}`);
+}
+function createAssetFolderCard(folder) {
+  const card=document.createElement('article'); card.className='asset-card asset-folder-card'; card.dataset.assetFolderId=folder.id;
+  const preview=document.createElement('button'); preview.type='button'; preview.className='asset-preview asset-folder-preview'; preview.dataset.assetFolderAction='open'; preview.setAttribute('aria-label',`Open folder ${folder.name}`); preview.innerHTML='<span class="library-folder-icon" aria-hidden="true"></span>';
+  const body=document.createElement('div'); body.className='asset-card-body';
+  const name=document.createElement('strong'); name.className='asset-name'; name.textContent=folder.name; name.title=folder.name;
+  const ids=assetFolderSubtreeIds(folder.id); const subfolders=ids.size-1; const count=permanentAssets().filter(asset=>ids.has(asset.folderId||'')).length;
+  const meta=document.createElement('span'); meta.className='asset-meta'; meta.textContent=`${count} asset${count===1?'':'s'} · ${subfolders} subfolder${subfolders===1?'':'s'}`;
+  const actions=document.createElement('div'); actions.className='asset-card-actions';
+  for (const [action,label] of [['open','Open'],['rename','Rename'],['move','Move…'],['delete','Delete…']]) { const button=document.createElement('button');button.type='button';button.dataset.assetFolderAction=action;button.textContent=label;if(action==='delete')button.className='trash-action';actions.append(button); }
+  body.append(name,meta,actions); card.append(preview,body); return card;
+}
+function assetTypeLabel(asset) {
+  return asset?.type === 'image' ? 'Image' : 'Editable snippet';
+}
+function defaultAssetName(type='snippet', folderId=state.assetFolderId) {
+  const prefix = type === 'image' ? 'Image' : 'Snippet';
+  const used = new Set(permanentAssets().filter(asset => (asset.folderId || null) === (folderId || null)).map(asset => String(asset.name || '').toLocaleLowerCase()));
+  let n = 1;
+  while (used.has(`${prefix} ${n}`.toLocaleLowerCase())) n += 1;
+  return `${prefix} ${n}`;
+}
+function recentAssets() {
+  return [...state.assetRecords.values()].filter(asset => !asset.pinned).sort((a,b) => Number(b.createdAt||0)-Number(a.createdAt||0));
+}
+function permanentAssets() {
+  return [...state.assetRecords.values()].filter(asset => !!asset.pinned).sort((a,b) => String(a.name||'').localeCompare(String(b.name||''), undefined, {numeric:true,sensitivity:'base'}));
+}
+function updateAssetsSummary() {
+  if (!els.assetsSummary) return;
+  const permanent = permanentAssets().length;
+  const folders = activeAssetFolders().length;
+  const recent = recentAssets().length;
+  els.assetsSummary.textContent = `${permanent} saved · ${folders} folder${folders===1?'':'s'} · ${recent} recent`;
+}
+async function refreshAssetRecords() {
+  if (!state.libraryDb || !state.libraryDb.objectStoreNames.contains('assets')) {
+    state.assetRecords = new Map(); state.assetFolders = new Map();
+    updateAssetsSummary(); return;
+  }
+  const inMemory = [...state.assetRecords.values()];
+  const inMemoryFolders = [...state.assetFolders.values()];
+  const [assets, folders] = await Promise.all([libraryGetAll('assets'), libraryGetAll('assetFolders')]);
+  const merged = new Map(assets.map(asset => [asset.id, asset]));
+  for (const asset of inMemory) if (!merged.has(asset.id)) merged.set(asset.id, asset);
+  state.assetRecords = merged;
+  const mergedFolders = new Map(folders.map(folder => [folder.id, folder]));
+  for (const folder of inMemoryFolders) if (!mergedFolders.has(folder.id)) mergedFolders.set(folder.id, folder);
+  state.assetFolders = mergedFolders;
+  if (state.assetFolderId && !state.assetFolders.has(state.assetFolderId)) state.assetFolderId=null;
+  const incompatible = [...merged.values(), ...mergedFolders.values()].find(item => Number(item.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION);
+  if (incompatible) throw new Error(`Saved Assets use a newer Library schema (${incompatible.schemaVersion}).`);
+  for (const folder of inMemoryFolders) if (!folders.some(saved=>saved.id===folder.id)) await libraryPut('assetFolders',folder);
+  for (const asset of inMemory) {
+    if (assets.some(saved => saved.id === asset.id)) continue;
+    for (const sourceId of assetReferencedSourceIds(asset)) await persistSourceToLibrary(sourceId);
+    await libraryPut('assets', asset);
+  }
+  if (!state.annotationClipboard) {
+    const latest = recentAssets().find(asset => asset.type === 'snippet' && asset.payload?.items?.length);
+    if (latest) {
+      state.annotationClipboard = clonePlain(latest.payload);
+      state.annotationClipboardAssetId = latest.id;
+    }
+  }
+  updateAssetsSummary();
+  updateSelectionToolbar();
+}
+async function persistAssetRecord(asset) {
+  state.assetRecords.set(asset.id, asset);
+  updateAssetsSummary();
+  if (await ensureLibraryConnection()) {
+    for (const sourceId of assetReferencedSourceIds(asset)) await persistSourceToLibrary(sourceId);
+    await libraryPut('assets', asset);
+  }
+  if (isFilesWorkspace() && els.assetsFilesSection?.open) renderAssetBrowser();
+  return asset;
+}
+async function persistAllAssetsNow() {
+  if (!state.libraryReady && !(await ensureLibraryConnection())) return;
+  for (const folder of state.assetFolders.values()) await libraryPut('assetFolders',folder);
+  for (const asset of state.assetRecords.values()) {
+    for (const sourceId of assetReferencedSourceIds(asset)) await persistSourceToLibrary(sourceId);
+    await libraryPut('assets', asset);
+  }
+}
+async function pruneRecentAssets() {
+  const recents = recentAssets();
+  for (const asset of recents.slice(RECENT_ASSET_LIMIT)) await deleteAssetRecord(asset.id, {quiet:true});
+}
+async function createRecentSnippetAsset(payload) {
+  if (!payload?.items?.length) return null;
+  const asset = {
+    id: uid('asset'), schemaVersion: LIBRARY_SCHEMA_VERSION, type:'snippet', pinned:false,
+    name:`Recent copy ${new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}`,
+    payload: clonePlain(payload), createdAt:Date.now(), modifiedAt:Date.now(), lastUsedAt:Date.now(),
+  };
+  await persistAssetRecord(asset);
+  await pruneRecentAssets();
+  return asset;
+}
+async function importImageAsset(file, options={}) {
+  if (!file || !String(file.type || '').startsWith('image/')) throw new Error('Choose an image file.');
+  const canPersist = state.libraryReady || await ensureLibraryConnection();
+  const pinned = options.pinned !== false;
+  const sourceId = uid('src');
+  const url = URL.createObjectURL(file);
+  try {
+    const dims = await readImageDimensions(file, url);
+    const source = { id:sourceId, type:'image', name:file.name || 'Image', size:file.size, file, blob:file, url, image:null, libraryPersisted:false };
+    state.sources.set(sourceId, source);
+    await getSourceImage(source);
+    if (canPersist) await persistSourceToLibrary(sourceId);
+    const fallbackName = pinned
+      ? defaultAssetName('image')
+      : `Recent image ${new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}`;
+    const targetFolder=pinned ? (options.folderId ?? state.assetFolderId ?? null) : null;
+    const rawName=String(options.name || file.name || fallbackName).replace(/\.[^.]+$/, '') || fallbackName;
+    const asset = {
+      id:uid('asset'), schemaVersion:LIBRARY_SCHEMA_VERSION, type:'image', pinned,
+      name:pinned ? uniqueAssetName(rawName,targetFolder) : rawName,
+      folderId:targetFolder,
+      sourceId, pixelWidth:dims.width, pixelHeight:dims.height,
+      defaultWidth:Number(options.defaultWidth)>0?Number(options.defaultWidth):undefined,
+      defaultHeight:Number(options.defaultHeight)>0?Number(options.defaultHeight):undefined,
+      createdAt:Date.now(), modifiedAt:Date.now(), lastUsedAt:Date.now(),
+    };
+    await persistAssetRecord(asset);
+    if (!pinned) await pruneRecentAssets();
+    return asset;
+  } catch (err) {
+    const source = state.sources.get(sourceId);
+    if (source?.url) URL.revokeObjectURL(source.url);
+    state.sources.delete(sourceId);
+    await libraryDelete('sources', sourceId).catch(()=>{});
+    throw err;
+  }
+}
+async function keepAsset(assetId) {
+  const asset = state.assetRecords.get(assetId);
+  if (!asset) return;
+  const targetFolder = asset.pinned ? (asset.folderId || null) : (state.assetFolderId || null);
+  const suggested = asset.pinned ? asset.name : defaultAssetName(asset.type,targetFolder);
+  const name = await requestAssetName({title:asset.pinned?'Rename asset':'Keep in Asset Library',help:asset.type==='snippet'?'Editable snippets retain their Pen, Highlighter, and inserted-image objects when reused.':'Images remain reusable source assets.',suggested,saveLabel:asset.pinned?'Rename':'Keep'});
+  if (!name) return;
+  asset.name = uniqueAssetName(name,targetFolder,asset.id);
+  asset.pinned = true;
+  asset.folderId = targetFolder;
+  asset.modifiedAt = Date.now();
+  await persistAssetRecord(asset);
+  setStatus(`Saved ${asset.name} in ${assetFolderLocationLabel(targetFolder)}`);
+}
+async function renameAsset(assetId) {
+  const asset = state.assetRecords.get(assetId);
+  if (!asset) return;
+  const name = await requestAssetName({title:'Rename asset',help:'Choose the name shown in the Asset Library.',suggested:asset.name || defaultAssetName(asset.type),saveLabel:'Rename'});
+  if (!name) return;
+  asset.name = asset.pinned ? uniqueAssetName(name,asset.folderId||null,asset.id) : name; asset.modifiedAt = Date.now();
+  await persistAssetRecord(asset);
+}
+async function deleteAssetRecord(assetId, options={}) {
+  const asset = state.assetRecords.get(assetId);
+  if (!asset) return;
+  if (!options.quiet && asset.pinned && !confirm(`Delete “${asset.name || 'this asset'}” from the Asset Library?`)) return;
+  const sourceIds = assetReferencedSourceIds(asset);
+  state.assetRecords.delete(assetId);
+  if (state.annotationClipboardAssetId === assetId) state.annotationClipboardAssetId = null;
+  if ((await ensureLibraryConnection()) && state.libraryDb?.objectStoreNames.contains('assets')) await libraryDelete('assets', assetId).catch(()=>{});
+  await removeUnusedPersistentSources(sourceIds);
+  updateAssetsSummary();
+  updateSelectionToolbar();
+  if (isFilesWorkspace() && els.assetsFilesSection?.open) renderAssetBrowser();
+}
+async function preloadAssetSources(asset) {
+  for (const sourceId of assetReferencedSourceIds(asset)) await ensureLibrarySourceLoaded(sourceId);
+}
+async function drawSnippetThumbnail(canvas, asset) {
+  const ctx = canvas.getContext('2d');
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const cssW = 180, cssH = 112;
+  canvas.width = Math.round(cssW*dpr); canvas.height = Math.round(cssH*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,cssW,cssH);
+  const payload = asset.payload || {};
+  const w = Math.max(1, Number(payload.size?.width)||1), h = Math.max(1, Number(payload.size?.height)||1);
+  const scale = Math.min((cssW-18)/w,(cssH-18)/h);
+  const ox=(cssW-w*scale)/2, oy=(cssH-h*scale)/2;
+  // Image annotations live below Workbench ink in the viewer; preserve that
+  // layering in the thumbnail so mixed reusable snippets are recognizable.
+  for (const item of payload.items || []) {
+    if (!isImageAnnotation(item) || !item.displayRect || !item.sourceId) continue;
+    const r=item.displayRect;
+    try {
+      const source=await ensureLibrarySourceLoaded(item.sourceId); const image=await getSourceImage(source);
+      const rotation=normalizedQuarterTurn(item.displayRotation ?? item.rotation ?? 0);
+      if (rotation) {
+        const boxW=r.width*scale, boxH=r.height*scale;
+        const drawW=rotation===90||rotation===270?boxH:boxW;
+        const drawH=rotation===90||rotation===270?boxW:boxH;
+        ctx.save();
+        ctx.translate(ox+(r.x+r.width/2)*scale,oy+(r.y+r.height/2)*scale);
+        ctx.rotate(rotation*Math.PI/180);
+        ctx.drawImage(image,-drawW/2,-drawH/2,drawW,drawH);
+        ctx.restore();
+      } else {
+        ctx.drawImage(image,ox+r.x*scale,oy+r.y*scale,r.width*scale,r.height*scale);
+      }
+    } catch {
+      ctx.save(); ctx.strokeStyle='rgba(80,80,80,.55)'; ctx.setLineDash([4,3]); ctx.strokeRect(ox+r.x*scale,oy+r.y*scale,r.width*scale,r.height*scale); ctx.restore();
+    }
+  }
+  for (const item of payload.items || []) {
+    if (isImageAnnotation(item)) continue;
+    const points=item.points||[]; if (!points.length) continue;
+    ctx.save(); ctx.beginPath(); ctx.lineCap='round'; ctx.lineJoin='round'; ctx.strokeStyle=item.color||'#111'; ctx.globalAlpha=Number.isFinite(Number(item.opacity))?Number(item.opacity):1; ctx.lineWidth=Math.max(1,Number(item.width||2)*scale);
+    ctx.moveTo(ox+points[0].x*scale,oy+points[0].y*scale); for (let i=1;i<points.length;i++) ctx.lineTo(ox+points[i].x*scale,oy+points[i].y*scale); ctx.stroke(); ctx.restore();
+  }
+}
+
+async function drawImageAssetThumbnail(canvas, asset) {
+  const ctx = canvas.getContext('2d');
+  const dpr = Math.min(2, window.devicePixelRatio || 1), cssW=180, cssH=112;
+  canvas.width=Math.round(cssW*dpr); canvas.height=Math.round(cssH*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,cssW,cssH);
+  try {
+    const source=await ensureLibrarySourceLoaded(asset.sourceId); const image=await getSourceImage(source);
+    const iw=image.naturalWidth||image.width||asset.pixelWidth||1, ih=image.naturalHeight||image.height||asset.pixelHeight||1;
+    const scale=Math.min((cssW-12)/iw,(cssH-12)/ih); const w=iw*scale,h=ih*scale;
+    ctx.drawImage(image,(cssW-w)/2,(cssH-h)/2,w,h);
+  } catch (err) { console.warn('Could not render asset thumbnail',err); }
+}
+function renderAssetBrowser() {
+  if (!els.assetGrid) return;
+  const view = state.assetBrowserView === 'recent' ? 'recent' : 'library';
+  const insertMode = state.assetBrowserMode === 'insert';
+  const folders = view==='library' ? assetFolderChildren(state.assetFolderId) : [];
+  const assets = view === 'recent' ? recentAssets() : permanentAssetsInFolder(state.assetFolderId);
+  els.assetLibraryTab?.classList.toggle('active', view==='library');
+  els.assetRecentTab?.classList.toggle('active', view==='recent');
+  els.assetLibraryTab?.setAttribute('aria-pressed',String(view==='library'));
+  els.assetRecentTab?.setAttribute('aria-pressed',String(view==='recent'));
+  els.assetLibraryBrowser?.classList.toggle('hidden',view!=='library');
+  els.assetInsertModeBar?.classList.toggle('hidden', !insertMode);
+  if (view==='library') renderAssetBreadcrumb();
+  if (els.assetInsertModeHelp) els.assetInsertModeHelp.textContent = 'Choose a saved image or editable snippet to paste, or return to the document.';
+  if (els.assetBrowserHelp) els.assetBrowserHelp.textContent = insertMode
+    ? 'This is the same Assets browser used in Files. Choose any saved or recent item to paste. Asset folders can be nested like Local Library folders; Recent remains a flat clipboard history.'
+    : (view==='recent' ? `Recent is the flat local clipboard history. Keep promotes a useful copy into ${assetFolderLocationLabel()}.` : 'Browse reusable images and editable snippets. Library items can be organized in nested folders like the Local Library.');
+  const itemCount=folders.length+assets.length;
+  if (els.assetEmpty) {
+    els.assetEmpty.classList.toggle('hidden', itemCount>0);
+    els.assetEmpty.textContent = view==='recent' ? 'No recent copies yet.' : (state.assetFolderId ? 'This Asset folder is empty.' : 'No saved assets yet. Import an image, create a folder, or keep a recent copy.');
+  }
+  els.assetGrid.replaceChildren();
+  for (const folder of folders) els.assetGrid.append(createAssetFolderCard(folder));
+  for (const asset of assets) {
+    const card=document.createElement('article'); card.className='asset-card'; card.dataset.assetId=asset.id;
+    const preview=document.createElement('div'); preview.className='asset-preview';
+    const canvas=document.createElement('canvas'); preview.append(canvas);
+    const body=document.createElement('div'); body.className='asset-card-body';
+    const name=document.createElement('strong'); name.className='asset-name'; name.textContent=asset.name||assetTypeLabel(asset);
+    const meta=document.createElement('span'); meta.className='asset-meta'; meta.textContent=assetTypeLabel(asset);
+    const actions=document.createElement('div'); actions.className='asset-card-actions';
+    if (state.pages.length) {
+      const insert=document.createElement('button'); insert.type='button'; insert.dataset.assetAction='insert'; insert.textContent='Paste'; actions.append(insert);
+    }
+    if (!asset.pinned) { const keep=document.createElement('button'); keep.type='button'; keep.dataset.assetAction='keep'; keep.textContent='Keep'; actions.append(keep); }
+    else {
+      const rename=document.createElement('button'); rename.type='button'; rename.dataset.assetAction='rename'; rename.textContent='Rename'; actions.append(rename);
+      const move=document.createElement('button'); move.type='button'; move.dataset.assetAction='move'; move.textContent='Move…'; actions.append(move);
+    }
+    const del=document.createElement('button'); del.type='button'; del.dataset.assetAction='delete'; del.textContent='Delete'; actions.append(del);
+    body.append(name,meta,actions); card.append(preview,body); els.assetGrid.append(card);
+    if (asset.type==='image') drawImageAssetThumbnail(canvas,asset); else drawSnippetThumbnail(canvas,asset);
+  }
+}
+function isFilesWorkspace() { return state.workspaceMode === 'export'; } // legacy internal name for Files
+function captureWorkspaceContext() {
+  return { workspaceMode:state.workspaceMode, presentation:document.body.classList.contains('presentation'), presentationControlsVisible:document.body.classList.contains('presentation-controls-visible') };
+}
+function captureFilesViewState() {
+  if (state.workspaceMode !== 'view' || !state.pages.length) return null;
+  if (state.splitView) {
+    const panes={};
+    for (const paneId of ['left','right']) {
+      const pane=splitPaneState(paneId);
+      const view=paneView(paneId);
+      panes[paneId]={documentId:pane?.documentId||null,view:view?copyView(view):null};
+    }
+    return {split:true,currentDocumentId:state.currentDocumentId,activePaneId:state.activePaneId,activePageId:state.activePageId,panes};
+  }
+  const doc=currentDocument();
+  const view=doc?ensureSingleView(doc):null;
+  return {split:false,currentDocumentId:state.currentDocumentId,activePageId:state.activePageId,view:view?copyView(view):null};
+}
+function restoreFilesViewState(snapshot) {
+  if (!snapshot) return;
+  if (snapshot.currentDocumentId && snapshot.currentDocumentId !== state.currentDocumentId) loadDocumentState(snapshot.currentDocumentId,false);
+  if (snapshot.split && state.splitView) {
+    for (const paneId of ['left','right']) {
+      const saved=snapshot.panes?.[paneId];
+      const pane=splitPaneState(paneId);
+      if (!saved||!pane) continue;
+      if (saved.documentId) pane.documentId=saved.documentId;
+      if (saved.documentId&&saved.view) pane.views.set(saved.documentId,copyView(saved.view));
+    }
+    state.activePaneId=snapshot.activePaneId==='right'?'right':'left';
+    if (snapshot.activePageId) state.activePageId=snapshot.activePageId;
+    return;
+  }
+  if (snapshot.split || state.splitView) return;
+  const doc=currentDocument();
+  if (doc&&snapshot.view) {
+    doc.activePageId=snapshot.activePageId||snapshot.view.activePageId||doc.activePageId;
+    applySingleView(doc,snapshot.view);
+    if (snapshot.activePageId) state.activePageId=snapshot.activePageId;
+  }
+}
+function captureAnnotationPlacementContext() {
+  if (state.workspaceMode !== 'view' || !state.pages.length) return null;
+  const page = activeAnnotationTargetPage();
+  if (!page) return null;
+  const centerDisplay = annotationViewportCenterDisplay(page);
+  return {
+    documentId: state.currentDocumentId || null,
+    pageId: page.id,
+    centerDisplay: { x:Number(centerDisplay.x)||0, y:Number(centerDisplay.y)||0 },
+  };
+}
+function placementCenterDisplayForPage(placement, page) {
+  if (!placement || !page) return null;
+  if (placement.documentId !== state.currentDocumentId || placement.pageId !== page.id) return null;
+  const x=Number(placement.centerDisplay?.x), y=Number(placement.centerDisplay?.y);
+  return Number.isFinite(x)&&Number.isFinite(y) ? {x,y} : null;
+}
+
+async function beginFilesRoundTrip(owner) {
+  const context={owner,...captureWorkspaceContext(),viewState:null,annotationPlacement:owner==='assets'?captureAnnotationPlacementContext():null};
+  saveCurrentDocumentState();
+  context.viewState=captureFilesViewState();
+  state.filesReturnContext=context;
+  if (context.presentation) {
+    clearTimeout(state.presentationControlsTimer);
+    state.presentationRevealPointerId = null;
+    document.body.classList.add('files-roundtrip');
+    document.body.classList.remove('presentation-controls-visible');
+  }
+  showWorkspaceMode('export');
+  return context;
+}
+async function endFilesRoundTrip(owner,{forceView=false}={}) {
+  const context=state.filesReturnContext?.owner===owner ? state.filesReturnContext : null;
+  if (context) state.filesReturnContext=null;
+  if (!context && !forceView) {
+    document.body.classList.remove('files-roundtrip');
+    return;
+  }
+  if (context?.viewState) restoreFilesViewState(context.viewState);
+  const targetMode=context?.workspaceMode==='organize' ? 'organize' : 'view';
+  showWorkspaceMode(targetMode);
+  if (targetMode==='view') {
+    await nextAnimationFrame();
+    await nextAnimationFrame();
+    await nextAnimationFrame();
+  }
+  if (context?.presentation) {
+    document.body.classList.remove('files-roundtrip');
+    if (context.presentationControlsVisible !== false) showPresentationControls();
+  } else {
+    document.body.classList.remove('files-roundtrip');
+  }
+  return context;
+}
+async function openAssetBrowser(mode='manage', view=null) {
+  const insertMode = mode === 'insert';
+  if (insertMode) await beginFilesRoundTrip('assets');
+  else state.filesReturnContext = null;
+  state.assetBrowserMode = insertMode ? 'insert' : 'manage';
+  if (view) state.assetBrowserView = view;
+  else if (!['library','recent'].includes(state.assetBrowserView)) state.assetBrowserView='library';
+  if (state.assetFolderId && !state.assetFolders.has(state.assetFolderId)) state.assetFolderId=null;
+  if (!isFilesWorkspace()) showWorkspaceMode('export');
+  if (els.assetsFilesSection) els.assetsFilesSection.open = true;
+  renderAssetBrowser();
+  requestAnimationFrame(() => els.assetsFilesSection?.scrollIntoView({ block:'start' }));
+}
+async function returnFromAssetBrowser({ forceView=false }={}) {
+  state.assetBrowserMode = 'manage';
+  renderAssetBrowser();
+  return await endFilesRoundTrip('assets',{forceView});
+}
+function activeAnnotationViewerElement() {
+  if (state.splitView) return paneElements(state.activePaneId)?.viewer || null;
+  return els.viewer || null;
+}
+function annotationViewportCenterDisplay(page) {
+  const display=pageDisplayDimensions(page);
+  const fallback={x:display.width/2,y:display.height/2};
+  const viewer=activeAnnotationViewerElement();
+  if (!viewer || !page?.id) return fallback;
+  const stage=viewer.querySelector(`.page-stage[data-page-id="${CSS.escape(page.id)}"]`);
+  if (!stage) return fallback;
+  const vr=viewer.getBoundingClientRect(), sr=stage.getBoundingClientRect();
+  if (!(sr.width>0&&sr.height>0&&vr.width>0&&vr.height>0)) return fallback;
+  const left=Math.max(vr.left,sr.left), right=Math.min(vr.right,sr.right);
+  const top=Math.max(vr.top,sr.top), bottom=Math.min(vr.bottom,sr.bottom);
+  let clientX,clientY;
+  if (right>left&&bottom>top) {
+    // Center the new object in the portion of this page that is actually visible.
+    // At high zoom the visible intersection is the viewport, so this matches the
+    // user's current working area rather than the center of the full PDF page.
+    clientX=(left+right)/2; clientY=(top+bottom)/2;
+  } else {
+    const mid=viewerMidpoint(viewer);
+    clientX=clamp(mid.x,sr.left,sr.right); clientY=clamp(mid.y,sr.top,sr.bottom);
+  }
+  return {
+    x:clamp((clientX-sr.left)*display.width/sr.width,0,display.width),
+    y:clamp((clientY-sr.top)*display.height/sr.height,0,display.height),
+  };
+}
+function annotationViewportCenterBase(page) {
+  return displayPointToBase(page,annotationViewportCenterDisplay(page));
+}
+async function insertImageAsset(asset, options={}) {
+  const page=activeAnnotationTargetPage(); if (!page) throw new Error('Open a document page before inserting an image.');
+  await preloadAssetSources(asset);
+  const source=await ensureLibrarySourceLoaded(asset.sourceId); const image=await getSourceImage(source);
+  const dims={width:image.naturalWidth||image.width||asset.pixelWidth||1,height:image.naturalHeight||image.height||asset.pixelHeight||1};
+  const base=pageCanvasBaseDimensions(page);
+  let width, height;
+  if (Number(asset.defaultWidth)>0 && Number(asset.defaultHeight)>0) {
+    width=Number(asset.defaultWidth); height=Number(asset.defaultHeight);
+    const fit=Math.min(1,(base.width*.92)/Math.max(.01,width),(base.height*.92)/Math.max(.01,height)); width*=fit; height*=fit;
+  } else {
+    const maxWidth=Math.max(48,base.width*.62),maxHeight=Math.max(48,base.height*.62);
+    const scale=Math.min(1,maxWidth/Math.max(1,dims.width),maxHeight/Math.max(1,dims.height)); width=Math.max(.25,dims.width*scale); height=Math.max(.25,dims.height*scale);
+  }
+  const capturedCenter=placementCenterDisplayForPage(options.placement,page);
+  const center=capturedCenter ? displayPointToBase(page,capturedCenter) : annotationViewportCenterBase(page);
+  const maxX=Math.max(0,base.width-width), maxY=Math.max(0,base.height-height);
+  const annotation={id:uid('image'),type:'image',sourceId:asset.sourceId,x:clamp(center.x-width/2,0,maxX),y:clamp(center.y-height/2,0,maxY),width,height,opacity:1,createdAt:Date.now()};
+  const before=snapshotPages(); annotationsForPage(page).push(annotation); state.activePageId=page.id; setAnnotationTool('select'); setAnnotationSelection(page,new Set([annotation.id]),{redraw:false}); commitHistory(before); saveCurrentDocumentState({readViewDom:false}); redrawPageAnnotationOverlays(page);
+  asset.lastUsedAt=Date.now(); asset.modifiedAt=Date.now(); await persistAssetRecord(asset);
+  setStatus(`${options.statusVerb || 'Inserted'} ${asset.name || 'image'}`);
+}
+async function insertSnippetAsset(asset, options={}) {
+  const page=activeAnnotationTargetPage(); if (!page) throw new Error('Open a document page before pasting a snippet.');
+  await preloadAssetSources(asset);
+  state.annotationClipboard=clonePlain(asset.payload); state.annotationClipboardAssetId=asset.id; state.annotationPasteSerial=0; state.annotationPasteTargetKey=null;
+  const capturedCenter=placementCenterDisplayForPage(options.placement,page);
+  pasteAnnotationPayload(state.annotationClipboard,capturedCenter?{centerDisplay:capturedCenter}:{center:'view'});
+  asset.lastUsedAt=Date.now(); asset.modifiedAt=Date.now(); await persistAssetRecord(asset);
+}
+async function activateAsset(assetId) {
+  const asset=state.assetRecords.get(assetId); if (!asset) return;
+  try {
+    // Return to the document before inserting so the existing visible-view
+    // placement logic sees the real viewer geometry, just as it did before
+    // Assets moved into Files.
+    const context=await returnFromAssetBrowser({ forceView:true });
+    const placement=context?.annotationPlacement||null;
+    if (asset.type==='image') await insertImageAsset(asset,{placement,statusVerb:'Pasted'});
+    else await insertSnippetAsset(asset,{placement});
+  } catch (err) { console.error(err); setStatus(`Could not paste asset: ${err?.message||err}`); }
+}
+
 function serializeLibrarySession() {
   const paneState = pane => ({
     documentId: pane.documentId || null,
@@ -418,8 +1160,64 @@ function serializeLibrarySession() {
     activePaneId: state.activePaneId,
     singleSourcePaneId: state.singleSourcePaneId,
     splitPanes: { left: paneState(state.splitPanes.left), right: paneState(state.splitPanes.right) },
+    // An empty workspace is authoritative only when the user deliberately
+    // closed the last/all open documents. This distinguishes that from a
+    // transient empty startup state before restoration has completed.
+    explicitEmpty: state.documents.length === 0 && !!state.sessionExplicitEmpty,
     updatedAt: Date.now(),
   };
+}
+function writeSessionCheckpoint(session=null, options={}) {
+  if (state.librarySuppressPersist) return;
+  // bindEvents() runs before IndexedDB restoration. Browsers can emit
+  // visibility/page lifecycle events during PWA startup; never let one of
+  // those write an empty, newer checkpoint over the session we are about to
+  // restore.
+  if (!state.sessionRestoreHydrated && !options.force) return;
+  try {
+    const snapshot = session || serializeLibrarySession();
+    localStorage.setItem(SESSION_CHECKPOINT_KEY, JSON.stringify(snapshot));
+  } catch {}
+}
+function readSessionCheckpoint() {
+  try {
+    const raw = localStorage.getItem(SESSION_CHECKPOINT_KEY);
+    if (!raw) return null;
+    const value = JSON.parse(raw);
+    if (!value || value.key !== 'session') return null;
+    if (Number(value.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION) return null;
+    return value;
+  } catch { return null; }
+}
+function scheduleSessionCheckpoint(delay=220) {
+  if (state.librarySuppressPersist || !state.sessionRestoreHydrated) return;
+  clearTimeout(state.sessionCheckpointTimer);
+  state.sessionCheckpointTimer = setTimeout(() => {
+    state.sessionCheckpointTimer = null;
+    writeSessionCheckpoint();
+  }, delay);
+}
+function sessionHasOpenDocuments(session) {
+  return Array.isArray(session?.openIds) && session.openIds.length > 0;
+}
+function newestSavedSession(indexedSession) {
+  const checkpoint = readSessionCheckpoint();
+  if (!checkpoint) return indexedSession || null;
+  if (!indexedSession) return checkpoint;
+  const checkpointTime = Number(checkpoint.updatedAt || 0);
+  const indexedTime = Number(indexedSession.updatedAt || 0);
+  const newer = checkpointTime > indexedTime ? checkpoint : indexedSession;
+  const older = newer === checkpoint ? indexedSession : checkpoint;
+  // A lifecycle/startup race can produce an empty record. Do not let a newer
+  // empty record erase a known non-empty workspace unless that empty state was
+  // explicitly created by Close/Close all.
+  if (!sessionHasOpenDocuments(newer) && sessionHasOpenDocuments(older) && newer?.explicitEmpty !== true) return older;
+  return newer;
+}
+function checkpointWorkspaceNow(options={}) {
+  if (options.explicitEmpty === true) state.sessionExplicitEmpty = true;
+  else if (state.documents.length) state.sessionExplicitEmpty = false;
+  writeSessionCheckpoint();
 }
 function serializeTemplatesForLibrary() {
   return {
@@ -431,6 +1229,10 @@ function serializeTemplatesForLibrary() {
       createdAt: template.createdAt || Date.now(),
       modifiedAt: template.modifiedAt || template.createdAt || Date.now(),
     })),
+    newLastPageDefault: {
+      kind: ['graph','blank','template'].includes(state.newLastPageDefault?.kind) ? state.newLastPageDefault.kind : 'graph',
+      templateId: state.newLastPageDefault?.kind === 'template' ? (state.newLastPageDefault.templateId || null) : null,
+    },
     updatedAt: Date.now(),
   };
 }
@@ -444,7 +1246,12 @@ async function restorePersistentTemplates() {
         createdAt: item.createdAt || Date.now(), modifiedAt: item.modifiedAt || item.createdAt || Date.now(),
       }))
     : [];
-  const sourceIds = new Set(state.templates.map(template => template.page?.sourceId).filter(Boolean));
+  const savedDefault = saved?.newLastPageDefault;
+  if (savedDefault?.kind === 'blank') state.newLastPageDefault = { kind:'blank', templateId:null };
+  else if (savedDefault?.kind === 'template' && state.templates.some(template => template.id === savedDefault.templateId)) {
+    state.newLastPageDefault = { kind:'template', templateId:savedDefault.templateId };
+  } else state.newLastPageDefault = { kind:'graph', templateId:null };
+  const sourceIds = pagesReferencedSourceIds(state.templates.map(template => template.page));
   for (const sourceId of sourceIds) {
     try { await ensureLibrarySourceLoaded(sourceId); }
     catch (err) { console.warn(`Could not preload template source ${sourceId}`, err); }
@@ -453,6 +1260,9 @@ async function restorePersistentTemplates() {
 }
 async function persistLibraryNow(options={}) {
   if (state.librarySuppressPersist) return;
+  const persistStarted = performance.now();
+  let persistSerializeMs = 0;
+  addInkDiagnostic('library-persist-start', null, { documents:state.documents.length, historyPersisted:false });
   if (!state.libraryReady || !state.libraryDb) {
     if (!(await ensureLibraryConnection())) return;
   }
@@ -460,18 +1270,30 @@ async function persistLibraryNow(options={}) {
   state.libraryPersisting = true;
   let failed = null;
   try {
+    // Repair any same-id duplicate that may have been created by an older
+    // build's asynchronous reopen race before serializing. Without this, the
+    // later duplicate could overwrite the same IndexedDB record and multi-file
+    // export could list the logical document twice.
+    deduplicateOpenDocuments();
     saveCurrentDocumentState({ readViewDom: options.readViewDom !== false, skipLibrarySchedule: true });
+    writeSessionCheckpoint();
     for (const doc of state.documents) {
-      const sourceIds = new Set(doc.pages.map(page => page.sourceId).filter(Boolean));
+      const sourceIds = pagesReferencedSourceIds(doc.pages);
       for (const sourceId of sourceIds) await persistSourceToLibrary(sourceId);
+      const serializeStarted = performance.now();
       const record = serializeDocumentForLibrary(doc);
+      persistSerializeMs += performance.now() - serializeStarted;
       await libraryPut('documents', record);
       state.libraryRecords.set(doc.id, record);
     }
-    const templateSourceIds = new Set(state.templates.map(template => template.page?.sourceId).filter(Boolean));
+    const templateSourceIds = pagesReferencedSourceIds(state.templates.map(template => template.page));
     for (const sourceId of templateSourceIds) await persistSourceToLibrary(sourceId);
     await libraryPut('meta', serializeTemplatesForLibrary());
-    await libraryPut('meta', serializeLibrarySession());
+    // Do not overwrite the saved workspace with the intentionally empty
+    // pre-restore startup state. Document/template persistence may still run.
+    if (state.sessionRestoreHydrated || options.allowUnhydratedSessionPersist) {
+      await libraryPut('meta', serializeLibrarySession());
+    }
     renderLibraryDocumentList();
     updateLibraryStorageSummary();
   } catch (err) {
@@ -481,6 +1303,13 @@ async function persistLibraryNow(options={}) {
     state.libraryReady = false;
   } finally {
     state.libraryPersisting = false;
+    addInkDiagnostic('library-persist-finish', null, {
+      documents:state.documents.length,
+      historyPersisted:false,
+      serializeMs:Math.round(persistSerializeMs * 10) / 10,
+      totalMs:Math.round((performance.now() - persistStarted) * 10) / 10,
+      failed:!!failed,
+    });
   }
   // WebKit can lose an IndexedDB server connection when a Home Screen app is
   // suspended/resumed. Reconnect once and retry rather than silently losing the
@@ -500,16 +1329,41 @@ async function persistLibraryNow(options={}) {
     scheduleLibraryPersist(80);
   }
 }
+function annotationGestureActiveForAutosave() {
+  return !!(state.inkGesture || state.eraserGesture || state.selectionGesture);
+}
+function runScheduledLibraryPersist() {
+  state.libraryPersistTimer = null;
+  // A dense annotated document can take noticeable main-thread time to clone
+  // and serialize. Never let that autosave work begin in the middle of a Pen,
+  // Highlighter, Eraser, or Selection gesture; postpone it until the user has
+  // lifted the stylus. Explicit lifecycle saves still call persistLibraryNow()
+  // directly and are not suppressed.
+  if (annotationGestureActiveForAutosave()) {
+    state.libraryPersistTimer = setTimeout(runScheduledLibraryPersist, 650);
+    return;
+  }
+  persistLibraryNow();
+}
 function scheduleLibraryPersist(delay=550) {
   if (state.librarySuppressPersist) return;
+  // IndexedDB writes can be interrupted when an installed PWA is suspended or
+  // closed. Keep a throttled tiny workspace/session snapshot in localStorage
+  // as well; pagehide/visibilitychange force an immediate final checkpoint.
+  scheduleSessionCheckpoint();
   clearTimeout(state.libraryPersistTimer);
-  state.libraryPersistTimer = setTimeout(() => persistLibraryNow(), delay);
+  state.libraryPersistTimer = setTimeout(runScheduledLibraryPersist, delay);
 }
 function markDocumentDirty(doc=currentDocument()) {
   if (!doc) return;
   doc.needsExport = true;
   doc.modifiedAt = Date.now();
-  scheduleLibraryPersist(180);
+  // Dense-page persistence is intentionally debounced well beyond normal
+  // handwriting/erasing cadence. A 5.4.7 diagnostic caught an IndexedDB save
+  // that began 850 ms after one eraser swipe and was still finishing when the
+  // next swipe started. Session checkpoints remain much cheaper and lifecycle
+  // events still force a durable save when the app is backgrounded/closed.
+  scheduleLibraryPersist(1400);
 }
 function markDocumentExported(doc) {
   if (!doc) return;
@@ -517,14 +1371,51 @@ function markDocumentExported(doc) {
   doc.lastExportedAt = Date.now();
   scheduleLibraryPersist(100);
 }
+async function prepareDocumentForFileOperation(doc) {
+  if (!doc) return;
+  if (!isDocumentOpen(doc.id)) await ensureRecordSourcesLoaded(doc);
+}
+async function markSelectedDocumentExported(doc) {
+  if (!doc) return;
+  const open = documentById(doc.id);
+  if (open) {
+    markDocumentExported(open);
+    return;
+  }
+  const stamp = Date.now();
+  const updated = { ...doc, needsExport:false, lastExportedAt:stamp };
+  state.libraryRecords.set(doc.id, updated);
+  if (state.libraryReady) await libraryPut('documents', updated);
+}
 async function refreshLibraryRecords() {
   if (!state.libraryDb) return;
   const [records, folders] = await Promise.all([
     libraryGetAll('documents'),
     state.libraryDb.objectStoreNames.contains('folders') ? libraryGetAll('folders') : Promise.resolve([]),
   ]);
-  state.libraryRecords = new Map(records.map(record => [record.id, record]));
+  const legacyHistoryRecords = records.filter(record =>
+    Object.prototype.hasOwnProperty.call(record || {}, 'history') ||
+    Object.prototype.hasOwnProperty.call(record || {}, 'future')
+  );
+  const cleanRecords = records.map(stripPersistentHistory);
+  state.libraryRecords = new Map(cleanRecords.map(record => [record.id, record]));
   state.libraryFolders = new Map(folders.map(folder => [folder.id, folder]));
+  // 5.4.8 one-time cleanup: older builds could leave full Undo/Redo snapshots
+  // inside closed Library records. Remove those fields even if the document is
+  // never reopened, so old history cannot keep consuming IndexedDB space.
+  if (legacyHistoryRecords.length) {
+    try {
+      const legacyIds = new Set(legacyHistoryRecords.map(record => record.id));
+      const tx = state.libraryDb.transaction(['documents'], 'readwrite');
+      const done = idbTransactionDone(tx);
+      const store = tx.objectStore('documents');
+      for (const record of cleanRecords) if (legacyIds.has(record.id)) store.put(record);
+      await done;
+      addInkDiagnostic('library-history-pruned', null, { documents:legacyHistoryRecords.length });
+    } catch (err) {
+      console.warn('Could not prune legacy persisted Undo/Redo history', err);
+    }
+  }
   if (state.libraryFolderId && !state.libraryFolders.has(state.libraryFolderId)) state.libraryFolderId = null;
   renderLibraryDocumentList();
   updateLibraryStorageSummary();
@@ -538,8 +1429,17 @@ async function reopenLibraryDocument(docId, options={}) {
   const record = state.libraryRecords.get(docId) || await libraryGet('documents', docId);
   if (!record) throw new Error('That Library document is no longer available.');
   if (record.trashedAt) throw new Error('That document is in Trash. Restore it before opening.');
-  const sourceIds = new Set((record.pages || []).map(page => page.sourceId).filter(Boolean));
+  const sourceIds = pagesReferencedSourceIds(record.pages || []);
   for (const sourceId of sourceIds) await ensureLibrarySourceLoaded(sourceId);
+  // Two rapid Open actions (or an Open racing startup restoration) can both
+  // pass the first already-open check before source hydration yields. Recheck
+  // after the asynchronous work so only one in-memory object with this Library
+  // id can be inserted.
+  const racedOpen = documentById(docId);
+  if (racedOpen) {
+    if (options.makeActive !== false) loadDocumentState(docId);
+    return racedOpen;
+  }
   const doc = hydrateDocumentFromLibrary(record);
   state.documents.push(doc);
   if (options.makeActive !== false) {
@@ -558,6 +1458,8 @@ async function reopenLibraryDocument(docId, options={}) {
     state.fileSelectionInitialized = true;
   }
   ensureSplitPaneDocuments();
+  state.sessionExplicitEmpty = false;
+  checkpointWorkspaceNow();
   scheduleLibraryPersist(80);
   if (options.render !== false) renderAll({ saveState: false });
   return doc;
@@ -568,18 +1470,33 @@ async function initializePersistentLibrary() {
     state.libraryReady = true;
     await refreshLibraryRecords();
     await restorePersistentTemplates();
+    await refreshAssetRecords();
     const incompatible = [...state.libraryRecords.values()].find(record => Number(record.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION);
     if (incompatible) throw new Error(`This local Library uses schema ${incompatible.schemaVersion}, newer than this build understands (${LIBRARY_SCHEMA_VERSION}). Use a newer PDF Workbench build or reset the local Library.`);
     const incompatibleFolder = [...state.libraryFolders.values()].find(folder => Number(folder.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION);
     if (incompatibleFolder) throw new Error(`This local Library folder data uses schema ${incompatibleFolder.schemaVersion}, newer than this build understands (${LIBRARY_SCHEMA_VERSION}).`);
-    const session = await libraryGet('meta', 'session');
-    if (Number(session?.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION) throw new Error(`The saved Library session uses a newer schema (${session.schemaVersion}).`);
-    const openIds = Array.isArray(session?.openIds) ? session.openIds.filter(id => state.libraryRecords.has(id) && !state.libraryRecords.get(id)?.trashedAt) : [];
+    const indexedSession = await libraryGet('meta', 'session');
+    if (Number(indexedSession?.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION) throw new Error(`The saved Library session uses a newer schema (${indexedSession.schemaVersion}).`);
+    // Prefer the newest of the durable IndexedDB session and the synchronous
+    // localStorage checkpoint. The checkpoint closes the PWA shutdown race in
+    // which pagehide starts an IndexedDB write but the OS terminates the app
+    // before that small session record commits.
+    const session = newestSavedSession(indexedSession);
+    // Do not require the in-memory records map as a precondition.
+    // reopenLibraryDocument() can fall back to a direct IndexedDB read, which
+    // makes restoration resilient to a temporarily incomplete list refresh.
+    const openIds = Array.isArray(session?.openIds) ? [...new Set(session.openIds.filter(Boolean))] : [];
     if (['view','organize','export'].includes(session?.workspaceMode)) state.workspaceMode = session.workspaceMode;
     state.librarySuppressPersist = true;
+    let restoreFailures = 0;
     for (const id of openIds) {
-      try { await reopenLibraryDocument(id, { makeActive: false, render: false }); }
-      catch (err) { console.error(`Could not restore Library document ${id}`, err); }
+      try {
+        const record = state.libraryRecords.get(id) || await libraryGet('documents', id);
+        // A stale session reference to a deleted/trashed Library item is
+        // already resolved and should not block future session persistence.
+        if (!record || record.trashedAt) continue;
+        await reopenLibraryDocument(id, { makeActive: false, render: false });
+      } catch (err) { restoreFailures++; console.error(`Could not restore Library document ${id}`, err); }
     }
     if (state.documents.length) {
       const currentId = state.documents.some(doc => doc.id === session?.currentDocumentId) ? session.currentDocumentId : state.documents[0].id;
@@ -597,12 +1514,20 @@ async function initializePersistentLibrary() {
       }
       ensureSplitPaneDocuments();
     }
+    // Only begin writing session checkpoints after the prior session has been
+    // read and its requested documents have been accounted for. If a document
+    // could not be reopened, preserve the old saved session for retry instead
+    // of immediately replacing it with a partial/empty one.
+    state.sessionRestoreHydrated = restoreFailures === 0;
+    state.sessionExplicitEmpty = state.documents.length === 0 && session?.explicitEmpty === true;
     state.librarySuppressPersist = false;
+    if (state.sessionRestoreHydrated) writeSessionCheckpoint();
     renderAll({ saveState: false });
     renderLibraryDocumentList();
     updateLibraryStorageSummary();
-    scheduleLibraryPersist(250);
+    if (state.sessionRestoreHydrated) scheduleLibraryPersist(250);
   } catch (err) {
+    state.librarySuppressPersist = false;
     state.libraryReady = false;
     try { state.libraryDb?.close?.(); } catch {}
     state.libraryDb = null;
@@ -623,10 +1548,14 @@ async function retryPersistentLibraryAfterFailure() {
     await reconnectLibraryDatabase();
     await refreshLibraryRecords();
     await restorePersistentTemplates();
+    await refreshAssetRecords();
     // If documents are already open from the current session, commit them now.
     // If nothing is open, rerun normal initialization so a saved prior session
     // can be restored after a WebKit first-open failure.
     if (state.documents.length) {
+      state.sessionRestoreHydrated = true;
+      state.sessionExplicitEmpty = false;
+      writeSessionCheckpoint();
       await persistLibraryNow({ readViewDom: false, _reconnected: true });
       renderLibraryDocumentList();
       renderLibraryDocumentList();
@@ -652,6 +1581,21 @@ async function resumePersistentLibraryConnection() {
   try {
     await refreshLibraryRecords();
     await restorePersistentTemplates();
+    await refreshAssetRecords();
+    if (!state.sessionRestoreHydrated && !state.documents.length) {
+      // The first startup restore did not complete. Re-enter the normal restore
+      // path instead of saving an empty workspace over the prior session.
+      try { state.libraryDb?.close?.(); } catch {}
+      state.libraryDb = null;
+      state.libraryReady = false;
+      await initializePersistentLibrary();
+      return;
+    }
+    if (!state.sessionRestoreHydrated && state.documents.length) {
+      state.sessionRestoreHydrated = true;
+      state.sessionExplicitEmpty = false;
+      writeSessionCheckpoint();
+    }
     await persistLibraryNow({ readViewDom: false, _reconnected: true });
   } catch (err) {
     console.warn('Local Library resume refresh failed', err);
@@ -733,7 +1677,7 @@ function buildPortableFolderPaths(folders) {
 }
 
 async function ensureRecordSourcesLoaded(record) {
-  const ids = new Set((record?.pages || []).map(page => page.sourceId).filter(Boolean));
+  const ids = pagesReferencedSourceIds(record?.pages || []);
   for (const sourceId of ids) await ensureLibrarySourceLoaded(sourceId);
   return ids;
 }
@@ -758,7 +1702,7 @@ async function exportWholeLibraryAsPdfs() {
     const JSZip = await loadZipEngine();
     const zip = new JSZip();
     const folderPaths = buildPortableFolderPaths(folders);
-    for (const path of folderPaths.values()) zip.folder(path); // keep empty folders in the archive
+    for (const path of folderPaths.values()) zip.folder(path); // keep empty Library folders in the archive
 
     let completed = 0;
     const total = records.length + templates.length;
@@ -827,10 +1771,13 @@ async function createEditableLibraryBackup() {
   try {
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Saving current editable state…';
     await persistLibraryNow();
-    const [documents, sources, folders, session, templatesMeta] = await Promise.all([
+    await persistAllAssetsNow();
+    const [documents, sources, folders, assets, assetFolders, session, templatesMeta] = await Promise.all([
       libraryGetAll('documents'),
       libraryGetAll('sources'),
       libraryGetAll('folders'),
+      libraryGetAll('assets'),
+      libraryGetAll('assetFolders'),
       libraryGet('meta', 'session'),
       libraryGet('meta', 'templates'),
     ]);
@@ -867,24 +1814,26 @@ async function createEditableLibraryBackup() {
       createdAt: new Date().toISOString(),
       documents,
       folders,
+      assets,
+      assetFolders,
       sources: sourceManifest,
       meta: { session: session || serializeLibrarySession(), templates: templatesMeta || serializeTemplatesForLibrary() },
       preferences,
     };
-    zip.file('manifest.json', JSON.stringify(manifest, null, 2));
+    zip.file('manifest.json', JSON.stringify(manifest));
     zip.file('README.txt', [
       'PDF Workbench Editable Library Backup',
       '',
       'This is a ZIP-based PDF Workbench backup container.',
       'Restore it from Files > Library backup & export > Restore Library backup.',
-      'It contains editable document state, folder hierarchy, Trash state, templates, source PDFs/images, and the saved open/view session.',
+      'It contains editable document state, folder hierarchy, Trash state, templates, reusable Assets/clipboard history and nested Asset folders, source PDFs/images, and the saved open/view session.',
       'Do not edit the contents if you intend to restore the backup.',
       ''
     ].join('\n'));
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Building editable backup…';
-    const blob = await zip.generateAsync({ type: 'blob', compression: 'STORE', mimeType: 'application/zip' });
+    const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions:{ level:6 }, mimeType: 'application/zip' });
     downloadBlob(blob, `PDF-Workbench-Library-${portableTimestamp()}.pwbbackup.zip`);
-    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Editable backup created: ${documents.length} documents, ${folders.length} folders, ${sourceManifest.length} source files, ${(manifest.meta.templates?.templates || []).length} templates.`;
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Editable backup created: ${documents.length} documents, ${folders.length} folders, ${assets.length} assets in ${assetFolders.length} Asset folders, ${sourceManifest.length} source files, ${(manifest.meta.templates?.templates || []).length} templates.`;
     setStatus('Editable Library backup created');
   } catch (err) {
     console.error('Editable Library backup failed', err);
@@ -893,18 +1842,136 @@ async function createEditableLibraryBackup() {
   }
 }
 
-async function replaceLibraryStoresAtomically({ documents, sources, folders, templatesMeta, sessionMeta }) {
+
+function selectedEditableBackupFolderRecords(documents) {
+  const needed = new Set();
+  for (const record of documents || []) {
+    let folderId = record?.folderId || null;
+    const seen = new Set();
+    while (folderId && !seen.has(folderId)) {
+      seen.add(folderId);
+      const folder = state.libraryFolders.get(folderId);
+      if (!folder || folder.trashedAt) break;
+      needed.add(folder.id);
+      folderId = folder.parentId || null;
+    }
+  }
+  return [...needed].map(id => clonePlain(state.libraryFolders.get(id))).filter(Boolean);
+}
+
+async function createSelectedEditableDocumentsBackup() {
+  if (!state.libraryReady && !(await ensureLibraryConnection())) {
+    setStatus('Local Library is not available');
+    return;
+  }
+  try {
+    const selectedIds = selectedFileDocuments().map(doc => doc.id);
+    if (!selectedIds.length) {
+      if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Select one or more documents first.';
+      setStatus('No documents selected for editable backup');
+      return;
+    }
+
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Saving selected editable state…';
+    await persistLibraryNow();
+
+    // Reuse the exact durable Library document representation. Open documents
+    // were just persisted above; closed selected documents already live here.
+    const documents = selectedIds.map(id => state.libraryRecords.get(id)).filter(record => record && !record.trashedAt)
+      .map(record => clonePlain(stripPersistentHistory(record)));
+    if (!documents.length) throw new Error('The selected documents are no longer available in the Local Library.');
+
+    const requiredSourceIds = new Set();
+    for (const record of documents) for (const sourceId of pagesReferencedSourceIds(record.pages || [])) requiredSourceIds.add(sourceId);
+
+    const JSZip = await loadZipEngine();
+    const zip = new JSZip();
+    const sourceManifest = [];
+    let index = 0;
+    for (const sourceId of requiredSourceIds) {
+      index++;
+      if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Packing selected source ${index} of ${requiredSourceIds.size}…`;
+      const stored = await libraryGet('sources', sourceId);
+      if (!stored) throw new Error(`Stored source ${sourceId} required by the selected documents is missing.`);
+      const payload = await sourceRecordPayload(stored);
+      if (!payload) throw new Error(`Stored source ${stored.name || sourceId} has no readable binary data.`);
+      const path = `sources/${encodeURIComponent(sourceId)}.bin`;
+      zip.file(path, payload);
+      sourceManifest.push({
+        id: sourceId,
+        schemaVersion: Number(stored.schemaVersion || 1),
+        type: stored.type,
+        name: stored.name,
+        size: payload.byteLength,
+        mimeType: stored.mimeType || (stored.type === 'pdf' ? 'application/pdf' : 'application/octet-stream'),
+        path,
+      });
+      // Give iPad Safari a chance to reclaim temporary IndexedDB clone memory
+      // between source payloads instead of constructing one giant sources array.
+      await new Promise(resolve => setTimeout(resolve, 0));
+    }
+
+    const folders = selectedEditableBackupFolderRecords(documents);
+    const manifest = {
+      format: 'PDF Workbench Editable Library Backup',
+      backupFormatVersion: LIBRARY_BACKUP_FORMAT_VERSION,
+      applicationVersion: APP_VERSION,
+      librarySchemaVersion: LIBRARY_SCHEMA_VERSION,
+      createdAt: new Date().toISOString(),
+      scope: 'selected-documents',
+      documents,
+      folders,
+      assets: [],
+      assetFolders: [],
+      sources: sourceManifest,
+      meta: {
+        session: null,
+        templates: { key:'templates', schemaVersion:LIBRARY_SCHEMA_VERSION, templates:[], newLastPageDefault:{ kind:'graph', templateId:null }, updatedAt:Date.now() },
+      },
+      preferences: {},
+    };
+    zip.file('manifest.json', JSON.stringify(manifest));
+    zip.file('README.txt', [
+      'PDF Workbench Selected Editable Documents',
+      '',
+      `Created by PDF Workbench ${APP_VERSION}`,
+      `${documents.length} selected document(s); ${sourceManifest.length} referenced source file(s).`,
+      '',
+      'This is a PARTIAL editable backup containing only the selected documents, their editable page/annotation state, required source PDFs/images, and the ancestor folder records needed to describe their Library placement.',
+      'Templates, reusable Assets, Recent items, unrelated Library documents/sources, Trash, and the saved workspace session are intentionally omitted.',
+      'Do not use Restore Library backup with this partial package. PDF Workbench will refuse a destructive full restore from it.',
+      'It may be imported non-destructively with Import backup as folder or used by the experimental document Merge with backup operation.',
+      ''
+    ].join('\n'));
+
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Building selected editable backup…';
+    const blob = await zip.generateAsync({ type:'blob', compression:'DEFLATE', compressionOptions:{ level:6 }, mimeType:'application/zip' });
+    downloadBlob(blob, `PDF-Workbench-Selected-Editable-${portableTimestamp()}.pwbbackup.zip`);
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Selected editable backup created: ${documents.length} document${documents.length===1?'':'s'}, ${sourceManifest.length} referenced source file${sourceManifest.length===1?'':'s'}, ${(blob.size/1024/1024).toFixed(1)} MB.`;
+    setStatus(`Selected editable backup created · ${documents.length} document${documents.length===1?'':'s'}`);
+  } catch (err) {
+    console.error('Selected editable backup failed', err);
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Selected editable backup failed: ${err?.message || err}`;
+    setStatus(`Selected editable backup failed: ${err?.message || err}`);
+  }
+}
+
+async function replaceLibraryStoresAtomically({ documents, sources, folders, assets, assetFolders, templatesMeta, sessionMeta }) {
   if (!state.libraryDb) throw new Error('Local Library is not ready.');
-  const tx = state.libraryDb.transaction(['documents','sources','folders','meta'], 'readwrite');
+  const tx = state.libraryDb.transaction(['documents','sources','folders','assets','assetFolders','meta'], 'readwrite');
   const done = idbTransactionDone(tx);
   const documentStore = tx.objectStore('documents');
   const sourceStore = tx.objectStore('sources');
   const folderStore = tx.objectStore('folders');
+  const assetStore = tx.objectStore('assets');
+  const assetFolderStore = tx.objectStore('assetFolders');
   const metaStore = tx.objectStore('meta');
-  documentStore.clear(); sourceStore.clear(); folderStore.clear(); metaStore.clear();
+  documentStore.clear(); sourceStore.clear(); folderStore.clear(); assetStore.clear(); assetFolderStore.clear(); metaStore.clear();
   for (const value of sources) sourceStore.put(value);
   for (const value of folders) folderStore.put(value);
   for (const value of documents) documentStore.put(value);
+  for (const value of assets || []) assetStore.put(value);
+  for (const value of assetFolders || []) assetFolderStore.put(value);
   metaStore.put(templatesMeta);
   metaStore.put(sessionMeta);
   await done;
@@ -917,13 +1984,32 @@ function validateLibraryBackupManifest(manifest) {
   const schemaVersion = Number(manifest.librarySchemaVersion || 1);
   if (schemaVersion > LIBRARY_SCHEMA_VERSION) throw new Error(`This backup uses Library schema ${schemaVersion}, newer than this build understands (${LIBRARY_SCHEMA_VERSION}).`);
   if (!Array.isArray(manifest.documents) || !Array.isArray(manifest.folders) || !Array.isArray(manifest.sources)) throw new Error('The backup manifest is incomplete.');
+  if (manifest.assets != null && !Array.isArray(manifest.assets)) throw new Error('The backup Assets record is invalid.');
+  if (manifest.assetFolders != null && !Array.isArray(manifest.assetFolders)) throw new Error('The backup Asset folders record is invalid.');
   const sourceIds = new Set(manifest.sources.map(source => source?.id).filter(Boolean));
   for (const record of manifest.documents) {
     if (!record?.id || !Array.isArray(record.pages)) throw new Error('The backup contains an invalid document record.');
-    for (const page of record.pages) if (page?.sourceId && !sourceIds.has(page.sourceId)) throw new Error(`Backup source ${page.sourceId} required by ${record.name || record.id} is missing.`);
+    for (const page of record.pages) {
+      for (const requiredSourceId of pageReferencedSourceIds(page)) {
+        if (!sourceIds.has(requiredSourceId)) throw new Error(`Backup source ${requiredSourceId} required by ${record.name || record.id} is missing.`);
+      }
+    }
+  }
+  const assetFolderIds=new Set((manifest.assetFolders||[]).map(folder=>folder?.id).filter(Boolean));
+  for (const folder of manifest.assetFolders||[]) { if (!folder?.id || !String(folder.name||'').trim()) throw new Error('The backup contains an invalid Asset folder record.'); if (folder.parentId && !assetFolderIds.has(folder.parentId)) throw new Error(`Asset folder ${folder.name||folder.id} has a missing parent.`); }
+  for (const asset of manifest.assets || []) {
+    if (!asset?.id || !['image','snippet'].includes(asset.type)) throw new Error('The backup contains an invalid Asset record.');
+    if (asset.folderId && !assetFolderIds.has(asset.folderId)) throw new Error(`Asset ${asset.name||asset.id} refers to a missing Asset folder.`);
+    for (const requiredSourceId of assetReferencedSourceIds(asset)) {
+      if (!sourceIds.has(requiredSourceId)) throw new Error(`Backup source ${requiredSourceId} required by asset ${asset.name || asset.id} is missing.`);
+    }
   }
   const templates = manifest.meta?.templates?.templates || [];
-  for (const template of templates) if (template?.page?.sourceId && !sourceIds.has(template.page.sourceId)) throw new Error(`Backup source ${template.page.sourceId} required by template ${template.name || template.id} is missing.`);
+  for (const template of templates) {
+    for (const requiredSourceId of pageReferencedSourceIds(template?.page)) {
+      if (!sourceIds.has(requiredSourceId)) throw new Error(`Backup source ${requiredSourceId} required by template ${template.name || template.id} is missing.`);
+    }
+  }
   return true;
 }
 
@@ -937,10 +2023,13 @@ async function restoreEditableLibraryBackup(file) {
     if (!manifestFile) throw new Error('The backup does not contain manifest.json.');
     const manifest = JSON.parse(await manifestFile.async('string'));
     validateLibraryBackupManifest(manifest);
+    if (manifest.scope === 'selected-documents') throw new Error('This is a selected-document editable backup, not a complete Library backup. Use Import backup as folder or Merge with backup instead.');
     const documentCount = manifest.documents.length;
     const folderCount = manifest.folders.length;
+    const assetCount = manifest.assets?.length || 0;
+    const assetFolderCount = manifest.assetFolders?.length || 0;
     const templateCount = manifest.meta?.templates?.templates?.length || 0;
-    const ok = window.confirm(`Restore this PDF Workbench Library backup?\n\n${documentCount} document(s), ${folderCount} folder(s), ${templateCount} template(s).\n\nThis will REPLACE the current Local Library on this device. Export or back up the current Library first if you need it.`);
+    const ok = window.confirm(`Restore this PDF Workbench Library backup?\n\n${documentCount} document(s), ${folderCount} folder(s), ${assetCount} asset(s) in ${assetFolderCount} Asset folder(s), ${templateCount} template(s).\n\nThis will REPLACE the current Local Library on this device. Export or back up the current Library first if you need it.`);
     if (!ok) { if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Restore cancelled.'; return; }
     if (!(await ensureLibraryConnection())) throw new Error('Could not connect to Local Library storage.');
 
@@ -972,22 +2061,34 @@ async function restoreEditableLibraryBackup(file) {
     state.libraryPreviewObserver = null;
     els.libraryDocumentList?.replaceChildren();
     state.templates = [];
+    state.assetRecords.clear();
+    state.assetFolders.clear(); state.assetFolderId=null;
+    state.annotationClipboard = null;
+    state.annotationClipboardAssetId = null;
     for (const source of state.sources.values()) {
       if (source.url) URL.revokeObjectURL(source.url);
       try { source.pdf?.destroy?.(); } catch {}
     }
     state.sources.clear();
     const restoredFolders = manifest.folders.map(folder => ({ ...folder, schemaVersion: Math.min(Number(folder.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION) }));
-    const restoredDocuments = manifest.documents.map(documentRecord => ({ ...documentRecord, schemaVersion: Math.min(Number(documentRecord.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION) }));
+    const restoredDocuments = manifest.documents.map(documentRecord => ({
+      ...stripPersistentHistory(documentRecord),
+      schemaVersion: Math.min(Number(documentRecord.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION),
+    }));
+    const restoredAssetFolders = (manifest.assetFolders || []).map(folder => ({ ...folder, schemaVersion: Math.min(Number(folder.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION) }));
+    const restoredAssets = (manifest.assets || []).map(asset => ({
+      ...asset, folderId:asset.folderId||null, schemaVersion: Math.min(Number(asset.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION),
+    }));
     const templatesMetaRaw = manifest.meta?.templates || { key:'templates', schemaVersion: manifest.librarySchemaVersion || 1, templates: [] };
     const sessionMetaRaw = manifest.meta?.session || { key:'session', schemaVersion: manifest.librarySchemaVersion || 1, openIds: [], currentDocumentId: null, workspaceMode:'export', splitView:false, splitPanes:{ left:{documentId:null,views:[]}, right:{documentId:null,views:[]} } };
     const templatesMeta = { ...templatesMetaRaw, key:'templates', schemaVersion: Math.min(Number(templatesMetaRaw.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION) };
     const sessionMeta = { ...sessionMetaRaw, key:'session', schemaVersion: Math.min(Number(sessionMetaRaw.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION) };
-    await replaceLibraryStoresAtomically({ documents: restoredDocuments, sources: restoredSources, folders: restoredFolders, templatesMeta, sessionMeta });
+    await replaceLibraryStoresAtomically({ documents: restoredDocuments, sources: restoredSources, folders: restoredFolders, assets: restoredAssets, assetFolders:restoredAssetFolders, templatesMeta, sessionMeta });
     for (const [key, value] of Object.entries(manifest.preferences || {})) {
       if (['pdfwb-scroll-mode','pdfwb-fit-mode','pdfwb-library-view'].includes(key)) { try { localStorage.setItem(key, String(value)); } catch {} }
     }
     state.librarySuppressPersist = true; // pagehide must not overwrite the restored session
+    try { localStorage.removeItem(SESSION_CHECKPOINT_KEY); localStorage.removeItem('pdfwb-session-checkpoint-v1'); } catch {}
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Restore complete. Reloading PDF Workbench…';
     setStatus('Library restored · reloading…', true);
     const url = new URL(location.href);
@@ -1000,6 +2101,209 @@ async function restoreEditableLibraryBackup(file) {
     setStatus(`Library restore failed: ${err?.message || err}`);
   } finally {
     if (els.libraryRestoreInput) els.libraryRestoreInput.value = '';
+  }
+}
+
+
+function documentMergeTimestamp(record) {
+  const modified = Number(record?.modifiedAt || 0);
+  if (Number.isFinite(modified) && modified > 0) return modified;
+  const created = Number(record?.createdAt || 0);
+  return Number.isFinite(created) && created > 0 ? created : 0;
+}
+
+function mergedDocumentFolderId(backupRecord, localRecord=null) {
+  const backupFolderId = backupRecord?.folderId || null;
+  const backupFolder = backupFolderId ? state.libraryFolders.get(backupFolderId) : null;
+  if (backupFolder && !backupFolder.trashedAt) return backupFolder.id;
+  const localFolderId = localRecord?.folderId || null;
+  const localFolder = localFolderId ? state.libraryFolders.get(localFolderId) : null;
+  return localFolder && !localFolder.trashedAt ? localFolder.id : null;
+}
+
+function normalizeMergedBackupDocument(record, localRecord=null) {
+  const clean = clonePlain(stripPersistentHistory(record));
+  return {
+    ...clean,
+    schemaVersion: Math.min(Number(clean.schemaVersion || LIBRARY_SCHEMA_VERSION), LIBRARY_SCHEMA_VERSION),
+    folderId: mergedDocumentFolderId(clean, localRecord),
+    trashedAt: null,
+    trashBatchId: null,
+  };
+}
+
+async function mergeEditableBackupDocuments(file) {
+  if (!file) return;
+  let previousSuppressPersist = state.librarySuppressPersist;
+  try {
+    const JSZip = await loadZipEngine();
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Reading backup for experimental document merge…';
+    const zip = await JSZip.loadAsync(file);
+    const manifestFile = zip.file('manifest.json');
+    if (!manifestFile) throw new Error('The backup does not contain manifest.json.');
+    const manifest = JSON.parse(await manifestFile.async('string'));
+    validateLibraryBackupManifest(manifest);
+    if (!(await ensureLibraryConnection())) throw new Error('Local Library is not available.');
+
+    // Make the in-memory/open documents authoritative before comparing dates.
+    await persistLibraryNow();
+    await refreshLibraryRecords();
+
+    const localById = new Map(state.libraryRecords);
+    const replacements = [];
+    const additions = [];
+    let localNewer = 0;
+    let equalTime = 0;
+    let backupTrashIgnored = 0;
+    let protectedByLocalTrash = 0;
+
+    for (const rawBackupRecord of manifest.documents) {
+      const backupRecord = stripPersistentHistory(rawBackupRecord);
+      if (backupRecord?.trashedAt) {
+        backupTrashIgnored++;
+        continue;
+      }
+      const localRecord = localById.get(backupRecord.id) || null;
+      if (!localRecord) {
+        additions.push(normalizeMergedBackupDocument(backupRecord));
+        continue;
+      }
+      // This first experiment never resurrects a document that is already in
+      // the local Trash. Trash/deletion reconciliation needs its own rules.
+      if (localRecord.trashedAt) {
+        protectedByLocalTrash++;
+        continue;
+      }
+      const backupTime = documentMergeTimestamp(backupRecord);
+      const localTime = documentMergeTimestamp(localRecord);
+      if (backupTime > localTime) replacements.push({ localRecord, backupRecord: normalizeMergedBackupDocument(backupRecord, localRecord) });
+      else if (backupTime < localTime) localNewer++;
+      else equalTime++;
+    }
+
+    const changes = replacements.length + additions.length;
+    const summary = [
+      `Newer backup documents that will replace local copies: ${replacements.length}`,
+      `Backup-only documents that will be added: ${additions.length}`,
+      `Local documents newer than backup: ${localNewer}`,
+      `Matching timestamps (local kept): ${equalTime}`,
+      `Backup documents already in backup Trash (ignored): ${backupTrashIgnored}`,
+      `Matching documents already in local Trash (left in Trash): ${protectedByLocalTrash}`,
+      '',
+      'When a newer backup document replaces a local document, the displaced local copy is moved to Trash under a new internal ID so it can still be restored.',
+      '',
+      'This experimental merge does NOT merge Templates, Assets, folder structure, or Trash/deletion state.'
+    ].join('\n');
+
+    if (!changes) {
+      if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Merge check complete. No document changes are needed. ${localNewer} local newer, ${equalTime} equal, ${backupTrashIgnored} backup-Trash ignored, ${protectedByLocalTrash} protected by local Trash.`;
+      setStatus('Merge check complete · no document changes needed');
+      return;
+    }
+    const ok = window.confirm(`Merge documents from this backup?\n\n${summary}\n\nContinue?`);
+    if (!ok) {
+      if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Experimental merge cancelled.';
+      return;
+    }
+
+    // Read every missing source needed by a document that will actually be
+    // accepted before touching the current Library.
+    const sourceManifestById = new Map(manifest.sources.map(source => [source.id, source]));
+    const requiredSourceIds = new Set();
+    for (const { backupRecord } of replacements) for (const sourceId of pagesReferencedSourceIds(backupRecord.pages || [])) requiredSourceIds.add(sourceId);
+    for (const record of additions) for (const sourceId of pagesReferencedSourceIds(record.pages || [])) requiredSourceIds.add(sourceId);
+    const newSourceRecords = [];
+    let sourceIndex = 0;
+    for (const sourceId of requiredSourceIds) {
+      sourceIndex++;
+      if (await libraryGet('sources', sourceId)) continue;
+      const source = sourceManifestById.get(sourceId);
+      if (!source) throw new Error(`Backup source ${sourceId} required by a merged document is missing.`);
+      if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Reading required backup source ${sourceIndex} of ${requiredSourceIds.size}…`;
+      const entry = zip.file(source.path);
+      if (!entry) throw new Error(`Backup payload ${source.path} is missing.`);
+      const data = await entry.async('arraybuffer');
+      if (!data.byteLength && Number(source.size || 0) > 0) throw new Error(`Backup payload for ${source.name || source.id} is empty.`);
+      newSourceRecords.push({
+        id: source.id,
+        schemaVersion: Math.min(Number(source.schemaVersion || manifest.librarySchemaVersion || 1), LIBRARY_SCHEMA_VERSION),
+        type: source.type,
+        name: source.name || 'source',
+        size: data.byteLength,
+        mimeType: source.mimeType || (source.type === 'pdf' ? 'application/pdf' : 'application/octet-stream'),
+        data,
+      });
+    }
+
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Merging document records…';
+    clearTimeout(state.libraryPersistTimer);
+    state.libraryPersistTimer = null;
+    state.libraryPersistAgain = false;
+    state.librarySuppressPersist = true;
+
+    const mergeTime = Date.now();
+    const displacedTrashRecords = replacements.map(({ localRecord }) => ({
+      ...clonePlain(stripPersistentHistory(localRecord)),
+      id: uid('doc'),
+      schemaVersion: LIBRARY_SCHEMA_VERSION,
+      trashedAt: mergeTime,
+      trashBatchId: null,
+    }));
+
+    const tx = state.libraryDb.transaction(['documents','sources'], 'readwrite');
+    const done = idbTransactionDone(tx);
+    const documentStore = tx.objectStore('documents');
+    const sourceStore = tx.objectStore('sources');
+    for (const source of newSourceRecords) sourceStore.put(source);
+    for (const trashRecord of displacedTrashRecords) documentStore.put(trashRecord);
+    for (const { backupRecord } of replacements) documentStore.put(backupRecord);
+    for (const record of additions) documentStore.put(record);
+    await done;
+
+    // If a replaced document is open, keep it open but swap in the accepted
+    // backup state. This avoids a subsequent autosave writing the older object
+    // back over the merged record.
+    const replacementById = new Map(replacements.map(item => [item.backupRecord.id, item.backupRecord]));
+    for (let i = 0; i < state.documents.length; i++) {
+      const replacement = replacementById.get(state.documents[i].id);
+      if (!replacement) continue;
+      if (state.annotationSelection?.documentId === replacement.id) clearAnnotationSelection(true);
+      for (const sourceId of pagesReferencedSourceIds(replacement.pages || [])) await ensureLibrarySourceLoaded(sourceId);
+      const hydrated = hydrateDocumentFromLibrary(replacement);
+      state.documents[i] = hydrated;
+      for (const pane of Object.values(state.splitPanes)) {
+        if (pane.documentId === hydrated.id || pane.views.has(hydrated.id)) pane.views.set(hydrated.id, defaultPaneView(hydrated));
+      }
+    }
+    const current = documentById(state.currentDocumentId);
+    if (current && replacementById.has(current.id)) {
+      state.pages = current.pages;
+      state.selected = current.selected;
+      state.selectionAnchorId = current.selectionAnchorId;
+      state.activePageId = current.activePageId;
+      state.history = current.history;
+      state.future = current.future;
+      if (!state.splitView) applySingleView(current, current.singleView);
+    }
+
+    await refreshLibraryRecords();
+    reconcileFileSelection();
+    reconcileCombineOrder();
+    ensureSplitPaneDocuments();
+    checkpointWorkspaceNow();
+    await libraryPut('meta', serializeLibrarySession());
+    renderAll({ saveState:false });
+
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Experimental document merge complete: ${replacements.length} newer backup document${replacements.length===1?'':'s'} accepted (${displacedTrashRecords.length} older local cop${displacedTrashRecords.length===1?'y':'ies'} moved to Trash), ${additions.length} backup-only document${additions.length===1?'':'s'} added, ${localNewer} newer local document${localNewer===1?'':'s'} kept, ${equalTime} equal-time match${equalTime===1?'':'es'} kept local.`;
+    setStatus(`Merged backup documents · ${replacements.length} replaced · ${additions.length} added`);
+  } catch (err) {
+    console.error('Experimental backup merge failed', err);
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Experimental merge failed: ${err?.message || err}`;
+    setStatus(`Backup merge failed: ${err?.message || err}`);
+  } finally {
+    state.librarySuppressPersist = previousSuppressPersist;
+    if (els.libraryRestoreInput) els.libraryRestoreInput.value = '';
+    state.pendingBackupImportMode = 'replace';
   }
 }
 
@@ -1034,6 +2338,9 @@ async function createLibraryChildFolderAlways(name, parentId) {
 async function importPdfFileDirectToLibrary(file, folderId) {
   const previousCurrent = state.currentDocumentId;
   const previousWorkspace = state.workspaceMode;
+  const previousFileSelection = new Set(state.fileSelected);
+  const previousFileSelectionInitialized = state.fileSelectionInitialized;
+  const previousCombineOrder = state.combineOrder.slice();
   const doc = createDocument(uniqueLibraryDocumentName(file.name, folderId));
   doc.folderId = folderId || null;
   try {
@@ -1043,12 +2350,20 @@ async function importPdfFileDirectToLibrary(file, folderId) {
     doc.needsExport = false; doc.lastExportedAt = Date.now(); doc.modifiedAt = Date.now();
     saveCurrentDocumentState({ readViewDom:false });
     await persistLibraryNow({ readViewDom:false });
-    removeDocument(doc.id); state.fileSelected.delete(doc.id); reconcileCombineOrder();
+    removeDocument(doc.id);
+    state.fileSelected = previousFileSelection;
+    state.fileSelectionInitialized = previousFileSelectionInitialized;
+    state.combineOrder = previousCombineOrder;
+    reconcileFileSelection(); reconcileCombineOrder();
     if (previousCurrent && documentById(previousCurrent)) loadDocumentState(previousCurrent, false);
     state.workspaceMode = previousWorkspace;
     return doc.id;
   } catch (err) {
     if (documentById(doc.id)) removeDocument(doc.id);
+    state.fileSelected = previousFileSelection;
+    state.fileSelectionInitialized = previousFileSelectionInitialized;
+    state.combineOrder = previousCombineOrder;
+    reconcileFileSelection(); reconcileCombineOrder();
     if (previousCurrent && documentById(previousCurrent)) loadDocumentState(previousCurrent, false);
     state.workspaceMode = previousWorkspace;
     throw err;
@@ -1097,7 +2412,31 @@ function remapPageForImportedBackup(page, sourceMap, pageIdMap) {
   if (!page) return page;
   const oldId = page.id || uid('legacy-page');
   if (!pageIdMap.has(oldId)) pageIdMap.set(oldId, uid('page'));
-  return { ...clonePageState(page), id: pageIdMap.get(oldId), sourceId: page.sourceId ? sourceMap.get(page.sourceId) || null : null };
+  const copy = clonePageState(page);
+  copy.id = pageIdMap.get(oldId);
+  copy.sourceId = page.sourceId ? sourceMap.get(page.sourceId) || null : null;
+  copy.annotations = (copy.annotations || []).map(annotation => {
+    if (annotation?.type !== 'image' || !annotation.sourceId) return annotation;
+    return { ...annotation, sourceId: sourceMap.get(annotation.sourceId) || null };
+  });
+  return copy;
+}
+
+function remapAssetForImportedBackup(asset, sourceMap, assetFolderMap=null, assetRootId=null) {
+  const copy = clonePlain(asset || {});
+  copy.id = uid('asset');
+  copy.schemaVersion = LIBRARY_SCHEMA_VERSION;
+  copy.pinned = true;
+  copy.createdAt = Date.now();
+  copy.modifiedAt = Date.now();
+  copy.lastUsedAt = null;
+  copy.folderId = copy.folderId ? (assetFolderMap?.get(copy.folderId) || assetRootId || null) : (assetRootId || null);
+  if (copy.type === 'image') copy.sourceId = copy.sourceId ? (sourceMap.get(copy.sourceId) || null) : null;
+  if (copy.type === 'snippet' && copy.payload?.items) {
+    copy.payload = clonePlain(copy.payload);
+    copy.payload.items = copy.payload.items.map(item => isImageAnnotation(item) && item.sourceId ? { ...item, sourceId:sourceMap.get(item.sourceId) || null } : item);
+  }
+  return copy;
 }
 
 async function importEditableBackupAsSubtree(file) {
@@ -1129,14 +2468,14 @@ async function importEditableBackupAsSubtree(file) {
     }));
     const documentMap=new Map(manifest.documents.map(record=>[record.id,uid('doc')]));
     const importedDocuments=manifest.documents.map(record=>{
-      const pageIdMap=new Map(); const pages=(record.pages||[]).map(page=>remapPageForImportedBackup(page,sourceMap,pageIdMap));
-      const remapSnapshot=snapshot=>(snapshot||[]).map(page=>remapPageForImportedBackup(page,sourceMap,pageIdMap));
-      const folderId=record.folderId ? (folderMap.get(record.folderId)||rootId) : rootId;
-      return {...record,id:documentMap.get(record.id),schemaVersion:LIBRARY_SCHEMA_VERSION,folderId,
-        pages,selected:(record.selected||[]).map(id=>pageIdMap.get(id)).filter(Boolean),selectionAnchorId:pageIdMap.get(record.selectionAnchorId)||null,
-        activePageId:pageIdMap.get(record.activePageId)||pages[0]?.id||null,history:(record.history||[]).map(remapSnapshot),future:(record.future||[]).map(remapSnapshot),
-        singleView:record.singleView?{...record.singleView,activePageId:pageIdMap.get(record.singleView.activePageId)||pages[0]?.id||null}:record.singleView,
-        trashBatchId:record.trashBatchId ? (folderMap.get(record.trashBatchId)||null) : null,
+      const cleanRecord=stripPersistentHistory(record);
+      const pageIdMap=new Map(); const pages=(cleanRecord.pages||[]).map(page=>remapPageForImportedBackup(page,sourceMap,pageIdMap));
+      const folderId=cleanRecord.folderId ? (folderMap.get(cleanRecord.folderId)||rootId) : rootId;
+      return {...cleanRecord,id:documentMap.get(cleanRecord.id),schemaVersion:LIBRARY_SCHEMA_VERSION,folderId,
+        pages,selected:(cleanRecord.selected||[]).map(id=>pageIdMap.get(id)).filter(Boolean),selectionAnchorId:pageIdMap.get(cleanRecord.selectionAnchorId)||null,
+        activePageId:pageIdMap.get(cleanRecord.activePageId)||pages[0]?.id||null,
+        singleView:cleanRecord.singleView?{...cleanRecord.singleView,activePageId:pageIdMap.get(cleanRecord.singleView.activePageId)||pages[0]?.id||null}:cleanRecord.singleView,
+        trashBatchId:cleanRecord.trashBatchId ? (folderMap.get(cleanRecord.trashBatchId)||null) : null,
       };
     });
     const existingTemplateNames=new Set(state.templates.map(t=>String(t.name).toLocaleLowerCase()));
@@ -1145,11 +2484,24 @@ async function importEditableBackupAsSubtree(file) {
       let base=String(template.name||'Template'); let name=base; let n=2; while(existingTemplateNames.has(name.toLocaleLowerCase())) name=`${base} ${n++}`; existingTemplateNames.add(name.toLocaleLowerCase());
       importedTemplates.push({id:uid('template'),name,page:remapPageForImportedBackup(template.page,sourceMap,new Map()),createdAt:Date.now(),modifiedAt:Date.now()});
     }
-    const tx=state.libraryDb.transaction(['documents','sources','folders'],'readwrite'); const done=idbTransactionDone(tx); const ds=tx.objectStore('documents'),ss=tx.objectStore('sources'),fs=tx.objectStore('folders');
-    for(const source of sourceRecords) ss.put(source); for(const folder of importedFolders) fs.put(folder); for(const record of importedDocuments) ds.put(record); await done;
+    let assetRootId=null; const importedAssetFolders=[]; const assetFolderMap=new Map();
+    if ((manifest.assets||[]).length || (manifest.assetFolders||[]).length) {
+      let assetRootName=rootName, n=2; while(assetFolderSiblingNameExists(assetRootName,null)) assetRootName=`${rootName} ${n++}`;
+      assetRootId=uid('asset-folder'); importedAssetFolders.push({id:assetRootId,schemaVersion:LIBRARY_SCHEMA_VERSION,name:assetRootName,parentId:null,createdAt:Date.now(),modifiedAt:Date.now()});
+      for (const folder of manifest.assetFolders||[]) assetFolderMap.set(folder.id,uid('asset-folder'));
+      for (const folder of manifest.assetFolders||[]) importedAssetFolders.push({...folder,id:assetFolderMap.get(folder.id),schemaVersion:LIBRARY_SCHEMA_VERSION,parentId:folder.parentId?(assetFolderMap.get(folder.parentId)||assetRootId):assetRootId,createdAt:Date.now(),modifiedAt:Date.now()});
+    }
+    const importedAssets=[]; const namesByFolder=new Map();
+    for (const sourceAsset of manifest.assets || []) {
+      const asset=remapAssetForImportedBackup(sourceAsset,sourceMap,assetFolderMap,assetRootId);
+      const folderKey=asset.folderId||''; if(!namesByFolder.has(folderKey)) namesByFolder.set(folderKey,new Set(permanentAssets().filter(item=>(item.folderId||'')===folderKey).map(item=>String(item.name||'').toLocaleLowerCase())));
+      const used=namesByFolder.get(folderKey); let base=String(asset.name||defaultAssetName(asset.type,asset.folderId)); let name=base; let n=2; while(used.has(name.toLocaleLowerCase())) name=`${base} ${n++}`; used.add(name.toLocaleLowerCase()); asset.name=name; importedAssets.push(asset);
+    }
+    const tx=state.libraryDb.transaction(['documents','sources','folders','assets','assetFolders'],'readwrite'); const done=idbTransactionDone(tx); const ds=tx.objectStore('documents'),ss=tx.objectStore('sources'),fs=tx.objectStore('folders'),as=tx.objectStore('assets'),afs=tx.objectStore('assetFolders');
+    for(const source of sourceRecords) ss.put(source); for(const folder of importedFolders) fs.put(folder); for(const record of importedDocuments) ds.put(record); for(const folder of importedAssetFolders) afs.put(folder); for(const asset of importedAssets) as.put(asset); await done;
     state.templates.push(...importedTemplates); await libraryPut('meta',serializeTemplatesForLibrary());
-    await refreshLibraryRecords(); renderInsertTemplateList(); renderLibraryDocumentList();
-    if(els.libraryBackupProgress) els.libraryBackupProgress.textContent=`Imported backup as “${libraryFolderById(rootId)?.name||rootName}”: ${importedDocuments.length} documents, ${importedFolders.length} subfolders, ${importedTemplates.length} templates.`;
+    await refreshLibraryRecords(); await refreshAssetRecords(); renderInsertTemplateList(); renderLibraryDocumentList();
+    if(els.libraryBackupProgress) els.libraryBackupProgress.textContent=`Imported backup as “${libraryFolderById(rootId)?.name||rootName}”: ${importedDocuments.length} documents, ${importedFolders.length} subfolders, ${importedTemplates.length} templates, ${importedAssets.length} assets in ${importedAssetFolders.length} Asset folders.`;
     setStatus('Backup imported as Library subtree');
   } catch(err){console.error(err);if(els.libraryBackupProgress) els.libraryBackupProgress.textContent=`Backup subtree import failed: ${err?.message||err}`;setStatus(`Backup import failed: ${err?.message||err}`);}
   finally { if(els.libraryRestoreInput) els.libraryRestoreInput.value=''; state.pendingBackupImportMode='replace'; }
@@ -1237,6 +2589,15 @@ function displayedEdgesToRawPdf(displayed, inheritedRotation=0) {
 // ---------------------------------------------------------------------------
 const PEN_COLORS = ['#111111','#1565c0','#d32f2f','#2e7d32','#ef6c00'];
 const PEN_WIDTHS = [1.5, 3, 5.5];
+const HIGHLIGHTER_COLORS = ['#ffeb3b','#ff80ab','#4dd0e1','#81c784'];
+const HIGHLIGHTER_WIDTHS = [8, 14, 22];
+const HIGHLIGHTER_OPACITY = 0.34;
+const ERASER_SIZES = [12, 24, 40];
+
+function isStylusAnnotationTool(tool=state.annotationTool) {
+  return tool === 'laser' || tool === 'pen' || tool === 'highlighter' || tool === 'eraser' || tool === 'select';
+}
+
 
 function normalizedQuarterTurn(value=0) {
   return (((Math.round(Number(value) || 0) % 360) + 360) % 360);
@@ -1246,7 +2607,51 @@ function annotationsForPage(page) {
   return page.annotations;
 }
 function hasPageAnnotations(page) {
-  return Array.isArray(page?.annotations) && page.annotations.some(stroke => Array.isArray(stroke?.points) && stroke.points.length);
+  return Array.isArray(page?.annotations) && page.annotations.some(annotation => (
+    annotation?.type === 'image'
+      ? !!annotation.sourceId && Number(annotation.width) > 0 && Number(annotation.height) > 0
+      : Array.isArray(annotation?.points) && annotation.points.length
+  ));
+}
+function isImageAnnotation(annotation) {
+  return annotation?.type === 'image' && !!annotation.sourceId;
+}
+function imageAnnotationRotation(annotation) {
+  return normalizedQuarterTurn(annotation?.rotation || 0);
+}
+function imageAnnotationBaseRect(annotation) {
+  if (!isImageAnnotation(annotation)) return null;
+  const x = Number(annotation.x) || 0;
+  const y = Number(annotation.y) || 0;
+  const width = Math.max(.01, Number(annotation.width) || 0);
+  const height = Math.max(.01, Number(annotation.height) || 0);
+  return { x, y, width, height, minX:x, minY:y, maxX:x+width, maxY:y+height };
+}
+function imageAnnotationDisplayBounds(page, annotation) {
+  const rect = imageAnnotationBaseRect(annotation);
+  if (!rect) return null;
+  const corners = [
+    basePointToDisplay(page,{x:rect.x,y:rect.y}),
+    basePointToDisplay(page,{x:rect.x+rect.width,y:rect.y}),
+    basePointToDisplay(page,{x:rect.x,y:rect.y+rect.height}),
+    basePointToDisplay(page,{x:rect.x+rect.width,y:rect.y+rect.height}),
+  ];
+  const xs = corners.map(p=>p.x), ys = corners.map(p=>p.y);
+  const minX=Math.min(...xs), minY=Math.min(...ys), maxX=Math.max(...xs), maxY=Math.max(...ys);
+  return { minX,minY,maxX,maxY,width:maxX-minX,height:maxY-minY };
+}
+function displayRectToBaseImageRect(page, rect) {
+  const x = Number(rect?.x) || 0, y = Number(rect?.y) || 0;
+  const width = Math.max(.01, Number(rect?.width) || 0), height = Math.max(.01, Number(rect?.height) || 0);
+  const corners = [
+    displayPointToBase(page,{x,y}),
+    displayPointToBase(page,{x:x+width,y}),
+    displayPointToBase(page,{x,y:y+height}),
+    displayPointToBase(page,{x:x+width,y:y+height}),
+  ];
+  const xs=corners.map(p=>p.x), ys=corners.map(p=>p.y);
+  const minX=Math.min(...xs), minY=Math.min(...ys), maxX=Math.max(...xs), maxY=Math.max(...ys);
+  return { x:minX,y:minY,width:maxX-minX,height:maxY-minY };
 }
 function basePointToDisplay(page, point) {
   const base = pageCanvasBaseDimensions(page);
@@ -1266,98 +2671,1614 @@ function displayPointToBase(page, point) {
   if (rotation === 270) return { x: base.width - y, y: x };
   return { x, y };
 }
-function eventPointOnPage(stage, page, event) {
-  const rect = stage?.getBoundingClientRect?.();
+function eventPointOnPage(stage, page, event, geometry=null) {
+  // Coalesced Pencil batches may contain dozens of samples. Re-reading layout
+  // for every sample can force repeated WebKit layout work, especially after a
+  // dense page has accumulated many annotation objects. Callers processing a
+  // batch can pass one cached rect/display/base geometry for the whole event.
+  const rect = geometry?.rect || stage?.getBoundingClientRect?.();
   if (!rect || rect.width <= 0 || rect.height <= 0) return null;
-  const display = pageDisplayDimensions(page);
+  const display = geometry?.display || pageDisplayDimensions(page);
   const dx = clamp((event.clientX - rect.left) * display.width / rect.width, 0, display.width);
   const dy = clamp((event.clientY - rect.top) * display.height / rect.height, 0, display.height);
   const point = displayPointToBase(page, { x: dx, y: dy });
-  const base = pageCanvasBaseDimensions(page);
+  const base = geometry?.base || pageCanvasBaseDimensions(page);
   return { x: clamp(point.x, 0, base.width), y: clamp(point.y, 0, base.height) };
 }
-function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight) {
-  if (!ctx || !hasPageAnnotations(page)) return;
+function gestureEventGeometry(stage, page) {
+  const rect = stage?.getBoundingClientRect?.();
+  if (!rect || rect.width <= 0 || rect.height <= 0) return null;
+  return { rect, display:pageDisplayDimensions(page), base:pageCanvasBaseDimensions(page) };
+}
+function regionCopyDisplayRectFromPoints(page, startPoint, endPoint) {
+  if (!page || !startPoint || !endPoint) return null;
+  const a = basePointToDisplay(page, startPoint);
+  const b = basePointToDisplay(page, endPoint);
+  const minX = Math.min(a.x, b.x), minY = Math.min(a.y, b.y);
+  const maxX = Math.max(a.x, b.x), maxY = Math.max(a.y, b.y);
+  return { x:minX, y:minY, minX, minY, maxX, maxY, width:maxX-minX, height:maxY-minY };
+}
+function regionCopyZoomScaleFromGeometry(page, geometry) {
+  const display = geometry?.display || pageDisplayDimensions(page);
+  const rect = geometry?.rect || null;
+  const sx = rect?.width > 0 ? rect.width / Math.max(1, display.width) : 1;
+  const sy = rect?.height > 0 ? rect.height / Math.max(1, display.height) : sx;
+  const scale = Math.min(sx || 1, sy || 1);
+  return Number.isFinite(scale) && scale > 0 ? scale : 1;
+}
+// All Pen widths use the Google Ink Stroke Modeler-style physical trajectory
+// path introduced in 5.6.6. Width is now only a rendering parameter, which
+// keeps future additional/continuous Pen widths independent of renderer choice.
+function traceRawStrokeCanvas(ctx, page, points) {
+  if (!ctx || !Array.isArray(points) || !points.length) return;
+  const first = basePointToDisplay(page, points[0]);
+  ctx.moveTo(first.x, first.y);
+  for (let i = 1; i < points.length; i++) {
+    const point = basePointToDisplay(page, points[i]);
+    ctx.lineTo(point.x, point.y);
+  }
+}
+// Every Pen width uses the Google Ink Stroke Modeler-style physical trajectory
+// model. Raw points (including relative timestamps) remain the editable/
+// persistent model; displayed width does not select a different renderer.
+const googleInkRenderCache = new WeakMap();
+function penStrokeUsesGoogleInk(stroke) {
+  return stroke?.tool==='pen';
+}
+function buildGoogleInkRender(stroke) {
+  const source=Array.isArray(stroke?.points)?stroke.points:[];
+  const cached=googleInkRenderCache.get(stroke);
+  if (cached && cached.pointsRef===source && cached.length===source.length) return cached.result;
+  const result=modelGoogleInkStroke(source);
+  googleInkRenderCache.set(stroke,{pointsRef:source,length:source.length,result});
+  return result;
+}
+function cacheGoogleInkRender(stroke, modeledPoints, metrics={}) {
+  if (!stroke || !Array.isArray(stroke.points)) return;
+  const result={
+    points:Array.isArray(modeledPoints)?modeledPoints.map(p=>({...p})):[],
+    modelMs:Number(metrics.modelMs)||0,
+    inputPoints:stroke.points.length,
+    outputPoints:Array.isArray(modeledPoints)?modeledPoints.length:0,
+    endLagPoints:Number(metrics.lagPoints)||0,
+    wobbleSpeed:Number(metrics.wobbleSpeed)||0,
+    wobbleBlend:Number(metrics.wobbleBlend)||0,
+  };
+  googleInkRenderCache.set(stroke,{pointsRef:stroke.points,length:stroke.points.length,result});
+}
+function traceGoogleInkCanvas(ctx,page,modeledPoints) {
+  if (!ctx || !Array.isArray(modeledPoints) || !modeledPoints.length) return;
+  const first=basePointToDisplay(page,modeledPoints[0]);
+  ctx.moveTo(first.x,first.y);
+  for (let i=1;i<modeledPoints.length;i++) {
+    const p=basePointToDisplay(page,modeledPoints[i]);
+    ctx.lineTo(p.x,p.y);
+  }
+}
+function googleInkEventTime(gesture,event) {
+  const stamp=Number(event?.timeStamp);
+  const now=Number.isFinite(stamp)?stamp:performance.now();
+  if (!Number.isFinite(gesture.googleTimeOriginMs)) gesture.googleTimeOriginMs=now;
+  let t=Math.max(0,(now-gesture.googleTimeOriginMs)/1000);
+  const last=gesture.stroke?.points?.[gesture.stroke.points.length-1];
+  if (last && Number.isFinite(Number(last.t)) && t<=Number(last.t)) t=Number(last.t)+1e-4;
+  return t;
+}
+function consumeGoogleInkPoint(gesture,point,eventType='move') {
+  if (!gesture?.googleModeler || !point) return [];
+  const started=performance.now();
+  const output=gesture.googleModeler.update(point,Number(point.t)||0,eventType)||[];
+  gesture.googleLiveModelMs=(gesture.googleLiveModelMs||0)+(performance.now()-started);
+  if (!Array.isArray(gesture.googleStablePoints)) gesture.googleStablePoints=[];
+  for (const modeled of output) {
+    const prev=gesture.googleStablePoints[gesture.googleStablePoints.length-1];
+    if (!prev || Math.hypot(modeled.x-prev.x,modeled.y-prev.y)>.0001 || Math.abs((modeled.t||0)-(prev.t||0))>1e-6) {
+      gesture.googleStablePoints.push(modeled);
+    }
+  }
+  const metrics=gesture.googleModeler.metrics?.()||{};
+  gesture.googleWobbleSpeedLast=Number(metrics.wobbleSpeed)||0;
+  gesture.googleWobbleBlendLast=Number(metrics.wobbleBlend)||0;
+  gesture.googleLagPointsLast=Number(metrics.lagPoints)||0;
+  return output;
+}
+function googleInkPrediction(gesture) {
+  if (!gesture?.googleModeler) return [];
+  const started=performance.now();
+  const prediction=gesture.googleModeler.predict?.()||[];
+  gesture.googlePredictionMs=(gesture.googlePredictionMs||0)+(performance.now()-started);
+  gesture.googlePredictionPointsLast=prediction.length;
+  return prediction;
+}
+
+function applyBaseToDisplayCanvasTransform(ctx, page) {
+  const base = pageCanvasBaseDimensions(page);
+  const rotation = normalizedQuarterTurn(page?.rotation);
+  if (rotation === 90) ctx.transform(0, 1, -1, 0, base.height, 0);
+  else if (rotation === 180) ctx.transform(-1, 0, 0, -1, base.width, base.height);
+  else if (rotation === 270) ctx.transform(0, -1, 1, 0, 0, base.width);
+}
+function requestImageAnnotationRedraw(page, sourceId) {
+  const source = state.sources.get(sourceId);
+  if (source) {
+    getSourceImage(source)
+      .then(() => redrawPageAnnotationOverlays(page))
+      .catch(err => console.warn(`Could not render inserted image ${source.name || sourceId}`, err));
+    return;
+  }
+  ensureLibrarySourceLoaded(sourceId)
+    .then(loaded => loaded ? getSourceImage(loaded) : null)
+    .then(() => redrawPageAnnotationOverlays(page))
+    .catch(err => console.warn(`Could not restore inserted image ${sourceId}`, err));
+}
+function drawImageAnnotationCanvas(page, ctx, pixelWidth, pixelHeight, annotation) {
+  const rect = imageAnnotationBaseRect(annotation);
+  if (!rect) return false;
+  const source = state.sources.get(annotation.sourceId);
+  const img = source?.image || null;
+  if (!img) {
+    requestImageAnnotationRedraw(page, annotation.sourceId);
+    return false;
+  }
   const display = pageDisplayDimensions(page);
   const sx = pixelWidth / Math.max(1, display.width);
   const sy = pixelHeight / Math.max(1, display.height);
   ctx.save();
   ctx.scale(sx, sy);
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-  for (const stroke of page.annotations) {
-    const points = Array.isArray(stroke?.points) ? stroke.points : [];
-    if (!points.length) continue;
-    const width = Math.max(.25, Number(stroke.width) || 3);
-    const color = stroke.color || '#111111';
-    const opacity = clamp(Number(stroke.opacity ?? 1), 0, 1);
-    ctx.globalAlpha = opacity;
-    ctx.strokeStyle = color;
-    ctx.fillStyle = color;
-    ctx.lineWidth = width;
-    const first = basePointToDisplay(page, points[0]);
-    if (points.length === 1) {
-      ctx.beginPath();
-      ctx.arc(first.x, first.y, width / 2, 0, Math.PI * 2);
-      ctx.fill();
-      continue;
-    }
-    ctx.beginPath();
-    ctx.moveTo(first.x, first.y);
-    for (let i = 1; i < points.length; i++) {
-      const p = basePointToDisplay(page, points[i]);
-      ctx.lineTo(p.x, p.y);
-    }
-    ctx.stroke();
+  applyBaseToDisplayCanvasTransform(ctx, page);
+  ctx.globalAlpha = clamp(Number(annotation.opacity ?? 1), 0, 1);
+  const rotation = imageAnnotationRotation(annotation);
+  if (rotation) {
+    const drawWidth = rotation === 90 || rotation === 270 ? rect.height : rect.width;
+    const drawHeight = rotation === 90 || rotation === 270 ? rect.width : rect.height;
+    ctx.translate(rect.x + rect.width / 2, rect.y + rect.height / 2);
+    ctx.rotate(rotation * Math.PI / 180);
+    ctx.drawImage(img, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
+  } else {
+    ctx.drawImage(img, rect.x, rect.y, rect.width, rect.height);
   }
   ctx.restore();
+  return true;
 }
-function drawLiveInkSegment(stage, page, stroke, fromPoint, toPoint) {
+function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={}) {
+  if (!ctx || !hasPageAnnotations(page)) return;
+  const excludedStrokeId = options.excludeStrokeId || null;
+  const excludedStrokeIds = options.excludeStrokeIds instanceof Set
+    ? options.excludeStrokeIds
+    : new Set(Array.isArray(options.excludeStrokeIds) ? options.excludeStrokeIds : []);
+  const includedStrokeIds = options.includeStrokeIds instanceof Set
+    ? options.includeStrokeIds
+    : (Array.isArray(options.includeStrokeIds) ? new Set(options.includeStrokeIds) : null);
+  const imageOnly = !!options.imageOnly;
+  const inkOnly = !!options.inkOnly;
+  const display = pageDisplayDimensions(page);
+  const sx = pixelWidth / Math.max(1, display.width);
+  const sy = pixelHeight / Math.max(1, display.height);
+  let highlighterScratch = null;
+  let highlighterScratchCtx = null;
+
+  const ensureHighlighterScratch = () => {
+    if (!highlighterScratch) {
+      highlighterScratch = document.createElement('canvas');
+      highlighterScratch.width = pixelWidth;
+      highlighterScratch.height = pixelHeight;
+      highlighterScratchCtx = highlighterScratch.getContext('2d');
+    }
+    return highlighterScratchCtx;
+  };
+  const drawStrokeGeometry = (targetCtx, stroke, points, opacity) => {
+    const width = Math.max(.25, Number(stroke.width) || 3);
+    const color = stroke.color || '#111111';
+    const first = basePointToDisplay(page, points[0]);
+    targetCtx.save();
+    targetCtx.scale(sx, sy);
+    targetCtx.globalAlpha = opacity;
+    targetCtx.strokeStyle = color;
+    targetCtx.fillStyle = color;
+    targetCtx.lineWidth = width;
+    targetCtx.lineCap = 'round';
+    targetCtx.lineJoin = 'round';
+    if (points.length === 1) {
+      targetCtx.beginPath();
+      targetCtx.arc(first.x, first.y, width / 2, 0, Math.PI * 2);
+      targetCtx.fill();
+    } else {
+      targetCtx.beginPath();
+      if (penStrokeUsesGoogleInk(stroke)) {
+        const modeled=buildGoogleInkRender(stroke).points;
+        if (modeled.length) traceGoogleInkCanvas(targetCtx,page,modeled);
+        else traceRawStrokeCanvas(targetCtx,page,points);
+      } else traceRawStrokeCanvas(targetCtx, page, points);
+      targetCtx.stroke();
+    }
+    targetCtx.restore();
+  };
+
+  for (const stroke of page.annotations) {
+    if (excludedStrokeId && stroke?.id === excludedStrokeId) continue;
+    if (excludedStrokeIds.has(stroke?.id)) continue;
+    if (includedStrokeIds && !includedStrokeIds.has(stroke?.id)) continue;
+
+    if (isImageAnnotation(stroke)) {
+      if (!inkOnly) drawImageAnnotationCanvas(page, ctx, pixelWidth, pixelHeight, stroke);
+      continue;
+    }
+    if (imageOnly) continue;
+
+    const points = Array.isArray(stroke?.points) ? stroke.points : [];
+    if (!points.length) continue;
+    const opacity = clamp(Number(stroke.opacity ?? 1), 0, 1);
+
+    // A highlighter stroke is composited once as a translucent object. Drawing
+    // its raw sampled geometry directly with globalAlpha can darken tiny
+    // backtracks/self-overlaps on Canvas, producing visible sample "beads".
+    if (stroke.tool === 'highlighter' && opacity < 1) {
+      const scratchCtx = ensureHighlighterScratch();
+      if (scratchCtx) {
+        scratchCtx.clearRect(0, 0, pixelWidth, pixelHeight);
+        drawStrokeGeometry(scratchCtx, stroke, points, 1);
+        ctx.save();
+        ctx.globalAlpha = opacity;
+        ctx.drawImage(highlighterScratch, 0, 0);
+        ctx.restore();
+        continue;
+      }
+    }
+
+    // Every Pen width uses Google-style modeled positional output. Highlighter
+    // remains a raw polyline on its own translucent compositing path.
+    drawStrokeGeometry(ctx, stroke, points, opacity);
+  }
+}
+function ensureAnnotationOverlay(stage, baseCanvas=null) {
+  if (!stage) return null;
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  if (!base?.width || !base?.height) return null;
+  let overlay = stage.querySelector('canvas.annotation-canvas');
+  if (!overlay) {
+    overlay = document.createElement('canvas');
+    overlay.className = 'annotation-canvas';
+    overlay.setAttribute('aria-hidden', 'true');
+    stage.append(overlay);
+  }
+  if (overlay.width !== base.width) overlay.width = base.width;
+  if (overlay.height !== base.height) overlay.height = base.height;
+  overlay.style.width = base.style.width || '100%';
+  overlay.style.height = base.style.height || '100%';
+  return overlay;
+}
+function ensureImageAnnotationOverlay(stage, baseCanvas=null) {
+  if (!stage) return null;
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  if (!base?.width || !base?.height) return null;
+  let overlay = stage.querySelector('canvas.annotation-image-canvas');
+  if (!overlay) {
+    overlay = document.createElement('canvas');
+    overlay.className = 'annotation-image-canvas';
+    overlay.setAttribute('aria-hidden', 'true');
+    const ink = stage.querySelector('canvas.annotation-canvas');
+    if (ink) stage.insertBefore(overlay, ink);
+    else stage.append(overlay);
+  }
+  if (overlay.width !== base.width) overlay.width = base.width;
+  if (overlay.height !== base.height) overlay.height = base.height;
+  overlay.style.width = base.style.width || '100%';
+  overlay.style.height = base.style.height || '100%';
+  return overlay;
+}
+function redrawStageAnnotations(stage, page, options={}) {
+  if (!stage || !page) return;
+  const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  // A live Pen/Highlighter stroke is already isolated on its temporary canvas.
+  // If an unrelated async event (for example an image decode) requests an exact
+  // annotation repaint during contact, keep that active stroke out of the
+  // persistent overlay so release can commit it exactly once.
+  let effectiveOptions = options;
+  const activeStrokeId = state.inkGesture?.pageId === page.id ? state.inkGesture?.stroke?.id : null;
+  if (activeStrokeId) {
+    const excluded = options.excludeStrokeIds instanceof Set
+      ? new Set(options.excludeStrokeIds)
+      : new Set(Array.isArray(options.excludeStrokeIds) ? options.excludeStrokeIds : []);
+    if (options.excludeStrokeId) excluded.add(options.excludeStrokeId);
+    excluded.add(activeStrokeId);
+    effectiveOptions = { ...options, excludeStrokeId:null, excludeStrokeIds:excluded };
+  }
+  const overlay = ensureAnnotationOverlay(stage, base);
+  if (!overlay) return;
+  const hasImages = (page.annotations || []).some(annotation => isImageAnnotation(annotation));
+  let imageOverlay = stage.querySelector('canvas.annotation-image-canvas');
+  if (hasImages) imageOverlay = ensureImageAnnotationOverlay(stage, base);
+  else if (imageOverlay) {
+    imageOverlay.width = imageOverlay.height = 1;
+    imageOverlay.remove();
+    imageOverlay = null;
+  }
+  if (imageOverlay) {
+    const imageCtx = imageOverlay.getContext('2d');
+    imageCtx.clearRect(0, 0, imageOverlay.width, imageOverlay.height);
+    drawPageAnnotationsCanvas(page, imageCtx, imageOverlay.width, imageOverlay.height, { ...effectiveOptions, imageOnly:true });
+  }
+  const ctx = overlay.getContext('2d');
+  ctx.clearRect(0, 0, overlay.width, overlay.height);
+  drawPageAnnotationsCanvas(page, ctx, overlay.width, overlay.height, { ...effectiveOptions, inkOnly:true });
+  redrawStageAnnotationSelection(stage, page);
+}
+function redrawPageAnnotationOverlays(page, options={}) {
+  if (!page?.id) return;
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const stage of document.querySelectorAll(selector)) redrawStageAnnotations(stage, page, options);
+}
+function scheduleExactAnnotationRedraw(page, reason='edit') {
+  if (!page?.id) return;
+  const key = page.id;
+  const existing = state.annotationRedrawJobs.get(key);
+  if (existing) {
+    if (existing.kind === 'idle' && typeof cancelIdleCallback === 'function') cancelIdleCallback(existing.id);
+    else clearTimeout(existing.id);
+  }
+  const run = () => {
+    state.annotationRedrawJobs.delete(key);
+    // The transient Eraser pixels already match the user's gesture closely.
+    // Never spend a dense full-page redraw while another annotation gesture is
+    // active; postpone the exact smoothed/vector-derived repaint until idle.
+    if (annotationGestureActiveForAutosave()) {
+      state.annotationRedrawJobs.set(key, { kind:'timer', id:setTimeout(run, 120) });
+      return;
+    }
+    const started = performance.now();
+    redrawPageAnnotationOverlays(page);
+    addInkDiagnostic('annotation-redraw-finish', null, {
+      pageId:key, reason, redrawMs:Math.round((performance.now()-started)*10)/10, deferred:true,
+    });
+  };
+  if (typeof requestIdleCallback === 'function') {
+    state.annotationRedrawJobs.set(key, { kind:'idle', id:requestIdleCallback(run, { timeout:700 }) });
+  } else {
+    state.annotationRedrawJobs.set(key, { kind:'timer', id:setTimeout(run, 90) });
+  }
+}
+function ensureLivePenOverlay(stage, baseCanvas=null) {
+  if (!stage) return null;
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  if (!base?.width || !base?.height) return null;
+  let overlay = stage.querySelector('canvas.live-pen-canvas');
+  if (!overlay) {
+    overlay = document.createElement('canvas');
+    overlay.className = 'live-pen-canvas';
+    overlay.setAttribute('aria-hidden', 'true');
+    stage.append(overlay);
+  }
+  if (overlay.width !== base.width) overlay.width = base.width;
+  if (overlay.height !== base.height) overlay.height = base.height;
+  overlay.style.width = base.style.width || '100%';
+  overlay.style.height = base.style.height || '100%';
+  return overlay;
+}
+function clearLivePenOverlays(page) {
+  if (!page?.id) return;
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"] > canvas.live-pen-canvas`;
+  for (const overlay of document.querySelectorAll(selector)) {
+    const ctx = overlay.getContext?.('2d');
+    if (ctx && overlay.width && overlay.height) ctx.clearRect(0, 0, overlay.width, overlay.height);
+    overlay._pdfwbLivePenDirty=null;
+  }
+}
+function drawLiveGoogleInkPreview(stage,page,stroke,stablePoints,predictionPoints=[]) {
+  const started=performance.now();
+  const width=Math.max(.25,Number(stroke?.width)||3);
+  const stable=Array.isArray(stablePoints)?stablePoints:[];
+  const prediction=Array.isArray(predictionPoints)?predictionPoints:[];
+  const renderPoints=prediction.length ? stable.concat(prediction) : stable;
+  const drawOnStage=targetStage=>{
+    const baseCanvas=targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const canvas=ensureLivePenOverlay(targetStage,baseCanvas);
+    if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered!=='true') return;
+    const ctx=canvas.getContext('2d'); if (!ctx) return;
+    const oldDirty=canvas._pdfwbLivePenDirty;
+    if (oldDirty) ctx.clearRect(oldDirty.x,oldDirty.y,oldDirty.w,oldDirty.h);
+    const display=pageDisplayDimensions(page),sx=canvas.width/Math.max(1,display.width),sy=canvas.height/Math.max(1,display.height);
+    if (renderPoints.length) {
+      let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+      for (const bp of renderPoints) { const dp=basePointToDisplay(page,bp); minX=Math.min(minX,dp.x);minY=Math.min(minY,dp.y);maxX=Math.max(maxX,dp.x);maxY=Math.max(maxY,dp.y); }
+      const margin=Math.max(4,width*3);
+      const x=Math.max(0,Math.floor((minX-margin)*sx)-2),y=Math.max(0,Math.floor((minY-margin)*sy)-2);
+      const right=Math.min(canvas.width,Math.ceil((maxX+margin)*sx)+2),bottom=Math.min(canvas.height,Math.ceil((maxY+margin)*sy)+2);
+      canvas._pdfwbLivePenDirty={x,y,w:Math.max(1,right-x),h:Math.max(1,bottom-y)};
+    } else canvas._pdfwbLivePenDirty=null;
+    ctx.save();ctx.scale(sx,sy);
+    ctx.globalAlpha=clamp(Number(stroke.opacity??1),0,1);
+    ctx.strokeStyle=stroke.color||'#111111';ctx.fillStyle=stroke.color||'#111111';
+    ctx.lineWidth=width;ctx.lineCap='round';ctx.lineJoin='round';
+    if (renderPoints.length===1) {
+      const p=basePointToDisplay(page,renderPoints[0]);ctx.beginPath();ctx.arc(p.x,p.y,width/2,0,Math.PI*2);ctx.fill();
+    } else if (renderPoints.length>1) {
+      ctx.beginPath();traceGoogleInkCanvas(ctx,page,renderPoints);ctx.stroke();
+    }
+    ctx.restore();
+  };
+  drawOnStage(stage);
+  const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const other of document.querySelectorAll(selector)) if (other!==stage) drawOnStage(other);
+  return {renderMs:performance.now()-started,googleMode:true,googleStablePoints:stable.length,googlePredictionPoints:prediction.length};
+}
+
+function commitLivePenOverlays(page, stroke, options={}) {
+  // Preserve the 5.6.1 O(current stroke) release rule. Every Pen width commits
+  // only its stable modeled trajectory; unrelated page ink is never redrawn.
+  if (!page?.id || !stroke?.id) return {commitMs:0,stages:0,googleMode:true};
+  const started=performance.now();
+  const width=Math.max(.25,Number(stroke.width)||3);
+  const googleResult=Array.isArray(options.googlePoints)
+    ? {points:options.googlePoints,modelMs:0,inputPoints:(stroke.points||[]).length,outputPoints:options.googlePoints.length,...(options.googleMetrics||{})}
+    : buildGoogleInkRender(stroke);
+  const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  let stages=0;
+  for (const stage of document.querySelectorAll(selector)) {
+    const live=stage.querySelector('canvas.live-pen-canvas');
+    const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const overlay=ensureAnnotationOverlay(stage,base),ctx=overlay?.getContext?.('2d');
+    if (ctx && overlay.width && overlay.height) {
+      const display=pageDisplayDimensions(page),sx=overlay.width/Math.max(1,display.width),sy=overlay.height/Math.max(1,display.height);
+      ctx.save();ctx.scale(sx,sy);
+      ctx.globalAlpha=clamp(Number(stroke.opacity??1),0,1);
+      ctx.strokeStyle=stroke.color||'#111111';ctx.fillStyle=stroke.color||'#111111';
+      ctx.lineWidth=width;ctx.lineCap='round';ctx.lineJoin='round';
+      if ((stroke.points||[]).length===1) {
+        const p=basePointToDisplay(page,stroke.points[0]);ctx.beginPath();ctx.arc(p.x,p.y,width/2,0,Math.PI*2);ctx.fill();
+      } else if (googleResult?.points?.length) {
+        ctx.beginPath();traceGoogleInkCanvas(ctx,page,googleResult.points);ctx.stroke();
+      }
+      ctx.restore();
+      stages++;
+    }
+    const liveCtx=live?.getContext?.('2d');
+    if (liveCtx && live.width && live.height) liveCtx.clearRect(0,0,live.width,live.height);
+    if (live) live._pdfwbLivePenDirty=null;
+  }
+  if (Array.isArray(options.googlePoints)) cacheGoogleInkRender(stroke,options.googlePoints,options.googleMetrics||{});
+  return {
+    commitMs:performance.now()-started,stages,googleMode:true,
+    googleModelMs:googleResult?.modelMs||0,
+    googleInputPoints:googleResult?.inputPoints||0,
+    googleOutputPoints:googleResult?.outputPoints||googleResult?.points?.length||0,
+    googleEndLagPoints:googleResult?.endLagPoints??googleResult?.lagPoints??0,
+    googleWobbleSpeed:googleResult?.wobbleSpeed||0,
+    googleWobbleBlend:googleResult?.wobbleBlend||0,
+  };
+}
+
+function ensureLiveHighlighterOverlay(stage, baseCanvas=null, opacity=HIGHLIGHTER_OPACITY) {
+  if (!stage) return null;
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  if (!base?.width || !base?.height) return null;
+  let overlay = stage.querySelector('canvas.live-highlighter-canvas');
+  if (!overlay) {
+    overlay = document.createElement('canvas');
+    overlay.className = 'live-highlighter-canvas';
+    overlay.setAttribute('aria-hidden', 'true');
+    stage.append(overlay);
+  }
+  if (overlay.width !== base.width) overlay.width = base.width;
+  if (overlay.height !== base.height) overlay.height = base.height;
+  overlay.style.width = base.style.width || '100%';
+  overlay.style.height = base.style.height || '100%';
+  overlay.style.opacity = String(clamp(Number(opacity ?? HIGHLIGHTER_OPACITY), 0, 1));
+  return overlay;
+}
+function clearLiveHighlighterOverlays(page) {
+  if (!page?.id) return;
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"] > canvas.live-highlighter-canvas`;
+  for (const overlay of document.querySelectorAll(selector)) overlay.remove();
+}
+function drawLiveHighlighterPoints(stage, page, stroke, points) {
+  // Draw one whole coalesced Pencil batch at a time. 5.4.3 already isolated the
+  // active Highlighter from the dense persistent annotation layer; 5.4.6 also
+  // removes the per-sample DOM query/context setup that became visible during
+  // long stress tests.
+  const source = Array.isArray(points) ? points : [];
+  if (!source.length) return;
   const drawOnStage = targetStage => {
-    const canvas = targetStage?.querySelector?.('canvas');
+    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const canvas = ensureLiveHighlighterOverlay(targetStage, baseCanvas, stroke.opacity);
     if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     const display = pageDisplayDimensions(page);
     const sx = canvas.width / Math.max(1, display.width);
     const sy = canvas.height / Math.max(1, display.height);
-    const a = basePointToDisplay(page, fromPoint);
-    const b = basePointToDisplay(page, toPoint);
     ctx.save();
     ctx.scale(sx, sy);
-    ctx.globalAlpha = clamp(Number(stroke.opacity ?? 1), 0, 1);
-    ctx.strokeStyle = stroke.color || '#111111';
-    ctx.fillStyle = stroke.color || '#111111';
-    ctx.lineWidth = Math.max(.25, Number(stroke.width) || 3);
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = stroke.color || '#ffeb3b';
+    ctx.fillStyle = stroke.color || '#ffeb3b';
+    ctx.lineWidth = Math.max(.25, Number(stroke.width) || 14);
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    if (Math.hypot(b.x - a.x, b.y - a.y) < .001) {
+    if (source.length === 1) {
+      const point = basePointToDisplay(page, source[0]);
       ctx.beginPath();
-      ctx.arc(a.x, a.y, ctx.lineWidth / 2, 0, Math.PI * 2);
+      ctx.arc(point.x, point.y, ctx.lineWidth / 2, 0, Math.PI * 2);
       ctx.fill();
     } else {
+      const first = basePointToDisplay(page, source[0]);
       ctx.beginPath();
-      ctx.moveTo(a.x, a.y);
-      ctx.lineTo(b.x, b.y);
+      ctx.moveTo(first.x, first.y);
+      for (let i=1; i<source.length; i++) {
+        const point = basePointToDisplay(page, source[i]);
+        ctx.lineTo(point.x, point.y);
+      }
       ctx.stroke();
     }
     ctx.restore();
   };
   drawOnStage(stage);
-  // Same-document split panes share document content but retain independent
-  // view state. Mirror the live stroke into any other rendered instance of the
-  // same page so both panes remain visually synchronized while writing.
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const other of document.querySelectorAll(selector)) if (other !== stage) drawOnStage(other);
 }
+function drawLiveHighlighterSegment(stage, page, stroke, fromPoint, toPoint) {
+  drawLiveHighlighterPoints(stage, page, stroke, [fromPoint, toPoint]);
+}
+function commitLiveHighlighterOverlays(page, opacity=HIGHLIGHTER_OPACITY) {
+  // The persistent annotation canvas already contains every completed object.
+  // Composite only the just-finished live Highlighter layer instead of
+  // rebuilding every dense-page stroke on each Highlighter release.
+  if (!page?.id) return;
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const stage of document.querySelectorAll(selector)) {
+    const live = stage.querySelector('canvas.live-highlighter-canvas');
+    if (!live?.width || !live?.height) continue;
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const overlay = ensureAnnotationOverlay(stage, base);
+    const ctx = overlay?.getContext?.('2d');
+    if (ctx) {
+      ctx.save();
+      ctx.globalAlpha = clamp(Number(opacity ?? HIGHLIGHTER_OPACITY), 0, 1);
+      ctx.drawImage(live, 0, 0, overlay.width, overlay.height);
+      ctx.restore();
+    }
+    live.remove();
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Milestone 5.2 annotation selection / lasso / manipulation
+// ---------------------------------------------------------------------------
+function selectedAnnotationPage() {
+  const sel = state.annotationSelection;
+  if (!sel?.pageId || sel.documentId !== state.currentDocumentId) return null;
+  return pageById(sel.pageId);
+}
+function selectedAnnotations(page=selectedAnnotationPage()) {
+  if (!page) return [];
+  const ids = state.annotationSelection?.ids || new Set();
+  return annotationsForPage(page).filter(annotation => ids.has(annotation.id));
+}
+function clearAnnotationSelection(redraw=true) {
+  const oldPageId = state.annotationSelection?.pageId || null;
+  state.annotationSelection = { documentId:null, pageId:null, ids:new Set() };
+  if (redraw && oldPageId) {
+    for (const stage of document.querySelectorAll(`.page-stage[data-page-id="${CSS.escape(oldPageId)}"]`)) {
+      const page = pageById(oldPageId);
+      if (page) redrawStageAnnotationSelection(stage, page);
+      else stage.querySelector('svg.annotation-selection-layer')?.remove();
+    }
+  }
+  updateSelectionToolbar();
+}
+function setAnnotationSelection(page, ids, options={}) {
+  const normalized = new Set(ids || []);
+  const existing = new Set(annotationsForPage(page).map(annotation => annotation.id));
+  for (const id of [...normalized]) if (!existing.has(id)) normalized.delete(id);
+  state.annotationSelection = {
+    documentId: state.currentDocumentId,
+    pageId: normalized.size ? page.id : null,
+    ids: normalized,
+  };
+  if (options.redraw !== false) redrawPageAnnotationSelectionOverlays(page);
+  updateSelectionToolbar();
+}
+function reconcileAnnotationSelection() {
+  const page = selectedAnnotationPage();
+  if (!page) {
+    if (state.annotationSelection?.ids?.size) clearAnnotationSelection(false);
+    updateSelectionToolbar();
+    return;
+  }
+  const available = new Set(annotationsForPage(page).map(annotation => annotation.id));
+  const ids = new Set([...state.annotationSelection.ids].filter(id => available.has(id)));
+  if (ids.size !== state.annotationSelection.ids.size) setAnnotationSelection(page, ids);
+  else updateSelectionToolbar();
+}
+function annotationDisplayBounds(page, annotations) {
+  const list = annotations || [];
+  let minX=Infinity, minY=Infinity, maxX=-Infinity, maxY=-Infinity;
+  for (const annotation of list) {
+    if (isImageAnnotation(annotation)) {
+      const bounds = imageAnnotationDisplayBounds(page, annotation);
+      if (!bounds) continue;
+      minX = Math.min(minX, bounds.minX);
+      minY = Math.min(minY, bounds.minY);
+      maxX = Math.max(maxX, bounds.maxX);
+      maxY = Math.max(maxY, bounds.maxY);
+      continue;
+    }
+    const half = Math.max(.125, Number(annotation?.width) || 0) / 2;
+    for (const raw of annotation?.points || []) {
+      const point = basePointToDisplay(page, raw);
+      minX = Math.min(minX, point.x-half);
+      minY = Math.min(minY, point.y-half);
+      maxX = Math.max(maxX, point.x+half);
+      maxY = Math.max(maxY, point.y+half);
+    }
+  }
+  return Number.isFinite(minX) ? { minX, minY, maxX, maxY, width:maxX-minX, height:maxY-minY } : null;
+}
+function annotationBaseBounds(annotations) {
+  let minX=Infinity, minY=Infinity, maxX=-Infinity, maxY=-Infinity;
+  for (const annotation of annotations || []) {
+    if (isImageAnnotation(annotation)) {
+      const rect = imageAnnotationBaseRect(annotation);
+      if (!rect) continue;
+      minX = Math.min(minX, rect.minX);
+      minY = Math.min(minY, rect.minY);
+      maxX = Math.max(maxX, rect.maxX);
+      maxY = Math.max(maxY, rect.maxY);
+      continue;
+    }
+    const half = Math.max(.125, Number(annotation?.width) || 0) / 2;
+    for (const point of annotation?.points || []) {
+      minX = Math.min(minX, point.x-half);
+      minY = Math.min(minY, point.y-half);
+      maxX = Math.max(maxX, point.x+half);
+      maxY = Math.max(maxY, point.y+half);
+    }
+  }
+  return Number.isFinite(minX) ? { minX, minY, maxX, maxY, width:maxX-minX, height:maxY-minY } : null;
+}
+function ensureSelectionOverlay(stage, page) {
+  if (!stage || !page) return null;
+  let svg = stage.querySelector('svg.annotation-selection-layer');
+  if (!svg) {
+    svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.classList.add('annotation-selection-layer');
+    svg.setAttribute('aria-hidden','true');
+    stage.append(svg);
+  }
+  const display = pageDisplayDimensions(page);
+  svg.setAttribute('viewBox', `0 0 ${display.width} ${display.height}`);
+  svg.setAttribute('preserveAspectRatio', 'none');
+  return svg;
+}
+function redrawStageAnnotationSelection(stage, page) {
+  if (!stage || !page) return;
+  const activeRegionCopy = state.annotationTool === 'select' && state.regionCopyGesture?.pageId === page.id;
+  const activeSelection = !activeRegionCopy && state.annotationTool === 'select' &&
+    state.annotationSelection?.documentId === state.currentDocumentId &&
+    state.annotationSelection?.pageId === page.id;
+  const activeLasso = !activeRegionCopy && state.annotationTool === 'select' &&
+    state.selectionGesture?.mode === 'lasso' &&
+    state.selectionGesture?.pageId === page.id;
+  let svg = stage.querySelector('svg.annotation-selection-layer');
+  if (!activeSelection && !activeLasso && !activeRegionCopy) {
+    svg?.remove();
+    return;
+  }
+  svg = ensureSelectionOverlay(stage, page);
+  if (!svg) return;
+  svg.replaceChildren();
+  const display = pageDisplayDimensions(page);
+  const rect = stage.getBoundingClientRect();
+  const cssToDisplay = display.width / Math.max(1, rect.width);
+
+  if (activeLasso) {
+    const points = state.selectionGesture.points || [];
+    if (points.length) {
+      const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      const d = points.map((raw,index) => {
+        const point = basePointToDisplay(page, raw);
+        return `${index ? 'L' : 'M'} ${point.x.toFixed(2)} ${point.y.toFixed(2)}`;
+      }).join(' ');
+      path.setAttribute('d', d + (points.length > 2 ? ' Z' : ''));
+      path.setAttribute('class','annotation-lasso-path');
+      svg.append(path);
+    }
+  }
+
+  if (activeRegionCopy) {
+    const rect = regionCopyDisplayRectFromPoints(page, state.regionCopyGesture?.startPoint, state.regionCopyGesture?.currentPoint || state.regionCopyGesture?.startPoint);
+    if (rect && rect.width > 0.01 && rect.height > 0.01) {
+      const box = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      box.setAttribute('x', String(rect.minX));
+      box.setAttribute('y', String(rect.minY));
+      box.setAttribute('width', String(Math.max(.01, rect.width)));
+      box.setAttribute('height', String(Math.max(.01, rect.height)));
+      box.setAttribute('class','annotation-region-copy-box');
+      svg.append(box);
+    }
+  }
+
+  if (activeSelection) {
+    const annotations = selectedAnnotations(page);
+    const bounds = annotationDisplayBounds(page, annotations);
+    if (!bounds) return;
+    const box = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    box.setAttribute('x', String(bounds.minX));
+    box.setAttribute('y', String(bounds.minY));
+    box.setAttribute('width', String(Math.max(.01,bounds.width)));
+    box.setAttribute('height', String(Math.max(.01,bounds.height)));
+    box.setAttribute('rx', String(2.5 * cssToDisplay));
+    box.setAttribute('class','annotation-selection-box');
+    svg.append(box);
+    const radius = Math.max(4 * cssToDisplay, 6.5 * cssToDisplay);
+    for (const [name,x,y] of [
+      ['nw',bounds.minX,bounds.minY], ['ne',bounds.maxX,bounds.minY],
+      ['sw',bounds.minX,bounds.maxY], ['se',bounds.maxX,bounds.maxY],
+    ]) {
+      const handle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      handle.setAttribute('cx', String(x));
+      handle.setAttribute('cy', String(y));
+      handle.setAttribute('r', String(radius));
+      handle.setAttribute('class','annotation-selection-handle');
+      handle.dataset.handle = name;
+      svg.append(handle);
+    }
+  }
+}
+function redrawPageAnnotationSelectionOverlays(page) {
+  if (!page?.id) return;
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const stage of document.querySelectorAll(selector)) redrawStageAnnotationSelection(stage, page);
+}
+function selectionDisplayHit(stage, page, event) {
+  if (state.annotationSelection?.pageId !== page.id || state.annotationSelection?.documentId !== state.currentDocumentId) return null;
+  const bounds = annotationDisplayBounds(page, selectedAnnotations(page));
+  if (!bounds) return null;
+  const display = pageDisplayDimensions(page);
+  const rect = stage.getBoundingClientRect();
+  const px = event.clientX, py = event.clientY;
+  const clientPoint = (x,y) => ({
+    x: rect.left + x * rect.width / Math.max(1,display.width),
+    y: rect.top + y * rect.height / Math.max(1,display.height),
+  });
+  const corners = {
+    nw:clientPoint(bounds.minX,bounds.minY), ne:clientPoint(bounds.maxX,bounds.minY),
+    sw:clientPoint(bounds.minX,bounds.maxY), se:clientPoint(bounds.maxX,bounds.maxY),
+  };
+  for (const [name,point] of Object.entries(corners)) {
+    if (Math.hypot(px-point.x, py-point.y) <= 15) return { mode:'resize', handle:name, bounds };
+  }
+  const left = rect.left + bounds.minX * rect.width / Math.max(1,display.width);
+  const right = rect.left + bounds.maxX * rect.width / Math.max(1,display.width);
+  const top = rect.top + bounds.minY * rect.height / Math.max(1,display.height);
+  const bottom = rect.top + bounds.maxY * rect.height / Math.max(1,display.height);
+  if (px >= left-4 && px <= right+4 && py >= top-4 && py <= bottom+4) return { mode:'move', bounds };
+  return null;
+}
+function pointInPolygon(point, polygon) {
+  if (!polygon?.length) return false;
+  let inside = false;
+  for (let i=0,j=polygon.length-1; i<polygon.length; j=i++) {
+    const a=polygon[i], b=polygon[j];
+    if (pointOnSegment2(point,a,b,1e-5)) return true;
+    const crosses = ((a.y > point.y) !== (b.y > point.y)) &&
+      (point.x < (b.x-a.x) * (point.y-a.y) / ((b.y-a.y) || 1e-12) + a.x);
+    if (crosses) inside = !inside;
+  }
+  return inside;
+}
+function strokeIntersectsPolygon(annotation, polygon) {
+  if (!polygon?.length) return false;
+  if (isImageAnnotation(annotation)) {
+    const rect = imageAnnotationBaseRect(annotation);
+    if (!rect) return false;
+    const corners = [
+      {x:rect.minX,y:rect.minY},{x:rect.maxX,y:rect.minY},
+      {x:rect.maxX,y:rect.maxY},{x:rect.minX,y:rect.maxY},
+    ];
+    if (corners.some(point => pointInPolygon(point, polygon))) return true;
+    if (polygon.some(point => point.x >= rect.minX && point.x <= rect.maxX && point.y >= rect.minY && point.y <= rect.maxY)) return true;
+    for (let i=0; i<polygon.length; i++) {
+      const a=polygon[i], b=polygon[(i+1)%polygon.length];
+      for (let j=0; j<4; j++) if (segmentsIntersect2(a,b,corners[j],corners[(j+1)%4])) return true;
+    }
+    return false;
+  }
+  const points = annotation?.points || [];
+  if (!points.length) return false;
+  if (points.some(point => pointInPolygon(point, polygon))) return true;
+  const bounds = annotationBaseBounds([annotation]);
+  if (bounds && pointInPolygon({x:(bounds.minX+bounds.maxX)/2,y:(bounds.minY+bounds.maxY)/2}, polygon)) return true;
+  if (points.length < 2 || polygon.length < 2) return false;
+  for (let i=1; i<points.length; i++) {
+    for (let j=0; j<polygon.length; j++) {
+      if (segmentsIntersect2(points[i-1], points[i], polygon[j], polygon[(j+1)%polygon.length])) return true;
+    }
+  }
+  return false;
+}
+function annotationHitAt(page, point, radius) {
+  const annotations = annotationsForPage(page);
+  let best=null, bestDistance=Infinity;
+
+  // Ink/highlighter is visually above inserted images. Give it first chance so
+  // tapping handwriting on top of a photo selects the handwriting, while a tap
+  // on clear photo area still selects the image.
+  for (let index=annotations.length-1; index>=0; index--) {
+    const annotation=annotations[index];
+    if (isImageAnnotation(annotation)) continue;
+    const points=annotation?.points || [];
+    if (!points.length) continue;
+    const tolerance=Math.max(2,radius+(Number(annotation.width)||0)/2);
+    let distance=Infinity;
+    if (points.length===1) distance=Math.hypot(point.x-points[0].x,point.y-points[0].y);
+    else for (let i=1;i<points.length;i++) distance=Math.min(distance,pointSegmentDistance(point,points[i-1],points[i]));
+    if (distance<=tolerance && distance<bestDistance) { best=annotation; bestDistance=distance; }
+  }
+  if (best) return best;
+
+  for (let index=annotations.length-1; index>=0; index--) {
+    const annotation=annotations[index];
+    if (!isImageAnnotation(annotation)) continue;
+    const rect=imageAnnotationBaseRect(annotation);
+    if (!rect) continue;
+    const dx=Math.max(rect.minX-point.x,0,point.x-rect.maxX);
+    const dy=Math.max(rect.minY-point.y,0,point.y-rect.maxY);
+    if (Math.hypot(dx,dy)<=Math.max(2,radius)) return annotation;
+  }
+  return null;
+}
+function selectionOriginals(page) {
+  const ids = state.annotationSelection?.ids || new Set();
+  return annotationsForPage(page).filter(annotation => ids.has(annotation.id)).map(cloneInkStroke);
+}
+function ensureLiveSelectionOverlay(stage, baseCanvas=null) {
+  if (!stage) return null;
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  if (!base?.width || !base?.height) return null;
+  let overlay = stage.querySelector('canvas.live-selection-canvas');
+  if (!overlay) {
+    overlay = document.createElement('canvas');
+    overlay.className = 'live-selection-canvas';
+    overlay.setAttribute('aria-hidden', 'true');
+    stage.append(overlay);
+  }
+  if (overlay.width !== base.width) overlay.width = base.width;
+  if (overlay.height !== base.height) overlay.height = base.height;
+  overlay.style.width = base.style.width || '100%';
+  overlay.style.height = base.style.height || '100%';
+  overlay.style.transform = 'none';
+  overlay.style.transformOrigin = '0 0';
+  return overlay;
+}
+function clearSelectionGestureLayers(page) {
+  if (!page?.id) return;
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const stage of document.querySelectorAll(selector)) {
+    stage.querySelector('canvas.live-selection-canvas')?.remove();
+    const selectionLayer = stage.querySelector('svg.annotation-selection-layer');
+    if (selectionLayer) {
+      selectionLayer.style.transform = '';
+      selectionLayer.style.transformOrigin = '';
+    }
+  }
+}
+function prepareSelectionGestureLayers(gesture) {
+  if (!gesture?.page || !['move','resize'].includes(gesture.mode) || !gesture.originals?.length) return false;
+  const page = gesture.page;
+  const ids = new Set(gesture.originals.map(annotation => annotation.id));
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  let liveCount = 0;
+  let renderedCount = 0;
+  // Build the movable copy first so a failed/unrendered stage never causes the
+  // selected objects to disappear from its ordinary annotation layer.
+  for (const stage of document.querySelectorAll(selector)) {
+    if (stage.dataset.rendered !== 'true') continue;
+    renderedCount++;
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const live = ensureLiveSelectionOverlay(stage, base);
+    if (!live) continue;
+    const ctx = live.getContext('2d');
+    if (!ctx) { live.remove(); continue; }
+    ctx.clearRect(0, 0, live.width, live.height);
+    drawPageAnnotationsCanvas(page, ctx, live.width, live.height, { includeStrokeIds: ids });
+    liveCount++;
+  }
+  if (!liveCount || liveCount !== renderedCount) {
+    clearSelectionGestureLayers(page);
+    return false;
+  }
+  // Freeze all unselected ink on the ordinary overlay once. Pointer moves can
+  // then transform the selected copy with CSS instead of resmoothing/redrawing
+  // hundreds of unrelated strokes on every Pencil sample.
+  redrawPageAnnotationOverlays(page, { excludeStrokeIds: ids });
+  gesture.previewOptimized = true;
+  return true;
+}
+function setSelectionGestureLayerTransform(gesture) {
+  if (!gesture?.previewOptimized || !gesture.page?.id) return;
+  const page = gesture.page;
+  const display = pageDisplayDimensions(page);
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const stage of document.querySelectorAll(selector)) {
+    const live = stage.querySelector('canvas.live-selection-canvas');
+    const selectionLayer = stage.querySelector('svg.annotation-selection-layer');
+    if (!live) continue;
+    if (gesture.mode === 'move') {
+      const delta = gesture.lastDelta || { dx:0, dy:0 };
+      const origin = basePointToDisplay(page, { x:0, y:0 });
+      const shifted = basePointToDisplay(page, { x:delta.dx, y:delta.dy });
+      const rect = stage.getBoundingClientRect();
+      const dxCss = (shifted.x-origin.x) * rect.width / Math.max(1, display.width);
+      const dyCss = (shifted.y-origin.y) * rect.height / Math.max(1, display.height);
+      const transform = `translate(${dxCss}px, ${dyCss}px)`;
+      live.style.transformOrigin = '0 0';
+      live.style.transform = transform;
+      if (selectionLayer) {
+        selectionLayer.style.transformOrigin = '0 0';
+        selectionLayer.style.transform = transform;
+      }
+    } else if (gesture.mode === 'resize') {
+      const scale = gesture.lastScale?.scale ?? 1;
+      const anchor = gesture.resizeFrame?.anchor || { x:0, y:0 };
+      const ox = clamp(anchor.x / Math.max(1, display.width) * 100, 0, 100);
+      const oy = clamp(anchor.y / Math.max(1, display.height) * 100, 0, 100);
+      const origin = `${ox}% ${oy}%`;
+      const transform = `scale(${scale})`;
+      live.style.transformOrigin = origin;
+      live.style.transform = transform;
+      if (selectionLayer) {
+        selectionLayer.style.transformOrigin = origin;
+        selectionLayer.style.transform = transform;
+      }
+    }
+  }
+}
+function commitSelectionGestureTransform(gesture) {
+  if (!gesture?.changed) return;
+  const page = gesture.page;
+  const current = new Map(annotationsForPage(page).map(annotation => [annotation.id, annotation]));
+  if (gesture.mode === 'move') {
+    const { dx=0, dy=0 } = gesture.lastDelta || {};
+    for (const original of gesture.originals || []) {
+      const annotation = current.get(original.id);
+      if (!annotation) continue;
+      if (isImageAnnotation(original)) {
+        annotation.x = (Number(original.x)||0) + dx;
+        annotation.y = (Number(original.y)||0) + dy;
+      } else {
+        annotation.points = original.points.map(point => ({ ...point, x:point.x+dx, y:point.y+dy }));
+      }
+    }
+    return;
+  }
+  if (gesture.mode === 'resize') {
+    const scale = gesture.lastScale?.scale ?? 1;
+    const anchor = gesture.resizeFrame?.anchor;
+    if (!anchor) return;
+    for (const original of gesture.originals || []) {
+      const annotation = current.get(original.id);
+      if (!annotation) continue;
+      if (isImageAnnotation(original)) {
+        const topLeft = basePointToDisplay(page, {x:Number(original.x)||0,y:Number(original.y)||0});
+        const nextTopLeft = displayPointToBase(page, {
+          x:anchor.x+(topLeft.x-anchor.x)*scale,
+          y:anchor.y+(topLeft.y-anchor.y)*scale,
+        });
+        annotation.x = nextTopLeft.x;
+        annotation.y = nextTopLeft.y;
+        annotation.width = Math.max(.25, (Number(original.width)||1) * scale);
+        annotation.height = Math.max(.25, (Number(original.height)||1) * scale);
+      } else {
+        annotation.points = original.points.map(raw => {
+          const point = basePointToDisplay(page, raw);
+          const mapped=displayPointToBase(page, { x:anchor.x+(point.x-anchor.x)*scale, y:anchor.y+(point.y-anchor.y)*scale });
+          return Number.isFinite(Number(raw.t)) ? {...mapped,t:Number(raw.t)} : mapped;
+        });
+        annotation.width = Math.max(.25, (Number(original.width)||3) * scale);
+      }
+    }
+  }
+}
+function applyMoveSelectionGesture(gesture, event) {
+  const page = gesture.page;
+  const next = eventPointOnPage(gesture.stage, page, event);
+  if (!next) return;
+  const base = pageCanvasBaseDimensions(page);
+  let dx = next.x - gesture.startPoint.x;
+  let dy = next.y - gesture.startPoint.y;
+  const bounds = gesture.baseBounds;
+  dx = clamp(dx, -bounds.minX, base.width-bounds.maxX);
+  dy = clamp(dy, -bounds.minY, base.height-bounds.maxY);
+  gesture.changed = Math.hypot(dx,dy) > .02;
+  gesture.lastDelta = { dx, dy };
+  if (gesture.previewOptimized) setSelectionGestureLayerTransform(gesture);
+  else {
+    // Safety fallback for an unusual unrendered stage: retain the pre-5.4.4
+    // mutation/redraw behavior rather than sacrificing functionality.
+    const current = new Map(annotationsForPage(page).map(annotation => [annotation.id,annotation]));
+    for (const original of gesture.originals) {
+      const annotation = current.get(original.id);
+      if (!annotation) continue;
+      if (isImageAnnotation(original)) {
+        annotation.x = (Number(original.x)||0) + dx;
+        annotation.y = (Number(original.y)||0) + dy;
+      } else {
+        annotation.points = original.points.map(point => ({...point,x:point.x+dx,y:point.y+dy}));
+      }
+    }
+    redrawPageAnnotationOverlays(page);
+  }
+}
+function resizeCornerPoints(bounds, handle) {
+  if (handle === 'nw') return { corner:{x:bounds.minX,y:bounds.minY}, anchor:{x:bounds.maxX,y:bounds.maxY} };
+  if (handle === 'ne') return { corner:{x:bounds.maxX,y:bounds.minY}, anchor:{x:bounds.minX,y:bounds.maxY} };
+  if (handle === 'sw') return { corner:{x:bounds.minX,y:bounds.maxY}, anchor:{x:bounds.maxX,y:bounds.minY} };
+  return { corner:{x:bounds.maxX,y:bounds.maxY}, anchor:{x:bounds.minX,y:bounds.minY} };
+}
+function applyResizeSelectionGesture(gesture, event) {
+  const page = gesture.page;
+  const nextBase = eventPointOnPage(gesture.stage, page, event);
+  if (!nextBase) return;
+  const next = basePointToDisplay(page,nextBase);
+  const { corner, anchor } = gesture.resizeFrame;
+  const dx0 = corner.x-anchor.x, dy0 = corner.y-anchor.y;
+  const denom = dx0*dx0 + dy0*dy0;
+  if (denom < 1e-8) return;
+  // Corner resize is proportional: handwriting and grouped objects keep their
+  // shape instead of being independently stretched in x/y. Project the pointer
+  // onto the original corner diagonal, then cap expansion at the page edges.
+  const projected = ((next.x-anchor.x)*dx0 + (next.y-anchor.y)*dy0) / denom;
+  const display = pageDisplayDimensions(page);
+  const maxX = dx0 > 0 ? (display.width-anchor.x)/dx0 : (0-anchor.x)/dx0;
+  const maxY = dy0 > 0 ? (display.height-anchor.y)/dy0 : (0-anchor.y)/dy0;
+  const scale = clamp(projected, .08, Math.max(.08, Math.min(20,maxX,maxY)));
+  gesture.changed = Math.abs(scale-1) > .002;
+  gesture.lastScale = { scale };
+  if (gesture.previewOptimized) setSelectionGestureLayerTransform(gesture);
+  else {
+    const current = new Map(annotationsForPage(page).map(annotation => [annotation.id,annotation]));
+    for (const original of gesture.originals) {
+      const annotation = current.get(original.id);
+      if (!annotation) continue;
+      if (isImageAnnotation(original)) {
+        const topLeft = basePointToDisplay(page,{x:Number(original.x)||0,y:Number(original.y)||0});
+        const nextTopLeft = displayPointToBase(page,{
+          x:anchor.x+(topLeft.x-anchor.x)*scale,
+          y:anchor.y+(topLeft.y-anchor.y)*scale,
+        });
+        annotation.x = nextTopLeft.x;
+        annotation.y = nextTopLeft.y;
+        annotation.width = Math.max(.25,(Number(original.width)||1)*scale);
+        annotation.height = Math.max(.25,(Number(original.height)||1)*scale);
+      } else {
+        annotation.points = original.points.map(raw => {
+          const point = basePointToDisplay(page,raw);
+          const mapped=displayPointToBase(page,{x:anchor.x+(point.x-anchor.x)*scale,y:anchor.y+(point.y-anchor.y)*scale});
+          return Number.isFinite(Number(raw.t)) ? {...mapped,t:Number(raw.t)} : mapped;
+        });
+        annotation.width = Math.max(.25,(Number(original.width)||3)*scale);
+      }
+    }
+    redrawPageAnnotationOverlays(page);
+  }
+}
+async function ensurePageAnnotationImageSourcesLoaded(page) {
+  const ids = [...new Set(annotationsForPage(page).filter(isImageAnnotation).map(annotation => annotation.sourceId).filter(Boolean))];
+  for (const sourceId of ids) {
+    const source = state.sources.get(sourceId) || await ensureLibrarySourceLoaded(sourceId);
+    if (source) await getSourceImage(source);
+  }
+}
+async function createRecentRegionImageAsset(page, displayRect, options={}) {
+  if (!page || !displayRect || displayRect.width <= 0 || displayRect.height <= 0) throw new Error('Choose a non-empty region.');
+  await ensurePageAnnotationImageSourcesLoaded(page);
+  const display = pageDisplayDimensions(page);
+  const zoomScale = regionCopyZoomScaleFromGeometry(page, options.geometry);
+  const pasteScale = options.sizeMode === 'zoom' ? zoomScale : 1;
+  const renderScale = clamp((options.sizeMode === 'zoom' ? zoomScale : 1) * 2.5, 1.5, 6);
+  const fullCanvas = document.createElement('canvas');
+  await renderPageToCanvasDiagnostic(page, fullCanvas, display.width, display.height, renderScale, 12_000_000);
+  const fullCtx = fullCanvas.getContext('2d', { alpha: false });
+  drawPageAnnotationsCanvas(page, fullCtx, fullCanvas.width, fullCanvas.height);
+  const scaleX = fullCanvas.width / Math.max(1, display.width);
+  const scaleY = fullCanvas.height / Math.max(1, display.height);
+  const sx = clamp(displayRect.x * scaleX, 0, fullCanvas.width);
+  const sy = clamp(displayRect.y * scaleY, 0, fullCanvas.height);
+  const sw = clamp(displayRect.width * scaleX, 1, Math.max(1, fullCanvas.width - sx));
+  const sh = clamp(displayRect.height * scaleY, 1, Math.max(1, fullCanvas.height - sy));
+  const cropCanvas = document.createElement('canvas');
+  cropCanvas.width = Math.max(1, Math.round(sw));
+  cropCanvas.height = Math.max(1, Math.round(sh));
+  const cropCtx = cropCanvas.getContext('2d', { alpha: false });
+  cropCtx.drawImage(fullCanvas, sx, sy, sw, sh, 0, 0, cropCanvas.width, cropCanvas.height);
+  const blob = await new Promise((resolve, reject) => cropCanvas.toBlob(b => b ? resolve(b) : reject(new Error('Could not encode the copied region.')), 'image/png'));
+  const stamp = new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
+  const file = new File([blob], `region-copy-${Date.now()}.png`, { type:'image/png' });
+  const baseRect = displayRectToBaseImageRect(page, displayRect);
+  const asset = await importImageAsset(file, {
+    pinned:false,
+    name:`Recent region ${stamp}`,
+    defaultWidth:Math.max(.25, baseRect.width * pasteScale),
+    defaultHeight:Math.max(.25, baseRect.height * pasteScale),
+  });
+  state.assetBrowserView='recent';
+  state.annotationClipboard=null;
+  state.annotationClipboardAssetId=asset.id;
+  state.annotationPasteSerial=0;
+  state.annotationPasteTargetKey=null;
+  updateSelectionToolbar();
+  const scaleText = options.sizeMode === 'zoom' ? 'current zoom size' : 'original size';
+  setStatus(`Copied region · added to Recent · paste uses ${scaleText}`);
+  return asset;
+}
+function requestRegionCaptureSizeChoice() {
+  if (!els.regionCaptureDialog) return Promise.resolve(window.confirm('Use current zoom size when pasting?') ? 'zoom' : 'original');
+  return new Promise(resolve => {
+    let finished = false;
+    const finish = value => {
+      if (finished) return; finished = true;
+      try { els.regionCaptureDialog.close(); } catch {}
+      resolve(value);
+    };
+    if (els.regionCaptureSummary) els.regionCaptureSummary.textContent = 'Choose how large the pasted image should be. Original size keeps the same page dimensions. Current zoom size converts the current viewer zoom into the pasted image size.';
+    els.regionCaptureCloseBtn.onclick = () => finish(null);
+    els.regionCaptureCancelBtn.onclick = () => finish(null);
+    els.regionCaptureOriginalBtn.onclick = () => finish('original');
+    els.regionCaptureZoomBtn.onclick = () => finish('zoom');
+    els.regionCaptureDialog.oncancel = event => { event.preventDefault(); finish(null); };
+    els.regionCaptureDialog.showModal();
+    requestAnimationFrame(() => els.regionCaptureOriginalBtn?.focus({ preventScroll:true }));
+  });
+}
+function cancelRegionCopyMode(options={}) {
+  const pageId = state.regionCopyGesture?.pageId || null;
+  state.regionCopyArmed = false;
+  state.regionCopyGesture = null;
+  updateSelectionToolbar();
+  if (options.redraw !== false && pageId) {
+    const page = pageById(pageId);
+    if (page) redrawPageAnnotationSelectionOverlays(page);
+  }
+  if (options.status) setStatus(options.status);
+}
+function armRegionCopyMode() {
+  if (!state.pages.length) return;
+  if (state.annotationTool !== 'select') setAnnotationTool('select');
+  state.regionCopyArmed = true;
+  state.regionCopyGesture = null;
+  updateSelectionToolbar();
+  setStatus('Copy region: drag a rectangle on the page.');
+}
+function toggleRegionCopyMode() {
+  if (state.regionCopyArmed || state.regionCopyGesture) cancelRegionCopyMode({ status:'Copy region canceled' });
+  else armRegionCopyMode();
+}
+function continueRegionCopyGesture(viewer, event) {
+  const gesture = state.regionCopyGesture;
+  if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
+  if (event.cancelable) event.preventDefault();
+  const next = eventPointOnPage(gesture.stage, gesture.page, event, gesture.geometry);
+  if (next) {
+    gesture.currentPoint = next;
+    gesture.maxClientDistance = Math.max(gesture.maxClientDistance || 0, Math.hypot(event.clientX - gesture.startClient.x, event.clientY - gesture.startClient.y));
+    redrawPageAnnotationSelectionOverlays(gesture.page);
+  }
+  return true;
+}
+function finishRegionCopyGesture(viewer, event) {
+  const gesture = state.regionCopyGesture;
+  if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
+  if (event.cancelable) event.preventDefault();
+  if (event.type !== 'pointercancel' && event.type !== 'touchcancel') continueRegionCopyGesture(viewer, event);
+  if (gesture.inputSource === 'pointer') { try { viewer.releasePointerCapture?.(event.pointerId); } catch {} }
+  state.regionCopyGesture = null;
+  state.regionCopyArmed = false;
+  updateSelectionToolbar();
+  redrawPageAnnotationSelectionOverlays(gesture.page);
+  if (event.type === 'pointercancel' || event.type === 'touchcancel') {
+    setStatus('Copy region canceled');
+    return true;
+  }
+  const rect = regionCopyDisplayRectFromPoints(gesture.page, gesture.startPoint, gesture.currentPoint || gesture.startPoint);
+  if (!rect || rect.width < 6 || rect.height < 6 || (gesture.maxClientDistance || 0) < 7) {
+    setStatus('Copy region canceled');
+    return true;
+  }
+  (async () => {
+    try {
+      const sizeMode = await requestRegionCaptureSizeChoice();
+      if (!sizeMode) { setStatus('Copy region canceled'); return; }
+      await createRecentRegionImageAsset(gesture.page, rect, { sizeMode, geometry:gesture.geometry });
+    } catch (err) {
+      console.error(err);
+      setStatus(`Could not copy region: ${err?.message || err}`);
+    }
+  })();
+  return true;
+}
+
+function beginSelectionGesture(viewer,event) {
+  if (state.annotationTool !== 'select') return false;
+  if (event.pointerType === 'mouse' && event.button !== 0) return false;
+  if (event.pointerType === 'pen' && event.button !== 0) {
+    if (event.cancelable) event.preventDefault();
+    addInkDiagnostic('selection-begin-non-tip-pen-button',event);
+    return true;
+  }
+  if (event.pointerType === 'pen' && state.selectionGesture?.inputSource === 'stylus-touch' && !event._inkStylusTouch) {
+    if (event.cancelable) event.preventDefault();
+    addInkDiagnostic('pointer-shadowed-by-stylus-touch',event,{gesture:'select'});
+    return true;
+  }
+  const stage=inkStageForEvent(viewer,event);
+  if (!stage) return true;
+  const page=pageById(stage.dataset.pageId);
+  if (!page) return true;
+  const first=eventPointOnPage(stage,page,event);
+  if (!first) return true;
+  const inputSource=event._inkStylusTouch?'stylus-touch':'pointer';
+  if (state.regionCopyArmed) {
+    const geometry = gestureEventGeometry(stage, page);
+    state.activePageId = page.id;
+    state.regionCopyGesture = { pointerId:event.pointerId, inputSource, viewer, stage, page, pageId:page.id, documentId:state.currentDocumentId, startPoint:first, currentPoint:first, startClient:{x:event.clientX,y:event.clientY}, maxClientDistance:0, geometry };
+    if (event.cancelable) event.preventDefault();
+    if (inputSource==='pointer') { try{viewer.setPointerCapture?.(event.pointerId);}catch{} }
+    redrawPageAnnotationSelectionOverlays(page);
+    addInkDiagnostic('selection-begin-region-copy',event);
+    return true;
+  }
+  const hit=selectionDisplayHit(stage,page,event);
+  let gesture;
+  if (hit?.mode === 'move' && selectedAnnotations(page).length) {
+    const originals=selectionOriginals(page);
+    gesture={mode:'move',pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id,documentId:state.currentDocumentId,startPoint:first,originals,baseBounds:annotationBaseBounds(originals),before:snapshotPages(),changed:false};
+  } else if (hit?.mode === 'resize' && selectedAnnotations(page).length) {
+    const originals=selectionOriginals(page);
+    const bounds=annotationDisplayBounds(page,originals);
+    gesture={mode:'resize',pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id,documentId:state.currentDocumentId,startPoint:first,originals,before:snapshotPages(),changed:false,handle:hit.handle,resizeFrame:resizeCornerPoints(bounds,hit.handle)};
+  } else {
+    const additive=!!(event.shiftKey||event.ctrlKey||event.metaKey);
+    if (!additive && state.annotationSelection?.ids?.size) clearAnnotationSelection(true);
+    gesture={mode:'lasso',pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id,documentId:state.currentDocumentId,points:[first],startClient:{x:event.clientX,y:event.clientY},maxClientDistance:0,additive};
+  }
+  state.activePageId=page.id;
+  state.selectionGesture=gesture;
+  if (event.cancelable) event.preventDefault();
+  if (inputSource==='pointer') { try{viewer.setPointerCapture?.(event.pointerId);}catch{} }
+  if (gesture.mode === 'move' || gesture.mode === 'resize') {
+    if (!prepareSelectionGestureLayers(gesture)) redrawPageAnnotationSelectionOverlays(page);
+  } else {
+    redrawPageAnnotationSelectionOverlays(page);
+  }
+  addInkDiagnostic('selection-begin-accepted',event,{mode:gesture.mode,previewOptimized:!!gesture.previewOptimized});
+  return true;
+}
+function continueSelectionGesture(viewer,event) {
+  if (continueRegionCopyGesture(viewer, event)) return true;
+  const gesture=state.selectionGesture;
+  if (!gesture||gesture.pointerId!==event.pointerId||gesture.viewer!==viewer) return false;
+  if (event.cancelable) event.preventDefault();
+  if (gesture.mode==='move') applyMoveSelectionGesture(gesture,event);
+  else if (gesture.mode==='resize') applyResizeSelectionGesture(gesture,event);
+  else {
+    const next=eventPointOnPage(gesture.stage,gesture.page,event);
+    if (next) {
+      const prev=gesture.points[gesture.points.length-1];
+      if (!prev||Math.hypot(next.x-prev.x,next.y-prev.y)>.35) gesture.points.push(next);
+      gesture.maxClientDistance=Math.max(gesture.maxClientDistance,Math.hypot(event.clientX-gesture.startClient.x,event.clientY-gesture.startClient.y));
+      redrawPageAnnotationSelectionOverlays(gesture.page);
+    }
+  }
+  return true;
+}
+function finishSelectionGesture(viewer,event) {
+  if (finishRegionCopyGesture(viewer, event)) return true;
+  const gesture=state.selectionGesture;
+  if (!gesture||gesture.pointerId!==event.pointerId||gesture.viewer!==viewer) return false;
+  if (event.cancelable) event.preventDefault();
+  if (event.type==='pointercancel'||event.type==='touchcancel') {
+    state.selectionGesture=null;
+    if ((gesture.mode==='move'||gesture.mode==='resize')) {
+      if (!gesture.previewOptimized && gesture.changed) restorePages(gesture.before);
+      clearSelectionGestureLayers(gesture.page);
+      const restoredPage=pageById(gesture.pageId);
+      if (restoredPage) redrawPageAnnotationOverlays(restoredPage);
+    } else {
+      const restoredPage=pageById(gesture.pageId);
+      if (restoredPage) redrawPageAnnotationSelectionOverlays(restoredPage);
+    }
+    return true;
+  }
+  continueSelectionGesture(viewer,event);
+  if (gesture.inputSource==='pointer') { try{viewer.releasePointerCapture?.(event.pointerId);}catch{} }
+  state.selectionGesture=null;
+  if (gesture.mode==='lasso') {
+    let ids=new Set(gesture.additive&&state.annotationSelection?.pageId===gesture.page.id?[...state.annotationSelection.ids]:[]);
+    if (gesture.maxClientDistance < 7) {
+      const point=eventPointOnPage(gesture.stage,gesture.page,event)||gesture.points[0];
+      const display=pageDisplayDimensions(gesture.page), rect=gesture.stage.getBoundingClientRect();
+      const radius=11*display.width/Math.max(1,rect.width);
+      const hit=annotationHitAt(gesture.page,point,radius);
+      if (hit) {
+        if (gesture.additive&&ids.has(hit.id)) ids.delete(hit.id); else ids.add(hit.id);
+      } else if (!gesture.additive) ids.clear();
+    } else if (gesture.points.length>=3) {
+      for (const annotation of annotationsForPage(gesture.page)) if (strokeIntersectsPolygon(annotation,gesture.points)) ids.add(annotation.id);
+    }
+    setAnnotationSelection(gesture.page,ids);
+    const count=ids.size;
+    setStatus(count?`${count} annotation object${count===1?'':'s'} selected`:'No annotations selected');
+  } else {
+    // Optimized move/resize keeps the vector model frozen during the drag and
+    // transforms only a temporary selected-object canvas. Commit the geometry
+    // exactly once on pointer-up, then restore the ordinary annotation layer.
+    if (gesture.previewOptimized && gesture.changed) commitSelectionGestureTransform(gesture);
+    clearSelectionGestureLayers(gesture.page);
+    if (gesture.changed) {
+      commitHistory(gesture.before);
+      saveCurrentDocumentState({readViewDom:false});
+      redrawPageAnnotationOverlays(gesture.page);
+      setStatus(gesture.mode==='move'?'Moved selected annotations':'Resized selected annotations');
+    } else {
+      redrawPageAnnotationOverlays(gesture.page);
+    }
+  }
+  addInkDiagnostic('selection-finish-accepted',event,{mode:gesture.mode,changed:!!gesture.changed,selected:state.annotationSelection?.ids?.size||0,previewOptimized:!!gesture.previewOptimized});
+  return true;
+}
+function annotationPayloadFromSelection(page=selectedAnnotationPage()) {
+  const annotations=selectedAnnotations(page);
+  const bounds=annotationDisplayBounds(page,annotations);
+  if (!page||!annotations.length||!bounds) return null;
+  const display=pageDisplayDimensions(page);
+  return {
+    sourceDocumentId:state.currentDocumentId,
+    sourcePageId:page.id,
+    sourceDisplay:{width:display.width,height:display.height},
+    origin:{x:bounds.minX,y:bounds.minY},
+    size:{width:bounds.width,height:bounds.height},
+    items:annotations.map(annotation=>{
+      const copy={...cloneInkStroke(annotation),id:null};
+      if (isImageAnnotation(annotation)) {
+        const rect=imageAnnotationDisplayBounds(page,annotation);
+        copy.displayRect=rect?{
+          x:rect.minX-bounds.minX,y:rect.minY-bounds.minY,width:rect.width,height:rect.height
+        }:null;
+        copy.displayRotation=normalizedQuarterTurn(imageAnnotationRotation(annotation)+normalizedQuarterTurn(page.rotation));
+        copy.points=[];
+      } else {
+        copy.points=(annotation.points||[]).map(raw=>{
+          const point=basePointToDisplay(page,raw);
+          return Number.isFinite(Number(raw.t)) ? {x:point.x-bounds.minX,y:point.y-bounds.minY,t:Number(raw.t)} : {x:point.x-bounds.minX,y:point.y-bounds.minY};
+        });
+      }
+      return copy;
+    }),
+  };
+}
+function instantiateAnnotationPayload(payload,page,origin) {
+  if (!payload||!page) return [];
+  const display=pageDisplayDimensions(page);
+  let ox=Number(origin?.x)||0, oy=Number(origin?.y)||0;
+  const width=Number(payload.size?.width)||0, height=Number(payload.size?.height)||0;
+  ox=clamp(ox,0,Math.max(0,display.width-width));
+  oy=clamp(oy,0,Math.max(0,display.height-height));
+  return (payload.items||[]).map(item=>{
+    if (isImageAnnotation(item) && item.displayRect) {
+      const rect=displayRectToBaseImageRect(page,{
+        x:ox+item.displayRect.x,y:oy+item.displayRect.y,
+        width:item.displayRect.width,height:item.displayRect.height,
+      });
+      const {displayRect,displayRotation,...rest}=item;
+      const rotation=Number.isFinite(Number(displayRotation))
+        ? normalizedQuarterTurn(Number(displayRotation)-normalizedQuarterTurn(page.rotation))
+        : imageAnnotationRotation(item);
+      return {...rest,id:uid('image'),x:rect.x,y:rect.y,width:rect.width,height:rect.height,rotation,points:[]};
+    }
+    return {
+      ...item,
+      id:uid(item.type==='ink'?'ink':'annotation'),
+      points:(item.points||[]).map(point=>{const mapped=displayPointToBase(page,{x:ox+point.x,y:oy+point.y});return Number.isFinite(Number(point.t))?{...mapped,t:Number(point.t)}:mapped;}),
+    };
+  });
+}
+function deleteSelectedAnnotations() {
+  const page=selectedAnnotationPage();
+  const ids=state.annotationSelection?.ids;
+  if (!page||!ids?.size) return;
+  const before=snapshotPages();
+  page.annotations=annotationsForPage(page).filter(annotation=>!ids.has(annotation.id));
+  const count=ids.size;
+  clearAnnotationSelection(false);
+  commitHistory(before);
+  saveCurrentDocumentState({readViewDom:false});
+  redrawPageAnnotationOverlays(page);
+  updateSelectionToolbar();
+  setStatus(`Deleted ${count} selected annotation${count===1?'':'s'}`);
+}
+function duplicateSelectedAnnotations() {
+  const page=selectedAnnotationPage();
+  const payload=annotationPayloadFromSelection(page);
+  if (!page||!payload) return;
+  const before=snapshotPages();
+  const display=pageDisplayDimensions(page);
+  const offset=Math.max(12,Math.min(22,display.width*.03));
+  let origin={x:payload.origin.x+offset,y:payload.origin.y+offset};
+  if (origin.x+payload.size.width>display.width&&payload.origin.x-offset>=0) origin.x=payload.origin.x-offset;
+  if (origin.y+payload.size.height>display.height&&payload.origin.y-offset>=0) origin.y=payload.origin.y-offset;
+  const clones=instantiateAnnotationPayload(payload,page,origin);
+  annotationsForPage(page).push(...clones);
+  setAnnotationSelection(page,new Set(clones.map(item=>item.id)),{redraw:false});
+  commitHistory(before);
+  saveCurrentDocumentState({readViewDom:false});
+  redrawPageAnnotationOverlays(page);
+  setStatus(`Duplicated ${clones.length} annotation object${clones.length===1?'':'s'}`);
+}
+function rotateDisplayPointClockwise90(point, center) {
+  const dx=(Number(point?.x)||0)-(Number(center?.x)||0);
+  const dy=(Number(point?.y)||0)-(Number(center?.y)||0);
+  return { x:(Number(center?.x)||0)-dy, y:(Number(center?.y)||0)+dx };
+}
+function rotateSelectedAnnotationsClockwise() {
+  const page=selectedAnnotationPage();
+  const annotations=selectedAnnotations(page);
+  const bounds=annotationDisplayBounds(page,annotations);
+  if (!page||!annotations.length||!bounds) return;
+  const before=snapshotPages();
+  const center={x:(bounds.minX+bounds.maxX)/2,y:(bounds.minY+bounds.maxY)/2};
+  const current=new Map(annotationsForPage(page).map(annotation=>[annotation.id,annotation]));
+  for (const original of annotations.map(cloneInkStroke)) {
+    const annotation=current.get(original.id);
+    if (!annotation) continue;
+    if (isImageAnnotation(original)) {
+      const rect=imageAnnotationDisplayBounds(page,original);
+      if (!rect) continue;
+      const oldCenter={x:(rect.minX+rect.maxX)/2,y:(rect.minY+rect.maxY)/2};
+      const nextCenter=rotateDisplayPointClockwise90(oldCenter,center);
+      const nextDisplayRect={
+        x:nextCenter.x-rect.height/2,
+        y:nextCenter.y-rect.width/2,
+        width:rect.height,
+        height:rect.width,
+      };
+      const nextBaseRect=displayRectToBaseImageRect(page,nextDisplayRect);
+      annotation.x=nextBaseRect.x;
+      annotation.y=nextBaseRect.y;
+      annotation.width=Math.max(.25,nextBaseRect.width);
+      annotation.height=Math.max(.25,nextBaseRect.height);
+      annotation.rotation=normalizedQuarterTurn(imageAnnotationRotation(original)+90);
+    } else {
+      annotation.points=(original.points||[]).map(raw=>{
+        const displayPoint=basePointToDisplay(page,raw);
+        const rotated=rotateDisplayPointClockwise90(displayPoint,center);
+        const mapped=displayPointToBase(page,rotated);
+        return Number.isFinite(Number(raw.t))?{...mapped,t:Number(raw.t)}:mapped;
+      });
+    }
+  }
+  commitHistory(before);
+  saveCurrentDocumentState({readViewDom:false});
+  redrawPageAnnotationOverlays(page);
+  redrawPageAnnotationSelectionOverlays(page);
+  setStatus(`Rotated ${annotations.length} selected annotation object${annotations.length===1?'':'s'} 90° clockwise`);
+}
+function copySelectedAnnotations() {
+  const payload=annotationPayloadFromSelection();
+  if (!payload) return;
+  state.annotationClipboard=payload;
+  state.annotationClipboardAssetId=null;
+  state.annotationPasteSerial=0;
+  state.annotationPasteTargetKey=null;
+  state.assetBrowserView='recent';
+  updateSelectionToolbar();
+  createRecentSnippetAsset(payload).then(asset => {
+    if (asset && state.annotationClipboard === payload) state.annotationClipboardAssetId = asset.id;
+  }).catch(err => console.warn('Could not add copy to Recent Assets', err));
+  const count=payload.items.length;
+  setStatus(`Copied ${count} annotation object${count===1?'':'s'} · added to Recent`);
+}
+function activeAnnotationTargetPage() {
+  if (state.splitView) {
+    const pane=splitPaneState(state.activePaneId), view=paneView(state.activePaneId);
+    if (pane?.documentId&&pane.documentId!==state.currentDocumentId) loadDocumentState(pane.documentId,false);
+    if (view?.activePageId) state.activePageId=view.activePageId;
+  }
+  return pageById(state.activePageId)||state.pages[0]||null;
+}
+function pasteAnnotationPayload(payload, options={}) {
+  const page=activeAnnotationTargetPage();
+  if (!payload||!page) return [];
+  const before=snapshotPages();
+  const display=pageDisplayDimensions(page);
+  const samePage=payload.sourceDocumentId===state.currentDocumentId&&payload.sourcePageId===page.id;
+  const targetKey=`${state.currentDocumentId || ''}:${page.id}`;
+  if (state.annotationPasteTargetKey===targetKey) state.annotationPasteSerial += 1;
+  else { state.annotationPasteTargetKey=targetKey; state.annotationPasteSerial=1; }
+  const serial=state.annotationPasteSerial;
+  const step=Math.max(12,Math.min(22,display.width*.03));
+  let origin;
+  if (options.centerDisplay || options.center) {
+    const center=options.centerDisplay || (options.center==='view' ? annotationViewportCenterDisplay(page) : {x:display.width/2,y:display.height/2});
+    const pw=Number(payload.size?.width)||0, ph=Number(payload.size?.height)||0;
+    origin={x:clamp(center.x-pw/2,0,Math.max(0,display.width-pw)),y:clamp(center.y-ph/2,0,Math.max(0,display.height-ph))};
+  } else if (samePage) {
+    origin={x:payload.origin.x+step*serial,y:payload.origin.y+step*serial};
+    if (origin.x+payload.size.width>display.width&&payload.origin.x-step*serial>=0) origin.x=payload.origin.x-step*serial;
+    if (origin.y+payload.size.height>display.height&&payload.origin.y-step*serial>=0) origin.y=payload.origin.y-step*serial;
+  } else {
+    origin={
+      x:(payload.origin.x/Math.max(1,payload.sourceDisplay.width))*display.width+step*Math.max(0,serial-1),
+      y:(payload.origin.y/Math.max(1,payload.sourceDisplay.height))*display.height+step*Math.max(0,serial-1),
+    };
+  }
+  const clones=instantiateAnnotationPayload(payload,page,origin);
+  annotationsForPage(page).push(...clones);
+  setAnnotationTool('select');
+  setAnnotationSelection(page,new Set(clones.map(item=>item.id)),{redraw:false});
+  commitHistory(before);
+  saveCurrentDocumentState({readViewDom:false});
+  redrawPageAnnotationOverlays(page);
+  setStatus(`Pasted ${clones.length} annotation object${clones.length===1?'':'s'}`);
+  return clones;
+}
+async function pasteCopiedAnnotations() {
+  if (state.annotationClipboard?.items?.length) {
+    pasteAnnotationPayload(state.annotationClipboard,{center:'view'});
+    return;
+  }
+  const asset = state.annotationClipboardAssetId ? state.assetRecords.get(state.annotationClipboardAssetId) : null;
+  if (asset?.type === 'image') {
+    try { await insertImageAsset(asset); }
+    catch (err) { console.error(err); setStatus(`Could not paste copied region: ${err?.message || err}`); }
+  }
+}
+function updateSelectionToolbar() {
+  const active=state.annotationTool==='select';
+  els.selectionActionGroup?.classList.toggle('hidden',!active);
+  const count=state.annotationSelection?.documentId===state.currentDocumentId?(state.annotationSelection?.ids?.size||0):0;
+  const imageClipboard = state.annotationClipboardAssetId ? state.assetRecords.get(state.annotationClipboardAssetId) : null;
+  const canPaste = !!state.annotationClipboard?.items?.length || imageClipboard?.type === 'image';
+  if (els.selectionDeleteBtn) els.selectionDeleteBtn.disabled=!count;
+  if (els.selectionDuplicateBtn) els.selectionDuplicateBtn.disabled=!count;
+  if (els.selectionRotateBtn) els.selectionRotateBtn.disabled=!count;
+  if (els.selectionCopyBtn) els.selectionCopyBtn.disabled=!count;
+  if (els.selectionCopyRegionBtn) {
+    els.selectionCopyRegionBtn.disabled=!state.pages.length;
+    els.selectionCopyRegionBtn.classList.toggle('active', !!(state.regionCopyArmed || state.regionCopyGesture));
+    els.selectionCopyRegionBtn.setAttribute('aria-pressed', String(!!(state.regionCopyArmed || state.regionCopyGesture)));
+  }
+  if (els.selectionPasteBtn) els.selectionPasteBtn.disabled=!canPaste;
+}
 
 function updateInkToolbar() {
-  const tool = state.annotationTool === 'pen' ? 'pen' : 'hand';
+  const tool = ['hand','laser','pen','highlighter','eraser','select'].includes(state.annotationTool) ? state.annotationTool : 'hand';
   els.inkHandBtn?.classList.toggle('active', tool === 'hand');
+  els.inkLaserBtn?.classList.toggle('active', tool === 'laser');
   els.inkPenBtn?.classList.toggle('active', tool === 'pen');
+  els.inkHighlighterBtn?.classList.toggle('active', tool === 'highlighter');
+  els.inkEraserBtn?.classList.toggle('active', tool === 'eraser');
+  els.inkSelectBtn?.classList.toggle('active', tool === 'select');
   els.inkHandBtn?.setAttribute('aria-pressed', String(tool === 'hand'));
+  els.inkLaserBtn?.setAttribute('aria-pressed', String(tool === 'laser'));
   els.inkPenBtn?.setAttribute('aria-pressed', String(tool === 'pen'));
-  document.body.classList.toggle('ink-pen-active', tool === 'pen');
+  els.inkHighlighterBtn?.setAttribute('aria-pressed', String(tool === 'highlighter'));
+  els.inkEraserBtn?.setAttribute('aria-pressed', String(tool === 'eraser'));
+  els.inkSelectBtn?.setAttribute('aria-pressed', String(tool === 'select'));
+  if (els.inkImageBtn) els.inkImageBtn.disabled = !state.pages.length;
+  if (els.inkAssetsBtn) els.inkAssetsBtn.disabled = !state.pages.length;
+  document.body.classList.toggle('ink-pen-active', isStylusAnnotationTool(tool));
+  document.body.classList.toggle('ink-laser-active', tool === 'laser');
+  document.body.classList.toggle('ink-highlighter-active', tool === 'highlighter');
+  document.body.classList.toggle('ink-eraser-active', tool === 'eraser');
+  document.body.classList.toggle('ink-select-active', tool === 'select');
+  els.penColorGroup?.classList.toggle('hidden', tool !== 'pen');
+  els.penWidthGroup?.classList.toggle('hidden', tool !== 'pen');
+  els.highlighterColorGroup?.classList.toggle('hidden', tool !== 'highlighter');
+  els.highlighterWidthGroup?.classList.toggle('hidden', tool !== 'highlighter');
+  els.eraserSizeGroup?.classList.toggle('hidden', tool !== 'eraser');
+  if (isStylusAnnotationTool(tool)) clearNativeSelection();
+  if (tool !== 'eraser') hideEraserCursor();
+  if (tool !== 'laser') hideLaserPointer();
   for (const button of els.penColorGroup?.querySelectorAll?.('[data-ink-color]') || []) {
     const active = button.dataset.inkColor === state.penColor;
     button.classList.toggle('active', active);
@@ -1368,11 +4289,41 @@ function updateInkToolbar() {
     button.classList.toggle('active', active);
     button.setAttribute('aria-pressed', String(active));
   }
+  for (const button of els.highlighterColorGroup?.querySelectorAll?.('[data-highlighter-color]') || []) {
+    const active = button.dataset.highlighterColor === state.highlighterColor;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  }
+  for (const button of els.highlighterWidthGroup?.querySelectorAll?.('[data-highlighter-width]') || []) {
+    const active = Math.abs(Number(button.dataset.highlighterWidth) - Number(state.highlighterWidth)) < .01;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  }
+  for (const button of els.eraserSizeGroup?.querySelectorAll?.('[data-eraser-size]') || []) {
+    const active = Math.abs(Number(button.dataset.eraserSize) - Number(state.eraserSize)) < .01;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  }
+  updateSelectionToolbar();
 }
 function setAnnotationTool(tool) {
-  state.annotationTool = tool === 'pen' ? 'pen' : 'hand';
+  const next = ['laser','pen','highlighter','eraser','select'].includes(tool) ? tool : 'hand';
+  if (state.annotationTool === 'select' && next !== 'select') {
+    const regionPageId = state.regionCopyGesture?.pageId || null;
+    state.selectionGesture = null;
+    state.regionCopyGesture = null;
+    state.regionCopyArmed = false;
+    clearAnnotationSelection(true);
+    if (regionPageId) { const page = pageById(regionPageId); if (page) redrawPageAnnotationSelectionOverlays(page); }
+  }
+  if (next !== 'laser') { state.laserGesture = null; hideLaserPointer(); }
+  state.annotationTool = next;
   savePref('pdfwb-annotation-tool', state.annotationTool);
   updateInkToolbar();
+  if (next === 'select') {
+    const page = selectedAnnotationPage();
+    if (page) redrawPageAnnotationSelectionOverlays(page);
+  }
 }
 function setPenColor(color) {
   if (!PEN_COLORS.includes(color)) return;
@@ -1387,79 +4338,663 @@ function setPenWidth(width) {
   savePref('pdfwb-pen-width', String(chosen));
   setAnnotationTool('pen');
 }
-function appendInkPoint(gesture, event) {
+function setHighlighterColor(color) {
+  if (!HIGHLIGHTER_COLORS.includes(color)) return;
+  state.highlighterColor = color;
+  savePref('pdfwb-highlighter-color', color);
+  setAnnotationTool('highlighter');
+}
+function setHighlighterWidth(width) {
+  const chosen = HIGHLIGHTER_WIDTHS.find(value => Math.abs(value - Number(width)) < .01);
+  if (!chosen) return;
+  state.highlighterWidth = chosen;
+  savePref('pdfwb-highlighter-width', String(chosen));
+  setAnnotationTool('highlighter');
+}
+function setEraserSize(size) {
+  const chosen = ERASER_SIZES.find(value => Math.abs(value - Number(size)) < .01);
+  if (!chosen) return;
+  state.eraserSize = chosen;
+  savePref('pdfwb-eraser-size', String(chosen));
+  setAnnotationTool('eraser');
+}
+function accumulatePenLiveTiming(gesture, timing) {
+  if (!gesture || !timing) return;
+  gesture.liveRenderMs=(gesture.liveRenderMs||0)+(Number(timing.renderMs)||0);
+  gesture.liveRenderCalls=(gesture.liveRenderCalls||0)+1;
+  if (timing.googleMode) gesture.googleLiveMode=true;
+  if (Number.isFinite(timing.googleStablePoints)) gesture.googleStablePointsLast=timing.googleStablePoints;
+  if (Number.isFinite(timing.googlePredictionPoints)) gesture.googlePredictionPointsLast=timing.googlePredictionPoints;
+}
+function appendInkPoint(gesture, event, geometry=null, force=false) {
   const page = pageById(gesture.pageId);
-  if (!page || page !== gesture.page || !gesture.stage?.isConnected) return;
-  const next = eventPointOnPage(gesture.stage, page, event);
-  if (!next) return;
+  if (!page || page !== gesture.page || !gesture.stage?.isConnected) return null;
+  const next = eventPointOnPage(gesture.stage, page, event, geometry);
+  if (!next) return null;
+  const modeledPen=penStrokeUsesGoogleInk(gesture.stroke);
+  if (modeledPen) next.t=googleInkEventTime(gesture,event);
   const points = gesture.stroke.points;
   const previous = points[points.length - 1];
-  if (previous && Math.hypot(next.x - previous.x, next.y - previous.y) < .18) return;
+  const threshold=modeledPen ? .02 : .18;
+  if (!force && previous && Math.hypot(next.x - previous.x, next.y - previous.y) < threshold) {
+    if (gesture?.sampleDiagnostics) gesture.sampleDiagnostics.rejectedDistanceSamples += 1;
+    return null;
+  }
   points.push(next);
-  drawLiveInkSegment(gesture.stage, page, gesture.stroke, previous || next, next);
+  if (gesture?.sampleDiagnostics) {
+    gesture.sampleDiagnostics.acceptedSamples = points.length;
+    if (force) gesture.sampleDiagnostics.forcedSamples += 1;
+  }
+  return next;
+}
+function inkStageForEvent(viewer, event) {
+  let stage = event.target instanceof Element ? event.target.closest('.page-stage[data-page-id]') : null;
+  // iPad/WebKit can occasionally retarget the first event of a Pencil contact
+  // to the scrolling viewer rather than the page child beneath the Pencil.
+  // Resolve the page geometrically as a fallback so that one retargeted event
+  // does not cost the entire short stroke.
+  if (!stage && Number.isFinite(event.clientX) && Number.isFinite(event.clientY)) {
+    const hit = document.elementFromPoint?.(event.clientX, event.clientY);
+    stage = hit instanceof Element ? hit.closest('.page-stage[data-page-id]') : null;
+  }
+  if (!stage || !viewer.contains(stage) || stage.dataset.rendered !== 'true') return null;
+  return stage;
 }
 function beginInkGesture(viewer, event) {
-  if (state.annotationTool !== 'pen') return false;
+  if (state.annotationTool !== 'pen' && state.annotationTool !== 'highlighter') return false;
   if (event.pointerType === 'mouse' && event.button !== 0) return false;
-  if (event.pointerType === 'pen' && ![0, -1].includes(event.button)) return false;
-  const stage = event.target instanceof Element ? event.target.closest('.page-stage[data-page-id]') : null;
-  if (!stage || !viewer.contains(stage) || stage.dataset.rendered !== 'true') return true;
+  // Cross-platform testing now shows ordinary Apple Pencil, Surface Pen, and
+  // ChromeOS stylus tip contacts arriving as button 0. Do not treat a barrel/
+  // secondary pen button as a normal ink start. The Safari stylus TouchEvent
+  // fallback also synthesizes button 0 for a real Pencil tip contact.
+  if (event.pointerType === 'pen' && event.button !== 0) {
+    if (event.cancelable) event.preventDefault();
+    addInkDiagnostic('handler-begin-non-tip-pen-button', event);
+    return true;
+  }
+  // If a TouchEvent fallback already owns this Apple Pencil contact, ignore the
+  // duplicate PointerEvent stream instead of creating a second stroke.
+  if (event.pointerType === 'pen' && state.inkGesture?.inputSource === 'stylus-touch' && !event._inkStylusTouch) {
+    if (event.cancelable) event.preventDefault();
+    addInkDiagnostic('pointer-shadowed-by-stylus-touch', event);
+    return true;
+  }
+  const stage = inkStageForEvent(viewer, event);
+  if (!stage) { addInkDiagnostic('handler-begin-stage-miss', event); return true; }
   const page = pageById(stage.dataset.pageId);
-  if (!page) return true;
+  if (!page) { addInkDiagnostic('handler-begin-page-miss', event); return true; }
   const first = eventPointOnPage(stage, page, event);
-  if (!first) return true;
+  if (!first) { addInkDiagnostic('handler-begin-point-miss', event); return true; }
+  const drawingTool = state.annotationTool;
+  const useGoogleInk=drawingTool==='pen';
+  if (useGoogleInk) first.t=0;
   const stroke = {
     id: uid('ink'),
     type: 'ink',
-    tool: 'pen',
-    color: state.penColor,
-    width: state.penWidth,
-    opacity: 1,
+    tool: drawingTool,
+    color: drawingTool === 'highlighter' ? state.highlighterColor : state.penColor,
+    width: drawingTool === 'highlighter' ? state.highlighterWidth : state.penWidth,
+    opacity: drawingTool === 'highlighter' ? HIGHLIGHTER_OPACITY : 1,
     points: [first],
+    ...(useGoogleInk ? {renderer:GOOGLE_INK_RENDERER} : {}),
   };
   const before = snapshotPages();
+  const snapshotPagesMs = Number(state.snapshotPagesDiagnostics?.lastMs || 0);
   annotationsForPage(page).push(stroke);
   state.activePageId = page.id;
-  state.inkGesture = { pointerId: event.pointerId, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, before };
+  const inputSource = event._inkStylusTouch ? 'stylus-touch' : 'pointer';
+  state.inkGesture = { pointerId: event.pointerId, inputSource, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, before, snapshotPagesMs, liveRenderMs:0, liveRenderCalls:0, googleTimeOriginMs:useGoogleInk?(Number.isFinite(Number(event.timeStamp))?Number(event.timeStamp):performance.now()):null, googleModeler:useGoogleInk?new GoogleInkStrokeModeler():null, googleStablePoints:[], googleLiveModelMs:0, googlePredictionMs:0, googlePredictionPointsLast:0, googleWobbleSpeedLast:0, googleWobbleBlendLast:0, googleLagPointsLast:0, sampleDiagnostics:createInkGestureDiagnostics(stroke) };
+  recordInkGestureSampleBatch(state.inkGesture, event, [event], 'down');
   if (event.cancelable) event.preventDefault();
-  try { viewer.setPointerCapture?.(event.pointerId); } catch {}
-  drawLiveInkSegment(stage, page, stroke, first, first);
+  if (inputSource === 'pointer') {
+    try { viewer.setPointerCapture?.(event.pointerId); } catch {}
+  }
+  if (drawingTool === 'highlighter') {
+    // The persistent annotation overlay already contains every completed
+    // object, so do not rebuild the dense page just to start a temporary
+    // Highlighter layer.
+    drawLiveHighlighterPoints(stage, page, stroke, [first]);
+  } else {
+    consumeGoogleInkPoint(state.inkGesture,first,'down');
+    const prediction=googleInkPrediction(state.inkGesture);
+    accumulatePenLiveTiming(state.inkGesture,drawLiveGoogleInkPreview(stage,page,stroke,state.inkGesture.googleStablePoints,prediction));
+  }
+  addInkDiagnostic('handler-begin-accepted', event, {
+    strokeId:stroke.id, liveBatchOptimized:true, liveLayer:drawingTool === 'highlighter' ? 'highlighter' : 'pen',
+    pageAnnotationCount:(page.annotations || []).length, historyDepth:state.history.length,
+    snapshotPagesMs:Math.round(snapshotPagesMs*10)/10,
+  });
   return true;
 }
 function continueInkGesture(viewer, event) {
-  const gesture = state.inkGesture;
-  if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
+  const gesture=state.inkGesture;
+  if (!gesture || gesture.pointerId!==event.pointerId || gesture.viewer!==viewer) return false;
   if (event.cancelable) event.preventDefault();
-  const samples = typeof event.getCoalescedEvents === 'function' ? event.getCoalescedEvents() : null;
-  if (samples?.length) for (const sample of samples) appendInkPoint(gesture, sample);
-  else appendInkPoint(gesture, event);
+  const samples=typeof event.getCoalescedEvents==='function'?event.getCoalescedEvents():null;
+  const sourceSamples=samples?.length ? [...samples] : [event];
+  const batchDiagnostics=recordInkGestureSampleBatch(gesture, event, sourceSamples, 'move');
+  // Safari can replay an entire coalesced Pencil batch verbatim. Reject only
+  // an exact four-field replay of the immediately previous coalesced batch,
+  // before it can reach appendInkPoint(), the Google modeler, or stroke storage.
+  if (batchDiagnostics?.replayBatchSkipped) return true;
+  const translucent=gesture.stroke?.tool==='highlighter';
+  const geometry=gestureEventGeometry(gesture.stage,gesture.page);
+  if (translucent) {
+    const batch=[],first=gesture.stroke.points[gesture.stroke.points.length-1]||null;
+    if (first) batch.push(first);
+    const appendSample=sample=>{const added=appendInkPoint(gesture,sample,geometry);if(added)batch.push(added);};
+    for (const sample of sourceSamples) appendSample(sample);
+    if (batch.length>1) drawLiveHighlighterPoints(gesture.stage,gesture.page,gesture.stroke,batch);
+  } else {
+    const appendSample=sample=>{const added=appendInkPoint(gesture,sample,geometry);if(added)consumeGoogleInkPoint(gesture,added,'move');};
+    for (const sample of sourceSamples) appendSample(sample);
+    const prediction=googleInkPrediction(gesture);
+    accumulatePenLiveTiming(gesture,drawLiveGoogleInkPreview(gesture.stage,gesture.page,gesture.stroke,gesture.googleStablePoints,prediction));
+  }
   return true;
 }
+
 function finishInkGesture(viewer, event) {
   const gesture = state.inkGesture;
   if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
   if (event.cancelable) event.preventDefault();
-  appendInkPoint(gesture, event);
-  try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
+  const translucent = gesture.stroke?.tool === 'highlighter';
+  const googleMode=!translucent;
+  const previous = gesture.stroke.points[gesture.stroke.points.length - 1] || null;
+  const geometry = gestureEventGeometry(gesture.stage, gesture.page);
+  recordInkGestureSampleBatch(gesture, event, [event], 'up');
+  const finalPoint = appendInkPoint(gesture, event, geometry, googleMode);
+  if (translucent && finalPoint) {
+    drawLiveHighlighterPoints(gesture.stage, gesture.page, gesture.stroke, previous ? [previous, finalPoint] : [finalPoint]);
+  } else if (googleMode && finalPoint) {
+    consumeGoogleInkPoint(gesture,finalPoint,'up');
+  }
+  // Commit only the just-finished live stroke. Highlighter composites its one
+  // translucent live object; every Pen width commits its modeled trajectory.
+  // Neither path redraws unrelated page ink.
+  const commitStarted = performance.now();
+  let penCommit = null;
+  if (translucent) {
+    commitLiveHighlighterOverlays(gesture.page, gesture.stroke.opacity);
+  } else {
+    const googleMetrics=gesture.googleModeler?.metrics?.()||{};
+    penCommit = commitLivePenOverlays(gesture.page, gesture.stroke, {googlePoints:gesture.googleStablePoints,googleMetrics});
+  }
+  const liveCommitMs = performance.now() - commitStarted;
+  if (gesture.inputSource === 'pointer') {
+    try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
+  }
   state.inkGesture = null;
   if (!gesture.stroke.points.length) return true;
+  const sampleDiagnosticSummary = recordCompletedInkGestureDiagnostics(gesture, event);
+  addInkDiagnostic('handler-finish-accepted', event, {
+    strokeId:gesture.stroke.id, points:gesture.stroke.points.length, liveBatchOptimized:true, liveCompositeCommit:true,
+    liveLayer:translucent ? 'highlighter' : 'pen', liveCommitMs:Math.round(liveCommitMs*10)/10,
+    liveRenderMs:translucent ? null : Math.round((gesture.liveRenderMs||0)*10)/10,
+    liveRenderCalls:translucent ? null : (gesture.liveRenderCalls||0),
+    penRenderer:translucent ? null : GOOGLE_INK_RENDERER,
+    googleLiveModelMs:googleMode ? Math.round((gesture.googleLiveModelMs||0)*10)/10 : null,
+    googlePredictionMs:googleMode ? Math.round((gesture.googlePredictionMs||0)*10)/10 : null,
+    googleStablePoints:googleMode ? (gesture.googleStablePoints?.length||0) : null,
+    googlePredictionPointsLast:googleMode ? (gesture.googlePredictionPointsLast||0) : null,
+    googleWobbleSpeedLast:googleMode ? Math.round((gesture.googleWobbleSpeedLast||0)*10)/10 : null,
+    googleWobbleBlendLast:googleMode ? Math.round((gesture.googleWobbleBlendLast||0)*1000)/1000 : null,
+    googleLagPointsLast:googleMode ? Math.round((gesture.googleLagPointsLast||0)*100)/100 : null,
+    googleOutputPoints:penCommit?.googleOutputPoints ?? null,
+    googleEndLagPoints:penCommit?.googleMode ? Math.round((penCommit.googleEndLagPoints||0)*100)/100 : null,
+    penCommitMs:penCommit ? Math.round(penCommit.commitMs*10)/10 : null, penCommitStages:penCommit?.stages ?? null,
+    pageAnnotationCount:(gesture.page.annotations || []).length, historyDepth:state.history.length,
+    snapshotPagesMs:Math.round((gesture.snapshotPagesMs||0)*10)/10,
+    sampleDiagnostics: sampleDiagnosticSummary,
+  });
   commitHistory(gesture.before);
   saveCurrentDocumentState({ readViewDom: false });
   return true;
 }
+// Milestone 5.1.0: partial-stroke vector eraser. The eraser edits the
+// stored page-local polyline geometry instead of painting white pixels. A pass
+// splits any intersected stroke into ordinary surviving stroke fragments, so
+// Undo/Redo, PDF export, duplication, and the upcoming selection tool continue
+// to operate on real vector objects.
+function pointSegmentDistance(point, a, b) {
+  const vx = b.x - a.x, vy = b.y - a.y;
+  const wx = point.x - a.x, wy = point.y - a.y;
+  const vv = vx * vx + vy * vy;
+  if (vv < 1e-12) return Math.hypot(wx, wy);
+  const t = clamp((wx * vx + wy * vy) / vv, 0, 1);
+  return Math.hypot(point.x - (a.x + vx * t), point.y - (a.y + vy * t));
+}
+function cross2(a, b, c) {
+  return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+}
+function pointOnSegment2(point, a, b, eps=1e-7) {
+  return Math.abs(cross2(a, b, point)) <= eps &&
+    point.x >= Math.min(a.x,b.x) - eps && point.x <= Math.max(a.x,b.x) + eps &&
+    point.y >= Math.min(a.y,b.y) - eps && point.y <= Math.max(a.y,b.y) + eps;
+}
+function segmentsIntersect2(a, b, c, d) {
+  const c1 = cross2(a,b,c), c2 = cross2(a,b,d), c3 = cross2(c,d,a), c4 = cross2(c,d,b);
+  if (((c1 > 0 && c2 < 0) || (c1 < 0 && c2 > 0)) && ((c3 > 0 && c4 < 0) || (c3 < 0 && c4 > 0))) return true;
+  return pointOnSegment2(c,a,b) || pointOnSegment2(d,a,b) || pointOnSegment2(a,c,d) || pointOnSegment2(b,c,d);
+}
+function segmentSegmentDistance(a, b, c, d) {
+  if (segmentsIntersect2(a,b,c,d)) return 0;
+  return Math.min(pointSegmentDistance(a,c,d), pointSegmentDistance(b,c,d), pointSegmentDistance(c,a,b), pointSegmentDistance(d,a,b));
+}
+function interpolatePoint(a, b, t) {
+  const point={ x:a.x + (b.x-a.x)*t, y:a.y + (b.y-a.y)*t };
+  if (Number.isFinite(Number(a?.t)) && Number.isFinite(Number(b?.t))) point.t=Number(a.t)+(Number(b.t)-Number(a.t))*t;
+  return point;
+}
+function appendDistinctPoint(points, point) {
+  const prev = points[points.length - 1];
+  if (!prev || Math.hypot(point.x-prev.x, point.y-prev.y) > .01) {
+    const copy={x:point.x,y:point.y};
+    if (Number.isFinite(Number(point?.t))) copy.t=Number(point.t);
+    points.push(copy);
+  }
+}
+function eraserBoundaryPoint(a, b, aInside, eraseA, eraseB, radius) {
+  let lo = 0, hi = 1;
+  for (let i=0; i<10; i++) {
+    const mid = (lo + hi) / 2;
+    const inside = pointSegmentDistance(interpolatePoint(a,b,mid), eraseA, eraseB) <= radius;
+    if (inside === aInside) lo = mid; else hi = mid;
+  }
+  return interpolatePoint(a,b,(lo+hi)/2);
+}
+function eraseStrokeAlongSegment(stroke, eraseA, eraseB, eraserRadius) {
+  const source = Array.isArray(stroke?.points) ? stroke.points : [];
+  if (!source.length) return { changed:false, fragments:[stroke] };
+  const cutRadius = Math.max(.1, eraserRadius + Math.max(.125, Number(stroke.width) || 3) / 2);
+  if (source.length === 1) {
+    if (pointSegmentDistance(source[0], eraseA, eraseB) > cutRadius) return { changed:false, fragments:[stroke] };
+    return { changed:true, fragments:[] };
+  }
+
+  const expanded = [{ ...source[0], x:source[0].x, y:source[0].y }];
+  for (let i=1; i<source.length; i++) {
+    const a = source[i-1], b = source[i];
+    if (segmentSegmentDistance(a,b,eraseA,eraseB) > cutRadius) {
+      appendDistinctPoint(expanded, b);
+      continue;
+    }
+    const length = Math.hypot(b.x-a.x, b.y-a.y);
+    const spacing = clamp(cutRadius / 5, .65, 1.5);
+    const pieces = clamp(Math.ceil(length / spacing), 2, 80);
+    for (let j=1; j<=pieces; j++) appendDistinctPoint(expanded, interpolatePoint(a,b,j/pieces));
+  }
+
+  const inside = expanded.map(point => pointSegmentDistance(point, eraseA, eraseB) <= cutRadius);
+  if (!inside.some(Boolean)) return { changed:false, fragments:[stroke] };
+
+  const pointRuns = [];
+  let run = [];
+  for (let i=0; i<expanded.length; i++) {
+    const pnt = expanded[i];
+    if (!inside[i]) {
+      if (!run.length && i > 0 && inside[i-1]) {
+        appendDistinctPoint(run, eraserBoundaryPoint(expanded[i-1], pnt, true, eraseA, eraseB, cutRadius));
+      }
+      appendDistinctPoint(run, pnt);
+      continue;
+    }
+    if (run.length) {
+      if (i > 0 && !inside[i-1]) appendDistinctPoint(run, eraserBoundaryPoint(expanded[i-1], pnt, false, eraseA, eraseB, cutRadius));
+      pointRuns.push(run);
+      run = [];
+    }
+  }
+  if (run.length) pointRuns.push(run);
+
+  const fragments = pointRuns
+    .filter(points => points.length && (points.length > 1 || pointSegmentDistance(points[0], eraseA, eraseB) > cutRadius))
+    .map((points, index) => ({ ...stroke, id:index === 0 ? stroke.id : uid('ink'), points }));
+  return { changed:true, fragments };
+}
+function erasePageAnnotationsAlong(page, eraseA, eraseB, eraserDiameter=state.eraserSize, candidateIds=null) {
+  if (!page || !hasPageAnnotations(page)) return false;
+  const radius = Math.max(1, Number(eraserDiameter) || 24) / 2;
+  let changed = false;
+  const next = [];
+  for (const annotation of annotationsForPage(page)) {
+    if (!Array.isArray(annotation?.points) || !annotation.points.length || annotation.type !== 'ink') {
+      next.push(annotation);
+      continue;
+    }
+    if (candidateIds && !candidateIds.has(annotation.id)) {
+      next.push(annotation);
+      continue;
+    }
+    const result = eraseStrokeAlongSegment(annotation, eraseA, eraseB, radius);
+    if (result.changed) {
+      changed = true;
+      if (candidateIds) for (const fragment of result.fragments) candidateIds.add(fragment.id);
+    }
+    next.push(...result.fragments);
+  }
+  if (!changed) return false;
+  page.annotations = next;
+  return true;
+}
+function compactEraserPath(points, eraserDiameter=state.eraserSize) {
+  const source = Array.isArray(points) ? points : [];
+  if (source.length <= 2) return source.map(point => ({x:point.x,y:point.y}));
+  // Pencil coalescing can provide hundreds of samples for a short eraser pass.
+  // A polyline whose vertices are a fraction of the eraser diameter apart has
+  // indistinguishable coverage but is dramatically cheaper for vector commit.
+  const spacing = Math.max(.8, (Number(eraserDiameter)||24) * .32);
+  const compact = [{ x:source[0].x, y:source[0].y }];
+  let last = source[0];
+  for (let i=1; i<source.length-1; i++) {
+    const point = source[i];
+    if (Math.hypot(point.x-last.x, point.y-last.y) >= spacing) {
+      compact.push({x:point.x,y:point.y});
+      last = point;
+    }
+  }
+  const final = source[source.length-1];
+  const prev = compact[compact.length-1];
+  if (!prev || Math.hypot(final.x-prev.x, final.y-prev.y) > .01) compact.push({x:final.x,y:final.y});
+  return compact;
+}
+function eraserCandidateIdsForPath(page, path, eraserDiameter=state.eraserSize) {
+  const points = Array.isArray(path) ? path : [];
+  if (!page || !points.length) return new Set();
+  let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+  for (const point of points) {
+    minX=Math.min(minX,point.x); minY=Math.min(minY,point.y);
+    maxX=Math.max(maxX,point.x); maxY=Math.max(maxY,point.y);
+  }
+  const radius = Math.max(1, Number(eraserDiameter)||24) / 2;
+  minX-=radius; minY-=radius; maxX+=radius; maxY+=radius;
+  const ids = new Set();
+  for (const annotation of annotationsForPage(page)) {
+    if (annotation?.type !== 'ink' || !annotation?.points?.length) continue;
+    const bounds = annotationBaseBounds([annotation]);
+    if (!bounds) continue;
+    if (bounds.maxX < minX || bounds.minX > maxX || bounds.maxY < minY || bounds.minY > maxY) continue;
+    ids.add(annotation.id);
+  }
+  return ids;
+}
+function drawLiveEraserPreview(page, points, eraserDiameter=state.eraserSize) {
+  if (!page?.id || !Array.isArray(points) || !points.length) return;
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const stage of document.querySelectorAll(selector)) {
+    if (stage.dataset.rendered !== 'true') continue;
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const overlay = ensureAnnotationOverlay(stage, base);
+    if (!overlay?.width || !overlay?.height) continue;
+    const ctx = overlay.getContext('2d');
+    if (!ctx) continue;
+    const display = pageDisplayDimensions(page);
+    const sx = overlay.width / Math.max(1,display.width);
+    const sy = overlay.height / Math.max(1,display.height);
+    ctx.save();
+    ctx.scale(sx,sy);
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = '#000';
+    ctx.fillStyle = '#000';
+    ctx.lineWidth = Math.max(1, Number(eraserDiameter)||24);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    if (points.length === 1) {
+      const point = basePointToDisplay(page,points[0]);
+      ctx.beginPath();
+      ctx.arc(point.x,point.y,ctx.lineWidth/2,0,Math.PI*2);
+      ctx.fill();
+    } else {
+      const first = basePointToDisplay(page,points[0]);
+      ctx.beginPath();
+      ctx.moveTo(first.x,first.y);
+      for (let i=1;i<points.length;i++) {
+        const point = basePointToDisplay(page,points[i]);
+        ctx.lineTo(point.x,point.y);
+      }
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+}
+function appendEraserPreviewSamples(gesture, event) {
+  if (!gesture?.page || !gesture.stage?.isConnected) return [];
+  const added = [gesture.lastPoint];
+  const geometry = gestureEventGeometry(gesture.stage, gesture.page);
+  const samples = typeof event.getCoalescedEvents === 'function' ? event.getCoalescedEvents() : null;
+  const source = samples?.length ? [...samples, event] : [event];
+  for (const sample of source) {
+    const next = eventPointOnPage(gesture.stage,gesture.page,sample,geometry);
+    if (!next) continue;
+    if (Math.hypot(next.x-gesture.lastPoint.x,next.y-gesture.lastPoint.y) < .12) continue;
+    gesture.path.push(next);
+    gesture.lastPoint = next;
+    added.push(next);
+  }
+  return added.length > 1 ? added : [];
+}
+function ensureLaserPointer() {
+  if (state.laserPointer?.isConnected) return state.laserPointer;
+  const dot = document.createElement('div');
+  dot.className = 'laser-pointer-dot hidden';
+  dot.setAttribute('aria-hidden','true');
+  document.body.append(dot);
+  state.laserPointer = dot;
+  return dot;
+}
+function hideLaserPointer() {
+  state.laserPointer?.classList.add('hidden');
+}
+function positionLaserPointer(event) {
+  if (state.annotationTool !== 'laser' || !Number.isFinite(event?.clientX) || !Number.isFinite(event?.clientY)) {
+    hideLaserPointer();
+    return;
+  }
+  const dot = ensureLaserPointer();
+  dot.style.left = `${event.clientX}px`;
+  dot.style.top = `${event.clientY}px`;
+  dot.classList.remove('hidden');
+}
+function beginLaserGesture(viewer, event) {
+  if (state.annotationTool !== 'laser') return false;
+  if (event.pointerType === 'touch') return false;
+  if (event.pointerType === 'mouse' && event.button !== 0) return false;
+  if (event.pointerType === 'pen' && event.button !== 0) {
+    if (event.cancelable) event.preventDefault();
+    return true;
+  }
+  if (event.pointerType === 'pen' && state.laserGesture?.inputSource === 'stylus-touch' && !event._inkStylusTouch) {
+    if (event.cancelable) event.preventDefault();
+    return true;
+  }
+  if (event.cancelable) event.preventDefault();
+  const inputSource = event._inkStylusTouch ? 'stylus-touch' : 'pointer';
+  state.laserGesture = { pointerId:event.pointerId, inputSource, viewer };
+  positionLaserPointer(event);
+  if (inputSource === 'pointer') {
+    try { viewer.setPointerCapture?.(event.pointerId); } catch {}
+  }
+  return true;
+}
+function continueLaserGesture(viewer, event) {
+  const gesture = state.laserGesture;
+  if (!gesture || gesture.viewer !== viewer || gesture.pointerId !== event.pointerId) return false;
+  if (event.cancelable) event.preventDefault();
+  positionLaserPointer(event);
+  return true;
+}
+function finishLaserGesture(viewer, event) {
+  const gesture = state.laserGesture;
+  if (!gesture || gesture.viewer !== viewer || gesture.pointerId !== event.pointerId) return false;
+  if (event.cancelable) event.preventDefault();
+  hideLaserPointer();
+  if (gesture.inputSource === 'pointer') {
+    try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
+  }
+  state.laserGesture = null;
+  return true;
+}
+function ensureEraserCursor() {
+  if (state.eraserCursor?.isConnected) return state.eraserCursor;
+  const cursor = document.createElement('div');
+  cursor.className = 'eraser-cursor hidden';
+  cursor.setAttribute('aria-hidden','true');
+  document.body.append(cursor);
+  state.eraserCursor = cursor;
+  return cursor;
+}
+function hideEraserCursor() {
+  state.eraserCursor?.classList.add('hidden');
+}
+function updateEraserCursor(viewer, event) {
+  if (state.annotationTool !== 'eraser' || event.pointerType === 'touch') { hideEraserCursor(); return; }
+  const stage = inkStageForEvent(viewer, event);
+  if (!stage) { hideEraserCursor(); return; }
+  const page = pageById(stage.dataset.pageId);
+  const rect = stage.getBoundingClientRect();
+  if (!page || !rect.width) { hideEraserCursor(); return; }
+  const display = pageDisplayDimensions(page);
+  const cssDiameter = Math.max(5, state.eraserSize * rect.width / Math.max(1, display.width));
+  const cursor = ensureEraserCursor();
+  cursor.style.width = `${cssDiameter}px`;
+  cursor.style.height = `${cssDiameter}px`;
+  cursor.style.left = `${event.clientX - cssDiameter/2}px`;
+  cursor.style.top = `${event.clientY - cssDiameter/2}px`;
+  cursor.classList.remove('hidden');
+}
+function beginEraserGesture(viewer, event) {
+  if (state.annotationTool !== 'eraser') return false;
+  if (event.pointerType === 'mouse' && event.button !== 0) return false;
+  if (event.pointerType === 'pen' && event.button !== 0) {
+    if (event.cancelable) event.preventDefault();
+    addInkDiagnostic('eraser-begin-non-tip-pen-button', event);
+    return true;
+  }
+  if (event.pointerType === 'pen' && state.eraserGesture?.inputSource === 'stylus-touch' && !event._inkStylusTouch) {
+    if (event.cancelable) event.preventDefault();
+    addInkDiagnostic('pointer-shadowed-by-stylus-touch', event, { gesture:'eraser' });
+    return true;
+  }
+  const stage = inkStageForEvent(viewer, event);
+  if (!stage) { addInkDiagnostic('eraser-begin-stage-miss', event); return true; }
+  const page = pageById(stage.dataset.pageId);
+  if (!page) return true;
+  const first = eventPointOnPage(stage, page, event);
+  if (!first) return true;
+  const inputSource = event._inkStylusTouch ? 'stylus-touch' : 'pointer';
+  const before = snapshotPages();
+  state.activePageId = page.id;
+  // 5.4.4 decouples eraser feedback from vector surgery. During contact we
+  // erase pixels directly from the already-rendered annotation overlay and
+  // merely collect the path. The authoritative stroke splitting is committed
+  // once on pointer-up, avoiding O(all page ink × every coalesced sample).
+  state.eraserGesture = { pointerId:event.pointerId, inputSource, viewer, stage, page, pageId:page.id, documentId:state.currentDocumentId, before, lastPoint:first, path:[first], changed:false };
+  if (event.cancelable) event.preventDefault();
+  if (inputSource === 'pointer') { try { viewer.setPointerCapture?.(event.pointerId); } catch {} }
+  drawLiveEraserPreview(page,[first],state.eraserSize);
+  addInkDiagnostic('eraser-begin-accepted', event, { changed:false, size:state.eraserSize, deferredVectorCommit:true });
+  return true;
+}
+function continueEraserGesture(viewer, event) {
+  const gesture = state.eraserGesture;
+  if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
+  if (event.cancelable) event.preventDefault();
+  const added = appendEraserPreviewSamples(gesture,event);
+  if (added.length) drawLiveEraserPreview(gesture.page,added,state.eraserSize);
+  return true;
+}
+function finishEraserGesture(viewer, event) {
+  const gesture = state.eraserGesture;
+  if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
+  if (event.cancelable) event.preventDefault();
+  if (event.type === 'pointercancel' || event.type === 'touchcancel') {
+    if (gesture.inputSource === 'pointer') { try { viewer.releasePointerCapture?.(event.pointerId); } catch {} }
+    state.eraserGesture = null;
+    // The vector model never changed; restore the overlay pixels removed only
+    // for transient feedback.
+    redrawPageAnnotationOverlays(gesture.page);
+    addInkDiagnostic('eraser-cancelled',event,{size:state.eraserSize,deferredVectorCommit:true});
+    return true;
+  }
+  const added = appendEraserPreviewSamples(gesture,event);
+  if (added.length) drawLiveEraserPreview(gesture.page,added,state.eraserSize);
+  const compactPath = compactEraserPath(gesture.path,state.eraserSize);
+  const candidateIds = eraserCandidateIdsForPath(gesture.page,compactPath,state.eraserSize);
+  const started = performance.now();
+  let changed = false;
+  if (candidateIds.size && compactPath.length) {
+    if (compactPath.length === 1) {
+      changed = erasePageAnnotationsAlong(gesture.page,compactPath[0],compactPath[0],state.eraserSize,candidateIds);
+    } else {
+      for (let i=1;i<compactPath.length;i++) {
+        changed = erasePageAnnotationsAlong(gesture.page,compactPath[i-1],compactPath[i],state.eraserSize,candidateIds) || changed;
+      }
+    }
+  }
+  const commitMs = performance.now() - started;
+  gesture.changed = changed;
+  if (gesture.inputSource === 'pointer') { try { viewer.releasePointerCapture?.(event.pointerId); } catch {} }
+  state.eraserGesture = null;
+  // The live raster preview is already visually erased. A dense-page exact
+  // redraw can be much more expensive than the vector cut itself, so do that
+  // repaint after release when the browser is idle rather than blocking the
+  // pointerup/UI response. Cancelled gestures still redraw immediately above.
+  scheduleExactAnnotationRedraw(gesture.page, 'eraser-release');
+  addInkDiagnostic('eraser-finish-accepted', event, {
+    changed,
+    size:state.eraserSize,
+    deferredVectorCommit:true,
+    rawPathPoints:gesture.path.length,
+    commitPathPoints:compactPath.length,
+    candidateObjects:candidateIds.size,
+    commitMs:Math.round(commitMs*10)/10,
+    exactRedrawDeferred:true,
+  });
+  if (changed) {
+    commitHistory(gesture.before);
+    saveCurrentDocumentState({ readViewDom:false });
+    if (state.workspaceMode === 'organize') renderOrganizer();
+  }
+  return true;
+}
+function activeStylusTouchGesture() {
+  if (state.inkGesture?.inputSource === 'stylus-touch') return state.inkGesture;
+  if (state.eraserGesture?.inputSource === 'stylus-touch') return state.eraserGesture;
+  if (state.selectionGesture?.inputSource === 'stylus-touch') return state.selectionGesture;
+  if (state.laserGesture?.inputSource === 'stylus-touch') return state.laserGesture;
+  return null;
+}
+
 function handleDocumentInkPointer(viewer, event) {
   if (event.pointerType === 'touch') return false;
+  updateEraserCursor(viewer, event);
+  if (event.pointerType === 'pen' && activeStylusTouchGesture()) {
+    if (event.cancelable) event.preventDefault();
+    if (event.type === 'pointerdown' || event.type === 'pointerup' || event.type === 'pointercancel') {
+      addInkDiagnostic('pointer-shadowed-by-stylus-touch', event, { gesture:state.annotationTool });
+    }
+    return true;
+  }
   if (event.type === 'pointerdown') {
-    if (event.pointerType === 'pen' && state.annotationTool !== 'pen') {
+    if (event.pointerType === 'pen' && !isStylusAnnotationTool()) {
       if (event.cancelable) event.preventDefault();
       try { viewer.setPointerCapture?.(event.pointerId); } catch {}
       return true;
     }
-    if (event.pointerType === 'pen' || event.pointerType === 'mouse') return beginInkGesture(viewer, event);
+    if (event.pointerType === 'pen' || event.pointerType === 'mouse') {
+      if (state.annotationTool === 'laser') return beginLaserGesture(viewer, event);
+      if (state.annotationTool === 'eraser') return beginEraserGesture(viewer, event);
+      if (state.annotationTool === 'select') return beginSelectionGesture(viewer, event);
+      if (state.annotationTool === 'pen' || state.annotationTool === 'highlighter') return beginInkGesture(viewer, event);
+    }
     return false;
   }
   if (event.type === 'pointermove') {
+    if (continueLaserGesture(viewer, event)) return true;
     if (continueInkGesture(viewer, event)) return true;
+    if (continueEraserGesture(viewer, event)) return true;
+    if (continueSelectionGesture(viewer, event)) return true;
     if (event.pointerType === 'pen') {
       if (event.cancelable && (event.buttons || event.pressure > 0)) event.preventDefault();
       return true;
@@ -1467,7 +5002,10 @@ function handleDocumentInkPointer(viewer, event) {
     return false;
   }
   if (event.type === 'pointerup' || event.type === 'pointercancel') {
+    if (finishLaserGesture(viewer, event)) return true;
     if (finishInkGesture(viewer, event)) return true;
+    if (finishEraserGesture(viewer, event)) return true;
+    if (finishSelectionGesture(viewer, event)) return true;
     if (event.pointerType === 'pen') {
       if (event.cancelable) event.preventDefault();
       try { viewer.releasePointerCapture?.(event.pointerId); } catch {}
@@ -1476,11 +5014,149 @@ function handleDocumentInkPointer(viewer, event) {
   }
   return false;
 }
+// Milestone 5.0.8: iPad Safari fallback for whole Apple Pencil contacts that
+// never appear in the PointerEvent stream. Safari also exposes Touch Events and
+// identifies Apple Pencil touches with Touch.touchType === 'stylus'. Pointer
+// Events remain the normal path. A stylus TouchEvent starts ink only when no
+// pointer-owned ink gesture is already active; if the TouchEvent arrives first,
+// the corresponding PointerEvents are shadowed until that touch ends.
+function stylusTouchEventLike(touchEvent, touch, type) {
+  const ending = type === 'touchend' || type === 'touchcancel';
+  return {
+    type,
+    pointerType: 'pen',
+    pointerId: `stylus-touch-${touch.identifier}`,
+    isPrimary: true,
+    button: 0,
+    buttons: ending ? 0 : 1,
+    pressure: Number.isFinite(touch.force) ? touch.force : (ending ? 0 : .08),
+    timeStamp: Number.isFinite(Number(touchEvent.timeStamp)) ? Number(touchEvent.timeStamp) : performance.now(),
+    clientX: touch.clientX,
+    clientY: touch.clientY,
+    target: touch.target || touchEvent.target,
+    cancelable: touchEvent.cancelable,
+    preventDefault: () => { if (touchEvent.cancelable) touchEvent.preventDefault(); },
+    _inkStylusTouch: true,
+  };
+}
+function viewerForStylusTouch(touch) {
+  let target = touch?.target instanceof Element ? touch.target : null;
+  if ((!target || !target.closest?.('.viewer, .split-pane-viewer')) && Number.isFinite(touch?.clientX) && Number.isFinite(touch?.clientY)) {
+    const hit = document.elementFromPoint?.(touch.clientX, touch.clientY);
+    if (hit instanceof Element) target = hit;
+  }
+  return target?.closest?.('.viewer, .split-pane-viewer') || null;
+}
+function bindStylusTouchInkFallback() {
+  if (!('TouchEvent' in window)) return;
+  const activeGesture = () => state.laserGesture || state.inkGesture || state.eraserGesture || state.selectionGesture || state.regionCopyGesture;
+  const beginForTool = (tool, viewer, synthetic) => tool === 'laser' ? beginLaserGesture(viewer, synthetic) : tool === 'eraser' ? beginEraserGesture(viewer, synthetic) : tool === 'select' ? beginSelectionGesture(viewer, synthetic) : beginInkGesture(viewer, synthetic);
+  const continueForTool = (tool, viewer, synthetic) => tool === 'laser' ? continueLaserGesture(viewer, synthetic) : tool === 'eraser' ? continueEraserGesture(viewer, synthetic) : tool === 'select' ? continueSelectionGesture(viewer, synthetic) : continueInkGesture(viewer, synthetic);
+  const finishForTool = (tool, viewer, synthetic) => tool === 'laser' ? finishLaserGesture(viewer, synthetic) : tool === 'eraser' ? finishEraserGesture(viewer, synthetic) : tool === 'select' ? finishSelectionGesture(viewer, synthetic) : finishInkGesture(viewer, synthetic);
+
+  document.addEventListener('touchstart', (event) => {
+    if (!isStylusAnnotationTool()) return;
+    for (const touch of event.changedTouches || []) {
+      if (touch.touchType !== 'stylus') continue;
+      const viewer = viewerForStylusTouch(touch);
+      if (!viewer) continue;
+      if (event.cancelable) event.preventDefault();
+      const synthetic = stylusTouchEventLike(event, touch, 'touchstart');
+      const tool = state.annotationTool;
+      addInkDiagnostic('raw-stylus-touch-start', synthetic, { touchId:touch.identifier, gesture:tool });
+      if (activeGesture()) {
+        state.stylusTouchContacts.set(touch.identifier, { mode:'shadow', viewer, tool });
+        addInkDiagnostic('stylus-touch-shadowed-by-pointer', synthetic, { touchId:touch.identifier, gesture:tool });
+        continue;
+      }
+      state.stylusTouchContacts.set(touch.identifier, { mode:'fallback', viewer, tool });
+      if (beginForTool(tool, viewer, synthetic)) {
+        addInkDiagnostic('stylus-touch-fallback-begin', synthetic, { touchId:touch.identifier, gesture:tool });
+      }
+    }
+  }, { capture:true, passive:false });
+
+  document.addEventListener('touchmove', (event) => {
+    let handled = false;
+    for (const touch of event.changedTouches || []) {
+      const contact = state.stylusTouchContacts.get(touch.identifier);
+      if (!contact) continue;
+      handled = true;
+      if (contact.mode !== 'fallback') continue;
+      const synthetic = stylusTouchEventLike(event, touch, 'touchmove');
+      continueForTool(contact.tool, contact.viewer, synthetic);
+    }
+    if (handled && event.cancelable) event.preventDefault();
+  }, { capture:true, passive:false });
+
+  const finish = (event, cancelled) => {
+    let handled = false;
+    for (const touch of event.changedTouches || []) {
+      const contact = state.stylusTouchContacts.get(touch.identifier);
+      if (!contact) continue;
+      handled = true;
+      const synthetic = stylusTouchEventLike(event, touch, cancelled ? 'touchcancel' : 'touchend');
+      addInkDiagnostic(cancelled ? 'raw-stylus-touch-cancel' : 'raw-stylus-touch-end', synthetic, { touchId:touch.identifier, mode:contact.mode, gesture:contact.tool });
+      if (contact.mode === 'fallback') finishForTool(contact.tool, contact.viewer, synthetic);
+      state.stylusTouchContacts.delete(touch.identifier);
+    }
+    if (handled && event.cancelable) event.preventDefault();
+  };
+  document.addEventListener('touchend', event => finish(event, false), { capture:true, passive:false });
+  document.addEventListener('touchcancel', event => finish(event, true), { capture:true, passive:false });
+}
+
+// Milestone 5.0.7: while an ink tool is active in the viewer, Pencil input must
+// win over WebKit's native text-selection machinery. iPadOS was first observed
+// selecting a toolbar glyph and, after that region was protected, selecting
+// footer text instead. That shows the failure is not tied to one element: a
+// Pencil stream can leak into native selection and WebKit may retarget the
+// selection elsewhere in the app. Suppress selection/callouts at the input-mode
+// level while Pen is active. Hand/View mode deliberately does not use this
+// document-wide guard so future intentional text selection can remain possible.
+function inkBlocksNativeSelection() {
+  return isStylusAnnotationTool() &&
+    (state.workspaceMode === 'view' || document.body.classList.contains('presentation'));
+}
+function clearNativeSelection() {
+  const selection = document.getSelection?.();
+  if (selection?.rangeCount) selection.removeAllRanges();
+}
+function bindInkNativeSelectionGuard() {
+  document.addEventListener('selectstart', (event) => {
+    if (!inkBlocksNativeSelection()) return;
+    event.preventDefault();
+    clearNativeSelection();
+  }, { capture: true, passive: false });
+  document.addEventListener('contextmenu', (event) => {
+    if (!inkBlocksNativeSelection()) return;
+    event.preventDefault();
+    clearNativeSelection();
+  }, { capture: true, passive: false });
+  document.addEventListener('selectionchange', () => {
+    if (inkBlocksNativeSelection()) clearNativeSelection();
+  });
+}
+
+function invalidateModeledPenGeometry(annotation) {
+  if (annotation?.tool === 'pen') googleInkRenderCache.delete(annotation);
+}
 function shiftPageAnnotations(page, dx, dy) {
   if (!hasPageAnnotations(page)) return;
-  for (const stroke of page.annotations) for (const point of stroke.points || []) {
-    point.x += dx;
-    point.y += dy;
+  for (const annotation of page.annotations) {
+    if (isImageAnnotation(annotation)) {
+      annotation.x = (Number(annotation.x)||0) + dx;
+      annotation.y = (Number(annotation.y)||0) + dy;
+      continue;
+    }
+    for (const point of annotation.points || []) {
+      point.x += dx;
+      point.y += dy;
+    }
+    // Page geometry edits mutate editable points in place. The Pen model cache
+    // keys on the stroke object + points-array identity, so without explicit
+    // invalidation it can keep drawing the pre-transform modeled path.
+    invalidateModeledPenGeometry(annotation);
   }
 }
 function fitPageAnnotationsToCanvas(page, oldBase, newBase) {
@@ -1488,12 +5164,20 @@ function fitPageAnnotationsToCanvas(page, oldBase, newBase) {
   const fit = Math.min(newBase.width / Math.max(1, oldBase.width), newBase.height / Math.max(1, oldBase.height));
   const offsetX = (newBase.width - oldBase.width * fit) / 2;
   const offsetY = (newBase.height - oldBase.height * fit) / 2;
-  for (const stroke of page.annotations) {
-    for (const point of stroke.points || []) {
+  for (const annotation of page.annotations) {
+    if (isImageAnnotation(annotation)) {
+      annotation.x = (Number(annotation.x)||0) * fit + offsetX;
+      annotation.y = (Number(annotation.y)||0) * fit + offsetY;
+      annotation.width = Math.max(.25, Number(annotation.width||1) * fit);
+      annotation.height = Math.max(.25, Number(annotation.height||1) * fit);
+      continue;
+    }
+    for (const point of annotation.points || []) {
       point.x = point.x * fit + offsetX;
       point.y = point.y * fit + offsetY;
     }
-    stroke.width = Math.max(.25, Number(stroke.width || 3) * fit);
+    annotation.width = Math.max(.25, Number(annotation.width || 3) * fit);
+    invalidateModeledPenGeometry(annotation);
   }
 }
 function hexToPdfRgb(hex, rgb) {
@@ -1515,15 +5199,135 @@ function annotationPointToRawPdf(page, point, pdfPage, inheritedRotation=0) {
   if (rotation === 270) return { x: box.x + box.width - v, y: box.y + box.height - u };
   return { x: box.x + u, y: box.y + box.height - v };
 }
-function drawPageAnnotationsPdf(pdfPage, page, inheritedRotation, pdfLib) {
+function simplifyHighlighterExportPoints(stroke, sourcePoints) {
+  const source = Array.isArray(sourcePoints) ? sourcePoints : [];
+  if (source.length <= 2) return source;
+
+  // Apple Pencil coalescing can leave well over a thousand samples in a single
+  // broad highlight. The on-screen compositor isolates that stroke before
+  // applying translucency, so tiny sub-pixel reversals do not darken it. PDF
+  // transparency renderers can expose those microscopic self-overlaps. For
+  // export only, collapse geometry that is far smaller than the highlighter
+  // width. Stored/editable points remain completely unchanged.
+  const width = Math.max(1, Number(stroke?.width) || 14);
+  const minSpacing = Math.max(.45, width * .035);
+  const tolerance = Math.max(.5, width * .055);
+
+  const spaced = [source[0]];
+  let last = source[0];
+  for (let i = 1; i < source.length - 1; i++) {
+    const point = source[i];
+    if (Math.hypot((Number(point?.x)||0) - (Number(last?.x)||0), (Number(point?.y)||0) - (Number(last?.y)||0)) >= minSpacing) {
+      spaced.push(point);
+      last = point;
+    }
+  }
+  const finalPoint = source[source.length - 1];
+  if (spaced[spaced.length - 1] !== finalPoint) spaced.push(finalPoint);
+  if (spaced.length <= 2) return spaced;
+
+  const keep = new Uint8Array(spaced.length);
+  keep[0] = 1;
+  keep[spaced.length - 1] = 1;
+  const stack = [[0, spaced.length - 1]];
+  while (stack.length) {
+    const [start, end] = stack.pop();
+    if (end <= start + 1) continue;
+    let bestIndex = -1;
+    let bestDistance = -1;
+    const a = spaced[start];
+    const b = spaced[end];
+    for (let i = start + 1; i < end; i++) {
+      const distance = pointSegmentDistance(spaced[i], a, b);
+      if (distance > bestDistance) {
+        bestDistance = distance;
+        bestIndex = i;
+      }
+    }
+    if (bestIndex > start && bestDistance > tolerance) {
+      keep[bestIndex] = 1;
+      stack.push([start, bestIndex], [bestIndex, end]);
+    }
+  }
+
+  const simplified = [];
+  for (let i = 0; i < spaced.length; i++) if (keep[i]) simplified.push(spaced[i]);
+  return simplified.length >= 2 ? simplified : [source[0], finalPoint];
+}
+
+function imageAnnotationRawPdfPlacement(page, annotation, pdfPage, inheritedRotation=0) {
+  const rect=imageAnnotationBaseRect(annotation);
+  if (!rect) return null;
+  const rotation=imageAnnotationRotation(annotation);
+  let anchor, widthEnd, heightEnd;
+  if (rotation===90) {
+    anchor={x:rect.x,y:rect.y};
+    widthEnd={x:rect.x,y:rect.y+rect.height};
+    heightEnd={x:rect.x+rect.width,y:rect.y};
+  } else if (rotation===180) {
+    anchor={x:rect.x+rect.width,y:rect.y};
+    widthEnd={x:rect.x,y:rect.y};
+    heightEnd={x:rect.x+rect.width,y:rect.y+rect.height};
+  } else if (rotation===270) {
+    anchor={x:rect.x+rect.width,y:rect.y+rect.height};
+    widthEnd={x:rect.x+rect.width,y:rect.y};
+    heightEnd={x:rect.x,y:rect.y+rect.height};
+  } else {
+    anchor={x:rect.x,y:rect.y+rect.height};
+    widthEnd={x:rect.x+rect.width,y:rect.y+rect.height};
+    heightEnd={x:rect.x,y:rect.y};
+  }
+  const rawAnchor=annotationPointToRawPdf(page,anchor,pdfPage,inheritedRotation);
+  const rawWidthEnd=annotationPointToRawPdf(page,widthEnd,pdfPage,inheritedRotation);
+  const rawHeightEnd=annotationPointToRawPdf(page,heightEnd,pdfPage,inheritedRotation);
+  const wx=rawWidthEnd.x-rawAnchor.x, wy=rawWidthEnd.y-rawAnchor.y;
+  const hx=rawHeightEnd.x-rawAnchor.x, hy=rawHeightEnd.y-rawAnchor.y;
+  const width=Math.max(.01,Math.hypot(wx,wy));
+  const height=Math.max(.01,Math.hypot(hx,hy));
+  const pdfRotation=normalizedQuarterTurn(Math.round(Math.atan2(wy,wx)*180/Math.PI));
+  return {x:rawAnchor.x,y:rawAnchor.y,width,height,rotation:pdfRotation};
+}
+async function drawPageAnnotationsPdf(outputPdf, pdfPage, page, inheritedRotation, pdfLib, embeddedImages=new Map(), imageCompression=null) {
   if (!hasPageAnnotations(page)) return;
-  const { rgb, pushGraphicsState, popGraphicsState, setLineJoin, LineJoinStyle, LineCapStyle } = pdfLib;
+  const { rgb, degrees, pushGraphicsState, popGraphicsState, setLineJoin, LineJoinStyle, LineCapStyle } = pdfLib;
+
+  // Inserted images sit below Workbench ink/highlighter on screen, so reproduce
+  // that same compositing order in the exported PDF.
+  for (const annotation of page.annotations || []) {
+    if (!isImageAnnotation(annotation)) continue;
+    let source=state.sources.get(annotation.sourceId);
+    if (!source) source=await ensureLibrarySourceLoaded(annotation.sourceId);
+    if (!source) throw new Error(`Inserted image source ${annotation.sourceId} is missing.`);
+    const placement=imageAnnotationRawPdfPlacement(page,annotation,pdfPage,inheritedRotation);
+    if (!placement) continue;
+    const cacheKey=imageCompression
+      ? `annotation:${annotation.sourceId}:${Math.round(placement.width)}x${Math.round(placement.height)}:${imageCompression.maxDpi}:${imageCompression.jpegQuality}`
+      : `annotation:${annotation.sourceId}`;
+    let embedded=embeddedImages.get(cacheKey);
+    if (!embedded) {
+      embedded=await embedImageForExport(outputPdf,source,imageCompression?{
+        compress:true,
+        maxDpi:imageCompression.maxDpi,
+        jpegQuality:imageCompression.jpegQuality,
+        targetWidthPts:placement.width,
+        targetHeightPts:placement.height,
+      }:{});
+      embeddedImages.set(cacheKey,embedded);
+    }
+    pdfPage.drawImage(embedded,{
+      x:placement.x,y:placement.y,width:placement.width,height:placement.height,
+      rotate:degrees(placement.rotation),
+      opacity:clamp(Number(annotation.opacity ?? 1),0,1),
+    });
+  }
+
   const pathNumber = value => {
     const n = Number(value) || 0;
     const rounded = Math.round(n * 10000) / 10000;
     return Object.is(rounded, -0) ? '0' : String(rounded);
   };
   for (const stroke of page.annotations) {
+    if (isImageAnnotation(stroke)) continue;
     const points = Array.isArray(stroke?.points) ? stroke.points : [];
     if (!points.length) continue;
     const color = hexToPdfRgb(stroke.color, rgb);
@@ -1535,20 +5339,31 @@ function drawPageAnnotationsPdf(pdfPage, page, inheritedRotation, pdfLib) {
       continue;
     }
 
-    // Export a pen stroke as ONE continuous PDF path. Milestone 5.0.0/5.0.1
-    // emitted every sampled pair as an independent drawLine operation. At a
-    // turn, the flat ends of those separate segments meet only at the center
-    // line and can leave a visible white wedge on the inside of a wide curve.
-    // drawSvgPath gives us a single stroked subpath; an enclosing round line
-    // join plus a round cap makes its geometry match the Canvas renderer.
-    // pdf-lib flips SVG Y coordinates internally, so negate the already-mapped
-    // raw PDF y value to land at the same PDF coordinate after that transform.
-    const pdfPoints = points.map(point => annotationPointToRawPdf(page, point, pdfPage, inheritedRotation));
-    const first = pdfPoints[0];
+
+    // Export each remaining ink annotation as one continuous PDF path.
+    const first = annotationPointToRawPdf(page, points[0], pdfPage, inheritedRotation);
     let path = `M ${pathNumber(first.x)} ${pathNumber(-first.y)}`;
-    for (let i = 1; i < pdfPoints.length; i++) {
-      const p = pdfPoints[i];
-      path += ` L ${pathNumber(p.x)} ${pathNumber(-p.y)}`;
+    if (stroke.tool === 'highlighter') {
+      const exportPoints = simplifyHighlighterExportPoints(stroke, points);
+      const exportFirst = annotationPointToRawPdf(page, exportPoints[0], pdfPage, inheritedRotation);
+      path = `M ${pathNumber(exportFirst.x)} ${pathNumber(-exportFirst.y)}`;
+      for (let i = 1; i < exportPoints.length; i++) {
+        const point = annotationPointToRawPdf(page, exportPoints[i], pdfPage, inheritedRotation);
+        path += ` L ${pathNumber(point.x)} ${pathNumber(-point.y)}`;
+      }
+    } else {
+      const modeled=buildGoogleInkRender(stroke).points;
+      if (modeled.length) {
+        const modeledFirst=annotationPointToRawPdf(page,modeled[0],pdfPage,inheritedRotation);
+        path=`M ${pathNumber(modeledFirst.x)} ${pathNumber(-modeledFirst.y)}`;
+        for (let i=1;i<modeled.length;i++) {
+          const point=annotationPointToRawPdf(page,modeled[i],pdfPage,inheritedRotation);
+          path += ` L ${pathNumber(point.x)} ${pathNumber(-point.y)}`;
+        }
+      } else {
+        const second=annotationPointToRawPdf(page,points[points.length-1],pdfPage,inheritedRotation);
+        path += ` L ${pathNumber(second.x)} ${pathNumber(-second.y)}`;
+      }
     }
 
     pdfPage.pushOperators(pushGraphicsState(), setLineJoin(LineJoinStyle.Round));
@@ -1571,6 +5386,13 @@ function currentDocument() {
   return state.documents.find(d => d.id === state.currentDocumentId) || null;
 }
 
+function singleViewerDomPositionIsReadable() {
+  return state.workspaceMode === 'view' &&
+    !!els.viewer && !!els.viewerPane &&
+    !els.viewer.classList.contains('hidden') &&
+    !els.viewerPane.classList.contains('hidden');
+}
+
 function saveCurrentDocumentState(options={}) {
   const { readViewDom = true, skipLibrarySchedule = false } = options;
   const doc = currentDocument();
@@ -1578,7 +5400,7 @@ function saveCurrentDocumentState(options={}) {
   // Before persisting a normal single-view document, make the page nearest the
   // viewport center authoritative. This is independent of IntersectionObserver
   // callback timing and is especially important in Page Snap mode.
-  if (readViewDom && !state.splitView && els.viewer && !els.viewer.classList.contains('hidden')) {
+  if (readViewDom && !state.splitView && singleViewerDomPositionIsReadable()) {
     syncSingleActivePageFromViewport({ updateUi: false });
   }
   doc.pages = state.pages;
@@ -1594,7 +5416,7 @@ function saveCurrentDocumentState(options={}) {
   // those callers pass readViewDom:false so the stale pre-edit scroll cannot
   // overwrite the new page focus before the viewer is rebuilt.
   if (!state.splitView) saveSingleViewFromState(doc, readViewDom);
-  if (!skipLibrarySchedule) scheduleLibraryPersist(850);
+  if (!skipLibrarySchedule) scheduleLibraryPersist(1400);
 }
 
 function createDocument(name) {
@@ -1621,15 +5443,39 @@ function createDocument(name) {
     pane.documentId = doc.id;
     pane.views.set(doc.id, defaultPaneView(doc));
   }
+  state.sessionExplicitEmpty = false;
+  checkpointWorkspaceNow();
   return doc;
 }
 
+function placeCreatedDocumentInCurrentLibraryFolder(doc) {
+  if (!doc) return doc;
+  const folder = state.libraryFolderId ? state.libraryFolders.get(state.libraryFolderId) : null;
+  const folderId = folder && folder.trashedAt == null ? folder.id : null;
+  doc.folderId = folderId;
+  doc.name = uniqueLibraryDocumentName(doc.name, folderId, doc.id);
+  return doc;
+}
+function activateCreatedDocument(doc,pages,{workspaceMode='view'}={}) {
+  if (!doc) return null;
+  const pageList=Array.isArray(pages)?pages:[]; const firstPageId=pageList[0]?.id||null;
+  doc.pages=pageList; doc.selected=new Set(); doc.selectionAnchorId=null; doc.activePageId=firstPageId; doc.history=[]; doc.future=[];
+  doc.singleView={zoom:1,fitMode:state.fitMode,scrollMode:state.scrollMode,activePageId:firstPageId,scrollTop:null,scrollLeft:null};
+  state.pages=doc.pages; state.selected=doc.selected; state.selectionAnchorId=null; state.activePageId=firstPageId; state.history=doc.history; state.future=doc.future;
+  state.fileSelected=new Set([doc.id]); state.fileSelectionInitialized=true; state.combineOrder=[doc.id]; state.workspaceMode=workspaceMode;
+  if (state.splitView) { const pane=splitPaneState(state.activePaneId); pane.documentId=doc.id; pane.views.set(doc.id,defaultPaneView(doc)); }
+  saveCurrentDocumentState({readViewDom:false}); renderAll({saveState:false}); return doc;
+}
+function createUserDocument(name,pages,options={}) {
+  return activateCreatedDocument(placeCreatedDocumentInCurrentLibraryFolder(createDocument(name)),pages,options);
+}
+
 function sourceUsedByDocuments(sourceId, excludingDocumentId=null) {
-  return state.documents.some(doc => doc.id !== excludingDocumentId && doc.pages.some(page => page.sourceId === sourceId));
+  return state.documents.some(doc => doc.id !== excludingDocumentId && doc.pages.some(page => pageReferencedSourceIds(page).has(sourceId)));
 }
 
 function sourceUsedByTemplates(sourceId, excludingTemplateId=null) {
-  return state.templates.some(template => template.id !== excludingTemplateId && template.page?.sourceId === sourceId);
+  return state.templates.some(template => template.id !== excludingTemplateId && pageReferencedSourceIds(template.page).has(sourceId));
 }
 
 function releaseSourceIfUnused(sourceId, options={}) {
@@ -1638,6 +5484,11 @@ function releaseSourceIfUnused(sourceId, options={}) {
   if (sourceUsedByTemplates(sourceId, options.excludingTemplateId || null)) return;
   const source = state.sources.get(sourceId);
   if (!source) return;
+  // An Asset can lazy-load a source again from IndexedDB, so a persisted Asset
+  // should not keep image binaries/decoded images resident after the document
+  // using them closes. During the brief pre-persistence window, however, keep
+  // the source alive so a freshly copied mixed snippet cannot lose its image.
+  if (sourceUsedByAssets(sourceId, options.excludingAssetId || null) && !source.libraryPersisted) return;
   if (source.url) URL.revokeObjectURL(source.url);
   try { source.pdf?.destroy?.(); } catch {}
   state.sources.delete(sourceId);
@@ -1646,8 +5497,10 @@ function releaseSourceIfUnused(sourceId, options={}) {
 function removeDocument(docId) {
   const index = state.documents.findIndex(d => d.id === docId);
   if (index < 0) return;
+  if (state.annotationSelection?.documentId === docId) clearAnnotationSelection(true);
+  state.selectionGesture = null;
   const doc = state.documents[index];
-  const sourceIds = new Set(doc.pages.map(p => p.sourceId).filter(Boolean));
+  const sourceIds = pagesReferencedSourceIds(doc.pages);
   for (const sourceId of sourceIds) releaseSourceIfUnused(sourceId, { excludingDocumentId: docId });
   state.documents.splice(index, 1);
   for (const pane of Object.values(state.splitPanes)) {
@@ -1672,6 +5525,8 @@ function removeDocument(docId) {
 
 function loadDocumentState(docId, rerender=true) {
   if (docId === state.currentDocumentId && currentDocument()) return;
+  if (state.annotationSelection?.ids?.size) clearAnnotationSelection(true);
+  state.selectionGesture = null;
   saveCurrentDocumentState();
   cancelSingleActivePageSync();
   const doc = state.documents.find(d => d.id === docId);
@@ -1697,6 +5552,7 @@ function loadDocumentState(docId, rerender=true) {
     renderAll({ saveState: false });
     setStatus(`Switched to ${doc.name}`);
   }
+  checkpointWorkspaceNow();
 }
 
 
@@ -1713,6 +5569,69 @@ function paneElements(paneId) {
 
 function splitPaneState(paneId=state.activePaneId) { return state.splitPanes[paneId === 'right' ? 'right' : 'left']; }
 function documentById(docId) { return state.documents.find(d => d.id === docId) || null; }
+
+function documentAnnotationCount(doc) {
+  return (doc?.pages || []).reduce((sum,page) => sum + (Array.isArray(page?.annotations) ? page.annotations.length : 0), 0);
+}
+function preferredOpenDocumentDuplicate(a,b) {
+  // If one duplicate is the actual live object currently backing the viewer,
+  // preserve it first. This is important if a reopen race created a second
+  // copy and the user subsequently annotated the live copy.
+  const aLive = a?.id === state.currentDocumentId && state.pages === a.pages;
+  const bLive = b?.id === state.currentDocumentId && state.pages === b.pages;
+  if (aLive !== bLive) return aLive ? a : b;
+  const aModified = Number(a?.modifiedAt || 0), bModified = Number(b?.modifiedAt || 0);
+  if (aModified !== bModified) return aModified > bModified ? a : b;
+  const aAnnotations = documentAnnotationCount(a), bAnnotations = documentAnnotationCount(b);
+  if (aAnnotations !== bAnnotations) return aAnnotations > bAnnotations ? a : b;
+  const aHistory = Array.isArray(a?.history) ? a.history.length : 0;
+  const bHistory = Array.isArray(b?.history) ? b.history.length : 0;
+  if (aHistory !== bHistory) return aHistory > bHistory ? a : b;
+  return b?.needsExport && !a?.needsExport ? b : a;
+}
+function deduplicateOpenDocuments() {
+  if (state.documents.length < 2) return false;
+  const byId = new Map();
+  const order = [];
+  let changed = false;
+  for (const doc of state.documents) {
+    if (!doc?.id) { order.push(doc); continue; }
+    if (!byId.has(doc.id)) {
+      byId.set(doc.id, doc);
+      order.push(doc);
+      continue;
+    }
+    changed = true;
+    const existing = byId.get(doc.id);
+    const preferred = preferredOpenDocumentDuplicate(existing, doc);
+    if (preferred !== existing) {
+      byId.set(doc.id, preferred);
+      const index = order.indexOf(existing);
+      if (index >= 0) order[index] = preferred;
+    }
+  }
+  if (!changed) return false;
+  state.documents = order;
+  const active = state.currentDocumentId ? byId.get(state.currentDocumentId) : null;
+  if (active) {
+    state.pages = active.pages;
+    state.selected = active.selected;
+    state.selectionAnchorId = active.selectionAnchorId;
+    state.activePageId = active.activePageId;
+    state.history = active.history;
+    state.future = active.future;
+  } else if (state.documents.length) {
+    state.currentDocumentId = state.documents[0].id;
+    const first = state.documents[0];
+    state.pages = first.pages;
+    state.selected = first.selected;
+    state.selectionAnchorId = first.selectionAnchorId;
+    state.activePageId = first.activePageId;
+    state.history = first.history;
+    state.future = first.future;
+  }
+  return true;
+}
 function paneDocument(paneId=state.activePaneId) { return documentById(splitPaneState(paneId).documentId); }
 
 function ensureSplitPaneDocuments() {
@@ -1752,7 +5671,7 @@ function saveSingleViewFromState(doc=currentDocument(), readDom=false) {
   view.fitMode = state.fitMode;
   view.scrollMode = state.scrollMode;
   view.activePageId = state.activePageId || doc.pages?.[0]?.id || null;
-  if (readDom && els.viewer && !els.viewer.classList.contains('hidden')) {
+  if (readDom && singleViewerDomPositionIsReadable()) {
     view.scrollTop = els.viewer.scrollTop;
     view.scrollLeft = els.viewer.scrollLeft;
   }
@@ -1841,6 +5760,7 @@ function activateSplitPane(paneId, syncCurrent=true) {
   }
   if (els.presentationDocumentSelect && pane.documentId) els.presentationDocumentSelect.value = pane.documentId;
   updateViewerLabels();
+  checkpointWorkspaceNow();
 }
 
 function setPaneDocument(paneId, docId) {
@@ -1934,7 +5854,23 @@ function setStatus(text, sticky=false) {
 }
 
 function snapshotPages() {
-  return state.pages.map(page => clonePageState(page));
+  // History remains fully editable/accurate, but point coordinates are packed
+  // into typed arrays. Dense-page tests exposed severe GC/memory pressure from
+  // keeping 50 full histories as millions of individual point objects.
+  // 5.7.31 times the clone itself so Pen-start stalls can be separated from
+  // live ink/modeler work without changing Undo granularity.
+  const started = performance.now();
+  const snapshot = state.pages.map(page => clonePageStateForHistory(page));
+  const elapsed = performance.now() - started;
+  const diag = state.snapshotPagesDiagnostics || (state.snapshotPagesDiagnostics = { calls:0, totalMs:0, lastMs:0, maxMs:0, over16Ms:0, over50Ms:0, lastPageCount:0 });
+  diag.calls += 1;
+  diag.totalMs += elapsed;
+  diag.lastMs = elapsed;
+  diag.maxMs = Math.max(diag.maxMs || 0, elapsed);
+  if (elapsed >= 16) diag.over16Ms += 1;
+  if (elapsed >= 50) diag.over50Ms += 1;
+  diag.lastPageCount = state.pages.length;
+  return snapshot;
 }
 function commitHistory(before) {
   state.history.push(before);
@@ -1943,12 +5879,57 @@ function commitHistory(before) {
   markDocumentDirty();
   updateHistoryButtons();
 }
+function historyPageViewerStructureEquivalent(a, b) {
+  if (!a || !b) return false;
+  // Undo/Redo of annotation-only edits should not rebuild the PDF/page canvases.
+  // These are the page properties that affect the base viewer geometry/content.
+  // Annotation arrays are deliberately excluded; those can be repainted in-place.
+  const fields = [
+    'id', 'sourceId', 'sourcePage', 'width', 'height', 'baseRotation', 'rotation',
+    'kind', 'generatedType', 'generatedBackground', 'background', 'canvasWidth', 'canvasHeight', 'canvasPlacement',
+    'edgeTop', 'edgeRight', 'edgeBottom', 'edgeLeft',
+  ];
+  return fields.every(key => Object.is(a[key], b[key]));
+}
+function historyViewerStructureEquivalent(currentPages, nextPages) {
+  return currentPages.length === nextPages.length &&
+    currentPages.every((page, index) => historyPageViewerStructureEquivalent(page, nextPages[index]));
+}
+function cancelPendingAnnotationRedraws() {
+  for (const job of state.annotationRedrawJobs.values()) {
+    if (job?.kind === 'idle' && typeof cancelIdleCallback === 'function') cancelIdleCallback(job.id);
+    else if (job?.id != null) clearTimeout(job.id);
+  }
+  state.annotationRedrawJobs.clear();
+}
 function restorePages(snapshot) {
-  state.pages = snapshot.map(page => clonePageState(page));
+  const previousPages = state.pages;
+  const nextPages = snapshot.map(page => clonePageState(page));
+  const overlayOnly = historyViewerStructureEquivalent(previousPages, nextPages);
+
+  // A deferred exact Eraser repaint may still reference the pre-Undo page object.
+  // Cancel it before replacing state so it cannot later repaint stale annotations.
+  cancelPendingAnnotationRedraws();
+  state.pages = nextPages;
   const ids = new Set(state.pages.map(p => p.id));
   state.selected = new Set([...state.selected].filter(id => ids.has(id)));
   if (!state.activePageId || !ids.has(state.activePageId)) state.activePageId = state.pages[0]?.id ?? null;
-  renderAll();
+  reconcileAnnotationSelection();
+
+  if (overlayOnly) {
+    // Keep the already-rendered PDF/generated-page canvases in the DOM. Repaint
+    // only Workbench annotation layers. This removes the visible whole-viewer
+    // flash that annotation Undo/Redo used to cause on all three target devices.
+    saveCurrentDocumentState({ readViewDom:false, skipLibrarySchedule:true });
+    for (const page of state.pages) redrawPageAnnotationOverlays(page);
+    updatePageCounts();
+    addInkDiagnostic('history-restore-finish', null, { overlayOnly:true, pages:state.pages.length });
+  } else {
+    // Page insertion/deletion/reorder/resize/rotation still requires a structural
+    // viewer rebuild because the underlying page canvases genuinely changed.
+    renderAll();
+    addInkDiagnostic('history-restore-finish', null, { overlayOnly:false, pages:state.pages.length });
+  }
 }
 function undo() {
   if (!state.history.length) return;
@@ -1978,7 +5959,7 @@ function updateHistoryButtons() {
 async function openFiles(fileList, options={}) {
   const files = [...fileList];
   if (!files.length) return;
-  const invokedFromFiles = options.fromFiles ?? (state.workspaceMode === 'export');
+  const invokedFromFiles = options.fromFiles ?? isFilesWorkspace();
   const destinationFolderId = options.folderId !== undefined
     ? (options.folderId || null)
     : (invokedFromFiles ? (state.libraryFolderId || null) : null);
@@ -2009,7 +5990,7 @@ async function openFiles(fileList, options={}) {
       pagesAdded += added;
     } catch (err) {
       console.error(err);
-      removeDocument(doc.id);
+      if (doc) removeDocument(doc.id);
       setStatus(`Could not open ${file.name}: ${err.message || err}`);
     }
   }
@@ -2070,6 +6051,21 @@ async function addImage(file) {
   state.sources.set(sourceId, { id: sourceId, type: 'image', name: file.name, size: file.size, file, url, image: null, libraryPersisted: false });
   state.pages.push({ id: uid('page'), sourceId, sourcePage: 1, width: dims.width, height: dims.height, baseRotation: 0, rotation: 0, kind: 'image' });
   return 1;
+}
+
+async function insertImageAnnotation(file) {
+  if (!file) return false;
+  try {
+    const asset = await importImageAsset(file,{pinned:false});
+    state.assetBrowserView='recent';
+    await insertImageAsset(asset);
+    setStatus(`Inserted ${asset.name || 'image'} · added to Recent`);
+    return true;
+  } catch (err) {
+    console.error('Could not insert image annotation', err);
+    setStatus(`Could not insert image: ${err?.message || err}`);
+    return false;
+  }
 }
 
 function clearImageAssembly(options={}) {
@@ -2212,7 +6208,7 @@ function createImageAssemblyDocument() {
   const name = ensurePdfFilename(els.imageAssemblyName?.value, `Images ${state.imageAssemblySequence}.pdf`);
   if (els.imageAssemblyCreateBtn) els.imageAssemblyCreateBtn.disabled = true;
   if (els.imageAssemblyProgress) els.imageAssemblyProgress.textContent = `Creating ${items.length}-page image document…`;
-  const doc = createDocument(name);
+  let doc=null;
   const pages = [];
   try {
     for (const item of items) {
@@ -2226,35 +6222,12 @@ function createImageAssemblyDocument() {
         baseRotation: 0, rotation: 0, kind: 'image'
       });
     }
-    doc.pages = pages;
-    doc.selected = new Set();
-    doc.selectionAnchorId = null;
-    doc.activePageId = pages[0]?.id || null;
-    doc.history = [];
-    doc.future = [];
-    doc.singleView = { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: doc.activePageId, scrollTop: null, scrollLeft: null };
-    state.pages = doc.pages;
-    state.selected = doc.selected;
-    state.selectionAnchorId = null;
-    state.activePageId = doc.activePageId;
-    state.history = doc.history;
-    state.future = doc.future;
-    state.fileSelected = new Set([doc.id]);
-    state.fileSelectionInitialized = true;
-    state.combineOrder = [doc.id];
-    state.workspaceMode = 'organize';
-    if (state.splitView) {
-      const pane = splitPaneState(state.activePaneId);
-      pane.documentId = doc.id;
-      pane.views.set(doc.id, defaultPaneView(doc));
-    }
+    doc=createUserDocument(name,pages,{workspaceMode:'organize'});
     // Ownership of the blob URLs has moved from the pending assembly into
     // state.sources. Clear the pending list without revoking those URLs.
     state.imageAssemblyItems = [];
     if (els.imageAssemblyInput) els.imageAssemblyInput.value = '';
-    saveCurrentDocumentState({ readViewDom: false });
     renderImageAssemblyList();
-    renderAll({ saveState: false });
     if (els.imageAssemblyProgress) els.imageAssemblyProgress.textContent = `Created ${name} with ${pages.length} image page${pages.length === 1 ? '' : 's'}.`;
     state.imageAssemblySequence += 1;
     if (els.imageAssemblyName) els.imageAssemblyName.value = `Images ${state.imageAssemblySequence}.pdf`;
@@ -2262,7 +6235,7 @@ function createImageAssemblyDocument() {
     scheduleLibraryPersist(120);
   } catch (err) {
     console.error(err);
-    removeDocument(doc.id);
+    if (doc) removeDocument(doc.id);
     if (els.imageAssemblyProgress) els.imageAssemblyProgress.textContent = `Could not create image document: ${err?.message || err}`;
     setStatus('Could not create image document');
   } finally {
@@ -2273,10 +6246,276 @@ function createImageAssemblyDocument() {
 
 const DEFAULT_NEW_PAGE_WIDTH = 792;   // US Letter landscape, points
 const DEFAULT_NEW_PAGE_HEIGHT = 612;
-const GRAPH_GRID_SPACING_PT = 18;     // 1/4 inch at 72 points/inch
-const GRAPH_GRID_MARGIN_PT = 9;
+const PRESENTATION_PAGE_LONG_EDGE_PT = 11 * 72;
+const GRAPH_GRID_TARGET_SPACING_PT = 17.25; // Slightly smaller than the former 1/4-inch (18 pt) grid.
+const GRAPH_GRID_MIN_MARGIN_PT = 7;       // Small centered remainder margin keeps every visible cell complete.
+const GRAPH_PAPER_STYLE_ID = 'workbench-graph-v1';
+const LEGACY_POWERPOINT_GRAPH_BACKGROUND = Object.freeze({
+  // Temporary migration fingerprint for the repeated graph-paper JPEG used in
+  // the user's older PowerPoint slide decks. Exact-byte matching is deliberate:
+  // never guess that another large page image is a background.
+  width: 2048,
+  height: 1536,
+  byteLength: 200613,
+  sha256: 'bb72bdfa722481c2bee58ff3d9d54a1646607d9f1aeccdd316404411fa9e8530',
+});
 
-function generatedPage(type='blank', width=DEFAULT_NEW_PAGE_WIDTH, height=DEFAULT_NEW_PAGE_HEIGHT) {
+async function sha256Hex(bytes) {
+  if (!globalThis.crypto?.subtle) throw new Error('Secure browser hashing is unavailable on this device.');
+  const view = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes || 0);
+  const exact = view.byteOffset === 0 && view.byteLength === view.buffer.byteLength
+    ? view.buffer
+    : view.buffer.slice(view.byteOffset, view.byteOffset + view.byteLength);
+  const digest = await crypto.subtle.digest('SHA-256', exact);
+  return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+function pdfNumberValue(value) {
+  const n = value?.asNumber?.();
+  return Number.isFinite(n) ? n : Number.NaN;
+}
+
+async function purgeKnownPowerPointGraphImageBytes(sourceBytes) {
+  const pdfLib = await loadPdfExportEngine();
+  const { PDFDocument, PDFRawStream, PDFName } = pdfLib;
+  if (!PDFRawStream || !PDFName) throw new Error('The PDF cleanup engine is missing low-level stream support.');
+  const pdfDoc = await PDFDocument.load(sourceBytes, { updateMetadata:false });
+  let matches = 0;
+  const widthKey = PDFName.of('Width');
+  const heightKey = PDFName.of('Height');
+  const subtypeKey = PDFName.of('Subtype');
+  for (const [ref, object] of pdfDoc.context.enumerateIndirectObjects()) {
+    if (!(object instanceof PDFRawStream)) continue;
+    if (String(object.dict.get(subtypeKey)) !== '/Image') continue;
+    if (pdfNumberValue(object.dict.get(widthKey)) !== LEGACY_POWERPOINT_GRAPH_BACKGROUND.width) continue;
+    if (pdfNumberValue(object.dict.get(heightKey)) !== LEGACY_POWERPOINT_GRAPH_BACKGROUND.height) continue;
+    const raw = object.contents;
+    if (!(raw instanceof Uint8Array) || raw.byteLength !== LEGACY_POWERPOINT_GRAPH_BACKGROUND.byteLength) continue;
+    if (await sha256Hex(raw) !== LEGACY_POWERPOINT_GRAPH_BACKGROUND.sha256) continue;
+
+    // Keep every page's existing content stream intact. Replacing only the
+    // exact shared image XObject with an empty Form XObject means existing
+    // /ImageN Do calls become no-ops. This is both narrower and safer than
+    // parsing/rebuilding arbitrary page drawing commands.
+    const emptyForm = pdfDoc.context.stream(new Uint8Array(0), {
+      Type:'XObject', Subtype:'Form', FormType:1,
+      BBox:[0, 0, 1, 1], Matrix:[1, 0, 0, 1, 0, 0], Resources:{},
+    });
+    pdfDoc.context.assign(ref, emptyForm);
+    matches++;
+  }
+  if (!matches) return { bytes:null, matches:0 };
+  return { bytes:new Uint8Array(await pdfDoc.save()), matches };
+}
+
+async function createDerivedPdfSource(originalSource, bytes) {
+  if (!state.pdfjs) throw new Error('The PDF engine is unavailable.');
+  const sourceBytes = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+  const sourceId = uid('src');
+  const pdf = await state.pdfjs.getDocument({
+    data: sourceBytes.slice(),
+    wasmUrl: PDFJS_WASM_URL,
+    cMapUrl: PDFJS_CMAP_URL,
+    cMapPacked: true,
+    standardFontDataUrl: PDFJS_STANDARD_FONT_URL,
+    useWasm: true,
+  }).promise;
+  try { await pdf.cleanup(); } catch {}
+  const blob = new Blob([sourceBytes], { type:'application/pdf' });
+  const source = {
+    id: sourceId,
+    type: 'pdf',
+    name: originalSource?.name || 'PDF.pdf',
+    size: sourceBytes.byteLength,
+    bytes: sourceBytes,
+    blob,
+    pdf,
+    libraryPersisted: false,
+  };
+  state.sources.set(sourceId, source);
+  return source;
+}
+
+
+// Page backgrounds are intentionally stored as structured metadata rather than a
+// one-off boolean. The permanent UI currently exposes "Add graph paper background"; this
+// shape leaves room for Remove / Change / spacing / color / opacity controls
+// later without changing how pages are identified or stored.
+function defaultGraphPaperSettings() {
+  return {
+    targetSpacingPt: GRAPH_GRID_TARGET_SPACING_PT,
+    minMarginPt: GRAPH_GRID_MIN_MARGIN_PT,
+    lineColor: [0.46, 0.77, 0.87],
+    lineOpacity: 0.24,
+    lineWidthPt: 0.45,
+    edgeColor: [0.36, 0.69, 0.79],
+    edgeOpacity: 0.34,
+    edgeWidthPt: 0.58,
+  };
+}
+function finiteBetween(value, fallback, min, max) {
+  const n = Number(value);
+  return Number.isFinite(n) ? Math.max(min, Math.min(max, n)) : fallback;
+}
+function normalizeGraphPaperColor(value, fallback) {
+  if (!Array.isArray(value) || value.length < 3) return [...fallback];
+  return [
+    finiteBetween(value[0], fallback[0], 0, 1),
+    finiteBetween(value[1], fallback[1], 0, 1),
+    finiteBetween(value[2], fallback[2], 0, 1),
+  ];
+}
+function normalizeGraphPaperSettings(settings=null) {
+  const d = defaultGraphPaperSettings();
+  const s = settings && typeof settings === 'object' ? settings : {};
+  return {
+    targetSpacingPt: finiteBetween(s.targetSpacingPt, d.targetSpacingPt, 2, 144),
+    minMarginPt: finiteBetween(s.minMarginPt, d.minMarginPt, 0, 72),
+    lineColor: normalizeGraphPaperColor(s.lineColor, d.lineColor),
+    lineOpacity: finiteBetween(s.lineOpacity, d.lineOpacity, 0, 1),
+    lineWidthPt: finiteBetween(s.lineWidthPt, d.lineWidthPt, 0.05, 6),
+    edgeColor: normalizeGraphPaperColor(s.edgeColor, d.edgeColor),
+    edgeOpacity: finiteBetween(s.edgeOpacity, d.edgeOpacity, 0, 1),
+    edgeWidthPt: finiteBetween(s.edgeWidthPt, d.edgeWidthPt, 0.05, 8),
+  };
+}
+function makeGraphPaperBackground(settings=null) {
+  return {
+    type: 'graph-paper',
+    style: GRAPH_PAPER_STYLE_ID,
+    version: 1,
+    settings: normalizeGraphPaperSettings(settings),
+  };
+}
+function pageGraphPaperSettings(page) {
+  const background = page?.background;
+  if (!background || background.type !== 'graph-paper') return null;
+  return normalizeGraphPaperSettings(background.settings);
+}
+function pageHasGraphPaperBackground(page) {
+  return !!pageGraphPaperSettings(page);
+}
+function graphGridLayout(width, height, settings=null) {
+  const s = normalizeGraphPaperSettings(settings);
+  const w = Math.max(1, Number(width) || 1);
+  const h = Math.max(1, Number(height) || 1);
+  const maxMargin = Math.min(s.minMarginPt, w / 4, h / 4);
+  const usableW = Math.max(1, w - 2 * maxMargin);
+  const usableH = Math.max(1, h - 2 * maxMargin);
+  const columns = Math.max(1, Math.floor(usableW / s.targetSpacingPt));
+  const rows = Math.max(1, Math.floor(usableH / s.targetSpacingPt));
+  // Use one common spacing in both directions so the cells remain true squares.
+  // The tiny leftover in each dimension is split evenly around the bounded grid.
+  const spacing = Math.max(1, Math.min(usableW / columns, usableH / rows));
+  const gridWidth = columns * spacing;
+  const gridHeight = rows * spacing;
+  return {
+    columns, rows, spacing,
+    left: (w - gridWidth) / 2,
+    right: (w + gridWidth) / 2,
+    top: (h - gridHeight) / 2,
+    bottom: (h + gridHeight) / 2,
+  };
+}
+
+function cssSafeAreaTopPx() {
+  // Presentation reserves the unified annotation bar plus the top safe-area
+  // inset. Measure env(safe-area-inset-top) instead of guessing device chrome.
+  const probe = document.createElement('div');
+  probe.style.cssText = 'position:fixed;visibility:hidden;pointer-events:none;padding-top:env(safe-area-inset-top);';
+  document.body.append(probe);
+  const value = Number.parseFloat(getComputedStyle(probe).paddingTop) || 0;
+  probe.remove();
+  return Math.max(0, value);
+}
+
+function presentationTargetViewportDimensions() {
+  // New/page-size commands are available outside Presentation mode, so always
+  // predict the usable Presentation viewport from the current device/window.
+  // iPad uses app-level Presentation, so its current visual viewport predicts
+  // Presentation size. Surface/Chromebook request native fullscreen, so use the
+  // screen dimensions while preserving the device's current orientation.
+  const visualWidth = Math.max(1, Number(window.visualViewport?.width) || Number(window.innerWidth) || 1);
+  const visualHeight = Math.max(1, Number(window.visualViewport?.height) || Number(window.innerHeight) || 1);
+  const currentLandscape = visualWidth >= visualHeight;
+  let width = visualWidth;
+  let height = visualHeight;
+
+  if (!isIPadLike()) {
+    let screenWidth = Math.max(1, Number(window.screen?.width) || visualWidth);
+    let screenHeight = Math.max(1, Number(window.screen?.height) || visualHeight);
+    const orientationType = String(window.screen?.orientation?.type || '');
+    const targetLandscape = orientationType
+      ? orientationType.startsWith('landscape')
+      : currentLandscape;
+    if ((screenWidth >= screenHeight) !== targetLandscape) [screenWidth, screenHeight] = [screenHeight, screenWidth];
+    width = screenWidth;
+    height = screenHeight;
+  }
+
+  const rootStyle = getComputedStyle(document.documentElement);
+  const annotationBarHeight = Number.parseFloat(rootStyle.getPropertyValue('--annotation-bar-h')) || 46;
+  height = Math.max(1, height - annotationBarHeight - cssSafeAreaTopPx());
+  return { width, height };
+}
+
+function presentationPageDimensions() {
+  const viewport = presentationTargetViewportDimensions();
+  const width = Math.max(1, viewport.width);
+  const height = Math.max(1, viewport.height);
+  const longEdge = PRESENTATION_PAGE_LONG_EDGE_PT;
+  if (width >= height) {
+    return { width: longEdge, height: longEdge * (height / width), viewportWidth: width, viewportHeight: height };
+  }
+  return { width: longEdge * (width / height), height: longEdge, viewportWidth: width, viewportHeight: height };
+}
+
+function selectedNewDocumentPageDimensions() {
+  if (els.newDocumentPageSize?.value === 'presentation') return presentationPageDimensions();
+  return { width: DEFAULT_NEW_PAGE_WIDTH, height: DEFAULT_NEW_PAGE_HEIGHT };
+}
+
+function updateNewDocumentPageSizeUi() {
+  if (!els.newDocumentPageSizeHint) return;
+  if (els.newDocumentPageSize?.value !== 'presentation') {
+    els.newDocumentPageSizeHint.textContent = 'US Letter landscape · 11 × 8.5 in.';
+    return;
+  }
+  const dims = presentationPageDimensions();
+  const widthIn = dims.width / 72;
+  const heightIn = dims.height / 72;
+  els.newDocumentPageSizeHint.textContent = `Current Presentation ratio · ${widthIn.toFixed(2)} × ${heightIn.toFixed(2)} in · long side 11 in.`;
+}
+
+function normalizeBlankPageBackground(value) {
+  return value === 'black' ? 'black' : 'white';
+}
+
+function updateBlankBackgroundControls(scope='all') {
+  const updatePair = (whiteButton, blackButton, value) => {
+    const black = normalizeBlankPageBackground(value) === 'black';
+    whiteButton?.classList.toggle('active', !black);
+    blackButton?.classList.toggle('active', black);
+    whiteButton?.setAttribute('aria-pressed', String(!black));
+    blackButton?.setAttribute('aria-pressed', String(black));
+  };
+  if (scope === 'all' || scope === 'new') updatePair(els.newBlankWhiteBtn, els.newBlankBlackBtn, state.newBlankBackground);
+  if (scope === 'all' || scope === 'insert') updatePair(els.insertBlankWhiteBtn, els.insertBlankBlackBtn, state.insertBlankBackground);
+}
+
+function setNewBlankBackground(value) {
+  state.newBlankBackground = normalizeBlankPageBackground(value);
+  updateBlankBackgroundControls('new');
+}
+
+function setInsertBlankBackground(value) {
+  state.insertBlankBackground = normalizeBlankPageBackground(value);
+  updateBlankBackgroundControls('insert');
+  if (!els.insertPageMenu?.classList.contains('hidden')) renderInsertChoicePreviews().catch(console.error);
+}
+
+function generatedPage(type='blank', width=DEFAULT_NEW_PAGE_WIDTH, height=DEFAULT_NEW_PAGE_HEIGHT, background='white') {
+  const generatedType = type === 'graph' ? 'graph' : 'blank';
   return {
     id: uid('page'),
     sourceId: null,
@@ -2286,7 +6525,8 @@ function generatedPage(type='blank', width=DEFAULT_NEW_PAGE_WIDTH, height=DEFAUL
     baseRotation: 0,
     rotation: 0,
     kind: 'generated',
-    generatedType: type === 'graph' ? 'graph' : 'blank',
+    generatedType,
+    generatedBackground: generatedType === 'blank' ? normalizeBlankPageBackground(background) : 'white',
   };
 }
 
@@ -2346,9 +6586,9 @@ async function renderCompactPagePreview(page, canvas) {
   await enqueueRender(async () => {
     if (!canvas.isConnected) return;
     try {
-      await renderPageToCanvas(page, canvas, cssWidth, cssHeight, 0.9, 260_000);
+      await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 0.9, 260_000);
       if (page.kind !== 'generated' && canvasLooksBlank(canvas) && canvas.isConnected) {
-        await renderPageToCanvas(page, canvas, cssWidth, cssHeight, 0.72, 160_000);
+        await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 0.72, 160_000);
       }
       drawPageAnnotationsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
       canvas.dataset.rendered = 'true';
@@ -2373,7 +6613,7 @@ async function renderInsertChoicePreviews() {
   const builtIns = [
     [current, els.insertDuplicateWithPreview],
     [clonePageState(current, { includeAnnotations: false }), els.insertDuplicateWithoutPreview],
-    [generatedPage('blank', dims.width, dims.height), els.insertBlankPreview],
+    [generatedPage('blank', dims.width, dims.height, state.insertBlankBackground), els.insertBlankPreview],
     [generatedPage('graph', dims.width, dims.height), els.insertGraphPreview],
   ];
   for (const [page, canvas] of builtIns) {
@@ -2423,49 +6663,35 @@ function renderInsertTemplateList() {
   if (els.filesTemplatesSummary) els.filesTemplatesSummary.textContent = state.templates.length
     ? `${state.templates.length} template${state.templates.length === 1 ? '' : 's'}`
     : 'No templates saved';
-  if (els.filesManageTemplatesBtn) els.filesManageTemplatesBtn.disabled = false;
+  if (els.templatesFilesSection?.open) renderFilesTemplateManager();
 }
 
-function requestTemplateName(suggested) {
-  if (!els.templateNameDialog || !els.templateNameInput) return Promise.resolve(suggested);
-  return new Promise(resolve => {
-    const dialog = els.templateNameDialog;
-    els.templateNameInput.value = suggested;
-    const finish = () => {
-      dialog.removeEventListener('close', finish);
-      const accepted = dialog.returnValue === 'save';
-      const value = els.templateNameInput.value.trim();
-      resolve(accepted ? (value || suggested) : null);
-    };
-    dialog.addEventListener('close', finish, { once: true });
-    dialog.showModal();
-    requestAnimationFrame(() => {
-      els.templateNameInput.focus({ preventScroll: true });
-      els.templateNameInput.select();
-    });
-  });
-}
-
-async function saveCurrentPageAsTemplate(targetContext=null) {
-  const page = templatePageForSave(targetContext);
+async function saveCurrentPageAsTemplate(targetContext=null, includeAnnotations=true) {
+  const page=templatePageForSave(targetContext);
   if (!page) { setStatus('No page is available to save as a template'); return false; }
-  const suggested = nextTemplateName();
-  // Use an in-app dialog rather than window.prompt(). Native prompt can force
-  // Chromium/Surface out of Fullscreen, which previously kicked Presentation
-  // back to regular View while saving a template.
-  const name = await requestTemplateName(suggested);
-  if (name === null) return false;
-  const template = {
-    id: uid('template'),
-    name,
-    page: { ...clonePageState(page), id: null },
-    createdAt: Date.now(),
-    modifiedAt: Date.now(),
+  const suggested=nextTemplateName();
+  // Keep all text entry on the exact small naming path proven in 5.7.6.
+  // The With/Without annotations choice is made before this step in Insert Page.
+  await beginFilesRoundTrip('template-save');
+  let name=null;
+  try {
+    name=await requestLibraryName({
+      title:'Template name',
+      help:'A generic name is already supplied so a temporary template can be saved immediately.',
+      suggested,
+      saveLabel:'Save template',
+    });
+  } finally { await endFilesRoundTrip('template-save'); }
+  if (name===null) return false;
+  const template={
+    id:uid('template'), name,
+    page:{...clonePageState(page,{includeAnnotations}),id:null},
+    createdAt:Date.now(), modifiedAt:Date.now(),
   };
   state.templates.push(template);
-  renderInsertTemplateList();
+  renderInsertTemplateList(); renderFilesTemplateManager();
   scheduleLibraryPersist(80);
-  setStatus(`Saved page as ${name}`);
+  setStatus(`Saved page as ${name}${includeAnnotations ? '' : ' (clean)'}`);
   return true;
 }
 
@@ -2483,78 +6709,76 @@ function deleteTemplate(templateId) {
   const index = state.templates.findIndex(item => item.id === templateId);
   if (index < 0) return;
   const [removed] = state.templates.splice(index, 1);
+  if (state.newLastPageDefault?.kind === 'template' && state.newLastPageDefault.templateId === removed.id) {
+    state.newLastPageDefault = { kind:'graph', templateId:null };
+  }
   renderInsertTemplateList();
-  releaseSourceIfUnused(removed.page?.sourceId, { excludingTemplateId: removed.id });
+  for (const sourceId of pageReferencedSourceIds(removed.page)) releaseSourceIfUnused(sourceId, { excludingTemplateId: removed.id });
   scheduleLibraryPersist(80);
 }
 
-function showTemplateManager() {
+function renderFilesTemplateManager() {
+  const container=els.filesTemplateManager;
+  if (!container || !els.templatesFilesSection?.open) return;
+  container.replaceChildren();
+  const defaultSection=document.createElement('section'); defaultSection.className='template-default-section';
+  defaultSection.innerHTML=`<h3>Automatic new last page</h3><p class="small-note">When you pull/scroll past the last page, PDF Workbench can append one page. Graph and Blank match the dimensions of the preceding last page; a saved template keeps its own dimensions. The factory default is Graph paper.</p><label for="newLastPageDefaultSelect">Default page</label><select id="newLastPageDefaultSelect"></select>`;
+  container.append(defaultSection);
+  const select=defaultSection.querySelector('#newLastPageDefaultSelect');
+  const addOption=(value,label)=>{const option=document.createElement('option');option.value=value;option.textContent=label;select.append(option);};
+  addOption('graph','Graph paper — same size as last page'); addOption('blank','Blank — same size as last page');
+  for (const template of state.templates) addOption(`template:${template.id}`,`Template: ${template.name}`);
+  const selectedValue=state.newLastPageDefault?.kind==='template' ? `template:${state.newLastPageDefault.templateId}` : (state.newLastPageDefault?.kind==='blank'?'blank':'graph');
+  select.value=[...select.options].some(option=>option.value===selectedValue)?selectedValue:'graph';
+  select.addEventListener('change',()=>{
+    const value=select.value;
+    if (value.startsWith('template:')) {
+      const templateId=value.slice('template:'.length);
+      state.newLastPageDefault=state.templates.some(template=>template.id===templateId)?{kind:'template',templateId}:{kind:'graph',templateId:null};
+    } else state.newLastPageDefault={kind:value==='blank'?'blank':'graph',templateId:null};
+    scheduleLibraryPersist(80); setStatus(`Automatic last page: ${select.options[select.selectedIndex]?.textContent||'Graph paper'}`);
+  });
+  const heading=document.createElement('h3'); heading.textContent='Saved templates'; container.append(heading);
+  const manager=document.createElement('div'); manager.className='template-manager-list'; container.append(manager);
+  if (!state.templates.length) { const empty=document.createElement('p'); empty.textContent='No templates are saved.'; manager.append(empty); return; }
+  for (const template of state.templates) {
+    const row=document.createElement('div'); row.className='template-manager-row'; row.dataset.templateId=template.id;
+    const preview=document.createElement('div'); preview.className='template-manager-preview';
+    const canvas=document.createElement('canvas'); canvas.setAttribute('aria-label',`Preview of ${template.name}`); preview.append(canvas);
+    const info=document.createElement('div'); info.className='template-manager-info';
+    const name=document.createElement('div'); name.className='template-manager-name'; name.textContent=template.name;
+    const size=document.createElement('div'); size.className='template-manager-meta';
+    const {width:w,height:h}=pageDisplayDimensions(template.page); const annotationCount=Array.isArray(template.page?.annotations)?template.page.annotations.length:0;
+    size.textContent=`${Math.round(w)} × ${Math.round(h)} pt${annotationCount?` · ${annotationCount} annotation object${annotationCount===1?'':'s'}`:' · clean'}`;
+    info.append(name,size);
+    const actions=document.createElement('div'); actions.className='template-manager-actions';
+    const rename=document.createElement('button'); rename.type='button'; rename.textContent='Rename';
+    const del=document.createElement('button'); del.type='button'; del.textContent='Delete'; actions.append(rename,del);
+    row.append(preview,info,actions); manager.append(row);
+    rename.addEventListener('click',async()=>{
+      const nextName=await requestLibraryName({title:'Rename template',suggested:template.name,saveLabel:'Rename'});
+      if (nextName===null || nextName===template.name) return;
+      template.name=nextName; template.modifiedAt=Date.now(); renderInsertTemplateList(); scheduleLibraryPersist(80); renderFilesTemplateManager(); setStatus(`Renamed template to ${nextName}`);
+    });
+    del.addEventListener('click',()=>{
+      if (!window.confirm(`Delete template “${template.name}”?`)) return;
+      deleteTemplate(template.id); renderFilesTemplateManager(); setStatus('Template deleted');
+    });
+    requestAnimationFrame(()=>renderCompactPagePreview(template.page,canvas));
+  }
+}
+async function openTemplateManager({returnToDocument=false}={}) {
   closeInsertPageMenu(false);
-  els.infoDialog.classList.add('template-dialog');
-  const renderManager = () => {
-    els.dialogContent.innerHTML = `<h2>Templates</h2><p>Templates are stored with the Local Library on this device and return when PDF Workbench is reopened.</p><div id="templateManagerList" class="template-manager-list"></div>`;
-    const manager = $('templateManagerList');
-    if (!state.templates.length) {
-      const empty = document.createElement('p');
-      empty.textContent = 'No templates are saved.';
-      manager.append(empty);
-      return;
-    }
-    for (const template of state.templates) {
-      const row = document.createElement('div');
-      row.className = 'template-manager-row';
-      row.dataset.templateId = template.id;
-
-      const preview = document.createElement('div');
-      preview.className = 'template-manager-preview';
-      const canvas = document.createElement('canvas');
-      canvas.setAttribute('aria-label', `Preview of ${template.name}`);
-      preview.append(canvas);
-
-      const info = document.createElement('div');
-      info.className = 'template-manager-info';
-      const name = document.createElement('div');
-      name.className = 'template-manager-name';
-      name.textContent = template.name;
-      const size = document.createElement('div');
-      size.className = 'template-manager-meta';
-      const { width: w, height: h } = pageDisplayDimensions(template.page);
-      size.textContent = `${Math.round(w)} × ${Math.round(h)} pt`;
-      info.append(name, size);
-
-      const actions = document.createElement('div');
-      actions.className = 'template-manager-actions';
-      const rename = document.createElement('button');
-      rename.type = 'button';
-      rename.textContent = 'Rename';
-      const del = document.createElement('button');
-      del.type = 'button';
-      del.textContent = 'Delete';
-      actions.append(rename, del);
-      row.append(preview, info, actions);
-      manager.append(row);
-
-      rename.addEventListener('click', async () => {
-        const nextName = await requestTemplateName(template.name);
-        if (nextName === null) return;
-        template.name = nextName;
-        template.modifiedAt = Date.now();
-        renderInsertTemplateList();
-        scheduleLibraryPersist(80);
-        renderManager();
-        setStatus(`Renamed template to ${nextName}`);
-      });
-      del.addEventListener('click', () => {
-        if (!window.confirm(`Delete template “${template.name}”?`)) return;
-        deleteTemplate(template.id);
-        renderManager();
-        setStatus('Template deleted');
-      });
-      requestAnimationFrame(() => renderCompactPagePreview(template.page, canvas));
-    }
-  };
-  renderManager();
-  if (!els.infoDialog.open) els.infoDialog.showModal();
+  if (returnToDocument) await beginFilesRoundTrip('templates');
+  else { state.filesReturnContext=null; showWorkspaceMode('export'); }
+  if (els.templatesFilesSection) els.templatesFilesSection.open=true;
+  els.templateManageModeBar?.classList.toggle('hidden',state.filesReturnContext?.owner!=='templates');
+  renderFilesTemplateManager();
+  requestAnimationFrame(()=>els.templatesFilesSection?.scrollIntoView({block:'start'}));
+}
+async function returnFromTemplateManager() {
+  els.templateManageModeBar?.classList.add('hidden');
+  await endFilesRoundTrip('templates',{forceView:true});
 }
 
 function insertionTargetPageId() {
@@ -2573,7 +6797,7 @@ function synchronizeActiveSplitDocumentForEdit() {
   return currentDocument();
 }
 
-function insertPageAfterCurrent(kind, includeAnnotations=true, template=null, targetContext=null) {
+function insertPageAfterCurrent(kind, includeAnnotations=true, template=null, targetContext=null, options={}) {
   // Capture the page/document at menu-open time when possible. Intersection
   // observers can legitimately update the live "current page" while a popover
   // is open, so recomputing the target after the user chooses a command can
@@ -2608,7 +6832,7 @@ function insertPageAfterCurrent(kind, includeAnnotations=true, template=null, ta
     inserted = clonePageInstance(template.page, true);
   } else {
     const dims = pageDisplayDimensions(current);
-    inserted = generatedPage(kind === 'graph' ? 'graph' : 'blank', dims.width, dims.height);
+    inserted = generatedPage(kind === 'graph' ? 'graph' : 'blank', dims.width, dims.height, kind === 'blank' ? options.blankBackground : 'white');
   }
 
   state.pages = [...state.pages.slice(0, index + 1), inserted, ...state.pages.slice(index + 1)];
@@ -2661,8 +6885,112 @@ function insertPageAfterCurrent(kind, includeAnnotations=true, template=null, ta
     ? `Duplicated page ${index + 1}${includeAnnotations ? '' : ' without annotations'}`
     : kind === 'template'
       ? `Inserted template ${template?.name || ''} after page ${index + 1}`.trim()
-      : `Inserted ${kind === 'graph' ? 'graph-paper' : 'blank'} page after page ${index + 1}`;
+      : `Inserted ${kind === 'graph' ? 'graph-paper' : (inserted.generatedBackground === 'black' ? 'black blank' : 'blank')} page after page ${index + 1}`;
   setStatus(label);
+}
+
+
+const END_APPEND_READY_PX = 58;
+const END_APPEND_LOCK_MS = 1100;
+
+function automaticLastPageLabel() {
+  const pref = state.newLastPageDefault || { kind:'graph', templateId:null };
+  if (pref.kind === 'blank') return 'blank page';
+  if (pref.kind === 'template') {
+    const template = state.templates.find(item => item.id === pref.templateId);
+    if (template) return template.name;
+  }
+  return 'graph paper';
+}
+
+function appendEndOfDocumentPullTarget(viewer, documentId, scrollMode) {
+  if (!viewer || scrollMode === 'single') return;
+  const doc = documentById(documentId);
+  if (!doc?.pages?.length) return;
+  const target = document.createElement('div');
+  target.className = 'end-page-pull';
+  target.dataset.documentId = documentId;
+  target.setAttribute('aria-hidden', 'true');
+  const primary = document.createElement('div');
+  primary.className = 'end-page-pull-primary';
+  primary.textContent = `Pull to add ${automaticLastPageLabel()}`;
+  const secondary = document.createElement('div');
+  secondary.className = 'end-page-pull-secondary';
+  secondary.textContent = 'Keep scrolling, then release';
+  target.append(primary, secondary);
+  viewer.append(target);
+}
+
+function endAppendProgress(viewer) {
+  const target = viewer?.querySelector('.end-page-pull');
+  if (!target) return { target:null, visible:0, ready:false };
+  const vr = viewer.getBoundingClientRect();
+  const tr = target.getBoundingClientRect();
+  const visible = Math.max(0, Math.min(vr.bottom, tr.bottom) - Math.max(vr.top, tr.top));
+  const ready = visible >= END_APPEND_READY_PX;
+  target.classList.toggle('ready', ready);
+  const primary = target.querySelector('.end-page-pull-primary');
+  const secondary = target.querySelector('.end-page-pull-secondary');
+  if (primary) primary.textContent = ready ? `Release to add ${automaticLastPageLabel()}` : `Pull to add ${automaticLastPageLabel()}`;
+  if (secondary) secondary.textContent = ready ? 'One new page will be appended' : 'Keep scrolling, then release';
+  return { target, visible, ready };
+}
+
+function appendAutomaticLastPage(documentId, paneId=null) {
+  if (state.autoAppendLock) return false;
+  const doc = documentById(documentId);
+  if (!doc?.pages?.length) return false;
+  const lastPage = doc.pages[doc.pages.length - 1];
+  if (!lastPage) return false;
+
+  if (documentId !== state.currentDocumentId) loadDocumentState(documentId, false);
+  const pref = state.newLastPageDefault || { kind:'graph', templateId:null };
+  let kind = pref.kind;
+  let template = null;
+  if (kind === 'template') {
+    template = state.templates.find(item => item.id === pref.templateId) || null;
+    if (!template) {
+      state.newLastPageDefault = { kind:'graph', templateId:null };
+      kind = 'graph';
+      scheduleLibraryPersist(80);
+    }
+  }
+  if (kind !== 'blank' && kind !== 'template') kind = 'graph';
+
+  state.autoAppendLock = true;
+  try {
+    insertPageAfterCurrent(kind, true, template, {
+      documentId,
+      pageId: lastPage.id,
+      paneId: state.splitView ? (paneId || state.activePaneId) : null,
+    });
+  } finally {
+    setTimeout(() => { state.autoAppendLock = false; }, END_APPEND_LOCK_MS);
+  }
+  return true;
+}
+
+function maybeAppendAtDocumentEnd(viewer, documentId, paneId=null, force=false) {
+  if (state.autoAppendLock) return false;
+  if (!force) {
+    const progress = endAppendProgress(viewer);
+    if (!progress.ready) return false;
+  }
+  return appendAutomaticLastPage(documentId, paneId);
+}
+
+function handleEndAppendWheel(viewer, documentId, paneId=null) {
+  if (!viewer) return;
+  clearTimeout(viewer._endAppendWheelResetTimer);
+  viewer._endAppendWheelResetTimer = setTimeout(() => {
+    viewer._endAppendWheelConsumed = false;
+    viewer._endAppendWheelResetTimer = null;
+  }, 520);
+  if (viewer._endAppendWheelConsumed) return;
+  requestAnimationFrame(() => {
+    if (viewer._endAppendWheelConsumed) return;
+    if (maybeAppendAtDocumentEnd(viewer, documentId, paneId)) viewer._endAppendWheelConsumed = true;
+  });
 }
 
 function focusPageAfterRender(documentId, pageId, paneId=null) {
@@ -2724,29 +7052,13 @@ function focusPageAfterRender(documentId, pageId, paneId=null) {
 
 function createNewGeneratedDocument(type='blank') {
   const isGraph = type === 'graph';
-  const doc = createDocument(isGraph ? 'Graph Paper.pdf' : 'Untitled.pdf');
-  state.fileSelected = new Set([doc.id]);
-  state.fileSelectionInitialized = true;
-  state.combineOrder = [doc.id];
-  const page = generatedPage(isGraph ? 'graph' : 'blank');
-  doc.pages = [page];
-  doc.activePageId = page.id;
-  doc.singleView = { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: page.id, scrollTop: null, scrollLeft: null };
-  state.pages = doc.pages;
-  state.selected = doc.selected;
-  state.selectionAnchorId = null;
-  state.activePageId = page.id;
-  state.history = doc.history;
-  state.future = doc.future;
-  state.workspaceMode = 'view';
-  if (state.splitView) {
-    const pane = splitPaneState(state.activePaneId);
-    pane.documentId = doc.id;
-    pane.views.set(doc.id, defaultPaneView(doc));
-  }
-  saveCurrentDocumentState({ readViewDom: false });
-  renderAll({ saveState: false });
-  setStatus(`Created new ${isGraph ? 'graph-paper' : 'blank'} document`);
+  const presentationSized = els.newDocumentPageSize?.value === 'presentation';
+  const dimensions = selectedNewDocumentPageDimensions();
+  const blankBackground = isGraph ? 'white' : state.newBlankBackground;
+  const page = generatedPage(isGraph ? 'graph' : 'blank', dimensions.width, dimensions.height, blankBackground);
+  const doc=createUserDocument(isGraph ? (presentationSized ? 'Presentation Graph Paper.pdf' : 'Graph Paper.pdf') : (presentationSized ? 'Presentation Blank.pdf' : 'Untitled.pdf'),[page],{workspaceMode:'view'});
+  setStatus(`Created new ${isGraph ? 'graph-paper' : (blankBackground === 'black' ? 'black-background blank' : 'blank')} document${presentationSized ? ' at the current Presentation ratio' : ''}`);
+  if (!isGraph) setNewBlankBackground('white');
   scheduleLibraryPersist(120);
 }
 
@@ -2755,28 +7067,8 @@ function createNewDocumentFromTemplate(templateId) {
   if (!template?.page) { setStatus('That template is no longer available'); return; }
   const templateBaseName = String(template.name || 'Template').trim() || 'Template';
   const templatePdfName = /\.pdf$/i.test(templateBaseName) ? templateBaseName : `${templateBaseName}.pdf`;
-  const doc = createDocument(uniqueLibraryDocumentName(templatePdfName));
-  state.fileSelected = new Set([doc.id]);
-  state.fileSelectionInitialized = true;
-  state.combineOrder = [doc.id];
   const page = clonePageInstance(template.page, true);
-  doc.pages = [page];
-  doc.activePageId = page.id;
-  doc.singleView = { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: page.id, scrollTop: null, scrollLeft: null };
-  state.pages = doc.pages;
-  state.selected = doc.selected;
-  state.selectionAnchorId = null;
-  state.activePageId = page.id;
-  state.history = doc.history;
-  state.future = doc.future;
-  state.workspaceMode = 'view';
-  if (state.splitView) {
-    const pane = splitPaneState(state.activePaneId);
-    pane.documentId = doc.id;
-    pane.views.set(doc.id, defaultPaneView(doc));
-  }
-  saveCurrentDocumentState({ readViewDom: false });
-  renderAll({ saveState: false });
+  const doc=createUserDocument(templatePdfName,[page],{workspaceMode:'view'});
   setStatus(`Created new document from template ${template.name}`);
   scheduleLibraryPersist(120);
 }
@@ -2809,56 +7101,159 @@ function showNewFromTemplateChooser() {
   if (!els.infoDialog.open) els.infoDialog.showModal();
 }
 
-function drawGraphPaperCanvas(ctx, targetW, targetH, pageWidth, pageHeight) {
+function graphPaperCssRgba(color, opacity) {
+  const c = normalizeGraphPaperColor(color, [0.46, 0.77, 0.87]);
+  const to255 = value => Math.round(value * 255);
+  return `rgba(${to255(c[0])}, ${to255(c[1])}, ${to255(c[2])}, ${finiteBetween(opacity, 1, 0, 1)})`;
+}
+
+function drawGraphPaperCanvas(ctx, targetW, targetH, pageWidth, pageHeight, settings=null) {
+  const s = normalizeGraphPaperSettings(settings);
   const sx = targetW / pageWidth;
   const sy = targetH / pageHeight;
-  const spacingX = GRAPH_GRID_SPACING_PT * sx;
-  const spacingY = GRAPH_GRID_SPACING_PT * sy;
-  const marginX = GRAPH_GRID_MARGIN_PT * sx;
-  const marginY = GRAPH_GRID_MARGIN_PT * sy;
+  const layout = graphGridLayout(pageWidth, pageHeight, s);
+  const left = layout.left * sx;
+  const right = layout.right * sx;
+  const top = layout.top * sy;
+  const bottom = layout.bottom * sy;
+  const spacingX = layout.spacing * sx;
+  const spacingY = layout.spacing * sy;
+  const scale = (sx + sy) / 2;
+
   ctx.save();
-  ctx.strokeStyle = 'rgba(92, 193, 217, 0.24)';
-  ctx.lineWidth = Math.max(0.55, Math.min(1.05, 0.6 * ((sx + sy) / 2)));
+  ctx.strokeStyle = graphPaperCssRgba(s.lineColor, s.lineOpacity);
+  ctx.lineWidth = Math.max(0.55, Math.min(1.05, s.lineWidthPt * scale * (0.6 / 0.45)));
   ctx.beginPath();
-  for (let x = marginX; x <= targetW - marginX + 0.25; x += spacingX) {
-    const px = Math.round(x) + 0.5;
-    ctx.moveTo(px, marginY);
-    ctx.lineTo(px, targetH - marginY);
+  for (let col = 1; col < layout.columns; col++) {
+    const px = Math.round(left + col * spacingX) + 0.5;
+    ctx.moveTo(px, top);
+    ctx.lineTo(px, bottom);
   }
-  for (let y = marginY; y <= targetH - marginY + 0.25; y += spacingY) {
-    const py = Math.round(y) + 0.5;
-    ctx.moveTo(marginX, py);
-    ctx.lineTo(targetW - marginX, py);
+  for (let row = 1; row < layout.rows; row++) {
+    const py = Math.round(top + row * spacingY) + 0.5;
+    ctx.moveTo(left, py);
+    ctx.lineTo(right, py);
   }
   ctx.stroke();
+
+  // A slightly stronger boundary makes the complete outer row/column obvious
+  // without turning the graph paper into a boxed worksheet.
+  ctx.strokeStyle = graphPaperCssRgba(s.edgeColor, s.edgeOpacity);
+  ctx.lineWidth = Math.max(0.8, Math.min(1.28, s.edgeWidthPt * scale * (0.76 / 0.58)));
+  const half = ctx.lineWidth / 2;
+  ctx.strokeRect(left + half, top + half, Math.max(0, right - left - ctx.lineWidth), Math.max(0, bottom - top - ctx.lineWidth));
   ctx.restore();
 }
 
-function drawGraphPaperPdf(pdfPage, width, height, rgb) {
-  const color = rgb(0.46, 0.77, 0.87);
-  const margin = Math.min(GRAPH_GRID_MARGIN_PT, width / 4, height / 4);
-  for (let x = margin; x <= width - margin + 0.01; x += GRAPH_GRID_SPACING_PT) {
-    pdfPage.drawLine({ start: { x, y: margin }, end: { x, y: height - margin }, thickness: 0.45, color, opacity: 0.24 });
+function drawGraphPaperPdf(pdfPage, width, height, rgb, settings=null) {
+  const s = normalizeGraphPaperSettings(settings);
+  const color = rgb(...s.lineColor);
+  const edgeColor = rgb(...s.edgeColor);
+  const layout = graphGridLayout(width, height, s);
+  for (let col = 1; col < layout.columns; col++) {
+    const x = layout.left + col * layout.spacing;
+    pdfPage.drawLine({ start: { x, y: layout.top }, end: { x, y: layout.bottom }, thickness: s.lineWidthPt, color, opacity: s.lineOpacity });
   }
-  for (let y = margin; y <= height - margin + 0.01; y += GRAPH_GRID_SPACING_PT) {
-    pdfPage.drawLine({ start: { x: margin, y }, end: { x: width - margin, y }, thickness: 0.45, color, opacity: 0.24 });
+  for (let row = 1; row < layout.rows; row++) {
+    const y = layout.top + row * layout.spacing;
+    pdfPage.drawLine({ start: { x: layout.left, y }, end: { x: layout.right, y }, thickness: s.lineWidthPt, color, opacity: s.lineOpacity });
   }
+  pdfPage.drawLine({ start: { x: layout.left, y: layout.top }, end: { x: layout.right, y: layout.top }, thickness: s.edgeWidthPt, color: edgeColor, opacity: s.edgeOpacity });
+  pdfPage.drawLine({ start: { x: layout.left, y: layout.bottom }, end: { x: layout.right, y: layout.bottom }, thickness: s.edgeWidthPt, color: edgeColor, opacity: s.edgeOpacity });
+  pdfPage.drawLine({ start: { x: layout.left, y: layout.top }, end: { x: layout.left, y: layout.bottom }, thickness: s.edgeWidthPt, color: edgeColor, opacity: s.edgeOpacity });
+  pdfPage.drawLine({ start: { x: layout.right, y: layout.top }, end: { x: layout.right, y: layout.bottom }, thickness: s.edgeWidthPt, color: edgeColor, opacity: s.edgeOpacity });
 }
 
-function drawGraphPaperPdfInRect(pdfPage, sourceWidth, sourceHeight, x, y, width, height, rgb) {
-  const color = rgb(0.46, 0.77, 0.87);
+function drawGraphPaperPdfInRect(pdfPage, sourceWidth, sourceHeight, x, y, width, height, rgb, settings=null) {
+  const s = normalizeGraphPaperSettings(settings);
+  const color = rgb(...s.lineColor);
+  const edgeColor = rgb(...s.edgeColor);
   const sx = width / sourceWidth;
   const sy = height / sourceHeight;
-  const marginX = Math.min(GRAPH_GRID_MARGIN_PT, sourceWidth / 4) * sx;
-  const marginY = Math.min(GRAPH_GRID_MARGIN_PT, sourceHeight / 4) * sy;
-  const spacingX = GRAPH_GRID_SPACING_PT * sx;
-  const spacingY = GRAPH_GRID_SPACING_PT * sy;
-  for (let gx = marginX; gx <= width - marginX + 0.01; gx += spacingX) {
-    pdfPage.drawLine({ start: { x: x + gx, y: y + marginY }, end: { x: x + gx, y: y + height - marginY }, thickness: 0.45 * Math.min(sx, sy), color, opacity: 0.24 });
+  const layout = graphGridLayout(sourceWidth, sourceHeight, s);
+  const left = x + layout.left * sx;
+  const right = x + layout.right * sx;
+  const bottom = y + layout.top * sy;
+  const top = y + layout.bottom * sy;
+  const spacingX = layout.spacing * sx;
+  const spacingY = layout.spacing * sy;
+  const lineScale = Math.min(sx, sy);
+  for (let col = 1; col < layout.columns; col++) {
+    const gx = left + col * spacingX;
+    pdfPage.drawLine({ start: { x: gx, y: bottom }, end: { x: gx, y: top }, thickness: s.lineWidthPt * lineScale, color, opacity: s.lineOpacity });
   }
-  for (let gy = marginY; gy <= height - marginY + 0.01; gy += spacingY) {
-    pdfPage.drawLine({ start: { x: x + marginX, y: y + gy }, end: { x: x + width - marginX, y: y + gy }, thickness: 0.45 * Math.min(sx, sy), color, opacity: 0.24 });
+  for (let row = 1; row < layout.rows; row++) {
+    const gy = bottom + row * spacingY;
+    pdfPage.drawLine({ start: { x: left, y: gy }, end: { x: right, y: gy }, thickness: s.lineWidthPt * lineScale, color, opacity: s.lineOpacity });
   }
+  const edgeThickness = s.edgeWidthPt * lineScale;
+  pdfPage.drawLine({ start: { x: left, y: bottom }, end: { x: right, y: bottom }, thickness: edgeThickness, color: edgeColor, opacity: s.edgeOpacity });
+  pdfPage.drawLine({ start: { x: left, y: top }, end: { x: right, y: top }, thickness: edgeThickness, color: edgeColor, opacity: s.edgeOpacity });
+  pdfPage.drawLine({ start: { x: left, y: bottom }, end: { x: left, y: top }, thickness: edgeThickness, color: edgeColor, opacity: s.edgeOpacity });
+  pdfPage.drawLine({ start: { x: right, y: bottom }, end: { x: right, y: top }, thickness: edgeThickness, color: edgeColor, opacity: s.edgeOpacity });
+}
+
+function graphPaperPdfToken(value) {
+  const n = Number(value) || 0;
+  return n.toFixed(4).replace(/\.?0+$/, '') || '0';
+}
+function graphPaperOpaqueBlend(color, opacity) {
+  const c = normalizeGraphPaperColor(color, [0.46, 0.77, 0.87]);
+  const a = finiteBetween(opacity, 1, 0, 1);
+  // The Workbench page beneath the grid is white. Pre-blending here lets the
+  // prepended PDF stream avoid an ExtGState resource while matching the
+  // translucent on-screen grid over white.
+  return c.map(component => 1 - a + a * component);
+}
+function graphPaperPdfBackgroundStream(box, settings=null) {
+  const s = normalizeGraphPaperSettings(settings);
+  const width = Math.max(1, Number(box?.width) || 1);
+  const height = Math.max(1, Number(box?.height) || 1);
+  const x0 = Number(box?.x) || 0;
+  const y0 = Number(box?.y) || 0;
+  const layout = graphGridLayout(width, height, s);
+  const left = x0 + layout.left;
+  const right = x0 + layout.right;
+  const bottom = y0 + layout.top;
+  const top = y0 + layout.bottom;
+  const line = graphPaperOpaqueBlend(s.lineColor, s.lineOpacity);
+  const edge = graphPaperOpaqueBlend(s.edgeColor, s.edgeOpacity);
+  const t = graphPaperPdfToken;
+  const parts = ['q', `${t(line[0])} ${t(line[1])} ${t(line[2])} RG`, `${t(s.lineWidthPt)} w`];
+  for (let col = 1; col < layout.columns; col++) {
+    const gx = left + col * layout.spacing;
+    parts.push(`${t(gx)} ${t(bottom)} m ${t(gx)} ${t(top)} l`);
+  }
+  for (let row = 1; row < layout.rows; row++) {
+    const gy = bottom + row * layout.spacing;
+    parts.push(`${t(left)} ${t(gy)} m ${t(right)} ${t(gy)} l`);
+  }
+  parts.push('S', `${t(edge[0])} ${t(edge[1])} ${t(edge[2])} RG`, `${t(s.edgeWidthPt)} w`);
+  parts.push(`${t(left)} ${t(bottom)} m ${t(right)} ${t(bottom)} l`);
+  parts.push(`${t(left)} ${t(top)} m ${t(right)} ${t(top)} l`);
+  parts.push(`${t(left)} ${t(bottom)} m ${t(left)} ${t(top)} l`);
+  parts.push(`${t(right)} ${t(bottom)} m ${t(right)} ${t(top)} l`);
+  parts.push('S', 'Q');
+  return parts.join('\n') + '\n';
+}
+function prependGraphPaperPdfBackground(pdfPage, pdfLib, settings=null) {
+  const context = pdfPage?.doc?.context;
+  const node = pdfPage?.node;
+  const PDFName = pdfLib?.PDFName;
+  if (!context || !node || !PDFName) throw new Error('PDF background stream support is unavailable.');
+  const box = pdfPage.getCropBox?.() || pdfPage.getMediaBox?.() || { x:0, y:0, width:pdfPage.getWidth(), height:pdfPage.getHeight() };
+  const bytes = new TextEncoder().encode(graphPaperPdfBackgroundStream(box, settings));
+  const stream = typeof context.flateStream === 'function' ? context.flateStream(bytes) : context.stream(bytes);
+  const ref = context.register(stream);
+
+  node.normalize?.();
+  let contents = node.normalizedEntries?.().Contents;
+  if (!contents) {
+    contents = context.obj([]);
+    node.set(PDFName.of('Contents'), contents);
+  }
+  if (typeof contents.insert !== 'function') throw new Error('Could not prepend the PDF page background.');
+  contents.insert(0, ref);
 }
 
 async function readImageDimensions(file, url) {
@@ -2880,13 +7275,19 @@ async function readImageDimensions(file, url) {
 
 async function getSourceImage(source) {
   if (source.image) return source.image;
-  source.image = await new Promise((resolve, reject) => {
+  if (source.imagePromise) return source.imagePromise;
+  source.imagePromise = new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => resolve(img);
     img.onerror = () => reject(new Error(`Could not decode ${source.name}`));
     img.src = source.url;
+  }).then(img => {
+    source.image = img;
+    return img;
+  }).finally(() => {
+    source.imagePromise = null;
   });
-  return source.image;
+  return source.imagePromise;
 }
 
 async function getPdfPage(source, pageNumber) {
@@ -2915,16 +7316,19 @@ function ensureZipFilename(name, fallback='PDF-Workbench-Export.zip') {
 }
 
 function uniqueZipPdfName(doc, used) {
-  const base = cleanFilenameBase(doc.name, 'document');
-  let candidate = `${base}-edited.pdf`;
-  let n = 2;
-  while (used.has(candidate.toLowerCase())) candidate = `${base}-edited-${n++}.pdf`;
+  const original = ensurePdfFilename(doc?.name, 'document.pdf');
+  let candidate = original;
+  if (used.has(candidate.toLowerCase())) {
+    const base = cleanFilenameBase(original, 'document');
+    let n = 2;
+    do { candidate = `${base} (${n++}).pdf`; } while (used.has(candidate.toLowerCase()));
+  }
   used.add(candidate.toLowerCase());
   return candidate;
 }
 
 function defaultExportFilename(name) {
-  return `${cleanFilenameBase(name)}-edited.pdf`;
+  return ensurePdfFilename(name, 'document.pdf');
 }
 
 function defaultExtractFilename(name) {
@@ -2971,31 +7375,70 @@ const TARGET_RASTER_PROFILES = [
   { rasterDpi: 50, rasterQuality: 0.30 },
 ];
 
+function selectableDocumentById(docId) {
+  const open = documentById(docId);
+  if (open && !open.trashedAt) return open;
+  const record = state.libraryRecords.get(docId);
+  return record && !record.trashedAt ? record : null;
+}
+function selectableDocumentIds() {
+  const ids = new Set();
+  for (const [id, record] of state.libraryRecords) if (record && !record.trashedAt) ids.add(id);
+  for (const doc of state.documents) if (doc && !doc.trashedAt) ids.add(doc.id);
+  return ids;
+}
 function reconcileFileSelection() {
-  const valid = new Set(state.documents.map(doc => doc.id));
+  const valid = selectableDocumentIds();
   state.fileSelected = new Set([...state.fileSelected].filter(id => valid.has(id)));
   if (!state.fileSelectionInitialized && state.documents.length) {
     const initial = valid.has(state.currentDocumentId) ? state.currentDocumentId : state.documents[0].id;
     state.fileSelected = new Set([initial]);
     state.fileSelectionInitialized = true;
   }
-  if (!state.documents.length) {
-    state.fileSelected.clear();
-    state.fileSelectionInitialized = false;
-  }
-}
-
-function reconcileCombineOrder() {
-  reconcileFileSelection();
-  const selectedIds = state.documents.filter(doc => state.fileSelected.has(doc.id)).map(doc => doc.id);
-  const selectedSet = new Set(selectedIds);
-  state.combineOrder = state.combineOrder.filter(id => selectedSet.has(id));
-  for (const id of selectedIds) if (!state.combineOrder.includes(id)) state.combineOrder.push(id);
 }
 
 function selectedFileDocuments() {
   reconcileFileSelection();
-  return state.documents.filter(doc => state.fileSelected.has(doc.id));
+  return [...state.fileSelected].map(selectableDocumentById).filter(Boolean);
+}
+
+function updateLibraryBulkSelectionControls() {
+  const selected = selectedFileDocuments();
+  const folderRecords = libraryDocumentsInFolder(state.libraryFolderId);
+  const selectedHere = folderRecords.reduce((count, record) => count + (state.fileSelected.has(record.id) ? 1 : 0), 0);
+  if (els.librarySelectionSummary) {
+    els.librarySelectionSummary.textContent = selected.length
+      ? `${selected.length} selected total${folderRecords.length ? ` · ${selectedHere} of ${folderRecords.length} in this folder` : ''}`
+      : 'No documents selected.';
+  }
+  if (els.librarySelectAllBtn) els.librarySelectAllBtn.disabled = !folderRecords.length || selectedHere === folderRecords.length;
+  if (els.libraryClearSelectionBtn) els.libraryClearSelectionBtn.disabled = !selected.length;
+  if (els.libraryMoveSelectedBtn) els.libraryMoveSelectedBtn.disabled = !selected.length;
+  if (els.libraryTrashSelectedBtn) els.libraryTrashSelectedBtn.disabled = !selected.length;
+}
+
+function selectAllDocumentsInCurrentLibraryFolder() {
+  const records = libraryDocumentsInFolder(state.libraryFolderId);
+  if (!records.length) return;
+  state.fileSelectionInitialized = true;
+  for (const record of records) state.fileSelected.add(record.id);
+  reconcileCombineOrder();
+  renderExportPane();
+}
+
+function clearGlobalFileSelection() {
+  if (!state.fileSelected.size) return;
+  state.fileSelectionInitialized = true;
+  state.fileSelected.clear();
+  reconcileCombineOrder();
+  renderExportPane();
+}
+
+function reconcileCombineOrder() {
+  const selectedIds = selectedFileDocuments().map(doc => doc.id);
+  const selectedSet = new Set(selectedIds);
+  state.combineOrder = state.combineOrder.filter(id => selectedSet.has(id));
+  for (const id of selectedIds) if (!state.combineOrder.includes(id)) state.combineOrder.push(id);
 }
 
 function setFileSelected(docId, selected) {
@@ -3023,38 +7466,13 @@ function activeLibraryFolders() {
 }
 
 function libraryFolderById(id) { return id ? state.libraryFolders.get(id) || null : null; }
-function libraryFolderChildren(parentId=null) {
-  return activeLibraryFolders().filter(folder => (folder.parentId || null) === (parentId || null))
-    .sort((a,b) => String(a.name).localeCompare(String(b.name), undefined, { sensitivity: 'base' }));
-}
+function libraryFolderChildren(parentId=null) { return sortedFolderChildren(activeLibraryFolders(), parentId); }
 function libraryDocumentsInFolder(folderId=null) {
   return activeLibraryRecords().filter(record => (record.folderId || null) === (folderId || null))
     .sort((a,b) => String(a.name).localeCompare(String(b.name), undefined, { sensitivity: 'base' }));
 }
-function libraryFolderPath(folderId=state.libraryFolderId) {
-  const path = [];
-  const seen = new Set();
-  let id = folderId;
-  while (id && !seen.has(id)) {
-    seen.add(id);
-    const folder = libraryFolderById(id);
-    if (!folder) break;
-    path.unshift(folder);
-    id = folder.parentId || null;
-  }
-  return path;
-}
-function libraryFolderDescendantIds(folderId) {
-  const result = new Set();
-  const visit = id => {
-    for (const child of activeLibraryFolders().filter(folder => (folder.parentId || null) === id)) {
-      if (result.has(child.id)) continue;
-      result.add(child.id); visit(child.id);
-    }
-  };
-  visit(folderId);
-  return result;
-}
+function libraryFolderPath(folderId=state.libraryFolderId) { return folderPathFrom(libraryFolderById, folderId); }
+function libraryFolderDescendantIds(folderId) { return folderDescendantIdsFrom(libraryFolderChildren, folderId); }
 function libraryFolderSubtreeIds(folderId) {
   const ids = libraryFolderDescendantIds(folderId);
   ids.add(folderId);
@@ -3068,10 +7486,7 @@ function trashedFolderRoots() {
   return [...state.libraryFolders.values()].filter(folder => folder.trashedAt && folder.trashBatchId === folder.id)
     .sort((a,b) => (b.trashedAt || 0) - (a.trashedAt || 0) || String(a.name).localeCompare(String(b.name)));
 }
-function librarySiblingNameExists(name, parentId, excludingId=null) {
-  const target = String(name || '').trim().toLocaleLowerCase();
-  return activeLibraryFolders().some(folder => folder.id !== excludingId && (folder.parentId || null) === (parentId || null) && String(folder.name || '').trim().toLocaleLowerCase() === target);
-}
+function librarySiblingNameExists(name,parentId,excludingId=null) { return siblingFolderNameExists(activeLibraryFolders(),name,parentId,excludingId); }
 function uniqueLibraryDocumentName(baseName, folderId=null, excludingId=null) {
   const records = activeLibraryRecords().filter(record => record.id !== excludingId && (record.folderId || null) === (folderId || null));
   const names = new Set(records.map(record => String(record.name || '').toLocaleLowerCase()));
@@ -3110,21 +7525,7 @@ function setLibraryViewMode(mode) {
 }
 
 function renderLibraryBreadcrumb() {
-  if (!els.libraryBreadcrumb) return;
-  els.libraryBreadcrumb.replaceChildren();
-  const root = document.createElement('button');
-  root.type = 'button'; root.textContent = 'Library'; root.className = 'library-breadcrumb-button';
-  root.disabled = !state.libraryFolderId;
-  root.addEventListener('click', () => setLibraryFolder(null));
-  els.libraryBreadcrumb.append(root);
-  for (const folder of libraryFolderPath()) {
-    const sep = document.createElement('span'); sep.className = 'library-breadcrumb-separator'; sep.textContent = '›';
-    const button = document.createElement('button');
-    button.type = 'button'; button.textContent = folder.name; button.className = 'library-breadcrumb-button';
-    button.disabled = folder.id === state.libraryFolderId;
-    button.addEventListener('click', () => setLibraryFolder(folder.id));
-    els.libraryBreadcrumb.append(sep, button);
-  }
+  renderFolderBreadcrumb(els.libraryBreadcrumb,{rootLabel:'Library',currentFolderId:state.libraryFolderId,path:libraryFolderPath(),setFolder:setLibraryFolder});
 }
 
 function ensureLibraryPreviewObserver() {
@@ -3144,7 +7545,10 @@ async function renderLibraryFirstPagePreview(record, canvas) {
   const page = record?.pages?.[0];
   if (!page || !canvas?.isConnected) return;
   try {
-    if (page.sourceId && !state.sources.has(page.sourceId)) await ensureLibrarySourceLoaded(page.sourceId);
+    for (const sourceId of pageReferencedSourceIds(page)) {
+      const source=state.sources.get(sourceId) || await ensureLibrarySourceLoaded(sourceId);
+      if (source?.type==='image') await getSourceImage(source);
+    }
     if (!canvas.isConnected) return;
     await renderCompactPagePreview(page, canvas);
   } catch (err) {
@@ -3185,6 +7589,10 @@ function requestLibraryName({ title='Name', help='', suggested='', saveLabel='Sa
     els.libraryNameDialog.showModal();
     requestAnimationFrame(() => { els.libraryNameInput.focus({ preventScroll: true }); els.libraryNameInput.select(); });
   });
+}
+
+function requestAssetName({ title='Name', help='', suggested='', saveLabel='Save' }={}) {
+  return requestLibraryName({ title, help, suggested, saveLabel });
 }
 
 async function createLibraryFolder() {
@@ -3233,72 +7641,117 @@ async function duplicateLibraryDocument(docId) {
     if (!record) throw new Error('Document is no longer available.');
     const { pages, remap } = cloneDocumentPagesForDuplicate(record);
     const now = Date.now();
+    const cleanRecord = stripPersistentHistory(record);
     const copy = {
-      ...clonePlain(record), id: uid('doc'), schemaVersion: LIBRARY_SCHEMA_VERSION,
-      name: defaultDuplicateDocumentName(record.name, record.folderId), pages,
-      selected: [], selectionAnchorId: null, activePageId: remap(record.activePageId), history: [], future: [],
-      singleView: { ...copyView(record.singleView), activePageId: remap(record.singleView?.activePageId), scrollTop: null, scrollLeft: null },
+      ...clonePlain(cleanRecord), id: uid('doc'), schemaVersion: LIBRARY_SCHEMA_VERSION,
+      name: defaultDuplicateDocumentName(cleanRecord.name, cleanRecord.folderId), pages,
+      selected: [], selectionAnchorId: null, activePageId: remap(cleanRecord.activePageId),
+      singleView: { ...copyView(cleanRecord.singleView), activePageId: remap(cleanRecord.singleView?.activePageId), scrollTop: null, scrollLeft: null },
       createdAt: now, modifiedAt: now, needsExport: true, lastExportedAt: null, trashedAt: null,
     };
     await libraryPut('documents', copy); state.libraryRecords.set(copy.id, copy); renderLibraryDocumentList(); updateLibraryStorageSummary(); setStatus(`Duplicated ${record.name} as ${copy.name}`);
   } catch (err) { console.error(err); setStatus(`Could not duplicate document: ${err?.message || err}`); }
 }
 
-function libraryFolderOptions(excludeFolderId=null) {
-  const excluded = excludeFolderId ? libraryFolderDescendantIds(excludeFolderId) : new Set();
-  if (excludeFolderId) excluded.add(excludeFolderId);
-  const options = [{ id: '', label: 'Library (root)' }];
-  const walk = (parentId, depth) => {
-    for (const folder of libraryFolderChildren(parentId)) {
-      if (excluded.has(folder.id)) continue;
-      options.push({ id: folder.id, label: `${'— '.repeat(depth)}${folder.name}` });
-      walk(folder.id, depth + 1);
-    }
-  };
-  walk(null, 0);
-  return options;
+function moveOptionsForDomain(domain,excludeFolderId=null) {
+  return domain==='asset'
+    ? buildFolderMoveOptions({rootLabel:'Assets (top level)',childFolders:assetFolderChildren,excludeFolderId})
+    : buildFolderMoveOptions({rootLabel:'Library (root)',childFolders:libraryFolderChildren,excludeFolderId});
 }
-function openLibraryMoveDialog(kind, id) {
-  if (!els.libraryMoveDialog) return;
-  const isFolder = kind === 'folder';
-  const item = isFolder ? libraryFolderById(id) : (documentById(id) || state.libraryRecords.get(id));
-  if (!item) return;
-  state.pendingLibraryMove = { kind, id };
-  els.libraryMoveTitle.textContent = `Move ${isFolder ? 'folder' : 'document'}`;
-  els.libraryMoveHelp.textContent = `Choose a destination for “${item.name}”.`;
-  els.libraryMoveDestination.replaceChildren();
-  for (const optionData of libraryFolderOptions(isFolder ? id : null)) {
-    const option = document.createElement('option'); option.value = optionData.id; option.textContent = optionData.label;
-    els.libraryMoveDestination.append(option);
-  }
-  const currentParent = isFolder ? (item.parentId || '') : (item.folderId || '');
-  if ([...els.libraryMoveDestination.options].some(option => option.value === currentParent)) els.libraryMoveDestination.value = currentParent;
-  els.libraryMoveDialog.showModal();
+function openFolderMoveDialog(domain,kind,id) {
+  const isAsset=domain==='asset'; const isFolder=kind==='folder';
+  const item=isAsset
+    ? (isFolder ? assetFolderById(id) : state.assetRecords.get(id))
+    : (isFolder ? libraryFolderById(id) : (documentById(id) || state.libraryRecords.get(id)));
+  if (!item || !els.folderMoveDialog) return;
+  state.pendingFolderMove={domain,kind,id};
+  const options=moveOptionsForDomain(domain,isFolder?id:null);
+  els.folderMoveDestination.replaceChildren(...options.map(entry=>{const option=document.createElement('option');option.value=entry.id;option.textContent=entry.label;return option;}));
+  const currentParent=isFolder ? (item.parentId||'') : (item.folderId||'');
+  if (options.some(entry=>entry.id===currentParent)) els.folderMoveDestination.value=currentParent;
+  els.folderMoveTitle.textContent=`Move ${isFolder ? (isAsset?'asset folder':'folder') : (isAsset?'asset':'document')}`;
+  els.folderMoveHelp.textContent=isAsset
+    ? `Choose a destination inside the Asset Library for “${item.name||'this item'}”.`
+    : `Choose a destination for “${item.name||'this item'}”.`;
+  els.folderMoveDialog.showModal();
 }
-async function applyPendingLibraryMove() {
-  const pending = state.pendingLibraryMove; if (!pending) return;
-  const destination = els.libraryMoveDestination.value || null;
-  try {
-    if (pending.kind === 'folder') {
-      const folder = libraryFolderById(pending.id); if (!folder) throw new Error('Folder is no longer available.');
-      if ((folder.parentId || null) === destination) return;
-      if (librarySiblingNameExists(folder.name, destination, folder.id)) throw new Error('A folder with that name already exists in the destination.');
-      const updated = { ...folder, parentId: destination, modifiedAt: Date.now(), schemaVersion: LIBRARY_SCHEMA_VERSION };
-      await libraryPut('folders', updated); state.libraryFolders.set(folder.id, updated);
-      setStatus(`Moved folder ${folder.name}`);
-    } else {
-      const openDoc = documentById(pending.id);
-      const record = openDoc ? serializeDocumentForLibrary(openDoc) : state.libraryRecords.get(pending.id);
-      if (!record) throw new Error('Document is no longer available.');
-      if ((record.folderId || null) === destination) return;
-      if (openDoc) { openDoc.folderId = destination; openDoc.modifiedAt = Date.now(); }
-      const updated = { ...record, folderId: destination, modifiedAt: Date.now(), schemaVersion: LIBRARY_SCHEMA_VERSION };
-      await libraryPut('documents', updated); state.libraryRecords.set(record.id, updated); scheduleLibraryPersist(80);
-      setStatus(`Moved ${record.name}`);
+function openLibraryMoveDialog(kind,id) { openFolderMoveDialog('library',kind,id); }
+function openLibrarySelectedMoveDialog() {
+  const documents = selectedFileDocuments();
+  if (!documents.length || !els.folderMoveDialog) return;
+  state.pendingFolderMove = { domain:'library', kind:'documents', ids:documents.map(doc => doc.id) };
+  const options = moveOptionsForDomain('library');
+  els.folderMoveDestination.replaceChildren(...options.map(entry => { const option=document.createElement('option'); option.value=entry.id; option.textContent=entry.label; return option; }));
+  const parents = new Set(documents.map(doc => doc.folderId || ''));
+  const preferred = parents.size === 1 ? [...parents][0] : (state.libraryFolderId || '');
+  if (options.some(entry => entry.id === preferred)) els.folderMoveDestination.value = preferred;
+  els.folderMoveTitle.textContent = `Move ${documents.length} selected document${documents.length === 1 ? '' : 's'}`;
+  els.folderMoveHelp.textContent = `Choose one destination for the ${documents.length} selected document${documents.length === 1 ? '' : 's'}.`;
+  els.folderMoveDialog.showModal();
+}
+async function applyLibraryMove(pending,destination) {
+  if (pending.kind === 'documents') {
+    const ids = [...new Set(pending.ids || [])].filter(id => selectableDocumentById(id));
+    if (!ids.length) throw new Error('The selected documents are no longer available.');
+    saveCurrentDocumentState();
+    await persistLibraryNow();
+    const now = Date.now();
+    const tx = state.libraryDb.transaction(['documents'], 'readwrite');
+    const done = idbTransactionDone(tx);
+    const store = tx.objectStore('documents');
+    let moved = 0;
+    for (const id of ids) {
+      const openDoc = documentById(id);
+      const record = openDoc ? serializeDocumentForLibrary(openDoc) : state.libraryRecords.get(id);
+      if (!record || record.trashedAt || (record.folderId || null) === destination) continue;
+      if (openDoc) { openDoc.folderId = destination; openDoc.modifiedAt = now; }
+      const updated = { ...record, folderId:destination, modifiedAt:now, schemaVersion:LIBRARY_SCHEMA_VERSION };
+      store.put(updated); state.libraryRecords.set(id, updated); moved++;
     }
+    await done;
+    scheduleLibraryPersist(80);
     renderLibraryDocumentList();
-  } catch (err) { console.error(err); setStatus(`Could not move item: ${err?.message || err}`); }
-  finally { state.pendingLibraryMove = null; }
+    setStatus(moved ? `Moved ${moved} selected document${moved === 1 ? '' : 's'}` : 'Selected documents are already in that folder');
+    return;
+  }
+  if (pending.kind==='folder') {
+    const folder=libraryFolderById(pending.id); if (!folder) throw new Error('Folder is no longer available.');
+    if ((folder.parentId||null)===destination) return;
+    if (librarySiblingNameExists(folder.name,destination,folder.id)) throw new Error('A folder with that name already exists in the destination.');
+    const updated={...folder,parentId:destination,modifiedAt:Date.now(),schemaVersion:LIBRARY_SCHEMA_VERSION};
+    await libraryPut('folders',updated); state.libraryFolders.set(folder.id,updated); setStatus(`Moved folder ${folder.name}`);
+  } else {
+    const openDoc=documentById(pending.id);
+    const record=openDoc ? serializeDocumentForLibrary(openDoc) : state.libraryRecords.get(pending.id);
+    if (!record) throw new Error('Document is no longer available.');
+    if ((record.folderId||null)===destination) return;
+    if (openDoc) { openDoc.folderId=destination; openDoc.modifiedAt=Date.now(); }
+    const updated={...record,folderId:destination,modifiedAt:Date.now(),schemaVersion:LIBRARY_SCHEMA_VERSION};
+    await libraryPut('documents',updated); state.libraryRecords.set(record.id,updated); scheduleLibraryPersist(80); setStatus(`Moved ${record.name}`);
+  }
+  renderLibraryDocumentList();
+}
+async function applyAssetMove(pending,destination) {
+  if (pending.kind==='folder') {
+    const folder=assetFolderById(pending.id); if (!folder) throw new Error('Asset folder is no longer available.');
+    if ((folder.parentId||null)===destination) return;
+    if (assetFolderSiblingNameExists(folder.name,destination,folder.id)) throw new Error('An Asset folder with that name already exists in the destination.');
+    await persistAssetFolderRecord({...folder,parentId:destination,modifiedAt:Date.now(),schemaVersion:LIBRARY_SCHEMA_VERSION});
+    setStatus(`Moved Asset folder ${folder.name}`);
+  } else {
+    const asset=state.assetRecords.get(pending.id); if (!asset) throw new Error('Asset is no longer available.');
+    if ((asset.folderId||null)===destination) return;
+    const name=uniqueAssetName(asset.name||defaultAssetName(asset.type,destination),destination,asset.id);
+    await persistAssetRecord({...asset,name,folderId:destination,modifiedAt:Date.now(),schemaVersion:LIBRARY_SCHEMA_VERSION});
+    setStatus(`Moved ${name}`);
+  }
+  renderAssetBrowser();
+}
+async function applyPendingFolderMove() {
+  const pending=state.pendingFolderMove; if (!pending) return;
+  const destination=els.folderMoveDestination?.value || null;
+  if (pending.domain==='asset') await applyAssetMove(pending,destination);
+  else await applyLibraryMove(pending,destination);
 }
 
 async function openLibraryRecordInView(record) {
@@ -3318,7 +7771,7 @@ async function openLibraryRecordInView(record) {
   }
 }
 
-async function exportPdfRecordsToZip(records, folders, filename, rootFolderId=null) {
+async function exportPdfRecordsToZip(records, folders, filename, rootFolderId=null, { createFolderEntries=true }={}) {
   const JSZip = await loadZipEngine();
   const zip = new JSZip();
   const relevantFolders = folders.filter(folder => folder && !folder.trashedAt);
@@ -3342,7 +7795,7 @@ async function exportPdfRecordsToZip(records, folders, filename, rootFolderId=nu
       const path = parentPath ? `${parentPath}/${own}` : own;
       folderPaths.set(id, path); return path;
     };
-    for (const folder of subset) { const path = build(folder.id); if (path) zip.folder(path); }
+    for (const folder of subset) { const path = build(folder.id); if (path && createFolderEntries) zip.folder(path); }
   } else {
     folderPaths = buildPortableFolderPaths(relevantFolders);
     for (const path of folderPaths.values()) zip.folder(path);
@@ -3392,7 +7845,7 @@ async function moveLibraryFolderToTrash(folderId) {
       const updated={...record,schemaVersion:LIBRARY_SCHEMA_VERSION,trashedAt:stamp,trashBatchId:folderId}; ds.put(updated); state.libraryRecords.set(record.id,updated);
     }
     await done;
-    for (const record of records) if (isDocumentOpen(record.id)) { removeDocument(record.id); state.fileSelected.delete(record.id); }
+    for (const record of records) { if (isDocumentOpen(record.id)) removeDocument(record.id); state.fileSelected.delete(record.id); }
     reconcileCombineOrder();
     if (ids.has(state.libraryFolderId)) state.libraryFolderId = root.parentId && state.libraryFolders.get(root.parentId)?.trashedAt == null ? root.parentId : null;
     renderAll({saveState:false}); renderLibraryDocumentList(); await persistLibraryNow();
@@ -3428,7 +7881,7 @@ async function permanentlyDeleteLibraryFolderTree(folderId) {
       const cleanRecords=records.map(record=>({...record,trashedAt:null}));
       await exportPdfRecordsToZip(cleanRecords,cleanFolders,`${zipSafeSegment(root.name,'Folder')}-before-delete.zip`,folderId);
     }
-    const sourceIds=new Set(records.flatMap(record=>(record.pages||[]).map(page=>page.sourceId).filter(Boolean)));
+    const sourceIds=pagesReferencedSourceIds(records.flatMap(record=>record.pages||[]));
     const tx=state.libraryDb.transaction(['documents','folders'],'readwrite'); const done=idbTransactionDone(tx); const ds=tx.objectStore('documents'),fs=tx.objectStore('folders');
     for(const record of records){ds.delete(record.id);state.libraryRecords.delete(record.id);}
     for(const folder of folders){fs.delete(folder.id);state.libraryFolders.delete(folder.id);}
@@ -3462,6 +7915,12 @@ function createLibraryDocumentRow(record) {
   const row = document.createElement('div'); row.className = `library-document-row library-file-row${open ? ' open' : ''}`; row.dataset.documentId = record.id;
   const preview = document.createElement('div'); preview.className = 'library-document-preview library-open-target'; preview.tabIndex=0; preview.setAttribute('role','button'); preview.setAttribute('aria-label',`Open ${record.name}`);
   const canvas = document.createElement('canvas'); canvas.setAttribute('aria-label', `First page preview of ${record.name}`); preview.append(canvas);
+  const selectCheck = document.createElement('input'); selectCheck.type='checkbox'; selectCheck.className='library-export-check'; selectCheck.checked=state.fileSelected.has(record.id); selectCheck.setAttribute('aria-label',`Select ${record.name} for PDF Tools`); selectCheck.title='Select for PDF Tools';
+  selectCheck.addEventListener('pointerdown', e => e.stopPropagation());
+  selectCheck.addEventListener('click', e => e.stopPropagation());
+  selectCheck.addEventListener('keydown', e => e.stopPropagation());
+  selectCheck.addEventListener('change', e => { e.stopPropagation(); setFileSelected(record.id, selectCheck.checked); });
+  preview.append(selectCheck);
   const label = document.createElement('div'); label.className = 'library-document-label library-open-target'; label.tabIndex=0; label.setAttribute('role','button'); label.setAttribute('aria-label',`Open ${record.name}`);
   const name = document.createElement('span'); name.className = 'library-document-name'; name.textContent = record.name; name.title = record.name;
   const meta = document.createElement('span'); meta.className = 'library-document-meta';
@@ -3508,6 +7967,7 @@ function renderLibraryDocumentList() {
     empty.textContent = state.libraryFolderId ? 'This folder is empty.' : 'The Library is empty. Open or create a document, or create a folder.';
     els.libraryDocumentList.append(empty);
   }
+  updateLibraryBulkSelectionControls();
   renderTrashDocumentList();
 }
 
@@ -3517,6 +7977,7 @@ function renderTrashDocumentList() {
   const records = trashedLibraryRecords().filter(record => !record.trashBatchId);
   els.trashDocumentList.replaceChildren();
   const total = folderRoots.length + records.length;
+  if (els.emptyTrashBtn) els.emptyTrashBtn.disabled = !total;
   if (els.trashSummary) els.trashSummary.textContent = total
     ? `${folderRoots.length ? `${folderRoots.length} folder${folderRoots.length===1?'':'s'}` : ''}${folderRoots.length && records.length ? ' · ' : ''}${records.length ? `${records.length} document${records.length===1?'':'s'}` : ''}`
     : 'Trash is empty';
@@ -3555,8 +8016,9 @@ async function closeOneOpenDocument(docId) {
   saveCurrentDocumentState();
   await persistLibraryNow();
   removeDocument(docId);
-  state.fileSelected.delete(docId);
   reconcileCombineOrder();
+  state.sessionExplicitEmpty = state.documents.length === 0;
+  checkpointWorkspaceNow({ explicitEmpty: state.sessionExplicitEmpty });
   renderAll({ saveState: false });
   await persistLibraryNow();
   await refreshLibraryRecords();
@@ -3567,7 +8029,15 @@ async function closeAllOpenDocuments() {
   if (!state.documents.length) return;
   saveCurrentDocumentState();
   await persistLibraryNow();
+  const selectedBeforeClose = new Set(state.fileSelected);
+  const selectionWasInitialized = state.fileSelectionInitialized;
   clearAll();
+  state.fileSelected = selectedBeforeClose;
+  state.fileSelectionInitialized = selectionWasInitialized;
+  reconcileFileSelection();
+  reconcileCombineOrder();
+  state.sessionExplicitEmpty = true;
+  checkpointWorkspaceNow({ explicitEmpty: true });
   await persistLibraryNow();
   await refreshLibraryRecords();
 }
@@ -3586,16 +8056,54 @@ async function moveLibraryDocumentToTrash(docId) {
     state.libraryRecords.set(docId, record);
     if (openDoc) {
       removeDocument(docId);
-      state.fileSelected.delete(docId);
-      reconcileCombineOrder();
       renderAll({ saveState: false });
       await persistLibraryNow();
     }
-    renderLibraryDocumentList();
+    state.fileSelected.delete(docId);
+    reconcileCombineOrder();
+    if (state.workspaceMode === 'export') renderExportPane(); else renderLibraryDocumentList();
     setStatus(`Moved ${record.name} to Trash`);
   } catch (err) {
     console.error(err);
     setStatus(`Could not move document to Trash: ${err?.message || err}`);
+  }
+}
+
+async function moveSelectedLibraryDocumentsToTrash() {
+  const selectedDocs = selectedFileDocuments();
+  const ids = selectedDocs.map(doc => doc.id);
+  if (!ids.length) return;
+  const folderIds = new Set(selectedDocs.map(doc => doc.folderId || ''));
+  const spansFolders = folderIds.size > 1;
+  const prompt = spansFolders
+    ? `Move ${ids.length} selected documents from multiple folders to Trash? You can restore them from Trash.`
+    : `Move ${ids.length} selected document${ids.length === 1 ? '' : 's'} to Trash? You can restore ${ids.length === 1 ? 'it' : 'them'} from Trash.`;
+  if (!window.confirm(prompt)) return;
+  try {
+    saveCurrentDocumentState();
+    await persistLibraryNow();
+    const records = ids.map(id => state.libraryRecords.get(id) || (documentById(id) ? serializeDocumentForLibrary(documentById(id)) : null)).filter(record => record && !record.trashedAt);
+    if (!records.length) throw new Error('The selected documents are no longer available.');
+    const stamp = Date.now();
+    const tx = state.libraryDb.transaction(['documents'], 'readwrite');
+    const done = idbTransactionDone(tx); const store = tx.objectStore('documents');
+    for (const record of records) {
+      const updated = { ...record, schemaVersion:LIBRARY_SCHEMA_VERSION, trashedAt:stamp, trashBatchId:null };
+      store.put(updated); state.libraryRecords.set(record.id, updated);
+    }
+    await done;
+    for (const record of records) {
+      if (isDocumentOpen(record.id)) removeDocument(record.id);
+      state.fileSelected.delete(record.id);
+    }
+    reconcileCombineOrder();
+    renderAll({ saveState:false });
+    await persistLibraryNow();
+    renderLibraryDocumentList();
+    setStatus(`Moved ${records.length} selected document${records.length === 1 ? '' : 's'} to Trash`);
+  } catch (err) {
+    console.error(err);
+    setStatus(`Could not move selected documents to Trash: ${err?.message || err}`);
   }
 }
 
@@ -3638,7 +8146,7 @@ function askPermanentDeleteAction(record, exportLabel='Export PDF & delete') {
 
 async function exportLibraryRecordBeforeDelete(record) {
   try {
-    const sourceIds = new Set((record.pages || []).map(page => page.sourceId).filter(Boolean));
+    const sourceIds = pagesReferencedSourceIds(record.pages || []);
     for (const sourceId of sourceIds) await ensureLibrarySourceLoaded(sourceId);
     setStatus(`Exporting ${record.name} before permanent deletion…`, true);
     const bytes = await buildPdfBytes(record.pages || [], { sourcePdfCache: new Map() });
@@ -3653,10 +8161,12 @@ async function exportLibraryRecordBeforeDelete(record) {
 
 function librarySourceStillReferenced(sourceId) {
   if (!sourceId) return false;
+  if (sourceUsedByDocuments(sourceId)) return true;
   for (const record of state.libraryRecords.values()) {
-    if ((record.pages || []).some(page => page.sourceId === sourceId)) return true;
+    if ((record.pages || []).some(page => pageReferencedSourceIds(page).has(sourceId))) return true;
   }
-  if (state.templates.some(template => template.page?.sourceId === sourceId)) return true;
+  if (state.templates.some(template => pageReferencedSourceIds(template.page).has(sourceId))) return true;
+  if (sourceUsedByAssets(sourceId)) return true;
   return false;
 }
 
@@ -3679,7 +8189,7 @@ async function permanentlyDeleteLibraryDocument(docId) {
     const action = await askPermanentDeleteAction(record);
     if (action === 'cancel') return;
     if (action === 'export' && !(await exportLibraryRecordBeforeDelete(record))) return;
-    const sourceIds = new Set((record.pages || []).map(page => page.sourceId).filter(Boolean));
+    const sourceIds = pagesReferencedSourceIds(record.pages || []);
     await libraryDelete('documents', docId);
     state.libraryRecords.delete(docId);
     await removeUnusedPersistentSources(sourceIds);
@@ -3692,6 +8202,55 @@ async function permanentlyDeleteLibraryDocument(docId) {
   }
 }
 
+function askEmptyTrashAction(changedCount) {
+  if (!changedCount) {
+    return Promise.resolve(window.confirm('Permanently delete everything currently in Trash? This cannot be undone.') ? 'delete' : 'cancel');
+  }
+  return new Promise(resolve => {
+    els.closeDocumentTitle.textContent = 'Empty Trash permanently?';
+    els.closeDocumentMessage.textContent = `${changedCount} document${changedCount === 1 ? '' : 's'} in Trash ${changedCount === 1 ? 'has' : 'have'} changes that have not been exported to PDF.`;
+    els.closeDocumentExportBtn.textContent = 'Export PDFs ZIP & empty Trash';
+    els.closeDocumentWithoutExportBtn.textContent = 'Empty Trash permanently';
+    const finish = action => { try { els.closeDocumentDialog.close(); } catch {} resolve(action); };
+    els.closeDocumentExportBtn.onclick = () => finish('export');
+    els.closeDocumentWithoutExportBtn.onclick = () => finish('delete');
+    els.closeDocumentCancelBtn.onclick = () => finish('cancel');
+    els.closeDocumentXBtn.onclick = () => finish('cancel');
+    els.closeDocumentDialog.oncancel = e => { e.preventDefault(); finish('cancel'); };
+    els.closeDocumentDialog.showModal();
+  });
+}
+
+async function emptyLibraryTrash() {
+  const records = [...state.libraryRecords.values()].filter(record => record?.trashedAt);
+  const folders = [...state.libraryFolders.values()].filter(folder => folder?.trashedAt);
+  if (!records.length && !folders.length) return;
+  const changedCount = records.filter(record => record.needsExport).length;
+  const action = await askEmptyTrashAction(changedCount);
+  if (action === 'cancel') return;
+  try {
+    if (action === 'export' && records.length) {
+      const cleanRecords = records.map(record => ({ ...record, trashedAt:null }));
+      const pathFolders = [...state.libraryFolders.values()].map(folder => ({ ...folder, trashedAt:null }));
+      await exportPdfRecordsToZip(cleanRecords, pathFolders, 'PDF-Workbench-Trash-before-delete.zip', null, { createFolderEntries:false });
+    }
+    const sourceIds = pagesReferencedSourceIds(records.flatMap(record => record.pages || []));
+    const tx = state.libraryDb.transaction(['documents','folders'], 'readwrite');
+    const done = idbTransactionDone(tx); const ds = tx.objectStore('documents'), fs = tx.objectStore('folders');
+    for (const record of records) { ds.delete(record.id); state.libraryRecords.delete(record.id); state.fileSelected.delete(record.id); }
+    for (const folder of folders) { fs.delete(folder.id); state.libraryFolders.delete(folder.id); }
+    await done;
+    reconcileCombineOrder();
+    await removeUnusedPersistentSources(sourceIds);
+    renderLibraryDocumentList();
+    updateLibraryStorageSummary();
+    setStatus(`Emptied Trash · permanently deleted ${records.length} document${records.length === 1 ? '' : 's'}${folders.length ? ` and ${folders.length} folder${folders.length === 1 ? '' : 's'}` : ''}`);
+  } catch (err) {
+    console.error(err);
+    setStatus(`Could not empty Trash: ${err?.message || err}`);
+  }
+}
+
 async function purgeLocalLibrary() {
   const ok = confirm('Delete the entire local PDF Workbench Library on this device? This removes stored documents and cannot be undone. Export anything you need first.');
   if (!ok) return;
@@ -3699,6 +8258,9 @@ async function purgeLocalLibrary() {
     state.librarySuppressPersist = true;
     clearAll();
     state.templates = [];
+    state.assetRecords.clear();
+    state.annotationClipboard = null;
+    state.annotationClipboardAssetId = null;
     for (const [sourceId, source] of state.sources) {
       if (source.url) URL.revokeObjectURL(source.url);
       try { source.pdf?.destroy?.(); } catch {}
@@ -3708,14 +8270,21 @@ async function purgeLocalLibrary() {
     await libraryClearStore('sources');
     await libraryClearStore('meta');
     if (state.libraryDb?.objectStoreNames.contains('folders')) await libraryClearStore('folders');
+    if (state.libraryDb?.objectStoreNames.contains('assets')) await libraryClearStore('assets');
+    if (state.libraryDb?.objectStoreNames.contains('assetFolders')) await libraryClearStore('assetFolders');
+    state.assetRecords.clear(); state.assetFolders.clear(); state.assetFolderId=null;
     state.libraryRecords.clear();
     state.libraryFolders.clear();
     state.libraryFolderId = null;
     state.librarySuppressPersist = false;
+    state.sessionRestoreHydrated = true;
+    state.sessionExplicitEmpty = true;
+    writeSessionCheckpoint();
     await libraryPut('meta', serializeTemplatesForLibrary());
     await libraryPut('meta', serializeLibrarySession());
     renderInsertTemplateList();
     renderLibraryDocumentList();
+    updateAssetsSummary();
     updateLibraryStorageSummary();
     els.storageActionStatus.textContent = 'Local Library deleted. Application code/cache and preferences were left intact.';
     setStatus('Local Library deleted');
@@ -3761,14 +8330,16 @@ async function factoryResetAllLocalData() {
 
 function renderOpenDocumentList() {
   if (!els.openDocumentList) return;
+  deduplicateOpenDocuments();
   reconcileFileSelection();
   els.openDocumentList.replaceChildren();
-  const chosen = selectedFileDocuments();
+  const openSelected = state.documents.filter(doc => state.fileSelected.has(doc.id));
+  const totalSelected = selectedFileDocuments().length;
   els.fileSelectionSummary.textContent = state.documents.length
-    ? `${chosen.length} of ${state.documents.length} document${state.documents.length === 1 ? '' : 's'} checked for multi-document operations.`
-    : 'No documents are open.';
-  els.selectAllFilesBtn.disabled = !state.documents.length || chosen.length === state.documents.length;
-  els.clearFileSelectionBtn.disabled = !chosen.length;
+    ? `${openSelected.length} of ${state.documents.length} open selected${totalSelected !== openSelected.length ? ` · ${totalSelected} selected total` : ''}.`
+    : (totalSelected ? `No documents are open · ${totalSelected} selected total.` : 'No documents are open.');
+  els.selectAllFilesBtn.disabled = !state.documents.length || openSelected.length === state.documents.length;
+  els.clearFileSelectionBtn.disabled = !openSelected.length;
 
   for (const doc of state.documents) {
     const row = document.createElement('div');
@@ -3777,7 +8348,7 @@ function renderOpenDocumentList() {
     const check = document.createElement('input');
     check.type = 'checkbox';
     check.checked = state.fileSelected.has(doc.id);
-    check.setAttribute('aria-label', `Select ${doc.name} for file operations`);
+    check.setAttribute('aria-label', `Select ${doc.name} for PDF Tools`);
     check.addEventListener('change', () => setFileSelected(doc.id, check.checked));
 
     const label = document.createElement('div');
@@ -3817,6 +8388,44 @@ function renderOpenDocumentList() {
   }
 }
 
+function renderSelectedDocumentList() {
+  if (!els.selectedDocumentList) return;
+  reconcileFileSelection();
+  const docs = selectedFileDocuments();
+  els.selectedDocumentList.replaceChildren();
+  if (els.selectedDocumentsSummary) els.selectedDocumentsSummary.textContent = docs.length
+    ? `${docs.length} document${docs.length === 1 ? '' : 's'} selected.`
+    : 'No documents selected.';
+  for (const doc of docs) {
+    const row=document.createElement('div');
+    row.className='open-document-row selected-document-row';
+    const check=document.createElement('input');
+    check.type='checkbox';
+    check.checked=true;
+    check.setAttribute('aria-label',`Remove ${doc.name} from Selected Documents`);
+    check.addEventListener('change',()=>{ if (!check.checked) setFileSelected(doc.id,false); });
+    const label=document.createElement('div');
+    label.className='open-document-label';
+    const name=document.createElement('span');
+    name.className='open-document-name';
+    name.textContent=doc.name;
+    name.title=doc.name;
+    const meta=document.createElement('span');
+    meta.className='open-document-meta';
+    const open=isDocumentOpen(doc.id);
+    meta.textContent=`${doc.pages?.length || 0} page${(doc.pages?.length || 0) === 1 ? '' : 's'} · ${open ? 'open' : 'closed'}${doc.id===state.currentDocumentId ? ' · active' : ''}${doc.needsExport ? ' · changes not exported' : ''}`;
+    label.append(name,meta);
+    row.append(check,label);
+    els.selectedDocumentList.append(row);
+  }
+  if (!docs.length) {
+    const empty=document.createElement('p');
+    empty.className='small-note';
+    empty.textContent='Check a document in Open Documents or Local Library to add it here.';
+    els.selectedDocumentList.append(empty);
+  }
+}
+
 function moveCombineDocument(docId, delta) {
   reconcileCombineOrder();
   const index = state.combineOrder.indexOf(docId);
@@ -3831,7 +8440,7 @@ function renderCombineList() {
   reconcileCombineOrder();
   els.combineList.replaceChildren();
   for (let index = 0; index < state.combineOrder.length; index++) {
-    const doc = documentById(state.combineOrder[index]);
+    const doc = selectableDocumentById(state.combineOrder[index]);
     if (!doc) continue;
     const row = document.createElement('div');
     row.className = 'combine-row combine-order-row';
@@ -3871,19 +8480,19 @@ function renderCombineList() {
   if (!state.combineOrder.length) {
     const empty = document.createElement('p');
     empty.className = 'small-note';
-    empty.textContent = 'Check two or more documents in Open documents above.';
+    empty.textContent = 'Select two or more documents above.';
     els.combineList.append(empty);
   }
   const combineCount = state.combineOrder.length;
   els.combineBtn.disabled = combineCount < 2;
   els.combineOperationSummary.textContent = combineCount >= 2
-    ? `${combineCount} checked documents · arrange order below`
+    ? `${combineCount} selected documents · arrange order below`
     : 'Select two or more documents above';
 }
 
 function updateCompressionUi(chosenDocs = selectedFileDocuments()) {
   if (!els.compressBtn) return;
-  const selectionKey = chosenDocs.map(d => d.id).join('|');
+  const selectionKey = chosenDocs.map(d => `${d.id}\n${d.name}`).join('|');
   const method = els.compressionMethod?.value || 'preserve';
   const level = els.compressionLevel?.value || 'medium';
   const targetMode = level === 'target';
@@ -3892,7 +8501,7 @@ function updateCompressionUi(chosenDocs = selectedFileDocuments()) {
 
   if (!chosenDocs.length) {
     els.compressOperationSummary.textContent = 'Select one or more documents above';
-    els.compressSummary.textContent = 'Select one or more open documents above.';
+    els.compressSummary.textContent = 'Select one or more documents above.';
     els.compressionFilename.disabled = true;
     els.compressBtn.disabled = true;
     els.compressBtn.textContent = 'Compress selected';
@@ -3900,10 +8509,10 @@ function updateCompressionUi(chosenDocs = selectedFileDocuments()) {
     const count = chosenDocs.length;
     const targetText = targetMode ? ` · target ${Number(els.compressionTargetMb?.value || 0).toFixed(1)} MB per PDF` : '';
     const letterText = normalizeLetter ? ' · Letter canvas' : '';
-    els.compressOperationSummary.textContent = `${count} checked document${count === 1 ? '' : 's'} · ${method === 'raster' ? 'raster' : 'preserve'}${letterText}${targetText}`;
+    els.compressOperationSummary.textContent = `${count} selected document${count === 1 ? '' : 's'} · ${method === 'raster' ? 'raster' : 'preserve'}${letterText}${targetText}`;
     els.compressSummary.textContent = count === 1
       ? `${chosenDocs[0].name}: create a compressed copy while keeping the current Pages order and edits.`
-      : `${count} checked documents will be compressed individually and packaged together in one ZIP.`;
+      : `${count} selected documents will be compressed individually and packaged together in one ZIP.`;
     els.compressionFilename.disabled = false;
     if (els.compressionFilename.dataset.selectionKey !== selectionKey) {
       els.compressionFilename.value = count === 1 ? defaultCompressionFilename(chosenDocs[0].name) : 'PDF-Workbench-Compressed.zip';
@@ -3924,16 +8533,21 @@ function updateCompressionUi(chosenDocs = selectedFileDocuments()) {
 
 function renderExportPane() {
   saveCurrentDocumentState();
+  reconcileFileSelection();
   renderLibraryDocumentList();
   renderOpenDocumentList();
+  renderSelectedDocumentList();
+  if (els.templatesFilesSection?.open) renderFilesTemplateManager();
+  if (els.assetsFilesSection?.open || state.assetBrowserMode === 'insert') renderAssetBrowser();
   updateImageAssemblyUi();
   const doc = currentDocument();
   const count = state.pages.length;
   const chosenDocs = selectedFileDocuments();
-  const selectionKey = chosenDocs.map(d => d.id).join('|');
+  if (els.librarySelectedEditableBackupBtn) els.librarySelectedEditableBackupBtn.disabled = chosenDocs.length === 0;
+  const selectionKey = chosenDocs.map(d => `${d.id}\n${d.name}`).join('|');
 
   if (chosenDocs.length === 0) {
-    els.exportSummary.textContent = 'Select one or more open documents above.';
+    els.exportSummary.textContent = 'Select one or more documents above.';
     els.exportOperationSummary.textContent = 'Select one or more documents above';
     els.exportFilenameLabel.textContent = 'File name';
     els.exportFilename.disabled = true;
@@ -3942,7 +8556,7 @@ function renderExportPane() {
   } else if (chosenDocs.length === 1) {
     const only = chosenDocs[0];
     els.exportSummary.textContent = `${only.name}: ${only.pages.length} page${only.pages.length === 1 ? '' : 's'} will be exported in its current Pages order.`;
-    els.exportOperationSummary.textContent = `1 checked document · export PDF`;
+    els.exportOperationSummary.textContent = `1 selected document · export PDF`;
     els.exportFilenameLabel.textContent = 'PDF file name';
     els.exportFilename.disabled = false;
     if (els.exportFilename.dataset.selectionKey !== selectionKey) {
@@ -3953,8 +8567,8 @@ function renderExportPane() {
     els.exportPdfBtn.disabled = false;
     els.exportPdfBtn.textContent = 'Export PDF';
   } else {
-    els.exportSummary.textContent = `${chosenDocs.length} checked documents will be exported as individual PDFs inside one ZIP.`;
-    els.exportOperationSummary.textContent = `${chosenDocs.length} checked documents · export ZIP`;
+    els.exportSummary.textContent = `${chosenDocs.length} selected documents will be exported as individual PDFs inside one ZIP.`;
+    els.exportOperationSummary.textContent = `${chosenDocs.length} selected documents · export ZIP`;
     els.exportFilenameLabel.textContent = 'ZIP file name';
     els.exportFilename.disabled = false;
     if (els.exportFilename.dataset.selectionKey !== selectionKey) {
@@ -3970,21 +8584,24 @@ function renderExportPane() {
 
   const selectedCount = state.selected.size;
   if (doc) {
+    if (els.extractOperationSummary) els.extractOperationSummary.textContent = `Active: ${doc.name}`;
     els.extractSummary.textContent = selectedCount
-      ? `${selectedCount} selected page${selectedCount === 1 ? '' : 's'} from active document ${doc.name} will be saved in their current Pages order.`
-      : `Active document: ${doc.name}. No pages are selected; select pages in Pages first.`;
-    if (els.extractFilename.dataset.documentId !== doc.id) {
+      ? `${selectedCount} selected page${selectedCount === 1 ? '' : 's'} from ${doc.name} will be saved in their current Pages order.`
+      : `Active: ${doc.name}. No pages are selected; select pages in Pages first.`;
+    const exportDocumentKey = `${doc.id}\n${doc.name}`;
+    if (els.extractFilename.dataset.documentKey !== exportDocumentKey) {
       els.extractFilename.value = defaultExtractFilename(doc.name);
-      els.extractFilename.dataset.documentId = doc.id;
+      els.extractFilename.dataset.documentKey = exportDocumentKey;
       els.extractProgress.textContent = '';
     }
-    if (els.splitBaseName.dataset.documentId !== doc.id) {
+    if (els.splitBaseName.dataset.documentKey !== exportDocumentKey) {
       els.splitBaseName.value = defaultSplitBaseName(doc.name);
-      els.splitBaseName.dataset.documentId = doc.id;
+      els.splitBaseName.dataset.documentKey = exportDocumentKey;
       els.splitProgress.textContent = '';
     }
     els.splitOperationSummary.textContent = `Active: ${doc.name}`;
   } else {
+    if (els.extractOperationSummary) els.extractOperationSummary.textContent = 'No active document';
     els.extractSummary.textContent = 'No active document.';
     els.splitOperationSummary.textContent = 'No active document';
   }
@@ -4082,6 +8699,792 @@ function downloadPdfBytes(bytes, filename) {
   downloadBlob(new Blob([bytes], { type: 'application/pdf' }), filename);
 }
 
+
+// Milestone 5.0.7 diagnostic instrumentation, expanded experimentally in 5.7.24.
+// Pointer logging remains intentionally light. The added instrumentation records only
+// abnormal event-loop stalls, slow/erroring renders, lifecycle changes, and a runtime
+// snapshot when the user explicitly saves diagnostics. It never records document contents.
+const DIAGNOSTICS_META_KEY = 'saved-diagnostics';
+const MAX_SAVED_DIAGNOSTIC_SNAPSHOTS = 12;
+const MAX_IN_MEMORY_DIAGNOSTIC_RECORDS = 2400;
+const MAX_COMPLETED_INK_DIAGNOSTIC_SUMMARIES = 24;
+const diagnosticActiveRenders = new Map();
+let diagnosticRenderSequence = 0;
+let inkBatchDiagnosticFailureLogged = false;
+const MAX_RENDER_DIAGNOSTIC_EVENTS = 96;
+
+function diagnosticDocumentForPage(page) {
+  return state.documents.find(doc => doc.pages?.some(candidate => candidate.id === page?.id)) || null;
+}
+function diagnosticStageState(stage) {
+  return stage ? {
+    connected: !!stage.isConnected,
+    wantRender: stage.dataset.wantRender ?? null,
+    rendered: stage.dataset.rendered ?? null,
+    requestId: Number(stage.dataset.renderDiagnosticRequestId || 0) || null,
+  } : null;
+}
+function recordRenderDiagnostic(kind, page=null, extra={}) {
+  const doc = diagnosticDocumentForPage(page);
+  const record = {
+    n: ++state.renderDiagnosticSequence,
+    t: Math.round(performance.now() * 10) / 10,
+    kind,
+    documentId: doc?.id || extra.documentId || null,
+    documentName: doc?.name || extra.documentName || null,
+    pageId: page?.id || extra.pageId || null,
+    pageIndex: doc && page ? doc.pages.findIndex(candidate => candidate.id === page.id) + 1 : (extra.pageIndex || null),
+    graphBackground: page ? page?.background?.type === 'graph-paper' : (extra.graphBackground ?? null),
+    queueActive: renderQueue.active,
+    queueQueued: renderQueue.jobs.length,
+    ...extra,
+  };
+  state.renderDiagnosticEvents.push(record);
+  if (state.renderDiagnosticEvents.length > MAX_RENDER_DIAGNOSTIC_EVENTS) {
+    state.renderDiagnosticEvents.splice(0, state.renderDiagnosticEvents.length - MAX_RENDER_DIAGNOSTIC_EVENTS);
+  }
+  if (kind === 'viewer-render-left-loading' || kind === 'viewer-render-error') {
+    state.renderDiagnosticAnomalies.push(record);
+    if (state.renderDiagnosticAnomalies.length > 24) state.renderDiagnosticAnomalies.splice(0, state.renderDiagnosticAnomalies.length - 24);
+  }
+  return record;
+}
+function markStageRenderRequested(stage, page, reason, extra={}) {
+  const record = recordRenderDiagnostic('viewer-render-request', page, { reason, ...extra });
+  if (stage) {
+    stage.dataset.renderDiagnosticRequestId = String(record.n);
+    stage.dataset.renderDiagnosticSince = String(performance.now());
+  }
+  return record;
+}
+function clearStageRenderDiagnostic(stage) {
+  if (!stage) return;
+  delete stage.dataset.renderDiagnosticRequestId;
+  delete stage.dataset.renderDiagnosticSince;
+}
+
+function exactInkReplayTuple(sample) {
+  // Deliberately no rounding: replay rejection requires exact equality of the
+  // browser-supplied timestamp, x, y, and pressure values for every sample.
+  return [
+    Number(sample?.timeStamp),
+    Number(sample?.clientX),
+    Number(sample?.clientY),
+    Number(sample?.pressure),
+  ];
+}
+function exactInkBatchReplay(previous, current) {
+  if (!Array.isArray(previous) || !Array.isArray(current) || !current.length || previous.length !== current.length) return false;
+  for (let i = 0; i < current.length; i += 1) {
+    const a = previous[i], b = current[i];
+    if (!Array.isArray(a) || !Array.isArray(b) || a.length !== 4 || b.length !== 4) return false;
+    for (let j = 0; j < 4; j += 1) if (!Object.is(a[j], b[j])) return false;
+  }
+  return true;
+}
+function createInkGestureDiagnostics(stroke=null) {
+  return {
+    startedAt: Math.round(performance.now() * 10) / 10,
+    tool: stroke?.tool || null,
+    batches: 0,
+    moveEvents: 0,
+    coalescedBatches: 0,
+    directBatches: 0,
+    rawSamplesSeen: 0,
+    coalescedSamplesSeen: 0,
+    directSamplesSeen: 0,
+    acceptedSamples: Array.isArray(stroke?.points) ? stroke.points.length : 0,
+    rejectedDistanceSamples: 0,
+    forcedSamples: 0,
+    nonIncreasingRawTimestamps: 0,
+    exactPreviousBatchReplays: 0,
+    replayBatchesSkipped: 0,
+    replaySamplesSkipped: 0,
+    previousBatchTuples: null,
+  };
+}
+function summarizeInkGestureDiagnostics(diag) {
+  if (!diag) return null;
+  return {
+    tool: diag.tool || null,
+    batches: diag.batches || 0,
+    moveEvents: diag.moveEvents || 0,
+    coalescedBatches: diag.coalescedBatches || 0,
+    directBatches: diag.directBatches || 0,
+    rawSamplesSeen: diag.rawSamplesSeen || 0,
+    coalescedSamplesSeen: diag.coalescedSamplesSeen || 0,
+    directSamplesSeen: diag.directSamplesSeen || 0,
+    acceptedSamples: diag.acceptedSamples || 0,
+    rejectedDistanceSamples: diag.rejectedDistanceSamples || 0,
+    forcedSamples: diag.forcedSamples || 0,
+    nonIncreasingRawTimestamps: diag.nonIncreasingRawTimestamps || 0,
+    exactPreviousBatchReplays: diag.exactPreviousBatchReplays || 0,
+    replayBatchesSkipped: diag.replayBatchesSkipped || 0,
+    replaySamplesSkipped: diag.replaySamplesSkipped || 0,
+  };
+}
+function recordCompletedInkGestureDiagnostics(gesture, event=null) {
+  const summary = summarizeInkGestureDiagnostics(gesture?.sampleDiagnostics);
+  if (!summary) return null;
+  summary.strokeId = gesture?.stroke?.id || null;
+  summary.pageId = gesture?.pageId || gesture?.page?.id || null;
+  summary.documentId = gesture?.documentId || state.currentDocumentId || null;
+  summary.finishedAt = Math.round(performance.now() * 10) / 10;
+  summary.finishEvent = event?.type || null;
+  summary.snapshotPagesMs = Math.round((gesture?.snapshotPagesMs || 0) * 10) / 10;
+  state.latestCompletedInkGestureDiagnostics.push(summary);
+  if (state.latestCompletedInkGestureDiagnostics.length > MAX_COMPLETED_INK_DIAGNOSTIC_SUMMARIES) {
+    state.latestCompletedInkGestureDiagnostics.splice(0, state.latestCompletedInkGestureDiagnostics.length - MAX_COMPLETED_INK_DIAGNOSTIC_SUMMARIES);
+  }
+  return summary;
+}
+function recordInkGestureSampleBatch(gesture, parentEvent, samples, phase='move') {
+  try {
+    const diag = gesture?.sampleDiagnostics;
+    const source = Array.isArray(samples) ? samples.filter(Boolean) : [];
+    if (!diag || !source.length) return null;
+    const tuples = source.map(exactInkReplayTuple);
+    const exactReplay = exactInkBatchReplay(diag.previousBatchTuples, tuples);
+    const replayBatchSkipped = phase === 'move' && source.length > 1 && exactReplay;
+    let nonIncreasing = 0;
+    let previousTs = null;
+    for (const sample of source) {
+      const ts = Number(sample?.timeStamp);
+      if (Number.isFinite(ts)) {
+        if (previousTs != null && ts <= previousTs) nonIncreasing += 1;
+        previousTs = ts;
+      }
+    }
+    diag.batches += 1;
+    if (phase === 'move') diag.moveEvents += 1;
+    if (source.length > 1) {
+      diag.coalescedBatches += 1;
+      diag.coalescedSamplesSeen += source.length;
+    } else {
+      diag.directBatches += 1;
+      diag.directSamplesSeen += source.length;
+    }
+    diag.rawSamplesSeen += source.length;
+    diag.nonIncreasingRawTimestamps += nonIncreasing;
+    if (exactReplay) diag.exactPreviousBatchReplays += 1;
+    if (replayBatchSkipped) {
+      diag.replayBatchesSkipped += 1;
+      diag.replaySamplesSkipped += source.length;
+    }
+    // Keep only the immediately previous four-field sequence needed for exact
+    // replay detection. Per-batch summaries/recent-sample windows are gone.
+    diag.previousBatchTuples = tuples;
+    return { exactPreviousBatchReplay:exactReplay, replayBatchSkipped, sampleCount:source.length };
+  } catch (err) {
+    // Diagnostic/replay instrumentation must never be able to interrupt drawing.
+    if (!inkBatchDiagnosticFailureLogged) {
+      inkBatchDiagnosticFailureLogged = true;
+      addInkDiagnostic('sample-diagnostics-error', null, { message:String(err?.message || err) });
+    }
+    return null;
+  }
+}
+function diagnosticPortableTimestamp() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}_${pad(d.getHours())}-${pad(d.getMinutes())}-${pad(d.getSeconds())}`;
+}
+
+function inkDiagnosticTarget(event) {
+  const target = event?.target instanceof Element ? event.target : null;
+  const parts = [];
+  if (target) {
+    parts.push(target.tagName?.toLowerCase?.() || 'element');
+    if (target.id) parts.push(`#${target.id}`);
+    const classes = [...(target.classList || [])].slice(0, 3);
+    if (classes.length) parts.push(`.${classes.join('.')}`);
+  }
+  return parts.join('') || '(none)';
+}
+function inkDiagnosticLocation(event) {
+  const target = event?.target instanceof Element ? event.target : null;
+  let stage = target?.closest?.('.page-stage[data-page-id]') || null;
+  if (!stage && Number.isFinite(event?.clientX) && Number.isFinite(event?.clientY)) {
+    const hit = document.elementFromPoint?.(event.clientX, event.clientY);
+    stage = hit instanceof Element ? hit.closest('.page-stage[data-page-id]') : null;
+  }
+  const viewer = target?.closest?.('.viewer, .split-pane-viewer') || stage?.closest?.('.viewer, .split-pane-viewer') || null;
+  return { pageId: stage?.dataset?.pageId || null, viewer: viewer?.id || viewer?.className || null };
+}
+function diagnosticActiveRenderSnapshot(now=performance.now()) {
+  return [...diagnosticActiveRenders.values()].map(info => ({
+    ...info,
+    ageMs: Math.round((now - info.startedAt) * 10) / 10,
+    startedAt: undefined,
+  }));
+}
+function diagnosticElementDescriptor(element) {
+  if (!(element instanceof Element)) return null;
+  return {
+    tag: element.tagName?.toLowerCase?.() || null,
+    id: element.id || null,
+    classes: [...(element.classList || [])].slice(0, 6),
+    role: element.getAttribute?.('role') || null,
+  };
+}
+function diagnosticGestureSummary(kind, gesture) {
+  if (!gesture) return null;
+  let hasPointerCapture = null;
+  if (gesture.inputSource === 'pointer' && Number.isFinite(Number(gesture.pointerId))) {
+    try { hasPointerCapture = !!gesture.viewer?.hasPointerCapture?.(Number(gesture.pointerId)); } catch {}
+  }
+  return {
+    kind,
+    pointerId: gesture.pointerId ?? null,
+    inputSource: gesture.inputSource || null,
+    viewer: gesture.viewer?.id || gesture.viewer?.className || null,
+    pageId: gesture.pageId || gesture.page?.id || null,
+    mode: gesture.mode || null,
+    changed: gesture.changed ?? null,
+    points: gesture.stroke?.points?.length ?? gesture.points?.length ?? gesture.path?.length ?? null,
+    hasPointerCapture,
+  };
+}
+function diagnosticTransientInputSnapshot() {
+  return {
+    activeElement: diagnosticElementDescriptor(document.activeElement),
+    gestures: {
+      ink: diagnosticGestureSummary(state.inkGesture?.stroke?.tool || 'ink', state.inkGesture),
+      eraser: diagnosticGestureSummary('eraser', state.eraserGesture),
+      select: diagnosticGestureSummary('select', state.selectionGesture),
+      laser: diagnosticGestureSummary('laser', state.laserGesture),
+      regionCopy: diagnosticGestureSummary('region-copy', state.regionCopyGesture),
+      regionCopyArmed: !!state.regionCopyArmed,
+    },
+    annotationSelection: {
+      documentId: state.annotationSelection?.documentId || null,
+      pageId: state.annotationSelection?.pageId || null,
+      count: state.annotationSelection?.ids?.size || 0,
+    },
+    trackedContacts: {
+      stylusTouchContacts: [...state.stylusTouchContacts.entries()].slice(0, 12).map(([id, value]) => ({ id, mode:value?.mode || null, tool:value?.tool || null, viewer:value?.viewer?.id || value?.viewer?.className || null })),
+      inkDiagnosticPointers: [...state.inkDiagnosticPointers.keys()].slice(0, 12),
+      viewerDiagnosticPointers: [...state.viewerDiagnosticPointers.entries()].slice(0, 12).map(([id, value]) => ({ id, pointerType:value?.pointerType || null, viewerId:value?.viewerId || null })),
+      penContactPointers: [...state.penContactPointers.keys()].slice(0, 12),
+      penHoverPointers: [...state.penHoverPointers.keys()].slice(0, 12),
+      touchPointers: [...state.touchPointers.keys()].slice(0, 12),
+    },
+  };
+}
+function releaseKnownGesturePointerCapture(gesture) {
+  if (!gesture || gesture.inputSource !== 'pointer') return;
+  const pointerId = Number(gesture.pointerId);
+  if (!Number.isFinite(pointerId)) return;
+  try { if (gesture.viewer?.hasPointerCapture?.(pointerId)) gesture.viewer.releasePointerCapture(pointerId); } catch {}
+}
+function recoverTransientInputStateAfterDiagnosticSave() {
+  const had = diagnosticTransientInputSnapshot();
+  const ink = state.inkGesture;
+  const eraser = state.eraserGesture;
+  const selection = state.selectionGesture;
+  const laser = state.laserGesture;
+  const region = state.regionCopyGesture;
+
+  releaseKnownGesturePointerCapture(ink);
+  releaseKnownGesturePointerCapture(eraser);
+  releaseKnownGesturePointerCapture(selection);
+  releaseKnownGesturePointerCapture(laser);
+  releaseKnownGesturePointerCapture(region);
+
+  if (ink?.page && ink?.stroke?.id) {
+    ink.page.annotations = annotationsForPage(ink.page).filter(annotation => annotation.id !== ink.stroke.id);
+    clearLivePenOverlays(ink.page);
+    clearLiveHighlighterOverlays(ink.page);
+    redrawPageAnnotationOverlays(ink.page);
+  }
+  state.inkGesture = null;
+
+  if (eraser?.page) redrawPageAnnotationOverlays(eraser.page);
+  state.eraserGesture = null;
+  hideEraserCursor();
+
+  if (selection) {
+    if ((selection.mode === 'move' || selection.mode === 'resize') && selection.changed) {
+      if (!selection.previewOptimized && selection.before) restorePages(selection.before);
+      clearSelectionGestureLayers(selection.page);
+      const restoredPage = pageById(selection.pageId);
+      if (restoredPage) redrawPageAnnotationOverlays(restoredPage);
+    } else if (selection.page) {
+      redrawPageAnnotationSelectionOverlays(selection.page);
+    }
+  }
+  state.selectionGesture = null;
+
+  if (region?.page) redrawPageAnnotationSelectionOverlays(region.page);
+  state.regionCopyGesture = null;
+  state.regionCopyArmed = false;
+  hideLaserPointer();
+  state.laserGesture = null;
+  updateSelectionToolbar();
+
+  state.stylusTouchContacts.clear();
+  state.inkDiagnosticPointers.clear();
+  state.viewerDiagnosticPointers.clear();
+  state.penContactPointers.clear();
+  state.penHoverPointers.clear();
+
+  addInkDiagnostic('diagnostic-transient-input-recovery', null, { beforeRecovery:had });
+}
+function diagnosticRuntimeSnapshot() {
+  const canvases = [...document.querySelectorAll('canvas')].filter(canvas => canvas.width > 0 && canvas.height > 0);
+  let canvasPixels = 0;
+  let largestCanvasPixels = 0;
+  let largestCanvas = null;
+  for (const canvas of canvases) {
+    const pixels = canvas.width * canvas.height;
+    canvasPixels += pixels;
+    if (pixels > largestCanvasPixels) {
+      largestCanvasPixels = pixels;
+      largestCanvas = { width: canvas.width, height: canvas.height, pixels };
+    }
+  }
+  let decodedImagePixels = 0;
+  let sourceStoredBytes = 0;
+  let pdfSources = 0;
+  let imageSources = 0;
+  for (const source of state.sources.values()) {
+    if (source?.type === 'pdf') pdfSources++;
+    if (source?.type === 'image') imageSources++;
+    sourceStoredBytes += Number(source?.bytes?.byteLength || source?.file?.size || source?.blob?.size || source?.size || 0);
+    const w = Number(source?.image?.naturalWidth || source?.image?.width || 0);
+    const h = Number(source?.image?.naturalHeight || source?.image?.height || 0);
+    if (w > 0 && h > 0) decodedImagePixels += w * h;
+  }
+  const heap = performance?.memory ? {
+    usedJSHeapSize: Number(performance.memory.usedJSHeapSize || 0),
+    totalJSHeapSize: Number(performance.memory.totalJSHeapSize || 0),
+    jsHeapSizeLimit: Number(performance.memory.jsHeapSizeLimit || 0),
+  } : null;
+  const now = performance.now();
+  return {
+    visibilityState: document.visibilityState,
+    documentHasFocus: document.hasFocus?.() ?? null,
+    transientInput: diagnosticTransientInputSnapshot(),
+    workspaceMode: state.workspaceMode,
+    presentation: document.body.classList.contains('presentation'),
+    splitView: !!state.splitView,
+    activePaneId: state.activePaneId || null,
+    currentDocumentId: state.currentDocumentId || null,
+    viewport: { width:window.innerWidth, height:window.innerHeight, devicePixelRatio:Number(window.devicePixelRatio || 1), visualWidth:Number(window.visualViewport?.width || 0) || null, visualHeight:Number(window.visualViewport?.height || 0) || null, visualScale:Number(window.visualViewport?.scale || 0) || null },
+    openDocuments: state.documents.map(doc => ({
+      id:doc.id,
+      name:doc.name,
+      pages:doc.pages?.length || 0,
+      modifiedAt:doc.modifiedAt || null,
+      graphBackgroundPages:(doc.pages || []).reduce((count, page) => count + (pageHasGraphPaperBackground(page) ? 1 : 0), 0),
+    })),
+    sources: { total:state.sources.size, pdf:pdfSources, image:imageSources, storedBytes:sourceStoredBytes, decodedImageApproxRGBABytes:decodedImagePixels * 4 },
+    renderQueue: { active:renderQueue.active, queued:renderQueue.jobs.length, max:renderQueue.max },
+    activeRenders: diagnosticActiveRenderSnapshot(now),
+    canvases: { count:canvases.length, totalPixels:canvasPixels, approxRGBABytes:canvasPixels * 4, largest:largestCanvas },
+    pageStages: {
+      total: document.querySelectorAll('.page-stage').length,
+      loading: document.querySelectorAll('.page-stage[data-rendered="loading"]').length,
+      rendered: document.querySelectorAll('.page-stage[data-rendered="true"]').length,
+      errors: document.querySelectorAll('.page-stage[data-rendered="error"]').length,
+      loadingDetails:[...document.querySelectorAll('.page-stage[data-rendered="loading"]')].slice(0, 12).map(stage => {
+        const pageId=stage.dataset.pageId || null;
+        const doc=state.documents.find(item => item.pages?.some(page => page.id === pageId)) || null;
+        const page=doc?.pages?.find(item => item.id === pageId) || null;
+        const since=Number(stage.dataset.renderDiagnosticSince);
+        return {
+          documentId:doc?.id || null,
+          documentName:doc?.name || null,
+          pageId,
+          pageIndex:doc && page ? doc.pages.indexOf(page) + 1 : null,
+          graphBackground:page ? pageHasGraphPaperBackground(page) : null,
+          wantRender:stage.dataset.wantRender ?? null,
+          requestId:Number(stage.dataset.renderDiagnosticRequestId || 0) || null,
+          loadingAgeMs:Number.isFinite(since) ? Math.round((performance.now()-since)*10)/10 : null,
+        };
+      }),
+    },
+    recentRenderEvents: state.renderDiagnosticEvents.slice(-MAX_RENDER_DIAGNOSTIC_EVENTS),
+    recentRenderAnomalies: state.renderDiagnosticAnomalies.slice(-24),
+    javascriptHeap: heap,
+    deviceMemoryGB: Number.isFinite(Number(navigator.deviceMemory)) ? Number(navigator.deviceMemory) : null,
+    hardwareConcurrency: Number.isFinite(Number(navigator.hardwareConcurrency)) ? Number(navigator.hardwareConcurrency) : null,
+    snapshotPagesDiagnostics: (() => {
+      const d=state.snapshotPagesDiagnostics || {};
+      return {
+        calls:d.calls||0,
+        lastMs:Math.round((d.lastMs||0)*10)/10,
+        averageMs:d.calls ? Math.round((d.totalMs/d.calls)*10)/10 : 0,
+        maxMs:Math.round((d.maxMs||0)*10)/10,
+        over16Ms:d.over16Ms||0,
+        over50Ms:d.over50Ms||0,
+        lastPageCount:d.lastPageCount||0,
+      };
+    })(),
+    activeInkGestureDiagnostics: summarizeInkGestureDiagnostics(state.inkGesture?.sampleDiagnostics),
+    recentCompletedInkGestureDiagnostics: state.latestCompletedInkGestureDiagnostics.slice(-8),
+  };
+}
+async function diagnosticStorageSnapshot() {
+  try {
+    const estimate = await navigator.storage?.estimate?.();
+    if (!estimate) return null;
+    return { usage:Number(estimate.usage || 0), quota:Number(estimate.quota || 0) };
+  } catch { return null; }
+}
+function addInkDiagnostic(kind, event=null, extra={}) {
+  const location = event ? inkDiagnosticLocation(event) : { pageId:null, viewer:null };
+  const record = {
+    n: ++state.inkDiagnosticSequence,
+    t: Math.round(performance.now() * 10) / 10,
+    kind,
+    event: event?.type || null,
+    pointerType: event?.pointerType || null,
+    pointerId: event?.pointerId ?? null,
+    isPrimary: event?.isPrimary ?? null,
+    button: event?.button ?? null,
+    buttons: event?.buttons ?? null,
+    pressure: Number.isFinite(event?.pressure) ? Math.round(event.pressure * 1000) / 1000 : null,
+    x: Number.isFinite(event?.clientX) ? Math.round(event.clientX) : null,
+    y: Number.isFinite(event?.clientY) ? Math.round(event.clientY) : null,
+    target: event ? inkDiagnosticTarget(event) : null,
+    pageId: location.pageId,
+    viewer: location.viewer,
+    tool: state.annotationTool,
+    activeGesture: state.inkGesture ? { kind:state.inkGesture.stroke?.tool || 'pen', pointerId: state.inkGesture.pointerId, inputSource: state.inkGesture.inputSource || 'pointer', pageId: state.inkGesture.pageId, points: state.inkGesture.stroke?.points?.length || 0 } : state.eraserGesture ? { kind:'eraser', pointerId:state.eraserGesture.pointerId, inputSource:state.eraserGesture.inputSource || 'pointer', pageId:state.eraserGesture.pageId, changed:!!state.eraserGesture.changed } : state.selectionGesture ? { kind:'select', pointerId:state.selectionGesture.pointerId, inputSource:state.selectionGesture.inputSource || 'pointer', pageId:state.selectionGesture.pageId, mode:state.selectionGesture.mode, changed:!!state.selectionGesture.changed } : state.regionCopyGesture ? { kind:'region-copy', pointerId:state.regionCopyGesture.pointerId, inputSource:state.regionCopyGesture.inputSource || 'pointer', pageId:state.regionCopyGesture.pageId } : state.laserGesture ? { kind:'laser', pointerId:state.laserGesture.pointerId, inputSource:state.laserGesture.inputSource || 'pointer' } : null,
+    ...extra,
+  };
+  state.inkDiagnostics.push(record);
+  if (state.inkDiagnostics.length > MAX_IN_MEMORY_DIAGNOSTIC_RECORDS) state.inkDiagnostics.splice(0, state.inkDiagnostics.length - MAX_IN_MEMORY_DIAGNOSTIC_RECORDS);
+}
+function diagnosticViewerContactInfo(event) {
+  if (!isStylusAnnotationTool()) return null;
+  const target = event?.target instanceof Element ? event.target : null;
+  const x = Number(event?.clientX), y = Number(event?.clientY);
+  const stack = Number.isFinite(x) && Number.isFinite(y) && document.elementsFromPoint
+    ? document.elementsFromPoint(x, y).filter(item => item instanceof Element)
+    : [];
+  const targetViewer = target?.closest?.('.viewer, .split-pane-viewer') || null;
+  let viewer = targetViewer;
+  if (!viewer) {
+    for (const item of stack) {
+      const candidate = item.matches?.('.viewer, .split-pane-viewer') ? item : item.closest?.('.viewer, .split-pane-viewer');
+      if (candidate) { viewer = candidate; break; }
+    }
+  }
+  if (!viewer) return null;
+  const top = stack[0] || target;
+  let topStyle = null;
+  try { if (top) topStyle = getComputedStyle(top); } catch {}
+  return {
+    viewer,
+    viewerId: viewer.id || null,
+    eventTargetInViewer: !!targetViewer,
+    topHit: top ? inkDiagnosticTarget({ target:top }) : null,
+    topHitPointerEvents: topStyle?.pointerEvents || null,
+    topHitPosition: topStyle?.position || null,
+    topHitZIndex: topStyle?.zIndex || null,
+  };
+}
+function diagnosticTouchSummary(touch) {
+  const viewer = viewerForStylusTouch(touch);
+  return {
+    id: touch?.identifier ?? null,
+    touchType: touch?.touchType ?? null,
+    x: Number.isFinite(touch?.clientX) ? Math.round(touch.clientX) : null,
+    y: Number.isFinite(touch?.clientY) ? Math.round(touch.clientY) : null,
+    target: touch?.target instanceof Element ? inkDiagnosticTarget({ target:touch.target }) : null,
+    viewerId: viewer?.id || null,
+  };
+}
+function bindInkDiagnostics() {
+  // 5.7.34: boundary-only viewer contacts for EVERY PointerEvent classification.
+  // This is intentionally tiny: no move stream is retained. It distinguishes
+  // "Safari delivered no Pencil contact" from "Safari delivered the contact as
+  // touch/mouse/another classification or an overlay intercepted the viewer".
+  document.addEventListener('pointerdown', (event) => {
+    const contact = diagnosticViewerContactInfo(event);
+    if (!contact) return;
+    state.viewerDiagnosticPointers.set(event.pointerId, {
+      pointerType:event.pointerType || null,
+      viewerId:contact.viewerId,
+      startedAt:performance.now(),
+    });
+    addInkDiagnostic('viewer-contact-down', event, {
+      classifiedPointerType:event.pointerType || null,
+      viewerId:contact.viewerId,
+      eventTargetInViewer:contact.eventTargetInViewer,
+      topHit:contact.topHit,
+      topHitPointerEvents:contact.topHitPointerEvents,
+      topHitPosition:contact.topHitPosition,
+      topHitZIndex:contact.topHitZIndex,
+    });
+  }, { capture:true, passive:true });
+  const finishViewerContact = (event, kind) => {
+    const tracked = state.viewerDiagnosticPointers.get(event.pointerId);
+    const contact = diagnosticViewerContactInfo(event);
+    if (!tracked && !contact) return;
+    addInkDiagnostic(kind, event, {
+      classifiedPointerType:event.pointerType || tracked?.pointerType || null,
+      viewerId:contact?.viewerId || tracked?.viewerId || null,
+      durationMs: tracked ? Math.round((performance.now()-tracked.startedAt)*10)/10 : null,
+      eventTargetInViewer:contact?.eventTargetInViewer ?? null,
+      topHit:contact?.topHit || null,
+      topHitPointerEvents:contact?.topHitPointerEvents || null,
+      topHitPosition:contact?.topHitPosition || null,
+      topHitZIndex:contact?.topHitZIndex || null,
+    });
+    state.viewerDiagnosticPointers.delete(event.pointerId);
+  };
+  document.addEventListener('pointerup', event => finishViewerContact(event, 'viewer-contact-up'), { capture:true, passive:true });
+  document.addEventListener('pointercancel', event => finishViewerContact(event, 'viewer-contact-cancel'), { capture:true, passive:true });
+
+  // One small record per viewer touchstart. No touchmove logging is added.
+  document.addEventListener('touchstart', (event) => {
+    if (!isStylusAnnotationTool()) return;
+    const changed = Array.from(event.changedTouches || []).map(diagnosticTouchSummary).filter(item => item.viewerId);
+    if (!changed.length) return;
+    const active = Array.from(event.touches || []).map(diagnosticTouchSummary).filter(item => item.viewerId);
+    addInkDiagnostic('viewer-touchstart-summary', null, {
+      changedTouches:changed,
+      activeTouches:active,
+      changedTouchTypes:changed.map(item => item.touchType),
+      activeTouchTypes:active.map(item => item.touchType),
+    });
+  }, { capture:true, passive:true });
+
+  const relevant = (event) => {
+    if (!isStylusAnnotationTool()) return false;
+    if (event.pointerType === 'pen') return true;
+    if (event.pointerType !== 'touch') return false;
+    const target = event.target instanceof Element ? event.target : null;
+    if (target?.closest?.('.viewer, .split-pane-viewer, .page-stage')) return true;
+    if (Number.isFinite(event.clientX) && Number.isFinite(event.clientY)) {
+      const hit = document.elementFromPoint?.(event.clientX, event.clientY);
+      return !!(hit instanceof Element && hit.closest('.viewer, .split-pane-viewer, .page-stage'));
+    }
+    return false;
+  };
+  document.addEventListener('pointerdown', (event) => {
+    if (!relevant(event)) return;
+    state.inkDiagnosticPointers.set(event.pointerId, { sawDown:true, moves:0, pointerType:event.pointerType });
+    addInkDiagnostic('raw-down', event);
+  }, { capture:true, passive:true });
+  document.addEventListener('pointermove', (event) => {
+    if (!relevant(event)) return;
+    if (!(event.buttons || event.pressure > 0 || state.inkGesture?.pointerId === event.pointerId)) return;
+    let info = state.inkDiagnosticPointers.get(event.pointerId);
+    if (!info) {
+      info = { sawDown:false, moves:0, pointerType:event.pointerType };
+      state.inkDiagnosticPointers.set(event.pointerId, info);
+      addInkDiagnostic('raw-first-contact-move-without-seen-down', event);
+    }
+    info.moves += 1;
+  }, { capture:true, passive:true });
+  const finish = (event, kind) => {
+    if (!relevant(event) && !state.inkDiagnosticPointers.has(event.pointerId)) return;
+    const info = state.inkDiagnosticPointers.get(event.pointerId) || { sawDown:false, moves:0, pointerType:event.pointerType };
+    addInkDiagnostic(kind, event, { rawSawDown:info.sawDown, rawMoveEvents:info.moves });
+    state.inkDiagnosticPointers.delete(event.pointerId);
+  };
+  document.addEventListener('pointerup', event => finish(event, 'raw-up'), { capture:true, passive:true });
+  document.addEventListener('pointercancel', event => finish(event, 'raw-cancel'), { capture:true, passive:true });
+  document.addEventListener('gotpointercapture', event => { if (event.pointerType === 'pen' || state.viewerDiagnosticPointers.has(event.pointerId)) addInkDiagnostic('got-pointer-capture', event, { classifiedPointerType:event.pointerType || null }); }, { capture:true, passive:true });
+  document.addEventListener('lostpointercapture', event => { if (event.pointerType === 'pen' || state.viewerDiagnosticPointers.has(event.pointerId)) addInkDiagnostic('lost-pointer-capture', event, { classifiedPointerType:event.pointerType || null }); }, { capture:true, passive:true });
+
+  // Heartbeat: only abnormal gaps are logged. A multi-second iPad/UI freeze should
+  // therefore leave a clear event-loop-gap record after the browser resumes.
+  const heartbeatMs = 250;
+  let lastHeartbeat = performance.now();
+  setInterval(() => {
+    const now = performance.now();
+    const gap = now - lastHeartbeat;
+    lastHeartbeat = now;
+    if (gap >= 700) {
+      addInkDiagnostic('event-loop-gap', null, {
+        gapMs: Math.round(gap * 10) / 10,
+        visibilityState: document.visibilityState,
+        renderQueue: { active:renderQueue.active, queued:renderQueue.jobs.length, max:renderQueue.max },
+        activeRenders: diagnosticActiveRenderSnapshot(now),
+      });
+    }
+  }, heartbeatMs);
+
+  window.addEventListener('focus', () => addInkDiagnostic('window-focus'));
+  window.addEventListener('blur', () => addInkDiagnostic('window-blur'));
+  document.addEventListener('visibilitychange', () => addInkDiagnostic('visibility-change', null, { visibilityState:document.visibilityState }));
+  window.addEventListener('error', event => addInkDiagnostic('window-error', null, { message:String(event?.message || event?.error?.message || 'unknown error') }));
+  window.addEventListener('unhandledrejection', event => addInkDiagnostic('unhandled-rejection', null, { message:String(event?.reason?.message || event?.reason || 'unknown rejection') }));
+}
+
+async function renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, dpr=1, maxPixels=10_000_000) {
+  const startedAt = performance.now();
+  const token = ++diagnosticRenderSequence;
+  const source = page?.kind === 'generated' ? null : state.sources.get(page?.sourceId);
+  const doc = diagnosticDocumentForPage(page);
+  let targetW = Math.max(1, Math.round(cssWidth * dpr));
+  let targetH = Math.max(1, Math.round(cssHeight * dpr));
+  const rawPixels = targetW * targetH;
+  if (rawPixels > maxPixels) {
+    const f = Math.sqrt(maxPixels / rawPixels);
+    targetW = Math.max(1, Math.round(targetW * f));
+    targetH = Math.max(1, Math.round(targetH * f));
+  }
+  const info = {
+    token,
+    startedAt,
+    documentId: doc?.id || null,
+    documentName: doc?.name || null,
+    pageId: page?.id || null,
+    pageKind: page?.kind || null,
+    sourceId: page?.sourceId || null,
+    sourceType: source?.type || null,
+    sourcePage: page?.sourcePage || null,
+    graphBackground: page ? page?.background?.type === 'graph-paper' : null,
+    cssWidth: Math.round(Number(cssWidth) || 0),
+    cssHeight: Math.round(Number(cssHeight) || 0),
+    targetWidth: targetW,
+    targetHeight: targetH,
+    targetPixels: targetW * targetH,
+    dpr: Math.round((Number(dpr) || 1) * 100) / 100,
+    maxPixels,
+  };
+  diagnosticActiveRenders.set(token, info);
+  let error = null;
+  try {
+    return await renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr, maxPixels);
+  } catch (err) {
+    error = err;
+    addInkDiagnostic('render-error', null, { ...info, startedAt:undefined, durationMs:Math.round((performance.now()-startedAt)*10)/10, message:String(err?.message || err) });
+    throw err;
+  } finally {
+    const durationMs = performance.now() - startedAt;
+    diagnosticActiveRenders.delete(token);
+    if (!error && durationMs >= 750) {
+      addInkDiagnostic('render-slow', null, { ...info, startedAt:undefined, durationMs:Math.round(durationMs*10)/10 });
+    }
+  }
+}
+
+async function buildInkDiagnosticsText() {
+  const runtime = diagnosticRuntimeSnapshot();
+  const storage = await diagnosticStorageSnapshot();
+  const header = {
+    appVersion: APP_VERSION,
+    generatedAt: new Date().toISOString(),
+    userAgent: navigator.userAgent,
+    platform: navigator.platform || null,
+    standalone: isStandalonePwa(),
+    diagnosticVersion: 6,
+    runtime,
+    storage,
+    note: 'Pointer-boundary, all-classification viewer contact boundaries, transient annotation/input state, viewer touch-type summaries, event-loop-stall, bounded viewer-render history/anomalies, document switches, pinch geometry, and Pencil replay diagnostics. Viewer all-classification telemetry records down/up/cancel boundaries only; no extra move stream is retained. Saving diagnostics captures transient state before a safe input-state cleanup intended to recover from a stuck gesture. No document contents are included; document/file names and internal IDs may be included for correlation. JavaScript heap memory is recorded only on browsers that expose performance.memory. Canvas/source byte figures are estimates/proxies, not total iPad memory.',
+  };
+  const lines = [JSON.stringify(header), ...state.inkDiagnostics.map(item => JSON.stringify(item))];
+  return lines.join('\n') + '\n';
+}
+async function downloadInkDiagnostics() {
+  addInkDiagnostic('diagnostic-download-request');
+  const text = await buildInkDiagnosticsText();
+  const blob = new Blob([text], { type:'text/plain;charset=utf-8' });
+  downloadBlob(blob, `PDF-Workbench-Diagnostics-${diagnosticPortableTimestamp()}.txt`);
+  setStatus(`Downloaded diagnostics (${state.inkDiagnostics.length} records)`);
+  toggleMoreMenu(false);
+}
+async function getSavedDiagnosticsMeta() {
+  if (!state.libraryReady || !state.libraryDb) return { key:DIAGNOSTICS_META_KEY, schemaVersion:LIBRARY_SCHEMA_VERSION, snapshots:[] };
+  const saved = await libraryGet('meta', DIAGNOSTICS_META_KEY).catch(() => null);
+  return { key:DIAGNOSTICS_META_KEY, schemaVersion:LIBRARY_SCHEMA_VERSION, snapshots:Array.isArray(saved?.snapshots) ? saved.snapshots : [] };
+}
+function updateSavedDiagnosticsUi(meta) {
+  const snapshots = Array.isArray(meta?.snapshots) ? meta.snapshots : [];
+  if (els.savedDiagnosticsSummary) {
+    if (!snapshots.length) els.savedDiagnosticsSummary.textContent = 'No locally saved diagnostics.';
+    else {
+      const last = snapshots[snapshots.length - 1];
+      const when = last?.createdAt ? new Date(last.createdAt).toLocaleString() : 'unknown time';
+      els.savedDiagnosticsSummary.textContent = `${snapshots.length} locally saved diagnostic snapshot${snapshots.length===1?'':'s'} · latest ${when}.`;
+    }
+  }
+  if (els.exportSavedDiagnosticsBtn) els.exportSavedDiagnosticsBtn.disabled = !snapshots.length;
+  if (els.clearSavedDiagnosticsBtn) els.clearSavedDiagnosticsBtn.disabled = !snapshots.length;
+}
+async function refreshSavedDiagnosticsUi() {
+  try { updateSavedDiagnosticsUi(await getSavedDiagnosticsMeta()); }
+  catch { updateSavedDiagnosticsUi(null); }
+}
+async function saveDiagnosticsToLocalLibrary() {
+  try {
+    addInkDiagnostic('diagnostic-local-save-request', null, { runtime:diagnosticRuntimeSnapshot() });
+    if (!(await ensureLibraryConnection())) throw new Error('Local Library is not available.');
+    const createdAt = Date.now();
+    const id = uid('diag');
+    const recordKey = `saved-diagnostic:${id}`;
+    const name = `PDF-Workbench-Diagnostics-${diagnosticPortableTimestamp()}.txt`;
+    const text = await buildInkDiagnosticsText();
+
+    // Store each snapshot in its own meta record. The small index is rewritten,
+    // but earlier diagnostic payloads are not reread/recloned on every classroom tap.
+    await libraryPut('meta', { key:recordKey, schemaVersion:LIBRARY_SCHEMA_VERSION, id, name, createdAt, text });
+    const meta = await getSavedDiagnosticsMeta();
+    const snapshots = meta.snapshots.slice();
+    snapshots.push({ key:recordKey, id, name, createdAt, bytes:new Blob([text]).size });
+    const expired = snapshots.length > MAX_SAVED_DIAGNOSTIC_SNAPSHOTS
+      ? snapshots.splice(0, snapshots.length - MAX_SAVED_DIAGNOSTIC_SNAPSHOTS)
+      : [];
+    const updated = { key:DIAGNOSTICS_META_KEY, schemaVersion:LIBRARY_SCHEMA_VERSION, snapshots, updatedAt:createdAt };
+    await libraryPut('meta', updated);
+    for (const item of expired) if (item?.key) await libraryDelete('meta', item.key).catch(() => {});
+    updateSavedDiagnosticsUi(updated);
+    addInkDiagnostic('diagnostic-local-save-finish', null, { name, bytes:new Blob([text]).size });
+    recoverTransientInputStateAfterDiagnosticSave();
+    setStatus(`Saved diagnostics locally (${snapshots.length} stored)`);
+  } catch (err) {
+    console.error('Could not save diagnostics locally', err);
+    addInkDiagnostic('diagnostic-local-save-error', null, { message:String(err?.message || err) });
+    setStatus(`Could not save diagnostics: ${err?.message || err}`);
+  }
+}
+async function readSavedDiagnosticSnapshots() {
+  const meta = await getSavedDiagnosticsMeta();
+  const out = [];
+  for (const item of meta.snapshots || []) {
+    if (!item?.key) continue;
+    const record = await libraryGet('meta', item.key).catch(() => null);
+    if (record?.text) out.push({ ...item, text:record.text, name:record.name || item.name });
+  }
+  return out;
+}
+async function exportSavedDiagnostics() {
+  try {
+    const snapshots = await readSavedDiagnosticSnapshots();
+    if (!snapshots.length) return;
+    if (snapshots.length === 1) {
+      downloadBlob(new Blob([snapshots[0].text], {type:'text/plain;charset=utf-8'}), snapshots[0].name);
+    } else {
+      const JSZip = await loadZipEngine();
+      const zip = new JSZip();
+      for (const item of snapshots) zip.file(item.name, item.text);
+      const blob = await zip.generateAsync({ type:'blob', compression:'DEFLATE', compressionOptions:{level:6} });
+      downloadBlob(blob, `PDF-Workbench-Saved-Diagnostics-${portableTimestamp()}.zip`);
+    }
+    setStatus(`Exported ${snapshots.length} saved diagnostic snapshot${snapshots.length===1?'':'s'}`);
+  } catch (err) {
+    console.error(err);
+    setStatus(`Could not export saved diagnostics: ${err?.message || err}`);
+  }
+}
+async function clearSavedDiagnostics() {
+  const meta = await getSavedDiagnosticsMeta();
+  const count = meta.snapshots?.length || 0;
+  if (!count) return;
+  if (!confirm(`Delete ${count} locally saved diagnostic snapshot${count===1?'':'s'}?`)) return;
+  for (const item of meta.snapshots) if (item?.key) await libraryDelete('meta', item.key).catch(() => {});
+  await libraryDelete('meta', DIAGNOSTICS_META_KEY).catch(() => {});
+  updateSavedDiagnosticsUi(null);
+  setStatus('Cleared locally saved diagnostics');
+}
+
 function unchangedSingleSourcePdfBytes(pageList) {
   if (!Array.isArray(pageList) || !pageList.length) return null;
   const first = pageList[0];
@@ -4093,9 +9496,51 @@ function unchangedSingleSourcePdfBytes(pageList) {
   for (let i = 0; i < pageList.length; i++) {
     const page = pageList[i];
     if (page?.kind !== 'pdf' || page.sourceId !== first.sourceId || Number(page.sourcePage) !== i + 1) return null;
-    if ((page.rotation || 0) !== 0 || hasPageCanvasOverride(page) || hasPageEdgeAdjustments(page) || hasPageAnnotations(page)) return null;
+    if ((page.rotation || 0) !== 0 || hasPageCanvasOverride(page) || hasPageEdgeAdjustments(page) || hasPageAnnotations(page) || pageHasGraphPaperBackground(page)) return null;
   }
   return source.bytes.slice();
+}
+
+function stripNonUriPdfLinkAnnotations(pdfPage, pdfLib) {
+  // Rebuilt Workbench PDFs preserve standard external URI links, but remove
+  // internal/document-navigation links rather than risk stale destinations
+  // after page reordering, deletion, extraction, combining, or duplication.
+  // Non-Link annotations (forms, comments, etc.) are left untouched.
+  const { PDFDict, PDFName } = pdfLib || {};
+  const annots = pdfPage?.node?.Annots?.();
+  if (!annots || !PDFDict || !PDFName) return 0;
+
+  const subtypeKey = PDFName.of('Subtype');
+  const actionKey = PDFName.of('A');
+  const actionTypeKey = PDFName.of('S');
+  const destinationKey = PDFName.of('Dest');
+  const nextActionKey = PDFName.of('Next');
+  const linkName = PDFName.of('Link').toString();
+  const uriName = PDFName.of('URI').toString();
+  let removed = 0;
+
+  for (let i = annots.size() - 1; i >= 0; i--) {
+    const annotation = annots.lookupMaybe(i, PDFDict);
+    if (!annotation) continue;
+    const subtype = annotation.lookupMaybe(subtypeKey, PDFName);
+    if (subtype?.toString() !== linkName) continue;
+
+    const action = annotation.lookupMaybe(actionKey, PDFDict);
+    const actionType = action?.lookupMaybe(actionTypeKey, PDFName);
+    const isExternalUri = actionType?.toString() === uriName;
+    if (!isExternalUri) {
+      annots.remove(i);
+      removed += 1;
+      continue;
+    }
+
+    // A standard URI action is the only Link action retained. Remove any
+    // malformed/legacy competing destination and chained actions so a retained
+    // external link cannot also trigger document navigation.
+    annotation.delete(destinationKey);
+    action.delete(nextActionKey);
+  }
+  return removed;
 }
 
 async function buildPdfBytes(pageList, options={}) {
@@ -4138,6 +9583,10 @@ async function buildPdfBytes(pageList, options={}) {
       sourcePdfCache.set(sourceId, srcPdf);
     }
     const copies = await output.copyPages(srcPdf, entries.map(entry => entry.page.sourcePage - 1));
+    // On any rewrite, keep only standard external URI link annotations. Internal
+    // PDF navigation links are deliberately removed because copied destinations
+    // can become stale or invalid after structural editing.
+    for (const copiedPage of copies) stripNonUriPdfLinkAnnotations(copiedPage, pdfLib);
     entries.forEach((entry, j) => copiedPdfPages.set(entry.outputIndex, copies[j]));
     await new Promise(resolve => setTimeout(resolve, 0));
   }
@@ -4153,6 +9602,9 @@ async function buildPdfBytes(pageList, options={}) {
       const core = pageCoreCanvasBaseDimensions(page);
       const edge = pageEdgeAdjustments(page);
       const outPage = output.addPage([base.width, base.height]);
+      if (page.generatedType === 'blank' && page.generatedBackground === 'black') {
+        outPage.drawRectangle({ x: 0, y: 0, width: base.width, height: base.height, color: rgb(0, 0, 0), borderWidth: 0 });
+      }
       if (page.generatedType === 'graph') {
         if (hasPageCanvasOverride(page)) {
           const fit = Math.min(core.width / page.width, core.height / page.height);
@@ -4162,8 +9614,11 @@ async function buildPdfBytes(pageList, options={}) {
         } else {
           drawGraphPaperPdfInRect(outPage, page.width, page.height, edge.left, edge.bottom, core.width, core.height, rgb);
         }
+      } else {
+        const graphBackground = pageGraphPaperSettings(page);
+        if (graphBackground) drawGraphPaperPdfInRect(outPage, base.width, base.height, 0, 0, base.width, base.height, rgb, graphBackground);
       }
-      drawPageAnnotationsPdf(outPage, page, 0, pdfLib);
+      await drawPageAnnotationsPdf(output, outPage, page, 0, pdfLib, embeddedImages, options.imageCompression || null);
       if (page.rotation) outPage.setRotation(degrees((page.rotation + 360) % 360));
     } else if (source.type === 'pdf') {
       const copied = copiedPdfPages.get(i);
@@ -4203,7 +9658,9 @@ async function buildPdfBytes(pageList, options={}) {
         copied.setTrimBox?.(x, y, width, height);
         copied.setArtBox?.(x, y, width, height);
       }
-      drawPageAnnotationsPdf(copied, page, inheritedRotation, pdfLib);
+      const graphBackground = pageGraphPaperSettings(page);
+      if (graphBackground) prependGraphPaperPdfBackground(copied, pdfLib, graphBackground);
+      await drawPageAnnotationsPdf(output, copied, page, inheritedRotation, pdfLib, embeddedImages, options.imageCompression || null);
       copied.setRotation(degrees((inheritedRotation + (page.rotation || 0) + 360) % 360));
       output.addPage(copied);
     } else if (source.type === 'image') {
@@ -4233,10 +9690,12 @@ async function buildPdfBytes(pageList, options={}) {
         embeddedImages.set(cacheKey, embedded);
       }
       const outPage = output.addPage([base.width, base.height]);
+      const graphBackground = pageGraphPaperSettings(page);
+      if (graphBackground) drawGraphPaperPdfInRect(outPage, base.width, base.height, 0, 0, base.width, base.height, rgb, graphBackground);
       if (hasPageCanvasOverride(page)) {
         outPage.drawImage(embedded, { x: edge.left + (core.width - drawWidth) / 2, y: edge.bottom + (core.height - drawHeight) / 2, width: drawWidth, height: drawHeight });
       } else outPage.drawImage(embedded, { x: edge.left, y: edge.bottom, width: drawWidth, height: drawHeight });
-      drawPageAnnotationsPdf(outPage, page, 0, pdfLib);
+      await drawPageAnnotationsPdf(output, outPage, page, 0, pdfLib, embeddedImages, options.imageCompression || null);
       if (page.rotation) outPage.setRotation(degrees((page.rotation + 360) % 360));
     } else {
       throw new Error(`Unsupported source type on output page ${i + 1}.`);
@@ -4248,7 +9707,8 @@ async function buildPdfBytes(pageList, options={}) {
 }
 
 async function normalizePdfBytesToLetter(inputBytes, options={}) {
-  const { PDFDocument } = await loadPdfExportEngine();
+  const pdfLib = await loadPdfExportEngine();
+  const { PDFDocument } = pdfLib;
   const pdf = await PDFDocument.load(inputBytes, { updateMetadata: false });
   const pages = pdf.getPages();
   const portrait = { width: 612, height: 792 };
@@ -4256,6 +9716,9 @@ async function normalizePdfBytesToLetter(inputBytes, options={}) {
 
   for (let i = 0; i < pages.length; i++) {
     const page = pages[i];
+    // Normalizing an otherwise untouched PDF is still a rewrite, so apply the
+    // same external-URI-only link policy used by buildPdfBytes().
+    stripNonUriPdfLinkAnnotations(page, pdfLib);
     options.onProgress?.(i + 1, pages.length);
     const rotation = ((page.getRotation?.().angle || 0) % 360 + 360) % 360;
     const oddRotation = rotation === 90 || rotation === 270;
@@ -4345,7 +9808,11 @@ async function rasterizePdfBytes(inputBytes, profile, options={}) {
 }
 
 function documentHasImportedImagePages(doc) {
-  return doc.pages.some(page => page.kind === 'image' || state.sources.get(page.sourceId)?.type === 'image');
+  return doc.pages.some(page =>
+    page.kind === 'image' ||
+    state.sources.get(page.sourceId)?.type === 'image' ||
+    (page.annotations || []).some(annotation => isImageAnnotation(annotation))
+  );
 }
 
 function targetStartIndexForRaster(structuralSize, targetBytes) {
@@ -4448,6 +9915,7 @@ async function compressSelectedDocuments() {
     const results = [];
     for (let i = 0; i < docs.length; i++) {
       const doc = docs[i];
+      await prepareDocumentForFileOperation(doc);
       const prefix = docs.length > 1 ? `${i + 1} of ${docs.length} · ${doc.name}: ` : '';
       const result = await compressDocumentBytes(doc, { method, level, targetBytes, normalizeLetter }, {
         onProgress: text => {
@@ -4477,7 +9945,7 @@ async function compressSelectedDocuments() {
       const { doc, bytes } = results[0];
       const filename = ensurePdfFilename(els.compressionFilename.value, defaultCompressionFilename(doc.name));
       downloadPdfBytes(bytes, filename);
-      markDocumentExported(doc);
+      await markSelectedDocumentExported(doc);
       els.compressionProgress.textContent = `Compressed ${doc.name} to ${formatFileSize(bytes.length)} as ${filename}.`;
       setStatus(`Compressed ${filename}`);
     } else {
@@ -4486,7 +9954,7 @@ async function compressSelectedDocuments() {
       const used = new Set();
       for (const { doc, bytes } of results) {
         zip.file(uniqueCompressedZipName(doc, used), bytes);
-        markDocumentExported(doc);
+        await markSelectedDocumentExported(doc);
       }
       els.compressionProgress.textContent = 'Packaging compressed PDFs into ZIP…';
       const blob = await zip.generateAsync({ type: 'blob', compression: 'STORE', mimeType: 'application/zip' });
@@ -4515,6 +9983,7 @@ async function exportSelectedDocuments() {
     const sourcePdfCache = new Map();
     if (docs.length === 1) {
       const doc = docs[0];
+      await prepareDocumentForFileOperation(doc);
       const filename = ensurePdfFilename(els.exportFilename.value, defaultExportFilename(doc.name));
       const bytes = await buildPdfBytes(doc.pages, {
         sourcePdfCache,
@@ -4525,7 +9994,7 @@ async function exportSelectedDocuments() {
       });
       els.exportProgress.textContent = 'Writing PDF…';
       downloadPdfBytes(bytes, filename);
-      markDocumentExported(doc);
+      await markSelectedDocumentExported(doc);
       const sizeMb = bytes.length / (1024 * 1024);
       els.exportProgress.textContent = `Exported ${doc.pages.length} page${doc.pages.length === 1 ? '' : 's'} (${sizeMb < 0.1 ? `${Math.round(bytes.length / 1024)} KB` : `${sizeMb.toFixed(1)} MB`}).`;
       setStatus(`Exported ${filename}`);
@@ -4535,6 +10004,7 @@ async function exportSelectedDocuments() {
       const usedNames = new Set();
       for (let i = 0; i < docs.length; i++) {
         const doc = docs[i];
+        await prepareDocumentForFileOperation(doc);
         els.exportProgress.textContent = `Building PDF ${i + 1} of ${docs.length}: ${doc.name}…`;
         setStatus(`Exporting document ${i + 1} of ${docs.length}…`, true);
         const bytes = await buildPdfBytes(doc.pages, {
@@ -4544,7 +10014,7 @@ async function exportSelectedDocuments() {
           }
         });
         zip.file(uniqueZipPdfName(doc, usedNames), bytes);
-        markDocumentExported(doc);
+        await markSelectedDocumentExported(doc);
         await new Promise(resolve => setTimeout(resolve, 0));
       }
       els.exportProgress.textContent = 'Packaging PDFs into ZIP…';
@@ -4568,9 +10038,10 @@ async function extractSelectedPdf() {
   saveCurrentDocumentState();
   const doc = currentDocument();
   if (!doc) return;
-  if (els.extractFilename.dataset.documentId !== doc.id) {
+  const extractDocumentKey = `${doc.id}\n${doc.name}`;
+  if (els.extractFilename.dataset.documentKey !== extractDocumentKey) {
     els.extractFilename.value = defaultExtractFilename(doc.name);
-    els.extractFilename.dataset.documentId = doc.id;
+    els.extractFilename.dataset.documentKey = extractDocumentKey;
   }
   const selectedPages = state.pages.filter(page => state.selected.has(page.id));
   if (!selectedPages.length) {
@@ -4747,49 +10218,70 @@ async function splitByPageGroups() {
   }
 }
 
-function createCombinedDocument() {
+async function createCombinedDocument() {
   saveCurrentDocumentState();
   reconcileCombineOrder();
-  const chosenDocs = state.combineOrder.map(documentById).filter(Boolean);
+  const chosenDocs = state.combineOrder.map(selectableDocumentById).filter(Boolean);
   if (chosenDocs.length < 2) {
     els.combineProgress.textContent = 'Choose at least two documents to combine.';
     return;
   }
-  const combinedPages = [];
-  for (const doc of chosenDocs) {
-    for (const page of doc.pages) combinedPages.push(clonePageState(page, { newId: true, includeAnnotations: true }));
+  els.combineBtn.disabled = true;
+  els.combineProgress.textContent = 'Preparing selected documents…';
+  try {
+    const combinedPages = [];
+    for (let i = 0; i < chosenDocs.length; i++) {
+      const doc = chosenDocs[i];
+      els.combineProgress.textContent = `Preparing ${i + 1} of ${chosenDocs.length}: ${doc.name}…`;
+      await prepareDocumentForFileOperation(doc);
+      for (const page of doc.pages) combinedPages.push(clonePageState(page, { newId: true, includeAnnotations: true }));
+    }
+    if (!combinedPages.length) {
+      els.combineProgress.textContent = 'The chosen documents contain no pages.';
+      return;
+    }
+    const name = String(els.combineName.value || '').trim().replace(/[\/:*?"<>|]+/g, '_') || 'Combined.pdf';
+    createUserDocument(name, combinedPages, { workspaceMode:'organize' });
+    setStatus(`Created ${name} from ${chosenDocs.length} documents (${combinedPages.length} pages)`);
+    scheduleLibraryPersist(120);
+  } catch (err) {
+    console.error(err);
+    els.combineProgress.textContent = `Combine failed: ${err?.message || err}`;
+    setStatus('Combine failed');
+  } finally {
+    if (state.workspaceMode === 'export') renderCombineList();
   }
-  if (!combinedPages.length) {
-    els.combineProgress.textContent = 'The chosen documents contain no pages.';
-    return;
-  }
-  const name = String(els.combineName.value || '').trim().replace(/[\\/:*?"<>|]+/g, '_') || 'Combined.pdf';
-  const combined = createDocument(name);
-  state.fileSelected = new Set([combined.id]);
-  state.fileSelectionInitialized = true;
-  state.combineOrder = [combined.id];
-  combined.pages = combinedPages;
-  combined.selected = new Set();
-  combined.selectionAnchorId = null;
-  combined.activePageId = combinedPages[0].id;
-  combined.history = [];
-  combined.future = [];
-  combined.singleView = { zoom: 1, fitMode: state.fitMode, scrollMode: state.scrollMode, activePageId: combinedPages[0].id, scrollTop: null, scrollLeft: null };
-  state.pages = combined.pages;
-  state.selected = combined.selected;
-  state.selectionAnchorId = null;
-  state.activePageId = combined.activePageId;
-  state.history = combined.history;
-  state.future = combined.future;
-  state.workspaceMode = 'organize';
-  saveCurrentDocumentState({ readViewDom: false });
-  renderAll({ saveState: false });
-  setStatus(`Created ${name} from ${chosenDocs.length} documents (${combinedPages.length} pages)`);
-  scheduleLibraryPersist(120);
 }
 
 function showWorkspaceMode(mode) {
+  // Preserve the visible viewer position before hiding the View workspace.
+  // Direct View -> Files/Pages navigation used to hide the scroll container
+  // before its DOM scroll position had been copied into the per-view state,
+  // so returning to View rebuilt at the top of the document.
+  if (state.workspaceMode === 'view' && mode !== 'view' && state.pages.length) {
+    if (state.splitView) {
+      savePaneScroll('left');
+      savePaneScroll('right');
+      saveCurrentDocumentState({ readViewDom:false });
+    } else {
+      saveCurrentDocumentState();
+    }
+  }
+  // Leaving Files by an ordinary workspace control cancels any transient
+  // Files round trip (Insert Asset / Manage Templates / template naming).
+  if (mode !== 'export' && state.filesReturnContext) {
+    const canceledContext = state.filesReturnContext;
+    if (canceledContext.owner==='assets') state.assetBrowserMode='manage';
+    state.filesReturnContext=null;
+    els.templateManageModeBar?.classList.add('hidden');
+    if (canceledContext.presentation) {
+      document.body.classList.remove('files-roundtrip');
+      if (canceledContext.presentationControlsVisible !== false && document.body.classList.contains('presentation')) showPresentationControls();
+    }
+  }
   state.workspaceMode = mode;
+  if (mode !== 'view' && state.annotationSelection?.ids?.size) clearAnnotationSelection(false);
+  if (mode !== 'view') state.selectionGesture = null;
   const hasPages = state.pages.length > 0;
   els.emptyState.classList.toggle('hidden', hasPages || mode === 'export');
   els.viewerPane.classList.toggle('hidden', !hasPages || mode !== 'view');
@@ -4805,6 +10297,7 @@ function showWorkspaceMode(mode) {
   if (hasPages && mode === 'view') renderViewer();
   if (hasPages && mode === 'organize') renderOrganizer();
   if (mode === 'export') renderExportPane();
+  checkpointWorkspaceNow();
 }
 
 function renderAll(options={}) {
@@ -4822,6 +10315,8 @@ function updatePageCounts() {
   els.selectionLabel.textContent = selectedCount ? `${selectedCount} selected` : 'None selected';
   const hasSelection = selectedCount > 0;
   els.rotateBtn.disabled = !hasSelection;
+  if (els.pageGraphBackgroundBtn) els.pageGraphBackgroundBtn.disabled = !hasSelection;
+  if (els.pagePurgeLegacyGraphBackgroundBtn) els.pagePurgeLegacyGraphBackgroundBtn.disabled = !hasSelection;
   if (els.pageGeometryBtn) els.pageGeometryBtn.disabled = !count;
   if (els.pageEdgeBtn) els.pageEdgeBtn.disabled = !count;
   els.duplicateBtn.disabled = !hasSelection;
@@ -4831,6 +10326,14 @@ function updatePageCounts() {
   els.selectAllBtn.textContent = selectedCount === count && count ? 'Select none' : 'Select all';
   els.pageCounter.textContent = count ? `${activeIndex() + 1} / ${count}` : '0 / 0';
   updateHistoryButtons();
+  updateSelectionToolbar();
+  // Page-dependent annotation actions must refresh whenever document/page state
+  // changes, including after asynchronous Local Library session restoration.
+  // At initial startup updateInkToolbar() runs before restored pages exist, so
+  // without this refresh the Insert Image action can remain incorrectly disabled
+  // until the user taps another annotation tool.
+  if (els.inkImageBtn) els.inkImageBtn.disabled = !count;
+  if (els.inkAssetsBtn) els.inkAssetsBtn.disabled = !count;
 }
 
 function renderOrganizer() {
@@ -4860,6 +10363,10 @@ function renderOrganizer() {
     const preview = document.createElement('div');
     preview.className = 'thumb-preview';
     const canvas = document.createElement('canvas');
+    // Avoid the browser's default 300×150 backing store for every offscreen
+    // thumbnail. IntersectionObserver expands only the nearby thumbnails.
+    canvas.width = 1;
+    canvas.height = 1;
     canvas.setAttribute('aria-label', `Preview of page ${index + 1}`);
     preview.append(canvas);
 
@@ -4881,7 +10388,7 @@ function renderOrganizer() {
     const title = document.createElement('div');
     title.className = 'thumb-title';
     const src = state.sources.get(page.sourceId);
-    const generatedLabel = page.kind === 'generated' ? (page.generatedType === 'graph' ? 'Graph paper' : 'Blank page') : null;
+    const generatedLabel = page.kind === 'generated' ? (page.generatedType === 'graph' ? 'Graph paper' : (page.generatedBackground === 'black' ? 'Black blank page' : 'Blank page')) : null;
     title.textContent = generatedLabel ? `${index + 1} · ${generatedLabel}` : `${index + 1} · ${src?.name ?? 'Page'}${src?.type === 'pdf' ? ` · p.${page.sourcePage}` : ''}`;
     title.title = title.textContent;
 
@@ -4917,11 +10424,11 @@ async function renderThumbnail(page, canvas) {
   const cssHeight = Math.max(1, bh * scale);
   await enqueueRender(async () => {
     if (!preview.isConnected || !canvas.isConnected) return;
-    await renderPageToCanvas(page, canvas, cssWidth, cssHeight, 1.05, 1_100_000);
+    await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 1.05, 1_100_000);
     // A scan image can occasionally fail to materialize while PDF.js still
     // resolves the render task. Retry once at a smaller raster size.
     if (page.kind !== 'generated' && canvasLooksBlank(canvas) && preview.isConnected) {
-      await renderPageToCanvas(page, canvas, cssWidth, cssHeight, 0.8, 650_000);
+      await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 0.8, 650_000);
     }
     drawPageAnnotationsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
   }, 0);
@@ -5124,6 +10631,10 @@ function geometryAffectedPages(scope=null) {
 
 function geometryBaseSizeFromDialog() {
   const preset = els.pageGeometryPreset?.value || 'letter';
+  if (preset === 'presentation') {
+    const dims = presentationPageDimensions();
+    return { width: dims.width, height: dims.height };
+  }
   if (preset === 'first') {
     const first = state.pages[0];
     if (!first) return null;
@@ -5244,22 +10755,8 @@ function applyPageGeometry() {
   commitHistory(before);
   els.pageGeometryDialog?.close();
 
-  // Changing page canvas sizes changes the height of the document stack. Raw
-  // scroll offsets from the old geometry are no longer meaningful. Preserve
-  // each view instance's logical active page, but let the rebuilt viewer center
-  // that page instead of restoring stale pre-resize pixels. This applies
-  // independently to same-document split panes.
-  const doc = currentDocument();
-  if (doc) {
-    const single = ensureSingleView(doc);
-    if (single) { single.scrollTop = null; single.scrollLeft = null; }
-    for (const paneId of ['left', 'right']) {
-      const pane = splitPaneState(paneId);
-      if (pane.documentId !== doc.id) continue;
-      const view = paneView(paneId, doc.id);
-      if (view) { view.scrollTop = null; view.scrollLeft = null; }
-    }
-  }
+  // Page Size and Crop/Margins share one view-state invalidation rule.
+  invalidateCurrentDocumentGeometryScroll();
   saveCurrentDocumentState({ readViewDom: false });
   renderAll({ saveState: false });
   setStatus(`Resized ${pages.length} page${pages.length === 1 ? '' : 's'} · fit & center`);
@@ -5462,6 +10959,95 @@ function rotateSelected() {
   commitHistory(before);
   renderAll();
 }
+
+function addGraphPaperBackgroundToSelected() {
+  if (!state.selected.size) return;
+  const targets = state.pages.filter(page =>
+    state.selected.has(page.id) &&
+    !(page.kind === 'generated' && page.generatedType === 'graph') &&
+    !pageHasGraphPaperBackground(page)
+  );
+  if (!targets.length) {
+    setStatus('Selected pages already have graph paper.');
+    return;
+  }
+  const before = snapshotPages();
+  for (const page of targets) page.background = makeGraphPaperBackground();
+  commitHistory(before);
+  renderAll();
+  setStatus(`Added graph paper background to ${targets.length} page${targets.length === 1 ? '' : 's'}`);
+}
+
+
+async function purgeLegacyGraphBackgroundFromSelected() {
+  if (!state.selected.size) return;
+  const selectedPdfPages = state.pages.filter(page => state.selected.has(page.id) && page.kind === 'pdf' && page.sourceId);
+  if (!selectedPdfPages.length) {
+    setStatus('No selected PDF pages to purge.');
+    return;
+  }
+  const confirmed = window.confirm(
+    'Purge the old PowerPoint graph-paper image from the selected PDF pages?\n\n' +
+    'This temporary migration tool only removes the one exact graph-paper image Workbench recognizes. Other images are left alone. The original source remains available to Undo during this session.'
+  );
+  if (!confirmed) return;
+
+  const before = snapshotPages();
+  const pagesBySource = new Map();
+  for (const page of selectedPdfPages) {
+    if (!pagesBySource.has(page.sourceId)) pagesBySource.set(page.sourceId, []);
+    pagesBySource.get(page.sourceId).push(page);
+  }
+
+  let changedPages = 0;
+  let matchedSources = 0;
+  let createdSources = 0;
+  try {
+    setStatus('Checking selected pages for the old PowerPoint graph background…', true);
+    for (const [sourceId, pages] of pagesBySource) {
+      const source = state.sources.get(sourceId) || await ensureLibrarySourceLoaded(sourceId);
+      if (!source || source.type !== 'pdf') continue;
+      const bytes = source.bytes
+        ? source.bytes.slice()
+        : source.blob instanceof Blob
+          ? new Uint8Array(await source.blob.arrayBuffer())
+          : null;
+      if (!bytes?.byteLength) continue;
+
+      const cleaned = await purgeKnownPowerPointGraphImageBytes(bytes);
+      if (!cleaned.matches || !cleaned.bytes) continue;
+      matchedSources++;
+      const derived = await createDerivedPdfSource(source, cleaned.bytes);
+      createdSources++;
+      for (const page of pages) {
+        page.sourceId = derived.id;
+        changedPages++;
+      }
+    }
+
+    if (!changedPages) {
+      setStatus('The known old PowerPoint graph-paper image was not found on the selected pages.');
+      return;
+    }
+    commitHistory(before);
+    saveCurrentDocumentState({ readViewDom:false });
+    renderAll({ saveState:false });
+    scheduleLibraryPersist(100);
+    setStatus(`Purged old graph image from ${changedPages} selected page${changedPages === 1 ? '' : 's'} (${matchedSources} source PDF${matchedSources === 1 ? '' : 's'} cleaned).`);
+  } catch (err) {
+    console.error('Could not purge old graph background', err);
+    // Do not leave a partially repointed document if a later source fails.
+    restorePages(before);
+    for (const [sourceId, source] of [...state.sources.entries()]) {
+      if (!source?.libraryPersisted && source.type === 'pdf' && !librarySourceStillReferenced(sourceId)) {
+        try { source.pdf?.destroy?.(); } catch {}
+        state.sources.delete(sourceId);
+      }
+    }
+    setStatus(`Could not purge old graph image: ${err?.message || err}`);
+  }
+}
+
 function duplicateSelected() {
   if (!state.selected.size) return;
   const before = snapshotPages();
@@ -5859,8 +11445,14 @@ function applyLiveSingleZoom() {
     const size = computeCssSize(page);
     stage.style.width = `${size.width}px`;
     stage.style.height = `${size.height}px`;
-    const canvas = stage.querySelector('canvas');
-    if (canvas) { canvas.style.width = `${size.width}px`; canvas.style.height = `${size.height}px`; }
+    // The PDF raster and annotation overlay are separate canvases. Resize
+    // both during the live pinch preview so annotations track page geometry
+    // continuously instead of remaining at their pre-pinch CSS size until the
+    // final crisp rerender.
+    stage.querySelectorAll('canvas').forEach(canvas => {
+      canvas.style.width = `${size.width}px`;
+      canvas.style.height = `${size.height}px`;
+    });
   });
   const g = state.pinchGesture;
   // Force a layout read, then correct from the measured post-scale geometry.
@@ -5884,8 +11476,14 @@ function applyLivePaneZoom(paneId) {
     const size = computePaneCssSize(page, paneId, view);
     stage.style.width = `${size.width}px`;
     stage.style.height = `${size.height}px`;
-    const canvas = stage.querySelector('canvas');
-    if (canvas) { canvas.style.width = `${size.width}px`; canvas.style.height = `${size.height}px`; }
+    // The PDF raster and annotation overlay are separate canvases. Resize
+    // both during the live pinch preview so annotations track page geometry
+    // continuously instead of remaining at their pre-pinch CSS size until the
+    // final crisp rerender.
+    stage.querySelectorAll('canvas').forEach(canvas => {
+      canvas.style.width = `${size.width}px`;
+      canvas.style.height = `${size.height}px`;
+    });
   });
   const g = pane.pinchGesture;
   void pe.viewer.scrollHeight;
@@ -5909,6 +11507,106 @@ function queuePinchZoom(value, paneId=null) {
   updateViewerLabels();
   if (!state.pinchRenderFrame) state.pinchRenderFrame = requestAnimationFrame(applyLiveSingleZoom);
 }
+// Finish a pinch without rebuilding the viewer DOM. 5.6.8 called
+// renderViewer()/renderSplitPane() at release, which immediately removed the
+// live-scaled canvases and exposed a blank/"Rendering…" stage while PDF.js
+// produced the crisp raster. That was visible as a distracting post-pinch
+// blip. Render into a temporary canvas instead, keep the scaled bitmap visible,
+// then swap the new pixels synchronously once they are ready.
+async function refreshPinchStageRasterInPlace(stage, page, size, options={}) {
+  if (!stage?.isConnected || !page || stage.dataset.wantRender === 'false') return false;
+  if (stage.dataset.rendered !== 'true') return false;
+  const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  if (!base) return false;
+
+  const expectedWidth = Number(size?.width) || 0;
+  const expectedHeight = Number(size?.height) || 0;
+  const stillCurrent = () => {
+    if (!stage.isConnected || stage.dataset.wantRender === 'false') return false;
+    if (typeof options.isCurrent === 'function' && !options.isCurrent()) return false;
+    const currentWidth = parseFloat(stage.style.width) || stage.getBoundingClientRect().width;
+    const currentHeight = parseFloat(stage.style.height) || stage.getBoundingClientRect().height;
+    return Math.abs(currentWidth - expectedWidth) < .75 && Math.abs(currentHeight - expectedHeight) < .75;
+  };
+
+  const temp = document.createElement('canvas');
+  try {
+    const didRender = await enqueueRender(async () => {
+      if (!stillCurrent()) return false;
+      await renderPageToCanvasDiagnostic(page, temp, expectedWidth, expectedHeight, options.dpr || 1, options.maxPixels || 6_000_000);
+      return true;
+    }, 12);
+    if (!didRender || !stillCurrent() || !temp.width || !temp.height) return false;
+
+    if (page.kind !== 'generated' && canvasLooksBlank(temp)) {
+      const didFallbackRender = await enqueueRender(async () => {
+        if (!stillCurrent()) return false;
+        await renderPageToCanvasDiagnostic(page, temp, expectedWidth, expectedHeight, 1, options.fallbackPixels || 2_000_000);
+        return true;
+      }, 12);
+      if (!didFallbackRender || !stillCurrent() || !temp.width || !temp.height) return false;
+    }
+
+    // Width/height assignment clears the destination, but the replacement draw
+    // and annotation repaint occur in this same JS turn, so the browser never
+    // paints the cleared canvas between them.
+    base.width = temp.width;
+    base.height = temp.height;
+    base.style.width = `${expectedWidth}px`;
+    base.style.height = `${expectedHeight}px`;
+    const ctx = base.getContext('2d', { alpha:false });
+    ctx.drawImage(temp, 0, 0);
+    redrawStageAnnotations(stage, page);
+    stage.dataset.rendered = 'true';
+    stage.querySelector('.page-loading')?.remove();
+    return true;
+  } catch (err) {
+    // The scaled pre-pinch bitmap is still valid and preferable to replacing it
+    // with an error/blank stage. A later normal render can retry.
+    console.warn('Post-pinch crisp raster refresh failed', err);
+    return false;
+  }
+}
+
+function refreshSinglePinchRasterInPlace() {
+  const token = state.pinchCrispToken || 0;
+  const jobs = [];
+  for (const stage of els.viewer.querySelectorAll('.page-stage[data-page-id]')) {
+    if (stage.dataset.rendered !== 'true' || stage.dataset.wantRender === 'false') continue;
+    const page = pageById(stage.dataset.pageId);
+    if (!page) continue;
+    const size = computeCssSize(page);
+    jobs.push(refreshPinchStageRasterInPlace(stage, page, size, {
+      dpr:clamp(window.devicePixelRatio || 1, 1, 2.25),
+      maxPixels:6_000_000,
+      fallbackPixels:2_000_000,
+      isCurrent:() => !state.splitView && (state.pinchCrispToken || 0) === token,
+    }));
+  }
+  Promise.allSettled(jobs).catch(() => {});
+}
+
+function refreshPanePinchRasterInPlace(paneId) {
+  const pane = splitPaneState(paneId), view = paneView(paneId), pe = paneElements(paneId);
+  const doc = documentById(pane.documentId);
+  if (!pane || !view || !pe?.viewer || !doc) return;
+  const token = pane.pinchCrispToken || 0;
+  const jobs = [];
+  for (const stage of pe.viewer.querySelectorAll('.page-stage[data-page-id]')) {
+    if (stage.dataset.rendered !== 'true' || stage.dataset.wantRender === 'false') continue;
+    const page = splitPageById(doc, stage.dataset.pageId);
+    if (!page) continue;
+    const size = computePaneCssSize(page, paneId, view);
+    jobs.push(refreshPinchStageRasterInPlace(stage, page, size, {
+      dpr:clamp(window.devicePixelRatio || 1, 1, 2.1),
+      maxPixels:4_500_000,
+      fallbackPixels:1_800_000,
+      isCurrent:() => state.splitView && pane.documentId === doc.id && (pane.pinchCrispToken || 0) === token,
+    }));
+  }
+  Promise.allSettled(jobs).catch(() => {});
+}
+
 function updateViewerLabels() {
   const settings = activeViewerSettings();
   const modeLabel = { continuous: 'Continuous', snap: 'Page snap', single: 'Full page' }[settings.scrollMode];
@@ -6029,6 +11727,7 @@ function toggleSplitView() {
 
   if (document.body.classList.contains('presentation')) showPresentationControls();
   setStatus(state.splitView ? 'Side-by-side view' : 'Single-document view');
+  checkpointWorkspaceNow();
 }
 
 function computeCssSize(page) {
@@ -6056,16 +11755,51 @@ function ensurePageLoading(stage, text='Rendering…') {
 }
 
 function releaseViewerStage(stage) {
-  const canvas = stage.querySelector('canvas');
-  if (canvas) {
+  const pageId = stage?.dataset?.pageId || null;
+  const doc = state.documents.find(item => item.pages?.some(page => page.id === pageId)) || null;
+  const page = doc?.pages?.find(item => item.id === pageId) || null;
+  recordRenderDiagnostic('viewer-stage-release', page, { stage:diagnosticStageState(stage) });
+  for (const canvas of stage.querySelectorAll('canvas')) {
     // Resetting width/height releases the browser/GPU backing store. This is
     // essential for long scan-only PDFs, where each visible page can otherwise
     // keep several megabytes (or much more) of decoded raster memory alive.
     canvas.width = 1;
     canvas.height = 1;
   }
+  stage.querySelector('svg.annotation-selection-layer')?.remove();
   delete stage.dataset.rendered;
+  clearStageRenderDiagnostic(stage);
   ensurePageLoading(stage, 'Rendering…');
+}
+
+
+function releaseViewerDom(viewer, reason='viewer-rebuild') {
+  if (!viewer) return { canvasCount:0, backingPixels:0, stageCount:0 };
+  const canvases = [...viewer.querySelectorAll('canvas')];
+  const stages = viewer.querySelectorAll('.page-stage[data-page-id]').length;
+  let backingPixels = 0;
+  for (const canvas of canvases) {
+    backingPixels += Math.max(0, Number(canvas.width) || 0) * Math.max(0, Number(canvas.height) || 0);
+    // On iPad/WebKit, merely removing a canvas node does not guarantee prompt
+    // release of its CPU/GPU backing store. Collapse every outgoing bitmap
+    // before detaching the old viewer DOM so document/layout switches do not
+    // temporarily retain both the old and new page rasters.
+    try {
+      canvas.width = 1;
+      canvas.height = 1;
+    } catch {}
+  }
+  if (canvases.length || stages) {
+    addInkDiagnostic('viewer-dom-release', null, {
+      reason,
+      canvasCount:canvases.length,
+      stageCount:stages,
+      backingPixels,
+      estimatedRgbaMb:Math.round((backingPixels * 4 / 1048576) * 10) / 10,
+    });
+  }
+  viewer.replaceChildren();
+  return { canvasCount:canvases.length, backingPixels, stageCount:stages };
 }
 
 function canvasLooksBlank(canvas) {
@@ -6101,7 +11835,7 @@ function renderSingleViewer() {
   const restoreLeft = Number.isFinite(savedView?.scrollLeft) ? savedView.scrollLeft : null;
   state.suppressSingleScrollSave = true;
   state.pageObserver?.disconnect();
-  els.viewer.replaceChildren();
+  releaseViewerDom(els.viewer, 'single-viewer-rebuild');
   els.viewer.className = `viewer ${state.scrollMode} fit-${state.fitMode}`;
   updateViewerLabels();
   if (!state.pages.length) { state.suppressSingleScrollSave = false; return; }
@@ -6118,10 +11852,15 @@ function renderSingleViewer() {
         if (page && canvas && stage.dataset.rendered !== 'loading' && stage.dataset.rendered !== 'true') {
           stage.dataset.rendered = 'loading';
           ensurePageLoading(stage);
+          markStageRenderRequested(stage, page, 'intersection', { generation, viewer:'single' });
           renderViewerPage(page, stage, canvas, generation).catch(err => renderError(stage, err));
         }
       } else {
         stage.dataset.wantRender = 'false';
+        if (stage.dataset.rendered === 'loading') {
+          const page = pageById(stage.dataset.pageId);
+          if (page) recordRenderDiagnostic('viewer-loading-left-viewport', page, { generation, viewer:'single', stage:diagnosticStageState(stage) });
+        }
         // This callback fires only after the page has left the generous root
         // margin, so releasing it does not cause normal nearby scrolling to
         // constantly render/evict the same page.
@@ -6141,6 +11880,10 @@ function renderSingleViewer() {
     stage.style.width = `${size.width}px`;
     stage.style.height = `${size.height}px`;
     const canvas = document.createElement('canvas');
+    // Avoid the browser's default 300x150 backing store for every lazy page.
+    // A 200+ page document otherwise consumes tens of MB before rendering.
+    canvas.width = 1;
+    canvas.height = 1;
     const loading = document.createElement('div');
     loading.className = 'page-loading';
     loading.textContent = 'Rendering…';
@@ -6150,9 +11893,11 @@ function renderSingleViewer() {
     else {
       stage.dataset.wantRender = 'true';
       stage.dataset.rendered = 'loading';
+      markStageRenderRequested(stage, page, 'single-page-initial', { generation, viewer:'single' });
       renderViewerPage(page, stage, canvas, generation).catch(err => renderError(stage, err));
     }
   }
+  appendEndOfDocumentPullTarget(els.viewer, state.currentDocumentId, state.scrollMode);
   if (state.scrollMode !== 'single') {
     requestAnimationFrame(() => {
       if (restoreTop !== null || restoreLeft !== null) {
@@ -6360,7 +12105,7 @@ function renderSplitView() {
   // the bounded raster queue.
   state.renderGeneration++;
   state.pageObserver?.disconnect();
-  els.viewer.replaceChildren();
+  releaseViewerDom(els.viewer, 'enter-split-release-single');
   els.viewer.classList.add('hidden');
   els.singlePageNav.classList.add('hidden');
   els.splitViewer.classList.remove('hidden');
@@ -6379,7 +12124,7 @@ function renderSplitPane(paneId) {
   const restoreLeft = Number.isFinite(view?.scrollLeft) ? view.scrollLeft : null;
   pane.suppressScrollSave = true;
   pane.observer?.disconnect();
-  pe.viewer.replaceChildren();
+  releaseViewerDom(pe.viewer, `split-${paneId}-rebuild`);
   pe.viewer.className = `viewer split-pane-viewer ${view?.scrollMode || 'continuous'} fit-${view?.fitMode || 'width'}`;
   updateSplitPaneNav(paneId);
   if (!doc?.pages?.length || !view) { pane.suppressScrollSave = false; return; }
@@ -6396,10 +12141,15 @@ function renderSplitPane(paneId) {
         if (page && canvas && stage.dataset.rendered !== 'loading' && stage.dataset.rendered !== 'true') {
           stage.dataset.rendered = 'loading';
           ensurePageLoading(stage);
+          markStageRenderRequested(stage, page, 'intersection', { generation, viewer:`split-${paneId}`, paneId });
           renderSplitViewerPage(paneId, page, stage, canvas, generation).catch(err => renderError(stage, err));
         }
       } else {
         stage.dataset.wantRender = 'false';
+        if (stage.dataset.rendered === 'loading') {
+          const page = splitPageById(doc, stage.dataset.pageId);
+          if (page) recordRenderDiagnostic('viewer-loading-left-viewport', page, { generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
+        }
         if (stage.dataset.rendered === 'true' || stage.dataset.rendered === 'error') releaseViewerStage(stage);
       }
     }
@@ -6415,6 +12165,10 @@ function renderSplitPane(paneId) {
     stage.style.width = `${size.width}px`;
     stage.style.height = `${size.height}px`;
     const canvas = document.createElement('canvas');
+    // Avoid the browser's default 300x150 backing store for every lazy page.
+    // A 200+ page document otherwise consumes tens of MB before rendering.
+    canvas.width = 1;
+    canvas.height = 1;
     const loading = document.createElement('div');
     loading.className = 'page-loading';
     loading.textContent = 'Rendering…';
@@ -6424,9 +12178,11 @@ function renderSplitPane(paneId) {
     else {
       stage.dataset.wantRender = 'true';
       stage.dataset.rendered = 'loading';
+      markStageRenderRequested(stage, page, 'single-page-initial', { generation, viewer:`split-${paneId}`, paneId });
       renderSplitViewerPage(paneId, page, stage, canvas, generation).catch(err => renderError(stage, err));
     }
   }
+  appendEndOfDocumentPullTarget(pe.viewer, doc.id, view.scrollMode);
 
   const structuralAnchor = pane.pendingStructuralAnchor?.documentId === doc.id
     ? pane.pendingStructuralAnchor
@@ -6472,36 +12228,57 @@ function renderSplitPane(paneId) {
 async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
   const pane = splitPaneState(paneId), view = paneView(paneId);
   const size = computePaneCssSize(page, paneId, view);
-  if (generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false') return;
+  const requestId = Number(stage?.dataset?.renderDiagnosticRequestId || 0) || null;
+  if (generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false') {
+    recordRenderDiagnostic('viewer-render-precheck-skip', page, { requestId, generation, currentGeneration:pane.generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
+    return;
+  }
   stage.style.width = `${size.width}px`;
   stage.style.height = `${size.height}px`;
   const dpr = clamp(window.devicePixelRatio || 1, 1, 2.1);
   const didRender = await enqueueRender(async () => {
-    if (generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
-    await renderPageToCanvas(page, canvas, size.width, size.height, dpr, 4_500_000);
+    const stale = generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false';
+    if (stale) {
+      recordRenderDiagnostic('viewer-render-queue-skip', page, { requestId, generation, currentGeneration:pane.generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
+      return false;
+    }
+    recordRenderDiagnostic('viewer-render-start', page, { requestId, generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
+    await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, 4_500_000);
     return true;
   }, 10);
-  if (!didRender || generation !== pane.generation || !stage.isConnected) return;
+  if (!didRender || generation !== pane.generation || !stage.isConnected) {
+    if (stage?.isConnected && stage.dataset.rendered === 'loading') {
+      recordRenderDiagnostic('viewer-render-left-loading', page, { requestId, generation, currentGeneration:pane.generation, viewer:`split-${paneId}`, paneId, didRender:!!didRender, stage:diagnosticStageState(stage) });
+    }
+    return;
+  }
   if (stage.dataset.wantRender === 'false') { releaseViewerStage(stage); return; }
   if (page.kind !== 'generated' && canvasLooksBlank(canvas)) {
+    recordRenderDiagnostic('viewer-render-retry-blank', page, { requestId, generation, viewer:`split-${paneId}`, paneId });
     ensurePageLoading(stage, 'Retrying scan…');
     await enqueueRender(async () => {
       if (generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
-      await renderPageToCanvas(page, canvas, size.width, size.height, 1, 1_800_000);
+      await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, 1, 1_800_000);
       return true;
     }, 11);
   }
   if (generation !== pane.generation || !stage.isConnected) return;
   if (stage.dataset.wantRender === 'false') { releaseViewerStage(stage); return; }
-  drawPageAnnotationsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
+  redrawStageAnnotations(stage, page);
   stage.dataset.rendered = 'true';
   stage.querySelector('.page-loading')?.remove();
+  recordRenderDiagnostic('viewer-render-complete', page, { requestId, generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
+  clearStageRenderDiagnostic(stage);
 }
 
-function goPanePage(paneId, delta) {
+function goPanePage(paneId, delta, allowAppend=false) {
   const pane = splitPaneState(paneId), doc = documentById(pane.documentId), view = paneView(paneId);
   if (!doc?.pages?.length || !view) return;
   const current = splitActiveIndex(doc, view);
+  if (allowAppend && delta > 0 && current >= doc.pages.length - 1) {
+    appendAutomaticLastPage(doc.id, paneId);
+    return;
+  }
   const next = clamp(current + delta, 0, doc.pages.length - 1);
   if (next === current && doc.pages[next]?.id === view.activePageId) return;
   view.activePageId = doc.pages[next].id;
@@ -6512,7 +12289,12 @@ function goPanePage(paneId, delta) {
 
 function renderViewer() {
   if (state.splitView) return renderSplitView();
-  for (const pane of Object.values(state.splitPanes)) { pane.generation++; pane.observer?.disconnect(); }
+  for (const [paneId, pane] of Object.entries(state.splitPanes)) {
+    pane.generation++;
+    pane.observer?.disconnect();
+    const pe = paneElements(paneId);
+    if (pe?.viewer) releaseViewerDom(pe.viewer, `leave-split-release-${paneId}`);
+  }
   els.splitViewer.classList.add('hidden');
   els.viewer.classList.remove('hidden');
   return renderSingleViewer();
@@ -6520,7 +12302,11 @@ function renderViewer() {
 
 async function renderViewerPage(page, stage, canvas, generation) {
   const size = computeCssSize(page);
-  if (generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false') return;
+  const requestId = Number(stage?.dataset?.renderDiagnosticRequestId || 0) || null;
+  if (generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false') {
+    recordRenderDiagnostic('viewer-render-precheck-skip', page, { requestId, generation, currentGeneration:state.renderGeneration, viewer:'single', stage:diagnosticStageState(stage) });
+    return;
+  }
   stage.style.width = `${size.width}px`;
   stage.style.height = `${size.height}px`;
   const dpr = clamp(window.devicePixelRatio || 1, 1, 2.25);
@@ -6528,12 +12314,22 @@ async function renderViewerPage(page, stage, canvas, generation) {
   const didRender = await enqueueRender(async () => {
     // Stale/offscreen jobs may sit in the queue for a while. Check again at
     // execution time so they do not consume memory after the user has moved on.
-    if (generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
-    await renderPageToCanvas(page, canvas, size.width, size.height, dpr, 6_000_000);
+    const stale = generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false';
+    if (stale) {
+      recordRenderDiagnostic('viewer-render-queue-skip', page, { requestId, generation, currentGeneration:state.renderGeneration, viewer:'single', stage:diagnosticStageState(stage) });
+      return false;
+    }
+    recordRenderDiagnostic('viewer-render-start', page, { requestId, generation, viewer:'single', stage:diagnosticStageState(stage) });
+    await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, 6_000_000);
     return true;
   }, 10);
 
-  if (!didRender || generation !== state.renderGeneration || !stage.isConnected) return;
+  if (!didRender || generation !== state.renderGeneration || !stage.isConnected) {
+    if (stage?.isConnected && stage.dataset.rendered === 'loading') {
+      recordRenderDiagnostic('viewer-render-left-loading', page, { requestId, generation, currentGeneration:state.renderGeneration, viewer:'single', didRender:!!didRender, stage:diagnosticStageState(stage) });
+    }
+    return;
+  }
   if (stage.dataset.wantRender === 'false') {
     releaseViewerStage(stage);
     return;
@@ -6544,10 +12340,11 @@ async function renderViewerPage(page, stage, canvas, generation) {
   // lower-resolution second render is much less demanding and is preferable to
   // leaving an apparently missing page.
   if (page.kind !== 'generated' && canvasLooksBlank(canvas)) {
+    recordRenderDiagnostic('viewer-render-retry-blank', page, { requestId, generation, viewer:'single' });
     ensurePageLoading(stage, 'Retrying scan…');
     await enqueueRender(async () => {
       if (generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
-      await renderPageToCanvas(page, canvas, size.width, size.height, 1, 2_000_000);
+      await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, 1, 2_000_000);
       return true;
     }, 11);
   }
@@ -6557,9 +12354,11 @@ async function renderViewerPage(page, stage, canvas, generation) {
     releaseViewerStage(stage);
     return;
   }
-  drawPageAnnotationsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
+  redrawStageAnnotations(stage, page);
   stage.dataset.rendered = 'true';
   stage.querySelector('.page-loading')?.remove();
+  recordRenderDiagnostic('viewer-render-complete', page, { requestId, generation, viewer:'single', stage:diagnosticStageState(stage) });
+  clearStageRenderDiagnostic(stage);
 }
 
 async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxPixels=10_000_000) {
@@ -6578,9 +12377,22 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
   canvas.style.width = `${cssWidth}px`;
   canvas.style.height = `${cssHeight}px`;
   const ctx = canvas.getContext('2d', { alpha: false });
+  const generatedFill = page.kind === 'generated' && page.generatedType === 'blank' && page.generatedBackground === 'black' ? '#000' : '#fff';
+  const graphBackgroundSettings = pageGraphPaperSettings(page);
+
+  // Page-size normalization and crop/margin geometry are calculated before the
+  // base layer so an added background always belongs to the final visible page,
+  // not to the imported PDF's source rectangle. The imported PDF itself is then
+  // painted transparently over that background.
+  const coreBase = pageCoreCanvasBaseDimensions(page);
+  const coreDisplay = page.rotation % 180 === 0 ? coreBase : { width: coreBase.height, height: coreBase.width };
+  const finalDisplay = pageDisplayDimensions(page);
+  const edges = displayEdgeAdjustments(page);
+
   ctx.save();
-  ctx.fillStyle = '#fff';
+  ctx.fillStyle = generatedFill;
   ctx.fillRect(0, 0, targetW, targetH);
+  if (graphBackgroundSettings) drawGraphPaperCanvas(ctx, targetW, targetH, finalDisplay.width, finalDisplay.height, graphBackgroundSettings);
   ctx.restore();
 
   const drawNaturalContent = async (targetCtx, contentW, contentH) => {
@@ -6595,7 +12407,12 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
       const natural = pdfPage.getViewport({ scale: 1, rotation: totalRotation });
       const scale = contentW / natural.width;
       const viewport = pdfPage.getViewport({ scale, rotation: totalRotation });
-      try { await pdfPage.render({ canvasContext: targetCtx, viewport }).promise; }
+      const renderOptions = { canvasContext: targetCtx, viewport };
+      // PDF.js normally paints an opaque white page background before the PDF
+      // operators. When Workbench supplies a background, keep transparent source
+      // areas transparent so the Workbench layer remains visible underneath.
+      if (graphBackgroundSettings) renderOptions.background = 'rgba(255,255,255,0)';
+      try { await pdfPage.render(renderOptions).promise; }
       finally { try { pdfPage.cleanup?.(); } catch {} }
     } else {
       const img = await getSourceImage(source);
@@ -6613,16 +12430,13 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
   // natural source proportionally into that core canvas. Crop / margin changes
   // are a second, independent edge transform around the core: positive edge
   // values add white canvas; negative values crop without rescaling content.
-  const coreBase = pageCoreCanvasBaseDimensions(page);
-  const coreDisplay = page.rotation % 180 === 0 ? coreBase : { width: coreBase.height, height: coreBase.width };
-  const finalDisplay = pageDisplayDimensions(page);
-  const edges = displayEdgeAdjustments(page);
-
   const renderCore = async (targetCtx, corePixelW, corePixelH) => {
-    targetCtx.save();
-    targetCtx.fillStyle = '#fff';
-    targetCtx.fillRect(0, 0, corePixelW, corePixelH);
-    targetCtx.restore();
+    if (!graphBackgroundSettings) {
+      targetCtx.save();
+      targetCtx.fillStyle = generatedFill;
+      targetCtx.fillRect(0, 0, corePixelW, corePixelH);
+      targetCtx.restore();
+    }
     if (!hasPageCanvasOverride(page)) {
       await drawNaturalContent(targetCtx, corePixelW, corePixelH);
       return;
@@ -6634,13 +12448,20 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
     const contentCanvas = document.createElement('canvas');
     contentCanvas.width = contentW;
     contentCanvas.height = contentH;
-    const contentCtx = contentCanvas.getContext('2d', { alpha: false });
-    contentCtx.fillStyle = '#fff';
-    contentCtx.fillRect(0, 0, contentW, contentH);
+    const contentCtx = contentCanvas.getContext('2d', { alpha: !!graphBackgroundSettings });
+    if (!graphBackgroundSettings) {
+      contentCtx.fillStyle = generatedFill;
+      contentCtx.fillRect(0, 0, contentW, contentH);
+    } else {
+      contentCtx.clearRect(0, 0, contentW, contentH);
+    }
     await drawNaturalContent(contentCtx, contentW, contentH);
     const x = Math.round((corePixelW - contentW) / 2);
     const y = Math.round((corePixelH - contentH) / 2);
     targetCtx.drawImage(contentCanvas, x, y);
+    // Release this temporary backing store promptly on memory-constrained iPads.
+    contentCanvas.width = 0;
+    contentCanvas.height = 0;
   };
 
   if (!hasPageEdgeAdjustments(page)) {
@@ -6653,18 +12474,26 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
   const coreCanvas = document.createElement('canvas');
   coreCanvas.width = corePixelW;
   coreCanvas.height = corePixelH;
-  const coreCtx = coreCanvas.getContext('2d', { alpha: false });
+  const coreCtx = coreCanvas.getContext('2d', { alpha: !!graphBackgroundSettings });
+  if (graphBackgroundSettings) coreCtx.clearRect(0, 0, corePixelW, corePixelH);
   await renderCore(coreCtx, corePixelW, corePixelH);
   const x = Math.round(targetW * edges.left / finalDisplay.width);
   const y = Math.round(targetH * edges.top / finalDisplay.height);
   ctx.drawImage(coreCanvas, x, y);
+  coreCanvas.width = 0;
+  coreCanvas.height = 0;
 }
 
 function renderError(stage, err) {
   console.error(err);
+  const pageId = stage?.dataset?.pageId || null;
+  const doc = state.documents.find(item => item.pages?.some(page => page.id === pageId)) || null;
+  const page = doc?.pages?.find(item => item.id === pageId) || null;
+  recordRenderDiagnostic('viewer-render-error', page, { message:String(err?.message || err), stage:diagnosticStageState(stage) });
   const loading = ensurePageLoading(stage, 'Could not render this page — scroll away and back to retry');
   loading.title = err?.message || String(err);
   stage.dataset.rendered = 'error';
+  clearStageRenderDiagnostic(stage);
 }
 function markActivePage() {
   els.viewer.querySelectorAll('.page-stage').forEach(el => el.classList.toggle('active-page', el.dataset.pageId === state.activePageId));
@@ -6673,13 +12502,165 @@ function scrollActivePageIntoView(behavior='smooth') {
   const el = els.viewer.querySelector(`.page-stage[data-page-id="${CSS.escape(state.activePageId || '')}"]`);
   el?.scrollIntoView({ block: 'center', inline: 'center', behavior });
 }
-function goPage(delta) {
+function goPage(delta, allowAppend=false) {
   if (!state.pages.length) return;
-  const next = clamp(activeIndex() + delta, 0, state.pages.length - 1);
-  if (next === activeIndex() && state.pages[next]?.id === state.activePageId) return;
+  const current = activeIndex();
+  if (allowAppend && delta > 0 && current >= state.pages.length - 1) {
+    appendAutomaticLastPage(state.currentDocumentId, null);
+    return;
+  }
+  const next = clamp(current + delta, 0, state.pages.length - 1);
+  if (next === current && state.pages[next]?.id === state.activePageId) return;
   state.activePageId = state.pages[next].id;
   if (state.scrollMode === 'single') renderViewer();
   else { markActivePage(); scrollActivePageIntoView(); updatePageCounts(); }
+}
+
+function presentationNavigationContext() {
+  if (!document.body.classList.contains('presentation')) return null;
+  if (state.splitView) {
+    const paneId = state.activePaneId;
+    syncSplitActivePageFromViewport(paneId, { updateUi: false });
+    const pane = splitPaneState(paneId);
+    const doc = documentById(pane.documentId);
+    const view = paneView(paneId);
+    if (!doc?.pages?.length || !view) return null;
+    return { documentId: doc.id, doc, paneId, pageId: view.activePageId || doc.pages[0].id };
+  }
+  syncSingleActivePageFromViewport({ updateUi: false });
+  const doc = currentDocument();
+  const view = ensureSingleView(doc);
+  if (!doc?.pages?.length || !view) return null;
+  return { documentId: doc.id, doc, paneId: null, pageId: state.activePageId || view.activePageId || doc.pages[0].id };
+}
+
+function presentationPageDrawerOpen() {
+  return !!els.presentationPageDrawerLayer && !els.presentationPageDrawerLayer.classList.contains('hidden');
+}
+
+function closePresentationPageDrawer() {
+  state.presentationThumbObserver?.disconnect();
+  state.presentationThumbObserver = null;
+  // A canvas defaults to a 300×150 backing store even before its lazy thumbnail
+  // render runs. Release both rendered and never-rendered drawer canvases as soon
+  // as the drawer closes so repeated Presentation navigation does not leave
+  // hidden bitmap memory resident on iPad.
+  if (els.presentationPageDrawerScroller) {
+    for (const canvas of els.presentationPageDrawerScroller.querySelectorAll('canvas')) {
+      canvas.width = 0;
+      canvas.height = 0;
+    }
+    els.presentationPageDrawerScroller.replaceChildren();
+  }
+  els.presentationPageDrawerLayer?.classList.add('hidden');
+  els.presentationPageDrawerLayer?.setAttribute('aria-hidden', 'true');
+  els.presentationPagesBtn?.setAttribute('aria-expanded', 'false');
+}
+
+function renderPresentationPageDrawer() {
+  const scroller = els.presentationPageDrawerScroller;
+  const context = presentationNavigationContext();
+  if (!scroller || !context) return false;
+
+  state.presentationThumbObserver?.disconnect();
+  scroller.replaceChildren();
+
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      const card = entry.target;
+      observer.unobserve(card);
+      const page = context.doc.pages.find(item => item.id === card.dataset.pageId);
+      const canvas = card.querySelector('canvas');
+      if (page && canvas) renderThumbnail(page, canvas).catch(console.error);
+    }
+  }, { root: scroller, rootMargin: '260px 0px' });
+  state.presentationThumbObserver = observer;
+
+  context.doc.pages.forEach((page, index) => {
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = `presentation-page-thumb${page.id === context.pageId ? ' current' : ''}`;
+    card.dataset.pageId = page.id;
+    card.setAttribute('aria-label', `Go to page ${index + 1}`);
+    if (page.id === context.pageId) card.setAttribute('aria-current', 'page');
+
+    const preview = document.createElement('div');
+    preview.className = 'thumb-preview presentation-page-thumb-preview';
+    const canvas = document.createElement('canvas');
+    canvas.setAttribute('aria-label', `Preview of page ${index + 1}`);
+    preview.append(canvas);
+
+    const label = document.createElement('span');
+    label.className = 'presentation-page-thumb-label';
+    label.textContent = String(index + 1);
+
+    card.append(preview, label);
+    card.addEventListener('click', () => jumpPresentationToPage(context.documentId, page.id, context.paneId));
+    scroller.append(card);
+    observer.observe(card);
+  });
+
+  requestAnimationFrame(() => {
+    const current = scroller.querySelector('.presentation-page-thumb.current');
+    if (!current) return;
+    const target = current.offsetTop - Math.max(0, (scroller.clientHeight - current.offsetHeight) / 2);
+    scroller.scrollTop = Math.max(0, target);
+  });
+  return true;
+}
+
+function openPresentationPageDrawer() {
+  if (!document.body.classList.contains('presentation') || !els.presentationPageDrawerLayer) return;
+  if (!renderPresentationPageDrawer()) return;
+  els.presentationPageDrawerLayer.classList.remove('hidden');
+  els.presentationPageDrawerLayer.setAttribute('aria-hidden', 'false');
+  els.presentationPagesBtn?.setAttribute('aria-expanded', 'true');
+  showPresentationControls();
+}
+
+function togglePresentationPageDrawer() {
+  if (presentationPageDrawerOpen()) closePresentationPageDrawer();
+  else openPresentationPageDrawer();
+}
+
+function jumpPresentationToPage(documentId, pageId, paneId=null) {
+  const doc = documentById(documentId);
+  if (!doc?.pages?.some(page => page.id === pageId)) return;
+
+  if (state.splitView) {
+    if (!paneId) return;
+    const pane = splitPaneState(paneId);
+    if (pane.documentId !== documentId) return;
+    const view = paneView(paneId, documentId);
+    if (!view) return;
+    view.activePageId = pageId;
+    if (state.activePaneId === paneId) state.activePageId = pageId;
+    if (view.scrollMode === 'single') {
+      renderSplitPane(paneId);
+    } else {
+      markSplitActivePage(paneId);
+      scrollSplitActivePageIntoView(paneId, 'auto');
+      requestAnimationFrame(() => savePaneScroll(paneId));
+    }
+    if (state.activePaneId === paneId) updateViewerLabels();
+  } else {
+    if (state.currentDocumentId !== documentId) return;
+    const view = ensureSingleView(doc);
+    state.activePageId = pageId;
+    doc.activePageId = pageId;
+    if (view) view.activePageId = pageId;
+    if (view?.scrollMode === 'single') {
+      renderViewer();
+    } else {
+      markActivePage();
+      scrollActivePageIntoView('auto');
+      updatePageCounts();
+      requestAnimationFrame(updateSingleViewScrollFromDom);
+    }
+    updateViewerLabels();
+  }
+  closePresentationPageDrawer();
 }
 
 function finePointerHoverAvailable() {
@@ -6869,6 +12850,7 @@ function restorePresentationTransition(snapshot) {
 }
 
 async function enterPresentation() {
+  closePresentationPageDrawer();
   const transition = capturePresentationTransition();
   const guardedSingleTransition = !!transition && !transition.split && !state.splitView;
   if (guardedSingleTransition) {
@@ -6907,6 +12889,7 @@ async function enterPresentation() {
   }
 }
 async function exitPresentation() {
+  closePresentationPageDrawer();
   const transition = capturePresentationTransition();
   document.body.classList.remove('presentation', 'presentation-controls-visible');
   els.presentationToolbar.classList.remove('hidden');
@@ -6925,7 +12908,7 @@ async function exitPresentation() {
 
 function clearAll() {
   closeInsertPageMenu(false);
-  const templateSourceIds = new Set(state.templates.map(template => template.page?.sourceId).filter(Boolean));
+  const templateSourceIds = pagesReferencedSourceIds(state.templates.map(template => template.page));
   for (const [sourceId, source] of state.sources) {
     if (templateSourceIds.has(sourceId)) continue;
     if (source.url) URL.revokeObjectURL(source.url);
@@ -6940,6 +12923,12 @@ function clearAll() {
   state.history = [];
   state.future = [];
   state.selectionAnchorId = null;
+  state.selectionGesture = null;
+  state.annotationSelection = { documentId:null, pageId:null, ids:new Set() };
+  state.annotationClipboard = null;
+  state.annotationClipboardAssetId = null;
+  state.annotationPasteSerial = 0;
+  state.annotationPasteTargetKey = null;
   state.fileSelected.clear();
   state.fileSelectionInitialized = false;
   state.combineOrder = [];
@@ -6985,11 +12974,23 @@ function showDialog(kind) {
       <p>This build is a Progressive Web App. When served over HTTPS, Windows/ChromeOS browsers can install it from the browser's install control. On iPad, use Safari's <strong>Share → Add to Home Screen</strong>.</p>
       <p>After the application and PDF engine have been cached once, the app shell is designed to reopen without a network connection. Your opened documents are processed locally and are not uploaded by this app.</p>
       <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
+  } else if (kind === 'attributions') {
+    els.dialogContent.innerHTML = `<h2>Attributions &amp; licenses</h2>
+      <p>PDF Workbench uses the following third-party projects. Full bundled license text is included with this build.</p>
+      <ul class="dependency-list">
+        <li><strong>PDF.js 6.2.108</strong> — Mozilla Foundation and contributors — Apache License 2.0.</li>
+        <li><strong>pdf-lib 1.17.1</strong> — Copyright © 2019 Andrew Dillon — MIT License.</li>
+        <li><strong>JSZip 3.10.1</strong> — Copyright © 2009–2016 Stuart Knightley, David Duponchel, Franz Buchinger, António Afonso — used under the MIT License option.</li>
+        <li><strong>Google Ink Stroke Modeler</strong> — Copyright 2022 Google LLC — Apache License 2.0. Workbench's <code>google-ink-modeler.js</code> is an independent JavaScript implementation based on the published model/parameters; Google's C++ source is not bundled.</li>
+      </ul>
+      <p><a href="./THIRD_PARTY_NOTICES.txt" target="_blank" rel="noopener">Open third-party notices</a><br>
+      <a href="./THIRD_PARTY_LICENSES.txt" target="_blank" rel="noopener">Open full bundled license text</a></p>
+      <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p>Milestone 5.0.2 continues the annotation subsystem on the validated 4.2.2 viewer/Library baseline. This bug-fix build changes PDF ink export so each pen stroke is emitted as one continuous vector path with round joins and round caps, eliminating the white wedges that could appear inside wider curves.</p>
-      <ul><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. Presentation controls are appended to the same strip rather than floating over the document.</li><li><strong>Basic pen:</strong> Hand/View and Pen modes, five direct pen colors (black, blue, red, green, orange), and three direct width choices. Finger scrolling/pinch remains navigation-only.</li><li><strong>Editable ink:</strong> strokes are stored as page-local vector point data in PDF/page coordinates, persist in the Local Library and editable backups, participate in Undo/Redo, and are copied with page duplication/copy/combine operations.</li><li><strong>PDF output:</strong> Workbench ink is written into exported PDFs as continuous vector paths with round joins/caps. Annotations disable untouched-byte passthrough only on documents that actually contain ink.</li><li><strong>Presentation access:</strong> for this first annotation build the top strip remains visible in Presentation so tool/color/width changes are one tap away. Auto-hide versus always-visible will become a setting after the core tools are validated.</li></ul>
-      <p><strong>Next annotation steps after testing:</strong> partial-stroke eraser, lasso selection with move/resize/delete/duplicate, then highlighter with its own yellow/pink/blue/green palette. Image annotations follow the annotation milestone.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.7.37 is a focused iPad stability revision: viewer/layout/document switches explicitly collapse outgoing canvas backing stores before detaching them, lazy page canvases start at 1×1 instead of the browser default 300×150, and the Presentation document selector now accepts both input/change events with blur reconciliation diagnostics. Existing Pen/Select behavior and 5.7.36 input diagnostics remain unchanged.</p>
+      <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
+      <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
   els.infoDialog.showModal();
@@ -7059,16 +13060,18 @@ function openInsertPageMenu(anchor) {
     synchronizeActiveSplitDocumentForEdit();
     syncSplitActivePageFromViewport(state.activePaneId);
   } else if (state.workspaceMode === 'view') syncSingleActivePageFromViewport();
+  const openingFresh = els.insertPageMenu?.classList.contains('hidden') || state.insertMenuAnchor !== anchor;
+  if (openingFresh) setInsertBlankBackground('white');
   state.insertTarget = {
     documentId: state.currentDocumentId,
     pageId: insertionTargetPageId(),
     paneId: state.splitView ? state.activePaneId : null,
   };
   renderInsertTemplateList();
-  if (els.savePageTemplateBtn) {
+  if (els.savePageTemplateLabel) {
     const page = templatePageForSave(state.insertTarget);
     const pageIndex = page ? state.pages.findIndex(item => item.id === page.id) + 1 : 0;
-    els.savePageTemplateBtn.textContent = pageIndex > 0 ? `Save page ${pageIndex} as template…` : 'Save current page as template…';
+    els.savePageTemplateLabel.textContent = pageIndex > 0 ? `Save page ${pageIndex} as template:` : 'Save current page as template:';
   }
   const alreadyOpen = !els.insertPageMenu.classList.contains('hidden') && state.insertMenuAnchor === anchor;
   if (alreadyOpen) { closeInsertPageMenu(); return; }
@@ -7087,7 +13090,7 @@ function runInsertCommand(kind, includeAnnotations=true) {
   const inPresentation = document.body.classList.contains('presentation');
   const targetContext = state.insertTarget ? { ...state.insertTarget } : null;
   closeInsertPageMenu(false);
-  insertPageAfterCurrent(kind, includeAnnotations, null, targetContext);
+  insertPageAfterCurrent(kind, includeAnnotations, null, targetContext, { blankBackground: kind === 'blank' ? state.insertBlankBackground : 'white' });
   if (inPresentation) showPresentationControls();
 }
 
@@ -7113,6 +13116,8 @@ function toggleMoreMenu(force) {
 
 let resizeTimer;
 function onResize() {
+  updateNewDocumentPageSizeUi();
+  updatePageGeometryDialog();
   clearTimeout(resizeTimer);
   if (!els.moreMenu.classList.contains('hidden')) positionMoreMenu();
   if (!els.insertPageMenu?.classList.contains('hidden') && state.insertMenuAnchor) positionAnchoredPopover(els.insertPageMenu, state.insertMenuAnchor);
@@ -7186,7 +13191,10 @@ function startViewerTouchInertia(viewer, owner, scrollMode, vx, vy) {
     const beforeX = viewer.scrollLeft, beforeY = viewer.scrollTop;
     viewer.scrollLeft -= vx * dt;
     viewer.scrollTop -= vy * dt;
-    const decay = Math.pow(.91, dt / 16.67);
+    // A slightly longer coast than 5.6.8. Keep this independent of the
+    // touch-intent engagement logic so we can tune release feel without
+    // changing when a deliberate finger drag is recognized.
+    const decay = Math.pow(.95, dt / 16.67);
     vx *= decay; vy *= decay;
     const moved = Math.abs(viewer.scrollLeft - beforeX) + Math.abs(viewer.scrollTop - beforeY) > .05;
     if (Math.hypot(vx, vy) < .018 || !moved) {
@@ -7208,29 +13216,281 @@ function pointerMidpoint(points) {
   return points.length < 2 ? null : { x: (points[0].x + points[1].x) / 2, y: (points[0].y + points[1].y) / 2 };
 }
 
+// Milestone 5.0.9: pen proximity and palm suppression. ChromeOS can report a
+// resting palm as a rapid burst of several ordinary touch pointers. If those
+// touches are immediately treated as one-finger pan / two-finger pinch, the
+// page jumps while the user is trying to write. Track real pen proximity where
+// the platform exposes it, and give Pen-mode touch input a very short intent
+// window so a 3+ contact palm burst can be rejected before navigation starts.
+// Pointer/stylus ink itself remains on the 5.0.8 path.
+const PEN_TOUCH_INTENT_DELAY_MS = 120;
+// Keep the full 120 ms stationary palm-burst window, but do not make an
+// obviously deliberate finger drag wait for it. A single touch that moves a
+// few CSS pixels, or a two-finger pair whose geometry changes clearly, can
+// promote itself to navigation early when no pen/palm guard is active.
+const PEN_TOUCH_INTENT_MOVE_PX = 5;
+const PEN_TOUCH_INTENT_PINCH_PX = 5;
+const PEN_TOUCH_GUARDED_MOVE_PX = 10;
+const PEN_TOUCH_GUARDED_MIN_MS = 35;
+const PEN_PALM_GUARD_AFTER_CONTACT_MS = 420;
+const PEN_PALM_GUARD_AFTER_HOVER_MS = 220;
+
+function mapHasViewer(map, viewer) {
+  for (const value of map.values()) if ((value?.viewer || value) === viewer) return true;
+  return false;
+}
+function mapHasRecentViewer(map, viewer, maxAgeMs) {
+  const now = performance.now();
+  for (const value of map.values()) {
+    if ((value?.viewer || value) !== viewer) continue;
+    if (!Number.isFinite(value?.lastSeen) || now - value.lastSeen <= maxAgeMs) return true;
+  }
+  return false;
+}
+function setPenPalmGuard(viewer, ms) {
+  if (!viewer) return;
+  state.penPalmGuardViewer = viewer;
+  state.penPalmGuardUntil = Math.max(state.penPalmGuardUntil || 0, performance.now() + ms);
+}
+function penPalmGuardActive(viewer) {
+  if (!isStylusAnnotationTool()) return false;
+  if (mapHasViewer(state.penContactPointers, viewer)) return true;
+  // Do not let a stale missing pointerleave permanently disable deliberate
+  // finger navigation. Fresh hover events still provide strong palm evidence.
+  if (mapHasRecentViewer(state.penHoverPointers, viewer, 700)) return true;
+  return state.penPalmGuardViewer === viewer && performance.now() < state.penPalmGuardUntil;
+}
+function updateViewerPenCursor(viewer) {
+  const present = mapHasViewer(state.penHoverPointers, viewer) || mapHasViewer(state.penContactPointers, viewer);
+  viewer.classList.toggle('pen-pointer-present', present);
+}
+function bindViewerPenProximity(viewer) {
+  if (!viewer || viewer.dataset.penProximityBound === 'true') return;
+  viewer.dataset.penProximityBound = 'true';
+
+  const enterOrMove = (event) => {
+    if (event.pointerType !== 'pen') return;
+    state.penHoverPointers.set(event.pointerId, { viewer, lastSeen:performance.now() });
+    if (event.buttons || event.pressure > 0) {
+      state.penContactPointers.set(event.pointerId, { viewer, lastSeen:performance.now() });
+      setPenPalmGuard(viewer, PEN_PALM_GUARD_AFTER_CONTACT_MS);
+    } else {
+      setPenPalmGuard(viewer, PEN_PALM_GUARD_AFTER_HOVER_MS);
+    }
+    updateViewerPenCursor(viewer);
+  };
+  viewer.addEventListener('pointerenter', enterOrMove, { passive:true });
+  viewer.addEventListener('pointermove', enterOrMove, { passive:true });
+  const restoreMouseCursor = (event) => {
+    if (event.pointerType === 'mouse') viewer.classList.remove('pen-pointer-present');
+  };
+  viewer.addEventListener('pointerenter', restoreMouseCursor, { passive:true });
+  viewer.addEventListener('pointermove', restoreMouseCursor, { passive:true });
+  viewer.addEventListener('pointerdown', (event) => {
+    if (event.pointerType !== 'pen') return;
+    state.penHoverPointers.set(event.pointerId, { viewer, lastSeen:performance.now() });
+    state.penContactPointers.set(event.pointerId, { viewer, lastSeen:performance.now() });
+    setPenPalmGuard(viewer, PEN_PALM_GUARD_AFTER_CONTACT_MS);
+    updateViewerPenCursor(viewer);
+  }, { passive:true });
+  viewer.addEventListener('pointerup', (event) => {
+    if (event.pointerType !== 'pen') return;
+    state.penContactPointers.delete(event.pointerId);
+    // A pen that has just lifted is normally still in range; keep the hover
+    // entry until pointerleave so the Surface/Chromebook pen cursor stays hidden.
+    state.penHoverPointers.set(event.pointerId, { viewer, lastSeen:performance.now() });
+    setPenPalmGuard(viewer, PEN_PALM_GUARD_AFTER_CONTACT_MS);
+    updateViewerPenCursor(viewer);
+  }, { passive:true });
+  viewer.addEventListener('pointercancel', (event) => {
+    if (state.annotationTool === 'eraser') hideEraserCursor();
+    if (event.pointerType !== 'pen') return;
+    state.penContactPointers.delete(event.pointerId);
+    state.penHoverPointers.delete(event.pointerId);
+    setPenPalmGuard(viewer, PEN_PALM_GUARD_AFTER_CONTACT_MS);
+    updateViewerPenCursor(viewer);
+  }, { passive:true });
+  viewer.addEventListener('pointerleave', (event) => {
+    if (state.annotationTool === 'eraser') hideEraserCursor();
+    if (event.pointerType !== 'pen') return;
+    state.penContactPointers.delete(event.pointerId);
+    state.penHoverPointers.delete(event.pointerId);
+    setPenPalmGuard(viewer, PEN_PALM_GUARD_AFTER_HOVER_MS);
+    updateViewerPenCursor(viewer);
+  }, { passive:true });
+}
+
 // The PDF surface uses touch-action:none so browsers never get permission to
 // turn a Pencil/stylus stroke into native scrolling. Finger navigation is then
-// implemented explicitly here: one finger pans, two fingers pinch/zoom, while
-// a pen pointer is reserved for the future ink layer. This is intentionally
-// scoped to viewer surfaces; organizer dragging and visible UI controls keep
-// their normal pen behavior.
+// implemented explicitly here: one finger pans, two fingers pinch/zoom. In Pen
+// mode, 5.0.9 adds a short touch-intent gate so palm bursts do not become page
+// navigation, while deliberate one/two-finger navigation still works once the
+// pen is away. This is scoped to viewer surfaces only.
 function bindManualViewerTouch(viewer, owner, config) {
   if (!owner.touchPointers) owner.touchPointers = new Map();
+  if (!owner.palmIgnoredPointers) owner.palmIgnoredPointers = new Set();
+  if (!owner.touchIntent) owner.touchIntent = 'idle';
+  if (!('touchIntentTimer' in owner)) owner.touchIntentTimer = null;
+  if (!('pendingPinchFinalize' in owner)) owner.pendingPinchFinalize = null;
+  bindViewerPenProximity(viewer);
 
-  const beginPinch = () => {
+  const clearTouchIntentTimer = () => {
+    if (owner.touchIntentTimer) clearTimeout(owner.touchIntentTimer);
+    owner.touchIntentTimer = null;
+  };
+  const resetTouchIntent = () => {
+    clearTouchIntentTimer();
+    owner.touchIntent = 'idle';
+    owner.palmIgnoredPointers.clear();
+  };
+
+  const pendingTouchMotionQualifies = (guarded=false) => {
+    const points = [...owner.touchPointers.values()];
+    if (!points.length || points.length > 2) return false;
+    // Keep the stricter established hover/recent-pen palm guard on Surface and
+    // ChromeOS. iPad already distinguishes Apple Pencil from finger input well
+    // enough that a deliberate moving finger can safely override the soft
+    // recent/hover guard after a larger threshold.
+    if (guarded && !isIPadLike()) return false;
+    const now = performance.now();
+    const threshold = guarded ? PEN_TOUCH_GUARDED_MOVE_PX : PEN_TOUCH_INTENT_MOVE_PX;
+    const newestStart = Math.max(...points.map(point => Number(point.startT) || now));
+    if (guarded && now - newestStart < PEN_TOUCH_GUARDED_MIN_MS) return false;
+    if (points.length === 1) {
+      const point = points[0];
+      return Math.hypot(point.x - (point.startX ?? point.x), point.y - (point.startY ?? point.y)) >= threshold;
+    }
+    const initial = points.map(point => ({ x:point.startX ?? point.x, y:point.startY ?? point.y }));
+    const distanceChange = Math.abs(pointerDistance(points) - pointerDistance(initial));
+    const initialMidpoint = pointerMidpoint(initial);
+    const currentMidpoint = pointerMidpoint(points);
+    const midpointMove = initialMidpoint && currentMidpoint
+      ? Math.hypot(currentMidpoint.x - initialMidpoint.x, currentMidpoint.y - initialMidpoint.y)
+      : 0;
+    const pinchThreshold = guarded ? PEN_TOUCH_GUARDED_MOVE_PX : PEN_TOUCH_INTENT_PINCH_PX;
+    return Math.max(distanceChange, midpointMove) >= pinchThreshold;
+  };
+
+  const beginPinch = (replayPendingMotion=false) => {
+    owner.pendingPinchFinalize = null;
     const points = pointerPair(owner);
     if (points.length < 2) return;
+    // Any crisp-raster refresh from a previous pinch is now stale. The old
+    // scaled canvas remains visible until the current gesture finishes.
+    owner.pinchCrispToken = (owner.pinchCrispToken || 0) + 1;
+    const initialPoints = replayPendingMotion
+      ? points.map(point => ({ x:point.startX ?? point.x, y:point.startY ?? point.y }))
+      : points;
+    const anchorMidpoint = pointerMidpoint(initialPoints);
     const midpoint = pointerMidpoint(points);
     owner.pinchGesture = {
-      startDistance: Math.max(1, pointerDistance(points)),
+      startDistance: Math.max(1, pointerDistance(initialPoints)),
       startZoom: config.getZoom(),
       midpoint,
-      anchor: captureViewerAnchor(viewer, midpoint.x, midpoint.y),
+      anchor: captureViewerAnchor(viewer, anchorMidpoint.x, anchorMidpoint.y),
+      diagnosticId: ++state.pinchDiagnosticSequence,
+      startScrollTop: Math.round(viewer.scrollTop * 10) / 10,
+      startScrollLeft: Math.round(viewer.scrollLeft * 10) / 10,
+      startMidpoint: anchorMidpoint ? { x:Math.round(anchorMidpoint.x), y:Math.round(anchorMidpoint.y) } : null,
     };
+    addInkDiagnostic('pinch-start', null, {
+      pinchId:owner.pinchGesture.diagnosticId,
+      viewer:viewer.id || viewer.className || null,
+      startZoom:Math.round(owner.pinchGesture.startZoom*1000)/1000,
+      startDistance:Math.round(owner.pinchGesture.startDistance*10)/10,
+      startMidpoint:owner.pinchGesture.startMidpoint,
+      startScrollTop:owner.pinchGesture.startScrollTop,
+      startScrollLeft:owner.pinchGesture.startScrollLeft,
+      anchorPageId:owner.pinchGesture.anchor?.pageId || null,
+      currentDocumentId:state.currentDocumentId || null,
+      activePaneId:state.activePaneId || null,
+    });
     owner.pinchNeedsRender = true;
     owner.touchPan = null;
     owner.touchStart = null;
     viewer.classList.add('pinching', 'manual-touching');
+    // If an inking-mode gesture crossed the deliberate-motion threshold before
+    // the palm-intent timer expired, immediately replay that already-observed
+    // pinch movement instead of making the page wait for the next PointerEvent.
+    if (replayPendingMotion && midpoint) {
+      const dist = Math.max(1, pointerDistance(points));
+      config.queueZoom(owner.pinchGesture.startZoom * dist / owner.pinchGesture.startDistance);
+    }
+  };
+
+  const startIntentionalTouchNavigation = (event=null, replayPendingMotion=false) => {
+    clearTouchIntentTimer();
+    if (!owner.touchPointers.size) { resetTouchIntent(); return; }
+    owner.touchIntent = 'intentional';
+    viewer.classList.add('manual-touching');
+    const points = [...owner.touchPointers.values()];
+    if (points.length >= 2) {
+      beginPinch(replayPendingMotion);
+    } else {
+      const point = points[0];
+      const startPoint = replayPendingMotion
+        ? { id:point.id, x:point.startX ?? point.x, y:point.startY ?? point.y }
+        : point;
+      owner.touchStart = {
+        id:point.id,
+        x:startPoint.x,
+        y:startPoint.y,
+        t:replayPendingMotion ? (point.startT ?? performance.now()) : performance.now(),
+      };
+      if (config.getScrollMode() !== 'single') {
+        startViewerTouchPan(owner, startPoint);
+        if (replayPendingMotion && (point.x !== startPoint.x || point.y !== startPoint.y)) {
+          moveViewerTouchPan(viewer, owner, point);
+        }
+      }
+    }
+    if (event) {
+      const starts = points.map(point => Number(point.startT)).filter(Number.isFinite);
+      const firstStart = starts.length ? Math.min(...starts) : performance.now();
+      addInkDiagnostic('touch-navigation-intentional', event, {
+        touchCount:owner.touchPointers.size,
+        replayPendingMotion,
+        touchIntentDelayMs:Math.max(0, Math.round(performance.now() - firstStart)),
+        penPalmGuardActive:penPalmGuardActive(viewer),
+      });
+    }
+  };
+
+  const markPalmTouch = (event, reason) => {
+    if (owner.touchIntent === 'palm') return;
+    clearTouchIntentTimer();
+    owner.touchIntent = 'palm';
+    owner.touchStart = null;
+    owner.touchPan = null;
+    // The short intent delay normally catches a palm before a pinch begins.
+    // If a late classification occurs, stop further navigation rather than
+    // repeatedly switching pan/pinch modes as more palm contacts arrive.
+    owner.pinchGesture = null;
+    owner.pendingPinchFinalize = null;
+    owner.pinchNeedsRender = false;
+    viewer.classList.remove('pinching', 'manual-touching');
+    addInkDiagnostic('palm-touch-suppressed', event, { reason, touchCount:owner.touchPointers.size });
+  };
+
+  const scheduleTouchIntentDecision = (event) => {
+    if (owner.touchIntentTimer) return;
+    owner.touchIntent = 'pending';
+    owner.touchIntentTimer = setTimeout(() => {
+      owner.touchIntentTimer = null;
+      if (!owner.touchPointers.size) { resetTouchIntent(); return; }
+      if (isStylusAnnotationTool()) {
+        if (owner.touchPointers.size >= 3) {
+          markPalmTouch(event, 'three-or-more-contacts');
+          return;
+        }
+        const guarded = penPalmGuardActive(viewer);
+        if (guarded && !pendingTouchMotionQualifies(true)) {
+          markPalmTouch(event, 'pen-in-range-or-recent');
+          return;
+        }
+      }
+      startIntentionalTouchNavigation(event, true);
+    }, PEN_TOUCH_INTENT_DELAY_MS);
   };
 
   const flushLivePinch = () => {
@@ -7240,8 +13500,12 @@ function bindManualViewerTouch(viewer, owner, config) {
   };
 
   const finishAllTouches = (lastEvent, cancelled) => {
-    viewer.classList.remove('manual-touching', 'pinching');
     const mode = config.getScrollMode();
+    // Capture the pull threshold before removing manual-touching. In Page Snap
+    // mode that class temporarily disables CSS snapping; once removed the
+    // browser is free to snap back toward the last page.
+    const appendReadyOnRelease = !cancelled && mode !== 'single' && !!owner.touchPan && endAppendProgress(viewer).ready;
+    viewer.classList.remove('manual-touching', 'pinching');
 
     if (owner.pinchNeedsRender) {
       flushLivePinch();
@@ -7249,7 +13513,17 @@ function bindManualViewerTouch(viewer, owner, config) {
       owner.pinchNeedsRender = false;
       owner.touchPan = null;
       owner.touchStart = null;
-      config.finalizePinch?.();
+      const pendingPinchFinalize = owner.pendingPinchFinalize;
+      owner.pendingPinchFinalize = null;
+      config.finalizePinch?.(pendingPinchFinalize, cancelled);
+      resetTouchIntent();
+      return;
+    }
+
+    if (appendReadyOnRelease && config.maybeAppendEnd?.(true)) {
+      owner.touchStart = null;
+      owner.touchPan = null;
+      resetTouchIntent();
       return;
     }
 
@@ -7267,6 +13541,7 @@ function bindManualViewerTouch(viewer, owner, config) {
     owner.touchStart = null;
     owner.touchPan = null;
     config.saveScroll?.();
+    resetTouchIntent();
   };
 
   viewer.addEventListener('pointermove', (e) => {
@@ -7274,10 +13549,33 @@ function bindManualViewerTouch(viewer, owner, config) {
     if (document.body.classList.contains('presentation') && e.pointerType === 'mouse' && e.clientY < 90) {
       showPresentationControls();
     }
-    if (e.pointerType !== 'touch' || !owner.touchPointers.has(e.pointerId)) return;
+    if (e.pointerType !== 'touch') return;
+    if (owner.palmIgnoredPointers.has(e.pointerId)) { if (e.cancelable) e.preventDefault(); return; }
+    if (!owner.touchPointers.has(e.pointerId)) return;
     e.preventDefault();
     const point = owner.touchPointers.get(e.pointerId);
     point.x = e.clientX; point.y = e.clientY;
+
+    if (isStylusAnnotationTool()) {
+      if (owner.touchIntent === 'palm') return;
+      if (owner.touchIntent === 'pending') {
+        if (owner.touchPointers.size >= 3) {
+          markPalmTouch(e, 'three-or-more-contacts');
+          return;
+        }
+        // 5.6.8 always waited the full 120 ms palm-intent window in Pen,
+        // Highlighter, Eraser, and Select modes. That was directly perceptible
+        // as a short dead period at the start of ordinary finger scrolling.
+        // Preserve the stationary palm-burst window, but promote clear motion
+        // immediately and replay the movement already seen while pending. When
+        // a pen is hovering or has just lifted, require a little more travel and
+        // a few tens of milliseconds rather than rejecting the finger outright;
+        // this lets intentional navigation work while the Pencil is still nearby.
+        const guarded = penPalmGuardActive(viewer);
+        if (pendingTouchMotionQualifies(guarded)) startIntentionalTouchNavigation(e, true);
+        return;
+      }
+    }
 
     if (owner.touchPointers.size >= 2) {
       if (!owner.pinchGesture) beginPinch();
@@ -7292,7 +13590,13 @@ function bindManualViewerTouch(viewer, owner, config) {
     }
 
     if (!owner.pinchGesture && config.getScrollMode() !== 'single') {
+      if (owner.pendingPinchFinalize?.restoreAnchor && owner.touchPan?.id === point.id) {
+        owner.pendingPinchFinalize.postPinchPanDistance = (owner.pendingPinchFinalize.postPinchPanDistance || 0) +
+          Math.hypot(point.x - owner.touchPan.lastX, point.y - owner.touchPan.lastY);
+        if (owner.pendingPinchFinalize.postPinchPanDistance > 8) owner.pendingPinchFinalize.restoreAnchor = false;
+      }
       moveViewerTouchPan(viewer, owner, point);
+      endAppendProgress(viewer);
     }
   }, { passive: false });
 
@@ -7313,10 +13617,40 @@ function bindManualViewerTouch(viewer, owner, config) {
       return;
     }
 
-    const point = { id: e.pointerId, x: e.clientX, y: e.clientY };
-    owner.touchPointers.set(e.pointerId, point);
-    viewer.classList.add('manual-touching');
+    // Once a deliberate two-finger gesture has been accepted, ignore any extra
+    // contacts instead of allowing a third finger/palm edge to redefine it.
+    if (isStylusAnnotationTool() && owner.touchIntent === 'intentional' && owner.touchPointers.size >= 2) {
+      owner.palmIgnoredPointers.add(e.pointerId);
+      addInkDiagnostic('extra-touch-ignored-during-navigation', e, { touchCount:owner.touchPointers.size + 1 });
+      return;
+    }
 
+    const point = {
+      id:e.pointerId,
+      x:e.clientX,
+      y:e.clientY,
+      startX:e.clientX,
+      startY:e.clientY,
+      startT:performance.now(),
+    };
+    owner.touchPointers.set(e.pointerId, point);
+
+    if (isStylusAnnotationTool()) {
+      if (owner.touchIntent === 'palm') return;
+      if (owner.touchPointers.size >= 3) {
+        markPalmTouch(e, 'three-or-more-contacts');
+        return;
+      }
+      // Even with a nearby/recent pen, defer classification briefly instead of
+      // rejecting the touch immediately. A clearly moving finger can then
+      // promote itself through the guarded threshold above.
+      scheduleTouchIntentDecision(e);
+      return;
+    }
+
+    // Hand mode and other non-inking modes retain the immediate navigation path.
+    owner.touchIntent = 'intentional';
+    viewer.classList.add('manual-touching');
     if (owner.touchPointers.size === 1) {
       owner.touchStart = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now() };
       if (config.getScrollMode() !== 'single') startViewerTouchPan(owner, point);
@@ -7338,16 +13672,62 @@ function bindManualViewerTouch(viewer, owner, config) {
       return;
     }
 
+    if (owner.palmIgnoredPointers.has(e.pointerId)) {
+      owner.palmIgnoredPointers.delete(e.pointerId);
+      try { viewer.releasePointerCapture?.(e.pointerId); } catch {}
+      return;
+    }
+
     const lastPoint = owner.touchPointers.get(e.pointerId) || { id: e.pointerId, x: e.clientX, y: e.clientY };
     lastPoint.x = e.clientX; lastPoint.y = e.clientY;
     const hadActivePinch = !!owner.pinchGesture;
+    const finalPinchDistance = hadActivePinch && owner.touchPointers.size >= 2 ? pointerDistance(pointerPair(owner)) : null;
     owner.touchPointers.delete(e.pointerId);
+
+    if (isStylusAnnotationTool() && (owner.touchIntent === 'pending' || owner.touchIntent === 'palm')) {
+      try { viewer.releasePointerCapture?.(e.pointerId); } catch {}
+      if (owner.touchPointers.size === 0) {
+        viewer.classList.remove('manual-touching', 'pinching');
+        owner.touchStart = null;
+        owner.touchPan = null;
+        owner.pinchGesture = null;
+        owner.pinchNeedsRender = false;
+        resetTouchIntent();
+      }
+      return;
+    }
 
     if (hadActivePinch && owner.touchPointers.size < 2) {
       // Commit the last live pinch geometry while its anchor is still valid.
       // If one finger remains, let it pan the already-scaled pages; defer the
       // expensive crisp rerender until the whole gesture has ended.
+      const finishedPinch = owner.pinchGesture;
       flushLivePinch();
+      addInkDiagnostic('pinch-finish', e, {
+        pinchId:finishedPinch?.diagnosticId || null,
+        viewer:viewer.id || viewer.className || null,
+        cancelled:!!cancelled,
+        startZoom:Math.round((finishedPinch?.startZoom || 0)*1000)/1000,
+        finalZoom:Math.round((config.getZoom() || 0)*1000)/1000,
+        startDistance:Math.round((finishedPinch?.startDistance || 0)*10)/10,
+        finalDistance:Number.isFinite(finalPinchDistance) ? Math.round(finalPinchDistance*10)/10 : null,
+        startMidpoint:finishedPinch?.startMidpoint || null,
+        finalMidpoint:finishedPinch?.midpoint ? { x:Math.round(finishedPinch.midpoint.x), y:Math.round(finishedPinch.midpoint.y) } : null,
+        startScrollTop:finishedPinch?.startScrollTop ?? null,
+        startScrollLeft:finishedPinch?.startScrollLeft ?? null,
+        finalScrollTop:Math.round(viewer.scrollTop*10)/10,
+        finalScrollLeft:Math.round(viewer.scrollLeft*10)/10,
+        anchorPageId:finishedPinch?.anchor?.pageId || null,
+        currentDocumentId:state.currentDocumentId || null,
+        activePaneId:state.activePaneId || null,
+      });
+      owner.pendingPinchFinalize = (!cancelled && finishedPinch?.anchor && finishedPinch?.midpoint) ? {
+        pinchId: finishedPinch.diagnosticId || null,
+        anchor: { ...finishedPinch.anchor },
+        midpoint: { x:finishedPinch.midpoint.x, y:finishedPinch.midpoint.y },
+        restoreAnchor: true,
+        postPinchPanDistance: 0,
+      } : null;
       owner.pinchGesture = null;
       if (owner.touchPointers.size === 1 && config.getScrollMode() !== 'single') {
         startViewerTouchPan(owner, [...owner.touchPointers.values()][0]);
@@ -7363,7 +13743,6 @@ function bindManualViewerTouch(viewer, owner, config) {
   viewer.addEventListener('pointerup', (e) => finishPointer(e, false), { passive: false });
   viewer.addEventListener('pointercancel', (e) => finishPointer(e, true), { passive: false });
 }
-
 function bindSplitViewerEvents(paneId) {
   const pane = splitPaneState(paneId), pe = paneElements(paneId), viewer = pe.viewer;
   if (!viewer) return;
@@ -7380,6 +13759,7 @@ function bindSplitViewerEvents(paneId) {
     if (!view) return;
     view.scrollTop = viewer.scrollTop;
     view.scrollLeft = viewer.scrollLeft;
+    endAppendProgress(viewer);
     scheduleSplitActivePageSync(paneId);
   }, { passive: true });
 
@@ -7393,12 +13773,15 @@ function bindSplitViewerEvents(paneId) {
       if (document.body.classList.contains('presentation')) showPresentationControls();
       return;
     }
-    if (view.scrollMode !== 'single') return;
+    if (view.scrollMode !== 'single') {
+      if (e.deltaY > 0) handleEndAppendWheel(viewer, pane.documentId, paneId);
+      return;
+    }
     e.preventDefault();
     const now = performance.now();
     if (now - pane.lastWheelPageChange < 320 || Math.abs(e.deltaY) < 8) return;
     pane.lastWheelPageChange = now;
-    goPanePage(paneId, e.deltaY > 0 ? 1 : -1);
+    goPanePage(paneId, e.deltaY > 0 ? 1 : -1, true);
   }, { passive: false });
 
   bindManualViewerTouch(viewer, pane, {
@@ -7414,11 +13797,23 @@ function bindSplitViewerEvents(paneId) {
       applyLivePaneZoom(paneId);
     },
     saveScroll: () => savePaneScroll(paneId),
-    finalizePinch: () => {
-      savePaneScroll(paneId);
-      renderSplitPane(paneId);
+    finalizePinch: (pending, cancelled=false) => {
+      const applyDelayedAnchor = !cancelled && !!pending?.restoreAnchor && !!pending?.anchor && !!pending?.midpoint;
+      refreshPanePinchRasterInPlace(paneId);
+      if (!applyDelayedAnchor) {
+        savePaneScroll(paneId);
+        addInkDiagnostic('pinch-anchor-settled', null, { pinchId:pending?.pinchId || null, viewer:viewer.id || null, applied:false, paneId, scrollTop:Math.round(viewer.scrollTop*10)/10, scrollLeft:Math.round(viewer.scrollLeft*10)/10 });
+        return;
+      }
+      pane.suppressScrollSave = true;
+      restoreViewerAnchorAfterLayout(viewer, pending.anchor, pending.midpoint.x, pending.midpoint.y, () => {
+        pane.suppressScrollSave = false;
+        if (state.splitView && pane.documentId) savePaneScroll(paneId);
+        addInkDiagnostic('pinch-anchor-settled', null, { pinchId:pending.pinchId || null, viewer:viewer.id || null, applied:true, paneId, anchorPageId:pending.anchor.pageId || null, scrollTop:Math.round(viewer.scrollTop*10)/10, scrollLeft:Math.round(viewer.scrollLeft*10)/10 });
+      });
     },
-    goPage: (delta) => goPanePage(paneId, delta),
+    goPage: (delta) => goPanePage(paneId, delta, true),
+    maybeAppendEnd: (force=false) => maybeAppendAtDocumentEnd(viewer, pane.documentId, paneId, force),
   });
 }
 
@@ -7442,6 +13837,10 @@ function bindEvents() {
   els.openBtn.addEventListener('click', () => { closeInsertPageMenu(); els.fileInput.click(); });
   els.newBlankDocumentBtn.addEventListener('click', () => createNewGeneratedDocument('blank'));
   els.newGraphDocumentBtn.addEventListener('click', () => createNewGeneratedDocument('graph'));
+  els.newBlankWhiteBtn?.addEventListener('click', () => setNewBlankBackground('white'));
+  els.newBlankBlackBtn?.addEventListener('click', () => setNewBlankBackground('black'));
+  els.newDocumentPageSize?.addEventListener('change', updateNewDocumentPageSizeUi);
+  updateNewDocumentPageSizeUi();
   els.newTemplateDocumentBtn?.addEventListener('click', showNewFromTemplateChooser);
   els.emptyOpenBtn.addEventListener('click', () => els.fileInput.click());
   els.fileInput.addEventListener('change', () => openFiles(els.fileInput.files));
@@ -7462,22 +13861,68 @@ function bindEvents() {
   els.documentSelect.addEventListener('change', () => loadDocumentState(els.documentSelect.value));
   els.splitLeftDocumentSelect.addEventListener('change', () => setPaneDocument('left', els.splitLeftDocumentSelect.value));
   els.splitRightDocumentSelect.addEventListener('change', () => setPaneDocument('right', els.splitRightDocumentSelect.value));
-  els.presentationDocumentSelect.addEventListener('change', () => {
-    if (state.splitView) setPaneDocument(state.activePaneId, els.presentationDocumentSelect.value);
-    else loadDocumentState(els.presentationDocumentSelect.value);
+  const applyPresentationDocumentSelection = (source='change') => {
+    closePresentationPageDrawer();
+    const beforeId = state.splitView ? splitPaneState(state.activePaneId)?.documentId : state.currentDocumentId;
+    const afterId = els.presentationDocumentSelect.value;
+    addInkDiagnostic('presentation-document-select-event', null, {
+      source,
+      fromDocumentId:beforeId || null,
+      fromDocumentName:documentById(beforeId)?.name || null,
+      selectedDocumentId:afterId || null,
+      selectedDocumentName:documentById(afterId)?.name || null,
+      splitView:!!state.splitView,
+      activePaneId:state.activePaneId || null,
+    });
+    if (!afterId || !documentById(afterId)) { showPresentationControls(); return; }
+    if (afterId !== beforeId) {
+      addInkDiagnostic('presentation-document-change', null, {
+        source,
+        fromDocumentId:beforeId || null,
+        fromDocumentName:documentById(beforeId)?.name || null,
+        toDocumentId:afterId,
+        toDocumentName:documentById(afterId)?.name || null,
+        splitView:!!state.splitView,
+        activePaneId:state.activePaneId || null,
+      });
+      if (state.splitView) setPaneDocument(state.activePaneId, afterId);
+      else loadDocumentState(afterId);
+    }
     showPresentationControls();
-  });
+  };
+  const reconcilePresentationDocumentSelection = (source='blur') => {
+    const selectedId = els.presentationDocumentSelect.value;
+    const actualId = state.splitView ? splitPaneState(state.activePaneId)?.documentId : state.currentDocumentId;
+    addInkDiagnostic('presentation-document-select-reconcile', null, {
+      source,
+      selectedDocumentId:selectedId || null,
+      actualDocumentId:actualId || null,
+      splitView:!!state.splitView,
+      activePaneId:state.activePaneId || null,
+    });
+    if (selectedId && selectedId !== actualId && documentById(selectedId)) {
+      applyPresentationDocumentSelection(`${source}-repair`);
+    }
+  };
+  // iPad Safari's native <select> picker has occasionally updated the visible
+  // option without delivering the change event. Accept input as well, and
+  // reconcile once focus leaves the control. apply... is idempotent because it
+  // compares the selected id with the document actually shown in the pane.
+  els.presentationDocumentSelect.addEventListener('input', () => applyPresentationDocumentSelection('input'));
+  els.presentationDocumentSelect.addEventListener('change', () => applyPresentationDocumentSelection('change'));
+  els.presentationDocumentSelect.addEventListener('blur', () => reconcilePresentationDocumentSelection('blur'));
   els.viewModeBtn.addEventListener('click', () => showWorkspaceMode('view'));
   els.organizeModeBtn.addEventListener('click', () => showWorkspaceMode('organize'));
   els.exportModeBtn.addEventListener('click', () => showWorkspaceMode('export'));
-  els.selectAllFilesBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; state.fileSelected = new Set(state.documents.map(doc => doc.id)); reconcileCombineOrder(); renderExportPane(); });
-  els.clearFileSelectionBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; state.fileSelected.clear(); reconcileCombineOrder(); renderExportPane(); });
+  els.selectAllFilesBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; for (const doc of state.documents) state.fileSelected.add(doc.id); reconcileCombineOrder(); renderExportPane(); });
+  els.clearFileSelectionBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; for (const doc of state.documents) state.fileSelected.delete(doc.id); reconcileCombineOrder(); renderExportPane(); });
   els.libraryRefreshBtn?.addEventListener('click', async () => {
     try {
       if (!(await ensureLibraryConnection())) throw new Error('Could not connect to local storage.');
       await persistLibraryNow({ readViewDom: false, _reconnected: true });
       await refreshLibraryRecords();
       await restorePersistentTemplates();
+      await refreshAssetRecords();
       renderLibraryDocumentList();
       setStatus('Local Library refreshed');
     } catch (err) {
@@ -7486,26 +13931,40 @@ function bindEvents() {
       if (els.librarySummary) els.librarySummary.textContent = `Local Library refresh failed: ${err?.message || err}`;
     }
   });
+  els.inkDiagnosticsBtn?.addEventListener('click', downloadInkDiagnostics);
+  els.exportSavedDiagnosticsBtn?.addEventListener('click', exportSavedDiagnostics);
+  els.clearSavedDiagnosticsBtn?.addEventListener('click', clearSavedDiagnostics);
   els.libraryPdfArchiveBtn?.addEventListener('click', exportWholeLibraryAsPdfs);
   els.libraryEditableBackupBtn?.addEventListener('click', createEditableLibraryBackup);
+  els.librarySelectedEditableBackupBtn?.addEventListener('click', createSelectedEditableDocumentsBackup);
   els.libraryRestoreBackupBtn?.addEventListener('click', () => { state.pendingBackupImportMode='replace'; els.libraryRestoreInput?.click(); });
   els.libraryImportBackupBtn?.addEventListener('click', () => { state.pendingBackupImportMode='subtree'; els.libraryRestoreInput?.click(); });
-  els.libraryRestoreInput?.addEventListener('change', () => { const file=els.libraryRestoreInput.files?.[0]; if(state.pendingBackupImportMode==='subtree') importEditableBackupAsSubtree(file); else restoreEditableLibraryBackup(file); });
+  els.libraryMergeBackupBtn?.addEventListener('click', () => { state.pendingBackupImportMode='merge'; els.libraryRestoreInput?.click(); });
+  els.libraryRestoreInput?.addEventListener('change', () => {
+    const file=els.libraryRestoreInput.files?.[0];
+    if(state.pendingBackupImportMode==='subtree') importEditableBackupAsSubtree(file);
+    else if(state.pendingBackupImportMode==='merge') mergeEditableBackupDocuments(file);
+    else restoreEditableLibraryBackup(file);
+  });
   els.libraryImportBtn?.addEventListener('click', () => els.fileInput?.click());
   els.libraryImportZipBtn?.addEventListener('click', () => els.libraryZipImportInput?.click());
   els.libraryZipImportInput?.addEventListener('change', () => importPdfDirectoryZip(els.libraryZipImportInput.files?.[0]));
   els.libraryNewFolderBtn?.addEventListener('click', createLibraryFolder);
+  els.librarySelectAllBtn?.addEventListener('click', selectAllDocumentsInCurrentLibraryFolder);
+  els.libraryClearSelectionBtn?.addEventListener('click', clearGlobalFileSelection);
+  els.libraryMoveSelectedBtn?.addEventListener('click', openLibrarySelectedMoveDialog);
+  els.libraryTrashSelectedBtn?.addEventListener('click', moveSelectedLibraryDocumentsToTrash);
+  els.emptyTrashBtn?.addEventListener('click', emptyLibraryTrash);
   els.libraryListViewBtn?.addEventListener('click', () => setLibraryViewMode('list'));
   els.libraryGridViewBtn?.addEventListener('click', () => setLibraryViewMode('grid'));
-  els.filesManageTemplatesBtn?.addEventListener('click', showTemplateManager);
-  els.libraryNameCloseBtn?.addEventListener('click', () => els.libraryNameDialog?.close());
-  els.libraryNameCancelBtn?.addEventListener('click', () => els.libraryNameDialog?.close());
-  els.libraryMoveCloseBtn?.addEventListener('click', () => { state.pendingLibraryMove = null; els.libraryMoveDialog?.close(); });
-  els.libraryMoveCancelBtn?.addEventListener('click', () => { state.pendingLibraryMove = null; els.libraryMoveDialog?.close(); });
-  els.libraryMoveForm?.addEventListener('submit', async (e) => {
+  const cancelFolderMove=()=>{state.pendingFolderMove=null;try{els.folderMoveDialog?.close();}catch{}};
+  els.folderMoveCloseBtn?.addEventListener('click',cancelFolderMove);
+  els.folderMoveCancelBtn?.addEventListener('click',cancelFolderMove);
+  els.folderMoveDialog?.addEventListener('cancel',e=>{e.preventDefault();cancelFolderMove();});
+  els.folderMoveForm?.addEventListener('submit',async e=>{
     e.preventDefault();
-    try { els.libraryMoveDialog?.close(); } catch {}
-    await applyPendingLibraryMove();
+    try { await applyPendingFolderMove(); state.pendingFolderMove=null; els.folderMoveDialog?.close(); }
+    catch(err) { console.error(err); setStatus(`Could not move item: ${err?.message||err}`); }
   });
   els.requestPersistentStorageBtn?.addEventListener('click', requestPersistentLibraryStorage);
   els.purgeLibraryBtn?.addEventListener('click', purgeLocalLibrary);
@@ -7533,16 +13992,23 @@ function bindEvents() {
   els.zoomInBtn.addEventListener('click', () => zoomBy(1.25));
   els.splitViewBtn.addEventListener('click', toggleSplitView);
   els.viewInsertBtn.addEventListener('click', (e) => { e.stopPropagation(); openInsertPageMenu(els.viewInsertBtn); });
-  els.presentationLayoutBtn.addEventListener('click', toggleSplitView);
-  els.presentationInsertBtn.addEventListener('click', (e) => { e.stopPropagation(); openInsertPageMenu(els.presentationInsertBtn); });
-  els.presentationLeftPaneBtn.addEventListener('click', () => { if (state.splitView) { activateSplitPane('left', true); showPresentationControls(); } });
-  els.presentationRightPaneBtn.addEventListener('click', () => { if (state.splitView) { activateSplitPane('right', true); showPresentationControls(); } });
+  els.presentationLayoutBtn.addEventListener('click', () => { closePresentationPageDrawer(); toggleSplitView(); });
+  els.presentationPagesBtn?.addEventListener('click', (e) => { e.stopPropagation(); togglePresentationPageDrawer(); });
+  els.presentationPageDrawerLayer?.addEventListener('click', (e) => { if (e.target === els.presentationPageDrawerLayer) closePresentationPageDrawer(); });
+  els.presentationInsertBtn.addEventListener('click', (e) => { e.stopPropagation(); closePresentationPageDrawer(); openInsertPageMenu(els.presentationInsertBtn); });
+  els.presentationLeftPaneBtn.addEventListener('click', () => { if (state.splitView) { closePresentationPageDrawer(); activateSplitPane('left', true); showPresentationControls(); } });
+  els.presentationRightPaneBtn.addEventListener('click', () => { if (state.splitView) { closePresentationPageDrawer(); activateSplitPane('right', true); showPresentationControls(); } });
   els.presentationScrollModeBtn.addEventListener('click', cycleScrollMode);
   els.presentationFitBtn.addEventListener('click', cycleFitMode);
   els.presentationZoomOutBtn.addEventListener('click', () => zoomBy(0.8));
   els.presentationZoomInBtn.addEventListener('click', () => zoomBy(1.25));
   els.presentBtn.addEventListener('click', enterPresentation);
   els.presentationExit.addEventListener('click', exitPresentation);
+  els.viewDiagnosticsBtn?.addEventListener('click', saveDiagnosticsToLocalLibrary);
+  els.presentationDiagnosticsBtn?.addEventListener('click', saveDiagnosticsToLocalLibrary);
+  bindInkNativeSelectionGuard();
+  bindStylusTouchInkFallback();
+  bindInkDiagnostics();
   els.presentationToolbar.addEventListener('click', (e) => { if (e.target instanceof HTMLButtonElement && e.target !== els.presentationInsertBtn) restartPresentationHideAfterControl(e); });
   els.presentationToolbar.addEventListener('pointerdown', () => { if (document.body.classList.contains('presentation')) clearTimeout(state.presentationControlsTimer); });
   els.prevPageBtn.addEventListener('click', () => goPage(-1));
@@ -7553,6 +14019,8 @@ function bindEvents() {
   els.splitRightNextBtn.addEventListener('click', () => { activateSplitPane('right', true); goPanePage('right', 1); });
   els.selectAllBtn.addEventListener('click', selectAllToggle);
   els.rotateBtn.addEventListener('click', rotateSelected);
+  els.pageGraphBackgroundBtn?.addEventListener('click', addGraphPaperBackgroundToSelected);
+  els.pagePurgeLegacyGraphBackgroundBtn?.addEventListener('click', purgeLegacyGraphBackgroundFromSelected);
   els.pageGeometryBtn?.addEventListener('click', openPageGeometryDialog);
   els.pageGeometryCloseBtn?.addEventListener('click', () => els.pageGeometryDialog?.close());
   els.pageGeometryCancelBtn?.addEventListener('click', () => els.pageGeometryDialog?.close());
@@ -7592,27 +14060,81 @@ function bindEvents() {
   els.insertDuplicateWithoutAnnotationsBtn.addEventListener('click', () => runInsertCommand('duplicate', false));
   els.insertBlankPageBtn.addEventListener('click', () => runInsertCommand('blank'));
   els.insertGraphPageBtn.addEventListener('click', () => runInsertCommand('graph'));
+  els.insertBlankWhiteBtn?.addEventListener('click', (e) => { e.stopPropagation(); setInsertBlankBackground('white'); });
+  els.insertBlankBlackBtn?.addEventListener('click', (e) => { e.stopPropagation(); setInsertBlankBackground('black'); });
   els.insertTemplateList?.addEventListener('click', (e) => {
     const button = e.target.closest('[data-template-id]');
     if (button) insertTemplateAfterCurrent(button.dataset.templateId);
   });
-  els.templateNameCloseBtn?.addEventListener('click', () => els.templateNameDialog?.close('cancel'));
-  els.templateNameCancelBtn?.addEventListener('click', () => els.templateNameDialog?.close('cancel'));
-  els.savePageTemplateBtn?.addEventListener('click', async () => {
-    const inPresentation = document.body.classList.contains('presentation');
+  const saveTemplateFromInsertMenu = async (includeAnnotations) => {
     const targetContext = state.insertTarget ? { ...state.insertTarget } : null;
     closeInsertPageMenu(false);
-    await saveCurrentPageAsTemplate(targetContext);
-    if (inPresentation && document.body.classList.contains('presentation')) showPresentationControls();
-  });
-  els.manageTemplatesBtn?.addEventListener('click', showTemplateManager);
+    await saveCurrentPageAsTemplate(targetContext, includeAnnotations);
+    if (document.body.classList.contains('presentation')) showPresentationControls();
+  };
+  els.savePageTemplateWithBtn?.addEventListener('click', () => saveTemplateFromInsertMenu(true));
+  els.savePageTemplateCleanBtn?.addEventListener('click', () => saveTemplateFromInsertMenu(false));
+  els.manageTemplatesBtn?.addEventListener('click', () => { openTemplateManager({returnToDocument:true}); });
+  els.templatesFilesSection?.addEventListener('toggle',()=>{if(els.templatesFilesSection.open)renderFilesTemplateManager();});
+  els.templateManageBackBtn?.addEventListener('click',()=>{returnFromTemplateManager();});
   els.deleteBtn.addEventListener('click', deleteSelected);
   els.undoBtn.addEventListener('click', undo);
   els.redoBtn.addEventListener('click', redo);
   els.inkUndoBtn?.addEventListener('click', undo);
   els.inkRedoBtn?.addEventListener('click', redo);
   els.inkHandBtn?.addEventListener('click', () => setAnnotationTool('hand'));
+  els.inkLaserBtn?.addEventListener('click', () => setAnnotationTool('laser'));
   els.inkPenBtn?.addEventListener('click', () => setAnnotationTool('pen'));
+  els.inkHighlighterBtn?.addEventListener('click', () => setAnnotationTool('highlighter'));
+  els.inkEraserBtn?.addEventListener('click', () => setAnnotationTool('eraser'));
+  els.inkSelectBtn?.addEventListener('click', () => setAnnotationTool('select'));
+  els.inkImageBtn?.addEventListener('click', () => els.annotationImageInput?.click());
+  els.inkAssetsBtn?.addEventListener('click', () => { openAssetBrowser('insert'); });
+  els.annotationImageInput?.addEventListener('change', async () => { const file=els.annotationImageInput.files?.[0]; await insertImageAnnotation(file); els.annotationImageInput.value=''; });
+  els.assetImportImageBtn?.addEventListener('click', () => { state.assetBrowserView='library'; renderAssetBrowser(); els.assetImageInput?.click(); });
+  els.assetNewFolderBtn?.addEventListener('click', createAssetFolder);
+  els.assetImageInput?.addEventListener('change', async () => {
+    const files=[...(els.assetImageInput.files||[])];
+    try {
+      const added=[];
+      for (let i=0;i<files.length;i++) {
+        setStatus(`Adding image asset ${i+1} of ${files.length}…`, true);
+        added.push(await importImageAsset(files[i],{pinned:true,folderId:state.assetFolderId||null}));
+      }
+      if (added.length && state.assetBrowserMode==='insert' && state.pages.length) {
+        const context=await returnFromAssetBrowser({ forceView:true });
+        await insertImageAsset(added[0],{placement:context?.annotationPlacement||null,statusVerb:'Pasted'});
+        if (added.length>1) setStatus(`Pasted ${added[0].name}; added ${added.length-1} more image asset${added.length===2?'':'s'} to the Library`);
+      } else if (added.length) {
+        renderAssetBrowser(); setStatus(`Added ${added.length} image asset${added.length===1?'':'s'}`);
+      }
+    } catch (err) { console.error(err); setStatus(`Could not add image asset: ${err?.message||err}`); }
+    if (els.assetImageInput) els.assetImageInput.value='';
+  });
+  els.assetLibraryTab?.addEventListener('click', () => { state.assetBrowserView='library'; renderAssetBrowser(); });
+  els.assetRecentTab?.addEventListener('click', () => { state.assetBrowserView='recent'; renderAssetBrowser(); });
+  els.assetsFilesSection?.addEventListener('toggle', () => { if (els.assetsFilesSection.open) renderAssetBrowser(); });
+  els.assetInsertCancelBtn?.addEventListener('click', () => { returnFromAssetBrowser({ forceView:true }); });
+  els.assetGrid?.addEventListener('click', async (event) => {
+    const folderButton=event.target.closest('[data-asset-folder-action]'); const folderCard=event.target.closest('[data-asset-folder-id]');
+    if (folderButton&&folderCard) {
+      const id=folderCard.dataset.assetFolderId, action=folderButton.dataset.assetFolderAction;
+      if(action==='open') setAssetFolder(id); else if(action==='rename') await renameAssetFolder(id); else if(action==='move') openAssetMoveDialog('folder',id); else if(action==='delete') await deleteAssetFolderTree(id); return;
+    }
+    const button=event.target.closest('[data-asset-action]'); const card=event.target.closest('[data-asset-id]');
+    if (!button||!card) return; const id=card.dataset.assetId; const action=button.dataset.assetAction;
+    if (action==='insert') await activateAsset(id);
+    else if (action==='keep') await keepAsset(id);
+    else if (action==='rename') await renameAsset(id);
+    else if (action==='move') openAssetMoveDialog('asset',id);
+    else if (action==='delete') await deleteAssetRecord(id);
+  });
+  els.selectionDeleteBtn?.addEventListener('click', deleteSelectedAnnotations);
+  els.selectionDuplicateBtn?.addEventListener('click', duplicateSelectedAnnotations);
+  els.selectionRotateBtn?.addEventListener('click', rotateSelectedAnnotationsClockwise);
+  els.selectionCopyBtn?.addEventListener('click', copySelectedAnnotations);
+  els.selectionCopyRegionBtn?.addEventListener('click', toggleRegionCopyMode);
+  els.selectionPasteBtn?.addEventListener('click', pasteCopiedAnnotations);
   els.penColorGroup?.addEventListener('click', (event) => {
     const button = event.target instanceof Element ? event.target.closest('[data-ink-color]') : null;
     if (button) setPenColor(button.dataset.inkColor);
@@ -7621,9 +14143,22 @@ function bindEvents() {
     const button = event.target instanceof Element ? event.target.closest('[data-ink-width]') : null;
     if (button) setPenWidth(Number(button.dataset.inkWidth));
   });
+  els.highlighterColorGroup?.addEventListener('click', (event) => {
+    const button = event.target instanceof Element ? event.target.closest('[data-highlighter-color]') : null;
+    if (button) setHighlighterColor(button.dataset.highlighterColor);
+  });
+  els.highlighterWidthGroup?.addEventListener('click', (event) => {
+    const button = event.target instanceof Element ? event.target.closest('[data-highlighter-width]') : null;
+    if (button) setHighlighterWidth(Number(button.dataset.highlighterWidth));
+  });
+  els.eraserSizeGroup?.addEventListener('click', (event) => {
+    const button = event.target instanceof Element ? event.target.closest('[data-eraser-size]') : null;
+    if (button) setEraserSize(Number(button.dataset.eraserSize));
+  });
   els.moreBtn.addEventListener('click', (e) => { e.stopPropagation(); closeInsertPageMenu(); toggleMoreMenu(); });
   els.clearBtn.addEventListener('click', () => { toggleMoreMenu(false); closeAllOpenDocuments(); });
   els.installHelpBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('install'); });
+  els.attributionsBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('attributions'); });
   els.aboutBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('about'); });
   document.addEventListener('click', (e) => {
     if (document.body.classList.contains('presentation') && performance.now() < state.presentationSuppressClicksUntil && els.presentationToolbar.contains(e.target)) {
@@ -7636,6 +14171,38 @@ function bindEvents() {
     const insertAnchors = [els.viewInsertBtn, els.insertPageBtn, els.presentationInsertBtn];
     if (els.insertPageMenu && !els.insertPageMenu.contains(e.target) && !insertAnchors.includes(e.target)) closeInsertPageMenu();
   });
+  document.addEventListener('keydown', (event) => {
+    if (state.annotationTool !== 'select') return;
+    const target = event.target;
+    if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement || target?.isContentEditable) return;
+    const accel = event.ctrlKey || event.metaKey;
+    if ((event.key === 'Delete' || event.key === 'Backspace') && state.annotationSelection?.ids?.size) {
+      event.preventDefault();
+      deleteSelectedAnnotations();
+      return;
+    }
+    if (accel && event.key.toLowerCase() === 'c' && state.annotationSelection?.ids?.size) {
+      event.preventDefault();
+      copySelectedAnnotations();
+      return;
+    }
+    const imageClipboard = state.annotationClipboardAssetId ? state.assetRecords.get(state.annotationClipboardAssetId) : null;
+    if (accel && event.key.toLowerCase() === 'v' && (state.annotationClipboard?.items?.length || imageClipboard?.type === 'image')) {
+      event.preventDefault();
+      pasteCopiedAnnotations();
+      return;
+    }
+    if (event.key === 'Escape' && (state.regionCopyArmed || state.regionCopyGesture)) {
+      event.preventDefault();
+      cancelRegionCopyMode({ status:'Copy region canceled' });
+      return;
+    }
+    if (accel && event.key.toLowerCase() === 'd' && state.annotationSelection?.ids?.size) {
+      event.preventDefault();
+      duplicateSelectedAnnotations();
+    }
+  });
+
   document.addEventListener('fullscreenchange', () => {
     if (!document.fullscreenElement && document.body.classList.contains('presentation') && !isIPadLike()) exitPresentation();
   });
@@ -7643,7 +14210,10 @@ function bindEvents() {
   bindSplitViewerEvents('left');
   bindSplitViewerEvents('right');
 
-  els.viewer.addEventListener('scroll', scheduleSingleActivePageSync, { passive: true });
+  els.viewer.addEventListener('scroll', () => {
+    scheduleSingleActivePageSync();
+    endAppendProgress(els.viewer);
+  }, { passive: true });
 
   els.viewer.addEventListener('wheel', (e) => {
     if (e.ctrlKey || e.metaKey) {
@@ -7652,12 +14222,15 @@ function bindEvents() {
       if (document.body.classList.contains('presentation')) showPresentationControls();
       return;
     }
-    if (state.scrollMode !== 'single') return;
+    if (state.scrollMode !== 'single') {
+      if (e.deltaY > 0) handleEndAppendWheel(els.viewer, state.currentDocumentId, null);
+      return;
+    }
     e.preventDefault();
     const now = performance.now();
     if (now - state.lastWheelPageChange < 320 || Math.abs(e.deltaY) < 8) return;
     state.lastWheelPageChange = now;
-    goPage(e.deltaY > 0 ? 1 : -1);
+    goPage(e.deltaY > 0 ? 1 : -1, true);
   }, { passive: false });
   bindManualViewerTouch(els.viewer, state, {
     getScrollMode: () => state.scrollMode,
@@ -7671,15 +14244,28 @@ function bindEvents() {
       applyLiveSingleZoom();
     },
     saveScroll: () => updateSingleViewScrollFromDom(),
-    finalizePinch: () => {
-      updateSingleViewScrollFromDom();
-      renderViewer();
+    finalizePinch: (pending, cancelled=false) => {
+      const applyDelayedAnchor = !cancelled && !!pending?.restoreAnchor && !!pending?.anchor && !!pending?.midpoint;
+      refreshSinglePinchRasterInPlace();
+      if (!applyDelayedAnchor) {
+        updateSingleViewScrollFromDom();
+        addInkDiagnostic('pinch-anchor-settled', null, { pinchId:pending?.pinchId || null, viewer:els.viewer?.id || null, applied:false, scrollTop:Math.round((els.viewer?.scrollTop||0)*10)/10, scrollLeft:Math.round((els.viewer?.scrollLeft||0)*10)/10 });
+        return;
+      }
+      state.suppressSingleScrollSave = true;
+      restoreViewerAnchorAfterLayout(els.viewer, pending.anchor, pending.midpoint.x, pending.midpoint.y, () => {
+        state.suppressSingleScrollSave = false;
+        updateSingleViewScrollFromDom();
+        addInkDiagnostic('pinch-anchor-settled', null, { pinchId:pending.pinchId || null, viewer:els.viewer?.id || null, applied:true, anchorPageId:pending.anchor.pageId || null, scrollTop:Math.round((els.viewer?.scrollTop||0)*10)/10, scrollLeft:Math.round((els.viewer?.scrollLeft||0)*10)/10 });
+      });
     },
-    goPage: (delta) => goPage(delta),
+    goPage: (delta) => goPage(delta, true),
+    maybeAppendEnd: (force=false) => maybeAppendAtDocumentEnd(els.viewer, state.currentDocumentId, null, force),
   });
 
   document.addEventListener('keydown', (e) => {
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLSelectElement) return;
+    if (e.key === 'Escape' && presentationPageDrawerOpen()) { e.preventDefault(); closePresentationPageDrawer(); return; }
     if (e.key === 'Escape' && document.body.classList.contains('presentation')) { e.preventDefault(); exitPresentation(); return; }
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); e.shiftKey ? redo() : undo(); return; }
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') { e.preventDefault(); redo(); return; }
@@ -7697,10 +14283,15 @@ function bindEvents() {
 
   window.addEventListener('dragover', (e) => { if ([...e.dataTransfer.types].includes('Files')) e.preventDefault(); });
   window.addEventListener('drop', (e) => { if (e.dataTransfer?.files?.length) { e.preventDefault(); openFiles(e.dataTransfer.files); } });
-  window.addEventListener('pagehide', () => { saveCurrentDocumentState(); persistLibraryNow(); });
+  window.addEventListener('pagehide', () => {
+    saveCurrentDocumentState();
+    writeSessionCheckpoint();
+    persistLibraryNow();
+  });
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') {
       saveCurrentDocumentState();
+      writeSessionCheckpoint();
       persistLibraryNow();
     } else {
       resumePersistentLibraryConnection();
@@ -7718,6 +14309,7 @@ async function init() {
   await loadPdfEngine();
   setStatus('Restoring local Library…', true);
   await initializePersistentLibrary();
+  await refreshSavedDiagnosticsUi();
   setStatus(state.documents.length ? `Restored ${state.documents.length} open document${state.documents.length === 1 ? '' : 's'} from local Library` : 'Ready');
 }
 
