@@ -43,7 +43,18 @@
     border:0; background:transparent; color:#4b5563; border-radius:10px; padding:9px 14px; font-weight:700;
   }
   .mode-tabs button.active { background:white; color:var(--ink); box-shadow:0 2px 8px rgba(20,30,50,.08); }
-  .grid { display:grid; grid-template-columns: minmax(0,1.05fr) minmax(330px,.95fr); gap:18px; align-items:start; }
+  .grid {
+    display:grid;
+    grid-template-columns: minmax(0,1.05fr) minmax(330px,.95fr);
+    grid-template-areas:
+      "population ."
+      "sampling controls";
+    gap:18px;
+    align-items:start;
+  }
+  #populationCard, #proportionCard { grid-area:population; }
+  #controlsCard { grid-area:controls; }
+
   .card { background:var(--panel); border:1px solid rgba(219,227,238,.95); border-radius:20px; box-shadow:var(--shadow); overflow:hidden; }
   .card-header { padding:18px 20px 12px; display:flex; gap:14px; justify-content:space-between; align-items:flex-start; }
   .card-title { font-weight:800; font-size:1.05rem; }
@@ -73,14 +84,18 @@
   .stat { background:#f8fafc; border:1px solid #edf1f6; border-radius:13px; padding:12px; min-height:71px; }
   .stat-label { color:var(--muted); font-size:.76rem; font-weight:700; text-transform:uppercase; letter-spacing:.045em; }
   .stat-value { margin-top:5px; font-size:1.05rem; font-weight:800; font-variant-numeric: tabular-nums; }
-  .sampling-card { grid-column:1 / -1; }
+  .sampling-card { grid-area:sampling; min-width:0; }
   .sampling-top { padding:18px 20px 8px; display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:12px; }
   .legend { display:flex; gap:14px; color:#667085; font-size:.82rem; align-items:center; flex-wrap:wrap; }
   .legend-item { display:inline-flex; align-items:center; gap:6px; }
   .swatch { width:17px; height:9px; border-radius:3px; background:var(--sample); }
   .swatch.population { background:rgba(102,112,133,.35); }
   .swatch.target { width:2px; height:14px; border-radius:0; background:var(--target); }
-  .sampling-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; padding:0 20px 20px; }
+  .sampling-stats { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; padding:0 20px 10px; }
+  .direction-stats { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; padding:0 20px 12px; }
+  .direction-stat .stat-value { font-size:1.18rem; }
+  .direction-detail { margin-top:5px; color:#475467; font-size:.84rem; font-weight:650; line-height:1.35; }
+  .equal-note { padding:0 20px 18px; color:var(--muted); font-size:.8rem; min-height:1.1em; }
   .note { padding:0 20px 18px; color:var(--muted); font-size:.85rem; line-height:1.45; }
   .proportion-panel { padding:4px 20px 20px; }
   .p-row { display:grid; grid-template-columns:1fr 95px; gap:13px; align-items:center; }
@@ -95,14 +110,19 @@
   .tiny { color:var(--muted); font-size:.78rem; margin-top:7px; }
   @media (max-width: 820px) {
     .hero { align-items:flex-start; flex-direction:column; }
-    .grid { grid-template-columns:1fr; }
-    .sampling-card { grid-column:auto; }
-    .stats, .sampling-stats { grid-template-columns:repeat(2,1fr); }
+    .grid {
+      grid-template-columns:1fr;
+      grid-template-areas:
+        "population"
+        "controls"
+        "sampling";
+    }
+    .stats, .sampling-stats, .direction-stats { grid-template-columns:repeat(2,1fr); }
   }
   @media (max-width: 520px) {
     .app { width:min(100% - 16px,1180px); margin-top:12px; }
     .control-grid { grid-template-columns:1fr; }
-    .sampling-stats, .stats { grid-template-columns:1fr 1fr; }
+    .sampling-stats, .direction-stats, .stats { grid-template-columns:1fr 1fr; }
     #populationCanvas { height:250px; }
     #samplingCanvas { height:340px; }
     .checkbox { width:100%; margin:4px 0 0; }
@@ -173,7 +193,7 @@
       </div>
     </section>
 
-    <section class="card">
+    <section class="card" id="controlsCard">
       <div class="card-header">
         <div>
           <div class="card-title">2. Sample repeatedly</div>
@@ -217,9 +237,20 @@
       <div class="sampling-stats">
         <div class="stat"><div class="stat-label" id="targetLabel">Population mean</div><div class="stat-value" id="targetValue">—</div></div>
         <div class="stat"><div class="stat-label" id="simCenterLabel">Mean of simulated x̄</div><div class="stat-value" id="simMean">—</div></div>
-        <div class="stat" id="theorySdStat"><div class="stat-label" id="theorySdLabel">Theoretical SD</div><div class="stat-value" id="theorySD">—</div></div>
-        <div class="stat"><div class="stat-label">Simulated SD</div><div class="stat-value" id="simSD">—</div></div>
       </div>
+      <div class="direction-stats">
+        <div class="stat direction-stat">
+          <div class="stat-label">Below population</div>
+          <div class="stat-value" id="belowPercent">—</div>
+          <div class="direction-detail" id="belowTypical">Typical shortfall: —</div>
+        </div>
+        <div class="stat direction-stat">
+          <div class="stat-label">Above population</div>
+          <div class="stat-value" id="abovePercent">—</div>
+          <div class="direction-detail" id="aboveTypical">Typical excess: —</div>
+        </div>
+      </div>
+      <div class="equal-note" id="equalNote"></div>
       <div class="note" id="samplingNote">The reference line marks the corresponding population quantity.</div>
     </section>
   </div>
@@ -244,7 +275,6 @@
   const $ = id => document.getElementById(id);
   const popCanvas = $('populationCanvas');
   const sampleCanvas = $('samplingCanvas');
-  const samplingCanvasWrap = $('samplingCanvasWrap');
   const popCtx = popCanvas.getContext('2d');
   const sampleCtx = sampleCanvas.getContext('2d');
 
@@ -317,14 +347,12 @@
     for (let i = 0; i < BINS; i++) { total += weights[i]; mean += weights[i] * values[i]; }
     if (total <= 1e-12) return null;
     mean /= total;
-    let variance = 0, mu4 = 0;
+    let variance = 0;
     for (let i = 0; i < BINS; i++) {
       const d = values[i] - mean;
       variance += weights[i] * d * d;
-      mu4 += weights[i] * d * d * d * d;
     }
     variance /= total;
-    mu4 /= total;
     const cdf = new Float64Array(BINS);
     let acc = 0;
     for (let i = 0; i < BINS; i++) { acc += weights[i] / total; cdf[i] = acc; }
@@ -336,7 +364,7 @@
     for (let i = 0; i < BINS; i++) if (cdf[i] >= 0.5) { median = values[i]; break; }
     const range = max - min;
     const midrange = (min + max) / 2;
-    return { total, mean, variance, sd: Math.sqrt(variance), mu4, cdf, min, max, range, midrange, median };
+    return { total, mean, variance, sd: Math.sqrt(variance), cdf, min, max, range, midrange, median };
   }
 
   function updatePopulationStats() {
@@ -481,8 +509,6 @@
     $('targetLabel').textContent = texts[3];
     $('simCenterLabel').textContent = texts[4];
     $('samplingNote').textContent = texts[5];
-    const hasTheorySD = ['mean','variance','proportion'].includes(mode);
-    $('theorySdStat').classList.toggle('hidden', !hasTheorySD);
     $('populationLegend').classList.toggle('hidden', !['mean','proportion'].includes(mode));
     clearResults(); drawPopulation(); drawSampling();
   }
@@ -561,18 +587,11 @@
   }
 
   function resultTheory(n) {
-    if (mode === 'proportion') {
-      const p = state.p;
-      return { target: p, sd: Math.sqrt(p * (1-p) / n) };
-    }
+    if (mode === 'proportion') return { target: state.p };
     const pop = state.population;
-    if (mode === 'mean') return { target: pop.mean, sd: pop.sd / Math.sqrt(n) };
-    if (mode === 'variance') {
-      const sigma2 = pop.variance;
-      const varianceOfS2 = (pop.mu4 - ((n - 3) / (n - 1)) * sigma2 * sigma2) / n;
-      return { target: sigma2, sd: Math.sqrt(Math.max(0, varianceOfS2)) };
-    }
-    if (mode === 'sd') return { target: pop.sd, sd: null };
+    if (mode === 'mean') return { target: pop.mean };
+    if (mode === 'variance') return { target: pop.variance };
+    if (mode === 'sd') return { target: pop.sd };
     const targets = {
       min: pop.min,
       max: pop.max,
@@ -580,14 +599,55 @@
       midrange: pop.midrange,
       median: pop.median
     };
-    return { target: targets[mode], sd: null };
+    return { target: targets[mode] };
   }
 
   function summary(arr) {
     if (!arr.length) return null;
-    let mean = 0, M2 = 0;
-    for (let i = 1; i <= arr.length; i++) { const d = arr[i-1] - mean; mean += d/i; M2 += d*(arr[i-1]-mean); }
-    return { mean, sd: arr.length > 1 ? Math.sqrt(M2/(arr.length-1)) : 0 };
+    let mean = 0;
+    for (let i = 1; i <= arr.length; i++) mean += (arr[i-1] - mean) / i;
+    return { mean };
+  }
+
+  function medianOf(arr) {
+    if (!arr.length) return null;
+    const a = arr.slice().sort((x,y) => x-y);
+    const m = Math.floor(a.length/2);
+    return a.length % 2 ? a[m] : (a[m-1] + a[m]) / 2;
+  }
+
+  function directionalSummary(arr, target) {
+    if (!arr.length || !Number.isFinite(target)) return null;
+    const belowMisses = [];
+    const aboveMisses = [];
+    let equal = 0;
+    const tolerance = 1e-10 * Math.max(1, Math.abs(target));
+    for (const v of arr) {
+      const d = v - target;
+      if (d < -tolerance) belowMisses.push(-d);
+      else if (d > tolerance) aboveMisses.push(d);
+      else equal++;
+    }
+    const denom = Math.abs(target);
+    const usePercent = denom > 1e-12;
+    const typicalBelow = medianOf(belowMisses);
+    const typicalAbove = medianOf(aboveMisses);
+    return {
+      belowPct: 100 * belowMisses.length / arr.length,
+      abovePct: 100 * aboveMisses.length / arr.length,
+      equalPct: 100 * equal / arr.length,
+      typicalBelow: typicalBelow == null ? null : (usePercent ? 100 * typicalBelow / denom : typicalBelow),
+      typicalAbove: typicalAbove == null ? null : (usePercent ? 100 * typicalAbove / denom : typicalAbove),
+      usePercent
+    };
+  }
+
+  function fmtPercent(x) {
+    if (!Number.isFinite(x)) return '—';
+    if (x === 0 || x === 100) return `${x.toFixed(0)}%`;
+    if (x < 0.1) return `${x.toFixed(2)}%`;
+    if (x < 10) return `${x.toFixed(1)}%`;
+    return `${x.toFixed(0)}%`;
   }
 
   function configureHistogram(results, target) {
@@ -651,23 +711,8 @@
   }
 
 
-  function syncSamplingCanvasWidth() {
-    if (mode === 'mean') {
-      const popWidth = popCanvas.getBoundingClientRect().width;
-      if (popWidth > 0) {
-        sampleCanvas.style.width = `${Math.round(popWidth)}px`;
-        sampleCanvas.style.maxWidth = '100%';
-        sampleCanvas.style.marginInline = 'auto';
-      }
-    } else {
-      sampleCanvas.style.width = '100%';
-      sampleCanvas.style.maxWidth = '';
-      sampleCanvas.style.marginInline = '';
-    }
-  }
 
   function drawSampling() {
-    syncSamplingCanvasWidth();
     const { w, h } = resizeCanvas(sampleCanvas, sampleCtx);
     sampleCtx.clearRect(0,0,w,h);
     const box = plotBox(w,h);
@@ -757,13 +802,35 @@
 
   function updateResultStats() {
     if (!simulation) {
-      $('targetValue').textContent='—'; $('simMean').textContent='—'; $('theorySD').textContent='—'; $('simSD').textContent='—'; return;
+      $('targetValue').textContent='—';
+      $('simMean').textContent='—';
+      $('belowPercent').textContent='—';
+      $('abovePercent').textContent='—';
+      $('belowTypical').textContent='Typical shortfall: —';
+      $('aboveTypical').textContent='Typical excess: —';
+      $('equalNote').textContent='';
+      return;
     }
+    const target = simulation.theory.target;
     const s = summary(state.shownResults);
-    $('targetValue').textContent = fmt(simulation.theory.target);
-    $('theorySD').textContent = Number.isFinite(simulation.theory.sd) ? fmt(simulation.theory.sd) : '—';
+    const d = directionalSummary(state.shownResults, target);
+    $('targetValue').textContent = fmt(target);
     $('simMean').textContent = s ? fmt(s.mean) : '—';
-    $('simSD').textContent = s ? fmt(s.sd) : '—';
+    if (!d) {
+      $('belowPercent').textContent='—';
+      $('abovePercent').textContent='—';
+      $('belowTypical').textContent='Typical shortfall: —';
+      $('aboveTypical').textContent='Typical excess: —';
+      $('equalNote').textContent='';
+      return;
+    }
+    $('belowPercent').textContent = fmtPercent(d.belowPct);
+    $('abovePercent').textContent = fmtPercent(d.abovePct);
+    const belowText = d.typicalBelow == null ? '—' : (d.usePercent ? fmtPercent(d.typicalBelow) : fmt(d.typicalBelow));
+    const aboveText = d.typicalAbove == null ? '—' : (d.usePercent ? fmtPercent(d.typicalAbove) : fmt(d.typicalAbove));
+    $('belowTypical').textContent = `Typical shortfall: ${belowText}`;
+    $('aboveTypical').textContent = `Typical excess: ${aboveText}`;
+    $('equalNote').textContent = d.equalPct > 0 ? `Exactly at the population value: ${fmtPercent(d.equalPct)}` : '';
   }
 
   async function animateResults(token) {
@@ -834,7 +901,7 @@
       simulation = { n,k,theory };
       state.results = results; state.shownResults=[]; state.completed=false; state.falling=[];
       configureHistogram(results,theory.target);
-      $('targetValue').textContent=fmt(theory.target); $('theorySD').textContent=Number.isFinite(theory.sd) ? fmt(theory.sd) : '—'; $('simMean').textContent='—'; $('simSD').textContent='—';
+      updateResultStats();
       drawSampling();
       requestAnimationFrame(() => {
         document.querySelector('.sampling-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
