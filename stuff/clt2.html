@@ -68,6 +68,8 @@
     border:1px solid var(--line); background:white; color:#344054; border-radius:10px; padding:8px 11px; font-weight:650;
   }
   .ghost:hover, .preset:hover { background:#f8fafc; }
+  .preset-group-label { width:100%; color:var(--muted); font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em; margin-top:3px; }
+  .p-presets { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
   .control-card { padding:18px 20px 20px; }
   .control-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
   label { font-size:.84rem; color:#475467; font-weight:700; display:block; margin-bottom:6px; }
@@ -91,11 +93,7 @@
   .swatch { width:17px; height:9px; border-radius:3px; background:var(--sample); }
   .swatch.population { background:rgba(102,112,133,.35); }
   .swatch.target { width:2px; height:14px; border-radius:0; background:var(--target); }
-  .sampling-stats { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; padding:0 20px 10px; }
-  .direction-stats { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; padding:0 20px 12px; }
-  .direction-stat .stat-value { font-size:1.18rem; }
-  .direction-detail { margin-top:5px; color:#475467; font-size:.84rem; font-weight:650; line-height:1.35; }
-  .equal-note { padding:0 20px 18px; color:var(--muted); font-size:.8rem; min-height:1.1em; }
+  .sampling-stats { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; padding:0 20px 20px; }
   .note { padding:0 20px 18px; color:var(--muted); font-size:.85rem; line-height:1.45; }
   .proportion-panel { padding:4px 20px 20px; }
   .p-row { display:grid; grid-template-columns:1fr 95px; gap:13px; align-items:center; }
@@ -117,12 +115,14 @@
         "controls"
         "sampling";
     }
-    .stats, .sampling-stats, .direction-stats { grid-template-columns:repeat(2,1fr); }
+    .stats, .sampling-stats { grid-template-columns:repeat(2,1fr); }
+    .sampling-stats.mean-mode { grid-template-columns:repeat(3,1fr); }
   }
   @media (max-width: 520px) {
     .app { width:min(100% - 16px,1180px); margin-top:12px; }
     .control-grid { grid-template-columns:1fr; }
-    .sampling-stats, .direction-stats, .stats { grid-template-columns:1fr 1fr; }
+    .sampling-stats, .stats { grid-template-columns:1fr 1fr; }
+    .sampling-stats.mean-mode { grid-template-columns:1fr; }
     #populationCanvas { height:250px; }
     #samplingCanvas { height:340px; }
     .checkbox { width:100%; margin:4px 0 0; }
@@ -164,7 +164,10 @@
         <button class="preset" data-preset="bell">Bell-shaped</button>
         <button class="preset" data-preset="right">Right-skewed</button>
         <button class="preset" data-preset="twopeaked">Two-peaked</button>
-        <button class="preset" data-preset="rare">Rare extremes</button>
+        <button class="preset" data-preset="rareHigh" title="Especially useful for standard deviation, maximum, range, and midrange">Rare high values</button>
+        <button class="preset" data-preset="rareLow" title="Especially useful for minimum">Rare low values</button>
+        <button class="preset" data-preset="rareTails" title="Especially useful for range">Rare tails</button>
+        <button class="preset" data-preset="splitMedian" title="Especially useful for the sample median">49/51 split</button>
       </div>
       <div class="stats">
         <div class="stat"><div class="stat-label">Population mean μ</div><div class="stat-value" id="popMean">—</div></div>
@@ -185,6 +188,11 @@
         <div class="p-row">
           <input id="pSlider" type="range" min="0.01" max="0.99" step="0.01" value="0.35">
           <input id="pNumber" class="p-number" type="number" min="0.01" max="0.99" step="0.01" value="0.35">
+        </div>
+        <div class="p-presets">
+          <button class="ghost p-preset" data-p="0.50">p = 0.50</button>
+          <button class="ghost p-preset" data-p="0.05" title="Most moderate-size samples contain very few successes, although p̂ remains unbiased">Rare success: p = 0.05</button>
+          <button class="ghost p-preset" data-p="0.95" title="Mirror image of the rare-success case">Rare failure: p = 0.95</button>
         </div>
         <div class="binary-preview" aria-label="Bernoulli population distribution">
           <div class="binary-box"><div class="binary-bar-area"><div class="binary-bar" id="failureBar"></div></div><div class="binary-label">0 (failure): <span id="qText"></span></div></div>
@@ -234,23 +242,11 @@
         </div>
       </div>
       <div class="canvas-wrap" id="samplingCanvasWrap"><canvas id="samplingCanvas"></canvas></div>
-      <div class="sampling-stats">
+      <div class="sampling-stats mean-mode" id="samplingStats">
         <div class="stat"><div class="stat-label" id="targetLabel">Population mean</div><div class="stat-value" id="targetValue">—</div></div>
         <div class="stat"><div class="stat-label" id="simCenterLabel">Mean of simulated x̄</div><div class="stat-value" id="simMean">—</div></div>
+        <div class="stat" id="simSdStat"><div class="stat-label">SD of simulated x̄</div><div class="stat-value" id="simSD">—</div></div>
       </div>
-      <div class="direction-stats">
-        <div class="stat direction-stat">
-          <div class="stat-label">Below population</div>
-          <div class="stat-value" id="belowPercent">—</div>
-          <div class="direction-detail" id="belowTypical">Typical shortfall: —</div>
-        </div>
-        <div class="stat direction-stat">
-          <div class="stat-label">Above population</div>
-          <div class="stat-value" id="abovePercent">—</div>
-          <div class="direction-detail" id="aboveTypical">Typical excess: —</div>
-        </div>
-      </div>
-      <div class="equal-note" id="equalNote"></div>
       <div class="note" id="samplingNote">The reference line marks the corresponding population quantity.</div>
     </section>
   </div>
@@ -312,29 +308,80 @@
     return x.toFixed(digits).replace(/\.000$/, '').replace(/(\.\d*?)0+$/, '$1');
   }
 
+  function setMixturePreset(components) {
+    weights.fill(0);
+    components.forEach(c => {
+      const shape = new Float64Array(BINS);
+      let total = 0;
+      for (let i = 0; i < BINS; i++) {
+        const t = i / (BINS - 1);
+        if (t < c.lo || t > c.hi) continue;
+        const z = (t - c.center) / c.spread;
+        const v = Math.exp(-0.5 * z * z);
+        shape[i] = v;
+        total += v;
+      }
+      if (total <= 0) return;
+      for (let i = 0; i < BINS; i++) weights[i] += c.mass * shape[i] / total;
+    });
+
+    // The mixture weights above encode probability mass. Multiplying every
+    // bar by the same constant leaves the population distribution unchanged,
+    // but lets sparse/rare-event presets use the full plotting height.
+    let maxWeight = 0;
+    for (let i = 0; i < BINS; i++) maxWeight = Math.max(maxWeight, weights[i]);
+    if (maxWeight > 0) {
+      const scale = 0.9 / maxWeight;
+      for (let i = 0; i < BINS; i++) weights[i] *= scale;
+    }
+  }
+
   function setPreset(name) {
-    for (let i = 0; i < BINS; i++) {
-      const t = i / (BINS - 1);
-      if (name === 'clear') weights[i] = 0;
-      else if (name === 'uniform') weights[i] = 0.58;
-      else if (name === 'bell') {
-        const z = (t - 0.5) / 0.16;
-        weights[i] = 0.88 * Math.exp(-0.5 * z * z);
-      } else if (name === 'right') {
-        weights[i] = Math.min(0.95, 1.02 * Math.exp(-4.2 * t) + 0.015);
-      } else if (name === 'twopeaked') {
-        const z1 = (t - 0.3) / 0.105;
-        const z2 = (t - 0.72) / 0.13;
-        weights[i] = Math.min(0.95, 0.72 * Math.exp(-0.5 * z1 * z1) + 0.9 * Math.exp(-0.5 * z2 * z2));
-      } else if (name === 'rare') {
-        // About 96% of the population is concentrated near 28 and about 4% near 88.
-        // This makes the downward bias of sample standard deviation easy to see for small n:
-        // many samples miss the rare extreme cluster entirely.
-        const zMain = (t - 0.28) / 0.07;
-        const zRare = (t - 0.88) / 0.018;
-        weights[i] = Math.min(0.95,
-          0.90 * Math.exp(-0.5 * zMain * zMain) +
-          0.16 * Math.exp(-0.5 * zRare * zRare));
+    if (name === 'rare' || name === 'rareHigh') {
+      // 96% in a compact main group, 4% in a distant high group.
+      // At n=20 this remains a strong example for s, maximum, range, and midrange.
+      setMixturePreset([
+        { mass:.96, center:.28, spread:.05, lo:.15, hi:.42 },
+        { mass:.04, center:.90, spread:.018, lo:.84, hi:.96 }
+      ]);
+    } else if (name === 'rareLow') {
+      // Only 3% of the population lies in the low group, so moderate samples
+      // frequently miss the true lower endpoint.
+      setMixturePreset([
+        { mass:.03, center:.07, spread:.015, lo:.04, hi:.10 },
+        { mass:.97, center:.62, spread:.07, lo:.45, hi:.78 }
+      ]);
+    } else if (name === 'rareTails') {
+      // Rare groups at both ends make the population range much larger than
+      // the range seen in most moderate-size samples.
+      setMixturePreset([
+        { mass:.03, center:.07, spread:.015, lo:.04, hi:.10 },
+        { mass:.94, center:.50, spread:.05, lo:.36, hi:.64 },
+        { mass:.03, center:.93, spread:.015, lo:.90, hi:.96 }
+      ]);
+    } else if (name === 'splitMedian') {
+      // 49% in the lower group and 51% in the upper group. The population
+      // median lies in the upper group, but moderate samples are nearly as
+      // likely to place their middle observation(s) in either group.
+      setMixturePreset([
+        { mass:.49, center:.25, spread:.025, lo:.20, hi:.30 },
+        { mass:.51, center:.75, spread:.025, lo:.70, hi:.80 }
+      ]);
+    } else {
+      for (let i = 0; i < BINS; i++) {
+        const t = i / (BINS - 1);
+        if (name === 'clear') weights[i] = 0;
+        else if (name === 'uniform') weights[i] = 0.58;
+        else if (name === 'bell') {
+          const z = (t - 0.5) / 0.16;
+          weights[i] = 0.88 * Math.exp(-0.5 * z * z);
+        } else if (name === 'right') {
+          weights[i] = Math.min(0.95, 1.02 * Math.exp(-4.2 * t) + 0.015);
+        } else if (name === 'twopeaked') {
+          const z1 = (t - 0.3) / 0.105;
+          const z2 = (t - 0.72) / 0.13;
+          weights[i] = Math.min(0.95, 0.72 * Math.exp(-0.5 * z1 * z1) + 0.9 * Math.exp(-0.5 * z2 * z2));
+        }
       }
     }
     updatePopulationStats();
@@ -482,6 +529,7 @@
 
   $('pSlider').addEventListener('input', e => setP(e.target.value));
   $('pNumber').addEventListener('change', e => setP(e.target.value));
+  document.querySelectorAll('.p-preset').forEach(b => b.addEventListener('click', () => setP(b.dataset.p)));
 
   function setMode(next) {
     mode = next;
@@ -508,6 +556,8 @@
     $('samplingSubtitle').textContent = texts[2];
     $('targetLabel').textContent = texts[3];
     $('simCenterLabel').textContent = texts[4];
+    $('simSdStat').classList.toggle('hidden', mode !== 'mean');
+    $('samplingStats').classList.toggle('mean-mode', mode === 'mean');
     $('samplingNote').textContent = texts[5];
     $('populationLegend').classList.toggle('hidden', !['mean','proportion'].includes(mode));
     clearResults(); drawPopulation(); drawSampling();
@@ -604,50 +654,14 @@
 
   function summary(arr) {
     if (!arr.length) return null;
-    let mean = 0;
-    for (let i = 1; i <= arr.length; i++) mean += (arr[i-1] - mean) / i;
-    return { mean };
-  }
-
-  function medianOf(arr) {
-    if (!arr.length) return null;
-    const a = arr.slice().sort((x,y) => x-y);
-    const m = Math.floor(a.length/2);
-    return a.length % 2 ? a[m] : (a[m-1] + a[m]) / 2;
-  }
-
-  function directionalSummary(arr, target) {
-    if (!arr.length || !Number.isFinite(target)) return null;
-    const belowMisses = [];
-    const aboveMisses = [];
-    let equal = 0;
-    const tolerance = 1e-10 * Math.max(1, Math.abs(target));
-    for (const v of arr) {
-      const d = v - target;
-      if (d < -tolerance) belowMisses.push(-d);
-      else if (d > tolerance) aboveMisses.push(d);
-      else equal++;
+    let mean = 0, M2 = 0;
+    for (let i = 1; i <= arr.length; i++) {
+      const x = arr[i-1];
+      const d = x - mean;
+      mean += d / i;
+      M2 += d * (x - mean);
     }
-    const denom = Math.abs(target);
-    const usePercent = denom > 1e-12;
-    const typicalBelow = medianOf(belowMisses);
-    const typicalAbove = medianOf(aboveMisses);
-    return {
-      belowPct: 100 * belowMisses.length / arr.length,
-      abovePct: 100 * aboveMisses.length / arr.length,
-      equalPct: 100 * equal / arr.length,
-      typicalBelow: typicalBelow == null ? null : (usePercent ? 100 * typicalBelow / denom : typicalBelow),
-      typicalAbove: typicalAbove == null ? null : (usePercent ? 100 * typicalAbove / denom : typicalAbove),
-      usePercent
-    };
-  }
-
-  function fmtPercent(x) {
-    if (!Number.isFinite(x)) return '—';
-    if (x === 0 || x === 100) return `${x.toFixed(0)}%`;
-    if (x < 0.1) return `${x.toFixed(2)}%`;
-    if (x < 10) return `${x.toFixed(1)}%`;
-    return `${x.toFixed(0)}%`;
+    return { mean, sd: arr.length > 1 ? Math.sqrt(M2 / (arr.length - 1)) : null };
   }
 
   function configureHistogram(results, target) {
@@ -804,33 +818,13 @@
     if (!simulation) {
       $('targetValue').textContent='—';
       $('simMean').textContent='—';
-      $('belowPercent').textContent='—';
-      $('abovePercent').textContent='—';
-      $('belowTypical').textContent='Typical shortfall: —';
-      $('aboveTypical').textContent='Typical excess: —';
-      $('equalNote').textContent='';
+      $('simSD').textContent='—';
       return;
     }
-    const target = simulation.theory.target;
     const s = summary(state.shownResults);
-    const d = directionalSummary(state.shownResults, target);
-    $('targetValue').textContent = fmt(target);
+    $('targetValue').textContent = fmt(simulation.theory.target);
     $('simMean').textContent = s ? fmt(s.mean) : '—';
-    if (!d) {
-      $('belowPercent').textContent='—';
-      $('abovePercent').textContent='—';
-      $('belowTypical').textContent='Typical shortfall: —';
-      $('aboveTypical').textContent='Typical excess: —';
-      $('equalNote').textContent='';
-      return;
-    }
-    $('belowPercent').textContent = fmtPercent(d.belowPct);
-    $('abovePercent').textContent = fmtPercent(d.abovePct);
-    const belowText = d.typicalBelow == null ? '—' : (d.usePercent ? fmtPercent(d.typicalBelow) : fmt(d.typicalBelow));
-    const aboveText = d.typicalAbove == null ? '—' : (d.usePercent ? fmtPercent(d.typicalAbove) : fmt(d.typicalAbove));
-    $('belowTypical').textContent = `Typical shortfall: ${belowText}`;
-    $('aboveTypical').textContent = `Typical excess: ${aboveText}`;
-    $('equalNote').textContent = d.equalPct > 0 ? `Exactly at the population value: ${fmtPercent(d.equalPct)}` : '';
+    $('simSD').textContent = (mode === 'mean' && s && Number.isFinite(s.sd)) ? fmt(s.sd) : '—';
   }
 
   async function animateResults(token) {
@@ -901,7 +895,7 @@
       simulation = { n,k,theory };
       state.results = results; state.shownResults=[]; state.completed=false; state.falling=[];
       configureHistogram(results,theory.target);
-      updateResultStats();
+      $('targetValue').textContent=fmt(theory.target); $('simMean').textContent='—'; $('simSD').textContent='—';
       drawSampling();
       requestAnimationFrame(() => {
         document.querySelector('.sampling-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
