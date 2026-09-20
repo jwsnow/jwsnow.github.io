@@ -136,24 +136,14 @@
       <h1>Sampling Distributions Lab</h1>
       <p class="subtitle">Draw a population, repeatedly sample from it, and watch the sampling distribution form. Compare sampling distributions for means, variances, standard deviations, proportions, and other statistics.</p>
     </div>
-    <div class="mode-tabs" role="tablist" aria-label="Statistic">
-      <button class="active" data-mode="mean" role="tab">Mean</button>
-      <button data-mode="variance" role="tab">Variance</button>
-      <button data-mode="sd" role="tab">Std. Dev.</button>
-      <button data-mode="proportion" role="tab">Proportion</button>
-      <button data-mode="min" role="tab">Minimum</button>
-      <button data-mode="max" role="tab">Maximum</button>
-      <button data-mode="range" role="tab">Range</button>
-      <button data-mode="midrange" role="tab">Midrange</button>
-      <button data-mode="median" role="tab">Median</button>
-    </div>
+
   </div>
 
   <div class="grid">
     <section class="card" id="populationCard">
       <div class="card-header">
         <div>
-          <div class="card-title">1. Create a population</div>
+          <div class="card-title">Create a population</div>
           <div class="card-subtitle">Drag across the graph to draw relative frequencies on a 0–100 scale.</div>
         </div>
       </div>
@@ -204,7 +194,7 @@
     <section class="card" id="controlsCard">
       <div class="card-header">
         <div>
-          <div class="card-title">2. Sample repeatedly</div>
+          <div class="card-title">Sample repeatedly</div>
           <div class="card-subtitle" id="controlSubtitle">Each sample produces one sample mean.</div>
         </div>
       </div>
@@ -227,6 +217,17 @@
         <div class="tiny">Runs of 250 samples or fewer can fall into the graph one at a time.</div>
         <div class="error" id="errorText"></div>
       </div>
+          <div class="mode-tabs" role="tablist" aria-label="Statistic">
+      <button class="active" data-mode="mean" role="tab">Mean</button>
+      <button data-mode="variance" role="tab">Variance</button>
+      <button data-mode="sd" role="tab">Std. Dev.</button>
+       <button data-mode="min" role="tab">Minimum</button>
+      <button data-mode="max" role="tab">Maximum</button>
+      <button data-mode="range" role="tab">Range</button>
+      <button data-mode="midrange" role="tab">Midrange</button>
+      <button data-mode="median" role="tab">Median</button>
+      <button data-mode="proportion" role="tab">Proportion</button>
+   </div>
     </section>
 
     <section class="card sampling-card">
