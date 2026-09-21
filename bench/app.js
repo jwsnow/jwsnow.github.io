@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.37';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.39';
 
-const APP_VERSION = '5.7.37';
+const APP_VERSION = '5.7.39';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -19,14 +19,14 @@ const RECENT_ASSET_LIMIT = 30;
 
 const $ = (id) => document.getElementById(id);
 const els = {
-  app: $('app'), openBtn: $('openBtn'), annotationImageInput: $('annotationImageInput'), assetImageInput: $('assetImageInput'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), newTemplateDocumentBtn: $('newTemplateDocumentBtn'), newDocumentPageSize: $('newDocumentPageSize'), newDocumentPageSizeHint: $('newDocumentPageSizeHint'), newBlankWhiteBtn: $('newBlankWhiteBtn'), newBlankBlackBtn: $('newBlankBlackBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), libraryZipImportInput: $('libraryZipImportInput'), imageAssemblyInput: $('imageAssemblyInput'), documentSelect: $('documentSelect'),
+  app: $('app'), openBtn: $('openBtn'), annotationImageInput: $('annotationImageInput'), assetImageInput: $('assetImageInput'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), newTemplateDocumentBtn: $('newTemplateDocumentBtn'), newDocumentPageSize: $('newDocumentPageSize'), newDocumentPageSizeHint: $('newDocumentPageSizeHint'), newBlankWhiteBtn: $('newBlankWhiteBtn'), newBlankBlackBtn: $('newBlankBlackBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), libraryZipImportInput: $('libraryZipImportInput'), imageAssemblyInput: $('imageAssemblyInput'), documentSelect: $('documentSelect'), renameCurrentBtn: $('renameCurrentBtn'), closeCurrentBtn: $('closeCurrentBtn'),
   viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), exportModeBtn: $('exportModeBtn'), viewerControls: $('viewerControls'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
   emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), librarySelectionSummary: $('librarySelectionSummary'), librarySelectAllBtn: $('librarySelectAllBtn'), libraryClearSelectionBtn: $('libraryClearSelectionBtn'), libraryMoveSelectedBtn: $('libraryMoveSelectedBtn'), libraryTrashSelectedBtn: $('libraryTrashSelectedBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), emptyTrashBtn: $('emptyTrashBtn'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), librarySelectedEditableBackupBtn: $('librarySelectedEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), savedDiagnosticsSummary: $('savedDiagnosticsSummary'), exportSavedDiagnosticsBtn: $('exportSavedDiagnosticsBtn'), clearSavedDiagnosticsBtn: $('clearSavedDiagnosticsBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
-  extractOperationSummary: $('extractOperationSummary'), extractSummary: $('extractSummary'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
-  splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
+  extractOperationSummary: $('extractOperationSummary'), extractSummary: $('extractSummary'), extractDestination: $('extractDestination'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
+  splitDestination: $('splitDestination'), splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
   imageAssemblyChooseBtn: $('imageAssemblyChooseBtn'), imageAssemblyClearBtn: $('imageAssemblyClearBtn'), imageAssemblySummary: $('imageAssemblySummary'), imageAssemblyList: $('imageAssemblyList'), imageAssemblyName: $('imageAssemblyName'), imageAssemblyPageSize: $('imageAssemblyPageSize'), imageAssemblyOrientation: $('imageAssemblyOrientation'), imageAssemblyCreateBtn: $('imageAssemblyCreateBtn'), imageAssemblyProgress: $('imageAssemblyProgress'), imageAssemblyOperationSummary: $('imageAssemblyOperationSummary'),
   compressOperationSummary: $('compressOperationSummary'), compressSummary: $('compressSummary'), compressionMethod: $('compressionMethod'), compressionLevel: $('compressionLevel'), compressionTargetField: $('compressionTargetField'), compressionTargetMb: $('compressionTargetMb'), compressionFilenameLabel: $('compressionFilenameLabel'), compressionFilename: $('compressionFilename'), compressionNormalizeLetter: $('compressionNormalizeLetter'), compressionMethodNote: $('compressionMethodNote'), compressBtn: $('compressBtn'), compressionProgress: $('compressionProgress'),
@@ -5788,10 +5788,34 @@ function populateDocumentSelect(select, selectedId) {
   select.disabled = state.documents.length === 0;
 }
 
+function activeUiDocument() {
+  return state.splitView ? (paneDocument(state.activePaneId) || currentDocument()) : currentDocument();
+}
+
+async function renameActiveDocument() {
+  const doc = activeUiDocument();
+  if (!doc) return;
+  await renameLibraryDocument(doc.id);
+}
+
+async function closeActiveDocument() {
+  const doc = activeUiDocument();
+  if (!doc) return;
+  await closeOneOpenDocument(doc.id);
+}
+
 function renderDocumentSelect() {
   ensureSplitPaneDocuments();
   populateDocumentSelect(els.documentSelect, state.currentDocumentId);
   els.documentSelect.classList.toggle('hidden', state.documents.length === 0 || state.splitView);
+  const activeDoc = activeUiDocument();
+  const showDocumentActions = !!activeDoc && state.workspaceMode !== 'export';
+  els.renameCurrentBtn?.classList.toggle('hidden', !showDocumentActions);
+  els.closeCurrentBtn?.classList.toggle('hidden', !showDocumentActions);
+  if (activeDoc) {
+    if (els.renameCurrentBtn) els.renameCurrentBtn.title = `Rename ${activeDoc.name}`;
+    if (els.closeCurrentBtn) els.closeCurrentBtn.title = `Close ${activeDoc.name} but keep it in the local Library`;
+  }
 
   populateDocumentSelect(els.splitLeftDocumentSelect, state.splitPanes.left.documentId);
   populateDocumentSelect(els.splitRightDocumentSelect, state.splitPanes.right.documentId);
@@ -6250,15 +6274,23 @@ const PRESENTATION_PAGE_LONG_EDGE_PT = 11 * 72;
 const GRAPH_GRID_TARGET_SPACING_PT = 17.25; // Slightly smaller than the former 1/4-inch (18 pt) grid.
 const GRAPH_GRID_MIN_MARGIN_PT = 7;       // Small centered remainder margin keeps every visible cell complete.
 const GRAPH_PAPER_STYLE_ID = 'workbench-graph-v1';
-const LEGACY_POWERPOINT_GRAPH_BACKGROUND = Object.freeze({
-  // Temporary migration fingerprint for the repeated graph-paper JPEG used in
+const LEGACY_POWERPOINT_GRAPH_BACKGROUNDS = Object.freeze([
+  // Temporary migration fingerprints for repeated graph-paper JPEGs used in
   // the user's older PowerPoint slide decks. Exact-byte matching is deliberate:
   // never guess that another large page image is a background.
-  width: 2048,
-  height: 1536,
-  byteLength: 200613,
-  sha256: 'bb72bdfa722481c2bee58ff3d9d54a1646607d9f1aeccdd316404411fa9e8530',
-});
+  Object.freeze({
+    width: 2048,
+    height: 1536,
+    byteLength: 200613,
+    sha256: 'bb72bdfa722481c2bee58ff3d9d54a1646607d9f1aeccdd316404411fa9e8530',
+  }),
+  Object.freeze({
+    width: 2048,
+    height: 1536,
+    byteLength: 206281,
+    sha256: '9a13ca9e7a370e5fd51914a19e185eb285055c3657d602f83a39e9afbfe27439',
+  }),
+]);
 
 async function sha256Hex(bytes) {
   if (!globalThis.crypto?.subtle) throw new Error('Secure browser hashing is unavailable on this device.');
@@ -6287,11 +6319,18 @@ async function purgeKnownPowerPointGraphImageBytes(sourceBytes) {
   for (const [ref, object] of pdfDoc.context.enumerateIndirectObjects()) {
     if (!(object instanceof PDFRawStream)) continue;
     if (String(object.dict.get(subtypeKey)) !== '/Image') continue;
-    if (pdfNumberValue(object.dict.get(widthKey)) !== LEGACY_POWERPOINT_GRAPH_BACKGROUND.width) continue;
-    if (pdfNumberValue(object.dict.get(heightKey)) !== LEGACY_POWERPOINT_GRAPH_BACKGROUND.height) continue;
+    const width = pdfNumberValue(object.dict.get(widthKey));
+    const height = pdfNumberValue(object.dict.get(heightKey));
     const raw = object.contents;
-    if (!(raw instanceof Uint8Array) || raw.byteLength !== LEGACY_POWERPOINT_GRAPH_BACKGROUND.byteLength) continue;
-    if (await sha256Hex(raw) !== LEGACY_POWERPOINT_GRAPH_BACKGROUND.sha256) continue;
+    if (!(raw instanceof Uint8Array)) continue;
+    const candidates = LEGACY_POWERPOINT_GRAPH_BACKGROUNDS.filter(signature =>
+      width === signature.width &&
+      height === signature.height &&
+      raw.byteLength === signature.byteLength
+    );
+    if (!candidates.length) continue;
+    const hash = await sha256Hex(raw);
+    if (!candidates.some(signature => hash === signature.sha256)) continue;
 
     // Keep every page's existing content stream intact. Replacing only the
     // exact shared image XObject with an empty Form XObject means existing
@@ -7757,14 +7796,21 @@ async function applyPendingFolderMove() {
 async function openLibraryRecordInView(record) {
   try {
     if (!record) return;
-    if (isDocumentOpen(record.id)) loadDocumentState(record.id);
-    else {
+    // Keep Files visible so several Library documents can be opened in succession.
+    // If there is no active document yet, make the first reopened document active
+    // internally so switching to View later has a sensible target.
+    const keepMode = state.workspaceMode;
+    if (isDocumentOpen(record.id)) {
+      if (record.id !== state.currentDocumentId) loadDocumentState(record.id, false);
+    } else {
       setStatus(`Opening ${record.name} from Library…`, true);
-      await reopenLibraryDocument(record.id);
+      await reopenLibraryDocument(record.id, { makeActive: !currentDocument(), render: false });
     }
-    state.workspaceMode = 'view';
-    renderAll({ saveState: false });
-    setStatus(`Opened ${record.name}`);
+    state.workspaceMode = keepMode;
+    renderDocumentSelect();
+    if (keepMode === 'export') renderExportPane();
+    else renderAll({ saveState: false });
+    setStatus(`Opened ${record.name}${keepMode === 'export' ? ' · staying in Files' : ''}`);
   } catch (err) {
     console.error(err);
     setStatus(`Could not open ${record?.name || 'document'}: ${err?.message || err}`);
@@ -8582,6 +8628,8 @@ function renderExportPane() {
 
   updateCompressionUi(chosenDocs);
 
+  updateExtractDestinationUi();
+  updateSplitDestinationUi();
   const selectedCount = state.selected.size;
   if (doc) {
     if (els.extractOperationSummary) els.extractOperationSummary.textContent = `Active: ${doc.name}`;
@@ -10020,7 +10068,19 @@ async function exportSelectedDocuments() {
       els.exportProgress.textContent = 'Packaging PDFs into ZIP…';
       setStatus('Packaging exported PDFs…', true);
       const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'STORE', mimeType: 'application/zip' });
-      const filename = ensureZipFilename(els.exportFilename.value);
+      const requestedZipName = await requestLibraryName({
+        title:'Name exported ZIP',
+        help:'Use the same Workbench naming dialog used for Library files and folders.',
+        suggested:ensureZipFilename(els.exportFilename.value),
+        saveLabel:'Export ZIP',
+      });
+      if (!requestedZipName) {
+        els.exportProgress.textContent = 'ZIP export canceled before download.';
+        setStatus('ZIP export canceled');
+        return;
+      }
+      const filename = ensureZipFilename(requestedZipName);
+      els.exportFilename.value = filename;
       downloadBlob(zipBlob, filename);
       els.exportProgress.textContent = `Exported ${docs.length} PDFs in ${filename}.`;
       setStatus(`Exported ${docs.length} PDFs`);
@@ -10034,7 +10094,42 @@ async function exportSelectedDocuments() {
   }
 }
 
-async function extractSelectedPdf() {
+async function createClosedLibraryDocumentFromPages(name, pages, { folderId=null }={}) {
+  if (!state.libraryReady || !state.libraryDb) throw new Error('Local Library is not ready.');
+  const pageList = (pages || []).map(page => clonePageState(page, { newId:true, includeAnnotations:true }));
+  if (!pageList.length) throw new Error('The new document would contain no pages.');
+  for (const sourceId of pagesReferencedSourceIds(pageList)) {
+    if (state.sources.has(sourceId)) await persistSourceToLibrary(sourceId);
+  }
+  const targetFolderId = folderId && state.libraryFolders.get(folderId)?.trashedAt == null ? folderId : null;
+  const now = Date.now();
+  const doc = {
+    id: uid('doc'), name: name || 'Untitled.pdf', pages: pageList, selected: new Set(), selectionAnchorId:null,
+    activePageId: pageList[0]?.id || null, history:[], future:[], createdAt:now, modifiedAt:now,
+    needsExport:true, lastExportedAt:null, folderId:targetFolderId, favorite:false, trashedAt:null, libraryManaged:true,
+    singleView:{ zoom:1, fitMode:state.fitMode, scrollMode:state.scrollMode, activePageId:pageList[0]?.id || null, scrollTop:null, scrollLeft:null },
+  };
+  doc.name = uniqueLibraryDocumentName(doc.name, targetFolderId, doc.id);
+  const record = serializeDocumentForLibrary(doc);
+  await libraryPut('documents', record);
+  state.libraryRecords.set(record.id, record);
+  renderLibraryDocumentList();
+  checkpointWorkspaceNow();
+  return record;
+}
+
+function updateExtractDestinationUi() {
+  if (!els.extractPdfBtn) return;
+  els.extractPdfBtn.textContent = els.extractDestination?.value === 'export' ? 'Export selected pages' : 'Extract to Local Library';
+}
+
+function updateSplitDestinationUi() {
+  const local = els.splitDestination?.value !== 'export';
+  if (els.splitFixedBtn) els.splitFixedBtn.textContent = local ? 'Split every n pages to Library' : 'Split every n pages';
+  if (els.splitRangesBtn) els.splitRangesBtn.textContent = local ? 'Split page groups to Library' : 'Split by page groups';
+}
+
+async function extractSelectedPdf(options={}) {
   saveCurrentDocumentState();
   const doc = currentDocument();
   if (!doc) return;
@@ -10048,20 +10143,38 @@ async function extractSelectedPdf() {
     els.extractProgress.textContent = 'Select one or more pages in Pages first.';
     return;
   }
-  const filename = ensurePdfFilename(els.extractFilename.value, defaultExtractFilename(doc.name));
+  const destination = options.destination || els.extractDestination?.value || 'library';
+  let requestedName = ensurePdfFilename(els.extractFilename.value, defaultExtractFilename(doc.name));
+  if (destination === 'library' && options.promptForName) {
+    requestedName = await requestLibraryName({
+      title:'Extract to Local Library',
+      help:'Create a new editable local document from the selected pages. The original document is unchanged.',
+      suggested:requestedName,
+      saveLabel:'Extract',
+    });
+    if (!requestedName) return;
+    requestedName = ensurePdfFilename(requestedName, defaultExtractFilename(doc.name));
+  }
+  const filename = requestedName;
   els.extractPdfBtn.disabled = true;
   if (els.extractSelectedPagesBtn) els.extractSelectedPagesBtn.disabled = true;
   els.extractProgress.textContent = 'Preparing selected pages…';
   setStatus('Extracting selected pages…', true);
   try {
-    const bytes = await buildPdfBytes(selectedPages, {
-      onProgress: (done, total) => {
-        els.extractProgress.textContent = `Building selected page ${done} of ${total}…`;
-      }
-    });
-    downloadPdfBytes(bytes, filename);
-    els.extractProgress.textContent = `Extracted ${selectedPages.length} page${selectedPages.length === 1 ? '' : 's'} to ${filename}.`;
-    setStatus(`Extracted ${selectedPages.length} page${selectedPages.length === 1 ? '' : 's'}`);
+    if (destination === 'library') {
+      const record = await createClosedLibraryDocumentFromPages(filename, selectedPages, { folderId:doc.folderId || null });
+      els.extractProgress.textContent = `Created local Library document ${record.name} with ${selectedPages.length} page${selectedPages.length === 1 ? '' : 's'}.`;
+      setStatus(`Created ${record.name} in Local Library`);
+    } else {
+      const bytes = await buildPdfBytes(selectedPages, {
+        onProgress: (done, total) => {
+          els.extractProgress.textContent = `Building selected page ${done} of ${total}…`;
+        }
+      });
+      downloadPdfBytes(bytes, filename);
+      els.extractProgress.textContent = `Exported ${selectedPages.length} selected page${selectedPages.length === 1 ? '' : 's'} to ${filename}.`;
+      setStatus(`Exported ${selectedPages.length} selected page${selectedPages.length === 1 ? '' : 's'}`);
+    }
   } catch (err) {
     console.error(err);
     els.extractProgress.textContent = `Extract failed: ${err?.message || err}`;
@@ -10172,6 +10285,20 @@ async function savePdfGroups(groups, baseName) {
   return { count: groups.length, filename };
 }
 
+async function savePageGroupsToLibrary(groups, baseName, sourceDoc=currentDocument()) {
+  if (!groups.length) throw new Error('The split did not produce any output groups.');
+  const safeBase = cleanFilenameBase(baseName, 'document');
+  const records = [];
+  for (let i = 0; i < groups.length; i++) {
+    const group = groups[i];
+    els.splitProgress.textContent = `Creating local document ${i + 1} of ${groups.length}…`;
+    const name = `${safeBase}-${group.label}.pdf`;
+    records.push(await createClosedLibraryDocumentFromPages(name, group.pages, { folderId:sourceDoc?.folderId || null }));
+    await new Promise(resolve => setTimeout(resolve, 0));
+  }
+  return { count:records.length, records };
+}
+
 async function splitEveryNPages() {
   saveCurrentDocumentState();
   if (!state.pages.length) return;
@@ -10180,11 +10307,17 @@ async function splitEveryNPages() {
   els.splitProgress.textContent = 'Preparing split…';
   try {
     const groups = makeFixedSplitGroups(state.pages, Number(els.splitEveryCount.value));
-    const result = await savePdfGroups(groups, els.splitBaseName.value);
-    els.splitProgress.textContent = result.count > 1
-      ? `Created ${result.count} PDFs in ${result.filename}.`
-      : `Created ${result.filename}.`;
-    setStatus(result.count > 1 ? `Created ${result.count} split PDFs` : 'Created split PDF');
+    const local = els.splitDestination?.value !== 'export';
+    const result = local
+      ? await savePageGroupsToLibrary(groups, els.splitBaseName.value, currentDocument())
+      : await savePdfGroups(groups, els.splitBaseName.value);
+    if (local) {
+      els.splitProgress.textContent = `Created ${result.count} local Library document${result.count === 1 ? '' : 's'}.`;
+      setStatus(`Created ${result.count} split document${result.count === 1 ? '' : 's'} in Local Library`);
+    } else {
+      els.splitProgress.textContent = result.count > 1 ? `Created ${result.count} PDFs in ${result.filename}.` : `Created ${result.filename}.`;
+      setStatus(result.count > 1 ? `Created ${result.count} split PDFs` : 'Created split PDF');
+    }
   } catch (err) {
     console.error(err);
     els.splitProgress.textContent = `Split failed: ${err?.message || err}`;
@@ -10203,11 +10336,17 @@ async function splitByPageGroups() {
   els.splitProgress.textContent = 'Checking page groups…';
   try {
     const groups = parseSplitRangeGroups(els.splitRanges.value, state.pages);
-    const result = await savePdfGroups(groups, els.splitBaseName.value);
-    els.splitProgress.textContent = result.count > 1
-      ? `Created ${result.count} PDFs in ${result.filename}.`
-      : `Created ${result.filename}.`;
-    setStatus(result.count > 1 ? `Created ${result.count} split PDFs` : 'Created split PDF');
+    const local = els.splitDestination?.value !== 'export';
+    const result = local
+      ? await savePageGroupsToLibrary(groups, els.splitBaseName.value, currentDocument())
+      : await savePdfGroups(groups, els.splitBaseName.value);
+    if (local) {
+      els.splitProgress.textContent = `Created ${result.count} local Library document${result.count === 1 ? '' : 's'}.`;
+      setStatus(`Created ${result.count} split document${result.count === 1 ? '' : 's'} in Local Library`);
+    } else {
+      els.splitProgress.textContent = result.count > 1 ? `Created ${result.count} PDFs in ${result.filename}.` : `Created ${result.filename}.`;
+      setStatus(result.count > 1 ? `Created ${result.count} split PDFs` : 'Created split PDF');
+    }
   } catch (err) {
     console.error(err);
     els.splitProgress.textContent = `Split failed: ${err?.message || err}`;
@@ -10280,6 +10419,10 @@ function showWorkspaceMode(mode) {
     }
   }
   state.workspaceMode = mode;
+  const modeActiveDoc = activeUiDocument();
+  const showModeDocumentActions = !!modeActiveDoc && mode !== 'export';
+  els.renameCurrentBtn?.classList.toggle('hidden', !showModeDocumentActions);
+  els.closeCurrentBtn?.classList.toggle('hidden', !showModeDocumentActions);
   if (mode !== 'view' && state.annotationSelection?.ids?.size) clearAnnotationSelection(false);
   if (mode !== 'view') state.selectionGesture = null;
   const hasPages = state.pages.length > 0;
@@ -11068,6 +11211,10 @@ function duplicateSelected() {
 }
 function deleteSelected() {
   if (!state.selected.size) return;
+  if (state.selected.size >= state.pages.length) {
+    alert('A Workbench document must keep at least one page. Select fewer pages before deleting.');
+    return;
+  }
   const before = snapshotPages();
   state.pages = state.pages.filter(p => !state.selected.has(p.id));
   state.selected.clear();
@@ -12988,7 +13135,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.7.37 is a focused iPad stability revision: viewer/layout/document switches explicitly collapse outgoing canvas backing stores before detaching them, lazy page canvases start at 1×1 instead of the browser default 300×150, and the Presentation document selector now accepts both input/change events with blur reconciliation diagnostics. Existing Pen/Select behavior and 5.7.36 input diagnostics remain unchanged.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.7.38 is a narrow migration-tool revision: the temporary PowerPoint graph-paper purge now recognizes a second verified 2048×1536 JPEG encoding by exact byte length and SHA-256 fingerprint, while preserving the 5.7.37 iPad canvas-memory and Presentation selector fixes. No Pen/Select, viewer, or export behavior is otherwise changed.</p>
       <ul><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -13914,6 +14061,8 @@ function bindEvents() {
   els.viewModeBtn.addEventListener('click', () => showWorkspaceMode('view'));
   els.organizeModeBtn.addEventListener('click', () => showWorkspaceMode('organize'));
   els.exportModeBtn.addEventListener('click', () => showWorkspaceMode('export'));
+  els.renameCurrentBtn?.addEventListener('click', renameActiveDocument);
+  els.closeCurrentBtn?.addEventListener('click', closeActiveDocument);
   els.selectAllFilesBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; for (const doc of state.documents) state.fileSelected.add(doc.id); reconcileCombineOrder(); renderExportPane(); });
   els.clearFileSelectionBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; for (const doc of state.documents) state.fileSelected.delete(doc.id); reconcileCombineOrder(); renderExportPane(); });
   els.libraryRefreshBtn?.addEventListener('click', async () => {
@@ -13975,7 +14124,9 @@ function bindEvents() {
   els.compressionTargetMb?.addEventListener('input', () => updateCompressionUi(selectedFileDocuments()));
   els.compressionNormalizeLetter?.addEventListener('change', () => updateCompressionUi(selectedFileDocuments()));
   els.compressBtn?.addEventListener('click', compressSelectedDocuments);
-  els.extractPdfBtn.addEventListener('click', extractSelectedPdf);
+  els.extractDestination?.addEventListener('change', updateExtractDestinationUi);
+  els.splitDestination?.addEventListener('change', updateSplitDestinationUi);
+  els.extractPdfBtn.addEventListener('click', () => extractSelectedPdf());
   els.splitFixedBtn.addEventListener('click', splitEveryNPages);
   els.splitRangesBtn.addEventListener('click', splitByPageGroups);
   els.combineBtn.addEventListener('click', createCombinedDocument);
@@ -14049,7 +14200,7 @@ function bindEvents() {
   els.pageEdgeForm?.addEventListener('submit', (e) => { e.preventDefault(); applyPageEdgeChange(); });
   els.insertPageBtn.addEventListener('click', (e) => { e.stopPropagation(); openInsertPageMenu(els.insertPageBtn); });
   els.duplicateBtn.addEventListener('click', duplicateSelected);
-  els.extractSelectedPagesBtn?.addEventListener('click', extractSelectedPdf);
+  els.extractSelectedPagesBtn?.addEventListener('click', () => extractSelectedPdf({ destination:'library', promptForName:true }));
   els.copyPagesBtn?.addEventListener('click', openPageTransferDialog);
   els.pageTransferDestination?.addEventListener('change', updatePageTransferPositionUi);
   els.pageTransferPosition?.addEventListener('change', updatePageTransferPositionUi);
