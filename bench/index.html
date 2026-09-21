@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.7.39">
+  <link rel="stylesheet" href="styles.css?v=5.7.37">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -35,8 +35,6 @@
           <button id="exportModeBtn" class="segment" type="button" aria-pressed="false">Files</button>
         </div>
         <select id="documentSelect" class="document-select hidden" aria-label="Open document"></select>
-        <button id="renameCurrentBtn" class="icon-btn document-action-btn hidden" type="button" title="Rename current document" aria-label="Rename current document">✎</button>
-        <button id="closeCurrentBtn" class="icon-btn document-action-btn hidden" type="button" title="Close current document" aria-label="Close current document">×</button>
       </div>
 
       <div id="viewerControls" class="viewer-controls">
@@ -202,11 +200,12 @@
             <button id="selectAllBtn" type="button">Select all</button>
             <button id="rotateBtn" type="button" disabled>Rotate</button>
             <button id="pageGraphBackgroundBtn" type="button" disabled>Add graph paper background</button>
+            <button id="pagePurgeLegacyGraphBackgroundBtn" type="button" disabled title="Temporary migration tool: remove the known PowerPoint graph-paper image from selected PDF pages">Purge old graph image</button>
             <button id="pageGeometryBtn" type="button">Page size…</button>
             <button id="pageEdgeBtn" type="button">Crop / margins…</button>
             <button id="insertPageBtn" type="button" aria-haspopup="menu" aria-expanded="false">Insert</button>
             <button id="duplicateBtn" type="button" disabled>Duplicate</button>
-            <button id="extractSelectedPagesBtn" type="button" disabled>Extract to Library</button>
+            <button id="extractSelectedPagesBtn" type="button" disabled>Extract selected</button>
             <button id="copyPagesBtn" type="button" disabled>Copy to…</button>
             <button id="deleteBtn" type="button" disabled>Delete</button>
             <button id="undoBtn" type="button" disabled title="Undo">↶</button>
@@ -218,7 +217,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.7.39 · grading workflow improvements</div>
+          <div class="export-kicker">Milestone 5.7.37 · iPad canvas-memory stability</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -455,19 +454,12 @@
           <details class="file-tool-section file-tool-details" id="extractFilesSection">
             <summary><span>Extract</span><span id="extractOperationSummary" class="operation-summary">No active document</span></summary>
             <div class="file-tool-body">
-              <p id="extractSummary" class="file-tool-summary">Select pages in Pages, then create a new local Library document or export those pages as a PDF.</p>
-              <label class="export-field">
-                <span>Destination</span>
-                <select id="extractDestination">
-                  <option value="library" selected>Local Library</option>
-                  <option value="export">Export PDF</option>
-                </select>
-              </label>
+              <p id="extractSummary" class="file-tool-summary">Select pages in Pages, then save just those pages as a new PDF.</p>
               <label class="export-field">
                 <span>File name</span>
                 <input id="extractFilename" type="text" value="selected-pages.pdf" autocomplete="off" spellcheck="false">
               </label>
-              <button id="extractPdfBtn" class="export-button" type="button">Extract to Local Library</button>
+              <button id="extractPdfBtn" class="export-button" type="button">Extract selected pages</button>
               <p id="extractProgress" class="export-progress" aria-live="polite"></p>
             </div>
           </details>
@@ -475,14 +467,7 @@
           <details class="file-tool-section file-tool-details" id="splitFilesSection">
             <summary><span>Split</span><span id="splitOperationSummary" class="operation-summary">No active document</span></summary>
             <div class="file-tool-body">
-              <p class="file-tool-summary">Split operates on the active document. Create editable local Library documents, or export PDFs (multiple exported PDFs are packaged into one ZIP).</p>
-              <label class="export-field">
-                <span>Destination</span>
-                <select id="splitDestination">
-                  <option value="library" selected>Local Library</option>
-                  <option value="export">Export PDF / ZIP</option>
-                </select>
-              </label>
+              <p class="file-tool-summary">Split operates on the active document. Multiple output PDFs are packaged into one ZIP for a single save/share operation.</p>
               <label class="export-field">
                 <span>Base file name</span>
                 <input id="splitBaseName" type="text" value="document" autocomplete="off" spellcheck="false">
@@ -831,6 +816,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.7.39"></script>
+  <script type="module" src="app.js?v=5.7.37"></script>
 </body>
 </html>

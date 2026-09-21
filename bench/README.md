@@ -1,25 +1,4 @@
-# PDF Workbench — Milestone 5.7.39 (DEVELOPMENT / DIAGNOSTIC BRANCH)
-
-## 5.7.39 grading workflow improvements
-
-- **Extract to Local Library:** selected pages can create a new editable, closed Library document without exporting or interrupting the document currently being graded. The Pages toolbar now defaults Extract to this local workflow; Files → Extract can choose Local Library or Export PDF.
-- **Split to Local Library:** Files → Split can create each split group as a separate editable, closed Library document. Export PDF/ZIP remains available as an alternate destination.
-- **Open several from Files:** opening a closed Library document while in Files no longer jumps to View, so multiple documents can be opened in sequence.
-- **Rename / Close from View and Pages:** compact header controls act on the current document (or the active Split pane document) while keeping closed documents in Local Library.
-- **Pages safety:** deleting every remaining page is blocked; a Workbench document cannot be reduced to zero pages through Delete.
-- The temporary **Purge old graph image** control has been removed from the Pages UI; structured **Add graph paper background** remains.
-- Multi-document ZIP export now uses the same Workbench naming dialog used by Library rename operations before handing the named ZIP to the browser.
-- Pen/Highlighter/Select, pinch/scroll stabilization, render caps/queueing, viewer canvas-release behavior, and diagnostic instrumentation are unchanged from 5.7.38.
-
-
-## 5.7.38 exact legacy graph-paper purge expansion
-
-- The temporary **Pages → Purge old graph image** migration tool now recognizes a second verified 2048×1536 PowerPoint graph-paper JPEG encoding: 206,281 compressed bytes, SHA-256 `9a13ca9e7a370e5fd51914a19e185eb285055c3657d602f83a39e9afbfe27439`.
-- The original 200,613-byte / `bb72…e8530` fingerprint remains supported.
-- Matching remains exact by dimensions, compressed byte length, and SHA-256. The tool still does not perform visual/background guessing.
-- Verified against the uploaded `Logic Slides 4 - Equivalence.pdf` and `15 FormsOfFractions.pdf`; the latter also contains an unrelated 909×233 JPEG that does not match and remains untouched.
-- All 5.7.37 iPad viewer-memory and Presentation selector hardening remains unchanged.
-
+# PDF Workbench — Milestone 5.7.37 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 ## 5.7.37 iPad viewer-memory + Presentation selector hardening
 
