@@ -1,3 +1,53 @@
+PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-20 — CURRENT BASELINE 5.7.40-exp
+====================================================================================
+
+THIS SECTION IS AUTHORITATIVE OVER ALL OLDER STATUS TEXT BELOW.
+Continue future code work from the packaged 5.7.40-exp build, not an older branch.
+
+CURRENT DISTRIBUTION / STATUS
+-----------------------------
+- Official release remains 5.7.21.
+- Latest experimental/code baseline is 5.7.40-exp.
+- 5.7.40 is a narrow correction pass on 5.7.39 after immediate workflow testing.
+- It does NOT alter Pen/Highlighter/Select behavior, PDF.js rendering/caps, pinch handling, viewer canvas-release logic, persistence schema, or diagnostic instrumentation.
+
+5.7.40 FILES / EXTRACT CORRECTIONS
+-----------------------------------
+1. FILES OPEN / USE / DOUBLE-TAP
+   - A normal Open of a CLOSED Local Library document still opens it into the working set while remaining in Files, preserving the 5.7.39 multi-open workflow.
+   - Use on an already-open nonactive document now makes it active AND switches to View.
+   - Double tap/click on a Library file preview/name now opens/activates that document AND switches to View.
+   - Because opening a file rerenders the Files list, file-row single-tap handling is delayed very briefly so a second tap can be recognized before the row is replaced. Single tap therefore remains Open/stay in Files; double tap is Use/go to View.
+
+2. PAGES EXTRACT DESTINATION
+   - Pages toolbar now says Extract… rather than Extract to Library.
+   - It offers an explicit destination choice: Local Library or Export PDF.
+   - After the destination choice, the normal Workbench naming dialog appears for either destination.
+   - The default extracted name is source-based and descriptive: `<source-file-name>-selected.pdf` (source `.pdf` extension removed before `-selected`).
+   - Files -> Extract retains its existing Local Library / Export PDF Destination selector.
+
+3. EXPORT FILENAME FIELD
+   - When the shared Files document selection becomes empty, the Export filename field is disabled AND cleared. It no longer displays the stale name of the last selected document.
+
+PRESERVE / STILL VALID FROM 5.7.39
+----------------------------------
+- Split can create closed editable Local Library documents or Export PDF/ZIP.
+- Rename and Close are available from View and Pages.
+- Ordinary Pages Delete cannot remove the final remaining page.
+- Temporary legacy graph-image purge UI remains removed; structured Add graph paper background remains.
+- Continue to watch iPad/WebKit input freezes, canceled-pinch jumps, and the isolated scroll-to-render/render-left-loading behavior without changing those systems absent new evidence.
+
+VALIDATION TARGETS
+------------------
+- In Files, single-tap/Open several closed documents and verify Files remains visible.
+- Double tap a closed or open file row and verify that file becomes active in View.
+- Press Use on an already-open nonactive document and verify View opens on that document.
+- In Pages, select pages -> Extract… -> test both Local Library and Export PDF and confirm the default name uses `<source>-selected.pdf`.
+- In Files Export, select one document, then clear/unselect it and verify the disabled filename box is blank.
+
+
+================ PRIOR AUTHORITATIVE HANDOFF (5.7.39-exp / SEPT. 20) ================
+
 PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-20 — CURRENT BASELINE 5.7.39-exp
 ====================================================================================
 

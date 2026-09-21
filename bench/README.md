@@ -1,4 +1,14 @@
-# PDF Workbench — Milestone 5.7.39 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.7.40 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.7.40 Files / Extract workflow corrections
+
+- **Files navigation semantics corrected:** a normal **Open** of a closed Library document remains in Files so several documents can be opened in sequence; **Use** on an already-open document now makes it active and switches to View. A double tap/click on the file preview/name also activates the document and switches to View.
+- The file-row gesture uses a short single-tap delay so the first tap does not rerender the Library row before a second tap can be recognized.
+- **Pages → Extract…** now asks whether the selected pages should become an editable **Local Library** document or be **Exported as PDF**. Either route then uses the descriptive source-based default name, e.g. `Full-File-Name-selected.pdf`, which can be edited before completion.
+- Files → Extract retains its explicit Destination selector (Local Library / Export PDF).
+- When no documents are selected in Files, the disabled Export filename field is now cleared instead of retaining the name of the previously selected document.
+- Pen/Highlighter/Select, pinch/scroll handling, rendering, canvas-release behavior, PDF structure, Library schema, and diagnostics are unchanged from 5.7.39.
+
 
 ## 5.7.39 grading workflow improvements
 

@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.39';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.40';
 
-const APP_VERSION = '5.7.39';
+const APP_VERSION = '5.7.40';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -36,7 +36,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGraphBackgroundBtn: $('pageGraphBackgroundBtn'), pagePurgeLegacyGraphBackgroundBtn: $('pagePurgeLegacyGraphBackgroundBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkLaserBtn: $('inkLaserBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationPagesBtn: $('presentationPagesBtn'), presentationPageDrawerLayer: $('presentationPageDrawerLayer'), presentationPageDrawer: $('presentationPageDrawer'), presentationPageDrawerScroller: $('presentationPageDrawerScroller'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), viewDiagnosticsBtn: $('viewDiagnosticsBtn'), presentationDiagnosticsBtn: $('presentationDiagnosticsBtn'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkLaserBtn: $('inkLaserBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), selectionActionGroup: $('selectionActionGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), extractChoiceDialog: $('extractChoiceDialog'), extractChoiceSummary: $('extractChoiceSummary'), extractChoiceCloseBtn: $('extractChoiceCloseBtn'), extractChoiceCancelBtn: $('extractChoiceCancelBtn'), extractChoiceExportBtn: $('extractChoiceExportBtn'), extractChoiceLibraryBtn: $('extractChoiceLibraryBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationPagesBtn: $('presentationPagesBtn'), presentationPageDrawerLayer: $('presentationPageDrawerLayer'), presentationPageDrawer: $('presentationPageDrawer'), presentationPageDrawerScroller: $('presentationPageDrawerScroller'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), viewDiagnosticsBtn: $('viewDiagnosticsBtn'), presentationDiagnosticsBtn: $('presentationDiagnosticsBtn'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -7793,28 +7793,46 @@ async function applyPendingFolderMove() {
   else await applyLibraryMove(pending,destination);
 }
 
-async function openLibraryRecordInView(record) {
+async function openLibraryRecord(record, { switchToView=false }={}) {
   try {
     if (!record) return;
-    // Keep Files visible so several Library documents can be opened in succession.
-    // If there is no active document yet, make the first reopened document active
-    // internally so switching to View later has a sensible target.
     const keepMode = state.workspaceMode;
-    if (isDocumentOpen(record.id)) {
+    const wasOpen = isDocumentOpen(record.id);
+
+    if (wasOpen) {
       if (record.id !== state.currentDocumentId) loadDocumentState(record.id, false);
     } else {
       setStatus(`Opening ${record.name} from Library…`, true);
-      await reopenLibraryDocument(record.id, { makeActive: !currentDocument(), render: false });
+      // A normal Files Open keeps the user in Files. If there is no active
+      // document yet, still make the first reopened file the internal active
+      // target so View has a sensible document later. Use/double-tap always
+      // make the requested document active because they immediately go to View.
+      await reopenLibraryDocument(record.id, { makeActive: switchToView || !currentDocument(), render: false });
+      if (switchToView && record.id !== state.currentDocumentId) loadDocumentState(record.id, false);
     }
-    state.workspaceMode = keepMode;
+
     renderDocumentSelect();
-    if (keepMode === 'export') renderExportPane();
-    else renderAll({ saveState: false });
-    setStatus(`Opened ${record.name}${keepMode === 'export' ? ' · staying in Files' : ''}`);
+    if (switchToView) {
+      showWorkspaceMode('view');
+      setStatus(`Using ${record.name}`);
+    } else {
+      state.workspaceMode = keepMode;
+      if (keepMode === 'export') renderExportPane();
+      else renderAll({ saveState: false });
+      setStatus(`Opened ${record.name}${keepMode === 'export' ? ' · staying in Files' : ''}`);
+    }
   } catch (err) {
     console.error(err);
     setStatus(`Could not open ${record?.name || 'document'}: ${err?.message || err}`);
   }
+}
+
+async function openLibraryRecordInFiles(record) {
+  return openLibraryRecord(record, { switchToView:false });
+}
+
+async function useLibraryRecordInView(record) {
+  return openLibraryRecord(record, { switchToView:true });
 }
 
 async function exportPdfRecordsToZip(records, folders, filename, rootFolderId=null, { createFolderEntries=true }={}) {
@@ -7956,6 +7974,30 @@ function createLibraryFolderRow(folder) {
   actions.append(open, exportBtn, rename, move, trash); row.append(preview, label, actions); return row;
 }
 
+let libraryFileTapTimer = null;
+let libraryFileTapDocumentId = null;
+function handleLibraryFileTap(record) {
+  if (!record) return;
+  if (libraryFileTapTimer && libraryFileTapDocumentId === record.id) {
+    clearTimeout(libraryFileTapTimer);
+    libraryFileTapTimer = null;
+    libraryFileTapDocumentId = null;
+    useLibraryRecordInView(record);
+    return;
+  }
+  if (libraryFileTapTimer) {
+    clearTimeout(libraryFileTapTimer);
+    libraryFileTapTimer = null;
+    libraryFileTapDocumentId = null;
+  }
+  libraryFileTapDocumentId = record.id;
+  libraryFileTapTimer = setTimeout(() => {
+    libraryFileTapTimer = null;
+    libraryFileTapDocumentId = null;
+    openLibraryRecordInFiles(record);
+  }, 280);
+}
+
 function createLibraryDocumentRow(record) {
   const open = isDocumentOpen(record.id);
   const row = document.createElement('div'); row.className = `library-document-row library-file-row${open ? ' open' : ''}`; row.dataset.documentId = record.id;
@@ -7972,12 +8014,17 @@ function createLibraryDocumentRow(record) {
   const meta = document.createElement('span'); meta.className = 'library-document-meta';
   const pages = record.pages?.length || 0; const changed = record.needsExport ? ' · changes not exported' : '';
   meta.textContent = `${pages} page${pages === 1 ? '' : 's'} · ${open ? 'open' : 'closed'}${changed}`; label.append(name, meta);
-  const openFromMain = () => openLibraryRecordInView(record);
-  preview.addEventListener('click',openFromMain); label.addEventListener('click',openFromMain);
-  for(const el of [preview,label]) el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openFromMain();}});
+  const openFromMain = () => openLibraryRecordInFiles(record);
+  const useFromMain = () => useLibraryRecordInView(record);
+  // Delay the single-tap Open very briefly so the first tap does not rerender
+  // the Library row before a second tap can arrive. This keeps both workflows:
+  // single tap = Open/stay in Files; double tap = Use/go straight to View.
+  preview.addEventListener('click', () => handleLibraryFileTap(record));
+  label.addEventListener('click', () => handleLibraryFileTap(record));
+  for(const el of [preview,label]) el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();useFromMain();}else if(e.key===' '){e.preventDefault();openFromMain();}});
   const actions = document.createElement('div'); actions.className = 'library-document-actions';
   const action = document.createElement('button'); action.type='button'; action.className='primary-library-action'; action.textContent = open ? (record.id===state.currentDocumentId?'Active':'Use') : 'Open'; action.disabled = open && record.id===state.currentDocumentId;
-  action.addEventListener('click', () => openLibraryRecordInView(record));
+  action.addEventListener('click', () => open ? useLibraryRecordInView(record) : openLibraryRecordInFiles(record));
   actions.append(action);
   if (open) { const close=document.createElement('button'); close.type='button'; close.textContent='Close'; close.title=`Close ${record.name} but keep it in the local Library`; close.addEventListener('click',()=>closeOneOpenDocument(record.id)); actions.append(close); }
   const rename=document.createElement('button'); rename.type='button'; rename.textContent='Rename'; rename.addEventListener('click',()=>renameLibraryDocument(record.id));
@@ -8597,6 +8644,8 @@ function renderExportPane() {
     els.exportOperationSummary.textContent = 'Select one or more documents above';
     els.exportFilenameLabel.textContent = 'File name';
     els.exportFilename.disabled = true;
+    els.exportFilename.value = '';
+    els.exportFilename.dataset.selectionKey = '';
     els.exportPdfBtn.disabled = true;
     els.exportPdfBtn.textContent = 'Export selected';
   } else if (chosenDocs.length === 1) {
@@ -10118,6 +10167,41 @@ async function createClosedLibraryDocumentFromPages(name, pages, { folderId=null
   return record;
 }
 
+function requestExtractDestinationChoice() {
+  if (!els.extractChoiceDialog) {
+    return Promise.resolve(window.confirm('Extract selected pages to the Local Library?\n\nChoose Cancel to export a PDF instead.') ? 'library' : 'export');
+  }
+  const doc = currentDocument();
+  const selectedCount = state.selected.size;
+  if (els.extractChoiceSummary) {
+    els.extractChoiceSummary.textContent = `${selectedCount} selected page${selectedCount === 1 ? '' : 's'} from ${doc?.name || 'the active document'}.`;
+  }
+  return new Promise(resolve => {
+    let finished = false;
+    const finish = value => {
+      if (finished) return;
+      finished = true;
+      try { els.extractChoiceDialog.close(); } catch {}
+      resolve(value);
+    };
+    els.extractChoiceCloseBtn.onclick = () => finish(null);
+    els.extractChoiceCancelBtn.onclick = () => finish(null);
+    els.extractChoiceExportBtn.onclick = () => finish('export');
+    els.extractChoiceLibraryBtn.onclick = () => finish('library');
+    els.extractChoiceDialog.oncancel = e => { e.preventDefault(); finish(null); };
+    els.extractChoiceDialog.showModal();
+  });
+}
+
+async function extractSelectedPagesFromPages() {
+  const doc = currentDocument();
+  const selectedCount = state.selected.size;
+  if (!doc || !selectedCount) { setStatus('Select one or more pages first'); return; }
+  const destination = await requestExtractDestinationChoice();
+  if (!destination) return;
+  await extractSelectedPdf({ destination, promptForName:true });
+}
+
 function updateExtractDestinationUi() {
   if (!els.extractPdfBtn) return;
   els.extractPdfBtn.textContent = els.extractDestination?.value === 'export' ? 'Export selected pages' : 'Extract to Local Library';
@@ -10144,13 +10228,20 @@ async function extractSelectedPdf(options={}) {
     return;
   }
   const destination = options.destination || els.extractDestination?.value || 'library';
-  let requestedName = ensurePdfFilename(els.extractFilename.value, defaultExtractFilename(doc.name));
-  if (destination === 'library' && options.promptForName) {
+  // Pages Extract should always start from a descriptive source-based name.
+  // Files Extract still honors the editable filename field.
+  let requestedName = options.promptForName
+    ? defaultExtractFilename(doc.name)
+    : ensurePdfFilename(els.extractFilename.value, defaultExtractFilename(doc.name));
+  if (options.promptForName) {
+    const local = destination === 'library';
     requestedName = await requestLibraryName({
-      title:'Extract to Local Library',
-      help:'Create a new editable local document from the selected pages. The original document is unchanged.',
+      title: local ? 'Extract to Local Library' : 'Export selected pages',
+      help: local
+        ? 'Create a new editable local document from the selected pages. The original document is unchanged.'
+        : 'Export the selected pages as a PDF. The original document is unchanged.',
       suggested:requestedName,
-      saveLabel:'Extract',
+      saveLabel: local ? 'Extract' : 'Export PDF',
     });
     if (!requestedName) return;
     requestedName = ensurePdfFilename(requestedName, defaultExtractFilename(doc.name));
@@ -14200,7 +14291,7 @@ function bindEvents() {
   els.pageEdgeForm?.addEventListener('submit', (e) => { e.preventDefault(); applyPageEdgeChange(); });
   els.insertPageBtn.addEventListener('click', (e) => { e.stopPropagation(); openInsertPageMenu(els.insertPageBtn); });
   els.duplicateBtn.addEventListener('click', duplicateSelected);
-  els.extractSelectedPagesBtn?.addEventListener('click', () => extractSelectedPdf({ destination:'library', promptForName:true }));
+  els.extractSelectedPagesBtn?.addEventListener('click', extractSelectedPagesFromPages);
   els.copyPagesBtn?.addEventListener('click', openPageTransferDialog);
   els.pageTransferDestination?.addEventListener('change', updatePageTransferPositionUi);
   els.pageTransferPosition?.addEventListener('change', updatePageTransferPositionUi);
