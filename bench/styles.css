@@ -1926,5 +1926,66 @@ body.ink-eraser-active .page-stage * { cursor: none !important; }
 .graph-border-control { display:inline-flex; align-items:center; gap:4px; font-size:11px; color:var(--muted); white-space:nowrap; }
 .graph-border-control select { min-height:30px; max-width:104px; padding:3px 22px 3px 6px; border:1px solid var(--border); border-radius:6px; background:var(--paper); color:var(--text); font:inherit; }
 .graph-selection-node { fill:rgb(21 101 192 / .035); stroke:var(--accent); stroke-width:1.6; stroke-dasharray:5 4; vector-effect:non-scaling-stroke; }
+.graph-selection-edge-halo { fill:none; stroke:color-mix(in srgb, var(--accent) 22%, white); stroke-width:9; stroke-linecap:round; opacity:.95; vector-effect:non-scaling-stroke; }
 .graph-selection-edge { fill:none; stroke:var(--accent); stroke-width:3; stroke-dasharray:5 4; stroke-linecap:round; vector-effect:non-scaling-stroke; }
+.graph-selection-edge-marker { fill:var(--paper); stroke:var(--accent); stroke-width:2; vector-effect:non-scaling-stroke; }
+.graph-selection-edge-marker.midpoint { fill:var(--accent); }
 .graph-edge-start-node { fill:rgb(46 125 50 / .05); stroke:#2e7d32; stroke-width:1.8; stroke-dasharray:3 3; vector-effect:non-scaling-stroke; }
+
+/* Milestone 5.8.0: compact graph controls + node selection/sizing. */
+.presentation-toolbar.annotation-toolbar .graph-icon-btn {
+  width: 38px;
+  min-width: 38px;
+  flex: 0 0 38px;
+  padding: 0;
+}
+body.presentation .presentation-toolbar.annotation-toolbar .graph-icon-btn {
+  width: 34px !important;
+  min-width: 34px;
+  flex: 0 0 34px;
+  flex-basis: 34px !important;
+  padding: 0;
+}
+.graph-option-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  color: currentColor;
+  flex: 0 0 auto;
+}
+.graph-option-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.graph-subtool-btn .graph-option-icon svg circle:first-child,
+.graph-border-icon svg circle,
+.graph-size-icon svg circle { fill: var(--paper); }
+.graph-border-control {
+  gap: 3px;
+}
+.graph-border-control select {
+  max-width: 76px;
+  min-width: 66px;
+}
+.graph-node-size-group {
+  border-left: 1px solid var(--border);
+  margin-left: 2px;
+  padding-left: 4px;
+  gap: 3px;
+}
+.graph-node-size-group select {
+  min-height: 30px;
+  width: 64px;
+  padding: 3px 20px 3px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--text);
+  font: inherit;
+}

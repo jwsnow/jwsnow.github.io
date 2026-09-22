@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.7.44">
+  <link rel="stylesheet" href="styles.css?v=5.8.0">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -160,18 +160,31 @@
             <button class="eraser-size-btn" type="button" data-eraser-size="40" title="Large eraser" aria-label="Large eraser"><span style="--eraser-sample:23px"></span></button>
           </div>
           <div id="graphOptionGroup" class="ink-option-group graph-option-group hidden" role="group" aria-label="Graph drawing controls">
-            <button class="graph-subtool-btn" type="button" data-graph-subtool="node" title="Create graph node" aria-label="Create graph node">Node</button>
-            <button class="graph-subtool-btn" type="button" data-graph-subtool="edge" title="Connect two nodes with an edge" aria-label="Create graph edge">Edge</button>
-            <button class="graph-subtool-btn" type="button" data-graph-subtool="move" title="Select or move graph objects" aria-label="Select or move graph objects">Move</button>
+            <button class="graph-subtool-btn graph-icon-btn" type="button" data-graph-subtool="node" title="Create graph node" aria-label="Create graph node"><span class="graph-option-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="5.7"/></svg></span></button>
+            <button class="graph-subtool-btn graph-icon-btn" type="button" data-graph-subtool="edge" title="Connect two nodes with an edge" aria-label="Create graph edge"><span class="graph-option-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><circle cx="4" cy="14" r="2.1"/><circle cx="16" cy="6" r="2.1"/><path d="M5.8 12.8l8.4-5.6"/></svg></span></button>
+            <button class="graph-subtool-btn graph-icon-btn" type="button" data-graph-subtool="move" title="Select or move graph objects" aria-label="Select or move graph objects"><span class="graph-option-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 2.5v15M2.5 10h15"/><path d="M10 2.5L7.8 4.7M10 2.5l2.2 2.2M10 17.5l-2.2-2.2M10 17.5l2.2-2.2M2.5 10l2.2-2.2M2.5 10l2.2 2.2M17.5 10l-2.2-2.2M17.5 10l-2.2 2.2"/></svg></span></button>
             <label class="graph-border-control" title="Border style for new or selected nodes">
-              <span>Border</span>
+              <span class="graph-option-icon graph-border-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="5.8"/></svg></span>
               <select id="graphBorderStyle" aria-label="Graph node border style">
                 <option value="clean">Clean</option>
-                <option value="hand">Hand-drawn</option>
+                <option value="hand">Hand</option>
                 <option value="none">None</option>
               </select>
             </label>
-            <button id="graphDeleteBtn" class="graph-delete-btn" type="button" title="Delete selected graph object" aria-label="Delete selected graph object" disabled>Delete</button>
+            <button id="graphDeleteBtn" class="graph-delete-btn graph-icon-btn" type="button" title="Delete selected graph object" aria-label="Delete selected graph object" disabled><span class="graph-option-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M4.5 5.5h11"/><path d="M7.5 5.5v-1.2c0-.9.7-1.6 1.6-1.6h1.8c.9 0 1.6.7 1.6 1.6v1.2"/><path d="M6.2 5.5l.7 10.1c.1.9.8 1.6 1.7 1.6h2.8c.9 0 1.6-.7 1.7-1.6l.7-10.1"/></svg></span></button>
+          </div>
+          <div id="graphNodeSizeGroup" class="ink-option-group graph-node-size-group hidden" role="group" aria-label="Graph node size">
+            <span class="graph-option-icon graph-size-icon" aria-hidden="true" title="Node size"><svg viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="4.7"/><path d="M3 7V3h4M17 13v4h-4"/><path d="M3.5 3.5l3.1 3.1M16.5 16.5l-3.1-3.1"/></svg></span>
+            <select id="graphNodeSizeSelect" aria-label="Set graph node size" title="Set selected node size; with no node selected, sets the size for new nodes">
+              <option value="">Size</option>
+              <option value="28">28</option>
+              <option value="36">36</option>
+              <option value="44">44</option>
+              <option value="56">56</option>
+              <option value="72">72</option>
+              <option value="96">96</option>
+              <option value="128">128</option>
+            </select>
           </div>
           <div id="selectionActionGroup" class="ink-option-group selection-action-group hidden" role="group" aria-label="Selected annotation actions">
             <button id="selectionDeleteBtn" class="selection-action-btn" type="button" title="Delete selected annotations" aria-label="Delete selected annotations"><span class="selection-action-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M4.5 5.5h11"/><path d="M7.5 5.5v-1.2c0-.9.7-1.6 1.6-1.6h1.8c.9 0 1.6.7 1.6 1.6v1.2"/><path d="M6.2 5.5l.7 10.1c.1.9.8 1.6 1.7 1.6h2.8c.9 0 1.6-.7 1.7-1.6l.7-10.1"/><path d="M8.2 8.3v5.8"/><path d="M11.8 8.3v5.8"/></svg></span></button>
@@ -244,7 +257,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.7.44 · Graph drawing foundation</div>
+          <div class="export-kicker">Milestone 5.8.0 · Graph tools + node selection/sizing</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -879,6 +892,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.7.44"></script>
+  <script type="module" src="app.js?v=5.8.0"></script>
 </body>
 </html>

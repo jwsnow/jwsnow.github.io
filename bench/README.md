@@ -1,15 +1,17 @@
-# PDF Workbench — Milestone 5.7.44 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.8.0 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
-## 5.7.44 Graph drawing foundation
+## 5.8.0 Graph tools: compact controls + node selection/sizing
 
-- Adds one permanent **Graph** tool to the annotation toolbar. Its contextual controls appear only while Graph is active; existing zoom controls remain visible.
-- **Node** creates semantic graph nodes. New nodes can use **Clean**, **Hand-drawn**, or **None** borders. A None-border node remains a real movable/selectable node with a logical attachment boundary even though its frame is not drawn or exported.
-- **Edge** creates a straight undirected edge by tapping one node and then another. Edges store endpoint node IDs rather than fixed line endpoints, so they remain attached when either node moves. Loops, curved/parallel edges, arrowheads, and labels are intentionally deferred.
-- **Move** drags a node while its incident edges update live. Graph geometry is rendered on a dedicated overlay canvas between inserted images and ordinary Workbench ink, avoiding dense-ink repaint on each node-drag move.
-- Deleting a node also deletes its incident graph edges. Deleting a selected edge removes only that edge. Graph creation, deletion, node movement, and border-style changes participate in ordinary Undo/Redo and Local Library persistence.
-- Graph nodes/edges export as vector PDF geometry. Hand-drawn borders use a deterministic slightly irregular vector outline; None exports no node frame.
-- The node model already reserves a local `contents` collection for the next milestone, but **5.7.44 does not yet capture Pen ink into nodes or auto-fit node bounds**. The intended next step is handwritten node contents with automatic grow/shrink around their local ink.
-- 5.7.43 selection recolor, Library sorting, and 5.7.42 Open/Close thumbnail preservation remain unchanged. Pen/Highlighter/Select modeling, PDF.js viewer rendering/caps, pinch/scroll handling, viewer canvas release, and diagnostic architecture are otherwise unchanged.
+- Promotes the semantic graph work to the **5.8.x Graph Tools** line. The existing Graph foundation from 5.7.44 remains: semantic nodes, ID-attached straight edges, Clean/Hand/None node borders, dedicated graph rendering layer, persistence, Undo/Redo, and vector PDF export.
+- Replaces the long **Node / Edge / Move / Delete** text buttons with compact icon controls. The border-style selector remains textual but is shortened; existing zoom controls remain visible.
+- Ordinary **Select/Lasso now recognizes graph nodes**, including None-border nodes through their logical hit area. Graph edges remain dependent geometry rather than independently stretchable selection objects.
+- A single selected node or a multi-node lasso selection can be **moved and proportionally resized with the existing Select handles**. Incident edges recompute continuously as node centers/sizes change. Mixed selections with ink/images continue to transform together.
+- Adds a compact **node-size selector** (28, 36, 44, 56, 72, 96, 128). In Graph mode it sets the default size for new nodes and applies to a selected node; in Select mode it applies the chosen common size to every selected graph node. This makes uniform vertex sizing easy without preventing free proportional resizing.
+- Selection rotation now understands graph nodes; rotating selected nodes moves their centers and swaps node width/height while attached edges follow. Deleting lasso-selected nodes also deletes their incident edges.
+- Semantic graph-node Copy/Duplicate is deliberately disabled in this milestone rather than cloning nodes without correctly remapping edge relationships. Graph-aware copy/paste can be added later.
+- Selected graph edges now use a conspicuous temporary selection treatment: a broad accent halo plus endpoint and midpoint markers. This is screen-only selection chrome; the stored/exported edge style is unchanged.
+- **Handwritten node contents and auto-fit are still deferred to the next graph milestone.** The node model continues to reserve local `contents`; future resizing can optionally scale those contents with the node because node geometry is now explicit and independently editable.
+- Pen/Highlighter geometry/modeling, PDF.js viewer rendering/caps, pinch/scroll behavior, canvas-release logic, Library schema, and diagnostics are otherwise unchanged.
 
 ## 5.7.42 Files Open/Close thumbnail preservation
 

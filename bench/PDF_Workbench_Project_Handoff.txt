@@ -1,3 +1,90 @@
+PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.8.0-exp
+====================================================================================
+
+THIS SECTION IS AUTHORITATIVE OVER ALL OLDER STATUS TEXT BELOW.
+Continue future code work from the packaged 5.8.0-exp build, not an older branch.
+
+CURRENT DISTRIBUTION / STATUS
+-----------------------------
+- Official release remains 5.7.21.
+- Latest experimental/code baseline is 5.8.0-exp.
+- 5.8.0 promotes the semantic graph work from the 5.7.44 prototype into the new 5.8.x Graph Tools line.
+- Existing Pen/Highlighter model, PDF.js render scheduling/caps, pinch/scroll handling, viewer canvas-release logic, Library schema, export policy, and diagnostics remain unchanged except where graph objects participate in the existing Select/Undo/export systems.
+- Existing zoom controls remain visible; do not hide them unless toolbar space becomes a demonstrated problem.
+
+5.8.0 GRAPH TOOL CHANGES
+------------------------
+1. COMPACT GRAPH CONTROLS
+   - Graph remains one permanent main-toolbar button.
+   - The Graph contextual Node / Edge / Move / Delete controls use compact icons rather than long text labels.
+   - Border style remains available as Clean / Hand-drawn / None.
+
+2. NODE SIZING — INDIVIDUAL OR COMMON SIZE
+   - Node geometry is explicitly width/height based and remains meaningful even when border style is None.
+   - One selected node or several lasso-selected graph nodes can be moved and proportionally resized with the ordinary Select handles.
+   - A compact node-size selector provides standard sizes: 28, 36, 44, 56, 72, 96, 128.
+   - In Graph mode it sets the default size for new nodes and applies to a selected node.
+   - In Select mode it can set all selected graph nodes to one common size, allowing uniform graph vertices without preventing free resizing.
+   - This geometry model is intentionally ready for a later option to scale node-local handwritten contents when a node is resized.
+
+3. SELECT/LASSO INTEGRATION
+   - Ordinary Select/Lasso recognizes semantic graph nodes, including None-border nodes through their logical ellipse.
+   - Nodes can participate in mixed selections with ordinary Workbench ink/images.
+   - Moving/resizing selected nodes updates node geometry while attached semantic edges recompute from node IDs.
+   - Rotating a selection understands graph nodes: node centers rotate with the group and node width/height swap on a 90-degree turn.
+   - Deleting selected graph nodes also removes their incident edges.
+   - Graph edges remain dependent geometry rather than independently stretchable Lasso objects in this milestone; selecting/moving the endpoint nodes is the graph-preserving operation.
+   - Semantic graph-node Copy/Duplicate remains disabled until edge-ID remapping semantics are implemented.
+
+4. EDGE-SELECTION VISIBILITY
+   - 5.7.44 made a selected straight edge too subtle on dense pages.
+   - In Graph mode, a selected edge now gets a broad temporary accent halo plus endpoint and midpoint markers.
+   - These indicators are selection chrome only. They do not change the stored edge style and do not export.
+
+5. PRESERVED GRAPH FOUNDATION
+   - Nodes remain semantic `graph-node` objects with Clean / Hand / None borders and reserved local `contents`.
+   - Straight undirected edges remain semantic `graph-edge` objects storing `fromNodeId` / `toNodeId`; endpoints are recomputed from current node bounds.
+   - Graph geometry remains on its dedicated canvas below normal Workbench ink.
+   - Node/edge creation, movement, sizing, deletion, border changes, persistence, Undo/Redo, backup/restore, thumbnails/previews, and vector PDF export remain supported.
+
+NEXT GRAPH MILESTONE
+--------------------
+- Handwritten/drawn node-local content.
+- Explicitly activate a node for content editing; do not capture arbitrary page strokes just because they overlap a node.
+- Store Pen strokes in node-local coordinates.
+- Auto-fit node bounds to content plus padding while retaining independent manual node sizing.
+- Plan for two sizing behaviors: auto-fit content and explicit/fixed node size.
+- Later allow optional scaling of child writing/drawing when manually resizing a node.
+- Preserve Clean / Hand-drawn / None border styles; None should allow the handwritten contents to be the only visible node artwork.
+
+LATER GRAPH MILESTONES
+----------------------
+- Edge-label containers with node-like handwritten contents, position along edge, perpendicular offset, and dragging along the edge.
+- Curved/parallel edges and loops.
+- Directed edges/arrowheads.
+- Additional node shapes/styles and graph-semantic conveniences only after the core editor proves useful.
+
+PRESERVE / WATCH
+----------------
+- Preserve 5.7.43 selected-ink recolor and Library Name/Date sort.
+- Preserve 5.7.42 Files Open/Close thumbnail-canvas preservation.
+- Preserve 5.7.37 explicit viewer canvas backing-store release and 1x1 lazy canvases.
+- Preserve exact Pencil replay filtering and current Google-modeled Pen architecture.
+- Continue watching rare iPad/WebKit missing-input, canceled-pinch, scroll-to-render, and background/resume IndexedDB anomalies without broad rewrites absent stronger evidence.
+
+VALIDATION TARGETS
+------------------
+- Graph toolbar: confirm compact Node / Edge / Move / Delete icons are understandable with tooltip/aria labels.
+- Graph mode: create nodes at several sizes and verify attached edges follow while nodes move.
+- Select: tap/lasso one or several nodes, move them, resize them proportionally, rotate them, and set a common size.
+- Border None: verify an invisible-frame node remains hit-testable/selectable/resizable and edges attach to its logical boundary.
+- Edge selection: select a graph edge in Graph mode and verify the halo plus endpoint/midpoint markers make selection obvious.
+- Delete selected nodes and verify incident edges disappear and Undo restores the full semantic structure.
+- Regression-check Pen/Highlighter/Eraser, normal image selection, ordinary mixed selection, PDF export, Pages thumbnails, and Library backup/restore.
+
+
+================ PRIOR AUTHORITATIVE HANDOFF (5.7.44-exp / SEPT. 22) ================
+
 PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.7.44-exp
 ====================================================================================
 
