@@ -1,4 +1,16 @@
-# PDF Workbench — Milestone 5.8.1 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.8.2 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.8.2 semantic node contents + lasso conversion
+
+- Adds the first semantic handwritten-content workflow for graph nodes without replacing the mature Pen/Highlighter renderer. Node contents remain ordinary Workbench ink objects for smoothing, recoloring, partial Eraser, PDF export, and persistence, but each attached ink object records its graph-node ownership and node-relative point geometry.
+- **Lasso ink → Make Node:** Select one or more ordinary ink/highlighter objects and use the new node-content action. Workbench creates a semantic graph node around the ink using the current Clean / Hand / None border preference and fits the node to the content plus padding.
+- **Ink + one node → Use as Node Content:** Select ordinary ink together with exactly one graph node and use the same action. The ink becomes content of that node and the node auto-fits around all attached content.
+- **One node → Node Ink mode:** Select exactly one node and use the same action to switch to Pen. Pen or Highlighter strokes that begin inside that node become attached node contents. Auto-fit occurs on stroke completion. Choosing a non-drawing tool leaves Node Ink mode.
+- Attached ink follows its node when the node is moved with Graph Move or ordinary Select. Selection/group resizing currently changes node frame/layout geometry but does **not** scale attached handwriting; attached ink translates with the node center. This deliberately leaves optional content-scaling for a later graph milestone.
+- Auto-fit nodes can shrink after partial Eraser or independent movement/deletion of their attached ink. Explicit node sizing or Select-handle node resizing switches the node to manual sizing so the user can keep any desired size regardless of content.
+- Deleting a semantic node also deletes its attached ink and incident edges; Undo restores the complete relationship. Eraser-created ink fragments preserve/rebuild node ownership.
+- Explicit common-size choices now always become the default size for subsequently created nodes, including when the size was applied while ordinary Select was active. Freeform handle scaling still does not change the default.
+- No toolbar consolidation is included yet; the existing zoom / view-mode controls remain until Graph/Select menu needs are clearer.
 
 ## 5.8.1 Graph sizing refinement + Files/Split Use correction
 
