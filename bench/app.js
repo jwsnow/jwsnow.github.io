@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.41';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.42';
 
-const APP_VERSION = '5.7.41';
+const APP_VERSION = '5.7.42';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -7466,6 +7466,62 @@ function syncLibrarySelectionUi() {
   updateLibraryBulkSelectionControls();
 }
 
+function syncLibraryDocumentOpenStateUi() {
+  if (!els.libraryDocumentList) return;
+  for (const row of els.libraryDocumentList.querySelectorAll('.library-file-row[data-document-id]')) {
+    const docId = row.dataset.documentId;
+    const record = selectableDocumentById(docId) || state.libraryRecords.get(docId);
+    if (!record) continue;
+    const open = isDocumentOpen(docId);
+    const active = open && docId === state.currentDocumentId;
+    row.classList.toggle('open', open);
+
+    const preview = row.querySelector('.library-document-preview.library-open-target');
+    const label = row.querySelector('.library-document-label.library-open-target');
+    const actionLabel = open ? `Use ${record.name}` : `Open ${record.name}`;
+    preview?.setAttribute('aria-label', actionLabel);
+    label?.setAttribute('aria-label', actionLabel);
+
+    const meta = row.querySelector('.library-document-meta');
+    if (meta) {
+      const pages = record.pages?.length || 0;
+      const changed = record.needsExport ? ' · changes not exported' : '';
+      meta.textContent = `${pages} page${pages === 1 ? '' : 's'} · ${open ? 'open' : 'closed'}${changed}`;
+    }
+
+    const actions = row.querySelector('.library-document-actions');
+    if (!actions) continue;
+    const primary = actions.querySelector('.primary-library-action');
+    if (primary) {
+      primary.textContent = open ? (active ? 'Active' : 'Use') : 'Open';
+      primary.disabled = active;
+    }
+
+    let close = actions.querySelector('.library-document-close-action');
+    if (open && !close) {
+      close = document.createElement('button');
+      close.type = 'button';
+      close.className = 'library-document-close-action';
+      close.textContent = 'Close';
+      close.title = `Close ${record.name} but keep it in the local Library`;
+      close.addEventListener('click', () => closeOneOpenDocument(docId));
+      if (primary?.nextSibling) actions.insertBefore(close, primary.nextSibling);
+      else actions.append(close);
+    } else if (!open && close) {
+      close.remove();
+    } else if (close) {
+      close.title = `Close ${record.name} but keep it in the local Library`;
+    }
+  }
+
+  const allRecords = activeLibraryRecords();
+  if (els.librarySummary) {
+    els.librarySummary.textContent = state.libraryReady
+      ? (allRecords.length ? `${allRecords.length} document${allRecords.length === 1 ? '' : 's'} · ${activeLibraryFolders().length} folder${activeLibraryFolders().length === 1 ? '' : 's'} · ${state.documents.length} open` : 'The local Library is empty. Open or create a document and it will be stored automatically.')
+      : 'Persistent Library is not available in this browser/session.';
+  }
+}
+
 function selectAllDocumentsInCurrentLibraryFolder() {
   const records = libraryDocumentsInFolder(state.libraryFolderId);
   if (!records.length) return;
@@ -7827,7 +7883,7 @@ async function openLibraryRecord(record, { switchToView=false }={}) {
       setStatus(`Using ${record.name}`);
     } else {
       state.workspaceMode = keepMode;
-      if (keepMode === 'export') renderExportPane();
+      if (keepMode === 'export') renderExportPane({ preserveLibraryDocumentList: true });
       else renderAll({ saveState: false });
       setStatus(`Opened ${record.name}${keepMode === 'export' ? ' · staying in Files' : ''}`);
     }
@@ -8002,16 +8058,18 @@ function createLibraryDocumentRow(record) {
   meta.textContent = `${pages} page${pages === 1 ? '' : 's'} · ${open ? 'open' : 'closed'}${changed}`; label.append(name, meta);
   const openFromMain = () => openLibraryRecordInFiles(record);
   const useFromMain = () => useLibraryRecordInView(record);
-  // Keep Library navigation explicit and immediate: a closed document opens
-  // while Files remains visible; tapping an already-open document uses it in View.
-  preview.addEventListener('click', () => open ? useFromMain() : openFromMain());
-  label.addEventListener('click', () => open ? useFromMain() : openFromMain());
-  for(const el of [preview,label]) el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();useFromMain();}else if(e.key===' '){e.preventDefault();openFromMain();}});
+  const activateFromMain = () => isDocumentOpen(record.id) ? useFromMain() : openFromMain();
+  // Read open/closed state at interaction time rather than capturing it when the
+  // row is created. Open/Close can therefore update this row in place while the
+  // existing thumbnail canvas stays attached and rendered.
+  preview.addEventListener('click', activateFromMain);
+  label.addEventListener('click', activateFromMain);
+  for(const el of [preview,label]) el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activateFromMain();}});
   const actions = document.createElement('div'); actions.className = 'library-document-actions';
   const action = document.createElement('button'); action.type='button'; action.className='primary-library-action'; action.textContent = open ? (record.id===state.currentDocumentId?'Active':'Use') : 'Open'; action.disabled = open && record.id===state.currentDocumentId;
-  action.addEventListener('click', () => open ? useLibraryRecordInView(record) : openLibraryRecordInFiles(record));
+  action.addEventListener('click', activateFromMain);
   actions.append(action);
-  if (open) { const close=document.createElement('button'); close.type='button'; close.textContent='Close'; close.title=`Close ${record.name} but keep it in the local Library`; close.addEventListener('click',()=>closeOneOpenDocument(record.id)); actions.append(close); }
+  if (open) { const close=document.createElement('button'); close.type='button'; close.className='library-document-close-action'; close.textContent='Close'; close.title=`Close ${record.name} but keep it in the local Library`; close.addEventListener('click',()=>closeOneOpenDocument(record.id)); actions.append(close); }
   const rename=document.createElement('button'); rename.type='button'; rename.textContent='Rename'; rename.addEventListener('click',()=>renameLibraryDocument(record.id));
   const duplicate=document.createElement('button'); duplicate.type='button'; duplicate.textContent='Duplicate'; duplicate.addEventListener('click',()=>duplicateLibraryDocument(record.id));
   const move=document.createElement('button'); move.type='button'; move.textContent='Move…'; move.addEventListener('click',()=>openLibraryMoveDialog('document', record.id));
@@ -8091,13 +8149,20 @@ function renderTrashDocumentList() {
 async function closeOneOpenDocument(docId) {
   const doc = documentById(docId);
   if (!doc) return;
+  const preserveLibraryDocumentList = state.workspaceMode === 'export';
   saveCurrentDocumentState();
   await persistLibraryNow();
   removeDocument(docId);
   reconcileCombineOrder();
   state.sessionExplicitEmpty = state.documents.length === 0;
   checkpointWorkspaceNow({ explicitEmpty: state.sessionExplicitEmpty });
-  renderAll({ saveState: false });
+  if (preserveLibraryDocumentList) {
+    renderDocumentSelect();
+    updatePageCounts();
+    renderExportPane({ preserveLibraryDocumentList: true });
+  } else {
+    renderAll({ saveState: false });
+  }
   await persistLibraryNow();
   await refreshLibraryRecords();
   setStatus(`Closed ${doc.name} · kept in local Library`);
@@ -8612,8 +8677,10 @@ function updateCompressionUi(chosenDocs = selectedFileDocuments()) {
 function renderExportPane({ preserveLibraryDocumentList = false } = {}) {
   saveCurrentDocumentState();
   reconcileFileSelection();
-  if (preserveLibraryDocumentList) syncLibrarySelectionUi();
-  else renderLibraryDocumentList();
+  if (preserveLibraryDocumentList) {
+    syncLibrarySelectionUi();
+    syncLibraryDocumentOpenStateUi();
+  } else renderLibraryDocumentList();
   renderOpenDocumentList();
   renderSelectedDocumentList();
   if (els.templatesFilesSection?.open) renderFilesTemplateManager();

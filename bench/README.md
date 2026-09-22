@@ -1,4 +1,13 @@
-# PDF Workbench — Milestone 5.7.41 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.7.42 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+
+## 5.7.42 Files Open/Close thumbnail preservation
+
+- **Opening or closing a Local Library document while remaining in Files no longer rebuilds the Library file-card list.** Existing thumbnail canvases remain attached, so PDF.js does not rerender unrelated first-page previews merely because one document changed between open and closed.
+- Library rows now read their open/closed state at interaction time and update the affected row metadata/buttons in place. Open stays in Files; Use still activates an already-open document and switches to View.
+- Open Documents, Selected Documents, export/compress/combine state, Library summary counts, and document selectors still refresh normally after Open/Close.
+- Structural Library changes such as rename, duplicate, move, trash, folder changes, and view-mode changes retain the full Library rerender path.
+- Pen/Highlighter/Select, PDF.js viewer rendering/caps, pinch/scroll handling, viewer canvas release, persistence schema, PDF output, and diagnostics are unchanged from 5.7.41.
 
 ## 5.7.41 Files selection efficiency + toolbar cleanup
 

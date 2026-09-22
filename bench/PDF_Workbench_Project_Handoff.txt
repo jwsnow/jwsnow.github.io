@@ -1,3 +1,53 @@
+PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.7.42-exp
+====================================================================================
+
+THIS SECTION IS AUTHORITATIVE OVER ALL OLDER STATUS TEXT BELOW.
+Continue future code work from the packaged 5.7.42-exp build, not an older branch.
+
+CURRENT DISTRIBUTION / STATUS
+-----------------------------
+- Official release remains 5.7.21.
+- Latest experimental/code baseline is 5.7.42-exp.
+- 5.7.42 is a narrow Files Open/Close thumbnail-preservation revision built from 5.7.41-exp.
+- It does NOT alter Pen/Highlighter/Select behavior, PDF.js viewer rendering/caps, pinch handling, viewer canvas-release logic, persistence schema, PDF output, or diagnostic instrumentation.
+
+5.7.42 CHANGE — FILES OPEN/CLOSE NO LONGER RERENDERS THUMBNAILS
+----------------------------------------------------------------
+- 5.7.41 already stopped selection-only changes from rebuilding Local Library file cards.
+- Real-use testing then showed that opening or closing a Library document still rebuilt the entire Library document list, disconnecting/recreating thumbnail canvases and requeueing PDF.js first-page previews.
+- 5.7.42 preserves the existing Local Library DOM for Open/Close performed while Files remains visible.
+- Library document-row preview/name handlers now read the document's current open/closed state at interaction time rather than capturing the state when the row was created.
+- A new in-place row synchronizer updates open/closed styling, metadata, Open/Use/Active state, Close-button presence, ARIA labels, and the Library open-count summary without replacing thumbnail canvases.
+- Open Documents, Selected Documents, Export/Compress/Combine state, and the main document selector still refresh normally.
+- Structural Library changes (rename, duplicate, move, trash, folder navigation, Grid/List changes, etc.) continue to use the full Library rerender path.
+
+VALIDATION TARGETS
+------------------
+1. In Files, wait for several visible Library thumbnails to finish rendering.
+2. Open a closed document. Confirm Files remains visible and the existing thumbnails do not blank/flash/rerender; only that row changes to open/Use/Close.
+3. Close an open document from its Local Library row or Open Documents. Confirm thumbnails remain intact; only open-state controls/summaries change.
+4. Open several documents in succession and close several in succession. Confirm active/Use/Open labels stay correct.
+5. Confirm selection checkboxes and PDF Tools state remain synchronized through Open/Close.
+6. Regression-check Rename, Duplicate, Move, Trash, folders, Grid/List, and returning to View; those structural operations may still rebuild the Library list normally.
+
+CURRENT DEVELOPMENT PRIORITY ORDER
+----------------------------------
+1. COMPLETED IN 5.7.42: preserve Files thumbnails across document Open/Close.
+2. NEXT: Rotate Selection for selected Workbench annotations.
+3. Then: Change Color of Selection.
+4. Then: Library file sorting by either date or name.
+
+STABILITY POSITION
+------------------
+- Recent long classroom sessions support treating the current core architecture as stable enough for ordinary feature work.
+- Preserve the 5.7.37 explicit viewer backing-store release and 1x1 lazy canvases.
+- Preserve the current Pen/Highlighter/Select pipeline and exact Pencil replay guard.
+- Leave the 6 MP iPad render ceiling and 50-step session-only Undo policy unchanged absent new evidence.
+- Continue watching rare iPad/WebKit missing-input episodes, canceled-pinch jumps, the self-recovering scroll-to-render/render-left-loading family, and background/resume IndexedDB failures without redesigning those systems.
+
+
+================ PRIOR AUTHORITATIVE HANDOFF (5.7.41-exp / SEPT. 22) ================
+
 PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.7.41-exp
 ====================================================================================
 
