@@ -1,3 +1,101 @@
+PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.7.44-exp
+====================================================================================
+
+THIS SECTION IS AUTHORITATIVE OVER ALL OLDER STATUS TEXT BELOW.
+Continue future code work from the packaged 5.7.44-exp build, not an older branch.
+
+CURRENT DISTRIBUTION / STATUS
+-----------------------------
+- Official release remains 5.7.21.
+- Latest experimental/code baseline is 5.7.44-exp.
+- 5.7.44 begins the dedicated semantic graph-drawing capability discussed after the 5.7.42/5.7.43 workflow refinements.
+- This first graph milestone is intentionally structural: semantic nodes, straight attached edges, movement, deletion, persistence/Undo/Redo, and vector PDF export.
+- It does NOT yet put Pen ink inside nodes, auto-fit node size, add edge labels, loops, curves/parallel edges, or directed arrowheads.
+- Existing zoom controls remain visible. Do not hide them merely to make room for Graph unless toolbar space becomes a demonstrated problem.
+- Pen/Highlighter/Select modeling, PDF.js viewer rendering/caps, pinch handling, explicit viewer canvas-release behavior, Library schema, and diagnostic architecture are otherwise unchanged.
+
+5.7.44 GRAPH FOUNDATION
+-----------------------
+1. DEDICATED GRAPH TOOL
+   - Adds one permanent Graph button to the main annotation toolbar.
+   - Graph-specific Node / Edge / Move controls and node-border selector appear only while Graph is active.
+   - This avoids turning ordinary Assets into graph objects and avoids spending multiple permanent toolbar slots.
+
+2. SEMANTIC NODES
+   - Graph nodes are persisted annotation objects of type `graph-node`, not disguised Pen strokes or Assets.
+   - Current node geometry is a centered logical ellipse/circle with minimum/default size metadata.
+   - Border style is part of the node object from the beginning: `clean`, `hand`, or `none`.
+   - Clean draws a precise ellipse.
+   - Hand-drawn draws a deterministic slightly irregular vector outline so the appearance is stable between redraws/export.
+   - None draws/exports no node frame at all. The node still has a logical hit area and attachment boundary, so it remains selectable/movable and edges remain attached. This is specifically intended for the future case where only handwritten content inside the node is visible.
+   - Each node already reserves a `contents: []` field for the next graph milestone. 5.7.44 does not yet capture Pen ink into it.
+
+3. SEMANTIC STRAIGHT EDGES
+   - Graph edges are persisted `graph-edge` objects that store `fromNodeId` / `toNodeId` rather than fixed endpoints.
+   - Visible endpoints are recomputed from the current two node centers and their logical ellipse boundaries.
+   - Moving either node therefore moves the appropriate edge endpoint automatically.
+   - Graph 1 creates straight, undirected edges only. Loops are explicitly not yet allowed; curves, parallel-edge shaping, labels, and arrowheads remain later milestones.
+
+4. INTERACTION
+   - Node mode: tap/click empty page space to create a node; tapping an existing graph object selects it instead of stacking a new node there.
+   - Edge mode: tap one node, then another node, to create an attached edge.
+   - Move mode: drag a node; its incident edges update live. Tapping an edge selects it.
+   - Delete removes the selected edge, or removes a selected node together with all incident graph edges.
+   - Delete/Backspace and Escape work with Graph selection where appropriate.
+   - Apple Pencil PointerEvent and existing stylus TouchEvent fallback routing both include Graph.
+
+5. SEPARATE GRAPH OVERLAY
+   - Graph geometry is rendered on its own canvas layer between inserted images and ordinary Workbench ink.
+   - Moving a node redraws this graph layer rather than repainting dense existing Pen/Highlighter ink every pointer move.
+   - Selection indication remains a separate temporary SVG overlay. A None-border node therefore gets a visible dashed selection ring only while selected; that ring is not document content and does not export.
+   - Compact previews, Pages thumbnails, and Copy Region include graph geometry.
+
+6. PERSISTENCE / UNDO / GEOMETRY / EXPORT
+   - Graph objects live in the existing page annotation collection, so ordinary Local Library persistence and editable backups retain them without a schema migration.
+   - Node/edge creation, node movement, deletion, and border changes use the existing snapshot-based Undo/Redo model.
+   - Page geometry shift/fit paths transform node position/size and edge widths while edge endpoint relationships remain ID-based.
+   - Graph objects count as page annotations, disabling untouched-byte passthrough when present.
+   - PDF export draws graph edges and borders as vector geometry below ordinary Workbench ink; None-border nodes export no frame.
+
+NEXT GRAPH MILESTONE — HANDWRITTEN NODE CONTENT + AUTO-FIT
+---------------------------------------------------------
+- Make node contents true node-local child annotations rather than page-global ink that happens to overlap a node.
+- Allow Pen writing/drawing into an explicitly active node.
+- Store child ink in node-local coordinates so moving/scaling/rotating a node or graph later does not require rewriting page-global points.
+- Auto-fit node logical bounds to the child-content bounds plus padding, with a minimum size; adding ink grows the node and erasing child ink can shrink it.
+- Preserve the three border styles while auto-fitting. In particular, None should remain fully functional so the child ink can be the only visible node content.
+- Do not automatically capture arbitrary page Pen strokes merely because they cross a node; node-content editing should be explicit enough to avoid surprises.
+
+LATER GRAPH MILESTONES
+----------------------
+- Edge labels as attached local containers with a position parameter along the edge plus perpendicular offset; eventual handwritten label contents and dragging along the edge.
+- Curved and parallel edges, loops, directed arrowheads.
+- Additional node shapes/styles and broader graph-semantic conveniences only after the core editing workflow proves useful.
+
+PRESERVE / WATCH
+----------------
+- Preserve 5.7.43 selected-ink recolor and Library Name/Date sort.
+- Preserve 5.7.42 Files Open/Close thumbnail-canvas preservation.
+- Preserve 5.7.37 explicit viewer backing-store release and lazy 1x1 canvases.
+- Preserve exact Pencil replay filtering and current Google-modeled Pen architecture.
+- Continue to watch rare iPad/WebKit missing-input episodes, canceled-pinch jumps, self-recovering render-left-loading/scroll-to-render events, and background/resume IndexedDB failures without broad stability rewrites.
+- Leave the 6 MP iPad render ceiling and 50-step session-only Undo policy unchanged absent new evidence.
+
+5.7.44 FIELD TEST TARGETS
+-------------------------
+1. Graph -> Node: create several nodes with Clean, Hand-drawn, and None borders.
+2. Verify a None-border node still shows a temporary selection ring while selected and can be moved normally.
+3. Graph -> Edge: tap two nodes to connect them. Move either node and verify the edge stays attached to both node boundaries.
+4. Delete an edge. Undo/Redo. Delete a node with multiple incident edges and verify those edges disappear/restored together.
+5. Change a selected node among Clean / Hand-drawn / None and verify Undo/Redo.
+6. Save/reload the Local Library and verify graph nodes/edges restore.
+7. Export a page containing all three node-border styles and attached edges; verify vector geometry and that None exports no node frame.
+8. Check Pages thumbnails, compact previews, and Copy Region for graph geometry.
+9. Regression-check ordinary Pen/Highlighter/Select, pinch/scroll, Presentation, Files, and PDF export. Graph 1 is not intended to modify those paths.
+
+
+================ PRIOR AUTHORITATIVE HANDOFF (5.7.43-exp / SEPT. 22) ================
+
 PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.7.43-exp
 ====================================================================================
 

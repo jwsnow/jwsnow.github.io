@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.7.43">
+  <link rel="stylesheet" href="styles.css?v=5.7.44">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -127,6 +127,7 @@
             <button id="inkHighlighterBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Highlighter" aria-label="Highlighter"><span class="highlighter-tool-icon" aria-hidden="true"></span></button>
             <button id="inkEraserBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Partial-stroke eraser" aria-label="Partial-stroke eraser"><span class="eraser-tool-icon" aria-hidden="true"></span></button>
             <button id="inkSelectBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Lasso / select annotations" aria-label="Lasso / select annotations"><span class="lasso-tool-icon" aria-hidden="true"></span></button>
+            <button id="inkGraphBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Graph drawing" aria-label="Graph drawing"><span class="graph-tool-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><circle cx="4" cy="10" r="2.1"/><circle cx="16" cy="5" r="2.1"/><circle cx="16" cy="15" r="2.1"/><path d="M6 9.2l7.8-3.1M6 10.8l7.8 3.1"/></svg></span></button>
             <button id="inkImageBtn" class="annotation-tool-btn annotation-action-btn" type="button" title="Quick insert image" aria-label="Quick insert image"><span class="image-tool-icon" aria-hidden="true"></span></button>
             <button id="inkAssetsBtn" class="annotation-tool-btn annotation-action-btn" type="button" title="Paste from Assets or Recent" aria-label="Paste from Assets or Recent"><span class="assets-tool-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><rect x="2.5" y="2.5" width="6" height="6" rx="1"/><rect x="11.5" y="2.5" width="6" height="6" rx="1"/><rect x="2.5" y="11.5" width="6" height="6" rx="1"/><rect x="11.5" y="11.5" width="6" height="6" rx="1"/></svg></span></button>
           </div>
@@ -157,6 +158,20 @@
             <button class="eraser-size-btn" type="button" data-eraser-size="12" title="Small eraser" aria-label="Small eraser"><span style="--eraser-sample:10px"></span></button>
             <button class="eraser-size-btn" type="button" data-eraser-size="24" title="Medium eraser" aria-label="Medium eraser"><span style="--eraser-sample:16px"></span></button>
             <button class="eraser-size-btn" type="button" data-eraser-size="40" title="Large eraser" aria-label="Large eraser"><span style="--eraser-sample:23px"></span></button>
+          </div>
+          <div id="graphOptionGroup" class="ink-option-group graph-option-group hidden" role="group" aria-label="Graph drawing controls">
+            <button class="graph-subtool-btn" type="button" data-graph-subtool="node" title="Create graph node" aria-label="Create graph node">Node</button>
+            <button class="graph-subtool-btn" type="button" data-graph-subtool="edge" title="Connect two nodes with an edge" aria-label="Create graph edge">Edge</button>
+            <button class="graph-subtool-btn" type="button" data-graph-subtool="move" title="Select or move graph objects" aria-label="Select or move graph objects">Move</button>
+            <label class="graph-border-control" title="Border style for new or selected nodes">
+              <span>Border</span>
+              <select id="graphBorderStyle" aria-label="Graph node border style">
+                <option value="clean">Clean</option>
+                <option value="hand">Hand-drawn</option>
+                <option value="none">None</option>
+              </select>
+            </label>
+            <button id="graphDeleteBtn" class="graph-delete-btn" type="button" title="Delete selected graph object" aria-label="Delete selected graph object" disabled>Delete</button>
           </div>
           <div id="selectionActionGroup" class="ink-option-group selection-action-group hidden" role="group" aria-label="Selected annotation actions">
             <button id="selectionDeleteBtn" class="selection-action-btn" type="button" title="Delete selected annotations" aria-label="Delete selected annotations"><span class="selection-action-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M4.5 5.5h11"/><path d="M7.5 5.5v-1.2c0-.9.7-1.6 1.6-1.6h1.8c.9 0 1.6.7 1.6 1.6v1.2"/><path d="M6.2 5.5l.7 10.1c.1.9.8 1.6 1.7 1.6h2.8c.9 0 1.6-.7 1.7-1.6l.7-10.1"/><path d="M8.2 8.3v5.8"/><path d="M11.8 8.3v5.8"/></svg></span></button>
@@ -229,7 +244,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.7.43 · Selection recolor + Library sorting</div>
+          <div class="export-kicker">Milestone 5.7.44 · Graph drawing foundation</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -864,6 +879,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.7.43"></script>
+  <script type="module" src="app.js?v=5.7.44"></script>
 </body>
 </html>

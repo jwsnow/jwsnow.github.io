@@ -1,12 +1,15 @@
-# PDF Workbench — Milestone 5.7.43 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.7.44 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
-## 5.7.43 selection recolor + Library sorting
+## 5.7.44 Graph drawing foundation
 
-- **Rotate Selection was already present and working** from the earlier 5.7.21 selection/image work, so no duplicate rotation implementation was added.
-- **Change Color of Selection:** while Select is active, selecting one or more Pen/Highlighter strokes exposes the existing Workbench color swatches. Tapping a swatch changes the selected ink/highlighter color as one Undoable operation. Image annotations in a mixed selection are left unchanged; stroke width, opacity, tool type, and geometry are preserved.
-- **Library sorting:** Local Library documents can now be sorted by **Name** or **Date modified**. Name remains the default; Date modified shows most recently modified documents first. Folders continue to remain alphabetic. The chosen sort mode is remembered locally and included in editable Library backup preferences.
-- When Date modified sorting is active, each document row shows its modified date/time in the metadata line.
-- 5.7.42 Open/Close thumbnail preservation remains unchanged. Pen rendering/modeling, selection geometry/rotation, PDF.js viewer rendering/caps, pinch/scroll handling, viewer canvas release, persistence schema, PDF output, and diagnostics are otherwise unchanged.
+- Adds one permanent **Graph** tool to the annotation toolbar. Its contextual controls appear only while Graph is active; existing zoom controls remain visible.
+- **Node** creates semantic graph nodes. New nodes can use **Clean**, **Hand-drawn**, or **None** borders. A None-border node remains a real movable/selectable node with a logical attachment boundary even though its frame is not drawn or exported.
+- **Edge** creates a straight undirected edge by tapping one node and then another. Edges store endpoint node IDs rather than fixed line endpoints, so they remain attached when either node moves. Loops, curved/parallel edges, arrowheads, and labels are intentionally deferred.
+- **Move** drags a node while its incident edges update live. Graph geometry is rendered on a dedicated overlay canvas between inserted images and ordinary Workbench ink, avoiding dense-ink repaint on each node-drag move.
+- Deleting a node also deletes its incident graph edges. Deleting a selected edge removes only that edge. Graph creation, deletion, node movement, and border-style changes participate in ordinary Undo/Redo and Local Library persistence.
+- Graph nodes/edges export as vector PDF geometry. Hand-drawn borders use a deterministic slightly irregular vector outline; None exports no node frame.
+- The node model already reserves a local `contents` collection for the next milestone, but **5.7.44 does not yet capture Pen ink into nodes or auto-fit node bounds**. The intended next step is handwritten node contents with automatic grow/shrink around their local ink.
+- 5.7.43 selection recolor, Library sorting, and 5.7.42 Open/Close thumbnail preservation remain unchanged. Pen/Highlighter/Select modeling, PDF.js viewer rendering/caps, pinch/scroll handling, viewer canvas release, and diagnostic architecture are otherwise unchanged.
 
 ## 5.7.42 Files Open/Close thumbnail preservation
 
