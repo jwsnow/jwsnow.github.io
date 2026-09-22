@@ -1932,7 +1932,7 @@ body.ink-eraser-active .page-stage * { cursor: none !important; }
 .graph-selection-edge-marker.midpoint { fill:var(--accent); }
 .graph-edge-start-node { fill:rgb(46 125 50 / .05); stroke:#2e7d32; stroke-width:1.8; stroke-dasharray:3 3; vector-effect:non-scaling-stroke; }
 
-/* Milestone 5.8.0: compact graph controls + node selection/sizing. */
+/* Milestone 5.8.1: compact graph controls + node selection/sizing. */
 .presentation-toolbar.annotation-toolbar .graph-icon-btn {
   width: 38px;
   min-width: 38px;

@@ -1,17 +1,24 @@
-# PDF Workbench — Milestone 5.8.0 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.8.1 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.8.1 Graph sizing refinement + Files/Split Use correction
+
+- Lowers the semantic graph-node minimum size from **28 to 16** and adds common-size choices **16, 20, and 24** alongside the existing larger sizes. The default new-node size remains 44.
+- Group resizing no longer stops when the first graph node reaches its minimum. Node width/height clamp at 16, while each node center continues to scale toward or away from the selection anchor. This lets a graph keep becoming more compact even after its vertices have reached minimum size.
+- Mixed selections retain the existing unified transform behavior: ordinary ink/images continue to scale normally, graph-node centers follow the group transform, and graph-node frames independently stop shrinking at their minimum. Incident edges continue to recompute from node geometry throughout the gesture.
+- Fixes **Files → Use while Split is active**. The requested document is assigned to the currently active split pane before Workbench returns to View; the other pane is left unchanged. This addresses the case where View opened successfully but continued showing the pane's previous document.
+- Graph selection, edge-selection highlighting, node sizing controls, Pen/Highlighter modeling, PDF.js rendering/caps, pinch/scroll behavior, canvas-release logic, persistence schema, and PDF export are otherwise unchanged from 5.8.0.
 
 ## 5.8.0 Graph tools: compact controls + node selection/sizing
 
 - Promotes the semantic graph work to the **5.8.x Graph Tools** line. The existing Graph foundation from 5.7.44 remains: semantic nodes, ID-attached straight edges, Clean/Hand/None node borders, dedicated graph rendering layer, persistence, Undo/Redo, and vector PDF export.
 - Replaces the long **Node / Edge / Move / Delete** text buttons with compact icon controls. The border-style selector remains textual but is shortened; existing zoom controls remain visible.
-- Ordinary **Select/Lasso now recognizes graph nodes**, including None-border nodes through their logical hit area. Graph edges remain dependent geometry rather than independently stretchable selection objects.
-- A single selected node or a multi-node lasso selection can be **moved and proportionally resized with the existing Select handles**. Incident edges recompute continuously as node centers/sizes change. Mixed selections with ink/images continue to transform together.
-- Adds a compact **node-size selector** (28, 36, 44, 56, 72, 96, 128). In Graph mode it sets the default size for new nodes and applies to a selected node; in Select mode it applies the chosen common size to every selected graph node. This makes uniform vertex sizing easy without preventing free proportional resizing.
-- Selection rotation now understands graph nodes; rotating selected nodes moves their centers and swaps node width/height while attached edges follow. Deleting lasso-selected nodes also deletes their incident edges.
-- Semantic graph-node Copy/Duplicate is deliberately disabled in this milestone rather than cloning nodes without correctly remapping edge relationships. Graph-aware copy/paste can be added later.
-- Selected graph edges now use a conspicuous temporary selection treatment: a broad accent halo plus endpoint and midpoint markers. This is screen-only selection chrome; the stored/exported edge style is unchanged.
-- **Handwritten node contents and auto-fit are still deferred to the next graph milestone.** The node model continues to reserve local `contents`; future resizing can optionally scale those contents with the node because node geometry is now explicit and independently editable.
-- Pen/Highlighter geometry/modeling, PDF.js viewer rendering/caps, pinch/scroll behavior, canvas-release logic, Library schema, and diagnostics are otherwise unchanged.
+- Ordinary **Select/Lasso recognizes graph nodes**, including None-border nodes through their logical hit area. Graph edges remain dependent geometry rather than independently stretchable selection objects.
+- A single selected node or a multi-node lasso selection can be moved and proportionally resized with the existing Select handles. Incident edges recompute continuously as node centers/sizes change. Mixed selections with ink/images transform together.
+- Adds a compact node-size selector for setting the default size of new nodes or a common size for selected graph nodes.
+- Selection rotation understands graph nodes; deleting lasso-selected nodes also deletes their incident edges.
+- Semantic graph-node Copy/Duplicate remains deliberately disabled until graph relationship remapping is implemented.
+- Selected graph edges use a conspicuous temporary halo plus endpoint and midpoint markers without changing stored/exported edge style.
+- Handwritten node contents, auto-fit, edge labels, loops, curves, and directed edges remain later graph milestones.
 
 ## 5.7.42 Files Open/Close thumbnail preservation
 

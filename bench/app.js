@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.0';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.1';
 
-const APP_VERSION = '5.8.0';
+const APP_VERSION = '5.8.1';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -76,7 +76,7 @@ const state = {
   annotationTool: safePref('pdfwb-annotation-tool', 'hand', ['hand', 'laser', 'pen', 'highlighter', 'eraser', 'select', 'graph']),
   graphSubtool: safePref('pdfwb-graph-subtool', 'node', ['node','edge','move']),
   graphBorderStyle: safePref('pdfwb-graph-border-style', 'clean', ['clean','hand','none']),
-  graphNodeSize: Number(safePref('pdfwb-graph-node-size', '44', ['28','36','44','56','72','96','128'])),
+  graphNodeSize: Number(safePref('pdfwb-graph-node-size', '44', ['16','20','24','28','36','44','56','72','96','128'])),
   penColor: safePref('pdfwb-pen-color', '#111111', ['#111111','#1565c0','#d32f2f','#2e7d32','#ef6c00']),
   penWidth: Number(safePref('pdfwb-pen-width', '3', ['1.5','3','5.5'])),
   highlighterColor: safePref('pdfwb-highlighter-color', '#ffeb3b', ['#ffeb3b','#ff80ab','#4dd0e1','#81c784']),
@@ -2605,7 +2605,7 @@ const HIGHLIGHTER_WIDTHS = [8, 14, 22];
 const HIGHLIGHTER_OPACITY = 0.34;
 const ERASER_SIZES = [12, 24, 40];
 const GRAPH_NODE_DEFAULT_SIZE = 44;
-const GRAPH_NODE_MIN_SIZE = 28;
+const GRAPH_NODE_MIN_SIZE = 16;
 const GRAPH_EDGE_WIDTH = 2;
 
 function isGraphNode(annotation) { return annotation?.type === 'graph-node'; }
@@ -3373,7 +3373,7 @@ function commitLiveHighlighterOverlays(page, opacity=HIGHLIGHTER_OPACITY) {
 }
 
 // ---------------------------------------------------------------------------
-// Milestone 5.8.0 graph tools: compact controls + node selection/sizing
+// Milestone 5.8.1 graph tools: compact controls + node selection/sizing
 // ---------------------------------------------------------------------------
 function graphSelectionPage() {
   const sel=state.graphSelection;
@@ -3491,7 +3491,7 @@ function selectedGraphNodesForSizing() {
   return [];
 }
 function setGraphNodeSize(size) {
-  const chosen=[28,36,44,56,72,96,128].find(value=>Math.abs(value-Number(size))<.01);
+  const chosen=[16,20,24,28,36,44,56,72,96,128].find(value=>Math.abs(value-Number(size))<.01);
   if (!chosen) return;
   const nodes=selectedGraphNodesForSizing();
   if (!nodes.length) {
@@ -3978,7 +3978,7 @@ function annotationHitAt(page, point, radius) {
 
   // Graph frames sit below ink but above inserted images. Select semantic nodes
   // from their logical ellipse even when the border style is None. Edges remain
-  // dependent geometry and are not independently lasso-selected in 5.8.0.
+  // dependent geometry and are not independently lasso-selected in 5.8.1.
   for (let index=annotations.length-1; index>=0; index--) {
     const annotation=annotations[index];
     if (!isGraphNode(annotation)) continue;
@@ -4037,7 +4037,7 @@ function clearSelectionGestureLayers(page) {
 function prepareSelectionGestureLayers(gesture) {
   if (!gesture?.page || !['move','resize'].includes(gesture.mode) || !gesture.originals?.length) return false;
   // Graph nodes have dependent edges on a separate semantic graph canvas. For
-  // 5.8.0, transform graph-containing selections directly and redraw that
+  // 5.8.1, transform graph-containing selections directly and redraw that
   // lightweight layer so attached edges follow continuously during the drag.
   if (gesture.originals.some(isGraphNode)) return false;
   const page = gesture.page;
@@ -4219,10 +4219,13 @@ function applyResizeSelectionGesture(gesture, event) {
   const display = pageDisplayDimensions(page);
   const maxX = dx0 > 0 ? (display.width-anchor.x)/dx0 : (0-anchor.x)/dx0;
   const maxY = dy0 > 0 ? (display.height-anchor.y)/dy0 : (0-anchor.y)/dy0;
-  const graphMinScale=(gesture.originals||[]).filter(isGraphNode).reduce((minimum,node)=>Math.max(minimum,
-    GRAPH_NODE_MIN_SIZE/Math.max(.01,Number(node.width)||GRAPH_NODE_DEFAULT_SIZE),
-    GRAPH_NODE_MIN_SIZE/Math.max(.01,Number(node.height)||GRAPH_NODE_DEFAULT_SIZE)),.08);
-  const scale = clamp(projected, graphMinScale, Math.max(graphMinScale, Math.min(20,maxX,maxY)));
+  // Graph-node size and graph-layout scale are deliberately independent. Once
+  // a node reaches the minimum size, its frame stops shrinking, but its center
+  // continues to move toward the selection anchor with the rest of the group.
+  // This lets a graph keep compacting instead of the first minimum-size node
+  // stopping the entire proportional resize gesture.
+  const minimumSelectionScale = .08;
+  const scale = clamp(projected, minimumSelectionScale, Math.max(minimumSelectionScale, Math.min(20,maxX,maxY)));
   gesture.changed = Math.abs(scale-1) > .002;
   gesture.lastScale = { scale };
   if (gesture.previewOptimized) setSelectionGestureLayerTransform(gesture);
@@ -8515,6 +8518,17 @@ async function openLibraryRecord(record, { switchToView=false }={}) {
       // make the requested document active because they immediately go to View.
       await reopenLibraryDocument(record.id, { makeActive: switchToView || !currentDocument(), render: false });
       if (switchToView && record.id !== state.currentDocumentId) loadDocumentState(record.id, false);
+    }
+
+    // Files -> Use should target the visible active pane when Split is enabled.
+    // currentDocumentId alone is not authoritative in Split; each pane owns its
+    // document assignment. Keep the other pane untouched.
+    if (switchToView && state.splitView) {
+      const pane = splitPaneState(state.activePaneId);
+      if (pane.documentId !== record.id) {
+        pane.documentId = record.id;
+        paneView(state.activePaneId, record.id);
+      }
     }
 
     renderDocumentSelect();
@@ -13943,7 +13957,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.0 promotes Graph Tools to a new minor-version line, adding compact graph controls plus lasso/select movement and resizing of semantic graph nodes while preserving attached-edge relationships and the validated Pen/Highlighter/PDF.js architecture.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.1 refines Graph sizing so node frames may shrink to 16 and graph layouts can continue compacting after nodes reach that minimum. It also fixes Files → Use while Split is active so the requested document replaces the active pane before returning to View.</p>
       <ul><li><strong>Graph foundation:</strong> Graph mode creates movable semantic nodes and straight attached edges. Node borders may be Clean, Hand-drawn, or None; edges follow nodes as they move. Graph objects persist, Undo/Redo normally, and export as vector PDF geometry. Handwritten node contents, auto-fit, edge labels, loops, curves, and directed edges are later graph milestones.</li><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
