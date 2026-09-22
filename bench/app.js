@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.40';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.7.41';
 
-const APP_VERSION = '5.7.40';
+const APP_VERSION = '5.7.41';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -7456,13 +7456,23 @@ function updateLibraryBulkSelectionControls() {
   if (els.libraryTrashSelectedBtn) els.libraryTrashSelectedBtn.disabled = !selected.length;
 }
 
+function syncLibrarySelectionUi() {
+  if (els.libraryDocumentList) {
+    for (const input of els.libraryDocumentList.querySelectorAll('input.library-export-check')) {
+      const docId = input.closest('.library-document-row')?.dataset?.documentId;
+      if (docId) input.checked = state.fileSelected.has(docId);
+    }
+  }
+  updateLibraryBulkSelectionControls();
+}
+
 function selectAllDocumentsInCurrentLibraryFolder() {
   const records = libraryDocumentsInFolder(state.libraryFolderId);
   if (!records.length) return;
   state.fileSelectionInitialized = true;
   for (const record of records) state.fileSelected.add(record.id);
   reconcileCombineOrder();
-  renderExportPane();
+  renderExportPane({ preserveLibraryDocumentList: true });
 }
 
 function clearGlobalFileSelection() {
@@ -7470,7 +7480,7 @@ function clearGlobalFileSelection() {
   state.fileSelectionInitialized = true;
   state.fileSelected.clear();
   reconcileCombineOrder();
-  renderExportPane();
+  renderExportPane({ preserveLibraryDocumentList: true });
 }
 
 function reconcileCombineOrder() {
@@ -7484,7 +7494,7 @@ function setFileSelected(docId, selected) {
   state.fileSelectionInitialized = true;
   if (selected) state.fileSelected.add(docId); else state.fileSelected.delete(docId);
   reconcileCombineOrder();
-  renderExportPane();
+  renderExportPane({ preserveLibraryDocumentList: true });
 }
 
 function isDocumentOpen(docId) { return state.documents.some(doc => doc.id === docId); }
@@ -7974,30 +7984,6 @@ function createLibraryFolderRow(folder) {
   actions.append(open, exportBtn, rename, move, trash); row.append(preview, label, actions); return row;
 }
 
-let libraryFileTapTimer = null;
-let libraryFileTapDocumentId = null;
-function handleLibraryFileTap(record) {
-  if (!record) return;
-  if (libraryFileTapTimer && libraryFileTapDocumentId === record.id) {
-    clearTimeout(libraryFileTapTimer);
-    libraryFileTapTimer = null;
-    libraryFileTapDocumentId = null;
-    useLibraryRecordInView(record);
-    return;
-  }
-  if (libraryFileTapTimer) {
-    clearTimeout(libraryFileTapTimer);
-    libraryFileTapTimer = null;
-    libraryFileTapDocumentId = null;
-  }
-  libraryFileTapDocumentId = record.id;
-  libraryFileTapTimer = setTimeout(() => {
-    libraryFileTapTimer = null;
-    libraryFileTapDocumentId = null;
-    openLibraryRecordInFiles(record);
-  }, 280);
-}
-
 function createLibraryDocumentRow(record) {
   const open = isDocumentOpen(record.id);
   const row = document.createElement('div'); row.className = `library-document-row library-file-row${open ? ' open' : ''}`; row.dataset.documentId = record.id;
@@ -8016,11 +8002,10 @@ function createLibraryDocumentRow(record) {
   meta.textContent = `${pages} page${pages === 1 ? '' : 's'} · ${open ? 'open' : 'closed'}${changed}`; label.append(name, meta);
   const openFromMain = () => openLibraryRecordInFiles(record);
   const useFromMain = () => useLibraryRecordInView(record);
-  // Delay the single-tap Open very briefly so the first tap does not rerender
-  // the Library row before a second tap can arrive. This keeps both workflows:
-  // single tap = Open/stay in Files; double tap = Use/go straight to View.
-  preview.addEventListener('click', () => handleLibraryFileTap(record));
-  label.addEventListener('click', () => handleLibraryFileTap(record));
+  // Keep Library navigation explicit and immediate: a closed document opens
+  // while Files remains visible; tapping an already-open document uses it in View.
+  preview.addEventListener('click', () => open ? useFromMain() : openFromMain());
+  label.addEventListener('click', () => open ? useFromMain() : openFromMain());
   for(const el of [preview,label]) el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();useFromMain();}else if(e.key===' '){e.preventDefault();openFromMain();}});
   const actions = document.createElement('div'); actions.className = 'library-document-actions';
   const action = document.createElement('button'); action.type='button'; action.className='primary-library-action'; action.textContent = open ? (record.id===state.currentDocumentId?'Active':'Use') : 'Open'; action.disabled = open && record.id===state.currentDocumentId;
@@ -8624,10 +8609,11 @@ function updateCompressionUi(chosenDocs = selectedFileDocuments()) {
   }
 }
 
-function renderExportPane() {
+function renderExportPane({ preserveLibraryDocumentList = false } = {}) {
   saveCurrentDocumentState();
   reconcileFileSelection();
-  renderLibraryDocumentList();
+  if (preserveLibraryDocumentList) syncLibrarySelectionUi();
+  else renderLibraryDocumentList();
   renderOpenDocumentList();
   renderSelectedDocumentList();
   if (els.templatesFilesSection?.open) renderFilesTemplateManager();
@@ -14154,8 +14140,8 @@ function bindEvents() {
   els.exportModeBtn.addEventListener('click', () => showWorkspaceMode('export'));
   els.renameCurrentBtn?.addEventListener('click', renameActiveDocument);
   els.closeCurrentBtn?.addEventListener('click', closeActiveDocument);
-  els.selectAllFilesBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; for (const doc of state.documents) state.fileSelected.add(doc.id); reconcileCombineOrder(); renderExportPane(); });
-  els.clearFileSelectionBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; for (const doc of state.documents) state.fileSelected.delete(doc.id); reconcileCombineOrder(); renderExportPane(); });
+  els.selectAllFilesBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; for (const doc of state.documents) state.fileSelected.add(doc.id); reconcileCombineOrder(); renderExportPane({ preserveLibraryDocumentList: true }); });
+  els.clearFileSelectionBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; for (const doc of state.documents) state.fileSelected.delete(doc.id); reconcileCombineOrder(); renderExportPane({ preserveLibraryDocumentList: true }); });
   els.libraryRefreshBtn?.addEventListener('click', async () => {
     try {
       if (!(await ensureLibraryConnection())) throw new Error('Could not connect to local storage.');

@@ -1,3 +1,61 @@
+PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.7.41-exp
+====================================================================================
+
+THIS SECTION IS AUTHORITATIVE OVER ALL OLDER STATUS TEXT BELOW.
+Continue future code work from the packaged 5.7.41-exp build, not an older branch.
+
+CURRENT DISTRIBUTION / STATUS
+-----------------------------
+- Official release remains 5.7.21.
+- Latest experimental/code baseline is 5.7.41-exp.
+- 5.7.41 is a narrow Files-performance/navigation + toolbar-order revision built from 5.7.40-exp.
+- It does NOT alter Pen/Highlighter/Select behavior, PDF.js viewer rendering/caps, pinch handling, viewer canvas-release logic, persistence schema, PDF output, or diagnostic instrumentation.
+
+5.7.41 CHANGES
+--------------
+1. FILES NAVIGATION SIMPLIFICATION
+   - Removes the 5.7.40 280 ms delayed single-tap / double-tap recognizer.
+   - Closed Library document: tap preview/name or Open -> opens into the working set and remains in Files.
+   - Already-open nonactive document: tap preview/name or Use -> makes it active and switches to View.
+   - This keeps the workflow explicit for both finger and Apple Pencil without maintaining extra gesture timing state.
+
+2. LIBRARY SELECTION NO LONGER RERENDERS THUMBNAILS
+   - 5.7.40 selection changes called renderExportPane(), which rebuilt Local Library file cards and recreated thumbnail canvases.
+   - Diagnostics from the Sept. 22 three-hour class showed some tiny 48x36 Library thumbnail jobs taking roughly three seconds because PDF.js still had to decode/render the underlying source page.
+   - Selection-only changes now preserve the Local Library DOM and synchronize existing checkboxes/selection controls in place.
+   - Open Documents, Selected Documents, Export/Compress/Combine and other PDF Tools selection state still refresh normally.
+   - Structural Library operations (open/close/rename/move/trash/folder/view changes) continue to rebuild the list when appropriate.
+
+3. PRESENTATION THUMBNAIL BUTTON POSITION
+   - Moves Browse page thumbnails to the far-right end of the Presentation toolbar, after Save diagnostics.
+   - Thumbnail drawer behavior, rendering, memory cleanup, and navigation semantics are unchanged.
+
+SEPT. 22 THREE-HOUR CLASS DIAGNOSTIC STATUS
+---------------------------------------------
+- One continuous 5.7.40 PWA runtime for roughly three hours; no restart.
+- Pen input remained healthy in retained windows; no new Pen pointercancel pattern like the Sept. 21 scroll-then-write case.
+- One familiar self-recovering viewer-render-left-loading event remained.
+- Several Files-side event-loop gaps aligned with unexpectedly expensive tiny Library thumbnail renders, motivating the selection-DOM preservation change above.
+- One IndexedDB transaction failed after a background/resume interval, then subsequent persists and the final editable backup completed successfully; no evidence of Library corruption.
+- Saved canvas backing remained moderate and viewer-release behavior continued to look healthy.
+
+PRESERVE / WATCH
+----------------
+- Preserve 5.7.37 explicit viewer canvas backing-store release and 1x1 lazy canvases.
+- Preserve current Pen/Highlighter/Select model and exact Pencil replay filter.
+- Continue watching rare iPad/WebKit missing-input episodes, canceled-pinch jumps, the scroll-to-render family, and background/resume IndexedDB failures without changing those systems absent stronger evidence.
+
+VALIDATION TARGETS
+------------------
+- In Files, select/unselect several Library documents and confirm existing thumbnail images stay in place without rerender flashes.
+- Verify Select all / Clear and Open Documents selection remain synchronized with Local Library checkboxes.
+- Tap a closed file preview/name: it should open and remain in Files immediately.
+- Tap an already-open nonactive file preview/name or Use: it should switch to View on that document.
+- In Presentation, confirm Browse page thumbnails is the final/far-right toolbar control and still opens/closes/navigates normally.
+
+
+================ PRIOR AUTHORITATIVE HANDOFF (5.7.40-exp / SEPT. 20) ================
+
 PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-20 — CURRENT BASELINE 5.7.40-exp
 ====================================================================================
 

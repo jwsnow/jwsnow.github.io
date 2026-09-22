@@ -1,4 +1,12 @@
-# PDF Workbench — Milestone 5.7.40 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.7.41 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.7.41 Files selection efficiency + toolbar cleanup
+
+- **Files navigation simplified:** removes the 5.7.40 delayed double-tap state machine. A closed Library document opens immediately and stays in Files; tapping an already-open document (or its Use button) makes it active and switches to View.
+- **Library selection no longer rebuilds file cards:** selecting/unselecting documents updates the existing checkboxes, selection summary, bulk controls, and PDF Tools state in place. Existing Library thumbnail canvases remain attached, so selection alone does not trigger PDF.js thumbnail rerenders.
+- **Presentation thumbnail navigation button moved to the far right of the toolbar** so its position is consistent and easier to find during frequent use. Drawer behavior is unchanged.
+- Pen/Highlighter/Select, pinch/scroll handling, render scheduling/caps, viewer canvas release, persistence schema, PDF output, and diagnostics are unchanged from 5.7.40.
+
 
 ## 5.7.40 Files / Extract workflow corrections
 
