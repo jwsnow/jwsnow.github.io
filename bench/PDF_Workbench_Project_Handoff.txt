@@ -1,3 +1,66 @@
+PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.7.43-exp
+====================================================================================
+
+THIS SECTION IS AUTHORITATIVE OVER ALL OLDER STATUS TEXT BELOW.
+Continue future code work from the packaged 5.7.43-exp build, not an older branch.
+
+CURRENT DISTRIBUTION / STATUS
+-----------------------------
+- Official release remains 5.7.21.
+- Latest experimental/code baseline is 5.7.43-exp.
+- 5.7.43 completes the remaining pre-graph-editor roadmap items after the 5.7.42 Files thumbnail fix: selected-ink recoloring and Library Name/Date sorting.
+- During review, Rotate Selection was confirmed to already exist in the current code (90° clockwise, Undo/Redo/export compatible) and was field-checked by the user, so it was not reimplemented.
+
+5.7.43 CHANGES
+--------------
+1. CHANGE COLOR OF SELECTION
+   - While Select is active, a color palette appears when the current selection contains Pen/Highlighter strokes.
+   - The palette includes the existing five Pen colors plus the four existing Highlighter colors.
+   - Choosing a color recolors all selected ink/highlighter objects in one Undoable edit.
+   - Mixed selections are supported: image annotations remain unchanged.
+   - Recoloring preserves geometry, width, opacity, tool type, modeled Pen data, selection membership, persistence, and PDF export behavior.
+   - If all recolorable selected objects already share one palette color, that swatch is shown active.
+
+2. LIBRARY SORT BY NAME OR DATE
+   - Local Library adds a Sort control beside Refresh/Grid/List.
+   - Name sorts documents alphabetically (existing/default behavior).
+   - Date modified sorts documents newest first, with name as a deterministic tie-breaker.
+   - Folders remain alphabetic in both modes.
+   - Date mode displays the modified date/time in each document metadata line.
+   - Sort preference is remembered locally as `pdfwb-library-sort` and included in editable Library backup/restore preferences.
+
+3. ROTATE SELECTION ROADMAP CORRECTION
+   - Rotate Selection was already implemented earlier and is present in 5.7.42/5.7.43.
+   - It rotates selected ink/highlighter/image annotations 90° clockwise around the selection center and is Undoable.
+   - User re-tested it on 2026-09-22 and reported that it works. Treat it as validated/preserve, not pending work.
+
+PRESERVE / WATCH
+----------------
+- Preserve 5.7.42 Files Open/Close thumbnail-canvas preservation.
+- Preserve 5.7.37 explicit viewer backing-store release and 1x1 lazy canvases.
+- Preserve current Pen/Highlighter/Select pipeline, exact Pencil replay guard, existing rotation behavior, and PDF export behavior.
+- Leave the 6 MP iPad render ceiling and 50-step session-only Undo policy unchanged absent new evidence.
+- Continue watching rare iPad/WebKit missing-input episodes, canceled-pinch jumps, the self-recovering scroll-to-render/render-left-loading family, and background/resume IndexedDB failures without redesigning those systems.
+
+NEXT FEATURE DIRECTION
+----------------------
+- The four-item cleanup list is now complete: Open/Close thumbnail preservation, Rotate Selection (already present/validated), Change Color of Selection, and Library Name/Date sorting.
+- The user wants to begin exploring a graph-editor capability next: graph nodes as movable containers that can hold handwritten/drawn content, attached edges that follow node movement, and movable edge labels that remain associated with their edges. Design this as dedicated graph objects rather than converting ordinary Assets directly into nodes.
+
+VALIDATION TARGETS
+------------------
+1. Select one Pen stroke and recolor it; confirm geometry/width remain unchanged and Undo/Redo restores color.
+2. Select several Pen/Highlighter strokes of mixed colors and recolor them together.
+3. Select ink plus an image, recolor, and confirm the image is unchanged.
+4. Verify Rotate Selection still works before/after recoloring.
+5. In Files, switch Sort between Name and Date modified in both Grid and List views.
+6. Confirm Date mode puts recently modified documents first and displays dates; folders remain alphabetic.
+7. Reload/reopen Workbench and verify the chosen sort mode persists.
+8. Confirm Open/Close in Files still preserves existing thumbnail canvases.
+
+
+================ PRIOR AUTHORITATIVE HANDOFF (5.7.42-exp / SEPT. 22) ================
+
 PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.7.42-exp
 ====================================================================================
 

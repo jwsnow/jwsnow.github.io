@@ -1885,3 +1885,28 @@ body.ink-eraser-active .page-stage * { cursor: none !important; }
 .view-diagnostics-btn { min-width:38px; padding-inline:8px; }
 .view-diagnostics-btn .presentation-diagnostics-icon { width:18px; height:18px; }
 .view-diagnostics-btn .presentation-diagnostics-icon svg { width:18px; height:18px; }
+
+
+/* Milestone 5.7.43: selected-ink recolor palette and Library sort control. */
+.selection-color-group {
+  border-left: 1px solid var(--border);
+  margin-left: 2px;
+  padding-left: 4px;
+}
+.library-sort-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.library-sort-control select {
+  min-height: 32px;
+  padding: 4px 26px 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: white;
+  color: var(--text);
+  font: inherit;
+}

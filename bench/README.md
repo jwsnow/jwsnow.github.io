@@ -1,5 +1,12 @@
-# PDF Workbench — Milestone 5.7.42 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.7.43 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
+## 5.7.43 selection recolor + Library sorting
+
+- **Rotate Selection was already present and working** from the earlier 5.7.21 selection/image work, so no duplicate rotation implementation was added.
+- **Change Color of Selection:** while Select is active, selecting one or more Pen/Highlighter strokes exposes the existing Workbench color swatches. Tapping a swatch changes the selected ink/highlighter color as one Undoable operation. Image annotations in a mixed selection are left unchanged; stroke width, opacity, tool type, and geometry are preserved.
+- **Library sorting:** Local Library documents can now be sorted by **Name** or **Date modified**. Name remains the default; Date modified shows most recently modified documents first. Folders continue to remain alphabetic. The chosen sort mode is remembered locally and included in editable Library backup preferences.
+- When Date modified sorting is active, each document row shows its modified date/time in the metadata line.
+- 5.7.42 Open/Close thumbnail preservation remains unchanged. Pen rendering/modeling, selection geometry/rotation, PDF.js viewer rendering/caps, pinch/scroll handling, viewer canvas release, persistence schema, PDF output, and diagnostics are otherwise unchanged.
 
 ## 5.7.42 Files Open/Close thumbnail preservation
 
