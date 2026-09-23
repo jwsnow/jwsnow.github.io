@@ -1,3 +1,17 @@
+# PDF Workbench — Milestone 5.8.4 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.8.4 Graph-owned selection styling + compact page controls
+
+- Keeps **Select/Lasso generic**. Its graph-specific Border/color controls are removed; Select retains ordinary selection actions, the standard ink recolor palette, and the context-sensitive **Ink → Node / Use as Node Content / Node Ink** action.
+- Reduces selected-ink recolor to the standard five-color palette: black, blue, red, green, and orange. Pure ink/image selection behavior is otherwise unchanged.
+- A lasso selection containing graph objects now **survives Select → Graph**. While Graph is active, node size, node border style, and graph color operate on the graph objects in that preserved multi-selection. Switching back to Select preserves the lasso selection.
+- Starting a direct Graph interaction on the page intentionally replaces the preserved lasso selection with the ordinary single Graph selection, so Graph → Move/Node/Edge remains predictable.
+- Graph now owns a five-color geometry palette. With selected graph objects it recolors only node borders/edges; with no selected graph objects it sets the default color for newly created nodes and edges. Node-content handwriting remains unchanged.
+- Graph Border and Node Size likewise act on selected nodes when a lasso selection was handed to Graph, while continuing to set defaults when no applicable nodes are selected.
+- Adds a compact **Page view** button to the normal View header. Its temporary subtoolbar contains scrolling mode, fit mode, and Zoom − / +; the misleading permanent percentage/reset readout is removed.
+- In Presentation, the formerly permanent scroll/fit/zoom controls are also collapsed behind one **Page view** button, reducing pressure on the shared annotation toolbar when Select or Graph has contextual controls visible.
+- Relationship-aware graph Copy/Paste remains deferred; semantic graph selections still disable ordinary Copy/Duplicate.
+
 # PDF Workbench — Milestone 5.8.3 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 ## 5.8.3 lasso graph selection + graph-only styling

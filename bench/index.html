@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.8.3">
+  <link rel="stylesheet" href="styles.css?v=5.8.4">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -40,16 +40,20 @@
       </div>
 
       <div id="viewerControls" class="viewer-controls">
-        <button id="scrollModeBtn" class="tool-btn" type="button" title="Change scrolling mode">
-          <span id="scrollModeIcon" aria-hidden="true">↕</span><span id="scrollModeLabel" class="tool-label">Continuous</span>
+        <button id="pageControlsBtn" class="tool-btn" type="button" title="Page view controls" aria-label="Page view controls" aria-expanded="false">
+          <span class="page-view-icon" aria-hidden="true">▤</span><span class="tool-label">Page view</span>
         </button>
-        <button id="fitModeBtn" class="tool-btn" type="button" title="Change page fitting">
-          <span id="fitModeIcon" aria-hidden="true">↔</span><span id="fitModeLabel" class="tool-label">Fit width</span>
-        </button>
-        <div class="zoom-controls" role="group" aria-label="Zoom controls">
-          <button id="zoomOutBtn" class="zoom-btn" type="button" title="Zoom out" aria-label="Zoom out">−</button>
-          <button id="zoomResetBtn" class="zoom-value" type="button" title="Reset zoom"><span id="zoomLabel">100%</span></button>
-          <button id="zoomInBtn" class="zoom-btn" type="button" title="Zoom in" aria-label="Zoom in">+</button>
+        <div id="pageControlsGroup" class="page-controls-subtoolbar hidden" role="group" aria-label="Page view controls">
+          <button id="scrollModeBtn" class="tool-btn" type="button" title="Change scrolling mode">
+            <span id="scrollModeIcon" aria-hidden="true">↕</span><span id="scrollModeLabel" class="tool-label">Continuous</span>
+          </button>
+          <button id="fitModeBtn" class="tool-btn" type="button" title="Change page fitting">
+            <span id="fitModeIcon" aria-hidden="true">↔</span><span id="fitModeLabel" class="tool-label">Fit width</span>
+          </button>
+          <div class="zoom-controls page-view-zoom-controls" role="group" aria-label="Zoom controls">
+            <button id="zoomOutBtn" class="zoom-btn" type="button" title="Zoom out" aria-label="Zoom out">−</button>
+            <button id="zoomInBtn" class="zoom-btn" type="button" title="Zoom in" aria-label="Zoom in">+</button>
+          </div>
         </div>
         <button id="splitViewBtn" class="tool-btn" type="button" title="Toggle side-by-side view" aria-pressed="false">
           <span aria-hidden="true">◫</span><span id="splitViewLabel" class="tool-label">Split</span>
@@ -166,11 +170,19 @@
             <label class="graph-border-control" title="Border style for new or selected nodes">
               <span class="graph-option-icon graph-border-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="5.8"/></svg></span>
               <select id="graphBorderStyle" aria-label="Graph node border style">
+                <option value="" disabled>Border</option>
                 <option value="clean">Clean</option>
                 <option value="hand">Hand</option>
                 <option value="none">None</option>
               </select>
             </label>
+            <div id="graphColorGroup" class="graph-color-group" role="group" aria-label="Graph node and edge color">
+              <button class="ink-color-btn" type="button" data-graph-color="#111111" style="--swatch:#111111" title="Black graph color" aria-label="Black graph color"></button>
+              <button class="ink-color-btn" type="button" data-graph-color="#1565c0" style="--swatch:#1565c0" title="Blue graph color" aria-label="Blue graph color"></button>
+              <button class="ink-color-btn" type="button" data-graph-color="#d32f2f" style="--swatch:#d32f2f" title="Red graph color" aria-label="Red graph color"></button>
+              <button class="ink-color-btn" type="button" data-graph-color="#2e7d32" style="--swatch:#2e7d32" title="Green graph color" aria-label="Green graph color"></button>
+              <button class="ink-color-btn" type="button" data-graph-color="#ef6c00" style="--swatch:#ef6c00" title="Orange graph color" aria-label="Orange graph color"></button>
+            </div>
             <button id="graphDeleteBtn" class="graph-delete-btn graph-icon-btn" type="button" title="Delete selected graph object" aria-label="Delete selected graph object" disabled><span class="graph-option-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M4.5 5.5h11"/><path d="M7.5 5.5v-1.2c0-.9.7-1.6 1.6-1.6h1.8c.9 0 1.6.7 1.6 1.6v1.2"/><path d="M6.2 5.5l.7 10.1c.1.9.8 1.6 1.7 1.6h2.8c.9 0 1.6-.7 1.7-1.6l.7-10.1"/></svg></span></button>
           </div>
           <div id="graphNodeSizeGroup" class="ink-option-group graph-node-size-group hidden" role="group" aria-label="Graph node size">
@@ -204,27 +216,6 @@
             <button class="ink-color-btn" type="button" data-selection-color="#d32f2f" style="--swatch:#d32f2f" title="Change selected ink to red" aria-label="Change selected ink to red"></button>
             <button class="ink-color-btn" type="button" data-selection-color="#2e7d32" style="--swatch:#2e7d32" title="Change selected ink to green" aria-label="Change selected ink to green"></button>
             <button class="ink-color-btn" type="button" data-selection-color="#ef6c00" style="--swatch:#ef6c00" title="Change selected ink to orange" aria-label="Change selected ink to orange"></button>
-            <button class="ink-color-btn" type="button" data-selection-color="#ffeb3b" style="--swatch:#ffeb3b" title="Change selected ink to yellow" aria-label="Change selected ink to yellow"></button>
-            <button class="ink-color-btn" type="button" data-selection-color="#ff80ab" style="--swatch:#ff80ab" title="Change selected ink to pink" aria-label="Change selected ink to pink"></button>
-            <button class="ink-color-btn" type="button" data-selection-color="#4dd0e1" style="--swatch:#4dd0e1" title="Change selected ink to cyan" aria-label="Change selected ink to cyan"></button>
-            <button class="ink-color-btn" type="button" data-selection-color="#81c784" style="--swatch:#81c784" title="Change selected ink to light green" aria-label="Change selected ink to light green"></button>
-          </div>
-          <div id="selectionGraphStyleGroup" class="ink-option-group selection-graph-style-group hidden" role="group" aria-label="Selected graph object styles">
-            <label id="selectionGraphBorderControl" class="graph-border-control selection-graph-border-control hidden" title="Change border style of selected graph nodes">
-              <span class="graph-option-icon graph-border-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="5.8"/></svg></span>
-              <select id="selectionGraphBorderStyle" aria-label="Selected graph node border style">
-                <option value="">Border</option>
-                <option value="clean">Clean</option>
-                <option value="hand">Hand</option>
-                <option value="none">None</option>
-              </select>
-            </label>
-            <span class="selection-graph-color-icon" aria-hidden="true" title="Graph border/edge color"><svg viewBox="0 0 20 20" focusable="false"><circle cx="6" cy="10" r="3.2"/><path d="M9.4 10h7.2"/></svg></span>
-            <button class="ink-color-btn" type="button" data-selection-graph-color="#111111" style="--swatch:#111111" title="Change selected graph borders and edges to black" aria-label="Change selected graph borders and edges to black"></button>
-            <button class="ink-color-btn" type="button" data-selection-graph-color="#1565c0" style="--swatch:#1565c0" title="Change selected graph borders and edges to blue" aria-label="Change selected graph borders and edges to blue"></button>
-            <button class="ink-color-btn" type="button" data-selection-graph-color="#d32f2f" style="--swatch:#d32f2f" title="Change selected graph borders and edges to red" aria-label="Change selected graph borders and edges to red"></button>
-            <button class="ink-color-btn" type="button" data-selection-graph-color="#2e7d32" style="--swatch:#2e7d32" title="Change selected graph borders and edges to green" aria-label="Change selected graph borders and edges to green"></button>
-            <button class="ink-color-btn" type="button" data-selection-graph-color="#ef6c00" style="--swatch:#ef6c00" title="Change selected graph borders and edges to orange" aria-label="Change selected graph borders and edges to orange"></button>
           </div>
           <div class="annotation-history" role="group" aria-label="Annotation undo and redo">
             <button id="inkUndoBtn" type="button" title="Undo" aria-label="Undo" disabled>↶</button>
@@ -236,11 +227,13 @@
             <button id="presentationRightPaneBtn" type="button" aria-pressed="false" title="Control right pane">R</button>
           </div>
           <select id="presentationDocumentSelect" class="presentation-document-select presentation-only" aria-label="Open document"></select>
-          <button id="presentationScrollModeBtn" class="presentation-only" type="button" title="Change scrolling mode">↕</button>
-          <button id="presentationFitBtn" class="presentation-only" type="button" title="Fit width" aria-label="Fit width">↔</button>
-          <button id="presentationZoomOutBtn" class="presentation-only" type="button" aria-label="Zoom out">−</button>
-          <span id="presentationZoomLabel" class="presentation-zoom-label presentation-only">100%</span>
-          <button id="presentationZoomInBtn" class="presentation-only" type="button" aria-label="Zoom in">+</button>
+          <button id="presentationPageControlsBtn" class="presentation-only" type="button" title="Page view controls" aria-label="Page view controls" aria-expanded="false">▤</button>
+          <div id="presentationPageControlsGroup" class="presentation-page-controls presentation-only hidden" role="group" aria-label="Page view controls">
+            <button id="presentationScrollModeBtn" type="button" title="Change scrolling mode">↕</button>
+            <button id="presentationFitBtn" type="button" title="Fit width" aria-label="Fit width">↔</button>
+            <button id="presentationZoomOutBtn" type="button" aria-label="Zoom out">−</button>
+            <button id="presentationZoomInBtn" type="button" aria-label="Zoom in">+</button>
+          </div>
           <button id="presentationLayoutBtn" class="presentation-only" type="button" title="Switch to split view" aria-label="Switch to split view">◫</button>
           <button id="presentationInsertBtn" class="presentation-insert-page presentation-only" type="button" title="Insert a page after the current page" aria-label="Insert page" aria-haspopup="menu" aria-expanded="false"><span class="page-plus-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 3h8l4 4v5M6 3v18h7M14 3v5h4"/><path d="M14 17h7M17.5 13.5v7"/></svg></span></button>
           <button id="presentationExit" class="presentation-only" type="button" aria-label="Exit presentation mode">×</button>
@@ -278,7 +271,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.8.3 · Graph lasso selection + styling</div>
+          <div class="export-kicker">Milestone 5.8.4 · Graph selection workflow + compact page controls</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -913,6 +906,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.8.3"></script>
+  <script type="module" src="app.js?v=5.8.4"></script>
 </body>
 </html>

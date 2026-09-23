@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.3';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.4';
 
-const APP_VERSION = '5.8.3';
+const APP_VERSION = '5.8.4';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -20,7 +20,7 @@ const RECENT_ASSET_LIMIT = 30;
 const $ = (id) => document.getElementById(id);
 const els = {
   app: $('app'), openBtn: $('openBtn'), annotationImageInput: $('annotationImageInput'), assetImageInput: $('assetImageInput'), newBlankDocumentBtn: $('newBlankDocumentBtn'), newGraphDocumentBtn: $('newGraphDocumentBtn'), newTemplateDocumentBtn: $('newTemplateDocumentBtn'), newDocumentPageSize: $('newDocumentPageSize'), newDocumentPageSizeHint: $('newDocumentPageSizeHint'), newBlankWhiteBtn: $('newBlankWhiteBtn'), newBlankBlackBtn: $('newBlankBlackBtn'), emptyOpenBtn: $('emptyOpenBtn'), fileInput: $('fileInput'), libraryZipImportInput: $('libraryZipImportInput'), imageAssemblyInput: $('imageAssemblyInput'), documentSelect: $('documentSelect'), renameCurrentBtn: $('renameCurrentBtn'), closeCurrentBtn: $('closeCurrentBtn'),
-  viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), exportModeBtn: $('exportModeBtn'), viewerControls: $('viewerControls'),
+  viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), exportModeBtn: $('exportModeBtn'), viewerControls: $('viewerControls'), pageControlsBtn: $('pageControlsBtn'), pageControlsGroup: $('pageControlsGroup'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
@@ -36,7 +36,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGraphBackgroundBtn: $('pageGraphBackgroundBtn'), pagePurgeLegacyGraphBackgroundBtn: $('pagePurgeLegacyGraphBackgroundBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkLaserBtn: $('inkLaserBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkGraphBtn: $('inkGraphBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), graphOptionGroup: $('graphOptionGroup'), graphBorderStyle: $('graphBorderStyle'), graphDeleteBtn: $('graphDeleteBtn'), graphNodeSizeGroup: $('graphNodeSizeGroup'), graphNodeSizeSelect: $('graphNodeSizeSelect'), selectionActionGroup: $('selectionActionGroup'), selectionColorGroup: $('selectionColorGroup'), selectionGraphStyleGroup: $('selectionGraphStyleGroup'), selectionGraphBorderControl: $('selectionGraphBorderControl'), selectionGraphBorderStyle: $('selectionGraphBorderStyle'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), selectionNodeContentBtn: $('selectionNodeContentBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), extractChoiceDialog: $('extractChoiceDialog'), extractChoiceSummary: $('extractChoiceSummary'), extractChoiceCloseBtn: $('extractChoiceCloseBtn'), extractChoiceCancelBtn: $('extractChoiceCancelBtn'), extractChoiceExportBtn: $('extractChoiceExportBtn'), extractChoiceLibraryBtn: $('extractChoiceLibraryBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationPagesBtn: $('presentationPagesBtn'), presentationPageDrawerLayer: $('presentationPageDrawerLayer'), presentationPageDrawer: $('presentationPageDrawer'), presentationPageDrawerScroller: $('presentationPageDrawerScroller'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), viewDiagnosticsBtn: $('viewDiagnosticsBtn'), presentationDiagnosticsBtn: $('presentationDiagnosticsBtn'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), inkHandBtn: $('inkHandBtn'), inkLaserBtn: $('inkLaserBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkGraphBtn: $('inkGraphBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), graphOptionGroup: $('graphOptionGroup'), graphBorderStyle: $('graphBorderStyle'), graphColorGroup: $('graphColorGroup'), graphDeleteBtn: $('graphDeleteBtn'), graphNodeSizeGroup: $('graphNodeSizeGroup'), graphNodeSizeSelect: $('graphNodeSizeSelect'), selectionActionGroup: $('selectionActionGroup'), selectionColorGroup: $('selectionColorGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), selectionNodeContentBtn: $('selectionNodeContentBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), extractChoiceDialog: $('extractChoiceDialog'), extractChoiceSummary: $('extractChoiceSummary'), extractChoiceCloseBtn: $('extractChoiceCloseBtn'), extractChoiceCancelBtn: $('extractChoiceCancelBtn'), extractChoiceExportBtn: $('extractChoiceExportBtn'), extractChoiceLibraryBtn: $('extractChoiceLibraryBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationPageControlsBtn: $('presentationPageControlsBtn'), presentationPageControlsGroup: $('presentationPageControlsGroup'), presentationPagesBtn: $('presentationPagesBtn'), presentationPageDrawerLayer: $('presentationPageDrawerLayer'), presentationPageDrawer: $('presentationPageDrawer'), presentationPageDrawerScroller: $('presentationPageDrawerScroller'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), viewDiagnosticsBtn: $('viewDiagnosticsBtn'), presentationDiagnosticsBtn: $('presentationDiagnosticsBtn'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -76,6 +76,7 @@ const state = {
   annotationTool: safePref('pdfwb-annotation-tool', 'hand', ['hand', 'laser', 'pen', 'highlighter', 'eraser', 'select', 'graph']),
   graphSubtool: safePref('pdfwb-graph-subtool', 'node', ['node','edge','move']),
   graphBorderStyle: safePref('pdfwb-graph-border-style', 'clean', ['clean','hand','none']),
+  graphColor: safePref('pdfwb-graph-color', '#111111', ['#111111','#1565c0','#d32f2f','#2e7d32','#ef6c00']),
   graphNodeSize: Number(safePref('pdfwb-graph-node-size', '44', ['16','20','24','28','36','44','56','72','96','128'])),
   penColor: safePref('pdfwb-pen-color', '#111111', ['#111111','#1565c0','#d32f2f','#2e7d32','#ef6c00']),
   penWidth: Number(safePref('pdfwb-pen-width', '3', ['1.5','3','5.5'])),
@@ -1816,7 +1817,7 @@ async function createEditableLibraryBackup() {
       });
     }
     const preferences = {};
-    for (const key of ['pdfwb-scroll-mode','pdfwb-fit-mode','pdfwb-library-view','pdfwb-library-sort','pdfwb-graph-node-size']) {
+    for (const key of ['pdfwb-scroll-mode','pdfwb-fit-mode','pdfwb-library-view','pdfwb-library-sort','pdfwb-graph-subtool','pdfwb-graph-border-style','pdfwb-graph-color','pdfwb-graph-node-size']) {
       try { const value = localStorage.getItem(key); if (value != null) preferences[key] = value; } catch {}
     }
     const manifest = {
@@ -2603,7 +2604,7 @@ function displayedEdgesToRawPdf(displayed, inheritedRotation=0) {
 const PEN_COLORS = ['#111111','#1565c0','#d32f2f','#2e7d32','#ef6c00'];
 const PEN_WIDTHS = [1.5, 3, 5.5];
 const HIGHLIGHTER_COLORS = ['#ffeb3b','#ff80ab','#4dd0e1','#81c784'];
-const SELECTION_COLORS = [...PEN_COLORS, ...HIGHLIGHTER_COLORS];
+const SELECTION_COLORS = [...PEN_COLORS];
 const GRAPH_SELECTION_COLORS = [...PEN_COLORS];
 const HIGHLIGHTER_WIDTHS = [8, 14, 22];
 const HIGHLIGHTER_OPACITY = 0.34;
@@ -3499,7 +3500,7 @@ function commitLiveHighlighterOverlays(page, opacity=HIGHLIGHTER_OPACITY) {
 }
 
 // ---------------------------------------------------------------------------
-// Milestone 5.8.3 graph tools: semantic node contents + lasso graph styling
+// Milestone 5.8.4 graph tools: selection handoff + Graph-owned styling
 // ---------------------------------------------------------------------------
 function graphSelectionPage() {
   const sel=state.graphSelection;
@@ -3522,6 +3523,7 @@ function clearGraphSelection(redraw=true) {
 }
 function setGraphSelection(page,id,{redraw=true}={}) {
   const object=id?graphObjectById(page,id):null;
+  if (state.annotationTool==='graph' && state.annotationSelection?.ids?.size) clearAnnotationSelection(false);
   state.graphSelection={documentId:object?state.currentDocumentId:null,pageId:object?page.id:null,id:object?.id||null};
   if (redraw) redrawPageAnnotationSelectionOverlays(page);
   updateGraphToolbar();
@@ -3558,7 +3560,7 @@ function createGraphNode(page,point) {
   const base=pageCanvasBaseDimensions(page);
   const size=Math.max(GRAPH_NODE_MIN_SIZE,Number(state.graphNodeSize)||GRAPH_NODE_DEFAULT_SIZE);
   const half=size/2;
-  const node={id:uid('gnode'),type:'graph-node',x:clamp(point.x,half,Math.max(half,base.width-half)),y:clamp(point.y,half,Math.max(half,base.height-half)),width:size,height:size,borderStyle:state.graphBorderStyle,strokeColor:'#111111',borderWidth:1.8,opacity:1,contents:[],contentMode:'manual',contentPadding:8};
+  const node={id:uid('gnode'),type:'graph-node',x:clamp(point.x,half,Math.max(half,base.width-half)),y:clamp(point.y,half,Math.max(half,base.height-half)),width:size,height:size,borderStyle:state.graphBorderStyle,strokeColor:state.graphColor,borderWidth:1.8,opacity:1,contents:[],contentMode:'manual',contentPadding:8};
   const before=snapshotPages(); annotationsForPage(page).push(node); state.activePageId=page.id;
   state.graphEdgeStart={documentId:null,pageId:null,nodeId:null}; setGraphSelection(page,node.id,{redraw:false});
   commitHistory(before); saveCurrentDocumentState({readViewDom:false}); redrawPageGraphOverlays(page); updateGraphToolbar();
@@ -3569,7 +3571,7 @@ function createGraphEdge(page,fromNodeId,toNodeId) {
   if (!fromNodeId||!toNodeId||fromNodeId===toNodeId) return null;
   if (!graphNodeById(page,fromNodeId)||!graphNodeById(page,toNodeId)) return null;
   const before=snapshotPages();
-  const edge={id:uid('gedge'),type:'graph-edge',fromNodeId,toNodeId,strokeColor:'#111111',width:GRAPH_EDGE_WIDTH,opacity:1,directed:false,curvature:0};
+  const edge={id:uid('gedge'),type:'graph-edge',fromNodeId,toNodeId,strokeColor:state.graphColor,width:GRAPH_EDGE_WIDTH,opacity:1,directed:false,curvature:0};
   annotationsForPage(page).push(edge); state.graphEdgeStart={documentId:null,pageId:null,nodeId:null}; setGraphSelection(page,edge.id,{redraw:false});
   commitHistory(before); saveCurrentDocumentState({readViewDom:false}); redrawPageGraphOverlays(page); updateGraphToolbar();
   setStatus('Created graph edge');
@@ -3603,58 +3605,56 @@ function setGraphSubtool(tool) {
   updateGraphToolbar();
   const page=graphSelectionPage(); if (page) redrawPageAnnotationSelectionOverlays(page);
 }
+function graphToolbarSelectionContext() {
+  if (state.annotationTool==='graph') {
+    const page=selectedAnnotationPage();
+    if (page) {
+      const objects=selectedAnnotations(page).filter(annotation=>isGraphNode(annotation)||isGraphEdge(annotation));
+      if (objects.length) return {page,objects,multi:true};
+    }
+  }
+  const page=graphSelectionPage(), object=selectedGraphObject(page);
+  return object&&page ? {page,objects:[object],multi:false} : {page:null,objects:[],multi:false};
+}
 function setGraphBorderStyle(style) {
   const next=['clean','hand','none'].includes(style)?style:'clean';
   state.graphBorderStyle=next; savePref('pdfwb-graph-border-style',next);
-  const page=graphSelectionPage(), object=selectedGraphObject(page);
-  if (page&&isGraphNode(object)&&(object.borderStyle||'clean')!==next) {
-    const before=snapshotPages(); object.borderStyle=next; commitHistory(before); saveCurrentDocumentState({readViewDom:false}); redrawPageGraphOverlays(page); setStatus(`Node border: ${next==='hand'?'hand-drawn':next}`);
+  const context=graphToolbarSelectionContext();
+  const nodes=context.objects.filter(isGraphNode);
+  const changed=nodes.filter(node=>(node.borderStyle||'clean')!==next);
+  if (context.page && changed.length) {
+    const before=snapshotPages();
+    for (const node of changed) node.borderStyle=next;
+    commitHistory(before); saveCurrentDocumentState({readViewDom:false});
+    redrawPageAnnotationOverlays(context.page); redrawPageAnnotationSelectionOverlays(context.page);
+    setStatus(nodes.length===1?`Node border: ${next==='hand'?'hand-drawn':next}`:`Changed ${changed.length} selected node borders to ${next==='hand'?'hand-drawn':next}`);
+  } else if (!nodes.length) {
+    setStatus(`New graph node border: ${next==='hand'?'hand-drawn':next}`);
   }
   updateGraphToolbar();
 }
-function setSelectedGraphBorderStyle(style) {
-  const next=['clean','hand','none'].includes(style)?style:null;
-  if (!next) return;
-  const page=selectedAnnotationPage();
-  const nodes=selectedAnnotations(page).filter(isGraphNode);
-  if (!page||!nodes.length) return;
-  state.graphBorderStyle=next;
-  savePref('pdfwb-graph-border-style',next);
-  const changed=nodes.filter(node=>(node.borderStyle||'clean')!==next);
-  if (!changed.length) { updateSelectionToolbar(); setStatus(`Selected node border already ${next==='hand'?'hand-drawn':next}`); return; }
-  const before=snapshotPages();
-  for (const node of changed) node.borderStyle=next;
-  commitHistory(before);
-  saveCurrentDocumentState({readViewDom:false});
-  redrawPageAnnotationOverlays(page);
-  redrawPageAnnotationSelectionOverlays(page);
-  updateSelectionToolbar();
-  setStatus(`Changed ${changed.length} selected node border${changed.length===1?'':'s'} to ${next==='hand'?'hand-drawn':next}`);
-}
-function recolorSelectedGraphObjects(color) {
+function setGraphColor(color) {
   if (!GRAPH_SELECTION_COLORS.includes(color)) return;
-  const page=selectedAnnotationPage();
-  const graphObjects=selectedAnnotations(page).filter(annotation=>isGraphNode(annotation)||isGraphEdge(annotation));
-  if (!page||!graphObjects.length) return;
-  const changed=graphObjects.filter(annotation=>(annotation.strokeColor||'#111111')!==color);
-  if (!changed.length) { setStatus('Selected graph objects already use that color'); return; }
-  const before=snapshotPages();
-  for (const annotation of changed) annotation.strokeColor=color;
-  commitHistory(before);
-  saveCurrentDocumentState({readViewDom:false});
-  redrawPageAnnotationOverlays(page);
-  redrawPageAnnotationSelectionOverlays(page);
-  updateSelectionToolbar();
-  setStatus(`Changed color of ${changed.length} selected graph object${changed.length===1?'':'s'}`);
+  state.graphColor=color; savePref('pdfwb-graph-color',color);
+  const context=graphToolbarSelectionContext();
+  const changed=context.objects.filter(annotation=>(annotation.strokeColor||'#111111')!==color);
+  if (context.page && changed.length) {
+    const before=snapshotPages();
+    for (const annotation of changed) annotation.strokeColor=color;
+    commitHistory(before); saveCurrentDocumentState({readViewDom:false});
+    redrawPageAnnotationOverlays(context.page); redrawPageAnnotationSelectionOverlays(context.page);
+    setStatus(`Changed color of ${changed.length} selected graph object${changed.length===1?'':'s'}`);
+  } else if (!context.objects.length) {
+    setStatus('New graph object color changed');
+  } else {
+    setStatus('Selected graph objects already use that color');
+  }
+  updateGraphToolbar();
 }
 
 function selectedGraphNodesForSizing() {
-  if (state.annotationTool==='graph') {
-    const object=selectedGraphObject();
-    return isGraphNode(object)?[object]:[];
-  }
-  if (state.annotationTool==='select') return selectedAnnotations().filter(isGraphNode);
-  return [];
+  if (state.annotationTool!=='graph') return [];
+  return graphToolbarSelectionContext().objects.filter(isGraphNode);
 }
 function setGraphNodeSize(size) {
   const chosen=[16,20,24,28,36,44,56,72,96,128].find(value=>Math.abs(value-Number(size))<.01);
@@ -3674,7 +3674,7 @@ function setGraphNodeSize(size) {
   // not change this default because a mixed/group resize has no single size.
   state.graphNodeSize=chosen;
   savePref('pdfwb-graph-node-size',String(chosen));
-  const page=state.annotationTool==='graph'?graphSelectionPage():selectedAnnotationPage();
+  const page=graphToolbarSelectionContext().page;
   if (!page) return;
   const before=snapshotPages();
   const base=pageCanvasBaseDimensions(page), half=chosen/2;
@@ -3693,9 +3693,8 @@ function setGraphNodeSize(size) {
 function updateGraphNodeSizeToolbar() {
   if (!els.graphNodeSizeGroup || !els.graphNodeSizeSelect) return;
   const graphActive=state.annotationTool==='graph';
-  const selectActive=state.annotationTool==='select';
   const nodes=selectedGraphNodesForSizing();
-  const show=graphActive || (selectActive && nodes.length>0);
+  const show=graphActive;
   els.graphNodeSizeGroup.classList.toggle('hidden',!show);
   if (!show) return;
   let value='';
@@ -3712,9 +3711,28 @@ function updateGraphToolbar() {
   for (const button of els.graphOptionGroup?.querySelectorAll?.('[data-graph-subtool]')||[]) {
     const on=button.dataset.graphSubtool===state.graphSubtool; button.classList.toggle('active',on); button.setAttribute('aria-pressed',String(on));
   }
-  const selected=selectedGraphObject();
-  if (els.graphBorderStyle) els.graphBorderStyle.value=isGraphNode(selected)?(selected.borderStyle||'clean'):state.graphBorderStyle;
-  if (els.graphDeleteBtn) els.graphDeleteBtn.disabled=!selected;
+  const context=graphToolbarSelectionContext();
+  const nodes=context.objects.filter(isGraphNode);
+  if (els.graphBorderStyle) {
+    let value=state.graphBorderStyle;
+    if (nodes.length) {
+      const first=nodes[0].borderStyle||'clean';
+      if (nodes.every(node=>(node.borderStyle||'clean')===first)) value=first;
+      else value='';
+    }
+    els.graphBorderStyle.value=value;
+  }
+  if (els.graphDeleteBtn) {
+    const direct=selectedGraphObject();
+    els.graphDeleteBtn.disabled=!direct || context.multi;
+    els.graphDeleteBtn.title=context.multi?'Use Select to delete a multi-object selection':'Delete selected graph object';
+  }
+  const graphObjects=context.objects;
+  const uniformColor=graphObjects.length && graphObjects.every(annotation=>(annotation.strokeColor||'#111111')===(graphObjects[0].strokeColor||'#111111')) ? (graphObjects[0].strokeColor||'#111111') : (!graphObjects.length?state.graphColor:null);
+  for (const button of els.graphColorGroup?.querySelectorAll?.('[data-graph-color]')||[]) {
+    const on=!!uniformColor && button.dataset.graphColor===uniformColor;
+    button.classList.toggle('active',on); button.setAttribute('aria-pressed',String(on));
+  }
   updateGraphNodeSizeToolbar();
 }
 function beginGraphGesture(viewer,event) {
@@ -3914,7 +3932,11 @@ function ensureSelectionOverlay(stage, page) {
 function redrawStageAnnotationSelection(stage, page) {
   if (!stage || !page) return;
   const activeRegionCopy = state.annotationTool === 'select' && state.regionCopyGesture?.pageId === page.id;
-  const activeSelection = !activeRegionCopy && state.annotationTool === 'select' &&
+  const preservedGraphSelection = state.annotationTool === 'graph' &&
+    state.annotationSelection?.documentId === state.currentDocumentId &&
+    state.annotationSelection?.pageId === page.id &&
+    selectedAnnotations(page).some(annotation => isGraphNode(annotation) || isGraphEdge(annotation));
+  const activeSelection = !activeRegionCopy && (state.annotationTool === 'select' || preservedGraphSelection) &&
     state.annotationSelection?.documentId === state.currentDocumentId &&
     state.annotationSelection?.pageId === page.id;
   const activeLasso = !activeRegionCopy && state.annotationTool === 'select' &&
@@ -4034,6 +4056,7 @@ function redrawStageAnnotationSelection(stage, page) {
         line.setAttribute('class','graph-selection-edge'); svg.append(line);
       }
     }
+    if (state.annotationTool==='graph') return;
     const edgeOnlyGraphSelection=annotations.some(isGraphEdge) && !annotations.some(isGraphNode);
     const bounds = edgeOnlyGraphSelection ? null : annotationDisplayBounds(page, annotations);
     if (!bounds) return;
@@ -5047,7 +5070,7 @@ function convertSelectionToGraphNodeContent() {
     node={
       id:uid('gnode'),type:'graph-node',x:(bounds.minX+bounds.maxX)/2,y:(bounds.minY+bounds.maxY)/2,
       width:Math.max(GRAPH_NODE_MIN_SIZE,bounds.width+16),height:Math.max(GRAPH_NODE_MIN_SIZE,bounds.height+16),
-      borderStyle:state.graphBorderStyle,strokeColor:'#111111',borderWidth:1.8,opacity:1,contents:[],contentMode:'auto',contentPadding:8,
+      borderStyle:state.graphBorderStyle,strokeColor:state.graphColor,borderWidth:1.8,opacity:1,contents:[],contentMode:'auto',contentPadding:8,
     };
     annotationsForPage(page).push(node);
   }
@@ -5083,25 +5106,6 @@ function updateSelectionToolbar() {
       const isActive = !!uniformColor && button.dataset.selectionColor === uniformColor;
       button.classList.toggle('active', isActive);
       button.setAttribute('aria-pressed', String(isActive));
-    }
-  }
-  if (els.selectionGraphStyleGroup) {
-    els.selectionGraphStyleGroup.classList.toggle('hidden', !active || !hasGraphObjects);
-    if (els.selectionGraphBorderControl) els.selectionGraphBorderControl.classList.toggle('hidden', !graphNodes.length);
-    if (els.selectionGraphBorderStyle) {
-      let borderValue='';
-      if (graphNodes.length) {
-        const first=graphNodes[0].borderStyle||'clean';
-        if (graphNodes.every(node=>(node.borderStyle||'clean')===first)) borderValue=first;
-      }
-      els.selectionGraphBorderStyle.value=borderValue;
-    }
-    const graphObjects=[...graphNodes,...graphEdges];
-    const uniformGraphColor=graphObjects.length && graphObjects.every(annotation=>(annotation.strokeColor||'#111111')===(graphObjects[0].strokeColor||'#111111')) ? (graphObjects[0].strokeColor||'#111111') : null;
-    for (const button of els.selectionGraphStyleGroup.querySelectorAll('[data-selection-graph-color]')) {
-      const isActive=!!uniformGraphColor && button.dataset.selectionGraphColor===uniformGraphColor;
-      button.classList.toggle('active',isActive);
-      button.setAttribute('aria-pressed',String(isActive));
     }
   }
   if (els.selectionCopyRegionBtn) {
@@ -5191,9 +5195,10 @@ function setAnnotationTool(tool) {
     state.selectionGesture = null;
     state.regionCopyGesture = null;
     state.regionCopyArmed = false;
-    clearAnnotationSelection(true);
+    if (next !== 'graph') clearAnnotationSelection(true);
     if (regionPageId) { const page = pageById(regionPageId); if (page) redrawPageAnnotationSelectionOverlays(page); }
   }
+  if (state.annotationTool === 'graph' && next !== 'graph' && next !== 'select' && state.annotationSelection?.ids?.size) clearAnnotationSelection(true);
   if (state.annotationTool === 'graph' && next !== 'graph') {
     state.graphGesture = null;
     clearGraphSelection(true);
@@ -5203,6 +5208,8 @@ function setAnnotationTool(tool) {
   state.annotationTool = next;
   savePref('pdfwb-annotation-tool', state.annotationTool);
   updateInkToolbar();
+  const preservedPage=selectedAnnotationPage();
+  if (preservedPage) redrawPageAnnotationSelectionOverlays(preservedPage);
   if (next === 'select') {
     const page = selectedAnnotationPage();
     if (page) redrawPageAnnotationSelectionOverlays(page);
@@ -12683,6 +12690,22 @@ function updateSingleViewScrollFromDom() {
   scheduleLibraryPersist(1200);
 }
 
+function togglePageControls(force=null) {
+  if (!els.pageControlsGroup || !els.pageControlsBtn) return;
+  const open=force===null ? els.pageControlsGroup.classList.contains('hidden') : !!force;
+  els.pageControlsGroup.classList.toggle('hidden',!open);
+  els.pageControlsBtn.classList.toggle('active',open);
+  els.pageControlsBtn.setAttribute('aria-expanded',String(open));
+}
+
+function togglePresentationPageControls(force=null) {
+  if (!els.presentationPageControlsGroup || !els.presentationPageControlsBtn) return;
+  const open=force===null ? els.presentationPageControlsGroup.classList.contains('hidden') : !!force;
+  els.presentationPageControlsGroup.classList.toggle('hidden',!open);
+  els.presentationPageControlsBtn.classList.toggle('active',open);
+  els.presentationPageControlsBtn.setAttribute('aria-expanded',String(open));
+}
+
 function cycleScrollMode() {
   const modes = ['continuous', 'snap', 'single'];
   if (state.splitView) {
@@ -12926,8 +12949,10 @@ function updateViewerLabels() {
   if (els.fitModeIcon) els.fitModeIcon.textContent = fitIcon;
   els.fitModeBtn.title = fitLabel;
   const zoomText = `${Math.round(settings.zoom * 100)}%`;
-  els.zoomLabel.textContent = zoomText;
+  if (els.zoomLabel) els.zoomLabel.textContent = zoomText;
+  if (els.pageControlsBtn) els.pageControlsBtn.title = `Page view controls · ${modeLabel} · ${fitLabel}`;
   if (els.presentationZoomLabel) els.presentationZoomLabel.textContent = zoomText;
+  if (els.presentationPageControlsBtn) els.presentationPageControlsBtn.title = `Page view controls · ${modeLabel} · ${fitLabel}`;
   if (els.presentationScrollModeBtn) els.presentationScrollModeBtn.textContent = modeIcon;
   if (els.presentationFitBtn) {
     els.presentationFitBtn.textContent = fitIcon;
@@ -14196,6 +14221,7 @@ async function enterPresentation() {
   }
 }
 async function exitPresentation() {
+  togglePresentationPageControls(false);
   closePresentationPageDrawer();
   const transition = capturePresentationTransition();
   document.body.classList.remove('presentation', 'presentation-controls-visible');
@@ -14298,8 +14324,8 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.3 extends Select/lasso to semantic graph edges and adds graph-only style controls for selected node borders and node/edge colors, while preserving the existing ink/image selection toolbar when no graph objects are selected. It retains the 5.8.2 semantic handwritten node-content workflow and 5.8.1 graph sizing behavior.</p>
-      <ul><li><strong>Graph foundation:</strong> Graph mode creates movable semantic nodes and straight attached edges. Node borders may be Clean, Hand-drawn, or None; edges follow nodes as they move. Graph objects persist, Undo/Redo normally, and export as vector PDF geometry. Handwritten node contents, auto-fit, edge labels, loops, curves, and directed edges are later graph milestones.</li><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.4 keeps Select generic: lassoed graph selections persist when switching to Graph, where node size, border style, and graph color are edited. Graph color is also the default for newly created nodes/edges. Select retains Ink → Node / Use as Node Content, and its recolor palette is reduced to the standard five colors. The main viewer bar now uses one Page View button that reveals scrolling, fit, and zoom controls on demand.</p>
+      <ul><li><strong>Graph tools:</strong> Graph mode creates movable semantic nodes and straight attached edges. Node borders may be Clean, Hand-drawn, or None; edges follow nodes as they move. Handwritten node contents can be created from selected ink or written directly into a node, with auto-fit support. Edge labels, loops, curves, directed edges, and relationship-aware graph copy/paste remain later milestones.</li><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
@@ -15300,10 +15326,10 @@ function bindEvents() {
     state.selectionAnchorId = null;
     refreshSelectionCards();
   });
+  els.pageControlsBtn?.addEventListener('click', (event) => { event.stopPropagation(); togglePageControls(); });
   els.scrollModeBtn.addEventListener('click', cycleScrollMode);
   els.fitModeBtn.addEventListener('click', cycleFitMode);
   els.zoomOutBtn.addEventListener('click', () => zoomBy(0.8));
-  els.zoomResetBtn.addEventListener('click', resetZoom);
   els.zoomInBtn.addEventListener('click', () => zoomBy(1.25));
   els.splitViewBtn.addEventListener('click', toggleSplitView);
   els.viewInsertBtn.addEventListener('click', (e) => { e.stopPropagation(); openInsertPageMenu(els.viewInsertBtn); });
@@ -15313,6 +15339,7 @@ function bindEvents() {
   els.presentationInsertBtn.addEventListener('click', (e) => { e.stopPropagation(); closePresentationPageDrawer(); openInsertPageMenu(els.presentationInsertBtn); });
   els.presentationLeftPaneBtn.addEventListener('click', () => { if (state.splitView) { closePresentationPageDrawer(); activateSplitPane('left', true); showPresentationControls(); } });
   els.presentationRightPaneBtn.addEventListener('click', () => { if (state.splitView) { closePresentationPageDrawer(); activateSplitPane('right', true); showPresentationControls(); } });
+  els.presentationPageControlsBtn?.addEventListener('click', () => togglePresentationPageControls());
   els.presentationScrollModeBtn.addEventListener('click', cycleScrollMode);
   els.presentationFitBtn.addEventListener('click', cycleFitMode);
   els.presentationZoomOutBtn.addEventListener('click', () => zoomBy(0.8));
@@ -15452,13 +15479,6 @@ function bindEvents() {
     const button = event.target instanceof Element ? event.target.closest('[data-selection-color]') : null;
     if (button) recolorSelectedAnnotations(button.dataset.selectionColor);
   });
-  els.selectionGraphBorderStyle?.addEventListener('change', () => {
-    if (els.selectionGraphBorderStyle.value) setSelectedGraphBorderStyle(els.selectionGraphBorderStyle.value);
-  });
-  els.selectionGraphStyleGroup?.addEventListener('click', (event) => {
-    const button=event.target instanceof Element ? event.target.closest('[data-selection-graph-color]') : null;
-    if (button) recolorSelectedGraphObjects(button.dataset.selectionGraphColor);
-  });
   els.selectionCopyBtn?.addEventListener('click', copySelectedAnnotations);
   els.selectionCopyRegionBtn?.addEventListener('click', toggleRegionCopyMode);
   els.selectionPasteBtn?.addEventListener('click', pasteCopiedAnnotations);
@@ -15488,6 +15508,10 @@ function bindEvents() {
     if (button) setGraphSubtool(button.dataset.graphSubtool);
   });
   els.graphBorderStyle?.addEventListener('change', () => setGraphBorderStyle(els.graphBorderStyle.value));
+  els.graphColorGroup?.addEventListener('click', (event) => {
+    const button=event.target instanceof Element ? event.target.closest('[data-graph-color]') : null;
+    if (button) setGraphColor(button.dataset.graphColor);
+  });
   els.graphDeleteBtn?.addEventListener('click', deleteSelectedGraphObject);
   els.graphNodeSizeSelect?.addEventListener('change', () => {
     if (els.graphNodeSizeSelect.value) setGraphNodeSize(Number(els.graphNodeSizeSelect.value));
@@ -15505,6 +15529,7 @@ function bindEvents() {
   }, true);
   document.addEventListener('click', (e) => {
     if (!els.moreMenu.contains(e.target) && e.target !== els.moreBtn) toggleMoreMenu(false);
+    if (els.pageControlsGroup && !els.pageControlsGroup.contains(e.target) && e.target !== els.pageControlsBtn && !els.pageControlsBtn?.contains?.(e.target)) togglePageControls(false);
     const insertAnchors = [els.viewInsertBtn, els.insertPageBtn, els.presentationInsertBtn];
     if (els.insertPageMenu && !els.insertPageMenu.contains(e.target) && !insertAnchors.includes(e.target)) closeInsertPageMenu();
   });
@@ -15514,7 +15539,12 @@ function bindEvents() {
     if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement || target?.isContentEditable) return;
     if (state.annotationTool === 'graph') {
       if ((event.key === 'Delete' || event.key === 'Backspace') && selectedGraphObject()) { event.preventDefault(); deleteSelectedGraphObject(); }
-      if (event.key === 'Escape') { event.preventDefault(); clearGraphSelection(true); setStatus('Graph selection cleared'); }
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        if (state.annotationSelection?.ids?.size) clearAnnotationSelection(true);
+        else clearGraphSelection(true);
+        setStatus('Graph selection cleared');
+      }
       return;
     }
     const accel = event.ctrlKey || event.metaKey;

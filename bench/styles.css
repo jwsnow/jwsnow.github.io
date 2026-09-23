@@ -1990,31 +1990,33 @@ body.presentation .presentation-toolbar.annotation-toolbar .graph-icon-btn {
   font: inherit;
 }
 
-/* Milestone 5.8.3: lasso-selected graph styling. */
-.selection-graph-style-group {
-  border-left: 1px solid var(--border);
-  margin-left: 2px;
-  padding-left: 4px;
+/* Milestone 5.8.4: compact page-view controls and Graph-owned graph styling. */
+.page-controls-subtoolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+#pageControlsBtn.active {
+  background: var(--accent-soft);
+  color: #163f67;
+  font-weight: 650;
+}
+.page-view-icon { font-size: 18px; line-height: 1; }
+.page-view-zoom-controls .zoom-btn + .zoom-btn { border-left: 1px solid var(--border); }
+.graph-color-group {
+  display: inline-flex;
+  align-items: center;
   gap: 3px;
+  padding-left: 2px;
 }
-.selection-graph-border-control select {
-  max-width: 76px;
-  min-width: 66px;
-}
-.selection-graph-color-icon {
-  display: inline-grid;
-  place-items: center;
-  width: 20px;
-  height: 20px;
-  color: var(--muted);
+.presentation-page-controls {
+  align-items: center;
+  gap: 3px;
   flex: 0 0 auto;
 }
-.selection-graph-color-icon svg {
-  width: 20px;
-  height: 20px;
-  fill: var(--paper);
-  stroke: currentColor;
-  stroke-width: 1.7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+body.presentation .presentation-page-controls.presentation-only:not(.hidden) { display: flex !important; }
+body.presentation .presentation-toolbar.annotation-toolbar #presentationPageControlsBtn.active {
+  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 72%, var(--border));
 }
