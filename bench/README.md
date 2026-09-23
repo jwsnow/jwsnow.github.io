@@ -1,4 +1,6 @@
-# PDF Workbench — Milestone 5.8.4 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.8.5 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+**5.8.5-exp fix:** Select → Graph now preserves the underlying multi-object `annotationSelection` state, not just its visible overlay. Graph size, border, and color controls therefore apply to the lassoed graph subset as intended. Direct Graph selection still replaces the preserved lasso selection.
 
 ## 5.8.4 Graph-owned selection styling + compact page controls
 

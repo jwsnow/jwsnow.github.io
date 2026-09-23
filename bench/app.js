@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.4';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.5';
 
-const APP_VERSION = '5.8.4';
+const APP_VERSION = '5.8.5';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -3500,7 +3500,7 @@ function commitLiveHighlighterOverlays(page, opacity=HIGHLIGHTER_OPACITY) {
 }
 
 // ---------------------------------------------------------------------------
-// Milestone 5.8.4 graph tools: selection handoff + Graph-owned styling
+// Milestone 5.8.5 graph tools: selection handoff + Graph-owned styling
 // ---------------------------------------------------------------------------
 function graphSelectionPage() {
   const sel=state.graphSelection;
@@ -5215,7 +5215,9 @@ function setAnnotationTool(tool) {
     if (page) redrawPageAnnotationSelectionOverlays(page);
   }
   if (next === 'graph') {
-    clearAnnotationSelection(false);
+    // Preserve the underlying Select/Lasso selection as well as its overlay.
+    // Graph-owned controls use this multi-selection as their editing context.
+    // A subsequent direct Graph hit replaces it through setGraphSelection().
     updateGraphToolbar();
   }
 }
@@ -14324,7 +14326,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.4 keeps Select generic: lassoed graph selections persist when switching to Graph, where node size, border style, and graph color are edited. Graph color is also the default for newly created nodes/edges. Select retains Ink → Node / Use as Node Content, and its recolor palette is reduced to the standard five colors. The main viewer bar now uses one Page View button that reveals scrolling, fit, and zoom controls on demand.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.5 keeps Select generic: lassoed graph selections persist when switching to Graph, where node size, border style, and graph color are edited. Graph color is also the default for newly created nodes/edges. Select retains Ink → Node / Use as Node Content, and its recolor palette is reduced to the standard five colors. The main viewer bar now uses one Page View button that reveals scrolling, fit, and zoom controls on demand.</p>
       <ul><li><strong>Graph tools:</strong> Graph mode creates movable semantic nodes and straight attached edges. Node borders may be Clean, Hand-drawn, or None; edges follow nodes as they move. Handwritten node contents can be created from selected ink or written directly into a node, with auto-fit support. Edge labels, loops, curves, directed edges, and relationship-aware graph copy/paste remain later milestones.</li><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

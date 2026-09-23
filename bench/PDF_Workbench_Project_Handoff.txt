@@ -1,13 +1,18 @@
-PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.8.4-exp
+PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.8.5-exp
 ====================================================================================
 
+5.8.5-exp FOCUSED FIX
+---------------------
+5.8.4 preserved the Select/Lasso highlight when switching to Graph, but setAnnotationTool() then cleared the underlying annotationSelection without redrawing. This left a visually selected graph whose Graph controls saw no selected objects and therefore changed defaults instead of the selection. 5.8.5 removes that state clear. The lasso selection remains live in Graph mode; Graph size/border/color controls operate on its graph subset. A direct Graph hit still replaces the preserved lasso through setGraphSelection(), and Graph -> Select preserves the lasso selection.
+
+
 THIS SECTION IS AUTHORITATIVE OVER ALL OLDER STATUS TEXT BELOW.
-Continue future code work from the packaged 5.8.4-exp build, not an older branch.
+Continue future code work from the packaged 5.8.5-exp build, not an older branch.
 
 CURRENT DISTRIBUTION / STATUS
 -----------------------------
 - Official release remains 5.7.21.
-- Latest experimental/code baseline is 5.8.4-exp.
+- Latest experimental/code baseline is 5.8.5-exp.
 - 5.8.4 is a focused toolbar/selection workflow refinement built on 5.8.3 edge-aware lasso selection and 5.8.2 semantic node contents.
 - Pen/Highlighter modeling, partial Eraser, PDF.js rendering/caps, viewer canvas release, Library schema, and PDF export architecture are unchanged.
 
