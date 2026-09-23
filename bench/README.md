@@ -1,3 +1,15 @@
+# PDF Workbench — Milestone 5.8.9 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.8.9 live restricted node-content Eraser preview
+
+- Fixes the 5.8.7 node-content Eraser feedback limitation without re-enabling destructive preview against the shared page-ink canvas.
+- At the start of a restricted node erase, Workbench copies only the active node's owned Pen/Highlighter contents to a temporary live preview canvas and redraws the ordinary annotation layer with those contents excluded.
+- The Eraser applies `destination-out` feedback to that isolated copy during contact, so the erased portion disappears under the Pencil immediately while nearby ordinary page ink and other nodes remain untouched.
+- On release, the existing exact restricted vector erase commits once, the temporary preview is removed, and the normal exact annotation redraw is scheduled as before. Cancel/recovery removes the temporary layer and restores the unchanged vector model.
+- No Eraser candidate/splitting semantics, node ownership, auto-fit/manual sizing, or ordinary page Eraser behavior is changed.
+- The diagnosed Highlighter-containing graph-node drag performance issue is intentionally left for the next focused revision.
+- 5.8.8 customizable Presentation toolbar behavior is unchanged.
+
 # PDF Workbench — Milestone 5.8.8 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 ## 5.8.8 customizable Presentation toolbar

@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.8';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.9';
 
-const APP_VERSION = '5.8.8';
+const APP_VERSION = '5.8.9';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -3291,7 +3291,7 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
 }
 function ensureAnnotationOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.annotation-canvas');
   if (!overlay) {
@@ -3308,7 +3308,7 @@ function ensureAnnotationOverlay(stage, baseCanvas=null) {
 }
 function ensureImageAnnotationOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.annotation-image-canvas');
   if (!overlay) {
@@ -3327,7 +3327,7 @@ function ensureImageAnnotationOverlay(stage, baseCanvas=null) {
 }
 function ensureGraphAnnotationOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.annotation-graph-canvas');
   if (!overlay) {
@@ -3345,7 +3345,7 @@ function ensureGraphAnnotationOverlay(stage, baseCanvas=null) {
 }
 function redrawStageGraphAnnotations(stage,page) {
   if (!stage||!page) return;
-  const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
   const hasGraph=(page.annotations||[]).some(isGraphObject);
   let overlay=stage.querySelector('canvas.annotation-graph-canvas');
   if (!hasGraph) { if (overlay){overlay.width=overlay.height=1;overlay.remove();} redrawStageAnnotationSelection(stage,page); return; }
@@ -3362,7 +3362,7 @@ function redrawPageGraphOverlays(page) {
 
 function redrawStageAnnotations(stage, page, options={}) {
   if (!stage || !page) return;
-  const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
   // A live Pen/Highlighter stroke is already isolated on its temporary canvas.
   // If an unrelated async event (for example an image decode) requests an exact
   // annotation repaint during contact, keep that active stroke out of the
@@ -3440,7 +3440,7 @@ function scheduleExactAnnotationRedraw(page, reason='edit') {
 }
 function ensureLivePenOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.live-pen-canvas');
   if (!overlay) {
@@ -3471,7 +3471,7 @@ function drawLiveGoogleInkPreview(stage,page,stroke,stablePoints,predictionPoint
   const prediction=Array.isArray(predictionPoints)?predictionPoints:[];
   const renderPoints=prediction.length ? stable.concat(prediction) : stable;
   const drawOnStage=targetStage=>{
-    const baseCanvas=targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const baseCanvas=targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
     const canvas=ensureLivePenOverlay(targetStage,baseCanvas);
     if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered!=='true') return;
     const ctx=canvas.getContext('2d'); if (!ctx) return;
@@ -3516,7 +3516,7 @@ function commitLivePenOverlays(page, stroke, options={}) {
   let stages=0;
   for (const stage of document.querySelectorAll(selector)) {
     const live=stage.querySelector('canvas.live-pen-canvas');
-    const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
     const overlay=ensureAnnotationOverlay(stage,base),ctx=overlay?.getContext?.('2d');
     if (ctx && overlay.width && overlay.height) {
       const display=pageDisplayDimensions(page),sx=overlay.width/Math.max(1,display.width),sy=overlay.height/Math.max(1,display.height);
@@ -3550,7 +3550,7 @@ function commitLivePenOverlays(page, stroke, options={}) {
 
 function ensureLiveHighlighterOverlay(stage, baseCanvas=null, opacity=HIGHLIGHTER_OPACITY) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.live-highlighter-canvas');
   if (!overlay) {
@@ -3579,7 +3579,7 @@ function drawLiveHighlighterPoints(stage, page, stroke, points) {
   const source = Array.isArray(points) ? points : [];
   if (!source.length) return;
   const drawOnStage = targetStage => {
-    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
     const canvas = ensureLiveHighlighterOverlay(targetStage, baseCanvas, stroke.opacity);
     if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
     const ctx = canvas.getContext('2d');
@@ -3628,7 +3628,7 @@ function commitLiveHighlighterOverlays(page, opacity=HIGHLIGHTER_OPACITY) {
   for (const stage of document.querySelectorAll(selector)) {
     const live = stage.querySelector('canvas.live-highlighter-canvas');
     if (!live?.width || !live?.height) continue;
-    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
     const overlay = ensureAnnotationOverlay(stage, base);
     const ctx = overlay?.getContext?.('2d');
     if (ctx) {
@@ -4415,7 +4415,7 @@ function selectionOriginals(page) {
 }
 function ensureLiveSelectionOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.live-selection-canvas');
   if (!overlay) {
@@ -4460,7 +4460,7 @@ function prepareSelectionGestureLayers(gesture) {
   for (const stage of document.querySelectorAll(selector)) {
     if (stage.dataset.rendered !== 'true') continue;
     renderedCount++;
-    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
     const live = ensureLiveSelectionOverlay(stage, base);
     if (!live) continue;
     const ctx = live.getContext('2d');
@@ -5834,12 +5834,91 @@ function eraserCandidateIdsForPath(page, path, eraserDiameter=state.eraserSize) 
   }
   return ids;
 }
+function ensureLiveNodeEraserOverlay(stage, baseCanvas=null) {
+  if (!stage) return null;
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+  if (!base?.width || !base?.height) return null;
+  let overlay = stage.querySelector('canvas.live-node-eraser-canvas');
+  if (!overlay) {
+    overlay = document.createElement('canvas');
+    overlay.className = 'live-node-eraser-canvas';
+    overlay.setAttribute('aria-hidden','true');
+    stage.append(overlay);
+  }
+  if (overlay.width !== base.width) overlay.width = base.width;
+  if (overlay.height !== base.height) overlay.height = base.height;
+  overlay.style.width = base.style.width || '100%';
+  overlay.style.height = base.style.height || '100%';
+  return overlay;
+}
+function clearLiveNodeEraserOverlays(page) {
+  if (!page?.id) return;
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const stage of document.querySelectorAll(selector)) stage.querySelector('canvas.live-node-eraser-canvas')?.remove();
+}
+function prepareLiveNodeEraserPreview(page, contentIds) {
+  if (!page?.id || !(contentIds instanceof Set) || !contentIds.size) return false;
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  let rendered=0, prepared=0;
+  for (const stage of document.querySelectorAll(selector)) {
+    if (stage.dataset.rendered !== 'true') continue;
+    rendered++;
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+    const live = ensureLiveNodeEraserOverlay(stage, base);
+    const ctx = live?.getContext('2d');
+    if (!live || !ctx) { live?.remove(); continue; }
+    ctx.clearRect(0,0,live.width,live.height);
+    drawPageAnnotationsCanvas(page,ctx,live.width,live.height,{includeStrokeIds:contentIds,inkOnly:true});
+    prepared++;
+  }
+  if (!rendered || prepared !== rendered) {
+    clearLiveNodeEraserOverlays(page);
+    return false;
+  }
+  // Freeze all non-node ink on the ordinary annotation canvas. Only the
+  // eligible node-owned ink lives on the temporary canvas during contact, so
+  // destination-out feedback cannot touch nearby page ink.
+  redrawPageAnnotationOverlays(page,{excludeStrokeIds:contentIds});
+  return true;
+}
+function drawLiveNodeEraserPreview(page, points, eraserDiameter=state.eraserSize) {
+  if (!page?.id || !Array.isArray(points) || !points.length) return;
+  const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const stage of document.querySelectorAll(selector)) {
+    if (stage.dataset.rendered !== 'true') continue;
+    const overlay = stage.querySelector('canvas.live-node-eraser-canvas');
+    if (!overlay?.width || !overlay?.height) continue;
+    const ctx=overlay.getContext('2d');
+    if (!ctx) continue;
+    const display=pageDisplayDimensions(page);
+    const sx=overlay.width/Math.max(1,display.width), sy=overlay.height/Math.max(1,display.height);
+    ctx.save();
+    ctx.scale(sx,sy);
+    ctx.globalCompositeOperation='destination-out';
+    ctx.globalAlpha=1;
+    ctx.strokeStyle='#000';
+    ctx.fillStyle='#000';
+    ctx.lineWidth=Math.max(1,Number(eraserDiameter)||24);
+    ctx.lineCap='round';
+    ctx.lineJoin='round';
+    if (points.length===1) {
+      const point=basePointToDisplay(page,points[0]);
+      ctx.beginPath(); ctx.arc(point.x,point.y,ctx.lineWidth/2,0,Math.PI*2); ctx.fill();
+    } else {
+      const first=basePointToDisplay(page,points[0]);
+      ctx.beginPath(); ctx.moveTo(first.x,first.y);
+      for (let i=1;i<points.length;i++) { const point=basePointToDisplay(page,points[i]); ctx.lineTo(point.x,point.y); }
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+}
 function drawLiveEraserPreview(page, points, eraserDiameter=state.eraserSize) {
   if (!page?.id || !Array.isArray(points) || !points.length) return;
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const stage of document.querySelectorAll(selector)) {
     if (stage.dataset.rendered !== 'true') continue;
-    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
     const overlay = ensureAnnotationOverlay(stage, base);
     if (!overlay?.width || !overlay?.height) continue;
     const ctx = overlay.getContext('2d');
@@ -6013,13 +6092,14 @@ function beginEraserGesture(viewer, event) {
   // once on pointer-up, avoiding O(all page ink × every coalesced sample).
   const editNode=graphContentEditNode();
   const graphContentNodeId=(editNode && state.graphContentEditTarget?.pageId===page.id)?editNode.id:null;
-  state.eraserGesture = { pointerId:event.pointerId, inputSource, viewer, stage, page, pageId:page.id, documentId:state.currentDocumentId, before, lastPoint:first, path:[first], changed:false, graphContentNodeId };
+  const graphContentIds=graphContentNodeId?new Set(graphNodeContentIds(editNode)):null;
+  state.eraserGesture = { pointerId:event.pointerId, inputSource, viewer, stage, page, pageId:page.id, documentId:state.currentDocumentId, before, lastPoint:first, path:[first], changed:false, graphContentNodeId, graphContentIds, restrictedPreviewActive:false };
   if (event.cancelable) event.preventDefault();
   if (inputSource === 'pointer') { try { viewer.setPointerCapture?.(event.pointerId); } catch {} }
-  // During node-content editing, do not destructively preview against the
-  // combined raster overlay because nearby ordinary page ink is not eligible
-  // for the edit. The exact restricted vector erase is committed on release.
-  if (!graphContentNodeId) drawLiveEraserPreview(page,[first],state.eraserSize);
+  if (graphContentNodeId && graphContentIds?.size) {
+    state.eraserGesture.restrictedPreviewActive=prepareLiveNodeEraserPreview(page,graphContentIds);
+    if (state.eraserGesture.restrictedPreviewActive) drawLiveNodeEraserPreview(page,[first],state.eraserSize);
+  } else if (!graphContentNodeId) drawLiveEraserPreview(page,[first],state.eraserSize);
   addInkDiagnostic('eraser-begin-accepted', event, { changed:false, size:state.eraserSize, deferredVectorCommit:true, graphContentRestricted:!!graphContentNodeId });
   return true;
 }
@@ -6028,7 +6108,10 @@ function continueEraserGesture(viewer, event) {
   if (!gesture || gesture.pointerId !== event.pointerId || gesture.viewer !== viewer) return false;
   if (event.cancelable) event.preventDefault();
   const added = appendEraserPreviewSamples(gesture,event);
-  if (added.length && !gesture.graphContentNodeId) drawLiveEraserPreview(gesture.page,added,state.eraserSize);
+  if (added.length) {
+    if (gesture.restrictedPreviewActive) drawLiveNodeEraserPreview(gesture.page,added,state.eraserSize);
+    else if (!gesture.graphContentNodeId) drawLiveEraserPreview(gesture.page,added,state.eraserSize);
+  }
   return true;
 }
 function finishEraserGesture(viewer, event) {
@@ -6038,6 +6121,7 @@ function finishEraserGesture(viewer, event) {
   if (event.type === 'pointercancel' || event.type === 'touchcancel') {
     if (gesture.inputSource === 'pointer') { try { viewer.releasePointerCapture?.(event.pointerId); } catch {} }
     state.eraserGesture = null;
+    clearLiveNodeEraserOverlays(gesture.page);
     // The vector model never changed; restore the overlay pixels removed only
     // for transient feedback.
     redrawPageAnnotationOverlays(gesture.page);
@@ -6045,12 +6129,15 @@ function finishEraserGesture(viewer, event) {
     return true;
   }
   const added = appendEraserPreviewSamples(gesture,event);
-  if (added.length && !gesture.graphContentNodeId) drawLiveEraserPreview(gesture.page,added,state.eraserSize);
+  if (added.length) {
+    if (gesture.restrictedPreviewActive) drawLiveNodeEraserPreview(gesture.page,added,state.eraserSize);
+    else if (!gesture.graphContentNodeId) drawLiveEraserPreview(gesture.page,added,state.eraserSize);
+  }
   const compactPath = compactEraserPath(gesture.path,state.eraserSize);
   let candidateIds = eraserCandidateIdsForPath(gesture.page,compactPath,state.eraserSize);
   if (gesture.graphContentNodeId) {
     const node=graphNodeById(gesture.page,gesture.graphContentNodeId);
-    const allowed=new Set(graphNodeContentIds(node));
+    const allowed=gesture.graphContentIds instanceof Set ? gesture.graphContentIds : new Set(graphNodeContentIds(node));
     candidateIds=new Set([...candidateIds].filter(id=>allowed.has(id)));
   }
   const started = performance.now();
@@ -6068,6 +6155,7 @@ function finishEraserGesture(viewer, event) {
   gesture.changed = changed;
   if (gesture.inputSource === 'pointer') { try { viewer.releasePointerCapture?.(event.pointerId); } catch {} }
   state.eraserGesture = null;
+  clearLiveNodeEraserOverlays(gesture.page);
   // The live raster preview is already visually erased. A dense-page exact
   // redraw can be much more expensive than the vector cut itself, so do that
   // repaint after release when the browser is idle rather than blocking the
@@ -10465,7 +10553,7 @@ function recoverTransientInputStateAfterDiagnosticSave() {
   }
   state.inkGesture = null;
 
-  if (eraser?.page) redrawPageAnnotationOverlays(eraser.page);
+  if (eraser?.page) { clearLiveNodeEraserOverlays(eraser.page); redrawPageAnnotationOverlays(eraser.page); }
   state.eraserGesture = null;
   hideEraserCursor();
 
@@ -13177,7 +13265,7 @@ function queuePinchZoom(value, paneId=null) {
 async function refreshPinchStageRasterInPlace(stage, page, size, options={}) {
   if (!stage?.isConnected || !page || stage.dataset.wantRender === 'false') return false;
   if (stage.dataset.rendered !== 'true') return false;
-  const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas)');
+  const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
   if (!base) return false;
 
   const expectedWidth = Number(size?.width) || 0;
@@ -14785,7 +14873,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.8 adds a registry-driven customizable Presentation toolbar: the permanent Tools menu launches every registered Presentation tool and controls which top-level buttons remain visible, while each tool's contextual options still appear in the normal toolbar area. The 5.8.7 graph-node content editor and earlier graph selection/Page View behavior remain intact.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.9 adds isolated live Eraser feedback while editing graph-node contents: only the active node's owned ink is copied to a temporary preview layer, so erasing is visible during contact without touching nearby page ink. The 5.8.8 customizable Presentation toolbar and earlier graph behavior remain intact.</p>
       <ul><li><strong>Graph tools:</strong> Graph mode creates movable semantic nodes and straight attached edges. Node borders may be Clean, Hand-drawn, or None; edges follow nodes as they move. Handwritten node contents can be created from selected ink and edited with a simple Pen/Highlighter/Eraser workflow plus Clear and Move Contents; auto-fit remains available for auto nodes. Edge labels, loops, curves, directed edges, and relationship-aware graph copy/paste remain later milestones.</li><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Customizable Presentation toolbar:</strong> Presentation has a permanent Tools menu at the far left. Tools can be launched from that menu whether or not their main-toolbar checkbox is enabled; choosing a tool from the menu shows its normal contextual options in the toolbar. Visibility choices persist across restarts. The ordinary View strip remains unchanged.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

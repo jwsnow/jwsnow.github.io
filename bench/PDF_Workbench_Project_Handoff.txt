@@ -1,3 +1,35 @@
+PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-23 — CURRENT BASELINE 5.8.9-exp
+
+5.8.9-exp LIVE RESTRICTED NODE-CONTENT ERASER PREVIEW
+
+WHY THIS REVISION EXISTS
+- User confirmed 5.8.7 node-content editing works, but restricted Eraser feedback appeared only after Pencil-up.
+- Diagnosis: 5.8.7 intentionally disabled the ordinary shared-raster destructive preview during node editing because that raster also contains unrelated page ink. The exact vector edit was therefore deferred to release.
+
+WHAT 5.8.9 CHANGES
+- On restricted node erase, only the active node's owned Pen/Highlighter annotations are rendered onto a temporary `live-node-eraser-canvas`.
+- The ordinary annotation canvas is frozen once with those owned annotations excluded.
+- During Pencil movement, `destination-out` is applied only to the isolated temporary canvas, giving immediate visual feedback while making it impossible for the preview to erase unrelated page ink or another node's contents.
+- On release, the preexisting exact vector eraser still filters candidate IDs to the active node and commits once. The temporary layer is removed and the normal deferred exact redraw restores authoritative rendering.
+- Cancel and diagnostic recovery remove the temporary preview and redraw the unchanged vector state.
+
+UNCHANGED
+- Ordinary page Eraser live preview and vector splitting.
+- Node ownership and auto-fit/manual-size semantics.
+- 5.8.8 customizable Presentation toolbar.
+- Highlighter-containing graph-node move performance remains diagnosed but intentionally unfixed here; 5.8.10 should address it with a lightweight drag preview rather than full exact annotation redraws on every pointer move.
+
+TEST PRIORITY
+1. Edit a node containing Pen ink; erase partially and confirm the disappearance follows the Pencil before lift.
+2. Repeat with Highlighter node contents.
+3. Place unrelated ordinary ink immediately beside/behind the node and erase across both; only node-owned ink should preview/disappear and commit.
+4. Cancel/interruption test if convenient: transient preview must restore correctly.
+5. Regression-check ordinary page Eraser outside Edit Contents.
+
+====================================================================
+PRIOR HANDOFF FOLLOWS
+====================================================================
+
 PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-23 — CURRENT BASELINE 5.8.8-exp
 
 5.8.8-exp CUSTOMIZABLE PRESENTATION TOOLBAR
