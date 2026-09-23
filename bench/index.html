@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.8.6">
+  <link rel="stylesheet" href="styles.css?v=5.8.7">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -183,6 +183,7 @@
               <button class="ink-color-btn" type="button" data-graph-color="#2e7d32" style="--swatch:#2e7d32" title="Green graph color" aria-label="Green graph color"></button>
               <button class="ink-color-btn" type="button" data-graph-color="#ef6c00" style="--swatch:#ef6c00" title="Orange graph color" aria-label="Orange graph color"></button>
             </div>
+            <button id="graphEditContentsBtn" class="graph-icon-btn" type="button" title="Edit selected node contents" aria-label="Edit selected node contents" disabled><span class="graph-option-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><ellipse cx="10" cy="10" rx="6.3" ry="5.5"/><path d="M6.3 11.8c1.1-3.4 2.4-4.9 3.6-4.5.9.4.4 2.6 1.3 3 .9.4 1.6-1.3 2.4-2.4"/></svg></span></button>
             <button id="graphDeleteBtn" class="graph-delete-btn graph-icon-btn" type="button" title="Delete selected graph object" aria-label="Delete selected graph object" disabled><span class="graph-option-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M4.5 5.5h11"/><path d="M7.5 5.5v-1.2c0-.9.7-1.6 1.6-1.6h1.8c.9 0 1.6.7 1.6 1.6v1.2"/><path d="M6.2 5.5l.7 10.1c.1.9.8 1.6 1.7 1.6h2.8c.9 0 1.6-.7 1.7-1.6l.7-10.1"/></svg></span></button>
           </div>
           <div id="graphNodeSizeGroup" class="ink-option-group graph-node-size-group hidden" role="group" aria-label="Graph node size">
@@ -200,6 +201,11 @@
               <option value="96">96</option>
               <option value="128">128</option>
             </select>
+          </div>
+          <div id="graphContentEditGroup" class="ink-option-group graph-content-edit-group hidden" role="group" aria-label="Edit graph node contents">
+            <button id="graphContentMoveBtn" class="graph-icon-btn" type="button" aria-pressed="false" title="Move all node contents" aria-label="Move all node contents"><span class="graph-option-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 3v14M3 10h14"/><path d="M10 3L8 5M10 3l2 2M10 17l-2-2M10 17l2-2M3 10l2-2M3 10l2 2M17 10l-2-2M17 10l-2 2"/></svg></span></button>
+            <button id="graphContentClearBtn" class="graph-icon-btn" type="button" title="Clear node contents" aria-label="Clear node contents"><span class="graph-option-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><ellipse cx="10" cy="10" rx="6.5" ry="5.7"/><path d="M6.8 7.2l6.4 5.6M13.2 7.2l-6.4 5.6"/></svg></span></button>
+            <button id="graphContentDoneBtn" class="graph-icon-btn" type="button" title="Finish editing node contents" aria-label="Finish editing node contents"><span class="graph-option-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M4.5 10.2l3.4 3.5 7.8-8"/></svg></span></button>
           </div>
           <div id="selectionActionGroup" class="ink-option-group selection-action-group hidden" role="group" aria-label="Selected annotation actions">
             <button id="selectionDeleteBtn" class="selection-action-btn" type="button" title="Delete selected annotations" aria-label="Delete selected annotations"><span class="selection-action-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M4.5 5.5h11"/><path d="M7.5 5.5v-1.2c0-.9.7-1.6 1.6-1.6h1.8c.9 0 1.6.7 1.6 1.6v1.2"/><path d="M6.2 5.5l.7 10.1c.1.9.8 1.6 1.7 1.6h2.8c.9 0 1.6-.7 1.7-1.6l.7-10.1"/><path d="M8.2 8.3v5.8"/><path d="M11.8 8.3v5.8"/></svg></span></button>
@@ -271,7 +277,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.8.6 · Exclusive Page View toolbar panel</div>
+          <div class="export-kicker">Milestone 5.8.7 · Simple graph node-content editing</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -906,6 +912,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.8.6"></script>
+  <script type="module" src="app.js?v=5.8.7"></script>
 </body>
 </html>

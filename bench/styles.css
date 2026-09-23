@@ -2020,3 +2020,12 @@ body.presentation .presentation-toolbar.annotation-toolbar #presentationPageCont
   background: var(--accent-soft);
   border-color: color-mix(in srgb, var(--accent) 72%, var(--border));
 }
+
+/* Milestone 5.8.7: deliberately small node-content editor. */
+.graph-content-edit-group { border-left:1px solid var(--border); margin-left:2px; padding-left:4px; }
+.presentation-toolbar.annotation-toolbar #graphContentMoveBtn.active {
+  background:var(--accent-soft);
+  border-color:color-mix(in srgb, var(--accent) 72%, var(--border));
+  box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.graph-content-edit-target { stroke-width:2; }

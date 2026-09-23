@@ -1,3 +1,84 @@
+PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.8.7-exp
+
+5.8.7-exp SIMPLE GRAPH NODE-CONTENT EDITING
+
+5.8.7 is a focused graph-content revision built directly from the validated 5.8.6-exp Page View toolbar baseline. It deliberately avoids an internal lasso/recolor system for the small handwritten labels likely to live inside graph nodes.
+
+WHAT 5.8.7 ADDS
+
+1. EDIT CONTENTS FOR ONE NODE
+- Graph toolbar now shows a compact Edit Contents button only when exactly one graph node is the current graph editing context.
+- The existing Select/Lasso node-content button also enters the same editor when exactly one node (and no loose selected ink) is selected.
+- Entering Edit Contents switches to Pen and stores a separate semantic edit target. The target survives switching among Pen, Highlighter, and Eraser.
+- The active node stays ring-highlighted while its contents are being edited.
+- Done returns to Graph with that node selected. Tapping Graph directly also exits Edit Contents and returns to that node. Hand/Select/Laser end the edit state without retaining the content editor.
+
+2. ADDING INK
+- Pen and Highlighter continue to use the mature ordinary Workbench ink renderer/modeler.
+- A new stroke must begin on or near the active node; once begun, it may extend beyond the current node boundary and still belongs to the node.
+- Manual nodes stay manual when contents are added.
+- Auto-fit nodes continue to refit around contents after completed strokes.
+
+3. RESTRICTED ERASER
+- During Edit Contents, Eraser can alter only ink semantically owned by the active node.
+- Nearby ordinary page ink and other nodes' contents are not eligible for the vector erase.
+- To avoid misleading temporary erasure of unrelated rasterized ink, the normal destructive live eraser preview is suppressed during restricted node-content erasing; the exact vector result appears on release.
+- Existing partial-stroke splitting and relationship rebuilding remain in use. Auto-fit nodes can shrink after erasing; manual nodes retain their frame.
+
+4. CLEAR / REPLACE
+- Clear Contents removes all ink owned by the active node in one Undoable operation.
+- Replacement is intentionally simple: Clear, then write the new contents.
+- Clearing the final content leaves the current node frame in place. An auto node can refit when new content is subsequently written.
+
+5. MOVE ALL CONTENTS
+- Move Contents is a one-shot action in the node-content editing strip.
+- Arm it, then drag from the node or its handwriting. All owned ink translates together.
+- Content is clamped to the page bounds.
+- Once actual movement occurs, the node is switched to manual sizing so its frame stays fixed while its handwriting is repositioned.
+- No per-stroke internal selection is introduced.
+
+INTENTIONALLY NOT INCLUDED
+- No lasso/select inside a node.
+- No recoloring of existing node contents from the node editor.
+- No automatic scaling of node handwriting when the node frame is resized.
+- No edge labels yet.
+- No relationship-aware graph Copy/Paste yet.
+
+RECENTLY VALIDATED BEHAVIOR TO PRESERVE
+- User reported 5.8.5 graph selection handoff working: lassoed graph objects remain live when switching Select -> Graph and Graph size/border/color controls affect that selection.
+- User reported 5.8.6 Page View toolbar behavior working, including the useful toggle back to the previous annotation tool panel when Page View is clicked again.
+- Pure ink/image Select behavior must remain independent of graph-only controls.
+
+CURRENT GRAPH ROADMAP
+1. Test/settle this simple node-content editor in real use.
+2. Edge labels next. Prefer the same semantic-content philosophy: labels belong to edges and follow them.
+3. Then settle content-transform behavior (including optional scaling of node handwriting if desired).
+4. Then relationship-aware graph Copy/Paste, using the already agreed self-contained-fragment semantics: copied nodes bring owned contents; edges between copied nodes come along; explicitly selected edges bring needed endpoint nodes; external connections to unselected nodes stay behind; pasted IDs and relationships are remapped.
+5. Later: curved/parallel edges, loops, directed edges/arrowheads, and other graph conveniences.
+
+TOOLBAR / UI NOTES
+- 5.8.6 Page View remains an exclusive contextual panel; do not revert it to additive popover behavior.
+- Select remains generic and keeps Ink -> Node / Use as Node Content.
+- Graph owns graph size/border/color and now Edit Contents.
+- Selected-ink recolor remains the standard five-color palette.
+
+TARGETED TESTS FOR 5.8.7
+- Select one node -> Graph -> Edit Contents -> write Pen strokes; verify they move with the node afterward.
+- Repeat with Highlighter.
+- While editing, switch Pen <-> Highlighter <-> Eraser; verify the same node remains highlighted/targeted.
+- Erase node ink while ordinary page ink sits nearby; only node ink should change.
+- Clear Contents, Undo, Redo.
+- Move Contents; frame should stay fixed and the node should become manual-sized after actual movement.
+- On an auto-fit node, add/erase content and verify the frame grows/shrinks. On a manual node, verify the frame remains fixed.
+- Click Graph or Done to leave Edit Contents and verify the node is selected in Graph.
+- Page View should still temporarily replace the current tool subtoolbar and toggle back exactly as in 5.8.6.
+
+Continue future code work from the packaged 5.8.7-exp build, not an older branch.
+
+================================================================================
+PRIOR 5.8.6 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.8.6-exp
 
 5.8.6-exp EXCLUSIVE PAGE VIEW TOOLBAR PANEL

@@ -1,3 +1,17 @@
+# PDF Workbench — Milestone 5.8.7 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.8.7 simple graph node-content editing
+
+- Adds **Edit Contents** for exactly one selected graph node. The command appears contextually in Graph; the existing Select **Ink → Node / Use as Node Content** button also enters the same editor when exactly one node and no loose ink are selected.
+- Edit Contents is an explicit node-ownership state that survives switching among **Pen, Highlighter, and Eraser**. Pen/Highlighter strokes that begin on or near the active node become contents of that node; once begun, the handwriting may extend beyond the current frame.
+- The Eraser is deliberately **restricted to the active node's owned ink** during Edit Contents, so a correction cannot accidentally cut nearby ordinary page ink or another node's contents. The restricted eraser skips the old destructive raster preview and commits the exact vector erase on release.
+- Adds **Clear Contents** for an Undoable remove-all operation. This provides the simple replace workflow: Clear, then write the replacement. No internal lasso or existing-content recolor is added.
+- Adds one-shot **Move Contents**. Arm it, then drag from the node or its handwriting to translate all of that node's ink together. Moving contents converts an auto-fit node to manual sizing so the node frame remains fixed while the handwriting is repositioned.
+- Manual nodes remain manual while contents are added/erased. Auto-fit nodes continue to grow/shrink around their contents after Pen/Highlighter/Eraser edits. Clearing the last content leaves the current frame in place; the next new stroke can refit an auto node.
+- **Done** returns to Graph with the edited node selected. Choosing Graph directly does the same; choosing Hand/Select/Laser ends the content-edit state cleanly. The active node is visibly ring-highlighted throughout editing.
+- Node-content editing intentionally does **not** add internal lasso selection, per-stroke recolor, or content-scaling-on-node-resize. Those remain deferred unless classroom use shows a need.
+- 5.8.6 Page View toolbar behavior and 5.8.5/5.8.3 graph selection/styling behavior are otherwise unchanged.
+
 # PDF Workbench — Milestone 5.8.6 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 ## 5.8.6 exclusive Page View contextual panel
