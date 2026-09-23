@@ -1,3 +1,17 @@
+PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.8.6-exp
+
+5.8.6-exp EXCLUSIVE PAGE VIEW TOOLBAR PANEL
+
+5.8.6 changes Page View from an additive popover into a contextual toolbar panel that behaves like the annotation tools for display purposes. Opening Page View hides the active Pen/Highlighter/Eraser/Select/Graph option groups while preserving the underlying annotationTool, graph selection, and annotationSelection. Tapping Page View again restores the active tool's options; choosing an annotation tool while Page View is open closes Page View and restores that tool's panel. Arbitrary document clicks no longer dismiss Page View. Leaving View closes the Page View panel. Normal View and Presentation share the same transient pageViewPanelOpen state.
+
+The actual Page View controls remain Scroll mode, Fit mode, Zoom -, and Zoom +. The percentage/reset readout remains removed.
+
+Graph selection from 5.8.5 remains validated by the user: lassoed graph-object selection is preserved on Select -> Graph and Graph size/border/color controls act on the selection.
+
+Continue future code work from the packaged 5.8.6-exp build, not an older branch.
+
+--- PRIOR 5.8.5 HANDOFF ---
+
 PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.8.5-exp
 ====================================================================================
 

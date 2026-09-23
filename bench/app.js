@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.5';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.6';
 
-const APP_VERSION = '5.8.5';
+const APP_VERSION = '5.8.6';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -74,6 +74,7 @@ const state = {
   presentationSuppressClicksUntil: 0,
   singlePresentationTransitionActive: false,
   annotationTool: safePref('pdfwb-annotation-tool', 'hand', ['hand', 'laser', 'pen', 'highlighter', 'eraser', 'select', 'graph']),
+  pageViewPanelOpen: false,
   graphSubtool: safePref('pdfwb-graph-subtool', 'node', ['node','edge','move']),
   graphBorderStyle: safePref('pdfwb-graph-border-style', 'clean', ['clean','hand','none']),
   graphColor: safePref('pdfwb-graph-color', '#111111', ['#111111','#1565c0','#d32f2f','#2e7d32','#ef6c00']),
@@ -3500,7 +3501,7 @@ function commitLiveHighlighterOverlays(page, opacity=HIGHLIGHTER_OPACITY) {
 }
 
 // ---------------------------------------------------------------------------
-// Milestone 5.8.5 graph tools: selection handoff + Graph-owned styling
+// Milestone 5.8.6: exclusive Page View contextual panel + Graph selection workflow
 // ---------------------------------------------------------------------------
 function graphSelectionPage() {
   const sel=state.graphSelection;
@@ -3692,7 +3693,7 @@ function setGraphNodeSize(size) {
 }
 function updateGraphNodeSizeToolbar() {
   if (!els.graphNodeSizeGroup || !els.graphNodeSizeSelect) return;
-  const graphActive=state.annotationTool==='graph';
+  const graphActive=state.annotationTool==='graph' && !state.pageViewPanelOpen;
   const nodes=selectedGraphNodesForSizing();
   const show=graphActive;
   els.graphNodeSizeGroup.classList.toggle('hidden',!show);
@@ -3706,7 +3707,7 @@ function updateGraphNodeSizeToolbar() {
   els.graphNodeSizeSelect.value=value;
 }
 function updateGraphToolbar() {
-  const active=state.annotationTool==='graph';
+  const active=state.annotationTool==='graph' && !state.pageViewPanelOpen;
   els.graphOptionGroup?.classList.toggle('hidden',!active);
   for (const button of els.graphOptionGroup?.querySelectorAll?.('[data-graph-subtool]')||[]) {
     const on=button.dataset.graphSubtool===state.graphSubtool; button.classList.toggle('active',on); button.setAttribute('aria-pressed',String(on));
@@ -5084,7 +5085,7 @@ function convertSelectionToGraphNodeContent() {
   setStatus(nodes.length?`Added ${attached.length} ink object${attached.length===1?'':'s'} to graph node`:`Created graph node from ${attached.length} ink object${attached.length===1?'':'s'}`);
 }
 function updateSelectionToolbar() {
-  const active=state.annotationTool==='select';
+  const active=state.annotationTool==='select' && !state.pageViewPanelOpen;
   els.selectionActionGroup?.classList.toggle('hidden',!active);
   const count=state.annotationSelection?.documentId===state.currentDocumentId?(state.annotationSelection?.ids?.size||0):0;
   const imageClipboard = state.annotationClipboardAssetId ? state.assetRecords.get(state.annotationClipboardAssetId) : null;
@@ -5151,12 +5152,13 @@ function updateInkToolbar() {
   document.body.classList.toggle('ink-eraser-active', tool === 'eraser');
   document.body.classList.toggle('ink-select-active', tool === 'select');
   document.body.classList.toggle('ink-graph-active', tool === 'graph');
-  els.penColorGroup?.classList.toggle('hidden', tool !== 'pen');
-  els.penWidthGroup?.classList.toggle('hidden', tool !== 'pen');
-  els.highlighterColorGroup?.classList.toggle('hidden', tool !== 'highlighter');
-  els.highlighterWidthGroup?.classList.toggle('hidden', tool !== 'highlighter');
-  els.eraserSizeGroup?.classList.toggle('hidden', tool !== 'eraser');
-  els.graphOptionGroup?.classList.toggle('hidden', tool !== 'graph');
+  const showToolOptions=!state.pageViewPanelOpen;
+  els.penColorGroup?.classList.toggle('hidden', !showToolOptions || tool !== 'pen');
+  els.penWidthGroup?.classList.toggle('hidden', !showToolOptions || tool !== 'pen');
+  els.highlighterColorGroup?.classList.toggle('hidden', !showToolOptions || tool !== 'highlighter');
+  els.highlighterWidthGroup?.classList.toggle('hidden', !showToolOptions || tool !== 'highlighter');
+  els.eraserSizeGroup?.classList.toggle('hidden', !showToolOptions || tool !== 'eraser');
+  els.graphOptionGroup?.classList.toggle('hidden', !showToolOptions || tool !== 'graph');
   if (isStylusAnnotationTool(tool)) clearNativeSelection();
   if (tool !== 'eraser') hideEraserCursor();
   if (tool !== 'laser') hideLaserPointer();
@@ -5190,6 +5192,7 @@ function updateInkToolbar() {
 }
 function setAnnotationTool(tool) {
   const next = ['laser','pen','highlighter','eraser','select','graph'].includes(tool) ? tool : 'hand';
+  if (state.pageViewPanelOpen) { state.pageViewPanelOpen=false; syncPageViewPanel(); }
   if (state.annotationTool === 'select' && next !== 'select') {
     const regionPageId = state.regionCopyGesture?.pageId || null;
     state.selectionGesture = null;
@@ -11585,6 +11588,7 @@ function showWorkspaceMode(mode) {
       if (canceledContext.presentationControlsVisible !== false && document.body.classList.contains('presentation')) showPresentationControls();
     }
   }
+  if (mode !== 'view' && state.pageViewPanelOpen) { state.pageViewPanelOpen=false; syncPageViewPanel(); updateInkToolbar(); }
   state.workspaceMode = mode;
   const modeActiveDoc = activeUiDocument();
   const showModeDocumentActions = !!modeActiveDoc && mode !== 'export';
@@ -12692,20 +12696,35 @@ function updateSingleViewScrollFromDom() {
   scheduleLibraryPersist(1200);
 }
 
+function syncPageViewPanel() {
+  const open=!!state.pageViewPanelOpen;
+  const presentation=document.body.classList.contains('presentation');
+  if (els.pageControlsGroup) els.pageControlsGroup.classList.toggle('hidden',!open||presentation);
+  if (els.presentationPageControlsGroup) els.presentationPageControlsGroup.classList.toggle('hidden',!open||!presentation);
+  if (els.pageControlsBtn) {
+    els.pageControlsBtn.classList.toggle('active',open&&!presentation);
+    els.pageControlsBtn.setAttribute('aria-expanded',String(open&&!presentation));
+  }
+  if (els.presentationPageControlsBtn) {
+    els.presentationPageControlsBtn.classList.toggle('active',open&&presentation);
+    els.presentationPageControlsBtn.setAttribute('aria-expanded',String(open&&presentation));
+  }
+}
+
+function setPageViewPanel(open) {
+  state.pageViewPanelOpen=!!open;
+  syncPageViewPanel();
+  updateInkToolbar();
+}
+
 function togglePageControls(force=null) {
-  if (!els.pageControlsGroup || !els.pageControlsBtn) return;
-  const open=force===null ? els.pageControlsGroup.classList.contains('hidden') : !!force;
-  els.pageControlsGroup.classList.toggle('hidden',!open);
-  els.pageControlsBtn.classList.toggle('active',open);
-  els.pageControlsBtn.setAttribute('aria-expanded',String(open));
+  const open=force===null ? !state.pageViewPanelOpen : !!force;
+  setPageViewPanel(open);
 }
 
 function togglePresentationPageControls(force=null) {
-  if (!els.presentationPageControlsGroup || !els.presentationPageControlsBtn) return;
-  const open=force===null ? els.presentationPageControlsGroup.classList.contains('hidden') : !!force;
-  els.presentationPageControlsGroup.classList.toggle('hidden',!open);
-  els.presentationPageControlsBtn.classList.toggle('active',open);
-  els.presentationPageControlsBtn.setAttribute('aria-expanded',String(open));
+  const open=force===null ? !state.pageViewPanelOpen : !!force;
+  setPageViewPanel(open);
 }
 
 function cycleScrollMode() {
@@ -14192,6 +14211,7 @@ async function enterPresentation() {
     clearTimeout(resizeTimer);
   }
   document.body.classList.add('presentation', 'presentation-controls-visible');
+  syncPageViewPanel();
   els.presentationToolbar.classList.remove('hidden');
   renderDocumentSelect();
   clearTimeout(state.presentationControlsTimer);
@@ -14326,7 +14346,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.5 keeps Select generic: lassoed graph selections persist when switching to Graph, where node size, border style, and graph color are edited. Graph color is also the default for newly created nodes/edges. Select retains Ink → Node / Use as Node Content, and its recolor palette is reduced to the standard five colors. The main viewer bar now uses one Page View button that reveals scrolling, fit, and zoom controls on demand.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.6 keeps Select generic and preserves lassoed graph selections when switching to Graph. Page View now behaves like an exclusive contextual tool panel: opening it hides the active annotation tool's subtoolbar while leaving the underlying annotation tool and selection intact; tapping Page View again or choosing an annotation tool restores the annotation subtoolbar.</p>
       <ul><li><strong>Graph tools:</strong> Graph mode creates movable semantic nodes and straight attached edges. Node borders may be Clean, Hand-drawn, or None; edges follow nodes as they move. Handwritten node contents can be created from selected ink or written directly into a node, with auto-fit support. Edge labels, loops, curves, directed edges, and relationship-aware graph copy/paste remain later milestones.</li><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -15531,7 +15551,6 @@ function bindEvents() {
   }, true);
   document.addEventListener('click', (e) => {
     if (!els.moreMenu.contains(e.target) && e.target !== els.moreBtn) toggleMoreMenu(false);
-    if (els.pageControlsGroup && !els.pageControlsGroup.contains(e.target) && e.target !== els.pageControlsBtn && !els.pageControlsBtn?.contains?.(e.target)) togglePageControls(false);
     const insertAnchors = [els.viewInsertBtn, els.insertPageBtn, els.presentationInsertBtn];
     if (els.insertPageMenu && !els.insertPageMenu.contains(e.target) && !insertAnchors.includes(e.target)) closeInsertPageMenu();
   });

@@ -1,3 +1,14 @@
+# PDF Workbench — Milestone 5.8.6 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.8.6 exclusive Page View contextual panel
+
+- Changes **Page View** from an additive popover into an exclusive contextual-toolbar panel. Opening Page View hides the active annotation tool's option groups instead of appending page controls beside them.
+- The underlying annotation tool remains active while Page View is displayed. Pen/Highlighter/Select/Graph state and any preserved graph lasso selection are not cleared merely by opening Page View.
+- Tapping **Page View** again closes its panel and restores the current annotation tool's options. Choosing any annotation tool while Page View is open also closes Page View and immediately shows that tool's normal controls.
+- Page View stays open until explicitly replaced/closed; arbitrary page clicks no longer dismiss it like a popover. Leaving the View workspace closes Page View so it does not return in a stale state later.
+- The behavior is shared by normal View and Presentation. Presentation uses the same Page View state and shows the same Scroll / Fit / Zoom − / Zoom + controls while suppressing Pen/Select/Graph option groups.
+- Graph-selection behavior from 5.8.5 is otherwise unchanged: Select → Graph keeps the underlying lasso selection live, and Graph size/border/color controls operate on its graph subset.
+
 # PDF Workbench — Milestone 5.8.5 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 **5.8.5-exp fix:** Select → Graph now preserves the underlying multi-object `annotationSelection` state, not just its visible overlay. Graph size, border, and color controls therefore apply to the lassoed graph subset as intended. Direct Graph selection still replaces the preserved lasso selection.
