@@ -1,3 +1,38 @@
+PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-23 — CURRENT BASELINE 5.8.10-exp
+
+5.8.10-exp LIGHTWEIGHT GRAPH MOVE FOR NODES WITH ATTACHED INK
+
+WHY THIS REVISION EXISTS
+- User reported that moving a graph node became slow/jumpy once the node contained Highlighter.
+- Diagnosis: Graph Move called a complete `redrawPageAnnotationOverlays()` on every pointer move. Exact Highlighter redraw allocates/clears a full-resolution scratch canvas and composites translucent strokes, so the drag path repeatedly paid full-page Highlighter rendering cost.
+
+WHAT 5.8.10 CHANGES
+- At Graph Move start, attached node contents are rendered once to the temporary live-selection canvas and excluded from the frozen ordinary annotation layer.
+- During drag, the temporary content canvas moves using CSS translation. The semantic node x/y still updates continuously, but only `redrawPageGraphOverlays()` runs per move so node border and incident edges remain live.
+- Attached ink point arrays are NOT regenerated on every move in the optimized path. They are translated exactly once at release from the saved original geometry.
+- Release performs one exact full annotation redraw, then persists/records Undo normally.
+- A node with no attached ink also avoids full annotation redraw during drag.
+- If temporary preview setup fails on an unusual/unrendered stage, the old correct full-redraw path remains as a safety fallback.
+- Cancel and diagnostic recovery remove any temporary content layer and restore authoritative state.
+
+PRESERVED
+- 5.8.9 isolated node-content Eraser live feedback.
+- Highlighter exact static rendering and bead-prevention semantics.
+- 5.8.8 customizable Presentation toolbar.
+- Graph edge attachment semantics, node contents, Undo/Redo, persistence, and export.
+
+TEST PRIORITY
+1. Create/edit a node with Highlighter contents; Graph -> Move should track the Pencil smoothly and edges should stay attached.
+2. Repeat with Pen-only contents and mixed Pen + Highlighter contents.
+3. Move a content-free node; graph should remain smooth.
+4. Confirm the contents land exactly with the node after release and remain attached after another move/restart.
+5. Undo/Redo the move.
+6. Recheck 5.8.9 live node Eraser feedback after this performance revision.
+
+====================================================================
+PRIOR HANDOFF FOLLOWS
+====================================================================
+
 PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-23 — CURRENT BASELINE 5.8.9-exp
 
 5.8.9-exp LIVE RESTRICTED NODE-CONTENT ERASER PREVIEW

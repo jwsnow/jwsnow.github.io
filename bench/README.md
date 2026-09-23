@@ -1,3 +1,15 @@
+# PDF Workbench — Milestone 5.8.10 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.8.10 lightweight graph-node dragging with attached ink
+
+- Fixes the diagnosed slow/jumpy Graph → Move behavior when a node contains Highlighter (and reduces work for Pen contents as well).
+- At drag start, attached node contents are rendered once onto the existing temporary selection canvas and removed from the frozen ordinary annotation layer.
+- During pointer movement, the temporary contents are moved with a CSS transform; only the lightweight graph canvas (node border + attached edges + selection cue) is redrawn. Full page ink/Highlighter rendering is no longer invoked on every graph-move sample.
+- The node's semantic coordinates still update continuously so incident edges track it. Attached ink point arrays are translated once at release, then one exact annotation redraw restores the authoritative page raster.
+- Nodes with no contents also use graph-only redraw during drag.
+- Cancel/diagnostic recovery removes the temporary content layer and restores/redraws authoritative state.
+- 5.8.9 isolated live node-content Eraser feedback and 5.8.8 customizable Presentation toolbar are unchanged.
+
 # PDF Workbench — Milestone 5.8.9 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 ## 5.8.9 live restricted node-content Eraser preview

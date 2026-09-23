@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.9';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.10';
 
-const APP_VERSION = '5.8.9';
+const APP_VERSION = '5.8.10';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -3891,6 +3891,60 @@ function updateGraphToolbar() {
   }
   updateGraphNodeSizeToolbar();
 }
+function clearGraphMoveContentPreview(page) {
+  if (!page?.id) return;
+  const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const stage of document.querySelectorAll(selector)) stage.querySelector('canvas.live-selection-canvas')?.remove();
+}
+function prepareGraphMoveContentPreview(gesture) {
+  if (!gesture?.page || gesture.mode!=='move-node') return false;
+  const contents=gesture.contentOriginals||[];
+  // A content-free graph node needs only the lightweight graph canvas during
+  // drag; there is no ordinary annotation content to isolate.
+  if (!contents.length) { gesture.contentPreviewOptimized=true; return true; }
+  const ids=new Set(contents.map(entry=>entry?.stroke?.id).filter(Boolean));
+  if (!ids.size) { gesture.contentPreviewOptimized=true; return true; }
+  const page=gesture.page;
+  const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  let rendered=0,prepared=0;
+  for (const stage of document.querySelectorAll(selector)) {
+    if (stage.dataset.rendered!=='true') continue;
+    rendered++;
+    const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+    const live=ensureLiveSelectionOverlay(stage,base);
+    const ctx=live?.getContext('2d');
+    if (!live||!ctx) { live?.remove(); continue; }
+    live.style.zIndex='4';
+    ctx.clearRect(0,0,live.width,live.height);
+    drawPageAnnotationsCanvas(page,ctx,live.width,live.height,{includeStrokeIds:ids,inkOnly:true});
+    prepared++;
+  }
+  if (!rendered || prepared!==rendered) {
+    clearGraphMoveContentPreview(page);
+    return false;
+  }
+  // Freeze all unrelated page ink once. Pointer moves now CSS-translate the
+  // node's isolated contents while only the lightweight graph canvas is redrawn.
+  redrawPageAnnotationOverlays(page,{excludeStrokeIds:ids});
+  gesture.contentPreviewOptimized=true;
+  return true;
+}
+function setGraphMoveContentPreviewTransform(gesture,node) {
+  if (!gesture?.contentPreviewOptimized || !gesture.page?.id || !node || !(gesture.contentOriginals||[]).length) return;
+  const page=gesture.page, display=pageDisplayDimensions(page);
+  const origin=basePointToDisplay(page,{x:0,y:0});
+  const shifted=basePointToDisplay(page,{x:(Number(node.x)||0)-gesture.startX,y:(Number(node.y)||0)-gesture.startY});
+  const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const stage of document.querySelectorAll(selector)) {
+    const live=stage.querySelector('canvas.live-selection-canvas');
+    if (!live) continue;
+    const rect=stage.getBoundingClientRect();
+    const dxCss=(shifted.x-origin.x)*rect.width/Math.max(1,display.width);
+    const dyCss=(shifted.y-origin.y)*rect.height/Math.max(1,display.height);
+    live.style.transformOrigin='0 0';
+    live.style.transform=`translate(${dxCss}px, ${dyCss}px)`;
+  }
+}
 function beginGraphGesture(viewer,event) {
   if (state.annotationTool!=='graph') return false;
   if (event.pointerType==='mouse'&&event.button!==0) return false;
@@ -3918,7 +3972,8 @@ function beginGraphGesture(viewer,event) {
   } else {
     if (isGraphNode(hit)) {
       const before=snapshotPages(); setGraphSelection(page,hit.id,{redraw:false});
-      state.graphGesture={mode:'move-node',pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id,nodeId:hit.id,startPoint:point,startX:Number(hit.x)||0,startY:Number(hit.y)||0,contentOriginals:graphContentOriginalsForNodes(page,[hit]),before,changed:false};
+      state.graphGesture={mode:'move-node',pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id,nodeId:hit.id,startPoint:point,startX:Number(hit.x)||0,startY:Number(hit.y)||0,contentOriginals:graphContentOriginalsForNodes(page,[hit]),before,changed:false,contentPreviewOptimized:false};
+      prepareGraphMoveContentPreview(state.graphGesture);
       redrawPageAnnotationSelectionOverlays(page);
     } else {
       setGraphSelection(page,hit?.id||null);
@@ -3938,9 +3993,14 @@ function continueGraphGesture(viewer,event) {
     const rect=graphNodeRect(node), base=pageCanvasBaseDimensions(gesture.page);
     node.x=clamp(gesture.startX+(point.x-gesture.startPoint.x),rect.rx,Math.max(rect.rx,base.width-rect.rx));
     node.y=clamp(gesture.startY+(point.y-gesture.startPoint.y),rect.ry,Math.max(rect.ry,base.height-rect.ry));
-    graphTranslateContentFromOriginals(gesture.page,gesture.contentOriginals||[],new Map([[node.id,{x:node.x,y:node.y}]]));
     gesture.changed=gesture.changed||Math.hypot(node.x-gesture.startX,node.y-gesture.startY)>.05;
-    redrawPageAnnotationOverlays(gesture.page);
+    if (gesture.contentPreviewOptimized) {
+      setGraphMoveContentPreviewTransform(gesture,node);
+      redrawPageGraphOverlays(gesture.page);
+    } else {
+      graphTranslateContentFromOriginals(gesture.page,gesture.contentOriginals||[],new Map([[node.id,{x:node.x,y:node.y}]]));
+      redrawPageAnnotationOverlays(gesture.page);
+    }
   }
   return true;
 }
@@ -3949,13 +4009,25 @@ function finishGraphGesture(viewer,event) {
   if (event.cancelable) event.preventDefault();
   if (event.type==='pointercancel'||event.type==='touchcancel') {
     state.graphGesture=null;
-    if (gesture.mode==='move-node'&&gesture.changed) { restorePages(gesture.before); const page=pageById(gesture.pageId); if(page)redrawPageGraphOverlays(page); }
+    if (gesture.mode==='move-node') {
+      clearGraphMoveContentPreview(gesture.page);
+      if (gesture.changed) restorePages(gesture.before);
+      const page=pageById(gesture.pageId); if(page)redrawPageAnnotationOverlays(page);
+    }
     return true;
   }
   continueGraphGesture(viewer,event);
   if (gesture.inputSource==='pointer') { try{viewer.releasePointerCapture?.(event.pointerId);}catch{} }
   state.graphGesture=null;
-  if (gesture.mode==='move-node'&&gesture.changed) { commitHistory(gesture.before); saveCurrentDocumentState({readViewDom:false}); redrawPageGraphOverlays(gesture.page); setStatus('Moved graph node'); }
+  if (gesture.mode==='move-node') {
+    if (gesture.contentPreviewOptimized) {
+      const node=graphNodeById(gesture.page,gesture.nodeId);
+      if (node && gesture.changed) graphTranslateContentFromOriginals(gesture.page,gesture.contentOriginals||[],new Map([[node.id,{x:node.x,y:node.y}]]));
+      clearGraphMoveContentPreview(gesture.page);
+      redrawPageAnnotationOverlays(gesture.page);
+    }
+    if (gesture.changed) { commitHistory(gesture.before); saveCurrentDocumentState({readViewDom:false}); if (!gesture.contentPreviewOptimized) redrawPageGraphOverlays(gesture.page); setStatus('Moved graph node'); }
+  }
   addInkDiagnostic('graph-finish-accepted',event,{mode:gesture.mode,changed:!!gesture.changed});
   return true;
 }
@@ -10569,6 +10641,7 @@ function recoverTransientInputStateAfterDiagnosticSave() {
   }
   state.selectionGesture = null;
 
+  if (graph?.mode === 'move-node') clearGraphMoveContentPreview(graph.page);
   if (graph?.mode === 'move-node' && graph.changed && graph.before) {
     restorePages(graph.before);
     const restoredPage=pageById(graph.pageId);
@@ -14873,7 +14946,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.9 adds isolated live Eraser feedback while editing graph-node contents: only the active node's owned ink is copied to a temporary preview layer, so erasing is visible during contact without touching nearby page ink. The 5.8.8 customizable Presentation toolbar and earlier graph behavior remain intact.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.10 optimizes Graph Move: attached node handwriting is isolated once onto a temporary layer and CSS-translated during drag, while only the lightweight graph layer redraws. This removes repeated full-page Highlighter compositing from pointer-move. The 5.8.9 live restricted Eraser preview and 5.8.8 customizable Presentation toolbar remain intact.</p>
       <ul><li><strong>Graph tools:</strong> Graph mode creates movable semantic nodes and straight attached edges. Node borders may be Clean, Hand-drawn, or None; edges follow nodes as they move. Handwritten node contents can be created from selected ink and edited with a simple Pen/Highlighter/Eraser workflow plus Clear and Move Contents; auto-fit remains available for auto nodes. Edge labels, loops, curves, directed edges, and relationship-aware graph copy/paste remain later milestones.</li><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Customizable Presentation toolbar:</strong> Presentation has a permanent Tools menu at the far left. Tools can be launched from that menu whether or not their main-toolbar checkbox is enabled; choosing a tool from the menu shows its normal contextual options in the toolbar. Visibility choices persist across restarts. The ordinary View strip remains unchanged.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
