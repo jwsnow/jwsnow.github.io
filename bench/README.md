@@ -1,3 +1,15 @@
+# PDF Workbench — Milestone 5.8.3 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.8.3 lasso graph selection + graph-only styling
+
+- Extends ordinary Select/Lasso to semantic graph edges. A tap near an edge selects that edge, and a lasso can select an edge by enclosing an endpoint/midpoint or by crossing the edge segment. This makes edge-only and multi-edge selections possible without using Graph → Move.
+- Selected graph edges receive the same conspicuous temporary selection halo used by Graph → Move, but edges remain dependent on endpoint nodes: they do **not** get ordinary move/resize handles and are not converted into free-floating line annotations. An edge-only (or edge + ordinary ink/image) selection does not show a transform box unless at least one graph node is also selected.
+- Multi-node lasso selections can now change **Border** style together (Clean / Hand / None). Applying a selected-node border style also becomes the current border preference for subsequently created nodes.
+- Adds a five-color **graph geometry** palette using the standard Pen colors. It changes only selected node borders and selected edges (`strokeColor`); handwritten contents inside nodes are untouched unless the ordinary selected-ink color action is used separately.
+- Mixed graph selections can recolor selected nodes and edges together. Mixed graph + ink/image selections retain separate graph-color and ink-color controls, so changing graph color never silently recolors node-content handwriting.
+- Pure ink/image selections intentionally preserve the 5.8.2 Select behavior: the new graph-style group remains hidden, existing ink recolor remains unchanged, and ordinary move/resize/copy/duplicate behavior is not routed through graph styling.
+- Copy/Duplicate stays disabled whenever semantic graph objects are selected because relationship-aware graph copy/paste is not implemented yet. Edge-only selections can be deleted or recolored but are not independently rotated/moved/resized.
+
 # PDF Workbench — Milestone 5.8.2 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 ## 5.8.2 semantic node contents + lasso conversion

@@ -1989,3 +1989,32 @@ body.presentation .presentation-toolbar.annotation-toolbar .graph-icon-btn {
   color: var(--text);
   font: inherit;
 }
+
+/* Milestone 5.8.3: lasso-selected graph styling. */
+.selection-graph-style-group {
+  border-left: 1px solid var(--border);
+  margin-left: 2px;
+  padding-left: 4px;
+  gap: 3px;
+}
+.selection-graph-border-control select {
+  max-width: 76px;
+  min-width: 66px;
+}
+.selection-graph-color-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  color: var(--muted);
+  flex: 0 0 auto;
+}
+.selection-graph-color-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--paper);
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

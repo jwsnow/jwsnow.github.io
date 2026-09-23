@@ -1,3 +1,72 @@
+PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.8.3-exp
+====================================================================================
+
+THIS SECTION IS AUTHORITATIVE OVER ALL OLDER STATUS TEXT BELOW.
+Continue future code work from the packaged 5.8.3-exp build, not an older branch.
+
+CURRENT DISTRIBUTION / STATUS
+-----------------------------
+- Official release remains 5.7.21.
+- Latest experimental/code baseline is 5.8.3-exp.
+- 5.8.3 is a focused Select/Lasso graph-object selection and styling pass built on 5.8.2 semantic node contents.
+- Pen/Highlighter modeling, partial Eraser, PDF.js rendering/caps, viewer canvas release, Library schema, and PDF export architecture are unchanged.
+
+5.8.3 CHANGES
+--------------
+1. LASSO / TAP SELECTION OF GRAPH EDGES
+   - Ordinary Select can now hit a graph edge directly with a tap.
+   - Lasso selection includes an edge if the lasso contains an endpoint or midpoint, or if the lasso boundary intersects the edge segment.
+   - Therefore several edges can be selected together, and an edge-only lasso can be made across the middle of edges without selecting their endpoint nodes.
+   - Selected edges receive a graph-selection halo in ordinary Select.
+
+2. EDGE GEOMETRY REMAINS DEPENDENT
+   - Selected edges do not gain ordinary move/resize handles and are not transformed as free-floating lines. Edge-only, edge+ink, and edge+image selections do not expose the ordinary transform box unless at least one graph node is also selected.
+   - If selected endpoint nodes move/resize/rotate, incident edges continue to recompute from node geometry as before.
+   - Mixed selections containing edges skip those edge records in ordinary move/resize/rotate math, preventing edge selection from interfering with existing annotation transforms.
+
+3. MULTI-NODE BORDER STYLE
+   - When one or more graph nodes are selected with ordinary Select, a graph-only Border control appears.
+   - Clean / Hand / None applies to all selected nodes.
+   - Mixed border styles show the neutral Border placeholder until the user chooses a common style.
+   - The chosen style also becomes the current default border preference for newly created nodes.
+
+4. NODE / EDGE COLOR AFTER LASSO
+   - A graph-only five-color palette (black, blue, red, green, orange) appears whenever selected graph nodes or edges are present.
+   - The graph palette changes only semantic graph geometry (`strokeColor`): node borders and edges.
+   - Node-content Pen/Highlighter ink does not change unless the ordinary selected-ink recolor palette is used separately.
+   - Mixed node + edge selections can recolor all selected graph geometry together. None-border nodes retain the chosen stored color, visible again if a border is restored later.
+
+5. PURE INK / IMAGE SELECTION ISOLATION
+   - If the selection contains only ordinary ink and/or images, the new graph-style group is hidden.
+   - Existing selection recolor, move, resize, rotate, copy, duplicate, delete, region-copy, and paste behavior remains on the pre-5.8.3 path.
+   - Graph Copy/Duplicate remains disabled whenever any semantic graph node/edge is in the selection until relationship-aware copy/paste is implemented.
+
+VALIDATION TARGETS
+------------------
+- Lasso only ink/images and verify the toolbar and all ordinary selection behavior look/act exactly as before.
+- Tap a single graph edge with Select; verify it highlights, can be recolored/deleted, and does not show resize handles.
+- Lasso across the middle of several edges without enclosing nodes; verify only those edges are selected and graph color applies to them.
+- Lasso several nodes; change Border among Clean / Hand / None and verify all selected node frames change together.
+- Lasso nodes + edges; apply each graph color and verify node borders + selected edges change while node-content ink does not.
+- Lasso graph objects + ordinary ink/images; verify graph color and ink color are separate controls and ordinary geometry transforms do not attempt to move selected edges independently.
+- Undo/Redo each border/color/delete operation and verify persistence/export retain the graph styles.
+
+NEXT GRAPH MILESTONES / OPEN DESIGN
+-----------------------------------
+- Edit existing ink attached to a node while preserving graph ownership and auto/manual fit semantics.
+- Decide whether node resize should optionally scale handwritten contents as well as the frame.
+- Edge labels should reuse the semantic container/content relationship; then curved/parallel edges, loops, and directed arrowheads.
+- Toolbar consolidation remains deferred until Graph/Select needs settle. User is comfortable eventually hiding Zoom +/-/percentage plus Full Page/Continuous/Page Snap behind one compact Page/View control.
+
+KNOWN WATCH ITEMS — UNCHANGED
+------------------------------
+- Rare iPad/WebKit missing-input episodes remain upstream-looking; do not rewrite Pen without new evidence.
+- Rare canceled-pinch jumps and self-recovering render-left-loading/scroll-to-render events remain watch items.
+- Current explicit viewer canvas release and 6 MP ceiling continue to look healthy.
+
+
+================ PRIOR AUTHORITATIVE HANDOFF (5.8.2-exp / SEPT. 22) ================
+
 PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.8.2-exp
 ====================================================================================
 

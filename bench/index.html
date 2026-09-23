@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.8.2">
+  <link rel="stylesheet" href="styles.css?v=5.8.3">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -209,6 +209,23 @@
             <button class="ink-color-btn" type="button" data-selection-color="#4dd0e1" style="--swatch:#4dd0e1" title="Change selected ink to cyan" aria-label="Change selected ink to cyan"></button>
             <button class="ink-color-btn" type="button" data-selection-color="#81c784" style="--swatch:#81c784" title="Change selected ink to light green" aria-label="Change selected ink to light green"></button>
           </div>
+          <div id="selectionGraphStyleGroup" class="ink-option-group selection-graph-style-group hidden" role="group" aria-label="Selected graph object styles">
+            <label id="selectionGraphBorderControl" class="graph-border-control selection-graph-border-control hidden" title="Change border style of selected graph nodes">
+              <span class="graph-option-icon graph-border-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="5.8"/></svg></span>
+              <select id="selectionGraphBorderStyle" aria-label="Selected graph node border style">
+                <option value="">Border</option>
+                <option value="clean">Clean</option>
+                <option value="hand">Hand</option>
+                <option value="none">None</option>
+              </select>
+            </label>
+            <span class="selection-graph-color-icon" aria-hidden="true" title="Graph border/edge color"><svg viewBox="0 0 20 20" focusable="false"><circle cx="6" cy="10" r="3.2"/><path d="M9.4 10h7.2"/></svg></span>
+            <button class="ink-color-btn" type="button" data-selection-graph-color="#111111" style="--swatch:#111111" title="Change selected graph borders and edges to black" aria-label="Change selected graph borders and edges to black"></button>
+            <button class="ink-color-btn" type="button" data-selection-graph-color="#1565c0" style="--swatch:#1565c0" title="Change selected graph borders and edges to blue" aria-label="Change selected graph borders and edges to blue"></button>
+            <button class="ink-color-btn" type="button" data-selection-graph-color="#d32f2f" style="--swatch:#d32f2f" title="Change selected graph borders and edges to red" aria-label="Change selected graph borders and edges to red"></button>
+            <button class="ink-color-btn" type="button" data-selection-graph-color="#2e7d32" style="--swatch:#2e7d32" title="Change selected graph borders and edges to green" aria-label="Change selected graph borders and edges to green"></button>
+            <button class="ink-color-btn" type="button" data-selection-graph-color="#ef6c00" style="--swatch:#ef6c00" title="Change selected graph borders and edges to orange" aria-label="Change selected graph borders and edges to orange"></button>
+          </div>
           <div class="annotation-history" role="group" aria-label="Annotation undo and redo">
             <button id="inkUndoBtn" type="button" title="Undo" aria-label="Undo" disabled>↶</button>
             <button id="inkRedoBtn" type="button" title="Redo" aria-label="Redo" disabled>↷</button>
@@ -261,7 +278,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.8.2 · Graph node ink containers</div>
+          <div class="export-kicker">Milestone 5.8.3 · Graph lasso selection + styling</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -896,6 +913,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.8.2"></script>
+  <script type="module" src="app.js?v=5.8.3"></script>
 </body>
 </html>
