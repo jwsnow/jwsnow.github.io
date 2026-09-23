@@ -1,3 +1,103 @@
+PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-23 — CURRENT BASELINE 5.8.8-exp
+
+5.8.8-exp CUSTOMIZABLE PRESENTATION TOOLBAR
+
+5.8.8 is a focused Presentation-toolbar revision built directly from 5.8.7-exp. It does NOT address the two graph-content issues diagnosed immediately before this build: restricted node erasing still shows its exact result only on pen-up, and moving a node containing Highlighter can still be slow/jumpy because Graph Move currently performs a full exact annotation redraw on each pointer move, including expensive full-resolution Highlighter compositing. Preserve those diagnoses for the next performance pass; no Eraser/Highlighter/Graph-move rendering code was intentionally changed here.
+
+USER-CONFIRMED BASELINE BEFORE THIS REVISION
+- 5.8.5 graph-object selection handoff works: lassoed graph objects remain live after Select -> Graph, and Graph size/border/color options affect the preserved selection.
+- 5.8.6 Page View exclusive contextual-panel behavior works, including clicking Page View again to return to the previous tool's controls.
+- 5.8.7 simple node-content editing works functionally: add/edit/clear/move content works. Two UX/performance observations remain queued as described above.
+
+WHAT 5.8.8 ADDS
+
+1. PERMANENT TOOLS BUTTON IN PRESENTATION
+- Adds a permanent Tools button at the far left of the Presentation toolbar.
+- The Tools button itself cannot be hidden.
+- Exit Presentation remains permanently visible and is pinned at the far right.
+- Diagnostics and the document/pane selectors remain system controls, outside the user-customizable tool registry.
+- Ordinary non-Presentation View is intentionally unchanged by toolbar visibility preferences.
+
+2. TOOLS MENU = ALTERNATE LAUNCHER + TOOLBAR CUSTOMIZER
+- The menu expands downward from the Tools button.
+- It contains: Hand, Laser, Pen, Highlighter, Eraser, Lasso, Graph, Image, Asset, Page view, Split view, Add page, Thumbnails, Undo, Redo.
+- Each row contains the familiar tool icon/action plus a checkbox.
+- Clicking the tool/icon area performs the same action as clicking the normal toolbar button and closes the Tools menu.
+- IMPORTANT UX RULE: tool-specific options NEVER expand inside the Tools menu. Example: choosing Pen from Tools activates Pen and shows Pen color/width controls in the normal contextual toolbar strip. Choosing Graph shows Graph controls there. Choosing Page view shows the normal Page View subtoolbar there.
+- Clicking a checkbox only changes whether that top-level tool is also visible in the main Presentation toolbar. Checkbox changes keep Tools open so several visibility choices can be adjusted in one visit.
+- Unchecked tools remain fully available from Tools.
+
+3. FIRST-RUN DEFAULT VISIBLE PRESENTATION TOOLS
+Visible by default:
+- Hand
+- Pen
+- Eraser
+- Lasso
+- Thumbnails
+- Undo
+- Redo
+
+Hidden by default but available in Tools:
+- Laser
+- Highlighter
+- Graph
+- Image
+- Asset
+- Page view
+- Split view
+- Add page
+
+4. PERSISTENCE / FUTURE EXTENSIBILITY
+- Visibility is stored in localStorage under `pdfwb-presentation-tools-v1` and survives app close/reopen.
+- The preference is included in full editable Library backup/restore.
+- The implementation is registry-driven through `PRESENTATION_TOOL_REGISTRY`.
+- A future top-level Presentation tool should need one registry entry: stable id, display label, toolbar element id, activation action, and default visibility.
+- Saved layouts are merged against registry defaults at startup. Therefore a future newly registered tool automatically appears with its declared default rather than requiring a preference migration or corrupting an older user's saved layout.
+
+5. ADD PAGE FROM A HIDDEN TOOL
+- Add Page can be hidden from the main toolbar and still launched from Tools.
+- The command still uses the real Presentation Add Page action/state, but its popover is positioned from the always-visible Tools button so hiding the ordinary Add Page button cannot produce a zero-size/invalid popover anchor.
+
+PRESENTATION CUSTOMIZATION TESTS
+1. Enter Presentation on iPad/Surface. Confirm Tools is fixed at far left and Close remains accessible at far right.
+2. Confirm first-run/default toolbar shows Hand, Pen, Eraser, Lasso, Undo, Redo, Thumbnails (plus non-custom system controls such as document selector/Diagnostics/Close).
+3. Open Tools; uncheck several visible tools. Confirm they disappear immediately from the main Presentation toolbar while remaining in Tools.
+4. Check previously hidden Laser/Highlighter/Graph/Image/Asset/Page view/Split/Add page. Confirm they appear immediately in the main toolbar.
+5. Choose Pen from Tools. Menu should close; Pen should become active; Pen color/width options should appear in the ordinary toolbar, NOT in the Tools menu.
+6. Repeat with Eraser, Lasso, Graph, Highlighter, and Page view.
+7. Hide Add page, then launch Add page from Tools. Confirm the insert-page chooser appears in a sensible position below the left side of the toolbar and all insert commands still work.
+8. Hide Split view and Thumbnails, then invoke each from Tools.
+9. Hide active Pen while Pen is active. Pen should remain the active annotation tool; only its top-level toolbar button disappears. Pen options may remain visible because the active tool has not changed.
+10. Close/reopen Workbench and re-enter Presentation. Confirm checkbox/tool visibility choices persist.
+11. Normal View should still show its ordinary unified annotation toolbar independent of the Presentation customization.
+12. Full editable Library backup/restore should preserve the Presentation toolbar visibility preference.
+
+KNOWN GRAPH ISSUES TO ADDRESS AFTER TOOLBAR WORK
+A. NODE-CONTENT ERASER LIVE FEEDBACK
+- 5.8.7 restricted node Eraser intentionally suppresses the ordinary destructive shared-canvas live preview, because that preview would temporarily erase unrelated nearby page ink even though only node-owned ink is eligible for the exact vector edit.
+- Exact restricted erasing is therefore calculated/committed on release, explaining why the visual result appears only after Pencil-up.
+- A proper future fix should use an isolated temporary preview of eligible node-owned ink rather than re-enabling the shared destructive raster preview.
+
+B. HIGHIGHTER INSIDE A MOVING NODE IS SLOW/JUMPY
+- The translation of node/content point coordinates is cheap.
+- The dominant cost is Graph Move calling a complete page annotation redraw on every pointer move.
+- Exact Highlighter redraw is expensive: it uses full-resolution scratch-canvas compositing to preserve translucent stroke appearance without dark overlap beads.
+- Repeating that exact full-page Highlighter render throughout a node drag causes the observed jumpiness, especially on iPad.
+- Preferred future architecture: follow the already-successful Select move/resize pattern — preview the moving node+contents cheaply on a temporary GPU/composited layer, update attached edges cheaply, then commit coordinates and perform one exact redraw at release. Do not broadly rewrite the validated Highlighter geometry merely to mask this Graph Move issue.
+
+CURRENT GRAPH ROADMAP AFTER 5.8.8
+1. Address the two node-content performance/feedback issues above before extending attached-ink semantics further.
+2. Edge labels after movement/eraser behavior is satisfactory.
+3. Then settle node-content transform/scaling behavior.
+4. Then relationship-aware graph Copy/Paste using the agreed self-contained-fragment semantics.
+5. Later curved/parallel edges, loops, directed edges/arrowheads, and graph conveniences.
+
+Continue future work from the packaged 5.8.8-exp build, not an older branch.
+
+================================================================================
+PRIOR 5.8.7 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-22 — CURRENT BASELINE 5.8.7-exp
 
 5.8.7-exp SIMPLE GRAPH NODE-CONTENT EDITING

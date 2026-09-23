@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.8.7">
+  <link rel="stylesheet" href="styles.css?v=5.8.8">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -124,6 +124,7 @@
         </div>
 
         <div id="presentationToolbar" class="presentation-toolbar annotation-toolbar" aria-label="Annotation and presentation controls">
+          <button id="presentationToolMenuBtn" class="presentation-only presentation-tool-menu-btn" type="button" title="Tools and toolbar customization" aria-label="Tools and toolbar customization" aria-haspopup="menu" aria-expanded="false"><span class="presentation-tool-menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M14.8 5.2a4.2 4.2 0 0 0-5.5 5.5L4 16l4 4 5.3-5.3a4.2 4.2 0 0 0 5.5-5.5l-2.6 2.6-2.8-.8-.8-2.8z"/></svg></span></button>
           <div class="annotation-primary" role="group" aria-label="Annotation tools">
             <button id="inkHandBtn" class="annotation-tool-btn active" type="button" aria-pressed="true" title="Hand / view mode (stylus does not draw)" aria-label="Hand / view mode">✋</button>
             <button id="inkLaserBtn" class="annotation-tool-btn" type="button" aria-pressed="false" title="Laser pointer (screen only)" aria-label="Laser pointer"><span class="laser-tool-icon" aria-hidden="true"></span></button>
@@ -242,10 +243,11 @@
           </div>
           <button id="presentationLayoutBtn" class="presentation-only" type="button" title="Switch to split view" aria-label="Switch to split view">◫</button>
           <button id="presentationInsertBtn" class="presentation-insert-page presentation-only" type="button" title="Insert a page after the current page" aria-label="Insert page" aria-haspopup="menu" aria-expanded="false"><span class="page-plus-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 3h8l4 4v5M6 3v18h7M14 3v5h4"/><path d="M14 17h7M17.5 13.5v7"/></svg></span></button>
-          <button id="presentationExit" class="presentation-only" type="button" aria-label="Exit presentation mode">×</button>
           <button id="presentationDiagnosticsBtn" class="presentation-only presentation-diagnostics-btn" type="button" title="Save diagnostics locally" aria-label="Save diagnostics locally"><span class="presentation-diagnostics-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 3.5h9l4 4V20.5H5z"/><path d="M14 3.5v4h4"/><path d="M7.5 14h2l1.4-3 2.2 6 1.4-3h2"/></svg></span></button>
           <button id="presentationPagesBtn" class="presentation-only presentation-pages-btn" type="button" title="Browse pages" aria-label="Browse page thumbnails" aria-controls="presentationPageDrawerLayer" aria-expanded="false"><span class="presentation-pages-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="4" y="3.5" width="13" height="17" rx="1.5"/><path d="M7.2 7h6.7M7.2 10.3h6.7M7.2 13.6h6.7"/><path d="M19.2 6.2v11.6"/></svg></span></button>
+          <button id="presentationExit" class="presentation-only presentation-exit-btn" type="button" aria-label="Exit presentation mode">×</button>
         </div>
+        <div id="presentationToolMenu" class="presentation-tool-menu hidden" role="menu" aria-label="Presentation tools and toolbar customization"></div>
 
         <div id="presentationPageDrawerLayer" class="presentation-page-drawer-layer hidden" aria-hidden="true">
           <aside id="presentationPageDrawer" class="presentation-page-drawer" aria-label="Page thumbnails">
@@ -277,7 +279,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.8.7 · Simple graph node-content editing</div>
+          <div class="export-kicker">Milestone 5.8.8 · Customizable Presentation toolbar</div>
           <h1>Files</h1>
           <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
 
@@ -912,6 +914,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.8.7"></script>
+  <script type="module" src="app.js?v=5.8.8"></script>
 </body>
 </html>

@@ -1,3 +1,16 @@
+# PDF Workbench — Milestone 5.8.8 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.8.8 customizable Presentation toolbar
+
+- Adds a permanent **Tools** button at the far left of the Presentation toolbar. The Tools button itself and **Close Presentation** are not hideable; Close remains pinned at the far right. Diagnostics and the document/pane selectors remain system controls rather than customizable tools.
+- The Tools menu expands downward and acts as a complete alternate launcher for **Hand, Laser, Pen, Highlighter, Eraser, Lasso, Graph, Image, Asset, Page view, Split view, Add page, Thumbnails, Undo, and Redo**.
+- Every registered tool row has a visibility checkbox. Checked tools appear normally in the Presentation toolbar and remain available in Tools; unchecked tools disappear only from the main Presentation toolbar and remain launchable from Tools.
+- First-run visible defaults are deliberately conservative: **Hand, Pen, Eraser, Lasso, Thumbnails, Undo, and Redo**. Laser, Highlighter, Graph, Image, Asset, Page view, Split view, and Add page start hidden.
+- Activating a tool from Tools performs the same action as its ordinary toolbar button and closes the menu. In particular, choosing **Pen** activates Pen and shows Pen color/width controls in the normal contextual toolbar area — those options do not expand inside the Tools menu.
+- Checkbox changes keep Tools open so several toolbar-visibility choices can be edited in one visit. The visibility map is stored in local preferences across app restarts and included in full editable Library backup/restore.
+- The customization architecture is registry-driven (`PRESENTATION_TOOL_REGISTRY`): a future top-level tool needs one registry entry containing its ID, label, toolbar element, activation action, and default visibility. Saved user layouts merge with registry defaults so newly introduced tools do not require a preference migration.
+- 5.8.7 node-content editing and the diagnosed-but-not-yet-fixed node Eraser preview / Highlighter graph-move performance issues are otherwise unchanged.
+
 # PDF Workbench — Milestone 5.8.7 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 ## 5.8.7 simple graph node-content editing

@@ -2029,3 +2029,98 @@ body.presentation .presentation-toolbar.annotation-toolbar #presentationPageCont
   box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
 }
 .graph-content-edit-target { stroke-width:2; }
+
+
+/* Milestone 5.8.8: customizable Presentation top-level toolbar.  The shared
+   View toolbar is untouched; user visibility choices apply only while
+   Presentation is active.  Tools remain available from the permanent left
+   Tools button even when hidden from the main strip. */
+body.presentation .presentation-toolbar button.presentation-user-hidden { display:none !important; }
+body.presentation #presentationToolMenuBtn.presentation-only {
+  display:grid !important;
+  place-items:center;
+  position:sticky;
+  left:0;
+  z-index:6;
+  flex:0 0 36px;
+  background:white;
+}
+body.presentation #presentationExit.presentation-only {
+  display:block !important;
+  position:sticky;
+  right:0;
+  z-index:6;
+  flex:0 0 36px;
+  background:white;
+}
+.presentation-tool-menu-icon,
+.presentation-tool-menu-row-icon { display:grid; place-items:center; }
+.presentation-tool-menu-icon { width:21px; height:21px; margin:auto; }
+.presentation-tool-menu-icon svg { width:21px; height:21px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.presentation-tool-menu {
+  position:fixed;
+  z-index:280;
+  width:min(270px, calc(100vw - 12px));
+  overflow:auto;
+  padding:6px;
+  border:1px solid rgb(0 0 0 / .2);
+  border-radius:10px;
+  background:rgb(250 251 252 / .98);
+  box-shadow:0 8px 24px rgb(0 0 0 / .24);
+  backdrop-filter:blur(10px);
+  -webkit-overflow-scrolling:touch;
+}
+.presentation-tool-menu.hidden { display:none !important; }
+.presentation-tool-menu-row {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 46px;
+  align-items:center;
+  gap:4px;
+  min-height:42px;
+}
+.presentation-tool-menu-row + .presentation-tool-menu-row { border-top:1px solid color-mix(in srgb, var(--border) 70%, transparent); }
+.presentation-tool-menu-action {
+  min-width:0;
+  min-height:40px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border:0;
+  border-radius:7px;
+  background:transparent;
+  color:var(--text);
+  font:inherit;
+  text-align:left;
+  padding:4px 8px;
+}
+.presentation-tool-menu-action.active { background:var(--accent-soft); }
+.presentation-tool-menu-action:disabled { opacity:.4; }
+.presentation-tool-menu-row-icon {
+  flex:0 0 28px;
+  width:28px;
+  height:28px;
+  font-size:18px;
+}
+.presentation-tool-menu-row-icon .laser-tool-icon { width:15px; height:15px; }
+.presentation-tool-menu-row-icon .graph-tool-icon,
+.presentation-tool-menu-row-icon .graph-tool-icon svg,
+.presentation-tool-menu-row-icon .assets-tool-icon,
+.presentation-tool-menu-row-icon .assets-tool-icon svg,
+.presentation-tool-menu-row-icon .presentation-pages-icon,
+.presentation-tool-menu-row-icon .presentation-pages-icon svg,
+.presentation-tool-menu-row-icon .page-plus-icon,
+.presentation-tool-menu-row-icon .page-plus-icon svg { width:20px; height:20px; }
+.presentation-tool-menu-row-label { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.presentation-tool-menu-check {
+  min-width:44px;
+  min-height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:7px;
+}
+.presentation-tool-menu-check input { width:21px; height:21px; margin:0; accent-color:var(--accent); }
+@media (max-width:540px) {
+  body.presentation #presentationToolMenuBtn.presentation-only,
+  body.presentation #presentationExit.presentation-only { flex-basis:34px; }
+  .presentation-tool-menu { width:min(252px, calc(100vw - 10px)); padding:5px; }
+}
