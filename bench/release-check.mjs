@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { spawnSync } from 'node:child_process';
 
 const read = name => fs.readFileSync(new URL(name, import.meta.url), 'utf8');
 const app = read('app.js');
@@ -19,6 +20,14 @@ const checks = [
   ['service-worker modeler query', sw.includes(`google-ink-modeler.js?v=${version}`)],
   ['README heading', readme.includes(`Milestone ${version}`)],
 ];
+
+const syntax = spawnSync(process.execPath, ['--input-type=module','--check'], { input: app, encoding:'utf8' });
+if (syntax.status !== 0) {
+  console.error('ES-module syntax check failed for app.js');
+  console.error(syntax.stderr || syntax.stdout);
+  process.exit(1);
+}
+
 const failed = checks.filter(([, ok]) => !ok).map(([label]) => label);
 if (failed.length) {
   console.error(`Release consistency failed for ${version}: ${failed.join(', ')}`);

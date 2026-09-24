@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.12';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.13';
 
-const APP_VERSION = '5.8.12';
+const APP_VERSION = '5.8.13';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -5025,74 +5025,6 @@ function applySelectionGestureModelTransform(gesture,{includeGraphContents=true}
     if (includeGraphContents && gesture.graphContentOriginals?.length) graphScaleContentFromOriginals(page,gesture.graphContentOriginals,anchor,scale);
     if (includeGraphContents && gesture.edgeLabelOriginals?.length) graphTransformEdgeLabelContentsFromOriginals(page,gesture.edgeLabelOriginals,{scale});
   }
-}={}) {
-  if (!gesture?.page) return;
-  const page=gesture.page;
-  const current=new Map(annotationsForPage(page).map(annotation=>[annotation.id,annotation]));
-  const selectedNodeIds=new Set((gesture.originals||[]).filter(isGraphNode).map(node=>node.id));
-  if (gesture.mode==='move') {
-    const {dx=0,dy=0}=gesture.lastDelta||{};
-    for (const original of gesture.originals||[]) {
-      const annotation=current.get(original.id);
-      if (!annotation || isGraphEdge(original)) continue;
-      // On final commit, selected-node ownership supplies the authoritative
-      // child transform. During preview, explicitly selected child ink still
-      // updates in the model so the selection chrome follows it accurately.
-      if (includeGraphContents && original.graphNodeId && selectedNodeIds.has(original.graphNodeId)) continue;
-      if (isGraphNode(original)) {
-        annotation.x=(Number(original.x)||0)+dx;
-        annotation.y=(Number(original.y)||0)+dy;
-      } else if (isImageAnnotation(original)) {
-        annotation.x=(Number(original.x)||0)+dx;
-        annotation.y=(Number(original.y)||0)+dy;
-      } else {
-        annotation.points=(original.points||[]).map(point=>({...point,x:(Number(point.x)||0)+dx,y:(Number(point.y)||0)+dy}));
-      }
-    }
-    if (includeGraphContents && gesture.graphContentOriginals?.length) {
-      const nodePositions=new Map(annotationsForPage(page).filter(isGraphNode).map(node=>[node.id,{x:Number(node.x)||0,y:Number(node.y)||0}]));
-      graphTranslateContentFromOriginals(page,gesture.graphContentOriginals,nodePositions);
-    }
-    return;
-  }
-  if (gesture.mode==='resize') {
-    const scale=gesture.lastScale?.scale??1;
-    const anchor=gesture.resizeFrame?.anchor;
-    if (!anchor) return;
-    for (const original of gesture.originals||[]) {
-      const annotation=current.get(original.id);
-      if (!annotation || isGraphEdge(original)) continue;
-      if (includeGraphContents && original.graphNodeId && selectedNodeIds.has(original.graphNodeId)) continue;
-      if (isGraphNode(original)) {
-        const center=basePointToDisplay(page,{x:Number(original.x)||0,y:Number(original.y)||0});
-        const nextCenter=displayPointToBase(page,{x:anchor.x+(center.x-anchor.x)*scale,y:anchor.y+(center.y-anchor.y)*scale});
-        annotation.x=nextCenter.x; annotation.y=nextCenter.y;
-        annotation.width=Math.max(GRAPH_NODE_MIN_SIZE,(Number(original.width)||GRAPH_NODE_DEFAULT_SIZE)*scale);
-        annotation.height=Math.max(GRAPH_NODE_MIN_SIZE,(Number(original.height)||GRAPH_NODE_DEFAULT_SIZE)*scale);
-        if (gesture.changed) annotation.contentMode='manual';
-        else if (Object.prototype.hasOwnProperty.call(original,'contentMode')) annotation.contentMode=original.contentMode;
-        else delete annotation.contentMode;
-      } else if (isImageAnnotation(original)) {
-        const topLeft=basePointToDisplay(page,{x:Number(original.x)||0,y:Number(original.y)||0});
-        const nextTopLeft=displayPointToBase(page,{
-          x:anchor.x+(topLeft.x-anchor.x)*scale,
-          y:anchor.y+(topLeft.y-anchor.y)*scale,
-        });
-        annotation.x=nextTopLeft.x;
-        annotation.y=nextTopLeft.y;
-        annotation.width=Math.max(.25,(Number(original.width)||1)*scale);
-        annotation.height=Math.max(.25,(Number(original.height)||1)*scale);
-      } else {
-        annotation.points=(original.points||[]).map(raw=>{
-          const point=basePointToDisplay(page,raw);
-          const mapped=displayPointToBase(page,{x:anchor.x+(point.x-anchor.x)*scale,y:anchor.y+(point.y-anchor.y)*scale});
-          return Number.isFinite(Number(raw.t))?{...mapped,t:Number(raw.t)}:mapped;
-        });
-        annotation.width=Math.max(.25,(Number(original.width)||3)*scale);
-      }
-    }
-    if (includeGraphContents && gesture.graphContentOriginals?.length) graphScaleContentFromOriginals(page,gesture.graphContentOriginals,anchor,scale);
-  }
 }
 function updateOptimizedGraphSelectionPreview(gesture) {
   if (!gesture?.graphPreviewOptimized) return;
@@ -5901,10 +5833,10 @@ function updateInkToolbar() {
 }
 function setAnnotationTool(tool) {
   const next = ['laser','pen','highlighter','eraser','select','graph'].includes(tool) ? tool : 'hand';
-  const editNodeBefore=graphContentEditNode();
-  const editTargetBefore=editNodeBefore?{...state.graphContentEditTarget}:null;
-  const preserveContentEdit=!!editNodeBefore && ['pen','highlighter','eraser'].includes(next);
-  if (!preserveContentEdit && editNodeBefore) clearGraphContentEditState({redraw:false});
+  const editContainerBefore=graphContentEditContainer();
+  const editTargetBefore=editContainerBefore?{...state.graphContentEditTarget}:null;
+  const preserveContentEdit=!!editContainerBefore && ['pen','highlighter','eraser'].includes(next);
+  if (!preserveContentEdit && editContainerBefore) clearGraphContentEditState({redraw:false});
   if (state.pageViewPanelOpen) { state.pageViewPanelOpen=false; syncPageViewPanel(); }
   if (state.annotationTool === 'select' && next !== 'select') {
     const regionPageId = state.regionCopyGesture?.pageId || null;
@@ -5926,8 +5858,9 @@ function setAnnotationTool(tool) {
   savePref('pdfwb-annotation-tool', state.annotationTool);
   if (next==='graph' && editTargetBefore) {
     const page=pageById(editTargetBefore.pageId);
-    const node=page&&editTargetBefore.documentId===state.currentDocumentId?graphNodeById(page,editTargetBefore.nodeId):null;
-    if (page&&node) state.graphSelection={documentId:state.currentDocumentId,pageId:page.id,id:node.id};
+    const object=page&&editTargetBefore.documentId===state.currentDocumentId
+      ? (editTargetBefore.nodeId?graphNodeById(page,editTargetBefore.nodeId):graphEdgeLabelById(page,editTargetBefore.labelId)) : null;
+    if (page&&object) state.graphSelection={documentId:state.currentDocumentId,pageId:page.id,id:object.id};
   }
   updateInkToolbar();
   const preservedPage=selectedAnnotationPage();

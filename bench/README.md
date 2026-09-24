@@ -1,6 +1,6 @@
-# PDF Workbench — Milestone 5.8.12 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.8.13 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
-## 5.8.12 semantic handwritten edge labels
+## 5.8.13 semantic handwritten edge labels
 
 - Adds one semantic handwritten label container to a straight graph edge. The label stores the owning `edgeId`, a normalized position along the visible edge, and a signed perpendicular offset rather than fixed page coordinates.
 - Select one graph edge and use **Add edge label**. The new label begins near the edge midpoint with a small offset, enters the existing Pen editor immediately, and accepts Pen/Highlighter handwriting. Selecting an existing label changes the same action to **Edit edge label**.

@@ -1,3 +1,43 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-09-24 — BASELINE 5.8.13-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.13-exp ZIP, not an older build.
+
+5.8.13-exp STARTUP HOTFIX / EDGE-LABEL BASELINE
+
+WHY THIS REVISION EXISTS
+- 5.8.12-exp failed to start on both iPad and PC: it remained on Welcome and the controls were inert.
+- Root cause: an accidental malformed duplicate tail of `applySelectionGestureModelTransform()` remained in `app.js`. The browser therefore could not parse the ES module, so `init()` and event binding never ran.
+- The prior `node --check app.js` command was not a valid ES-module parse check for this file. The release checker now sends app.js through `node --input-type=module --check`, matching browser module syntax closely enough to catch this exact failure.
+
+WHAT 5.8.13 CHANGES
+- Removes the malformed duplicate block while preserving the intended 5.8.12 edge-label implementation.
+- Adds the module-aware syntax check to `release-check.mjs`.
+- Corrects one edge-label editing oversight found during the audit: an active edge-label edit now survives Pen <-> Highlighter <-> Eraser switching, and returning to Graph reselects the edited label, matching node-content behavior.
+
+PRESERVED FROM 5.8.12
+- One semantic handwritten label per straight edge.
+- Position along the edge plus signed perpendicular offset; Graph Move allows sliding along/across the edge.
+- Labels follow endpoint movement/resizing and remain upright.
+- Lightweight live label canvases during Graph Move and graph-containing Select transforms.
+- Relationship cleanup, Undo/Redo, persistence, page geometry handling, and ordinary ink PDF export.
+- Classroom-validated 5.8.11 node-content resizing.
+
+TEST PRIORITY
+1. Startup first on PC and iPad: Welcome controls must work and the Local Library should restore normally.
+2. Create an edge label, finish, then Edit Label and switch Pen -> Highlighter -> Eraser; the label must remain the active edit target.
+3. Drag the label along/across the edge, then move/resize endpoint nodes and confirm it follows.
+4. Resize a labeled subgraph and confirm smooth label scaling/placement.
+5. Delete/recreate labels; save/reopen or editable-backup round trip.
+
+NEXT GRAPH WORK AFTER EDGE-LABEL VALIDATION
+- Relationship-aware graph Copy/Paste using the agreed self-contained-fragment semantics.
+- Later: curved/parallel edges, loops, directed edges/arrowheads, then further graph conveniences.
+
+====================================================================
+PRIOR HANDOFF FOLLOWS
+====================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-09-24 — BASELINE 5.8.12-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
