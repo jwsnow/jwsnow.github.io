@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.15';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.16';
 
-const APP_VERSION = '5.8.15';
+const APP_VERSION = '5.8.16';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -889,7 +889,7 @@ async function keepAsset(assetId) {
   if (!asset) return;
   const targetFolder = asset.pinned ? (asset.folderId || null) : (state.assetFolderId || null);
   const suggested = asset.pinned ? asset.name : defaultAssetName(asset.type,targetFolder);
-  const name = await requestAssetName({title:asset.pinned?'Rename asset':'Keep in Asset Library',help:asset.type==='snippet'?'Editable snippets retain their Pen, Highlighter, and inserted-image objects when reused.':'Images remain reusable source assets.',suggested,saveLabel:asset.pinned?'Rename':'Keep'});
+  const name = await requestAssetName({title:asset.pinned?'Rename asset':'Keep in Asset Library',help:asset.type==='snippet'?'Editable snippets retain Pen, Highlighter, inserted-image, and semantic graph relationships when reused.':'Images remain reusable source assets.',suggested,saveLabel:asset.pinned?'Rename':'Keep'});
   if (!name) return;
   asset.name = uniqueAssetName(name,targetFolder,asset.id);
   asset.pinned = true;
@@ -957,8 +957,30 @@ async function drawSnippetThumbnail(canvas, asset) {
       ctx.save(); ctx.strokeStyle='rgba(80,80,80,.55)'; ctx.setLineDash([4,3]); ctx.strokeRect(ox+r.x*scale,oy+r.y*scale,r.width*scale,r.height*scale); ctx.restore();
     }
   }
+  // Semantic graph geometry is stored relationship-first rather than as Pen
+  // points. Draw a lightweight thumbnail version so copied graphs remain
+  // recognizable in Recent/Assets while their owned handwriting is drawn by
+  // the ordinary ink loop below.
+  const graphNodes=new Map((payload.items||[]).filter(isGraphNode).map(item=>[item.clipboardSourceId,item]));
+  ctx.save();
+  for (const edge of (payload.items||[]).filter(isGraphEdge)) {
+    const from=graphNodes.get(edge.fromNodeId), to=graphNodes.get(edge.toNodeId);
+    if (!from?.displayGraphCenter || !to?.displayGraphCenter) continue;
+    ctx.beginPath();
+    ctx.moveTo(ox+from.displayGraphCenter.x*scale,oy+from.displayGraphCenter.y*scale);
+    ctx.lineTo(ox+to.displayGraphCenter.x*scale,oy+to.displayGraphCenter.y*scale);
+    ctx.strokeStyle=edge.strokeColor||'#111'; ctx.globalAlpha=Number.isFinite(Number(edge.opacity))?Number(edge.opacity):1; ctx.lineWidth=Math.max(1,(Number(edge.width)||GRAPH_EDGE_WIDTH)*scale); ctx.stroke();
+  }
+  for (const node of graphNodes.values()) {
+    if ((node.borderStyle||'clean')==='none' || !node.displayGraphCenter) continue;
+    const size=node.displayGraphSize||{width:Number(node.width)||GRAPH_NODE_DEFAULT_SIZE,height:Number(node.height)||GRAPH_NODE_DEFAULT_SIZE};
+    ctx.beginPath();
+    ctx.ellipse(ox+node.displayGraphCenter.x*scale,oy+node.displayGraphCenter.y*scale,Math.max(1,size.width*scale/2),Math.max(1,size.height*scale/2),0,0,Math.PI*2);
+    ctx.strokeStyle=node.strokeColor||'#111'; ctx.globalAlpha=Number.isFinite(Number(node.opacity))?Number(node.opacity):1; ctx.lineWidth=Math.max(1,(Number(node.borderWidth)||1.8)*scale); ctx.stroke();
+  }
+  ctx.restore();
   for (const item of payload.items || []) {
-    if (isImageAnnotation(item)) continue;
+    if (isImageAnnotation(item) || isGraphObject(item)) continue;
     const points=item.points||[]; if (!points.length) continue;
     ctx.save(); ctx.beginPath(); ctx.lineCap='round'; ctx.lineJoin='round'; ctx.strokeStyle=item.color||'#111'; ctx.globalAlpha=Number.isFinite(Number(item.opacity))?Number(item.opacity):1; ctx.lineWidth=Math.max(1,Number(item.width||2)*scale);
     ctx.moveTo(ox+points[0].x*scale,oy+points[0].y*scale); for (let i=1;i<points.length;i++) ctx.lineTo(ox+points[i].x*scale,oy+points[i].y*scale); ctx.stroke(); ctx.restore();
@@ -5445,35 +5467,125 @@ function finishSelectionGesture(viewer,event) {
   addInkDiagnostic('selection-finish-accepted',event,{mode:gesture.mode,changed:!!gesture.changed,selected:state.annotationSelection?.ids?.size||0,previewOptimized:!!gesture.previewOptimized});
   return true;
 }
+function annotationCopyFragmentFromSelection(page=selectedAnnotationPage()) {
+  const selected=selectedAnnotations(page);
+  if (!page || !selected.length) return null;
+  const all=annotationsForPage(page);
+  const byId=new Map(all.map(annotation=>[annotation.id,annotation]));
+  const selectedIds=new Set(selected.map(annotation=>annotation.id));
+  const nodeIds=new Set(selected.filter(isGraphNode).map(node=>node.id));
+  const requestedEdgeIds=new Set(selected.filter(isGraphEdge).map(edge=>edge.id));
+  for (const label of selected.filter(isGraphEdgeLabel)) if (label.edgeId) requestedEdgeIds.add(label.edgeId);
+
+  // Explicitly copied edges pull in the endpoint nodes that make the edge
+  // meaningful. Selecting nodes alone does not pull in external neighbours.
+  for (const edgeId of requestedEdgeIds) {
+    const edge=byId.get(edgeId);
+    if (!isGraphEdge(edge)) continue;
+    if (isGraphNode(byId.get(edge.fromNodeId))) nodeIds.add(edge.fromNodeId);
+    if (isGraphNode(byId.get(edge.toNodeId))) nodeIds.add(edge.toNodeId);
+  }
+
+  // Once the node set is known, every edge wholly internal to that set is part
+  // of the self-contained fragment, even if the lasso missed the line itself.
+  const edgeIds=new Set();
+  for (const edge of all.filter(isGraphEdge)) {
+    if (nodeIds.has(edge.fromNodeId) && nodeIds.has(edge.toNodeId)) edgeIds.add(edge.id);
+  }
+  // Keep an explicitly requested edge only when both valid endpoints were
+  // available and therefore entered the fragment above.
+  for (const edgeId of requestedEdgeIds) {
+    const edge=byId.get(edgeId);
+    if (isGraphEdge(edge) && nodeIds.has(edge.fromNodeId) && nodeIds.has(edge.toNodeId)) edgeIds.add(edgeId);
+  }
+
+  const labelIds=new Set(all.filter(label=>isGraphEdgeLabel(label)&&edgeIds.has(label.edgeId)).map(label=>label.id));
+  const ownedContentIds=new Set();
+  for (const nodeId of nodeIds) {
+    const node=byId.get(nodeId);
+    if (isGraphNode(node)) for (const id of graphNodeContentIds(node)) if (byId.has(id)) ownedContentIds.add(id);
+  }
+  for (const labelId of labelIds) {
+    const label=byId.get(labelId);
+    if (isGraphEdgeLabel(label)) for (const id of graphEdgeLabelContentIds(label)) if (byId.has(id)) ownedContentIds.add(id);
+  }
+
+  const includeIds=new Set([...nodeIds,...edgeIds,...labelIds,...ownedContentIds]);
+  // Ordinary selected annotations remain part of a mixed copy. If they belong
+  // to a graph container that is not itself copied, they paste as loose ink.
+  for (const annotation of selected) if (!isGraphObject(annotation)) includeIds.add(annotation.id);
+  const annotations=all.filter(annotation=>includeIds.has(annotation.id));
+  const semantic=nodeIds.size>0 || edgeIds.size>0 || labelIds.size>0;
+
+  // After paste, select the semantic geometry plus any explicitly selected
+  // loose objects. Owned handwriting is intentionally omitted from the new
+  // selection because it will follow its copied owner automatically.
+  const selectionIds=new Set([...nodeIds,...edgeIds]);
+  for (const annotation of selected) {
+    if (isGraphObject(annotation)) continue;
+    if (ownedContentIds.has(annotation.id)) continue;
+    selectionIds.add(annotation.id);
+  }
+  return {annotations,selectionIds,semantic,nodeIds,edgeIds,labelIds,ownedContentIds};
+}
 function annotationPayloadFromSelection(page=selectedAnnotationPage()) {
-  const annotations=selectedAnnotations(page);
+  const fragment=annotationCopyFragmentFromSelection(page);
+  const annotations=fragment?.annotations||[];
   const bounds=annotationDisplayBounds(page,annotations);
   if (!page||!annotations.length||!bounds) return null;
   const display=pageDisplayDimensions(page);
+  const includedIds=new Set(annotations.map(annotation=>annotation.id));
+  const items=annotations.map(annotation=>{
+    const copy={...cloneInkStroke(annotation),id:null,clipboardSourceId:annotation.id};
+    // A selected child without its semantic owner becomes ordinary loose ink
+    // in the pasted fragment instead of retaining a dangling relationship.
+    if (copy.graphNodeId && !includedIds.has(copy.graphNodeId)) { delete copy.graphNodeId; delete copy.graphLocalPoints; }
+    if (copy.graphEdgeLabelId && !includedIds.has(copy.graphEdgeLabelId)) { delete copy.graphEdgeLabelId; delete copy.graphLabelLocalPoints; }
+    if (isGraphNode(annotation)) {
+      const center=basePointToDisplay(page,{x:Number(annotation.x)||0,y:Number(annotation.y)||0});
+      const geometry=graphNodeDisplayGeometry(page,annotation);
+      copy.displayGraphCenter={x:center.x-bounds.minX,y:center.y-bounds.minY};
+      copy.displayGraphSize=geometry?{width:geometry.rx*2,height:geometry.ry*2}:{width:Number(annotation.width)||GRAPH_NODE_DEFAULT_SIZE,height:Number(annotation.height)||GRAPH_NODE_DEFAULT_SIZE};
+      copy.contents=graphNodeContentIds(annotation).filter(id=>includedIds.has(id));
+      copy.points=[];
+    } else if (isGraphEdge(annotation)) {
+      copy.points=[];
+    } else if (isGraphEdgeLabel(annotation)) {
+      copy.contents=graphEdgeLabelContentIds(annotation).filter(id=>includedIds.has(id));
+      copy.points=[];
+    } else if (isImageAnnotation(annotation)) {
+      const rect=imageAnnotationDisplayBounds(page,annotation);
+      copy.displayRect=rect?{
+        x:rect.minX-bounds.minX,y:rect.minY-bounds.minY,width:rect.width,height:rect.height
+      }:null;
+      copy.displayRotation=normalizedQuarterTurn(imageAnnotationRotation(annotation)+normalizedQuarterTurn(page.rotation));
+      copy.points=[];
+    } else {
+      copy.points=(annotation.points||[]).map(raw=>{
+        const point=basePointToDisplay(page,raw);
+        return Number.isFinite(Number(raw.t)) ? {x:point.x-bounds.minX,y:point.y-bounds.minY,t:Number(raw.t)} : {x:point.x-bounds.minX,y:point.y-bounds.minY};
+      });
+    }
+    return copy;
+  });
   return {
     sourceDocumentId:state.currentDocumentId,
     sourcePageId:page.id,
     sourceDisplay:{width:display.width,height:display.height},
     origin:{x:bounds.minX,y:bounds.minY},
     size:{width:bounds.width,height:bounds.height},
-    items:annotations.map(annotation=>{
-      const copy={...cloneInkStroke(annotation),id:null};
-      if (isImageAnnotation(annotation)) {
-        const rect=imageAnnotationDisplayBounds(page,annotation);
-        copy.displayRect=rect?{
-          x:rect.minX-bounds.minX,y:rect.minY-bounds.minY,width:rect.width,height:rect.height
-        }:null;
-        copy.displayRotation=normalizedQuarterTurn(imageAnnotationRotation(annotation)+normalizedQuarterTurn(page.rotation));
-        copy.points=[];
-      } else {
-        copy.points=(annotation.points||[]).map(raw=>{
-          const point=basePointToDisplay(page,raw);
-          return Number.isFinite(Number(raw.t)) ? {x:point.x-bounds.minX,y:point.y-bounds.minY,t:Number(raw.t)} : {x:point.x-bounds.minX,y:point.y-bounds.minY};
-        });
-      }
-      return copy;
-    }),
+    semanticGraphFragment:!!fragment.semantic,
+    selectionSourceIds:[...fragment.selectionIds],
+    items,
   };
+}
+function annotationPasteUid(item) {
+  if (isGraphNode(item)) return uid('gnode');
+  if (isGraphEdge(item)) return uid('gedge');
+  if (isGraphEdgeLabel(item)) return uid('glabel');
+  if (isImageAnnotation(item)) return uid('image');
+  if (item?.type==='ink') return uid('ink');
+  return uid('annotation');
 }
 function instantiateAnnotationPayload(payload,page,origin) {
   if (!payload||!page) return [];
@@ -5482,24 +5594,82 @@ function instantiateAnnotationPayload(payload,page,origin) {
   const width=Number(payload.size?.width)||0, height=Number(payload.size?.height)||0;
   ox=clamp(ox,0,Math.max(0,display.width-width));
   oy=clamp(oy,0,Math.max(0,display.height-height));
-  return (payload.items||[]).map(item=>{
+  const sourceItems=payload.items||[];
+  const idMap=new Map();
+  for (const item of sourceItems) if (item?.clipboardSourceId) idMap.set(item.clipboardSourceId,annotationPasteUid(item));
+  const pairs=[];
+  for (const item of sourceItems) {
+    const newId=idMap.get(item.clipboardSourceId)||annotationPasteUid(item);
     if (isImageAnnotation(item) && item.displayRect) {
       const rect=displayRectToBaseImageRect(page,{
         x:ox+item.displayRect.x,y:oy+item.displayRect.y,
         width:item.displayRect.width,height:item.displayRect.height,
       });
-      const {displayRect,displayRotation,...rest}=item;
+      const {displayRect,displayRotation,clipboardSourceId,...rest}=item;
       const rotation=Number.isFinite(Number(displayRotation))
         ? normalizedQuarterTurn(Number(displayRotation)-normalizedQuarterTurn(page.rotation))
         : imageAnnotationRotation(item);
-      return {...rest,id:uid('image'),x:rect.x,y:rect.y,width:rect.width,height:rect.height,rotation,points:[]};
+      pairs.push({item,clone:{...rest,id:newId,x:rect.x,y:rect.y,width:rect.width,height:rect.height,rotation,points:[]}});
+      continue;
     }
-    return {
-      ...item,
-      id:uid(item.type==='ink'?'ink':'annotation'),
+    if (isGraphNode(item)) {
+      const {displayGraphCenter,displayGraphSize,clipboardSourceId,...rest}=item;
+      const mapped=displayPointToBase(page,{x:ox+(Number(displayGraphCenter?.x)||0),y:oy+(Number(displayGraphCenter?.y)||0)});
+      const nodeWidth=Math.max(GRAPH_NODE_MIN_SIZE,Number(item.width)||GRAPH_NODE_DEFAULT_SIZE);
+      const nodeHeight=Math.max(GRAPH_NODE_MIN_SIZE,Number(item.height)||GRAPH_NODE_DEFAULT_SIZE);
+      const base=pageCanvasBaseDimensions(page);
+      pairs.push({item,clone:{...rest,id:newId,x:clamp(mapped.x,nodeWidth/2,Math.max(nodeWidth/2,base.width-nodeWidth/2)),y:clamp(mapped.y,nodeHeight/2,Math.max(nodeHeight/2,base.height-nodeHeight/2)),width:nodeWidth,height:nodeHeight,contents:[],points:[]}});
+      continue;
+    }
+    if (isGraphEdge(item)||isGraphEdgeLabel(item)) {
+      const {clipboardSourceId,...rest}=item;
+      pairs.push({item,clone:{...rest,id:newId,contents:isGraphEdgeLabel(item)?[]:rest.contents,points:[]}});
+      continue;
+    }
+    const {clipboardSourceId,...rest}=item;
+    pairs.push({item,clone:{
+      ...rest,id:newId,
       points:(item.points||[]).map(point=>{const mapped=displayPointToBase(page,{x:ox+point.x,y:oy+point.y});return Number.isFinite(Number(point.t))?{...mapped,t:Number(point.t)}:mapped;}),
-    };
+    }});
+  }
+
+  // Remap semantic relationships only after every new ID exists. This makes a
+  // pasted graph independent from its source even when pasted back onto the
+  // same page next to the original.
+  for (const {item,clone} of pairs) {
+    if (isGraphNode(item)) clone.contents=graphNodeContentIds(item).map(id=>idMap.get(id)).filter(Boolean);
+    if (isGraphEdge(item)) {
+      clone.fromNodeId=idMap.get(item.fromNodeId)||null;
+      clone.toNodeId=idMap.get(item.toNodeId)||null;
+    }
+    if (isGraphEdgeLabel(item)) {
+      clone.edgeId=idMap.get(item.edgeId)||null;
+      clone.contents=graphEdgeLabelContentIds(item).map(id=>idMap.get(id)).filter(Boolean);
+    }
+    if (!isGraphObject(item)) {
+      if (item.graphNodeId && idMap.has(item.graphNodeId)) clone.graphNodeId=idMap.get(item.graphNodeId);
+      else { delete clone.graphNodeId; delete clone.graphLocalPoints; }
+      if (item.graphEdgeLabelId && idMap.has(item.graphEdgeLabelId)) clone.graphEdgeLabelId=idMap.get(item.graphEdgeLabelId);
+      else { delete clone.graphEdgeLabelId; delete clone.graphLabelLocalPoints; }
+    }
+    delete clone.clipboardSourceId;
+  }
+  const validNodeIds=new Set(pairs.filter(pair=>isGraphNode(pair.clone)).map(pair=>pair.clone.id));
+  const validEdgeIds=new Set(pairs.filter(pair=>isGraphEdge(pair.clone)&&validNodeIds.has(pair.clone.fromNodeId)&&validNodeIds.has(pair.clone.toNodeId)).map(pair=>pair.clone.id));
+  const validLabelIds=new Set(pairs.filter(pair=>isGraphEdgeLabel(pair.clone)&&validEdgeIds.has(pair.clone.edgeId)).map(pair=>pair.clone.id));
+  const clones=pairs.map(pair=>pair.clone).filter(clone=>{
+    if (isGraphEdge(clone)) return validEdgeIds.has(clone.id);
+    if (isGraphEdgeLabel(clone)) return validLabelIds.has(clone.id);
+    return true;
   });
+  // Strip any child relationship whose owner was discarded by validation.
+  for (const clone of clones) {
+    if (clone.graphNodeId && !validNodeIds.has(clone.graphNodeId)) { delete clone.graphNodeId; delete clone.graphLocalPoints; }
+    if (clone.graphEdgeLabelId && !validLabelIds.has(clone.graphEdgeLabelId)) { delete clone.graphEdgeLabelId; delete clone.graphLabelLocalPoints; }
+  }
+  const selectionIds=(payload.selectionSourceIds||[]).map(id=>idMap.get(id)).filter(id=>clones.some(clone=>clone.id===id));
+  Object.defineProperty(clones,'selectionIds',{value:selectionIds.length?selectionIds:clones.map(clone=>clone.id),enumerable:false});
+  return clones;
 }
 function deleteSelectedAnnotations() {
   const page=selectedAnnotationPage();
@@ -5551,7 +5721,6 @@ function deleteSelectedAnnotations() {
 }
 function duplicateSelectedAnnotations() {
   const page=selectedAnnotationPage();
-  if (selectedAnnotations(page).some(isGraphNode)) { setStatus('Graph-node duplication will be added with graph copy/paste semantics'); return; }
   const payload=annotationPayloadFromSelection(page);
   if (!page||!payload) return;
   const before=snapshotPages();
@@ -5562,11 +5731,18 @@ function duplicateSelectedAnnotations() {
   if (origin.y+payload.size.height>display.height&&payload.origin.y-offset>=0) origin.y=payload.origin.y-offset;
   const clones=instantiateAnnotationPayload(payload,page,origin);
   annotationsForPage(page).push(...clones);
-  setAnnotationSelection(page,new Set(clones.map(item=>item.id)),{redraw:false});
+  if (payload.semanticGraphFragment) {
+    graphRebuildNodeContentLists(page);
+    graphRefreshAttachedInkLocalMetadata(page,new Set(clones.filter(isGraphContentInk).map(item=>item.id)));
+  }
+  setAnnotationSelection(page,new Set(clones.selectionIds||clones.map(item=>item.id)),{redraw:false});
   commitHistory(before);
   saveCurrentDocumentState({readViewDom:false});
   redrawPageAnnotationOverlays(page);
-  setStatus(`Duplicated ${clones.length} annotation object${clones.length===1?'':'s'}`);
+  if (payload.semanticGraphFragment) {
+    const nodes=clones.filter(isGraphNode).length, edges=clones.filter(isGraphEdge).length, labels=clones.filter(isGraphEdgeLabel).length;
+    setStatus(`Duplicated graph fragment · ${nodes} node${nodes===1?'':'s'}, ${edges} edge${edges===1?'':'s'}${labels?`, ${labels} label${labels===1?'':'s'}`:''}`);
+  } else setStatus(`Duplicated ${clones.length} annotation object${clones.length===1?'':'s'}`);
 }
 function rotateDisplayPointClockwise90(point, center) {
   const dx=(Number(point?.x)||0)-(Number(center?.x)||0);
@@ -5654,7 +5830,6 @@ function recolorSelectedAnnotations(color) {
 }
 
 function copySelectedAnnotations() {
-  if (selectedAnnotations().some(isGraphNode)) { setStatus('Graph-node copy/paste will be added with graph relationship copying'); return; }
   const payload=annotationPayloadFromSelection();
   if (!payload) return;
   state.annotationClipboard=payload;
@@ -5667,7 +5842,10 @@ function copySelectedAnnotations() {
     if (asset && state.annotationClipboard === payload) state.annotationClipboardAssetId = asset.id;
   }).catch(err => console.warn('Could not add copy to Recent Assets', err));
   const count=payload.items.length;
-  setStatus(`Copied ${count} annotation object${count===1?'':'s'} · added to Recent`);
+  if (payload.semanticGraphFragment) {
+    const nodes=payload.items.filter(isGraphNode).length, edges=payload.items.filter(isGraphEdge).length, labels=payload.items.filter(isGraphEdgeLabel).length;
+    setStatus(`Copied graph fragment · ${nodes} node${nodes===1?'':'s'}, ${edges} edge${edges===1?'':'s'}${labels?`, ${labels} label${labels===1?'':'s'}`:''} · added to Recent`);
+  } else setStatus(`Copied ${count} annotation object${count===1?'':'s'} · added to Recent`);
 }
 function activeAnnotationTargetPage() {
   if (state.splitView) {
@@ -5705,12 +5883,19 @@ function pasteAnnotationPayload(payload, options={}) {
   }
   const clones=instantiateAnnotationPayload(payload,page,origin);
   annotationsForPage(page).push(...clones);
+  if (payload.semanticGraphFragment) {
+    graphRebuildNodeContentLists(page);
+    graphRefreshAttachedInkLocalMetadata(page,new Set(clones.filter(isGraphContentInk).map(item=>item.id)));
+  }
   setAnnotationTool('select');
-  setAnnotationSelection(page,new Set(clones.map(item=>item.id)),{redraw:false});
+  setAnnotationSelection(page,new Set(clones.selectionIds||clones.map(item=>item.id)),{redraw:false});
   commitHistory(before);
   saveCurrentDocumentState({readViewDom:false});
   redrawPageAnnotationOverlays(page);
-  setStatus(`Pasted ${clones.length} annotation object${clones.length===1?'':'s'}`);
+  if (payload.semanticGraphFragment) {
+    const nodes=clones.filter(isGraphNode).length, edges=clones.filter(isGraphEdge).length, labels=clones.filter(isGraphEdgeLabel).length;
+    setStatus(`Pasted graph fragment · ${nodes} node${nodes===1?'':'s'}, ${edges} edge${edges===1?'':'s'}${labels?`, ${labels} label${labels===1?'':'s'}`:''}`);
+  } else setStatus(`Pasted ${clones.length} annotation object${clones.length===1?'':'s'}`);
   return clones;
 }
 async function pasteCopiedAnnotations() {
@@ -5768,12 +5953,11 @@ function updateSelectionToolbar() {
   const selected = count ? selectedAnnotations() : [];
   const graphNodes=selected.filter(isGraphNode);
   const graphEdges=selected.filter(isGraphEdge);
-  const hasGraphObjects=graphNodes.length>0||graphEdges.length>0;
   const transformable=selected.filter(annotation=>!isGraphEdge(annotation));
   if (els.selectionDeleteBtn) els.selectionDeleteBtn.disabled=!count;
-  if (els.selectionDuplicateBtn) els.selectionDuplicateBtn.disabled=!count||hasGraphObjects;
+  if (els.selectionDuplicateBtn) els.selectionDuplicateBtn.disabled=!count;
   if (els.selectionRotateBtn) els.selectionRotateBtn.disabled=!transformable.length || (graphEdges.length>0 && graphNodes.length===0);
-  if (els.selectionCopyBtn) els.selectionCopyBtn.disabled=!count||hasGraphObjects;
+  if (els.selectionCopyBtn) els.selectionCopyBtn.disabled=!count;
   const recolorable = selected.filter(annotation => !isImageAnnotation(annotation) && typeof annotation?.color === 'string');
   if (els.selectionColorGroup) {
     els.selectionColorGroup.classList.toggle('hidden', !active || !recolorable.length);
@@ -15415,7 +15599,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.15 removes the now-redundant blue edge-label position dot. Semantic handwritten edge labels continue to follow their changing edges live during graph movement and Select resizing, and direct dragging still changes position along the edge plus perpendicular offset using the label itself as the drag target. The classroom-validated 5.8.11 graph resizing, 5.8.10 smooth Graph Move, 5.8.9 live restricted Eraser preview, and 5.8.8 customizable Presentation toolbar remain intact.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.16 adds relationship-aware semantic graph Copy/Paste and Duplicate. Copied nodes bring owned handwriting; internal edges, edge labels, and label handwriting remain attached; explicitly copied edges bring required endpoints; external connections stay behind; and every pasted semantic ID is remapped so the new graph is independent. The validated 5.8.15 live edge-label interaction and earlier graph-content behavior remain intact.</p>
       <ul><li><strong>Graph tools:</strong> Graph mode creates movable semantic nodes and straight attached edges. Node borders may be Clean, Hand-drawn, or None; edges follow nodes as they move. Handwritten node contents can be created from selected ink and edited with a simple Pen/Highlighter/Eraser workflow plus Clear and Move Contents; auto-fit remains available for auto nodes. Straight edges can now own handwritten labels that follow their geometry and can slide along or across the edge. Loops, curves, directed edges, and relationship-aware graph copy/paste remain later milestones.</li><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Customizable Presentation toolbar:</strong> Presentation has a permanent Tools menu at the far left. Tools can be launched from that menu whether or not their main-toolbar checkbox is enabled; choosing a tool from the menu shows its normal contextual options in the toolbar. Visibility choices persist across restarts. The ordinary View strip remains unchanged.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

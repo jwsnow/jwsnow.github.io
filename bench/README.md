@@ -1,3 +1,17 @@
+# PDF Workbench — Milestone 5.8.16 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.8.16 relationship-aware graph Copy/Paste
+
+- Enables **Copy**, **Paste**, and **Duplicate** for Select/Lasso selections containing semantic graph objects.
+- Copy builds a self-contained semantic fragment rather than blindly cloning only the objects intersected by the lasso. Selected nodes bring all node-owned Pen/Highlighter contents. Every edge whose two endpoints are in the copied node set comes along automatically.
+- Explicitly selected edges pull in the endpoint nodes needed to make those edges meaningful. Other connections from copied nodes to nodes outside the fragment stay behind.
+- Included edges bring their semantic edge labels and all label-owned Pen/Highlighter contents. Direct edge-label position/offset semantics are preserved.
+- Paste assigns new IDs to nodes, edges, labels, and ink, then remaps all `fromNodeId` / `toNodeId`, `edgeId`, `graphNodeId`, and `graphEdgeLabelId` relationships. The pasted graph is therefore independent of the source even when pasted onto the same page beside it.
+- Mixed selections remain supported: selected loose Pen/Highlighter/images paste with the graph. If attached handwriting is copied without its owning node/label, it becomes ordinary loose ink rather than retaining a dangling relationship.
+- Newly pasted graph fragments are selected at the semantic geometry level (nodes/edges plus explicitly copied loose objects), not as a giant set of hidden child-ink IDs, so they can immediately be moved/resized using the established graph transform behavior.
+- Copied graph fragments remain reusable through **Recent/Assets**. Snippet thumbnails now include lightweight graph node/edge geometry in addition to owned handwriting.
+- 5.8.15 live edge-label dragging/following, 5.8.11 graph resize/content scaling, Undo/Redo, persistence, PDF export, and the ES-module release check are preserved.
+
 # PDF Workbench — Milestone 5.8.15 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 ## 5.8.15 simplified edge-label dragging

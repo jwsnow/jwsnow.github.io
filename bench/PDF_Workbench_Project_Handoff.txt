@@ -1,3 +1,45 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-09-24 — BASELINE 5.8.16-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.16-exp ZIP, not an older build.
+
+5.8.16-exp RELATIONSHIP-AWARE GRAPH COPY/PASTE
+
+WHY THIS REVISION EXISTS
+- 5.8.15 completed the initial edge-label interaction and was reported by the user to work great. The next agreed graph milestone was Copy/Paste that preserves semantic graph relationships rather than treating nodes, edges, labels, and their handwriting as unrelated annotations.
+
+WHAT 5.8.16 CHANGES
+- Select/Lasso Copy and Duplicate are enabled for graph selections.
+- The copied fragment is relationship-aware: selected nodes bring their owned ink; edges wholly between copied nodes come automatically; explicitly selected edges pull in required endpoint nodes; external connections to nodes outside the fragment stay behind.
+- Included edges bring their semantic edge labels and label-owned Pen/Highlighter contents.
+- Paste/Duplicate generates new IDs for every semantic node, edge, label, and child ink object, then remaps endpoint/owner relationships so the new graph is completely independent of the source.
+- Mixed graph + loose ink/image selections remain supported. Attached ink copied without its owner is intentionally pasted as ordinary loose ink instead of retaining a dangling semantic ID.
+- The pasted fragment is selected by its semantic top-level graph geometry plus explicitly copied loose objects; owned child handwriting follows its new owner automatically.
+- Copied graph fragments are stored in Recent/Assets as editable snippets; snippet thumbnails now show lightweight graph edges/nodes as well as handwriting/images.
+
+PRESERVED
+- 5.8.15 simplified live edge-label dragging and 5.8.14 continuous label following.
+- 5.8.11 smooth graph resize + owned-ink scaling, 5.8.10 Graph Move, 5.8.9 restricted Eraser preview, 5.8.8 Presentation toolbar architecture.
+- Existing Undo/Redo, Local Library persistence/backup, export, graph delete relationships, and ES-module-aware release check.
+
+TEST PRIORITY
+1. Lasso two connected labeled nodes, Copy/Paste: both nodes, their handwriting, internal edge, edge label, and label handwriting should appear as an independent copy.
+2. Move/resize the pasted graph: all copied relationships should follow exactly as on the original.
+3. Select only one node from a larger graph and Copy/Paste: its external edges must stay behind.
+4. Select an edge alone and Copy/Paste: both endpoint nodes (with their contents) and that self-contained edge/label should come along.
+5. Lasso several nodes where the lasso misses an internal edge line: the edge should still copy because both endpoints are copied.
+6. Mixed graph + loose ink/image copy.
+7. Duplicate a graph fragment and verify the same semantics.
+8. Undo/Redo Copy/Paste/Duplicate, save/reopen, and test reusing the fragment from Recent/Assets.
+
+NEXT GRAPH WORK
+- Validate relationship-aware Copy/Paste in real use.
+- Then proceed to later graph geometry features such as curved/parallel edges, loops, directed edges/arrowheads, and graph conveniences.
+
+===============================================================================
+PRIOR 5.8.15 HANDOFF / PROJECT HISTORY FOLLOWS
+===============================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-09-24 — BASELINE 5.8.15-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
