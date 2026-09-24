@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.10';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.11';
 
-const APP_VERSION = '5.8.10';
+const APP_VERSION = '5.8.11';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -2747,6 +2747,25 @@ function graphTranslateContentFromOriginals(page,contentOriginals,nodePositions)
     });
   }
 }
+function graphScaleContentFromOriginals(page,contentOriginals,anchor,scale) {
+  if (!page || !anchor || !Array.isArray(contentOriginals) || !contentOriginals.length) return;
+  const current=new Map(annotationsForPage(page).map(annotation=>[annotation.id,annotation]));
+  const factor=Math.max(.0001,Number(scale)||1);
+  for (const entry of contentOriginals) {
+    const annotation=current.get(entry?.stroke?.id);
+    const original=entry?.stroke;
+    if (!annotation || !isGraphContentInk(annotation) || !original) continue;
+    annotation.points=(original.points||[]).map(raw=>{
+      const point=basePointToDisplay(page,raw);
+      const mapped=displayPointToBase(page,{
+        x:anchor.x+(point.x-anchor.x)*factor,
+        y:anchor.y+(point.y-anchor.y)*factor,
+      });
+      return Number.isFinite(Number(raw.t)) ? {...mapped,t:Number(raw.t)} : mapped;
+    });
+    annotation.width=Math.max(.25,(Number(original.width)||3)*factor);
+  }
+}
 function graphContentOriginalsForNodes(page,nodes) {
   if (!page) return [];
   const result=[];
@@ -4518,12 +4537,14 @@ function clearSelectionGestureLayers(page) {
 }
 function prepareSelectionGestureLayers(gesture) {
   if (!gesture?.page || !['move','resize'].includes(gesture.mode) || !gesture.originals?.length) return false;
-  // Graph nodes have dependent edges on a separate semantic graph canvas. For
-  // 5.8.3, transform graph-containing selections directly and redraw that
-  // lightweight layer so attached edges follow continuously during the drag.
-  if (gesture.originals.some(annotation=>isGraphNode(annotation)||isGraphEdge(annotation))) return false;
   const page = gesture.page;
-  const ids = new Set(gesture.originals.map(annotation => annotation.id));
+  const graphObjects=gesture.originals.filter(isGraphObject);
+  gesture.graphPreviewOptimized=graphObjects.length>0;
+  // The live layer contains the ordinary selected objects plus all handwriting
+  // owned by selected graph nodes. Graph borders/edges stay on their lightweight
+  // semantic canvas and are updated separately during the gesture.
+  const ids = new Set(gesture.originals.filter(annotation=>!isGraphObject(annotation)).map(annotation => annotation.id));
+  for (const entry of gesture.graphContentOriginals||[]) if (entry?.stroke?.id) ids.add(entry.stroke.id);
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   let liveCount = 0;
   let renderedCount = 0;
@@ -4571,7 +4592,7 @@ function setSelectionGestureLayerTransform(gesture) {
       const transform = `translate(${dxCss}px, ${dyCss}px)`;
       live.style.transformOrigin = '0 0';
       live.style.transform = transform;
-      if (selectionLayer) {
+      if (selectionLayer && !gesture.graphPreviewOptimized) {
         selectionLayer.style.transformOrigin = '0 0';
         selectionLayer.style.transform = transform;
       }
@@ -4584,70 +4605,94 @@ function setSelectionGestureLayerTransform(gesture) {
       const transform = `scale(${scale})`;
       live.style.transformOrigin = origin;
       live.style.transform = transform;
-      if (selectionLayer) {
+      if (selectionLayer && !gesture.graphPreviewOptimized) {
         selectionLayer.style.transformOrigin = origin;
         selectionLayer.style.transform = transform;
       }
     }
   }
 }
-function commitSelectionGestureTransform(gesture) {
-  if (!gesture?.changed) return;
-  const page = gesture.page;
-  const current = new Map(annotationsForPage(page).map(annotation => [annotation.id, annotation]));
-  if (gesture.mode === 'move') {
-    const { dx=0, dy=0 } = gesture.lastDelta || {};
-    for (const original of gesture.originals || []) {
-      const annotation = current.get(original.id);
-      if (!annotation) continue;
-      if (isGraphEdge(original)) continue;
+function applySelectionGestureModelTransform(gesture,{includeGraphContents=true}={}) {
+  if (!gesture?.page) return;
+  const page=gesture.page;
+  const current=new Map(annotationsForPage(page).map(annotation=>[annotation.id,annotation]));
+  const selectedNodeIds=new Set((gesture.originals||[]).filter(isGraphNode).map(node=>node.id));
+  if (gesture.mode==='move') {
+    const {dx=0,dy=0}=gesture.lastDelta||{};
+    for (const original of gesture.originals||[]) {
+      const annotation=current.get(original.id);
+      if (!annotation || isGraphEdge(original)) continue;
+      // On final commit, selected-node ownership supplies the authoritative
+      // child transform. During preview, explicitly selected child ink still
+      // updates in the model so the selection chrome follows it accurately.
+      if (includeGraphContents && original.graphNodeId && selectedNodeIds.has(original.graphNodeId)) continue;
       if (isGraphNode(original)) {
         annotation.x=(Number(original.x)||0)+dx;
         annotation.y=(Number(original.y)||0)+dy;
       } else if (isImageAnnotation(original)) {
-        annotation.x = (Number(original.x)||0) + dx;
-        annotation.y = (Number(original.y)||0) + dy;
+        annotation.x=(Number(original.x)||0)+dx;
+        annotation.y=(Number(original.y)||0)+dy;
       } else {
-        annotation.points = original.points.map(point => ({ ...point, x:point.x+dx, y:point.y+dy }));
+        annotation.points=(original.points||[]).map(point=>({...point,x:(Number(point.x)||0)+dx,y:(Number(point.y)||0)+dy}));
       }
+    }
+    if (includeGraphContents && gesture.graphContentOriginals?.length) {
+      const nodePositions=new Map(annotationsForPage(page).filter(isGraphNode).map(node=>[node.id,{x:Number(node.x)||0,y:Number(node.y)||0}]));
+      graphTranslateContentFromOriginals(page,gesture.graphContentOriginals,nodePositions);
     }
     return;
   }
-  if (gesture.mode === 'resize') {
-    const scale = gesture.lastScale?.scale ?? 1;
-    const anchor = gesture.resizeFrame?.anchor;
+  if (gesture.mode==='resize') {
+    const scale=gesture.lastScale?.scale??1;
+    const anchor=gesture.resizeFrame?.anchor;
     if (!anchor) return;
-    for (const original of gesture.originals || []) {
-      const annotation = current.get(original.id);
-      if (!annotation) continue;
-      if (isGraphEdge(original)) continue;
+    for (const original of gesture.originals||[]) {
+      const annotation=current.get(original.id);
+      if (!annotation || isGraphEdge(original)) continue;
+      if (includeGraphContents && original.graphNodeId && selectedNodeIds.has(original.graphNodeId)) continue;
       if (isGraphNode(original)) {
         const center=basePointToDisplay(page,{x:Number(original.x)||0,y:Number(original.y)||0});
         const nextCenter=displayPointToBase(page,{x:anchor.x+(center.x-anchor.x)*scale,y:anchor.y+(center.y-anchor.y)*scale});
         annotation.x=nextCenter.x; annotation.y=nextCenter.y;
         annotation.width=Math.max(GRAPH_NODE_MIN_SIZE,(Number(original.width)||GRAPH_NODE_DEFAULT_SIZE)*scale);
         annotation.height=Math.max(GRAPH_NODE_MIN_SIZE,(Number(original.height)||GRAPH_NODE_DEFAULT_SIZE)*scale);
-        annotation.contentMode='manual';
+        if (gesture.changed) annotation.contentMode='manual';
+        else if (Object.prototype.hasOwnProperty.call(original,'contentMode')) annotation.contentMode=original.contentMode;
+        else delete annotation.contentMode;
       } else if (isImageAnnotation(original)) {
-        const topLeft = basePointToDisplay(page, {x:Number(original.x)||0,y:Number(original.y)||0});
-        const nextTopLeft = displayPointToBase(page, {
+        const topLeft=basePointToDisplay(page,{x:Number(original.x)||0,y:Number(original.y)||0});
+        const nextTopLeft=displayPointToBase(page,{
           x:anchor.x+(topLeft.x-anchor.x)*scale,
           y:anchor.y+(topLeft.y-anchor.y)*scale,
         });
-        annotation.x = nextTopLeft.x;
-        annotation.y = nextTopLeft.y;
-        annotation.width = Math.max(.25, (Number(original.width)||1) * scale);
-        annotation.height = Math.max(.25, (Number(original.height)||1) * scale);
+        annotation.x=nextTopLeft.x;
+        annotation.y=nextTopLeft.y;
+        annotation.width=Math.max(.25,(Number(original.width)||1)*scale);
+        annotation.height=Math.max(.25,(Number(original.height)||1)*scale);
       } else {
-        annotation.points = original.points.map(raw => {
-          const point = basePointToDisplay(page, raw);
-          const mapped=displayPointToBase(page, { x:anchor.x+(point.x-anchor.x)*scale, y:anchor.y+(point.y-anchor.y)*scale });
-          return Number.isFinite(Number(raw.t)) ? {...mapped,t:Number(raw.t)} : mapped;
+        annotation.points=(original.points||[]).map(raw=>{
+          const point=basePointToDisplay(page,raw);
+          const mapped=displayPointToBase(page,{x:anchor.x+(point.x-anchor.x)*scale,y:anchor.y+(point.y-anchor.y)*scale});
+          return Number.isFinite(Number(raw.t))?{...mapped,t:Number(raw.t)}:mapped;
         });
-        annotation.width = Math.max(.25, (Number(original.width)||3) * scale);
+        annotation.width=Math.max(.25,(Number(original.width)||3)*scale);
       }
     }
+    if (includeGraphContents && gesture.graphContentOriginals?.length) graphScaleContentFromOriginals(page,gesture.graphContentOriginals,anchor,scale);
   }
+}
+function updateOptimizedGraphSelectionPreview(gesture) {
+  if (!gesture?.graphPreviewOptimized) return;
+  // Keep the semantic geometry live so node frames, incident edges, and the
+  // selection handles remain truthful even after a node hits the 16-unit frame
+  // minimum. Owned handwriting itself remains frozen on the CSS-scaled live
+  // canvas until release, avoiding repeated exact Pen/Highlighter redraws.
+  applySelectionGestureModelTransform(gesture,{includeGraphContents:false});
+  redrawPageGraphOverlays(gesture.page);
+}
+function commitSelectionGestureTransform(gesture) {
+  if (!gesture?.changed) return;
+  applySelectionGestureModelTransform(gesture,{includeGraphContents:true});
 }
 function applyMoveSelectionGesture(gesture, event) {
   const page = gesture.page;
@@ -4661,8 +4706,10 @@ function applyMoveSelectionGesture(gesture, event) {
   dy = clamp(dy, -bounds.minY, base.height-bounds.maxY);
   gesture.changed = Math.hypot(dx,dy) > .02;
   gesture.lastDelta = { dx, dy };
-  if (gesture.previewOptimized) setSelectionGestureLayerTransform(gesture);
-  else {
+  if (gesture.previewOptimized) {
+    if (gesture.graphPreviewOptimized) updateOptimizedGraphSelectionPreview(gesture);
+    setSelectionGestureLayerTransform(gesture);
+  } else {
     // Safety fallback for an unusual unrendered stage: retain the pre-5.4.4
     // mutation/redraw behavior rather than sacrificing functionality.
     const current = new Map(annotationsForPage(page).map(annotation => [annotation.id,annotation]));
@@ -4718,8 +4765,10 @@ function applyResizeSelectionGesture(gesture, event) {
   const scale = clamp(projected, minimumSelectionScale, Math.max(minimumSelectionScale, Math.min(20,maxX,maxY)));
   gesture.changed = Math.abs(scale-1) > .002;
   gesture.lastScale = { scale };
-  if (gesture.previewOptimized) setSelectionGestureLayerTransform(gesture);
-  else {
+  if (gesture.previewOptimized) {
+    if (gesture.graphPreviewOptimized) updateOptimizedGraphSelectionPreview(gesture);
+    setSelectionGestureLayerTransform(gesture);
+  } else {
     const current = new Map(annotationsForPage(page).map(annotation => [annotation.id,annotation]));
     const selectedNodeIds=new Set((gesture.originals||[]).filter(isGraphNode).map(node=>node.id));
     for (const original of gesture.originals) {
@@ -4753,8 +4802,7 @@ function applyResizeSelectionGesture(gesture, event) {
         annotation.width = Math.max(.25,(Number(original.width)||3)*scale);
       }
     }
-    const nodePositions=new Map(annotationsForPage(page).filter(isGraphNode).map(node=>[node.id,{x:Number(node.x)||0,y:Number(node.y)||0}]));
-    graphTranslateContentFromOriginals(page,gesture.graphContentOriginals||[],nodePositions);
+    graphScaleContentFromOriginals(page,gesture.graphContentOriginals||[],anchor,scale);
     redrawPageAnnotationOverlays(page);
   }
 }
@@ -4976,7 +5024,7 @@ function finishSelectionGesture(viewer,event) {
   if (event.type==='pointercancel'||event.type==='touchcancel') {
     state.selectionGesture=null;
     if ((gesture.mode==='move'||gesture.mode==='resize')) {
-      if (!gesture.previewOptimized && gesture.changed) restorePages(gesture.before);
+      if ((!gesture.previewOptimized || gesture.graphPreviewOptimized) && gesture.changed) restorePages(gesture.before);
       clearSelectionGestureLayers(gesture.page);
       const restoredPage=pageById(gesture.pageId);
       if (restoredPage) redrawPageAnnotationOverlays(restoredPage);
@@ -10631,7 +10679,7 @@ function recoverTransientInputStateAfterDiagnosticSave() {
 
   if (selection) {
     if ((selection.mode === 'move' || selection.mode === 'resize') && selection.changed) {
-      if (!selection.previewOptimized && selection.before) restorePages(selection.before);
+      if ((!selection.previewOptimized || selection.graphPreviewOptimized) && selection.before) restorePages(selection.before);
       clearSelectionGestureLayers(selection.page);
       const restoredPage = pageById(selection.pageId);
       if (restoredPage) redrawPageAnnotationOverlays(restoredPage);
@@ -14946,7 +14994,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.10 optimizes Graph Move: attached node handwriting is isolated once onto a temporary layer and CSS-translated during drag, while only the lightweight graph layer redraws. This removes repeated full-page Highlighter compositing from pointer-move. The 5.8.9 live restricted Eraser preview and 5.8.8 customizable Presentation toolbar remain intact.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.11 extends the lightweight graph transform path to Select-handle resizing. Selected node handwriting is isolated once and CSS-scaled during drag while semantic node frames/edges stay live; release scales the owned Pen/Highlighter geometry and stroke widths exactly once. Node frames still clamp at 16 units while their contents continue following the overall graph scale. The 5.8.10 smooth Graph Move, 5.8.9 live restricted Eraser preview, and 5.8.8 customizable Presentation toolbar remain intact.</p>
       <ul><li><strong>Graph tools:</strong> Graph mode creates movable semantic nodes and straight attached edges. Node borders may be Clean, Hand-drawn, or None; edges follow nodes as they move. Handwritten node contents can be created from selected ink and edited with a simple Pen/Highlighter/Eraser workflow plus Clear and Move Contents; auto-fit remains available for auto nodes. Edge labels, loops, curves, directed edges, and relationship-aware graph copy/paste remain later milestones.</li><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Customizable Presentation toolbar:</strong> Presentation has a permanent Tools menu at the far left. Tools can be launched from that menu whether or not their main-toolbar checkbox is enabled; choosing a tool from the menu shows its normal contextual options in the toolbar. Visibility choices persist across restarts. The ordinary View strip remains unchanged.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;

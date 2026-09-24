@@ -1,3 +1,17 @@
+# PDF Workbench — Milestone 5.8.11 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.8.11 smooth graph resizing + scale owned handwriting
+
+- Fixes slow/jumpy Select-handle resizing for selections containing graph nodes, especially nodes with Highlighter contents.
+- Graph-containing move/resize selections now use the existing temporary live-selection canvas instead of exact full annotation redraws on every pointer sample.
+- Selected node-owned Pen/Highlighter contents are rendered once to the temporary layer and excluded from the frozen ordinary annotation layer during the gesture.
+- During graph resize, the temporary contents scale with CSS while semantic node frames and incident edges update on the lightweight graph canvas. Ordinary selected ink/images in a mixed graph selection also remain on the temporary layer.
+- On release, node-owned Pen/Highlighter point geometry and stroke widths are scaled exactly once around the same selection anchor, then graph-local ownership metadata is rebuilt and one exact annotation redraw restores authoritative rendering.
+- The existing 16-unit graph-node frame minimum remains unchanged. After a frame reaches that minimum, graph spacing may continue to contract and owned handwriting continues scaling with the overall selection rather than overflowing the fixed-minimum frame.
+- Cancel and diagnostic recovery restore the pre-gesture snapshot for graph-optimized transforms.
+- The unusual/unrendered-stage safety fallback now uses the same scale-owned-content semantics, so correctness does not depend on the optimized preview being available.
+- 5.8.10 Graph Move, 5.8.9 isolated node-content Eraser feedback, and 5.8.8 customizable Presentation toolbar are preserved.
+
 # PDF Workbench — Milestone 5.8.10 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 ## 5.8.10 lightweight graph-node dragging with attached ink

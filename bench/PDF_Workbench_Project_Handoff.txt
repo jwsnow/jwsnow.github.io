@@ -1,3 +1,50 @@
+PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-23 — CURRENT BASELINE 5.8.11-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.11-exp ZIP, not an older build.
+
+5.8.11-exp SMOOTH GRAPH RESIZE + SCALE NODE-OWNED HANDWRITING
+
+WHY THIS REVISION EXISTS
+- User reported that Select-handle resizing of graphs was slow/jumpy and that handwritten node contents could overflow their frames while shrinking.
+- 5.8.10 had already proven the lightweight temporary-layer approach for Graph -> Move, but `prepareSelectionGestureLayers()` still explicitly rejected graph-containing Select transforms.
+- Existing graph resize semantics moved node-owned ink with the node center but deliberately did not scale the handwriting, leaving the content-transform question unresolved.
+
+WHAT 5.8.11 CHANGES
+- Graph-containing Select move/resize gestures now use the existing `live-selection-canvas` optimization instead of forcing a full exact annotation redraw on every pointer sample.
+- The live layer contains ordinary selected ink/images plus Pen/Highlighter contents owned by selected graph nodes. Those drawable objects are excluded from the frozen persistent annotation/image layers during the gesture.
+- During graph resize, the live layer is CSS-scaled around the original selection anchor. Semantic graph-node geometry is updated cheaply so node borders and incident edges stay live; selection handles are redrawn from the current semantic geometry rather than blindly CSS-scaling past the node minimum.
+- At release, owned Pen/Highlighter point arrays and stroke widths are scaled exactly once around the same selection anchor. `graphLocalPoints` ownership metadata is then rebuilt by the existing finish path before persistence/Undo.
+- If a lasso contains both a graph node and one of its child strokes, the child is transformed once through node ownership rather than being double-transformed as an independent selected stroke.
+- The existing 16-unit node-frame minimum is preserved. Once a frame reaches 16, its center can continue moving inward with the graph and its handwriting continues scaling with the overall selection. This prevents overflow without allowing one handwritten label to establish a larger minimum size for the whole graph.
+- The safety fallback used when the temporary preview cannot be prepared now scales owned contents too, so optimized and fallback paths have the same final semantics.
+- Pointer cancel and Diagnostics recovery restore the pre-gesture snapshot when the graph-optimized preview has mutated temporary semantic geometry.
+
+PRESERVED
+- 5.8.10 lightweight Graph -> Move with attached ink.
+- 5.8.9 isolated live restricted node-content Eraser preview.
+- Exact static Pen/Highlighter rendering and Highlighter bead-prevention semantics.
+- 5.8.8 customizable Presentation toolbar.
+- 16-unit graph-node minimum, graph spacing compression after minimum, edge attachment, Undo/Redo, persistence, and export.
+
+TEST PRIORITY
+1. Make a node with Pen contents and Select-resize it smaller/larger. The writing and stroke width should scale with the node rather than overflow.
+2. Repeat with Highlighter and mixed Pen + Highlighter contents; drag should remain smooth.
+3. Shrink far enough for the node frame to hit the 16-unit minimum. The frame should stop shrinking, graph spacing should continue compacting, and the handwriting should keep scaling smaller.
+4. Resize several connected nodes together and confirm edges stay attached/live during the drag and all owned contents land exactly after release.
+5. Repeat with a mixed selection containing graph nodes plus ordinary ink and/or an image.
+6. Undo/Redo the resize; save/reopen and confirm geometry/content ownership persists.
+7. Cancel a resize if convenient and confirm the original graph/content geometry is restored.
+8. Regression-check 5.8.10 Graph Move and 5.8.9 restricted node Eraser.
+
+NEXT GRAPH WORK
+- Edge labels remain the next major feature. Reuse the same semantic container/content transform approach so label-owned handwriting can later follow/scale with its container without another transform redesign.
+- After edge labels, relationship-aware graph Copy/Paste remains the next larger semantic milestone.
+
+====================================================================
+PRIOR HANDOFF FOLLOWS
+====================================================================
+
 PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-23 — CURRENT BASELINE 5.8.10-exp
 
 5.8.10-exp LIGHTWEIGHT GRAPH MOVE FOR NODES WITH ATTACHED INK
