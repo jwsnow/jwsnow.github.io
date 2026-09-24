@@ -1,6 +1,14 @@
-# PDF Workbench — Milestone 5.8.13 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.8.14 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
-## 5.8.13 semantic handwritten edge labels
+## 5.8.14 live edge-label following during graph transforms
+
+- Refines the semantic edge-label preview so label handwriting visibly follows its changing edge continuously during Graph node moves and Select move/resize gestures instead of appearing to catch up only at gesture completion.
+- Each affected edge label is exact-rendered once into a small cropped temporary canvas rather than a full-page label canvas. The crop is then translated and, when appropriate, scaled with CSS around the label anchor as endpoint geometry changes.
+- Moving one endpoint keeps label handwriting size and perpendicular offset unchanged while the label anchor follows the reshaped edge. Moving both endpoints translates the label with the edge.
+- Proportional Select resize of both endpoints scales the label handwriting and perpendicular offset live with the graph, matching the exact commit semantics already established in 5.8.13.
+- The blue edge-label position handle and direct along/across-edge dragging remain unchanged. Pen/Highlighter exact geometry is still committed only once at gesture end.
+- This change is intentionally isolated to live preview performance/feedback; stored edge-label semantics, deletion relationships, persistence, export, node contents, and the classroom-validated 5.8.11 graph resize model are unchanged.
+
 
 - Adds one semantic handwritten label container to a straight graph edge. The label stores the owning `edgeId`, a normalized position along the visible edge, and a signed perpendicular offset rather than fixed page coordinates.
 - Select one graph edge and use **Add edge label**. The new label begins near the edge midpoint with a small offset, enters the existing Pen editor immediately, and accepts Pen/Highlighter handwriting. Selecting an existing label changes the same action to **Edit edge label**.

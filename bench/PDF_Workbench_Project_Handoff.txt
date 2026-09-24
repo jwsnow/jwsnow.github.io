@@ -1,3 +1,48 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-09-24 — BASELINE 5.8.14-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.14-exp ZIP, not an older build.
+
+5.8.14-exp LIVE EDGE-LABEL FOLLOWING DURING GRAPH TRANSFORMS
+
+WHY THIS REVISION EXISTS
+- 5.8.13 edge labels are functionally attached and commit to the correct position after graph node movement/resizing, but classroom-style testing showed the handwritten label can appear to wait until the gesture completes rather than visibly following the changing edge throughout the gesture.
+- 5.8.13 already had the semantic anchor math and a live-preview attempt, but it represented each label with a full-page temporary canvas. That is unnecessarily expensive, especially on iPad, and can make the live feedback lag behind the edge geometry.
+
+WHAT 5.8.14 CHANGES
+- Each affected edge label is exact-rendered once into a small cropped temporary canvas around only that label's handwriting.
+- During Graph node moves, the cropped label canvas is translated continuously from the label's updated semantic edge anchor. The edge and blue label-position indicator therefore move together with the handwritten label rather than the label catching up on release.
+- During Select move/resize, affected labels use the same cropped live canvases while semantic node/edge geometry updates continuously.
+- If both edge endpoints participate in a proportional resize, the label preview scales around its own anchor and its perpendicular offset follows the existing exact resize semantics.
+- If only one endpoint changes, the label follows the reshaped edge live while keeping handwriting size and perpendicular offset unchanged.
+- Exact Pen/Highlighter point geometry is still committed once at gesture completion; no repeated exact Highlighter redraw is introduced.
+- Direct edge-label dragging along/across the edge, the blue positioning dot, one-label-per-edge semantics, deletion relationships, persistence, export, and label editing are unchanged.
+
+PRESERVED
+- 5.8.13 startup hotfix and ES-module-aware release syntax check.
+- 5.8.13 edge-label editing and semantic ownership.
+- Classroom-validated 5.8.11 graph resize/content behavior.
+- 5.8.10 lightweight Graph Move, 5.8.9 restricted Eraser preview, and 5.8.8 customizable Presentation toolbar.
+- Intermittent iPad Pencil nonresponse remains a separate watch item; do not rewrite Pen absent new evidence.
+
+TEST PRIORITY
+1. Create a labeled edge, Graph -> Move one endpoint, and confirm label handwriting follows continuously rather than snapping at release.
+2. Move the other endpoint and repeat with the label positioned well off the edge using perpendicular offset.
+3. Select both endpoint nodes and move them together; label should translate live with the edge.
+4. Select a small labeled subgraph and resize it; label handwriting and offset should scale live when both endpoints are included.
+5. Resize/move a selection containing only one endpoint of a labeled edge; the label should follow the reshaped edge live without changing handwriting size.
+6. Repeat with a Highlighter-containing label to check smoothness.
+7. Confirm direct label dragging by the blue positioning dot still works along and across the edge.
+8. Regression-check startup/PWA reload, node contents, Graph Move, Undo/Redo, persistence, and PDF export.
+
+NEXT GRAPH WORK
+- After 5.8.14 validation, relationship-aware graph Copy/Paste remains the next major graph milestone.
+- Later: curved/parallel edges, loops, directed edges/arrowheads, and graph conveniences.
+
+===============================================================================
+PRIOR 5.8.13 HANDOFF / PROJECT HISTORY FOLLOWS
+===============================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-09-24 — BASELINE 5.8.13-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.13';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.14';
 
-const APP_VERSION = '5.8.13';
+const APP_VERSION = '5.8.14';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -4149,16 +4149,14 @@ function updateGraphToolbar() {
   }
   updateGraphNodeSizeToolbar();
 }
-function ensureLiveGraphLabelOverlay(stage,baseCanvas,labelId) {
-  if (!stage || !baseCanvas?.width || !baseCanvas?.height || !labelId) return null;
+function ensureLiveGraphLabelOverlay(stage,labelId) {
+  if (!stage || !labelId) return null;
   let overlay=[...stage.querySelectorAll('canvas.live-graph-label-canvas')].find(canvas=>canvas.dataset.labelId===labelId) || null;
   if (!overlay) {
     overlay=document.createElement('canvas'); overlay.className='live-graph-label-canvas'; overlay.dataset.labelId=labelId;
     overlay.setAttribute('aria-hidden','true'); stage.append(overlay);
   }
-  if (overlay.width!==baseCanvas.width) overlay.width=baseCanvas.width;
-  if (overlay.height!==baseCanvas.height) overlay.height=baseCanvas.height;
-  overlay.style.width=baseCanvas.style.width||'100%'; overlay.style.height=baseCanvas.style.height||'100%';
+  overlay.style.right='auto'; overlay.style.bottom='auto';
   overlay.style.transform='none'; overlay.style.transformOrigin='0 0';
   return overlay;
 }
@@ -4172,6 +4170,19 @@ function graphLabelPreviewContentIds(entries) {
   for (const entry of entries||[]) for (const stroke of entry.strokes||[]) if (stroke?.id) ids.add(stroke.id);
   return ids;
 }
+function graphLabelPreviewDisplayBounds(page,entry,padding=5) {
+  const bounds=annotationDisplayBounds(page,entry?.strokes||[]);
+  if (!bounds) {
+    const anchor=entry?.anchor?basePointToDisplay(page,entry.anchor):null;
+    if (!anchor) return null;
+    return {minX:anchor.x-padding,minY:anchor.y-padding,maxX:anchor.x+padding,maxY:anchor.y+padding,width:padding*2,height:padding*2};
+  }
+  const extra=Math.max(padding,...(entry?.strokes||[]).map(stroke=>Math.max(1,Number(stroke?.width)||0)));
+  const display=pageDisplayDimensions(page);
+  const minX=clamp(bounds.minX-extra,0,display.width), minY=clamp(bounds.minY-extra,0,display.height);
+  const maxX=clamp(bounds.maxX+extra,0,display.width), maxY=clamp(bounds.maxY+extra,0,display.height);
+  return {minX,minY,maxX,maxY,width:Math.max(.01,maxX-minX),height:Math.max(.01,maxY-minY)};
+}
 function prepareGraphLabelPreviewLayers(page,entries) {
   if (!page?.id) return false;
   const active=(entries||[]).filter(entry=>(entry.strokes||[]).length);
@@ -4179,15 +4190,43 @@ function prepareGraphLabelPreviewLayers(page,entries) {
   const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   const stages=[...document.querySelectorAll(selector)].filter(stage=>stage.dataset.rendered==='true');
   if (!stages.length) return false;
+  const display=pageDisplayDimensions(page);
   for (const stage of stages) {
     const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
-    if (!base) { clearGraphLabelPreviewLayers(page); return false; }
+    if (!base?.width || !base?.height) { clearGraphLabelPreviewLayers(page); return false; }
+    // Render exact Pen/Highlighter appearance once, then crop each label into a
+    // small GPU-composited canvas. Keeping only the crop live avoids moving a
+    // full-page canvas for every label and is materially smoother on iPad.
+    const scratch=document.createElement('canvas'); scratch.width=base.width; scratch.height=base.height;
+    const scratchCtx=scratch.getContext('2d');
+    if (!scratchCtx) { clearGraphLabelPreviewLayers(page); return false; }
+    const pxPerDisplayX=base.width/Math.max(1,display.width), pxPerDisplayY=base.height/Math.max(1,display.height);
     for (const entry of active) {
       const ids=new Set((entry.strokes||[]).map(stroke=>stroke.id).filter(Boolean));
-      const live=ensureLiveGraphLabelOverlay(stage,base,entry.labelId), ctx=live?.getContext('2d');
+      const bounds=graphLabelPreviewDisplayBounds(page,entry); if (!bounds) continue;
+      scratchCtx.clearRect(0,0,scratch.width,scratch.height);
+      drawPageAnnotationsCanvas(page,scratchCtx,scratch.width,scratch.height,{includeStrokeIds:ids,inkOnly:true});
+      const sx=Math.max(0,Math.floor(bounds.minX*pxPerDisplayX));
+      const sy=Math.max(0,Math.floor(bounds.minY*pxPerDisplayY));
+      const ex=Math.min(scratch.width,Math.ceil(bounds.maxX*pxPerDisplayX));
+      const ey=Math.min(scratch.height,Math.ceil(bounds.maxY*pxPerDisplayY));
+      const sw=Math.max(1,ex-sx), sh=Math.max(1,ey-sy);
+      const live=ensureLiveGraphLabelOverlay(stage,entry.labelId), ctx=live?.getContext('2d');
       if (!live||!ctx) { clearGraphLabelPreviewLayers(page); return false; }
-      ctx.clearRect(0,0,live.width,live.height);
-      drawPageAnnotationsCanvas(page,ctx,live.width,live.height,{includeStrokeIds:ids,inkOnly:true});
+      live.width=sw; live.height=sh;
+      ctx.clearRect(0,0,sw,sh); ctx.drawImage(scratch,sx,sy,sw,sh,0,0,sw,sh);
+      const cropMinX=sx/pxPerDisplayX, cropMinY=sy/pxPerDisplayY;
+      const cropWidth=sw/pxPerDisplayX, cropHeight=sh/pxPerDisplayY;
+      live.style.left=`${cropMinX/Math.max(1,display.width)*100}%`;
+      live.style.top=`${cropMinY/Math.max(1,display.height)*100}%`;
+      live.style.width=`${cropWidth/Math.max(1,display.width)*100}%`;
+      live.style.height=`${cropHeight/Math.max(1,display.height)*100}%`;
+      live.dataset.originDisplayX=String(cropMinX);
+      live.dataset.originDisplayY=String(cropMinY);
+      const oldAnchor=basePointToDisplay(page,entry.anchor);
+      live.dataset.anchorDisplayX=String(oldAnchor.x);
+      live.dataset.anchorDisplayY=String(oldAnchor.y);
+      live.style.transform='none';
     }
   }
   return true;
@@ -4198,17 +4237,20 @@ function setGraphLabelPreviewTransforms(page,entries,{scale=1}={}) {
   const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const stage of document.querySelectorAll(selector)) {
     const rect=stage.getBoundingClientRect();
-    const sx=rect.width/Math.max(1,display.width), sy=rect.height/Math.max(1,display.height);
+    const cssPerDisplayX=rect.width/Math.max(1,display.width), cssPerDisplayY=rect.height/Math.max(1,display.height);
     for (const entry of entries||[]) {
       const live=[...stage.querySelectorAll('canvas.live-graph-label-canvas')].find(canvas=>canvas.dataset.labelId===entry.labelId);
       if (!live) continue;
       const label=graphEdgeLabelById(page,entry.labelId), anchor=graphEdgeLabelAnchor(page,label); if (!anchor) continue;
-      const oldDisplay=basePointToDisplay(page,entry.anchor), newDisplay=basePointToDisplay(page,anchor);
+      const newDisplay=basePointToDisplay(page,anchor);
+      const oldX=Number(live.dataset.anchorDisplayX), oldY=Number(live.dataset.anchorDisplayY);
+      const originX=Number(live.dataset.originDisplayX), originY=Number(live.dataset.originDisplayY);
+      if (![oldX,oldY,originX,originY].every(Number.isFinite)) continue;
       const objectScale=entry.bothEndpointsSelected?factor:1;
-      const oldX=oldDisplay.x*sx, oldY=oldDisplay.y*sy, newX=newDisplay.x*sx, newY=newDisplay.y*sy;
-      const tx=newX-objectScale*oldX, ty=newY-objectScale*oldY;
-      live.style.transformOrigin='0 0';
-      live.style.transform=`matrix(${objectScale},0,0,${objectScale},${tx}px,${ty}px)`;
+      const dx=(newDisplay.x-oldX)*cssPerDisplayX, dy=(newDisplay.y-oldY)*cssPerDisplayY;
+      const anchorLocalX=(oldX-originX)*cssPerDisplayX, anchorLocalY=(oldY-originY)*cssPerDisplayY;
+      live.style.transformOrigin=`${anchorLocalX}px ${anchorLocalY}px`;
+      live.style.transform=`translate(${dx}px, ${dy}px) scale(${objectScale})`;
     }
   }
 }
@@ -15380,7 +15422,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.12 adds semantic handwritten edge labels. A label belongs to one edge, stores a position along the edge plus a signed perpendicular offset, follows the edge when endpoint nodes move or resize, and can be dragged both along and across the edge. Pen/Highlighter/Eraser editing reuses the established attached-content workflow and lightweight preview canvases. The classroom-validated 5.8.11 graph resizing, 5.8.10 smooth Graph Move, 5.8.9 live restricted Eraser preview, and 5.8.8 customizable Presentation toolbar remain intact.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.14 makes semantic handwritten edge labels follow their changing edges live during graph movement and Select resizing. Label handwriting is isolated once into small cropped composited canvases, then translated/scaled continuously from the current edge anchor without repeated exact Pen/Highlighter rendering. The along-edge/perpendicular-offset model and direct label dragging remain unchanged. The classroom-validated 5.8.11 graph resizing, 5.8.10 smooth Graph Move, 5.8.9 live restricted Eraser preview, and 5.8.8 customizable Presentation toolbar remain intact.</p>
       <ul><li><strong>Graph tools:</strong> Graph mode creates movable semantic nodes and straight attached edges. Node borders may be Clean, Hand-drawn, or None; edges follow nodes as they move. Handwritten node contents can be created from selected ink and edited with a simple Pen/Highlighter/Eraser workflow plus Clear and Move Contents; auto-fit remains available for auto nodes. Straight edges can now own handwritten labels that follow their geometry and can slide along or across the edge. Loops, curves, directed edges, and relationship-aware graph copy/paste remain later milestones.</li><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Customizable Presentation toolbar:</strong> Presentation has a permanent Tools menu at the far left. Tools can be launched from that menu whether or not their main-toolbar checkbox is enabled; choosing a tool from the menu shows its normal contextual options in the toolbar. Visibility choices persist across restarts. The ordinary View strip remains unchanged.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
