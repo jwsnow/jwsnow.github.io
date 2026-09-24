@@ -1,3 +1,18 @@
+# PDF Workbench — Milestone 5.8.12 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.8.12 semantic handwritten edge labels
+
+- Adds one semantic handwritten label container to a straight graph edge. The label stores the owning `edgeId`, a normalized position along the visible edge, and a signed perpendicular offset rather than fixed page coordinates.
+- Select one graph edge and use **Add edge label**. The new label begins near the edge midpoint with a small offset, enters the existing Pen editor immediately, and accepts Pen/Highlighter handwriting. Selecting an existing label changes the same action to **Edit edge label**.
+- Edge-label editing reuses the mature attached-content workflow: Pen, Highlighter, restricted partial Eraser, Clear Contents, Move Contents, Done, Undo/Redo, persistence, and ordinary PDF export. Label handwriting remains ordinary Workbench ink with semantic ownership metadata.
+- Graph → Move can drag the label itself. Pointer motion is projected into position along the edge plus signed perpendicular offset, so a label can slide toward either endpoint or move to either side of the edge for graph cleanup without detaching from the edge.
+- Labels follow their edge automatically when either endpoint node moves, changes fixed size, auto-fits around node contents, rotates as part of a selected graph, or is affected by page geometry changes. Label handwriting stays upright rather than rotating with the edge.
+- Select move/resize extends the 5.8.11 lightweight preview architecture. Edge-label handwriting is isolated on per-label composited canvases while semantic node/edge geometry remains live, avoiding exact Highlighter rerendering on every pointer sample.
+- When both endpoint nodes participate in one proportional Select resize, the label's perpendicular offset and handwriting scale with the graph. When only one endpoint changes, the label follows the reshaped edge while retaining its handwriting size and offset.
+- Deleting an edge removes its label and label-owned ink. Deleting a node removes labels belonging to its incident edges. Ordinary Select deletion has the same relationship-aware cleanup.
+- The 5.8.11 graph resize/content behavior was classroom-validated on 2026-09-24 using a graph with handwritten node labels. Intermittent iPad Pencil nonresponse remains a separate watch item; same-day diagnostics continued to show no graph/render failure and Diagnostics-button interaction restored input.
+- One label per edge is intentional for this first edge-label milestone. Curved/parallel edges, loops, directed arrows, and relationship-aware graph Copy/Paste remain later graph work.
+
 # PDF Workbench — Milestone 5.8.11 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 ## 5.8.11 smooth graph resizing + scale owned handwriting

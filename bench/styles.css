@@ -81,6 +81,7 @@ button:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 65%, 
 .page-stage > canvas.live-highlighter-canvas { position: absolute; inset: 0; z-index: 4; pointer-events: none; background: transparent; }
 .page-stage > canvas.live-pen-canvas { position: absolute; inset: 0; z-index: 4; pointer-events: none; background: transparent; }
 .page-stage > canvas.live-node-eraser-canvas { position: absolute; inset: 0; z-index: 4; pointer-events: none; background: transparent; }
+.page-stage > canvas.live-graph-label-canvas { position: absolute; inset: 0; z-index: 4; pointer-events: none; background: transparent; will-change: transform; }
 .page-loading { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: .85rem; }
 .single-page-nav { position: absolute; left: 50%; bottom: max(10px, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 20; display: flex; align-items: center; gap: 6px; padding: 4px; background: rgb(255 255 255 / .88); border: 1px solid var(--border); border-radius: 12px; backdrop-filter: blur(8px); }
 .single-page-nav button { min-width: 42px; min-height: 42px; padding: 0; font-size: 28px; line-height: 1; }

@@ -1,3 +1,85 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-09-24 — BASELINE 5.8.12-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.12-exp ZIP, not an older build.
+
+CURRENT VALIDATED BASELINE
+- 5.8.11 graph Select-resize/content-scaling behavior was used in class on 2026-09-24. User reports manipulating a graph with handwritten/labeled nodes went perfectly.
+- Editable classroom backup inspection showed intact semantic graph relationships (nodes, attached edges, and node-owned ink) after real use. Treat 5.8.11 graph resizing/content behavior as classroom-validated unless a new regression appears.
+- Intermittent iPad Pen nonresponse remains a separate watch item. Several 2026-09-24 incidents recovered immediately after tapping Diagnostics; saved snapshots showed no active stuck gesture/contact, no render anomaly, and no event-loop stall. Do not rewrite Pen or graph code from those incidents alone.
+
+5.8.12-exp SEMANTIC HANDWRITTEN EDGE LABELS
+
+GOAL / USER REQUIREMENTS
+- Edge labels must remain attached to their edge when endpoint nodes move or resize.
+- Labels must be repositionable along the edge and perpendicular/across the edge so graphs can be visually cleaned up.
+- Reuse mature Pen/Highlighter/Eraser behavior and avoid reintroducing expensive exact Highlighter rendering during drag/resize.
+
+SEMANTIC MODEL
+- Adds persisted annotation type `graph-edge-label`.
+- Each label owns one `edgeId`, normalized `position` along the current visible straight edge (0..1), signed perpendicular `offset`, and `contents: []` of owned Pen/Highlighter annotation IDs.
+- Label handwriting remains ordinary top-level Workbench ink for rendering/export/eraser compatibility. Child strokes store `graphEdgeLabelId` and `graphLabelLocalPoints` relative to the current semantic label anchor.
+- One label per edge is intentional in this first milestone.
+- Label writing remains upright; changing edge direction moves the anchor but does not rotate the handwriting.
+
+CREATE / EDIT
+- Selecting exactly one edge in Graph shows an Add/Edit Label action. If no label exists, it creates one near the midpoint with a modest perpendicular offset and enters the existing attached-content editor.
+- Selecting the label itself exposes the same Edit Label action.
+- Label editing reuses Pen, Highlighter, restricted Eraser, Clear Contents, Move Contents, and Done.
+- A new stroke must begin near the highlighted label region, then can extend normally.
+- Move Contents changes handwriting placement inside the semantic label without moving the label's edge anchor.
+
+POSITION / PRETTIFY
+- Graph -> Move can hit the label handwriting/region as one semantic object.
+- Dragging is projected into two stored values: position along the edge and signed perpendicular offset.
+- Therefore the label can slide toward either endpoint and can be moved to either side of the edge without detaching.
+- Position is clamped to the visible edge segment; perpendicular offset is free.
+
+FOLLOW / TRANSFORM BEHAVIOR
+- Moving either endpoint node with Graph Move makes attached edge labels follow the new edge geometry.
+- Fixed Graph node-size changes and node auto-fit also reposition label handwriting to the new semantic anchor without unexpectedly scaling it.
+- Select move/resize extends the 5.8.11 lightweight transform path with isolated per-label temporary canvases.
+- If both endpoints of a labeled edge are in one proportional Select resize, the label's perpendicular offset and handwriting scale with the graph.
+- If only one endpoint changes, the label follows the reshaped edge but retains its own handwriting size and perpendicular offset.
+- Rotate Selection moves label anchors with rotated endpoint nodes while keeping handwriting upright.
+- Page-fit/page-geometry transforms preserve label attachment and scale label offset/handwriting consistently.
+
+PERFORMANCE
+- Edge-label handwriting is isolated on `live-graph-label-canvas` layers during Graph Move and graph-containing Select transforms.
+- Pointer movement CSS-transforms these lightweight canvases while semantic graph geometry redraws on the graph layer.
+- Exact Pen/Highlighter point geometry commits once on release, following the same performance principle validated for node Graph Move and Select resize.
+- Cancel and Diagnostics recovery remove transient label layers and restore the pre-gesture snapshot when necessary.
+
+RELATIONSHIP CLEANUP / PERSISTENCE
+- Deleting an edge deletes its attached edge label and label-owned ink.
+- Deleting a node deletes incident edges plus their labels/label-owned ink.
+- Ordinary Select deletion uses the same relationship-aware cleanup.
+- Undo/Redo snapshots clone label contents and local metadata.
+- Local Library/editable backup persistence rides the existing page annotation storage.
+- PDF export needs no new text renderer: label-owned Pen/Highlighter exports through the existing ink path; semantic label selection chrome is not exported.
+
+TEST PRIORITY FOR 5.8.12
+1. Create two nodes + edge; select the edge -> Add Label; write a short Pen label and Done.
+2. Graph -> Move the label along the edge, then drag it across to the opposite side. Confirm handwriting moves as one unit and remains upright.
+3. Move either endpoint node. Confirm the label follows the edge while preserving its along-edge position and offset.
+4. Resize both endpoint nodes together with Select. Confirm label offset + handwriting scale smoothly with the whole graph and do not jump on release.
+5. Resize/move only one endpoint. Confirm label follows the reshaped edge without changing handwriting size.
+6. Repeat with Highlighter and mixed Pen + Highlighter label contents; drag/resize should remain smooth.
+7. Use Edit Label -> Eraser, Clear Contents, Move Contents, Undo/Redo.
+8. Change a node's fixed size and exercise an auto-fit node; confirm the edge label follows.
+9. Rotate a selected labeled subgraph; label location should rotate with the edge while handwriting stays upright.
+10. Delete label only; recreate it. Delete its edge; label + owned ink should disappear. Delete an endpoint node; incident labels should disappear with their edges.
+11. Save/reopen or editable-backup round trip and export PDF; label relationships and visible ink should persist.
+12. Regression-check classroom-validated 5.8.11 node-content resize, 5.8.10 Graph Move, and 5.8.9 restricted Eraser.
+
+NEXT GRAPH WORK AFTER EDGE-LABEL VALIDATION
+- Relationship-aware graph Copy/Paste using the already-agreed self-contained-fragment semantics.
+- Later: curved/parallel edges, loops, directed edges/arrowheads, then further graph conveniences.
+
+====================================================================
+PRIOR HANDOFF FOLLOWS
+====================================================================
+
 PDF WORKBENCH — CONTINUATION HANDOFF — 2026-09-23 — CURRENT BASELINE 5.8.11-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

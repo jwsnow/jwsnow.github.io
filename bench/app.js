@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.11';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.12';
 
-const APP_VERSION = '5.8.11';
+const APP_VERSION = '5.8.12';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -36,7 +36,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGraphBackgroundBtn: $('pageGraphBackgroundBtn'), pagePurgeLegacyGraphBackgroundBtn: $('pagePurgeLegacyGraphBackgroundBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), presentationToolMenuBtn: $('presentationToolMenuBtn'), presentationToolMenu: $('presentationToolMenu'), inkHandBtn: $('inkHandBtn'), inkLaserBtn: $('inkLaserBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkGraphBtn: $('inkGraphBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), graphOptionGroup: $('graphOptionGroup'), graphBorderStyle: $('graphBorderStyle'), graphColorGroup: $('graphColorGroup'), graphEditContentsBtn: $('graphEditContentsBtn'), graphDeleteBtn: $('graphDeleteBtn'), graphNodeSizeGroup: $('graphNodeSizeGroup'), graphNodeSizeSelect: $('graphNodeSizeSelect'), graphContentEditGroup: $('graphContentEditGroup'), graphContentMoveBtn: $('graphContentMoveBtn'), graphContentClearBtn: $('graphContentClearBtn'), graphContentDoneBtn: $('graphContentDoneBtn'), selectionActionGroup: $('selectionActionGroup'), selectionColorGroup: $('selectionColorGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), selectionNodeContentBtn: $('selectionNodeContentBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), extractChoiceDialog: $('extractChoiceDialog'), extractChoiceSummary: $('extractChoiceSummary'), extractChoiceCloseBtn: $('extractChoiceCloseBtn'), extractChoiceCancelBtn: $('extractChoiceCancelBtn'), extractChoiceExportBtn: $('extractChoiceExportBtn'), extractChoiceLibraryBtn: $('extractChoiceLibraryBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationPageControlsBtn: $('presentationPageControlsBtn'), presentationPageControlsGroup: $('presentationPageControlsGroup'), presentationPagesBtn: $('presentationPagesBtn'), presentationPageDrawerLayer: $('presentationPageDrawerLayer'), presentationPageDrawer: $('presentationPageDrawer'), presentationPageDrawerScroller: $('presentationPageDrawerScroller'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), viewDiagnosticsBtn: $('viewDiagnosticsBtn'), presentationDiagnosticsBtn: $('presentationDiagnosticsBtn'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), presentationToolMenuBtn: $('presentationToolMenuBtn'), presentationToolMenu: $('presentationToolMenu'), inkHandBtn: $('inkHandBtn'), inkLaserBtn: $('inkLaserBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkGraphBtn: $('inkGraphBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), graphOptionGroup: $('graphOptionGroup'), graphBorderStyle: $('graphBorderStyle'), graphColorGroup: $('graphColorGroup'), graphEditContentsBtn: $('graphEditContentsBtn'), graphEdgeLabelBtn: $('graphEdgeLabelBtn'), graphDeleteBtn: $('graphDeleteBtn'), graphNodeSizeGroup: $('graphNodeSizeGroup'), graphNodeSizeSelect: $('graphNodeSizeSelect'), graphContentEditGroup: $('graphContentEditGroup'), graphContentMoveBtn: $('graphContentMoveBtn'), graphContentClearBtn: $('graphContentClearBtn'), graphContentDoneBtn: $('graphContentDoneBtn'), selectionActionGroup: $('selectionActionGroup'), selectionColorGroup: $('selectionColorGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), selectionNodeContentBtn: $('selectionNodeContentBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), extractChoiceDialog: $('extractChoiceDialog'), extractChoiceSummary: $('extractChoiceSummary'), extractChoiceCloseBtn: $('extractChoiceCloseBtn'), extractChoiceCancelBtn: $('extractChoiceCancelBtn'), extractChoiceExportBtn: $('extractChoiceExportBtn'), extractChoiceLibraryBtn: $('extractChoiceLibraryBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationPageControlsBtn: $('presentationPageControlsBtn'), presentationPageControlsGroup: $('presentationPageControlsGroup'), presentationPagesBtn: $('presentationPagesBtn'), presentationPageDrawerLayer: $('presentationPageDrawerLayer'), presentationPageDrawer: $('presentationPageDrawer'), presentationPageDrawerScroller: $('presentationPageDrawerScroller'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), viewDiagnosticsBtn: $('viewDiagnosticsBtn'), presentationDiagnosticsBtn: $('presentationDiagnosticsBtn'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -93,7 +93,7 @@ const state = {
   graphSelection: { documentId:null, pageId:null, id:null },
   graphEdgeStart: { documentId:null, pageId:null, nodeId:null },
   graphInkTarget: { documentId:null, pageId:null, nodeId:null },
-  graphContentEditTarget: { documentId:null, pageId:null, nodeId:null },
+  graphContentEditTarget: { documentId:null, pageId:null, nodeId:null, labelId:null },
   graphContentMoveArmed: false,
   graphContentMoveGesture: null,
   annotationSelection: { documentId: null, pageId: null, ids: new Set() },
@@ -415,7 +415,8 @@ function cloneInkStroke(stroke) {
   }
   const copy = { ...stroke, points };
   if (Array.isArray(stroke?.graphLocalPoints)) copy.graphLocalPoints=clonePlain(stroke.graphLocalPoints);
-  if (isGraphNode(stroke)) copy.contents = clonePlain(stroke.contents || []);
+  if (Array.isArray(stroke?.graphLabelLocalPoints)) copy.graphLabelLocalPoints=clonePlain(stroke.graphLabelLocalPoints);
+  if (isGraphNode(stroke) || isGraphEdgeLabel(stroke)) copy.contents = clonePlain(stroke.contents || []);
   delete copy.pointStride;
   return copy;
 }
@@ -434,7 +435,8 @@ function cloneInkStrokeForHistory(stroke) {
   }
   const copy = timed ? { ...stroke, points: packed, pointStride: 3 } : { ...stroke, points: packed };
   if (Array.isArray(stroke?.graphLocalPoints)) copy.graphLocalPoints=clonePlain(stroke.graphLocalPoints);
-  if (isGraphNode(stroke)) copy.contents = clonePlain(stroke.contents || []);
+  if (Array.isArray(stroke?.graphLabelLocalPoints)) copy.graphLabelLocalPoints=clonePlain(stroke.graphLabelLocalPoints);
+  if (isGraphNode(stroke) || isGraphEdgeLabel(stroke)) copy.contents = clonePlain(stroke.contents || []);
   return copy;
 }
 function clonePageStateForHistory(page) {
@@ -2665,7 +2667,8 @@ const GRAPH_EDGE_WIDTH = 2;
 
 function isGraphNode(annotation) { return annotation?.type === 'graph-node'; }
 function isGraphEdge(annotation) { return annotation?.type === 'graph-edge'; }
-function isGraphObject(annotation) { return isGraphNode(annotation) || isGraphEdge(annotation); }
+function isGraphEdgeLabel(annotation) { return annotation?.type === 'graph-edge-label'; }
+function isGraphObject(annotation) { return isGraphNode(annotation) || isGraphEdge(annotation) || isGraphEdgeLabel(annotation); }
 function graphNodeRect(node) {
   if (!isGraphNode(node)) return null;
   const width=Math.max(GRAPH_NODE_MIN_SIZE, Number(node.width)||GRAPH_NODE_DEFAULT_SIZE);
@@ -2674,6 +2677,9 @@ function graphNodeRect(node) {
   return {x,y,width,height,minX:x-width/2,maxX:x+width/2,minY:y-height/2,maxY:y+height/2,rx:width/2,ry:height/2};
 }
 function graphNodeById(page,id) { return annotationsForPage(page).find(annotation => isGraphNode(annotation) && annotation.id===id) || null; }
+function graphEdgeById(page,id) { return annotationsForPage(page).find(annotation => isGraphEdge(annotation) && annotation.id===id) || null; }
+function graphEdgeLabelById(page,id) { return annotationsForPage(page).find(annotation => isGraphEdgeLabel(annotation) && annotation.id===id) || null; }
+function graphEdgeLabelsForEdge(page,edgeId) { return annotationsForPage(page).filter(annotation => isGraphEdgeLabel(annotation) && annotation.edgeId===edgeId); }
 function graphPointInsideNode(node,point,padding=0) {
   const rect=graphNodeRect(node); if (!rect||!point) return false;
   const rx=Math.max(.001,rect.rx+padding), ry=Math.max(.001,rect.ry+padding);
@@ -2681,6 +2687,146 @@ function graphPointInsideNode(node,point,padding=0) {
   return (dx*dx)/(rx*rx)+(dy*dy)/(ry*ry)<=1;
 }
 function graphObjectById(page,id) { return annotationsForPage(page).find(annotation => isGraphObject(annotation) && annotation.id===id) || null; }
+function graphEdgeLabelContentIds(label) {
+  return isGraphEdgeLabel(label) && Array.isArray(label.contents) ? label.contents.filter(Boolean) : [];
+}
+function graphEdgeLabelAnchor(page,label) {
+  if (!page || !isGraphEdgeLabel(label)) return null;
+  const edge=graphEdgeById(page,label.edgeId);
+  const endpoints=graphEdgeEndpoints(page,edge);
+  if (!edge || !endpoints) return null;
+  const ax=Number(endpoints.start.x)||0, ay=Number(endpoints.start.y)||0;
+  const bx=Number(endpoints.end.x)||0, by=Number(endpoints.end.y)||0;
+  const dx=bx-ax, dy=by-ay, length=Math.hypot(dx,dy);
+  const position=clamp(Number.isFinite(Number(label.position))?Number(label.position):.5,0,1);
+  if (length<1e-6) return {x:ax,y:ay,position,offset:Number(label.offset)||0,tangent:{x:1,y:0},normal:{x:0,y:1}};
+  const ux=dx/length, uy=dy/length;
+  const normal={x:-uy,y:ux};
+  const offset=Number(label.offset)||0;
+  return {x:ax+dx*position+normal.x*offset,y:ay+dy*position+normal.y*offset,position,offset,tangent:{x:ux,y:uy},normal};
+}
+function graphEdgeLabelContentAnnotations(page,label) {
+  if (!page || !isGraphEdgeLabel(label)) return [];
+  const ids=new Set(graphEdgeLabelContentIds(label));
+  return annotationsForPage(page).filter(annotation => ids.has(annotation.id) && isGraphContentInk(annotation));
+}
+function graphSyncEdgeLabelContentLocal(page,label,annotation) {
+  if (!page || !isGraphEdgeLabel(label) || !isGraphContentInk(annotation)) return;
+  const anchor=graphEdgeLabelAnchor(page,label); if (!anchor) return;
+  annotation.graphEdgeLabelId=label.id;
+  delete annotation.graphNodeId; delete annotation.graphLocalPoints;
+  annotation.graphLabelLocalPoints=(annotation.points||[]).map(point=>{
+    const local={x:(Number(point.x)||0)-anchor.x,y:(Number(point.y)||0)-anchor.y};
+    if (Number.isFinite(Number(point.t))) local.t=Number(point.t);
+    return local;
+  });
+  if (!Array.isArray(label.contents)) label.contents=[];
+  if (!label.contents.includes(annotation.id)) label.contents.push(annotation.id);
+}
+function graphRemoveEdgeLabelContentId(label,id) {
+  if (!isGraphEdgeLabel(label) || !id) return;
+  label.contents=graphEdgeLabelContentIds(label).filter(value=>value!==id);
+}
+function graphAttachEdgeLabelContentInk(page,label,annotations) {
+  if (!page || !isGraphEdgeLabel(label)) return [];
+  const attached=[];
+  for (const annotation of annotations||[]) {
+    if (!isGraphContentInk(annotation)) continue;
+    if (annotation.graphNodeId) {
+      const oldNode=graphNodeById(page,annotation.graphNodeId);
+      if (oldNode) graphRemoveContentId(oldNode,annotation.id);
+    }
+    if (annotation.graphEdgeLabelId && annotation.graphEdgeLabelId!==label.id) {
+      const oldLabel=graphEdgeLabelById(page,annotation.graphEdgeLabelId);
+      if (oldLabel) graphRemoveEdgeLabelContentId(oldLabel,annotation.id);
+    }
+    graphSyncEdgeLabelContentLocal(page,label,annotation);
+    attached.push(annotation);
+  }
+  return attached;
+}
+function graphEdgeLabelFollowOriginalsForNodeIds(page,nodeIds) {
+  if (!page || !(nodeIds instanceof Set) || !nodeIds.size) return [];
+  const result=[];
+  const annotations=annotationsForPage(page);
+  for (const label of annotations.filter(isGraphEdgeLabel)) {
+    const edge=graphEdgeById(page,label.edgeId); if (!edge) continue;
+    const fromSelected=nodeIds.has(edge.fromNodeId), toSelected=nodeIds.has(edge.toNodeId);
+    if (!fromSelected && !toSelected) continue;
+    const anchor=graphEdgeLabelAnchor(page,label); if (!anchor) continue;
+    result.push({
+      labelId:label.id,
+      label:cloneInkStroke(label),
+      anchor:{x:anchor.x,y:anchor.y},
+      bothEndpointsSelected:fromSelected&&toSelected,
+      strokes:graphEdgeLabelContentAnnotations(page,label).map(cloneInkStroke),
+    });
+  }
+  return result;
+}
+function graphApplyEdgeLabelContainerResizeFromOriginals(page,entries,scale) {
+  const factor=Math.max(.0001,Number(scale)||1);
+  for (const entry of entries||[]) {
+    const label=graphEdgeLabelById(page,entry.labelId); if (!label) continue;
+    if (entry.bothEndpointsSelected) label.offset=(Number(entry.label?.offset)||0)*factor;
+    else label.offset=Number(entry.label?.offset)||0;
+    label.position=clamp(Number.isFinite(Number(entry.label?.position))?Number(entry.label.position):.5,0,1);
+  }
+}
+function graphTransformEdgeLabelContentsFromOriginals(page,entries,{scale=1}={}) {
+  if (!page) return;
+  const current=new Map(annotationsForPage(page).map(annotation=>[annotation.id,annotation]));
+  const factor=Math.max(.0001,Number(scale)||1);
+  for (const entry of entries||[]) {
+    const label=graphEdgeLabelById(page,entry.labelId); if (!label) continue;
+    const nextAnchor=graphEdgeLabelAnchor(page,label); if (!nextAnchor) continue;
+    const strokeScale=entry.bothEndpointsSelected?factor:1;
+    for (const original of entry.strokes||[]) {
+      const annotation=current.get(original.id); if (!annotation) continue;
+      annotation.points=(original.points||[]).map(raw=>{
+        const localX=(Number(raw.x)||0)-entry.anchor.x;
+        const localY=(Number(raw.y)||0)-entry.anchor.y;
+        const mapped={x:nextAnchor.x+localX*strokeScale,y:nextAnchor.y+localY*strokeScale};
+        return Number.isFinite(Number(raw.t))?{...mapped,t:Number(raw.t)}:mapped;
+      });
+      if (strokeScale!==1) annotation.width=Math.max(.25,(Number(original.width)||3)*strokeScale);
+      graphSyncEdgeLabelContentLocal(page,label,annotation);
+    }
+  }
+}
+function graphRepositionEdgeLabelContentsForNode(page,nodeId) {
+  if (!page || !nodeId) return;
+  const entries=graphEdgeLabelFollowOriginalsForNodeIds(page,new Set([nodeId]));
+  if (entries.length) graphTransformEdgeLabelContentsFromOriginals(page,entries,{scale:1});
+}
+function graphEdgeLabelPointPlacement(page,label,point) {
+  const edge=graphEdgeById(page,label?.edgeId), endpoints=graphEdgeEndpoints(page,edge);
+  if (!edge || !endpoints || !point) return null;
+  const ax=endpoints.start.x, ay=endpoints.start.y, dx=endpoints.end.x-ax, dy=endpoints.end.y-ay;
+  const length2=dx*dx+dy*dy; if (length2<1e-8) return {position:.5,offset:0};
+  const length=Math.sqrt(length2), ux=dx/length, uy=dy/length, nx=-uy, ny=ux;
+  const position=clamp(((point.x-ax)*dx+(point.y-ay)*dy)/length2,0,1);
+  const bx=ax+dx*position, by=ay+dy*position;
+  const offset=(point.x-bx)*nx+(point.y-by)*ny;
+  return {position,offset};
+}
+function graphEdgeLabelHitBounds(page,label,padding=8) {
+  const contents=graphEdgeLabelContentAnnotations(page,label);
+  const bounds=annotationBaseBounds(contents);
+  if (bounds) return {minX:bounds.minX-padding,minY:bounds.minY-padding,maxX:bounds.maxX+padding,maxY:bounds.maxY+padding,width:bounds.width+padding*2,height:bounds.height+padding*2};
+  const anchor=graphEdgeLabelAnchor(page,label); if (!anchor) return null;
+  return {minX:anchor.x-12,minY:anchor.y-9,maxX:anchor.x+12,maxY:anchor.y+9,width:24,height:18};
+}
+function graphEdgeLabelDisplayBounds(page,label,padding=8) {
+  const bounds=graphEdgeLabelHitBounds(page,label,padding); if (!bounds) return null;
+  const corners=[
+    basePointToDisplay(page,{x:bounds.minX,y:bounds.minY}),basePointToDisplay(page,{x:bounds.maxX,y:bounds.minY}),
+    basePointToDisplay(page,{x:bounds.maxX,y:bounds.maxY}),basePointToDisplay(page,{x:bounds.minX,y:bounds.maxY}),
+  ];
+  const xs=corners.map(p=>p.x), ys=corners.map(p=>p.y);
+  const minX=Math.min(...xs),minY=Math.min(...ys),maxX=Math.max(...xs),maxY=Math.max(...ys);
+  return {minX,minY,maxX,maxY,width:maxX-minX,height:maxY-minY};
+}
 function graphNodeContentIds(node) {
   return isGraphNode(node) && Array.isArray(node.contents) ? node.contents.filter(Boolean) : [];
 }
@@ -2699,6 +2845,7 @@ function graphRemoveContentId(node,id) {
 function graphSyncContentLocal(node,annotation) {
   if (!isGraphNode(node) || !isGraphContentInk(annotation)) return;
   annotation.graphNodeId=node.id;
+  delete annotation.graphEdgeLabelId; delete annotation.graphLabelLocalPoints;
   annotation.graphLocalPoints=(annotation.points||[]).map(point=>{
     const local={x:(Number(point.x)||0)-(Number(node.x)||0),y:(Number(point.y)||0)-(Number(node.y)||0)};
     if (Number.isFinite(Number(point.t))) local.t=Number(point.t);
@@ -2714,6 +2861,7 @@ function graphAttachContentInk(page,node,annotations) {
     if (!isGraphContentInk(annotation)) continue;
     const oldParent=annotation.graphNodeId ? graphNodeById(page,annotation.graphNodeId) : null;
     if (oldParent && oldParent.id!==node.id) { graphRemoveContentId(oldParent,annotation.id); oldParents.add(oldParent.id); }
+    if (annotation.graphEdgeLabelId) { const oldLabel=graphEdgeLabelById(page,annotation.graphEdgeLabelId); if (oldLabel) graphRemoveEdgeLabelContentId(oldLabel,annotation.id); }
     graphSyncContentLocal(node,annotation);
     attached.push(annotation);
   }
@@ -2727,10 +2875,18 @@ function graphRefreshAttachedInkLocalMetadata(page,ids=null) {
   if (!page) return;
   const filter=ids instanceof Set ? ids : null;
   for (const annotation of annotationsForPage(page)) {
-    if (!isGraphContentInk(annotation) || !annotation.graphNodeId || (filter && !filter.has(annotation.id))) continue;
-    const node=graphNodeById(page,annotation.graphNodeId);
-    if (node) graphSyncContentLocal(node,annotation);
-    else { delete annotation.graphNodeId; delete annotation.graphLocalPoints; }
+    if (!isGraphContentInk(annotation) || (filter && !filter.has(annotation.id))) continue;
+    if (annotation.graphNodeId) {
+      const node=graphNodeById(page,annotation.graphNodeId);
+      if (node) graphSyncContentLocal(node,annotation);
+      else { delete annotation.graphNodeId; delete annotation.graphLocalPoints; }
+      continue;
+    }
+    if (annotation.graphEdgeLabelId) {
+      const label=graphEdgeLabelById(page,annotation.graphEdgeLabelId);
+      if (label) graphSyncEdgeLabelContentLocal(page,label,annotation);
+      else { delete annotation.graphEdgeLabelId; delete annotation.graphLabelLocalPoints; }
+    }
   }
 }
 function graphTranslateContentFromOriginals(page,contentOriginals,nodePositions) {
@@ -2783,6 +2939,7 @@ function graphFitNodeToContents(page,node,{padding=8}={}) {
   const contents=graphNodeContentAnnotations(page,node);
   const bounds=annotationBaseBounds(contents);
   if (!bounds) return false;
+  const edgeLabelOriginals=graphEdgeLabelFollowOriginalsForNodeIds(page,new Set([node.id]));
   const base=pageCanvasBaseDimensions(page);
   const width=Math.max(GRAPH_NODE_MIN_SIZE,Math.min(base.width,bounds.width+padding*2));
   const height=Math.max(GRAPH_NODE_MIN_SIZE,Math.min(base.height,bounds.height+padding*2));
@@ -2792,6 +2949,7 @@ function graphFitNodeToContents(page,node,{padding=8}={}) {
   node.y=clamp(cy,height/2,Math.max(height/2,base.height-height/2));
   node.contentMode='auto'; node.contentPadding=padding;
   graphRefreshAttachedInkLocalMetadata(page,new Set(contents.map(item=>item.id)));
+  if (edgeLabelOriginals.length) graphTransformEdgeLabelContentsFromOriginals(page,edgeLabelOriginals,{scale:1});
   return true;
 }
 function graphRefitAutoNodesForContentIds(page,ids=null) {
@@ -2810,77 +2968,94 @@ function graphRefitAutoNodesForContentIds(page,ids=null) {
 function graphRebuildNodeContentLists(page) {
   if (!page) return;
   const nodes=annotationsForPage(page).filter(isGraphNode);
+  const labels=annotationsForPage(page).filter(isGraphEdgeLabel);
   const idsByNode=new Map(nodes.map(node=>[node.id,[]]));
+  const idsByLabel=new Map(labels.map(label=>[label.id,[]]));
   for (const annotation of annotationsForPage(page)) {
-    if (isGraphContentInk(annotation) && annotation.graphNodeId && idsByNode.has(annotation.graphNodeId)) idsByNode.get(annotation.graphNodeId).push(annotation.id);
+    if (!isGraphContentInk(annotation)) continue;
+    if (annotation.graphNodeId && idsByNode.has(annotation.graphNodeId)) idsByNode.get(annotation.graphNodeId).push(annotation.id);
+    else if (annotation.graphEdgeLabelId && idsByLabel.has(annotation.graphEdgeLabelId)) idsByLabel.get(annotation.graphEdgeLabelId).push(annotation.id);
   }
   for (const node of nodes) node.contents=idsByNode.get(node.id)||[];
+  for (const label of labels) label.contents=idsByLabel.get(label.id)||[];
 }
-function graphContentEditNode() {
+function graphContentEditContainer() {
   const target=state.graphContentEditTarget;
-  if (!target?.nodeId) return null;
+  if (!target?.nodeId && !target?.labelId) return null;
   if (target.documentId!==state.currentDocumentId) {
-    state.graphContentEditTarget={documentId:null,pageId:null,nodeId:null};
+    state.graphContentEditTarget={documentId:null,pageId:null,nodeId:null,labelId:null};
     state.graphContentMoveArmed=false;
     state.graphContentMoveGesture=null;
     return null;
   }
   const page=pageById(target.pageId);
-  const node=page?graphNodeById(page,target.nodeId):null;
-  if (!page || !node) {
-    state.graphContentEditTarget={documentId:null,pageId:null,nodeId:null};
+  const container=page ? (target.nodeId?graphNodeById(page,target.nodeId):graphEdgeLabelById(page,target.labelId)) : null;
+  if (!page || !container) {
+    state.graphContentEditTarget={documentId:null,pageId:null,nodeId:null,labelId:null};
     state.graphContentMoveArmed=false;
     state.graphContentMoveGesture=null;
     return null;
   }
-  return node;
+  return container;
 }
+function graphContentEditNode() { const container=graphContentEditContainer(); return isGraphNode(container)?container:null; }
+function graphContentEditLabel() { const container=graphContentEditContainer(); return isGraphEdgeLabel(container)?container:null; }
 function graphContentEditPage() {
   const target=state.graphContentEditTarget;
   if (!target?.pageId || target.documentId!==state.currentDocumentId) return null;
   return pageById(target.pageId);
 }
-function graphContentEditIsActive() { return !!graphContentEditNode(); }
+function graphContentEditIsActive() { return !!graphContentEditContainer(); }
+function graphContainerContentIds(container) {
+  return isGraphNode(container)?graphNodeContentIds(container):isGraphEdgeLabel(container)?graphEdgeLabelContentIds(container):[];
+}
+function graphContainerContentAnnotations(page,container) {
+  return isGraphNode(container)?graphNodeContentAnnotations(page,container):isGraphEdgeLabel(container)?graphEdgeLabelContentAnnotations(page,container):[];
+}
 function clearGraphContentEditState({redraw=true}={}) {
   const page=graphContentEditPage();
-  state.graphContentEditTarget={documentId:null,pageId:null,nodeId:null};
+  state.graphContentEditTarget={documentId:null,pageId:null,nodeId:null,labelId:null};
   state.graphContentMoveArmed=false;
   state.graphContentMoveGesture=null;
   if (redraw && page) redrawPageAnnotationSelectionOverlays(page);
 }
-function startGraphContentEdit(page,node) {
-  if (!page || !isGraphNode(node)) return;
-  state.graphContentEditTarget={documentId:state.currentDocumentId,pageId:page.id,nodeId:node.id};
+function startGraphContentEdit(page,container) {
+  if (!page || (!isGraphNode(container)&&!isGraphEdgeLabel(container))) return;
+  state.graphContentEditTarget={documentId:state.currentDocumentId,pageId:page.id,nodeId:isGraphNode(container)?container.id:null,labelId:isGraphEdgeLabel(container)?container.id:null};
   state.graphContentMoveArmed=false;
   state.graphInkTarget={documentId:null,pageId:null,nodeId:null};
   setAnnotationTool('pen');
   redrawPageAnnotationSelectionOverlays(page);
   updateGraphContentEditToolbar();
-  setStatus('Edit node contents · use Pen, Highlighter, or Eraser; Done returns to Graph');
+  setStatus(isGraphNode(container)
+    ? 'Edit node contents · use Pen, Highlighter, or Eraser; Done returns to Graph'
+    : 'Edit edge label · write near the highlighted label position; use Pen, Highlighter, or Eraser');
 }
 function clearGraphContentEditContents() {
-  const page=graphContentEditPage(), node=graphContentEditNode();
-  if (!page || !node) return;
-  const ids=new Set(graphNodeContentIds(node));
-  if (!ids.size) { setStatus('Selected node has no contents'); updateGraphContentEditToolbar(); return; }
+  const page=graphContentEditPage(), container=graphContentEditContainer();
+  if (!page || !container) return;
+  const ids=new Set(graphContainerContentIds(container));
+  const kind=isGraphEdgeLabel(container)?'edge label':'node';
+  if (!ids.size) { setStatus(`Selected ${kind} has no contents`); updateGraphContentEditToolbar(); return; }
   const before=snapshotPages();
   page.annotations=annotationsForPage(page).filter(annotation=>!ids.has(annotation.id));
-  node.contents=[];
+  container.contents=[];
   state.graphContentMoveArmed=false;
   commitHistory(before);
   saveCurrentDocumentState({readViewDom:false});
   redrawPageAnnotationOverlays(page);
   updateGraphContentEditToolbar();
-  setStatus('Cleared graph node contents');
+  setStatus(`Cleared graph ${kind} contents`);
 }
 function toggleGraphContentMove() {
-  const page=graphContentEditPage(), node=graphContentEditNode();
-  if (!page || !node) return;
-  const contents=graphNodeContentAnnotations(page,node);
-  if (!contents.length) { state.graphContentMoveArmed=false; setStatus('Selected node has no contents to move'); updateGraphContentEditToolbar(); return; }
+  const page=graphContentEditPage(), container=graphContentEditContainer();
+  if (!page || !container) return;
+  const contents=graphContainerContentAnnotations(page,container);
+  const kind=isGraphEdgeLabel(container)?'label':'node';
+  if (!contents.length) { state.graphContentMoveArmed=false; setStatus(`Selected ${kind} has no contents to move`); updateGraphContentEditToolbar(); return; }
   state.graphContentMoveArmed=!state.graphContentMoveArmed;
   updateGraphContentEditToolbar();
-  setStatus(state.graphContentMoveArmed?'Move contents · drag from inside the node':'Move contents cancelled');
+  setStatus(state.graphContentMoveArmed?`Move contents · drag from the ${kind} or its handwriting`:'Move contents cancelled');
 }
 function finishGraphContentEdit() {
   const target={...state.graphContentEditTarget};
@@ -2888,25 +3063,30 @@ function finishGraphContentEdit() {
   clearGraphContentEditState({redraw:false});
   setAnnotationTool('graph');
   const targetPage=target.pageId?pageById(target.pageId):null;
-  const targetNode=targetPage&&target.documentId===state.currentDocumentId?graphNodeById(targetPage,target.nodeId):null;
-  if (targetPage&&targetNode) setGraphSelection(targetPage,targetNode.id,{redraw:false});
+  const targetObject=targetPage&&target.documentId===state.currentDocumentId
+    ? (target.nodeId?graphNodeById(targetPage,target.nodeId):graphEdgeLabelById(targetPage,target.labelId)) : null;
+  if (targetPage&&targetObject) setGraphSelection(targetPage,targetObject.id,{redraw:false});
   if (targetPage) redrawPageAnnotationSelectionOverlays(targetPage);
   updateInkToolbar();
-  setStatus('Finished editing graph node contents');
+  setStatus(isGraphEdgeLabel(targetObject)?'Finished editing edge label':'Finished editing graph node contents');
 }
 function updateGraphContentEditToolbar() {
   if (!els.graphContentEditGroup) return;
-  const page=graphContentEditPage(), node=graphContentEditNode();
-  const active=!!page && !!node && ['pen','highlighter','eraser'].includes(state.annotationTool) && !state.pageViewPanelOpen;
+  const page=graphContentEditPage(), container=graphContentEditContainer();
+  const active=!!page && !!container && ['pen','highlighter','eraser'].includes(state.annotationTool) && !state.pageViewPanelOpen;
   els.graphContentEditGroup.classList.toggle('hidden',!active);
   if (!active) return;
-  const hasContents=graphNodeContentAnnotations(page,node).length>0;
+  const hasContents=graphContainerContentAnnotations(page,container).length>0;
   if (els.graphContentMoveBtn) {
     els.graphContentMoveBtn.disabled=!hasContents;
     els.graphContentMoveBtn.classList.toggle('active',!!state.graphContentMoveArmed);
     els.graphContentMoveBtn.setAttribute('aria-pressed',String(!!state.graphContentMoveArmed));
+    els.graphContentMoveBtn.title=isGraphEdgeLabel(container)?'Move label handwriting within its container':'Move all node contents';
   }
-  if (els.graphContentClearBtn) els.graphContentClearBtn.disabled=!hasContents;
+  if (els.graphContentClearBtn) {
+    els.graphContentClearBtn.disabled=!hasContents;
+    els.graphContentClearBtn.title=isGraphEdgeLabel(container)?'Clear edge label contents':'Clear node contents';
+  }
 }
 function graphEdgeEndpoints(page,edge) {
   if (!isGraphEdge(edge)) return null;
@@ -3310,7 +3490,7 @@ function drawPageAnnotationsCanvas(page, ctx, pixelWidth, pixelHeight, options={
 }
 function ensureAnnotationOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.annotation-canvas');
   if (!overlay) {
@@ -3327,7 +3507,7 @@ function ensureAnnotationOverlay(stage, baseCanvas=null) {
 }
 function ensureImageAnnotationOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.annotation-image-canvas');
   if (!overlay) {
@@ -3346,7 +3526,7 @@ function ensureImageAnnotationOverlay(stage, baseCanvas=null) {
 }
 function ensureGraphAnnotationOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.annotation-graph-canvas');
   if (!overlay) {
@@ -3364,7 +3544,7 @@ function ensureGraphAnnotationOverlay(stage, baseCanvas=null) {
 }
 function redrawStageGraphAnnotations(stage,page) {
   if (!stage||!page) return;
-  const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+  const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
   const hasGraph=(page.annotations||[]).some(isGraphObject);
   let overlay=stage.querySelector('canvas.annotation-graph-canvas');
   if (!hasGraph) { if (overlay){overlay.width=overlay.height=1;overlay.remove();} redrawStageAnnotationSelection(stage,page); return; }
@@ -3381,7 +3561,7 @@ function redrawPageGraphOverlays(page) {
 
 function redrawStageAnnotations(stage, page, options={}) {
   if (!stage || !page) return;
-  const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+  const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
   // A live Pen/Highlighter stroke is already isolated on its temporary canvas.
   // If an unrelated async event (for example an image decode) requests an exact
   // annotation repaint during contact, keep that active stroke out of the
@@ -3459,7 +3639,7 @@ function scheduleExactAnnotationRedraw(page, reason='edit') {
 }
 function ensureLivePenOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.live-pen-canvas');
   if (!overlay) {
@@ -3490,7 +3670,7 @@ function drawLiveGoogleInkPreview(stage,page,stroke,stablePoints,predictionPoint
   const prediction=Array.isArray(predictionPoints)?predictionPoints:[];
   const renderPoints=prediction.length ? stable.concat(prediction) : stable;
   const drawOnStage=targetStage=>{
-    const baseCanvas=targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+    const baseCanvas=targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
     const canvas=ensureLivePenOverlay(targetStage,baseCanvas);
     if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered!=='true') return;
     const ctx=canvas.getContext('2d'); if (!ctx) return;
@@ -3535,7 +3715,7 @@ function commitLivePenOverlays(page, stroke, options={}) {
   let stages=0;
   for (const stage of document.querySelectorAll(selector)) {
     const live=stage.querySelector('canvas.live-pen-canvas');
-    const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+    const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
     const overlay=ensureAnnotationOverlay(stage,base),ctx=overlay?.getContext?.('2d');
     if (ctx && overlay.width && overlay.height) {
       const display=pageDisplayDimensions(page),sx=overlay.width/Math.max(1,display.width),sy=overlay.height/Math.max(1,display.height);
@@ -3569,7 +3749,7 @@ function commitLivePenOverlays(page, stroke, options={}) {
 
 function ensureLiveHighlighterOverlay(stage, baseCanvas=null, opacity=HIGHLIGHTER_OPACITY) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.live-highlighter-canvas');
   if (!overlay) {
@@ -3598,7 +3778,7 @@ function drawLiveHighlighterPoints(stage, page, stroke, points) {
   const source = Array.isArray(points) ? points : [];
   if (!source.length) return;
   const drawOnStage = targetStage => {
-    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+    const baseCanvas = targetStage?.querySelector?.('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
     const canvas = ensureLiveHighlighterOverlay(targetStage, baseCanvas, stroke.opacity);
     if (!canvas?.width || !canvas?.height || targetStage.dataset.rendered !== 'true') return;
     const ctx = canvas.getContext('2d');
@@ -3647,7 +3827,7 @@ function commitLiveHighlighterOverlays(page, opacity=HIGHLIGHTER_OPACITY) {
   for (const stage of document.querySelectorAll(selector)) {
     const live = stage.querySelector('canvas.live-highlighter-canvas');
     if (!live?.width || !live?.height) continue;
-    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
     const overlay = ensureAnnotationOverlay(stage, base);
     const ctx = overlay?.getContext?.('2d');
     if (ctx) {
@@ -3698,6 +3878,13 @@ function reconcileGraphSelection() {
 }
 function graphHitAt(page,point,radius=8) {
   const annotations=annotationsForPage(page);
+  // Edge labels are visually ordinary ink, but Graph mode should treat their
+  // whole padded content region as one semantic object for edit/move/delete.
+  for (let i=annotations.length-1;i>=0;i--) {
+    const label=annotations[i]; if (!isGraphEdgeLabel(label)) continue;
+    const bounds=graphEdgeLabelHitBounds(page,label,Math.max(6,radius*.55)); if (!bounds) continue;
+    if (point.x>=bounds.minX&&point.x<=bounds.maxX&&point.y>=bounds.minY&&point.y<=bounds.maxY) return label;
+  }
   for (let i=annotations.length-1;i>=0;i--) {
     const node=annotations[i]; if (!isGraphNode(node)) continue;
     const rect=graphNodeRect(node); if (!rect) continue;
@@ -3738,25 +3925,56 @@ function createGraphEdge(page,fromNodeId,toNodeId) {
   setStatus('Created graph edge');
   return edge;
 }
+function createGraphEdgeLabel(page,edge) {
+  if (!page || !isGraphEdge(edge)) return null;
+  const existing=graphEdgeLabelsForEdge(page,edge.id)[0];
+  if (existing) return existing;
+  const before=snapshotPages();
+  // A modest default perpendicular offset keeps first handwriting from sitting
+  // directly on the edge. Dragging in Graph -> Move can immediately put it on
+  // the edge, farther away, or on the opposite side.
+  const label={id:uid('glabel'),type:'graph-edge-label',edgeId:edge.id,position:.5,offset:-18,contents:[],contentPadding:6};
+  annotationsForPage(page).push(label);
+  setGraphSelection(page,label.id,{redraw:false});
+  commitHistory(before);
+  saveCurrentDocumentState({readViewDom:false});
+  redrawPageAnnotationSelectionOverlays(page);
+  updateGraphToolbar();
+  setStatus('Created edge label');
+  return label;
+}
 function deleteSelectedGraphObject() {
   const page=graphSelectionPage(), object=selectedGraphObject(page); if (!page||!object) return;
-  const before=snapshotPages(); let removed=0, incidentEdges=0, contentCount=0;
+  const before=snapshotPages();
+  const removeIds=new Set([object.id]);
+  let incidentEdges=0, contentCount=0, labelCount=0;
   if (isGraphNode(object)) {
-    const id=object.id;
-    const contentIds=new Set(graphNodeContentIds(object));
-    const next=annotationsForPage(page).filter(annotation => {
-      const edge=isGraphEdge(annotation)&&(annotation.fromNodeId===id||annotation.toNodeId===id);
-      const content=contentIds.has(annotation.id);
-      const remove=annotation.id===id || content || edge;
-      if (remove) { removed++; if (edge) incidentEdges++; if (content) contentCount++; }
-      return !remove;
-    });
-    page.annotations=next;
-  } else {
-    page.annotations=annotationsForPage(page).filter(annotation=>{if(annotation.id===object.id){removed++;return false;}return true;});
+    for (const id of graphNodeContentIds(object)) { removeIds.add(id); contentCount++; }
+    const edgeIds=new Set();
+    for (const annotation of annotationsForPage(page)) {
+      if (isGraphEdge(annotation)&&(annotation.fromNodeId===object.id||annotation.toNodeId===object.id)) {
+        edgeIds.add(annotation.id); removeIds.add(annotation.id); incidentEdges++;
+      }
+    }
+    for (const label of annotationsForPage(page).filter(isGraphEdgeLabel)) if (edgeIds.has(label.edgeId)) {
+      removeIds.add(label.id); labelCount++;
+      for (const id of graphEdgeLabelContentIds(label)) { if (!removeIds.has(id)) contentCount++; removeIds.add(id); }
+    }
+  } else if (isGraphEdge(object)) {
+    for (const label of graphEdgeLabelsForEdge(page,object.id)) {
+      removeIds.add(label.id); labelCount++;
+      for (const id of graphEdgeLabelContentIds(label)) { removeIds.add(id); contentCount++; }
+    }
+  } else if (isGraphEdgeLabel(object)) {
+    for (const id of graphEdgeLabelContentIds(object)) { removeIds.add(id); contentCount++; }
   }
-  clearGraphSelection(false); commitHistory(before); saveCurrentDocumentState({readViewDom:false}); redrawPageAnnotationOverlays(page); updateGraphToolbar();
-  setStatus(isGraphNode(object)?`Deleted node${contentCount?`, ${contentCount} content object${contentCount===1?'':'s'}`:''}${incidentEdges?` and ${incidentEdges} incident edge${incidentEdges===1?'':'s'}`:''}`:'Deleted graph edge');
+  page.annotations=annotationsForPage(page).filter(annotation=>!removeIds.has(annotation.id));
+  clearGraphSelection(false);
+  if (state.graphContentEditTarget?.labelId===object.id || state.graphContentEditTarget?.nodeId===object.id) clearGraphContentEditState({redraw:false});
+  commitHistory(before); saveCurrentDocumentState({readViewDom:false}); redrawPageAnnotationOverlays(page); updateGraphToolbar();
+  if (isGraphNode(object)) setStatus(`Deleted node${contentCount?`, ${contentCount} owned ink object${contentCount===1?'':'s'}`:''}${incidentEdges?` and ${incidentEdges} incident edge${incidentEdges===1?'':'s'}`:''}${labelCount?` with ${labelCount} edge label${labelCount===1?'':'s'}`:''}`);
+  else if (isGraphEdge(object)) setStatus(`Deleted graph edge${labelCount?` and ${labelCount} attached label${labelCount===1?'':'s'}`:''}`);
+  else setStatus('Deleted edge label');
 }
 function setGraphSubtool(tool) {
   const next=['node','edge','move'].includes(tool)?tool:'node';
@@ -3770,7 +3988,7 @@ function graphToolbarSelectionContext() {
   if (state.annotationTool==='graph') {
     const page=selectedAnnotationPage();
     if (page) {
-      const objects=selectedAnnotations(page).filter(annotation=>isGraphNode(annotation)||isGraphEdge(annotation));
+      const objects=selectedAnnotations(page).filter(isGraphObject);
       if (objects.length) return {page,objects,multi:true};
     }
   }
@@ -3785,6 +4003,15 @@ function editSelectedGraphNodeContents() {
     return;
   }
   startGraphContentEdit(context.page,nodes[0]);
+}
+function editSelectedGraphEdgeLabel() {
+  const context=graphToolbarSelectionContext();
+  if (!context.page || context.objects.length!==1) { setStatus('Select one graph edge or edge label'); return; }
+  const object=context.objects[0];
+  let label=isGraphEdgeLabel(object)?object:null;
+  if (isGraphEdge(object)) label=graphEdgeLabelsForEdge(context.page,object.id)[0] || createGraphEdgeLabel(context.page,object);
+  if (!label) { setStatus('Select one graph edge or edge label'); return; }
+  startGraphContentEdit(context.page,label);
 }
 function setGraphBorderStyle(style) {
   const next=['clean','hand','none'].includes(style)?style:'clean';
@@ -3807,7 +4034,8 @@ function setGraphColor(color) {
   if (!GRAPH_SELECTION_COLORS.includes(color)) return;
   state.graphColor=color; savePref('pdfwb-graph-color',color);
   const context=graphToolbarSelectionContext();
-  const changed=context.objects.filter(annotation=>(annotation.strokeColor||'#111111')!==color);
+  const styleObjects=context.objects.filter(annotation=>isGraphNode(annotation)||isGraphEdge(annotation));
+  const changed=styleObjects.filter(annotation=>(annotation.strokeColor||'#111111')!==color);
   if (context.page && changed.length) {
     const before=snapshotPages();
     for (const annotation of changed) annotation.strokeColor=color;
@@ -3816,6 +4044,8 @@ function setGraphColor(color) {
     setStatus(`Changed color of ${changed.length} selected graph object${changed.length===1?'':'s'}`);
   } else if (!context.objects.length) {
     setStatus('New graph object color changed');
+  } else if (!styleObjects.length) {
+    setStatus('Edge-label handwriting keeps its Pen/Highlighter color');
   } else {
     setStatus('Selected graph objects already use that color');
   }
@@ -3839,20 +4069,22 @@ function setGraphNodeSize(size) {
     }
     return;
   }
-  // An explicit common-size choice is also the user's requested size for the
-  // next nodes they create. Freeform Select-handle resizing deliberately does
-  // not change this default because a mixed/group resize has no single size.
   state.graphNodeSize=chosen;
   savePref('pdfwb-graph-node-size',String(chosen));
   const page=graphToolbarSelectionContext().page;
   if (!page) return;
   const before=snapshotPages();
+  const edgeLabelOriginals=graphEdgeLabelFollowOriginalsForNodeIds(page,new Set(nodes.map(node=>node.id)));
   const base=pageCanvasBaseDimensions(page), half=chosen/2;
   for (const node of nodes) {
     node.width=chosen; node.height=chosen; node.contentMode='manual';
     node.x=clamp(Number(node.x)||0,half,Math.max(half,base.width-half));
     node.y=clamp(Number(node.y)||0,half,Math.max(half,base.height-half));
   }
+  // Fixed common-size changes node frames, not overall graph scale. Labels
+  // follow the changed edge anchors but keep their handwriting size and offset.
+  graphTransformEdgeLabelContentsFromOriginals(page,edgeLabelOriginals,{scale:1});
+  graphRefreshAttachedInkLocalMetadata(page);
   commitHistory(before);
   saveCurrentDocumentState({readViewDom:false});
   redrawPageAnnotationOverlays(page);
@@ -3897,72 +4129,135 @@ function updateGraphToolbar() {
     els.graphEditContentsBtn.disabled=!editable;
     els.graphEditContentsBtn.classList.toggle('hidden',!active || !editable);
   }
+  if (els.graphEdgeLabelBtn) {
+    const labelable=context.objects.length===1 && (isGraphEdge(context.objects[0])||isGraphEdgeLabel(context.objects[0]));
+    els.graphEdgeLabelBtn.disabled=!labelable;
+    els.graphEdgeLabelBtn.classList.toggle('hidden',!active || !labelable);
+    els.graphEdgeLabelBtn.title=isGraphEdgeLabel(context.objects[0])?'Edit edge label':(isGraphEdge(context.objects[0])&&graphEdgeLabelsForEdge(context.page,context.objects[0].id).length?'Edit attached edge label':'Add edge label');
+  }
   if (els.graphDeleteBtn) {
     const direct=selectedGraphObject();
     els.graphDeleteBtn.disabled=!direct || context.multi;
     els.graphDeleteBtn.title=context.multi?'Use Select to delete a multi-object selection':'Delete selected graph object';
   }
-  const graphObjects=context.objects;
-  const uniformColor=graphObjects.length && graphObjects.every(annotation=>(annotation.strokeColor||'#111111')===(graphObjects[0].strokeColor||'#111111')) ? (graphObjects[0].strokeColor||'#111111') : (!graphObjects.length?state.graphColor:null);
+  const graphObjects=context.objects.filter(annotation=>isGraphNode(annotation)||isGraphEdge(annotation));
+  const labelOnly=!!context.objects.length&&!graphObjects.length;
+  const uniformColor=graphObjects.length && graphObjects.every(annotation=>(annotation.strokeColor||'#111111')===(graphObjects[0].strokeColor||'#111111')) ? (graphObjects[0].strokeColor||'#111111') : (!context.objects.length?state.graphColor:null);
   for (const button of els.graphColorGroup?.querySelectorAll?.('[data-graph-color]')||[]) {
     const on=!!uniformColor && button.dataset.graphColor===uniformColor;
-    button.classList.toggle('active',on); button.setAttribute('aria-pressed',String(on));
+    button.classList.toggle('active',on); button.setAttribute('aria-pressed',String(on)); button.disabled=labelOnly;
   }
   updateGraphNodeSizeToolbar();
+}
+function ensureLiveGraphLabelOverlay(stage,baseCanvas,labelId) {
+  if (!stage || !baseCanvas?.width || !baseCanvas?.height || !labelId) return null;
+  let overlay=[...stage.querySelectorAll('canvas.live-graph-label-canvas')].find(canvas=>canvas.dataset.labelId===labelId) || null;
+  if (!overlay) {
+    overlay=document.createElement('canvas'); overlay.className='live-graph-label-canvas'; overlay.dataset.labelId=labelId;
+    overlay.setAttribute('aria-hidden','true'); stage.append(overlay);
+  }
+  if (overlay.width!==baseCanvas.width) overlay.width=baseCanvas.width;
+  if (overlay.height!==baseCanvas.height) overlay.height=baseCanvas.height;
+  overlay.style.width=baseCanvas.style.width||'100%'; overlay.style.height=baseCanvas.style.height||'100%';
+  overlay.style.transform='none'; overlay.style.transformOrigin='0 0';
+  return overlay;
+}
+function clearGraphLabelPreviewLayers(page) {
+  if (!page?.id) return;
+  const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const stage of document.querySelectorAll(selector)) for (const canvas of stage.querySelectorAll('canvas.live-graph-label-canvas')) canvas.remove();
+}
+function graphLabelPreviewContentIds(entries) {
+  const ids=new Set();
+  for (const entry of entries||[]) for (const stroke of entry.strokes||[]) if (stroke?.id) ids.add(stroke.id);
+  return ids;
+}
+function prepareGraphLabelPreviewLayers(page,entries) {
+  if (!page?.id) return false;
+  const active=(entries||[]).filter(entry=>(entry.strokes||[]).length);
+  if (!active.length) return true;
+  const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  const stages=[...document.querySelectorAll(selector)].filter(stage=>stage.dataset.rendered==='true');
+  if (!stages.length) return false;
+  for (const stage of stages) {
+    const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
+    if (!base) { clearGraphLabelPreviewLayers(page); return false; }
+    for (const entry of active) {
+      const ids=new Set((entry.strokes||[]).map(stroke=>stroke.id).filter(Boolean));
+      const live=ensureLiveGraphLabelOverlay(stage,base,entry.labelId), ctx=live?.getContext('2d');
+      if (!live||!ctx) { clearGraphLabelPreviewLayers(page); return false; }
+      ctx.clearRect(0,0,live.width,live.height);
+      drawPageAnnotationsCanvas(page,ctx,live.width,live.height,{includeStrokeIds:ids,inkOnly:true});
+    }
+  }
+  return true;
+}
+function setGraphLabelPreviewTransforms(page,entries,{scale=1}={}) {
+  if (!page?.id) return;
+  const display=pageDisplayDimensions(page), factor=Math.max(.0001,Number(scale)||1);
+  const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+  for (const stage of document.querySelectorAll(selector)) {
+    const rect=stage.getBoundingClientRect();
+    const sx=rect.width/Math.max(1,display.width), sy=rect.height/Math.max(1,display.height);
+    for (const entry of entries||[]) {
+      const live=[...stage.querySelectorAll('canvas.live-graph-label-canvas')].find(canvas=>canvas.dataset.labelId===entry.labelId);
+      if (!live) continue;
+      const label=graphEdgeLabelById(page,entry.labelId), anchor=graphEdgeLabelAnchor(page,label); if (!anchor) continue;
+      const oldDisplay=basePointToDisplay(page,entry.anchor), newDisplay=basePointToDisplay(page,anchor);
+      const objectScale=entry.bothEndpointsSelected?factor:1;
+      const oldX=oldDisplay.x*sx, oldY=oldDisplay.y*sy, newX=newDisplay.x*sx, newY=newDisplay.y*sy;
+      const tx=newX-objectScale*oldX, ty=newY-objectScale*oldY;
+      live.style.transformOrigin='0 0';
+      live.style.transform=`matrix(${objectScale},0,0,${objectScale},${tx}px,${ty}px)`;
+    }
+  }
 }
 function clearGraphMoveContentPreview(page) {
   if (!page?.id) return;
   const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const stage of document.querySelectorAll(selector)) stage.querySelector('canvas.live-selection-canvas')?.remove();
+  clearGraphLabelPreviewLayers(page);
 }
 function prepareGraphMoveContentPreview(gesture) {
-  if (!gesture?.page || gesture.mode!=='move-node') return false;
+  if (!gesture?.page || !['move-node','move-label'].includes(gesture.mode)) return false;
   const contents=gesture.contentOriginals||[];
-  // A content-free graph node needs only the lightweight graph canvas during
-  // drag; there is no ordinary annotation content to isolate.
-  if (!contents.length) { gesture.contentPreviewOptimized=true; return true; }
-  const ids=new Set(contents.map(entry=>entry?.stroke?.id).filter(Boolean));
-  if (!ids.size) { gesture.contentPreviewOptimized=true; return true; }
+  const nodeIds=new Set(contents.map(entry=>entry?.stroke?.id).filter(Boolean));
+  const labelIds=graphLabelPreviewContentIds(gesture.edgeLabelOriginals||[]);
+  const allIds=new Set([...nodeIds,...labelIds]);
+  if (!allIds.size) { gesture.contentPreviewOptimized=true; return true; }
   const page=gesture.page;
   const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
-  let rendered=0,prepared=0;
-  for (const stage of document.querySelectorAll(selector)) {
-    if (stage.dataset.rendered!=='true') continue;
-    rendered++;
-    const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
-    const live=ensureLiveSelectionOverlay(stage,base);
-    const ctx=live?.getContext('2d');
-    if (!live||!ctx) { live?.remove(); continue; }
-    live.style.zIndex='4';
-    ctx.clearRect(0,0,live.width,live.height);
-    drawPageAnnotationsCanvas(page,ctx,live.width,live.height,{includeStrokeIds:ids,inkOnly:true});
-    prepared++;
+  const stages=[...document.querySelectorAll(selector)].filter(stage=>stage.dataset.rendered==='true');
+  if (!stages.length) return false;
+  if (nodeIds.size) {
+    for (const stage of stages) {
+      const base=stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
+      const live=ensureLiveSelectionOverlay(stage,base), ctx=live?.getContext('2d');
+      if (!live||!ctx) { clearGraphMoveContentPreview(page); return false; }
+      live.style.zIndex='4'; ctx.clearRect(0,0,live.width,live.height);
+      drawPageAnnotationsCanvas(page,ctx,live.width,live.height,{includeStrokeIds:nodeIds,inkOnly:true});
+    }
   }
-  if (!rendered || prepared!==rendered) {
-    clearGraphMoveContentPreview(page);
-    return false;
-  }
-  // Freeze all unrelated page ink once. Pointer moves now CSS-translate the
-  // node's isolated contents while only the lightweight graph canvas is redrawn.
-  redrawPageAnnotationOverlays(page,{excludeStrokeIds:ids});
+  if (!prepareGraphLabelPreviewLayers(page,gesture.edgeLabelOriginals||[])) { clearGraphMoveContentPreview(page); return false; }
+  redrawPageAnnotationOverlays(page,{excludeStrokeIds:allIds});
   gesture.contentPreviewOptimized=true;
   return true;
 }
-function setGraphMoveContentPreviewTransform(gesture,node) {
-  if (!gesture?.contentPreviewOptimized || !gesture.page?.id || !node || !(gesture.contentOriginals||[]).length) return;
+function setGraphMoveContentPreviewTransform(gesture,node=null) {
+  if (!gesture?.contentPreviewOptimized || !gesture.page?.id) return;
   const page=gesture.page, display=pageDisplayDimensions(page);
-  const origin=basePointToDisplay(page,{x:0,y:0});
-  const shifted=basePointToDisplay(page,{x:(Number(node.x)||0)-gesture.startX,y:(Number(node.y)||0)-gesture.startY});
-  const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
-  for (const stage of document.querySelectorAll(selector)) {
-    const live=stage.querySelector('canvas.live-selection-canvas');
-    if (!live) continue;
-    const rect=stage.getBoundingClientRect();
-    const dxCss=(shifted.x-origin.x)*rect.width/Math.max(1,display.width);
-    const dyCss=(shifted.y-origin.y)*rect.height/Math.max(1,display.height);
-    live.style.transformOrigin='0 0';
-    live.style.transform=`translate(${dxCss}px, ${dyCss}px)`;
+  if (node && (gesture.contentOriginals||[]).length) {
+    const origin=basePointToDisplay(page,{x:0,y:0});
+    const shifted=basePointToDisplay(page,{x:(Number(node.x)||0)-gesture.startX,y:(Number(node.y)||0)-gesture.startY});
+    const selector=`.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
+    for (const stage of document.querySelectorAll(selector)) {
+      const live=stage.querySelector('canvas.live-selection-canvas'); if (!live) continue;
+      const rect=stage.getBoundingClientRect();
+      const dxCss=(shifted.x-origin.x)*rect.width/Math.max(1,display.width), dyCss=(shifted.y-origin.y)*rect.height/Math.max(1,display.height);
+      live.style.transformOrigin='0 0'; live.style.transform=`translate(${dxCss}px, ${dyCss}px)`;
+    }
   }
+  setGraphLabelPreviewTransforms(page,gesture.edgeLabelOriginals||[],{scale:1});
 }
 function beginGraphGesture(viewer,event) {
   if (state.annotationTool!=='graph') return false;
@@ -3974,8 +4269,10 @@ function beginGraphGesture(viewer,event) {
   const inputSource=event._inkStylusTouch?'stylus-touch':'pointer'; state.activePageId=page.id;
   const hit=graphHitAt(page,point,graphHitRadius(stage,page));
   if (state.graphSubtool==='node') {
-    if (hit) { setGraphSelection(page,hit.id); setStatus(isGraphNode(hit)?'Graph node selected':'Graph edge selected'); }
-    else createGraphNode(page,point);
+    if (hit) {
+      setGraphSelection(page,hit.id);
+      setStatus(isGraphNode(hit)?'Graph node selected':isGraphEdgeLabel(hit)?'Edge label selected':'Graph edge selected');
+    } else createGraphNode(page,point);
     state.graphGesture={mode:'tap',pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id};
   } else if (state.graphSubtool==='edge') {
     const node=isGraphNode(hit)?hit:null;
@@ -3991,7 +4288,13 @@ function beginGraphGesture(viewer,event) {
   } else {
     if (isGraphNode(hit)) {
       const before=snapshotPages(); setGraphSelection(page,hit.id,{redraw:false});
-      state.graphGesture={mode:'move-node',pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id,nodeId:hit.id,startPoint:point,startX:Number(hit.x)||0,startY:Number(hit.y)||0,contentOriginals:graphContentOriginalsForNodes(page,[hit]),before,changed:false,contentPreviewOptimized:false};
+      state.graphGesture={mode:'move-node',pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id,nodeId:hit.id,startPoint:point,startX:Number(hit.x)||0,startY:Number(hit.y)||0,contentOriginals:graphContentOriginalsForNodes(page,[hit]),edgeLabelOriginals:graphEdgeLabelFollowOriginalsForNodeIds(page,new Set([hit.id])),before,changed:false,contentPreviewOptimized:false};
+      prepareGraphMoveContentPreview(state.graphGesture);
+      redrawPageAnnotationSelectionOverlays(page);
+    } else if (isGraphEdgeLabel(hit)) {
+      const before=snapshotPages(), anchor=graphEdgeLabelAnchor(page,hit); setGraphSelection(page,hit.id,{redraw:false});
+      const entry={labelId:hit.id,label:cloneInkStroke(hit),anchor:{x:anchor?.x||0,y:anchor?.y||0},bothEndpointsSelected:false,strokes:graphEdgeLabelContentAnnotations(page,hit).map(cloneInkStroke)};
+      state.graphGesture={mode:'move-label',pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id,labelId:hit.id,startPoint:point,startPosition:Number(hit.position)||.5,startOffset:Number(hit.offset)||0,grabDelta:{x:point.x-(anchor?.x||point.x),y:point.y-(anchor?.y||point.y)},edgeLabelOriginals:[entry],contentOriginals:[],before,changed:false,contentPreviewOptimized:false};
       prepareGraphMoveContentPreview(state.graphGesture);
       redrawPageAnnotationSelectionOverlays(page);
     } else {
@@ -4018,8 +4321,18 @@ function continueGraphGesture(viewer,event) {
       redrawPageGraphOverlays(gesture.page);
     } else {
       graphTranslateContentFromOriginals(gesture.page,gesture.contentOriginals||[],new Map([[node.id,{x:node.x,y:node.y}]]));
+      graphTransformEdgeLabelContentsFromOriginals(gesture.page,gesture.edgeLabelOriginals||[],{scale:1});
       redrawPageAnnotationOverlays(gesture.page);
     }
+  } else if (gesture.mode==='move-label') {
+    const point=eventPointOnPage(gesture.stage,gesture.page,event), label=graphEdgeLabelById(gesture.page,gesture.labelId); if (!point||!label) return true;
+    const desired={x:point.x-(gesture.grabDelta?.x||0),y:point.y-(gesture.grabDelta?.y||0)};
+    const placement=graphEdgeLabelPointPlacement(gesture.page,label,desired); if (!placement) return true;
+    label.position=placement.position; label.offset=placement.offset;
+    gesture.changed=gesture.changed||Math.abs(label.position-gesture.startPosition)>.0005||Math.abs(label.offset-gesture.startOffset)>.05;
+    if (gesture.contentPreviewOptimized) setGraphMoveContentPreviewTransform(gesture,null);
+    else { graphTransformEdgeLabelContentsFromOriginals(gesture.page,gesture.edgeLabelOriginals||[],{scale:1}); redrawPageAnnotationOverlays(gesture.page); }
+    redrawPageAnnotationSelectionOverlays(gesture.page);
   }
   return true;
 }
@@ -4028,7 +4341,7 @@ function finishGraphGesture(viewer,event) {
   if (event.cancelable) event.preventDefault();
   if (event.type==='pointercancel'||event.type==='touchcancel') {
     state.graphGesture=null;
-    if (gesture.mode==='move-node') {
+    if (gesture.mode==='move-node'||gesture.mode==='move-label') {
       clearGraphMoveContentPreview(gesture.page);
       if (gesture.changed) restorePages(gesture.before);
       const page=pageById(gesture.pageId); if(page)redrawPageAnnotationOverlays(page);
@@ -4041,11 +4354,19 @@ function finishGraphGesture(viewer,event) {
   if (gesture.mode==='move-node') {
     if (gesture.contentPreviewOptimized) {
       const node=graphNodeById(gesture.page,gesture.nodeId);
-      if (node && gesture.changed) graphTranslateContentFromOriginals(gesture.page,gesture.contentOriginals||[],new Map([[node.id,{x:node.x,y:node.y}]]));
-      clearGraphMoveContentPreview(gesture.page);
-      redrawPageAnnotationOverlays(gesture.page);
+      if (node && gesture.changed) {
+        graphTranslateContentFromOriginals(gesture.page,gesture.contentOriginals||[],new Map([[node.id,{x:node.x,y:node.y}]]));
+        graphTransformEdgeLabelContentsFromOriginals(gesture.page,gesture.edgeLabelOriginals||[],{scale:1});
+      }
+      clearGraphMoveContentPreview(gesture.page); redrawPageAnnotationOverlays(gesture.page);
     }
-    if (gesture.changed) { commitHistory(gesture.before); saveCurrentDocumentState({readViewDom:false}); if (!gesture.contentPreviewOptimized) redrawPageGraphOverlays(gesture.page); setStatus('Moved graph node'); }
+    if (gesture.changed) { graphRefreshAttachedInkLocalMetadata(gesture.page); commitHistory(gesture.before); saveCurrentDocumentState({readViewDom:false}); if (!gesture.contentPreviewOptimized) redrawPageGraphOverlays(gesture.page); setStatus('Moved graph node'); }
+  } else if (gesture.mode==='move-label') {
+    if (gesture.contentPreviewOptimized) {
+      if (gesture.changed) graphTransformEdgeLabelContentsFromOriginals(gesture.page,gesture.edgeLabelOriginals||[],{scale:1});
+      clearGraphMoveContentPreview(gesture.page); redrawPageAnnotationOverlays(gesture.page);
+    }
+    if (gesture.changed) { graphRefreshAttachedInkLocalMetadata(gesture.page); commitHistory(gesture.before); saveCurrentDocumentState({readViewDom:false}); setStatus('Moved edge label along/across its edge'); }
   }
   addInkDiagnostic('graph-finish-accepted',event,{mode:gesture.mode,changed:!!gesture.changed});
   return true;
@@ -4196,7 +4517,7 @@ function redrawStageAnnotationSelection(stage, page) {
     state.graphEdgeStart?.documentId === state.currentDocumentId &&
     state.graphEdgeStart?.pageId === page.id && !!state.graphEdgeStart?.nodeId;
   const activeGraphContentEdit = state.graphContentEditTarget?.documentId === state.currentDocumentId &&
-    state.graphContentEditTarget?.pageId === page.id && !!state.graphContentEditTarget?.nodeId;
+    state.graphContentEditTarget?.pageId === page.id && (!!state.graphContentEditTarget?.nodeId || !!state.graphContentEditTarget?.labelId);
   let svg = stage.querySelector('svg.annotation-selection-layer');
   if (!activeSelection && !activeLasso && !activeRegionCopy && !activeGraph && !activeGraphEdgeStart && !activeGraphContentEdit) {
     svg?.remove();
@@ -4248,13 +4569,24 @@ function redrawStageAnnotationSelection(stage, page) {
   }
 
   if (activeGraphContentEdit) {
-    const node=graphNodeById(page,state.graphContentEditTarget.nodeId);
-    const g=graphNodeDisplayGeometry(page,node);
-    if (g) {
-      const ring=document.createElementNS('http://www.w3.org/2000/svg','ellipse');
-      ring.setAttribute('cx',String(g.center.x)); ring.setAttribute('cy',String(g.center.y));
-      ring.setAttribute('rx',String(g.rx+4*cssToDisplay)); ring.setAttribute('ry',String(g.ry+4*cssToDisplay));
-      ring.setAttribute('class','graph-selection-node graph-content-edit-target'); svg.append(ring);
+    const node=state.graphContentEditTarget.nodeId?graphNodeById(page,state.graphContentEditTarget.nodeId):null;
+    const label=state.graphContentEditTarget.labelId?graphEdgeLabelById(page,state.graphContentEditTarget.labelId):null;
+    if (node) {
+      const g=graphNodeDisplayGeometry(page,node);
+      if (g) {
+        const ring=document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+        ring.setAttribute('cx',String(g.center.x)); ring.setAttribute('cy',String(g.center.y));
+        ring.setAttribute('rx',String(g.rx+4*cssToDisplay)); ring.setAttribute('ry',String(g.ry+4*cssToDisplay));
+        ring.setAttribute('class','graph-selection-node graph-content-edit-target'); svg.append(ring);
+      }
+    } else if (label) {
+      const bounds=graphEdgeLabelDisplayBounds(page,label,7);
+      if (bounds) {
+        const box=document.createElementNS('http://www.w3.org/2000/svg','rect');
+        box.setAttribute('x',String(bounds.minX)); box.setAttribute('y',String(bounds.minY));
+        box.setAttribute('width',String(Math.max(.01,bounds.width))); box.setAttribute('height',String(Math.max(.01,bounds.height)));
+        box.setAttribute('rx',String(3*cssToDisplay)); box.setAttribute('class','graph-selection-node graph-content-edit-target'); svg.append(box);
+      }
     }
   }
 
@@ -4286,6 +4618,21 @@ function redrawStageAnnotationSelection(stage, page) {
           marker.setAttribute('class',`graph-selection-edge-marker ${kind}`);
           svg.append(marker);
         }
+      }
+    } else if (isGraphEdgeLabel(object)) {
+      const bounds=graphEdgeLabelDisplayBounds(page,object,7);
+      if (bounds) {
+        const box=document.createElementNS('http://www.w3.org/2000/svg','rect');
+        box.setAttribute('x',String(bounds.minX)); box.setAttribute('y',String(bounds.minY));
+        box.setAttribute('width',String(Math.max(.01,bounds.width))); box.setAttribute('height',String(Math.max(.01,bounds.height)));
+        box.setAttribute('rx',String(3*cssToDisplay)); box.setAttribute('class','graph-selection-node graph-edge-label-selection'); svg.append(box);
+      }
+      const anchor=graphEdgeLabelAnchor(page,object);
+      if (anchor) {
+        const pnt=basePointToDisplay(page,anchor);
+        const dot=document.createElementNS('http://www.w3.org/2000/svg','circle');
+        dot.setAttribute('cx',String(pnt.x)); dot.setAttribute('cy',String(pnt.y)); dot.setAttribute('r',String(3.2*cssToDisplay));
+        dot.setAttribute('class','graph-selection-edge-marker midpoint'); svg.append(dot);
       }
     }
   }
@@ -4506,7 +4853,7 @@ function selectionOriginals(page) {
 }
 function ensureLiveSelectionOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.live-selection-canvas');
   if (!overlay) {
@@ -4534,26 +4881,26 @@ function clearSelectionGestureLayers(page) {
       selectionLayer.style.transformOrigin = '';
     }
   }
+  clearGraphLabelPreviewLayers(page);
 }
 function prepareSelectionGestureLayers(gesture) {
   if (!gesture?.page || !['move','resize'].includes(gesture.mode) || !gesture.originals?.length) return false;
   const page = gesture.page;
   const graphObjects=gesture.originals.filter(isGraphObject);
   gesture.graphPreviewOptimized=graphObjects.length>0;
-  // The live layer contains the ordinary selected objects plus all handwriting
-  // owned by selected graph nodes. Graph borders/edges stay on their lightweight
-  // semantic canvas and are updated separately during the gesture.
-  const ids = new Set(gesture.originals.filter(annotation=>!isGraphObject(annotation)).map(annotation => annotation.id));
+  // Selected ordinary objects plus node-owned handwriting ride the established
+  // live selection canvas. Edge-label handwriting gets one isolated live layer
+  // per semantic label so it can follow the changing edge anchor independently.
+  const labelIds=graphLabelPreviewContentIds(gesture.edgeLabelOriginals||[]);
+  const ids = new Set(gesture.originals.filter(annotation=>!isGraphObject(annotation) && !labelIds.has(annotation.id)).map(annotation => annotation.id));
   for (const entry of gesture.graphContentOriginals||[]) if (entry?.stroke?.id) ids.add(entry.stroke.id);
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   let liveCount = 0;
   let renderedCount = 0;
-  // Build the movable copy first so a failed/unrendered stage never causes the
-  // selected objects to disappear from its ordinary annotation layer.
   for (const stage of document.querySelectorAll(selector)) {
     if (stage.dataset.rendered !== 'true') continue;
     renderedCount++;
-    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
     const live = ensureLiveSelectionOverlay(stage, base);
     if (!live) continue;
     const ctx = live.getContext('2d');
@@ -4562,14 +4909,12 @@ function prepareSelectionGestureLayers(gesture) {
     drawPageAnnotationsCanvas(page, ctx, live.width, live.height, { includeStrokeIds: ids });
     liveCount++;
   }
-  if (!liveCount || liveCount !== renderedCount) {
+  if (!liveCount || liveCount !== renderedCount || !prepareGraphLabelPreviewLayers(page,gesture.edgeLabelOriginals||[])) {
     clearSelectionGestureLayers(page);
     return false;
   }
-  // Freeze all unselected ink on the ordinary overlay once. Pointer moves can
-  // then transform the selected copy with CSS instead of resmoothing/redrawing
-  // hundreds of unrelated strokes on every Pencil sample.
-  redrawPageAnnotationOverlays(page, { excludeStrokeIds: ids });
+  const excluded=new Set([...ids,...labelIds]);
+  redrawPageAnnotationOverlays(page, { excludeStrokeIds: excluded });
   gesture.previewOptimized = true;
   return true;
 }
@@ -4613,6 +4958,74 @@ function setSelectionGestureLayerTransform(gesture) {
   }
 }
 function applySelectionGestureModelTransform(gesture,{includeGraphContents=true}={}) {
+  if (!gesture?.page) return;
+  const page=gesture.page;
+  const current=new Map(annotationsForPage(page).map(annotation=>[annotation.id,annotation]));
+  const selectedNodeIds=new Set((gesture.originals||[]).filter(isGraphNode).map(node=>node.id));
+  const affectedLabelIds=new Set((gesture.edgeLabelOriginals||[]).map(entry=>entry.labelId).filter(Boolean));
+  if (gesture.mode==='move') {
+    const {dx=0,dy=0}=gesture.lastDelta||{};
+    for (const original of gesture.originals||[]) {
+      const annotation=current.get(original.id);
+      if (!annotation || isGraphEdge(original) || isGraphEdgeLabel(original)) continue;
+      if (includeGraphContents && original.graphNodeId && selectedNodeIds.has(original.graphNodeId)) continue;
+      if (includeGraphContents && original.graphEdgeLabelId && affectedLabelIds.has(original.graphEdgeLabelId)) continue;
+      if (isGraphNode(original)) {
+        annotation.x=(Number(original.x)||0)+dx;
+        annotation.y=(Number(original.y)||0)+dy;
+      } else if (isImageAnnotation(original)) {
+        annotation.x=(Number(original.x)||0)+dx;
+        annotation.y=(Number(original.y)||0)+dy;
+      } else {
+        annotation.points=(original.points||[]).map(point=>({...point,x:(Number(point.x)||0)+dx,y:(Number(point.y)||0)+dy}));
+      }
+    }
+    if (includeGraphContents && gesture.graphContentOriginals?.length) {
+      const nodePositions=new Map(annotationsForPage(page).filter(isGraphNode).map(node=>[node.id,{x:Number(node.x)||0,y:Number(node.y)||0}]));
+      graphTranslateContentFromOriginals(page,gesture.graphContentOriginals,nodePositions);
+    }
+    if (includeGraphContents && gesture.edgeLabelOriginals?.length) graphTransformEdgeLabelContentsFromOriginals(page,gesture.edgeLabelOriginals,{scale:1});
+    return;
+  }
+  if (gesture.mode==='resize') {
+    const scale=gesture.lastScale?.scale??1;
+    const anchor=gesture.resizeFrame?.anchor;
+    if (!anchor) return;
+    for (const original of gesture.originals||[]) {
+      const annotation=current.get(original.id);
+      if (!annotation || isGraphEdge(original) || isGraphEdgeLabel(original)) continue;
+      if (includeGraphContents && original.graphNodeId && selectedNodeIds.has(original.graphNodeId)) continue;
+      if (includeGraphContents && original.graphEdgeLabelId && affectedLabelIds.has(original.graphEdgeLabelId)) continue;
+      if (isGraphNode(original)) {
+        const center=basePointToDisplay(page,{x:Number(original.x)||0,y:Number(original.y)||0});
+        const nextCenter=displayPointToBase(page,{x:anchor.x+(center.x-anchor.x)*scale,y:anchor.y+(center.y-anchor.y)*scale});
+        annotation.x=nextCenter.x; annotation.y=nextCenter.y;
+        annotation.width=Math.max(GRAPH_NODE_MIN_SIZE,(Number(original.width)||GRAPH_NODE_DEFAULT_SIZE)*scale);
+        annotation.height=Math.max(GRAPH_NODE_MIN_SIZE,(Number(original.height)||GRAPH_NODE_DEFAULT_SIZE)*scale);
+        if (gesture.changed) annotation.contentMode='manual';
+        else if (Object.prototype.hasOwnProperty.call(original,'contentMode')) annotation.contentMode=original.contentMode;
+        else delete annotation.contentMode;
+      } else if (isImageAnnotation(original)) {
+        const topLeft=basePointToDisplay(page,{x:Number(original.x)||0,y:Number(original.y)||0});
+        const nextTopLeft=displayPointToBase(page,{x:anchor.x+(topLeft.x-anchor.x)*scale,y:anchor.y+(topLeft.y-anchor.y)*scale});
+        annotation.x=nextTopLeft.x;
+        annotation.y=nextTopLeft.y;
+        annotation.width=Math.max(.25,(Number(original.width)||1)*scale);
+        annotation.height=Math.max(.25,(Number(original.height)||1)*scale);
+      } else {
+        annotation.points=(original.points||[]).map(raw=>{
+          const point=basePointToDisplay(page,raw);
+          const mapped=displayPointToBase(page,{x:anchor.x+(point.x-anchor.x)*scale,y:anchor.y+(point.y-anchor.y)*scale});
+          return Number.isFinite(Number(raw.t))?{...mapped,t:Number(raw.t)}:mapped;
+        });
+        annotation.width=Math.max(.25,(Number(original.width)||3)*scale);
+      }
+    }
+    graphApplyEdgeLabelContainerResizeFromOriginals(page,gesture.edgeLabelOriginals||[],scale);
+    if (includeGraphContents && gesture.graphContentOriginals?.length) graphScaleContentFromOriginals(page,gesture.graphContentOriginals,anchor,scale);
+    if (includeGraphContents && gesture.edgeLabelOriginals?.length) graphTransformEdgeLabelContentsFromOriginals(page,gesture.edgeLabelOriginals,{scale});
+  }
+}={}) {
   if (!gesture?.page) return;
   const page=gesture.page;
   const current=new Map(annotationsForPage(page).map(annotation=>[annotation.id,annotation]));
@@ -4683,11 +5096,11 @@ function applySelectionGestureModelTransform(gesture,{includeGraphContents=true}
 }
 function updateOptimizedGraphSelectionPreview(gesture) {
   if (!gesture?.graphPreviewOptimized) return;
-  // Keep the semantic geometry live so node frames, incident edges, and the
-  // selection handles remain truthful even after a node hits the 16-unit frame
-  // minimum. Owned handwriting itself remains frozen on the CSS-scaled live
-  // canvas until release, avoiding repeated exact Pen/Highlighter redraws.
+  // Keep semantic node/edge/label anchors live while expensive handwriting stays
+  // on temporary composited canvases. Label ink follows its edge anchor without
+  // exact Pen/Highlighter rerendering on every pointer sample.
   applySelectionGestureModelTransform(gesture,{includeGraphContents:false});
+  setGraphLabelPreviewTransforms(gesture.page,gesture.edgeLabelOriginals||[],{scale:gesture.mode==='resize'?(gesture.lastScale?.scale??1):1});
   redrawPageGraphOverlays(gesture.page);
 }
 function commitSelectionGestureTransform(gesture) {
@@ -4710,15 +5123,14 @@ function applyMoveSelectionGesture(gesture, event) {
     if (gesture.graphPreviewOptimized) updateOptimizedGraphSelectionPreview(gesture);
     setSelectionGestureLayerTransform(gesture);
   } else {
-    // Safety fallback for an unusual unrendered stage: retain the pre-5.4.4
-    // mutation/redraw behavior rather than sacrificing functionality.
     const current = new Map(annotationsForPage(page).map(annotation => [annotation.id,annotation]));
     const selectedNodeIds=new Set((gesture.originals||[]).filter(isGraphNode).map(node=>node.id));
+    const affectedLabelIds=new Set((gesture.edgeLabelOriginals||[]).map(entry=>entry.labelId).filter(Boolean));
     for (const original of gesture.originals) {
       const annotation = current.get(original.id);
-      if (!annotation) continue;
+      if (!annotation || isGraphEdge(original) || isGraphEdgeLabel(original)) continue;
       if (original.graphNodeId && selectedNodeIds.has(original.graphNodeId)) continue;
-      if (isGraphEdge(original)) continue;
+      if (original.graphEdgeLabelId && affectedLabelIds.has(original.graphEdgeLabelId)) continue;
       if (isGraphNode(original)) {
         annotation.x=(Number(original.x)||0)+dx;
         annotation.y=(Number(original.y)||0)+dy;
@@ -4726,11 +5138,12 @@ function applyMoveSelectionGesture(gesture, event) {
         annotation.x = (Number(original.x)||0) + dx;
         annotation.y = (Number(original.y)||0) + dy;
       } else {
-        annotation.points = original.points.map(point => ({...point,x:point.x+dx,y:point.y+dy}));
+        annotation.points = (original.points||[]).map(point => ({...point,x:(Number(point.x)||0)+dx,y:(Number(point.y)||0)+dy}));
       }
     }
     const nodePositions=new Map(annotationsForPage(page).filter(isGraphNode).map(node=>[node.id,{x:Number(node.x)||0,y:Number(node.y)||0}]));
     graphTranslateContentFromOriginals(page,gesture.graphContentOriginals||[],nodePositions);
+    graphTransformEdgeLabelContentsFromOriginals(page,gesture.edgeLabelOriginals||[],{scale:1});
     redrawPageAnnotationOverlays(page);
   }
 }
@@ -4749,18 +5162,10 @@ function applyResizeSelectionGesture(gesture, event) {
   const dx0 = corner.x-anchor.x, dy0 = corner.y-anchor.y;
   const denom = dx0*dx0 + dy0*dy0;
   if (denom < 1e-8) return;
-  // Corner resize is proportional: handwriting and grouped objects keep their
-  // shape instead of being independently stretched in x/y. Project the pointer
-  // onto the original corner diagonal, then cap expansion at the page edges.
   const projected = ((next.x-anchor.x)*dx0 + (next.y-anchor.y)*dy0) / denom;
   const display = pageDisplayDimensions(page);
   const maxX = dx0 > 0 ? (display.width-anchor.x)/dx0 : (0-anchor.x)/dx0;
   const maxY = dy0 > 0 ? (display.height-anchor.y)/dy0 : (0-anchor.y)/dy0;
-  // Graph-node size and graph-layout scale are deliberately independent. Once
-  // a node reaches the minimum size, its frame stops shrinking, but its center
-  // continues to move toward the selection anchor with the rest of the group.
-  // This lets a graph keep compacting instead of the first minimum-size node
-  // stopping the entire proportional resize gesture.
   const minimumSelectionScale = .08;
   const scale = clamp(projected, minimumSelectionScale, Math.max(minimumSelectionScale, Math.min(20,maxX,maxY)));
   gesture.changed = Math.abs(scale-1) > .002;
@@ -4771,11 +5176,12 @@ function applyResizeSelectionGesture(gesture, event) {
   } else {
     const current = new Map(annotationsForPage(page).map(annotation => [annotation.id,annotation]));
     const selectedNodeIds=new Set((gesture.originals||[]).filter(isGraphNode).map(node=>node.id));
+    const affectedLabelIds=new Set((gesture.edgeLabelOriginals||[]).map(entry=>entry.labelId).filter(Boolean));
     for (const original of gesture.originals) {
       const annotation = current.get(original.id);
-      if (!annotation) continue;
+      if (!annotation || isGraphEdge(original) || isGraphEdgeLabel(original)) continue;
       if (original.graphNodeId && selectedNodeIds.has(original.graphNodeId)) continue;
-      if (isGraphEdge(original)) continue;
+      if (original.graphEdgeLabelId && affectedLabelIds.has(original.graphEdgeLabelId)) continue;
       if (isGraphNode(original)) {
         const center=basePointToDisplay(page,{x:Number(original.x)||0,y:Number(original.y)||0});
         const nextCenter=displayPointToBase(page,{x:anchor.x+(center.x-anchor.x)*scale,y:anchor.y+(center.y-anchor.y)*scale});
@@ -4785,16 +5191,13 @@ function applyResizeSelectionGesture(gesture, event) {
         annotation.contentMode='manual';
       } else if (isImageAnnotation(original)) {
         const topLeft = basePointToDisplay(page,{x:Number(original.x)||0,y:Number(original.y)||0});
-        const nextTopLeft = displayPointToBase(page,{
-          x:anchor.x+(topLeft.x-anchor.x)*scale,
-          y:anchor.y+(topLeft.y-anchor.y)*scale,
-        });
+        const nextTopLeft = displayPointToBase(page,{x:anchor.x+(topLeft.x-anchor.x)*scale,y:anchor.y+(topLeft.y-anchor.y)*scale});
         annotation.x = nextTopLeft.x;
         annotation.y = nextTopLeft.y;
         annotation.width = Math.max(.25,(Number(original.width)||1)*scale);
         annotation.height = Math.max(.25,(Number(original.height)||1)*scale);
       } else {
-        annotation.points = original.points.map(raw => {
+        annotation.points = (original.points||[]).map(raw => {
           const point = basePointToDisplay(page,raw);
           const mapped=displayPointToBase(page,{x:anchor.x+(point.x-anchor.x)*scale,y:anchor.y+(point.y-anchor.y)*scale});
           return Number.isFinite(Number(raw.t)) ? {...mapped,t:Number(raw.t)} : mapped;
@@ -4802,7 +5205,9 @@ function applyResizeSelectionGesture(gesture, event) {
         annotation.width = Math.max(.25,(Number(original.width)||3)*scale);
       }
     }
+    graphApplyEdgeLabelContainerResizeFromOriginals(page,gesture.edgeLabelOriginals||[],scale);
     graphScaleContentFromOriginals(page,gesture.graphContentOriginals||[],anchor,scale);
+    graphTransformEdgeLabelContentsFromOriginals(page,gesture.edgeLabelOriginals||[],{scale});
     redrawPageAnnotationOverlays(page);
   }
 }
@@ -4976,11 +5381,11 @@ function beginSelectionGesture(viewer,event) {
   let gesture;
   if (hit?.mode === 'move' && selectedAnnotations(page).length) {
     const originals=selectionOriginals(page);
-    gesture={mode:'move',pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id,documentId:state.currentDocumentId,startPoint:first,originals,graphContentOriginals:graphContentOriginalsForNodes(page,originals.filter(isGraphNode)),baseBounds:annotationBaseBounds(originals),before:snapshotPages(),changed:false};
+    gesture={mode:'move',pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id,documentId:state.currentDocumentId,startPoint:first,originals,graphContentOriginals:graphContentOriginalsForNodes(page,originals.filter(isGraphNode)),edgeLabelOriginals:graphEdgeLabelFollowOriginalsForNodeIds(page,new Set(originals.filter(isGraphNode).map(node=>node.id))),baseBounds:annotationBaseBounds(originals),before:snapshotPages(),changed:false};
   } else if (hit?.mode === 'resize' && selectedAnnotations(page).length) {
     const originals=selectionOriginals(page);
     const bounds=annotationDisplayBounds(page,originals);
-    gesture={mode:'resize',pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id,documentId:state.currentDocumentId,startPoint:first,originals,graphContentOriginals:graphContentOriginalsForNodes(page,originals.filter(isGraphNode)),before:snapshotPages(),changed:false,handle:hit.handle,resizeFrame:resizeCornerPoints(bounds,hit.handle)};
+    gesture={mode:'resize',pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id,documentId:state.currentDocumentId,startPoint:first,originals,graphContentOriginals:graphContentOriginalsForNodes(page,originals.filter(isGraphNode)),edgeLabelOriginals:graphEdgeLabelFollowOriginalsForNodeIds(page,new Set(originals.filter(isGraphNode).map(node=>node.id))),before:snapshotPages(),changed:false,handle:hit.handle,resizeFrame:resizeCornerPoints(bounds,hit.handle)};
   } else {
     const additive=!!(event.shiftKey||event.ctrlKey||event.metaKey);
     if (!additive && state.annotationSelection?.ids?.size) clearAnnotationSelection(true);
@@ -5134,16 +5539,36 @@ function deleteSelectedAnnotations() {
   const ids=state.annotationSelection?.ids;
   if (!page||!ids?.size) return;
   const before=snapshotPages();
-  const selectedNodes=annotationsForPage(page).filter(annotation=>ids.has(annotation.id)&&isGraphNode(annotation));
+  const all=annotationsForPage(page);
+  const selectedNodes=all.filter(annotation=>ids.has(annotation.id)&&isGraphNode(annotation));
   const selectedNodeIds=new Set(selectedNodes.map(node=>node.id));
   const selectedContentIds=new Set(selectedNodes.flatMap(node=>graphNodeContentIds(node)));
-  for (const node of annotationsForPage(page).filter(isGraphNode)) {
+  const edgeIdsRemoved=new Set(all.filter(annotation=>ids.has(annotation.id)&&isGraphEdge(annotation)).map(edge=>edge.id));
+  let incidentEdges=0;
+  for (const edge of all.filter(isGraphEdge)) {
+    if (selectedNodeIds.has(edge.fromNodeId)||selectedNodeIds.has(edge.toNodeId)) {
+      if (!edgeIdsRemoved.has(edge.id)) incidentEdges++;
+      edgeIdsRemoved.add(edge.id);
+    }
+  }
+  const labelIdsRemoved=new Set();
+  const labelContentIds=new Set();
+  for (const label of all.filter(isGraphEdgeLabel)) {
+    if (ids.has(label.id)||edgeIdsRemoved.has(label.edgeId)) {
+      labelIdsRemoved.add(label.id);
+      for (const id of graphEdgeLabelContentIds(label)) labelContentIds.add(id);
+    }
+  }
+  for (const node of all.filter(isGraphNode)) {
     if (!selectedNodeIds.has(node.id)) node.contents=graphNodeContentIds(node).filter(id=>!ids.has(id));
   }
-  let incidentEdges=0;
-  page.annotations=annotationsForPage(page).filter(annotation=>{
-    if (ids.has(annotation.id) || selectedContentIds.has(annotation.id)) return false;
-    if (isGraphEdge(annotation)&&(selectedNodeIds.has(annotation.fromNodeId)||selectedNodeIds.has(annotation.toNodeId))) { incidentEdges++; return false; }
+  for (const label of all.filter(isGraphEdgeLabel)) {
+    if (!labelIdsRemoved.has(label.id)) label.contents=graphEdgeLabelContentIds(label).filter(id=>!ids.has(id));
+  }
+  page.annotations=all.filter(annotation=>{
+    if (ids.has(annotation.id) || selectedContentIds.has(annotation.id) || labelContentIds.has(annotation.id)) return false;
+    if (isGraphEdge(annotation)&&edgeIdsRemoved.has(annotation.id)) return false;
+    if (isGraphEdgeLabel(annotation)&&labelIdsRemoved.has(annotation.id)) return false;
     return true;
   });
   graphRebuildNodeContentLists(page);
@@ -5154,7 +5579,8 @@ function deleteSelectedAnnotations() {
   saveCurrentDocumentState({readViewDom:false});
   redrawPageAnnotationOverlays(page);
   updateSelectionToolbar();
-  setStatus(`Deleted ${count} selected annotation${count===1?'':'s'}${incidentEdges?` and ${incidentEdges} incident edge${incidentEdges===1?'':'s'}`:''}`);
+  const labelCount=labelIdsRemoved.size;
+  setStatus(`Deleted ${count} selected annotation${count===1?'':'s'}${incidentEdges?` and ${incidentEdges} incident edge${incidentEdges===1?'':'s'}`:''}${labelCount?` with ${labelCount} attached edge label${labelCount===1?'':'s'}`:''}`);
 }
 function duplicateSelectedAnnotations() {
   const page=selectedAnnotationPage();
@@ -5189,13 +5615,16 @@ function rotateSelectedAnnotationsClockwise() {
   const originals=annotations.map(cloneInkStroke);
   const selectedNodeIds=new Set(originals.filter(isGraphNode).map(node=>node.id));
   const contentOriginals=graphContentOriginalsForNodes(page,originals.filter(isGraphNode));
+  const edgeLabelOriginals=graphEdgeLabelFollowOriginalsForNodeIds(page,selectedNodeIds);
+  const affectedLabelIds=new Set(edgeLabelOriginals.map(entry=>entry.labelId));
   const center={x:(bounds.minX+bounds.maxX)/2,y:(bounds.minY+bounds.maxY)/2};
   const current=new Map(annotationsForPage(page).map(annotation=>[annotation.id,annotation]));
   for (const original of originals) {
     const annotation=current.get(original.id);
     if (!annotation) continue;
     if (original.graphNodeId && selectedNodeIds.has(original.graphNodeId)) continue;
-    if (isGraphEdge(original)) continue;
+    if (original.graphEdgeLabelId && affectedLabelIds.has(original.graphEdgeLabelId)) continue;
+    if (isGraphEdge(original)||isGraphEdgeLabel(original)) continue;
     if (isGraphNode(original)) {
       const oldCenter=basePointToDisplay(page,{x:Number(original.x)||0,y:Number(original.y)||0});
       const nextCenter=rotateDisplayPointClockwise90(oldCenter,center);
@@ -5208,12 +5637,7 @@ function rotateSelectedAnnotationsClockwise() {
       if (!rect) continue;
       const oldCenter={x:(rect.minX+rect.maxX)/2,y:(rect.minY+rect.maxY)/2};
       const nextCenter=rotateDisplayPointClockwise90(oldCenter,center);
-      const nextDisplayRect={
-        x:nextCenter.x-rect.height/2,
-        y:nextCenter.y-rect.width/2,
-        width:rect.height,
-        height:rect.width,
-      };
+      const nextDisplayRect={x:nextCenter.x-rect.height/2,y:nextCenter.y-rect.width/2,width:rect.height,height:rect.width};
       const nextBaseRect=displayRectToBaseImageRect(page,nextDisplayRect);
       annotation.x=nextBaseRect.x;
       annotation.y=nextBaseRect.y;
@@ -5231,6 +5655,7 @@ function rotateSelectedAnnotationsClockwise() {
   }
   const nodePositions=new Map(annotationsForPage(page).filter(isGraphNode).map(node=>[node.id,{x:Number(node.x)||0,y:Number(node.y)||0}]));
   graphTranslateContentFromOriginals(page,contentOriginals,nodePositions);
+  graphTransformEdgeLabelContentsFromOriginals(page,edgeLabelOriginals,{scale:1});
   graphRefreshAttachedInkLocalMetadata(page);
   commitHistory(before);
   saveCurrentDocumentState({readViewDom:false});
@@ -5634,29 +6059,41 @@ function beginInkGesture(viewer, event) {
   const before = snapshotPages();
   const snapshotPagesMs = Number(state.snapshotPagesDiagnostics?.lastMs || 0);
   annotationsForPage(page).push(stroke);
-  let graphContentNode=null;
-  const editNode=graphContentEditNode();
-  if (editNode && state.graphContentEditTarget?.pageId!==page.id) {
+  let graphContentNode=null, graphContentLabel=null;
+  const editContainer=graphContentEditContainer();
+  if (editContainer && state.graphContentEditTarget?.pageId!==page.id) {
     page.annotations=annotationsForPage(page).filter(annotation=>annotation.id!==stroke.id);
     if (event.cancelable) event.preventDefault();
-    setStatus('Edit node contents · return to the page containing the active node');
+    setStatus(isGraphEdgeLabel(editContainer)?'Edit edge label · return to its page':'Edit node contents · return to the page containing the active node');
     return true;
   }
-  if (editNode && state.graphContentEditTarget?.pageId===page.id) {
-    // Edit Contents is explicit ownership. Require the stroke to begin on or
-    // near the active node so a stray Pencil touch elsewhere on the page does
-    // not become node content, but once begun the handwriting may extend
-    // freely beyond the current frame.
-    const rect=graphNodeRect(editNode);
-    const startPadding=Math.max(10,Math.min(24,Math.max(rect?.width||0,rect?.height||0)*.35));
-    if (!graphPointInsideNode(editNode,first,startPadding)) {
-      page.annotations=annotationsForPage(page).filter(annotation=>annotation.id!==stroke.id);
-      if (event.cancelable) event.preventDefault();
-      setStatus('Edit node contents · start the stroke on or near the active node');
-      return true;
+  if (editContainer && state.graphContentEditTarget?.pageId===page.id) {
+    if (isGraphNode(editContainer)) {
+      // Edit Contents is explicit ownership. Require the stroke to begin on or
+      // near the active node so a stray Pencil touch elsewhere on the page does
+      // not become node content, but once begun the handwriting may extend
+      // freely beyond the current frame.
+      const rect=graphNodeRect(editContainer);
+      const startPadding=Math.max(10,Math.min(24,Math.max(rect?.width||0,rect?.height||0)*.35));
+      if (!graphPointInsideNode(editContainer,first,startPadding)) {
+        page.annotations=annotationsForPage(page).filter(annotation=>annotation.id!==stroke.id);
+        if (event.cancelable) event.preventDefault();
+        setStatus('Edit node contents · start the stroke on or near the active node');
+        return true;
+      }
+      graphContentNode=editContainer;
+      graphAttachContentInk(page,editContainer,[stroke]);
+    } else if (isGraphEdgeLabel(editContainer)) {
+      const bounds=graphEdgeLabelHitBounds(page,editContainer,16);
+      if (!bounds || first.x<bounds.minX||first.x>bounds.maxX||first.y<bounds.minY||first.y>bounds.maxY) {
+        page.annotations=annotationsForPage(page).filter(annotation=>annotation.id!==stroke.id);
+        if (event.cancelable) event.preventDefault();
+        setStatus('Edit edge label · start the stroke near the highlighted label position');
+        return true;
+      }
+      graphContentLabel=editContainer;
+      graphAttachEdgeLabelContentInk(page,editContainer,[stroke]);
     }
-    graphContentNode=editNode;
-    graphAttachContentInk(page,editNode,[stroke]);
   } else if (state.graphInkTarget?.documentId===state.currentDocumentId && state.graphInkTarget?.pageId===page.id) {
     const target=graphNodeById(page,state.graphInkTarget.nodeId);
     if (target && graphPointInsideNode(target,first,3)) {
@@ -5666,7 +6103,7 @@ function beginInkGesture(viewer, event) {
   }
   state.activePageId = page.id;
   const inputSource = event._inkStylusTouch ? 'stylus-touch' : 'pointer';
-  state.inkGesture = { pointerId: event.pointerId, inputSource, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, graphContentNodeId:graphContentNode?.id||null, before, snapshotPagesMs, liveRenderMs:0, liveRenderCalls:0, googleTimeOriginMs:useGoogleInk?(Number.isFinite(Number(event.timeStamp))?Number(event.timeStamp):performance.now()):null, googleModeler:useGoogleInk?new GoogleInkStrokeModeler():null, googleStablePoints:[], googleLiveModelMs:0, googlePredictionMs:0, googlePredictionPointsLast:0, googleWobbleSpeedLast:0, googleWobbleBlendLast:0, googleLagPointsLast:0, sampleDiagnostics:createInkGestureDiagnostics(stroke) };
+  state.inkGesture = { pointerId: event.pointerId, inputSource, viewer, stage, page, pageId: page.id, documentId: state.currentDocumentId, stroke, graphContentNodeId:graphContentNode?.id||null, graphContentLabelId:graphContentLabel?.id||null, before, snapshotPagesMs, liveRenderMs:0, liveRenderCalls:0, googleTimeOriginMs:useGoogleInk?(Number.isFinite(Number(event.timeStamp))?Number(event.timeStamp):performance.now()):null, googleModeler:useGoogleInk?new GoogleInkStrokeModeler():null, googleStablePoints:[], googleLiveModelMs:0, googlePredictionMs:0, googlePredictionPointsLast:0, googleWobbleSpeedLast:0, googleWobbleBlendLast:0, googleLagPointsLast:0, sampleDiagnostics:createInkGestureDiagnostics(stroke) };
   recordInkGestureSampleBatch(state.inkGesture, event, [event], 'down');
   if (event.cancelable) event.preventDefault();
   if (inputSource === 'pointer') {
@@ -5770,11 +6207,16 @@ function finishInkGesture(viewer, event) {
     snapshotPagesMs:Math.round((gesture.snapshotPagesMs||0)*10)/10,
     sampleDiagnostics: sampleDiagnosticSummary,
   });
-  if (gesture.graphContentNodeId) {
-    const node=graphNodeById(gesture.page,gesture.graphContentNodeId);
+  if (gesture.graphContentNodeId || gesture.graphContentLabelId) {
+    const node=gesture.graphContentNodeId?graphNodeById(gesture.page,gesture.graphContentNodeId):null;
+    const label=gesture.graphContentLabelId?graphEdgeLabelById(gesture.page,gesture.graphContentLabelId):null;
     if (node) {
       graphSyncContentLocal(node,gesture.stroke);
       if (node.contentMode==='auto') graphFitNodeToContents(gesture.page,node,{padding:Number(node.contentPadding)||8});
+    } else if (label) {
+      graphSyncEdgeLabelContentLocal(gesture.page,label,gesture.stroke);
+    }
+    if (node || label) {
       redrawPageAnnotationOverlays(gesture.page);
       redrawPageAnnotationSelectionOverlays(gesture.page);
       updateGraphContentEditToolbar();
@@ -5956,7 +6398,7 @@ function eraserCandidateIdsForPath(page, path, eraserDiameter=state.eraserSize) 
 }
 function ensureLiveNodeEraserOverlay(stage, baseCanvas=null) {
   if (!stage) return null;
-  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+  const base = baseCanvas || stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
   if (!base?.width || !base?.height) return null;
   let overlay = stage.querySelector('canvas.live-node-eraser-canvas');
   if (!overlay) {
@@ -5983,7 +6425,7 @@ function prepareLiveNodeEraserPreview(page, contentIds) {
   for (const stage of document.querySelectorAll(selector)) {
     if (stage.dataset.rendered !== 'true') continue;
     rendered++;
-    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
     const live = ensureLiveNodeEraserOverlay(stage, base);
     const ctx = live?.getContext('2d');
     if (!live || !ctx) { live?.remove(); continue; }
@@ -6038,7 +6480,7 @@ function drawLiveEraserPreview(page, points, eraserDiameter=state.eraserSize) {
   const selector = `.page-stage[data-page-id="${CSS.escape(page.id)}"]`;
   for (const stage of document.querySelectorAll(selector)) {
     if (stage.dataset.rendered !== 'true') continue;
-    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+    const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
     const overlay = ensureAnnotationOverlay(stage, base);
     if (!overlay?.width || !overlay?.height) continue;
     const ctx = overlay.getContext('2d');
@@ -6197,10 +6639,10 @@ function beginEraserGesture(viewer, event) {
   if (!page) return true;
   const first = eventPointOnPage(stage, page, event);
   if (!first) return true;
-  const activeEditNode=graphContentEditNode();
-  if (activeEditNode && state.graphContentEditTarget?.pageId!==page.id) {
+  const activeEditContainer=graphContentEditContainer();
+  if (activeEditContainer && state.graphContentEditTarget?.pageId!==page.id) {
     if (event.cancelable) event.preventDefault();
-    setStatus('Edit node contents · return to the page containing the active node');
+    setStatus(isGraphEdgeLabel(activeEditContainer)?'Edit edge label · return to its page':'Edit node contents · return to the page containing the active node');
     return true;
   }
   const inputSource = event._inkStylusTouch ? 'stylus-touch' : 'pointer';
@@ -6210,17 +6652,18 @@ function beginEraserGesture(viewer, event) {
   // erase pixels directly from the already-rendered annotation overlay and
   // merely collect the path. The authoritative stroke splitting is committed
   // once on pointer-up, avoiding O(all page ink × every coalesced sample).
-  const editNode=graphContentEditNode();
-  const graphContentNodeId=(editNode && state.graphContentEditTarget?.pageId===page.id)?editNode.id:null;
-  const graphContentIds=graphContentNodeId?new Set(graphNodeContentIds(editNode)):null;
-  state.eraserGesture = { pointerId:event.pointerId, inputSource, viewer, stage, page, pageId:page.id, documentId:state.currentDocumentId, before, lastPoint:first, path:[first], changed:false, graphContentNodeId, graphContentIds, restrictedPreviewActive:false };
+  const editContainer=graphContentEditContainer();
+  const graphContentNodeId=(isGraphNode(editContainer) && state.graphContentEditTarget?.pageId===page.id)?editContainer.id:null;
+  const graphContentLabelId=(isGraphEdgeLabel(editContainer) && state.graphContentEditTarget?.pageId===page.id)?editContainer.id:null;
+  const graphContentIds=(graphContentNodeId||graphContentLabelId)?new Set(graphContainerContentIds(editContainer)):null;
+  state.eraserGesture = { pointerId:event.pointerId, inputSource, viewer, stage, page, pageId:page.id, documentId:state.currentDocumentId, before, lastPoint:first, path:[first], changed:false, graphContentNodeId, graphContentLabelId, graphContentIds, restrictedPreviewActive:false };
   if (event.cancelable) event.preventDefault();
   if (inputSource === 'pointer') { try { viewer.setPointerCapture?.(event.pointerId); } catch {} }
-  if (graphContentNodeId && graphContentIds?.size) {
+  if ((graphContentNodeId||graphContentLabelId) && graphContentIds?.size) {
     state.eraserGesture.restrictedPreviewActive=prepareLiveNodeEraserPreview(page,graphContentIds);
     if (state.eraserGesture.restrictedPreviewActive) drawLiveNodeEraserPreview(page,[first],state.eraserSize);
-  } else if (!graphContentNodeId) drawLiveEraserPreview(page,[first],state.eraserSize);
-  addInkDiagnostic('eraser-begin-accepted', event, { changed:false, size:state.eraserSize, deferredVectorCommit:true, graphContentRestricted:!!graphContentNodeId });
+  } else if (!graphContentNodeId&&!graphContentLabelId) drawLiveEraserPreview(page,[first],state.eraserSize);
+  addInkDiagnostic('eraser-begin-accepted', event, { changed:false, size:state.eraserSize, deferredVectorCommit:true, graphContentRestricted:!!(graphContentNodeId||graphContentLabelId) });
   return true;
 }
 function continueEraserGesture(viewer, event) {
@@ -6230,7 +6673,7 @@ function continueEraserGesture(viewer, event) {
   const added = appendEraserPreviewSamples(gesture,event);
   if (added.length) {
     if (gesture.restrictedPreviewActive) drawLiveNodeEraserPreview(gesture.page,added,state.eraserSize);
-    else if (!gesture.graphContentNodeId) drawLiveEraserPreview(gesture.page,added,state.eraserSize);
+    else if (!gesture.graphContentNodeId&&!gesture.graphContentLabelId) drawLiveEraserPreview(gesture.page,added,state.eraserSize);
   }
   return true;
 }
@@ -6251,13 +6694,13 @@ function finishEraserGesture(viewer, event) {
   const added = appendEraserPreviewSamples(gesture,event);
   if (added.length) {
     if (gesture.restrictedPreviewActive) drawLiveNodeEraserPreview(gesture.page,added,state.eraserSize);
-    else if (!gesture.graphContentNodeId) drawLiveEraserPreview(gesture.page,added,state.eraserSize);
+    else if (!gesture.graphContentNodeId&&!gesture.graphContentLabelId) drawLiveEraserPreview(gesture.page,added,state.eraserSize);
   }
   const compactPath = compactEraserPath(gesture.path,state.eraserSize);
   let candidateIds = eraserCandidateIdsForPath(gesture.page,compactPath,state.eraserSize);
-  if (gesture.graphContentNodeId) {
-    const node=graphNodeById(gesture.page,gesture.graphContentNodeId);
-    const allowed=gesture.graphContentIds instanceof Set ? gesture.graphContentIds : new Set(graphNodeContentIds(node));
+  if (gesture.graphContentNodeId || gesture.graphContentLabelId) {
+    const container=gesture.graphContentNodeId?graphNodeById(gesture.page,gesture.graphContentNodeId):graphEdgeLabelById(gesture.page,gesture.graphContentLabelId);
+    const allowed=gesture.graphContentIds instanceof Set ? gesture.graphContentIds : new Set(graphContainerContentIds(container));
     candidateIds=new Set([...candidateIds].filter(id=>allowed.has(id)));
   }
   const started = performance.now();
@@ -6288,7 +6731,7 @@ function finishEraserGesture(viewer, event) {
     rawPathPoints:gesture.path.length,
     commitPathPoints:compactPath.length,
     candidateObjects:candidateIds.size,
-    graphContentRestricted:!!gesture.graphContentNodeId,
+    graphContentRestricted:!!(gesture.graphContentNodeId||gesture.graphContentLabelId),
     commitMs:Math.round(commitMs*10)/10,
     exactRedrawDeferred:true,
   });
@@ -6297,7 +6740,7 @@ function finishEraserGesture(viewer, event) {
     saveCurrentDocumentState({ readViewDom:false });
     if (state.workspaceMode === 'organize') renderOrganizer();
   }
-  if (gesture.graphContentNodeId) {
+  if (gesture.graphContentNodeId || gesture.graphContentLabelId) {
     redrawPageAnnotationSelectionOverlays(gesture.page);
     updateGraphContentEditToolbar();
   }
@@ -6307,25 +6750,26 @@ function beginGraphContentMoveGesture(viewer,event) {
   if (!state.graphContentMoveArmed) return false;
   if (event.pointerType==='mouse' && event.button!==0) return false;
   if (event.pointerType==='pen' && event.button!==0) { if (event.cancelable) event.preventDefault(); return true; }
-  const page=graphContentEditPage(), node=graphContentEditNode();
-  if (!page || !node) { state.graphContentMoveArmed=false; updateGraphContentEditToolbar(); return false; }
+  const page=graphContentEditPage(), container=graphContentEditContainer();
+  if (!page || !container) { state.graphContentMoveArmed=false; updateGraphContentEditToolbar(); return false; }
   const stage=inkStageForEvent(viewer,event);
-  if (!stage || stage.dataset.pageId!==page.id) { if (event.cancelable) event.preventDefault(); setStatus('Move contents · drag from the node being edited'); return true; }
+  if (!stage || stage.dataset.pageId!==page.id) { if (event.cancelable) event.preventDefault(); setStatus('Move contents · drag from the object being edited'); return true; }
   const first=eventPointOnPage(stage,page,event);
   if (!first) return true;
-  const contents=graphNodeContentAnnotations(page,node);
-  if (!contents.length) { state.graphContentMoveArmed=false; updateGraphContentEditToolbar(); setStatus('Selected node has no contents to move'); return true; }
+  const contents=graphContainerContentAnnotations(page,container);
+  if (!contents.length) { state.graphContentMoveArmed=false; updateGraphContentEditToolbar(); setStatus('Selected object has no contents to move'); return true; }
   const bounds=annotationBaseBounds(contents);
   const hitBounds=bounds && first.x>=bounds.minX-8 && first.x<=bounds.maxX+8 && first.y>=bounds.minY-8 && first.y<=bounds.maxY+8;
-  if (!graphPointInsideNode(node,first,8) && !hitBounds) {
+  const containerHit=isGraphNode(container)?graphPointInsideNode(container,first,8):(()=>{const b=graphEdgeLabelHitBounds(page,container,8);return !!b&&first.x>=b.minX&&first.x<=b.maxX&&first.y>=b.minY&&first.y<=b.maxY;})();
+  if (!containerHit && !hitBounds) {
     if (event.cancelable) event.preventDefault();
-    setStatus('Move contents · start the drag on the node or its handwriting');
+    setStatus(isGraphEdgeLabel(container)?'Move contents · start the drag on the label or its handwriting':'Move contents · start the drag on the node or its handwriting');
     return true;
   }
   const inputSource=event._inkStylusTouch?'stylus-touch':'pointer';
   const before=snapshotPages();
   const originals=contents.map(stroke=>cloneInkStroke(stroke));
-  state.graphContentMoveGesture={pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id,documentId:state.currentDocumentId,nodeId:node.id,startPoint:first,originals,bounds,before,changed:false};
+  state.graphContentMoveGesture={pointerId:event.pointerId,inputSource,viewer,stage,page,pageId:page.id,documentId:state.currentDocumentId,nodeId:isGraphNode(container)?container.id:null,labelId:isGraphEdgeLabel(container)?container.id:null,startPoint:first,originals,bounds,before,changed:false};
   if (event.cancelable) event.preventDefault();
   if (inputSource==='pointer') { try { viewer.setPointerCapture?.(event.pointerId); } catch {} }
   return true;
@@ -6346,7 +6790,7 @@ function continueGraphContentMoveGesture(viewer,event) {
     annotation.points=(original.points||[]).map(p=>({...p,x:(Number(p.x)||0)+dx,y:(Number(p.y)||0)+dy}));
   }
   if (Math.hypot(dx,dy)>.05) {
-    const node=graphNodeById(gesture.page,gesture.nodeId); if (node) node.contentMode='manual';
+    const node=gesture.nodeId?graphNodeById(gesture.page,gesture.nodeId):null; if (node) node.contentMode='manual';
     gesture.changed=true;
   }
   redrawPageAnnotationOverlays(gesture.page);
@@ -6371,7 +6815,7 @@ function finishGraphContentMoveGesture(viewer,event) {
     commitHistory(gesture.before);
     saveCurrentDocumentState({readViewDom:false});
     redrawPageAnnotationOverlays(gesture.page);
-    setStatus('Moved graph node contents');
+    setStatus(gesture.labelId?'Moved edge-label handwriting':'Moved graph node contents');
   }
   updateGraphContentEditToolbar();
   return true;
@@ -6575,7 +7019,7 @@ function shiftPageAnnotations(page, dx, dy) {
       annotation.y = (Number(annotation.y)||0) + dy;
       continue;
     }
-    if (isGraphEdge(annotation)) continue;
+    if (isGraphEdge(annotation)||isGraphEdgeLabel(annotation)) continue;
     if (isImageAnnotation(annotation)) {
       annotation.x = (Number(annotation.x)||0) + dx;
       annotation.y = (Number(annotation.y)||0) + dy;
@@ -6585,17 +7029,18 @@ function shiftPageAnnotations(page, dx, dy) {
       point.x += dx;
       point.y += dy;
     }
-    // Page geometry edits mutate editable points in place. The Pen model cache
-    // keys on the stroke object + points-array identity, so without explicit
-    // invalidation it can keep drawing the pre-transform modeled path.
     invalidateModeledPenGeometry(annotation);
   }
+  graphRefreshAttachedInkLocalMetadata(page);
 }
 function fitPageAnnotationsToCanvas(page, oldBase, newBase) {
   if (!hasPageAnnotations(page) || !oldBase || !newBase) return;
   const fit = Math.min(newBase.width / Math.max(1, oldBase.width), newBase.height / Math.max(1, oldBase.height));
   const offsetX = (newBase.width - oldBase.width * fit) / 2;
   const offsetY = (newBase.height - oldBase.height * fit) / 2;
+  const allNodeIds=new Set(annotationsForPage(page).filter(isGraphNode).map(node=>node.id));
+  const edgeLabelOriginals=graphEdgeLabelFollowOriginalsForNodeIds(page,allNodeIds);
+  const labelContentIds=graphLabelPreviewContentIds(edgeLabelOriginals);
   for (const annotation of page.annotations) {
     if (isGraphNode(annotation)) {
       annotation.x = (Number(annotation.x)||0) * fit + offsetX;
@@ -6606,6 +7051,8 @@ function fitPageAnnotationsToCanvas(page, oldBase, newBase) {
       continue;
     }
     if (isGraphEdge(annotation)) { annotation.width=Math.max(.5,Number(annotation.width||GRAPH_EDGE_WIDTH)*fit); continue; }
+    if (isGraphEdgeLabel(annotation)) { annotation.offset=(Number(annotation.offset)||0)*fit; continue; }
+    if (labelContentIds.has(annotation.id)) continue;
     if (isImageAnnotation(annotation)) {
       annotation.x = (Number(annotation.x)||0) * fit + offsetX;
       annotation.y = (Number(annotation.y)||0) * fit + offsetY;
@@ -6620,6 +7067,8 @@ function fitPageAnnotationsToCanvas(page, oldBase, newBase) {
     annotation.width = Math.max(.25, Number(annotation.width || 3) * fit);
     invalidateModeledPenGeometry(annotation);
   }
+  graphTransformEdgeLabelContentsFromOriginals(page,edgeLabelOriginals,{scale:fit});
+  graphRefreshAttachedInkLocalMetadata(page);
 }
 function hexToPdfRgb(hex, rgb) {
   const value = String(hex || '#111111').replace('#','');
@@ -10616,6 +11065,7 @@ function diagnosticTransientInputSnapshot() {
       graph: diagnosticGestureSummary('graph', state.graphGesture),
       graphContentMove: diagnosticGestureSummary('graph-content-move', state.graphContentMoveGesture),
       graphContentEditNodeId: state.graphContentEditTarget?.nodeId || null,
+      graphContentEditLabelId: state.graphContentEditTarget?.labelId || null,
       laser: diagnosticGestureSummary('laser', state.laserGesture),
       regionCopy: diagnosticGestureSummary('region-copy', state.regionCopyGesture),
       regionCopyArmed: !!state.regionCopyArmed,
@@ -10689,8 +11139,8 @@ function recoverTransientInputStateAfterDiagnosticSave() {
   }
   state.selectionGesture = null;
 
-  if (graph?.mode === 'move-node') clearGraphMoveContentPreview(graph.page);
-  if (graph?.mode === 'move-node' && graph.changed && graph.before) {
+  if (['move-node','move-label'].includes(graph?.mode)) clearGraphMoveContentPreview(graph.page);
+  if (['move-node','move-label'].includes(graph?.mode) && graph.changed && graph.before) {
     restorePages(graph.before);
     const restoredPage=pageById(graph.pageId);
     if (restoredPage) redrawPageAnnotationOverlays(restoredPage);
@@ -13386,7 +13836,7 @@ function queuePinchZoom(value, paneId=null) {
 async function refreshPinchStageRasterInPlace(stage, page, size, options={}) {
   if (!stage?.isConnected || !page || stage.dataset.wantRender === 'false') return false;
   if (stage.dataset.rendered !== 'true') return false;
-  const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas)');
+  const base = stage.querySelector('canvas:not(.annotation-canvas):not(.annotation-image-canvas):not(.annotation-graph-canvas):not(.live-highlighter-canvas):not(.live-pen-canvas):not(.live-selection-canvas):not(.live-node-eraser-canvas):not(.live-graph-label-canvas)');
   if (!base) return false;
 
   const expectedWidth = Number(size?.width) || 0;
@@ -14930,6 +15380,9 @@ function clearAll() {
   state.graphGesture = null;
   state.graphSelection = { documentId:null, pageId:null, id:null };
   state.graphEdgeStart = { documentId:null, pageId:null, nodeId:null };
+  state.graphContentEditTarget = { documentId:null, pageId:null, nodeId:null, labelId:null };
+  state.graphContentMoveArmed = false;
+  state.graphContentMoveGesture = null;
   state.annotationSelection = { documentId:null, pageId:null, ids:new Set() };
   state.annotationClipboard = null;
   state.annotationClipboardAssetId = null;
@@ -14994,8 +15447,8 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.11 extends the lightweight graph transform path to Select-handle resizing. Selected node handwriting is isolated once and CSS-scaled during drag while semantic node frames/edges stay live; release scales the owned Pen/Highlighter geometry and stroke widths exactly once. Node frames still clamp at 16 units while their contents continue following the overall graph scale. The 5.8.10 smooth Graph Move, 5.8.9 live restricted Eraser preview, and 5.8.8 customizable Presentation toolbar remain intact.</p>
-      <ul><li><strong>Graph tools:</strong> Graph mode creates movable semantic nodes and straight attached edges. Node borders may be Clean, Hand-drawn, or None; edges follow nodes as they move. Handwritten node contents can be created from selected ink and edited with a simple Pen/Highlighter/Eraser workflow plus Clear and Move Contents; auto-fit remains available for auto nodes. Edge labels, loops, curves, directed edges, and relationship-aware graph copy/paste remain later milestones.</li><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Customizable Presentation toolbar:</strong> Presentation has a permanent Tools menu at the far left. Tools can be launched from that menu whether or not their main-toolbar checkbox is enabled; choosing a tool from the menu shows its normal contextual options in the toolbar. Visibility choices persist across restarts. The ordinary View strip remains unchanged.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.12 adds semantic handwritten edge labels. A label belongs to one edge, stores a position along the edge plus a signed perpendicular offset, follows the edge when endpoint nodes move or resize, and can be dragged both along and across the edge. Pen/Highlighter/Eraser editing reuses the established attached-content workflow and lightweight preview canvases. The classroom-validated 5.8.11 graph resizing, 5.8.10 smooth Graph Move, 5.8.9 live restricted Eraser preview, and 5.8.8 customizable Presentation toolbar remain intact.</p>
+      <ul><li><strong>Graph tools:</strong> Graph mode creates movable semantic nodes and straight attached edges. Node borders may be Clean, Hand-drawn, or None; edges follow nodes as they move. Handwritten node contents can be created from selected ink and edited with a simple Pen/Highlighter/Eraser workflow plus Clear and Move Contents; auto-fit remains available for auto nodes. Straight edges can now own handwritten labels that follow their geometry and can slide along or across the edge. Loops, curves, directed edges, and relationship-aware graph copy/paste remain later milestones.</li><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Customizable Presentation toolbar:</strong> Presentation has a permanent Tools menu at the far left. Tools can be launched from that menu whether or not their main-toolbar checkbox is enabled; choosing a tool from the menu shows its normal contextual options in the toolbar. Visibility choices persist across restarts. The ordinary View strip remains unchanged.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
   }
@@ -16209,6 +16662,7 @@ function bindEvents() {
     if (button) setGraphColor(button.dataset.graphColor);
   });
   els.graphEditContentsBtn?.addEventListener('click', editSelectedGraphNodeContents);
+  els.graphEdgeLabelBtn?.addEventListener('click', editSelectedGraphEdgeLabel);
   els.graphDeleteBtn?.addEventListener('click', deleteSelectedGraphObject);
   els.graphContentMoveBtn?.addEventListener('click', toggleGraphContentMove);
   els.graphContentClearBtn?.addEventListener('click', clearGraphContentEditContents);
