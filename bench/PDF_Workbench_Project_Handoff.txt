@@ -1,3 +1,39 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-09-24 — BASELINE 5.8.15-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.15-exp ZIP, not an older build.
+
+5.8.15-exp SIMPLIFIED EDGE-LABEL DRAGGING
+
+WHY THIS REVISION EXISTS
+- 5.8.14 made edge-label handwriting itself follow the drag continuously. The separate blue position dot therefore became redundant visual feedback.
+
+WHAT 5.8.15 CHANGES
+- Removes the blue position dot shown for a selected semantic edge label in Graph mode.
+- The edge-label selection rectangle remains so the selected label is still visibly identified.
+- Dragging the label itself still updates normalized position along the edge plus signed perpendicular offset, so labels can be moved toward either endpoint and across to either side exactly as before.
+
+PRESERVED
+- 5.8.14 live edge-label following during Graph node moves and Select move/resize.
+- Small cropped temporary label canvases and exact-on-release Pen/Highlighter commits.
+- Edge-label editing, persistence, deletion relationships, export, one-label-per-edge semantics, and upright handwriting.
+- 5.8.13 startup hotfix and ES-module-aware release check.
+- Classroom-validated 5.8.11 graph resize/content behavior.
+
+TEST PRIORITY
+1. Select and drag an edge label; confirm the label itself gives sufficient live positioning feedback and no blue dot appears.
+2. Move the label both along and across its edge.
+3. Move/resize endpoint nodes and confirm 5.8.14 live label following remains intact.
+4. Regression-check label editing, Undo/Redo, persistence, and startup/PWA reload.
+
+NEXT GRAPH WORK
+- After this edge-label polish is validated, relationship-aware graph Copy/Paste remains the next major graph milestone.
+- Later: curved/parallel edges, loops, directed edges/arrowheads, and graph conveniences.
+
+===============================================================================
+PRIOR 5.8.14 HANDOFF / PROJECT HISTORY FOLLOWS
+===============================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-09-24 — BASELINE 5.8.14-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

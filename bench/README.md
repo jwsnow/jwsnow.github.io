@@ -1,3 +1,12 @@
+# PDF Workbench — Milestone 5.8.15 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.8.15 simplified edge-label dragging
+
+- Removes the blue edge-label position dot from Graph selection/move feedback. Once 5.8.14 made the handwritten label itself follow pointer movement live, the separate dot no longer communicated anything the label did not already show.
+- Direct label dragging is otherwise unchanged: dragging the selected label still projects pointer motion into normalized position along its owning edge plus signed perpendicular offset, so labels can slide toward either endpoint or move across the edge.
+- The existing edge-label selection rectangle remains, so a selected handwritten label is still visibly identified without an extra position marker.
+- Live edge following during node movement and Select move/resize, cropped temporary label canvases, Pen/Highlighter editing, persistence, export, relationship cleanup, and one-label-per-edge semantics are unchanged from 5.8.14.
+
 # PDF Workbench — Milestone 5.8.14 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 ## 5.8.14 live edge-label following during graph transforms
