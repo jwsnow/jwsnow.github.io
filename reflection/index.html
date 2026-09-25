@@ -380,7 +380,7 @@ function focusY(x){
 	return(x);
 }
 function generateImage(){
- 
+	
 	var x,y,a,b,c,d,cr,cg,cb,X,Y,theBump, xw, yw;
 	var fr1='';
 	var fr2='';
@@ -388,7 +388,7 @@ function generateImage(){
 	function xfn(){};
 	function yfn(){};	
 	var theSeed=RNGSEED;
- 
+	
 	fr1=randomFunction(depth-1);
 	fr2=randomFunction(depth-1);	
 
@@ -476,8 +476,8 @@ function generateReflection(re){
 				nextseed.value=lastseed.value;
 		}
 		RNGSEED=nextseed.value; 
- 
- 
+		
+		
 		bumpconstant=bumpvalueselect.options[bumpvalueselect.selectedIndex].text;
 		if (bumpconstant=='Random')
 			bumpconstant=['None', 2, 4, 8, 16].random();	
@@ -596,7 +596,7 @@ function clearShot(){
 	RNGSEED=floor(random()*100000000);
 	nextseed.value=RNGSEED;	
   }
- 
+  
   //-------------------------------------------------------------
 var strokes=[];
 var Rs=[];
@@ -812,21 +812,11 @@ function startDrawing(){
 </div></div>
 
 <div><div class='box' id='imagebox'>
-<<<<<<< HEAD
- <img class='thumb' src='png/JBE.jpg' id='defaultImage'>
- <img class='thumb' src='png/chimayo.jpg'>
- <img class='thumb' src='png/ice.jpg'>
- <img class='thumb' src='png/checker.png'> 
- <img class='thumb' src='png/americanpie.jpg'> 
- <img class='thumb' src='png/feathers.png'> 
-=======
 	<img class='thumb' src='png/JBE.jpg' id='defaultImage'>
 	<img class='thumb' src='png/chimayo.jpg'>
 	<img class='thumb' src='png/ice.jpg'>
 	<img class='thumb' src='png/checker.png'>	
 	<img class='thumb' src='png/americanpie.jpg'>	
-	<img class='thumb' src='png/feathers.png'>	
->>>>>>> d9c69930130be8e5fcd57615546a2d67c6eb1d4b
 </div></div>
 <div><div class='box'>
 <button class='option' onclick='startDrawing();'>Draw Something</button>
@@ -839,58 +829,58 @@ function startDrawing(){
 <div><div class='box'>
 <b>Options:</b><br><br>
 	Complexity:
- <select id='complexityvalueselect'>
- <option value='Random'>Random</option>
- <option value=3>3</option>
- <option value=4>4</option>
- <option value=5>5</option>
- <option value=6>6</option>
- <option value=7>7</option>
- <option value=8>8</option>
- <option value=9>9</option>
- </select><br>
- <br>
+	<select id='complexityvalueselect'>
+	<option value='Random'>Random</option>
+	<option value=3>3</option>
+	<option value=4>4</option>
+	<option value=5>5</option>
+	<option value=6>6</option>
+	<option value=7>7</option>
+	<option value=8>8</option>
+	<option value=9>9</option>
+	</select><br>
+	<br>
 Enforced Symmetry:
- <select id='symmetry'>
- <option value="None">None</option>
- <option value='Random'>Random</option>
- <option value='Half'>A little</option>
- <option value='Square'>More</option>
- <option value='Triangle'>A lot</option>
- </select>
- <br><br>
+	<select id='symmetry'>
+	<option value="None">None</option>
+	<option value='Random'>Random</option>
+	<option value='Half'>A little</option>
+	<option value='Square'>More</option>
+	<option value='Triangle'>A lot</option>
+	</select>
+	<br><br>
 Edge avoidance:
- <select id='bumpvalueselect'>
- <option value='None'>None</option>
- <option value='Random'>Random</option>
- <option value=2>2</option>
- <option value=4>4</option>
- <option value=8>8</option>
- <option value=16>16</option>
- </select>
- <br><br>
+	<select id='bumpvalueselect'>
+	<option value='None'>None</option>
+	<option value='Random'>Random</option>
+	<option value=2>2</option>
+	<option value=4>4</option>
+	<option value=8>8</option>
+	<option value=16>16</option>
+	</select>
+	<br><br>
 Focus X:
- <select id='focusx'>
- <option value='Middle'>Middle</option>
- <option value='Left'>Left</option>
- <option value='Right'>Right</option>
- <option value='Random'>Random</option>
- </select>
- <br><br>
+	<select id='focusx'>
+	<option value='Middle'>Middle</option>
+	<option value='Left'>Left</option>
+	<option value='Right'>Right</option>
+	<option value='Random'>Random</option>
+	</select>
+	<br><br>
 Focus Y:
- <select id='focusy'>
- <option value='Middle'>Middle</option>
- <option value='Top'>Top</option>
- <option value='Bottom'>Bottom</option>
- <option value='Random'>Random</option>
- </select> 
+	<select id='focusy'>
+	<option value='Middle'>Middle</option>
+	<option value='Top'>Top</option>
+	<option value='Bottom'>Bottom</option>
+	<option value='Random'>Random</option>
+	</select>	
 </div></div>
 
 
 <div ><div class='box'>
 <b>Explanation of Options:</b><br><br>
 
-<b>Complexity:</b> 
+<b>Complexity:</b>	
 A higher complexity give the chance that the function used to generate the image is more complicated and will have more and smaller details.<br><br>
 
 <b>Symmetry:</b> A choice of "None" on symmetry will not force the image to be symmetric; however, it may still end up with some symmetry because of the underlying functions.
@@ -907,12 +897,12 @@ numbers will generate "squircles" which get closer and closer to a square.<br><b
 </div></div>
 
 <div><div class='box'>
- <button class='option'  onclick='randomizeSeed();'>Randomize</button class='option' ><br>
+	<button class='option'  onclick='randomizeSeed();'>Randomize</button class='option' ><br>
 	Sometimes, it may seem like the algorithm is stuck in an unimpressive groove. This is merely psychological, but
 	if it makes you feel better, you can click this button  to restart the randomization process.
 </div></div>
 <div><div class='box'>
- <button  class='option'  onclick='shotgun()'>Shotgun</button> <button  class='option'  onclick='clearShot();'>Remove shotgun images</button><br>
+	<button  class='option'  onclick='shotgun()'>Shotgun</button> <button  class='option'  onclick='clearShot();'>Remove shotgun images</button><br>
 	If you are tired of clicking the generate button over and over, you can click the Shotgun button. 
 	This will generate several images at a time and add them to the bottom of the page. 
 	Click on the one you want, and the seed for that image will be copied to the Next Seed input above.
@@ -944,8 +934,6 @@ After you have generated a high resolution image, click this button to submit th
 (function () {
   'use strict';
 
-  // After deploying Reflection_Submission_AppsScript.gs as a Google Apps Script
-  // Web app, paste its /exec URL between the quotes below.
   const REFLECTION_SUBMIT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwYlPsSmsaIgNbA9tPL9pZFkt9U9UJNumgt89YvpzwO1n39kGxrZH_pBwVOozPNTWnH/exec';
   const SUBMISSION_MESSAGE_TYPE = 'reflectionSubmissionResult';
   const SUBMISSION_TIMEOUT_MS = 180000;
@@ -1282,7 +1270,6 @@ After you have generated a high resolution image, click this button to submit th
 
     if (/^data:image\//i.test(src)) return src;
 
-    // Prefer the original image bytes when the browser can read the image URL.
     try {
       const response = await fetch(src, { cache: 'force-cache' });
       if (!response.ok) throw new Error('Image request failed.');
@@ -1290,8 +1277,6 @@ After you have generated a high resolution image, click this button to submit th
       if (!/^image\//i.test(blob.type)) throw new Error('The selected source is not an image.');
       return await blobToDataUrl(blob);
     } catch (fetchError) {
-      // Local file:// pages can block fetch(). Fall back to copying the displayed
-      // image into an off-screen canvas at its natural resolution.
       try {
         const w = img.naturalWidth || img.width;
         const h = img.naturalHeight || img.height;
@@ -1308,6 +1293,7 @@ After you have generated a high resolution image, click this button to submit th
       }
     }
   }
+
   function makeClientRequestId() {
     const randomPart = Math.random().toString(36).slice(2, 10);
     return 'req-' + Date.now().toString(36) + '-' + randomPart;
@@ -1344,8 +1330,6 @@ After you have generated a high resolution image, click this button to submit th
     form.submit();
     form.remove();
 
-    // Leave the target iframe in place long enough to receive the Apps Script
-    // response, then clean it up.
     window.setTimeout(function () {
       if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
     }, SUBMISSION_TIMEOUT_MS + 15000);
@@ -1424,8 +1408,8 @@ After you have generated a high resolution image, click this button to submit th
       formSubmitButton.textContent = 'Submitted';
       formSubmitButton.disabled = true;
       formCancelButton.disabled = false;
-      formCancelButton.textContent = 'Close';
       if (submitImagesButton) submitImagesButton.disabled = false;
+      formCancelButton.textContent = 'Close';
       formCancelButton.onclick = function () {
         modalBackdrop.style.display = 'none';
         submitForm.reset();
@@ -1455,7 +1439,3 @@ After you have generated a high resolution image, click this button to submit th
 
 </body>
 </html>
-<<<<<<< HEAD
-
-=======
->>>>>>> d9c69930130be8e5fcd57615546a2d67c6eb1d4b
