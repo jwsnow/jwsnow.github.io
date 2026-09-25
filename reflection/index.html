@@ -104,7 +104,100 @@ function NOISE(x,y){
 	r=noise((x+1)/2,(y+1)/2);
 	return(r);
 }
-var theFunctions=['P1','P2','MUL', 'SINPI', 'COSPI','CUBE','SINXXYY','max','min','SIN2PI','COS2PI','AVG','NOISE'];
+//NEWLY ADDED FUNCTIONS
+function DIFF(x,y){
+	return((x-y)/2);
+}
+
+function ABSSUM(x,y){
+	return(abs(x+y)-1);
+}
+
+function ABSDIFF(x,y){
+	return(abs(x-y)-1);
+}
+
+function SQUAREDIFF(x,y){
+	return(x*x-y*y);
+}
+
+function RADIAL(x,y){
+	return(1-x*x-y*y);
+}
+
+function TENTSUM(x,y){
+	return(1-abs(x+y));
+}
+
+function TENTDIFF(x,y){
+	return(1-abs(x-y));
+}
+
+function SINSUM(x,y){
+	return(sin(pi*(x+y)));
+}
+
+function SINDIFF(x,y){
+	return(sin(pi*(x-y)));
+}
+
+function SINPROD(x,y){
+	return(sin(pi*x*y));
+}
+
+function SINCROSS(x,y){
+	return(sin(pi*x)*sin(pi*y));
+}
+
+function COSCROSS(x,y){
+	return(cos(pi*x)*cos(pi*y));
+}
+
+//weirder
+function ANGLE(x,y){
+	if (x==0 && y==0) return(0);
+	return(Math.atan2(y,x)/pi);
+}
+
+function RADIUS(x,y){
+	return(2*Math.sqrt((x*x+y*y)/2)-1);
+}
+
+function FOLDADD(x,y){
+	var z=x+y;
+	if (z>1) z=2-z;
+	if (z<-1) z=-2-z;
+	return(z);
+}
+
+function FOLDSUB(x,y){
+	var z=x-y;
+	if (z>1) z=2-z;
+	if (z<-1) z=-2-z;
+	return(z);
+}
+
+function WRAPADD(x,y){
+	var z=x+y;
+	if (z>1) z-=2;
+	if (z<-1) z+=2;
+	return(z);
+}
+
+function WRAPSUB(x,y){
+	var z=x-y;
+	if (z>1) z-=2;
+	if (z<-1) z+=2;
+	return(z);
+}
+//end NEWLY ADDED FUNCTIONS
+var theFunctions=['P1','P2','MUL', 'SINPI', 'COSPI','CUBE','SINXXYY','max','min','SIN2PI','COS2PI','AVG','NOISE',
+'SINPIY', 'COSPIY', 'SIN2PIY', 'COS2PIY',
+/*new*/ 'DIFF', 'ABSSUM', 'ABSDIFF', 'SQUAREDIFF', 'RADIAL', 'TENTSUM', 
+'TENTDIFF', 'SINSUM', 'SINDIFF', 'SINPROD', 'SINCROSS', 'COSCROSS',
+//'ANGLE', 'RADIUS', 
+//'FOLDADD', 'FOLDSUB', 'WRAPADD', 'WRAPSUB'
+];
 function randomFunction(n){
 	var r,s,t,u;
 	if (n==1){
