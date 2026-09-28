@@ -1,3 +1,30 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-09-28 — BASELINE 5.8.18-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.18-exp ZIP, not an older build.
+
+5.8.18 FOCUSED FIX — VIEW-MODE RENAME / TEXT-ENTRY FOCUS
+- User clarified that the 5.8.17 Rename fix did not solve the problem: on desktop PC, View -> Rename opens the dialog but the text field does not retain focus when clicked and cannot be typed into; on iPad, the prior symptom remains, where the field/keyboard loses focus as soon as the first key is pressed.
+- Root cause is shared across platforms and is more basic than the 5.8.17 keyboard-resize hypothesis: while a stylus annotation tool is active in View/Presentation, Workbench installs a document-wide native-selection guard to stop WebKit from leaking Pencil strokes into browser text selection. That guard also intercepted native selection/focus behavior inside the shared Library naming dialog.
+- Files-mode Rename did not expose this because the selection guard is inactive in Files.
+- 5.8.18 keeps the broad Pencil native-selection protection over the Workbench surface but explicitly exempts open dialogs and editable controls (input, textarea, select, contenteditable). `selectstart`, `contextmenu`, and `selectionchange` now all respect that exemption.
+- The 5.8.17 deferred viewer-resize behavior is retained because it remains useful for iPad software-keyboard viewport changes once the text field is actually allowed to own focus.
+- No graph, Copy/Paste, Pen/Eraser/Lasso geometry, viewer rendering, persistence, or Library data-model behavior was intentionally changed.
+
+TEST PRIORITY
+1. Desktop PC, View mode with Pen/Eraser/Lasso/Graph selected: Rename current document, click in the field, select/edit text, type several characters, Save. The input must keep focus.
+2. iPad, repeat View -> Rename and type immediately after the keyboard appears; keyboard/focus should remain until Save/Cancel.
+3. Repeat Rename from Files to confirm the shared naming dialog still works there.
+4. Quick regression: while no dialog is open, Pencil annotation in View must still suppress accidental browser text selection/callout behavior.
+5. Confirm 5.8.16 graph Copy/Paste and 5.8.15 live labels remain unchanged.
+
+LATEST DISTRIBUTION
+- `pdf-workbench-m5.8.18-exp.zip` is the code baseline for the next test.
+
+================================================================================
+PRIOR 5.8.17 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-09-28 — BASELINE 5.8.17-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

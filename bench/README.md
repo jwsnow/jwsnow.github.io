@@ -1,6 +1,13 @@
-# PDF Workbench — Milestone 5.8.17 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.8.18 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
-## 5.8.17 iPad rename/text-entry focus fix
+## 5.8.18 View rename/text-entry focus fix
+
+- Fixes the shared Library naming dialog when invoked from View mode on both desktop and iPad.
+- Root cause: the document-wide native-selection guard used while Pen/Eraser/Lasso/Graph is active in View also intercepted native selection/focus behavior inside dialogs. Files mode did not expose the bug because that guard is inactive there.
+- Open dialogs and editable controls (`input`, `textarea`, `select`, and contenteditable elements) are now exempt from the native-selection guard. The guard remains active over the rest of the Workbench surface, preserving Pencil-vs-WebKit selection protection.
+- Retains 5.8.17's viewer-resize deferral while text entry owns focus, which is still useful for iPad software-keyboard viewport changes once the input can actually retain focus.
+- No graph, clipboard, Pen/Eraser/Lasso geometry, render scheduling, or Library data-model behavior changed.
+
 
 - Fixes View-mode Rename on iPad where the name dialog and software keyboard opened, but typing the first character could blur the field.
 - Root cause: iPad/WebKit can emit viewport `resize` events when the software keyboard opens or changes layout; Workbench's generic resize path rebuilt the PDF viewer 120 ms later even while the modal input owned focus. That large DOM rebuild could make WebKit drop focus from the text field.
@@ -9,7 +16,7 @@
 - Adds diagnostic markers `viewer-resize-deferred-for-text-entry` and `viewer-resize-replayed-after-text-entry` for future iPad focus investigations.
 - 5.8.16 relationship-aware graph Copy/Paste/Duplicate and 5.8.15 validated live edge-label behavior are otherwise unchanged.
 
-## 5.8.17 relationship-aware graph Copy/Paste
+## 5.8.18 relationship-aware graph Copy/Paste
 
 - Enables **Copy**, **Paste**, and **Duplicate** for Select/Lasso selections containing semantic graph objects.
 - Copy builds a self-contained semantic fragment rather than blindly cloning only the objects intersected by the lasso. Selected nodes bring all node-owned Pen/Highlighter contents. Every edge whose two endpoints are in the copied node set comes along automatically.

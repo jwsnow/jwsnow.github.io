@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.17';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.18';
 
-const APP_VERSION = '5.8.17';
+const APP_VERSION = '5.8.18';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -7136,7 +7136,17 @@ function bindStylusTouchInkFallback() {
 // selection elsewhere in the app. Suppress selection/callouts at the input-mode
 // level while Pen is active. Hand/View mode deliberately does not use this
 // document-wide guard so future intentional text selection can remain possible.
-function inkBlocksNativeSelection() {
+function nativeTextEntryOwnsInteraction(target=null) {
+  const element = target instanceof Element ? target : document.activeElement;
+  if (!(element instanceof Element)) return false;
+  if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement || element.isContentEditable) return true;
+  // Native dialogs temporarily need normal browser focus/selection semantics.
+  // In particular, the shared Library naming dialog is also used by View-mode
+  // Rename while Pen/Eraser/Lasso/Graph may still be the active annotation tool.
+  return !!element.closest?.('dialog[open]');
+}
+function inkBlocksNativeSelection(target=null) {
+  if (nativeTextEntryOwnsInteraction(target)) return false;
   return isStylusAnnotationTool() &&
     (state.workspaceMode === 'view' || document.body.classList.contains('presentation'));
 }
@@ -7146,17 +7156,17 @@ function clearNativeSelection() {
 }
 function bindInkNativeSelectionGuard() {
   document.addEventListener('selectstart', (event) => {
-    if (!inkBlocksNativeSelection()) return;
+    if (!inkBlocksNativeSelection(event.target)) return;
     event.preventDefault();
     clearNativeSelection();
   }, { capture: true, passive: false });
   document.addEventListener('contextmenu', (event) => {
-    if (!inkBlocksNativeSelection()) return;
+    if (!inkBlocksNativeSelection(event.target)) return;
     event.preventDefault();
     clearNativeSelection();
   }, { capture: true, passive: false });
   document.addEventListener('selectionchange', () => {
-    if (inkBlocksNativeSelection()) clearNativeSelection();
+    if (inkBlocksNativeSelection(document.activeElement)) clearNativeSelection();
   });
 }
 
