@@ -1,3 +1,35 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-09-28 — BASELINE 5.8.17-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.17-exp ZIP, not an older build.
+
+CURRENT BASELINE / USER REPORT
+- 5.8.16 relationship-aware graph Copy/Paste/Duplicate remains the graph baseline pending/under user validation.
+- 5.8.15 live edge-label following and removal of the blue label-position dot were reported by the user to work great and remain preserved.
+- Weekend 2026-09-27 report: on two or three occasions, Eraser or Lasso appeared to behave like Pan. The saved diagnostics do not capture a Pencil contact being routed to Pan: every recorded Pencil-down while Eraser/Select was active entered the correct annotation handler. Recorded Pan/Pinch activity while Select was active used pointerType=touch and TouchEvent touchType=direct, which is the intentional finger-navigation path. The remembered incidents therefore cannot be diagnosed from this saved set; continue watching and save Diagnostics soon after recurrence.
+
+5.8.17 FOCUSED FIX — VIEW-MODE RENAME / IPAD KEYBOARD FOCUS
+- User reported that View -> Rename opens the naming dialog and iPad keyboard, but pressing a key causes the field/dialog to lose focus.
+- Diagnosis: the generic window resize handler rebuilt the viewer 120 ms after every viewport resize. iPad/WebKit emits viewport resize events when the software keyboard opens and may emit another when the first character changes keyboard/suggestion geometry. Rebuilding the viewer while the modal input owns focus can make WebKit blur the field.
+- 5.8.17 defers only the expensive viewer rebuild while an input/textarea/select/contenteditable control owns focus. Lightweight menu/dialog positioning still updates.
+- A deferred viewer refresh is replayed after text entry ends / the name dialog closes, so viewer geometry still catches up after the keyboard disappears.
+- New diagnostic markers: `viewer-resize-deferred-for-text-entry` and `viewer-resize-replayed-after-text-entry`.
+- No graph, Pen, Eraser, Select/Lasso, rendering geometry, persistence, or clipboard semantics were intentionally changed.
+
+TEST PRIORITY
+1. On iPad in View, tap Rename. Type several characters, including immediately after the keyboard appears. Focus and keyboard should remain in the name field until Save/Cancel.
+2. Repeat Rename from Files if convenient; the same shared naming dialog should behave normally.
+3. Save the rename; confirm the viewer remains correctly sized after the keyboard closes.
+4. Quick regression: Pen, Eraser, Lasso, finger pan/pinch while a stylus tool is selected, Graph labels, and 5.8.16 graph Copy/Paste.
+5. If Eraser/Lasso again appears to Pan with the Pencil, save Diagnostics immediately afterward; the existing input instrumentation should distinguish pen vs direct touch and annotation-handler acceptance.
+
+LATEST DISTRIBUTION
+- `pdf-workbench-m5.8.17-exp.zip` is the code baseline for the next test.
+
+================================================================================
+PRIOR 5.8.16 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-09-24 — BASELINE 5.8.16-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

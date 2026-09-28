@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.16';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.17';
 
-const APP_VERSION = '5.8.16';
+const APP_VERSION = '5.8.17';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -9780,6 +9780,10 @@ function requestLibraryName({ title='Name', help='', suggested='', saveLabel='Sa
     const finish = value => {
       if (finished) return; finished = true;
       try { els.libraryNameDialog.close(); } catch {}
+      // If iPad keyboard geometry caused a viewer resize to be deferred while
+      // this field was focused, let the keyboard/dialog finish closing before
+      // refreshing the viewer behind it.
+      if (viewerResizeDeferredForTextEntry) requestAnimationFrame(scheduleDeferredViewerResizeAfterTextEntry);
       resolve(value);
     };
     const onSubmit = e => {
@@ -15599,7 +15603,7 @@ function showDialog(kind) {
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
     els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.16 adds relationship-aware semantic graph Copy/Paste and Duplicate. Copied nodes bring owned handwriting; internal edges, edge labels, and label handwriting remain attached; explicitly copied edges bring required endpoints; external connections stay behind; and every pasted semantic ID is remapped so the new graph is independent. The validated 5.8.15 live edge-label interaction and earlier graph-content behavior remain intact.</p>
+      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.17 is a focused iPad text-entry/rename fix on the 5.8.16 graph Copy/Paste baseline. Viewer rebuilds caused by software-keyboard viewport resize are deferred while a text field owns focus, then replayed after editing ends, preventing View-mode Rename from losing focus on the first keystroke. Relationship-aware graph Copy/Paste and the validated 5.8.15 edge-label interaction remain intact.</p>
       <ul><li><strong>Graph tools:</strong> Graph mode creates movable semantic nodes and straight attached edges. Node borders may be Clean, Hand-drawn, or None; edges follow nodes as they move. Handwritten node contents can be created from selected ink and edited with a simple Pen/Highlighter/Eraser workflow plus Clear and Move Contents; auto-fit remains available for auto nodes. Straight edges can now own handwritten labels that follow their geometry and can slide along or across the edge. Loops, curves, directed edges, and relationship-aware graph copy/paste remain later milestones.</li><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Customizable Presentation toolbar:</strong> Presentation has a permanent Tools menu at the far left. Tools can be launched from that menu whether or not their main-toolbar checkbox is enabled; choosing a tool from the menu shows its normal contextual options in the toolbar. Visibility choices persist across restarts. The ordinary View strip remains unchanged.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
       <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
       <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
@@ -15729,6 +15733,27 @@ function toggleMoreMenu(force) {
 }
 
 let resizeTimer;
+let viewerResizeDeferredForTextEntry = false;
+function editableControlOwnsFocus() {
+  const active = document.activeElement;
+  return active instanceof HTMLInputElement || active instanceof HTMLTextAreaElement || active instanceof HTMLSelectElement || !!active?.isContentEditable;
+}
+function scheduleDeferredViewerResizeAfterTextEntry() {
+  if (!viewerResizeDeferredForTextEntry) return;
+  viewerResizeDeferredForTextEntry = false;
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    if (editableControlOwnsFocus()) {
+      viewerResizeDeferredForTextEntry = true;
+      return;
+    }
+    if (state.singlePresentationTransitionActive) return;
+    if (state.pages.length && state.workspaceMode === 'view') {
+      addInkDiagnostic('viewer-resize-replayed-after-text-entry', null, { workspaceMode:state.workspaceMode, splitView:!!state.splitView });
+      renderViewer();
+    }
+  }, 180);
+}
 function onResize() {
   updateNewDocumentPageSizeUi();
   updatePageGeometryDialog();
@@ -15742,6 +15767,24 @@ function onResize() {
   // Split mode is not guarded because its independent pane transitions already
   // preserve both panes correctly in both directions.
   if (state.singlePresentationTransitionActive) return;
+  // On iPad, presenting and then typing into the software keyboard can emit
+  // viewport resize events (including a second resize on the first keystroke).
+  // Rebuilding the viewer while a modal/input owns focus can make WebKit blur
+  // that field and dismiss the keyboard. Defer only the expensive viewer
+  // rebuild; lightweight dialog/menu positioning above remains current.
+  if (editableControlOwnsFocus()) {
+    if (!viewerResizeDeferredForTextEntry) {
+      addInkDiagnostic('viewer-resize-deferred-for-text-entry', null, {
+        activeElement:diagnosticElementDescriptor(document.activeElement),
+        dialogId:document.activeElement?.closest?.('dialog[open]')?.id || null,
+        workspaceMode:state.workspaceMode,
+        splitView:!!state.splitView,
+      });
+    }
+    viewerResizeDeferredForTextEntry = true;
+    return;
+  }
+  viewerResizeDeferredForTextEntry = false;
   resizeTimer = setTimeout(() => { if (state.pages.length && state.workspaceMode === 'view') renderViewer(); }, 120);
 }
 
@@ -16884,6 +16927,10 @@ function bindEvents() {
     if (!document.fullscreenElement && document.body.classList.contains('presentation') && !isIPadLike()) exitPresentation();
   });
   window.addEventListener('resize', onResize);
+  document.addEventListener('focusout', () => {
+    if (!viewerResizeDeferredForTextEntry) return;
+    setTimeout(() => { if (!editableControlOwnsFocus()) scheduleDeferredViewerResizeAfterTextEntry(); }, 0);
+  });
   bindSplitViewerEvents('left');
   bindSplitViewerEvents('right');
 

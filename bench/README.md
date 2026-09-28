@@ -1,6 +1,15 @@
-# PDF Workbench — Milestone 5.8.16 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.8.17 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
-## 5.8.16 relationship-aware graph Copy/Paste
+## 5.8.17 iPad rename/text-entry focus fix
+
+- Fixes View-mode Rename on iPad where the name dialog and software keyboard opened, but typing the first character could blur the field.
+- Root cause: iPad/WebKit can emit viewport `resize` events when the software keyboard opens or changes layout; Workbench's generic resize path rebuilt the PDF viewer 120 ms later even while the modal input owned focus. That large DOM rebuild could make WebKit drop focus from the text field.
+- Viewer rebuilds are now deferred while an input, textarea, select, or contenteditable element owns focus. Lightweight menu/dialog positioning still updates immediately.
+- A deferred viewer refresh is replayed after text entry ends / the name dialog closes so the page layout still catches up with the final viewport.
+- Adds diagnostic markers `viewer-resize-deferred-for-text-entry` and `viewer-resize-replayed-after-text-entry` for future iPad focus investigations.
+- 5.8.16 relationship-aware graph Copy/Paste/Duplicate and 5.8.15 validated live edge-label behavior are otherwise unchanged.
+
+## 5.8.17 relationship-aware graph Copy/Paste
 
 - Enables **Copy**, **Paste**, and **Duplicate** for Select/Lasso selections containing semantic graph objects.
 - Copy builds a self-contained semantic fragment rather than blindly cloning only the objects intersected by the lasso. Selected nodes bring all node-owned Pen/Highlighter contents. Every edge whose two endpoints are in the copied node set comes along automatically.
