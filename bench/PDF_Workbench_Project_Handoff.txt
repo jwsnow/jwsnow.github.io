@@ -1,3 +1,66 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-01 — BASELINE 5.8.20-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.20-exp ZIP, not an older build.
+
+LATEST USER EVIDENCE
+- 5.8.19 persistent first-page thumbnails appear to have solved the Files-scrolling failure: after a direct import successfully added 17 PDFs, the user reported that those files could be scrolled freely in Files.
+- Large import itself is still unstable on iPad. A 23-PDF ZIP import restarted after 8 PDFs. Direct multi-PDF import later progressed through 17 PDFs and then also restarted.
+- Diagnostics saved after the restart again show a clean fresh runtime rather than a Workbench JavaScript exception: one small open PDF source (~0.6 MB), ~30 MB estimated canvas backing, empty render queue, no render errors. Therefore the useful failure evidence is lost when the WebKit process is killed.
+- This separates the problems: 5.8.19 fixed cumulative Library-thumbnail/scrolling pressure, while the remaining failure is concentrated in the multi-PDF import process.
+
+WHY 5.8.20 EXISTS — LOWER PEAK IMPORT MEMORY
+- Code review found that the 5.8.19 direct import path still stacked several whole-file representations while importing each PDF:
+  * `File.arrayBuffer()`;
+  * a retained `Uint8Array`;
+  * `bytes.slice()` handed to PDF.js;
+  * another ArrayBuffer copy prepared for IndexedDB.
+- Even though PDF.js was destroyed between files, scan-heavy PDF decode buffers plus these whole-file copies can accumulate faster than WebKit reclaims them across a large batch.
+
+5.8.20 DIRECT-TO-LIBRARY IMPORT PATH
+- Files -> Import files now uses a dedicated low-peak PDF path instead of the ordinary open-document `addPdf()` path.
+- PDF.js reads the original selected `File` through a temporary blob URL. Workbench does not allocate/retain a full ArrayBuffer/Uint8Array copy while PDF.js is decoding and rendering.
+- Import phases are explicitly separated:
+  1. Open PDF.js from the blob URL and read page metadata.
+  2. Render/store the persistent first-page thumbnail while PDF.js is alive.
+  3. Fully cleanup/destroy PDF.js and revoke the blob URL.
+  4. Only then allocate one whole-file ArrayBuffer and write the source to IndexedDB.
+  5. Persist only the new document record.
+  6. Drop transient source/file references and pause across two animation frames plus a short idle delay before opening the next PDF.
+- The direct import no longer calls the general `persistLibraryNow()` loop for each file, avoiding unrelated source/document cloning during a large batch.
+- 5.8.19 stored-thumbnail behavior remains unchanged: valid Library thumbnails are served without reopening PDFs, stale/missing thumbnails backfill serially, and offscreen preview canvases collapse to 1x1.
+
+PERSISTENT IMPORT CHECKPOINT
+- 5.8.20 writes a tiny IndexedDB checkpoint during import with the current file, file size, batch index/total, and current phase:
+  * `open-pdf`
+  * `thumbnail`
+  * `destroy-pdfjs`
+  * `persist-source`
+  * `persist-document`
+  * `cleanup`
+  * `file-complete`
+- Saved Diagnostics now include this surviving `importCheckpoint` in the header (diagnosticVersion 7).
+- If WebKit kills the PWA again, save Diagnostics immediately after restart. Unlike 5.8.19, the post-restart diagnostic should identify the last file and phase reached.
+
+ZIP IMPORT
+- ZIP import reuses the same lower-peak per-PDF path.
+- JSZip still holds the archive itself in memory, so direct multi-file PDF import is the preferred stress test for 5.8.20. If direct import becomes stable but ZIP remains unstable, the next change should replace the ZIP-folder reader with a blob/range-based entry reader rather than revisiting PDF.js.
+
+TEST PRIORITY
+1. Force-quit the older PWA and launch 5.8.20.
+2. Use Files -> Import files on the remaining/direct set that caused 5.8.19 to restart after 17 PDFs.
+3. If all files finish, scroll freely through the resulting Library to reconfirm the 5.8.19 thumbnail fix.
+4. If the PWA restarts, immediately save Diagnostics and inspect `importCheckpoint` for the exact file/phase.
+5. Only after direct multi-PDF import is stable, retry the 23-PDF ZIP.
+6. Preserve/regression-check View Rename, Pen/Eraser/Lasso, graph labels, graph Copy/Paste, export, Trash, and backup/restore.
+
+LATEST DISTRIBUTION
+- `pdf-workbench-m5.8.20-exp.zip` is the code baseline for the next test.
+
+================================================================================
+PRIOR 5.8.19 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-01 — BASELINE 5.8.19-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

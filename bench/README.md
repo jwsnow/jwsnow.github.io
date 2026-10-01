@@ -1,3 +1,25 @@
+# PDF Workbench — Milestone 5.8.20 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.8.20 lower-peak multi-PDF Library import
+
+- Preserves 5.8.19 persistent first-page thumbnails and the now-validated ability to scroll freely through a large imported Library without reopening every PDF.
+- Reworks **Files → Import files** direct-to-Library PDF import so PDF.js reads the original `File` through a temporary blob URL instead of first allocating a retained `ArrayBuffer`, a `Uint8Array`, and a second `bytes.slice()` copy.
+- Import phases are deliberately separated: PDF.js opens/reads page metadata → first-page thumbnail is rendered/stored → PDF.js and the blob URL are destroyed → only then is one whole-file `ArrayBuffer` allocated for IndexedDB persistence.
+- Direct import persists only the new document/source rather than calling the general `persistLibraryNow()` walk for all open documents.
+- After each imported PDF, Workbench drops file/source references and yields across two animation frames plus a short idle pause before opening the next PDF.
+- Adds a persistent import checkpoint in IndexedDB with the current file and phase (`open-pdf`, `thumbnail`, `destroy-pdfjs`, `persist-source`, `persist-document`, `cleanup`, `file-complete`). Saved Diagnostics now include this checkpoint, so a future iPad process kill can identify where import stopped even though the diagnostic is saved after restart.
+- ZIP PDF import uses the same lower-peak per-PDF path, though JSZip still holds the archive itself in memory. Direct multi-PDF import is the preferred stress test for this build.
+
+## Test priority
+
+1. Force-quit the prior PWA and launch 5.8.20.
+2. Use Files → Import files to import the remaining/direct set of PDFs that restarted 5.8.19. Watch whether all files complete.
+3. If the PWA restarts, immediately save Diagnostics; the header should contain an `importCheckpoint` identifying the file and phase.
+4. Confirm the imported files can still be freely scrolled in Files using stored thumbnails.
+5. Only after direct import is stable, retry the 23-PDF ZIP.
+
+---
+
 # PDF Workbench — Milestone 5.8.19 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 ## 5.8.19 persistent Library thumbnails + import/Files memory-pressure fix

@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.19';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.20';
 
-const APP_VERSION = '5.8.19';
+const APP_VERSION = '5.8.20';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -2429,7 +2429,123 @@ async function createLibraryChildFolderAlways(name, parentId) {
   await libraryPut('folders', folder); state.libraryFolders.set(folder.id, folder); return folder.id;
 }
 
-async function importPdfFileDirectToLibrary(file, folderId) {
+
+async function writePdfImportCheckpoint(info={}) {
+  try {
+    if (!state.libraryReady || !state.libraryDb) return;
+    await libraryPut('meta', {
+      key: PDF_IMPORT_CHECKPOINT_KEY,
+      schemaVersion: LIBRARY_SCHEMA_VERSION,
+      updatedAt: Date.now(),
+      ...clonePlain(info),
+    });
+  } catch (err) {
+    console.warn('Could not write PDF import checkpoint', err);
+  }
+}
+async function clearPdfImportCheckpoint() {
+  try {
+    if (!state.libraryReady || !state.libraryDb) return;
+    await libraryDelete('meta', PDF_IMPORT_CHECKPOINT_KEY);
+  } catch {}
+}
+async function importMemoryRecoveryPause() {
+  await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  await new Promise(resolve => setTimeout(resolve, 90));
+}
+async function openPdfFileForDirectLibraryImport(file, sourceId) {
+  if (!state.pdfjs) throw new Error('The PDF engine has not loaded.');
+  const url = URL.createObjectURL(file);
+  let pdf = null;
+  try {
+    pdf = await state.pdfjs.getDocument({
+      url,
+      wasmUrl: PDFJS_WASM_URL,
+      cMapUrl: PDFJS_CMAP_URL,
+      cMapPacked: true,
+      standardFontDataUrl: PDFJS_STANDARD_FONT_URL,
+      useWasm: true,
+    }).promise;
+    const source = {
+      id: sourceId,
+      type: 'pdf',
+      name: file.name,
+      size: file.size,
+      bytes: null,
+      blob: file,
+      file,
+      url,
+      pdf,
+      libraryPersisted: false,
+    };
+    state.sources.set(sourceId, source);
+    const pages = [];
+    for (let n = 1; n <= pdf.numPages; n++) {
+      setStatus(`Reading ${file.name}: page ${n} of ${pdf.numPages}…`, true);
+      const pdfPage = await pdf.getPage(n);
+      try {
+        const viewport = pdfPage.getViewport({ scale:1, rotation:pdfPage.rotate || 0 });
+        pages.push({
+          id: uid('page'),
+          sourceId,
+          sourcePage: n,
+          width: viewport.width,
+          height: viewport.height,
+          baseRotation: pdfPage.rotate || 0,
+          rotation: 0,
+          kind: 'pdf',
+        });
+      } finally {
+        try { pdfPage.cleanup?.(); } catch {}
+      }
+    }
+    try { await pdf.cleanup(); } catch {}
+    return { source, pages };
+  } catch (err) {
+    try { await pdf?.destroy?.(); } catch {}
+    state.sources.delete(sourceId);
+    try { URL.revokeObjectURL(url); } catch {}
+    throw err;
+  }
+}
+async function destroyDirectImportPdfSource(source) {
+  if (!source) return;
+  const pdf = source.pdf;
+  source.pdf = null;
+  try { await pdf?.cleanup?.(); } catch {}
+  try { await pdf?.destroy?.(); } catch {}
+  if (source.url) {
+    try { URL.revokeObjectURL(source.url); } catch {}
+    source.url = null;
+  }
+}
+async function persistDirectImportPdfSource(source, file, importContext={}) {
+  await writePdfImportCheckpoint({
+    phase:'persist-source',
+    fileName:file.name,
+    fileSize:file.size,
+    sourceId:source.id,
+    ...importContext,
+  });
+  let data = await file.arrayBuffer();
+  try {
+    await libraryPut('sources', {
+      id: source.id,
+      schemaVersion: LIBRARY_SCHEMA_VERSION,
+      type: 'pdf',
+      name: file.name || 'PDF.pdf',
+      size: data.byteLength,
+      mimeType: file.type || 'application/pdf',
+      data,
+    });
+    source.libraryPersisted = true;
+  } finally {
+    data = null;
+    source.blob = null;
+    source.file = null;
+  }
+}
+async function importPdfFileDirectToLibrary(file, folderId, importContext={}) {
   const previousCurrent = state.currentDocumentId;
   const previousWorkspace = state.workspaceMode;
   const previousFileSelection = new Set(state.fileSelected);
@@ -2437,33 +2553,107 @@ async function importPdfFileDirectToLibrary(file, folderId) {
   const previousCombineOrder = state.combineOrder.slice();
   const doc = createDocument(uniqueLibraryDocumentName(file.name, folderId));
   doc.folderId = folderId || null;
+  let source = null;
   try {
-    const added = await addPdf(file);
-    if (!added) throw new Error('No pages were found.');
+    const sourceId = uid('src');
+    await writePdfImportCheckpoint({
+      phase:'open-pdf',
+      fileName:file.name,
+      fileSize:file.size,
+      sourceId,
+      ...importContext,
+    });
+    const opened = await openPdfFileForDirectLibraryImport(file, sourceId);
+    source = opened.source;
+    doc.pages.push(...opened.pages);
+    state.pages = doc.pages;
+    if (!doc.pages.length) throw new Error('No pages were found.');
     state.activePageId = state.pages[0]?.id || null;
-    doc.needsExport = false; doc.lastExportedAt = Date.now(); doc.modifiedAt = Date.now();
-    saveCurrentDocumentState({ readViewDom:false });
-    await persistLibraryNow({ readViewDom:false });
-    const persistedRecord = state.libraryRecords.get(doc.id) || serializeDocumentForLibrary(doc);
-    await ensurePersistentLibraryThumbnail(persistedRecord, { force:true });
-    // Direct-to-Library imports must not keep the just-imported PDF/PDF.js
-    // source alive. Await cleanup before the next ZIP member begins.
+    doc.activePageId = state.activePageId;
+    doc.needsExport = false;
+    doc.lastExportedAt = Date.now();
+    doc.modifiedAt = Date.now();
+
+    const recordForThumbnail = serializeDocumentForLibrary(doc);
+    await writePdfImportCheckpoint({
+      phase:'thumbnail',
+      fileName:file.name,
+      fileSize:file.size,
+      sourceId,
+      pages:doc.pages.length,
+      ...importContext,
+    });
+    await ensurePersistentLibraryThumbnail(recordForThumbnail, { force:true });
+
+    await writePdfImportCheckpoint({
+      phase:'destroy-pdfjs',
+      fileName:file.name,
+      fileSize:file.size,
+      sourceId,
+      pages:doc.pages.length,
+      ...importContext,
+    });
+    await destroyDirectImportPdfSource(source);
+
+    await persistDirectImportPdfSource(source, file, importContext);
+
+    const persistedRecord = serializeDocumentForLibrary(doc);
+    await writePdfImportCheckpoint({
+      phase:'persist-document',
+      fileName:file.name,
+      fileSize:file.size,
+      sourceId,
+      pages:doc.pages.length,
+      ...importContext,
+    });
+    await libraryPut('documents', persistedRecord);
+    state.libraryRecords.set(doc.id, persistedRecord);
+
+    await writePdfImportCheckpoint({
+      phase:'cleanup',
+      fileName:file.name,
+      fileSize:file.size,
+      sourceId,
+      pages:doc.pages.length,
+      documentId:doc.id,
+      ...importContext,
+    });
     await removeDocument(doc.id);
     state.fileSelected = previousFileSelection;
     state.fileSelectionInitialized = previousFileSelectionInitialized;
     state.combineOrder = previousCombineOrder;
-    reconcileFileSelection(); reconcileCombineOrder();
+    reconcileFileSelection();
+    reconcileCombineOrder();
     if (previousCurrent && documentById(previousCurrent)) loadDocumentState(previousCurrent, false);
     state.workspaceMode = previousWorkspace;
+    await writePdfImportCheckpoint({
+      phase:'file-complete',
+      fileName:file.name,
+      fileSize:file.size,
+      sourceId,
+      pages:persistedRecord.pages?.length || 0,
+      documentId:doc.id,
+      ...importContext,
+    });
+    await importMemoryRecoveryPause();
     return doc.id;
   } catch (err) {
+    try { await destroyDirectImportPdfSource(source); } catch {}
     if (documentById(doc.id)) await removeDocument(doc.id);
     state.fileSelected = previousFileSelection;
     state.fileSelectionInitialized = previousFileSelectionInitialized;
     state.combineOrder = previousCombineOrder;
-    reconcileFileSelection(); reconcileCombineOrder();
+    reconcileFileSelection();
+    reconcileCombineOrder();
     if (previousCurrent && documentById(previousCurrent)) loadDocumentState(previousCurrent, false);
     state.workspaceMode = previousWorkspace;
+    await writePdfImportCheckpoint({
+      phase:'error',
+      fileName:file.name,
+      fileSize:file.size,
+      message:String(err?.message || err),
+      ...importContext,
+    });
     throw err;
   }
 }
@@ -2495,11 +2685,18 @@ async function importPdfDirectoryZip(file) {
       if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Importing PDF ${completed} of ${sorted.length}: ${filename}`;
       const pdfBlob = await entry.async('blob');
       const pdfFile = new File([pdfBlob], filename, { type:'application/pdf' });
-      await importPdfFileDirectToLibrary(pdfFile, parentId);
+      await importPdfFileDirectToLibrary(pdfFile, parentId, {
+        mode:'zip',
+        index:completed,
+        total:sorted.length,
+        archiveName:file.name,
+        archiveSize:file.size,
+      });
       // The imported PDF source and PDF.js proxy have been destroyed before
       // continuing. Yield briefly so WebKit can reclaim detached decode buffers.
       await new Promise(resolve => setTimeout(resolve, 24));
     }
+    await clearPdfImportCheckpoint();
     state.workspaceMode='export'; await refreshLibraryRecords(); renderAll({saveState:false}); renderLibraryDocumentList();
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Imported ${completed} PDF${completed===1?'':'s'} and recreated their folder structure.`;
     setStatus(`Imported ${completed} PDFs from ZIP`);
@@ -8109,7 +8306,11 @@ async function openFiles(fileList, options={}) {
     // from leaving every imported PDF open in memory.
     if (invokedFromFiles && isPdf) {
       try {
-        const importedId = await importPdfFileDirectToLibrary(file, destinationFolderId);
+        const importedId = await importPdfFileDirectToLibrary(file, destinationFolderId, {
+          mode:'direct-files',
+          index:i + 1,
+          total:files.length,
+        });
         const importedRecord = state.libraryRecords.get(importedId);
         opened++;
         pagesAdded += importedRecord?.pages?.length || 0;
@@ -8117,6 +8318,7 @@ async function openFiles(fileList, options={}) {
         console.error(err);
         setStatus(`Could not import ${file.name}: ${err.message || err}`);
       }
+      files[i] = null;
       continue;
     }
     const doc = createDocument(file.name);
@@ -8144,6 +8346,8 @@ async function openFiles(fileList, options={}) {
       setStatus(`Could not open ${file.name}: ${err.message || err}`);
     }
   }
+  if (invokedFromFiles) await clearPdfImportCheckpoint();
+
   // File-management imports should not interrupt the Library task. Opening from
   // View/Pages retains the existing convenience of going to the newly opened PDF.
   if (opened && !invokedFromFiles) state.workspaceMode = 'view';
@@ -11163,6 +11367,7 @@ function downloadPdfBytes(bytes, filename) {
 // abnormal event-loop stalls, slow/erroring renders, lifecycle changes, and a runtime
 // snapshot when the user explicitly saves diagnostics. It never records document contents.
 const DIAGNOSTICS_META_KEY = 'saved-diagnostics';
+const PDF_IMPORT_CHECKPOINT_KEY = 'pdf-import-checkpoint-v1';
 const MAX_SAVED_DIAGNOSTIC_SNAPSHOTS = 12;
 const MAX_IN_MEMORY_DIAGNOSTIC_RECORDS = 2400;
 const MAX_COMPLETED_INK_DIAGNOSTIC_SUMMARIES = 24;
@@ -11861,16 +12066,20 @@ async function renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, d
 async function buildInkDiagnosticsText() {
   const runtime = diagnosticRuntimeSnapshot();
   const storage = await diagnosticStorageSnapshot();
+  const importCheckpoint = (state.libraryReady && state.libraryDb)
+    ? await libraryGet('meta', PDF_IMPORT_CHECKPOINT_KEY).catch(() => null)
+    : null;
   const header = {
     appVersion: APP_VERSION,
     generatedAt: new Date().toISOString(),
     userAgent: navigator.userAgent,
     platform: navigator.platform || null,
     standalone: isStandalonePwa(),
-    diagnosticVersion: 6,
+    diagnosticVersion: 7,
     runtime,
     storage,
-    note: 'Pointer-boundary, all-classification viewer contact boundaries, transient annotation/input state, viewer touch-type summaries, event-loop-stall, bounded viewer-render history/anomalies, document switches, pinch geometry, and Pencil replay diagnostics. Viewer all-classification telemetry records down/up/cancel boundaries only; no extra move stream is retained. Saving diagnostics captures transient state before a safe input-state cleanup intended to recover from a stuck gesture. No document contents are included; document/file names and internal IDs may be included for correlation. JavaScript heap memory is recorded only on browsers that expose performance.memory. Canvas/source byte figures are estimates/proxies, not total iPad memory.',
+    importCheckpoint,
+    note: 'Pointer-boundary, all-classification viewer contact boundaries, transient annotation/input state, viewer touch-type summaries, event-loop-stall, bounded viewer-render history/anomalies, document switches, pinch geometry, and Pencil replay diagnostics. Viewer all-classification telemetry records down/up/cancel boundaries only; no extra move stream is retained. Saving diagnostics captures transient state before a safe input-state cleanup intended to recover from a stuck gesture. No document contents are included; document/file names, import checkpoint metadata, and internal IDs may be included for correlation. JavaScript heap memory is recorded only on browsers that expose performance.memory. Canvas/source byte figures are estimates/proxies, not total iPad memory.',
   };
   const lines = [JSON.stringify(header), ...state.inkDiagnostics.map(item => JSON.stringify(item))];
   return lines.join('\n') + '\n';
