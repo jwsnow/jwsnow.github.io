@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.20';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.21';
 
-const APP_VERSION = '5.8.20';
+const APP_VERSION = '5.8.21';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -9,6 +9,14 @@ const PDFJS_CMAP_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/cmaps/';
 const PDFJS_STANDARD_FONT_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/standard_fonts/';
 const PDFLIB_URL = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.esm.min.js';
 const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
+
+// Library thumbnails are tiny display artifacts. Keep PDF.js image working sets
+// far below full-viewer limits so scan-heavy PDFs cannot exhaust iPad WebKit
+// while a preview is generated. canvasMaxAreaInBytes asks PDF.js to downsample
+// large embedded images in its worker; maxImageSize is a last-resort ceiling.
+const LIBRARY_THUMBNAIL_CANVAS_MAX_AREA_BYTES = 4 * 1024 * 1024;
+const LIBRARY_THUMBNAIL_MAX_IMAGE_PIXELS = 13_000_000;
+const LIBRARY_THUMBNAIL_RECOVERY_DELAY_MS = 500;
 
 const LIBRARY_DB_NAME = 'pdf-workbench-library';
 const LIBRARY_DB_VERSION = 5;
@@ -2574,17 +2582,11 @@ async function importPdfFileDirectToLibrary(file, folderId, importContext={}) {
     doc.lastExportedAt = Date.now();
     doc.modifiedAt = Date.now();
 
-    const recordForThumbnail = serializeDocumentForLibrary(doc);
-    await writePdfImportCheckpoint({
-      phase:'thumbnail',
-      fileName:file.name,
-      fileSize:file.size,
-      sourceId,
-      pages:doc.pages.length,
-      ...importContext,
-    });
-    await ensurePersistentLibraryThumbnail(recordForThumbnail, { force:true });
-
+    // Thumbnail rendering is deliberately NOT part of the import critical path.
+    // Two independent iPad runs were killed after 17/19 files, both while
+    // rendering first-page thumbnails. Persist the real document first and let
+    // Files backfill the derived preview later at low priority. A preview can
+    // therefore never prevent the remaining PDFs from entering the Library.
     await writePdfImportCheckpoint({
       phase:'destroy-pdfjs',
       fileName:file.name,
@@ -2693,7 +2695,8 @@ async function importPdfDirectoryZip(file) {
         archiveSize:file.size,
       });
       // The imported PDF source and PDF.js proxy have been destroyed before
-      // continuing. Yield briefly so WebKit can reclaim detached decode buffers.
+      // continuing. Thumbnails are derived later by Files at low priority. Yield
+      // briefly so WebKit can reclaim detached metadata/decode buffers.
       await new Promise(resolve => setTimeout(resolve, 24));
     }
     await clearPdfImportCheckpoint();
@@ -8301,9 +8304,9 @@ async function openFiles(fileList, options={}) {
     const supported = isPdf || file.type.startsWith('image/');
     if (!supported) { setStatus(`Skipped unsupported file: ${file.name}`); continue; }
     // Files -> Import is a Library-management operation. Import PDFs one at a
-    // time directly to IndexedDB, persist their thumbnail, and close/release the
-    // live PDF.js source before the next file. This prevents a multi-file import
-    // from leaving every imported PDF open in memory.
+    // time directly to IndexedDB and close/release the live PDF.js source before
+    // the next file. Thumbnail rendering is deliberately deferred to Files so a
+    // preview render can never interrupt the critical multi-file import loop.
     if (invokedFromFiles && isPdf) {
       try {
         const importedId = await importPdfFileDirectToLibrary(file, destinationFolderId, {
@@ -10038,24 +10041,104 @@ async function drawStoredLibraryThumbnail(thumbnail, canvas) {
     URL.revokeObjectURL(url);
   }
 }
+async function openLibraryPdfThumbnailSource(sourceId) {
+  if (!sourceId || !state.pdfjs) throw new Error('The PDF engine is not available for Library thumbnail generation.');
+  const record = await libraryGet('sources', sourceId);
+  if (!record) throw new Error(`Stored source ${sourceId} is missing from the local Library.`);
+  let data = record.data || null;
+  if (!data && record.blob instanceof Blob) data = await record.blob.arrayBuffer();
+  if (!data) throw new Error(`Stored source ${sourceId} has no readable binary data.`);
+  const mimeType = record.mimeType || 'application/pdf';
+  const blob = record.blob instanceof Blob ? record.blob : new Blob([data], { type:mimeType });
+  const url = URL.createObjectURL(blob);
+  let pdf = null;
+  try {
+    pdf = await state.pdfjs.getDocument({
+      url,
+      wasmUrl: PDFJS_WASM_URL,
+      cMapUrl: PDFJS_CMAP_URL,
+      cMapPacked: true,
+      standardFontDataUrl: PDFJS_STANDARD_FONT_URL,
+      useWasm: true,
+      canvasMaxAreaInBytes: LIBRARY_THUMBNAIL_CANVAS_MAX_AREA_BYTES,
+      maxImageSize: LIBRARY_THUMBNAIL_MAX_IMAGE_PIXELS,
+    }).promise;
+    return {
+      source: {
+        id: sourceId,
+        type: 'pdf',
+        name: record.name || 'PDF.pdf',
+        size: record.size || blob.size,
+        bytes: null,
+        blob: null,
+        file: null,
+        url,
+        pdf,
+        libraryPersisted: true,
+        libraryThumbnailTemporary: true,
+      },
+      close: async () => {
+        try { await pdf?.cleanup?.(); } catch {}
+        try { await pdf?.destroy?.(); } catch {}
+        try { URL.revokeObjectURL(url); } catch {}
+      },
+    };
+  } catch (err) {
+    try { await pdf?.destroy?.(); } catch {}
+    try { URL.revokeObjectURL(url); } catch {}
+    throw err;
+  }
+}
+async function libraryThumbnailRecoveryPause() {
+  await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  await new Promise(resolve => setTimeout(resolve, LIBRARY_THUMBNAIL_RECOVERY_DELAY_MS));
+}
+function libraryThumbnailPreviewWanted(documentId) {
+  for (const canvas of document.querySelectorAll('canvas[data-library-preview]')) {
+    if (canvas.dataset.libraryPreview === documentId && canvas.dataset.libraryPreviewVisible === 'true' && canvas.isConnected) return true;
+  }
+  return false;
+}
+
 async function generatePersistentLibraryThumbnail(record) {
   const current = state.libraryRecords.get(record.id) || record;
   const page = current?.pages?.[0];
   if (!page) return null;
   const sourceIds = [...pageReferencedSourceIds(page)];
   const canvas = document.createElement('canvas');
+  let temporaryPdf = null;
+  let sourceOverride = null;
+  const ordinarilyLoadedSourceIds = [];
   try {
+    // Closed Library PDFs use a dedicated, capped PDF.js instance for preview
+    // work. It never enters state.sources, so opening the document while a
+    // thumbnail is being generated cannot inherit thumbnail-only image limits.
+    if (page.kind !== 'generated' && page.sourceId) {
+      const existing = state.sources.get(page.sourceId);
+      if (existing?.type === 'pdf') sourceOverride = existing;
+      else if (!existing) {
+        const stored = await libraryGet('sources', page.sourceId).catch(() => null);
+        if (stored?.type === 'pdf') {
+          temporaryPdf = await openLibraryPdfThumbnailSource(page.sourceId);
+          sourceOverride = temporaryPdf.source;
+        }
+      }
+    }
+    // Other referenced sources (normally inserted images) retain the established
+    // loader. They are released again below if the document itself is closed.
     for (const sourceId of sourceIds) {
+      if (sourceId === page.sourceId && sourceOverride?.type === 'pdf') continue;
       const source = state.sources.get(sourceId) || await ensureLibrarySourceLoaded(sourceId);
+      ordinarilyLoadedSourceIds.push(sourceId);
       if (source?.type === 'image') await getSourceImage(source);
     }
     const { width:bw, height:bh } = pageDisplayDimensions(page);
     const scale = Math.min(300 / Math.max(1, bw), 220 / Math.max(1, bh));
     const cssWidth = Math.max(1, Math.round(bw * scale));
     const cssHeight = Math.max(1, Math.round(bh * scale));
-    await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 1, 90_000);
+    await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 1, 90_000, sourceOverride);
     if (page.kind !== 'generated' && canvasLooksBlank(canvas)) {
-      await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 0.82, 70_000);
+      await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 0.82, 70_000, sourceOverride);
     }
     drawGraphObjectsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
     drawPageAnnotationsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
@@ -10078,15 +10161,12 @@ async function generatePersistentLibraryThumbnail(record) {
       data,
     };
     await libraryPut('thumbnails', thumbnail);
-    addInkDiagnostic('library-thumbnail-generated', null, { documentId:current.id, documentModifiedAt, bytes:data.byteLength, width:canvas.width, height:canvas.height });
+    addInkDiagnostic('library-thumbnail-generated', null, { documentId:current.id, documentModifiedAt, bytes:data.byteLength, width:canvas.width, height:canvas.height, cappedPdf:!!temporaryPdf });
     return thumbnail;
   } finally {
     canvas.width = canvas.height = 1;
-    // A closed Library document should not remain in the live PDF/image source
-    // cache merely because its thumbnail was generated. Open documents/templates
-    // remain protected by releaseSourceIfUnused(). Await any PDF.js destruction
-    // before the next serial backfill job begins.
-    const releases = sourceIds.map(sourceId => releaseSourceIfUnused(sourceId)).filter(Boolean);
+    if (temporaryPdf) await temporaryPdf.close();
+    const releases = ordinarilyLoadedSourceIds.map(sourceId => releaseSourceIfUnused(sourceId)).filter(Boolean);
     if (releases.length) await Promise.allSettled(releases);
   }
 }
@@ -10102,8 +10182,14 @@ async function ensurePersistentLibraryThumbnail(record, { force=false }={}) {
     if (!force) {
       const stored = await libraryGet('thumbnails', latest.id).catch(() => null);
       if (libraryThumbnailMatchesRecord(stored, latest)) return stored;
+      // Fast scrolling can make many cards briefly intersect. Do not continue
+      // spending PDF.js memory on a preview that is already offscreen by the
+      // time its serial queue slot arrives; it can regenerate when visible again.
+      if (!libraryThumbnailPreviewWanted(latest.id)) return null;
     }
-    return generatePersistentLibraryThumbnail(latest);
+    const thumbnail = await generatePersistentLibraryThumbnail(latest);
+    await libraryThumbnailRecoveryPause();
+    return thumbnail;
   });
   state.libraryThumbnailJobs.set(record.id, job);
   state.libraryThumbnailBackfillTail = job.catch(() => {});
@@ -12014,10 +12100,10 @@ function bindInkDiagnostics() {
   window.addEventListener('unhandledrejection', event => addInkDiagnostic('unhandled-rejection', null, { message:String(event?.reason?.message || event?.reason || 'unknown rejection') }));
 }
 
-async function renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, dpr=1, maxPixels=10_000_000) {
+async function renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, dpr=1, maxPixels=10_000_000, sourceOverride=null) {
   const startedAt = performance.now();
   const token = ++diagnosticRenderSequence;
-  const source = page?.kind === 'generated' ? null : state.sources.get(page?.sourceId);
+  const source = page?.kind === 'generated' ? null : (sourceOverride || state.sources.get(page?.sourceId));
   const doc = diagnosticDocumentForPage(page);
   let targetW = Math.max(1, Math.round(cssWidth * dpr));
   let targetH = Math.max(1, Math.round(cssHeight * dpr));
@@ -12049,7 +12135,7 @@ async function renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, d
   diagnosticActiveRenders.set(token, info);
   let error = null;
   try {
-    return await renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr, maxPixels);
+    return await renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr, maxPixels, sourceOverride);
   } catch (err) {
     error = err;
     addInkDiagnostic('render-error', null, { ...info, startedAt:undefined, durationMs:Math.round((performance.now()-startedAt)*10)/10, message:String(err?.message || err) });
@@ -15240,8 +15326,8 @@ async function renderViewerPage(page, stage, canvas, generation) {
   clearStageRenderDiagnostic(stage);
 }
 
-async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxPixels=10_000_000) {
-  const source = page.kind === 'generated' ? null : state.sources.get(page.sourceId);
+async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxPixels=10_000_000, sourceOverride=null) {
+  const source = page.kind === 'generated' ? null : (sourceOverride || state.sources.get(page.sourceId));
   if (page.kind !== 'generated' && !source) throw new Error('Source file is no longer available.');
   let targetW = Math.max(1, Math.round(cssWidth * dpr));
   let targetH = Math.max(1, Math.round(cssHeight * dpr));

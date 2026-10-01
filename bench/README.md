@@ -1,22 +1,38 @@
-# PDF Workbench — Milestone 5.8.20 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.8.21 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
-## 5.8.20 lower-peak multi-PDF Library import
+## 5.8.21 decoupled import + bounded thumbnail backfill
 
-- Preserves 5.8.19 persistent first-page thumbnails and the now-validated ability to scroll freely through a large imported Library without reopening every PDF.
-- Reworks **Files → Import files** direct-to-Library PDF import so PDF.js reads the original `File` through a temporary blob URL instead of first allocating a retained `ArrayBuffer`, a `Uint8Array`, and a second `bytes.slice()` copy.
-- Import phases are deliberately separated: PDF.js opens/reads page metadata → first-page thumbnail is rendered/stored → PDF.js and the blob URL are destroyed → only then is one whole-file `ArrayBuffer` allocated for IndexedDB persistence.
-- Direct import persists only the new document/source rather than calling the general `persistLibraryNow()` walk for all open documents.
-- After each imported PDF, Workbench drops file/source references and yields across two animation frames plus a short idle pause before opening the next PDF.
-- Adds a persistent import checkpoint in IndexedDB with the current file and phase (`open-pdf`, `thumbnail`, `destroy-pdfjs`, `persist-source`, `persist-document`, `cleanup`, `file-complete`). Saved Diagnostics now include this checkpoint, so a future iPad process kill can identify where import stopped even though the diagnostic is saved after restart.
-- ZIP PDF import uses the same lower-peak per-PDF path, though JSZip still holds the archive itself in memory. Direct multi-PDF import is the preferred stress test for this build.
+Two independent 5.8.20 iPad process restarts isolated the remaining large-import failure to thumbnail generation, but **not** to one bad PDF:
+
+- Attempt 1 died on file 19/26, `Sadie Lorentz_001.pdf` (595,020 bytes, 10 pages), checkpoint phase `thumbnail`.
+- Attempt 2 died on file 17/26, `Caitlin Heller.pdf` (594,598 bytes, 10 pages), checkpoint phase `thumbnail`.
+
+The different files plus identical phase show that first-page preview rendering is the cumulative peak-memory stage. At the same time, the user reported that the 17 PDFs already imported under 5.8.19/5.8.20 can be scrolled freely in Files, validating the persistent-thumbnail/offscreen-canvas fix for normal Library browsing.
+
+### Import no longer depends on thumbnail rendering
+
+- **Files → Import files** now persists the real PDF/document before any thumbnail work.
+- The direct multi-PDF critical path is: open PDF.js from the selected File → read page metadata → destroy PDF.js/revoke the blob URL → persist the source → persist the document → cleanup/yield → next PDF.
+- No first-page render occurs inside that batch loop. A thumbnail failure therefore cannot stop later PDFs from entering the Library.
+- ZIP PDF import reuses the same per-PDF critical path; JSZip still holds the archive itself in memory, so direct multi-PDF import remains the first stress test.
+
+### Thumbnail generation is now lower priority and bounded
+
+- Missing/stale thumbnails still backfill automatically from Files, one at a time.
+- If a card has scrolled away before its queued turn arrives, that thumbnail job is dropped rather than decoding a PDF nobody can currently see. It will regenerate when the card becomes visible again.
+- After a thumbnail is generated, Workbench waits across two animation frames plus **500 ms** before allowing the next backfill render, giving WebKit substantially more time to reclaim PDF.js/image resources.
+- Closed Library PDFs are rendered for thumbnails with a **temporary PDF.js document that never enters the normal live `state.sources` cache**. It is destroyed immediately afterward.
+- Thumbnail-only PDF.js work uses `canvasMaxAreaInBytes = 4 MiB` so large embedded scan images can be downsampled in the PDF.js worker before reaching the tiny ~300×220 preview surface. `maxImageSize = 13,000,000` pixels is an additional last-resort ceiling for unusually huge embedded images. These limits affect only derived Library thumbnails, never the actual PDF or normal Viewer rendering.
+- Persistent thumbnail records continue to carry `documentModifiedAt` + `generatedAt`; a thumbnail is reused only when its document timestamp still matches.
 
 ## Test priority
 
-1. Force-quit the prior PWA and launch 5.8.20.
-2. Use Files → Import files to import the remaining/direct set of PDFs that restarted 5.8.19. Watch whether all files complete.
-3. If the PWA restarts, immediately save Diagnostics; the header should contain an `importCheckpoint` identifying the file and phase.
-4. Confirm the imported files can still be freely scrolled in Files using stored thumbnails.
-5. Only after direct import is stable, retry the 23-PDF ZIP.
+1. Force-quit the prior PWA and launch 5.8.21.
+2. Use **Files → Import files** on the same 26-PDF set. The key test is whether **all 26 documents enter the Library** without a restart.
+3. After import completes, stay in Files and let the visible thumbnails backfill. Scroll gradually through the new files. A missing preview may appear briefly while its low-priority thumbnail is generated.
+4. If the PWA restarts during import, immediately save Diagnostics; the surviving checkpoint should now be one of `open-pdf`, `destroy-pdfjs`, `persist-source`, `persist-document`, `cleanup`, or `file-complete`—not `thumbnail`.
+5. If import completes but Files later restarts while thumbnails are backfilling, save Diagnostics immediately; that would isolate the remaining issue to low-priority preview generation rather than import itself.
+6. Only after direct import is stable, retry the PDF ZIP.
 
 ---
 
