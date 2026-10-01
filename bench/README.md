@@ -1,6 +1,10 @@
-# PDF Workbench — Milestone 5.8.21 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench 5.8.22-exp
 
-## 5.8.21 decoupled import + bounded thumbnail backfill
+5.8.22 is a grading-memory revision: Library documents can remain logically Open without eagerly retaining a PDF.js source for every student. Persisted PDF sources load on demand for visible documents and inactive sources are released after document switches. Library thumbnail generation also preflights oversized embedded scan images and caches a Preview unavailable marker instead of repeatedly retrying scanner-heavy PDFs.
+
+# PDF Workbench — Milestone 5.8.22 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.8.22 decoupled import + bounded thumbnail backfill
 
 Two independent 5.8.20 iPad process restarts isolated the remaining large-import failure to thumbnail generation, but **not** to one bad PDF:
 
@@ -27,7 +31,7 @@ The different files plus identical phase show that first-page preview rendering 
 
 ## Test priority
 
-1. Force-quit the prior PWA and launch 5.8.21.
+1. Force-quit the prior PWA and launch 5.8.22.
 2. Use **Files → Import files** on the same 26-PDF set. The key test is whether **all 26 documents enter the Library** without a restart.
 3. After import completes, stay in Files and let the visible thumbnails backfill. Scroll gradually through the new files. A missing preview may appear briefly while its low-priority thumbnail is generated.
 4. If the PWA restarts during import, immediately save Diagnostics; the surviving checkpoint should now be one of `open-pdf`, `destroy-pdfjs`, `persist-source`, `persist-document`, `cleanup`, or `file-complete`—not `thumbnail`.

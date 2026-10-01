@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.21';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.22';
 
-const APP_VERSION = '5.8.21';
+const APP_VERSION = '5.8.22';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -17,6 +17,8 @@ const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 const LIBRARY_THUMBNAIL_CANVAS_MAX_AREA_BYTES = 4 * 1024 * 1024;
 const LIBRARY_THUMBNAIL_MAX_IMAGE_PIXELS = 13_000_000;
 const LIBRARY_THUMBNAIL_RECOVERY_DELAY_MS = 500;
+const LIBRARY_SOURCE_RESIDENCY_RELEASE_DELAY_MS = 450;
+
 
 const LIBRARY_DB_NAME = 'pdf-workbench-library';
 const LIBRARY_DB_VERSION = 5;
@@ -161,6 +163,8 @@ const state = {
   libraryPreviewObserver: null,
   libraryThumbnailJobs: new Map(),
   libraryThumbnailBackfillTail: Promise.resolve(),
+  librarySourceResidencyTimer: null,
+  librarySourceResidencyPending: new Set(),
   pendingFolderMove: null,
   pendingBackupImportMode: 'replace',
   libraryPersistTimer: null,
@@ -1528,8 +1532,11 @@ async function reopenLibraryDocument(docId, options={}) {
   const record = state.libraryRecords.get(docId) || await libraryGet('documents', docId);
   if (!record) throw new Error('That Library document is no longer available.');
   if (record.trashedAt) throw new Error('That document is in Trash. Restore it before opening.');
-  const sourceIds = pagesReferencedSourceIds(record.pages || []);
-  for (const sourceId of sourceIds) await ensureLibrarySourceLoaded(sourceId);
+  // Opening a Library document hydrates only Workbench's lightweight page and
+  // annotation state. Its persisted PDF/image source is loaded on demand when
+  // that document actually needs to render. This lets a grading session keep
+  // dozens of student documents logically Open without keeping dozens of
+  // PDF.js documents/workers/image caches resident at the same time.
   // Two rapid Open actions (or an Open racing startup restoration) can both
   // pass the first already-open check before source hydration yields. Recheck
   // after the asynchronous work so only one in-memory object with this Library
@@ -7795,6 +7802,64 @@ function releaseSourceIfUnused(sourceId, options={}) {
   return destroyed && typeof destroyed.then === 'function' ? destroyed.catch(() => {}) : null;
 }
 
+function documentSourceIds(doc) {
+  return doc ? pagesReferencedSourceIds(doc.pages || []) : new Set();
+}
+function visibleDocumentIdsForSourceResidency() {
+  const ids = new Set();
+  if (state.splitView && (state.workspaceMode === 'view' || state.presentation)) {
+    for (const pane of Object.values(state.splitPanes)) if (pane?.documentId) ids.add(pane.documentId);
+  } else if (state.currentDocumentId) {
+    ids.add(state.currentDocumentId);
+  }
+  return ids;
+}
+function sourceNeededByVisibleDocument(sourceId) {
+  if (!sourceId) return false;
+  for (const docId of visibleDocumentIdsForSourceResidency()) {
+    const doc = documentById(docId);
+    if (doc && documentSourceIds(doc).has(sourceId)) return true;
+  }
+  return false;
+}
+async function releasePersistedPdfSourceMemory(sourceId, reason='inactive-document') {
+  const source = state.sources.get(sourceId);
+  if (!source || source.type !== 'pdf' || !source.libraryPersisted) return false;
+  if (sourceNeededByVisibleDocument(sourceId) || sourceUsedByTemplates(sourceId)) return false;
+  try { await source.pdf?.cleanup?.(); } catch {}
+  try { await source.pdf?.destroy?.(); } catch {}
+  try { if (source.url) URL.revokeObjectURL(source.url); } catch {}
+  state.sources.delete(sourceId);
+  addInkDiagnostic('library-source-memory-released', null, {
+    sourceId,
+    reason,
+    remainingSources: state.sources.size,
+  });
+  return true;
+}
+function scheduleInactivePdfSourceRelease(sourceIds, reason='document-switch') {
+  for (const sourceId of sourceIds || []) if (sourceId) state.librarySourceResidencyPending.add(sourceId);
+  if (!state.librarySourceResidencyPending.size) return;
+  if (state.librarySourceResidencyTimer) clearTimeout(state.librarySourceResidencyTimer);
+  const attempt = async () => {
+    state.librarySourceResidencyTimer = null;
+    // Do not destroy a PDF.js source underneath a still-running viewer render.
+    // Try again once the small render queue has drained.
+    if (renderQueue.active || renderQueue.jobs.length) {
+      state.librarySourceResidencyTimer = setTimeout(attempt, LIBRARY_SOURCE_RESIDENCY_RELEASE_DELAY_MS);
+      return;
+    }
+    const pending = [...state.librarySourceResidencyPending];
+    state.librarySourceResidencyPending.clear();
+    for (const sourceId of pending) await releasePersistedPdfSourceMemory(sourceId, reason);
+    // A document switch can occur while awaited destruction is finishing.
+    if (state.librarySourceResidencyPending.size && !state.librarySourceResidencyTimer) {
+      state.librarySourceResidencyTimer = setTimeout(attempt, LIBRARY_SOURCE_RESIDENCY_RELEASE_DELAY_MS);
+    }
+  };
+  state.librarySourceResidencyTimer = setTimeout(attempt, LIBRARY_SOURCE_RESIDENCY_RELEASE_DELAY_MS);
+}
+
 function removeDocument(docId) {
   const index = state.documents.findIndex(d => d.id === docId);
   if (index < 0) return Promise.resolve();
@@ -7831,6 +7896,8 @@ function removeDocument(docId) {
 
 function loadDocumentState(docId, rerender=true) {
   if (docId === state.currentDocumentId && currentDocument()) return;
+  const previousDoc = currentDocument();
+  const previousSourceIds = previousDoc ? [...documentSourceIds(previousDoc)] : [];
   if (state.annotationSelection?.ids?.size) clearAnnotationSelection(true);
   state.selectionGesture = null;
   saveCurrentDocumentState();
@@ -7859,6 +7926,10 @@ function loadDocumentState(docId, rerender=true) {
     setStatus(`Switched to ${doc.name}`);
   }
   checkpointWorkspaceNow();
+  // Keep the previous student's persisted PDF alive only until the viewer has
+  // finished any in-flight render from the switch. If it is no longer visible
+  // (or visible in the other Split pane), release its PDF.js working set.
+  scheduleInactivePdfSourceRelease(previousSourceIds, 'document-switch');
 }
 
 
@@ -9995,7 +10066,11 @@ function libraryRecordModifiedStamp(record) {
   return Number(record?.modifiedAt || record?.createdAt || 0) || 0;
 }
 function libraryThumbnailMatchesRecord(thumbnail, record) {
-  return !!thumbnail?.data && Number(thumbnail.documentModifiedAt || 0) === libraryRecordModifiedStamp(record);
+  return !!thumbnail && (!!thumbnail.data || thumbnail.unavailable === true)
+    && Number(thumbnail.documentModifiedAt || 0) === libraryRecordModifiedStamp(record);
+}
+function libraryThumbnailUnavailableForRecord(thumbnail, record) {
+  return libraryThumbnailMatchesRecord(thumbnail, record) && thumbnail.unavailable === true;
 }
 function releaseLibraryPreviewCanvas(canvas) {
   if (!canvas) return;
@@ -10041,6 +10116,74 @@ async function drawStoredLibraryThumbnail(thumbnail, canvas) {
     URL.revokeObjectURL(url);
   }
 }
+function drawUnavailableLibraryThumbnail(thumbnail, canvas) {
+  if (!canvas?.isConnected || canvas.dataset.libraryPreviewVisible !== 'true') return false;
+  const width = 220, height = 154;
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext('2d', { alpha:false });
+  ctx.fillStyle = '#f5f5f5';
+  ctx.fillRect(0, 0, width, height);
+  ctx.strokeStyle = '#c6c6c6';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(1, 1, width - 2, height - 2);
+  ctx.fillStyle = '#666';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.font = '600 18px system-ui, sans-serif';
+  ctx.fillText('PDF', width / 2, height / 2 - 10);
+  ctx.font = '12px system-ui, sans-serif';
+  ctx.fillText('Preview unavailable', width / 2, height / 2 + 18);
+  canvas.dataset.rendered = 'true';
+  canvas.dataset.libraryPreviewStamp = String(thumbnail?.documentModifiedAt || 0);
+  canvas.closest('.library-document-preview')?.classList.add('preview-error');
+  return true;
+}
+function findLargeRawPdfImage(data, maxPixels=LIBRARY_THUMBNAIL_MAX_IMAGE_PIXELS) {
+  if (!data) return null;
+  try {
+    const bytes = data instanceof Uint8Array ? data : new Uint8Array(data);
+    // PDF image dictionaries are ASCII even when their streams are compressed.
+    // This lightweight scan avoids invoking PDF.js at all for scanner pages whose
+    // raw image dimensions already exceed the thumbnail safety ceiling.
+    const text = new TextDecoder('latin1').decode(bytes);
+    const marker = /\/Subtype\s*\/Image/g;
+    let match;
+    while ((match = marker.exec(text))) {
+      const start = Math.max(0, match.index - 700);
+      const end = Math.min(text.length, match.index + 1100);
+      const chunk = text.slice(start, end);
+      const wm = chunk.match(/\/Width\s+(\d+)/);
+      const hm = chunk.match(/\/Height\s+(\d+)/);
+      if (!wm || !hm) continue;
+      const width = Number(wm[1]), height = Number(hm[1]);
+      const pixels = width * height;
+      if (Number.isFinite(pixels) && pixels > maxPixels) return { width, height, pixels };
+    }
+  } catch {}
+  return null;
+}
+async function persistUnavailableLibraryThumbnail(record, reason, details={}) {
+  const latest = state.libraryRecords.get(record.id) || record;
+  const marker = {
+    id: latest.id,
+    schemaVersion: 1,
+    documentModifiedAt: libraryRecordModifiedStamp(latest),
+    generatedAt: Date.now(),
+    unavailable: true,
+    reason: String(reason || 'preview unavailable').slice(0, 240),
+    details,
+  };
+  await libraryPut('thumbnails', marker);
+  addInkDiagnostic('library-thumbnail-unavailable', null, {
+    documentId: latest.id,
+    documentModifiedAt: marker.documentModifiedAt,
+    reason: marker.reason,
+    ...details,
+  });
+  return marker;
+}
+
 async function openLibraryPdfThumbnailSource(sourceId) {
   if (!sourceId || !state.pdfjs) throw new Error('The PDF engine is not available for Library thumbnail generation.');
   const record = await libraryGet('sources', sourceId);
@@ -10048,6 +10191,13 @@ async function openLibraryPdfThumbnailSource(sourceId) {
   let data = record.data || null;
   if (!data && record.blob instanceof Blob) data = await record.blob.arrayBuffer();
   if (!data) throw new Error(`Stored source ${sourceId} has no readable binary data.`);
+  const oversizedImage = findLargeRawPdfImage(data);
+  if (oversizedImage) {
+    const err = new Error(`First-page preview skipped: embedded image ${oversizedImage.width}×${oversizedImage.height} exceeds the thumbnail safety ceiling.`);
+    err.code = 'LIBRARY_THUMBNAIL_IMAGE_TOO_LARGE';
+    err.thumbnailDetails = oversizedImage;
+    throw err;
+  }
   const mimeType = record.mimeType || 'application/pdf';
   const blob = record.blob instanceof Blob ? record.blob : new Blob([data], { type:mimeType });
   const url = URL.createObjectURL(blob);
@@ -10187,7 +10337,17 @@ async function ensurePersistentLibraryThumbnail(record, { force=false }={}) {
       // time its serial queue slot arrives; it can regenerate when visible again.
       if (!libraryThumbnailPreviewWanted(latest.id)) return null;
     }
-    const thumbnail = await generatePersistentLibraryThumbnail(latest);
+    let thumbnail;
+    try {
+      thumbnail = await generatePersistentLibraryThumbnail(latest);
+    } catch (err) {
+      console.warn(`Could not generate Library thumbnail for ${latest?.name || latest?.id}`, err);
+      thumbnail = await persistUnavailableLibraryThumbnail(
+        latest,
+        err?.code || err?.message || 'thumbnail-generation-failed',
+        err?.thumbnailDetails || {},
+      );
+    }
     await libraryThumbnailRecoveryPause();
     return thumbnail;
   });
@@ -10220,13 +10380,17 @@ async function renderLibraryFirstPagePreview(record, canvas) {
   try {
     const stored = await libraryGet('thumbnails', record.id).catch(() => null);
     if (libraryThumbnailMatchesRecord(stored, record)) {
-      await drawStoredLibraryThumbnail(stored, canvas);
+      if (libraryThumbnailUnavailableForRecord(stored, record)) drawUnavailableLibraryThumbnail(stored, canvas);
+      else await drawStoredLibraryThumbnail(stored, canvas);
       return;
     }
     // Existing Libraries are backfilled lazily. Missing/stale previews are
     // generated one at a time so scrolling cannot open many PDFs concurrently.
     const thumbnail = await ensurePersistentLibraryThumbnail(record);
-    if (thumbnail && canvas.isConnected && canvas.dataset.libraryPreviewVisible === 'true') await drawStoredLibraryThumbnail(thumbnail, canvas);
+    if (thumbnail && canvas.isConnected && canvas.dataset.libraryPreviewVisible === 'true') {
+      if (libraryThumbnailUnavailableForRecord(thumbnail, record)) drawUnavailableLibraryThumbnail(thumbnail, canvas);
+      else await drawStoredLibraryThumbnail(thumbnail, canvas);
+    }
   } catch (err) {
     console.warn(`Could not render Library preview for ${record?.name || record?.id}`, err);
     if (canvas.isConnected && canvas.dataset.libraryPreviewVisible === 'true') canvas.closest('.library-document-preview')?.classList.add('preview-error');
@@ -15327,7 +15491,8 @@ async function renderViewerPage(page, stage, canvas, generation) {
 }
 
 async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxPixels=10_000_000, sourceOverride=null) {
-  const source = page.kind === 'generated' ? null : (sourceOverride || state.sources.get(page.sourceId));
+  let source = page.kind === 'generated' ? null : (sourceOverride || state.sources.get(page.sourceId));
+  if (page.kind !== 'generated' && !source && page.sourceId) source = await ensureLibrarySourceLoaded(page.sourceId);
   if (page.kind !== 'generated' && !source) throw new Error('Source file is no longer available.');
   let targetW = Math.max(1, Math.round(cssWidth * dpr));
   let targetH = Math.max(1, Math.round(cssHeight * dpr));
