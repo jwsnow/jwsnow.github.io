@@ -1,3 +1,55 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-01 — BASELINE 5.8.19-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.19-exp ZIP, not an older build.
+
+CURRENT STATUS / USER REPORTS
+- 5.8.18 View-mode Rename/text-entry focus fix was reported by the user to work; preserve it.
+- 5.8.15 live edge-label following / direct label dragging was reported to work great; preserve it.
+- 5.8.16 relationship-aware graph Copy/Paste/Duplicate remains the graph clipboard baseline.
+- 2026-09-29 Eraser-appeared-as-Hand report: Diagnostics immediately afterward did not show a Pencil gesture routed to Pan. All recorded Eraser Pencil contacts were accepted by Eraser; the apparent bad contact was absent from Workbench's event stream. Continue treating this as an iPad/WebKit watch item unless a future trace shows Workbench routing a pen contact incorrectly.
+
+WHY 5.8.19 EXISTS — LIBRARY / IMPORT MEMORY PRESSURE
+- On 2026-10-01 the user tried importing a ZIP containing 23 PDFs three times. Each attempt progressed partway, then the iPad PWA restarted. Diagnostics saved after the restarts showed fresh runtimes rather than a Workbench JavaScript exception.
+- A direct PDF import then also restarted, and Safari subsequently displayed “A problem occurred” / “A problem repeatedly occurred” while merely scrolling Files.
+- Repeated failed imports increased browser storage because PDFs successfully persisted before the process kill remained in the Library; retrying the same ZIP therefore created additional partial imports.
+- Code review found a real Files memory-pressure problem: each Library first-page preview lazily reopened the full stored PDF/PDF.js document and left that source in the global live source cache. Scrolling farther through Files could therefore accumulate more live PDFs. Several previews entering the viewport could also begin independently.
+- Library preview canvases also began with the browser default 300x150 backing store and, once rendered, remained expanded after scrolling away, allowing a long Files scroll to accumulate canvas backing-store memory.
+
+5.8.19 PERSISTENT FIRST-PAGE THUMBNAILS
+- Adds a dedicated IndexedDB `thumbnails` object store (Library DB version 5). Thumbnails are derived cache data, separate from editable document/source records.
+- Each thumbnail record is keyed by document ID and stores:
+  * `documentModifiedAt`: the Library document's `modifiedAt` timestamp at generation time;
+  * `generatedAt`: when the thumbnail itself was rendered;
+  * encoded JPEG bytes plus width/height/MIME metadata.
+- Files compares `thumbnail.documentModifiedAt` with the document's current `modifiedAt`. Exact match = use the stored thumbnail without opening the PDF. Missing/mismatch = regenerate and replace the thumbnail. This implements the user's requested date-modified validity check.
+- New PDF imports generate/store the first-page thumbnail during import. Existing Library documents need no destructive migration: their thumbnails are generated lazily the first time needed.
+- Missing/stale thumbnail generation is serialized one document at a time. Scrolling can no longer trigger multiple closed PDFs to be decoded concurrently for Library previews.
+- After a closed Library document's thumbnail is generated, its temporary PDF/image source is released from `state.sources`; PDF.js cleanup/destruction is awaited before the next serial thumbnail/import task proceeds.
+- Library cards start with 1x1 preview canvases. Only nearby cards expand. When a card leaves the observer margin, its canvas is returned to 1x1, bounding thumbnail canvas memory during long scrolling.
+- Permanent document/folder deletion, Empty Trash, full Library replacement, and Local Library purge remove/clear the corresponding derived thumbnails. Thumbnails are intentionally omitted from editable backups because they can always be regenerated.
+
+5.8.19 IMPORT MEMORY CHANGES
+- Files -> Import for PDFs now behaves as a true Library-management import: each PDF is imported/persisted, its thumbnail is generated, then its live PDF.js/source memory is released before the next PDF starts. Imported PDFs are not all left open in the active working set.
+- ZIP PDF import follows the same direct-to-Library path and awaits PDF.js cleanup between ZIP members. ZIP entries are materialized as Blob/File rather than retaining an additional explicit Uint8Array copy, and the loop yields briefly after each completed import so WebKit can reclaim decode buffers.
+- Opening PDFs from View/Pages retains the existing open-document behavior; this change is specifically for Files Library import.
+
+TEST / RECOVERY PRIORITY
+1. Before stress testing, use Files -> Sort -> Date modified and remove the partial duplicate imports from 2026-10-01. Move recent failed-import batches to Trash without long scrolling if possible; force-quit/reopen if the old build is unstable, then Empty Trash.
+2. Install/launch 5.8.19 and open Files. Existing visible documents should initially backfill thumbnails one at a time. Scroll through a large folder and confirm Safari no longer reports repeated page-process failures.
+3. Re-import the 23-PDF ZIP. Watch progress through all members. It should finish without restarting; each file should already have a persistent preview afterward.
+4. Repeat with several PDFs selected through Files -> Import files. They should be added to the Library without all becoming open documents.
+5. Modify page 1 of a document, let the Library save, return to Files, and confirm the thumbnail regenerates. Rename/move also changes document `modifiedAt`, so a cache refresh is expected even if the page image itself did not change.
+6. Reopen/close Workbench and revisit Files. Valid thumbnails should appear without reopening source PDFs.
+7. Regression-check View Rename, Pen/Eraser/Lasso, graph labels, graph Copy/Paste, PDF export, backup/restore, Trash, and Library sorting.
+
+LATEST DISTRIBUTION
+- `pdf-workbench-m5.8.19-exp.zip` is the code baseline for the next test.
+
+================================================================================
+PRIOR 5.8.18 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-09-28 — BASELINE 5.8.18-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

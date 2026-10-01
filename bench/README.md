@@ -1,3 +1,17 @@
+# PDF Workbench — Milestone 5.8.19 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## 5.8.19 persistent Library thumbnails + import/Files memory-pressure fix
+
+- Local Library first-page previews are now persisted in a dedicated IndexedDB `thumbnails` store instead of reopening the source PDF every time a file scrolls into view.
+- Every thumbnail record stores `documentModifiedAt`, copied from the Library document's `modifiedAt` when the thumbnail was generated. Files compares those values exactly; a missing or stale thumbnail is regenerated, while a matching thumbnail is drawn without loading the PDF.
+- New PDF imports generate and store their first-page thumbnail during import. Existing Library documents are backfilled lazily the first time their preview is needed.
+- Missing/stale thumbnail backfills are serialized one-at-a-time. Scrolling can no longer cause several closed PDFs to be decoded concurrently.
+- Closed Library-only PDF/image sources used for thumbnail generation are released after the thumbnail is persisted, and PDF.js destruction is awaited before the next serial backfill/import proceeds.
+- Library preview canvases begin at 1×1 and collapse back to 1×1 after leaving the nearby viewport, preventing a long Files scroll from accumulating hundreds of expanded canvas backing stores.
+- Files -> Import now sends PDFs directly to the Library one-by-one rather than leaving every imported PDF open in the active working set. ZIP PDF import likewise awaits cleanup between members and uses Blob extraction to avoid an extra long-lived Uint8Array copy.
+- Permanent document/folder deletion, Empty Trash, full Library replacement, and Library purge also remove/clear derived thumbnail records. Editable backups intentionally omit thumbnails because they are regenerable cache data.
+- 5.8.18 View-mode Rename/text-entry focus behavior, 5.8.16 relationship-aware graph Copy/Paste, and validated 5.8.15 edge-label behavior are otherwise unchanged.
+
 # PDF Workbench — Milestone 5.8.18 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 ## 5.8.18 View rename/text-entry focus fix

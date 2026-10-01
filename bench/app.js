@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.18';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.19';
 
-const APP_VERSION = '5.8.18';
+const APP_VERSION = '5.8.19';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -11,7 +11,7 @@ const PDFLIB_URL = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.esm
 const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 
 const LIBRARY_DB_NAME = 'pdf-workbench-library';
-const LIBRARY_DB_VERSION = 4;
+const LIBRARY_DB_VERSION = 5;
 const LIBRARY_SCHEMA_VERSION = 8;
 const LIBRARY_BACKUP_FORMAT_VERSION = 1;
 const SESSION_CHECKPOINT_KEY = 'pdfwb-session-checkpoint-v2';
@@ -151,6 +151,8 @@ const state = {
   libraryViewMode: safePref('pdfwb-library-view', 'grid', ['grid','list']),
   librarySortMode: safePref('pdfwb-library-sort', 'name', ['name','date']),
   libraryPreviewObserver: null,
+  libraryThumbnailJobs: new Map(),
+  libraryThumbnailBackfillTail: Promise.resolve(),
   pendingFolderMove: null,
   pendingBackupImportMode: 'replace',
   libraryPersistTimer: null,
@@ -291,6 +293,7 @@ function openLibraryDatabaseOnce(timeoutMs=4500) {
         if (!db.objectStoreNames.contains('folders')) db.createObjectStore('folders', { keyPath: 'id' });
         if (!db.objectStoreNames.contains('assets')) db.createObjectStore('assets', { keyPath: 'id' });
         if (!db.objectStoreNames.contains('assetFolders')) db.createObjectStore('assetFolders', { keyPath: 'id' });
+        if (!db.objectStoreNames.contains('thumbnails')) db.createObjectStore('thumbnails', { keyPath: 'id' });
       };
       request.onsuccess = () => finishResolve(request.result);
       request.onerror = () => finishReject(request.error || new Error('IndexedDB open failed'));
@@ -2046,7 +2049,9 @@ async function createSelectedEditableDocumentsBackup() {
 
 async function replaceLibraryStoresAtomically({ documents, sources, folders, assets, assetFolders, templatesMeta, sessionMeta }) {
   if (!state.libraryDb) throw new Error('Local Library is not ready.');
-  const tx = state.libraryDb.transaction(['documents','sources','folders','assets','assetFolders','meta'], 'readwrite');
+  const stores = ['documents','sources','folders','assets','assetFolders','meta'];
+  if (state.libraryDb.objectStoreNames.contains('thumbnails')) stores.push('thumbnails');
+  const tx = state.libraryDb.transaction(stores, 'readwrite');
   const done = idbTransactionDone(tx);
   const documentStore = tx.objectStore('documents');
   const sourceStore = tx.objectStore('sources');
@@ -2055,6 +2060,7 @@ async function replaceLibraryStoresAtomically({ documents, sources, folders, ass
   const assetFolderStore = tx.objectStore('assetFolders');
   const metaStore = tx.objectStore('meta');
   documentStore.clear(); sourceStore.clear(); folderStore.clear(); assetStore.clear(); assetFolderStore.clear(); metaStore.clear();
+  if (stores.includes('thumbnails')) tx.objectStore('thumbnails').clear();
   for (const value of sources) sourceStore.put(value);
   for (const value of folders) folderStore.put(value);
   for (const value of documents) documentStore.put(value);
@@ -2438,7 +2444,11 @@ async function importPdfFileDirectToLibrary(file, folderId) {
     doc.needsExport = false; doc.lastExportedAt = Date.now(); doc.modifiedAt = Date.now();
     saveCurrentDocumentState({ readViewDom:false });
     await persistLibraryNow({ readViewDom:false });
-    removeDocument(doc.id);
+    const persistedRecord = state.libraryRecords.get(doc.id) || serializeDocumentForLibrary(doc);
+    await ensurePersistentLibraryThumbnail(persistedRecord, { force:true });
+    // Direct-to-Library imports must not keep the just-imported PDF/PDF.js
+    // source alive. Await cleanup before the next ZIP member begins.
+    await removeDocument(doc.id);
     state.fileSelected = previousFileSelection;
     state.fileSelectionInitialized = previousFileSelectionInitialized;
     state.combineOrder = previousCombineOrder;
@@ -2447,7 +2457,7 @@ async function importPdfFileDirectToLibrary(file, folderId) {
     state.workspaceMode = previousWorkspace;
     return doc.id;
   } catch (err) {
-    if (documentById(doc.id)) removeDocument(doc.id);
+    if (documentById(doc.id)) await removeDocument(doc.id);
     state.fileSelected = previousFileSelection;
     state.fileSelectionInitialized = previousFileSelectionInitialized;
     state.combineOrder = previousCombineOrder;
@@ -2483,10 +2493,12 @@ async function importPdfDirectoryZip(file) {
       }
       completed++;
       if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Importing PDF ${completed} of ${sorted.length}: ${filename}`;
-      const bytes = await entry.async('uint8array');
-      const pdfFile = new File([bytes], filename, { type:'application/pdf' });
+      const pdfBlob = await entry.async('blob');
+      const pdfFile = new File([pdfBlob], filename, { type:'application/pdf' });
       await importPdfFileDirectToLibrary(pdfFile, parentId);
-      await new Promise(resolve => setTimeout(resolve, 0));
+      // The imported PDF source and PDF.js proxy have been destroyed before
+      // continuing. Yield briefly so WebKit can reclaim detached decode buffers.
+      await new Promise(resolve => setTimeout(resolve, 24));
     }
     state.workspaceMode='export'; await refreshLibraryRecords(); renderAll({saveState:false}); renderLibraryDocumentList();
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Imported ${completed} PDF${completed===1?'':'s'} and recreated their folder structure.`;
@@ -7565,29 +7577,36 @@ function sourceUsedByTemplates(sourceId, excludingTemplateId=null) {
 }
 
 function releaseSourceIfUnused(sourceId, options={}) {
-  if (!sourceId) return;
-  if (sourceUsedByDocuments(sourceId, options.excludingDocumentId || null)) return;
-  if (sourceUsedByTemplates(sourceId, options.excludingTemplateId || null)) return;
+  if (!sourceId) return null;
+  if (sourceUsedByDocuments(sourceId, options.excludingDocumentId || null)) return null;
+  if (sourceUsedByTemplates(sourceId, options.excludingTemplateId || null)) return null;
   const source = state.sources.get(sourceId);
-  if (!source) return;
+  if (!source) return null;
   // An Asset can lazy-load a source again from IndexedDB, so a persisted Asset
   // should not keep image binaries/decoded images resident after the document
   // using them closes. During the brief pre-persistence window, however, keep
   // the source alive so a freshly copied mixed snippet cannot lose its image.
-  if (sourceUsedByAssets(sourceId, options.excludingAssetId || null) && !source.libraryPersisted) return;
+  if (sourceUsedByAssets(sourceId, options.excludingAssetId || null) && !source.libraryPersisted) return null;
   if (source.url) URL.revokeObjectURL(source.url);
-  try { source.pdf?.destroy?.(); } catch {}
+  try { source.pdf?.cleanup?.(); } catch {}
+  let destroyed = null;
+  try { destroyed = source.pdf?.destroy?.() || null; } catch {}
   state.sources.delete(sourceId);
+  return destroyed && typeof destroyed.then === 'function' ? destroyed.catch(() => {}) : null;
 }
 
 function removeDocument(docId) {
   const index = state.documents.findIndex(d => d.id === docId);
-  if (index < 0) return;
+  if (index < 0) return Promise.resolve();
   if (state.annotationSelection?.documentId === docId) clearAnnotationSelection(true);
   state.selectionGesture = null;
   const doc = state.documents[index];
   const sourceIds = pagesReferencedSourceIds(doc.pages);
-  for (const sourceId of sourceIds) releaseSourceIfUnused(sourceId, { excludingDocumentId: docId });
+  const sourceReleasePromises = [];
+  for (const sourceId of sourceIds) {
+    const release = releaseSourceIfUnused(sourceId, { excludingDocumentId: docId });
+    if (release) sourceReleasePromises.push(release);
+  }
   state.documents.splice(index, 1);
   for (const pane of Object.values(state.splitPanes)) {
     pane.views.delete(docId);
@@ -7607,6 +7626,7 @@ function removeDocument(docId) {
       state.future = [];
     }
   }
+  return sourceReleasePromises.length ? Promise.allSettled(sourceReleasePromises) : Promise.resolve();
 }
 
 function loadDocumentState(docId, rerender=true) {
@@ -8080,8 +8100,25 @@ async function openFiles(fileList, options={}) {
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     setStatus(`Opening ${file.name} (${i + 1} of ${files.length})…`, true);
-    const supported = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf') || file.type.startsWith('image/');
+    const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+    const supported = isPdf || file.type.startsWith('image/');
     if (!supported) { setStatus(`Skipped unsupported file: ${file.name}`); continue; }
+    // Files -> Import is a Library-management operation. Import PDFs one at a
+    // time directly to IndexedDB, persist their thumbnail, and close/release the
+    // live PDF.js source before the next file. This prevents a multi-file import
+    // from leaving every imported PDF open in memory.
+    if (invokedFromFiles && isPdf) {
+      try {
+        const importedId = await importPdfFileDirectToLibrary(file, destinationFolderId);
+        const importedRecord = state.libraryRecords.get(importedId);
+        opened++;
+        pagesAdded += importedRecord?.pages?.length || 0;
+      } catch (err) {
+        console.error(err);
+        setStatus(`Could not import ${file.name}: ${err.message || err}`);
+      }
+      continue;
+    }
     const doc = createDocument(file.name);
     doc.folderId = destinationFolderId;
     doc.name = uniqueLibraryDocumentName(file.name, destinationFolderId, doc.id);
@@ -8097,6 +8134,8 @@ async function openFiles(fileList, options={}) {
       doc.modifiedAt = Date.now();
       saveCurrentDocumentState({ readViewDom: false });
       await persistLibraryNow({ readViewDom: false });
+      const persistedRecord = state.libraryRecords.get(doc.id) || serializeDocumentForLibrary(doc);
+      await ensurePersistentLibraryThumbnail(persistedRecord, { force:true });
       opened++;
       pagesAdded += added;
     } catch (err) {
@@ -8114,7 +8153,8 @@ async function openFiles(fileList, options={}) {
   if (opened) {
     renderLibraryDocumentList();
     const where = invokedFromFiles && destinationFolderId ? ` into ${libraryFolderById(destinationFolderId)?.name || 'the current folder'}` : '';
-    setStatus(`Opened ${opened} document${opened === 1 ? '' : 's'}${where} (${pagesAdded} page${pagesAdded === 1 ? '' : 's'})`);
+    const verb = invokedFromFiles ? 'Imported' : 'Opened';
+    setStatus(`${verb} ${opened} document${opened === 1 ? '' : 's'}${where} (${pagesAdded} page${pagesAdded === 1 ? '' : 's'})`);
   }
   els.fileInput.value = '';
 }
@@ -9744,39 +9784,173 @@ function renderLibraryBreadcrumb() {
   renderFolderBreadcrumb(els.libraryBreadcrumb,{rootLabel:'Library',currentFolderId:state.libraryFolderId,path:libraryFolderPath(),setFolder:setLibraryFolder});
 }
 
+function libraryRecordModifiedStamp(record) {
+  return Number(record?.modifiedAt || record?.createdAt || 0) || 0;
+}
+function libraryThumbnailMatchesRecord(thumbnail, record) {
+  return !!thumbnail?.data && Number(thumbnail.documentModifiedAt || 0) === libraryRecordModifiedStamp(record);
+}
+function releaseLibraryPreviewCanvas(canvas) {
+  if (!canvas) return;
+  // Nearby Library previews get real backing stores only while they are near the
+  // viewport. Shrinking offscreen canvases prevents a long Files scroll from
+  // accumulating hundreds of decoded thumbnail surfaces in iPad/WebKit memory.
+  canvas.width = 1;
+  canvas.height = 1;
+  canvas.style.width = '';
+  canvas.style.height = '';
+  delete canvas.dataset.rendered;
+  delete canvas.dataset.libraryPreviewStamp;
+  canvas.closest('.library-document-preview')?.classList.remove('preview-error');
+}
+async function drawStoredLibraryThumbnail(thumbnail, canvas) {
+  if (!thumbnail?.data || !canvas?.isConnected || canvas.dataset.libraryPreviewVisible !== 'true') return false;
+  const blob = new Blob([thumbnail.data], { type: thumbnail.mimeType || 'image/jpeg' });
+  const url = URL.createObjectURL(blob);
+  try {
+    const image = new Image();
+    image.decoding = 'async';
+    await new Promise((resolve, reject) => {
+      image.onload = resolve;
+      image.onerror = () => reject(new Error('Stored Library thumbnail could not be decoded.'));
+      image.src = url;
+    });
+    if (!canvas.isConnected || canvas.dataset.libraryPreviewVisible !== 'true') return false;
+    const width = Math.max(1, Number(thumbnail.width) || image.naturalWidth || image.width || 1);
+    const height = Math.max(1, Number(thumbnail.height) || image.naturalHeight || image.height || 1);
+    canvas.width = width;
+    canvas.height = height;
+    canvas.style.width = '';
+    canvas.style.height = '';
+    const ctx = canvas.getContext('2d', { alpha:false });
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, width, height);
+    ctx.drawImage(image, 0, 0, width, height);
+    canvas.dataset.rendered = 'true';
+    canvas.dataset.libraryPreviewStamp = String(thumbnail.documentModifiedAt || 0);
+    canvas.closest('.library-document-preview')?.classList.remove('preview-error');
+    return true;
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
+async function generatePersistentLibraryThumbnail(record) {
+  const current = state.libraryRecords.get(record.id) || record;
+  const page = current?.pages?.[0];
+  if (!page) return null;
+  const sourceIds = [...pageReferencedSourceIds(page)];
+  const canvas = document.createElement('canvas');
+  try {
+    for (const sourceId of sourceIds) {
+      const source = state.sources.get(sourceId) || await ensureLibrarySourceLoaded(sourceId);
+      if (source?.type === 'image') await getSourceImage(source);
+    }
+    const { width:bw, height:bh } = pageDisplayDimensions(page);
+    const scale = Math.min(300 / Math.max(1, bw), 220 / Math.max(1, bh));
+    const cssWidth = Math.max(1, Math.round(bw * scale));
+    const cssHeight = Math.max(1, Math.round(bh * scale));
+    await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 1, 90_000);
+    if (page.kind !== 'generated' && canvasLooksBlank(canvas)) {
+      await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 0.82, 70_000);
+    }
+    drawGraphObjectsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
+    drawPageAnnotationsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
+    const blob = await new Promise((resolve, reject) => canvas.toBlob(
+      value => value ? resolve(value) : reject(new Error('Could not encode Library thumbnail.')),
+      'image/jpeg',
+      0.78,
+    ));
+    const data = await blob.arrayBuffer();
+    const latest = state.libraryRecords.get(current.id) || current;
+    const documentModifiedAt = libraryRecordModifiedStamp(latest);
+    const thumbnail = {
+      id: current.id,
+      schemaVersion: 1,
+      documentModifiedAt,
+      generatedAt: Date.now(),
+      mimeType: blob.type || 'image/jpeg',
+      width: canvas.width,
+      height: canvas.height,
+      data,
+    };
+    await libraryPut('thumbnails', thumbnail);
+    addInkDiagnostic('library-thumbnail-generated', null, { documentId:current.id, documentModifiedAt, bytes:data.byteLength, width:canvas.width, height:canvas.height });
+    return thumbnail;
+  } finally {
+    canvas.width = canvas.height = 1;
+    // A closed Library document should not remain in the live PDF/image source
+    // cache merely because its thumbnail was generated. Open documents/templates
+    // remain protected by releaseSourceIfUnused(). Await any PDF.js destruction
+    // before the next serial backfill job begins.
+    const releases = sourceIds.map(sourceId => releaseSourceIfUnused(sourceId)).filter(Boolean);
+    if (releases.length) await Promise.allSettled(releases);
+  }
+}
+async function ensurePersistentLibraryThumbnail(record, { force=false }={}) {
+  if (!record?.id || !state.libraryDb?.objectStoreNames.contains('thumbnails')) return null;
+  if (!force) {
+    const stored = await libraryGet('thumbnails', record.id).catch(() => null);
+    if (libraryThumbnailMatchesRecord(stored, record)) return stored;
+  }
+  if (state.libraryThumbnailJobs.has(record.id)) return state.libraryThumbnailJobs.get(record.id);
+  const job = state.libraryThumbnailBackfillTail.catch(() => {}).then(async () => {
+    const latest = state.libraryRecords.get(record.id) || record;
+    if (!force) {
+      const stored = await libraryGet('thumbnails', latest.id).catch(() => null);
+      if (libraryThumbnailMatchesRecord(stored, latest)) return stored;
+    }
+    return generatePersistentLibraryThumbnail(latest);
+  });
+  state.libraryThumbnailJobs.set(record.id, job);
+  state.libraryThumbnailBackfillTail = job.catch(() => {});
+  try { return await job; }
+  finally { if (state.libraryThumbnailJobs.get(record.id) === job) state.libraryThumbnailJobs.delete(record.id); }
+}
 function ensureLibraryPreviewObserver() {
   if (state.libraryPreviewObserver || !('IntersectionObserver' in window)) return state.libraryPreviewObserver;
   state.libraryPreviewObserver = new IntersectionObserver(entries => {
     for (const entry of entries) {
-      if (!entry.isIntersecting) continue;
       const canvas = entry.target;
-      state.libraryPreviewObserver.unobserve(canvas);
-      const record = activeLibraryRecords().find(item => item.id === canvas.dataset.libraryPreview) || state.libraryRecords.get(canvas.dataset.libraryPreview);
-      if (record) renderLibraryFirstPagePreview(record, canvas);
+      if (entry.isIntersecting) {
+        canvas.dataset.libraryPreviewVisible = 'true';
+        const record = activeLibraryRecords().find(item => item.id === canvas.dataset.libraryPreview) || state.libraryRecords.get(canvas.dataset.libraryPreview);
+        if (record) renderLibraryFirstPagePreview(record, canvas);
+      } else {
+        canvas.dataset.libraryPreviewVisible = 'false';
+        releaseLibraryPreviewCanvas(canvas);
+      }
     }
   }, { root: null, rootMargin: '240px 0px', threshold: 0.01 });
   return state.libraryPreviewObserver;
 }
 async function renderLibraryFirstPagePreview(record, canvas) {
-  const page = record?.pages?.[0];
-  if (!page || !canvas?.isConnected) return;
+  if (!record?.pages?.[0] || !canvas?.isConnected || canvas.dataset.libraryPreviewVisible !== 'true') return;
+  const expectedStamp = libraryRecordModifiedStamp(record);
+  if (canvas.dataset.rendered === 'true' && Number(canvas.dataset.libraryPreviewStamp || 0) === expectedStamp) return;
   try {
-    for (const sourceId of pageReferencedSourceIds(page)) {
-      const source=state.sources.get(sourceId) || await ensureLibrarySourceLoaded(sourceId);
-      if (source?.type==='image') await getSourceImage(source);
+    const stored = await libraryGet('thumbnails', record.id).catch(() => null);
+    if (libraryThumbnailMatchesRecord(stored, record)) {
+      await drawStoredLibraryThumbnail(stored, canvas);
+      return;
     }
-    if (!canvas.isConnected) return;
-    await renderCompactPagePreview(page, canvas);
+    // Existing Libraries are backfilled lazily. Missing/stale previews are
+    // generated one at a time so scrolling cannot open many PDFs concurrently.
+    const thumbnail = await ensurePersistentLibraryThumbnail(record);
+    if (thumbnail && canvas.isConnected && canvas.dataset.libraryPreviewVisible === 'true') await drawStoredLibraryThumbnail(thumbnail, canvas);
   } catch (err) {
     console.warn(`Could not render Library preview for ${record?.name || record?.id}`, err);
-    canvas.closest('.library-document-preview')?.classList.add('preview-error');
+    if (canvas.isConnected && canvas.dataset.libraryPreviewVisible === 'true') canvas.closest('.library-document-preview')?.classList.add('preview-error');
   }
 }
 function queueLibraryPreview(record, canvas) {
   canvas.dataset.libraryPreview = record.id;
+  canvas.dataset.libraryPreviewVisible = 'false';
   const observer = ensureLibraryPreviewObserver();
   if (observer) observer.observe(canvas);
-  else requestAnimationFrame(() => renderLibraryFirstPagePreview(record, canvas));
+  else {
+    canvas.dataset.libraryPreviewVisible = 'true';
+    requestAnimationFrame(() => renderLibraryFirstPagePreview(record, canvas));
+  }
 }
 
 function requestLibraryName({ title='Name', help='', suggested='', saveLabel='Save' }={}) {
@@ -10138,8 +10312,9 @@ async function permanentlyDeleteLibraryFolderTree(folderId) {
       await exportPdfRecordsToZip(cleanRecords,cleanFolders,`${zipSafeSegment(root.name,'Folder')}-before-delete.zip`,folderId);
     }
     const sourceIds=pagesReferencedSourceIds(records.flatMap(record=>record.pages||[]));
-    const tx=state.libraryDb.transaction(['documents','folders'],'readwrite'); const done=idbTransactionDone(tx); const ds=tx.objectStore('documents'),fs=tx.objectStore('folders');
-    for(const record of records){ds.delete(record.id);state.libraryRecords.delete(record.id);}
+    const deleteStores=['documents','folders']; if(state.libraryDb.objectStoreNames.contains('thumbnails')) deleteStores.push('thumbnails');
+    const tx=state.libraryDb.transaction(deleteStores,'readwrite'); const done=idbTransactionDone(tx); const ds=tx.objectStore('documents'),fs=tx.objectStore('folders'),ts=deleteStores.includes('thumbnails')?tx.objectStore('thumbnails'):null;
+    for(const record of records){ds.delete(record.id);ts?.delete(record.id);state.libraryRecords.delete(record.id);}
     for(const folder of folders){fs.delete(folder.id);state.libraryFolders.delete(folder.id);}
     await done; await removeUnusedPersistentSources(sourceIds); renderLibraryDocumentList(); updateLibraryStorageSummary(); setStatus(`Permanently deleted folder ${root.name}`);
   }catch(err){console.error(err);setStatus(`Could not permanently delete folder: ${err?.message||err}`);}
@@ -10170,7 +10345,11 @@ function createLibraryDocumentRow(record) {
   const open = isDocumentOpen(record.id);
   const row = document.createElement('div'); row.className = `library-document-row library-file-row${open ? ' open' : ''}`; row.dataset.documentId = record.id;
   const preview = document.createElement('div'); preview.className = 'library-document-preview library-open-target'; preview.tabIndex=0; preview.setAttribute('role','button'); preview.setAttribute('aria-label',`Open ${record.name}`);
-  const canvas = document.createElement('canvas'); canvas.setAttribute('aria-label', `First page preview of ${record.name}`); preview.append(canvas);
+  const canvas = document.createElement('canvas');
+  // Offscreen Library rows must not retain the browser's default 300×150
+  // backing store. The IntersectionObserver expands only nearby cached previews.
+  canvas.width = 1; canvas.height = 1;
+  canvas.setAttribute('aria-label', `First page preview of ${record.name}`); preview.append(canvas);
   const selectCheck = document.createElement('input'); selectCheck.type='checkbox'; selectCheck.className='library-export-check'; selectCheck.checked=state.fileSelected.has(record.id); selectCheck.setAttribute('aria-label',`Select ${record.name} for PDF Tools`); selectCheck.title='Select for PDF Tools';
   selectCheck.addEventListener('pointerdown', e => e.stopPropagation());
   selectCheck.addEventListener('click', e => e.stopPropagation());
@@ -10460,6 +10639,7 @@ async function permanentlyDeleteLibraryDocument(docId) {
     if (action === 'export' && !(await exportLibraryRecordBeforeDelete(record))) return;
     const sourceIds = pagesReferencedSourceIds(record.pages || []);
     await libraryDelete('documents', docId);
+    if (state.libraryDb?.objectStoreNames.contains('thumbnails')) await libraryDelete('thumbnails', docId).catch(() => {});
     state.libraryRecords.delete(docId);
     await removeUnusedPersistentSources(sourceIds);
     renderLibraryDocumentList();
@@ -10504,9 +10684,10 @@ async function emptyLibraryTrash() {
       await exportPdfRecordsToZip(cleanRecords, pathFolders, 'PDF-Workbench-Trash-before-delete.zip', null, { createFolderEntries:false });
     }
     const sourceIds = pagesReferencedSourceIds(records.flatMap(record => record.pages || []));
-    const tx = state.libraryDb.transaction(['documents','folders'], 'readwrite');
-    const done = idbTransactionDone(tx); const ds = tx.objectStore('documents'), fs = tx.objectStore('folders');
-    for (const record of records) { ds.delete(record.id); state.libraryRecords.delete(record.id); state.fileSelected.delete(record.id); }
+    const deleteStores = ['documents','folders']; if (state.libraryDb.objectStoreNames.contains('thumbnails')) deleteStores.push('thumbnails');
+    const tx = state.libraryDb.transaction(deleteStores, 'readwrite');
+    const done = idbTransactionDone(tx); const ds = tx.objectStore('documents'), fs = tx.objectStore('folders'), ts = deleteStores.includes('thumbnails') ? tx.objectStore('thumbnails') : null;
+    for (const record of records) { ds.delete(record.id); ts?.delete(record.id); state.libraryRecords.delete(record.id); state.fileSelected.delete(record.id); }
     for (const folder of folders) { fs.delete(folder.id); state.libraryFolders.delete(folder.id); }
     await done;
     reconcileCombineOrder();
@@ -10541,6 +10722,7 @@ async function purgeLocalLibrary() {
     if (state.libraryDb?.objectStoreNames.contains('folders')) await libraryClearStore('folders');
     if (state.libraryDb?.objectStoreNames.contains('assets')) await libraryClearStore('assets');
     if (state.libraryDb?.objectStoreNames.contains('assetFolders')) await libraryClearStore('assetFolders');
+    if (state.libraryDb?.objectStoreNames.contains('thumbnails')) await libraryClearStore('thumbnails');
     state.assetRecords.clear(); state.assetFolders.clear(); state.assetFolderId=null;
     state.libraryRecords.clear();
     state.libraryFolders.clear();
