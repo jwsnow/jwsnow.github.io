@@ -1,7 +1,51 @@
-PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-01 — BASELINE 5.8.22-exp
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-01 — BASELINE 5.8.23-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
-Continue future work from the packaged 5.8.22-exp ZIP, not an older build.
+Continue future work from the packaged 5.8.23-exp ZIP, not an older build.
+
+WHY 5.8.23 EXISTS — SPLIT GRADING SOURCE-RESIDENCY LEAK
+- User tested 5.8.22 with the full grading set logically Open and experienced another iPad PWA restart while switching/marking PDFs in Split.
+- Post-restart 14:43 diagnostics show the 5.8.22 architecture working at steady state: 27 logical open documents, Split active, exactly 2 resident PDF sources, empty render queue after startup, and about 49.6 MB of visible canvas backing.
+- Code review found a missed path: `setPaneDocument()` changed a pane's `documentId` before explicitly queuing the replaced pane document's source for release. `loadDocumentState()` could therefore see/schedule the globally current document (often the other pane) while the old source from the replaced pane remained resident. Repeated grading switches could transiently accumulate stale PDF.js documents even though a restart returned source count to two.
+
+5.8.23 FIX
+- Split-pane switch captures the replaced document/source IDs before changing the pane and explicitly queues them for release.
+- Adds a global residency sweep after document switches and Split layout changes. Any resident persisted PDF not used by a currently visible document is queued for destruction.
+- Release still waits for the small render queue to drain, and the visibility condition is rechecked at destruction time so rapid switches cannot destroy a source that became visible again.
+- Pending release candidates remain cumulative across rapid switching.
+- Adds diagnostic `library-source-residency-sweep` with candidate count, resident-source count, visible document IDs, and reason. Existing `library-source-memory-released` remains.
+
+EXPECTED GRADING INVARIANT
+- Any number of Workbench documents may remain logically Open.
+- Single View should settle to about 1 resident persisted PDF source.
+- Split should settle to about 2 resident persisted PDF sources.
+- Switching through students should not ratchet `sources.total` upward.
+
+PRESERVE
+- 5.8.22 lazy source hydration and scanner-safe thumbnail-unavailable markers.
+- 5.8.21 import-without-inline-thumbnail architecture and persistent thumbnail cache.
+- 5.8.18 View Rename focus fix.
+- 5.8.16 graph Copy/Paste and validated 5.8.15 edge-label behavior.
+- Existing Pen/Eraser/Lasso, render caps, viewer canvas release, Library data, export, and backup semantics.
+
+TEST PRIORITY
+1. Force-quit prior PWA and launch 5.8.23.
+2. Keep all 26 student PDFs Open.
+3. In Split, switch one pane rapidly through many students while marking; repeat with the other pane.
+4. Save Diagnostics after a sustained run. Confirm `sources.total` returns to ~2 and `library-source-memory-released` events appear.
+5. If another restart occurs with source residency staying at two, investigate the memory cost of the two currently visible PDF renders / PDF.js page caches rather than stale hidden sources.
+
+LATEST DISTRIBUTION
+- `pdf-workbench-m5.8.23-exp.zip` is the current code baseline.
+
+================================================================================
+PRIOR HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-01 — BASELINE 5.8.23-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.23-exp ZIP, not an older build.
 
 LATEST FAILURE EVIDENCE — 5.8.20 CHECKPOINTS
 - The persistent import checkpoint did its job and captured two independent iPad process kills.
@@ -11,7 +55,7 @@ LATEST FAILURE EVIDENCE — 5.8.20 CHECKPOINTS
 - Post-restart runtimes were clean and small; no Workbench JavaScript exception or render backlog was captured.
 - Separately, the user reports the 17 PDFs that did successfully enter the Library can now be scrolled freely in Files. Treat the 5.8.19 persistent-thumbnail/offscreen-canvas scrolling fix as provisionally successful.
 
-5.8.22 ARCHITECTURAL CHANGE — THUMBNAILS ARE NOT PART OF IMPORT
+5.8.23 ARCHITECTURAL CHANGE — THUMBNAILS ARE NOT PART OF IMPORT
 - Multi-PDF import no longer renders/stores first-page thumbnails inside the critical batch loop.
 - Direct Library import now does:
   1. Open the selected PDF through a temporary blob URL and read page metadata.
@@ -20,9 +64,9 @@ LATEST FAILURE EVIDENCE — 5.8.20 CHECKPOINTS
   4. Persist the document record.
   5. Remove transient working state, yield, and continue to the next PDF.
 - Therefore a derived preview can no longer prevent later PDFs from being imported.
-- The existing import checkpoint remains. If a 5.8.22 batch still restarts, the surviving phase should identify a non-thumbnail operation.
+- The existing import checkpoint remains. If a 5.8.23 batch still restarts, the surviving phase should identify a non-thumbnail operation.
 
-5.8.22 LOW-PRIORITY THUMBNAIL BACKFILL
+5.8.23 LOW-PRIORITY THUMBNAIL BACKFILL
 - Files still uses the 5.8.19 persistent thumbnail cache keyed by document ID and validated with `thumbnail.documentModifiedAt === document.modifiedAt`.
 - Missing/stale previews generate only when needed in Files and remain serialized one-at-a-time.
 - A queued preview is now abandoned if its card is no longer near/inside the viewport when its turn arrives. Fast scrolling therefore does not create a long tail of PDF decodes for offscreen cards.
@@ -39,16 +83,16 @@ ZIP IMPORT
 - JSZip still retains the archive while iterating members, so direct multi-file import remains the preferred first stress test. If direct import succeeds but ZIP still restarts, optimize/replace JSZip separately rather than revisiting the PDF critical path.
 
 TEST PRIORITY
-1. Force-quit the prior PWA and launch 5.8.22.
+1. Force-quit the prior PWA and launch 5.8.23.
 2. Import the same 26 PDFs directly with Files -> Import files. All 26 should enter the Library without any thumbnail rendering in the batch.
 3. After completion, let visible thumbnails backfill, then scroll gradually through the imported files.
-4. If import restarts, save Diagnostics immediately and inspect `importCheckpoint`; a `thumbnail` checkpoint would indicate an old build/cache, because 5.8.22 no longer has thumbnail in the import critical path.
+4. If import restarts, save Diagnostics immediately and inspect `importCheckpoint`; a `thumbnail` checkpoint would indicate an old build/cache, because 5.8.23 no longer has thumbnail in the import critical path.
 5. If Files restarts later during lazy thumbnail backfill, save Diagnostics immediately; then investigate the low-priority thumbnail renderer independently.
 6. Once direct import is stable, retry the ZIP.
 7. Preserve/regression-check View Rename, Pen/Eraser/Lasso, graph labels, graph Copy/Paste, export, Trash, and backup/restore.
 
 LATEST DISTRIBUTION
-- `pdf-workbench-m5.8.22-exp.zip` is the code baseline for the next test.
+- `pdf-workbench-m5.8.23-exp.zip` is the code baseline for the next test.
 
 ================================================================================
 PRIOR 5.8.19 HANDOFF / PROJECT HISTORY FOLLOWS

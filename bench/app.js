@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.22';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.23';
 
-const APP_VERSION = '5.8.22';
+const APP_VERSION = '5.8.23';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -7860,6 +7860,23 @@ function scheduleInactivePdfSourceRelease(sourceIds, reason='document-switch') {
   state.librarySourceResidencyTimer = setTimeout(attempt, LIBRARY_SOURCE_RESIDENCY_RELEASE_DELAY_MS);
 }
 
+function scheduleInactivePdfSourceResidencySweep(reason='residency-sweep') {
+  const inactive = [];
+  for (const [sourceId, source] of state.sources) {
+    if (!source || source.type !== 'pdf' || !source.libraryPersisted) continue;
+    if (sourceNeededByVisibleDocument(sourceId) || sourceUsedByTemplates(sourceId)) continue;
+    inactive.push(sourceId);
+  }
+  if (!inactive.length) return;
+  addInkDiagnostic('library-source-residency-sweep', null, {
+    reason,
+    candidates: inactive.length,
+    residentSources: state.sources.size,
+    visibleDocumentIds: [...visibleDocumentIdsForSourceResidency()],
+  });
+  scheduleInactivePdfSourceRelease(inactive, reason);
+}
+
 function removeDocument(docId) {
   const index = state.documents.findIndex(d => d.id === docId);
   if (index < 0) return Promise.resolve();
@@ -7929,7 +7946,12 @@ function loadDocumentState(docId, rerender=true) {
   // Keep the previous student's persisted PDF alive only until the viewer has
   // finished any in-flight render from the switch. If it is no longer visible
   // (or visible in the other Split pane), release its PDF.js working set.
+  // Enforce the residency invariant globally rather than relying on this
+  // particular switch path to name every source that may have become hidden.
+  // This also cleans up any stale persisted PDF left resident by an earlier
+  // Split-pane switch.
   scheduleInactivePdfSourceRelease(previousSourceIds, 'document-switch');
+  scheduleInactivePdfSourceResidencySweep('document-switch-sweep');
 }
 
 
@@ -8144,11 +8166,21 @@ function setPaneDocument(paneId, docId) {
   if (!documentById(docId)) return;
   savePaneScroll(paneId);
   const pane = splitPaneState(paneId);
+  const replacedDocumentId = pane.documentId || null;
+  const replacedDoc = documentById(replacedDocumentId);
+  const replacedSourceIds = replacedDoc ? [...documentSourceIds(replacedDoc)] : [];
   pane.documentId = docId;
   paneView(paneId, docId);
   activateSplitPane(paneId, true);
   renderDocumentSelect();
   renderSplitPane(paneId);
+  // Split-pane switching used to miss the PDF source belonging to the document
+  // just replaced in this pane. That stale source could accumulate across a
+  // grading session even though steady-state diagnostics after a restart showed
+  // only the two visible PDFs. Queue the replaced source explicitly, then sweep
+  // every persisted resident PDF that is no longer visible in either pane.
+  scheduleInactivePdfSourceRelease(replacedSourceIds, 'split-pane-document-switch');
+  scheduleInactivePdfSourceResidencySweep('split-pane-document-switch-sweep');
   setStatus(`Showing ${documentById(docId)?.name || 'document'} in ${paneId} pane`);
 }
 
@@ -14857,6 +14889,7 @@ function toggleSplitView() {
   if (document.body.classList.contains('presentation')) showPresentationControls();
   setStatus(state.splitView ? 'Side-by-side view' : 'Single-document view');
   checkpointWorkspaceNow();
+  scheduleInactivePdfSourceResidencySweep('split-layout-change');
 }
 
 function computeCssSize(page) {

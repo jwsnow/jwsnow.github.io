@@ -1,10 +1,44 @@
-# PDF Workbench 5.8.22-exp
+# PDF Workbench 5.8.23-exp
 
-5.8.22 is a grading-memory revision: Library documents can remain logically Open without eagerly retaining a PDF.js source for every student. Persisted PDF sources load on demand for visible documents and inactive sources are released after document switches. Library thumbnail generation also preflights oversized embedded scan images and caches a Preview unavailable marker instead of repeatedly retrying scanner-heavy PDFs.
+5.8.23 is a focused grading-memory correction built from 5.8.22. It preserves 5.8.22 lazy source loading, persistent thumbnails, and scanner-safe preview placeholders, but fixes a Split-view residency leak discovered during real grading.
 
-# PDF Workbench — Milestone 5.8.22 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+# PDF Workbench — Milestone 5.8.23 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
-## 5.8.22 decoupled import + bounded thumbnail backfill
+## 5.8.23 strict Split-view PDF source residency
+
+A real iPad crash on 5.8.22 exposed a missed switch path rather than a failure of the overall architecture. Post-restart diagnostics were healthy: 27 documents remained logically Open while only the two visible Split documents had resident PDF sources. Code review then found that `setPaneDocument()` replaced a pane's document before the old pane source was explicitly queued for release. Repeated student-to-student switching in Split could therefore leave earlier pane PDFs resident transiently until WebKit killed the process; a restart naturally cleared them, hiding the leak in post-crash steady-state diagnostics.
+
+### What changes
+
+- Split-pane document switching now captures the document/source being replaced and explicitly schedules those persisted PDF sources for release.
+- A new global residency sweep runs after document switches and Split layout changes. Every resident persisted PDF not belonging to a currently visible document is queued for destruction.
+- The rule is now an invariant rather than a UI-path convention: ordinary View should settle to one resident Library PDF; Split should settle to two.
+- Visible documents are rechecked at actual destruction time, so a source queued during rapid switching is not destroyed if it has become visible again.
+- Rapid switches still accumulate pending release candidates, and release waits until the viewer render queue is idle so PDF.js is never destroyed under an active render.
+- Adds `library-source-residency-sweep` diagnostics containing candidate count, resident-source count, visible document IDs, and reason. Existing `library-source-memory-released` diagnostics remain.
+
+### Preserved from 5.8.22
+
+- Dozens of Library documents may remain logically Open without eager PDF.js hydration.
+- Visible PDF sources load lazily from IndexedDB.
+- Persistent first-page thumbnails remain derived cache with modified-date validation.
+- ScanSnap iX2400 PDFs with ~3400×4390 / ~14.9M-pixel CCITT first-page images are preflighted as `Preview unavailable` rather than repeatedly rendered as Library thumbnails. The actual PDFs remain viewable.
+- 5.8.21 import behavior remains: the multi-PDF import loop does not render thumbnails.
+- Graph labels, relationship-aware graph Copy/Paste, View Rename fix, Pen/Eraser/Lasso behavior, export, and backup formats are unchanged.
+
+## Validation priority
+
+1. Force-quit 5.8.22 and launch 5.8.23.
+2. Keep the full 26-student grading set Open.
+3. In Split, repeatedly switch one pane through many students while marking normally; then switch the other pane too.
+4. Save Diagnostics after a sustained run. At steady state `sources.total` should be about 2 in Split (about 1 in single View), regardless of how many documents remain Open.
+5. Look for `library-source-residency-sweep` and `library-source-memory-released` while switching. Resident source count should not ratchet upward across students.
+6. If the PWA restarts again, save Diagnostics immediately. A further crash with steady two-source residency would point to the memory cost of the two currently visible rendered PDFs rather than stale grading-session accumulation.
+
+---
+
+
+## 5.8.23 decoupled import + bounded thumbnail backfill
 
 Two independent 5.8.20 iPad process restarts isolated the remaining large-import failure to thumbnail generation, but **not** to one bad PDF:
 
@@ -31,7 +65,7 @@ The different files plus identical phase show that first-page preview rendering 
 
 ## Test priority
 
-1. Force-quit the prior PWA and launch 5.8.22.
+1. Force-quit the prior PWA and launch 5.8.23.
 2. Use **Files → Import files** on the same 26-PDF set. The key test is whether **all 26 documents enter the Library** without a restart.
 3. After import completes, stay in Files and let the visible thumbnails backfill. Scroll gradually through the new files. A missing preview may appear briefly while its low-priority thumbnail is generated.
 4. If the PWA restarts during import, immediately save Diagnostics; the surviving checkpoint should now be one of `open-pdf`, `destroy-pdfjs`, `persist-source`, `persist-document`, `cleanup`, or `file-complete`—not `thumbnail`.
