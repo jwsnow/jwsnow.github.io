@@ -1,3 +1,52 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-01 — BASELINE 5.8.26-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.26-exp ZIP, not an older build.
+
+WHY 5.8.26 EXISTS — CAPTURE THE STATE BEFORE WEBKIT KILLS THE PWA
+- 5.8.25 substantially reduced iPad steady-state source/canvas pressure but a true PWA restart still occurred.
+- Post-restart diagnostics were healthy and therefore could not expose the old runtime's last high-water state.
+- The same post-restart trace also showed a redundant second Split viewer rebuild shortly after startup.
+
+5.8.26 CHANGES
+1. PERSISTENT PRE-CRASH HEALTH BREADCRUMB
+- Maintains one small overwrite-only JSON record in localStorage approximately every 3.5 s and after debounced significant render/document/source events.
+- Records runtime ID/version/time/uptime; visibility/workspace/Split state; current/visible/open documents; viewport; resident PDF source IDs/count; active/queued render source IDs; active render summary; canvas count/estimated RGBA bytes/largest canvas; page-stage counts; viewer generations; and short event/render tails.
+- No document contents are recorded.
+- On startup, Workbench reads the prior runtime record before writing the current one and retains it in memory.
+- Saved Diagnostics are now diagnosticVersion 8 and include `previousRuntimeHealthBreadcrumb` and `currentRuntimeHealthBreadcrumb`.
+- pagehide/visibility/pageshow attempt an immediate breadcrumb write so lifecycle-related exits are distinguishable when the browser delivers those events.
+
+2. COALESCE REDUNDANT SPLIT STARTUP/RESIZE REBUILD
+- Each completed Split viewer build records the viewport geometry/time.
+- A resize-triggered viewer rebuild within 900 ms is skipped when inner/visual viewport dimensions and scale have not materially changed.
+- Diagnostic event `viewer-resize-coalesced-after-split-build` records such skips.
+- Real orientation/window/keyboard geometry changes that materially change the viewport still rebuild normally.
+
+PRESERVED FROM 5.8.25
+- iPad single-render scheduling.
+- Source-aware old-PDF release and logical-open/lazy-resident grading model.
+- iPad raster caps: single 4 MP, Split 2.5 MP.
+- iPad prefetch margins: single 55%, Split 35%.
+- Files Diagnostics button.
+- Persistent Library thumbnails and scanner-safe preview-unavailable markers.
+- Saved zoom/scroll/page state independent of source residency.
+- Graph features through relationship-aware Copy/Paste and live edge labels.
+
+VALIDATION PRIORITY
+1. Continue normal grading until either a restart occurs or a long session completes.
+2. After a restart, immediately save Diagnostics. The header should now contain `previousRuntimeHealthBreadcrumb` from the killed runtime.
+3. Compare its canvas estimate, resident sources, active/queued render source IDs, visible documents, and viewer generations with the clean current runtime.
+4. On ordinary startup/restoration, confirm only one Split build occurs when no material viewport resize happens; if a redundant resize is suppressed, diagnostics should contain `viewer-resize-coalesced-after-split-build`.
+5. Confirm saved zoom/scroll state, Files, Split grading, graph tools, annotation tools, and Library restore remain unchanged.
+
+LATEST DISTRIBUTION
+- `pdf-workbench-m5.8.26-exp.zip` is the current code baseline.
+
+================================================================================
+PRIOR 5.8.25 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-01 — BASELINE 5.8.25-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

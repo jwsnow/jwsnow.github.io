@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.25';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.26';
 
-const APP_VERSION = '5.8.25';
+const APP_VERSION = '5.8.26';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -123,6 +123,12 @@ const state = {
   renderDiagnosticEvents: [],
   renderDiagnosticAnomalies: [],
   renderDiagnosticSequence: 0,
+  previousDiagnosticHealthBreadcrumb: null,
+  lastDiagnosticHealthBreadcrumb: null,
+  diagnosticHealthBreadcrumbTimer: null,
+  diagnosticHealthBreadcrumbInterval: null,
+  lastSplitViewerBuildAt: 0,
+  lastSplitViewerViewport: null,
   pinchDiagnosticSequence: 0,
   stylusTouchContacts: new Map(),
   penHoverPointers: new Map(),
@@ -11691,6 +11697,10 @@ function downloadPdfBytes(bytes, filename) {
 // snapshot when the user explicitly saves diagnostics. It never records document contents.
 const DIAGNOSTICS_META_KEY = 'saved-diagnostics';
 const PDF_IMPORT_CHECKPOINT_KEY = 'pdf-import-checkpoint-v1';
+const DIAGNOSTIC_HEALTH_BREADCRUMB_KEY = 'pdfwb-diagnostic-health-v1';
+const DIAGNOSTIC_HEALTH_INTERVAL_MS = 3500;
+const DIAGNOSTIC_HEALTH_EVENT_DELAY_MS = 320;
+const DIAGNOSTIC_HEALTH_RUNTIME_ID = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2,10)}`;
 const MAX_SAVED_DIAGNOSTIC_SNAPSHOTS = 12;
 const MAX_IN_MEMORY_DIAGNOSTIC_RECORDS = 2400;
 const MAX_COMPLETED_INK_DIAGNOSTIC_SUMMARIES = 24;
@@ -11698,6 +11708,137 @@ const diagnosticActiveRenders = new Map();
 let diagnosticRenderSequence = 0;
 let inkBatchDiagnosticFailureLogged = false;
 const MAX_RENDER_DIAGNOSTIC_EVENTS = 96;
+
+function diagnosticHealthViewportSnapshot() {
+  return {
+    width: Number(window.innerWidth || 0),
+    height: Number(window.innerHeight || 0),
+    visualWidth: Number(window.visualViewport?.width || 0) || null,
+    visualHeight: Number(window.visualViewport?.height || 0) || null,
+    visualScale: Number(window.visualViewport?.scale || 0) || null,
+    devicePixelRatio: Number(window.devicePixelRatio || 1),
+  };
+}
+function diagnosticHealthVisibleDocuments() {
+  const ids = [];
+  if (state.splitView && (state.workspaceMode === 'view' || document.body.classList.contains('presentation'))) {
+    for (const paneId of ['left','right']) {
+      const id = state.splitPanes[paneId]?.documentId || null;
+      if (id && !ids.includes(id)) ids.push(id);
+    }
+  } else if (state.currentDocumentId) ids.push(state.currentDocumentId);
+  return ids.map(id => {
+    const doc = documentById(id);
+    return { id, name:doc?.name || null, pages:doc?.pages?.length || 0 };
+  });
+}
+function diagnosticHealthCanvasSnapshot() {
+  let count = 0, totalPixels = 0, largest = null;
+  for (const canvas of document.querySelectorAll('canvas')) {
+    const width = Number(canvas.width || 0), height = Number(canvas.height || 0);
+    if (!(width > 0 && height > 0)) continue;
+    const pixels = width * height;
+    count++; totalPixels += pixels;
+    if (!largest || pixels > largest.pixels) largest = { width, height, pixels };
+  }
+  return { count, totalPixels, approxRGBABytes:totalPixels * 4, largest };
+}
+function diagnosticHealthBreadcrumbSnapshot(reason='timer') {
+  const rq = renderQueueDiagnosticState();
+  const sourceIds = [];
+  let pdf = 0, image = 0;
+  for (const [id, source] of state.sources.entries()) {
+    if (source?.type === 'pdf') { pdf++; sourceIds.push(id); }
+    else if (source?.type === 'image') image++;
+  }
+  const recentEvents = state.inkDiagnostics.slice(-8).map(item => ({
+    t:item.t, kind:item.kind, tool:item.tool || null,
+    documentId:item.documentId || item.currentDocumentId || null,
+    sourceId:item.sourceId || null,
+    reason:item.reason || null,
+  }));
+  const recentRenderEvents = state.renderDiagnosticEvents.slice(-8).map(item => ({
+    t:item.t, kind:item.kind, documentId:item.documentId || null,
+    documentName:item.documentName || null, pageIndex:item.pageIndex || null,
+    sourceId:item.sourceId || null, queueActive:item.queueActive, queueQueued:item.queueQueued,
+  }));
+  return {
+    runtimeId: DIAGNOSTIC_HEALTH_RUNTIME_ID,
+    appVersion: APP_VERSION,
+    savedAt: Date.now(),
+    uptimeMs: Math.round(performance.now()),
+    reason,
+    visibilityState: document.visibilityState,
+    documentHasFocus: document.hasFocus?.() ?? null,
+    workspaceMode: state.workspaceMode,
+    presentation: document.body.classList.contains('presentation'),
+    splitView: !!state.splitView,
+    activePaneId: state.activePaneId || null,
+    currentDocumentId: state.currentDocumentId || null,
+    openDocumentCount: state.documents.length,
+    visibleDocuments: diagnosticHealthVisibleDocuments(),
+    viewport: diagnosticHealthViewportSnapshot(),
+    sources: { total:state.sources.size, pdf, image, residentPdfSourceIds:sourceIds },
+    renderQueue: {
+      active:rq.active, queued:rq.queued, max:rq.max,
+      activeSourceIds:rq.activeSourceIds || [], queuedSourceIds:rq.queuedSourceIds || [],
+    },
+    activeRenders: diagnosticActiveRenderSnapshot().map(item => ({
+      documentId:item.documentId || null, documentName:item.documentName || null,
+      pageIndex:item.pageIndex || null, sourceId:item.sourceId || null,
+      ageMs:item.ageMs || null, maxPixels:item.maxPixels || null,
+    })),
+    canvases: diagnosticHealthCanvasSnapshot(),
+    pageStages: {
+      total:document.querySelectorAll('.page-stage').length,
+      loading:document.querySelectorAll('.page-stage[data-rendered="loading"]').length,
+      rendered:document.querySelectorAll('.page-stage[data-rendered="true"]').length,
+      errors:document.querySelectorAll('.page-stage[data-rendered="error"]').length,
+    },
+    viewerGenerations: {
+      single:state.renderGeneration,
+      left:state.splitPanes.left?.generation || 0,
+      right:state.splitPanes.right?.generation || 0,
+    },
+    recentEvents,
+    recentRenderEvents,
+  };
+}
+function readDiagnosticHealthBreadcrumb() {
+  try {
+    const raw = localStorage.getItem(DIAGNOSTIC_HEALTH_BREADCRUMB_KEY);
+    if (!raw) return null;
+    const value = JSON.parse(raw);
+    return value && typeof value === 'object' ? value : null;
+  } catch { return null; }
+}
+function writeDiagnosticHealthBreadcrumb(reason='timer') {
+  try {
+    const snapshot = diagnosticHealthBreadcrumbSnapshot(reason);
+    localStorage.setItem(DIAGNOSTIC_HEALTH_BREADCRUMB_KEY, JSON.stringify(snapshot));
+    state.lastDiagnosticHealthBreadcrumb = snapshot;
+    return snapshot;
+  } catch { return null; }
+}
+function scheduleDiagnosticHealthBreadcrumb(reason='event', delay=DIAGNOSTIC_HEALTH_EVENT_DELAY_MS) {
+  clearTimeout(state.diagnosticHealthBreadcrumbTimer);
+  state.diagnosticHealthBreadcrumbTimer = setTimeout(() => {
+    state.diagnosticHealthBreadcrumbTimer = null;
+    writeDiagnosticHealthBreadcrumb(reason);
+  }, delay);
+}
+function initializeDiagnosticHealthBreadcrumbs() {
+  const previous = readDiagnosticHealthBreadcrumb();
+  if (previous?.runtimeId && previous.runtimeId !== DIAGNOSTIC_HEALTH_RUNTIME_ID) {
+    state.previousDiagnosticHealthBreadcrumb = previous;
+  }
+  writeDiagnosticHealthBreadcrumb('runtime-start');
+  clearInterval(state.diagnosticHealthBreadcrumbInterval);
+  state.diagnosticHealthBreadcrumbInterval = setInterval(() => writeDiagnosticHealthBreadcrumb('interval'), DIAGNOSTIC_HEALTH_INTERVAL_MS);
+}
+function diagnosticEventShouldRefreshHealthBreadcrumb(kind) {
+  return /(?:document-switch|source-|residency|viewer-resize|visibility-change|render-queue|library-|workspace|split)/.test(String(kind || ''));
+}
 
 function diagnosticDocumentForPage(page) {
   return state.documents.find(doc => doc.pages?.some(candidate => candidate.id === page?.id)) || null;
@@ -11726,6 +11867,7 @@ function recordRenderDiagnostic(kind, page=null, extra={}) {
     ...extra,
   };
   state.renderDiagnosticEvents.push(record);
+  if (/viewer-render-(?:start|complete|error)|viewer-stage-release/.test(kind)) scheduleDiagnosticHealthBreadcrumb(`render:${kind}`);
   if (state.renderDiagnosticEvents.length > MAX_RENDER_DIAGNOSTIC_EVENTS) {
     state.renderDiagnosticEvents.splice(0, state.renderDiagnosticEvents.length - MAX_RENDER_DIAGNOSTIC_EVENTS);
   }
@@ -12175,6 +12317,7 @@ function addInkDiagnostic(kind, event=null, extra={}) {
     ...extra,
   };
   state.inkDiagnostics.push(record);
+  if (diagnosticEventShouldRefreshHealthBreadcrumb(kind)) scheduleDiagnosticHealthBreadcrumb(`event:${kind}`);
   if (state.inkDiagnostics.length > MAX_IN_MEMORY_DIAGNOSTIC_RECORDS) state.inkDiagnostics.splice(0, state.inkDiagnostics.length - MAX_IN_MEMORY_DIAGNOSTIC_RECORDS);
 }
 function diagnosticViewerContactInfo(event) {
@@ -12387,6 +12530,7 @@ async function renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, d
 }
 
 async function buildInkDiagnosticsText() {
+  const currentHealthBreadcrumb = writeDiagnosticHealthBreadcrumb('diagnostic-save') || diagnosticHealthBreadcrumbSnapshot('diagnostic-save');
   const runtime = diagnosticRuntimeSnapshot();
   const storage = await diagnosticStorageSnapshot();
   const importCheckpoint = (state.libraryReady && state.libraryDb)
@@ -12398,11 +12542,13 @@ async function buildInkDiagnosticsText() {
     userAgent: navigator.userAgent,
     platform: navigator.platform || null,
     standalone: isStandalonePwa(),
-    diagnosticVersion: 7,
+    diagnosticVersion: 8,
     runtime,
     storage,
     importCheckpoint,
-    note: 'Pointer-boundary, all-classification viewer contact boundaries, transient annotation/input state, viewer touch-type summaries, event-loop-stall, bounded viewer-render history/anomalies, document switches, pinch geometry, and Pencil replay diagnostics. Viewer all-classification telemetry records down/up/cancel boundaries only; no extra move stream is retained. Saving diagnostics captures transient state before a safe input-state cleanup intended to recover from a stuck gesture. No document contents are included; document/file names, import checkpoint metadata, and internal IDs may be included for correlation. JavaScript heap memory is recorded only on browsers that expose performance.memory. Canvas/source byte figures are estimates/proxies, not total iPad memory.',
+    previousRuntimeHealthBreadcrumb: state.previousDiagnosticHealthBreadcrumb,
+    currentRuntimeHealthBreadcrumb: currentHealthBreadcrumb,
+    note: 'Pointer-boundary, all-classification viewer contact boundaries, transient annotation/input state, viewer touch-type summaries, event-loop-stall, bounded viewer-render history/anomalies, document switches, pinch geometry, and Pencil replay diagnostics. Viewer all-classification telemetry records down/up/cancel boundaries only; no extra move stream is retained. Saving diagnostics captures transient state before a safe input-state cleanup intended to recover from a stuck gesture. No document contents are included; document/file names, import checkpoint metadata, compact previous-runtime health breadcrumbs, and internal IDs may be included for correlation. JavaScript heap memory is recorded only on browsers that expose performance.memory. Canvas/source byte figures are estimates/proxies, not total iPad memory.',
   };
   const lines = [JSON.stringify(header), ...state.inkDiagnostics.map(item => JSON.stringify(item))];
   return lines.join('\n') + '\n';
@@ -15316,6 +15462,9 @@ function renderSplitView() {
   renderSplitPane('left');
   renderSplitPane('right');
   activateSplitPane(state.activePaneId, true);
+  state.lastSplitViewerBuildAt = performance.now();
+  state.lastSplitViewerViewport = diagnosticHealthViewportSnapshot();
+  scheduleDiagnosticHealthBreadcrumb('split-view-build');
 }
 
 function renderSplitPane(paneId) {
@@ -16480,6 +16629,24 @@ function scheduleDeferredViewerResizeAfterTextEntry() {
     }
   }, 180);
 }
+function splitViewerViewportMateriallyChanged(previous, current, tolerance=6) {
+  if (!previous || !current) return true;
+  const keys = ['width','height','visualWidth','visualHeight'];
+  for (const key of keys) {
+    const a = Number(previous[key] || 0), b = Number(current[key] || 0);
+    if (Math.abs(a-b) > tolerance) return true;
+  }
+  if (Math.abs(Number(previous.devicePixelRatio || 1) - Number(current.devicePixelRatio || 1)) > 0.01) return true;
+  return Math.abs(Number(previous.visualScale || 1) - Number(current.visualScale || 1)) > 0.02;
+}
+function shouldCoalesceRecentSplitResizeRebuild() {
+  if (!state.splitView || !state.lastSplitViewerBuildAt || !state.lastSplitViewerViewport) return false;
+  const age = performance.now() - state.lastSplitViewerBuildAt;
+  if (age < 0 || age > 900) return false;
+  const current = diagnosticHealthViewportSnapshot();
+  return !splitViewerViewportMateriallyChanged(state.lastSplitViewerViewport, current);
+}
+
 function onResize() {
   updateNewDocumentPageSizeUi();
   updatePageGeometryDialog();
@@ -16511,7 +16678,17 @@ function onResize() {
     return;
   }
   viewerResizeDeferredForTextEntry = false;
-  resizeTimer = setTimeout(() => { if (state.pages.length && state.workspaceMode === 'view') renderViewer(); }, 120);
+  resizeTimer = setTimeout(() => {
+    if (!(state.pages.length && state.workspaceMode === 'view')) return;
+    if (shouldCoalesceRecentSplitResizeRebuild()) {
+      addInkDiagnostic('viewer-resize-coalesced-after-split-build', null, {
+        splitBuildAgeMs:Math.round((performance.now()-state.lastSplitViewerBuildAt)*10)/10,
+        viewport:diagnosticHealthViewportSnapshot(),
+      });
+      return;
+    }
+    renderViewer();
+  }, 120);
 }
 
 
@@ -17735,23 +17912,27 @@ function bindEvents() {
   window.addEventListener('dragover', (e) => { if ([...e.dataTransfer.types].includes('Files')) e.preventDefault(); });
   window.addEventListener('drop', (e) => { if (e.dataTransfer?.files?.length) { e.preventDefault(); openFiles(e.dataTransfer.files); } });
   window.addEventListener('pagehide', () => {
+    writeDiagnosticHealthBreadcrumb('pagehide');
     saveCurrentDocumentState();
     writeSessionCheckpoint();
     persistLibraryNow();
   });
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') {
+      writeDiagnosticHealthBreadcrumb('visibility-hidden');
       saveCurrentDocumentState();
       writeSessionCheckpoint();
       persistLibraryNow();
     } else {
+      writeDiagnosticHealthBreadcrumb('visibility-visible');
       resumePersistentLibraryConnection();
     }
   });
-  window.addEventListener('pageshow', () => { resumePersistentLibraryConnection(); });
+  window.addEventListener('pageshow', () => { writeDiagnosticHealthBreadcrumb('pageshow'); resumePersistentLibraryConnection(); });
 }
 
 async function init() {
+  initializeDiagnosticHealthBreadcrumbs();
   bindEvents();
   applyPresentationToolVisibility();
   updateInkToolbar();

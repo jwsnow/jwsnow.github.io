@@ -1,6 +1,15 @@
-# PDF Workbench 5.8.25-exp
+# PDF Workbench 5.8.26-exp
 
-5.8.25 is a focused iPad canvas/raster-footprint revision built from 5.8.24 after a substantially longer grading run still eventually restarted. It preserves 5.8.24 Files diagnostics, one-render-at-a-time iPad scheduling, source-aware release, logical-open/lazy-resident PDFs, graph features, and Library data.
+5.8.26 is a focused diagnostic/recovery revision built from 5.8.25. It preserves the lower iPad raster footprint, source-residency grading model, Files Diagnostics button, persistent thumbnails, graph tools, and Library behavior.
+
+## Milestone 5.8.26 — persistent pre-crash health breadcrumb + Split startup coalescing
+
+- Maintains one compact overwrite-only health breadcrumb in localStorage every ~3.5 seconds and after significant document/source/render changes.
+- The breadcrumb records visible/open document identity, resident PDF source IDs/count, active/queued render source IDs, active render summary, canvas backing estimate/largest canvas, page-stage counts, viewer generations, viewport, and short event/render tails. It does not record PDF/document contents.
+- On a true restart, the new runtime preserves the prior runtime's final breadcrumb in memory. Saved Diagnostics now include `previousRuntimeHealthBreadcrumb` plus the current breadcrumb (`diagnosticVersion: 8`).
+- Lifecycle transitions (`pagehide`, hidden/visible, `pageshow`) write an immediate health breadcrumb when possible.
+- Redundant resize-triggered Split rebuilds occurring within 900 ms of an equivalent Split render are coalesced when viewport geometry has not materially changed, avoiding the observed duplicate startup pane rebuild.
+- No changes to PDF source residency limits, iPad raster caps, Pen/Touch routing, saved zoom/scroll/page state, graph behavior, Library schema, or backup format.
 
 ## 5.8.25 — lower iPad viewer raster footprint
 
@@ -24,7 +33,7 @@ Desktop keeps the prior margins and raster ceilings. The lower caps affect only 
 
 ## Lower transient PDF-render pressure on iPad
 
-Recent 5.8.23 diagnostics showed repeated iPad input-delivery failures (including contact moves arriving without their initial down event) while steady-state PDF source residency and canvas backing were healthy. The source-residency architecture is therefore preserved; 5.8.25 reduces transient PDF.js work rather than changing Pen/Touch routing.
+Recent 5.8.23 diagnostics showed repeated iPad input-delivery failures (including contact moves arriving without their initial down event) while steady-state PDF source residency and canvas backing were healthy. The source-residency architecture is therefore preserved; 5.8.26 reduces transient PDF.js work rather than changing Pen/Touch routing.
 
 - iPad/iPhone PWA rendering is limited to **one queued PDF raster job at a time**. Desktop remains at two-way rendering.
 - Render-queue jobs now carry their PDF source ID. When a document is switched away, queued jobs for that now-hidden source are discarded immediately instead of running just to discover they are stale.
