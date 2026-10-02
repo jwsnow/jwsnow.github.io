@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.32';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.33';
 
-const APP_VERSION = '5.8.32';
+const APP_VERSION = '5.8.33';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -2895,6 +2895,65 @@ async function importEditableBackupAsSubtree(file) {
 // letting many pages render at once can exhaust browser/GPU memory and leave
 // apparently blank canvases. Viewer jobs are given priority over thumbnails.
 const renderQueue = { active: 0, max: isIPadLike() ? 1 : 2, jobs: [], activeJobs: new Set() };
+
+// 5.8.33 iPad/WebKit recovery guards. Real grading diagnostics caught one still-visible
+// PDF.js render running for >8 s with four more page renders queued behind it immediately
+// before a process restart. A normal viewer render is usually far below this threshold.
+// If one render becomes pathological, cancel it, retire/reload the persisted source, and
+// retry the visible page once at lower raster pressure instead of letting the global
+// one-at-a-time render queue remain wedged indefinitely.
+const IPAD_VIEWER_RENDER_WATCHDOG_MS = 4500;
+const IPAD_VIEWER_RENDER_WATCHDOG_DESTROY_GRACE_MS = 1400;
+const IPAD_PDF_IDLE_CLEANUP_DELAY_MS = 2500;
+const IPAD_PDF_IDLE_CLEANUP_RENDER_THRESHOLD = 5;
+const IPAD_PINCH_SPLIT_REFRESH_MAX_PIXELS = 1_400_000;
+const IPAD_PINCH_SINGLE_REFRESH_MAX_PIXELS = 2_000_000;
+const IPAD_PINCH_REFRESH_GAP_MS = 220;
+const pdfViewerRendersSinceCleanup = new Map();
+let pdfViewerIdleCleanupTimer = null;
+
+function viewerRenderWatchdogMs() {
+  return isIPadLike() ? IPAD_VIEWER_RENDER_WATCHDOG_MS : 0;
+}
+function isPdfRenderWatchdogError(err) {
+  return String(err?.name || '') === 'PDFRenderWatchdogError';
+}
+function scheduleIdleVisiblePdfCleanup() {
+  if (!isIPadLike()) return;
+  clearTimeout(pdfViewerIdleCleanupTimer);
+  pdfViewerIdleCleanupTimer = setTimeout(async () => {
+    pdfViewerIdleCleanupTimer = null;
+    if (renderQueue.active || renderQueue.jobs.length || diagnosticActiveRenders.size ||
+        state.inkGesture || state.eraserGesture || state.selectionGesture || state.graphGesture || state.graphContentMoveGesture) {
+      scheduleIdleVisiblePdfCleanup();
+      return;
+    }
+    const visibleSourceIds = new Set();
+    for (const docId of visibleDocumentIdsForSourceResidency()) {
+      const doc = documentById(docId);
+      for (const sourceId of documentSourceIds(doc)) visibleSourceIds.add(sourceId);
+    }
+    for (const sourceId of visibleSourceIds) {
+      const count = pdfViewerRendersSinceCleanup.get(sourceId) || 0;
+      if (count < IPAD_PDF_IDLE_CLEANUP_RENDER_THRESHOLD) continue;
+      const source = state.sources.get(sourceId);
+      if (!source || source.type !== 'pdf' || !source.pdf || renderQueueHasActiveSource(sourceId)) continue;
+      try {
+        await source.pdf.cleanup();
+        pdfViewerRendersSinceCleanup.set(sourceId, 0);
+        addInkDiagnostic('pdf-document-idle-cleanup', null, { sourceId, completedViewerRenders:count });
+      } catch (err) {
+        addInkDiagnostic('pdf-document-idle-cleanup-deferred', null, { sourceId, completedViewerRenders:count, message:String(err?.message || err) });
+      }
+    }
+  }, IPAD_PDF_IDLE_CLEANUP_DELAY_MS);
+}
+function notePdfViewerRenderCompletion(sourceId) {
+  if (!isIPadLike() || !sourceId) return;
+  const count = (pdfViewerRendersSinceCleanup.get(sourceId) || 0) + 1;
+  pdfViewerRendersSinceCleanup.set(sourceId, count);
+  if (count >= IPAD_PDF_IDLE_CLEANUP_RENDER_THRESHOLD) scheduleIdleVisiblePdfCleanup();
+}
 // Viewer PDF.js RenderTasks are tracked separately from the coarse queue job so
 // a Split document switch can cancel stale rendering in the pane being replaced.
 // This prevents an outgoing scan render from keeping a third PDF.js document
@@ -7952,6 +8011,7 @@ function releaseSourceIfUnused(sourceId, options={}) {
   let destroyed = null;
   try { destroyed = source.pdf?.destroy?.() || null; } catch {}
   state.sources.delete(sourceId);
+  pdfViewerRendersSinceCleanup.delete(sourceId);
   return destroyed && typeof destroyed.then === 'function' ? destroyed.catch(() => {}) : null;
 }
 
@@ -7983,6 +8043,7 @@ async function releasePersistedPdfSourceMemory(sourceId, reason='inactive-docume
   try { await source.pdf?.destroy?.(); } catch {}
   try { if (source.url) URL.revokeObjectURL(source.url); } catch {}
   state.sources.delete(sourceId);
+  pdfViewerRendersSinceCleanup.delete(sourceId);
   addInkDiagnostic('library-source-memory-released', null, {
     sourceId,
     reason,
@@ -12801,6 +12862,9 @@ async function renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, d
   } finally {
     const durationMs = performance.now() - startedAt;
     diagnosticActiveRenders.delete(token);
+    if (!error && renderControl?.cancellable && page?.kind !== 'generated') {
+      notePdfViewerRenderCompletion(page?.sourceId || null);
+    }
     if (!error && durationMs >= 750) {
       addInkDiagnostic('render-slow', null, { ...info, startedAt:undefined, durationMs:Math.round(durationMs*10)/10 });
     }
@@ -15144,6 +15208,38 @@ function queuePinchZoom(value, paneId=null) {
 // produced the crisp raster. That was visible as a distracting post-pinch
 // blip. Render into a temporary canvas instead, keep the scaled bitmap visible,
 // then swap the new pixels synchronously once they are ready.
+function pinchRefreshStagesInPriorityOrder(viewer) {
+  const stages = [...(viewer?.querySelectorAll?.('.page-stage[data-page-id]') || [])]
+    .filter(stage => stage.dataset.rendered === 'true' && stage.dataset.wantRender !== 'false');
+  if (!isIPadLike() || stages.length < 2) return stages;
+  const vr = viewer.getBoundingClientRect();
+  const cx = vr.left + vr.width / 2;
+  const cy = vr.top + vr.height / 2;
+  const distance = stage => {
+    const r = stage.getBoundingClientRect();
+    const sx = clamp(cx, r.left, r.right);
+    const sy = clamp(cy, r.top, r.bottom);
+    return Math.hypot(cx - sx, cy - sy);
+  };
+  return stages.sort((a, b) => distance(a) - distance(b));
+}
+
+async function cleanupPdfBeforePinchRefresh(page) {
+  if (!isIPadLike() || !page?.sourceId) return;
+  const source = state.sources.get(page.sourceId);
+  if (!source || source.type !== 'pdf' || !source.pdf) return;
+  try {
+    await source.pdf.cleanup();
+    addInkDiagnostic('pinch-pdf-cache-cleanup', null, { sourceId:page.sourceId, pageId:page.id || null });
+  } catch (err) {
+    addInkDiagnostic('pinch-pdf-cache-cleanup-deferred', null, {
+      sourceId:page.sourceId,
+      pageId:page.id || null,
+      message:String(err?.message || err),
+    });
+  }
+}
+
 async function refreshPinchStageRasterInPlace(stage, page, size, options={}) {
   if (!stage?.isConnected || !page || stage.dataset.wantRender === 'false') return false;
   if (stage.dataset.rendered !== 'true') return false;
@@ -15164,7 +15260,14 @@ async function refreshPinchStageRasterInPlace(stage, page, size, options={}) {
   try {
     const didRender = await enqueueRender(async () => {
       if (!stillCurrent()) return false;
-      await renderPageToCanvasDiagnostic(page, temp, expectedWidth, expectedHeight, options.dpr || 1, options.maxPixels || 6_000_000);
+      if (options.cleanupBeforeRender) await cleanupPdfBeforePinchRefresh(page);
+      await renderPageToCanvasDiagnostic(
+        page, temp, expectedWidth, expectedHeight,
+        options.dpr || 1,
+        options.maxPixels || 6_000_000,
+        null,
+        { cancellable:true, watchdogMs:viewerRenderWatchdogMs() }
+      );
       return true;
     }, 12, { sourceId: page?.sourceId || null, kind:'pinch-refresh' });
     if (!didRender || !stillCurrent() || !temp.width || !temp.height) return false;
@@ -15172,7 +15275,12 @@ async function refreshPinchStageRasterInPlace(stage, page, size, options={}) {
     if (page.kind !== 'generated' && canvasLooksBlank(temp)) {
       const didFallbackRender = await enqueueRender(async () => {
         if (!stillCurrent()) return false;
-        await renderPageToCanvasDiagnostic(page, temp, expectedWidth, expectedHeight, 1, options.fallbackPixels || 2_000_000);
+        await renderPageToCanvasDiagnostic(
+          page, temp, expectedWidth, expectedHeight, 1,
+          options.fallbackPixels || 2_000_000,
+          null,
+          { cancellable:true, watchdogMs:viewerRenderWatchdogMs() }
+        );
         return true;
       }, 12, { sourceId: page?.sourceId || null, kind:'pinch-refresh-fallback' });
       if (!didFallbackRender || !stillCurrent() || !temp.width || !temp.height) return false;
@@ -15201,15 +15309,44 @@ async function refreshPinchStageRasterInPlace(stage, page, size, options={}) {
 
 function refreshSinglePinchRasterInPlace() {
   const token = state.pinchCrispToken || 0;
+  const stages = pinchRefreshStagesInPriorityOrder(els.viewer);
+  if (!stages.length) return;
+
+  if (isIPadLike()) {
+    addInkDiagnostic('pinch-crisp-refresh-start', null, {
+      viewer:'single',
+      stageCount:stages.length,
+      maxPixels:IPAD_PINCH_SINGLE_REFRESH_MAX_PIXELS,
+    });
+    void (async () => {
+      for (let i = 0; i < stages.length; i += 1) {
+        if (state.splitView || (state.pinchCrispToken || 0) !== token) break;
+        const stage = stages[i];
+        const page = pageById(stage.dataset.pageId);
+        if (!page) continue;
+        const size = computeCssSize(page);
+        const ok = await refreshPinchStageRasterInPlace(stage, page, size, {
+          dpr:1.6,
+          maxPixels:IPAD_PINCH_SINGLE_REFRESH_MAX_PIXELS,
+          fallbackPixels:1_400_000,
+          cleanupBeforeRender:i === 0,
+          isCurrent:() => !state.splitView && (state.pinchCrispToken || 0) === token,
+        });
+        if (!ok) break;
+        if (i + 1 < stages.length) await sleep(IPAD_PINCH_REFRESH_GAP_MS);
+      }
+    })();
+    return;
+  }
+
   const jobs = [];
-  for (const stage of els.viewer.querySelectorAll('.page-stage[data-page-id]')) {
-    if (stage.dataset.rendered !== 'true' || stage.dataset.wantRender === 'false') continue;
+  for (const stage of stages) {
     const page = pageById(stage.dataset.pageId);
     if (!page) continue;
     const size = computeCssSize(page);
     jobs.push(refreshPinchStageRasterInPlace(stage, page, size, {
       dpr:clamp(window.devicePixelRatio || 1, 1, 2.25),
-      maxPixels:isIPadLike() ? 4_000_000 : 6_000_000,
+      maxPixels:6_000_000,
       fallbackPixels:2_000_000,
       isCurrent:() => !state.splitView && (state.pinchCrispToken || 0) === token,
     }));
@@ -15222,15 +15359,46 @@ function refreshPanePinchRasterInPlace(paneId) {
   const doc = documentById(pane.documentId);
   if (!pane || !view || !pe?.viewer || !doc) return;
   const token = pane.pinchCrispToken || 0;
+  const stages = pinchRefreshStagesInPriorityOrder(pe.viewer);
+  if (!stages.length) return;
+
+  if (isIPadLike()) {
+    addInkDiagnostic('pinch-crisp-refresh-start', null, {
+      viewer:`split-${paneId}`,
+      paneId,
+      documentId:doc.id,
+      stageCount:stages.length,
+      maxPixels:IPAD_PINCH_SPLIT_REFRESH_MAX_PIXELS,
+    });
+    void (async () => {
+      for (let i = 0; i < stages.length; i += 1) {
+        if (!state.splitView || pane.documentId !== doc.id || (pane.pinchCrispToken || 0) !== token) break;
+        const stage = stages[i];
+        const page = splitPageById(doc, stage.dataset.pageId);
+        if (!page) continue;
+        const size = computePaneCssSize(page, paneId, view);
+        const ok = await refreshPinchStageRasterInPlace(stage, page, size, {
+          dpr:1.5,
+          maxPixels:IPAD_PINCH_SPLIT_REFRESH_MAX_PIXELS,
+          fallbackPixels:1_000_000,
+          cleanupBeforeRender:i === 0,
+          isCurrent:() => state.splitView && pane.documentId === doc.id && (pane.pinchCrispToken || 0) === token,
+        });
+        if (!ok) break;
+        if (i + 1 < stages.length) await sleep(IPAD_PINCH_REFRESH_GAP_MS);
+      }
+    })();
+    return;
+  }
+
   const jobs = [];
-  for (const stage of pe.viewer.querySelectorAll('.page-stage[data-page-id]')) {
-    if (stage.dataset.rendered !== 'true' || stage.dataset.wantRender === 'false') continue;
+  for (const stage of stages) {
     const page = splitPageById(doc, stage.dataset.pageId);
     if (!page) continue;
     const size = computePaneCssSize(page, paneId, view);
     jobs.push(refreshPinchStageRasterInPlace(stage, page, size, {
       dpr:clamp(window.devicePixelRatio || 1, 1, 2.1),
-      maxPixels:isIPadLike() ? 2_500_000 : 4_500_000,
+      maxPixels:4_500_000,
       fallbackPixels:1_800_000,
       isCurrent:() => state.splitView && pane.documentId === doc.id && (pane.pinchCrispToken || 0) === token,
     }));
@@ -15882,7 +16050,8 @@ async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
   }
   stage.style.width = `${size.width}px`;
   stage.style.height = `${size.height}px`;
-  const dpr = clamp(window.devicePixelRatio || 1, 1, 2.1);
+  const watchdogRetry = Number(stage?.dataset?.renderWatchdogRetries || 0) > 0;
+  const dpr = watchdogRetry ? 1 : clamp(window.devicePixelRatio || 1, 1, 2.1);
   const didRender = await enqueueRender(async () => {
     const stale = generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false';
     if (stale) {
@@ -15891,16 +16060,38 @@ async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
     }
     recordRenderDiagnostic('viewer-render-start', page, { requestId, generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
     try {
-      await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, isIPadLike() ? 2_500_000 : 4_500_000, null, { cancellable:true });
+      await renderPageToCanvasDiagnostic(
+        page, canvas, size.width, size.height, dpr,
+        watchdogRetry && isIPadLike() ? 1_400_000 : (isIPadLike() ? 2_500_000 : 4_500_000),
+        null,
+        { cancellable:true, watchdogMs:viewerRenderWatchdogMs() }
+      );
       return true;
     } catch (err) {
+      if (isPdfRenderWatchdogError(err)) {
+        recordRenderDiagnostic('viewer-render-watchdog-timeout', page, { requestId, generation, viewer:`split-${paneId}`, paneId, watchdogRetry, stage:diagnosticStageState(stage) });
+        return 'watchdog-timeout';
+      }
       if (isPdfRenderCancellationError(err)) {
         recordRenderDiagnostic('viewer-render-cancelled', page, { requestId, generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
         return false;
       }
       throw err;
     }
-  }, 10, { sourceId: page?.sourceId || null, kind:'viewer', viewer:`split-${paneId}` });
+  }, watchdogRetry ? 12 : 10, { sourceId: page?.sourceId || null, kind:watchdogRetry?'viewer-watchdog-retry':'viewer', viewer:`split-${paneId}` });
+  if (didRender === 'watchdog-timeout') {
+    const retries = Number(stage?.dataset?.renderWatchdogRetries || 0);
+    if (retries < 1 && generation === pane.generation && stage.isConnected && stage.dataset.wantRender !== 'false') {
+      stage.dataset.renderWatchdogRetries = String(retries + 1);
+      stage.dataset.rendered = 'loading';
+      ensurePageLoading(stage, 'Recovering page…');
+      markStageRenderRequested(stage, page, 'watchdog-retry', { generation, viewer:`split-${paneId}`, paneId });
+      recordRenderDiagnostic('viewer-render-watchdog-retry', page, { generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
+      return renderSplitViewerPage(paneId, page, stage, canvas, generation);
+    }
+    if (stage?.isConnected) renderError(stage, new Error('Page rendering stalled twice. Scroll away and back, or reopen the document.'));
+    return;
+  }
   if (!didRender || generation !== pane.generation || !stage.isConnected) {
     if (stage?.isConnected && stage.dataset.rendered === 'loading') {
       recordRenderDiagnostic('viewer-render-left-loading', page, { requestId, generation, currentGeneration:pane.generation, viewer:`split-${paneId}`, paneId, didRender:!!didRender, stage:diagnosticStageState(stage) });
@@ -15911,12 +16102,16 @@ async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
   if (page.kind !== 'generated' && canvasLooksBlank(canvas)) {
     recordRenderDiagnostic('viewer-render-retry-blank', page, { requestId, generation, viewer:`split-${paneId}`, paneId });
     ensurePageLoading(stage, 'Retrying scan…');
-    await enqueueRender(async () => {
+    const retryRendered = await enqueueRender(async () => {
       if (generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
       try {
-        await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, 1, 1_800_000, null, { cancellable:true });
+        await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, 1, 1_800_000, null, { cancellable:true, watchdogMs:viewerRenderWatchdogMs() });
         return true;
       } catch (err) {
+        if (isPdfRenderWatchdogError(err)) {
+          recordRenderDiagnostic('viewer-render-watchdog-timeout', page, { requestId, generation, viewer:`split-${paneId}`, paneId, retry:true, stage:diagnosticStageState(stage) });
+          return false;
+        }
         if (isPdfRenderCancellationError(err)) {
           recordRenderDiagnostic('viewer-render-cancelled', page, { requestId, generation, viewer:`split-${paneId}`, paneId, retry:true, stage:diagnosticStageState(stage) });
           return false;
@@ -15924,11 +16119,13 @@ async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
         throw err;
       }
     }, 11, { sourceId: page?.sourceId || null, kind:'viewer-retry', viewer:`split-${paneId}` });
+    if (!retryRendered) return;
   }
   if (generation !== pane.generation || !stage.isConnected) return;
   if (stage.dataset.wantRender === 'false') { releaseViewerStage(stage); return; }
   redrawStageAnnotations(stage, page);
   stage.dataset.rendered = 'true';
+  delete stage.dataset.renderWatchdogRetries;
   stage.querySelector('.page-loading')?.remove();
   recordRenderDiagnostic('viewer-render-complete', page, { requestId, generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
   clearStageRenderDiagnostic(stage);
@@ -15972,7 +16169,8 @@ async function renderViewerPage(page, stage, canvas, generation) {
   }
   stage.style.width = `${size.width}px`;
   stage.style.height = `${size.height}px`;
-  const dpr = clamp(window.devicePixelRatio || 1, 1, 2.25);
+  const watchdogRetry = Number(stage?.dataset?.renderWatchdogRetries || 0) > 0;
+  const dpr = watchdogRetry ? 1 : clamp(window.devicePixelRatio || 1, 1, 2.25);
 
   const didRender = await enqueueRender(async () => {
     // Stale/offscreen jobs may sit in the queue for a while. Check again at
@@ -15984,16 +16182,39 @@ async function renderViewerPage(page, stage, canvas, generation) {
     }
     recordRenderDiagnostic('viewer-render-start', page, { requestId, generation, viewer:'single', stage:diagnosticStageState(stage) });
     try {
-      await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, isIPadLike() ? 4_000_000 : 6_000_000, null, { cancellable:true });
+      await renderPageToCanvasDiagnostic(
+        page, canvas, size.width, size.height, dpr,
+        watchdogRetry && isIPadLike() ? 1_800_000 : (isIPadLike() ? 4_000_000 : 6_000_000),
+        null,
+        { cancellable:true, watchdogMs:viewerRenderWatchdogMs() }
+      );
       return true;
     } catch (err) {
+      if (isPdfRenderWatchdogError(err)) {
+        recordRenderDiagnostic('viewer-render-watchdog-timeout', page, { requestId, generation, viewer:'single', watchdogRetry, stage:diagnosticStageState(stage) });
+        return 'watchdog-timeout';
+      }
       if (isPdfRenderCancellationError(err)) {
         recordRenderDiagnostic('viewer-render-cancelled', page, { requestId, generation, viewer:'single', stage:diagnosticStageState(stage) });
         return false;
       }
       throw err;
     }
-  }, 10, { sourceId: page?.sourceId || null, kind:'viewer', viewer:'single' });
+  }, watchdogRetry ? 12 : 10, { sourceId: page?.sourceId || null, kind:watchdogRetry?'viewer-watchdog-retry':'viewer', viewer:'single' });
+
+  if (didRender === 'watchdog-timeout') {
+    const retries = Number(stage?.dataset?.renderWatchdogRetries || 0);
+    if (retries < 1 && generation === state.renderGeneration && stage.isConnected && stage.dataset.wantRender !== 'false') {
+      stage.dataset.renderWatchdogRetries = String(retries + 1);
+      stage.dataset.rendered = 'loading';
+      ensurePageLoading(stage, 'Recovering page…');
+      markStageRenderRequested(stage, page, 'watchdog-retry', { generation, viewer:'single' });
+      recordRenderDiagnostic('viewer-render-watchdog-retry', page, { generation, viewer:'single', stage:diagnosticStageState(stage) });
+      return renderViewerPage(page, stage, canvas, generation);
+    }
+    if (stage?.isConnected) renderError(stage, new Error('Page rendering stalled twice. Scroll away and back, or reopen the document.'));
+    return;
+  }
 
   if (!didRender || generation !== state.renderGeneration || !stage.isConnected) {
     if (stage?.isConnected && stage.dataset.rendered === 'loading') {
@@ -16013,12 +16234,16 @@ async function renderViewerPage(page, stage, canvas, generation) {
   if (page.kind !== 'generated' && canvasLooksBlank(canvas)) {
     recordRenderDiagnostic('viewer-render-retry-blank', page, { requestId, generation, viewer:'single' });
     ensurePageLoading(stage, 'Retrying scan…');
-    await enqueueRender(async () => {
+    const retryRendered = await enqueueRender(async () => {
       if (generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
       try {
-        await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, 1, 2_000_000, null, { cancellable:true });
+        await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, 1, 2_000_000, null, { cancellable:true, watchdogMs:viewerRenderWatchdogMs() });
         return true;
       } catch (err) {
+        if (isPdfRenderWatchdogError(err)) {
+          recordRenderDiagnostic('viewer-render-watchdog-timeout', page, { requestId, generation, viewer:'single', retry:true, stage:diagnosticStageState(stage) });
+          return false;
+        }
         if (isPdfRenderCancellationError(err)) {
           recordRenderDiagnostic('viewer-render-cancelled', page, { requestId, generation, viewer:'single', retry:true, stage:diagnosticStageState(stage) });
           return false;
@@ -16026,6 +16251,7 @@ async function renderViewerPage(page, stage, canvas, generation) {
         throw err;
       }
     }, 11, { sourceId: page?.sourceId || null, kind:'viewer-retry', viewer:'single' });
+    if (!retryRendered) return;
   }
 
   if (generation !== state.renderGeneration || !stage.isConnected) return;
@@ -16035,6 +16261,7 @@ async function renderViewerPage(page, stage, canvas, generation) {
   }
   redrawStageAnnotations(stage, page);
   stage.dataset.rendered = 'true';
+  delete stage.dataset.renderWatchdogRetries;
   stage.querySelector('.page-loading')?.remove();
   recordRenderDiagnostic('viewer-render-complete', page, { requestId, generation, viewer:'single', stage:diagnosticStageState(stage) });
   clearStageRenderDiagnostic(stage);
@@ -16093,14 +16320,82 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
       // areas transparent so the Workbench layer remains visible underneath.
       if (graphBackgroundSettings) renderOptions.background = 'rgba(255,255,255,0)';
       const renderTask = pdfPage.render(renderOptions);
+      const renderSourceId = source?.id || page?.sourceId || null;
       const unregisterRenderTask = renderControl?.cancellable
-        ? registerCancellablePdfRenderTask(source?.id || page?.sourceId || null, renderTask)
+        ? registerCancellablePdfRenderTask(renderSourceId, renderTask)
         : () => {};
-      try { await renderTask.promise; }
-      finally {
+      const watchdogMs = Math.max(0, Number(renderControl?.watchdogMs || 0));
+      let watchdogTriggered = false;
+      let watchdogTimer = null;
+      let watchdogDestroyTimer = null;
+      let renderFailure = null;
+      if (watchdogMs > 0 && renderTask?.cancel) {
+        watchdogTimer = setTimeout(() => {
+          watchdogTriggered = true;
+          addInkDiagnostic('pdf-render-watchdog-cancel-requested', null, {
+            sourceId:renderSourceId,
+            pageId:page?.id || null,
+            sourcePage:page?.sourcePage || null,
+            watchdogMs,
+          });
+          try { renderTask.cancel(); } catch {}
+          // If PDF.js does not unwind promptly after cancel (for example while a
+          // worker is stuck decoding an embedded image), terminate this persisted
+          // PDF document so the queued retry can reopen a fresh PDF.js instance.
+          watchdogDestroyTimer = setTimeout(() => {
+            if (!watchdogTriggered || !source?.libraryPersisted) return;
+            addInkDiagnostic('pdf-render-watchdog-source-destroy-requested', null, {
+              sourceId:renderSourceId,
+              pageId:page?.id || null,
+              sourcePage:page?.sourcePage || null,
+              graceMs:IPAD_VIEWER_RENDER_WATCHDOG_DESTROY_GRACE_MS,
+            });
+            try {
+              const destroyed = source.pdf?.destroy?.();
+              if (destroyed?.catch) destroyed.catch(() => {});
+            } catch {}
+            if (renderSourceId && state.sources.get(renderSourceId) === source) state.sources.delete(renderSourceId);
+          }, IPAD_VIEWER_RENDER_WATCHDOG_DESTROY_GRACE_MS);
+        }, watchdogMs);
+      }
+      try {
+        await renderTask.promise;
+        if (watchdogTriggered) {
+          const err = new Error(`PDF viewer render exceeded ${watchdogMs} ms.`);
+          err.name = 'PDFRenderWatchdogError';
+          renderFailure = err;
+        }
+      } catch (err) {
+        if (watchdogTriggered) {
+          const timeoutError = new Error(`PDF viewer render exceeded ${watchdogMs} ms.`);
+          timeoutError.name = 'PDFRenderWatchdogError';
+          timeoutError.cause = err;
+          renderFailure = timeoutError;
+        } else {
+          renderFailure = err;
+        }
+      } finally {
+        clearTimeout(watchdogTimer);
+        clearTimeout(watchdogDestroyTimer);
         unregisterRenderTask();
         try { pdfPage.cleanup?.(); } catch {}
+        if (watchdogTriggered && source?.libraryPersisted) {
+          // Even when RenderTask.cancel() succeeds promptly, throw away the PDF.js
+          // document that produced the pathological render. Its persisted bytes
+          // remain in IndexedDB and the retry will reopen a clean instance.
+          try { await source.pdf?.cleanup?.(); } catch {}
+          try { await source.pdf?.destroy?.(); } catch {}
+          if (renderSourceId && state.sources.get(renderSourceId) === source) state.sources.delete(renderSourceId);
+          pdfViewerRendersSinceCleanup.delete(renderSourceId);
+          addInkDiagnostic('pdf-render-watchdog-source-retired', null, {
+            sourceId:renderSourceId,
+            pageId:page?.id || null,
+            sourcePage:page?.sourcePage || null,
+            remainingSources:state.sources.size,
+          });
+        }
       }
+      if (renderFailure) throw renderFailure;
     } else {
       const img = await getSourceImage(source);
       targetCtx.save();
@@ -17300,6 +17595,7 @@ function bindManualViewerTouch(viewer, owner, config) {
       currentDocumentId:state.currentDocumentId || null,
       activePaneId:state.activePaneId || null,
     });
+    writeDiagnosticHealthBreadcrumb('pinch-start');
     owner.pinchNeedsRender = true;
     owner.touchPan = null;
     owner.touchStart = null;
@@ -17410,6 +17706,7 @@ function bindManualViewerTouch(viewer, owner, config) {
       owner.touchStart = null;
       const pendingPinchFinalize = owner.pendingPinchFinalize;
       owner.pendingPinchFinalize = null;
+      writeDiagnosticHealthBreadcrumb(cancelled ? 'pinch-cancel-before-refresh' : 'pinch-finish-before-refresh');
       config.finalizePinch?.(pendingPinchFinalize, cancelled);
       resetTouchIntent();
       return;

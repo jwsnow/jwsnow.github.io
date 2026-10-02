@@ -1,3 +1,41 @@
+# PDF Workbench 5.8.33-exp
+
+## Milestone 5.8.33 — render-stall recovery, PDF.js cache cleanup, and safer iPad pinch refresh
+
+5.8.33 incorporates two different crash signatures seen during sustained iPad grading.
+
+The 09:37 5.8.31 archive caught one still-visible PDF page render active for more than eight seconds with four Viewer renders queued behind it and repeated event-loop gaps. A second 5.8.31 restart occurred with the intended two resident sources, an empty render queue, and moderate measured canvas backing, suggesting pressure can also remain inside PDF.js/WebKit caches that the canvas counter cannot see.
+
+A later 09:48 restart happened during a zoom after 5.8.32 was installed. The recovered 5.8.32 runtime was healthy at two resident PDFs and about 45 MB measured canvas backing, but the dying runtime disappeared before its first durable breadcrumb. Because the pinch path temporarily renders crisp replacement rasters while retaining the old scaled bitmaps, 5.8.33 narrows that transient path without lowering ordinary Viewer quality.
+
+### Visible-render watchdog
+
+- On iPad-like WebKit, cancellable Viewer PDF renders use a 4.5-second watchdog.
+- A pathological visible render is cancelled; if it does not unwind promptly, its persisted PDF.js document is retired while the durable source bytes remain in IndexedDB.
+- The page retries once from a fresh source at lower raster pressure rather than leaving the one-render queue wedged indefinitely.
+- After five successful Viewer renders from a visible PDF and 2.5 seconds of true render/input idle time, Workbench asks PDF.js to `cleanup()` caches while keeping the document open.
+
+### Safer pinch/zoom refresh on iPad
+
+- Pinch start and pinch release synchronously update the compact crash breadcrumb.
+- The first post-pinch crisp refresh cleans the affected PDF.js document cache before rerendering.
+- Ordinary Viewer raster ceilings are unchanged: Split remains 2.5 MP and Single View remains 4 MP.
+- Only the **temporary post-pinch crisp refresh** is reduced to 1.4 MP per Split page / 2.0 MP in Single View.
+- Crisp refreshes run in viewport-priority order, one page at a time, with a short gap between neighboring pages instead of refreshing all rendered pages as a burst.
+- The already-visible CSS-scaled bitmap remains on screen until each replacement raster is ready.
+- Pinch-refresh PDF renders are cancellable and protected by the same render watchdog.
+
+### Preserved
+
+- 5.8.32 strict two-source Split handoff and stale outgoing-render cancellation.
+- 5.8.32 multi-runtime breadcrumb history and synchronous emergency Diagnostics capture.
+- 5.8.31 Split scroll-position ownership fix.
+- Incremental/document-only grading persistence, iPad one-render-at-a-time policy, persistent thumbnails, graph tools, and all Library/backup formats.
+
+Validation priority: grade normally, then deliberately exercise two-finger pinch zoom in both Split panes on several scan-heavy papers. Scroll position should stay anchored. The page under the pinch should sharpen first; neighboring pages may sharpen progressively rather than simultaneously. If a crash occurs, save Diagnostics immediately—the new pinch breadcrumbs should tell us whether the process died during live zoom or during the crisp-raster refresh.
+
+---
+
 # PDF Workbench 5.8.32-exp
 
 ## Milestone 5.8.32 — strict two-source Split handoff and stronger crash diagnostics

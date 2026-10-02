@@ -1,3 +1,64 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.33-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.33-exp ZIP, not an older build.
+
+5.8.33 ADDITIONAL 09:48 ZOOM-CRASH HARDENING
+- After 5.8.32 was installed, the user reported a separate restart triggered by a zoom gesture.
+- The 09:48 archive confirms the recovered runtime is 5.8.32. After recovery it settled correctly at two resident PDFs (`Test2.pdf` + `Madalyn Gaidusek.pdf`), no active/queued render work, about 44.9 MB measured canvas backing, and a largest canvas at the expected 2.5 MP Split ceiling.
+- The actual dying 5.8.32 runtime is NOT present in the breadcrumb history: the retained previous runtime is still the short 5.8.31 install/recovery runtime. Therefore the exact pre-crash allocation is not directly measured. The user's remembered trigger (zoom) plus the current pinch implementation identify the post-pinch crisp refresh as a plausible transient-pressure point: it kept the old scaled page bitmap visible while rendering replacement PDF rasters into temporary canvases.
+- This is not evidence that normal 2.5 MP Split rendering itself is too large; do not globally reduce normal viewer quality from this event.
+
+5.8.33 IPAD PINCH/ZOOM PRESSURE REDUCTION
+- On iPad-like WebKit, pinch start and pinch release now write the compact health breadcrumb synchronously. A restart during the first seconds of a session or during the post-pinch refresh should therefore leave a useful pre-refresh record rather than only the previous app version's breadcrumb.
+- Post-pinch crisp refresh remains visually in-place: the CSS-scaled pre-pinch bitmap stays visible until replacement pixels are ready.
+- Before the first crisp PDF refresh in the affected viewer, Workbench calls PDF.js `cleanup()` while no page render is active, releasing reusable PDF.js caches before asking the worker to decode/render the zoomed page again.
+- iPad crisp-refresh rasters use lower temporary ceilings than ordinary viewing: 1.4 MP per Split page and 2.0 MP in Single View. Ordinary non-pinch Split rendering remains at 2.5 MP and Single View at 4 MP.
+- Rendered pages are refreshed in viewport-priority order (the page nearest the viewport first), one at a time, with a short 220 ms gap between neighboring pages instead of queuing all visible/nearby crisp refreshes at once.
+- Pinch refresh renders are cancellable and use the same 5.8.33 visible-render watchdog. If a post-pinch PDF render itself stalls, the scaled pre-pinch bitmap remains available and the pathological PDF.js source can be retired instead of wedging the one-render queue.
+- New zoom diagnostics include `pinch-crisp-refresh-start`, `pinch-pdf-cache-cleanup`, and `pinch-pdf-cache-cleanup-deferred`.
+
+5.8.33 VISIBLE-RENDER WATCHDOG + IDLE PDF.JS CACHE CLEANUP
+- A 09:37 diagnostic archive from 5.8.31 contains evidence of TWO separate 5.8.31 process restarts.
+- First killed runtime: last breadcrumb at about 09:30:53 after ~412 s uptime. Split had exactly two resident PDF sources (`Test2.pdf` fixed left + `Sadie Lorentz_001.pdf` right), only ~2.3 MB measured canvas backing, but one visible `Test2.pdf` render had been active for >8.3 s and four more Viewer renders were queued behind it. The last breadcrumb also contains repeated `event-loop-gap` records at roughly one-second intervals. This is a different failure mode from the 5.8.30 transient three-source handoff. The immediately preceding Library persist was effectively instantaneous in the compact breadcrumb, so whole-class autosave is not implicated.
+- Second killed runtime: same 5.8.31 session restarted again around 09:37:21. Its last breadcrumb at 09:37:18 showed two resident PDFs (`Test2.pdf` + `Brooke.pdf`), render queue active=0/queued=0, no active renders, ~69.8 MB measured canvas backing, six rendered stages + one loading stage, and a routine Library persist that completed in ~57 ms. The measured state was not obviously excessive, so unmeasured PDF.js/WebKit worker/decode/cache pressure remains a plausible contributor.
+
+5.8.33 RENDER WATCHDOG
+- On iPad/iPhone-like WebKit only, cancellable Viewer PDF renders now use a 4.5 s watchdog. This is intentionally far above ordinary captured grading render times.
+- When a Viewer render exceeds the watchdog, Workbench calls `RenderTask.cancel()`. If the task does not unwind within an additional ~1.4 s, Workbench requests destruction of that persisted PDF.js document to terminate the stuck worker/render path.
+- Any watchdog-triggered persisted source is retired from `state.sources`; its durable source bytes remain in IndexedDB. The visible page is retried once from a freshly reopened PDF.js document at lower raster pressure.
+- The watchdog retry uses elevated queue priority so it is not trapped behind ordinary nearby-page prefetch jobs. It retries only once; a second stall becomes a visible page-render error instead of a retry loop.
+- Existing 5.8.32 stale-OUTGOING render cancellation remains separate: 5.8.33 additionally protects a pathological render belonging to a document that is still genuinely visible.
+- New diagnostics: `pdf-render-watchdog-cancel-requested`, `pdf-render-watchdog-source-destroy-requested`, `pdf-render-watchdog-source-retired`, `viewer-render-watchdog-timeout`, `viewer-render-watchdog-retry`.
+
+5.8.33 IDLE PDF.JS CACHE CLEANUP
+- The second 5.8.31 restart occurred with correct two-source residency and an empty render queue, so measured canvas/source state alone is still not a complete proxy for WebKit process pressure.
+- On iPad only, each resident PDF tracks successful Viewer renders. After five renders from a source and 2.5 s of genuine render/input idle time, Workbench calls the PDF.js document proxy's `cleanup()` without closing/unloading the visible PDF. Already-rendered canvases remain intact.
+- Cleanup is deferred while the global render queue, any diagnostic render, Pen/Eraser/Select/Graph gesture, or graph-content move is active.
+- This is intended to bound PDF.js font/image/operator caches—memory that is not represented by the existing canvas backing estimate—while avoiding a source reload on every ordinary page change.
+- New diagnostics: `pdf-document-idle-cleanup`, `pdf-document-idle-cleanup-deferred`.
+
+PRESERVE
+- 5.8.32 strict two-source Split source retirement and stale outgoing-render cancellation.
+- 5.8.32 multi-runtime breadcrumb history + synchronous emergency Diagnostics capture.
+- 5.8.31 native Split scroll-listener ownership guard and 5.8.30 committed-view restore guards.
+- 5.8.28 document-only/incremental grading persistence.
+- iPad one-render-at-a-time policy, 2.5 MP Split / 4 MP single raster ceilings, reduced prefetch margins, persistent thumbnails, graph tools, Library data, export, and editable-backup formats.
+
+VALIDATION PRIORITY
+1. Use normal Split grading with the answer key fixed in one pane and student papers switching in the other. Do not deliberately induce a stall at first; test ordinary classroom flow.
+2. Confirm switching/scrolling remains responsive and the 5.8.31 scroll-position fix still holds.
+3. Diagnostics should show `pdf-document-idle-cleanup` occasionally after sustained navigation when the app has been render/input idle for ~2.5 s. It should not fire during active Pen/selection/graph gestures.
+4. If a Viewer render stalls, expect watchdog events, source retirement/reopen, and one lower-pressure retry instead of an 8+ second active render with a growing queue.
+5. `library-source-load-finish` should continue to show `residentSources` at the intended Split target of 2 after source handoff/recovery settles.
+6. Exercise ordinary two-finger pinch zoom in both Split panes, including on scan-heavy student papers. The page under the pinch should stay anchored, the nearest page should sharpen first, and neighboring pages may sharpen progressively over the next moments rather than all at once.
+7. If another zoom restart occurs, save/export Diagnostics. The new synchronous `pinch-start` / `pinch-finish-before-refresh` breadcrumb should identify whether the kill occurred during live pinch geometry or the crisp-raster refresh.
+8. If another restart occurs for any reason, 5.8.32's breadcrumb history and emergency captures should preserve the actual long runtime even if one or more short recovery runtimes occur.
+
+================================================================================
+PRIOR 5.8.32 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.32-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
