@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.24';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.25';
 
-const APP_VERSION = '5.8.24';
+const APP_VERSION = '5.8.25';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -14778,7 +14778,7 @@ function refreshSinglePinchRasterInPlace() {
     const size = computeCssSize(page);
     jobs.push(refreshPinchStageRasterInPlace(stage, page, size, {
       dpr:clamp(window.devicePixelRatio || 1, 1, 2.25),
-      maxPixels:6_000_000,
+      maxPixels:isIPadLike() ? 4_000_000 : 6_000_000,
       fallbackPixels:2_000_000,
       isCurrent:() => !state.splitView && (state.pinchCrispToken || 0) === token,
     }));
@@ -14799,7 +14799,7 @@ function refreshPanePinchRasterInPlace(paneId) {
     const size = computePaneCssSize(page, paneId, view);
     jobs.push(refreshPinchStageRasterInPlace(stage, page, size, {
       dpr:clamp(window.devicePixelRatio || 1, 1, 2.1),
-      maxPixels:4_500_000,
+      maxPixels:isIPadLike() ? 2_500_000 : 4_500_000,
       fallbackPixels:1_800_000,
       isCurrent:() => state.splitView && pane.documentId === doc.id && (pane.pinchCrispToken || 0) === token,
     }));
@@ -15072,7 +15072,7 @@ function renderSingleViewer() {
         }
       }
     }
-  }, { root: els.viewer, rootMargin: '125% 0px 125% 0px', threshold: [0.01, .28, .55, .8] });
+  }, { root: els.viewer, rootMargin: isIPadLike() ? '55% 0px 55% 0px' : '125% 0px 125% 0px', threshold: [0.01, .28, .55, .8] });
   state.pageObserver = observer;
 
   for (const page of pagesToBuild) {
@@ -15356,7 +15356,7 @@ function renderSplitPane(paneId) {
         if (stage.dataset.rendered === 'true' || stage.dataset.rendered === 'error') releaseViewerStage(stage);
       }
     }
-  }, { root: pe.viewer, rootMargin: '110% 0px 110% 0px', threshold: [0.01, .28, .55, .8] });
+  }, { root: pe.viewer, rootMargin: isIPadLike() ? '35% 0px 35% 0px' : '110% 0px 110% 0px', threshold: [0.01, .28, .55, .8] });
   pane.observer = observer;
 
   for (const page of pagesToBuild) {
@@ -15446,7 +15446,7 @@ async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
       return false;
     }
     recordRenderDiagnostic('viewer-render-start', page, { requestId, generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
-    await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, 4_500_000);
+    await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, isIPadLike() ? 2_500_000 : 4_500_000);
     return true;
   }, 10, { sourceId: page?.sourceId || null, kind:'viewer', viewer:`split-${paneId}` });
   if (!didRender || generation !== pane.generation || !stage.isConnected) {
@@ -15523,7 +15523,7 @@ async function renderViewerPage(page, stage, canvas, generation) {
       return false;
     }
     recordRenderDiagnostic('viewer-render-start', page, { requestId, generation, viewer:'single', stage:diagnosticStageState(stage) });
-    await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, 6_000_000);
+    await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, isIPadLike() ? 4_000_000 : 6_000_000);
     return true;
   }, 10, { sourceId: page?.sourceId || null, kind:'viewer', viewer:'single' });
 

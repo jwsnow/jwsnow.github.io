@@ -1,8 +1,20 @@
-# PDF Workbench 5.8.24-exp
+# PDF Workbench 5.8.25-exp
 
-5.8.24 is a focused iPad grading/input-pressure + diagnostics revision built from 5.8.23. It preserves the logical-open/lazy-resident PDF architecture, scanner-safe Library thumbnails, graph features, and all Library data.
+5.8.25 is a focused iPad canvas/raster-footprint revision built from 5.8.24 after a substantially longer grading run still eventually restarted. It preserves 5.8.24 Files diagnostics, one-render-at-a-time iPad scheduling, source-aware release, logical-open/lazy-resident PDFs, graph features, and Library data.
 
-# PDF Workbench — Milestone 5.8.24 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+## 5.8.25 — lower iPad viewer raster footprint
+
+The 5.8.24 pre-restart diagnostic showed the source/residency fixes working: two resident PDF sources in Split, empty render queue, no event-loop gaps, and old sources released about half a second after switches. The remaining high-water mark was canvas backing. Split's IntersectionObserver still retained nearby pages out to 110% above/below the viewport, typically leaving about four rendered pages per pane. Some zoomed pane rebuilds released roughly 100–105 MB of canvas backing from the replaced pane alone.
+
+On iPad/iPhone-like WebKit only:
+- single-view continuous prefetch margin is reduced from 125% to 55%;
+- Split continuous prefetch margin is reduced from 110% to 35%;
+- Split page/pinch raster ceiling is reduced from 4.5 MP to 2.5 MP;
+- single-view page/pinch raster ceiling is reduced from 6 MP to 4 MP.
+
+Desktop keeps the prior margins and raster ceilings. The lower caps affect only zoom states that would otherwise exceed those ceilings; normal fit-page/fit-width pages below the cap render at their normal DPR. Scroll/zoom/page state remains unchanged and offscreen stages still collapse their canvases when evicted.
+
+# PDF Workbench — Milestone 5.8.25 (DEVELOPMENT / DIAGNOSTIC BRANCH)
 
 ## Files diagnostics button
 
@@ -12,7 +24,7 @@
 
 ## Lower transient PDF-render pressure on iPad
 
-Recent 5.8.23 diagnostics showed repeated iPad input-delivery failures (including contact moves arriving without their initial down event) while steady-state PDF source residency and canvas backing were healthy. The source-residency architecture is therefore preserved; 5.8.24 reduces transient PDF.js work rather than changing Pen/Touch routing.
+Recent 5.8.23 diagnostics showed repeated iPad input-delivery failures (including contact moves arriving without their initial down event) while steady-state PDF source residency and canvas backing were healthy. The source-residency architecture is therefore preserved; 5.8.25 reduces transient PDF.js work rather than changing Pen/Touch routing.
 
 - iPad/iPhone PWA rendering is limited to **one queued PDF raster job at a time**. Desktop remains at two-way rendering.
 - Render-queue jobs now carry their PDF source ID. When a document is switched away, queued jobs for that now-hidden source are discarded immediately instead of running just to discover they are stale.

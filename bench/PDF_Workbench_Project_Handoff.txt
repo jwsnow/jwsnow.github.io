@@ -1,3 +1,41 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-01 — BASELINE 5.8.25-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.25-exp ZIP, not an older build.
+
+WHY 5.8.25 EXISTS — IPAD CANVAS/Raster HIGH-WATER REDUCTION
+- User reports 5.8.24 made it substantially farther during full-class Split grading but eventually still restarted.
+- A 5.8.24 snapshot roughly five minutes into the pre-crash run was healthy on the mechanisms already fixed: 2 resident PDF sources, renderQueue active=0/queued=0/max=1, no event-loop gaps, and source releases about 0.45–0.55 seconds after Split switches.
+- The remaining high-water mark is viewer raster memory. The Split observer still retained pages out to 110% beyond the viewport, producing about 4 rendered pages per pane; several right-pane rebuilds released about 100–105 MB of canvas backing from that pane alone. A zoomed render reached the 4.5 MP Split cap.
+- This points to WebKit process pressure from visible/nearby page canvases + PDF.js decoded image caches rather than hidden-source accumulation.
+
+5.8.25 CHANGES — IPAD ONLY
+1. Reduce continuous-view prefetch margins: single View 125% -> 55%; Split 110% -> 35%. Desktop is unchanged.
+2. Reduce raster ceilings only on iPad/iPhone-like WebKit: single View 6 MP -> 4 MP; Split 4.5 MP -> 2.5 MP. Matching post-pinch crisp refresh caps use the same values. Desktop is unchanged.
+3. Normal fit-page/fit-width pages below these ceilings still render at ordinary DPR; the quality reduction occurs only when zoom would otherwise exceed the new cap.
+4. Existing offscreen stage release/canvas 1x1 collapse remains; with the smaller observer margins it should run sooner and retain fewer rendered pages.
+
+PRESERVE
+- 5.8.24 one-PDF-render-at-a-time policy on iPad and source-aware queue cleanup/release.
+- 5.8.23 logical-open vs resident-source grading invariant.
+- Saved page/zoom/fit/scroll state across source eviction/reload.
+- Files Diagnostics button and enhanced render source metadata.
+- Scanner-safe thumbnail-unavailable markers, persistent thumbnail cache, import architecture, graph tools, Rename fix, Library/export/backup data formats.
+
+TEST PRIORITY
+1. Keep the full grading set logically Open and use Split normally for a sustained session.
+2. Switch students and scroll several pages in both panes; revisit documents and confirm saved scroll/zoom state returns.
+3. Confirm visual quality remains acceptable when zooming in.
+4. Save Diagnostics during a healthy sustained run and after any sluggishness. Expect fewer rendered page stages/canvas pixels than 5.8.24, with resident sources near 2 and renderQueue.max=1.
+5. If another restart occurs despite lower canvas high-water, next investigate PDF.js/internal WebKit decode-cache retention or backup/export memory separately rather than further source-state changes.
+
+LATEST DISTRIBUTION
+- `pdf-workbench-m5.8.25-exp.zip` is the current code baseline.
+
+================================================================================
+PRIOR HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-01 — BASELINE 5.8.24-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
