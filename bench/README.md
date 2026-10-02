@@ -1,27 +1,27 @@
-# PDF Workbench 5.8.35-exp
+# PDF Workbench 5.8.36-exp
 
-## Milestone 5.8.35 — restore Split viewport before arming PDF rendering
+## Milestone 5.8.36 — lower-pressure grading switches and faster startup persistence
 
-5.8.35 is a narrow follow-up to 5.8.34 based on the 11:12 crash breadcrumb. The crash was not pinch-related: all pinch states were inactive, exactly two PDF sources were resident, and the outgoing right-pane source had already retired correctly. The dying runtime had just switched the right pane to `Caitlin Heller.pdf`.
+5.8.36 follows the 11:37 5.8.35 grading stress test. Normal use was stable, but deliberate repeated Split switching eventually restarted the iPad PWA. The two-source invariant held throughout: every outgoing right-pane PDF was retired before the next source loaded. The failure instead coincided with rising PDF.js reopen/render cost on scan-heavy pages. The final `Rayna.pdf` switch took about 668 ms to reopen, then page renders took about 1.1 s and 1.75 s, with a 2.1 s event-loop gap immediately before the process disappeared.
 
-The diagnostic trace exposed a wasteful ordering in `renderSplitPane()`: page stages were attached to IntersectionObserver while the freshly rebuilt viewer was still at `scrollTop = 0`. That allowed PDF.js to begin decoding/rendering page 1 before the saved Split scroll position was restored. A few milliseconds later the viewer jumped to the saved location around pages 6–8, page 1 was released, and the real visible pages were queued. On scan-heavy PDFs this creates a transient decode/render peak that is not represented well by the steady-state canvas-memory counter.
+The same diagnostic set also confirmed an unrelated startup problem: restoring the 27 logically open documents produced repeated 0.8–2.3 s main-thread gaps before visible PDF loading began, and startup then performed a full Library persistence pass even when zero document records needed writing.
 
-### 5.8.35 changes
+### 5.8.36 changes
 
-- Continuous/Page Snap Split viewers now build their page stages with 1×1 lazy canvases but do **not** observe them immediately.
-- Workbench first restores the saved/structural Split viewport across the existing two animation-frame restore steps and commits the pane view state.
-- Only after that restore is complete are the page stages attached to IntersectionObserver, so initial PDF rendering begins around the actual restored location rather than page 1.
-- Adds `split-observer-armed-after-restore` diagnostics.
-- Single-page Split mode is unchanged because it has no scroll-position ambiguity and renders only its active page.
-- 5.8.34 live-pinch raster freeze, 5.8.33 render watchdog/cache cleanup, 5.8.32 strict two-source handoff, 5.8.31 scroll ownership protection, and normal iPad raster limits are preserved.
+- **Bound PDF.js embedded-image decode pressure on iPad.** Live persisted PDFs now set `canvasMaxAreaInBytes` to 16 MiB (about 4 MP RGBA). Oversized scan images can therefore be downsampled in the PDF.js worker before they become much larger transient decode surfaces. Normal Workbench raster ceilings remain unchanged: 4 MP Single / 2.5 MP Split.
+- **Remove redundant source-byte copies.** Reopening a stored PDF now wraps the IndexedDB ArrayBuffer directly, keeps one Workbench-owned byte view, and makes only the one deliberate copy that PDF.js transfers to its worker. The extra main-thread clone and Blob copy are gone.
+- **Render the restored center page first on iPad Split.** After a switch, Workbench renders only the page nearest the restored viewport center. Neighbor-page IntersectionObserver prefetch is deferred until the user actually scrolls or until 3.5 seconds after that primary render finishes. This avoids decoding two or three scan pages merely because a paper was briefly selected while grading.
+- **Keep 5.8.35 restore-before-render semantics.** There is still no page-1 render before saved Split scroll restoration.
+- **Reduce startup persistence work.** After session restoration, Workbench no longer schedules a full Library save just to restamp the already-restored session. It writes the tiny IndexedDB session record later instead.
+- **Add startup/release diagnostics.** `library-startup-phase` times database open, record read, open-document hydration, UI rebuild, and completion. `library-source-memory-released` now reports PDF.js `cleanupMs`, `destroyMs`, and total release time. `library-source-load-finish` also reports worker-copy time and the live decode ceiling.
 
 ### Validation priority
 
-1. Leave several papers at clearly different lower-page positions, then switch among them. The first `viewer-render-request` after each restored switch should be near the saved location, not page 1.
-2. In particular, reopen a paper around pages 6–8 and confirm there is no brief page-1 render/release before the visible pages begin rendering.
-3. Continue normal grading and document switching on scan-heavy PDFs.
-4. Recheck the 5.8.34 live-pinch case; no pinch behavior was intentionally changed.
-5. If another crash occurs, save Diagnostics immediately.
+1. Launch with the full class grading session open. Note whether the initial Library restore is visibly faster; save Diagnostics once startup settles so the new phase timings are available.
+2. Grade normally in Split. Document switching should show the restored center page first; neighboring pages should begin only after a real scroll or the short idle delay.
+3. Repeat a moderate sequence of document switches. `residentSources` should remain 2, while source reopen/render times should avoid the large cumulative spike seen in 5.8.35.
+4. Confirm scan quality remains acceptable. The PDF.js decode ceiling is 4 MP and does not lower Workbench's normal display raster caps.
+5. Regression-check scroll restoration and pinch zoom. 5.8.31–5.8.35 protections remain in place.
 
 ---
 

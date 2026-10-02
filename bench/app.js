@@ -1,12 +1,18 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.35';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.36';
 
-const APP_VERSION = '5.8.35';
+const APP_VERSION = '5.8.36';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
 const PDFJS_WASM_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/wasm/';
 const PDFJS_CMAP_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/cmaps/';
 const PDFJS_STANDARD_FONT_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/standard_fonts/';
+// iPad/WebKit live-view PDF.js image-decode ceiling. PDF.js uses this to
+// downsample oversized embedded scan images in its worker before they become
+// much larger transient RGBA decode surfaces. 16 MiB ~= 4 MP RGBA, matching
+// Workbench's maximum normal iPad single-view raster while leaving Split's
+// 2.5 MP output below the decode ceiling. Desktop keeps PDF.js's default.
+const IPAD_LIVE_PDF_CANVAS_MAX_AREA_BYTES = 16 * 1024 * 1024;
 const PDFLIB_URL = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.esm.min.js';
 const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 
@@ -608,23 +614,40 @@ async function ensureLibrarySourceLoaded(sourceId) {
   const mimeType = record.mimeType || (record.type === 'pdf' ? 'application/pdf' : 'application/octet-stream');
   if (record.type === 'pdf') {
     if (!state.pdfjs) throw new Error('The PDF engine is not available to reopen this stored document.');
+    // IndexedDB already returned an isolated structured-clone buffer. Wrap that
+    // buffer directly instead of cloning it once here, cloning it again for the
+    // worker, and then constructing an additional Blob. Real grading switches
+    // repeatedly reopen 0.3-4 MB scans; those redundant copies raise the exact
+    // transient high-water mark that steady-state canvas diagnostics cannot see.
     const bytesStarted = performance.now();
-    const bytes = new Uint8Array(data.slice ? data.slice(0) : data);
-    const copyMs = performance.now() - bytesStarted;
+    const bytes = data instanceof ArrayBuffer
+      ? new Uint8Array(data)
+      : ArrayBuffer.isView(data)
+        ? new Uint8Array(data.buffer, data.byteOffset, data.byteLength)
+        : new Uint8Array(data);
+    const wrapMs = performance.now() - bytesStarted;
+    const workerCopyStarted = performance.now();
+    // PDF.js transfers ownership of the TypedArray supplied to getDocument().
+    // Keep one Workbench-owned byte view for export/persistence and transfer one
+    // deliberate copy to the worker.
+    const workerBytes = bytes.slice();
+    const workerCopyMs = performance.now() - workerCopyStarted;
     const pdfStarted = performance.now();
     const pdf = await state.pdfjs.getDocument({
-      data: bytes.slice(), wasmUrl: PDFJS_WASM_URL, cMapUrl: PDFJS_CMAP_URL,
+      data: workerBytes, wasmUrl: PDFJS_WASM_URL, cMapUrl: PDFJS_CMAP_URL,
       cMapPacked: true, standardFontDataUrl: PDFJS_STANDARD_FONT_URL, useWasm: true,
+      canvasMaxAreaInBytes: isIPadLike() ? IPAD_LIVE_PDF_CANVAS_MAX_AREA_BYTES : -1,
     }).promise;
     const pdfJsMs = performance.now() - pdfStarted;
-    const blob = new Blob([bytes], { type: mimeType });
-    const source = { id: sourceId, type: 'pdf', name: record.name, size: record.size || bytes.byteLength, bytes, pdf, blob, libraryPersisted: true };
+    const source = { id: sourceId, type: 'pdf', name: record.name, size: record.size || bytes.byteLength, bytes, pdf, libraryPersisted: true };
     state.sources.set(sourceId, source);
     addInkDiagnostic('library-source-load-finish', null, {
       sourceId, name:record.name || null, size:record.size || bytes.byteLength,
-      idbMs:Math.round(idbMs * 10) / 10, copyMs:Math.round(copyMs * 10) / 10,
+      idbMs:Math.round(idbMs * 10) / 10, copyMs:Math.round(wrapMs * 10) / 10,
+      workerCopyMs:Math.round(workerCopyMs * 10) / 10,
       pdfJsMs:Math.round(pdfJsMs * 10) / 10, totalMs:Math.round((performance.now() - started) * 10) / 10,
       residentSources:state.sources.size,
+      canvasMaxAreaInBytes:isIPadLike() ? IPAD_LIVE_PDF_CANVAS_MAX_AREA_BYTES : -1,
     });
     return source;
   }
@@ -1648,12 +1671,25 @@ async function reopenLibraryDocument(docId, options={}) {
   return doc;
 }
 async function initializePersistentLibrary() {
+  const startupStarted = performance.now();
+  const phase = (name, started, extra={}) => addInkDiagnostic('library-startup-phase', null, {
+    phase:name,
+    phaseMs:Math.round((performance.now() - started) * 10) / 10,
+    totalMs:Math.round((performance.now() - startupStarted) * 10) / 10,
+    ...extra,
+  });
   try {
+    let phaseStarted = performance.now();
     state.libraryDb = await openLibraryDatabase();
     state.libraryReady = true;
+    phase('open-db', phaseStarted);
+    phaseStarted = performance.now();
     await refreshLibraryRecords();
+    phase('read-records', phaseStarted, {records:state.libraryRecords.size});
+    phaseStarted = performance.now();
     await restorePersistentTemplates();
     await refreshAssetRecords();
+    phase('templates-assets', phaseStarted);
     const incompatible = [...state.libraryRecords.values()].find(record => Number(record.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION);
     if (incompatible) throw new Error(`This local Library uses schema ${incompatible.schemaVersion}, newer than this build understands (${LIBRARY_SCHEMA_VERSION}). Use a newer PDF Workbench build or reset the local Library.`);
     const incompatibleFolder = [...state.libraryFolders.values()].find(folder => Number(folder.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION);
@@ -1672,6 +1708,8 @@ async function initializePersistentLibrary() {
     if (['view','organize','export'].includes(session?.workspaceMode)) state.workspaceMode = session.workspaceMode;
     state.librarySuppressPersist = true;
     let restoreFailures = 0;
+    phaseStarted = performance.now();
+    let restoredOpenDocuments = 0;
     for (const id of openIds) {
       try {
         const record = state.libraryRecords.get(id) || await libraryGet('documents', id);
@@ -1679,8 +1717,10 @@ async function initializePersistentLibrary() {
         // already resolved and should not block future session persistence.
         if (!record || record.trashedAt) continue;
         await reopenLibraryDocument(id, { makeActive: false, render: false });
+        restoredOpenDocuments++;
       } catch (err) { restoreFailures++; console.error(`Could not restore Library document ${id}`, err); }
     }
+    phase('hydrate-open-documents', phaseStarted, {requested:openIds.length, restored:restoredOpenDocuments, failures:restoreFailures});
     if (state.documents.length) {
       const currentId = state.documents.some(doc => doc.id === session?.currentDocumentId) ? session.currentDocumentId : state.documents[0].id;
       state.currentDocumentId = null;
@@ -1705,10 +1745,22 @@ async function initializePersistentLibrary() {
     state.sessionExplicitEmpty = state.documents.length === 0 && session?.explicitEmpty === true;
     state.librarySuppressPersist = false;
     if (state.sessionRestoreHydrated) writeSessionCheckpoint();
+    phaseStarted = performance.now();
     renderAll({ saveState: false });
     renderLibraryDocumentList();
     updateLibraryStorageSummary();
-    if (state.sessionRestoreHydrated) scheduleLibraryPersist(250);
+    phase('build-restored-ui', phaseStarted, {openDocuments:state.documents.length, splitView:state.splitView});
+    // The restored session already exists in IndexedDB/localStorage. A full
+    // persist here used to rebuild hidden Files UI + storage estimates before
+    // the user could work, even when documentsPlanned=0. Keep the synchronous
+    // checkpoint above and defer only the tiny IndexedDB session record.
+    if (state.sessionRestoreHydrated) {
+      setTimeout(() => {
+        if (!state.libraryReady || !state.libraryDb || !state.sessionRestoreHydrated) return;
+        libraryPut('meta', serializeLibrarySession()).catch(() => {});
+      }, 5000);
+    }
+    phase('complete', startupStarted, {openDocuments:state.documents.length});
   } catch (err) {
     state.librarySuppressPersist = false;
     state.libraryReady = false;
@@ -8041,14 +8093,22 @@ async function releasePersistedPdfSourceMemory(sourceId, reason='inactive-docume
   const source = state.sources.get(sourceId);
   if (!source || source.type !== 'pdf' || !source.libraryPersisted) return false;
   if (sourceNeededByVisibleDocument(sourceId) || sourceUsedByTemplates(sourceId)) return false;
+  const started = performance.now();
+  const cleanupStarted = performance.now();
   try { await source.pdf?.cleanup?.(); } catch {}
+  const cleanupMs = performance.now() - cleanupStarted;
+  const destroyStarted = performance.now();
   try { await source.pdf?.destroy?.(); } catch {}
+  const destroyMs = performance.now() - destroyStarted;
   try { if (source.url) URL.revokeObjectURL(source.url); } catch {}
   state.sources.delete(sourceId);
   pdfViewerRendersSinceCleanup.delete(sourceId);
   addInkDiagnostic('library-source-memory-released', null, {
     sourceId,
     reason,
+    cleanupMs:Math.round(cleanupMs * 10) / 10,
+    destroyMs:Math.round(destroyMs * 10) / 10,
+    totalMs:Math.round((performance.now() - started) * 10) / 10,
     remainingSources: state.sources.size,
   });
   return true;
@@ -16066,12 +16126,55 @@ function renderSplitPane(paneId) {
           syncSplitActivePageFromViewport(paneId);
           savePaneScroll(paneId);
         }
-        // Now that the viewer is at its real saved position, begin viewport-driven
-        // rendering. This prevents an unnecessary top-of-document render during
-        // every Split paper switch.
+        // Now that the viewer is at its real saved position, begin rendering.
+        // On iPad Split, render only the page nearest the viewport center first.
+        // Repeated grading switches previously opened a new PDF and immediately
+        // queued 2-3 scan pages; the 11:37 stress trace ended with 1.1 s + 1.75 s
+        // renders and a 2.1 s event-loop stall. Neighbor prefetch is therefore
+        // deferred until the user actually scrolls or the primary page has been
+        // settled for a few seconds. Normal scrolling arms the observer instantly.
         if (observer && generation === pane.generation && pane.documentId === doc.id) {
-          for (const stage of pe.viewer.querySelectorAll('.page-stage')) observer.observe(stage);
-          addInkDiagnostic('split-observer-armed-after-restore', null, { paneId, documentId:doc.id, generation });
+          const prefetchScrollEligibleAt = performance.now() + 300;
+          const armObserver = (reason='settled') => {
+            if (generation !== pane.generation || pane.documentId !== doc.id || pane.observer !== observer) return false;
+            pe.viewer.removeEventListener('scroll', armOnUserScroll);
+            for (const stage of pe.viewer.querySelectorAll('.page-stage')) observer.observe(stage);
+            addInkDiagnostic('split-observer-armed-after-restore', null, { paneId, documentId:doc.id, generation, reason });
+            return true;
+          };
+          const armOnUserScroll = () => {
+            // Ignore any delayed WebKit scroll event from the just-completed
+            // programmatic restoration; a genuine user scroll a moment later
+            // can arm normal neighboring-page rendering immediately.
+            if (performance.now() < prefetchScrollEligibleAt) return;
+            armObserver('user-scroll');
+          };
+          if (!isIPadLike()) {
+            armObserver('desktop-immediate');
+          } else {
+            const primaryPageId = splitPageNearestViewportCenter(paneId) || view.activePageId;
+            const primaryStage = primaryPageId
+              ? pe.viewer.querySelector(`.page-stage[data-page-id="${CSS.escape(primaryPageId)}"]`)
+              : null;
+            const primaryPage = primaryPageId ? splitPageById(doc, primaryPageId) : null;
+            pe.viewer.addEventListener('scroll', armOnUserScroll, { passive:true });
+            let primaryPromise = Promise.resolve();
+            if (primaryStage && primaryPage && primaryStage.dataset.rendered !== 'loading' && primaryStage.dataset.rendered !== 'true') {
+              const primaryCanvas = primaryStage.querySelector('canvas');
+              if (primaryCanvas) {
+                primaryStage.dataset.wantRender = 'true';
+                primaryStage.dataset.rendered = 'loading';
+                ensurePageLoading(primaryStage);
+                markStageRenderRequested(primaryStage, primaryPage, 'split-primary-after-restore', { generation, viewer:`split-${paneId}`, paneId });
+                primaryPromise = renderSplitViewerPage(paneId, primaryPage, primaryStage, primaryCanvas, generation)
+                  .catch(err => renderError(primaryStage, err));
+                addInkDiagnostic('split-primary-render-after-restore', null, { paneId, documentId:doc.id, pageId:primaryPageId, generation });
+              }
+            }
+            primaryPromise.finally(() => {
+              setTimeout(() => armObserver('primary-settled'), 3500);
+            });
+          }
         }
       });
     });
