@@ -1,3 +1,45 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.34-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.34-exp ZIP, not an older build.
+
+5.8.34 LIVE-PINCH RASTER FREEZE — 10:14 CRASH EVIDENCE
+- A 5.8.33 crash occurred immediately after the user switched active Split focus from the right pane to the left pane and began a two-finger zoom.
+- The retained 5.8.33 pre-crash breadcrumb is unusually specific: both pane documents were committed correctly, exactly two PDF sources were resident, renderQueue active=0/queued=0, and the left pane was active before the pinch.
+- `pinch-start` occurred at ~416.783 s. About 59 ms later the left Split IntersectionObserver emitted `viewer-stage-release` for Test2.pdf page index 6 and collapsed that stage's canvas backing stores while the same viewer was being live-scaled. The last breadcrumb was written at ~417.163 s.
+- There is no `pinch-finish`, no post-pinch crisp-refresh event, and no active/queued render at the final breadcrumb. Treat this failure as a live-pinch/compositor/backing-store interaction, not a document-switch failure and not a post-pinch PDF.js render failure.
+
+5.8.34 CHANGES
+1. FREEZE VIEWPORT RENDER/EVICTION DURING LIVE PINCH
+- Each viewer owner now has runtime-only `pinchObserverFrozen` / `pinchObserverNeedsRefresh`.
+- From accepted `pinch-start` until final live geometry is committed, that viewer's IntersectionObserver does not start newly intersecting renders and does not release/collapse stages that leave the prefetch margin.
+- If observer entries arrived while frozen, the existing observer is disconnected/re-observed after pinch completion so current viewport membership is recalculated immediately.
+- This applies independently to Single View and each Split pane.
+
+2. REDUCE LIVE-PINCH STYLE/COMPOSITOR CHURN
+- At pinch start, inline CSS width/height is cleared once from canvases in the active viewer. Existing `.page-stage canvas { width:100%; height:100%; }` styling then makes PDF raster and annotation layers follow the changing page-stage size.
+- `applyLiveSingleZoom()` / `applyLivePaneZoom()` update only page-stage dimensions per animation frame; they no longer rewrite every child canvas size on every frame.
+- At pinch end, final canvas CSS sizes are committed once before the observer is resumed.
+- This changes only live preview mechanics; the underlying canvas backing-store pixels are not resampled until the existing post-pinch crisp-refresh path.
+
+PRESERVE
+- 5.8.33 sequential lower-pressure iPad post-pinch crisp refresh, PDF.js cleanup, visible-render watchdog, and synchronous pinch breadcrumbs.
+- 5.8.32 strict outgoing-source retirement / two-source Split invariant and emergency Diagnostics snapshots.
+- 5.8.31 committed-view scroll-state protection.
+- Ordinary iPad raster caps remain Single 4 MP / Split 2.5 MP; no general quality reduction.
+- Existing graph/ink/Library persistence behavior is unchanged.
+
+VALIDATION PRIORITY
+1. Reproduce the exact interaction: right pane active -> activate left -> pinch zoom left.
+2. Repeat several zoom-in/out gestures on scan-heavy pages.
+3. Verify no `viewer-stage-release` or new viewer render occurs for a viewer while its live pinch is active.
+4. After release, expect `pinch-viewport-observer-resumed` when the pinch changed viewport membership, then normal crisp refresh/render activity.
+5. Continue normal grading/switching and save Diagnostics if any jitter, stalled render, or restart returns.
+
+================================================================================
+PRIOR 5.8.33 HANDOFF FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.33-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

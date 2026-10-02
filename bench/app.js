@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.33';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.34';
 
-const APP_VERSION = '5.8.33';
+const APP_VERSION = '5.8.34';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -142,6 +142,8 @@ const state = {
   pinchGesture: null,
   pinchNeedsRender: false,
   pinchRenderFrame: null,
+  pinchObserverFrozen: false,
+  pinchObserverNeedsRefresh: false,
   suppressSingleScrollSave: false,
   singleActivePageSyncFrame: null,
   insertMenuAnchor: null,
@@ -193,8 +195,8 @@ const state = {
   activePaneId: 'left',
   singleSourcePaneId: 'left',
   splitPanes: {
-    left: { id: 'left', documentId: null, committedDocumentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, suppressScrollSave: false, activePageSyncFrame: null, pendingStructuralAnchor: null, switchSequence: 0 },
-    right: { id: 'right', documentId: null, committedDocumentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, suppressScrollSave: false, activePageSyncFrame: null, pendingStructuralAnchor: null, switchSequence: 0 },
+    left: { id: 'left', documentId: null, committedDocumentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, pinchObserverFrozen: false, pinchObserverNeedsRefresh: false, suppressScrollSave: false, activePageSyncFrame: null, pendingStructuralAnchor: null, switchSequence: 0 },
+    right: { id: 'right', documentId: null, committedDocumentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, pinchObserverFrozen: false, pinchObserverNeedsRefresh: false, suppressScrollSave: false, activePageSyncFrame: null, pendingStructuralAnchor: null, switchSequence: 0 },
   },
 };
 
@@ -12061,6 +12063,11 @@ function diagnosticHealthBreadcrumbSnapshot(reason='timer') {
       left:{ requested:state.splitPanes.left?.documentId || null, committed:state.splitPanes.left?.committedDocumentId || null, sequence:state.splitPanes.left?.switchSequence || 0 },
       right:{ requested:state.splitPanes.right?.documentId || null, committed:state.splitPanes.right?.committedDocumentId || null, sequence:state.splitPanes.right?.switchSequence || 0 },
     },
+    pinchState: {
+      single:{ active:!!state.pinchGesture, observerFrozen:!!state.pinchObserverFrozen, observerNeedsRefresh:!!state.pinchObserverNeedsRefresh },
+      left:{ active:!!state.splitPanes.left?.pinchGesture, observerFrozen:!!state.splitPanes.left?.pinchObserverFrozen, observerNeedsRefresh:!!state.splitPanes.left?.pinchObserverNeedsRefresh },
+      right:{ active:!!state.splitPanes.right?.pinchGesture, observerFrozen:!!state.splitPanes.right?.pinchObserverFrozen, observerNeedsRefresh:!!state.splitPanes.right?.pinchObserverNeedsRefresh },
+    },
     currentDocumentId: state.currentDocumentId || null,
     openDocumentCount: state.documents.length,
     visibleDocuments: diagnosticHealthVisibleDocuments(),
@@ -15131,6 +15138,33 @@ function zoomBy(factor) {
 }
 function resetZoom() { setZoom(1); }
 
+function prepareLivePinchCanvasCss(viewer) {
+  if (!viewer) return;
+  for (const canvas of viewer.querySelectorAll('.page-stage[data-page-id] canvas')) {
+    canvas.style.width = '';
+    canvas.style.height = '';
+  }
+}
+
+function commitLivePinchCanvasCss(viewer) {
+  if (!viewer) return;
+  for (const stage of viewer.querySelectorAll('.page-stage[data-page-id]')) {
+    const width = stage.style.width;
+    const height = stage.style.height;
+    if (!width || !height) continue;
+    for (const canvas of stage.querySelectorAll('canvas')) {
+      canvas.style.width = width;
+      canvas.style.height = height;
+    }
+  }
+}
+
+function reobserveViewerStages(observer, viewer) {
+  if (!observer || !viewer) return;
+  observer.disconnect();
+  for (const stage of viewer.querySelectorAll('.page-stage[data-page-id]')) observer.observe(stage);
+}
+
 function applyLiveSingleZoom() {
   state.pinchRenderFrame = null;
   state.suppressSingleScrollSave = true;
@@ -15140,14 +15174,11 @@ function applyLiveSingleZoom() {
     const size = computeCssSize(page);
     stage.style.width = `${size.width}px`;
     stage.style.height = `${size.height}px`;
-    // The PDF raster and annotation overlay are separate canvases. Resize
-    // both during the live pinch preview so annotations track page geometry
-    // continuously instead of remaining at their pre-pinch CSS size until the
-    // final crisp rerender.
-    stage.querySelectorAll('canvas').forEach(canvas => {
-      canvas.style.width = `${size.width}px`;
-      canvas.style.height = `${size.height}px`;
-    });
+    // Canvas inline CSS sizes are cleared once at pinch start, so the existing
+    // `.page-stage canvas { width:100%; height:100%; }` rule makes the raster
+    // and annotation layers follow the stage automatically. Avoid touching
+    // every canvas on every animation frame; on iPad/WebKit that creates
+    // avoidable compositor/style churn while large scan rasters are scaled.
   });
   const g = state.pinchGesture;
   // Force a layout read, then correct from the measured post-scale geometry.
@@ -15171,14 +15202,11 @@ function applyLivePaneZoom(paneId) {
     const size = computePaneCssSize(page, paneId, view);
     stage.style.width = `${size.width}px`;
     stage.style.height = `${size.height}px`;
-    // The PDF raster and annotation overlay are separate canvases. Resize
-    // both during the live pinch preview so annotations track page geometry
-    // continuously instead of remaining at their pre-pinch CSS size until the
-    // final crisp rerender.
-    stage.querySelectorAll('canvas').forEach(canvas => {
-      canvas.style.width = `${size.width}px`;
-      canvas.style.height = `${size.height}px`;
-    });
+    // Canvas inline CSS sizes are cleared once at pinch start, so the existing
+    // `.page-stage canvas { width:100%; height:100%; }` rule makes the raster
+    // and annotation layers follow the stage automatically. Avoid touching
+    // every canvas on every animation frame; on iPad/WebKit that creates
+    // avoidable compositor/style churn while large scan rasters are scaled.
   });
   const g = pane.pinchGesture;
   void pe.viewer.scrollHeight;
@@ -15647,6 +15675,10 @@ function renderSingleViewer() {
   const observer = state.scrollMode === 'single' ? null : new IntersectionObserver((entries) => {
     for (const entry of entries) {
       const stage = entry.target;
+      if (state.pinchObserverFrozen) {
+        state.pinchObserverNeedsRefresh = true;
+        continue;
+      }
       if (entry.isIntersecting && entry.intersectionRatio > .01) {
         stage.dataset.wantRender = 'true';
         const page = pageById(stage.dataset.pageId);
@@ -15942,6 +15974,10 @@ function renderSplitPane(paneId) {
   const observer = view.scrollMode === 'single' ? null : new IntersectionObserver((entries) => {
     for (const entry of entries) {
       const stage = entry.target;
+      if (pane.pinchObserverFrozen) {
+        pane.pinchObserverNeedsRefresh = true;
+        continue;
+      }
       if (entry.isIntersecting && entry.intersectionRatio > .01) {
         stage.dataset.wantRender = 'true';
         const page = splitPageById(doc, stage.dataset.pageId);
@@ -17522,6 +17558,8 @@ function bindManualViewerTouch(viewer, owner, config) {
   if (!owner.touchIntent) owner.touchIntent = 'idle';
   if (!('touchIntentTimer' in owner)) owner.touchIntentTimer = null;
   if (!('pendingPinchFinalize' in owner)) owner.pendingPinchFinalize = null;
+  if (!('pinchObserverFrozen' in owner)) owner.pinchObserverFrozen = false;
+  if (!('pinchObserverNeedsRefresh' in owner)) owner.pinchObserverNeedsRefresh = false;
   bindViewerPenProximity(viewer);
 
   const clearTouchIntentTimer = () => {
@@ -17583,6 +17621,12 @@ function bindManualViewerTouch(viewer, owner, config) {
       startScrollLeft: Math.round(viewer.scrollLeft * 10) / 10,
       startMidpoint: anchorMidpoint ? { x:Math.round(anchorMidpoint.x), y:Math.round(anchorMidpoint.y) } : null,
     };
+    // Keep the current raster set stable while two fingers are down. The
+    // 5.8.33 crash breadcrumb ended ~380 ms after pinch start, immediately
+    // after IntersectionObserver released a page canvas from the same viewer.
+    owner.pinchObserverFrozen = true;
+    owner.pinchObserverNeedsRefresh = false;
+    prepareLivePinchCanvasCss(viewer);
     addInkDiagnostic('pinch-start', null, {
       pinchId:owner.pinchGesture.diagnosticId,
       viewer:viewer.id || viewer.className || null,
@@ -17659,6 +17703,14 @@ function bindManualViewerTouch(viewer, owner, config) {
     owner.pinchGesture = null;
     owner.pendingPinchFinalize = null;
     owner.pinchNeedsRender = false;
+    if (owner.pinchObserverFrozen) {
+      commitLivePinchCanvasCss(viewer);
+      owner.pinchObserverFrozen = false;
+      if (owner.pinchObserverNeedsRefresh) {
+        owner.pinchObserverNeedsRefresh = false;
+        config.resumeViewportObserver?.();
+      }
+    }
     viewer.classList.remove('pinching', 'manual-touching');
     addInkDiagnostic('palm-touch-suppressed', event, { reason, touchCount:owner.touchPointers.size });
   };
@@ -17696,14 +17748,24 @@ function bindManualViewerTouch(viewer, owner, config) {
     // mode that class temporarily disables CSS snapping; once removed the
     // browser is free to snap back toward the last page.
     const appendReadyOnRelease = !cancelled && mode !== 'single' && !!owner.touchPan && endAppendProgress(viewer).ready;
-    viewer.classList.remove('manual-touching', 'pinching');
+    viewer.classList.remove('manual-touching');
 
     if (owner.pinchNeedsRender) {
+      // Commit the final live geometry before allowing viewport-driven page
+      // eviction/rendering to resume. Canvas CSS is synchronized once here
+      // instead of on every pinch animation frame.
       flushLivePinch();
+      commitLivePinchCanvasCss(viewer);
+      viewer.classList.remove('pinching');
       owner.pinchGesture = null;
       owner.pinchNeedsRender = false;
       owner.touchPan = null;
       owner.touchStart = null;
+      owner.pinchObserverFrozen = false;
+      if (owner.pinchObserverNeedsRefresh) {
+        owner.pinchObserverNeedsRefresh = false;
+        config.resumeViewportObserver?.();
+      }
       const pendingPinchFinalize = owner.pendingPinchFinalize;
       owner.pendingPinchFinalize = null;
       writeDiagnosticHealthBreadcrumb(cancelled ? 'pinch-cancel-before-refresh' : 'pinch-finish-before-refresh');
@@ -17711,6 +17773,7 @@ function bindManualViewerTouch(viewer, owner, config) {
       resetTouchIntent();
       return;
     }
+    viewer.classList.remove('pinching');
 
     if (appendReadyOnRelease && config.maybeAppendEnd?.(true)) {
       owner.touchStart = null;
@@ -17884,6 +17947,14 @@ function bindManualViewerTouch(viewer, owner, config) {
         owner.touchPan = null;
         owner.pinchGesture = null;
         owner.pinchNeedsRender = false;
+        if (owner.pinchObserverFrozen) {
+          commitLivePinchCanvasCss(viewer);
+          owner.pinchObserverFrozen = false;
+          if (owner.pinchObserverNeedsRefresh) {
+            owner.pinchObserverNeedsRefresh = false;
+            config.resumeViewportObserver?.();
+          }
+        }
         resetTouchIntent();
       }
       return;
@@ -17993,6 +18064,11 @@ function bindSplitViewerEvents(paneId) {
       applyLivePaneZoom(paneId);
     },
     saveScroll: () => savePaneScroll(paneId),
+    resumeViewportObserver: () => {
+      if (!pane.observer) return;
+      reobserveViewerStages(pane.observer, viewer);
+      addInkDiagnostic('pinch-viewport-observer-resumed', null, { viewer:viewer.id || null, paneId });
+    },
     finalizePinch: (pending, cancelled=false) => {
       const applyDelayedAnchor = !cancelled && !!pending?.restoreAnchor && !!pending?.anchor && !!pending?.midpoint;
       refreshPanePinchRasterInPlace(paneId);
@@ -18507,6 +18583,11 @@ function bindEvents() {
       applyLiveSingleZoom();
     },
     saveScroll: () => updateSingleViewScrollFromDom(),
+    resumeViewportObserver: () => {
+      if (!state.pageObserver) return;
+      reobserveViewerStages(state.pageObserver, els.viewer);
+      addInkDiagnostic('pinch-viewport-observer-resumed', null, { viewer:els.viewer?.id || null });
+    },
     finalizePinch: (pending, cancelled=false) => {
       const applyDelayedAnchor = !cancelled && !!pending?.restoreAnchor && !!pending?.anchor && !!pending?.midpoint;
       refreshSinglePinchRasterInPlace();

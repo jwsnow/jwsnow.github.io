@@ -1,3 +1,30 @@
+# PDF Workbench 5.8.34-exp
+
+## Milestone 5.8.34 — freeze viewport raster residency during live iPad pinch
+
+5.8.34 is a narrow follow-up to 5.8.33 based on the 10:14 crash breadcrumb.
+
+The dying 5.8.33 runtime had already switched the active Split pane from right to left cleanly. Both pane documents were committed, exactly two PDF sources were resident, and the render queue was empty. A two-finger pinch then began on the left pane. About 59 ms later the Split IntersectionObserver released an offscreen page stage and collapsed that stage's canvas backing stores while the same viewer was being live-scaled. The last durable breadcrumb arrived about 380 ms after pinch start. There was no pinch-finish event and no post-pinch crisp refresh, so this failure occurred inside the live pinch itself.
+
+### 5.8.34 changes
+
+- While a live pinch is active, that viewer's IntersectionObserver no longer starts page renders or releases/collapses page canvases. The raster set stays stable while the fingers are down.
+- Any observer changes that occurred during the pinch are re-evaluated after the pinch ends by disconnecting/re-observing the existing page stages.
+- Live pinch no longer rewrites CSS width/height on every child canvas on every animation frame. Canvas inline CSS sizes are cleared once at pinch start so the existing 100% page-stage sizing scales all raster/annotation layers together; final inline sizes are committed once at pinch end.
+- The final live pinch geometry is committed before viewport-driven render/eviction activity is resumed.
+- 5.8.33's lower-pressure sequential iPad crisp refresh, render watchdog, PDF.js cleanup, two-source Split switching, 5.8.31 scroll-state protection, and diagnostic breadcrumb history are preserved.
+- Ordinary Split raster quality remains 2.5 MP and Single remains 4 MP. This build does not lower normal rendering quality.
+
+### Validation priority
+
+1. In Split, make the right pane active, then tap/use the left pane and pinch-zoom there as in the 10:14 failure.
+2. Repeat several pinches on scan-heavy papers, including zooming in and back out.
+3. During a live pinch, diagnostics should not show `viewer-stage-release` or a new viewer render for that pinching viewer.
+4. After release, `pinch-viewport-observer-resumed` should appear if viewport membership changed during the gesture, followed by normal post-pinch refresh/render activity.
+5. Continue ordinary grading and document switching to confirm 5.8.32/5.8.33 source-retirement and render-watchdog behavior remains intact.
+
+---
+
 # PDF Workbench 5.8.33-exp
 
 ## Milestone 5.8.33 — render-stall recovery, PDF.js cache cleanup, and safer iPad pinch refresh
