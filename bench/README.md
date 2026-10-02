@@ -1,3 +1,55 @@
+# PDF Workbench 5.8.37-exp
+
+## Milestone 5.8.37 — stable live PDF worker lifecycle + startup coalescing
+
+5.8.37 follows a 5.8.36 **normal grading** session in which ordinary Split document switches became progressively slower and eventually restarted the iPad PWA. This was not a rapid-switch-only failure.
+
+### What the 5.8.36 diagnostics showed
+
+- The strict two-resident-PDF invariant continued to hold.
+- Early PDF.js reopen times were commonly about 90–270 ms. Later ordinary switches rose through roughly 590 ms, 929 ms, 625 ms, and the final pre-crash reopen was still under heavy pressure.
+- Outgoing-source retirement that began in the tens of milliseconds later reached roughly 353–574 ms.
+- Viewer renders progressed from sub-second work to 1–4 second renders.
+- The final pre-crash breadcrumb still had exactly two resident PDFs. The failure is therefore below Workbench's source-count layer: repeated PDF.js/WebKit decode/worker lifecycle pressure.
+- Startup timing also exposed a separate duplicated Library read: one records read took about 5.39 s and a second took about 4.65 s, while hydrating all 27 open document records itself took only about 0.23 s.
+
+### 5.8.37 changes
+
+1. **Persistent iPad live-PDF worker pool**
+   - Reopened Library PDFs on iPad now use externally owned PDF.js `PDFWorker` instances instead of allowing every `getDocument()` call to create and terminate a fresh worker.
+   - The pool has two slots, matching the normal Split resident-PDF ceiling.
+   - Destroying an outgoing PDF tears down that document transport while leaving its external worker available for the next student.
+   - An idle worker slot is deliberately recycled after eight document assignments so worker-internal/native residue is periodically released without worker churn on every switch.
+   - If both live worker slots are occupied for an unusual non-view operation, PDF.js falls back to its ordinary owned-worker behavior rather than blocking the operation.
+   - Diagnostics record worker creation, assignment, source release, recycling, slot generation, and uses-since-recycle. Crash breadcrumbs also include the live worker pool state.
+
+2. **Coalesce initial Library startup**
+   - `pageshow` / visibility-resume callbacks now do nothing while the initial persistent-Library restore is still running.
+   - This prevents a second concurrent Library refresh/restore path from re-reading the same records during startup.
+   - The existing 5.8.36 startup phase timing remains.
+
+### Preserved
+
+- 5.8.36 16 MiB iPad live-PDF image working-area cap, reduced byte-copy path, primary-page-first Split rendering, and startup timing.
+- 5.8.35 restore-before-observe Split rendering.
+- 5.8.34 live-pinch raster freeze.
+- 5.8.33 render watchdog, sequential post-pinch refresh, and PDF.js idle cleanup.
+- 5.8.32 strict outgoing-source retirement and emergency diagnostics capture.
+- 5.8.31 Split scroll-state race fix.
+- Normal iPad raster ceilings remain 4 MP Single / 2.5 MP Split.
+
+### Validation priority
+
+1. Launch with the same full grading Library. Startup should show only one `open-db` / `read-records` initialization sequence, not the duplicated pair seen in 5.8.36.
+2. Grade normally and switch students at your ordinary pace.
+3. In Diagnostics, `library-source-load-finish` should show a stable `workerSlot`; the repeatedly changing pane should reuse its slot across documents.
+4. Watch whether PDF.js reopen, source-retirement, and render times remain roughly stable instead of worsening as the session continues.
+5. If a crash still occurs, save Diagnostics immediately. The crash breadcrumb now includes worker-pool slot/generation/use state.
+
+---
+
+## Prior 5.8.36 README
+
 # PDF Workbench 5.8.36-exp
 
 ## Milestone 5.8.36 — lower-pressure grading switches and faster startup persistence

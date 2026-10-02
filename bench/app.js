@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.36';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.37';
 
-const APP_VERSION = '5.8.36';
+const APP_VERSION = '5.8.37';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -13,6 +13,8 @@ const PDFJS_STANDARD_FONT_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108
 // Workbench's maximum normal iPad single-view raster while leaving Split's
 // 2.5 MP output below the decode ceiling. Desktop keeps PDF.js's default.
 const IPAD_LIVE_PDF_CANVAS_MAX_AREA_BYTES = 16 * 1024 * 1024;
+const IPAD_LIVE_PDF_WORKER_POOL_SIZE = 2;
+const IPAD_LIVE_PDF_WORKER_RECYCLE_USES = 8;
 const PDFLIB_URL = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.esm.min.js';
 const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 
@@ -60,6 +62,8 @@ const state = {
   pdfLib: null,
   zipLib: null,
   pdfEngineError: null,
+  livePdfWorkerSlots: [],
+  libraryInitializing: false,
   documents: [],
   currentDocumentId: null,
   sources: new Map(),
@@ -600,6 +604,92 @@ async function persistSourceToLibrary(sourceId) {
   });
   source.libraryPersisted = true;
 }
+
+function ensureLivePdfWorkerSlots() {
+  if (!isIPadLike() || !state.pdfjs?.PDFWorker) return [];
+  while (state.livePdfWorkerSlots.length < IPAD_LIVE_PDF_WORKER_POOL_SIZE) {
+    state.livePdfWorkerSlots.push({
+      index: state.livePdfWorkerSlots.length,
+      worker: null,
+      generation: 0,
+      activeSourceId: null,
+      reservedSourceId: null,
+      usesSinceRecycle: 0,
+      totalUses: 0,
+    });
+  }
+  return state.livePdfWorkerSlots;
+}
+function livePdfWorkerPoolSnapshot() {
+  return (state.livePdfWorkerSlots || []).map(slot => ({
+    index:slot.index,
+    generation:slot.generation || 0,
+    activeSourceId:slot.activeSourceId || null,
+    reservedSourceId:slot.reservedSourceId || null,
+    usesSinceRecycle:slot.usesSinceRecycle || 0,
+    totalUses:slot.totalUses || 0,
+    workerReady:!!slot.worker && !slot.worker.destroyed,
+  }));
+}
+async function acquireLivePdfWorkerSlot(sourceId) {
+  if (!isIPadLike() || !sourceId || !state.pdfjs?.PDFWorker) return null;
+  const slots = ensureLivePdfWorkerSlots();
+  const slot = slots.find(item => !item.activeSourceId && !item.reservedSourceId);
+  if (!slot) return null;
+  slot.reservedSourceId = sourceId;
+  try {
+    if (slot.worker?.destroyed) slot.worker = null;
+    if (slot.worker && slot.usesSinceRecycle >= IPAD_LIVE_PDF_WORKER_RECYCLE_USES) {
+      try { slot.worker.destroy(); } catch {}
+      slot.worker = null;
+      slot.generation++;
+      slot.usesSinceRecycle = 0;
+      addInkDiagnostic('live-pdf-worker-recycled', null, {
+        slot:slot.index, generation:slot.generation, totalUses:slot.totalUses,
+      });
+    }
+    if (!slot.worker) {
+      slot.worker = new state.pdfjs.PDFWorker({ name:`pdfwb-live-${slot.index}-g${slot.generation}` });
+      await slot.worker.promise;
+      addInkDiagnostic('live-pdf-worker-created', null, {
+        slot:slot.index, generation:slot.generation, totalUses:slot.totalUses,
+      });
+    }
+    slot.activeSourceId = sourceId;
+    slot.reservedSourceId = null;
+    slot.usesSinceRecycle++;
+    slot.totalUses++;
+    addInkDiagnostic('live-pdf-worker-assigned', null, {
+      slot:slot.index, generation:slot.generation, sourceId,
+      usesSinceRecycle:slot.usesSinceRecycle, totalUses:slot.totalUses,
+    });
+    return slot;
+  } catch (err) {
+    slot.reservedSourceId = null;
+    slot.activeSourceId = null;
+    try { slot.worker?.destroy?.(); } catch {}
+    slot.worker = null;
+    addInkDiagnostic('live-pdf-worker-create-error', null, {
+      slot:slot.index, sourceId, message:String(err?.message || err),
+    });
+    return null;
+  }
+}
+function releaseLivePdfWorkerSlotForSource(sourceId, source=null) {
+  const slotIndex = Number.isInteger(source?.livePdfWorkerSlotIndex)
+    ? source.livePdfWorkerSlotIndex
+    : (state.livePdfWorkerSlots || []).find(item => item.activeSourceId === sourceId)?.index;
+  if (!Number.isInteger(slotIndex)) return;
+  const slot = state.livePdfWorkerSlots?.[slotIndex];
+  if (!slot) return;
+  if (slot.activeSourceId === sourceId) slot.activeSourceId = null;
+  if (slot.reservedSourceId === sourceId) slot.reservedSourceId = null;
+  addInkDiagnostic('live-pdf-worker-source-released', null, {
+    slot:slot.index, generation:slot.generation, sourceId,
+    usesSinceRecycle:slot.usesSinceRecycle, totalUses:slot.totalUses,
+  });
+}
+
 async function ensureLibrarySourceLoaded(sourceId) {
   if (!sourceId) return null;
   if (state.sources.has(sourceId)) return state.sources.get(sourceId);
@@ -632,14 +722,27 @@ async function ensureLibrarySourceLoaded(sourceId) {
     // deliberate copy to the worker.
     const workerBytes = bytes.slice();
     const workerCopyMs = performance.now() - workerCopyStarted;
+    const workerSlot = await acquireLivePdfWorkerSlot(sourceId);
     const pdfStarted = performance.now();
-    const pdf = await state.pdfjs.getDocument({
-      data: workerBytes, wasmUrl: PDFJS_WASM_URL, cMapUrl: PDFJS_CMAP_URL,
-      cMapPacked: true, standardFontDataUrl: PDFJS_STANDARD_FONT_URL, useWasm: true,
-      canvasMaxAreaInBytes: isIPadLike() ? IPAD_LIVE_PDF_CANVAS_MAX_AREA_BYTES : -1,
-    }).promise;
+    let pdf = null;
+    try {
+      pdf = await state.pdfjs.getDocument({
+        data: workerBytes, wasmUrl: PDFJS_WASM_URL, cMapUrl: PDFJS_CMAP_URL,
+        cMapPacked: true, standardFontDataUrl: PDFJS_STANDARD_FONT_URL, useWasm: true,
+        canvasMaxAreaInBytes: isIPadLike() ? IPAD_LIVE_PDF_CANVAS_MAX_AREA_BYTES : -1,
+        ...(workerSlot?.worker ? { worker:workerSlot.worker } : {}),
+      }).promise;
+    } catch (err) {
+      if (workerSlot) releaseLivePdfWorkerSlotForSource(sourceId, { livePdfWorkerSlotIndex:workerSlot.index });
+      throw err;
+    }
     const pdfJsMs = performance.now() - pdfStarted;
-    const source = { id: sourceId, type: 'pdf', name: record.name, size: record.size || bytes.byteLength, bytes, pdf, libraryPersisted: true };
+    const source = {
+      id: sourceId, type: 'pdf', name: record.name, size: record.size || bytes.byteLength,
+      bytes, pdf, libraryPersisted: true,
+      livePdfWorkerSlotIndex:workerSlot?.index ?? null,
+      livePdfWorkerGeneration:workerSlot?.generation ?? null,
+    };
     state.sources.set(sourceId, source);
     addInkDiagnostic('library-source-load-finish', null, {
       sourceId, name:record.name || null, size:record.size || bytes.byteLength,
@@ -648,6 +751,9 @@ async function ensureLibrarySourceLoaded(sourceId) {
       pdfJsMs:Math.round(pdfJsMs * 10) / 10, totalMs:Math.round((performance.now() - started) * 10) / 10,
       residentSources:state.sources.size,
       canvasMaxAreaInBytes:isIPadLike() ? IPAD_LIVE_PDF_CANVAS_MAX_AREA_BYTES : -1,
+      workerSlot:workerSlot?.index ?? null,
+      workerGeneration:workerSlot?.generation ?? null,
+      workerUsesSinceRecycle:workerSlot?.usesSinceRecycle ?? null,
     });
     return source;
   }
@@ -1671,6 +1777,8 @@ async function reopenLibraryDocument(docId, options={}) {
   return doc;
 }
 async function initializePersistentLibrary() {
+  if (state.libraryInitializing) return;
+  state.libraryInitializing = true;
   const startupStarted = performance.now();
   const phase = (name, started, extra={}) => addInkDiagnostic('library-startup-phase', null, {
     phase:name,
@@ -1774,6 +1882,8 @@ async function initializePersistentLibrary() {
       clearTimeout(state.libraryRecoveryTimer);
       state.libraryRecoveryTimer = setTimeout(() => retryPersistentLibraryAfterFailure(), 900);
     }
+  } finally {
+    state.libraryInitializing = false;
   }
 }
 async function retryPersistentLibraryAfterFailure() {
@@ -1807,7 +1917,7 @@ async function retryPersistentLibraryAfterFailure() {
   }
 }
 async function resumePersistentLibraryConnection() {
-  if (document.visibilityState === 'hidden' || state.librarySuppressPersist) return;
+  if (document.visibilityState === 'hidden' || state.librarySuppressPersist || state.libraryInitializing) return;
   const ok = await ensureLibraryConnection();
   if (!ok) {
     if (els.librarySummary) els.librarySummary.textContent = 'Local Library connection is unavailable. Tap Refresh to retry.';
@@ -8064,6 +8174,11 @@ function releaseSourceIfUnused(sourceId, options={}) {
   try { source.pdf?.cleanup?.(); } catch {}
   let destroyed = null;
   try { destroyed = source.pdf?.destroy?.() || null; } catch {}
+  if (destroyed && typeof destroyed.then === 'function') {
+    destroyed = destroyed.finally(() => releaseLivePdfWorkerSlotForSource(sourceId, source));
+  } else {
+    releaseLivePdfWorkerSlotForSource(sourceId, source);
+  }
   state.sources.delete(sourceId);
   pdfViewerRendersSinceCleanup.delete(sourceId);
   return destroyed && typeof destroyed.then === 'function' ? destroyed.catch(() => {}) : null;
@@ -8100,6 +8215,7 @@ async function releasePersistedPdfSourceMemory(sourceId, reason='inactive-docume
   const destroyStarted = performance.now();
   try { await source.pdf?.destroy?.(); } catch {}
   const destroyMs = performance.now() - destroyStarted;
+  releaseLivePdfWorkerSlotForSource(sourceId, source);
   try { if (source.url) URL.revokeObjectURL(source.url); } catch {}
   state.sources.delete(sourceId);
   pdfViewerRendersSinceCleanup.delete(sourceId);
@@ -12133,6 +12249,7 @@ function diagnosticHealthBreadcrumbSnapshot(reason='timer') {
     visibleDocuments: diagnosticHealthVisibleDocuments(),
     viewport: diagnosticHealthViewportSnapshot(),
     sources: { total:state.sources.size, pdf, image, residentPdfSourceIds:sourceIds },
+    livePdfWorkerPool: livePdfWorkerPoolSnapshot(),
     renderQueue: {
       active:rq.active, queued:rq.queued, max:rq.max,
       activeSourceIds:rq.activeSourceIds || [], queuedSourceIds:rq.queuedSourceIds || [],
@@ -12645,6 +12762,7 @@ function diagnosticRuntimeSnapshot() {
       graphBackgroundPages:(doc.pages || []).reduce((count, page) => count + (pageHasGraphPaperBackground(page) ? 1 : 0), 0),
     })),
     sources: { total:state.sources.size, pdf:pdfSources, image:imageSources, storedBytes:sourceStoredBytes, decodedImageApproxRGBABytes:decodedImagePixels * 4 },
+    livePdfWorkerPool: livePdfWorkerPoolSnapshot(),
     renderQueue: renderQueueDiagnosticState(),
     activeRenders: diagnosticActiveRenderSnapshot(now),
     canvases: { count:canvases.length, totalPixels:canvasPixels, approxRGBABytes:canvasPixels * 4, largest:largestCanvas },

@@ -1,3 +1,49 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.37-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.37-exp ZIP, not an older build.
+
+5.8.37 NORMAL-GRADING SLOWDOWN / WORKER-LIFECYCLE FIX
+- User clarified that the 5.8.36 slowdown/crash occurred during normal grading, not deliberate rapid switching.
+- 5.8.36 diagnostics show genuine cumulative degradation while Workbench still maintains exactly two resident PDFs:
+  * early Library PDF reopen times commonly ~90–270 ms;
+  * later ordinary switches include ~590 ms, ~929 ms, ~625 ms PDF.js reopen phases;
+  * outgoing PDF retirement rises from tens of ms to ~353–574 ms;
+  * page renders rise from sub-second to ~1–4 s.
+- The last pre-crash breadcrumb still has only Test2 + GabrielleR resident, one GabrielleR render active for ~639 ms, and ~37 MB measured canvas backing. This is not a Workbench source-count or canvas-count leak.
+- 5.8.36 already reduced live scan image working area and redundant byte copies. The continuing time-dependent degradation points lower in the PDF.js/WebKit worker/decode lifecycle.
+- PDF.js creates/owns a worker when `getDocument()` is called without one. Its API also accepts a caller-owned `PDFWorker`; when supplied externally, destroying the document transport does not destroy that worker.
+- 5.8.37 therefore uses a two-slot externally owned live-PDF worker pool on iPad. This matches Split's two-resident-source ceiling and avoids creating/terminating a Web Worker on every student switch.
+- Each idle slot is recycled after 8 document assignments, providing periodic native-worker cleanup without per-switch worker churn.
+- Source-load/release diagnostics now include worker slot/generation/use information; health breadcrumbs include the whole pool state.
+- Non-iPad behavior is unchanged; unusual loads when both slots are occupied fall back to normal PDF.js owned workers.
+
+5.8.37 STARTUP COALESCING
+- New 5.8.36 phase timing showed startup records reads of ~5.39 s and then ~4.65 s, even though hydrating all 27 open document records took only ~0.23 s.
+- The duplicate read was possible because `pageshow` / visibility-resume could call the Library resume path while initial Library initialization was still in progress.
+- 5.8.37 marks Library initialization in progress and ignores resume refreshes until that initial restore finishes.
+- Keep the 5.8.36 startup phase diagnostics. A normal launch should now have one initialization read sequence rather than two overlapping reads.
+
+PRESERVE
+- 5.8.36 iPad live-PDF 16 MiB image working-area cap, reduced PDF byte-copy path, primary-page-first Split rendering, and startup timings.
+- 5.8.35 restore-before-observe Split viewer rebuild.
+- 5.8.34 live-pinch render/eviction freeze.
+- 5.8.33 render watchdog, lower-pressure post-pinch refresh, and idle PDF.js cleanup.
+- 5.8.32 strict source retirement / crash breadcrumb history / emergency Diagnostics snapshot.
+- 5.8.31 scroll-state protection.
+- Normal raster ceilings remain 4 MP Single / 2.5 MP Split.
+
+VALIDATION PRIORITY
+1. Launch with the full grading session. Confirm only one startup open-db/read-records sequence.
+2. Grade normally; do not stress-test initially. Switch papers at ordinary pace and watch subjective switch latency over time.
+3. Save Diagnostics after several ordinary switches. Repeated right-pane papers should reuse the same worker slot until its 8-use recycle.
+4. Reopen/load and render times should not trend upward across ordinary switches.
+5. If slowdown or restart recurs, save Diagnostics; worker pool generation/use state is now in the breadcrumb.
+
+================================================================================
+PRIOR 5.8.36 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.36-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
