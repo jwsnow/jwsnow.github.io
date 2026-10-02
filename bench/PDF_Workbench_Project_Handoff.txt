@@ -1,3 +1,44 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.32-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.32-exp ZIP, not an older build.
+
+5.8.32 STRICT TWO-SOURCE SPLIT HANDOFF + CRASH-DIAGNOSTIC RETENTION
+- Real 5.8.30 grading diagnostics show the incremental/document-only persistence work is still functioning: routine grading saves generally wrote one document and were mostly tens of milliseconds, with occasional roughly 0.1–0.2 s saves. The observed progressive switch delay was concentrated instead in reopening/rendering persisted scan PDFs.
+- In one sustained 5.8.30 grading run, many ~220–330 KB papers reopened through PDF.js in roughly 0.09–0.20 s, while the final two ~595 KB scan PDFs took about 0.26 s and 0.30 s to reopen. This helps explain why switching felt slower as grading progressed through the class set.
+- More importantly, an actual 5.8.30 pre-restart breadcrumb caught Split with only two visible documents but THREE resident persisted PDF sources: the fixed pane, the outgoing switched pane, and the incoming pane. Canvas backing was only about 41 MB, while the incoming source already had one active render and one queued render. This is direct evidence that the 5.8.29 retirement timeout could still allow the transient three-PDF overlap under real rendering pressure.
+
+5.8.32 SOURCE-HANDOFF CHANGE
+- Viewer PDF.js RenderTask objects are now tracked for cancellable Viewer renders by source ID.
+- When a Split pane changes documents, queued outgoing-source renders are still discarded, and any already-running outgoing Viewer render is now actively cancelled.
+- The old 1.8-second retirement timeout is removed as a permissive fallback. The incoming persisted PDF is NOT opened until every inactive outgoing source has no active render and has actually been destroyed/released.
+- If cancellation/unwind itself exceeds 1.8 seconds, diagnostics record `split-document-switch-retire-wait-long`, but Workbench continues waiting rather than allowing a third persisted PDF source to overlap.
+- Cancellation is treated as an expected stale-viewer outcome (`viewer-render-cancelled`), not as a render failure.
+- `library-source-load-finish` now records `residentSources`, making the two-source invariant directly visible at each reopen.
+- The fixed other Split pane remains independent: only renders belonging to sources that have become inactive are cancelled.
+
+5.8.32 DIAGNOSTIC RETENTION CHANGE
+- 5.8.26 stored only one previous-runtime breadcrumb. The 09:21 crash/recovery sequence showed that a short post-crash runtime could overwrite the useful breadcrumb from the long grading runtime before Diagnostics finished saving.
+- Workbench now keeps a compact localStorage history of up to four previous runtime breadcrumbs. Saved Diagnostics retain the legacy `previousRuntimeHealthBreadcrumb` plus `previousRuntimeHealthBreadcrumbs`.
+- Pressing Diagnostics now also writes a compact emergency capture synchronously to localStorage BEFORE waiting for the Local Library/IndexedDB path. Up to four such captures are retained and included as `emergencyDiagnosticCaptures` in the next successful save/export. Therefore a Files/Library stall immediately after a crash should no longer erase the attempted diagnostic evidence.
+- Diagnostic format version is now 9.
+
+PRESERVE
+- 5.8.31 Split scroll-listener ownership guard and all 5.8.30 committed-view restore guards.
+- 5.8.28 document-only grading autosave/incremental persistence.
+- iPad one-render-at-a-time policy, lower raster caps/prefetch margins, source-aware queue cleanup, persistent thumbnails, graph features, and Library/editable-backup behavior.
+
+VALIDATION PRIORITY
+1. Grade normally in Split with the full class set open. Switch students both after pages are settled and occasionally while an outgoing page is still rendering.
+2. Confirm switching remains responsive. A stale outgoing render may show `active-pdf-render-cancel-requested` / `viewer-render-cancelled`, followed by `split-document-switch-retired-outgoing`.
+3. In `library-source-load-finish`, expect `residentSources` to remain at the Split target of 2 when the incoming source finishes loading; a switch should retire the outgoing source before that load.
+4. Recheck the 5.8.31 scroll-position fix with several papers at distinctive vertical positions and with A→B→C rapid switching.
+5. If another restart occurs, press Diagnostics immediately even if Files appears hung. The synchronous emergency capture and the multi-runtime breadcrumb history should preserve the attempted post-crash evidence; export the saved diagnostics after recovery.
+
+================================================================================
+PRIOR 5.8.31 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.31-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

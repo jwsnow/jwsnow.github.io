@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.31';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.32';
 
-const APP_VERSION = '5.8.31';
+const APP_VERSION = '5.8.32';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -124,6 +124,7 @@ const state = {
   renderDiagnosticAnomalies: [],
   renderDiagnosticSequence: 0,
   previousDiagnosticHealthBreadcrumb: null,
+  previousDiagnosticHealthBreadcrumbs: [],
   lastDiagnosticHealthBreadcrumb: null,
   diagnosticHealthBreadcrumbTimer: null,
   diagnosticHealthBreadcrumbInterval: null,
@@ -621,6 +622,7 @@ async function ensureLibrarySourceLoaded(sourceId) {
       sourceId, name:record.name || null, size:record.size || bytes.byteLength,
       idbMs:Math.round(idbMs * 10) / 10, copyMs:Math.round(copyMs * 10) / 10,
       pdfJsMs:Math.round(pdfJsMs * 10) / 10, totalMs:Math.round((performance.now() - started) * 10) / 10,
+      residentSources:state.sources.size,
     });
     return source;
   }
@@ -631,6 +633,7 @@ async function ensureLibrarySourceLoaded(sourceId) {
   addInkDiagnostic('library-source-load-finish', null, {
     sourceId, name:record.name || null, size:record.size || blob.size,
     idbMs:Math.round(idbMs * 10) / 10, totalMs:Math.round((performance.now() - started) * 10) / 10,
+    residentSources:state.sources.size,
   });
   return source;
 }
@@ -2892,6 +2895,48 @@ async function importEditableBackupAsSubtree(file) {
 // letting many pages render at once can exhaust browser/GPU memory and leave
 // apparently blank canvases. Viewer jobs are given priority over thumbnails.
 const renderQueue = { active: 0, max: isIPadLike() ? 1 : 2, jobs: [], activeJobs: new Set() };
+// Viewer PDF.js RenderTasks are tracked separately from the coarse queue job so
+// a Split document switch can cancel stale rendering in the pane being replaced.
+// This prevents an outgoing scan render from keeping a third PDF.js document
+// resident while the incoming student's PDF is opened.
+const cancellablePdfRenderTasksBySource = new Map();
+function isPdfRenderCancellationError(err) {
+  const name = String(err?.name || '');
+  const message = String(err?.message || err || '');
+  return name === 'RenderingCancelledException' || /render(?:ing)?\s+cancel/i.test(message);
+}
+function registerCancellablePdfRenderTask(sourceId, renderTask) {
+  if (!sourceId || !renderTask?.cancel) return () => {};
+  let tasks = cancellablePdfRenderTasksBySource.get(sourceId);
+  if (!tasks) {
+    tasks = new Set();
+    cancellablePdfRenderTasksBySource.set(sourceId, tasks);
+  }
+  tasks.add(renderTask);
+  return () => {
+    tasks.delete(renderTask);
+    if (!tasks.size) cancellablePdfRenderTasksBySource.delete(sourceId);
+  };
+}
+function cancelCancellablePdfRendersForSources(sourceIds, reason='source-hidden') {
+  const ids = new Set((sourceIds || []).filter(Boolean));
+  if (!ids.size) return 0;
+  let cancelled = 0;
+  for (const sourceId of ids) {
+    const tasks = cancellablePdfRenderTasksBySource.get(sourceId);
+    if (!tasks?.size) continue;
+    for (const task of [...tasks]) {
+      try {
+        task.cancel();
+        tasks.delete(task);
+        cancelled++;
+      } catch {}
+    }
+    if (!tasks.size) cancellablePdfRenderTasksBySource.delete(sourceId);
+  }
+  if (cancelled) addInkDiagnostic('active-pdf-render-cancel-requested', null, { reason, cancelled, sourceCount:ids.size });
+  return cancelled;
+}
 function enqueueRender(task, priority=0, meta={}) {
   return new Promise((resolve, reject) => {
     renderQueue.jobs.push({ task, priority, resolve, reject, sourceId: meta?.sourceId || null, kind: meta?.kind || null, viewer: meta?.viewer || null });
@@ -8299,17 +8344,29 @@ async function retireOutgoingPaneSourcesBeforeRender(paneId, sequence, sourceIds
   }
   const ids = [...idSet];
   const started = performance.now();
-  discardQueuedRendersForSources(ids.filter(sourceId => !sourceNeededByVisibleDocument(sourceId)), 'split-switch-preload-retire');
+  const inactiveIds = ids.filter(sourceId => !sourceNeededByVisibleDocument(sourceId));
+  discardQueuedRendersForSources(inactiveIds, 'split-switch-preload-retire');
+  cancelCancellablePdfRendersForSources(inactiveIds, 'split-switch-preload-retire');
 
-  // A page render that already started before the user changed students cannot
-  // be safely destroyed underneath PDF.js. Wait for only that outgoing source,
-  // not for unrelated work in the other pane. If another switch supersedes this
-  // one meanwhile, stop here: the newest request owns the pane.
+  // Milestone 5.8.32: never open the incoming persisted PDF while an outgoing
+  // pane PDF still owns an active render. 5.8.29 had a 1.8 s timeout here; real
+  // 5.8.30 grading diagnostics caught a restart after that fallback allowed
+  // three PDF.js sources to overlap transiently. Stale viewer renders are now
+  // actively cancelled, then this gate waits until the outgoing queue job has
+  // actually unwound before source destruction and the incoming load.
+  let longWaitLogged = false;
   while (ids.some(sourceId => !sourceNeededByVisibleDocument(sourceId) && renderQueueHasActiveSource(sourceId))) {
     if (pane.switchSequence !== sequence) return false;
-    if (performance.now() - started > 1800) {
-      addInkDiagnostic('split-document-switch-retire-timeout', null, { paneId, sequence, sourceCount:ids.length });
-      break;
+    cancelCancellablePdfRendersForSources(
+      ids.filter(sourceId => !sourceNeededByVisibleDocument(sourceId)),
+      'split-switch-preload-retire-wait'
+    );
+    if (!longWaitLogged && performance.now() - started > 1800) {
+      longWaitLogged = true;
+      addInkDiagnostic('split-document-switch-retire-wait-long', null, {
+        paneId, sequence, sourceCount:ids.length,
+        activeSourceIds:renderQueueDiagnosticState().activeSourceIds,
+      });
     }
     await new Promise(resolve => setTimeout(resolve, 24));
   }
@@ -8318,6 +8375,8 @@ async function retireOutgoingPaneSourcesBeforeRender(paneId, sequence, sourceIds
   let released = 0;
   for (const sourceId of ids) {
     if (sourceNeededByVisibleDocument(sourceId)) continue;
+    // The strict gate above guarantees that an inactive outgoing source is not
+    // skipped merely because a stale render exceeded an arbitrary timeout.
     if (renderQueueHasActiveSource(sourceId)) continue;
     if (await releasePersistedPdfSourceMemory(sourceId, 'split-pane-preload-retire')) released += 1;
   }
@@ -11857,6 +11916,10 @@ function downloadPdfBytes(bytes, filename) {
 const DIAGNOSTICS_META_KEY = 'saved-diagnostics';
 const PDF_IMPORT_CHECKPOINT_KEY = 'pdf-import-checkpoint-v1';
 const DIAGNOSTIC_HEALTH_BREADCRUMB_KEY = 'pdfwb-diagnostic-health-v1';
+const DIAGNOSTIC_HEALTH_BREADCRUMB_HISTORY_KEY = 'pdfwb-diagnostic-health-history-v1';
+const MAX_DIAGNOSTIC_HEALTH_RUNTIME_HISTORY = 4;
+const DIAGNOSTIC_EMERGENCY_CAPTURE_HISTORY_KEY = 'pdfwb-diagnostic-emergency-history-v1';
+const MAX_DIAGNOSTIC_EMERGENCY_CAPTURES = 4;
 const DIAGNOSTIC_HEALTH_INTERVAL_MS = 3500;
 const DIAGNOSTIC_HEALTH_EVENT_DELAY_MS = 320;
 const DIAGNOSTIC_HEALTH_RUNTIME_ID = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2,10)}`;
@@ -11975,6 +12038,22 @@ function readDiagnosticHealthBreadcrumb() {
     return value && typeof value === 'object' ? value : null;
   } catch { return null; }
 }
+function readDiagnosticHealthBreadcrumbHistory() {
+  try {
+    const raw = localStorage.getItem(DIAGNOSTIC_HEALTH_BREADCRUMB_HISTORY_KEY);
+    if (!raw) return [];
+    const value = JSON.parse(raw);
+    return Array.isArray(value) ? value.filter(item => item && typeof item === 'object').slice(0, MAX_DIAGNOSTIC_HEALTH_RUNTIME_HISTORY) : [];
+  } catch { return []; }
+}
+function writeDiagnosticHealthBreadcrumbHistory(history) {
+  try {
+    localStorage.setItem(
+      DIAGNOSTIC_HEALTH_BREADCRUMB_HISTORY_KEY,
+      JSON.stringify((history || []).slice(0, MAX_DIAGNOSTIC_HEALTH_RUNTIME_HISTORY))
+    );
+  } catch {}
+}
 function writeDiagnosticHealthBreadcrumb(reason='timer') {
   try {
     const snapshot = diagnosticHealthBreadcrumbSnapshot(reason);
@@ -11992,15 +12071,45 @@ function scheduleDiagnosticHealthBreadcrumb(reason='event', delay=DIAGNOSTIC_HEA
 }
 function initializeDiagnosticHealthBreadcrumbs() {
   const previous = readDiagnosticHealthBreadcrumb();
+  let history = readDiagnosticHealthBreadcrumbHistory();
   if (previous?.runtimeId && previous.runtimeId !== DIAGNOSTIC_HEALTH_RUNTIME_ID) {
     state.previousDiagnosticHealthBreadcrumb = previous;
+    history = [
+      previous,
+      ...history.filter(item => item?.runtimeId && item.runtimeId !== previous.runtimeId),
+    ].slice(0, MAX_DIAGNOSTIC_HEALTH_RUNTIME_HISTORY);
+    writeDiagnosticHealthBreadcrumbHistory(history);
   }
+  state.previousDiagnosticHealthBreadcrumbs = history;
   writeDiagnosticHealthBreadcrumb('runtime-start');
   clearInterval(state.diagnosticHealthBreadcrumbInterval);
   state.diagnosticHealthBreadcrumbInterval = setInterval(() => writeDiagnosticHealthBreadcrumb('interval'), DIAGNOSTIC_HEALTH_INTERVAL_MS);
 }
 function diagnosticEventShouldRefreshHealthBreadcrumb(kind) {
   return /(?:document-switch|source-|residency|viewer-resize|visibility-change|render-queue|library-|workspace|split)/.test(String(kind || ''));
+}
+function readEmergencyDiagnosticCaptures() {
+  try {
+    const raw = localStorage.getItem(DIAGNOSTIC_EMERGENCY_CAPTURE_HISTORY_KEY);
+    if (!raw) return [];
+    const value = JSON.parse(raw);
+    return Array.isArray(value) ? value.filter(item => item && typeof item === 'object').slice(0, MAX_DIAGNOSTIC_EMERGENCY_CAPTURES) : [];
+  } catch { return []; }
+}
+function persistEmergencyDiagnosticCapture(reason='diagnostic-button') {
+  try {
+    const capture = {
+      createdAt:Date.now(),
+      reason,
+      runtime:diagnosticRuntimeSnapshot(),
+      currentHealthBreadcrumb:writeDiagnosticHealthBreadcrumb('diagnostic-emergency-capture') || diagnosticHealthBreadcrumbSnapshot('diagnostic-emergency-capture'),
+      previousRuntimeHealthBreadcrumb:state.previousDiagnosticHealthBreadcrumb,
+      previousRuntimeHealthBreadcrumbs:state.previousDiagnosticHealthBreadcrumbs || [],
+    };
+    const history = [capture, ...readEmergencyDiagnosticCaptures()].slice(0, MAX_DIAGNOSTIC_EMERGENCY_CAPTURES);
+    localStorage.setItem(DIAGNOSTIC_EMERGENCY_CAPTURE_HISTORY_KEY, JSON.stringify(history));
+    return capture;
+  } catch { return null; }
 }
 
 function diagnosticDocumentForPage(page) {
@@ -12647,7 +12756,7 @@ function bindInkDiagnostics() {
   window.addEventListener('unhandledrejection', event => addInkDiagnostic('unhandled-rejection', null, { message:String(event?.reason?.message || event?.reason || 'unknown rejection') }));
 }
 
-async function renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, dpr=1, maxPixels=10_000_000, sourceOverride=null) {
+async function renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, dpr=1, maxPixels=10_000_000, sourceOverride=null, renderControl=null) {
   const startedAt = performance.now();
   const token = ++diagnosticRenderSequence;
   const source = page?.kind === 'generated' ? null : (sourceOverride || state.sources.get(page?.sourceId));
@@ -12682,10 +12791,12 @@ async function renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, d
   diagnosticActiveRenders.set(token, info);
   let error = null;
   try {
-    return await renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr, maxPixels, sourceOverride);
+    return await renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr, maxPixels, sourceOverride, renderControl);
   } catch (err) {
     error = err;
-    addInkDiagnostic('render-error', null, { ...info, startedAt:undefined, durationMs:Math.round((performance.now()-startedAt)*10)/10, message:String(err?.message || err) });
+    if (!(renderControl?.cancellable && isPdfRenderCancellationError(err))) {
+      addInkDiagnostic('render-error', null, { ...info, startedAt:undefined, durationMs:Math.round((performance.now()-startedAt)*10)/10, message:String(err?.message || err) });
+    }
     throw err;
   } finally {
     const durationMs = performance.now() - startedAt;
@@ -12709,13 +12820,15 @@ async function buildInkDiagnosticsText() {
     userAgent: navigator.userAgent,
     platform: navigator.platform || null,
     standalone: isStandalonePwa(),
-    diagnosticVersion: 8,
+    diagnosticVersion: 9,
     runtime,
     storage,
     importCheckpoint,
     previousRuntimeHealthBreadcrumb: state.previousDiagnosticHealthBreadcrumb,
+    previousRuntimeHealthBreadcrumbs: state.previousDiagnosticHealthBreadcrumbs || [],
+    emergencyDiagnosticCaptures: readEmergencyDiagnosticCaptures(),
     currentRuntimeHealthBreadcrumb: currentHealthBreadcrumb,
-    note: 'Pointer-boundary, all-classification viewer contact boundaries, transient annotation/input state, viewer touch-type summaries, event-loop-stall, bounded viewer-render history/anomalies, document switches, pinch geometry, and Pencil replay diagnostics. Viewer all-classification telemetry records down/up/cancel boundaries only; no extra move stream is retained. Saving diagnostics captures transient state before a safe input-state cleanup intended to recover from a stuck gesture. No document contents are included; document/file names, import checkpoint metadata, compact previous-runtime health breadcrumbs, and internal IDs may be included for correlation. JavaScript heap memory is recorded only on browsers that expose performance.memory. Canvas/source byte figures are estimates/proxies, not total iPad memory.',
+    note: 'Pointer-boundary, all-classification viewer contact boundaries, transient annotation/input state, viewer touch-type summaries, event-loop-stall, bounded viewer-render history/anomalies, document switches, pinch geometry, and Pencil replay diagnostics. Viewer all-classification telemetry records down/up/cancel boundaries only; no extra move stream is retained. Saving diagnostics captures transient state before a safe input-state cleanup intended to recover from a stuck gesture. No document contents are included; document/file names, import checkpoint metadata, a compact history of recent runtime health breadcrumbs, and internal IDs may be included for correlation. JavaScript heap memory is recorded only on browsers that expose performance.memory. Canvas/source byte figures are estimates/proxies, not total iPad memory.',
   };
   const lines = [JSON.stringify(header), ...state.inkDiagnostics.map(item => JSON.stringify(item))];
   return lines.join('\n') + '\n';
@@ -12752,6 +12865,11 @@ async function refreshSavedDiagnosticsUi() {
 }
 async function saveDiagnosticsToLocalLibrary() {
   try {
+    // Capture synchronously before touching IndexedDB. If WebKit/Files is in a
+    // post-crash stall and the Local Library save cannot complete, this compact
+    // record survives in localStorage and is included in the next successful
+    // diagnostic export.
+    persistEmergencyDiagnosticCapture('diagnostic-button');
     addInkDiagnostic('diagnostic-local-save-request', null, { runtime:diagnosticRuntimeSnapshot() });
     if (!(await ensureLibraryConnection())) throw new Error('Local Library is not available.');
     const createdAt = Date.now();
@@ -15772,8 +15890,16 @@ async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
       return false;
     }
     recordRenderDiagnostic('viewer-render-start', page, { requestId, generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
-    await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, isIPadLike() ? 2_500_000 : 4_500_000);
-    return true;
+    try {
+      await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, isIPadLike() ? 2_500_000 : 4_500_000, null, { cancellable:true });
+      return true;
+    } catch (err) {
+      if (isPdfRenderCancellationError(err)) {
+        recordRenderDiagnostic('viewer-render-cancelled', page, { requestId, generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
+        return false;
+      }
+      throw err;
+    }
   }, 10, { sourceId: page?.sourceId || null, kind:'viewer', viewer:`split-${paneId}` });
   if (!didRender || generation !== pane.generation || !stage.isConnected) {
     if (stage?.isConnected && stage.dataset.rendered === 'loading') {
@@ -15787,8 +15913,16 @@ async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
     ensurePageLoading(stage, 'Retrying scan…');
     await enqueueRender(async () => {
       if (generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
-      await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, 1, 1_800_000);
-      return true;
+      try {
+        await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, 1, 1_800_000, null, { cancellable:true });
+        return true;
+      } catch (err) {
+        if (isPdfRenderCancellationError(err)) {
+          recordRenderDiagnostic('viewer-render-cancelled', page, { requestId, generation, viewer:`split-${paneId}`, paneId, retry:true, stage:diagnosticStageState(stage) });
+          return false;
+        }
+        throw err;
+      }
     }, 11, { sourceId: page?.sourceId || null, kind:'viewer-retry', viewer:`split-${paneId}` });
   }
   if (generation !== pane.generation || !stage.isConnected) return;
@@ -15849,8 +15983,16 @@ async function renderViewerPage(page, stage, canvas, generation) {
       return false;
     }
     recordRenderDiagnostic('viewer-render-start', page, { requestId, generation, viewer:'single', stage:diagnosticStageState(stage) });
-    await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, isIPadLike() ? 4_000_000 : 6_000_000);
-    return true;
+    try {
+      await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, isIPadLike() ? 4_000_000 : 6_000_000, null, { cancellable:true });
+      return true;
+    } catch (err) {
+      if (isPdfRenderCancellationError(err)) {
+        recordRenderDiagnostic('viewer-render-cancelled', page, { requestId, generation, viewer:'single', stage:diagnosticStageState(stage) });
+        return false;
+      }
+      throw err;
+    }
   }, 10, { sourceId: page?.sourceId || null, kind:'viewer', viewer:'single' });
 
   if (!didRender || generation !== state.renderGeneration || !stage.isConnected) {
@@ -15873,8 +16015,16 @@ async function renderViewerPage(page, stage, canvas, generation) {
     ensurePageLoading(stage, 'Retrying scan…');
     await enqueueRender(async () => {
       if (generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
-      await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, 1, 2_000_000);
-      return true;
+      try {
+        await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, 1, 2_000_000, null, { cancellable:true });
+        return true;
+      } catch (err) {
+        if (isPdfRenderCancellationError(err)) {
+          recordRenderDiagnostic('viewer-render-cancelled', page, { requestId, generation, viewer:'single', retry:true, stage:diagnosticStageState(stage) });
+          return false;
+        }
+        throw err;
+      }
     }, 11, { sourceId: page?.sourceId || null, kind:'viewer-retry', viewer:'single' });
   }
 
@@ -15890,7 +16040,7 @@ async function renderViewerPage(page, stage, canvas, generation) {
   clearStageRenderDiagnostic(stage);
 }
 
-async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxPixels=10_000_000, sourceOverride=null) {
+async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxPixels=10_000_000, sourceOverride=null, renderControl=null) {
   let source = page.kind === 'generated' ? null : (sourceOverride || state.sources.get(page.sourceId));
   if (page.kind !== 'generated' && !source && page.sourceId) source = await ensureLibrarySourceLoaded(page.sourceId);
   if (page.kind !== 'generated' && !source) throw new Error('Source file is no longer available.');
@@ -15942,8 +16092,15 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
       // operators. When Workbench supplies a background, keep transparent source
       // areas transparent so the Workbench layer remains visible underneath.
       if (graphBackgroundSettings) renderOptions.background = 'rgba(255,255,255,0)';
-      try { await pdfPage.render(renderOptions).promise; }
-      finally { try { pdfPage.cleanup?.(); } catch {} }
+      const renderTask = pdfPage.render(renderOptions);
+      const unregisterRenderTask = renderControl?.cancellable
+        ? registerCancellablePdfRenderTask(source?.id || page?.sourceId || null, renderTask)
+        : () => {};
+      try { await renderTask.promise; }
+      finally {
+        unregisterRenderTask();
+        try { pdfPage.cleanup?.(); } catch {}
+      }
     } else {
       const img = await getSourceImage(source);
       targetCtx.save();

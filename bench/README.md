@@ -1,3 +1,34 @@
+# PDF Workbench 5.8.32-exp
+
+## Milestone 5.8.32 — strict two-source Split handoff and stronger crash diagnostics
+
+5.8.32 is built directly on the 5.8.31 scroll-state fix. Real 5.8.30 grading diagnostics showed that routine document-only autosaves were no longer the main source of delay; the expensive work was reopening/rendering scan PDFs, and one actual pre-restart breadcrumb still caught a transient **three-PDF** Split handoff even though only two documents were visible.
+
+### Split source/render changes
+
+- Viewer PDF.js RenderTasks are tracked by source so stale rendering in a pane being replaced can be cancelled.
+- Split switching still discards queued work for the outgoing source, but now also cancels an already-running stale Viewer render.
+- The old 1.8-second source-retirement timeout no longer permits the incoming source to open while an outgoing source is still active. Workbench waits for the outgoing render job to unwind and destroys that source first.
+- `split-document-switch-retire-wait-long` records an unusually long unwind without relaxing the two-source rule.
+- Expected stale-render cancellation is recorded as `viewer-render-cancelled`, not as a render failure.
+- `library-source-load-finish` now includes `residentSources` so diagnostics can verify that Split settles/loads with the intended two persisted PDF sources.
+
+### Crash-diagnostic changes
+
+- The previous-runtime health breadcrumb is now retained as a history of up to four recent runtimes, so a short failed recovery/restart cannot overwrite the useful breadcrumb from the long grading runtime.
+- Diagnostics format is version 9 and includes `previousRuntimeHealthBreadcrumbs` in addition to the legacy single previous breadcrumb.
+- A Diagnostics tap synchronously writes a compact emergency capture to localStorage before waiting for IndexedDB/Local Library. Up to four attempted captures are retained and included as `emergencyDiagnosticCaptures` in the next successful diagnostic save/export. This is specifically meant for the post-crash case where Files or Local Library is temporarily hung.
+
+### Preserved
+
+- 5.8.31 Split scroll-listener ownership guard and 5.8.30 committed-document restore logic.
+- 5.8.28 incremental/document-only grading persistence.
+- iPad one-render-at-a-time scheduling, reduced raster/prefetch limits, source residency sweeps, persistent thumbnails, all graph features, and Library/backup formats.
+
+Validation priority: grade normally through the full class set. Occasionally switch while the outgoing paper is still rendering, then verify that stale renders cancel, the outgoing source retires before the next source loads, and `residentSources` stays at 2 when the incoming Split PDF finishes reopening. Also retest scroll restoration from 5.8.31. If another restart occurs, press Diagnostics immediately even if Files looks stuck; after recovery, export diagnostics and check the runtime-history/emergency-capture fields.
+
+---
+
 # PDF Workbench 5.8.31-exp
 
 ## Milestone 5.8.31 — Split scroll-listener ownership guard
