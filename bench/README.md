@@ -1,27 +1,18 @@
-# PDF Workbench 5.8.28-exp
+# PDF Workbench 5.8.29-exp
 
-## Milestone 5.8.28 — fast grading switches + true document-only autosave
+## Milestone 5.8.29 — rapid Split-switch source handoff
 
-5.8.28 is a focused iPad grading-performance revision built from 5.8.27. Diagnostics from a slow Split transition showed the user tapped the document selector, then a Library save blocked the main thread for ~956 ms and produced a ~1.4 s event-loop gap before the switch proceeded. The new student's first raster then took ~1.45 s, and a second autosave that persisted zero documents still consumed ~1.09 s and produced another ~1.46 s event-loop gap.
+5.8.29 is a narrow iPad stress-switch revision built from 5.8.28. Normal 5.8.28 grading was markedly more responsive: document-only autosaves stayed roughly 36–218 ms, persisted PDF loads roughly 100–298 ms, and no event-loop gaps were recorded in the pre-stress diagnostic. A deliberately rapid sequence of Split right-pane document changes nevertheless forced a WebKit restart. The previous-runtime breadcrumb caught the failure mid-switch with Test2 visible on the left, BaileyB loading on the right, and the prior Anaya PDF.js source still resident, for three resident PDF sources during the overlap window.
 
-### Changes
-- Scheduled document autosaves now use a true `documentsOnly` path. They persist only changed/current document records and required sources; they do **not** rewrite Templates metadata, rewrite the IndexedDB session record, rebuild the hidden Files list, or call the storage-estimate UI path.
-- A document-only autosave with zero changed documents therefore performs no IndexedDB write after the lightweight synchronous localStorage workspace checkpoint.
-- Full Library/template/file operations still use the existing full persistence path, and a pending full save always takes precedence over a document-only save.
-- Split-pane editing-context changes no longer schedule an autosave merely because `currentDocumentId` changes. Actual annotation/content changes still schedule document-only persistence.
-- Split `savePaneScroll()` no longer schedules any IndexedDB Library save. Pane scroll/page/zoom state is already carried by the lightweight localStorage workspace checkpoint. This removes a full-save trigger that previously fired at the start of every Split document switch and while navigating a pane.
-- Single-view scroll persistence now uses the document-only path rather than a full Library save.
-- Added `documentsOnly` to Library persist diagnostics and `library-source-load-finish` timing (`idbMs`, `copyMs`, `pdfJsMs`, `totalMs`) so the remaining cost of reopening an evicted PDF can be measured separately from rendering.
-- Added `split-document-switch-start` / `split-document-switch-committed` diagnostics.
+Changes:
+- Split switching is now source-handoff based on iPad: outgoing canvases are collapsed immediately, queued outgoing renders are discarded, and the outgoing persisted PDF source is retired before the newest requested document begins rendering.
+- Each Split pane has a monotonically increasing switch sequence. If another selection supersedes a switch while its outgoing source is retiring, the intermediate selection never starts PDF loading/rendering (latest-request-wins).
+- Only renders that actually use the outgoing source can delay retirement; unrelated rendering in the other pane does not.
+- A bounded 1.8 s safety wait prevents a pathological render from leaving the pane permanently blocked.
+- After a successful iPad source retirement, Workbench yields one animation frame before opening the next PDF so WebKit can detach collapsed canvases/PDF.js resources.
+- New diagnostics: `split-document-switch-retired-outgoing`, `split-document-switch-superseded`, `split-document-switch-retire-timeout`, plus sequence/resident-source fields on switch events.
+- 5.8.28 document-only autosave, source-load timings, 5.8.26 crash breadcrumb, 5.8.25 iPad raster limits, and all graph/Library behavior remain unchanged.
 
-### Preserved
-All 5.8.27 incremental document persistence, 5.8.26 previous-runtime health breadcrumbs, 5.8.25 iPad raster limits, 5.8.24 one-render-at-a-time/source-aware cleanup + Files Diagnostics button, 5.8.23 logical-open vs resident-source architecture, persistent Library thumbnails, graph/edge-label/copy-paste features, and saved view-state restoration remain.
-
-### Validation priority
-1. Keep the full grading class set open in Split and switch repeatedly among students. Transitions should no longer be bracketed by ~1 s zero-document Library saves.
-2. Save Diagnostics after several switches. Routine `library-persist-*` entries should show `documentsOnly:true`; zero-document saves should be only a few milliseconds.
-3. Inspect `library-source-load-finish` to determine how much remaining switch latency is IndexedDB/source copy vs PDF.js parse.
-4. Continue normal grading/annotation and watch for restarts; save Diagnostics promptly after any restart.
 
 ## Milestone 5.8.27 — incremental grading autosave
 

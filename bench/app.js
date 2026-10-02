@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.28';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.29';
 
-const APP_VERSION = '5.8.28';
+const APP_VERSION = '5.8.29';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -192,8 +192,8 @@ const state = {
   activePaneId: 'left',
   singleSourcePaneId: 'left',
   splitPanes: {
-    left: { id: 'left', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, suppressScrollSave: false, activePageSyncFrame: null, pendingStructuralAnchor: null },
-    right: { id: 'right', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, suppressScrollSave: false, activePageSyncFrame: null, pendingStructuralAnchor: null },
+    left: { id: 'left', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, suppressScrollSave: false, activePageSyncFrame: null, pendingStructuralAnchor: null, switchSequence: 0 },
+    right: { id: 'right', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, suppressScrollSave: false, activePageSyncFrame: null, pendingStructuralAnchor: null, switchSequence: 0 },
   },
 };
 
@@ -8277,32 +8277,102 @@ function activateSplitPane(paneId, syncCurrent=true) {
   checkpointWorkspaceNow();
 }
 
+async function retireOutgoingPaneSourcesBeforeRender(paneId, sequence, sourceIds) {
+  const pane = splitPaneState(paneId);
+  // Include every persisted PDF that is no longer needed by either visible
+  // pane, not just the immediately replaced document. If A→B is superseded
+  // by B→C before B ever loads, A must still be retired before C opens.
+  const idSet = new Set((sourceIds || []).filter(Boolean));
+  for (const [sourceId, source] of state.sources) {
+    if (!source || source.type !== 'pdf' || !source.libraryPersisted) continue;
+    if (sourceNeededByVisibleDocument(sourceId) || sourceUsedByTemplates(sourceId)) continue;
+    idSet.add(sourceId);
+  }
+  const ids = [...idSet];
+  const started = performance.now();
+  discardQueuedRendersForSources(ids.filter(sourceId => !sourceNeededByVisibleDocument(sourceId)), 'split-switch-preload-retire');
+
+  // A page render that already started before the user changed students cannot
+  // be safely destroyed underneath PDF.js. Wait for only that outgoing source,
+  // not for unrelated work in the other pane. If another switch supersedes this
+  // one meanwhile, stop here: the newest request owns the pane.
+  while (ids.some(sourceId => !sourceNeededByVisibleDocument(sourceId) && renderQueueHasActiveSource(sourceId))) {
+    if (pane.switchSequence !== sequence) return false;
+    if (performance.now() - started > 1800) {
+      addInkDiagnostic('split-document-switch-retire-timeout', null, { paneId, sequence, sourceCount:ids.length });
+      break;
+    }
+    await new Promise(resolve => setTimeout(resolve, 24));
+  }
+  if (pane.switchSequence !== sequence) return false;
+
+  let released = 0;
+  for (const sourceId of ids) {
+    if (sourceNeededByVisibleDocument(sourceId)) continue;
+    if (renderQueueHasActiveSource(sourceId)) continue;
+    if (await releasePersistedPdfSourceMemory(sourceId, 'split-pane-preload-retire')) released += 1;
+  }
+  // Give WebKit a frame to detach collapsed canvases / PDF.js resources before
+  // opening the next persisted PDF. This keeps rapid grading switches from
+  // repeatedly overlapping an outgoing and incoming right-pane PDF.js document.
+  if (isIPadLike() && released) await nextAnimationFrame();
+  addInkDiagnostic('split-document-switch-retired-outgoing', null, {
+    paneId, sequence, released, sourceCount:ids.length,
+    retireMs:Math.round((performance.now() - started) * 10) / 10,
+    residentSources:state.sources.size,
+  });
+  return pane.switchSequence === sequence;
+}
+
+function showSplitPaneSwitchLoading(paneId, doc) {
+  const pane = splitPaneState(paneId), pe = paneElements(paneId);
+  cancelSplitActivePageSync(paneId);
+  pane.generation += 1;
+  pane.observer?.disconnect();
+  releaseViewerDom(pe.viewer, `split-${paneId}-switch-clear`);
+  const loading = document.createElement('div');
+  loading.className = 'empty-state';
+  loading.textContent = `Loading ${doc?.name || 'document'}…`;
+  pe.viewer.append(loading);
+}
+
 function setPaneDocument(paneId, docId) {
-  if (!documentById(docId)) return;
+  const targetDoc = documentById(docId);
+  if (!targetDoc) return;
   const switchStarted = performance.now();
   savePaneScroll(paneId);
   const pane = splitPaneState(paneId);
+  const sequence = (pane.switchSequence || 0) + 1;
+  pane.switchSequence = sequence;
   const replacedDocumentId = pane.documentId || null;
-  addInkDiagnostic('split-document-switch-start', null, { paneId, fromDocumentId:replacedDocumentId, toDocumentId:docId });
+  addInkDiagnostic('split-document-switch-start', null, { paneId, sequence, fromDocumentId:replacedDocumentId, toDocumentId:docId });
   const replacedDoc = documentById(replacedDocumentId);
   const replacedSourceIds = replacedDoc ? [...documentSourceIds(replacedDoc)] : [];
+
   pane.documentId = docId;
   paneView(paneId, docId);
   activateSplitPane(paneId, true);
   renderDocumentSelect();
-  renderSplitPane(paneId);
-  // Split-pane switching used to miss the PDF source belonging to the document
-  // just replaced in this pane. That stale source could accumulate across a
-  // grading session even though steady-state diagnostics after a restart showed
-  // only the two visible PDFs. Queue the replaced source explicitly, then sweep
-  // every persisted resident PDF that is no longer visible in either pane.
-  scheduleInactivePdfSourceRelease(replacedSourceIds, 'split-pane-document-switch');
-  scheduleInactivePdfSourceResidencySweep('split-pane-document-switch-sweep');
-  setStatus(`Showing ${documentById(docId)?.name || 'document'} in ${paneId} pane`);
-  addInkDiagnostic('split-document-switch-committed', null, {
-    paneId, fromDocumentId:replacedDocumentId, toDocumentId:docId,
-    commitMs:Math.round((performance.now() - switchStarted) * 10) / 10,
-  });
+  showSplitPaneSwitchLoading(paneId, targetDoc);
+
+  // Do not let rapid selector changes create a train of overlapping PDF.js
+  // documents. Retire the outgoing pane source first; if the user selects yet
+  // another student while that happens, only the newest sequence is rendered.
+  void (async () => {
+    const ready = await retireOutgoingPaneSourcesBeforeRender(paneId, sequence, replacedSourceIds);
+    if (!ready || pane.switchSequence !== sequence || pane.documentId !== docId) {
+      addInkDiagnostic('split-document-switch-superseded', null, { paneId, sequence, toDocumentId:docId });
+      return;
+    }
+    scheduleInactivePdfSourceResidencySweep('split-pane-document-switch-pre-render-sweep');
+    renderSplitPane(paneId);
+    setStatus(`Showing ${targetDoc.name || 'document'} in ${paneId} pane`);
+    addInkDiagnostic('split-document-switch-committed', null, {
+      paneId, sequence, fromDocumentId:replacedDocumentId, toDocumentId:docId,
+      commitMs:Math.round((performance.now() - switchStarted) * 10) / 10,
+      residentSources:state.sources.size,
+    });
+  })();
 }
 
 function populateDocumentSelect(select, selectedId) {

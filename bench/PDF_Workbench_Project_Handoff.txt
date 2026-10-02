@@ -1,3 +1,30 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.29-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.29-exp ZIP, not an older build.
+
+5.8.29 RAPID SPLIT-SWITCH SOURCE-HANDOFF FIX
+- User reported 5.8.28 was much more responsive in normal grading: several papers, inking, paste, zoom, and deliberate switching worked well. A deliberately rapid sequence of right-pane document switches could still force an iPad/WebKit restart.
+- 5.8.28 diagnostics confirmed the performance work succeeded before the stress crash: document-only autosaves were roughly 36–218 ms, persisted source loads roughly 100–298 ms, and no event-loop gaps were recorded.
+- The previous-runtime breadcrumb caught the forced crash mid-switch with Test2 visible on the left, BaileyB loading on the right, and the previous Anaya source still resident: 3 PDF.js sources during the transient handoff even though steady state is 2.
+- 5.8.29 makes Split switching source-handoff based. The outgoing pane DOM/canvases collapse immediately; queued outgoing renders are discarded; inactive persisted PDF sources are retired before the newest requested document is allowed to render/load.
+- Each pane has a monotonically increasing switch sequence. If another student is selected while retirement is in progress, the older request is superseded and never begins PDF loading/rendering (latest-request-wins).
+- The retirement scan includes ALL currently inactive persisted PDF sources, not just the immediately replaced document. This handles A→B→C where B never loads: A is still retired before C opens.
+- Only an active render actually using an outgoing source can delay destruction; unrelated rendering in the other pane does not. There is a bounded 1.8 s safety timeout.
+- After a successful iPad source retirement, Workbench yields one animation frame before opening the next PDF so WebKit can detach collapsed canvases/PDF.js resources.
+- New diagnostics: `split-document-switch-retired-outgoing`, `split-document-switch-superseded`, `split-document-switch-retire-timeout`, with switch sequence/resident-source fields.
+- Preserve 5.8.28 true document-only autosave and source-load timing, 5.8.26 crash breadcrumbs, 5.8.25 iPad raster limits, 5.8.24 one-render-at-a-time/source-aware cleanup + Files Diagnostics, 5.8.23 logical-open/source-residency architecture, persistent thumbnails, saved view state, and graph features.
+
+VALIDATION PRIORITY
+1. First verify ordinary Split grading still feels like 5.8.28: deliberate document switches, inking, paste, zoom, and scrolling.
+2. Then repeat the rapid-switch stress test. Intermediate selections should be superseded rather than each loading a PDF.
+3. Save Diagnostics after the stress test even if there is no restart; inspect `split-document-switch-superseded` and `split-document-switch-retired-outgoing`.
+4. If a restart still occurs, save Diagnostics immediately so the previous-runtime breadcrumb captures source/render state.
+
+================================================================================
+PRIOR 5.8.28 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.28-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
