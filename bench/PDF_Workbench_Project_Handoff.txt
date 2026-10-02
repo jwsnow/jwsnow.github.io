@@ -1,3 +1,27 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.31-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.31-exp ZIP, not an older build.
+
+5.8.31 SPLIT SCROLL-LISTENER OWNERSHIP FIX
+- 5.8.30 correctly protected `savePaneScroll()` with requested-vs-committed document ownership, but testing showed documents could still return to the top.
+- Root cause: the Split viewer's native `scroll` listener did not call `savePaneScroll()`. It wrote `scrollTop`/`scrollLeft` directly to `paneView(paneId)`. After `pane.documentId` changed, clearing/collapsing the outgoing viewer could generate a delayed programmatic `(0,0)` scroll event; that direct listener then overwrote the newly requested document's saved position even though no committed viewer existed for it yet.
+- The Split `scroll` listener now requires `committedDocumentId === documentId` before writing anything and explicitly resolves the view using `committedDocumentId`.
+- `showSplitPaneSwitchLoading()` also sets `suppressScrollSave = true` immediately when committed ownership is cleared, before `releaseViewerDom()` tears down the outgoing viewer.
+- `renderSplitPane()` still restores the saved viewport first and only then commits the new document and re-enables scroll saving.
+- Preserve all 5.8.30 generation/document restore guards, 5.8.29 rapid-switch source-retirement/latest-request-wins behavior, 5.8.28 performance improvements, and all graph/Library features.
+
+VALIDATION PRIORITY
+1. Put several papers at clearly different vertical scroll positions.
+2. Switch among them normally and verify each returns to its own position.
+3. Rapidly switch A→B→C→D, including intermediate papers that do not finish loading, then return to each.
+4. Confirm no paper is reset to the top by viewer teardown/loading placeholders.
+5. Repeat the rapid-switch crash stress test and save Diagnostics afterward.
+
+================================================================================
+PRIOR 5.8.30 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.30-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

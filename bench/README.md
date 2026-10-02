@@ -1,3 +1,22 @@
+# PDF Workbench 5.8.31-exp
+
+## Milestone 5.8.31 — Split scroll-listener ownership guard
+
+5.8.31 is a narrow follow-up to the 5.8.30 committed-document handoff fix. Testing showed Split still returned some documents to the top.
+
+Root cause: the Split viewer's native `scroll` event listener wrote `scrollTop`/`scrollLeft` directly into `paneView(paneId)`. That path bypassed `savePaneScroll()` and therefore bypassed 5.8.30's requested-vs-committed ownership check. When `releaseViewerDom()` cleared/collapsed the outgoing viewer after `pane.documentId` had already changed, WebKit could emit a delayed programmatic scroll event at `(0,0)`. The listener then treated the newly requested document as the owner and overwrote its saved position before its real viewer was restored.
+
+Changes:
+- The Split `scroll` listener now writes only when `committedDocumentId` exists and exactly matches the requested `documentId`.
+- The listener resolves the saved view explicitly from `committedDocumentId`, so it cannot accidentally create/update the requested document's view during handoff.
+- `showSplitPaneSwitchLoading()` now sets `suppressScrollSave = true` at the same moment it clears committed ownership, before the outgoing DOM is released. This is a second guard against delayed WebKit scroll events caused by viewer teardown.
+- `renderSplitPane()` retains responsibility for clearing suppression only after the saved viewport has been restored and the new document is committed.
+- 5.8.30 generation/document guards, 5.8.29 latest-request-wins/source retirement, 5.8.28 grading performance work, and all graph/Library behavior are preserved.
+
+Validation priority: leave several papers at clearly different vertical positions, switch normally and rapidly among them, then return to each. The restored locations should survive both ordinary switching and A→B→C rapid switching. Also repeat the crash-stress switching test to confirm source retirement remains stable.
+
+---
+
 # PDF Workbench 5.8.30-exp
 
 ## Milestone 5.8.30 — committed Split view-state handoff

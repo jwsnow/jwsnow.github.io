@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.30';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.31';
 
-const APP_VERSION = '5.8.30';
+const APP_VERSION = '5.8.31';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -8338,7 +8338,10 @@ function showSplitPaneSwitchLoading(paneId, doc) {
   cancelSplitActivePageSync(paneId);
   // The real viewer is gone from this point until renderSplitPane restores the
   // requested document's saved viewport. Loading placeholders never own view state.
+  // Suppress immediately as well as clearing committed ownership: WebKit can emit a
+  // delayed scroll event when releaseViewerDom() collapses/clears the outgoing DOM.
   pane.committedDocumentId = null;
+  pane.suppressScrollSave = true;
   pane.generation += 1;
   pane.observer?.disconnect();
   releaseViewerDom(pe.viewer, `split-${paneId}-switch-clear`);
@@ -17488,9 +17491,13 @@ function bindSplitViewerEvents(paneId) {
   viewer.addEventListener('scroll', () => {
     // Hiding/rebuilding a scroll container can transiently report scrollTop=0,
     // especially on iPad. Never let those programmatic events overwrite the
-    // pane's stored position.
-    if (!state.splitView || pane.suppressScrollSave) return;
-    const view = paneView(paneId);
+    // pane's stored position. The scroll listener must enforce the same
+    // requested-vs-committed ownership rule as savePaneScroll(); otherwise a
+    // delayed scroll event from the outgoing DOM can write (0,0) directly into
+    // the newly requested document while its Loading… placeholder is present.
+    if (!state.splitView || pane.suppressScrollSave ||
+        !pane.committedDocumentId || pane.committedDocumentId !== pane.documentId) return;
+    const view = paneView(paneId, pane.committedDocumentId);
     if (!view) return;
     view.scrollTop = viewer.scrollTop;
     view.scrollLeft = viewer.scrollLeft;
