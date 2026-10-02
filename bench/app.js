@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.34';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.35';
 
-const APP_VERSION = '5.8.34';
+const APP_VERSION = '5.8.35';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -16018,8 +16018,14 @@ function renderSplitPane(paneId) {
     loading.textContent = 'Rendering…';
     stage.append(canvas, loading);
     pe.viewer.append(stage);
-    if (observer) observer.observe(stage);
-    else {
+    // In continuous/page-snap Split view, do not arm IntersectionObserver yet.
+    // A newly rebuilt viewer begins at scrollTop=0 until the saved viewport is
+    // restored on the next animation frames. Observing now can therefore start
+    // a wasteful page-1 PDF decode/render, only to discard it milliseconds later
+    // when the viewer jumps to the saved page. On scan-heavy PDFs that transient
+    // decode peak is expensive and has coincided with WebKit process deaths.
+    // The observer is armed only after the saved/structural viewport is restored.
+    if (!observer) {
       stage.dataset.wantRender = 'true';
       stage.dataset.rendered = 'loading';
       markStageRenderRequested(stage, page, 'single-page-initial', { generation, viewer:`split-${paneId}`, paneId });
@@ -16059,6 +16065,13 @@ function renderSplitPane(paneId) {
         if (state.splitView) {
           syncSplitActivePageFromViewport(paneId);
           savePaneScroll(paneId);
+        }
+        // Now that the viewer is at its real saved position, begin viewport-driven
+        // rendering. This prevents an unnecessary top-of-document render during
+        // every Split paper switch.
+        if (observer && generation === pane.generation && pane.documentId === doc.id) {
+          for (const stage of pe.viewer.querySelectorAll('.page-stage')) observer.observe(stage);
+          addInkDiagnostic('split-observer-armed-after-restore', null, { paneId, documentId:doc.id, generation });
         }
       });
     });

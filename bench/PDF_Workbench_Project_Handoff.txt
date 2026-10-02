@@ -1,3 +1,29 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.35-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.35-exp ZIP, not an older build.
+
+5.8.35 SPLIT RESTORE-BEFORE-RENDER FIX
+- The 11:12 5.8.34 crash was not pinch-related. Final pre-crash state had all pinch states inactive, exactly two resident PDFs, and correct outgoing-source retirement.
+- The dying runtime had just switched the right pane to `Caitlin Heller.pdf`.
+- Diagnostics exposed a wasteful ordering in `renderSplitPane()`: page stages were observed immediately while the rebuilt viewer was still at the top, so PDF.js began rendering page 1 before the saved Split scroll position was restored. The viewer then jumped to the saved location around pages 6–8, discarded page 1, and queued the actual visible pages.
+- On scan-heavy PDFs this unnecessary page-1 decode/render can create a transient PDF.js/WebKit memory peak that is not reflected by steady-state canvas backing measurements.
+- 5.8.35 builds continuous/page-snap Split stages first with lazy 1x1 canvases, restores/commits the saved viewport across the existing two animation-frame restore steps, and only then attaches IntersectionObserver.
+- Adds diagnostic `split-observer-armed-after-restore`.
+- Single-page Split mode is unchanged.
+- Preserve 5.8.34 live-pinch raster freeze, 5.8.33 render watchdog/cache cleanup, 5.8.32 strict two-source handoff and breadcrumb history, 5.8.31 scroll ownership fix, and all existing graph/Library behavior.
+
+VALIDATION PRIORITY
+1. Leave papers at clearly different lower-page positions and switch among them.
+2. After each switch, initial `viewer-render-request` events should correspond to the restored viewport rather than page 1.
+3. Reopen a scan-heavy paper around pages 6–8 and verify no brief page-1 render/release occurs.
+4. Continue normal grading and switching; also regression-check live pinch.
+5. Save Diagnostics after any further crash or jitter.
+
+================================================================================
+PRIOR 5.8.34 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.34-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

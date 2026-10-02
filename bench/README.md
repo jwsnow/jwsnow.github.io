@@ -1,3 +1,30 @@
+# PDF Workbench 5.8.35-exp
+
+## Milestone 5.8.35 — restore Split viewport before arming PDF rendering
+
+5.8.35 is a narrow follow-up to 5.8.34 based on the 11:12 crash breadcrumb. The crash was not pinch-related: all pinch states were inactive, exactly two PDF sources were resident, and the outgoing right-pane source had already retired correctly. The dying runtime had just switched the right pane to `Caitlin Heller.pdf`.
+
+The diagnostic trace exposed a wasteful ordering in `renderSplitPane()`: page stages were attached to IntersectionObserver while the freshly rebuilt viewer was still at `scrollTop = 0`. That allowed PDF.js to begin decoding/rendering page 1 before the saved Split scroll position was restored. A few milliseconds later the viewer jumped to the saved location around pages 6–8, page 1 was released, and the real visible pages were queued. On scan-heavy PDFs this creates a transient decode/render peak that is not represented well by the steady-state canvas-memory counter.
+
+### 5.8.35 changes
+
+- Continuous/Page Snap Split viewers now build their page stages with 1×1 lazy canvases but do **not** observe them immediately.
+- Workbench first restores the saved/structural Split viewport across the existing two animation-frame restore steps and commits the pane view state.
+- Only after that restore is complete are the page stages attached to IntersectionObserver, so initial PDF rendering begins around the actual restored location rather than page 1.
+- Adds `split-observer-armed-after-restore` diagnostics.
+- Single-page Split mode is unchanged because it has no scroll-position ambiguity and renders only its active page.
+- 5.8.34 live-pinch raster freeze, 5.8.33 render watchdog/cache cleanup, 5.8.32 strict two-source handoff, 5.8.31 scroll ownership protection, and normal iPad raster limits are preserved.
+
+### Validation priority
+
+1. Leave several papers at clearly different lower-page positions, then switch among them. The first `viewer-render-request` after each restored switch should be near the saved location, not page 1.
+2. In particular, reopen a paper around pages 6–8 and confirm there is no brief page-1 render/release before the visible pages begin rendering.
+3. Continue normal grading and document switching on scan-heavy PDFs.
+4. Recheck the 5.8.34 live-pinch case; no pinch behavior was intentionally changed.
+5. If another crash occurs, save Diagnostics immediately.
+
+---
+
 # PDF Workbench 5.8.34-exp
 
 ## Milestone 5.8.34 — freeze viewport raster residency during live iPad pinch
