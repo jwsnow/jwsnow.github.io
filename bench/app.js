@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.26';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.27';
 
-const APP_VERSION = '5.8.26';
+const APP_VERSION = '5.8.27';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1371,7 +1371,7 @@ async function persistLibraryNow(options={}) {
   if (state.librarySuppressPersist) return;
   const persistStarted = performance.now();
   let persistSerializeMs = 0;
-  addInkDiagnostic('library-persist-start', null, { documents:state.documents.length, historyPersisted:false });
+  let documentsPersisted = 0;
   if (!state.libraryReady || !state.libraryDb) {
     if (!(await ensureLibraryConnection())) return;
   }
@@ -1386,7 +1386,29 @@ async function persistLibraryNow(options={}) {
     deduplicateOpenDocuments();
     saveCurrentDocumentState({ readViewDom: options.readViewDom !== false, skipLibrarySchedule: true });
     writeSessionCheckpoint();
-    for (const doc of state.documents) {
+
+    // 5.8.27: grading can keep an entire class set logically open. Re-cloning
+    // and structured-cloning every page/annotation tree on every autosave made
+    // one mark on one paper serialize all 20-30 papers and produced 1-2 second
+    // main-thread/IndexedDB bursts on iPad. Persist only records whose durable
+    // document state actually changed, plus the current document in Single View
+    // so its per-document zoom/scroll state remains durable. Split-pane view
+    // state already lives in the lightweight session record below.
+    const currentId = state.currentDocumentId || null;
+    const documentsToPersist = state.documents.filter(doc => {
+      if (options.forceAllDocuments === true) return true;
+      const saved = state.libraryRecords.get(doc.id);
+      if (!saved) return true;
+      if (!state.splitView && doc.id === currentId) return true;
+      return Number(saved.modifiedAt || 0) !== Number(doc.modifiedAt || 0);
+    });
+    addInkDiagnostic('library-persist-start', null, {
+      documents:state.documents.length,
+      documentsPlanned:documentsToPersist.length,
+      forceAllDocuments:options.forceAllDocuments === true,
+      historyPersisted:false,
+    });
+    for (const doc of documentsToPersist) {
       const sourceIds = pagesReferencedSourceIds(doc.pages);
       for (const sourceId of sourceIds) await persistSourceToLibrary(sourceId);
       const serializeStarted = performance.now();
@@ -1394,6 +1416,7 @@ async function persistLibraryNow(options={}) {
       persistSerializeMs += performance.now() - serializeStarted;
       await libraryPut('documents', record);
       state.libraryRecords.set(doc.id, record);
+      documentsPersisted++;
     }
     const templateSourceIds = pagesReferencedSourceIds(state.templates.map(template => template.page));
     for (const sourceId of templateSourceIds) await persistSourceToLibrary(sourceId);
@@ -1414,6 +1437,8 @@ async function persistLibraryNow(options={}) {
     state.libraryPersisting = false;
     addInkDiagnostic('library-persist-finish', null, {
       documents:state.documents.length,
+      documentsPersisted,
+      forceAllDocuments:options.forceAllDocuments === true,
       historyPersisted:false,
       serializeMs:Math.round(persistSerializeMs * 10) / 10,
       totalMs:Math.round((performance.now() - persistStarted) * 10) / 10,

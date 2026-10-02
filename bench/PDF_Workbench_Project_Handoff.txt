@@ -1,3 +1,39 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.27-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.
+Continue future work from the packaged 5.8.27-exp ZIP, not an older build.
+
+WHY 5.8.27 EXISTS
+- 5.8.26's persistent pre-crash breadcrumb captured a real iPad restart after about 19 minutes of Split grading.
+- Immediately before the restart Workbench had only 2 resident PDF sources and about 59 MB of measured canvas backing, so another raster/source reduction was not well targeted.
+- The same breadcrumb showed a routine Library persist immediately beforehand that serialized/wrote all 27 open documents and took about 1.85 seconds, followed by a right-pane student switch and three page renders. The user had reported intermittent sluggishness before the restart.
+- Code review confirmed `persistLibraryNow()` cloned every page/annotation tree and wrote every logically open document on every autosave, even when only one student's paper had changed.
+
+5.8.27 CHANGE — INCREMENTAL GRADING AUTOSAVE
+- Routine persistence now chooses only document records that actually need a durable write: records missing from the Library, records whose `modifiedAt` differs from the stored record, plus the current document in Single View so its per-document view state remains durable.
+- Split pane view state remains in the lightweight session record, so unchanged grading papers are not rewritten merely because they are logically Open.
+- Source persistence is likewise limited to the document records being written.
+- Full-save behavior remains available through `forceAllDocuments:true` when explicitly needed.
+- Diagnostics: `library-persist-start` includes `documentsPlanned`; `library-persist-finish` includes `documentsPersisted`.
+
+PRESERVE
+- 5.8.26 previous-runtime health breadcrumb + startup Split rebuild coalescing.
+- 5.8.25 iPad raster/prefetch reductions.
+- 5.8.24 one-render-at-a-time iPad policy and source-aware render cleanup.
+- 5.8.23 source residency sweep / logical-open grading model.
+- 5.8.19+ persistent Library thumbnails and scanner-safe preview handling.
+- Graph tools through 5.8.16 and later edge-label refinements.
+
+TEST PRIORITY
+1. Keep the full class set open and grade in Split normally.
+2. Confirm routine diagnostic `library-persist-finish` entries report roughly 0–1 `documentsPersisted`, not all 27.
+3. Watch for disappearance of the intermittent 1–2 second sluggish autosave pauses.
+4. If another restart occurs, save Diagnostics immediately; diagnosticVersion 8 previous-runtime breadcrumb remains the primary crash evidence.
+
+===============================================================================
+PRIOR HANDOFF FOLLOWS
+===============================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-01 — BASELINE 5.8.26-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

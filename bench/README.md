@@ -1,3 +1,27 @@
+# PDF Workbench 5.8.27-exp
+
+## Milestone 5.8.27 — incremental grading autosave
+
+5.8.27 is a focused iPad grading-stability revision built from 5.8.26. The 5.8.26 previous-runtime health breadcrumb showed the app could still restart after a long Split grading session even with only two resident PDF sources and about 59 MB of measured canvas backing. Immediately before that restart, a routine Library autosave serialized and wrote all 27 open grading documents and took about 1.85 seconds, followed by a pane switch and new page renders.
+
+### Changes
+
+- Routine Library autosave no longer clones/writes every logically open document.
+- In Split, only documents whose durable `modifiedAt` differs from their stored Library record are persisted. A normal mark on one student therefore writes that student's document rather than the entire class set.
+- In Single View, the current document is also persisted so its per-document single-view scroll/zoom state remains durable.
+- The lightweight session record continues to preserve Split pane document/view state.
+- `persistLibraryNow({forceAllDocuments:true})` remains available for operations that explicitly need a complete flush.
+- `library-persist-start` now reports `documentsPlanned`; `library-persist-finish` reports `documentsPersisted`, so diagnostics can verify the optimization in real use.
+- All 5.8.26 pre-crash breadcrumb diagnostics, 5.8.25 iPad raster limits, source residency, persistent thumbnails, graph features, and Files Diagnostics are preserved.
+
+### Validation priority
+
+Open the full grading set, work normally in Split for a sustained period, and save Diagnostics even without a crash. Routine autosaves should normally show 0–1 documents persisted rather than all open documents, and the earlier 1–2 second whole-class persistence bursts should disappear.
+
+---
+
+## Prior 5.8.26 notes
+
 # PDF Workbench 5.8.26-exp
 
 5.8.26 is a focused diagnostic/recovery revision built from 5.8.25. It preserves the lower iPad raster footprint, source-residency grading model, Files Diagnostics button, persistent thumbnails, graph tools, and Library behavior.
