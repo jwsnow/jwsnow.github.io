@@ -1,3 +1,29 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.28-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.28-exp ZIP, not an older build.
+
+5.8.28 FOCUSED GRADING-PERFORMANCE FIX
+- A captured slow Split transition in 5.8.27 showed ~956 ms Library persistence + ~1.4 s event-loop gap before the switch, ~1.45 s first-page open/render, then another zero-document Library persist taking ~1.09 s + ~1.46 s gap.
+- Scheduled grading/document autosaves now use a true `documentsOnly` path: changed/current document records + required sources only. They skip Templates metadata, IndexedDB session rewrite, hidden Files-list rebuild, and storage-estimate refresh.
+- A zero-document scheduled autosave therefore does no IndexedDB write after the lightweight localStorage session checkpoint.
+- Full Library/template/file operations remain full saves and override pending document-only work.
+- Split editing-context changes no longer schedule persistence merely because `currentDocumentId` changes.
+- Split `savePaneScroll()` now checkpoints only the lightweight localStorage session; it no longer schedules a full IndexedDB Library save at the start of every Split document switch or while navigating a pane.
+- Single-view scroll persistence uses document-only persistence.
+- Added source-load phase timing (`library-source-load-finish`: idbMs/copyMs/pdfJsMs/totalMs) and Split switch start/commit diagnostics.
+- Preserve 5.8.27 incremental document writes, 5.8.26 crash breadcrumbs, 5.8.25 iPad raster profile, 5.8.24 one-render-at-a-time/source-aware cleanup + Files Diagnostics, 5.8.23 source residency architecture, persistent thumbnails, and all graph features.
+
+VALIDATION PRIORITY
+1. Grade with the whole class open in Split and switch students repeatedly.
+2. Save Diagnostics even without a crash: zero-document `documentsOnly:true` saves should be near-no-op, not 0.3–1.1 s.
+3. Use source-load timing to determine the unavoidable remaining PDF reopen cost.
+4. If a restart occurs, save Diagnostics immediately so the 5.8.26 previous-runtime breadcrumb survives.
+
+================================================================================
+PRIOR 5.8.27 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.27-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.

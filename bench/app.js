@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.27';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.28';
 
-const APP_VERSION = '5.8.27';
+const APP_VERSION = '5.8.28';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -174,6 +174,7 @@ const state = {
   pendingFolderMove: null,
   pendingBackupImportMode: 'replace',
   libraryPersistTimer: null,
+  libraryPersistScheduledFull: false,
   annotationRedrawJobs: new Map(),
   regionCopyArmed: false,
   regionCopyGesture: null,
@@ -184,6 +185,7 @@ const state = {
   sessionExplicitEmpty: false,
   libraryPersisting: false,
   libraryPersistAgain: false,
+  libraryPersistAgainFull: false,
   libraryRecoveryTimer: null,
   librarySuppressPersist: false,
   splitView: false,
@@ -592,7 +594,10 @@ async function persistSourceToLibrary(sourceId) {
 async function ensureLibrarySourceLoaded(sourceId) {
   if (!sourceId) return null;
   if (state.sources.has(sourceId)) return state.sources.get(sourceId);
+  const started = performance.now();
+  const idbStarted = performance.now();
   const record = await libraryGet('sources', sourceId);
+  const idbMs = performance.now() - idbStarted;
   if (!record) throw new Error(`Stored source ${sourceId} is missing from the local Library.`);
   let data = record.data || null;
   if (!data && record.blob instanceof Blob) data = await record.blob.arrayBuffer(); // 4.0.0/4.0.1 compatibility
@@ -600,20 +605,33 @@ async function ensureLibrarySourceLoaded(sourceId) {
   const mimeType = record.mimeType || (record.type === 'pdf' ? 'application/pdf' : 'application/octet-stream');
   if (record.type === 'pdf') {
     if (!state.pdfjs) throw new Error('The PDF engine is not available to reopen this stored document.');
+    const bytesStarted = performance.now();
     const bytes = new Uint8Array(data.slice ? data.slice(0) : data);
+    const copyMs = performance.now() - bytesStarted;
+    const pdfStarted = performance.now();
     const pdf = await state.pdfjs.getDocument({
       data: bytes.slice(), wasmUrl: PDFJS_WASM_URL, cMapUrl: PDFJS_CMAP_URL,
       cMapPacked: true, standardFontDataUrl: PDFJS_STANDARD_FONT_URL, useWasm: true,
     }).promise;
+    const pdfJsMs = performance.now() - pdfStarted;
     const blob = new Blob([bytes], { type: mimeType });
     const source = { id: sourceId, type: 'pdf', name: record.name, size: record.size || bytes.byteLength, bytes, pdf, blob, libraryPersisted: true };
     state.sources.set(sourceId, source);
+    addInkDiagnostic('library-source-load-finish', null, {
+      sourceId, name:record.name || null, size:record.size || bytes.byteLength,
+      idbMs:Math.round(idbMs * 10) / 10, copyMs:Math.round(copyMs * 10) / 10,
+      pdfJsMs:Math.round(pdfJsMs * 10) / 10, totalMs:Math.round((performance.now() - started) * 10) / 10,
+    });
     return source;
   }
   const blob = new Blob([data], { type: mimeType });
   const url = URL.createObjectURL(blob);
   const source = { id: sourceId, type: 'image', name: record.name, size: record.size || blob.size, file: blob, blob, url, image: null, libraryPersisted: true };
   state.sources.set(sourceId, source);
+  addInkDiagnostic('library-source-load-finish', null, {
+    sourceId, name:record.name || null, size:record.size || blob.size,
+    idbMs:Math.round(idbMs * 10) / 10, totalMs:Math.round((performance.now() - started) * 10) / 10,
+  });
   return source;
 }
 
@@ -1370,12 +1388,17 @@ async function restorePersistentTemplates() {
 async function persistLibraryNow(options={}) {
   if (state.librarySuppressPersist) return;
   const persistStarted = performance.now();
+  const documentsOnly = options.documentsOnly === true;
   let persistSerializeMs = 0;
   let documentsPersisted = 0;
   if (!state.libraryReady || !state.libraryDb) {
     if (!(await ensureLibraryConnection())) return;
   }
-  if (state.libraryPersisting) { state.libraryPersistAgain = true; return; }
+  if (state.libraryPersisting) {
+    state.libraryPersistAgain = true;
+    if (options.documentsOnly !== true) state.libraryPersistAgainFull = true;
+    return;
+  }
   state.libraryPersisting = true;
   let failed = null;
   try {
@@ -1406,6 +1429,7 @@ async function persistLibraryNow(options={}) {
       documents:state.documents.length,
       documentsPlanned:documentsToPersist.length,
       forceAllDocuments:options.forceAllDocuments === true,
+      documentsOnly,
       historyPersisted:false,
     });
     for (const doc of documentsToPersist) {
@@ -1418,16 +1442,25 @@ async function persistLibraryNow(options={}) {
       state.libraryRecords.set(doc.id, record);
       documentsPersisted++;
     }
-    const templateSourceIds = pagesReferencedSourceIds(state.templates.map(template => template.page));
-    for (const sourceId of templateSourceIds) await persistSourceToLibrary(sourceId);
-    await libraryPut('meta', serializeTemplatesForLibrary());
-    // Do not overwrite the saved workspace with the intentionally empty
-    // pre-restore startup state. Document/template persistence may still run.
-    if (state.sessionRestoreHydrated || options.allowUnhydratedSessionPersist) {
-      await libraryPut('meta', serializeLibrarySession());
+    // Routine document autosaves during grading deliberately stop here. The
+    // workspace/session has already been checkpointed synchronously to
+    // localStorage, and templates/Files UI did not change. Rewriting templates,
+    // the full IndexedDB session record, rebuilding the hidden Files list, and
+    // asking navigator.storage.estimate() made even a zero-document autosave
+    // cost 0.3-1.1 seconds on iPad. Explicit Library/template/file operations
+    // keep the full path below.
+    if (!documentsOnly) {
+      const templateSourceIds = pagesReferencedSourceIds(state.templates.map(template => template.page));
+      for (const sourceId of templateSourceIds) await persistSourceToLibrary(sourceId);
+      await libraryPut('meta', serializeTemplatesForLibrary());
+      // Do not overwrite the saved workspace with the intentionally empty
+      // pre-restore startup state. Document/template persistence may still run.
+      if (state.sessionRestoreHydrated || options.allowUnhydratedSessionPersist) {
+        await libraryPut('meta', serializeLibrarySession());
+      }
+      renderLibraryDocumentList();
+      updateLibraryStorageSummary();
     }
-    renderLibraryDocumentList();
-    updateLibraryStorageSummary();
   } catch (err) {
     failed = err;
     console.error('Library persist failed', err);
@@ -1439,6 +1472,7 @@ async function persistLibraryNow(options={}) {
       documents:state.documents.length,
       documentsPersisted,
       forceAllDocuments:options.forceAllDocuments === true,
+      documentsOnly,
       historyPersisted:false,
       serializeMs:Math.round(persistSerializeMs * 10) / 10,
       totalMs:Math.round((performance.now() - persistStarted) * 10) / 10,
@@ -1459,8 +1493,10 @@ async function persistLibraryNow(options={}) {
     }
   }
   if (state.libraryPersistAgain) {
+    const full = state.libraryPersistAgainFull;
     state.libraryPersistAgain = false;
-    scheduleLibraryPersist(80);
+    state.libraryPersistAgainFull = false;
+    scheduleLibraryPersist(80, { documentsOnly: !full });
   }
 }
 function annotationGestureActiveForAutosave() {
@@ -1477,10 +1513,15 @@ function runScheduledLibraryPersist() {
     state.libraryPersistTimer = setTimeout(runScheduledLibraryPersist, 650);
     return;
   }
-  persistLibraryNow();
+  const documentsOnly = !state.libraryPersistScheduledFull;
+  state.libraryPersistScheduledFull = false;
+  persistLibraryNow({ documentsOnly });
 }
-function scheduleLibraryPersist(delay=550) {
+function scheduleLibraryPersist(delay=550, options={}) {
   if (state.librarySuppressPersist) return;
+  // Full Library/template/file operations win over a document-only autosave if
+  // both are waiting on the same timer.
+  if (options.documentsOnly !== true) state.libraryPersistScheduledFull = true;
   // IndexedDB writes can be interrupted when an installed PWA is suspended or
   // closed. Keep a throttled tiny workspace/session snapshot in localStorage
   // as well; pagehide/visibilitychange force an immediate final checkpoint.
@@ -1497,13 +1538,13 @@ function markDocumentDirty(doc=currentDocument()) {
   // that began 850 ms after one eraser swipe and was still finishing when the
   // next swipe started. Session checkpoints remain much cheaper and lifecycle
   // events still force a durable save when the app is backgrounded/closed.
-  scheduleLibraryPersist(1400);
+  scheduleLibraryPersist(1400, { documentsOnly: true });
 }
 function markDocumentExported(doc) {
   if (!doc) return;
   doc.needsExport = false;
   doc.lastExportedAt = Date.now();
-  scheduleLibraryPersist(100);
+  scheduleLibraryPersist(100, { documentsOnly: true });
 }
 async function prepareDocumentForFileOperation(doc) {
   if (!doc) return;
@@ -2379,6 +2420,8 @@ async function mergeEditableBackupDocuments(file) {
     clearTimeout(state.libraryPersistTimer);
     state.libraryPersistTimer = null;
     state.libraryPersistAgain = false;
+    state.libraryPersistAgainFull = false;
+    state.libraryPersistScheduledFull = false;
     state.librarySuppressPersist = true;
 
     const mergeTime = Date.now();
@@ -7786,7 +7829,7 @@ function saveCurrentDocumentState(options={}) {
   // those callers pass readViewDom:false so the stale pre-edit scroll cannot
   // overwrite the new page focus before the viewer is rebuilt.
   if (!state.splitView) saveSingleViewFromState(doc, readViewDom);
-  if (!skipLibrarySchedule) scheduleLibraryPersist(1400);
+  if (!skipLibrarySchedule) scheduleLibraryPersist(1400, { documentsOnly: true });
 }
 
 function createDocument(name) {
@@ -7989,7 +8032,7 @@ function loadDocumentState(docId, rerender=true) {
   const previousSourceIds = previousDoc ? [...documentSourceIds(previousDoc)] : [];
   if (state.annotationSelection?.ids?.size) clearAnnotationSelection(true);
   state.selectionGesture = null;
-  saveCurrentDocumentState();
+  saveCurrentDocumentState({ skipLibrarySchedule: state.splitView });
   cancelSingleActivePageSync();
   const doc = state.documents.find(d => d.id === docId);
   if (!doc) return;
@@ -8207,7 +8250,7 @@ function savePaneScroll(paneId) {
   }
   view.scrollTop = pe.viewer.scrollTop;
   view.scrollLeft = pe.viewer.scrollLeft;
-  scheduleLibraryPersist(1200);
+  scheduleSessionCheckpoint(260);
 }
 
 function activateSplitPane(paneId, syncCurrent=true) {
@@ -8236,9 +8279,11 @@ function activateSplitPane(paneId, syncCurrent=true) {
 
 function setPaneDocument(paneId, docId) {
   if (!documentById(docId)) return;
+  const switchStarted = performance.now();
   savePaneScroll(paneId);
   const pane = splitPaneState(paneId);
   const replacedDocumentId = pane.documentId || null;
+  addInkDiagnostic('split-document-switch-start', null, { paneId, fromDocumentId:replacedDocumentId, toDocumentId:docId });
   const replacedDoc = documentById(replacedDocumentId);
   const replacedSourceIds = replacedDoc ? [...documentSourceIds(replacedDoc)] : [];
   pane.documentId = docId;
@@ -8254,6 +8299,10 @@ function setPaneDocument(paneId, docId) {
   scheduleInactivePdfSourceRelease(replacedSourceIds, 'split-pane-document-switch');
   scheduleInactivePdfSourceResidencySweep('split-pane-document-switch-sweep');
   setStatus(`Showing ${documentById(docId)?.name || 'document'} in ${paneId} pane`);
+  addInkDiagnostic('split-document-switch-committed', null, {
+    paneId, fromDocumentId:replacedDocumentId, toDocumentId:docId,
+    commitMs:Math.round((performance.now() - switchStarted) * 10) / 10,
+  });
 }
 
 function populateDocumentSelect(select, selectedId) {
@@ -14713,7 +14762,7 @@ function updateSingleViewScrollFromDom() {
   view.scrollTop = els.viewer.scrollTop;
   view.scrollLeft = els.viewer.scrollLeft;
   view.activePageId = state.activePageId;
-  scheduleLibraryPersist(1200);
+  scheduleLibraryPersist(1200, { documentsOnly: true });
 }
 
 function syncPageViewPanel() {
