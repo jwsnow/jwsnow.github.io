@@ -1,17 +1,21 @@
-# PDF Workbench 5.8.29-exp
+# PDF Workbench 5.8.30-exp
 
-## Milestone 5.8.29 — rapid Split-switch source handoff
+## Milestone 5.8.30 — committed Split view-state handoff
 
-5.8.29 is a narrow iPad stress-switch revision built from 5.8.28. Normal 5.8.28 grading was markedly more responsive: document-only autosaves stayed roughly 36–218 ms, persisted PDF loads roughly 100–298 ms, and no event-loop gaps were recorded in the pre-stress diagnostic. A deliberately rapid sequence of Split right-pane document changes nevertheless forced a WebKit restart. The previous-runtime breadcrumb caught the failure mid-switch with Test2 visible on the left, BaileyB loading on the right, and the prior Anaya PDF.js source still resident, for three resident PDF sources during the overlap window.
+5.8.30 is a narrow correctness follow-up to 5.8.29. The rapid-switch source-retirement / latest-request-wins protection is preserved, but testing showed that quickly passing through intermediate papers could reset some remembered Split scroll positions to the top.
+
+Root cause: 5.8.29 changed `pane.documentId` as soon as a paper was requested. Before the requested paper had actually restored its viewer, a subsequent switch could call `savePaneScroll()` against the `Loading…` placeholder (or briefly interpret the outgoing DOM as the incoming paper). That transient `(0,0)` viewport could overwrite the incoming paper's remembered Split view state.
 
 Changes:
-- Split switching is now source-handoff based on iPad: outgoing canvases are collapsed immediately, queued outgoing renders are discarded, and the outgoing persisted PDF source is retired before the newest requested document begins rendering.
-- Each Split pane has a monotonically increasing switch sequence. If another selection supersedes a switch while its outgoing source is retiring, the intermediate selection never starts PDF loading/rendering (latest-request-wins).
-- Only renders that actually use the outgoing source can delay retirement; unrelated rendering in the other pane does not.
-- A bounded 1.8 s safety wait prevents a pathological render from leaving the pane permanently blocked.
-- After a successful iPad source retirement, Workbench yields one animation frame before opening the next PDF so WebKit can detach collapsed canvases/PDF.js resources.
-- New diagnostics: `split-document-switch-retired-outgoing`, `split-document-switch-superseded`, `split-document-switch-retire-timeout`, plus sequence/resident-source fields on switch events.
-- 5.8.28 document-only autosave, source-load timings, 5.8.26 crash breadcrumb, 5.8.25 iPad raster limits, and all graph/Library behavior remain unchanged.
+- Each Split pane now distinguishes the **requested** document (`documentId`) from the **committed/displayed** document (`committedDocumentId`).
+- `savePaneScroll()` writes page/scroll state only when the committed document matches the requested document. Loading placeholders and superseded intermediate requests never own or write view state.
+- `activateSplitPane()` derives page identity from the DOM only when the DOM is committed to the requested document; it cannot interpret the outgoing paper's stages as belonging to the incoming paper.
+- Every Split-pane rebuild temporarily clears `committedDocumentId`. The new document becomes committed only after its saved scroll/page position has actually been restored.
+- The two delayed animation-frame restore steps are generation/document guarded. If B's delayed restore fires after the user has already requested C, B cannot commit itself or write state.
+- New diagnostic health data records requested vs. committed document IDs and switch sequence for each pane; `split-pane-view-state-committed` marks successful view-state ownership.
+- 5.8.29 rapid-switch source retirement/latest-request-wins behavior, 5.8.28 document-only autosave, source-load timings, crash breadcrumbs, iPad raster limits, and all graph/Library behavior remain unchanged.
+
+Validation priority: leave several papers at distinctive scroll locations, rapidly switch A→B→C→D, then return to each. Papers merely passed through should retain the location at which they were last genuinely displayed; they should no longer be reset by a loading placeholder.
 
 
 ## Milestone 5.8.27 — incremental grading autosave

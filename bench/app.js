@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.29';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.30';
 
-const APP_VERSION = '5.8.29';
+const APP_VERSION = '5.8.30';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -192,8 +192,8 @@ const state = {
   activePaneId: 'left',
   singleSourcePaneId: 'left',
   splitPanes: {
-    left: { id: 'left', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, suppressScrollSave: false, activePageSyncFrame: null, pendingStructuralAnchor: null, switchSequence: 0 },
-    right: { id: 'right', documentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, suppressScrollSave: false, activePageSyncFrame: null, pendingStructuralAnchor: null, switchSequence: 0 },
+    left: { id: 'left', documentId: null, committedDocumentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, suppressScrollSave: false, activePageSyncFrame: null, pendingStructuralAnchor: null, switchSequence: 0 },
+    right: { id: 'right', documentId: null, committedDocumentId: null, views: new Map(), observer: null, generation: 0, lastWheelPageChange: 0, touchStart: null, touchPointers: new Map(), touchPan: null, touchInertiaFrame: null, pinchGesture: null, pinchNeedsRender: false, pinchRenderFrame: null, suppressScrollSave: false, activePageSyncFrame: null, pendingStructuralAnchor: null, switchSequence: 0 },
   },
 };
 
@@ -8240,7 +8240,13 @@ function paneView(paneId=state.activePaneId, docId=null) {
 }
 
 function savePaneScroll(paneId) {
-  const pane = splitPaneState(paneId), pe = paneElements(paneId), view = paneView(paneId);
+  const pane = splitPaneState(paneId), pe = paneElements(paneId);
+  // Milestone 5.8.30: only a fully restored, actually displayed Split viewer
+  // may write scroll/page state. During rapid A→B→C switching, B can exist as
+  // the requested pane document while the DOM is only a Loading… placeholder.
+  // Saving that placeholder's (0,0) scroll would overwrite B's remembered view.
+  if (!pane.committedDocumentId || pane.committedDocumentId !== pane.documentId) return;
+  const view = paneView(paneId, pane.committedDocumentId);
   if (!view || !pe.viewer) return;
   // Keep page identity and raw scroll coordinates in sync. Split panes are
   // independent view instances, so each pane derives its current page from
@@ -8256,10 +8262,13 @@ function savePaneScroll(paneId) {
 function activateSplitPane(paneId, syncCurrent=true) {
   state.activePaneId = paneId === 'right' ? 'right' : 'left';
   ensureSplitPaneDocuments();
-  // A pane may have been scrolled while inactive. Make the page actually at
-  // its viewport center authoritative before toolbar/page operations use it.
-  syncSplitActivePageFromViewport(state.activePaneId, { updateUi: false });
   const pane = splitPaneState();
+  // Only derive page identity from the DOM when that DOM is known to belong to
+  // the pane's requested document. A rapid switch can temporarily leave the
+  // old viewer or a Loading… placeholder in this pane after documentId changes.
+  if (pane.committedDocumentId && pane.committedDocumentId === pane.documentId) {
+    syncSplitActivePageFromViewport(state.activePaneId, { updateUi: false });
+  }
   if (syncCurrent && pane.documentId && pane.documentId !== state.currentDocumentId) loadDocumentState(pane.documentId, false);
   // loadDocumentState restores that document's single-view page; split mode
   // must immediately put the active pane's independent page identity back on
@@ -8327,6 +8336,9 @@ async function retireOutgoingPaneSourcesBeforeRender(paneId, sequence, sourceIds
 function showSplitPaneSwitchLoading(paneId, doc) {
   const pane = splitPaneState(paneId), pe = paneElements(paneId);
   cancelSplitActivePageSync(paneId);
+  // The real viewer is gone from this point until renderSplitPane restores the
+  // requested document's saved viewport. Loading placeholders never own view state.
+  pane.committedDocumentId = null;
   pane.generation += 1;
   pane.observer?.disconnect();
   releaseViewerDom(pe.viewer, `split-${paneId}-switch-clear`);
@@ -8345,7 +8357,7 @@ function setPaneDocument(paneId, docId) {
   const sequence = (pane.switchSequence || 0) + 1;
   pane.switchSequence = sequence;
   const replacedDocumentId = pane.documentId || null;
-  addInkDiagnostic('split-document-switch-start', null, { paneId, sequence, fromDocumentId:replacedDocumentId, toDocumentId:docId });
+  addInkDiagnostic('split-document-switch-start', null, { paneId, sequence, fromDocumentId:replacedDocumentId, fromCommittedDocumentId:pane.committedDocumentId || null, toDocumentId:docId });
   const replacedDoc = documentById(replacedDocumentId);
   const replacedSourceIds = replacedDoc ? [...documentSourceIds(replacedDoc)] : [];
 
@@ -11918,6 +11930,10 @@ function diagnosticHealthBreadcrumbSnapshot(reason='timer') {
     presentation: document.body.classList.contains('presentation'),
     splitView: !!state.splitView,
     activePaneId: state.activePaneId || null,
+    splitPaneDocuments: {
+      left:{ requested:state.splitPanes.left?.documentId || null, committed:state.splitPanes.left?.committedDocumentId || null, sequence:state.splitPanes.left?.switchSequence || 0 },
+      right:{ requested:state.splitPanes.right?.documentId || null, committed:state.splitPanes.right?.committedDocumentId || null, sequence:state.splitPanes.right?.switchSequence || 0 },
+    },
     currentDocumentId: state.currentDocumentId || null,
     openDocumentCount: state.documents.length,
     visibleDocuments: diagnosticHealthVisibleDocuments(),
@@ -12375,6 +12391,10 @@ function diagnosticRuntimeSnapshot() {
     presentation: document.body.classList.contains('presentation'),
     splitView: !!state.splitView,
     activePaneId: state.activePaneId || null,
+    splitPaneDocuments: {
+      left:{ requested:state.splitPanes.left?.documentId || null, committed:state.splitPanes.left?.committedDocumentId || null, sequence:state.splitPanes.left?.switchSequence || 0 },
+      right:{ requested:state.splitPanes.right?.documentId || null, committed:state.splitPanes.right?.committedDocumentId || null, sequence:state.splitPanes.right?.switchSequence || 0 },
+    },
     currentDocumentId: state.currentDocumentId || null,
     viewport: { width:window.innerWidth, height:window.innerHeight, devicePixelRatio:Number(window.devicePixelRatio || 1), visualWidth:Number(window.visualViewport?.width || 0) || null, visualHeight:Number(window.visualViewport?.height || 0) || null, visualScale:Number(window.visualViewport?.scale || 0) || null },
     openDocuments: state.documents.map(doc => ({
@@ -15616,6 +15636,9 @@ function renderSplitPane(paneId) {
   cancelSplitActivePageSync(paneId);
   pane.generation++;
   const generation = pane.generation;
+  // Until this generation has rebuilt the viewer and restored its saved
+  // viewport, do not allow scroll/page state to be captured from the transient DOM.
+  pane.committedDocumentId = null;
   const restoreTop = Number.isFinite(view?.scrollTop) ? view.scrollTop : null;
   const restoreLeft = Number.isFinite(view?.scrollLeft) ? view.scrollLeft : null;
   pane.suppressScrollSave = true;
@@ -15687,6 +15710,7 @@ function renderSplitPane(paneId) {
 
   if (view.scrollMode !== 'single') {
     requestAnimationFrame(() => {
+      if (generation !== pane.generation || pane.documentId !== doc.id) return;
       if (structuralAnchor) {
         restoreSplitPaneStructuralAnchor(paneId, structuralAnchor);
       } else if (restoreTop !== null || restoreLeft !== null) {
@@ -15696,6 +15720,7 @@ function renderSplitPane(paneId) {
         scrollSplitActivePageIntoView(paneId, 'auto');
       }
       requestAnimationFrame(() => {
+        if (generation !== pane.generation || pane.documentId !== doc.id) return;
         if (structuralAnchor) {
           restoreSplitPaneStructuralAnchor(paneId, structuralAnchor);
           pane.pendingStructuralAnchor = null;
@@ -15703,7 +15728,9 @@ function renderSplitPane(paneId) {
           pe.viewer.scrollTop = restoreTop ?? 0;
           pe.viewer.scrollLeft = restoreLeft ?? 0;
         }
+        pane.committedDocumentId = doc.id;
         pane.suppressScrollSave = false;
+        addInkDiagnostic('split-pane-view-state-committed', null, { paneId, documentId:doc.id, generation });
         if (state.splitView) {
           syncSplitActivePageFromViewport(paneId);
           savePaneScroll(paneId);
@@ -15712,11 +15739,14 @@ function renderSplitPane(paneId) {
     });
   } else {
     requestAnimationFrame(() => {
+      if (generation !== pane.generation || pane.documentId !== doc.id) return;
       if (structuralAnchor) {
         restoreSplitPaneStructuralAnchor(paneId, structuralAnchor);
         pane.pendingStructuralAnchor = null;
       }
+      pane.committedDocumentId = doc.id;
       pane.suppressScrollSave = false;
+      addInkDiagnostic('split-pane-view-state-committed', null, { paneId, documentId:doc.id, generation });
     });
   }
 }
