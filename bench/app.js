@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.23';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.24';
 
-const APP_VERSION = '5.8.23';
+const APP_VERSION = '5.8.24';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -46,7 +46,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGraphBackgroundBtn: $('pageGraphBackgroundBtn'), pagePurgeLegacyGraphBackgroundBtn: $('pagePurgeLegacyGraphBackgroundBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), presentationToolMenuBtn: $('presentationToolMenuBtn'), presentationToolMenu: $('presentationToolMenu'), inkHandBtn: $('inkHandBtn'), inkLaserBtn: $('inkLaserBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkGraphBtn: $('inkGraphBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), graphOptionGroup: $('graphOptionGroup'), graphBorderStyle: $('graphBorderStyle'), graphColorGroup: $('graphColorGroup'), graphEditContentsBtn: $('graphEditContentsBtn'), graphEdgeLabelBtn: $('graphEdgeLabelBtn'), graphDeleteBtn: $('graphDeleteBtn'), graphNodeSizeGroup: $('graphNodeSizeGroup'), graphNodeSizeSelect: $('graphNodeSizeSelect'), graphContentEditGroup: $('graphContentEditGroup'), graphContentMoveBtn: $('graphContentMoveBtn'), graphContentClearBtn: $('graphContentClearBtn'), graphContentDoneBtn: $('graphContentDoneBtn'), selectionActionGroup: $('selectionActionGroup'), selectionColorGroup: $('selectionColorGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), selectionNodeContentBtn: $('selectionNodeContentBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), extractChoiceDialog: $('extractChoiceDialog'), extractChoiceSummary: $('extractChoiceSummary'), extractChoiceCloseBtn: $('extractChoiceCloseBtn'), extractChoiceCancelBtn: $('extractChoiceCancelBtn'), extractChoiceExportBtn: $('extractChoiceExportBtn'), extractChoiceLibraryBtn: $('extractChoiceLibraryBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationPageControlsBtn: $('presentationPageControlsBtn'), presentationPageControlsGroup: $('presentationPageControlsGroup'), presentationPagesBtn: $('presentationPagesBtn'), presentationPageDrawerLayer: $('presentationPageDrawerLayer'), presentationPageDrawer: $('presentationPageDrawer'), presentationPageDrawerScroller: $('presentationPageDrawerScroller'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), viewDiagnosticsBtn: $('viewDiagnosticsBtn'), presentationDiagnosticsBtn: $('presentationDiagnosticsBtn'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), presentationToolMenuBtn: $('presentationToolMenuBtn'), presentationToolMenu: $('presentationToolMenu'), inkHandBtn: $('inkHandBtn'), inkLaserBtn: $('inkLaserBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkGraphBtn: $('inkGraphBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), graphOptionGroup: $('graphOptionGroup'), graphBorderStyle: $('graphBorderStyle'), graphColorGroup: $('graphColorGroup'), graphEditContentsBtn: $('graphEditContentsBtn'), graphEdgeLabelBtn: $('graphEdgeLabelBtn'), graphDeleteBtn: $('graphDeleteBtn'), graphNodeSizeGroup: $('graphNodeSizeGroup'), graphNodeSizeSelect: $('graphNodeSizeSelect'), graphContentEditGroup: $('graphContentEditGroup'), graphContentMoveBtn: $('graphContentMoveBtn'), graphContentClearBtn: $('graphContentClearBtn'), graphContentDoneBtn: $('graphContentDoneBtn'), selectionActionGroup: $('selectionActionGroup'), selectionColorGroup: $('selectionColorGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), selectionNodeContentBtn: $('selectionNodeContentBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), extractChoiceDialog: $('extractChoiceDialog'), extractChoiceSummary: $('extractChoiceSummary'), extractChoiceCloseBtn: $('extractChoiceCloseBtn'), extractChoiceCancelBtn: $('extractChoiceCancelBtn'), extractChoiceExportBtn: $('extractChoiceExportBtn'), extractChoiceLibraryBtn: $('extractChoiceLibraryBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationPageControlsBtn: $('presentationPageControlsBtn'), presentationPageControlsGroup: $('presentationPageControlsGroup'), presentationPagesBtn: $('presentationPagesBtn'), presentationPageDrawerLayer: $('presentationPageDrawerLayer'), presentationPageDrawer: $('presentationPageDrawer'), presentationPageDrawerScroller: $('presentationPageDrawerScroller'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), viewDiagnosticsBtn: $('viewDiagnosticsBtn'), filesDiagnosticsBtn: $('filesDiagnosticsBtn'), presentationDiagnosticsBtn: $('presentationDiagnosticsBtn'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -2817,10 +2817,10 @@ async function importEditableBackupAsSubtree(file) {
 // Keep raster work bounded. Image-only PDFs can require large temporary bitmaps;
 // letting many pages render at once can exhaust browser/GPU memory and leave
 // apparently blank canvases. Viewer jobs are given priority over thumbnails.
-const renderQueue = { active: 0, max: 2, jobs: [] };
-function enqueueRender(task, priority=0) {
+const renderQueue = { active: 0, max: isIPadLike() ? 1 : 2, jobs: [], activeJobs: new Set() };
+function enqueueRender(task, priority=0, meta={}) {
   return new Promise((resolve, reject) => {
-    renderQueue.jobs.push({ task, priority, resolve, reject });
+    renderQueue.jobs.push({ task, priority, resolve, reject, sourceId: meta?.sourceId || null, kind: meta?.kind || null, viewer: meta?.viewer || null });
     renderQueue.jobs.sort((a, b) => b.priority - a.priority);
     pumpRenderQueue();
   });
@@ -2829,11 +2829,45 @@ function pumpRenderQueue() {
   while (renderQueue.active < renderQueue.max && renderQueue.jobs.length) {
     const job = renderQueue.jobs.shift();
     renderQueue.active++;
+    renderQueue.activeJobs.add(job);
     Promise.resolve().then(job.task).then(job.resolve, job.reject).finally(() => {
+      renderQueue.activeJobs.delete(job);
       renderQueue.active--;
       pumpRenderQueue();
     });
   }
+}
+function renderQueueHasActiveSource(sourceId) {
+  if (!sourceId) return false;
+  for (const job of renderQueue.activeJobs) if (job.sourceId === sourceId) return true;
+  return false;
+}
+function discardQueuedRendersForSources(sourceIds, reason='source-hidden') {
+  const ids = new Set(sourceIds || []);
+  if (!ids.size || !renderQueue.jobs.length) return 0;
+  const keep = [];
+  let discarded = 0;
+  for (const job of renderQueue.jobs) {
+    if (job.sourceId && ids.has(job.sourceId)) {
+      discarded++;
+      try { job.resolve(false); } catch {}
+    } else keep.push(job);
+  }
+  if (discarded) {
+    renderQueue.jobs = keep;
+    addInkDiagnostic('render-queue-stale-source-discarded', null, { reason, discarded, sourceCount: ids.size, queueQueued: renderQueue.jobs.length });
+    pumpRenderQueue();
+  }
+  return discarded;
+}
+function renderQueueDiagnosticState() {
+  return {
+    active: renderQueue.active,
+    queued: renderQueue.jobs.length,
+    max: renderQueue.max,
+    activeSourceIds: [...new Set([...renderQueue.activeJobs].map(job => job.sourceId).filter(Boolean))],
+    queuedSourceIds: [...new Set(renderQueue.jobs.map(job => job.sourceId).filter(Boolean))],
+  };
 }
 function rotatedDims(page) { return page.rotation % 180 === 0 ? [page.width, page.height] : [page.height, page.width]; }
 function hasPageCanvasOverride(page) { return Number.isFinite(page?.canvasWidth) && page.canvasWidth > 0 && Number.isFinite(page?.canvasHeight) && page.canvasHeight > 0; }
@@ -7838,21 +7872,28 @@ async function releasePersistedPdfSourceMemory(sourceId, reason='inactive-docume
   return true;
 }
 function scheduleInactivePdfSourceRelease(sourceIds, reason='document-switch') {
-  for (const sourceId of sourceIds || []) if (sourceId) state.librarySourceResidencyPending.add(sourceId);
+  const requested = [...new Set([...(sourceIds || [])].filter(Boolean))];
+  for (const sourceId of requested) state.librarySourceResidencyPending.add(sourceId);
+  // Queued jobs for a source that is no longer visible should never keep that
+  // source resident. They already perform stale-generation checks at execution
+  // time, so discarding them here simply avoids pointless PDF/image work.
+  discardQueuedRendersForSources(requested.filter(sourceId => !sourceNeededByVisibleDocument(sourceId)), reason);
   if (!state.librarySourceResidencyPending.size) return;
   if (state.librarySourceResidencyTimer) clearTimeout(state.librarySourceResidencyTimer);
   const attempt = async () => {
     state.librarySourceResidencyTimer = null;
-    // Do not destroy a PDF.js source underneath a still-running viewer render.
-    // Try again once the small render queue has drained.
-    if (renderQueue.active || renderQueue.jobs.length) {
-      state.librarySourceResidencyTimer = setTimeout(attempt, LIBRARY_SOURCE_RESIDENCY_RELEASE_DELAY_MS);
-      return;
-    }
     const pending = [...state.librarySourceResidencyPending];
     state.librarySourceResidencyPending.clear();
-    for (const sourceId of pending) await releasePersistedPdfSourceMemory(sourceId, reason);
-    // A document switch can occur while awaited destruction is finishing.
+    for (const sourceId of pending) {
+      if (sourceNeededByVisibleDocument(sourceId)) continue;
+      // Wait only for a render that actually owns this PDF source. Unrelated
+      // rendering in the other Split pane must not postpone source destruction.
+      if (renderQueueHasActiveSource(sourceId)) {
+        state.librarySourceResidencyPending.add(sourceId);
+        continue;
+      }
+      await releasePersistedPdfSourceMemory(sourceId, reason);
+    }
     if (state.librarySourceResidencyPending.size && !state.librarySourceResidencyTimer) {
       state.librarySourceResidencyTimer = setTimeout(attempt, LIBRARY_SOURCE_RESIDENCY_RELEASE_DELAY_MS);
     }
@@ -9074,7 +9115,7 @@ async function renderCompactPagePreview(page, canvas) {
       well.classList.add('preview-error');
       canvas.setAttribute('aria-label', 'Preview unavailable');
     }
-  }, 1);
+  }, 1, { sourceId: page?.sourceId || null, kind:'compact-preview' });
 }
 
 function currentInsertPreviewPage() {
@@ -12058,7 +12099,7 @@ function diagnosticRuntimeSnapshot() {
       graphBackgroundPages:(doc.pages || []).reduce((count, page) => count + (pageHasGraphPaperBackground(page) ? 1 : 0), 0),
     })),
     sources: { total:state.sources.size, pdf:pdfSources, image:imageSources, storedBytes:sourceStoredBytes, decodedImageApproxRGBABytes:decodedImagePixels * 4 },
-    renderQueue: { active:renderQueue.active, queued:renderQueue.jobs.length, max:renderQueue.max },
+    renderQueue: renderQueueDiagnosticState(),
     activeRenders: diagnosticActiveRenderSnapshot(now),
     canvases: { count:canvases.length, totalPixels:canvasPixels, approxRGBABytes:canvasPixels * 4, largest:largestCanvas },
     pageStages: {
@@ -12283,7 +12324,7 @@ function bindInkDiagnostics() {
       addInkDiagnostic('event-loop-gap', null, {
         gapMs: Math.round(gap * 10) / 10,
         visibilityState: document.visibilityState,
-        renderQueue: { active:renderQueue.active, queued:renderQueue.jobs.length, max:renderQueue.max },
+        renderQueue: renderQueueDiagnosticState(),
         activeRenders: diagnosticActiveRenderSnapshot(now),
       });
     }
@@ -13555,7 +13596,7 @@ async function renderThumbnail(page, canvas) {
     }
     drawGraphObjectsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
     drawPageAnnotationsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
-  }, 0);
+  }, 0, { sourceId: page?.sourceId || null, kind:'page-thumbnail' });
 }
 
 function refreshSelectionCards() {
@@ -14694,7 +14735,7 @@ async function refreshPinchStageRasterInPlace(stage, page, size, options={}) {
       if (!stillCurrent()) return false;
       await renderPageToCanvasDiagnostic(page, temp, expectedWidth, expectedHeight, options.dpr || 1, options.maxPixels || 6_000_000);
       return true;
-    }, 12);
+    }, 12, { sourceId: page?.sourceId || null, kind:'pinch-refresh' });
     if (!didRender || !stillCurrent() || !temp.width || !temp.height) return false;
 
     if (page.kind !== 'generated' && canvasLooksBlank(temp)) {
@@ -14702,7 +14743,7 @@ async function refreshPinchStageRasterInPlace(stage, page, size, options={}) {
         if (!stillCurrent()) return false;
         await renderPageToCanvasDiagnostic(page, temp, expectedWidth, expectedHeight, 1, options.fallbackPixels || 2_000_000);
         return true;
-      }, 12);
+      }, 12, { sourceId: page?.sourceId || null, kind:'pinch-refresh-fallback' });
       if (!didFallbackRender || !stillCurrent() || !temp.width || !temp.height) return false;
     }
 
@@ -15407,7 +15448,7 @@ async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
     recordRenderDiagnostic('viewer-render-start', page, { requestId, generation, viewer:`split-${paneId}`, paneId, stage:diagnosticStageState(stage) });
     await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, 4_500_000);
     return true;
-  }, 10);
+  }, 10, { sourceId: page?.sourceId || null, kind:'viewer', viewer:`split-${paneId}` });
   if (!didRender || generation !== pane.generation || !stage.isConnected) {
     if (stage?.isConnected && stage.dataset.rendered === 'loading') {
       recordRenderDiagnostic('viewer-render-left-loading', page, { requestId, generation, currentGeneration:pane.generation, viewer:`split-${paneId}`, paneId, didRender:!!didRender, stage:diagnosticStageState(stage) });
@@ -15422,7 +15463,7 @@ async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
       if (generation !== pane.generation || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
       await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, 1, 1_800_000);
       return true;
-    }, 11);
+    }, 11, { sourceId: page?.sourceId || null, kind:'viewer-retry', viewer:`split-${paneId}` });
   }
   if (generation !== pane.generation || !stage.isConnected) return;
   if (stage.dataset.wantRender === 'false') { releaseViewerStage(stage); return; }
@@ -15484,7 +15525,7 @@ async function renderViewerPage(page, stage, canvas, generation) {
     recordRenderDiagnostic('viewer-render-start', page, { requestId, generation, viewer:'single', stage:diagnosticStageState(stage) });
     await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, dpr, 6_000_000);
     return true;
-  }, 10);
+  }, 10, { sourceId: page?.sourceId || null, kind:'viewer', viewer:'single' });
 
   if (!didRender || generation !== state.renderGeneration || !stage.isConnected) {
     if (stage?.isConnected && stage.dataset.rendered === 'loading') {
@@ -15508,7 +15549,7 @@ async function renderViewerPage(page, stage, canvas, generation) {
       if (generation !== state.renderGeneration || !stage.isConnected || stage.dataset.wantRender === 'false') return false;
       await renderPageToCanvasDiagnostic(page, canvas, size.width, size.height, 1, 2_000_000);
       return true;
-    }, 11);
+    }, 11, { sourceId: page?.sourceId || null, kind:'viewer-retry', viewer:'single' });
   }
 
   if (generation !== state.renderGeneration || !stage.isConnected) return;
@@ -17371,6 +17412,7 @@ function bindEvents() {
   els.presentBtn.addEventListener('click', enterPresentation);
   els.presentationExit.addEventListener('click', exitPresentation);
   els.viewDiagnosticsBtn?.addEventListener('click', saveDiagnosticsToLocalLibrary);
+  els.filesDiagnosticsBtn?.addEventListener('click', saveDiagnosticsToLocalLibrary);
   els.presentationDiagnosticsBtn?.addEventListener('click', saveDiagnosticsToLocalLibrary);
   bindInkNativeSelectionGuard();
   bindStylusTouchInkFallback();

@@ -1,3 +1,54 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-01 — BASELINE 5.8.24-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.24-exp ZIP, not an older build.
+
+WHY 5.8.24 EXISTS — FILES DIAGNOSTICS + TRANSIENT IPAD RENDER PRESSURE
+- User reported repeated 5.8.23 episodes where Pen stopped arriving, sometimes both Pen and direct-touch input stopped until leaving/re-entering the PWA, and Files scrolling could become slow.
+- Saved diagnostics still showed healthy steady state: about two resident persisted PDF sources in Split, roughly 50–54 MB visible canvas backing, empty render queues at snapshot time, and clean Workbench gesture/contact state.
+- Some broken direct-touch streams showed a move arriving without the original down, then cancellation; no Pen pointercancel was recorded in the set. This remains evidence for upstream iPad/WebKit input delivery rather than a Workbench tool-routing bug.
+- Even with healthy steady state, 5.8.23 could create transient pressure because iPad allowed two PDF renders concurrently and inactive source destruction waited for the entire global render queue to empty, including unrelated work in the other Split pane.
+
+5.8.24 CHANGES
+1. FILES DIAGNOSTICS
+- Adds an always-visible Diagnostics button beside the Files heading.
+- It invokes the same `saveDiagnosticsToLocalLibrary()` path as View/Presentation.
+- Files issues can now be captured without returning to View.
+
+2. SINGLE PDF RENDER ON IPAD
+- Render queue max is 1 on iPad/iPhone-like WebKit; desktop remains 2.
+- This reduces peak PDF.js/image decode memory during grading, Split switching, pinch refresh, page thumbnails, and compact previews.
+
+3. SOURCE-AWARE RENDER QUEUE / RELEASE
+- Render jobs carry `sourceId`.
+- When a source becomes hidden, queued jobs for that source are removed immediately and resolve as stale.
+- Adds diagnostic `render-queue-stale-source-discarded`.
+- Inactive persisted PDF source release waits only for an active render that actually uses that source. Unrelated rendering in the other pane no longer blocks cleanup.
+- Diagnostics now include active/queued source IDs in renderQueue state.
+
+PRESERVE
+- 5.8.23 strict logical-open vs resident-source grading model.
+- View-state persistence: page, zoom/fit, scroll mode, scrollTop/scrollLeft survive source eviction/reload.
+- 5.8.22 scanner-safe thumbnail-unavailable markers.
+- 5.8.21 import-without-inline-thumbnail architecture and persistent thumbnail cache.
+- Existing Pen/Touch routing is intentionally unchanged.
+- Graph labels/Copy-Paste, View Rename fix, Library data, export, backup formats.
+
+TEST PRIORITY
+1. Force-quit prior PWA and launch 5.8.24.
+2. Keep all grading PDFs logically Open; use Split normally and switch rapidly among students.
+3. Confirm scroll/zoom/page position returns when revisiting a student.
+4. Save Diagnostics from View and the new Files button. On iPad `renderQueue.max` should be 1.
+5. Confirm resident persisted sources settle near 2 in Split / 1 in single View and do not ratchet upward.
+6. If input stops arriving or Files becomes sluggish, save Diagnostics immediately if possible; the new render source metadata should distinguish transient PDF work from upstream contact loss.
+
+LATEST DISTRIBUTION
+- `pdf-workbench-m5.8.24-exp.zip` is the current code baseline.
+
+================================================================================
+PRIOR HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-01 — BASELINE 5.8.23-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

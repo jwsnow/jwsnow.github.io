@@ -1,3 +1,36 @@
+# PDF Workbench 5.8.24-exp
+
+5.8.24 is a focused iPad grading/input-pressure + diagnostics revision built from 5.8.23. It preserves the logical-open/lazy-resident PDF architecture, scanner-safe Library thumbnails, graph features, and all Library data.
+
+# PDF Workbench — Milestone 5.8.24 (DEVELOPMENT / DIAGNOSTIC BRANCH)
+
+## Files diagnostics button
+
+- Files now has an always-visible **Diagnostics** button beside the Files heading.
+- It calls the exact same local diagnostic-save routine used by View and Presentation; no second diagnostic format is introduced.
+- This is specifically to capture Files-only sluggishness/input failures without having to navigate back to View first.
+
+## Lower transient PDF-render pressure on iPad
+
+Recent 5.8.23 diagnostics showed repeated iPad input-delivery failures (including contact moves arriving without their initial down event) while steady-state PDF source residency and canvas backing were healthy. The source-residency architecture is therefore preserved; 5.8.24 reduces transient PDF.js work rather than changing Pen/Touch routing.
+
+- iPad/iPhone PWA rendering is limited to **one queued PDF raster job at a time**. Desktop remains at two-way rendering.
+- Render-queue jobs now carry their PDF source ID. When a document is switched away, queued jobs for that now-hidden source are discarded immediately instead of running just to discover they are stale.
+- Inactive persisted PDF sources no longer wait for the *entire global render queue* to empty. A source is released as soon as no active render actually uses that source; unrelated rendering in the other Split pane does not postpone cleanup.
+- Visibility is still rechecked before destruction, preserving rapid-switch safety. Saved page/zoom/scroll state remains separate from PDF source residency and is unchanged.
+- Diagnostics now report active and queued render source IDs, plus `render-queue-stale-source-discarded` when obsolete queued work is removed.
+
+## Validation priority
+
+1. Keep the full grading set logically Open.
+2. Grade normally in Split and switch repeatedly between students. Zoom/scroll position should restore after a source reload.
+3. Save Diagnostics periodically from the new Files button as well as View.
+4. In Split, resident persisted PDF sources should settle near 2; single View near 1.
+5. On iPad, Diagnostics should report `renderQueue.max = 1`. Source releases should occur without waiting for unrelated renders in the other pane.
+6. If Pen/Touch stops arriving again, save Diagnostics from whichever workspace is still usable; leave/return recovery remains useful evidence but no Pen routing code was changed here.
+
+---
+
 # PDF Workbench 5.8.23-exp
 
 5.8.23 is a focused grading-memory correction built from 5.8.22. It preserves 5.8.22 lazy source loading, persistent thumbnails, and scanner-safe preview placeholders, but fixes a Split-view residency leak discovered during real grading.
