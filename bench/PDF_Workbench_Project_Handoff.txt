@@ -1,3 +1,75 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.39-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.39-exp ZIP, not an older build.
+
+5.8.39 LONG-RUN / EXPORT FINDINGS
+- User continued grading in 5.8.37 before installing 5.8.38. The long ordinary-grading runtime lasted roughly 36 minutes and was substantially smoother than 5.8.36 before a later restart.
+- The persistent two-slot worker pool appears to have solved the progressive source-churn slowdown:
+  * late outgoing-source cleanup commonly ~4–12 ms;
+  * most late source reopen operations ~6–17 ms;
+  * first reopen after intentional 8-use worker recycle ~144–249 ms;
+  * no event-loop-gap records in the late-session diagnostic;
+  * right worker reached 72 total assignments / generation 8 while remaining responsive.
+- Preserve the 5.8.37 worker pool unchanged. Do not revert to one PDF.js worker creation/destruction per student switch.
+- The exact first long-runtime crash breadcrumb was not preserved, so do not over-attribute that restart to a specific rendering operation from this diagnostic set.
+- A second short recovery/export runtime disappeared after entering Files/export flow; the following runtime then performed another Library restoration. 5.8.38 already addresses the repeated/full startup-recovery loop, but it did not address export memory.
+
+5.8.39 BOUNDED PDF EXPORT MEMORY
+- Selected multi-document ZIP export previously created one pdf-lib `sourcePdfCache` outside the document loop. Parsed pdf-lib source documents could therefore accumulate across the whole class while JSZip simultaneously retained every finished output PDF.
+- Each exported document now gets a fresh short-lived pdf-lib source cache. The cache is cleared immediately after that document is added to the output/ZIP.
+- `prepareDocumentForFileOperation()` now ensures required page sources are hydrated regardless of whether the Workbench document is logically Open. Files mode can evict Viewer sources while documents remain Open, so open/closed status was not a safe proxy for source residency.
+- After each exported document, temporary persisted PDF.js sources are retired before the next document when they are not visible/template-owned.
+- Whole-Library PDF archive and folder PDF export use the same per-document source/cache cleanup.
+- Adds `file-operation-sources-released` diagnostics including released count, remaining resident sources, and worker-pool state.
+- JSZip still necessarily holds completed output bytes until packaging; the fix removes the avoidable parsed-input/PDF.js accumulation alongside them.
+
+5.8.38 STARTUP FIX PRESERVED
+- Critical saved-session IndexedDB read retries happen in place.
+- Zero-document recovery no longer rereads all stores before invoking normal initialization.
+- Status no longer falsely says Ready while recovery is pending.
+- Post-restore Split rebuild occurs only for a material viewport change.
+
+VALIDATION PRIORITY
+1. Install/launch 5.8.39 with the existing large session. Expect one normal Library restore or a localized reconnect, not multiple full restore cycles.
+2. Continue ordinary grading briefly and confirm the 5.8.37 worker-pool responsiveness remains.
+3. Export several/all graded PDFs. Confirm resident PDF sources do not accumulate across exported documents and `file-operation-sources-released` appears.
+4. After download/export, remain in the PWA long enough to confirm it stays responsive and does not trigger a needless Library rebuild.
+5. Save Diagnostics after a successful large export even without a restart.
+
+================================================================================
+PRIOR 5.8.38 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.38-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.38-exp ZIP, not an older build.
+
+5.8.38 SINGLE-PASS LIBRARY STARTUP RECOVERY
+- First 5.8.37 launch diagnostics showed one continuous runtime, not repeated WebKit process kills. Within that runtime, startup restoration ran more than once.
+- Attempt 1: IndexedDB open ~4.15 s; records read ~3.50 s; templates/assets completed; startup then failed before open-document hydration.
+- The old recovery path then refreshed Library records/templates/assets itself and, because no documents had yet been hydrated, closed the database and invoked initializePersistentLibrary(), causing another complete store read. The instrumented second records read alone took ~10.04 s.
+- This explains the user's repeated “Restoring library” / Ready / rebuilt-View experience and the severe initial nonresponsiveness.
+- The same runtime then restored all 28 open documents in only ~133 ms, confirming document hydration itself is not the startup bottleneck.
+- 5.8.38 retries the critical saved-session IndexedDB read in place (with reconnect if needed), preserving already loaded records/templates/assets.
+- Recovery with zero open documents now performs one instrumented initialization retry only; it no longer prereads every store and then rereads them inside normal initialization.
+- Startup now records attempt/success/failure phase diagnostics and localized IndexedDB retry/reconnect events.
+- init() no longer reports Ready after a failed first restore while a retry is pending.
+- Post-restore Split resize events are deferred briefly and replayed only if viewport geometry materially changed, avoiding the immediate generation-1 -> generation-2 viewer teardown/rebuild seen in the 5.8.37 trace.
+- Preserve the 5.8.37 two-slot persistent PDF.js worker pool unchanged so its effect on progressive normal-grading slowdown can be evaluated once startup is stable.
+
+VALIDATION PRIORITY
+1. Launch with the current 28-document grading session. Expect one normal visible Library restore.
+2. Save Diagnostics after startup even if healthy. Check library-startup-attempt/success and any library-startup-idb-retry events.
+3. Confirm Split does not visibly rebuild immediately after first appearing unless the viewport truly changes.
+4. Continue ordinary grading; judge whether 5.8.37/38 worker reuse keeps later document switches as responsive as earlier ones.
+5. If startup still cycles, diagnostics should now identify the exact failing phase/error instead of only showing the subsequent retry.
+
+================================================================================
+PRIOR 5.8.37 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.37-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

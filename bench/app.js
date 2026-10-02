@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.37';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.39';
 
-const APP_VERSION = '5.8.37';
+const APP_VERSION = '5.8.39';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -64,6 +64,8 @@ const state = {
   pdfEngineError: null,
   livePdfWorkerSlots: [],
   libraryInitializing: false,
+  libraryStartupAttempt: 0,
+  startupSplitResizeSuppressUntil: 0,
   documents: [],
   currentDocumentId: null,
   sources: new Map(),
@@ -375,6 +377,34 @@ async function libraryGet(storeName, key) {
 async function libraryGetAll(storeName) {
   const { store } = libraryStore(storeName);
   return idbRequest(store.getAll());
+}
+async function libraryGetStartupCritical(storeName, key, operation='read') {
+  let lastError = null;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      return await libraryGet(storeName, key);
+    } catch (err) {
+      lastError = err;
+      addInkDiagnostic('library-startup-idb-retry', null, {
+        operation, attempt,
+        errorName:String(err?.name || ''),
+        errorMessage:String(err?.message || err || 'IndexedDB read failed'),
+      });
+      if (attempt >= 3) break;
+      try {
+        await reconnectLibraryDatabase();
+        addInkDiagnostic('library-startup-idb-reconnected', null, { operation, attempt });
+      } catch (reconnectErr) {
+        addInkDiagnostic('library-startup-idb-reconnect-failed', null, {
+          operation, attempt,
+          errorName:String(reconnectErr?.name || ''),
+          errorMessage:String(reconnectErr?.message || reconnectErr || 'IndexedDB reconnect failed'),
+        });
+      }
+      await sleep(180 * attempt);
+    }
+  }
+  throw lastError || new Error(`Startup Library ${operation} failed.`);
 }
 async function libraryPut(storeName, value) {
   const { tx, store } = libraryStore(storeName, 'readwrite');
@@ -1681,8 +1711,30 @@ function markDocumentExported(doc) {
   scheduleLibraryPersist(100, { documentsOnly: true });
 }
 async function prepareDocumentForFileOperation(doc) {
-  if (!doc) return;
-  if (!isDocumentOpen(doc.id)) await ensureRecordSourcesLoaded(doc);
+  if (!doc) return new Set();
+  // Files mode deliberately evicts live Viewer PDF sources even while a document
+  // remains logically Open. Export therefore must hydrate the sources it needs
+  // based on the document pages, not on open/closed status.
+  return ensureRecordSourcesLoaded(doc);
+}
+async function releaseFileOperationPdfSources(sourceIds, reason='file-operation-complete') {
+  let released = 0;
+  for (const sourceId of [...new Set([...(sourceIds || [])].filter(Boolean))]) {
+    if (renderQueueHasActiveSource(sourceId)) continue;
+    if (await releasePersistedPdfSourceMemory(sourceId, reason)) released++;
+  }
+  if (released) {
+    addInkDiagnostic('file-operation-sources-released', null, {
+      reason,
+      released,
+      remainingSources:state.sources.size,
+      workerPool:livePdfWorkerPoolSnapshot(),
+    });
+    // Give WebKit/PDF.js one turn to reclaim transport/decode objects before the
+    // next source is hydrated during a multi-document export.
+    await new Promise(resolve => setTimeout(resolve, 0));
+  }
+  return released;
 }
 async function markSelectedDocumentExported(doc) {
   if (!doc) return;
@@ -1777,9 +1829,15 @@ async function reopenLibraryDocument(docId, options={}) {
   return doc;
 }
 async function initializePersistentLibrary() {
-  if (state.libraryInitializing) return;
+  if (state.libraryInitializing) {
+    addInkDiagnostic('library-startup-reentry-blocked', null, { attempt:state.libraryStartupAttempt || 0 });
+    return false;
+  }
   state.libraryInitializing = true;
+  const startupAttempt = ++state.libraryStartupAttempt;
+  let startupPhase = 'begin';
   const startupStarted = performance.now();
+  addInkDiagnostic('library-startup-attempt', null, { attempt:startupAttempt });
   const phase = (name, started, extra={}) => addInkDiagnostic('library-startup-phase', null, {
     phase:name,
     phaseMs:Math.round((performance.now() - started) * 10) / 10,
@@ -1788,13 +1846,16 @@ async function initializePersistentLibrary() {
   });
   try {
     let phaseStarted = performance.now();
+    startupPhase = 'open-db';
     state.libraryDb = await openLibraryDatabase();
     state.libraryReady = true;
     phase('open-db', phaseStarted);
     phaseStarted = performance.now();
+    startupPhase = 'read-records';
     await refreshLibraryRecords();
     phase('read-records', phaseStarted, {records:state.libraryRecords.size});
     phaseStarted = performance.now();
+    startupPhase = 'templates-assets';
     await restorePersistentTemplates();
     await refreshAssetRecords();
     phase('templates-assets', phaseStarted);
@@ -1802,7 +1863,8 @@ async function initializePersistentLibrary() {
     if (incompatible) throw new Error(`This local Library uses schema ${incompatible.schemaVersion}, newer than this build understands (${LIBRARY_SCHEMA_VERSION}). Use a newer PDF Workbench build or reset the local Library.`);
     const incompatibleFolder = [...state.libraryFolders.values()].find(folder => Number(folder.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION);
     if (incompatibleFolder) throw new Error(`This local Library folder data uses schema ${incompatibleFolder.schemaVersion}, newer than this build understands (${LIBRARY_SCHEMA_VERSION}).`);
-    const indexedSession = await libraryGet('meta', 'session');
+    startupPhase = 'read-session';
+    const indexedSession = await libraryGetStartupCritical('meta', 'session', 'read-session');
     if (Number(indexedSession?.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION) throw new Error(`The saved Library session uses a newer schema (${indexedSession.schemaVersion}).`);
     // Prefer the newest of the durable IndexedDB session and the synchronous
     // localStorage checkpoint. The checkpoint closes the PWA shutdown race in
@@ -1817,6 +1879,7 @@ async function initializePersistentLibrary() {
     state.librarySuppressPersist = true;
     let restoreFailures = 0;
     phaseStarted = performance.now();
+    startupPhase = 'hydrate-open-documents';
     let restoredOpenDocuments = 0;
     for (const id of openIds) {
       try {
@@ -1854,6 +1917,11 @@ async function initializePersistentLibrary() {
     state.librarySuppressPersist = false;
     if (state.sessionRestoreHydrated) writeSessionCheckpoint();
     phaseStarted = performance.now();
+    startupPhase = 'build-restored-ui';
+    // Startup geometry can generate a burst of visual-viewport resize events on
+    // iPad. Keep the just-restored Split viewer stable briefly, then replay a
+    // resize only if the viewport is materially different.
+    state.startupSplitResizeSuppressUntil = performance.now() + 1500;
     renderAll({ saveState: false });
     renderLibraryDocumentList();
     updateLibraryStorageSummary();
@@ -1868,8 +1936,17 @@ async function initializePersistentLibrary() {
         libraryPut('meta', serializeLibrarySession()).catch(() => {});
       }, 5000);
     }
-    phase('complete', startupStarted, {openDocuments:state.documents.length});
+    startupPhase = 'complete';
+    phase('complete', startupStarted, {openDocuments:state.documents.length, attempt:startupAttempt});
+    addInkDiagnostic('library-startup-success', null, { attempt:startupAttempt, totalMs:Math.round((performance.now()-startupStarted)*10)/10, openDocuments:state.documents.length });
+    return true;
   } catch (err) {
+    addInkDiagnostic('library-startup-failed', null, {
+      attempt:startupAttempt, phase:startupPhase,
+      errorName:String(err?.name || ''),
+      errorMessage:String(err?.message || err || 'Persistent Library unavailable'),
+      totalMs:Math.round((performance.now()-startupStarted)*10)/10,
+    });
     state.librarySuppressPersist = false;
     state.libraryReady = false;
     try { state.libraryDb?.close?.(); } catch {}
@@ -1882,37 +1959,42 @@ async function initializePersistentLibrary() {
       clearTimeout(state.libraryRecoveryTimer);
       state.libraryRecoveryTimer = setTimeout(() => retryPersistentLibraryAfterFailure(), 900);
     }
+    return false;
   } finally {
     state.libraryInitializing = false;
   }
 }
 async function retryPersistentLibraryAfterFailure() {
-  if (state.libraryReady || state.librarySuppressPersist) return;
+  if (state.libraryReady || state.librarySuppressPersist || state.libraryInitializing) return;
   try {
     if (els.librarySummary) els.librarySummary.textContent = 'Retrying Local Library storage…';
+    // If startup failed before any documents were hydrated, do exactly one
+    // instrumented initialization retry. Older builds first reread every
+    // Library store here and then closed the database and reread them all again
+    // inside initializePersistentLibrary(), turning one transient IndexedDB
+    // failure into several visible “Restoring library” cycles.
+    if (!state.documents.length) {
+      addInkDiagnostic('library-startup-full-retry', null, { reason:'no-open-documents' });
+      const restored = await initializePersistentLibrary();
+      if (restored) {
+        if (els.librarySummary) renderLibraryDocumentList();
+        setStatus(state.documents.length ? `Restored ${state.documents.length} open document${state.documents.length === 1 ? '' : 's'} from local Library` : 'Ready');
+      }
+      return;
+    }
     await reconnectLibraryDatabase();
     await refreshLibraryRecords();
     await restorePersistentTemplates();
     await refreshAssetRecords();
-    // If documents are already open from the current session, commit them now.
-    // If nothing is open, rerun normal initialization so a saved prior session
-    // can be restored after a WebKit first-open failure.
-    if (state.documents.length) {
-      state.sessionRestoreHydrated = true;
-      state.sessionExplicitEmpty = false;
-      writeSessionCheckpoint();
-      await persistLibraryNow({ readViewDom: false, _reconnected: true });
-      renderLibraryDocumentList();
-      renderLibraryDocumentList();
-    } else {
-      try { state.libraryDb?.close?.(); } catch {}
-      state.libraryDb = null;
-      state.libraryReady = false;
-      await initializePersistentLibrary();
-    }
+    state.sessionRestoreHydrated = true;
+    state.sessionExplicitEmpty = false;
+    writeSessionCheckpoint();
+    await persistLibraryNow({ readViewDom: false, _reconnected: true });
+    renderLibraryDocumentList();
   } catch (err) {
     state.libraryReady = false;
     console.error('Local Library retry failed', err);
+    addInkDiagnostic('library-startup-retry-failed', null, { errorName:String(err?.name || ''), errorMessage:String(err?.message || err || 'Local Library retry failed') });
     if (els.librarySummary) els.librarySummary.textContent = `Local Library retry failed: ${err?.message || err}. Tap Refresh to try again.`;
   }
 }
@@ -2054,11 +2136,17 @@ async function exportWholeLibraryAsPdfs() {
     for (const record of records) {
       completed++;
       if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Exporting ${record.name} (${completed} of ${Math.max(1,total)})…`;
-      await ensureRecordSourcesLoaded(record);
-      const bytes = await buildPdfBytes(record.pages || [], { sourcePdfCache: new Map() });
-      const folderPath = record.folderId ? (folderPaths.get(record.folderId) || '') : '';
-      const filename = ensurePdfFilename(zipSafeSegment(record.name, 'Document.pdf'));
-      zip.file(folderPath ? `${folderPath}/${filename}` : filename, bytes);
+      const sourceIds = await ensureRecordSourcesLoaded(record);
+      const sourcePdfCache = new Map();
+      try {
+        const bytes = await buildPdfBytes(record.pages || [], { sourcePdfCache });
+        const folderPath = record.folderId ? (folderPaths.get(record.folderId) || '') : '';
+        const filename = ensurePdfFilename(zipSafeSegment(record.name, 'Document.pdf'));
+        zip.file(folderPath ? `${folderPath}/${filename}` : filename, bytes);
+      } finally {
+        sourcePdfCache.clear();
+        await releaseFileOperationPdfSources(sourceIds, 'library-pdf-archive-document-complete');
+      }
     }
     if (templates.length) {
       zip.folder('_Templates');
@@ -2067,14 +2155,20 @@ async function exportWholeLibraryAsPdfs() {
         completed++;
         if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Exporting template ${template.name} (${completed} of ${total})…`;
         const record = { pages: template.page ? [template.page] : [] };
-        await ensureRecordSourcesLoaded(record);
-        const bytes = await buildPdfBytes(record.pages, { sourcePdfCache: new Map() });
-        let base = zipSafeSegment(template.name, 'Template');
-        let filename = ensurePdfFilename(base);
-        let n = 2;
-        while (used.has(filename.toLocaleLowerCase())) filename = ensurePdfFilename(`${base} ${n++}`);
-        used.add(filename.toLocaleLowerCase());
-        zip.file(`_Templates/${filename}`, bytes);
+        const sourceIds = await ensureRecordSourcesLoaded(record);
+        const sourcePdfCache = new Map();
+        try {
+          const bytes = await buildPdfBytes(record.pages, { sourcePdfCache });
+          let base = zipSafeSegment(template.name, 'Template');
+          let filename = ensurePdfFilename(base);
+          let n = 2;
+          while (used.has(filename.toLocaleLowerCase())) filename = ensurePdfFilename(`${base} ${n++}`);
+          used.add(filename.toLocaleLowerCase());
+          zip.file(`_Templates/${filename}`, bytes);
+        } finally {
+          sourcePdfCache.clear();
+          await releaseFileOperationPdfSources(sourceIds, 'library-pdf-archive-template-complete');
+        }
       }
     }
     zip.file('PDF_Workbench_Library_Export.txt', [
@@ -11224,10 +11318,16 @@ async function exportPdfRecordsToZip(records, folders, filename, rootFolderId=nu
   for (const record of records) {
     n++;
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Exporting ${record.name} (${n} of ${records.length})…`;
-    await ensureRecordSourcesLoaded(record);
-    const bytes = await buildPdfBytes(record.pages || [], { sourcePdfCache: new Map() });
-    const path = record.folderId ? (folderPaths.get(record.folderId) || '') : '';
-    zip.file(path ? `${path}/${ensurePdfFilename(zipSafeSegment(record.name, 'Document.pdf'))}` : ensurePdfFilename(zipSafeSegment(record.name, 'Document.pdf')), bytes);
+    const sourceIds = await ensureRecordSourcesLoaded(record);
+    const sourcePdfCache = new Map();
+    try {
+      const bytes = await buildPdfBytes(record.pages || [], { sourcePdfCache });
+      const path = record.folderId ? (folderPaths.get(record.folderId) || '') : '';
+      zip.file(path ? `${path}/${ensurePdfFilename(zipSafeSegment(record.name, 'Document.pdf'))}` : ensurePdfFilename(zipSafeSegment(record.name, 'Document.pdf')), bytes);
+    } finally {
+      sourcePdfCache.clear();
+      await releaseFileOperationPdfSources(sourceIds, 'folder-pdf-export-document-complete');
+    }
   }
   const blob = await zip.generateAsync({ type:'blob', compression:'STORE', mimeType:'application/zip' });
   downloadBlob(blob, filename);
@@ -13684,42 +13784,59 @@ async function exportSelectedDocuments() {
   els.exportProgress.textContent = 'Preparing export engine…';
   setStatus('Preparing PDF export…', true);
   try {
-    const sourcePdfCache = new Map();
     if (docs.length === 1) {
       const doc = docs[0];
-      await prepareDocumentForFileOperation(doc);
-      const filename = ensurePdfFilename(els.exportFilename.value, defaultExportFilename(doc.name));
-      const bytes = await buildPdfBytes(doc.pages, {
-        sourcePdfCache,
-        onProgress: (done, total) => {
-          els.exportProgress.textContent = `Building page ${done} of ${total}…`;
-          setStatus(`Exporting page ${done} of ${total}…`, true);
-        }
-      });
-      els.exportProgress.textContent = 'Writing PDF…';
-      downloadPdfBytes(bytes, filename);
-      await markSelectedDocumentExported(doc);
-      const sizeMb = bytes.length / (1024 * 1024);
-      els.exportProgress.textContent = `Exported ${doc.pages.length} page${doc.pages.length === 1 ? '' : 's'} (${sizeMb < 0.1 ? `${Math.round(bytes.length / 1024)} KB` : `${sizeMb.toFixed(1)} MB`}).`;
-      setStatus(`Exported ${filename}`);
+      const sourceIds = await prepareDocumentForFileOperation(doc);
+      const sourcePdfCache = new Map();
+      try {
+        const filename = ensurePdfFilename(els.exportFilename.value, defaultExportFilename(doc.name));
+        const bytes = await buildPdfBytes(doc.pages, {
+          sourcePdfCache,
+          onProgress: (done, total) => {
+            els.exportProgress.textContent = `Building page ${done} of ${total}…`;
+            setStatus(`Exporting page ${done} of ${total}…`, true);
+          }
+        });
+        els.exportProgress.textContent = 'Writing PDF…';
+        downloadPdfBytes(bytes, filename);
+        await markSelectedDocumentExported(doc);
+        const sizeMb = bytes.length / (1024 * 1024);
+        els.exportProgress.textContent = `Exported ${doc.pages.length} page${doc.pages.length === 1 ? '' : 's'} (${sizeMb < 0.1 ? `${Math.round(bytes.length / 1024)} KB` : `${sizeMb.toFixed(1)} MB`}).`;
+        setStatus(`Exported ${filename}`);
+      } finally {
+        // pdf-lib document graphs can be much larger than the source bytes.
+        // Drop the per-document cache and the temporarily hydrated PDF.js source
+        // before returning to an idle Files screen.
+        sourcePdfCache.clear();
+        await releaseFileOperationPdfSources(sourceIds, 'selected-export-document-complete');
+      }
     } else {
       const JSZip = await loadZipEngine();
       const zip = new JSZip();
       const usedNames = new Set();
       for (let i = 0; i < docs.length; i++) {
         const doc = docs[i];
-        await prepareDocumentForFileOperation(doc);
-        els.exportProgress.textContent = `Building PDF ${i + 1} of ${docs.length}: ${doc.name}…`;
-        setStatus(`Exporting document ${i + 1} of ${docs.length}…`, true);
-        const bytes = await buildPdfBytes(doc.pages, {
-          sourcePdfCache,
-          onProgress: (done, total) => {
-            els.exportProgress.textContent = `PDF ${i + 1} of ${docs.length}: page ${done} of ${total}…`;
-          }
-        });
-        zip.file(uniqueZipPdfName(doc, usedNames), bytes);
-        await markSelectedDocumentExported(doc);
-        await new Promise(resolve => setTimeout(resolve, 0));
+        const sourceIds = await prepareDocumentForFileOperation(doc);
+        const sourcePdfCache = new Map();
+        try {
+          els.exportProgress.textContent = `Building PDF ${i + 1} of ${docs.length}: ${doc.name}…`;
+          setStatus(`Exporting document ${i + 1} of ${docs.length}…`, true);
+          const bytes = await buildPdfBytes(doc.pages, {
+            sourcePdfCache,
+            onProgress: (done, total) => {
+              els.exportProgress.textContent = `PDF ${i + 1} of ${docs.length}: page ${done} of ${total}…`;
+            }
+          });
+          zip.file(uniqueZipPdfName(doc, usedNames), bytes);
+          await markSelectedDocumentExported(doc);
+        } finally {
+          // Never retain pdf-lib source-document caches across different student
+          // PDFs. JSZip must retain the finished output bytes until packaging,
+          // but parsed input PDFs and live PDF.js transports should not pile up
+          // beside those outputs.
+          sourcePdfCache.clear();
+          await releaseFileOperationPdfSources(sourceIds, 'selected-export-document-complete');
+        }
       }
       els.exportProgress.textContent = 'Packaging PDFs into ZIP…';
       setStatus('Packaging exported PDFs…', true);
@@ -17577,6 +17694,21 @@ function onResize() {
     return;
   }
   viewerResizeDeferredForTextEntry = false;
+  if (state.splitView && performance.now() < state.startupSplitResizeSuppressUntil) {
+    const delay = Math.max(40, state.startupSplitResizeSuppressUntil - performance.now() + 40);
+    addInkDiagnostic('viewer-resize-deferred-after-library-restore', null, { delayMs:Math.round(delay) });
+    resizeTimer = setTimeout(() => {
+      if (!(state.pages.length && state.workspaceMode === 'view' && state.splitView)) return;
+      const current = diagnosticHealthViewportSnapshot();
+      if (!splitViewerViewportMateriallyChanged(state.lastSplitViewerViewport, current)) {
+        addInkDiagnostic('viewer-resize-skipped-after-library-restore', null, { viewport:current });
+        return;
+      }
+      addInkDiagnostic('viewer-resize-replayed-after-library-restore', null, { viewport:current });
+      renderViewer();
+    }, delay);
+    return;
+  }
   resizeTimer = setTimeout(() => {
     if (!(state.pages.length && state.workspaceMode === 'view')) return;
     if (shouldCoalesceRecentSplitResizeRebuild()) {
@@ -18891,9 +19023,13 @@ async function init() {
   await registerServiceWorker();
   await loadPdfEngine();
   setStatus('Restoring local Library…', true);
-  await initializePersistentLibrary();
+  const libraryRestored = await initializePersistentLibrary();
   await refreshSavedDiagnosticsUi();
-  setStatus(state.documents.length ? `Restored ${state.documents.length} open document${state.documents.length === 1 ? '' : 's'} from local Library` : 'Ready');
+  if (libraryRestored) {
+    setStatus(state.documents.length ? `Restored ${state.documents.length} open document${state.documents.length === 1 ? '' : 's'} from local Library` : 'Ready');
+  } else {
+    setStatus('Local Library reconnecting…', true);
+  }
 }
 
 init();
