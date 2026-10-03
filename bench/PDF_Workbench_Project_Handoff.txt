@@ -1,3 +1,52 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-03 — BASELINE 5.8.42-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.42-exp ZIP, not an older build.
+
+5.8.42 IPAD RENDER-WATCHDOG WORKER RECOVERY
+- 2026-10-03 long 5.8.41 grading session: KellyRodriguez.pdf became the first clearly captured case where a visible page failed to render before a crash.
+- KellyRodriguez.pdf is materially heavier than the 27 ordinary student scans in this batch: six 400-dpi 1-bit CCITT full-page scans around 3400x4376 pixels (~14.9 MP each). Page 3 is 3406x4376.
+- Kelly page 3 render request #637 ran about 4.86 s and hit the 4.5 s viewer watchdog. The automatic retry (#640) then ran about another 4.87 s and hit the watchdog again. Workbench displayed the existing "Page rendering stalled twice" error.
+- The watchdog correctly retired the PDF.js document/source from state.sources, but 5.8.41 DID NOT release/recycle the caller-owned persistent PDFWorker slot. The pool continued to report the old Kelly source as active even after that source was gone.
+- When the user scrolled away/back, Kelly had to reopen. Both pooled slots appeared occupied, so acquireLivePdfWorkerSlot() returned null and getDocument() silently fell back to a new unmanaged PDF.js worker. This violated the intended two-worker invariant and left the old potentially wedged pooled worker alive.
+- The final pre-crash breadcrumb shows Kelly reloaded plus Test2Key as the two live sources, while the worker pool still claimed the old Kelly source in slot 0. A Kelly render had been active ~4.54 s with two more Kelly page renders queued; the watchdog cancel fired immediately before the process disappeared.
+
+5.8.42 FIX
+1. WATCHDOG FORCIBLY RECYCLES THE PERSISTENT WORKER
+- Any viewer render watchdog now marks that source for low-memory recovery.
+- If cancel does not unwind promptly, the watchdog destroys the PDF document AND force-recycles the associated persistent worker slot.
+- The normal watchdog-retirement finally path also force-recycles the slot. Generation checks make this idempotent if the grace timer already recycled it.
+- Adds `live-pdf-worker-forced-recycle`.
+
+2. NO SILENT UNMANAGED THIRD WORKER ON IPAD
+- Before acquiring a slot, Workbench reclaims any stale slot whose active source no longer exists in state.sources.
+- If the two managed iPad slots are still genuinely occupied, source load now records `live-pdf-worker-pool-exhausted` and fails instead of omitting the worker option and silently creating an unmanaged PDF.js worker.
+- This makes the two-worker invariant real rather than merely diagnostic.
+
+3. LOWER-MEMORY RELOAD AFTER A WATCHDOG
+- Normal iPad live PDFs still use the existing 16 MiB PDF.js canvasMaxAreaInBytes ceiling.
+- A source that has triggered the viewer watchdog reloads at an 8 MiB image-working-area ceiling for the remainder of that runtime.
+- `library-source-load-finish` now records `watchdogRecovery` and the actual canvasMaxAreaInBytes used.
+- Ordinary viewer raster caps remain unchanged: 4 MP Single / 2.5 MP Split.
+
+PRESERVE
+- 5.8.41 iPad scanner-safe Files thumbnail skipping for >3 MP first-page scan rasters.
+- 5.8.40 Split -> Single per-document fallback behavior.
+- 5.8.39 bounded export/startup recovery.
+- 5.8.37 persistent two-slot worker architecture and its large long-session performance improvement.
+- All graph, ink, Library schema, export formats, and normal raster quality.
+
+VALIDATION PRIORITY
+1. Reopen KellyRodriguez.pdf in Split and navigate to page 3. A normal render is ideal.
+2. If a render watchdog fires, Diagnostics should show `live-pdf-worker-forced-recycle`, followed by a fresh managed worker generation and a reload with `watchdogRecovery:true` / 8 MiB cap.
+3. The worker pool must never remain with an activeSourceId that is absent from state.sources, and no iPad live source should load with workerSlot:null.
+4. Continue normal grading. Save Diagnostics after a healthy period or immediately after any failed page/render stall.
+5. Do not deliberately stress rapid switching; ordinary grading is the target workload.
+
+================================================================================
+PRIOR 5.8.41 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-03 — BASELINE 5.8.41-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

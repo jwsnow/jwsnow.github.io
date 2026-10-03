@@ -1,3 +1,34 @@
+# PDF Workbench 5.8.42-exp
+
+## Milestone 5.8.42 — iPad render-watchdog worker recovery
+
+5.8.42 is a focused recovery revision on top of 5.8.41. A long iPad grading session captured `KellyRodriguez.pdf` failing to render before a crash. Kelly is a six-page 400-dpi bilevel/CCITT scan; each page is roughly 3400×4376 pixels (~14.9 MP), substantially heavier than the ~3.7 MP JPEG scans in the rest of the batch.
+
+The failing page hit the viewer watchdog twice. 5.8.41 retired the PDF.js document but accidentally left its caller-owned persistent worker slot claimed by the retired source. When Kelly was reloaded after scrolling away/back, both managed slots looked occupied, so PDF.js created an unmanaged extra worker. The old potentially wedged worker remained alive and the intended two-worker memory bound was no longer real.
+
+### Changes
+
+- A render watchdog now force-recycles the associated persistent PDF worker as well as retiring the PDF document.
+- Stale worker-slot claims whose source no longer exists are reclaimed defensively.
+- On iPad, Workbench will no longer silently fall back to an unmanaged extra PDF.js worker when the two-slot pool is full. It records `live-pdf-worker-pool-exhausted` and fails the load instead.
+- A source that has triggered the viewer watchdog reloads with an 8 MiB PDF.js image working-area ceiling; normal iPad PDF loads remain at 16 MiB.
+- `library-source-load-finish` records `watchdogRecovery` and the actual image-working-area ceiling.
+- Adds `live-pdf-worker-forced-recycle`.
+
+Normal viewer quality is unchanged (4 MP Single / 2.5 MP Split). 5.8.41 scanner-safe Files thumbnails, 5.8.40 Split→Single state transfer, 5.8.39 startup/export fixes, the 5.8.37 persistent worker architecture, annotations, graph tools, and Library data formats are preserved.
+
+### Validation
+
+1. Reopen `KellyRodriguez.pdf` and navigate to page 3.
+2. If a watchdog occurs, save Diagnostics. Expect a forced worker recycle, a new managed worker generation, and `watchdogRecovery:true` on the reload.
+3. Verify the pool never retains a source ID that is absent from the live source map.
+4. Continue ordinary grading and watch for failed page renders or progressive switching slowdown.
+
+
+---
+
+## Prior 5.8.41 notes
+
 # PDF Workbench 5.8.41-exp
 
 ## Milestone 5.8.41 — iPad scanner-safe Library thumbnails

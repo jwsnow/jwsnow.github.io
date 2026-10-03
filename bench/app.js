@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.41';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.42';
 
-const APP_VERSION = '5.8.41';
+const APP_VERSION = '5.8.42';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -13,6 +13,10 @@ const PDFJS_STANDARD_FONT_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108
 // Workbench's maximum normal iPad single-view raster while leaving Split's
 // 2.5 MP output below the decode ceiling. Desktop keeps PDF.js's default.
 const IPAD_LIVE_PDF_CANVAS_MAX_AREA_BYTES = 16 * 1024 * 1024;
+// After a viewer render watchdog fires, reload that source with a tighter
+// PDF.js image working-area ceiling. This is recovery-only: normal iPad
+// viewer loads still use the 16 MiB ceiling above.
+const IPAD_LIVE_PDF_WATCHDOG_RECOVERY_CANVAS_MAX_AREA_BYTES = 8 * 1024 * 1024;
 const IPAD_LIVE_PDF_WORKER_POOL_SIZE = 2;
 const IPAD_LIVE_PDF_WORKER_RECYCLE_USES = 8;
 const PDFLIB_URL = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.esm.min.js';
@@ -69,6 +73,7 @@ const state = {
   zipLib: null,
   pdfEngineError: null,
   livePdfWorkerSlots: [],
+  pdfWatchdogRecoverySourceIds: new Set(),
   libraryInitializing: false,
   libraryStartupAttempt: 0,
   startupSplitResizeSuppressUntil: 0,
@@ -670,8 +675,29 @@ function livePdfWorkerPoolSnapshot() {
 async function acquireLivePdfWorkerSlot(sourceId) {
   if (!isIPadLike() || !sourceId || !state.pdfjs?.PDFWorker) return null;
   const slots = ensureLivePdfWorkerSlots();
-  const slot = slots.find(item => !item.activeSourceId && !item.reservedSourceId);
-  if (!slot) return null;
+  let slot = slots.find(item => !item.activeSourceId && !item.reservedSourceId);
+  // A watchdog-retired source must never strand a pooled worker slot. Reclaim
+  // any slot whose claimed source is no longer present before considering the
+  // pool exhausted. This also hardens recovery from any older stale claim.
+  if (!slot) {
+    for (const candidate of slots) {
+      if (candidate.activeSourceId && !state.sources.has(candidate.activeSourceId)) {
+        await forceRecycleLivePdfWorkerSlot(candidate, {
+          sourceId:candidate.activeSourceId,
+          reason:'stale-pool-claim',
+        });
+      }
+    }
+    slot = slots.find(item => !item.activeSourceId && !item.reservedSourceId);
+  }
+  if (!slot) {
+    addInkDiagnostic('live-pdf-worker-pool-exhausted', null, {
+      sourceId,
+      slots:livePdfWorkerPoolSnapshot(),
+      residentSources:state.sources.size,
+    });
+    return null;
+  }
   slot.reservedSourceId = sourceId;
   try {
     if (slot.worker?.destroyed) slot.worker = null;
@@ -726,6 +752,46 @@ function releaseLivePdfWorkerSlotForSource(sourceId, source=null) {
   });
 }
 
+async function forceRecycleLivePdfWorkerSlot(slot, {sourceId=null, expectedGeneration=null, reason='forced-recycle'}={}) {
+  if (!slot) return false;
+  if (Number.isInteger(expectedGeneration) && slot.generation !== expectedGeneration) return false;
+  if (sourceId && slot.activeSourceId && slot.activeSourceId !== sourceId && slot.reservedSourceId !== sourceId) return false;
+  const oldWorker = slot.worker || null;
+  const oldGeneration = slot.generation || 0;
+  const oldActiveSourceId = slot.activeSourceId || null;
+  slot.activeSourceId = null;
+  slot.reservedSourceId = null;
+  slot.worker = null;
+  slot.generation = oldGeneration + 1;
+  slot.usesSinceRecycle = 0;
+  try {
+    const destroyed = oldWorker?.destroy?.();
+    if (destroyed?.then) await destroyed;
+  } catch {}
+  addInkDiagnostic('live-pdf-worker-forced-recycle', null, {
+    slot:slot.index,
+    reason,
+    sourceId:sourceId || oldActiveSourceId,
+    oldGeneration,
+    generation:slot.generation,
+    totalUses:slot.totalUses || 0,
+  });
+  return true;
+}
+async function forceRecycleLivePdfWorkerForSource(sourceId, source=null, reason='watchdog') {
+  const slotIndex = Number.isInteger(source?.livePdfWorkerSlotIndex)
+    ? source.livePdfWorkerSlotIndex
+    : (state.livePdfWorkerSlots || []).find(item => item.activeSourceId === sourceId || item.reservedSourceId === sourceId)?.index;
+  if (!Number.isInteger(slotIndex)) return false;
+  const slot = state.livePdfWorkerSlots?.[slotIndex];
+  if (!slot) return false;
+  return forceRecycleLivePdfWorkerSlot(slot, {
+    sourceId,
+    expectedGeneration:Number.isInteger(source?.livePdfWorkerGeneration) ? source.livePdfWorkerGeneration : null,
+    reason,
+  });
+}
+
 async function ensureLibrarySourceLoaded(sourceId) {
   if (!sourceId) return null;
   if (state.sources.has(sourceId)) return state.sources.get(sourceId);
@@ -759,13 +825,20 @@ async function ensureLibrarySourceLoaded(sourceId) {
     const workerBytes = bytes.slice();
     const workerCopyMs = performance.now() - workerCopyStarted;
     const workerSlot = await acquireLivePdfWorkerSlot(sourceId);
+    if (isIPadLike() && state.pdfjs?.PDFWorker && !workerSlot) {
+      throw new Error('No managed iPad PDF worker slot is available. The viewer refused to create an unmanaged extra worker.');
+    }
+    const watchdogRecovery = !!(isIPadLike() && state.pdfWatchdogRecoverySourceIds?.has(sourceId));
+    const canvasMaxAreaInBytes = isIPadLike()
+      ? (watchdogRecovery ? IPAD_LIVE_PDF_WATCHDOG_RECOVERY_CANVAS_MAX_AREA_BYTES : IPAD_LIVE_PDF_CANVAS_MAX_AREA_BYTES)
+      : -1;
     const pdfStarted = performance.now();
     let pdf = null;
     try {
       pdf = await state.pdfjs.getDocument({
         data: workerBytes, wasmUrl: PDFJS_WASM_URL, cMapUrl: PDFJS_CMAP_URL,
         cMapPacked: true, standardFontDataUrl: PDFJS_STANDARD_FONT_URL, useWasm: true,
-        canvasMaxAreaInBytes: isIPadLike() ? IPAD_LIVE_PDF_CANVAS_MAX_AREA_BYTES : -1,
+        canvasMaxAreaInBytes,
         ...(workerSlot?.worker ? { worker:workerSlot.worker } : {}),
       }).promise;
     } catch (err) {
@@ -786,7 +859,8 @@ async function ensureLibrarySourceLoaded(sourceId) {
       workerCopyMs:Math.round(workerCopyMs * 10) / 10,
       pdfJsMs:Math.round(pdfJsMs * 10) / 10, totalMs:Math.round((performance.now() - started) * 10) / 10,
       residentSources:state.sources.size,
-      canvasMaxAreaInBytes:isIPadLike() ? IPAD_LIVE_PDF_CANVAS_MAX_AREA_BYTES : -1,
+      canvasMaxAreaInBytes,
+      watchdogRecovery,
       workerSlot:workerSlot?.index ?? null,
       workerGeneration:workerSlot?.generation ?? null,
       workerUsesSinceRecycle:workerSlot?.usesSinceRecycle ?? null,
@@ -16777,6 +16851,7 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
       if (watchdogMs > 0 && renderTask?.cancel) {
         watchdogTimer = setTimeout(() => {
           watchdogTriggered = true;
+          if (renderSourceId) state.pdfWatchdogRecoverySourceIds?.add(renderSourceId);
           addInkDiagnostic('pdf-render-watchdog-cancel-requested', null, {
             sourceId:renderSourceId,
             pageId:page?.id || null,
@@ -16799,6 +16874,10 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
               const destroyed = source.pdf?.destroy?.();
               if (destroyed?.catch) destroyed.catch(() => {});
             } catch {}
+            // The live worker is caller-owned. Destroying the PDF document alone
+            // does not retire that worker, so a wedged image decoder could survive
+            // the watchdog and poison the next reload. Force-recycle its pool slot.
+            void forceRecycleLivePdfWorkerForSource(renderSourceId, source, 'watchdog-destroy-grace').catch(() => {});
             if (renderSourceId && state.sources.get(renderSourceId) === source) state.sources.delete(renderSourceId);
           }, IPAD_VIEWER_RENDER_WATCHDOG_DESTROY_GRACE_MS);
         }, watchdogMs);
@@ -16830,6 +16909,7 @@ async function renderPageToCanvas(page, canvas, cssWidth, cssHeight, dpr=1, maxP
           // remain in IndexedDB and the retry will reopen a clean instance.
           try { await source.pdf?.cleanup?.(); } catch {}
           try { await source.pdf?.destroy?.(); } catch {}
+          await forceRecycleLivePdfWorkerForSource(renderSourceId, source, 'render-watchdog');
           if (renderSourceId && state.sources.get(renderSourceId) === source) state.sources.delete(renderSourceId);
           pdfViewerRendersSinceCleanup.delete(renderSourceId);
           addInkDiagnostic('pdf-render-watchdog-source-retired', null, {
