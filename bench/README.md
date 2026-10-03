@@ -1,4 +1,20 @@
-# PDF Workbench 5.8.40-exp
+# PDF Workbench 5.8.41-exp
+
+## Milestone 5.8.41 — iPad scanner-safe Library thumbnails
+
+5.8.41 is a narrow iPad Files-thumbnail safety revision on top of 5.8.40. A 2026-10-03 crash occurred after opening 29 logical documents in Files and switching to View. The pre-crash breadcrumb showed only one resident live PDF, but Files had just generated a missing thumbnail for `Hobart.pdf`, one of 27 six-page scanner PDFs whose pages each contain a ~1687×2200 (~3.7 MP) JPEG. The process then died about 0.4 s into the first full-size viewer render.
+
+On iPad/iPhone-like WebKit only, missing/stale Library thumbnails now skip PDF.js generation when the first page contains an embedded raster over 3,000,000 pixels. The card stores the existing lightweight “Preview unavailable” marker instead. Existing valid cached thumbnails are still displayed, and desktop/Surface keeps the prior 13 MP ceiling. This prevents Files from repeatedly decoding full-page scanner rasters solely to create tiny Library cards before grading.
+
+All 5.8.40 Split→Single state-transfer behavior, 5.8.39 export/startup fixes, 5.8.37 persistent live-PDF worker pool, render limits, annotation behavior, and Library schema are unchanged.
+
+## Validation
+
+1. On iPad, open the same 25+ six-page scanned student PDFs in Files. Cards without an existing cached preview should show “Preview unavailable” rather than triggering full PDF.js scan decoding.
+2. Switch to View. The first visible paper should load/render without a crash.
+3. Save Diagnostics after several minutes. `library-thumbnail-unavailable` events with reason `LIBRARY_THUMBNAIL_IPAD_SCAN_SKIPPED` are expected for these ~3.7 MP scans.
+4. Existing cached thumbnails should still display normally. Surface/desktop thumbnail generation should be unchanged.
+
 
 5.8.40 is a narrow Split -> Single per-document view-state fix on top of 5.8.39. It preserves the stable Surface/Windows rendering session and the iPad persistent-worker/export/startup architecture. Documents actively viewed in Split now carry their remembered page/view forward as the fallback used if the user later switches to that document in Single View; raw split-width scroll pixels are not transferred.
 

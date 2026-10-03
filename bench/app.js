@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.40';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.41';
 
-const APP_VERSION = '5.8.40';
+const APP_VERSION = '5.8.41';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -24,6 +24,12 @@ const JSZIP_URL = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm';
 // large embedded images in its worker; maxImageSize is a last-resort ceiling.
 const LIBRARY_THUMBNAIL_CANVAS_MAX_AREA_BYTES = 4 * 1024 * 1024;
 const LIBRARY_THUMBNAIL_MAX_IMAGE_PIXELS = 13_000_000;
+// iPad Files should not decode full-page scanner rasters merely to create tiny
+// Library cards. The 2026-10-03 grading batch used ~1687x2200 (~3.7 MP) JPEG
+// pages; repeated thumbnail backfill immediately preceded a View-entry crash.
+// Existing cached thumbnails remain valid; this ceiling only governs missing or
+// stale thumbnail generation on iPad/iPhone-like WebKit.
+const IPAD_LIBRARY_THUMBNAIL_MAX_IMAGE_PIXELS = 3_000_000;
 const LIBRARY_THUMBNAIL_RECOVERY_DELAY_MS = 500;
 const LIBRARY_SOURCE_RESIDENCY_RELEASE_DELAY_MS = 450;
 
@@ -10865,11 +10871,14 @@ async function openLibraryPdfThumbnailSource(sourceId) {
   let data = record.data || null;
   if (!data && record.blob instanceof Blob) data = await record.blob.arrayBuffer();
   if (!data) throw new Error(`Stored source ${sourceId} has no readable binary data.`);
-  const oversizedImage = findLargeRawPdfImage(data);
+  const thumbnailImagePixelCeiling = isIPadLike()
+    ? IPAD_LIBRARY_THUMBNAIL_MAX_IMAGE_PIXELS
+    : LIBRARY_THUMBNAIL_MAX_IMAGE_PIXELS;
+  const oversizedImage = findLargeRawPdfImage(data, thumbnailImagePixelCeiling);
   if (oversizedImage) {
     const err = new Error(`First-page preview skipped: embedded image ${oversizedImage.width}×${oversizedImage.height} exceeds the thumbnail safety ceiling.`);
-    err.code = 'LIBRARY_THUMBNAIL_IMAGE_TOO_LARGE';
-    err.thumbnailDetails = oversizedImage;
+    err.code = isIPadLike() ? 'LIBRARY_THUMBNAIL_IPAD_SCAN_SKIPPED' : 'LIBRARY_THUMBNAIL_IMAGE_TOO_LARGE';
+    err.thumbnailDetails = { ...oversizedImage, pixelCeiling:thumbnailImagePixelCeiling };
     throw err;
   }
   const mimeType = record.mimeType || 'application/pdf';

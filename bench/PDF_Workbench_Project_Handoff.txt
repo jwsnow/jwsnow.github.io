@@ -1,3 +1,26 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-03 — BASELINE 5.8.41-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.41-exp ZIP, not an older build.
+
+5.8.41 IPAD SCANNER-SAFE FILES THUMBNAILS
+- 2026-10-03 iPad test: user opened 29 logical documents in Files, switched to View, and WebKit restarted almost immediately.
+- Pre-crash breadcrumb: 29 documents logically open but only 1 resident live PDF source; crash occurred about 0.38 s into the first full-size viewer render. This rules out a 29-live-PDF source explosion.
+- The actual grading batch contains 27 near-identical six-page scanner PDFs. Each page is one ~1687x2200 (~3.7 MP) JPEG. The 162-page source-scan PDF supplied for inspection was NOT open in Workbench. The other two open documents were KellyRodriguez.pdf and Test2Key.pdf.
+- Files had generated a missing thumbnail for Hobart.pdf, one of those 3.7 MP/page scanner PDFs, about 12 seconds before View entry. Missing/stale Library previews therefore still invoked PDF.js full-page scan decode during Files backfill.
+- 5.8.41 keeps existing valid cached thumbnails, but on iPad/iPhone-like WebKit skips PDF.js thumbnail generation when a first-page embedded raster exceeds 3,000,000 pixels. It persists the existing scanner-safe Preview unavailable marker instead. Desktop/Surface retains the prior 13,000,000-pixel ceiling.
+- No Library schema change. No normal viewer raster reduction. Preserve 5.8.40 Split→Single state fallback, 5.8.39 bounded export/startup recovery, 5.8.37 persistent live-PDF worker pool, and all graph/ink behavior.
+
+VALIDATION PRIORITY
+1. On iPad, open the same 25+ scanned student PDFs in Files. Missing previews for the ~3.7 MP scans should become Preview unavailable without PDF.js thumbnail renders.
+2. Switch to View and begin normal grading. The first visible paper should render without restarting the PWA.
+3. Save Diagnostics after a healthy period. Expect `library-thumbnail-unavailable` with reason `LIBRARY_THUMBNAIL_IPAD_SCAN_SKIPPED` for uncached scan previews.
+4. Existing cached thumbnails should continue to display. Confirm Surface/desktop behavior is unchanged.
+
+================================================================================
+PRIOR 5.8.40 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.40-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
