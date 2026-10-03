@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.39';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.40';
 
-const APP_VERSION = '5.8.39';
+const APP_VERSION = '5.8.40';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -8617,6 +8617,48 @@ function paneView(paneId=state.activePaneId, docId=null) {
   return view;
 }
 
+// Milestone 5.8.40: Split panes remain independent view instances, but a
+// document that has been actively viewed in Split should not fall back to a
+// stale page-1 Single-view state later. Mirror only the semantic Split view
+// (page / zoom / fit / mode); raw Split scroll pixels are intentionally not
+// copied because the Single viewer has a different width/layout.
+function rememberSplitViewAsSingleFallback(paneId, docId=null) {
+  if (!state.splitView || state.activePaneId !== paneId) return false;
+  const pane = splitPaneState(paneId);
+  const id = docId || pane.documentId;
+  if (!id) return false;
+  const doc = documentById(id), view = paneView(paneId, id);
+  if (!doc || !view) return false;
+  const fallback = copyView(view);
+  fallback.scrollTop = null;
+  fallback.scrollLeft = null;
+  doc.singleView = fallback;
+  return true;
+}
+
+// When leaving Split, also seed Single-view fallbacks for papers that were
+// visited earlier in either pane during the Split session. Prefer the pane that
+// is active at the transition when both panes have a remembered view. This is
+// a transition fallback only; the saved left/right pane states themselves are
+// left untouched and remain independent when Split is entered again.
+function seedSingleFallbacksFromSplitViews(preferredPaneId=state.activePaneId) {
+  const firstId = preferredPaneId === 'right' ? 'right' : 'left';
+  const secondId = firstId === 'right' ? 'left' : 'right';
+  let seeded = 0;
+  for (const doc of state.documents) {
+    const firstView = state.splitPanes[firstId]?.views?.get(doc.id) || null;
+    const secondView = state.splitPanes[secondId]?.views?.get(doc.id) || null;
+    const source = firstView || secondView;
+    if (!source) continue;
+    const fallback = copyView(source);
+    fallback.scrollTop = null;
+    fallback.scrollLeft = null;
+    doc.singleView = fallback;
+    seeded++;
+  }
+  return seeded;
+}
+
 function savePaneScroll(paneId) {
   const pane = splitPaneState(paneId), pe = paneElements(paneId);
   // Milestone 5.8.30: only a fully restored, actually displayed Split viewer
@@ -8634,6 +8676,7 @@ function savePaneScroll(paneId) {
   }
   view.scrollTop = pe.viewer.scrollTop;
   view.scrollLeft = pe.viewer.scrollLeft;
+  if (state.activePaneId === paneId) rememberSplitViewAsSingleFallback(paneId, pane.committedDocumentId);
   scheduleSessionCheckpoint(260);
 }
 
@@ -8653,6 +8696,7 @@ function activateSplitPane(paneId, syncCurrent=true) {
   // the shared editing state used by document-level commands and labels.
   const activeView = paneView(state.activePaneId);
   if (activeView?.activePageId) state.activePageId = activeView.activePageId;
+  rememberSplitViewAsSingleFallback(state.activePaneId, pane.documentId);
   els.splitLeftPane?.classList.toggle('active', state.activePaneId === 'left');
   els.splitRightPane?.classList.toggle('active', state.activePaneId === 'right');
   if (els.presentationLeftPaneBtn) {
@@ -15381,6 +15425,7 @@ function cycleScrollMode() {
     savePaneScroll(state.activePaneId);
     view.scrollMode = modes[(modes.indexOf(view.scrollMode) + 1) % modes.length];
     view.scrollTop = null; view.scrollLeft = null;
+    rememberSplitViewAsSingleFallback(state.activePaneId);
     renderSplitPane(state.activePaneId);
     updateViewerLabels();
     return;
@@ -15400,6 +15445,7 @@ function cycleFitMode() {
     view.fitMode = view.fitMode === 'width' ? 'page' : 'width';
     view.zoom = 1;
     view.scrollTop = null; view.scrollLeft = null;
+    rememberSplitViewAsSingleFallback(state.activePaneId);
     renderSplitPane(state.activePaneId);
     updateViewerLabels();
     return;
@@ -15819,6 +15865,8 @@ function toggleSplitView() {
     const sourceViewer = paneElements(sourcePaneId).viewer;
     const sourcePoint = viewerMidpoint(sourceViewer);
     transferAnchor = captureViewerAnchor(sourceViewer, sourcePoint.x, sourcePoint.y);
+    const seededSingleFallbacks = seedSingleFallbacksFromSplitViews(sourcePaneId);
+    addInkDiagnostic('split-to-single-fallbacks-seeded', null, { sourcePaneId, seededDocuments:seededSingleFallbacks });
     if (!adoptPaneAsSingle(sourcePaneId)) return;
     const doc = currentDocument(), singleView = ensureSingleView(doc);
     if (singleView && transferAnchor?.pageId) {
@@ -16529,6 +16577,7 @@ function goPanePage(paneId, delta, allowAppend=false) {
   const next = clamp(current + delta, 0, doc.pages.length - 1);
   if (next === current && doc.pages[next]?.id === view.activePageId) return;
   view.activePageId = doc.pages[next].id;
+  if (state.activePaneId === paneId) rememberSplitViewAsSingleFallback(paneId, doc.id);
   if (view.scrollMode === 'single') renderSplitPane(paneId);
   else { markSplitActivePage(paneId); scrollSplitActivePageIntoView(paneId); }
   if (state.activePaneId === paneId) updateViewerLabels();
@@ -18462,6 +18511,7 @@ function setZoomForPane(paneId, value) {
   const point = viewerMidpoint(pe.viewer);
   const anchor = captureViewerAnchor(pe.viewer, point.x, point.y);
   view.zoom = clamp(value, 0.25, 4);
+  if (state.activePaneId === paneId) rememberSplitViewAsSingleFallback(paneId);
   renderSplitPane(paneId);
   pane.suppressScrollSave = true;
   restoreViewerAnchorAfterLayout(pe.viewer, anchor, point.x, point.y, () => {

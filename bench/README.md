@@ -1,8 +1,10 @@
-# PDF Workbench 5.8.39-exp
+# PDF Workbench 5.8.40-exp
 
-## Milestone 5.8.39 — bounded export memory + 5.8.38 startup recovery
+5.8.40 is a narrow Split -> Single per-document view-state fix on top of 5.8.39. It preserves the stable Surface/Windows rendering session and the iPad persistent-worker/export/startup architecture. Documents actively viewed in Split now carry their remembered page/view forward as the fallback used if the user later switches to that document in Single View; raw split-width scroll pixels are not transferred.
 
-5.8.39 is built directly on 5.8.38. It preserves the successful 5.8.37 two-slot iPad PDF.js worker pool and the 5.8.38 single-pass Library startup/recovery work, while addressing a separate export-memory problem exposed by the 2026-10-02 grading/export diagnostics.
+## Milestone 5.8.40 — bounded export memory + 5.8.38 startup recovery
+
+5.8.40 is built directly on 5.8.38. It preserves the successful 5.8.37 two-slot iPad PDF.js worker pool and the 5.8.38 single-pass Library startup/recovery work, while addressing a separate export-memory problem exposed by the 2026-10-02 grading/export diagnostics.
 
 ### What the 5.8.37 long-session diagnostics showed
 
@@ -14,23 +16,23 @@ The persistent worker pool substantially improved ordinary grading performance. 
 - the late diagnostic contained no event-loop-gap records;
 - the right-pane worker had reached 72 total assignments across eight recycle generations while remaining responsive.
 
-Therefore 5.8.39 preserves the 5.8.37 worker pool unchanged.
+Therefore 5.8.40 preserves the 5.8.37 worker pool unchanged.
 
-### 5.8.39 export-memory changes
+### 5.8.40 export-memory changes
 
 Large Files/PDF exports had two avoidable accumulation paths:
 
 1. The selected multi-document ZIP export reused one `sourcePdfCache` across the entire batch. pdf-lib could therefore retain parsed source PDF document graphs from many student files while JSZip simultaneously retained every completed output PDF.
 2. Files mode intentionally evicts live Viewer PDF sources even when documents remain logically Open. `prepareDocumentForFileOperation()` previously hydrated sources only for closed documents, and Library/folder export paths could hydrate successive PDF.js sources without immediately retiring each completed document's source.
 
-5.8.39 changes this as follows:
+5.8.40 changes this as follows:
 
 - Every exported document gets its own short-lived pdf-lib source cache. That cache is cleared as soon as that document has been added to the output/ZIP.
 - File-operation source hydration is based on the document's actual page sources, not open/closed status.
 - After each document is completed, temporarily hydrated persisted PDF.js sources are retired before the next document begins whenever they are not visible or template-owned.
 - Whole-Library PDF archive and folder PDF export use the same per-document cleanup discipline.
 - New `file-operation-sources-released` diagnostics record how many temporary sources were retired and the worker-pool state after cleanup.
-- JSZip still necessarily retains each completed output PDF until the ZIP is packaged; 5.8.39 specifically removes the unnecessary parsed-input/live-PDF accumulation beside those output bytes.
+- JSZip still necessarily retains each completed output PDF until the ZIP is packaged; 5.8.40 specifically removes the unnecessary parsed-input/live-PDF accumulation beside those output bytes.
 
 ### 5.8.38 startup behavior retained
 

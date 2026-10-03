@@ -1,3 +1,27 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.40-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.40-exp ZIP, not an older build.
+
+5.8.40 SURFACE SPLIT -> SINGLE PER-DOCUMENT VIEW FALLBACK FIX
+- A long 5.8.39 Surface/Windows grading session completed smoothly with no crash, render-watchdog, or event-loop-gap evidence. Preserve the 5.8.37+ persistent-worker grading architecture and all 5.8.39 startup/export fixes.
+- Surface testing exposed a view-state transfer gap when leaving Split: the active pane's current document transferred correctly to Single, but other documents kept their older `singleView` state. In a session conducted almost entirely in Split, those stale Single states were commonly page 1, so switching among documents after Split -> Single made nearly every other paper appear to have scrolled to the top.
+- Split pane states remain independent. 5.8.40 now remembers the semantic view of a document while it is actively viewed in Split (page, zoom, fit mode, scroll mode) as that document's future Single-view fallback. Raw Split scroll pixels are deliberately not copied because the Single viewer has a different width/layout.
+- On Split -> Single, Workbench also seeds Single fallbacks from the saved per-pane view maps for papers visited earlier in the Split session, preferring the pane active at the transition when both panes contain a remembered view. This also repairs existing 5.8.39 session state without requiring each paper to be revisited first.
+- The current active paper still uses the existing exact midpoint-anchor transfer, so its visible position remains the most precise. The inactive pane's own saved view is untouched and returns when Split is re-entered.
+- Added diagnostic `split-to-single-fallbacks-seeded`.
+
+VALIDATION PRIORITY
+1. In Split, place several documents at clearly different pages/locations by switching through one pane.
+2. Switch to Single from either pane. The active paper should preserve its exact visible point.
+3. Switch among the other previously visited documents in Single. Each should open on its remembered Split page rather than page 1/top.
+4. Return to Split and verify the left/right pane positions are unchanged and still independent, including if the same document was used in both panes.
+5. Regression-check Surface and iPad document switching, zoom, scroll, startup, export, and annotations.
+
+================================================================================
+PRIOR 5.8.39 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-02 — BASELINE 5.8.39-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
