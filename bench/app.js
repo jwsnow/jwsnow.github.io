@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.42';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.43';
 
-const APP_VERSION = '5.8.42';
+const APP_VERSION = '5.8.43';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -10610,7 +10610,10 @@ function updateLibraryBulkSelectionControls() {
       ? `${selected.length} selected total${folderRecords.length ? ` · ${selectedHere} of ${folderRecords.length} in this folder` : ''}`
       : 'No documents selected.';
   }
-  if (els.librarySelectAllBtn) els.librarySelectAllBtn.disabled = !folderRecords.length || selectedHere === folderRecords.length;
+  if (els.librarySelectAllBtn) {
+    els.librarySelectAllBtn.disabled = !folderRecords.length;
+    els.librarySelectAllBtn.textContent = folderRecords.length && selectedHere === folderRecords.length ? 'Select none' : 'Select all';
+  }
   if (els.libraryClearSelectionBtn) els.libraryClearSelectionBtn.disabled = !selected.length;
   if (els.libraryMoveSelectedBtn) els.libraryMoveSelectedBtn.disabled = !selected.length;
   if (els.libraryTrashSelectedBtn) els.libraryTrashSelectedBtn.disabled = !selected.length;
@@ -10684,7 +10687,11 @@ function selectAllDocumentsInCurrentLibraryFolder() {
   const records = libraryDocumentsInFolder(state.libraryFolderId);
   if (!records.length) return;
   state.fileSelectionInitialized = true;
-  for (const record of records) state.fileSelected.add(record.id);
+  const allSelected = records.every(record => state.fileSelected.has(record.id));
+  for (const record of records) {
+    if (allSelected) state.fileSelected.delete(record.id);
+    else state.fileSelected.add(record.id);
+  }
   reconcileCombineOrder();
   renderExportPane({ preserveLibraryDocumentList: true });
 }
@@ -11569,9 +11576,19 @@ function createLibraryDocumentRow(record) {
   canvas.setAttribute('aria-label', `First page preview of ${record.name}`); preview.append(canvas);
   const selectCheck = document.createElement('input'); selectCheck.type='checkbox'; selectCheck.className='library-export-check'; selectCheck.checked=state.fileSelected.has(record.id); selectCheck.setAttribute('aria-label',`Select ${record.name} for PDF Tools`); selectCheck.title='Select for PDF Tools';
   selectCheck.addEventListener('pointerdown', e => e.stopPropagation());
-  selectCheck.addEventListener('click', e => e.stopPropagation());
   selectCheck.addEventListener('keydown', e => e.stopPropagation());
-  selectCheck.addEventListener('change', e => { e.stopPropagation(); setFileSelected(record.id, selectCheck.checked); });
+  const commitLibraryCheckedState = e => {
+    e?.stopPropagation?.();
+    const selected = !!selectCheck.checked;
+    if (state.fileSelected.has(record.id) !== selected) setFileSelected(record.id, selected);
+  };
+  // iPad/WebKit can occasionally update a checkbox visually without delivering
+  // the later change event. Reconcile on click/input/change/blur so the shared
+  // PDF Tools selection and the visible checkbox cannot drift apart.
+  selectCheck.addEventListener('click', commitLibraryCheckedState);
+  selectCheck.addEventListener('input', commitLibraryCheckedState);
+  selectCheck.addEventListener('change', commitLibraryCheckedState);
+  selectCheck.addEventListener('blur', commitLibraryCheckedState);
   preview.append(selectCheck);
   const label = document.createElement('div'); label.className = 'library-document-label library-open-target'; label.tabIndex=0; label.setAttribute('role','button'); label.setAttribute('aria-label',`Open ${record.name}`);
   const name = document.createElement('span'); name.className = 'library-document-name'; name.textContent = record.name; name.title = record.name;
@@ -11672,21 +11689,67 @@ async function closeOneOpenDocument(docId) {
   const doc = documentById(docId);
   if (!doc) return;
   const preserveLibraryDocumentList = state.workspaceMode === 'export';
+  const splitPaneBefore = state.splitView
+    ? { left:state.splitPanes.left.documentId, right:state.splitPanes.right.documentId }
+    : null;
+  const closeStarted = performance.now();
+
   saveCurrentDocumentState();
-  await persistLibraryNow();
-  removeDocument(docId);
+  // The document being closed must be durable before it leaves the working set,
+  // but Close does not modify templates, folders, assets, or Library metadata.
+  // The old full-save path rebuilt hidden Files UI and storage estimates here.
+  await persistLibraryNow({ documentsOnly:true });
+
+  // Keep source retirement asynchronous just as before; the affected viewer is
+  // rebuilt immediately while PDF.js/WebKit releases the outgoing source.
+  void removeDocument(docId);
   reconcileCombineOrder();
   state.sessionExplicitEmpty = state.documents.length === 0;
   checkpointWorkspaceNow({ explicitEmpty: state.sessionExplicitEmpty });
+
+  let panesRebuilt = [];
   if (preserveLibraryDocumentList) {
     renderDocumentSelect();
     updatePageCounts();
     renderExportPane({ preserveLibraryDocumentList: true });
+  } else if (state.workspaceMode === 'view' && state.splitView && state.documents.length && splitPaneBefore) {
+    // Closing one student in Split used to call renderAll(), which destroyed
+    // and rebuilt BOTH pane viewers. That forced the unchanged pane to decode
+    // its scan again and made Close visibly pause for several seconds. Rebuild
+    // only panes whose assignment actually changed.
+    panesRebuilt = ['left','right'].filter(paneId =>
+      splitPaneBefore[paneId] !== state.splitPanes[paneId].documentId
+      || splitPaneBefore[paneId] === docId
+    );
+    renderDocumentSelect();
+    updatePageCounts();
+    for (const paneId of panesRebuilt) renderSplitPane(paneId);
+    activateSplitPane(state.activePaneId, true);
+    scheduleInactivePdfSourceResidencySweep('close-open-document');
+    scheduleDiagnosticHealthBreadcrumb('close-open-document-split');
   } else {
     renderAll({ saveState: false });
   }
-  await persistLibraryNow();
-  await refreshLibraryRecords();
+
+  // The synchronous localStorage checkpoint above is authoritative for restart.
+  // Mirror only the tiny session record to IndexedDB; do not perform a second
+  // full Library save or reread all Library records after every Close.
+  if (state.libraryReady && state.libraryDb && state.sessionRestoreHydrated) {
+    setTimeout(() => {
+      if (!state.libraryReady || !state.libraryDb || !state.sessionRestoreHydrated) return;
+      libraryPut('meta', serializeLibrarySession()).catch(err => {
+        console.warn('Could not mirror session after Close', err);
+      });
+    }, 0);
+  }
+  addInkDiagnostic('close-open-document-complete', null, {
+    documentId:docId,
+    documentName:doc.name,
+    splitView:!!state.splitView,
+    panesRebuilt,
+    remainingOpenDocuments:state.documents.length,
+    totalMs:Math.round((performance.now() - closeStarted) * 10) / 10,
+  });
   setStatus(`Closed ${doc.name} · kept in local Library`);
 }
 
@@ -12006,7 +12069,9 @@ function renderOpenDocumentList() {
   els.fileSelectionSummary.textContent = state.documents.length
     ? `${openSelected.length} of ${state.documents.length} open selected${totalSelected !== openSelected.length ? ` · ${totalSelected} selected total` : ''}.`
     : (totalSelected ? `No documents are open · ${totalSelected} selected total.` : 'No documents are open.');
-  els.selectAllFilesBtn.disabled = !state.documents.length || openSelected.length === state.documents.length;
+  const allOpenSelected = state.documents.length > 0 && openSelected.length === state.documents.length;
+  els.selectAllFilesBtn.disabled = !state.documents.length;
+  els.selectAllFilesBtn.textContent = allOpenSelected ? 'Select none' : 'Select all';
   els.clearFileSelectionBtn.disabled = !openSelected.length;
 
   for (const doc of state.documents) {
@@ -12017,7 +12082,14 @@ function renderOpenDocumentList() {
     check.type = 'checkbox';
     check.checked = state.fileSelected.has(doc.id);
     check.setAttribute('aria-label', `Select ${doc.name} for PDF Tools`);
-    check.addEventListener('change', () => setFileSelected(doc.id, check.checked));
+    const commitCheckedState = () => {
+      const selected = !!check.checked;
+      if (state.fileSelected.has(doc.id) !== selected) setFileSelected(doc.id, selected);
+    };
+    check.addEventListener('click', e => { e.stopPropagation(); commitCheckedState(); });
+    check.addEventListener('input', commitCheckedState);
+    check.addEventListener('change', commitCheckedState);
+    check.addEventListener('blur', commitCheckedState);
 
     const label = document.createElement('div');
     label.className = 'open-document-label';
@@ -12071,7 +12143,13 @@ function renderSelectedDocumentList() {
     check.type='checkbox';
     check.checked=true;
     check.setAttribute('aria-label',`Remove ${doc.name} from Selected Documents`);
-    check.addEventListener('change',()=>{ if (!check.checked) setFileSelected(doc.id,false); });
+    const commitCheckedState = () => {
+      if (!check.checked && state.fileSelected.has(doc.id)) setFileSelected(doc.id,false);
+    };
+    check.addEventListener('click', e => { e.stopPropagation(); commitCheckedState(); });
+    check.addEventListener('input', commitCheckedState);
+    check.addEventListener('change', commitCheckedState);
+    check.addEventListener('blur', commitCheckedState);
     const label=document.createElement('div');
     label.className='open-document-label';
     const name=document.createElement('span');
@@ -18693,7 +18771,16 @@ function bindEvents() {
   els.exportModeBtn.addEventListener('click', () => showWorkspaceMode('export'));
   els.renameCurrentBtn?.addEventListener('click', renameActiveDocument);
   els.closeCurrentBtn?.addEventListener('click', closeActiveDocument);
-  els.selectAllFilesBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; for (const doc of state.documents) state.fileSelected.add(doc.id); reconcileCombineOrder(); renderExportPane({ preserveLibraryDocumentList: true }); });
+  els.selectAllFilesBtn.addEventListener('click', () => {
+    state.fileSelectionInitialized = true;
+    const allSelected = state.documents.length > 0 && state.documents.every(doc => state.fileSelected.has(doc.id));
+    for (const doc of state.documents) {
+      if (allSelected) state.fileSelected.delete(doc.id);
+      else state.fileSelected.add(doc.id);
+    }
+    reconcileCombineOrder();
+    renderExportPane({ preserveLibraryDocumentList: true });
+  });
   els.clearFileSelectionBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; for (const doc of state.documents) state.fileSelected.delete(doc.id); reconcileCombineOrder(); renderExportPane({ preserveLibraryDocumentList: true }); });
   els.libraryRefreshBtn?.addEventListener('click', async () => {
     try {

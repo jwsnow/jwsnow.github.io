@@ -1,3 +1,35 @@
+# PDF Workbench 5.8.43-exp
+
+## Milestone 5.8.43 — faster Split Close + Files selection synchronization
+
+5.8.43 is a focused workflow revision on top of the classroom-stable 5.8.42 grading build. A full iPad grading round completed without a crash, but diagnostics confirmed two avoidable UI costs: closing one document in Split rebuilt both pane viewers, and a Library checkbox could appear checked while the shared Selected Documents state still said no documents were selected.
+
+### Changes
+
+- **Close in Split rebuilds only the pane(s) whose document assignment changed.** The unchanged pane keeps its existing DOM/canvas/PDF render instead of being torn down and decoded again.
+- Close now uses a **documents-only durability save before removal**. It no longer performs a second full Library save and full Library-record reread after every Close.
+- The post-Close workspace/session is checkpointed synchronously to localStorage and mirrored as the tiny IndexedDB session record without blocking the viewer.
+- Adds `close-open-document-complete` diagnostics with total close time and the pane IDs actually rebuilt.
+- Library/Open/Selected document checkboxes reconcile the shared selection on **click/input/change/blur**, rather than depending only on `change`. This hardens the UI against the iPad/WebKit case where the visual checkbox toggles but `change` is missed.
+- In Files, **Select all** now toggles to **Select none** when all documents in that section's scope are selected:
+  - Local Library: current folder only.
+  - Open Documents: currently open working set.
+  - The existing **Clear** action remains available for clearing the broader/global selection.
+
+All 5.8.42 watchdog-worker recovery, 5.8.41 scanner-safe thumbnail behavior, 5.8.40 Split→Single state transfer, 5.8.39 startup/export fixes, persistent worker architecture, rendering limits, annotations, graph tools, and Library formats are preserved.
+
+### Validation
+
+1. In Split, keep one reference paper fixed in one pane and close successive student papers in the other. The fixed pane should not blank/re-render.
+2. Save Diagnostics after several closes; `close-open-document-complete` should normally list only the replaced pane in `panesRebuilt`.
+3. In Files, tap a Library checkbox and confirm the Selected Documents summary/list updates immediately.
+4. When every document in the current Library folder or Open Documents section is selected, the button should read **Select none** and toggle that scope off.
+5. Continue ordinary grading; no deliberate crash stress is needed.
+
+---
+
+## Prior 5.8.42 notes
+
 # PDF Workbench 5.8.42-exp
 
 ## Milestone 5.8.42 — iPad render-watchdog worker recovery

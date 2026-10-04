@@ -1,3 +1,56 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-03 — BASELINE 5.8.43-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.43-exp ZIP, not an older build.
+
+5.8.43 FASTER SPLIT CLOSE + FILES SELECTION SYNCHRONIZATION
+- A full 5.8.42 iPad grading round completed without a crash. Preserve the 5.8.42 watchdog worker recovery and all 5.8.37+ memory/lifecycle protections.
+- User reported that closing a student while grading in Split still caused a long visible re-render.
+- Diagnostics confirmed the old Close path did unnecessary work: one Close performed a full Library persist, released/rebuilt BOTH split-pane viewers, performed another full Library persist, and reread Library records. In a representative close, the unchanged pane was torn down along with the changed pane and the replacement scan render then took about 3.1 s.
+- User also captured Files with `rolls.pdf` visibly checked while Selected Documents simultaneously said "No documents selected." After further Files interaction the UI corrected itself, consistent with a missed iPad/WebKit checkbox `change` event.
+
+5.8.43 CHANGES
+1. CLOSE ONLY REBUILDS THE AFFECTED SPLIT PANE
+- Before removal, Close records the left/right pane document assignments.
+- After removal/reassignment, only pane(s) whose assignment changed are passed through `renderSplitPane()`.
+- An unchanged reference pane keeps its existing viewer DOM/canvas/PDF render.
+- Non-Split and non-View close paths retain the established general render behavior.
+- Adds `close-open-document-complete` with panesRebuilt, remainingOpenDocuments, and totalMs.
+
+2. REMOVE REDUNDANT CLOSE PERSIST/REFRESH WORK
+- Close first runs `persistLibraryNow({documentsOnly:true})` so any edited document is durable before leaving the working set.
+- The new workspace/session is checkpointed synchronously after removal.
+- Close no longer performs a second full Library persist and `refreshLibraryRecords()` after every document.
+- The tiny post-Close session record is mirrored to IndexedDB asynchronously; the synchronous localStorage checkpoint remains restart-authoritative.
+
+3. HARDEN FILES SELECTION SYNCHRONIZATION
+- Local Library, Open Documents, and Selected Documents checkboxes reconcile state on click/input/change/blur rather than depending on change alone.
+- The commit is idempotent, so normal browsers do not cause duplicate state changes.
+- This directly addresses the screenshot where a blue checked Library box existed while the Selected Documents model/UI still reported zero selected.
+
+4. SELECT ALL -> SELECT NONE TOGGLE
+- Local Library Select all becomes Select none when every document in the current folder is selected; toggling off affects that folder scope.
+- Open Documents Select all likewise becomes Select none when every currently open document is selected.
+- Existing Clear remains available for broader/global clearing.
+
+PRESERVE
+- 5.8.42 watchdog worker recycle / no unmanaged third worker / low-memory watchdog reload.
+- 5.8.41 scanner-safe iPad Library thumbnails.
+- 5.8.40 Split -> Single per-document fallback.
+- 5.8.39 startup/export fixes and 5.8.37 persistent two-worker architecture.
+- Normal 4 MP Single / 2.5 MP Split quality, graph tools, annotation behavior, Library schema, and export formats.
+
+VALIDATION PRIORITY
+1. In Split, keep one document fixed and repeatedly Close only the other pane's current student. The fixed pane should remain rendered and interactive.
+2. Diagnostics should show `close-open-document-complete` with only the affected pane in `panesRebuilt` for the common grading case.
+3. Toggle Library and Open Documents checkboxes on iPad; Selected Documents must update immediately and remain consistent.
+4. Verify Select all / Select none behavior in both Files selection scopes.
+5. Continue ordinary grading; do not deliberately stress crash behavior.
+
+================================================================================
+PRIOR 5.8.42 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-03 — BASELINE 5.8.42-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
