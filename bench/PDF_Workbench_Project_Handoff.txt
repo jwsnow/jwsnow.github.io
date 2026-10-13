@@ -1,3 +1,46 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-12 — BASELINE 5.8.44-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.44-exp ZIP, not an older build.
+
+5.8.44 IPAD EXPORT WORKER CAPACITY + SKIPPED-RENDER RECOVERY
+- 2026-10-12 iPad grading on 5.8.43 was generally smooth, but two independent hiccups were captured with diagnostics.
+- Export hiccup: while in Files/Export with Split still configured, both managed live PDF worker slots remained claimed by the two Split PDFs. Export of three selected documents attempted to hydrate another PDF source and correctly hit the 5.8.42 invariant: `live-pdf-worker-pool-exhausted`, producing the visible error “No managed iPad PDF worker slot is available. The viewer refused to create an unmanaged extra worker.” Restarting happened to free a slot, so the same export later worked.
+- Render hiccup: `Caleb.pdf` in Split accumulated several queued page requests while the user scrolled. Pages 3, 4, 5, and 7 left the viewport before their one-at-a-time jobs started. The queue correctly returned false for those stale jobs at about t=41.7 s, but `renderSplitViewerPage()` left each stage marked `data-rendered="loading"`. The render queue was empty while those pages remained “loading” for 16–28+ seconds. Because IntersectionObserver refuses to queue a stage already marked loading, scrolling away/back could not recover them. Switching Split -> Single rebuilt the stages and immediately rendered normally, exactly matching the user report.
+
+5.8.44 CHANGES
+1. FREE INACTIVE WORKER CAPACITY BEFORE FILE OPERATIONS
+- `prepareDocumentForFileOperation()` now determines the target document's referenced sources and, on iPad, first retires persisted PDF sources that are neither needed by the target nor genuinely visible/used by templates.
+- Queued and active stale renders for those inactive sources are discarded/cancelled before retirement.
+- This allows Export/Compression/Combine entered from Split to reuse one of the two managed worker slots rather than failing or creating an unmanaged third worker.
+- Adds `file-operation-preload-capacity` with candidate/released counts, wait state, remaining source count, and worker-pool snapshot.
+- The current/visible PDF and target document sources are not retired.
+
+2. RESET SKIPPED/CANCELLED LOADING STAGES
+- Split and Single render completion paths now detect `didRender === false` while a stage is still marked loading.
+- The stage backing canvas/state is reset through `releaseViewerStage()` so an offscreen skipped page is eligible for a future IntersectionObserver render.
+- If the same stage is still current and visible when the skip resolves, one render is explicitly re-armed on the next animation frame because IntersectionObserver may not emit another callback without an intersection change.
+- Adds `viewer-render-skip-reset`; explicit recovery requests use reason `skipped-render-rearm`.
+- This is distinct from the 4.5 s watchdog: the captured Caleb pages were not slow PDF.js renders. They were queued jobs intentionally skipped because the user had already scrolled them out of view.
+
+PRESERVE
+- 5.8.43 one-pane Split Close optimization and Files selection synchronization/toggles.
+- 5.8.42 watchdog force-recycle / no unmanaged third worker / low-memory recovery.
+- 5.8.41 scanner-safe iPad Library thumbnails.
+- 5.8.40 Split -> Single per-document fallback.
+- 5.8.39 startup/export-memory fixes and 5.8.37 persistent two-worker architecture.
+- Normal 4 MP Single / 2.5 MP Split quality, graph tools, annotation behavior, Library schema, and export formats.
+
+VALIDATION PRIORITY
+1. From a two-pane View, enter Files, select 2+ documents, export them as a ZIP. The worker-pool-exhausted error must not recur.
+2. Scroll Caleb or another multi-page scan quickly in Split while pages are rendering. Pages that are skipped offscreen must not remain permanently “Rendering…”.
+3. Save Diagnostics after either workflow; look for `file-operation-preload-capacity` and/or `viewer-render-skip-reset`.
+4. Continue ordinary grading; do not intentionally stress WebKit.
+
+================================================================================
+PRIOR 5.8.43 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-03 — BASELINE 5.8.43-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

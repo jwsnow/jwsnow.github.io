@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.43';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.44';
 
-const APP_VERSION = '5.8.43';
+const APP_VERSION = '5.8.44';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1790,12 +1790,62 @@ function markDocumentExported(doc) {
   doc.lastExportedAt = Date.now();
   scheduleLibraryPersist(100, { documentsOnly: true });
 }
+async function freeInactivePdfWorkerCapacityForFileOperation(targetSourceIds, reason='file-operation-preload') {
+  if (!isIPadLike()) return 0;
+  const preserve = new Set([...(targetSourceIds || [])].filter(Boolean));
+  const candidates = [];
+  for (const [sourceId, source] of state.sources) {
+    if (!source || source.type !== 'pdf' || !source.libraryPersisted) continue;
+    if (preserve.has(sourceId) || sourceUsedByTemplates(sourceId) || sourceNeededByVisibleDocument(sourceId)) continue;
+    candidates.push(sourceId);
+  }
+  if (!candidates.length) return 0;
+
+  // Files/Export can be entered from Split while both pane workers still own
+  // PDF.js documents. A file operation may then need one of those two managed
+  // worker slots to hydrate a selected document. Retire only genuinely inactive
+  // sources before loading the operation target; do not create an unmanaged
+  // third worker and do not disturb the current/visible document.
+  discardQueuedRendersForSources(candidates, reason);
+  cancelCancellablePdfRendersForSources(candidates, reason);
+  const started = performance.now();
+  let waited = false;
+  while (candidates.some(sourceId => renderQueueHasActiveSource(sourceId))) {
+    waited = true;
+    cancelCancellablePdfRendersForSources(candidates, `${reason}-wait`);
+    if (performance.now() - started > IPAD_VIEWER_RENDER_WATCHDOG_MS + IPAD_VIEWER_RENDER_WATCHDOG_DESTROY_GRACE_MS + 500) break;
+    await new Promise(resolve => setTimeout(resolve, 24));
+  }
+
+  let released = 0;
+  for (const sourceId of candidates) {
+    if (renderQueueHasActiveSource(sourceId)) continue;
+    if (await releasePersistedPdfSourceMemory(sourceId, reason)) released++;
+  }
+  if (released || waited) {
+    addInkDiagnostic('file-operation-preload-capacity', null, {
+      reason,
+      targetSourceCount:preserve.size,
+      candidates:candidates.length,
+      released,
+      waited,
+      remainingSources:state.sources.size,
+      workerPool:livePdfWorkerPoolSnapshot(),
+    });
+  }
+  return released;
+}
+
 async function prepareDocumentForFileOperation(doc) {
   if (!doc) return new Set();
-  // Files mode deliberately evicts live Viewer PDF sources even while a document
-  // remains logically Open. Export therefore must hydrate the sources it needs
-  // based on the document pages, not on open/closed status.
-  return ensureRecordSourcesLoaded(doc);
+  // Files mode can retain a hidden Split-pane PDF long enough for both managed
+  // iPad worker slots to remain occupied. Free any inactive PDF first so export,
+  // compression, or combine can hydrate the selected document without violating
+  // the strict two-worker invariant introduced after the watchdog recovery crash.
+  const sourceIds = pagesReferencedSourceIds(doc?.pages || []);
+  await freeInactivePdfWorkerCapacityForFileOperation(sourceIds);
+  for (const sourceId of sourceIds) await ensureLibrarySourceLoaded(sourceId);
+  return sourceIds;
 }
 async function releaseFileOperationPdfSources(sourceIds, reason='file-operation-complete') {
   let released = 0;
@@ -16690,7 +16740,31 @@ async function renderSplitViewerPage(paneId, page, stage, canvas, generation) {
   }
   if (!didRender || generation !== pane.generation || !stage.isConnected) {
     if (stage?.isConnected && stage.dataset.rendered === 'loading') {
-      recordRenderDiagnostic('viewer-render-left-loading', page, { requestId, generation, currentGeneration:pane.generation, viewer:`split-${paneId}`, paneId, didRender:!!didRender, stage:diagnosticStageState(stage) });
+      const stillCurrent = generation === pane.generation && pane.documentId === diagnosticDocumentForPage(page)?.id && (state.workspaceMode === 'view' || state.presentation || document.body.classList.contains('presentation'));
+      const stillWanted = stage.dataset.wantRender !== 'false';
+      recordRenderDiagnostic('viewer-render-skip-reset', page, {
+        requestId, generation, currentGeneration:pane.generation,
+        viewer:`split-${paneId}`, paneId, didRender:!!didRender,
+        stillCurrent, stillWanted, stage:diagnosticStageState(stage),
+      });
+      // A queued page can scroll out of view before its one-at-a-time iPad render
+      // actually starts. The queue then correctly skips that job, but leaving the
+      // stage marked "loading" prevents IntersectionObserver from ever requesting
+      // it again. Collapse/reset the skipped stage so a later intersection can
+      // render it normally. If it is still visible, re-arm one render explicitly
+      // because IntersectionObserver may not emit another callback.
+      releaseViewerStage(stage);
+      if (stillCurrent && stillWanted) {
+        stage.dataset.wantRender = 'true';
+        requestAnimationFrame(() => {
+          if (generation !== pane.generation || pane.documentId !== diagnosticDocumentForPage(page)?.id ||
+              !stage.isConnected || stage.dataset.wantRender === 'false' || stage.dataset.rendered) return;
+          stage.dataset.rendered = 'loading';
+          ensurePageLoading(stage);
+          markStageRenderRequested(stage, page, 'skipped-render-rearm', { generation, viewer:`split-${paneId}`, paneId });
+          renderSplitViewerPage(paneId, page, stage, canvas, generation).catch(err => renderError(stage, err));
+        });
+      }
     }
     return;
   }
@@ -16815,7 +16889,25 @@ async function renderViewerPage(page, stage, canvas, generation) {
 
   if (!didRender || generation !== state.renderGeneration || !stage.isConnected) {
     if (stage?.isConnected && stage.dataset.rendered === 'loading') {
-      recordRenderDiagnostic('viewer-render-left-loading', page, { requestId, generation, currentGeneration:state.renderGeneration, viewer:'single', didRender:!!didRender, stage:diagnosticStageState(stage) });
+      const stillCurrent = generation === state.renderGeneration && currentDocument()?.pages?.some(candidate => candidate.id === page?.id) && (state.workspaceMode === 'view' || state.presentation || document.body.classList.contains('presentation'));
+      const stillWanted = stage.dataset.wantRender !== 'false';
+      recordRenderDiagnostic('viewer-render-skip-reset', page, {
+        requestId, generation, currentGeneration:state.renderGeneration,
+        viewer:'single', didRender:!!didRender, stillCurrent, stillWanted,
+        stage:diagnosticStageState(stage),
+      });
+      releaseViewerStage(stage);
+      if (stillCurrent && stillWanted) {
+        stage.dataset.wantRender = 'true';
+        requestAnimationFrame(() => {
+          if (generation !== state.renderGeneration || !currentDocument()?.pages?.some(candidate => candidate.id === page?.id) ||
+              !stage.isConnected || stage.dataset.wantRender === 'false' || stage.dataset.rendered) return;
+          stage.dataset.rendered = 'loading';
+          ensurePageLoading(stage);
+          markStageRenderRequested(stage, page, 'skipped-render-rearm', { generation, viewer:'single' });
+          renderViewerPage(page, stage, canvas, generation).catch(err => renderError(stage, err));
+        });
+      }
     }
     return;
   }

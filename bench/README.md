@@ -1,3 +1,31 @@
+# PDF Workbench 5.8.44-exp
+
+## Milestone 5.8.44 — iPad export worker capacity + skipped-render recovery
+
+5.8.44 is a narrow reliability revision on top of the classroom-stable 5.8.43 build. A later iPad grading session completed smoothly overall but exposed two independent state/lifecycle bugs: selected-PDF export could fail when both managed live PDF workers were still occupied by Split documents, and fast Split scrolling could leave queued pages permanently marked “Rendering…” after their render jobs were correctly skipped as stale.
+
+### Changes
+
+- **Files/PDF operations free inactive iPad viewer-worker capacity before hydrating their target document.** When Export/Compression/Combine is entered from Split, an inactive persisted PDF can still own one of the two managed PDF.js workers even though its pane is hidden. 5.8.44 cancels stale work for genuinely inactive sources and retires them before loading the file-operation target. This preserves the strict two-worker invariant without creating an unmanaged third worker.
+- Adds `file-operation-preload-capacity` diagnostics with released-source count and worker-pool state.
+- **Skipped queued viewer renders no longer strand a page in `data-rendered="loading"`.** On iPad, the one-at-a-time queue can receive several intersection requests while the user scrolls quickly. If a page leaves the viewport before its queued job starts, the job correctly skips—but 5.8.43 left the stage marked loading, so IntersectionObserver would never request it again.
+- Both Split and Single viewers now reset a skipped/cancelled loading stage. If it is still visible/current, one render is explicitly re-armed; if it is offscreen, a later intersection can request it normally.
+- Adds `viewer-render-skip-reset` and `skipped-render-rearm` diagnostics.
+
+All 5.8.43 faster Split Close and Files-selection synchronization, 5.8.42 watchdog worker recovery, 5.8.41 scanner-safe thumbnails, 5.8.40 Split→Single state transfer, 5.8.39 startup/export memory work, persistent worker architecture, raster limits, annotations, graph tools, and Library formats are preserved.
+
+### Validation
+
+1. From Split, go to Files, select several documents, and Export PDFs as ZIP. Export should not report “No managed iPad PDF worker slot is available.”
+2. Save Diagnostics after export; if an inactive viewer source occupied a slot, expect `file-operation-preload-capacity` before the target source loads.
+3. In Split, scroll a multi-page PDF quickly enough that pages enter/leave the prefetch region while other pages are rendering. No page should remain indefinitely on “Rendering…”.
+4. If a queued page is skipped because it left the viewport, diagnostics should show `viewer-render-skip-reset`; returning to that page should render it without requiring a Split↔Single rebuild.
+5. Continue normal grading. No deliberate crash stress is needed.
+
+---
+
+## Prior 5.8.43 notes
+
 # PDF Workbench 5.8.43-exp
 
 ## Milestone 5.8.43 — faster Split Close + Files selection synchronization
