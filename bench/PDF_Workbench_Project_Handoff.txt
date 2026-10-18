@@ -1,3 +1,65 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-18 — BASELINE 5.8.46-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.46-exp ZIP, not an older build.
+
+5.8.46 FILES/LIBRARY MUTATION + RESUME PRESSURE REDUCTION
+
+WHY THIS REVISION EXISTS
+- 2026-10-18 user reported repeated iPad restarts when moving a folder to Trash, another restart during/just after importing a ZIP of PDFs, and apparent Local Library restoration after exporting saved Diagnostics.
+- The post-import restart still left the PDFs durable: later startup saw 171 Library records versus 167 before the import, so four imported PDFs committed before the restart.
+- Two separate post-restart Library restores took about 6–10 s to reread ~167 records, and a later restore after import took ~17.6 s including a 9.85 s records read plus an IndexedDB reconnect.
+- Code review found folder trash doing a full Library save + full record reread before mutation, then source destruction/UI rebuild + another full save afterward.
+- ZIP import already updates `state.libraryRecords`/folders per committed item but then reread the entire Library immediately after the last PDF while JSZip/archive memory was still live.
+- Exporting saved Diagnostics does NOT intentionally restore the Library. The generic visibility/pageshow resume handler refreshed all documents/templates/assets whenever the iPad returned from the system download/share UI even if the same IndexedDB connection was healthy.
+- One previous-runtime breadcrumb ended exactly at `visibility-hidden` with a Library persist beginning, supporting the need to keep temporary system-UI handoffs lightweight.
+
+5.8.46 CHANGES
+1. FOLDER TRASH
+- Save only changed open documents before mutation (`documentsOnly:true`), no pre-mutation full Library reread.
+- Update the folder/document subtree in one IndexedDB transaction.
+- Await open-document source/worker release before rebuilding Files.
+- Checkpoint/mirror only the small workspace session; remove the second full Library persist.
+- Add `library-folder-trash-start/finish/error`.
+
+2. PDF-FOLDER ZIP IMPORT
+- Preserve per-file durable import/cleanup behavior.
+- Drop the JSZip archive graph and yield before post-import UI work.
+- Do not `refreshLibraryRecords()` after successful import; each imported record/folder has already updated the in-memory Library map.
+- Refresh Files once.
+- Add `library-zip-import-start/finish/error`.
+
+3. NORMAL RESUME AFTER SYSTEM UI
+- If the existing IndexedDB connection responds to a tiny ping, do not reread all documents/templates/assets on visibility/pageshow return.
+- Full records/templates/assets refresh remains for a genuine reconnect.
+- Add `library-resume-healthy-no-refresh` and reconnect refresh diagnostics.
+- Temporary visibility-hidden now uses document-only persistence; `pagehide` keeps the full-save path.
+
+4. SAVED DIAGNOSTICS EXPORT
+- Library restoration after exporting Diagnostics is not intentional.
+- On iPad, multi-snapshot Diagnostics ZIP uses STORE/streamFiles rather than DEFLATE to reduce post-crash compression pressure. Desktop retains DEFLATE.
+- Add diagnostic-export timing/error events.
+
+PRESERVE
+- 5.8.44 worker-capacity and skipped-render recovery.
+- 5.8.43 fast Split Close + selection synchronization.
+- 5.8.42 watchdog forced worker recycle / strict managed-worker invariant.
+- 5.8.41 scanner-safe Files thumbnails.
+- 5.8.40 Split→Single fallback.
+- 5.8.39 bounded export behavior and 5.8.37 persistent worker pool.
+- Normal 4 MP Single / 2.5 MP Split quality, graph tools, annotation behavior, Library schema and backup/export formats.
+- No double-click selector guard was added; the prior crash evidence did not establish double-click as a cause.
+
+VALIDATION PRIORITY
+1. Trash a nontrivial folder in Files and confirm there is no restart/long restore.
+2. Import a PDF-folder ZIP and confirm Files remains alive after the last import.
+3. Export saved Diagnostics and confirm returning from the download/share UI does not trigger a fresh Local Library restore unless the PWA truly restarted/lost IndexedDB.
+4. Save Diagnostics after these ordinary workflows and inspect the new instrumentation.
+
+================================================================================
+PRIOR 5.8.44 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-12 — BASELINE 5.8.44-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

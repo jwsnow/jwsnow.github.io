@@ -1,3 +1,34 @@
+# PDF Workbench 5.8.46-exp
+
+## Milestone 5.8.46 — lighter Library mutation/import/resume
+
+5.8.46 is a focused Files/Library reliability pass built directly from 5.8.44. The intervening 5.8.45 experiment was not adopted. Diagnostics from 2026-10-18 showed repeated iPad restarts around moving a folder to Trash, a restart after a PDF-folder ZIP import that nevertheless committed all imported PDFs, and expensive Local Library refresh work after returning from the system download/share UI used by Diagnostics export.
+
+### Changes
+
+- **Folder → Trash no longer performs two full Library persistence passes plus a full records reread.** It now saves only changed open documents, updates the folder/document subtree in one IndexedDB transaction, waits for any open-document source/worker releases, checkpoints the small workspace session, and rebuilds Files once.
+- Adds `library-folder-trash-start`, `library-folder-trash-finish`, and `library-folder-trash-error` diagnostics.
+- **PDF-folder ZIP import no longer rereads the entire Library after the last file.** Each imported document/folder already updates the authoritative in-memory Library maps. The JSZip archive reference is dropped and a recovery pause is allowed before one Files refresh.
+- Adds `library-zip-import-start`, `library-zip-import-finish`, and `library-zip-import-error` diagnostics.
+- **Returning from a normal iPad Files/download/share handoff no longer refreshes every Library record when the existing IndexedDB connection is healthy.** A tiny ping confirms the connection, then Workbench keeps the current in-memory Library. Full refresh is reserved for an actual reconnect.
+- Temporary `visibility:hidden` handoffs now use the document-only persistence path. `pagehide` still retains the full persistence path for a real unload/exit.
+- **Diagnostics export is not intended to restore the Library.** On iPad, multi-snapshot diagnostics ZIPs now use STORE rather than DEFLATE to avoid a compression CPU/memory peak immediately after a crash. Desktop keeps DEFLATE.
+- Adds `library-resume-healthy-no-refresh`, reconnect-refresh, and diagnostic-export timing events.
+
+All 5.8.44 export-worker capacity and skipped-render recovery, 5.8.43 Split Close/selection fixes, 5.8.42 watchdog-worker recovery, persistent two-worker architecture, rendering limits, annotations, graph tools, and Library formats are preserved.
+
+### Validation
+
+1. Move a folder containing several documents to Trash from Files. It should complete without a restart and without an extended Library rebuild.
+2. Import a ZIP containing several PDFs. After the last PDF is committed, Files should refresh once and remain responsive.
+3. Export saved Diagnostics. Returning from the system download/share UI should not display a fresh Local Library restore when the runtime and IndexedDB connection are still healthy.
+4. Save Diagnostics after these workflows; look for the new folder-trash, ZIP-import, resume, and diagnostic-export events.
+5. Continue ordinary grading. No deliberate crash stress is needed.
+
+---
+
+## Prior 5.8.44 notes
+
 # PDF Workbench 5.8.44-exp
 
 ## Milestone 5.8.44 — iPad export worker capacity + skipped-render recovery

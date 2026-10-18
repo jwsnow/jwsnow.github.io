@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.44';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.46';
 
-const APP_VERSION = '5.8.44';
+const APP_VERSION = '5.8.46';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -2130,12 +2130,35 @@ async function retryPersistentLibraryAfterFailure() {
 }
 async function resumePersistentLibraryConnection() {
   if (document.visibilityState === 'hidden' || state.librarySuppressPersist || state.libraryInitializing) return;
+
+  // 5.8.46: returning from the iPad Files/download/share UI is a normal
+  // visibility/pageshow transition, not evidence that the Local Library changed.
+  // 5.8.44 reread every document/template/asset record on every such return,
+  // which made exporting Diagnostics look like a Library restore and could add
+  // several seconds of IndexedDB work at exactly the wrong time. If the existing
+  // connection still answers a tiny ping, keep the in-memory Library authoritative.
+  if (state.libraryReady && state.libraryDb && await pingLibraryDatabase()) {
+    addInkDiagnostic('library-resume-healthy-no-refresh', null, {
+      openDocuments:state.documents.length,
+      libraryRecords:state.libraryRecords.size,
+    });
+    if (state.sessionRestoreHydrated) {
+      writeSessionCheckpoint();
+      libraryPut('meta', serializeLibrarySession()).catch(() => {});
+    }
+    return;
+  }
+
   const ok = await ensureLibraryConnection();
   if (!ok) {
     if (els.librarySummary) els.librarySummary.textContent = 'Local Library connection is unavailable. Tap Refresh to retry.';
     return;
   }
   try {
+    // Only a genuinely lost/reopened IndexedDB connection pays the full refresh.
+    addInkDiagnostic('library-resume-reconnected-refresh-start', null, {
+      openDocuments:state.documents.length,
+    });
     await refreshLibraryRecords();
     await restorePersistentTemplates();
     await refreshAssetRecords();
@@ -2154,6 +2177,10 @@ async function resumePersistentLibraryConnection() {
       writeSessionCheckpoint();
     }
     await persistLibraryNow({ readViewDom: false, _reconnected: true });
+    addInkDiagnostic('library-resume-reconnected-refresh-finish', null, {
+      openDocuments:state.documents.length,
+      libraryRecords:state.libraryRecords.size,
+    });
   } catch (err) {
     console.warn('Local Library resume refresh failed', err);
   }
@@ -3134,17 +3161,23 @@ async function importPdfFileDirectToLibrary(file, folderId, importContext={}) {
 
 async function importPdfDirectoryZip(file) {
   if (!file) return;
+  const importStarted = performance.now();
+  let completed = 0;
   try {
     if (!(await ensureLibraryConnection())) throw new Error('Local Library is not available.');
+    addInkDiagnostic('library-zip-import-start', null, {
+      archiveName:file.name,
+      archiveSize:file.size,
+      existingRecords:state.libraryRecords.size,
+    });
     const JSZip = await loadZipEngine();
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Reading PDF folder ZIP…';
-    const zip = await JSZip.loadAsync(file);
-    const entries = Object.values(zip.files).filter(entry => !entry.dir && /\.pdf$/i.test(entry.name) && !entry.name.startsWith('__MACOSX/'));
+    let zip = await JSZip.loadAsync(file);
+    let entries = Object.values(zip.files).filter(entry => !entry.dir && /\.pdf$/i.test(entry.name) && !entry.name.startsWith('__MACOSX/'));
     if (!entries.length) throw new Error('No PDF files were found in this ZIP.');
     if (entries.length > 1000) throw new Error('This ZIP contains more than 1000 PDFs; split it into smaller archives before importing.');
     const baseFolderId = state.libraryFolderId || null;
     const pathFolderIds = new Map([['', baseFolderId]]);
-    let completed = 0;
     const sorted = entries.sort((a,b) => a.name.localeCompare(b.name));
     for (const entry of sorted) {
       const parts = safeArchivePathParts(entry.unsafeOriginalName || entry.name);
@@ -3171,12 +3204,41 @@ async function importPdfDirectoryZip(file) {
       // briefly so WebKit can reclaim detached metadata/decode buffers.
       await new Promise(resolve => setTimeout(resolve, 24));
     }
+    // Drop the JSZip archive graph before rebuilding Files. The imported
+    // document/folder records are already durable; keeping the archive alive
+    // through the post-import UI refresh only raises the iPad high-water mark.
+    entries.length = 0;
+    zip = null;
+    await importMemoryRecoveryPause();
     await clearPdfImportCheckpoint();
-    state.workspaceMode='export'; await refreshLibraryRecords(); renderAll({saveState:false}); renderLibraryDocumentList();
+
+    // importPdfFileDirectToLibrary() and ensureLibraryChildFolder() update the
+    // in-memory Library maps as each item commits. Do not reread every document
+    // from IndexedDB immediately after the ZIP's last decode while JSZip/archive
+    // memory is still hot. Files only needs one lightweight list refresh.
+    state.workspaceMode='export';
+    renderExportPane();
+    updateLibraryStorageSummary();
+    addInkDiagnostic('library-zip-import-finish', null, {
+      archiveName:file.name,
+      archiveSize:file.size,
+      imported:completed,
+      libraryRecords:state.libraryRecords.size,
+      totalMs:Math.round((performance.now()-importStarted)*10)/10,
+    });
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Imported ${completed} PDF${completed===1?'':'s'} and recreated their folder structure.`;
     setStatus(`Imported ${completed} PDFs from ZIP`);
   } catch(err) {
-    console.error(err); if(els.libraryBackupProgress) els.libraryBackupProgress.textContent=`PDF ZIP import failed: ${err?.message||err}`; setStatus(`PDF ZIP import failed: ${err?.message||err}`);
+    console.error(err);
+    addInkDiagnostic('library-zip-import-error', null, {
+      archiveName:file?.name || null,
+      archiveSize:file?.size || 0,
+      imported:completed,
+      totalMs:Math.round((performance.now()-importStarted)*10)/10,
+      message:String(err?.message||err),
+    });
+    if(els.libraryBackupProgress) els.libraryBackupProgress.textContent=`PDF ZIP import failed: ${err?.message||err}`;
+    setStatus(`PDF ZIP import failed: ${err?.message||err}`);
   } finally { if(els.libraryZipImportInput) els.libraryZipImportInput.value=''; }
 }
 
@@ -11534,27 +11596,81 @@ async function exportLibraryFolderAsPdfs(folderId) {
 
 async function moveLibraryFolderToTrash(folderId) {
   const root = libraryFolderById(folderId); if (!root) return;
+  const started = performance.now();
   try {
-    await persistLibraryNow(); await refreshLibraryRecords();
+    if (!(await ensureLibraryConnection())) throw new Error('Local Library is not available.');
     const ids = libraryFolderSubtreeIds(folderId);
-    const stamp = Date.now();
     const folders = activeLibraryFolders().filter(folder => ids.has(folder.id));
     const records = activeLibraryRecords().filter(record => ids.has(record.folderId || ''));
+
+    addInkDiagnostic('library-folder-trash-start', null, {
+      folderId,
+      documents:records.length,
+      folders:folders.length,
+      openDocuments:records.filter(record => isDocumentOpen(record.id)).length,
+    });
+
+    // Save only genuinely changed open documents before changing their durable
+    // records. The in-memory Library maps are already authoritative; a full
+    // persist + reread of every Library record here was redundant and expensive.
+    saveCurrentDocumentState();
+    await persistLibraryNow({ documentsOnly:true, readViewDom:false });
+
+    const stamp = Date.now();
     const tx = state.libraryDb.transaction(['documents','folders'], 'readwrite');
     const done = idbTransactionDone(tx); const ds=tx.objectStore('documents'), fs=tx.objectStore('folders');
     for (const folder of folders) {
       const updated={...folder,schemaVersion:LIBRARY_SCHEMA_VERSION,trashedAt:stamp,trashBatchId:folderId}; fs.put(updated); state.libraryFolders.set(folder.id,updated);
     }
     for (const record of records) {
-      const updated={...record,schemaVersion:LIBRARY_SCHEMA_VERSION,trashedAt:stamp,trashBatchId:folderId}; ds.put(updated); state.libraryRecords.set(record.id,updated);
+      // If an open document was just persisted, use that current durable record
+      // rather than the pre-save snapshot captured above.
+      const currentRecord = state.libraryRecords.get(record.id) || record;
+      const updated={...currentRecord,schemaVersion:LIBRARY_SCHEMA_VERSION,trashedAt:stamp,trashBatchId:folderId}; ds.put(updated); state.libraryRecords.set(record.id,updated);
     }
     await done;
-    for (const record of records) { if (isDocumentOpen(record.id)) removeDocument(record.id); state.fileSelected.delete(record.id); }
+
+    // Source/worker release is asynchronous. Wait for it before rebuilding Files
+    // so folder deletion cannot overlap worker destruction, viewer rebuild, and
+    // another full persistence cycle.
+    const removals = [];
+    for (const record of records) {
+      if (isDocumentOpen(record.id)) removals.push(removeDocument(record.id));
+      state.fileSelected.delete(record.id);
+    }
+    if (removals.length) await Promise.allSettled(removals);
+
     reconcileCombineOrder();
     if (ids.has(state.libraryFolderId)) state.libraryFolderId = root.parentId && state.libraryFolders.get(root.parentId)?.trashedAt == null ? root.parentId : null;
-    renderAll({saveState:false}); renderLibraryDocumentList(); await persistLibraryNow();
+    state.sessionExplicitEmpty = !state.documents.length;
+    checkpointWorkspaceNow({ explicitEmpty: !state.documents.length });
+    if (state.libraryReady && state.libraryDb && state.sessionRestoreHydrated) {
+      await libraryPut('meta', serializeLibrarySession()).catch(() => {});
+    }
+
+    // Files is already the active workspace for this command. Rebuild its lists
+    // once; do not tear down/re-render viewers or perform a second full save.
+    if (state.workspaceMode === 'export') renderExportPane();
+    else renderAll({saveState:false});
+    updateLibraryStorageSummary();
+
+    addInkDiagnostic('library-folder-trash-finish', null, {
+      folderId,
+      documents:records.length,
+      folders:folders.length,
+      remainingOpenDocuments:state.documents.length,
+      totalMs:Math.round((performance.now()-started)*10)/10,
+    });
     setStatus(`Moved folder ${root.name} and its contents to Trash`);
-  } catch(err){ console.error(err); setStatus(`Could not trash folder: ${err?.message||err}`); }
+  } catch(err){
+    console.error(err);
+    addInkDiagnostic('library-folder-trash-error', null, {
+      folderId,
+      totalMs:Math.round((performance.now()-started)*10)/10,
+      message:String(err?.message||err),
+    });
+    setStatus(`Could not trash folder: ${err?.message||err}`);
+  }
 }
 
 async function restoreLibraryFolderTree(folderId) {
@@ -13515,21 +13631,41 @@ async function readSavedDiagnosticSnapshots() {
   return out;
 }
 async function exportSavedDiagnostics() {
+  const started = performance.now();
   try {
     const snapshots = await readSavedDiagnosticSnapshots();
     if (!snapshots.length) return;
+    addInkDiagnostic('diagnostic-export-start', null, {
+      snapshots:snapshots.length,
+      totalBytes:snapshots.reduce((sum,item)=>sum + Number(item?.bytes || new Blob([item?.text || '']).size),0),
+    });
     if (snapshots.length === 1) {
       downloadBlob(new Blob([snapshots[0].text], {type:'text/plain;charset=utf-8'}), snapshots[0].name);
     } else {
       const JSZip = await loadZipEngine();
       const zip = new JSZip();
       for (const item of snapshots) zip.file(item.name, item.text);
-      const blob = await zip.generateAsync({ type:'blob', compression:'DEFLATE', compressionOptions:{level:6} });
+      // Compression is not worth another CPU/memory peak on iPad immediately
+      // after a crash. STORE makes a larger diagnostic ZIP but avoids DEFLATE's
+      // extra main-thread/compression buffers. Desktop keeps compact DEFLATE.
+      const zipOptions = isIPadLike()
+        ? { type:'blob', compression:'STORE', streamFiles:true }
+        : { type:'blob', compression:'DEFLATE', compressionOptions:{level:6}, streamFiles:true };
+      const blob = await zip.generateAsync(zipOptions);
       downloadBlob(blob, `PDF-Workbench-Saved-Diagnostics-${portableTimestamp()}.zip`);
     }
+    addInkDiagnostic('diagnostic-export-finish', null, {
+      snapshots:snapshots.length,
+      totalMs:Math.round((performance.now()-started)*10)/10,
+      ipadStore:isIPadLike(),
+    });
     setStatus(`Exported ${snapshots.length} saved diagnostic snapshot${snapshots.length===1?'':'s'}`);
   } catch (err) {
     console.error(err);
+    addInkDiagnostic('diagnostic-export-error', null, {
+      totalMs:Math.round((performance.now()-started)*10)/10,
+      message:String(err?.message||err),
+    });
     setStatus(`Could not export saved diagnostics: ${err?.message || err}`);
   }
 }
@@ -19322,7 +19458,12 @@ function bindEvents() {
       writeDiagnosticHealthBreadcrumb('visibility-hidden');
       saveCurrentDocumentState();
       writeSessionCheckpoint();
-      persistLibraryNow();
+      // 5.8.46: iPad file pickers/download/share sheets routinely make the PWA
+      // temporarily hidden. A full Library/template/UI persistence pass here can
+      // overlap the system handoff and was present in a pre-restart breadcrumb.
+      // Changed documents still get a durable write; the session is already
+      // checkpointed synchronously above. pagehide retains the full-save path.
+      persistLibraryNow({ documentsOnly:true });
     } else {
       writeDiagnosticHealthBreadcrumb('visibility-visible');
       resumePersistentLibraryConnection();
