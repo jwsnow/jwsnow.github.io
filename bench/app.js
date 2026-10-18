@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.46';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.47';
 
-const APP_VERSION = '5.8.46';
+const APP_VERSION = '5.8.47';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -76,6 +76,14 @@ const state = {
   pdfWatchdogRecoverySourceIds: new Set(),
   libraryInitializing: false,
   libraryStartupAttempt: 0,
+  // Startup restoration can legitimately take several seconds on iPad when
+  // IndexedDB retries. Keep lifecycle-resume work out of that critical window,
+  // and remember whether the user has already started interacting so a late
+  // session restore cannot move the workspace underneath them.
+  startupRestoreInProgress: false,
+  startupRestoreCompleted: false,
+  startupUserInteracted: false,
+  startupUserInteractionWorkspaceMode: null,
   startupSplitResizeSuppressUntil: 0,
   documents: [],
   currentDocumentId: null,
@@ -1958,6 +1966,20 @@ async function reopenLibraryDocument(docId, options={}) {
   if (options.render !== false) renderAll({ saveState: false });
   return doc;
 }
+function noteStartupUserInteraction(source='interaction') {
+  if (!state.startupRestoreInProgress || state.startupRestoreCompleted) return;
+  const first = !state.startupUserInteracted;
+  state.startupUserInteracted = true;
+  state.startupUserInteractionWorkspaceMode = state.workspaceMode;
+  if (first) {
+    addInkDiagnostic('library-startup-user-interaction', null, {
+      source,
+      workspaceMode:state.workspaceMode,
+      attempt:state.libraryStartupAttempt || 0,
+    });
+  }
+}
+
 async function initializePersistentLibrary() {
   if (state.libraryInitializing) {
     addInkDiagnostic('library-startup-reentry-blocked', null, { attempt:state.libraryStartupAttempt || 0 });
@@ -2005,7 +2027,18 @@ async function initializePersistentLibrary() {
     // reopenLibraryDocument() can fall back to a direct IndexedDB read, which
     // makes restoration resilient to a temporarily incomplete list refresh.
     const openIds = Array.isArray(session?.openIds) ? [...new Set(session.openIds.filter(Boolean))] : [];
-    if (['view','organize','export'].includes(session?.workspaceMode)) state.workspaceMode = session.workspaceMode;
+    if (['view','organize','export'].includes(session?.workspaceMode)) {
+      if (!state.startupUserInteracted) {
+        state.workspaceMode = session.workspaceMode;
+      } else {
+        addInkDiagnostic('library-startup-workspace-restore-suppressed', null, {
+          savedWorkspaceMode:session.workspaceMode,
+          currentWorkspaceMode:state.workspaceMode,
+          interactionWorkspaceMode:state.startupUserInteractionWorkspaceMode,
+          attempt:startupAttempt,
+        });
+      }
+    }
     state.librarySuppressPersist = true;
     let restoreFailures = 0;
     phaseStarted = performance.now();
@@ -2067,8 +2100,10 @@ async function initializePersistentLibrary() {
       }, 5000);
     }
     startupPhase = 'complete';
-    phase('complete', startupStarted, {openDocuments:state.documents.length, attempt:startupAttempt});
-    addInkDiagnostic('library-startup-success', null, { attempt:startupAttempt, totalMs:Math.round((performance.now()-startupStarted)*10)/10, openDocuments:state.documents.length });
+    state.startupRestoreCompleted = true;
+    state.startupRestoreInProgress = false;
+    phase('complete', startupStarted, {openDocuments:state.documents.length, attempt:startupAttempt, userInteracted:!!state.startupUserInteracted});
+    addInkDiagnostic('library-startup-success', null, { attempt:startupAttempt, totalMs:Math.round((performance.now()-startupStarted)*10)/10, openDocuments:state.documents.length, userInteracted:!!state.startupUserInteracted, workspaceMode:state.workspaceMode });
     return true;
   } catch (err) {
     addInkDiagnostic('library-startup-failed', null, {
@@ -2088,6 +2123,8 @@ async function initializePersistentLibrary() {
     if (isAppleWebKit() && isStandalonePwa()) {
       clearTimeout(state.libraryRecoveryTimer);
       state.libraryRecoveryTimer = setTimeout(() => retryPersistentLibraryAfterFailure(), 900);
+    } else {
+      state.startupRestoreInProgress = false;
     }
     return false;
   } finally {
@@ -2129,7 +2166,16 @@ async function retryPersistentLibraryAfterFailure() {
   }
 }
 async function resumePersistentLibraryConnection() {
-  if (document.visibilityState === 'hidden' || state.librarySuppressPersist || state.libraryInitializing) return;
+  if (document.visibilityState === 'hidden' || state.librarySuppressPersist) return;
+  if (state.startupRestoreInProgress || state.libraryInitializing) {
+    addInkDiagnostic('library-resume-blocked-during-startup', null, {
+      startupRestoreInProgress:!!state.startupRestoreInProgress,
+      libraryInitializing:!!state.libraryInitializing,
+      attempt:state.libraryStartupAttempt || 0,
+      workspaceMode:state.workspaceMode,
+    });
+    return;
+  }
 
   // 5.8.46: returning from the iPad Files/download/share UI is a normal
   // visibility/pageshow transition, not evidence that the Local Library changed.
@@ -18917,6 +18963,13 @@ function setZoomForPane(paneId, value) {
 }
 
 function bindEvents() {
+  // A slow/retried Local Library restore must never move the interface after
+  // the user has begun working. Pointer/keyboard interaction is recorded as
+  // soon as it happens; the later click records the resulting workspace mode
+  // after ordinary synchronous button handlers have run.
+  document.addEventListener('pointerdown', (e) => { if (e.isTrusted) noteStartupUserInteraction('pointerdown'); }, { capture:true, passive:true });
+  document.addEventListener('keydown', (e) => { if (e.isTrusted) noteStartupUserInteraction('keydown'); }, true);
+  document.addEventListener('click', (e) => { if (e.isTrusted) noteStartupUserInteraction('click'); });
   els.openBtn.addEventListener('click', () => { closeInsertPageMenu(); els.fileInput.click(); });
   els.newBlankDocumentBtn.addEventListener('click', () => createNewGeneratedDocument('blank'));
   els.newGraphDocumentBtn.addEventListener('click', () => createNewGeneratedDocument('graph'));
@@ -19473,8 +19526,13 @@ function bindEvents() {
 }
 
 async function init() {
+  state.startupRestoreInProgress = true;
+  state.startupRestoreCompleted = false;
+  state.startupUserInteracted = false;
+  state.startupUserInteractionWorkspaceMode = null;
   initializeDiagnosticHealthBreadcrumbs();
   bindEvents();
+  setStatus('Starting…', true);
   applyPresentationToolVisibility();
   updateInkToolbar();
   updateViewerLabels();

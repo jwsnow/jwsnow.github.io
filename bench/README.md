@@ -1,4 +1,31 @@
-# PDF Workbench 5.8.46-exp
+# PDF Workbench 5.8.47-exp
+
+## Milestone 5.8.47 — coordinated startup restore
+
+5.8.47 is a narrow startup/lifecycle coordination fix built directly from 5.8.46. Diagnostics from 2026-10-18 showed that an iPad Local Library restore could take more than 20 seconds across IndexedDB retries. During that window the user could already enter Files and begin working, while a separate pageshow/resume path could also start Library recovery work. When the delayed saved session finally reached UI reconstruction, it could move the workspace back to the previously saved mode underneath the user.
+
+### Changes
+
+- Startup restoration now owns one explicit lifecycle gate from the beginning of `init()`, before pageshow/visibility resume handlers can run.
+- `resumePersistentLibraryConnection()` records `library-resume-blocked-during-startup` and does no reconnect/refresh work while startup restoration or an automatic startup retry is in progress.
+- Trusted pointer/keyboard/click activity during a delayed startup restore records that the user has begun working.
+- Once the user has interacted, the saved session may still restore documents, pane assignments, page/view state, and Library data, but it may **not replace the current workspace mode** (View / Pages / Files).
+- Adds `library-startup-user-interaction` and `library-startup-workspace-restore-suppressed` diagnostics so a late restore can be distinguished from an ordinary saved-workspace restore.
+- Startup status begins as **Starting…** rather than briefly presenting a misleading Ready state before Library recovery begins.
+
+All 5.8.46 folder/ZIP/resume reliability work, 5.8.44 export/skipped-render recovery, 5.8.43 Split Close/selection fixes, 5.8.42 watchdog-worker recovery, persistent two-worker architecture, rendering limits, annotations, graph tools, and Library formats are preserved.
+
+### Validation
+
+1. Launch on iPad with a saved View/Split session and a populated Local Library.
+2. If startup restoration is slow, deliberately enter Files and open the New section before restoration completes. Workbench may finish restoring documents in the background, but it must remain in Files.
+3. Save Diagnostics. A pageshow/visibility resume during startup should produce `library-resume-blocked-during-startup`, not a second Library refresh.
+4. If the user interacted before session restore completed, expect `library-startup-workspace-restore-suppressed`.
+5. Relaunch without interacting during startup and verify that the saved workspace mode still restores normally.
+
+---
+
+## Prior 5.8.46 notes
 
 ## Milestone 5.8.46 — lighter Library mutation/import/resume
 

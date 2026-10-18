@@ -1,3 +1,58 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-18 — BASELINE 5.8.47-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.47-exp ZIP, not an older build.
+
+5.8.47 COORDINATED STARTUP RESTORE / USER-NAVIGATION PRECEDENCE
+
+WHY THIS REVISION EXISTS
+- 2026-10-18 diagnostics captured a slow iPad startup in which Local Library restoration took more than 20 seconds across repeated IndexedDB failures/retries.
+- The user was already able to enter Files -> New while the delayed restore was still running. When the saved session finally reached `build-restored-ui`, it restored the prior saved workspace mode and moved the app back to View underneath the user.
+- The same startup trace also showed a lifecycle resume/reconnect attempt beginning near the start of the initial Library restore. 5.8.46 blocked resume only while `libraryInitializing` was already true, leaving a gap before `initializePersistentLibrary()` began.
+- Once the Library finally restored, document hydration itself was fast; the defect was startup/lifecycle coordination, not the restored document model.
+
+5.8.47 CHANGES
+1. ONE STARTUP RESTORE GATE
+- `startupRestoreInProgress` is set at the beginning of `init()`, before event binding/pageshow can initiate resume work.
+- `resumePersistentLibraryConnection()` does nothing during the startup/automatic-retry window and records `library-resume-blocked-during-startup`.
+- The gate remains active across automatic iPad startup retries and clears only after a successful startup restore (or a terminal non-iPad failure).
+
+2. USER ACTION WINS OVER LATE SAVED WORKSPACE MODE
+- Trusted pointer/keyboard/click interaction during a delayed startup restore records that the user has begun working.
+- If that happens, the saved session may still restore documents, pane assignments, scroll/page/zoom state, and Library data, but it may not replace the current View / Pages / Files workspace mode.
+- Adds `library-startup-user-interaction` and `library-startup-workspace-restore-suppressed`.
+- A user who does not interact during startup still gets the normal saved workspace-mode restore.
+
+3. STARTUP STATUS
+- Startup begins with `Starting…` rather than briefly presenting a misleading Ready state before Local Library restoration begins.
+
+PRESERVE
+- All 5.8.46 folder/ZIP/resume/Diagnostics reliability changes.
+- 5.8.44 export-worker capacity + skipped-render recovery.
+- 5.8.43 Split Close/selection fixes.
+- 5.8.42 watchdog-worker recovery and strict two-worker invariant.
+- Persistent worker pool, rendering limits, annotations, graph tools, Library schema and backup/export formats.
+- No Files redesign described below is implemented in 5.8.47.
+
+VALIDATION PRIORITY
+1. Launch on iPad with a saved View/Split session and a populated Library.
+2. If restore is slow, deliberately enter Files and expand New before restore completes. Documents may finish restoring in the background, but Workbench must remain in Files.
+3. Save Diagnostics: startup lifecycle events should show `library-resume-blocked-during-startup`, not a concurrent reconnect refresh.
+4. If the user interacted before the saved workspace mode was applied, expect `library-startup-workspace-restore-suppressed`.
+5. Relaunch without interacting and confirm the prior workspace still restores normally.
+
+NEXT UI PASS — PLANNED ONLY, NOT YET IMPLEMENTED
+- Make deep Library breadcrumbs keep the current folder visible, collapsing older ancestors first.
+- Make Selected Documents the canonical action center for the shared selection.
+- Add a New control directly to Local Library; preferred default new document is presentation-ratio, landscape, white graph paper.
+- Standardize Single/Split icons between ordinary View and Presentation.
+- Before implementation, review the rest of Files for selection/action duplication, naming, section grouping, search/navigation discoverability, advanced/recovery controls, and developer-facing clutter.
+- Later add Quick Start and a searchable/expandable Feature Guide under the `…` menu.
+
+================================================================================
+PRIOR 5.8.46 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-18 — BASELINE 5.8.46-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
