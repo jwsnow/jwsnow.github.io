@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.8.47">
+  <link rel="stylesheet" href="styles.css?v=5.8.48">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -280,7 +280,7 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.8.47 · coordinated startup restore</div>
+          <div class="export-kicker">Milestone 5.8.48 · Files workflow polish</div>
           <div class="files-header-toolbar">
             <h1>Files</h1>
             <button id="filesDiagnosticsBtn" class="tool-btn files-diagnostics-btn" type="button" title="Save diagnostics locally" aria-label="Save diagnostics locally">
@@ -295,12 +295,48 @@
             <div class="file-tool-body">
               <div class="library-primary-toolbar">
                 <p class="file-tool-summary">Stored working documents on this device. Organize them into folders and subfolders.</p>
-                <div class="library-top-actions" aria-label="Library import and folder actions">
+                <div class="library-top-actions" aria-label="Library creation and import actions">
+                  <div class="library-new-control" aria-label="Create in current Library folder">
+                    <button id="libraryQuickNewBtn" class="library-quick-new" type="button" title="Create white presentation-ratio graph paper in this folder">New</button>
+                    <details id="libraryNewDropdown" class="library-new-dropdown">
+                      <summary aria-label="More New options" title="More New options">▾</summary>
+                      <div class="library-new-menu" role="group" aria-label="New document options">
+                        <button id="libraryNewBlankMenuBtn" type="button">Blank document…</button>
+                        <button id="libraryNewCustomMenuBtn" type="button">Custom document…</button>
+                        <button id="libraryNewFolderBtn" type="button">Folder</button>
+                        <button id="libraryNewTemplateMenuBtn" type="button">From template…</button>
+                      </div>
+                    </details>
+                  </div>
                   <button id="libraryImportBtn" type="button">Import files…</button>
                   <button id="libraryImportZipBtn" type="button">Import PDF folder ZIP…</button>
-                  <button id="libraryNewFolderBtn" type="button">New folder</button>
                 </div>
               </div>
+          <details class="file-tool-section file-tool-details" id="newFilesSection">
+            <summary><span>New document options</span><span class="operation-summary">Choose size, paper, and background</span></summary>
+            <div class="file-tool-body">
+              <p class="file-tool-summary">Documents created here stay in Files, saved in the current Library folder. Choose US Letter landscape or a page shaped to the current Presentation viewport. Presentation Ratio uses the current device/orientation and fixes the long page edge at 11 inches. Pages inserted into an existing document still match the current page size and orientation.</p>
+              <label class="export-field new-document-size-field">
+                <span>Page size</span>
+                <select id="newDocumentPageSize">
+                  <option value="letter">US Letter landscape</option>
+                  <option value="presentation" selected>Presentation Ratio · long side 11 in</option>
+                </select>
+              </label>
+              <p id="newDocumentPageSizeHint" class="small-note new-document-size-hint">Presentation Ratio · long side 11 in.</p>
+              <div class="page-background-chooser new-blank-background-chooser" role="group" aria-label="Blank document background">
+                <span class="page-background-label">Blank background</span>
+                <button id="newBlankWhiteBtn" class="page-background-choice active" type="button" aria-pressed="true" title="Create blank documents with a white background"><span class="page-background-swatch white" aria-hidden="true"></span><span>White</span></button>
+                <button id="newBlankBlackBtn" class="page-background-choice" type="button" aria-pressed="false" title="Create blank documents with a black background"><span class="page-background-swatch black" aria-hidden="true"></span><span>Black</span></button>
+              </div>
+              <div class="new-document-actions">
+                <button id="newBlankDocumentBtn" class="export-button secondary-output-button" type="button">Blank document</button>
+                <button id="newGraphDocumentBtn" class="export-button secondary-output-button" type="button">Graph-paper document</button>
+                <button id="newTemplateDocumentBtn" class="export-button secondary-output-button" type="button" disabled>From template…</button>
+              </div>
+            </div>
+          </details>
+
               <div class="library-browser-toolbar">
                 <nav id="libraryBreadcrumb" class="library-breadcrumb" aria-label="Current Library folder"></nav>
                 <div class="library-browser-actions">
@@ -322,9 +358,6 @@
                 <p id="librarySelectionSummary" class="small-note">No documents selected.</p>
                 <div class="library-export-selection-actions">
                   <button id="librarySelectAllBtn" type="button">Select all</button>
-                  <button id="libraryClearSelectionBtn" type="button">Clear</button>
-                  <button id="libraryMoveSelectedBtn" type="button" disabled>Move selected to…</button>
-                  <button id="libraryTrashSelectedBtn" class="trash-action" type="button" disabled>Move selected to Trash</button>
                 </div>
               </div>
               <div id="libraryDocumentList" class="library-document-list" aria-label="Persistent local documents and folders"></div>
@@ -332,52 +365,38 @@
             </div>
           </details>
 
-          <details class="open-documents-section file-tool-details library-overview-details" id="openDocumentsSection">
-            <summary><span>Open documents</span><span id="fileSelectionSummary" class="operation-summary">No documents are open.</span></summary>
-            <div class="file-tool-body">
-              <div class="library-toolbar-row">
-                <p class="file-tool-summary">Currently open working set. A checked document is selected globally for PDF Tools, whether it is checked here or in Local Library.</p>
-                <div class="file-selection-actions">
-                  <button id="selectAllFilesBtn" type="button">Select all</button>
-                  <button id="clearFileSelectionBtn" type="button">Clear</button>
-                </div>
-              </div>
-              <div id="openDocumentList" class="open-document-list" aria-label="Open documents"></div>
-            </div>
-          </details>
-
           <details class="selected-documents-section file-tool-details library-overview-details" id="selectedDocumentsSection">
             <summary><span>Selected documents</span><span id="selectedDocumentsSummary" class="operation-summary">No documents selected.</span></summary>
             <div class="file-tool-body">
-              <p class="file-tool-summary">The same selection is shown in Open Documents and Local Library. Uncheck a document here to remove it from the shared PDF Tools selection everywhere.</p>
+              <p class="file-tool-summary">One shared selection across Local Library and Open documents. Use the actions below, or uncheck a document to remove it from the selection.</p>
+              <div class="selected-document-actions" role="group" aria-label="Actions for selected documents">
+                <button id="selectedOpenBtn" type="button" disabled>Open</button>
+                <button id="selectedViewBtn" type="button" disabled>Open in View</button>
+                <button id="selectedCloseBtn" type="button" disabled>Close</button>
+                <button id="selectedRenameBtn" type="button" disabled>Rename…</button>
+                <button id="selectedDuplicateBtn" type="button" disabled>Duplicate</button>
+                <button id="selectedMoveBtn" type="button" disabled>Move…</button>
+                <button id="selectedExportBtn" type="button" disabled>Export…</button>
+                <button id="selectedCompressBtn" type="button" disabled>Compress…</button>
+                <button id="selectedCombineBtn" type="button" disabled>Combine…</button>
+                <button id="selectedEditableBackupBtn" type="button" disabled>Back up editable…</button>
+                <button id="selectedTrashBtn" class="trash-action" type="button" disabled>Trash…</button>
+                <button id="selectedClearBtn" type="button" disabled>Clear selection</button>
+              </div>
               <div id="selectedDocumentList" class="open-document-list selected-document-list" aria-label="Selected documents"></div>
             </div>
           </details>
 
-          <h2 class="file-tool-group-label">Create</h2>
-
-          <details class="file-tool-section file-tool-details" id="newFilesSection">
-            <summary><span>New</span><span class="operation-summary">Create a blank, graph-paper, or template document</span></summary>
+          <details class="open-documents-section file-tool-details library-overview-details" id="openDocumentsSection">
+            <summary><span>Open documents</span><span id="fileSelectionSummary" class="operation-summary">No documents are open.</span></summary>
             <div class="file-tool-body">
-              <p class="file-tool-summary">Choose US Letter landscape or a page shaped to the current Presentation viewport. Presentation Ratio uses the current device/orientation and fixes the long page edge at 11 inches. Pages inserted into an existing document still match the current page size and orientation.</p>
-              <label class="export-field new-document-size-field">
-                <span>Page size</span>
-                <select id="newDocumentPageSize">
-                  <option value="letter" selected>US Letter landscape</option>
-                  <option value="presentation">Presentation Ratio · long side 11 in</option>
-                </select>
-              </label>
-              <p id="newDocumentPageSizeHint" class="small-note new-document-size-hint">US Letter landscape · 11 × 8.5 in.</p>
-              <div class="page-background-chooser new-blank-background-chooser" role="group" aria-label="Blank document background">
-                <span class="page-background-label">Blank background</span>
-                <button id="newBlankWhiteBtn" class="page-background-choice active" type="button" aria-pressed="true" title="Create blank documents with a white background"><span class="page-background-swatch white" aria-hidden="true"></span><span>White</span></button>
-                <button id="newBlankBlackBtn" class="page-background-choice" type="button" aria-pressed="false" title="Create blank documents with a black background"><span class="page-background-swatch black" aria-hidden="true"></span><span>Black</span></button>
+              <div class="library-toolbar-row">
+                <p class="file-tool-summary">Documents opened for viewing and editing. Check documents here or in the Library to add them to Selected documents.</p>
+                <div class="file-selection-actions">
+                  <button id="selectAllFilesBtn" type="button">Select all</button>
+                </div>
               </div>
-              <div class="new-document-actions">
-                <button id="newBlankDocumentBtn" class="export-button secondary-output-button" type="button">Blank document</button>
-                <button id="newGraphDocumentBtn" class="export-button secondary-output-button" type="button">Graph-paper document</button>
-                <button id="newTemplateDocumentBtn" class="export-button secondary-output-button" type="button" disabled>From template…</button>
-              </div>
+              <div id="openDocumentList" class="open-document-list" aria-label="Open documents"></div>
             </div>
           </details>
 
@@ -921,6 +940,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.8.47"></script>
+  <script type="module" src="app.js?v=5.8.48"></script>
 </body>
 </html>

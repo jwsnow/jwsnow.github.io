@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.47';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.48';
 
-const APP_VERSION = '5.8.47';
+const APP_VERSION = '5.8.48';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -52,7 +52,7 @@ const els = {
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), librarySortSelect: $('librarySortSelect'), librarySelectionSummary: $('librarySelectionSummary'), librarySelectAllBtn: $('librarySelectAllBtn'), libraryClearSelectionBtn: $('libraryClearSelectionBtn'), libraryMoveSelectedBtn: $('libraryMoveSelectedBtn'), libraryTrashSelectedBtn: $('libraryTrashSelectedBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), emptyTrashBtn: $('emptyTrashBtn'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), librarySelectedEditableBackupBtn: $('librarySelectedEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), savedDiagnosticsSummary: $('savedDiagnosticsSummary'), exportSavedDiagnosticsBtn: $('exportSavedDiagnosticsBtn'), clearSavedDiagnosticsBtn: $('clearSavedDiagnosticsBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryQuickNewBtn: $('libraryQuickNewBtn'), libraryNewDropdown: $('libraryNewDropdown'), libraryNewBlankMenuBtn: $('libraryNewBlankMenuBtn'), libraryNewCustomMenuBtn: $('libraryNewCustomMenuBtn'), libraryNewTemplateMenuBtn: $('libraryNewTemplateMenuBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), librarySortSelect: $('librarySortSelect'), librarySelectionSummary: $('librarySelectionSummary'), librarySelectAllBtn: $('librarySelectAllBtn'), libraryClearSelectionBtn: $('libraryClearSelectionBtn'), libraryMoveSelectedBtn: $('libraryMoveSelectedBtn'), libraryTrashSelectedBtn: $('libraryTrashSelectedBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), emptyTrashBtn: $('emptyTrashBtn'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), librarySelectedEditableBackupBtn: $('librarySelectedEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), savedDiagnosticsSummary: $('savedDiagnosticsSummary'), exportSavedDiagnosticsBtn: $('exportSavedDiagnosticsBtn'), clearSavedDiagnosticsBtn: $('clearSavedDiagnosticsBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), selectedDocumentsSection: $('selectedDocumentsSection'), selectedOpenBtn: $('selectedOpenBtn'), selectedViewBtn: $('selectedViewBtn'), selectedCloseBtn: $('selectedCloseBtn'), selectedRenameBtn: $('selectedRenameBtn'), selectedDuplicateBtn: $('selectedDuplicateBtn'), selectedMoveBtn: $('selectedMoveBtn'), selectedExportBtn: $('selectedExportBtn'), selectedCompressBtn: $('selectedCompressBtn'), selectedCombineBtn: $('selectedCombineBtn'), selectedEditableBackupBtn: $('selectedEditableBackupBtn'), selectedTrashBtn: $('selectedTrashBtn'), selectedClearBtn: $('selectedClearBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractOperationSummary: $('extractOperationSummary'), extractSummary: $('extractSummary'), extractDestination: $('extractDestination'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitDestination: $('splitDestination'), splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
@@ -926,18 +926,61 @@ function buildFolderMoveOptions({ rootLabel, childFolders, excludeFolderId=null 
   };
   walk(); return options;
 }
+// Keep root and current folder visible. On tight layouts, remove the oldest
+// ancestors first and expose them through an ellipsis dropdown. Assets shares
+// the same breadcrumb component, so both browsers behave consistently.
+const folderBreadcrumbObservers = new WeakMap();
 function renderFolderBreadcrumb(container, { rootLabel, currentFolderId, path, setFolder }) {
   if (!container) return;
-  container.replaceChildren();
-  const root=document.createElement('button');
-  root.type='button'; root.textContent=rootLabel; root.className='library-breadcrumb-button'; root.disabled=!currentFolderId;
-  root.addEventListener('click',()=>setFolder(null)); container.append(root);
-  for (const folder of path) {
-    const sep=document.createElement('span'); sep.className='library-breadcrumb-separator'; sep.textContent='›';
-    const button=document.createElement('button'); button.type='button'; button.textContent=folder.name; button.className='library-breadcrumb-button';
-    button.disabled=folder.id===currentFolderId; button.addEventListener('click',()=>setFolder(folder.id));
-    container.append(sep,button);
-  }
+  const entries=[{ id:null, name:rootLabel }, ...path];
+  let firstVisible=1;
+  const build=()=>{
+    container.replaceChildren();
+    const addEntry=(entry,isCurrent)=>{
+      const part=document.createElement('span'); part.className='library-breadcrumb-part';
+      if (container.childElementCount) {
+        const sep=document.createElement('span'); sep.className='library-breadcrumb-separator'; sep.textContent='›';
+        part.append(sep);
+      }
+      if (isCurrent) {
+        const current=document.createElement('span'); current.className='library-breadcrumb-current';
+        current.textContent=entry.name; current.title=entry.name; current.setAttribute('aria-current','location'); part.append(current);
+      } else {
+        const button=document.createElement('button'); button.type='button'; button.className='library-breadcrumb-button';
+        button.textContent=entry.name; button.title=entry.name; button.addEventListener('click',()=>setFolder(entry.id)); part.append(button);
+      }
+      container.append(part);
+    };
+    if (entries.length===1) { addEntry(entries[0],true); return; }
+    addEntry(entries[0],false);
+    if (firstVisible>1) {
+      const part=document.createElement('span'); part.className='library-breadcrumb-part';
+      const sep=document.createElement('span');sep.className='library-breadcrumb-separator';sep.textContent='›';part.append(sep);
+      const dropdown=document.createElement('details');dropdown.className='library-breadcrumb-hidden';
+      const trigger=document.createElement('summary');trigger.textContent='…';trigger.title='Show hidden parent folders';trigger.setAttribute('aria-label','Show hidden parent folders');dropdown.append(trigger);
+      const menu=document.createElement('div');menu.className='library-breadcrumb-hidden-menu';
+      for (const entry of entries.slice(1,firstVisible)) {
+        const button=document.createElement('button');button.type='button';button.textContent=entry.name;
+        button.addEventListener('click',()=>{dropdown.open=false;setFolder(entry.id);});menu.append(button);
+      }
+      dropdown.append(menu);part.append(dropdown);container.append(part);
+    }
+    for (let i=firstVisible;i<entries.length;i++) addEntry(entries[i],i===entries.length-1);
+  };
+  const fit=()=>{
+    firstVisible=1;build();
+    // Explicitly keep the last/current folder visible, even at very narrow
+    // widths. A long single folder name may ellipsize, with full text in title.
+    while ((container.scrollWidth>container.clientWidth+2 || !!(container.querySelector('.library-breadcrumb-current') && container.querySelector('.library-breadcrumb-current').scrollWidth>container.querySelector('.library-breadcrumb-current').clientWidth+2)) && firstVisible<entries.length-1) {
+      firstVisible++;build();
+    }
+  };
+  if (!folderBreadcrumbObservers.has(container) && typeof ResizeObserver!=='undefined') {
+    const observer=new ResizeObserver(()=>{ const rerender=folderBreadcrumbObservers.get(container)?.fit; if (rerender) rerender(); });
+    observer.observe(container);
+    folderBreadcrumbObservers.set(container,{observer,fit});
+  } else if (folderBreadcrumbObservers.has(container)) folderBreadcrumbObservers.get(container).fit=fit;
+  fit();
 }
 
 // ---------------------------------------------------------------------------
@@ -10407,29 +10450,49 @@ function focusPageAfterRender(documentId, pageId, paneId=null) {
   }));
 }
 
-function createNewGeneratedDocument(type='blank') {
-  const isGraph = type === 'graph';
-  const presentationSized = els.newDocumentPageSize?.value === 'presentation';
-  const dimensions = selectedNewDocumentPageDimensions();
-  const blankBackground = isGraph ? 'white' : state.newBlankBackground;
-  const page = generatedPage(isGraph ? 'graph' : 'blank', dimensions.width, dimensions.height, blankBackground);
-  const doc=createUserDocument(isGraph ? (presentationSized ? 'Presentation Graph Paper.pdf' : 'Graph Paper.pdf') : (presentationSized ? 'Presentation Blank.pdf' : 'Untitled.pdf'),[page],{workspaceMode:'view'});
-  setStatus(`Created new ${isGraph ? 'graph-paper' : (blankBackground === 'black' ? 'black-background blank' : 'blank')} document${presentationSized ? ' at the current Presentation ratio' : ''}`);
-  if (!isGraph) setNewBlankBackground('white');
-  scheduleLibraryPersist(120);
+async function createNewGeneratedDocument(type='blank', { quick=false }={}) {
+  const isGraph=type==='graph';
+  // The main New button always uses the current presentation aspect ratio,
+  // regardless of the last size picked in New document options.
+  const presentationSized=quick || els.newDocumentPageSize?.value==='presentation';
+  const dimensions=presentationSized ? presentationPageDimensions() : selectedNewDocumentPageDimensions();
+  // The one-click default is always landscape, even if the iPad happens to
+  // be held in portrait when the user creates the document.
+  if (quick && dimensions.height > dimensions.width) [dimensions.width,dimensions.height]=[dimensions.height,dimensions.width];
+  const blankBackground=quick || isGraph ? 'white' : state.newBlankBackground;
+  const page=generatedPage(isGraph?'graph':'blank',dimensions.width,dimensions.height,blankBackground);
+  const name=isGraph ? (presentationSized?'Presentation Graph Paper.pdf':'Graph Paper.pdf')
+    : (presentationSized?'Presentation Blank.pdf':'Untitled.pdf');
+  try {
+    const record=await createClosedLibraryDocumentFromPages(name,[page],{folderId:state.libraryFolderId});
+    setFileSelected(record.id,true);
+    if (els.selectedDocumentsSection) els.selectedDocumentsSection.open=true;
+    setStatus(`Created ${record.name} in the current Library folder · staying in Files`);
+    if (!isGraph) setNewBlankBackground('white');
+    return record;
+  } catch(err) { console.error(err);setStatus(`Could not create document: ${err?.message||err}`);return null; }
 }
 
-function createNewDocumentFromTemplate(templateId) {
-  const template = state.templates.find(item => item.id === templateId);
-  if (!template?.page) { setStatus('That template is no longer available'); return; }
-  const templateBaseName = String(template.name || 'Template').trim() || 'Template';
-  const templatePdfName = /\.pdf$/i.test(templateBaseName) ? templateBaseName : `${templateBaseName}.pdf`;
-  const page = clonePageInstance(template.page, true);
-  const doc=createUserDocument(templatePdfName,[page],{workspaceMode:'view'});
-  setStatus(`Created new document from template ${template.name}`);
-  scheduleLibraryPersist(120);
+async function createNewDocumentFromTemplate(templateId) {
+  const template=state.templates.find(item=>item.id===templateId);
+  if (!template?.page) {setStatus('That template is no longer available');return;}
+  const name=String(template.name||'Template').trim()||'Template';
+  try {
+    const record=await createClosedLibraryDocumentFromPages(/\.pdf$/i.test(name)?name:`${name}.pdf`,[template.page],{folderId:state.libraryFolderId});
+    setFileSelected(record.id,true);
+    if (els.selectedDocumentsSection) els.selectedDocumentsSection.open=true;
+    setStatus(`Created ${record.name} from template in the current Library folder · staying in Files`);
+  } catch(err) {console.error(err);setStatus(`Could not create template document: ${err?.message||err}`);}
 }
 
+function showNewDocumentOptions({blank=false}={}) {
+  const section=$('newFilesSection');
+  if (!section) return;
+  section.open=true;
+  if (blank) setNewBlankBackground('white');
+  section.scrollIntoView({block:'nearest',behavior:'smooth'});
+  (blank?els.newBlankDocumentBtn:els.newDocumentPageSize)?.focus({preventScroll:true});
+}
 function showNewFromTemplateChooser() {
   if (!state.templates.length) { setStatus('No templates are saved yet'); return; }
   els.infoDialog.classList.add('template-dialog');
@@ -10794,12 +10857,11 @@ function syncLibraryDocumentOpenStateUi() {
     const record = selectableDocumentById(docId) || state.libraryRecords.get(docId);
     if (!record) continue;
     const open = isDocumentOpen(docId);
-    const active = open && docId === state.currentDocumentId;
     row.classList.toggle('open', open);
 
     const preview = row.querySelector('.library-document-preview.library-open-target');
     const label = row.querySelector('.library-document-label.library-open-target');
-    const actionLabel = open ? `Use ${record.name}` : `Open ${record.name}`;
+    const actionLabel = open ? `View ${record.name}` : `Open ${record.name}`;
     preview?.setAttribute('aria-label', actionLabel);
     label?.setAttribute('aria-label', actionLabel);
 
@@ -10812,8 +10874,8 @@ function syncLibraryDocumentOpenStateUi() {
     if (!actions) continue;
     const primary = actions.querySelector('.primary-library-action');
     if (primary) {
-      primary.textContent = open ? (active ? 'Active' : 'Use') : 'Open';
-      primary.disabled = active;
+      primary.textContent = open ? 'View' : 'Open';
+      primary.disabled = false;
     }
 
     let close = actions.querySelector('.library-document-close-action');
@@ -10851,6 +10913,7 @@ function selectAllDocumentsInCurrentLibraryFolder() {
     else state.fileSelected.add(record.id);
   }
   reconcileCombineOrder();
+  if (!allSelected && els.selectedDocumentsSection) els.selectedDocumentsSection.open=true;
   renderExportPane({ preserveLibraryDocumentList: true });
 }
 
@@ -10870,9 +10933,11 @@ function reconcileCombineOrder() {
 }
 
 function setFileSelected(docId, selected) {
+  const wasEmpty=state.fileSelected.size===0;
   state.fileSelectionInitialized = true;
   if (selected) state.fileSelected.add(docId); else state.fileSelected.delete(docId);
   reconcileCombineOrder();
+  if (selected && wasEmpty && els.selectedDocumentsSection) els.selectedDocumentsSection.open=true;
   renderExportPane({ preserveLibraryDocumentList: true });
 }
 
@@ -10978,7 +11043,7 @@ function libraryDocumentMetaText(record, open) {
 }
 
 function renderLibraryBreadcrumb() {
-  renderFolderBreadcrumb(els.libraryBreadcrumb,{rootLabel:'Library',currentFolderId:state.libraryFolderId,path:libraryFolderPath(),setFolder:setLibraryFolder});
+  renderFolderBreadcrumb(els.libraryBreadcrumb,{rootLabel:'Local Library',currentFolderId:state.libraryFolderId,path:libraryFolderPath(),setFolder:setLibraryFolder});
 }
 
 function libraryRecordModifiedStamp(record) {
@@ -11536,13 +11601,13 @@ async function openLibraryRecord(record, { switchToView=false }={}) {
       setStatus(`Opening ${record.name} from Library…`, true);
       // A normal Files Open keeps the user in Files. If there is no active
       // document yet, still make the first reopened file the internal active
-      // target so View has a sensible document later. Use/double-tap always
+      // target so View has a sensible document later. View/double-tap always
       // make the requested document active because they immediately go to View.
       await reopenLibraryDocument(record.id, { makeActive: switchToView || !currentDocument(), render: false });
       if (switchToView && record.id !== state.currentDocumentId) loadDocumentState(record.id, false);
     }
 
-    // Files -> Use should target the visible active pane when Split is enabled.
+    // Files -> View should target the visible active pane when Split is enabled.
     // currentDocumentId alone is not authoritative in Split; each pane owns its
     // document assignment. Keep the other pane untouched.
     if (switchToView && state.splitView) {
@@ -11556,7 +11621,7 @@ async function openLibraryRecord(record, { switchToView=false }={}) {
     renderDocumentSelect();
     if (switchToView) {
       showWorkspaceMode('view');
-      setStatus(`Using ${record.name}`);
+      setStatus(`Viewing ${record.name}`);
     } else {
       state.workspaceMode = keepMode;
       if (keepMode === 'export') renderExportPane({ preserveLibraryDocumentList: true });
@@ -11802,7 +11867,7 @@ function createLibraryDocumentRow(record) {
   selectCheck.addEventListener('change', commitLibraryCheckedState);
   selectCheck.addEventListener('blur', commitLibraryCheckedState);
   preview.append(selectCheck);
-  const label = document.createElement('div'); label.className = 'library-document-label library-open-target'; label.tabIndex=0; label.setAttribute('role','button'); label.setAttribute('aria-label',`Open ${record.name}`);
+  const label = document.createElement('div'); label.className = 'library-document-label library-open-target'; label.tabIndex=0; label.setAttribute('role','button'); label.setAttribute('aria-label',`${open?'View':'Open'} ${record.name}`);
   const name = document.createElement('span'); name.className = 'library-document-name'; name.textContent = record.name; name.title = record.name;
   const meta = document.createElement('span'); meta.className = 'library-document-meta';
   meta.textContent = libraryDocumentMetaText(record, open); label.append(name, meta);
@@ -11816,7 +11881,7 @@ function createLibraryDocumentRow(record) {
   label.addEventListener('click', activateFromMain);
   for(const el of [preview,label]) el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activateFromMain();}});
   const actions = document.createElement('div'); actions.className = 'library-document-actions';
-  const action = document.createElement('button'); action.type='button'; action.className='primary-library-action'; action.textContent = open ? (record.id===state.currentDocumentId?'Active':'Use') : 'Open'; action.disabled = open && record.id===state.currentDocumentId;
+  const action = document.createElement('button'); action.type='button'; action.className='primary-library-action'; action.textContent = open ? 'View' : 'Open'; action.disabled = false;
   action.addEventListener('click', activateFromMain);
   actions.append(action);
   if (open) { const close=document.createElement('button'); close.type='button'; close.className='library-document-close-action'; close.textContent='Close'; close.title=`Close ${record.name} but keep it in the local Library`; close.addEventListener('click',()=>closeOneOpenDocument(record.id)); actions.append(close); }
@@ -11844,7 +11909,9 @@ function renderLibraryDocumentList() {
   renderLibraryBreadcrumb();
   if (els.librarySummary) {
     els.librarySummary.textContent = state.libraryReady
-      ? (allRecords.length ? `${allRecords.length} document${allRecords.length === 1 ? '' : 's'} · ${activeLibraryFolders().length} folder${activeLibraryFolders().length === 1 ? '' : 's'} · ${state.documents.length} open` : 'The local Library is empty. Open or create a document and it will be stored automatically.')
+      ? (state.libraryFolderId
+        ? `${records.length} document${records.length===1?'':'s'} · ${folders.length} subfolder${folders.length===1?'':'s'} in this folder`
+        : (allRecords.length ? `${allRecords.length} document${allRecords.length === 1 ? '' : 's'} · ${activeLibraryFolders().length} folder${activeLibraryFolders().length === 1 ? '' : 's'} · ${state.documents.length} open` : 'Library is empty'))
       : 'Persistent Library is not available in this browser/session.';
   }
   for (const folder of folders) els.libraryDocumentList.append(createLibraryFolderRow(folder));
@@ -12284,7 +12351,7 @@ function renderOpenDocumentList() {
   const allOpenSelected = state.documents.length > 0 && openSelected.length === state.documents.length;
   els.selectAllFilesBtn.disabled = !state.documents.length;
   els.selectAllFilesBtn.textContent = allOpenSelected ? 'Select none' : 'Select all';
-  els.clearFileSelectionBtn.disabled = !openSelected.length;
+  if (els.clearFileSelectionBtn) els.clearFileSelectionBtn.disabled = !openSelected.length;
 
   for (const doc of state.documents) {
     const row = document.createElement('div');
@@ -12317,10 +12384,10 @@ function renderOpenDocumentList() {
     const activate = document.createElement('button');
     activate.type = 'button';
     activate.className = 'open-document-activate';
-    activate.textContent = doc.id === state.currentDocumentId ? 'Active' : 'Use';
-    activate.disabled = doc.id === state.currentDocumentId;
-    activate.title = doc.id === state.currentDocumentId ? 'This is the active document' : `Make ${doc.name} the active document`;
-    activate.addEventListener('click', () => loadDocumentState(doc.id));
+    activate.textContent = 'View';
+    activate.disabled = false;
+    activate.title = `Open ${doc.name} in View`;
+    activate.addEventListener('click', () => useLibraryRecordInView(doc));
 
     const close = document.createElement('button');
     close.type = 'button';
@@ -12335,15 +12402,56 @@ function renderOpenDocumentList() {
   if (!state.documents.length) {
     const empty = document.createElement('p');
     empty.className = 'small-note';
-    empty.textContent = state.libraryRecords.size ? 'No documents are currently open. Reopen one from Local Library above, use Open, or create a new document.' : 'Use Open in the top bar, or expand New below to start a blank or graph-paper document.';
+    empty.textContent = state.libraryRecords.size ? 'No documents are currently open. Reopen one from Local Library above, use Open, or create a new document.' : 'Use New or Import in Local Library above to add documents.';
     els.openDocumentList.append(empty);
   }
+}
+
+function showSelectedFileTool(sectionId) {
+  const section=$(sectionId);
+  if (!section) return;
+  section.open=true;
+  section.scrollIntoView({block:'start',behavior:'smooth'});
+  section.querySelector('summary')?.focus({preventScroll:true});
+}
+async function openSelectedFilesInBackground() {
+  const ids=selectedFileDocuments().filter(doc=>!isDocumentOpen(doc.id)).map(doc=>doc.id);
+  if (!ids.length) return;
+  try {
+    for (const id of ids) await reopenLibraryDocument(id,{makeActive:false,render:false});
+    renderExportPane({preserveLibraryDocumentList:true});
+    setStatus(`Opened ${ids.length} document${ids.length===1?'':'s'} · staying in Files`);
+  } catch(err) {console.error(err);setStatus(`Could not open selected documents: ${err?.message||err}`);}
+}
+async function viewSingleSelectedFile() {
+  const docs=selectedFileDocuments();
+  if (docs.length!==1) return;
+  await useLibraryRecordInView(docs[0]);
+}
+async function closeSelectedFiles() {
+  const ids=selectedFileDocuments().filter(doc=>isDocumentOpen(doc.id)).map(doc=>doc.id);
+  if (!ids.length) return;
+  for (const id of ids) await closeOneOpenDocument(id);
+  setStatus(`Closed ${ids.length} selected document${ids.length===1?'':'s'} · kept in Local Library`);
+}
+function updateSelectedDocumentCommands(docs) {
+  const one=docs.length===1;
+  const any=docs.length>0;
+  const set=(el,enabled)=>{if(el)el.disabled=!enabled;};
+  set(els.selectedOpenBtn,docs.some(doc=>!isDocumentOpen(doc.id)));
+  set(els.selectedViewBtn,one);
+  set(els.selectedCloseBtn,docs.some(doc=>isDocumentOpen(doc.id)));
+  set(els.selectedRenameBtn,one);
+  set(els.selectedDuplicateBtn,one);
+  for (const el of [els.selectedMoveBtn,els.selectedExportBtn,els.selectedCompressBtn,els.selectedEditableBackupBtn,els.selectedTrashBtn,els.selectedClearBtn]) set(el,any);
+  set(els.selectedCombineBtn,docs.length>=2);
 }
 
 function renderSelectedDocumentList() {
   if (!els.selectedDocumentList) return;
   reconcileFileSelection();
   const docs = selectedFileDocuments();
+  updateSelectedDocumentCommands(docs);
   els.selectedDocumentList.replaceChildren();
   if (els.selectedDocumentsSummary) els.selectedDocumentsSummary.textContent = docs.length
     ? `${docs.length} document${docs.length === 1 ? '' : 's'} selected.`
@@ -18971,6 +19079,14 @@ function bindEvents() {
   document.addEventListener('keydown', (e) => { if (e.isTrusted) noteStartupUserInteraction('keydown'); }, true);
   document.addEventListener('click', (e) => { if (e.isTrusted) noteStartupUserInteraction('click'); });
   els.openBtn.addEventListener('click', () => { closeInsertPageMenu(); els.fileInput.click(); });
+  els.libraryQuickNewBtn?.addEventListener('click',()=>createNewGeneratedDocument('graph',{quick:true}));
+  const closeNewMenu=()=>{if(els.libraryNewDropdown)els.libraryNewDropdown.open=false;};
+  els.libraryNewBlankMenuBtn?.addEventListener('click',()=>{closeNewMenu();showNewDocumentOptions({blank:true});});
+  els.libraryNewCustomMenuBtn?.addEventListener('click',()=>{closeNewMenu();showNewDocumentOptions();});
+  els.libraryNewTemplateMenuBtn?.addEventListener('click',()=>{closeNewMenu();showNewFromTemplateChooser();});
+  els.libraryNewFolderBtn?.addEventListener('click',closeNewMenu);
+  document.addEventListener('click',e=>{if(els.libraryNewDropdown?.open&&!els.libraryNewDropdown.contains(e.target))closeNewMenu();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNewMenu();});
   els.newBlankDocumentBtn.addEventListener('click', () => createNewGeneratedDocument('blank'));
   els.newGraphDocumentBtn.addEventListener('click', () => createNewGeneratedDocument('graph'));
   els.newBlankWhiteBtn?.addEventListener('click', () => setNewBlankBackground('white'));
@@ -19060,9 +19176,10 @@ function bindEvents() {
       else state.fileSelected.add(doc.id);
     }
     reconcileCombineOrder();
+    if (!allSelected && els.selectedDocumentsSection) els.selectedDocumentsSection.open = true;
     renderExportPane({ preserveLibraryDocumentList: true });
   });
-  els.clearFileSelectionBtn.addEventListener('click', () => { state.fileSelectionInitialized = true; for (const doc of state.documents) state.fileSelected.delete(doc.id); reconcileCombineOrder(); renderExportPane({ preserveLibraryDocumentList: true }); });
+  els.clearFileSelectionBtn?.addEventListener('click', () => { state.fileSelectionInitialized = true; for (const doc of state.documents) state.fileSelected.delete(doc.id); reconcileCombineOrder(); renderExportPane({ preserveLibraryDocumentList: true }); });
   els.libraryRefreshBtn?.addEventListener('click', async () => {
     try {
       if (!(await ensureLibraryConnection())) throw new Error('Could not connect to local storage.');
@@ -19101,6 +19218,18 @@ function bindEvents() {
   els.libraryClearSelectionBtn?.addEventListener('click', clearGlobalFileSelection);
   els.libraryMoveSelectedBtn?.addEventListener('click', openLibrarySelectedMoveDialog);
   els.libraryTrashSelectedBtn?.addEventListener('click', moveSelectedLibraryDocumentsToTrash);
+  els.selectedOpenBtn?.addEventListener('click',openSelectedFilesInBackground);
+  els.selectedViewBtn?.addEventListener('click',viewSingleSelectedFile);
+  els.selectedCloseBtn?.addEventListener('click',closeSelectedFiles);
+  els.selectedRenameBtn?.addEventListener('click',()=>{const docs=selectedFileDocuments();if(docs.length===1)renameLibraryDocument(docs[0].id);});
+  els.selectedDuplicateBtn?.addEventListener('click',()=>{const docs=selectedFileDocuments();if(docs.length===1)duplicateLibraryDocument(docs[0].id);});
+  els.selectedMoveBtn?.addEventListener('click',openLibrarySelectedMoveDialog);
+  els.selectedExportBtn?.addEventListener('click',()=>showSelectedFileTool('exportFilesSection'));
+  els.selectedCompressBtn?.addEventListener('click',()=>showSelectedFileTool('compressFilesSection'));
+  els.selectedCombineBtn?.addEventListener('click',()=>showSelectedFileTool('combineFilesSection'));
+  els.selectedEditableBackupBtn?.addEventListener('click',()=>{showSelectedFileTool('libraryBackupFilesSection');createSelectedEditableDocumentsBackup();});
+  els.selectedTrashBtn?.addEventListener('click',moveSelectedLibraryDocumentsToTrash);
+  els.selectedClearBtn?.addEventListener('click',clearGlobalFileSelection);
   els.emptyTrashBtn?.addEventListener('click', emptyLibraryTrash);
   els.libraryListViewBtn?.addEventListener('click', () => setLibraryViewMode('list'));
   els.libraryGridViewBtn?.addEventListener('click', () => setLibraryViewMode('grid'));

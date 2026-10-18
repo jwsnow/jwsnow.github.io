@@ -1,4 +1,47 @@
-# PDF Workbench 5.8.47-exp
+# PDF Workbench 5.8.48-exp
+
+## Milestone 5.8.48 — Files workflow, Stage 1
+
+Built on 5.8.47 without changes to the rendering, worker, IndexedDB schema,
+source persistence or editable-backup formats.
+
+- Library breadcrumb keeps the current folder at the end. Narrow toolbars hide
+  older ancestors behind a tappable ellipsis; full paths remain visible when space allows.
+- Local Library now contains the split **New** control. One tap creates white
+  presentation-ratio graph paper in the **current folder**, stored immediately
+  as a **closed** editable Library document. **Files stays open** and the
+  active working/View/Split setup is untouched. The new item is selected and
+  Selected documents expands so it is easy to View or operate on it.
+- The dropdown offers Blank document…, Custom document…, Folder, From
+  template…; the former New settings panel is now a subordinate, collapsed
+  New document options panel. Its default size is Presentation Ratio.
+- Selected documents is above Open documents and is the action center for the
+  shared selection: Open, View (one item), Close, Move, Export, Compress,
+  Combine, Trash, selected editable backup, Rename/Duplicate (one item), and
+  Clear selection. Commands reuse the existing Library dialog and PDF tools.
+- Open vs View labeling is clarified: Open remains in Files, View goes to View.
+- Scoped Select all / Select none remains in Library and Open documents.
+- Current-folder counts appear in the Local Library summary for nested folders.
+
+### Manual checks
+
+1. In Files create a deep nested folder path, test the breadcrumb at wide/narrow
+   screen sizes, and open hidden parents using ellipsis.
+2. Tap **New** within a folder: expect a **closed**, selected white presentation
+   graph-paper document in that folder. Files stays visible; no pane changes.
+3. Test Blank document… and Custom document… with both page sizes/backgrounds;
+   their created documents should likewise stay in Files.
+4. Check items in Library and Open documents: the single shared selection must
+   stay synchronized, and Selected documents should auto-expand on new selection.
+5. Use Selected commands, including Open (stay Files), View (leave Files), Move,
+   Close, Export, Combine, and editable backup. Verify single-only buttons enable
+   only for one selected file and Combine only for two or more.
+6. Confirm iPad long-startup restore precedence, Split grading, worker limits,
+   existing exports, and restoration remain unchanged.
+
+---
+
+## Prior 5.8.47-exp notes
 
 ## Milestone 5.8.47 — coordinated startup restore
 

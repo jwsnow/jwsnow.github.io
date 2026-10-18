@@ -1,3 +1,33 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-18 — BASELINE 5.8.48-exp
+
+Stage 1 of Files UI polish, based on the supplied 5.8.47-exp ZIP.
+
+IMPLEMENTED
+- Library breadcrumb deep-path visibility and ellipsis ancestry navigation.
+- Shared Selected documents action center, positioned above Open documents,
+  with automatic expansion when documents are selected.
+- Quick New in Local Library creates white presentation-ratio graph paper as a
+  closed, durable document in the current folder, selecting it but staying in
+  Files. Existing active View/Split state is unaffected.
+- Dropdown and subordinate detailed New options; customized creations and
+  templates also stay in Files.
+- Open versus View wording and scoped Select all/Select none cleanup.
+- Folder-local Library summary on nested folders.
+
+IMPORTANT USER CLARIFICATION
+- New must NOT jump automatically to View. This supersedes earlier wording.
+
+SCOPE / TEST STATUS
+- No changes to PDF.js, live worker management, raster quality, Library schema,
+  backup formats, or PDF export internals.
+- Syntax/release consistency and static checks carried out in packaging.
+- Interactive iPad and Surface testing is still required.
+- The remaining Stage 2 and Stage 3 Files tasks below are NOT YET implemented.
+
+================================================================================
+PREVIOUS HANDOFF (5.8.47) FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-18 — BASELINE 5.8.47-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
