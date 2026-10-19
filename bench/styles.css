@@ -2187,3 +2187,30 @@ body.presentation #presentationExit.presentation-only {
 .file-tool-group-description + .file-tool-details {margin-top:10px;}
 .saved-diagnostics-tools {margin-top:18px;padding-top:13px;border-top:1px solid var(--border);}
 @media(max-width:620px){.library-search-toolbar label{flex-basis:100%;}}
+
+/* 5.8.51: one layout-action icon family used by View, Presentation, and Tools. */
+.layout-action-icon { display:inline-grid; place-items:center; width:20px; height:20px; flex:0 0 20px; font-size:19px; line-height:1; }
+.layout-action-icon svg { display:block; width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round; }
+.presentation-tool-menu-row-icon .layout-action-icon,
+.presentation-tool-menu-row-icon .layout-action-icon svg { width:20px; height:20px; }
+
+/* Quick Start and Feature Guide live in the existing app Help dialog. */
+.info-dialog.help-dialog { width:min(780px, calc(100% - 24px)); max-height:min(88vh, 880px); overflow:auto; }
+.info-dialog.help-dialog form { padding:20px clamp(14px, 3vw, 28px); }
+.info-dialog.help-dialog h2 { padding-right:36px; }
+.workbench-help-content .help-lead { color:var(--muted); margin:0 0 16px; }
+.help-steps { padding-left:24px; margin:0; }
+.help-steps li { margin:0 0 13px; }
+.help-footnote { padding-top:8px; border-top:1px solid var(--border); }
+.help-search-row { display:grid; gap:6px; margin:10px 0 12px; }
+.help-search-row > label { font-weight:650; }
+.help-search-controls { display:flex; gap:8px; }
+.help-search-controls input { flex:1 1 auto; min-width:0; min-height:42px; padding:8px 12px; background:var(--paper); color:var(--text); border:1px solid var(--border); border-radius:9px; font:inherit; }
+.help-search-controls button, .help-topic-actions button { min-height:40px; padding:7px 12px; border:1px solid var(--border); border-radius:9px; background:var(--paper); color:var(--text); font:inherit; }
+.help-topic-actions { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin:6px 0 14px; }
+.help-topic-actions [role=status] { color:var(--muted); font-size:.9rem; margin-left:auto; }
+.help-topic { border:1px solid var(--border); border-radius:9px; margin:0 0 8px; background:var(--paper); }
+.help-topic > summary { padding:12px 14px; font-weight:650; cursor:pointer; }
+.help-topic > div { padding:0 14px 10px; }
+.help-topic > div p { margin:8px 0; }
+.help-empty { color:var(--muted); padding:12px 0; }

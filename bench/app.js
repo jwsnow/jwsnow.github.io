@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.50';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.51';
 
-const APP_VERSION = '5.8.50';
+const APP_VERSION = '5.8.51';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -52,6 +52,7 @@ const els = {
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
+  viewLayoutActionIcon: $('viewLayoutActionIcon'), presentationLayoutActionIcon: $('presentationLayoutActionIcon'), quickStartBtn: $('quickStartBtn'), featureGuideBtn: $('featureGuideBtn'),
   emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryQuickNewBtn: $('libraryQuickNewBtn'), libraryNewDropdown: $('libraryNewDropdown'), libraryNewBlankMenuBtn: $('libraryNewBlankMenuBtn'), libraryNewCustomMenuBtn: $('libraryNewCustomMenuBtn'), libraryNewTemplateMenuBtn: $('libraryNewTemplateMenuBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), librarySortSelect: $('librarySortSelect'), librarySearchInput: $('librarySearchInput'), librarySearchClearBtn: $('librarySearchClearBtn'), librarySearchSummary: $('librarySearchSummary'), librarySelectionSummary: $('librarySelectionSummary'), librarySelectAllBtn: $('librarySelectAllBtn'), libraryClearSelectionBtn: $('libraryClearSelectionBtn'), libraryMoveSelectedBtn: $('libraryMoveSelectedBtn'), libraryTrashSelectedBtn: $('libraryTrashSelectedBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), emptyTrashBtn: $('emptyTrashBtn'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), librarySelectedEditableBackupBtn: $('librarySelectedEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), savedDiagnosticsSummary: $('savedDiagnosticsSummary'), exportSavedDiagnosticsBtn: $('exportSavedDiagnosticsBtn'), clearSavedDiagnosticsBtn: $('clearSavedDiagnosticsBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), selectedDocumentsSection: $('selectedDocumentsSection'), selectedOpenBtn: $('selectedOpenBtn'), selectedViewBtn: $('selectedViewBtn'), selectedCloseBtn: $('selectedCloseBtn'), selectedRenameBtn: $('selectedRenameBtn'), selectedDuplicateBtn: $('selectedDuplicateBtn'), selectedMoveBtn: $('selectedMoveBtn'), selectedExportBtn: $('selectedExportBtn'), selectedCompressBtn: $('selectedCompressBtn'), selectedCombineBtn: $('selectedCombineBtn'), selectedEditableBackupBtn: $('selectedEditableBackupBtn'), selectedTrashBtn: $('selectedTrashBtn'), selectedClearBtn: $('selectedClearBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractOperationSummary: $('extractOperationSummary'), extractSummary: $('extractSummary'), extractDestination: $('extractDestination'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitDestination: $('splitDestination'), splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
@@ -10499,6 +10500,7 @@ function showNewDocumentOptions({blank=false}={}) {
 }
 function showNewFromTemplateChooser() {
   if (!state.templates.length) { setStatus('No templates are saved yet'); return; }
+  els.infoDialog.classList.remove('help-dialog');
   els.infoDialog.classList.add('template-dialog');
   els.dialogContent.innerHTML = `<h2>New from template</h2><p>Choose a saved template. The new document starts with one independent copy of that page.</p><div id="newTemplateChoiceGrid" class="insert-choice-grid" role="group" aria-label="Templates for new document"></div>`;
   const grid = $('newTemplateChoiceGrid');
@@ -10838,7 +10840,11 @@ function updateLibraryBulkSelectionControls() {
   }
   if (els.librarySelectAllBtn) {
     els.librarySelectAllBtn.disabled = !folderRecords.length;
-    els.librarySelectAllBtn.textContent = folderRecords.length && selectedHere === folderRecords.length ? 'Select none' : (searching ? 'Select all matches' : 'Select all');
+    const deselect = folderRecords.length > 0 && selectedHere === folderRecords.length;
+    const scope = searching ? 'matching Library documents' : 'documents in the current folder';
+    els.librarySelectAllBtn.textContent = deselect ? 'Select none' : 'Select all';
+    els.librarySelectAllBtn.title = `${deselect ? 'Deselect all' : 'Select all'} ${scope}`;
+    els.librarySelectAllBtn.setAttribute('aria-label', els.librarySelectAllBtn.title);
   }
   if (els.libraryClearSelectionBtn) els.libraryClearSelectionBtn.disabled = !selected.length;
   if (els.libraryMoveSelectedBtn) els.libraryMoveSelectedBtn.disabled = !selected.length;
@@ -12398,6 +12404,8 @@ function renderOpenDocumentList() {
   const allOpenSelected = state.documents.length > 0 && openSelected.length === state.documents.length;
   els.selectAllFilesBtn.disabled = !state.documents.length;
   els.selectAllFilesBtn.textContent = allOpenSelected ? 'Select none' : 'Select all';
+  els.selectAllFilesBtn.title = allOpenSelected ? 'Deselect all open documents' : 'Select all open documents';
+  els.selectAllFilesBtn.setAttribute('aria-label', els.selectAllFilesBtn.title);
   if (els.clearFileSelectionBtn) els.clearFileSelectionBtn.disabled = !openSelected.length;
 
   for (const doc of state.documents) {
@@ -14885,6 +14893,7 @@ function updatePageCounts() {
   if (els.copyPagesBtn) els.copyPagesBtn.disabled = !hasSelection || state.documents.length < 2;
   els.deleteBtn.disabled = !hasSelection;
   els.selectAllBtn.textContent = selectedCount === count && count ? 'Select none' : 'Select all';
+  els.selectAllBtn.title = selectedCount === count && count ? 'Deselect all pages in the active document' : 'Select all pages in the active document';
   els.pageCounter.textContent = count ? `${activeIndex() + 1} / ${count}` : '0 / 0';
   updateHistoryButtons();
   updateSelectionToolbar();
@@ -16331,6 +16340,27 @@ function refreshPanePinchRasterInPlace(paneId) {
   Promise.allSettled(jobs).catch(() => {});
 }
 
+// Shared action icons for both View and Presentation. Both controls show the
+// layout the next click WILL enter rather than a static icon for the current mode.
+const LAYOUT_ACTION_ICONS = Object.freeze({
+  single:'<svg viewBox="0 0 24 24" focusable="false"><rect x="5" y="3.5" width="14" height="17" rx="1.5"/></svg>',
+  split:'<svg viewBox="0 0 24 24" focusable="false"><rect x="2.5" y="4" width="8.5" height="16" rx="1.2"/><rect x="13" y="4" width="8.5" height="16" rx="1.2"/></svg>',
+});
+function updateLayoutActionButtons() {
+  const toSplit = !state.splitView;
+  const label = toSplit ? 'Split View' : 'Single View';
+  const icon = LAYOUT_ACTION_ICONS[toSplit ? 'split' : 'single'];
+  for (const button of [els.splitViewBtn, els.presentationLayoutBtn]) {
+    if (!button) continue;
+    button.title = label;
+    button.setAttribute('aria-label', label);
+  }
+  for (const iconSlot of [els.viewLayoutActionIcon, els.presentationLayoutActionIcon]) {
+    if (iconSlot) iconSlot.innerHTML = icon;
+  }
+  if (els.splitViewLabel) els.splitViewLabel.textContent = label;
+}
+
 function updateViewerLabels() {
   const settings = activeViewerSettings();
   const modeLabel = { continuous: 'Continuous', snap: 'Page snap', single: 'Full page' }[settings.scrollMode];
@@ -16353,14 +16383,7 @@ function updateViewerLabels() {
     els.presentationFitBtn.title = fitLabel;
     els.presentationFitBtn.setAttribute('aria-label', fitLabel);
   }
-  els.splitViewBtn?.setAttribute('aria-pressed', String(state.splitView));
-  if (els.splitViewLabel) els.splitViewLabel.textContent = state.splitView ? 'Single' : 'Split';
-  if (els.presentationLayoutBtn) {
-    const toSplit = !state.splitView;
-    els.presentationLayoutBtn.textContent = toSplit ? '◫' : '▯';
-    els.presentationLayoutBtn.title = toSplit ? 'Switch to split view' : 'Switch to single view';
-    els.presentationLayoutBtn.setAttribute('aria-label', els.presentationLayoutBtn.title);
-  }
+  updateLayoutActionButtons();
   els.singlePageNav.classList.toggle('hidden', state.splitView || settings.scrollMode !== 'single' || !state.pages.length);
   if (state.splitView) { updateSplitPaneNav('left'); updateSplitPaneNav('right'); }
   updatePageCounts();
@@ -17693,7 +17716,7 @@ function presentationToolIsActive(entry) {
   if (!entry) return false;
   if (['hand','laser','pen','highlighter','eraser','select','graph'].includes(entry.action)) return state.annotationTool === entry.action;
   if (entry.action === 'page-view') return !!state.pageViewPanelOpen;
-  if (entry.action === 'split-view') return !!state.splitView;
+  if (entry.action === 'split-view') return false; // Action displays destination, not current layout.
   if (entry.action === 'thumbnails') return presentationPageDrawerOpen();
   return false;
 }
@@ -17731,7 +17754,7 @@ function renderPresentationToolMenu() {
     action.append(presentationToolMenuIcon(entry));
     const label = document.createElement('span');
     label.className = 'presentation-tool-menu-row-label';
-    label.textContent = entry.label;
+    label.textContent = entry.action === 'split-view' ? (state.splitView ? 'Single View' : 'Split View') : entry.label;
     action.append(label);
     const source = presentationToolEntryElement(entry);
     action.disabled = !!source?.disabled;
@@ -18125,14 +18148,119 @@ function clearAll() {
   setStatus('Closed all files');
 }
 
+const QUICK_START_HTML = `<div class="workbench-help-content">
+      <h2 id="quickStartHeading">Quick Start</h2>
+      <p class="help-lead">The usual workflows in PDF Workbench. Everything stays in the device's Local Library unless you explicitly export or download it.</p>
+      <ol class="help-steps">
+        <li><strong>Import or create:</strong> Open <strong>Files → Local Library</strong>. Import PDFs/images or use <strong>New</strong> for a white presentation-ratio graph-paper document. New stays in Files.</li>
+        <li><strong>Choose what to work on:</strong> <strong>Open</strong> adds a saved document to the working set without leaving Files; <strong>Open in View</strong> displays one document immediately. <strong>Close</strong> removes a document from the working set but keeps its Library copy.</li>
+        <li><strong>Compare or grade:</strong> In <strong>View</strong>, choose <strong>Split View</strong> for side-by-side papers and use the document selector in either pane. Choose <strong>Single View</strong> to return to one pane.</li>
+        <li><strong>Annotate:</strong> Use <strong>Pen</strong>, <strong>Highlighter</strong>, <strong>Eraser</strong>, or <strong>Lasso/Select</strong> in the annotation toolbar. Pages handles reordering, rotating, and page copying.</li>
+        <li><strong>Export:</strong> In Files, select documents from the Library or Open documents; the shared <strong>Selected documents</strong> panel offers Export, Compress, Combine, Move and other actions. Export one PDF or several as a ZIP.</li>
+        <li><strong>Protect editable work:</strong> Open <strong>Files → Backup &amp; transfer</strong> and create an <strong>editable Library backup</strong> before moving devices or resetting storage. An exported PDF alone does not retain editable Workbench objects.</li>
+      </ol>
+      <p class="help-footnote">More detail, including Graph, Assets, Extract/Split and recovery, is in <strong>… → Feature Guide</strong>.</p>
+    </div>`;
+const FEATURE_GUIDE_HTML = `<div class="workbench-help-content">
+      <h2 id="featureGuideHeading">Feature Guide</h2>
+      <p class="help-lead">Search by a tool name or task, then expand a topic for instructions. This guide searches help text, not documents.</p>
+      <div class="help-search-row" role="search" aria-label="Search Feature Guide">
+        <label for="featureGuideSearch">Search the guide</label>
+        <div class="help-search-controls"><input id="featureGuideSearch" type="search" placeholder="For example: graph, extract, backup…" autocomplete="off" spellcheck="false"><button type="button" id="featureGuideClear" aria-label="Clear guide search">Clear</button></div>
+      </div>
+      <div class="help-topic-actions"><button type="button" id="featureGuideExpand">Expand all</button><button type="button" id="featureGuideCollapse">Collapse all</button><span id="featureGuideCount" role="status" aria-live="polite"></span></div>
+      <div class="help-topic-list">
+        <details class="help-topic" data-help-topic><summary>View and Split View</summary><div>
+          <p>In <strong>View</strong>, select an open document from the document switcher. Use page view controls for continuous, page snap, or full-page scrolling and Fit width/Fit page. Pinch to zoom on touch devices.</p>
+          <p>The <strong>Split View</strong> button creates left and right panes, each with its own document selector and remembered view position. The button changes to <strong>Single View</strong> when Split is active. The same icons and actions appear in Presentation.</p>
+          <p><strong>Close</strong> removes a document from the open working set, not from the saved Library; <strong>Trash</strong> removes it from the active Library.</p>
+        </div></details>
+        <details class="help-topic" data-help-topic><summary>Pages and page organization</summary><div>
+          <p>Use <strong>Pages</strong> for thumbnail selection and page management: Select all/none, rotate, duplicate, delete, reorder, insert blank or graph-paper pages, and copy pages to another open document.</p>
+          <p><strong>Extract…</strong> makes an editable local document from selected pages or exports a PDF. <strong>Page size…</strong> and <strong>Crop / margins…</strong> operate on page geometry. <strong>Split</strong> in Files instead splits an active document into multiple outputs by page ranges or fixed intervals.</p>
+        </div></details>
+        <details class="help-topic" data-help-topic><summary>Files, Local Library and New</summary><div>
+          <p><strong>Local Library</strong> stores editable documents in folders. Its search finds document and folder <em>names</em> throughout the active Library and shows the containing paths; it does not read PDF text. The folder breadcrumb lets you navigate nested directories.</p>
+          <p><strong>New</strong> creates white landscape presentation-ratio graph paper in the current folder and remains in Files. The dropdown offers Blank document…, Custom document…, Folder, and templates when available. <strong>Import</strong> brings existing files in; it is not part of New.</p>
+          <p><strong>Open</strong> adds a saved document to the open set while remaining in Files. <strong>Open in View</strong> opens it and switches to View. <strong>Close</strong> keeps the editable Library copy.</p>
+        </div></details>
+        <details class="help-topic" data-help-topic><summary>Selected documents and batch actions</summary><div>
+          <p>Checkboxes in Local Library, search results, and Open documents all update <strong>one shared selection</strong>. The Selected documents block is the command center. Select all/Select none changes only the current folder, search matches or open-document scope; <strong>Clear selection</strong> clears the entire shared selection.</p>
+          <p>Open, Close, Move, Export, Compress, Combine, editable backup and Trash support appropriate multi-document selections. <strong>Open in View</strong>, Rename and Duplicate require exactly one selected document and disappear for multiple selections.</p>
+        </div></details>
+        <details class="help-topic" data-help-topic><summary>Pen, Highlighter, Eraser and Lasso</summary><div>
+          <p>The shared View/Presentation annotation toolbar includes Hand, Pen, Highlighter, Eraser and Lasso/Select. Use the options that appear for the active tool to adjust color, stroke size or selection actions.</p>
+          <p>Eraser supports removing parts of Workbench ink strokes. Lasso/Select can move, resize, recolor and copy/paste supported annotation objects. Inserted images are separate editable annotations; the partial ink eraser does not erase images.</p>
+        </div></details>
+        <details class="help-topic" data-help-topic><summary>Graph nodes, edges and labels</summary><div>
+          <p>Choose <strong>Graph</strong> to add nodes, connect straight edges, and move graph objects. Node borders can be Clean, Hand-drawn or None; controls allow selected nodes/edges to change color or size where supported.</p>
+          <p>Nodes can hold handwritten content. Use <strong>Edit node contents</strong> to draw, highlight, erase part of the content, move its contents, clear it, and finish editing. Selected ink can become node content. Select an edge for <strong>Add/Edit edge label</strong>; its handwritten label follows the edge as connected nodes move.</p>
+          <p>Copying or duplicating selected graph nodes carries attached content and connections between the copied nodes. Use Graph's selection/move controls to select edges and nodes.</p>
+        </div></details>
+        <details class="help-topic" data-help-topic><summary>Images, Assets, Recent and Templates</summary><div>
+          <p><strong>Image</strong> inserts an image annotation. <strong>Assets</strong> opens saved reusable images and editable snippets, organized into folders, and <strong>Recent</strong> holds recently copied items. Use Keep to preserve a recent item in the Asset Library.</p>
+          <p><strong>Templates</strong> stores reusable pages. You can create new documents from templates or insert template pages; templates and permanent assets are included in editable Library backups. Files also has <strong>Images → PDF</strong> to assemble images into a single document.</p>
+        </div></details>
+        <details class="help-topic" data-help-topic><summary>Presentation mode and toolbar</summary><div>
+          <p>Choose <strong>Present</strong> in View. The Presentation toolbar has a <strong>Tools</strong> menu on the left: launch a tool directly there, or check it to show its button on the toolbar. Your visible-tool choices are remembered.</p>
+          <p>The Page view controls, Split/Single View action and page thumbnails are available in Presentation. Use the exit control to return to the normal interface. The same annotations and graph tools work in both modes.</p>
+        </div></details>
+        <details class="help-topic" data-help-topic><summary>Export, Compress, Combine, Extract and Split</summary><div>
+          <p>In Files, <strong>Selected-document tools</strong> apply to the shared selection: Export generates a PDF for one document or a ZIP of separate PDFs for several; Compress offers quality/size choices; Combine creates one document in the chosen order.</p>
+          <p><strong>Active-document tools</strong> apply instead to the active document: Extract selected pages to an editable Library document or PDF; Split creates several editable Library documents or PDF/ZIP outputs. A routine PDF export is not the same as an editable Library backup.</p>
+        </div></details>
+        <details class="help-topic" data-help-topic><summary>Backup &amp; transfer, Trash and recovery</summary><div>
+          <p><strong>Files → Backup &amp; transfer</strong> exports a whole editable Library backup, restores a backup by <strong>replacing</strong> local content, imports a backup into a new folder, or offers an experimental merge. Read the operation label before replacing any data.</p>
+          <p>Document <strong>Trash</strong> is distinct from Close. <strong>Advanced / Recovery</strong> contains storage management, reset controls and saved diagnostics management. Reset or purge is destructive: save an editable backup first.</p>
+        </div></details>
+        <details class="help-topic" data-help-topic><summary>Diagnostics, offline use and updates</summary><div>
+          <p>The <strong>Diagnostics</strong> button in Files saves a local diagnostic snapshot; saved snapshots can be exported from <strong>Advanced / Recovery</strong>. Diagnostics may include document names and internal state used to investigate issues.</p>
+          <p>Use <strong>… → Installation / offline info</strong> for iPad/desktop installation. An installed PWA can reopen offline after its application resources have been cached. <strong>… → About PDF Workbench</strong> shows the installed version and offers an online update/reload option.</p>
+        </div></details>
+      </div>
+      <p id="featureGuideEmpty" class="help-empty hidden">No matching help topics. Try a shorter term.</p>
+    </div>`;
+
+function wireFeatureGuide() {
+  const search = $('featureGuideSearch');
+  const topics = [...els.dialogContent.querySelectorAll('[data-help-topic]')];
+  const count = $('featureGuideCount');
+  const empty = $('featureGuideEmpty');
+  const apply = () => {
+    const query = (search?.value || '').trim().toLocaleLowerCase();
+    let visible = 0;
+    for (const topic of topics) {
+      const matches = !query || topic.textContent.toLocaleLowerCase().includes(query);
+      topic.classList.toggle('hidden', !matches);
+      if (matches) visible++;
+      // Search expands matching help so a hidden detail does not conceal the match.
+      if (query && matches) topic.open = true;
+      if (!query) topic.open = false;
+    }
+    if (count) count.textContent = query ? `${visible} of ${topics.length} topics` : `${topics.length} topics`;
+    empty?.classList.toggle('hidden', visible > 0);
+  };
+  search?.addEventListener('input', apply);
+  // Enter in an input inside a method=dialog form must not close the dialog.
+  search?.addEventListener('keydown', event => { if (event.key === 'Enter') event.preventDefault(); });
+  $('featureGuideClear')?.addEventListener('click', () => { search.value = ''; apply(); search.focus(); });
+  $('featureGuideExpand')?.addEventListener('click', () => { for (const topic of topics) if (!topic.classList.contains('hidden')) topic.open = true; });
+  $('featureGuideCollapse')?.addEventListener('click', () => { for (const topic of topics) topic.open = false; });
+  apply();
+}
+
 function showDialog(kind) {
   els.infoDialog.classList.remove('template-dialog');
   const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
-  if (kind === 'install') {
+  if (kind === 'quickstart') {
+    els.dialogContent.innerHTML = QUICK_START_HTML;
+  } else if (kind === 'guide') {
+    els.dialogContent.innerHTML = FEATURE_GUIDE_HTML;
+  } else if (kind === 'install') {
     els.dialogContent.innerHTML = `<h2>Installation and offline use</h2>
-      <p>This build is a Progressive Web App. When served over HTTPS, Windows/ChromeOS browsers can install it from the browser's install control. On iPad, use Safari's <strong>Share → Add to Home Screen</strong>.</p>
-      <p>After the application and PDF engine have been cached once, the app shell is designed to reopen without a network connection. Your opened documents are processed locally and are not uploaded by this app.</p>
-      <p><strong>Current display mode:</strong> ${standalone ? 'installed / standalone' : 'browser tab'}</p>`;
+      <p>You can install PDF Workbench from its website. On Windows or Chromebook, use the browser's <strong>Install</strong> option. On iPad, open it in Safari and choose <strong>Share → Add to Home Screen</strong>.</p>
+      <p>After the application has been loaded and its necessary resources cached, it can reopen without an internet connection. Your documents are processed on this device, not automatically uploaded.</p>
+      <p><strong>Currently running as:</strong> ${standalone ? 'installed app' : 'browser tab'}</p>`;
   } else if (kind === 'attributions') {
     els.dialogContent.innerHTML = `<h2>Attributions &amp; licenses</h2>
       <p>PDF Workbench uses the following third-party projects. Full bundled license text is included with this build.</p>
@@ -18146,13 +18274,16 @@ function showDialog(kind) {
       <a href="./THIRD_PARTY_LICENSES.txt" target="_blank" rel="noopener">Open full bundled license text</a></p>
       <p class="small-note">Project names are used only for attribution and identification; no endorsement is implied.</p>`;
   } else {
-    els.dialogContent.innerHTML = `<h2>Milestone ${APP_VERSION}</h2>
-      <p><strong>Development/diagnostic branch:</strong> official PDF Workbench remains 5.7.21 until this branch is promoted. Milestone 5.8.17 is a focused iPad text-entry/rename fix on the 5.8.16 graph Copy/Paste baseline. Viewer rebuilds caused by software-keyboard viewport resize are deferred while a text field owns focus, then replayed after editing ends, preventing View-mode Rename from losing focus on the first keystroke. Relationship-aware graph Copy/Paste and the validated 5.8.15 edge-label interaction remain intact.</p>
-      <ul><li><strong>Graph tools:</strong> Graph mode creates movable semantic nodes and straight attached edges. Node borders may be Clean, Hand-drawn, or None; edges follow nodes as they move. Handwritten node contents can be created from selected ink and edited with a simple Pen/Highlighter/Eraser workflow plus Clear and Move Contents; auto-fit remains available for auto nodes. Straight edges can now own handwritten labels that follow their geometry and can slide along or across the edge. Loops, curves, directed edges, and relationship-aware graph copy/paste remain later milestones.</li><li><strong>Black blank pages:</strong> New blank documents and Insert Page support White/Black backgrounds. White remains the deliberate default; black is actual exported PDF page content rather than a display-only theme.</li><li><strong>Customizable Presentation toolbar:</strong> Presentation has a permanent Tools menu at the far left. Tools can be launched from that menu whether or not their main-toolbar checkbox is enabled; choosing a tool from the menu shows its normal contextual options in the toolbar. Visibility choices persist across restarts. The ordinary View strip remains unchanged.</li><li><strong>Unified top annotation strip:</strong> the same thin, full-width toolbar appears in View and Presentation. The picture button quick-inserts one image directly into Recent; the adjacent Assets button opens the saved/recent browser for reusable pasting.</li><li><strong>Reusable Assets:</strong> Files → Assets manages permanent images and editable snippets in nested folders. Recent is a capped flat local clipboard history (30 entries). Keep promotes a recent true copy into the current Asset folder; permanent assets and folders can be moved through the hierarchy. Asset folders are included in editable backup/restore.</li><li><strong>Pen, Highlighter, partial eraser, and selection:</strong> Hand/View, Pen, Highlighter, Eraser, and Lasso/Select modes retain the validated 5.4.8 behavior and dense-page performance work.</li><li><strong>Images as annotations:</strong> inserted images are page-local objects stored in unrotated page coordinates. They can be selected, moved, proportionally resized, rotated in 90° selection turns, deleted, duplicated, copied, pasted, included in page/template duplication, and restored from the Local Library.</li><li><strong>Layering and erasing:</strong> inserted images render below Workbench ink/highlighter. The partial Eraser continues to affect ink only; passing over an inserted image does not destructively erase the image.</li><li><strong>PDF output:</strong> inserted images are embedded in exported PDFs and Workbench ink is drawn above them as continuous vector paths. Untouched-byte passthrough is disabled whenever a page has any Workbench annotation object.</li><li><strong>Existing PDF links:</strong> untouched byte-for-byte exports preserve all original structures. Rebuilt exports preserve standard external URI links but remove internal/document-navigation link annotations; source outlines/bookmarks are not rebuilt.</li><li><strong>Workspace continuation:</strong> open documents, active workspace/split state, and viewer state are checkpointed for restart restoration. Undo/Redo remains session-local and starts fresh after a true restart.</li></ul>
-      <p><strong>Image/Asset scope:</strong> placement, proportional resize, selection actions, persistence, and PDF export. Cropping, free-angle image rotation, and system-clipboard image paste are intentionally deferred. New blank and graph-paper documents can use either US Letter landscape or a current-device Presentation-ratio page with an 11-inch long edge.</p>
-      <div class="update-panel"><strong>PWA update</strong><p>Use this if an installed Home Screen/Desktop copy is still showing an older version after the hosted files have changed.</p><button id="forceUpdateBtn" type="button">Reload latest version</button><p id="updateStatus" class="update-status"></p></div>`;
+    els.dialogContent.innerHTML = `<h2>About PDF Workbench</h2>
+      <p>PDF Workbench lets you open, annotate, organize, and export PDFs and images. You can compare documents side by side, work with pages, and create editable notes and graph-paper documents.</p>
+      <p><strong>Installed version:</strong> ${APP_VERSION}</p>
+      <p><strong>Your documents:</strong> PDF Workbench stores your Library and edits on this device. It does not automatically sync them between devices. Use <strong>Files → Backup &amp; transfer</strong> to save an editable backup, especially before changing devices or clearing browser data.</p>
+      <p><strong>Help:</strong> Open <strong>… → Quick Start</strong> for a short introduction or <strong>… → Feature Guide</strong> for instructions on individual tools.</p>
+      <div class="update-panel"><strong>Updates</strong><p>When connected to the internet, you can reload the app using the newest version available from its website.</p><button id="forceUpdateBtn" type="button">Check for updates and reload</button><p id="updateStatus" class="update-status" role="status"></p></div>`;
   }
+  els.infoDialog.classList.toggle('help-dialog', kind === 'quickstart' || kind === 'guide');
   els.infoDialog.showModal();
+  if (kind === 'guide') wireFeatureGuide();
   if (kind === 'about') $('forceUpdateBtn')?.addEventListener('click', forceReloadLatest);
 }
 
@@ -18161,7 +18292,7 @@ async function forceReloadLatest() {
   const button = $('forceUpdateBtn');
   if (!navigator.onLine) { if (status) status.textContent = 'You are offline. Connect to the internet, then try again.'; return; }
   if (button) button.disabled = true;
-  if (status) status.textContent = 'Checking the hosted app and clearing the old app-shell cache…';
+  if (status) status.textContent = 'Checking for a newer version…';
   try {
     const registration = 'serviceWorker' in navigator ? await navigator.serviceWorker.getRegistration() : null;
     if (registration) await registration.update().catch(() => {});
@@ -18170,7 +18301,7 @@ async function forceReloadLatest() {
       const keys = await caches.keys();
       await Promise.all(keys.filter(k => k.startsWith('pdf-workbench-')).map(k => caches.delete(k)));
     }
-    if (status) status.textContent = 'Reloading from the network…';
+    if (status) status.textContent = 'Reloading PDF Workbench…';
     const url = new URL(location.href);
     url.searchParams.set('pwaUpdate', Date.now().toString());
     setTimeout(() => location.replace(url.href), 120);
@@ -19542,6 +19673,8 @@ function bindEvents() {
   });
   els.moreBtn.addEventListener('click', (e) => { e.stopPropagation(); closeInsertPageMenu(); toggleMoreMenu(); });
   els.clearBtn.addEventListener('click', () => { toggleMoreMenu(false); closeAllOpenDocuments(); });
+  els.quickStartBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('quickstart'); });
+  els.featureGuideBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('guide'); });
   els.installHelpBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('install'); });
   els.attributionsBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('attributions'); });
   els.aboutBtn.addEventListener('click', () => { toggleMoreMenu(false); showDialog('about'); });

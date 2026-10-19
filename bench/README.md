@@ -1,6 +1,14 @@
-# PDF Workbench 5.8.50-exp
+# PDF Workbench 5.8.51-exp
 
-## Milestone 5.8.50 — Files UI Stage 2: organization and discovery
+## Milestone 5.8.51 — Files UI Stage 3: controls and in-app help
+
+- View and Presentation use the same Single View / Split View action icon and accessible label. Presentation's Tools menu displays the action that a click will perform.
+- Local Library, Open Documents, and Pages use consistent Select all / Select none labels, with tooltips clarifying the scope. Clear selection still acts on the whole shared Files selection.
+- Under the top-right ellipsis: Quick Start, searchable and expandable Feature Guide, and a user-facing About PDF Workbench screen. Help is bundled locally; no new network service or Library schema is required.
+- About now describes features, on-device storage, backup guidance, the installed version and how to check for updates. It is written for everyday users rather than a developer/testing audience.
+- No PDF viewer engine, worker, document schema or backup format changes.
+
+## Prior milestone 5.8.50 — Files UI Stage 2: organization and discovery
 
 Based on the user-tested 5.8.49-exp build. All change is UI/navigation code:
 
@@ -31,7 +39,7 @@ real Restore/Delete merely to test labels unless using a disposable Library.
 
 Unify Single/Split action icons across View and Presentation, finish wording and
 Select all/none consistency, add a short task-oriented Quick Start under `…`,
-and a searchable/expandable Feature Guide. Validate 5.8.50 on devices first.
+and a searchable/expandable Feature Guide. Stage 2 validated in ordinary use; validate Stage 3 on devices before new features.
 
 ---
 

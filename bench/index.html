@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.8.50">
+  <link rel="stylesheet" href="styles.css?v=5.8.51">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -55,8 +55,8 @@
             <button id="zoomInBtn" class="zoom-btn" type="button" title="Zoom in" aria-label="Zoom in">+</button>
           </div>
         </div>
-        <button id="splitViewBtn" class="tool-btn" type="button" title="Toggle side-by-side view" aria-pressed="false">
-          <span aria-hidden="true">◫</span><span id="splitViewLabel" class="tool-label">Split</span>
+        <button id="splitViewBtn" class="tool-btn" type="button" title="Split View" aria-label="Split View">
+          <span id="viewLayoutActionIcon" class="layout-action-icon" aria-hidden="true">◫</span><span id="splitViewLabel" class="tool-label">Split View</span>
         </button>
         <button id="viewInsertBtn" class="tool-btn" type="button" title="Insert a page after the current page" aria-label="Insert page" aria-haspopup="menu" aria-expanded="false">
           <span class="page-plus-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 3h8l4 4v5M6 3v18h7M14 3v5h4"/><path d="M14 17h7M17.5 13.5v7"/></svg></span><span class="tool-label">Page</span>
@@ -72,10 +72,12 @@
       <button id="moreBtn" class="icon-btn" type="button" aria-haspopup="menu" aria-expanded="false" title="More options">⋯</button>
       <div id="moreMenu" class="popover hidden" role="menu">
         <button id="clearBtn" type="button" role="menuitem">Close all files</button>
+        <button id="quickStartBtn" type="button" role="menuitem">Quick Start</button>
+        <button id="featureGuideBtn" type="button" role="menuitem">Feature Guide</button>
         <button id="installHelpBtn" type="button" role="menuitem">Installation / offline info</button>
         <button id="inkDiagnosticsBtn" type="button" role="menuitem">Download diagnostics</button>
         <button id="attributionsBtn" type="button" role="menuitem">Attributions &amp; licenses</button>
-        <button id="aboutBtn" type="button" role="menuitem">About this build</button>
+        <button id="aboutBtn" type="button" role="menuitem">About PDF Workbench</button>
       </div>
     </header>
 
@@ -242,7 +244,7 @@
             <button id="presentationZoomOutBtn" type="button" aria-label="Zoom out">−</button>
             <button id="presentationZoomInBtn" type="button" aria-label="Zoom in">+</button>
           </div>
-          <button id="presentationLayoutBtn" class="presentation-only" type="button" title="Switch to split view" aria-label="Switch to split view">◫</button>
+          <button id="presentationLayoutBtn" class="presentation-only" type="button" title="Split View" aria-label="Split View"><span id="presentationLayoutActionIcon" class="layout-action-icon" aria-hidden="true">◫</span></button>
           <button id="presentationInsertBtn" class="presentation-insert-page presentation-only" type="button" title="Insert a page after the current page" aria-label="Insert page" aria-haspopup="menu" aria-expanded="false"><span class="page-plus-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 3h8l4 4v5M6 3v18h7M14 3v5h4"/><path d="M14 17h7M17.5 13.5v7"/></svg></span></button>
           <button id="presentationDiagnosticsBtn" class="presentation-only presentation-diagnostics-btn" type="button" title="Save diagnostics locally" aria-label="Save diagnostics locally"><span class="presentation-diagnostics-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 3.5h9l4 4V20.5H5z"/><path d="M14 3.5v4h4"/><path d="M7.5 14h2l1.4-3 2.2 6 1.4-3h2"/></svg></span></button>
           <button id="presentationPagesBtn" class="presentation-only presentation-pages-btn" type="button" title="Browse pages" aria-label="Browse page thumbnails" aria-controls="presentationPageDrawerLayer" aria-expanded="false"><span class="presentation-pages-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="4" y="3.5" width="13" height="17" rx="1.5"/><path d="M7.2 7h6.7M7.2 10.3h6.7M7.2 13.6h6.7"/><path d="M19.2 6.2v11.6"/></svg></span></button>
@@ -362,7 +364,7 @@
               <div class="library-export-selection-toolbar library-bulk-selection-toolbar" aria-label="Selected Library document actions">
                 <p id="librarySelectionSummary" class="small-note">No documents selected.</p>
                 <div class="library-export-selection-actions">
-                  <button id="librarySelectAllBtn" type="button">Select all</button>
+                  <button id="librarySelectAllBtn" type="button" title="Select all documents in this folder">Select all</button>
                 </div>
               </div>
               <div id="libraryDocumentList" class="library-document-list" aria-label="Persistent local documents and folders"></div>
@@ -948,6 +950,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.8.50"></script>
+  <script type="module" src="app.js?v=5.8.51"></script>
 </body>
 </html>

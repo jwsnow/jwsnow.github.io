@@ -1,3 +1,78 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-18 — BASELINE 5.8.51-exp
+
+STAGE 3 — CONSISTENCY + IN-APP HELP — IMPLEMENTED
+This section supersedes all older stage-status and next-step text below.
+Continue from the packaged 5.8.51-exp ZIP, not 5.8.50 or prior.
+
+IMPLEMENTED
+1. SINGLE/SPLIT ACTION CONSISTENCY
+- The ordinary View toolbar and Presentation toolbar use one shared set of inline
+  SVG icons: single page for Single View, two adjacent pages for Split View.
+- Labels and accessible titles describe the destination/action: currently Split
+  -> Single View; currently Single -> Split View.
+- Presentation Tools menu derives the same current action label and icon;
+  toolbar visibility preference behavior is preserved.
+
+2. SELECTION WORDING
+- Local Library, Open Documents, and Pages use Select all / Select none.
+- Scoped aria-label/tooltips explain whether action applies to current folder,
+  matching search results, open-document working set, or active document pages.
+- Existing global Clear selection remains a distinct command in Files.
+
+3. QUICK START AND FEATURE GUIDE
+- The top-right ellipsis menu now contains Quick Start and Feature Guide.
+- Quick Start is a concise sequence covering creating/importing, Open vs View,
+  comparing/grading in Split, annotation, exporting, and backups.
+- Feature Guide has expandable topics and inline search, showing each matching
+  topic expanded. It covers Files, View/Pages, graph operations, images/assets,
+  Presentation, export/extract/split, editable backups, Trash, diagnostics and
+  offline use. Entirely bundled locally with no new network dependencies.
+
+4. ABOUT PDF WORKBENCH — USER FACING
+- The ellipsis now says About PDF Workbench rather than About this build.
+- The About panel is written to a regular user, not the developer/tester:
+  main features; installed version; locally stored documents with no automatic
+  device-to-device sync; recommendation to use editable backups; help links;
+  and a Check for updates and reload action (the existing updater behavior).
+- Removed development/milestone/roadmap language from this panel. The project
+  history remains in this handoff/README, not in user-facing About.
+- The installation/offline dialog was rewritten in simpler user language.
+
+TESTED
+- JavaScript ES module syntax, service-worker/version cache consistency and
+  release-check.mjs pass for 5.8.51.
+- Static HTML ID uniqueness, new menu controls, shared icon hooks, guide search
+  wiring, and absence of tester-facing About wording pass.
+- No live iPad or Surface regression test has yet been performed on 5.8.51.
+- Stage 2 (5.8.50) was reported functional by the user before this revision.
+
+VALIDATION PRIORITY
+1. Toggle Single/Split from normal View and Presentation. Confirm icon and
+   tooltip always describe what the next tap will do. Check the Tools popup.
+2. In Files, toggle Select all / Select none within a folder and active search,
+   then within Open Documents; Clear selection should remove all selections.
+3. Open Quick Start and Feature Guide from ellipsis, use search, expand and
+   collapse matching guide topics, close help, and return to ordinary work.
+4. Read About PDF Workbench and check its on-device backup guidance.
+5. Check update/reload function only when an online new version is actually
+   installed or when specifically troubleshooting an out-of-date app.
+
+PRESERVE
+- All Stage 1 and Stage 2 Files behavior, including quick New staying in Files,
+  shared selection, single-document command hiding for multi-selection, and
+  search results/path navigation.
+- Startup restore precedence, IndexedDB lifecycle/recovery work, PDF.js/worker
+  limits, Split rendering/Close, annotations, graph behavior, and export/backup
+  formats are unchanged in 5.8.51.
+
+NEXT
+- Observe Stage 3 during ordinary iPad/Surface grading. Address any narrow
+  UI or wording regressions before beginning an unrelated feature milestone.
+
+================================================================================
+PRIOR 5.8.50 HANDOFF FOLLOWS — HISTORICAL STATUS; NOT CURRENT
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-18 — BASELINE 5.8.50-exp
 
 STAGE 2 — FILES ORGANIZATION / DISCOVERABILITY — IMPLEMENTED
