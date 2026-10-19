@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.55';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.56';
 
-const APP_VERSION = '5.8.55';
+const APP_VERSION = '5.8.56';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -837,6 +837,18 @@ async function ensureLibrarySourceLoaded(sourceId) {
     // deliberate copy to the worker.
     const workerBytes = bytes.slice();
     const workerCopyMs = performance.now() - workerCopyStarted;
+    // Single View may rebuild its page stages before the delayed outgoing-PDF
+    // residency sweep has completed. When both managed iPad slots are occupied,
+    // synchronously retire only INACTIVE persisted sources before trying to load
+    // the incoming source. Otherwise the initial page renders fail immediately,
+    // then scrolling off/on happens to work once the old source is retired.
+    // Split keeps its stricter own pre-render gate; no third worker is created.
+    if (isIPadLike() && state.pdfjs?.PDFWorker &&
+        ensureLivePdfWorkerSlots().every(slot => slot.activeSourceId || slot.reservedSourceId)) {
+      await freeInactivePdfWorkerCapacity(new Set([sourceId]), 'viewer-preload-capacity');
+      // Another awaiting caller may have completed this very source load.
+      if (state.sources.has(sourceId)) return state.sources.get(sourceId);
+    }
     const workerSlot = await acquireLivePdfWorkerSlot(sourceId);
     if (isIPadLike() && state.pdfjs?.PDFWorker && !workerSlot) {
       throw new Error('No managed iPad PDF worker slot is available. The viewer refused to create an unmanaged extra worker.');
@@ -1846,7 +1858,7 @@ function markDocumentExported(doc) {
   doc.lastExportedAt = Date.now();
   scheduleLibraryPersist(100, { documentsOnly: true });
 }
-async function freeInactivePdfWorkerCapacityForFileOperation(targetSourceIds, reason='file-operation-preload') {
+async function freeInactivePdfWorkerCapacity(targetSourceIds, reason='file-operation-preload') {
   if (!isIPadLike()) return 0;
   const preserve = new Set([...(targetSourceIds || [])].filter(Boolean));
   const candidates = [];
@@ -1879,7 +1891,7 @@ async function freeInactivePdfWorkerCapacityForFileOperation(targetSourceIds, re
     if (await releasePersistedPdfSourceMemory(sourceId, reason)) released++;
   }
   if (released || waited) {
-    addInkDiagnostic('file-operation-preload-capacity', null, {
+    addInkDiagnostic(reason === 'file-operation-preload' ? 'file-operation-preload-capacity' : 'viewer-preload-capacity', null, {
       reason,
       targetSourceCount:preserve.size,
       candidates:candidates.length,
@@ -1899,7 +1911,7 @@ async function prepareDocumentForFileOperation(doc) {
   // compression, or combine can hydrate the selected document without violating
   // the strict two-worker invariant introduced after the watchdog recovery crash.
   const sourceIds = pagesReferencedSourceIds(doc?.pages || []);
-  await freeInactivePdfWorkerCapacityForFileOperation(sourceIds);
+  await freeInactivePdfWorkerCapacity(sourceIds);
   for (const sourceId of sourceIds) await ensureLibrarySourceLoaded(sourceId);
   return sourceIds;
 }
@@ -8584,7 +8596,19 @@ function sourceNeededByVisibleDocument(sourceId) {
   }
   return false;
 }
+// Both the delayed residency timer and a new View load can request retirement
+// of the same outgoing PDF. Share the in-flight destroy rather than racing two
+// PDF.js cleanup/destroy operations against the same managed worker slot.
+const persistedPdfRetireInFlight = new Map();
 async function releasePersistedPdfSourceMemory(sourceId, reason='inactive-document') {
+  const pending = persistedPdfRetireInFlight.get(sourceId);
+  if (pending) { await pending; return false; }
+  const retirement = retirePersistedPdfSourceMemory(sourceId, reason);
+  persistedPdfRetireInFlight.set(sourceId, retirement);
+  try { return await retirement; }
+  finally { if (persistedPdfRetireInFlight.get(sourceId) === retirement) persistedPdfRetireInFlight.delete(sourceId); }
+}
+async function retirePersistedPdfSourceMemory(sourceId, reason='inactive-document') {
   const source = state.sources.get(sourceId);
   if (!source || source.type !== 'pdf' || !source.libraryPersisted) return false;
   if (sourceNeededByVisibleDocument(sourceId) || sourceUsedByTemplates(sourceId)) return false;

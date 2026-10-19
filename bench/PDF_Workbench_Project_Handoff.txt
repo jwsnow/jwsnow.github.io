@@ -1,3 +1,33 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.56-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from the packaged 5.8.56-exp ZIP.
+
+5.8.56 IPAD FIRST-VIEW PDF WORKER CAPACITY RACE FIX
+
+WHY THIS REVISION EXISTS
+- User reported repeatedly seeing “Could not render...” on opening a scanned PDF via Files → Open → View. Scrolling away/back then rendered correctly.
+- 2026-10-19 saved diagnostics from running 5.8.55 show a reproducible pool race across Kelly Rodriguez Exam 2 Retest.pdf, ReTest2.pdf, Wagner.pdf, Bartek.pdf, Jules.pdf: `live-pdf-worker-pool-exhausted`, immediately followed by render-error “No managed iPad PDF worker slot is available...”
+- Typical ordering: `library-source-residency-sweep` -> Single View DOM rebuild -> incoming page render attempts (~10-50ms after rebuild) -> pool exhausted -> outgoing persisted PDF is actually retired and its worker slot released ~0.4-1s later -> user scroll causes successful source load/render. The delay is in the existing 450ms residency-release timer plus PDF.js destruction.
+- The failure is NOT scan corruption or proof of a new PDF export regression. It is a worker-slot handoff race in Single View; Split View already has a strict pre-render retirement gate.
+
+5.8.56 CODE CHANGES
+1. `ensureLibrarySourceLoaded()` on iPad now checks for two busy managed worker slots before hydrating a persisted PDF. If full, it awaits retirement of *only inactive persisted PDF sources* through the existing file-operation capacity retirement logic, now shared as `freeInactivePdfWorkerCapacity(...)`. It does not retire visible/template-needed sources or create a third worker.
+2. `releasePersistedPdfSourceMemory()` is guarded by an in-flight per-source promise so the delayed residency sweep and immediate preloading cannot destroy the same PDF.js source/worker concurrently.
+3. Adds viewer-specific `viewer-preload-capacity` diagnostics; preserves existing `file-operation-preload-capacity` events for Export/Compress/Combine.
+4. No changes to IndexedDB schema, Library model, saved files, PDF workers' strict two-slot limit, raster caps, scanner thumbnail guards, Split pre-render retirement, or separate PDF export.
+
+VALIDATION PRIORITY
+1. iPad installed PWA: with a scanned document already viewed, enter Files, select Open on a different scanned document, then View. The first page should render without “Could not render...” and without scrolling away/back.
+2. Repeat several times, with ordinary sized scans and some heavier scans. A `viewer-preload-capacity` event may record an inactive PDF released before a `library-source-load-finish`; there should be no `live-pdf-worker-pool-exhausted` for these ordinary Single View switches.
+3. Test Split grading/pane switching to confirm the independent two-worker pre-render gate is unaffected. No third PDF worker should be created.
+4. Test an ordinary Files ZIP export and separate PDF export to verify unchanged behavior.
+5. Export saved Diagnostics if a render still fails. If two workers are genuinely required by visible/active sources, the strict worker-pool safety error can remain; this fix only removes stale inactive capacity before normal Viewer loads.
+
+================================================================================
+PRIOR 5.8.55 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.55-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS / TEST PRIORITIES BELOW.

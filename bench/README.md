@@ -1,4 +1,11 @@
-# PDF Workbench 5.8.55-exp
+# PDF Workbench 5.8.56-exp
+
+## Milestone 5.8.56 — First-view iPad PDF worker handoff
+
+- Addresses repeated first-render failures when switching from Files/Open into Single View while both managed iPad PDF worker slots were still occupied. 2026-10-19 diagnostics show the initial render error within ~10-20 ms, followed by old-source release ~0.4 seconds later and successful scroll-based retry.
+- Before hydrating a newly requested persisted PDF when both pooled worker slots are busy, synchronously retire only non-visible, non-template-owned persisted PDFs. Keep the strict two-worker invariant and existing Split-pane retirement behavior.
+- Serialize retirement of the same PDF source between the delayed residency sweep and this preload path; avoid overlapping PDF.js destroy calls.
+- New `viewer-preload-capacity` diagnostic records the release count and worker pool when viewer preloading needs to retire inactive PDFs. Normal operation, memory caps, exports, and annotations are unchanged.
 
 ## Milestone 5.8.55 — Experimental separate PDF export via system sharing / folder save
 
