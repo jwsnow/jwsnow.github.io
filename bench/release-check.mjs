@@ -19,6 +19,8 @@ const checks = [
   ['service-worker CSS query', sw.includes(`styles.css?v=${version}`)],
   ['service-worker modeler query', sw.includes(`google-ink-modeler.js?v=${version}`)],
   ['README heading', readme.includes(`Milestone ${version}`)],
+  ['backup worker cached', sw.includes(`editable-backup-worker.js?v=${version}`)],
+  ['backup worker exists', fs.existsSync(new URL('editable-backup-worker.js', import.meta.url))],
 ];
 
 const syntax = spawnSync(process.execPath, ['--input-type=module','--check'], { input: app, encoding:'utf8' });

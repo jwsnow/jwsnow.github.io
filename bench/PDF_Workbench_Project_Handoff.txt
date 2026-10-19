@@ -1,3 +1,23 @@
+PDF WORKBENCH — CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.60-exp
+
+THIS SECTION SUPERSEDES OLDER BACKUP WRITER STATUS. Continue from 5.8.60-exp ZIP.
+
+2026-10-19 iPad full-Library editable-backup 5.8.59 failed at approximately 187/189 sources, with a white-screen WebKit/PWA restart. Diagnostic archive PDF-Workbench-Saved-Diagnostics-2026-10-19_17-25.zip preserves a last previous-runtime breadcrumb at ~25.6 s uptime: repeated editable-backup-stage-progress events; no stage-ready, no JavaScript error, no active viewer PDF/render workers. Browser storage estimate ~514 MB. The archive does not identify the exact source or prove a native OOM; this is an inference from observed termination under large archive writes.
+
+5.8.60 REVISED BACKUP EXPERIMENT
+- On iPad, move full-backup assembly out of the UI and its asynchronous OPFS createWritable() stream. A dedicated editable-backup-worker.js reads IndexedDB sources one at a time and writes a ZIP32 STORE archive using a synchronous OPFS access handle; 256 KiB chunks and 8 MiB disk flush intervals.
+- Preserve existing manifest.json and sources/*.bin backup format, restore compatibility, two-slot prepared archive policy, separate Download prepared backup button, previous saved backup, and Windows backup path. The worker checks the completed archive size via the OPFS synchronous handle before advertising it as prepared. The iPad UI deliberately avoids creating a 500+ MB File object during preparation; that is deferred to the separate Download action.
+- Main UI shows live source index/size, completed count and byte information. Save precise editableBackupStageProgress in compact crash breadcrumbs. If the worker API is unavailable, fail safely with a descriptive error, not the known crashing path.
+- Worker is in service-worker app shell for offline PWA use. No Library schema, PDF.js, rendering, graph, annotation, other export changes.
+
+VALIDATION REQUIRED ON IPAD
+1. Try entire-Library editable backup. If a worker API error appears, capture its exact message; do not use the old writer.
+2. If prepared successfully, Download prepared backup outside Workbench, inspect ZIP and manifest/sources via desktop, and restore only into a separate disposable Library.
+3. If the PWA restarts, save diagnostics immediately. The previous runtime's editableBackupStageProgress and per-source events should isolate how far the writer got.
+4. Preserve normal Files → View, Split, template preview and separate PDF sharing behavior.
+
+================================================================================
+
 PDF WORKBENCH — 2026-10-19 — BASELINE 5.8.59-exp
 
 ## Milestone 5.8.59 — iPad full editable backup memory protection (experimental)

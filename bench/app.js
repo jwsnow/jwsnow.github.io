@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.59';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.60';
 
-const APP_VERSION = '5.8.59';
+const APP_VERSION = '5.8.60';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -2528,166 +2528,91 @@ async function discardPreparedEditableBackup() {
   }
 }
 
-// ZIP32 STORE writer. Data descriptors allow a one-pass archive: no need to
-// reread a source for its CRC before writing. Each source is released before
-// the next IndexedDB record is requested. Compatible with JSZip.loadAsync.
-const BACKUP_ZIP_CRC_TABLE = (() => {
-  const t = new Uint32Array(256);
-  for (let n=0;n<256;n++) {
-    let c=n;
-    for (let k=0;k<8;k++) c=(c>>>1) ^ ((c&1) ? 0xEDB88320 : 0);
-    t[n]=c>>>0;
-  }
-  return t;
-})();
-function backupZipCrcUpdate(crc, bytes) {
-  for (let i=0;i<bytes.byteLength;i++) crc = BACKUP_ZIP_CRC_TABLE[(crc ^ bytes[i]) & 255] ^ (crc>>>8);
-  return crc>>>0;
-}
-function createIncrementalEditableBackupZip(writable) {
-  const encoder = new TextEncoder();
-  const entries=[];
-  let offset=0;
-  const u16=(dv,at,v)=>dv.setUint16(at,v,true);
-  const u32=(dv,at,v)=>dv.setUint32(at,v>>>0,true);
-  const write=async bytes=>{
-    if (offset + bytes.byteLength >= 0xFFFFFFFF) throw new Error('Editable backup exceeds the supported 4 GB ZIP size.');
-    await writable.write(bytes);
-    offset+=bytes.byteLength;
-  };
-  async function addFile(filename, payload) {
-    if (entries.length >= 65535) throw new Error('Editable backup has too many ZIP entries.');
-    const name=encoder.encode(filename);
-    if (name.length>65535) throw new Error('A backup filename is too long.');
-    const localOffset=offset;
-    const header=new Uint8Array(30+name.length),dv=new DataView(header.buffer);
-    u32(dv,0,0x04034B50);u16(dv,4,20);u16(dv,6,0x0808);
-    u16(dv,8,0);u16(dv,10,0);u16(dv,12,0);
-    u16(dv,26,name.length);header.set(name,30);
-    await write(header);
-    let crc=0xFFFFFFFF,size=0;
-    async function writeChunk(chunk) {
-      if (!chunk?.byteLength) return;
-      size+=chunk.byteLength;
-      if (size>=0xFFFFFFFF) throw new Error('A stored PDF exceeds the supported ZIP entry size.');
-      crc=backupZipCrcUpdate(crc,chunk);
-      await write(chunk);
-    }
-    if (payload instanceof Blob) {
-      for(let start=0;start<payload.size;start+=BACKUP_STREAM_CHUNK_BYTES)
-        await writeChunk(new Uint8Array(await payload.slice(start,start+BACKUP_STREAM_CHUNK_BYTES).arrayBuffer()));
-    } else {
-      const bytes=typeof payload==='string' ? encoder.encode(payload) : payload;
-      for(let start=0;start<bytes.byteLength;start+=BACKUP_STREAM_CHUNK_BYTES)
-        await writeChunk(bytes.subarray(start,start+BACKUP_STREAM_CHUNK_BYTES));
-    }
-    crc=(crc ^ 0xFFFFFFFF)>>>0;
-    const desc=new Uint8Array(16),dd=new DataView(desc.buffer);
-    u32(dd,0,0x08074B50);u32(dd,4,crc);u32(dd,8,size);u32(dd,12,size);
-    await write(desc);
-    entries.push({name,crc,size,localOffset});
-  }
-  async function finish() {
-    const directoryOffset=offset;
-    for (const entry of entries) {
-      const header=new Uint8Array(46+entry.name.length),dv=new DataView(header.buffer);
-      u32(dv,0,0x02014B50);u16(dv,4,20);u16(dv,6,20);u16(dv,8,0x0808);
-      u16(dv,10,0);u16(dv,12,0);u16(dv,14,0);
-      u32(dv,16,entry.crc);u32(dv,20,entry.size);u32(dv,24,entry.size);
-      u16(dv,28,entry.name.length);u32(dv,42,entry.localOffset);
-      header.set(entry.name,46);
-      await write(header);
-    }
-    const directorySize=offset-directoryOffset;
-    const end=new Uint8Array(22),dv=new DataView(end.buffer);
-    u32(dv,0,0x06054B50);u16(dv,8,entries.length);u16(dv,10,entries.length);
-    u32(dv,12,directorySize);u32(dv,16,directoryOffset);
-    await write(end);
-    await writable.close();
-    return {bytes:offset,entries:entries.length};
-  }
-  return {addFile,finish};
-}
-
+// A dedicated worker stages large backups through an OPFS synchronous access
+// handle. The iPad's async writable stream previously crashed near 187/189
+// sources, even though the sources were read one at a time. Fail explicitly if
+// the safer worker writer is unavailable rather than retrying the unsafe path.
+let editableBackupStageProgress = null;
 async function createStagedIPadEditableLibraryBackup() {
-  // Open destination first so an unsupported browser fails safely before
-  // copying hundreds of MB out of IndexedDB.
-  const root=await getEditableBackupOPFSRoot();
-  const previous=preparedEditableBackupInfo();
-  const slot=BACKUP_OPFS_SLOT_NAMES.find(s=>s!==previous?.slot) || BACKUP_OPFS_SLOT_NAMES[0];
-  const handle=await root.getFileHandle(slot,{create:true});
-  if (typeof handle.createWritable !== 'function') {
-    throw new Error('This iPad browser cannot incrementally write the backup. Use the desktop Workbench for a full editable backup.');
+  const root = await getEditableBackupOPFSRoot();
+  const previous = preparedEditableBackupInfo();
+  const slot = BACKUP_OPFS_SLOT_NAMES.find(s => s !== previous?.slot) || BACKUP_OPFS_SLOT_NAMES[0];
+  if (typeof Worker !== 'function') {
+    throw new Error('This iPad browser cannot run the background backup writer. Use Windows for the full editable backup.');
   }
-  const writable=await handle.createWritable();
-  let closed=false;
+  if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Saving current editable state…';
+  await persistLibraryNow();
+  await persistAllAssetsNow();
+  const [documents, folders, assets, assetFolders, session, templatesMeta] = await Promise.all([
+    libraryGetAll('documents'), libraryGetAll('folders'), libraryGetAll('assets'),
+    libraryGetAll('assetFolders'), libraryGet('meta', 'session'), libraryGet('meta', 'templates'),
+  ]);
+  const { store } = libraryStore('sources');
+  const sourceIds = await idbRequest(store.getAllKeys());
+  const preferences = {};
+  for (const key of ['pdfwb-scroll-mode','pdfwb-fit-mode','pdfwb-library-view','pdfwb-library-sort','pdfwb-graph-subtool','pdfwb-graph-border-style','pdfwb-graph-color','pdfwb-graph-node-size',PRESENTATION_TOOL_VISIBILITY_KEY]) {
+    try { const value = localStorage.getItem(key); if (value != null) preferences[key] = value; } catch {}
+  }
+  const manifest = {
+    format: 'PDF Workbench Editable Library Backup', backupFormatVersion: LIBRARY_BACKUP_FORMAT_VERSION,
+    applicationVersion: APP_VERSION, librarySchemaVersion: LIBRARY_SCHEMA_VERSION,
+    createdAt: new Date().toISOString(), documents, folders, assets, assetFolders,
+    meta: { session: session || serializeLibrarySession(), templates: templatesMeta || serializeTemplatesForLibrary() },
+    preferences,
+  };
+  addInkDiagnostic('editable-backup-stage-start', null, { mode:'opfs-sync-worker', sourceCount:sourceIds.length, documents:documents.length });
+  editableBackupStageProgress = { phase:'starting', completed:0, total:sourceIds.length, bytes:0, sourceSize:0 };
+  let worker = null;
   try {
-    const zip=createIncrementalEditableBackupZip(writable);
-    addInkDiagnostic('editable-backup-stage-start', null, {mode:'opfs-store'});
-    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent='Saving current editable state…';
-    await persistLibraryNow();
-    await persistAllAssetsNow();
-    const [documents, folders, assets, assetFolders, session, templatesMeta] = await Promise.all([
-      libraryGetAll('documents'),libraryGetAll('folders'),libraryGetAll('assets'),
-      libraryGetAll('assetFolders'),libraryGet('meta','session'),libraryGet('meta','templates'),
-    ]);
-    const {store}=libraryStore('sources');
-    const sourceIds=await idbRequest(store.getAllKeys());
-    addInkDiagnostic('editable-backup-stage-metadata', null, {documents:documents.length, sourceCount:sourceIds.length});
-    const sourceManifest=[];
-    for(let i=0;i<sourceIds.length;i++) {
-      const source=await libraryGet('sources',sourceIds[i]); // one IndexedDB binary clone at a time
-      if (!source) throw new Error('A stored source disappeared while creating the backup.');
-      const payload=source.blob instanceof Blob ? source.blob : await sourceRecordPayload(source);
-      if (!payload) throw new Error(`Stored source ${source.name||source.id} has no readable binary data.`);
-      const payloadSize=payload instanceof Blob ? payload.size : payload.byteLength;
-      const path=`sources/${encodeURIComponent(source.id)}.bin`;
-      if (els.libraryBackupProgress) els.libraryBackupProgress.textContent=`Writing source ${i+1} of ${sourceIds.length} to staged backup…`;
-      await zip.addFile(path,payload);
-      sourceManifest.push({
-        id:source.id,schemaVersion:Number(source.schemaVersion||1),
-        type:source.type,name:source.name,size:payloadSize,
-        mimeType:source.mimeType||(source.type==='pdf'?'application/pdf':'application/octet-stream'),path,
-      });
-      if (i%8===0 || i===sourceIds.length-1) addInkDiagnostic('editable-backup-stage-progress',null,{completed:i+1,total:sourceIds.length});
-      // Yield to WebKit between sources so JS can reclaim the previous clone.
-      if (i%3===0) await new Promise(resolve=>setTimeout(resolve,0));
-    }
-    const preferences={};
-    for (const key of ['pdfwb-scroll-mode','pdfwb-fit-mode','pdfwb-library-view','pdfwb-library-sort','pdfwb-graph-subtool','pdfwb-graph-border-style','pdfwb-graph-color','pdfwb-graph-node-size',PRESENTATION_TOOL_VISIBILITY_KEY]) {
-      try { const value=localStorage.getItem(key);if(value!=null) preferences[key]=value; } catch {}
-    }
-    const manifest={
-      format:'PDF Workbench Editable Library Backup',backupFormatVersion:LIBRARY_BACKUP_FORMAT_VERSION,
-      applicationVersion:APP_VERSION,librarySchemaVersion:LIBRARY_SCHEMA_VERSION,createdAt:new Date().toISOString(),
-      documents,folders,assets,assetFolders,sources:sourceManifest,
-      meta:{session:session||serializeLibrarySession(),templates:templatesMeta||serializeTemplatesForLibrary()},preferences,
-    };
-    await zip.addFile('manifest.json',JSON.stringify(manifest));
-    await zip.addFile('README.txt',[
-      'PDF Workbench Editable Library Backup', '',
-      'This is a ZIP-based PDF Workbench backup container.',
-      'Restore it from Files > Backup & transfer > Restore backup.',
-      'It preserves editable documents, folders, templates, assets, sources, and the workspace session.',
-      'Do not modify the archive if you intend to restore it.', ''
-    ].join('\n'));
-    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent='Finalizing staged editable backup…';
-    const result=await zip.finish();
-    closed=true;
-    const meta={slot,filename:`PDF-Workbench-Library-${portableTimestamp()}.pwbbackup.zip`,size:result.bytes,createdAt:Date.now()};
-    localStorage.setItem(PREPARED_EDITABLE_BACKUP_KEY,JSON.stringify(meta));
+    worker = new Worker(`./editable-backup-worker.js?v=${APP_VERSION}`);
+    const result = await new Promise((resolve,reject) => {
+      let settled = false;
+      const fail = error => { if (!settled) { settled = true; reject(error); } };
+      worker.onerror = event => { event.preventDefault?.(); fail(new Error(event.message || 'Background backup worker failed.')); };
+      worker.onmessageerror = () => fail(new Error('Could not read a backup worker response.'));
+      worker.onmessage = event => {
+        const msg = event.data || {};
+        if (msg.type === 'error') { fail(new Error(msg.message || 'Backup writer failed.')); return; }
+        if (msg.type === 'ready') { if (!settled) { settled = true; resolve(msg); } return; }
+        if (msg.type === 'source-start' || msg.type === 'progress' || msg.type === 'phase') {
+          const completed = Number(msg.completed || 0), total = Number(msg.total || sourceIds.length);
+          editableBackupStageProgress = {
+            phase: msg.type === 'phase' ? msg.phase : msg.type,
+            completed, total, bytes:Number(msg.bytes || 0), sourceSize:Number(msg.sourceSize || 0),
+          };
+          if (msg.type === 'source-start') {
+            if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Writing source ${completed+1} of ${total} (about ${(msg.sourceSize/1048576).toFixed(1)} MB)…`;
+            if (completed >= total - 8) writeDiagnosticHealthBreadcrumb('editable-backup-source-start');
+          } else if (msg.type === 'progress') {
+            if (completed % 8 === 0 || completed >= total - 8) {
+              addInkDiagnostic('editable-backup-stage-progress', null, {completed,total,bytes:msg.bytes});
+              // Preserve the precise location of a late WebKit crash.
+              if (completed >= total - 8) writeDiagnosticHealthBreadcrumb('editable-backup-progress');
+            }
+          } else {
+            addInkDiagnostic('editable-backup-stage-phase', null, {phase:msg.phase,completed,total,bytes:msg.bytes});
+            if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = msg.phase === 'manifest' ? 'Writing editable backup manifest…' : 'Finalizing editable backup…';
+            writeDiagnosticHealthBreadcrumb(`editable-backup-${msg.phase}`);
+          }
+        }
+      };
+      worker.postMessage({ type:'prepare', slot, sourceIds, manifest });
+    });
+    // The dedicated worker already verified bytes via its synchronous OPFS
+    // handle. Avoid materializing a ~500 MB File on the iPad just to check size.
+    const meta = { slot, filename:`PDF-Workbench-Library-${portableTimestamp()}.pwbbackup.zip`, size:result.bytes, createdAt:Date.now() };
+    localStorage.setItem(PREPARED_EDITABLE_BACKUP_KEY, JSON.stringify(meta));
     updatePreparedEditableBackupButtons();
-    addInkDiagnostic('editable-backup-stage-ready',null,{bytes:result.bytes,entries:result.entries,sourceCount:sourceIds.length});
-    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent=`Editable backup prepared (${(result.bytes/1048576).toFixed(1)} MB; ${documents.length} documents, ${sourceIds.length} sources). Tap Download prepared backup to save it outside Workbench.`;
+    addInkDiagnostic('editable-backup-stage-ready',null,{bytes:result.bytes, entries:result.entries, sourceCount:sourceIds.length});
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Editable backup prepared (${(result.bytes/1048576).toFixed(1)} MB; ${documents.length} documents, ${sourceIds.length} sources). Tap Download prepared backup to save it outside Workbench.`;
     setStatus('Editable backup prepared — download required');
-    if(previous && previous.slot!==slot) {
-      // Reclaim last staged copy only AFTER this new ZIP is finalized.
-      root.removeEntry(previous.slot).catch(()=>{});
-    }
-  } catch(err) {
-    addInkDiagnostic('editable-backup-stage-error',null,{message:String(err?.message||err)});
-    if (!closed) { try { await writable.abort(); } catch {} }
+    if (previous && previous.slot !== slot) root.removeEntry(previous.slot).catch(()=>{});
+  } catch (err) {
+    addInkDiagnostic('editable-backup-stage-error',null,{message:String(err?.message||err), progress:editableBackupStageProgress});
     throw err;
+  } finally {
+    worker?.terminate();
+    editableBackupStageProgress = null;
   }
 }
 
@@ -13350,6 +13275,7 @@ function diagnosticHealthBreadcrumbSnapshot(reason='timer') {
       right:state.splitPanes.right?.generation || 0,
     },
     recentEvents,
+    editableBackupStageProgress,
     recentRenderEvents,
   };
 }
