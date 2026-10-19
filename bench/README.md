@@ -1,4 +1,39 @@
-# PDF Workbench 5.8.49-exp
+# PDF Workbench 5.8.50-exp
+
+## Milestone 5.8.50 — Files UI Stage 2: organization and discovery
+
+Based on the user-tested 5.8.49-exp build. All change is UI/navigation code:
+
+- **Library name search:** Search document and folder names throughout the active Library, regardless of the displayed folder. Results show their containing path. Search is case-insensitive, does not index PDF contents, and excludes Trash. Opening a result folder clears the search and shows that folder. Clearing search returns to the previous folder.
+- **Selection:** While searching, Select all / Select none applies to the matching documents (not folders), with the same global Selected documents set. The Search summary shows result counts. Search does not create a new selection model.
+- **Files groups:** Selected-document tools (Export, Compress, Combine) and active-document tools (Extract, Split) are labeled separately. Templates, Assets, and Images to PDF retain their positions and behavior.
+- **Backup & transfer:** Shortened explanations; the controls distinguish whole-Library PDF export, editable Library backup, replace/restore, import-as-folder, and experimental merge. The duplicate selected-editable-backup button was removed from this section; the Selected documents command remains and calls the existing implementation.
+- **Advanced / Recovery:** Renamed from Storage & reset; saved Diagnostics export/clear moved here. The prominent Files Diagnostics button remains.
+- **Clutter:** Removed the visible build/milestone kicker and long roadmap note from Files. Version/build information remains under About; no changes to About or diagnostics formats.
+- **New and navigation:** Search is cleared after creating a new document so the newly created item is visible in the current folder. The Stage 1 New default continues to create a closed graph-paper document and stay in Files.
+
+Preserve the existing shared selection, database schema, PDF workers/raster caps,
+viewer/page behavior, and all export and backup formats.
+
+### Checks and device tests
+
+JavaScript syntax, release version consistency, unique HTML IDs/section grouping,
+and focused JS logic checks for name search, location path, search-scoped selection,
+folder-scoped selection, and single/multi action visibility passed. This environment
+blocked direct Chromium page navigation by administrator policy, so browser layout
+and complete click-flow tests were not available here. **Test on iPad and Surface**:
+searching across nested folders; selecting from results; opening a matching
+folder (which clears search); searching then creating New; full-Library Export,
+Backup/Restore/Import; and a normal Split grading session. Do not perform a
+real Restore/Delete merely to test labels unless using a disposable Library.
+
+### Next planned work (Stage 3; not implemented here)
+
+Unify Single/Split action icons across View and Presentation, finish wording and
+Select all/none consistency, add a short task-oriented Quick Start under `…`,
+and a searchable/expandable Feature Guide. Validate 5.8.50 on devices first.
+
+---
 
 ## Milestone 5.8.49 — Selection-aware Files commands
 

@@ -1,3 +1,64 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-18 — BASELINE 5.8.50-exp
+
+STAGE 2 — FILES ORGANIZATION / DISCOVERABILITY — IMPLEMENTED
+This section overrides any older baseline/Stage 2 status below. Continue from
+the packaged 5.8.50-exp ZIP, not an older build.
+
+IMPLEMENTED
+1. Local Library now offers a name-only Library-wide search for active documents
+   and folders. Results display a containing path to disambiguate same-named
+   items. Search does not alter the current folder and does not read PDF text.
+   Clicking a folder search result clears search and navigates to that folder.
+   Clear search returns to the previous current-folder listing. Empty searches
+   show a specific no-match message. Trash is excluded.
+2. Scoped Select all/Select none now uses matching documents during active search
+   and the current folder at other times. All actions still use the one shared
+   Selected documents set; no change to actual PDF/file commands.
+3. Files tools have separate headings for Selected-document tools (Export,
+   Compress, Combine) and Active-document tools (Extract, Split), with concise
+   descriptions of scope.
+4. Library backup & export is now Backup & transfer, with shorter labels and
+   clearer Restore(replaces)/Import(new folder)/Merge(experimental) distinctions.
+   The duplicated selected editable backup button was removed from the Backup
+   section, but the existing Selected documents command still calls its original
+   implementation. No backup format or restore semantics changed.
+5. Storage & reset is Advanced / Recovery and houses saved-Diagnostics management.
+   The main Files Diagnostics button is retained prominently.
+6. Visible Files milestone kicker, long roadmap note and outdated long Library
+   explanation were removed; app version still appears in About.
+7. Creating New from Files clears an active search on success so the document
+   immediately appears in its containing folder; New stays in Files as before.
+
+CHECKS
+- JavaScript syntax and app/service-worker/version consistency passed.
+- HTML unique-ID and grouping/relocation checks passed.
+- Focused JavaScript tests of name search, paths, scoped selection, and the
+  5.8.49 single-vs-multi commands passed.
+- Interactive local Chromium navigation was blocked by an administrator policy,
+  so no end-to-end browser or device test has been claimed for 5.8.50.
+- Validate on iPad and Surface, especially search with nested folders, Selection
+  actions in search results, New while searching, and normal Files and View.
+
+PRESERVE
+- 5.8.47 startup/user-navigation precedence and 5.8.46 Library recovery fixes.
+- 5.8.37+ two-slot managed iPad worker pool, 5.8.42 watchdog and 5.8.44 export
+  worker capacity / skipped-render recovery, 5.8.43 Split Close optimization.
+- Library schema, PDF.js, raster limits, annotations, graph tools, persisted
+  session, ZIP exports, and editable backup/restore formats.
+
+NEXT — STAGE 3 (NOT IMPLEMENTED)
+- Canonical Single View / Split View icon definitions in View and Presentation,
+  showing the action that will occur instead of only current state.
+- Remaining Select all / Select none / Clear selection wording consistency.
+- Short Quick Start under `…`.
+- Searchable/expandable Feature Guide under `…` covering older capabilities,
+  view/pages/files/presentation, graph operations, backup/transfer, and Diagnostics.
+- Validate 5.8.50 device behavior before moving on.
+
+================================================================================
+PRIOR 5.8.49 HANDOFF FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-18 — BASELINE 5.8.49-exp
 
 NARROW FILES UI FOLLOW-UP TO 5.8.48

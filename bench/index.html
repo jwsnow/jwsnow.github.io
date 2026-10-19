@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.8.49">
+  <link rel="stylesheet" href="styles.css?v=5.8.50">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -280,7 +280,6 @@
 
       <section id="exportPane" class="export-pane hidden" aria-label="Files and PDF output">
         <div class="export-card files-card">
-          <div class="export-kicker">Milestone 5.8.49 · Files workflow polish</div>
           <div class="files-header-toolbar">
             <h1>Files</h1>
             <button id="filesDiagnosticsBtn" class="tool-btn files-diagnostics-btn" type="button" title="Save diagnostics locally" aria-label="Save diagnostics locally">
@@ -288,7 +287,7 @@
               <span>Diagnostics</span>
             </button>
           </div>
-          <p class="export-summary">Documents can now stay in a persistent local Library on this device. Open documents remain the active working set; closed Library documents can be reopened later without re-importing them.</p>
+          <p class="export-summary">Your Library stays on this device. Open documents are the working set; closing one keeps its saved copy in the Library.</p>
 
           <details class="library-section file-tool-details library-overview-details" id="localLibrarySection">
             <summary><span>Local Library</span><span id="librarySummary" class="operation-summary">Loading local Library…</span></summary>
@@ -354,6 +353,12 @@
                   </div>
                 </div>
               </div>
+              <div class="library-search-toolbar" role="search" aria-label="Search names in the Local Library">
+                <label for="librarySearchInput">Search Library</label>
+                <input id="librarySearchInput" type="search" placeholder="Find documents or folders by name" autocomplete="off" spellcheck="false" aria-describedby="librarySearchSummary">
+                <button id="librarySearchClearBtn" type="button" class="hidden" aria-label="Clear Library search">Clear</button>
+              </div>
+              <p id="librarySearchSummary" class="library-search-summary small-note" role="status" aria-live="polite"></p>
               <div class="library-export-selection-toolbar library-bulk-selection-toolbar" aria-label="Selected Library document actions">
                 <p id="librarySelectionSummary" class="small-note">No documents selected.</p>
                 <div class="library-export-selection-actions">
@@ -475,7 +480,8 @@
             </div>
           </details>
 
-          <h2 class="file-tool-group-label">PDF tools</h2>
+          <h2 class="file-tool-group-label">Selected-document tools</h2>
+          <p class="file-tool-group-description">These commands use the shared selection shown above.</p>
 
           <details class="file-tool-section file-tool-details" id="exportFilesSection">
             <summary><span>Export</span><span id="exportOperationSummary" class="operation-summary">Select one or more documents above</span></summary>
@@ -545,6 +551,9 @@
               <p id="combineProgress" class="export-progress" aria-live="polite"></p>
             </div>
           </details>
+
+          <h2 class="file-tool-group-label">Active-document tools</h2>
+          <p class="file-tool-group-description">These use the currently active document and its pages, not the Selected documents list.</p>
 
           <details class="file-tool-section file-tool-details" id="extractFilesSection">
             <summary><span>Extract</span><span id="extractOperationSummary" class="operation-summary">No active document</span></summary>
@@ -616,19 +625,32 @@
           </details>
 
           <details class="file-tool-section file-tool-details" id="libraryBackupFilesSection">
-            <summary><span>Library backup &amp; export</span><span class="operation-summary">PDF archive and editable restore</span></summary>
+            <summary><span>Backup &amp; transfer</span><span class="operation-summary">Export, back up, import, and restore</span></summary>
             <div class="file-tool-body">
-              <p class="file-tool-summary">Export a conventional PDF copy of the whole active Library, or create a complete editable backup that can restore PDF Workbench on this or another device.</p>
+              <p class="file-tool-summary">Export PDFs or save a portable editable Library backup.</p>
               <div class="library-backup-actions">
-                <button id="libraryPdfArchiveBtn" class="export-button secondary-output-button" type="button">Export Library as PDFs (.zip)</button>
-                <button id="libraryEditableBackupBtn" class="export-button secondary-output-button" type="button">Back up editable Library</button>
-                <button id="librarySelectedEditableBackupBtn" class="export-button secondary-output-button" type="button" disabled>Back up selected documents (editable)</button>
-                <button id="libraryRestoreBackupBtn" class="export-button secondary-output-button" type="button">Restore Library backup…</button>
-                <button id="libraryImportBackupBtn" class="export-button secondary-output-button" type="button">Import backup as folder…</button>
-                <button id="libraryMergeBackupBtn" class="export-button secondary-output-button" type="button">Merge with backup… <span aria-hidden="true">β</span></button>
+                <button id="libraryPdfArchiveBtn" class="export-button secondary-output-button" type="button">Export entire Library as PDFs (.zip)</button>
+                <button id="libraryEditableBackupBtn" class="export-button secondary-output-button" type="button">Back up entire Library (editable)</button>
+                <button id="libraryRestoreBackupBtn" class="export-button secondary-output-button" type="button">Restore backup — replace Library…</button>
+                <button id="libraryImportBackupBtn" class="export-button secondary-output-button" type="button">Import backup as new folder…</button>
+                <button id="libraryMergeBackupBtn" class="export-button secondary-output-button" type="button">Merge backup (experimental)…</button>
               </div>
-              <p class="small-note">The PDF archive preserves the Library folder/subfolder structure and includes saved templates as one-page PDFs. Trash is omitted. Editable backups are written as .pwbbackup.zip. <strong>Back up selected documents (editable)</strong> writes only the globally selected documents and the source files they actually reference; it intentionally omits Templates, Assets, Trash, unrelated documents, and the workspace session. A selected-document package cannot replace the whole Library, but it can be imported as a folder or used with Merge. Restore replaces the current Library; Import backup as folder keeps the current Library and adds the backup as a new subtree. <strong>Merge with backup (experimental)</strong> compares matching document IDs and keeps the newer modified document; a displaced older local copy is moved to Trash.</p>
+              <p class="small-note">Editable backups (.pwbbackup.zip) preserve Workbench editing. <strong>Restore replaces this device’s Library.</strong> Import as new folder keeps existing Library content. Merge is experimental. To back up only selected documents, use the Selected documents actions above.</p>
               <p id="libraryBackupProgress" class="export-progress" aria-live="polite"></p>
+
+            </div>
+          </details>
+
+          <details class="file-tool-section file-tool-details" id="storageFilesSection">
+            <summary><span>Advanced / Recovery</span><span class="operation-summary">Storage, diagnostics, and reset</span></summary>
+            <div class="file-tool-body">
+              <p class="file-tool-summary">Maintenance actions. Normal app updates should not erase the Library; reset operations are destructive.</p>
+              <div class="new-document-actions">
+                <button id="requestPersistentStorageBtn" class="export-button secondary-output-button" type="button">Request persistent storage</button>
+                <button id="purgeLibraryBtn" class="export-button danger-output-button" type="button">Delete local Library…</button>
+                <button id="factoryResetBtn" class="export-button danger-output-button" type="button">Factory reset all local data…</button>
+              </div>
+              <p id="storageActionStatus" class="export-progress" aria-live="polite"></p>
               <div class="saved-diagnostics-tools">
                 <p id="savedDiagnosticsSummary" class="small-note">No locally saved diagnostics.</p>
                 <div class="library-backup-actions">
@@ -639,20 +661,6 @@
             </div>
           </details>
 
-          <details class="file-tool-section file-tool-details" id="storageFilesSection">
-            <summary><span>Storage & reset</span><span class="operation-summary">Library recovery and development reset tools</span></summary>
-            <div class="file-tool-body">
-              <p class="file-tool-summary">The Library is stored separately from the service-worker app cache. Normal PDF Workbench updates should not erase it.</p>
-              <div class="new-document-actions">
-                <button id="requestPersistentStorageBtn" class="export-button secondary-output-button" type="button">Request persistent storage</button>
-                <button id="purgeLibraryBtn" class="export-button danger-output-button" type="button">Delete local Library…</button>
-                <button id="factoryResetBtn" class="export-button danger-output-button" type="button">Factory reset all local data…</button>
-              </div>
-              <p id="storageActionStatus" class="export-progress" aria-live="polite"></p>
-            </div>
-          </details>
-
-          <p class="small-note files-roadmap-note">Persistent documents, folders/subfolders, direct-to-folder import, folder ZIP import/export, folder-tree Trash/recovery, rename/duplicate/move, thumbnails, templates, whole-Library PDF ZIP export, and editable backup/restore/import-as-subtree are available now. Favorites/search/sort remain lower priority; schema/recovery hardening and PDF link/outline preservation still need dedicated testing.</p>
         </div>
       </section>
     </main>
@@ -940,6 +948,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.8.49"></script>
+  <script type="module" src="app.js?v=5.8.50"></script>
 </body>
 </html>

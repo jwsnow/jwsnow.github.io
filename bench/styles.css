@@ -2174,3 +2174,16 @@ body.presentation #presentationExit.presentation-only {
 .library-browser-toolbar { flex-wrap:wrap;row-gap:7px; }
 .library-browser-toolbar > .library-breadcrumb { flex:1 1 100%; }
 .library-browser-actions { margin-left:auto; }
+
+/* 5.8.50 — Files Stage 2: global name search and grouped tools. */
+.library-search-toolbar {display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:10px 0 0;}
+.library-search-toolbar label {font-size:.88rem;font-weight:700;flex:0 0 auto;}
+.library-search-toolbar input {flex:1 1 200px;min-width:0;min-height:39px;padding:7px 11px;border:1px solid var(--border);border-radius:9px;background:var(--paper);color:var(--text);font:inherit;}
+.library-search-toolbar input:focus-visible {outline:2px solid var(--accent);outline-offset:1px;}
+.library-search-toolbar button {min-height:37px;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--paper);color:var(--text);font:inherit;}
+.library-search-summary {margin:5px 0 1px;color:var(--muted);}
+.library-search-summary:empty {display:none;}
+.file-tool-group-description {margin:7px 2px 0;color:var(--muted);font-size:.85rem;line-height:1.35;}
+.file-tool-group-description + .file-tool-details {margin-top:10px;}
+.saved-diagnostics-tools {margin-top:18px;padding-top:13px;border-top:1px solid var(--border);}
+@media(max-width:620px){.library-search-toolbar label{flex-basis:100%;}}

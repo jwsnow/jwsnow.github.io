@@ -13,7 +13,7 @@ const checks = [
   ['app modeler query', app.includes(`google-ink-modeler.js?v=${version}`)],
   ['index CSS query', index.includes(`styles.css?v=${version}`)],
   ['index app query', index.includes(`app.js?v=${version}`)],
-  ['Files milestone label', index.includes(`Milestone ${version}`)],
+  ['Files workspace header', index.includes('<h1>Files</h1>')],
   ['service-worker cache', sw.includes(`pdf-workbench-m${version}-v1`)],
   ['service-worker app query', sw.includes(`app.js?v=${version}`)],
   ['service-worker CSS query', sw.includes(`styles.css?v=${version}`)],
