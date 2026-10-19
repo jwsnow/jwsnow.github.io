@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.57';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.58';
 
-const APP_VERSION = '5.8.57';
+const APP_VERSION = '5.8.58';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -1676,6 +1676,7 @@ function serializeTemplatesForLibrary() {
   };
 }
 async function restorePersistentTemplates() {
+  templatePreviewRasterCache.clear();
   if (!state.libraryReady) return;
   const saved = await libraryGet('meta', 'templates');
   if (Number(saved?.schemaVersion || 1) > LIBRARY_SCHEMA_VERSION) throw new Error(`Saved templates use a newer Library schema (${saved.schemaVersion}).`);
@@ -8601,22 +8602,22 @@ function sourceNeededByVisibleDocument(sourceId) {
 // of the same outgoing PDF. Share the in-flight destroy rather than racing two
 // PDF.js cleanup/destroy operations against the same managed worker slot.
 const persistedPdfRetireInFlight = new Map();
-async function releasePersistedPdfSourceMemory(sourceId, reason='inactive-document') {
+async function releasePersistedPdfSourceMemory(sourceId, reason='inactive-document', options={}) {
   const pending = persistedPdfRetireInFlight.get(sourceId);
   if (pending) { await pending; return false; }
-  const retirement = retirePersistedPdfSourceMemory(sourceId, reason);
+  const retirement = retirePersistedPdfSourceMemory(sourceId, reason, options);
   persistedPdfRetireInFlight.set(sourceId, retirement);
   try { return await retirement; }
   finally { if (persistedPdfRetireInFlight.get(sourceId) === retirement) persistedPdfRetireInFlight.delete(sourceId); }
 }
-async function retirePersistedPdfSourceMemory(sourceId, reason='inactive-document') {
+async function retirePersistedPdfSourceMemory(sourceId, reason='inactive-document', options={}) {
   const source = state.sources.get(sourceId);
   if (!source || source.type !== 'pdf' || !source.libraryPersisted) return false;
   // A saved template is a durable reference, not a live-viewer owner.
   // Idle template PDF sources must be evictable so two Split documents can each
   // claim one of the two managed iPad PDF workers. A visible document that uses
   // a template source is still protected by sourceNeededByVisibleDocument().
-  if (sourceNeededByVisibleDocument(sourceId)) return false;
+  if (sourceNeededByVisibleDocument(sourceId) && !(options.allowVisibleForTemplatePreview && reason === 'template-preview-borrow')) return false;
   const started = performance.now();
   const cleanupStarted = performance.now();
   try { await source.pdf?.cleanup?.(); } catch {}
@@ -10005,6 +10006,99 @@ function nextTemplateName() {
   return `Template ${number}`;
 }
 
+// Tiny, session-only previews; never stored in the Library or backups. A saved
+// template may otherwise need a third PDF.js source merely to show a 90px card.
+const templatePreviewRasterCache = new Map();
+const TEMPLATE_PREVIEW_CACHE_LIMIT = 12;
+function cacheTemplatePreview(templateId, canvas) {
+  const template = state.templates.find(item => item.id === templateId);
+  if (!template || !canvas?.width || !canvas?.height) return;
+  try {
+    const dataUrl = canvas.toDataURL('image/png');
+    templatePreviewRasterCache.delete(templateId);
+    templatePreviewRasterCache.set(templateId, { modifiedAt:template.modifiedAt, dataUrl });
+    while (templatePreviewRasterCache.size > TEMPLATE_PREVIEW_CACHE_LIMIT)
+      templatePreviewRasterCache.delete(templatePreviewRasterCache.keys().next().value);
+  } catch {} // A thumbnail is optional; do not affect page insertion.
+}
+async function restoreCachedTemplatePreview(templateId, canvas, cssWidth, cssHeight) {
+  const template = state.templates.find(item => item.id === templateId);
+  const cached = templatePreviewRasterCache.get(templateId);
+  if (!template || !cached || cached.modifiedAt !== template.modifiedAt) return false;
+  const image = new Image();
+  try {
+    await new Promise((resolve, reject) => {
+      image.onload = resolve;
+      image.onerror = reject;
+      image.src = cached.dataUrl;
+    });
+    if (!canvas.isConnected) return true;
+    canvas.width = Math.max(1, Math.round(cssWidth * 0.9));
+    canvas.height = Math.max(1, Math.round(cssHeight * 0.9));
+    canvas.style.width = `${cssWidth}px`;
+    canvas.style.height = `${cssHeight}px`;
+    canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+    canvas.dataset.rendered = 'true';
+    return true;
+  } catch {
+    templatePreviewRasterCache.delete(templateId);
+    return false;
+  }
+}
+// The iPad queue runs one render at a time. When both Split PDFs own its two
+// managed workers, borrow the INACTIVE pane's PDF only for one template preview.
+// Its already-rendered page canvases remain untouched. Before yielding the queue
+// to another Viewer render, discard the temporary PDF and restore that pane's
+// source. Never add an unmanaged third worker or borrow outside Split/View.
+function templatePreviewBorrowCandidate(templateSourceId) {
+  if (!isIPadLike() || state.workspaceMode !== 'view' || !state.splitView ||
+      !state.pdfjs?.PDFWorker || state.sources.has(templateSourceId)) return null;
+  const slots = ensureLivePdfWorkerSlots();
+  if (!slots.length || slots.some(slot => !slot.activeSourceId && !slot.reservedSourceId)) return null;
+  const otherPane = state.activePaneId === 'left' ? 'right' : 'left';
+  const otherDocument = paneDocument(otherPane);
+  if (!otherDocument) return null;
+  const activePaneSources = documentSourceIds(paneDocument(state.activePaneId));
+  for (const id of documentSourceIds(otherDocument)) {
+    const source = state.sources.get(id);
+    // If both panes reference one PDF source, it is not safe to borrow it.
+    if (!activePaneSources.has(id) && id !== templateSourceId && source?.type === 'pdf' && source.libraryPersisted &&
+        slots.some(slot => slot.activeSourceId === id) &&
+        !renderQueueHasActiveSource(id)) return id;
+  }
+  return null;
+}
+async function withTemplatePreviewPdfCapacity(page, task) {
+  const templateSourceId = page?.kind === 'pdf' ? page.sourceId : null;
+  const borrowedSourceId = templateSourceId ? templatePreviewBorrowCandidate(templateSourceId) : null;
+  let borrowed = false;
+  if (borrowedSourceId) {
+    borrowed = await releasePersistedPdfSourceMemory(borrowedSourceId, 'template-preview-borrow',
+      { allowVisibleForTemplatePreview:true });
+    if (borrowed) addInkDiagnostic('template-preview-worker-borrow', null,
+      { templateSourceId, borrowedSourceId, activePaneId:state.activePaneId });
+  }
+  try { return await task(); }
+  finally {
+    if (borrowed) {
+      try {
+        // Restore the visible source *inside* the serialized render job. If
+        // that pane changed while the menu was open, don't reload a stale PDF.
+        if (templateSourceId && !sourceNeededByVisibleDocument(templateSourceId))
+          await releasePersistedPdfSourceMemory(templateSourceId, 'template-preview-complete');
+        if (sourceNeededByVisibleDocument(borrowedSourceId) && !state.sources.has(borrowedSourceId))
+          await ensureLibrarySourceLoaded(borrowedSourceId);
+        addInkDiagnostic('template-preview-worker-restored', null,
+          { templateSourceId, borrowedSourceId, sourceRestored:state.sources.has(borrowedSourceId), workerPool:livePdfWorkerPoolSnapshot() });
+      } catch (err) {
+        addInkDiagnostic('template-preview-worker-restore-error', null,
+          { borrowedSourceId, message:String(err?.message || err), workerPool:livePdfWorkerPoolSnapshot() });
+        console.error('Could not restore the temporarily borrowed Split PDF worker', err);
+      }
+    }
+  }
+}
+
 async function renderCompactPagePreview(page, canvas) {
   if (!page || !canvas?.isConnected) return;
   const well = canvas.closest('.insert-choice-preview, .template-manager-preview, .library-document-preview');
@@ -10016,20 +10110,26 @@ async function renderCompactPagePreview(page, canvas) {
   const scale = Math.min(innerW / bw, innerH / bh);
   const cssWidth = Math.max(1, bw * scale);
   const cssHeight = Math.max(1, bh * scale);
+  const templateId = canvas.dataset.templatePreview ||
+    canvas.closest('.template-manager-row')?.dataset.templateId || null;
+  if (templateId && await restoreCachedTemplatePreview(templateId, canvas, cssWidth, cssHeight)) return;
   await enqueueRender(async () => {
     if (!canvas.isConnected) return;
     try {
-      await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 0.9, 260_000);
-      if (page.kind !== 'generated' && canvasLooksBlank(canvas) && canvas.isConnected) {
-        await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 0.72, 160_000);
-      }
-      drawGraphObjectsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
-      drawPageAnnotationsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
-      canvas.dataset.rendered = 'true';
+      await (templateId ? withTemplatePreviewPdfCapacity(page, renderPreview) : renderPreview());
     } catch (err) {
       console.error('Template preview failed', err);
       well.classList.add('preview-error');
       canvas.setAttribute('aria-label', 'Preview unavailable');
+    }
+    async function renderPreview() {
+      await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 0.9, 260_000);
+      if (page.kind !== 'generated' && canvasLooksBlank(canvas) && canvas.isConnected)
+        await renderPageToCanvasDiagnostic(page, canvas, cssWidth, cssHeight, 0.72, 160_000);
+      drawGraphObjectsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
+      drawPageAnnotationsCanvas(page, canvas.getContext('2d'), canvas.width, canvas.height);
+      canvas.dataset.rendered = 'true';
+      if (templateId) cacheTemplatePreview(templateId, canvas);
     }
   }, 1, { sourceId: page?.sourceId || null, kind:'compact-preview' });
 }
@@ -10140,6 +10240,7 @@ function insertTemplateAfterCurrent(templateId) {
 }
 
 function deleteTemplate(templateId) {
+  templatePreviewRasterCache.delete(templateId);
   const index = state.templates.findIndex(item => item.id === templateId);
   if (index < 0) return;
   const [removed] = state.templates.splice(index, 1);

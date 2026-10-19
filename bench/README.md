@@ -1,6 +1,6 @@
-# PDF Workbench 5.8.57-exp
+# PDF Workbench 5.8.58-exp
 
-## Milestone 5.8.57 — Split View template-worker residency fix
+## Milestone 5.8.58 — Split View template-worker residency fix
 
 - 2026-10-19 iPad diagnostics from 5.8.56 captured a Split View starvation loop: a third persistent PDF source (not in either visible pane) occupied one of the two managed PDF workers. The visible ReTest2 and Kelly Rodriguez sources repeatedly replaced each other in the remaining slot, causing persistent “No managed iPad PDF worker slot is available” rendering errors. This is not scan corruption.
 - Root cause: saved template PDFs were eagerly loaded at startup and treated as non-evictable even when no displayed document needed them. A saved template retains its source bytes in IndexedDB, and the template preview / insertion renderer already lazily reloads persisted source bytes when used. Merely being a saved template must not pin a live PDF.js worker.

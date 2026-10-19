@@ -1,3 +1,33 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.58-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue from the packaged 5.8.58-exp ZIP.
+
+5.8.58 INSERT PAGE TEMPLATE PREVIEWS IN IPAD SPLIT VIEW
+
+WHY
+- User verified 5.8.57's Files → Open → View and Split fixes, but saw “Preview unavailable” for a saved template from View → Insert Page, while the same template displayed properly in Pages → Insert Page.
+- 2026-10-19 14:04 5.8.57 saved Diagnostics show repeated `live-pdf-worker-pool-exhausted` followed by `render-error` for the template PDF source src-f4f1d4bb-... (page 7) while the two managed workers were already owned by the two visible Split PDFs. The preview is a compact 94×70 or 42×32 CSS raster. This is worker capacity, not damaged template data.
+- In Pages, the PDFs in View are not simultaneously resident in the same way, so template preview can hydrate and render.
+
+CHANGES
+1. Add a small bounded runtime-only template-preview raster cache (up to 12) used by the Insert Page and Files template manager previews. Cache is cleared during template restoration and changed templates are keyed by modifiedAt. No IndexedDB/backup/schema change.
+2. For a cache miss under iPad View/Split when both managed worker slots are occupied by the visible PDFs, the serialized one-render-at-a-time queue briefly borrows the worker belonging to the inactive Split pane. Its already-rendered canvas remains intact. The template is rendered at thumbnail resolution, the temporary template source is released, and the borrowed visible source is restored before the render queue proceeds. This is limited to the template-preview job and guarded from general source retirement.
+3. Add `template-preview-worker-borrow`, `template-preview-worker-restored`, `template-preview-worker-restore-error` diagnostics. Strict two-worker ceiling remains unchanged. No standalone unmanaged PDF worker is permitted.
+
+VALIDATION (IPAD FIRST)
+1. In a 2-document scanned Split View, open Insert Page and verify that a PDF-derived saved template previews. Repeat several times and verify cache reuse (the worker borrowing should happen at most on the initial preview within this runtime).
+2. Insert the template into the chosen pane; check page contents, annotations and navigation, then scroll and switch both panes. Neither pane should show “Could not render”.
+3. Enter Pages → Insert Page; confirm the same template preview still works. Test template manager in Files.
+4. Recheck Single View and Files → Open → View for new scanned documents.
+5. If there is a failure, save Diagnostics and inspect template-preview-* events, render-error, and livePdfWorkerPool. Verify worker pool never exceeds two.
+
+Release syntax/integrity and focused logic checks are local only; actual iPad use required. Preserve 5.8.56–57 fixes, PDF.js memory controls, annotations, export options, Library schema/backups and rest of the app.
+
+================================================================================
+PRIOR 5.8.57 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.57-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
