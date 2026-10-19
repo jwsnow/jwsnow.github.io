@@ -1,3 +1,27 @@
+# PDF Workbench 5.8.49-exp
+
+## Milestone 5.8.49 — Selection-aware Files commands
+
+When two or more documents are selected in Files, the three single-document
+commands in **Selected documents** (**Open in View**, **Rename**, and
+**Duplicate**) disappear instead of remaining disabled. When exactly one
+file is selected, they return, enabled. When no files are selected, they
+remain visible but disabled, as before.
+
+The multi-document controls are unchanged. This is strictly a toolbar-display
+change; no document operation, persistent storage, renderer, worker, Library
+schema, or export/backup format was modified.
+
+### Test
+
+Select zero, one, two, then one document, using both the Local Library and
+Open Documents checkboxes. Confirm the three commands hide for two or more,
+reappear when the selection returns to one, and that other commands remain
+available according to their existing rules. Live iPad and Surface testing is
+still required.
+
+---
+
 # PDF Workbench 5.8.48-exp
 
 ## Milestone 5.8.48 — Files workflow, Stage 1

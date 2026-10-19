@@ -1,3 +1,19 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-18 — BASELINE 5.8.49-exp
+
+NARROW FILES UI FOLLOW-UP TO 5.8.48
+- With two or more Selected documents, hide the three single-document-only actions: Open in View, Rename, Duplicate. They reappear when the selection returns to one item. Multi-document commands remain unchanged.
+- For no selection, these controls remain disabled as before.
+- Files action rendering only; PDF operation implementations, workers, IndexedDB, Library schema, and export/backup formats are unchanged.
+
+TEST
+- Select 0, 1, 2, then 1 documents across Library / Open documents. Confirm the toolbar hides/reveals the three buttons and commands do not change selected documents.
+- Confirm multi-document Open, Close, Move, Export, Compress, Combine, selected editable backup, Trash, and Clear selection remain available as appropriate.
+- Live iPad / Surface testing still required; remaining Stage 2/3 work unchanged.
+
+================================================================================
+PREVIOUS 5.8.48 HANDOFF FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-18 — BASELINE 5.8.48-exp
 
 Stage 1 of Files UI polish, based on the supplied 5.8.47-exp ZIP.

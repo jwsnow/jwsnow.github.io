@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.48';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.49';
 
-const APP_VERSION = '5.8.48';
+const APP_VERSION = '5.8.49';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -12438,11 +12438,19 @@ function updateSelectedDocumentCommands(docs) {
   const one=docs.length===1;
   const any=docs.length>0;
   const set=(el,enabled)=>{if(el)el.disabled=!enabled;};
+  // When the selection has multiple documents, remove single-document
+  // commands rather than leaving unusable buttons in the action center.
+  // A later change back to one document restores them immediately.
+  const setSingle=(el)=>{
+    if(!el)return;
+    el.disabled=!one;
+    el.classList.toggle('hidden',docs.length>1);
+  };
   set(els.selectedOpenBtn,docs.some(doc=>!isDocumentOpen(doc.id)));
-  set(els.selectedViewBtn,one);
+  setSingle(els.selectedViewBtn);
   set(els.selectedCloseBtn,docs.some(doc=>isDocumentOpen(doc.id)));
-  set(els.selectedRenameBtn,one);
-  set(els.selectedDuplicateBtn,one);
+  setSingle(els.selectedRenameBtn);
+  setSingle(els.selectedDuplicateBtn);
   for (const el of [els.selectedMoveBtn,els.selectedExportBtn,els.selectedCompressBtn,els.selectedEditableBackupBtn,els.selectedTrashBtn,els.selectedClearBtn]) set(el,any);
   set(els.selectedCombineBtn,docs.length>=2);
 }
