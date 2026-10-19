@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.8.58">
+  <link rel="stylesheet" href="styles.css?v=5.8.59">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -651,11 +651,15 @@
               <div class="library-backup-actions">
                 <button id="libraryPdfArchiveBtn" class="export-button secondary-output-button" type="button">Export entire Library as PDFs (.zip)</button>
                 <button id="libraryEditableBackupBtn" class="export-button secondary-output-button" type="button">Back up entire Library (editable)</button>
+                <div id="libraryPreparedBackupActions" class="library-backup-actions hidden" role="group" aria-label="Prepared editable backup">
+                  <button id="libraryDownloadPreparedBackupBtn" class="export-button secondary-output-button" type="button">Download prepared backup</button>
+                  <button id="libraryDiscardPreparedBackupBtn" class="export-button secondary-output-button" type="button">Discard prepared backup</button>
+                </div>
                 <button id="libraryRestoreBackupBtn" class="export-button secondary-output-button" type="button">Restore backup — replace Library…</button>
                 <button id="libraryImportBackupBtn" class="export-button secondary-output-button" type="button">Import backup as new folder…</button>
                 <button id="libraryMergeBackupBtn" class="export-button secondary-output-button" type="button">Merge backup (experimental)…</button>
               </div>
-              <p class="small-note">Editable backups (.pwbbackup.zip) preserve Workbench editing. <strong>Restore replaces this device’s Library.</strong> Import as new folder keeps existing Library content. Merge is experimental. To back up only selected documents, use the Selected documents actions above.</p>
+              <p class="small-note">Editable backups (.pwbbackup.zip) preserve Workbench editing. On iPad, Back up prepares a file in temporary app storage; tap Download prepared backup afterward to save it outside Workbench. <strong>Restore replaces this device’s Library.</strong> Import as new folder keeps existing Library content. Merge is experimental. To back up only selected documents, use the Selected documents actions above.</p>
               <p id="libraryBackupProgress" class="export-progress" aria-live="polite"></p>
 
             </div>
@@ -968,6 +972,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.8.58"></script>
+  <script type="module" src="app.js?v=5.8.59"></script>
 </body>
 </html>

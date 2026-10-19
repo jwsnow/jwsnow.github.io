@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.58';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.59';
 
-const APP_VERSION = '5.8.58';
+const APP_VERSION = '5.8.59';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -53,7 +53,7 @@ const els = {
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
   viewLayoutActionIcon: $('viewLayoutActionIcon'), presentationLayoutActionIcon: $('presentationLayoutActionIcon'), quickStartBtn: $('quickStartBtn'), featureGuideBtn: $('featureGuideBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryQuickNewBtn: $('libraryQuickNewBtn'), libraryNewDropdown: $('libraryNewDropdown'), libraryNewBlankMenuBtn: $('libraryNewBlankMenuBtn'), libraryNewCustomMenuBtn: $('libraryNewCustomMenuBtn'), libraryNewTemplateMenuBtn: $('libraryNewTemplateMenuBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), librarySortSelect: $('librarySortSelect'), librarySearchInput: $('librarySearchInput'), librarySearchClearBtn: $('librarySearchClearBtn'), librarySearchSummary: $('librarySearchSummary'), librarySelectionSummary: $('librarySelectionSummary'), librarySelectAllBtn: $('librarySelectAllBtn'), libraryClearSelectionBtn: $('libraryClearSelectionBtn'), libraryMoveSelectedBtn: $('libraryMoveSelectedBtn'), libraryTrashSelectedBtn: $('libraryTrashSelectedBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), emptyTrashBtn: $('emptyTrashBtn'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), librarySelectedEditableBackupBtn: $('librarySelectedEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), savedDiagnosticsSummary: $('savedDiagnosticsSummary'), exportSavedDiagnosticsBtn: $('exportSavedDiagnosticsBtn'), clearSavedDiagnosticsBtn: $('clearSavedDiagnosticsBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), selectedDocumentsSection: $('selectedDocumentsSection'), selectedOpenBtn: $('selectedOpenBtn'), selectedViewBtn: $('selectedViewBtn'), selectedCloseBtn: $('selectedCloseBtn'), selectedRenameBtn: $('selectedRenameBtn'), selectedDuplicateBtn: $('selectedDuplicateBtn'), selectedMoveBtn: $('selectedMoveBtn'), selectedExportBtn: $('selectedExportBtn'), selectedCompressBtn: $('selectedCompressBtn'), selectedCombineBtn: $('selectedCombineBtn'), selectedEditableBackupBtn: $('selectedEditableBackupBtn'), selectedTrashBtn: $('selectedTrashBtn'), selectedClearBtn: $('selectedClearBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilenameField: $('exportFilenameField'), exportFilename: $('exportFilename'), exportMultipleOptions: $('exportMultipleOptions'), exportDeliveryMode: $('exportDeliveryMode'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'), exportModeNote: $('exportModeNote'), exportSeparateActions: $('exportSeparateActions'), exportSeparateReadySummary: $('exportSeparateReadySummary'), exportShareFilesBtn: $('exportShareFilesBtn'), exportSaveFolderBtn: $('exportSaveFolderBtn'), exportSeparateZipFallbackBtn: $('exportSeparateZipFallbackBtn'), exportSeparateDiscardBtn: $('exportSeparateDiscardBtn'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryQuickNewBtn: $('libraryQuickNewBtn'), libraryNewDropdown: $('libraryNewDropdown'), libraryNewBlankMenuBtn: $('libraryNewBlankMenuBtn'), libraryNewCustomMenuBtn: $('libraryNewCustomMenuBtn'), libraryNewTemplateMenuBtn: $('libraryNewTemplateMenuBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), librarySortSelect: $('librarySortSelect'), librarySearchInput: $('librarySearchInput'), librarySearchClearBtn: $('librarySearchClearBtn'), librarySearchSummary: $('librarySearchSummary'), librarySelectionSummary: $('librarySelectionSummary'), librarySelectAllBtn: $('librarySelectAllBtn'), libraryClearSelectionBtn: $('libraryClearSelectionBtn'), libraryMoveSelectedBtn: $('libraryMoveSelectedBtn'), libraryTrashSelectedBtn: $('libraryTrashSelectedBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), emptyTrashBtn: $('emptyTrashBtn'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryPreparedBackupActions: $('libraryPreparedBackupActions'), libraryDownloadPreparedBackupBtn: $('libraryDownloadPreparedBackupBtn'), libraryDiscardPreparedBackupBtn: $('libraryDiscardPreparedBackupBtn'), librarySelectedEditableBackupBtn: $('librarySelectedEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), savedDiagnosticsSummary: $('savedDiagnosticsSummary'), exportSavedDiagnosticsBtn: $('exportSavedDiagnosticsBtn'), clearSavedDiagnosticsBtn: $('clearSavedDiagnosticsBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), selectedDocumentsSection: $('selectedDocumentsSection'), selectedOpenBtn: $('selectedOpenBtn'), selectedViewBtn: $('selectedViewBtn'), selectedCloseBtn: $('selectedCloseBtn'), selectedRenameBtn: $('selectedRenameBtn'), selectedDuplicateBtn: $('selectedDuplicateBtn'), selectedMoveBtn: $('selectedMoveBtn'), selectedExportBtn: $('selectedExportBtn'), selectedCompressBtn: $('selectedCompressBtn'), selectedCombineBtn: $('selectedCombineBtn'), selectedEditableBackupBtn: $('selectedEditableBackupBtn'), selectedTrashBtn: $('selectedTrashBtn'), selectedClearBtn: $('selectedClearBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilenameField: $('exportFilenameField'), exportFilename: $('exportFilename'), exportMultipleOptions: $('exportMultipleOptions'), exportDeliveryMode: $('exportDeliveryMode'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'), exportModeNote: $('exportModeNote'), exportSeparateActions: $('exportSeparateActions'), exportSeparateReadySummary: $('exportSeparateReadySummary'), exportShareFilesBtn: $('exportShareFilesBtn'), exportSaveFolderBtn: $('exportSaveFolderBtn'), exportSeparateZipFallbackBtn: $('exportSeparateZipFallbackBtn'), exportSeparateDiscardBtn: $('exportSeparateDiscardBtn'),
   extractOperationSummary: $('extractOperationSummary'), extractSummary: $('extractSummary'), extractDestination: $('extractDestination'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitDestination: $('splitDestination'), splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
@@ -2467,12 +2467,244 @@ async function sourceRecordPayload(record) {
   return null;
 }
 
+// A full editable Library can contain hundreds of MB of scanner originals.
+// JSZip.generateAsync retains every source clone and its compressed output in
+// memory; iPad Safari can terminate the PWA instead of throwing an exception.
+// Stage a standard, uncompressed ZIP incrementally in origin-private storage.
+// It uses precisely the existing manifest + sources/*.bin backup format.
+const PREPARED_EDITABLE_BACKUP_KEY = 'pdfwb-prepared-editable-backup-v1';
+const BACKUP_OPFS_SLOT_NAMES = ['pdfwb-full-editable-a.pwbbackup.zip', 'pdfwb-full-editable-b.pwbbackup.zip'];
+const BACKUP_STREAM_CHUNK_BYTES = 1024 * 1024;
+
+function preparedEditableBackupInfo() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(PREPARED_EDITABLE_BACKUP_KEY) || 'null');
+    return saved && BACKUP_OPFS_SLOT_NAMES.includes(saved.slot) && typeof saved.filename === 'string' ? saved : null;
+  } catch { return null; }
+}
+function updatePreparedEditableBackupButtons() {
+  if (!els.libraryPreparedBackupActions) return;
+  const saved = preparedEditableBackupInfo();
+  els.libraryPreparedBackupActions.classList.toggle('hidden', !saved);
+  if (els.libraryDownloadPreparedBackupBtn) {
+    els.libraryDownloadPreparedBackupBtn.textContent = saved ? `Download prepared backup (${(saved.size/1048576).toFixed(1)} MB)` : 'Download prepared backup';
+  }
+}
+async function getEditableBackupOPFSRoot() {
+  if (typeof navigator.storage?.getDirectory !== 'function') {
+    throw new Error('This iPad browser does not support disk-staged backups. Use Workbench on Windows for the full editable backup.');
+  }
+  return navigator.storage.getDirectory();
+}
+async function downloadPreparedEditableBackup() {
+  try {
+    const meta = preparedEditableBackupInfo();
+    if (!meta) throw new Error('No prepared editable backup is available.');
+    const root = await getEditableBackupOPFSRoot();
+    const handle = await root.getFileHandle(meta.slot);
+    const file = await handle.getFile();
+    if (file.size !== meta.size) throw new Error('The prepared backup is incomplete or has changed. Create another backup.');
+    downloadBlob(file, meta.filename);
+    addInkDiagnostic('editable-backup-download-requested', null, {bytes:file.size, slot:meta.slot});
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Download requested. Verify that the backup was saved in Files or another destination before discarding the prepared copy.';
+    setStatus('Prepared editable backup download requested');
+  } catch (err) {
+    addInkDiagnostic('editable-backup-download-error', null, {message:String(err?.message||err)});
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Could not download prepared backup: ${err?.message || err}`;
+  }
+}
+async function discardPreparedEditableBackup() {
+  const meta = preparedEditableBackupInfo();
+  if (!meta) return;
+  if (!confirm('Discard the prepared editable backup stored in Workbench? First confirm that you saved a downloaded copy outside the app.')) return;
+  try {
+    const root = await getEditableBackupOPFSRoot();
+    await root.removeEntry(meta.slot);
+    localStorage.removeItem(PREPARED_EDITABLE_BACKUP_KEY);
+    updatePreparedEditableBackupButtons();
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Prepared backup discarded. Your Library documents were not changed.';
+  } catch (err) {
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Could not discard prepared backup: ${err?.message||err}`;
+  }
+}
+
+// ZIP32 STORE writer. Data descriptors allow a one-pass archive: no need to
+// reread a source for its CRC before writing. Each source is released before
+// the next IndexedDB record is requested. Compatible with JSZip.loadAsync.
+const BACKUP_ZIP_CRC_TABLE = (() => {
+  const t = new Uint32Array(256);
+  for (let n=0;n<256;n++) {
+    let c=n;
+    for (let k=0;k<8;k++) c=(c>>>1) ^ ((c&1) ? 0xEDB88320 : 0);
+    t[n]=c>>>0;
+  }
+  return t;
+})();
+function backupZipCrcUpdate(crc, bytes) {
+  for (let i=0;i<bytes.byteLength;i++) crc = BACKUP_ZIP_CRC_TABLE[(crc ^ bytes[i]) & 255] ^ (crc>>>8);
+  return crc>>>0;
+}
+function createIncrementalEditableBackupZip(writable) {
+  const encoder = new TextEncoder();
+  const entries=[];
+  let offset=0;
+  const u16=(dv,at,v)=>dv.setUint16(at,v,true);
+  const u32=(dv,at,v)=>dv.setUint32(at,v>>>0,true);
+  const write=async bytes=>{
+    if (offset + bytes.byteLength >= 0xFFFFFFFF) throw new Error('Editable backup exceeds the supported 4 GB ZIP size.');
+    await writable.write(bytes);
+    offset+=bytes.byteLength;
+  };
+  async function addFile(filename, payload) {
+    if (entries.length >= 65535) throw new Error('Editable backup has too many ZIP entries.');
+    const name=encoder.encode(filename);
+    if (name.length>65535) throw new Error('A backup filename is too long.');
+    const localOffset=offset;
+    const header=new Uint8Array(30+name.length),dv=new DataView(header.buffer);
+    u32(dv,0,0x04034B50);u16(dv,4,20);u16(dv,6,0x0808);
+    u16(dv,8,0);u16(dv,10,0);u16(dv,12,0);
+    u16(dv,26,name.length);header.set(name,30);
+    await write(header);
+    let crc=0xFFFFFFFF,size=0;
+    async function writeChunk(chunk) {
+      if (!chunk?.byteLength) return;
+      size+=chunk.byteLength;
+      if (size>=0xFFFFFFFF) throw new Error('A stored PDF exceeds the supported ZIP entry size.');
+      crc=backupZipCrcUpdate(crc,chunk);
+      await write(chunk);
+    }
+    if (payload instanceof Blob) {
+      for(let start=0;start<payload.size;start+=BACKUP_STREAM_CHUNK_BYTES)
+        await writeChunk(new Uint8Array(await payload.slice(start,start+BACKUP_STREAM_CHUNK_BYTES).arrayBuffer()));
+    } else {
+      const bytes=typeof payload==='string' ? encoder.encode(payload) : payload;
+      for(let start=0;start<bytes.byteLength;start+=BACKUP_STREAM_CHUNK_BYTES)
+        await writeChunk(bytes.subarray(start,start+BACKUP_STREAM_CHUNK_BYTES));
+    }
+    crc=(crc ^ 0xFFFFFFFF)>>>0;
+    const desc=new Uint8Array(16),dd=new DataView(desc.buffer);
+    u32(dd,0,0x08074B50);u32(dd,4,crc);u32(dd,8,size);u32(dd,12,size);
+    await write(desc);
+    entries.push({name,crc,size,localOffset});
+  }
+  async function finish() {
+    const directoryOffset=offset;
+    for (const entry of entries) {
+      const header=new Uint8Array(46+entry.name.length),dv=new DataView(header.buffer);
+      u32(dv,0,0x02014B50);u16(dv,4,20);u16(dv,6,20);u16(dv,8,0x0808);
+      u16(dv,10,0);u16(dv,12,0);u16(dv,14,0);
+      u32(dv,16,entry.crc);u32(dv,20,entry.size);u32(dv,24,entry.size);
+      u16(dv,28,entry.name.length);u32(dv,42,entry.localOffset);
+      header.set(entry.name,46);
+      await write(header);
+    }
+    const directorySize=offset-directoryOffset;
+    const end=new Uint8Array(22),dv=new DataView(end.buffer);
+    u32(dv,0,0x06054B50);u16(dv,8,entries.length);u16(dv,10,entries.length);
+    u32(dv,12,directorySize);u32(dv,16,directoryOffset);
+    await write(end);
+    await writable.close();
+    return {bytes:offset,entries:entries.length};
+  }
+  return {addFile,finish};
+}
+
+async function createStagedIPadEditableLibraryBackup() {
+  // Open destination first so an unsupported browser fails safely before
+  // copying hundreds of MB out of IndexedDB.
+  const root=await getEditableBackupOPFSRoot();
+  const previous=preparedEditableBackupInfo();
+  const slot=BACKUP_OPFS_SLOT_NAMES.find(s=>s!==previous?.slot) || BACKUP_OPFS_SLOT_NAMES[0];
+  const handle=await root.getFileHandle(slot,{create:true});
+  if (typeof handle.createWritable !== 'function') {
+    throw new Error('This iPad browser cannot incrementally write the backup. Use the desktop Workbench for a full editable backup.');
+  }
+  const writable=await handle.createWritable();
+  let closed=false;
+  try {
+    const zip=createIncrementalEditableBackupZip(writable);
+    addInkDiagnostic('editable-backup-stage-start', null, {mode:'opfs-store'});
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent='Saving current editable state…';
+    await persistLibraryNow();
+    await persistAllAssetsNow();
+    const [documents, folders, assets, assetFolders, session, templatesMeta] = await Promise.all([
+      libraryGetAll('documents'),libraryGetAll('folders'),libraryGetAll('assets'),
+      libraryGetAll('assetFolders'),libraryGet('meta','session'),libraryGet('meta','templates'),
+    ]);
+    const {store}=libraryStore('sources');
+    const sourceIds=await idbRequest(store.getAllKeys());
+    addInkDiagnostic('editable-backup-stage-metadata', null, {documents:documents.length, sourceCount:sourceIds.length});
+    const sourceManifest=[];
+    for(let i=0;i<sourceIds.length;i++) {
+      const source=await libraryGet('sources',sourceIds[i]); // one IndexedDB binary clone at a time
+      if (!source) throw new Error('A stored source disappeared while creating the backup.');
+      const payload=source.blob instanceof Blob ? source.blob : await sourceRecordPayload(source);
+      if (!payload) throw new Error(`Stored source ${source.name||source.id} has no readable binary data.`);
+      const payloadSize=payload instanceof Blob ? payload.size : payload.byteLength;
+      const path=`sources/${encodeURIComponent(source.id)}.bin`;
+      if (els.libraryBackupProgress) els.libraryBackupProgress.textContent=`Writing source ${i+1} of ${sourceIds.length} to staged backup…`;
+      await zip.addFile(path,payload);
+      sourceManifest.push({
+        id:source.id,schemaVersion:Number(source.schemaVersion||1),
+        type:source.type,name:source.name,size:payloadSize,
+        mimeType:source.mimeType||(source.type==='pdf'?'application/pdf':'application/octet-stream'),path,
+      });
+      if (i%8===0 || i===sourceIds.length-1) addInkDiagnostic('editable-backup-stage-progress',null,{completed:i+1,total:sourceIds.length});
+      // Yield to WebKit between sources so JS can reclaim the previous clone.
+      if (i%3===0) await new Promise(resolve=>setTimeout(resolve,0));
+    }
+    const preferences={};
+    for (const key of ['pdfwb-scroll-mode','pdfwb-fit-mode','pdfwb-library-view','pdfwb-library-sort','pdfwb-graph-subtool','pdfwb-graph-border-style','pdfwb-graph-color','pdfwb-graph-node-size',PRESENTATION_TOOL_VISIBILITY_KEY]) {
+      try { const value=localStorage.getItem(key);if(value!=null) preferences[key]=value; } catch {}
+    }
+    const manifest={
+      format:'PDF Workbench Editable Library Backup',backupFormatVersion:LIBRARY_BACKUP_FORMAT_VERSION,
+      applicationVersion:APP_VERSION,librarySchemaVersion:LIBRARY_SCHEMA_VERSION,createdAt:new Date().toISOString(),
+      documents,folders,assets,assetFolders,sources:sourceManifest,
+      meta:{session:session||serializeLibrarySession(),templates:templatesMeta||serializeTemplatesForLibrary()},preferences,
+    };
+    await zip.addFile('manifest.json',JSON.stringify(manifest));
+    await zip.addFile('README.txt',[
+      'PDF Workbench Editable Library Backup', '',
+      'This is a ZIP-based PDF Workbench backup container.',
+      'Restore it from Files > Backup & transfer > Restore backup.',
+      'It preserves editable documents, folders, templates, assets, sources, and the workspace session.',
+      'Do not modify the archive if you intend to restore it.', ''
+    ].join('\n'));
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent='Finalizing staged editable backup…';
+    const result=await zip.finish();
+    closed=true;
+    const meta={slot,filename:`PDF-Workbench-Library-${portableTimestamp()}.pwbbackup.zip`,size:result.bytes,createdAt:Date.now()};
+    localStorage.setItem(PREPARED_EDITABLE_BACKUP_KEY,JSON.stringify(meta));
+    updatePreparedEditableBackupButtons();
+    addInkDiagnostic('editable-backup-stage-ready',null,{bytes:result.bytes,entries:result.entries,sourceCount:sourceIds.length});
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent=`Editable backup prepared (${(result.bytes/1048576).toFixed(1)} MB; ${documents.length} documents, ${sourceIds.length} sources). Tap Download prepared backup to save it outside Workbench.`;
+    setStatus('Editable backup prepared — download required');
+    if(previous && previous.slot!==slot) {
+      // Reclaim last staged copy only AFTER this new ZIP is finalized.
+      root.removeEntry(previous.slot).catch(()=>{});
+    }
+  } catch(err) {
+    addInkDiagnostic('editable-backup-stage-error',null,{message:String(err?.message||err)});
+    if (!closed) { try { await writable.abort(); } catch {} }
+    throw err;
+  }
+}
+
+let editableLibraryBackupInProgress = false;
 async function createEditableLibraryBackup() {
+  if (editableLibraryBackupInProgress) return;
   if (!state.libraryReady && !(await ensureLibraryConnection())) {
     setStatus('Local Library is not available');
     return;
   }
+  editableLibraryBackupInProgress = true;
+  if (els.libraryEditableBackupBtn) els.libraryEditableBackupBtn.disabled = true;
   try {
+    if (isIPadLike()) {
+      await createStagedIPadEditableLibraryBackup();
+      return;
+    }
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Saving current editable state…';
     await persistLibraryNow();
     await persistAllAssetsNow();
@@ -2543,6 +2775,9 @@ async function createEditableLibraryBackup() {
     console.error('Editable Library backup failed', err);
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Editable backup failed: ${err?.message || err}`;
     setStatus(`Editable backup failed: ${err?.message || err}`);
+  } finally {
+    editableLibraryBackupInProgress = false;
+    if (els.libraryEditableBackupBtn) els.libraryEditableBackupBtn.disabled = false;
   }
 }
 
@@ -13174,7 +13409,7 @@ function initializeDiagnosticHealthBreadcrumbs() {
   state.diagnosticHealthBreadcrumbInterval = setInterval(() => writeDiagnosticHealthBreadcrumb('interval'), DIAGNOSTIC_HEALTH_INTERVAL_MS);
 }
 function diagnosticEventShouldRefreshHealthBreadcrumb(kind) {
-  return /(?:document-switch|source-|residency|viewer-resize|visibility-change|render-queue|library-|workspace|split)/.test(String(kind || ''));
+  return /(?:document-switch|source-|residency|viewer-resize|visibility-change|render-queue|library-|editable-backup|workspace|split)/.test(String(kind || ''));
 }
 function readEmergencyDiagnosticCaptures() {
   try {
@@ -19928,6 +20163,9 @@ function bindEvents() {
   els.clearSavedDiagnosticsBtn?.addEventListener('click', clearSavedDiagnostics);
   els.libraryPdfArchiveBtn?.addEventListener('click', exportWholeLibraryAsPdfs);
   els.libraryEditableBackupBtn?.addEventListener('click', createEditableLibraryBackup);
+  els.libraryDownloadPreparedBackupBtn?.addEventListener('click', downloadPreparedEditableBackup);
+  els.libraryDiscardPreparedBackupBtn?.addEventListener('click', discardPreparedEditableBackup);
+  updatePreparedEditableBackupButtons();
   els.librarySelectedEditableBackupBtn?.addEventListener('click', createSelectedEditableDocumentsBackup);
   els.libraryRestoreBackupBtn?.addEventListener('click', () => { state.pendingBackupImportMode='replace'; els.libraryRestoreInput?.click(); });
   els.libraryImportBackupBtn?.addEventListener('click', () => { state.pendingBackupImportMode='subtree'; els.libraryRestoreInput?.click(); });

@@ -1,6 +1,14 @@
-# PDF Workbench 5.8.58-exp
+# PDF Workbench 5.8.59-exp
 
-## Milestone 5.8.58 — Split View template-worker residency fix
+## Milestone 5.8.59 — iPad full editable backup memory protection (experimental)
+
+- Two 2026-10-19 iPad attempts at full editable backup ended in a white-screen WebKit restart. Captured diagnostics establish multiple distinct runtimes and ~500–615 MB of origin storage, but no native out-of-memory exception or exact backup phase. The old function used bulk `getAll(sources)` plus JSZip DEFLATE, accumulating all source copies and the output ZIP in JS memory.
+- On iPad only, generate the same format-version-1 editable backup as **incremental uncompressed ZIP** into Origin Private File System (OPFS), loading only one IndexedDB source at a time and writing it in 1 MiB chunks. A standard ZIP data-descriptor + central-directory writer avoids keeping either input sources or finished archive in JS memory. Desktop retains its prior JSZip path. iPad browsers without the necessary OPFS writer fail with a descriptive message rather than falling back to the unsafe bulk path.
+- Completed iPad backup remains in persistent staging storage. `Download prepared backup` is a separate deliberate user tap, available after relaunch; the app cannot claim a usable off-device backup until the user saves it externally. A second staged backup is written to the inactive of two slots, preserving the previous completed one until the replacement finishes. `Discard prepared backup` reclaims this storage without deleting Library documents.
+- Added `editable-backup-stage-*` and `editable-backup-download-*` diagnostic phases to capture the last completed part before a WebKit process kill. No Library schema, editable-backup manifest format, or restore/import interpretation changed. **Live iPad check required**: full staged backup, Download into Files, verify ZIP/restore on a second environment; reload and retry Download; verify no white-screen restart during staging.
+- Diagnostics export still opens iPad system download/share UI. New startup/Library restoration after export is consistent with a PWA process restart rather than a deliberate `refreshLibraryRecords()` call, but it remains to be verified from the next saved diagnostic archive. Do not conflate it with full backup staging.
+
+## Milestone 5.8.59 — Split View template-worker residency fix
 
 - 2026-10-19 iPad diagnostics from 5.8.56 captured a Split View starvation loop: a third persistent PDF source (not in either visible pane) occupied one of the two managed PDF workers. The visible ReTest2 and Kelly Rodriguez sources repeatedly replaced each other in the remaining slot, causing persistent “No managed iPad PDF worker slot is available” rendering errors. This is not scan corruption.
 - Root cause: saved template PDFs were eagerly loaded at startup and treated as non-evictable even when no displayed document needed them. A saved template retains its source bytes in IndexedDB, and the template preview / insertion renderer already lazily reloads persisted source bytes when used. Merely being a saved template must not pin a live PDF.js worker.
