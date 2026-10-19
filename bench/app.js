@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.54';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.55';
 
-const APP_VERSION = '5.8.54';
+const APP_VERSION = '5.8.55';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -53,7 +53,7 @@ const els = {
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
   viewLayoutActionIcon: $('viewLayoutActionIcon'), presentationLayoutActionIcon: $('presentationLayoutActionIcon'), quickStartBtn: $('quickStartBtn'), featureGuideBtn: $('featureGuideBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryQuickNewBtn: $('libraryQuickNewBtn'), libraryNewDropdown: $('libraryNewDropdown'), libraryNewBlankMenuBtn: $('libraryNewBlankMenuBtn'), libraryNewCustomMenuBtn: $('libraryNewCustomMenuBtn'), libraryNewTemplateMenuBtn: $('libraryNewTemplateMenuBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), librarySortSelect: $('librarySortSelect'), librarySearchInput: $('librarySearchInput'), librarySearchClearBtn: $('librarySearchClearBtn'), librarySearchSummary: $('librarySearchSummary'), librarySelectionSummary: $('librarySelectionSummary'), librarySelectAllBtn: $('librarySelectAllBtn'), libraryClearSelectionBtn: $('libraryClearSelectionBtn'), libraryMoveSelectedBtn: $('libraryMoveSelectedBtn'), libraryTrashSelectedBtn: $('libraryTrashSelectedBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), emptyTrashBtn: $('emptyTrashBtn'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), librarySelectedEditableBackupBtn: $('librarySelectedEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), savedDiagnosticsSummary: $('savedDiagnosticsSummary'), exportSavedDiagnosticsBtn: $('exportSavedDiagnosticsBtn'), clearSavedDiagnosticsBtn: $('clearSavedDiagnosticsBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), selectedDocumentsSection: $('selectedDocumentsSection'), selectedOpenBtn: $('selectedOpenBtn'), selectedViewBtn: $('selectedViewBtn'), selectedCloseBtn: $('selectedCloseBtn'), selectedRenameBtn: $('selectedRenameBtn'), selectedDuplicateBtn: $('selectedDuplicateBtn'), selectedMoveBtn: $('selectedMoveBtn'), selectedExportBtn: $('selectedExportBtn'), selectedCompressBtn: $('selectedCompressBtn'), selectedCombineBtn: $('selectedCombineBtn'), selectedEditableBackupBtn: $('selectedEditableBackupBtn'), selectedTrashBtn: $('selectedTrashBtn'), selectedClearBtn: $('selectedClearBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryQuickNewBtn: $('libraryQuickNewBtn'), libraryNewDropdown: $('libraryNewDropdown'), libraryNewBlankMenuBtn: $('libraryNewBlankMenuBtn'), libraryNewCustomMenuBtn: $('libraryNewCustomMenuBtn'), libraryNewTemplateMenuBtn: $('libraryNewTemplateMenuBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), librarySortSelect: $('librarySortSelect'), librarySearchInput: $('librarySearchInput'), librarySearchClearBtn: $('librarySearchClearBtn'), librarySearchSummary: $('librarySearchSummary'), librarySelectionSummary: $('librarySelectionSummary'), librarySelectAllBtn: $('librarySelectAllBtn'), libraryClearSelectionBtn: $('libraryClearSelectionBtn'), libraryMoveSelectedBtn: $('libraryMoveSelectedBtn'), libraryTrashSelectedBtn: $('libraryTrashSelectedBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), emptyTrashBtn: $('emptyTrashBtn'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), librarySelectedEditableBackupBtn: $('librarySelectedEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), savedDiagnosticsSummary: $('savedDiagnosticsSummary'), exportSavedDiagnosticsBtn: $('exportSavedDiagnosticsBtn'), clearSavedDiagnosticsBtn: $('clearSavedDiagnosticsBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), selectedDocumentsSection: $('selectedDocumentsSection'), selectedOpenBtn: $('selectedOpenBtn'), selectedViewBtn: $('selectedViewBtn'), selectedCloseBtn: $('selectedCloseBtn'), selectedRenameBtn: $('selectedRenameBtn'), selectedDuplicateBtn: $('selectedDuplicateBtn'), selectedMoveBtn: $('selectedMoveBtn'), selectedExportBtn: $('selectedExportBtn'), selectedCompressBtn: $('selectedCompressBtn'), selectedCombineBtn: $('selectedCombineBtn'), selectedEditableBackupBtn: $('selectedEditableBackupBtn'), selectedTrashBtn: $('selectedTrashBtn'), selectedClearBtn: $('selectedClearBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilenameField: $('exportFilenameField'), exportFilename: $('exportFilename'), exportMultipleOptions: $('exportMultipleOptions'), exportDeliveryMode: $('exportDeliveryMode'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'), exportModeNote: $('exportModeNote'), exportSeparateActions: $('exportSeparateActions'), exportSeparateReadySummary: $('exportSeparateReadySummary'), exportShareFilesBtn: $('exportShareFilesBtn'), exportSaveFolderBtn: $('exportSaveFolderBtn'), exportSeparateZipFallbackBtn: $('exportSeparateZipFallbackBtn'), exportSeparateDiscardBtn: $('exportSeparateDiscardBtn'),
   extractOperationSummary: $('extractOperationSummary'), extractSummary: $('extractSummary'), extractDestination: $('extractDestination'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitDestination: $('splitDestination'), splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
@@ -12680,6 +12680,17 @@ function renderExportPane({ preserveLibraryDocumentList = false } = {}) {
   const chosenDocs = selectedFileDocuments();
   if (els.librarySelectedEditableBackupBtn) els.librarySelectedEditableBackupBtn.disabled = chosenDocs.length === 0;
   const selectionKey = chosenDocs.map(d => `${d.id}\n${d.name}`).join('|');
+  const multiple = chosenDocs.length > 1;
+  const separate = multiple && els.exportDeliveryMode?.value === 'separate';
+  const separateKey = separatePdfSelectionKey(chosenDocs);
+  // The prepared files are runtime-only. Drop them if the selection or export
+  // mode changes so we never offer a stale PDF from a different document set.
+  if (preparedSeparatePdfExport && (!separate || preparedSeparatePdfExport.selectionKey !== separateKey)) discardPreparedSeparatePdfExport();
+  els.exportMultipleOptions?.classList.toggle('hidden', !multiple);
+  els.exportFilenameField?.classList.toggle('hidden', separate);
+  if (els.exportModeNote) els.exportModeNote.textContent = separate
+    ? 'Prepare the PDFs first, then tap Share PDFs for the system share sheet or Save PDFs to folder where supported. Keep ZIP for large batches. Prepared files are held temporarily in memory until delivered or discarded.'
+    : 'One selected document exports as a PDF. Two or more selected documents are exported together in one ZIP; each PDF keeps its own current page order and edits.';
 
   if (chosenDocs.length === 0) {
     els.exportSummary.textContent = 'Select one or more documents above.';
@@ -12704,17 +12715,28 @@ function renderExportPane({ preserveLibraryDocumentList = false } = {}) {
     els.exportPdfBtn.disabled = false;
     els.exportPdfBtn.textContent = 'Export PDF';
   } else {
-    els.exportSummary.textContent = `${chosenDocs.length} selected documents will be exported as individual PDFs inside one ZIP.`;
-    els.exportOperationSummary.textContent = `${chosenDocs.length} selected documents · export ZIP`;
+    els.exportSummary.textContent = separate
+      ? `${chosenDocs.length} documents will be prepared as separate, edited PDFs for sharing or saving.`
+      : `${chosenDocs.length} selected documents will be exported as individual PDFs inside one ZIP.`;
+    els.exportOperationSummary.textContent = `${chosenDocs.length} selected documents · ${separate ? 'separate PDFs' : 'export ZIP'}`;
     els.exportFilenameLabel.textContent = 'ZIP file name';
-    els.exportFilename.disabled = false;
+    els.exportFilename.disabled = separate;
     if (els.exportFilename.dataset.selectionKey !== selectionKey) {
       els.exportFilename.value = 'PDF-Workbench-Export.zip';
       els.exportFilename.dataset.selectionKey = selectionKey;
       els.exportProgress.textContent = '';
     }
-    els.exportPdfBtn.disabled = false;
-    els.exportPdfBtn.textContent = `Export ${chosenDocs.length} PDFs as ZIP`;
+    els.exportPdfBtn.disabled = separatePdfExportBusy || !!(separate && preparedSeparatePdfExport);
+    els.exportPdfBtn.textContent = separate ? `Prepare ${chosenDocs.length} separate PDFs` : `Export ${chosenDocs.length} PDFs as ZIP`;
+  }
+
+  const ready = separate ? preparedSeparatePdfExport : null;
+  els.exportSeparateActions?.classList.toggle('hidden', !ready);
+  if (ready) {
+    els.exportSeparateReadySummary.textContent = `${ready.items.length} PDFs ready (${formatFileSize(ready.totalBytes)}). Choose where to send them.`;
+    els.exportShareFilesBtn.classList.toggle('hidden', typeof navigator.share !== 'function');
+    els.exportSaveFolderBtn.classList.toggle('hidden', typeof window.showDirectoryPicker !== 'function');
+    for (const button of [els.exportShareFilesBtn, els.exportSaveFolderBtn, els.exportSeparateZipFallbackBtn, els.exportSeparateDiscardBtn]) button.disabled = separatePdfExportBusy;
   }
 
   updateCompressionUi(chosenDocs);
@@ -14379,10 +14401,208 @@ async function compressSelectedDocuments() {
   }
 }
 
+// The PDF builders below are shared by iPad and desktop. Native handoff is
+// deliberately a separate, explicit tap: browsers require fresh user activation
+// for navigator.share() and showDirectoryPicker(). No Library format changes.
+const SEPARATE_PDF_MAX_DOCUMENTS = 16;
+const SEPARATE_PDF_MAX_BYTES = 64 * 1024 * 1024;
+let preparedSeparatePdfExport = null;
+let separatePdfExportBusy = false;
+
+function separatePdfSelectionKey(docs) {
+  return docs.map(doc => `${doc.id}\n${doc.name}\n${doc.pages?.map(p => p.id).join(',') || ''}`).join('|');
+}
+function discardPreparedSeparatePdfExport() { preparedSeparatePdfExport = null; }
+function preparedSeparatePdfIsCurrent() {
+  return !!preparedSeparatePdfExport && state.workspaceMode === 'export' &&
+    els.exportDeliveryMode?.value === 'separate' &&
+    preparedSeparatePdfExport.selectionKey === separatePdfSelectionKey(selectedFileDocuments());
+}
+function clearPreparedSeparatePdfExport(message='') {
+  discardPreparedSeparatePdfExport();
+  if (message) els.exportProgress.textContent = message;
+  renderExportPane({preserveLibraryDocumentList:true});
+}
+function separatePdfDeliverySupport() {
+  return typeof navigator.share === 'function' || typeof window.showDirectoryPicker === 'function';
+}
+async function prepareSeparatePdfExport(docs) {
+  if (separatePdfExportBusy) return;
+  if (!separatePdfDeliverySupport()) {
+    els.exportProgress.textContent = 'This browser cannot share files or choose a destination folder. Select ZIP export instead.';
+    return;
+  }
+  if (docs.length > SEPARATE_PDF_MAX_DOCUMENTS) {
+    els.exportProgress.textContent = `Separate export is limited to ${SEPARATE_PDF_MAX_DOCUMENTS} documents in this experimental version. Use ZIP for larger batches.`;
+    return;
+  }
+  discardPreparedSeparatePdfExport();
+  separatePdfExportBusy = true;
+  const selectionKey = separatePdfSelectionKey(docs);
+  const usedNames = new Set();
+  const items = [];
+  let totalBytes = 0;
+  els.exportPdfBtn.disabled = true;
+  try {
+    for (let i = 0; i < docs.length; i++) {
+      const doc = docs[i];
+      const sourceIds = await prepareDocumentForFileOperation(doc);
+      const sourcePdfCache = new Map();
+      try {
+        els.exportProgress.textContent = `Preparing separate PDF ${i + 1} of ${docs.length}: ${doc.name}…`;
+        setStatus(`Preparing PDF ${i + 1} of ${docs.length}…`, true);
+        const bytes = await buildPdfBytes(doc.pages, {
+          sourcePdfCache,
+          onProgress:(done,total) => {els.exportProgress.textContent = `PDF ${i + 1} of ${docs.length}: page ${done} of ${total}…`;},
+        });
+        totalBytes += bytes.byteLength;
+        if (totalBytes > SEPARATE_PDF_MAX_BYTES) {
+          throw new Error(`Separate PDFs exceed the ${Math.round(SEPARATE_PDF_MAX_BYTES / (1024 * 1024))} MB temporary-memory limit. Use ZIP export for this batch.`);
+        }
+        items.push({docId:doc.id, filename:uniqueZipPdfName(doc,usedNames), bytes});
+      } finally {
+        sourcePdfCache.clear();
+        await releaseFileOperationPdfSources(sourceIds,'separate-pdf-preparation-complete');
+      }
+      // A changed selection must never receive stale PDFs when preparation ends.
+      if (state.workspaceMode !== 'export' || els.exportDeliveryMode?.value !== 'separate' ||
+          selectionKey !== separatePdfSelectionKey(selectedFileDocuments())) {
+        throw new Error('Selection or workspace changed while preparing. Please prepare the PDFs again.');
+      }
+    }
+    preparedSeparatePdfExport = {selectionKey, items, totalBytes};
+    els.exportProgress.textContent = 'PDFs ready. Tap Share PDFs or Save PDFs to folder. They have not been downloaded yet.';
+    setStatus(`${items.length} separate PDFs ready`);
+  } catch (err) {
+    console.error(err);
+    // Drop all finished bytes on failure; the ordinary ZIP export is unaffected.
+    discardPreparedSeparatePdfExport();
+    els.exportProgress.textContent = `Could not prepare separate PDFs: ${err?.message || err}`;
+    setStatus('Separate PDF preparation stopped');
+  } finally {
+    separatePdfExportBusy = false;
+    renderExportPane({preserveLibraryDocumentList:true});
+  }
+}
+async function markPreparedSeparatePdfsExported(items) {
+  for (const item of items) {
+    const doc = selectableDocumentById(item.docId);
+    if (doc) await markSelectedDocumentExported(doc);
+  }
+}
+function preparedPdfsAsFiles(items) {
+  return items.map(item => new File([item.bytes],item.filename,{type:'application/pdf'}));
+}
+async function sharePreparedSeparatePdfs() {
+  if (separatePdfExportBusy || !preparedSeparatePdfIsCurrent()) return;
+  // Keep all synchronous work before the share call; do not await PDF builds or
+  // a capability probe before the iPad/Windows user-activated share dialog.
+  let sharePromise;
+  try {
+    const files = preparedPdfsAsFiles(preparedSeparatePdfExport.items);
+    if (typeof navigator.share !== 'function' ||
+        (typeof navigator.canShare === 'function' && !navigator.canShare({files}))) {
+      els.exportProgress.textContent = 'This browser cannot share these PDFs together. Try Save PDFs to folder or Download as ZIP instead.';
+      return;
+    }
+    sharePromise = navigator.share({files});
+  } catch (err) {
+    els.exportProgress.textContent = `Could not open system sharing: ${err?.message || err}`;
+    return;
+  }
+  const ready = preparedSeparatePdfExport;
+  separatePdfExportBusy = true;
+  renderExportPane({preserveLibraryDocumentList:true});
+  try {
+    await sharePromise;
+    await markPreparedSeparatePdfsExported(ready.items);
+    clearPreparedSeparatePdfExport(`Shared ${ready.items.length} PDFs with the system. The destination app controls final saving.`);
+    setStatus('Separate PDFs handed to the system');
+  } catch (err) {
+    els.exportProgress.textContent = err?.name === 'AbortError'
+      ? 'Sharing canceled. The PDFs are still prepared; choose a destination or discard them.'
+      : `Could not share PDFs: ${err?.message || err}. Try Save to folder or ZIP.`;
+  } finally {
+    separatePdfExportBusy = false;
+    renderExportPane({preserveLibraryDocumentList:true});
+  }
+}
+async function availableSeparatePdfFileHandle(directory, preferredName) {
+  const stem = cleanFilenameBase(preferredName,'document');
+  for (let i=0; i<1000; i++) {
+    const name = i ? `${stem} (${i + 1}).pdf` : preferredName;
+    try {
+      await directory.getFileHandle(name);
+    } catch (err) {
+      if (err?.name !== 'NotFoundError') throw err;
+      return {name, handle:await directory.getFileHandle(name,{create:true})};
+    }
+  }
+  throw new Error('Could not find an unused PDF filename in that folder.');
+}
+async function savePreparedSeparatePdfsToFolder() {
+  if (separatePdfExportBusy || !preparedSeparatePdfIsCurrent() || typeof window.showDirectoryPicker !== 'function') return;
+  // Request the directory on the actual tap, before the first await.
+  let pickerPromise;
+  try { pickerPromise = window.showDirectoryPicker({mode:'readwrite'}); }
+  catch (err) { els.exportProgress.textContent = `Could not open folder chooser: ${err?.message || err}`; return; }
+  const ready = preparedSeparatePdfExport;
+  separatePdfExportBusy = true;
+  renderExportPane({preserveLibraryDocumentList:true});
+  let saved = 0;
+  try {
+    const directory = await pickerPromise;
+    for (const item of ready.items) {
+      const {handle} = await availableSeparatePdfFileHandle(directory,item.filename);
+      const writer = await handle.createWritable();
+      try { await writer.write(item.bytes); await writer.close(); }
+      catch (err) { try {await writer.abort();} catch {} throw err; }
+      saved++;
+      els.exportProgress.textContent = `Saved ${saved} of ${ready.items.length} PDFs to the selected folder…`;
+    }
+    await markPreparedSeparatePdfsExported(ready.items);
+    clearPreparedSeparatePdfExport(`Saved ${saved} separate PDFs to the chosen folder.`);
+    setStatus(`Saved ${saved} separate PDFs`);
+  } catch (err) {
+    els.exportProgress.textContent = err?.name === 'AbortError'
+      ? 'Folder selection canceled. The prepared PDFs are still available.'
+      : `Save to folder stopped after ${saved} of ${ready.items.length} PDFs: ${err?.message || err}. Retrying may create additional copies.`;
+  } finally {
+    separatePdfExportBusy = false;
+    renderExportPane({preserveLibraryDocumentList:true});
+  }
+}
+async function downloadPreparedSeparatePdfsAsZip() {
+  if (separatePdfExportBusy || !preparedSeparatePdfIsCurrent()) return;
+  separatePdfExportBusy = true;
+  renderExportPane({preserveLibraryDocumentList:true});
+  const ready = preparedSeparatePdfExport;
+  try {
+    const JSZip = await loadZipEngine();
+    const zip = new JSZip();
+    for (const item of ready.items) zip.file(item.filename,item.bytes);
+    els.exportProgress.textContent = 'Packaging prepared PDFs into a ZIP…';
+    const blob = await zip.generateAsync({type:'blob',compression:'STORE',mimeType:'application/zip'});
+    downloadBlob(blob,'PDF-Workbench-Export.zip');
+    await markPreparedSeparatePdfsExported(ready.items);
+    clearPreparedSeparatePdfExport(`Downloaded ZIP containing ${ready.items.length} PDFs.`);
+    setStatus('Exported prepared PDFs as ZIP');
+  } catch (err) {
+    els.exportProgress.textContent = `ZIP fallback failed: ${err?.message || err}`;
+  } finally {
+    separatePdfExportBusy = false;
+    renderExportPane({preserveLibraryDocumentList:true});
+  }
+}
+
 async function exportSelectedDocuments() {
   saveCurrentDocumentState();
   const docs = selectedFileDocuments();
   if (!docs.length) return;
+  if (docs.length > 1 && els.exportDeliveryMode?.value === 'separate') {
+    await prepareSeparatePdfExport(docs);
+    return;
+  }
   els.exportPdfBtn.disabled = true;
   els.exportProgress.textContent = 'Preparing export engine…';
   setStatus('Preparing PDF export…', true);
@@ -14811,6 +15031,7 @@ async function createCombinedDocument() {
 }
 
 function showWorkspaceMode(mode) {
+  if (mode !== 'export' && state.workspaceMode === 'export' && !separatePdfExportBusy) discardPreparedSeparatePdfExport();
   const enteringPages = mode === 'organize' && state.workspaceMode !== 'organize';
   // Preserve the visible viewer position before hiding the View workspace.
   // Direct View -> Files/Pages navigation used to hide the scroll container
@@ -18398,7 +18619,7 @@ const FEATURE_GUIDE_HTML = `<div class="workbench-help-content">
           <p><strong>Templates</strong> stores reusable pages. You can create new documents from templates or insert template pages; templates and permanent assets are included in editable Library backups. Files also has <strong>Images → PDF</strong> to assemble images into a single document.</p>
         </div></details>
         <details class="help-topic" data-help-topic><summary>Export, Compress, Combine, Extract and Split</summary><div>
-          <p>In Files, <strong>Selected-document tools</strong> apply to the shared selection: Export generates a PDF for one document or a ZIP of separate PDFs for several; Compress offers quality/size choices; Combine creates one document in the chosen order.</p>
+          <p>In Files, <strong>Selected-document tools</strong> apply to the shared selection: Export generates a PDF for one document. With several selected, choose a ZIP or prepare separate PDFs, then use the system Share sheet (where available) or Save to Folder (supported desktop browsers); Compress offers quality/size choices; Combine creates one document in the chosen order.</p>
           <p><strong>Active-document tools</strong> apply instead to the active document: Extract selected pages to an editable Library document or PDF; Split creates several editable Library documents or PDF/ZIP outputs. A routine PDF export is not the same as an editable Library backup.</p>
         </div></details>
         <details class="help-topic" data-help-topic><summary>Backup &amp; transfer, Trash and recovery</summary><div>
@@ -19627,6 +19848,11 @@ function bindEvents() {
   els.purgeLibraryBtn?.addEventListener('click', purgeLocalLibrary);
   els.factoryResetBtn?.addEventListener('click', factoryResetAllLocalData);
   els.exportPdfBtn.addEventListener('click', exportSelectedDocuments);
+  els.exportDeliveryMode?.addEventListener('change',()=>renderExportPane({preserveLibraryDocumentList:true}));
+  els.exportShareFilesBtn?.addEventListener('click',sharePreparedSeparatePdfs);
+  els.exportSaveFolderBtn?.addEventListener('click',savePreparedSeparatePdfsToFolder);
+  els.exportSeparateZipFallbackBtn?.addEventListener('click',downloadPreparedSeparatePdfsAsZip);
+  els.exportSeparateDiscardBtn?.addEventListener('click',()=>{if (!separatePdfExportBusy) clearPreparedSeparatePdfExport('Prepared PDFs discarded.');});
   els.compressionMethod?.addEventListener('change', () => updateCompressionUi(selectedFileDocuments()));
   els.compressionLevel?.addEventListener('change', () => updateCompressionUi(selectedFileDocuments()));
   els.compressionTargetMb?.addEventListener('input', () => updateCompressionUi(selectedFileDocuments()));

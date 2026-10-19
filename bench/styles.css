@@ -2243,3 +2243,10 @@ body.presentation #presentationExit.presentation-only {
 .help-topic > div { padding:0 14px 10px; }
 .help-topic > div p { margin:8px 0; }
 .help-empty { color:var(--muted); padding:12px 0; }
+
+/* 5.8.55 separate-file export: preparation and native sharing are distinct taps. */
+#exportDeliveryMode { width:100%; box-sizing:border-box; min-height:42px; border:1px solid var(--border); border-radius:9px; background:var(--paper); color:var(--text); padding:8px 10px; font:inherit; }
+.export-separate-actions { border:1px solid var(--border); border-radius:11px; padding:14px; margin-top:14px; }
+.export-separate-actions .file-tool-summary { margin-bottom:10px; }
+.export-separate-button-row { display:grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,180px),1fr)); gap:9px; }
+.export-separate-button-row .export-button { margin:0; min-height:42px; font-size:.92rem; }

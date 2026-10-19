@@ -1,6 +1,14 @@
-# PDF Workbench 5.8.54-exp
+# PDF Workbench 5.8.55-exp
 
-## Milestone 5.8.54 — Presentation thumbnail Back
+## Milestone 5.8.55 — Experimental separate PDF export via system sharing / folder save
+
+- In Files → Selected-document tools → Export, multi-document selections now offer **One ZIP containing separate PDFs** (unchanged default) or **Separate PDFs — share or save to folder**. Single-document PDF export is unchanged. The shared selected-document set, per-document page order/edits, PDF builder, and source retirement are reused.
+- Separate-file export first prepares each selected PDF independently, with existing per-document pdf-lib cache cleanup and PDF.js source release; then shows a **Share PDFs…** control invoking `navigator.share({files:[...]})` from a fresh tap and/or **Save PDFs to folder…** using `showDirectoryPicker` when available. Destinations are supplied by the OS/browser, not custom Goodnotes/Drive integrations. Native file-share success hands the files to the target app; Workbench cannot certify final storage in that app.
+- A **Download as ZIP instead** fallback packages already prepared PDFs; **Discard prepared PDFs** drops their in-memory data. The prepared set is invalidated when selection/output mode changes or Files is left. Separate preparation has a conservative 16-document / 64-MiB finished-PDF limit; larger batches should use existing ZIP export.
+- Windows Chrome/Edge can expose Save to Folder; iPad PWA should expose Share PDFs when Web Share with multiple PDF files is permitted. Capabilities are checked at runtime, and a blocked/canceled handoff leaves prepared PDFs available for another method.
+- No Library schema, rendering architecture, worker-pool, editable backup, or ZIP output changes. Live iPad and Windows behavior, especially multi-file targets in the share sheet, **requires real-device validation**.
+
+## Prior milestone 5.8.54 — Presentation thumbnail Back
 
 - Following a thumbnail jump in Presentation now exposes a **Back to page N** command in a fixed row above the thumbnail list; the command stays accessible even when the list scrolls to a distant page. It is hidden until a jump creates a usable return location.
 - A single use returns to the prior page and viewing position (including zoom when changed), and consumes the return location. Only direct thumbnail jumps create it; regular scrolling and page-next do not create history. A new thumbnail jump replaces the previous return location rather than accumulating history.

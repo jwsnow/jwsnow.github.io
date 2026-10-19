@@ -1,3 +1,26 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.55-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS / TEST PRIORITIES BELOW.
+Continue future work from packaged 5.8.55-exp ZIP, not an older build.
+
+EXPERIMENTAL SEPARATE MULTI-PDF EXPORT (iPAD SHARE / WINDOWS SAVE TO FOLDER)
+- Files → Selected-document tools → Export: default ZIP remains unchanged. With 2+ documents selected, there is now a second mode: Separate PDFs — share or save to folder.
+- Press Prepare N separate PDFs. The normal edited-PDF export builder is reused, one document at a time, with short-lived pdf-lib cache and PDF.js source cleanup just like the existing ZIP export. Nothing is delivered during this preparation step.
+- Once ready: Share PDFs… calls navigator.share({files}) directly from a fresh user tap if supported; Save PDFs to folder… uses showDirectoryPicker from a fresh tap when supported; Download as ZIP instead packages already prepared PDFs; Discard prepared PDFs releases the prepared bytes.
+- File naming preserves individual exported document names and disambiguates duplicates. Windows Save-to-Folder avoids overwriting same-name existing files by adding a numeric suffix. The native destination controls final saved location; successful system sharing is not proof the receiving app finished a remote upload.
+- Conservative experimental limits: at most 16 separate PDFs totaling at most 64 MiB of completed output bytes. Use ordinary ZIP for larger exports. Prepared PDFs are memory-only and clear on selection/mode changes and when leaving Files; there is no IndexedDB/session schema change.
+- Single-document export, multi-PDF ZIP export, compression, PDF worker pool, two-source Split invariant, rendering caps, annotations, and Library persistence/backup formats remain unchanged.
+
+VALIDATION PRIORITIES (REAL DEVICES)
+1. iPad installed PWA: select 3-4 modest PDFs, Export → Separate PDFs → Prepare → Share PDFs. Check native iPadOS share sheet, Save to Files, and Google Drive as separate named items; confirm cancellation/retry. If the browser cannot share the file array, the UI reports it without attempting silent multiple downloads.
+2. Windows Chrome or Edge: Prepare selected PDFs → Save PDFs to folder. Confirm all distinct files, originals unmodified, and name collisions handled safely; try Share if exposed. Confirm cancel/retry.
+3. For both: ZIP export unchanged and default; Download as ZIP instead; discarded files release memory, selection changes invalidate a prepared batch, leaving Files discards the batch, and large batches prompt ZIP rather than crashing due to staging.
+4. Save Diagnostics after a normal grading/export cycle; verify no fresh Library restoration is triggered by returning from the system share/save UI, preserving 5.8.46+ lifecycle protections.
+
+================================================================================
+PRIOR 5.8.54 HANDOFF FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.54-exp
 
 THIS SECTION IS AUTHORITATIVE OVER EARLIER VERSION HEADINGS.
