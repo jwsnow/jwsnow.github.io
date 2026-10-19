@@ -1,3 +1,37 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-18 — BASELINE 5.8.52-exp
+
+THIS SECTION IS AUTHORITATIVE OVER EARLIER VERSION HEADINGS.
+Continue from the packaged 5.8.52-exp ZIP, not 5.8.51 or earlier.
+
+5.8.52 PRESENTATION GUIDE DISCOVERABILITY + DUPLICATE DIAGNOSTICS MENU REMOVAL
+
+USER FEEDBACK
+- Presentation mode and the editable/customizable Presentation toolbar were not easy to find in the Feature Guide, despite a short combined topic near the bottom.
+- The top-right ellipsis also offered Download diagnostics, redundant with the Files UI.
+
+CHANGES
+1. Quick Start now explains Present and the wrench Tools button on the left side of the Presentation toolbar.
+2. Feature Guide moves Presentation instructions directly after View/Split and gives separate discoverable topics:
+   - Presentation mode (Present): how to enter/exit, switch documents and Split panes, use Page view, Thumbnails and Add page, and work on iPad.
+   - Customize the Presentation toolbar (Tools menu): tap a tool name to run it, check its right-hand box to display its toolbar button, uncheck to hide the button without losing access, and note saved device preferences. The supported toolbar-tool list is explicit.
+3. Remove the top-right ellipsis Download diagnostics item and its now-unused direct-download handler. Keep the prominent Files Diagnostics (local save), the View/Presentation diagnostic controls, and Files → Advanced / Recovery Export saved diagnostics and Clear saved diagnostics. Diagnostics generation, saving and ZIP export remain unchanged.
+4. Bump app, asset-query and service-worker cache version to 5.8.52; update README.
+
+VALIDATION
+- JavaScript/module syntax and release version consistency must pass.
+- Confirm the ellipsis no longer has Download diagnostics, that Files Diagnostics still saves locally, and Files → Advanced / Recovery still exports saved snapshots.
+- In Quick Start and Feature Guide, look for 'Present', 'Presentation mode', 'Customize the Presentation toolbar', 'Tools', 'checkbox', and 'wrench'. Test guide search matches and topic expansion/collapse.
+- In Presentation, verify tapping the tool name invokes it and checking/unchecking controls visible toolbar buttons; values should persist across visits.
+- No live iPad or Surface test is claimed in this package.
+
+PRESERVE
+- Entire 5.8.51/Stage 3 UI, Stage 2/Stage 1 Files behavior and shared selection.
+- All startup/IndexedDB/recovery work from 5.8.47 and before, PDF.js two-worker resource limits, Split source/scroll fixes, ink/graph behavior and backup formats.
+
+================================================================================
+PRIOR 5.8.51 HANDOFF / HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-18 — BASELINE 5.8.51-exp
 
 STAGE 3 — CONSISTENCY + IN-APP HELP — IMPLEMENTED

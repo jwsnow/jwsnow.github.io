@@ -1,6 +1,13 @@
-# PDF Workbench 5.8.51-exp
+# PDF Workbench 5.8.52-exp
 
-## Milestone 5.8.51 — Files UI Stage 3: controls and in-app help
+## Milestone 5.8.52 — Presentation help and Diagnostics menu simplification
+
+- Quick Start includes entry to Presentation mode and the customizable toolbar.
+- The searchable Feature Guide now places **Presentation mode (Present)** and **Customize the Presentation toolbar (Tools menu)** directly after View/Split, with instructions for opening the wrench menu, activating tools, and showing/hiding buttons by checkbox. Visibility choices persist on this device.
+- Removed the redundant **Download diagnostics** command from the top-right `…` menu. Diagnostics are still saved with the prominent button under Files (also available from View/Presentation), then exported/cleared from Files → Advanced / Recovery. The underlying diagnostic capture, saving and export paths remain unchanged.
+- No viewer, page, annotation, Library schema, worker, backup/export format or other file operation changes.
+
+## Prior milestone 5.8.51 — Files UI Stage 3: controls and in-app help
 
 - View and Presentation use the same Single View / Split View action icon and accessible label. Presentation's Tools menu displays the action that a click will perform.
 - Local Library, Open Documents, and Pages use consistent Select all / Select none labels, with tooltips clarifying the scope. Clear selection still acts on the whole shared Files selection.

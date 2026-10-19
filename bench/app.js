@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.51';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.52';
 
-const APP_VERSION = '5.8.51';
+const APP_VERSION = '5.8.52';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -51,7 +51,7 @@ const els = {
   viewModeBtn: $('viewModeBtn'), organizeModeBtn: $('organizeModeBtn'), exportModeBtn: $('exportModeBtn'), viewerControls: $('viewerControls'), pageControlsBtn: $('pageControlsBtn'), pageControlsGroup: $('pageControlsGroup'),
   scrollModeBtn: $('scrollModeBtn'), scrollModeIcon: $('scrollModeIcon'), scrollModeLabel: $('scrollModeLabel'),
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
-  moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), inkDiagnosticsBtn: $('inkDiagnosticsBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
+  moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
   viewLayoutActionIcon: $('viewLayoutActionIcon'), presentationLayoutActionIcon: $('presentationLayoutActionIcon'), quickStartBtn: $('quickStartBtn'), featureGuideBtn: $('featureGuideBtn'),
   emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryQuickNewBtn: $('libraryQuickNewBtn'), libraryNewDropdown: $('libraryNewDropdown'), libraryNewBlankMenuBtn: $('libraryNewBlankMenuBtn'), libraryNewCustomMenuBtn: $('libraryNewCustomMenuBtn'), libraryNewTemplateMenuBtn: $('libraryNewTemplateMenuBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), librarySortSelect: $('librarySortSelect'), librarySearchInput: $('librarySearchInput'), librarySearchClearBtn: $('librarySearchClearBtn'), librarySearchSummary: $('librarySearchSummary'), librarySelectionSummary: $('librarySelectionSummary'), librarySelectAllBtn: $('librarySelectAllBtn'), libraryClearSelectionBtn: $('libraryClearSelectionBtn'), libraryMoveSelectedBtn: $('libraryMoveSelectedBtn'), libraryTrashSelectedBtn: $('libraryTrashSelectedBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), emptyTrashBtn: $('emptyTrashBtn'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), librarySelectedEditableBackupBtn: $('librarySelectedEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), savedDiagnosticsSummary: $('savedDiagnosticsSummary'), exportSavedDiagnosticsBtn: $('exportSavedDiagnosticsBtn'), clearSavedDiagnosticsBtn: $('clearSavedDiagnosticsBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), selectedDocumentsSection: $('selectedDocumentsSection'), selectedOpenBtn: $('selectedOpenBtn'), selectedViewBtn: $('selectedViewBtn'), selectedCloseBtn: $('selectedCloseBtn'), selectedRenameBtn: $('selectedRenameBtn'), selectedDuplicateBtn: $('selectedDuplicateBtn'), selectedMoveBtn: $('selectedMoveBtn'), selectedExportBtn: $('selectedExportBtn'), selectedCompressBtn: $('selectedCompressBtn'), selectedCombineBtn: $('selectedCombineBtn'), selectedEditableBackupBtn: $('selectedEditableBackupBtn'), selectedTrashBtn: $('selectedTrashBtn'), selectedClearBtn: $('selectedClearBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilename: $('exportFilename'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'),
   extractOperationSummary: $('extractOperationSummary'), extractSummary: $('extractSummary'), extractDestination: $('extractDestination'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
@@ -13770,14 +13770,6 @@ async function buildInkDiagnosticsText() {
   const lines = [JSON.stringify(header), ...state.inkDiagnostics.map(item => JSON.stringify(item))];
   return lines.join('\n') + '\n';
 }
-async function downloadInkDiagnostics() {
-  addInkDiagnostic('diagnostic-download-request');
-  const text = await buildInkDiagnosticsText();
-  const blob = new Blob([text], { type:'text/plain;charset=utf-8' });
-  downloadBlob(blob, `PDF-Workbench-Diagnostics-${diagnosticPortableTimestamp()}.txt`);
-  setStatus(`Downloaded diagnostics (${state.inkDiagnostics.length} records)`);
-  toggleMoreMenu(false);
-}
 async function getSavedDiagnosticsMeta() {
   if (!state.libraryReady || !state.libraryDb) return { key:DIAGNOSTICS_META_KEY, schemaVersion:LIBRARY_SCHEMA_VERSION, snapshots:[] };
   const saved = await libraryGet('meta', DIAGNOSTICS_META_KEY).catch(() => null);
@@ -18155,11 +18147,12 @@ const QUICK_START_HTML = `<div class="workbench-help-content">
         <li><strong>Import or create:</strong> Open <strong>Files → Local Library</strong>. Import PDFs/images or use <strong>New</strong> for a white presentation-ratio graph-paper document. New stays in Files.</li>
         <li><strong>Choose what to work on:</strong> <strong>Open</strong> adds a saved document to the working set without leaving Files; <strong>Open in View</strong> displays one document immediately. <strong>Close</strong> removes a document from the working set but keeps its Library copy.</li>
         <li><strong>Compare or grade:</strong> In <strong>View</strong>, choose <strong>Split View</strong> for side-by-side papers and use the document selector in either pane. Choose <strong>Single View</strong> to return to one pane.</li>
+        <li><strong>Present:</strong> Choose <strong>Present</strong> in View for a less cluttered display. In Presentation, open the <strong>Tools</strong> menu at the left end of the toolbar to use tools or choose which buttons stay visible; checkboxes customize the toolbar.</li>
         <li><strong>Annotate:</strong> Use <strong>Pen</strong>, <strong>Highlighter</strong>, <strong>Eraser</strong>, or <strong>Lasso/Select</strong> in the annotation toolbar. Pages handles reordering, rotating, and page copying.</li>
         <li><strong>Export:</strong> In Files, select documents from the Library or Open documents; the shared <strong>Selected documents</strong> panel offers Export, Compress, Combine, Move and other actions. Export one PDF or several as a ZIP.</li>
         <li><strong>Protect editable work:</strong> Open <strong>Files → Backup &amp; transfer</strong> and create an <strong>editable Library backup</strong> before moving devices or resetting storage. An exported PDF alone does not retain editable Workbench objects.</li>
       </ol>
-      <p class="help-footnote">More detail, including Graph, Assets, Extract/Split and recovery, is in <strong>… → Feature Guide</strong>.</p>
+      <p class="help-footnote">More detail, including Presentation toolbar customization, Graph, Assets, Extract/Split and recovery, is in <strong>… → Feature Guide</strong>.</p>
     </div>`;
 const FEATURE_GUIDE_HTML = `<div class="workbench-help-content">
       <h2 id="featureGuideHeading">Feature Guide</h2>
@@ -18174,6 +18167,20 @@ const FEATURE_GUIDE_HTML = `<div class="workbench-help-content">
           <p>In <strong>View</strong>, select an open document from the document switcher. Use page view controls for continuous, page snap, or full-page scrolling and Fit width/Fit page. Pinch to zoom on touch devices.</p>
           <p>The <strong>Split View</strong> button creates left and right panes, each with its own document selector and remembered view position. The button changes to <strong>Single View</strong> when Split is active. The same icons and actions appear in Presentation.</p>
           <p><strong>Close</strong> removes a document from the open working set, not from the saved Library; <strong>Trash</strong> removes it from the active Library.</p>
+        </div></details>
+        <details class="help-topic" data-help-topic><summary>Presentation mode (Present)</summary><div>
+          <p>From <strong>View</strong>, choose <strong>Present</strong> in the main toolbar to switch to a cleaner document display for teaching, projecting, or working on a larger page. You can still write with the Pen and Highlighter, erase, select annotations, use Graph and switch documents.</p>
+          <p>Presentation has its own toolbar. Use the document selector to change papers, <strong>Single View / Split View</strong> to change the layout, and the <strong>L/R</strong> controls to select the pane you want to control when Split is active. <strong>Page view</strong> adjusts scrolling and fit; <strong>Thumbnails</strong> opens page navigation; <strong>Add page</strong> inserts pages.</p>
+          <p>Select the <strong>×</strong> exit control at the right end of the Presentation toolbar to return to the regular View interface. On iPad, Presentation uses the app's clean display rather than iOS system fullscreen.</p>
+        </div></details>
+        <details class="help-topic" data-help-topic><summary>Customize the Presentation toolbar (Tools menu)</summary><div>
+          <p>In <strong>Presentation</strong>, tap the <strong>Tools</strong> button (wrench icon) at the <strong>far left</strong> of the toolbar. Its menu has a tool name/action on the left and a checkbox on the right.</p>
+          <ol>
+            <li><strong>Use a tool:</strong> Tap its name or icon in the menu. This activates the tool or command, even when its toolbar button is hidden.</li>
+            <li><strong>Show a toolbar button:</strong> Check the box next to that tool.</li>
+            <li><strong>Hide a toolbar button:</strong> Uncheck its box to make more space; the tool remains available in the Tools menu.</li>
+          </ol>
+          <p>Choices are saved on this device and reused next time. You can show or hide Hand, Laser, Pen, Highlighter, Eraser, Lasso, Graph, Image, Asset, Page view, Split/Single View, Add page, Thumbnails, Undo and Redo. Some context-specific controls and the exit control remain separate from the customizable list.</p>
         </div></details>
         <details class="help-topic" data-help-topic><summary>Pages and page organization</summary><div>
           <p>Use <strong>Pages</strong> for thumbnail selection and page management: Select all/none, rotate, duplicate, delete, reorder, insert blank or graph-paper pages, and copy pages to another open document.</p>
@@ -18200,10 +18207,6 @@ const FEATURE_GUIDE_HTML = `<div class="workbench-help-content">
         <details class="help-topic" data-help-topic><summary>Images, Assets, Recent and Templates</summary><div>
           <p><strong>Image</strong> inserts an image annotation. <strong>Assets</strong> opens saved reusable images and editable snippets, organized into folders, and <strong>Recent</strong> holds recently copied items. Use Keep to preserve a recent item in the Asset Library.</p>
           <p><strong>Templates</strong> stores reusable pages. You can create new documents from templates or insert template pages; templates and permanent assets are included in editable Library backups. Files also has <strong>Images → PDF</strong> to assemble images into a single document.</p>
-        </div></details>
-        <details class="help-topic" data-help-topic><summary>Presentation mode and toolbar</summary><div>
-          <p>Choose <strong>Present</strong> in View. The Presentation toolbar has a <strong>Tools</strong> menu on the left: launch a tool directly there, or check it to show its button on the toolbar. Your visible-tool choices are remembered.</p>
-          <p>The Page view controls, Split/Single View action and page thumbnails are available in Presentation. Use the exit control to return to the normal interface. The same annotations and graph tools work in both modes.</p>
         </div></details>
         <details class="help-topic" data-help-topic><summary>Export, Compress, Combine, Extract and Split</summary><div>
           <p>In Files, <strong>Selected-document tools</strong> apply to the shared selection: Export generates a PDF for one document or a ZIP of separate PDFs for several; Compress offers quality/size choices; Combine creates one document in the chosen order.</p>
@@ -19381,7 +19384,6 @@ function bindEvents() {
       if (els.librarySummary) els.librarySummary.textContent = `Local Library refresh failed: ${err?.message || err}`;
     }
   });
-  els.inkDiagnosticsBtn?.addEventListener('click', downloadInkDiagnostics);
   els.exportSavedDiagnosticsBtn?.addEventListener('click', exportSavedDiagnostics);
   els.clearSavedDiagnosticsBtn?.addEventListener('click', clearSavedDiagnostics);
   els.libraryPdfArchiveBtn?.addEventListener('click', exportWholeLibraryAsPdfs);
