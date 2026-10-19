@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.8.60">
+  <link rel="stylesheet" href="styles.css?v=5.8.61">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -650,6 +650,10 @@
               <p class="file-tool-summary">Export PDFs or save a portable editable Library backup.</p>
               <div class="library-backup-actions">
                 <button id="libraryPdfArchiveBtn" class="export-button secondary-output-button" type="button">Export entire Library as PDFs (.zip)</button>
+                <div id="libraryPreparedPdfArchiveActions" class="library-backup-actions hidden" role="group" aria-label="Prepared PDF archive">
+                  <button id="libraryDownloadPreparedPdfArchiveBtn" class="export-button secondary-output-button" type="button">Download prepared PDF archive</button>
+                  <button id="libraryDiscardPreparedPdfArchiveBtn" class="export-button secondary-output-button" type="button">Discard prepared PDF archive</button>
+                </div>
                 <button id="libraryEditableBackupBtn" class="export-button secondary-output-button" type="button">Back up entire Library (editable)</button>
                 <div id="libraryPreparedBackupActions" class="library-backup-actions hidden" role="group" aria-label="Prepared editable backup">
                   <button id="libraryDownloadPreparedBackupBtn" class="export-button secondary-output-button" type="button">Download prepared backup</button>
@@ -659,7 +663,7 @@
                 <button id="libraryImportBackupBtn" class="export-button secondary-output-button" type="button">Import backup as new folder…</button>
                 <button id="libraryMergeBackupBtn" class="export-button secondary-output-button" type="button">Merge backup (experimental)…</button>
               </div>
-              <p class="small-note">Editable backups (.pwbbackup.zip) preserve Workbench editing. On iPad, Back up prepares a file in temporary app storage; tap Download prepared backup afterward to save it outside Workbench. <strong>Restore replaces this device’s Library.</strong> Import as new folder keeps existing Library content. Merge is experimental. To back up only selected documents, use the Selected documents actions above.</p>
+              <p class="small-note">Editable backups (.pwbbackup.zip) preserve Workbench editing. On iPad, whole-Library PDF archives and editable backups are prepared in temporary app storage; use their Download prepared button afterward to save outside Workbench. <strong>Restore replaces this device’s Library.</strong> Import as new folder keeps existing Library content. Merge is experimental. To back up only selected documents, use the Selected documents actions above.</p>
               <p id="libraryBackupProgress" class="export-progress" aria-live="polite"></p>
 
             </div>
@@ -972,6 +976,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.8.60"></script>
+  <script type="module" src="app.js?v=5.8.61"></script>
 </body>
 </html>

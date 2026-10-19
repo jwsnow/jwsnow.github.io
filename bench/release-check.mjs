@@ -20,6 +20,8 @@ const checks = [
   ['service-worker modeler query', sw.includes(`google-ink-modeler.js?v=${version}`)],
   ['README heading', readme.includes(`Milestone ${version}`)],
   ['backup worker cached', sw.includes(`editable-backup-worker.js?v=${version}`)],
+  ['pdf archive worker cached', sw.includes(`pdf-archive-worker.js?v=${version}`)],
+  ['pdf archive worker exists', fs.existsSync(new URL('pdf-archive-worker.js', import.meta.url))],
   ['backup worker exists', fs.existsSync(new URL('editable-backup-worker.js', import.meta.url))],
 ];
 

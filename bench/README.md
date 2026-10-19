@@ -1,3 +1,13 @@
+# PDF Workbench 5.8.61-exp
+
+## Milestone 5.8.61 — bounded whole-Library PDF export + early editable backup diagnostics (experimental)
+
+- 2026-10-19 iPad 5.8.60 diagnostics show a ~145-second full Library PDF export terminated while source loading was still occurring. It had completed successive file-operation source releases; the code nevertheless retained every finished PDF in JSZip until ZIP finalization. This is a credible cumulative memory-pressure cause, but no native memory exception was captured.
+- iPad **whole-Library PDFs** now use a disk-staged standard ZIP worker. Main app builds one PDF at a time, transfers its finished bytes to `pdf-archive-worker.js`, waits for the worker to write it directly to an OPFS file and acknowledge, releases its PDF source, then starts the next document. The writer uses 256 KiB chunks, periodic flushes, ZIP STORE, and validates the completed size. Names and Library folder paths are preserved; duplicate names in the same folder get a numbered suffix instead of being silently overwritten. Empty folders remain represented.
+- After a successful iPad preparation, the Files > Backup & transfer panel offers **Download prepared PDF archive** and **Discard prepared PDF archive**, mirroring the editable backup's two-step transfer. The completed file survives a restart; writing a new archive uses the other of two slots so the previous prepared copy remains until a new one completes. A system download can itself induce an iPad PWA reload, which does not imply archive preparation failed. Windows full-PDF export still uses the original JSZip path.
+- The **editable backup failure in 5.8.60 remains unexplained**: the newly provided post-restart snapshots do not preserve the worker's first error. Add synchronous pre-stage diagnostics at initial request, opening staging storage, Library save, metadata read, worker creation, and worker dispatch, so an immediate iPad restart has a chance of leaving a precise breadcrumb. Do not claim editable full backup is fixed by 5.8.61; the underlying worker writer and backup format are unchanged.
+- Keep strict two-managed-iPad-PDF-worker limit and all Split, Files, preview and annotation fixes. No Library schema or ZIP/restore format changes. Live iPad test required; avoid repeatedly attempting whole-Library exports if iPad restarts. Test full PDF archive preparation and download separately from editable backup, saving Diagnostics promptly on failure.
+
 # PDF Workbench 5.8.60-exp
 
 ## Milestone 5.8.60 — iPad full editable backup memory protection (experimental)

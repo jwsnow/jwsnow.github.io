@@ -1,3 +1,29 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.61-exp
+
+THIS SECTION IS AUTHORITATIVE OVER THE PRIOR HISTORY BELOW.
+Continue from the packaged 5.8.61-exp code ZIP, not an older version.
+
+LATEST DIAGNOSTIC INVESTIGATION:
+- The user tested two whole-Library exports independently on iPad 5.8.60. Editable backup appeared to fail almost immediately. PDF export reached the end of a large document set and restarted the PWA. User supplied 17:43 and 17:46 saved-Diagnostics ZIPs.
+- 17:46 diagnostics identify a preceding ~145-second PDF export runtime with `library-source-load-finish` and document source retirement, but no archive completion. The previous whole-Library PDF exporter accumulated every converted PDF in JSZip, notwithstanding PDF.js source cleanup. No native OOM exception is available.
+- 17:43 diagnostics contain repeated short 5.8.60 runtimes but do not preserve a definitive editable-backup stage or error. Do not assert that worker initialization, OPFS, or source-read memory was the precise cause. The code's `editable-backup-stage-start` previously occurred only AFTER Library save and metadata retrieval.
+
+5.8.61 CHANGES:
+1. iPad whole-Library PDF export switches to per-document streaming into `pdf-archive-worker.js`: dedicated worker, OPFS synchronous file handle, incremental ZIP STORE writer, 256 KiB chunks with flushes. Each finished PDF is transferred out of the main app, written and acknowledged before the next PDF begins. This eliminates the old accumulating JSZip graph for this iPad operation; does NOT eliminate PDF builder's per-document temporary allocation.
+2. New persistent Download prepared PDF archive / Discard prepared PDF archive buttons in Files > Backup & transfer. The ZIP must be saved off-device before discarding. Two rotating slots preserve any previously prepared good ZIP until a new one succeeds. No automatic ZIP download immediately after archive construction.
+3. Early editable backup progress/breadcrumb instrumentation: first tap/request, OPFS staging access, Library state save, metadata read, worker creation and message dispatch, and caught errors. No behavior or format changes to editable backup's 5.8.60 writer. Its immediate failure is UNRESOLVED.
+4. Desktop full-Library PDF export, other export formats, rendering, PDF.js worker pool, templates, annotation semantics, Library schema and restore format unchanged.
+
+VALIDATION PRIORITY:
+1. Test a small whole-Library PDF export on iPad if possible (or entire Library once) and verify it PREPARES successfully and Download prepared PDF archive yields an ordinary ZIP readable outside Workbench.
+2. If editable backup still fails, promptly collect new Diagnostics immediately after relaunch, before another download/share attempt overwrites the relevant previous-runtime history. Compare `editable-backup-*` phase breadcrumbs.
+3. Avoid repeated crash-inducing full-Library attempts. Do not trust a backup until its downloaded archive has been verified; use Windows as fallback for a reliable full editable backup in the meantime.
+4. Check Files / Split / template previews and existing selected-document ZIP and separate PDFs remain unchanged.
+
+================================================================================
+PRIOR 5.8.60 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.60-exp
 
 THIS SECTION SUPERSEDES OLDER BACKUP WRITER STATUS. Continue from 5.8.60-exp ZIP.
