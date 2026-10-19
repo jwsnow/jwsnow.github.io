@@ -1,6 +1,12 @@
-# PDF Workbench 5.8.52-exp
+# PDF Workbench 5.8.53-exp
 
-## Milestone 5.8.52 — Presentation help and Diagnostics menu simplification
+## Milestone 5.8.53 — Current viewed page in Pages
+
+- Pages now displays a subtle green inset outline around the current viewed page thumbnail, distinct from the blue page-selection outline. The indicator does not select or deselect anything; the page remains available for regular selection/reorder operations. A screen reader can identify it with `aria-current="page"`.
+- The page identity follows the viewer's current page (active Split pane when applicable). On entry to Pages, the thumbnail grid scrolls only when needed to bring the current thumbnail into view. Normal selection/reorder refreshes do not force the scroll position.
+- No changes to PDF rendering, worker pool, page data schema, selection state, annotations, or editable backup formats. The thumbnail Back idea has not been implemented.
+
+## Prior milestone 5.8.52 — Presentation help and Diagnostics menu simplification
 
 - Quick Start includes entry to Presentation mode and the customizable toolbar.
 - The searchable Feature Guide now places **Presentation mode (Present)** and **Customize the Presentation toolbar (Tools menu)** directly after View/Split, with instructions for opening the wrench menu, activating tools, and showing/hiding buttons by checkbox. Visibility choices persist on this device.

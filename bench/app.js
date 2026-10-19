@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.52';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.53';
 
-const APP_VERSION = '5.8.52';
+const APP_VERSION = '5.8.53';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -14808,6 +14808,7 @@ async function createCombinedDocument() {
 }
 
 function showWorkspaceMode(mode) {
+  const enteringPages = mode === 'organize' && state.workspaceMode !== 'organize';
   // Preserve the visible viewer position before hiding the View workspace.
   // Direct View -> Files/Pages navigation used to hide the scroll container
   // before its DOM scroll position had been copied into the per-view state,
@@ -14856,7 +14857,7 @@ function showWorkspaceMode(mode) {
   els.organizeModeBtn.setAttribute('aria-pressed', String(mode === 'organize'));
   els.exportModeBtn.setAttribute('aria-pressed', String(mode === 'export'));
   if (hasPages && mode === 'view') renderViewer();
-  if (hasPages && mode === 'organize') renderOrganizer();
+  if (hasPages && mode === 'organize') renderOrganizer({ revealCurrentPage: enteringPages });
   if (mode === 'export') renderExportPane();
   checkpointWorkspaceNow();
 }
@@ -14898,9 +14899,45 @@ function updatePageCounts() {
   if (els.inkAssetsBtn) els.inkAssetsBtn.disabled = !count;
 }
 
-function renderOrganizer() {
+// The viewed page is not the same as a selected page: selection is only for
+// Pages operations (reorder, extract, delete, etc.). In Split, the active pane
+// owns the page to identify, even if the other pane is at a different page.
+function organizerViewedPageId() {
+  const doc = currentDocument();
+  if (!doc?.pages?.length) return null;
+  const pane = state.splitView ? splitPaneState(state.activePaneId) : null;
+  const splitPageId = pane?.documentId === doc.id
+    ? paneView(state.activePaneId, doc.id)?.activePageId : null;
+  const pageId = splitPageId || state.activePageId;
+  return doc.pages.some(page => page.id === pageId) ? pageId : doc.pages[0].id;
+}
+
+// Only reveal on entry to Pages or when a different document is shown. A page
+// selection, reorder, or other in-place refresh should not unexpectedly scroll
+// the thumbnail grid away from the user's work.
+function revealOrganizerViewedPage(card, documentId) {
+  requestAnimationFrame(() => {
+    const grid = els.thumbnailGrid;
+    if (!card.isConnected || state.workspaceMode !== 'organize' ||
+        state.currentDocumentId !== documentId ||
+        grid.querySelector('.thumb-card[aria-current="page"]') !== card) return;
+    const viewport = grid.getBoundingClientRect();
+    const rect = card.getBoundingClientRect();
+    if (!viewport.height || !rect.height) return;
+    if (rect.top >= viewport.top + 8 && rect.bottom <= viewport.bottom - 8) return;
+    const centerOffset = rect.top - viewport.top - (viewport.height - rect.height) / 2;
+    grid.scrollTop = Math.max(0, grid.scrollTop + centerOffset);
+  });
+}
+
+function renderOrganizer({ revealCurrentPage = false } = {}) {
+  const documentId = state.currentDocumentId;
+  const shouldReveal = revealCurrentPage || els.thumbnailGrid.dataset.documentId !== documentId;
+  const viewedPageId = organizerViewedPageId();
   state.thumbObserver?.disconnect();
   els.thumbnailGrid.replaceChildren();
+  els.thumbnailGrid.dataset.documentId = documentId || '';
+  let viewedCard = null;
   const observer = new IntersectionObserver((entries) => {
     for (const entry of entries) {
       if (entry.isIntersecting) {
@@ -14917,7 +14954,12 @@ function renderOrganizer() {
   state.pages.forEach((page, index) => {
     const { width: w, height: h } = pageDisplayDimensions(page);
     const card = document.createElement('article');
-    card.className = `thumb-card${state.selected.has(page.id) ? ' selected' : ''}`;
+    const isViewed = page.id === viewedPageId;
+    card.className = `thumb-card${state.selected.has(page.id) ? ' selected' : ''}${isViewed ? ' current-page' : ''}`;
+    if (isViewed) {
+      card.setAttribute('aria-current', 'page');
+      viewedCard = card;
+    }
     card.dataset.pageId = page.id;
     card.dataset.index = index;
     card.style.setProperty('--page-ratio', String(w / h));
@@ -14971,6 +15013,7 @@ function renderOrganizer() {
     els.thumbnailGrid.append(card);
     observer.observe(card);
   });
+  if (shouldReveal && viewedCard) revealOrganizerViewedPage(viewedCard, documentId);
   updatePageCounts();
 }
 
@@ -18183,7 +18226,7 @@ const FEATURE_GUIDE_HTML = `<div class="workbench-help-content">
           <p>Choices are saved on this device and reused next time. You can show or hide Hand, Laser, Pen, Highlighter, Eraser, Lasso, Graph, Image, Asset, Page view, Split/Single View, Add page, Thumbnails, Undo and Redo. Some context-specific controls and the exit control remain separate from the customizable list.</p>
         </div></details>
         <details class="help-topic" data-help-topic><summary>Pages and page organization</summary><div>
-          <p>Use <strong>Pages</strong> for thumbnail selection and page management: Select all/none, rotate, duplicate, delete, reorder, insert blank or graph-paper pages, and copy pages to another open document.</p>
+          <p>Use <strong>Pages</strong> for thumbnail selection and page management: Select all/none, rotate, duplicate, delete, reorder, insert blank or graph-paper pages, and copy pages to another open document. The green-outline thumbnail marks the page you were viewing (in Split, from the active pane); it is independent of the blue selected-page highlight and checkboxes. Pages opens with the viewed thumbnail in sight.</p>
           <p><strong>Extract…</strong> makes an editable local document from selected pages or exports a PDF. <strong>Page size…</strong> and <strong>Crop / margins…</strong> operate on page geometry. <strong>Split</strong> in Files instead splits an active document into multiple outputs by page ranges or fixed intervals.</p>
         </div></details>
         <details class="help-topic" data-help-topic><summary>Files, Local Library and New</summary><div>

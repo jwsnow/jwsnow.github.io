@@ -1,3 +1,35 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.53-exp
+
+THIS SECTION IS AUTHORITATIVE OVER EARLIER VERSION HEADINGS.
+Continue from the packaged 5.8.53-exp ZIP, not 5.8.52 or earlier.
+
+5.8.53 — VIEWED PAGE HIGHLIGHT IN PAGES
+
+USER REQUEST
+- In Pages, identify the currently viewed/open page separately from selected pages. The thumbnail navigation Back button is a separate future consideration and is NOT part of this revision.
+
+CHANGES
+1. Pages thumbnail grid highlights the viewed page with a subtle green inset ring, independently of the existing blue selection border/checkbox. Current thumbnail is marked aria-current="page".
+2. On entering Pages from View/Files, and on viewing a different document in Pages, reveal the current thumbnail if it would otherwise be offscreen. Do not scroll unexpectedly for in-place selection/reorder refreshes.
+3. In Split, resolve the viewed page from the active pane's per-pane page state, not the inactive pane or a different document's single-view fallback. Existing savePaneScroll updates that identity when leaving View.
+4. Feature Guide Pages explanation documents viewing vs selection.
+5. Bump app, asset-query and service-worker cache version to 5.8.53; update README.
+
+PRESERVE
+- All 5.8.52 interface and help changes, 5.8.50+ Files workflow, rendering, workers, persistence, startup recovery, and page-selection semantics.
+- No data schema or backup/export changes.
+
+VALIDATION PRIORITY
+1. In Single View, go several pages down a PDF and enter Pages. Current thumbnail is visible and marked green, with checkbox still unchecked unless it was already selected.
+2. Select another page, including the current page; blue selection and green viewed indicator should be independent. Enter View and return to Pages to confirm consistency.
+3. In Split with different page positions (and optionally different documents) in both panes, select the active pane and enter Pages. Its viewed page should be identified and brought into view.
+4. Select all, reorder pages, rotate, or delete selected pages; current page identification must not silently affect the operation or force a surprising scroll jump.
+5. Compare iPad and Surface behavior. No live device testing is claimed in this package.
+
+================================================================================
+PRIOR 5.8.52 HANDOFF / HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-18 — BASELINE 5.8.52-exp
 
 THIS SECTION IS AUTHORITATIVE OVER EARLIER VERSION HEADINGS.
