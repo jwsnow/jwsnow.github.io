@@ -1678,9 +1678,34 @@ body.presentation .presentation-page-drawer-layer:not(.hidden) { display: block;
   border-left: 1px solid var(--border);
   box-shadow: -5px 0 18px rgb(0 0 0 / .18);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
+.presentation-page-back-bar {
+  flex: 0 0 auto;
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+}
+.presentation-page-back-bar.hidden { display: none; }
+.presentation-page-back-button {
+  display: block;
+  width: 100%;
+  padding: 9px 10px;
+  text-align: left;
+  font: inherit;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  background: var(--panel);
+  cursor: pointer;
+}
+.presentation-page-back-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.presentation-page-back-button:active { background: var(--accent-soft); }
 .presentation-page-drawer-scroller {
-  height: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 10px;

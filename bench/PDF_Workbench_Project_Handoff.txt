@@ -1,3 +1,34 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.54-exp
+
+THIS SECTION IS AUTHORITATIVE OVER EARLIER VERSION HEADINGS.
+Continue from the packaged 5.8.54-exp ZIP, not an older build.
+
+5.8.54 — PRESENTATION THUMBNAIL BACK (ONE-STEP RETURN)
+
+USER REQUEST
+- Add a Back button to the Presentation thumbnail menu, preferably at the top of the thumbnails when a return is available. This follows 5.8.53's Pages current-page highlight; it is NOT a general page/document navigation history.
+
+CHANGES
+1. A pinned Back to page N button appears above the scrollable Presentation thumbnail cards only when a direct thumbnail jump has established an earlier location. The Back row remains visible while the thumbnails scroll.
+2. A thumbnail click captures the currently viewed page and the active viewer's scroll/zoom/fit/mode, plus a page-content anchor for robust restoration; Back returns once and then disappears. A later thumbnail click replaces rather than pushes onto a history stack. Regular scrolling/next-page movements do not create Back entries.
+3. Split navigation is strictly scoped to the source active pane and document; returning does not rebuild or reposition the other pane. A changed layout, missing source page, different document, or change to another active Split pane invalidates the return. Leaving Presentation clears the ephemeral return location.
+4. A return with unchanged geometry scrolls in place without a PDF viewer rebuild. If zoom/fit/full-page state changed while away, rebuild only the affected viewer and restore the content anchor once the geometry is settled.
+5. No data schema, session format, annotation selection, PDF engine, worker pool, or backup/export changes. Bump app/cache version, README, and Feature Guide instructions.
+
+VALIDATION PRIORITY
+1. In Presentation Continuous, navigate to a distinctive point on page 4, open Thumbnails, tap page 27, open Thumbnails again: Back to page 4 stays visible at top even if the thumbnail list is scrolled down. Tap Back: page 4 and its original position return; button disappears.
+2. Repeat with Full page, page snap, and zoom changes between jump and Back; confirm return location, zoom, and active page.
+3. In Split, set different pages in both panes, jump within the active pane, then Back. Confirm the other pane's PDF render and scroll position remain unchanged.
+4. Change documents, active panes, or Single/Split after a thumbnail jump: stale return should be unavailable and must not affect the new view.
+5. Test on iPad (especially programmatic scroll restoration) and Surface. Only static/logic tests are available in the packaged update; do not claim device validation.
+
+PRESERVE
+- 5.8.53 current-page indicator in Pages; 5.8.52 Presentation help; Stage 1–3 Files workflow and all earlier stability fixes, including 2-worker/2-source iPad Split invariants, saved viewport, and bounded rendering.
+
+================================================================================
+PRIOR 5.8.53 HANDOFF / HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.53-exp
 
 THIS SECTION IS AUTHORITATIVE OVER EARLIER VERSION HEADINGS.

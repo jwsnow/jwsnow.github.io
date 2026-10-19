@@ -11,7 +11,7 @@
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.8.53">
+  <link rel="stylesheet" href="styles.css?v=5.8.54">
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -253,6 +253,9 @@
 
         <div id="presentationPageDrawerLayer" class="presentation-page-drawer-layer hidden" aria-hidden="true">
           <aside id="presentationPageDrawer" class="presentation-page-drawer" aria-label="Page thumbnails">
+            <div id="presentationPageDrawerBackBar" class="presentation-page-back-bar hidden">
+              <button id="presentationPageDrawerBackBtn" class="presentation-page-back-button" type="button" title="Return to the location before the last thumbnail jump">← Back</button>
+            </div>
             <div id="presentationPageDrawerScroller" class="presentation-page-drawer-scroller"></div>
           </aside>
         </div>
@@ -949,6 +952,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.8.53"></script>
+  <script type="module" src="app.js?v=5.8.54"></script>
 </body>
 </html>

@@ -1,10 +1,17 @@
-# PDF Workbench 5.8.53-exp
+# PDF Workbench 5.8.54-exp
 
-## Milestone 5.8.53 — Current viewed page in Pages
+## Milestone 5.8.54 — Presentation thumbnail Back
+
+- Following a thumbnail jump in Presentation now exposes a **Back to page N** command in a fixed row above the thumbnail list; the command stays accessible even when the list scrolls to a distant page. It is hidden until a jump creates a usable return location.
+- A single use returns to the prior page and viewing position (including zoom when changed), and consumes the return location. Only direct thumbnail jumps create it; regular scrolling and page-next do not create history. A new thumbnail jump replaces the previous return location rather than accumulating history.
+- In Split, the return is valid only for the originating active pane and document, and does not rebuild or move the other pane. Leaving Presentation or changing layouts clears the location. The Back location is runtime-only, not Library/session data.
+- Page selection, rendering constraints, editable formats and diagnostics remain unchanged. iPad/Surface interaction tests are still recommended.
+
+## Prior milestone 5.8.53 — Current viewed page in Pages
 
 - Pages now displays a subtle green inset outline around the current viewed page thumbnail, distinct from the blue page-selection outline. The indicator does not select or deselect anything; the page remains available for regular selection/reorder operations. A screen reader can identify it with `aria-current="page"`.
 - The page identity follows the viewer's current page (active Split pane when applicable). On entry to Pages, the thumbnail grid scrolls only when needed to bring the current thumbnail into view. Normal selection/reorder refreshes do not force the scroll position.
-- No changes to PDF rendering, worker pool, page data schema, selection state, annotations, or editable backup formats. The thumbnail Back idea has not been implemented.
+- No changes to PDF rendering, worker pool, page data schema, selection state, annotations, or editable backup formats. The separate Presentation thumbnail Back command was implemented in 5.8.54.
 
 ## Prior milestone 5.8.52 — Presentation help and Diagnostics menu simplification
 

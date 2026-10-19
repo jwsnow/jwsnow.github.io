@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.53';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.54';
 
-const APP_VERSION = '5.8.53';
+const APP_VERSION = '5.8.54';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -65,7 +65,7 @@ const els = {
   selectAllBtn: $('selectAllBtn'), rotateBtn: $('rotateBtn'), pageGraphBackgroundBtn: $('pageGraphBackgroundBtn'), pagePurgeLegacyGraphBackgroundBtn: $('pagePurgeLegacyGraphBackgroundBtn'), pageGeometryBtn: $('pageGeometryBtn'), pageEdgeBtn: $('pageEdgeBtn'), insertPageBtn: $('insertPageBtn'), duplicateBtn: $('duplicateBtn'), extractSelectedPagesBtn: $('extractSelectedPagesBtn'), copyPagesBtn: $('copyPagesBtn'), deleteBtn: $('deleteBtn'),
   undoBtn: $('undoBtn'), redoBtn: $('redoBtn'), statusText: $('statusText'), pdfEngineStatus: $('pdfEngineStatus'),
   singlePageNav: $('singlePageNav'), prevPageBtn: $('prevPageBtn'), nextPageBtn: $('nextPageBtn'), pageCounter: $('pageCounter'),
-  presentationToolbar: $('presentationToolbar'), presentationToolMenuBtn: $('presentationToolMenuBtn'), presentationToolMenu: $('presentationToolMenu'), inkHandBtn: $('inkHandBtn'), inkLaserBtn: $('inkLaserBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkGraphBtn: $('inkGraphBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), graphOptionGroup: $('graphOptionGroup'), graphBorderStyle: $('graphBorderStyle'), graphColorGroup: $('graphColorGroup'), graphEditContentsBtn: $('graphEditContentsBtn'), graphEdgeLabelBtn: $('graphEdgeLabelBtn'), graphDeleteBtn: $('graphDeleteBtn'), graphNodeSizeGroup: $('graphNodeSizeGroup'), graphNodeSizeSelect: $('graphNodeSizeSelect'), graphContentEditGroup: $('graphContentEditGroup'), graphContentMoveBtn: $('graphContentMoveBtn'), graphContentClearBtn: $('graphContentClearBtn'), graphContentDoneBtn: $('graphContentDoneBtn'), selectionActionGroup: $('selectionActionGroup'), selectionColorGroup: $('selectionColorGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), selectionNodeContentBtn: $('selectionNodeContentBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), extractChoiceDialog: $('extractChoiceDialog'), extractChoiceSummary: $('extractChoiceSummary'), extractChoiceCloseBtn: $('extractChoiceCloseBtn'), extractChoiceCancelBtn: $('extractChoiceCancelBtn'), extractChoiceExportBtn: $('extractChoiceExportBtn'), extractChoiceLibraryBtn: $('extractChoiceLibraryBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationPageControlsBtn: $('presentationPageControlsBtn'), presentationPageControlsGroup: $('presentationPageControlsGroup'), presentationPagesBtn: $('presentationPagesBtn'), presentationPageDrawerLayer: $('presentationPageDrawerLayer'), presentationPageDrawer: $('presentationPageDrawer'), presentationPageDrawerScroller: $('presentationPageDrawerScroller'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), viewDiagnosticsBtn: $('viewDiagnosticsBtn'), filesDiagnosticsBtn: $('filesDiagnosticsBtn'), presentationDiagnosticsBtn: $('presentationDiagnosticsBtn'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
+  presentationToolbar: $('presentationToolbar'), presentationToolMenuBtn: $('presentationToolMenuBtn'), presentationToolMenu: $('presentationToolMenu'), inkHandBtn: $('inkHandBtn'), inkLaserBtn: $('inkLaserBtn'), inkPenBtn: $('inkPenBtn'), inkHighlighterBtn: $('inkHighlighterBtn'), inkEraserBtn: $('inkEraserBtn'), inkSelectBtn: $('inkSelectBtn'), inkGraphBtn: $('inkGraphBtn'), inkImageBtn: $('inkImageBtn'), inkAssetsBtn: $('inkAssetsBtn'), penColorGroup: $('penColorGroup'), penWidthGroup: $('penWidthGroup'), highlighterColorGroup: $('highlighterColorGroup'), highlighterWidthGroup: $('highlighterWidthGroup'), eraserSizeGroup: $('eraserSizeGroup'), graphOptionGroup: $('graphOptionGroup'), graphBorderStyle: $('graphBorderStyle'), graphColorGroup: $('graphColorGroup'), graphEditContentsBtn: $('graphEditContentsBtn'), graphEdgeLabelBtn: $('graphEdgeLabelBtn'), graphDeleteBtn: $('graphDeleteBtn'), graphNodeSizeGroup: $('graphNodeSizeGroup'), graphNodeSizeSelect: $('graphNodeSizeSelect'), graphContentEditGroup: $('graphContentEditGroup'), graphContentMoveBtn: $('graphContentMoveBtn'), graphContentClearBtn: $('graphContentClearBtn'), graphContentDoneBtn: $('graphContentDoneBtn'), selectionActionGroup: $('selectionActionGroup'), selectionColorGroup: $('selectionColorGroup'), selectionDeleteBtn: $('selectionDeleteBtn'), selectionDuplicateBtn: $('selectionDuplicateBtn'), selectionRotateBtn: $('selectionRotateBtn'), selectionCopyBtn: $('selectionCopyBtn'), selectionCopyRegionBtn: $('selectionCopyRegionBtn'), selectionPasteBtn: $('selectionPasteBtn'), selectionNodeContentBtn: $('selectionNodeContentBtn'), regionCaptureDialog: $('regionCaptureDialog'), regionCaptureForm: $('regionCaptureForm'), regionCaptureSummary: $('regionCaptureSummary'), regionCaptureCloseBtn: $('regionCaptureCloseBtn'), regionCaptureCancelBtn: $('regionCaptureCancelBtn'), regionCaptureOriginalBtn: $('regionCaptureOriginalBtn'), regionCaptureZoomBtn: $('regionCaptureZoomBtn'), extractChoiceDialog: $('extractChoiceDialog'), extractChoiceSummary: $('extractChoiceSummary'), extractChoiceCloseBtn: $('extractChoiceCloseBtn'), extractChoiceCancelBtn: $('extractChoiceCancelBtn'), extractChoiceExportBtn: $('extractChoiceExportBtn'), extractChoiceLibraryBtn: $('extractChoiceLibraryBtn'), inkUndoBtn: $('inkUndoBtn'), inkRedoBtn: $('inkRedoBtn'), presentationLayoutBtn: $('presentationLayoutBtn'), presentationInsertBtn: $('presentationInsertBtn'), presentationPaneChooser: $('presentationPaneChooser'), presentationLeftPaneBtn: $('presentationLeftPaneBtn'), presentationRightPaneBtn: $('presentationRightPaneBtn'), presentationDocumentSelect: $('presentationDocumentSelect'), presentationPageControlsBtn: $('presentationPageControlsBtn'), presentationPageControlsGroup: $('presentationPageControlsGroup'), presentationPagesBtn: $('presentationPagesBtn'), presentationPageDrawerLayer: $('presentationPageDrawerLayer'), presentationPageDrawer: $('presentationPageDrawer'), presentationPageDrawerScroller: $('presentationPageDrawerScroller'), presentationPageDrawerBackBar: $('presentationPageDrawerBackBar'), presentationPageDrawerBackBtn: $('presentationPageDrawerBackBtn'), presentationScrollModeBtn: $('presentationScrollModeBtn'), presentationFitBtn: $('presentationFitBtn'), presentationZoomOutBtn: $('presentationZoomOutBtn'), presentationZoomInBtn: $('presentationZoomInBtn'), presentationZoomLabel: $('presentationZoomLabel'), presentationExit: $('presentationExit'), viewDiagnosticsBtn: $('viewDiagnosticsBtn'), filesDiagnosticsBtn: $('filesDiagnosticsBtn'), presentationDiagnosticsBtn: $('presentationDiagnosticsBtn'), insertPageMenu: $('insertPageMenu'), insertDuplicateWithAnnotationsBtn: $('insertDuplicateWithAnnotationsBtn'), insertDuplicateWithoutAnnotationsBtn: $('insertDuplicateWithoutAnnotationsBtn'), insertBlankPageBtn: $('insertBlankPageBtn'), insertGraphPageBtn: $('insertGraphPageBtn'), insertDuplicateWithPreview: $('insertDuplicateWithPreview'), insertDuplicateWithoutPreview: $('insertDuplicateWithoutPreview'), insertBlankPreview: $('insertBlankPreview'), insertGraphPreview: $('insertGraphPreview'), insertBlankWhiteBtn: $('insertBlankWhiteBtn'), insertBlankBlackBtn: $('insertBlankBlackBtn'), insertTemplateList: $('insertTemplateList'), savePageTemplateLabel: $('savePageTemplateLabel'), savePageTemplateWithBtn: $('savePageTemplateWithBtn'), savePageTemplateCleanBtn: $('savePageTemplateCleanBtn'), manageTemplatesBtn: $('manageTemplatesBtn'), pageTransferDialog: $('pageTransferDialog'), pageTransferForm: $('pageTransferForm'), pageTransferCloseBtn: $('pageTransferCloseBtn'), pageTransferCancelBtn: $('pageTransferCancelBtn'), pageTransferSummary: $('pageTransferSummary'), pageTransferDestination: $('pageTransferDestination'), pageTransferPosition: $('pageTransferPosition'), pageTransferAfterField: $('pageTransferAfterField'), pageTransferAfterPage: $('pageTransferAfterPage'), pageTransferCopyBtn: $('pageTransferCopyBtn'), pageGeometryDialog: $('pageGeometryDialog'), pageGeometryForm: $('pageGeometryForm'), pageGeometryCloseBtn: $('pageGeometryCloseBtn'), pageGeometryCancelBtn: $('pageGeometryCancelBtn'), pageGeometrySummary: $('pageGeometrySummary'), pageGeometryScope: $('pageGeometryScope'), pageGeometryPreset: $('pageGeometryPreset'), pageGeometryOrientation: $('pageGeometryOrientation'), pageGeometryCustomFields: $('pageGeometryCustomFields'), pageGeometryCustomWidth: $('pageGeometryCustomWidth'), pageGeometryCustomHeight: $('pageGeometryCustomHeight'), pageGeometryPreviewPaper: $('pageGeometryPreviewPaper'), pageGeometryPreviewLabel: $('pageGeometryPreviewLabel'), pageGeometryApplyBtn: $('pageGeometryApplyBtn'), pageEdgeDialog: $('pageEdgeDialog'), pageEdgeForm: $('pageEdgeForm'), pageEdgeCloseBtn: $('pageEdgeCloseBtn'), pageEdgeCancelBtn: $('pageEdgeCancelBtn'), pageEdgeSummary: $('pageEdgeSummary'), pageEdgeScope: $('pageEdgeScope'), pageEdgeOperation: $('pageEdgeOperation'), pageEdgePreset: $('pageEdgePreset'), pageEdgeTop: $('pageEdgeTop'), pageEdgeRight: $('pageEdgeRight'), pageEdgeBottom: $('pageEdgeBottom'), pageEdgeLeft: $('pageEdgeLeft'), pageEdgePreviewPaper: $('pageEdgePreviewPaper'), pageEdgePreviewContent: $('pageEdgePreviewContent'), pageEdgePreviewLabel: $('pageEdgePreviewLabel'), pageEdgeResetBtn: $('pageEdgeResetBtn'), pageEdgeApplyBtn: $('pageEdgeApplyBtn'), closeDocumentDialog: $('closeDocumentDialog'), closeDocumentForm: $('closeDocumentForm'), closeDocumentXBtn: $('closeDocumentXBtn'), closeDocumentTitle: $('closeDocumentTitle'), closeDocumentMessage: $('closeDocumentMessage'), closeDocumentCancelBtn: $('closeDocumentCancelBtn'), closeDocumentWithoutExportBtn: $('closeDocumentWithoutExportBtn'), closeDocumentExportBtn: $('closeDocumentExportBtn'), libraryNameDialog: $('libraryNameDialog'), libraryNameForm: $('libraryNameForm'), libraryNameTitle: $('libraryNameTitle'), libraryNameHelp: $('libraryNameHelp'), libraryNameInput: $('libraryNameInput'), libraryNameCloseBtn: $('libraryNameCloseBtn'), libraryNameCancelBtn: $('libraryNameCancelBtn'), libraryNameSaveBtn: $('libraryNameSaveBtn'), folderMoveDialog: $('folderMoveDialog'), folderMoveForm: $('folderMoveForm'), folderMoveTitle: $('folderMoveTitle'), folderMoveHelp: $('folderMoveHelp'), folderMoveDestination: $('folderMoveDestination'), folderMoveCloseBtn: $('folderMoveCloseBtn'), folderMoveCancelBtn: $('folderMoveCancelBtn'), folderMoveSaveBtn: $('folderMoveSaveBtn'), assetToolbar: $('assetToolbar'), assetLibraryTab: $('assetLibraryTab'), assetRecentTab: $('assetRecentTab'), assetImportImageBtn: $('assetImportImageBtn'), assetLibraryBrowser: $('assetLibraryBrowser'), assetBreadcrumb: $('assetBreadcrumb'), assetNewFolderBtn: $('assetNewFolderBtn'), assetGrid: $('assetGrid'), assetEmpty: $('assetEmpty'), infoDialog: $('infoDialog'), dialogContent: $('dialogContent')
 };
 
 const state = {
@@ -112,6 +112,9 @@ const state = {
   statusTimer: null,
   presentationControlsTimer: null,
   presentationThumbObserver: null,
+  // One ephemeral return location for an explicit Presentation thumbnail jump.
+  // Never included in workspace/Library persistence or page-selection history.
+  presentationThumbnailBack: null,
   presentationRevealPointerId: null,
   presentationSuppressClicksUntil: 0,
   singlePresentationTransitionActive: false,
@@ -16449,6 +16452,8 @@ function adoptSingleIntoPane(paneId) {
 
 function toggleSplitView() {
   if (!state.documents.length) return;
+  // A return location belongs to its original layout/pane only.
+  state.presentationThumbnailBack = null;
   let transferAnchor = null, destinationPaneId = null;
 
   if (!state.splitView) {
@@ -17614,6 +17619,137 @@ function presentationNavigationContext() {
   return { documentId: doc.id, doc, paneId: null, pageId: state.activePageId || view.activePageId || doc.pages[0].id };
 }
 
+// Only a thumbnail tap establishes a Back location. Keep the location in
+// runtime state, never in history or the saved Library/session, and refuse
+// to apply it to another document, layout, or active Split pane.
+function validPresentationThumbnailBack() {
+  const back = state.presentationThumbnailBack;
+  if (!back || !document.body.classList.contains('presentation') ||
+      !!back.splitView !== !!state.splitView) return null;
+  if (state.splitView) {
+    if (state.activePaneId !== back.paneId ||
+        splitPaneState(back.paneId).documentId !== back.documentId) return null;
+  } else if (state.currentDocumentId !== back.documentId) return null;
+  if (!documentById(back.documentId)?.pages?.some(page => page.id === back.pageId)) return null;
+  return back;
+}
+
+function capturePresentationThumbnailBack(context) {
+  if (!context?.doc || !context.doc.pages.some(page => page.id === context.pageId)) return null;
+  const viewer = context.paneId ? paneElements(context.paneId)?.viewer : els.viewer;
+  const saved = context.paneId ? paneView(context.paneId, context.documentId) : ensureSingleView(context.doc);
+  if (!viewer || !saved) return null;
+  const view = copyView(saved);
+  if (!context.paneId) {
+    // The Single viewer's active zoom/fit/scroll-mode values live in state;
+    // doc.singleView may not have been checkpointed since the last adjustment.
+    view.zoom = state.zoom;
+    view.fitMode = state.fitMode;
+    view.scrollMode = state.scrollMode;
+  }
+  view.activePageId = context.pageId;
+  view.scrollTop = viewer.scrollTop;
+  view.scrollLeft = viewer.scrollLeft;
+  const point = viewerMidpoint(viewer);
+  const anchor = view.scrollMode === 'single' ? null : captureViewerAnchor(viewer, point.x, point.y);
+  return {
+    documentId: context.documentId,
+    paneId: context.paneId,
+    splitView: !!state.splitView,
+    pageId: context.pageId,
+    view,
+    anchor,
+  };
+}
+
+function updatePresentationThumbnailBackControl() {
+  const back = validPresentationThumbnailBack();
+  if (!back && state.presentationThumbnailBack) state.presentationThumbnailBack = null;
+  els.presentationPageDrawerBackBar?.classList.toggle('hidden', !back);
+  if (els.presentationPageDrawerBackBtn && back) {
+    const doc = documentById(back.documentId);
+    const number = doc.pages.findIndex(page => page.id === back.pageId) + 1;
+    els.presentationPageDrawerBackBtn.textContent = `← Back to page ${number}`;
+    els.presentationPageDrawerBackBtn.setAttribute('aria-label', `Back to page ${number} before the last thumbnail jump`);
+  }
+}
+
+function returnFromPresentationThumbnailJump() {
+  const back = validPresentationThumbnailBack();
+  state.presentationThumbnailBack = null;
+  updatePresentationThumbnailBackControl();
+  if (!back) return;
+  const doc = documentById(back.documentId);
+  const saved = copyView(back.view);
+  const paneId = back.paneId;
+  const viewer = paneId ? paneElements(paneId).viewer : els.viewer;
+  const current = paneId ? paneView(paneId, back.documentId) : ensureSingleView(doc);
+  const oldZoom = paneId ? current.zoom : state.zoom;
+  const oldFit = paneId ? current.fitMode : state.fitMode;
+  const oldScrollMode = paneId ? current.scrollMode : state.scrollMode;
+  const rebuild = oldScrollMode === 'single' || saved.scrollMode === 'single' ||
+    oldZoom !== saved.zoom || oldFit !== saved.fitMode || oldScrollMode !== saved.scrollMode;
+
+  // Page ID survives inserted/deleted earlier pages. In continuous/snap mode,
+  // restore the original scroll coordinates directly if geometry is unchanged,
+  // avoiding any extra PDF.js rebuild during normal classroom navigation.
+  Object.assign(current, saved);
+  if (paneId) {
+    if (state.activePaneId === paneId) state.activePageId = back.pageId;
+    if (rebuild) {
+      if (back.anchor) { current.scrollTop = null; current.scrollLeft = null; }
+      renderSplitPane(paneId); // Do not touch the other Split pane.
+    } else {
+      markSplitActivePage(paneId);
+      viewer.scrollTop = saved.scrollTop ?? viewer.scrollTop;
+      viewer.scrollLeft = saved.scrollLeft ?? viewer.scrollLeft;
+    }
+  } else {
+    applySingleView(doc, saved);
+    doc.activePageId = back.pageId;
+    if (rebuild) {
+      if (back.anchor) {
+        // applySingleView replaced doc.singleView with a cloned view; clear the
+        // NEW view's raw offsets, not the previous reference.
+        doc.singleView.scrollTop = null;
+        doc.singleView.scrollLeft = null;
+      }
+      renderSingleViewer();
+    } else {
+      markActivePage();
+      viewer.scrollTop = saved.scrollTop ?? viewer.scrollTop;
+      viewer.scrollLeft = saved.scrollLeft ?? viewer.scrollLeft;
+      updatePageCounts();
+    }
+  }
+  updateViewerLabels();
+  closePresentationPageDrawer();
+
+  // Safari may correct the scroll offset a frame after a programmatic jump or
+  // viewer rebuild. Finish after its normal two-frame restore; use the captured
+  // page-content anchor if layout/zoom changed in the meantime.
+  requestAnimationFrame(() => requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (!document.body.classList.contains('presentation') || !!state.splitView !== back.splitView) return;
+    if (paneId) {
+      if (splitPaneState(paneId).documentId !== back.documentId || state.activePaneId !== paneId) return;
+    } else if (state.currentDocumentId !== back.documentId) return;
+    if (rebuild && back.anchor) {
+      const midpoint = viewerMidpoint(viewer);
+      restoreViewerAnchor(viewer, back.anchor, midpoint.x, midpoint.y);
+    } else if (!rebuild && saved.scrollMode !== 'single') {
+      viewer.scrollTop = saved.scrollTop ?? viewer.scrollTop;
+      viewer.scrollLeft = saved.scrollLeft ?? viewer.scrollLeft;
+    }
+    if (paneId) {
+      syncSplitActivePageFromViewport(paneId, {updateUi:true});
+      savePaneScroll(paneId);
+    } else {
+      syncSingleActivePageFromViewport();
+      updateSingleViewScrollFromDom();
+    }
+  })));
+}
+
 function presentationPageDrawerOpen() {
   return !!els.presentationPageDrawerLayer && !els.presentationPageDrawerLayer.classList.contains('hidden');
 }
@@ -17644,6 +17780,7 @@ function renderPresentationPageDrawer() {
 
   state.presentationThumbObserver?.disconnect();
   scroller.replaceChildren();
+  updatePresentationThumbnailBackControl();
 
   const observer = new IntersectionObserver((entries) => {
     for (const entry of entries) {
@@ -17684,7 +17821,9 @@ function renderPresentationPageDrawer() {
   requestAnimationFrame(() => {
     const current = scroller.querySelector('.presentation-page-thumb.current');
     if (!current) return;
-    const target = current.offsetTop - Math.max(0, (scroller.clientHeight - current.offsetHeight) / 2);
+    // The optional Back row sits outside the scrolling list. Account for its
+    // height when centering the active thumbnail in the scroll container.
+    const target = current.offsetTop - scroller.offsetTop - Math.max(0, (scroller.clientHeight - current.offsetHeight) / 2);
     scroller.scrollTop = Math.max(0, target);
   });
   return true;
@@ -17707,6 +17846,12 @@ function togglePresentationPageDrawer() {
 function jumpPresentationToPage(documentId, pageId, paneId=null) {
   const doc = documentById(documentId);
   if (!doc?.pages?.some(page => page.id === pageId)) return;
+  const from = presentationNavigationContext();
+  if (from && from.documentId === documentId && from.paneId === paneId && from.pageId !== pageId) {
+    // One-level history: the newest thumbnail jump replaces the earlier return
+    // location. Clicking the current thumbnail does not erase an existing Back.
+    state.presentationThumbnailBack = capturePresentationThumbnailBack(from);
+  }
 
   if (state.splitView) {
     if (!paneId) return;
@@ -18098,6 +18243,7 @@ async function enterPresentation() {
   }
 }
 async function exitPresentation() {
+  state.presentationThumbnailBack = null;
   closePresentationToolMenu();
   togglePresentationPageControls(false);
   closePresentationPageDrawer();
@@ -18213,7 +18359,7 @@ const FEATURE_GUIDE_HTML = `<div class="workbench-help-content">
         </div></details>
         <details class="help-topic" data-help-topic><summary>Presentation mode (Present)</summary><div>
           <p>From <strong>View</strong>, choose <strong>Present</strong> in the main toolbar to switch to a cleaner document display for teaching, projecting, or working on a larger page. You can still write with the Pen and Highlighter, erase, select annotations, use Graph and switch documents.</p>
-          <p>Presentation has its own toolbar. Use the document selector to change papers, <strong>Single View / Split View</strong> to change the layout, and the <strong>L/R</strong> controls to select the pane you want to control when Split is active. <strong>Page view</strong> adjusts scrolling and fit; <strong>Thumbnails</strong> opens page navigation; <strong>Add page</strong> inserts pages.</p>
+          <p>Presentation has its own toolbar. Use the document selector to change papers, <strong>Single View / Split View</strong> to change the layout, and the <strong>L/R</strong> controls to select the pane you want to control when Split is active. <strong>Page view</strong> adjusts scrolling and fit; <strong>Thumbnails</strong> opens page navigation; after jumping by thumbnail, <strong>Back to page…</strong> appears at the top of the list to return to your prior location once. <strong>Add page</strong> inserts pages.</p>
           <p>Select the <strong>×</strong> exit control at the right end of the Presentation toolbar to return to the regular View interface. On iPad, Presentation uses the app's clean display rather than iOS system fullscreen.</p>
         </div></details>
         <details class="help-topic" data-help-topic><summary>Customize the Presentation toolbar (Tools menu)</summary><div>
@@ -19507,6 +19653,7 @@ function bindEvents() {
   els.viewInsertBtn.addEventListener('click', (e) => { e.stopPropagation(); openInsertPageMenu(els.viewInsertBtn); });
   els.presentationLayoutBtn.addEventListener('click', () => { closePresentationPageDrawer(); toggleSplitView(); });
   els.presentationPagesBtn?.addEventListener('click', (e) => { e.stopPropagation(); togglePresentationPageDrawer(); });
+  els.presentationPageDrawerBackBtn?.addEventListener('click', (e) => { e.stopPropagation(); returnFromPresentationThumbnailJump(); });
   els.presentationPageDrawerLayer?.addEventListener('click', (e) => { if (e.target === els.presentationPageDrawerLayer) closePresentationPageDrawer(); });
   els.presentationInsertBtn.addEventListener('click', (e) => { e.stopPropagation(); closePresentationPageDrawer(); openInsertPageMenu(els.presentationInsertBtn); });
   els.presentationLeftPaneBtn.addEventListener('click', () => { if (state.splitView) { closePresentationPageDrawer(); activateSplitPane('left', true); showPresentationControls(); } });
