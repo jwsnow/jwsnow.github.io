@@ -1,3 +1,34 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.57-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue from the packaged 5.8.57-exp ZIP.
+
+5.8.57 SPLIT VIEW: RELEASE IDLE TEMPLATE PDF WORKER SOURCES
+
+WHY
+- The user verified that 5.8.56's Files → Open → View first-render fix works, but Single → Split then left one scanned document permanently unable to render.
+- New 2026-10-19 13:24 saved Diagnostics (5.8.56) show two Split documents: ReTest2.pdf left and Kelly Rodriguez Exam 2 Retest.pdf right. Worker slot 0 remained occupied by persistent PDF source `src-f4f1d4bb-8e25-4f2d-b8f8-850db6fa2e83` not used by the visible documents. Worker slot 1 alternated repeatedly between `src-9d48a9ea-...` (ReTest2) and `src-4d23080b-...` (Kelly Rodriguez), with `live-pdf-worker-pool-exhausted` errors and one pane or the other unable to render. No third unmanaged worker was created, and this was not a stalled PDF render.
+- Code review showed the template restore path eagerly hydrates template PDFs while the source retirement functions always protect template-owned PDFs even when no visible document uses them. Under the strict two-worker iPad ceiling this can permanently reserve a slot and cause Split starvation. Template references remain durable in IndexedDB; a template source need not remain live when inactive.
+
+CHANGES
+1. `restorePersistentTemplates()` no longer eagerly hydrates all saved template PDF sources. Existing preview/insert operations already perform lazy source hydration through `renderPageToCanvas()`/`ensureLibrarySourceLoaded()`.
+2. A persisted PDF source referenced only by inactive saved templates is now eligible for normal memory retirement (including viewer preloading, file-operation preload, delayed residency sweep, and Split pre-render source retirement). A source referenced by either visible Split document, by the Single View document, or still actively rendering is protected under the existing checks. Regular `releaseSourceIfUnused` still protects durable template references when deleting or editing documents.
+3. `viewer-preload-capacity` and `file-operation-preload-capacity` include `templateOnlyCandidates` to help distinguish this case.
+4. Keep the 5.8.56 single-source retirement single-flight guard and first-view fix; preserve the strict two managed workers, source cleanup, 5.8.37+ persistent-worker reuse, 5.8.42 watchdog recycling, lazy rendering, graph/ink, Library schema, ZIP/separate export and backups.
+
+VALIDATION (IPAD FIRST)
+1. With ReTest2 and another scanned PDF open, switch Single → Split. BOTH panes should render, including the first page, without “Could not render...” and without requiring scroll-off/back recovery.
+2. Scroll both panes several pages; switch which pane is active; return Split → Single → Split. Verify both remain renderable and positions survive.
+3. Repeat Files → Open → View (the 5.8.56 regression test).
+4. If saved templates exist, inspect a template preview and insert a saved template page; verify its source still lazily renders. Then revisit Split.
+5. Diagnostics should show template-only PDF sources released before a worker is reassigned when required. If another render fails, save Diagnostics and inspect the worker-pool snapshot and `templateOnlyCandidates`.
+
+NO UI, DOCUMENT-SCHEMA, RENDER QUALITY OR BACKUP FORMAT CHANGES. Release checks and focused logic tests pass; actual iPad verification is still needed.
+
+================================================================================
+PRIOR 5.8.56 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.56-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

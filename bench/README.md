@@ -1,3 +1,13 @@
+# PDF Workbench 5.8.57-exp
+
+## Milestone 5.8.57 — Split View template-worker residency fix
+
+- 2026-10-19 iPad diagnostics from 5.8.56 captured a Split View starvation loop: a third persistent PDF source (not in either visible pane) occupied one of the two managed PDF workers. The visible ReTest2 and Kelly Rodriguez sources repeatedly replaced each other in the remaining slot, causing persistent “No managed iPad PDF worker slot is available” rendering errors. This is not scan corruption.
+- Root cause: saved template PDFs were eagerly loaded at startup and treated as non-evictable even when no displayed document needed them. A saved template retains its source bytes in IndexedDB, and the template preview / insertion renderer already lazily reloads persisted source bytes when used. Merely being a saved template must not pin a live PDF.js worker.
+- Stop eager PDF source preload when restoring saved templates; let template previews/insertions load on demand. In the viewer/file-operation capacity sweep, delayed residency sweep, Split outgoing-source retirement, and PDF source retirement, allow an **inactive template-only PDF source** to be released. **Never** release a source referenced by either visible Split pane or the active Single View document. Existing active-render wait/cancellation and single-flight source-retirement safeguards stay in place.
+- Add `templateOnlyCandidates` to `viewer-preload-capacity` / `file-operation-preload-capacity` for easier diagnosis. Keep the strict two-managed-worker iPad invariant, PDF.js raster limits, worker reuse/recycle, Files → View fix from 5.8.56, and all Library/annotation/export formats unchanged.
+- Static and focused regression tests check that idle template sources are evictable, source references needed by visible panes remain protected, templates still load lazily, and the two-worker invariant is unchanged. **Live iPad validation required**: Open → View on scanned PDFs, Single → Split with two scanned PDFs, scroll both panes, return to Single, and open saved template previews if used.
+
 # PDF Workbench 5.8.56-exp
 
 ## Milestone 5.8.56 — First-view iPad PDF worker handoff

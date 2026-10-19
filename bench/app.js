@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.56';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.57';
 
-const APP_VERSION = '5.8.56';
+const APP_VERSION = '5.8.57';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -837,12 +837,12 @@ async function ensureLibrarySourceLoaded(sourceId) {
     // deliberate copy to the worker.
     const workerBytes = bytes.slice();
     const workerCopyMs = performance.now() - workerCopyStarted;
-    // Single View may rebuild its page stages before the delayed outgoing-PDF
-    // residency sweep has completed. When both managed iPad slots are occupied,
-    // synchronously retire only INACTIVE persisted sources before trying to load
-    // the incoming source. Otherwise the initial page renders fail immediately,
-    // then scrolling off/on happens to work once the old source is retired.
-    // Split keeps its stricter own pre-render gate; no third worker is created.
+    // A Viewer page may request its PDF source before the delayed outgoing-PDF
+    // residency sweep has completed. Retire inactive persisted sources first,
+    // including durable template sources that are NOT referenced by either
+    // visible pane. Template ownership alone must not reserve a scarce iPad
+    // worker; template previews/insertions can lazily reopen their PDFs.
+    // Never evict sources needed by a visible document or active PDF render.
     if (isIPadLike() && state.pdfjs?.PDFWorker &&
         ensureLivePdfWorkerSlots().every(slot => slot.activeSourceId || slot.reservedSourceId)) {
       await freeInactivePdfWorkerCapacity(new Set([sourceId]), 'viewer-preload-capacity');
@@ -1690,11 +1690,11 @@ async function restorePersistentTemplates() {
   else if (savedDefault?.kind === 'template' && state.templates.some(template => template.id === savedDefault.templateId)) {
     state.newLastPageDefault = { kind:'template', templateId:savedDefault.templateId };
   } else state.newLastPageDefault = { kind:'graph', templateId:null };
-  const sourceIds = pagesReferencedSourceIds(state.templates.map(template => template.page));
-  for (const sourceId of sourceIds) {
-    try { await ensureLibrarySourceLoaded(sourceId); }
-    catch (err) { console.warn(`Could not preload template source ${sourceId}`, err); }
-  }
+  // Do not eagerly load every template's source into a live PDF.js worker.
+  // Template pages and their source bytes remain durable in IndexedDB; their
+  // previews and inserted pages use ensureLibrarySourceLoaded() on demand.
+  // Reserving a worker for an unused template can strand a Split pane when the
+  // iPad has only two managed PDF workers for two visible documents.
   renderInsertTemplateList();
 }
 async function persistLibraryNow(options={}) {
@@ -1864,7 +1864,7 @@ async function freeInactivePdfWorkerCapacity(targetSourceIds, reason='file-opera
   const candidates = [];
   for (const [sourceId, source] of state.sources) {
     if (!source || source.type !== 'pdf' || !source.libraryPersisted) continue;
-    if (preserve.has(sourceId) || sourceUsedByTemplates(sourceId) || sourceNeededByVisibleDocument(sourceId)) continue;
+    if (preserve.has(sourceId) || sourceNeededByVisibleDocument(sourceId)) continue;
     candidates.push(sourceId);
   }
   if (!candidates.length) return 0;
@@ -1895,6 +1895,7 @@ async function freeInactivePdfWorkerCapacity(targetSourceIds, reason='file-opera
       reason,
       targetSourceCount:preserve.size,
       candidates:candidates.length,
+      templateOnlyCandidates:candidates.filter(sourceId => sourceUsedByTemplates(sourceId)).length,
       released,
       waited,
       remainingSources:state.sources.size,
@@ -8611,7 +8612,11 @@ async function releasePersistedPdfSourceMemory(sourceId, reason='inactive-docume
 async function retirePersistedPdfSourceMemory(sourceId, reason='inactive-document') {
   const source = state.sources.get(sourceId);
   if (!source || source.type !== 'pdf' || !source.libraryPersisted) return false;
-  if (sourceNeededByVisibleDocument(sourceId) || sourceUsedByTemplates(sourceId)) return false;
+  // A saved template is a durable reference, not a live-viewer owner.
+  // Idle template PDF sources must be evictable so two Split documents can each
+  // claim one of the two managed iPad PDF workers. A visible document that uses
+  // a template source is still protected by sourceNeededByVisibleDocument().
+  if (sourceNeededByVisibleDocument(sourceId)) return false;
   const started = performance.now();
   const cleanupStarted = performance.now();
   try { await source.pdf?.cleanup?.(); } catch {}
@@ -8667,7 +8672,7 @@ function scheduleInactivePdfSourceResidencySweep(reason='residency-sweep') {
   const inactive = [];
   for (const [sourceId, source] of state.sources) {
     if (!source || source.type !== 'pdf' || !source.libraryPersisted) continue;
-    if (sourceNeededByVisibleDocument(sourceId) || sourceUsedByTemplates(sourceId)) continue;
+    if (sourceNeededByVisibleDocument(sourceId)) continue;
     inactive.push(sourceId);
   }
   if (!inactive.length) return;
@@ -9026,7 +9031,7 @@ async function retireOutgoingPaneSourcesBeforeRender(paneId, sequence, sourceIds
   const idSet = new Set((sourceIds || []).filter(Boolean));
   for (const [sourceId, source] of state.sources) {
     if (!source || source.type !== 'pdf' || !source.libraryPersisted) continue;
-    if (sourceNeededByVisibleDocument(sourceId) || sourceUsedByTemplates(sourceId)) continue;
+    if (sourceNeededByVisibleDocument(sourceId)) continue;
     idSet.add(sourceId);
   }
   const ids = [...idSet];
