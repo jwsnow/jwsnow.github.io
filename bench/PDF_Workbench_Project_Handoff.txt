@@ -1,3 +1,23 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.62-exp
+
+THIS SECTION IS AUTHORITATIVE OVER THE PRIOR HISTORY BELOW.
+Continue from the packaged 5.8.62-exp code ZIP, not an older version.
+
+DIAGNOSTICS REVIEW (2026-10-19 18:08 and 18:12 archives):
+- Full-Library PDF ZIP construction on iPad 5.8.61 SUCCESSFULLY COMPLETED. Last relevant recorded events: `library-pdf-archive-stage-finalize`, `library-pdf-archive-stage-ready`, and later `library-pdf-archive-download-requested`, then a visibility/background transition. App next restored the Local Library; an early startup runtime ended and a later restore completed. This points to download/system-UI handoff or process restart, not the original PDF conversion memory accumulation.
+- Full editable backup restarted almost immediately even after a deliberate fresh launch. Before-attempt saved Diagnostics survive, but no worker/preparation event survives the restart, and rolling health history fell back to an older runtime. Exact phase and cause NOT established. Do not infer a broken source record or a definite iPad memory exhaustion; source Library is still accessible.
+- In current 5.8.61, beginning an iPad backup records ordinary health breadcrumbs before the major phases, but those can be lost across a WebKit process restart. A fresh run can overwrite previous-runtime pointers. Better independent durable checkpoints are needed for the next investigation.
+
+5.8.62 CHANGES — BACKUP DIAGNOSTICS ONLY:
+- Add `editableBackupCheckpoint` to the exported Diagnostics JSON header, containing localStorage and IndexedDB-meta copies. Tiny phase record: attemptId, version, timestamp, phase, completed, total, bytes, error. No document content or filenames.
+- The first checkpoint runs synchronously when the user taps Back up entire Library (editable), before any await. Major phases checkpoint to both localStorage and the existing IndexedDB meta store. Worker source messages update only localStorage periodically to avoid frequent database writes.
+- Preserve 5.8.61 disk-staged full-PDF archive behavior, earlier Split/Files/Preview stability fixes, workers, backup format, Library schema, and all user UI.
+- 5.8.62 DOES NOT FIX editable full-Library backup. Prefer Windows for dependable full editable backup. If the user tests on iPad, do one controlled attempt only, then capture Diagnostics promptly and read `editableBackupCheckpoint` independent of the usual breadcrumb history.
+
+====================================================================
+PRIOR 5.8.61 HISTORY FOLLOWS
+====================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.61-exp
 
 THIS SECTION IS AUTHORITATIVE OVER THE PRIOR HISTORY BELOW.

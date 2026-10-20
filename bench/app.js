@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.61';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.62';
 
-const APP_VERSION = '5.8.61';
+const APP_VERSION = '5.8.62';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -2654,6 +2654,45 @@ async function sourceRecordPayload(record) {
 // memory; iPad Safari can terminate the PWA instead of throwing an exception.
 // Stage a standard, uncompressed ZIP incrementally in origin-private storage.
 // It uses precisely the existing manifest + sources/*.bin backup format.
+// A tiny, independent backup-attempt journal. Unlike the rolling viewer
+// heartbeat, this identifies a failed backup even if the next iPad startup
+// overwrites several earlier runtime breadcrumbs. A copy also goes to the
+// existing IndexedDB meta store at major phase boundaries (no schema change).
+const EDITABLE_BACKUP_CHECKPOINT_KEY = 'pdfwb-editable-backup-checkpoint-v1';
+const EDITABLE_BACKUP_CHECKPOINT_META_KEY = 'editable-backup-attempt-checkpoint-v1';
+let editableBackupAttemptId = null;
+function readEditableBackupCheckpoint() {
+  try { return JSON.parse(localStorage.getItem(EDITABLE_BACKUP_CHECKPOINT_KEY) || 'null'); }
+  catch { return null; }
+}
+function recordEditableBackupCheckpoint(phase, details={}) {
+  const entry = {
+    key:EDITABLE_BACKUP_CHECKPOINT_META_KEY,
+    attemptId:editableBackupAttemptId || null,
+    version:APP_VERSION, at:Date.now(), phase,
+    completed:Number(details.completed || 0),
+    total:Number(details.total || 0),
+    bytes:Number(details.bytes || 0),
+    error:details.error ? String(details.error).slice(0,240) : null,
+  };
+  try { localStorage.setItem(EDITABLE_BACKUP_CHECKPOINT_KEY, JSON.stringify(entry)); } catch {}
+  addInkDiagnostic('editable-backup-checkpoint',null,{
+    phase,completed:entry.completed,total:entry.total,bytes:entry.bytes,error:entry.error,
+  });
+  writeDiagnosticHealthBreadcrumb(`editable-backup-${phase}`);
+  return entry;
+}
+async function recordDurableEditableBackupCheckpoint(phase,details={}) {
+  const entry=recordEditableBackupCheckpoint(phase,details);
+  if (state.libraryReady && state.libraryDb) {
+    try { await libraryPut('meta',entry); }
+    catch (err) {
+      // Failure to log must never compromise document state or initiate a retry.
+      addInkDiagnostic('editable-backup-checkpoint-write-failed',null,{phase,error:String(err?.message||err)});
+    }
+  }
+  return entry;
+}
 const PREPARED_EDITABLE_BACKUP_KEY = 'pdfwb-prepared-editable-backup-v1';
 const BACKUP_OPFS_SLOT_NAMES = ['pdfwb-full-editable-a.pwbbackup.zip', 'pdfwb-full-editable-b.pwbbackup.zip'];
 const BACKUP_STREAM_CHUNK_BYTES = 1024 * 1024;
@@ -2719,7 +2758,9 @@ async function createStagedIPadEditableLibraryBackup() {
   editableBackupStageProgress = {phase:'opening-staging-storage',completed:0,total:0,bytes:0};
   addInkDiagnostic('editable-backup-preparation-start',null,{phase:'opening-staging-storage'});
   writeDiagnosticHealthBreadcrumb('editable-backup-preparation-start');
+  await recordDurableEditableBackupCheckpoint('before-opfs-root');
   const root = await getEditableBackupOPFSRoot();
+  await recordDurableEditableBackupCheckpoint('opfs-root-open');
   editableBackupStageProgress.phase='saving-library';
   addInkDiagnostic('editable-backup-preparation-phase',null,{phase:'saving-library'});
   writeDiagnosticHealthBreadcrumb('editable-backup-saving-library');
@@ -2729,8 +2770,11 @@ async function createStagedIPadEditableLibraryBackup() {
     throw new Error('This iPad browser cannot run the background backup writer. Use Windows for the full editable backup.');
   }
   if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = 'Saving current editable state…';
+  await recordDurableEditableBackupCheckpoint('before-library-save');
   await persistLibraryNow();
+  await recordDurableEditableBackupCheckpoint('after-library-save');
   await persistAllAssetsNow();
+  await recordDurableEditableBackupCheckpoint('after-assets-save');
   editableBackupStageProgress.phase='reading-metadata';
   addInkDiagnostic('editable-backup-preparation-phase',null,{phase:'reading-metadata'});
   writeDiagnosticHealthBreadcrumb('editable-backup-reading-metadata');
@@ -2740,6 +2784,7 @@ async function createStagedIPadEditableLibraryBackup() {
   ]);
   const { store } = libraryStore('sources');
   const sourceIds = await idbRequest(store.getAllKeys());
+  await recordDurableEditableBackupCheckpoint('metadata-ready',{total:sourceIds.length});
   editableBackupStageProgress={phase:'starting-worker',completed:0,total:sourceIds.length,bytes:0};
   addInkDiagnostic('editable-backup-preparation-phase',null,{phase:'starting-worker',sourceCount:sourceIds.length,documents:documents.length});
   writeDiagnosticHealthBreadcrumb('editable-backup-starting-worker');
@@ -2758,9 +2803,11 @@ async function createStagedIPadEditableLibraryBackup() {
   editableBackupStageProgress = { phase:'starting', completed:0, total:sourceIds.length, bytes:0, sourceSize:0 };
   let worker = null;
   try {
+    await recordDurableEditableBackupCheckpoint('before-worker-construction',{total:sourceIds.length});
     worker = new Worker(`./editable-backup-worker.js?v=${APP_VERSION}`);
     addInkDiagnostic('editable-backup-worker-created',null,{sourceCount:sourceIds.length});
     writeDiagnosticHealthBreadcrumb('editable-backup-worker-created');
+    await recordDurableEditableBackupCheckpoint('worker-created',{total:sourceIds.length});
     const result = await new Promise((resolve,reject) => {
       let settled = false;
       const fail = error => { if (!settled) { settled = true; reject(error); } };
@@ -2777,9 +2824,15 @@ async function createStagedIPadEditableLibraryBackup() {
             completed, total, bytes:Number(msg.bytes || 0), sourceSize:Number(msg.sourceSize || 0),
           };
           if (msg.type === 'source-start') {
+            if (completed === 0 || completed % 16 === 0 || completed >= total - 5) {
+              recordEditableBackupCheckpoint('source-start',{completed,total,bytes:msg.bytes});
+            }
             if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Writing source ${completed+1} of ${total} (about ${(msg.sourceSize/1048576).toFixed(1)} MB)…`;
             if (completed >= total - 8) writeDiagnosticHealthBreadcrumb('editable-backup-source-start');
           } else if (msg.type === 'progress') {
+            if (completed % 16 === 0 || completed >= total - 5) {
+              recordEditableBackupCheckpoint('source-written',{completed,total,bytes:msg.bytes});
+            }
             if (completed % 8 === 0 || completed >= total - 8) {
               addInkDiagnostic('editable-backup-stage-progress', null, {completed,total,bytes:msg.bytes});
               // Preserve the precise location of a late WebKit crash.
@@ -2792,6 +2845,7 @@ async function createStagedIPadEditableLibraryBackup() {
           }
         }
       };
+      recordEditableBackupCheckpoint('worker-dispatch',{total:sourceIds.length});
       worker.postMessage({ type:'prepare', slot, sourceIds, manifest });
       addInkDiagnostic('editable-backup-worker-requested',null,{sourceCount:sourceIds.length});
       writeDiagnosticHealthBreadcrumb('editable-backup-worker-requested');
@@ -2801,11 +2855,13 @@ async function createStagedIPadEditableLibraryBackup() {
     const meta = { slot, filename:`PDF-Workbench-Library-${portableTimestamp()}.pwbbackup.zip`, size:result.bytes, createdAt:Date.now() };
     localStorage.setItem(PREPARED_EDITABLE_BACKUP_KEY, JSON.stringify(meta));
     updatePreparedEditableBackupButtons();
+    await recordDurableEditableBackupCheckpoint('prepared',{completed:sourceIds.length,total:sourceIds.length,bytes:result.bytes});
     addInkDiagnostic('editable-backup-stage-ready',null,{bytes:result.bytes, entries:result.entries, sourceCount:sourceIds.length});
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Editable backup prepared (${(result.bytes/1048576).toFixed(1)} MB; ${documents.length} documents, ${sourceIds.length} sources). Tap Download prepared backup to save it outside Workbench.`;
     setStatus('Editable backup prepared — download required');
     if (previous && previous.slot !== slot) root.removeEntry(previous.slot).catch(()=>{});
   } catch (err) {
+    await recordDurableEditableBackupCheckpoint('worker-error',{completed:editableBackupStageProgress?.completed,total:editableBackupStageProgress?.total,bytes:editableBackupStageProgress?.bytes,error:err?.message||err});
     addInkDiagnostic('editable-backup-stage-error',null,{message:String(err?.message||err), progress:editableBackupStageProgress});
     throw err;
   } finally {
@@ -2817,6 +2873,11 @@ async function createStagedIPadEditableLibraryBackup() {
 let editableLibraryBackupInProgress = false;
 async function createEditableLibraryBackup() {
   if (editableLibraryBackupInProgress) return;
+  if (isIPadLike()) {
+    editableBackupAttemptId = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`;
+    // This is deliberately BEFORE any await, Library connection, or UI rebuild.
+    recordEditableBackupCheckpoint('button-pressed');
+  }
   if (!state.libraryReady && !(await ensureLibraryConnection())) {
     setStatus('Local Library is not available');
     return;
@@ -2900,6 +2961,7 @@ async function createEditableLibraryBackup() {
     if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Editable backup created: ${documents.length} documents, ${folders.length} folders, ${assets.length} assets in ${assetFolders.length} Asset folders, ${sourceManifest.length} source files, ${(manifest.meta.templates?.templates || []).length} templates.`;
     setStatus('Editable Library backup created');
   } catch (err) {
+    if (isIPadLike()) await recordDurableEditableBackupCheckpoint('failed',{completed:editableBackupStageProgress?.completed,total:editableBackupStageProgress?.total,bytes:editableBackupStageProgress?.bytes,error:err?.message||err});
     addInkDiagnostic('editable-backup-failed',null,{phase:editableBackupStageProgress?.phase||'before-worker',message:String(err?.message||err)});
     writeDiagnosticHealthBreadcrumb('editable-backup-failed');
     console.error('Editable Library backup failed', err);
@@ -14272,6 +14334,12 @@ async function buildInkDiagnosticsText() {
   const importCheckpoint = (state.libraryReady && state.libraryDb)
     ? await libraryGet('meta', PDF_IMPORT_CHECKPOINT_KEY).catch(() => null)
     : null;
+  const editableBackupCheckpoint = {
+    local:readEditableBackupCheckpoint(),
+    durable:(state.libraryReady && state.libraryDb)
+      ? await libraryGet('meta', EDITABLE_BACKUP_CHECKPOINT_META_KEY).catch(() => null)
+      : null,
+  };
   const header = {
     appVersion: APP_VERSION,
     generatedAt: new Date().toISOString(),
@@ -14282,6 +14350,7 @@ async function buildInkDiagnosticsText() {
     runtime,
     storage,
     importCheckpoint,
+    editableBackupCheckpoint,
     previousRuntimeHealthBreadcrumb: state.previousDiagnosticHealthBreadcrumb,
     previousRuntimeHealthBreadcrumbs: state.previousDiagnosticHealthBreadcrumbs || [],
     emergencyDiagnosticCaptures: readEmergencyDiagnosticCaptures(),
