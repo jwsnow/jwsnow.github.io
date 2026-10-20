@@ -1,11 +1,20 @@
-# PDF Workbench 5.8.62-exp
+# PDF Workbench 5.8.63-exp
 
-## Milestone 5.8.62 — persistent backup checkpoint diagnostics
+## Milestone 5.8.63 — smaller editable-backup worker handoff and better startup tracing
+
+- Diagnostics from 5.8.62 show **0 of 189** sources written at the last `worker-dispatch` checkpoint. The durable journal also confirms the worker was created, but **not** that the worker received the message. No caught error was recorded.
+- Avoid structured-cloning all Library document/asset/folder metadata into `postMessage()`: the main thread now sends a compact header and source IDs, and the worker reads metadata directly from IndexedDB before constructing the unchanged v1 editable-backup manifest.
+- Record worker-loaded, prepare-received, OPFS, synchronous handle, database, and metadata-ready acknowledgments to better locate any future restart. Full PDF export and viewer code are untouched.
+- A 189-source synthetic worker ZIP passes integrity checks. **Experimental on iPad; not a confirmed crash fix.** Use Windows for a dependable whole-Library editable backup until live testing succeeds.
+
+# PDF Workbench 5.8.63-exp
+
+## Milestone 5.8.63 — persistent backup checkpoint diagnostics
 
 - iPad 5.8.61 completed staging the entire Library PDF archive. The diagnostic breadcrumb records `library-pdf-archive-stage-ready`, followed by `library-pdf-archive-download-requested`, then a visibility/background transition and a fresh app runtime. The archive construction did not fail; whether the downloaded archive was saved outside Workbench must be verified separately. A short following restore also restarted.
 - Full editable backup still caused an almost immediate restart. The most recent saved diagnostic immediately before that attempt is present, but the post-restart runtime history contains an earlier breadcrumb rather than that immediately preceding runtime. Thus the exact backup failure phase is unknown; do not claim a worker or memory root cause without additional evidence.
 - Added a **small independent backup phase journal** in localStorage and the already-existing IndexedDB `meta` store at major phase boundaries, separate from the rolling runtime breadcrumbs. The header of newly saved Diagnostics contains `editableBackupCheckpoint.local` and `.durable`, with attempt ID, phase, completed/total count, bytes, and a short error (if known). Worker source progress checkpoints are throttled to avoid extra per-file IndexedDB writes.
-- **Diagnostic-only:** editable ZIP construction, PDF export, downloading, PDF rendering, worker limits, Library schema, and restore formats are unchanged. Full editable backup on iPad is **not fixed** by 5.8.62. Recommend obtaining a full editable backup on Windows until iPad root cause is proven. One carefully recorded iPad test, if desired, should be followed by Diagnostics; do not repeatedly crash-test the active grading Library.
+- **Diagnostic-only:** editable ZIP construction, PDF export, downloading, PDF rendering, worker limits, Library schema, and restore formats are unchanged. Full editable backup on iPad is **not fixed** by 5.8.63. Recommend obtaining a full editable backup on Windows until iPad root cause is proven. One carefully recorded iPad test, if desired, should be followed by Diagnostics; do not repeatedly crash-test the active grading Library.
 
 # PDF Workbench 5.8.61-exp
 

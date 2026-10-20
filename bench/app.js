@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.62';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.63';
 
-const APP_VERSION = '5.8.62';
+const APP_VERSION = '5.8.63';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -2778,28 +2778,30 @@ async function createStagedIPadEditableLibraryBackup() {
   editableBackupStageProgress.phase='reading-metadata';
   addInkDiagnostic('editable-backup-preparation-phase',null,{phase:'reading-metadata'});
   writeDiagnosticHealthBreadcrumb('editable-backup-reading-metadata');
-  const [documents, folders, assets, assetFolders, session, templatesMeta] = await Promise.all([
-    libraryGetAll('documents'), libraryGetAll('folders'), libraryGetAll('assets'),
-    libraryGetAll('assetFolders'), libraryGet('meta', 'session'), libraryGet('meta', 'templates'),
+  // Retrieve only source keys and the document count in the UI. The full
+  // metadata is read directly from IndexedDB by the dedicated worker so
+  // postMessage never clones an entire large Library object graph.
+  const [sourceIds, documentIds] = await Promise.all([
+    idbRequest(libraryStore('sources').store.getAllKeys()),
+    idbRequest(libraryStore('documents').store.getAllKeys()),
   ]);
-  const { store } = libraryStore('sources');
-  const sourceIds = await idbRequest(store.getAllKeys());
   await recordDurableEditableBackupCheckpoint('metadata-ready',{total:sourceIds.length});
   editableBackupStageProgress={phase:'starting-worker',completed:0,total:sourceIds.length,bytes:0};
-  addInkDiagnostic('editable-backup-preparation-phase',null,{phase:'starting-worker',sourceCount:sourceIds.length,documents:documents.length});
+  addInkDiagnostic('editable-backup-preparation-phase',null,{phase:'starting-worker',sourceCount:sourceIds.length,documents:documentIds.length});
   writeDiagnosticHealthBreadcrumb('editable-backup-starting-worker');
   const preferences = {};
   for (const key of ['pdfwb-scroll-mode','pdfwb-fit-mode','pdfwb-library-view','pdfwb-library-sort','pdfwb-graph-subtool','pdfwb-graph-border-style','pdfwb-graph-color','pdfwb-graph-node-size',PRESENTATION_TOOL_VISIBILITY_KEY]) {
     try { const value = localStorage.getItem(key); if (value != null) preferences[key] = value; } catch {}
   }
-  const manifest = {
-    format: 'PDF Workbench Editable Library Backup', backupFormatVersion: LIBRARY_BACKUP_FORMAT_VERSION,
-    applicationVersion: APP_VERSION, librarySchemaVersion: LIBRARY_SCHEMA_VERSION,
-    createdAt: new Date().toISOString(), documents, folders, assets, assetFolders,
-    meta: { session: session || serializeLibrarySession(), templates: templatesMeta || serializeTemplatesForLibrary() },
+  const header = {
+    format:'PDF Workbench Editable Library Backup',
+    backupFormatVersion:LIBRARY_BACKUP_FORMAT_VERSION,
+    applicationVersion:APP_VERSION,
+    librarySchemaVersion:LIBRARY_SCHEMA_VERSION,
+    createdAt:new Date().toISOString(),
     preferences,
   };
-  addInkDiagnostic('editable-backup-stage-start', null, { mode:'opfs-sync-worker', sourceCount:sourceIds.length, documents:documents.length });
+  addInkDiagnostic('editable-backup-stage-start', null, {mode:'opfs-sync-worker', sourceCount:sourceIds.length, documents:documentIds.length});
   editableBackupStageProgress = { phase:'starting', completed:0, total:sourceIds.length, bytes:0, sourceSize:0 };
   let worker = null;
   try {
@@ -2816,6 +2818,15 @@ async function createStagedIPadEditableLibraryBackup() {
       worker.onmessage = event => {
         const msg = event.data || {};
         if (msg.type === 'error') { fail(new Error(msg.message || 'Backup writer failed.')); return; }
+        // Small acknowledgements isolate startup, OPFS, IndexedDB, and first-source
+        // failures even when WebKit terminates before the normal progress stream.
+        if (msg.type === 'worker-loaded' || msg.type === 'prepare-received' || msg.type === 'startup-phase') {
+          const phase = msg.type === 'startup-phase' ? msg.phase : msg.type;
+          editableBackupStageProgress = {phase,completed:0,total:sourceIds.length,bytes:0};
+          recordEditableBackupCheckpoint(phase,{total:sourceIds.length});
+          addInkDiagnostic('editable-backup-worker-startup',null,{phase});
+          return;
+        }
         if (msg.type === 'ready') { if (!settled) { settled = true; resolve(msg); } return; }
         if (msg.type === 'source-start' || msg.type === 'progress' || msg.type === 'phase') {
           const completed = Number(msg.completed || 0), total = Number(msg.total || sourceIds.length);
@@ -2846,7 +2857,7 @@ async function createStagedIPadEditableLibraryBackup() {
         }
       };
       recordEditableBackupCheckpoint('worker-dispatch',{total:sourceIds.length});
-      worker.postMessage({ type:'prepare', slot, sourceIds, manifest });
+      worker.postMessage({ type:'prepare', slot, sourceIds, header });
       addInkDiagnostic('editable-backup-worker-requested',null,{sourceCount:sourceIds.length});
       writeDiagnosticHealthBreadcrumb('editable-backup-worker-requested');
     });
@@ -2857,7 +2868,7 @@ async function createStagedIPadEditableLibraryBackup() {
     updatePreparedEditableBackupButtons();
     await recordDurableEditableBackupCheckpoint('prepared',{completed:sourceIds.length,total:sourceIds.length,bytes:result.bytes});
     addInkDiagnostic('editable-backup-stage-ready',null,{bytes:result.bytes, entries:result.entries, sourceCount:sourceIds.length});
-    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Editable backup prepared (${(result.bytes/1048576).toFixed(1)} MB; ${documents.length} documents, ${sourceIds.length} sources). Tap Download prepared backup to save it outside Workbench.`;
+    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Editable backup prepared (${(result.bytes/1048576).toFixed(1)} MB; ${result.documents} documents, ${sourceIds.length} sources). Tap Download prepared backup to save it outside Workbench.`;
     setStatus('Editable backup prepared — download required');
     if (previous && previous.slot !== slot) root.removeEntry(previous.slot).catch(()=>{});
   } catch (err) {

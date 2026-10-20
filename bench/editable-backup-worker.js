@@ -23,6 +23,25 @@ const requestResult = req => new Promise((resolve, reject) => {
   req.onsuccess = () => resolve(req.result);
   req.onerror = () => reject(req.error || new Error('IndexedDB read failed.'));
 });
+// The main thread sends only a small backup header and source IDs. Read all
+// document/asset/folder metadata locally instead of structured-cloning it
+// through postMessage, which may exhaust iPad WebKit memory at dispatch.
+async function readBackupMetadata(db, header) {
+  const getAll = store => requestResult(db.transaction(store,'readonly').objectStore(store).getAll());
+  const getMeta = key => requestResult(db.transaction('meta','readonly').objectStore('meta').get(key));
+  const [documents,folders,assets,assetFolders,session,templates] = await Promise.all([
+    getAll('documents'),getAll('folders'),getAll('assets'),getAll('assetFolders'),
+    getMeta('session'),getMeta('templates'),
+  ]);
+  return {
+    ...header,documents,folders,assets,assetFolders,
+    meta:{
+      session:session || {key:'session',schemaVersion:header.librarySchemaVersion,openIds:[],currentDocumentId:null,workspaceMode:'export',splitView:false},
+      templates:templates || {key:'templates',schemaVersion:header.librarySchemaVersion,templates:[],newLastPageDefault:{kind:'graph',templateId:null},updatedAt:Date.now()},
+    },
+  };
+}
+const startupPhase = phase => self.postMessage({type:'startup-phase',phase});
 const uint16 = (view, offset, value) => view.setUint16(offset, value, true);
 const uint32 = (view, offset, value) => view.setUint32(offset, value >>> 0, true);
 
@@ -104,8 +123,10 @@ function createZip(handle) {
 }
 
 async function runBackup(job) {
+  startupPhase('begin');
   if (!self.navigator.storage?.getDirectory) throw new Error('OPFS storage is not available.');
   const root = await self.navigator.storage.getDirectory();
+  startupPhase('opfs-root-open');
   const file = await root.getFileHandle(job.slot, { create: true });
   if (typeof file.createSyncAccessHandle !== 'function') {
     throw new Error('This iPad browser does not support direct incremental file writes. Use Windows Workbench for full editable backup.');
@@ -113,6 +134,7 @@ async function runBackup(job) {
   let handle = null, db = null, finished = false;
   try {
     handle = await file.createSyncAccessHandle();
+    startupPhase('sync-handle-open');
     handle.truncate(0);
     const zip = createZip(handle);
     db = await new Promise((resolve, reject) => {
@@ -121,6 +143,9 @@ async function runBackup(job) {
       req.onerror = () => reject(req.error || new Error('Could not open Library in backup worker.'));
       req.onupgradeneeded = () => reject(new Error('Library database is not initialized.'));
     });
+    startupPhase('worker-db-open');
+    const manifest = await readBackupMetadata(db,job.header);
+    startupPhase('worker-metadata-ready');
     const sourceManifest = [];
     for (let i = 0; i < job.sourceIds.length; i++) {
       // Per-item function scope helps reclaim large IndexedDB ArrayBuffer clones.
@@ -148,7 +173,7 @@ async function runBackup(job) {
       await pause();
     }
     self.postMessage({ type: 'phase', phase: 'manifest', completed: job.sourceIds.length, total: job.sourceIds.length, bytes: zip.bytes });
-    const manifest = { ...job.manifest, sources: sourceManifest };
+    manifest.sources = sourceManifest;
     await zip.addFile('manifest.json', JSON.stringify(manifest));
     await zip.addFile('README.txt', [
       'PDF Workbench Editable Library Backup', '',
@@ -163,7 +188,7 @@ async function runBackup(job) {
     finished = true;
     handle.close(); handle = null;
     db.close(); db = null;
-    self.postMessage({ type: 'ready', ...result, total: job.sourceIds.length });
+    self.postMessage({ type: 'ready', ...result, documents:manifest.documents.length, total: job.sourceIds.length });
   } finally {
     if (db) { try { db.close(); } catch {} }
     if (handle) { try { handle.close(); } catch {} }
@@ -173,7 +198,11 @@ async function runBackup(job) {
 
 self.onmessage = event => {
   if (event.data?.type !== 'prepare') return;
+  self.postMessage({type:'prepare-received'});
   runBackup(event.data).catch(err => {
     self.postMessage({ type: 'error', message: String(err?.message || err) });
   });
 };
+
+// Confirms that the worker script loaded, before any backup storage is touched.
+self.postMessage({type:'worker-loaded'});

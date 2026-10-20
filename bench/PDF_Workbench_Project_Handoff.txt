@@ -1,3 +1,30 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.63-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.
+Continue future work from packaged 5.8.63-exp ZIP.
+
+5.8.63 IPAD EDITABLE BACKUP — WORKER STARTUP/HANDOFF REDUCTION (EXPERIMENTAL)
+
+Evidence:
+- User retested full editable Library backup on 5.8.62; new diagnostics at 19:33 contain durable attempt checkpoint for attempt mvfy97qd-ds3fs0: local phase worker-dispatch, durable phase worker-created, completed 0/189, bytes 0. Previous-runtime health breadcrumb ends at editable-backup-worker-dispatch, with phase starting 0/189. The backup did not reach source-start, did not finish, and did not record a caught worker error. The cause of the WebKit restart remains unproved.
+- Source inspection found 5.8.62 simultaneously read all document/folder/asset metadata on the UI thread and sent the full object graph in worker.postMessage({manifest}). Structured clone of a large manifest at dispatch is a plausible immediate WebKit pressure point; the diagnostic's worker-dispatch checkpoint was recorded just BEFORE the postMessage call, not confirmation it completed.
+- The separate whole-Library PDF archive path previously succeeded on iPad using a dedicated OPFS synchronous writer, so worker construction and synchronous OPFS support were demonstrably usable for that operation. This does not prove the editable backup worker can read its first source or complete.
+
+Changes:
+1. Before worker dispatch, main thread fetches only IndexedDB source/document keys (no bulk documents/assets/folders). It sends worker only source IDs, chosen staging slot, and a small header/preferences object. The worker independently reads document/folder/asset/session/template metadata from the existing IndexedDB stores and assembles the SAME editable v1 manifest locally. No Library schema or export/restore format changes.
+2. The worker reports explicit early acknowledgments: worker-loaded, prepare-received, begin, opfs-root-open, sync-handle-open, worker-db-open, worker-metadata-ready. The main thread writes each into the independent localStorage backup checkpoint and lightweight diagnostics to distinguish startup/OPFS/DB/metadata failures before source 1.
+3. Worker-ready result now includes document count, preserving the prepared-backup UI summary without transferring full document records back to UI.
+4. Full PDF export, its successful disk-staged archive writer, and all viewer, Split, annotation, and backup-download logic remain unchanged.
+
+Checks:
+- JS syntax and release consistency pass.
+- Worker simulation with 189 source records, document/folder metadata, a larger source, and a non-ASCII source name completed. It emitted all startup acknowledgments, 189 progress records, 191 ZIP entries (189 sources + manifest/README), and its resulting standard ZIP passes integrity checks and manifest counts.
+- NOT YET VALIDATED on iPad or with the actual ~500-700 MB Library. Do not claim this resolves the restart until real device testing. One controlled test if user chooses; save diagnostics after failure. If it again restarts at worker-dispatch, consider alternative staging architecture instead of repeated crash trials. Obtain a dependable full editable backup on Windows in the meantime.
+
+===============================================================================
+PRIOR 5.8.62 HANDOFF / PROJECT HISTORY FOLLOWS
+===============================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.62-exp
 
 THIS SECTION IS AUTHORITATIVE OVER THE PRIOR HISTORY BELOW.
