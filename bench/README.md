@@ -1,3 +1,13 @@
+# PDF Workbench 5.8.64-exp
+
+## Milestone 5.8.64 — reduce editable-backup manifest memory peak (experimental)
+
+- iPad 5.8.63 diagnostic at 19:52 shows **all 189/189 sources** written (~150,545,489 bytes), then an app/WebKit restart while entering the `manifest` phase. This is substantially more progress than the prior worker-dispatch failure. It is not evidence of a damaged PDF or a failed source copy, and it does not prove memory exhaustion as the native crash cause.
+- The backup worker previously used IndexedDB `getAll()` for documents, folders, assets, and asset folders **before copying source data**, retaining that metadata through the full backup. After the last source it also created one large `JSON.stringify(manifest)` and UTF-8 buffer. Both can contribute to a late memory peak.
+- The worker now writes all binary sources first, then retrieves metadata **one store at a time**, and serializes/writes the manifest JSON in incremental pieces, while producing the unchanged format-version-1 ZIP. It records manifest-store start/loaded/written phases and manifest-written for better failure localization.
+- This does **not** change PDF archive export, backup download/discard, viewer workers, rendering, Library schema, or the restore format. Prepared PDF archives remain usable across restarts **and Library edits** until discarded or replaced, but represent a snapshot at creation time; their stored generation does not auto-update.
+- Syntax, release checks, 189-source synthetic archive, ZIP integrity and manifest semantic comparison pass. **iPad remains unvalidated.** Do not repeatedly crash-test an active Library. Obtain a dependable editable backup on Windows if possible.
+
 # PDF Workbench 5.8.63-exp
 
 ## Milestone 5.8.63 — smaller editable-backup worker handoff and better startup tracing

@@ -1,3 +1,19 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.64-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS AND TEST PRIORITY TEXT BELOW.
+Continue from packaged 5.8.64-exp ZIP.
+
+5.8.64 IPAD EDITABLE BACKUP — MANIFEST MEMORY PEAK REDUCTION (EXPERIMENTAL)
+- New 2026-10-19 19:52 diagnostics from 5.8.63 show completed=189/189, bytes=150545489, last phase `manifest`, and an app/WebKit runtime restart. User saw a white screen that recovered after Home/app return. No ordinary JavaScript error was caught. That is the precise last observed boundary, not proof of native OOM.
+- In 5.8.63 the worker preloaded all documents/folders/assets and meta via getAll before streaming any sources; at the end, it built a single potentially large manifest string and encoded it, increasing memory pressure when source buffers could linger.
+- 5.8.64 waits until the sources have finished, flushes the staged file, reads metadata one store at a time and writes manifest.json incrementally via async generator. Adds `manifest-<store>-start`, -loaded, -written and `manifest-written` stage diagnostics. Retains identical v1 manifest keys and ZIP/restore compatibility. Main thread passes a small document-count number to preserve existing UI summary.
+- Prepared whole-Library PDF archive uses separate OPFS slot+localStorage pointer and is NOT automatically invalidated by Library edits. It stays until Discard, successful replacement or browser storage eviction/clear; historical data may be stale. Candidate later UX improvement: show created date and stale indicator rather than silently deleting it.
+- Full-PDF archive writer, viewers, strict iPad PDF worker limit, stored Library, and backup download untouched. Live iPad validation pending. Stop repeat crash loops; Windows remains safer for a dependable full editable backup.
+
+================================================================================
+PREVIOUS 5.8.63 HANDOFF FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.63-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS/TEST PRIORITY TEXT BELOW.

@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.63';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.64';
 
-const APP_VERSION = '5.8.63';
+const APP_VERSION = '5.8.64';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -2851,13 +2851,13 @@ async function createStagedIPadEditableLibraryBackup() {
             }
           } else {
             addInkDiagnostic('editable-backup-stage-phase', null, {phase:msg.phase,completed,total,bytes:msg.bytes});
-            if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = msg.phase === 'manifest' ? 'Writing editable backup manifest…' : 'Finalizing editable backup…';
+            if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = msg.phase?.startsWith('manifest') ? 'Writing editable backup manifest…' : 'Finalizing editable backup…';
             writeDiagnosticHealthBreadcrumb(`editable-backup-${msg.phase}`);
           }
         }
       };
       recordEditableBackupCheckpoint('worker-dispatch',{total:sourceIds.length});
-      worker.postMessage({ type:'prepare', slot, sourceIds, header });
+      worker.postMessage({ type:'prepare', slot, sourceIds, header, documentCount:documentIds.length });
       addInkDiagnostic('editable-backup-worker-requested',null,{sourceCount:sourceIds.length});
       writeDiagnosticHealthBreadcrumb('editable-backup-worker-requested');
     });

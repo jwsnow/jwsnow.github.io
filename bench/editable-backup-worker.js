@@ -23,23 +23,42 @@ const requestResult = req => new Promise((resolve, reject) => {
   req.onsuccess = () => resolve(req.result);
   req.onerror = () => reject(req.error || new Error('IndexedDB read failed.'));
 });
-// The main thread sends only a small backup header and source IDs. Read all
-// document/asset/folder metadata locally instead of structured-cloning it
-// through postMessage, which may exhaust iPad WebKit memory at dispatch.
-async function readBackupMetadata(db, header) {
-  const getAll = store => requestResult(db.transaction(store,'readonly').objectStore(store).getAll());
-  const getMeta = key => requestResult(db.transaction('meta','readonly').objectStore('meta').get(key));
-  const [documents,folders,assets,assetFolders,session,templates] = await Promise.all([
-    getAll('documents'),getAll('folders'),getAll('assets'),getAll('assetFolders'),
-    getMeta('session'),getMeta('templates'),
-  ]);
-  return {
-    ...header,documents,folders,assets,assetFolders,
-    meta:{
-      session:session || {key:'session',schemaVersion:header.librarySchemaVersion,openIds:[],currentDocumentId:null,workspaceMode:'export',splitView:false},
-      templates:templates || {key:'templates',schemaVersion:header.librarySchemaVersion,templates:[],newLastPageDefault:{kind:'graph',templateId:null},updatedAt:Date.now()},
-    },
+// Keep source bytes and rich Library metadata out of memory at the same time.
+// The backup manifest is assembled *after* the binary sources, one store at a
+// time, and serialized incrementally, rather than JSON.stringify-ing a single
+// potentially large all-records object while earlier source data may linger.
+async function* streamBackupManifest(db, header, sourceManifest, onStorePhase) {
+  const getAll = store => requestResult(db.transaction(store, 'readonly').objectStore(store).getAll());
+  const getMeta = key => requestResult(db.transaction('meta', 'readonly').objectStore('meta').get(key));
+  // This header is deliberately small (format, versions, date, preferences).
+  yield JSON.stringify(header).slice(0, -1);
+  for (const store of ['documents','folders','assets','assetFolders']) {
+    onStorePhase(store, 'start');
+    yield `,${JSON.stringify(store)}:[`;
+    // getAll is scoped to one store. Once all its entries are emitted, its
+    // array can be reclaimed before we read the next store.
+    const records = await getAll(store);
+    onStorePhase(store, 'loaded', records.length);
+    for (let i = 0; i < records.length; i++) {
+      if (i) yield ',';
+      yield JSON.stringify(records[i]);
+      // Let WebKit process/collect between large document records.
+      if (i % 8 === 7) await pause();
+    }
+    yield ']';
+    onStorePhase(store, 'written', records.length);
+    await pause();
+  }
+  const session = await getMeta('session') || {
+    key:'session',schemaVersion:header.librarySchemaVersion,openIds:[],
+    currentDocumentId:null,workspaceMode:'export',splitView:false,
   };
+  const templates = await getMeta('templates') || {
+    key:'templates',schemaVersion:header.librarySchemaVersion,
+    templates:[],newLastPageDefault:{kind:'graph',templateId:null},updatedAt:Date.now(),
+  };
+  yield `,"meta":{"session":${JSON.stringify(session)},"templates":${JSON.stringify(templates)}}`;
+  yield `,"sources":${JSON.stringify(sourceManifest)}}`;
 }
 const startupPhase = phase => self.postMessage({type:'startup-phase',phase});
 const uint16 = (view, offset, value) => view.setUint16(offset, value, true);
@@ -80,7 +99,16 @@ function createZip(handle) {
       for (let j = 0; j < bytes.byteLength; j++) crc = crcTable[(crc ^ bytes[j]) & 255] ^ (crc >>> 8);
       writeBuffer(bytes);
     }
-    if (payload instanceof Blob) {
+    if (payload && typeof payload[Symbol.asyncIterator] === 'function') {
+      // JSON text can be many megabytes; do not build one giant UTF-8 buffer.
+      for await (const piece of payload) {
+        const bytes = typeof piece === 'string' ? encoder.encode(piece) : piece;
+        for (let start = 0; start < bytes.byteLength; start += WRITE_CHUNK_BYTES) {
+          await chunk(bytes.subarray(start, start + WRITE_CHUNK_BYTES));
+        }
+        await pause();
+      }
+    } else if (payload instanceof Blob) {
       for (let start = 0; start < payload.size; start += WRITE_CHUNK_BYTES) {
         const part = new Uint8Array(await payload.slice(start, start + WRITE_CHUNK_BYTES).arrayBuffer());
         await chunk(part);
@@ -144,8 +172,9 @@ async function runBackup(job) {
       req.onupgradeneeded = () => reject(new Error('Library database is not initialized.'));
     });
     startupPhase('worker-db-open');
-    const manifest = await readBackupMetadata(db,job.header);
-    startupPhase('worker-metadata-ready');
+    // Do not read rich Library metadata until *after* all binary sources have
+    // been written: holding both was an avoidable memory peak in 5.8.63.
+    startupPhase('worker-db-ready');
     const sourceManifest = [];
     for (let i = 0; i < job.sourceIds.length; i++) {
       // Per-item function scope helps reclaim large IndexedDB ArrayBuffer clones.
@@ -173,8 +202,15 @@ async function runBackup(job) {
       await pause();
     }
     self.postMessage({ type: 'phase', phase: 'manifest', completed: job.sourceIds.length, total: job.sourceIds.length, bytes: zip.bytes });
-    manifest.sources = sourceManifest;
-    await zip.addFile('manifest.json', JSON.stringify(manifest));
+    handle.flush(); // Give the written source archive a durable checkpoint.
+    await pause();
+    const onStorePhase = (store, step, count) => self.postMessage({
+      type:'phase',phase:`manifest-${store}-${step}`,
+      completed:job.sourceIds.length,total:job.sourceIds.length,bytes:zip.bytes,
+      manifestRecords:count,
+    });
+    await zip.addFile('manifest.json', streamBackupManifest(db, job.header, sourceManifest, onStorePhase));
+    self.postMessage({ type:'phase', phase:'manifest-written', completed:job.sourceIds.length, total:job.sourceIds.length, bytes:zip.bytes });
     await zip.addFile('README.txt', [
       'PDF Workbench Editable Library Backup', '',
       'This is a ZIP-based PDF Workbench backup container.',
@@ -188,7 +224,7 @@ async function runBackup(job) {
     finished = true;
     handle.close(); handle = null;
     db.close(); db = null;
-    self.postMessage({ type: 'ready', ...result, documents:manifest.documents.length, total: job.sourceIds.length });
+    self.postMessage({ type: 'ready', ...result, documents:job.documentCount, total: job.sourceIds.length });
   } finally {
     if (db) { try { db.close(); } catch {} }
     if (handle) { try { handle.close(); } catch {} }
