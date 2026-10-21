@@ -1582,6 +1582,18 @@ of people from the cemetery who were BORN before 1880, between 1880 and 1920, be
 </div>
 </li>
 
+<li>
+<button class='expander' data-open='NAEPData' data-close='dummyExpandableDiv'>NAEP Data</button>
+<div class='expandable' id='NAEPData'>
+This data gives the percentage of eighth grade students testing proficient in Math and Reading in 2024 on the NAEP test.
+<ul>
+<li>
+<button onclick='deleteAllLists();insertData(NAEPStates, NAEPLabels[0] ,0); insertData(NAEPMath, NAEPLabels[1] ,1); insertData(NAEPReading, NAEPLabels[2] ,2); '>NAEP Data</button>
+</li>
+</ul>
+</div>
+</li>
+
 </ul>
 </div>
 <script>
@@ -1604,6 +1616,12 @@ deleteSpecificList(l);
 		openDiv(dataListDiv);	
 
 }
+//NAEP
+var NAEPLabels=['State', 'Math', 'Reading'];
+var NAEPStates=['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'NewHampshire', 'NewJersey', 'NewMexico', 'NewYork', 'NorthCarolina', 'NorthDakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'SouthCarolina', 'SouthDakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'WestVirginia', 'Wisconsin', 'Wyoming'];
+var NAEPMath=[18,22,26,20,25,32,32,19,21,24,23,31,32,31,27,26,24,21,25,25,37,24,34,22,23,32,32,20,32,37,14,26,31,29,32,17,24,31,26,24,33,31,24,35,29,29,30,18,37,30];
+var NAEPReading=[21,22,25,25,28,35,35,23,25,31,29,32,33,33,31,25,29,27,26,33,40,24,28,23,26,31,27,26,34,38,19,31,27,25,32,20,27,31,30,26,29,31,25,31,29,29,31,21,31,29];
+
 // Fall 2026 Data ==============================================================================
 //All
 var ClassF26BirthMonths=[2,6,8,6,9,13,4,9,4,6,1,7];
