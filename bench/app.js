@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.64';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.65';
 
-const APP_VERSION = '5.8.64';
+const APP_VERSION = '5.8.65';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -19496,6 +19496,21 @@ function onResize() {
 }
 
 
+// Finger scrolling is manual because the annotation canvas uses touch-action:none.
+// iPad/WebKit can deliver coalesced pointer movement in a very short interval.
+// Never allow one such velocity estimate to turn an ordinary page swipe into a
+// many-page fling. These limits apply to the coast AFTER release, not to dragging.
+const VIEWER_TOUCH_INERTIA_MAX_SPEED_PX_MS = 4.5;
+const VIEWER_TOUCH_INERTIA_MAX_TRAVEL_VIEWPORTS = 2.5;
+
+function boundedViewerTouchVelocity(vx, vy) {
+  const speed = Math.hypot(vx, vy);
+  if (!Number.isFinite(speed)) return {vx:0, vy:0, clipped:true};
+  if (speed <= VIEWER_TOUCH_INERTIA_MAX_SPEED_PX_MS) return {vx, vy, clipped:false};
+  const scale = VIEWER_TOUCH_INERTIA_MAX_SPEED_PX_MS / speed;
+  return {vx:vx * scale, vy:vy * scale, clipped:true};
+}
+
 function cancelViewerTouchInertia(owner) {
   if (owner.touchInertiaFrame) cancelAnimationFrame(owner.touchInertiaFrame);
   owner.touchInertiaFrame = null;
@@ -19509,6 +19524,7 @@ function startViewerTouchPan(owner, point) {
     lastT: performance.now(),
     vx: 0,
     vy: 0,
+    speedClamped: false,
   };
 }
 
@@ -19519,14 +19535,21 @@ function moveViewerTouchPan(viewer, owner, point) {
     return;
   }
   const now = performance.now();
-  const dt = Math.max(1, now - pan.lastT);
+  const dt = Math.max(8, now - pan.lastT); // do not amplify near-simultaneous/coalesced events
   const dx = point.x - pan.lastX;
   const dy = point.y - pan.lastY;
   viewer.scrollLeft -= dx;
   viewer.scrollTop -= dy;
-  const instVX = dx / dt, instVY = dy / dt;
-  pan.vx = pan.vx * .58 + instVX * .42;
-  pan.vy = pan.vy * .58 + instVY * .42;
+  const sample = boundedViewerTouchVelocity(dx / dt, dy / dt);
+  if (sample.clipped && !pan.speedClamped) {
+    pan.speedClamped = true;
+    addInkDiagnostic('viewer-touch-pan-speed-clamped', null, {
+      sampleDtMs:Math.round(dt), sampleDistancePx:Math.round(Math.hypot(dx,dy)),
+      maximumSpeedPxMs:VIEWER_TOUCH_INERTIA_MAX_SPEED_PX_MS,
+    });
+  }
+  pan.vx = pan.vx * .58 + sample.vx * .42;
+  pan.vy = pan.vy * .58 + sample.vy * .42;
   pan.lastX = point.x;
   pan.lastY = point.y;
   pan.lastT = now;
@@ -19548,22 +19571,55 @@ function settleViewerSnap(viewer) {
 
 function startViewerTouchInertia(viewer, owner, scrollMode, vx, vy) {
   cancelViewerTouchInertia(owner);
-  if (scrollMode !== 'continuous' || Math.hypot(vx, vy) < .035) return;
-  let last = performance.now();
+  if (scrollMode !== 'continuous') return;
+  const originalSpeed = Math.hypot(vx, vy);
+  const bounded = boundedViewerTouchVelocity(vx, vy);
+  vx = bounded.vx;
+  vy = bounded.vy;
+  if (Math.hypot(vx, vy) < .035) return;
+  const start = performance.now();
+  const fromTop = viewer.scrollTop;
+  const fromLeft = viewer.scrollLeft;
+  const maxTravel = Math.max(1, viewer.clientHeight) * VIEWER_TOUCH_INERTIA_MAX_TRAVEL_VIEWPORTS;
+  let traveled = 0;
+  let last = start;
+  addInkDiagnostic('viewer-touch-inertia-start', null, {
+    source:'finger-release',
+    originalSpeedPxMs:Number(originalSpeed.toFixed(2)),
+    appliedSpeedPxMs:Number(Math.hypot(vx,vy).toFixed(2)),
+    speedClamped:bounded.clipped,
+    startScrollTop:Math.round(fromTop),
+    maxTravelPx:Math.round(maxTravel),
+  });
+  const finish = (reason, now) => {
+    owner.touchInertiaFrame = null;
+    addInkDiagnostic('viewer-touch-inertia-finish', null, {
+      reason,
+      durationMs:Math.round(now-start),
+      travelPx:Math.round(traveled),
+      startScrollTop:Math.round(fromTop),
+      endScrollTop:Math.round(viewer.scrollTop),
+      startScrollLeft:Math.round(fromLeft),
+      endScrollLeft:Math.round(viewer.scrollLeft),
+    });
+  };
   const step = (now) => {
     const dt = Math.min(32, Math.max(1, now - last));
     last = now;
+    const requested = Math.hypot(vx * dt, vy * dt);
+    const remaining = Math.max(0, maxTravel - traveled);
+    if (!requested || !remaining) { finish('travel-limit', now); return; }
+    const factor = Math.min(1, remaining / requested);
     const beforeX = viewer.scrollLeft, beforeY = viewer.scrollTop;
-    viewer.scrollLeft -= vx * dt;
-    viewer.scrollTop -= vy * dt;
-    // A slightly longer coast than 5.6.8. Keep this independent of the
-    // touch-intent engagement logic so we can tune release feel without
-    // changing when a deliberate finger drag is recognized.
+    viewer.scrollLeft -= vx * dt * factor;
+    viewer.scrollTop -= vy * dt * factor;
+    const movedPx = Math.hypot(viewer.scrollLeft - beforeX, viewer.scrollTop - beforeY);
+    traveled += movedPx;
     const decay = Math.pow(.95, dt / 16.67);
     vx *= decay; vy *= decay;
-    const moved = Math.abs(viewer.scrollLeft - beforeX) + Math.abs(viewer.scrollTop - beforeY) > .05;
-    if (Math.hypot(vx, vy) < .018 || !moved) {
-      owner.touchInertiaFrame = null;
+    if (traveled >= maxTravel - .5 || factor < 1) { finish('travel-limit', now); return; }
+    if (Math.hypot(vx, vy) < .018 || movedPx <= .05) {
+      finish(movedPx <= .05 ? 'edge' : 'settled', now);
       return;
     }
     owner.touchInertiaFrame = requestAnimationFrame(step);

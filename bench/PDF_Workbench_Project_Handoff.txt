@@ -1,3 +1,32 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-21 — BASELINE 5.8.65-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS AND TEST PRIORITY TEXT BELOW.
+Continue from packaged 5.8.65-exp ZIP.
+
+5.8.65 IPAD UNEXPECTED SCROLL FLING — TOUCH INERTIA GUARD (EXPERIMENTAL)
+
+EVIDENCE
+- User reported several bizarre scroll jumps during normal iPad Presentation use and provided PDF-Workbench-Saved-Diagnostics-2026-10-21_13-33.zip (snapshots last generated 11:45 local).
+- Within 5.8.64 diagnostics for the 25-page "Slides - Chapter 9.3 - Matched Pairs.pdf" in Single/Continuous/Presentation, the final finger contact (pointerId 74545716) ended at t=2711191. Viewer page-intersection render requests then traversed from page index 17 (~page 18) near t=2711353 to index 1 (~page 2) at t=2711925, around 0.73 seconds after finger-up. There is no new finger contact until much later, no viewer rebuild/zoom or source change in that sequence, and no render errors. This is consistent with excessively rapid post-release custom finger-scroll inertia. Browser scrollTop and velocity were not previously logged, so it is not proof of exact underlying cause; it is a strong inference.
+- Diagnostics also contain an ~846 ms event-loop gap earlier during repeated finger gestures. Delayed or coalesced pointermoves may cause the manual inertia velocity estimate to become unrealistically high when the interevent time is very short. The source previously used dt>=1 ms and did not cap post-release speed or distance.
+
+CHANGES
+1. In `moveViewerTouchPan`, use a minimum 8 ms interval for estimating velocity, bound sample velocity magnitude to 4.5 CSS px/ms, and leave the actual finger-drag scroll delta unchanged.
+2. In `startViewerTouchInertia`, bound initial coast velocity magnitude to 4.5 CSS px/ms and total post-release coast distance to 2.5 viewport heights. Normal Continuous mode finger flicks still coast, and Snap/Single modes are not given new inertia. Viewer layout, document scroll restoration, PDF worker behavior, annotations and backup formats remain unchanged.
+3. Record `viewer-touch-pan-speed-clamped` (only on the first clamped sample of each drag), `viewer-touch-inertia-start` (speed and start scroll position), and `viewer-touch-inertia-finish` (distance, final position, stop reason).
+
+VALIDATION
+- Focused Node regression tests pass: extreme vertical and diagonal velocities stay bounded; ordinary flick still coasts; direct dragging moves its full raw distance; Snap mode remains unaffected. JavaScript syntax and release consistency pass.
+- Live iPad test: in Presentation Continuous view, make ordinary one-finger drags and quick flicks in a multi-page document; ensure they feel normal and do not fling 10+ pages. Also test Split. If another jump occurs, save Diagnostics immediately and inspect start/finish inertia events, offsets, and any programmatic viewer rebuild. If there is no inertia event spanning it, investigate a different scroll mechanism.
+
+OTHER CURRENT STATE
+- 5.8.64 editable whole-Library backup was confirmed successful end-to-end by user: iPad prepared and downloaded archive, Surface imported it, exported PDFs and created another editable backup. iPad uses STORE (larger ZIP); Surface uses compression (smaller ZIP). Do not revert the working backup path.
+- The latest source remains two managed PDF workers on iPad; avoid increasing worker pressure and do not disturb reliable Files -> Open -> View, Split, template previews, and staged exports.
+
+================================================================================
+PRIOR 5.8.64 HANDOFF / HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-19 — BASELINE 5.8.64-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS AND TEST PRIORITY TEXT BELOW.

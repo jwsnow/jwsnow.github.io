@@ -1,6 +1,14 @@
-# PDF Workbench 5.8.64-exp
+# PDF Workbench 5.8.65-exp
 
-## Milestone 5.8.64 — reduce editable-backup manifest memory peak (experimental)
+## Milestone 5.8.65 — bound unexpected finger-scroll inertia (experimental)
+
+- October 21 iPad diagnostics show a 25-page lecture PDF moving from approximately page 18 to page 2 within ~0.73 s after the final finger-up, with no viewer rebuild or render error. The only apparent navigation source was the manual touch-inertia path; individual scroll offsets/velocities were not previously logged, so this is a strong hypothesis rather than proven root cause.
+- Protect the velocity calculation against near-simultaneous/coalesced touch events; cap inertial speed at 4.5 CSS pixels/ms and post-release inertial travel to 2.5 viewport heights. Actual finger dragging is unbounded.
+- Record `viewer-touch-pan-speed-clamped`, `viewer-touch-inertia-start`, and `viewer-touch-inertia-finish` diagnostics (start/end scroll offsets, applied speed, travel and stop reason). No changes to viewer rendering, stored scroll formats, PDF worker management, exports, or Library.
+- Validate on iPad with ordinary finger drags and quick flicks in Continuous Single and Split modes. If another scroll jump occurs, save Diagnostics immediately; check whether the inertia start/finish spans the jump.
+
+
+## Milestone 5.8.65 — reduce editable-backup manifest memory peak (experimental)
 
 - iPad 5.8.63 diagnostic at 19:52 shows **all 189/189 sources** written (~150,545,489 bytes), then an app/WebKit restart while entering the `manifest` phase. This is substantially more progress than the prior worker-dispatch failure. It is not evidence of a damaged PDF or a failed source copy, and it does not prove memory exhaustion as the native crash cause.
 - The backup worker previously used IndexedDB `getAll()` for documents, folders, assets, and asset folders **before copying source data**, retaining that metadata through the full backup. After the last source it also created one large `JSON.stringify(manifest)` and UTF-8 buffer. Both can contribute to a late memory peak.
