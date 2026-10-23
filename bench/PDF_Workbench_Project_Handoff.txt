@@ -1,3 +1,28 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-23 — BASELINE 5.8.66-exp
+
+5.8.66 — iPadOS standalone PWA status bar/top toolbar blur (visual experiment)
+- User reports blurred top edge over Workbench toolbar after iPadOS update.
+- Existing index.html ALREADY specifies apple-mobile-web-app-status-bar-style=default.
+  Do not ask user to remove/re-add Home Screen PWA; current editable Library is
+  attached to local standalone browser storage. Reinstallation risks access.
+- There are current public reports of iOS 27 status-bar glass blur overlapping
+  fixed PWA headers, even with opaque backgrounds. Not proven in Workbench yet.
+- Make standard `.app-bar` background fully opaque (instead of 94% color-mix);
+  make Presentation annotation toolbar opaque and disable its own backdrop blur.
+- Add real, 2px opaque `#iosStatusColorAnchor` at the viewport top only when an
+  installed Apple PWA is detected; no safe-area changes or layout displacement.
+- The meta tag remains `default`. This is intended to work through a normal
+  deployed Workbench update, without removing the installed Home Screen app.
+- Preserve all 5.8.65 momentum safeguards, prior PDF worker/source management,
+  5.8.64 editable-backup solution, and stable Library content/format.
+- iPad testing needed: ordinary toolbar and Presentation, View/Split/Files,
+  in landscape and portrait. If blur remains, collect a screenshot before
+  attempting any larger safe-area/toolbar geometry change. No reinstalls.
+
+================================================================================
+PREVIOUS PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-21 — BASELINE 5.8.65-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS AND TEST PRIORITY TEXT BELOW.

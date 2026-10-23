@@ -1,3 +1,17 @@
+# PDF Workbench 5.8.66-exp
+
+## Milestone 5.8.66 — iPadOS PWA top-bar visual workaround (experimental)
+
+- The existing `apple-mobile-web-app-status-bar-style` is already `default`; changing
+  installation metadata or reinstalling is not appropriate with a local Library.
+- Normal and Presentation toolbar backgrounds are now fully opaque; the Presentation
+  annotation toolbar no longer applies its own backdrop blur.
+- Installed iPad/iPhone standalone PWAs place a noninteractive, real 2px background
+  color anchor at the top edge for the system status-bar color sampling. Nothing
+  moves or resizes; no new app state, PDF, or Library code is introduced.
+- Validate on actual iPadOS, including Presentation and ordinary toolbars. WebKit may
+  still force native glass blur; do not re-add the Home Screen icon to test this.
+
 # PDF Workbench 5.8.65-exp
 
 ## Milestone 5.8.65 — bound unexpected finger-scroll inertia (experimental)
