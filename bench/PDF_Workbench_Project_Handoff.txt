@@ -1,3 +1,53 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-26 — BASELINE 5.8.68-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.
+Continue from the packaged 5.8.68-exp ZIP.
+
+5.8.68 IPAD INDEXEDDB LARGE-DOCUMENT READ MITIGATION
+
+USER-OBSERVED FAILURES
+- 2026-10-26 on iPadOS/Safari 27.0.1, intermittent startup Library errors, long startup retries, whole-Library PDF exports and editable backups failed with UnknownError: "An internal error was encountered in the Indexed Database server". User also reported folder PDF export failing with that error.
+- Diagnostics from 5.8.66 show startup repeatedly failing at read-records (15 failures in one run), then succeeding after 6 failures on a later run with 203 records. A subsequent whole-Library PDF export failed ~3.8s after its save completed, before PDF generation progress, consistent with refreshLibraryRecords().
+- Editable backup copied all 239 source files (~189.5 MB) then failed at manifest-documents-start, before documents were loaded. Thus the shared failure boundary is the bulk IndexedDB read of the rich documents store, not ZIP construction or quota exhaustion.
+- 5.8.67 was released as a copy of 5.8.65 with a version bump; this revision is based on 5.8.67. The October 26 diagnostic snapshots identify running version 5.8.66; this should be checked when testing the updated installation.
+
+CHANGES
+1. On iPad only, the central libraryGetAll('documents') now pages through two records per short readonly IndexedDB transaction using exclusive lowerBound(lastKey). It retries one failed batch once with a short delay; diagnostic events library-documents-batch-read-error, -progress, and -complete report progress without exposing document identities. Other platforms and other stores are unchanged.
+2. The iPad editable-backup worker writes manifest documents in two-record batches rather than issuing one giant documents.getAll() clone. Other stores and backup JSON/ZIP format remain unchanged. Manifest phase messages report batch counts and read retries.
+3. No Library data/schema migration, no persistence/write path changes, and no modification to PDF.js, presentation, annotations, or the fixed scroll behavior.
+
+WHY / LIMITS
+- The successful earlier editable backup contained a very large editable metadata manifest. A single getAll() of every rich annotated document can place substantial load on iPadOS IndexedDB's interprocess structured-clone path.
+- The diagnostic error is from WebKit IndexedDB, so small reads are a risk mitigation, not a proven OS bug fix. A corrupt large individual record or an underlying database-service failure could still cause errors. Preserve earlier verified off-device backup, and do not clear/remove the PWA.
+- A folder PDF export still uses the existing in-memory ZIP exporter; this release addresses its initial all-documents metadata read but does not redesign ZIP memory usage.
+
+VALIDATE
+- Launch 5.8.68 and confirm About/Diagnostics version. Open Files; check deep folders, counts, selection, and restored View normally.
+- Watch new library-documents-batch-complete, then try a small folder PDF export (after confirming Library stable) before either full backup. Do not repeat large exports if the error persists.
+- Editable backup should pass manifest-documents-start and emit manifest-documents-batch then manifest-documents-loaded/written. Verify output on Surface, never restore over the iPad Library just to test.
+- Save Diagnostics after any failure; read first failing batch number/count. Normal iPad startup may take longer due to many small transactions.
+
+===============================================================================
+PRIOR HANDOFF FOLLOWS
+===============================================================================
+
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-23 — BASELINE 5.8.67-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS AND TEST PRIORITY TEXT BELOW.
+Continue from the packaged 5.8.67-exp ZIP.
+
+5.8.67 — CLEAN REVERT OF 5.8.66 IPADOS TOOLBAR BLUR EXPERIMENT
+- 5.8.66 made the ordinary and Presentation toolbars opaque, removed an internal blur effect, and added a noninteractive top status-bar background strip to address an iPadOS system blur.
+- User's comparison showed no improvement in blur. iPadOS Reduce Transparency removes the blur, providing a system-setting workaround without relocating the toolbar.
+- User explicitly does NOT want the toolbar moved or resized to escape the blurred area.
+- This release is **5.8.65 code and styling**, versioned as 5.8.67: no 5.8.66 visual experiment remains. Fresh service-worker cache and asset query versions for normal in-place upgrade.
+- No changes to app logic beyond release-version strings, backup formats, Library persistence, rendering/worker management, annotations, toolbar location, or tool commands.
+- Full version and release checks pass. Check current Live PWA visually after normal update; no reinstall/removal of Home Screen app because its Library is device-local.
+
+================================================================================
+PRIOR 5.8.66 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-23 — BASELINE 5.8.66-exp
 
 5.8.66 — iPadOS standalone PWA status bar/top toolbar blur (visual experiment)

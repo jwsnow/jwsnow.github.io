@@ -1,16 +1,20 @@
-# PDF Workbench 5.8.66-exp
+# PDF Workbench 5.8.68-exp
 
-## Milestone 5.8.66 — iPadOS PWA top-bar visual workaround (experimental)
+## Milestone 5.8.68 — mitigate iPad IndexedDB bulk-document read errors
 
-- The existing `apple-mobile-web-app-status-bar-style` is already `default`; changing
-  installation metadata or reinstalling is not appropriate with a local Library.
-- Normal and Presentation toolbar backgrounds are now fully opaque; the Presentation
-  annotation toolbar no longer applies its own backdrop blur.
-- Installed iPad/iPhone standalone PWAs place a noninteractive, real 2px background
-  color anchor at the top edge for the system status-bar color sampling. Nothing
-  moves or resizes; no new app state, PDF, or Library code is introduced.
-- Validate on actual iPadOS, including Presentation and ordinary toolbars. WebKit may
-  still force native glass blur; do not re-add the Home Screen icon to test this.
+- On iPad, read annotated Library document metadata in batches of two rather than one `getAll()` clone. This affects initial Library restoration, folder exports, and whole-Library PDF exports.
+- The editable-backup worker uses the same small-batch strategy when writing `manifest.json`.
+- Adds IndexedDB batch progress/error diagnostics. Read paths only; no document/Library schema changes, no rendering changes.
+- Restores the normal toolbar styling from 5.8.65, as preserved in 5.8.67.
+
+## Prior milestone 5.8.67 — revert unsuccessful iPadOS toolbar blur experiment
+
+- This release is a clean copy of **5.8.65-exp application code and styling**, updated only for the 5.8.68 release identity, asset cache-busting references, and service-worker cache name.
+- Removes all 5.8.66 experimental top status-bar background and opaque/blur-suppression toolbar CSS by returning to the exact 5.8.65 files. Does not reposition the toolbar.
+- User verified that iPadOS Reduce Transparency removes the system-applied blur; Workbench's 5.8.66 workaround did not help. Reduce Transparency remains the workaround.
+- Keeps 5.8.65 finger-scroll inertia safeguards and all previously validated editable-backup, PDF export, Files, Split View, and annotation logic. Local Library data/schema untouched.
+
+---
 
 # PDF Workbench 5.8.65-exp
 

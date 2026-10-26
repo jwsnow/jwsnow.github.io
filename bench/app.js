@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.66';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.68';
 
-const APP_VERSION = '5.8.66';
+const APP_VERSION = '5.8.68';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -398,9 +398,49 @@ async function libraryGet(storeName, key) {
   const { store } = libraryStore(storeName);
   return idbRequest(store.get(key));
 }
+// Large annotated document records can make a single documents.getAll()
+// marshal hundreds of MB through iPadOS's IndexedDB server. On iPad, read
+// these records in tiny, separately committed transactions instead. This is
+// read-only and does not alter document records or the Library schema.
 async function libraryGetAll(storeName) {
-  const { store } = libraryStore(storeName);
-  return idbRequest(store.getAll());
+  if (storeName !== 'documents' || !isIPadLike()) {
+    const { store } = libraryStore(storeName);
+    return idbRequest(store.getAll());
+  }
+  const batchSize = 2;
+  const records = [];
+  let lastKey = null, batch = 0;
+  for (;;) {
+    let part, lastError;
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        const { store } = libraryStore('documents');
+        const range = lastKey === null ? undefined : IDBKeyRange.lowerBound(lastKey, true);
+        part = await idbRequest(store.getAll(range, batchSize));
+        break;
+      } catch (err) {
+        lastError = err;
+        addInkDiagnostic('library-documents-batch-read-error', null, {
+          batch:batch + 1, countRead:records.length, attempt,
+          errorName:String(err?.name || ''), errorMessage:String(err?.message || err),
+        });
+        if (attempt < 2) await sleep(120);
+      }
+    }
+    if (!part) throw lastError || new Error('Could not read Library documents.');
+    if (!part.length) break;
+    records.push(...part);
+    lastKey = part[part.length - 1].id;
+    batch++;
+    if (batch % 8 === 0) {
+      addInkDiagnostic('library-documents-batch-progress', null, {batches:batch, countRead:records.length});
+      // Allow WebKit to reclaim the transient structured-clone buffers.
+      await sleep(0);
+    }
+    if (part.length < batchSize) break;
+  }
+  addInkDiagnostic('library-documents-batch-complete', null, {batches:batch, countRead:records.length});
+  return records;
 }
 async function libraryGetStartupCritical(storeName, key, operation='read') {
   let lastError = null;

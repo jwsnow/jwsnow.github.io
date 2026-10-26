@@ -15,21 +15,6 @@
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: var(--bg); color: var(--text); }
-/* iPadOS 27 standalone web-app status bar sometimes composites a glass blur
-   over page pixels at the top edge. Give WebKit a real opaque color sampler;
-   unlike a pseudo-element this is detectable by its status bar heuristics.
-   The 2px strip is not interactive and does not move either toolbar. */
-#iosStatusColorAnchor { display: none; }
-html.wb-ios-standalone #iosStatusColorAnchor {
-  display: block;
-  position: fixed;
-  inset: 0 0 auto 0;
-  height: 2px;
-  background-color: #f8f9fb;
-  pointer-events: none;
-  z-index: 400;
-}
-
 button, input { font: inherit; }
 button { -webkit-tap-highlight-color: transparent; }
 /* 5.7.37: pressed acknowledgement without CSS filter/compositing changes on iPad Safari. */
@@ -39,7 +24,7 @@ button:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 65%, 
 .visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 .app-shell { height: 100%; display: grid; grid-template-rows: var(--bar-h) minmax(0,1fr) var(--status-h); }
-.app-bar { position: relative; z-index: 40; min-width: 0; height: var(--bar-h); display: flex; align-items: center; gap: 8px; padding: max(4px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) 4px max(8px, env(safe-area-inset-left)); background: var(--panel); border-bottom: 1px solid var(--border); }
+.app-bar { position: relative; z-index: 40; min-width: 0; height: var(--bar-h); display: flex; align-items: center; gap: 8px; padding: max(4px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) 4px max(8px, env(safe-area-inset-left)); background: color-mix(in srgb, var(--panel) 94%, transparent); border-bottom: 1px solid var(--border); }
 .brand { font-weight: 650; white-space: nowrap; margin-right: 4px; }
 .primary-actions, .viewer-controls { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .primary-actions { flex: 1 1 auto; }
@@ -1788,9 +1773,7 @@ body.presentation .presentation-toolbar.annotation-toolbar {
   transform-origin: top left;
   height: calc(var(--annotation-bar-h) + env(safe-area-inset-top));
   padding-top: calc(4px + env(safe-area-inset-top));
-  background: var(--panel);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  background: rgb(248 249 251 / .96);
   opacity: 1 !important;
   pointer-events: auto !important;
 }

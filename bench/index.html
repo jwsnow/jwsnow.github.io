@@ -8,25 +8,12 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="PDF Workbench">
-  <script>
-    // iPadOS installed PWA: supply a real, opaque top-edge color anchor for
-    // the system status bar without changing the install-time metadata.
-    // No app data, cache, viewport, or Library state is touched.
-    if ((/iPad|iPhone|iPod/.test(navigator.userAgent) ||
-         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) &&
-        (navigator.standalone === true || matchMedia('(display-mode: standalone)').matches)) {
-      document.documentElement.classList.add('wb-ios-standalone');
-    }
-  </script>
   <title>PDF Workbench</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.8.66">
+  <link rel="stylesheet" href="styles.css?v=5.8.68">
 </head>
 <body>
-  <!-- A real 2px opaque element lets current iPadOS sample the proper status
-       bar backing color; it never changes view bounds or intercepts touches. -->
-  <div id="iosStatusColorAnchor" aria-hidden="true"></div>
   <div id="app" class="app-shell">
     <header class="app-bar" aria-label="PDF Workbench controls">
       <div class="brand" aria-label="PDF Workbench">PDF Workbench</div>
@@ -989,6 +976,6 @@
     </dialog>
   </div>
 
-  <script type="module" src="app.js?v=5.8.66"></script>
+  <script type="module" src="app.js?v=5.8.68"></script>
 </body>
 </html>

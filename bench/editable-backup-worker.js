@@ -30,23 +30,61 @@ const requestResult = req => new Promise((resolve, reject) => {
 async function* streamBackupManifest(db, header, sourceManifest, onStorePhase) {
   const getAll = store => requestResult(db.transaction(store, 'readonly').objectStore(store).getAll());
   const getMeta = key => requestResult(db.transaction('meta', 'readonly').objectStore('meta').get(key));
+  // The document store contains rich annotation state; reading every record
+  // with getAll() can overload WebKit's IndexedDB process. Read just two
+  // documents per transaction, write them immediately, and release each batch.
+  // Other metadata stores are small enough to preserve their existing reads.
+  async function* documentBatches() {
+    let lastKey = null, batch = 0, count = 0;
+    for (;;) {
+      let records, lastError;
+      for (let attempt = 1; attempt <= 2; attempt++) {
+        try {
+          const store = db.transaction('documents', 'readonly').objectStore('documents');
+          const range = lastKey === null ? undefined : IDBKeyRange.lowerBound(lastKey, true);
+          records = await requestResult(store.getAll(range, 2));
+          break;
+        } catch (err) {
+          lastError = err;
+          onStorePhase('documents', 'read-retry', count);
+          if (attempt < 2) await new Promise(resolve => setTimeout(resolve, 120));
+        }
+      }
+      if (!records) throw lastError || new Error('Could not read backup document metadata.');
+      if (!records.length) break;
+      count += records.length;
+      batch++;
+      yield records;
+      lastKey = records[records.length - 1].id;
+      if (batch % 8 === 0) { onStorePhase('documents', 'batch', count); await pause(); }
+      if (records.length < 2) break;
+    }
+  }
   // This header is deliberately small (format, versions, date, preferences).
   yield JSON.stringify(header).slice(0, -1);
   for (const store of ['documents','folders','assets','assetFolders']) {
     onStorePhase(store, 'start');
     yield `,${JSON.stringify(store)}:[`;
-    // getAll is scoped to one store. Once all its entries are emitted, its
-    // array can be reclaimed before we read the next store.
-    const records = await getAll(store);
-    onStorePhase(store, 'loaded', records.length);
-    for (let i = 0; i < records.length; i++) {
-      if (i) yield ',';
-      yield JSON.stringify(records[i]);
-      // Let WebKit process/collect between large document records.
-      if (i % 8 === 7) await pause();
+    let written = 0;
+    if (store === 'documents') {
+      for await (const records of documentBatches()) {
+        for (const record of records) {
+          if (written++) yield ',';
+          yield JSON.stringify(record);
+        }
+        await pause();
+      }
+      onStorePhase(store, 'loaded', written);
+    } else {
+      const records = await getAll(store);
+      onStorePhase(store, 'loaded', records.length);
+      for (const record of records) {
+        if (written++) yield ',';
+        yield JSON.stringify(record);
+      }
     }
     yield ']';
-    onStorePhase(store, 'written', records.length);
+    onStorePhase(store, 'written', written);
     await pause();
   }
   const session = await getMeta('session') || {
