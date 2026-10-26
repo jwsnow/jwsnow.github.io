@@ -1,3 +1,32 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-26 — BASELINE 5.8.69-exp
+
+THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.
+Continue from the packaged 5.8.69-exp ZIP.
+
+5.8.69 FULL-LIBRARY PDF ARCHIVE PREPARED-DOWNLOAD RECOVERY
+
+OBSERVED AFTER 5.8.68
+- Folder PDF export succeeded; entire editable Library backup prepared and downloaded successfully. Batch document reads appear to have mitigated earlier IndexedDB server errors.
+- On iPad, two distinct full-Library PDF archive attempts fully staged and finalized all 175 PDF entries. Diagnostics `library-pdf-archive-stage-ready` reports 195001103 and 195001119 bytes respectively.
+- Without an intervening recorded app restart, the subsequent Download attempts returned `No prepared PDF archive is available.` This error is thrown when `preparedPdfArchiveInfo()` returns null: the localStorage metadata pointer was missing/invalid, NOT a documented failure of PDF generation or ZIP finalization.
+- User also reports PWA restarting/Library restoring after exporting Diagnostics. The available trace is consistent with a native download-system-UI handoff; no proven WebKit cause and no general lifecycle fix here.
+
+CHANGES
+1. Retain a session-local prepared-PDF-archive descriptor independently of localStorage; tolerate a failed localStorage write without discarding a successfully staged ZIP.
+2. When downloading, and once after startup, resolve the prepared archive against the two known OPFS staging slots. Validate the standard 22-byte ZIP end-of-central-directory footer, entry count, central directory coordinates and exact archive length, reading only the small footer. Recover the newest complete archive if its metadata pointer was lost; incomplete slots are not offered for download. Store the reconstructed reference if possible and expose the Download button.
+3. Add `library-pdf-archive-recovered`, `library-pdf-archive-metadata-store-error`, and recovery-error instrumentation; diagnostic-export download handoff now writes a durable health breadcrumb.
+4. ZIP writer, editable backup algorithm, 5.8.68 IndexedDB batch reads, Library schema, rendering/worker architecture and all document data formats remain unchanged.
+
+VALIDATE
+- On the iPad, install normally, check About version 5.8.69, and try the Download prepared PDF archive button before generating another backup if it is shown. A previously completed staged archive may be recoverable without rerunning the 175-PDF export.
+- Verify the ZIP in Files, preferably on Surface with a ZIP integrity test, before discarding the prepared archive.
+- If a new full PDF archive is needed, prepare once and download once. A failed download should now give a more precise error if the actual staged ZIP is inaccessible.
+- Diagnostics export may still trigger a genuine WebKit restart. Inspect `diagnostic-export-download-handoff` and previous-runtime breadcrumbs, but do not attribute a restart to an intentional Library refresh without evidence.
+
+===============================================================================
+PRIOR HANDOFF FOLLOWS
+===============================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-26 — BASELINE 5.8.68-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.

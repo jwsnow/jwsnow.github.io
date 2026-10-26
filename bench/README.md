@@ -1,4 +1,23 @@
-# PDF Workbench 5.8.68-exp
+# PDF Workbench 5.8.69-exp
+
+## Milestone 5.8.69 — recover staged PDF exports when archive metadata is missing
+
+- Diagnostics from 2026-10-26 confirm that both iPad full-Library PDF export attempts fully finalized a 175-item ZIP (~195 MB), but a later tap on Download failed in the same runtime with "No prepared PDF archive is available." The PDF generation was successful; the saved localStorage pointer was unavailable at download.
+- Keep a session-local prepared-archive pointer as well as the persisted pointer; losing localStorage no longer invalidates an archive within the same runtime.
+- Recover complete archive files directly from the existing two OPFS staging slots when the pointer is missing or stale. Inspect only the 22-byte ZIP end-of-central-directory record and file length/central-directory bounds rather than loading the archive into JS memory. Reject incomplete ZIPs and prefer the newest complete slot. Restore metadata and expose the Download button after startup.
+- Record archive metadata-storage errors and successful OPFS recoveries. Before exporting Diagnostics, checkpoint the native download handoff; a WebKit/iPadOS process restart after the system download UI is not claimed fixed.
+- Preserve the 5.8.68 two-record IndexedDB reads, working full editable backup, existing PDF archive writing, annotations, worker pool, Library schema and toolbar position. No reinstall or storage clearing is required.
+
+### Suggested iPad validation
+
+1. Normal startup: confirm version 5.8.69 and that Library/backup controls remain responsive. If a complete previously staged PDF archive exists, the Download button may reappear automatically.
+2. Tap Download prepared PDF archive and verify the ZIP exists in Files; no new PDF generation should be needed.
+3. If unavailable, prepare a fresh full-Library PDF archive once, then download it. Check Diagnostics for `library-pdf-archive-recovered` or `library-pdf-archive-download-requested`.
+4. Test Diagnostics export separately. If a Library restore still follows, the breadcrumb `diagnostic-export-download-handoff` should help attribute a true process restart. Do not alter or clear the working Library.
+
+---
+
+# Prior milestone 5.8.68
 
 ## Milestone 5.8.68 — mitigate iPad IndexedDB bulk-document read errors
 

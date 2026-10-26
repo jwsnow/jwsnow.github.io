@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.68';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.69';
 
-const APP_VERSION = '5.8.68';
+const APP_VERSION = '5.8.69';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -2420,11 +2420,87 @@ async function ensureRecordSourcesLoaded(record) {
 const PREPARED_PDF_ARCHIVE_KEY = 'pdfwb-prepared-pdf-archive-v1';
 const PDF_ARCHIVE_OPFS_SLOTS = ['pdfwb-pdf-archive-a.zip','pdfwb-pdf-archive-b.zip'];
 let wholeLibraryPdfArchiveInProgress = false;
+// A prepared archive is a complete ZIP in OPFS; localStorage is only a small
+// pointer to it. iPadOS can lose that pointer independently of the OPFS file.
+// Retain a runtime pointer and, when necessary, recover by validating the
+// archive footer on disk (without loading the large ZIP into JS memory).
+let preparedPdfArchiveSessionInfo = null;
+function validPreparedPdfArchiveInfo(value) {
+  return value && PDF_ARCHIVE_OPFS_SLOTS.includes(value.slot) &&
+    typeof value.filename === 'string' && value.filename.length > 0 &&
+    Number.isSafeInteger(value.size) && value.size >= 22 ? value : null;
+}
 function preparedPdfArchiveInfo() {
+  if (validPreparedPdfArchiveInfo(preparedPdfArchiveSessionInfo)) return preparedPdfArchiveSessionInfo;
   try {
-    const saved = JSON.parse(localStorage.getItem(PREPARED_PDF_ARCHIVE_KEY) || 'null');
-    return saved && PDF_ARCHIVE_OPFS_SLOTS.includes(saved.slot) && typeof saved.filename === 'string' ? saved : null;
+    return validPreparedPdfArchiveInfo(JSON.parse(localStorage.getItem(PREPARED_PDF_ARCHIVE_KEY) || 'null'));
   } catch { return null; }
+}
+function rememberPreparedPdfArchive(meta) {
+  preparedPdfArchiveSessionInfo = validPreparedPdfArchiveInfo(meta);
+  try { localStorage.setItem(PREPARED_PDF_ARCHIVE_KEY, JSON.stringify(meta)); }
+  catch (err) {
+    addInkDiagnostic('library-pdf-archive-metadata-store-error', null, {message:String(err?.message || err)});
+  }
+  updatePreparedPdfArchiveActions();
+}
+// Our ZIP writer finishes with the ordinary, 22-byte ZIP32 end-of-directory
+// record (without a ZIP comment). Check that footer and its central directory
+// coordinates; a crashed/incomplete staging slot must not be offered as ready.
+async function pdfArchiveHasCompleteFooter(file) {
+  if (!file || file.size < 22 || file.size > 0xFFFFFFFF) return false;
+  const bytes = await file.slice(file.size - 22).arrayBuffer();
+  const view = new DataView(bytes);
+  return view.getUint32(0, true) === 0x06054B50 &&
+    view.getUint16(4, true) === 0 && view.getUint16(6, true) === 0 &&
+    view.getUint16(8, true) > 0 &&
+    view.getUint16(8, true) === view.getUint16(10, true) &&
+    view.getUint16(20, true) === 0 &&
+    view.getUint32(12, true) + view.getUint32(16, true) + 22 === file.size;
+}
+async function resolvePreparedPdfArchive() {
+  const prior = preparedPdfArchiveInfo();
+  const root = await getEditableBackupOPFSRoot();
+  if (prior) {
+    try {
+      const file = await (await root.getFileHandle(prior.slot)).getFile();
+      if (file.size === prior.size && await pdfArchiveHasCompleteFooter(file))
+        return {meta:prior, file};
+    } catch { /* Try the surviving OPFS slots below. */ }
+  }
+  const candidates = [];
+  for (const slot of PDF_ARCHIVE_OPFS_SLOTS) {
+    try {
+      const file = await (await root.getFileHandle(slot)).getFile();
+      if (await pdfArchiveHasCompleteFooter(file)) candidates.push({slot,file});
+    } catch { /* A missing or incomplete slot is not a prepared archive. */ }
+  }
+  candidates.sort((a,b) => b.file.lastModified - a.file.lastModified);
+  const found = candidates[0];
+  if (!found) {
+    preparedPdfArchiveSessionInfo = null;
+    try { localStorage.removeItem(PREPARED_PDF_ARCHIVE_KEY); } catch {}
+    updatePreparedPdfArchiveActions();
+    return null;
+  }
+  const d = new Date(Number.isFinite(found.file.lastModified) ? found.file.lastModified : Date.now());
+  const pad = n => String(n).padStart(2,'0');
+  const suffix = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}_${pad(d.getHours())}-${pad(d.getMinutes())}`;
+  const meta = {slot:found.slot, size:found.file.size,
+    filename:`PDF-Workbench-Library-PDFs-${suffix}.zip`,
+    createdAt:found.file.lastModified, recovered:true};
+  rememberPreparedPdfArchive(meta);
+  addInkDiagnostic('library-pdf-archive-recovered', null, {
+    slot:meta.slot, bytes:meta.size, priorPointer:!!prior,
+  });
+  return {meta,file:found.file};
+}
+async function refreshPreparedPdfArchiveFromDisk() {
+  if (wholeLibraryPdfArchiveInProgress || !isIPadLike()) return;
+  try { await resolvePreparedPdfArchive(); }
+  catch (err) {
+    addInkDiagnostic('library-pdf-archive-recovery-error',null,{message:String(err?.message||err)});
+  }
 }
 function updatePreparedPdfArchiveActions() {
   const meta = preparedPdfArchiveInfo();
@@ -2434,25 +2510,29 @@ function updatePreparedPdfArchiveActions() {
 }
 async function downloadPreparedPdfArchive() {
   try {
-    const meta = preparedPdfArchiveInfo();
-    if (!meta) throw new Error('No prepared PDF archive is available.');
-    const root = await getEditableBackupOPFSRoot();
-    const file = await (await root.getFileHandle(meta.slot)).getFile();
-    if (file.size !== meta.size) throw new Error('The prepared PDF archive is incomplete.');
+    const result = await resolvePreparedPdfArchive();
+    if (!result) throw new Error('No complete prepared PDF archive was found in Workbench temporary storage.');
+    const {meta,file} = result;
     downloadBlob(file,meta.filename);
-    addInkDiagnostic('library-pdf-archive-download-requested',null,{bytes:file.size});
+    addInkDiagnostic('library-pdf-archive-download-requested',null,{bytes:file.size,slot:meta.slot,recovered:!!meta.recovered});
     if(els.libraryBackupProgress) els.libraryBackupProgress.textContent='Download requested. Verify that the ZIP was saved outside Workbench before discarding the prepared archive.';
   } catch(err) {
-    addInkDiagnostic('library-pdf-archive-download-error',null,{message:String(err?.message||err)});
+    addInkDiagnostic('library-pdf-archive-download-error',null,{message:String(err?.message||err),pointerPresent:!!preparedPdfArchiveInfo()});
     if(els.libraryBackupProgress) els.libraryBackupProgress.textContent=`Could not download prepared PDF archive: ${err?.message||err}`;
   }
 }
 async function discardPreparedPdfArchive() {
-  const meta=preparedPdfArchiveInfo();
-  if(!meta || !confirm('Discard the prepared PDF archive? Confirm that you saved the ZIP outside Workbench first.')) return;
+  let result;
+  try { result=await resolvePreparedPdfArchive(); }
+  catch (err) {
+    if(els.libraryBackupProgress)els.libraryBackupProgress.textContent=`Could not inspect prepared PDF archive: ${err?.message||err}`;
+    return;
+  }
+  if(!result || !confirm('Discard the prepared PDF archive? Confirm that you saved the ZIP outside Workbench first.')) return;
   try {
-    await (await getEditableBackupOPFSRoot()).removeEntry(meta.slot);
-    localStorage.removeItem(PREPARED_PDF_ARCHIVE_KEY);
+    await (await getEditableBackupOPFSRoot()).removeEntry(result.meta.slot);
+    preparedPdfArchiveSessionInfo=null;
+    try { localStorage.removeItem(PREPARED_PDF_ARCHIVE_KEY); } catch {}
     updatePreparedPdfArchiveActions();
     if(els.libraryBackupProgress)els.libraryBackupProgress.textContent='Prepared PDF archive discarded; Library documents were not affected.';
   } catch(err) {
@@ -2575,8 +2655,7 @@ async function exportWholeLibraryAsPdfsStaged() {
     writeDiagnosticHealthBreadcrumb('library-pdf-archive-finalize');
     const result=await request({type:'finish'});
     const meta={slot,filename:`PDF-Workbench-Library-PDFs-${portableTimestamp()}.zip`,size:result.bytes,createdAt:Date.now()};
-    localStorage.setItem(PREPARED_PDF_ARCHIVE_KEY,JSON.stringify(meta));
-    updatePreparedPdfArchiveActions();
+    rememberPreparedPdfArchive(meta);
     addInkDiagnostic('library-pdf-archive-stage-ready',null,{completed,total,bytes:result.bytes});
     if(els.libraryBackupProgress)els.libraryBackupProgress.textContent=`PDF archive prepared (${(result.bytes/1048576).toFixed(1)} MB; ${records.length} documents${templates.length?`, ${templates.length} templates`:''}). Tap Download prepared PDF archive.`;
     setStatus('Library PDF archive prepared — download required');
@@ -14502,6 +14581,7 @@ async function exportSavedDiagnostics() {
         ? { type:'blob', compression:'STORE', streamFiles:true }
         : { type:'blob', compression:'DEFLATE', compressionOptions:{level:6}, streamFiles:true };
       const blob = await zip.generateAsync(zipOptions);
+      writeDiagnosticHealthBreadcrumb('diagnostic-export-download-handoff');
       downloadBlob(blob, `PDF-Workbench-Saved-Diagnostics-${portableTimestamp()}.zip`);
     }
     addInkDiagnostic('diagnostic-export-finish', null, {
@@ -20958,6 +21038,9 @@ async function init() {
   setStatus('Restoring local Library…', true);
   const libraryRestored = await initializePersistentLibrary();
   await refreshSavedDiagnosticsUi();
+  // A native download or iPad process restart may leave the ZIP in OPFS even
+  // when its localStorage pointer is missing. Inspect only tiny ZIP footers.
+  void refreshPreparedPdfArchiveFromDisk();
   if (libraryRestored) {
     setStatus(state.documents.length ? `Restored ${state.documents.length} open document${state.documents.length === 1 ? '' : 's'} from local Library` : 'Ready');
   } else {
