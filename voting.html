@@ -47,7 +47,7 @@ tbody td{padding:9px 17px;border-bottom:1px solid #ecf0f2;text-align:right}tbody
 </table>
 </div>
 <div class="bottom">
-<p><strong>Definitions:</strong> Turnout is the share of the <em>voting-eligible population</em> estimated to have cast a ballot. The two seat-loss columns show <strong>net change</strong>, not the number of individual districts or seats that switched parties. For example, <strong>54</strong> means the president’s party lost 54 House seats; <strong>−4</strong> means it gained four.</p>
+<p><strong>Definitions:</strong> Turnout is the share of the <em>voting-eligible population</em> estimated to have cast a ballot. The two seat-loss columns show <strong>net change</strong>, not the number of individual districts or seats that switched parties. For example, <strong>54</strong> means the president’s party lost 54 House seats; <strong>-4</strong> means it gained four.</p>
 <p><strong>Coverage:</strong> Pre-1948 turnout is reconstructed from historical data and is less precise, especially in the early republic. The 1790 and 1794 midterms (Washington) and 1842 (Tyler) are omitted because there is no unambiguous president’s-party comparison. The 2026 election is omitted because its turnout and seat totals are not final as of November 4, 2026.</p>
 <p><strong>Sources:</strong> <a href="https://election.lab.ufl.edu/dataset/national-vep-turnout-rates-1789-present-v1-4/" target="_blank" rel="noopener">University of Florida Election Lab — national VEP turnout series</a> (<a href="https://docs.google.com/spreadsheets/d/1bH38j6_e8yA9xq8OMlyLOL6h_iTS7ABQMKNxzFgKBDo/edit" target="_blank" rel="noopener">historical turnout table</a>); <a href="https://www.brookings.edu/wp-content/uploads/2022/09/2-4-Full.pdf" target="_blank" rel="noopener">Brookings, Vital Statistics on Congress, Table 2-4</a> (1862–1930); <a href="https://www.presidency.ucsb.edu/statistics/data/seats-congress-gainedlost-the-presidents-party-mid-term-elections" target="_blank" rel="noopener">American Presidency Project</a> (1934–2022); earlier seat-change figures from the previously compiled historical election series. Minor discrepancies among sources reflect conventions for vacancies, party affiliation, and congressional seat counts.</p>
 </div>
@@ -60,7 +60,7 @@ let field='year', descending=true;
 const tbody=document.getElementById('rows');
 const query=document.getElementById('search');
 const counter=document.getElementById('counter');
-function signed(n){return n<0?'−'+Math.abs(n):String(n)}
+function signed(n){return n<0?'-'+Math.abs(n):String(n)}
 function draw(){
  const q=query.value.trim();
  const data=ALL_DATA.filter(x=>!q||String(x.year).includes(q));
@@ -71,7 +71,7 @@ function draw(){
   for(const key of ['year','turnout','houseLost','senateLost']){
    const td=document.createElement('td');
    if(key==='year') td.textContent=String(item[key]);
-   else if(key==='turnout'){td.textContent=item.turnout.toFixed(1)+'%';td.className='turnout'}
+   else if(key==='turnout'){td.textContent=item.turnout.toFixed(1);td.className='turnout'}
    else{td.textContent=signed(item[key]);td.className='value '+(item[key]>0?'loss':item[key]<0?'gain':'zero');td.title=item[key]>0?`${item[key]} seats lost`:item[key]<0?`${-item[key]} seats gained`:'No net change'}
    tr.appendChild(td);
   }
@@ -92,7 +92,7 @@ document.querySelectorAll('[data-sort]').forEach(el=>el.addEventListener('click'
 }));
 query.addEventListener('input',draw);
 document.getElementById('csv').addEventListener('click',()=>{
- const heading=['Year','Voter turnout (%)','House seats lost by presidents party','Senate seats lost by presidents party'];
+ const heading=['Year','Voter turnout','House seats lost by presidents party','Senate seats lost by presidents party'];
  const body=ALL_DATA.map(d=>[d.year,d.turnout.toFixed(1),d.houseLost,d.senateLost].join(','));
  const content=[heading.join(','),...body].join('\r\n');
  const url=URL.createObjectURL(new Blob(['\ufeff'+content],{type:'text/csv;charset=utf-8;'}));
