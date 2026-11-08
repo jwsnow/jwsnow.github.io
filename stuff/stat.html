@@ -1838,7 +1838,7 @@ function pasteText(pastedData, tj, ti){
 				
 				if (commas.checked){
 					pastedData=pastedData.replaceAll(',', '\t');
-					commas.checked=false;
+//					commas.checked=false;
 				}
 				//split in rows
 				var rows=pastedData.trimEnd().split('\n');
@@ -1875,7 +1875,7 @@ function pasteText(pastedData, tj, ti){
 					getLists(true);
 					printLists();
 	//				processLists();
-				transposePaste.checked=false;
+	//			transposePaste.checked=false;
 				}
 			
 			}//transpose
