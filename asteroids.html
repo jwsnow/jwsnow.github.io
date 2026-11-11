@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+
+  width: 410px;
+  margin: auto;
+  padding-top: 40px;
+}
+</style>
+<script type="text/javascript" src="spork.js"></script>
+<script>
+//Starship Variables
+     var r;
+     var sx;
+     var sy;
+     sx=200;
+     sy=200;
+
+//Missile Variables
+     var mx;
+     var my;
+     mx=200;
+     my=200;
+     var mdx;
+     var mdy;
+     var rm;
+
+
+
+//Asteroid Variables
+     var tx;
+     var ty;
+     var tdx;
+     var tdy;
+     var ra;
+
+
+     tx=100;
+     ty=100;
+     tdx=1;
+     tdy=1;
+     ra=0;
+
+
+function starship() {
+    fillcolor(236, 240, 241);
+    color(236, 240, 241);
+    save();
+    translate(200,200);
+    rotate(r);
+    translate(0,6);
+    triangle(-22,-3,22,-3,0,10);
+    fill();
+    save();
+    linewidth(2);
+    line(-21.5,-4,-21.5,-15)
+    line(21.5,-4,21.5,-15)
+    line(0,0,0,-34);
+    restore();
+        save();
+        translate(0,-8);
+        linewidth(0);
+        save();
+        triangle(-10,5,10,5,0,-22);
+        fill();
+        restore();
+
+        
+        save();
+        color(41, 128, 185);
+        linewidth(3);
+        arc(0,5,4,-180,0);
+        restore();
+        restore();
+    restore();
+}
+
+function missile() {
+    save();
+    translate(mx,my);
+    mx=mx+mdx;
+    my=my+mdy;
+    rotate(rm);
+    color(46, 204, 113);
+    linewidth(3);
+    line(0,0,0,-18);
+    fill();
+    restore();
+}
+
+function asteroid() {
+    save();
+    translate(tx,ty);
+    rotate(ra);
+    ra=ra-1;
+    tx=(tx+tdx+width)%width;
+    ty=(ty+tdy+height)%height;
+
+    color(155, 89, 182);
+    fillcolor(155, 89, 182);
+    circle(0,0,25);
+    fill();
+
+        //craters
+        linewidth(3);
+        color(142, 68, 173);
+
+        save();
+        rotate(-30);
+        ellipse(2,4,7,6);
+        restore();
+
+        save();
+        rotate(20);
+        ellipse(-3,14,4,3);
+        restore();
+
+        save();
+        rotate(-27);
+        ellipse(3,17,5,3);
+        restore();
+
+        save();
+        rotate(170);
+        ellipse(0,13,5,3);
+        restore();
+
+        save();
+        rotate(-150);
+        ellipse(-2,11,4,3);
+        restore();
+
+        save();
+        rotate(-45);
+        ellipse(-6,-8,6,4.5);
+        restore();
+
+        save();
+        rotate(-85);
+        ellipse(-3,17,4,2.3);
+        restore();
+
+        save();
+        rotate(3);
+        ellipse(1,19.5,4,1.5);
+        restore();
+
+        save();
+        rotate(20);
+        ellipse(-1,-19.5,4,1.5);
+        restore();
+
+        save();
+        rotate(-60);
+        ellipse(2,-18.5,4,2);
+        restore();
+
+        save();
+        rotate(60);
+        ellipse(2,-18.5,4,2);
+        restore();
+
+        save();
+        rotate(40);
+        ellipse(2,-22,2,1);
+        restore();
+
+        save();
+        rotate(115);
+        ellipse(2,-23,2,1);
+        restore();
+
+        save();
+        rotate(-115);
+        ellipse(2,-23,2,1);
+        restore();
+
+        save();
+        rotate(140);
+        ellipse(2,-24,1.5,1);
+        restore();
+
+        save();
+        rotate(-140);
+        ellipse(2,-24,1.5,1);
+        restore();
+
+        save();
+        rotate(115);
+        ellipse(2,24,1.5,1);
+        restore();
+
+        save();
+        rotate(115);
+        ellipse(2,24,1.5,1);
+        restore();
+
+        save();
+        rotate(-115);
+        ellipse(2,24,1.5,1);
+        restore();
+
+        save();
+        rotate(0);
+        ellipse(2,-24,1.5,1);
+        restore();
+
+
+    restore();
+
+}
+
+var lives=10;
+
+function life() {
+     save();
+     linewidth(10);
+     color(39, 174, 96);
+     line(0,height-5,width*lives/10,height-5);
+     restore();
+    
+}
+
+var d;
+var score;
+
+function hitTarget() {
+    d=sqrt((mx-tx)*(mx-tx)+(my-ty)*(my-ty));
+    if(25>d) {
+         score=score+1;            //increase score
+          mx=800;                               //move missile out of the way
+          my=800;
+          mdx=0;
+          mdy=0;
+          tx=random()*width;
+          ty=random()*height;
+          tdx=random()*(score/5);
+          tdy=random()*(score/5);
+    }
+}
+
+function hitSpaceship() {
+    d=sqrt((sx-tx)*(sx-tx)+(sy-ty)*(sy-ty));
+    if(35>d) {
+      lives=lives-1;
+
+      if(lives==0) {
+       stoploop();
+         }
+       tx=random()*width;
+       ty=random()*height;
+       tdx=random()*(score/5);
+       tdy=random()*(score/5);
+    }
+}
+  
+function showscore() {
+    save();
+    translate(300,30);
+    fillcolor(236, 240, 241);
+    filltext(score,-10,0);
+    restore();
+
+}
+
+function setup() {
+    loop();
+    r=0;
+    mdx=800;
+    mdy=0;
+    score=0;
+}
+
+
+function draw() {
+    clear();
+  	if (mouseDown){
+      rotateOnTouch();
+    }
+    background(40, 60, 80);
+    missile();
+    starship();
+    asteroid();
+    hitTarget();
+    hitSpaceship();
+    showscore();
+    life();
+}
+
+
+
+
+
+
+//Controls
+
+function onkeydown() {
+    if  (keyCode==rightArrow) {
+         r=r+15;
+    }
+    if  (keyCode==leftArrow) {
+         r=r-15;
+    }
+
+    //press spacebar
+    if  (keyCode==32) {
+         my=200;
+         mx=200;
+         mdx=(cos(pi*(r-90)/180))*10;
+         mdy=(sin(pi*(r-90)/180))*10;
+         rm=0+r;
+    }
+}
+function rotateOnTouch(){
+  if(mouseX < 100){
+    r=r-4;
+  }
+  else if (mouseX > 300){
+    r=r+4;
+  }
+}
+function onclick(){
+  if((mouseX>100)&&(mouseX<300))
+    {
+      my=200;
+      mx=200;
+      mdx=(cos(pi*(r-90)/180))*10;
+      mdy=(sin(pi*(r-90)/180))*10;
+      rm=0+r;
+    }
+}
+</script>
+</head>
+<body >
+<div id='spork'></div>
+
+<p>Press spacebar to fire a lazer and the left and right arrow keys to rotate the ship.</p>
+</body>
+</html>
