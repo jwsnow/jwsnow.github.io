@@ -1,3 +1,22 @@
+# PDF Workbench 5.8.70-exp
+
+## Milestone 5.8.70 — optional Previous / Next Document in Presentation
+
+- Two optional toolbar buttons, **Previous document** and **Next document**, are now available in the Presentation Tools menu. Both begin hidden; their visibility can be enabled with their checkboxes, using the existing saved toolbar-customization settings.
+- Each step follows the **Open Documents** order. At either end it stays on the document and displays a short nonmodal notice; **no wrapping**.
+- In Split View only the **active pane** changes; the other pane retains its document and viewing position. The existing per-pane source retirement, render and view-state machinery handles document switching.
+- Single View uses the existing document switcher. No changes to toolbar placement, PDF worker limits, IndexedDB, Library schema, backup/archive formats, or annotation data.
+- Added diagnostic events `presentation-document-step` and `presentation-document-step-boundary`.
+
+### Suggested device checks
+1. Enter Presentation, open Tools, enable either or both Document buttons; confirm they appear (and remain hidden until enabled).
+2. On a sequence of open files, use Next and Previous; check document order, state preservation, and boundary messages.
+3. In Split, activate left and step; confirm right remains unchanged. Repeat with right active.
+4. Exit/re-enter Presentation and relaunch; verify toolbar visibility preference persists.
+5. Continue routine grading and verify existing selection and per-document scroll state.
+
+---
+
 # PDF Workbench 5.8.69-exp
 
 ## Milestone 5.8.69 — recover staged PDF exports when archive metadata is missing

@@ -2250,3 +2250,18 @@ body.presentation #presentationExit.presentation-only {
 .export-separate-actions .file-tool-summary { margin-bottom:10px; }
 .export-separate-button-row { display:grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,180px),1fr)); gap:9px; }
 .export-separate-button-row .export-button { margin:0; min-height:42px; font-size:.92rem; }
+
+/* 5.8.70 — optional previous/next-document buttons (hidden by default).
+   Never move the toolbar or change its overall height. */
+.presentation-toolbar.annotation-toolbar .document-step-icon { display:grid; place-items:center; width:22px; height:22px; margin:auto; }
+.presentation-toolbar.annotation-toolbar .document-step-icon svg,
+.presentation-tool-menu-row-icon .document-step-icon svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.presentation-tool-menu-row-icon .document-step-icon { display:grid; place-items:center; width:24px; height:24px; }
+.presentation-document-notice {
+  position:fixed; z-index:290; left:50%; bottom:calc(24px + env(safe-area-inset-bottom));
+  transform:translateX(-50%); max-width:min(90vw,420px); width:max-content;
+  padding:10px 16px; background:rgba(30,38,49,.94); color:white;
+  font-size:14px; font-weight:600; text-align:center; border-radius:9px;
+  box-shadow:0 3px 14px rgba(0,0,0,.25); pointer-events:none;
+}
+.presentation-document-notice.hidden { display:none !important; }

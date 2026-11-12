@@ -1,3 +1,27 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-11-11 — BASELINE 5.8.70-exp
+
+THIS SECTION IS AUTHORITATIVE OVER ALL OLDER STATUS/TODO TEXT BELOW.
+Continue from the packaged 5.8.70-exp ZIP.
+
+5.8.70 OPTIONAL PRESENTATION DOCUMENT STEPPING
+- Previous document and Next document added to Presentation Tools menu as two new registered tool actions with visibility checkboxes; both default to hidden. Enabled buttons appear adjacent to the Presentation document selector.
+- Step through state.documents, the same order as Open Documents and the current document selectors. No wrap at first/last document. A short nonblocking, accessible notice states "Already at the first open document" or "Already at the last open document".
+- Split stepping changes only the active pane via existing setPaneDocument() and preserves the unchanged pane. Single stepping reuses loadDocumentState(). Neither mode changes file selection or underlying Library records.
+- The same navigation actions work from the Tools menu even when the buttons are hidden. Saved visibility settings retain any existing user preferences.
+- Diagnostics: presentation-document-step / presentation-document-step-boundary.
+- No changes to worker lifecycle, PDF rendering, source residency, Library schema, editable backups, PDF export, graph annotations, iPad status-bar or toolbar geometry.
+
+VALIDATION
+1. Enable both controls in Presentation Tools; check first-run hidden default and persistence after restart.
+2. Verify Previous/Next steps follow exactly the Open Documents list, no wrapping, and both boundary notices.
+3. Activate left/right Split panes in turn, step documents, and confirm other pane/its scroll position remains unchanged.
+4. Return to previously visited documents and verify their remembered page/zoom/scroll locations.
+5. Test on iPad and Surface; continue normal grading. Browser syntax/structure checks do not replace real device validation.
+
+================================================================================
+PRIOR 5.8.69 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-10-26 — BASELINE 5.8.69-exp
 
 THIS SECTION IS AUTHORITATIVE OVER OLDER STATUS TEXT BELOW.
