@@ -1,6 +1,6 @@
-import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.70';
+import { GOOGLE_INK_RENDERER, GoogleInkStrokeModeler, modelGoogleInkStroke } from './google-ink-modeler.js?v=5.8.71';
 
-const APP_VERSION = '5.8.70';
+const APP_VERSION = '5.8.71';
 
 const PDFJS_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs';
 const PDFJS_WORKER_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs';
@@ -53,7 +53,7 @@ const els = {
   fitModeBtn: $('fitModeBtn'), fitModeIcon: $('fitModeIcon'), fitModeLabel: $('fitModeLabel'), zoomOutBtn: $('zoomOutBtn'), zoomResetBtn: $('zoomResetBtn'), zoomInBtn: $('zoomInBtn'), zoomLabel: $('zoomLabel'), splitViewBtn: $('splitViewBtn'), splitViewLabel: $('splitViewLabel'), viewInsertBtn: $('viewInsertBtn'), presentBtn: $('presentBtn'),
   moreBtn: $('moreBtn'), moreMenu: $('moreMenu'), clearBtn: $('clearBtn'), installHelpBtn: $('installHelpBtn'), attributionsBtn: $('attributionsBtn'), aboutBtn: $('aboutBtn'),
   viewLayoutActionIcon: $('viewLayoutActionIcon'), presentationLayoutActionIcon: $('presentationLayoutActionIcon'), quickStartBtn: $('quickStartBtn'), featureGuideBtn: $('featureGuideBtn'),
-  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryQuickNewBtn: $('libraryQuickNewBtn'), libraryNewDropdown: $('libraryNewDropdown'), libraryNewBlankMenuBtn: $('libraryNewBlankMenuBtn'), libraryNewCustomMenuBtn: $('libraryNewCustomMenuBtn'), libraryNewTemplateMenuBtn: $('libraryNewTemplateMenuBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), librarySortSelect: $('librarySortSelect'), librarySearchInput: $('librarySearchInput'), librarySearchClearBtn: $('librarySearchClearBtn'), librarySearchSummary: $('librarySearchSummary'), librarySelectionSummary: $('librarySelectionSummary'), librarySelectAllBtn: $('librarySelectAllBtn'), libraryClearSelectionBtn: $('libraryClearSelectionBtn'), libraryMoveSelectedBtn: $('libraryMoveSelectedBtn'), libraryTrashSelectedBtn: $('libraryTrashSelectedBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), emptyTrashBtn: $('emptyTrashBtn'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryPreparedPdfArchiveActions: $('libraryPreparedPdfArchiveActions'), libraryDownloadPreparedPdfArchiveBtn: $('libraryDownloadPreparedPdfArchiveBtn'), libraryDiscardPreparedPdfArchiveBtn: $('libraryDiscardPreparedPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryPreparedBackupActions: $('libraryPreparedBackupActions'), libraryDownloadPreparedBackupBtn: $('libraryDownloadPreparedBackupBtn'), libraryDiscardPreparedBackupBtn: $('libraryDiscardPreparedBackupBtn'), librarySelectedEditableBackupBtn: $('librarySelectedEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), savedDiagnosticsSummary: $('savedDiagnosticsSummary'), exportSavedDiagnosticsBtn: $('exportSavedDiagnosticsBtn'), clearSavedDiagnosticsBtn: $('clearSavedDiagnosticsBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), selectedDocumentsSection: $('selectedDocumentsSection'), selectedOpenBtn: $('selectedOpenBtn'), selectedViewBtn: $('selectedViewBtn'), selectedCloseBtn: $('selectedCloseBtn'), selectedRenameBtn: $('selectedRenameBtn'), selectedDuplicateBtn: $('selectedDuplicateBtn'), selectedMoveBtn: $('selectedMoveBtn'), selectedExportBtn: $('selectedExportBtn'), selectedCompressBtn: $('selectedCompressBtn'), selectedCombineBtn: $('selectedCombineBtn'), selectedEditableBackupBtn: $('selectedEditableBackupBtn'), selectedTrashBtn: $('selectedTrashBtn'), selectedClearBtn: $('selectedClearBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilenameField: $('exportFilenameField'), exportFilename: $('exportFilename'), exportMultipleOptions: $('exportMultipleOptions'), exportDeliveryMode: $('exportDeliveryMode'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'), exportModeNote: $('exportModeNote'), exportSeparateActions: $('exportSeparateActions'), exportSeparateReadySummary: $('exportSeparateReadySummary'), exportShareFilesBtn: $('exportShareFilesBtn'), exportSaveFolderBtn: $('exportSaveFolderBtn'), exportSeparateZipFallbackBtn: $('exportSeparateZipFallbackBtn'), exportSeparateDiscardBtn: $('exportSeparateDiscardBtn'),
+  emptyState: $('emptyState'), viewerPane: $('viewerPane'), viewer: $('viewer'), splitViewer: $('splitViewer'), organizerPane: $('organizerPane'), exportPane: $('exportPane'), libraryDocumentList: $('libraryDocumentList'), librarySummary: $('librarySummary'), libraryBreadcrumb: $('libraryBreadcrumb'), libraryNewFolderBtn: $('libraryNewFolderBtn'), libraryQuickNewBtn: $('libraryQuickNewBtn'), libraryNewDropdown: $('libraryNewDropdown'), libraryNewBlankMenuBtn: $('libraryNewBlankMenuBtn'), libraryNewCustomMenuBtn: $('libraryNewCustomMenuBtn'), libraryNewTemplateMenuBtn: $('libraryNewTemplateMenuBtn'), libraryListViewBtn: $('libraryListViewBtn'), libraryGridViewBtn: $('libraryGridViewBtn'), librarySortSelect: $('librarySortSelect'), librarySearchInput: $('librarySearchInput'), librarySearchClearBtn: $('librarySearchClearBtn'), librarySearchSummary: $('librarySearchSummary'), librarySelectionSummary: $('librarySelectionSummary'), librarySelectAllBtn: $('librarySelectAllBtn'), libraryClearSelectionBtn: $('libraryClearSelectionBtn'), libraryMoveSelectedBtn: $('libraryMoveSelectedBtn'), libraryTrashSelectedBtn: $('libraryTrashSelectedBtn'), trashDocumentList: $('trashDocumentList'), trashSummary: $('trashSummary'), emptyTrashBtn: $('emptyTrashBtn'), libraryStorageSummary: $('libraryStorageSummary'), libraryRefreshBtn: $('libraryRefreshBtn'), libraryImportBtn: $('libraryImportBtn'), libraryImportZipBtn: $('libraryImportZipBtn'), libraryPdfArchiveBtn: $('libraryPdfArchiveBtn'), libraryPreparedPdfArchiveActions: $('libraryPreparedPdfArchiveActions'), libraryPreparedFolderPdfArchiveActions: $('libraryPreparedFolderPdfArchiveActions'), libraryDownloadPreparedFolderPdfArchiveBtn: $('libraryDownloadPreparedFolderPdfArchiveBtn'), libraryDiscardPreparedFolderPdfArchiveBtn: $('libraryDiscardPreparedFolderPdfArchiveBtn'), libraryDownloadPreparedPdfArchiveBtn: $('libraryDownloadPreparedPdfArchiveBtn'), libraryDiscardPreparedPdfArchiveBtn: $('libraryDiscardPreparedPdfArchiveBtn'), libraryEditableBackupBtn: $('libraryEditableBackupBtn'), libraryPreparedBackupActions: $('libraryPreparedBackupActions'), libraryDownloadPreparedBackupBtn: $('libraryDownloadPreparedBackupBtn'), libraryDiscardPreparedBackupBtn: $('libraryDiscardPreparedBackupBtn'), librarySelectedEditableBackupBtn: $('librarySelectedEditableBackupBtn'), libraryRestoreBackupBtn: $('libraryRestoreBackupBtn'), libraryImportBackupBtn: $('libraryImportBackupBtn'), libraryMergeBackupBtn: $('libraryMergeBackupBtn'), libraryRestoreInput: $('libraryRestoreInput'), libraryBackupProgress: $('libraryBackupProgress'), savedDiagnosticsSummary: $('savedDiagnosticsSummary'), exportSavedDiagnosticsBtn: $('exportSavedDiagnosticsBtn'), clearSavedDiagnosticsBtn: $('clearSavedDiagnosticsBtn'), filesTemplatesSummary: $('filesTemplatesSummary'), templatesFilesSection: $('templatesFilesSection'), filesTemplateManager: $('filesTemplateManager'), templateManageModeBar: $('templateManageModeBar'), templateManageBackBtn: $('templateManageBackBtn'), assetsSummary: $('assetsSummary'), assetsFilesSection: $('assetsFilesSection'), assetBrowserHelp: $('assetBrowserHelp'), assetInsertModeBar: $('assetInsertModeBar'), assetInsertModeHelp: $('assetInsertModeHelp'), assetInsertCancelBtn: $('assetInsertCancelBtn'), requestPersistentStorageBtn: $('requestPersistentStorageBtn'), purgeLibraryBtn: $('purgeLibraryBtn'), factoryResetBtn: $('factoryResetBtn'), storageActionStatus: $('storageActionStatus'), openDocumentList: $('openDocumentList'), fileSelectionSummary: $('fileSelectionSummary'), selectAllFilesBtn: $('selectAllFilesBtn'), clearFileSelectionBtn: $('clearFileSelectionBtn'), selectedDocumentList: $('selectedDocumentList'), selectedDocumentsSummary: $('selectedDocumentsSummary'), selectedDocumentsSection: $('selectedDocumentsSection'), selectedOpenBtn: $('selectedOpenBtn'), selectedViewBtn: $('selectedViewBtn'), selectedCloseBtn: $('selectedCloseBtn'), selectedRenameBtn: $('selectedRenameBtn'), selectedDuplicateBtn: $('selectedDuplicateBtn'), selectedMoveBtn: $('selectedMoveBtn'), selectedExportBtn: $('selectedExportBtn'), selectedCompressBtn: $('selectedCompressBtn'), selectedCombineBtn: $('selectedCombineBtn'), selectedEditableBackupBtn: $('selectedEditableBackupBtn'), selectedTrashBtn: $('selectedTrashBtn'), selectedClearBtn: $('selectedClearBtn'), exportOperationSummary: $('exportOperationSummary'), exportSummary: $('exportSummary'), exportFilenameLabel: $('exportFilenameLabel'), exportFilenameField: $('exportFilenameField'), exportFilename: $('exportFilename'), exportMultipleOptions: $('exportMultipleOptions'), exportDeliveryMode: $('exportDeliveryMode'), exportPdfBtn: $('exportPdfBtn'), exportProgress: $('exportProgress'), exportModeNote: $('exportModeNote'), exportSeparateActions: $('exportSeparateActions'), exportSeparateReadySummary: $('exportSeparateReadySummary'), exportShareFilesBtn: $('exportShareFilesBtn'), exportSaveFolderBtn: $('exportSaveFolderBtn'), exportSeparateZipFallbackBtn: $('exportSeparateZipFallbackBtn'), exportSeparateDiscardBtn: $('exportSeparateDiscardBtn'),
   extractOperationSummary: $('extractOperationSummary'), extractSummary: $('extractSummary'), extractDestination: $('extractDestination'), extractFilename: $('extractFilename'), extractPdfBtn: $('extractPdfBtn'), extractProgress: $('extractProgress'),
   splitDestination: $('splitDestination'), splitBaseName: $('splitBaseName'), splitEveryCount: $('splitEveryCount'), splitFixedBtn: $('splitFixedBtn'), splitRanges: $('splitRanges'), splitRangesBtn: $('splitRangesBtn'), splitProgress: $('splitProgress'), splitOperationSummary: $('splitOperationSummary'),
   combineName: $('combineName'), combineList: $('combineList'), combineBtn: $('combineBtn'), combineProgress: $('combineProgress'), combineOperationSummary: $('combineOperationSummary'),
@@ -12381,59 +12381,271 @@ async function useLibraryRecordInView(record) {
   return openLibraryRecord(record, { switchToView:true });
 }
 
-async function exportPdfRecordsToZip(records, folders, filename, rootFolderId=null, { createFolderEntries=true }={}) {
-  const JSZip = await loadZipEngine();
-  const zip = new JSZip();
-  const relevantFolders = folders.filter(folder => folder && !folder.trashedAt);
-  let folderPaths;
-  if (rootFolderId) {
-    const root = relevantFolders.find(folder => folder.id === rootFolderId);
-    const rootIds = new Set([rootFolderId]);
-    let changed = true;
-    while (changed) {
-      changed = false;
-      for (const folder of relevantFolders) if (rootIds.has(folder.parentId) && !rootIds.has(folder.id)) { rootIds.add(folder.id); changed = true; }
-    }
-    const subset = relevantFolders.filter(folder => rootIds.has(folder.id));
-    const byId = new Map(subset.map(folder => [folder.id, folder]));
-    folderPaths = new Map();
-    const build = id => {
-      if (folderPaths.has(id)) return folderPaths.get(id);
-      const folder = byId.get(id); if (!folder) return '';
-      const own = zipSafeSegment(folder.name, 'Folder');
-      const parentPath = folder.parentId && byId.has(folder.parentId) ? build(folder.parentId) : '';
-      const path = parentPath ? `${parentPath}/${own}` : own;
-      folderPaths.set(id, path); return path;
-    };
-    for (const folder of subset) { const path = build(folder.id); if (path && createFolderEntries) zip.folder(path); }
-  } else {
-    folderPaths = buildPortableFolderPaths(relevantFolders);
-    for (const path of folderPaths.values()) zip.folder(path);
-  }
-  let n = 0;
-  for (const record of records) {
-    n++;
-    if (els.libraryBackupProgress) els.libraryBackupProgress.textContent = `Exporting ${record.name} (${n} of ${records.length})…`;
-    const sourceIds = await ensureRecordSourcesLoaded(record);
-    const sourcePdfCache = new Map();
+// Folder ZIPs used to retain every finished PDF in JSZip. On iPad, use the
+// same acknowledged OPFS ZIP32 writer as whole-Library PDF archives, but with
+// separate slots so a prepared whole-Library export is never overwritten.
+const PREPARED_FOLDER_PDF_ARCHIVE_KEY = 'pdfwb-prepared-folder-pdf-archive-v1';
+const FOLDER_PDF_ARCHIVE_OPFS_SLOTS = ['pdfwb-folder-archive-a.zip','pdfwb-folder-archive-b.zip'];
+let preparedFolderPdfArchiveSessionInfo = null;
+let folderPdfArchiveInProgress = false;
+function validPreparedFolderPdfArchiveInfo(value) {
+  return value && FOLDER_PDF_ARCHIVE_OPFS_SLOTS.includes(value.slot) &&
+    typeof value.filename === 'string' && value.filename.length > 0 &&
+    Number.isSafeInteger(value.size) && value.size >= 22 ? value : null;
+}
+function preparedFolderPdfArchiveInfo() {
+  if (validPreparedFolderPdfArchiveInfo(preparedFolderPdfArchiveSessionInfo)) return preparedFolderPdfArchiveSessionInfo;
+  try { return validPreparedFolderPdfArchiveInfo(JSON.parse(localStorage.getItem(PREPARED_FOLDER_PDF_ARCHIVE_KEY) || 'null')); }
+  catch { return null; }
+}
+function updatePreparedFolderPdfArchiveActions() {
+  const meta = preparedFolderPdfArchiveInfo();
+  els.libraryPreparedFolderPdfArchiveActions?.classList.toggle('hidden', !meta || !isIPadLike());
+  if (els.libraryDownloadPreparedFolderPdfArchiveBtn)
+    els.libraryDownloadPreparedFolderPdfArchiveBtn.textContent = meta
+      ? `Download last folder PDF ZIP (${(meta.size/1048576).toFixed(1)} MB)` : 'Download last folder PDF ZIP';
+}
+function rememberPreparedFolderPdfArchive(meta) {
+  preparedFolderPdfArchiveSessionInfo = validPreparedFolderPdfArchiveInfo(meta);
+  try { localStorage.setItem(PREPARED_FOLDER_PDF_ARCHIVE_KEY, JSON.stringify(meta)); }
+  catch(err) { addInkDiagnostic('library-folder-pdf-archive-metadata-error',null,{message:String(err?.message||err)}); }
+  updatePreparedFolderPdfArchiveActions();
+}
+async function resolvePreparedFolderPdfArchive() {
+  const prior = preparedFolderPdfArchiveInfo();
+  const root = await getEditableBackupOPFSRoot();
+  if (prior) {
     try {
-      const bytes = await buildPdfBytes(record.pages || [], { sourcePdfCache });
-      const path = record.folderId ? (folderPaths.get(record.folderId) || '') : '';
-      zip.file(path ? `${path}/${ensurePdfFilename(zipSafeSegment(record.name, 'Document.pdf'))}` : ensurePdfFilename(zipSafeSegment(record.name, 'Document.pdf')), bytes);
+      const file = await (await root.getFileHandle(prior.slot)).getFile();
+      if (file.size === prior.size && await pdfArchiveHasCompleteFooter(file)) return {meta:prior,file};
+    } catch { /* Check the other surviving slot. */ }
+  }
+  const candidates = [];
+  for (const slot of FOLDER_PDF_ARCHIVE_OPFS_SLOTS) {
+    try {
+      const file = await (await root.getFileHandle(slot)).getFile();
+      if (await pdfArchiveHasCompleteFooter(file)) candidates.push({slot,file});
+    } catch { /* Incomplete slots are never offered as downloadable archives. */ }
+  }
+  candidates.sort((a,b)=>b.file.lastModified-a.file.lastModified);
+  const found=candidates[0];
+  if (!found) {
+    preparedFolderPdfArchiveSessionInfo=null;
+    try { localStorage.removeItem(PREPARED_FOLDER_PDF_ARCHIVE_KEY); } catch {}
+    updatePreparedFolderPdfArchiveActions();
+    return null;
+  }
+  const meta={slot:found.slot,size:found.file.size,createdAt:found.file.lastModified,
+    filename:`PDF-Workbench-Folder-PDFs-${portableTimestamp()}.zip`,recovered:true};
+  rememberPreparedFolderPdfArchive(meta);
+  addInkDiagnostic('library-folder-pdf-archive-recovered',null,{bytes:meta.size,slot:meta.slot,priorPointer:!!prior});
+  return {meta,file:found.file};
+}
+async function refreshPreparedFolderPdfArchiveFromDisk() {
+  if(!isIPadLike() || folderPdfArchiveInProgress)return;
+  try { await resolvePreparedFolderPdfArchive(); }
+  catch(err) { addInkDiagnostic('library-folder-pdf-archive-recovery-error',null,{message:String(err?.message||err)}); }
+}
+async function downloadPreparedFolderPdfArchive() {
+  if(folderPdfArchiveInProgress) return;
+  try {
+    const result=await resolvePreparedFolderPdfArchive();
+    if(!result)throw new Error('No complete staged folder ZIP is available.');
+    addInkDiagnostic('library-folder-pdf-archive-download-handoff',null,{bytes:result.file.size,slot:result.meta.slot,retry:true});
+    writeDiagnosticHealthBreadcrumb('library-folder-pdf-archive-download-handoff');
+    downloadBlob(result.file,result.meta.filename);
+    if(els.libraryBackupProgress)els.libraryBackupProgress.textContent='Folder PDF ZIP download requested. Verify it was saved in Files before discarding the prepared copy.';
+  } catch(err) {
+    addInkDiagnostic('library-folder-pdf-archive-download-error',null,{message:String(err?.message||err)});
+    if(els.libraryBackupProgress)els.libraryBackupProgress.textContent=`Could not download folder PDF ZIP: ${err?.message||err}`;
+  }
+}
+async function discardPreparedFolderPdfArchive() {
+  if(folderPdfArchiveInProgress || !confirm('Discard the staged folder PDF ZIP? Verify the ZIP was saved outside Workbench first.'))return;
+  try {
+    const root=await getEditableBackupOPFSRoot();
+    for(const slot of FOLDER_PDF_ARCHIVE_OPFS_SLOTS) {
+      try{await root.removeEntry(slot);}catch(err){if(err?.name!=='NotFoundError')throw err;}
+    }
+    preparedFolderPdfArchiveSessionInfo=null;
+    try{localStorage.removeItem(PREPARED_FOLDER_PDF_ARCHIVE_KEY);}catch{}
+    updatePreparedFolderPdfArchiveActions();
+    if(els.libraryBackupProgress)els.libraryBackupProgress.textContent='Staged folder ZIP discarded; Library PDFs were not changed.';
+  } catch(err) {
+    if(els.libraryBackupProgress)els.libraryBackupProgress.textContent=`Could not discard folder ZIP: ${err?.message||err}`;
+  }
+}
+// Mirrors the pre-existing JSZip folder-layout rules; only the transport changes.
+function folderPdfArchivePaths(folders,rootFolderId,createFolderEntries) {
+  const relevantFolders=folders.filter(folder=>folder&&!folder.trashedAt);
+  let paths,folderEntries=[];
+  if(rootFolderId) {
+    const rootIds=new Set([rootFolderId]);
+    let changed=true;
+    while(changed) {
+      changed=false;
+      for(const folder of relevantFolders)if(rootIds.has(folder.parentId)&&!rootIds.has(folder.id)) {rootIds.add(folder.id);changed=true;}
+    }
+    const subset=relevantFolders.filter(folder=>rootIds.has(folder.id));
+    const byId=new Map(subset.map(folder=>[folder.id,folder]));
+    paths=new Map();
+    const build=id=>{
+      if(paths.has(id))return paths.get(id);
+      const folder=byId.get(id);if(!folder)return '';
+      const own=zipSafeSegment(folder.name,'Folder');
+      const parentPath=folder.parentId&&byId.has(folder.parentId)?build(folder.parentId):'';
+      const path=parentPath?`${parentPath}/${own}`:own;
+      paths.set(id,path);return path;
+    };
+    for(const folder of subset) { const path=build(folder.id); if(path&&createFolderEntries)folderEntries.push(path); }
+  } else {
+    paths=buildPortableFolderPaths(relevantFolders);
+    // Preserve prior behavior for Trash exports, too: rootless exports listed
+    // the directory entries even when createFolderEntries was false.
+    folderEntries=[...paths.values()];
+  }
+  return {paths,folderEntries};
+}
+async function exportPdfRecordsToZipStaged(records,folders,filename,rootFolderId,options={}) {
+  if(folderPdfArchiveInProgress) throw new Error('A folder ZIP export is already in progress.');
+  if(wholeLibraryPdfArchiveInProgress) throw new Error('Finish the whole-Library PDF archive before exporting a folder.');
+  if(typeof Worker!=='function')throw new Error('Background archive writer is unavailable on this device.');
+  folderPdfArchiveInProgress=true;
+  let worker=null,root=null,slot=null;
+  const started=performance.now();
+  const total=records.length;
+  let completed=0,bytesWritten=0;
+  try {
+    const prior=await resolvePreparedFolderPdfArchive();
+    root=await getEditableBackupOPFSRoot();
+    slot=FOLDER_PDF_ARCHIVE_OPFS_SLOTS.find(s=>s!==prior?.meta.slot)||FOLDER_PDF_ARCHIVE_OPFS_SLOTS[0];
+    const {paths,folderEntries}=folderPdfArchivePaths(folders,rootFolderId,options.createFolderEntries!==false);
+    addInkDiagnostic('library-folder-pdf-archive-start',null,{documents:total,folders:folderEntries.length,staged:true});
+    writeDiagnosticHealthBreadcrumb('library-folder-pdf-archive-start');
+    worker=new Worker(`./pdf-archive-worker.js?v=${APP_VERSION}`);
+    let pending=null;
+    function request(message,transfers=[]) {
+      if(pending)throw new Error('Archive writer is already processing an entry.');
+      return new Promise((resolve,reject)=>{
+        pending={resolve,reject};
+        try{worker.postMessage(message,transfers);}catch(err){pending=null;reject(err);}
+      });
+    }
+    worker.onmessage=event=>{
+      const m=event.data||{};
+      if(!pending)return;
+      const p=pending;pending=null;
+      if(m.type==='error')p.reject(new Error(m.message||'Archive writer failed.'));
+      else if(m.type==='ack'||m.type==='ready')p.resolve(m);
+      else p.reject(new Error('Unexpected archive worker response.'));
+    };
+    worker.onerror=event=>{
+      event.preventDefault?.();
+      if(pending){const p=pending;pending=null;p.reject(new Error(event.message||'Archive writer failed.'));}
+    };
+    worker.onmessageerror=()=>{
+      if(pending){const p=pending;pending=null;p.reject(new Error('Could not read archive worker response.'));}
+    };
+    await request({type:'init',slot});
+    for(const path of folderEntries) await request({type:'add',path:`${path}/`,bytes:new Uint8Array(0)});
+    const used=new Set();
+    for(const record of records) {
+      const index=completed+1;
+      if(els.libraryBackupProgress)els.libraryBackupProgress.textContent=`Exporting ${record.name} (${index} of ${total})…`;
+      addInkDiagnostic('library-folder-pdf-archive-document-start',null,{index,total});
+      writeDiagnosticHealthBreadcrumb('library-folder-pdf-archive-document-start');
+      const sourceIds=await ensureRecordSourcesLoaded(record);
+      const sourcePdfCache=new Map();
+      try {
+        const result=await buildPdfBytes(record.pages||[],{sourcePdfCache});
+        const bytes=result instanceof Uint8Array?result:new Uint8Array(result);
+        const pdfBytes=bytes.byteLength;
+        const folderPath=record.folderId?(paths.get(record.folderId)||''):'';
+        const name=ensurePdfFilename(zipSafeSegment(record.name,'Document.pdf'));
+        const path=uniqueArchivePdfPath(folderPath?`${folderPath}/${name}`:name,used);
+        const transfer=bytes.byteOffset===0&&bytes.byteLength===bytes.buffer.byteLength?bytes:bytes.slice();
+        const reply=await request({type:'add',path,bytes:transfer},[transfer.buffer]);
+        completed=index;bytesWritten=reply.bytes;
+        addInkDiagnostic('library-folder-pdf-archive-document-complete',null,{completed,total,pdfBytes,archiveBytes:bytesWritten});
+        writeDiagnosticHealthBreadcrumb('library-folder-pdf-archive-document-complete');
+      } finally {
+        sourcePdfCache.clear();
+        await releaseFileOperationPdfSources(sourceIds,'folder-pdf-export-document-complete');
+      }
+      await new Promise(resolve=>setTimeout(resolve,0));
+    }
+    addInkDiagnostic('library-folder-pdf-archive-finalize',null,{completed,total,bytes:bytesWritten});
+    writeDiagnosticHealthBreadcrumb('library-folder-pdf-archive-finalize');
+    const finished=await request({type:'finish'});
+    // The worker closed and flushed the OPFS handle. Validate before claiming
+    // readiness or handing a file to iPadOS; a partial ZIP must not be offered.
+    const file=await (await root.getFileHandle(slot)).getFile();
+    if(file.size!==finished.bytes||!(await pdfArchiveHasCompleteFooter(file)))throw new Error('Staged ZIP failed final size/footer validation.');
+    const meta={slot,filename,size:finished.bytes,createdAt:Date.now()};
+    rememberPreparedFolderPdfArchive(meta);
+    addInkDiagnostic('library-folder-pdf-archive-ready',null,{completed,total,bytes:finished.bytes,elapsedMs:Math.round(performance.now()-started)});
+    writeDiagnosticHealthBreadcrumb('library-folder-pdf-archive-ready');
+    // The prior archive survives until the new one is complete; never touch
+    // the independent whole-Library prepared-archive slots.
+    if(prior&&prior.meta.slot!==slot)root.removeEntry(prior.meta.slot).catch(()=>{});
+    slot=null; // Successfully finished archive must survive any download failure.
+    folderPdfArchiveInProgress=false;
+    addInkDiagnostic('library-folder-pdf-archive-download-handoff',null,{completed,total,bytes:file.size,retry:false});
+    writeDiagnosticHealthBreadcrumb('library-folder-pdf-archive-download-handoff');
+    downloadBlob(file,filename);
+    if(els.libraryBackupProgress)els.libraryBackupProgress.textContent=`Folder ZIP prepared (${completed} PDFs, ${(file.size/1048576).toFixed(1)} MB); download requested. Use Download last folder PDF ZIP to retry if needed.`;
+    return completed;
+  } catch(err) {
+    addInkDiagnostic('library-folder-pdf-archive-error',null,{completed,total,bytes:bytesWritten,message:String(err?.message||err)});
+    writeDiagnosticHealthBreadcrumb('library-folder-pdf-archive-error');
+    if(slot&&root)root.removeEntry(slot).catch(()=>{});
+    throw err;
+  } finally {
+    worker?.terminate();
+    folderPdfArchiveInProgress=false;
+    updatePreparedFolderPdfArchiveActions();
+  }
+}
+
+async function exportPdfRecordsToZip(records, folders, filename, rootFolderId=null, { createFolderEntries=true }={}) {
+  if(isIPadLike())return exportPdfRecordsToZipStaged(records,folders,filename,rootFolderId,{createFolderEntries});
+  const JSZip=await loadZipEngine();
+  const zip=new JSZip();
+  const {paths,folderEntries}=folderPdfArchivePaths(folders,rootFolderId,createFolderEntries);
+  for(const path of folderEntries)zip.folder(path);
+  let n=0;
+  for(const record of records) {
+    n++;
+    if(els.libraryBackupProgress)els.libraryBackupProgress.textContent=`Exporting ${record.name} (${n} of ${records.length})…`;
+    const sourceIds=await ensureRecordSourcesLoaded(record);
+    const sourcePdfCache=new Map();
+    try {
+      const bytes=await buildPdfBytes(record.pages||[],{sourcePdfCache});
+      const path=record.folderId?(paths.get(record.folderId)||''):'';
+      zip.file(path?`${path}/${ensurePdfFilename(zipSafeSegment(record.name,'Document.pdf'))}`:ensurePdfFilename(zipSafeSegment(record.name,'Document.pdf')),bytes);
     } finally {
       sourcePdfCache.clear();
-      await releaseFileOperationPdfSources(sourceIds, 'folder-pdf-export-document-complete');
+      await releaseFileOperationPdfSources(sourceIds,'folder-pdf-export-document-complete');
     }
   }
-  const blob = await zip.generateAsync({ type:'blob', compression:'STORE', mimeType:'application/zip' });
-  downloadBlob(blob, filename);
+  const blob=await zip.generateAsync({type:'blob',compression:'STORE',mimeType:'application/zip'});
+  downloadBlob(blob,filename);
   return records.length;
 }
 
 async function exportLibraryFolderAsPdfs(folderId) {
   const folder = libraryFolderById(folderId); if (!folder) return;
   try {
-    await persistLibraryNow(); await refreshLibraryRecords();
+    // Current Library maps are updated by persistence. A full documents.getAll()
+    // here clones every annotated document on iPad, even for a tiny folder.
+    if(!(await ensureLibraryConnection()))throw new Error('Local Library is unavailable.');
+    const saveDeadline=Date.now()+30000;
+    while(state.libraryPersisting) {
+      if(Date.now()>saveDeadline)throw new Error('Library is still saving; retry the folder export.');
+      await new Promise(resolve=>setTimeout(resolve,75));
+    }
+    await persistLibraryNow({documentsOnly:true});
+    if(!state.libraryReady)throw new Error('Current Library state could not be saved.');
     const ids = libraryFolderSubtreeIds(folderId);
     const folders = activeLibraryFolders().filter(item => ids.has(item.id));
     const records = activeLibraryRecords().filter(record => ids.has(record.folderId || ''));
@@ -20600,6 +20812,9 @@ function bindEvents() {
   els.libraryDownloadPreparedPdfArchiveBtn?.addEventListener('click', downloadPreparedPdfArchive);
   els.libraryDiscardPreparedPdfArchiveBtn?.addEventListener('click', discardPreparedPdfArchive);
   updatePreparedPdfArchiveActions();
+  els.libraryDownloadPreparedFolderPdfArchiveBtn?.addEventListener('click', downloadPreparedFolderPdfArchive);
+  els.libraryDiscardPreparedFolderPdfArchiveBtn?.addEventListener('click', discardPreparedFolderPdfArchive);
+  updatePreparedFolderPdfArchiveActions();
   els.libraryEditableBackupBtn?.addEventListener('click', createEditableLibraryBackup);
   els.libraryDownloadPreparedBackupBtn?.addEventListener('click', downloadPreparedEditableBackup);
   els.libraryDiscardPreparedBackupBtn?.addEventListener('click', discardPreparedEditableBackup);
@@ -21091,6 +21306,7 @@ async function init() {
   // A native download or iPad process restart may leave the ZIP in OPFS even
   // when its localStorage pointer is missing. Inspect only tiny ZIP footers.
   void refreshPreparedPdfArchiveFromDisk();
+  void refreshPreparedFolderPdfArchiveFromDisk();
   if (libraryRestored) {
     setStatus(state.documents.length ? `Restored ${state.documents.length} open document${state.documents.length === 1 ? '' : 's'} from local Library` : 'Ready');
   } else {

@@ -1,3 +1,28 @@
+PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-11-14 — BASELINE 5.8.71-exp
+
+THIS SECTION IS AUTHORITATIVE OVER ALL OLDER STATUS/TODO TEXT BELOW.
+Continue from pdf-workbench-m5.8.71-exp.zip and use the accompanying diagnostics ZIP for the November 14 repro.
+
+EXPERIMENTAL IPAD FOLDER EXPORT RELIABILITY
+- User observed two restarts associated with exporting/uploading a 14-PDF folder ZIP (~13,667 KB): one during export preparation/PDF processing, another after the app became hidden during the subsequent share/upload period. Diagnostics did not record a definitive memory exception. Do not claim a confirmed root cause.
+- Folder ZIPs previously used in-memory JSZip, retaining finished PDF data, and invoked refreshLibraryRecords(), rereading all 260 documents before selecting a 14-PDF folder.
+- 5.8.71 folder export now waits for an in-progress Library save, persists changed open documents only and uses in-memory authoritative maps, without a full-Library records reread.
+- On iPad, folder PDF ZIP creation uses the existing pdf-archive-worker.js OPFS staged ZIP32 STORE path, one PDF at a time with acknowledged transfer and source-memory cleanup; desktop JSZip remains. ZIP PDF builder and rendering unchanged. Trash pre-delete ZIP paths reuse this staged method on iPad. As in the existing workflow, deletion proceeds after the download request rather than verified external storage; do not treat the request as proof of saved files. Duplicate PDF names get numerical suffixes.
+- Prepared folder ZIPs occupy separate `pdfwb-folder-archive-a.zip`/`b.zip` OPFS slots. After a validated finish, a native download is requested; if iPadOS terminates Workbench during the handoff the ZIP may be retried via Files → Backup & transfer → Download last folder PDF ZIP. An explicit Discard staged folder ZIP option frees the temporary copy. The existing whole-Library prepared PDF archive and editable backup slots are unaffected.
+- New diagnostics `library-folder-pdf-archive-start`, -document-start, -document-complete, -finalize, -ready, -download-handoff, -recovered, -error plus metadata/download/recovery errors. Durable breadcrumbs are written at key phases.
+- No Library schema change, migration, clearing of app storage, or backup format change. This has received static syntax/version checks and automated worker ZIP-integrity tests; it has NOT been validated on the user's iPad yet.
+
+VALIDATE ON DEVICE
+1. Install/update without deleting app data; confirm version 5.8.71.
+2. Export a small folder to ZIP; inspect count, sizes, paths, PDF pages/annotations outside Workbench.
+3. Retry Download last folder PDF ZIP; reopen the PWA and retry again. Confirm whole-Library prepared archive remains intact.
+4. Test a deep folder and (only when a safe independent backup exists) pre-delete export behavior.
+5. If another restart happens, save diagnostics. Check exact `library-folder-pdf-archive-*` last event and health breadcrumb to distinguish export/build/finalization/download/background phases.
+
+================================================================================
+PREVIOUS 5.8.70 HANDOFF / PROJECT HISTORY FOLLOWS
+================================================================================
+
 PDF WORKBENCH — CURRENT CONTINUATION UPDATE — 2026-11-11 — BASELINE 5.8.70-exp
 
 THIS SECTION IS AUTHORITATIVE OVER ALL OLDER STATUS/TODO TEXT BELOW.

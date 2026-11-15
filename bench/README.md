@@ -1,3 +1,22 @@
+# PDF Workbench 5.8.71-exp
+
+## Milestone 5.8.71 — iPad folder ZIP memory and restart diagnostics (experimental)
+
+- iPad Library folder → Export PDFs ZIP (including subfolders) now stages files through the existing acknowledged `pdf-archive-worker.js` OPFS writer, **one completed PDF at a time**. The 5.8.70 JSZip path is retained for desktop browsers. The ZIP remains uncompressed (STORE) and keeps its directory tree and empty folders; duplicate same-name PDF entries get numbered suffixes rather than being overwritten.
+- The same iPad ZIP staging is used for Export PDFs & delete folder / Empty Trash; no deletion is performed if staging fails. As before, a download request is not proof of a successful off-device save: for export-before-delete actions the existing deletion flow continues after the download request. The independently staged ZIP can be retried until explicitly discarded or replaced; verify it in Files promptly.
+- Folder export no longer calls `refreshLibraryRecords()` to clone the full Library documents store. It waits for any current save, persists changed open documents (`documentsOnly:true`), then uses authoritative in-memory folder/document maps. It aborts if this save leaves the Library unavailable.
+- Separate two-slot OPFS staging and metadata are used for folder ZIPs, with a footer/size validation and a **Download last folder PDF ZIP** retry control under Files → Backup & transfer. This is independent from and does not overwrite whole-Library archive or editable-backup staging. Temporary ZIPs persist until discarded or replaced by a successful later folder export. If the metadata pointer is lost, a completed ZIP can be recovered by inspecting only the ZIP footer; a recovered file may have a generic filename.
+- Diagnostics `library-folder-pdf-archive-*` now record start, individual PDF start/completion (including resulting byte counts), finalization, validated readiness, native download handoff, recovery, and errors, with durable health breadcrumbs at key boundaries. The previous whole-Library archive, editable backup worker, Library schema, annotation and PDF builders are unchanged.
+
+### iPad checks
+1. Confirm About shows **5.8.71** after updating the installed app. Keep a known good editable backup off-device before testing.
+2. Export a modest folder (e.g. 14 PDFs). Verify ZIP download, file count, document names, nested folders and PDF legibility in Files or on the Surface.
+3. In Files → Backup & transfer, use **Download last folder PDF ZIP** to redownload without rebuilding. Close/reopen the PWA and confirm that this control still works; then discard only if a saved ZIP has been verified.
+4. Verify whole-Library *prepared* PDF archive remains available and independent of the folder archive. Check non-iPad desktop folder export remains unchanged.
+5. If Workbench restarts, export Diagnostics and look for the last `library-folder-pdf-archive-*` phase and the previous-runtime health breadcrumb. This build reduces identifiable pressure but does not prove or eliminate iPadOS background termination.
+
+---
+
 # PDF Workbench 5.8.70-exp
 
 ## Milestone 5.8.70 — optional Previous / Next Document in Presentation
