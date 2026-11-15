@@ -1,0 +1,1135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Original OASIS-1 and OASIS-2 data tables for educational analysis, with copy-to-clipboard buttons.">
+<title>OASIS | Student Data Tables</title>
+<style>
+:root{color-scheme:light;--ink:#1d2b3a;--sub:#526477;--accent:#135b70;--accentDark:#0b4558;--line:#d8e1e5;--bg:#f4f7f8;--paper:#fff;--tint:#eaf2f5;--tag:#dbe9ed}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;line-height:1.56}
+a{color:#075a76;text-underline-offset:3px}a:hover{text-decoration-thickness:2px}
+.site-header{background:#12374b;color:#fff;padding:58px max(24px,calc((100vw - 1050px)/2)) 44px;}
+.kicker{font-size:.77rem;letter-spacing:.17em;text-transform:uppercase;color:#b2d9e2;font-weight:700;margin:0 0 9px}
+h1{font-weight:750;line-height:1.15;font-size:clamp(2.1rem,5vw,3.3rem);letter-spacing:-.035em;margin:0 0 14px}
+.intro{font-size:1.04rem;max-width:760px;line-height:1.7;color:#e2edf1;margin:0}
+.header-links{margin-top:18px;display:flex;gap:12px 20px;flex-wrap:wrap;font-size:.9rem}.header-links a{color:#a7e2ef}
+main{max-width:1100px;margin:auto;padding:30px 25px 80px}
+.note-box,.nav-box{background:white;border:1px solid var(--line);border-radius:14px;padding:22px 25px;margin-bottom:24px}
+.note-box{border-left:5px solid var(--accent)}.note-box h2,.nav-box h2{font-size:1.13rem;margin:0 0 10px}.note-box p,.nav-box p{margin:0 0 12px;color:var(--sub)}.note-box p:last-child{margin-bottom:0}
+.note-box strong{color:var(--ink)}.nav-items{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 17px}.nav-items a{font-size:.93rem;text-decoration:none;border-bottom:1px solid #edf2f4;padding:7px 0}.nav-items a:hover{text-decoration:underline}
+.section{background:var(--paper);border:1px solid var(--line);border-radius:15px;box-shadow:0 3px 14px #12374b0a;padding:25px 27px;margin:28px 0;scroll-margin-top:15px}
+.section h2{font-size:1.45rem;line-height:1.26;letter-spacing:-.025em;margin:0 0 8px}
+.meta-line{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;color:var(--sub);font-size:.82rem;font-weight:600;margin-bottom:14px}
+.tag{border:1px solid #c7dce3;background:#eff6f8;color:#28556a;border-radius:99px;padding:2px 11px;font-weight:700;font-size:.75rem}
+.section p{margin:0 0 12px;max-width:930px}.sample{font-size:.87rem;color:var(--sub);margin:5px 0 16px!important}
+.table-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:15px;margin-bottom:9px}
+.copy{appearance:none;background:var(--accent);border:1px solid var(--accent);border-radius:7px;color:#fff;font:inherit;font-weight:650;font-size:.88rem;padding:9px 15px;cursor:pointer;display:inline-flex;align-items:center;gap:9px;transition:background .15s ease;min-height:40px}
+.copy:hover{background:var(--accentDark)}.copy:focus-visible{outline:3px solid #6eb0c2;outline-offset:2px}.copy[data-state="copied"]{background:#25644e;border-color:#25644e}.table-hint{font-size:.78rem;color:var(--sub)}
+.table-scroll{overflow:auto;max-height:440px;border:1px solid var(--line);border-radius:9px;overscroll-behavior:contain;scrollbar-color:#aebec6 #f1f5f7}
+.table-scroll:focus-visible{outline:3px solid #6eb0c2;outline-offset:3px}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:.91rem;font-variant-numeric:tabular-nums}thead th{background:var(--tint);color:#183f50;text-align:left;position:sticky;top:0;z-index:1;font-weight:750;white-space:nowrap;border-bottom:2px solid #bdd1da}th,td{padding:8px 13px;border-bottom:1px solid #e8eef1}tbody tr:nth-child(even){background:#f8fafb}tbody tr:last-child td{border-bottom:none}td:not(:first-child){color:#253b49}.blank{background:#f5f7f8;color:#8999a2}.footnote{font-size:.83rem;color:var(--sub)}
+footer{max-width:1100px;margin:0 auto 32px;padding:0 25px;color:var(--sub);font-size:.82rem}
+code{background:#f0f4f6;border-radius:4px;padding:1px 4px;color:#193a48;font-size:.9em}
+@media(max-width:700px){.site-header{padding:40px 22px 31px}main{padding:20px 13px 48px}.section{padding:20px 15px}.nav-items{grid-template-columns:1fr}.note-box,.nav-box{padding:17px 16px}.section h2{font-size:1.25rem}thead th{white-space:normal;min-width:130px}th,td{padding:8px 10px}}
+@media print{body{background:white;font-size:10pt}.site-header{background:white;color:black;padding:10px 0 20px;border-bottom:2px solid #333}.kicker,.intro,.header-links{color:black}.header-links a{color:black}main{padding:0}.nav-box,.copy,.table-hint{display:none}.note-box,.section{box-shadow:none;border-radius:0;border:1px solid #999;break-inside:avoid}.section{break-inside:auto}.table-scroll{max-height:none;overflow:visible}thead th{position:static}table{font-size:8pt}tr{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header class="site-header">
+<p class="kicker">Original observational research data</p>
+<h1>OASIS Student Data Tables</h1>
+<p class="intro">These tables come from the Open Access Series of Imaging Studies (OASIS) at Washington University in St. Louis. OASIS-1 contains cross-sectional MRI measurements and participant characteristics; OASIS-2 follows participants across multiple visits. The values here were extracted directly from the supplied <strong>oasis_cross-sectional.csv</strong> and <strong>oasis_longitudinal.csv</strong> files, not simulated.</p>
+<div class="header-links"><a href="https://sites.wustl.edu/oasisbrains/home/oasis-1/" target="_blank" rel="noopener">OASIS-1 study information</a><a href="https://sites.wustl.edu/oasisbrains/home/oasis-2/" target="_blank" rel="noopener">OASIS-2 study information</a></div>
+</header>
+<main>
+<aside class="note-box" aria-labelledby="selection-title">
+<h2 id="selection-title">How the records were selected</h2>
+<p><strong>The age-60 restriction is applied only to the OASIS-1 tables</strong> titled <em>Dementia vs. Sex</em>, <em>Dementia vs. Level of Education</em>, <em>Dementia vs. Socioeconomic Status</em>, <em>Brain Volume vs. Dementia</em>, and <em>Brain Volume vs. Dementia Severity</em>. Each contains one scan per participant, drawn from the <strong>198</strong> people aged 60 or older. This keeps the dementia comparisons within an older age group, since many younger OASIS-1 participants were not assessed for CDR.</p>
+<p><strong>No age cutoff was imposed</strong> for <em>Intracranial Volume vs. Sex</em> or <em>Age vs. Brain Volume</em>. Those tables contain the earliest scan from each of the <strong>416</strong> OASIS-1 participants, ages 18–96.</p>
+<p><strong>OASIS-2 already enrolls older adults:</strong> first-visit ages range from 60 to 96. The education table has one first-visit record per participant. The conversion table uses repeated observations from the 13 eligible converted participants. No additional age restriction was imposed on either OASIS-2 table.</p>
+<p>In tables with a dementia classification, <strong>CDR = 0</strong> means no dementia and <strong>CDR &gt; 0</strong> means a dementia classification. One person contributes at most one observation to any table except the explicitly paired before-and-after table.</p>
+</aside>
+<nav class="nav-box" aria-label="Tables on this page"><h2>Tables on this page</h2><div class="nav-items"><a href="#dementia-sex">Dementia vs. Sex</a><a href="#dementia-education-level">Dementia vs. Level of Education</a><a href="#dementia-ses">Dementia vs. Socioeconomic Status</a><a href="#volume-dementia">Brain Volume vs. Dementia</a><a href="#intracranial-volume-sex">Intracranial Volume vs. Sex</a><a href="#years-education-dementia">Years of Education vs. Dementia</a><a href="#brain-volume-before-after-conversion">Brain Volume Before and After Conversion</a><a href="#volume-dementia-severity">Brain Volume vs. Dementia Severity</a><a href="#age-brain-volume">Age vs. Brain Volume</a></div></nav>
+<section class="section" id="dementia-sex">
+<h2>Dementia vs. Sex</h2>
+<div class="meta-line"><span>OASIS-1 · Age 60 or older</span><span class="tag">OASIS-1 · restricted to age ≥ 60</span></div>
+<p>Sex is recorded as female or male. Dementia status is defined here by Clinical Dementia Rating (CDR): 0 indicates no dementia; a value greater than 0 indicates dementia.</p>
+<p class="sample">198 participants · One scan per person · Age ≥ 60</p>
+<div class="table-tools"><button type="button" class="copy" data-copy-table="dementia-sex" aria-label="Copy Dementia vs. Sex table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">Sex</th><th scope="col">No dementia (CDR = 0)</th><th scope="col">Dementia (CDR &gt; 0)</th></tr></thead><tbody><tr><td>Female</td><td>72</td><td>59</td></tr>
+<tr><td>Male</td><td>26</td><td>41</td></tr></tbody></table></div>
+</section><section class="section" id="dementia-education-level">
+<h2>Dementia vs. Level of Education</h2>
+<div class="meta-line"><span>OASIS-1 · Age 60 or older</span><span class="tag">OASIS-1 · restricted to age ≥ 60</span></div>
+<p>Education (<code>Educ</code>) is an ordered category, not the number of years of schooling: 1 = less than high school; 2 = high school graduate; 3 = some college; 4 = college graduate; 5 = education beyond college. Dementia is defined by CDR = 0 versus CDR > 0.</p>
+<p class="sample">198 participants · One scan per person · Age ≥ 60</p>
+<div class="table-tools"><button type="button" class="copy" data-copy-table="dementia-education-level" aria-label="Copy Dementia vs. Level of Education table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">Educational attainment</th><th scope="col">No dementia (CDR = 0)</th><th scope="col">Dementia (CDR &gt; 0)</th></tr></thead><tbody><tr><td>1 — Less than high school</td><td>8</td><td>15</td></tr>
+<tr><td>2 — High school graduate</td><td>25</td><td>35</td></tr>
+<tr><td>3 — Some college</td><td>23</td><td>17</td></tr>
+<tr><td>4 — College graduate</td><td>17</td><td>19</td></tr>
+<tr><td>5 — Beyond college</td><td>25</td><td>14</td></tr></tbody></table></div>
+</section><section class="section" id="dementia-ses">
+<h2>Dementia vs. Socioeconomic Status</h2>
+<div class="meta-line"><span>OASIS-1 · Age 60 or older</span><span class="tag">OASIS-1 · restricted to age ≥ 60</span></div>
+<p>SES is an ordered socioeconomic-status category based on a Hollingshead index, with 1 indicating the highest status and 5 the lowest. Categories 4 and 5 have been combined. Dementia is defined by CDR = 0 versus CDR > 0. Eighteen participants (one without dementia, 17 with dementia) have missing SES values and are omitted.</p>
+<p class="sample">180 participants with known SES · One scan per person · Age ≥ 60</p>
+<div class="table-tools"><button type="button" class="copy" data-copy-table="dementia-ses" aria-label="Copy Dementia vs. Socioeconomic Status table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">SES category</th><th scope="col">No dementia (CDR = 0)</th><th scope="col">Dementia (CDR &gt; 0)</th></tr></thead><tbody><tr><td>1</td><td>20</td><td>16</td></tr>
+<tr><td>2</td><td>31</td><td>19</td></tr>
+<tr><td>3</td><td>23</td><td>20</td></tr>
+<tr><td>4–5 (combined)</td><td>23</td><td>28</td></tr></tbody></table></div>
+</section><section class="section" id="volume-dementia">
+<h2>Brain Volume vs. Dementia</h2>
+<div class="meta-line"><span>OASIS-1 · Age 60 or older</span><span class="tag">OASIS-1 · restricted to age ≥ 60</span></div>
+<p>Normalized whole-brain volume (<code>nWBV</code>) is the proportion of intracranial space estimated to contain brain tissue, recorded as a decimal. The two columns separate participants with CDR = 0 and CDR > 0. Empty cells are just padding because the groups differ slightly in size.</p>
+<p class="sample">198 participants · 98 without dementia; 100 with dementia · Age ≥ 60</p>
+<div class="table-tools"><button type="button" class="copy" data-copy-table="volume-dementia" aria-label="Copy Brain Volume vs. Dementia table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">No dementia: nWBV</th><th scope="col">Dementia: nWBV</th></tr></thead><tbody><tr><td>0.743</td><td>0.708</td></tr>
+<tr><td>0.689</td><td>0.719</td></tr>
+<tr><td>0.679</td><td>0.739</td></tr>
+<tr><td>0.715</td><td>0.765</td></tr>
+<tr><td>0.764</td><td>0.757</td></tr>
+<tr><td>0.682</td><td>0.710</td></tr>
+<tr><td>0.735</td><td>0.738</td></tr>
+<tr><td>0.754</td><td>0.674</td></tr>
+<tr><td>0.767</td><td>0.695</td></tr>
+<tr><td>0.645</td><td>0.772</td></tr>
+<tr><td>0.805</td><td>0.758</td></tr>
+<tr><td>0.801</td><td>0.709</td></tr>
+<tr><td>0.823</td><td>0.787</td></tr>
+<tr><td>0.720</td><td>0.697</td></tr>
+<tr><td>0.809</td><td>0.699</td></tr>
+<tr><td>0.727</td><td>0.668</td></tr>
+<tr><td>0.791</td><td>0.734</td></tr>
+<tr><td>0.717</td><td>0.765</td></tr>
+<tr><td>0.813</td><td>0.730</td></tr>
+<tr><td>0.697</td><td>0.655</td></tr>
+<tr><td>0.733</td><td>0.776</td></tr>
+<tr><td>0.768</td><td>0.727</td></tr>
+<tr><td>0.804</td><td>0.772</td></tr>
+<tr><td>0.789</td><td>0.693</td></tr>
+<tr><td>0.814</td><td>0.726</td></tr>
+<tr><td>0.801</td><td>0.736</td></tr>
+<tr><td>0.706</td><td>0.715</td></tr>
+<tr><td>0.779</td><td>0.797</td></tr>
+<tr><td>0.742</td><td>0.709</td></tr>
+<tr><td>0.756</td><td>0.665</td></tr>
+<tr><td>0.787</td><td>0.672</td></tr>
+<tr><td>0.718</td><td>0.695</td></tr>
+<tr><td>0.725</td><td>0.784</td></tr>
+<tr><td>0.712</td><td>0.753</td></tr>
+<tr><td>0.745</td><td>0.689</td></tr>
+<tr><td>0.731</td><td>0.727</td></tr>
+<tr><td>0.766</td><td>0.687</td></tr>
+<tr><td>0.747</td><td>0.771</td></tr>
+<tr><td>0.784</td><td>0.653</td></tr>
+<tr><td>0.807</td><td>0.669</td></tr>
+<tr><td>0.754</td><td>0.739</td></tr>
+<tr><td>0.779</td><td>0.716</td></tr>
+<tr><td>0.747</td><td>0.722</td></tr>
+<tr><td>0.697</td><td>0.692</td></tr>
+<tr><td>0.792</td><td>0.703</td></tr>
+<tr><td>0.742</td><td>0.644</td></tr>
+<tr><td>0.696</td><td>0.701</td></tr>
+<tr><td>0.759</td><td>0.786</td></tr>
+<tr><td>0.771</td><td>0.736</td></tr>
+<tr><td>0.764</td><td>0.742</td></tr>
+<tr><td>0.754</td><td>0.689</td></tr>
+<tr><td>0.737</td><td>0.709</td></tr>
+<tr><td>0.705</td><td>0.679</td></tr>
+<tr><td>0.737</td><td>0.715</td></tr>
+<tr><td>0.739</td><td>0.683</td></tr>
+<tr><td>0.773</td><td>0.745</td></tr>
+<tr><td>0.719</td><td>0.676</td></tr>
+<tr><td>0.703</td><td>0.684</td></tr>
+<tr><td>0.740</td><td>0.751</td></tr>
+<tr><td>0.721</td><td>0.694</td></tr>
+<tr><td>0.670</td><td>0.727</td></tr>
+<tr><td>0.746</td><td>0.706</td></tr>
+<tr><td>0.766</td><td>0.745</td></tr>
+<tr><td>0.783</td><td>0.738</td></tr>
+<tr><td>0.671</td><td>0.723</td></tr>
+<tr><td>0.761</td><td>0.693</td></tr>
+<tr><td>0.831</td><td>0.735</td></tr>
+<tr><td>0.702</td><td>0.703</td></tr>
+<tr><td>0.776</td><td>0.756</td></tr>
+<tr><td>0.700</td><td>0.773</td></tr>
+<tr><td>0.752</td><td>0.690</td></tr>
+<tr><td>0.762</td><td>0.760</td></tr>
+<tr><td>0.676</td><td>0.678</td></tr>
+<tr><td>0.736</td><td>0.694</td></tr>
+<tr><td>0.772</td><td>0.665</td></tr>
+<tr><td>0.765</td><td>0.743</td></tr>
+<tr><td>0.811</td><td>0.716</td></tr>
+<tr><td>0.776</td><td>0.692</td></tr>
+<tr><td>0.790</td><td>0.760</td></tr>
+<tr><td>0.740</td><td>0.705</td></tr>
+<tr><td>0.839</td><td>0.763</td></tr>
+<tr><td>0.702</td><td>0.736</td></tr>
+<tr><td>0.754</td><td>0.794</td></tr>
+<tr><td>0.772</td><td>0.706</td></tr>
+<tr><td>0.783</td><td>0.644</td></tr>
+<tr><td>0.716</td><td>0.763</td></tr>
+<tr><td>0.776</td><td>0.761</td></tr>
+<tr><td>0.809</td><td>0.742</td></tr>
+<tr><td>0.749</td><td>0.747</td></tr>
+<tr><td>0.791</td><td>0.715</td></tr>
+<tr><td>0.751</td><td>0.715</td></tr>
+<tr><td>0.787</td><td>0.687</td></tr>
+<tr><td>0.673</td><td>0.773</td></tr>
+<tr><td>0.748</td><td>0.723</td></tr>
+<tr><td>0.818</td><td>0.721</td></tr>
+<tr><td>0.825</td><td>0.739</td></tr>
+<tr><td>0.780</td><td>0.728</td></tr>
+<tr><td>0.766</td><td>0.762</td></tr>
+<tr><td class="blank"></td><td>0.748</td></tr>
+<tr><td class="blank"></td><td>0.730</td></tr></tbody></table></div>
+</section><section class="section" id="intracranial-volume-sex">
+<h2>Intracranial Volume vs. Sex</h2>
+<div class="meta-line"><span>OASIS-1 · All ages</span><span class="tag">OASIS-1 · no age restriction</span></div>
+<p>Estimated total intracranial volume (<code>eTIV</code>) estimates the space inside the skull and is expressed in cubic centimeters (cm³). Values are separated by sex. Empty cells are padding, not missing measurements. No 60-or-older restriction is applied here.</p>
+<p class="sample">416 participants · 256 female; 160 male · All ages (18–96)</p>
+<div class="table-tools"><button type="button" class="copy" data-copy-table="intracranial-volume-sex" aria-label="Copy Intracranial Volume vs. Sex table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">Female: eTIV (cm³)</th><th scope="col">Male: eTIV (cm³)</th></tr></thead><tbody><tr><td>1344</td><td>1588</td></tr>
+<tr><td>1147</td><td>1737</td></tr>
+<tr><td>1454</td><td>1516</td></tr>
+<tr><td>1131</td><td>1636</td></tr>
+<tr><td>1505</td><td>1574</td></tr>
+<tr><td>1321</td><td>1738</td></tr>
+<tr><td>1664</td><td>1477</td></tr>
+<tr><td>1525</td><td>1689</td></tr>
+<tr><td>1536</td><td>1636</td></tr>
+<tr><td>1326</td><td>1420</td></tr>
+<tr><td>1794</td><td>1653</td></tr>
+<tr><td>1447</td><td>1419</td></tr>
+<tr><td>1240</td><td>1631</td></tr>
+<tr><td>1235</td><td>1538</td></tr>
+<tr><td>1194</td><td>1313</td></tr>
+<tr><td>1449</td><td>1463</td></tr>
+<tr><td>1392</td><td>1854</td></tr>
+<tr><td>1323</td><td>1511</td></tr>
+<tr><td>1402</td><td>1590</td></tr>
+<tr><td>1443</td><td>1351</td></tr>
+<tr><td>1244</td><td>1564</td></tr>
+<tr><td>1350</td><td>1675</td></tr>
+<tr><td>1346</td><td>1301</td></tr>
+<tr><td>1408</td><td>1709</td></tr>
+<tr><td>1329</td><td>1547</td></tr>
+<tr><td>1358</td><td>1728</td></tr>
+<tr><td>1567</td><td>1442</td></tr>
+<tr><td>1462</td><td>1578</td></tr>
+<tr><td>1384</td><td>1568</td></tr>
+<tr><td>1567</td><td>1486</td></tr>
+<tr><td>1432</td><td>1542</td></tr>
+<tr><td>1324</td><td>1512</td></tr>
+<tr><td>1333</td><td>1733</td></tr>
+<tr><td>1585</td><td>1825</td></tr>
+<tr><td>1396</td><td>1483</td></tr>
+<tr><td>1749</td><td>1711</td></tr>
+<tr><td>1456</td><td>1378</td></tr>
+<tr><td>1583</td><td>1911</td></tr>
+<tr><td>1309</td><td>1759</td></tr>
+<tr><td>1549</td><td>1502</td></tr>
+<tr><td>1508</td><td>1796</td></tr>
+<tr><td>1327</td><td>1684</td></tr>
+<tr><td>1459</td><td>1661</td></tr>
+<tr><td>1402</td><td>1582</td></tr>
+<tr><td>1495</td><td>1538</td></tr>
+<tr><td>1335</td><td>1514</td></tr>
+<tr><td>1501</td><td>1444</td></tr>
+<tr><td>1537</td><td>1637</td></tr>
+<tr><td>1395</td><td>1596</td></tr>
+<tr><td>1522</td><td>1494</td></tr>
+<tr><td>1628</td><td>1561</td></tr>
+<tr><td>1309</td><td>1689</td></tr>
+<tr><td>1407</td><td>1523</td></tr>
+<tr><td>1200</td><td>1581</td></tr>
+<tr><td>1453</td><td>1446</td></tr>
+<tr><td>1283</td><td>1799</td></tr>
+<tr><td>1311</td><td>1653</td></tr>
+<tr><td>1507</td><td>1497</td></tr>
+<tr><td>1557</td><td>1662</td></tr>
+<tr><td>1701</td><td>1359</td></tr>
+<tr><td>1447</td><td>1556</td></tr>
+<tr><td>1357</td><td>1745</td></tr>
+<tr><td>1653</td><td>1455</td></tr>
+<tr><td>1484</td><td>1475</td></tr>
+<tr><td>1499</td><td>1415</td></tr>
+<tr><td>1447</td><td>1561</td></tr>
+<tr><td>1230</td><td>1908</td></tr>
+<tr><td>1313</td><td>1707</td></tr>
+<tr><td>1536</td><td>1464</td></tr>
+<tr><td>1569</td><td>1628</td></tr>
+<tr><td>1373</td><td>1561</td></tr>
+<tr><td>1377</td><td>1601</td></tr>
+<tr><td>1282</td><td>1430</td></tr>
+<tr><td>1537</td><td>1891</td></tr>
+<tr><td>1277</td><td>1714</td></tr>
+<tr><td>1178</td><td>1657</td></tr>
+<tr><td>1499</td><td>1854</td></tr>
+<tr><td>1512</td><td>1641</td></tr>
+<tr><td>1375</td><td>1668</td></tr>
+<tr><td>1513</td><td>1582</td></tr>
+<tr><td>1663</td><td>1534</td></tr>
+<tr><td>1510</td><td>1407</td></tr>
+<tr><td>1439</td><td>1547</td></tr>
+<tr><td>1471</td><td>1307</td></tr>
+<tr><td>1591</td><td>1500</td></tr>
+<tr><td>1293</td><td>1660</td></tr>
+<tr><td>1437</td><td>1762</td></tr>
+<tr><td>1390</td><td>1417</td></tr>
+<tr><td>1219</td><td>1604</td></tr>
+<tr><td>1633</td><td>1722</td></tr>
+<tr><td>1495</td><td>1591</td></tr>
+<tr><td>1395</td><td>1793</td></tr>
+<tr><td>1475</td><td>1506</td></tr>
+<tr><td>1361</td><td>1491</td></tr>
+<tr><td>1411</td><td>1635</td></tr>
+<tr><td>1445</td><td>1913</td></tr>
+<tr><td>1398</td><td>1538</td></tr>
+<tr><td>1494</td><td>1470</td></tr>
+<tr><td>1272</td><td>1461</td></tr>
+<tr><td>1250</td><td>1992</td></tr>
+<tr><td>1496</td><td>1556</td></tr>
+<tr><td>1316</td><td>1570</td></tr>
+<tr><td>1521</td><td>1497</td></tr>
+<tr><td>1314</td><td>1454</td></tr>
+<tr><td>1421</td><td>1399</td></tr>
+<tr><td>1294</td><td>1720</td></tr>
+<tr><td>1546</td><td>1604</td></tr>
+<tr><td>1346</td><td>1501</td></tr>
+<tr><td>1154</td><td>1634</td></tr>
+<tr><td>1332</td><td>1527</td></tr>
+<tr><td>1366</td><td>1478</td></tr>
+<tr><td>1460</td><td>1740</td></tr>
+<tr><td>1574</td><td>1453</td></tr>
+<tr><td>1360</td><td>1734</td></tr>
+<tr><td>1243</td><td>1607</td></tr>
+<tr><td>1368</td><td>1750</td></tr>
+<tr><td>1328</td><td>1818</td></tr>
+<tr><td>1676</td><td>1650</td></tr>
+<tr><td>1614</td><td>1441</td></tr>
+<tr><td>1332</td><td>1510</td></tr>
+<tr><td>1503</td><td>1485</td></tr>
+<tr><td>1393</td><td>1577</td></tr>
+<tr><td>1291</td><td>1512</td></tr>
+<tr><td>1317</td><td>1680</td></tr>
+<tr><td>1474</td><td>1367</td></tr>
+<tr><td>1164</td><td>1362</td></tr>
+<tr><td>1378</td><td>1714</td></tr>
+<tr><td>1288</td><td>1485</td></tr>
+<tr><td>1486</td><td>1398</td></tr>
+<tr><td>1327</td><td>1806</td></tr>
+<tr><td>1584</td><td>1572</td></tr>
+<tr><td>1429</td><td>1734</td></tr>
+<tr><td>1376</td><td>1596</td></tr>
+<tr><td>1218</td><td>1617</td></tr>
+<tr><td>1322</td><td>1579</td></tr>
+<tr><td>1484</td><td>1567</td></tr>
+<tr><td>1439</td><td>1795</td></tr>
+<tr><td>1171</td><td>1590</td></tr>
+<tr><td>1400</td><td>1643</td></tr>
+<tr><td>1341</td><td>1678</td></tr>
+<tr><td>1522</td><td>1480</td></tr>
+<tr><td>1217</td><td>1674</td></tr>
+<tr><td>1751</td><td>1769</td></tr>
+<tr><td>1264</td><td>1569</td></tr>
+<tr><td>1426</td><td>1592</td></tr>
+<tr><td>1516</td><td>1713</td></tr>
+<tr><td>1334</td><td>1569</td></tr>
+<tr><td>1410</td><td>1659</td></tr>
+<tr><td>1489</td><td>1511</td></tr>
+<tr><td>1272</td><td>1613</td></tr>
+<tr><td>1329</td><td>1562</td></tr>
+<tr><td>1355</td><td>1606</td></tr>
+<tr><td>1480</td><td>1766</td></tr>
+<tr><td>1373</td><td>1438</td></tr>
+<tr><td>1465</td><td>1320</td></tr>
+<tr><td>1475</td><td>1647</td></tr>
+<tr><td>1440</td><td>1478</td></tr>
+<tr><td>1478</td><td>1687</td></tr>
+<tr><td>1578</td><td>1656</td></tr>
+<tr><td>1714</td><td>1637</td></tr>
+<tr><td>1476</td><td class="blank"></td></tr>
+<tr><td>1194</td><td class="blank"></td></tr>
+<tr><td>1334</td><td class="blank"></td></tr>
+<tr><td>1274</td><td class="blank"></td></tr>
+<tr><td>1415</td><td class="blank"></td></tr>
+<tr><td>1384</td><td class="blank"></td></tr>
+<tr><td>1439</td><td class="blank"></td></tr>
+<tr><td>1412</td><td class="blank"></td></tr>
+<tr><td>1428</td><td class="blank"></td></tr>
+<tr><td>1354</td><td class="blank"></td></tr>
+<tr><td>1475</td><td class="blank"></td></tr>
+<tr><td>1495</td><td class="blank"></td></tr>
+<tr><td>1221</td><td class="blank"></td></tr>
+<tr><td>1401</td><td class="blank"></td></tr>
+<tr><td>1441</td><td class="blank"></td></tr>
+<tr><td>1388</td><td class="blank"></td></tr>
+<tr><td>1366</td><td class="blank"></td></tr>
+<tr><td>1311</td><td class="blank"></td></tr>
+<tr><td>1516</td><td class="blank"></td></tr>
+<tr><td>1493</td><td class="blank"></td></tr>
+<tr><td>1335</td><td class="blank"></td></tr>
+<tr><td>1370</td><td class="blank"></td></tr>
+<tr><td>1422</td><td class="blank"></td></tr>
+<tr><td>1272</td><td class="blank"></td></tr>
+<tr><td>1209</td><td class="blank"></td></tr>
+<tr><td>1381</td><td class="blank"></td></tr>
+<tr><td>1467</td><td class="blank"></td></tr>
+<tr><td>1654</td><td class="blank"></td></tr>
+<tr><td>1528</td><td class="blank"></td></tr>
+<tr><td>1211</td><td class="blank"></td></tr>
+<tr><td>1479</td><td class="blank"></td></tr>
+<tr><td>1370</td><td class="blank"></td></tr>
+<tr><td>1389</td><td class="blank"></td></tr>
+<tr><td>1473</td><td class="blank"></td></tr>
+<tr><td>1227</td><td class="blank"></td></tr>
+<tr><td>1174</td><td class="blank"></td></tr>
+<tr><td>1123</td><td class="blank"></td></tr>
+<tr><td>1506</td><td class="blank"></td></tr>
+<tr><td>1450</td><td class="blank"></td></tr>
+<tr><td>1439</td><td class="blank"></td></tr>
+<tr><td>1549</td><td class="blank"></td></tr>
+<tr><td>1161</td><td class="blank"></td></tr>
+<tr><td>1295</td><td class="blank"></td></tr>
+<tr><td>1361</td><td class="blank"></td></tr>
+<tr><td>1732</td><td class="blank"></td></tr>
+<tr><td>1238</td><td class="blank"></td></tr>
+<tr><td>1418</td><td class="blank"></td></tr>
+<tr><td>1255</td><td class="blank"></td></tr>
+<tr><td>1313</td><td class="blank"></td></tr>
+<tr><td>1288</td><td class="blank"></td></tr>
+<tr><td>1562</td><td class="blank"></td></tr>
+<tr><td>1490</td><td class="blank"></td></tr>
+<tr><td>1149</td><td class="blank"></td></tr>
+<tr><td>1350</td><td class="blank"></td></tr>
+<tr><td>1441</td><td class="blank"></td></tr>
+<tr><td>1343</td><td class="blank"></td></tr>
+<tr><td>1295</td><td class="blank"></td></tr>
+<tr><td>1265</td><td class="blank"></td></tr>
+<tr><td>1774</td><td class="blank"></td></tr>
+<tr><td>1287</td><td class="blank"></td></tr>
+<tr><td>1350</td><td class="blank"></td></tr>
+<tr><td>1465</td><td class="blank"></td></tr>
+<tr><td>1346</td><td class="blank"></td></tr>
+<tr><td>1434</td><td class="blank"></td></tr>
+<tr><td>1518</td><td class="blank"></td></tr>
+<tr><td>1507</td><td class="blank"></td></tr>
+<tr><td>1346</td><td class="blank"></td></tr>
+<tr><td>1447</td><td class="blank"></td></tr>
+<tr><td>1542</td><td class="blank"></td></tr>
+<tr><td>1567</td><td class="blank"></td></tr>
+<tr><td>1551</td><td class="blank"></td></tr>
+<tr><td>1473</td><td class="blank"></td></tr>
+<tr><td>1732</td><td class="blank"></td></tr>
+<tr><td>1655</td><td class="blank"></td></tr>
+<tr><td>1380</td><td class="blank"></td></tr>
+<tr><td>1461</td><td class="blank"></td></tr>
+<tr><td>1316</td><td class="blank"></td></tr>
+<tr><td>1500</td><td class="blank"></td></tr>
+<tr><td>1385</td><td class="blank"></td></tr>
+<tr><td>1405</td><td class="blank"></td></tr>
+<tr><td>1453</td><td class="blank"></td></tr>
+<tr><td>1385</td><td class="blank"></td></tr>
+<tr><td>1444</td><td class="blank"></td></tr>
+<tr><td>1191</td><td class="blank"></td></tr>
+<tr><td>1431</td><td class="blank"></td></tr>
+<tr><td>1431</td><td class="blank"></td></tr>
+<tr><td>1250</td><td class="blank"></td></tr>
+<tr><td>1362</td><td class="blank"></td></tr>
+<tr><td>1390</td><td class="blank"></td></tr>
+<tr><td>1388</td><td class="blank"></td></tr>
+<tr><td>1524</td><td class="blank"></td></tr>
+<tr><td>1264</td><td class="blank"></td></tr>
+<tr><td>1295</td><td class="blank"></td></tr>
+<tr><td>1536</td><td class="blank"></td></tr>
+<tr><td>1354</td><td class="blank"></td></tr>
+<tr><td>1372</td><td class="blank"></td></tr></tbody></table></div>
+</section><section class="section" id="years-education-dementia">
+<h2>Years of Education vs. Dementia</h2>
+<div class="meta-line"><span>OASIS-2 · First visits</span><span class="tag">OASIS-2 · no additional age restriction</span></div>
+<p>Education (<code>EDUC</code>) is measured in completed years of schooling, not coded education categories. Dementia status comes from CDR at the <strong>first visit</strong>: 0 versus greater than 0. This is not the same as the file’s <code>Group</code> label, which can reflect conversion during later visits. All OASIS-2 first-visit participants are already at least 60.</p>
+<p class="sample">150 participants · 85 CDR = 0; 65 CDR &gt; 0 · First visit only</p>
+<div class="table-tools"><button type="button" class="copy" data-copy-table="years-education-dementia" aria-label="Copy Years of Education vs. Dementia table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">No dementia: education (years)</th><th scope="col">Dementia: education (years)</th></tr></thead><tbody><tr><td>14</td><td>12</td></tr>
+<tr><td>18</td><td>16</td></tr>
+<tr><td>12</td><td>12</td></tr>
+<tr><td>14</td><td>12</td></tr>
+<tr><td>16</td><td>16</td></tr>
+<tr><td>12</td><td>8</td></tr>
+<tr><td>12</td><td>20</td></tr>
+<tr><td>14</td><td>12</td></tr>
+<tr><td>20</td><td>12</td></tr>
+<tr><td>16</td><td>18</td></tr>
+<tr><td>12</td><td>12</td></tr>
+<tr><td>12</td><td>12</td></tr>
+<tr><td>18</td><td>18</td></tr>
+<tr><td>12</td><td>6</td></tr>
+<tr><td>16</td><td>12</td></tr>
+<tr><td>12</td><td>14</td></tr>
+<tr><td>13</td><td>15</td></tr>
+<tr><td>16</td><td>16</td></tr>
+<tr><td>17</td><td>12</td></tr>
+<tr><td>18</td><td>14</td></tr>
+<tr><td>16</td><td>13</td></tr>
+<tr><td>16</td><td>12</td></tr>
+<tr><td>23</td><td>8</td></tr>
+<tr><td>18</td><td>18</td></tr>
+<tr><td>16</td><td>13</td></tr>
+<tr><td>18</td><td>8</td></tr>
+<tr><td>13</td><td>12</td></tr>
+<tr><td>14</td><td>15</td></tr>
+<tr><td>12</td><td>12</td></tr>
+<tr><td>18</td><td>17</td></tr>
+<tr><td>18</td><td>12</td></tr>
+<tr><td>12</td><td>12</td></tr>
+<tr><td>12</td><td>12</td></tr>
+<tr><td>18</td><td>12</td></tr>
+<tr><td>17</td><td>15</td></tr>
+<tr><td>14</td><td>16</td></tr>
+<tr><td>18</td><td>11</td></tr>
+<tr><td>16</td><td>18</td></tr>
+<tr><td>16</td><td>12</td></tr>
+<tr><td>8</td><td>12</td></tr>
+<tr><td>15</td><td>13</td></tr>
+<tr><td>18</td><td>12</td></tr>
+<tr><td>12</td><td>12</td></tr>
+<tr><td>12</td><td>14</td></tr>
+<tr><td>16</td><td>16</td></tr>
+<tr><td>18</td><td>12</td></tr>
+<tr><td>13</td><td>11</td></tr>
+<tr><td>16</td><td>18</td></tr>
+<tr><td>11</td><td>16</td></tr>
+<tr><td>18</td><td>16</td></tr>
+<tr><td>16</td><td>15</td></tr>
+<tr><td>12</td><td>12</td></tr>
+<tr><td>11</td><td>12</td></tr>
+<tr><td>20</td><td>14</td></tr>
+<tr><td>14</td><td>12</td></tr>
+<tr><td>15</td><td>14</td></tr>
+<tr><td>11</td><td>20</td></tr>
+<tr><td>16</td><td>12</td></tr>
+<tr><td>12</td><td>16</td></tr>
+<tr><td>18</td><td>16</td></tr>
+<tr><td>16</td><td>20</td></tr>
+<tr><td>18</td><td>12</td></tr>
+<tr><td>12</td><td>12</td></tr>
+<tr><td>18</td><td>16</td></tr>
+<tr><td>16</td><td>16</td></tr>
+<tr><td>18</td><td class="blank"></td></tr>
+<tr><td>16</td><td class="blank"></td></tr>
+<tr><td>18</td><td class="blank"></td></tr>
+<tr><td>16</td><td class="blank"></td></tr>
+<tr><td>16</td><td class="blank"></td></tr>
+<tr><td>13</td><td class="blank"></td></tr>
+<tr><td>13</td><td class="blank"></td></tr>
+<tr><td>18</td><td class="blank"></td></tr>
+<tr><td>18</td><td class="blank"></td></tr>
+<tr><td>18</td><td class="blank"></td></tr>
+<tr><td>15</td><td class="blank"></td></tr>
+<tr><td>16</td><td class="blank"></td></tr>
+<tr><td>18</td><td class="blank"></td></tr>
+<tr><td>16</td><td class="blank"></td></tr>
+<tr><td>12</td><td class="blank"></td></tr>
+<tr><td>16</td><td class="blank"></td></tr>
+<tr><td>14</td><td class="blank"></td></tr>
+<tr><td>14</td><td class="blank"></td></tr>
+<tr><td>13</td><td class="blank"></td></tr>
+<tr><td>13</td><td class="blank"></td></tr></tbody></table></div>
+</section><section class="section" id="brain-volume-before-after-conversion">
+<h2>Brain Volume Before and After Conversion</h2>
+<div class="meta-line"><span>OASIS-2 · Repeated observations</span><span class="tag">OASIS-2 · no additional age restriction</span></div>
+<p>This table includes participants labeled <code>Converted</code> who had CDR = 0 at their first scan and CDR > 0 at a later scan. “Before” is their <strong>first scan</strong>; “after” is their <strong>first scan with CDR > 0</strong>. Both measurements are nWBV, the proportion of intracranial space occupied by brain tissue. OAS2_0131 is excluded because their initial CDR was already 0.5 and the later CDR was 0.</p>
+<p class="sample">13 matched participants · First scan paired with first scan showing CDR &gt; 0 · Ages ≥ 60 in source dataset</p>
+<div class="table-tools"><button type="button" class="copy" data-copy-table="brain-volume-before-after-conversion" aria-label="Copy Brain Volume Before and After Conversion table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">Participant</th><th scope="col">Initial nWBV (CDR = 0)</th><th scope="col">First nWBV after conversion (CDR &gt; 0)</th></tr></thead><tbody><tr><td>OAS2_0018</td><td>0.715</td><td>0.696</td></tr>
+<tr><td>OAS2_0020</td><td>0.693</td><td>0.677</td></tr>
+<tr><td>OAS2_0031</td><td>0.718</td><td>0.696</td></tr>
+<tr><td>OAS2_0041</td><td>0.771</td><td>0.760</td></tr>
+<tr><td>OAS2_0054</td><td>0.701</td><td>0.683</td></tr>
+<tr><td>OAS2_0092</td><td>0.748</td><td>0.728</td></tr>
+<tr><td>OAS2_0103</td><td>0.750</td><td>0.722</td></tr>
+<tr><td>OAS2_0118</td><td>0.794</td><td>0.788</td></tr>
+<tr><td>OAS2_0127</td><td>0.729</td><td>0.720</td></tr>
+<tr><td>OAS2_0133</td><td>0.731</td><td>0.687</td></tr>
+<tr><td>OAS2_0144</td><td>0.716</td><td>0.708</td></tr>
+<tr><td>OAS2_0145</td><td>0.799</td><td>0.771</td></tr>
+<tr><td>OAS2_0176</td><td>0.710</td><td>0.679</td></tr></tbody></table></div>
+</section><section class="section" id="volume-dementia-severity">
+<h2>Brain Volume vs. Dementia Severity</h2>
+<div class="meta-line"><span>OASIS-1 · Age 60 or older</span><span class="tag">OASIS-1 · restricted to age ≥ 60</span></div>
+<p>Normalized whole-brain volume (<code>nWBV</code>) is a decimal proportion. CDR is the Clinical Dementia Rating: 0 = no dementia; 0.5 = very mild dementia; 1 or 2 = mild or moderate dementia (combined here). Empty cells are padding because the groups are different sizes.</p>
+<p class="sample">198 participants · CDR 0: 98; CDR 0.5: 70; CDR 1–2: 30 · Age ≥ 60</p>
+<div class="table-tools"><button type="button" class="copy" data-copy-table="volume-dementia-severity" aria-label="Copy Brain Volume vs. Dementia Severity table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">CDR = 0: nWBV</th><th scope="col">CDR = 0.5: nWBV</th><th scope="col">CDR = 1 or 2: nWBV</th></tr></thead><tbody><tr><td>0.743</td><td>0.708</td><td>0.738</td></tr>
+<tr><td>0.689</td><td>0.719</td><td>0.674</td></tr>
+<tr><td>0.679</td><td>0.739</td><td>0.695</td></tr>
+<tr><td>0.715</td><td>0.765</td><td>0.697</td></tr>
+<tr><td>0.764</td><td>0.757</td><td>0.699</td></tr>
+<tr><td>0.682</td><td>0.710</td><td>0.668</td></tr>
+<tr><td>0.735</td><td>0.772</td><td>0.730</td></tr>
+<tr><td>0.754</td><td>0.758</td><td>0.655</td></tr>
+<tr><td>0.767</td><td>0.709</td><td>0.715</td></tr>
+<tr><td>0.645</td><td>0.787</td><td>0.665</td></tr>
+<tr><td>0.805</td><td>0.734</td><td>0.672</td></tr>
+<tr><td>0.801</td><td>0.765</td><td>0.669</td></tr>
+<tr><td>0.823</td><td>0.776</td><td>0.739</td></tr>
+<tr><td>0.720</td><td>0.727</td><td>0.703</td></tr>
+<tr><td>0.809</td><td>0.772</td><td>0.715</td></tr>
+<tr><td>0.727</td><td>0.693</td><td>0.683</td></tr>
+<tr><td>0.791</td><td>0.726</td><td>0.684</td></tr>
+<tr><td>0.717</td><td>0.736</td><td>0.745</td></tr>
+<tr><td>0.813</td><td>0.797</td><td>0.703</td></tr>
+<tr><td>0.697</td><td>0.709</td><td>0.690</td></tr>
+<tr><td>0.733</td><td>0.695</td><td>0.665</td></tr>
+<tr><td>0.768</td><td>0.784</td><td>0.692</td></tr>
+<tr><td>0.804</td><td>0.753</td><td>0.763</td></tr>
+<tr><td>0.789</td><td>0.689</td><td>0.736</td></tr>
+<tr><td>0.814</td><td>0.727</td><td>0.706</td></tr>
+<tr><td>0.801</td><td>0.687</td><td>0.761</td></tr>
+<tr><td>0.706</td><td>0.771</td><td>0.715</td></tr>
+<tr><td>0.779</td><td>0.653</td><td>0.715</td></tr>
+<tr><td>0.742</td><td>0.716</td><td>0.687</td></tr>
+<tr><td>0.756</td><td>0.722</td><td>0.762</td></tr>
+<tr><td>0.787</td><td>0.692</td><td class="blank"></td></tr>
+<tr><td>0.718</td><td>0.644</td><td class="blank"></td></tr>
+<tr><td>0.725</td><td>0.701</td><td class="blank"></td></tr>
+<tr><td>0.712</td><td>0.786</td><td class="blank"></td></tr>
+<tr><td>0.745</td><td>0.736</td><td class="blank"></td></tr>
+<tr><td>0.731</td><td>0.742</td><td class="blank"></td></tr>
+<tr><td>0.766</td><td>0.689</td><td class="blank"></td></tr>
+<tr><td>0.747</td><td>0.709</td><td class="blank"></td></tr>
+<tr><td>0.784</td><td>0.679</td><td class="blank"></td></tr>
+<tr><td>0.807</td><td>0.745</td><td class="blank"></td></tr>
+<tr><td>0.754</td><td>0.676</td><td class="blank"></td></tr>
+<tr><td>0.779</td><td>0.751</td><td class="blank"></td></tr>
+<tr><td>0.747</td><td>0.694</td><td class="blank"></td></tr>
+<tr><td>0.697</td><td>0.727</td><td class="blank"></td></tr>
+<tr><td>0.792</td><td>0.706</td><td class="blank"></td></tr>
+<tr><td>0.742</td><td>0.738</td><td class="blank"></td></tr>
+<tr><td>0.696</td><td>0.723</td><td class="blank"></td></tr>
+<tr><td>0.759</td><td>0.693</td><td class="blank"></td></tr>
+<tr><td>0.771</td><td>0.735</td><td class="blank"></td></tr>
+<tr><td>0.764</td><td>0.756</td><td class="blank"></td></tr>
+<tr><td>0.754</td><td>0.773</td><td class="blank"></td></tr>
+<tr><td>0.737</td><td>0.760</td><td class="blank"></td></tr>
+<tr><td>0.705</td><td>0.678</td><td class="blank"></td></tr>
+<tr><td>0.737</td><td>0.694</td><td class="blank"></td></tr>
+<tr><td>0.739</td><td>0.743</td><td class="blank"></td></tr>
+<tr><td>0.773</td><td>0.716</td><td class="blank"></td></tr>
+<tr><td>0.719</td><td>0.760</td><td class="blank"></td></tr>
+<tr><td>0.703</td><td>0.705</td><td class="blank"></td></tr>
+<tr><td>0.740</td><td>0.794</td><td class="blank"></td></tr>
+<tr><td>0.721</td><td>0.644</td><td class="blank"></td></tr>
+<tr><td>0.670</td><td>0.763</td><td class="blank"></td></tr>
+<tr><td>0.746</td><td>0.742</td><td class="blank"></td></tr>
+<tr><td>0.766</td><td>0.747</td><td class="blank"></td></tr>
+<tr><td>0.783</td><td>0.773</td><td class="blank"></td></tr>
+<tr><td>0.671</td><td>0.723</td><td class="blank"></td></tr>
+<tr><td>0.761</td><td>0.721</td><td class="blank"></td></tr>
+<tr><td>0.831</td><td>0.739</td><td class="blank"></td></tr>
+<tr><td>0.702</td><td>0.728</td><td class="blank"></td></tr>
+<tr><td>0.776</td><td>0.748</td><td class="blank"></td></tr>
+<tr><td>0.700</td><td>0.730</td><td class="blank"></td></tr>
+<tr><td>0.752</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.762</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.676</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.736</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.772</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.765</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.811</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.776</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.790</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.740</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.839</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.702</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.754</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.772</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.783</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.716</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.776</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.809</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.749</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.791</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.751</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.787</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.673</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.748</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.818</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.825</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.780</td><td class="blank"></td><td class="blank"></td></tr>
+<tr><td>0.766</td><td class="blank"></td><td class="blank"></td></tr></tbody></table></div>
+</section><section class="section" id="age-brain-volume">
+<h2>Age vs. Brain Volume</h2>
+<div class="meta-line"><span>OASIS-1 · All ages</span><span class="tag">OASIS-1 · no age restriction</span></div>
+<p>Age is measured in years. Normalized whole-brain volume (<code>nWBV</code>) is the proportion of intracranial space occupied by brain tissue, expressed as a decimal. Each row contains two measurements from the <strong>same person</strong>. This table includes all adults aged 18–96, regardless of CDR status; there is no age-60 cutoff.</p>
+<p class="sample">416 participants · One scan per person · All ages (18–96)</p>
+<div class="table-tools"><button type="button" class="copy" data-copy-table="age-brain-volume" aria-label="Copy Age vs. Brain Volume table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">Age (years)</th><th scope="col">nWBV</th></tr></thead><tbody><tr><td>74</td><td>0.743</td></tr>
+<tr><td>55</td><td>0.810</td></tr>
+<tr><td>73</td><td>0.708</td></tr>
+<tr><td>28</td><td>0.803</td></tr>
+<tr><td>18</td><td>0.848</td></tr>
+<tr><td>24</td><td>0.862</td></tr>
+<tr><td>21</td><td>0.830</td></tr>
+<tr><td>20</td><td>0.843</td></tr>
+<tr><td>74</td><td>0.689</td></tr>
+<tr><td>52</td><td>0.827</td></tr>
+<tr><td>30</td><td>0.842</td></tr>
+<tr><td>81</td><td>0.679</td></tr>
+<tr><td>19</td><td>0.856</td></tr>
+<tr><td>76</td><td>0.719</td></tr>
+<tr><td>82</td><td>0.739</td></tr>
+<tr><td>21</td><td>0.845</td></tr>
+<tr><td>39</td><td>0.813</td></tr>
+<tr><td>89</td><td>0.715</td></tr>
+<tr><td>48</td><td>0.785</td></tr>
+<tr><td>80</td><td>0.765</td></tr>
+<tr><td>69</td><td>0.757</td></tr>
+<tr><td>82</td><td>0.710</td></tr>
+<tr><td>24</td><td>0.893</td></tr>
+<tr><td>58</td><td>0.820</td></tr>
+<tr><td>43</td><td>0.834</td></tr>
+<tr><td>86</td><td>0.738</td></tr>
+<tr><td>21</td><td>0.858</td></tr>
+<tr><td>65</td><td>0.764</td></tr>
+<tr><td>88</td><td>0.674</td></tr>
+<tr><td>89</td><td>0.682</td></tr>
+<tr><td>80</td><td>0.735</td></tr>
+<tr><td>51</td><td>0.831</td></tr>
+<tr><td>84</td><td>0.695</td></tr>
+<tr><td>27</td><td>0.842</td></tr>
+<tr><td>23</td><td>0.839</td></tr>
+<tr><td>70</td><td>0.772</td></tr>
+<tr><td>38</td><td>0.824</td></tr>
+<tr><td>62</td><td>0.758</td></tr>
+<tr><td>80</td><td>0.709</td></tr>
+<tr><td>21</td><td>0.846</td></tr>
+<tr><td>47</td><td>0.829</td></tr>
+<tr><td>29</td><td>0.829</td></tr>
+<tr><td>64</td><td>0.787</td></tr>
+<tr><td>57</td><td>0.784</td></tr>
+<tr><td>20</td><td>0.887</td></tr>
+<tr><td>48</td><td>0.841</td></tr>
+<tr><td>24</td><td>0.835</td></tr>
+<tr><td>78</td><td>0.697</td></tr>
+<tr><td>83</td><td>0.699</td></tr>
+<tr><td>21</td><td>0.848</td></tr>
+<tr><td>20</td><td>0.831</td></tr>
+<tr><td>72</td><td>0.668</td></tr>
+<tr><td>21</td><td>0.862</td></tr>
+<tr><td>46</td><td>0.817</td></tr>
+<tr><td>20</td><td>0.827</td></tr>
+<tr><td>79</td><td>0.734</td></tr>
+<tr><td>20</td><td>0.840</td></tr>
+<tr><td>73</td><td>0.754</td></tr>
+<tr><td>48</td><td>0.818</td></tr>
+<tr><td>77</td><td>0.767</td></tr>
+<tr><td>90</td><td>0.645</td></tr>
+<tr><td>66</td><td>0.765</td></tr>
+<tr><td>71</td><td>0.730</td></tr>
+<tr><td>67</td><td>0.805</td></tr>
+<tr><td>33</td><td>0.784</td></tr>
+<tr><td>63</td><td>0.801</td></tr>
+<tr><td>49</td><td>0.808</td></tr>
+<tr><td>60</td><td>0.823</td></tr>
+<tr><td>69</td><td>0.655</td></tr>
+<tr><td>43</td><td>0.847</td></tr>
+<tr><td>83</td><td>0.720</td></tr>
+<tr><td>18</td><td>0.839</td></tr>
+<tr><td>20</td><td>0.852</td></tr>
+<tr><td>64</td><td>0.809</td></tr>
+<tr><td>25</td><td>0.826</td></tr>
+<tr><td>25</td><td>0.857</td></tr>
+<tr><td>18</td><td>0.857</td></tr>
+<tr><td>75</td><td>0.776</td></tr>
+<tr><td>90</td><td>0.727</td></tr>
+<tr><td>81</td><td>0.727</td></tr>
+<tr><td>70</td><td>0.791</td></tr>
+<tr><td>47</td><td>0.835</td></tr>
+<tr><td>21</td><td>0.845</td></tr>
+<tr><td>40</td><td>0.865</td></tr>
+<tr><td>20</td><td>0.862</td></tr>
+<tr><td>18</td><td>0.834</td></tr>
+<tr><td>22</td><td>0.834</td></tr>
+<tr><td>66</td><td>0.772</td></tr>
+<tr><td>28</td><td>0.856</td></tr>
+<tr><td>47</td><td>0.809</td></tr>
+<tr><td>23</td><td>0.816</td></tr>
+<tr><td>67</td><td>0.693</td></tr>
+<tr><td>19</td><td>0.878</td></tr>
+<tr><td>29</td><td>0.840</td></tr>
+<tr><td>18</td><td>0.850</td></tr>
+<tr><td>19</td><td>0.850</td></tr>
+<tr><td>24</td><td>0.841</td></tr>
+<tr><td>20</td><td>0.839</td></tr>
+<tr><td>81</td><td>0.717</td></tr>
+<tr><td>20</td><td>0.853</td></tr>
+<tr><td>25</td><td>0.854</td></tr>
+<tr><td>61</td><td>0.813</td></tr>
+<tr><td>84</td><td>0.697</td></tr>
+<tr><td>23</td><td>0.855</td></tr>
+<tr><td>69</td><td>0.733</td></tr>
+<tr><td>83</td><td>0.768</td></tr>
+<tr><td>62</td><td>0.804</td></tr>
+<tr><td>72</td><td>0.726</td></tr>
+<tr><td>52</td><td>0.784</td></tr>
+<tr><td>25</td><td>0.783</td></tr>
+<tr><td>19</td><td>0.838</td></tr>
+<tr><td>70</td><td>0.736</td></tr>
+<tr><td>26</td><td>0.820</td></tr>
+<tr><td>83</td><td>0.715</td></tr>
+<tr><td>83</td><td>0.797</td></tr>
+<tr><td>73</td><td>0.709</td></tr>
+<tr><td>22</td><td>0.832</td></tr>
+<tr><td>21</td><td>0.885</td></tr>
+<tr><td>30</td><td>0.862</td></tr>
+<tr><td>18</td><td>0.846</td></tr>
+<tr><td>68</td><td>0.789</td></tr>
+<tr><td>24</td><td>0.824</td></tr>
+<tr><td>22</td><td>0.850</td></tr>
+<tr><td>65</td><td>0.814</td></tr>
+<tr><td>80</td><td>0.665</td></tr>
+<tr><td>64</td><td>0.801</td></tr>
+<tr><td>24</td><td>0.873</td></tr>
+<tr><td>87</td><td>0.672</td></tr>
+<tr><td>80</td><td>0.706</td></tr>
+<tr><td>72</td><td>0.779</td></tr>
+<tr><td>23</td><td>0.872</td></tr>
+<tr><td>24</td><td>0.846</td></tr>
+<tr><td>70</td><td>0.695</td></tr>
+<tr><td>66</td><td>0.784</td></tr>
+<tr><td>22</td><td>0.865</td></tr>
+<tr><td>34</td><td>0.831</td></tr>
+<tr><td>82</td><td>0.742</td></tr>
+<tr><td>25</td><td>0.845</td></tr>
+<tr><td>23</td><td>0.811</td></tr>
+<tr><td>20</td><td>0.875</td></tr>
+<tr><td>25</td><td>0.856</td></tr>
+<tr><td>23</td><td>0.830</td></tr>
+<tr><td>23</td><td>0.850</td></tr>
+<tr><td>71</td><td>0.753</td></tr>
+<tr><td>20</td><td>0.834</td></tr>
+<tr><td>86</td><td>0.756</td></tr>
+<tr><td>81</td><td>0.689</td></tr>
+<tr><td>40</td><td>0.821</td></tr>
+<tr><td>57</td><td>0.813</td></tr>
+<tr><td>84</td><td>0.727</td></tr>
+<tr><td>20</td><td>0.872</td></tr>
+<tr><td>18</td><td>0.859</td></tr>
+<tr><td>81</td><td>0.687</td></tr>
+<tr><td>74</td><td>0.787</td></tr>
+<tr><td>80</td><td>0.771</td></tr>
+<tr><td>41</td><td>0.849</td></tr>
+<tr><td>50</td><td>0.846</td></tr>
+<tr><td>88</td><td>0.718</td></tr>
+<tr><td>71</td><td>0.725</td></tr>
+<tr><td>35</td><td>0.829</td></tr>
+<tr><td>23</td><td>0.865</td></tr>
+<tr><td>88</td><td>0.712</td></tr>
+<tr><td>54</td><td>0.838</td></tr>
+<tr><td>44</td><td>0.853</td></tr>
+<tr><td>87</td><td>0.653</td></tr>
+<tr><td>80</td><td>0.745</td></tr>
+<tr><td>49</td><td>0.820</td></tr>
+<tr><td>48</td><td>0.816</td></tr>
+<tr><td>44</td><td>0.816</td></tr>
+<tr><td>65</td><td>0.669</td></tr>
+<tr><td>78</td><td>0.739</td></tr>
+<tr><td>84</td><td>0.731</td></tr>
+<tr><td>48</td><td>0.790</td></tr>
+<tr><td>22</td><td>0.853</td></tr>
+<tr><td>43</td><td>0.813</td></tr>
+<tr><td>21</td><td>0.835</td></tr>
+<tr><td>31</td><td>0.839</td></tr>
+<tr><td>23</td><td>0.831</td></tr>
+<tr><td>76</td><td>0.766</td></tr>
+<tr><td>89</td><td>0.747</td></tr>
+<tr><td>21</td><td>0.852</td></tr>
+<tr><td>69</td><td>0.784</td></tr>
+<tr><td>60</td><td>0.807</td></tr>
+<tr><td>85</td><td>0.754</td></tr>
+<tr><td>23</td><td>0.865</td></tr>
+<tr><td>71</td><td>0.779</td></tr>
+<tr><td>48</td><td>0.797</td></tr>
+<tr><td>75</td><td>0.716</td></tr>
+<tr><td>78</td><td>0.747</td></tr>
+<tr><td>51</td><td>0.819</td></tr>
+<tr><td>55</td><td>0.823</td></tr>
+<tr><td>22</td><td>0.842</td></tr>
+<tr><td>73</td><td>0.722</td></tr>
+<tr><td>20</td><td>0.849</td></tr>
+<tr><td>74</td><td>0.697</td></tr>
+<tr><td>48</td><td>0.801</td></tr>
+<tr><td>18</td><td>0.870</td></tr>
+<tr><td>71</td><td>0.792</td></tr>
+<tr><td>78</td><td>0.692</td></tr>
+<tr><td>26</td><td>0.843</td></tr>
+<tr><td>75</td><td>0.742</td></tr>
+<tr><td>94</td><td>0.696</td></tr>
+<tr><td>49</td><td>0.805</td></tr>
+<tr><td>84</td><td>0.703</td></tr>
+<tr><td>22</td><td>0.852</td></tr>
+<tr><td>90</td><td>0.644</td></tr>
+<tr><td>26</td><td>0.777</td></tr>
+<tr><td>81</td><td>0.759</td></tr>
+<tr><td>55</td><td>0.832</td></tr>
+<tr><td>19</td><td>0.846</td></tr>
+<tr><td>20</td><td>0.852</td></tr>
+<tr><td>22</td><td>0.857</td></tr>
+<tr><td>77</td><td>0.701</td></tr>
+<tr><td>75</td><td>0.771</td></tr>
+<tr><td>37</td><td>0.842</td></tr>
+<tr><td>20</td><td>0.876</td></tr>
+<tr><td>72</td><td>0.764</td></tr>
+<tr><td>77</td><td>0.786</td></tr>
+<tr><td>29</td><td>0.823</td></tr>
+<tr><td>74</td><td>0.736</td></tr>
+<tr><td>74</td><td>0.754</td></tr>
+<tr><td>64</td><td>0.742</td></tr>
+<tr><td>80</td><td>0.737</td></tr>
+<tr><td>22</td><td>0.841</td></tr>
+<tr><td>90</td><td>0.689</td></tr>
+<tr><td>28</td><td>0.871</td></tr>
+<tr><td>21</td><td>0.837</td></tr>
+<tr><td>20</td><td>0.852</td></tr>
+<tr><td>85</td><td>0.705</td></tr>
+<tr><td>71</td><td>0.737</td></tr>
+<tr><td>70</td><td>0.739</td></tr>
+<tr><td>21</td><td>0.870</td></tr>
+<tr><td>78</td><td>0.773</td></tr>
+<tr><td>87</td><td>0.719</td></tr>
+<tr><td>28</td><td>0.845</td></tr>
+<tr><td>46</td><td>0.784</td></tr>
+<tr><td>79</td><td>0.709</td></tr>
+<tr><td>24</td><td>0.849</td></tr>
+<tr><td>54</td><td>0.813</td></tr>
+<tr><td>51</td><td>0.834</td></tr>
+<tr><td>80</td><td>0.679</td></tr>
+<tr><td>78</td><td>0.715</td></tr>
+<tr><td>72</td><td>0.683</td></tr>
+<tr><td>93</td><td>0.703</td></tr>
+<tr><td>89</td><td>0.740</td></tr>
+<tr><td>75</td><td>0.745</td></tr>
+<tr><td>89</td><td>0.676</td></tr>
+<tr><td>58</td><td>0.815</td></tr>
+<tr><td>50</td><td>0.802</td></tr>
+<tr><td>22</td><td>0.841</td></tr>
+<tr><td>96</td><td>0.684</td></tr>
+<tr><td>73</td><td>0.721</td></tr>
+<tr><td>78</td><td>0.670</td></tr>
+<tr><td>28</td><td>0.835</td></tr>
+<tr><td>45</td><td>0.819</td></tr>
+<tr><td>18</td><td>0.836</td></tr>
+<tr><td>91</td><td>0.746</td></tr>
+<tr><td>20</td><td>0.843</td></tr>
+<tr><td>83</td><td>0.751</td></tr>
+<tr><td>78</td><td>0.694</td></tr>
+<tr><td>71</td><td>0.727</td></tr>
+<tr><td>59</td><td>0.767</td></tr>
+<tr><td>83</td><td>0.706</td></tr>
+<tr><td>73</td><td>0.745</td></tr>
+<tr><td>64</td><td>0.766</td></tr>
+<tr><td>69</td><td>0.783</td></tr>
+<tr><td>20</td><td>0.841</td></tr>
+<tr><td>20</td><td>0.803</td></tr>
+<tr><td>28</td><td>0.869</td></tr>
+<tr><td>72</td><td>0.738</td></tr>
+<tr><td>90</td><td>0.671</td></tr>
+<tr><td>68</td><td>0.723</td></tr>
+<tr><td>90</td><td>0.761</td></tr>
+<tr><td>22</td><td>0.831</td></tr>
+<tr><td>67</td><td>0.831</td></tr>
+<tr><td>84</td><td>0.693</td></tr>
+<tr><td>48</td><td>0.850</td></tr>
+<tr><td>67</td><td>0.735</td></tr>
+<tr><td>78</td><td>0.703</td></tr>
+<tr><td>54</td><td>0.786</td></tr>
+<tr><td>20</td><td>0.863</td></tr>
+<tr><td>22</td><td>0.830</td></tr>
+<tr><td>73</td><td>0.756</td></tr>
+<tr><td>20</td><td>0.838</td></tr>
+<tr><td>27</td><td>0.840</td></tr>
+<tr><td>77</td><td>0.773</td></tr>
+<tr><td>72</td><td>0.690</td></tr>
+<tr><td>86</td><td>0.702</td></tr>
+<tr><td>33</td><td>0.836</td></tr>
+<tr><td>31</td><td>0.821</td></tr>
+<tr><td>19</td><td>0.843</td></tr>
+<tr><td>65</td><td>0.776</td></tr>
+<tr><td>50</td><td>0.826</td></tr>
+<tr><td>27</td><td>0.869</td></tr>
+<tr><td>73</td><td>0.700</td></tr>
+<tr><td>50</td><td>0.794</td></tr>
+<tr><td>19</td><td>0.878</td></tr>
+<tr><td>80</td><td>0.760</td></tr>
+<tr><td>80</td><td>0.752</td></tr>
+<tr><td>54</td><td>0.821</td></tr>
+<tr><td>72</td><td>0.762</td></tr>
+<tr><td>26</td><td>0.850</td></tr>
+<tr><td>80</td><td>0.678</td></tr>
+<tr><td>41</td><td>0.852</td></tr>
+<tr><td>81</td><td>0.676</td></tr>
+<tr><td>77</td><td>0.736</td></tr>
+<tr><td>79</td><td>0.694</td></tr>
+<tr><td>19</td><td>0.853</td></tr>
+<tr><td>71</td><td>0.772</td></tr>
+<tr><td>88</td><td>0.765</td></tr>
+<tr><td>68</td><td>0.811</td></tr>
+<tr><td>20</td><td>0.851</td></tr>
+<tr><td>54</td><td>0.831</td></tr>
+<tr><td>23</td><td>0.843</td></tr>
+<tr><td>22</td><td>0.841</td></tr>
+<tr><td>43</td><td>0.858</td></tr>
+<tr><td>21</td><td>0.869</td></tr>
+<tr><td>86</td><td>0.665</td></tr>
+<tr><td>81</td><td>0.743</td></tr>
+<tr><td>22</td><td>0.800</td></tr>
+<tr><td>74</td><td>0.776</td></tr>
+<tr><td>73</td><td>0.790</td></tr>
+<tr><td>68</td><td>0.740</td></tr>
+<tr><td>55</td><td>0.820</td></tr>
+<tr><td>65</td><td>0.839</td></tr>
+<tr><td>21</td><td>0.864</td></tr>
+<tr><td>20</td><td>0.842</td></tr>
+<tr><td>63</td><td>0.716</td></tr>
+<tr><td>87</td><td>0.702</td></tr>
+<tr><td>74</td><td>0.754</td></tr>
+<tr><td>45</td><td>0.813</td></tr>
+<tr><td>46</td><td>0.841</td></tr>
+<tr><td>22</td><td>0.856</td></tr>
+<tr><td>73</td><td>0.772</td></tr>
+<tr><td>23</td><td>0.847</td></tr>
+<tr><td>70</td><td>0.783</td></tr>
+<tr><td>59</td><td>0.817</td></tr>
+<tr><td>80</td><td>0.692</td></tr>
+<tr><td>73</td><td>0.760</td></tr>
+<tr><td>46</td><td>0.775</td></tr>
+<tr><td>31</td><td>0.817</td></tr>
+<tr><td>25</td><td>0.831</td></tr>
+<tr><td>58</td><td>0.821</td></tr>
+<tr><td>20</td><td>0.866</td></tr>
+<tr><td>83</td><td>0.705</td></tr>
+<tr><td>59</td><td>0.809</td></tr>
+<tr><td>67</td><td>0.763</td></tr>
+<tr><td>58</td><td>0.746</td></tr>
+<tr><td>38</td><td>0.844</td></tr>
+<tr><td>22</td><td>0.841</td></tr>
+<tr><td>26</td><td>0.838</td></tr>
+<tr><td>26</td><td>0.851</td></tr>
+<tr><td>77</td><td>0.736</td></tr>
+<tr><td>55</td><td>0.782</td></tr>
+<tr><td>69</td><td>0.794</td></tr>
+<tr><td>24</td><td>0.848</td></tr>
+<tr><td>22</td><td>0.847</td></tr>
+<tr><td>26</td><td>0.834</td></tr>
+<tr><td>25</td><td>0.832</td></tr>
+<tr><td>20</td><td>0.846</td></tr>
+<tr><td>71</td><td>0.716</td></tr>
+<tr><td>78</td><td>0.706</td></tr>
+<tr><td>92</td><td>0.644</td></tr>
+<tr><td>54</td><td>0.827</td></tr>
+<tr><td>76</td><td>0.763</td></tr>
+<tr><td>19</td><td>0.833</td></tr>
+<tr><td>73</td><td>0.776</td></tr>
+<tr><td>77</td><td>0.761</td></tr>
+<tr><td>25</td><td>0.855</td></tr>
+<tr><td>55</td><td>0.807</td></tr>
+<tr><td>22</td><td>0.861</td></tr>
+<tr><td>34</td><td>0.798</td></tr>
+<tr><td>23</td><td>0.870</td></tr>
+<tr><td>71</td><td>0.742</td></tr>
+<tr><td>25</td><td>0.866</td></tr>
+<tr><td>21</td><td>0.859</td></tr>
+<tr><td>23</td><td>0.852</td></tr>
+<tr><td>30</td><td>0.855</td></tr>
+<tr><td>74</td><td>0.747</td></tr>
+<tr><td>21</td><td>0.862</td></tr>
+<tr><td>22</td><td>0.848</td></tr>
+<tr><td>22</td><td>0.847</td></tr>
+<tr><td>69</td><td>0.809</td></tr>
+<tr><td>75</td><td>0.749</td></tr>
+<tr><td>75</td><td>0.715</td></tr>
+<tr><td>78</td><td>0.715</td></tr>
+<tr><td>82</td><td>0.791</td></tr>
+<tr><td>84</td><td>0.751</td></tr>
+<tr><td>45</td><td>0.808</td></tr>
+<tr><td>71</td><td>0.687</td></tr>
+<tr><td>22</td><td>0.822</td></tr>
+<tr><td>72</td><td>0.773</td></tr>
+<tr><td>58</td><td>0.779</td></tr>
+<tr><td>50</td><td>0.819</td></tr>
+<tr><td>23</td><td>0.820</td></tr>
+<tr><td>22</td><td>0.853</td></tr>
+<tr><td>66</td><td>0.787</td></tr>
+<tr><td>21</td><td>0.844</td></tr>
+<tr><td>86</td><td>0.723</td></tr>
+<tr><td>81</td><td>0.721</td></tr>
+<tr><td>23</td><td>0.847</td></tr>
+<tr><td>52</td><td>0.814</td></tr>
+<tr><td>30</td><td>0.860</td></tr>
+<tr><td>90</td><td>0.673</td></tr>
+<tr><td>80</td><td>0.748</td></tr>
+<tr><td>92</td><td>0.739</td></tr>
+<tr><td>22</td><td>0.858</td></tr>
+<tr><td>71</td><td>0.818</td></tr>
+<tr><td>19</td><td>0.880</td></tr>
+<tr><td>73</td><td>0.728</td></tr>
+<tr><td>75</td><td>0.762</td></tr>
+<tr><td>70</td><td>0.748</td></tr>
+<tr><td>73</td><td>0.730</td></tr>
+<tr><td>61</td><td>0.825</td></tr>
+<tr><td>61</td><td>0.780</td></tr>
+<tr><td>62</td><td>0.766</td></tr></tbody></table></div>
+</section>
+</main>
+<footer>Source: Washington University in St. Louis, Open Access Series of Imaging Studies (OASIS-1 and OASIS-2). Student-facing extracts prepared from the two supplied original CSV files. Blank cells in unequal-length measurement columns are layout padding, not zeroes.</footer>
+<script>(function () {
+    const buttons = document.querySelectorAll('[data-copy-table]');
+    function extractTable(table) {
+      return Array.from(table.querySelectorAll('tr')).map(tr =>
+        Array.from(tr.querySelectorAll('th,td')).map(cell =>
+          cell.textContent.trim().replace(/\s+/g, ' ')
+        ).join('\t')
+      ).join('\n');
+    }
+    async function putClipboard(text) {
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+        try { await navigator.clipboard.writeText(text); return; } catch (_) {}
+      }
+      const input = document.createElement('textarea');
+      input.value = text;
+      input.setAttribute('readonly', '');
+      input.style.position = 'fixed';
+      input.style.left = '-9999px';
+      input.style.top = '0';
+      document.body.appendChild(input);
+      input.focus(); input.select();
+      const success = document.execCommand('copy');
+      input.remove();
+      if (!success) throw new Error('Clipboard unavailable');
+    }
+    buttons.forEach(button => {
+      button.addEventListener('click', async () => {
+        const section = document.getElementById(button.dataset.copyTable);
+        const table = section?.querySelector('table');
+        if (!table) return;
+        const label = button.querySelector('.copy-label');
+        try {
+          await putClipboard(extractTable(table));
+          button.dataset.state = 'copied';
+          label.textContent = 'Copied!';
+        } catch (error) {
+          button.dataset.state = 'error';
+          label.textContent = 'Unable to copy';
+        }
+        clearTimeout(button._restoreTimer);
+        button._restoreTimer = setTimeout(() => { delete button.dataset.state; label.textContent = 'Copy table'; }, 2100);
+      });
+    });
+  })();</script>
+</body>
+</html>
