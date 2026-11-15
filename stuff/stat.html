@@ -7100,6 +7100,136 @@ Lists: <script>
 </div>
 </div>
 <script>
+
+function resampleCT(O, E, rowTotals, colTotals, stats) {
+  const nr = rowTotals.length;
+  const nc = colTotals.length;
+  const N = rowTotals.reduce((s, v) => s + v, 0);
+
+  if (![...rowTotals, ...colTotals].every(
+        v => Number.isSafeInteger(v) && v > 0) ||
+      colTotals.reduce((s, v) => s + v, 0) !== N) {
+    throw new Error("Invalid contingency table margins.");
+  }
+
+  // Chi-square statistic for the original table
+  let observedChi = 0;
+  for (let c = 0; c < nc; c++)
+    for (let r = 0; r < nr; r++) {
+      const d = O[c][r] - E[c][r];
+      observedChi += d * d / E[c][r];
+    }
+
+  // One row label for every original observation
+  const labels = [];
+  for (let r = 0; r < nr; r++)
+    for (let i = 0; i < rowTotals[r]; i++)
+      labels.push(r);
+
+  let extreme = 0;
+
+  for (let s = 0; s < globalNumSamples; s++) {
+
+    // Fisher-Yates shuffle: permutation without replacement
+    for (let i = N - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [labels[i], labels[j]] = [labels[j], labels[i]];
+    }
+
+    // Rebuild the table using the original column totals
+    const counts = Array.from(
+      { length: nc }, () => Array(nr).fill(0)
+    );
+
+    let k = 0;
+    for (let c = 0; c < nc; c++)
+      for (let i = 0; i < colTotals[c]; i++)
+        counts[c][labels[k++]]++;
+
+    // Compute chi-square using the fixed expected counts
+    let x = 0;
+    for (let c = 0; c < nc; c++)
+      for (let r = 0; r < nr; r++) {
+        const d = counts[c][r] - E[c][r];
+        x += d * d / E[c][r];
+      }
+
+    stats.push(x);
+
+    if (x >= observedChi - 1e-10)
+      extreme++;
+  }
+
+  return {
+    x: observedChi,
+    p: (extreme + 1) / (globalNumSamples + 1)
+  };
+}
+
+
+function resampleCT(observed, expected, rowTotals, columnTotals, sampleMeans){
+	var i,j,k,s,d,x,temp;
+	var nr=rowTotals.length;
+	var nc=columnTotals.length;
+	var numSamples=globalNumSamples;
+	var labels=[];
+	var counts=[];
+	var chi=0;
+	var pgt=0;
+
+	//Calculate the original chi-square statistic.
+	for (i=0;i<nc;i++)
+		for (j=0;j<nr;j++){
+			d=observed[i][j]-expected[i][j];
+			chi+=d*d/expected[i][j];
+		}
+
+	//Create row labels with the original row totals.
+	for (j=0;j<nr;j++)
+		for (i=0;i<rowTotals[j];i++)
+			labels.push(j);
+
+	var N=labels.length;
+
+	for (s=0;s<numSamples;s++){
+
+		//Shuffle the labels without replacement.
+		for (i=N-1;i>0;i--){
+			j=floor(random()*(i+1));
+			temp=labels[i];
+			labels[i]=labels[j];
+			labels[j]=temp;
+		}
+
+		//Create a new table of counts.
+		for (i=0;i<nc;i++){
+			counts[i]=[];
+			for (j=0;j<nr;j++)
+				counts[i][j]=0;
+		}
+
+		//Fill the table using the original column totals.
+		k=0;
+		for (i=0;i<nc;i++)
+			for (j=0;j<columnTotals[i];j++)
+				counts[i][labels[k++]]++;
+
+		//Calculate chi-square for the new table.
+		x=0;
+		for (i=0;i<nc;i++)
+			for (j=0;j<nr;j++){
+				d=counts[i][j]-expected[i][j];
+				x+=d*d/expected[i][j];
+			}
+
+		sampleMeans.push(x);
+		if (x>=chi-1e-10) pgt++;
+	}
+
+	return({x:chi, p:(pgt+1)/(numSamples+1)});
+}
+
+
 function RSCalculateCT(){
 
 try{
@@ -7184,7 +7314,8 @@ try{
 			for (i=0;i<EX.length;i++) 
 				EX[i]=EX[i]/r.sum;
 			var sampleMeans=[];
-			var chi=bootstrapGOF(OB, EX, sampleMeans);
+			//var chi=bootstrapGOF(OB, EX, sampleMeans);
+			var chi=resampleCT(Observed, Expected, RowTotals, ColumnTotals, sampleMeans);
 			var dummy=[chi.x];
 			var bounds=[null,chi.x]
 			drawBootSummary(RSCTcanvas, sampleMeans,dummy, [], [], bounds);
