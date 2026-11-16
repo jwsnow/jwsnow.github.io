@@ -1,9 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Original OASIS-1 and OASIS-2 data tables for educational analysis, with copy-to-clipboard buttons.">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Original OASIS-1 and OASIS-2 data tables for educational analysis, with copy-to-clipboard buttons." name="description"/>
 <title>OASIS | Student Data Tables</title>
 <style>
 :root{color-scheme:light;--ink:#1d2b3a;--sub:#526477;--accent:#135b70;--accentDark:#0b4558;--line:#d8e1e5;--bg:#f4f7f8;--paper:#fff;--tint:#eaf2f5;--tag:#dbe9ed}
@@ -39,54 +40,64 @@ code{background:#f0f4f6;border-radius:4px;padding:1px 4px;color:#193a48;font-siz
 <header class="site-header">
 <p class="kicker">Original observational research data</p>
 <h1>OASIS Student Data Tables</h1>
-<p class="intro">These tables come from the Open Access Series of Imaging Studies (OASIS) at Washington University in St. Louis. OASIS-1 contains cross-sectional MRI measurements and participant characteristics; OASIS-2 follows participants across multiple visits. The values here were extracted directly from the supplied <strong>oasis_cross-sectional.csv</strong> and <strong>oasis_longitudinal.csv</strong> files, not simulated.</p>
-<div class="header-links"><a href="https://sites.wustl.edu/oasisbrains/home/oasis-1/" target="_blank" rel="noopener">OASIS-1 study information</a><a href="https://sites.wustl.edu/oasisbrains/home/oasis-2/" target="_blank" rel="noopener">OASIS-2 study information</a></div>
+<p class="intro">These tables come from the Open Access Series of Imaging Studies (OASIS) at Washington University in St. Louis. OASIS-1 contains cross-sectional MRI measurements and participant characteristics; OASIS-2 follows participants across multiple visits. The values here were extracted directly from the supplied <strong>oasis_cross-sectional.csv</strong> and <strong>oasis_longitudinal.csv</strong> files, not simulated.</p><p class="intro" style="margin-top:12px;font-size:.92rem">Participants were volunteers selected for MRI research, not a random sample of the general population. The older research participants were drawn from studies associated with the Washington University Alzheimer Disease Research Center; the datasets were assembled to include participants with and without dementia.</p>
+<div class="header-links"><a href="https://sites.wustl.edu/oasisbrains/home/oasis-1/" rel="noopener" target="_blank">OASIS-1 study information</a><a href="https://sites.wustl.edu/oasisbrains/home/oasis-2/" rel="noopener" target="_blank">OASIS-2 study information</a></div>
 </header>
 <main>
-<aside class="note-box" aria-labelledby="selection-title">
+<aside aria-labelledby="selection-title" class="note-box">
 <h2 id="selection-title">How the records were selected</h2>
-<p><strong>The age-60 restriction is applied only to the OASIS-1 tables</strong> titled <em>Dementia vs. Sex</em>, <em>Dementia vs. Level of Education</em>, <em>Dementia vs. Socioeconomic Status</em>, <em>Brain Volume vs. Dementia</em>, and <em>Brain Volume vs. Dementia Severity</em>. Each contains one scan per participant, drawn from the <strong>198</strong> people aged 60 or older. This keeps the dementia comparisons within an older age group, since many younger OASIS-1 participants were not assessed for CDR.</p>
+<p><strong>The age-60 restriction is applied only to the OASIS-1 tables</strong> titled <em>Dementia vs. Sex</em>, <em>Dementia vs. Level of Education</em>, <em>Dementia vs. Socioeconomic Status</em>, <em>Brain Volume vs. Dementia</em>, <em>Dementia vs. College Attendance</em>, and <em>Brain Volume vs. Dementia Severity</em>. Each contains one scan per participant, drawn from the <strong>198</strong> people aged 60 or older. This keeps the dementia comparisons within an older age group, since many younger OASIS-1 participants were not assessed for CDR.</p>
 <p><strong>No age cutoff was imposed</strong> for <em>Intracranial Volume vs. Sex</em> or <em>Age vs. Brain Volume</em>. Those tables contain the earliest scan from each of the <strong>416</strong> OASIS-1 participants, ages 18–96.</p>
 <p><strong>OASIS-2 already enrolls older adults:</strong> first-visit ages range from 60 to 96. The education table has one first-visit record per participant. The conversion table uses repeated observations from the 13 eligible converted participants. No additional age restriction was imposed on either OASIS-2 table.</p>
 <p>In tables with a dementia classification, <strong>CDR = 0</strong> means no dementia and <strong>CDR &gt; 0</strong> means a dementia classification. One person contributes at most one observation to any table except the explicitly paired before-and-after table.</p>
-</aside>
-<nav class="nav-box" aria-label="Tables on this page"><h2>Tables on this page</h2><div class="nav-items"><a href="#dementia-sex">Dementia vs. Sex</a><a href="#dementia-education-level">Dementia vs. Level of Education</a><a href="#dementia-ses">Dementia vs. Socioeconomic Status</a><a href="#volume-dementia">Brain Volume vs. Dementia</a><a href="#intracranial-volume-sex">Intracranial Volume vs. Sex</a><a href="#years-education-dementia">Years of Education vs. Dementia</a><a href="#brain-volume-before-after-conversion">Brain Volume Before and After Conversion</a><a href="#volume-dementia-severity">Brain Volume vs. Dementia Severity</a><a href="#age-brain-volume">Age vs. Brain Volume</a></div></nav>
+<p><strong>Representativeness: </strong>These are research volunteers recruited for brain-imaging studies, not a random population sample. The proportion classified with dementia here is not an estimate of population prevalence.</p></aside>
+<nav aria-label="Tables on this page" class="nav-box"><h2>Tables on this page</h2><div class="nav-items"><a href="#dementia-sex">Dementia vs. Sex</a><a href="#dementia-education-level">Dementia vs. Level of Education</a><a href="#dementia-education-grouped">Dementia vs. College Attendance</a><a href="#dementia-ses">Dementia vs. Socioeconomic Status</a><a href="#volume-dementia">Brain Volume vs. Dementia</a><a href="#intracranial-volume-sex">Intracranial Volume vs. Sex</a><a href="#years-education-dementia">Years of Education vs. Dementia</a><a href="#brain-volume-before-after-conversion">Brain Volume Before and After Conversion</a><a href="#volume-dementia-severity">Brain Volume vs. Dementia Severity</a><a href="#age-brain-volume">Age vs. Brain Volume</a></div></nav>
 <section class="section" id="dementia-sex">
 <h2>Dementia vs. Sex</h2>
 <div class="meta-line"><span>OASIS-1 · Age 60 or older</span><span class="tag">OASIS-1 · restricted to age ≥ 60</span></div>
 <p>Sex is recorded as female or male. Dementia status is defined here by Clinical Dementia Rating (CDR): 0 indicates no dementia; a value greater than 0 indicates dementia.</p>
 <p class="sample">198 participants · One scan per person · Age ≥ 60</p>
-<div class="table-tools"><button type="button" class="copy" data-copy-table="dementia-sex" aria-label="Copy Dementia vs. Sex table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">Sex</th><th scope="col">No dementia (CDR = 0)</th><th scope="col">Dementia (CDR &gt; 0)</th></tr></thead><tbody><tr><td>Female</td><td>72</td><td>59</td></tr>
+<div class="table-tools"><button aria-label="Copy Dementia vs. Sex table" class="copy" data-copy-table="dementia-sex" type="button"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div aria-label="Data table; horizontally scrollable if needed" class="table-scroll" role="region" tabindex="0"><table><thead><tr><th scope="col">Sex</th><th scope="col">No dementia (CDR = 0)</th><th scope="col">Dementia (CDR &gt; 0)</th></tr></thead><tbody><tr><td>Female</td><td>72</td><td>59</td></tr>
 <tr><td>Male</td><td>26</td><td>41</td></tr></tbody></table></div>
 </section><section class="section" id="dementia-education-level">
 <h2>Dementia vs. Level of Education</h2>
 <div class="meta-line"><span>OASIS-1 · Age 60 or older</span><span class="tag">OASIS-1 · restricted to age ≥ 60</span></div>
-<p>Education (<code>Educ</code>) is an ordered category, not the number of years of schooling: 1 = less than high school; 2 = high school graduate; 3 = some college; 4 = college graduate; 5 = education beyond college. Dementia is defined by CDR = 0 versus CDR > 0.</p>
+<p>Education (<code>Educ</code>) is an ordered category, not the number of years of schooling: 1 = less than high school; 2 = high school graduate; 3 = some college; 4 = college graduate; 5 = education beyond college. Dementia is defined by CDR = 0 versus CDR &gt; 0.</p>
 <p class="sample">198 participants · One scan per person · Age ≥ 60</p>
-<div class="table-tools"><button type="button" class="copy" data-copy-table="dementia-education-level" aria-label="Copy Dementia vs. Level of Education table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">Educational attainment</th><th scope="col">No dementia (CDR = 0)</th><th scope="col">Dementia (CDR &gt; 0)</th></tr></thead><tbody><tr><td>1 — Less than high school</td><td>8</td><td>15</td></tr>
+<div class="table-tools"><button aria-label="Copy Dementia vs. Level of Education table" class="copy" data-copy-table="dementia-education-level" type="button"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div aria-label="Data table; horizontally scrollable if needed" class="table-scroll" role="region" tabindex="0"><table><thead><tr><th scope="col">Educational attainment</th><th scope="col">No dementia (CDR = 0)</th><th scope="col">Dementia (CDR &gt; 0)</th></tr></thead><tbody><tr><td>1 — Less than high school</td><td>8</td><td>15</td></tr>
 <tr><td>2 — High school graduate</td><td>25</td><td>35</td></tr>
 <tr><td>3 — Some college</td><td>23</td><td>17</td></tr>
 <tr><td>4 — College graduate</td><td>17</td><td>19</td></tr>
 <tr><td>5 — Beyond college</td><td>25</td><td>14</td></tr></tbody></table></div>
-</section><section class="section" id="dementia-ses">
+</section><section class="section" id="dementia-education-grouped">
+<h2>Dementia vs. College Attendance</h2>
+<div class="meta-line"><span>OASIS-1 · Age 60 or older</span><span class="tag">OASIS-1 · restricted to age ≥ 60</span></div>
+<p>This is an additional table using the same OASIS-1 participants and the same educational attainment (<code>Educ</code>) and Clinical Dementia Rating (<code>CDR</code>) variables as the preceding table. Education levels 1 (less than high school) and 2 (high school graduate) are combined as <strong>no college</strong>. Levels 3 (some college), 4 (college graduate), and 5 (education beyond college) are combined as <strong>some college or more</strong>. This classification records whether a participant attended any college; it does not imply graduation. CDR = 0 indicates no dementia; CDR &gt; 0 indicates dementia.</p>
+<p><strong>Age selection:</strong> Only OASIS-1 participants aged 60 or older are included. These are the same 198 participants used in the preceding five-level education table, with the earliest scan retained for each person.</p>
+<p class="sample">198 participants · One scan per person · Age ≥ 60 · Education groups: 83 without college and 115 with some college or more</p>
+<div class="table-tools"><button aria-label="Copy Dementia vs. College Attendance table" class="copy" data-copy-table="dementia-education-grouped" type="button"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div aria-label="Grouped education and dementia data table; horizontally scrollable if needed" class="table-scroll" role="region" tabindex="0"><table>
+<thead><tr><th scope="col">College attendance</th><th scope="col">No dementia (CDR = 0)</th><th scope="col">Dementia (CDR &gt; 0)</th></tr></thead>
+<tbody><tr><td>No college (levels 1–2)</td><td>33</td><td>50</td></tr><tr><td>Some college or more (levels 3–5)</td><td>65</td><td>50</td></tr></tbody></table></div></section>
+<section class="section" id="dementia-ses">
 <h2>Dementia vs. Socioeconomic Status</h2>
 <div class="meta-line"><span>OASIS-1 · Age 60 or older</span><span class="tag">OASIS-1 · restricted to age ≥ 60</span></div>
-<p>SES is an ordered socioeconomic-status category based on a Hollingshead index, with 1 indicating the highest status and 5 the lowest. Categories 4 and 5 have been combined. Dementia is defined by CDR = 0 versus CDR > 0. Eighteen participants (one without dementia, 17 with dementia) have missing SES values and are omitted.</p>
+<p>SES is an ordered socioeconomic-status category based on a Hollingshead index, with 1 indicating the highest status and 5 the lowest. Categories 4 and 5 have been combined. Dementia is defined by CDR = 0 versus CDR &gt; 0. Eighteen participants (one without dementia, 17 with dementia) have missing SES values and are omitted.</p>
 <p class="sample">180 participants with known SES · One scan per person · Age ≥ 60</p>
-<div class="table-tools"><button type="button" class="copy" data-copy-table="dementia-ses" aria-label="Copy Dementia vs. Socioeconomic Status table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">SES category</th><th scope="col">No dementia (CDR = 0)</th><th scope="col">Dementia (CDR &gt; 0)</th></tr></thead><tbody><tr><td>1</td><td>20</td><td>16</td></tr>
+<div class="table-tools"><button aria-label="Copy Dementia vs. Socioeconomic Status table" class="copy" data-copy-table="dementia-ses" type="button"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div aria-label="Data table; horizontally scrollable if needed" class="table-scroll" role="region" tabindex="0"><table><thead><tr><th scope="col">SES category</th><th scope="col">No dementia (CDR = 0)</th><th scope="col">Dementia (CDR &gt; 0)</th></tr></thead><tbody><tr><td>1</td><td>20</td><td>16</td></tr>
 <tr><td>2</td><td>31</td><td>19</td></tr>
 <tr><td>3</td><td>23</td><td>20</td></tr>
 <tr><td>4–5 (combined)</td><td>23</td><td>28</td></tr></tbody></table></div>
 </section><section class="section" id="volume-dementia">
 <h2>Brain Volume vs. Dementia</h2>
 <div class="meta-line"><span>OASIS-1 · Age 60 or older</span><span class="tag">OASIS-1 · restricted to age ≥ 60</span></div>
-<p>Normalized whole-brain volume (<code>nWBV</code>) is the proportion of intracranial space estimated to contain brain tissue, recorded as a decimal. The two columns separate participants with CDR = 0 and CDR > 0. Empty cells are just padding because the groups differ slightly in size.</p>
+<p>Normalized whole-brain volume (<code>nWBV</code>) is the proportion of intracranial space estimated to contain brain tissue, recorded as a decimal. The two columns separate participants with CDR = 0 and CDR &gt; 0. Empty cells are just padding because the groups differ slightly in size.</p>
 <p class="sample">198 participants · 98 without dementia; 100 with dementia · Age ≥ 60</p>
-<div class="table-tools"><button type="button" class="copy" data-copy-table="volume-dementia" aria-label="Copy Brain Volume vs. Dementia table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">No dementia: nWBV</th><th scope="col">Dementia: nWBV</th></tr></thead><tbody><tr><td>0.743</td><td>0.708</td></tr>
+<div class="table-tools"><button aria-label="Copy Brain Volume vs. Dementia table" class="copy" data-copy-table="volume-dementia" type="button"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div aria-label="Data table; horizontally scrollable if needed" class="table-scroll" role="region" tabindex="0"><table><thead><tr><th scope="col">No dementia: nWBV</th><th scope="col">Dementia: nWBV</th></tr></thead><tbody><tr><td>0.743</td><td>0.708</td></tr>
 <tr><td>0.689</td><td>0.719</td></tr>
 <tr><td>0.679</td><td>0.739</td></tr>
 <tr><td>0.715</td><td>0.765</td></tr>
@@ -191,8 +202,8 @@ code{background:#f0f4f6;border-radius:4px;padding:1px 4px;color:#193a48;font-siz
 <div class="meta-line"><span>OASIS-1 · All ages</span><span class="tag">OASIS-1 · no age restriction</span></div>
 <p>Estimated total intracranial volume (<code>eTIV</code>) estimates the space inside the skull and is expressed in cubic centimeters (cm³). Values are separated by sex. Empty cells are padding, not missing measurements. No 60-or-older restriction is applied here.</p>
 <p class="sample">416 participants · 256 female; 160 male · All ages (18–96)</p>
-<div class="table-tools"><button type="button" class="copy" data-copy-table="intracranial-volume-sex" aria-label="Copy Intracranial Volume vs. Sex table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">Female: eTIV (cm³)</th><th scope="col">Male: eTIV (cm³)</th></tr></thead><tbody><tr><td>1344</td><td>1588</td></tr>
+<div class="table-tools"><button aria-label="Copy Intracranial Volume vs. Sex table" class="copy" data-copy-table="intracranial-volume-sex" type="button"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div aria-label="Data table; horizontally scrollable if needed" class="table-scroll" role="region" tabindex="0"><table><thead><tr><th scope="col">Female: eTIV (cm³)</th><th scope="col">Male: eTIV (cm³)</th></tr></thead><tbody><tr><td>1344</td><td>1588</td></tr>
 <tr><td>1147</td><td>1737</td></tr>
 <tr><td>1454</td><td>1516</td></tr>
 <tr><td>1131</td><td>1636</td></tr>
@@ -453,8 +464,8 @@ code{background:#f0f4f6;border-radius:4px;padding:1px 4px;color:#193a48;font-siz
 <div class="meta-line"><span>OASIS-2 · First visits</span><span class="tag">OASIS-2 · no additional age restriction</span></div>
 <p>Education (<code>EDUC</code>) is measured in completed years of schooling, not coded education categories. Dementia status comes from CDR at the <strong>first visit</strong>: 0 versus greater than 0. This is not the same as the file’s <code>Group</code> label, which can reflect conversion during later visits. All OASIS-2 first-visit participants are already at least 60.</p>
 <p class="sample">150 participants · 85 CDR = 0; 65 CDR &gt; 0 · First visit only</p>
-<div class="table-tools"><button type="button" class="copy" data-copy-table="years-education-dementia" aria-label="Copy Years of Education vs. Dementia table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">No dementia: education (years)</th><th scope="col">Dementia: education (years)</th></tr></thead><tbody><tr><td>14</td><td>12</td></tr>
+<div class="table-tools"><button aria-label="Copy Years of Education vs. Dementia table" class="copy" data-copy-table="years-education-dementia" type="button"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div aria-label="Data table; horizontally scrollable if needed" class="table-scroll" role="region" tabindex="0"><table><thead><tr><th scope="col">No dementia: education (years)</th><th scope="col">Dementia: education (years)</th></tr></thead><tbody><tr><td>14</td><td>12</td></tr>
 <tr><td>18</td><td>16</td></tr>
 <tr><td>12</td><td>12</td></tr>
 <tr><td>14</td><td>12</td></tr>
@@ -542,10 +553,10 @@ code{background:#f0f4f6;border-radius:4px;padding:1px 4px;color:#193a48;font-siz
 </section><section class="section" id="brain-volume-before-after-conversion">
 <h2>Brain Volume Before and After Conversion</h2>
 <div class="meta-line"><span>OASIS-2 · Repeated observations</span><span class="tag">OASIS-2 · no additional age restriction</span></div>
-<p>This table includes participants labeled <code>Converted</code> who had CDR = 0 at their first scan and CDR > 0 at a later scan. “Before” is their <strong>first scan</strong>; “after” is their <strong>first scan with CDR > 0</strong>. Both measurements are nWBV, the proportion of intracranial space occupied by brain tissue. OAS2_0131 is excluded because their initial CDR was already 0.5 and the later CDR was 0.</p>
+<p>This table includes participants labeled <code>Converted</code> who had CDR = 0 at their first scan and CDR &gt; 0 at a later scan. “Before” is their <strong>first scan</strong>; “after” is their <strong>first scan with CDR &gt; 0</strong>. Both measurements are nWBV, the proportion of intracranial space occupied by brain tissue. OAS2_0131 is excluded because their initial CDR was already 0.5 and the later CDR was 0.</p>
 <p class="sample">13 matched participants · First scan paired with first scan showing CDR &gt; 0 · Ages ≥ 60 in source dataset</p>
-<div class="table-tools"><button type="button" class="copy" data-copy-table="brain-volume-before-after-conversion" aria-label="Copy Brain Volume Before and After Conversion table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">Participant</th><th scope="col">Initial nWBV (CDR = 0)</th><th scope="col">First nWBV after conversion (CDR &gt; 0)</th></tr></thead><tbody><tr><td>OAS2_0018</td><td>0.715</td><td>0.696</td></tr>
+<div class="table-tools"><button aria-label="Copy Brain Volume Before and After Conversion table" class="copy" data-copy-table="brain-volume-before-after-conversion" type="button"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div aria-label="Data table; horizontally scrollable if needed" class="table-scroll" role="region" tabindex="0"><table><thead><tr><th scope="col">Participant</th><th scope="col">Initial nWBV (CDR = 0)</th><th scope="col">First nWBV after conversion (CDR &gt; 0)</th></tr></thead><tbody><tr><td>OAS2_0018</td><td>0.715</td><td>0.696</td></tr>
 <tr><td>OAS2_0020</td><td>0.693</td><td>0.677</td></tr>
 <tr><td>OAS2_0031</td><td>0.718</td><td>0.696</td></tr>
 <tr><td>OAS2_0041</td><td>0.771</td><td>0.760</td></tr>
@@ -563,8 +574,8 @@ code{background:#f0f4f6;border-radius:4px;padding:1px 4px;color:#193a48;font-siz
 <div class="meta-line"><span>OASIS-1 · Age 60 or older</span><span class="tag">OASIS-1 · restricted to age ≥ 60</span></div>
 <p>Normalized whole-brain volume (<code>nWBV</code>) is a decimal proportion. CDR is the Clinical Dementia Rating: 0 = no dementia; 0.5 = very mild dementia; 1 or 2 = mild or moderate dementia (combined here). Empty cells are padding because the groups are different sizes.</p>
 <p class="sample">198 participants · CDR 0: 98; CDR 0.5: 70; CDR 1–2: 30 · Age ≥ 60</p>
-<div class="table-tools"><button type="button" class="copy" data-copy-table="volume-dementia-severity" aria-label="Copy Brain Volume vs. Dementia Severity table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">CDR = 0: nWBV</th><th scope="col">CDR = 0.5: nWBV</th><th scope="col">CDR = 1 or 2: nWBV</th></tr></thead><tbody><tr><td>0.743</td><td>0.708</td><td>0.738</td></tr>
+<div class="table-tools"><button aria-label="Copy Brain Volume vs. Dementia Severity table" class="copy" data-copy-table="volume-dementia-severity" type="button"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div aria-label="Data table; horizontally scrollable if needed" class="table-scroll" role="region" tabindex="0"><table><thead><tr><th scope="col">CDR = 0: nWBV</th><th scope="col">CDR = 0.5: nWBV</th><th scope="col">CDR = 1 or 2: nWBV</th></tr></thead><tbody><tr><td>0.743</td><td>0.708</td><td>0.738</td></tr>
 <tr><td>0.689</td><td>0.719</td><td>0.674</td></tr>
 <tr><td>0.679</td><td>0.739</td><td>0.695</td></tr>
 <tr><td>0.715</td><td>0.765</td><td>0.697</td></tr>
@@ -667,8 +678,8 @@ code{background:#f0f4f6;border-radius:4px;padding:1px 4px;color:#193a48;font-siz
 <div class="meta-line"><span>OASIS-1 · All ages</span><span class="tag">OASIS-1 · no age restriction</span></div>
 <p>Age is measured in years. Normalized whole-brain volume (<code>nWBV</code>) is the proportion of intracranial space occupied by brain tissue, expressed as a decimal. Each row contains two measurements from the <strong>same person</strong>. This table includes all adults aged 18–96, regardless of CDR status; there is no age-60 cutoff.</p>
 <p class="sample">416 participants · One scan per person · All ages (18–96)</p>
-<div class="table-tools"><button type="button" class="copy" data-copy-table="age-brain-volume" aria-label="Copy Age vs. Brain Volume table"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Data table; horizontally scrollable if needed"><table><thead><tr><th scope="col">Age (years)</th><th scope="col">nWBV</th></tr></thead><tbody><tr><td>74</td><td>0.743</td></tr>
+<div class="table-tools"><button aria-label="Copy Age vs. Brain Volume table" class="copy" data-copy-table="age-brain-volume" type="button"><span aria-hidden="true">⧉</span><span class="copy-label">Copy table</span></button><span class="table-hint">Copies column headings and data as tab-separated text for spreadsheets.</span></div>
+<div aria-label="Data table; horizontally scrollable if needed" class="table-scroll" role="region" tabindex="0"><table><thead><tr><th scope="col">Age (years)</th><th scope="col">nWBV</th></tr></thead><tbody><tr><td>74</td><td>0.743</td></tr>
 <tr><td>55</td><td>0.810</td></tr>
 <tr><td>73</td><td>0.708</td></tr>
 <tr><td>28</td><td>0.803</td></tr>
