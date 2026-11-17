@@ -1,49 +1,94 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html>
 <head>
-</head>
+<style>
+  body { font-family: Arial, sans-serif; margin: 24px; }
+  h3 { margin: 24px 0 8px; }
+  table { border-collapse: collapse; margin-top: 10px; margin-bottom: 26px; }
+  th, td { border: 1px solid #777; padding: 5px 12px; text-align: left; }
+  th { background: #f2f2f2; }
+  .copy-button { padding: 5px 12px; cursor: pointer; }
+  .copy-button:focus-visible { outline: 2px solid #1263aa; outline-offset: 2px; }
+</style></head>
 <body>
 <h3>Topic 10 number 11</h3>
-<table border=1>
-<tr><td>training hours: </td><td> 1	 </td><td> 2 </td><td> 	3 </td><td> 	4 </td><td> 	5 </td><td> 	6 </td><td> 	7 </td><td> 	8 </td><td> 	9  </td></tr>
-<tr><td>typing speed: </td><td> 31 </td><td> 	35 </td><td> 	37 </td><td> 	42 </td><td> 	45 </td><td> 	49 </td><td> 	54 </td><td> 	56 </td><td> 	60</td></tr>
-</table>
-
+<button class="copy-button" data-target="data-table-1" type="button">Copy data</button><table border="1" id="data-table-1"><tr><th>training hours:</th><th>typing speed:</th></tr><tr><td>1</td><td>31</td></tr><tr><td>2</td><td>35</td></tr><tr><td>3</td><td>37</td></tr><tr><td>4</td><td>42</td></tr><tr><td>5</td><td>45</td></tr><tr><td>6</td><td>49</td></tr><tr><td>7</td><td>54</td></tr><tr><td>8</td><td>56</td></tr><tr><td>9</td><td>60</td></tr></table>
 <h3>Topic 10 number 14</h3>
-<table border=1>
-<tr><td>before: </td><td> 42 </td><td> 45 </td><td> 47 </td><td> 50 </td><td> 53 </td><td> 55 </td><td> 58 </td><td> 60 </td><td> 63 </td><td> 66 </td></tr>
-<tr><td>after: </td><td> 40 </td><td> 44 </td><td> 45 </td><td> 48 </td><td> 52 </td><td> 53 </td><td> 56 </td><td> 59 </td><td> 61 </td><td> 64 </td></tr>
-</table>
-
-
+<button class="copy-button" data-target="data-table-2" type="button">Copy data</button><table border="1" id="data-table-2"><tr><th>before:</th><th>after:</th></tr><tr><td>42</td><td>40</td></tr><tr><td>45</td><td>44</td></tr><tr><td>47</td><td>45</td></tr><tr><td>50</td><td>48</td></tr><tr><td>53</td><td>52</td></tr><tr><td>55</td><td>53</td></tr><tr><td>58</td><td>56</td></tr><tr><td>60</td><td>59</td></tr><tr><td>63</td><td>61</td></tr><tr><td>66</td><td>64</td></tr></table>
 <h3>Topic 10 number 15</h3>
-<table border=1>
-<tr><td>x:</td><td> 2 </td><td> 4 </td><td> 5 </td><td> 7 </td><td> 9 </td><td> 10 </td><td> 12 </td><td> 14 </td><td> 15 </td><td> 17 </td></tr>
-<tr><td>y: </td><td> 18 </td><td> 22 </td><td> 25 </td><td> 29 </td><td> 34 </td><td> 36 </td><td> 41 </td><td> 45 </td><td> 47 </td><td> 52 </td></tr>
-</table>
-
-
+<button class="copy-button" data-target="data-table-3" type="button">Copy data</button><table border="1" id="data-table-3"><tr><th>x:</th><th>y:</th></tr><tr><td>2</td><td>18</td></tr><tr><td>4</td><td>22</td></tr><tr><td>5</td><td>25</td></tr><tr><td>7</td><td>29</td></tr><tr><td>9</td><td>34</td></tr><tr><td>10</td><td>36</td></tr><tr><td>12</td><td>41</td></tr><tr><td>14</td><td>45</td></tr><tr><td>15</td><td>47</td></tr><tr><td>17</td><td>52</td></tr></table>
 <h3>Topic 11 number 5</h3>
-<table border=1>
+<button class="copy-button" data-target="data-table-4" type="button">Copy data</button><table border="1" id="data-table-4">
 <tr><td></td><td> Column 1 </td><td> Column 2 </td><td> Column 3 </td><td> Column 4 </td><td> Column 5</td></tr>
 <tr><td>Row 1 </td><td> 8 </td><td> 11 </td><td> 7 </td><td> 10 </td><td> 9 </td></tr>
 <tr><td>Row 2 </td><td> 12 </td><td> 9 </td><td> 14 </td><td> 8 </td><td> 11 </td></tr>
 <tr><td>Row 3 </td><td> 7 </td><td> 13 </td><td> 10 </td><td> 12 </td><td> 8 </td></tr>
 </table>
-
-
 <h3>Topic 11 number 6</h3>
-<table border=1>
-<tr><td>Observed: </td><td> 18</td><td>12</td><td>21</td><td>15</td><td>14</td></tr>
-<tr><td>Expected: </td><td> 16</td><td>16</td><td>16</td><td>16</td><td>16</td></tr>
-</table>
-
-
+<button class="copy-button" data-target="data-table-5" type="button">Copy data</button><table border="1" id="data-table-5"><tr><th>Observed:</th><th>Expected:</th></tr><tr><td>18</td><td>16</td></tr><tr><td>12</td><td>16</td></tr><tr><td>21</td><td>16</td></tr><tr><td>15</td><td>16</td></tr><tr><td>14</td><td>16</td></tr></table>
 <h3>Topic 12 number 5</h3>
-<table border=1>
-<tr><td>Sample 1: </td><td>22 </td><td> 24 </td><td> 25 </td><td> 27 </td><td> 29 </td><td> 31</td></tr>
-<tr><td>Sample 2: </td><td>20</td><td>23</td><td>26</td><td>28</td><td>30</td><td>33</td></tr>
-<tr><td>Sample 3: </td><td>24</td><td>25</td><td>27</td><td>29</td><td>32</td><td>34</td></tr>
-</table>
-</body>
+<button class="copy-button" data-target="data-table-6" type="button">Copy data</button><table border="1" id="data-table-6"><tr><th>Sample 1:</th><th>Sample 2:</th><th>Sample 3:</th></tr><tr><td>22</td><td>20</td><td>24</td></tr><tr><td>24</td><td>23</td><td>25</td></tr><tr><td>25</td><td>26</td><td>27</td></tr><tr><td>27</td><td>28</td><td>29</td></tr><tr><td>29</td><td>30</td><td>32</td></tr><tr><td>31</td><td>33</td><td>34</td></tr></table>
+<script>
+(function () {
+  function copyUsingTextarea(text) {
+    var field = document.createElement('textarea');
+    field.value = text;
+    field.setAttribute('readonly', '');
+    field.style.position = 'fixed';
+    field.style.left = '-9999px';
+    document.body.appendChild(field);
+    field.focus();
+    field.select();
+    var success = document.execCommand('copy');
+    document.body.removeChild(field);
+    if (!success) { throw new Error('Copy was not successful'); }
+  }
+
+  function setButtonStatus(button, message) {
+    button.textContent = message;
+    if (button.resetTimer) { clearTimeout(button.resetTimer); }
+    button.resetTimer = setTimeout(function () {
+      button.textContent = 'Copy data';
+    }, 1800);
+  }
+
+  var buttons = document.querySelectorAll('.copy-button');
+  for (var b = 0; b < buttons.length; b++) {
+    buttons[b].addEventListener('click', function () {
+      var button = this;
+      var table = document.getElementById(button.getAttribute('data-target'));
+      var lines = [];
+      for (var i = 0; i < table.rows.length; i++) {
+        var cells = table.rows[i].cells;
+        var values = [];
+        for (var j = 0; j < cells.length; j++) {
+          values.push(cells[j].textContent.trim());
+        }
+        lines.push(values.join('\t'));
+      }
+      var text = lines.join('\n');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          setButtonStatus(button, 'Copied!');
+        }, function () {
+          try {
+            copyUsingTextarea(text);
+            setButtonStatus(button, 'Copied!');
+          } catch (error) {
+            setButtonStatus(button, 'Copy failed');
+          }
+        });
+      } else {
+        try {
+          copyUsingTextarea(text);
+          setButtonStatus(button, 'Copied!');
+        } catch (error) {
+          setButtonStatus(button, 'Copy failed');
+        }
+      }
+    });
+  }
+})();
+</script></body>
 </html>
